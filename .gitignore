@@ -5,6 +5,7 @@
 *.bat
 *.cmd
 *.pyc
+*.py
 *.txt
 *.sh
 *.properties
@@ -33,9 +34,14 @@ Forge/mcp/logs/*
 Forge/mcp/modsrc/*
 Forge/mcp/reobf/*
 Forge/mcp/runtime/*
-Forge/mcp/src/minecraft/assets/*
 Forge/mcp/src/minecraft/cpw/*
 Forge/mcp/src/minecraft/ibxm/*
 Forge/mcp/src/minecraft/net/*
 Forge/mcp/src/minecraft/paulscode/*
 Forge/mcp/temp/*
+
+# Files #
+Forge/mcp/src/minecraft/forge_logo.png
+Forge/mcp/src/minecraft/Start.java
+Forge/mcp/CHANGELOG
+Forge/mcp/src/minecraft/mcpmod.info
