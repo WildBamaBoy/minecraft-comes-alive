@@ -52,19 +52,19 @@ public class CommandSetGender extends Command
 				WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(playerName);
 	
 				manager.worldProperties.playerGender = realGender;
-				super.sendChatToPlayer(sender, "multiplayer.command.output.setgender", GREEN, realGender);
+				super.sendChatToPlayer(sender, "multiplayer.command.output.setgender", Color.GREEN, realGender);
 				manager.saveWorldProperties();
 			}
 			
 			else
 			{
-				super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", RED, getCommandUsage(sender));
+				super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Color.RED, getCommandUsage(sender));
 			}
 		}
 
 		else
 		{
-			super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", RED, getCommandUsage(sender));
+			super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Color.RED, getCommandUsage(sender));
 		}
 	}
 }

@@ -45,13 +45,13 @@ public class CommandUnblock extends Command
 				if (!manager.worldProperties.blockList.contains(playerName))
 				{
 					//It does contain the name so notify the player that they're already unblocked.
-					this.sendChatToPlayer(sender, "multiplayer.command.output.unblock.failed", RED, null);
+					this.sendChatToPlayer(sender, "multiplayer.command.output.unblock.failed", Color.RED, null);
 				}
 				
 				//It does contain that name, so add it to the list.
 				else
 				{
-					this.sendChatToPlayer(sender, "multiplayer.command.output.unblock.successful", GREEN, null);
+					this.sendChatToPlayer(sender, "multiplayer.command.output.unblock.successful", Color.GREEN, null);
 					manager.worldProperties.blockList.remove(playerName);
 					manager.saveWorldProperties();
 				}
@@ -59,13 +59,13 @@ public class CommandUnblock extends Command
 			
 			else
 			{
-				this.sendChatToPlayer(sender, "multiplayer.command.error.unknown", RED, null);
+				this.sendChatToPlayer(sender, "multiplayer.command.error.unknown", Color.RED, null);
 			}
 		}
 		
 		else
 		{
-			this.sendChatToPlayer(sender, "multiplayer.command.error.parameter", RED, getCommandUsage(sender));
+			this.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Color.RED, getCommandUsage(sender));
 		}
 	}
 }

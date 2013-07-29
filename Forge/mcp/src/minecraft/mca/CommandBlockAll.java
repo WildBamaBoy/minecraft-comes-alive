@@ -46,24 +46,24 @@ public class CommandBlockAll extends Command
 				//Notify the sender what happened.
 				if (argument)
 				{
-					this.sendChatToPlayer(sender, "multiplayer.command.output.blockall.true.successful", GREEN, null);
+					this.sendChatToPlayer(sender, "multiplayer.command.output.blockall.true.successful", Color.GREEN, null);
 				}
 				
 				else
 				{
-					this.sendChatToPlayer(sender, "multiplayer.command.output.blockall.false.successful", GREEN, null);
+					this.sendChatToPlayer(sender, "multiplayer.command.output.blockall.false.successful", Color.GREEN, null);
 				}
 			}
 			
 			else
 			{
-				this.sendChatToPlayer(sender, "multiplayer.command.error.unknown", RED, null);
+				this.sendChatToPlayer(sender, "multiplayer.command.error.unknown", Color.RED, null);
 			}
 		}
 		
 		else
 		{
-			this.sendChatToPlayer(sender, "multiplayer.command.error.parameter", RED, getCommandUsage(sender));
+			this.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Color.RED, getCommandUsage(sender));
 		}
 	}
 }

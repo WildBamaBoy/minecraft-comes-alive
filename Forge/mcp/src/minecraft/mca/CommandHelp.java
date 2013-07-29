@@ -52,6 +52,6 @@ public class CommandHelp extends Command
 
 		stringBuilder.append("-----------------------------------------");
 
-		this.sendChatToPlayer(sender, "multiplayer.command.output.help", GREEN, "\n" + stringBuilder.toString());
+		this.sendChatToPlayer(sender, "multiplayer.command.output.help", Color.GREEN, "\n" + stringBuilder.toString());
 	}
 }

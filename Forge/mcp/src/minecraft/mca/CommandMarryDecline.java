@@ -53,7 +53,7 @@ public class CommandMarryDecline extends Command
 
 			if (mostRecentPlayerAsked == null)
 			{
-				super.sendChatToPlayer(sender, "multiplayer.command.output.marry.norequest", RED, null);
+				super.sendChatToPlayer(sender, "multiplayer.command.output.marry.norequest", Color.RED, null);
 			}
 
 			else
@@ -81,20 +81,20 @@ public class CommandMarryDecline extends Command
 
 					else
 					{
-						super.sendChatToPlayer(sender, "multiplayer.command.error.playeroffline", RED, null);
+						super.sendChatToPlayer(sender, "multiplayer.command.error.playeroffline", Color.RED, null);
 					}
 				}
 
 				else
 				{
-					super.sendChatToPlayer(sender, "multiplayer.command.output.marry.norequest", RED, null);
+					super.sendChatToPlayer(sender, "multiplayer.command.output.marry.norequest", Color.RED, null);
 				}
 			}
 		}
 
 		else
 		{
-			super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", RED, null);
+			super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Color.RED, null);
 		}
 	}
 }

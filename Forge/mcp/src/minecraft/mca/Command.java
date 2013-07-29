@@ -12,12 +12,7 @@ import cpw.mods.fml.common.network.Player;
  * Base class for all commands used in MCA.
  */
 public abstract class Command extends CommandBase
-{
-	/** The code for red in Minecraft's text system. */
-	protected final String RED = "\u00a7C";
-	/** The code for green in Minecraft's text system. */
-	protected final String GREEN = "\u00a7A";
-	
+{	
 	@Override
 	public abstract String getCommandUsage(ICommandSender sender);
 

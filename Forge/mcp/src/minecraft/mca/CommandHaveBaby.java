@@ -93,7 +93,7 @@ public class CommandHaveBaby extends Command
 					//Compare to the server allowed settings.
 					if (MCA.instance.modPropertiesManager.modProperties.server_childLimit > -1 && children.size() >= MCA.instance.modPropertiesManager.modProperties.server_childLimit)
 					{
-						this.sendChatToPlayer(sender, "multiplayer.command.output.havebaby.failed.limitreached", RED, null);
+						this.sendChatToPlayer(sender, "multiplayer.command.output.havebaby.failed.limitreached", Color.RED, null);
 					}
 					
 					//They can have a baby. Continue.
@@ -108,14 +108,14 @@ public class CommandHaveBaby extends Command
 				//One of them already has a baby.
 				else
 				{
-					this.sendChatToPlayer(sender, "notify.baby.exists", RED, null);
+					this.sendChatToPlayer(sender, "notify.baby.exists", Color.RED, null);
 				}
 			}
 			
 			//The spouse is not on the server.
 			else
 			{
-				this.sendChatToPlayer(sender, "multiplayer.command.output.havebaby.failed.offline", RED, null);
+				this.sendChatToPlayer(sender, "multiplayer.command.output.havebaby.failed.offline", Color.RED, null);
 			}
 		}
 		
@@ -123,7 +123,7 @@ public class CommandHaveBaby extends Command
 		else
 		{
 			//This phrase works for this situation as well. No need for duplicate entries.
-			this.sendChatToPlayer(sender, "multiplayer.command.output.divorce.failed.notmarried", RED, null);
+			this.sendChatToPlayer(sender, "multiplayer.command.output.divorce.failed.notmarried", Color.RED, null);
 		}
 	}
 }

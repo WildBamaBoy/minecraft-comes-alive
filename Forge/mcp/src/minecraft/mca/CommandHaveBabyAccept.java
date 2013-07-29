@@ -51,7 +51,7 @@ public class CommandHaveBabyAccept extends Command
 				if (MCA.instance.babyRequests.get(spouse.username).equals(sender.getCommandSenderName()))
 				{
 					//Notify the other that they want to have a baby and tell the server they have asked.
-					this.sendChatToPlayer(spouse, "multiplayer.command.output.havebaby.successful", GREEN, null);
+					this.sendChatToPlayer(spouse, "multiplayer.command.output.havebaby.successful", Color.GREEN, null);
 					PacketDispatcher.sendPacketToPlayer(PacketCreator.createHaveBabyPacket(spouse.entityId, player.entityId), (Player)spouse);
 					
 					//And remove their entry from the map.
@@ -61,14 +61,14 @@ public class CommandHaveBabyAccept extends Command
 				
 				else
 				{
-					this.sendChatToPlayer(sender, "multiplayer.command.output.havebaby.failed.notasked", RED, null);
+					this.sendChatToPlayer(sender, "multiplayer.command.output.havebaby.failed.notasked", Color.RED, null);
 				}
 			}
 
 			//The spouse is not on the server.
 			else
 			{
-				this.sendChatToPlayer(sender, "multiplayer.command.output.havebaby.failed.offline", RED, null);
+				this.sendChatToPlayer(sender, "multiplayer.command.output.havebaby.failed.offline", Color.RED, null);
 			}
 		}
 
@@ -76,7 +76,7 @@ public class CommandHaveBabyAccept extends Command
 		else
 		{
 			//This phrase works for this situation as well. No need for duplicate entries.
-			this.sendChatToPlayer(sender, "multiplayer.command.output.divorce.failed.notmarried", RED, null);
+			this.sendChatToPlayer(sender, "multiplayer.command.output.divorce.failed.notmarried", Color.RED, null);
 		}
 	}
 }

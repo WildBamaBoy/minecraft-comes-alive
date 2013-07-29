@@ -45,13 +45,13 @@ public class CommandBlock extends Command
 				if (manager.worldProperties.blockList.contains(playerName))
 				{
 					//It does contain the name so notify the player that they're already blocked.
-					this.sendChatToPlayer(sender, "multiplayer.command.output.block.failed", RED, null);
+					this.sendChatToPlayer(sender, "multiplayer.command.output.block.failed", Color.RED, null);
 				}
 				
 				//It doesn't contain that name, so add it to the list.
 				else
 				{
-					this.sendChatToPlayer(sender, "multiplayer.command.output.block.successful", GREEN, null);
+					this.sendChatToPlayer(sender, "multiplayer.command.output.block.successful", Color.GREEN, null);
 					manager.worldProperties.blockList.add(playerName);
 					manager.saveWorldProperties();
 				}
@@ -59,13 +59,13 @@ public class CommandBlock extends Command
 			
 			else
 			{
-				this.sendChatToPlayer(sender, "multiplayer.command.error.unknown", RED, null);
+				this.sendChatToPlayer(sender, "multiplayer.command.error.unknown", Color.RED, null);
 			}
 		}
 		
 		else
 		{
-			this.sendChatToPlayer(sender, "multiplayer.command.error.parameter", RED, getCommandUsage(sender));
+			this.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Color.RED, getCommandUsage(sender));
 		}
 	}
 }

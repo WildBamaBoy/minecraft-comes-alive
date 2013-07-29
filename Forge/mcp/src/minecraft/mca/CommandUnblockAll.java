@@ -42,12 +42,12 @@ public class CommandUnblockAll extends Command
 			manager.worldProperties.blockList.clear();
 			manager.saveWorldProperties();
 			
-			this.sendChatToPlayer(sender, "multiplayer.command.output.unblockall.successful", GREEN, null);
+			this.sendChatToPlayer(sender, "multiplayer.command.output.unblockall.successful", Color.GREEN, null);
 		}
 
 		else
 		{
-			this.sendChatToPlayer(sender, "multiplayer.command.error.unknown", RED, null);
+			this.sendChatToPlayer(sender, "multiplayer.command.error.unknown", Color.RED, null);
 		}
 	}
 }

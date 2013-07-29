@@ -71,20 +71,20 @@ public class CommandMarry extends Command
 			//Make sure they didn't type in their own name.
 			if (senderName.equals(recipientName))
 			{
-				super.sendChatToPlayer(senderEntity, "multiplayer.command.error.parameter", RED, getCommandUsage(sender));
+				super.sendChatToPlayer(senderEntity, "multiplayer.command.error.parameter", Color.RED, getCommandUsage(sender));
 				return;
 			}
 
 			//Check that both sender and receiver were found.
 			if (senderEntity == null)
 			{
-				super.sendChatToPlayer(senderEntity, "multiplayer.command.error.unknown", RED, null);
+				super.sendChatToPlayer(senderEntity, "multiplayer.command.error.unknown", Color.RED, null);
 				return;
 			}
 		
 			if (recipientEntity == null)
 			{
-				super.sendChatToPlayer(senderEntity, "multiplayer.command.error.playeroffline", RED, null);
+				super.sendChatToPlayer(senderEntity, "multiplayer.command.error.playeroffline", Color.RED, null);
 				return;
 			}
 			
@@ -97,7 +97,7 @@ public class CommandMarry extends Command
 				//Check that the recipient isn't married.
 				if (manager.worldProperties.playerSpouseID != 0)
 				{
-					super.sendChatToPlayer(sender, "multiplayer.output.marry.alreadymarried", RED, null);
+					super.sendChatToPlayer(sender, "multiplayer.output.marry.alreadymarried", Color.RED, null);
 					return;
 				}
 				
@@ -112,13 +112,13 @@ public class CommandMarry extends Command
 			//The sender doesn't have a wedding ring.
 			else
 			{
-				super.sendChatToPlayer(senderEntity, "multiplayer.command.output.marry.noring", RED, null);
+				super.sendChatToPlayer(senderEntity, "multiplayer.command.output.marry.noring", Color.RED, null);
 			}
 		}
 
 		else
 		{
-			super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", RED, getCommandUsage(sender));
+			super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Color.RED, getCommandUsage(sender));
 		}
 	}
 }

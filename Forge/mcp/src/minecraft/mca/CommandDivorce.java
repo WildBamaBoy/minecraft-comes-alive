@@ -29,13 +29,13 @@ public class CommandDivorce extends Command
 		//Check if they're married to nobody at all.
 		if (manager.worldProperties.playerSpouseID == 0)
 		{
-			this.sendChatToPlayer(sender, "multiplayer.command.output.divorce.failed.notmarried", RED, null);
+			this.sendChatToPlayer(sender, "multiplayer.command.output.divorce.failed.notmarried", Color.RED, null);
 		}
 		
 		//Check if they're married to a villager.
 		if (manager.worldProperties.playerSpouseID > 0)
 		{
-			this.sendChatToPlayer(sender, "multiplayer.command.output.divorce.failed.notmarriedtoplayer", RED, null);
+			this.sendChatToPlayer(sender, "multiplayer.command.output.divorce.failed.notmarriedtoplayer", Color.RED, null);
 		}
 		
 		//Ensure they're married to a player
@@ -46,7 +46,7 @@ public class CommandDivorce extends Command
 			
 			if (spouse == null)
 			{
-				this.sendChatToPlayer(sender, "multiplayer.command.error.playeroffline", RED, null);
+				this.sendChatToPlayer(sender, "multiplayer.command.error.playeroffline", Color.RED, null);
 			}
 			
 			//They are on the server. Continue.
@@ -55,9 +55,9 @@ public class CommandDivorce extends Command
 				//Get the spouse's world properties.
 				WorldPropertiesManager spouseManager = MCA.instance.playerWorldManagerMap.get(manager.worldProperties.playerSpouseName);
 				
-				//Notify both that they are no longer married. Sender's text will be green, recipient's text will be red.
-				this.sendChatToPlayer(sender, "multiplayer.command.output.divorce.successful", GREEN, null);
-				this.sendChatToPlayer(spouse, "multiplayer.command.output.divorce.successful", RED, null);
+				//Notify both that they are no longer married. Sender's text will be Color.GREEN, recipient's text will be red.
+				this.sendChatToPlayer(sender, "multiplayer.command.output.divorce.successful", Color.GREEN, null);
+				this.sendChatToPlayer(spouse, "multiplayer.command.output.divorce.successful", Color.RED, null);
 				
 				manager.worldProperties.playerSpouseID = 0;
 				manager.worldProperties.playerSpouseName = "";

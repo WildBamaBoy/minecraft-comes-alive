@@ -49,13 +49,13 @@ public class CommandSetName extends Command
 			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(playerName);
 			manager.worldProperties.playerName = arguments[0];
 			
-			super.sendChatToPlayer(sender, "multiplayer.command.output.setname", GREEN, arguments[0]);
+			super.sendChatToPlayer(sender, "multiplayer.command.output.setname", Color.GREEN, arguments[0]);
 			manager.saveWorldProperties();
 		}
 
 		else
 		{
-			super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", RED, getCommandUsage(sender));
+			super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Color.RED, getCommandUsage(sender));
 		}
 	}
 }
