@@ -18,7 +18,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.pathfinding.PathNavigate;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 /**

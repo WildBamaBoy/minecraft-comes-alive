@@ -24,7 +24,7 @@ public class VillageHelper
 {
 	private Village village;
 	private World	world;
-	
+
 	private int tickCounter = 0;
 	private int numberOfVillagers = 0;
 	private int numberOfGuards = 0;
@@ -57,22 +57,25 @@ public class VillageHelper
 		{
 			this.updateNumberOfGuards();
 
-			int desiredNumberOfGuards = this.numberOfVillagers / MCA.instance.modPropertiesManager.modProperties.guardSpawnRate;
-
-			if (this.numberOfGuards < desiredNumberOfGuards)
+			if (MCA.instance.modPropertiesManager.modProperties.guardSpawnRate != 0)
 			{
-				Vec3 vector = this.tryGetGuardSpawnLocation(MathHelper.floor_float((float)village.getCenter().posX), MathHelper.floor_float((float)village.getCenter().posY), MathHelper.floor_float((float)village.getCenter().posZ), 2, 4, 2);
+				int desiredNumberOfGuards = this.numberOfVillagers / MCA.instance.modPropertiesManager.modProperties.guardSpawnRate;
 
-				if (vector != null)
-				{	
-					if (!world.isRemote)
-					{
-						EntityVillagerAdult guard = new EntityVillagerAdult(world, 5);
-						guard.setPosition(vector.xCoord, vector.yCoord, vector.zCoord);
-						world.spawnEntityInWorld(guard);
+				if (this.numberOfGuards < desiredNumberOfGuards)
+				{
+					Vec3 vector = this.tryGetGuardSpawnLocation(MathHelper.floor_float((float)village.getCenter().posX), MathHelper.floor_float((float)village.getCenter().posY), MathHelper.floor_float((float)village.getCenter().posZ), 2, 4, 2);
+
+					if (vector != null)
+					{	
+						if (!world.isRemote)
+						{
+							EntityVillagerAdult guard = new EntityVillagerAdult(world, 5);
+							guard.setPosition(vector.xCoord, vector.yCoord, vector.zCoord);
+							world.spawnEntityInWorld(guard);
+						}
+
+						numberOfGuards++;
 					}
-					
-					numberOfGuards++;
 				}
 			}
 		}
@@ -130,7 +133,7 @@ public class VillageHelper
 		{
 			return false;
 		}
-		
+
 		else
 		{
 			int midpointX = posX - offsetX / 2;
@@ -160,13 +163,13 @@ public class VillageHelper
 	private void updateNumberOfGuards()
 	{
 		List villagers = world.getEntitiesWithinAABB(EntityVillagerAdult.class, AxisAlignedBB.getAABBPool().getAABB((double)(village.getCenter().posX - village.getVillageRadius()), (double)(village.getCenter().posY - 4), (double)(village.getCenter().posZ - village.getVillageRadius()), (double)(village.getCenter().posX + village.getVillageRadius()), (double)(village.getCenter().posY + 4), (double)(village.getCenter().posZ + village.getVillageRadius())));
-		
+
 		numberOfGuards = 0;
-		
+
 		for (Object obj : villagers)
 		{
 			EntityBase entity = (EntityBase)obj;
-			
+
 			if (entity.profession == 5)
 			{
 				numberOfGuards++;
@@ -180,13 +183,13 @@ public class VillageHelper
 	private void updateNumberOfVillagers()
 	{
 		List villagers = world.getEntitiesWithinAABB(EntityBase.class, AxisAlignedBB.getAABBPool().getAABB((double)(village.getCenter().posX - village.getVillageRadius()), (double)(village.getCenter().posY - 4), (double)(village.getCenter().posZ - village.getVillageRadius()), (double)(village.getCenter().posX + village.getVillageRadius()), (double)(village.getCenter().posY + 4), (double)(village.getCenter().posZ + village.getVillageRadius())));
-		
+
 		numberOfVillagers = villagers.size();
-		
+
 		for (Object obj : villagers)
 		{
 			EntityBase entity = (EntityBase)obj;
-			
+
 			//Skip guards, they don't count because they don't need a home.
 			if (entity.profession == 5)
 			{
