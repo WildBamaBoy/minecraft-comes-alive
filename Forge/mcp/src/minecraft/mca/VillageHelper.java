@@ -57,8 +57,13 @@ public class VillageHelper
 		{
 			this.updateNumberOfGuards();
 
-			int desiredNumberOfGuards = this.numberOfVillagers / MCA.instance.modPropertiesManager.modProperties.guardSpawnRate;
-
+			int desiredNumberOfGuards = 0;
+			
+			if (this.numberOfVillagers != 0)
+			{
+				desiredNumberOfGuards = this.numberOfVillagers / MCA.instance.modPropertiesManager.modProperties.guardSpawnRate;
+			}
+			
 			if (this.numberOfGuards < desiredNumberOfGuards)
 			{
 				Vec3 vector = this.tryGetGuardSpawnLocation(MathHelper.floor_float((float)village.getCenter().posX), MathHelper.floor_float((float)village.getCenter().posY), MathHelper.floor_float((float)village.getCenter().posZ), 2, 4, 2);
