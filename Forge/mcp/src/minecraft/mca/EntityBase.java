@@ -139,6 +139,23 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 	{
 		super(world);
 
+		//Get the appropriate MCA id for the person.
+		if (!world.isRemote)
+		{
+			for (Map.Entry<Integer, Integer> mapEntry : MCA.instance.idsMap.entrySet())
+			{
+				if (mapEntry.getKey() > this.mcaID)
+				{
+					this.mcaID = mapEntry.getKey();
+				}
+			}
+
+			this.mcaID++;
+
+			//Put the ID in the list.
+			MCA.instance.idsMap.put(this.mcaID, this.entityId);
+		}
+		
 		this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(20.0D);
 		setSize(0.6F, 1.8F);
 	}
@@ -190,14 +207,14 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 		{
 			return dataWatcher.func_111145_d(6);
 		}
-		
+
 		else
 		{
 			return 0;
 		}
 	}
 
-//TODO	@Override
+	//TODO	@Override
 	public int getMaxHealth()
 	{
 		return 20;
@@ -207,8 +224,8 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 	public void onUpdate()
 	{
 		super.onUpdate();
-		
-		//Update needed fields on the client if the texture hasn't been assigned.
+
+		//Sync with server if data hasn't been assigned.
 		if (worldObj.isRemote)
 		{
 			if (texture.contains("steve") && !sentSyncRequest)
@@ -218,7 +235,7 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 				sentSyncRequest = true;
 			}
 		}
-
+		
 		//Check for the texture, which would only NOT be there client-side. Update code cannot run without
 		//the entity being synced client side.
 		if (!texture.contains("steve"))
@@ -231,7 +248,7 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 			}
 
 			inventory.setWornArmorItems();
-			
+
 			updateSleeping();
 			updatePathing();
 			updateGreeting();
@@ -486,32 +503,13 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 				}
 			}
 
-			//Get the appropriate MCA id for the person.
-			if (!worldObj.isRemote)
-			{
-				if (mcaID == 0)
-				{
-					for (Map.Entry<Integer, Integer> mapEntry : MCA.instance.idsMap.entrySet())
-					{
-						if (mapEntry.getKey() > mcaID)
-						{
-							mcaID = mapEntry.getKey();
-						}
-					}
-
-					mcaID++;
-				}
-
-				MCA.instance.idsMap.put(mcaID, entityId);
-			}
-
 			//Set trait.
 			trait = EnumTrait.getTraitById(traitId);
 		}
 
 		catch (Throwable e)
 		{
-			MCA.instance.quitWithError("Error reading a field from NBT.", e);
+			MCA.instance.quitWithError("Error reading from NBT.", e);
 		}
 	}
 
@@ -531,10 +529,10 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 				//Skip!
 				return;
 			}
-			
+
 			//Calculate carryover damage.
 			float unabsorbedDamage = ISpecialArmor.ArmorProperties.ApplyArmor(this, inventory.armorItems, damageSource, damageAmount);
-			
+
 			//Damage the entity.
 			super.damageEntity(damageSource, unabsorbedDamage);
 
@@ -543,7 +541,7 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 			{
 				modifyMoodPoints(EnumMoodChangeContext.SleepInterrupted, 1.0F);
 			}
-			
+
 			//Account for being hit by the player.
 			if (damageSource.getSourceOfDamage() instanceof EntityPlayer)
 			{
@@ -641,12 +639,12 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 				}
 			}
 		}
-		
+
 		//Notify nearby villagers of the death and modify their mood.
 		for (Entity entity : (List<Entity>)Logic.getAllEntitiesOfTypeWithinDistanceOfEntity(this, EntityBase.class, 15))
 		{
 			EntityBase entityBase = (EntityBase)entity;
-			
+
 			if (entityBase.canEntityBeSeen(this))
 			{
 				entityBase.modifyMoodPoints(EnumMoodChangeContext.WitnessDeath, worldObj.rand.nextFloat() + worldObj.rand.nextFloat());
@@ -1425,51 +1423,51 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 	}
 
 	@Override
-    public void func_110297_a_(ItemStack itemStack)
-    {
+	public void func_110297_a_(ItemStack itemStack)
+	{
 		//Stop the horrendous sounds.
-    }
-	
+	}
+
 	@Override
-    public void useRecipe(MerchantRecipe merchantRecipe)
-    {
+	public void useRecipe(MerchantRecipe merchantRecipe)
+	{
 		//Stop the horrendous sounds.
-        merchantRecipe.incrementToolUses();
-        this.livingSoundTime = -this.getTalkInterval();
+		merchantRecipe.incrementToolUses();
+		this.livingSoundTime = -this.getTalkInterval();
 
-        MerchantRecipeList buyingList = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 5);
-        
-        if (merchantRecipe.hasSameIDsAs((MerchantRecipe)buyingList.get(buyingList.size() - 1)))
-        {
-//            this.timeUntilReset = 40;
-//            this.needsInitilization = true;
+		MerchantRecipeList buyingList = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 5);
 
-        	ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, new Integer(40), 6);
-        	ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, true, 7);
+		if (merchantRecipe.hasSameIDsAs((MerchantRecipe)buyingList.get(buyingList.size() - 1)))
+		{
+			//            this.timeUntilReset = 40;
+			//            this.needsInitilization = true;
 
-        	EntityPlayer buyingPlayer = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 4);
-            if (buyingPlayer != null)
-            {
-                //this.lastBuyingPlayer = this.buyingPlayer.getCommandSenderName();
-            	ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, buyingPlayer.getCommandSenderName(), 9);
-            }
-            
-            else
-            {
-                //this.lastBuyingPlayer = null;
-            	ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, null, 9);
-            }
-        }
+			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, new Integer(40), 6);
+			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, true, 7);
 
-        if (merchantRecipe.getItemToBuy().itemID == Item.emerald.itemID)
-        {
-            //this.wealth += merchantRecipe.getItemToBuy().stackSize;
-        	
-        	int wealth = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 8);
-        	ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, new Integer(wealth + merchantRecipe.getItemToBuy().stackSize), 8);
-        }
-    }
-    
+			EntityPlayer buyingPlayer = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 4);
+			if (buyingPlayer != null)
+			{
+				//this.lastBuyingPlayer = this.buyingPlayer.getCommandSenderName();
+				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, buyingPlayer.getCommandSenderName(), 9);
+			}
+
+			else
+			{
+				//this.lastBuyingPlayer = null;
+				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, null, 9);
+			}
+		}
+
+		if (merchantRecipe.getItemToBuy().itemID == Item.emerald.itemID)
+		{
+			//this.wealth += merchantRecipe.getItemToBuy().stackSize;
+
+			int wealth = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 8);
+			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, new Integer(wealth + merchantRecipe.getItemToBuy().stackSize), 8);
+		}
+	}
+
 	/**
 	 * Removes the specified amount of the provided item from the server and client side player inventory.
 	 * 
@@ -1519,7 +1517,7 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 			{
 				heartIncrease = 1;
 			}
-			
+
 			modifyHearts(player, heartIncrease);
 			removeItemFromPlayer(itemStack, player);
 
@@ -1707,12 +1705,12 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 			{
 				moodPointsSad = moodPointsSad > 5.0F ? moodPointsSad = 5.0F : moodPointsSad + value;
 			}
-			
+
 			else
 			{
 				moodPointsAnger = moodPointsAnger > 5.0F ? moodPointsAnger = 5.0F : moodPointsAnger + value;
 			}
-			
+
 			moodPointsHappy  = moodPointsHappy  < 0.0F ? moodPointsHappy  = 0.0F : moodPointsHappy  - value;
 			break;
 		case BadInteraction:
@@ -1728,7 +1726,7 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 			{
 				return;
 			}
-			
+
 			else
 			{
 				moodPointsFatigue = moodPointsFatigue > 5.0F ? moodPointsFatigue = 5.0F : moodPointsFatigue + value; 
@@ -1784,6 +1782,13 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 					{
 						setMoodByMoodPoints(true);
 
+						//Replacement for going to sleep while idle.
+						if (isStaying)
+						{
+							isSleeping = true;
+						}
+
+						//Check for chore mode & skip if necessary.
 						if (!isInChoreMode)
 						{
 							spawnAtHomePoint();
@@ -2045,26 +2050,27 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 	 */
 	private void updateIdle()
 	{
-		idleTicks++;
-
-		//Check if the conditions are correct for going to sleep while idle.
-		if (idleTicks >= 2400 && worldObj.isDaytime() == false && isFollowing == false && profession != 5)
-		{
-			if (isStaying)
-			{
-				//Make them go to sleep at their current position.
-				isSleeping = true;
-			}
-
-			else
-			{
-				//Send them back home and put them to sleep.
-				if (hasTeleportedHome == false)
-				{
-					spawnAtHomePoint();
-				}
-			}
-		}
+		//TODO REMOVE
+		//		idleTicks++;
+		//
+		//		//Check if the conditions are correct for going to sleep while idle.
+		//		if (idleTicks >= 2400 && worldObj.isDaytime() == false && isFollowing == false && profession != 5)
+		//		{
+		//			if (isStaying)
+		//			{
+		//				//Make them go to sleep at their current position.
+		//				isSleeping = true;
+		//			}
+		//
+		//			else
+		//			{
+		//				//Send them back home and put them to sleep.
+		//				if (hasTeleportedHome == false)
+		//				{
+		//					spawnAtHomePoint();
+		//				}
+		//			}
+		//		}
 	}
 
 	/**
@@ -2414,7 +2420,7 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 						default: particle = "flame"; particleRate = 0; break;
 						}
 					}
-					
+
 					else if (mood.isSadness())
 					{
 						switch (moodLevel)
@@ -2464,6 +2470,15 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 					if (worldObj.getWorldTime() > 12500 && !isSleeping)
 					{
 						modifyMoodPoints(EnumMoodChangeContext.SleepCycle, worldObj.rand.nextFloat() + worldObj.rand.nextFloat());
+					}
+
+					//Random updates during the day.
+					else if (worldObj.getWorldTime() < 12500)
+					{
+						if (worldObj.rand.nextBoolean() && worldObj.rand.nextBoolean() && worldObj.rand.nextBoolean())
+						{
+							modifyMoodPoints(EnumMoodChangeContext.MoodCycle, 0);
+						}
 					}
 
 					float positiveCooldownModifier = trait.getPositiveCooldownModifier();
@@ -2636,7 +2651,7 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 		entity.rotationYaw = updateEntityRotation(entity.rotationYaw, angle1, 10.0F);
 
 		entity.rotationPitch = 10;
-		
+
 		if (entity.worldObj.isRemote)
 		{
 			entity.setRotationYawHead(entity.rotationYaw);
@@ -2666,7 +2681,7 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 		entity.rotationYaw = updateEntityRotation(entity.rotationYaw, angle1, 10.0F);
 
 		entity.rotationPitch = rotationPitch;
-		
+
 		if (entity.worldObj.isRemote)
 		{
 			entity.setRotationYawHead(entity.rotationYaw);

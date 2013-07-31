@@ -9,8 +9,6 @@
 
 package mca;
 
-import java.util.Map;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -112,18 +110,6 @@ public class ItemEggFemale extends Item
         	if (!world.isRemote)
         	{
         		world.spawnEntityInWorld(entityVillager);
-        		
-				//Get the appropriate MCA id for the person.
-				for (Map.Entry<Integer, Integer> mapEntry : MCA.instance.idsMap.entrySet())
-				{
-					if (mapEntry.getKey() > entityVillager.mcaID)
-					{
-						entityVillager.mcaID = mapEntry.getKey();
-					}
-				}
-
-				entityVillager.mcaID++;
-				MCA.instance.idsMap.put(entityVillager.mcaID, entityVillager.entityId);
         	}
         }
 

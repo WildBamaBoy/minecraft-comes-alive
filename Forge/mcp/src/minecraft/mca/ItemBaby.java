@@ -10,7 +10,6 @@
 package mca;
 
 import java.util.List;
-import java.util.Map;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -106,17 +105,6 @@ public class ItemBaby extends Item
 					spouseManager.saveWorldProperties();
 				}
 
-				//Get the appropriate MCA id for the person.
-				for (Map.Entry<Integer, Integer> mapEntry : MCA.instance.idsMap.entrySet())
-				{
-					if (mapEntry.getKey() > entityPlayerChild.mcaID)
-					{
-						entityPlayerChild.mcaID = mapEntry.getKey();
-					}
-				}
-
-				entityPlayerChild.mcaID++;
-				MCA.instance.idsMap.put(entityPlayerChild.mcaID, entityPlayerChild.entityId);
 				MCA.instance.hasNotifiedOfBabyReadyToGrow = false;
 			}
 
