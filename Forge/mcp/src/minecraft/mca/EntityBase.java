@@ -69,7 +69,6 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 	public int mcaID = 0;
 	public int generation = 0;
 	public int profession = 0;
-	public int idleTicks = 0;
 	public int eatingTicks = 0;
 	public int healthRegenerationTicks = 0;
 	public int swingProgressTicks = 0;
@@ -214,7 +213,6 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 		}
 	}
 
-	//TODO	@Override
 	public int getMaxHealth()
 	{
 		return 20;
@@ -252,7 +250,6 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 			updateSleeping();
 			updatePathing();
 			updateGreeting();
-			updateIdle();
 			updateHealing();
 			updateSwinging();
 			updateChores();
@@ -597,10 +594,8 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 			}
 
 			isSleeping = false;
-			idleTicks = 0;
 
 			PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createFieldValuePacket(entityId, "isSleeping", false));
-			PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createFieldValuePacket(entityId, "idleTicks", 0));
 		}
 	}
 
@@ -910,14 +905,12 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 		if (text.equals(""))
 		{
 			isSleeping = false;
-			idleTicks = 0;
 			return;
 		}
 
 		else
 		{
 			isSleeping = false;
-			idleTicks = 0;
 
 			//Ensure that the entity is synced with the server by checking if it has a name.
 			try
@@ -935,7 +928,6 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 			}
 
 			PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "isSleeping", false));
-			PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "idleTicks", 0));
 		}
 	}
 
@@ -2043,34 +2035,6 @@ public abstract class EntityBase extends EntitySerializable implements Serializa
 		{
 			MCA.instance.log(e);
 		}
-	}
-
-	/**
-	 * Handles updating idle time.
-	 */
-	private void updateIdle()
-	{
-		//TODO REMOVE
-		//		idleTicks++;
-		//
-		//		//Check if the conditions are correct for going to sleep while idle.
-		//		if (idleTicks >= 2400 && worldObj.isDaytime() == false && isFollowing == false && profession != 5)
-		//		{
-		//			if (isStaying)
-		//			{
-		//				//Make them go to sleep at their current position.
-		//				isSleeping = true;
-		//			}
-		//
-		//			else
-		//			{
-		//				//Send them back home and put them to sleep.
-		//				if (hasTeleportedHome == false)
-		//				{
-		//					spawnAtHomePoint();
-		//				}
-		//			}
-		//		}
 	}
 
 	/**

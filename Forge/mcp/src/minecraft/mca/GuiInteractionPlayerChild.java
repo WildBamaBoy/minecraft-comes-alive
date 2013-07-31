@@ -759,11 +759,9 @@ public class GuiInteractionPlayerChild extends Gui
 		{
 			entityChild.isStaying = !entityChild.isStaying;
 			entityChild.isFollowing = false;
-			entityChild.idleTicks = 0;
 
 			PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityChild.entityId, "isStaying", entityChild.isStaying));
 			PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityChild.entityId, "isFollowing", false));
-			PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityChild.entityId, "idleTicks", 0));
 
 			close();
 		}
