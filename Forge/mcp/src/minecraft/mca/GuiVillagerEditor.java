@@ -238,7 +238,7 @@ public class GuiVillagerEditor extends Gui
 			
 			if (villagerBeingEdited.profession == 4 && villagerBeingEdited.gender.equals("Female"))
 			{
-				villagerBeingEdited.profession++;
+				villagerBeingEdited.profession--;
 			}
 			
 			villagerBeingEdited.setTexture();
@@ -516,7 +516,7 @@ public class GuiVillagerEditor extends Gui
 		buttonList.clear();
 		buttonList.add(randomButton                = new GuiButton(1,  width / 2 - 50,  height / 2 - 75, 60, 20, Localization.getString("gui.button.random")));
 		buttonList.add(genderButton                = new GuiButton(2,  width / 2 - 190, height / 2 - 40, 175, 20, Localization.getString("gui.button.setup.gender" + villagerBeingEdited.gender.toLowerCase())));
-		buttonList.add(textureButton               = new GuiButton(3,  width / 2 - 190, height / 2 - 20, 175, 20, "Texture: " + villagerBeingEdited.getTexture().replace("/mods/MCA/textures/skins/", "")));
+		buttonList.add(textureButton               = new GuiButton(3,  width / 2 - 190, height / 2 - 20, 175, 20, "Texture: " + villagerBeingEdited.getTexture().replace("textures/skins//", "").replace(".png", "")));
 		buttonList.add(shiftTextureIndexUpButton   = new GuiButton(4,  width / 2 - 15,  height / 2 - 20, 20, 20, ">>"));
 		buttonList.add(shiftTextureIndexDownButton = new GuiButton(5,  width / 2 - 210, height / 2 - 20, 20, 20, "<<"));
 		buttonList.add(professionButton            = new GuiButton(6,  width / 2 - 190, height / 2 - 0, 175, 20, "Title: " + villagerBeingEdited.getLocalizedProfessionString()));
