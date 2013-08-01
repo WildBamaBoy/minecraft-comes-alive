@@ -361,8 +361,13 @@ public class ChoreMining extends Chore
 	 */
 	private void runActiveAI()
 	{
-		owner.setRotationYawHead(heading);
-
+		endChore();
+		
+		if (owner.worldObj.isRemote)
+		{
+			owner.setRotationYawHead(heading);
+		}
+		
 		//Calculate interval based on their fastest pickaxe.
 		ItemStack pickStack = owner.inventory.getBestItemOfType(ItemPickaxe.class);
 
