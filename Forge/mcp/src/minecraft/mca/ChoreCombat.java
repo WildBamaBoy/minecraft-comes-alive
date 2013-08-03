@@ -289,7 +289,6 @@ public class ChoreCombat extends Chore
 				//The owner is within 2 blocks of the target.
 				else if (owner.getDistanceToEntity(owner.target) < 2)
 				{
-					MCA.instance.log(owner.inventory.getDamageVsEntity(owner.target));
 					boolean attackSuccessful = owner.target.attackEntityFrom(DamageSource.causeMobDamage(owner), owner.inventory.getDamageVsEntity(owner.target));
 					owner.swingItem();
 
