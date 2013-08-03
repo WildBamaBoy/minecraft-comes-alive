@@ -117,6 +117,5 @@ public class ItemEggMale extends Item
     public void registerIcons(IconRegister iconRegister)
     {
     	itemIcon = iconRegister.registerIcon("mca:EggMale");
-    	MCA.instance.log(itemIcon.getIconName());
     }
 }
