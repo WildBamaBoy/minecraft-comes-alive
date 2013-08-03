@@ -52,7 +52,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * Main entry point and core of the Minecraft Comes Alive mod.
  */
-@Mod(modid="mca", name="Minecraft Comes Alive", version="3.4.3")
+@Mod(modid="mca", name="Minecraft Comes Alive", version="3.4.4")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false, 
 channels={"MCA_F_REQ", "MCA_F_VAL", "MCA_TARGET", "MCA_REMOVEITEM", "MCA_ACHIEV", "MCA_SYNC", 
 		"MCA_SYNC_REQ", "MCA_ENGAGE", "MCA_ADDITEM", "MCA_DROPITEM", "MCA_FAMTREE", "MCA_INVENTORY", 
