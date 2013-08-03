@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import mca.core.MCA;
 import mca.core.util.object.Coordinates;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityVillagerAdult;
@@ -30,7 +31,7 @@ import net.minecraft.world.World;
 /**
  * Compilation of various methods used for artificial intelligence, among other things.
  */
-public final class Logic
+public final class LogicHelper
 {
 	/**
 	 * Gets whether or not there is a certain block close to the entity provided.
@@ -787,25 +788,25 @@ public final class Logic
 		//Check for crap gifts (negative relationship)
 		if (hearts < 0)
 		{
-			giftInfo = DataStore.weddingJunkGiftIDs[entity.worldObj.rand.nextInt(DataStore.weddingJunkGiftIDs.length)];
+			giftInfo = MCA.weddingJunkGiftIDs[entity.worldObj.rand.nextInt(MCA.weddingJunkGiftIDs.length)];
 		}
 
 		//Check for small gifts (0-24)
 		else if (hearts >= 0 && hearts <= 25)
 		{
-			giftInfo = DataStore.weddingSmallGiftIDs[entity.worldObj.rand.nextInt(DataStore.weddingSmallGiftIDs.length)];
+			giftInfo = MCA.weddingSmallGiftIDs[entity.worldObj.rand.nextInt(MCA.weddingSmallGiftIDs.length)];
 		}
 
 		//Check for medium gifts (25-74)
 		else if (hearts >= 25 && hearts <= 74)
 		{
-			giftInfo = DataStore.weddingRegularGiftIDs[entity.worldObj.rand.nextInt(DataStore.weddingRegularGiftIDs.length)];
+			giftInfo = MCA.weddingRegularGiftIDs[entity.worldObj.rand.nextInt(MCA.weddingRegularGiftIDs.length)];
 		}
 
 		//Check for big gifts (75-100+)
 		else if (hearts >= 75)
 		{
-			giftInfo = DataStore.weddingGreatGiftIDs[entity.worldObj.rand.nextInt(DataStore.weddingGreatGiftIDs.length)];
+			giftInfo = MCA.weddingGreatGiftIDs[entity.worldObj.rand.nextInt(MCA.weddingGreatGiftIDs.length)];
 		}
 
 		int quantityGiven = entity.worldObj.rand.nextInt(Integer.parseInt(giftInfo[2].toString())) + Integer.parseInt(giftInfo[1].toString());

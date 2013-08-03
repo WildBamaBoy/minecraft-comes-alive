@@ -22,8 +22,7 @@ import java.util.List;
 import java.util.Properties;
 
 import mca.core.MCA;
-import mca.core.util.PacketCreator;
-import mca.core.util.Utility;
+import mca.core.util.PacketHelper;
 import net.minecraft.server.MinecraftServer;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -182,12 +181,12 @@ public class WorldPropertiesManager implements Serializable
 				//Send the properties to the server or client.
 				if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT && MCA.instance.isIntegratedClient)
 				{
-					PacketDispatcher.sendPacketToServer(PacketCreator.createWorldPropertiesPacket(this));
+					PacketDispatcher.sendPacketToServer(PacketHelper.createWorldPropertiesPacket(this));
 				}
 
 				else if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
 				{
-					PacketDispatcher.sendPacketToPlayer(PacketCreator.createWorldPropertiesPacket(this), (Player)MCA.instance.getPlayerByName(currentPlayerName));
+					PacketDispatcher.sendPacketToPlayer(PacketHelper.createWorldPropertiesPacket(this), (Player)MCA.instance.getPlayerByName(currentPlayerName));
 				}
 			}
 
@@ -220,7 +219,7 @@ public class WorldPropertiesManager implements Serializable
 
 		else
 		{
-			PacketDispatcher.sendPacketToServer(PacketCreator.createWorldPropertiesPacket(this));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createWorldPropertiesPacket(this));
 		}
 	}
 
@@ -353,7 +352,7 @@ public class WorldPropertiesManager implements Serializable
 		for (String invalidSaveName : invalidSaves)
 		{
 			MCA.instance.log("Deleted old properties folder: " + invalidSaveName);
-			Utility.deletePath(new File(MCA.instance.runningDirectory + "/config/MCA/Worlds/" + invalidSaveName));
+			MCA.deletePath(new File(MCA.instance.runningDirectory + "/config/MCA/Worlds/" + invalidSaveName));
 		}
 	}
 }

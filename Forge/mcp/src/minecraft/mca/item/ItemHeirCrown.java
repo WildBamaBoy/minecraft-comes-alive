@@ -11,7 +11,7 @@ package mca.item;
 
 import java.util.List;
 
-import mca.core.util.Localization;
+import mca.core.util.LanguageHelper;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -49,7 +49,7 @@ public class ItemHeirCrown extends ItemArmor
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List informationList, boolean unknown)
 	{
-		informationList.add(Localization.getString("information.doesnothing"));
+		informationList.add(LanguageHelper.getString("information.doesnothing"));
 		
 //		informationList.add(Localization.getString("information.heircrown.line1"));
 //		informationList.add(Localization.getString("information.heircrown.line2"));

@@ -16,8 +16,8 @@ import java.util.List;
 import mca.client.gui.GuiGameOver;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.core.util.Localization;
-import mca.core.util.Logic;
+import mca.core.util.LanguageHelper;
+import mca.core.util.LogicHelper;
 import mca.entity.EntityPlayerChild;
 import mca.enums.EnumRelation;
 import net.minecraft.client.Minecraft;
@@ -131,7 +131,7 @@ public class ClientTickHandler implements ITickHandler
 
 							if (clientPropertiesManager.worldProperties.babyReadyToGrow && !MCA.instance.hasNotifiedOfBabyReadyToGrow)
 							{
-								Minecraft.getMinecraft().thePlayer.addChatMessage(Localization.getString("notify.baby.readytogrow"));
+								Minecraft.getMinecraft().thePlayer.addChatMessage(LanguageHelper.getString("notify.baby.readytogrow"));
 								MCA.instance.hasNotifiedOfBabyReadyToGrow = true;
 							}
 						}
@@ -187,7 +187,7 @@ public class ClientTickHandler implements ITickHandler
 
 						if (clientPropertiesManager.worldProperties.babyReadyToGrow && !MCA.instance.hasNotifiedOfBabyReadyToGrow)
 						{
-							Minecraft.getMinecraft().thePlayer.addChatMessage(Localization.getString("notify.baby.readytogrow"));
+							Minecraft.getMinecraft().thePlayer.addChatMessage(LanguageHelper.getString("notify.baby.readytogrow"));
 							MCA.instance.hasNotifiedOfBabyReadyToGrow = true;
 						}
 
@@ -214,7 +214,7 @@ public class ClientTickHandler implements ITickHandler
 
 							if (clientPropertiesManager.worldProperties.babyReadyToGrow && !MCA.instance.hasNotifiedOfBabyReadyToGrow)
 							{
-								Minecraft.getMinecraft().thePlayer.addChatMessage(Localization.getString("notify.baby.readytogrow"));
+								Minecraft.getMinecraft().thePlayer.addChatMessage(LanguageHelper.getString("notify.baby.readytogrow"));
 								MCA.instance.hasNotifiedOfBabyReadyToGrow = true;
 							}
 						}
@@ -252,7 +252,7 @@ public class ClientTickHandler implements ITickHandler
 				{
 					try
 					{
-						Localization.loadLanguage(Minecraft.getMinecraft().gameSettings.language);
+						LanguageHelper.loadLanguage(Minecraft.getMinecraft().gameSettings.language);
 						MCA.instance.languageLoaded = true;
 					}
 
@@ -261,7 +261,7 @@ public class ClientTickHandler implements ITickHandler
 						MCA.instance.log("Failed to load language: " + Minecraft.getMinecraft().gameSettings.language);
 						MCA.instance.log(e.getMessage());
 
-						Localization.loadLanguage("en_US");
+						LanguageHelper.loadLanguage("en_US");
 						MCA.instance.languageLoaded = true;
 					}
 				}
@@ -277,7 +277,7 @@ public class ClientTickHandler implements ITickHandler
 			{
 				try
 				{
-					Localization.loadLanguage(Minecraft.getMinecraft().gameSettings.language);
+					LanguageHelper.loadLanguage(Minecraft.getMinecraft().gameSettings.language);
 					MCA.instance.languageLoaded = true;
 				}
 
@@ -286,7 +286,7 @@ public class ClientTickHandler implements ITickHandler
 					MCA.instance.log("Failed to load language: " + Minecraft.getMinecraft().gameSettings.language);
 					MCA.instance.log(e.getMessage());
 
-					Localization.loadLanguage("en_US");
+					LanguageHelper.loadLanguage("en_US");
 					MCA.instance.languageLoaded = true;
 				}
 			}
@@ -312,7 +312,7 @@ public class ClientTickHandler implements ITickHandler
 			if (!hasCommentedOnDeath)
 			{
 				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-				List<Entity> entityList = (List<Entity>) Logic.getAllEntitiesOfTypeWithinDistanceOfEntity(player, EntityPlayerChild.class, 15);
+				List<Entity> entityList = (List<Entity>) LogicHelper.getAllEntitiesOfTypeWithinDistanceOfEntity(player, EntityPlayerChild.class, 15);
 
 				for (Entity entity : entityList)
 				{

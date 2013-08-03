@@ -11,7 +11,7 @@ package mca.client.gui;
 
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.core.util.Localization;
+import mca.core.util.LanguageHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -115,24 +115,24 @@ public class GuiSetup extends AbstractGui
 	public void drawScreen(int sizeX, int sizeY, float offset)
 	{
 		drawDefaultBackground();
-		drawCenteredString(fontRenderer, Localization.getString("gui.title.setup"), width / 2, 20, 0xffffff);
+		drawCenteredString(fontRenderer, LanguageHelper.getString("gui.title.setup"), width / 2, 20, 0xffffff);
 
 		if (inGenderSelectGui)
 		{
-			drawCenteredString(fontRenderer, Localization.getString("gui.title.setup.gender"), width / 2, height / 2 - 80, 0xffffff);
+			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.title.setup.gender"), width / 2, height / 2 - 80, 0xffffff);
 			backButton.enabled = false;
 		}
 
 		else if (inNameSelectGui)
 		{        	
-			drawCenteredString(fontRenderer, Localization.getString("gui.title.setup.name"), width / 2, height / 2 - 80, 0xffffff);
+			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.title.setup.name"), width / 2, height / 2 - 80, 0xffffff);
 			nameTextField.drawTextBox();
 			backButton.enabled = true;
 		}
 
 		else if (inOptionsGui)
 		{
-			drawCenteredString(fontRenderer, Localization.getString("gui.title.setup.options"), width / 2, height / 2 - 80, 0xffffff);
+			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.title.setup.options"), width / 2, height / 2 - 80, 0xffffff);
 			finishButton.enabled = true;
 		}
 
@@ -179,9 +179,9 @@ public class GuiSetup extends AbstractGui
 
 		buttonList.clear();
 
-		buttonList.add(genderButton = new GuiButton(1, width / 2 - 70, height / 2 - 10, 140, 20, Localization.getString("gui.button.setup.gender" + manager.worldProperties.playerGender.toLowerCase())));
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, Localization.getString("gui.button.back")));
-		buttonList.add(nextButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, Localization.getString("gui.button.next")));
+		buttonList.add(genderButton = new GuiButton(1, width / 2 - 70, height / 2 - 10, 140, 20, LanguageHelper.getString("gui.button.setup.gender" + manager.worldProperties.playerGender.toLowerCase())));
+		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		buttonList.add(nextButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.next")));
 
 		genderButton.enabled = !viewedFromLibrarian;
 		backButton.enabled = false;
@@ -203,8 +203,8 @@ public class GuiSetup extends AbstractGui
 		nameTextField = new GuiTextField(fontRenderer, width / 2 - 100, height / 2 - 10, 200, 20);
 		nameTextField.setText(manager.worldProperties.playerName);
 
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, Localization.getString("gui.button.back")));
-		buttonList.add(nextButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, Localization.getString("gui.button.next")));
+		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		buttonList.add(nextButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.next")));
 
 		backButton.enabled = false;
 
@@ -222,25 +222,25 @@ public class GuiSetup extends AbstractGui
 
 		buttonList.clear();
 
-		buttonList.add(hideTagsButton              = new GuiButton(1, width / 2 - 80, height / 2 - 10, 170, 20, Localization.getString("gui.button.setup.hidesleepingtag")));
+		buttonList.add(hideTagsButton              = new GuiButton(1, width / 2 - 80, height / 2 - 10, 170, 20, LanguageHelper.getString("gui.button.setup.hidesleepingtag")));
 		//buttonList.add(overwriteTestificatesButton = new GuiButton(2, width / 2 - 80, height / 2 + 10, 170, 20, Localization.getString("gui.button.setup.overwritetestificates")));
-		buttonList.add(autoGrowChildrenButton      = new GuiButton(3, width / 2 - 80, height / 2 + 10, 170, 20, Localization.getString("gui.button.setup.growchildrenautomatically")));
-		buttonList.add(displayMoodParticlesButton  = new GuiButton(4, width / 2 - 80, height / 2 + 30, 170, 20, Localization.getString("gui.button.setup.displaymoodparticles")));
+		buttonList.add(autoGrowChildrenButton      = new GuiButton(3, width / 2 - 80, height / 2 + 10, 170, 20, LanguageHelper.getString("gui.button.setup.growchildrenautomatically")));
+		buttonList.add(displayMoodParticlesButton  = new GuiButton(4, width / 2 - 80, height / 2 + 30, 170, 20, LanguageHelper.getString("gui.button.setup.displaymoodparticles")));
 		
-		buttonList.add(backButton   = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, Localization.getString("gui.button.back")));
-		buttonList.add(finishButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, Localization.getString("gui.button.setup.finish")));
+		buttonList.add(backButton   = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		buttonList.add(finishButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.setup.finish")));
 
-		if (manager.worldProperties.hideSleepingTag) hideTagsButton.displayString = hideTagsButton.displayString + Localization.getString("gui.button.yes");
-		else hideTagsButton.displayString = hideTagsButton.displayString + Localization.getString("gui.button.no");
+		if (manager.worldProperties.hideSleepingTag) hideTagsButton.displayString = hideTagsButton.displayString + LanguageHelper.getString("gui.button.yes");
+		else hideTagsButton.displayString = hideTagsButton.displayString + LanguageHelper.getString("gui.button.no");
 
-		if (manager.worldProperties.childrenGrowAutomatically) autoGrowChildrenButton.displayString = autoGrowChildrenButton.displayString + Localization.getString("gui.button.yes");
-		else autoGrowChildrenButton.displayString = autoGrowChildrenButton.displayString + Localization.getString("gui.button.no");
+		if (manager.worldProperties.childrenGrowAutomatically) autoGrowChildrenButton.displayString = autoGrowChildrenButton.displayString + LanguageHelper.getString("gui.button.yes");
+		else autoGrowChildrenButton.displayString = autoGrowChildrenButton.displayString + LanguageHelper.getString("gui.button.no");
 
 		//if (manager.worldProperties.overwriteTestificates) overwriteTestificatesButton.displayString = overwriteTestificatesButton.displayString + Localization.getString("gui.button.yes");
 		//else overwriteTestificatesButton.displayString = overwriteTestificatesButton.displayString + Localization.getString("gui.button.no");
 
-		if (manager.worldProperties.displayMoodParticles) displayMoodParticlesButton.displayString = displayMoodParticlesButton.displayString + Localization.getString("gui.button.yes");
-		else displayMoodParticlesButton.displayString = displayMoodParticlesButton.displayString + Localization.getString("gui.button.no");
+		if (manager.worldProperties.displayMoodParticles) displayMoodParticlesButton.displayString = displayMoodParticlesButton.displayString + LanguageHelper.getString("gui.button.yes");
+		else displayMoodParticlesButton.displayString = displayMoodParticlesButton.displayString + LanguageHelper.getString("gui.button.no");
 		
 		finishButton.enabled = false;
 		

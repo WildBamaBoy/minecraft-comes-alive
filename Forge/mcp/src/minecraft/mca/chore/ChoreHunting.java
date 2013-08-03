@@ -13,8 +13,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 import mca.core.MCA;
-import mca.core.util.Localization;
-import mca.core.util.PacketCreator;
+import mca.core.util.LanguageHelper;
+import mca.core.util.PacketHelper;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import net.minecraft.block.Block;
@@ -86,7 +86,7 @@ public class ChoreHunting extends AbstractChore
 			{
 				//End the chore and sync all clients so that the chore is stopped everywhere.
 				endChore();
-				PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createSyncPacket(owner));
+				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(owner));
 				owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer).addChatMessage("\u00a7cChore disabled by the server administrator.");
 				return;
 			}
@@ -113,7 +113,7 @@ public class ChoreHunting extends AbstractChore
 
 		if (owner.worldObj.isRemote)
 		{
-			say(Localization.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.hunting", true));
+			say(LanguageHelper.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.hunting", true));
 		}
 	}
 
@@ -164,7 +164,7 @@ public class ChoreHunting extends AbstractChore
 				if (!owner.worldObj.isRemote)
 				{
 					EntityPlayer ownerPlayer = MCA.instance.getPlayerByName(((EntityPlayerChild)owner).ownerPlayerName);
-					owner.notifyPlayer(ownerPlayer, Localization.getString(owner, "notify.child.chore.failed.hunting.death", false));
+					owner.notifyPlayer(ownerPlayer, LanguageHelper.getString(owner, "notify.child.chore.failed.hunting.death", false));
 					owner.setDeadWithoutNotification();
 					endChore();
 				}
@@ -442,7 +442,7 @@ public class ChoreHunting extends AbstractChore
 				}
 			}
 
-			say(Localization.getString("notify.child.chore.finished.hunting"));
+			say(LanguageHelper.getString("notify.child.chore.finished.hunting"));
 			endChore();
 		}
 	}

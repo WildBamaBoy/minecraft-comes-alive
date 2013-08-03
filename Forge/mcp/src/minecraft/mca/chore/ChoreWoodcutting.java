@@ -14,9 +14,9 @@ import java.lang.reflect.Modifier;
 import java.util.List;
 
 import mca.core.MCA;
-import mca.core.util.Localization;
-import mca.core.util.Logic;
-import mca.core.util.PacketCreator;
+import mca.core.util.LanguageHelper;
+import mca.core.util.LogicHelper;
+import mca.core.util.PacketHelper;
 import mca.core.util.object.Coordinates;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
@@ -97,7 +97,7 @@ public class ChoreWoodcutting extends AbstractChore
 			{
 				//End the chore and sync all clients so that the chore is stopped everywhere.
 				endChore();
-				PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createSyncPacket(owner));
+				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(owner));
 				owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer).addChatMessage("\u00a7cChore disabled by the server administrator.");
 				return;
 			}
@@ -105,7 +105,7 @@ public class ChoreWoodcutting extends AbstractChore
 
 		if (owner.worldObj.isRemote)
 		{
-			say(Localization.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.woodcutting", true));
+			say(LanguageHelper.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.woodcutting", true));
 		}
 
 		hasBegun = true;
@@ -169,13 +169,13 @@ public class ChoreWoodcutting extends AbstractChore
 		if (treeType != -1)
 		{
 			//Get only wood blocks whose metadata matches the tree type.
-			coordinatesContainingWood = Logic.getNearbyBlockCoordinatesWithMetadata(owner, Block.wood.blockID, treeType, 10);
+			coordinatesContainingWood = LogicHelper.getNearbyBlockCoordinatesWithMetadata(owner, Block.wood.blockID, treeType, 10);
 		}
 
 		//All trees should be cut.
 		else
 		{
-			coordinatesContainingWood = Logic.getNearbyBlockCoordinates(owner, Block.wood.blockID, 10);
+			coordinatesContainingWood = LogicHelper.getNearbyBlockCoordinates(owner, Block.wood.blockID, 10);
 		}
 
 		//Check if they need some tree coordinates.
@@ -184,7 +184,7 @@ public class ChoreWoodcutting extends AbstractChore
 			//Check that there's actually some in the list.
 			if (coordinatesContainingWood.isEmpty())
 			{
-				say(Localization.getString(owner, "notify.child.chore.interrupted.woodcutting.notrees", false));
+				say(LanguageHelper.getString(owner, "notify.child.chore.interrupted.woodcutting.notrees", false));
 				endChore();
 				return;
 			}
@@ -201,7 +201,7 @@ public class ChoreWoodcutting extends AbstractChore
 				{
 					if (distance != null)
 					{
-						Double thisDistance = Logic.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, coords.x, coords.y, coords.z);
+						Double thisDistance = LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, coords.x, coords.y, coords.z);
 
 						if (thisDistance < distance)
 						{
@@ -214,7 +214,7 @@ public class ChoreWoodcutting extends AbstractChore
 						if (owner.worldObj.getBlockId((int)coords.x, (int)coords.y - 1, (int)coords.z) == Block.dirt.blockID ||
 								owner.worldObj.getBlockId((int)coords.x, (int)coords.y - 1, (int)coords.z) == Block.grass.blockID)
 						{
-							distance = Logic.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, coords.x, coords.y, coords.z);
+							distance = LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, coords.x, coords.y, coords.z);
 							coordinatesOfBlock = coords;
 						}
 					}
@@ -250,7 +250,7 @@ public class ChoreWoodcutting extends AbstractChore
 				//A valid tree wasn't found.
 				else
 				{
-					say(Localization.getString(owner, "notify.child.chore.interrupted.woodcutting.notrees", false));
+					say(LanguageHelper.getString(owner, "notify.child.chore.interrupted.woodcutting.notrees", false));
 					endChore();
 					return;
 				}
@@ -261,7 +261,7 @@ public class ChoreWoodcutting extends AbstractChore
 		else
 		{
 			//Get the coordinates of all leaf blocks adjacent to the entity.
-			List<Coordinates> leafBlockCoordinates = Logic.getNearbyBlocksBottomTop(owner, Block.leaves.blockID, 1, 1);
+			List<Coordinates> leafBlockCoordinates = LogicHelper.getNearbyBlocksBottomTop(owner, Block.leaves.blockID, 1, 1);
 
 			//Loop through each coordinate in the list and remove the leaves.
 			for (Coordinates coords : leafBlockCoordinates)
@@ -298,7 +298,7 @@ public class ChoreWoodcutting extends AbstractChore
 							stackToAdd.damageItem(treeType, owner);
 
 							owner.inventory.addItemStackToInventory(stackToAdd);
-							PacketDispatcher.sendPacketToServer(PacketCreator.createInventoryPacket(owner.entityId, owner.inventory));
+							PacketDispatcher.sendPacketToServer(PacketHelper.createInventoryPacket(owner.entityId, owner.inventory));
 						}
 
 						owner.worldObj.setBlock((int)currentLogCoordinatesX, (int)currentLogCoordinatesY, (int)currentLogCoordinatesZ, 0);

@@ -11,7 +11,7 @@ package mca.item;
 
 import java.util.List;
 
-import mca.core.util.Localization;
+import mca.core.util.LanguageHelper;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -48,8 +48,8 @@ public class ItemWeddingRing extends Item
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List informationList, boolean unknown)
 	{
-		informationList.add(Localization.getString("information.weddingring.line1"));
-		informationList.add(Localization.getString("information.weddingring.line2"));
-		informationList.add(Localization.getString("information.weddingring.line3"));
+		informationList.add(LanguageHelper.getString("information.weddingring.line1"));
+		informationList.add(LanguageHelper.getString("information.weddingring.line2"));
+		informationList.add(LanguageHelper.getString("information.weddingring.line3"));
 	}
 }

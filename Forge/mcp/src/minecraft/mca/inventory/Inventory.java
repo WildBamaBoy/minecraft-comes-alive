@@ -15,8 +15,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import mca.core.MCA;
-import mca.core.util.Localization;
-import mca.core.util.PacketCreator;
+import mca.core.util.LanguageHelper;
+import mca.core.util.PacketHelper;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import net.minecraft.block.Block;
@@ -226,7 +226,7 @@ public class Inventory implements IInventory, Serializable
 	@Override
 	public String getInvName()
 	{
-		return Localization.getString(owner, "gui.title.inventory");
+		return LanguageHelper.getString(owner, "gui.title.inventory");
 	}
 
 	/**
@@ -248,7 +248,7 @@ public class Inventory implements IInventory, Serializable
 	{
 		if (!owner.worldObj.isRemote)
 		{
-			PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createInventoryPacket(owner.entityId, this));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createInventoryPacket(owner.entityId, this));
 
 			if (this.owner instanceof EntityPlayerChild)
 			{
@@ -266,7 +266,7 @@ public class Inventory implements IInventory, Serializable
 						if (player != null)
 						{
 							player.triggerAchievement(MCA.instance.achievementAdultFullyEquipped);
-							PacketDispatcher.sendPacketToPlayer(PacketCreator.createAchievementPacket(MCA.instance.achievementAdultFullyEquipped, player.entityId), (Player)player);
+							PacketDispatcher.sendPacketToPlayer(PacketHelper.createAchievementPacket(MCA.instance.achievementAdultFullyEquipped, player.entityId), (Player)player);
 						}
 					}
 				}
@@ -275,7 +275,7 @@ public class Inventory implements IInventory, Serializable
 			if (this.owner.heldBabyGender.equals("None") && (this.contains(MCA.instance.itemBabyBoy) || this.contains(MCA.instance.itemBabyGirl)))
 			{
 				this.owner.heldBabyGender = this.contains(MCA.instance.itemBabyBoy) ? "Male" : "Female";
-				PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createSyncPacket(this.owner));
+				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(this.owner));
 			}
 		}
 	}

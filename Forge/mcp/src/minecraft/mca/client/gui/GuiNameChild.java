@@ -11,8 +11,8 @@ package mca.client.gui;
 
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.core.util.Localization;
-import mca.core.util.PacketCreator;
+import mca.core.util.LanguageHelper;
+import mca.core.util.PacketHelper;
 import mca.entity.AbstractEntity;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -82,8 +82,8 @@ public class GuiNameChild extends AbstractGui
 		Keyboard.enableRepeatEvents(true);
 
 		buttonList.clear();
-		buttonList.add(doneButton = new GuiButton(1, width / 2 - 40, height / 2 - 10, 80, 20, Localization.getString("gui.button.done")));
-		buttonList.add(randomButton = new GuiButton(2, width / 2 + 105, height / 2 - 60, 60, 20, Localization.getString("gui.button.random")));
+		buttonList.add(doneButton = new GuiButton(1, width / 2 - 40, height / 2 - 10, 80, 20, LanguageHelper.getString("gui.button.done")));
+		buttonList.add(randomButton = new GuiButton(2, width / 2 + 105, height / 2 - 60, 60, 20, LanguageHelper.getString("gui.button.random")));
 
 		babyNameTextField = new GuiTextField(fontRenderer, width / 2 - 100, height / 2 - 60, 200, 20);
 		babyNameTextField.setMaxStringLength(32);
@@ -114,7 +114,7 @@ public class GuiNameChild extends AbstractGui
 			//Check if the player is married to another player.
 			if (manager.worldProperties.playerSpouseID < 0)
 			{
-				PacketDispatcher.sendPacketToServer(PacketCreator.createBabyInfoPacket(manager));
+				PacketDispatcher.sendPacketToServer(PacketHelper.createBabyInfoPacket(manager));
 			}
 
 			//Close the GUI
@@ -160,19 +160,19 @@ public class GuiNameChild extends AbstractGui
 
 		if (gender.equals("Male"))
 		{
-			drawCenteredString(fontRenderer, Localization.getString("gui.title.namebaby.male"), width / 2, (height / 2) - 90, 0xffffff);
+			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.title.namebaby.male"), width / 2, (height / 2) - 90, 0xffffff);
 		}
 
 		else
 		{
-			drawCenteredString(fontRenderer, Localization.getString("gui.title.namebaby.female"), width / 2, (height / 2) - 90, 0xffffff);
+			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.title.namebaby.female"), width / 2, (height / 2) - 90, 0xffffff);
 		}
 
-		drawString(fontRenderer, Localization.getString("gui.title.namebaby"), width / 2 - 100, height / 2 - 70, 0xa0a0a0);
+		drawString(fontRenderer, LanguageHelper.getString("gui.title.namebaby"), width / 2 - 100, height / 2 - 70, 0xa0a0a0);
 
 		if (containsInvalidCharacters)
 		{
-			drawCenteredString(fontRenderer, Localization.getString("gui.info.namebaby.invalidcharacters"), width / 2, (height / 2) + 20, 0xCC0000);
+			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.namebaby.invalidcharacters"), width / 2, (height / 2) + 20, 0xCC0000);
 		}
 
 		babyNameTextField.drawTextBox();

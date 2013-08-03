@@ -12,7 +12,7 @@ package mca.item;
 import java.util.List;
 
 import mca.core.MCA;
-import mca.core.util.Localization;
+import mca.core.util.LanguageHelper;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityChild;
 import mca.entity.EntityVillagerAdult;
@@ -96,8 +96,8 @@ public class ItemWhistle extends Item
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List informationList, boolean unknown)
 	{
-		informationList.add(Localization.getString("information.whistle.line1"));
-		informationList.add(Localization.getString("information.whistle.line2"));
-		informationList.add(Localization.getString("information.whistle.line3"));
+		informationList.add(LanguageHelper.getString("information.whistle.line1"));
+		informationList.add(LanguageHelper.getString("information.whistle.line2"));
+		informationList.add(LanguageHelper.getString("information.whistle.line3"));
 	}
 }

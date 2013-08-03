@@ -12,7 +12,6 @@ package mca.core.forge;
 import java.io.File;
 
 import mca.core.MCA;
-import mca.core.util.DataStore;
 import mca.tileentity.TileEntityTombstone;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.TickRegistry;
@@ -153,12 +152,12 @@ public class CommonProxy
 					//Remove everything but the Gender and ID to properly identify what the gender is.
 					if (fileLocationInArchive.replace("textures/skins/Farmer", "").contains("M"))
 					{
-						DataStore.farmerSkinsMale.add(fileLocationInArchive);
+						MCA.farmerSkinsMale.add(fileLocationInArchive);
 					}
 
 					else
 					{
-						DataStore.farmerSkinsFemale.add(fileLocationInArchive);
+						MCA.farmerSkinsFemale.add(fileLocationInArchive);
 					}
 				}
 
@@ -166,12 +165,12 @@ public class CommonProxy
 				{
 					if (fileLocationInArchive.replace("textures/skins/Librarian", "").contains("M"))
 					{
-						DataStore.librarianSkinsMale.add(fileLocationInArchive);
+						MCA.librarianSkinsMale.add(fileLocationInArchive);
 					}
 
 					else
 					{
-						DataStore.librarianSkinsFemale.add(fileLocationInArchive);
+						MCA.librarianSkinsFemale.add(fileLocationInArchive);
 					}
 				}
 
@@ -179,12 +178,12 @@ public class CommonProxy
 				{
 					if (fileLocationInArchive.replace("textures/skins/Priest", "").contains("M"))
 					{
-						DataStore.priestSkinsMale.add(fileLocationInArchive);
+						MCA.priestSkinsMale.add(fileLocationInArchive);
 					}
 
 					else
 					{
-						DataStore.priestSkinsFemale.add(fileLocationInArchive);
+						MCA.priestSkinsFemale.add(fileLocationInArchive);
 					}
 				}
 
@@ -192,12 +191,12 @@ public class CommonProxy
 				{
 					if (fileLocationInArchive.replace("textures/skins/Smith", "").contains("M"))
 					{
-						DataStore.smithSkinsMale.add(fileLocationInArchive);
+						MCA.smithSkinsMale.add(fileLocationInArchive);
 					}
 
 					else
 					{
-						DataStore.smithSkinsFemale.add(fileLocationInArchive);
+						MCA.smithSkinsFemale.add(fileLocationInArchive);
 					}
 				}
 
@@ -205,7 +204,7 @@ public class CommonProxy
 				{
 					if (fileLocationInArchive.replace("textures/skins/Butcher", "").contains("M"))
 					{
-						DataStore.butcherSkinsMale.add(fileLocationInArchive);
+						MCA.butcherSkinsMale.add(fileLocationInArchive);
 					}
 				}
 
@@ -213,12 +212,12 @@ public class CommonProxy
 				{
 					if (fileLocationInArchive.replace("textures/skins/Guard", "").contains("M"))
 					{
-						DataStore.guardSkinsMale.add(fileLocationInArchive);
+						MCA.guardSkinsMale.add(fileLocationInArchive);
 					}
 
 					else
 					{
-						DataStore.guardSkinsFemale.add(fileLocationInArchive);
+						MCA.guardSkinsFemale.add(fileLocationInArchive);
 					}
 				}
 
@@ -226,12 +225,12 @@ public class CommonProxy
 				{
 					if (fileLocationInArchive.replace("textures/skins/Kid", "").contains("M"))
 					{
-						DataStore.kidSkinsMale.add(fileLocationInArchive);
+						MCA.kidSkinsMale.add(fileLocationInArchive);
 					}
 
 					else
 					{
-						DataStore.kidSkinsFemale.add(fileLocationInArchive);
+						MCA.kidSkinsFemale.add(fileLocationInArchive);
 					}
 				}
 
@@ -239,12 +238,12 @@ public class CommonProxy
 				{
 					if (fileLocationInArchive.replace("textures/skins/Baker", "").contains("M"))
 					{
-						DataStore.bakerSkinsMale.add(fileLocationInArchive);
+						MCA.bakerSkinsMale.add(fileLocationInArchive);
 					}
 
 					else
 					{
-						DataStore.bakerSkinsFemale.add(fileLocationInArchive);
+						MCA.bakerSkinsFemale.add(fileLocationInArchive);
 					}
 				}
 
@@ -252,27 +251,27 @@ public class CommonProxy
 				{
 					if (fileLocationInArchive.replace("textures/skins/Miner", "").contains("M"))
 					{
-						DataStore.minerSkinsMale.add(fileLocationInArchive);
+						MCA.minerSkinsMale.add(fileLocationInArchive);
 					}
 
 					else
 					{
-						DataStore.minerSkinsFemale.add(fileLocationInArchive);
+						MCA.minerSkinsFemale.add(fileLocationInArchive);
 					}
 				}
 			}
 		}
 
 		//Determine how many skins were loaded for logging purposes.
-		int loadedSkins = DataStore.farmerSkinsMale.size() + DataStore.librarianSkinsMale.size() +
-				DataStore.priestSkinsMale.size() + DataStore.smithSkinsMale .size() +
-				DataStore.butcherSkinsMale.size() + DataStore.guardSkinsMale.size() + 
-				DataStore.kidSkinsMale.size() + DataStore.bakerSkinsMale.size() +
-				DataStore.minerSkinsMale.size() + DataStore.farmerSkinsFemale.size() +
-				DataStore.librarianSkinsFemale.size() + DataStore.priestSkinsFemale.size() +
-				DataStore.smithSkinsFemale.size() + DataStore.butcherSkinsFemale.size() +
-				DataStore.guardSkinsFemale.size() + DataStore.kidSkinsFemale.size() +
-				DataStore.bakerSkinsFemale.size() + DataStore.minerSkinsFemale.size();
+		int loadedSkins = MCA.farmerSkinsMale.size() + MCA.librarianSkinsMale.size() +
+				MCA.priestSkinsMale.size() + MCA.smithSkinsMale .size() +
+				MCA.butcherSkinsMale.size() + MCA.guardSkinsMale.size() + 
+				MCA.kidSkinsMale.size() + MCA.bakerSkinsMale.size() +
+				MCA.minerSkinsMale.size() + MCA.farmerSkinsFemale.size() +
+				MCA.librarianSkinsFemale.size() + MCA.priestSkinsFemale.size() +
+				MCA.smithSkinsFemale.size() + MCA.butcherSkinsFemale.size() +
+				MCA.guardSkinsFemale.size() + MCA.kidSkinsFemale.size() +
+				MCA.bakerSkinsFemale.size() + MCA.minerSkinsFemale.size();
 
 		MCA.instance.log("Loaded " + loadedSkins + " skins from mod archive.");
 	}
@@ -296,12 +295,12 @@ public class CommonProxy
 				//Remove everything but the Gender and ID to properly identify what the gender is.
 				if (fileLocation.replace("textures/skins//Farmer", "").contains("M"))
 				{
-					DataStore.farmerSkinsMale.add(fileLocation);
+					MCA.farmerSkinsMale.add(fileLocation);
 				}
 
 				else
 				{
-					DataStore.farmerSkinsFemale.add(fileLocation);
+					MCA.farmerSkinsFemale.add(fileLocation);
 				}
 			}
 
@@ -309,12 +308,12 @@ public class CommonProxy
 			{
 				if (fileLocation.replace("textures/skins//Librarian", "").contains("M"))
 				{
-					DataStore.librarianSkinsMale.add(fileLocation);
+					MCA.librarianSkinsMale.add(fileLocation);
 				}
 
 				else
 				{
-					DataStore.librarianSkinsFemale.add(fileLocation);
+					MCA.librarianSkinsFemale.add(fileLocation);
 				}
 			}
 
@@ -322,12 +321,12 @@ public class CommonProxy
 			{
 				if (fileLocation.replace("textures/skins//Priest", "").contains("M"))
 				{
-					DataStore.priestSkinsMale.add(fileLocation);
+					MCA.priestSkinsMale.add(fileLocation);
 				}
 
 				else
 				{
-					DataStore.priestSkinsFemale.add(fileLocation);
+					MCA.priestSkinsFemale.add(fileLocation);
 				}
 			}
 
@@ -335,12 +334,12 @@ public class CommonProxy
 			{
 				if (fileLocation.replace("textures/skins//Smith", "").contains("M"))
 				{
-					DataStore.smithSkinsMale.add(fileLocation);
+					MCA.smithSkinsMale.add(fileLocation);
 				}
 
 				else
 				{
-					DataStore.smithSkinsFemale.add(fileLocation);
+					MCA.smithSkinsFemale.add(fileLocation);
 				}
 			}
 
@@ -348,7 +347,7 @@ public class CommonProxy
 			{
 				if (fileLocation.replace("textures/skins//Butcher", "").contains("M"))
 				{
-					DataStore.butcherSkinsMale.add(fileLocation);
+					MCA.butcherSkinsMale.add(fileLocation);
 				}
 			}
 
@@ -356,12 +355,12 @@ public class CommonProxy
 			{
 				if (fileLocation.replace("textures/skins//Guard", "").contains("M"))
 				{
-					DataStore.guardSkinsMale.add(fileLocation);
+					MCA.guardSkinsMale.add(fileLocation);
 				}
 
 				else
 				{
-					DataStore.guardSkinsFemale.add(fileLocation);
+					MCA.guardSkinsFemale.add(fileLocation);
 				}
 			}
 
@@ -369,12 +368,12 @@ public class CommonProxy
 			{
 				if (fileLocation.replace("textures/skins//Kid", "").contains("M"))
 				{
-					DataStore.kidSkinsMale.add(fileLocation);
+					MCA.kidSkinsMale.add(fileLocation);
 				}
 
 				else
 				{
-					DataStore.kidSkinsFemale.add(fileLocation);
+					MCA.kidSkinsFemale.add(fileLocation);
 				}
 			}
 
@@ -382,12 +381,12 @@ public class CommonProxy
 			{
 				if (fileLocation.replace("textures/skins//Baker", "").contains("M"))
 				{
-					DataStore.bakerSkinsMale.add(fileLocation);
+					MCA.bakerSkinsMale.add(fileLocation);
 				}
 
 				else
 				{
-					DataStore.bakerSkinsFemale.add(fileLocation);
+					MCA.bakerSkinsFemale.add(fileLocation);
 				}
 			}
 
@@ -395,12 +394,12 @@ public class CommonProxy
 			{
 				if (fileLocation.replace("textures/skins//Miner", "").contains("M"))
 				{
-					DataStore.minerSkinsMale.add(fileLocation);
+					MCA.minerSkinsMale.add(fileLocation);
 				}
 
 				else
 				{
-					DataStore.minerSkinsFemale.add(fileLocation);
+					MCA.minerSkinsFemale.add(fileLocation);
 				}
 			}
 		}
@@ -416,12 +415,12 @@ public class CommonProxy
 				//Remove everything but the Gender and ID to properly identify what the gender is.
 				if (fileLocation.replace("textures/skins//Farmer", "").contains("M"))
 				{
-					DataStore.farmerSkinsMale.add(fileLocation);
+					MCA.farmerSkinsMale.add(fileLocation);
 				}
 
 				else
 				{
-					DataStore.farmerSkinsFemale.add(fileLocation);
+					MCA.farmerSkinsFemale.add(fileLocation);
 				}
 			}
 
@@ -429,12 +428,12 @@ public class CommonProxy
 			{
 				if (fileLocation.replace("textures/skins//Librarian", "").contains("M"))
 				{
-					DataStore.librarianSkinsMale.add(fileLocation);
+					MCA.librarianSkinsMale.add(fileLocation);
 				}
 
 				else
 				{
-					DataStore.librarianSkinsFemale.add(fileLocation);
+					MCA.librarianSkinsFemale.add(fileLocation);
 				}
 			}
 
@@ -442,12 +441,12 @@ public class CommonProxy
 			{
 				if (fileLocation.replace("textures/skins//Priest", "").contains("M"))
 				{
-					DataStore.priestSkinsMale.add(fileLocation);
+					MCA.priestSkinsMale.add(fileLocation);
 				}
 
 				else
 				{
-					DataStore.priestSkinsFemale.add(fileLocation);
+					MCA.priestSkinsFemale.add(fileLocation);
 				}
 			}
 
@@ -455,12 +454,12 @@ public class CommonProxy
 			{
 				if (fileLocation.replace("textures/skins//Smith", "").contains("M"))
 				{
-					DataStore.smithSkinsMale.add(fileLocation);
+					MCA.smithSkinsMale.add(fileLocation);
 				}
 
 				else
 				{
-					DataStore.smithSkinsFemale.add(fileLocation);
+					MCA.smithSkinsFemale.add(fileLocation);
 				}
 			}
 
@@ -468,7 +467,7 @@ public class CommonProxy
 			{
 				if (fileLocation.replace("textures/skins//Butcher", "").contains("M"))
 				{
-					DataStore.butcherSkinsMale.add(fileLocation);
+					MCA.butcherSkinsMale.add(fileLocation);
 				}
 			}
 
@@ -476,12 +475,12 @@ public class CommonProxy
 			{
 				if (fileLocation.replace("textures/skins//Guard", "").contains("M"))
 				{
-					DataStore.guardSkinsMale.add(fileLocation);
+					MCA.guardSkinsMale.add(fileLocation);
 				}
 
 				else
 				{
-					DataStore.guardSkinsFemale.add(fileLocation);
+					MCA.guardSkinsFemale.add(fileLocation);
 				}
 			}
 
@@ -489,12 +488,12 @@ public class CommonProxy
 			{
 				if (fileLocation.replace("textures/skins//Kid", "").contains("M"))
 				{
-					DataStore.kidSkinsMale.add(fileLocation);
+					MCA.kidSkinsMale.add(fileLocation);
 				}
 
 				else
 				{
-					DataStore.kidSkinsFemale.add(fileLocation);
+					MCA.kidSkinsFemale.add(fileLocation);
 				}
 			}
 
@@ -502,12 +501,12 @@ public class CommonProxy
 			{
 				if (fileLocation.replace("textures/skins//Baker", "").contains("M"))
 				{
-					DataStore.bakerSkinsMale.add(fileLocation);
+					MCA.bakerSkinsMale.add(fileLocation);
 				}
 
 				else
 				{
-					DataStore.bakerSkinsFemale.add(fileLocation);
+					MCA.bakerSkinsFemale.add(fileLocation);
 				}
 			}
 
@@ -515,26 +514,26 @@ public class CommonProxy
 			{
 				if (fileLocation.replace("textures/skins//Miner", "").contains("M"))
 				{
-					DataStore.minerSkinsMale.add(fileLocation);
+					MCA.minerSkinsMale.add(fileLocation);
 				}
 
 				else
 				{
-					DataStore.minerSkinsFemale.add(fileLocation);
+					MCA.minerSkinsFemale.add(fileLocation);
 				}
 			}
 		}
 		
 		//Determine how many skins were loaded for logging purposes.
-		int loadedSkins = DataStore.farmerSkinsMale.size() + DataStore.librarianSkinsMale.size() +
-				DataStore.priestSkinsMale.size() + DataStore.smithSkinsMale .size() +
-				DataStore.butcherSkinsMale.size() + DataStore.guardSkinsMale.size() + 
-				DataStore.kidSkinsMale.size() + DataStore.bakerSkinsMale.size() +
-				DataStore.minerSkinsMale.size() + DataStore.farmerSkinsFemale.size() +
-				DataStore.librarianSkinsFemale.size() + DataStore.priestSkinsFemale.size() +
-				DataStore.smithSkinsFemale.size() + DataStore.butcherSkinsFemale.size() +
-				DataStore.guardSkinsFemale.size() + DataStore.kidSkinsFemale.size() +
-				DataStore.bakerSkinsFemale.size() + DataStore.minerSkinsFemale.size();
+		int loadedSkins = MCA.farmerSkinsMale.size() + MCA.librarianSkinsMale.size() +
+				MCA.priestSkinsMale.size() + MCA.smithSkinsMale .size() +
+				MCA.butcherSkinsMale.size() + MCA.guardSkinsMale.size() + 
+				MCA.kidSkinsMale.size() + MCA.bakerSkinsMale.size() +
+				MCA.minerSkinsMale.size() + MCA.farmerSkinsFemale.size() +
+				MCA.librarianSkinsFemale.size() + MCA.priestSkinsFemale.size() +
+				MCA.smithSkinsFemale.size() + MCA.butcherSkinsFemale.size() +
+				MCA.guardSkinsFemale.size() + MCA.kidSkinsFemale.size() +
+				MCA.bakerSkinsFemale.size() + MCA.minerSkinsFemale.size();
 
 		MCA.instance.log("Loaded " + loadedSkins + " skins from mod folder.");
 		

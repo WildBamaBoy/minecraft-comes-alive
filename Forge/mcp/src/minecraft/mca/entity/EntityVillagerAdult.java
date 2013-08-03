@@ -17,10 +17,9 @@ import java.util.Map;
 import mca.chore.ChoreCombat;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.core.util.DataStore;
-import mca.core.util.Localization;
-import mca.core.util.Logic;
-import mca.core.util.PacketCreator;
+import mca.core.util.LanguageHelper;
+import mca.core.util.LogicHelper;
+import mca.core.util.PacketHelper;
 import mca.core.util.object.PlayerMemory;
 import mca.core.util.object.VillageHelper;
 import mca.enums.EnumRelation;
@@ -283,14 +282,14 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 		{
 			switch (profession)
 			{
-			case 0: texture = DataStore.farmerSkinsMale.get(worldObj.rand.nextInt(DataStore.farmerSkinsMale.size())); break;
-			case 1: texture = DataStore.librarianSkinsMale.get(worldObj.rand.nextInt(DataStore.librarianSkinsMale.size())); break;
-			case 2: texture = DataStore.priestSkinsMale.get(worldObj.rand.nextInt(DataStore.priestSkinsMale.size())); break;
-			case 3: texture = DataStore.smithSkinsMale.get(worldObj.rand.nextInt(DataStore.smithSkinsMale.size())); break;
-			case 4: texture = DataStore.butcherSkinsMale.get(worldObj.rand.nextInt(DataStore.butcherSkinsMale.size())); break;
-			case 5: texture = DataStore.guardSkinsMale.get(worldObj.rand.nextInt(DataStore.guardSkinsMale.size())); break;
-			case 6: texture = DataStore.bakerSkinsMale.get(worldObj.rand.nextInt(DataStore.bakerSkinsMale.size())); break;
-			case 7: texture = DataStore.minerSkinsMale.get(worldObj.rand.nextInt(DataStore.minerSkinsMale.size())); break;
+			case 0: texture = MCA.farmerSkinsMale.get(worldObj.rand.nextInt(MCA.farmerSkinsMale.size())); break;
+			case 1: texture = MCA.instance.librarianSkinsMale.get(worldObj.rand.nextInt(MCA.instance.librarianSkinsMale.size())); break;
+			case 2: texture = MCA.instance.priestSkinsMale.get(worldObj.rand.nextInt(MCA.instance.priestSkinsMale.size())); break;
+			case 3: texture = MCA.instance.smithSkinsMale.get(worldObj.rand.nextInt(MCA.instance.smithSkinsMale.size())); break;
+			case 4: texture = MCA.instance.butcherSkinsMale.get(worldObj.rand.nextInt(MCA.instance.butcherSkinsMale.size())); break;
+			case 5: texture = MCA.instance.guardSkinsMale.get(worldObj.rand.nextInt(MCA.instance.guardSkinsMale.size())); break;
+			case 6: texture = MCA.instance.bakerSkinsMale.get(worldObj.rand.nextInt(MCA.instance.bakerSkinsMale.size())); break;
+			case 7: texture = MCA.instance.minerSkinsMale.get(worldObj.rand.nextInt(MCA.instance.minerSkinsMale.size())); break;
 			}
 		}
 
@@ -298,14 +297,14 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 		{
 			switch (profession)
 			{
-			case 0: texture = DataStore.farmerSkinsFemale.get(worldObj.rand.nextInt(DataStore.farmerSkinsFemale.size())); break;
-			case 1: texture = DataStore.librarianSkinsFemale.get(worldObj.rand.nextInt(DataStore.librarianSkinsFemale.size())); break;
-			case 2: texture = DataStore.priestSkinsFemale.get(worldObj.rand.nextInt(DataStore.priestSkinsFemale.size())); break;
-			case 3: texture = DataStore.smithSkinsFemale.get(worldObj.rand.nextInt(DataStore.smithSkinsFemale.size())); break;
+			case 0: texture = MCA.instance.farmerSkinsFemale.get(worldObj.rand.nextInt(MCA.instance.farmerSkinsFemale.size())); break;
+			case 1: texture = MCA.instance.librarianSkinsFemale.get(worldObj.rand.nextInt(MCA.instance.librarianSkinsFemale.size())); break;
+			case 2: texture = MCA.instance.priestSkinsFemale.get(worldObj.rand.nextInt(MCA.instance.priestSkinsFemale.size())); break;
+			case 3: texture = MCA.instance.smithSkinsFemale.get(worldObj.rand.nextInt(MCA.instance.smithSkinsFemale.size())); break;
 			case 4: texture = null;
-			case 5: texture = DataStore.guardSkinsFemale.get(worldObj.rand.nextInt(DataStore.guardSkinsFemale.size())); break;
-			case 6: texture = DataStore.bakerSkinsFemale.get(worldObj.rand.nextInt(DataStore.bakerSkinsFemale.size())); break;
-			case 7: texture = DataStore.minerSkinsFemale.get(worldObj.rand.nextInt(DataStore.minerSkinsFemale.size())); break;
+			case 5: texture = MCA.instance.guardSkinsFemale.get(worldObj.rand.nextInt(MCA.instance.guardSkinsFemale.size())); break;
+			case 6: texture = MCA.instance.bakerSkinsFemale.get(worldObj.rand.nextInt(MCA.instance.bakerSkinsFemale.size())); break;
+			case 7: texture = MCA.instance.minerSkinsFemale.get(worldObj.rand.nextInt(MCA.instance.minerSkinsFemale.size())); break;
 			}
 		}
 	}
@@ -390,7 +389,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 			{
 				if (target != null)
 				{
-					if (Logic.getDistanceToEntity(this, target) <= 3)
+					if (LogicHelper.getDistanceToEntity(this, target) <= 3)
 					{
 						return inventory.getBestItemOfType(ItemSword.class);
 					}
@@ -612,27 +611,27 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 					{
 						if (itemStack.stackSize >= amountRequiredForSale)
 						{
-							say(Localization.getString("smith.aid.accept"));
+							say(LanguageHelper.getString("smith.aid.accept"));
 							removeAmountFromGiftedItem(itemStack, amountRequiredForSale);
 
 							isInAnvilGiftMode = false;
 							hasGivenAnvil = true;
 
 							player.inventory.addItemStackToInventory(new ItemStack(Block.anvil));
-							PacketDispatcher.sendPacketToServer(PacketCreator.createAddItemPacket(Block.anvil.blockID, player.entityId));
-							PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "isInAnvilGiftMode", false));
-							PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "hasGivenAnvil", true));
+							PacketDispatcher.sendPacketToServer(PacketHelper.createAddItemPacket(Block.anvil.blockID, player.entityId));
+							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isInAnvilGiftMode", false));
+							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "hasGivenAnvil", true));
 						}
 
 						else
 						{
-							say(Localization.getString("smith.aid.refuse.rightitem"));
+							say(LanguageHelper.getString("smith.aid.refuse.rightitem"));
 						}
 					}
 
 					else
 					{
-						say(Localization.getString("smith.aid.refuse.wrongitem"));
+						say(LanguageHelper.getString("smith.aid.refuse.wrongitem"));
 					}
 				}
 
@@ -642,7 +641,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 					{
 						if (familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player)) && !isEngaged)
 						{
-							say(Localization.getString(player, this, "notify.villager.gifted.arrangerring.relative", false));
+							say(LanguageHelper.getString(player, this, "notify.villager.gifted.arrangerring.relative", false));
 						}
 
 						else
@@ -655,7 +654,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 					{
 						if (familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player)))
 						{
-							say(Localization.getString(player, this, "notify.villager.gifted.arrangerring.relative", false));
+							say(LanguageHelper.getString(player, this, "notify.villager.gifted.arrangerring.relative", false));
 						}
 
 						else
@@ -671,7 +670,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 						if (relationToPlayer != EnumRelation.None && relationToPlayer != EnumRelation.Granddaughter && relationToPlayer != EnumRelation.Grandson &&
 								relationToPlayer != EnumRelation.Greatgranddaughter && relationToPlayer != EnumRelation.Greatgrandson)
 						{
-							say(Localization.getString(player, this, "notify.villager.gifted.arrangerring.relative", false));
+							say(LanguageHelper.getString(player, this, "notify.villager.gifted.arrangerring.relative", false));
 						}
 
 						else
@@ -699,7 +698,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 					{
 						inventory.addItemStackToInventory(itemStack);
 						inventory.setWornArmorItems();
-						PacketDispatcher.sendPacketToServer(PacketCreator.createInventoryPacket(entityId, inventory));
+						PacketDispatcher.sendPacketToServer(PacketHelper.createInventoryPacket(entityId, inventory));
 
 						removeItemFromPlayer(itemStack, player);
 					}
@@ -743,26 +742,26 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 		{
 			if (inventory.contains(MCA.instance.itemBabyBoy) || inventory.contains(MCA.instance.itemBabyGirl))
 			{
-				say(Localization.getString("notify.spouse.gifted.anotherbaby"));
+				say(LanguageHelper.getString("notify.spouse.gifted.anotherbaby"));
 			}
 
 			else
 			{
 				PlayerMemory memory = playerMemoryMap.get(player.username);
 
-				say(Localization.getString(this, "spouse.gifted.baby", false));
+				say(LanguageHelper.getString(this, "spouse.gifted.baby", false));
 				inventory.addItemStackToInventory(itemStack);
 				removeItemFromPlayer(itemStack, player);
 
 				memory.isInGiftMode = false;
-				PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "isInGiftMode", false));
-				PacketDispatcher.sendPacketToServer(PacketCreator.createInventoryPacket(entityId, inventory));
+				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isInGiftMode", false));
+				PacketDispatcher.sendPacketToServer(PacketHelper.createInventoryPacket(entityId, inventory));
 			}
 		}
 
 		else
 		{
-			say(Localization.getString(this, "gifted.baby"));
+			say(LanguageHelper.getString(this, "gifted.baby"));
 		}
 	}
 
@@ -780,7 +779,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 		{
 			if (isMarried)
 			{
-				say(Localization.getString("marriage.refusal.villagermarried"));
+				say(LanguageHelper.getString("marriage.refusal.villagermarried"));
 			}
 
 			else
@@ -795,28 +794,28 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 						manager.saveWorldProperties();
 
 						//Search for a random villager of the opposite gender.
-						EntityVillagerAdult nearbyVillager = Logic.getRandomNearbyVillager(this);
+						EntityVillagerAdult nearbyVillager = LogicHelper.getRandomNearbyVillager(this);
 
 						if (nearbyVillager == null)
 						{
-							say(Localization.getString("notify.villager.gifted.arrangerring.nobodynearby"));
+							say(LanguageHelper.getString("notify.villager.gifted.arrangerring.nobodynearby"));
 						}
 
 						else
 						{
-							say(Localization.getString(this, "notify.villager.gifted.arrangerring", false));
+							say(LanguageHelper.getString(this, "notify.villager.gifted.arrangerring", false));
 						}
 
 						removeItemFromPlayer(itemStack, player);
 
 						hasArrangerRing = true;
-						PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "hasArrangerRing", true));
+						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "hasArrangerRing", true));
 					}
 
 					//Another villager also has a ring because the ID of the holder is not zero. Marry these two.
 					else
 					{
-						AbstractEntity spouse = Logic.getEntityWithIDWithinDistance(this, manager.worldProperties.arrangerRingHolderID, 5);
+						AbstractEntity spouse = LogicHelper.getEntityWithIDWithinDistance(this, manager.worldProperties.arrangerRingHolderID, 5);
 
 						//Make sure a person was found nearby, or else they can't get married.
 						if (spouse != null)
@@ -828,17 +827,17 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 							if (this.generation != 0)
 							{
 								spouse.generation = this.generation;
-								PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(spouse.entityId, "generation", this.generation));
+								PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouse.entityId, "generation", this.generation));
 							}
 
 							else if (spouse.generation != 0)
 							{
 								this.generation = spouse.generation;
-								PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(this.entityId, "generation", spouse.generation));
+								PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(this.entityId, "generation", spouse.generation));
 							}
 
 							//Notify the player that the two were married.
-							notifyPlayer(player, Localization.getString("notify.villager.married"));
+							notifyPlayer(player, LanguageHelper.getString("notify.villager.married"));
 
 							//Reset the world properties.
 							manager.worldProperties.arrangerRingHolderID = 0;
@@ -853,30 +852,30 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 							spouse.hasArrangerRing = false;
 							spouse.familyTree.addFamilyTreeEntry(this, EnumRelation.Spouse);
 
-							PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "isMarried", this.isMarried));
-							PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(spouse.entityId, "isMarried", spouse.isMarried));
-							PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "hasArrangerRing", false));
-							PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(spouse.entityId, "hasArrangerRing", false));
-							PacketDispatcher.sendPacketToServer(PacketCreator.createFamilyTreePacket(entityId, familyTree));
-							PacketDispatcher.sendPacketToServer(PacketCreator.createFamilyTreePacket(spouse.entityId, spouse.familyTree));
+							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isMarried", this.isMarried));
+							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouse.entityId, "isMarried", spouse.isMarried));
+							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "hasArrangerRing", false));
+							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouse.entityId, "hasArrangerRing", false));
+							PacketDispatcher.sendPacketToServer(PacketHelper.createFamilyTreePacket(entityId, familyTree));
+							PacketDispatcher.sendPacketToServer(PacketHelper.createFamilyTreePacket(spouse.entityId, spouse.familyTree));
 
-							PacketDispatcher.sendPacketToServer(PacketCreator.createSyncRequestPacket(entityId));
-							PacketDispatcher.sendPacketToServer(PacketCreator.createSyncRequestPacket(spouse.entityId));
+							PacketDispatcher.sendPacketToServer(PacketHelper.createSyncRequestPacket(entityId));
+							PacketDispatcher.sendPacketToServer(PacketHelper.createSyncRequestPacket(spouse.entityId));
 
 							//Check if the spouse is a player child.
 							if (spouse instanceof EntityPlayerChild)
 							{
 								//Unlock achievement.
 								player.triggerAchievement(MCA.instance.achievementAdultMarried);
-								PacketDispatcher.sendPacketToServer(PacketCreator.createAchievementPacket(MCA.instance.achievementAdultMarried, player.entityId));
+								PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementAdultMarried, player.entityId));
 							}
 						}
 
 						//A person was not close to the villager receiving the second ring.
 						else
 						{
-							say(Localization.getString("notify.villager.gifted.arrangerring.othernotnearby." + gender.toLowerCase()));
-							notifyPlayer(player, Localization.getString("notify.villager.gifted.arrangerring.toofarapart"));
+							say(LanguageHelper.getString("notify.villager.gifted.arrangerring.othernotnearby." + gender.toLowerCase()));
+							notifyPlayer(player, LanguageHelper.getString("notify.villager.gifted.arrangerring.toofarapart"));
 						}
 					}
 				}
@@ -884,7 +883,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 				//This villager already has an arranger ring and was gifted one again.
 				else
 				{
-					say(Localization.getString("notify.villager.gifted.arrangerring.hasring." + gender.toLowerCase()));
+					say(LanguageHelper.getString("notify.villager.gifted.arrangerring.hasring." + gender.toLowerCase()));
 				}
 			}
 		}
@@ -894,12 +893,12 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 		{
 			if (manager.worldProperties.playerSpouseID == this.mcaID)
 			{
-				say(Localization.getString(this, "notify.villager.gifted.arrangerring.relative", false));
+				say(LanguageHelper.getString(this, "notify.villager.gifted.arrangerring.relative", false));
 			}
 
 			else
 			{
-				say(Localization.getString(this, "villager.marriage.refusal.villagermarried", false));
+				say(LanguageHelper.getString(this, "villager.marriage.refusal.villagermarried", false));
 				modifyHearts(player, -30);
 			}
 		}
@@ -924,33 +923,33 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 				if (hearts >= 100) //Acceptance of marriage is at 100 hearts or above.
 				{
 					removeItemFromPlayer(itemStack, player);
-					say(Localization.getString(this, "engagement.accept"));
+					say(LanguageHelper.getString(this, "engagement.accept"));
 
 					modifyHearts(player, 50);
 					isEngaged = true;
 					familyTree.addFamilyTreeEntry(player, EnumRelation.Spouse);
 
-					PacketDispatcher.sendPacketToServer(PacketCreator.createFamilyTreePacket(entityId, familyTree));
-					PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "isEngaged", true));
+					PacketDispatcher.sendPacketToServer(PacketHelper.createFamilyTreePacket(entityId, familyTree));
+					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isEngaged", true));
 
 					manager.worldProperties.playerSpouseID = this.mcaID;
 					manager.worldProperties.isEngaged = true;
 					manager.saveWorldProperties();
 
 					player.triggerAchievement(MCA.instance.achievementGetMarried);
-					PacketDispatcher.sendPacketToServer(PacketCreator.createAchievementPacket(MCA.instance.achievementGetMarried, player.entityId));
+					PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementGetMarried, player.entityId));
 				}
 
 				else //The hearts aren't high enough.
 				{
-					say(Localization.getString(this, "marriage.refusal.lowhearts"));
+					say(LanguageHelper.getString(this, "marriage.refusal.lowhearts"));
 					modifyHearts(player, -30);
 				}
 			}
 
 			else //Player is already married
 			{
-				say(Localization.getString(this, "marriage.refusal.playermarried"));
+				say(LanguageHelper.getString(this, "marriage.refusal.playermarried"));
 			}
 		}
 
@@ -959,12 +958,12 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 		{
 			if (manager.worldProperties.playerSpouseID == this.mcaID)
 			{
-				say(Localization.getString(this, "notify.villager.gifted.arrangerring.relative", false));
+				say(LanguageHelper.getString(this, "notify.villager.gifted.arrangerring.relative", false));
 			}
 
 			else
 			{
-				say(Localization.getString(this, "villager.marriage.refusal.villagermarried", false));
+				say(LanguageHelper.getString(this, "villager.marriage.refusal.villagermarried", false));
 				modifyHearts(player, -30);
 			}
 		}
@@ -997,7 +996,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 				{
 					removeItemFromPlayer(itemStack, player);
 					this.spousePlayerName = player.username;
-					say(Localization.getString(this, "marriage.acceptance"));
+					say(LanguageHelper.getString(this, "marriage.acceptance"));
 
 					shouldSkipAreaModify = true;
 					modifyHearts(player, 50);
@@ -1011,10 +1010,10 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 					manager.saveWorldProperties();
 
 					familyTree.addFamilyTreeEntry(player, EnumRelation.Spouse);
-					PacketDispatcher.sendPacketToServer(PacketCreator.createFamilyTreePacket(entityId, familyTree));
-					PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "isSpouse", true));
-					PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "spousePlayerName", player.username));
-					PacketDispatcher.sendPacketToServer(PacketCreator.createAchievementPacket(MCA.instance.achievementGetMarried, player.entityId));
+					PacketDispatcher.sendPacketToServer(PacketHelper.createFamilyTreePacket(entityId, familyTree));
+					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isSpouse", true));
+					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "spousePlayerName", player.username));
+					PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementGetMarried, player.entityId));
 
 					//Reset AI in case the spouse is a guard.
 					addAI();
@@ -1022,10 +1021,10 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 					if (isEngaged)
 					{
 						isEngaged = false;
-						PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "isEngaged", false));
-						PacketDispatcher.sendPacketToServer(PacketCreator.createEngagementPacket(entityId));
+						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isEngaged", false));
+						PacketDispatcher.sendPacketToServer(PacketHelper.createEngagementPacket(entityId));
 
-						List<Entity> entitiesAroundMe = Logic.getAllEntitiesWithinDistanceOfEntity(this, 64);
+						List<Entity> entitiesAroundMe = LogicHelper.getAllEntitiesWithinDistanceOfEntity(this, 64);
 
 						for (Entity entity : entitiesAroundMe)
 						{
@@ -1047,14 +1046,14 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 
 				else //The hearts aren't high enough for marriage.
 				{
-					say(Localization.getString(this, "marriage.refusal.lowhearts"));
+					say(LanguageHelper.getString(this, "marriage.refusal.lowhearts"));
 					modifyHearts(player, -30);
 				}
 			}
 
 			else //Player is already married
 			{
-				say(Localization.getString(this, "marriage.refusal.playermarried"));
+				say(LanguageHelper.getString(this, "marriage.refusal.playermarried"));
 			}
 		}
 
@@ -1063,12 +1062,12 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 		{
 			if (manager.worldProperties.playerSpouseID == this.mcaID)
 			{
-				say(Localization.getString(this, "notify.villager.gifted.arrangerring.relative", false));
+				say(LanguageHelper.getString(this, "notify.villager.gifted.arrangerring.relative", false));
 			}
 
 			else
 			{
-				say(Localization.getString(this, "villager.marriage.refusal.villagermarried", false));
+				say(LanguageHelper.getString(this, "villager.marriage.refusal.villagermarried", false));
 				modifyHearts(player, -30);
 			}
 		}
@@ -1117,10 +1116,10 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 							this.isProcreatingWithSpouse = true;
 							spouse.isProcreatingWithSpouse = true;
 
-							PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "hasCake", hasCake));
-							PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(spouse.entityId, "hasCake", spouse.hasCake));
-							PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "isProcreatingWithSpouse", isProcreatingWithSpouse));
-							PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(spouse.entityId, "isProcreatingWithSpouse", spouse.isProcreatingWithSpouse));
+							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "hasCake", hasCake));
+							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouse.entityId, "hasCake", spouse.hasCake));
+							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isProcreatingWithSpouse", isProcreatingWithSpouse));
+							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouse.entityId, "isProcreatingWithSpouse", spouse.isProcreatingWithSpouse));
 
 							removeItemFromPlayer(itemStack, player);
 						}
@@ -1129,8 +1128,8 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 						else
 						{
 							hasCake = true;
-							PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "hasCake", hasCake));
-							say(Localization.getString("notify.villager.gifted.cake.spousenearby"));
+							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "hasCake", hasCake));
+							say(LanguageHelper.getString("notify.villager.gifted.cake.spousenearby"));
 							removeItemFromPlayer(itemStack, player);
 						}
 					}
@@ -1138,15 +1137,15 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 					//Either the spouse or this entity has a baby already.
 					else
 					{
-						say(Localization.getString("notify.villager.gifted.cake.withbaby." + gender.toLowerCase()));
+						say(LanguageHelper.getString("notify.villager.gifted.cake.withbaby." + gender.toLowerCase()));
 					}
 				}
 
 				//This entity is not within 5 blocks of their spouse.
 				else
 				{
-					say(Localization.getString("notify.villager.gifted.cake.spousenotnearby." + gender.toLowerCase()));
-					notifyPlayer(player, Localization.getString("notify.villager.gifted.cake.toofarapart"));
+					say(LanguageHelper.getString("notify.villager.gifted.cake.spousenotnearby." + gender.toLowerCase()));
+					notifyPlayer(player, LanguageHelper.getString("notify.villager.gifted.cake.toofarapart"));
 				}
 			}
 
@@ -1160,7 +1159,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 		//This entity already has a cake.
 		else
 		{
-			say(Localization.getString("notify.villager.gifted.cake.alreadygifted"));
+			say(LanguageHelper.getString("notify.villager.gifted.cake.alreadygifted"));
 		}
 	}
 
@@ -1325,8 +1324,8 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 					{
 						this.heldBabyGender = getRandomGender();
 						this.heldBabyProfession = spouse.profession;
-						PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "heldBabyGender", heldBabyGender));
-						PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "babyProfession", heldBabyProfession));
+						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "heldBabyGender", heldBabyGender));
+						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "babyProfession", heldBabyProfession));
 					}
 
 					//Make sure everything is reset so it stops on all clients.
@@ -1336,7 +1335,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 
 				else
 				{
-					PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createSyncPacket(this));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(this));
 
 					//Reset procreation information after packet is dispatched so it stops server side.
 					isProcreatingWithSpouse = false;
@@ -1389,7 +1388,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 						procreateTicks = 0;
 
 						player.addChatMessage("\u00a7cYou have reached the child limit set by the server administrator: " + MCA.instance.modPropertiesManager.modProperties.server_childLimit);
-						PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createSyncPacket(this));
+						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(this));
 						return;
 					}
 				}
@@ -1434,11 +1433,11 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 						worldObj.playSoundAtEntity(this, "mob.chickenplop", 1.0F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
 
 						//Dispatch a packet so that everything is updated on all clients.
-						PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createSyncPacket(this));
+						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(this));
 
 						//And dispatch another packet to the client player after determining the baby's gender.
 						String babyGender = getRandomGender();
-						PacketDispatcher.sendPacketToPlayer(PacketCreator.createVillagerPlayerProcreatePacket(this, spousePlayer, babyGender), (Player)spousePlayer);
+						PacketDispatcher.sendPacketToPlayer(PacketHelper.createVillagerPlayerProcreatePacket(this, spousePlayer, babyGender), (Player)spousePlayer);
 					}
 
 					else
@@ -1476,7 +1475,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 				{
 					if (!worldObj.isRemote)
 					{
-						say(Localization.getString(this, "spouse.divorce", false));
+						say(LanguageHelper.getString(this, "spouse.divorce", false));
 						this.dropItem(MCA.instance.itemWeddingRing.itemID, 1);
 						inventory.dropAllItems();
 					}
@@ -1484,7 +1483,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 
 				else
 				{
-					notifyPlayer(worldObj.getPlayerEntityByName(lastInteractingPlayer), Localization.getString("notify.divorce.spousemissing"));
+					notifyPlayer(worldObj.getPlayerEntityByName(lastInteractingPlayer), LanguageHelper.getString("notify.divorce.spousemissing"));
 					inventory = new Inventory(this);
 				}
 
@@ -1549,10 +1548,10 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 
 		try
 		{
-			if (isInAnvilGiftMode && Logic.getDistanceToEntity(this, worldObj.getPlayerEntityByName(lastInteractingPlayer)) > 4)
+			if (isInAnvilGiftMode && LogicHelper.getDistanceToEntity(this, worldObj.getPlayerEntityByName(lastInteractingPlayer)) > 4)
 			{
 				isInAnvilGiftMode = false;
-				say(Localization.getString("smith.aid.outofrange"));
+				say(LanguageHelper.getString("smith.aid.outofrange"));
 			}
 		}
 

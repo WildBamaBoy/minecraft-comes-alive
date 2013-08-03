@@ -11,7 +11,7 @@ package mca.client.gui;
 
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.core.util.Logic;
+import mca.core.util.LogicHelper;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityChild;
 import mca.entity.EntityPlayerChild;
@@ -30,7 +30,7 @@ public class GuiHandler implements IGuiHandler
 	@Override
 	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) 
 	{
-		AbstractEntity entity = (AbstractEntity)Logic.getEntityOfTypeAtXYZ(AbstractEntity.class, world, x, y, z);
+		AbstractEntity entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, x, y, z);
 
 		if (id == MCA.instance.guiInventoryID)
 		{
@@ -48,7 +48,7 @@ public class GuiHandler implements IGuiHandler
 	{
 		if (id == MCA.instance.guiInventoryID)
 		{
-			AbstractEntity entity = (AbstractEntity)Logic.getEntityOfTypeAtXYZ(AbstractEntity.class, world, x, y, z);
+			AbstractEntity entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, x, y, z);
 			return new GuiInventory(entity, player.inventory, entity.inventory, false);
 		}
 
@@ -59,25 +59,25 @@ public class GuiHandler implements IGuiHandler
 
 		else if (id == MCA.instance.guiInteractionPlayerChildID)
 		{
-			EntityPlayerChild entity = (EntityPlayerChild)Logic.getEntityOfTypeAtXYZ(EntityPlayerChild.class, world, x, y, z);
+			EntityPlayerChild entity = (EntityPlayerChild)LogicHelper.getEntityOfTypeAtXYZ(EntityPlayerChild.class, world, x, y, z);
 			return new GuiInteractionPlayerChild(entity, player);
 		}
 
 		else if (id == MCA.instance.guiInteractionSpouseID)
 		{
-			EntityVillagerAdult entity = (EntityVillagerAdult)Logic.getEntityOfTypeAtXYZ(EntityVillagerAdult.class, world, x, y, z);
+			EntityVillagerAdult entity = (EntityVillagerAdult)LogicHelper.getEntityOfTypeAtXYZ(EntityVillagerAdult.class, world, x, y, z);
 			return new GuiInteractionSpouse(entity, player);
 		}
 
 		else if (id == MCA.instance.guiInteractionVillagerAdultID)
 		{
-			EntityVillagerAdult entity = (EntityVillagerAdult)Logic.getEntityOfTypeAtXYZ(EntityVillagerAdult.class, world, x, y, z);
+			EntityVillagerAdult entity = (EntityVillagerAdult)LogicHelper.getEntityOfTypeAtXYZ(EntityVillagerAdult.class, world, x, y, z);
 			return new GuiInteractionVillagerAdult(entity, player);
 		}
 
 		else if (id == MCA.instance.guiInteractionVillagerChildID)
 		{
-			EntityChild entity = (EntityChild)Logic.getEntityOfTypeAtXYZ(EntityChild.class, world, x, y, z);
+			EntityChild entity = (EntityChild)LogicHelper.getEntityOfTypeAtXYZ(EntityChild.class, world, x, y, z);
 			return new GuiInteractionVillagerChild(entity, player);
 		}
 
@@ -89,7 +89,7 @@ public class GuiHandler implements IGuiHandler
 
 		else if (id == MCA.instance.guiSetupID)
 		{
-			AbstractEntity entity = (AbstractEntity)Logic.getEntityOfTypeAtXYZ(AbstractEntity.class, world, x, y, z);
+			AbstractEntity entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, x, y, z);
 			
 			if (entity != null)
 			{
@@ -123,13 +123,13 @@ public class GuiHandler implements IGuiHandler
 
 		else if (id == MCA.instance.guiVillagerEditorID)
 		{
-			AbstractEntity entity = (AbstractEntity)Logic.getEntityOfTypeAtXYZ(AbstractEntity.class, world, x, y, z);
+			AbstractEntity entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, x, y, z);
 			return new GuiVillagerEditor(entity, player);
 		}
 		
 		else if (id == MCA.instance.guiLostRelativeDocumentID)
 		{
-			EntityVillagerAdult entity = (EntityVillagerAdult)Logic.getEntityOfTypeAtXYZ(EntityVillagerAdult.class, world, x, y, z);
+			EntityVillagerAdult entity = (EntityVillagerAdult)LogicHelper.getEntityOfTypeAtXYZ(EntityVillagerAdult.class, world, x, y, z);
 			return new GuiLostRelativeDocument(player, entity);
 		}
 

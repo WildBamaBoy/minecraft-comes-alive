@@ -13,9 +13,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 import mca.core.MCA;
-import mca.core.util.Localization;
-import mca.core.util.Logic;
-import mca.core.util.PacketCreator;
+import mca.core.util.LanguageHelper;
+import mca.core.util.LogicHelper;
+import mca.core.util.PacketHelper;
 import mca.core.util.object.Coordinates;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityChoreFishHook;
@@ -81,7 +81,7 @@ public class ChoreFishing extends AbstractChore
 			{
 				//End the chore and sync all clients so that the chore is stopped everywhere.
 				endChore();
-				PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createSyncPacket(owner));
+				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(owner));
 				owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer).addChatMessage("\u00a7cChore disabled by the server administrator.");
 				return;
 			}
@@ -89,7 +89,7 @@ public class ChoreFishing extends AbstractChore
 
 		if (owner.worldObj.isRemote)
 		{
-			say(Localization.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.fishing", true));
+			say(LanguageHelper.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.fishing", true));
 		}
 
 		owner.isFollowing = false;
@@ -103,12 +103,12 @@ public class ChoreFishing extends AbstractChore
 		//Make sure they have a fishing rod.
 		if (owner.inventory.getQuantityOfItem(Item.fishingRod) == 0)
 		{
-			say(Localization.getString("notify.child.chore.interrupted.fishing.norod"));
+			say(LanguageHelper.getString("notify.child.chore.interrupted.fishing.norod"));
 			endChore();
 		}
 
 		//Get all water up to 10 blocks away from the entity.
-		Coordinates waterCoordinates = Logic.getNearbyBlockTopBottom(owner, Block.waterStill.blockID, 10);
+		Coordinates waterCoordinates = LogicHelper.getNearbyBlockTopBottom(owner, Block.waterStill.blockID, 10);
 
 		//Check if they don't have some water.
 		if (!hasWaterCoordinates)
@@ -125,7 +125,7 @@ public class ChoreFishing extends AbstractChore
 			//If it didn't there's no water around so the chore must end.
 			else
 			{
-				say(Localization.getString("notify.child.chore.interrupted.fishing.nowater"));
+				say(LanguageHelper.getString("notify.child.chore.interrupted.fishing.nowater"));
 				endChore();
 			}
 		}
@@ -134,7 +134,7 @@ public class ChoreFishing extends AbstractChore
 		else
 		{
 			//Check if they are not within 1 block of still water.
-			if (!Logic.isBlockNearby(owner, Block.waterStill.blockID, 1))
+			if (!LogicHelper.isBlockNearby(owner, Block.waterStill.blockID, 1))
 			{
 				//And set a path to their water coordinates if they aren't.
 				owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(waterCoordinatesX, waterCoordinatesY, waterCoordinatesZ), 0.6F);
@@ -149,7 +149,7 @@ public class ChoreFishing extends AbstractChore
 				//Check if they don't have a random water block to fish at.
 				if (!hasRandomWaterBlock)
 				{
-					Coordinates randomWaterCoordinates = Logic.getRandomNearbyBlockCoordinatesOfType(owner, Block.waterStill.blockID);
+					Coordinates randomWaterCoordinates = LogicHelper.getRandomNearbyBlockCoordinatesOfType(owner, Block.waterStill.blockID);
 
 					waterCoordinatesX = (int)randomWaterCoordinates.x;
 					waterCoordinatesY = (int)randomWaterCoordinates.y;
@@ -226,7 +226,7 @@ public class ChoreFishing extends AbstractChore
 									//Check if they're carrying 64 fish and end the chore if they are.
 									if (owner.inventory.getQuantityOfItem(Item.fishRaw) == 64)
 									{
-										say(Localization.getString("notify.child.chore.finished.fishing"));
+										say(LanguageHelper.getString("notify.child.chore.finished.fishing"));
 										endChore();
 									}
 

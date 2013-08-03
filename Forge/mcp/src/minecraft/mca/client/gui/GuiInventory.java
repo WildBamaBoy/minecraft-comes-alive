@@ -9,8 +9,8 @@
 
 package mca.client.gui;
 
-import mca.core.util.Localization;
-import mca.core.util.PacketCreator;
+import mca.core.util.LanguageHelper;
+import mca.core.util.PacketHelper;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
@@ -76,8 +76,8 @@ public class GuiInventory extends InventoryEffectRenderer
 		super.initGui();
 
 		buttonList.clear();
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, Localization.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, Localization.getString("gui.button.exit")));
+		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 	}
 
 	@Override
@@ -121,7 +121,7 @@ public class GuiInventory extends InventoryEffectRenderer
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
-		fontRenderer.drawString(Localization.getString(owner, "gui.title.inventory", false), 7, 6, 4210752);
+		fontRenderer.drawString(LanguageHelper.getString(owner, "gui.title.inventory", false), 7, 6, 4210752);
 	}
 
 	@Override
@@ -142,6 +142,6 @@ public class GuiInventory extends InventoryEffectRenderer
 	public void onGuiClosed() 
 	{
 		super.onGuiClosed();
-		PacketDispatcher.sendPacketToServer(PacketCreator.createInventoryPacket(owner.entityId, owner.inventory));
+		PacketDispatcher.sendPacketToServer(PacketHelper.createInventoryPacket(owner.entityId, owner.inventory));
 	}
 }

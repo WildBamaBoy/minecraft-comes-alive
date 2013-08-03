@@ -12,7 +12,7 @@ package mca.item;
 import java.util.List;
 
 import mca.core.MCA;
-import mca.core.util.Localization;
+import mca.core.util.LanguageHelper;
 import mca.tileentity.TileEntityTombstone;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -150,7 +150,7 @@ public class ItemTombstone extends Item
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List informationList, boolean unknown)
 	{
-		informationList.add(Localization.getString("information.tombstone.line1"));
-		informationList.add(Localization.getString("information.tombstone.line2"));
+		informationList.add(LanguageHelper.getString("information.tombstone.line1"));
+		informationList.add(LanguageHelper.getString("information.tombstone.line2"));
 	}
 }

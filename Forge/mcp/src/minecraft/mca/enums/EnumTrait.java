@@ -10,7 +10,7 @@
 package mca.enums;
 
 import mca.core.MCA;
-import mca.core.util.Localization;
+import mca.core.util.LanguageHelper;
 
 /**
  * Applied to villagers at random to give them extra points and chance modifiers for certain interactions.
@@ -72,7 +72,7 @@ public enum EnumTrait
 	 */
 	public String getLocalizedValue()
 	{
-		return Localization.getString(value);
+		return LanguageHelper.getString(value);
 	}
 	
 	/**

@@ -14,9 +14,9 @@ import java.lang.reflect.Modifier;
 import java.util.List;
 
 import mca.core.MCA;
-import mca.core.util.Localization;
-import mca.core.util.Logic;
-import mca.core.util.PacketCreator;
+import mca.core.util.LanguageHelper;
+import mca.core.util.LogicHelper;
+import mca.core.util.PacketHelper;
 import mca.core.util.object.Coordinates;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
@@ -148,7 +148,7 @@ public class ChoreFarming extends AbstractChore
 			{
 				//End the chore and sync all clients so that the chore is stopped everywhere.
 				endChore();
-				PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createSyncPacket(owner));
+				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(owner));
 				owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer).addChatMessage("\u00a7cChore disabled by the server administrator.");
 				return;
 			}
@@ -226,7 +226,7 @@ public class ChoreFarming extends AbstractChore
 		{
 			if (owner.worldObj.isRemote)
 			{
-				say(Localization.getString("notify.child.chore.interrupted.farming.nohoe"));
+				say(LanguageHelper.getString("notify.child.chore.interrupted.farming.nohoe"));
 			}
 			
 			endChore();
@@ -238,7 +238,7 @@ public class ChoreFarming extends AbstractChore
 		{
 			if (owner.worldObj.isRemote)
 			{
-				say(Localization.getString("notify.child.chore.interrupted.farming.noseeds"));
+				say(LanguageHelper.getString("notify.child.chore.interrupted.farming.noseeds"));
 			}
 			
 			endChore();
@@ -248,7 +248,7 @@ public class ChoreFarming extends AbstractChore
 		//Everything passes. Say so.
 		if (owner.worldObj.isRemote)
 		{
-			say(Localization.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.farming", true));
+			say(LanguageHelper.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.farming", true));
 		}
 	}
 
@@ -370,26 +370,26 @@ public class ChoreFarming extends AbstractChore
 	private void runXYLogic()
 	{
 		//Get the farmable land nearby.
-		List<Coordinates> nearbyFarmableLand = Logic.getNearbyFarmableLand(owner, startCoordinatesX, startCoordinatesY, startCoordinatesZ, areaX, areaY);
+		List<Coordinates> nearbyFarmableLand = LogicHelper.getNearbyFarmableLand(owner, startCoordinatesX, startCoordinatesY, startCoordinatesZ, areaX, areaY);
 
 		//Make sure there's some land nearby.
 		if (nearbyFarmableLand.isEmpty())
 		{
 			if (onLastFarmArea)
 			{
-				say(Localization.getString("notify.child.chore.finished.farming"));
+				say(LanguageHelper.getString("notify.child.chore.finished.farming"));
 			}
 
 			else
 			{
 				if (hasDoneWork)
 				{
-					say(Localization.getString("notify.child.chore.interrupted.farming.noroom"));
+					say(LanguageHelper.getString("notify.child.chore.interrupted.farming.noroom"));
 				}
 
 				else
 				{
-					say(Localization.getString("notify.child.chore.interrupted.farming.noland"));
+					say(LanguageHelper.getString("notify.child.chore.interrupted.farming.noland"));
 				}
 			}
 
@@ -455,7 +455,7 @@ public class ChoreFarming extends AbstractChore
 		}
 
 		//Check if they are close enough to their target to start farming. Block changing will happen here.
-		if (Logic.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, (double)farmableLandX, (double)farmableLandY, (double)farmableLandZ) <= 2.50)
+		if (LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, (double)farmableLandX, (double)farmableLandY, (double)farmableLandZ) <= 2.50)
 		{
 			//Check the block above the farmland.
 			int blockAboveFarmland = owner.worldObj.getBlockId(farmableLandX, farmableLandY, farmableLandZ);

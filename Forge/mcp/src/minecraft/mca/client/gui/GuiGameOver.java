@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mca.core.MCA;
-import mca.core.util.Localization;
-import mca.core.util.PacketCreator;
+import mca.core.util.LanguageHelper;
+import mca.core.util.PacketHelper;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import mca.enums.EnumRelation;
@@ -119,16 +119,16 @@ public class GuiGameOver extends AbstractGui
 
 			//Trigger achievement.
 			mc.thePlayer.triggerAchievement(MCA.instance.achievementHardcoreSecret);
-			PacketDispatcher.sendPacketToServer(PacketCreator.createAchievementPacket(MCA.instance.achievementHardcoreSecret, player.entityId));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementHardcoreSecret, player.entityId));
 
 			//Respawn the player.
 			mc.thePlayer.setSpawnChunk(new ChunkCoordinates((int)adultToRespawnAs.posX, (int)adultToRespawnAs.posY, (int)adultToRespawnAs.posZ), true);
-			PacketDispatcher.sendPacketToServer(PacketCreator.createRespawnPacket(player, (int)adultToRespawnAs.posX, (int)adultToRespawnAs.posY, (int)adultToRespawnAs.posZ));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createRespawnPacket(player, (int)adultToRespawnAs.posX, (int)adultToRespawnAs.posY, (int)adultToRespawnAs.posZ));
 			mc.displayGuiScreen(null);
 
 			//Kill that adult.
 			adultToRespawnAs.setDeadWithoutNotification();
-			PacketDispatcher.sendPacketToServer(PacketCreator.createKillPacket(adultToRespawnAs));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createKillPacket(adultToRespawnAs));
 		}
 
 		if (guibutton == shiftIndexLeftButton)
@@ -187,7 +187,7 @@ public class GuiGameOver extends AbstractGui
 		if(mc.theWorld.getWorldInfo().isHardcoreModeEnabled())
 		{
 			drawCenteredString(fontRenderer, StatCollector.translateToLocal("deathScreen.hardcoreInfo"), width / 2, 80, 0xffffff);
-			drawCenteredString(fontRenderer, Localization.getString("gui.info.hardcoresecret.prompt"), width / 2, 144, 0xffffff);
+			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.hardcoresecret.prompt"), width / 2, 144, 0xffffff);
 		}
 
 		drawCenteredString(fontRenderer, (new StringBuilder()).append(StatCollector.translateToLocal("deathScreen.score")).append(": \247e").append(mc.thePlayer.getScore()).toString(), width / 2, 100, 0xffffff);
@@ -242,17 +242,17 @@ public class GuiGameOver extends AbstractGui
 
 		if (adultChildren.isEmpty())
 		{
-			buttonList.add(selectedChildButton = new GuiButton(3, width / 2 - 100, height / 4 + 96, Localization.getString("gui.info.hardcoresecret.nochildren")));
+			buttonList.add(selectedChildButton = new GuiButton(3, width / 2 - 100, height / 4 + 96, LanguageHelper.getString("gui.info.hardcoresecret.nochildren")));
 		}
 
 		else
 		{
-			buttonList.add(selectedChildButton = new GuiButton(3, width / 2 - 100, height / 4 + 96, Localization.getString("gui.info.hardcoresecret.spawnas") + adultChildren.get(currentIndex).name));
+			buttonList.add(selectedChildButton = new GuiButton(3, width / 2 - 100, height / 4 + 96, LanguageHelper.getString("gui.info.hardcoresecret.spawnas") + adultChildren.get(currentIndex).name));
 		}
 
 		buttonList.add(shiftIndexLeftButton = new GuiButton(4, width / 2 - 122, height / 4 + 96, 20, 20, "<--"));
 		buttonList.add(shiftIndexRightButton = new GuiButton(5, width / 2 + 102, height / 4 + 96, 20, 20, "-->"));
-		buttonList.add(respawnAsChildButton = new GuiButton(6, width / 2 - 100, height / 4 + 120, Localization.getString("gui.info.hardcoresecret.respawn")));
+		buttonList.add(respawnAsChildButton = new GuiButton(6, width / 2 - 100, height / 4 + 120, LanguageHelper.getString("gui.info.hardcoresecret.respawn")));
 
 		deleteWorldButton.enabled = false;
 		selectedChildButton.enabled = false;

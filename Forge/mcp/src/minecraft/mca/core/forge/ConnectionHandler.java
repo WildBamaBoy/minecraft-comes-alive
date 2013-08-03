@@ -10,7 +10,7 @@
 package mca.core.forge;
 
 import mca.core.MCA;
-import mca.core.util.PacketCreator;
+import mca.core.util.PacketHelper;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.NetLoginHandler;
 import net.minecraft.network.packet.NetHandler;
@@ -62,6 +62,6 @@ public class ConnectionHandler implements IConnectionHandler
 			MCA.instance.isDedicatedClient = true;
 		}
 
-		manager.addToSendQueue(PacketCreator.createLoginPacket(MCA.instance.modPropertiesManager));
+		manager.addToSendQueue(PacketHelper.createLoginPacket(MCA.instance.modPropertiesManager));
 	}
 }

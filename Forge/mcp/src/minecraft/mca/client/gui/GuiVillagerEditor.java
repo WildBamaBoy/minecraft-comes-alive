@@ -11,9 +11,9 @@ package mca.client.gui;
 
 import java.util.List;
 
-import mca.core.util.DataStore;
-import mca.core.util.Localization;
-import mca.core.util.PacketCreator;
+import mca.core.MCA;
+import mca.core.util.LanguageHelper;
+import mca.core.util.PacketHelper;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import mca.enums.EnumMood;
@@ -76,7 +76,7 @@ public class GuiVillagerEditor extends AbstractGui
 		villagerBeingEdited = entityBase;
 		villagerBeingEdited.isSleeping = false;
 		moodListIndex = moodList.indexOf(villagerBeingEdited.mood);
-		PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(villagerBeingEdited.entityId, "isSleeping", false));
+		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerBeingEdited.entityId, "isSleeping", false));
 	}
 	
 	@Override
@@ -126,11 +126,11 @@ public class GuiVillagerEditor extends AbstractGui
 	{
 		Keyboard.enableRepeatEvents(false);
 
-		PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(villagerBeingEdited.entityId, "name", villagerBeingEdited.name));
-		PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(villagerBeingEdited.entityId, "texture", villagerBeingEdited.getTexture()));
-		PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(villagerBeingEdited.entityId, "gender", villagerBeingEdited.gender));
-		PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(villagerBeingEdited.entityId, "profession", villagerBeingEdited.profession));
-		PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(villagerBeingEdited.entityId, "traitId", villagerBeingEdited.traitId));
+		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerBeingEdited.entityId, "name", villagerBeingEdited.name));
+		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerBeingEdited.entityId, "texture", villagerBeingEdited.getTexture()));
+		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerBeingEdited.entityId, "gender", villagerBeingEdited.gender));
+		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerBeingEdited.entityId, "profession", villagerBeingEdited.profession));
+		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerBeingEdited.entityId, "traitId", villagerBeingEdited.traitId));
 	}
 
 	@Override
@@ -172,7 +172,7 @@ public class GuiVillagerEditor extends AbstractGui
 		
 		else if (guibutton == shiftTextureIndexUpButton)
 		{
-			List<String> textureList = DataStore.getSkinList(villagerBeingEdited);
+			List<String> textureList = MCA.getSkinList(villagerBeingEdited);
 			int textureIndex = textureList.indexOf(villagerBeingEdited.getTexture());
 			int maxIndex = textureList.size() - 1;
 			
@@ -192,7 +192,7 @@ public class GuiVillagerEditor extends AbstractGui
 		
 		else if (guibutton == shiftTextureIndexDownButton)
 		{
-			List<String> textureList = DataStore.getSkinList(villagerBeingEdited);
+			List<String> textureList = MCA.instance.getSkinList(villagerBeingEdited);
 			int textureIndex = textureList.indexOf(villagerBeingEdited.getTexture());
 			int maxIndex = textureList.size() - 1;
 			
@@ -403,7 +403,7 @@ public class GuiVillagerEditor extends AbstractGui
 		else if (guibutton == inventoryButton)
 		{
 			villagerBeingEdited.shouldOpenInventory = true;
-			PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(villagerBeingEdited.entityId, "shouldOpenInventory", true));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerBeingEdited.entityId, "shouldOpenInventory", true));
 			close();
 		}
 	}
@@ -491,11 +491,11 @@ public class GuiVillagerEditor extends AbstractGui
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
 		
-		drawString(fontRenderer, Localization.getString("gui.editor.name"), width / 2 - 205, height / 2 - 87, 0xa0a0a0);
+		drawString(fontRenderer, LanguageHelper.getString("gui.editor.name"), width / 2 - 205, height / 2 - 87, 0xa0a0a0);
 
 		if (containsInvalidCharacters)
 		{
-			drawCenteredString(fontRenderer, Localization.getString("gui.editor.name.invalid"), width / 2 - 90, (height / 2) - 87, 0xCC0000);
+			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.editor.name.invalid"), width / 2 - 90, (height / 2) - 87, 0xCC0000);
 		}
 
 		nameTextField.drawTextBox();
@@ -503,7 +503,7 @@ public class GuiVillagerEditor extends AbstractGui
 
 		GL11.glPushMatrix();
 		GL11.glScalef(1.5F, 1.5F, 1.5F);
-		drawCenteredString(fontRenderer, Localization.getString("item.editor"), width / 2 - 75, (height / 2) - 115, 0xffffff);
+		drawCenteredString(fontRenderer, LanguageHelper.getString("item.editor"), width / 2 - 75, (height / 2) - 115, 0xffffff);
 		GL11.glPopMatrix();
 		
 		super.drawScreen(sizeX, sizeY, offset);
@@ -521,22 +521,22 @@ public class GuiVillagerEditor extends AbstractGui
 	private void drawEditorGui()
 	{
 		buttonList.clear();
-		buttonList.add(randomButton                = new GuiButton(1,  width / 2 - 50,  height / 2 - 75, 60, 20, Localization.getString("gui.button.random")));
-		buttonList.add(genderButton                = new GuiButton(2,  width / 2 - 190, height / 2 - 40, 175, 20, Localization.getString("gui.button.setup.gender" + villagerBeingEdited.gender.toLowerCase())));
+		buttonList.add(randomButton                = new GuiButton(1,  width / 2 - 50,  height / 2 - 75, 60, 20, LanguageHelper.getString("gui.button.random")));
+		buttonList.add(genderButton                = new GuiButton(2,  width / 2 - 190, height / 2 - 40, 175, 20, LanguageHelper.getString("gui.button.setup.gender" + villagerBeingEdited.gender.toLowerCase())));
 		buttonList.add(textureButton               = new GuiButton(3,  width / 2 - 190, height / 2 - 20, 175, 20, "Texture: " + villagerBeingEdited.getTexture().replace("textures/skins//", "").replace(".png", "")));
 		buttonList.add(shiftTextureIndexUpButton   = new GuiButton(4,  width / 2 - 15,  height / 2 - 20, 20, 20, ">>"));
 		buttonList.add(shiftTextureIndexDownButton = new GuiButton(5,  width / 2 - 210, height / 2 - 20, 20, 20, "<<"));
 		buttonList.add(professionButton            = new GuiButton(6,  width / 2 - 190, height / 2 - 0, 175, 20, "Title: " + villagerBeingEdited.getLocalizedProfessionString()));
 		buttonList.add(shiftProfessionUpButton     = new GuiButton(7,  width / 2 - 15,  height / 2 - 0, 20, 20, ">>"));
 		buttonList.add(shiftProfessionDownButton   = new GuiButton(8,  width / 2 - 210, height / 2 - 0, 20, 20, "<<"));
-		buttonList.add(moodButton                  = new GuiButton(9, width / 2 - 190, height / 2 + 20, 175, 20, Localization.getString("gui.button.editor.mood") + villagerBeingEdited.mood.getLocalizedValue() + " (Lvl. " + villagerBeingEdited.mood.getMoodLevel() + ")"));
+		buttonList.add(moodButton                  = new GuiButton(9, width / 2 - 190, height / 2 + 20, 175, 20, LanguageHelper.getString("gui.button.editor.mood") + villagerBeingEdited.mood.getLocalizedValue() + " (Lvl. " + villagerBeingEdited.mood.getMoodLevel() + ")"));
 		buttonList.add(shiftMoodUpButton           = new GuiButton(10, width / 2 - 15,  height / 2 + 20, 20, 20, ">>"));
 		buttonList.add(shiftMoodDownButton         = new GuiButton(11, width / 2 - 210, height / 2 + 20, 20, 20, "<<"));
-		buttonList.add(traitButton                 = new GuiButton(12, width / 2 - 190, height / 2 + 40, 175, 20, Localization.getString("gui.button.editor.trait") + villagerBeingEdited.trait.getLocalizedValue()));
+		buttonList.add(traitButton                 = new GuiButton(12, width / 2 - 190, height / 2 + 40, 175, 20, LanguageHelper.getString("gui.button.editor.trait") + villagerBeingEdited.trait.getLocalizedValue()));
 		buttonList.add(shiftTraitUpButton          = new GuiButton(13, width / 2 - 15,  height / 2 + 40, 20, 20, ">>"));
 		buttonList.add(shiftTraitDownButton        = new GuiButton(14, width / 2 - 210, height / 2 + 40, 20, 20, "<<"));
-		buttonList.add(inventoryButton             = new GuiButton(15, width / 2 - 190, height / 2 + 60, 175, 20, Localization.getString("gui.button.spouse.inventory")));
-		buttonList.add(doneButton                  = new GuiButton(16, width / 2 - 50,  height / 2 + 85, 100, 20, Localization.getString("gui.button.done")));
+		buttonList.add(inventoryButton             = new GuiButton(15, width / 2 - 190, height / 2 + 60, 175, 20, LanguageHelper.getString("gui.button.spouse.inventory")));
+		buttonList.add(doneButton                  = new GuiButton(16, width / 2 - 50,  height / 2 + 85, 100, 20, LanguageHelper.getString("gui.button.done")));
 		
 		if (villagerBeingEdited instanceof EntityPlayerChild)
 		{

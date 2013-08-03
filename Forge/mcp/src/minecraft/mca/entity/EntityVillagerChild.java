@@ -10,7 +10,6 @@
 package mca.entity;
 
 import mca.core.MCA;
-import mca.core.util.DataStore;
 import mca.core.util.object.PlayerMemory;
 import mca.enums.EnumRelation;
 import mca.item.ItemVillagerEditor;
@@ -94,14 +93,14 @@ public class EntityVillagerChild extends EntityChild implements INpc
 		{
 			switch (profession)
 			{
-			case 0: texture = DataStore.farmerSkinsMale.get(worldObj.rand.nextInt(DataStore.farmerSkinsMale.size())); break;
-			case 1: texture = DataStore.librarianSkinsMale.get(worldObj.rand.nextInt(DataStore.librarianSkinsMale.size())); break;
-			case 2: texture = DataStore.priestSkinsMale.get(worldObj.rand.nextInt(DataStore.priestSkinsMale.size())); break;
-			case 3: texture = DataStore.smithSkinsMale.get(worldObj.rand.nextInt(DataStore.smithSkinsMale.size())); break;
-			case 4: texture = DataStore.butcherSkinsMale.get(worldObj.rand.nextInt(DataStore.butcherSkinsMale.size())); break;
-			case 5: texture = DataStore.guardSkinsMale.get(worldObj.rand.nextInt(DataStore.guardSkinsMale.size())); break;
-			case 6: texture = DataStore.bakerSkinsMale.get(worldObj.rand.nextInt(DataStore.bakerSkinsMale.size())); break;
-			case 7: texture = DataStore.minerSkinsMale.get(worldObj.rand.nextInt(DataStore.minerSkinsMale.size())); break;
+			case 0: texture = MCA.farmerSkinsMale.get(worldObj.rand.nextInt(MCA.farmerSkinsMale.size())); break;
+			case 1: texture = MCA.instance.librarianSkinsMale.get(worldObj.rand.nextInt(MCA.instance.librarianSkinsMale.size())); break;
+			case 2: texture = MCA.instance.priestSkinsMale.get(worldObj.rand.nextInt(MCA.instance.priestSkinsMale.size())); break;
+			case 3: texture = MCA.instance.smithSkinsMale.get(worldObj.rand.nextInt(MCA.instance.smithSkinsMale.size())); break;
+			case 4: texture = MCA.instance.butcherSkinsMale.get(worldObj.rand.nextInt(MCA.instance.butcherSkinsMale.size())); break;
+			case 5: texture = MCA.instance.guardSkinsMale.get(worldObj.rand.nextInt(MCA.instance.guardSkinsMale.size())); break;
+			case 6: texture = MCA.instance.bakerSkinsMale.get(worldObj.rand.nextInt(MCA.instance.bakerSkinsMale.size())); break;
+			case 7: texture = MCA.instance.minerSkinsMale.get(worldObj.rand.nextInt(MCA.instance.minerSkinsMale.size())); break;
 			}
 		}
 
@@ -109,14 +108,14 @@ public class EntityVillagerChild extends EntityChild implements INpc
 		{
 			switch (profession)
 			{
-			case 0: texture = DataStore.farmerSkinsFemale.get(worldObj.rand.nextInt(DataStore.farmerSkinsFemale.size())); break;
-			case 1: texture = DataStore.librarianSkinsFemale.get(worldObj.rand.nextInt(DataStore.librarianSkinsFemale.size())); break;
-			case 2: texture = DataStore.priestSkinsFemale.get(worldObj.rand.nextInt(DataStore.priestSkinsFemale.size())); break;
-			case 3: texture = DataStore.smithSkinsFemale.get(worldObj.rand.nextInt(DataStore.smithSkinsFemale.size())); break;
+			case 0: texture = MCA.instance.farmerSkinsFemale.get(worldObj.rand.nextInt(MCA.instance.farmerSkinsFemale.size())); break;
+			case 1: texture = MCA.instance.librarianSkinsFemale.get(worldObj.rand.nextInt(MCA.instance.librarianSkinsFemale.size())); break;
+			case 2: texture = MCA.instance.priestSkinsFemale.get(worldObj.rand.nextInt(MCA.instance.priestSkinsFemale.size())); break;
+			case 3: texture = MCA.instance.smithSkinsFemale.get(worldObj.rand.nextInt(MCA.instance.smithSkinsFemale.size())); break;
 			case 4: texture = null;
-			case 5: texture = DataStore.guardSkinsFemale.get(worldObj.rand.nextInt(DataStore.guardSkinsFemale.size())); break;
-			case 6: texture = DataStore.bakerSkinsFemale.get(worldObj.rand.nextInt(DataStore.bakerSkinsFemale.size())); break;
-			case 7: texture = DataStore.minerSkinsFemale.get(worldObj.rand.nextInt(DataStore.minerSkinsFemale.size())); break;
+			case 5: texture = MCA.instance.guardSkinsFemale.get(worldObj.rand.nextInt(MCA.instance.guardSkinsFemale.size())); break;
+			case 6: texture = MCA.instance.bakerSkinsFemale.get(worldObj.rand.nextInt(MCA.instance.bakerSkinsFemale.size())); break;
+			case 7: texture = MCA.instance.minerSkinsFemale.get(worldObj.rand.nextInt(MCA.instance.minerSkinsFemale.size())); break;
 			}
 		}
 	}

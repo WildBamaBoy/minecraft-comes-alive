@@ -12,8 +12,8 @@ package mca.client.gui;
 import java.util.List;
 
 import mca.core.MCA;
-import mca.core.util.Localization;
-import mca.core.util.PacketCreator;
+import mca.core.util.LanguageHelper;
+import mca.core.util.PacketHelper;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityChild;
@@ -95,18 +95,18 @@ public class GuiInteractionVillagerChild extends AbstractGui
 	{
 		drawDefaultBackground();
 
-		drawCenteredString(fontRenderer, Localization.getString("gui.info.hearts") + " = " + hearts, width / 2, height / 2 -100, 0xffffff);
+		drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.hearts") + " = " + hearts, width / 2, height / 2 -100, 0xffffff);
 		drawCenteredString(fontRenderer, entityVillagerChild.getTitle(MCA.instance.getIdOfPlayer(player), true), width / 2, height / 2 - 80, 0xffffff);
 
 		//Draw mood and trait.
-		drawCenteredString(fontRenderer, Localization.getString("gui.info.mood") + entityVillagerChild.mood.getLocalizedValue(), width / 2 - 150, height / 2 - 65, 0xffffff);
-		drawCenteredString(fontRenderer, Localization.getString("gui.info.trait") + entityVillagerChild.trait.getLocalizedValue(), width / 2 - 150, height / 2 - 50, 0xffffff);
+		drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.mood") + entityVillagerChild.mood.getLocalizedValue(), width / 2 - 150, height / 2 - 65, 0xffffff);
+		drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.trait") + entityVillagerChild.trait.getLocalizedValue(), width / 2 - 150, height / 2 - 50, 0xffffff);
 
 		List<Integer> parents = entityVillagerChild.familyTree.getEntitiesWithRelation(EnumRelation.Parent);
 
 		if (parents.size() == 2)
 		{
-			drawCenteredString(fontRenderer, Localization.getString(player, entityVillagerChild, "gui.info.family.parents", false), width / 2, height / 2 - 60, 0xffffff);
+			drawCenteredString(fontRenderer, LanguageHelper.getString(player, entityVillagerChild, "gui.info.family.parents", false), width / 2, height / 2 - 60, 0xffffff);
 		}
 
 		else
@@ -117,12 +117,12 @@ public class GuiInteractionVillagerChild extends AbstractGui
 			{
 				if (entityVillagerChild.isMarried && spouse.familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player)))
 				{
-					drawCenteredString(fontRenderer, Localization.getString(entityVillagerChild, "gui.info.family.spouse", false), width / 2 , height / 2 - 60, 0xffffff);
+					drawCenteredString(fontRenderer, LanguageHelper.getString(entityVillagerChild, "gui.info.family.spouse", false), width / 2 , height / 2 - 60, 0xffffff);
 				}
 
 				else if (entityVillagerChild.isMarried)
 				{
-					drawCenteredString(fontRenderer, Localization.getString(entityVillagerChild, "gui.info.family.spouse.unrelated", false), width / 2, height / 2 - 60, 0xffffff);
+					drawCenteredString(fontRenderer, LanguageHelper.getString(entityVillagerChild, "gui.info.family.spouse.unrelated", false), width / 2, height / 2 - 60, 0xffffff);
 				}
 			}
 		}
@@ -138,19 +138,19 @@ public class GuiInteractionVillagerChild extends AbstractGui
 		buttonList.clear();
 		inNoSpecialGui = false;
 
-		buttonList.add(chatButton    = new GuiButton(1, width / 2 - 65, height / 2 + 20, 60, 20, Localization.getString("gui.button.interact.chat")));
-		buttonList.add(jokeButton   = new GuiButton(2, width / 2 - 65, height / 2 + 40, 60, 20, Localization.getString("gui.button.interact.joke")));
-		buttonList.add(giftButton    = new GuiButton(3, width / 2 - 65, height / 2 + 60, 60, 20, Localization.getString("gui.button.interact.gift")));
-		buttonList.add(followButton  = new GuiButton(4, width / 2 - 5, height / 2 + 20, 60, 20, Localization.getString("gui.button.interact.follow")));
-		buttonList.add(stayButton    = new GuiButton(5, width / 2 - 5, height / 2 + 40, 60, 20, Localization.getString("gui.button.interact.stay")));
-		buttonList.add(setHomeButton = new GuiButton(6, width / 2 - 5, height / 2 + 60, 60, 20, Localization.getString("gui.button.interact.sethome")));
+		buttonList.add(chatButton    = new GuiButton(1, width / 2 - 65, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.chat")));
+		buttonList.add(jokeButton   = new GuiButton(2, width / 2 - 65, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.joke")));
+		buttonList.add(giftButton    = new GuiButton(3, width / 2 - 65, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.gift")));
+		buttonList.add(followButton  = new GuiButton(4, width / 2 - 5, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
+		buttonList.add(stayButton    = new GuiButton(5, width / 2 - 5, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
+		buttonList.add(setHomeButton = new GuiButton(6, width / 2 - 5, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.sethome")));
 
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, Localization.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, Localization.getString("gui.button.exit")));
+		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = false;
 
-		if (entityVillagerChild.isFollowing) followButton.displayString = Localization.getString("gui.button.interact.followstop");
-		if (entityVillagerChild.isStaying) stayButton.displayString = Localization.getString("gui.button.interact.staystop");
+		if (entityVillagerChild.isFollowing) followButton.displayString = LanguageHelper.getString("gui.button.interact.followstop");
+		if (entityVillagerChild.isStaying) stayButton.displayString = LanguageHelper.getString("gui.button.interact.staystop");
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 			memory.isInGiftMode = true;
 			entityVillagerChild.playerMemoryMap.put(player.username, memory);
 
-			PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityVillagerChild.entityId, "playerMemoryMap", entityVillagerChild.playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "playerMemoryMap", entityVillagerChild.playerMemoryMap));
 			close();
 		}
 
@@ -188,7 +188,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 			{
 				if (!entityVillagerChild.familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player)))
 				{
-					entityVillagerChild.notifyPlayer(player, Localization.getString("multiplayer.interaction.reject.child"));
+					entityVillagerChild.notifyPlayer(player, LanguageHelper.getString("multiplayer.interaction.reject.child"));
 					close();
 					return;
 				}
@@ -200,11 +200,11 @@ public class GuiInteractionVillagerChild extends AbstractGui
 				entityVillagerChild.isStaying = false;
 				entityVillagerChild.followingPlayer = player.username;
 
-				PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityVillagerChild.entityId, "isFollowing", true));
-				PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityVillagerChild.entityId, "isStaying", false));
-				PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityVillagerChild.entityId, "followingPlayer", player.username));
+				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "isFollowing", true));
+				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "isStaying", false));
+				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "followingPlayer", player.username));
 
-				entityVillagerChild.say(Localization.getString(player, entityVillagerChild, "follow.start"));
+				entityVillagerChild.say(LanguageHelper.getString(player, entityVillagerChild, "follow.start"));
 				close();
 			}
 
@@ -214,11 +214,11 @@ public class GuiInteractionVillagerChild extends AbstractGui
 				entityVillagerChild.isStaying = false;
 				entityVillagerChild.followingPlayer = "None";
 
-				PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityVillagerChild.entityId, "isFollowing", false));
-				PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityVillagerChild.entityId, "isStaying", false));
-				PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityVillagerChild.entityId, "followingPlayer", "None"));
+				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "isFollowing", false));
+				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "isStaying", false));
+				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "followingPlayer", "None"));
 
-				entityVillagerChild.say(Localization.getString(player, entityVillagerChild, "follow.stop"));
+				entityVillagerChild.say(LanguageHelper.getString(player, entityVillagerChild, "follow.stop"));
 				close();
 			}
 		}
@@ -229,7 +229,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 			{
 				if (!entityVillagerChild.familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player)))
 				{
-					entityVillagerChild.notifyPlayer(player, Localization.getString("multiplayer.interaction.reject.child"));
+					entityVillagerChild.notifyPlayer(player, LanguageHelper.getString("multiplayer.interaction.reject.child"));
 					close();
 					return;
 				}
@@ -238,8 +238,8 @@ public class GuiInteractionVillagerChild extends AbstractGui
 			entityVillagerChild.isStaying = !entityVillagerChild.isStaying;
 			entityVillagerChild.isFollowing = false;
 
-			PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityVillagerChild.entityId, "isStaying", entityVillagerChild.isStaying));
-			PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityVillagerChild.entityId, "isFollowing", false));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "isStaying", entityVillagerChild.isStaying));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "isFollowing", false));
 			close();
 		}
 
@@ -249,7 +249,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 			{
 				if (!entityVillagerChild.familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player)))
 				{
-					entityVillagerChild.notifyPlayer(player, Localization.getString("multiplayer.interaction.reject.child"));
+					entityVillagerChild.notifyPlayer(player, LanguageHelper.getString("multiplayer.interaction.reject.child"));
 					close();
 					return;
 				}
@@ -260,10 +260,10 @@ public class GuiInteractionVillagerChild extends AbstractGui
 			entityVillagerChild.homePointZ = entityVillagerChild.posZ;
 			entityVillagerChild.hasHomePoint = true;
 
-			PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityVillagerChild.entityId, "homePointX", entityVillagerChild.posX));
-			PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityVillagerChild.entityId, "homePointY", entityVillagerChild.posY));
-			PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityVillagerChild.entityId, "homePointZ", entityVillagerChild.posZ));
-			PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityVillagerChild.entityId, "hasHomePoint", true));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "homePointX", entityVillagerChild.posX));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "homePointY", entityVillagerChild.posY));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "homePointZ", entityVillagerChild.posZ));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "hasHomePoint", true));
 
 			entityVillagerChild.testNewHomePoint();
 

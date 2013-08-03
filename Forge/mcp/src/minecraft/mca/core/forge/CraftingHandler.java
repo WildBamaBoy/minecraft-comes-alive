@@ -2,8 +2,8 @@ package mca.core.forge;
 
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.core.util.Localization;
-import mca.core.util.PacketCreator;
+import mca.core.util.LanguageHelper;
+import mca.core.util.PacketHelper;
 import mca.item.ItemBaby;
 import mca.item.ItemCrown;
 import mca.item.ItemFertilityPotion;
@@ -30,12 +30,12 @@ public class CraftingHandler implements ICraftingHandler
 				manager.worldProperties.isMonarch = true;
 				manager.saveWorldProperties();
 				
-				PacketDispatcher.sendPacketToServer(PacketCreator.createAchievementPacket(MCA.instance.achievementCraftCrown, player.entityId));
+				PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementCraftCrown, player.entityId));
 				player.triggerAchievement(MCA.instance.achievementCraftCrown);
 				
 				if (player.worldObj.isRemote)
 				{
-					player.addChatMessage(Localization.getString("notify.monarch.began"));
+					player.addChatMessage(LanguageHelper.getString("notify.monarch.began"));
 				}
 			}
 		}
@@ -64,10 +64,10 @@ public class CraftingHandler implements ICraftingHandler
 			
 			if (player.worldObj.isRemote)
 			{
-				player.addChatMessage(Localization.getString("notify.baby.cooked"));
+				player.addChatMessage(LanguageHelper.getString("notify.baby.cooked"));
 			}
 			
-			PacketDispatcher.sendPacketToServer(PacketCreator.createAchievementPacket(MCA.instance.achievementCookBaby, player.entityId));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementCookBaby, player.entityId));
 			player.triggerAchievement(MCA.instance.achievementCookBaby);
 		}
 	}

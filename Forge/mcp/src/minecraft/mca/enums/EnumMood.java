@@ -12,7 +12,7 @@ package mca.enums;
 import java.util.ArrayList;
 import java.util.List;
 
-import mca.core.util.Localization;
+import mca.core.util.LanguageHelper;
 
 /**
  * Applied to villagers to modify chance of interaction success and bonus points applied.
@@ -247,7 +247,7 @@ public enum EnumMood
 
 	public String getLocalizedValue()
 	{
-		return Localization.getString(value);
+		return LanguageHelper.getString(value);
 	}
 
 	/**

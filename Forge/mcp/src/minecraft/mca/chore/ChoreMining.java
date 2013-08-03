@@ -13,9 +13,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 import mca.core.MCA;
-import mca.core.util.Localization;
-import mca.core.util.Logic;
-import mca.core.util.PacketCreator;
+import mca.core.util.LanguageHelper;
+import mca.core.util.LogicHelper;
+import mca.core.util.PacketHelper;
 import mca.core.util.object.Coordinates;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
@@ -112,7 +112,7 @@ public class ChoreMining extends AbstractChore
 		inPassiveMode = mode == 0 ? true : false;
 		this.oreType = oreType;
 		activeDistance = distance;
-		heading = Logic.getHeadingRelativeToPlayerAndSpecifiedDirection(entity.worldObj.getPlayerEntityByName(entity.lastInteractingPlayer), direction);
+		heading = LogicHelper.getHeadingRelativeToPlayerAndSpecifiedDirection(entity.worldObj.getPlayerEntityByName(entity.lastInteractingPlayer), direction);
 
 		switch (oreType)
 		{
@@ -135,7 +135,7 @@ public class ChoreMining extends AbstractChore
 			{
 				//End the chore and sync all clients so that the chore is stopped everywhere.
 				endChore();
-				PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createSyncPacket(owner));
+				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(owner));
 				owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer).addChatMessage("\u00a7cChore disabled by the server administrator.");
 				return;
 			}
@@ -145,7 +145,7 @@ public class ChoreMining extends AbstractChore
 		{
 			if (owner.worldObj.isRemote)
 			{
-				say(Localization.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.mining", true));
+				say(LanguageHelper.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.mining", true));
 			}
 		}
 
@@ -290,7 +290,7 @@ public class ChoreMining extends AbstractChore
 
 		if (pickStack == null)
 		{
-			say(Localization.getString(this.owner, "notify.child.chore.interrupted.mining.nopickaxe", false));
+			say(LanguageHelper.getString(this.owner, "notify.child.chore.interrupted.mining.nopickaxe", false));
 			endChore();
 			return;
 		}
@@ -303,11 +303,11 @@ public class ChoreMining extends AbstractChore
 				Coordinates coordinatesOfBlock = null;
 				Double distance = null;
 				//Get the coordinates of the nearest block found of the specified ID.
-				for (Coordinates coords : Logic.getNearbyBlocksBottomTop(owner, blockIDSearchingFor, 20))
+				for (Coordinates coords : LogicHelper.getNearbyBlocksBottomTop(owner, blockIDSearchingFor, 20))
 				{
 					if (distance != null)
 					{
-						Double thisDistance = Logic.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, coords.x, coords.y, coords.z);
+						Double thisDistance = LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, coords.x, coords.y, coords.z);
 
 						if (thisDistance < distance)
 						{
@@ -317,7 +317,7 @@ public class ChoreMining extends AbstractChore
 
 					else
 					{
-						distance = Logic.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, coords.x, coords.y, coords.z);
+						distance = LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, coords.x, coords.y, coords.z);
 						coordinatesOfBlock = coords;
 					}
 				}				
@@ -326,7 +326,7 @@ public class ChoreMining extends AbstractChore
 				if (coordinatesOfBlock != null)
 				{
 					//Determine the distance to the block.
-					passiveDistanceToOre = Math.round((float)Logic.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, coordinatesOfBlock.x, coordinatesOfBlock.y, coordinatesOfBlock.z));
+					passiveDistanceToOre = Math.round((float)LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, coordinatesOfBlock.x, coordinatesOfBlock.y, coordinatesOfBlock.z));
 
 					//Verify that it is not more than 30 blocks away.
 					if (passiveDistanceToOre > 30)
@@ -339,13 +339,13 @@ public class ChoreMining extends AbstractChore
 					else if (passiveDistanceToOre > 5)
 					{
 						//Say how many blocks away that ore is.
-						say(Localization.getString(owner, "notify.child.chore.status.mining.orefound", false));
+						say(LanguageHelper.getString(owner, "notify.child.chore.status.mining.orefound", false));
 					}
 
 					else if (passiveDistanceToOre <= 5)
 					{
 						//Say that the ore is just 'nearby' since the distance is less than 5.
-						say(Localization.getString(owner, "notify.child.chore.status.mining.orenearby", false));
+						say(LanguageHelper.getString(owner, "notify.child.chore.status.mining.orenearby", false));
 					}
 
 					//Damage the pick three times.
@@ -418,7 +418,7 @@ public class ChoreMining extends AbstractChore
 		{
 			if (!(owner instanceof EntityVillagerAdult))
 			{
-				say(Localization.getString(owner, "notify.child.chore.interrupted.mining.nopickaxe", false));
+				say(LanguageHelper.getString(owner, "notify.child.chore.interrupted.mining.nopickaxe", false));
 				endChore();
 				return;
 			}
@@ -479,7 +479,7 @@ public class ChoreMining extends AbstractChore
 			if (searchDistance == activeDistance)
 			{
 				//Say that there are no blocks to mine and stop the chore.
-				say(Localization.getString(owner, "notify.child.chore.interrupted.mining.noblocks", false));
+				say(LanguageHelper.getString(owner, "notify.child.chore.interrupted.mining.noblocks", false));
 				endChore();
 				return;
 			}
@@ -488,10 +488,10 @@ public class ChoreMining extends AbstractChore
 		else //The coordinates of the next block have been assigned.
 		{
 			//Check the distance from the starting position.
-			if (Logic.getDistanceToXYZ(activeStartCoordinatesX, activeStartCoordinatesY, activeStartCoordinatesZ, activeNextCoordinatesX, activeNextCoordinatesY, activeNextCoordinatesZ) > activeDistance)
+			if (LogicHelper.getDistanceToXYZ(activeStartCoordinatesX, activeStartCoordinatesY, activeStartCoordinatesZ, activeNextCoordinatesX, activeNextCoordinatesY, activeNextCoordinatesZ) > activeDistance)
 			{
 				//If the distance is greater than the stopping distance, stop the chore.
-				say(Localization.getString(owner, "notify.child.chore.finished.mining", false));
+				say(LanguageHelper.getString(owner, "notify.child.chore.finished.mining", false));
 				endChore();
 				return;
 			}
@@ -509,13 +509,13 @@ public class ChoreMining extends AbstractChore
 						blockId == 127 || blockId == 132 || blockId == 137 || blockId == 140 || blockId == 141 ||
 						blockId == 142 || blockId == 144)
 				{
-					say(Localization.getString(owner, "notify.child.chore.interrupted.mining.noblocks", false));
+					say(LanguageHelper.getString(owner, "notify.child.chore.interrupted.mining.noblocks", false));
 					endChore();
 					return;
 				}
 
 				//Check if the entity is close enough to mine the block.
-				if (Logic.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, activeNextCoordinatesX, activeNextCoordinatesY, activeNextCoordinatesZ) <= 2.5)
+				if (LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, activeNextCoordinatesX, activeNextCoordinatesY, activeNextCoordinatesZ) <= 2.5)
 				{	
 					if (activeMineTicks != activeMineInterval)
 					{

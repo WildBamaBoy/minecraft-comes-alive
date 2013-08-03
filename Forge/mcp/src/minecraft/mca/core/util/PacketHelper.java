@@ -30,7 +30,7 @@ import net.minecraft.stats.Achievement;
 /**
  * Creates packets used by MCA to communicate between the client and server.
  */
-public final class PacketCreator 
+public final class PacketHelper 
 {
 	/**
 	 * Creates packet used to request the value of a field.
@@ -53,7 +53,7 @@ public final class PacketCreator
 			objectOutput.writeObject(fieldName);
 			objectOutput.close();
 
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -90,7 +90,7 @@ public final class PacketCreator
 			objectOutput.writeObject(fieldValue);
 			objectOutput.close();
 
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -125,7 +125,7 @@ public final class PacketCreator
 			objectOutput.writeObject(targetId);
 			objectOutput.close();
 
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -164,7 +164,7 @@ public final class PacketCreator
 			objectOutput.writeObject(damage);
 			objectOutput.close();
 
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -199,7 +199,7 @@ public final class PacketCreator
 			objectOutput.writeObject(playerId);
 			objectOutput.close();
 
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -234,7 +234,7 @@ public final class PacketCreator
 			objectOutput.writeObject(entityBase.getTexture());
 			objectOutput.close();
 
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -267,7 +267,7 @@ public final class PacketCreator
 			objectOutput.writeObject(entityId);
 			objectOutput.close();
 
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -300,7 +300,7 @@ public final class PacketCreator
 			objectOutput.writeObject(entityId);
 			objectOutput.close();
 
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -335,7 +335,7 @@ public final class PacketCreator
 			objectOutput.writeObject(playerId);
 			objectOutput.close();
 
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -370,7 +370,7 @@ public final class PacketCreator
 			objectOutput.writeObject(familyTree);
 			objectOutput.close();
 
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -407,7 +407,7 @@ public final class PacketCreator
 			objectOutput.writeObject(count);
 			objectOutput.close();
 
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -442,7 +442,7 @@ public final class PacketCreator
 			objectOutput.writeObject(inventory);
 			objectOutput.close();
 
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -477,7 +477,7 @@ public final class PacketCreator
 			objectOutput.writeObject(chore);
 			objectOutput.close();
 
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -516,7 +516,7 @@ public final class PacketCreator
 			objectOutput.writeObject(tombstone.signText[3]);
 			objectOutput.close();
 
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -551,7 +551,7 @@ public final class PacketCreator
 			objectOutput.writeObject(tombstone.zCoord);
 			objectOutput.close();
 
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -590,7 +590,7 @@ public final class PacketCreator
 			objectOutput.writeObject(posZ);
 			objectOutput.close();
 
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -623,7 +623,7 @@ public final class PacketCreator
 			objectOutput.writeObject(entity.entityId);
 			objectOutput.close();
 
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -656,7 +656,7 @@ public final class PacketCreator
 			objectOutput.writeObject(modPropertiesManager);
 			objectOutput.close();
 
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -689,7 +689,7 @@ public final class PacketCreator
 			objectOutput.writeObject(worldPropertiesManager);
 			objectOutput.close();
 
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.instance.logDebug("Created world properties packet for " + worldPropertiesManager.worldProperties.playerName);
@@ -771,7 +771,7 @@ public final class PacketCreator
 			
 			objectOutput.close();
 			
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -809,7 +809,7 @@ public final class PacketCreator
 			objectOutput.writeObject(spouseId);
 			objectOutput.close();
 			
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -845,7 +845,7 @@ public final class PacketCreator
 			objectOutput.writeObject(spouseId);
 			objectOutput.close();
 			
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -879,7 +879,7 @@ public final class PacketCreator
 			objectOutput.writeObject(worldPropertiesManager);
 			objectOutput.close();
 			
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -913,7 +913,7 @@ public final class PacketCreator
 			objectOutput.writeObject(villager.entityId);
 			objectOutput.close();
 			
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -953,7 +953,7 @@ public final class PacketCreator
 			objectOutput.writeObject(player.entityId);
 			objectOutput.close();
 			
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
@@ -991,7 +991,7 @@ public final class PacketCreator
 			objectOutput.writeObject(babyGender);
 			objectOutput.close();
 			
-			thePacket.data = Utility.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
 			MCA.instance.logDebug("Sent packet: " + thePacket.channel);

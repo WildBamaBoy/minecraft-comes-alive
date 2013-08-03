@@ -13,8 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mca.core.MCA;
-import mca.core.util.Localization;
-import mca.core.util.PacketCreator;
+import mca.core.util.LanguageHelper;
+import mca.core.util.PacketHelper;
 import mca.entity.AbstractEntity;
 import mca.enums.EnumRelation;
 import net.minecraft.client.Minecraft;
@@ -237,7 +237,7 @@ public class GuiSpecialDivorceCouple extends AbstractGui
 	public void drawScreen(int sizeX, int sizeY, float offset)
 	{
 		drawDefaultBackground();
-		drawCenteredString(fontRenderer, Localization.getString("gui.title.priest.divorcecouple"), width / 2, height / 2 - 50, 0xffffff);
+		drawCenteredString(fontRenderer, LanguageHelper.getString("gui.title.priest.divorcecouple"), width / 2, height / 2 - 50, 0xffffff);
 		super.drawScreen(sizeX, sizeY, offset);
 	}
 
@@ -250,7 +250,7 @@ public class GuiSpecialDivorceCouple extends AbstractGui
 
 		buttonList.add(shiftIndexDownButton = new GuiButton(1, width / 2 - 135, height / 2 + -16, 40, 20, "<--"));
 		buttonList.add(shiftIndexUpButton = new GuiButton(2, width / 2 + 105, height / 2 + -16, 40, 20, "-->"));
-		buttonList.add(divorceButton = new GuiButton(3, width / 2 - 20, height / 2 + 50 + -16, 65, 20, Localization.getString("gui.button.special.priest.divorce")));
+		buttonList.add(divorceButton = new GuiButton(3, width / 2 - 20, height / 2 + 50 + -16, 65, 20, LanguageHelper.getString("gui.button.special.priest.divorce")));
 
 		try
 		{
@@ -261,11 +261,11 @@ public class GuiSpecialDivorceCouple extends AbstractGui
 
 		catch (ArrayIndexOutOfBoundsException e)
 		{
-			buttonList.add(selectedCoupleButton = new GuiButton(4, width / 2 - 95, height / 2 + -16, Localization.getString("gui.button.special.priest.divorcecouple.nonefound")));
+			buttonList.add(selectedCoupleButton = new GuiButton(4, width / 2 - 95, height / 2 + -16, LanguageHelper.getString("gui.button.special.priest.divorcecouple.nonefound")));
 		}
 
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, Localization.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, Localization.getString("gui.button.exit")));
+		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = true;
 	}
 
@@ -376,12 +376,12 @@ public class GuiSpecialDivorceCouple extends AbstractGui
 
 		if (spouseEntity1 != null)
 		{
-			PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(spouseEntity1.entityId, "shouldDivorce", true));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouseEntity1.entityId, "shouldDivorce", true));
 		}
 
 		if (spouseEntity2 != null)
 		{
-			PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(spouseEntity2.entityId, "shouldDivorce", true));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouseEntity2.entityId, "shouldDivorce", true));
 		}
 	}
 }

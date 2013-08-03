@@ -9,15 +9,25 @@
 
 package mca.core;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.Deflater;
+import java.util.zip.Inflater;
 
 import mca.block.BlockTombstone;
 import mca.client.gui.GuiHandler;
@@ -42,7 +52,8 @@ import mca.core.forge.EventHooks;
 import mca.core.forge.PacketHandler;
 import mca.core.io.ModPropertiesManager;
 import mca.core.io.WorldPropertiesManager;
-import mca.core.util.Localization;
+import mca.core.util.LanguageHelper;
+import mca.entity.AbstractEntity;
 import mca.entity.EntityChoreFishHook;
 import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
@@ -112,7 +123,7 @@ public class MCA
 	public static MCA instance;
 
 	/** An instance of the sided proxy. */
-	@SidedProxy(clientSide="mca.ClientProxy", serverSide="mca.CommonProxy")
+	@SidedProxy(clientSide="mca.core.forge.ClientProxy", serverSide="mca.core.forge.CommonProxy")
 	public static CommonProxy proxy;
 
 	//Creative tab.
@@ -210,6 +221,7 @@ public class MCA
 	//World-specific fields.
 	public boolean hasNotifiedOfBabyReadyToGrow = false;
 
+	//Maps of data
 	/**Map of marriage requests. Key = request sender, Value = request recipient.**/
 	public Map<String, String> marriageRequests = new HashMap<String, String>();
 
@@ -222,6 +234,477 @@ public class MCA
 	/**Map of all current players and their world properties manager. Server side only.**/
 	public Map<String, WorldPropertiesManager> playerWorldManagerMap = new HashMap<String, WorldPropertiesManager>();
 
+	/** List of the male names loaded from MaleNames.txt.*/
+	public static List<String> maleNames = new ArrayList<String>();
+
+	/** List of the female names loaded from FemaleNames.txt.*/
+	public static List<String> femaleNames = new ArrayList<String>();
+
+	/** List of the locations of male farmer skins in the Minecraft JAR/MCA Folder.*/
+	public static List<String> farmerSkinsMale = new ArrayList<String>();
+
+	/** List of the locations of male librarian skins in the Minecraft JAR/MCA Folder.*/
+	public static List<String> librarianSkinsMale = new ArrayList<String>();
+
+	/** List of the locations of male priest skins in the Minecraft JAR/MCA Folder.*/
+	public static List<String> priestSkinsMale = new ArrayList<String>();
+
+	/** List of the locations of male smith skins in the Minecraft JAR/MCA Folder.*/
+	public static List<String> smithSkinsMale  = new ArrayList<String>();
+
+	/** List of the locations of male butcher skins in the Minecraft JAR/MCA Folder.*/
+	public static List<String> butcherSkinsMale = new ArrayList<String>();
+
+	/** List of the locations of male guard skins in the Minecraft JAR/MCA Folder.*/
+	public static List<String> guardSkinsMale = new ArrayList<String>();
+
+	/** List of the locations of male kid skins in the Minecraft JAR/MCA Folder.*/
+	public static List<String> kidSkinsMale = new ArrayList<String>();
+
+	/** List of the locations of male baker skins in the Minecraft JAR/MCA Folder.*/
+	public static List<String> bakerSkinsMale = new ArrayList<String>();
+
+	/** List of the locations of male miner skins in the Minecraft JAR/MCA Folder.*/
+	public static List<String> minerSkinsMale = new ArrayList<String>();
+
+	/** List of the locations of female farmer skins in the Minecraft JAR/MCA Folder.*/
+	public static List<String> farmerSkinsFemale = new ArrayList<String>();
+
+	/** List of the locations of female librarian skins in the Minecraft JAR/MCA Folder.*/
+	public static List<String> librarianSkinsFemale = new ArrayList<String>();
+
+	/** List of the locations of female priest skins in the Minecraft JAR/MCA Folder.*/
+	public static List<String> priestSkinsFemale = new ArrayList<String>();
+
+	/** List of the locations of female smith skins in the Minecraft JAR/MCA Folder.*/
+	public static List<String> smithSkinsFemale = new ArrayList<String>();
+
+	/** List of the locations of female butcher skins in the Minecraft JAR/MCA Folder.*/
+	public static List<String> butcherSkinsFemale = new ArrayList<String>();
+
+	/** List of the locations of female guard skins in the Minecraft JAR/MCA Folder.*/
+	public static List<String> guardSkinsFemale = new ArrayList<String>();
+
+	/** List of the locations of female kid skins in the Minecraft JAR/MCA Folder.*/
+	public static List<String> kidSkinsFemale = new ArrayList<String>();
+
+	/** List of the locations of female baker skins in the Minecraft JAR/MCA Folder.*/
+	public static List<String> bakerSkinsFemale	= new ArrayList<String>();
+
+	/** List of the locations of female miner skins in the Minecraft JAR/MCA Folder.*/
+	public static List<String> minerSkinsFemale	= new ArrayList<String>();
+
+	/** Map of the IDs of items and the amount of hearts given to the villager who receives this item.*/
+	public static Map<Integer, Integer> acceptableGifts = new HashMap<Integer, Integer>();
+
+	/** 2D array containing the item IDs of wedding gifts considered junk gifts.
+	 * Index zero of each array is the item/block ID.
+	 * Index one is the minimum amount that can be given to the player.
+	 * Index two is the maximum amount that can be given to the player.*/
+	public static Object[][] weddingJunkGiftIDs = 
+		{
+		{Block.dirt.blockID, 1, 6},
+		{Block.deadBush.blockID, 1, 1},
+		{Block.cactus.blockID, 1, 3},
+		{Item.stick.itemID, 1, 4},
+		{Item.rottenFlesh.itemID, 1, 4},
+		};
+
+	/** 2D array containing the item IDs of wedding gifts considered small gifts.
+	 * Index zero of each array is the item/block ID.
+	 * Index one is the minimum amount that can be given to the player.
+	 * Index two is the maximum amount that can be given to the player.*/
+	public static Object[][] weddingSmallGiftIDs =
+		{
+		{Item.clay.itemID, 4, 16},
+		{Item.axeStone.itemID, 1, 1},
+		{Item.swordStone.itemID, 1, 1},
+		{Item.shovelStone.itemID, 1, 1},
+		{Item.appleRed.itemID, 1, 4},
+		{Item.arrow.itemID, 8, 16},
+		{Item.pickaxeStone.itemID, 1, 1},
+		{Item.book.itemID, 1, 2},
+		{Item.redstone.itemID, 8, 32},
+		{Item.porkCooked.itemID, 3, 6},
+		{Item.beefCooked.itemID, 3, 6},
+		{Item.chickenCooked.itemID, 3, 6},
+		{Item.bread.itemID, 1, 3},
+		{Block.planks.blockID, 2, 16},
+		{Block.wood.blockID, 2, 16},
+		{Block.cobblestone.blockID, 2, 16},
+		{Item.coal.itemID, 2, 8}
+		};
+
+	/** 2D array containing the item IDs of wedding gifts considered regular gifts.
+	 * Index zero of each array is the item/block ID.
+	 * Index one is the minimum amount that can be given to the player.
+	 * Index two is the maximum amount that can be given to the player.*/
+	public static Object[][] weddingRegularGiftIDs =
+		{
+		{Item.clay.itemID, 16, 32},
+		{Item.axeIron.itemID, 1, 1},
+		{Item.swordIron.itemID, 1, 1},
+		{Item.shovelIron.itemID, 1, 1},
+		{Item.arrow.itemID, 16, 32},
+		{Item.pickaxeIron.itemID, 1, 1},
+		{Item.redstone.itemID, 8, 32},
+		{Item.porkCooked.itemID, 6, 8},
+		{Item.beefCooked.itemID, 6, 8},
+		{Item.chickenCooked.itemID, 6, 8},
+		{Block.planks.blockID, 16, 32},
+		{Block.wood.blockID, 16, 32},
+		{Block.cobblestone.blockID, 16, 32},
+		{Item.coal.itemID, 10, 16},
+		{Item.legsIron.itemID, 1, 1},
+		{Item.helmetIron.itemID, 1, 1},
+		{Item.bootsIron.itemID, 1, 1},
+		{Item.plateIron.itemID, 1, 1},
+		{Item.melon.itemID, 4, 8},
+		{Block.bookShelf.blockID, 2, 4},
+		{Item.ingotIron.itemID, 8, 16}
+		};
+
+	/** 2D array containing the item IDs of wedding gifts considered great gifts.
+	 * Index zero of each array is the item/block ID.
+	 * Index one is the minimum amount that can be given to the player.
+	 * Index two is the maximum amount that can be given to the player.*/
+	public static Object[][] weddingGreatGiftIDs =
+		{
+		{Block.brick.blockID, 32, 32},
+		{Item.axeDiamond.itemID, 1, 1},
+		{Item.swordDiamond.itemID, 1, 1},
+		{Item.shovelDiamond.itemID, 1, 1},
+		{Item.arrow.itemID, 64, 64},
+		{Item.pickaxeDiamond.itemID, 1, 1},
+		{Block.planks.blockID, 32, 64},
+		{Block.wood.blockID, 32, 64},
+		{Block.cobblestone.blockID, 32, 64},
+		{Item.coal.itemID, 32, 64},
+		{Item.legsDiamond.itemID, 1, 1},
+		{Item.helmetDiamond.itemID, 1, 1},
+		{Item.bootsDiamond.itemID, 1, 1},
+		{Item.plateDiamond.itemID, 1, 1},
+		{Item.eyeOfEnder.itemID, 4, 8},
+		{Block.enchantmentTable.blockID, 1, 1},
+		{Block.cobblestoneMossy.blockID, 32, 64},
+		{Item.diamond.itemID, 8, 16},
+		{Block.jukebox.blockID, 1, 1},
+		{Block.blockDiamond.blockID, 1, 2},
+		{Block.blockGold.blockID, 1, 4},
+		{Block.blockIron.blockID, 1, 8},
+		{Block.obsidian.blockID, 4, 8},
+		{Item.emerald.itemID, 4, 6}
+		};
+
+	/** 2D array containing the item IDs of items that a farmer may give to the player.
+	 * Index zero of each array is the item/block ID.
+	 * Index one is the minimum amount that can be given to the player.
+	 * Index two is the maximum amount that can be given to the player.*/
+	public static Object[][] farmerAidIDs =
+		{
+		{Item.wheat.itemID, 1, 4},
+		{Item.appleRed.itemID, 1, 3},
+		{Item.seeds.itemID, 3, 12},
+		{Item.reed.itemID, 3, 6},
+		{Item.carrot.itemID, 3, 6},
+		{Item.potato.itemID, 2, 4},
+		};
+
+	/** 2D array containing the item IDs of items that a butcher may give to the player.
+	 * Index zero of each array is the item/block ID.
+	 * Index one is the minimum amount that can be given to the player.
+	 * Index two is the maximum amount that can be given to the player.*/
+	public static Object[][] butcherAidIDs =
+		{
+		{Item.beefRaw.itemID, 1, 3},
+		{Item.porkRaw.itemID, 1, 3},
+		{Item.chickenRaw.itemID, 1, 3},
+		{Item.leather.itemID, 2, 6},
+		{Item.feather.itemID, 6, 12},
+		};
+
+	/** 2D array containing the item IDs of items that a baker may give to the player.
+	 * Index zero of each array is the item/block ID.
+	 * Index one is the minimum amount that can be given to the player.
+	 * Index two is the maximum amount that can be given to the player.*/
+	public static Object[][] bakerAidIDs =
+		{
+		{Item.bread.itemID, 1, 4},
+		{Item.cake.itemID, 1, 1},
+		};
+
+	/**
+	 * Map that contains string translations loaded from language files.
+	 * Key will be the ID of the phrase.
+	 * Value will be the translated representation of the phrase.
+	 */
+	public static Map<String, String> stringTranslations = new HashMap();
+
+	/**
+	 * Gets the appropriate skin list for the entity provided.
+	 * 
+	 * @param 	entity	The entity that needs a list of valid skins.
+	 * 
+	 * @return	A list of skins that are valid for the provided entity.
+	 */
+	public static List<String> getSkinList(AbstractEntity entity)
+	{
+		if (!(entity instanceof EntityPlayerChild))
+		{
+			if (entity.gender.equals("Male"))
+			{
+				switch (entity.profession)
+				{
+				case 0: return MCA.farmerSkinsMale;
+				case 1: return MCA.instance.librarianSkinsMale;
+				case 2: return MCA.instance.priestSkinsMale;
+				case 3: return MCA.instance.smithSkinsMale;
+				case 4: return MCA.instance.butcherSkinsMale;
+				case 5: return MCA.instance.guardSkinsMale;
+				case 6: return MCA.instance.bakerSkinsMale;
+				case 7: return MCA.instance.minerSkinsMale;
+				}
+			}
+	
+			else
+			{
+				switch (entity.profession)
+				{
+				case 0: return MCA.instance.farmerSkinsFemale;
+				case 1: return MCA.instance.librarianSkinsFemale;
+				case 2: return MCA.instance.priestSkinsFemale;
+				case 3: return MCA.instance.smithSkinsFemale;
+				case 4: return null;
+				case 5: return MCA.instance.guardSkinsFemale;
+				case 6: return MCA.instance.bakerSkinsFemale;
+				case 7: return MCA.instance.minerSkinsFemale;
+				}
+			}
+		}
+	
+		else
+		{
+			if (entity.gender.equals("Male"))
+			{
+				return MCA.instance.kidSkinsMale;
+			}
+	
+			else if (entity.gender.equals("Female"))
+			{
+				return MCA.instance.kidSkinsFemale;
+			}
+		}
+	
+		return null;
+	}
+
+	/**
+	 * Deflates a byte array.
+	 * 
+	 * @param 	input	The byte array to be deflated.
+	 * 
+	 * @return	Deflated byte array.
+	 */
+	public static byte[] compressBytes(byte[] input)
+	{
+		try
+		{
+			Deflater deflater = new Deflater();
+			deflater.setLevel(Deflater.BEST_COMPRESSION);
+			deflater.setInput(input);
+	
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream(input.length);
+			deflater.finish();
+	
+			byte[] buffer = new byte[1024];
+	
+			while(!deflater.finished())
+			{
+				int count = deflater.deflate(buffer);
+				byteOutput.write(buffer, 0, count);
+			}
+	
+			byteOutput.close();
+			return byteOutput.toByteArray();
+		}
+	
+		catch (Throwable e)
+		{
+			MCA.instance.quitWithError("Error compressing byte array.", e);
+			return null;
+		}
+	}
+
+	/**
+	 * Inflates a deflated byte array.
+	 * 
+	 * @param 	input	The byte array to be deflated.
+	 * 
+	 * @return	Decompressed byte array.
+	 */
+	public static byte[] decompressBytes(byte[] input)
+	{
+		try
+		{
+			Inflater inflater = new Inflater();
+			inflater.setInput(input);
+	
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream(input.length);
+	
+			byte[] buffer = new byte[1024];
+	
+			while(!inflater.finished())
+			{
+				int count = inflater.inflate(buffer);
+				byteOutput.write(buffer, 0, count);
+			}
+	
+			byteOutput.close();
+			return byteOutput.toByteArray();
+		}
+	
+		catch (Throwable e)
+		{
+			MCA.instance.quitWithError("Error decompressing byte array.", e);
+			return null;
+		}
+	}
+
+	/**
+	 * Deletes a path and all files and folders within.
+	 * 
+	 * @param 	file	The path to delete.
+	 */
+	public static void deletePath(File file)
+	{
+		if (file.isDirectory())
+		{
+			if (file.list().length == 0)
+			{
+				file.delete();
+			}
+
+			else
+			{
+				String files[] = file.list();
+
+				for (String temp : files)
+				{
+					File fileDelete = new File(file, temp);
+					deletePath(fileDelete);
+				}
+
+				if (file.list().length == 0)
+				{
+					file.delete();
+				}
+			}
+		}
+
+		else
+		{
+			file.delete();
+		}
+	}
+
+	/**
+	 * Counts lines of code in source distribution.
+	 */
+	public static void countLinesOfCode()
+	{
+		int lines = 0;
+		FileInputStream fileStream;
+		DataInputStream inputStream;
+		BufferedReader bufferedreader;
+
+		String sourceDir = "D:/Programming/Minecraft Comes Alive/Forge/mcp/src/minecraft/mods/MCA/";
+
+		for (File file : new File(sourceDir).listFiles())
+		{
+			if (file.isFile())
+			{
+				try
+				{
+					String readString = "";
+
+					fileStream = new FileInputStream(file);
+					inputStream = new DataInputStream(fileStream);
+					bufferedreader = new BufferedReader(new InputStreamReader(inputStream));
+
+					while ((readString = bufferedreader.readLine()) != null)  
+					{
+						lines++;
+					}
+				}
+
+				catch (Throwable e)
+				{
+					MCA.instance.log(e);
+					continue;
+				}
+			}
+		}
+
+		System.out.println("Lines of code: " + lines);
+	}
+
+	/**
+	 * Tests all valid lines within the source for errors when requested from the language system.
+	 */
+	public static void testLanguage()
+	{
+		AbstractEntity dummyEntity = new EntityVillagerAdult();
+		String sourceDir = "D:/Programming/Minecraft Comes Alive/Development/src/minecraft/mca/";
+		FileInputStream fileStream;;
+		DataInputStream in;
+		BufferedReader br;
+		int lineNumber = 0;
+		System.out.println(sourceDir);
+
+		for (File file : new File(sourceDir).listFiles())
+		{
+			lineNumber = 0;
+			String readString = "";
+
+			try
+			{
+				fileStream = new FileInputStream(file);
+				in = new DataInputStream(fileStream);
+				br = new BufferedReader(new InputStreamReader(in));
+
+				while ((readString = br.readLine()) != null)  
+				{
+					lineNumber++;
+
+					if (readString.contains("Localization.getString(") && readString.contains("static") == false)
+					{
+						readString = readString.trim();
+
+						boolean useCharacterType = readString.contains("true");
+						int firstQuoteIndex = readString.indexOf('"');
+						int nextQuoteIndex = readString.indexOf('"', firstQuoteIndex + 1);
+
+						String validString = readString.substring(firstQuoteIndex, nextQuoteIndex).replaceAll("\"", "");
+						String result = LanguageHelper.getString(null, dummyEntity, validString, useCharacterType);
+
+						if (result.contains("not found") || result.contains("(Parsing error)"))
+						{
+							System.out.println(result + " in " + file.getName() + " line " + lineNumber);
+						}
+
+						//System.out.println("Result of: " + validString + " in " + file.getName() + " = \t\t\t" + getString(null, validString));
+					}
+				}
+			}
+
+			catch (Throwable e)
+			{
+				System.out.println("Error on " + readString);
+				continue;
+			}
+		}
+	}
+	
 	/**
 	 * Runs code as soon as possible. Specifically before a player's stats are checked for invalidity (Achievement bug).
 	 * So just for the heck of it, let's init EVERYTHING here along with achievements.
@@ -281,9 +764,9 @@ public class MCA
 				return new ItemStack(itemEngagementRing, 1, 0);
 			}
 		};
-	    LanguageRegistry.instance().addStringLocalization("itemGroup.tabMCA", "Minecraft Comes Alive");
-	    
-	    //Set creative tabs.
+		LanguageRegistry.instance().addStringLocalization("itemGroup.tabMCA", "Minecraft Comes Alive");
+
+		//Set creative tabs.
 		itemWeddingRing = itemWeddingRing.setCreativeTab(tabMCA);
 		itemEngagementRing = itemEngagementRing.setCreativeTab(tabMCA);
 		itemArrangersRing = itemArrangersRing.setCreativeTab(tabMCA);
@@ -302,7 +785,7 @@ public class MCA
 		itemKingsPants = itemKingsPants.setCreativeTab(tabMCA);
 		itemKingsBoots = itemKingsBoots.setCreativeTab(tabMCA);
 		blockTombstone = blockTombstone.setCreativeTab(tabMCA);
-		
+
 		//Register recipes.
 		GameRegistry.addRecipe(new ItemStack(itemEngagementRing, 1), new Object[]
 				{
@@ -446,7 +929,7 @@ public class MCA
 		//				achievementUseFertilityPotion);
 		AchievementPage.registerAchievementPage(achievementPageMCA);
 
-		Localization.loadLanguage();
+		LanguageHelper.loadLanguage();
 	}
 
 	/**
@@ -694,5 +1177,139 @@ public class MCA
 		{
 			return 0;
 		}
+	}
+
+	static
+	{
+		acceptableGifts.put(Item.swordWood.itemID, 3);
+		acceptableGifts.put(Item.axeWood.itemID, 3);
+		acceptableGifts.put(Item.hoeWood.itemID, 3);
+		acceptableGifts.put(Item.shovelWood.itemID, 3);
+		acceptableGifts.put(Item.swordStone.itemID, 5);
+		acceptableGifts.put(Item.axeStone.itemID, 5);
+		acceptableGifts.put(Item.hoeStone.itemID, 5);
+		acceptableGifts.put(Item.shovelStone.itemID, 5);
+		acceptableGifts.put(Item.pickaxeWood.itemID, 3);
+		acceptableGifts.put(Item.beefRaw.itemID, 2);
+		acceptableGifts.put(Item.chickenRaw.itemID, 2);
+		acceptableGifts.put(Item.porkRaw.itemID, 2);
+		acceptableGifts.put(Item.leather.itemID, 2);
+		acceptableGifts.put(Item.plateLeather.itemID, 5);
+		acceptableGifts.put(Item.helmetLeather.itemID, 5);
+		acceptableGifts.put(Item.legsLeather.itemID, 5);
+		acceptableGifts.put(Item.bootsLeather.itemID, 5);
+		acceptableGifts.put(Item.reed.itemID, 2);
+		acceptableGifts.put(Item.seeds.itemID, 2);
+		acceptableGifts.put(Item.wheat.itemID, 3);
+		acceptableGifts.put(Item.bread.itemID, 6);
+		acceptableGifts.put(Item.coal.itemID, 5);
+		acceptableGifts.put(Item.sugar.itemID, 5);
+		acceptableGifts.put(Item.clay.itemID, 2);
+		acceptableGifts.put(Item.dyePowder.itemID, 1);
+
+		acceptableGifts.put(Item.beefCooked.itemID, 7);
+		acceptableGifts.put(Item.chickenCooked.itemID, 7);
+		acceptableGifts.put(Item.porkCooked.itemID, 7);
+		acceptableGifts.put(Item.cookie.itemID, 10);
+		acceptableGifts.put(Item.melon.itemID, 10);
+		acceptableGifts.put(Item.melonSeeds.itemID, 5);
+		acceptableGifts.put(Item.helmetIron.itemID, 10);
+		acceptableGifts.put(Item.plateIron.itemID, 10);
+		acceptableGifts.put(Item.legsIron.itemID, 10);
+		acceptableGifts.put(Item.bootsIron.itemID, 10);
+		acceptableGifts.put(Item.cake.itemID, 12);
+		acceptableGifts.put(Item.swordIron.itemID, 10);
+		acceptableGifts.put(Item.axeIron.itemID, 10);
+		acceptableGifts.put(Item.hoeIron.itemID, 10);
+		acceptableGifts.put(Item.pickaxeIron.itemID, 10);
+		acceptableGifts.put(Item.shovelIron.itemID, 10);
+		acceptableGifts.put(Item.fishingRod.itemID, 3);
+		acceptableGifts.put(Item.bow.itemID, 5);
+		acceptableGifts.put(Item.book.itemID, 5);
+		acceptableGifts.put(Item.bucketEmpty.itemID, 3);
+		acceptableGifts.put(Item.bucketMilk.itemID, 5);
+		acceptableGifts.put(Item.bucketWater.itemID, 2);
+		acceptableGifts.put(Item.bucketLava.itemID, 2);
+		acceptableGifts.put(Item.bowlSoup.itemID, 5);
+		acceptableGifts.put(Item.pumpkinSeeds.itemID, 8);
+		acceptableGifts.put(Item.flintAndSteel.itemID, 4);
+		acceptableGifts.put(Item.redstone.itemID, 5);
+		acceptableGifts.put(Item.boat.itemID, 4);
+		acceptableGifts.put(Item.doorWood.itemID, 4);
+		acceptableGifts.put(Item.doorIron.itemID, 6);
+		acceptableGifts.put(Item.minecartEmpty.itemID, 3);
+		acceptableGifts.put(Item.minecartCrate.itemID, 5);
+		acceptableGifts.put(Item.minecartPowered.itemID, 7);
+		acceptableGifts.put(Item.flint.itemID, 2);
+		acceptableGifts.put(Item.goldNugget.itemID, 4);
+		acceptableGifts.put(Item.ingotGold.itemID, 20);
+		acceptableGifts.put(Item.ingotIron.itemID, 10);
+
+		acceptableGifts.put(Item.diamond.itemID, 30);
+		acceptableGifts.put(Item.map.itemID, 10);
+		acceptableGifts.put(Item.pocketSundial.itemID, 5);
+		acceptableGifts.put(Item.compass.itemID, 5);
+		acceptableGifts.put(Item.blazeRod.itemID, 10);
+		acceptableGifts.put(Item.blazePowder.itemID, 5);
+		acceptableGifts.put(Item.swordDiamond.itemID, 15);
+		acceptableGifts.put(Item.axeDiamond.itemID, 15);
+		acceptableGifts.put(Item.shovelDiamond.itemID, 15);
+		acceptableGifts.put(Item.hoeDiamond.itemID, 15);
+		acceptableGifts.put(Item.pickaxeDiamond.itemID, 15);
+		acceptableGifts.put(Item.helmetDiamond.itemID, 15);
+		acceptableGifts.put(Item.plateDiamond.itemID, 15);
+		acceptableGifts.put(Item.legsDiamond.itemID, 15);
+		acceptableGifts.put(Item.bootsDiamond.itemID, 15);
+		acceptableGifts.put(Item.painting.itemID, 6);
+		acceptableGifts.put(Item.enderPearl.itemID, 5);
+		acceptableGifts.put(Item.eyeOfEnder.itemID, 10);
+		acceptableGifts.put(Item.potion.itemID, 3);
+		acceptableGifts.put(Item.slimeBall.itemID, 3);
+		acceptableGifts.put(Item.saddle.itemID, 5);
+		acceptableGifts.put(Item.gunpowder.itemID, 7);
+		acceptableGifts.put(Item.appleGold.itemID, 25);
+		acceptableGifts.put(Item.record11.itemID, 15);
+		acceptableGifts.put(Item.record13.itemID, 15);
+		acceptableGifts.put(Item.recordBlocks.itemID, 15);
+		acceptableGifts.put(Item.recordCat.itemID, 15);
+		acceptableGifts.put(Item.recordChirp.itemID, 15);
+		acceptableGifts.put(Item.recordFar.itemID, 15);
+		acceptableGifts.put(Item.recordMall.itemID, 15);
+		acceptableGifts.put(Item.recordMellohi.itemID, 15);
+		acceptableGifts.put(Item.recordStal.itemID, 15);
+		acceptableGifts.put(Item.recordStrad.itemID, 15);
+		acceptableGifts.put(Item.recordWard.itemID, 15);
+		acceptableGifts.put(Item.emerald.itemID, 25);
+
+		acceptableGifts.put(Block.plantRed.blockID, 3);
+		acceptableGifts.put(Block.plantYellow.blockID, 3);
+		acceptableGifts.put(Block.planks.blockID, 5);
+		acceptableGifts.put(Block.wood.blockID, 3);
+
+		acceptableGifts.put(Block.pumpkin.blockID, 3);
+		acceptableGifts.put(Block.chest.blockID, 5);
+		acceptableGifts.put(Block.cloth.blockID, 2);
+		acceptableGifts.put(Block.oreIron.blockID, 4);
+		acceptableGifts.put(Block.oreGold.blockID, 7);
+		acceptableGifts.put(Block.oreRedstone.blockID, 3);
+		acceptableGifts.put(Block.rail.blockID, 3);
+		acceptableGifts.put(Block.railDetector.blockID, 5);
+		acceptableGifts.put(Block.railPowered.blockID, 5);
+		acceptableGifts.put(Block.furnaceIdle.blockID, 5);
+		acceptableGifts.put(Block.workbench.blockID, 5);
+		acceptableGifts.put(Block.blockLapis.blockID, 15);
+
+		acceptableGifts.put(Block.bookShelf.blockID, 7);
+		acceptableGifts.put(Block.blockGold.blockID, 50);
+		acceptableGifts.put(Block.blockIron.blockID, 25);
+		acceptableGifts.put(Block.blockDiamond.blockID, 100);
+		acceptableGifts.put(Block.brewingStand.blockID, 12);
+		acceptableGifts.put(Block.enchantmentTable.blockID, 25);
+		acceptableGifts.put(Block.brick.blockID, 15);
+		acceptableGifts.put(Block.obsidian.blockID, 15);
+		acceptableGifts.put(Block.pistonBase.blockID, 10);
+		acceptableGifts.put(Block.glowStone.blockID, 10);
+
+		acceptableGifts.put(Block.blockEmerald.blockID, 100);
 	}
 }

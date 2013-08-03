@@ -9,7 +9,7 @@
 
 package mca.enums;
 
-import mca.core.util.Localization;
+import mca.core.util.LanguageHelper;
 import mca.entity.AbstractEntity;
 
 /**
@@ -75,7 +75,7 @@ public enum EnumRelation
 	 */
 	public String toString() 
 	{
-		return Localization.getString("family." + this.getValue().toLowerCase().replaceAll(" ", ""));
+		return LanguageHelper.getString("family." + this.getValue().toLowerCase().replaceAll(" ", ""));
 	}
 	
 	/**
@@ -97,18 +97,18 @@ public enum EnumRelation
 		{
 			if (isInformal)
 			{
-				return Localization.getString(entity, "family." + this.getValue().toLowerCase().replaceAll(" ", "") + ".informal", false);
+				return LanguageHelper.getString(entity, "family." + this.getValue().toLowerCase().replaceAll(" ", "") + ".informal", false);
 			}
 			
 			else
 			{
-				return Localization.getString(entity, "family." + this.getValue().toLowerCase().replaceAll(" ", "") + ".formal", false);
+				return LanguageHelper.getString(entity, "family." + this.getValue().toLowerCase().replaceAll(" ", "") + ".formal", false);
 			}
 		}
 		
 	    else if (!value.equals("Spouse") && !value.equals("Parent"))
 		{
-			return Localization.getString(entity, "family." + this.getValue().toLowerCase().replaceAll(" ", ""), false);
+			return LanguageHelper.getString(entity, "family." + this.getValue().toLowerCase().replaceAll(" ", ""), false);
 		}
 		
 		else if (value.equals("Parent"))
@@ -123,7 +123,7 @@ public enum EnumRelation
 				value = "Mother";
 			}
 			
-			return Localization.getString(entity, "family." + this.getValue().toLowerCase().replaceAll(" ", ""), false);
+			return LanguageHelper.getString(entity, "family." + this.getValue().toLowerCase().replaceAll(" ", ""), false);
 		}
 		
 		else
@@ -138,7 +138,7 @@ public enum EnumRelation
 				value = "Wife";
 			}
 			
-			return Localization.getString(entity, "family." + this.getValue().toLowerCase().replaceAll(" ", ""), false);
+			return LanguageHelper.getString(entity, "family." + this.getValue().toLowerCase().replaceAll(" ", ""), false);
 		}
 	}
 

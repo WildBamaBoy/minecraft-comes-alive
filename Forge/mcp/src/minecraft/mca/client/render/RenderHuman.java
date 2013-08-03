@@ -10,7 +10,7 @@
 package mca.client.render;
 
 import mca.core.MCA;
-import mca.core.util.Localization;
+import mca.core.util.LanguageHelper;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityVillagerAdult;
@@ -387,14 +387,14 @@ public class RenderHuman extends RenderLiving
 				//Skip rendering of health in Multiplayer.
 				if (entity.hasArrangerRing)
 				{
-					renderLabel(entity, posX, posY, posZ, Localization.getString("gui.overhead.hasring"));
+					renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.hasring"));
 				}
 
 				else if (entity.isSleeping)
 				{
 					if (entity.canEntityBeSeen(Minecraft.getMinecraft().thePlayer))
 					{
-						renderLabel(entity, posX, posY, posZ, Localization.getString("gui.overhead.sleeping"));
+						renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.sleeping"));
 					}
 				}
 
@@ -409,7 +409,7 @@ public class RenderHuman extends RenderLiving
 
 						if (memory.hasGift)
 						{
-							renderLabel(entity, posX, posY, posZ, Localization.getString("gui.overhead.hasgift"));
+							renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.hasgift"));
 						}
 					}
 				}
@@ -424,21 +424,21 @@ public class RenderHuman extends RenderLiving
 				{
 					if (serverEntity.getHealth() < entity.getMaxHealth())
 					{
-						renderLabel(entity, posX, posY, posZ, Localization.getString("gui.overhead.health") + Math.round(serverEntity.getHealth()) + "/" + entity.getMaxHealth());
+						renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.health") + Math.round(serverEntity.getHealth()) + "/" + entity.getMaxHealth());
 						return;
 					}
 				}
 
 				if (entity.hasArrangerRing)
 				{
-					renderLabel(entity, posX, posY, posZ, Localization.getString("gui.overhead.hasring"));
+					renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.hasring"));
 				}
 
 				else if (entity.isSleeping && MCA.instance.playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username).worldProperties.hideSleepingTag == false)
 				{
 					if (entity.canEntityBeSeen(Minecraft.getMinecraft().thePlayer))
 					{
-						renderLabel(entity, posX, posY, posZ, Localization.getString("gui.overhead.sleeping"));
+						renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.sleeping"));
 					}
 				}
 
@@ -453,7 +453,7 @@ public class RenderHuman extends RenderLiving
 
 						if (memory.hasGift)
 						{
-							renderLabel(entity, posX, posY, posZ, Localization.getString("gui.overhead.hasgift"));
+							renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.hasgift"));
 						}
 					}
 				}

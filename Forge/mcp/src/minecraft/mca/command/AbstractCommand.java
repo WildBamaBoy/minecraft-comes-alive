@@ -9,7 +9,7 @@
 
 package mca.command;
 
-import mca.core.util.PacketCreator;
+import mca.core.util.PacketHelper;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -65,7 +65,7 @@ public abstract class AbstractCommand extends CommandBase
 			}
 		}
 
-		PacketDispatcher.sendPacketToPlayer(PacketCreator.createSayLocalizedPacket(player, null, id, false, prefix, suffix), (Player)player);
+		PacketDispatcher.sendPacketToPlayer(PacketHelper.createSayLocalizedPacket(player, null, id, false, prefix, suffix), (Player)player);
 	}
 
 	/**
@@ -91,6 +91,6 @@ public abstract class AbstractCommand extends CommandBase
 			}
 		}
 
-		PacketDispatcher.sendPacketToPlayer(PacketCreator.createSayLocalizedPacket(player, null, id, false, prefix, suffix), (Player)recipient);
+		PacketDispatcher.sendPacketToPlayer(PacketHelper.createSayLocalizedPacket(player, null, id, false, prefix, suffix), (Player)recipient);
 	}
 }

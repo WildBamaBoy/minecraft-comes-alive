@@ -13,7 +13,7 @@ import java.util.List;
 
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.core.util.Localization;
+import mca.core.util.LanguageHelper;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import net.minecraft.entity.player.EntityPlayer;
@@ -126,8 +126,8 @@ public class ItemBaby extends Item
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List informationList, boolean unknown)
 	{
-		informationList.add(Localization.getString("information.baby.line1"));
-		informationList.add(Localization.getString("information.baby.line2"));
-		informationList.add(Localization.getString("information.baby.line3"));
+		informationList.add(LanguageHelper.getString("information.baby.line1"));
+		informationList.add(LanguageHelper.getString("information.baby.line2"));
+		informationList.add(LanguageHelper.getString("information.baby.line3"));
 	}
 }

@@ -29,10 +29,9 @@ import mca.chore.ChoreMining;
 import mca.chore.ChoreWoodcutting;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.core.util.DataStore;
-import mca.core.util.Localization;
-import mca.core.util.Logic;
-import mca.core.util.PacketCreator;
+import mca.core.util.LanguageHelper;
+import mca.core.util.LogicHelper;
+import mca.core.util.PacketHelper;
 import mca.core.util.object.FamilyTree;
 import mca.core.util.object.PlayerMemory;
 import mca.enums.EnumMood;
@@ -248,7 +247,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			if (texture.contains("steve") && !sentSyncRequest)
 			{
 				//Request sync from the server.
-				PacketDispatcher.sendPacketToServer(PacketCreator.createSyncRequestPacket(entityId));
+				PacketDispatcher.sendPacketToServer(PacketHelper.createSyncRequestPacket(entityId));
 				sentSyncRequest = true;
 			}
 		}
@@ -565,17 +564,17 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				modifyHearts(player, -5);
 				modifyMoodPoints(EnumMoodChangeContext.HitByPlayer, 0.5F);
 				lastInteractingPlayer = player.username;
-				say(Localization.getString(player, this, "hitbyplayer", true));
+				say(LanguageHelper.getString(player, this, "hitbyplayer", true));
 
-				PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createFieldValuePacket(entityId, "lastInteractingPlayer", lastInteractingPlayer));
+				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "lastInteractingPlayer", lastInteractingPlayer));
 
 				if (this instanceof EntityVillagerAdult)
 				{
 					isRetaliating = true;
 					target = player;
 
-					PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createSetTargetPacket(entityId, target.entityId));
-					PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createFieldValuePacket(entityId, "isRetaliating", isRetaliating));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSetTargetPacket(entityId, target.entityId));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "isRetaliating", isRetaliating));
 				}
 
 				else if (this instanceof EntityVillagerChild)
@@ -589,13 +588,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 							{
 								AbstractEntity entity = (AbstractEntity)obj;
 
-								if (entity.mcaID == id && Logic.getDistanceToEntity(entity, player) <= 15)
+								if (entity.mcaID == id && LogicHelper.getDistanceToEntity(entity, player) <= 15)
 								{
 									entity.isRetaliating = true;
 									entity.target = player;
 
-									PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createSetTargetPacket(entity.entityId, player.entityId));
-									PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createFieldValuePacket(entity.entityId , "isRetaliating", entity.isRetaliating));
+									PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSetTargetPacket(entity.entityId, player.entityId));
+									PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entity.entityId , "isRetaliating", entity.isRetaliating));
 								}
 							}
 						}
@@ -608,13 +607,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				if (target != null && (damageSource.getSourceOfDamage() instanceof EntityLivingBase))
 				{
 					target = (EntityLivingBase)damageSource.getSourceOfDamage();
-					PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createSetTargetPacket(entityId, target.entityId));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSetTargetPacket(entityId, target.entityId));
 				}
 			}
 
 			isSleeping = false;
 
-			PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createFieldValuePacket(entityId, "isSleeping", false));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "isSleeping", false));
 		}
 	}
 
@@ -646,7 +645,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				{
 					if (!worldObj.isRemote)
 					{
-						notifyPlayer(player, Localization.getString(player, this, "notify.death." + gender.toLowerCase(), false));
+						notifyPlayer(player, LanguageHelper.getString(player, this, "notify.death." + gender.toLowerCase(), false));
 					}
 
 					player.inventory.addItemStackToInventory(new ItemStack(MCA.instance.itemTombstone));
@@ -655,7 +654,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		}
 
 		//Notify nearby villagers of the death and modify their mood.
-		for (Entity entity : (List<Entity>)Logic.getAllEntitiesOfTypeWithinDistanceOfEntity(this, AbstractEntity.class, 15))
+		for (Entity entity : (List<Entity>)LogicHelper.getAllEntitiesOfTypeWithinDistanceOfEntity(this, AbstractEntity.class, 15))
 		{
 			AbstractEntity entityBase = (AbstractEntity)entity;
 
@@ -835,53 +834,53 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				if (itemAsArmor.armorType == 0)
 				{
-					notifyPlayer(player, Localization.getString(this, "notify.item.broken.helmet"));
+					notifyPlayer(player, LanguageHelper.getString(this, "notify.item.broken.helmet"));
 				}
 
 				else if (itemAsArmor.armorType == 1)
 				{
-					notifyPlayer(player, Localization.getString(this, "notify.item.broken.chestplate"));
+					notifyPlayer(player, LanguageHelper.getString(this, "notify.item.broken.chestplate"));
 				}
 
 				else if (itemAsArmor.armorType == 2)
 				{
-					notifyPlayer(player, Localization.getString(this, "notify.item.broken.leggings"));
+					notifyPlayer(player, LanguageHelper.getString(this, "notify.item.broken.leggings"));
 				}
 
 				else if (itemAsArmor.armorType == 3)
 				{
-					notifyPlayer(player, Localization.getString(this, "notify.item.broken.boots"));
+					notifyPlayer(player, LanguageHelper.getString(this, "notify.item.broken.boots"));
 				}
 			}
 
 			else if (itemInStack instanceof ItemHoe)
 			{
-				notifyPlayer(player, Localization.getString(this, "notify.item.broken.hoe"));
+				notifyPlayer(player, LanguageHelper.getString(this, "notify.item.broken.hoe"));
 			}
 
 			else if (itemInStack instanceof ItemAxe)
 			{
-				notifyPlayer(player, Localization.getString(this, "notify.item.broken.axe"));
+				notifyPlayer(player, LanguageHelper.getString(this, "notify.item.broken.axe"));
 			}
 
 			else if (itemInStack instanceof ItemPickaxe)
 			{
-				notifyPlayer(player, Localization.getString(this, "notify.item.broken.pickaxe"));
+				notifyPlayer(player, LanguageHelper.getString(this, "notify.item.broken.pickaxe"));
 			}
 
 			else if (itemInStack instanceof ItemSword)
 			{
-				notifyPlayer(player, Localization.getString(this, "notify.item.broken.sword"));
+				notifyPlayer(player, LanguageHelper.getString(this, "notify.item.broken.sword"));
 			}
 
 			else if (itemInStack instanceof ItemFishingRod)
 			{
-				notifyPlayer(player, Localization.getString(this, "notify.item.broken.fishingrod"));
+				notifyPlayer(player, LanguageHelper.getString(this, "notify.item.broken.fishingrod"));
 			}
 
 			else if (itemInStack instanceof ItemBow)
 			{
-				notifyPlayer(player, Localization.getString(this, "notify.item.broken.bow"));
+				notifyPlayer(player, LanguageHelper.getString(this, "notify.item.broken.bow"));
 			}
 		}
 	}
@@ -895,12 +894,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		if (this.worldObj.isRemote)
 		{
-			PacketDispatcher.sendPacketToServer(PacketCreator.createKillPacket(this));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createKillPacket(this));
 		}
 
 		else
 		{
-			PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createKillPacket(this));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createKillPacket(this));
 		}
 	}
 
@@ -946,7 +945,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				MCA.instance.log("WARNING: Unable to get last interacting player.");
 			}
 
-			PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "isSleeping", false));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isSleeping", false));
 		}
 	}
 
@@ -1025,12 +1024,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				if (isStaying)
 				{
-					notifyPlayer(player, Localization.getString(this, "notify.homepoint.teleport.skip.staying", false));
+					notifyPlayer(player, LanguageHelper.getString(this, "notify.homepoint.teleport.skip.staying", false));
 				}
 
 				else if (isFollowing)
 				{
-					notifyPlayer(player, Localization.getString(this, "notify.homepoint.teleport.skip.following", false));
+					notifyPlayer(player, LanguageHelper.getString(this, "notify.homepoint.teleport.skip.following", false));
 				}
 			}
 
@@ -1066,7 +1065,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 						if (worldObj.isRemote)
 						{
-							notifyPlayer(player, Localization.getString(this, "notify.homepoint.obstructed", false));
+							notifyPlayer(player, LanguageHelper.getString(this, "notify.homepoint.obstructed", false));
 						}
 					}
 
@@ -1084,7 +1083,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				if (worldObj.isRemote)
 				{
-					notifyPlayer(player, Localization.getString(this, "notify.homepoint.none", false));
+					notifyPlayer(player, LanguageHelper.getString(this, "notify.homepoint.none", false));
 				}
 
 				hasTeleportedHome = true;
@@ -1102,15 +1101,15 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				worldObj.getBlockId((int)homePointX, (int)(homePointY + 1), (int)homePointZ) == 0)
 		{
 			//Notify that the home point was successfully set.
-			notifyPlayer(worldObj.getPlayerEntityByName(lastInteractingPlayer), Localization.getString("notify.homepoint.set"));
+			notifyPlayer(worldObj.getPlayerEntityByName(lastInteractingPlayer), LanguageHelper.getString("notify.homepoint.set"));
 		}
 
 		else //The home point is obstructed, therefore invalid.
 		{
 			//Notify that the home point was not successfully set.
-			notifyPlayer(worldObj.getPlayerEntityByName(lastInteractingPlayer), Localization.getString("notify.homepoint.invalid"));
+			notifyPlayer(worldObj.getPlayerEntityByName(lastInteractingPlayer), LanguageHelper.getString("notify.homepoint.invalid"));
 			hasHomePoint = false;
-			PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "hasHomePoint", false));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "hasHomePoint", false));
 		}
 	}
 
@@ -1138,7 +1137,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				heartsModifier = 1;
 			}
 
-			say(Localization.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "chat.good"));
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "chat.good"));
 			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), (worldObj.rand.nextInt(5) + 1) + heartsModifier);
 			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
 		}
@@ -1150,14 +1149,14 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				heartsModifier = -1;
 			}
 
-			say(Localization.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "chat.bad"));
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "chat.bad"));
 			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(5) + 1)) + heartsModifier);
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
 		}
 
 		memory.interactionWear++;
 		playerMemoryMap.put(player.username, memory);
-		PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
+		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 	}
 
 	/**
@@ -1185,7 +1184,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				heartsModifier = 1;
 			}
 
-			say(Localization.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "joke.good"));
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "joke.good"));
 			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), (worldObj.rand.nextInt(9) + 3) + heartsModifier);
 			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
 		}
@@ -1197,7 +1196,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				heartsModifier = -1;
 			}
 
-			say(Localization.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "joke.bad"));
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "joke.bad"));
 			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(9) + 3)) + heartsModifier);
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
 		}
@@ -1222,7 +1221,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 			else
 			{
-				return Localization.getString(this, "profession.playerchild." + gender.toLowerCase(), false);
+				return LanguageHelper.getString(this, "profession.playerchild." + gender.toLowerCase(), false);
 			}
 		}
 
@@ -1241,7 +1240,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		if (isKnight)
 		{
-			return Localization.getString(this, "monarch.title.knight." + this.gender.toLowerCase(), false);
+			return LanguageHelper.getString(this, "monarch.title.knight." + this.gender.toLowerCase(), false);
 		}
 
 		else
@@ -1249,23 +1248,23 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			switch (profession)
 			{
 			case -1:
-				return Localization.getString(this, "profession.playerchild." + this.gender.toLowerCase(), false);
+				return LanguageHelper.getString(this, "profession.playerchild." + this.gender.toLowerCase(), false);
 			case 0:
-				return Localization.getString(this, "profession.farmer." + this.gender.toLowerCase(), false);
+				return LanguageHelper.getString(this, "profession.farmer." + this.gender.toLowerCase(), false);
 			case 1:
-				return Localization.getString(this, "profession.librarian." + this.gender.toLowerCase(), false);
+				return LanguageHelper.getString(this, "profession.librarian." + this.gender.toLowerCase(), false);
 			case 2:
-				return Localization.getString(this, "profession.priest." + this.gender.toLowerCase(), false);
+				return LanguageHelper.getString(this, "profession.priest." + this.gender.toLowerCase(), false);
 			case 3:
-				return Localization.getString(this, "profession.smith." + this.gender.toLowerCase(), false);
+				return LanguageHelper.getString(this, "profession.smith." + this.gender.toLowerCase(), false);
 			case 4:
-				return Localization.getString(this, "profession.butcher." + this.gender.toLowerCase(), false);
+				return LanguageHelper.getString(this, "profession.butcher." + this.gender.toLowerCase(), false);
 			case 5:
-				return Localization.getString(this, "profession.guard." + this.gender.toLowerCase(), false);
+				return LanguageHelper.getString(this, "profession.guard." + this.gender.toLowerCase(), false);
 			case 6:
-				return Localization.getString(this, "profession.baker." + this.gender.toLowerCase(), false);
+				return LanguageHelper.getString(this, "profession.baker." + this.gender.toLowerCase(), false);
 			case 7:
-				return Localization.getString(this, "profession.miner." + this.gender.toLowerCase(), false);
+				return LanguageHelper.getString(this, "profession.miner." + this.gender.toLowerCase(), false);
 			default:
 				return null;
 			}
@@ -1332,18 +1331,18 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			if (worldObj.isRemote)
 			{
-				PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "moodPointsHappy", moodPointsHappy));
-				PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "moodPointsSad", moodPointsSad));
-				PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "moodPointsAnger", moodPointsAnger));
-				PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "moodPointsFatigue", moodPointsFatigue));
+				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "moodPointsHappy", moodPointsHappy));
+				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "moodPointsSad", moodPointsSad));
+				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "moodPointsAnger", moodPointsAnger));
+				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "moodPointsFatigue", moodPointsFatigue));
 			}
 
 			else
 			{
-				PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createFieldValuePacket(entityId, "moodPointsHappy", moodPointsHappy));
-				PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createFieldValuePacket(entityId, "moodPointsSad", moodPointsSad));
-				PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createFieldValuePacket(entityId, "moodPointsAnger", moodPointsAnger));
-				PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createFieldValuePacket(entityId, "moodPointsFatigue", moodPointsFatigue));
+				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "moodPointsHappy", moodPointsHappy));
+				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "moodPointsSad", moodPointsSad));
+				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "moodPointsAnger", moodPointsAnger));
+				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "moodPointsFatigue", moodPointsFatigue));
 			}
 		}
 
@@ -1495,7 +1494,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		if (nextStackSize <= 0)
 		{
 			player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack)null);
-			PacketDispatcher.sendPacketToServer(PacketCreator.createRemoveItemPacket(player.entityId, player.inventory.currentItem, amount, itemStack.getItemDamageForDisplay()));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createRemoveItemPacket(player.entityId, player.inventory.currentItem, amount, itemStack.getItemDamageForDisplay()));
 		}
 
 		//The new stack size is greater than zero.
@@ -1503,7 +1502,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			ItemStack newItemStack = new ItemStack(itemStack.getItem(), nextStackSize);
 			player.inventory.setInventorySlotContents(player.inventory.currentItem, newItemStack);
-			PacketDispatcher.sendPacketToServer(PacketCreator.createRemoveItemPacket(player.entityId, player.inventory.currentItem, amount, itemStack.getItemDamageForDisplay()));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createRemoveItemPacket(player.entityId, player.inventory.currentItem, amount, itemStack.getItemDamageForDisplay()));
 		}
 	}
 
@@ -1516,12 +1515,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	protected void doGift(ItemStack itemStack, EntityPlayer player)
 	{
 		//Check the acceptable gifts for the item stack's item ID.
-		if (DataStore.acceptableGifts.containsKey(itemStack.itemID))
+		if (MCA.acceptableGifts.containsKey(itemStack.itemID))
 		{
 			PlayerMemory memory = playerMemoryMap.get(player.username);
 
 			int hearts = getHearts(player);
-			int heartIncrease = -(memory.interactionWear * 7) + DataStore.acceptableGifts.get(itemStack.itemID) + mood.getHeartsModifier("gift") + trait.getHeartsModifier("gift");
+			int heartIncrease = -(memory.interactionWear * 7) + MCA.instance.acceptableGifts.get(itemStack.itemID) + mood.getHeartsModifier("gift") + trait.getHeartsModifier("gift");
 
 			//Verify it's always positive.
 			if (heartIncrease <= 0)
@@ -1533,22 +1532,22 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			removeItemFromPlayer(itemStack, player);
 
 			//Say the appropriate phrase based on base hearts increase.
-			if (DataStore.acceptableGifts.get(itemStack.itemID) <= 5)
+			if (MCA.acceptableGifts.get(itemStack.itemID) <= 5)
 			{
-				say(Localization.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.small"));
+				say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.small"));
 				modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, 0.3F);
 
 			}
 
-			else if (DataStore.acceptableGifts.get(itemStack.itemID) > 5 && DataStore.acceptableGifts.get(itemStack.itemID) < 10)
+			else if (MCA.acceptableGifts.get(itemStack.itemID) > 5 && MCA.instance.acceptableGifts.get(itemStack.itemID) < 10)
 			{
-				say(Localization.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.regular"));
+				say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.regular"));
 				modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, 0.5F);
 			}
 
 			else
 			{
-				say(Localization.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.great"));
+				say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.great"));
 				modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, 1.0F);
 			}
 
@@ -1561,7 +1560,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			modifyHearts(player, -(worldObj.rand.nextInt(9) + 5));
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, 0.5F);
-			say(Localization.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.bad"));
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.bad"));
 		}
 	}
 
@@ -1588,12 +1587,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		if (worldObj.isRemote)
 		{
-			PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 		}
 
 		else
 		{
-			PacketDispatcher.sendPacketToPlayer(PacketCreator.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap), (Player) player);
+			PacketDispatcher.sendPacketToPlayer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap), (Player) player);
 		}
 
 		return hearts;
@@ -1619,12 +1618,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				if (worldObj.isRemote)
 				{
-					PacketDispatcher.sendPacketToServer(PacketCreator.createAchievementPacket(MCA.instance.achievementCharmer, player.entityId));
+					PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementCharmer, player.entityId));
 				}
 
 				else
 				{
-					PacketDispatcher.sendPacketToPlayer(PacketCreator.createAchievementPacket(MCA.instance.achievementCharmer, player.entityId), (Player) player);
+					PacketDispatcher.sendPacketToPlayer(PacketHelper.createAchievementPacket(MCA.instance.achievementCharmer, player.entityId), (Player) player);
 				}
 			}
 		}
@@ -1638,12 +1637,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		if (worldObj.isRemote)
 		{
-			PacketDispatcher.sendPacketToServer(PacketCreator.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 		}
 
 		else
 		{
-			PacketDispatcher.sendPacketToPlayer(PacketCreator.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap), (Player) player);
+			PacketDispatcher.sendPacketToPlayer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap), (Player) player);
 		}
 
 		//Check for monarch status and area modification.
@@ -1654,7 +1653,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 			if (playerMemory.acknowledgedAsMonarch)
 			{
-				for (Entity entity : Logic.getAllEntitiesWithinDistanceOfEntity(this, 30))
+				for (Entity entity : LogicHelper.getAllEntitiesWithinDistanceOfEntity(this, 30))
 				{
 					if (entity instanceof AbstractEntity)
 					{
@@ -1785,7 +1784,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 						isSleeping = false;
 						hasTeleportedHome = false;
 						modifyMoodPoints(EnumMoodChangeContext.MoodCycle, 0);
-						PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createSyncPacket(this));
+						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(this));
 					}
 
 					//Then check if they should be going to sleep.
@@ -1816,21 +1815,21 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					if (isSleeping && texture.contains("sleeping") == false)
 					{
 						texture = texture.replace("/skins/", "/skins/sleeping/");
-						PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createSyncPacket(this));
+						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(this));
 					}
 
 					//Then check if it needs to be swapped back to the original texture.
 					else if (isSleeping == false && texture.contains("sleeping") == true)
 					{
 						texture = texture.replace("/skins/sleeping/", "/skins/");
-						PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createSyncPacket(this));
+						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(this));
 					}
 
 					//Check if they've teleported home and it needs to be reset.
 					if (hasTeleportedHome && serverWorldObj.isDaytime())
 					{
 						hasTeleportedHome = false;
-						PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createSyncPacket(this));
+						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(this));
 					}
 				}
 			}
@@ -1996,19 +1995,19 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 										if (hearts < 0)
 										{
-											say(Localization.getString(nearestPlayer, this, "greeting.hate"));
+											say(LanguageHelper.getString(nearestPlayer, this, "greeting.hate"));
 										}
 
 										else if (hearts >= 0 && hearts <= 25)
 										{
 											if (getCharacterType(MCA.instance.getIdOfPlayer(nearestPlayer)).equals("villager") && worldPropertiesManager.worldProperties.isEngaged)
 											{
-												say(Localization.getString(nearestPlayer, this, "greeting.wedding"));
+												say(LanguageHelper.getString(nearestPlayer, this, "greeting.wedding"));
 											}
 
 											else
 											{
-												say(Localization.getString(nearestPlayer, this, "greeting.basic"));
+												say(LanguageHelper.getString(nearestPlayer, this, "greeting.basic"));
 											}
 										}
 
@@ -2016,12 +2015,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 										{
 											if (getCharacterType(MCA.instance.getIdOfPlayer(nearestPlayer)).equals("villager") && worldPropertiesManager.worldProperties.isEngaged)
 											{
-												say(Localization.getString(nearestPlayer, this, "greeting.wedding"));
+												say(LanguageHelper.getString(nearestPlayer, this, "greeting.wedding"));
 											}
 
 											else
 											{
-												say(Localization.getString(nearestPlayer, this, "greeting.friend"));	
+												say(LanguageHelper.getString(nearestPlayer, this, "greeting.friend"));	
 											}
 										}
 
@@ -2029,12 +2028,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 												worldPropertiesManager.worldProperties.isEngaged == false && 
 												worldPropertiesManager.worldProperties.playerSpouseID == 0)
 										{
-											say(Localization.getString(nearestPlayer, this, "greeting.interest"));
+											say(LanguageHelper.getString(nearestPlayer, this, "greeting.interest"));
 										}
 
 										//Increase hearts 1 to 3 points each greeting.
 										modifyHearts(nearestPlayer, worldObj.rand.nextInt(3) + 1);
-										PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createFieldValuePacket(entityId, "lastInteractingPlayer", lastInteractingPlayer));
+										PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "lastInteractingPlayer", lastInteractingPlayer));
 									}
 								}
 							}
@@ -2091,7 +2090,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					setEntityHealth(getHealth() + 3);
 					eatingTicks = 0;
 
-					PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createInventoryPacket(entityId, inventory));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createInventoryPacket(entityId, inventory));
 				}
 			}
 
@@ -2262,7 +2261,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 						if (player.inventory.getCurrentItem().getItem() instanceof ItemSword ||
 								player.inventory.getCurrentItem().getItem() instanceof ItemAxe)
 						{
-							saySideOnly(Side.CLIENT, Localization.getString(this, "scared"));
+							saySideOnly(Side.CLIENT, LanguageHelper.getString(this, "scared"));
 							isRetaliating = false;
 							target = null;
 							getNavigator().clearPathEntity();
@@ -2272,7 +2271,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				if (distanceToPlayer > 10F) //Stop chasing the player if they're 10 or more blocks away.
 				{
-					saySideOnly(Side.CLIENT, Localization.getString(this, "angry"));
+					saySideOnly(Side.CLIENT, LanguageHelper.getString(this, "angry"));
 					isRetaliating = false;
 					target = null;
 					getNavigator().clearPathEntity();
@@ -2374,7 +2373,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			trait = EnumTrait.values()[rand.nextInt(EnumTrait.values().length - 1) + 1];
 			traitId = trait.getId();
-			PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createFieldValuePacket(entityId, "traitId", traitId));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "traitId", traitId));
 		}
 
 		//Spawn particles if angry.
@@ -2509,11 +2508,11 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					moodUpdateTicks = 0;
 
 					//Update clients.
-					PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createFieldValuePacket(entityId, "moodPointsHappy", moodPointsHappy));
-					PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createFieldValuePacket(entityId, "moodPointsAnger", moodPointsAnger));
-					PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createFieldValuePacket(entityId, "moodPointsSad", moodPointsSad));
-					PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createFieldValuePacket(entityId, "moodPointsFatigue", moodPointsFatigue));
-					PacketDispatcher.sendPacketToAllPlayers(PacketCreator.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "moodPointsHappy", moodPointsHappy));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "moodPointsAnger", moodPointsAnger));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "moodPointsSad", moodPointsSad));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "moodPointsFatigue", moodPointsFatigue));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 				}
 			}
 		}
@@ -2538,7 +2537,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	public static void removeItemFromPlayer(ItemStack itemStack, EntityPlayer player)
 	{
-		PacketDispatcher.sendPacketToServer(PacketCreator.createRemoveItemPacket(player.entityId, player.inventory.currentItem, 1, itemStack.getItemDamageForDisplay()));
+		PacketDispatcher.sendPacketToServer(PacketHelper.createRemoveItemPacket(player.entityId, player.inventory.currentItem, 1, itemStack.getItemDamageForDisplay()));
 
 		itemStack.stackSize--;
 
@@ -2579,12 +2578,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		if (gender.equals("Male"))
 		{
-			return DataStore.maleNames.get(MCA.instance.rand.nextInt(DataStore.maleNames.size()));
+			return MCA.maleNames.get(MCA.instance.rand.nextInt(MCA.maleNames.size()));
 		}
 
 		else if (gender.equals("Female"))
 		{
-			return DataStore.femaleNames.get(MCA.instance.rand.nextInt(DataStore.femaleNames.size()));
+			return MCA.femaleNames.get(MCA.instance.rand.nextInt(MCA.femaleNames.size()));
 		}
 
 		return null;

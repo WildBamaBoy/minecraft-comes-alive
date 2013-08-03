@@ -9,8 +9,8 @@
 
 package mca.client.gui;
 
-import mca.core.util.Localization;
-import mca.core.util.PacketCreator;
+import mca.core.util.LanguageHelper;
+import mca.core.util.PacketHelper;
 import mca.tileentity.TileEntityTombstone;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
@@ -60,7 +60,7 @@ public class GuiTombstone extends AbstractGui
 	{
 		buttonList.clear();
 		Keyboard.enableRepeatEvents(true);
-		buttonList.add(new GuiButton(0, width / 2 - 100, height / 2 + 70, Localization.getString("gui.button.ok")));
+		buttonList.add(new GuiButton(0, width / 2 - 100, height / 2 + 70, LanguageHelper.getString("gui.button.ok")));
 		entityTombstone.guiOpen = true;
 	}
 
@@ -74,7 +74,7 @@ public class GuiTombstone extends AbstractGui
 			mc.thePlayer.sendQueue.addToSendQueue(new Packet130UpdateSign(entityTombstone.xCoord, entityTombstone.yCoord, entityTombstone.zCoord, entityTombstone.signText));
 		}
 		
-		PacketDispatcher.sendPacketToServer(PacketCreator.createTombstonePacket(entityTombstone));
+		PacketDispatcher.sendPacketToServer(PacketHelper.createTombstonePacket(entityTombstone));
 		entityTombstone.guiOpen = false;
 	}
 
@@ -127,7 +127,7 @@ public class GuiTombstone extends AbstractGui
 	public void drawScreen(int sizeX, int sizeY, float offset)
 	{		
 		drawDefaultBackground();
-		drawCenteredString(fontRenderer, Localization.getString("gui.title.tombstone"), width / 2, 40, 0xffffff);
+		drawCenteredString(fontRenderer, LanguageHelper.getString("gui.title.tombstone"), width / 2, 40, 0xffffff);
 
 		GL11.glPushMatrix();
 		

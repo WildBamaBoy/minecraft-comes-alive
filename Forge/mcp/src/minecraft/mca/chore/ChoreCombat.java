@@ -14,7 +14,7 @@ import java.lang.reflect.Modifier;
 import java.util.List;
 
 import mca.core.MCA;
-import mca.core.util.Logic;
+import mca.core.util.LogicHelper;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import net.minecraft.entity.Entity;
@@ -359,7 +359,7 @@ public class ChoreCombat extends AbstractChore
 		else
 		{
 			//Make sure the target isn't dead, it can be seen, and its within 10 blocks.
-			if (!owner.target.isDead && owner.canEntityBeSeen(owner.target) && Logic.getDistanceToEntity(owner, owner.target) < 10)
+			if (!owner.target.isDead && owner.canEntityBeSeen(owner.target) && LogicHelper.getDistanceToEntity(owner, owner.target) < 10)
 			{
 				owner.setPathToEntity(null);
 				owner.faceCoordinates(owner, owner.target.posX, owner.target.posY, owner.target.posZ);
@@ -441,9 +441,9 @@ public class ChoreCombat extends AbstractChore
 		if (owner.target != null)
 		{
 			//Determine what AI should be run based on distance.
-			if (Logic.getDistanceToEntity(owner, owner.target) < 10)
+			if (LogicHelper.getDistanceToEntity(owner, owner.target) < 10)
 			{
-				if (Logic.getDistanceToEntity(owner, owner.target) <= 3)
+				if (LogicHelper.getDistanceToEntity(owner, owner.target) <= 3)
 				{
 					runMeleeAI();
 				}
