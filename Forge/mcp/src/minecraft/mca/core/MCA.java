@@ -610,6 +610,7 @@ public class MCA
 	/**
 	 * Counts lines of code in source distribution.
 	 */
+	@Deprecated
 	public static void countLinesOfCode()
 	{
 		int lines = 0;
@@ -651,6 +652,7 @@ public class MCA
 	/**
 	 * Tests all valid lines within the source for errors when requested from the language system.
 	 */
+	@Deprecated
 	public static void testLanguage()
 	{
 		AbstractEntity dummyEntity = new EntityVillagerAdult();
