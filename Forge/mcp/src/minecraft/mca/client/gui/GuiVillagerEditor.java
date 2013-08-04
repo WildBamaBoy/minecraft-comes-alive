@@ -67,13 +67,13 @@ public class GuiVillagerEditor extends AbstractGui
 	/**
 	 * Constructor
 	 * 
-	 * @param 	entityBase	The entity being edited.
+	 * @param 	abstractEntity	The entity being edited.
 	 * @param 	player		The player that opened this GUI.
 	 */
-	public GuiVillagerEditor(AbstractEntity entityBase, EntityPlayer player) 
+	public GuiVillagerEditor(AbstractEntity abstractEntity, EntityPlayer player) 
 	{
 		super(player);
-		villagerBeingEdited = entityBase;
+		villagerBeingEdited = abstractEntity;
 		villagerBeingEdited.isSleeping = false;
 		moodListIndex = moodList.indexOf(villagerBeingEdited.mood);
 		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerBeingEdited.entityId, "isSleeping", false));

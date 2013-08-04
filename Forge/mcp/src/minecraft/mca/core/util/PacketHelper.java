@@ -216,11 +216,11 @@ public final class PacketHelper
 	/**
 	 * Creates a packet used to synchronize a client side entity with the server side one.
 	 * 
-	 * @param 	entityBase	The id of the server side entity that will be sent to the client.
+	 * @param 	abstractEntity	The id of the server side entity that will be sent to the client.
 	 * 
 	 * @return	A sync packet.
 	 */
-	public static Packet createSyncPacket(AbstractEntity entityBase)
+	public static Packet createSyncPacket(AbstractEntity abstractEntity)
 	{
 		try
 		{
@@ -229,9 +229,9 @@ public final class PacketHelper
 
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
-			objectOutput.writeObject(entityBase);
-			objectOutput.writeObject(entityBase.entityId);
-			objectOutput.writeObject(entityBase.getTexture());
+			objectOutput.writeObject(abstractEntity);
+			objectOutput.writeObject(abstractEntity.entityId);
+			objectOutput.writeObject(abstractEntity.getTexture());
 			objectOutput.close();
 
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());

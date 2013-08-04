@@ -681,11 +681,11 @@ public final class LogicHelper
 		{
 			if (entityNearMe instanceof AbstractEntity)
 			{
-				AbstractEntity entityBase = (AbstractEntity)entityNearMe;
+				AbstractEntity abstractEntity = (AbstractEntity)entityNearMe;
 
-				if (entityBase.mcaID == id)
+				if (abstractEntity.mcaID == id)
 				{
-					return entityBase;
+					return abstractEntity;
 				}
 			}
 		}
@@ -953,7 +953,7 @@ public final class LogicHelper
 			}
 		}
 
-		//If the above fails, search for and return the nearest EntityBase to the point that was clicked.
+		//If the above fails, search for and return the nearest AbstractEntity to the point that was clicked.
 		Entity nearestEntity = null;
 
 		for (Object obj : getAllEntitiesWithinDistanceOfCoordinates(world, (double)x, (double)y, (double)z, 3))

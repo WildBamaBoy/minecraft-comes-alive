@@ -486,20 +486,20 @@ public class RenderHuman extends RenderLiving
 	/**
 	 * Renders a label above an entity's head.
 	 * 
-	 * @param 	entityBase	The entity that the label should be rendered on.
+	 * @param 	abstractEntity	The entity that the label should be rendered on.
 	 * @param 	posX			The entity's x position.
 	 * @param 	posY			The entity's y position.
 	 * @param 	posZ			The entity's z position.
 	 * @param 	labelText		The text that should appear on the label.
 	 */
-	private void renderLabel(AbstractEntity entityBase, double posX, double posY, double posZ, String labelText)
+	private void renderLabel(AbstractEntity abstractEntity, double posX, double posY, double posZ, String labelText)
 	{
-		float distanceToEntity = entityBase.getDistanceToEntity(renderManager.livingPlayer);
-		float maxRenderDistance = entityBase.isSneaking() ? 32F : 64F;
+		float distanceToEntity = abstractEntity.getDistanceToEntity(renderManager.livingPlayer);
+		float maxRenderDistance = abstractEntity.isSneaking() ? 32F : 64F;
 
-		if (!entityBase.isSneaking())
+		if (!abstractEntity.isSneaking())
 		{
-			renderLivingLabel(entityBase, labelText, posX, posY, posZ, 64);
+			renderLivingLabel(abstractEntity, labelText, posX, posY, posZ, 64);
 		}
 
 		else
@@ -546,16 +546,16 @@ public class RenderHuman extends RenderLiving
 	@Override
 	protected ResourceLocation func_110775_a(Entity entity) 
 	{
-		AbstractEntity entityBase = (AbstractEntity)entity;
+		AbstractEntity abstractEntity = (AbstractEntity)entity;
 		
-		if (entityBase.texture.contains("steve"))
+		if (abstractEntity.texture.contains("steve"))
 		{
-			return new ResourceLocation("minecraft:" + entityBase.texture);
+			return new ResourceLocation("minecraft:" + abstractEntity.texture);
 		}
 		
 		else
 		{
-			return new ResourceLocation("mca:" + entityBase.texture);
+			return new ResourceLocation("mca:" + abstractEntity.texture);
 		}
 	}
 }

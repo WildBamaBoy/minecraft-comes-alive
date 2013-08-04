@@ -62,7 +62,7 @@ public class GuiLostRelativeDocument extends AbstractGui
 	 * Constructor.
 	 *
 	 * @param 	player	The player that opened this GUI.
-	 * @param	target	The target EntityBase.
+	 * @param	target	The target entity.
 	 */
 	public GuiLostRelativeDocument(EntityPlayer player, AbstractEntity target) 
 	{

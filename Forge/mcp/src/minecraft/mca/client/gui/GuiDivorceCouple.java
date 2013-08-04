@@ -286,21 +286,21 @@ public class GuiDivorceCouple extends AbstractGui
 
 			if (entity instanceof AbstractEntity)
 			{
-				AbstractEntity entityBase = (AbstractEntity)entity;
+				AbstractEntity abstractEntity = (AbstractEntity)entity;
 
-				if (entityBase.isMarried)
+				if (abstractEntity.isMarried)
 				{
 					//Be sure the value isn't already contained in the key set.
-					if (tempIDMap.containsKey(entityBase.mcaID) == false && tempIDMap.containsValue(entityBase.mcaID) == false)
+					if (tempIDMap.containsKey(abstractEntity.mcaID) == false && tempIDMap.containsValue(abstractEntity.mcaID) == false)
 					{
-						int spouseId = entityBase.familyTree.getEntityWithRelation(EnumRelation.Spouse);
+						int spouseId = abstractEntity.familyTree.getEntityWithRelation(EnumRelation.Spouse);
 
 						if (spouseId == -1)
 						{
 							MCA.instance.log("WARNING: Wife or Husband not found for entity identified as married.");
 						}
 
-						tempIDMap.put(entityBase.mcaID, spouseId);
+						tempIDMap.put(abstractEntity.mcaID, spouseId);
 					}
 				}
 			}
@@ -356,19 +356,19 @@ public class GuiDivorceCouple extends AbstractGui
 		{
 			if (obj instanceof AbstractEntity)
 			{
-				AbstractEntity entityBase = (AbstractEntity)obj;
+				AbstractEntity abstractEntity = (AbstractEntity)obj;
 
-				if (entityBase.isMarried)
+				if (abstractEntity.isMarried)
 				{
 					//Find instances of the husband and wife entity.
-					if (entityBase.name.equals(spouseEntity1Name) && entityBase.familyTree.getInstanceOfRelative(EnumRelation.Spouse).name.equals(spouseEntity2Name))
+					if (abstractEntity.name.equals(spouseEntity1Name) && abstractEntity.familyTree.getInstanceOfRelative(EnumRelation.Spouse).name.equals(spouseEntity2Name))
 					{
-						spouseEntity1 = entityBase;
+						spouseEntity1 = abstractEntity;
 					}
 
-					else if (entityBase.name.equals(spouseEntity2Name) && entityBase.familyTree.getInstanceOfRelative(EnumRelation.Spouse).name.equals(spouseEntity1Name))
+					else if (abstractEntity.name.equals(spouseEntity2Name) && abstractEntity.familyTree.getInstanceOfRelative(EnumRelation.Spouse).name.equals(spouseEntity1Name))
 					{
-						spouseEntity2 = entityBase;
+						spouseEntity2 = abstractEntity;
 					}
 				}
 			}

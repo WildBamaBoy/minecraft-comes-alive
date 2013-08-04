@@ -302,8 +302,8 @@ public class PacketHandler implements IPacketHandler
 								//either getting married or getting divorced.
 								if (f.getName().equals("isSpouse"))
 								{
-									AbstractEntity entityBase = (AbstractEntity)entity;
-									entityBase.addAI();
+									AbstractEntity abstractEntity = (AbstractEntity)entity;
+									abstractEntity.addAI();
 								}
 							}
 
@@ -313,14 +313,14 @@ public class PacketHandler implements IPacketHandler
 
 								if (f.getName().equals("traitId"))
 								{
-									AbstractEntity entityBase = (AbstractEntity)entity;
-									entityBase.trait = EnumTrait.getTraitById(entityBase.traitId);
+									AbstractEntity abstractEntity = (AbstractEntity)entity;
+									abstractEntity.trait = EnumTrait.getTraitById(abstractEntity.traitId);
 								}
 								
 								if (f.getName().equals("profession"))
 								{
-									AbstractEntity entityBase = (AbstractEntity)entity;
-									entityBase.addAI();
+									AbstractEntity abstractEntity = (AbstractEntity)entity;
+									abstractEntity.addAI();
 								}
 							}
 
@@ -333,8 +333,8 @@ public class PacketHandler implements IPacketHandler
 							{
 								entity.getClass().getField(fieldName).set(entity, Float.parseFloat(fieldValue.toString()));
 
-								AbstractEntity entityBase = (AbstractEntity)entity;
-								entityBase.setMoodByMoodPoints(false);
+								AbstractEntity abstractEntity = (AbstractEntity)entity;
+								abstractEntity.setMoodByMoodPoints(false);
 							}
 
 							else if (f.getType().getName().contains("String"))

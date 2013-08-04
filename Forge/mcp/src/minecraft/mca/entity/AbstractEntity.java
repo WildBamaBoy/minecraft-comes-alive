@@ -657,11 +657,11 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		//Notify nearby villagers of the death and modify their mood.
 		for (Entity entity : (List<Entity>)LogicHelper.getAllEntitiesOfTypeWithinDistanceOfEntity(this, AbstractEntity.class, 15))
 		{
-			AbstractEntity entityBase = (AbstractEntity)entity;
+			AbstractEntity abstractEntity = (AbstractEntity)entity;
 
-			if (entityBase.canEntityBeSeen(this))
+			if (abstractEntity.canEntityBeSeen(this))
 			{
-				entityBase.modifyMoodPoints(EnumMoodChangeContext.WitnessDeath, worldObj.rand.nextFloat() + worldObj.rand.nextFloat());
+				abstractEntity.modifyMoodPoints(EnumMoodChangeContext.WitnessDeath, worldObj.rand.nextFloat() + worldObj.rand.nextFloat());
 			}
 		}
 
@@ -1696,10 +1696,10 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				{
 					if (entity instanceof AbstractEntity)
 					{
-						AbstractEntity entityBase = (AbstractEntity)entity;
+						AbstractEntity abstractEntity = (AbstractEntity)entity;
 
 						//Relatives to the player are not affected.
-						if (!entityBase.familyTree.idIsRelative(manager.worldProperties.playerID))
+						if (!abstractEntity.familyTree.idIsRelative(manager.worldProperties.playerID))
 						{
 							//Other villagers are affected by 50% of the original value.
 							Double percentage = amount * 0.50;
@@ -1708,7 +1708,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 							//surrounding villager. If it's more than three, then they suffer a drop in hearts.
 							if (this.hasBeenExecuted)
 							{
-								PlayerMemory playerMemoryOnOtherVillager = entityBase.playerMemoryMap.get(player.username);
+								PlayerMemory playerMemoryOnOtherVillager = abstractEntity.playerMemoryMap.get(player.username);
 
 								if (playerMemoryOnOtherVillager != null)
 								{
@@ -1716,16 +1716,16 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 									if (playerMemoryOnOtherVillager.executionsWitnessed > 3)
 									{
-										entityBase.shouldSkipAreaModify = true;
-										entityBase.modifyHearts(player, -30);
-										entityBase.shouldSkipAreaModify = false;
+										abstractEntity.shouldSkipAreaModify = true;
+										abstractEntity.modifyHearts(player, -30);
+										abstractEntity.shouldSkipAreaModify = false;
 									}
 
 									else
 									{
-										entityBase.shouldSkipAreaModify = true;
-										entityBase.modifyHearts(player, 30);
-										entityBase.shouldSkipAreaModify = false;
+										abstractEntity.shouldSkipAreaModify = true;
+										abstractEntity.modifyHearts(player, 30);
+										abstractEntity.shouldSkipAreaModify = false;
 									}
 								}
 							}
@@ -1734,9 +1734,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 							else
 							{
 								//Prevent an infinite loop.
-								entityBase.shouldSkipAreaModify = true;
-								entityBase.modifyHearts(player, percentage.intValue());
-								entityBase.shouldSkipAreaModify = false;
+								abstractEntity.shouldSkipAreaModify = true;
+								abstractEntity.modifyHearts(player, percentage.intValue());
+								abstractEntity.shouldSkipAreaModify = false;
 							}
 						}
 					}

@@ -15,7 +15,7 @@ import mca.entity.AbstractEntity;
 import net.minecraft.nbt.NBTTagCompound;
 
 /**
- * Defines a chore that can be run by an EntityBase.
+ * Defines a chore that can be run by an AbstractEntity.
  */
 public abstract class AbstractChore implements Serializable
 {
