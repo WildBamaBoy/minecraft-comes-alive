@@ -2183,10 +2183,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				else if (chore.hasBegun)
 				{
-					if (!worldObj.isRemote)
-					{
-						chore.runChoreAI();
-					}
+					chore.runChoreAI();
 				}
 
 				else
@@ -2197,25 +2194,22 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 						setSize(0.01F, 0.01F);
 					}
 
-					if (!worldObj.isRemote)
-					{
-						chore.beginChore();
-					}
+					chore.beginChore();
 				}
 			}
-			
+
 			else
-			{			
+			{
 				combatChore.runChoreAI();
 			}
 		}
-		
+
 		else
 		{			
 			combatChore.runChoreAI();
 		}
 	}
-	
+
 	/**
 	 * Handles retaliation.
 	 */

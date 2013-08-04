@@ -42,7 +42,7 @@ import net.minecraft.util.MathHelper;
  */
 public class ChoreCombat extends AbstractChore
 {
-	/** Should ranged be used? */
+	/** Should ranged weapons be used? */
 	public boolean useRange = false;
 
 	/** Should melee be used? */
