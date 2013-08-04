@@ -316,6 +316,12 @@ public class PacketHandler implements IPacketHandler
 									AbstractEntity entityBase = (AbstractEntity)entity;
 									entityBase.trait = EnumTrait.getTraitById(entityBase.traitId);
 								}
+								
+								if (f.getName().equals("profession"))
+								{
+									AbstractEntity entityBase = (AbstractEntity)entity;
+									entityBase.addAI();
+								}
 							}
 
 							else if (f.getType().getName().contains("double"))
