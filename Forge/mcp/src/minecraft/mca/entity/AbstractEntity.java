@@ -172,7 +172,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			//Put the ID in the list.
 			MCA.instance.idsMap.put(this.mcaID, this.entityId);
 		}
-		
+
 		this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(20.0D);
 		setSize(0.6F, 1.8F);
 	}
@@ -251,7 +251,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				sentSyncRequest = true;
 			}
 		}
-		
+
 		//Check for the texture, which would only NOT be there client-side. Update code cannot run without
 		//the entity being synced client side.
 		if (!texture.contains("steve"))
@@ -2322,41 +2322,44 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				{
 					PlayerMemory memory = entry.getValue();
 
-					//Check if they're acknowledged as a monarch.
-					if (memory.acknowledgedAsMonarch && !manager.worldProperties.isMonarch)
+					if (memory != null)
 					{
-						//The player is no longer a monarch.
-						memory.acknowledgedAsMonarch = false;
-						memory.hearts = 0;
-						memory.hasRefusedDemands = false;
-						memory.monarchGiftsDemanded = 0;
-						memory.monarchResetTicks = 0;
-						memory.executionsWitnessed = 0;
-
-						if (memory.playerName.equals(monarchPlayerName))
+						//Check if they're acknowledged as a monarch.
+						if (memory.acknowledgedAsMonarch && !manager.worldProperties.isMonarch)
 						{
-							isPeasant = false;
-							isKnight = false;
-							monarchPlayerName = "";
+							//The player is no longer a monarch.
+							memory.acknowledgedAsMonarch = false;
+							memory.hearts = 0;
+							memory.hasRefusedDemands = false;
+							memory.monarchGiftsDemanded = 0;
+							memory.monarchResetTicks = 0;
+							memory.executionsWitnessed = 0;
+
+							if (memory.playerName.equals(monarchPlayerName))
+							{
+								isPeasant = false;
+								isKnight = false;
+								monarchPlayerName = "";
+							}
 						}
-					}
 
-					else if (!memory.acknowledgedAsMonarch && manager.worldProperties.isMonarch)
-					{
-						memory.acknowledgedAsMonarch = true;
-						memory.hearts = 100;
-					}
+						else if (!memory.acknowledgedAsMonarch && manager.worldProperties.isMonarch)
+						{
+							memory.acknowledgedAsMonarch = true;
+							memory.hearts = 100;
+						}
 
-					//Check reset ticks.
-					if (memory.monarchResetTicks <= 0)
-					{
-						memory.monarchGiftsDemanded = 0;
-						memory.executionsWitnessed = 0;
-					}
+						//Check reset ticks.
+						if (memory.monarchResetTicks <= 0)
+						{
+							memory.monarchGiftsDemanded = 0;
+							memory.executionsWitnessed = 0;
+						}
 
-					else
-					{
-						memory.monarchResetTicks--;
+						else
+						{
+							memory.monarchResetTicks--;
+						}
 					}
 				}
 			}
