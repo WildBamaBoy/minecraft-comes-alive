@@ -316,7 +316,7 @@ public class PacketHandler implements IPacketHandler
 									AbstractEntity abstractEntity = (AbstractEntity)entity;
 									abstractEntity.trait = EnumTrait.getTraitById(abstractEntity.traitId);
 								}
-								
+
 								if (f.getName().equals("profession"))
 								{
 									AbstractEntity abstractEntity = (AbstractEntity)entity;
@@ -355,12 +355,12 @@ public class PacketHandler implements IPacketHandler
 										memory.playerName = player.username;
 										memoryMap.put(player.username, memory);
 									}
-									
+
 									else
 									{
 										memoryMap.put(player.username, new PlayerMemory(player.username));
 									}
-									
+
 									entity.getClass().getField(fieldName).set(entity, memoryMap);
 								}
 
@@ -930,7 +930,11 @@ public class PacketHandler implements IPacketHandler
 		int entityId = (Integer)objectInput.readObject();
 
 		AbstractEntity entity = (AbstractEntity)world.getEntityByID(entityId);
-		entity.setDeadWithoutNotification();
+
+		if (entity != null)
+		{
+			entity.setDeadWithoutNotification();
+		}
 	}
 
 	/**

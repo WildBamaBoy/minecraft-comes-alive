@@ -2188,12 +2188,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				else
 				{
-					if (currentChore.equals("Hunting"))
-					{
-						//Remove collision box.
-						setSize(0.01F, 0.01F);
-					}
-
 					chore.beginChore();
 				}
 			}

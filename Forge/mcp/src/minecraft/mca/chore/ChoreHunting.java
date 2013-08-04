@@ -92,8 +92,8 @@ public class ChoreHunting extends AbstractChore
 			}
 		}
 
-		//Generate a random return time, 1 - 5 minutes.
-		huntingReturnTicks = 1200 * (owner.worldObj.rand.nextInt(5) + 1);
+		//Generate a random return time, 1 - 5 minutes. Only used server-side.
+		huntingReturnTicks = MCA.instance.inDebugMode ? 100 : 1200 * (owner.worldObj.rand.nextInt(5) + 1);
 
 		//Determine if entity has armor and weapon and their chance of death.
 		if (owner.inventory.getBestItemOfType(ItemSword.class) != null || owner.inventory.getBestItemOfType(ItemBow.class) != null)
@@ -111,9 +111,11 @@ public class ChoreHunting extends AbstractChore
 		owner.isStaying = false;
 		hasBegun = true;
 
-		if (owner.worldObj.isRemote)
+		//Client-side makes them speak twice. Doing this server side makes the language helper send a packet to the client, making them say whatever
+		//they need to say localized for that client. This is only called once server-side, so just do this instead.
+		if (!owner.worldObj.isRemote)
 		{
-			say(LanguageHelper.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.hunting", true));
+			owner.say(LanguageHelper.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.hunting", true));
 		}
 	}
 
@@ -121,329 +123,330 @@ public class ChoreHunting extends AbstractChore
 	public void runChoreAI() 
 	{
 		//Does nothing until return ticks are met.
-		if (huntingTicks < huntingReturnTicks)
+		if (!owner.worldObj.isRemote)
 		{
-			if (MCA.instance.inDebugMode)
+			if (huntingTicks < huntingReturnTicks)
 			{
-				huntingTicks = huntingReturnTicks;
+				if (MCA.instance.inDebugMode)
+				{
+					huntingTicks = huntingReturnTicks;
+				}
+
+				else
+				{
+					huntingTicks++;
+				}
 			}
 
 			else
 			{
-				huntingTicks++;
-			}
-		}
+				//First calculate if they've died.
+				int chanceOfDeath = 0;
 
-		else
-		{
-			//First calculate if they've died.
-			int chanceOfDeath = 0;
-			
-			if (hasWeapon && hasArmor)
-			{
-				chanceOfDeath = 5;
-			}
-			
-			else if (hasWeapon && !hasArmor)
-			{
-				chanceOfDeath = 55;
-			}
-			
-			else if (!hasWeapon && hasArmor)
-			{
-				chanceOfDeath = 30;
-			}
-			
-			else if (!hasArmor && !hasWeapon)
-			{
-				chanceOfDeath = 70;
-			}
-			
-			if (AbstractEntity.getBooleanWithProbability(chanceOfDeath) == true)
-			{
-				if (!owner.worldObj.isRemote)
+				if (hasWeapon && hasArmor)
+				{
+					chanceOfDeath = 5;
+				}
+
+				else if (hasWeapon && !hasArmor)
+				{
+					chanceOfDeath = 55;
+				}
+
+				else if (!hasWeapon && hasArmor)
+				{
+					chanceOfDeath = 30;
+				}
+
+				else if (!hasArmor && !hasWeapon)
+				{
+					chanceOfDeath = 70;
+				}
+
+				if (AbstractEntity.getBooleanWithProbability(chanceOfDeath) == true)
 				{
 					EntityPlayer ownerPlayer = MCA.instance.getPlayerByName(((EntityPlayerChild)owner).ownerPlayerName);
 					owner.notifyPlayer(ownerPlayer, LanguageHelper.getString(owner, "notify.child.chore.failed.hunting.death", false));
 					owner.setDeadWithoutNotification();
 					endChore();
-				}
-			}
-			
-			//Calculate what they've gotten on the hunting trip.
-			int heldWheat = owner.inventory.getQuantityOfItem(Item.wheat);
-			int heldSeeds = owner.inventory.getQuantityOfItem(Item.seeds);
-			int heldBones = owner.inventory.getQuantityOfItem(Item.bone);
-			int heldCarrots = owner.inventory.getQuantityOfItem(Item.carrot);
-
-			int sheepSeen = owner.worldObj.rand.nextInt(10);
-			int cowsSeen = owner.worldObj.rand.nextInt(10);
-			int wolvesSeen = huntingMode == 0 ? 0 : owner.worldObj.rand.nextInt(5);
-			int pigsSeen = owner.worldObj.rand.nextInt(10);
-			int chickensSeen = owner.worldObj.rand.nextInt(10);
-
-			int sheepSuccessful = 0;
-			int cowsSuccessful = 0;
-			int wolvesSuccessful = 0;
-			int pigsSuccessful = 0;
-			int chickensSuccessful = 0;
-
-			int successChance = 0;
-
-			if (huntingMode == 0)
-			{
-				if (hasWeapon)
-				{
-					successChance = 70;
+					return;
 				}
 
-				else
-				{
-					successChance = 10;
-				}
-			}
+				//Calculate what they've gotten on the hunting trip.
+				int heldWheat = owner.inventory.getQuantityOfItem(Item.wheat);
+				int heldSeeds = owner.inventory.getQuantityOfItem(Item.seeds);
+				int heldBones = owner.inventory.getQuantityOfItem(Item.bone);
+				int heldCarrots = owner.inventory.getQuantityOfItem(Item.carrot);
 
-			while (sheepSeen != 0)
-			{
-				if (huntingMode == 1)
+				int sheepSeen = owner.worldObj.rand.nextInt(10);
+				int cowsSeen = owner.worldObj.rand.nextInt(10);
+				int wolvesSeen = huntingMode == 0 ? 0 : owner.worldObj.rand.nextInt(5);
+				int pigsSeen = owner.worldObj.rand.nextInt(10);
+				int chickensSeen = owner.worldObj.rand.nextInt(10);
+
+				int sheepSuccessful = 0;
+				int cowsSuccessful = 0;
+				int wolvesSuccessful = 0;
+				int pigsSuccessful = 0;
+				int chickensSuccessful = 0;
+
+				int successChance = 0;
+
+				if (huntingMode == 0)
 				{
-					int probability = owner.name.equals("Ash") ? 80 : 50;
-					if (owner.getBooleanWithProbability(probability))
+					if (hasWeapon)
 					{
-						if (heldWheat != 0)
+						successChance = 70;
+					}
+
+					else
+					{
+						successChance = 10;
+					}
+				}
+
+				while (sheepSeen != 0)
+				{
+					if (huntingMode == 1)
+					{
+						int probability = owner.name.equals("Ash") ? 80 : 50;
+						if (owner.getBooleanWithProbability(probability))
 						{
-							heldWheat--;
+							if (heldWheat != 0)
+							{
+								heldWheat--;
+								sheepSuccessful++;
+							}
+						}
+					}
+
+					else
+					{
+						if (owner.getBooleanWithProbability(successChance))
+						{
 							sheepSuccessful++;
 						}
 					}
+
+					sheepSeen--;
 				}
 
-				else
+				while (cowsSeen != 0)
 				{
-					if (owner.getBooleanWithProbability(successChance))
+					if (huntingMode == 1)
 					{
-						sheepSuccessful++;
-					}
-				}
-
-				sheepSeen--;
-			}
-
-			while (cowsSeen != 0)
-			{
-				if (huntingMode == 1)
-				{
-					int probability = owner.name.equals("Ash") ? 80 : 40;
-					if (owner.getBooleanWithProbability(40))
-					{
-						if (heldWheat != 0)
+						int probability = owner.name.equals("Ash") ? 80 : 40;
+						if (owner.getBooleanWithProbability(40))
 						{
-							heldWheat--;
+							if (heldWheat != 0)
+							{
+								heldWheat--;
+								cowsSuccessful++;
+							}
+						}
+					}
+
+					else
+					{
+						if (owner.getBooleanWithProbability(successChance))
+						{
 							cowsSuccessful++;
 						}
 					}
+
+					cowsSeen--;
 				}
 
-				else
+				while (wolvesSeen != 0)
 				{
-					if (owner.getBooleanWithProbability(successChance))
-					{
-						cowsSuccessful++;
-					}
-				}
-
-				cowsSeen--;
-			}
-
-			while (wolvesSeen != 0)
-			{
-				int probability = owner.name.equals("Ash") ? 80 : 33;
-				if (owner.getBooleanWithProbability(probability))
-				{
-					if (heldBones != 0)
-					{
-						heldBones--;
-						wolvesSuccessful++;
-					}
-				}
-
-				wolvesSeen--;
-			}
-
-			while (pigsSeen != 0)
-			{
-				if (huntingMode == 1)
-				{
-					int probability = owner.name.equals("Ash") ? 90 : 70;
+					int probability = owner.name.equals("Ash") ? 80 : 33;
 					if (owner.getBooleanWithProbability(probability))
 					{
-						if (heldCarrots != 0)
+						if (heldBones != 0)
 						{
-							heldCarrots--;
+							heldBones--;
+							wolvesSuccessful++;
+						}
+					}
+
+					wolvesSeen--;
+				}
+
+				while (pigsSeen != 0)
+				{
+					if (huntingMode == 1)
+					{
+						int probability = owner.name.equals("Ash") ? 90 : 70;
+						if (owner.getBooleanWithProbability(probability))
+						{
+							if (heldCarrots != 0)
+							{
+								heldCarrots--;
+								pigsSuccessful++;
+							}
+						}
+					}
+
+					else
+					{
+						if (owner.getBooleanWithProbability(successChance))
+						{
 							pigsSuccessful++;
 						}
 					}
+
+					pigsSeen--;
 				}
 
-				else
+				while (chickensSeen != 0)
 				{
-					if (owner.getBooleanWithProbability(successChance))
+					if (huntingMode == 1)
 					{
-						pigsSuccessful++;
-					}
-				}
-
-				pigsSeen--;
-			}
-
-			while (chickensSeen != 0)
-			{
-				if (huntingMode == 1)
-				{
-					int probability = owner.name.equals("Ash") ? 90 : 70;
-					if (owner.getBooleanWithProbability(probability))
-					{
-						if (heldSeeds != 0)
+						int probability = owner.name.equals("Ash") ? 90 : 70;
+						if (owner.getBooleanWithProbability(probability))
 						{
-							heldSeeds--;
+							if (heldSeeds != 0)
+							{
+								heldSeeds--;
+								chickensSuccessful++;
+							}
+						}
+					}
+
+					else
+					{
+						if (owner.getBooleanWithProbability(successChance))
+						{
 							chickensSuccessful++;
 						}
 					}
+
+					chickensSeen--;
 				}
 
+				//Now add meat to inventory if kill mode.
+				if (huntingMode == 0)
+				{
+					//Update fields on a child that have to do with achievements.
+					if (owner instanceof EntityPlayerChild)
+					{
+						EntityPlayerChild child = (EntityPlayerChild)owner;
+						child.animalsKilled += sheepSuccessful + cowsSuccessful + pigsSuccessful + chickensSuccessful;
+
+						//Check for achievement
+						if (child.animalsKilled >= 100)
+						{
+							EntityPlayer player = child.worldObj.getPlayerEntityByName(child.ownerPlayerName);
+
+							if (player != null)
+							{
+								player.triggerAchievement(MCA.instance.achievementChildHuntKill);
+							}
+						}
+					}
+
+					owner.inventory.addItemStackToInventory(new ItemStack(Block.cloth, sheepSuccessful * 2));
+					owner.inventory.addItemStackToInventory(new ItemStack(Item.beefRaw, cowsSuccessful));
+					owner.inventory.addItemStackToInventory(new ItemStack(Item.porkRaw, pigsSuccessful));
+					owner.inventory.addItemStackToInventory(new ItemStack(Item.chickenRaw, chickensSuccessful));
+				}
+
+				//Add the entity to the world if in tame mode.
 				else
 				{
-					if (owner.getBooleanWithProbability(successChance))
+					//Update fields on a child that have to do with achievements.
+					if (owner instanceof EntityPlayerChild)
 					{
-						chickensSuccessful++;
-					}
-				}
+						EntityPlayerChild child = (EntityPlayerChild)owner;
+						child.animalsTamed += sheepSuccessful + cowsSuccessful + pigsSuccessful + chickensSuccessful + wolvesSuccessful;
 
-				chickensSeen--;
-			}
-
-			//Now add meat to inventory if kill mode.
-			if (huntingMode == 0)
-			{
-				//Update fields on a child that have to do with achievements.
-				if (owner instanceof EntityPlayerChild)
-				{
-					EntityPlayerChild child = (EntityPlayerChild)owner;
-					child.animalsKilled += sheepSuccessful + cowsSuccessful + pigsSuccessful + chickensSuccessful;
-
-					//Check for achievement
-					if (child.animalsKilled >= 100)
-					{
-						EntityPlayer player = child.worldObj.getPlayerEntityByName(child.ownerPlayerName);
-
-						if (player != null)
+						//Check for achievement
+						if (child.animalsTamed >= 100)
 						{
-							player.triggerAchievement(MCA.instance.achievementChildHuntKill);
+							EntityPlayer player = child.worldObj.getPlayerEntityByName(child.ownerPlayerName);
+
+							if (player != null)
+							{
+								player.triggerAchievement(MCA.instance.achievementChildHuntTame);
+							}
 						}
 					}
-				}
 
-				owner.inventory.addItemStackToInventory(new ItemStack(Block.cloth, sheepSuccessful * 2));
-				owner.inventory.addItemStackToInventory(new ItemStack(Item.beefRaw, cowsSuccessful));
-				owner.inventory.addItemStackToInventory(new ItemStack(Item.porkRaw, pigsSuccessful));
-				owner.inventory.addItemStackToInventory(new ItemStack(Item.chickenRaw, chickensSuccessful));
-			}
-
-			//Add the entity to the world if in tame mode.
-			else
-			{
-				//Update fields on a child that have to do with achievements.
-				if (owner instanceof EntityPlayerChild)
-				{
-					EntityPlayerChild child = (EntityPlayerChild)owner;
-					child.animalsTamed += sheepSuccessful + cowsSuccessful + pigsSuccessful + chickensSuccessful + wolvesSuccessful;
-
-					//Check for achievement
-					if (child.animalsTamed >= 100)
+					//Spawn the entities in the world.
+					while (sheepSuccessful != 0)
 					{
-						EntityPlayer player = child.worldObj.getPlayerEntityByName(child.ownerPlayerName);
-
-						if (player != null)
+						if (!owner.worldObj.isRemote)
 						{
-							player.triggerAchievement(MCA.instance.achievementChildHuntTame);
+							EntitySheep sheep = new EntitySheep(owner.worldObj);
+							sheep.setPosition(owner.posX, owner.posY, owner.posZ);
+							owner.worldObj.spawnEntityInWorld(sheep);
+
+							owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(Item.wheat), 1);
 						}
-					}
-				}
 
-				//Spawn the entities in the world.
-				while (sheepSuccessful != 0)
-				{
-					if (!owner.worldObj.isRemote)
+						sheepSuccessful--;
+					}
+
+					while (cowsSuccessful != 0)
 					{
-						EntitySheep sheep = new EntitySheep(owner.worldObj);
-						sheep.setPosition(owner.posX, owner.posY, owner.posZ);
-						owner.worldObj.spawnEntityInWorld(sheep);
+						if (!owner.worldObj.isRemote)
+						{
+							EntityCow cow = new EntityCow(owner.worldObj);
+							cow.setPosition(owner.posX, owner.posY, owner.posZ);
+							owner.worldObj.spawnEntityInWorld(cow);
 
-						owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(Item.wheat), 1);
+							owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(Item.wheat), 1);
+						}
+
+						cowsSuccessful--;
 					}
 
-					sheepSuccessful--;
-				}
-
-				while (cowsSuccessful != 0)
-				{
-					if (!owner.worldObj.isRemote)
+					while (wolvesSuccessful != 0)
 					{
-						EntityCow cow = new EntityCow(owner.worldObj);
-						cow.setPosition(owner.posX, owner.posY, owner.posZ);
-						owner.worldObj.spawnEntityInWorld(cow);
+						if (!owner.worldObj.isRemote)
+						{
+							EntityWolf wolf = new EntityWolf(owner.worldObj);
+							wolf.setPosition(owner.posX, owner.posY, owner.posZ);
+							owner.worldObj.spawnEntityInWorld(wolf);
 
-						owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(Item.wheat), 1);
+							owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(Item.bone), 1);
+						}
+
+						wolvesSuccessful--;
 					}
 
-					cowsSuccessful--;
-				}
-
-				while (wolvesSuccessful != 0)
-				{
-					if (!owner.worldObj.isRemote)
+					while (pigsSuccessful != 0)
 					{
-						EntityWolf wolf = new EntityWolf(owner.worldObj);
-						wolf.setPosition(owner.posX, owner.posY, owner.posZ);
-						owner.worldObj.spawnEntityInWorld(wolf);
+						if (!owner.worldObj.isRemote)
+						{
+							EntityPig pig = new EntityPig(owner.worldObj);
+							pig.setPosition(owner.posX, owner.posY, owner.posZ);
+							owner.worldObj.spawnEntityInWorld(pig);
 
-						owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(Item.bone), 1);
+							owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(Item.carrot), 1);
+						}
+
+						pigsSuccessful--;
 					}
 
-					wolvesSuccessful--;
-				}
-
-				while (pigsSuccessful != 0)
-				{
-					if (!owner.worldObj.isRemote)
+					while (chickensSuccessful != 0)
 					{
-						EntityPig pig = new EntityPig(owner.worldObj);
-						pig.setPosition(owner.posX, owner.posY, owner.posZ);
-						owner.worldObj.spawnEntityInWorld(pig);
+						if (!owner.worldObj.isRemote)
+						{
+							EntityChicken chicken = new EntityChicken(owner.worldObj);
+							chicken.setPosition(owner.posX, owner.posY, owner.posZ);
+							owner.worldObj.spawnEntityInWorld(chicken);
 
-						owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(Item.carrot), 1);
+							owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(Item.seeds), 1);
+						}
+
+						chickensSuccessful--;
 					}
-
-					pigsSuccessful--;
 				}
 
-				while (chickensSuccessful != 0)
-				{
-					if (!owner.worldObj.isRemote)
-					{
-						EntityChicken chicken = new EntityChicken(owner.worldObj);
-						chicken.setPosition(owner.posX, owner.posY, owner.posZ);
-						owner.worldObj.spawnEntityInWorld(chicken);
-
-						owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(Item.seeds), 1);
-					}
-
-					chickensSuccessful--;
-				}
+				owner.say(LanguageHelper.getString("notify.child.chore.finished.hunting"));
+				endChore();
 			}
-
-			say(LanguageHelper.getString("notify.child.chore.finished.hunting"));
-			endChore();
 		}
 	}
 
@@ -456,9 +459,14 @@ public class ChoreHunting extends AbstractChore
 	@Override
 	public void endChore() 
 	{
+		//Client must be notified.
+		owner.currentChore = "";
+		owner.isInChoreMode = false;
 		huntingTicks = 0;
 		isHunting = false;
 		hasEnded = true;
+		
+		PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(owner));
 	}
 
 	@Override

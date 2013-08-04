@@ -72,15 +72,16 @@ public abstract class EntityChild extends AbstractEntity
 		}
 		
 		//Debug checks
-		if (MCA.instance.inDebugMode)
-		{
-			age++;
-			
-			if (age >= MCA.instance.modPropertiesManager.modProperties.kidGrowUpTimeMinutes)
-			{
-				age = MCA.instance.modPropertiesManager.modProperties.kidGrowUpTimeMinutes;
-				isReadyToGrow = true;
-			}
-		}
+		//TODO: Enable
+//		if (MCA.instance.inDebugMode)
+//		{
+//			age++;
+//			
+//			if (age >= MCA.instance.modPropertiesManager.modProperties.kidGrowUpTimeMinutes)
+//			{
+//				age = MCA.instance.modPropertiesManager.modProperties.kidGrowUpTimeMinutes;
+//				isReadyToGrow = true;
+//			}
+//		}
 	}
 }
