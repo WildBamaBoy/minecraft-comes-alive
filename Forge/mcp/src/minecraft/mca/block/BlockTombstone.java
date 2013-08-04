@@ -47,9 +47,9 @@ public class BlockTombstone extends BlockContainer
 	}
 
 	@Override
-    public Icon getIcon(int par1, int par2)
+    public Icon getIcon(int side, int unknown)
     {
-        return Block.planks.getBlockTextureFromSide(par1);
+        return Block.planks.getBlockTextureFromSide(side);
     }
     
 	@Override

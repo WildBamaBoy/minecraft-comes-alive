@@ -131,13 +131,13 @@ public class RenderTombstone extends TileEntitySpecialRenderer
 		renderTileEntityTombstoneAt((TileEntityTombstone)tombstoneEntity, posX, posY, posZ, partialTickTime);
 	}
 	
-    protected void func_110628_a(ResourceLocation par1ResourceLocation)
+    protected void func_110628_a(ResourceLocation resourceLocation)
     {
         TextureManager texturemanager = this.tileEntityRenderer.renderEngine;
 
         if (texturemanager != null)
         {
-            texturemanager.func_110577_a(par1ResourceLocation);
+            texturemanager.func_110577_a(resourceLocation);
         }
     }
 }

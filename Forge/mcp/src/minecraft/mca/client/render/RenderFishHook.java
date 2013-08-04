@@ -147,7 +147,7 @@ public class RenderFishHook extends Render
         this.doRenderFishHook((EntityChoreFishHook)entity, posX, posY, posZ, f1, f2);
     }
 
-    protected ResourceLocation func_110791_a(EntityChoreFishHook par1EntityFishHook)
+    protected ResourceLocation func_110791_a(EntityChoreFishHook entityFishHook)
     {
         return field_110792_a;
     }

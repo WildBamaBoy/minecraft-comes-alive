@@ -208,22 +208,22 @@ public class RenderHuman extends RenderLiving
 	}
 
 	@Override
-	protected void rotateCorpse(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
+	protected void rotateCorpse(EntityLivingBase entityLivingBase, float posX, float posY, float posZ)
 	{
-		if (!((AbstractEntity)par1EntityLivingBase).currentChore.equals("Hunting"))
+		if (!((AbstractEntity)entityLivingBase).currentChore.equals("Hunting"))
 		{
-			super.rotateCorpse(par1EntityLivingBase, par2, par3, par4);
+			super.rotateCorpse(entityLivingBase, posX, posY, posZ);
 		}
 
 		//this.rotateHuman((EntityBase)par1EntityLivingBase, par2, par3, par4);
 	}
 
 	@Override
-	protected void renderLivingAt(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6)
+	protected void renderLivingAt(EntityLivingBase entityLivingBase, double posX, double posY, double posZ)
 	{
-		if (!((AbstractEntity)par1EntityLivingBase).currentChore.equals("Hunting"))
+		if (!((AbstractEntity)entityLivingBase).currentChore.equals("Hunting"))
 		{
-			super.renderLivingAt(par1EntityLivingBase, par2, par4, par6);
+			super.renderLivingAt(entityLivingBase, posX, posY, posZ);
 		}
 
 		//this.renderHumanSleep((EntityBase)par1EntityLivingBase, par2, par4, par6);
