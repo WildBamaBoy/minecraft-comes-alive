@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import mca.chore.AbstractChore;
 import mca.chore.ChoreCombat;
 import mca.chore.ChoreFarming;
 import mca.chore.ChoreFishing;
@@ -1272,6 +1273,44 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	}
 
 	/**
+	 * Returns an instance of the entity's current chore.
+	 * 
+	 * @return	Instance of the chore the entity should be running.
+	 */
+	public AbstractChore getInstanceOfCurrentChore()
+	{
+		if (currentChore.equals("Farming"))
+		{
+			return farmingChore;
+		}
+
+		else if (currentChore.equals("Fishing"))
+		{
+			return fishingChore;
+		}
+
+		else if (currentChore.equals("Woodcutting"))
+		{
+			return woodcuttingChore;
+		}
+
+		else if (currentChore.equals("Mining"))
+		{
+			return miningChore;
+		}
+
+		else if (currentChore.equals("Hunting"))
+		{
+			return huntingChore;
+		}
+
+		else
+		{
+			return combatChore;
+		}
+	}
+
+	/**
 	 * Sets a person's mood based on the highest mood points value.
 	 * 
 	 * @param 	dispatchPackets	Should packets be dispatched to client or server?
@@ -2132,112 +2171,51 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		if (isInChoreMode)
 		{
-			if (currentChore.equals("Farming") && farmingChore != null)
-			{					
-				if (farmingChore.hasEnded)
+			AbstractChore chore = getInstanceOfCurrentChore();
+
+			if (!(chore instanceof ChoreCombat))
+			{
+				if (chore.hasEnded)
 				{
 					currentChore = "";
 					isInChoreMode = false;
 				}
 
-				else if (farmingChore.hasBegun)
+				else if (chore.hasBegun)
 				{
-					farmingChore.runChoreAI();
+					if (!worldObj.isRemote)
+					{
+						chore.runChoreAI();
+					}
 				}
 
 				else
 				{
-					farmingChore.beginChore();
+					if (currentChore.equals("Hunting"))
+					{
+						//Remove collision box.
+						setSize(0.01F, 0.01F);
+					}
+
+					if (!worldObj.isRemote)
+					{
+						chore.beginChore();
+					}
 				}
 			}
-
-			else if (currentChore.equals("Fishing") && fishingChore != null)
-			{
-				if (fishingChore.hasEnded)
-				{
-					currentChore = "";
-					isInChoreMode = false;
-				}
-
-				else if (fishingChore.hasBegun)
-				{
-					fishingChore.runChoreAI();
-				}
-
-				else
-				{
-					fishingChore.beginChore();
-				}
-			}
-
-			else if (currentChore.equals("Woodcutting") && woodcuttingChore != null)
-			{
-				if (woodcuttingChore.hasEnded)
-				{
-					currentChore = "";
-					isInChoreMode = false;
-				}
-
-				else if (woodcuttingChore.hasBegun)
-				{
-					woodcuttingChore.runChoreAI();
-				}
-
-				else
-				{
-					woodcuttingChore.beginChore();
-				}
-			}
-
-			else if (currentChore.equals("Mining") && miningChore != null)
-			{
-				if (miningChore.hasEnded)
-				{
-					currentChore = "";
-					isInChoreMode = false;
-				}
-
-				else if (miningChore.hasBegun)
-				{
-					miningChore.runChoreAI();
-				}
-
-				else
-				{
-					miningChore.beginChore();
-				}
-			}
-
-			else if (currentChore.equals("Hunting") && huntingChore != null)
-			{
-				if (huntingChore.hasEnded)
-				{
-					//Restore the collision box.
-					setSize(0.6F, 1.8F);
-					currentChore = "";
-					isInChoreMode = false;
-				}
-
-				else if (huntingChore.hasBegun)
-				{
-					huntingChore.runChoreAI();
-				}
-
-				else
-				{
-					//Remove the collision box.
-					setSize(0.1F, 0.1F);
-					huntingChore.beginChore();
-				}
+			
+			else
+			{			
+				combatChore.runChoreAI();
 			}
 		}
-
+		
 		else
 		{			
 			combatChore.runChoreAI();
 		}
 	}
-
+	
 	/**
 	 * Handles retaliation.
 	 */
