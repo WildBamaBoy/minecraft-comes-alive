@@ -1,5 +1,5 @@
 /*******************************************************************************
- * GuiSpecialDivorceCouple.java
+ * GuiDivorceCouple.java
  * Copyright (c) 2013 WildBamaBoy.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v3.0
@@ -32,7 +32,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * Defines the GUI shown when the player wants to divorce a couple.
  */
 @SideOnly(Side.CLIENT)
-public class GuiSpecialDivorceCouple extends AbstractGui
+public class GuiDivorceCouple extends AbstractGui
 {
 	/** Map containing all married villagers. */
 	public Map<String, String> marriedVillagers = null;
@@ -56,7 +56,7 @@ public class GuiSpecialDivorceCouple extends AbstractGui
 	 * 
 	 * @param 	player	The player that opened this GUI.
 	 */
-	public GuiSpecialDivorceCouple(EntityPlayer player)
+	public GuiDivorceCouple(EntityPlayer player)
 	{
 		super(player);
 		marriedVillagers = buildMarriedVillagerMap();

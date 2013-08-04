@@ -7,8 +7,9 @@
  * http://www.gnu.org/licenses/gpl.html
  ******************************************************************************/
 
-package mca.client.gui;
+package mca.core.forge;
 
+import mca.client.gui.GuiInventory;
 import mca.entity.AbstractEntity;
 import mca.inventory.ContainerInventory;
 import net.minecraft.entity.player.EntityPlayer;

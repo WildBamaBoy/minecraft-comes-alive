@@ -214,8 +214,6 @@ public class RenderHuman extends RenderLiving
 		{
 			super.rotateCorpse(entityLivingBase, posX, posY, posZ);
 		}
-
-		//this.rotateHuman((EntityBase)par1EntityLivingBase, par2, par3, par4);
 	}
 
 	@Override
@@ -225,8 +223,6 @@ public class RenderHuman extends RenderLiving
 		{
 			super.renderLivingAt(entityLivingBase, posX, posY, posZ);
 		}
-
-		//this.renderHumanSleep((EntityBase)par1EntityLivingBase, par2, par4, par6);
 	}
 
 	/**

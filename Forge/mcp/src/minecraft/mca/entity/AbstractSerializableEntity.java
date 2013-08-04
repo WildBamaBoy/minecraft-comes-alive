@@ -1,5 +1,5 @@
 /*******************************************************************************
- * EntitySerializable.java
+ * AbstractSerializableEntity.java
  * Copyright (c) 2013 WildBamaBoy.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v3.0

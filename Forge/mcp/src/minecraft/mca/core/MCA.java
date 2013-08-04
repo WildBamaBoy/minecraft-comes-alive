@@ -30,7 +30,6 @@ import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
 import mca.block.BlockTombstone;
-import mca.client.gui.GuiHandler;
 import mca.command.CommandBlock;
 import mca.command.CommandBlockAll;
 import mca.command.CommandDebugMode;
@@ -49,6 +48,7 @@ import mca.core.forge.CommonProxy;
 import mca.core.forge.ConnectionHandler;
 import mca.core.forge.CraftingHandler;
 import mca.core.forge.EventHooks;
+import mca.core.forge.GuiHandler;
 import mca.core.forge.PacketHandler;
 import mca.core.io.ModPropertiesManager;
 import mca.core.io.WorldPropertiesManager;

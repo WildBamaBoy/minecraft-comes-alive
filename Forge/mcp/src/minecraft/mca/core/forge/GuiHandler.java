@@ -7,8 +7,20 @@
  * http://www.gnu.org/licenses/gpl.html
  ******************************************************************************/
 
-package mca.client.gui;
+package mca.core.forge;
 
+import mca.client.gui.GuiDivorceCouple;
+import mca.client.gui.GuiGameOver;
+import mca.client.gui.GuiInteractionPlayerChild;
+import mca.client.gui.GuiInteractionSpouse;
+import mca.client.gui.GuiInteractionVillagerAdult;
+import mca.client.gui.GuiInteractionVillagerChild;
+import mca.client.gui.GuiInventory;
+import mca.client.gui.GuiLostRelativeDocument;
+import mca.client.gui.GuiNameChild;
+import mca.client.gui.GuiSetup;
+import mca.client.gui.GuiTombstone;
+import mca.client.gui.GuiVillagerEditor;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LogicHelper;
@@ -112,7 +124,7 @@ public class GuiHandler implements IGuiHandler
 
 		else if (id == MCA.instance.guiSpecialDivorceCoupleID)
 		{
-			return new GuiSpecialDivorceCouple(player);
+			return new GuiDivorceCouple(player);
 		}
 
 		else if (id == MCA.instance.guiTombstoneID)
