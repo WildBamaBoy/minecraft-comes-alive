@@ -1004,4 +1004,38 @@ public final class PacketHelper
 			return null;
 		}
 	}
+	
+	/**
+	 * Creates a packet used to add an entity's AI across the client and server.
+	 * 
+	 * @param	entity	The entity who needs their AI added.
+	 * 
+	 * @return	An add AI packet.
+	 */
+	public static Packet createAddAIPacket(AbstractEntity entity)
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_ADDAI";
+			
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+			
+			objectOutput.writeObject(entity.entityId);
+			objectOutput.close();
+			
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+			
+			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+		
+		catch (Throwable e)
+		{
+			MCA.instance.log(e);
+			return null;
+		}
+	}
 }

@@ -210,6 +210,11 @@ public class PacketHandler implements IPacketHandler
 			{
 				handleVillagerPlayerProcreate(packet, senderPlayer);
 			}
+
+			else if (packet.channel.equals("MCA_ADDAI"))
+			{
+				handleAddAI(packet, senderPlayer);
+			}
 		}
 
 		catch (Throwable e)
@@ -536,7 +541,7 @@ public class PacketHandler implements IPacketHandler
 	/**
 	 * Handles a packet that contains synchronization data.
 	 * 
-	 * @param 	packet	The packet containing the synchrnoization data.
+	 * @param 	packet	The packet containing the synchronization data.
 	 * @param 	player	The player that the packet came from.
 	 */
 	@SideOnly(Side.CLIENT)
@@ -632,6 +637,9 @@ public class PacketHandler implements IPacketHandler
 			//Set the entity mood and trait.
 			clientEntity.setMoodByMoodPoints(false);
 			clientEntity.trait = EnumTrait.getTraitById(clientEntity.traitId);
+
+			//Add the client entity's AI.
+			clientEntity.addAI();
 
 			return;
 		}
@@ -1339,5 +1347,23 @@ public class PacketHandler implements IPacketHandler
 
 		//Make the player choose a name for the baby.
 		player.openGui(MCA.instance, MCA.instance.guiNameChildID, worldObj, (int)player.posX, (int)player.posY, (int)player.posZ);
+	}
+
+	private void handleAddAI(Packet250CustomPayload packet, Player senderPlayer) throws IOException, ClassNotFoundException
+	{
+		byte[] data = MCA.decompressBytes(packet.data);
+
+		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
+		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
+
+		EntityPlayer player = (EntityPlayer)senderPlayer;
+		World worldObj = player.worldObj;
+
+		int entityId = (Integer)objectInput.readObject();
+
+		objectInput.close();
+
+		AbstractEntity entity = (AbstractEntity)worldObj.getEntityByID(entityId);
+		entity.addAI();
 	}
 }

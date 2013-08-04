@@ -32,7 +32,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class RenderFishHook extends Render
 {
 	private static final ResourceLocation field_110792_a = new ResourceLocation("textures/particle/particles.png");
-	
+
 	/**
 	 * Renders the fish hook in the world.
 	 * 
@@ -43,115 +43,188 @@ public class RenderFishHook extends Render
 	 * @param 	angle			The angle relative to the angler that the hook is rendered at.
 	 * @param 	offsetY			The y offset of the hook.
 	 */
-    public void doRenderFishHook(EntityChoreFishHook entityFishHook, double posX, double posY, double posZ, float angle, float offsetY)
-    {	    	
-        GL11.glPushMatrix();
-        GL11.glTranslatef((float)posX, (float)posY, (float)posZ);
-        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-        GL11.glScalef(0.5F, 0.5F, 0.5F);
+	public void doRenderFishHook(EntityChoreFishHook entityFishHook, double posX, double posY, double posZ, float angle, float offsetY)
+	{
+		GL11.glPushMatrix();
+		GL11.glTranslatef((float)posX, (float)posY, (float)posZ);
+		GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+		GL11.glScalef(0.5F, 0.5F, 0.5F);
+		this.func_110777_b(entityFishHook);
+		Tessellator tessellator = Tessellator.instance;
+		byte b0 = 1;
+		byte b1 = 2;
+		float f2 = (float)(b0 * 8 + 0) / 128.0F;
+		float f3 = (float)(b0 * 8 + 8) / 128.0F;
+		float f4 = (float)(b1 * 8 + 0) / 128.0F;
+		float f5 = (float)(b1 * 8 + 8) / 128.0F;
+		float f6 = 1.0F;
+		float f7 = 0.5F;
+		float f8 = 0.5F;
+		GL11.glRotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+		GL11.glRotatef(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+		tessellator.startDrawingQuads();
+		tessellator.setNormal(0.0F, 1.0F, 0.0F);
+		tessellator.addVertexWithUV((double)(0.0F - f7), (double)(0.0F - f8), 0.0D, (double)f2, (double)f5);
+		tessellator.addVertexWithUV((double)(f6 - f7), (double)(0.0F - f8), 0.0D, (double)f3, (double)f5);
+		tessellator.addVertexWithUV((double)(f6 - f7), (double)(1.0F - f8), 0.0D, (double)f3, (double)f4);
+		tessellator.addVertexWithUV((double)(0.0F - f7), (double)(1.0F - f8), 0.0D, (double)f2, (double)f4);
+		tessellator.draw();
+		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+		GL11.glPopMatrix();
 
-        this.func_110777_b(entityFishHook);
-        Tessellator tessellator = Tessellator.instance;
+		if (entityFishHook.angler != null)
+		{
+			float f9 = entityFishHook.angler.getSwingProgress(offsetY);
+			float f10 = MathHelper.sin(MathHelper.sqrt_float(f9) * (float)Math.PI);
+			Vec3 vec3 = entityFishHook.worldObj.getWorldVec3Pool().getVecFromPool(-0.5D, 0.03D, 0.8D);
+			vec3.rotateAroundX(-(entityFishHook.angler.prevRotationPitch + (entityFishHook.angler.rotationPitch - entityFishHook.angler.prevRotationPitch) * offsetY) * (float)Math.PI / 180.0F);
+			vec3.rotateAroundY(-(entityFishHook.angler.prevRotationYaw + (entityFishHook.angler.rotationYaw - entityFishHook.angler.prevRotationYaw) * offsetY) * (float)Math.PI / 180.0F);
+			vec3.rotateAroundY(f10 * 0.5F);
+			vec3.rotateAroundX(-f10 * 0.7F);
+			double d3 = entityFishHook.angler.prevPosX + (entityFishHook.angler.posX - entityFishHook.angler.prevPosX) * (double)offsetY + vec3.xCoord;
+			double d4 = entityFishHook.angler.prevPosY + (entityFishHook.angler.posY - entityFishHook.angler.prevPosY) * (double)offsetY + vec3.yCoord;
+			double d5 = entityFishHook.angler.prevPosZ + (entityFishHook.angler.posZ - entityFishHook.angler.prevPosZ) * (double)offsetY + vec3.zCoord;
+			
+			int age = ((EntityPlayerChild)entityFishHook.angler).age;
+			float scale = 0.7F + ((0.2375F / MCA.instance.modPropertiesManager.modProperties.kidGrowUpTimeMinutes) * age);
+			double d6 = (double)scale * 1.6;
+			
+			float f11 = (entityFishHook.angler.prevRenderYawOffset + (entityFishHook.angler.renderYawOffset - entityFishHook.angler.prevRenderYawOffset) * offsetY) * (float)Math.PI / 180.0F;
+			double d7 = (double)MathHelper.sin(f11);
+			double d8 = (double)MathHelper.cos(f11);
+			d3 = entityFishHook.angler.prevPosX + (entityFishHook.angler.posX - entityFishHook.angler.prevPosX) * (double)offsetY - d8 * 0.35D - d7 * 0.85D;
+			d4 = entityFishHook.angler.prevPosY + d6 + (entityFishHook.angler.posY - entityFishHook.angler.prevPosY) * (double)offsetY - 0.45D;
+			d5 = entityFishHook.angler.prevPosZ + (entityFishHook.angler.posZ - entityFishHook.angler.prevPosZ) * (double)offsetY - d7 * 0.35D + d8 * 0.85D;
 
-        float textureSizeU = (float)(1 * 8 + 0) / 128.0F;
-        float textureSizeV = (float)(1 * 8 + 8) / 128.0F;
-        float textureLocationX = (float)(2 * 8 + 0) / 128.0F;
-        float textureLocationY = (float)(2 * 8 + 8) / 128.0F;
+			double d9 = entityFishHook.prevPosX + (entityFishHook.posX - entityFishHook.prevPosX) * (double)offsetY;
+			double d10 = entityFishHook.prevPosY + (entityFishHook.posY - entityFishHook.prevPosY) * (double)offsetY + 0.25D;
+			double d11 = entityFishHook.prevPosZ + (entityFishHook.posZ - entityFishHook.prevPosZ) * (double)offsetY;
+			double d12 = (double)((float)(d3 - d9));
+			double d13 = (double)((float)(d4 - d10));
+			double d14 = (double)((float)(d5 - d11));
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			GL11.glDisable(GL11.GL_LIGHTING);
+			tessellator.startDrawing(3);
+			tessellator.setColorOpaque_I(0);
+			byte b2 = 16;
 
-        GL11.glRotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-        
-        tessellator.startDrawingQuads();
-        tessellator.setNormal(0.0F, 1.0F, 0.0F);
-        tessellator.addVertexWithUV((double)(-0.5F), (double)(-0.5F), 0.0D, (double)textureSizeU, (double)textureLocationY);
-        tessellator.addVertexWithUV((double)(0.5F), (double)(-0.5F), 0.0D, (double)textureSizeV, (double)textureLocationY);
-        tessellator.addVertexWithUV((double)(0.5F), (double)(0.5F), 0.0D, (double)textureSizeV, (double)textureLocationX);
-        tessellator.addVertexWithUV((double)(-0.5F), (double)(0.5F), 0.0D, (double)textureSizeU, (double)textureLocationX);
-        tessellator.draw();
-        
-        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-        GL11.glPopMatrix();
+			for (int i = 0; i <= b2; ++i)
+			{
+				float f12 = (float)i / (float)b2;
+				tessellator.addVertex(posX + d12 * (double)f12, posY + d13 * (double)(f12 * f12 + f12) * 0.5D + 0.25D, posZ + d14 * (double)f12);
+			}
 
-        if (entityFishHook.angler != null)
-        {
-            float swingProgress = entityFishHook.angler.getSwingProgress(offsetY);
-            float orientation = MathHelper.sin(MathHelper.sqrt_float(swingProgress) * (float)Math.PI);
-            
-            Vec3 fishHookVector = entityFishHook.worldObj.getWorldVec3Pool().getVecFromPool(-0.5D, 0.03D, 0.8D);
-            fishHookVector.rotateAroundX(-(entityFishHook.angler.prevRotationPitch + (entityFishHook.angler.rotationPitch - entityFishHook.angler.prevRotationPitch) * offsetY) * (float)Math.PI / 180.0F);
-            fishHookVector.rotateAroundY(-(entityFishHook.angler.prevRotationYaw + (entityFishHook.angler.rotationYaw - entityFishHook.angler.prevRotationYaw) * offsetY) * (float)Math.PI / 180.0F);
-            fishHookVector.rotateAroundY(orientation * 0.5F);
-            fishHookVector.rotateAroundX(-orientation * 0.7F);
-            
-            double anglerCorrectionX = entityFishHook.angler.prevPosX + (entityFishHook.angler.posX - entityFishHook.angler.prevPosX) * (double)offsetY + fishHookVector.xCoord;
-            double anglerCorrectionY = entityFishHook.angler.prevPosY + (entityFishHook.angler.posY - entityFishHook.angler.prevPosY) * (double)offsetY + fishHookVector.yCoord;
-            double anglerCorrectionZ = entityFishHook.angler.prevPosZ + (entityFishHook.angler.posZ - entityFishHook.angler.prevPosZ) * (double)offsetY + fishHookVector.zCoord;
-            double eyeHeight = (double)entityFishHook.angler.getEyeHeight();
-            
-            if (this.renderManager.options.thirdPersonView > 0)
-            {
-                float offsetYaw = (entityFishHook.angler.prevRenderYawOffset + (entityFishHook.angler.renderYawOffset - entityFishHook.angler.prevRenderYawOffset) * offsetY) * (float)Math.PI / 180.0F;
-                double sinOffsetYaw = (double)MathHelper.sin(offsetYaw);
-                double cosOffsetYaw = (double)MathHelper.cos(offsetYaw);
-                
-                anglerCorrectionX = entityFishHook.angler.prevPosX + (entityFishHook.angler.posX - entityFishHook.angler.prevPosX) * (double)offsetY - cosOffsetYaw * 0.35D - sinOffsetYaw * 0.85D;
-                anglerCorrectionY = entityFishHook.angler.prevPosY + eyeHeight + (entityFishHook.angler.posY - entityFishHook.angler.prevPosY) * (double)offsetY - 0.45D;
-                anglerCorrectionZ = entityFishHook.angler.prevPosZ + (entityFishHook.angler.posZ - entityFishHook.angler.prevPosZ) * (double)offsetY - sinOffsetYaw * 0.35D + cosOffsetYaw * 0.85D;
-            }
+			tessellator.draw();
+			GL11.glEnable(GL11.GL_LIGHTING);
+			GL11.glEnable(GL11.GL_TEXTURE_2D);
+		}
+		//        GL11.glPushMatrix();
+		//        GL11.glTranslatef((float)posX, (float)posY, (float)posZ);
+		//        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+		//        GL11.glScalef(0.5F, 0.5F, 0.5F);
+		//
+		//        this.func_110777_b(entityFishHook);
+		//        Tessellator tessellator = Tessellator.instance;
+		//
+		//        float textureSizeU = (float)(1 * 8 + 0) / 128.0F;
+		//        float textureSizeV = (float)(1 * 8 + 8) / 128.0F;
+		//        float textureLocationX = (float)(2 * 8 + 0) / 128.0F;
+		//        float textureLocationY = (float)(2 * 8 + 8) / 128.0F;
+		//
+		//        GL11.glRotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+		//        GL11.glRotatef(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+		//        
+		//        tessellator.startDrawingQuads();
+		//        tessellator.setNormal(0.0F, 1.0F, 0.0F);
+		//        tessellator.addVertexWithUV((double)(-0.5F), (double)(-0.5F), 0.0D, (double)textureSizeU, (double)textureLocationY);
+		//        tessellator.addVertexWithUV((double)(0.5F), (double)(-0.5F), 0.0D, (double)textureSizeV, (double)textureLocationY);
+		//        tessellator.addVertexWithUV((double)(0.5F), (double)(0.5F), 0.0D, (double)textureSizeV, (double)textureLocationX);
+		//        tessellator.addVertexWithUV((double)(-0.5F), (double)(0.5F), 0.0D, (double)textureSizeU, (double)textureLocationX);
+		//        tessellator.draw();
+		//        
+		//        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+		//        GL11.glPopMatrix();
+		//
+		//        if (entityFishHook.angler != null)
+		//        {
+		//            float swingProgress = entityFishHook.angler.getSwingProgress(offsetY);
+		//            float orientation = MathHelper.sin(MathHelper.sqrt_float(swingProgress) * (float)Math.PI);
+		//            
+		//            Vec3 fishHookVector = entityFishHook.worldObj.getWorldVec3Pool().getVecFromPool(-0.5D, 0.03D, 0.8D);
+		//            fishHookVector.rotateAroundX(-(entityFishHook.angler.prevRotationPitch + (entityFishHook.angler.rotationPitch - entityFishHook.angler.prevRotationPitch) * offsetY) * (float)Math.PI / 180.0F);
+		//            fishHookVector.rotateAroundY(-(entityFishHook.angler.prevRotationYaw + (entityFishHook.angler.rotationYaw - entityFishHook.angler.prevRotationYaw) * offsetY) * (float)Math.PI / 180.0F);
+		//            fishHookVector.rotateAroundY(orientation * 0.5F);
+		//            fishHookVector.rotateAroundX(-orientation * 0.7F);
+		//            
+		//            double anglerCorrectionX = entityFishHook.angler.prevPosX + (entityFishHook.angler.posX - entityFishHook.angler.prevPosX) * (double)offsetY + fishHookVector.xCoord;
+		//            double anglerCorrectionY = entityFishHook.angler.prevPosY + (entityFishHook.angler.posY - entityFishHook.angler.prevPosY) * (double)offsetY + fishHookVector.yCoord;
+		//            double anglerCorrectionZ = entityFishHook.angler.prevPosZ + (entityFishHook.angler.posZ - entityFishHook.angler.prevPosZ) * (double)offsetY + fishHookVector.zCoord;
+		//            double eyeHeight = (double)entityFishHook.angler.getEyeHeight();
+		//            
+		//            if (this.renderManager.options.thirdPersonView > 0)
+		//            {
+		//                float offsetYaw = (entityFishHook.angler.prevRenderYawOffset + (entityFishHook.angler.renderYawOffset - entityFishHook.angler.prevRenderYawOffset) * offsetY) * (float)Math.PI / 180.0F;
+		//                double sinOffsetYaw = (double)MathHelper.sin(offsetYaw);
+		//                double cosOffsetYaw = (double)MathHelper.cos(offsetYaw);
+		//                
+		//                anglerCorrectionX = entityFishHook.angler.prevPosX + (entityFishHook.angler.posX - entityFishHook.angler.prevPosX) * (double)offsetY - cosOffsetYaw * 0.35D - sinOffsetYaw * 0.85D;
+		//                anglerCorrectionY = entityFishHook.angler.prevPosY + eyeHeight + (entityFishHook.angler.posY - entityFishHook.angler.prevPosY) * (double)offsetY - 0.45D;
+		//                anglerCorrectionZ = entityFishHook.angler.prevPosZ + (entityFishHook.angler.posZ - entityFishHook.angler.prevPosZ) * (double)offsetY - sinOffsetYaw * 0.35D + cosOffsetYaw * 0.85D;
+		//            }
+		//
+		//            double fishHookCorrectionX = 0;
+		//            double fishHookCorrectionY = 0;
+		//            double fishHookCorrectionZ = 0;
+		//            
+		//            if (entityFishHook.angler instanceof EntityPlayerChild)
+		//            {
+		//            	int age = ((EntityPlayerChild)entityFishHook.angler).age;
+		//            	float scale = 0.7F + ((0.2375F / MCA.instance.modPropertiesManager.modProperties.kidGrowUpTimeMinutes) * age);
+		//            	
+		//            	fishHookCorrectionX = entityFishHook.prevPosX + (entityFishHook.posX - entityFishHook.prevPosX) * (double)offsetY;
+		//            	fishHookCorrectionY = entityFishHook.prevPosY + (entityFishHook.posY - entityFishHook.prevPosY) * (double)offsetY - scale;
+		//            	fishHookCorrectionZ = entityFishHook.prevPosZ + (entityFishHook.posZ - entityFishHook.prevPosZ) * (double)offsetY;
+		//            }
+		//            
+		//            else
+		//            {
+		//            	fishHookCorrectionX = entityFishHook.prevPosX + (entityFishHook.posX - entityFishHook.prevPosX) * (double)offsetY;
+		//            	fishHookCorrectionY = entityFishHook.prevPosY + (entityFishHook.posY - entityFishHook.prevPosY) * (double)offsetY - 0.9375D;
+		//            	fishHookCorrectionZ = entityFishHook.prevPosZ + (entityFishHook.posZ - entityFishHook.prevPosZ) * (double)offsetY;
+		//            }
+		//            
+		//            double deltaX = (double)((float)(anglerCorrectionX - fishHookCorrectionX));
+		//            double deltaY = (double)((float)(anglerCorrectionY - fishHookCorrectionY));
+		//            double deltaZ = (double)((float)(anglerCorrectionZ - fishHookCorrectionZ));
+		//            
+		//            GL11.glDisable(GL11.GL_TEXTURE_2D);
+		//            GL11.glDisable(GL11.GL_LIGHTING);
+		//            tessellator.startDrawing(3);
+		//            tessellator.setColorOpaque_I(0);
+		//
+		//            for (int i = 0; i <= 16; ++i)
+		//            {
+		//                float quotient = (float)i / (float)16;
+		//                tessellator.addVertex(posX + deltaX * (double)quotient, posY + deltaY * (double)(quotient * quotient + quotient) * 0.5D + 0.25D, posZ + deltaZ * (double)quotient);
+		//            }
+		//
+		//            tessellator.draw();
+		//            GL11.glEnable(GL11.GL_LIGHTING);
+		//            GL11.glEnable(GL11.GL_TEXTURE_2D);
+		//        }
+	}
 
-            double fishHookCorrectionX = 0;
-            double fishHookCorrectionY = 0;
-            double fishHookCorrectionZ = 0;
-            
-            if (entityFishHook.angler instanceof EntityPlayerChild)
-            {
-            	int age = ((EntityPlayerChild)entityFishHook.angler).age;
-            	float scale = 0.7F + ((0.2375F / MCA.instance.modPropertiesManager.modProperties.kidGrowUpTimeMinutes) * age);
-            	
-            	fishHookCorrectionX = entityFishHook.prevPosX + (entityFishHook.posX - entityFishHook.prevPosX) * (double)offsetY;
-            	fishHookCorrectionY = entityFishHook.prevPosY + (entityFishHook.posY - entityFishHook.prevPosY) * (double)offsetY - scale;
-            	fishHookCorrectionZ = entityFishHook.prevPosZ + (entityFishHook.posZ - entityFishHook.prevPosZ) * (double)offsetY;
-            }
-            
-            else
-            {
-            	fishHookCorrectionX = entityFishHook.prevPosX + (entityFishHook.posX - entityFishHook.prevPosX) * (double)offsetY;
-            	fishHookCorrectionY = entityFishHook.prevPosY + (entityFishHook.posY - entityFishHook.prevPosY) * (double)offsetY - 0.9375D;
-            	fishHookCorrectionZ = entityFishHook.prevPosZ + (entityFishHook.posZ - entityFishHook.prevPosZ) * (double)offsetY;
-            }
-            
-            double deltaX = (double)((float)(anglerCorrectionX - fishHookCorrectionX));
-            double deltaY = (double)((float)(anglerCorrectionY - fishHookCorrectionY));
-            double deltaZ = (double)((float)(anglerCorrectionZ - fishHookCorrectionZ));
-            
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-            GL11.glDisable(GL11.GL_LIGHTING);
-            tessellator.startDrawing(3);
-            tessellator.setColorOpaque_I(0);
+	@Override
+	public void doRender(Entity entity, double posX, double posY, double posZ, float f1, float f2)
+	{
+		this.doRenderFishHook((EntityChoreFishHook)entity, posX, posY, posZ, f1, f2);
+	}
 
-            for (int i = 0; i <= 16; ++i)
-            {
-                float quotient = (float)i / (float)16;
-                tessellator.addVertex(posX + deltaX * (double)quotient, posY + deltaY * (double)(quotient * quotient + quotient) * 0.5D + 0.25D, posZ + deltaZ * (double)quotient);
-            }
+	protected ResourceLocation func_110791_a(EntityChoreFishHook entityFishHook)
+	{
+		return field_110792_a;
+	}
 
-            tessellator.draw();
-            GL11.glEnable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
-        }
-    }
-
-    @Override
-    public void doRender(Entity entity, double posX, double posY, double posZ, float f1, float f2)
-    {
-        this.doRenderFishHook((EntityChoreFishHook)entity, posX, posY, posZ, f1, f2);
-    }
-
-    protected ResourceLocation func_110791_a(EntityChoreFishHook entityFishHook)
-    {
-        return field_110792_a;
-    }
-    
 	@Override
 	protected ResourceLocation func_110775_a(Entity entity) 
 	{

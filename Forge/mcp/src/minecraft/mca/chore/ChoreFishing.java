@@ -87,14 +87,14 @@ public class ChoreFishing extends AbstractChore
 			}
 		}
 
-		if (owner.worldObj.isRemote)
-		{
-			say(LanguageHelper.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.fishing", true));
-		}
-
 		owner.isFollowing = false;
 		owner.isStaying = false;
 		hasBegun = true;
+
+		if (!owner.worldObj.isRemote)
+		{
+			owner.say(LanguageHelper.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.fishing", true));
+		}
 	}
 
 	@Override
@@ -103,8 +103,9 @@ public class ChoreFishing extends AbstractChore
 		//Make sure they have a fishing rod.
 		if (owner.inventory.getQuantityOfItem(Item.fishingRod) == 0)
 		{
-			say(LanguageHelper.getString("notify.child.chore.interrupted.fishing.norod"));
+			owner.say(LanguageHelper.getString("notify.child.chore.interrupted.fishing.norod"));
 			endChore();
+			return;
 		}
 
 		//Get all water up to 10 blocks away from the entity.
@@ -122,11 +123,12 @@ public class ChoreFishing extends AbstractChore
 				hasWaterCoordinates = true;
 			}
 
-			//If it didn't there's no water around so the chore must end.
+			//If it didn't, there's no water around so the chore must end.
 			else
 			{
-				say(LanguageHelper.getString("notify.child.chore.interrupted.fishing.nowater"));
+				owner.say(LanguageHelper.getString("notify.child.chore.interrupted.fishing.nowater"));
 				endChore();
+				return;
 			}
 		}
 
@@ -146,14 +148,17 @@ public class ChoreFishing extends AbstractChore
 				//Clear their current path to prevent them from entering the water.
 				owner.getNavigator().clearPathEntity();
 
-				//Check if they don't have a random water block to fish at.
+				//Check if they don't have a random water block to fish at, server side only. Assume they do client side.
 				if (!hasRandomWaterBlock)
 				{
-					Coordinates randomWaterCoordinates = LogicHelper.getRandomNearbyBlockCoordinatesOfType(owner, Block.waterStill.blockID);
+					if (!owner.worldObj.isRemote)
+					{
+						Coordinates randomWaterCoordinates = LogicHelper.getRandomNearbyBlockCoordinatesOfType(owner, Block.waterStill.blockID);
 
-					waterCoordinatesX = (int)randomWaterCoordinates.x;
-					waterCoordinatesY = (int)randomWaterCoordinates.y;
-					waterCoordinatesZ = (int)randomWaterCoordinates.z;
+						waterCoordinatesX = (int)randomWaterCoordinates.x;
+						waterCoordinatesY = (int)randomWaterCoordinates.y;
+						waterCoordinatesZ = (int)randomWaterCoordinates.z;
+					}
 
 					hasRandomWaterBlock = true;
 				}
@@ -164,7 +169,7 @@ public class ChoreFishing extends AbstractChore
 					//Check how long they've been idle. (Rod is not thrown)
 					if (idleFishingTicks < 20)
 					{
-						if (fishEntity != null)
+						if (fishEntity != null && !owner.worldObj.isRemote)
 						{
 							fishEntity.setDead();
 						}
@@ -176,19 +181,22 @@ public class ChoreFishing extends AbstractChore
 					//If they have idled for 20 ticks, throw the rod and continue fishing.
 					else
 					{
-						owner.faceCoordinates(owner, waterCoordinatesX, waterCoordinatesY, waterCoordinatesZ);
-						
+						if (fishEntity != null)
+						{
+							owner.faceCoordinates(owner, fishEntity.posX, fishEntity.posY, fishEntity.posZ);
+						}
+
 						//Check if the chance to catch a fish counter has been reset.
 						if (nextFishCatchChance == 0)
 						{
-							//Throw the rod and assign another chance to catch a fish.
-							owner.swingItem();
-							owner.damageHeldItem();
-
-							nextFishCatchChance = owner.worldObj.rand.nextInt(200) + 200;
-							
-							fishEntity = new EntityChoreFishHook(owner.worldObj, owner);
-							owner.worldObj.spawnEntityInWorld(fishEntity);
+							if (!owner.worldObj.isRemote)
+							{
+								owner.damageHeldItem();
+								nextFishCatchChance = owner.worldObj.rand.nextInt(200) + 200;
+								fishEntity = new EntityChoreFishHook(owner.worldObj, owner);
+								owner.worldObj.spawnEntityInWorld(fishEntity);
+								owner.tasks.taskEntries.clear();
+							}
 						}
 
 						//The fish catch chance counter hasn't been reset.
@@ -197,69 +205,76 @@ public class ChoreFishing extends AbstractChore
 							//See if they've been fishing long enough to attempt catching a fish.
 							if (fishingTicks >= nextFishCatchChance)
 							{
-								int i = owner.worldObj.rand.nextInt(10);
-
-								if (i <= 2) //About a 30 percent chance of catching the fish. In this case they did catch it.
+								if (!owner.worldObj.isRemote)
 								{
-									owner.inventory.addItemStackToInventory(new ItemStack(Item.fishRaw, 1));
-									nextFishCatchChance = 0;
-									fishingTicks = 0;
+									int i = owner.worldObj.rand.nextInt(10);
 
-									//Increment achievement values and check for achievement.
-									if (owner instanceof EntityPlayerChild)
+									if (i <= 4) //About a 30 percent chance of catching the fish. In this case they did catch it.
 									{
-										EntityPlayerChild child = (EntityPlayerChild)owner;
+										owner.inventory.addItemStackToInventory(new ItemStack(Item.fishRaw, 1));
+										nextFishCatchChance = 0;
+										fishingTicks = 0;
 
-										child.fishCaught++;
-
-										if (child.fishCaught >= 100)
+										//Increment achievement values and check for achievement.
+										if (owner instanceof EntityPlayerChild)
 										{
-											EntityPlayer player = child.worldObj.getPlayerEntityByName(child.ownerPlayerName);
+											EntityPlayerChild child = (EntityPlayerChild)owner;
 
-											if (player != null)
+											child.fishCaught++;
+
+											if (child.fishCaught >= 100)
 											{
-												player.triggerAchievement(MCA.instance.achievementChildFish);
+												EntityPlayer player = child.worldObj.getPlayerEntityByName(child.ownerPlayerName);
+
+												if (player != null)
+												{
+													player.triggerAchievement(MCA.instance.achievementChildFish);
+												}
 											}
 										}
+
+										//Check if they're carrying 64 fish and end the chore if they are.
+										if (owner.inventory.getQuantityOfItem(Item.fishRaw) == 64)
+										{
+											say(LanguageHelper.getString("notify.child.chore.finished.fishing"));
+											endChore();
+											return;
+										}
+
+										//Reset idle ticks and get another random water block.
+										idleFishingTicks = 0;
+										hasRandomWaterBlock = false;
 									}
 
-									//Check if they're carrying 64 fish and end the chore if they are.
-									if (owner.inventory.getQuantityOfItem(Item.fishRaw) == 64)
+									//They failed to catch the fish. Reset everything.
+									else
 									{
-										say(LanguageHelper.getString("notify.child.chore.finished.fishing"));
-										endChore();
+										nextFishCatchChance = 0;
+										fishingTicks = 0;
+										idleFishingTicks = 0;
+										hasRandomWaterBlock = false;
 									}
-
-									//Reset idle ticks and get another random water block.
-									idleFishingTicks = 0;
-									hasRandomWaterBlock = false;
-								}
-
-								//They failed to catch the fish. Reset everything.
-								else
-								{
-									nextFishCatchChance = 0;
-									fishingTicks = 0;
-									idleFishingTicks = 0;
-									hasRandomWaterBlock = false;
 								}
 							}
 
 							//They have not been fishing long enough to try and catch a fish.
 							else
 							{
-								//Check and be sure the hook is still there. It will remove itself if it remains in the ground too long.
-								if (fishEntity != null)
+								if (!owner.worldObj.isRemote)
 								{
-									fishingTicks++;
-								}
+									//Check and be sure the hook is still there. It will remove itself if it remains in the ground too long.
+									if (fishEntity != null)
+									{
+										fishingTicks++;
+									}
 
-								else
-								{
-									nextFishCatchChance = 0;
-									fishingTicks = 0;
-									idleFishingTicks = 0;
-									//hasRandomWaterBlock = false;
+									else
+									{
+										nextFishCatchChance = 0;
+										fishingTicks = 0;
+										idleFishingTicks = 0;
+										//hasRandomWaterBlock = false;
+									}
 								}
 							}
 						}
@@ -285,6 +300,19 @@ public class ChoreFishing extends AbstractChore
 
 		fishEntity = null;
 		hasEnded = true;
+
+		if (!owner.worldObj.isRemote)
+		{
+			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(owner));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createAddAIPacket(owner));
+		}
+		
+		else
+		{
+			PacketDispatcher.sendPacketToServer(PacketHelper.createAddAIPacket(owner));
+		}
+
+		owner.addAI();
 	}
 
 	@Override

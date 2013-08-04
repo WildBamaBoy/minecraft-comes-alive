@@ -22,13 +22,18 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteArrayDataOutput;
+
+import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * Replaces the standard EntityFishHook used by Minecraft.
  */
-public class EntityChoreFishHook extends EntityFishHook
+public class EntityChoreFishHook extends EntityFishHook implements IEntityAdditionalSpawnData
 {
 	private int xTile;
 	private int yTile;
@@ -160,25 +165,6 @@ public class EntityChoreFishHook extends EntityFishHook
 				}
 			}
 
-			if (this.worldObj.isRemote)
-			{
-				if (this.angler != null)
-				{
-					if (this.angler.fishingChore != null)
-					{
-						if (this.angler.fishingChore.fishEntity != this)
-						{
-							this.setDead();
-
-							if (this.bobber != null)
-							{
-								this.bobber.setDead();
-							}
-						}
-					}
-				}
-			}
-
 			if (this.shake > 0)
 			{
 				--this.shake;
@@ -192,9 +178,10 @@ public class EntityChoreFishHook extends EntityFishHook
 				{
 					++this.ticksInGround;
 
-					if (this.ticksInGround == 1200)
+					if (this.ticksInGround >= 20)
 					{
 						this.setDead();
+						angler.fishingChore.fishEntity = null;
 					}
 
 					return;
@@ -397,5 +384,21 @@ public class EntityChoreFishHook extends EntityFishHook
 		{
 			return;
 		}
+	}
+
+	@Override
+	public void writeSpawnData(ByteArrayDataOutput data) 
+	{
+		data.writeInt(angler.entityId);
+	}
+
+	@Override
+	public void readSpawnData(ByteArrayDataInput data) 
+	{
+		int anglerId = data.readInt();
+		
+		angler = (AbstractEntity)worldObj.getEntityByID(anglerId);
+		angler.fishingChore.fishEntity = this;
+		angler.tasks.taskEntries.clear();
 	}
 }

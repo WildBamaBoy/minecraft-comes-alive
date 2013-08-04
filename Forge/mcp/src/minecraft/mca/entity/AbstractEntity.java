@@ -59,6 +59,7 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
@@ -759,6 +760,18 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		return getHurtSound();
 	}
 
+    public Icon getItemIcon(ItemStack itemStack, int unknown)
+    {
+        Icon icon = super.getItemIcon(itemStack, unknown);
+
+        if (itemStack.itemID == Item.fishingRod.itemID && fishingChore != null && fishingChore.fishEntity != null)
+        {
+            icon = Item.fishingRod.func_94597_g();
+        }
+        
+        return icon;
+    }
+    
 	/**
 	 * Writes this object to an object output stream. (Serialization)
 	 * 
