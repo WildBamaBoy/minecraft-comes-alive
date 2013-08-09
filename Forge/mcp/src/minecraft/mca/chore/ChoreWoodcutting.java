@@ -38,6 +38,9 @@ public class ChoreWoodcutting extends AbstractChore
 	/** Is the owner cutting a tree?*/
 	public boolean isCuttingTree = false;
 
+	/** Has the owner of this chore chopped at least one tree? */
+	public boolean hasDoneWork = false;
+
 	/** The X coordinates of the tree.*/
 	public double treeCoordinatesX = 0D;
 
@@ -103,11 +106,12 @@ public class ChoreWoodcutting extends AbstractChore
 			}
 		}
 
-		if (owner.worldObj.isRemote)
+		if (!owner.worldObj.isRemote)
 		{
-			say(LanguageHelper.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.woodcutting", true));
+			owner.say(LanguageHelper.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.woodcutting", true));
 		}
-
+		
+		owner.tasks.taskEntries.clear();
 		hasBegun = true;
 	}
 
@@ -184,7 +188,19 @@ public class ChoreWoodcutting extends AbstractChore
 			//Check that there's actually some in the list.
 			if (coordinatesContainingWood.isEmpty())
 			{
-				say(LanguageHelper.getString(owner, "notify.child.chore.interrupted.woodcutting.notrees", false));
+				if (!owner.worldObj.isRemote)
+				{
+					if (!hasDoneWork)
+					{
+						owner.say(LanguageHelper.getString(owner, "notify.child.chore.interrupted.woodcutting.notrees", false));
+					}
+
+					else
+					{
+						owner.say(LanguageHelper.getString(owner, "notify.child.chore.finished.woodcutting", false));
+					}
+				}
+				
 				endChore();
 				return;
 			}
@@ -273,8 +289,15 @@ public class ChoreWoodcutting extends AbstractChore
 			if (!(owner.getDistance(treeCoordinatesX, owner.posY, treeCoordinatesZ) <= 2.5))
 			{
 				//Set their path.
-				owner.getLookHelper().setLookPosition(treeCoordinatesX, treeCoordinatesY, treeCoordinatesZ, 10.0F, owner.getVerticalFaceSpeed());
-				owner.getNavigator().tryMoveToXYZ(treeCoordinatesX, treeCoordinatesY, treeCoordinatesZ, 0.6F);
+				owner.faceCoordinates(owner, treeCoordinatesX, treeCoordinatesY, treeCoordinatesZ);
+				
+				if (!owner.worldObj.isRemote)
+				{
+					if (owner.getNavigator().noPath())
+					{
+						owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(treeCoordinatesX, treeCoordinatesY, treeCoordinatesZ), 0.6F);
+					}
+				}
 			}
 
 			//They don't need to move to the tree, so begin cutting.
@@ -290,19 +313,20 @@ public class ChoreWoodcutting extends AbstractChore
 						treeCutTicks = 0;
 						owner.damageHeldItem();
 
-						if (owner.worldObj.isRemote)
+						ItemStack stackToAdd = new ItemStack(Block.wood, 1, treeType);
+						stackToAdd.damageItem(treeType, owner);
+						owner.inventory.addItemStackToInventory(stackToAdd);
+
+						//Remove the block and increase Y by 1.
+						if (!owner.worldObj.isRemote)
 						{
-							ItemStack stackToAdd;
-
-							stackToAdd = new ItemStack(Block.wood, 1, treeType);
-							stackToAdd.damageItem(treeType, owner);
-
-							owner.inventory.addItemStackToInventory(stackToAdd);
-							PacketDispatcher.sendPacketToServer(PacketHelper.createInventoryPacket(owner.entityId, owner.inventory));
+							owner.worldObj.setBlock((int)currentLogCoordinatesX, (int)currentLogCoordinatesY, (int)currentLogCoordinatesZ, 0);
 						}
 
-						owner.worldObj.setBlock((int)currentLogCoordinatesX, (int)currentLogCoordinatesY, (int)currentLogCoordinatesZ, 0);
 						currentLogCoordinatesY++;
+
+						//Remember they've done work.
+						hasDoneWork = true;
 
 						//Increment stat and check for achievement on children.
 						if (owner instanceof EntityPlayerChild)
@@ -350,6 +374,19 @@ public class ChoreWoodcutting extends AbstractChore
 	@Override
 	public void endChore() 
 	{
+		if (!owner.worldObj.isRemote)
+		{
+			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(owner));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createAddAIPacket(owner));
+		}
+		
+		else
+		{
+			PacketDispatcher.sendPacketToServer(PacketHelper.createAddAIPacket(owner));
+		}
+
+		owner.addAI();
+		
 		hasEnded = true;
 	}
 
