@@ -1953,7 +1953,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 									speed = 0.8F;
 								}
 
-								MCA.instance.log("NAV");
 								if (!this.getNavigator().tryMoveToEntityLiving(thePlayer, speed))
 								{
 									if (getDistanceSqToEntity(thePlayer) >= 144.0D)
