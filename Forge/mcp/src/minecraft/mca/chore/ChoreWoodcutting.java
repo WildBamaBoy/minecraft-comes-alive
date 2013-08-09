@@ -56,7 +56,7 @@ public class ChoreWoodcutting extends AbstractChore
 	/** The Z coordinates of the current log.*/
 	public double currentLogCoordinatesZ = 0D;
 
-	/** How many ticks the owner has been cutting the tree. */
+	/** How many ticks the owner has been cutting the tree.*/
 	public int treeCutTicks = 0;
 
 	/** The amount of time it will take the owner to cut the tree.*/
