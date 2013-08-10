@@ -355,6 +355,11 @@ public class EntityPlayerChild extends EntityChild implements INpc
 						doGiftOfChoreItem(itemStack, player);
 					}
 
+					else if (itemStack.itemID == MCA.instance.itemHeirCrown.itemID)
+					{
+						doGiftOfHeirCrown(itemStack, player);
+					}
+					
 					else if (itemStack.getItem() instanceof ItemArmor || itemStack.getItem() instanceof ItemTool || 
 							 itemStack.getItem() instanceof ItemSword || itemStack.getItem() instanceof ItemFishingRod ||
 							 itemStack.getItem() instanceof ItemHoe)
@@ -905,8 +910,8 @@ public class EntityPlayerChild extends EntityChild implements INpc
 	private void doGiftOfChoreItem(ItemStack itemStack, EntityPlayer player)
 	{
 		//Check if the player isn't the parent.
-		if (familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Mother &&
-				familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Father &&
+		if (familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Mother ||
+				familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Father ||
 				familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Parent)
 		{
 			doGift(itemStack, player);
@@ -940,6 +945,33 @@ public class EntityPlayerChild extends EntityChild implements INpc
 		}
 	}
 
+	/**
+	 * Handles the gifting of an heir crown.
+	 * 
+	 * @param 	itemStack	The itemstack containing the crown.
+	 * @param 	player		The player that gifted the item.
+	 */
+	private void doGiftOfHeirCrown(ItemStack itemStack, EntityPlayer player)
+	{
+		//Check for parent relation.
+		if (familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Mother ||
+			familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Father ||
+			familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Parent)
+		{
+			inventory.addItemStackToInventory(itemStack);
+			inventory.setWornArmorItems();
+			removeItemFromPlayer(itemStack, player);
+
+			PacketDispatcher.sendPacketToServer(PacketHelper.createInventoryPacket(entityId, inventory));
+		}
+		
+		else
+		{
+			//Refuse the gift.
+			doGift(itemStack, player);
+		}
+	}
+	
 	/**
 	 * Handles growing up when it is time to become an adult.
 	 */
