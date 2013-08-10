@@ -41,10 +41,10 @@ public class Inventory implements IInventory, Serializable
 {
 	/** The owner of the inventory. */
 	public AbstractEntity owner;
-	
+
 	/** The armor items that are being worn. */
 	public ItemStack armorItems[];
-	
+
 	/** The items in the main inventory. Armor items exist here and are copied to the other array.*/
 	public ItemStack inventoryItems[];
 
@@ -150,26 +150,34 @@ public class Inventory implements IInventory, Serializable
 	@Override
 	public ItemStack decrStackSize(int slotId, int removalAmount)
 	{
-		if (inventoryItems[slotId] != null)
+		if (slotId != -1)
 		{
-			if (inventoryItems[slotId].stackSize <= removalAmount)
+			if (inventoryItems[slotId] != null)
 			{
-				ItemStack itemstack = inventoryItems[slotId];
-				inventoryItems[slotId] = null;
-				return itemstack;
+				if (inventoryItems[slotId].stackSize <= removalAmount)
+				{
+					ItemStack itemstack = inventoryItems[slotId];
+					inventoryItems[slotId] = null;
+					return itemstack;
+				}
+
+				ItemStack itemstack1 = inventoryItems[slotId].splitStack(removalAmount);
+
+				if (inventoryItems[slotId].stackSize == 0)
+				{
+					inventoryItems[slotId] = null;
+				}
+
+				onInventoryChanged();
+				return itemstack1;
 			}
 
-			ItemStack itemstack1 = inventoryItems[slotId].splitStack(removalAmount);
-
-			if (inventoryItems[slotId].stackSize == 0)
+			else
 			{
-				inventoryItems[slotId] = null;
+				return null;
 			}
-
-			onInventoryChanged();
-			return itemstack1;
 		}
-
+		
 		else
 		{
 			return null;
@@ -437,10 +445,10 @@ public class Inventory implements IInventory, Serializable
 					return this.inventoryItems[this.getFirstSlotContainingItem(this.armorItems[i].itemID)];
 				}
 			}
-			
+
 			return null;
 		}
-		
+
 		catch (Throwable e)
 		{
 			MCA.instance.log(e);
@@ -808,45 +816,45 @@ public class Inventory implements IInventory, Serializable
 			else
 			{
 				ItemStack heldItem = owner.getHeldItem();
-				
+
 				if (heldItem != null)
 				{
 					if (heldItem.getItemName().contains("wood"))
 					{
 						return 4;
 					}
-					
+
 					else if (heldItem.getItemName().contains("gold"))
 					{
 						return 4;
 					}
-					
+
 					else if (heldItem.getItemName().contains("stone"))
 					{
 						return 5;
 					}
-					
+
 					else if (heldItem.getItemName().contains("iron"))
 					{
 						return 6;
 					}
-					
+
 					else if (heldItem.getItemName().contains("diamond"))
 					{
 						return 7;
 					}
-					
+
 					else
 					{
 						return 5;
 					}
 				}
-				
+
 				else
 				{
 					return 1;
 				}
-				
+
 				//return (int) heldItem.getItem().getDamageVsEntity(target, heldItem);
 				//return (int) (heldItem != null ? owner.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111125_b() : 2);
 			}
@@ -858,89 +866,89 @@ public class Inventory implements IInventory, Serializable
 			{
 				return 10;
 			}
-			
+
 			//Not using a sword.
 			else
 			{
 				ItemStack heldItem = owner.getHeldItem();
-				
+
 				if (heldItem != null)
 				{
 					if (heldItem.getItemName().contains("wood"))
 					{
 						return 4;
 					}
-					
+
 					else if (heldItem.getItemName().contains("gold"))
 					{
 						return 4;
 					}
-					
+
 					else if (heldItem.getItemName().contains("stone"))
 					{
 						return 5;
 					}
-					
+
 					else if (heldItem.getItemName().contains("iron"))
 					{
 						return 6;
 					}
-					
+
 					else if (heldItem.getItemName().contains("diamond"))
 					{
 						return 7;
 					}
-					
+
 					else
 					{
 						return 5;
 					}
 				}
-				
+
 				else
 				{
 					return 1;
 				}
 			}
 		}
-		
+
 		else //The owner's name is not unique.
 		{
 			ItemStack heldItem = owner.getHeldItem();
-			
+
 			if (heldItem != null)
 			{
 				if (heldItem.getItemName().contains("wood"))
 				{
 					return 4;
 				}
-				
+
 				else if (heldItem.getItemName().contains("gold"))
 				{
 					return 4;
 				}
-				
+
 				else if (heldItem.getItemName().contains("stone"))
 				{
 					return 5;
 				}
-				
+
 				else if (heldItem.getItemName().contains("iron"))
 				{
 					return 6;
 				}
-				
+
 				else if (heldItem.getItemName().contains("diamond"))
 				{
 					return 7;
 				}
-				
+
 				else
 				{
 					return 5;
 				}
 			}
-			
+
 			else
 			{
 				return 1;
