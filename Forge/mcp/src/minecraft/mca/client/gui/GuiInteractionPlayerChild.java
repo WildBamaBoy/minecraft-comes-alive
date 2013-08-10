@@ -1155,8 +1155,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 			else
 			{
-				//FIXME
-//				mineMethod = 1;
+				mineMethod = 1;
 			}
 
 			drawMiningGui();

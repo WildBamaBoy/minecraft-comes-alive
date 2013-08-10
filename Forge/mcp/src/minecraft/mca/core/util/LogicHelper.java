@@ -826,7 +826,7 @@ public final class LogicHelper
 	 * @param	player		The player to use as a reference.
 	 * @param	direction	The name of the direction that the entity should be moving in.
 	 * 
-	 * @return	Integer with value of 0, 180, 270, or -180, depending on the correct heading of the entity that should move.
+	 * @return	Integer with value of 0, 90, 180, or -90, depending on the correct heading of the entity that should move.
 	 */
 	public static int getHeadingRelativeToPlayerAndSpecifiedDirection(EntityPlayer player, int direction)
 	{

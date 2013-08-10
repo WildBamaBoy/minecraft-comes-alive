@@ -143,9 +143,9 @@ public class ChoreMining extends AbstractChore
 
 		if (owner instanceof EntityPlayerChild)
 		{
-			if (owner.worldObj.isRemote)
+			if (!owner.worldObj.isRemote)
 			{
-				say(LanguageHelper.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.mining", true));
+				owner.say(LanguageHelper.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.mining", true));
 			}
 		}
 
@@ -159,8 +159,13 @@ public class ChoreMining extends AbstractChore
 			activeStartCoordinatesX = owner.posX;
 			activeStartCoordinatesY = owner.posY;
 			activeStartCoordinatesZ = owner.posZ; 
+			owner.isFollowing = false;
+			owner.isStaying = false;
 		}
 
+		owner.getNavigator().clearPathEntity();
+		owner.tasks.taskEntries.clear();
+	
 		hasBegun = true;
 	}
 
@@ -187,6 +192,19 @@ public class ChoreMining extends AbstractChore
 	@Override
 	public void endChore() 
 	{
+		if (!owner.worldObj.isRemote)
+		{
+			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(owner));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createAddAIPacket(owner));
+		}
+
+		else
+		{
+			PacketDispatcher.sendPacketToServer(PacketHelper.createAddAIPacket(owner));
+		}
+
+		owner.addAI();
+
 		hasEnded = true;
 	}
 
@@ -369,13 +387,11 @@ public class ChoreMining extends AbstractChore
 	 */
 	private void runActiveAI()
 	{
-		endChore();
-		
 		if (owner.worldObj.isRemote)
 		{
 			owner.setRotationYawHead(heading);
 		}
-		
+
 		//Calculate interval based on their fastest pickaxe.
 		ItemStack pickStack = owner.inventory.getBestItemOfType(ItemPickaxe.class);
 
@@ -438,14 +454,14 @@ public class ChoreMining extends AbstractChore
 			while (searchDistance != activeDistance)
 			{
 				//Calculate where the next block should be based on heading.
-				MCA.instance.log(heading);
+				activeNextCoordinatesY = owner.posY;
 				
 				switch (heading)
 				{
-				case 0:    activeNextCoordinatesX = owner.posX; activeNextCoordinatesY = owner.posY; activeNextCoordinatesZ = owner.posZ + searchDistance; break; 
-				case 180:  activeNextCoordinatesX = owner.posX; activeNextCoordinatesY = owner.posY; activeNextCoordinatesZ = owner.posZ - searchDistance; break; 
-				case -90:  activeNextCoordinatesX = owner.posX - searchDistance; activeNextCoordinatesY = owner.posY; activeNextCoordinatesZ = owner.posZ; break;
-				case 90:   activeNextCoordinatesX = owner.posX; activeNextCoordinatesY = owner.posY; activeNextCoordinatesZ = owner.posZ - searchDistance; break;
+				case 0:    activeNextCoordinatesX = owner.posX; activeNextCoordinatesZ = owner.posZ + searchDistance; break; 
+				case 180:  activeNextCoordinatesX = owner.posX; activeNextCoordinatesZ = owner.posZ - searchDistance; break; 
+				case -90:  activeNextCoordinatesX = owner.posX + searchDistance; activeNextCoordinatesZ = owner.posZ; break;
+				case 90:   activeNextCoordinatesX = owner.posX - searchDistance; activeNextCoordinatesZ = owner.posZ; break;
 				}
 
 				//Check the ID of the next block. If it's air, continue.
@@ -479,7 +495,11 @@ public class ChoreMining extends AbstractChore
 			if (searchDistance == activeDistance)
 			{
 				//Say that there are no blocks to mine and stop the chore.
-				say(LanguageHelper.getString(owner, "notify.child.chore.interrupted.mining.noblocks", false));
+				if (!owner.worldObj.isRemote)
+				{
+					owner.say(LanguageHelper.getString(owner, "notify.child.chore.interrupted.mining.noblocks", false));
+				}
+
 				endChore();
 				return;
 			}
@@ -491,7 +511,11 @@ public class ChoreMining extends AbstractChore
 			if (LogicHelper.getDistanceToXYZ(activeStartCoordinatesX, activeStartCoordinatesY, activeStartCoordinatesZ, activeNextCoordinatesX, activeNextCoordinatesY, activeNextCoordinatesZ) > activeDistance)
 			{
 				//If the distance is greater than the stopping distance, stop the chore.
-				say(LanguageHelper.getString(owner, "notify.child.chore.finished.mining", false));
+				if (!owner.worldObj.isRemote)
+				{
+					owner.say(LanguageHelper.getString(owner, "notify.child.chore.finished.mining", false));
+				}
+
 				endChore();
 				return;
 			}
@@ -501,7 +525,8 @@ public class ChoreMining extends AbstractChore
 				//Check that the block is valid.
 				int blockId = owner.worldObj.getBlockId((int)activeNextCoordinatesX, (int)activeNextCoordinatesY, (int)activeNextCoordinatesZ);
 
-				if (blockId == 8 || blockId == 9 || blockId == 10 || blockId == 11 ||
+				//List of all blocks that are not minable by the player.
+				if (blockId == 7 || blockId == 8 || blockId == 9 || blockId == 10 || blockId == 11 ||
 						blockId == 51 || blockId == 52 || blockId == 55 || blockId == 63 || blockId == 64 ||
 						blockId == 59 || blockId == 60 || blockId == 68 || blockId == 71 || blockId == 75 ||
 						blockId == 79 || blockId == 83 || blockId == 92 || blockId == 93 || blockId == 94 ||
@@ -509,7 +534,11 @@ public class ChoreMining extends AbstractChore
 						blockId == 127 || blockId == 132 || blockId == 137 || blockId == 140 || blockId == 141 ||
 						blockId == 142 || blockId == 144)
 				{
-					say(LanguageHelper.getString(owner, "notify.child.chore.interrupted.mining.noblocks", false));
+					if (!owner.worldObj.isRemote)
+					{
+						owner.say(LanguageHelper.getString(owner, "notify.child.chore.interrupted.mining.noblocks", false));
+					}
+
 					endChore();
 					return;
 				}
@@ -588,7 +617,7 @@ public class ChoreMining extends AbstractChore
 								if (child.blocksMined >= 300)
 								{
 									EntityPlayer player = child.worldObj.getPlayerEntityByName(child.ownerPlayerName);
-									
+
 									if (player != null)
 									{
 										player.triggerAchievement(MCA.instance.achievementChildMine);
@@ -607,12 +636,13 @@ public class ChoreMining extends AbstractChore
 
 				else //The entity is not within 2.5 blocks of the block they're supposed to be mining.
 				{
-					//Set the rotation yaw to the heading and move them in that direction.
-					owner.rotationYaw = heading;
-					owner.rotationYawHead = heading;
-
-					owner.setPosition((int)activeNextCoordinatesX, (int)activeNextCoordinatesY, (int)activeNextCoordinatesZ - 1);
-					owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ((int)activeNextCoordinatesX, (int)activeNextCoordinatesY, (int)activeNextCoordinatesZ - 1), 0.6F);
+					if (!owner.worldObj.isRemote)
+					{
+						if (owner.getNavigator().noPath())
+						{
+							owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ((int)activeNextCoordinatesX, (int)activeNextCoordinatesY, (int)activeNextCoordinatesZ), 0.6F);
+						}
+					}
 				}
 			}
 		}

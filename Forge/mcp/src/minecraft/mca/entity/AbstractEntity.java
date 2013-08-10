@@ -1906,7 +1906,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	private void updatePathing()
 	{
 		try
-		{
+		{	
 			if (target != null && !isRetaliating)
 			{
 				if (target.onGround)
