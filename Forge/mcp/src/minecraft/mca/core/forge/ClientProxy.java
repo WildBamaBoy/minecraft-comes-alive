@@ -35,6 +35,10 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityPlayerChild.class, new RenderHumanSmall());
 		RenderingRegistry.registerEntityRenderingHandler(EntityVillagerChild.class, new RenderHumanSmall());
 		RenderingRegistry.registerEntityRenderingHandler(EntityChoreFishHook.class, new RenderFishHook());
+		
+		RenderingRegistry.addNewArmourRendererPrefix("crown");
+		RenderingRegistry.addNewArmourRendererPrefix("heircrown");
+		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTombstone.class, new RenderTombstone());
 	}
 
