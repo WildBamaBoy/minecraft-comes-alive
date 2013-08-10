@@ -14,6 +14,7 @@ import java.util.List;
 import mca.core.util.LanguageHelper;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.ItemArmor;
@@ -44,6 +45,12 @@ public class ItemHeirCrown extends ItemArmor
     {
     	itemIcon = iconRegister.registerIcon("mca:HeirCrown");
     }
+    
+    @Override
+	public String getArmorTexture(ItemStack stack, Entity entity, int slot, int layer) 
+	{
+		return "mca:textures/armor/crown_layer_1.png";
+	}
     
 	@Override
 	@SideOnly(Side.CLIENT)

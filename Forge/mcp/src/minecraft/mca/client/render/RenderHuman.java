@@ -33,6 +33,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.common.DimensionManager;
 
 import org.lwjgl.opengl.GL11;
@@ -40,7 +41,7 @@ import org.lwjgl.opengl.GL11;
 /**
  * Determines how a Human is rendered.
  */
-public class RenderHuman extends RenderLiving
+public class RenderHuman extends RenderBiped
 {
 	private static final float labelScale = 0.027F;
 
@@ -52,7 +53,7 @@ public class RenderHuman extends RenderLiving
 		{
 		"cloth", "chain", "iron", "diamond", "gold"
 		};
-
+    
 	/**
 	 * Constructor
 	 */
@@ -247,25 +248,23 @@ public class RenderHuman extends RenderLiving
 				if (item instanceof ItemArmor)
 				{
 					ItemArmor itemArmor = (ItemArmor)item;
-					this.func_110776_a(RenderBiped.getArmorResource(entity, itemStack, armorId, null));
-					//TODO
-					//loadTexture((new StringBuilder()).append("/armor/").append(armorFilenamePrefix[itemarmor.renderIndex]).append("_").append(armorId != 2 ? 1 : 2).append(".png").toString());
-					ModelBiped modelbiped = armorId != 2 ? modelArmorChestplate : modelArmor;
+					this.func_110776_a(getArmorResource(entity, itemStack, armorId, null));
+					ModelBiped armorModel = armorId != 2 ? modelArmorChestplate : modelArmor;
 
-					modelbiped.bipedHead.showModel = armorId == 0;
-					modelbiped.bipedHeadwear.showModel = armorId == 0;
-					modelbiped.bipedBody.showModel = armorId == 1 || armorId == 2;
-					modelbiped.bipedRightArm.showModel = armorId == 1;
-					modelbiped.bipedLeftArm.showModel = armorId == 1;
-					modelbiped.bipedRightLeg.showModel = armorId == 2 || armorId == 3;
-					modelbiped.bipedLeftLeg.showModel = armorId == 2 || armorId == 3;
+					armorModel.bipedHead.showModel = armorId == 0;
+					armorModel.bipedHeadwear.showModel = armorId == 0;
+					armorModel.bipedBody.showModel = armorId == 1 || armorId == 2;
+					armorModel.bipedRightArm.showModel = armorId == 1;
+					armorModel.bipedLeftArm.showModel = armorId == 1;
+					armorModel.bipedRightLeg.showModel = armorId == 2 || armorId == 3;
+					armorModel.bipedLeftLeg.showModel = armorId == 2 || armorId == 3;
 
-					setRenderPassModel(modelbiped);
+					setRenderPassModel(armorModel);
 
-					if (modelbiped != null)
+					if (armorModel != null)
 					{
-						modelbiped.onGround = this.mainModel.onGround;
-						modelbiped.isRiding = this.mainModel.isRiding;
+						armorModel.onGround = this.mainModel.onGround;
+						armorModel.isRiding = this.mainModel.isRiding;
 					}
 
 					if (itemArmor.getArmorMaterial() == EnumArmorMaterial.CLOTH)
