@@ -78,6 +78,9 @@ public class WorldPropertiesList implements Serializable
 	/**Is the player a monarch? */
 	public boolean isMonarch = false;
 	
+	/**The ID of the player's chosen heir. */
+	public int heirId = -1;
+	
 	/**A stat keeping track of how many villagers the player has executed. */
 	public int stat_villagersExecuted = 0;
 	

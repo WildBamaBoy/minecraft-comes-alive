@@ -158,19 +158,19 @@ public class EntityPlayerChild extends EntityChild implements INpc
 			{
 				texture = "/textures/skins/EE4.png";
 			}
-			
+
 			else if (name.equals("Altair"))
 			{
 				setAIMoveSpeed(0.90F);
 				texture = "/textures/skins/EE5.png";
 			}
-			
+
 			else if (name.equals("Ezio"))
 			{
 				setAIMoveSpeed(0.90F);
 				texture = "/textures/skins/EE6.png";
 			}
-			
+
 			else
 			{
 				texture = MCA.instance.kidSkinsMale.get(worldObj.rand.nextInt(MCA.instance.kidSkinsMale.size()));
@@ -188,12 +188,12 @@ public class EntityPlayerChild extends EntityChild implements INpc
 			{
 				texture = "textures/skins/EE2.png";
 			}
-			
+
 			else if (name.equals("Chell"))
 			{
 				texture = "textures/skins/EE7.png";
 			}
-			
+
 			else
 			{
 				texture = MCA.instance.kidSkinsFemale.get(worldObj.rand.nextInt(MCA.instance.kidSkinsFemale.size()));
@@ -212,7 +212,7 @@ public class EntityPlayerChild extends EntityChild implements INpc
 				{
 					return "spouse";
 				}
-				
+
 				else
 				{
 					return "playerchild.adult";
@@ -255,7 +255,7 @@ public class EntityPlayerChild extends EntityChild implements INpc
 			updateProcreationWithSpouse();
 			updateDivorce();
 		}
-		
+
 		updateRunAway();
 	}
 
@@ -266,7 +266,7 @@ public class EntityPlayerChild extends EntityChild implements INpc
 			super.interact(player);
 			int playerId = MCA.instance.getIdOfPlayer(player);
 			ItemStack itemStack = player.inventory.getCurrentItem();
-			
+
 			if (itemStack != null)
 			{
 				//Check for special items like the villager editor and lost relative document.
@@ -293,7 +293,7 @@ public class EntityPlayerChild extends EntityChild implements INpc
 					{
 						player.openGui(MCA.instance, MCA.instance.guiInteractionSpouseID, worldObj, (int)posX, (int)posY, (int)posZ);
 					}
-					
+
 					else
 					{
 						player.openGui(MCA.instance, MCA.instance.guiInteractionPlayerChildID, worldObj, (int)posX, (int)posY, (int)posZ);
@@ -310,7 +310,7 @@ public class EntityPlayerChild extends EntityChild implements INpc
 			{
 				memory.isInGiftMode = false;
 				playerMemoryMap.put(player.username, memory);
-				
+
 				if (worldObj.isRemote)
 				{
 					if (itemStack.getItem() instanceof ItemArrangersRing && isAdult)
@@ -324,26 +324,26 @@ public class EntityPlayerChild extends EntityChild implements INpc
 						{
 							doGift(itemStack, player);
 						}
-						
+
 						else
 						{
 							doGiftOfWeddingRing(itemStack, player);
 						}
 					}
-					
+
 					else if (itemStack.getItem() instanceof ItemEngagementRing && isAdult)
 					{
 						if (player.username.equals(ownerPlayerName))
 						{
 							doGift(itemStack, player);
 						}
-						
+
 						else
 						{
 							doGiftOfEngagementRing(itemStack, player);
 						}
 					}
-					
+
 					else if (itemStack.itemID == Block.cake.blockID || itemStack.itemID == Item.cake.itemID)
 					{
 						doGiftOfCake(itemStack, player);
@@ -359,10 +359,10 @@ public class EntityPlayerChild extends EntityChild implements INpc
 					{
 						doGiftOfHeirCrown(itemStack, player);
 					}
-					
+
 					else if (itemStack.getItem() instanceof ItemArmor || itemStack.getItem() instanceof ItemTool || 
-							 itemStack.getItem() instanceof ItemSword || itemStack.getItem() instanceof ItemFishingRod ||
-							 itemStack.getItem() instanceof ItemHoe)
+							itemStack.getItem() instanceof ItemSword || itemStack.getItem() instanceof ItemFishingRod ||
+							itemStack.getItem() instanceof ItemHoe)
 					{
 						inventory.addItemStackToInventory(itemStack);
 						inventory.setWornArmorItems();
@@ -512,7 +512,7 @@ public class EntityPlayerChild extends EntityChild implements INpc
 			say(LanguageHelper.getString(this, "gifted.baby"));
 		}
 	}
-	
+
 	/**
 	 * Handles the gifting of an arranger's ring.
 	 * 
@@ -570,7 +570,7 @@ public class EntityPlayerChild extends EntityChild implements INpc
 						if (spouse instanceof EntityPlayerChild)
 						{
 							EntityPlayerChild child = (EntityPlayerChild)spouse;
-							
+
 							if (child.ownerPlayerName.equals(this.ownerPlayerName))
 							{
 								say(LanguageHelper.getString("notify.villager.gifted.arrangerring.othernotnearby." + gender.toLowerCase()));
@@ -810,7 +810,7 @@ public class EntityPlayerChild extends EntityChild implements INpc
 			}
 		}
 	}
-	
+
 	/**
 	 * Handles the gifting of a cake.
 	 * 
@@ -955,23 +955,38 @@ public class EntityPlayerChild extends EntityChild implements INpc
 	{
 		//Check for parent relation.
 		if (familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Mother ||
-			familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Father ||
-			familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Parent)
+				familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Father ||
+				familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Parent)
 		{
-			inventory.addItemStackToInventory(itemStack);
-			inventory.setWornArmorItems();
-			removeItemFromPlayer(itemStack, player);
+			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createInventoryPacket(entityId, inventory));
+			if (manager != null)
+			{
+				if (manager.worldProperties.heirId == -1)
+				{
+					inventory.addItemStackToInventory(itemStack);
+					inventory.setWornArmorItems();
+					removeItemFromPlayer(itemStack, player);
+
+					manager.worldProperties.heirId = this.mcaID;
+					manager.saveWorldProperties();
+
+					PacketDispatcher.sendPacketToServer(PacketHelper.createInventoryPacket(entityId, inventory));
+					notifyPlayer(player, LanguageHelper.getString(this, "heir.set.success", false));
+					return;
+				}
+			}
+			
+			notifyPlayer(player, LanguageHelper.getString("heir.set.failure"));
 		}
-		
+
 		else
 		{
 			//Refuse the gift.
 			doGift(itemStack, player);
 		}
 	}
-	
+
 	/**
 	 * Handles growing up when it is time to become an adult.
 	 */

@@ -625,6 +625,19 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		super.onDeath(damageSource);
 
+		//Check for heir.
+		if (!worldObj.isRemote && this instanceof EntityPlayerChild)
+		{
+			EntityPlayerChild playerChild = (EntityPlayerChild)this;
+			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(playerChild.ownerPlayerName);
+			
+			if (manager.worldProperties.heirId == this.mcaID)
+			{
+				manager.worldProperties.heirId = -1;
+				manager.saveWorldProperties();
+			}
+		}
+		
 		//Make them drop all their items.
 		if (!worldObj.isRemote && damageSource != DamageSource.outOfWorld)
 		{
@@ -666,23 +679,15 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			}
 		}
 
-		try
+		//Try to turn them into a zombie if they were killed by one.
+		if (damageSource.getSourceOfDamage() instanceof EntityZombie)
 		{
-			//Try to turn them into a zombie if they were killed by one.
-			if (damageSource.getSourceOfDamage() instanceof EntityZombie)
+			if (!this.worldObj.isRemote)
 			{
-				if (!this.worldObj.isRemote)
-				{
-					EntityZombie newZombie = new EntityZombie(worldObj);
-					newZombie.setPositionAndRotation(posX, posY, posZ, rotationYaw, rotationPitch);
-					worldObj.spawnEntityInWorld(newZombie);
-				}
+				EntityZombie newZombie = new EntityZombie(worldObj);
+				newZombie.setPositionAndRotation(posX, posY, posZ, rotationYaw, rotationPitch);
+				worldObj.spawnEntityInWorld(newZombie);
 			}
-		}
-
-		catch (Throwable e)
-		{
-
 		}
 	}
 
@@ -760,18 +765,18 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		return getHurtSound();
 	}
 
-    public Icon getItemIcon(ItemStack itemStack, int unknown)
-    {
-        Icon icon = super.getItemIcon(itemStack, unknown);
+	public Icon getItemIcon(ItemStack itemStack, int unknown)
+	{
+		Icon icon = super.getItemIcon(itemStack, unknown);
 
-        if (itemStack.itemID == Item.fishingRod.itemID && fishingChore != null && fishingChore.fishEntity != null)
-        {
-            icon = Item.fishingRod.func_94597_g();
-        }
-        
-        return icon;
-    }
-    
+		if (itemStack.itemID == Item.fishingRod.itemID && fishingChore != null && fishingChore.fishEntity != null)
+		{
+			icon = Item.fishingRod.func_94597_g();
+		}
+
+		return icon;
+	}
+
 	/**
 	 * Writes this object to an object output stream. (Serialization)
 	 * 
