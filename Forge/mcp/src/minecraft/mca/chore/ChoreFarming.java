@@ -87,6 +87,9 @@ public class ChoreFarming extends AbstractChore
 	/** Has the entity done any work at all? */
 	public boolean hasDoneWork = false;
 
+	/** Should the next plot be skipped? Used for melons and pumpkins to give them room. */
+	public boolean skipNextPlot = false;
+
 	/**The type of seeds that should be planted. 0 = Wheat, 1 = Melon, 2 = Pumpkin, 3 = Carrot, 4 = Potato*/
 	public int seedType = 0;
 
@@ -154,6 +157,7 @@ public class ChoreFarming extends AbstractChore
 			}
 		}
 
+		owner.setSneaking(true);
 		owner.isFollowing = false;
 		owner.isStaying = false;
 		hasBegun = true;
@@ -228,7 +232,7 @@ public class ChoreFarming extends AbstractChore
 			{
 				say(LanguageHelper.getString("notify.child.chore.interrupted.farming.nohoe"));
 			}
-			
+
 			endChore();
 			return;
 		}
@@ -240,7 +244,7 @@ public class ChoreFarming extends AbstractChore
 			{
 				say(LanguageHelper.getString("notify.child.chore.interrupted.farming.noseeds"));
 			}
-			
+
 			endChore();
 			return;
 		}
@@ -271,6 +275,7 @@ public class ChoreFarming extends AbstractChore
 	@Override
 	public void endChore()
 	{
+		owner.setSneaking(false);
 		hasEnded = true;
 	}
 
@@ -369,178 +374,212 @@ public class ChoreFarming extends AbstractChore
 	 */
 	private void runXYLogic()
 	{
-		//Get the farmable land nearby.
-		List<Coordinates> nearbyFarmableLand = LogicHelper.getNearbyFarmableLand(owner, startCoordinatesX, startCoordinatesY, startCoordinatesZ, areaX, areaY);
-
-		//Make sure there's some land nearby.
-		if (nearbyFarmableLand.isEmpty())
-		{
-			if (onLastFarmArea)
-			{
-				say(LanguageHelper.getString("notify.child.chore.finished.farming"));
-			}
-
-			else
-			{
-				if (hasDoneWork)
-				{
-					say(LanguageHelper.getString("notify.child.chore.interrupted.farming.noroom"));
-				}
-
-				else
-				{
-					say(LanguageHelper.getString("notify.child.chore.interrupted.farming.noland"));
-				}
-			}
-
-			endChore();
-			return;
-		}
-
-		//Now see if they've gotten some land to work with from the list.
-		if (!hasFarmableLand)
-		{
-			farmableLandX = (int)nearbyFarmableLand.get(0).x;
-			farmableLandY = (int)nearbyFarmableLand.get(0).y;
-			farmableLandZ = (int)nearbyFarmableLand.get(0).z;
-			hasFarmableLand = true;
-
-			//Check to see if the group of coordinates is the last in the list. That means they're about to finish farming.
-			if (farmlandIndex == (areaX * areaY) - 1)
-			{
-				onLastFarmArea = true;
-			}
-
-			//It's not the last bit of land left to farm so check to see if water should be placed depending on the area and index.
-			else if (areaX == 5)
-			{
-				if (farmlandIndex == 12)
-				{
-					placeWaterNext = true;
-				}
-
-				else
-				{
-					placeWaterNext = false;
-				}
-			}
-
-			else if (areaX == 10)
-			{
-				if (farmlandIndex == 22 || farmlandIndex == 27 || farmlandIndex == 72 || farmlandIndex == 77)
-				{
-					placeWaterNext = true;
-				}
-
-				else
-				{
-					placeWaterNext = false;
-				}
-			}
-
-			else if (areaX == 15)
-			{
-				if (farmlandIndex == 32  || farmlandIndex == 37  || farmlandIndex == 42  ||
-						farmlandIndex == 107 || farmlandIndex == 112 || farmlandIndex == 117 ||
-						farmlandIndex == 182 || farmlandIndex == 188 || farmlandIndex == 193)
-				{
-					placeWaterNext = true;
-				}
-
-				else
-				{
-					placeWaterNext = false;
-				}
-			}
-		}
-
-		//Check if they are close enough to their target to start farming. Block changing will happen here.
-		if (LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, (double)farmableLandX, (double)farmableLandY, (double)farmableLandZ) <= 2.50)
-		{
-			//Check the block above the farmland.
-			int blockAboveFarmland = owner.worldObj.getBlockId(farmableLandX, farmableLandY, farmableLandZ);
-
-			if (blockAboveFarmland == Block.tallGrass.blockID ||
-					blockAboveFarmland == Block.plantRed.blockID  ||
-					blockAboveFarmland == Block.plantYellow.blockID)
-			{
-				//If it's a plant, remove it.
-				owner.worldObj.setBlock(farmableLandX, farmableLandY + 1, farmableLandZ, 0);
-			}
-
-			//Check to see if water needs to be placed instead of farmland this time.
-			if (placeWaterNext)
-			{
-				if (!owner.worldObj.isRemote)
-				{
-					owner.worldObj.setBlock(farmableLandX, farmableLandY, farmableLandZ, Block.waterStill.blockID);
-				}
-
-				hasFarmableLand = false;
-				farmlandIndex++;
-				return;
-			}
-
-			//Water doesn't need to be placed next.
-			else
-			{
-				//Place tilled field instead.
-				if (!owner.worldObj.isRemote)
-				{
-					owner.worldObj.setBlock(farmableLandX, farmableLandY, farmableLandZ, Block.tilledField.blockID);
-				}
-			}
-
-			//Now check the delay vs the delay counter to see if farming should continue or wait.
-			if (delayCounter >= delay)
-			{
-				owner.swingItem();
-				owner.damageHeldItem();
-
-				//Update fields on a child that have to do with achievements.
-				if (owner instanceof EntityPlayerChild)
-				{
-					EntityPlayerChild child = (EntityPlayerChild)owner;
-					child.landFarmed++;
-
-					//Check for achievement
-					if (child.landFarmed >= 100)
-					{
-						EntityPlayer player = owner.worldObj.getPlayerEntityByName(child.ownerPlayerName);
-
-						if (player != null)
-						{
-							player.triggerAchievement(MCA.instance.achievementChildFarm);						
-						}
-					}
-				}
-
-				//Place the crop id above the farmland.
-				if (!owner.worldObj.isRemote)
-				{
-					owner.worldObj.setBlock(farmableLandX, farmableLandY + 1, farmableLandZ, cropId);
-				}
-
-				//Remove a seed from the entity's inventory.
-				owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(seedId), 1);
-
-				//Reset the delay counter, update the index, and get another farmable land block.
-				delayCounter = 0;
-				farmlandIndex++;
-				hasFarmableLand = false;
-			}
-
-			//The delay counter isn't high enough to begin working.
-			else
-			{
-				delayCounter++;
-			}
-		}
-
-		//They are not close enough to the farmable land block to begin farming.
-		else
-		{
-			owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(farmableLandX, farmableLandY, farmableLandZ), 0.6F);
-		}
+//		//Get the farmable land nearby.
+//		List<Coordinates> nearbyFarmableLand = LogicHelper.getNearbyFarmableLand(owner, startCoordinatesX, startCoordinatesY, startCoordinatesZ, areaX, areaY);
+//
+//		//Make sure there's some land nearby.
+//		if (nearbyFarmableLand.isEmpty())
+//		{
+//			if (onLastFarmArea)
+//			{
+//				say(LanguageHelper.getString("notify.child.chore.finished.farming"));
+//			}
+//
+//			else
+//			{
+//				if (hasDoneWork)
+//				{
+//					say(LanguageHelper.getString("notify.child.chore.interrupted.farming.noroom"));
+//				}
+//
+//				else
+//				{
+//					say(LanguageHelper.getString("notify.child.chore.interrupted.farming.noland"));
+//				}
+//			}
+//
+//			endChore();
+//			return;
+//		}
+//
+//		//Now see if they've gotten some land to work with from the list.
+//		if (!hasFarmableLand)
+//		{
+//			farmableLandX = (int)nearbyFarmableLand.get(0).x;
+//			farmableLandY = (int)nearbyFarmableLand.get(0).y;
+//			farmableLandZ = (int)nearbyFarmableLand.get(0).z;
+//			hasFarmableLand = true;
+//
+//			//Check to see if the group of coordinates is the last in the list. That means they're about to finish farming.
+//			if (farmlandIndex == (areaX * areaY) - 1)
+//			{
+//				onLastFarmArea = true;
+//			}
+//
+//			//It's not the last bit of land left to farm so check to see if water should be placed depending on the area and index.
+//			else if (areaX == 5)
+//			{
+//				if (farmlandIndex == 12)
+//				{
+//					placeWaterNext = true;
+//				}
+//
+//				else
+//				{
+//					placeWaterNext = false;
+//				}
+//
+//				if (farmlandIndex == 6 || farmlandIndex == 7 || farmlandIndex == 8 || farmlandIndex == 11 || farmlandIndex == 13 ||
+//						farmlandIndex == 16 || farmlandIndex == 17 || farmlandIndex == 18)
+//				{
+//					if (seedType == 1 || seedType == 2)
+//					{
+//						skipNextPlot = true;
+//					}
+//					
+//					else
+//					{
+//						skipNextPlot = false;
+//					}
+//				}
+//
+//				else
+//				{
+//					skipNextPlot = false;
+//				}
+//			}
+//
+//			else if (areaX == 10)
+//			{
+//				if (farmlandIndex == 22 || farmlandIndex == 27 || farmlandIndex == 72 || farmlandIndex == 77)
+//				{
+//					placeWaterNext = true;
+//				}
+//
+//				else
+//				{
+//					placeWaterNext = false;
+//				}
+//			}
+//
+//			else if (areaX == 15)
+//			{
+//				if (farmlandIndex == 32  || farmlandIndex == 37  || farmlandIndex == 42  ||
+//						farmlandIndex == 107 || farmlandIndex == 112 || farmlandIndex == 117 ||
+//						farmlandIndex == 182 || farmlandIndex == 188 || farmlandIndex == 193)
+//				{
+//					placeWaterNext = true;
+//				}
+//
+//				else
+//				{
+//					placeWaterNext = false;
+//				}
+//			}
+//		}
+//
+//		//Check if they are close enough to their target to start farming. Block changing will happen here.
+//		if (LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, (double)farmableLandX, (double)farmableLandY, (double)farmableLandZ) <= 2.50)
+//		{
+//			//Check the block above the farmland.
+//			int blockAboveFarmland = owner.worldObj.getBlockId(farmableLandX, farmableLandY, farmableLandZ);
+//
+//			if (blockAboveFarmland == Block.tallGrass.blockID ||
+//					blockAboveFarmland == Block.plantRed.blockID  ||
+//					blockAboveFarmland == Block.plantYellow.blockID)
+//			{
+//				//If it's a plant, remove it.
+//				owner.worldObj.setBlock(farmableLandX, farmableLandY + 1, farmableLandZ, 0);
+//			}
+//
+//			//Check to see if water needs to be placed instead of farmland this time.
+//			if (placeWaterNext)
+//			{
+//				if (!owner.worldObj.isRemote)
+//				{
+//					owner.worldObj.setBlock(farmableLandX, farmableLandY, farmableLandZ, Block.waterStill.blockID);
+//				}
+//
+//				hasFarmableLand = false;
+//				farmlandIndex++;
+//				return;
+//			}
+//
+//			else if (skipNextPlot)
+//			{
+//				owner.swingItem();
+//				owner.damageHeldItem();
+//				
+//				if (!owner.worldObj.isRemote)
+//				{
+//					owner.worldObj.setBlock(farmableLandX, farmableLandY, farmableLandZ, Block.tilledField.blockID);
+//				}
+//
+//				hasFarmableLand = false;
+//				farmlandIndex++;
+//				return;
+//			}
+//			
+//			//Water doesn't need to be placed next.
+//			else
+//			{
+//				//Place tilled field instead.
+//				if (!owner.worldObj.isRemote)
+//				{
+//					owner.worldObj.setBlock(farmableLandX, farmableLandY, farmableLandZ, Block.tilledField.blockID);
+//				}
+//			}
+//
+//			//Now check the delay vs the delay counter to see if farming should continue or wait.
+//			if (delayCounter >= delay)
+//			{
+//				owner.swingItem();
+//				owner.damageHeldItem();
+//
+//				//Update fields on a child that have to do with achievements.
+//				if (owner instanceof EntityPlayerChild)
+//				{
+//					EntityPlayerChild child = (EntityPlayerChild)owner;
+//					child.landFarmed++;
+//
+//					//Check for achievement
+//					if (child.landFarmed >= 100)
+//					{
+//						EntityPlayer player = owner.worldObj.getPlayerEntityByName(child.ownerPlayerName);
+//
+//						if (player != null)
+//						{
+//							player.triggerAchievement(MCA.instance.achievementChildFarm);						
+//						}
+//					}
+//				}
+//
+//				//Place the crop id above the farmland if the plot shouldn't be skipped.
+//				if (!owner.worldObj.isRemote)
+//				{
+//					owner.worldObj.setBlock(farmableLandX, farmableLandY + 1, farmableLandZ, cropId);
+//				}
+//
+//				//Remove a seed from the entity's inventory.
+//				owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(seedId), 1);
+//
+//				//Reset the delay counter, update the index, and get another farmable land block.
+//				delayCounter = 0;
+//				farmlandIndex++;
+//				hasFarmableLand = false;
+//			}
+//
+//			//The delay counter isn't high enough to begin working.
+//			else
+//			{
+//				delayCounter++;
+//			}
+//		}
+//
+//		//They are not close enough to the farmable land block to begin farming.
+//		else
+//		{
+//			owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(farmableLandX, farmableLandY, farmableLandZ), 0.6F);
+//		}
 	}
 }
