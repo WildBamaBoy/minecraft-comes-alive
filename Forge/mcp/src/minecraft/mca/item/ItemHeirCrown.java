@@ -49,17 +49,15 @@ public class ItemHeirCrown extends ItemArmor
     @Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, int layer) 
 	{
-		return "mca:textures/armor/crown_layer_1.png";
+		return "mca:textures/armor/heircrown_layer_1.png";
 	}
     
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List informationList, boolean unknown)
 	{
-		informationList.add(LanguageHelper.getString("information.doesnothing"));
-		
-//		informationList.add(Localization.getString("information.heircrown.line1"));
-//		informationList.add(Localization.getString("information.heircrown.line2"));
-//		informationList.add(Localization.getString("information.heircrown.line3"));
+		informationList.add(LanguageHelper.getString("information.heircrown.line1"));
+		informationList.add(LanguageHelper.getString("information.heircrown.line2"));
+		informationList.add(LanguageHelper.getString("information.heircrown.line3"));
 	}
 }
