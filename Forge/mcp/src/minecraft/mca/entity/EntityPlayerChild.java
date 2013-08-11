@@ -215,7 +215,17 @@ public class EntityPlayerChild extends EntityChild implements INpc
 
 				else
 				{
-					return "playerchild.adult";
+					WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(MCA.instance.getPlayerByID(worldObj, playerId).username);
+					
+					if (manager.worldProperties.heirId == this.mcaID && !this.isGoodHeir && this.shouldActAsHeir)
+					{
+						return "heir";
+					}
+					
+					else
+					{
+						return "playerchild.adult";
+					}
 				}
 			}
 
