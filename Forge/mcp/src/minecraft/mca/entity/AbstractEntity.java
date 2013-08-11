@@ -123,6 +123,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public boolean shouldSkipAreaModify = false;
 	public boolean isProcreatingWithPlayer = false;
 	public boolean hasBeenGivenFertilityPotion = false;
+	public boolean shouldActAsHeir = false;
+	public boolean isGoodHeir = true;
+	public boolean hasReturnedInventory = false;
 	public double homePointX = 0D;
 	public double homePointY = 0D;
 	public double homePointZ = 0D;
@@ -630,14 +633,14 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			EntityPlayerChild playerChild = (EntityPlayerChild)this;
 			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(playerChild.ownerPlayerName);
-			
+
 			if (manager.worldProperties.heirId == this.mcaID)
 			{
 				manager.worldProperties.heirId = -1;
 				manager.saveWorldProperties();
 			}
 		}
-		
+
 		//Make them drop all their items.
 		if (!worldObj.isRemote && damageSource != DamageSource.outOfWorld)
 		{
@@ -2324,6 +2327,39 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 								isPeasant = false;
 								isKnight = false;
 								monarchPlayerName = "";
+							}
+
+							//Check if this person is the player's heir.
+							if (this instanceof EntityPlayerChild)
+							{
+								if (manager.worldProperties.heirId == this.mcaID)
+								{
+									shouldActAsHeir = true;
+									
+									if (!worldObj.isRemote)
+									{
+										isGoodHeir = getBooleanWithProbability(90);
+										PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "isGoodHeir", isGoodHeir));
+									}
+									
+									//Add kings armor.
+									if (!inventory.contains(MCA.instance.itemKingsCoat))
+									{
+										inventory.addItemStackToInventory(new ItemStack(MCA.instance.itemKingsCoat));
+									}
+									
+									if (!inventory.contains(MCA.instance.itemKingsPants))
+									{
+										inventory.addItemStackToInventory(new ItemStack(MCA.instance.itemKingsPants));
+									}
+									
+									if (!inventory.contains(MCA.instance.itemKingsBoots))
+									{
+										inventory.addItemStackToInventory(new ItemStack(MCA.instance.itemKingsBoots));
+									}
+									
+									inventory.setWornArmorItems();
+								}
 							}
 						}
 
