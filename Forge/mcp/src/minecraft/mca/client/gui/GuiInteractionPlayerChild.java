@@ -54,6 +54,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 	//Buttons appearing at the top of the screen.
 	private GuiButton takeArrangerRingButton;
 	private GuiButton growUpButton;
+	private GuiButton requestCrownButton;
 
 	//Chore select buttons.
 	private GuiButton farmingButton;
@@ -230,7 +231,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		//Draw mood and trait.
 		drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.mood") + entityChild.mood.getLocalizedValue(), width / 2 - 150, height / 2 - 65, 0xffffff);
 		drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.trait") + entityChild.trait.getLocalizedValue(), width / 2 - 150, height / 2 - 50, 0xffffff);
-		
+
 		if (inChoreSelectGui)
 		{
 			backButton.enabled = true;
@@ -365,7 +366,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		buttonList.add(followButton    = new GuiButton(4, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
 		buttonList.add(stayButton      = new GuiButton(5, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
 		buttonList.add(setHomeButton   = new GuiButton(6, width / 2 - 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.sethome")));
-		
+
 		if (entityChild.isAdult)
 		{
 			if (MCA.instance.playerWorldManagerMap.get(player.username).worldProperties.isMonarch)
@@ -373,25 +374,30 @@ public class GuiInteractionPlayerChild extends AbstractGui
 				buttonList.add(choresButton    = new GuiButton(7, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.child.chores")));
 				buttonList.add(inventoryButton = new GuiButton(8, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.child.inventory")));
 			}
-			
+
 			else
 			{
 				buttonList.add(inventoryButton = new GuiButton(7, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.child.inventory")));
 			}
 		}
-		
+
 		else
 		{
 			buttonList.add(choresButton    = new GuiButton(7, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.child.chores")));
 			buttonList.add(inventoryButton = new GuiButton(8, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.child.inventory")));
 		}
-		
+
 		buttonList.add(backButton      = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton      = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 
 		backButton.enabled = false;
 
-		if (entityChild.hasNotifiedGrowthReady && !entityChild.isAdult)
+		if (entityChild.familyTree.getEntitiesWithRelation(EnumRelation.Parent).contains(MCA.instance.getIdOfPlayer(player)) && entityChild.shouldActAsHeir)
+		{
+			buttonList.add(requestCrownButton = new GuiButton(9, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("heir.gui.requestcrown")));
+		}
+
+		else if (entityChild.hasNotifiedGrowthReady && !entityChild.isAdult)
 		{
 			buttonList.add(growUpButton = new GuiButton(9, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.child.growup")));
 		}
@@ -715,6 +721,45 @@ public class GuiInteractionPlayerChild extends AbstractGui
 	 */
 	private void actionPerformedBase(GuiButton button)
 	{
+		//Check for heir status first.
+		if (entityChild.familyTree.getEntitiesWithRelation(EnumRelation.Parent).contains(MCA.instance.getIdOfPlayer(player)) && entityChild.shouldActAsHeir &&
+				!entityChild.hasReturnedInventory)
+		{
+			if (entityChild.isGoodHeir)
+			{
+				entityChild.say(LanguageHelper.getString("heir.good.founditems"));
+
+				//TODO: Give player their items back.
+
+				entityChild.hasReturnedInventory = true;
+				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "hasReturnedInventory", true));
+				close();
+				return;
+			}
+
+			else
+			{
+				PlayerMemory memory = entityChild.playerMemoryMap.get(player.username);
+				memory.tributeRequests++;
+
+				//Limit is 10 demands without giving a gift.
+				if (memory.tributeRequests >= 10)
+				{
+					memory.willAttackPlayer = true;
+					entityChild.say(LanguageHelper.getString("heir.bad.attack"));
+				}
+
+				else
+				{
+					entityChild.say(LanguageHelper.getString("heir.bad.demandtribute"));
+				}
+
+				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "playerMemoryMap", entityChild.playerMemoryMap));
+				close();
+				return;
+			}
+		}
+
 		if (button == chatButton)
 		{
 			entityChild.doChat(player);
@@ -848,6 +893,52 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(entityChild.entityId, MCA.instance.itemArrangersRing.itemID, 1));
 
 			close();
+		}
+
+		else if (button == requestCrownButton)
+		{
+			if (entityChild.isGoodHeir)
+			{
+				WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
+				manager.worldProperties.isMonarch = true;
+				manager.worldProperties.heirId = -1;
+				manager.saveWorldProperties();
+
+				entityChild.say(LanguageHelper.getString(player, entityChild, "heir.good.returncrown", false));
+				player.addChatMessage(LanguageHelper.getString("notify.monarch.resume"));
+
+				entityChild.hasBeenHeir = true;
+				entityChild.shouldActAsHeir = false;
+				entityChild.hasReturnedInventory = false;
+				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "hasBeenHeir", true));
+				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "shouldActAsHeir", false));
+				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "hasReturnedInventory", false));
+
+				close();
+				return;
+			}
+
+			else
+			{
+				PlayerMemory memory = entityChild.playerMemoryMap.get(player.username);
+				memory.tributeRequests++;
+
+				//Limit is 10 demands without giving a gift.
+				if (memory.tributeRequests >= 10)
+				{
+					memory.willAttackPlayer = true;
+					entityChild.say(LanguageHelper.getString("heir.bad.attack"));
+				}
+
+				else
+				{
+					entityChild.say(LanguageHelper.getString("heir.bad.demandtribute"));
+				}
+
+				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "playerMemoryMap", entityChild.playerMemoryMap));
+				close();
+				return;
+			}
 		}
 	}
 

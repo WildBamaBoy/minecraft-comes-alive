@@ -126,6 +126,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public boolean shouldActAsHeir = false;
 	public boolean isGoodHeir = true;
 	public boolean hasReturnedInventory = false;
+	public boolean hasBeenHeir = false;
 	public double homePointX = 0D;
 	public double homePointY = 0D;
 	public double homePointZ = 0D;
@@ -2053,47 +2054,56 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 										faceCoordinates(this, nearestPlayer.posX, nearestPlayer.posY, nearestPlayer.posZ, -10);
 
-										if (hearts < 0)
+										if (getCharacterType(MCA.instance.getIdOfPlayer(nearestPlayer)).equals("heir"))
 										{
-											say(LanguageHelper.getString(nearestPlayer, this, "greeting.hate"));
+											say(LanguageHelper.getString(nearestPlayer, this, "heir.bad.demandtribute"));
+											memory.tributeRequests++;
 										}
 
-										else if (hearts >= 0 && hearts <= 25)
+										else
 										{
-											if (getCharacterType(MCA.instance.getIdOfPlayer(nearestPlayer)).equals("villager") && worldPropertiesManager.worldProperties.isEngaged)
+											if (hearts < 0)
 											{
-												say(LanguageHelper.getString(nearestPlayer, this, "greeting.wedding"));
+												say(LanguageHelper.getString(nearestPlayer, this, "greeting.hate"));
 											}
 
-											else
+											else if (hearts >= 0 && hearts <= 25)
 											{
-												say(LanguageHelper.getString(nearestPlayer, this, "greeting.basic"));
+												if (getCharacterType(MCA.instance.getIdOfPlayer(nearestPlayer)).equals("villager") && worldPropertiesManager.worldProperties.isEngaged)
+												{
+													say(LanguageHelper.getString(nearestPlayer, this, "greeting.wedding"));
+												}
+
+												else
+												{
+													say(LanguageHelper.getString(nearestPlayer, this, "greeting.basic"));
+												}
 											}
+
+											else if (hearts > 25)
+											{
+												if (getCharacterType(MCA.instance.getIdOfPlayer(nearestPlayer)).equals("villager") && worldPropertiesManager.worldProperties.isEngaged)
+												{
+													say(LanguageHelper.getString(nearestPlayer, this, "greeting.wedding"));
+												}
+
+												else
+												{
+													say(LanguageHelper.getString(nearestPlayer, this, "greeting.friend"));	
+												}
+											}
+
+											else if (hearts > 50 && getCharacterType(MCA.instance.getIdOfPlayer(nearestPlayer)).equals("villager") && 
+													worldPropertiesManager.worldProperties.isEngaged == false && 
+													worldPropertiesManager.worldProperties.playerSpouseID == 0)
+											{
+												say(LanguageHelper.getString(nearestPlayer, this, "greeting.interest"));
+											}
+
+											//Increase hearts 1 to 3 points each greeting.
+											modifyHearts(nearestPlayer, worldObj.rand.nextInt(3) + 1);
+											PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "lastInteractingPlayer", lastInteractingPlayer));
 										}
-
-										else if (hearts > 25)
-										{
-											if (getCharacterType(MCA.instance.getIdOfPlayer(nearestPlayer)).equals("villager") && worldPropertiesManager.worldProperties.isEngaged)
-											{
-												say(LanguageHelper.getString(nearestPlayer, this, "greeting.wedding"));
-											}
-
-											else
-											{
-												say(LanguageHelper.getString(nearestPlayer, this, "greeting.friend"));	
-											}
-										}
-
-										else if (hearts > 50 && getCharacterType(MCA.instance.getIdOfPlayer(nearestPlayer)).equals("villager") && 
-												worldPropertiesManager.worldProperties.isEngaged == false && 
-												worldPropertiesManager.worldProperties.playerSpouseID == 0)
-										{
-											say(LanguageHelper.getString(nearestPlayer, this, "greeting.interest"));
-										}
-
-										//Increase hearts 1 to 3 points each greeting.
-										modifyHearts(nearestPlayer, worldObj.rand.nextInt(3) + 1);
-										PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "lastInteractingPlayer", lastInteractingPlayer));
 									}
 								}
 							}
@@ -2335,29 +2345,29 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 								if (manager.worldProperties.heirId == this.mcaID)
 								{
 									shouldActAsHeir = true;
-									
+
 									if (!worldObj.isRemote)
 									{
 										isGoodHeir = getBooleanWithProbability(90);
 										PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "isGoodHeir", isGoodHeir));
 									}
-									
+
 									//Add kings armor.
 									if (!inventory.contains(MCA.instance.itemKingsCoat))
 									{
 										inventory.addItemStackToInventory(new ItemStack(MCA.instance.itemKingsCoat));
 									}
-									
+
 									if (!inventory.contains(MCA.instance.itemKingsPants))
 									{
 										inventory.addItemStackToInventory(new ItemStack(MCA.instance.itemKingsPants));
 									}
-									
+
 									if (!inventory.contains(MCA.instance.itemKingsBoots))
 									{
 										inventory.addItemStackToInventory(new ItemStack(MCA.instance.itemKingsBoots));
 									}
-									
+
 									inventory.setWornArmorItems();
 								}
 							}

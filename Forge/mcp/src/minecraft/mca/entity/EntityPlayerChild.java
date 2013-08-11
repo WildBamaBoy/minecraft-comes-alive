@@ -216,12 +216,12 @@ public class EntityPlayerChild extends EntityChild implements INpc
 				else
 				{
 					WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(MCA.instance.getPlayerByID(worldObj, playerId).username);
-					
+
 					if (manager.worldProperties.heirId == this.mcaID && !this.isGoodHeir && this.shouldActAsHeir)
 					{
 						return "heir";
 					}
-					
+
 					else
 					{
 						return "playerchild.adult";
@@ -968,26 +968,42 @@ public class EntityPlayerChild extends EntityChild implements INpc
 				familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Father ||
 				familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Parent)
 		{
-			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
-
-			if (manager != null)
+			if (this.hasBeenHeir)
 			{
-				if (manager.worldProperties.heirId == -1)
+				notifyPlayer(player, LanguageHelper.getString(this, "heir.set.failure.alreadyused", false));
+			}
+
+			else
+			{
+				WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
+
+				if (manager != null)
 				{
-					inventory.addItemStackToInventory(itemStack);
-					inventory.setWornArmorItems();
-					removeItemFromPlayer(itemStack, player);
+					if (manager.worldProperties.heirId == -1)
+					{
+						inventory.addItemStackToInventory(itemStack);
+						inventory.setWornArmorItems();
+						removeItemFromPlayer(itemStack, player);
 
-					manager.worldProperties.heirId = this.mcaID;
-					manager.saveWorldProperties();
+						manager.worldProperties.heirId = this.mcaID;
+						manager.saveWorldProperties();
 
-					PacketDispatcher.sendPacketToServer(PacketHelper.createInventoryPacket(entityId, inventory));
-					notifyPlayer(player, LanguageHelper.getString(this, "heir.set.success", false));
-					return;
+						PacketDispatcher.sendPacketToServer(PacketHelper.createInventoryPacket(entityId, inventory));
+						notifyPlayer(player, LanguageHelper.getString(this, "heir.set.success", false));
+						return;
+					}
+
+					else if (manager.worldProperties.heirId == this.mcaID)
+					{
+						notifyPlayer(player, LanguageHelper.getString(this, "heir.set.failure.sameperson", false));
+					}
+
+					else if (manager.worldProperties.heirId != -1)
+					{
+						notifyPlayer(player, LanguageHelper.getString(this, "heir.set.failure.alreadyset", false));
+					}
 				}
 			}
-			
-			notifyPlayer(player, LanguageHelper.getString("heir.set.failure"));
 		}
 
 		else

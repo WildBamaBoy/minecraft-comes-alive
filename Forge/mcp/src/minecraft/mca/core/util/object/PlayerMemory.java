@@ -56,6 +56,12 @@ public class PlayerMemory implements Serializable
 	/** How much this villager is tired of talking with the player. */
 	public int interactionWear = 0;
 	
+	/** How many times has this heir requested tribute from the player? */
+	public int tributeRequests = 0;
+	
+	/** Will this heir and their guards attack the player? */
+	public boolean willAttackPlayer = false;
+	
 	/**
 	 * Constructor
 	 * 
