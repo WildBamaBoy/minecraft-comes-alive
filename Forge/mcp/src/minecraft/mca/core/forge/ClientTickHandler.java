@@ -321,7 +321,7 @@ public class ClientTickHandler implements ITickHandler
 						EntityPlayerChild playerChild = (EntityPlayerChild)entity;
 
 						if (playerChild.familyTree.getEntitiesWithRelation(EnumRelation.Parent).contains(MCA.instance.getIdOfPlayer(player)) &&
-								!hasCommentedOnDeath)
+								!hasCommentedOnDeath && playerChild.name.equals("Ezio"))
 						{
 							hasCommentedOnDeath = true;
 							playerChild.say("Requiescat in pace.");
