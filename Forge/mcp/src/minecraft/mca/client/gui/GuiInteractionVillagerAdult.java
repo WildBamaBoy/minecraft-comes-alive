@@ -12,7 +12,11 @@ package mca.client.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import mca.chore.ChoreFarming;
+import mca.chore.ChoreFishing;
+import mca.chore.ChoreHunting;
 import mca.chore.ChoreMining;
+import mca.chore.ChoreWoodcutting;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
@@ -83,16 +87,31 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	//Buttons for librarians.
 	private GuiButton openSetupButton;
 
-	//Buttons for miners.
+	//Buttons for chores.
+	private GuiButton farmingButton;
+	private GuiButton fishingButton;
 	private GuiButton miningButton;
+	private GuiButton woodcuttingButton;
+	private GuiButton combatButton;
+	private GuiButton huntingButton;
+	
+	private GuiButton choreStartButton;
+	
+	//Farming buttons
+	private GuiButton farmAreaTypeButton;
+	private GuiButton farmAreaButton;
+	private GuiButton farmSeedTypeButton;
+
+	//Woodcutting buttons
+	private GuiButton woodTreeTypeButton;
+
+	//Mining buttons
 	private GuiButton mineMethodButton;
-	private GuiButton mineFindButton;
 	private GuiButton mineDirectionButton;
 	private GuiButton mineDistanceButton;
-	private GuiButton mineStartButton;
+	private GuiButton mineFindButton;
 
-	//Buttons for guards.
-	private GuiButton combatButton;
+	//Combat buttons
 	private GuiButton combatMethodButton;
 	private GuiButton combatAttackPigsButton;
 	private GuiButton combatAttackSheepButton;
@@ -105,21 +124,54 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private GuiButton combatAttackEndermenButton;
 	private GuiButton combatAttackUnknownButton;
 
+	//Hunting buttons
+	private GuiButton huntModeButton;
+
 	//Back and exit buttons.
 	private GuiButton backButton;
 	private GuiButton exitButton;
 
-	//Miner fields.
-	private int mineMethod = 1;
+	private boolean inChoreSelectGui = false;
+	private boolean inFarmingGui = false;
+	private boolean inFishingGui = false;
+	private boolean inCombatGui = false;
+	private boolean inWoodcuttingGui = false;
+	private boolean inMiningGui = false;
+	private boolean inHuntingGui = false;
+
+	/** The area that should be farmed. 0 = X-Y area*/
+	private int farmAreaType = 0;
+
+	/** The type of seeds that should be planted. 0 = Wheat, 1 = Melon, 2 = Pumpkin, 3 = Carrot, 4 = Potato*/
+	private int farmSeedType = 0;
+
+	/** The type of tree that should be cut. 0 = Oak, 1 = Spruce, 2 = Birch, 3 = Jungle*/
+	private int treeType = 0;
+
+	/** How mining should be performed. 0 = Passive, 1 = Active*/
+	private int mineMethod = 0;
+
+	/** The direction mining should go. 0 = Forward, 1 = Backward, 2 = Left, 3 = Right*/
 	private int mineDirection = 0;
-	private int mineDistance = 5;
+
+	/** The ore that should be mined. 0 = Coal, 1 = Iron, 2 = Lapis Lazuli, 3 = Gold, 4 = Diamond, 5 = Redstone, 6 = Emerald*/
 	private int mineOre = 0;
 
+	/** The distance in blocks that mining should go.*/
+	private int mineDistance = 5;
+
+	/** From a 2D perspective, the X side of the farming area. */
+	private int areaX = 5;
+
+	/** From a 2D perspective, the Y side of the farming area. */
+	private int areaY = 5;
+
+	/** How hunting should be performed. 0 = kill. 1 = tame */
+	private int huntMode = 0;
+	
 	//Fields used to help draw text and manipulate buttons on the gui.
 	private boolean inSpecialGui = false;
-	private boolean inMiningGui = false;
 	private boolean inNoSpecialGui = false;
-	private boolean inCombatGui = false;
 	private boolean inMonarchGui = false;
 
 	/**
@@ -569,48 +621,64 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	}
 
 	/**
-	 * Draws the Gui used to control the miner.
+	 * Draws the farming GUI.
 	 */
-	private void drawMiningGui()
+	private void drawFarmingGui()
 	{
 		buttonList.clear();
-		inMiningGui = true;
+		inChoreSelectGui = false;
+		inFarmingGui = true;
 
-		buttonList.add(mineStartButton    = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
-		buttonList.add(mineMethodButton    = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, LanguageHelper.getString("gui.button.chore.mining.method")));
-		buttonList.add(mineDirectionButton = new GuiButton(3, width / 2 - 70, height / 2 + 10, 135, 20, LanguageHelper.getString("gui.button.chore.mining.direction")));
-		buttonList.add(mineDistanceButton  = new GuiButton(4, width / 2 - 70, height / 2 + 30, 135, 20, LanguageHelper.getString("gui.button.chore.mining.distance") +  mineDistance));
-		buttonList.add(mineFindButton      = new GuiButton(5, width / 2 - 70, height / 2 + 50, 135, 20, LanguageHelper.getString("gui.button.chore.mining.find")));
+		buttonList.add(choreStartButton   = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
+		buttonList.add(farmAreaTypeButton = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, LanguageHelper.getString("gui.button.chore.farming.areatype")));
+		buttonList.add(farmAreaButton     = new GuiButton(3, width / 2 - 70, height / 2 - 10, 135, 20, LanguageHelper.getString("gui.button.chore.farming.area") + areaX + "x" + areaY));
+		buttonList.add(farmSeedTypeButton = new GuiButton(4, width / 2 - 70, height / 2 + 10, 135, 20, LanguageHelper.getString("gui.button.chore.farming.seedtype"))); 
 
-		switch (mineMethod)
+		if (farmAreaType == 0)
 		{
-		case 0: mineMethodButton.displayString += LanguageHelper.getString("gui.button.chore.mining.method.passive"); break;
-		case 1: mineMethodButton.displayString += LanguageHelper.getString("gui.button.chore.mining.method.active"); break;
+			farmAreaTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.areatype.xy");
 		}
 
-		switch (mineDirection)
+		else if (farmAreaType == 1)
 		{
-		case 0: mineDirectionButton.displayString += LanguageHelper.getString("gui.button.chore.mining.direction.forward"); break;
-		case 1: mineDirectionButton.displayString += LanguageHelper.getString("gui.button.chore.mining.direction.backward"); break;
-		case 2: mineDirectionButton.displayString += LanguageHelper.getString("gui.button.chore.mining.direction.left"); break;
-		case 3: mineDirectionButton.displayString += LanguageHelper.getString("gui.button.chore.mining.direction.right"); break;
+			farmAreaTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.areatype.selection");
+			farmAreaButton.enabled = false;
 		}
 
-		switch (mineOre)
+		else if (farmAreaType == 2)
 		{
-		case 0: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.coal"); break;
-		case 1: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.iron"); break;
-		case 2: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.lapis"); break;
-		case 3: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.gold"); break;
-		case 4: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.diamond"); break;
-		case 5: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.redstone"); break;
-		case 6: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.emerald"); break;
+			farmAreaTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.areatype.plowedland");
+			farmAreaButton.enabled = false;
 		}
 
-		mineMethodButton.enabled = false;
-		mineDirectionButton.enabled = false;
-		mineDistanceButton.enabled = false;
-		mineFindButton.enabled = false;
+		if (farmSeedType == 0)
+		{
+			farmSeedTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.seedtype.wheat");
+		}
+
+		else if (farmSeedType == 1)
+		{
+			farmSeedTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.seedtype.melon");
+		}
+
+		else if (farmSeedType == 2)
+		{
+			farmSeedTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.seedtype.pumpkin");
+		}
+
+		else if (farmSeedType == 3)
+		{
+			farmSeedTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.seedtype.carrot");
+		}
+
+		else if (farmSeedType == 4)
+		{
+			farmSeedTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.seedtype.potato");
+		}
+
+		farmAreaTypeButton.enabled = false;
+		farmAreaButton.enabled = false;
+		farmSeedTypeButton.enabled = false;
 
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
@@ -618,11 +686,18 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	}
 
 	/**
-	 * Draws the trading Gui.
+	 * Draws the fishing GUI.
 	 */
-	private void drawTradeGui()
+	private void drawFishingGui()
 	{
+		buttonList.clear();
+		inChoreSelectGui = false;
+		inFishingGui = true;
 
+		buttonList.add(choreStartButton   = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
+		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		backButton.enabled = false;
 	}
 
 	/**
@@ -630,8 +705,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void drawCombatGui()
 	{
-		inCombatGui = true;
 		buttonList.clear();
+		inChoreSelectGui = false;
+		inCombatGui = true;
 
 		buttonList.add(combatMethodButton 			= new GuiButton(1, width / 2 - 190, height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.method")));
 		buttonList.add(combatAttackPigsButton		= new GuiButton(2, width / 2 - 190, height / 2, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.pig")));
@@ -691,6 +767,131 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = false;
+	}
+
+	/**
+	 * Draws the woodcutting GUI.
+	 */
+	private void drawWoodcuttingGui()
+	{
+		buttonList.clear();
+		inChoreSelectGui = false;
+		inWoodcuttingGui = true;
+
+		buttonList.add(choreStartButton = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
+		buttonList.add(woodTreeTypeButton = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, LanguageHelper.getString("gui.button.chore.woodcutting.treetype")));
+
+		if (treeType == 0)
+		{
+			woodTreeTypeButton.displayString += LanguageHelper.getString("gui.button.chore.woodcutting.treetype.oak");
+		}
+
+		else if (treeType == 1)
+		{
+			woodTreeTypeButton.displayString += LanguageHelper.getString("gui.button.chore.woodcutting.treetype.spruce");
+		}
+
+		else if (treeType == 2)
+		{
+			woodTreeTypeButton.displayString += LanguageHelper.getString("gui.button.chore.woodcutting.treetype.birch");
+		}
+
+		else if (treeType == 3)
+		{
+			woodTreeTypeButton.displayString += LanguageHelper.getString("gui.button.chore.woodcutting.treetype.jungle");
+		}
+
+		woodTreeTypeButton.enabled = false;
+
+		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		backButton.enabled = false;
+	}
+
+	/**
+	 * Draws the mining GUI.
+	 */
+	private void drawMiningGui()
+	{
+		buttonList.clear();
+		inChoreSelectGui = false;
+		inMiningGui = true;
+
+		buttonList.add(choreStartButton    = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
+		buttonList.add(mineMethodButton    = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, LanguageHelper.getString("gui.button.chore.mining.method")));
+		buttonList.add(mineDirectionButton = new GuiButton(3, width / 2 - 70, height / 2 + 10, 135, 20, LanguageHelper.getString("gui.button.chore.mining.direction")));
+		buttonList.add(mineDistanceButton  = new GuiButton(4, width / 2 - 70, height / 2 + 30, 135, 20, LanguageHelper.getString("gui.button.chore.mining.distance") +  mineDistance));
+		buttonList.add(mineFindButton      = new GuiButton(5, width / 2 - 70, height / 2 + 50, 135, 20, LanguageHelper.getString("gui.button.chore.mining.find")));
+
+		switch (mineMethod)
+		{
+		case 0: mineMethodButton.displayString += LanguageHelper.getString("gui.button.chore.mining.method.passive"); break;
+		case 1: mineMethodButton.displayString += LanguageHelper.getString("gui.button.chore.mining.method.active"); break;
+		}
+
+		switch (mineDirection)
+		{
+		case 0: mineDirectionButton.displayString += LanguageHelper.getString("gui.button.chore.mining.direction.forward"); break;
+		case 1: mineDirectionButton.displayString += LanguageHelper.getString("gui.button.chore.mining.direction.backward"); break;
+		case 2: mineDirectionButton.displayString += LanguageHelper.getString("gui.button.chore.mining.direction.left"); break;
+		case 3: mineDirectionButton.displayString += LanguageHelper.getString("gui.button.chore.mining.direction.right"); break;
+		}
+
+		switch (mineOre)
+		{
+		case 0: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.coal"); break;
+		case 1: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.iron"); break;
+		case 2: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.lapis"); break;
+		case 3: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.gold"); break;
+		case 4: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.diamond"); break;
+		case 5: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.redstone"); break;
+		case 6: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.emerald"); break;
+		}
+
+		mineMethodButton.enabled = false;
+		mineDirectionButton.enabled = false;
+		mineDistanceButton.enabled = false;
+		mineFindButton.enabled = false;
+
+		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		backButton.enabled = false;
+	}
+
+	/**
+	 * Draws the hunting GUI.
+	 */
+	private void drawHuntingGui()
+	{
+		buttonList.clear();
+		inChoreSelectGui = false;
+		inHuntingGui = true;
+
+		buttonList.add(choreStartButton = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
+		buttonList.add(huntModeButton   = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, LanguageHelper.getString("gui.button.chore.hunting.mode")));
+
+		if (huntMode == 0)
+		{
+			huntModeButton.displayString += LanguageHelper.getString("gui.button.chore.hunting.mode.kill");
+		}
+
+		else if (huntMode == 1)
+		{
+			huntModeButton.displayString += LanguageHelper.getString("gui.button.chore.hunting.mode.tame");
+		}
+
+		huntModeButton.enabled = false;
+
+		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+	}
+
+	/**
+	 * Draws the trading Gui.
+	 */
+	private void drawTradeGui()
+	{
+
 	}
 
 	/**
@@ -1479,6 +1680,286 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	}
 
 	/**
+	 * Handles an action performed in the farming Gui.
+	 * 
+	 * @param 	button	The button that was pressed.
+	 */
+	private void actionPerformedFarming(GuiButton button) 
+	{
+		if (button == backButton)
+		{
+			drawFarmerSpecialGui();
+		}
+	
+		//		else if (button == farmAreaTypeButton)
+		//		{
+		//			if (farmAreaType == 2)
+		//			{
+		//				farmAreaType = 0;
+		//			}
+		//
+		//			else
+		//			{
+		//				farmAreaType++;
+		//			}
+		//
+		//			drawFarmingGui();
+		//		}
+	
+		else if (button == farmSeedTypeButton)
+		{
+			if (farmSeedType == 4)
+			{
+				farmSeedType = 0;
+			}
+	
+			else
+			{
+				farmSeedType++;
+			}
+	
+			drawFarmingGui();
+		}
+	
+		else if (button == farmAreaButton)
+		{
+			if (areaX >= 20)
+			{
+				areaX = 5;
+				areaY = 5;
+			}
+	
+			else
+			{
+				areaX += 5;
+				areaY += 5;
+			}
+	
+			drawFarmingGui();
+		}
+	
+		else if (button == choreStartButton)
+		{
+			if (farmAreaType == 0)
+			{
+				entityVillager.farmingChore = new ChoreFarming(entityVillager, farmAreaType, farmSeedType, entityVillager.posX, entityVillager.posY, entityVillager.posZ, areaX, areaY);
+			}
+	
+			else
+			{
+				entityVillager.farmingChore = new ChoreFarming(entityVillager, farmAreaType, farmSeedType, entityVillager.posX, entityVillager.posY, entityVillager.posZ);
+			}
+	
+			entityVillager.isInChoreMode = true;
+			entityVillager.currentChore = entityVillager.farmingChore.getChoreName();
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", true));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "currentChore", "Farming"));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.farmingChore));
+	
+			close();
+		}
+	}
+
+	/**
+	 * Handles an action performed in the fishing Gui.
+	 * 
+	 * @param 	button	The button that was pressed.
+	 */
+	private void actionPerformedFishing(GuiButton button)
+	{
+		if (button == backButton)
+		{
+			drawFarmerSpecialGui();
+		}
+	
+		else if (button == choreStartButton)
+		{
+			entityVillager.fishingChore = new ChoreFishing(entityVillager);
+			entityVillager.isInChoreMode = true;
+			entityVillager.currentChore = entityVillager.fishingChore.getChoreName();
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", true));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "currentChore", "Fishing"));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.fishingChore));
+	
+			close();
+		}
+	}
+
+	/**
+	 * Handles an action performed in the combat GUI.
+	 * 
+	 * @param 	button	The button that was pressed.
+	 */
+	private void actionPerformedCombat(GuiButton button) 
+	{
+		if (button == backButton)
+		{
+			drawGuardSpecialGui();
+			return;
+		}
+	
+		else if (button == combatMethodButton)
+		{
+			if (entityVillager.combatChore.useMelee && entityVillager.combatChore.useRange)
+			{
+				entityVillager.combatChore.useMelee = false;
+				entityVillager.combatChore.useRange = false;
+			}
+	
+			else if (entityVillager.combatChore.useMelee)
+			{
+				entityVillager.combatChore.useMelee = false;
+				entityVillager.combatChore.useRange = true;
+			}
+	
+			else if (entityVillager.combatChore.useRange)
+			{
+				entityVillager.combatChore.useMelee = true;
+				entityVillager.combatChore.useRange = true;
+			}
+	
+			else
+			{
+				entityVillager.combatChore.useMelee = true;
+				entityVillager.combatChore.useRange = false;
+			}
+		}
+	
+		else if (button == combatAttackPigsButton)
+		{
+			entityVillager.combatChore.attackPigs = !entityVillager.combatChore.attackPigs;
+		}
+	
+		else if (button == combatAttackSheepButton)
+		{
+			entityVillager.combatChore.attackSheep = !entityVillager.combatChore.attackSheep;
+		}
+	
+		else if (button == combatAttackCowsButton)
+		{
+			entityVillager.combatChore.attackCows = !entityVillager.combatChore.attackCows;
+		}
+	
+		else if (button == combatAttackChickensButton)
+		{
+			entityVillager.combatChore.attackChickens = !entityVillager.combatChore.attackChickens;
+		}
+	
+		else if (button == combatAttackSpidersButton)
+		{
+			entityVillager.combatChore.attackSpiders = !entityVillager.combatChore.attackSpiders;
+		}
+	
+		else if (button == combatAttackZombiesButton)
+		{
+			entityVillager.combatChore.attackZombies = !entityVillager.combatChore.attackZombies;
+		}
+	
+		else if (button == combatAttackSkeletonsButton)
+		{
+			entityVillager.combatChore.attackSkeletons = !entityVillager.combatChore.attackSkeletons;
+		}
+	
+		else if (button == combatAttackCreepersButton)
+		{
+			entityVillager.combatChore.attackCreepers = !entityVillager.combatChore.attackCreepers;
+		}
+	
+		else if (button == combatAttackEndermenButton)
+		{
+			entityVillager.combatChore.attackEndermen = !entityVillager.combatChore.attackEndermen;
+		}
+	
+		else if (button == combatAttackUnknownButton)
+		{
+			entityVillager.combatChore.attackUnknown = !entityVillager.combatChore.attackUnknown;
+		}
+	
+		PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.combatChore));
+		drawCombatGui();
+	}
+
+	/**
+	 * Handles an action performed in the woodcutting Gui.
+	 * 
+	 * @param 	button	The button that was pressed.
+	 */
+	private void actionPerformedWoodcutting(GuiButton button) 
+	{
+		if (button == backButton)
+		{
+			drawFarmerSpecialGui();
+		}
+	
+		else if (button == woodTreeTypeButton)
+		{
+			if (treeType == 3)
+			{
+				treeType = 0;
+			}
+	
+			else
+			{
+				treeType++;
+			}
+	
+			drawWoodcuttingGui();
+		}
+	
+		else if (button == choreStartButton)
+		{
+			entityVillager.woodcuttingChore = new ChoreWoodcutting(entityVillager, treeType);
+			entityVillager.isInChoreMode = true;
+			entityVillager.currentChore = entityVillager.woodcuttingChore.getChoreName();
+	
+			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.woodcuttingChore));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", true));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "currentChore", "Woodcutting"));
+			close();
+		}
+	}
+
+	/**
+	 * Handles an action performed in the hunting Gui.
+	 * 
+	 * @param 	button	The button that was pressed.
+	 */
+	private void actionPerformedHunting(GuiButton button)
+	{
+		if (button == backButton)
+		{
+			drawGuardSpecialGui();
+		}
+	
+		else if (button == huntModeButton)
+		{
+			if (huntMode == 0)
+			{
+				huntMode = 1;
+			}
+	
+			else if (huntMode == 1)
+			{
+				huntMode = 0;
+			}
+	
+			drawHuntingGui();
+		}
+	
+		else if (button == choreStartButton)
+		{
+			entityVillager.huntingChore = new ChoreHunting(entityVillager, huntMode);
+			entityVillager.isInChoreMode = true;
+			entityVillager.currentChore = entityVillager.huntingChore.getChoreName();
+	
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", true));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "currentChore", "Hunting"));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.huntingChore));
+			close();
+		}
+	}
+
+	/**
 	 * Handles an action performed in the mining special GUI.
 	 * 
 	 * @param	button	The button that was pressed.
@@ -1550,7 +2031,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			drawMiningGui();
 		}
 
-		else if (button == mineStartButton)
+		else if (button == choreStartButton)
 		{
 			entityVillager.miningChore = new ChoreMining(entityVillager, mineMethod, mineDirection, mineOre, mineDistance);
 			entityVillager.isInChoreMode = true;
@@ -1561,100 +2042,6 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.miningChore));
 			close();
 		}
-	}
-
-	/**
-	 * Handles an action performed in the combat GUI.
-	 * 
-	 * @param 	button	The button that was pressed.
-	 */
-	private void actionPerformedCombat(GuiButton button)
-	{
-		if (button == backButton)
-		{
-			drawGuardSpecialGui();
-			return;
-		}
-
-		else if (button == combatMethodButton)
-		{
-			if (entityVillager.combatChore.useMelee && entityVillager.combatChore.useRange)
-			{
-				entityVillager.combatChore.useMelee = false;
-				entityVillager.combatChore.useRange = false;
-			}
-
-			else if (entityVillager.combatChore.useMelee)
-			{
-				entityVillager.combatChore.useMelee = false;
-				entityVillager.combatChore.useRange = true;
-			}
-
-			else if (entityVillager.combatChore.useRange)
-			{
-				entityVillager.combatChore.useMelee = true;
-				entityVillager.combatChore.useRange = true;
-			}
-
-			else
-			{
-				entityVillager.combatChore.useMelee = true;
-				entityVillager.combatChore.useRange = false;
-			}
-		}
-
-		else if (button == combatAttackPigsButton)
-		{
-			entityVillager.combatChore.attackPigs = !entityVillager.combatChore.attackPigs;
-		}
-
-		else if (button == combatAttackSheepButton)
-		{
-			entityVillager.combatChore.attackSheep = !entityVillager.combatChore.attackSheep;
-		}
-
-		else if (button == combatAttackCowsButton)
-		{
-			entityVillager.combatChore.attackCows = !entityVillager.combatChore.attackCows;
-		}
-
-		else if (button == combatAttackChickensButton)
-		{
-			entityVillager.combatChore.attackChickens = !entityVillager.combatChore.attackChickens;
-		}
-
-		else if (button == combatAttackSpidersButton)
-		{
-			entityVillager.combatChore.attackSpiders = !entityVillager.combatChore.attackSpiders;
-		}
-
-		else if (button == combatAttackZombiesButton)
-		{
-			entityVillager.combatChore.attackZombies = !entityVillager.combatChore.attackZombies;
-		}
-
-		else if (button == combatAttackSkeletonsButton)
-		{
-			entityVillager.combatChore.attackSkeletons = !entityVillager.combatChore.attackSkeletons;
-		}
-
-		else if (button == combatAttackCreepersButton)
-		{
-			entityVillager.combatChore.attackCreepers = !entityVillager.combatChore.attackCreepers;
-		}
-
-		else if (button == combatAttackEndermenButton)
-		{
-			entityVillager.combatChore.attackEndermen = !entityVillager.combatChore.attackEndermen;
-		}
-
-		else if (button == combatAttackUnknownButton)
-		{
-			entityVillager.combatChore.attackUnknown = !entityVillager.combatChore.attackUnknown;
-		}
-
-		PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.combatChore));
-		drawCombatGui();
 	}
 
 	/**
