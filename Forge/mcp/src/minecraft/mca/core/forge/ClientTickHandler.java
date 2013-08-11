@@ -309,6 +309,8 @@ public class ClientTickHandler implements ITickHandler
 		//If it's the original game over screen, override it with MCA's game over screen IN HARDCORE MODE ONLY.
 		else if (guiScreen instanceof net.minecraft.client.gui.GuiGameOver)
 		{
+			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
+			
 			if (!hasCommentedOnDeath)
 			{
 				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
@@ -331,6 +333,12 @@ public class ClientTickHandler implements ITickHandler
 				}
 			}
 
+			if (manager.worldProperties.isMonarch)
+			{
+				manager.worldProperties.isMonarch = false;
+				manager.saveWorldProperties();
+			}
+			
 			if (Minecraft.getMinecraft().theWorld.getWorldInfo().isHardcoreModeEnabled())
 			{
 				Minecraft.getMinecraft().displayGuiScreen(new GuiGameOver(Minecraft.getMinecraft().thePlayer));
