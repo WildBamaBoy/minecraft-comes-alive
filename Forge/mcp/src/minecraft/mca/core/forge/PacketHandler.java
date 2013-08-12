@@ -46,8 +46,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.NetServerHandler;
@@ -214,6 +216,11 @@ public class PacketHandler implements IPacketHandler
 			else if (packet.channel.equals("MCA_ADDAI"))
 			{
 				handleAddAI(packet, senderPlayer);
+			}
+			
+			else if (packet.channel.equals("MCA_RETURNINV"))
+			{
+				handleReturnInventory(packet, senderPlayer);
 			}
 		}
 
@@ -1365,5 +1372,28 @@ public class PacketHandler implements IPacketHandler
 
 		AbstractEntity entity = (AbstractEntity)worldObj.getEntityByID(entityId);
 		entity.addAI();
+	}
+	
+	private void handleReturnInventory(Packet250CustomPayload packet, Player senderPlayer) throws IOException, ClassNotFoundException
+	{
+		byte[] data = MCA.decompressBytes(packet.data);
+
+		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
+		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
+
+		EntityPlayer player = (EntityPlayer)senderPlayer;
+		World worldObj = player.worldObj;
+
+		int entityId = (Integer)objectInput.readObject();
+
+		objectInput.close();
+
+		AbstractEntity entity = (AbstractEntity)worldObj.getEntityByID(entityId);
+		ArrayList<EntityItem> itemList = MCA.instance.deadPlayerInventories.get(player.username);
+		
+		for (EntityItem item : itemList)
+		{
+			entity.entityDropItem(item.getEntityItem(), 0.3F);
+		}
 	}
 }

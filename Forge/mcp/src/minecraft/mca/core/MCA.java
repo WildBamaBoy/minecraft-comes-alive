@@ -79,6 +79,7 @@ import mca.tileentity.TileEntityTombstone;
 import net.minecraft.block.Block;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
@@ -116,7 +117,7 @@ channels={"MCA_F_REQ", "MCA_F_VAL", "MCA_TARGET", "MCA_REMOVEITEM", "MCA_ACHIEV"
 		"MCA_SYNC_REQ", "MCA_ENGAGE", "MCA_ADDITEM", "MCA_DROPITEM", "MCA_FAMTREE", "MCA_INVENTORY", 
 		"MCA_CHORE", "MCA_TOMB", "MCA_TOMB_REQ", "MCA_POSITION", "MCA_KILL", "MCA_LOGIN", "MCA_WORLDPROP",
 		"MCA_SAYLOCAL", "MCA_PLMARRY", "MCA_HAVEBABY", "MCA_BABYINFO", "MCA_TRADE", "MCA_RESPAWN", "MCA_VPPROC",
-		"MCA_ADDAI"},
+		"MCA_ADDAI", "MCA_RETURNINV"},
 		packetHandler = PacketHandler.class)
 public class MCA
 {
@@ -237,7 +238,7 @@ public class MCA
 	public Map<String, WorldPropertiesManager> playerWorldManagerMap = new HashMap<String, WorldPropertiesManager>();
 
 	/**Map of the inventory of a player saved just before they died. */
-	public Map<String, InventoryPlayer> deadPlayerInventories = new HashMap<String, InventoryPlayer>();
+	public Map<String, ArrayList<EntityItem>> deadPlayerInventories = new HashMap<String, ArrayList<EntityItem>>();
 	
 	/** List of the male names loaded from MaleNames.txt.*/
 	public static List<String> maleNames = new ArrayList<String>();

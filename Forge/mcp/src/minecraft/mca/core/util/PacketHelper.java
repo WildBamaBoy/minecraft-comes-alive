@@ -1038,4 +1038,38 @@ public final class PacketHelper
 			return null;
 		}
 	}
+	
+	/**
+	 * Creates a packet used to drop a dead player's inventory at the entity's feet.
+	 * 
+	 * @param	entity	The entity that will drop the items.
+	 * 
+	 * @return	A return inventory packet.
+	 */
+	public static Packet createReturnInventoryPacket(AbstractEntity entity)
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_RETURNINV";
+			
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+			
+			objectOutput.writeObject(entity.entityId);
+			objectOutput.close();
+			
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+			
+			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+		
+		catch (Throwable e)
+		{
+			MCA.instance.log(e);
+			return null;
+		}
+	}
 }
