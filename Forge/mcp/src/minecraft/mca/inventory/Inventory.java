@@ -451,7 +451,6 @@ public class Inventory implements IInventory, Serializable
 
 		catch (Throwable e)
 		{
-			MCA.instance.log(e);
 			return null;
 		}
 	}
