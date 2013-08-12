@@ -123,7 +123,10 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private GuiButton combatAttackCreepersButton;
 	private GuiButton combatAttackEndermenButton;
 	private GuiButton combatAttackUnknownButton;
-
+	private GuiButton combatSentryButton;
+	private GuiButton combatSentryRadiusButton;
+	private GuiButton combatSentrySetPositionButton;
+	
 	//Hunting buttons
 	private GuiButton huntModeButton;
 
@@ -361,7 +364,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				backButton.enabled = true;
 				drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.options"), width / 2, 80, 0xffffff);
 
-				combatMethodButton.enabled = false;
+
+				combatMethodButton.enabled = true;
 				combatAttackPigsButton.enabled = true;
 				combatAttackSheepButton.enabled = true;
 				combatAttackCowsButton.enabled = true;
@@ -372,6 +376,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				combatAttackCreepersButton.enabled = true;
 				combatAttackEndermenButton.enabled = true;
 				combatAttackUnknownButton.enabled = true;
+				combatSentryButton.enabled = true;
+				combatSentryRadiusButton.enabled = entityVillager.combatChore.sentryMode;
+				combatSentrySetPositionButton.enabled = true;
 			}
 
 			if (inMiningGui)
@@ -709,18 +716,21 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		inChoreSelectGui = false;
 		inCombatGui = true;
 
-		buttonList.add(combatMethodButton 			= new GuiButton(1, width / 2 - 190, height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.method")));
-		buttonList.add(combatAttackPigsButton		= new GuiButton(2, width / 2 - 190, height / 2, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.pig")));
-		buttonList.add(combatAttackSheepButton 		= new GuiButton(3, width / 2 - 190, height / 2 + 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.sheep")));
-		buttonList.add(combatAttackCowsButton 		= new GuiButton(4, width / 2 - 190, height / 2 + 40, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.cow")));
-		buttonList.add(combatAttackChickensButton 	= new GuiButton(5, width / 2 - 190, height / 2 + 60, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.chicken")));
-		buttonList.add(combatAttackSpidersButton 	= new GuiButton(6, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.spider")));
-		buttonList.add(combatAttackZombiesButton 	= new GuiButton(7, width / 2 - 60, height / 2, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.zombie")));
-		buttonList.add(combatAttackSkeletonsButton 	= new GuiButton(8, width / 2 - 60, height / 2 + 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.skeleton")));
-		buttonList.add(combatAttackCreepersButton 	= new GuiButton(9, width / 2 - 60, height / 2 + 40, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.creeper")));
-		buttonList.add(combatAttackEndermenButton 	= new GuiButton(10, width / 2 - 60, height / 2 + 60, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.enderman")));
-		buttonList.add(combatAttackUnknownButton 	= new GuiButton(11, width / 2 + 80, height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.unknown")));
-
+		buttonList.add(combatMethodButton 			= new GuiButton(1,  width / 2 - 190, height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.method")));
+		buttonList.add(combatAttackPigsButton		= new GuiButton(2,  width / 2 - 190, height / 2 + 0,  120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.pig")));
+		buttonList.add(combatAttackSheepButton 		= new GuiButton(3,  width / 2 - 190, height / 2 + 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.sheep")));
+		buttonList.add(combatAttackCowsButton 		= new GuiButton(4,  width / 2 - 190, height / 2 + 40, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.cow")));
+		buttonList.add(combatAttackChickensButton 	= new GuiButton(5,  width / 2 - 190, height / 2 + 60, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.chicken")));
+		buttonList.add(combatAttackSpidersButton 	= new GuiButton(6,  width / 2 - 60,  height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.spider")));
+		buttonList.add(combatAttackZombiesButton 	= new GuiButton(7,  width / 2 - 60,  height / 2 + 0,  120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.zombie")));
+		buttonList.add(combatAttackSkeletonsButton 	= new GuiButton(8,  width / 2 - 60,  height / 2 + 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.skeleton")));
+		buttonList.add(combatAttackCreepersButton 	= new GuiButton(9,  width / 2 - 60,  height / 2 + 40, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.creeper")));
+		buttonList.add(combatAttackEndermenButton 	= new GuiButton(10, width / 2 - 60,  height / 2 + 60, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.enderman")));
+		buttonList.add(combatAttackUnknownButton 	= new GuiButton(11, width / 2 + 80,  height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.unknown")));
+		buttonList.add(combatSentryButton 			= new GuiButton(12, width / 2 + 80,  height / 2 + 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.sentry")));
+		buttonList.add(combatSentryRadiusButton 	= new GuiButton(13, width / 2 + 80,  height / 2 + 40, 120, 20, LanguageHelper.getString("gui.button.chore.combat.sentry.radius")));
+		buttonList.add(combatSentrySetPositionButton = new GuiButton(14, width / 2 + 80, height / 2 + 60, 120, 20, LanguageHelper.getString("gui.button.chore.combat.sentry.position.set")));
+		
 		if (entityVillager.combatChore.useMelee && entityVillager.combatChore.useRange)
 		{
 			combatMethodButton.displayString = combatMethodButton.displayString + LanguageHelper.getString("gui.button.chore.combat.method.both");
@@ -751,7 +761,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		combatAttackCreepersButton.displayString  += (entityVillager.combatChore.attackCreepers)  ? LanguageHelper.getString("gui.button.yes") : LanguageHelper.getString("gui.button.no");
 		combatAttackEndermenButton.displayString  += (entityVillager.combatChore.attackEndermen)  ? LanguageHelper.getString("gui.button.yes") : LanguageHelper.getString("gui.button.no");
 		combatAttackUnknownButton.displayString   += (entityVillager.combatChore.attackUnknown)   ? LanguageHelper.getString("gui.button.yes") : LanguageHelper.getString("gui.button.no");
-
+		combatSentryButton.displayString 		  += (entityVillager.combatChore.sentryMode)	   ? LanguageHelper.getString("gui.button.yes") : LanguageHelper.getString("gui.button.no");
+		combatSentryRadiusButton.displayString    += entityVillager.combatChore.sentryRadius;
+		
 		combatMethodButton.enabled = false;
 		combatAttackPigsButton.enabled = false;
 		combatAttackSheepButton.enabled = false;
@@ -763,7 +775,10 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		combatAttackCreepersButton.enabled = false;
 		combatAttackEndermenButton.enabled = false;
 		combatAttackUnknownButton.enabled = false;
-
+		combatSentryButton.enabled = false;
+		combatSentryRadiusButton.enabled = false;
+		combatSentrySetPositionButton.enabled = false;
+		
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = false;
@@ -1786,6 +1801,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	}
 
 	/**
+	 * /**
 	 * Handles an action performed in the combat GUI.
 	 * 
 	 * @param 	button	The button that was pressed.
@@ -1797,7 +1813,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			drawGuardSpecialGui();
 			return;
 		}
-	
+
 		else if (button == combatMethodButton)
 		{
 			if (entityVillager.combatChore.useMelee && entityVillager.combatChore.useRange)
@@ -1805,76 +1821,101 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				entityVillager.combatChore.useMelee = false;
 				entityVillager.combatChore.useRange = false;
 			}
-	
+
 			else if (entityVillager.combatChore.useMelee)
 			{
 				entityVillager.combatChore.useMelee = false;
 				entityVillager.combatChore.useRange = true;
 			}
-	
+
 			else if (entityVillager.combatChore.useRange)
 			{
 				entityVillager.combatChore.useMelee = true;
 				entityVillager.combatChore.useRange = true;
 			}
-	
+
 			else
 			{
 				entityVillager.combatChore.useMelee = true;
 				entityVillager.combatChore.useRange = false;
 			}
 		}
-	
+
 		else if (button == combatAttackPigsButton)
 		{
 			entityVillager.combatChore.attackPigs = !entityVillager.combatChore.attackPigs;
 		}
-	
+
 		else if (button == combatAttackSheepButton)
 		{
 			entityVillager.combatChore.attackSheep = !entityVillager.combatChore.attackSheep;
 		}
-	
+
 		else if (button == combatAttackCowsButton)
 		{
 			entityVillager.combatChore.attackCows = !entityVillager.combatChore.attackCows;
 		}
-	
+
 		else if (button == combatAttackChickensButton)
 		{
 			entityVillager.combatChore.attackChickens = !entityVillager.combatChore.attackChickens;
 		}
-	
+
 		else if (button == combatAttackSpidersButton)
 		{
 			entityVillager.combatChore.attackSpiders = !entityVillager.combatChore.attackSpiders;
 		}
-	
+
 		else if (button == combatAttackZombiesButton)
 		{
 			entityVillager.combatChore.attackZombies = !entityVillager.combatChore.attackZombies;
 		}
-	
+
 		else if (button == combatAttackSkeletonsButton)
 		{
 			entityVillager.combatChore.attackSkeletons = !entityVillager.combatChore.attackSkeletons;
 		}
-	
+
 		else if (button == combatAttackCreepersButton)
 		{
 			entityVillager.combatChore.attackCreepers = !entityVillager.combatChore.attackCreepers;
 		}
-	
+
 		else if (button == combatAttackEndermenButton)
 		{
 			entityVillager.combatChore.attackEndermen = !entityVillager.combatChore.attackEndermen;
 		}
-	
+
 		else if (button == combatAttackUnknownButton)
 		{
 			entityVillager.combatChore.attackUnknown = !entityVillager.combatChore.attackUnknown;
 		}
-	
+
+		else if (button == combatSentryButton)
+		{
+			entityVillager.combatChore.sentryMode = !entityVillager.combatChore.sentryMode;
+		}
+		
+		else if (button == combatSentryRadiusButton)
+		{
+			if (entityVillager.combatChore.sentryRadius != 30)
+			{
+				entityVillager.combatChore.sentryRadius += 5;
+			}
+			
+			else
+			{
+				entityVillager.combatChore.sentryRadius = 5;
+			}
+		}
+		
+		else if (button == combatSentrySetPositionButton)
+		{
+			entityVillager.combatChore.sentryPosX = entityVillager.posX;
+			entityVillager.combatChore.sentryPosY = entityVillager.posY;
+			entityVillager.combatChore.sentryPosZ = entityVillager.posZ;
+		}
+		
 		PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.combatChore));
 		drawCombatGui();
 	}

@@ -13,8 +13,11 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.List;
 
+import cpw.mods.fml.common.network.PacketDispatcher;
+
 import mca.core.MCA;
 import mca.core.util.LogicHelper;
+import mca.core.util.PacketHelper;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import net.minecraft.entity.Entity;
@@ -77,9 +80,24 @@ public class ChoreCombat extends AbstractChore
 
 	/** Should unknown mobs be attacked? */
 	public boolean attackUnknown = false;
-	
+
+	/**Is the entity in sentry mode? */
+	public boolean sentryMode = false;
+
+	/**How far the entity will go from the sentry area. */
+	public int sentryRadius = 5;
+
 	/**Used to manage the time between each ranged shot.*/
 	public int rangedAttackTime = 0;
+
+	/**The X position the entity will be a sentry at. */
+	public double sentryPosX = 0;
+
+	/**The Y position the entity will be a sentry at. */
+	public double sentryPosY = 0;
+
+	/**The Z position the entity will be a sentry at. */
+	public double sentryPosZ = 0;
 
 	/**Has the creeper "woosh" sound been played?*/
 	private transient boolean playedSound = false;
@@ -104,6 +122,60 @@ public class ChoreCombat extends AbstractChore
 	public void runChoreAI() 
 	{
 		//Run the appropriate AI depending on the combat chore settings.
+		if (sentryMode)
+		{
+			if (owner.isFollowing)
+			{
+				owner.isFollowing = false;
+				owner.target = null;
+			}
+
+			//Check if they need to move back to their sentry position.
+			if (owner.target == null || owner.target.isDead)
+			{
+				if (owner.getNavigator().noPath())
+				{
+					if (!owner.worldObj.isRemote)
+					{
+						if (Math.abs(sentryPosX - owner.posX) < 1.0D && Math.abs(sentryPosY - owner.posY) < 1.0D && Math.abs(sentryPosZ) - owner.posZ < 1.0D)
+						{
+							if (!owner.isStaying)
+							{
+								MCA.instance.log("Stay");
+								PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(owner.entityId, "isStaying", true));
+								owner.isStaying = true;
+							}
+						}
+
+						else
+						{
+							if (owner.isStaying)
+							{
+								MCA.instance.log("Un-stay for path to sentry position");
+								PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(owner.entityId, "isStaying", false));
+								owner.isStaying = false;
+							}
+
+							owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(sentryPosX, sentryPosY, sentryPosZ), 0.6F);
+						}
+					}
+				}
+			}
+
+			else if (owner.target != null)
+			{
+				if (!owner.worldObj.isRemote)
+				{
+					if (owner.isStaying)
+					{
+						MCA.instance.log("Un-stay for target.");
+						owner.isStaying = false;
+						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(owner.entityId, "isStaying", false));
+					}
+				}
+			}
+		}
+
 		if (useMelee && !useRange)
 		{
 			runMeleeAI();
@@ -464,7 +536,17 @@ public class ChoreCombat extends AbstractChore
 	private EntityLivingBase findTarget()
 	{
 		EntityLivingBase closestEntity = null;
-		List<Entity> entitiesAroundMe = owner.worldObj.getEntitiesWithinAABBExcludingEntity(owner, AxisAlignedBB.getBoundingBox(owner.posX - 15, owner.posY - 3, owner.posZ - 15, owner.posX + 15, owner.posY + 3, owner.posZ + 15));
+		List<Entity> entitiesAroundMe = null;
+
+		if (sentryMode)
+		{
+			entitiesAroundMe = owner.worldObj.getEntitiesWithinAABBExcludingEntity(owner, AxisAlignedBB.getBoundingBox(owner.posX - sentryRadius, owner.posY - 3, owner.posZ - sentryRadius, owner.posX + sentryRadius, owner.posY + 3, owner.posZ + sentryRadius));
+		}
+
+		else
+		{
+			entitiesAroundMe = owner.worldObj.getEntitiesWithinAABBExcludingEntity(owner, AxisAlignedBB.getBoundingBox(owner.posX - 15, owner.posY - 3, owner.posZ - 15, owner.posX + 15, owner.posY + 3, owner.posZ + 15));
+		}
 
 		//Find the closest entity.
 		for (Entity entity : entitiesAroundMe)
@@ -486,7 +568,7 @@ public class ChoreCombat extends AbstractChore
 					{
 						closestEntity = (EntityLivingBase)entity;
 					}
-					
+
 					else if (entity instanceof EntityMob && attackUnknown)
 					{
 						closestEntity = (EntityLivingBase)entity;
@@ -511,7 +593,7 @@ public class ChoreCombat extends AbstractChore
 							closestEntity = (EntityLivingBase)entity;
 						}
 					}
-					
+
 					else if (entity instanceof EntityMob && attackUnknown)
 					{
 						closestEntity = (EntityLivingBase)entity;
