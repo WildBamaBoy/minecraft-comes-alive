@@ -34,6 +34,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
+import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
@@ -238,5 +239,16 @@ public class EventHooks
 		{
 			manager.saveWorldProperties();
 		}
+	}
+	
+	/**
+	 * Fired when the player dies.
+	 * 
+	 * @param 	event	An instance of the PlayerDrops event.
+	 */
+	@ForgeSubscribe
+	public void playerDropsEventHandler(PlayerDropsEvent event)
+	{
+		MCA.instance.deadPlayerInventories.put(event.entityPlayer.username, event.entityPlayer.inventory);
 	}
 }

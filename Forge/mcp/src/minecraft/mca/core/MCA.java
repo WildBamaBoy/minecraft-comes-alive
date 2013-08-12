@@ -80,6 +80,7 @@ import net.minecraft.block.Block;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -235,6 +236,9 @@ public class MCA
 	/**Map of all current players and their world properties manager. Server side only.**/
 	public Map<String, WorldPropertiesManager> playerWorldManagerMap = new HashMap<String, WorldPropertiesManager>();
 
+	/**Map of the inventory of a player saved just before they died. */
+	public Map<String, InventoryPlayer> deadPlayerInventories = new HashMap<String, InventoryPlayer>();
+	
 	/** List of the male names loaded from MaleNames.txt.*/
 	public static List<String> maleNames = new ArrayList<String>();
 
