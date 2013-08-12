@@ -729,7 +729,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			{
 				entityChild.say(LanguageHelper.getString("heir.good.founditems"));
 
-				//TODO: Give player their items back.
+				PacketDispatcher.sendPacketToServer(PacketHelper.createReturnInventoryPacket(entityChild));
 
 				entityChild.hasReturnedInventory = true;
 				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "hasReturnedInventory", true));
