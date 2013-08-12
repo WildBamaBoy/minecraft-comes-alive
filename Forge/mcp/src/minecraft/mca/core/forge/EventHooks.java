@@ -30,6 +30,7 @@ import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -249,6 +250,6 @@ public class EventHooks
 	@ForgeSubscribe
 	public void playerDropsEventHandler(PlayerDropsEvent event)
 	{
-		MCA.instance.deadPlayerInventories.put(event.entityPlayer.username, event.entityPlayer.inventory);
+		MCA.instance.deadPlayerInventories.put(event.entityPlayer.username, event.drops);
 	}
 }
