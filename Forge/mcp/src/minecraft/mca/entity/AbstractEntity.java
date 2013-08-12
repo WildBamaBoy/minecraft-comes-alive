@@ -635,10 +635,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			EntityPlayerChild playerChild = (EntityPlayerChild)this;
 			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(playerChild.ownerPlayerName);
 
-			if (manager.worldProperties.heirId == this.mcaID)
+			if (manager != null)
 			{
-				manager.worldProperties.heirId = -1;
-				manager.saveWorldProperties();
+				if (manager.worldProperties.heirId == this.mcaID)
+				{
+					manager.worldProperties.heirId = -1;
+					manager.saveWorldProperties();
+				}
 			}
 		}
 
