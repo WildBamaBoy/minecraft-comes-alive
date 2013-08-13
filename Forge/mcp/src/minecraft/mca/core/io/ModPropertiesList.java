@@ -48,9 +48,6 @@ public class ModPropertiesList implements Serializable
 	
 	/** The item ID of the whistle.*/
 	public int itemID_Whistle = 729;
-	
-	/** The item ID of the fertility potion.*/
-	public int itemID_FertilityPotion = 731;
 
 	/** The item ID of the villager editor.*/
 	public int itemID_VillagerEditor = 732;

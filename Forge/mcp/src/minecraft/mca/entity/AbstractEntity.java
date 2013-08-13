@@ -122,7 +122,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public boolean shouldOpenInventory = false;
 	public boolean shouldSkipAreaModify = false;
 	public boolean isProcreatingWithPlayer = false;
-	public boolean hasBeenGivenFertilityPotion = false;
 	public boolean shouldActAsHeir = false;
 	public boolean isGoodHeir = true;
 	public boolean hasReturnedInventory = false;

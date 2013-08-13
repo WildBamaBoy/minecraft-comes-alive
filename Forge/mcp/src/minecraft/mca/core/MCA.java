@@ -65,7 +65,6 @@ import mca.item.ItemCrown;
 import mca.item.ItemEggFemale;
 import mca.item.ItemEggMale;
 import mca.item.ItemEngagementRing;
-import mca.item.ItemFertilityPotion;
 import mca.item.ItemHeirCrown;
 import mca.item.ItemKingsBoots;
 import mca.item.ItemKingsCoat;
@@ -142,7 +141,6 @@ public class MCA
 	public Item itemEggMale;
 	public Item itemEggFemale;
 	public Item itemWhistle;
-	public Item itemFertilityPotion;
 	public Item itemVillagerEditor;
 	public Item itemLostRelativeDocument;
 	public Item itemCrown;
@@ -181,11 +179,7 @@ public class MCA
 	public Achievement achievementMakePeasant;
 	public Achievement achievementPeasantArmy;
 	public Achievement achievementNameHeir;
-	public Achievement achievementKillHeir;
 	public Achievement achievementMonarchSecret;
-	public Achievement achievementAdoptOrphan;
-	public Achievement achievementMakeFertilityPotion;
-	public Achievement achievementUseFertilityPotion;
 	public AchievementPage achievementPageMCA;
 
 	//Gui IDs
@@ -754,7 +748,6 @@ public class MCA
 		itemEggMale		    = new ItemEggMale(modPropertiesManager.modProperties.itemID_EggMale).setUnlocalizedName("MCAEggMale");
 		itemEggFemale       = new ItemEggFemale(modPropertiesManager.modProperties.itemID_EggFemale).setUnlocalizedName("MCAEggFemale");
 		itemWhistle		    = new ItemWhistle(modPropertiesManager.modProperties.itemID_Whistle).setUnlocalizedName("Whistle");
-		itemFertilityPotion = new ItemFertilityPotion(modPropertiesManager.modProperties.itemID_FertilityPotion).setUnlocalizedName("FertilityPotion");
 		itemVillagerEditor  = new ItemVillagerEditor(modPropertiesManager.modProperties.itemID_VillagerEditor).setUnlocalizedName("VillagerEditor");
 		itemLostRelativeDocument = new ItemLostRelativeDocument(modPropertiesManager.modProperties.itemID_LostRelativeDocument).setUnlocalizedName("LostRelativeDocument");
 		itemCrown			= new ItemCrown(modPropertiesManager.modProperties.itemID_Crown).setUnlocalizedName("Crown");
@@ -784,7 +777,6 @@ public class MCA
 		itemEggMale = itemEggMale.setCreativeTab(tabMCA);
 		itemEggFemale = itemEggFemale.setCreativeTab(tabMCA);
 		itemWhistle = itemWhistle.setCreativeTab(tabMCA);
-		itemFertilityPotion = itemFertilityPotion.setCreativeTab(tabMCA);
 		itemVillagerEditor = itemVillagerEditor.setCreativeTab(tabMCA);
 		itemLostRelativeDocument = itemLostRelativeDocument.setCreativeTab(tabMCA);
 		itemCrown = itemCrown.setCreativeTab(tabMCA);
@@ -893,12 +885,8 @@ public class MCA
 		achievementKnightArmy = new Achievement(1560, "MCA_KnightArmy", 6, 8, Item.swordDiamond, achievementMakeKnight).setSpecial().registerAchievement();
 		achievementMakePeasant = new Achievement(1561, "MCA_MakePeasant", 8, 10, Item.hoeIron, achievementCraftCrown).registerAchievement();
 		achievementPeasantArmy = new Achievement(1562, "MCA_PeasantArmy", 8, 8, Item.hoeDiamond, achievementMakePeasant).setSpecial().registerAchievement();
-		//		achievementNameHeir = new Achievement(1563, "MCA_NameHeir", 10, 10, itemHeirCrown, achievementCraftCrown).registerAchievement();
-		//		achievementKillHeir = new Achievement(1564, "MCA_KillHeir", 10, 8, Item.axeDiamond, achievementNameHeir).setSpecial().registerAchievement();
-		achievementMonarchSecret = new Achievement(1565, "MCA_MonarchSecret", 7, 5, Item.writableBook, achievementCraftCrown).setSpecial().registerAchievement();
-		//		achievementAdoptOrphan = new Achievement(1566, "MCA_AdoptOrphan", 7, 2, Item.goldNugget, null).registerAchievement();
-		//		achievementMakeFertilityPotion = new Achievement(1567, "MCA_MakeFertilityPotion", 7, 0, Item.potion, null).registerAchievement();
-		//		achievementUseFertilityPotion = new Achievement(1568, "MCA_UseFertilityPotion", 7, -2, itemFertilityPotion, achievementMakeFertilityPotion).setSpecial().registerAchievement();
+		achievementNameHeir = new Achievement(1563, "MCA_NameHeir", 10, 10, itemHeirCrown, achievementCraftCrown).registerAchievement();
+		achievementMonarchSecret = new Achievement(1564, "MCA_MonarchSecret", 7, 5, Item.writableBook, achievementCraftCrown).setSpecial().registerAchievement();
 
 		//Register achievement page.
 		achievementPageMCA = new AchievementPage("Minecraft Comes Alive", 
@@ -929,12 +917,8 @@ public class MCA
 				achievementKnightArmy,
 				achievementMakePeasant,
 				achievementPeasantArmy,
-				//				achievementNameHeir,
-				//				achievementKillHeir,
+				achievementNameHeir,
 				achievementMonarchSecret);
-		//				achievementAdoptOrphan,
-		//				achievementMakeFertilityPotion,
-		//				achievementUseFertilityPotion);
 		AchievementPage.registerAchievementPage(achievementPageMCA);
 
 		LanguageHelper.loadLanguage();

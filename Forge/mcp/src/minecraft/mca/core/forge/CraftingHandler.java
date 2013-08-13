@@ -15,7 +15,6 @@ import mca.core.util.LanguageHelper;
 import mca.core.util.PacketHelper;
 import mca.item.ItemBaby;
 import mca.item.ItemCrown;
-import mca.item.ItemFertilityPotion;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -47,11 +46,6 @@ public class CraftingHandler implements ICraftingHandler
 					player.addChatMessage(LanguageHelper.getString("notify.monarch.began"));
 				}
 			}
-		}
-		
-		else if (itemStack.getItem() instanceof ItemFertilityPotion)
-		{
-			player.triggerAchievement(MCA.instance.achievementMakeFertilityPotion);
 		}
 	}
 
