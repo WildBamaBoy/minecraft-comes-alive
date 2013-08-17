@@ -93,6 +93,13 @@ public class ChoreFarming extends AbstractChore
 	/**The type of seeds that should be planted. 0 = Wheat, 1 = Melon, 2 = Pumpkin, 3 = Carrot, 4 = Potato*/
 	public int seedType = 0;
 
+	public boolean hasAssignedPathToHarvestableBlock = false;
+	public int harvestTicks = 0;
+	public int harvestDelay = 0;
+	public int harvestableBlockX = 0;
+	public int harvestableBlockY = 0;
+	public int harvestableBlockZ = 0;
+	
 	/**
 	 * Constructor
 	 * 
@@ -581,5 +588,105 @@ public class ChoreFarming extends AbstractChore
 //		{
 //			owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(farmableLandX, farmableLandY, farmableLandZ), 0.6F);
 //		}
+	}
+	
+	private void runMaintainLogic()
+	{
+		if (!hasAssignedPathToHarvestableBlock)
+		{
+			for (Coordinates coords : LogicHelper.getNearbyBlocksBottomTop(owner, 0, 5))
+			{
+				int blockID = owner.worldObj.getBlockId((int)coords.x, (int)coords.y, (int)coords.z);
+				
+				if (blockID == Block.crops.blockID || blockID == Block.potato.blockID || blockID == Block.carrot.blockID || blockID == Block.pumpkin.blockID || blockID == Block.melon.blockID)
+				{
+					harvestableBlockX = (int)coords.x;
+					harvestableBlockY = (int)coords.y;
+					harvestableBlockZ = (int)coords.z;
+					hasAssignedPathToHarvestableBlock = true;
+					
+					if (blockID == Block.pumpkin.blockID || blockID == Block.melon.blockID)
+					{
+						//1.5 second delay
+						harvestDelay = 35;
+					}
+					
+					owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(harvestableBlockX, harvestableBlockY, harvestableBlockZ), 0.6F);
+					break;
+				}
+			}
+		}
+		
+		else
+		{
+			if (LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, harvestableBlockX, harvestableBlockY, harvestableBlockZ) <= 1.0D)
+			{
+				if (harvestTicks >= harvestDelay)
+				{
+					harvestTicks = 0;
+					hasAssignedPathToHarvestableBlock = false;
+					
+					if (!owner.worldObj.isRemote)
+					{
+						int cropID = 0;
+						int cropsToAdd = 0;
+						int seedsToAdd = 0;
+						
+						int blockID = owner.worldObj.getBlockId(harvestableBlockX, harvestableBlockY, harvestableBlockY);
+						
+						switch (blockID)
+						{
+							//Must be constants.
+							case 59: 	cropID = Item.wheat.itemID;
+										cropsToAdd = 1;
+										seedsToAdd = MCA.instance.rand.nextInt(4);
+										break;
+														
+							case 86:	cropID = blockID;
+										cropsToAdd = 1;
+										break;
+														
+							case 142:	cropID = Item.potato.itemID;
+										cropsToAdd = MCA.instance.rand.nextInt(5) + 1;
+										break;
+														
+							case 141:	cropID = Item.carrot.itemID;
+										cropsToAdd = MCA.instance.rand.nextInt(5) + 1;
+										break;
+														
+							case 103:	cropID = Item.melon.itemID;
+										cropsToAdd = MCA.instance.rand.nextInt(5) + 3;
+										break;
+						}
+						
+						if (seedsToAdd != 0)
+						{
+							owner.inventory.addItemStackToInventory(new ItemStack(Item.seeds.itemID, seedsToAdd, 0));
+						}
+						
+						if (cropsToAdd != 0)
+						{
+							owner.inventory.addItemStackToInventory(new ItemStack(cropId, cropsToAdd, 0));
+						}
+						
+						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createInventoryPacket(owner.entityId, owner.inventory));
+					}
+				}
+				
+				else
+				{
+					harvestTicks++;
+					owner.swingItem();
+				}
+			}
+			
+			else
+			{
+				if (owner.getNavigator().noPath())
+				{
+					owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(harvestableBlockX, harvestableBlockY, harvestableBlockZ), 0.6F);
+				}
+			}
+		}
 	}
 }
