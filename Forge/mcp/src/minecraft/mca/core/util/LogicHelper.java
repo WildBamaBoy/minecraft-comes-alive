@@ -416,6 +416,79 @@ public final class LogicHelper
 		return coordinatesList;
 	}
 
+	public static List<Coordinates> getNearbyHarvestableCrops(Entity entity, int startCoordinatesX, int startCoordinatesY, int startCoordinatesZ, int radius)
+	{
+		int x = (int)entity.posX;
+		int y = (int)entity.posY;
+		int z = (int)entity.posZ;
+
+		int xMov = 0 - radius;
+		int yMov = -3;
+		int zMov = 0 - radius;
+
+		List<Coordinates> coordinatesList = new ArrayList<Coordinates>();
+
+		while (true)
+		{
+			int currentBlockID = entity.worldObj.getBlockId(x + xMov, y + yMov, z + zMov);
+
+			if (currentBlockID == Block.melon.blockID || currentBlockID == Block.potato.blockID || currentBlockID == Block.carrot.blockID || currentBlockID == Block.pumpkin.blockID || currentBlockID == Block.crops.blockID || currentBlockID == Block.reed.blockID)
+			{
+				if (currentBlockID == Block.crops.blockID || currentBlockID == Block.carrot.blockID || currentBlockID == Block.potato.blockID)
+				{
+					int currentBlockMeta = entity.worldObj.getBlockMetadata(x + xMov, y + yMov, z + zMov);
+
+					if (currentBlockMeta == 7)
+					{
+						coordinatesList.add(new Coordinates(x + xMov, y + yMov, z + zMov));
+					}
+				}
+
+				else
+				{
+					if (currentBlockID == Block.reed.blockID)
+					{
+						//Check for reeds above the base reed.
+						if (entity.worldObj.getBlockId(x + xMov, y + yMov + 1, z + zMov) == Block.reed.blockID)
+						{
+							coordinatesList.add(new Coordinates(x + xMov, y + yMov + 1, z + zMov));
+						}
+					}
+					
+					else
+					{
+						coordinatesList.add(new Coordinates(x + xMov, y + yMov, z + zMov));
+					}
+				}
+			}
+
+
+			if (zMov == radius && xMov == radius && yMov == 3)
+			{
+				break;
+			}
+
+			if (zMov == radius && xMov == radius)
+			{
+				yMov++;
+				xMov = 0 - radius;
+				zMov = 0 - radius;
+				continue;
+			}
+
+			if (xMov == radius)
+			{
+				zMov++;
+				xMov = 0 - radius;
+				continue;
+			}
+
+			xMov++;
+		}
+
+		return coordinatesList;
+	}
+
 	/**
 	 * Uses 3D distance formula to determine the distance between two 3d coordinates.
 	 * 
@@ -636,8 +709,8 @@ public final class LogicHelper
 					entityType.cast(entityNearMe);
 					validEntities.add(entityNearMe);
 				}
-				
-				
+
+
 				catch (ClassCastException e)
 				{
 					continue;
