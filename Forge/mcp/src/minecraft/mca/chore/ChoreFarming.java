@@ -632,6 +632,7 @@ public class ChoreFarming extends AbstractChore
 						int cropsToAdd = 0;
 						int seedsToAdd = 0;
 						
+						owner.worldObj.setBlock(harvestableBlockX, harvestableBlockY, harvestableBlockZ, 0);
 						int blockID = owner.worldObj.getBlockId(harvestableBlockX, harvestableBlockY, harvestableBlockY);
 						
 						switch (blockID)
