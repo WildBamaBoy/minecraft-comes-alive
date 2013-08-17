@@ -70,9 +70,10 @@ public class GuiInteractionPlayerChild extends AbstractGui
 	private GuiButton exitButton;
 
 	//Farming buttons
-	private GuiButton farmAreaTypeButton;
-	private GuiButton farmAreaButton;
-	private GuiButton farmSeedTypeButton;
+	private GuiButton farmMethodButton;
+	private GuiButton farmSizeButton;
+	private GuiButton farmPlantButton;
+	private GuiButton farmRadiusButton;
 
 	//Woodcutting buttons
 	private GuiButton woodTreeTypeButton;
@@ -98,7 +99,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 	private GuiButton combatSentryButton;
 	private GuiButton combatSentryRadiusButton;
 	private GuiButton combatSentrySetPositionButton;
-	
+
 	//Hunting buttons
 	private GuiButton huntModeButton;
 
@@ -110,11 +111,14 @@ public class GuiInteractionPlayerChild extends AbstractGui
 	private boolean inMiningGui = false;
 	private boolean inHuntingGui = false;
 
-	/** The area that should be farmed. 0 = X-Y area*/
-	private int farmAreaType = 0;
+	/** The method that should be used when farming. 0 = Create farm. 1 = maintain farm.*/
+	private int farmMethod = 0;
 
 	/** The type of seeds that should be planted. 0 = Wheat, 1 = Melon, 2 = Pumpkin, 3 = Carrot, 4 = Potato*/
-	private int farmSeedType = 0;
+	private int farmPlantType = 0;
+
+	/** The radius of the total area to farm when maintaining a farm. */
+	private int farmRadius = 5;
 
 	/** The type of tree that should be cut. 0 = Oak, 1 = Spruce, 2 = Birch, 3 = Jungle*/
 	private int treeType = 0;
@@ -245,9 +249,18 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			backButton.enabled = true;
 			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.options"), width / 2, 80, 0xffffff);
 
-			farmAreaTypeButton.enabled = true;
-			farmAreaButton.enabled = true;
-			farmSeedTypeButton.enabled = true;
+			farmMethodButton.enabled = true;
+
+			if (farmMethod == 0)
+			{
+				farmSizeButton.enabled = true;
+				farmPlantButton.enabled = true;
+			}
+
+			else if (farmMethod == 1)
+			{
+				farmRadiusButton.enabled = true;
+			}
 		}
 
 		else if (inFishingGui == true)
@@ -454,55 +467,55 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		inFarmingGui = true;
 
 		buttonList.add(choreStartButton   = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
-		buttonList.add(farmAreaTypeButton = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, LanguageHelper.getString("gui.button.chore.farming.areatype")));
-		buttonList.add(farmAreaButton     = new GuiButton(3, width / 2 - 70, height / 2 - 10, 135, 20, LanguageHelper.getString("gui.button.chore.farming.area") + areaX + "x" + areaY));
-		buttonList.add(farmSeedTypeButton = new GuiButton(4, width / 2 - 70, height / 2 + 10, 135, 20, LanguageHelper.getString("gui.button.chore.farming.seedtype"))); 
+		buttonList.add(farmMethodButton = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, LanguageHelper.getString("gui.button.chore.farming.method")));
 
-		if (farmAreaType == 0)
+		if (farmMethod == 0)
 		{
-			farmAreaTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.areatype.xy");
+			farmMethodButton.displayString += LanguageHelper.getString("gui.button.chore.farming.method.create");
+			buttonList.add(farmSizeButton   = new GuiButton(3, width / 2 - 70, height / 2 - 10, 135, 20, LanguageHelper.getString("gui.button.chore.farming.farmsize") + areaX + "x" + areaY));
+			buttonList.add(farmPlantButton = new GuiButton(4, width / 2 - 70, height / 2 + 10, 135, 20, LanguageHelper.getString("gui.button.chore.farming.plant")));
+
+			farmSizeButton.enabled = false;
+			farmPlantButton.enabled = false;
 		}
 
-		else if (farmAreaType == 1)
+		else if (farmMethod == 1)
 		{
-			farmAreaTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.areatype.selection");
-			farmAreaButton.enabled = false;
+			farmMethodButton.displayString += LanguageHelper.getString("gui.button.chore.farming.method.maintain");
+			buttonList.add(farmRadiusButton = new GuiButton(5, width / 2 - 70, height / 2 - 10, 135, 20, LanguageHelper.getString("gui.button.chore.farming.radius")));
+
+			farmRadiusButton.displayString += farmRadius;
+			farmRadiusButton.enabled = false;
 		}
 
-		else if (farmAreaType == 2)
+		if (farmPlantType == 0)
 		{
-			farmAreaTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.areatype.plowedland");
-			farmAreaButton.enabled = false;
+			farmPlantButton.displayString += LanguageHelper.getString("gui.button.chore.farming.plant.wheat");
 		}
 
-		if (farmSeedType == 0)
+		else if (farmPlantType == 1)
 		{
-			farmSeedTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.seedtype.wheat");
+			farmPlantButton.displayString += LanguageHelper.getString("gui.button.chore.farming.plant.melon");
 		}
 
-		else if (farmSeedType == 1)
+		else if (farmPlantType == 2)
 		{
-			farmSeedTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.seedtype.melon");
+			farmPlantButton.displayString += LanguageHelper.getString("gui.button.chore.farming.plant.pumpkin");
 		}
 
-		else if (farmSeedType == 2)
+		else if (farmPlantType == 3)
 		{
-			farmSeedTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.seedtype.pumpkin");
+			farmPlantButton.displayString += LanguageHelper.getString("gui.button.chore.farming.plant.carrot");
 		}
 
-		else if (farmSeedType == 3)
+		else if (farmPlantType == 4)
 		{
-			farmSeedTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.seedtype.carrot");
+			farmPlantButton.displayString += LanguageHelper.getString("gui.button.chore.farming.plant.potato");
 		}
 
-		else if (farmSeedType == 4)
-		{
-			farmSeedTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.seedtype.potato");
-		}
-
-		farmAreaTypeButton.enabled = false;
-		farmAreaButton.enabled = false;
-		farmSeedTypeButton.enabled = false;
+		farmMethodButton.enabled = false;
+		farmSizeButton.enabled = false;
+		farmPlantButton.enabled = false;
 
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
@@ -547,7 +560,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		buttonList.add(combatSentryButton 			= new GuiButton(12, width / 2 + 80,  height / 2 + 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.sentry")));
 		buttonList.add(combatSentryRadiusButton 	= new GuiButton(13, width / 2 + 80,  height / 2 + 40, 120, 20, LanguageHelper.getString("gui.button.chore.combat.sentry.radius")));
 		buttonList.add(combatSentrySetPositionButton = new GuiButton(14, width / 2 + 80, height / 2 + 60, 120, 20, LanguageHelper.getString("gui.button.chore.combat.sentry.position.set")));
-		
+
 		if (entityChild.combatChore.useMelee && entityChild.combatChore.useRange)
 		{
 			combatMethodButton.displayString = combatMethodButton.displayString + LanguageHelper.getString("gui.button.chore.combat.method.both");
@@ -580,7 +593,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		combatAttackUnknownButton.displayString   += (entityChild.combatChore.attackUnknown)   ? LanguageHelper.getString("gui.button.yes") : LanguageHelper.getString("gui.button.no");
 		combatSentryButton.displayString 		  += (entityChild.combatChore.sentryMode)	   ? LanguageHelper.getString("gui.button.yes") : LanguageHelper.getString("gui.button.no");
 		combatSentryRadiusButton.displayString    += entityChild.combatChore.sentryRadius;
-		
+
 		combatMethodButton.enabled = false;
 		combatAttackPigsButton.enabled = false;
 		combatAttackSheepButton.enabled = false;
@@ -595,7 +608,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		combatSentryButton.enabled = false;
 		combatSentryRadiusButton.enabled = false;
 		combatSentrySetPositionButton.enabled = false;
-		
+
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = false;
@@ -1011,37 +1024,37 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			drawChoreSelectGui();
 		}
 
-		//		else if (button == farmAreaTypeButton)
-		//		{
-		//			if (farmAreaType == 2)
-		//			{
-		//				farmAreaType = 0;
-		//			}
-		//
-		//			else
-		//			{
-		//				farmAreaType++;
-		//			}
-		//
-		//			drawFarmingGui();
-		//		}
-
-		else if (button == farmSeedTypeButton)
+		else if (button == farmMethodButton)
 		{
-			if (farmSeedType == 4)
+			if (farmMethod == 1)
 			{
-				farmSeedType = 0;
+				farmMethod = 0;
 			}
 
 			else
 			{
-				farmSeedType++;
+				farmMethod++;
 			}
 
 			drawFarmingGui();
 		}
 
-		else if (button == farmAreaButton)
+		else if (button == farmPlantButton)
+		{
+			if (farmPlantType == 4)
+			{
+				farmPlantType = 0;
+			}
+
+			else
+			{
+				farmPlantType++;
+			}
+
+			drawFarmingGui();
+		}
+
+		else if (button == farmSizeButton)
 		{
 			if (areaX >= 20)
 			{
@@ -1058,16 +1071,31 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			drawFarmingGui();
 		}
 
-		else if (button == choreStartButton)
+		else if (button == farmRadiusButton)
 		{
-			if (farmAreaType == 0)
+			if (farmRadius >= 30)
 			{
-				entityChild.farmingChore = new ChoreFarming(entityChild, farmAreaType, farmSeedType, entityChild.posX, entityChild.posY, entityChild.posZ, areaX, areaY);
+				farmRadius = 5;
 			}
 
 			else
 			{
-				entityChild.farmingChore = new ChoreFarming(entityChild, farmAreaType, farmSeedType, entityChild.posX, entityChild.posY, entityChild.posZ);
+				farmRadius += 5;
+			}
+			
+			drawFarmingGui();
+		}
+
+		else if (button == choreStartButton)
+		{
+			if (farmMethod == 0)
+			{
+				entityChild.farmingChore = new ChoreFarming(entityChild, farmMethod, farmPlantType, entityChild.posX, entityChild.posY, entityChild.posZ, areaX, areaY);
+			}
+
+			else if (farmMethod == 1)
+			{
+				entityChild.farmingChore = new ChoreFarming(entityChild, farmMethod, entityChild.posX, entityChild.posY, entityChild.posZ, farmRadius);
 			}
 
 			entityChild.isInChoreMode = true;
@@ -1199,27 +1227,27 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		{
 			entityChild.combatChore.sentryMode = !entityChild.combatChore.sentryMode;
 		}
-		
+
 		else if (button == combatSentryRadiusButton)
 		{
 			if (entityChild.combatChore.sentryRadius != 30)
 			{
 				entityChild.combatChore.sentryRadius += 5;
 			}
-			
+
 			else
 			{
 				entityChild.combatChore.sentryRadius = 5;
 			}
 		}
-		
+
 		else if (button == combatSentrySetPositionButton)
 		{
 			entityChild.combatChore.sentryPosX = entityChild.posX;
 			entityChild.combatChore.sentryPosY = entityChild.posY;
 			entityChild.combatChore.sentryPosZ = entityChild.posZ;
 		}
-		
+
 		PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityChild.entityId, entityChild.combatChore));
 		drawCombatGui();
 	}
