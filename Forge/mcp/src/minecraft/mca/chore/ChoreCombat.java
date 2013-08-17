@@ -141,7 +141,6 @@ public class ChoreCombat extends AbstractChore
 						{
 							if (!owner.isStaying)
 							{
-								MCA.instance.log("Stay");
 								PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(owner.entityId, "isStaying", true));
 								owner.isStaying = true;
 							}
@@ -151,7 +150,6 @@ public class ChoreCombat extends AbstractChore
 						{
 							if (owner.isStaying)
 							{
-								MCA.instance.log("Un-stay for path to sentry position");
 								PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(owner.entityId, "isStaying", false));
 								owner.isStaying = false;
 							}
@@ -168,7 +166,6 @@ public class ChoreCombat extends AbstractChore
 				{
 					if (owner.isStaying)
 					{
-						MCA.instance.log("Un-stay for target.");
 						owner.isStaying = false;
 						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(owner.entityId, "isStaying", false));
 					}
