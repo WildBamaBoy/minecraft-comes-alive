@@ -390,7 +390,7 @@ public final class LogicHelper
 		{
 			int blockID = entity.worldObj.getBlockId(x + xMov, y + yMov, z + zMov);
 
-			if (blockID == Block.grass.blockID || blockID == Block.dirt.blockID || blockID == Block.tilledField.blockID)
+			if (blockID == Block.grass.blockID || blockID == Block.dirt.blockID)
 			{
 				if (entity.worldObj.isAirBlock(x + xMov, (y + yMov) + 1, z + zMov))
 				{
