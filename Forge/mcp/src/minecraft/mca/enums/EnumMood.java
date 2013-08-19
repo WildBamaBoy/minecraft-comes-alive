@@ -455,6 +455,34 @@ public enum EnumMood
 			}
 		}
 
+		else if (interactionType.equals("greeting"))
+		{
+			if (this.isAnger())
+			{
+				return -(20 * getMoodLevel());
+			}
+
+			else if (this.isFatigue())
+			{
+				return 0;
+			}
+
+			else if (this.isHappy())
+			{
+				return 5 * getMoodLevel();
+			}
+
+			else if (this.isNeutral())
+			{
+				return 0;
+			}
+
+			else if (this.isSadness())
+			{
+				return 0;
+			}
+		}
+
 		return 0;
 	}
 
@@ -556,6 +584,34 @@ public enum EnumMood
 			}
 		}
 
+		else if (interactionType.equals("greeting"))
+		{
+			if (this.isAnger())
+			{
+				return -(3 * getMoodLevel());
+			}
+
+			else if (this.isFatigue())
+			{
+				return -(3 * getMoodLevel());
+			}
+
+			else if (this.isHappy())
+			{
+				return 3 * getMoodLevel();
+			}
+
+			else if (this.isNeutral())
+			{
+				return 0;
+			}
+
+			else if (this.isSadness())
+			{
+				return -(6 * getMoodLevel());
+			}
+		}
+		
 		return 0;
 	}
 }

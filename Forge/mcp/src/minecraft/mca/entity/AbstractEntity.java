@@ -1228,6 +1228,52 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	}
 
 	/**
+	 * Calculate if a joke should be good or bad and say the appropriate response.
+	 * 
+	 * @param 	player	The player whose hearts should change.
+	 */
+	public void doGreeting(EntityPlayer player)
+	{
+		int hearts = getHearts(player);
+		boolean greetingWasGood = false;
+
+		//This has a higher interaction wear, so that reactions are appropriate when the player "greets" someone multiple times.
+		PlayerMemory memory = playerMemoryMap.get(player.username);
+		int chanceModifier = -(memory.interactionWear * 20) + mood.getChanceModifier("greeting") + trait.getChanceModifier("greeting");
+		int heartsModifier = mood.getHeartsModifier("greeting") + trait.getHeartsModifier("greeting");
+
+		//Base 90% chance of success.
+		greetingWasGood = getBooleanWithProbability(90 + chanceModifier);
+		String greetingType = memory.hearts >= 50 ? "highfive" : "handshake";
+		
+		if (greetingWasGood)
+		{
+			//Don't want to apply a negative value to a good interaction. Set it to 1 so player still has penalty
+			//of performing wrong interaction based on traits or mood.
+			if (heartsModifier < 0)
+			{
+				heartsModifier = 1;
+			}
+
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "greeting." + greetingType + ".good"));
+			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), (worldObj.rand.nextInt(3) + 3) + heartsModifier);
+			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
+		}
+
+		else
+		{
+			if (heartsModifier > 0)
+			{
+				heartsModifier = -1;
+			}
+
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "greeting." + greetingType + ".bad"));
+			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(3) + 3)) + heartsModifier);
+			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
+		}
+	}
+	
+	/**
 	 * Gets the title of this entity that will be displayed to the player interacting with it.
 	 * 
 	 * @param	playerId	The id of the player requesting the entity's title.
