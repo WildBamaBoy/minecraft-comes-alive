@@ -36,17 +36,17 @@ public class ChoreFarming extends AbstractChore
 	/** The method of farming to perform. 0 = create farm, 1 = maintain farm. */
 	public int method = 0;
 
+	/**The radius of the maintaining function. */
+	public int radius = 0;
+
+	/**The type of seeds that should be planted. 0 = Wheat, 1 = Melon, 2 = Pumpkin, 3 = Carrot, 4 = Potato, 5 = sugarcane. */
+	public int seedType = 0;
+
+	/** The ID of the seed item to remove from the inventory when a crop is placed.*/
+	public int cropSeedId = 0;
+
 	/** The ID of the crop that will be placed. */
-	public int cropId = 0;
-
-	/** The X location of farmable land. */
-	public int farmableLandX = 0;
-
-	/** The Y location of farmable land. */
-	public int farmableLandY = 0;
-
-	/** The Z location of farmable land. */
-	public int farmableLandZ = 0;
+	public int cropBlockId = 0;
 
 	/** How many ticks the entity should wait before continuing with the chore. */
 	public int delay = 0;
@@ -55,13 +55,13 @@ public class ChoreFarming extends AbstractChore
 	public int delayCounter = 0;
 
 	/** The X location of the coordinates the entity started at.*/
-	public int startCoordinatesX = 0;
+	public int startX = 0;
 
 	/** The Y location of the coordinates the entity started at.*/
-	public int startCoordinatesY = 0;
+	public int startY = 0;
 
 	/** The Z location of the coordinates the entity started at.*/
-	public int startCoordinatesZ = 0;
+	public int startZ = 0;
 
 	/** From a 2D aspect, how many blocks the X side of the farming area is.*/
 	public int areaX = 0;
@@ -69,37 +69,23 @@ public class ChoreFarming extends AbstractChore
 	/** From a 2D aspect, how many blocks the Y side of the farming area is.*/
 	public int areaY = 0;
 
+	/**The X coordinates of the block the entity should be performing an action on. */
+	public int targetX = 0;
+
+	/**The Y coordinates of the block the entity should be performing an action on. */
+	public int targetY = 0;
+
+	/**The Z coordinates of the block the entity should be performing an action on. */
+	public int targetZ = 0;
+
 	/** Index of the current farmable land. Used to place water on certain blocks.*/
 	public int farmlandIndex = 0;
-
-	/** The ID of the seed item to remove from the inventory when a crop is placed.*/
-	public int seedId = 0;
-
-	/** Is the entity on the last block of farmable land?*/
-	public boolean onLastFarmArea = false;
-
-	/** Should water be placed next?*/
-	public boolean placeWaterNext = false;
-
-	/** Does the entity have farmable land coordinates?*/
-	public boolean hasFarmableLand = false;
 
 	/** Has the entity done any work at all? */
 	public boolean hasDoneWork = false;
 
-	/** Should the next plot be skipped? Used for melons and pumpkins to give them room. */
-	public boolean skipNextPlot = false;
-
-	/**The type of seeds that should be planted. 0 = Wheat, 1 = Melon, 2 = Pumpkin, 3 = Carrot, 4 = Potato*/
-	public int seedType = 0;
-
-	public boolean hasAssignedPathToHarvestableBlock = false;
-	public int harvestTicks = 0;
-	public int harvestDelay = 0;
-	public int harvestableBlockX = 0;
-	public int harvestableBlockY = 0;
-	public int harvestableBlockZ = 0;
-	public int radius = 0;
+	/**Is the entity supposed to have a path to a block? */
+	public boolean hasAssignedPathToBlock = false;
 
 	/**
 	 * Constructor
@@ -124,9 +110,9 @@ public class ChoreFarming extends AbstractChore
 	{
 		super(entity);
 		this.method = method;
-		this.startCoordinatesX = (int)startX;
-		this.startCoordinatesY = (int)startY;
-		this.startCoordinatesZ = (int)startZ;
+		this.startX = (int)startX;
+		this.startY = (int)startY;
+		this.startZ = (int)startZ;
 	}
 
 	/**
@@ -192,27 +178,30 @@ public class ChoreFarming extends AbstractChore
 			//Assign the seed ID and crop ID from the selected seed type from the GUI.
 			switch (seedType)
 			{
-			case 0: seedId = Item.seeds.itemID;
-			cropId = Block.crops.blockID;
+			case 0: cropSeedId = Item.seeds.itemID;
+			cropBlockId = Block.crops.blockID;
 			break;
 
-			case 1: seedId = Item.melonSeeds.itemID;
-			cropId = Block.melonStem.blockID;
+			case 1: cropSeedId = Item.melonSeeds.itemID;
+			cropBlockId = Block.melonStem.blockID;
 			break;
 
-			case 2: seedId = Item.pumpkinSeeds.itemID;
-			cropId = Block.pumpkinStem.blockID;
+			case 2: cropSeedId = Item.pumpkinSeeds.itemID;
+			cropBlockId = Block.pumpkinStem.blockID;
 			break;
 
-			case 3: seedId = Item.carrot.itemID;
-			cropId = Block.carrot.blockID;
+			case 3: cropSeedId = Item.carrot.itemID;
+			cropBlockId = Block.carrot.blockID;
 			break;
 
-			case 4: seedId = Item.potato.itemID;
-			cropId = Block.potato.blockID;
+			case 4: cropSeedId = Item.potato.itemID;
+			cropBlockId = Block.potato.blockID;
 			break;
+
+			case 5: cropSeedId = Item.reed.itemID;
+			cropBlockId = Block.reed.blockID;
 			}
-			
+
 			//Set the delay based on type of farming tool.
 			ItemStack hoeStack = owner.inventory.getBestItemOfType(ItemHoe.class);
 
@@ -265,7 +254,17 @@ public class ChoreFarming extends AbstractChore
 			}
 
 			//Check for the correct amount of seeds as well.
-			if (owner.inventory.getQuantityOfItem(seedId) < areaX * areaY)
+			int seedsRequired = 0;
+
+			for (String s : MCA.getFarmMap(areaX, seedType))
+			{
+				if (s.equals("S"))
+				{
+					seedsRequired++;
+				}
+			}
+
+			if (owner.inventory.getQuantityOfItem(cropSeedId) < seedsRequired)
 			{
 				if (!owner.worldObj.isRemote)
 				{
@@ -276,7 +275,7 @@ public class ChoreFarming extends AbstractChore
 				return;
 			}
 		}
-		
+
 		//Everything passes. Say so.
 		if (!owner.worldObj.isRemote)
 		{
@@ -287,15 +286,14 @@ public class ChoreFarming extends AbstractChore
 	@Override
 	public void runChoreAI() 
 	{
-		//Differentiate between running different kinds of logic. So far only one is used.
 		if (method == 0)
 		{
-			runXYLogic();
+			runCreateFarmLogic();
 		}
 
 		else if (method == 1)
 		{
-			runMaintainLogic();
+			runMaintainFarmLogic();
 		}
 	}
 
@@ -310,13 +308,13 @@ public class ChoreFarming extends AbstractChore
 	{
 		owner.setSneaking(false);
 		hasEnded = true;
-		
+
 		if (!owner.worldObj.isRemote)
 		{
 			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(owner));
 			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createAddAIPacket(owner));
 		}
-		
+
 		else
 		{
 			PacketDispatcher.sendPacketToServer(PacketHelper.createAddAIPacket(owner));
@@ -416,246 +414,170 @@ public class ChoreFarming extends AbstractChore
 	}
 
 	/**
-	 * Run farming logic for the XY area type.
+	 * Run farming logic to create a farm.
 	 */
-	private void runXYLogic()
+	private void runCreateFarmLogic()
 	{
-		//		//Get the farmable land nearby.
-		//		List<Coordinates> nearbyFarmableLand = LogicHelper.getNearbyFarmableLand(owner, startCoordinatesX, startCoordinatesY, startCoordinatesZ, areaX, areaY);
-		//
-		//		//Make sure there's some land nearby.
-		//		if (nearbyFarmableLand.isEmpty())
-		//		{
-		//			if (onLastFarmArea)
-		//			{
-		//				say(LanguageHelper.getString("notify.child.chore.finished.farming"));
-		//			}
-		//
-		//			else
-		//			{
-		//				if (hasDoneWork)
-		//				{
-		//					say(LanguageHelper.getString("notify.child.chore.interrupted.farming.noroom"));
-		//				}
-		//
-		//				else
-		//				{
-		//					say(LanguageHelper.getString("notify.child.chore.interrupted.farming.noland"));
-		//				}
-		//			}
-		//
-		//			endChore();
-		//			return;
-		//		}
-		//
-		//		//Now see if they've gotten some land to work with from the list.
-		//		if (!hasFarmableLand)
-		//		{
-		//			farmableLandX = (int)nearbyFarmableLand.get(0).x;
-		//			farmableLandY = (int)nearbyFarmableLand.get(0).y;
-		//			farmableLandZ = (int)nearbyFarmableLand.get(0).z;
-		//			hasFarmableLand = true;
-		//
-		//			//Check to see if the group of coordinates is the last in the list. That means they're about to finish farming.
-		//			if (farmlandIndex == (areaX * areaY) - 1)
-		//			{
-		//				onLastFarmArea = true;
-		//			}
-		//
-		//			//It's not the last bit of land left to farm so check to see if water should be placed depending on the area and index.
-		//			else if (areaX == 5)
-		//			{
-		//				if (farmlandIndex == 12)
-		//				{
-		//					placeWaterNext = true;
-		//				}
-		//
-		//				else
-		//				{
-		//					placeWaterNext = false;
-		//				}
-		//
-		//				if (farmlandIndex == 6 || farmlandIndex == 7 || farmlandIndex == 8 || farmlandIndex == 11 || farmlandIndex == 13 ||
-		//						farmlandIndex == 16 || farmlandIndex == 17 || farmlandIndex == 18)
-		//				{
-		//					if (seedType == 1 || seedType == 2)
-		//					{
-		//						skipNextPlot = true;
-		//					}
-		//					
-		//					else
-		//					{
-		//						skipNextPlot = false;
-		//					}
-		//				}
-		//
-		//				else
-		//				{
-		//					skipNextPlot = false;
-		//				}
-		//			}
-		//
-		//			else if (areaX == 10)
-		//			{
-		//				if (farmlandIndex == 22 || farmlandIndex == 27 || farmlandIndex == 72 || farmlandIndex == 77)
-		//				{
-		//					placeWaterNext = true;
-		//				}
-		//
-		//				else
-		//				{
-		//					placeWaterNext = false;
-		//				}
-		//			}
-		//
-		//			else if (areaX == 15)
-		//			{
-		//				if (farmlandIndex == 32  || farmlandIndex == 37  || farmlandIndex == 42  ||
-		//						farmlandIndex == 107 || farmlandIndex == 112 || farmlandIndex == 117 ||
-		//						farmlandIndex == 182 || farmlandIndex == 188 || farmlandIndex == 193)
-		//				{
-		//					placeWaterNext = true;
-		//				}
-		//
-		//				else
-		//				{
-		//					placeWaterNext = false;
-		//				}
-		//			}
-		//		}
-		//
-		//		//Check if they are close enough to their target to start farming. Block changing will happen here.
-		//		if (LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, (double)farmableLandX, (double)farmableLandY, (double)farmableLandZ) <= 2.50)
-		//		{
-		//			//Check the block above the farmland.
-		//			int blockAboveFarmland = owner.worldObj.getBlockId(farmableLandX, farmableLandY, farmableLandZ);
-		//
-		//			if (blockAboveFarmland == Block.tallGrass.blockID ||
-		//					blockAboveFarmland == Block.plantRed.blockID  ||
-		//					blockAboveFarmland == Block.plantYellow.blockID)
-		//			{
-		//				//If it's a plant, remove it.
-		//				owner.worldObj.setBlock(farmableLandX, farmableLandY + 1, farmableLandZ, 0);
-		//			}
-		//
-		//			//Check to see if water needs to be placed instead of farmland this time.
-		//			if (placeWaterNext)
-		//			{
-		//				if (!owner.worldObj.isRemote)
-		//				{
-		//					owner.worldObj.setBlock(farmableLandX, farmableLandY, farmableLandZ, Block.waterStill.blockID);
-		//				}
-		//
-		//				hasFarmableLand = false;
-		//				farmlandIndex++;
-		//				return;
-		//			}
-		//
-		//			else if (skipNextPlot)
-		//			{
-		//				owner.swingItem();
-		//				owner.damageHeldItem();
-		//				
-		//				if (!owner.worldObj.isRemote)
-		//				{
-		//					owner.worldObj.setBlock(farmableLandX, farmableLandY, farmableLandZ, Block.tilledField.blockID);
-		//				}
-		//
-		//				hasFarmableLand = false;
-		//				farmlandIndex++;
-		//				return;
-		//			}
-		//			
-		//			//Water doesn't need to be placed next.
-		//			else
-		//			{
-		//				//Place tilled field instead.
-		//				if (!owner.worldObj.isRemote)
-		//				{
-		//					owner.worldObj.setBlock(farmableLandX, farmableLandY, farmableLandZ, Block.tilledField.blockID);
-		//				}
-		//			}
-		//
-		//			//Now check the delay vs the delay counter to see if farming should continue or wait.
-		//			if (delayCounter >= delay)
-		//			{
-		//				owner.swingItem();
-		//				owner.damageHeldItem();
-		//
-		//				//Update fields on a child that have to do with achievements.
-		//				if (owner instanceof EntityPlayerChild)
-		//				{
-		//					EntityPlayerChild child = (EntityPlayerChild)owner;
-		//					child.landFarmed++;
-		//
-		//					//Check for achievement
-		//					if (child.landFarmed >= 100)
-		//					{
-		//						EntityPlayer player = owner.worldObj.getPlayerEntityByName(child.ownerPlayerName);
-		//
-		//						if (player != null)
-		//						{
-		//							player.triggerAchievement(MCA.instance.achievementChildFarm);						
-		//						}
-		//					}
-		//				}
-		//
-		//				//Place the crop id above the farmland if the plot shouldn't be skipped.
-		//				if (!owner.worldObj.isRemote)
-		//				{
-		//					owner.worldObj.setBlock(farmableLandX, farmableLandY + 1, farmableLandZ, cropId);
-		//				}
-		//
-		//				//Remove a seed from the entity's inventory.
-		//				owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(seedId), 1);
-		//
-		//				//Reset the delay counter, update the index, and get another farmable land block.
-		//				delayCounter = 0;
-		//				farmlandIndex++;
-		//				hasFarmableLand = false;
-		//			}
-		//
-		//			//The delay counter isn't high enough to begin working.
-		//			else
-		//			{
-		//				delayCounter++;
-		//			}
-		//		}
-		//
-		//		//They are not close enough to the farmable land block to begin farming.
-		//		else
-		//		{
-		//			owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(farmableLandX, farmableLandY, farmableLandZ), 0.6F);
-		//		}
+		if (!hasAssignedPathToBlock)
+		{
+			List<Coordinates> target = LogicHelper.getNearbyFarmableLand(owner, startX, startY, startZ, areaX, areaY);
+
+			if (!target.isEmpty())
+			{
+				targetX = (int)target.get(0).x;
+				targetY = (int)target.get(0).y;
+				targetZ = (int)target.get(0).z;
+				hasAssignedPathToBlock = true;
+			}
+
+			else
+			{
+				if (farmlandIndex == MCA.instance.getFarmMap(areaX, seedType).length)
+				{
+					if (!owner.worldObj.isRemote)
+					{
+						owner.say(LanguageHelper.getString("notify.child.chore.finished.farming"));
+					}
+				}
+
+				else
+				{
+					if (hasDoneWork)
+					{
+						if (!owner.worldObj.isRemote)
+						{
+							owner.say(LanguageHelper.getString("notify.child.chore.interrupted.farming.noroom"));
+						}
+					}
+
+					else
+					{
+						if (!owner.worldObj.isRemote)
+						{
+							owner.say(LanguageHelper.getString("notify.child.chore.interrupted.farming.noland"));
+						}
+					}
+				}
+
+				endChore();
+			}
+		}
+
+		else
+		{
+			if (LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, targetX, targetY, targetZ) > 1.7F)
+			{
+				if (owner.getNavigator().noPath())
+				{
+					owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(targetX, targetY, targetZ), 0.4F);
+				}
+			}
+
+			else
+			{
+				if (delay < delayCounter)
+				{
+					delay++;
+				}
+
+				else
+				{
+					String nextOperation = MCA.instance.getFarmMap(areaX, seedType)[farmlandIndex];
+
+					if (nextOperation.equals("S"))
+					{
+						owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(cropSeedId), 1);
+					}
+					
+					if (!owner.worldObj.isRemote)
+					{
+						//"Plow"
+						if (nextOperation.equals("P"))
+						{
+							owner.worldObj.setBlock(targetX, targetY, targetZ, Block.tilledField.blockID);
+						}
+
+						//"Water"
+						else if (nextOperation.equals("W"))
+						{
+							owner.worldObj.setBlock(targetX, targetY + 1, targetZ, 0);
+							owner.worldObj.setBlock(targetX, targetY, targetZ, Block.waterStill.blockID);
+						}
+
+						//"Seed"
+						else if (nextOperation.equals("S"))
+						{
+							if (cropBlockId != Block.reed.blockID)
+							{
+								owner.worldObj.setBlock(targetX, targetY, targetZ, Block.tilledField.blockID);
+							}
+
+							else
+							{
+								owner.worldObj.setBlock(targetX, targetY, targetZ, Block.grass.blockID);
+							}
+
+							owner.worldObj.setBlock(targetX, targetY + 1, targetZ, cropBlockId);
+						}
+					}
+
+					owner.swingItem();
+					owner.damageHeldItem();
+
+					delayCounter = 0;
+					farmlandIndex++;
+					hasDoneWork = true;
+					hasAssignedPathToBlock = false;
+
+					//Update fields on a child that have to do with achievements.
+					if (owner instanceof EntityPlayerChild)
+					{
+						EntityPlayerChild child = (EntityPlayerChild)owner;
+						child.landFarmed++;
+
+						//Check for achievement
+						if (child.landFarmed >= 100)
+						{
+							EntityPlayer player = owner.worldObj.getPlayerEntityByName(child.ownerPlayerName);
+
+							if (player != null)
+							{
+								player.triggerAchievement(MCA.instance.achievementChildFarm);						
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
-	private void runMaintainLogic()
+	private void runMaintainFarmLogic()
 	{
-		if (!hasAssignedPathToHarvestableBlock)
+		if (!hasAssignedPathToBlock)
 		{
-			for (Coordinates coords : LogicHelper.getNearbyHarvestableCrops(owner, startCoordinatesX, startCoordinatesY, startCoordinatesZ, radius))
+			for (Coordinates coords : LogicHelper.getNearbyHarvestableCrops(owner, startX, startY, startZ, radius))
 			{
 				int blockID = owner.worldObj.getBlockId((int)coords.x, (int)coords.y, (int)coords.z);
 
 				if (blockID == Block.crops.blockID || blockID == Block.potato.blockID || blockID == Block.carrot.blockID || blockID == Block.pumpkin.blockID || blockID == Block.melon.blockID || blockID == Block.reed.blockID)
 				{
-					harvestableBlockX = (int)coords.x;
-					harvestableBlockY = (int)coords.y;
-					harvestableBlockZ = (int)coords.z;
-					hasAssignedPathToHarvestableBlock = true;
+					targetX = (int)coords.x;
+					targetY = (int)coords.y;
+					targetZ = (int)coords.z;
+					hasAssignedPathToBlock = true;
 
 					if (blockID == Block.pumpkin.blockID || blockID == Block.melon.blockID)
 					{
 						//1.5 second delay
-						harvestDelay = 35;
-					}
-					
-					else
-					{
-						harvestDelay = 5;
+						delay = 35;
 					}
 
-					owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(harvestableBlockX, harvestableBlockY, harvestableBlockZ), 0.4F);
+					else
+					{
+						delay = 5;
+					}
+
+					owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(targetX, targetY, targetZ), 0.4F);
 					break;
 				}
 			}
@@ -663,12 +585,12 @@ public class ChoreFarming extends AbstractChore
 
 		else
 		{
-			if (LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, harvestableBlockX, harvestableBlockY, harvestableBlockZ) <= 1.7D)
+			if (LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, targetX, targetY, targetZ) <= 1.7D)
 			{
-				if (harvestTicks >= harvestDelay)
+				if (delayCounter >= delay)
 				{
-					harvestTicks = 0;
-					hasAssignedPathToHarvestableBlock = false;
+					delayCounter = 0;
+					hasAssignedPathToBlock = false;
 
 					if (!owner.worldObj.isRemote)
 					{
@@ -676,46 +598,46 @@ public class ChoreFarming extends AbstractChore
 						int cropsToAdd = 0;
 						int seedsToAdd = 0;
 
-						int blockID = owner.worldObj.getBlockId(harvestableBlockX, harvestableBlockY, harvestableBlockZ);
-						owner.worldObj.setBlock(harvestableBlockX, harvestableBlockY, harvestableBlockZ, 0);
+						int blockID = owner.worldObj.getBlockId(targetX, targetY, targetZ);
+						owner.worldObj.setBlock(targetX, targetY, targetZ, 0);
 
 						switch (blockID)
 						{
 						//Must be constants.
 						case 59: 	cropID = Item.wheat.itemID;
-									cropsToAdd = 1;
-									seedsToAdd = MCA.instance.rand.nextInt(4);
-									
-									if (seedsToAdd > 0 || owner.inventory.getQuantityOfItem(Item.seeds) > 0)
-									{
-										owner.worldObj.setBlock(harvestableBlockX, harvestableBlockY, harvestableBlockZ, 59);
-									}
-									
-									break;
+						cropsToAdd = 1;
+						seedsToAdd = MCA.instance.rand.nextInt(4);
+
+						if (seedsToAdd > 0 || owner.inventory.getQuantityOfItem(Item.seeds) > 0)
+						{
+							owner.worldObj.setBlock(targetX, targetY, targetZ, 59);
+						}
+
+						break;
 
 						case 86:	cropID = blockID;
-									cropsToAdd = 1;
-									break;
+						cropsToAdd = 1;
+						break;
 
 						case 142:	cropID = Item.potato.itemID;
-									cropsToAdd = MCA.instance.rand.nextInt(5) + 1;
-									owner.worldObj.setBlock(harvestableBlockX, harvestableBlockY, harvestableBlockZ, 142);
-									break;
+						cropsToAdd = MCA.instance.rand.nextInt(5) + 1;
+						owner.worldObj.setBlock(targetX, targetY, targetZ, 142);
+						break;
 
 						case 141:	cropID = Item.carrot.itemID;
-									cropsToAdd = MCA.instance.rand.nextInt(5) + 1;
-									owner.worldObj.setBlock(harvestableBlockX, harvestableBlockY, harvestableBlockZ, 141);
-									break;
+						cropsToAdd = MCA.instance.rand.nextInt(5) + 1;
+						owner.worldObj.setBlock(targetX, targetY, targetZ, 141);
+						break;
 
 						case 103:	cropID = Item.melon.itemID;
-									cropsToAdd = MCA.instance.rand.nextInt(5) + 3;
-									break;
-									
+						cropsToAdd = MCA.instance.rand.nextInt(5) + 3;
+						break;
+
 						case 83:	cropID = Item.reed.itemID;
-									cropsToAdd = 1;
-									break;
+						cropsToAdd = 1;
+						break;
 						}
-						
+
 						if (seedsToAdd != 0)
 						{
 							owner.inventory.addItemStackToInventory(new ItemStack(Item.seeds, seedsToAdd));
@@ -727,7 +649,7 @@ public class ChoreFarming extends AbstractChore
 							{
 								owner.inventory.addItemStackToInventory(new ItemStack(Item.itemsList[cropID], cropsToAdd));
 							}
-							
+
 							else
 							{
 								owner.inventory.addItemStackToInventory(new ItemStack(Block.pumpkin, cropsToAdd));
@@ -740,7 +662,7 @@ public class ChoreFarming extends AbstractChore
 
 				else
 				{
-					harvestTicks++;
+					delayCounter++;
 					owner.swingItem();
 				}
 			}
@@ -749,7 +671,7 @@ public class ChoreFarming extends AbstractChore
 			{
 				if (owner.getNavigator().noPath())
 				{
-					owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(harvestableBlockX, harvestableBlockY, harvestableBlockZ), 0.4F);
+					owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(targetX, targetY, targetZ), 0.4F);
 				}
 			}
 		}
