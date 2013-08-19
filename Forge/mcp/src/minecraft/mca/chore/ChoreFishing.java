@@ -236,7 +236,7 @@ public class ChoreFishing extends AbstractChore
 										//Check if they're carrying 64 fish and end the chore if they are.
 										if (owner.inventory.getQuantityOfItem(Item.fishRaw) == 64)
 										{
-											say(LanguageHelper.getString("notify.child.chore.finished.fishing"));
+											owner.say(LanguageHelper.getString("notify.child.chore.finished.fishing"));
 											endChore();
 											return;
 										}

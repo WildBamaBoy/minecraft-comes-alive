@@ -266,7 +266,11 @@ public class ChoreWoodcutting extends AbstractChore
 				//A valid tree wasn't found.
 				else
 				{
-					say(LanguageHelper.getString(owner, "notify.child.chore.interrupted.woodcutting.notrees", false));
+					if (!owner.worldObj.isRemote)
+					{
+						owner.say(LanguageHelper.getString(owner, "notify.child.chore.interrupted.woodcutting.notrees", false));
+					}
+					
 					endChore();
 					return;
 				}

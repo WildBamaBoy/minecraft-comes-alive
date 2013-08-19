@@ -165,7 +165,7 @@ public class ChoreMining extends AbstractChore
 
 		owner.getNavigator().clearPathEntity();
 		owner.tasks.taskEntries.clear();
-	
+
 		hasBegun = true;
 	}
 
@@ -308,7 +308,11 @@ public class ChoreMining extends AbstractChore
 
 		if (pickStack == null)
 		{
-			say(LanguageHelper.getString(this.owner, "notify.child.chore.interrupted.mining.nopickaxe", false));
+			if (!owner.worldObj.isRemote)
+			{
+				owner.say(LanguageHelper.getString(this.owner, "notify.child.chore.interrupted.mining.nopickaxe", false));
+			}
+
 			endChore();
 			return;
 		}
@@ -357,13 +361,19 @@ public class ChoreMining extends AbstractChore
 					else if (passiveDistanceToOre > 5)
 					{
 						//Say how many blocks away that ore is.
-						say(LanguageHelper.getString(owner, "notify.child.chore.status.mining.orefound", false));
+						if (!owner.worldObj.isRemote)
+						{
+							owner.say(LanguageHelper.getString(owner, "notify.child.chore.status.mining.orefound", false));
+						}
 					}
 
 					else if (passiveDistanceToOre <= 5)
 					{
 						//Say that the ore is just 'nearby' since the distance is less than 5.
-						say(LanguageHelper.getString(owner, "notify.child.chore.status.mining.orenearby", false));
+						if (!owner.worldObj.isRemote)
+						{
+							owner.say(LanguageHelper.getString(owner, "notify.child.chore.status.mining.orenearby", false));
+						}
 					}
 
 					//Damage the pick three times.
@@ -434,7 +444,11 @@ public class ChoreMining extends AbstractChore
 		{
 			if (!(owner instanceof EntityVillagerAdult))
 			{
-				say(LanguageHelper.getString(owner, "notify.child.chore.interrupted.mining.nopickaxe", false));
+				if (!owner.worldObj.isRemote)
+				{
+					owner.say(LanguageHelper.getString(owner, "notify.child.chore.interrupted.mining.nopickaxe", false));
+				}
+
 				endChore();
 				return;
 			}
@@ -455,7 +469,7 @@ public class ChoreMining extends AbstractChore
 			{
 				//Calculate where the next block should be based on heading.
 				activeNextCoordinatesY = owner.posY;
-				
+
 				switch (heading)
 				{
 				case 0:    activeNextCoordinatesX = owner.posX; activeNextCoordinatesZ = owner.posZ + searchDistance; break; 

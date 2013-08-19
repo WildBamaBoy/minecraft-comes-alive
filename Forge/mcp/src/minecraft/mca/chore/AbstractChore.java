@@ -73,18 +73,4 @@ public abstract class AbstractChore implements Serializable
 	 * @param 	NBT	The NBTTagCompound to read the chore from.
 	 */
 	public abstract void readChoreFromNBT(NBTTagCompound NBT);
-	
-	/**
-	 * Makes the owner say something if only on the client side. Workaround for 
-	 * double responses while performing chores.
-	 * 
-	 * @param 	message	The text to appear in the player's chat box.
-	 */
-	public void say(String message)
-	{
-		if (owner.worldObj.isRemote)
-		{
-			owner.say(message);
-		}
-	}
 }
