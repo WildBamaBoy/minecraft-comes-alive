@@ -294,6 +294,99 @@ public class MCA
 	/** List of the locations of female miner skins in the Minecraft JAR/MCA Folder.*/
 	public static List<String> minerSkinsFemale	= new ArrayList<String>();
 
+	public static String[] normalFarmFiveByFive = 
+		{
+		"S", "S", "S", "S", "S",
+		"S", "S", "S", "S", "S",
+		"S", "S", "W", "S", "S",
+		"S", "S", "S", "S", "S",
+		"S", "S", "S", "S", "S"
+		};
+	
+	public static String[] sugarcaneFarmFiveByFive =
+		{
+		"W", "W", "W", "W", "W",
+		"S", "S", "S", "S", "S",
+		"W", "W", "W", "W", "W",
+		"S", "S", "S", "S", "S",
+		"W", "W", "W", "W", "W"
+		};
+	
+	public static String[] blockFarmFiveByFive =
+		{
+		"W", "P", "P", "P", "W",
+		"P", "S", "S", "S", "P",
+		"P", "S", "W", "S", "P",
+		"P", "S", "S", "S", "P",
+		"W", "P", "P", "P", "W",
+		};
+	
+	public static String[] normalFarmTenByTen = 
+		{
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "W", "S", "S", "S", "S", "W", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "W", "S", "S", "S", "S", "W", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S"
+		};
+	
+	public static String[] sugarcaneFarmTenByTen =
+		{
+		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W"
+		};
+	
+	public static String[] normalFarmFifteenByFifteen =
+		{
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "W", "S", "S", "S", "S", "W", "S", "S", "S", "S", "W", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "W", "S", "S", "S", "S", "W", "S", "S", "S", "S", "W", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "W", "S", "S", "S", "S", "W", "S", "S", "S", "S", "W", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		};
+	
+	public static String[] sugarcaneFarmFifteenByFifteen =
+		{
+		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", 
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W",		
+		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W",
+		};
+	
 	/** Map of the IDs of items and the amount of hearts given to the villager who receives this item.*/
 	public static Map<Integer, Integer> acceptableGifts = new HashMap<Integer, Integer>();
 
@@ -705,6 +798,44 @@ public class MCA
 				continue;
 			}
 		}
+	}
+	
+	/**
+	 * Gets the appropriate farm creation map for the area and seed type provided.
+	 * 
+	 * @param 	areaX		The X size of the area to farm. Used to identify the correct sized area.
+	 * @param 	seedType 	The type of seeds that should be planted. 0 = Wheat, 1 = Melon, 2 = Pumpkin, 3 = Carrot, 4 = Potato, 5 = sugarcane.
+
+	 * @return	The appropriate farm creation map.
+	 */
+	public static String[] getFarmMap(int areaX, int seedType)
+	{
+		if (seedType == 0 || seedType == 3 || seedType == 4)
+		{
+			switch (areaX)
+			{
+				case 5: return normalFarmFiveByFive;
+				case 10: return normalFarmTenByTen;
+				case 15: return normalFarmFifteenByFifteen;
+			}
+		}
+		
+		else if (seedType == 1 || seedType == 2)
+		{
+			return blockFarmFiveByFive;
+		}
+		
+		else if (seedType == 5)
+		{
+			switch (areaX)
+			{
+				case 5: return sugarcaneFarmFiveByFive;
+				case 10: return sugarcaneFarmTenByTen;
+				case 15: return sugarcaneFarmFifteenByFifteen;
+			}
+		}
+
+		return null;
 	}
 	
 	/**
