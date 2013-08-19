@@ -114,7 +114,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 	/** The method that should be used when farming. 0 = Create farm. 1 = maintain farm.*/
 	private int farmMethod = 0;
 
-	/** The type of seeds that should be planted. 0 = Wheat, 1 = Melon, 2 = Pumpkin, 3 = Carrot, 4 = Potato*/
+	/** The type of seeds that should be planted. 0 = Wheat, 1 = Melon, 2 = Pumpkin, 3 = Carrot, 4 = Potato, 5 = sugarcane*/
 	private int farmPlantType = 0;
 
 	/** The radius of the total area to farm when maintaining a farm. */
@@ -253,7 +253,22 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 			if (farmMethod == 0)
 			{
-				farmSizeButton.enabled = true;
+				if (farmPlantType != 1 && farmPlantType != 2)
+				{
+					farmSizeButton.enabled = true;
+				}
+				
+				else
+				{
+					if (farmSizeButton.enabled || areaX != 5 || areaY != 5)
+					{
+						areaX = 5;
+						areaY = 5;
+						farmSizeButton.enabled = false;
+						drawFarmingGui();
+					}
+				}
+				
 				farmPlantButton.enabled = true;
 			}
 
@@ -511,6 +526,11 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		else if (farmPlantType == 4)
 		{
 			farmPlantButton.displayString += LanguageHelper.getString("gui.button.chore.farming.plant.potato");
+		}
+		
+		else if (farmPlantType == 5)
+		{
+			farmPlantButton.displayString += LanguageHelper.getString("gui.button.chore.farming.plant.sugarcane");
 		}
 
 		farmMethodButton.enabled = false;
@@ -1041,7 +1061,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 		else if (button == farmPlantButton)
 		{
-			if (farmPlantType == 4)
+			if (farmPlantType == 5)
 			{
 				farmPlantType = 0;
 			}
@@ -1056,7 +1076,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 		else if (button == farmSizeButton)
 		{
-			if (areaX >= 20)
+			if (areaX >= 15)
 			{
 				areaX = 5;
 				areaY = 5;
