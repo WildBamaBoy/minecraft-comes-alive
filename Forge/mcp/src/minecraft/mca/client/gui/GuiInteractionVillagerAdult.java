@@ -1263,14 +1263,14 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		
 		else if (button == flirtButton)
 		{
-			//TODO
-			//entityVillager.doFlirt(player);
+			entityVillager.doFlirt(player);
 			close();
 		}
 		
 		else if (button == tellStoryButton)
 		{
-			
+			entityVillager.doTellStory(player);
+			close();
 		}
 		
 		else if (button == backButton)

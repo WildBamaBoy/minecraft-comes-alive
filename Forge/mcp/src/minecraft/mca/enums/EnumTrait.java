@@ -264,6 +264,31 @@ public enum EnumTrait
 			}
 		}
 		
+		else if (interactionType.equals("flirt"))
+		{
+			switch (this)
+			{
+			case Emotional:
+				return 10;
+			case Friendly:
+				return 5;
+			case Fun:
+				return 20;
+			case Irritable:
+				return -5;
+			case None:
+				return 0;
+			case Outgoing:
+				return 15;
+			case Serious:
+				return 0;
+			case Shy:
+				return -15;
+			default:
+				return 0;
+			}
+		}
+		
 		return 0;
 	}
 	
@@ -421,6 +446,31 @@ public enum EnumTrait
 				return 0;
 			case Shy:
 				return 2;
+			default:
+				return 0;
+			}
+		}
+		
+		else if (interactionType.equals("flirt"))
+		{
+			switch (this)
+			{
+			case Emotional:
+				return 2;
+			case Friendly:
+				return 3;
+			case Fun:
+				return 6;
+			case Irritable:
+				return 0;
+			case None:
+				return 0;
+			case Outgoing:
+				return 1;
+			case Serious:
+				return 0;
+			case Shy:
+				return 0;
 			default:
 				return 0;
 			}

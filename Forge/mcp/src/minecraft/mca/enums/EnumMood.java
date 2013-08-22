@@ -359,11 +359,6 @@ public enum EnumMood
 	/**
 	 * Gets the amount to be applied to chance of interaction success. Gift is used to calculate chance of refusal.
 	 * 
-	 * HAPPY 	- chat+  | joke+  | gift   | greeting+  | story+
-	 * SAD		- chat-- | joke-- | gift   | greeting   | story
-	 * ANGER	- chat-- | joke-- | gift-- | greeting-- | story--
-	 * FATIGUE	- chat-  | joke-- | gift-  | greeting   | story
-	 * 
 	 * @param 	interactionType	"chat", "joke", or "gift" depending on the interaction being performed.
 	 * 
 	 * @return	Hearts modifier based on mood and mood level. Amount is checked for validity by interaction before being applied.
@@ -538,17 +533,40 @@ public enum EnumMood
 				return 5 * getMoodLevel();
 			}			
 		}
+		
+		else if (interactionType.equals("flirt"))
+		{
+			if (this.isAnger())
+			{
+				return -(20 * getMoodLevel());
+			}
+
+			else if (this.isFatigue())
+			{
+				return 0;
+			}
+
+			else if (this.isHappy())
+			{
+				return 3 * getMoodLevel();
+			}
+
+			else if (this.isNeutral())
+			{
+				return 0;
+			}
+
+			else if (this.isSadness())
+			{
+				return 3 * getMoodLevel();
+			}			
+		}
 
 		return 0;
 	}
 
 	/**
 	 * Gets the amount to add to hearts based on mood.
-	 * 
-	 * HAPPY 	- chat+  | joke+  | gift+  | greeting+ | story+
-	 * SAD		- chat-- | joke-  | gift++ | greeting  | story+
-	 * ANGER	- chat-  | joke-- | gift-- | greeting  | story-
-	 * FATIGUE	- chat-  | joke-  | gift-  | greeting  | story+
 	 * 
 	 * @param 	interactionType	"chat", "joke", or "gift" depending on the interaction being performed.
 	 * 
@@ -724,6 +742,33 @@ public enum EnumMood
 			}
 		}
 		
+		else if (interactionType.equals("flirt"))
+		{
+			if (this.isAnger())
+			{
+				return -(2 * getMoodLevel());
+			}
+
+			else if (this.isFatigue())
+			{
+				return -(2 * getMoodLevel());
+			}
+
+			else if (this.isHappy())
+			{
+				return 2 * getMoodLevel();
+			}
+
+			else if (this.isNeutral())
+			{
+				return 0;
+			}
+
+			else if (this.isSadness())
+			{
+				return 2 * getMoodLevel();
+			}
+		}
 		return 0;
 	}
 }
