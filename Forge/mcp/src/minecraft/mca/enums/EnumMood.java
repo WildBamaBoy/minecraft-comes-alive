@@ -359,10 +359,10 @@ public enum EnumMood
 	/**
 	 * Gets the amount to be applied to chance of interaction success. Gift is used to calculate chance of refusal.
 	 * 
-	 * HAPPY 	- chat+  | joke+  | gift
-	 * SAD		- chat-- | joke-- | gift
-	 * ANGER	- chat-- | joke-- | gift--
-	 * FATIGUE	- chat-  | joke-- | gift-
+	 * HAPPY 	- chat+  | joke+  | gift   | greeting+  | story+
+	 * SAD		- chat-- | joke-- | gift   | greeting   | story
+	 * ANGER	- chat-- | joke-- | gift-- | greeting-- | story--
+	 * FATIGUE	- chat-  | joke-- | gift-  | greeting   | story
 	 * 
 	 * @param 	interactionType	"chat", "joke", or "gift" depending on the interaction being performed.
 	 * 
@@ -483,16 +483,44 @@ public enum EnumMood
 			}
 		}
 
+		else if (interactionType.equals("story"))
+		{
+			if (this.isAnger())
+			{
+				return -(20 * getMoodLevel());
+			}
+
+			else if (this.isFatigue())
+			{
+				return 0;
+			}
+
+			else if (this.isHappy())
+			{
+				return 5 * getMoodLevel();
+			}
+
+			else if (this.isNeutral())
+			{
+				return 0;
+			}
+
+			else if (this.isSadness())
+			{
+				return 0;
+			}
+		}
+
 		return 0;
 	}
 
 	/**
 	 * Gets the amount to add to hearts based on mood.
 	 * 
-	 * HAPPY 	- chat+  | joke+  | gift+
-	 * SAD		- chat-- | joke-  | gift++
-	 * ANGER	- chat-  | joke-- | gift--
-	 * FATIGUE	- chat-  | joke-  | gift-
+	 * HAPPY 	- chat+  | joke+  | gift+  | greeting+ | story+
+	 * SAD		- chat-- | joke-  | gift++ | greeting  | story+
+	 * ANGER	- chat-  | joke-- | gift-- | greeting  | story-
+	 * FATIGUE	- chat-  | joke-  | gift-  | greeting  | story+
 	 * 
 	 * @param 	interactionType	"chat", "joke", or "gift" depending on the interaction being performed.
 	 * 
@@ -588,12 +616,12 @@ public enum EnumMood
 		{
 			if (this.isAnger())
 			{
-				return -(3 * getMoodLevel());
+				return 0;
 			}
 
 			else if (this.isFatigue())
 			{
-				return -(3 * getMoodLevel());
+				return 0;
 			}
 
 			else if (this.isHappy())
@@ -608,7 +636,35 @@ public enum EnumMood
 
 			else if (this.isSadness())
 			{
-				return -(6 * getMoodLevel());
+				return 0;
+			}
+		}
+		
+		else if (interactionType.equals("story"))
+		{
+			if (this.isAnger())
+			{
+				return -(3 * getMoodLevel());
+			}
+
+			else if (this.isFatigue())
+			{
+				return 3 * getMoodLevel();
+			}
+
+			else if (this.isHappy())
+			{
+				return 3 * getMoodLevel();
+			}
+
+			else if (this.isNeutral())
+			{
+				return 0;
+			}
+
+			else if (this.isSadness())
+			{
+				return 3 * getMoodLevel();
 			}
 		}
 		

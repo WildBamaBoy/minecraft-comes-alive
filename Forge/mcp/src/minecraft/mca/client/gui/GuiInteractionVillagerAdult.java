@@ -64,6 +64,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private GuiButton greetButton;
 	private GuiButton kissButton;
 	private GuiButton flirtButton;
+	private GuiButton tellStoryButton;
 	
 	//Buttons appearing at the top of the screen.
 	private GuiButton takeArrangerRingButton;
@@ -482,6 +483,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		buttonList.add(jokeButton = new GuiButton(2, width / 2 - 90, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.joke")));
 		buttonList.add(giftButton = new GuiButton(3, width / 2 - 90, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.gift")));
 		buttonList.add(greetButton = new GuiButton(4, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.greet")));
+		buttonList.add(tellStoryButton = new GuiButton(5, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.tellstory")));
+		buttonList.add(kissButton = new GuiButton(6, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.kiss")));
+		buttonList.add(flirtButton = new GuiButton(7, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.flirt")));
 		
 		greetButton.displayString = entityVillager.playerMemoryMap.get(player.username).hearts >= 50 ? LanguageHelper.getString("gui.button.interact.greet.handshake") : LanguageHelper.getString("gui.button.interact.greet.highfive");
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
@@ -1244,6 +1248,30 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			entityVillager.doGreeting(player);
 			close();
+		}
+		
+		else if (button == tellStoryButton)
+		{
+			//entityVillager.doTellStory(player);
+			close();
+		}
+		else if (button == kissButton)
+		{
+			//TODO
+			//entityVillager.doKiss(player);
+			close();
+		}
+		
+		else if (button == flirtButton)
+		{
+			//TODO
+			//entityVillager.doFlirt(player);
+			close();
+		}
+		
+		else if (button == tellStoryButton)
+		{
+			
 		}
 		
 		else if (button == backButton)
