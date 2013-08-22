@@ -22,6 +22,7 @@ import mca.core.util.LogicHelper;
 import mca.core.util.PacketHelper;
 import mca.core.util.object.PlayerMemory;
 import mca.core.util.object.VillageHelper;
+import mca.enums.EnumMoodChangeContext;
 import mca.enums.EnumRelation;
 import mca.inventory.Inventory;
 import mca.item.ItemArrangersRing;
@@ -730,6 +731,56 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 		super.readEntityFromNBT(NBT);
 	}
 
+	/**
+	 * Calculate if a joke should be good or bad and say the appropriate response.
+	 * 
+	 * @param 	player	The player whose hearts should change.
+	 */
+	public void doKiss(EntityPlayer player)
+	{
+		int hearts = getHearts(player);
+		boolean kissWasGood = false;
+
+		PlayerMemory memory = playerMemoryMap.get(player.username);
+		int chanceModifier = -(memory.interactionWear * 7) + mood.getChanceModifier("kiss") + trait.getChanceModifier("kiss");
+		int heartsModifier = mood.getHeartsModifier("kiss") + trait.getHeartsModifier("kiss");
+
+		//When hearts are above 75, add 75 to the chance modifier to make more sense.
+		if (hearts > 75)
+		{
+			chanceModifier += 75;
+		}
+		
+		//Base 10% chance of success.
+		kissWasGood = getBooleanWithProbability(10 + chanceModifier);
+		
+		if (kissWasGood)
+		{
+			//Don't want to apply a negative value to a good interaction. Set it to 1 so player still has penalty
+			//of performing wrong interaction based on traits or mood.
+			if (heartsModifier < 0)
+			{
+				heartsModifier = 1;
+			}
+
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "kiss.good"));
+			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), (worldObj.rand.nextInt(16) + 6) + heartsModifier);
+			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
+		}
+
+		else
+		{
+			if (heartsModifier > 0)
+			{
+				heartsModifier = -1;
+			}
+
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "kiss.bad"));
+			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(16) + 6)) + heartsModifier);
+			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
+		}
+	}
+	
 	/**
 	 * Handle the gift of a baby.
 	 * 

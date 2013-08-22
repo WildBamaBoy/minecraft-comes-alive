@@ -1283,7 +1283,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		int hearts = getHearts(player);
 		boolean storyWasGood = false;
 
-		//This has a higher interaction wear, so that reactions are appropriate when the player "greets" someone multiple times.
 		PlayerMemory memory = playerMemoryMap.get(player.username);
 		int chanceModifier = -(memory.interactionWear * 7) + mood.getChanceModifier("story") + trait.getChanceModifier("story");
 		int heartsModifier = mood.getHeartsModifier("story") + trait.getHeartsModifier("story");
@@ -1316,6 +1315,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
 		}
 	}
+	
 	
 	/**
 	 * Gets the title of this entity that will be displayed to the player interacting with it.

@@ -1257,8 +1257,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		}
 		else if (button == kissButton)
 		{
-			//TODO
-			//entityVillager.doKiss(player);
+			entityVillager.doKiss(player);
 			close();
 		}
 		
