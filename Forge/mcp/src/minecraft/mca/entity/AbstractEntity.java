@@ -1149,7 +1149,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		boolean chatWasGood = false;
 
 		PlayerMemory memory = playerMemoryMap.get(player.username);
-		int chanceModifier = -(memory.interactionWear * 7) + mood.getChanceModifier("chat") + trait.getChanceModifier("chat");
+		int chanceModifier = -(memory.interactionFatigue * 7) + mood.getChanceModifier("chat") + trait.getChanceModifier("chat");
 		int heartsModifier = mood.getHeartsModifier("chat") + trait.getHeartsModifier("chat");
 		chatWasGood = getBooleanWithProbability(65 + chanceModifier);
 
@@ -1179,7 +1179,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
 		}
 
-		memory.interactionWear++;
+		memory.interactionFatigue++;
 		playerMemoryMap.put(player.username, memory);
 		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 	}
@@ -1195,7 +1195,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		boolean jokeWasGood = false;
 
 		PlayerMemory memory = playerMemoryMap.get(player.username);
-		int chanceModifier = -(memory.interactionWear * 7) + mood.getChanceModifier("joke") + trait.getChanceModifier("joke");
+		int chanceModifier = -(memory.interactionFatigue * 7) + mood.getChanceModifier("joke") + trait.getChanceModifier("joke");
 		int heartsModifier = mood.getHeartsModifier("joke") + trait.getHeartsModifier("joke");
 
 		jokeWasGood = getBooleanWithProbability(65 + chanceModifier);
@@ -1237,9 +1237,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		int hearts = getHearts(player);
 		boolean greetingWasGood = false;
 
-		//This has a higher interaction wear, so that reactions are appropriate when the player "greets" someone multiple times.
+		//This has a higher interaction fatigue, so that reactions are appropriate when the player "greets" someone multiple times.
 		PlayerMemory memory = playerMemoryMap.get(player.username);
-		int chanceModifier = -(memory.interactionWear * 20) + mood.getChanceModifier("greeting") + trait.getChanceModifier("greeting");
+		int chanceModifier = -(memory.interactionFatigue * 20) + mood.getChanceModifier("greeting") + trait.getChanceModifier("greeting");
 		int heartsModifier = mood.getHeartsModifier("greeting") + trait.getHeartsModifier("greeting");
 
 		//Base 90% chance of success.
@@ -1284,7 +1284,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		boolean storyWasGood = false;
 
 		PlayerMemory memory = playerMemoryMap.get(player.username);
-		int chanceModifier = -(memory.interactionWear * 7) + mood.getChanceModifier("story") + trait.getChanceModifier("story");
+		int chanceModifier = -(memory.interactionFatigue * 7) + mood.getChanceModifier("story") + trait.getChanceModifier("story");
 		int heartsModifier = mood.getHeartsModifier("story") + trait.getHeartsModifier("story");
 
 		storyWasGood = getBooleanWithProbability(65 + chanceModifier);
@@ -1673,7 +1673,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			PlayerMemory memory = playerMemoryMap.get(player.username);
 
 			int hearts = getHearts(player);
-			int heartIncrease = -(memory.interactionWear * 7) + MCA.instance.acceptableGifts.get(itemStack.itemID) + mood.getHeartsModifier("gift") + trait.getHeartsModifier("gift");
+			int heartIncrease = -(memory.interactionFatigue * 7) + MCA.instance.acceptableGifts.get(itemStack.itemID) + mood.getHeartsModifier("gift") + trait.getHeartsModifier("gift");
 
 			//Verify it's always positive.
 			if (heartIncrease <= 0)
@@ -1704,7 +1704,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, 1.0F);
 			}
 
-			memory.interactionWear++;
+			memory.interactionFatigue++;
 			playerMemoryMap.put(player.username, memory);
 		}
 
@@ -2591,10 +2591,10 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					float positiveCooldownModifier = trait.getPositiveCooldownModifier();
 					float negativeCooldownModifier = trait.getNegativeCooldownModifier();
 
-					//Update interaction wear on all memories.
+					//Update interaction fatigue on all memories.
 					for (PlayerMemory memory : playerMemoryMap.values())
 					{
-						memory.interactionWear = 0;
+						memory.interactionFatigue = 0;
 					}
 
 					//Do natural mood cooldowns.

@@ -54,7 +54,7 @@ public class PlayerMemory implements Serializable
 	public int executionsWitnessed = 0;
 	
 	/** How much this villager is tired of talking with the player. */
-	public int interactionWear = 0;
+	public int interactionFatigue = 0;
 	
 	/** How many times has this heir requested tribute from the player? */
 	public int tributeRequests = 0;

@@ -741,9 +741,9 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 		int hearts = getHearts(player);
 		boolean kissWasGood = false;
 
-		//This has a higher interaction wear.
+		//This has a higher interaction fatigue.
 		PlayerMemory memory = playerMemoryMap.get(player.username);
-		int chanceModifier = -(memory.interactionWear * 10) + mood.getChanceModifier("kiss") + trait.getChanceModifier("kiss");
+		int chanceModifier = -(memory.interactionFatigue * 10) + mood.getChanceModifier("kiss") + trait.getChanceModifier("kiss");
 		int heartsModifier = mood.getHeartsModifier("kiss") + trait.getHeartsModifier("kiss");
 
 		//When hearts are above 75, add 75 to the chance modifier to make more sense.
@@ -793,7 +793,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 		boolean flirtWasGood = false;
 
 		PlayerMemory memory = playerMemoryMap.get(player.username);
-		int chanceModifier = -(memory.interactionWear * 7) + mood.getChanceModifier("flirt") + trait.getChanceModifier("flirt");
+		int chanceModifier = -(memory.interactionFatigue * 7) + mood.getChanceModifier("flirt") + trait.getChanceModifier("flirt");
 		int heartsModifier = mood.getHeartsModifier("flirt") + trait.getHeartsModifier("flirt");
 
 		//When hearts are above 50, add 35 to the chance modifier to make more sense.
