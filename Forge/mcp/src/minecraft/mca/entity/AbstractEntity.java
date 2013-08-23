@@ -1435,8 +1435,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			chanceModifier -= 25;
 		}
 		
-		MCA.instance.log(10 + chanceModifier);
-		
 		//Base 10% chance of success.
 		kissWasGood = getBooleanWithProbability(10 + chanceModifier);
 		
