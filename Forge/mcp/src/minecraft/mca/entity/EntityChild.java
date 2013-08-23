@@ -75,47 +75,4 @@ public abstract class EntityChild extends AbstractEntity
 			isReadyToGrow = true;
 		}
 	}
-	
-	/**
-	 * Calculate if play should be good or bad and say the appropriate response.
-	 * 
-	 * @param 	player	The player whose hearts should change.
-	 */
-	public void doPlay(EntityPlayer player)
-	{
-		int hearts = getHearts(player);
-		boolean playWasGood = false;
-
-		PlayerMemory memory = playerMemoryMap.get(player.username);
-		int chanceModifier = -(memory.interactionFatigue * 7) + mood.getChanceModifier("play") + trait.getChanceModifier("play");
-		int heartsModifier = mood.getHeartsModifier("play") + trait.getHeartsModifier("play");
-
-		playWasGood = getBooleanWithProbability(65 + chanceModifier);
-		
-		if (playWasGood)
-		{
-			//Don't want to apply a negative value to a good interaction. Set it to 1 so player still has penalty
-			//of performing wrong interaction based on traits or mood.
-			if (heartsModifier < 0)
-			{
-				heartsModifier = 1;
-			}
-
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "play.good"));
-			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), (worldObj.rand.nextInt(6) + 6) + heartsModifier);
-			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
-		}
-
-		else
-		{
-			if (heartsModifier > 0)
-			{
-				heartsModifier = -1;
-			}
-
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "play.bad"));
-			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(6) + 6)) + heartsModifier);
-			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
-		}
-	}
 }

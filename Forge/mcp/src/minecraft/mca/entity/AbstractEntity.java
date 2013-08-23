@@ -1316,6 +1316,156 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		}
 	}
 
+	/**
+	 * Calculate if play should be good or bad and say the appropriate response.
+	 * 
+	 * @param 	player	The player whose hearts should change.
+	 */
+	public void doPlay(EntityPlayer player)
+	{
+		int hearts = getHearts(player);
+		boolean playWasGood = false;
+
+		PlayerMemory memory = playerMemoryMap.get(player.username);
+		int chanceModifier = -(memory.interactionFatigue * 7) + mood.getChanceModifier("play") + trait.getChanceModifier("play");
+		int heartsModifier = mood.getHeartsModifier("play") + trait.getHeartsModifier("play");
+
+		playWasGood = getBooleanWithProbability(65 + chanceModifier);
+		
+		if (playWasGood)
+		{
+			//Don't want to apply a negative value to a good interaction. Set it to 1 so player still has penalty
+			//of performing wrong interaction based on traits or mood.
+			if (heartsModifier < 0)
+			{
+				heartsModifier = 1;
+			}
+
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "play.good"));
+			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), (worldObj.rand.nextInt(6) + 6) + heartsModifier);
+			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
+		}
+
+		else
+		{
+			if (heartsModifier > 0)
+			{
+				heartsModifier = -1;
+			}
+
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "play.bad"));
+			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(6) + 6)) + heartsModifier);
+			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
+		}
+	}
+	
+	/**
+	 * Calculate if a flirt should be good or bad and say the appropriate response.
+	 * 
+	 * @param 	player	The player whose hearts should change.
+	 */
+	public void doFlirt(EntityPlayer player)
+	{
+		int hearts = getHearts(player);
+		boolean flirtWasGood = false;
+
+		PlayerMemory memory = playerMemoryMap.get(player.username);
+		int chanceModifier = -(memory.interactionFatigue * 7) + mood.getChanceModifier("flirt") + trait.getChanceModifier("flirt");
+		int heartsModifier = mood.getHeartsModifier("flirt") + trait.getHeartsModifier("flirt");
+
+		//When hearts are above 50, add 35 to the chance modifier to make more sense.
+		if (hearts > 50)
+		{
+			chanceModifier += 35;
+		}
+		
+		//Base 10% chance of success.
+		flirtWasGood = getBooleanWithProbability(30 + chanceModifier);
+		
+		if (flirtWasGood)
+		{
+			//Don't want to apply a negative value to a good interaction. Set it to 1 so player still has penalty
+			//of performing wrong interaction based on traits or mood.
+			if (heartsModifier < 0)
+			{
+				heartsModifier = 1;
+			}
+
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "flirt.good"));
+			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), (worldObj.rand.nextInt(8) + 4) + heartsModifier);
+			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
+		}
+
+		else
+		{
+			if (heartsModifier > 0)
+			{
+				heartsModifier = -1;
+			}
+
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "flirt.bad"));
+			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(8) + 4)) + heartsModifier);
+			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
+		}
+	}
+	
+	/**
+	 * Calculate if a kiss should be good or bad and say the appropriate response.
+	 * 
+	 * @param 	player	The player whose hearts should change.
+	 */
+	public void doKiss(EntityPlayer player)
+	{
+		int hearts = getHearts(player);
+		boolean kissWasGood = false;
+	
+		//This has a higher interaction fatigue.
+		PlayerMemory memory = playerMemoryMap.get(player.username);
+		int chanceModifier = -(memory.interactionFatigue * 10) + mood.getChanceModifier("kiss") + trait.getChanceModifier("kiss");
+		int heartsModifier = mood.getHeartsModifier("kiss") + trait.getHeartsModifier("kiss");
+	
+		//When hearts are above 75, add 75 to the chance modifier to make more sense.
+		if (hearts > 75)
+		{
+			chanceModifier += 75;
+		}
+		
+		else
+		{
+			chanceModifier -= 25;
+		}
+		
+		MCA.instance.log(10 + chanceModifier);
+		
+		//Base 10% chance of success.
+		kissWasGood = getBooleanWithProbability(10 + chanceModifier);
+		
+		if (kissWasGood)
+		{
+			//Don't want to apply a negative value to a good interaction. Set it to 1 so player still has penalty
+			//of performing wrong interaction based on traits or mood.
+			if (heartsModifier < 0)
+			{
+				heartsModifier = 1;
+			}
+	
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "kiss.good"));
+			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), (worldObj.rand.nextInt(16) + 6) + heartsModifier);
+			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()));
+		}
+	
+		else
+		{
+			if (heartsModifier > 0)
+			{
+				heartsModifier = -1;
+			}
+	
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "kiss.bad"));
+			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(16) + 6)) + heartsModifier);
+			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()));
+		}
+	}
 
 	/**
 	 * Gets the title of this entity that will be displayed to the player interacting with it.
