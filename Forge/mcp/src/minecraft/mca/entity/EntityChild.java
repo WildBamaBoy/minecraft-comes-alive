@@ -12,6 +12,10 @@ package mca.entity;
 import java.util.Calendar;
 
 import mca.core.MCA;
+import mca.core.util.LanguageHelper;
+import mca.core.util.object.PlayerMemory;
+import mca.enums.EnumMoodChangeContext;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 /**
@@ -70,18 +74,48 @@ public abstract class EntityChild extends AbstractEntity
 			age = MCA.instance.modPropertiesManager.modProperties.kidGrowUpTimeMinutes;
 			isReadyToGrow = true;
 		}
+	}
+	
+	/**
+	 * Calculate if a joke should be good or bad and say the appropriate response.
+	 * 
+	 * @param 	player	The player whose hearts should change.
+	 */
+	public void doPlay(EntityPlayer player)
+	{
+		int hearts = getHearts(player);
+		boolean playWasGood = false;
+
+		PlayerMemory memory = playerMemoryMap.get(player.username);
+		int chanceModifier = -(memory.interactionFatigue * 7) + mood.getChanceModifier("play") + trait.getChanceModifier("play");
+		int heartsModifier = mood.getHeartsModifier("play") + trait.getHeartsModifier("play");
+
+		playWasGood = getBooleanWithProbability(65 + chanceModifier);
 		
-		//Debug checks
-		//TODO: Enable
-//		if (MCA.instance.inDebugMode)
-//		{
-//			age++;
-//			
-//			if (age >= MCA.instance.modPropertiesManager.modProperties.kidGrowUpTimeMinutes)
-//			{
-//				age = MCA.instance.modPropertiesManager.modProperties.kidGrowUpTimeMinutes;
-//				isReadyToGrow = true;
-//			}
-//		}
+		if (playWasGood)
+		{
+			//Don't want to apply a negative value to a good interaction. Set it to 1 so player still has penalty
+			//of performing wrong interaction based on traits or mood.
+			if (heartsModifier < 0)
+			{
+				heartsModifier = 1;
+			}
+
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "play.good"));
+			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), (worldObj.rand.nextInt(6) + 6) + heartsModifier);
+			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
+		}
+
+		else
+		{
+			if (heartsModifier > 0)
+			{
+				heartsModifier = -1;
+			}
+
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "play.bad"));
+			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(6) + 6)) + heartsModifier);
+			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
+		}
 	}
 }

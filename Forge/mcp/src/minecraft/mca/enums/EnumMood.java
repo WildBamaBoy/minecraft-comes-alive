@@ -562,6 +562,34 @@ public enum EnumMood
 			}			
 		}
 
+		else if (interactionType.equals("play"))
+		{
+			if (this.isAnger())
+			{
+				return -(5 * getMoodLevel());
+			}
+
+			else if (this.isFatigue())
+			{
+				return -(20 * getMoodLevel());
+			}
+
+			else if (this.isHappy())
+			{
+				return 3 * getMoodLevel();
+			}
+
+			else if (this.isNeutral())
+			{
+				return 0;
+			}
+
+			else if (this.isSadness())
+			{
+				return 3 * getMoodLevel();
+			}
+		}
+		
 		return 0;
 	}
 
@@ -769,6 +797,35 @@ public enum EnumMood
 				return 2 * getMoodLevel();
 			}
 		}
+
+		else if (interactionType.equals("play"))
+		{
+			if (this.isAnger())
+			{
+				return -(1 * getMoodLevel());
+			}
+
+			else if (this.isFatigue())
+			{
+				return -(3 * getMoodLevel());
+			}
+
+			else if (this.isHappy())
+			{
+				return 2 * getMoodLevel();
+			}
+
+			else if (this.isNeutral())
+			{
+				return 0;
+			}
+
+			else if (this.isSadness())
+			{
+				return 2 * getMoodLevel();
+			}
+		}
+		
 		return 0;
 	}
 }

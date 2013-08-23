@@ -106,6 +106,218 @@ public enum EnumTrait
 	}
 	
 	/**
+	 * Gets the amount to be added or removed from an interaction based on the trait.
+	 * 
+	 * @param 	interactionType	"chat", "joke", or "gift" based on which interaction is being performed.
+	 * 
+	 * @return	Integer amount that is added or subtracted from hearts modification value of interaction.
+	 */
+	public int getHeartsModifier(String interactionType) 
+	{
+		if (interactionType.equals("chat"))
+		{
+			switch (this)
+			{
+			case Emotional:
+				return 4;
+			case Friendly:
+				return 9;
+			case Fun:
+				return 4;
+			case Irritable:
+				return -3;
+			case None:
+				return 0;
+			case Outgoing:
+				return 11;
+			case Serious:
+				return 3;
+			case Shy:
+				return -3;
+			default:
+				return 0;
+			}
+		}
+		
+		else if (interactionType.equals("joke"))
+		{
+			switch (this)
+			{
+			case Emotional:
+				return 0;
+			case Friendly:
+				return 4;
+			case Fun:
+				return 7;
+			case Irritable:
+				return -5;
+			case None:
+				return 0;
+			case Outgoing:
+				return 4;
+			case Serious:
+				return -3;
+			case Shy:
+				return -3;
+			default:
+				return 0;
+			}
+		}
+		
+		else if (interactionType.equals("gift"))
+		{
+			switch (this)
+			{
+			case Emotional:
+				return 3;
+			case Friendly:
+				return 11;
+			case Fun:
+				return 7;
+			case Irritable:
+				return 0;
+			case None:
+				return 0;
+			case Outgoing:
+				return 3;
+			case Serious:
+				return 0;
+			case Shy:
+				return 0;
+			default:
+				return 0;
+			}
+		}
+		
+		else if (interactionType.equals("greeting"))
+		{
+			switch (this)
+			{
+			case Emotional:
+				return 0;
+			case Friendly:
+				return 6;
+			case Fun:
+				return 0;
+			case Irritable:
+				return -2;
+			case None:
+				return 0;
+			case Outgoing:
+				return 11;
+			case Serious:
+				return 6;
+			case Shy:
+				return -3;
+			default:
+				return 0;
+			}
+		}
+		
+		else if (interactionType.equals("story"))
+		{
+			switch (this)
+			{
+			case Emotional:
+				return 3;
+			case Friendly:
+				return 3;
+			case Fun:
+				return 2;
+			case Irritable:
+				return -3;
+			case None:
+				return 0;
+			case Outgoing:
+				return 5;
+			case Serious:
+				return 2;
+			case Shy:
+				return -3;
+			default:
+				return 0;
+			}
+		}
+		
+		else if (interactionType.equals("kiss"))
+		{
+			switch (this)
+			{
+			case Emotional:
+				return 5;
+			case Friendly:
+				return 5;
+			case Fun:
+				return 0;
+			case Irritable:
+				return 0;
+			case None:
+				return 0;
+			case Outgoing:
+				return 0;
+			case Serious:
+				return 0;
+			case Shy:
+				return 2;
+			default:
+				return 0;
+			}
+		}
+		
+		else if (interactionType.equals("flirt"))
+		{
+			switch (this)
+			{
+			case Emotional:
+				return 2;
+			case Friendly:
+				return 3;
+			case Fun:
+				return 6;
+			case Irritable:
+				return 0;
+			case None:
+				return 0;
+			case Outgoing:
+				return 1;
+			case Serious:
+				return 0;
+			case Shy:
+				return 0;
+			default:
+				return 0;
+			}
+		}
+		
+		else if (interactionType.equals("play"))
+		{
+			switch (this)
+			{
+			case Emotional:
+				return 0;
+			case Friendly:
+				return 3;
+			case Fun:
+				return 8;
+			case Irritable:
+				return 0;
+			case None:
+				return 0;
+			case Outgoing:
+				return 3;
+			case Serious:
+				return 0;
+			case Shy:
+				return -2;
+			default:
+				return 0;
+			}
+		}
+		
+		return 0;
+	}
+
+	/**
 	 * Gets modifier applied to chance of interaction success based on trait.
 	 * 
 	 * @param 	interactionType	"chat", "joke" or "gift" based on the type of interaction.
@@ -289,188 +501,26 @@ public enum EnumTrait
 			}
 		}
 		
-		return 0;
-	}
-	
-	/**
-	 * Gets the amount to be added or removed from an interaction based on the trait.
-	 * 
-	 * @param 	interactionType	"chat", "joke", or "gift" based on which interaction is being performed.
-	 * 
-	 * @return	Integer amount that is added or subtracted from hearts modification value of interaction.
-	 */
-	public int getHeartsModifier(String interactionType) 
-	{
-		if (interactionType.equals("chat"))
+		else if (interactionType.equals("play"))
 		{
 			switch (this)
 			{
 			case Emotional:
-				return 4;
+				return 0;
 			case Friendly:
-				return 9;
+				return 5;
 			case Fun:
-				return 4;
+				return 20;
 			case Irritable:
-				return -3;
+				return -10;
 			case None:
 				return 0;
 			case Outgoing:
-				return 11;
+				return 10;
 			case Serious:
-				return 3;
+				return 0;
 			case Shy:
-				return -3;
-			default:
-				return 0;
-			}
-		}
-		
-		else if (interactionType.equals("joke"))
-		{
-			switch (this)
-			{
-			case Emotional:
-				return 0;
-			case Friendly:
-				return 4;
-			case Fun:
-				return 7;
-			case Irritable:
 				return -5;
-			case None:
-				return 0;
-			case Outgoing:
-				return 4;
-			case Serious:
-				return -3;
-			case Shy:
-				return -3;
-			default:
-				return 0;
-			}
-		}
-		
-		else if (interactionType.equals("gift"))
-		{
-			switch (this)
-			{
-			case Emotional:
-				return 3;
-			case Friendly:
-				return 11;
-			case Fun:
-				return 7;
-			case Irritable:
-				return 0;
-			case None:
-				return 0;
-			case Outgoing:
-				return 3;
-			case Serious:
-				return 0;
-			case Shy:
-				return 0;
-			default:
-				return 0;
-			}
-		}
-		
-		else if (interactionType.equals("greeting"))
-		{
-			switch (this)
-			{
-			case Emotional:
-				return 0;
-			case Friendly:
-				return 6;
-			case Fun:
-				return 0;
-			case Irritable:
-				return -2;
-			case None:
-				return 0;
-			case Outgoing:
-				return 11;
-			case Serious:
-				return 6;
-			case Shy:
-				return -3;
-			default:
-				return 0;
-			}
-		}
-		
-		else if (interactionType.equals("story"))
-		{
-			switch (this)
-			{
-			case Emotional:
-				return 3;
-			case Friendly:
-				return 3;
-			case Fun:
-				return 2;
-			case Irritable:
-				return -3;
-			case None:
-				return 0;
-			case Outgoing:
-				return 5;
-			case Serious:
-				return 2;
-			case Shy:
-				return -3;
-			default:
-				return 0;
-			}
-		}
-		
-		else if (interactionType.equals("kiss"))
-		{
-			switch (this)
-			{
-			case Emotional:
-				return 5;
-			case Friendly:
-				return 5;
-			case Fun:
-				return 0;
-			case Irritable:
-				return 0;
-			case None:
-				return 0;
-			case Outgoing:
-				return 0;
-			case Serious:
-				return 0;
-			case Shy:
-				return 2;
-			default:
-				return 0;
-			}
-		}
-		
-		else if (interactionType.equals("flirt"))
-		{
-			switch (this)
-			{
-			case Emotional:
-				return 2;
-			case Friendly:
-				return 3;
-			case Fun:
-				return 6;
-			case Irritable:
-				return 0;
-			case None:
-				return 0;
-			case Outgoing:
-				return 1;
-			case Serious:
-				return 0;
-			case Shy:
-				return 0;
 			default:
 				return 0;
 			}
