@@ -752,6 +752,13 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 			chanceModifier += 75;
 		}
 		
+		else
+		{
+			chanceModifier -= 25;
+		}
+		
+		MCA.instance.log(10 + chanceModifier);
+		
 		//Base 10% chance of success.
 		kissWasGood = getBooleanWithProbability(10 + chanceModifier);
 		
@@ -766,7 +773,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 
 			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "kiss.good"));
 			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), (worldObj.rand.nextInt(16) + 6) + heartsModifier);
-			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
+			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()));
 		}
 
 		else
@@ -778,7 +785,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 
 			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "kiss.bad"));
 			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(16) + 6)) + heartsModifier);
-			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
+			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()));
 		}
 	}
 	
