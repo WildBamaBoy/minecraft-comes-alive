@@ -732,7 +732,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 	}
 
 	/**
-	 * Calculate if a joke should be good or bad and say the appropriate response.
+	 * Calculate if a kiss should be good or bad and say the appropriate response.
 	 * 
 	 * @param 	player	The player whose hearts should change.
 	 */
@@ -783,7 +783,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 	}
 	
 	/**
-	 * Calculate if a joke should be good or bad and say the appropriate response.
+	 * Calculate if a flirt should be good or bad and say the appropriate response.
 	 * 
 	 * @param 	player	The player whose hearts should change.
 	 */

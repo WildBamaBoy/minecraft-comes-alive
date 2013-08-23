@@ -77,7 +77,7 @@ public abstract class EntityChild extends AbstractEntity
 	}
 	
 	/**
-	 * Calculate if a joke should be good or bad and say the appropriate response.
+	 * Calculate if play should be good or bad and say the appropriate response.
 	 * 
 	 * @param 	player	The player whose hearts should change.
 	 */

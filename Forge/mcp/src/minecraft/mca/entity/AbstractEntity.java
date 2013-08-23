@@ -1228,7 +1228,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	}
 
 	/**
-	 * Calculate if a joke should be good or bad and say the appropriate response.
+	 * Calculate if a greeting should be good or bad and say the appropriate response.
 	 * 
 	 * @param 	player	The player whose hearts should change.
 	 */
@@ -1274,7 +1274,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	}
 	
 	/**
-	 * Calculate if a joke should be good or bad and say the appropriate response.
+	 * Calculate if a story should be good or bad and say the appropriate response.
 	 * 
 	 * @param 	player	The player whose hearts should change.
 	 */
