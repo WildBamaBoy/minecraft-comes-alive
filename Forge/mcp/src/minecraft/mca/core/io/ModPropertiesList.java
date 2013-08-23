@@ -94,6 +94,9 @@ public class ModPropertiesList implements Serializable
 	/** Should the hunting chore be allowed to run? */
 	public boolean server_allowHuntingChore = true;
 	
+	/** Should player's be allowed to demand gifts from people? */
+	public boolean server_allowDemandGift = true;
+	
 	/** How many villagers there must be in order for one guard to spawn. */
 	public int guardSpawnRate = 3;
 }

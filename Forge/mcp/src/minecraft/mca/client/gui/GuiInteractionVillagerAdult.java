@@ -957,6 +957,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		buttonList.add(makePeasantButton = new GuiButton(3, width / 2 - 60, height / 2 + 20, 120, 20, LanguageHelper.getString("monarch.gui.button.interact.makepeasant")));
 		buttonList.add(makeKnightButton  = new GuiButton(4, width / 2 - 60, height / 2 + 40, 120, 20, LanguageHelper.getString("monarch.gui.button.interact.makeknight")));
 
+		demandGiftButton.enabled = MCA.instance.modPropertiesManager.modProperties.server_allowDemandGift;
+		
 		if (entityVillager.profession == 5)
 		{
 			makePeasantButton.enabled = false;
@@ -976,7 +978,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				makePeasantButton.enabled = false;
 			}
 		}
-
+		
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = false;
