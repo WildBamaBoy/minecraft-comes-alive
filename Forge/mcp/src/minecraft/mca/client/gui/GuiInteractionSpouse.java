@@ -37,9 +37,7 @@ public class GuiInteractionSpouse extends AbstractGui
 	int hearts;
 
 	//Basic interaction buttons.
-	private GuiButton chatButton;
-	private GuiButton jokeButton;
-	private GuiButton giftButton;
+	private GuiButton interactButton;
 	private GuiButton followButton;
 	private GuiButton stayButton;
 	private GuiButton setHomeButton;
@@ -48,6 +46,15 @@ public class GuiInteractionSpouse extends AbstractGui
 	private GuiButton combatButton;
 	private GuiButton monarchButton;
 
+	//Interaction buttons.
+	private GuiButton chatButton;
+	private GuiButton jokeButton;
+	private GuiButton giftButton;
+	private GuiButton greetButton;
+	private GuiButton kissButton;
+	private GuiButton flirtButton;
+	private GuiButton tellStoryButton;
+	
 	private GuiButton procreateBackButton;
 
 	private GuiButton backButton;
@@ -72,6 +79,7 @@ public class GuiInteractionSpouse extends AbstractGui
 	private GuiButton combatAttackEndermenButton;
 	private GuiButton combatAttackUnknownButton;
 
+	private boolean inInteractionSelectGui = false;
 	private boolean inProcreationGui = false;
 	private boolean inCombatGui = false;
 	private boolean inSpecialGui = false;
@@ -97,7 +105,7 @@ public class GuiInteractionSpouse extends AbstractGui
 	{
 		buttonList.clear();
 		hearts = entitySpouse.getHearts(player);
-		drawInteractionGui();
+		drawBaseGui();
 	}
 
 	/**
@@ -118,7 +126,12 @@ public class GuiInteractionSpouse extends AbstractGui
 			close();
 		}
 
-		if (inProcreationGui)
+		if (inInteractionSelectGui)
+		{
+			actionPerformedInteraction(button);
+		}
+		
+		else if (inProcreationGui)
 		{
 			actionPerformedProcreation(button);
 		}
@@ -191,9 +204,6 @@ public class GuiInteractionSpouse extends AbstractGui
 			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.mood") + entitySpouse.mood.getLocalizedValue(), width / 2 - 150, height / 2 - 65, 0xffffff);
 			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.trait") + entitySpouse.trait.getLocalizedValue(), width / 2 - 150, height / 2 - 50, 0xffffff);
 
-			chatButton.enabled = true;
-			jokeButton.enabled = true;
-			giftButton.enabled = true;
 			followButton.enabled = true;
 			stayButton.enabled = true;
 			setHomeButton.enabled = true;
@@ -207,23 +217,23 @@ public class GuiInteractionSpouse extends AbstractGui
 	/**
 	 * Draws the base interaction GUI.
 	 */
-	private void drawInteractionGui()
+	private void drawBaseGui()
 	{
+		inInteractionSelectGui = false;
 		inProcreationGui = false;
 		inCombatGui = false;
 		inMonarchGui = false;
+		inSpecialGui = false;
 
 		buttonList.clear();
 
-		buttonList.add(chatButton      = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.chat")));
-		buttonList.add(jokeButton      = new GuiButton(2, width / 2 - 90, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.joke")));
-		buttonList.add(giftButton      = new GuiButton(3, width / 2 - 90, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.gift")));
-		buttonList.add(followButton    = new GuiButton(4, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
-		buttonList.add(stayButton      = new GuiButton(5, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
-		buttonList.add(setHomeButton   = new GuiButton(6, width / 2 - 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.sethome")));
-		buttonList.add(procreateButton = new GuiButton(7, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.spouse.procreate")));
-		buttonList.add(inventoryButton = new GuiButton(8, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.spouse.inventory")));
-		buttonList.add(combatButton    = new GuiButton(8, width / 2 + 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.chore.combat")));	
+		buttonList.add(interactButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.interact")));
+		buttonList.add(followButton    = new GuiButton(2, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
+		buttonList.add(stayButton      = new GuiButton(3, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
+		buttonList.add(setHomeButton   = new GuiButton(4, width / 2 - 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.sethome")));
+		buttonList.add(procreateButton = new GuiButton(5, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.spouse.procreate")));
+		buttonList.add(inventoryButton = new GuiButton(6, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.spouse.inventory")));
+		buttonList.add(combatButton    = new GuiButton(7, width / 2 + 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.chore.combat")));	
 
 		if (MCA.instance.playerWorldManagerMap.get(player.username).worldProperties.isMonarch)
 		{
@@ -237,16 +247,36 @@ public class GuiInteractionSpouse extends AbstractGui
 		if (entitySpouse.isFollowing) followButton.displayString = LanguageHelper.getString("gui.button.interact.followstop");
 		if (entitySpouse.isStaying)   stayButton.displayString = LanguageHelper.getString("gui.button.interact.staystop");
 
-		chatButton.enabled = true;
-		jokeButton.enabled = true;
-		giftButton.enabled = false;
 		followButton.enabled = false;
 		stayButton.enabled = false;
 		setHomeButton.enabled = false;
 		procreateButton.enabled = false;
 		inventoryButton.enabled = false;
 	}
+	
+	/**
+	 * Draws the GUI containing all interactions.
+	 */
+	private void drawInteractionGui()
+	{
+		buttonList.clear();
+		
+		inSpecialGui = true;
+		inInteractionSelectGui = true;
 
+		buttonList.add(chatButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.chat")));
+		buttonList.add(jokeButton = new GuiButton(2, width / 2 - 90, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.joke")));
+		buttonList.add(giftButton = new GuiButton(3, width / 2 - 90, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.gift")));
+		buttonList.add(greetButton = new GuiButton(4, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.greet")));
+		buttonList.add(tellStoryButton = new GuiButton(5, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.tellstory")));
+		buttonList.add(kissButton = new GuiButton(6, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.kiss")));
+		buttonList.add(flirtButton = new GuiButton(7, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.flirt")));
+		
+		greetButton.displayString = entitySpouse.playerMemoryMap.get(player.username).hearts >= 50 ? LanguageHelper.getString("gui.button.interact.greet.highfive") : LanguageHelper.getString("gui.button.interact.greet.handshake");
+		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+	}
+	
 	/**
 	 * Draws the procreation GUI.
 	 */
@@ -317,6 +347,7 @@ public class GuiInteractionSpouse extends AbstractGui
 		combatAttackSkeletonsButton.displayString += (entitySpouse.combatChore.attackSkeletons) ? LanguageHelper.getString("gui.button.yes") : LanguageHelper.getString("gui.button.no");
 		combatAttackCreepersButton.displayString  += (entitySpouse.combatChore.attackCreepers)  ? LanguageHelper.getString("gui.button.yes") : LanguageHelper.getString("gui.button.no");
 		combatAttackEndermenButton.displayString  += (entitySpouse.combatChore.attackEndermen)  ? LanguageHelper.getString("gui.button.yes") : LanguageHelper.getString("gui.button.no");
+		combatAttackUnknownButton.displayString   += (entitySpouse.combatChore.attackUnknown)   ? LanguageHelper.getString("gui.button.yes") : LanguageHelper.getString("gui.button.no");
 
 		combatMethodButton.enabled = false;
 		combatAttackPigsButton.enabled = false;
@@ -365,26 +396,9 @@ public class GuiInteractionSpouse extends AbstractGui
 	 */
 	private void actionPerformedBase(GuiButton button)
 	{
-		if (button == chatButton)
+		if (button == interactButton)
 		{
-			entitySpouse.doChat(player);
-			close();
-		}
-
-		else if (button == jokeButton)
-		{
-			entitySpouse.doJoke(player);
-			close();
-		}
-
-		else if (button == giftButton)
-		{
-			PlayerMemory memory = entitySpouse.playerMemoryMap.get(player.username);
-			memory.isInGiftMode = true;
-			entitySpouse.playerMemoryMap.put(player.username, memory);
-
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "playerMemoryMap", entitySpouse.playerMemoryMap));
-			close();
+			drawInteractionGui();
 		}
 
 		else if (button == followButton)
@@ -499,6 +513,67 @@ public class GuiInteractionSpouse extends AbstractGui
 	}
 
 	/**
+	 * Handles an action performed in the interaction GUI.
+	 * 
+	 * @param 	button	The button that was pressed.
+	 */
+	private void actionPerformedInteraction(GuiButton button)
+	{
+		if (button == chatButton)
+		{
+			entitySpouse.doChat(player);
+			close();
+		}
+
+		else if (button == jokeButton)
+		{
+			entitySpouse.doJoke(player);
+			close();
+		}
+
+		else if (button == giftButton)
+		{
+			entitySpouse.playerMemoryMap.get(player.username).isInGiftMode = true;
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "playerMemoryMap", entitySpouse.playerMemoryMap));
+			close();
+		}
+		
+		else if (button == greetButton)
+		{
+			entitySpouse.doGreeting(player);
+			close();
+		}
+		
+		else if (button == tellStoryButton)
+		{
+			entitySpouse.doTellStory(player);
+			close();
+		}
+		else if (button == kissButton)
+		{
+			entitySpouse.doKiss(player);
+			close();
+		}
+		
+		else if (button == flirtButton)
+		{
+			entitySpouse.doFlirt(player);
+			close();
+		}
+		
+		else if (button == tellStoryButton)
+		{
+			entitySpouse.doTellStory(player);
+			close();
+		}
+		
+		else if (button == backButton)
+		{
+			drawBaseGui();
+		}
+	}
+	
+	/**
 	 * Handles an action performed in the procreation GUI.
 	 * 
 	 * @param 	button	The button that was pressed. 
@@ -507,7 +582,7 @@ public class GuiInteractionSpouse extends AbstractGui
 	{
 		if (button == procreateBackButton)
 		{
-			drawInteractionGui();
+			drawBaseGui();
 			return;
 		}
 
@@ -523,7 +598,7 @@ public class GuiInteractionSpouse extends AbstractGui
 	{
 		if (button == backButton)
 		{
-			drawInteractionGui();
+			drawBaseGui();
 			return;
 		}
 
@@ -617,7 +692,7 @@ public class GuiInteractionSpouse extends AbstractGui
 	{
 		if (button == backButton)
 		{
-			drawInteractionGui();
+			drawBaseGui();
 		}
 
 		else if (button == executeButton)
