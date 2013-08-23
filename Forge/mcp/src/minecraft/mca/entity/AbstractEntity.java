@@ -1245,7 +1245,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		//Base 90% chance of success.
 		greetingWasGood = getBooleanWithProbability(90 + chanceModifier);
 		String greetingType = memory.hearts >= 50 ? "highfive" : "handshake";
-		
+
 		if (greetingWasGood)
 		{
 			//Don't want to apply a negative value to a good interaction. Set it to 1 so player still has penalty
@@ -1272,7 +1272,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
 		}
 	}
-	
+
 	/**
 	 * Calculate if a story should be good or bad and say the appropriate response.
 	 * 
@@ -1288,7 +1288,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		int heartsModifier = mood.getHeartsModifier("story") + trait.getHeartsModifier("story");
 
 		storyWasGood = getBooleanWithProbability(65 + chanceModifier);
-		
+
 		if (storyWasGood)
 		{
 			//Don't want to apply a negative value to a good interaction. Set it to 1 so player still has penalty
@@ -1315,8 +1315,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
 		}
 	}
-	
-	
+
+
 	/**
 	 * Gets the title of this entity that will be displayed to the player interacting with it.
 	 * 
@@ -2723,16 +2723,24 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	public static boolean getBooleanWithProbability(int probabilityOfTrue)
 	{
-		int randomNumber = MCA.instance.rand.nextInt(100) + 1;
-
-		if (randomNumber <= probabilityOfTrue)
+		if (probabilityOfTrue < 0)
 		{
-			return true;
+			return false;
 		}
 
 		else
 		{
-			return false;
+			int randomNumber = MCA.instance.rand.nextInt(100) + 1;
+
+			if (randomNumber <= probabilityOfTrue)
+			{
+				return true;
+			}
+
+			else
+			{
+				return false;
+			}
 		}
 	}
 
