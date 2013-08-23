@@ -38,18 +38,24 @@ public class GuiInteractionVillagerChild extends AbstractGui
 	int hearts;
 
 	//Basic interaction buttons.
-	private GuiButton chatButton;
-	private GuiButton jokeButton;
-	private GuiButton giftButton;
+	private GuiButton interactButton;
 	private GuiButton followButton;
 	private GuiButton setHomeButton;
 	private GuiButton stayButton;
 
+	//Interaction buttons.
+	private GuiButton chatButton;
+	private GuiButton jokeButton;
+	private GuiButton giftButton;
+	private GuiButton greetButton;
+	private GuiButton tellStoryButton;
+	private GuiButton playButton;
+	
 	//Back and exit buttons.
 	private GuiButton backButton;
 	private GuiButton exitButton;
 
-	private boolean inNoSpecialGui = false;
+	private boolean inInteractionSelectGui = false;
 
 	/**
 	 * Constructor
@@ -68,7 +74,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 	{
 		buttonList.clear();
 		hearts = entityVillagerChild.getHearts(player);
-		drawInteractionGui();
+		drawBaseGui();
 	}
 
 	@Override
@@ -76,7 +82,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 	{
 		if (button == backButton)
 		{
-
+			drawBaseGui();
 		}
 
 		else if (button == exitButton)
@@ -84,7 +90,12 @@ public class GuiInteractionVillagerChild extends AbstractGui
 			close();
 		}
 
-		else if (!inNoSpecialGui)
+		else if (inInteractionSelectGui)
+		{
+			actionPerformedInteraction(button);
+		}
+		
+		else
 		{
 			actionPerformedBase(button);
 		}
@@ -131,19 +142,17 @@ public class GuiInteractionVillagerChild extends AbstractGui
 	}
 
 	/**
-	 * Draws the base interaction GUI.
+	 * Draws the base GUI.
 	 */
-	private void drawInteractionGui()
+	private void drawBaseGui()
 	{
 		buttonList.clear();
-		inNoSpecialGui = false;
+		inInteractionSelectGui = false;
 
-		buttonList.add(chatButton    = new GuiButton(1, width / 2 - 65, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.chat")));
-		buttonList.add(jokeButton   = new GuiButton(2, width / 2 - 65, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.joke")));
-		buttonList.add(giftButton    = new GuiButton(3, width / 2 - 65, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.gift")));
-		buttonList.add(followButton  = new GuiButton(4, width / 2 - 5, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
-		buttonList.add(stayButton    = new GuiButton(5, width / 2 - 5, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
-		buttonList.add(setHomeButton = new GuiButton(6, width / 2 - 5, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.sethome")));
+		buttonList.add(interactButton = new GuiButton(1, width / 2 - 65, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.interact")));
+		buttonList.add(followButton  = new GuiButton(2, width / 2 - 5, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
+		buttonList.add(stayButton    = new GuiButton(3, width / 2 - 5, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
+		buttonList.add(setHomeButton = new GuiButton(4, width / 2 - 5, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.sethome")));
 
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
@@ -154,32 +163,35 @@ public class GuiInteractionVillagerChild extends AbstractGui
 	}
 
 	/**
+	 * Draws the base interaction GUI.
+	 */
+	private void drawInteractionGui()
+	{
+		buttonList.clear();
+
+		inInteractionSelectGui = true;
+
+		buttonList.add(chatButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.chat")));
+		buttonList.add(jokeButton = new GuiButton(2, width / 2 - 90, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.joke")));
+		buttonList.add(giftButton = new GuiButton(3, width / 2 - 90, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.gift")));
+		buttonList.add(greetButton = new GuiButton(4, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.greet")));
+		buttonList.add(tellStoryButton = new GuiButton(5, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.tellstory")));
+		
+		greetButton.displayString = entityVillagerChild.playerMemoryMap.get(player.username).hearts >= 50 ? LanguageHelper.getString("gui.button.interact.greet.highfive") : LanguageHelper.getString("gui.button.interact.greet.handshake");
+		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+	}
+
+	/**
 	 * Handles an action performed in the base GUI.
 	 * 
 	 * @param	button	The button that was pressed.
 	 */
 	private void actionPerformedBase(GuiButton button)
 	{
-		if (button == chatButton)
+		if (button == interactButton)
 		{
-			entityVillagerChild.doChat(player);
-			close();
-		}
-
-		else if (button == jokeButton)
-		{
-			entityVillagerChild.doJoke(player);
-			close();
-		}
-
-		else if (button == giftButton)
-		{
-			PlayerMemory memory = entityVillagerChild.playerMemoryMap.get(player.username);
-			memory.isInGiftMode = true;
-			entityVillagerChild.playerMemoryMap.put(player.username, memory);
-
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "playerMemoryMap", entityVillagerChild.playerMemoryMap));
-			close();
+			drawInteractionGui();
 		}
 
 		else if (button == followButton)
@@ -268,6 +280,56 @@ public class GuiInteractionVillagerChild extends AbstractGui
 			entityVillagerChild.testNewHomePoint();
 
 			close();
+		}
+	}
+	
+	/**
+	 * Handles an action performed in the interaction GUI.
+	 * 
+	 * @param 	button	The button that was pressed.
+	 */
+	private void actionPerformedInteraction(GuiButton button)
+	{
+		if (button == chatButton)
+		{
+			entityVillagerChild.doChat(player);
+			close();
+		}
+
+		else if (button == jokeButton)
+		{
+			entityVillagerChild.doJoke(player);
+			close();
+		}
+
+		else if (button == giftButton)
+		{
+			entityVillagerChild.playerMemoryMap.get(player.username).isInGiftMode = true;
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "playerMemoryMap", entityVillagerChild.playerMemoryMap));
+			close();
+		}
+		
+		else if (button == greetButton)
+		{
+			entityVillagerChild.doGreeting(player);
+			close();
+		}
+		
+		else if (button == tellStoryButton)
+		{
+			entityVillagerChild.doTellStory(player);
+			close();
+		}
+		
+		else if (button == tellStoryButton)
+		{
+			entityVillagerChild.doTellStory(player);
+			close();
+		}
+		
+		else if (button == backButton)
+		{
+			drawBaseGui();
 		}
 	}
 }
