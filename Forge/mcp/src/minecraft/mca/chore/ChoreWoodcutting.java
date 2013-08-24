@@ -110,7 +110,7 @@ public class ChoreWoodcutting extends AbstractChore
 		{
 			owner.say(LanguageHelper.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.woodcutting", true));
 		}
-		
+
 		owner.tasks.taskEntries.clear();
 		hasBegun = true;
 	}
@@ -124,46 +124,55 @@ public class ChoreWoodcutting extends AbstractChore
 		//Calculate interval based on the axe in the inventory.
 		ItemStack axeStack = owner.inventory.getBestItemOfType(ItemAxe.class);
 
-		if (axeStack != null)
+		if (owner instanceof EntityPlayerChild)
 		{
-			String itemName = axeStack.getItemName();
-
-			if (itemName.contains("Wood"))
+			if (axeStack != null)
 			{
-				treeCutInterval = 40;
+				String itemName = axeStack.getItemName();
+
+				if (itemName.contains("Wood"))
+				{
+					treeCutInterval = 40;
+				}
+
+				else if (itemName.contains("Stone"))
+				{
+					treeCutInterval = 30;
+				}
+
+				else if (itemName.contains("Iron"))
+				{
+					treeCutInterval = 25;
+				}
+
+				else if (itemName.contains("Diamond"))
+				{
+					treeCutInterval = 10;
+				}
+
+				else if (itemName.contains("Gold"))
+				{
+					treeCutInterval = 5;
+				}
+
+				//Unrecognized item type
+				else
+				{
+					treeCutInterval = 25;
+				}
 			}
 
-			else if (itemName.contains("Stone"))
-			{
-				treeCutInterval = 30;
-			}
-
-			else if (itemName.contains("Iron"))
-			{
-				treeCutInterval = 25;
-			}
-
-			else if (itemName.contains("Diamond"))
-			{
-				treeCutInterval = 10;
-			}
-
-			else if (itemName.contains("Gold"))
-			{
-				treeCutInterval = 5;
-			}
-
-			//Unrecognized item type
+			//Fists
 			else
 			{
-				treeCutInterval = 25;
+				treeCutInterval = 50;
 			}
 		}
 
-		//They don't have an axe so they will be using their fists.
+		//A villager will cut with an iron axe.
 		else
 		{
-			treeCutInterval = 50;
+			treeCutInterval = 25;
 		}
 
 		//Create a list to store coordinates containing wood.
@@ -200,7 +209,7 @@ public class ChoreWoodcutting extends AbstractChore
 						owner.say(LanguageHelper.getString(owner, "notify.child.chore.finished.woodcutting", false));
 					}
 				}
-				
+
 				endChore();
 				return;
 			}
@@ -270,7 +279,7 @@ public class ChoreWoodcutting extends AbstractChore
 					{
 						owner.say(LanguageHelper.getString(owner, "notify.child.chore.interrupted.woodcutting.notrees", false));
 					}
-					
+
 					endChore();
 					return;
 				}
@@ -294,7 +303,7 @@ public class ChoreWoodcutting extends AbstractChore
 			{
 				//Set their path.
 				owner.faceCoordinates(owner, treeCoordinatesX, treeCoordinatesY, treeCoordinatesZ);
-				
+
 				if (!owner.worldObj.isRemote)
 				{
 					if (owner.getNavigator().noPath())
@@ -383,14 +392,14 @@ public class ChoreWoodcutting extends AbstractChore
 			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(owner));
 			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createAddAIPacket(owner));
 		}
-		
+
 		else
 		{
 			PacketDispatcher.sendPacketToServer(PacketHelper.createAddAIPacket(owner));
 		}
 
 		owner.addAI();
-		
+
 		hasEnded = true;
 	}
 
