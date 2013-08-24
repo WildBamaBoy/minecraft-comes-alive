@@ -101,11 +101,18 @@ public class ChoreFishing extends AbstractChore
 	public void runChoreAI() 
 	{
 		//Make sure they have a fishing rod.
-		if (owner.inventory.getQuantityOfItem(Item.fishingRod) == 0)
+		if (owner instanceof EntityPlayerChild)
 		{
-			owner.say(LanguageHelper.getString("notify.child.chore.interrupted.fishing.norod"));
-			endChore();
-			return;
+			if (owner.inventory.getQuantityOfItem(Item.fishingRod) == 0)
+			{
+				if (!owner.worldObj.isRemote)
+				{
+					owner.say(LanguageHelper.getString("notify.child.chore.interrupted.fishing.norod"));
+				}
+				
+				endChore();
+				return;
+			}
 		}
 
 		//Get all water up to 10 blocks away from the entity.
@@ -126,7 +133,11 @@ public class ChoreFishing extends AbstractChore
 			//If it didn't, there's no water around so the chore must end.
 			else
 			{
-				owner.say(LanguageHelper.getString("notify.child.chore.interrupted.fishing.nowater"));
+				if (!owner.worldObj.isRemote)
+				{
+					owner.say(LanguageHelper.getString("notify.child.chore.interrupted.fishing.nowater"));
+				}
+				
 				endChore();
 				return;
 			}
@@ -191,7 +202,11 @@ public class ChoreFishing extends AbstractChore
 						{
 							if (!owner.worldObj.isRemote)
 							{
-								owner.damageHeldItem();
+								if (owner instanceof EntityPlayerChild)
+								{
+									owner.damageHeldItem();
+								}
+								
 								nextFishCatchChance = owner.worldObj.rand.nextInt(200) + 200;
 								fishEntity = new EntityChoreFishHook(owner.worldObj, owner);
 								owner.worldObj.spawnEntityInWorld(fishEntity);
@@ -306,7 +321,7 @@ public class ChoreFishing extends AbstractChore
 			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(owner));
 			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createAddAIPacket(owner));
 		}
-		
+
 		else
 		{
 			PacketDispatcher.sendPacketToServer(PacketHelper.createAddAIPacket(owner));
