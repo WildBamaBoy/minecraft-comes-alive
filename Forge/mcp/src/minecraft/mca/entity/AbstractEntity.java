@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.List;
@@ -99,6 +100,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public int moodUpdateDeviation = MCA.instance.rand.nextInt(50) + MCA.instance.rand.nextInt(50);
 	public int particleTicks = 0;
 	public int procreateTicks = 0;
+	public int villagerBabyCalendarPrevMinutes	  = Calendar.getInstance().get(Calendar.MINUTE);
+	public int villagerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 	public boolean isSleeping = false;
 	public boolean isSwinging = false;
 	public boolean isFollowing = false;
@@ -133,7 +136,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public float moodPointsSad = 0.0F;
 	public float moodPointsAnger = 0.0F;
 	public float moodPointsFatigue = 0.0F;
-
+	
 	//Object types
 	public FamilyTree familyTree = new FamilyTree(this);
 	public ChoreCombat combatChore = new ChoreCombat(this);
@@ -279,6 +282,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			updateRetaliation();
 			updateMonarchs();
 			updateMood();
+			updateWorkTime();
 			updateDebug();
 
 			//Check if inventory should be opened.
@@ -934,16 +938,16 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public void setChoresStopped()
 	{
 		AbstractChore chore = getInstanceOfCurrentChore();
-		
+
 		if (!(chore instanceof ChoreCombat))
 		{
 			chore.endChore();
 			chore.hasEnded = true;
 		}
-		
+
 		isInChoreMode = false;
 		currentChore = "";
-		
+
 		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isInChoreMode", isInChoreMode));
 		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "currentChore", currentChore));
 		PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityId, chore));
@@ -1343,7 +1347,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		int heartsModifier = mood.getHeartsModifier("play") + trait.getHeartsModifier("play");
 
 		playWasGood = getBooleanWithProbability(65 + chanceModifier);
-		
+
 		if (playWasGood)
 		{
 			//Don't want to apply a negative value to a good interaction. Set it to 1 so player still has penalty
@@ -1370,7 +1374,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
 		}
 	}
-	
+
 	/**
 	 * Calculate if a flirt should be good or bad and say the appropriate response.
 	 * 
@@ -1390,10 +1394,10 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			chanceModifier += 35;
 		}
-		
+
 		//Base 10% chance of success.
 		flirtWasGood = getBooleanWithProbability(30 + chanceModifier);
-		
+
 		if (flirtWasGood)
 		{
 			//Don't want to apply a negative value to a good interaction. Set it to 1 so player still has penalty
@@ -1420,7 +1424,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
 		}
 	}
-	
+
 	/**
 	 * Calculate if a kiss should be good or bad and say the appropriate response.
 	 * 
@@ -1430,26 +1434,26 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		int hearts = getHearts(player);
 		boolean kissWasGood = false;
-	
+
 		//This has a higher interaction fatigue.
 		PlayerMemory memory = playerMemoryMap.get(player.username);
 		int chanceModifier = -(memory.interactionFatigue * 10) + mood.getChanceModifier("kiss") + trait.getChanceModifier("kiss");
 		int heartsModifier = mood.getHeartsModifier("kiss") + trait.getHeartsModifier("kiss");
-	
+
 		//When hearts are above 75, add 75 to the chance modifier to make more sense.
 		if (hearts > 75)
 		{
 			chanceModifier += 75;
 		}
-		
+
 		else
 		{
 			chanceModifier -= 25;
 		}
-		
+
 		//Base 10% chance of success.
 		kissWasGood = getBooleanWithProbability(10 + chanceModifier);
-		
+
 		if (kissWasGood)
 		{
 			//Don't want to apply a negative value to a good interaction. Set it to 1 so player still has penalty
@@ -1458,19 +1462,19 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			{
 				heartsModifier = 1;
 			}
-	
+
 			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "kiss.good"));
 			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), (worldObj.rand.nextInt(16) + 6) + heartsModifier);
 			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()));
 		}
-	
+
 		else
 		{
 			if (heartsModifier > 0)
 			{
 				heartsModifier = -1;
 			}
-	
+
 			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "kiss.bad"));
 			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(16) + 6)) + heartsModifier);
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()));
@@ -2602,7 +2606,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 									{
 										//FIXME
 										//isGoodHeir = getBooleanWithProbability(90);
-										
+
 										isGoodHeir = true;
 										PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "isGoodHeir", isGoodHeir));
 									}
@@ -2802,6 +2806,48 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "moodPointsFatigue", moodPointsFatigue));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 				}
+			}
+		}
+	}
+
+	/**
+	 * Updates the amount of time the entity has been working.
+	 */
+	private void updateWorkTime()
+	{
+		if (!worldObj.isRemote)
+		{
+			MCA.instance.workCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+
+			if (MCA.instance.workCalendarCurrentMinutes > MCA.instance.workCalendarPrevMinutes || MCA.instance.workCalendarCurrentMinutes == 0 && MCA.instance.workCalendarPrevMinutes == 59)
+			{
+				MCA.instance.workCalendarPrevMinutes = MCA.instance.workCalendarCurrentMinutes;
+			}
+
+			boolean hasChanged = false;
+			
+			for (PlayerMemory memory : playerMemoryMap.values())
+			{
+				if (memory.isHired)
+				{
+					memory.minutesSinceHired++;
+
+					if (memory.minutesSinceHired / 60 >= memory.hoursHired)
+					{
+						memory.isHired = false;
+						memory.minutesSinceHired = 0;
+						memory.hoursHired = 0;
+						
+						say(LanguageHelper.getString(this, "notify.hiring.complete", false));
+					}
+					
+					hasChanged = true;
+				}
+			}
+			
+			if (hasChanged)
+			{
+				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 			}
 		}
 	}
