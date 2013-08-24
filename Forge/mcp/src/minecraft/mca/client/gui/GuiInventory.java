@@ -94,7 +94,15 @@ public class GuiInventory extends InventoryEffectRenderer
 
 				else if (owner instanceof EntityVillagerAdult)
 				{
-					Minecraft.getMinecraft().displayGuiScreen(new GuiInteractionSpouse((EntityVillagerAdult)owner, owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer)));
+					if (owner.spousePlayerName.equals(Minecraft.getMinecraft().thePlayer.username))
+					{
+						Minecraft.getMinecraft().displayGuiScreen(new GuiInteractionSpouse((EntityVillagerAdult)owner, owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer)));
+					}
+					
+					else
+					{
+						Minecraft.getMinecraft().displayGuiScreen(new GuiInteractionVillagerAdult((EntityVillagerAdult)owner, owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer)));
+					}
 				}
 			}
 
