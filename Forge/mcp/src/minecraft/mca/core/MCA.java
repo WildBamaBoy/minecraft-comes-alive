@@ -205,8 +205,6 @@ public class MCA
 	public  boolean hasEmptiedPropertiesFolder = false;
 	public 	int 	playerBabyCalendarPrevMinutes	   = Calendar.getInstance().get(Calendar.MINUTE);
 	public 	int 	playerBabyCalendarCurrentMinutes   = Calendar.getInstance().get(Calendar.MINUTE);
-	public 	int 	workCalendarPrevMinutes	   = Calendar.getInstance().get(Calendar.MINUTE);
-	public 	int 	workCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 	private Logger	logger 					   = FMLLog.getLogger();
 	public  ModPropertiesManager modPropertiesManager = null;
 	public  Random  rand = new Random();

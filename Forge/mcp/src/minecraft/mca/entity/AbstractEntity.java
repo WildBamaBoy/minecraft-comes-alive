@@ -102,6 +102,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public int procreateTicks = 0;
 	public int villagerBabyCalendarPrevMinutes	  = Calendar.getInstance().get(Calendar.MINUTE);
 	public int villagerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+	public int workCalendarPrevMinutes	  = Calendar.getInstance().get(Calendar.MINUTE);
+	public int workCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 	public boolean isSleeping = false;
 	public boolean isSwinging = false;
 	public boolean isFollowing = false;
@@ -2817,11 +2819,11 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		if (!worldObj.isRemote)
 		{
-			MCA.instance.workCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+			workCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 
-			if (MCA.instance.workCalendarCurrentMinutes > MCA.instance.workCalendarPrevMinutes || MCA.instance.workCalendarCurrentMinutes == 0 && MCA.instance.workCalendarPrevMinutes == 59)
+			if (workCalendarCurrentMinutes > workCalendarPrevMinutes || workCalendarCurrentMinutes == 0 && workCalendarPrevMinutes == 59)
 			{
-				MCA.instance.workCalendarPrevMinutes = MCA.instance.workCalendarCurrentMinutes;
+				workCalendarPrevMinutes = workCalendarCurrentMinutes;
 
 				boolean hasChanged = false;
 
