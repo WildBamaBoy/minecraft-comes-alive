@@ -535,7 +535,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	@Override
 	public ItemStack getHeldItem()
-	{
+	{		
 		return null;
 	}
 
@@ -2600,7 +2600,10 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 									if (!worldObj.isRemote)
 									{
-										isGoodHeir = getBooleanWithProbability(90);
+										//FIXME
+										//isGoodHeir = getBooleanWithProbability(90);
+										
+										isGoodHeir = true;
 										PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "isGoodHeir", isGoodHeir));
 									}
 
