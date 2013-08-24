@@ -43,11 +43,11 @@ public class RenderHumanSmall extends RenderHuman
 		{
 			int age = ((EntityChild)entity).age;
 			
-			//Children initially start at 0.7F as their scale. Divide the distance between the player's size and the child's size by
+			//Children initially start at 0.55F as their scale. Divide the distance between the player's size and the child's size by
 			//the amount of time it takes for them to grow and multiply that times their age. This makes the child gradually get taller
 			//as they get older.
 			float distance = ((EntityChild)entity).gender.equals("Male") ? 0.2375F : 0.215F;
-			float scale = 0.7F + ((0.2375F / MCA.instance.modPropertiesManager.modProperties.kidGrowUpTimeMinutes) * age);
+			float scale = 0.55F + ((0.39F / MCA.instance.modPropertiesManager.modProperties.kidGrowUpTimeMinutes) * age);
 			GL11.glScalef(scale, scale, scale);
 		}
 
@@ -68,7 +68,7 @@ public class RenderHumanSmall extends RenderHuman
 		//Render children the old way.
 		else
 		{
-			GL11.glScalef(0.7F, 0.7F, 0.7F);
+			GL11.glScalef(0.55F, 0.55F, 0.55F);
 		}
 	}
 
