@@ -77,12 +77,12 @@ public class ServerTickHandler implements ITickHandler
 						if (manager.worldProperties.babyExists)
 						{
 							//Update currentMinutes and compare to what prevMinutes was.
-							MCA.instance.currentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+							MCA.instance.playerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 
-							if (MCA.instance.currentMinutes > MCA.instance.prevMinutes || MCA.instance.currentMinutes == 0 && MCA.instance.prevMinutes == 59)
+							if (MCA.instance.playerBabyCalendarCurrentMinutes > MCA.instance.playerBabyCalendarPrevMinutes || MCA.instance.playerBabyCalendarCurrentMinutes == 0 && MCA.instance.playerBabyCalendarPrevMinutes == 59)
 							{
 								manager.worldProperties.minutesBabyExisted++;
-								MCA.instance.prevMinutes = MCA.instance.currentMinutes;
+								MCA.instance.playerBabyCalendarPrevMinutes = MCA.instance.playerBabyCalendarCurrentMinutes;
 								manager.saveWorldProperties();
 							}
 

@@ -111,12 +111,12 @@ public class ClientTickHandler implements ITickHandler
 						if (clientPropertiesManager.worldProperties.babyExists)
 						{
 							//Update currentMinutes and compare to what prevMinutes was.
-							MCA.instance.currentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+							MCA.instance.playerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 
-							if (MCA.instance.currentMinutes > MCA.instance.prevMinutes || MCA.instance.currentMinutes == 0 && MCA.instance.prevMinutes == 59)
+							if (MCA.instance.playerBabyCalendarCurrentMinutes > MCA.instance.playerBabyCalendarPrevMinutes || MCA.instance.playerBabyCalendarCurrentMinutes == 0 && MCA.instance.playerBabyCalendarPrevMinutes == 59)
 							{
 								clientPropertiesManager.worldProperties.minutesBabyExisted++;
-								MCA.instance.prevMinutes = MCA.instance.currentMinutes;
+								MCA.instance.playerBabyCalendarPrevMinutes = MCA.instance.playerBabyCalendarCurrentMinutes;
 								clientPropertiesManager.saveWorldProperties();
 							}
 
@@ -194,12 +194,12 @@ public class ClientTickHandler implements ITickHandler
 						if (clientPropertiesManager.worldProperties.babyExists)
 						{
 							//Update currentMinutes and compare to what prevMinutes was.
-							MCA.instance.currentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+							MCA.instance.playerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 
-							if (MCA.instance.currentMinutes > MCA.instance.prevMinutes || MCA.instance.currentMinutes == 0 && MCA.instance.prevMinutes == 59)
+							if (MCA.instance.playerBabyCalendarCurrentMinutes > MCA.instance.playerBabyCalendarPrevMinutes || MCA.instance.playerBabyCalendarCurrentMinutes == 0 && MCA.instance.playerBabyCalendarPrevMinutes == 59)
 							{
 								clientPropertiesManager.worldProperties.minutesBabyExisted++;
-								MCA.instance.prevMinutes = MCA.instance.currentMinutes;
+								MCA.instance.playerBabyCalendarPrevMinutes = MCA.instance.playerBabyCalendarCurrentMinutes;
 								clientPropertiesManager.saveWorldProperties();
 							}
 
