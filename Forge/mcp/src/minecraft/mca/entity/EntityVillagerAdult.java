@@ -14,7 +14,12 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+import mca.chore.AbstractChore;
 import mca.chore.ChoreCombat;
+import mca.chore.ChoreFarming;
+import mca.chore.ChoreFishing;
+import mca.chore.ChoreMining;
+import mca.chore.ChoreWoodcutting;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
@@ -384,7 +389,32 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 	@Override
 	public ItemStack getHeldItem()
 	{
-		if (isFollowing)
+		if (isInChoreMode)
+		{
+			AbstractChore currentChore = getInstanceOfCurrentChore();
+
+			if (currentChore instanceof ChoreFarming)
+			{
+				return new ItemStack(Item.hoeIron);
+			}
+
+			else if (currentChore instanceof ChoreFishing)
+			{
+				return new ItemStack(Item.fishingRod);
+			}
+
+			else if (currentChore instanceof ChoreWoodcutting)
+			{
+				return new ItemStack(Item.axeIron);
+			}
+
+			else if (currentChore instanceof ChoreMining)
+			{
+				return new ItemStack(Item.pickaxeIron);
+			}
+		}
+
+		else if (isFollowing)
 		{
 			if (combatChore.useMelee && combatChore.useRange)
 			{
@@ -730,7 +760,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 	{
 		super.readEntityFromNBT(NBT);
 	}
-	
+
 	/**
 	 * Handle the gift of a baby.
 	 * 
