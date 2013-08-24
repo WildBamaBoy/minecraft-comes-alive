@@ -35,6 +35,12 @@ public class PlayerMemory implements Serializable
 	/** Has the player hired this villager? */
 	public boolean isHired = false;
 	
+	/** How long the villager has been hired for. */
+	public int hoursHired = 0;
+	
+	/** How long it has been since the villager has been hired. */
+	public int minutesSinceHired = 0;
+	
 	/** Is this villager in gift mode for this player? */
 	public boolean isInGiftMode = false;
 
