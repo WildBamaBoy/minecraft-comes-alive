@@ -19,7 +19,6 @@ import mca.core.util.PacketHelper;
 import mca.core.util.object.Coordinates;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
-import mca.entity.EntityVillagerAdult;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;

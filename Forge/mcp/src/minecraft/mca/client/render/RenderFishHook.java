@@ -10,9 +10,8 @@
 package mca.client.render;
 
 import mca.core.MCA;
-import mca.entity.EntityChoreFishHook;
-import mca.entity.EntityPlayerChild;
 import mca.entity.AbstractEntity;
+import mca.entity.EntityChoreFishHook;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;

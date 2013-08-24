@@ -27,7 +27,6 @@ import mca.core.util.LogicHelper;
 import mca.core.util.PacketHelper;
 import mca.core.util.object.PlayerMemory;
 import mca.core.util.object.VillageHelper;
-import mca.enums.EnumMoodChangeContext;
 import mca.enums.EnumRelation;
 import mca.inventory.Inventory;
 import mca.item.ItemArrangersRing;

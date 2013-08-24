@@ -13,8 +13,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.List;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
-
 import mca.core.MCA;
 import mca.core.util.LogicHelper;
 import mca.core.util.PacketHelper;
@@ -39,6 +37,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 /**
  * The combat chore handles fighting other entities.

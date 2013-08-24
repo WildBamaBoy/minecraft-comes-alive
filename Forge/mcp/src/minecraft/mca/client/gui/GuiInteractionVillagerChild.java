@@ -14,7 +14,6 @@ import java.util.List;
 import mca.core.MCA;
 import mca.core.util.LanguageHelper;
 import mca.core.util.PacketHelper;
-import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityChild;
 import mca.entity.EntityPlayerChild;

@@ -12,10 +12,6 @@ package mca.entity;
 import java.util.Calendar;
 
 import mca.core.MCA;
-import mca.core.util.LanguageHelper;
-import mca.core.util.object.PlayerMemory;
-import mca.enums.EnumMoodChangeContext;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 /**
