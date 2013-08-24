@@ -12,6 +12,7 @@ package mca.client.render;
 import mca.core.MCA;
 import mca.entity.EntityChoreFishHook;
 import mca.entity.EntityPlayerChild;
+import mca.entity.AbstractEntity;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
@@ -85,7 +86,7 @@ public class RenderFishHook extends Render
 			double d4 = entityFishHook.angler.prevPosY + (entityFishHook.angler.posY - entityFishHook.angler.prevPosY) * (double)offsetY + vec3.yCoord;
 			double d5 = entityFishHook.angler.prevPosZ + (entityFishHook.angler.posZ - entityFishHook.angler.prevPosZ) * (double)offsetY + vec3.zCoord;
 			
-			int age = ((EntityPlayerChild)entityFishHook.angler).age;
+			int age = ((AbstractEntity)entityFishHook.angler).getAge();
 			float scale = 0.7F + ((0.2375F / MCA.instance.modPropertiesManager.modProperties.kidGrowUpTimeMinutes) * age);
 			double d6 = (double)scale * 1.6;
 			
