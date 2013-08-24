@@ -933,8 +933,20 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	public void setChoresStopped()
 	{
+		AbstractChore chore = getInstanceOfCurrentChore();
+		
+		if (!(chore instanceof ChoreCombat))
+		{
+			chore.endChore();
+			chore.hasEnded = true;
+		}
+		
 		isInChoreMode = false;
 		currentChore = "";
+		
+		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isInChoreMode", isInChoreMode));
+		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "currentChore", currentChore));
+		PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityId, chore));
 	}
 
 	/**
