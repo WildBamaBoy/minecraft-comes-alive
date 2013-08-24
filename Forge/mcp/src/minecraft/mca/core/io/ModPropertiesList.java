@@ -20,7 +20,7 @@ public class ModPropertiesList implements Serializable
 	public int babyGrowUpTimeMinutes = 10;
 	
 	/** The amount of time in minutes that it takes for a kid to grow up.*/
-	public int kidGrowUpTimeMinutes = 60;
+	public int kidGrowUpTimeMinutes = 180;
 	
 	/** The item ID of the engagement ring.*/
 	public int itemID_EngagementRing = 721;
