@@ -101,7 +101,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 
 	/** (Smiths) The amount of the item required to give the anvil. */
 	public int amountRequiredForSale = 0;
-
+	
 	/**
 	 * Constructor
 	 */
@@ -1208,14 +1208,14 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 		if (!heldBabyGender.equals("None"))
 		{
 			//Get the current minutes from the system.
-			MCA.instance.currentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+			villagerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 
 			//Check it against previousMinutes to see if the time changed.
-			if (MCA.instance.currentMinutes > MCA.instance.prevMinutes || MCA.instance.currentMinutes == 0 && MCA.instance.prevMinutes == 59)
+			if (villagerBabyCalendarCurrentMinutes > villagerBabyCalendarPrevMinutes || villagerBabyCalendarCurrentMinutes == 0 && villagerBabyCalendarPrevMinutes == 59)
 			{
 				//If it did, bump up the baby's age and set prevMinutes.
 				heldBabyAge++;
-				MCA.instance.prevMinutes = MCA.instance.currentMinutes;
+				villagerBabyCalendarPrevMinutes = villagerBabyCalendarCurrentMinutes;
 			}
 
 			//It's time for the baby to grow.
