@@ -136,7 +136,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public float moodPointsSad = 0.0F;
 	public float moodPointsAnger = 0.0F;
 	public float moodPointsFatigue = 0.0F;
-	
+
 	//Object types
 	public FamilyTree familyTree = new FamilyTree(this);
 	public ChoreCombat combatChore = new ChoreCombat(this);
@@ -2822,32 +2822,32 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			if (MCA.instance.workCalendarCurrentMinutes > MCA.instance.workCalendarPrevMinutes || MCA.instance.workCalendarCurrentMinutes == 0 && MCA.instance.workCalendarPrevMinutes == 59)
 			{
 				MCA.instance.workCalendarPrevMinutes = MCA.instance.workCalendarCurrentMinutes;
-			}
 
-			boolean hasChanged = false;
-			
-			for (PlayerMemory memory : playerMemoryMap.values())
-			{
-				if (memory.isHired)
+				boolean hasChanged = false;
+
+				for (PlayerMemory memory : playerMemoryMap.values())
 				{
-					memory.minutesSinceHired++;
-
-					if (memory.minutesSinceHired / 60 >= memory.hoursHired)
+					if (memory.isHired)
 					{
-						memory.isHired = false;
-						memory.minutesSinceHired = 0;
-						memory.hoursHired = 0;
-						
-						say(LanguageHelper.getString(this, "notify.hiring.complete", false));
+						memory.minutesSinceHired++;
+
+						if (memory.minutesSinceHired / 60 >= memory.hoursHired)
+						{
+							memory.isHired = false;
+							memory.minutesSinceHired = 0;
+							memory.hoursHired = 0;
+							this.setChoresStopped();
+							this.notifyPlayer(MCA.instance.getPlayerByName(memory.playerName), LanguageHelper.getString(this, "notify.hiring.complete", false));
+						}
+
+						hasChanged = true;
 					}
-					
-					hasChanged = true;
 				}
-			}
-			
-			if (hasChanged)
-			{
-				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
+
+				if (hasChanged)
+				{
+					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
+				}
 			}
 		}
 	}
