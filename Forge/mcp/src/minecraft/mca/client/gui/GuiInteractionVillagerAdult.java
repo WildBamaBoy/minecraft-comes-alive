@@ -19,6 +19,7 @@ import mca.chore.ChoreMining;
 import mca.chore.ChoreWoodcutting;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
+import mca.core.util.Color;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
 import mca.core.util.PacketHelper;
@@ -65,7 +66,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private GuiButton kissButton;
 	private GuiButton flirtButton;
 	private GuiButton tellStoryButton;
-	
+
 	//Buttons appearing at the top of the screen.
 	private GuiButton takeArrangerRingButton;
 	private GuiButton takeGiftButton;
@@ -79,7 +80,13 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	//Buttons for workers.
 	private GuiButton hireButton;
 	private GuiButton dismissButton;
-	private GuiButton aidButton;
+	private GuiButton requestAidButton;
+	private GuiButton inventoryButton;
+
+	//Buttons for hiring.
+	private GuiButton hoursButton;
+	private GuiButton hoursIncreaseButton;
+	private GuiButton hoursDecreaseButton;
 
 	//Buttons for priests.
 	private GuiButton divorceSpouseButton;
@@ -103,11 +110,13 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private GuiButton huntingButton;
 
 	private GuiButton choreStartButton;
+	private GuiButton choreStopButton;
 
 	//Farming buttons
-	private GuiButton farmAreaTypeButton;
-	private GuiButton farmAreaButton;
-	private GuiButton farmSeedTypeButton;
+	private GuiButton farmMethodButton;
+	private GuiButton farmSizeButton;
+	private GuiButton farmPlantButton;
+	private GuiButton farmRadiusButton;
 
 	//Woodcutting buttons
 	private GuiButton woodTreeTypeButton;
@@ -141,6 +150,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private GuiButton backButton;
 	private GuiButton exitButton;
 
+	private int hiringHours = 1;
 	private boolean inInteractionSelectGui = false;
 	private boolean inChoreSelectGui = false;
 	private boolean inFarmingGui = false;
@@ -149,12 +159,16 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private boolean inWoodcuttingGui = false;
 	private boolean inMiningGui = false;
 	private boolean inHuntingGui = false;
+	private boolean inHiringGui = false;
 
-	/** The area that should be farmed. 0 = X-Y area*/
-	private int farmAreaType = 0;
+	/** The method that should be used when farming. 0 = Create farm. 1 = maintain farm.*/
+	private int farmMethod = 0;
 
-	/** The type of seeds that should be planted. 0 = Wheat, 1 = Melon, 2 = Pumpkin, 3 = Carrot, 4 = Potato*/
-	private int farmSeedType = 0;
+	/** The type of seeds that should be planted. 0 = Wheat, 1 = Melon, 2 = Pumpkin, 3 = Carrot, 4 = Potato, 5 = sugarcane*/
+	private int farmPlantType = 0;
+
+	/** The radius of the total area to farm when maintaining a farm. */
+	private int farmRadius = 5;
 
 	/** The type of tree that should be cut. 0 = Oak, 1 = Spruce, 2 = Birch, 3 = Jungle*/
 	private int treeType = 0;
@@ -222,10 +236,25 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			actionPerformedInteraction(button);
 		}
-		
+
 		else if (inMiningGui)
 		{
 			actionPerformedMining(button);
+		}
+
+		else if (inFarmingGui)
+		{
+			actionPerformedFarming(button);
+		}
+
+		else if (inWoodcuttingGui)
+		{
+			actionPerformedWoodcutting(button);
+		}
+
+		else if (inFishingGui)
+		{
+			actionPerformedFishing(button);
 		}
 
 		else if (inCombatGui)
@@ -233,9 +262,19 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			actionPerformedCombat(button);
 		}
 
+		else if (inHuntingGui)
+		{
+			actionPerformedHunting(button);
+		}
+		
 		else if (inMonarchGui)
 		{
 			actionPerformedMonarch(button);
+		}
+
+		else if (inHiringGui)
+		{
+			actionPerformedHiring(button);
 		}
 
 		else if (inSpecialGui)
@@ -321,7 +360,13 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			//They're not a peasant or a knight, so check if they're hired by this player and place (Hired) beside their name if they are.
 			else if (entityVillager.playerMemoryMap.get(player.username).isHired)
 			{
+				PlayerMemory memory = entityVillager.playerMemoryMap.get(player.username);
 				drawCenteredString(fontRenderer, entityVillager.getTitle(MCA.instance.getIdOfPlayer(player), true) + " " + LanguageHelper.getString("gui.title.special.hired"), width / 2, height / 2 - 80, 0xffffff);
+				
+				if (!inSpecialGui)
+				{
+					drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.hire.minutesremaining").replace("%x%", new Integer((memory.hoursHired * 60) - memory.minutesSinceHired).toString()), width / 2, height / 2, 0xffffff);
+				}
 			}
 
 			//They're not hired by this player. Draw their title like normal.
@@ -405,9 +450,55 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				mineFindButton.enabled      = mineMethod == 0 ? true : false;
 			}
 
+			if (inSpecialGui)
+			{
+				backButton.enabled = true;
+			}
+
+			if (inFishingGui)
+			{
+				backButton.enabled = true;
+				drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.options.none"), width / 2, 80, 0xffffff);
+			}
+
 			if (inMonarchGui)
 			{
 				backButton.enabled = true;
+			}
+
+			if (inHiringGui)
+			{
+				drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.hire.price").replace("%x%", new Integer(hiringHours).toString()), width / 2, 80, 0xffffff);
+
+				boolean hasGold = false;
+				
+				for (int index = 0; index < player.inventory.mainInventory.length; index++)
+				{
+					ItemStack stack = player.inventory.mainInventory[index];
+
+					if (stack != null)
+					{
+						if (stack.getItem().itemID == Item.ingotGold.itemID)
+						{
+							if (stack.stackSize >= hiringHours)
+							{
+								hasGold = true;
+							}
+						}
+					}
+				}
+
+				if (hasGold)
+				{
+					drawCenteredString(fontRenderer, Color.GREEN + LanguageHelper.getString("gui.info.hire.hasgold"), width / 2, 95, 0xffffff);
+					hireButton.enabled = true;
+				}
+
+				else
+				{
+					drawCenteredString(fontRenderer, Color.RED + LanguageHelper.getString("gui.info.hire.notenoughgold"), width / 2, 95, 0xffffff);
+					hireButton.enabled = false;
+				}
 			}
 		}
 
@@ -425,6 +516,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		inNoSpecialGui = false;
 		inCombatGui = false;
 		inMonarchGui = false;
+		inInteractionSelectGui = false;
 
 		buttonList.add(interactButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.interact")));
 		buttonList.add(followButton  = new GuiButton(2, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
@@ -475,7 +567,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private void drawInteractionGui()
 	{
 		buttonList.clear();
-		
+
 		inSpecialGui = true;
 		inInteractionSelectGui = true;
 
@@ -486,12 +578,28 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		buttonList.add(tellStoryButton = new GuiButton(5, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.tellstory")));
 		buttonList.add(kissButton = new GuiButton(6, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.kiss")));
 		buttonList.add(flirtButton = new GuiButton(7, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.flirt")));
-		
+
 		greetButton.displayString = entityVillager.playerMemoryMap.get(player.username).hearts >= 50 ? LanguageHelper.getString("gui.button.interact.greet.highfive") : LanguageHelper.getString("gui.button.interact.greet.handshake");
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 	}
-	
+
+	private void drawHiringGui()
+	{
+		buttonList.clear();
+		inSpecialGui = true;
+		inHiringGui = true;
+
+		buttonList.add(hoursButton = new GuiButton(1, width / 2 - 30, height / 2 - 0, 60, 20, LanguageHelper.getString("gui.button.hiring.hours") + hiringHours));
+		buttonList.add(hoursIncreaseButton = new GuiButton(2, width / 2 + 30, height / 2 - 0, 15, 20, ">>"));
+		buttonList.add(hoursDecreaseButton = new GuiButton(3, width / 2 - 44, height / 2 - 0, 15, 20, "<<"));
+
+		buttonList.add(hireButton = new GuiButton(4, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.special.guard.hire")));
+
+		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		backButton.enabled = true;
+	}
 	/**
 	 * Draws the preist's special Gui.
 	 */
@@ -504,13 +612,12 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		buttonList.add(divorceCoupleButton = new GuiButton(2, width / 2 - 40, height / 2 + 10, 85, 20, LanguageHelper.getString("gui.button.special.priest.divorcecouple")));
 		buttonList.add(giveUpBabyButton    = new GuiButton(3, width / 2 + 45, height / 2 + 10, 85, 20, LanguageHelper.getString("gui.button.special.priest.giveupbaby")));
 		buttonList.add(adoptBabyButton     = new GuiButton(4, width / 2 - 125, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.special.priest.adoptbaby")));
-		//FIXME
-		//buttonList.add(arrangedMarriageButton = new GuiButton(4, width / 2 - 40, height / 2 + 30, 85, 20, Localization.getString("gui.button.special.priest.arrangedmarriage")));
+		buttonList.add(arrangedMarriageButton = new GuiButton(5, width / 2 - 40, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.special.priest.arrangedmarriage")));
 
 		WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
 		divorceSpouseButton.enabled = manager.worldProperties.playerSpouseID != 0;
 		giveUpBabyButton.enabled = manager.worldProperties.babyExists;
-		//arrangedMarriageButton.enabled = manager.worldProperties.playerSpouseID == 0;
+		arrangedMarriageButton.enabled = manager.worldProperties.playerSpouseID == 0;
 
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
@@ -524,34 +631,34 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	{
 		buttonList.clear();
 		inSpecialGui = true;
+		inFarmingGui = false;
+		inFishingGui = false;
+		inWoodcuttingGui = false;
+		inMiningGui = false;
+		inHiringGui = false;
 
-		buttonList.add(hireButton    = new GuiButton(1, width / 2 - 40, height / 2 - 10, 85, 20, LanguageHelper.getString("gui.button.special.guard.hire")));
-		buttonList.add(dismissButton = new GuiButton(2, width / 2 - 40, height / 2 + 10, 85, 20, LanguageHelper.getString("gui.button.special.guard.dismiss")));
-		buttonList.add(miningButton  = new GuiButton(3, width / 2 - 40, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.chore.mining")));
-
-		if (entityVillager.isInChoreMode)
-		{
-			miningButton.displayString = LanguageHelper.getString("gui.button.child.stopchore");
-		}
+		buttonList.add(hireButton = new GuiButton (1, width / 2 - 90, height / 2 + 20, 85, 20, LanguageHelper.getString("gui.button.special.guard.hire")));
+		buttonList.add(dismissButton = new GuiButton (2, width / 2 - 90, height / 2 + 40, 85, 20, LanguageHelper.getString("gui.button.special.guard.dismiss")));
+		buttonList.add(miningButton = new GuiButton(3, width / 2 - 5, height / 2 + 20, 85, 20, LanguageHelper.getString("gui.button.chore.mining")));
 
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
-		backButton.enabled    = true;
+		backButton.enabled = false;
 
-		if (entityVillager.playerMemoryMap.get(player.username).isHired || entityVillager.isPeasant)
+		hireButton.enabled = entityVillager.playerMemoryMap.get(player.username).isHired == false;
+		dismissButton.enabled = entityVillager.playerMemoryMap.get(player.username).isHired == true;
+		miningButton.enabled = entityVillager.playerMemoryMap.get(player.username).isHired || (entityVillager.isPeasant && entityVillager.monarchPlayerName.equals(player.username));
+
+		if (entityVillager.playerMemoryMap.get(player.username).isHired || (entityVillager.isPeasant && entityVillager.monarchPlayerName.equals(player.username)))
 		{
-			miningButton.enabled = true;
-			hireButton.enabled = false;
-
-			if (entityVillager.isPeasant)
+			if (entityVillager.isInChoreMode)
 			{
-				dismissButton.enabled = false;
-			}
-		}
+				buttonList.add(choreStopButton = new GuiButton(7, width / 2 - 60, height / 2 - 30, 120, 20, LanguageHelper.getString("gui.button.child.stopchore")));
 
-		if (entityVillager.isPeasant && entityVillager.monarchPlayerName.equals(player.username))
-		{
-			miningButton.enabled = true;
+				miningButton.enabled = false;
+			}
+
+			buttonList.add(inventoryButton = new GuiButton(6, width / 2 - 60, height / 2 - 10, 120, 20, LanguageHelper.getString("gui.button.spouse.inventory")));
 		}
 	}
 
@@ -563,7 +670,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		buttonList.clear();
 		inSpecialGui = true;
 
-		buttonList.add(aidButton = new GuiButton(1, width / 2 - 40, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.special.baker.aid")));
+		buttonList.add(requestAidButton = new GuiButton(1, width / 2 - 40, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.special.baker.aid")));
 
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
@@ -577,18 +684,35 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	{
 		buttonList.clear();
 		inSpecialGui = true;
+		inCombatGui = false;
+		inHuntingGui = false;
+		inHiringGui = false;
 
-		buttonList.add(hireButton    = new GuiButton(1, width / 2 - 40, height / 2 - 10, 85, 20, LanguageHelper.getString("gui.button.special.guard.hire")));
-		buttonList.add(dismissButton = new GuiButton(2, width / 2 - 40, height / 2 + 10, 85, 20, LanguageHelper.getString("gui.button.special.guard.dismiss")));
-		buttonList.add(combatButton = new GuiButton(3, width / 2 - 40, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.chore.combat")));
+		buttonList.add(hireButton = new GuiButton (1, width / 2 - 90, height / 2 + 20, 85, 20, LanguageHelper.getString("gui.button.special.guard.hire")));
+		buttonList.add(dismissButton = new GuiButton (2, width / 2 - 90, height / 2 + 40, 85, 20, LanguageHelper.getString("gui.button.special.guard.dismiss")));
+		buttonList.add(combatButton = new GuiButton(3, width / 2 - 5, height / 2 + 20, 85, 20, LanguageHelper.getString("gui.button.chore.combat")));
+		buttonList.add(huntingButton = new GuiButton(4, width / 2 - 5, height / 2 + 40, 85, 20, LanguageHelper.getString("gui.button.chore.hunting")));
 
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		backButton.enabled = false;
 
-		backButton.enabled = true;
 		hireButton.enabled = entityVillager.playerMemoryMap.get(player.username).isHired == false;
 		dismissButton.enabled = entityVillager.playerMemoryMap.get(player.username).isHired == true;
 		combatButton.enabled = entityVillager.playerMemoryMap.get(player.username).isHired || (entityVillager.isKnight && entityVillager.monarchPlayerName.equals(player.username));
+		huntingButton.enabled = entityVillager.playerMemoryMap.get(player.username).isHired || (entityVillager.isKnight && entityVillager.monarchPlayerName.equals(player.username));
+		
+		if (entityVillager.playerMemoryMap.get(player.username).isHired || (entityVillager.isPeasant && entityVillager.monarchPlayerName.equals(player.username)))
+		{
+			if (entityVillager.isInChoreMode)
+			{
+				buttonList.add(choreStopButton = new GuiButton(7, width / 2 - 60, height / 2 - 30, 120, 20, LanguageHelper.getString("gui.button.child.stopchore")));
+
+				huntingButton.enabled = false;
+			}
+
+			buttonList.add(inventoryButton = new GuiButton(6, width / 2 - 60, height / 2 - 10, 120, 20, LanguageHelper.getString("gui.button.spouse.inventory")));
+		}
 	}
 
 	/**
@@ -599,7 +723,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		buttonList.clear();
 		inSpecialGui = true;
 
-		buttonList.add(aidButton = new GuiButton(1, width / 2 - 40, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.special.butcher.aid")));
+		buttonList.add(requestAidButton = new GuiButton(1, width / 2 - 40, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.special.butcher.aid")));
 
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
@@ -614,7 +738,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		buttonList.clear();
 		inSpecialGui = true;
 
-		buttonList.add(aidButton = new GuiButton(1, width / 2 - 40, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.special.butcher.aid")));
+		buttonList.add(requestAidButton = new GuiButton(1, width / 2 - 40, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.special.butcher.aid")));
 
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
@@ -628,12 +752,42 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	{
 		buttonList.clear();
 		inSpecialGui = true;
+		inFarmingGui = false;
+		inFishingGui = false;
+		inWoodcuttingGui = false;
+		inHiringGui = false;
 
-		buttonList.add(aidButton = new GuiButton(1, width / 2 - 40, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.special.farmer.aid")));
+		buttonList.add(hireButton = new GuiButton (1, width / 2 - 90, height / 2 + 20, 85, 20, LanguageHelper.getString("gui.button.special.guard.hire")));
+		buttonList.add(dismissButton = new GuiButton (2, width / 2 - 90, height / 2 + 40, 85, 20, LanguageHelper.getString("gui.button.special.guard.dismiss")));
+		buttonList.add(requestAidButton = new GuiButton(2, width / 2 - 90, height / 2 + 60, 85, 20, LanguageHelper.getString("gui.button.special.farmer.aid")));
+
+		buttonList.add(farmingButton = new GuiButton(3, width / 2 - 5, height / 2 + 20, 85, 20, LanguageHelper.getString("gui.button.chore.farming")));
+		buttonList.add(fishingButton = new GuiButton(4, width / 2 - 5, height / 2 + 40, 85, 20, LanguageHelper.getString("gui.button.chore.fishing")));
+		buttonList.add(woodcuttingButton = new GuiButton(5, width / 2 - 5, height / 2 + 60, 85, 20, LanguageHelper.getString("gui.button.chore.woodcutting")));
 
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
-		backButton.enabled = true;
+		backButton.enabled = false;
+
+		hireButton.enabled = entityVillager.playerMemoryMap.get(player.username).isHired == false;
+		dismissButton.enabled = entityVillager.playerMemoryMap.get(player.username).isHired == true;
+		farmingButton.enabled = entityVillager.playerMemoryMap.get(player.username).isHired || (entityVillager.isPeasant && entityVillager.monarchPlayerName.equals(player.username));
+		fishingButton.enabled = entityVillager.playerMemoryMap.get(player.username).isHired || (entityVillager.isPeasant && entityVillager.monarchPlayerName.equals(player.username));
+		woodcuttingButton.enabled = entityVillager.playerMemoryMap.get(player.username).isHired || (entityVillager.isPeasant && entityVillager.monarchPlayerName.equals(player.username));
+
+		if (entityVillager.playerMemoryMap.get(player.username).isHired || (entityVillager.isPeasant && entityVillager.monarchPlayerName.equals(player.username)))
+		{
+			if (entityVillager.isInChoreMode)
+			{
+				buttonList.add(choreStopButton = new GuiButton(7, width / 2 - 60, height / 2 - 30, 120, 20, LanguageHelper.getString("gui.button.child.stopchore")));
+
+				farmingButton.enabled = false;
+				fishingButton.enabled = false;
+				woodcuttingButton.enabled = false;
+			}
+
+			buttonList.add(inventoryButton = new GuiButton(6, width / 2 - 60, height / 2 - 10, 120, 20, LanguageHelper.getString("gui.button.spouse.inventory")));
+		}
 	}
 
 	/**
@@ -667,63 +821,19 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private void drawFarmingGui()
 	{
 		buttonList.clear();
-		inChoreSelectGui = false;
+		inInteractionSelectGui = false;
 		inFarmingGui = true;
 
 		buttonList.add(choreStartButton   = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
-		buttonList.add(farmAreaTypeButton = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, LanguageHelper.getString("gui.button.chore.farming.areatype")));
-		buttonList.add(farmAreaButton     = new GuiButton(3, width / 2 - 70, height / 2 - 10, 135, 20, LanguageHelper.getString("gui.button.chore.farming.area") + areaX + "x" + areaY));
-		buttonList.add(farmSeedTypeButton = new GuiButton(4, width / 2 - 70, height / 2 + 10, 135, 20, LanguageHelper.getString("gui.button.chore.farming.seedtype"))); 
+		buttonList.add(farmMethodButton = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, LanguageHelper.getString("gui.button.chore.farming.method")));
+		farmMethodButton.enabled = false;
 
-		if (farmAreaType == 0)
-		{
-			farmAreaTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.areatype.xy");
-		}
-
-		else if (farmAreaType == 1)
-		{
-			farmAreaTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.areatype.selection");
-			farmAreaButton.enabled = false;
-		}
-
-		else if (farmAreaType == 2)
-		{
-			farmAreaTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.areatype.plowedland");
-			farmAreaButton.enabled = false;
-		}
-
-		if (farmSeedType == 0)
-		{
-			farmSeedTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.seedtype.wheat");
-		}
-
-		else if (farmSeedType == 1)
-		{
-			farmSeedTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.seedtype.melon");
-		}
-
-		else if (farmSeedType == 2)
-		{
-			farmSeedTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.seedtype.pumpkin");
-		}
-
-		else if (farmSeedType == 3)
-		{
-			farmSeedTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.seedtype.carrot");
-		}
-
-		else if (farmSeedType == 4)
-		{
-			farmSeedTypeButton.displayString += LanguageHelper.getString("gui.button.chore.farming.seedtype.potato");
-		}
-
-		farmAreaTypeButton.enabled = false;
-		farmAreaButton.enabled = false;
-		farmSeedTypeButton.enabled = false;
+		farmMethodButton.displayString += LanguageHelper.getString("gui.button.chore.farming.method.maintain");
+		buttonList.add(farmRadiusButton = new GuiButton(5, width / 2 - 70, height / 2 - 10, 135, 20, LanguageHelper.getString("gui.button.chore.farming.radius")));
+		farmRadiusButton.displayString += farmRadius;
 
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
-		backButton.enabled = false;
 	}
 
 	/**
@@ -732,7 +842,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private void drawFishingGui()
 	{
 		buttonList.clear();
-		inChoreSelectGui = false;
+		inInteractionSelectGui = false;
 		inFishingGui = true;
 
 		buttonList.add(choreStartButton   = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
@@ -747,7 +857,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private void drawCombatGui()
 	{
 		buttonList.clear();
-		inChoreSelectGui = false;
+		inInteractionSelectGui = false;
 		inCombatGui = true;
 
 		buttonList.add(combatMethodButton 			= new GuiButton(1,  width / 2 - 190, height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.method")));
@@ -824,7 +934,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private void drawWoodcuttingGui()
 	{
 		buttonList.clear();
-		inChoreSelectGui = false;
+		inInteractionSelectGui = false;
 		inWoodcuttingGui = true;
 
 		buttonList.add(choreStartButton = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
@@ -850,11 +960,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			woodTreeTypeButton.displayString += LanguageHelper.getString("gui.button.chore.woodcutting.treetype.jungle");
 		}
 
-		woodTreeTypeButton.enabled = false;
-
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
-		backButton.enabled = false;
 	}
 
 	/**
@@ -863,7 +970,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private void drawMiningGui()
 	{
 		buttonList.clear();
-		inChoreSelectGui = false;
+		inInteractionSelectGui = false;
 		inMiningGui = true;
 
 		buttonList.add(choreStartButton    = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
@@ -913,7 +1020,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private void drawHuntingGui()
 	{
 		buttonList.clear();
-		inChoreSelectGui = false;
+		inInteractionSelectGui = false;
 		inHuntingGui = true;
 
 		buttonList.add(choreStartButton = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
@@ -958,7 +1065,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		buttonList.add(makeKnightButton  = new GuiButton(4, width / 2 - 60, height / 2 + 40, 120, 20, LanguageHelper.getString("monarch.gui.button.interact.makeknight")));
 
 		demandGiftButton.enabled = MCA.instance.modPropertiesManager.modProperties.server_allowDemandGift;
-		
+
 		if (entityVillager.profession == 5)
 		{
 			makePeasantButton.enabled = false;
@@ -978,7 +1085,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				makePeasantButton.enabled = false;
 			}
 		}
-		
+
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = false;
@@ -995,7 +1102,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			drawInteractionGui();
 		}
-		
+
 		else if (button == followButton)
 		{
 			if (!entityVillager.isSpouse || (entityVillager.isSpouse && entityVillager.familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player))))
@@ -1245,13 +1352,13 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
 			close();
 		}
-		
+
 		else if (button == greetButton)
 		{
 			entityVillager.doGreeting(player);
 			close();
 		}
-		
+
 		else if (button == tellStoryButton)
 		{
 			entityVillager.doTellStory(player);
@@ -1262,22 +1369,92 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			entityVillager.doKiss(player);
 			close();
 		}
-		
+
 		else if (button == flirtButton)
 		{
 			entityVillager.doFlirt(player);
 			close();
 		}
-		
+
 		else if (button == tellStoryButton)
 		{
 			entityVillager.doTellStory(player);
 			close();
 		}
-		
+
 		else if (button == backButton)
 		{
 			drawBaseGui();
+		}
+	}
+
+	private void actionPerformedHiring(GuiButton button)
+	{
+		if (button == hireButton)
+		{
+			for (int i = 0; i < player.inventory.mainInventory.length; i++)
+			{
+				ItemStack stack = player.inventory.mainInventory[i];
+
+				if (stack != null)
+				{
+					if (stack.getItem().itemID == Item.ingotGold.itemID)
+					{
+						if (stack.stackSize >= hiringHours)
+						{
+							player.inventory.decrStackSize(i, hiringHours);
+							PacketDispatcher.sendPacketToServer(PacketHelper.createRemoveItemPacket(player.entityId, i, hiringHours, 0));
+						}
+						
+						break;
+					}
+				}
+			}
+
+			//Set them to "hired".
+			PlayerMemory memory = entityVillager.playerMemoryMap.get(player.username);
+			memory.isHired = true;
+			memory.hoursHired = hiringHours;
+			memory.minutesSinceHired = 0;
+			
+			entityVillager.say(LanguageHelper.getString("generic.hire.accept"));
+
+			entityVillager.playerMemoryMap.put(player.username, memory);
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
+			close();
+		}
+
+		else if (button == hoursIncreaseButton)
+		{
+			hiringHours++;
+			drawHiringGui();
+		}
+
+		else if (button == hoursDecreaseButton)
+		{
+			if (hiringHours != 1)
+			{
+				hiringHours--;
+				drawHiringGui();
+			}
+		}
+
+		else if (button == backButton)
+		{
+			if (entityVillager.profession == 0)
+			{
+				drawFarmerSpecialGui();
+			}
+			
+			else if (entityVillager.profession == 7)
+			{
+				drawMinerSpecialGui();
+			}
+			
+			else if (entityVillager.profession == 5)
+			{
+				drawGuardSpecialGui();
+			}
 		}
 	}
 
@@ -1432,6 +1609,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				//Reset AI in case of guard.
 				villagerToMarry.addAI();
 
+				PacketDispatcher.sendPacketToServer(PacketHelper.createAddAIPacket(villagerToMarry));
 				PacketDispatcher.sendPacketToServer(PacketHelper.createFamilyTreePacket(villagerToMarry.entityId, villagerToMarry.familyTree));
 				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerToMarry.entityId, "isSpouse", true));
 				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerToMarry.entityId, "spousePlayerName", player.username));
@@ -1456,54 +1634,22 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	{
 		if (button == hireButton)
 		{
-			boolean playerHasGold = false;
-
-			for (int i = 0; i < player.inventory.mainInventory.length; i++)
-			{
-				ItemStack stack = player.inventory.mainInventory[i];
-
-				if (stack != null)
-				{
-					if (stack.getItem().itemID == Item.ingotGold.itemID)
-					{
-						if (stack.stackSize >= 3)
-						{
-							player.inventory.decrStackSize(i, 3);
-							PacketDispatcher.sendPacketToServer(PacketHelper.createRemoveItemPacket(player.entityId, i, 3, 0));
-							playerHasGold = true;
-							break;
-						}
-					}
-				}
-			}
-
-			if (playerHasGold)
-			{
-				//Set them to "hired".
-				PlayerMemory memory = entityVillager.playerMemoryMap.get(player.username);
-				memory.isHired = true;
-				entityVillager.playerMemoryMap.put(player.username, memory);
-
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
-			}
-
-			else
-			{
-				entityVillager.say(LanguageHelper.getString("miner.hire.refuse"));
-			}
-
-			close();
+			drawHiringGui();
 		}
 
 		else if (button == dismissButton)
 		{
-			PlayerMemory memory = entityVillager.playerMemoryMap.get(player.username);
-			memory.isHired = false;
-			entityVillager.playerMemoryMap.put(player.username, memory);
-
-			entityVillager.say(LanguageHelper.getString("miner.hire.dismiss"));
+			entityVillager.say(LanguageHelper.getString("guard.hire.dismiss"));
 			entityVillager.isFollowing = false;
 			entityVillager.isStaying = false;
+
+			PlayerMemory memory = entityVillager.playerMemoryMap.get(player.username);
+			memory.isHired = false;
+			memory.hoursHired = 0;
+			memory.minutesSinceHired = 0;
+			entityVillager.playerMemoryMap.put(player.username, memory);
+
+			entityVillager.setChoresStopped();
 
 			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
 			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
@@ -1513,17 +1659,23 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == miningButton)
 		{
-			if (entityVillager.isInChoreMode)
-			{
-				entityVillager.isInChoreMode = false;
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", false));
-				entityVillager.miningChore.endChore();
-			}
+			mineMethod = 1;
+			drawMiningGui();
+		}
 
-			else
-			{
-				drawMiningGui();
-			}
+		else if (button == choreStopButton)
+		{
+			entityVillager.isInChoreMode = false;
+			entityVillager.getInstanceOfCurrentChore().endChore();
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", false));
+			close();
+		}
+
+		else if (button == inventoryButton)
+		{
+			entityVillager.shouldOpenInventory = true;
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "shouldOpenInventory", true));
+			close();
 		}
 	}
 
@@ -1534,7 +1686,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void actionPerformedBaker(GuiButton button) 
 	{
-		if (button == aidButton)
+		if (button == requestAidButton)
 		{
 			if (entityVillager.aidCooldown != 0)
 			{
@@ -1577,43 +1729,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	{
 		if (button == hireButton)
 		{
-			boolean playerHasGold = false;
-
-			for (int i = 0; i < player.inventory.mainInventory.length; i++)
-			{
-				ItemStack stack = player.inventory.mainInventory[i];
-
-				if (stack != null)
-				{
-					if (stack.getItem().itemID == Item.ingotGold.itemID)
-					{
-						if (stack.stackSize >= 3)
-						{
-							player.inventory.decrStackSize(i, 3);
-							PacketDispatcher.sendPacketToServer(PacketHelper.createRemoveItemPacket(player.entityId, i, 3, 0));
-							playerHasGold = true;
-							break;
-						}
-					}
-				}
-			}
-
-			if (playerHasGold)
-			{
-				//Set them to "hired".
-				PlayerMemory memory = entityVillager.playerMemoryMap.get(player.username);
-				memory.isHired = true;
-				entityVillager.playerMemoryMap.put(player.username, memory);
-
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
-			}
-
-			else
-			{
-				entityVillager.say(LanguageHelper.getString("guard.hire.refuse"));
-			}
-
-			close();
+			drawHiringGui();
 		}
 
 		else if (button == dismissButton)
@@ -1624,7 +1740,11 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			PlayerMemory memory = entityVillager.playerMemoryMap.get(player.username);
 			memory.isHired = false;
+			memory.hoursHired = 0;
+			memory.minutesSinceHired = 0;
 			entityVillager.playerMemoryMap.put(player.username, memory);
+
+			entityVillager.setChoresStopped();
 
 			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
 			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
@@ -1636,6 +1756,26 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			drawCombatGui();
 		}
+		
+		else if (button == huntingButton)
+		{
+			drawHuntingGui();
+		}
+
+		else if (button == choreStopButton)
+		{
+			entityVillager.isInChoreMode = false;
+			entityVillager.getInstanceOfCurrentChore().endChore();
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", false));
+			close();
+		}
+
+		else if (button == inventoryButton)
+		{
+			entityVillager.shouldOpenInventory = true;
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "shouldOpenInventory", true));
+			close();
+		}
 	}
 
 	/**
@@ -1645,7 +1785,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void actionPerformedButcher(GuiButton button) 
 	{
-		if (button == aidButton)
+		if (button == requestAidButton)
 		{
 			if (entityVillager.aidCooldown != 0)
 			{
@@ -1686,7 +1826,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void actionPerformedSmith(GuiButton button) 
 	{
-		if (button == aidButton)
+		if (button == requestAidButton)
 		{
 			if (entityVillager.itemIdRequiredForSale == 0)
 			{
@@ -1729,7 +1869,32 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void actionPerformedFarmer(GuiButton button)
 	{
-		if (button == aidButton)
+		if (button == hireButton)
+		{
+			drawHiringGui();
+		}
+
+		else if (button == dismissButton)
+		{
+			entityVillager.say(LanguageHelper.getString("guard.hire.dismiss"));
+			entityVillager.isFollowing = false;
+			entityVillager.isStaying = false;
+
+			PlayerMemory memory = entityVillager.playerMemoryMap.get(player.username);
+			memory.isHired = false;
+			memory.hoursHired = 0;
+			memory.minutesSinceHired = 0;
+			entityVillager.playerMemoryMap.put(player.username, memory);
+
+			entityVillager.setChoresStopped();
+
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
+			close();
+		}
+
+		else if (button == requestAidButton)
 		{
 			if (entityVillager.aidCooldown != 0)
 			{
@@ -1761,6 +1926,37 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			close();
 		}
+
+		else if (button == farmingButton)
+		{
+			farmMethod = 1;
+			drawFarmingGui();
+		}
+
+		else if (button == fishingButton)
+		{
+			drawFishingGui();
+		}
+
+		else if (button == woodcuttingButton)
+		{
+			drawWoodcuttingGui();
+		}
+
+		else if (button == choreStopButton)
+		{
+			entityVillager.isInChoreMode = false;
+			entityVillager.getInstanceOfCurrentChore().endChore();
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", false));
+			close();
+		}
+
+		else if (button == inventoryButton)
+		{
+			entityVillager.shouldOpenInventory = true;
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "shouldOpenInventory", true));
+			close();
+		}
 	}
 
 	/**
@@ -1789,39 +1985,39 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			drawFarmerSpecialGui();
 		}
 
-		//		else if (button == farmAreaTypeButton)
-		//		{
-		//			if (farmAreaType == 2)
-		//			{
-		//				farmAreaType = 0;
-		//			}
-		//
-		//			else
-		//			{
-		//				farmAreaType++;
-		//			}
-		//
-		//			drawFarmingGui();
-		//		}
-
-		else if (button == farmSeedTypeButton)
+		else if (button == farmMethodButton)
 		{
-			if (farmSeedType == 4)
+			if (farmMethod == 1)
 			{
-				farmSeedType = 0;
+				farmMethod = 0;
 			}
 
 			else
 			{
-				farmSeedType++;
+				farmMethod++;
 			}
 
 			drawFarmingGui();
 		}
 
-		else if (button == farmAreaButton)
+		else if (button == farmPlantButton)
 		{
-			if (areaX >= 20)
+			if (farmPlantType == 5)
+			{
+				farmPlantType = 0;
+			}
+
+			else
+			{
+				farmPlantType++;
+			}
+
+			drawFarmingGui();
+		}
+
+		else if (button == farmSizeButton)
+		{
+			if (areaX >= 15)
 			{
 				areaX = 5;
 				areaY = 5;
@@ -1836,17 +2032,31 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			drawFarmingGui();
 		}
 
-		else if (button == choreStartButton)
+		else if (button == farmRadiusButton)
 		{
-			if (farmAreaType == 0)
+			if (farmRadius >= 30)
 			{
-				entityVillager.farmingChore = new ChoreFarming(entityVillager, farmAreaType, farmSeedType, entityVillager.posX, entityVillager.posY, entityVillager.posZ, areaX, areaY);
+				farmRadius = 5;
 			}
 
 			else
 			{
-				//FIXME
-				//				entityVillager.farmingChore = new ChoreFarming(entityVillager, farmAreaType, farmSeedType, entityVillager.posX, entityVillager.posY, entityVillager.posZ);
+				farmRadius += 5;
+			}
+
+			drawFarmingGui();
+		}
+
+		else if (button == choreStartButton)
+		{
+			if (farmMethod == 0)
+			{
+				entityVillager.farmingChore = new ChoreFarming(entityVillager, farmMethod, farmPlantType, entityVillager.posX, entityVillager.posY, entityVillager.posZ, areaX, areaY);
+			}
+
+			else if (farmMethod == 1)
+			{
+				entityVillager.farmingChore = new ChoreFarming(entityVillager, farmMethod, entityVillager.posX, entityVillager.posY, entityVillager.posZ, farmRadius);
 			}
 
 			entityVillager.isInChoreMode = true;
@@ -1856,6 +2066,11 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.farmingChore));
 
 			close();
+		}
+
+		else if (button == backButton)
+		{
+			drawFarmerSpecialGui();
 		}
 	}
 
@@ -1885,7 +2100,6 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	}
 
 	/**
-	 * /**
 	 * Handles an action performed in the combat GUI.
 	 * 
 	 * @param 	button	The button that was pressed.
@@ -2045,51 +2259,11 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	}
 
 	/**
-	 * Handles an action performed in the hunting Gui.
+	 * Handles an action performed in the mining Gui.
 	 * 
 	 * @param 	button	The button that was pressed.
 	 */
-	private void actionPerformedHunting(GuiButton button)
-	{
-		if (button == backButton)
-		{
-			drawGuardSpecialGui();
-		}
-
-		else if (button == huntModeButton)
-		{
-			if (huntMode == 0)
-			{
-				huntMode = 1;
-			}
-
-			else if (huntMode == 1)
-			{
-				huntMode = 0;
-			}
-
-			drawHuntingGui();
-		}
-
-		else if (button == choreStartButton)
-		{
-			entityVillager.huntingChore = new ChoreHunting(entityVillager, huntMode);
-			entityVillager.isInChoreMode = true;
-			entityVillager.currentChore = entityVillager.huntingChore.getChoreName();
-
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "currentChore", "Hunting"));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.huntingChore));
-			close();
-		}
-	}
-
-	/**
-	 * Handles an action performed in the mining special GUI.
-	 * 
-	 * @param	button	The button that was pressed.
-	 */
-	private void actionPerformedMining(GuiButton button)
+	private void actionPerformedMining(GuiButton button) 
 	{
 		if (button == backButton)
 		{
@@ -2165,6 +2339,46 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", true));
 			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "currentChore", "Mining"));
 			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.miningChore));
+			close();
+		}
+	}
+
+	/**
+	 * Handles an action performed in the hunting Gui.
+	 * 
+	 * @param 	button	The button that was pressed.
+	 */
+	private void actionPerformedHunting(GuiButton button)
+	{
+		if (button == backButton)
+		{
+			drawGuardSpecialGui();
+		}
+
+		else if (button == huntModeButton)
+		{
+			if (huntMode == 0)
+			{
+				huntMode = 1;
+			}
+
+			else if (huntMode == 1)
+			{
+				huntMode = 0;
+			}
+
+			drawHuntingGui();
+		}
+
+		else if (button == choreStartButton)
+		{
+			entityVillager.huntingChore = new ChoreHunting(entityVillager, huntMode);
+			entityVillager.isInChoreMode = true;
+			entityVillager.currentChore = entityVillager.huntingChore.getChoreName();
+
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", true));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "currentChore", "Hunting"));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.huntingChore));
 			close();
 		}
 	}
