@@ -804,6 +804,11 @@ public class Inventory implements IInventory, Serializable
 	 */
 	public int getDamageVsEntity(EntityLivingBase target) 
 	{
+		if (owner.getHeldItem() == null)
+		{
+			return 1;
+		}
+		
 		//Check for unique names.
 		if (owner.name.equals("Katniss"))
 		{
