@@ -1031,7 +1031,11 @@ public class EntityPlayerChild extends EntityChild implements INpc
 					for (int i : familyTree.getListOfPlayers())
 					{
 						EntityPlayer player = MCA.instance.getPlayerByID(worldObj, i);
-						notifyPlayer(player, LanguageHelper.getString(this, "notify.child.readytogrow", false));
+						
+						if (!worldObj.isRemote)
+						{
+							notifyPlayer(player, LanguageHelper.getString(this, "notify.child.readytogrow", false));
+						}
 					}
 
 					hasNotifiedGrowthReady = true;
@@ -1049,7 +1053,11 @@ public class EntityPlayerChild extends EntityChild implements INpc
 				for (int i : familyTree.getListOfPlayers())
 				{
 					EntityPlayer player = MCA.instance.getPlayerByID(worldObj, i);
-					notifyPlayer(player, LanguageHelper.getString(this, "notify.child.growup", false));
+					
+					if (!worldObj.isRemote)
+					{
+						notifyPlayer(player, LanguageHelper.getString(this, "notify.child.growup", false));
+					}
 				}
 
 				isAdult = true;
@@ -1078,14 +1086,14 @@ public class EntityPlayerChild extends EntityChild implements INpc
 		if (!heldBabyGender.equals("None"))
 		{
 			//Get the current minutes from the system.
-			MCA.instance.playerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+			villagerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 
 			//Check it against previousMinutes to see if the time changed.
-			if (MCA.instance.playerBabyCalendarCurrentMinutes > MCA.instance.playerBabyCalendarPrevMinutes || MCA.instance.playerBabyCalendarCurrentMinutes == 0 && MCA.instance.playerBabyCalendarPrevMinutes == 59)
+			if (villagerBabyCalendarCurrentMinutes > villagerBabyCalendarPrevMinutes || villagerBabyCalendarCurrentMinutes == 0 && villagerBabyCalendarPrevMinutes == 59)
 			{
 				//If it did, bump up the baby's age and set prevMinutes.
 				heldBabyAge++;
-				MCA.instance.playerBabyCalendarPrevMinutes = MCA.instance.playerBabyCalendarCurrentMinutes;
+				villagerBabyCalendarPrevMinutes = villagerBabyCalendarCurrentMinutes;
 			}
 
 			//It's time for the baby to grow.
