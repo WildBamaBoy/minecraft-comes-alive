@@ -79,7 +79,7 @@ public class ChoreMining extends AbstractChore
 	public int heading = 0;
 
 	/** How far from the start position the owner will continue active mining.*/
-	public int activeDistance = 0;
+	public int activeDistance = 5;
 
 	/**The ore that should be mined. 0 = Coal, 1 = Iron, 2 = Lapis Lazuli, 3 = Gold, 4 = Diamond, 5 = Redstone, 6 = Emerald*/
 	public int oreType = 0;
@@ -324,6 +324,7 @@ public class ChoreMining extends AbstractChore
 			{
 				Coordinates coordinatesOfBlock = null;
 				Double distance = null;
+
 				//Get the coordinates of the nearest block found of the specified ID.
 				for (Coordinates coords : LogicHelper.getNearbyBlocksBottomTop(owner, blockIDSearchingFor, 20))
 				{
@@ -403,46 +404,46 @@ public class ChoreMining extends AbstractChore
 		}
 
 		//Calculate interval based on their fastest pickaxe.
-		ItemStack pickStack = owner.inventory.getBestItemOfType(ItemPickaxe.class);
-
-		if (pickStack != null)
+		if (owner instanceof EntityPlayerChild)
 		{
-			String itemName = pickStack.getItemName();
+			ItemStack pickStack = owner.inventory.getBestItemOfType(ItemPickaxe.class);
 
-			if (itemName.contains("Wood"))
+			if (pickStack != null)
 			{
-				activeMineInterval = 40;
+				String itemName = pickStack.getItemName();
+
+				if (itemName.contains("Wood"))
+				{
+					activeMineInterval = 40;
+				}
+
+				else if (itemName.contains("Stone"))
+				{
+					activeMineInterval = 30;
+				}
+
+				else if (itemName.contains("Iron"))
+				{
+					activeMineInterval = 25;
+				}
+
+				else if (itemName.contains("Diamond"))
+				{
+					activeMineInterval = 10;
+				}
+
+				else if (itemName.contains("Gold"))
+				{
+					activeMineInterval = 5;
+				}
+
+				else //Unrecognized item type, assume iron since it may be from another mod.
+				{
+					activeMineInterval = 25;
+				}
 			}
 
-			else if (itemName.contains("Stone"))
-			{
-				activeMineInterval = 30;
-			}
-
-			else if (itemName.contains("Iron"))
-			{
-				activeMineInterval = 25;
-			}
-
-			else if (itemName.contains("Diamond"))
-			{
-				activeMineInterval = 10;
-			}
-
-			else if (itemName.contains("Gold"))
-			{
-				activeMineInterval = 5;
-			}
-
-			else //Unrecognized item type, assume iron since it may be from another mod.
-			{
-				activeMineInterval = 25;
-			}
-		}
-
-		else //Item is bare hands. Not allowed for mining.
-		{
-			if (!(owner instanceof EntityVillagerAdult))
+			else //Item is bare hands. Not allowed for mining.
 			{
 				if (!owner.worldObj.isRemote)
 				{
@@ -452,11 +453,11 @@ public class ChoreMining extends AbstractChore
 				endChore();
 				return;
 			}
-
-			else
-			{
-				activeMineInterval = 25;
-			}
+		}
+		
+		else
+		{
+			activeMineInterval = 25;
 		}
 
 		//Check if the coordinates for the next block to mine have been assigned.
