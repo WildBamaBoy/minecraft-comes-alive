@@ -612,7 +612,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		buttonList.add(divorceCoupleButton = new GuiButton(2, width / 2 - 40, height / 2 + 10, 85, 20, LanguageHelper.getString("gui.button.special.priest.divorcecouple")));
 		buttonList.add(giveUpBabyButton    = new GuiButton(3, width / 2 + 45, height / 2 + 10, 85, 20, LanguageHelper.getString("gui.button.special.priest.giveupbaby")));
 		buttonList.add(adoptBabyButton     = new GuiButton(4, width / 2 - 125, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.special.priest.adoptbaby")));
-		buttonList.add(arrangedMarriageButton = new GuiButton(5, width / 2 - 40, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.special.priest.arrangedmarriage")));
+		buttonList.add(arrangedMarriageButton = new GuiButton(5, width / 2 - 40, height / 2 + 30, 120, 20, LanguageHelper.getString("gui.button.special.priest.arrangedmarriage")));
 
 		WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
 		divorceSpouseButton.enabled = manager.worldProperties.playerSpouseID != 0;
@@ -1591,6 +1591,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			if (villagerToMarry == null)
 			{
 				player.addChatMessage(LanguageHelper.getString("notify.arrangedmarriage.failed"));
+				close();
 				return;
 			}
 
