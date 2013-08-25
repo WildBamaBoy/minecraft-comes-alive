@@ -18,6 +18,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -232,7 +233,7 @@ public class MCA
 
 	/**Map of the inventory of a player saved just before they died. */
 	public Map<String, ArrayList<EntityItem>> deadPlayerInventories = new HashMap<String, ArrayList<EntityItem>>();
-	
+
 	/** List of the male names loaded from MaleNames.txt.*/
 	public static List<String> maleNames = new ArrayList<String>();
 
@@ -301,7 +302,7 @@ public class MCA
 		"S", "S", "S", "S", "S",
 		"S", "S", "S", "S", "S"
 		};
-	
+
 	public static String[] sugarcaneFarmFiveByFive =
 		{
 		"W", "W", "W", "W", "W",
@@ -310,7 +311,7 @@ public class MCA
 		"S", "S", "S", "S", "S",
 		"W", "W", "W", "W", "W"
 		};
-	
+
 	public static String[] blockFarmFiveByFive =
 		{
 		"W", "P", "P", "P", "W",
@@ -319,7 +320,7 @@ public class MCA
 		"P", "S", "S", "S", "P",
 		"W", "P", "P", "P", "W",
 		};
-	
+
 	public static String[] normalFarmTenByTen = 
 		{
 		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
@@ -333,7 +334,7 @@ public class MCA
 		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
 		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S"
 		};
-	
+
 	public static String[] sugarcaneFarmTenByTen =
 		{
 		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W",
@@ -347,7 +348,7 @@ public class MCA
 		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
 		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W"
 		};
-	
+
 	public static String[] normalFarmFifteenByFifteen =
 		{
 		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
@@ -366,7 +367,7 @@ public class MCA
 		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
 		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
 		};
-	
+
 	public static String[] sugarcaneFarmFifteenByFifteen =
 		{
 		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", 
@@ -385,7 +386,7 @@ public class MCA
 		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
 		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W",
 		};
-	
+
 	/** Map of the IDs of items and the amount of hearts given to the villager who receives this item.*/
 	public static Map<Integer, Integer> acceptableGifts = new HashMap<Integer, Integer>();
 
@@ -557,7 +558,7 @@ public class MCA
 				case 7: return MCA.instance.minerSkinsMale;
 				}
 			}
-	
+
 			else
 			{
 				switch (entity.profession)
@@ -573,20 +574,20 @@ public class MCA
 				}
 			}
 		}
-	
+
 		else
 		{
 			if (entity.gender.equals("Male"))
 			{
 				return MCA.instance.kidSkinsMale;
 			}
-	
+
 			else if (entity.gender.equals("Female"))
 			{
 				return MCA.instance.kidSkinsFemale;
 			}
 		}
-	
+
 		return null;
 	}
 
@@ -604,22 +605,22 @@ public class MCA
 			Deflater deflater = new Deflater();
 			deflater.setLevel(Deflater.BEST_COMPRESSION);
 			deflater.setInput(input);
-	
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream(input.length);
 			deflater.finish();
-	
+
 			byte[] buffer = new byte[1024];
-	
+
 			while(!deflater.finished())
 			{
 				int count = deflater.deflate(buffer);
 				byteOutput.write(buffer, 0, count);
 			}
-	
+
 			byteOutput.close();
 			return byteOutput.toByteArray();
 		}
-	
+
 		catch (Throwable e)
 		{
 			MCA.instance.quitWithError("Error compressing byte array.", e);
@@ -640,25 +641,49 @@ public class MCA
 		{
 			Inflater inflater = new Inflater();
 			inflater.setInput(input);
-	
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream(input.length);
-	
+
 			byte[] buffer = new byte[1024];
-	
+
 			while(!inflater.finished())
 			{
 				int count = inflater.inflate(buffer);
 				byteOutput.write(buffer, 0, count);
 			}
-	
+
 			byteOutput.close();
 			return byteOutput.toByteArray();
 		}
-	
+
 		catch (Throwable e)
 		{
 			MCA.instance.quitWithError("Error decompressing byte array.", e);
 			return null;
+		}
+	}
+
+	public static String getMD5Hash(String input)
+	{
+		try
+		{
+			MessageDigest md5 = MessageDigest.getInstance("MD5");
+			md5.update(input.getBytes());
+
+			byte[] hash = md5.digest();
+			StringBuffer buffer = new StringBuffer();
+
+			for (byte b : hash) 
+			{
+				buffer.append(Integer.toHexString((int) (b & 0xff)));
+			}
+
+			return buffer.toString();
+		}
+
+		catch (Throwable e)
+		{
+			return "UNABLE TO PROCESS";
 		}
 	}
 
@@ -798,7 +823,7 @@ public class MCA
 			}
 		}
 	}
-	
+
 	/**
 	 * Gets the appropriate farm creation map for the area and seed type provided.
 	 * 
@@ -813,30 +838,30 @@ public class MCA
 		{
 			switch (areaX)
 			{
-				case 5: return normalFarmFiveByFive;
-				case 10: return normalFarmTenByTen;
-				case 15: return normalFarmFifteenByFifteen;
+			case 5: return normalFarmFiveByFive;
+			case 10: return normalFarmTenByTen;
+			case 15: return normalFarmFifteenByFifteen;
 			}
 		}
-		
+
 		else if (seedType == 1 || seedType == 2)
 		{
 			return blockFarmFiveByFive;
 		}
-		
+
 		else if (seedType == 5)
 		{
 			switch (areaX)
 			{
-				case 5: return sugarcaneFarmFiveByFive;
-				case 10: return sugarcaneFarmTenByTen;
-				case 15: return sugarcaneFarmFifteenByFifteen;
+			case 5: return sugarcaneFarmFiveByFive;
+			case 10: return sugarcaneFarmTenByTen;
+			case 15: return sugarcaneFarmFifteenByFifteen;
 			}
 		}
 
 		return null;
 	}
-	
+
 	/**
 	 * Runs code as soon as possible. Specifically before a player's stats are checked for invalidity (Achievement bug).
 	 * So just for the heck of it, let's init EVERYTHING here along with achievements.

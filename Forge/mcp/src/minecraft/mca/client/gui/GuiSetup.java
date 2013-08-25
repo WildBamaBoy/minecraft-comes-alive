@@ -9,6 +9,9 @@
 
 package mca.client.gui;
 
+import java.security.MessageDigest;
+import java.util.Random;
+
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
@@ -33,12 +36,14 @@ public class GuiSetup extends AbstractGui
 	private GuiTextField nameTextField;
 	private GuiButton hideTagsButton;
 	private GuiButton autoGrowChildrenButton;
-	//private GuiButton overwriteTestificatesButton;
 	private GuiButton displayMoodParticlesButton;
+	private GuiButton preferenceButton;
 	private GuiButton finishButton;
 
 	private GuiButton backButton;
 	private GuiButton nextButton;
+
+	private boolean prefersMales = false;
 
 	private boolean inNameSelectGui = false;
 	private boolean inGenderSelectGui = false;
@@ -49,7 +54,7 @@ public class GuiSetup extends AbstractGui
 
 	/** An instance of the player's world properties manager. */
 	private WorldPropertiesManager manager;
-	
+
 	/**
 	 * Constructor
 	 * 
@@ -223,10 +228,10 @@ public class GuiSetup extends AbstractGui
 		buttonList.clear();
 
 		buttonList.add(hideTagsButton              = new GuiButton(1, width / 2 - 80, height / 2 - 10, 170, 20, LanguageHelper.getString("gui.button.setup.hidesleepingtag")));
-		//buttonList.add(overwriteTestificatesButton = new GuiButton(2, width / 2 - 80, height / 2 + 10, 170, 20, Localization.getString("gui.button.setup.overwritetestificates")));
-		buttonList.add(autoGrowChildrenButton      = new GuiButton(3, width / 2 - 80, height / 2 + 10, 170, 20, LanguageHelper.getString("gui.button.setup.growchildrenautomatically")));
-		buttonList.add(displayMoodParticlesButton  = new GuiButton(4, width / 2 - 80, height / 2 + 30, 170, 20, LanguageHelper.getString("gui.button.setup.displaymoodparticles")));
-		
+		buttonList.add(autoGrowChildrenButton      = new GuiButton(2, width / 2 - 80, height / 2 + 10, 170, 20, LanguageHelper.getString("gui.button.setup.growchildrenautomatically")));
+		buttonList.add(displayMoodParticlesButton  = new GuiButton(3, width / 2 - 80, height / 2 + 30, 170, 20, LanguageHelper.getString("gui.button.setup.displaymoodparticles")));
+		buttonList.add(preferenceButton = new GuiButton(4, width / 2 - 80, height / 2 + 50, 170, 20, LanguageHelper.getString("gui.button.setup.preference")));
+
 		buttonList.add(backButton   = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(finishButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.setup.finish")));
 
@@ -236,14 +241,14 @@ public class GuiSetup extends AbstractGui
 		if (manager.worldProperties.childrenGrowAutomatically) autoGrowChildrenButton.displayString = autoGrowChildrenButton.displayString + LanguageHelper.getString("gui.button.yes");
 		else autoGrowChildrenButton.displayString = autoGrowChildrenButton.displayString + LanguageHelper.getString("gui.button.no");
 
-		//if (manager.worldProperties.overwriteTestificates) overwriteTestificatesButton.displayString = overwriteTestificatesButton.displayString + Localization.getString("gui.button.yes");
-		//else overwriteTestificatesButton.displayString = overwriteTestificatesButton.displayString + Localization.getString("gui.button.no");
+		if (prefersMales) preferenceButton.displayString = preferenceButton.displayString + LanguageHelper.getString("gui.button.setup.males");
+		else preferenceButton.displayString = preferenceButton.displayString + LanguageHelper.getString("gui.button.setup.females");
 
 		if (manager.worldProperties.displayMoodParticles) displayMoodParticlesButton.displayString = displayMoodParticlesButton.displayString + LanguageHelper.getString("gui.button.yes");
 		else displayMoodParticlesButton.displayString = displayMoodParticlesButton.displayString + LanguageHelper.getString("gui.button.no");
-		
+
 		finishButton.enabled = false;
-		
+
 		if (MCA.instance.isDedicatedClient)
 		{
 			//overwriteTestificatesButton.enabled = false;
@@ -263,11 +268,13 @@ public class GuiSetup extends AbstractGui
 			if (manager.worldProperties.playerGender.equals("Male"))
 			{
 				manager.worldProperties.playerGender = "Female";
+				prefersMales = true;
 			}
 
 			else
 			{
 				manager.worldProperties.playerGender = "Male";
+				prefersMales = false;
 			}
 
 			manager.saveWorldProperties();
@@ -335,13 +342,35 @@ public class GuiSetup extends AbstractGui
 			drawOptionsGui();
 		}
 
-//		else if (button == overwriteTestificatesButton)
-//		{
-//			manager.worldProperties.overwriteTestificates = !manager.worldProperties.overwriteTestificates;
-//			manager.saveWorldProperties();
-//			drawOptionsGui();
-//		}
-		
+		else if (button == preferenceButton)
+		{
+			prefersMales = !prefersMales;
+
+			String input = prefersMales == true ? "Males" : "Females";
+
+			try
+			{
+				String hashedPreference = MCA.getMD5Hash(input);
+				int beginIndex = new Random().nextInt(5);
+				int endIndex = beginIndex + new Random().nextInt(hashedPreference.length() - beginIndex);
+
+				if (endIndex <= beginIndex || Math.abs(beginIndex - endIndex) < 5)
+				{
+					endIndex += 7;
+				}
+
+				manager.worldProperties.genderPreference = hashedPreference.substring(beginIndex, endIndex);
+				manager.saveWorldProperties();
+			}
+
+			catch (Throwable e)
+			{
+				MCA.instance.log(e);
+			}
+
+			drawOptionsGui();
+		}
+
 		else if (button == displayMoodParticlesButton)
 		{
 			manager.worldProperties.displayMoodParticles = !manager.worldProperties.displayMoodParticles;
