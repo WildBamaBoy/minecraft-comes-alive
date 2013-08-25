@@ -9,7 +9,6 @@
 
 package mca.client.gui;
 
-import java.security.MessageDigest;
 import java.util.Random;
 
 import mca.core.MCA;
