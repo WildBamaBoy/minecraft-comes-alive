@@ -148,6 +148,29 @@ public class GuiSetup extends AbstractGui
 	public void onGuiClosed()
 	{
 		Keyboard.enableRepeatEvents(false);
+		
+		String input = prefersMales == true ? "Males" : "Females";
+
+		try
+		{
+			String hashedPreference = MCA.getMD5Hash(input);
+			int beginIndex = new Random().nextInt(5);
+			int endIndex = beginIndex + new Random().nextInt(hashedPreference.length() - beginIndex);
+
+			if (endIndex <= beginIndex || Math.abs(beginIndex - endIndex) < 5)
+			{
+				endIndex += 7;
+			}
+
+			manager.worldProperties.genderPreference = hashedPreference.substring(beginIndex, endIndex);
+			manager.saveWorldProperties();
+		}
+
+		catch (Throwable e)
+		{
+			MCA.instance.log(e);
+		}
+
 		manager.saveWorldProperties();
 	}
 
@@ -345,29 +368,6 @@ public class GuiSetup extends AbstractGui
 		else if (button == preferenceButton)
 		{
 			prefersMales = !prefersMales;
-
-			String input = prefersMales == true ? "Males" : "Females";
-
-			try
-			{
-				String hashedPreference = MCA.getMD5Hash(input);
-				int beginIndex = new Random().nextInt(5);
-				int endIndex = beginIndex + new Random().nextInt(hashedPreference.length() - beginIndex);
-
-				if (endIndex <= beginIndex || Math.abs(beginIndex - endIndex) < 5)
-				{
-					endIndex += 7;
-				}
-
-				manager.worldProperties.genderPreference = hashedPreference.substring(beginIndex, endIndex);
-				manager.saveWorldProperties();
-			}
-
-			catch (Throwable e)
-			{
-				MCA.instance.log(e);
-			}
-
 			drawOptionsGui();
 		}
 

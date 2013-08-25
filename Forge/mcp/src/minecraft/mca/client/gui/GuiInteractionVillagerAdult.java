@@ -1574,6 +1574,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			List<EntityVillagerAdult> nearbyVillagers = (List<EntityVillagerAdult>) LogicHelper.getAllEntitiesOfTypeWithinDistanceOfEntity(entityVillager, EntityVillagerAdult.class, 30);
 
 			String preferredGender = MCA.getMD5Hash("Males").contains(manager.worldProperties.genderPreference) ? "Male" : "Female";
+			
 			EntityVillagerAdult villagerToMarry = null;
 
 			for (EntityVillagerAdult adult : nearbyVillagers)
