@@ -143,33 +143,36 @@ public class ChoreHunting extends AbstractChore
 				//First calculate if they've died.
 				int chanceOfDeath = 0;
 
-				if (hasWeapon && hasArmor)
+				if (owner instanceof EntityPlayerChild)
 				{
-					chanceOfDeath = 5;
-				}
+					if (hasWeapon && hasArmor)
+					{
+						chanceOfDeath = 5;
+					}
 
-				else if (hasWeapon && !hasArmor)
-				{
-					chanceOfDeath = 55;
-				}
+					else if (hasWeapon && !hasArmor)
+					{
+						chanceOfDeath = 55;
+					}
 
-				else if (!hasWeapon && hasArmor)
-				{
-					chanceOfDeath = 30;
-				}
+					else if (!hasWeapon && hasArmor)
+					{
+						chanceOfDeath = 30;
+					}
 
-				else if (!hasArmor && !hasWeapon)
-				{
-					chanceOfDeath = 70;
-				}
+					else if (!hasArmor && !hasWeapon)
+					{
+						chanceOfDeath = 70;
+					}
 
-				if (AbstractEntity.getBooleanWithProbability(chanceOfDeath) == true)
-				{
-					EntityPlayer ownerPlayer = MCA.instance.getPlayerByName(((EntityPlayerChild)owner).ownerPlayerName);
-					owner.notifyPlayer(ownerPlayer, LanguageHelper.getString(owner, "notify.child.chore.failed.hunting.death", false));
-					owner.setDeadWithoutNotification();
-					endChore();
-					return;
+					if (AbstractEntity.getBooleanWithProbability(chanceOfDeath) == true)
+					{
+						EntityPlayer ownerPlayer = MCA.instance.getPlayerByName(((EntityPlayerChild)owner).ownerPlayerName);
+						owner.notifyPlayer(ownerPlayer, LanguageHelper.getString(owner, "notify.child.chore.failed.hunting.death", false));
+						owner.setDeadWithoutNotification();
+						endChore();
+						return;
+					}
 				}
 
 				//Calculate what they've gotten on the hunting trip.
@@ -465,7 +468,7 @@ public class ChoreHunting extends AbstractChore
 		huntingTicks = 0;
 		isHunting = false;
 		hasEnded = true;
-		
+
 		PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(owner));
 	}
 
