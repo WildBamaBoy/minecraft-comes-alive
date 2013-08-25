@@ -58,11 +58,12 @@ public class GuiInteractionPlayerChild extends AbstractGui
 	private GuiButton flirtButton;
 	private GuiButton tellStoryButton;
 	private GuiButton playButton;
-	
+
 	//Buttons appearing at the top of the screen.
 	private GuiButton takeArrangerRingButton;
 	private GuiButton growUpButton;
 	private GuiButton requestCrownButton;
+	private GuiButton recoverInventoryButton;
 
 	//Chore select buttons.
 	private GuiButton farmingButton;
@@ -192,7 +193,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		else if (inInteractionSelectGui)
 		{
 			actionPerformedInteraction(button);
-			
+
 		}
 		else if (inChoreSelectGui)
 		{
@@ -271,7 +272,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 				{
 					farmSizeButton.enabled = true;
 				}
-				
+
 				else
 				{
 					if (farmSizeButton.enabled || areaX != 5 || areaY != 5)
@@ -282,7 +283,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 						drawFarmingGui();
 					}
 				}
-				
+
 				farmPlantButton.enabled = true;
 			}
 
@@ -441,7 +442,13 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 		if (entityChild.familyTree.getEntitiesWithRelation(EnumRelation.Parent).contains(MCA.instance.getIdOfPlayer(player)) && entityChild.shouldActAsHeir)
 		{
-			buttonList.add(requestCrownButton = new GuiButton(9, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("heir.gui.requestcrown")));
+			buttonList.add(requestCrownButton = new GuiButton(9, width / 2 + 5, height / 2 - 20, 120, 20, LanguageHelper.getString("heir.gui.requestcrown")));
+			
+			if (!entityChild.hasReturnedInventory)
+			{
+				buttonList.add(recoverInventoryButton = new GuiButton(10, width / 2 - 125, height / 2 - 20, 120, 20, LanguageHelper.getString("heir.gui.recoverinventory")));
+				requestCrownButton.enabled = false;
+			}
 		}
 
 		else if (entityChild.hasNotifiedGrowthReady && !entityChild.isAdult)
@@ -465,9 +472,9 @@ public class GuiInteractionPlayerChild extends AbstractGui
 	private void drawInteractionGui()
 	{
 		buttonList.clear();
-		
+
 		inInteractionSelectGui = true;
-		
+
 		if (entityChild.isSpouse && entityChild.spousePlayerName.equals(player.username))
 		{
 			buttonList.add(chatButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.chat")));
@@ -478,7 +485,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			buttonList.add(kissButton = new GuiButton(6, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.kiss")));
 			buttonList.add(flirtButton = new GuiButton(7, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.flirt")));
 		}
-		
+
 		else
 		{
 			buttonList.add(chatButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.chat")));
@@ -488,7 +495,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			buttonList.add(tellStoryButton = new GuiButton(5, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.tellstory")));
 			buttonList.add(playButton = new GuiButton(6, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.play"))); 
 		}
-		
+
 		greetButton.displayString = entityChild.playerMemoryMap.get(player.username).hearts >= 50 ? LanguageHelper.getString("gui.button.interact.greet.highfive") : LanguageHelper.getString("gui.button.interact.greet.handshake");
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
@@ -575,7 +582,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		{
 			farmPlantButton.displayString += LanguageHelper.getString("gui.button.chore.farming.plant.potato");
 		}
-		
+
 		else if (farmPlantType == 5)
 		{
 			farmPlantButton.displayString += LanguageHelper.getString("gui.button.chore.farming.plant.sugarcane");
@@ -815,51 +822,12 @@ public class GuiInteractionPlayerChild extends AbstractGui
 	 * @param 	button	The button that was pressed. 
 	 */
 	private void actionPerformedBase(GuiButton button)
-	{
-		//Check for heir status first.
-		if (entityChild.familyTree.getEntitiesWithRelation(EnumRelation.Parent).contains(MCA.instance.getIdOfPlayer(player)) && entityChild.shouldActAsHeir &&
-				!entityChild.hasReturnedInventory)
-		{
-			if (entityChild.isGoodHeir)
-			{
-				entityChild.say(LanguageHelper.getString("heir.good.founditems"));
-
-				PacketDispatcher.sendPacketToServer(PacketHelper.createReturnInventoryPacket(entityChild));
-
-				entityChild.hasReturnedInventory = true;
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "hasReturnedInventory", true));
-				close();
-				return;
-			}
-
-			else
-			{
-				PlayerMemory memory = entityChild.playerMemoryMap.get(player.username);
-				memory.tributeRequests++;
-
-				//Limit is 10 demands without giving a gift.
-				if (memory.tributeRequests >= 10)
-				{
-					memory.willAttackPlayer = true;
-					entityChild.say(LanguageHelper.getString("heir.bad.attack"));
-				}
-
-				else
-				{
-					entityChild.say(LanguageHelper.getString("heir.bad.demandtribute"));
-				}
-
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "playerMemoryMap", entityChild.playerMemoryMap));
-				close();
-				return;
-			}
-		}
-		
+	{		
 		if (button == interactButton)
 		{
 			drawInteractionGui();
 		}
-		
+
 		else if (button == followButton)
 		{
 			if (!entityChild.isFollowing)
@@ -973,6 +941,21 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			close();
 		}
 
+		else if (button == recoverInventoryButton)
+		{
+			if (entityChild.isGoodHeir)
+			{
+				entityChild.say(LanguageHelper.getString("heir.good.founditems"));
+
+				PacketDispatcher.sendPacketToServer(PacketHelper.createReturnInventoryPacket(entityChild));
+
+				entityChild.hasReturnedInventory = true;
+				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "hasReturnedInventory", true));
+				close();
+				return;
+			}
+		}
+
 		else if (button == requestCrownButton)
 		{
 			if (entityChild.isGoodHeir)
@@ -1045,13 +1028,13 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "playerMemoryMap", entityChild.playerMemoryMap));
 			close();
 		}
-		
+
 		else if (button == greetButton)
 		{
 			entityChild.doGreeting(player);
 			close();
 		}
-		
+
 		else if (button == tellStoryButton)
 		{
 			entityChild.doTellStory(player);
@@ -1062,31 +1045,31 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			entityChild.doKiss(player);
 			close();
 		}
-		
+
 		else if (button == flirtButton)
 		{
 			entityChild.doFlirt(player);
 			close();
 		}
-		
+
 		else if (button == tellStoryButton)
 		{
 			entityChild.doTellStory(player);
 			close();
 		}
-		
+
 		else if (button == playButton)
 		{
 			entityChild.doPlay(player);
 			close();
 		}
-		
+
 		else if (button == backButton)
 		{
 			drawBaseGui();
 		}
 	}
-	
+
 	/**
 	 * Handles an action performed in the chore selection Gui.
 	 * 
@@ -1200,7 +1183,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			{
 				farmRadius += 5;
 			}
-			
+
 			drawFarmingGui();
 		}
 
