@@ -18,8 +18,6 @@ public enum EnumMoodChangeContext
 	BadInteraction,
 	HitByPlayer,
 	SleepInterrupted,
-	SleepCycle,
-	Working,
 	MoodCycle,
 	WitnessDeath;
 }

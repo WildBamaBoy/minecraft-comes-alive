@@ -269,7 +269,6 @@ public class GuiVillagerEditor extends AbstractGui
 			if (villagerBeingEdited.mood.isAnger())
 			{
 				villagerBeingEdited.moodPointsAnger = villagerBeingEdited.mood.getMoodLevel();
-				villagerBeingEdited.moodPointsFatigue = 0.0F;
 				villagerBeingEdited.moodPointsHappy = 0.0F;
 				villagerBeingEdited.moodPointsSad = 0.0F;
 			}
@@ -277,7 +276,6 @@ public class GuiVillagerEditor extends AbstractGui
 			else if (villagerBeingEdited.mood.isSadness())
 			{
 				villagerBeingEdited.moodPointsAnger = 0.0F;
-				villagerBeingEdited.moodPointsFatigue = 0.0F;
 				villagerBeingEdited.moodPointsHappy = 0.0F;
 				villagerBeingEdited.moodPointsSad = villagerBeingEdited.mood.getMoodLevel();
 			}
@@ -285,23 +283,13 @@ public class GuiVillagerEditor extends AbstractGui
 			else if (villagerBeingEdited.mood.isHappy())
 			{
 				villagerBeingEdited.moodPointsAnger = 0.0F;
-				villagerBeingEdited.moodPointsFatigue = 0.0F;
 				villagerBeingEdited.moodPointsHappy = villagerBeingEdited.mood.getMoodLevel();
-				villagerBeingEdited.moodPointsSad = 0.0F;
-			}
-			
-			else if (villagerBeingEdited.mood.isFatigue())
-			{
-				villagerBeingEdited.moodPointsAnger = 0.0F;
-				villagerBeingEdited.moodPointsFatigue = villagerBeingEdited.mood.getMoodLevel();
-				villagerBeingEdited.moodPointsHappy = 0.0F;
 				villagerBeingEdited.moodPointsSad = 0.0F;
 			}
 			
 			else if (villagerBeingEdited.mood.isNeutral())
 			{
 				villagerBeingEdited.moodPointsAnger = 0.0F;
-				villagerBeingEdited.moodPointsFatigue = 0.0F;
 				villagerBeingEdited.moodPointsHappy = 0.0F;
 				villagerBeingEdited.moodPointsSad = 0.0F;
 			}
@@ -327,7 +315,6 @@ public class GuiVillagerEditor extends AbstractGui
 			if (villagerBeingEdited.mood.isAnger())
 			{
 				villagerBeingEdited.moodPointsAnger = villagerBeingEdited.mood.getMoodLevel();
-				villagerBeingEdited.moodPointsFatigue = 0.0F;
 				villagerBeingEdited.moodPointsHappy = 0.0F;
 				villagerBeingEdited.moodPointsSad = 0.0F;
 			}
@@ -335,7 +322,6 @@ public class GuiVillagerEditor extends AbstractGui
 			else if (villagerBeingEdited.mood.isSadness())
 			{
 				villagerBeingEdited.moodPointsAnger = 0.0F;
-				villagerBeingEdited.moodPointsFatigue = 0.0F;
 				villagerBeingEdited.moodPointsHappy = 0.0F;
 				villagerBeingEdited.moodPointsSad = villagerBeingEdited.mood.getMoodLevel();
 			}
@@ -343,23 +329,13 @@ public class GuiVillagerEditor extends AbstractGui
 			else if (villagerBeingEdited.mood.isHappy())
 			{
 				villagerBeingEdited.moodPointsAnger = 0.0F;
-				villagerBeingEdited.moodPointsFatigue = 0.0F;
 				villagerBeingEdited.moodPointsHappy = villagerBeingEdited.mood.getMoodLevel();
-				villagerBeingEdited.moodPointsSad = 0.0F;
-			}
-			
-			else if (villagerBeingEdited.mood.isFatigue())
-			{
-				villagerBeingEdited.moodPointsAnger = 0.0F;
-				villagerBeingEdited.moodPointsFatigue = villagerBeingEdited.mood.getMoodLevel();
-				villagerBeingEdited.moodPointsHappy = 0.0F;
 				villagerBeingEdited.moodPointsSad = 0.0F;
 			}
 			
 			else if (villagerBeingEdited.mood.isNeutral())
 			{
 				villagerBeingEdited.moodPointsAnger = 0.0F;
-				villagerBeingEdited.moodPointsFatigue = 0.0F;
 				villagerBeingEdited.moodPointsHappy = 0.0F;
 				villagerBeingEdited.moodPointsSad = 0.0F;
 			}

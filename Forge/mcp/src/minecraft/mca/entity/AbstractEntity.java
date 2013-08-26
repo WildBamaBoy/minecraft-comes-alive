@@ -137,7 +137,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public float moodPointsHappy = 0.0F;
 	public float moodPointsSad = 0.0F;
 	public float moodPointsAnger = 0.0F;
-	public float moodPointsFatigue = 0.0F;
 
 	//Object types
 	public FamilyTree familyTree = new FamilyTree(this);
@@ -1601,13 +1600,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		moodValues.add(moodPointsHappy);
 		moodValues.add(moodPointsSad);
 		moodValues.add(moodPointsAnger);
-		moodValues.add(moodPointsFatigue);
 
 		float highestValue = 0.0F;
 		int moodIndex = 0;
 
 		int i = 0;
-		while (i != 4)
+		while (i != 3)
 		{
 			if (moodValues.get(i) > highestValue)
 			{
@@ -1638,9 +1636,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			case 2:
 				mood = EnumMood.getMoodByPointValue("anger", highestValue);
 				break;
-			case 3:
-				mood = EnumMood.getMoodByPointValue("fatigue", highestValue);
-				break;
 			default:
 				return;
 			}
@@ -1653,7 +1648,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "moodPointsHappy", moodPointsHappy));
 				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "moodPointsSad", moodPointsSad));
 				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "moodPointsAnger", moodPointsAnger));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "moodPointsFatigue", moodPointsFatigue));
 			}
 
 			else
@@ -1661,7 +1655,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "moodPointsHappy", moodPointsHappy));
 				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "moodPointsSad", moodPointsSad));
 				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "moodPointsAnger", moodPointsAnger));
-				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "moodPointsFatigue", moodPointsFatigue));
 			}
 		}
 
@@ -1720,7 +1713,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			if (getBooleanWithProbability(chanceOfSad))
 			{
 				moodPointsSad = moodLevel;
-				moodPointsFatigue = 0.0F;
 				moodPointsAnger = 0.0F;
 				moodPointsHappy = 0.0F;
 			}
@@ -1728,7 +1720,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			else if (getBooleanWithProbability(chanceOfMad))
 			{
 				moodPointsSad = 0.0F;
-				moodPointsFatigue = 0.0F;
 				moodPointsAnger = moodLevel;
 				moodPointsHappy = 0.0F;
 			}
@@ -1736,7 +1727,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			else if (getBooleanWithProbability(chanceOfHappy))
 			{
 				moodPointsSad = 0.0F;
-				moodPointsFatigue = 0.0F;
 				moodPointsAnger = 0.0F;
 				moodPointsHappy = moodLevel;
 			}
@@ -1744,7 +1734,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			else
 			{
 				moodPointsSad = 0.0F;
-				moodPointsFatigue = 0.0F;
 				moodPointsAnger = 0.0F;
 				moodPointsHappy = 0.0F;
 			}
@@ -2050,28 +2039,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			moodPointsHappy  = moodPointsHappy  > 5.0F ? moodPointsHappy  = 5.0F : moodPointsHappy  + value; 
 			moodPointsAnger = moodPointsAnger < 0.0F ? moodPointsAnger = 0.0F : moodPointsAnger - value;
 			break;
-		case SleepCycle:
-			if (this.profession == 5 && !this.isSpouse)
-			{
-				return;
-			}
-
-			else
-			{
-				moodPointsFatigue = moodPointsFatigue > 5.0F ? moodPointsFatigue = 5.0F : moodPointsFatigue + value; 
-			}
-			break;
 		case SleepInterrupted:
-			moodPointsAnger = moodPointsAnger > 5.0F ? moodPointsAnger = 5.0F : moodPointsAnger + value; 
-			moodPointsFatigue = moodPointsFatigue > 5.0F ? moodPointsFatigue = 5.0F : moodPointsFatigue + value;
+			moodPointsAnger = moodPointsAnger > 5.0F ? moodPointsAnger = 5.0F : moodPointsAnger + value;
 			moodPointsHappy  = moodPointsHappy  < 0.0F ? moodPointsHappy  = 0.0F : moodPointsHappy  - value;
 			break;
 		case MoodCycle:
-			moodPointsFatigue = 0.0F;
 			doMoodCycle();
-			break;
-		case Working:
-			moodPointsFatigue = moodPointsFatigue > 5.0F ? moodPointsFatigue = 5.0F : moodPointsFatigue + value;
 			break;
 		case WitnessDeath:
 			moodPointsSad = moodPointsSad > 5.0F ? moodPointsSad = 5.0F : moodPointsSad + value;
@@ -2107,7 +2080,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					}
 
 					//Then check if they should be going to sleep.
-					else if (!isSleeping && !serverWorldObj.isDaytime() && !hasTeleportedHome && moodPointsFatigue >= 2.0F)
+					else if (!isSleeping && !serverWorldObj.isDaytime() && !hasTeleportedHome)
 					{
 						setMoodByMoodPoints(true);
 
@@ -2742,14 +2715,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				else
 				{
-					//Update fatigue points when nighttime.
-					if (worldObj.getWorldTime() > 12500 && !isSleeping)
-					{
-						modifyMoodPoints(EnumMoodChangeContext.SleepCycle, worldObj.rand.nextFloat() + worldObj.rand.nextFloat());
-					}
-
-					//Random updates during the day.
-					else if (worldObj.getWorldTime() < 12500)
+					//Random updates while awake.
+					if (!isSleeping)
 					{
 						if (worldObj.rand.nextBoolean() && worldObj.rand.nextBoolean() && worldObj.rand.nextBoolean())
 						{
@@ -2805,7 +2772,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "moodPointsHappy", moodPointsHappy));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "moodPointsAnger", moodPointsAnger));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "moodPointsSad", moodPointsSad));
-					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "moodPointsFatigue", moodPointsFatigue));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 				}
 			}

@@ -34,12 +34,7 @@ public enum EnumMood
 	Agitated("mood.anger.agitated"),
 	Mad("mood.anger.mad"),
 	Seething("mood.anger.seething"),
-	Infuriated("mood.anger.infuriated"),
-	Tired("mood.fatigue.tired"),
-	Sleepy("mood.fatigue.sleepy"),
-	Fatigued("mood.fatigue.fatigued"),
-	Exhausted("mood.fatigue.exhausted"),
-	Comatose("mood.fatigue.comatose");
+	Infuriated("mood.anger.infuriated");
 
 	private String value;
 
@@ -51,7 +46,7 @@ public enum EnumMood
 	/**
 	 * Gets the appropriate mood for a villager based on the mood type.
 	 * 
-	 * @param moodType	The type of mood the villager should be in: happy, sadness, fatigue, anger, or neutral.
+	 * @param moodType	The type of mood the villager should be in: happy, sadness, anger, or neutral.
 	 * @param moodValue	The mood level that should be applied.
 	 * 
 	 * @return	EnumMood of the appropriate type based on provided type and value.
@@ -162,39 +157,6 @@ public enum EnumMood
 			}
 		}
 
-		else if (moodType.equals("fatigue"))
-		{
-			if (moodValue < 1.0F)
-			{
-				return Tired;
-			}
-
-			else if (moodValue >= 1.0F && moodValue < 2.0F)
-			{
-				return Tired;
-			}
-
-			else if (moodValue >= 2.0F && moodValue < 3.0F)
-			{
-				return Sleepy;
-			}
-
-			else if (moodValue >= 3.0F && moodValue < 4.0F)
-			{
-				return Fatigued;
-			}
-
-			else if (moodValue >= 4.0F && moodValue < 5.0F)
-			{
-				return Exhausted;
-			}
-
-			else
-			{
-				return Comatose;
-			}
-		}
-
 		else
 		{
 			return null;
@@ -212,12 +174,6 @@ public enum EnumMood
 		moods.add(Okay);
 		
 		moods.add(Passive);
-		
-		moods.add(Comatose);
-		moods.add(Exhausted);
-		moods.add(Fatigued);
-		moods.add(Sleepy);
-		moods.add(Tired);
 		
 		moods.add(Depressed);
 		moods.add(Cheerless);
@@ -258,16 +214,6 @@ public enum EnumMood
 	public boolean isAnger()
 	{
 		return getValue().contains("anger");
-	}
-
-	/**
-	 * Is the mood one of the fatigue moods?
-	 * 
-	 * @return	True or false.
-	 */
-	public boolean isFatigue()
-	{
-		return getValue().contains("fatigue");
 	}
 
 	/**
@@ -319,16 +265,10 @@ public enum EnumMood
 			return 4;
 		case Cheerless:
 			return 4;
-		case Comatose:
-			return 5;
 		case Depressed:
 			return 5;
 		case Ecstatic:
 			return 5;
-		case Exhausted:
-			return 4;
-		case Fatigued:
-			return 3;
 		case Fine:
 			return 2;
 		case Happy:
@@ -345,10 +285,6 @@ public enum EnumMood
 			return 3;
 		case Seething:
 			return 4;
-		case Sleepy:
-			return 2;
-		case Tired:
-			return 1;
 		case Unhappy:
 			return 2;
 		default:
@@ -372,11 +308,6 @@ public enum EnumMood
 				return -(20 * getMoodLevel());
 			}
 
-			else if (this.isFatigue())
-			{
-				return -(10 * getMoodLevel());
-			}
-
 			else if (this.isHappy())
 			{
 				return 5 * getMoodLevel();
@@ -396,11 +327,6 @@ public enum EnumMood
 		else if (interactionType.equals("joke"))
 		{
 			if (this.isAnger())
-			{
-				return -(20 * getMoodLevel());
-			}
-
-			else if (this.isFatigue())
 			{
 				return -(20 * getMoodLevel());
 			}
@@ -429,11 +355,6 @@ public enum EnumMood
 				return 20 * getMoodLevel();
 			}
 
-			else if (this.isFatigue())
-			{
-				return 0;
-			}
-
 			else if (this.isHappy())
 			{
 				return 0;
@@ -456,12 +377,7 @@ public enum EnumMood
 			{
 				return -(20 * getMoodLevel());
 			}
-
-			else if (this.isFatigue())
-			{
-				return 0;
-			}
-
+			
 			else if (this.isHappy())
 			{
 				return 5 * getMoodLevel();
@@ -483,11 +399,6 @@ public enum EnumMood
 			if (this.isAnger())
 			{
 				return -(20 * getMoodLevel());
-			}
-
-			else if (this.isFatigue())
-			{
-				return 0;
 			}
 
 			else if (this.isHappy())
@@ -513,11 +424,6 @@ public enum EnumMood
 				return -(20 * getMoodLevel());
 			}
 
-			else if (this.isFatigue())
-			{
-				return 0;
-			}
-
 			else if (this.isHappy())
 			{
 				return 5 * getMoodLevel();
@@ -541,11 +447,6 @@ public enum EnumMood
 				return -(20 * getMoodLevel());
 			}
 
-			else if (this.isFatigue())
-			{
-				return 0;
-			}
-
 			else if (this.isHappy())
 			{
 				return 3 * getMoodLevel();
@@ -567,11 +468,6 @@ public enum EnumMood
 			if (this.isAnger())
 			{
 				return -(5 * getMoodLevel());
-			}
-
-			else if (this.isFatigue())
-			{
-				return -(20 * getMoodLevel());
 			}
 
 			else if (this.isHappy())
@@ -609,11 +505,6 @@ public enum EnumMood
 				return -(3 * getMoodLevel());
 			}
 
-			else if (this.isFatigue())
-			{
-				return -(3 * getMoodLevel());
-			}
-
 			else if (this.isHappy())
 			{
 				return 3 * getMoodLevel();
@@ -635,11 +526,6 @@ public enum EnumMood
 			if (this.isAnger())
 			{
 				return -(6 * getMoodLevel());
-			}
-
-			else if (this.isFatigue())
-			{
-				return -(3 * getMoodLevel());
 			}
 
 			else if (this.isHappy())
@@ -665,11 +551,6 @@ public enum EnumMood
 				return -(6 * getMoodLevel());
 			}
 
-			else if (this.isFatigue())
-			{
-				return -(3 * getMoodLevel());
-			}
-
 			else if (this.isHappy())
 			{
 				return 3 * getMoodLevel();
@@ -689,11 +570,6 @@ public enum EnumMood
 		else if (interactionType.equals("greeting"))
 		{
 			if (this.isAnger())
-			{
-				return 0;
-			}
-
-			else if (this.isFatigue())
 			{
 				return 0;
 			}
@@ -721,11 +597,6 @@ public enum EnumMood
 				return -(3 * getMoodLevel());
 			}
 
-			else if (this.isFatigue())
-			{
-				return 3 * getMoodLevel();
-			}
-
 			else if (this.isHappy())
 			{
 				return 3 * getMoodLevel();
@@ -745,11 +616,6 @@ public enum EnumMood
 		else if (interactionType.equals("kiss"))
 		{
 			if (this.isAnger())
-			{
-				return -(3 * getMoodLevel());
-			}
-
-			else if (this.isFatigue())
 			{
 				return -(3 * getMoodLevel());
 			}
@@ -777,11 +643,6 @@ public enum EnumMood
 				return -(2 * getMoodLevel());
 			}
 
-			else if (this.isFatigue())
-			{
-				return -(2 * getMoodLevel());
-			}
-
 			else if (this.isHappy())
 			{
 				return 2 * getMoodLevel();
@@ -803,11 +664,6 @@ public enum EnumMood
 			if (this.isAnger())
 			{
 				return -(1 * getMoodLevel());
-			}
-
-			else if (this.isFatigue())
-			{
-				return -(3 * getMoodLevel());
 			}
 
 			else if (this.isHappy())
