@@ -218,6 +218,14 @@ public class ClientTickHandler implements ITickHandler
 								MCA.instance.hasNotifiedOfBabyReadyToGrow = true;
 							}
 						}
+						
+						//Debug checks
+						if (MCA.instance.inDebugMode)
+						{
+							clientPropertiesManager.worldProperties.babyExists = true;
+							clientPropertiesManager.worldProperties.minutesBabyExisted = 10;
+							clientPropertiesManager.worldProperties.babyName = "DEBUG";
+						}
 					}
 				}
 			}

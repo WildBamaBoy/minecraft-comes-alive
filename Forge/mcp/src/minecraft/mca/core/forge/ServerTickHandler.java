@@ -94,6 +94,14 @@ public class ServerTickHandler implements ITickHandler
 								manager.saveWorldProperties();
 							}
 						}
+						
+						//Debug checks
+						if (MCA.instance.inDebugMode)
+						{
+							manager.worldProperties.babyExists = true;
+							manager.worldProperties.minutesBabyExisted = 10;
+							manager.worldProperties.babyName = "DEBUG";
+						}
 					}
 				}
 
