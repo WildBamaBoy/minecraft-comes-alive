@@ -144,7 +144,9 @@ def main():
     for root, dirs, files in os.walk(assetsFolder):
         for fileName in files:
             fullPath = os.path.join(root, fileName)
-            modArchive.write(fullPath, fullPath.replace(assetsFolder, "assets/"))
+
+            if "language" not in fullPath:
+                modArchive.write(fullPath, fullPath.replace(assetsFolder, "assets/"))
 
     print "Zipping compiled classes..."
     for root, dirs, files in os.walk(reobfFolder):
