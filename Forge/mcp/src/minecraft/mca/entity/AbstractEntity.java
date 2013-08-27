@@ -2648,7 +2648,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
 
-			if (manager.worldProperties.displayMoodParticles)
+			if (manager.worldProperties.displayMoodParticles && !isSleeping)
 			{
 				if (mood.isAnger() || mood.isSadness())
 				{
