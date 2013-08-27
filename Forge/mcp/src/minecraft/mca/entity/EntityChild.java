@@ -51,7 +51,7 @@ public abstract class EntityChild extends AbstractEntity
 	public void onUpdate()
 	{
 		super.onUpdate();
-		
+
 		//Check if age should be increased.
 		currentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 
