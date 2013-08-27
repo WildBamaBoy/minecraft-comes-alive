@@ -364,7 +364,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 				}
 			}
 
-			if (isSpouse)
+			if (isSpouse || isEngaged)
 			{
 				if (manager.worldProperties.playerSpouseID == this.mcaID)
 				{
