@@ -46,3 +46,11 @@ Forge/mcp/src/minecraft/Start.java
 Forge/mcp/CHANGELOG
 Forge/mcp/src/minecraft/mcpmod.info
 Forge/mcp/src/minecraft/mcp.png
+
+# Special #
+!/Crowdin/Build/*.properties
+!/Assemble.py
+!/Master.properties
+!/Forge/mcp/getchangedsrc.bat
+!/Forge/mcp/recompile.bat
+!/Forge/mcp/reobfuscate.bat
