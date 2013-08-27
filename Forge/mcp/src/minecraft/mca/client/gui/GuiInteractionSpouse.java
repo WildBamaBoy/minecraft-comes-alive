@@ -436,9 +436,11 @@ public class GuiInteractionSpouse extends AbstractGui
 		{
 			entitySpouse.isStaying = !entitySpouse.isStaying;
 			entitySpouse.isFollowing = false;
-
+			entitySpouse.idleTicks = 0;
+			
 			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "isStaying", entitySpouse.isStaying));
 			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "isFollowing", false));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "idleTicks", 0));
 			close();
 		}
 

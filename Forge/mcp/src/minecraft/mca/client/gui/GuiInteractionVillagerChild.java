@@ -263,9 +263,11 @@ public class GuiInteractionVillagerChild extends AbstractGui
 
 			entityVillagerChild.isStaying = !entityVillagerChild.isStaying;
 			entityVillagerChild.isFollowing = false;
+			entityVillagerChild.idleTicks = 0;
 
 			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "isStaying", entityVillagerChild.isStaying));
 			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "isFollowing", false));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "idleTicks", 0));
 			close();
 		}
 
