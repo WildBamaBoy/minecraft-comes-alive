@@ -46,3 +46,6 @@ Forge/mcp/src/minecraft/Start.java
 Forge/mcp/CHANGELOG
 Forge/mcp/src/minecraft/mcpmod.info
 Forge/mcp/src/minecraft/mcp.png
+
+# Special #
+!Crowdin/*.properties
