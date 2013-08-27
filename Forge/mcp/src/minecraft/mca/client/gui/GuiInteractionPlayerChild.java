@@ -464,6 +464,14 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		if (entityChild.isInChoreMode) choresButton.displayString = LanguageHelper.getString("gui.button.child.stopchore");
 		if (entityChild.isFollowing) followButton.displayString = LanguageHelper.getString("gui.button.interact.followstop");
 		if (entityChild.isStaying)   stayButton.displayString = LanguageHelper.getString("gui.button.interact.staystop");
+		
+		if (entityChild.isSpouse)
+		{
+			inventoryButton.enabled = false;
+			setHomeButton.enabled = false;
+			stayButton.enabled = false;
+			followButton.enabled = false;
+		}
 	}
 
 	/**

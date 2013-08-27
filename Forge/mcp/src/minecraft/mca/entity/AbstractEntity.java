@@ -132,6 +132,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public boolean isGoodHeir = true;
 	public boolean hasReturnedInventory = false;
 	public boolean hasBeenHeir = false;
+	public boolean hasBaby = false;
 	public double homePointX = 0D;
 	public double homePointY = 0D;
 	public double homePointZ = 0D;

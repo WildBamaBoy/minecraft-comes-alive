@@ -77,7 +77,7 @@ public class GuiHandler implements IGuiHandler
 
 		else if (id == MCA.instance.guiInteractionSpouseID)
 		{
-			EntityVillagerAdult entity = (EntityVillagerAdult)LogicHelper.getEntityOfTypeAtXYZ(EntityVillagerAdult.class, world, x, y, z);
+			AbstractEntity entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, x, y, z);
 			return new GuiInteractionSpouse(entity, player);
 		}
 

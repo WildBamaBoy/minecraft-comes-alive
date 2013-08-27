@@ -101,6 +101,7 @@ public class ClientTickHandler implements ITickHandler
 
 					if (clientPropertiesManager != null)
 					{
+
 						if (clientPropertiesManager.worldProperties.playerName.equals(""))
 						{
 							EntityPlayer player = Minecraft.getMinecraft().thePlayer;
@@ -175,6 +176,7 @@ public class ClientTickHandler implements ITickHandler
 
 				else
 				{
+
 					WorldPropertiesManager clientPropertiesManager = MCA.instance.playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
 
 					if (clientPropertiesManager != null)
@@ -217,14 +219,6 @@ public class ClientTickHandler implements ITickHandler
 								Minecraft.getMinecraft().thePlayer.addChatMessage(LanguageHelper.getString("notify.baby.readytogrow"));
 								MCA.instance.hasNotifiedOfBabyReadyToGrow = true;
 							}
-						}
-						
-						//Debug checks
-						if (MCA.instance.inDebugMode)
-						{
-							clientPropertiesManager.worldProperties.babyExists = true;
-							clientPropertiesManager.worldProperties.minutesBabyExisted = 10;
-							clientPropertiesManager.worldProperties.babyName = "DEBUG";
 						}
 					}
 				}
@@ -318,7 +312,7 @@ public class ClientTickHandler implements ITickHandler
 		else if (guiScreen instanceof net.minecraft.client.gui.GuiGameOver)
 		{
 			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
-			
+
 			if (!hasCommentedOnDeath)
 			{
 				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
@@ -346,7 +340,7 @@ public class ClientTickHandler implements ITickHandler
 				manager.worldProperties.isMonarch = false;
 				manager.saveWorldProperties();
 			}
-			
+
 			if (Minecraft.getMinecraft().theWorld.getWorldInfo().isHardcoreModeEnabled())
 			{
 				Minecraft.getMinecraft().displayGuiScreen(new GuiGameOver(Minecraft.getMinecraft().thePlayer));

@@ -1199,12 +1199,12 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 	private void updateBabyGrowth()
 	{
 		//Check for debug.
-		if (MCA.instance.inDebugMode && !heldBabyGender.equals("None"))
+		if (MCA.instance.inDebugMode && !heldBabyGender.equals("None") && this.hasBaby)
 		{
 			heldBabyAge++;
 		}
 
-		if (!heldBabyGender.equals("None"))
+		if (!heldBabyGender.equals("None") && this.hasBaby)
 		{
 			//Get the current minutes from the system.
 			villagerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
@@ -1291,11 +1291,11 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 
 			MCA.instance.idsMap.put(child.mcaID, child.entityId);
 
-			//Reset baby info server side.
 			shouldSpawnBaby = false;
 			heldBabyGender = "None";
 			heldBabyAge = 0;
 			heldBabyProfession = 0;
+			hasBaby = false;
 
 			//Check for achievement.
 			EntityPlayer player = worldObj.getPlayerEntityByName(lastInteractingPlayer);
@@ -1354,8 +1354,11 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 					{
 						this.heldBabyGender = getRandomGender();
 						this.heldBabyProfession = spouse.profession;
+						this.hasBaby = true;
+						
 						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "heldBabyGender", heldBabyGender));
-						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "babyProfession", heldBabyProfession));
+						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "heldBabyProfession", heldBabyProfession));
+						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "hasBaby", hasBaby));
 					}
 
 					//Make sure everything is reset so it stops on all clients.

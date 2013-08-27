@@ -1321,7 +1321,7 @@ public class PacketHandler implements IPacketHandler
 
 		objectInput.close();
 
-		EntityVillagerAdult villager = (EntityVillagerAdult)worldObj.getEntityByID(villagerId);		
+		AbstractEntity villager = (AbstractEntity)worldObj.getEntityByID(villagerId);		
 		ItemBaby itemBaby = null;
 
 		//Give the villager an appropriate baby item and unlock achievements for the player.
