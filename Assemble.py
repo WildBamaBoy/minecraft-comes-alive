@@ -157,6 +157,8 @@ def main():
     modArchive.close()
 
     #Zip up the source.
+    linesOfCode = 0
+    
     print "Zipping up source archive..."
     getSource()
     sourceArchive = zipfile.ZipFile(buildFolder + "/MCA " + releaseVersion + " - Source.zip", "w", zipfile.ZIP_DEFLATED)
@@ -168,6 +170,12 @@ def main():
             archiveName = fullPath.replace(sourceFolder, "mca/")
             sourceArchive.write(fullPath, archiveName)
 
+            with open(fullPath) as f:
+                for i, l in enumerate(f):
+                    linesOfCode += 1
+
+    print str(linesOfCode) + " lines."
+    insertBlank()
     sourceArchive.close()
 
     print "--------------------------"
