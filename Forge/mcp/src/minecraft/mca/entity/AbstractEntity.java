@@ -977,7 +977,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			isSleeping = false;
 			idleTicks = 0;
-			
+
 			//Ensure that the entity is synced with the server by checking if it has a name.
 			try
 			{
@@ -2369,7 +2369,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	private void updateIdle()
 	{
 		idleTicks++;
-		
+
 		if (!worldObj.isRemote)
 		{
 			if (idleTicks >= 2400 && worldObj.isDaytime() == false && isFollowing == false && profession != 5)
@@ -2378,7 +2378,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				{
 					isSleeping = true;
 				}
-				
+
 				else
 				{
 					if (hasTeleportedHome == false)
@@ -2389,7 +2389,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			}
 		}
 	}
-	
+
 	/**
 	 * Handles health regeneration.
 	 */
@@ -2682,54 +2682,57 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
 
-			if (manager.worldProperties.displayMoodParticles && !isSleeping)
+			if (manager != null)
 			{
-				if (mood.isAnger() || mood.isSadness())
+				if (manager.worldProperties.displayMoodParticles && !isSleeping)
 				{
-					int moodLevel = mood.getMoodLevel();
-					int particleRate = 0;
-					String particle = "";
-
-					//Particles: happyVillager, angryVillager, smoke, flame
-					if (mood.isAnger())
+					if (mood.isAnger() || mood.isSadness())
 					{
-						switch (moodLevel)
+						int moodLevel = mood.getMoodLevel();
+						int particleRate = 0;
+						String particle = "";
+
+						//Particles: happyVillager, angryVillager, smoke, flame
+						if (mood.isAnger())
 						{
-						case 1: particle = "smoke"; particleRate = 15; break;
-						case 2: particle = "smoke"; particleRate = 10; break;
-						case 3: particle = "angryVillager"; particleRate = 7; break;
-						case 4: particle = "angryVillager"; particleRate = 4; break;
-						case 5: particle = "flame"; particleRate = 0; break;
-						default: particle = "flame"; particleRate = 0; break;
+							switch (moodLevel)
+							{
+							case 1: particle = "smoke"; particleRate = 15; break;
+							case 2: particle = "smoke"; particleRate = 10; break;
+							case 3: particle = "angryVillager"; particleRate = 7; break;
+							case 4: particle = "angryVillager"; particleRate = 4; break;
+							case 5: particle = "flame"; particleRate = 0; break;
+							default: particle = "flame"; particleRate = 0; break;
+							}
 						}
-					}
 
-					else if (mood.isSadness())
-					{
-						switch (moodLevel)
+						else if (mood.isSadness())
 						{
-						case 1: particle = "splash"; particleRate = 15; break;
-						case 2: particle = "splash"; particleRate = 10; break;
-						case 3: particle = "splash"; particleRate = 7; break;
-						case 4: particle = "tilecrack_9_0"; particleRate = 4; break;
-						case 5: particle = "tilecrack_9_0"; particleRate = 0; break;
-						default: particle = "tilecrack_9_0"; particleRate = 0; break;
+							switch (moodLevel)
+							{
+							case 1: particle = "splash"; particleRate = 15; break;
+							case 2: particle = "splash"; particleRate = 10; break;
+							case 3: particle = "splash"; particleRate = 7; break;
+							case 4: particle = "tilecrack_9_0"; particleRate = 4; break;
+							case 5: particle = "tilecrack_9_0"; particleRate = 0; break;
+							default: particle = "tilecrack_9_0"; particleRate = 0; break;
+							}
 						}
-					}
 
-					if (particleTicks >= particleRate)
-					{
-						double velX = rand.nextGaussian() * 0.02D;
-						double velY = rand.nextGaussian() * 0.02D;
-						double velZ = rand.nextGaussian() * 0.02D;
+						if (particleTicks >= particleRate)
+						{
+							double velX = rand.nextGaussian() * 0.02D;
+							double velY = rand.nextGaussian() * 0.02D;
+							double velZ = rand.nextGaussian() * 0.02D;
 
-						worldObj.spawnParticle(particle, (posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, posY + 0.5D + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, velX, velY, velZ);
-						particleTicks = 0;
-					}
+							worldObj.spawnParticle(particle, (posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, posY + 0.5D + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, velX, velY, velZ);
+							particleTicks = 0;
+						}
 
-					else
-					{
-						particleTicks++;
+						else
+						{
+							particleTicks++;
+						}
 					}
 				}
 			}
