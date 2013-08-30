@@ -11,6 +11,7 @@ package mca.core.forge;
 
 import mca.core.MCA;
 import mca.core.util.PacketHelper;
+import mca.core.util.object.UpdateHandler;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.NetLoginHandler;
 import net.minecraft.network.packet.NetHandler;
@@ -27,6 +28,7 @@ public class ConnectionHandler implements IConnectionHandler
 	@Override
 	public void playerLoggedIn(Player player, NetHandler netHandler, INetworkManager manager) 
 	{
+		new Thread(new UpdateHandler(netHandler)).run();
 		return;
 	}
 

@@ -76,9 +76,6 @@ public class ModPropertiesList implements Serializable
 	/** Limit number of children per player on a server. */
 	public int server_childLimit = -1;
 	
-//	/** Should a dedicated server overwrite Testificates? */
-//	public boolean server_overwriteTestificates = true;
-	
 	/** Should the farming chore be allowed to run? */
 	public boolean server_allowFarmingChore = true;
 	
@@ -94,8 +91,14 @@ public class ModPropertiesList implements Serializable
 	/** Should the hunting chore be allowed to run? */
 	public boolean server_allowHuntingChore = true;
 	
-	/** Should player's be allowed to demand gifts from people? */
+	/** Should players be allowed to demand gifts from people? */
 	public boolean server_allowDemandGift = true;
+	
+	/** Should MCA display update notifications? */
+	public boolean checkForUpdates = true;
+	
+	/** The last update found by MCA. */
+	public String lastFoundUpdate = "";
 	
 	/** How many villagers there must be in order for one guard to spawn. */
 	public int guardSpawnRate = 3;

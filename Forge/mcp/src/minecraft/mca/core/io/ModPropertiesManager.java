@@ -86,6 +86,11 @@ public class ModPropertiesManager implements Serializable
 				{
 					properties.put(f.getName(), f.get(modProperties).toString());
 				}
+				
+				else if (fieldType.contains("String"))
+				{
+					properties.put(f.getName(), f.get(modProperties).toString());
+				}
 			}
 
 			//Store information in the properties instance to file.
@@ -145,6 +150,11 @@ public class ModPropertiesManager implements Serializable
 					else if (fieldType.contains("boolean"))
 					{
 						f.set(modProperties, Boolean.parseBoolean(properties.getProperty(f.getName())));
+					}
+					
+					else if (fieldType.contains("String"))
+					{
+						f.set(modProperties, properties.getProperty(f.getName()));
 					}
 				}
 			}

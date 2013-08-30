@@ -22,6 +22,7 @@ import java.util.Random;
 
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
+import mca.core.util.object.UpdateHandler;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityChild;
 import mca.entity.EntityPlayerChild;
@@ -735,9 +736,24 @@ public final class LanguageHelper
 				text = text.replace("%MonarchPlayerName%", entity.monarchPlayerName);
 			}
 			
-			if (text.contains("%Trait"))
+			if (text.contains("%Trait%"))
 			{
 				text = text.replace("%Trait%", entity.trait.getLocalizedValue());
+			}
+			
+			if (text.contains("%MinecraftVersionNumber%"))
+			{
+				text = text.replace("%MinecraftVersionNumber%", UpdateHandler.compatibleMinecraftVersion);
+			}
+			
+			if (text.contains("%ModVersionNumber%"))
+			{
+				text = text.replace("%ModVersionNumber%", UpdateHandler.foundVersion);
+			}
+			
+			if (text.contains("%URL%"))
+			{
+				text = text.replace("%URL%", Color.BLUE + Format.ITALIC + "http://goo.gl/4Kwohv" + Format.RESET + Color.YELLOW);
 			}
 		}
 

@@ -37,7 +37,7 @@ public class CommandHelp extends AbstractCommand
 		stringBuilder.append("-----------------------------------------\n");
 		
 		stringBuilder.append("/mca.help\n");
-		stringBuilder.append("/mca.debug <on/off>\n");
+		stringBuilder.append("/mca.checkupdates <on/off>\n");
 		stringBuilder.append("/mca.set.name <name>\n");
 		stringBuilder.append("/mca.set.gender <male/female>\n");
 		stringBuilder.append("/mca.marry <username>\n");

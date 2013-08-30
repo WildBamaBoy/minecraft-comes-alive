@@ -33,6 +33,7 @@ import java.util.zip.Inflater;
 import mca.block.BlockTombstone;
 import mca.command.CommandBlock;
 import mca.command.CommandBlockAll;
+import mca.command.CommandCheckUpdates;
 import mca.command.CommandDebugMode;
 import mca.command.CommandDivorce;
 import mca.command.CommandHaveBaby;
@@ -54,6 +55,7 @@ import mca.core.forge.PacketHandler;
 import mca.core.io.ModPropertiesManager;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
+import mca.core.util.object.UpdateHandler;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityChoreFishHook;
 import mca.entity.EntityPlayerChild;
@@ -110,7 +112,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * Main entry point and core of the Minecraft Comes Alive mod.
  */
-@Mod(modid="mca", name="Minecraft Comes Alive", version="3.5.0")
+@Mod(modid="mca", name="Minecraft Comes Alive", version=UpdateHandler.VERSION)
 @NetworkMod(clientSideRequired=true, serverSideRequired=false, 
 channels={"MCA_F_REQ", "MCA_F_VAL", "MCA_TARGET", "MCA_REMOVEITEM", "MCA_ACHIEV", "MCA_SYNC", 
 		"MCA_SYNC_REQ", "MCA_ENGAGE", "MCA_ADDITEM", "MCA_DROPITEM", "MCA_FAMTREE", "MCA_INVENTORY", 
@@ -203,6 +205,7 @@ public class MCA
 	public	boolean	hasLoadedProperties		   = false;
 	public 	boolean hasCompletedMainMenuTick   = false;
 	public  boolean hasEmptiedPropertiesFolder = false;
+	public  boolean hasCheckedForUpdates	   = false;
 	public 	int 	playerBabyCalendarPrevMinutes	   = Calendar.getInstance().get(Calendar.MINUTE);
 	public 	int 	playerBabyCalendarCurrentMinutes   = Calendar.getInstance().get(Calendar.MINUTE);
 	private Logger	logger 					   = FMLLog.getLogger();
@@ -1208,7 +1211,8 @@ public class MCA
 		event.registerServerCommand(new CommandBlockAll());
 		event.registerServerCommand(new CommandUnblock());
 		event.registerServerCommand(new CommandUnblockAll());
-
+		event.registerServerCommand(new CommandCheckUpdates());
+		
 		if (event.getServer() instanceof DedicatedServer)
 		{
 			isDedicatedServer = true;
