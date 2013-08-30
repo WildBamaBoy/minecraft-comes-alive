@@ -9,22 +9,16 @@
 
 package mca.core.util.object;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Scanner;
-
-import cpw.mods.fml.common.network.PacketDispatcher;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.network.packet.NetHandler;
-import net.minecraft.util.ChatMessageComponent;
 
 import mca.core.MCA;
 import mca.core.io.ModPropertiesManager;
 import mca.core.util.Color;
 import mca.core.util.LanguageHelper;
+import net.minecraft.command.ICommandSender;
+import net.minecraft.network.packet.NetHandler;
+import net.minecraft.util.ChatMessageComponent;
 
 /**
  * Checks for outdated versions and updates.

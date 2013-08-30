@@ -11,11 +11,9 @@ package mca.command;
 
 import mca.core.MCA;
 import mca.core.util.Color;
-import mca.core.util.LanguageHelper;
 import mca.core.util.object.UpdateHandler;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.util.ChatMessageComponent;
 
 /**
  * Defines the debug mode command and what it does.
