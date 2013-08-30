@@ -65,7 +65,6 @@ public class CommandCheckUpdates extends AbstractCommand
 				super.sendChatToPlayer(sender, "notify.update.turnedoff", Color.RED, null);
 				
 				MCA.instance.modPropertiesManager.modProperties.checkForUpdates = false;
-				MCA.instance.modPropertiesManager.modProperties.lastFoundUpdate = "";
 				MCA.instance.modPropertiesManager.saveModProperties();
 				
 				new Thread(new UpdateHandler(sender)).run();

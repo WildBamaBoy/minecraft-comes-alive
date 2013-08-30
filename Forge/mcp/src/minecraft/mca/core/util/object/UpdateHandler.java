@@ -56,9 +56,7 @@ public class UpdateHandler implements Runnable
 				foundVersion = scanner.nextLine();
 
 				ModPropertiesManager manager = MCA.instance.modPropertiesManager;
-				manager.modProperties.lastFoundUpdate = foundVersion;
-				manager.saveModProperties();
-
+				
 				if (!foundVersion.equals(VERSION) && (manager.modProperties.checkForUpdates || !manager.modProperties.lastFoundUpdate.equals(foundVersion)))
 				{
 					if (netHandler != null)
@@ -74,6 +72,8 @@ public class UpdateHandler implements Runnable
 					}
 				}
 
+				manager.modProperties.lastFoundUpdate = foundVersion;
+				manager.saveModProperties();
 				scanner.close();
 			}
 		}
