@@ -10,7 +10,9 @@
 package mca.client.render;
 
 import mca.core.MCA;
+import mca.entity.EntityChild;
 import mca.entity.EntityChoreFishHook;
+import mca.entity.EntityPlayerChild;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
@@ -81,12 +83,17 @@ public class RenderFishHook extends Render
 			vec3.rotateAroundY(orientation * 0.5F);
 			vec3.rotateAroundX(-orientation * 0.7F);
 			
-			double correctedPosX = entityFishHook.angler.prevPosX + (entityFishHook.angler.posX - entityFishHook.angler.prevPosX) * offsetY + vec3.xCoord;
-			double correctedPosY = entityFishHook.angler.prevPosY + (entityFishHook.angler.posY - entityFishHook.angler.prevPosY) * offsetY + vec3.yCoord;
-			double correctedPosZ = entityFishHook.angler.prevPosZ + (entityFishHook.angler.posZ - entityFishHook.angler.prevPosZ) * offsetY + vec3.zCoord;
+			double correctedPosX = entityFishHook.angler.prevPosX + (entityFishHook.angler.posX - entityFishHook.angler.prevPosX) * (double)offsetY + vec3.xCoord;
+			double correctedPosY = entityFishHook.angler.prevPosY + (entityFishHook.angler.posY - entityFishHook.angler.prevPosY) * (double)offsetY + vec3.yCoord;
+			double correctedPosZ = entityFishHook.angler.prevPosZ + (entityFishHook.angler.posZ - entityFishHook.angler.prevPosZ) * (double)offsetY + vec3.zCoord;
 			
-			int age = entityFishHook.angler.getAge();
-			float scale = 0.7F + ((0.2375F / MCA.instance.modPropertiesManager.modProperties.kidGrowUpTimeMinutes) * age);
+			float scale = 0.7F;
+			
+			if (entityFishHook.angler instanceof EntityPlayerChild)
+			{
+				int age = ((EntityChild)entityFishHook.angler).age;
+				scale = 0.55F + ((0.39F / MCA.instance.modPropertiesManager.modProperties.kidGrowUpTimeMinutes) * age);
+			}
 			
 			float offsetYaw = (entityFishHook.angler.prevRenderYawOffset + (entityFishHook.angler.renderYawOffset - entityFishHook.angler.prevRenderYawOffset) * offsetY) * (float)Math.PI / 180.0F;
 			double sinOffsetYaw = MathHelper.sin(offsetYaw);
@@ -95,9 +102,13 @@ public class RenderFishHook extends Render
 			correctedPosY = entityFishHook.angler.prevPosY + scale * 1.6 + (entityFishHook.angler.posY - entityFishHook.angler.prevPosY) * offsetY - 0.45D;
 			correctedPosZ = entityFishHook.angler.prevPosZ + (entityFishHook.angler.posZ - entityFishHook.angler.prevPosZ) * offsetY - sinOffsetYaw * 0.35D + cosOffsetYaw * 0.85D;
 
-			double fishHookCorrectionX = ((float)(correctedPosX - entityFishHook.prevPosX + (entityFishHook.posX - entityFishHook.prevPosX) * offsetY));
-			double fishHookCorrectionY = ((float)(correctedPosY - entityFishHook.prevPosY + (entityFishHook.posY - entityFishHook.prevPosY) * offsetY + 0.25D));
-			double fishHookCoorectionZ = ((float)(correctedPosZ - entityFishHook.prevPosZ + (entityFishHook.posZ - entityFishHook.prevPosZ) * offsetY));
+			double distX = entityFishHook.prevPosX + (entityFishHook.posX - entityFishHook.prevPosX) * (double)offsetY;
+			double distY = entityFishHook.prevPosY + (entityFishHook.posY - entityFishHook.prevPosY) * (double)offsetY + 0.25D;
+			double distZ = entityFishHook.prevPosZ + (entityFishHook.posZ - entityFishHook.prevPosZ) * (double)offsetY;
+			double correctionX = (double)((float)(correctedPosX - distX));
+			double correctionY = (double)((float)(correctedPosY - distY));
+			double correctionZ = (double)((float)(correctedPosZ - distZ));
+
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			GL11.glDisable(GL11.GL_LIGHTING);
 			tessellator.startDrawing(3);
@@ -106,7 +117,8 @@ public class RenderFishHook extends Render
 			for (int i = 0; i <= 16; ++i)
 			{
 				float f = (float)i / (float)16;
-				tessellator.addVertex(posX + fishHookCorrectionX * f, posY + fishHookCorrectionY * (f * f + f) * 0.5D + 0.25D, posZ + fishHookCoorectionZ * f);
+				//System.out.println(fishHookCorrectionY);
+				tessellator.addVertex(posX + correctionX * f, posY + correctionY * (f * f + f) * 0.5D + 0.25D, posZ + correctionZ * f);
 			}
 
 			tessellator.draw();
