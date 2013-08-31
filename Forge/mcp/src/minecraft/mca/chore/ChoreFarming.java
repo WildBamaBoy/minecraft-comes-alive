@@ -256,23 +256,31 @@ public class ChoreFarming extends AbstractChore
 			//Check for the correct amount of seeds as well.
 			int seedsRequired = 0;
 
-			for (String s : MCA.getFarmMap(areaX, seedType))
-			{
-				if (s.equals("S"))
-				{
-					seedsRequired++;
-				}
-			}
-
-			if (owner.inventory.getQuantityOfItem(cropSeedId) < seedsRequired)
+			try
 			{
 				if (!owner.worldObj.isRemote)
 				{
-					owner.say(LanguageHelper.getString("notify.child.chore.interrupted.farming.noseeds"));
-				}
+					for (String s : MCA.getFarmMap(areaX, seedType))
+					{
+						if (s.equals("S"))
+						{
+							seedsRequired++;
+						}
+					}
 
-				endChore();
-				return;
+					if (owner.inventory.getQuantityOfItem(cropSeedId) < seedsRequired)
+					{
+						owner.say(LanguageHelper.getString("notify.child.chore.interrupted.farming.noseeds"));
+
+						endChore();
+						return;
+					}
+				}
+			}
+
+			catch (NullPointerException e)
+			{
+				e.printStackTrace();
 			}
 		}
 
@@ -488,7 +496,7 @@ public class ChoreFarming extends AbstractChore
 					{
 						owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(cropSeedId), 1);
 					}
-					
+
 					if (!owner.worldObj.isRemote)
 					{
 						//"Plow"
