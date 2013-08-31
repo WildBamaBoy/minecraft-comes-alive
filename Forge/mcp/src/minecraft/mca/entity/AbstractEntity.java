@@ -1328,7 +1328,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				heartsModifier = 1;
 			}
 
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "story.good"));
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "tellstory.good"));
 			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), (worldObj.rand.nextInt(9) + 3) + heartsModifier);
 			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
 		}
@@ -1340,7 +1340,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				heartsModifier = -1;
 			}
 
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "story.bad"));
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "tellstory.bad"));
 			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(9) + 3)) + heartsModifier);
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
 		}
