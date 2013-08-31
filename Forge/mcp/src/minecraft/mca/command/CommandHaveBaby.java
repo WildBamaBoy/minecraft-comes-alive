@@ -87,7 +87,7 @@ public class CommandHaveBaby extends AbstractCommand
 									EntityPlayerChild playerChild = (EntityPlayerChild)entity;
 
 									if (playerChild.familyTree.getRelationOf(senderManager.worldProperties.playerID) == EnumRelation.Parent &&
-										playerChild.familyTree.getRelationOf(spouseManager.worldProperties.playerID) == EnumRelation.Parent);
+										playerChild.familyTree.getRelationOf(spouseManager.worldProperties.playerID) == EnumRelation.Parent)
 									{
 										children.add(playerChild);
 									}

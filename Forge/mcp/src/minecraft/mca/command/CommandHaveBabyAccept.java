@@ -35,7 +35,6 @@ public class CommandHaveBabyAccept extends AbstractCommand
 		return "mca.havebaby.accept";
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	public void processCommand(ICommandSender sender, String[] arguments) 
 	{
@@ -47,7 +46,6 @@ public class CommandHaveBabyAccept extends AbstractCommand
 		{
 			//Check if the spouse is on the server.
 			EntityPlayer spouse = MCA.instance.getPlayerByName(senderManager.worldProperties.playerSpouseName);
-			WorldPropertiesManager spouseManager = MCA.instance.playerWorldManagerMap.get(spouse.username);
 
 			if (spouse != null)
 			{

@@ -24,19 +24,19 @@ import net.minecraft.world.World;
  */
 public class ItemEggFemale extends Item
 {
-    /**
-     * Constructor
-     * 
-     * @param 	id	The item's ID.
-     */
-    public ItemEggFemale(int id)
-    {
-        super(id);
-        setHasSubtypes(true);
-        setCreativeTab(CreativeTabs.tabMisc);
-        setUnlocalizedName("SpawnFemaleVillager");
-    }
-    
+	/**
+	 * Constructor
+	 * 
+	 * @param 	id	The item's ID.
+	 */
+	public ItemEggFemale(int id)
+	{
+		super(id);
+		setHasSubtypes(true);
+		setCreativeTab(CreativeTabs.tabMisc);
+		setUnlocalizedName("SpawnFemaleVillager");
+	}
+
 	/**
 	 * Called when the player right clicks a block while holding this item.
 	 * 
@@ -53,67 +53,70 @@ public class ItemEggFemale extends Item
 	 * 
 	 * @return	True or false depending on if placing the item into the world was successful.
 	 */
-    @Override
-    public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int meta, float xOffset, float yOffset, float zOffset)
-    {
-        if (world.isRemote)
-        {
-            return true;
-        }
+	@Override
+	public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int meta, float xOffset, float yOffset, float zOffset)
+	{
+		if (world.isRemote)
+		{
+			return true;
+		}
 
-        int i = world.getBlockId(x, y, z);
-        x += Facing.offsetsXForSide[meta];
-        y += Facing.offsetsYForSide[meta];
-        z += Facing.offsetsZForSide[meta];
-        double d = 0.0D;
+		int i = world.getBlockId(x, y, z);
+		x += Facing.offsetsXForSide[meta];
+		y += Facing.offsetsYForSide[meta];
+		z += Facing.offsetsZForSide[meta];
+		double d = 0.0D;
 
-        if (meta == 1 && i == Block.fence.blockID || i == Block.netherFence.blockID)
-        {
-            d = 0.5D;
-        }
+		if (meta == 1 && i == Block.fence.blockID || i == Block.netherFence.blockID)
+		{
+			d = 0.5D;
+		}
 
-        if (spawnVillager(world, (double)x + 0.5D, (double)y + d, (double)z + 0.5D) && !player.capabilities.isCreativeMode)
-        {
-            itemStack.stackSize--;
-        }
+		if (spawnVillager(world, x + 0.5D, y + d, z + 0.5D) && !player.capabilities.isCreativeMode)
+		{
+			itemStack.stackSize--;
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    @Override
-    public void registerIcons(IconRegister iconRegister)
-    {
-    	itemIcon = iconRegister.registerIcon("mca:EggFemale");
-    }
-    
-    /**
-     * Spawns a villager into the world.
-     * 
-     * @param 	world		The world that the villager is being spawned in.
-     * @param 	posX		X coordinates that the player clicked.
-     * @param 	posY		Y coordinates that the player clicked.
-     * @param 	posZ		Z coordinates that the player clicked.
-     * 
-     * @return	True or false depending on if placing the villager into the world was successful.
-     */
+	@Override
+	public void registerIcons(IconRegister iconRegister)
+	{
+		itemIcon = iconRegister.registerIcon("mca:EggFemale");
+	}
+
+	/**
+	 * Spawns a villager into the world.
+	 * 
+	 * @param 	world		The world that the villager is being spawned in.
+	 * @param 	posX		X coordinates that the player clicked.
+	 * @param 	posY		Y coordinates that the player clicked.
+	 * @param 	posZ		Z coordinates that the player clicked.
+	 * 
+	 * @return	True or false depending on if placing the villager into the world was successful.
+	 */
 	public static boolean spawnVillager(World world, double posX, double posY, double posZ)
-    {
-    	int profession = world.rand.nextInt(8);
-    	
-    	if (profession == 4) profession = 0;
-    	
-        EntityVillagerAdult entityVillager = new EntityVillagerAdult(world, "Female", profession);
-        
-        if (entityVillager != null)
-        {
-        	entityVillager.setLocationAndAngles(posX, posY, posZ, world.rand.nextFloat() * 360F, 0.0F);
-        	
-        	if (!world.isRemote)
-        	{
-        		world.spawnEntityInWorld(entityVillager);
-        	}
-        }
+	{
+		if (!world.isRemote)
+		{	
+			EntityVillagerAdult entityVillager = new EntityVillagerAdult(world, "Female", world.rand.nextInt(8));
 
-        return entityVillager != null;
-    }
+			if (entityVillager.profession == 4) entityVillager.profession = 0;
+			
+			entityVillager.setLocationAndAngles(posX, posY, posZ, world.rand.nextFloat() * 360F, 0.0F);
+
+			if (!world.isRemote)
+			{
+				world.spawnEntityInWorld(entityVillager);
+			}
+
+			return true;
+		}
+
+		else
+		{
+			return true;
+		}
+	}
 }

@@ -52,10 +52,7 @@ public class EntityChoreFishHook extends EntityFishHook implements IEntityAdditi
 
 	/** An instance of the person holding the fishing rod. */
 	public AbstractEntity angler;
-
-	/** An instance of the bobber at the end of the fishing line. */
-	public Entity bobber;
-
+	
 	@SideOnly(Side.CLIENT)
 	private double velocityX;
 	@SideOnly(Side.CLIENT)
@@ -86,7 +83,7 @@ public class EntityChoreFishHook extends EntityFishHook implements IEntityAdditi
 		angler = owner;
 		angler.fishingChore.fishEntity = this;
 		setSize(0.25F, 0.25F);
-		setLocationAndAngles(angler.posX, (angler.posY + 1.62D) - (double)angler.yOffset, angler.posZ, angler.rotationYaw, angler.rotationPitch);
+		setLocationAndAngles(angler.posX, (angler.posY + 1.62D) - angler.yOffset, angler.posZ, angler.rotationYaw, angler.rotationPitch);
 
 		posX -= MathHelper.cos((rotationYaw / 180F) * (float)Math.PI) * 0.16F;
 		posY -= 0.1D;
@@ -111,12 +108,12 @@ public class EntityChoreFishHook extends EntityFishHook implements IEntityAdditi
 
 		if (this.fishPosRotationIncrements > 0)
 		{
-			double var21 = this.posX + (this.fishX - this.posX) / (double)this.fishPosRotationIncrements;
-			double var22 = this.posY + (this.fishY - this.posY) / (double)this.fishPosRotationIncrements;
-			double var23 = this.posZ + (this.fishZ - this.posZ) / (double)this.fishPosRotationIncrements;
-			double var7 = MathHelper.wrapAngleTo180_double(this.fishYaw - (double)this.rotationYaw);
-			this.rotationYaw = (float)((double)this.rotationYaw + var7 / (double)this.fishPosRotationIncrements);
-			this.rotationPitch = (float)((double)this.rotationPitch + (this.fishPitch - (double)this.rotationPitch) / (double)this.fishPosRotationIncrements);
+			double var21 = this.posX + (this.fishX - this.posX) / this.fishPosRotationIncrements;
+			double var22 = this.posY + (this.fishY - this.posY) / this.fishPosRotationIncrements;
+			double var23 = this.posZ + (this.fishZ - this.posZ) / this.fishPosRotationIncrements;
+			double var7 = MathHelper.wrapAngleTo180_double(this.fishYaw - this.rotationYaw);
+			this.rotationYaw = (float)(this.rotationYaw + var7 / this.fishPosRotationIncrements);
+			this.rotationPitch = (float)(this.rotationPitch + (this.fishPitch - this.rotationPitch) / this.fishPosRotationIncrements);
 			--this.fishPosRotationIncrements;
 			this.setPosition(var21, var22, var23);
 			this.setRotation(this.rotationYaw, this.rotationPitch);
@@ -148,7 +145,7 @@ public class EntityChoreFishHook extends EntityFishHook implements IEntityAdditi
 					if (!this.bobber.isDead)
 					{
 						this.posX = this.bobber.posX;
-						this.posY = this.bobber.boundingBox.minY + (double)this.bobber.height * 0.8D;
+						this.posY = this.bobber.boundingBox.minY + this.bobber.height * 0.8D;
 						this.posZ = this.bobber.posZ;
 						return;
 					}
@@ -188,9 +185,9 @@ public class EntityChoreFishHook extends EntityFishHook implements IEntityAdditi
 				}
 
 				this.inGround = false;
-				this.motionX *= (double)(this.rand.nextFloat() * 0.2F);
-				this.motionY *= (double)(this.rand.nextFloat() * 0.2F);
-				this.motionZ *= (double)(this.rand.nextFloat() * 0.2F);
+				this.motionX *= this.rand.nextFloat() * 0.2F;
+				this.motionY *= this.rand.nextFloat() * 0.2F;
+				this.motionZ *= this.rand.nextFloat() * 0.2F;
 				this.ticksInGround = 0;
 				this.ticksInAir = 0;
 			}
@@ -222,8 +219,8 @@ public class EntityChoreFishHook extends EntityFishHook implements IEntityAdditi
 				if (entityInList.canBeCollidedWith() && (entityInList != this.angler || this.ticksInAir >= 5))
 				{
 					float boundingBoxExpansion = 0.3F;
-					AxisAlignedBB boundingBox = entityInList.boundingBox.expand((double)boundingBoxExpansion, (double)boundingBoxExpansion, (double)boundingBoxExpansion);
-					MovingObjectPosition interceptPosition = boundingBox.calculateIntercept(vector, motionVector);
+					AxisAlignedBB bb = entityInList.boundingBox.expand(boundingBoxExpansion, boundingBoxExpansion, boundingBoxExpansion);
+					MovingObjectPosition interceptPosition = bb.calculateIntercept(vector, motionVector);
 
 					if (interceptPosition != null)
 					{
@@ -264,7 +261,7 @@ public class EntityChoreFishHook extends EntityFishHook implements IEntityAdditi
 				float motion = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
 				this.rotationYaw = (float)(Math.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
 
-				for (this.rotationPitch = (float)(Math.atan2(this.motionY, (double)motion) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
+				for (this.rotationPitch = (float)(Math.atan2(this.motionY, motion) * 180.0D / Math.PI); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
 				{
 					;
 				}
@@ -298,13 +295,13 @@ public class EntityChoreFishHook extends EntityFishHook implements IEntityAdditi
 
 				for (int i = 0; i < endByte; ++i)
 				{
-					double boundingBoxMinY = this.boundingBox.minY + (this.boundingBox.maxY - this.boundingBox.minY) * (double)(i + 0) / (double)endByte - 0.125D + 0.125D;
-					double boundingBoxMaxY = this.boundingBox.minY + (this.boundingBox.maxY - this.boundingBox.minY) * (double)(i + 1) / (double)endByte - 0.125D + 0.125D;
-					AxisAlignedBB boundingBox = AxisAlignedBB.getAABBPool().getAABB(this.boundingBox.minX, boundingBoxMinY, this.boundingBox.minZ, this.boundingBox.maxX, boundingBoxMaxY, this.boundingBox.maxZ);
+					double boundingBoxMinY = this.boundingBox.minY + (this.boundingBox.maxY - this.boundingBox.minY) * (i + 0) / endByte - 0.125D + 0.125D;
+					double boundingBoxMaxY = this.boundingBox.minY + (this.boundingBox.maxY - this.boundingBox.minY) * (i + 1) / endByte - 0.125D + 0.125D;
+					AxisAlignedBB bb = AxisAlignedBB.getAABBPool().getAABB(this.boundingBox.minX, boundingBoxMinY, this.boundingBox.minZ, this.boundingBox.maxX, boundingBoxMaxY, this.boundingBox.maxZ);
 
-					if (this.worldObj.isAABBInMaterial(boundingBox, Material.water))
+					if (this.worldObj.isAABBInMaterial(bb, Material.water))
 					{
-						yMotion += 1.0D / (double)endByte;
+						yMotion += 1.0D / endByte;
 					}
 				}
 
@@ -329,23 +326,23 @@ public class EntityChoreFishHook extends EntityFishHook implements IEntityAdditi
 							this.motionY -= 0.20000000298023224D;
 							this.playSound("random.splash", 0.25F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.4F);
 
-							float floorMinY = (float)MathHelper.floor_double(this.boundingBox.minY);
+							float floorMinY = MathHelper.floor_double(this.boundingBox.minY);
 							int i;
 							float randomFloat1;
 							float randomFloat2;
 
-							for (i = 0; (float)i < 1.0F + this.width * 20.0F; ++i)
+							for (i = 0; i < 1.0F + this.width * 20.0F; ++i)
 							{
 								randomFloat1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
 								randomFloat2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
-								this.worldObj.spawnParticle("bubble", this.posX + (double)randomFloat1, (double)(floorMinY + 1.0F), this.posZ + (double)randomFloat2, this.motionX, this.motionY - (double)(this.rand.nextFloat() * 0.2F), this.motionZ);
+								this.worldObj.spawnParticle("bubble", this.posX + randomFloat1, floorMinY + 1.0F, this.posZ + randomFloat2, this.motionX, this.motionY - this.rand.nextFloat() * 0.2F, this.motionZ);
 							}
 
-							for (i = 0; (float)i < 1.0F + this.width * 20.0F; ++i)
+							for (i = 0; i < 1.0F + this.width * 20.0F; ++i)
 							{
 								randomFloat1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
 								randomFloat2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width;
-								this.worldObj.spawnParticle("splash", this.posX + (double)randomFloat1, (double)(floorMinY + 1.0F), this.posZ + (double)randomFloat2, this.motionX, this.motionY, this.motionZ);
+								this.worldObj.spawnParticle("splash", this.posX + randomFloat1, floorMinY + 1.0F, this.posZ + randomFloat2, this.motionX, this.motionY, this.motionZ);
 							}
 						}
 					}
@@ -353,7 +350,7 @@ public class EntityChoreFishHook extends EntityFishHook implements IEntityAdditi
 
 				if (this.ticksCatchable > 0)
 				{
-					this.motionY -= (double)(this.rand.nextFloat() * this.rand.nextFloat() * this.rand.nextFloat()) * 0.2D;
+					this.motionY -= this.rand.nextFloat() * this.rand.nextFloat() * this.rand.nextFloat() * 0.2D;
 				}
 
 				vectorDistance = yMotion * 2.0D - 1.0D;
@@ -361,13 +358,13 @@ public class EntityChoreFishHook extends EntityFishHook implements IEntityAdditi
 
 				if (yMotion > 0.0D)
 				{
-					motionModifier = (float)((double)motionModifier * 0.9D);
+					motionModifier = (float)(motionModifier * 0.9D);
 					this.motionY *= 0.8D;
 				}
 
-				this.motionX *= (double)motionModifier;
-				this.motionY *= (double)motionModifier;
-				this.motionZ *= (double)motionModifier;
+				this.motionX *= motionModifier;
+				this.motionY *= motionModifier;
+				this.motionZ *= motionModifier;
 				this.setPosition(this.posX, this.posY, this.posZ);
 			}
 		}

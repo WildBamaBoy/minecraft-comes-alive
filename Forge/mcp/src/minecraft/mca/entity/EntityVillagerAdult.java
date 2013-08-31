@@ -38,8 +38,6 @@ import mca.item.ItemWeddingRing;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IMerchant;
-import net.minecraft.entity.INpc;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMoveIndoors;
@@ -70,7 +68,7 @@ import cpw.mods.fml.common.network.Player;
 /**
  * The main entity of MCA. Can be interacted with, talked to, married, etc.
  */
-public class EntityVillagerAdult extends AbstractEntity implements INpc, IMerchant
+public class EntityVillagerAdult extends AbstractEntity
 {
 	//Vanilla fields
 	/** An instance of the village that the villager is in. */
@@ -245,7 +243,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 			else
 			{
 				ChunkCoordinates chunkcoordinates = this.villageObj.getCenter();
-				this.func_110171_b(chunkcoordinates.posX, chunkcoordinates.posY, chunkcoordinates.posZ, (int)((float)this.villageObj.getVillageRadius() * 0.6F));
+				this.func_110171_b(chunkcoordinates.posX, chunkcoordinates.posY, chunkcoordinates.posZ, (int)(this.villageObj.getVillageRadius() * 0.6F));
 			}
 		}
 	}
@@ -288,13 +286,13 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 			switch (profession)
 			{
 			case 0: texture = MCA.farmerSkinsMale.get(worldObj.rand.nextInt(MCA.farmerSkinsMale.size())); break;
-			case 1: texture = MCA.instance.librarianSkinsMale.get(worldObj.rand.nextInt(MCA.instance.librarianSkinsMale.size())); break;
-			case 2: texture = MCA.instance.priestSkinsMale.get(worldObj.rand.nextInt(MCA.instance.priestSkinsMale.size())); break;
-			case 3: texture = MCA.instance.smithSkinsMale.get(worldObj.rand.nextInt(MCA.instance.smithSkinsMale.size())); break;
-			case 4: texture = MCA.instance.butcherSkinsMale.get(worldObj.rand.nextInt(MCA.instance.butcherSkinsMale.size())); break;
-			case 5: texture = MCA.instance.guardSkinsMale.get(worldObj.rand.nextInt(MCA.instance.guardSkinsMale.size())); break;
-			case 6: texture = MCA.instance.bakerSkinsMale.get(worldObj.rand.nextInt(MCA.instance.bakerSkinsMale.size())); break;
-			case 7: texture = MCA.instance.minerSkinsMale.get(worldObj.rand.nextInt(MCA.instance.minerSkinsMale.size())); break;
+			case 1: texture = MCA.librarianSkinsMale.get(worldObj.rand.nextInt(MCA.librarianSkinsMale.size())); break;
+			case 2: texture = MCA.priestSkinsMale.get(worldObj.rand.nextInt(MCA.priestSkinsMale.size())); break;
+			case 3: texture = MCA.smithSkinsMale.get(worldObj.rand.nextInt(MCA.smithSkinsMale.size())); break;
+			case 4: texture = MCA.butcherSkinsMale.get(worldObj.rand.nextInt(MCA.butcherSkinsMale.size())); break;
+			case 5: texture = MCA.guardSkinsMale.get(worldObj.rand.nextInt(MCA.guardSkinsMale.size())); break;
+			case 6: texture = MCA.bakerSkinsMale.get(worldObj.rand.nextInt(MCA.bakerSkinsMale.size())); break;
+			case 7: texture = MCA.minerSkinsMale.get(worldObj.rand.nextInt(MCA.minerSkinsMale.size())); break;
 			}
 		}
 
@@ -302,14 +300,14 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 		{
 			switch (profession)
 			{
-			case 0: texture = MCA.instance.farmerSkinsFemale.get(worldObj.rand.nextInt(MCA.instance.farmerSkinsFemale.size())); break;
-			case 1: texture = MCA.instance.librarianSkinsFemale.get(worldObj.rand.nextInt(MCA.instance.librarianSkinsFemale.size())); break;
-			case 2: texture = MCA.instance.priestSkinsFemale.get(worldObj.rand.nextInt(MCA.instance.priestSkinsFemale.size())); break;
-			case 3: texture = MCA.instance.smithSkinsFemale.get(worldObj.rand.nextInt(MCA.instance.smithSkinsFemale.size())); break;
-			case 4: texture = null;
-			case 5: texture = MCA.instance.guardSkinsFemale.get(worldObj.rand.nextInt(MCA.instance.guardSkinsFemale.size())); break;
-			case 6: texture = MCA.instance.bakerSkinsFemale.get(worldObj.rand.nextInt(MCA.instance.bakerSkinsFemale.size())); break;
-			case 7: texture = MCA.instance.minerSkinsFemale.get(worldObj.rand.nextInt(MCA.instance.minerSkinsFemale.size())); break;
+			case 0: texture = MCA.farmerSkinsFemale.get(worldObj.rand.nextInt(MCA.farmerSkinsFemale.size())); break;
+			case 1: texture = MCA.librarianSkinsFemale.get(worldObj.rand.nextInt(MCA.librarianSkinsFemale.size())); break;
+			case 2: texture = MCA.priestSkinsFemale.get(worldObj.rand.nextInt(MCA.priestSkinsFemale.size())); break;
+			case 3: texture = MCA.smithSkinsFemale.get(worldObj.rand.nextInt(MCA.smithSkinsFemale.size())); break;
+			case 4: texture = null; break;
+			case 5: texture = MCA.guardSkinsFemale.get(worldObj.rand.nextInt(MCA.guardSkinsFemale.size())); break;
+			case 6: texture = MCA.bakerSkinsFemale.get(worldObj.rand.nextInt(MCA.bakerSkinsFemale.size())); break;
+			case 7: texture = MCA.minerSkinsFemale.get(worldObj.rand.nextInt(MCA.minerSkinsFemale.size())); break;
 			}
 		}
 	}
@@ -351,7 +349,6 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 		for (Map.Entry<String, WorldPropertiesManager> entry : MCA.instance.playerWorldManagerMap.entrySet())
 		{
 			boolean propertiesChanged = false;
-			String playerName  = entry.getKey();
 			WorldPropertiesManager manager = entry.getValue();
 
 			if (hasArrangerRing)
@@ -390,24 +387,24 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 	{
 		if (isInChoreMode)
 		{
-			AbstractChore currentChore = getInstanceOfCurrentChore();
+			AbstractChore chore = getInstanceOfCurrentChore();
 
-			if (currentChore instanceof ChoreFarming)
+			if (chore instanceof ChoreFarming)
 			{
 				return new ItemStack(Item.hoeIron);
 			}
 
-			else if (currentChore instanceof ChoreFishing)
+			else if (chore instanceof ChoreFishing)
 			{
 				return new ItemStack(Item.fishingRod);
 			}
 
-			else if (currentChore instanceof ChoreWoodcutting)
+			else if (chore instanceof ChoreWoodcutting)
 			{
 				return new ItemStack(Item.axeIron);
 			}
 
-			else if (currentChore instanceof ChoreMining)
+			else if (chore instanceof ChoreMining)
 			{
 				return new ItemStack(Item.pickaxeIron);
 			}
@@ -746,6 +743,8 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 
 	/**
 	 * (abstract) Protected helper method to write subclass entity data to NBT.
+	 * 
+	 * @param 	NBT	An instance of an NBTTagCompound.
 	 */
 	public void writeEntityToNBT(NBTTagCompound NBT)
 	{
@@ -754,6 +753,8 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 
 	/**
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
+	 * 
+	 * @param 	NBT	An instance of an NBTTagCompound.
 	 */
 	public void readEntityFromNBT(NBTTagCompound NBT)
 	{
@@ -1328,7 +1329,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 		//Check if they should be procreating with their spouse.
 		if (isProcreatingWithSpouse)
 		{
-			AbstractEntity spouse = (AbstractEntity) familyTree.getInstanceOfRelative(EnumRelation.Spouse);
+			AbstractEntity spouse = familyTree.getInstanceOfRelative(EnumRelation.Spouse);
 
 			isJumping = true;
 			faceEntity(spouse, 0.5F, 0.5F);
@@ -1339,7 +1340,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 			double d  = rand.nextGaussian() * 0.02D;
 			double d1 = rand.nextGaussian() * 0.02D;
 			double d2 = rand.nextGaussian() * 0.02D;
-			worldObj.spawnParticle("heart", (posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, posY + 0.5D + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, d, d1, d2);
+			worldObj.spawnParticle("heart", (posX + rand.nextFloat() * width * 2.0F) - width, posY + 0.5D + rand.nextFloat() * height, (posZ + rand.nextFloat() * width * 2.0F) - width, d, d1, d2);
 
 			procreateTicks++;
 
@@ -1434,7 +1435,7 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 			double velX = rand.nextGaussian() * 0.02D;
 			double velY = rand.nextGaussian() * 0.02D;
 			double velZ = rand.nextGaussian() * 0.02D;
-			worldObj.spawnParticle("heart", (posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, posY + 0.5D + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, velX, velY, velZ);
+			worldObj.spawnParticle("heart", (posX + rand.nextFloat() * width * 2.0F) - width, posY + 0.5D + rand.nextFloat() * height, (posZ + rand.nextFloat() * width * 2.0F) - width, velX, velY, velZ);
 
 			//Make the spouse player (almost) unable to move.
 			EntityPlayer spousePlayer = worldObj.getPlayerEntityByName(spousePlayerName);
@@ -1442,9 +1443,6 @@ public class EntityVillagerAdult extends AbstractEntity implements INpc, IMercha
 			if (spousePlayer != null)
 			{
 				faceEntity(spousePlayer, 5.0F, 5.0F);
-
-				//Get the player's world properties.
-				WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(spousePlayer.username);
 
 				spousePlayer.motionX = 0.0D;
 				spousePlayer.motionY = 0.0D;

@@ -40,18 +40,6 @@ public class CommandMarryAccept extends AbstractCommand
 	@Override
 	public void processCommand(ICommandSender sender, String[] arguments) 
 	{
-		//Find the sender.
-		EntityPlayer player = null;
-
-		for (WorldServer world : MinecraftServer.getServer().worldServers)
-		{
-			if (world.getPlayerEntityByName(sender.getCommandSenderName()) != null)
-			{
-				player = world.getPlayerEntityByName(sender.getCommandSenderName());
-				break;
-			}
-		}
-
 		if (arguments.length == 1)
 		{
 			//Ensure that the provided player has asked to marry this person.

@@ -242,6 +242,11 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		}
 	}
 
+	/**
+	 * Returns the max health possible for this entity.
+	 * 
+	 * @return	Always returns 20.
+	 */
 	public int getMaxHealth()
 	{
 		return 20;
@@ -743,6 +748,11 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		}
 	}
 
+	/**
+	 * Returns the texture string for this entity.
+	 * 
+	 * @return	Location of the texture for this entity.
+	 */
 	public String getTexture()
 	{
 		return texture;
@@ -1062,7 +1072,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				else
 				{
-					player = (EntityPlayer)worldObj.getPlayerEntityByName(lastInteractingPlayer);
+					player = worldObj.getPlayerEntityByName(lastInteractingPlayer);
 				}
 
 				//Fail-safe check.
@@ -1169,7 +1179,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	public void doChat(EntityPlayer player)
 	{
-		int hearts = getHearts(player);
 		boolean chatWasGood = false;
 
 		PlayerMemory memory = playerMemoryMap.get(player.username);
@@ -1215,7 +1224,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	public void doJoke(EntityPlayer player)
 	{
-		int hearts = getHearts(player);
 		boolean jokeWasGood = false;
 
 		PlayerMemory memory = playerMemoryMap.get(player.username);
@@ -1258,7 +1266,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	public void doGreeting(EntityPlayer player)
 	{
-		int hearts = getHearts(player);
 		boolean greetingWasGood = false;
 
 		//This has a higher interaction fatigue, so that reactions are appropriate when the player "greets" someone multiple times.
@@ -1304,7 +1311,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	public void doTellStory(EntityPlayer player)
 	{
-		int hearts = getHearts(player);
 		boolean storyWasGood = false;
 
 		PlayerMemory memory = playerMemoryMap.get(player.username);
@@ -1347,7 +1353,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	public void doPlay(EntityPlayer player)
 	{
-		int hearts = getHearts(player);
 		boolean playWasGood = false;
 
 		PlayerMemory memory = playerMemoryMap.get(player.username);
@@ -1764,30 +1769,23 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		if (merchantRecipe.hasSameIDsAs((MerchantRecipe)buyingList.get(buyingList.size() - 1)))
 		{
-			//            this.timeUntilReset = 40;
-			//            this.needsInitilization = true;
-
 			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, new Integer(40), 6);
 			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, true, 7);
 
 			EntityPlayer buyingPlayer = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 4);
 			if (buyingPlayer != null)
 			{
-				//this.lastBuyingPlayer = this.buyingPlayer.getCommandSenderName();
 				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, buyingPlayer.getCommandSenderName(), 9);
 			}
 
 			else
 			{
-				//this.lastBuyingPlayer = null;
 				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, null, 9);
 			}
 		}
 
 		if (merchantRecipe.getItemToBuy().itemID == Item.emerald.itemID)
 		{
-			//this.wealth += merchantRecipe.getItemToBuy().stackSize;
-
 			int wealth = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 8);
 			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, new Integer(wealth + merchantRecipe.getItemToBuy().stackSize), 8);
 		}
@@ -1834,8 +1832,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			PlayerMemory memory = playerMemoryMap.get(player.username);
 
-			int hearts = getHearts(player);
-			int heartIncrease = -(memory.interactionFatigue * 7) + MCA.instance.acceptableGifts.get(itemStack.itemID) + mood.getHeartsModifier("gift") + trait.getHeartsModifier("gift");
+			int heartIncrease = -(memory.interactionFatigue * 7) + MCA.acceptableGifts.get(itemStack.itemID) + mood.getHeartsModifier("gift") + trait.getHeartsModifier("gift");
 
 			//Verify it's always positive.
 			if (heartIncrease <= 0)
@@ -1854,7 +1851,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 			}
 
-			else if (MCA.acceptableGifts.get(itemStack.itemID) > 5 && MCA.instance.acceptableGifts.get(itemStack.itemID) < 10)
+			else if (MCA.acceptableGifts.get(itemStack.itemID) > 5 && MCA.acceptableGifts.get(itemStack.itemID) < 10)
 			{
 				say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.regular"));
 				modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, 0.5F);
@@ -2021,6 +2018,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		}
 	}
 
+	/**
+	 * Updates the villager's mood points depending on the provided context.
+	 * 
+	 * @param 	context	EnumMoodChangeContext explaining what happened to cause the mood change.
+	 * @param 	value	The amount of mood points to apply to the appropriate mood.
+	 */
 	protected void modifyMoodPoints(EnumMoodChangeContext context, float value)
 	{
 		switch (context)
@@ -2055,7 +2058,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			break;
 		case WitnessDeath:
 			moodPointsSad = moodPointsSad > 5.0F ? moodPointsSad = 5.0F : moodPointsSad + value;
-		default:
 			break;
 		}
 
@@ -2160,7 +2162,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				{
 					if (!combatChore.useRange)
 					{
-						this.getLookHelper().setLookPositionWithEntity(target, 10.0F, (float)this.getVerticalFaceSpeed());
+						this.getLookHelper().setLookPositionWithEntity(target, 10.0F, this.getVerticalFaceSpeed());
 
 						if (getDistanceSqToEntity(target) > 5D)
 						{
@@ -2189,7 +2191,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					{
 						if (thePlayer.onGround)
 						{
-							this.getLookHelper().setLookPositionWithEntity(thePlayer, 10.0F, (float)this.getVerticalFaceSpeed());
+							this.getLookHelper().setLookPositionWithEntity(thePlayer, 10.0F, this.getVerticalFaceSpeed());
 
 							if (getDistanceSqToEntity(thePlayer) > 5D)
 							{
@@ -2214,7 +2216,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 											{
 												if ((i < 1 || i2 < 1 || i > 3 || i2 > 3) && worldObj.doesBlockHaveSolidTopSurface(playerX + i, playerY - 1, playerZ + i2) && !worldObj.isBlockNormalCube(playerX + i, playerY, playerZ + i2) && !worldObj.isBlockNormalCube(playerX + i, playerY + 1, playerZ + i2))
 												{
-													this.setLocationAndAngles((double)((float)(playerX + i) + 0.5F), (double)playerY, (double)((float)(playerZ + i2) + 0.5F), this.rotationYaw, this.rotationPitch);
+													this.setLocationAndAngles(playerX + i + 0.5F, playerY, playerZ + i2 + 0.5F, this.rotationYaw, this.rotationPitch);
 													this.getNavigator().clearPathEntity();
 													return;
 												}
@@ -2725,7 +2727,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 							double velY = rand.nextGaussian() * 0.02D;
 							double velZ = rand.nextGaussian() * 0.02D;
 
-							worldObj.spawnParticle(particle, (posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, posY + 0.5D + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, velX, velY, velZ);
+							worldObj.spawnParticle(particle, (posX + rand.nextFloat() * width * 2.0F) - width, posY + 0.5D + rand.nextFloat() * height, (posZ + rand.nextFloat() * width * 2.0F) - width, velX, velY, velZ);
 							particleTicks = 0;
 						}
 

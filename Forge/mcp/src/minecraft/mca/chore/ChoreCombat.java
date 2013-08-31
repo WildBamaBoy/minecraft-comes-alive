@@ -257,27 +257,27 @@ public class ChoreCombat extends AbstractChore
 				{
 					if (f.getType().toString().contains("int"))
 					{
-						f.set(owner.combatChore, (Integer)NBT.getInteger(f.getName()));
+						f.set(owner.combatChore, NBT.getInteger(f.getName()));
 					}
 
 					else if (f.getType().toString().contains("double"))
 					{
-						f.set(owner.combatChore, (Double)NBT.getDouble(f.getName()));
+						f.set(owner.combatChore, NBT.getDouble(f.getName()));
 					}
 
 					else if (f.getType().toString().contains("float"))
 					{
-						f.set(owner.combatChore, (Float)NBT.getFloat(f.getName()));
+						f.set(owner.combatChore, NBT.getFloat(f.getName()));
 					}
 
 					else if (f.getType().toString().contains("String"))
 					{
-						f.set(owner.combatChore, (String)NBT.getString(f.getName()));
+						f.set(owner.combatChore, NBT.getString(f.getName()));
 					}
 
 					else if (f.getType().toString().contains("boolean"))
 					{
-						f.set(owner.combatChore, (Boolean)NBT.getBoolean(f.getName()));
+						f.set(owner.combatChore, NBT.getBoolean(f.getName()));
 					}
 				}
 			}
@@ -374,8 +374,8 @@ public class ChoreCombat extends AbstractChore
 						double distanceX = owner.target.posX - owner.posX;
 						double distanceZ = owner.target.posZ - owner.posZ;
 						float realDistance = MathHelper.sqrt_double(distanceX * distanceX + distanceZ * distanceZ);
-						owner.motionX = (distanceX / (double)realDistance) * 0.5D * 0.8D + owner.motionX * 0.2D;
-						owner.motionZ = (distanceZ / (double)realDistance) * 0.5D * 0.8D + owner.motionZ * 0.2D;
+						owner.motionX = (distanceX / realDistance) * 0.5D * 0.8D + owner.motionX * 0.2D;
+						owner.motionZ = (distanceZ / realDistance) * 0.5D * 0.8D + owner.motionZ * 0.2D;
 						owner.motionY = 0.4;
 					}
 				}
@@ -394,12 +394,12 @@ public class ChoreCombat extends AbstractChore
 
 							if (targetCreeper.getPowered())
 							{
-								targetCreeper.worldObj.createExplosion(targetCreeper, targetCreeper.posX, targetCreeper.posY, targetCreeper.posZ, (float)(3 * 2), mobGreifing);
+								targetCreeper.worldObj.createExplosion(targetCreeper, targetCreeper.posX, targetCreeper.posY, targetCreeper.posZ, 3 * 2, mobGreifing);
 							}
 
 							else
 							{
-								targetCreeper.worldObj.createExplosion(targetCreeper, targetCreeper.posX, targetCreeper.posY, targetCreeper.posZ, (float)3, mobGreifing);
+								targetCreeper.worldObj.createExplosion(targetCreeper, targetCreeper.posX, targetCreeper.posY, targetCreeper.posZ, 3, mobGreifing);
 							}
 
 							targetCreeper.setDead();
@@ -430,7 +430,7 @@ public class ChoreCombat extends AbstractChore
 			if (!owner.target.isDead && owner.canEntityBeSeen(owner.target) && LogicHelper.getDistanceToEntity(owner, owner.target) < 10)
 			{
 				owner.setPathToEntity(null);
-				owner.faceCoordinates(owner, owner.target.posX, owner.target.posY, owner.target.posZ);
+				AbstractEntity.faceCoordinates(owner, owner.target.posX, owner.target.posY, owner.target.posZ);
 
 				if (rangedAttackTime > 0)
 				{

@@ -25,17 +25,33 @@ import net.minecraft.util.ChatMessageComponent;
  */
 public class UpdateHandler implements Runnable
 {
+	/** The current version of MCA. */
 	public static final String VERSION = "3.5.0";
-	public static String foundVersion = "";
+	
+	/** The update's compatible Minecraft version. */
 	public static String compatibleMinecraftVersion = "";
+	
+	/** The most recent version of MCA. */
+	public static String mostRecentVersion = "";
+	
 	private NetHandler netHandler = null;
 	private ICommandSender commandSender = null;
 
+	/**
+	 * Constructor used when a player logs in.
+	 * 
+	 * @param 	netHandler	The NetHandler of the player that just logged in.
+	 */
 	public UpdateHandler(NetHandler netHandler)
 	{
 		this.netHandler = netHandler;
 	}
 
+	/**
+	 * Constructor used when a player issues the /mca.checkupdates on command.
+	 * 
+	 * @param 	commandSender	The player that sent the command.
+	 */
 	public UpdateHandler(ICommandSender commandSender)
 	{
 		this.commandSender = commandSender;
@@ -53,11 +69,11 @@ public class UpdateHandler implements Runnable
 				Scanner scanner = new Scanner(url.openStream());
 
 				compatibleMinecraftVersion = scanner.nextLine();
-				foundVersion = scanner.nextLine();
+				mostRecentVersion = scanner.nextLine();
 
 				ModPropertiesManager manager = MCA.instance.modPropertiesManager;
 				
-				if (!foundVersion.equals(VERSION) && (manager.modProperties.checkForUpdates || !manager.modProperties.lastFoundUpdate.equals(foundVersion)))
+				if (!mostRecentVersion.equals(VERSION) && (manager.modProperties.checkForUpdates || !manager.modProperties.lastFoundUpdate.equals(mostRecentVersion)))
 				{
 					if (netHandler != null)
 					{
@@ -72,7 +88,7 @@ public class UpdateHandler implements Runnable
 					}
 				}
 
-				manager.modProperties.lastFoundUpdate = foundVersion;
+				manager.modProperties.lastFoundUpdate = mostRecentVersion;
 				manager.saveModProperties();
 				scanner.close();
 			}
@@ -81,7 +97,6 @@ public class UpdateHandler implements Runnable
 		catch (Throwable e)
 		{
 			MCA.instance.log(e);
-			//Pass.
 		}
 	}
 }

@@ -46,7 +46,6 @@ public class RenderHumanSmall extends RenderHuman
 			//Children initially start at 0.55F as their scale. Divide the distance between the player's size and the child's size by
 			//the amount of time it takes for them to grow and multiply that times their age. This makes the child gradually get taller
 			//as they get older.
-			float distance = ((EntityChild)entity).gender.equals("Male") ? 0.2375F : 0.215F;
 			float interval = ((EntityChild)entity).gender.equals("Male") ? 0.39F : 0.37F;
 			float scale = 0.55F + ((interval / MCA.instance.modPropertiesManager.modProperties.kidGrowUpTimeMinutes) * age);
 			GL11.glScalef(scale, scale, scale);

@@ -192,7 +192,7 @@ public class GuiVillagerEditor extends AbstractGui
 		
 		else if (guibutton == shiftTextureIndexDownButton)
 		{
-			List<String> textureList = MCA.instance.getSkinList(villagerBeingEdited);
+			List<String> textureList = MCA.getSkinList(villagerBeingEdited);
 			int textureIndex = textureList.indexOf(villagerBeingEdited.getTexture());
 			int maxIndex = textureList.size() - 1;
 			
@@ -432,8 +432,8 @@ public class GuiVillagerEditor extends AbstractGui
 		
         GL11.glEnable(GL11.GL_COLOR_MATERIAL);
         GL11.glPushMatrix();
-        GL11.glTranslatef((float)posX, (float)posY, 50.0F);
-        GL11.glScalef((float)(-scale), (float)scale, (float)scale);
+        GL11.glTranslatef(posX, posY, 50.0F);
+        GL11.glScalef((-scale), scale, scale);
         GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
         
         float yawOffset = villagerBeingEdited.renderYawOffset;
@@ -443,11 +443,11 @@ public class GuiVillagerEditor extends AbstractGui
         GL11.glRotatef(135.0F, 0.0F, 1.0F, 0.0F);
         RenderHelper.enableStandardItemLighting();
         GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(-((float)Math.atan((double)(0F / 40.0F))) * 20.0F, 1.0F, 0.0F, 0.0F);
+        GL11.glRotatef(-((float)Math.atan(0F / 40.0F)) * 20.0F, 1.0F, 0.0F, 0.0F);
         
-        villagerBeingEdited.renderYawOffset = (float)Math.atan((double)(0F / 40.0F)) * 20.0F;
-        villagerBeingEdited.rotationYaw = (float)Math.atan((double)(0F / 40.0F)) * 40.0F;
-        villagerBeingEdited.rotationPitch = -((float)Math.atan((double)(0F / 40.0F))) * 20.0F;
+        villagerBeingEdited.renderYawOffset = (float)Math.atan(0F / 40.0F) * 20.0F;
+        villagerBeingEdited.rotationYaw = (float)Math.atan(0F / 40.0F) * 40.0F;
+        villagerBeingEdited.rotationPitch = -((float)Math.atan(0F / 40.0F)) * 20.0F;
         villagerBeingEdited.rotationYawHead = villagerBeingEdited.rotationYaw;
         
         GL11.glTranslatef(0.0F, villagerBeingEdited.yOffset, 0.0F);

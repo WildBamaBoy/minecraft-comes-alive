@@ -213,7 +213,7 @@ public class ChoreHunting extends AbstractChore
 					if (huntingMode == 1)
 					{
 						int probability = owner.name.equals("Ash") ? 80 : 50;
-						if (owner.getBooleanWithProbability(probability))
+						if (AbstractEntity.getBooleanWithProbability(probability))
 						{
 							if (heldWheat != 0)
 							{
@@ -225,7 +225,7 @@ public class ChoreHunting extends AbstractChore
 
 					else
 					{
-						if (owner.getBooleanWithProbability(successChance))
+						if (AbstractEntity.getBooleanWithProbability(successChance))
 						{
 							sheepSuccessful++;
 						}
@@ -239,7 +239,7 @@ public class ChoreHunting extends AbstractChore
 					if (huntingMode == 1)
 					{
 						int probability = owner.name.equals("Ash") ? 80 : 40;
-						if (owner.getBooleanWithProbability(40))
+						if (AbstractEntity.getBooleanWithProbability(probability))
 						{
 							if (heldWheat != 0)
 							{
@@ -251,7 +251,7 @@ public class ChoreHunting extends AbstractChore
 
 					else
 					{
-						if (owner.getBooleanWithProbability(successChance))
+						if (AbstractEntity.getBooleanWithProbability(successChance))
 						{
 							cowsSuccessful++;
 						}
@@ -263,7 +263,7 @@ public class ChoreHunting extends AbstractChore
 				while (wolvesSeen != 0)
 				{
 					int probability = owner.name.equals("Ash") ? 80 : 33;
-					if (owner.getBooleanWithProbability(probability))
+					if (AbstractEntity.getBooleanWithProbability(probability))
 					{
 						if (heldBones != 0)
 						{
@@ -280,7 +280,7 @@ public class ChoreHunting extends AbstractChore
 					if (huntingMode == 1)
 					{
 						int probability = owner.name.equals("Ash") ? 90 : 70;
-						if (owner.getBooleanWithProbability(probability))
+						if (AbstractEntity.getBooleanWithProbability(probability))
 						{
 							if (heldCarrots != 0)
 							{
@@ -292,7 +292,7 @@ public class ChoreHunting extends AbstractChore
 
 					else
 					{
-						if (owner.getBooleanWithProbability(successChance))
+						if (AbstractEntity.getBooleanWithProbability(successChance))
 						{
 							pigsSuccessful++;
 						}
@@ -306,7 +306,7 @@ public class ChoreHunting extends AbstractChore
 					if (huntingMode == 1)
 					{
 						int probability = owner.name.equals("Ash") ? 90 : 70;
-						if (owner.getBooleanWithProbability(probability))
+						if (AbstractEntity.getBooleanWithProbability(probability))
 						{
 							if (heldSeeds != 0)
 							{
@@ -318,7 +318,7 @@ public class ChoreHunting extends AbstractChore
 
 					else
 					{
-						if (owner.getBooleanWithProbability(successChance))
+						if (AbstractEntity.getBooleanWithProbability(successChance))
 						{
 							chickensSuccessful++;
 						}
@@ -529,27 +529,27 @@ public class ChoreHunting extends AbstractChore
 				{
 					if (f.getType().toString().contains("int"))
 					{
-						f.set(owner.huntingChore, (int)NBT.getInteger(f.getName()));
+						f.set(owner.huntingChore, NBT.getInteger(f.getName()));
 					}
 
 					else if (f.getType().toString().contains("double"))
 					{
-						f.set(owner.huntingChore, (double)NBT.getDouble(f.getName()));
+						f.set(owner.huntingChore, NBT.getDouble(f.getName()));
 					}
 
 					else if (f.getType().toString().contains("float"))
 					{
-						f.set(owner.huntingChore, (float)NBT.getFloat(f.getName()));
+						f.set(owner.huntingChore, NBT.getFloat(f.getName()));
 					}
 
 					else if (f.getType().toString().contains("String"))
 					{
-						f.set(owner.huntingChore, (String)NBT.getString(f.getName()));
+						f.set(owner.huntingChore, NBT.getString(f.getName()));
 					}
 
 					else if (f.getType().toString().contains("boolean"))
 					{
-						f.set(owner.huntingChore, (boolean)NBT.getBoolean(f.getName()));
+						f.set(owner.huntingChore, NBT.getBoolean(f.getName()));
 					}
 				}
 			}

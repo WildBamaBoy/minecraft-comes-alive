@@ -24,11 +24,11 @@ import net.minecraft.world.World;
  */
 public class ItemEggMale extends Item
 {
-    /**
-     * Constructor
-     * 
-     * @param 	id	The item's ID.
-     */
+	/**
+	 * Constructor
+	 * 
+	 * @param 	id	The item's ID.
+	 */
 	public ItemEggMale(int id)
 	{
 		super(id);
@@ -71,7 +71,7 @@ public class ItemEggMale extends Item
 			d = 0.5D;
 		}
 
-		if (spawnVillager(world, (double)x + 0.5D, (double)y + d, (double)z + 0.5D) && !player.capabilities.isCreativeMode)
+		if (spawnVillager(world, x + 0.5D, y + d, z + 0.5D) && !player.capabilities.isCreativeMode)
 		{
 			itemStack.stackSize--;
 		}
@@ -79,44 +79,41 @@ public class ItemEggMale extends Item
 		return true;
 	}
 
-    /**
-     * Spawns a villager into the world.
-     * 
-     * @param 	world		The world that the villager is being spawned in.
-     * @param 	posX		X coordinates that the player clicked.
-     * @param 	posY		Y coordinates that the player clicked.
-     * @param 	posZ		Z coordinates that the player clicked.
-     * 
-     * @return	True or false depending on if placing the villager into the world was successful.
-     */
+	@Override
+	public void registerIcons(IconRegister iconRegister)
+	{
+		itemIcon = iconRegister.registerIcon("mca:EggMale");
+	}
+
+	/**
+	 * Spawns a villager into the world.
+	 * 
+	 * @param 	world		The world that the villager is being spawned in.
+	 * @param 	posX		X coordinates that the player clicked.
+	 * @param 	posY		Y coordinates that the player clicked.
+	 * @param 	posZ		Z coordinates that the player clicked.
+	 * 
+	 * @return	True or false depending on if placing the villager into the world was successful.
+	 */
 	public static boolean spawnVillager(World world, double posX, double posY, double posZ)
 	{
 		if (!world.isRemote)
 		{
 			EntityVillagerAdult entityVillager = new EntityVillagerAdult(world, "Male", world.rand.nextInt(8));
 
-			if (entityVillager != null)
-			{
-				entityVillager.setLocationAndAngles(posX, posY, posZ, world.rand.nextFloat() * 360F, 0.0F);
+			entityVillager.setLocationAndAngles(posX, posY, posZ, world.rand.nextFloat() * 360F, 0.0F);
 
-				if (!world.isRemote)
-				{
-					world.spawnEntityInWorld(entityVillager);
-				}
+			if (!world.isRemote)
+			{
+				world.spawnEntityInWorld(entityVillager);
 			}
-			
-			return entityVillager != null;
+
+			return true;
 		}
-		
+
 		else
 		{
 			return true;
 		}
 	}
-	
-    @Override
-    public void registerIcons(IconRegister iconRegister)
-    {
-    	itemIcon = iconRegister.registerIcon("mca:EggMale");
-    }
 }

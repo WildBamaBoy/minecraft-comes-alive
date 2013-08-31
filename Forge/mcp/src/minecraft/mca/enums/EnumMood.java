@@ -38,6 +38,11 @@ public enum EnumMood
 
 	private String value;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param 	value	The mood's ID within language files.
+	 */
 	private EnumMood(String value)
 	{
 		this.value = value;
@@ -163,6 +168,11 @@ public enum EnumMood
 		}
 	}
 
+	/**
+	 * Gets all possible moods as a list.
+	 * 
+	 * @return	ArrayList containing each possible EnumMood.
+	 */
 	public static List<EnumMood> getMoodsAsCyclableList()
 	{
 		List<EnumMood> moods = new ArrayList<EnumMood>();
@@ -201,6 +211,11 @@ public enum EnumMood
 		return value;
 	}
 
+	/**
+	 * Queries the language helper to get the translated name of this mood.
+	 * 
+	 * @return	Localized name of the mood.
+	 */
 	public String getLocalizedValue()
 	{
 		return LanguageHelper.getString(value);

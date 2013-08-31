@@ -1049,7 +1049,6 @@ public class Inventory implements IInventory, Serializable
 	 */
 	public boolean contains(Item item)
 	{
-		int slot = 0;
 		int id = item.itemID;
 
 		for (ItemStack stack : inventoryItems)
@@ -1061,8 +1060,6 @@ public class Inventory implements IInventory, Serializable
 					return true;
 				}
 			}
-
-			slot++;
 		}
 
 		return false;
@@ -1077,7 +1074,6 @@ public class Inventory implements IInventory, Serializable
 	 */
 	public boolean contains(Block block)
 	{
-		int slot = 0;
 		int id = block.blockID;
 
 		for (ItemStack stack : inventoryItems)
@@ -1089,8 +1085,6 @@ public class Inventory implements IInventory, Serializable
 					return true;
 				}
 			}
-
-			slot++;
 		}
 
 		return false;

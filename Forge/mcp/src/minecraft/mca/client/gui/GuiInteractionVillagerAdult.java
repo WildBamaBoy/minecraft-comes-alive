@@ -95,9 +95,6 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private GuiButton adoptBabyButton;
 	private GuiButton arrangedMarriageButton;
 
-	//Buttons for smiths.
-	private GuiButton repairButton;
-
 	//Buttons for librarians.
 	private GuiButton openSetupButton;
 
@@ -152,7 +149,6 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 	private int hiringHours = 1;
 	private boolean inInteractionSelectGui = false;
-	private boolean inChoreSelectGui = false;
 	private boolean inFarmingGui = false;
 	private boolean inFishingGui = false;
 	private boolean inCombatGui = false;
@@ -266,7 +262,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			actionPerformedHunting(button);
 		}
-		
+
 		else if (inMonarchGui)
 		{
 			actionPerformedMonarch(button);
@@ -362,7 +358,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			{
 				PlayerMemory memory = entityVillager.playerMemoryMap.get(player.username);
 				drawCenteredString(fontRenderer, entityVillager.getTitle(MCA.instance.getIdOfPlayer(player), true) + " " + LanguageHelper.getString("gui.title.special.hired"), width / 2, height / 2 - 80, 0xffffff);
-				
+
 				if (!inSpecialGui)
 				{
 					drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.hire.minutesremaining").replace("%x%", new Integer((memory.hoursHired * 60) - memory.minutesSinceHired).toString()), width / 2, height / 2, 0xffffff);
@@ -471,7 +467,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.hire.price").replace("%x%", new Integer(hiringHours).toString()), width / 2, 80, 0xffffff);
 
 				boolean hasGold = false;
-				
+
 				for (int index = 0; index < player.inventory.mainInventory.length; index++)
 				{
 					ItemStack stack = player.inventory.mainInventory[index];
@@ -701,7 +697,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		dismissButton.enabled = entityVillager.playerMemoryMap.get(player.username).isHired == true;
 		combatButton.enabled = entityVillager.playerMemoryMap.get(player.username).isHired || (entityVillager.isKnight && entityVillager.monarchPlayerName.equals(player.username));
 		huntingButton.enabled = entityVillager.playerMemoryMap.get(player.username).isHired || (entityVillager.isKnight && entityVillager.monarchPlayerName.equals(player.username));
-		
+
 		if (entityVillager.playerMemoryMap.get(player.username).isHired || (entityVillager.isPeasant && entityVillager.monarchPlayerName.equals(player.username)))
 		{
 			if (entityVillager.isInChoreMode)
@@ -800,16 +796,6 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		buttonList.add(openSetupButton = new GuiButton(1, width / 2 - 40, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.special.librarian.setup")));
 
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
-		backButton.enabled = true;
-	}
-
-	/**
-	 * Draws a Gui stating that this person doesn't have special abilities.
-	 */
-	private void drawNoSpecialGui() 
-	{
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = true;
@@ -1043,14 +1029,6 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	}
 
 	/**
-	 * Draws the trading Gui.
-	 */
-	private void drawTradeGui()
-	{
-
-	}
-
-	/**
 	 * Draws the monarch GUI.
 	 */
 	private void drawMonarchGui()
@@ -1234,7 +1212,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				entityVillager.isStaying = !entityVillager.isStaying;
 				entityVillager.isFollowing = false;
 				entityVillager.idleTicks = 0;
-				
+
 				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", entityVillager.isStaying));
 				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
 				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "idleTicks", 0));
@@ -1407,7 +1385,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 							player.inventory.decrStackSize(i, hiringHours);
 							PacketDispatcher.sendPacketToServer(PacketHelper.createRemoveItemPacket(player.entityId, i, hiringHours, 0));
 						}
-						
+
 						break;
 					}
 				}
@@ -1418,7 +1396,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			memory.isHired = true;
 			memory.hoursHired = hiringHours;
 			memory.minutesSinceHired = 0;
-			
+
 			entityVillager.say(LanguageHelper.getString("generic.hire.accept"));
 
 			entityVillager.playerMemoryMap.put(player.username, memory);
@@ -1447,12 +1425,12 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			{
 				drawFarmerSpecialGui();
 			}
-			
+
 			else if (entityVillager.profession == 7)
 			{
 				drawMinerSpecialGui();
 			}
-			
+
 			else if (entityVillager.profession == 5)
 			{
 				drawGuardSpecialGui();
@@ -1499,8 +1477,11 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 						}
 					}
 
-					spouse.shouldDivorce = true;
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouse.entityId, "shouldDivorce", true));
+					if (spouse != null)
+					{
+						spouse.shouldDivorce = true;
+						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouse.entityId, "shouldDivorce", true));
+					}
 				}
 			}
 
@@ -1547,9 +1528,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				manager.worldProperties.minutesBabyExisted = 0;
 				manager.worldProperties.babyReadyToGrow = false;
 
-				if (entityVillager.getRandomGender().equals("Male"))
+				if (AbstractEntity.getRandomGender().equals("Male"))
 				{
-					manager.worldProperties.babyName = entityVillager.getRandomName("Male");
+					manager.worldProperties.babyName = AbstractEntity.getRandomName("Male");
 					entityVillager.say(LanguageHelper.getString(player, "priest.adopt.male"));
 
 					player.inventory.addItemStackToInventory(new ItemStack(MCA.instance.itemBabyBoy, 1));
@@ -1558,7 +1539,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 				else
 				{
-					manager.worldProperties.babyName = entityVillager.getRandomName("Female");
+					manager.worldProperties.babyName = AbstractEntity.getRandomName("Female");
 					entityVillager.say(LanguageHelper.getString(player, "priest.adopt.female"));
 
 					player.inventory.addItemStackToInventory(new ItemStack(MCA.instance.itemBabyGirl, 1));
@@ -1576,7 +1557,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			List<EntityVillagerAdult> nearbyVillagers = (List<EntityVillagerAdult>) LogicHelper.getAllEntitiesOfTypeWithinDistanceOfEntity(entityVillager, EntityVillagerAdult.class, 30);
 
 			String preferredGender = MCA.getMD5Hash("Males").contains(manager.worldProperties.genderPreference) ? "Male" : "Female";
-			
+
 			EntityVillagerAdult villagerToMarry = null;
 
 			for (EntityVillagerAdult adult : nearbyVillagers)
@@ -1699,7 +1680,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			else
 			{
-				if (entityVillager.getBooleanWithProbability(80))
+				if (AbstractEntity.getBooleanWithProbability(80))
 				{
 					Object[] giftInfo = null;
 					giftInfo = MCA.bakerAidIDs[entityVillager.worldObj.rand.nextInt(MCA.bakerAidIDs.length)];
@@ -1760,7 +1741,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			drawCombatGui();
 		}
-		
+
 		else if (button == huntingButton)
 		{
 			drawHuntingGui();
@@ -1798,7 +1779,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			else
 			{
-				if (entityVillager.getBooleanWithProbability(80))
+				if (AbstractEntity.getBooleanWithProbability(80))
 				{
 					Object[] giftInfo = null;
 					giftInfo = MCA.butcherAidIDs[entityVillager.worldObj.rand.nextInt(MCA.butcherAidIDs.length)];
@@ -1907,7 +1888,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			else
 			{
-				if (entityVillager.getBooleanWithProbability(80))
+				if (AbstractEntity.getBooleanWithProbability(80))
 				{
 					Object[] giftInfo = null;
 					giftInfo = MCA.farmerAidIDs[entityVillager.worldObj.rand.nextInt(MCA.farmerAidIDs.length)];

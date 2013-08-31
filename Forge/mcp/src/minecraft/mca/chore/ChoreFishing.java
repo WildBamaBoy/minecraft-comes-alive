@@ -185,7 +185,7 @@ public class ChoreFishing extends AbstractChore
 							fishEntity.setDead();
 						}
 
-						owner.faceCoordinates(owner, waterCoordinatesX, waterCoordinatesY, waterCoordinatesZ);
+						AbstractEntity.faceCoordinates(owner, waterCoordinatesX, waterCoordinatesY, waterCoordinatesZ);
 						idleFishingTicks++;
 					}
 
@@ -194,7 +194,7 @@ public class ChoreFishing extends AbstractChore
 					{
 						if (fishEntity != null)
 						{
-							owner.faceCoordinates(owner, fishEntity.posX, fishEntity.posY, fishEntity.posZ);
+							AbstractEntity.faceCoordinates(owner, fishEntity.posX, fishEntity.posY, fishEntity.posZ);
 						}
 
 						//Check if the chance to catch a fish counter has been reset.
@@ -387,27 +387,27 @@ public class ChoreFishing extends AbstractChore
 				{
 					if (f.getType().toString().contains("int"))
 					{
-						f.set(owner.fishingChore, (int)NBT.getInteger(f.getName()));
+						f.set(owner.fishingChore, NBT.getInteger(f.getName()));
 					}
 
 					else if (f.getType().toString().contains("double"))
 					{
-						f.set(owner.fishingChore, (double)NBT.getDouble(f.getName()));
+						f.set(owner.fishingChore, NBT.getDouble(f.getName()));
 					}
 
 					else if (f.getType().toString().contains("float"))
 					{
-						f.set(owner.fishingChore, (float)NBT.getFloat(f.getName()));
+						f.set(owner.fishingChore, NBT.getFloat(f.getName()));
 					}
 
 					else if (f.getType().toString().contains("String"))
 					{
-						f.set(owner.fishingChore, (String)NBT.getString(f.getName()));
+						f.set(owner.fishingChore, NBT.getString(f.getName()));
 					}
 
 					else if (f.getType().toString().contains("boolean"))
 					{
-						f.set(owner.fishingChore, (boolean)NBT.getBoolean(f.getName()));
+						f.set(owner.fishingChore, NBT.getBoolean(f.getName()));
 					}
 				}
 			}

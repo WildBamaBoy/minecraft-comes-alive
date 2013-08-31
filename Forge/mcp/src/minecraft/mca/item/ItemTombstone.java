@@ -102,7 +102,7 @@ public class ItemTombstone extends Item
 				return false;
 			}
 
-			else if (!MCA.instance.instance.blockTombstone.canPlaceBlockAt(world, x, y, z))
+			else if (!MCA.instance.blockTombstone.canPlaceBlockAt(world, x, y, z))
 			{
 				return false;
 			}
@@ -111,7 +111,7 @@ public class ItemTombstone extends Item
 			{
 				if (meta == 1)
 				{
-					int i1 = MathHelper.floor_double((double)(((player.rotationYaw + 180F) * 16F) / 360F) + 0.5D) & 0xf;
+					int i1 = MathHelper.floor_double(((player.rotationYaw + 180F) * 16F) / 360F + 0.5D) & 0xf;
 
 					if (i1 == 0 || i1 == 4 || i1 == 8 || i1 == 12)
 					{

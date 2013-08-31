@@ -219,27 +219,27 @@ public class ChoreMining extends AbstractChore
 				{
 					if (f.getType().toString().contains("int"))
 					{
-						NBT.setInteger(f.getName(), (int)Integer.parseInt(f.get(owner.miningChore).toString()));
+						NBT.setInteger(f.getName(), Integer.parseInt(f.get(owner.miningChore).toString()));
 					}
 
 					else if (f.getType().toString().contains("double"))
 					{
-						NBT.setDouble(f.getName(), (double)Double.parseDouble(f.get(owner.miningChore).toString()));
+						NBT.setDouble(f.getName(), Double.parseDouble(f.get(owner.miningChore).toString()));
 					}
 
 					else if (f.getType().toString().contains("float"))
 					{
-						NBT.setFloat(f.getName(), (float)Float.parseFloat(f.get(owner.miningChore).toString()));
+						NBT.setFloat(f.getName(), Float.parseFloat(f.get(owner.miningChore).toString()));
 					}
 
 					else if (f.getType().toString().contains("String"))
 					{
-						NBT.setString(f.getName(), (String)f.get(owner.miningChore).toString());
+						NBT.setString(f.getName(), f.get(owner.miningChore).toString());
 					}
 
 					else if (f.getType().toString().contains("boolean"))
 					{
-						NBT.setBoolean(f.getName(), (boolean)Boolean.parseBoolean(f.get(owner.miningChore).toString()));
+						NBT.setBoolean(f.getName(), Boolean.parseBoolean(f.get(owner.miningChore).toString()));
 					}
 				}
 			}
@@ -264,27 +264,27 @@ public class ChoreMining extends AbstractChore
 				{
 					if (f.getType().toString().contains("int"))
 					{
-						f.set(owner.miningChore, (int)NBT.getInteger(f.getName()));
+						f.set(owner.miningChore, NBT.getInteger(f.getName()));
 					}
 
 					else if (f.getType().toString().contains("double"))
 					{
-						f.set(owner.miningChore, (double)NBT.getDouble(f.getName()));
+						f.set(owner.miningChore, NBT.getDouble(f.getName()));
 					}
 
 					else if (f.getType().toString().contains("float"))
 					{
-						f.set(owner.miningChore, (float)NBT.getFloat(f.getName()));
+						f.set(owner.miningChore, NBT.getFloat(f.getName()));
 					}
 
 					else if (f.getType().toString().contains("String"))
 					{
-						f.set(owner.miningChore, (String)NBT.getString(f.getName()));
+						f.set(owner.miningChore, NBT.getString(f.getName()));
 					}
 
 					else if (f.getType().toString().contains("boolean"))
 					{
-						f.set(owner.miningChore, (boolean)NBT.getBoolean(f.getName()));
+						f.set(owner.miningChore, NBT.getBoolean(f.getName()));
 					}
 				}
 			}

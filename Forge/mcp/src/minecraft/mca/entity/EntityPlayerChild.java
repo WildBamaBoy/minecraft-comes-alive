@@ -22,13 +22,13 @@ import mca.core.util.PacketHelper;
 import mca.core.util.object.PlayerMemory;
 import mca.enums.EnumRelation;
 import mca.item.ItemArrangersRing;
+import mca.item.ItemBaby;
 import mca.item.ItemEngagementRing;
 import mca.item.ItemVillagerEditor;
 import mca.item.ItemWeddingRing;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.INpc;
 import net.minecraft.entity.ai.EntityAIMoveIndoors;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAIOpenDoor;
@@ -55,7 +55,7 @@ import cpw.mods.fml.common.network.Player;
 /**
  * Defines a child belonging to a player.
  */
-public class EntityPlayerChild extends EntityChild implements INpc
+public class EntityPlayerChild extends EntityChild
 {
 	/** Should this child grow up automatically? */
 	public boolean shouldGrowAutomatically = false;
@@ -92,9 +92,6 @@ public class EntityPlayerChild extends EntityChild implements INpc
 
 	/** The number of animals that have been tamed. */
 	public int animalsTamed = 0;
-
-	/** How long the entity has been procreating. */
-	public int procreateTicks = 0;
 
 	/**
 	 * Constructor
@@ -175,7 +172,7 @@ public class EntityPlayerChild extends EntityChild implements INpc
 
 			else
 			{
-				texture = MCA.instance.kidSkinsMale.get(worldObj.rand.nextInt(MCA.instance.kidSkinsMale.size()));
+				texture = MCA.kidSkinsMale.get(worldObj.rand.nextInt(MCA.kidSkinsMale.size()));
 			}
 		}
 
@@ -198,7 +195,7 @@ public class EntityPlayerChild extends EntityChild implements INpc
 
 			else
 			{
-				texture = MCA.instance.kidSkinsFemale.get(worldObj.rand.nextInt(MCA.instance.kidSkinsFemale.size()));
+				texture = MCA.kidSkinsFemale.get(worldObj.rand.nextInt(MCA.kidSkinsFemale.size()));
 			}
 		}
 	}
@@ -390,6 +387,11 @@ public class EntityPlayerChild extends EntityChild implements INpc
 						PacketDispatcher.sendPacketToServer(PacketHelper.createInventoryPacket(entityId, inventory));
 					}
 
+					else if (itemStack.getItem() instanceof ItemBaby)
+					{
+						doGiftOfBaby(itemStack, player);
+					}
+					
 					else
 					{
 						doGift(itemStack, player);
@@ -505,7 +507,7 @@ public class EntityPlayerChild extends EntityChild implements INpc
 	 */
 	private void doGiftOfBaby(ItemStack itemStack, EntityPlayer player) 
 	{
-		if (isSpouse)
+		if (isSpouse && spousePlayerName.equals(player.username))
 		{
 			if (inventory.contains(MCA.instance.itemBabyBoy) || inventory.contains(MCA.instance.itemBabyGirl))
 			{
@@ -861,7 +863,7 @@ public class EntityPlayerChild extends EntityChild implements INpc
 			if (hasCake == false)
 			{
 				//Get an instance of their spouse.
-				AbstractEntity spouse = (AbstractEntity)familyTree.getInstanceOfRelative(EnumRelation.Spouse);
+				AbstractEntity spouse = familyTree.getInstanceOfRelative(EnumRelation.Spouse);
 
 				//Make sure the spouse was found.
 				if (spouse != null)
@@ -1178,7 +1180,7 @@ public class EntityPlayerChild extends EntityChild implements INpc
 		//Check if they should be procreating with their spouse.
 		if (isProcreatingWithSpouse)
 		{
-			AbstractEntity spouse = (AbstractEntity) familyTree.getInstanceOfRelative(EnumRelation.Spouse);
+			AbstractEntity spouse = familyTree.getInstanceOfRelative(EnumRelation.Spouse);
 
 			isJumping = true;
 			faceEntity(spouse, 0.5F, 0.5F);
@@ -1189,7 +1191,7 @@ public class EntityPlayerChild extends EntityChild implements INpc
 			double d  = rand.nextGaussian() * 0.02D;
 			double d1 = rand.nextGaussian() * 0.02D;
 			double d2 = rand.nextGaussian() * 0.02D;
-			worldObj.spawnParticle("heart", (posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, posY + 0.5D + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, d, d1, d2);
+			worldObj.spawnParticle("heart", (posX + rand.nextFloat() * width * 2.0F) - width, posY + 0.5D + rand.nextFloat() * height, (posZ + rand.nextFloat() * width * 2.0F) - width, d, d1, d2);
 
 			procreateTicks++;
 
@@ -1284,7 +1286,7 @@ public class EntityPlayerChild extends EntityChild implements INpc
 			double velX = rand.nextGaussian() * 0.02D;
 			double velY = rand.nextGaussian() * 0.02D;
 			double velZ = rand.nextGaussian() * 0.02D;
-			worldObj.spawnParticle("heart", (posX + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, posY + 0.5D + (double)(rand.nextFloat() * height), (posZ + (double)(rand.nextFloat() * width * 2.0F)) - (double)width, velX, velY, velZ);
+			worldObj.spawnParticle("heart", (posX + rand.nextFloat() * width * 2.0F) - width, posY + 0.5D + rand.nextFloat() * height, (posZ + rand.nextFloat() * width * 2.0F) - width, velX, velY, velZ);
 
 			//Make the spouse player (almost) unable to move.
 			EntityPlayer spousePlayer = worldObj.getPlayerEntityByName(spousePlayerName);
@@ -1292,9 +1294,6 @@ public class EntityPlayerChild extends EntityChild implements INpc
 			if (spousePlayer != null)
 			{
 				faceEntity(spousePlayer, 5.0F, 5.0F);
-
-				//Get the player's world properties.
-				WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(spousePlayer.username);
 
 				spousePlayer.motionX = 0.0D;
 				spousePlayer.motionY = 0.0D;

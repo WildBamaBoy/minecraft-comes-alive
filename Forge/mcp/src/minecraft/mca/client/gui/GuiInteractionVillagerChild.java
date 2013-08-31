@@ -343,6 +343,11 @@ public class GuiInteractionVillagerChild extends AbstractGui
 			close();
 		}
 		
+		else if (button == playButton)
+		{
+			entityVillagerChild.doPlay(player);
+		}
+		
 		else if (button == backButton)
 		{
 			drawBaseGui();

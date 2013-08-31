@@ -47,9 +47,6 @@ public final class LanguageHelper
 	/** The English name for the language. */
 	private static String languageName = "";
 
-	/** The location of the language file. */
-	private static String languageFile = "";
-
 	/** The properties instance used to load languages. */
 	private static Properties properties = new Properties();
 	
@@ -186,7 +183,7 @@ public final class LanguageHelper
 
 			LanguageRegistry.reloadLanguageTable();
 
-			MCA.instance.log("Loaded " + MCA.instance.stringTranslations.size() + " phrases in " + languageName + ".");
+			MCA.instance.log("Loaded " + MCA.stringTranslations.size() + " phrases in " + languageName + ".");
 		}
 
 		catch (Throwable e)
@@ -748,7 +745,7 @@ public final class LanguageHelper
 			
 			if (text.contains("%ModVersionNumber%"))
 			{
-				text = text.replace("%ModVersionNumber%", UpdateHandler.foundVersion);
+				text = text.replace("%ModVersionNumber%", UpdateHandler.mostRecentVersion);
 			}
 			
 			if (text.contains("%URL%"))
@@ -791,10 +788,9 @@ public final class LanguageHelper
 				}
 			}
 
-			reader.close();
-
 			if (!line.isEmpty())
 			{
+				reader.close();
 				return line.substring(5);
 			}
 		} 

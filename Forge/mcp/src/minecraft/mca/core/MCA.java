@@ -552,13 +552,13 @@ public class MCA
 				switch (entity.profession)
 				{
 				case 0: return MCA.farmerSkinsMale;
-				case 1: return MCA.instance.librarianSkinsMale;
-				case 2: return MCA.instance.priestSkinsMale;
-				case 3: return MCA.instance.smithSkinsMale;
-				case 4: return MCA.instance.butcherSkinsMale;
-				case 5: return MCA.instance.guardSkinsMale;
-				case 6: return MCA.instance.bakerSkinsMale;
-				case 7: return MCA.instance.minerSkinsMale;
+				case 1: return MCA.librarianSkinsMale;
+				case 2: return MCA.priestSkinsMale;
+				case 3: return MCA.smithSkinsMale;
+				case 4: return MCA.butcherSkinsMale;
+				case 5: return MCA.guardSkinsMale;
+				case 6: return MCA.bakerSkinsMale;
+				case 7: return MCA.minerSkinsMale;
 				}
 			}
 
@@ -566,14 +566,14 @@ public class MCA
 			{
 				switch (entity.profession)
 				{
-				case 0: return MCA.instance.farmerSkinsFemale;
-				case 1: return MCA.instance.librarianSkinsFemale;
-				case 2: return MCA.instance.priestSkinsFemale;
-				case 3: return MCA.instance.smithSkinsFemale;
+				case 0: return MCA.farmerSkinsFemale;
+				case 1: return MCA.librarianSkinsFemale;
+				case 2: return MCA.priestSkinsFemale;
+				case 3: return MCA.smithSkinsFemale;
 				case 4: return null;
-				case 5: return MCA.instance.guardSkinsFemale;
-				case 6: return MCA.instance.bakerSkinsFemale;
-				case 7: return MCA.instance.minerSkinsFemale;
+				case 5: return MCA.guardSkinsFemale;
+				case 6: return MCA.bakerSkinsFemale;
+				case 7: return MCA.minerSkinsFemale;
 				}
 			}
 		}
@@ -582,12 +582,12 @@ public class MCA
 		{
 			if (entity.gender.equals("Male"))
 			{
-				return MCA.instance.kidSkinsMale;
+				return MCA.kidSkinsMale;
 			}
 
 			else if (entity.gender.equals("Female"))
 			{
-				return MCA.instance.kidSkinsFemale;
+				return MCA.kidSkinsFemale;
 			}
 		}
 
@@ -666,6 +666,13 @@ public class MCA
 		}
 	}
 
+	/**
+	 * Provides an MD5 hash based on input
+	 * 
+	 * @param 	input	String of data that MD5 hash will be generated for.
+	 * 
+	 * @return	MD5 hash of the provided input in string format.
+	 */
 	public static String getMD5Hash(String input)
 	{
 		try
@@ -678,7 +685,7 @@ public class MCA
 
 			for (byte b : hash) 
 			{
-				buffer.append(Integer.toHexString((int) (b & 0xff)));
+				buffer.append(Integer.toHexString(b & 0xff));
 			}
 
 			return buffer.toString();
@@ -728,48 +735,6 @@ public class MCA
 	}
 
 	/**
-	 * Counts lines of code in source distribution.
-	 */
-	@Deprecated
-	public static void countLinesOfCode()
-	{
-		int lines = 0;
-		FileInputStream fileStream;
-		DataInputStream inputStream;
-		BufferedReader bufferedreader;
-
-		String sourceDir = "D:/Programming/Minecraft Comes Alive/Forge/mcp/src/minecraft/mods/MCA/";
-
-		for (File file : new File(sourceDir).listFiles())
-		{
-			if (file.isFile())
-			{
-				try
-				{
-					String readString = "";
-
-					fileStream = new FileInputStream(file);
-					inputStream = new DataInputStream(fileStream);
-					bufferedreader = new BufferedReader(new InputStreamReader(inputStream));
-
-					while ((readString = bufferedreader.readLine()) != null)  
-					{
-						lines++;
-					}
-				}
-
-				catch (Throwable e)
-				{
-					MCA.instance.log(e);
-					continue;
-				}
-			}
-		}
-
-		System.out.println("Lines of code: " + lines);
-	}
-
-	/**
 	 * Tests all valid lines within the source for errors when requested from the language system.
 	 */
 	@Deprecated
@@ -777,7 +742,7 @@ public class MCA
 	{
 		AbstractEntity dummyEntity = new EntityVillagerAdult();
 		String sourceDir = "D:/Programming/Minecraft Comes Alive/Development/src/minecraft/mca/";
-		FileInputStream fileStream;;
+		FileInputStream fileStream;
 		DataInputStream in;
 		BufferedReader br;
 		int lineNumber = 0;
@@ -817,6 +782,8 @@ public class MCA
 						//System.out.println("Result of: " + validString + " in " + file.getName() + " = \t\t\t" + getString(null, validString));
 					}
 				}
+				
+				br.close();
 			}
 
 			catch (Throwable e)

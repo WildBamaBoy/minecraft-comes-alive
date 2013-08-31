@@ -108,10 +108,6 @@ public final class LogicHelper
 	 */
 	public static void getPathOrWalkableBlock(EntityVillagerAdult entity, Entity entityTarget, float f)
 	{
-		double posX = entityTarget.posX;
-		double posY = entityTarget.posY;
-		double posZ = entityTarget.posZ;
-
 		PathEntity pathentity = entity.worldObj.getPathEntityToEntity(entity, entityTarget, 16F, true, false, false, true);
 
 		if (pathentity == null && f > 12F)
@@ -126,7 +122,7 @@ public final class LogicHelper
 				{
 					if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && entity.worldObj.isBlockNormalCube(i + l, k - 1, j + i1) && !entity.worldObj.isBlockNormalCube(i + l, k, j + i1) && !entity.worldObj.isBlockNormalCube(i + l, k + 1, j + i1))
 					{
-						entity.setLocationAndAngles((float)(i + l) + 0.5F, k, (float)(j + i1) + 0.5F, entityTarget.rotationYaw, entityTarget.rotationPitch);
+						entity.setLocationAndAngles(i + l + 0.5F, k, j + i1 + 0.5F, entityTarget.rotationYaw, entityTarget.rotationPitch);
 						return;
 					}
 				}
@@ -416,12 +412,19 @@ public final class LogicHelper
 		return coordinatesList;
 	}
 
+	/**
+	 * Gets crops nearby that are ready to harvest.
+	 * 
+	 * @param 	entity				The entity performing the chore.
+	 * @param 	startCoordinatesX	The X coordinates that the entity started farming on.
+	 * @param 	startCoordinatesY	The Y coordinates that the entity started farming on.
+	 * @param 	startCoordinatesZ	The Z coordinates that the entity started farming on.
+	 * @param 	radius			The radius set in the entity's farming chore.
+	 * 
+	 * @return	List containing Coordinates objects of each crop within radius that is ready to harvest.
+	 */
 	public static List<Coordinates> getNearbyHarvestableCrops(Entity entity, int startCoordinatesX, int startCoordinatesY, int startCoordinatesZ, int radius)
 	{
-		int x = (int)entity.posX;
-		int y = (int)entity.posY;
-		int z = (int)entity.posZ;
-
 		int xMov = 0 - radius;
 		int yMov = -3;
 		int zMov = 0 - radius;
@@ -430,17 +433,17 @@ public final class LogicHelper
 
 		while (true)
 		{
-			int currentBlockID = entity.worldObj.getBlockId(x + xMov, y + yMov, z + zMov);
+			int currentBlockID = entity.worldObj.getBlockId(startCoordinatesX + xMov, startCoordinatesY + yMov, startCoordinatesZ + zMov);
 
 			if (currentBlockID == Block.melon.blockID || currentBlockID == Block.potato.blockID || currentBlockID == Block.carrot.blockID || currentBlockID == Block.pumpkin.blockID || currentBlockID == Block.crops.blockID || currentBlockID == Block.reed.blockID)
 			{
 				if (currentBlockID == Block.crops.blockID || currentBlockID == Block.carrot.blockID || currentBlockID == Block.potato.blockID)
 				{
-					int currentBlockMeta = entity.worldObj.getBlockMetadata(x + xMov, y + yMov, z + zMov);
+					int currentBlockMeta = entity.worldObj.getBlockMetadata(startCoordinatesX + xMov, startCoordinatesY + yMov, startCoordinatesZ + zMov);
 
 					if (currentBlockMeta == 7)
 					{
-						coordinatesList.add(new Coordinates(x + xMov, y + yMov, z + zMov));
+						coordinatesList.add(new Coordinates(startCoordinatesX + xMov, startCoordinatesY + yMov, startCoordinatesZ + zMov));
 					}
 				}
 
@@ -449,15 +452,15 @@ public final class LogicHelper
 					if (currentBlockID == Block.reed.blockID)
 					{
 						//Check for reeds above the base reed.
-						if (entity.worldObj.getBlockId(x + xMov, y + yMov + 1, z + zMov) == Block.reed.blockID)
+						if (entity.worldObj.getBlockId(startCoordinatesX + xMov, startCoordinatesY + yMov + 1, startCoordinatesZ + zMov) == Block.reed.blockID)
 						{
-							coordinatesList.add(new Coordinates(x + xMov, y + yMov + 1, z + zMov));
+							coordinatesList.add(new Coordinates(startCoordinatesX + xMov, startCoordinatesY + yMov + 1, startCoordinatesZ + zMov));
 						}
 					}
 					
 					else
 					{
-						coordinatesList.add(new Coordinates(x + xMov, y + yMov, z + zMov));
+						coordinatesList.add(new Coordinates(startCoordinatesX + xMov, startCoordinatesY + yMov, startCoordinatesZ + zMov));
 					}
 				}
 			}
@@ -903,7 +906,7 @@ public final class LogicHelper
 	 */
 	public static int getHeadingRelativeToPlayerAndSpecifiedDirection(EntityPlayer player, int direction)
 	{
-		int directionPlayerFacing = MathHelper.floor_double((double)((player.rotationYaw * 4F) / 360F) + 0.5D) & 3;
+		int directionPlayerFacing = MathHelper.floor_double((player.rotationYaw * 4F) / 360F + 0.5D) & 3;
 
 		//Entity wants to go forward.
 		if (direction == 0)
@@ -1029,7 +1032,7 @@ public final class LogicHelper
 		//If the above fails, search for and return the nearest AbstractEntity to the point that was clicked.
 		Entity nearestEntity = null;
 
-		for (Object obj : getAllEntitiesWithinDistanceOfCoordinates(world, (double)x, (double)y, (double)z, 3))
+		for (Object obj : getAllEntitiesWithinDistanceOfCoordinates(world, x, y, z, 3))
 		{
 			if (type.isInstance(obj))
 			{

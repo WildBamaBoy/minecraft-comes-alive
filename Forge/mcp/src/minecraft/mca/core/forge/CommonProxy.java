@@ -132,6 +132,7 @@ public class CommonProxy
 			else
 			{
 				MCA.instance.log("Failed to find MCA as a folder. Directory: " + folderName);
+				return;
 			}
 		}
 
@@ -276,6 +277,11 @@ public class CommonProxy
 		MCA.instance.log("Loaded " + loadedSkins + " skins from mod archive.");
 	}
 
+	/**
+	 * Assumes that the MCA archive has been turned into a folder and attempts to read skins.
+	 * 
+	 * @param 	folderName	The location of the mods folder.
+	 */
 	public void loadSkinsFromFolder(String folderName)
 	{
 		MCA.instance.log(folderName);

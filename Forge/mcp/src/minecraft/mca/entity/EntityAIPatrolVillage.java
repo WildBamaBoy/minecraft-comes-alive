@@ -26,9 +26,9 @@ import net.minecraft.village.VillageDoorInfo;
  */
 public class EntityAIPatrolVillage extends EntityAIBase
 {
+	/** The guard running this AI task. */
 	private EntityVillagerAdult guard;
 
-	/** The PathNavigate of our entity. */
 	private PathEntity entityPathNavigate;
 	private VillageDoorInfo doorInfo;
 	private List doorList = new ArrayList();
@@ -45,6 +45,8 @@ public class EntityAIPatrolVillage extends EntityAIBase
 
 	/**
 	 * Returns whether the EntityAIBase should begin execution.
+	 * 
+	 * @return	True if AI should execute.
 	 */
 	public boolean shouldExecute()
 	{		
@@ -70,7 +72,7 @@ public class EntityAIPatrolVillage extends EntityAIBase
 			{
 				boolean flag = this.guard.getNavigator().getCanBreakDoors();
 				this.guard.getNavigator().setBreakDoors(false);
-				this.entityPathNavigate = this.guard.getNavigator().getPathToXYZ((double)this.doorInfo.posX, (double)this.doorInfo.posY, (double)this.doorInfo.posZ);
+				this.entityPathNavigate = this.guard.getNavigator().getPathToXYZ(this.doorInfo.posX, this.doorInfo.posY, this.doorInfo.posZ);
 				this.guard.getNavigator().setBreakDoors(flag);
 
 				if (this.entityPathNavigate != null)
@@ -80,7 +82,7 @@ public class EntityAIPatrolVillage extends EntityAIBase
 
 				else
 				{
-					Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(this.guard, 10, 7, this.guard.worldObj.getWorldVec3Pool().getVecFromPool((double)this.doorInfo.posX, (double)this.doorInfo.posY, (double)this.doorInfo.posZ));
+					Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(this.guard, 10, 7, this.guard.worldObj.getWorldVec3Pool().getVecFromPool(this.doorInfo.posX, this.doorInfo.posY, this.doorInfo.posZ));
 
 					if (vec3 == null)
 					{
@@ -106,6 +108,8 @@ public class EntityAIPatrolVillage extends EntityAIBase
 
 	/**
 	 * Returns whether an in-progress EntityAIBase should continue executing
+	 * 
+	 * @return	True if AI should continue executing.
 	 */
 	public boolean continueExecuting()
 	{
@@ -117,7 +121,7 @@ public class EntityAIPatrolVillage extends EntityAIBase
 		else
 		{
 			float f = this.guard.width + 4.0F;
-			return this.guard.getDistanceSq((double)this.doorInfo.posX, (double)this.doorInfo.posY, (double)this.doorInfo.posZ) > (double)(f * f);
+			return this.guard.getDistanceSq(this.doorInfo.posX, this.doorInfo.posY, this.doorInfo.posZ) > f * f;
 		}
 	}
 
@@ -134,17 +138,24 @@ public class EntityAIPatrolVillage extends EntityAIBase
 	 */
 	public void resetTask()
 	{
-		if (this.guard.getNavigator().noPath() || this.guard.getDistanceSq((double)this.doorInfo.posX, (double)this.doorInfo.posY, (double)this.doorInfo.posZ) < 16.0D)
+		if (this.guard.getNavigator().noPath() || this.guard.getDistanceSq(this.doorInfo.posX, this.doorInfo.posY, this.doorInfo.posZ) < 16.0D)
 		{
 			this.doorList.add(this.doorInfo);
 		}
 	}
 
-	private VillageDoorInfo getDoorInfo(Village par1Village)
+	/**
+	 * Gets the number and location of each door in the village.
+	 * 
+	 * @param 	village	An instance of the village this AI is running in.
+	 * 
+	 * @return	VillageDoorInfo object containing
+	 */
+	private VillageDoorInfo getDoorInfo(Village village)
 	{
 		VillageDoorInfo villagedoorinfo = null;
 		int i = Integer.MAX_VALUE;
-		List list = par1Village.getVillageDoorInfoList();
+		List list = village.getVillageDoorInfoList();
 		Iterator iterator = list.iterator();
 
 		while (iterator.hasNext())
@@ -162,10 +173,17 @@ public class EntityAIPatrolVillage extends EntityAIBase
 		return villagedoorinfo;
 	}
 
-	private boolean func_75413_a(VillageDoorInfo par1VillageDoorInfo)
+	/**
+	 * Unknown function.
+	 * 
+	 * @param 	villageDoorInfo	An instance of a VillageDoorInfo object.
+	 * 
+	 * @return	Unknown boolean.
+	 */
+	private boolean func_75413_a(VillageDoorInfo villageDoorInfo)
 	{
 		Iterator iterator = this.doorList.iterator();
-		VillageDoorInfo villagedoorinfo1;
+		VillageDoorInfo tempDoorInfo;
 
 		do
 		{
@@ -174,13 +192,16 @@ public class EntityAIPatrolVillage extends EntityAIBase
 				return false;
 			}
 
-			villagedoorinfo1 = (VillageDoorInfo)iterator.next();
+			tempDoorInfo = (VillageDoorInfo)iterator.next();
 		}
-		while (par1VillageDoorInfo.posX != villagedoorinfo1.posX || par1VillageDoorInfo.posY != villagedoorinfo1.posY || par1VillageDoorInfo.posZ != villagedoorinfo1.posZ);
+		while (villageDoorInfo.posX != tempDoorInfo.posX || villageDoorInfo.posY != tempDoorInfo.posY || villageDoorInfo.posZ != tempDoorInfo.posZ);
 
 		return true;
 	}
 
+	/**
+	 * Unknown purpose.
+	 */
 	private void removeNextDoor()
 	{
 		if (this.doorList.size() > 15)

@@ -380,27 +380,27 @@ public class ChoreFarming extends AbstractChore
 				{
 					if (f.getType().toString().contains("int"))
 					{
-						f.set(owner.farmingChore, (int)NBT.getInteger(f.getName()));
+						f.set(owner.farmingChore, NBT.getInteger(f.getName()));
 					}
 
 					else if (f.getType().toString().contains("double"))
 					{
-						f.set(owner.farmingChore, (double)NBT.getDouble(f.getName()));
+						f.set(owner.farmingChore, NBT.getDouble(f.getName()));
 					}
 
 					else if (f.getType().toString().contains("float"))
 					{
-						f.set(owner.farmingChore, (float)NBT.getFloat(f.getName()));
+						f.set(owner.farmingChore, NBT.getFloat(f.getName()));
 					}
 
 					else if (f.getType().toString().contains("String"))
 					{
-						f.set(owner.farmingChore, (String)NBT.getString(f.getName()));
+						f.set(owner.farmingChore, NBT.getString(f.getName()));
 					}
 
 					else if (f.getType().toString().contains("boolean"))
 					{
-						f.set(owner.farmingChore, (boolean)NBT.getBoolean(f.getName()));
+						f.set(owner.farmingChore, NBT.getBoolean(f.getName()));
 					}
 				}
 			}
@@ -432,7 +432,7 @@ public class ChoreFarming extends AbstractChore
 
 			else
 			{
-				if (farmlandIndex == MCA.instance.getFarmMap(areaX, seedType).length)
+				if (farmlandIndex == MCA.getFarmMap(areaX, seedType).length)
 				{
 					if (!owner.worldObj.isRemote)
 					{
@@ -482,7 +482,7 @@ public class ChoreFarming extends AbstractChore
 
 				else
 				{
-					String nextOperation = MCA.instance.getFarmMap(areaX, seedType)[farmlandIndex];
+					String nextOperation = MCA.getFarmMap(areaX, seedType)[farmlandIndex];
 
 					if (nextOperation.equals("S"))
 					{
@@ -551,6 +551,9 @@ public class ChoreFarming extends AbstractChore
 		}
 	}
 
+	/**
+	 * Runs logic used to maintain farms.
+	 */
 	private void runMaintainFarmLogic()
 	{
 		if (!hasAssignedPathToBlock)

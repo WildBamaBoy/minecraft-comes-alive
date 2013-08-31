@@ -138,7 +138,7 @@ public class GuiTombstone extends AbstractGui
 		GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
 		
 		//Then rotate according to orientation.
-		float rotationAngle = (float)(entityTombstone.getBlockMetadata() * 360) / 16F;
+		float rotationAngle = entityTombstone.getBlockMetadata() * 360 / 16F;
 		GL11.glRotatef(rotationAngle, 0.0F, 1.0F, 0.0F);
 
 		if ((updateCounter / 6) % 2 == 0)

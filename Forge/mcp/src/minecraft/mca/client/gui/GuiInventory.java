@@ -34,8 +34,6 @@ public class GuiInventory extends InventoryEffectRenderer
 	private static final ResourceLocation resourceLocation = new ResourceLocation("textures/gui/container/generic_54.png");
 
 	private AbstractEntity owner;
-	private IInventory playerInventory;
-	private IInventory entityInventory;
 	private GuiButton backButton;
 	private GuiButton exitButton;
 
@@ -59,9 +57,6 @@ public class GuiInventory extends InventoryEffectRenderer
 
 		owner = entity;
 		allowUserInput = false;
-
-		this.playerInventory = playerInventory;
-		this.entityInventory = entityInventory;
 		this.fromEditor = fromEditor;
 
 		char c = '\336';
@@ -96,7 +91,7 @@ public class GuiInventory extends InventoryEffectRenderer
 				{
 					if (owner.spousePlayerName.equals(Minecraft.getMinecraft().thePlayer.username))
 					{
-						Minecraft.getMinecraft().displayGuiScreen(new GuiInteractionSpouse((EntityVillagerAdult)owner, owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer)));
+						Minecraft.getMinecraft().displayGuiScreen(new GuiInteractionSpouse(owner, owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer)));
 					}
 					
 					else

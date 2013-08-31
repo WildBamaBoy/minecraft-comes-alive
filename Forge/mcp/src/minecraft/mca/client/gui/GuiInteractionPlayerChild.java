@@ -1010,6 +1010,12 @@ public class GuiInteractionPlayerChild extends AbstractGui
 				return;
 			}
 		}
+		
+		else if (button == growUpButton)
+		{
+			entityChild.playerApprovedGrowth = true;
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "playerApprovedGrowth", entityChild.playerApprovedGrowth));
+		}
 	}
 
 	/**

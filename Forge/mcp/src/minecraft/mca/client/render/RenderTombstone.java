@@ -11,7 +11,6 @@ package mca.client.render;
 
 import mca.client.model.ModelTombstone;
 import mca.tileentity.TileEntityTombstone;
-import net.minecraft.block.Block;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -49,7 +48,6 @@ public class RenderTombstone extends TileEntitySpecialRenderer
 	 */
 	public void renderTileEntityTombstoneAt(TileEntityTombstone tombstoneEntity, double posX, double posY, double posZ, float partialTickTime)
 	{
-		Block block = tombstoneEntity.getBlockType();
 		int meta = tombstoneEntity.getBlockMetadata();
 		float rotation = 0.0F;
 		
@@ -66,7 +64,7 @@ public class RenderTombstone extends TileEntitySpecialRenderer
 		//Orient the tombstone properly and give it a texture.
 		GL11.glTranslatef((float)posX + 0.5F, (float)posY + 1F, (float)posZ + 0.5F);
 		GL11.glRotatef(-rotation, 0.0F, 1.0F, 0.0F);
-		GL11.glTranslatef(0, (float)0.5F, 0);
+		GL11.glTranslatef(0, 0.5F, 0);
 		this.func_110628_a(texture);
 
 		GL11.glPushMatrix();

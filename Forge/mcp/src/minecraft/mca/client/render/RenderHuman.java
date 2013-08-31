@@ -43,14 +43,8 @@ public class RenderHuman extends RenderBiped
 {
 	private static final float labelScale = 0.027F;
 
-	private ModelBiped modelBipedMain;
 	private ModelBiped modelArmorChestplate;
 	private ModelBiped modelArmor;
-
-	private static final String armorFilenamePrefix[] =
-		{
-		"cloth", "chain", "iron", "diamond", "gold"
-		};
     
 	/**
 	 * Constructor
@@ -84,7 +78,7 @@ public class RenderHuman extends RenderBiped
 	@Override
 	public void doRenderLiving(EntityLiving entityLiving, double posX, double posY, double posZ, float rotationYaw, float rotationPitch)
 	{
-		renderHuman((AbstractEntity)entityLiving, posX, posY, posZ, rotationYaw, rotationPitch);
+		renderHuman(entityLiving, posX, posY, posZ, rotationYaw, rotationPitch);
 	}
 
 	@Override
@@ -269,9 +263,9 @@ public class RenderHuman extends RenderBiped
 					{
 						int armorColor = itemArmor.getColor(itemStack);
 						
-						float colorRed = (float)(armorColor >> 16 & 255) / 255.0F;
-						float colorGreen = (float)(armorColor >> 8 & 255) / 255.0F;
-						float colorBlue = (float)(armorColor & 255) / 255.0F;
+						float colorRed = (armorColor >> 16 & 255) / 255.0F;
+						float colorGreen = (armorColor >> 8 & 255) / 255.0F;
+						float colorBlue = (armorColor & 255) / 255.0F;
 
 						GL11.glColor3f(colorRed, colorGreen, colorBlue);
 
@@ -344,7 +338,7 @@ public class RenderHuman extends RenderBiped
 			}
 
 			this.modelArmorChestplate.isSneak = this.modelArmor.isSneak = this.modelBipedMain.isSneak = entity.isSneaking();
-			double posYCorrection = posY - (double)entity.yOffset;
+			double posYCorrection = posY - entity.yOffset;
 
 			if (entity.isSneaking() && !(entity instanceof EntityPlayerSP))
 			{
@@ -455,32 +449,6 @@ public class RenderHuman extends RenderBiped
 	}
 
 	/**
-	 * Rotates a human based on if they are sleeping or not.
-	 * 
-	 * @param 	entity	The entity being rotated.
-	 * @param 	posX	The entity's x position.
-	 * @param 	posY	The entity's y position.
-	 * @param 	posZ	The entity's z position.
-	 */
-	private void rotateHuman(AbstractEntity entity, float posX, float posY, float posZ)
-	{
-		super.rotateCorpse(entity, posX, posY, posZ);
-	}
-
-	/**
-	 * Renders the human as if they are asleep.
-	 * 
-	 * @param 	entity	The entity being rendered.
-	 * @param 	posX	The entity's x position.
-	 * @param 	posY	The entity's y position.
-	 * @param 	posZ	The entity's z position.
-	 */
-	private void renderHumanSleep(AbstractEntity entity, double posX, double posY, double posZ)
-	{
-		super.renderLivingAt(entity, posX, posY, posZ);
-	}
-
-	/**
 	 * Renders a label above an entity's head.
 	 * 
 	 * @param 	abstractEntity	The entity that the label should be rendered on.
@@ -491,9 +459,6 @@ public class RenderHuman extends RenderBiped
 	 */
 	private void renderLabel(AbstractEntity abstractEntity, double posX, double posY, double posZ, String labelText)
 	{
-		float distanceToEntity = abstractEntity.getDistanceToEntity(renderManager.livingPlayer);
-		float maxRenderDistance = abstractEntity.isSneaking() ? 32F : 64F;
-
 		if (!abstractEntity.isSneaking())
 		{
 			renderLivingLabel(abstractEntity, labelText, posX, posY, posZ, 64);

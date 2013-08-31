@@ -36,18 +36,6 @@ public class CommandMarryDecline extends AbstractCommand
 	@Override
 	public void processCommand(ICommandSender sender, String[] arguments) 
 	{
-		//Find the sender.
-		EntityPlayer player = null;
-
-		for (WorldServer world : MinecraftServer.getServer().worldServers)
-		{
-			if (world.getPlayerEntityByName(sender.getCommandSenderName()) != null)
-			{
-				player = world.getPlayerEntityByName(sender.getCommandSenderName());
-				break;
-			}
-		}
-
 		if (arguments.length == 1)
 		{
 			//Ensure that the provided player has asked to marry this person.
@@ -77,7 +65,7 @@ public class CommandMarryDecline extends AbstractCommand
 					if (recipient != null)
 					{
 						//Notify the recipient that the other player declined.
-						super.sendChatToOtherPlayer(sender, (EntityPlayer)recipient, "multiplayer.command.output.marry.decline", null, null);
+						super.sendChatToOtherPlayer(sender, recipient, "multiplayer.command.output.marry.decline", null, null);
 						MCA.instance.marriageRequests.remove(sender.getCommandSenderName());
 					}
 

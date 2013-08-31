@@ -29,7 +29,13 @@ public enum EnumTrait
 	private String value;
 	private int id;
 	
-	EnumTrait(String value, int id)
+	/**
+	 * Constructor
+	 * 
+	 * @param 	value	The trait's ID within the language files.
+	 * @param 	id		The trait's numeric ID.
+	 */
+	private EnumTrait(String value, int id)
 	{
 		this.value = value;
 		this.id = id;

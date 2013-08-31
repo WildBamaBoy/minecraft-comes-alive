@@ -107,7 +107,7 @@ public class CommandMarry extends AbstractCommand
 				//Send the request to the other player and add the request to server's request map only if the sender isn't blocked.
 				if (!manager.worldProperties.blockList.contains(senderName) && !manager.worldProperties.blockMarriageRequests)
 				{
-					super.sendChatToOtherPlayer(sender, (EntityPlayer)recipientEntity, "multiplayer.command.output.marry.request", null, null);
+					super.sendChatToOtherPlayer(sender, recipientEntity, "multiplayer.command.output.marry.request", null, null);
 					MCA.instance.marriageRequests.put(senderName, recipientName);
 				}
 			}

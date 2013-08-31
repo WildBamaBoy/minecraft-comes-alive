@@ -302,7 +302,7 @@ public class ChoreWoodcutting extends AbstractChore
 			if (!(owner.getDistance(treeCoordinatesX, owner.posY, treeCoordinatesZ) <= 2.5))
 			{
 				//Set their path.
-				owner.faceCoordinates(owner, treeCoordinatesX, treeCoordinatesY, treeCoordinatesZ);
+				AbstractEntity.faceCoordinates(owner, treeCoordinatesX, treeCoordinatesY, treeCoordinatesZ);
 
 				if (!owner.worldObj.isRemote)
 				{
@@ -363,7 +363,7 @@ public class ChoreWoodcutting extends AbstractChore
 					//It's not time to remove the log, swing the axe and increment ticks.
 					else
 					{
-						owner.faceCoordinates(owner, currentLogCoordinatesX, currentLogCoordinatesY, currentLogCoordinatesZ);
+						AbstractEntity.faceCoordinates(owner, currentLogCoordinatesX, currentLogCoordinatesY, currentLogCoordinatesZ);
 						owner.swingItem();
 						treeCutTicks++;
 					}
