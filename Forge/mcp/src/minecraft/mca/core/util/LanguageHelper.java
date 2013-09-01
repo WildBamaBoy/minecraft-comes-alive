@@ -80,7 +80,7 @@ public final class LanguageHelper
 			//Loop through each item in the properties instance.
 			for (Map.Entry<Object, Object> entrySet : properties.entrySet())
 			{
-				//OMIT will make the langauge loader skip that phrase. This is only used for names.
+				//OMIT will make the language loader skip that phrase.
 				if (!entrySet.getValue().toString().toUpperCase().equals("OMIT"))
 				{
 					if (entrySet.getKey().toString().contains("name.male"))

@@ -1267,6 +1267,10 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(9) + 3)) + heartsModifier);
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
 		}
+		
+		memory.interactionFatigue++;
+		playerMemoryMap.put(player.username, memory);
+		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 	}
 
 	/**
@@ -1312,6 +1316,10 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(3) + 3)) + heartsModifier);
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
 		}
+		
+		memory.interactionFatigue++;
+		playerMemoryMap.put(player.username, memory);
+		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 	}
 
 	/**
@@ -1354,6 +1362,10 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(9) + 3)) + heartsModifier);
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
 		}
+		
+		memory.interactionFatigue++;
+		playerMemoryMap.put(player.username, memory);
+		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 	}
 
 	/**
@@ -1396,6 +1408,10 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(6) + 6)) + heartsModifier);
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
 		}
+		
+		memory.interactionFatigue++;
+		playerMemoryMap.put(player.username, memory);
+		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 	}
 
 	/**
@@ -1446,6 +1462,10 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(8) + 4)) + heartsModifier);
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
 		}
+		
+		memory.interactionFatigue++;
+		playerMemoryMap.put(player.username, memory);
+		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 	}
 
 	/**
@@ -1502,6 +1522,10 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(16) + 6)) + heartsModifier);
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()));
 		}
+		
+		memory.interactionFatigue++;
+		playerMemoryMap.put(player.username, memory);
+		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 	}
 
 	/**
