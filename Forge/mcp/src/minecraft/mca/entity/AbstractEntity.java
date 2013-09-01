@@ -963,9 +963,19 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		isInChoreMode = false;
 		currentChore = "";
 
-		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isInChoreMode", isInChoreMode));
-		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "currentChore", currentChore));
-		PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityId, chore));
+		if (!worldObj.isRemote)
+		{
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isInChoreMode", isInChoreMode));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "currentChore", currentChore));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityId, chore));
+		}
+		
+		else
+		{
+			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "isInChoreMode", isInChoreMode));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "currentChore", currentChore));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createChorePacket(entityId, chore));
+		}
 	}
 
 	/**
