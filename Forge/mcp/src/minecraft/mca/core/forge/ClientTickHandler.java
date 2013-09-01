@@ -335,10 +335,13 @@ public class ClientTickHandler implements ITickHandler
 				}
 			}
 
-			if (manager.worldProperties.isMonarch)
+			if (manager != null)
 			{
-				manager.worldProperties.isMonarch = false;
-				manager.saveWorldProperties();
+				if (manager.worldProperties.isMonarch)
+				{
+					manager.worldProperties.isMonarch = false;
+					manager.saveWorldProperties();
+				}
 			}
 
 			if (Minecraft.getMinecraft().theWorld.getWorldInfo().isHardcoreModeEnabled())
