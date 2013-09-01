@@ -631,7 +631,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 			isSleeping = false;
 			idleTicks = 0;
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "idleTicks", idleTicks));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "idleTicks", idleTicks));
 			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "isSleeping", false));
 		}
 	}
