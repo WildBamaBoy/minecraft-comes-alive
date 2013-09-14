@@ -1502,7 +1502,12 @@ public class EntityVillagerAdult extends AbstractEntity
 					if (!worldObj.isRemote)
 					{
 						say(LanguageHelper.getString(this, "spouse.divorce", false));
-						this.dropItem(MCA.instance.itemWeddingRing.itemID, 1);
+						
+						if (!marriageToPlayerWasArranged)
+						{
+							this.dropItem(MCA.instance.itemWeddingRing.itemID, 1);
+						}
+						
 						inventory.dropAllItems();
 					}
 				}
