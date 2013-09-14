@@ -1435,7 +1435,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		}
 
 		//Base 10% chance of success.
-		flirtWasGood = getBooleanWithProbability(30 + chanceModifier);
+		flirtWasGood = getBooleanWithProbability(10 + chanceModifier);
 
 		if (flirtWasGood)
 		{

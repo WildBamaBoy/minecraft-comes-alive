@@ -23,7 +23,9 @@ import mca.core.util.PacketHelper;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
+import mca.enums.EnumMood;
 import mca.enums.EnumRelation;
+import mca.enums.EnumTrait;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -112,7 +114,6 @@ public class GuiInteractionPlayerChild extends AbstractGui
 	//Hunting buttons
 	private GuiButton huntModeButton;
 
-	private boolean inInteractionSelectGui = false;
 	private boolean inChoreSelectGui = false;
 	private boolean inFarmingGui = false;
 	private boolean inFishingGui = false;
@@ -392,6 +393,49 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			}
 		}
 
+		if (displaySuccessChance)
+		{
+			PlayerMemory memory = entityChild.playerMemoryMap.get(player.username);
+			EnumMood mood = entityChild.mood;
+			EnumTrait trait = entityChild.trait;
+
+			int chatChance = 65 + -(memory.interactionFatigue * 7) + mood.getChanceModifier("chat") + trait.getChanceModifier("chat");
+			int jokeChance = 65 + -(memory.interactionFatigue * 7) + mood.getChanceModifier("joke") + trait.getChanceModifier("joke");
+			int greetChance = 90 + -(memory.interactionFatigue * 20) + mood.getChanceModifier("greeting") + trait.getChanceModifier("greeting");
+			int tellStoryChance = 65 + -(memory.interactionFatigue * 7) + mood.getChanceModifier("story") + trait.getChanceModifier("story");
+			int playChance = 65 + -(memory.interactionFatigue * 7) + mood.getChanceModifier("play") + trait.getChanceModifier("play");
+
+			int kissModify = memory.hearts > 75 ? 75 : -25;
+			int flirtModify = memory.hearts > 50 ? 35 : 0;
+			int kissChance = 10 + kissModify + -(memory.interactionFatigue * 10) + mood.getChanceModifier("kiss") + trait.getChanceModifier("kiss");
+			int flirtChance = 10 + flirtModify + -(memory.interactionFatigue * 7) + mood.getChanceModifier("flirt") + trait.getChanceModifier("flirt");
+
+			//Limit highs to 100 and lows to 0.
+			chatChance 		= chatChance 		< 0 ? 0 : chatChance 		> 100 ? 100 : chatChance;
+			jokeChance 		= jokeChance 		< 0 ? 0 : jokeChance 		> 100 ? 100 : jokeChance;
+			greetChance 	= greetChance 		< 0 ? 0 : greetChance 		> 100 ? 100 : greetChance;
+			tellStoryChance = tellStoryChance 	< 0 ? 0 : tellStoryChance 	> 100 ? 100 : tellStoryChance;
+			kissChance 		= kissChance 		< 0 ? 0 : kissChance		> 100 ? 100 : kissChance;
+			flirtChance 	= flirtChance 		< 0 ? 0 : flirtChance		> 100 ? 100 : flirtChance;
+
+			drawCenteredString(fontRenderer, chatButton.displayString + ": " + chatChance + "%", width / 2 - 70, 95, 0xffffff);
+			drawCenteredString(fontRenderer, jokeButton.displayString + ": " + jokeChance + "%", width / 2 - 70, 110, 0xffffff);
+			drawCenteredString(fontRenderer, giftButton.displayString + ": " + "100" + "%", width / 2 - 70, 125, 0xffffff);
+			drawCenteredString(fontRenderer, greetButton.displayString + ": " + greetChance + "%", width / 2, 95, 0xffffff);
+			drawCenteredString(fontRenderer, tellStoryButton.displayString + ": " + tellStoryChance + "%", width / 2, 110, 0xffffff);
+
+			//Kiss and flirt buttons will not be assigned for relatives of the player and children.
+			if (kissButton != null)
+			{
+				drawCenteredString(fontRenderer, kissButton.displayString + ": " + kissChance + "%", width / 2 + 70, 95, 0xffffff);
+				drawCenteredString(fontRenderer, flirtButton.displayString + ": " + flirtChance + "%", width / 2 + 70, 110, 0xffffff);
+			}
+
+			if (playButton != null)
+			{
+				drawCenteredString(fontRenderer, playButton.displayString + ": " + playChance + "%", width / 2 + 70, 95, 0xffffff);
+			}
+		}
 		super.drawScreen(i, j, f);
 	}
 
@@ -407,6 +451,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		inCombatGui = false;
 		inWoodcuttingGui = false;
 		inMiningGui = false;
+		displaySuccessChance = false;
 
 		buttonList.clear();
 
@@ -443,7 +488,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		if (entityChild.familyTree.getEntitiesWithRelation(EnumRelation.Parent).contains(MCA.instance.getIdOfPlayer(player)) && entityChild.shouldActAsHeir)
 		{
 			buttonList.add(requestCrownButton = new GuiButton(9, width / 2 + 5, height / 2 - 20, 120, 20, LanguageHelper.getString("heir.gui.requestcrown")));
-			
+
 			if (!entityChild.hasReturnedInventory)
 			{
 				buttonList.add(recoverInventoryButton = new GuiButton(10, width / 2 - 125, height / 2 - 20, 120, 20, LanguageHelper.getString("heir.gui.recoverinventory")));
@@ -464,7 +509,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		if (entityChild.isInChoreMode) choresButton.displayString = LanguageHelper.getString("gui.button.child.stopchore");
 		if (entityChild.isFollowing) followButton.displayString = LanguageHelper.getString("gui.button.interact.followstop");
 		if (entityChild.isStaying)   stayButton.displayString = LanguageHelper.getString("gui.button.interact.staystop");
-		
+
 		if (entityChild.isSpouse)
 		{
 			inventoryButton.enabled = false;
@@ -477,30 +522,20 @@ public class GuiInteractionPlayerChild extends AbstractGui
 	/**
 	 * Draws the GUI containing all interactions.
 	 */
-	private void drawInteractionGui()
+	protected void drawInteractionGui()
 	{
 		buttonList.clear();
 
 		inInteractionSelectGui = true;
 
-		if (entityChild.isSpouse && entityChild.spousePlayerName.equals(player.username))
-		{
-			buttonList.add(chatButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.chat")));
-			buttonList.add(jokeButton = new GuiButton(2, width / 2 - 90, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.joke")));
-			buttonList.add(giftButton = new GuiButton(3, width / 2 - 90, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.gift")));
-			buttonList.add(greetButton = new GuiButton(4, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.greet")));
-			buttonList.add(tellStoryButton = new GuiButton(5, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.tellstory")));
-			buttonList.add(kissButton = new GuiButton(6, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.kiss")));
-			buttonList.add(flirtButton = new GuiButton(7, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.flirt")));
-		}
+		buttonList.add(chatButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.chat")));
+		buttonList.add(jokeButton = new GuiButton(2, width / 2 - 90, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.joke")));
+		buttonList.add(giftButton = new GuiButton(3, width / 2 - 90, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.gift")));
+		buttonList.add(greetButton = new GuiButton(4, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.greet")));
+		buttonList.add(tellStoryButton = new GuiButton(5, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.tellstory")));
 
-		else
+		if (!entityChild.isAdult)
 		{
-			buttonList.add(chatButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.chat")));
-			buttonList.add(jokeButton = new GuiButton(2, width / 2 - 90, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.joke")));
-			buttonList.add(giftButton = new GuiButton(3, width / 2 - 90, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.gift")));
-			buttonList.add(greetButton = new GuiButton(4, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.greet")));
-			buttonList.add(tellStoryButton = new GuiButton(5, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.tellstory")));
 			buttonList.add(playButton = new GuiButton(6, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.play"))); 
 		}
 
@@ -872,7 +907,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			entityChild.isStaying = !entityChild.isStaying;
 			entityChild.isFollowing = false;
 			entityChild.idleTicks = 0;
-			
+
 			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isStaying", entityChild.isStaying));
 			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isFollowing", false));
 			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "idleTicks", 0));
@@ -1010,7 +1045,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 				return;
 			}
 		}
-		
+
 		else if (button == growUpButton)
 		{
 			entityChild.playerApprovedGrowth = true;

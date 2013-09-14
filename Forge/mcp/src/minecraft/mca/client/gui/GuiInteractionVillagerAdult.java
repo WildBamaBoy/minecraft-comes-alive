@@ -26,7 +26,9 @@ import mca.core.util.PacketHelper;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityVillagerAdult;
+import mca.enums.EnumMood;
 import mca.enums.EnumRelation;
+import mca.enums.EnumTrait;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
@@ -148,7 +150,6 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private GuiButton exitButton;
 
 	private int hiringHours = 1;
-	private boolean inInteractionSelectGui = false;
 	private boolean inFarmingGui = false;
 	private boolean inFishingGui = false;
 	private boolean inCombatGui = false;
@@ -496,6 +497,44 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 					hireButton.enabled = false;
 				}
 			}
+			
+			if (displaySuccessChance)
+			{
+				PlayerMemory memory = entityVillager.playerMemoryMap.get(player.username);
+				EnumMood mood = entityVillager.mood;
+				EnumTrait trait = entityVillager.trait;
+				
+				int chatChance = 65 + -(memory.interactionFatigue * 7) + mood.getChanceModifier("chat") + trait.getChanceModifier("chat");
+				int jokeChance = 65 + -(memory.interactionFatigue * 7) + mood.getChanceModifier("joke") + trait.getChanceModifier("joke");
+				int greetChance = 90 + -(memory.interactionFatigue * 20) + mood.getChanceModifier("greeting") + trait.getChanceModifier("greeting");
+				int tellStoryChance = 65 + -(memory.interactionFatigue * 7) + mood.getChanceModifier("story") + trait.getChanceModifier("story");
+			
+				int kissModify = memory.hearts > 75 ? 75 : -25;
+				int flirtModify = memory.hearts > 50 ? 35 : 0;
+				int kissChance = 10 + kissModify + -(memory.interactionFatigue * 10) + mood.getChanceModifier("kiss") + trait.getChanceModifier("kiss");
+				int flirtChance = 10 + flirtModify + -(memory.interactionFatigue * 7) + mood.getChanceModifier("flirt") + trait.getChanceModifier("flirt");
+		
+				//Limit highs to 100 and lows to 0.
+				chatChance 		= chatChance 		< 0 ? 0 : chatChance 		> 100 ? 100 : chatChance;
+				jokeChance 		= jokeChance 		< 0 ? 0 : jokeChance 		> 100 ? 100 : jokeChance;
+				greetChance 	= greetChance 		< 0 ? 0 : greetChance 		> 100 ? 100 : greetChance;
+				tellStoryChance = tellStoryChance 	< 0 ? 0 : tellStoryChance 	> 100 ? 100 : tellStoryChance;
+				kissChance 		= kissChance 		< 0 ? 0 : kissChance		> 100 ? 100 : kissChance;
+				flirtChance 	= flirtChance 		< 0 ? 0 : flirtChance		> 100 ? 100 : flirtChance;
+				
+				drawCenteredString(fontRenderer, chatButton.displayString + ": " + chatChance + "%", width / 2 - 70, 95, 0xffffff);
+				drawCenteredString(fontRenderer, jokeButton.displayString + ": " + jokeChance + "%", width / 2 - 70, 110, 0xffffff);
+				drawCenteredString(fontRenderer, giftButton.displayString + ": " + "100" + "%", width / 2 - 70, 125, 0xffffff);
+				drawCenteredString(fontRenderer, greetButton.displayString + ": " + greetChance + "%", width / 2, 95, 0xffffff);
+				drawCenteredString(fontRenderer, tellStoryButton.displayString + ": " + tellStoryChance + "%", width / 2, 110, 0xffffff);
+				
+				//Kiss and flirt buttons will not be assigned for relatives of the player and children.
+				if (kissButton != null)
+				{
+					drawCenteredString(fontRenderer, kissButton.displayString + ": " + kissChance + "%", width / 2 + 70, 95, 0xffffff);
+					drawCenteredString(fontRenderer, flirtButton.displayString + ": " + flirtChance + "%", width / 2 + 70, 110, 0xffffff);
+				}
+			}
 		}
 
 		super.drawScreen(i, j, f);
@@ -513,7 +552,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		inCombatGui = false;
 		inMonarchGui = false;
 		inInteractionSelectGui = false;
-
+		displaySuccessChance = false;
+		
 		buttonList.add(interactButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.interact")));
 		buttonList.add(followButton  = new GuiButton(2, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
 		buttonList.add(stayButton    = new GuiButton(3, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
@@ -560,7 +600,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/**
 	 * Draws the GUI containing all interactions.
 	 */
-	private void drawInteractionGui()
+	@Override
+	protected void drawInteractionGui()
 	{
 		buttonList.clear();
 

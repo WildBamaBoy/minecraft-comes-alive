@@ -9,6 +9,9 @@
 
 package mca.client.gui;
 
+import org.lwjgl.input.Keyboard;
+
+import mca.core.MCA;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,6 +30,11 @@ public abstract class AbstractGui extends GuiScreen
 	/** An instance of the player that opened this GUI. */
 	protected EntityPlayer player;
 	
+	/** Should an interaction's success chance be displayed? */
+	protected boolean displaySuccessChance;
+	
+	protected boolean inInteractionSelectGui;
+	
 	/**
 	 * Constructor
 	 * 
@@ -35,6 +43,8 @@ public abstract class AbstractGui extends GuiScreen
 	public AbstractGui(EntityPlayer player)
 	{
 		this.player = player;
+		this.displaySuccessChance = false;
+		this.inInteractionSelectGui = false;
 	}
 
 	/**
@@ -59,5 +69,20 @@ public abstract class AbstractGui extends GuiScreen
 	public void close()
 	{
 		Minecraft.getMinecraft().displayGuiScreen(null);
+	}
+
+	@Override
+	protected void keyTyped(char eventCharacter, int eventKey)
+	{
+		if ((eventKey == Keyboard.KEY_LCONTROL || eventKey == Keyboard.KEY_RCONTROL) && inInteractionSelectGui)
+		{
+			displaySuccessChance = !displaySuccessChance;
+			drawInteractionGui();
+		}
+	}
+	
+	protected void drawInteractionGui()
+	{
+		return;
 	}
 }
