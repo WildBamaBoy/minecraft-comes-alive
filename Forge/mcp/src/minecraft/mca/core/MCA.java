@@ -35,6 +35,7 @@ import mca.command.CommandBlock;
 import mca.command.CommandBlockAll;
 import mca.command.CommandCheckUpdates;
 import mca.command.CommandDebugMode;
+import mca.command.CommandDebugRule;
 import mca.command.CommandDivorce;
 import mca.command.CommandHaveBaby;
 import mca.command.CommandHaveBabyAccept;
@@ -201,7 +202,6 @@ public class MCA
 	//Various fields for core functions.
 	public  String 	runningDirectory           = "";
 	public  boolean languageLoaded 			   = false;
-	public  boolean inDebugMode				   = false;
 	public	boolean	hasLoadedProperties		   = false;
 	public 	boolean hasCompletedMainMenuTick   = false;
 	public  boolean hasEmptiedPropertiesFolder = false;
@@ -212,11 +212,19 @@ public class MCA
 	public  ModPropertiesManager modPropertiesManager = null;
 	public  Random  rand = new Random();
 
+	//Debug fields.
+	public boolean inDebugMode				   		= false;
+	public boolean debugDoSimulateHardcore 			= false;
+	public boolean debugDoRapidVillagerBabyGrowth 	= false;
+	public boolean debugDoRapidVillagerChildGrowth 	= false;
+	public boolean debugDoRapidPlayerChildGrowth 	= false;
+	public boolean debugDoLogPackets 				= false;
+	
 	//Side related fields.
-	public boolean isDedicatedServer 			= false;
-	public boolean isIntegratedServer			= false;
-	public boolean isIntegratedClient			= false;
-	public boolean isDedicatedClient			= false;
+	public boolean isDedicatedServer 	= false;
+	public boolean isIntegratedServer	= false;
+	public boolean isIntegratedClient	= false;
+	public boolean isDedicatedClient	= false;
 
 	//World-specific fields.
 	public boolean hasNotifiedOfBabyReadyToGrow = false;
@@ -1100,13 +1108,13 @@ public class MCA
 	}
 
 	/**
-	 * Writes the specified object's string representation to System.out.
+	 * Logs information about the provided packet.
 	 * 
 	 * @param 	obj	The object to write to System.out.
 	 */
-	public void logDebug(Object obj)
+	public void logPacketInformation(Object obj)
 	{
-		if (inDebugMode)
+		if (inDebugMode && debugDoLogPackets)
 		{
 			Side side = FMLCommonHandler.instance().getEffectiveSide();
 
@@ -1182,6 +1190,7 @@ public class MCA
 		event.registerServerCommand(new CommandUnblock());
 		event.registerServerCommand(new CommandUnblockAll());
 		event.registerServerCommand(new CommandCheckUpdates());
+		event.registerServerCommand(new CommandDebugRule());
 		
 		if (event.getServer() instanceof DedicatedServer)
 		{

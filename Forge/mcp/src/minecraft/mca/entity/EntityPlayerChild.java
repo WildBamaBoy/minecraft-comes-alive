@@ -250,7 +250,7 @@ public class EntityPlayerChild extends EntityChild
 	public void onUpdate()
 	{
 		super.onUpdate();
-
+		
 		if (!isAdult)
 		{
 			updateGrowth();
@@ -318,7 +318,15 @@ public class EntityPlayerChild extends EntityChild
 
 				else
 				{
-					player.openGui(MCA.instance, MCA.instance.guiInteractionVillagerChildID, worldObj, (int)posX, (int)posY, (int)posZ);
+					if (!isAdult && !isMarried && !isSpouse)
+					{
+						player.openGui(MCA.instance, MCA.instance.guiInteractionVillagerChildID, worldObj, (int)posX, (int)posY, (int)posZ);
+					}
+					
+					else
+					{
+						player.openGui(MCA.instance, MCA.instance.guiInteractionVillagerAdultID, worldObj, (int)posX, (int)posY, (int)posZ);
+					}
 				}
 			}
 
@@ -1097,12 +1105,12 @@ public class EntityPlayerChild extends EntityChild
 	private void updateBabyGrowth()
 	{
 		//Check for debug.
-		if (MCA.instance.inDebugMode && !heldBabyGender.equals("None"))
+		if (MCA.instance.inDebugMode && MCA.instance.debugDoRapidVillagerBabyGrowth && !heldBabyGender.equals("None") && this.hasBaby)
 		{
 			heldBabyAge++;
 		}
 
-		if (!heldBabyGender.equals("None"))
+		if (!heldBabyGender.equals("None") && this.hasBaby)
 		{
 			//Get the current minutes from the system.
 			villagerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
@@ -1118,7 +1126,6 @@ public class EntityPlayerChild extends EntityChild
 			//It's time for the baby to grow.
 			if (heldBabyAge >= MCA.instance.modPropertiesManager.modProperties.babyGrowUpTimeMinutes)
 			{
-				//Reset baby information.
 				shouldSpawnBaby = true;
 			}
 		}
@@ -1130,7 +1137,7 @@ public class EntityPlayerChild extends EntityChild
 
 			child.familyTree.addFamilyTreeEntry(this, EnumRelation.Parent);
 			child.familyTree.addFamilyTreeEntry(this.familyTree.getInstanceOfRelative(EnumRelation.Spouse), EnumRelation.Parent);
-
+			
 			for (int i : familyTree.getListOfPlayers())
 			{
 				child.familyTree.addFamilyTreeEntry(i, EnumRelation.Grandparent);
@@ -1183,8 +1190,12 @@ public class EntityPlayerChild extends EntityChild
 			AbstractEntity spouse = familyTree.getInstanceOfRelative(EnumRelation.Spouse);
 
 			isJumping = true;
-			faceEntity(spouse, 0.5F, 0.5F);
-
+			
+			if (spouse != null)
+			{
+				faceEntity(spouse, 0.5F, 0.5F);
+			}
+			
 			motionX = 0.0D;
 			motionZ = 0.0D;
 

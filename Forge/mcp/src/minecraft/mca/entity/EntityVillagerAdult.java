@@ -160,8 +160,6 @@ public class EntityVillagerAdult extends AbstractEntity
 		this.name = getRandomName(gender);
 		this.gender = gender;
 		this.setTexture();
-
-		MCA.instance.logDebug("Created new EntityVillagerAdult: " + name + ", " + gender + ", " + texture);
 	}
 
 	/**
@@ -1200,7 +1198,7 @@ public class EntityVillagerAdult extends AbstractEntity
 	private void updateBabyGrowth()
 	{
 		//Check for debug.
-		if (MCA.instance.inDebugMode && !heldBabyGender.equals("None") && this.hasBaby)
+		if (MCA.instance.inDebugMode && MCA.instance.debugDoRapidVillagerBabyGrowth && !heldBabyGender.equals("None") && this.hasBaby)
 		{
 			heldBabyAge++;
 		}
@@ -1332,8 +1330,12 @@ public class EntityVillagerAdult extends AbstractEntity
 			AbstractEntity spouse = familyTree.getInstanceOfRelative(EnumRelation.Spouse);
 
 			isJumping = true;
-			faceEntity(spouse, 0.5F, 0.5F);
-
+			
+			if (spouse != null)
+			{
+				faceEntity(spouse, 0.5F, 0.5F);
+			}
+			
 			motionX = 0.0D;
 			motionZ = 0.0D;
 

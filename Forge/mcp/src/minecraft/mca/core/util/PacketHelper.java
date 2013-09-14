@@ -56,7 +56,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
@@ -93,7 +93,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
@@ -128,7 +128,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
@@ -167,7 +167,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
@@ -202,7 +202,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
@@ -237,7 +237,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
@@ -270,7 +270,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
@@ -303,7 +303,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
@@ -338,7 +338,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
@@ -373,7 +373,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
@@ -410,7 +410,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
@@ -445,7 +445,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
@@ -480,7 +480,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
@@ -519,7 +519,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
@@ -554,7 +554,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
@@ -593,7 +593,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
@@ -626,7 +626,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
@@ -659,7 +659,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
@@ -692,8 +692,8 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logDebug("Created world properties packet for " + worldPropertiesManager.worldProperties.playerName);
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Created world properties packet for " + worldPropertiesManager.worldProperties.playerName);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
@@ -774,7 +774,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 		
@@ -812,7 +812,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 		
@@ -848,7 +848,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 		
@@ -882,7 +882,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 		
@@ -916,7 +916,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 		
@@ -956,7 +956,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 		
@@ -994,7 +994,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 		
@@ -1028,7 +1028,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 		
@@ -1062,7 +1062,7 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
-			MCA.instance.logDebug("Sent packet: " + thePacket.channel);
+			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 		

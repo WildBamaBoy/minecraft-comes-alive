@@ -25,6 +25,7 @@ import mca.core.util.LogicHelper;
 import mca.core.util.PacketHelper;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
+import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
 import mca.enums.EnumMood;
 import mca.enums.EnumRelation;
@@ -46,7 +47,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class GuiInteractionVillagerAdult extends AbstractGui 
 {
 	/** An instance of the villager. */
-	private EntityVillagerAdult entityVillager;
+	private AbstractEntity entityVillager;
 
 	/** Hearts value for the player. */
 	int hearts;
@@ -202,7 +203,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 * @param 	entity	The entity that is being interacted with.
 	 * @param   player	The player interacting with the entity.
 	 */
-	public GuiInteractionVillagerAdult(EntityVillagerAdult entity, EntityPlayer player)
+	public GuiInteractionVillagerAdult(AbstractEntity entity, EntityPlayer player)
 	{
 		super(player);
 		entityVillager = entity;
@@ -378,6 +379,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			 **********************************/
 			//Check if they have a spouse...
 			AbstractEntity spouse = entityVillager.familyTree.getInstanceOfRelative(EnumRelation.Spouse);
+
 			if (spouse != null)
 			{
 				//If they have a villager spouse and the player is related, then draw (Married to %SpouseRelation% %SpouseName%.)
@@ -558,9 +560,13 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		buttonList.add(followButton  = new GuiButton(2, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
 		buttonList.add(stayButton    = new GuiButton(3, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
 		buttonList.add(setHomeButton = new GuiButton(4, width / 2 - 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.sethome")));
-		buttonList.add(specialButton = new GuiButton(5, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.special")));
 
-		if (entityVillager.getProfession() != 5)
+		if (!(entityVillager instanceof EntityPlayerChild))
+		{
+			buttonList.add(specialButton = new GuiButton(5, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.special")));
+		}
+		
+		if (entityVillager.getProfession() != 5 && !(entityVillager instanceof EntityPlayerChild))
 		{
 			buttonList.add(tradeButton = new GuiButton(8, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.trade")));
 		}
@@ -1343,7 +1349,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			if (entityVillager.isEntityAlive() && !entityVillager.isTrading())
 			{
-				PacketDispatcher.sendPacketToServer(PacketHelper.createTradePacket(entityVillager));
+				PacketDispatcher.sendPacketToServer(PacketHelper.createTradePacket((EntityVillagerAdult)entityVillager));
 				close();
 			}
 		}
@@ -1713,11 +1719,13 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void actionPerformedBaker(GuiButton button) 
 	{
+		EntityVillagerAdult villager = (EntityVillagerAdult)entityVillager;
+		
 		if (button == requestAidButton)
 		{
-			if (entityVillager.aidCooldown != 0)
+			if (villager.aidCooldown != 0)
 			{
-				entityVillager.say(LanguageHelper.getString("baker.aid.refuse"));
+				villager.say(LanguageHelper.getString("baker.aid.refuse"));
 			}
 
 			else
@@ -1725,21 +1733,21 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				if (AbstractEntity.getBooleanWithProbability(80))
 				{
 					Object[] giftInfo = null;
-					giftInfo = MCA.bakerAidIDs[entityVillager.worldObj.rand.nextInt(MCA.bakerAidIDs.length)];
-					int quantityGiven = entityVillager.worldObj.rand.nextInt(Integer.parseInt(giftInfo[2].toString())) + Integer.parseInt(giftInfo[1].toString());
+					giftInfo = MCA.bakerAidIDs[villager.worldObj.rand.nextInt(MCA.bakerAidIDs.length)];
+					int quantityGiven = villager.worldObj.rand.nextInt(Integer.parseInt(giftInfo[2].toString())) + Integer.parseInt(giftInfo[1].toString());
 
 
-					PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(entityVillager.entityId, Integer.parseInt(giftInfo[0].toString()), quantityGiven));
-					entityVillager.say(LanguageHelper.getString("baker.aid.accept"));
-					entityVillager.aidCooldown = 12000;
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "aidCooldown", 12000));
+					PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(villager.entityId, Integer.parseInt(giftInfo[0].toString()), quantityGiven));
+					villager.say(LanguageHelper.getString("baker.aid.accept"));
+					villager.aidCooldown = 12000;
+					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
 				}
 
 				else
 				{
-					entityVillager.say(LanguageHelper.getString("baker.aid.refuse"));
-					entityVillager.aidCooldown = 12000;
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "aidCooldown", 12000));
+					villager.say(LanguageHelper.getString("baker.aid.refuse"));
+					villager.aidCooldown = 12000;
+					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
 				}
 			}
 
@@ -1812,11 +1820,13 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void actionPerformedButcher(GuiButton button) 
 	{
+		EntityVillagerAdult villager = (EntityVillagerAdult)entityVillager;
+		
 		if (button == requestAidButton)
 		{
-			if (entityVillager.aidCooldown != 0)
+			if (villager.aidCooldown != 0)
 			{
-				entityVillager.say(LanguageHelper.getString("butcher.aid.refuse"));
+				villager.say(LanguageHelper.getString("butcher.aid.refuse"));
 			}
 
 			else
@@ -1824,21 +1834,21 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				if (AbstractEntity.getBooleanWithProbability(80))
 				{
 					Object[] giftInfo = null;
-					giftInfo = MCA.butcherAidIDs[entityVillager.worldObj.rand.nextInt(MCA.butcherAidIDs.length)];
-					int quantityGiven = entityVillager.worldObj.rand.nextInt(Integer.parseInt(giftInfo[2].toString())) + Integer.parseInt(giftInfo[1].toString());
+					giftInfo = MCA.butcherAidIDs[villager.worldObj.rand.nextInt(MCA.butcherAidIDs.length)];
+					int quantityGiven = villager.worldObj.rand.nextInt(Integer.parseInt(giftInfo[2].toString())) + Integer.parseInt(giftInfo[1].toString());
 
-					PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(entityVillager.entityId, Integer.parseInt(giftInfo[0].toString()), quantityGiven));
-					entityVillager.say(LanguageHelper.getString("butcher.aid.accept"));
+					PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(villager.entityId, Integer.parseInt(giftInfo[0].toString()), quantityGiven));
+					villager.say(LanguageHelper.getString("butcher.aid.accept"));
 
-					entityVillager.aidCooldown = 12000;
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "aidCooldown", 12000));
+					villager.aidCooldown = 12000;
+					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
 				}
 
 				else
 				{
-					entityVillager.say(LanguageHelper.getString("butcher.aid.refuse"));
-					entityVillager.aidCooldown = 12000;
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "aidCooldown", 12000));
+					villager.say(LanguageHelper.getString("butcher.aid.refuse"));
+					villager.aidCooldown = 12000;
+					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
 				}
 			}
 
@@ -1853,9 +1863,11 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void actionPerformedSmith(GuiButton button) 
 	{
+		EntityVillagerAdult villager = (EntityVillagerAdult)entityVillager;
+		
 		if (button == requestAidButton)
 		{
-			if (entityVillager.itemIdRequiredForSale == 0)
+			if (villager.itemIdRequiredForSale == 0)
 			{
 				List<Item> possibleItems = new ArrayList<Item>();
 				possibleItems.add(Item.diamond);
@@ -1864,26 +1876,26 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				possibleItems.add(Item.ingotIron);
 				possibleItems.add(Item.coal);
 
-				entityVillager.itemIdRequiredForSale = possibleItems.get(entityVillager.worldObj.rand.nextInt(possibleItems.size())).itemID;
+				villager.itemIdRequiredForSale = possibleItems.get(villager.worldObj.rand.nextInt(possibleItems.size())).itemID;
 
-				if (entityVillager.itemIdRequiredForSale == Item.diamond.itemID)   entityVillager.amountRequiredForSale = entityVillager.worldObj.rand.nextInt(2) + 1;
-				if (entityVillager.itemIdRequiredForSale == Item.ingotGold.itemID) entityVillager.amountRequiredForSale = entityVillager.worldObj.rand.nextInt(6) + 1;
-				if (entityVillager.itemIdRequiredForSale == Item.emerald.itemID)   entityVillager.amountRequiredForSale = entityVillager.worldObj.rand.nextInt(2) + 1;
-				if (entityVillager.itemIdRequiredForSale == Item.ingotIron.itemID) entityVillager.amountRequiredForSale = entityVillager.worldObj.rand.nextInt(12) + 1;
-				if (entityVillager.itemIdRequiredForSale == Item.coal.itemID)      entityVillager.amountRequiredForSale = entityVillager.worldObj.rand.nextInt(20) + 1;
+				if (villager.itemIdRequiredForSale == Item.diamond.itemID)   villager.amountRequiredForSale = villager.worldObj.rand.nextInt(2) + 1;
+				if (villager.itemIdRequiredForSale == Item.ingotGold.itemID) villager.amountRequiredForSale = villager.worldObj.rand.nextInt(6) + 1;
+				if (villager.itemIdRequiredForSale == Item.emerald.itemID)   villager.amountRequiredForSale = villager.worldObj.rand.nextInt(2) + 1;
+				if (villager.itemIdRequiredForSale == Item.ingotIron.itemID) villager.amountRequiredForSale = villager.worldObj.rand.nextInt(12) + 1;
+				if (villager.itemIdRequiredForSale == Item.coal.itemID)      villager.amountRequiredForSale = villager.worldObj.rand.nextInt(20) + 1;
 			}
 
-			entityVillager.say(LanguageHelper.getString("smith.aid.prompt"));
-			entityVillager.isInAnvilGiftMode = true;
+			villager.say(LanguageHelper.getString("smith.aid.prompt"));
+			villager.isInAnvilGiftMode = true;
 
-			PlayerMemory memory = entityVillager.playerMemoryMap.get(player.username);
+			PlayerMemory memory = villager.playerMemoryMap.get(player.username);
 			memory.isInGiftMode = true;
-			entityVillager.playerMemoryMap.put(player.username, memory);
+			villager.playerMemoryMap.put(player.username, memory);
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "itemIdRequiredForSale", entityVillager.itemIdRequiredForSale));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "amountRequiredForSale", entityVillager.amountRequiredForSale));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInAnvilGiftMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "itemIdRequiredForSale", villager.itemIdRequiredForSale));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "amountRequiredForSale", villager.amountRequiredForSale));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "isInAnvilGiftMode", true));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "playerMemoryMap", villager.playerMemoryMap));
 		}
 
 		close();
@@ -1923,9 +1935,11 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == requestAidButton)
 		{
-			if (entityVillager.aidCooldown != 0)
+			EntityVillagerAdult villager = (EntityVillagerAdult)entityVillager;
+			
+			if (villager.aidCooldown != 0)
 			{
-				entityVillager.say(LanguageHelper.getString("farmer.aid.refuse"));
+				villager.say(LanguageHelper.getString("farmer.aid.refuse"));
 			}
 
 			else
@@ -1933,21 +1947,21 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				if (AbstractEntity.getBooleanWithProbability(80))
 				{
 					Object[] giftInfo = null;
-					giftInfo = MCA.farmerAidIDs[entityVillager.worldObj.rand.nextInt(MCA.farmerAidIDs.length)];
-					int quantityGiven = entityVillager.worldObj.rand.nextInt(Integer.parseInt(giftInfo[2].toString())) + Integer.parseInt(giftInfo[1].toString());
+					giftInfo = MCA.farmerAidIDs[villager.worldObj.rand.nextInt(MCA.farmerAidIDs.length)];
+					int quantityGiven = villager.worldObj.rand.nextInt(Integer.parseInt(giftInfo[2].toString())) + Integer.parseInt(giftInfo[1].toString());
 
 
-					PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(entityVillager.entityId, Integer.parseInt(giftInfo[0].toString()), quantityGiven));
-					entityVillager.say(LanguageHelper.getString("farmer.aid.accept"));
-					entityVillager.aidCooldown = 12000;
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "aidCooldown", 12000));
+					PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(villager.entityId, Integer.parseInt(giftInfo[0].toString()), quantityGiven));
+					villager.say(LanguageHelper.getString("farmer.aid.accept"));
+					villager.aidCooldown = 12000;
+					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
 				}
 
 				else
 				{
-					entityVillager.say(LanguageHelper.getString("farmer.aid.refuse"));
-					entityVillager.aidCooldown = 12000;
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "aidCooldown", 12000));
+					villager.say(LanguageHelper.getString("farmer.aid.refuse"));
+					villager.aidCooldown = 12000;
+					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
 				}
 			}
 

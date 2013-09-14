@@ -55,6 +55,18 @@ public abstract class EntityChild extends AbstractEntity
 		//Check if age should be increased.
 		currentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 
+		if (MCA.instance.inDebugMode)
+		{
+			if (this instanceof EntityPlayerChild && !isAdult && MCA.instance.debugDoRapidPlayerChildGrowth)
+			{
+				age++;
+			}
+			
+			else if (this instanceof EntityVillagerChild && MCA.instance.debugDoRapidVillagerChildGrowth)
+			{
+				age++;
+			}
+		}
 		if (currentMinutes > prevMinutes || currentMinutes == 0 && prevMinutes == 59)
 		{
 			if (age < MCA.instance.modPropertiesManager.modProperties.kidGrowUpTimeMinutes)

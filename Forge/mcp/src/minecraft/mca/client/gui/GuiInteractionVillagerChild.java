@@ -119,24 +119,26 @@ public class GuiInteractionVillagerChild extends AbstractGui
 
 		if (parents.size() == 2)
 		{
-			drawCenteredString(fontRenderer, LanguageHelper.getString(player, entityVillagerChild, "gui.info.family.parents", false), width / 2, height / 2 - 60, 0xffffff);
-		}
-
-		else
-		{
-			AbstractEntity spouse = entityVillagerChild.familyTree.getInstanceOfRelative(EnumRelation.Spouse);
-
-			if (spouse != null)
+			AbstractEntity parent1 = (AbstractEntity) entityVillagerChild.worldObj.getEntityByID(MCA.instance.idsMap.get(parents.get(0)));
+			AbstractEntity parent2 = (AbstractEntity) entityVillagerChild.worldObj.getEntityByID(MCA.instance.idsMap.get(parents.get(1)));
+			
+			boolean bothParentsAlive = parent1 != null && parent2 != null;
+			boolean neitherParentsAlive = parent1 == null && parent2 == null;
+			
+			if (bothParentsAlive)
 			{
-				if (entityVillagerChild.isMarried && spouse.familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player)))
-				{
-					drawCenteredString(fontRenderer, LanguageHelper.getString(entityVillagerChild, "gui.info.family.spouse", false), width / 2 , height / 2 - 60, 0xffffff);
-				}
-
-				else if (entityVillagerChild.isMarried)
-				{
-					drawCenteredString(fontRenderer, LanguageHelper.getString(entityVillagerChild, "gui.info.family.spouse.unrelated", false), width / 2, height / 2 - 60, 0xffffff);
-				}
+				drawCenteredString(fontRenderer, LanguageHelper.getString(player, entityVillagerChild, "gui.info.family.parents", false), width / 2, height / 2 - 60, 0xffffff);
+			}
+			
+			else if (neitherParentsAlive)
+			{
+				drawCenteredString(fontRenderer, LanguageHelper.getString(player, entityVillagerChild, "gui.info.family.parents.deceased", false), width / 2, height / 2 - 60, 0xffffff);
+			}
+			
+			//1 parent alive.
+			else
+			{
+				drawCenteredString(fontRenderer, LanguageHelper.getString(player, entityVillagerChild, "gui.info.family.parent", false), width / 2, height / 2 - 60, 0xffffff);
 			}
 		}
 

@@ -184,7 +184,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			MCA.instance.idsMap.put(this.mcaID, this.entityId);
 		}
 
-		MCA.instance.entitiesMap.put(this.mcaID, this);
 		this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(20.0D);
 		setSize(0.6F, 1.8F);
 	}
@@ -539,6 +538,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 			//Set trait.
 			trait = EnumTrait.getTraitById(traitId);
+			
+			//Add to entity list.
+			MCA.instance.entitiesMap.put(this.mcaID, this);
 		}
 
 		catch (Throwable e)

@@ -75,8 +75,11 @@ public final class PacketHandler implements IPacketHandler
 	{
 		try
 		{
-			MCA.instance.logDebug("Received packet: " + packet.channel + ". Size = " + packet.length);
-
+			if (MCA.instance.inDebugMode & MCA.instance.debugDoLogPackets)
+			{
+				MCA.instance.logPacketInformation("Received packet: " + packet.channel + ". Size = " + packet.length);
+			}
+			
 			if (packet.channel.equals("MCA_F_REQ"))
 			{
 				handleFieldRequest(packet, player);
@@ -646,7 +649,8 @@ public final class PacketHandler implements IPacketHandler
 
 			//Put the client entity's ID in the ids map.
 			MCA.instance.idsMap.put(clientEntity.mcaID, clientEntity.entityId);
-
+			MCA.instance.entitiesMap.put(clientEntity.mcaID, clientEntity);
+			
 			//Set the entity mood and trait.
 			clientEntity.setMoodByMoodPoints(false);
 			clientEntity.trait = EnumTrait.getTraitById(clientEntity.traitId);
@@ -1025,7 +1029,7 @@ public final class PacketHandler implements IPacketHandler
 
 		//Assign received data.
 		WorldPropertiesManager manager = (WorldPropertiesManager)objectInput.readObject();
-		MCA.instance.logDebug("Received world properties manager for " + ((EntityPlayer)player).username);
+		MCA.instance.logPacketInformation("Received world properties manager for " + ((EntityPlayer)player).username);
 
 		//Client side.
 		if (world.isRemote)
@@ -1470,5 +1474,7 @@ public final class PacketHandler implements IPacketHandler
 		{
 			entity.entityDropItem(item.getEntityItem(), 0.3F);
 		}
+		
+		MCA.instance.deadPlayerInventories.remove(entityPlayer.username);
 	}
 }
