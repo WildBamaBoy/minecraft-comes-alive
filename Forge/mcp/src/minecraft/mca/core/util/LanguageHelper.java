@@ -532,22 +532,32 @@ public final class LanguageHelper
 				text = text.replace("%SpouseRelation%", spouse.familyTree.getRelationTo(playerId).toString(spouse, spouse.gender, true));
 			}
 
-			if (text.contains("%SpouseName%"))
+			if (text.contains("%PlayerSpouseName%"))
 			{
 				//Check world properties to see if the player is married to another player or an NPC.
 				if (worldPropertiesManager.worldProperties.playerSpouseID > 0)
 				{
-					//Player married to NPC, so the NPC is provided. 
-					text = text.replace("%SpouseName%", entity.familyTree.getInstanceOfRelative(EnumRelation.Spouse).name);
+					//Player married to NPC, so the NPC is provided.
+					text = text.replace("%PlayerSpouseName%", entity.familyTree.getInstanceOfRelative(EnumRelation.Spouse).name);
 				}
 
 				else
 				{
-					text = text.replace("%SpouseName%", worldPropertiesManager.worldProperties.playerSpouseName);
+					text = text.replace("%PlayerSpouseName%", worldPropertiesManager.worldProperties.playerSpouseName);
+				}
+			}
+			
+			if (text.contains("%VillagerSpouseName%"))
+			{
+				AbstractEntity spouse = entity.familyTree.getInstanceOfRelative(EnumRelation.Spouse);
+				
+				if (spouse != null)
+				{
+					text = text.replace("%VillagerSpouseName%", spouse.name);
 				}
 			}
 
-			if (text.contains("%SpouseFullName"))
+			if (text.contains("%SpouseFullName%"))
 			{
 				AbstractEntity spouse = entity.familyTree.getInstanceOfRelative(EnumRelation.Spouse);
 
@@ -751,6 +761,17 @@ public final class LanguageHelper
 			if (text.contains("%URL%"))
 			{
 				text = text.replace("%URL%", Color.BLUE + Format.ITALIC + "http://goo.gl/4Kwohv" + Format.RESET + Color.YELLOW);
+			}
+			
+			if (text.contains("%LivingParent%"))
+			{
+				List<Integer> parents = entity.familyTree.getEntitiesWithRelation(EnumRelation.Parent);
+				AbstractEntity parent1 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.instance.idsMap.get(parents.get(0)));
+				AbstractEntity parent2 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.instance.idsMap.get(parents.get(1)));
+				
+				AbstractEntity nonNullParent = parent1 != null ? parent1 : parent2 != null ? parent2 : null;
+
+				text = text.replace("%LivingParent%", nonNullParent.name);
 			}
 		}
 
