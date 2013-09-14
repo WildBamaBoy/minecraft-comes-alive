@@ -74,6 +74,12 @@ public class WorldPropertiesManager implements Serializable
 			worldPropertiesFile     	= new File(worldPropertiesFolder.getPath() + "/" + "WorldProps.properties");
 		}
 
+		//Account for issues with Mac's god-awful OS.
+		if (worldPropertiesFile.getPath().contains("/.DS_STORE"))
+		{
+			worldPropertiesFile = new File(worldPropertiesFile.getPath().replace("/.DS_STORE", ""));
+		}
+		
 		//Check and be sure the config/MCA/Worlds folder exists.
 		if (worldPropertiesFolderPath.exists() == false)
 		{
