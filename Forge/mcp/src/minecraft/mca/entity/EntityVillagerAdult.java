@@ -98,7 +98,7 @@ public class EntityVillagerAdult extends AbstractEntity
 
 	/** (Smiths) The amount of the item required to give the anvil. */
 	public int amountRequiredForSale = 0;
-	
+
 	/**
 	 * Constructor
 	 */
@@ -1356,7 +1356,7 @@ public class EntityVillagerAdult extends AbstractEntity
 						this.heldBabyGender = getRandomGender();
 						this.heldBabyProfession = spouse.profession;
 						this.hasBaby = true;
-						
+
 						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "heldBabyGender", heldBabyGender));
 						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "heldBabyProfession", heldBabyProfession));
 						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "hasBaby", hasBaby));
@@ -1393,20 +1393,15 @@ public class EntityVillagerAdult extends AbstractEntity
 				List<EntityPlayerChild> children = new ArrayList<EntityPlayerChild>();
 
 				//Build a list of children belonging to the player.
-				for (Object obj : worldObj.loadedEntityList)
+				for (AbstractEntity entity : MCA.instance.entitiesMap.values())
 				{
-					if (obj instanceof AbstractEntity)
+					if (entity instanceof EntityPlayerChild)
 					{
-						AbstractEntity entity = (AbstractEntity)obj;
+						EntityPlayerChild playerChild = (EntityPlayerChild)entity;
 
-						if (entity instanceof EntityPlayerChild)
+						if (playerChild.familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) == EnumRelation.Parent)
 						{
-							EntityPlayerChild playerChild = (EntityPlayerChild)entity;
-
-							if (playerChild.familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) == EnumRelation.Parent)
-							{
-								children.add(playerChild);
-							}
+							children.add(playerChild);
 						}
 					}
 				}

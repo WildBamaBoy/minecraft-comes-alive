@@ -215,7 +215,7 @@ public class EntityPlayerChild extends EntityChild
 				else
 				{
 					return "playerchild.adult";
-					
+
 					//FIXME
 					//					WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(MCA.instance.getPlayerByID(worldObj, playerId).username);
 					//
@@ -260,12 +260,12 @@ public class EntityPlayerChild extends EntityChild
 		{
 			updateBabyGrowth();
 			updateDivorce();
-			
+
 			if (!isSpouse)
 			{
 				updateProcreationWithVillager();
 			}
-			
+
 			else
 			{
 				updateProcreationWithPlayer();
@@ -391,7 +391,7 @@ public class EntityPlayerChild extends EntityChild
 					{
 						doGiftOfBaby(itemStack, player);
 					}
-					
+
 					else
 					{
 						doGift(itemStack, player);
@@ -1161,7 +1161,7 @@ public class EntityPlayerChild extends EntityChild
 			heldBabyAge = 0;
 			heldBabyProfession = 0;
 			hasBaby = false;
-			
+
 			//Check for achievement.
 			EntityPlayer player = worldObj.getPlayerEntityByName(lastInteractingPlayer);
 
@@ -1207,7 +1207,7 @@ public class EntityPlayerChild extends EntityChild
 						this.heldBabyGender = getRandomGender();
 						this.heldBabyProfession = spouse.profession;
 						this.hasBaby = true;
-						
+
 						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "heldBabyGender", heldBabyGender));
 						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "heldBabyProfession", heldBabyProfession));
 						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "hasBaby", hasBaby));
@@ -1244,20 +1244,15 @@ public class EntityPlayerChild extends EntityChild
 				List<EntityPlayerChild> children = new ArrayList<EntityPlayerChild>();
 
 				//Build a list of children belonging to the player.
-				for (Object obj : worldObj.loadedEntityList)
+				for (AbstractEntity entity : MCA.instance.entitiesMap.values())
 				{
-					if (obj instanceof AbstractEntity)
+					if (entity instanceof EntityPlayerChild)
 					{
-						AbstractEntity entity = (AbstractEntity)obj;
+						EntityPlayerChild playerChild = (EntityPlayerChild)entity;
 
-						if (entity instanceof EntityPlayerChild)
+						if (playerChild.familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) == EnumRelation.Parent)
 						{
-							EntityPlayerChild playerChild = (EntityPlayerChild)entity;
-
-							if (playerChild.familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) == EnumRelation.Parent)
-							{
-								children.add(playerChild);
-							}
+							children.add(playerChild);
 						}
 					}
 				}

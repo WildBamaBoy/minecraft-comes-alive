@@ -54,29 +54,24 @@ public class ItemWhistle extends Item
 	{
 		if (!world.isRemote)
 		{
-			for (Object obj : world.loadedEntityList)
+			for (AbstractEntity entity : MCA.instance.entitiesMap.values())
 			{
-				if (obj instanceof AbstractEntity)
+				if (entity instanceof EntityChild)
 				{
-					AbstractEntity entity = (AbstractEntity)obj;
+					if (entity.familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player)))
+					{
+						entity.setPosition(player.posX, player.posY, player.posZ);
+					}
+				}
 
-					if (entity instanceof EntityChild)
+				else if (entity instanceof EntityVillagerAdult)
+				{
+					EntityVillagerAdult adult = (EntityVillagerAdult)entity;
+					if (adult.isSpouse || adult.isEngaged)
 					{
 						if (entity.familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player)))
 						{
 							entity.setPosition(player.posX, player.posY, player.posZ);
-						}
-					}
-
-					else if (entity instanceof EntityVillagerAdult)
-					{
-						EntityVillagerAdult adult = (EntityVillagerAdult)entity;
-						if (adult.isSpouse || adult.isEngaged)
-						{
-							if (entity.familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player)))
-							{
-								entity.setPosition(player.posX, player.posY, player.posZ);
-							}
 						}
 					}
 				}
@@ -91,7 +86,7 @@ public class ItemWhistle extends Item
 	{
 		itemIcon = iconRegister.registerIcon("mca:Whistle");
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List informationList, boolean unknown)

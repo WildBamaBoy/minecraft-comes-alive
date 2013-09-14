@@ -58,13 +58,13 @@ public class CommandHaveBaby extends AbstractCommand
 	{
 		//Make sure they are married to a player.
 		WorldPropertiesManager senderManager = MCA.instance.playerWorldManagerMap.get(sender.getCommandSenderName());
-		
+
 		if (senderManager.worldProperties.playerSpouseID < 0)
 		{
 			//Check if the spouse is on the server.
 			EntityPlayer spouse = MCA.instance.getPlayerByName(senderManager.worldProperties.playerSpouseName);
 			WorldPropertiesManager spouseManager = MCA.instance.playerWorldManagerMap.get(spouse.username);
-			
+
 			if (spouse != null)
 			{
 				//Make sure that they don't already have a baby.
@@ -76,32 +76,27 @@ public class CommandHaveBaby extends AbstractCommand
 					//Build a list of children belonging to the players.
 					for (WorldServer server : MinecraftServer.getServer().worldServers)
 					{
-						for (Object obj : server.loadedEntityList)
+						for (AbstractEntity entity : MCA.instance.entitiesMap.values())
 						{
-							if (obj instanceof AbstractEntity)
+							if (entity instanceof EntityPlayerChild)
 							{
-								AbstractEntity entity = (AbstractEntity)obj;
+								EntityPlayerChild playerChild = (EntityPlayerChild)entity;
 
-								if (entity instanceof EntityPlayerChild)
-								{
-									EntityPlayerChild playerChild = (EntityPlayerChild)entity;
-
-									if (playerChild.familyTree.getRelationOf(senderManager.worldProperties.playerID) == EnumRelation.Parent &&
+								if (playerChild.familyTree.getRelationOf(senderManager.worldProperties.playerID) == EnumRelation.Parent &&
 										playerChild.familyTree.getRelationOf(spouseManager.worldProperties.playerID) == EnumRelation.Parent)
-									{
-										children.add(playerChild);
-									}
+								{
+									children.add(playerChild);
 								}
 							}
 						}
 					}
-					
+
 					//Compare to the server allowed settings.
 					if (MCA.instance.modPropertiesManager.modProperties.server_childLimit > -1 && children.size() >= MCA.instance.modPropertiesManager.modProperties.server_childLimit)
 					{
 						this.sendChatToPlayer(sender, "multiplayer.command.output.havebaby.failed.limitreached", Color.RED, null);
 					}
-					
+
 					//They can have a baby. Continue.
 					else
 					{
@@ -110,21 +105,21 @@ public class CommandHaveBaby extends AbstractCommand
 						MCA.instance.babyRequests.put(sender.getCommandSenderName(), spouse.username);
 					}
 				}
-				
+
 				//One of them already has a baby.
 				else
 				{
 					this.sendChatToPlayer(sender, "notify.baby.exists", Color.RED, null);
 				}
 			}
-			
+
 			//The spouse is not on the server.
 			else
 			{
 				this.sendChatToPlayer(sender, "multiplayer.command.output.havebaby.failed.offline", Color.RED, null);
 			}
 		}
-		
+
 		//The sender is not married to a player.
 		else
 		{

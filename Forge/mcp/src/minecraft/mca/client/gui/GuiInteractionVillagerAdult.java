@@ -621,7 +621,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			buttonList.add(kissButton = new GuiButton(6, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.kiss")));
 			buttonList.add(flirtButton = new GuiButton(7, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.flirt")));
 		}
-		
+
 		greetButton.displayString = entityVillager.playerMemoryMap.get(player.username).hearts >= 50 ? LanguageHelper.getString("gui.button.interact.greet.highfive") : LanguageHelper.getString("gui.button.interact.greet.handshake");
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
@@ -1511,16 +1511,11 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				{
 					EntityVillagerAdult spouse = null;
 
-					for (Object obj : entityVillager.worldObj.loadedEntityList)
+					for (AbstractEntity entity : MCA.instance.entitiesMap.values())
 					{
-						if (obj instanceof AbstractEntity)
+						if (entity.mcaID == manager.worldProperties.playerSpouseID)
 						{
-							AbstractEntity entity = (AbstractEntity)obj;
-
-							if (entity.mcaID == manager.worldProperties.playerSpouseID)
-							{
-								spouse = (EntityVillagerAdult)entity;
-							}
+							spouse = (EntityVillagerAdult)entity;
 						}
 					}
 

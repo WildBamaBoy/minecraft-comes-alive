@@ -1013,6 +1013,7 @@ public final class LogicHelper
 	 */
 	public static Object getEntityOfTypeAtXYZ(Class type, World world, int x, int y, int z)
 	{
+		//This would have no reason to fail. Continue to use the loaded entity list.
 		for (Object obj : world.loadedEntityList)
 		{
 			if (type.isInstance(obj))

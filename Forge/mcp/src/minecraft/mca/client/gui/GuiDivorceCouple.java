@@ -280,6 +280,7 @@ public class GuiDivorceCouple extends AbstractGui
 		Map<Integer, Integer> tempIDMap = new HashMap<Integer, Integer>();
 		Map<String, String> returnMap = new HashMap<String, String>();
 
+		//Logical to use entity list here.
 		for (Object obj : player.worldObj.loadedEntityList)
 		{
 			Entity entity = (Entity)obj;
@@ -312,6 +313,7 @@ public class GuiDivorceCouple extends AbstractGui
 			String husbandName = "";
 			String wifeName = "";
 
+			//Logical to use entity list here.
 			for (Object obj : Minecraft.getMinecraft().theWorld.loadedEntityList)
 			{
 				if (obj instanceof AbstractEntity)
@@ -352,6 +354,7 @@ public class GuiDivorceCouple extends AbstractGui
 		AbstractEntity spouseEntity1 = null;
 		AbstractEntity spouseEntity2 = null;
 
+		//Logical to use entity list here.
 		for (Object obj : Minecraft.getMinecraft().theWorld.loadedEntityList)
 		{
 			if (obj instanceof AbstractEntity)

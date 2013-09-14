@@ -284,10 +284,8 @@ public class GuiGameOver extends AbstractGui
 	 */
 	private void buildAdultChildrenList()
 	{
-		for (Object obj : this.player.worldObj.loadedEntityList)
+		for (AbstractEntity entity : MCA.instance.entitiesMap.values())
 		{
-			Entity entity = (Entity)obj;
-
 			if (entity instanceof EntityPlayerChild)
 			{
 				EntityPlayerChild playerChild = (EntityPlayerChild)entity;

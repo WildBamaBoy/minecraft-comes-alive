@@ -184,6 +184,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			MCA.instance.idsMap.put(this.mcaID, this.entityId);
 		}
 
+		MCA.instance.entitiesMap.put(this.mcaID, this);
 		this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(20.0D);
 		setSize(0.6F, 1.8F);
 	}
@@ -600,6 +601,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					//Make parents of a villager child attack the player if they're nearby.
 					for (int id : familyTree.getEntitiesWithRelation(EnumRelation.Parent))
 					{
+						//Logical to use entity list here.
 						for (Object obj : worldObj.loadedEntityList)
 						{
 							if (obj instanceof AbstractEntity)
@@ -699,6 +701,18 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			}
 		}
 
+		//Search for their spouse and set to not married.
+		if (isMarried)
+		{
+			AbstractEntity spouse = familyTree.getInstanceOfRelative(EnumRelation.Spouse);
+			
+			if (spouse != null)
+			{
+				spouse.isMarried = false;
+				spouse.familyTree.removeFamilyTreeEntry(EnumRelation.Spouse);
+			}
+		}
+		
 		//Try to turn them into a zombie if they were killed by one.
 		if (damageSource.getSourceOfDamage() instanceof EntityZombie)
 		{
@@ -709,6 +723,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				worldObj.spawnEntityInWorld(newZombie);
 			}
 		}
+		
+		//Erase from the entities map.
+		MCA.instance.entitiesMap.remove(this.mcaID);
 	}
 
 	@Override

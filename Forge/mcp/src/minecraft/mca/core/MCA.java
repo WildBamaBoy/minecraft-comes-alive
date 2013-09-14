@@ -231,6 +231,9 @@ public class MCA
 	/**Map of MCA ids and entity ids. Key = mcaId, Value = entityId.**/
 	public Map<Integer, Integer> idsMap = new HashMap<Integer, Integer>();
 
+	/**Map of MCA ids and their associated entity. Key = mcaId, Value = abstractEntity. */
+	public Map<Integer, AbstractEntity> entitiesMap = new HashMap<Integer, AbstractEntity>();
+	
 	/**Map of all current players and their world properties manager. Server side only.**/
 	public Map<String, WorldPropertiesManager> playerWorldManagerMap = new HashMap<String, WorldPropertiesManager>();
 
