@@ -1521,6 +1521,7 @@ public class EntityVillagerAdult extends AbstractEntity
 				shouldDivorce = false;
 				isSpouse = false;
 				spousePlayerName = "";
+				marriageToPlayerWasArranged = false;
 				familyTree.removeFamilyTreeEntry(worldPropertiesManager.worldProperties.playerID);
 			}
 
