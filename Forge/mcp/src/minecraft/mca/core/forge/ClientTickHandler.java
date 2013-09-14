@@ -18,6 +18,7 @@ import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
+import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import mca.enums.EnumRelation;
 import net.minecraft.client.Minecraft;
@@ -29,6 +30,7 @@ import net.minecraft.client.gui.GuiSelectWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import cpw.mods.fml.common.ITickHandler;
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.common.TickType;
 
 /**
@@ -244,6 +246,12 @@ public class ClientTickHandler implements ITickHandler
 			if (!MCA.instance.hasCompletedMainMenuTick)
 			{
 				ticks = 20;
+
+				//Check for random splash text.
+				if (AbstractEntity.getBooleanWithProbability(10))
+				{
+					ObfuscationReflectionHelper.setPrivateValue(GuiMainMenu.class, (GuiMainMenu)guiScreen, "Minecraft Comes Alive!", 2);
+				}
 
 				//Reset world specific data.
 				MCA.instance.hasNotifiedOfBabyReadyToGrow = false;
