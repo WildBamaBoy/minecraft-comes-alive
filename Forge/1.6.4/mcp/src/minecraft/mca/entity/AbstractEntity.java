@@ -2423,9 +2423,10 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	private void updateHealing()
 	{
 		//Check for correct attribute for guards.
-		if (getEntityAttribute(SharedMonsterAttributes.maxHealth).getAttributeValue() != 40.0D)
+		if (profession == 5 && getEntityAttribute(SharedMonsterAttributes.maxHealth).getAttributeValue() != 40.0D)
 		{
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(40.0D);
+			this.setHealth(40);
 		}
 		
 		if (getHealth() < getMaxHealth() && getHealth() > 0)
