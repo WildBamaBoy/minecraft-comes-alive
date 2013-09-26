@@ -150,24 +150,24 @@ public class EntityPlayerChild extends EntityChild
 		{
 			if (name.equals("Shepard"))
 			{
-				texture = "/textures/skins/EE3.png";
+				texture = "textures/skins/EE3.png";
 			}
 
 			else if (name.equals("Ash"))
 			{
-				texture = "/textures/skins/EE4.png";
+				texture = "textures/skins/EE4.png";
 			}
 
 			else if (name.equals("Altair"))
 			{
 				setAIMoveSpeed(0.90F);
-				texture = "/textures/skins/EE5.png";
+				texture = "textures/skins/EE5.png";
 			}
 
 			else if (name.equals("Ezio"))
 			{
 				setAIMoveSpeed(0.90F);
-				texture = "/textures/skins/EE6.png";
+				texture = "textures/skins/EE6.png";
 			}
 
 			else
