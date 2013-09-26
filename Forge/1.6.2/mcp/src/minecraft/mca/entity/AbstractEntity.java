@@ -245,11 +245,19 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Returns the max health possible for this entity.
 	 * 
-	 * @return	Always returns 20.
+	 * @return	Returns 20 or 40 depending on profession.
 	 */
 	public int getMaxHealth()
 	{
-		return 20;
+		if (profession == 5)
+		{
+			return 40;
+		}
+		
+		else
+		{
+			return 20;
+		}
 	}
 
 	@Override
@@ -2450,6 +2458,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	private void updateHealing()
 	{
+		//getEntityAttribute(SharedMonsterAttributes.maxHealth).getAttributeValue() != 40.0D
+		if (profession == 5 && func_110148_a(SharedMonsterAttributes.field_111267_a).func_111126_e() != 40.0D)
+		{
+			func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(40.0D);
+			this.setEntityHealth(40);
+		}
+		
 		if (getHealth() < getMaxHealth() && getHealth() > 0)
 		{
 			int healthRegenerationPeriod = 20;
