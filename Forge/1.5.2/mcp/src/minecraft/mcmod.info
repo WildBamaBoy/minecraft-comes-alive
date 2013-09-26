@@ -1,0 +1,17 @@
+[
+{
+  "modid": "mca",
+  "name": "Minecraft Comes Alive",
+  "description": "No more squidward-villagers! Interact with male and female human villagers and raise a family.",
+  "version": "3.5.1",
+  "credits": "mezzodrinker, The_Nanobots, many others.",
+  "logoFile": "/mca.png",
+  "mcversion": "1.5.2",
+  "url": "http://www.minecraftforum.net/topic/926757-minecraft-comes-alive/",
+  "updateUrl": "",
+  "authors": [ "WildBamaBoy", "SheWolfDeadly" ],
+  "dependencies": [
+         "mod_MinecraftForge"
+]
+}
+]
