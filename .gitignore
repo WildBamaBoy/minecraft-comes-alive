@@ -140,7 +140,12 @@ Forge/1.7/mcp/src/minecraft/mcp.png
 # Special #
 !/Crowdin/Build/*.properties
 !/Assemble.py
+!/Assemble 1.5.2.py
 !/Master.properties
 !/Forge/1.6.2/mcp/getchangedsrc.bat
 !/Forge/1.6.2/mcp/recompile.bat
+!/Forge/1.6.4/mcp/getchangedsrc.bat
+!/Forge/1.6.4/mcp/recompile.bat
+!/Forge/1.5.2/mcp/getchangedsrc.bat
+!/Forge/1.5.2/mcp/recompile.bat
 !/Forge/1.6.2/mcp/reobfuscate.bat
