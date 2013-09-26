@@ -87,12 +87,12 @@ languagesMap = {'af': 'Afrikaans',
 
 releaseVersion = ""
 baseFolder     = os.getcwd() + "/"
-projectFolder  = baseFolder + "Forge/mcp/"
-buildFolder    = baseFolder + "Build/"
+projectFolder  = baseFolder + "Forge/1.5.2/mcp/"
+buildFolder    = baseFolder + "Build/1.5.2/"
 languageFolder = baseFolder + "Crowdin/"
-reobfFolder    = projectFolder + "/reobf/minecraft/mca/"
-sourceFolder   = projectFolder + "/modsrc/minecraft/mca/"
-assetsFolder   = projectFolder + "/src/minecraft/assets/"
+reobfFolder    = projectFolder + "/reobf/minecraft/mods/mca/"
+sourceFolder   = projectFolder + "/modsrc/minecraft/mods/mca/"
+assetsFolder   = projectFolder + "/src/minecraft/mods/mca/textures/"
     
 def main():
     print "---------------------------------------------"
@@ -101,21 +101,6 @@ def main():
 
     #Get release version
     releaseVersion = raw_input("Enter release version: ")
-
-    #Get minecraft version
-    minecraftVersion = raw_input("Enter Minecraft version: ");
-
-    global projectFolder
-    global reobfFolder
-    global sourceFolder
-    global assetsFolder
-    global buildFolder
-    
-    projectFolder  = baseFolder + "Forge/" + minecraftVersion + "/mcp/"
-    reobfFolder    = projectFolder + "/reobf/minecraft/mca/"
-    sourceFolder   = projectFolder + "/modsrc/minecraft/mca/"
-    assetsFolder   = projectFolder + "/src/minecraft/assets/"
-    buildFolder    = baseFolder + "Build/" + minecraftVersion + "/"
     
     #Check whether to run MCP again or not.
     choice = raw_input("Run MCP? [Y/N]: ")
@@ -157,21 +142,20 @@ def main():
     print "Zipping language files..."
     for fileName in languageFiles:
         fullPath = os.path.join(baseFolder + "/Crowdin/Build/", fileName)
-        modArchive.write(fullPath, "assets/mca/language/" + os.path.basename(fullPath))
+        modArchive.write(fullPath, "mods/mca/language/" + os.path.basename(fullPath))
 
     print "Zipping assets..."
     for root, dirs, files in os.walk(assetsFolder):
         for fileName in files:
             fullPath = os.path.join(root, fileName)
-
             if "language" not in fullPath:
-                modArchive.write(fullPath, fullPath.replace(assetsFolder, "assets/"))
+                modArchive.write(fullPath, fullPath.replace(assetsFolder, "mods/mca/textures/"))
 
     print "Zipping compiled classes..."
     for root, dirs, files in os.walk(reobfFolder):
         for fileName in files:
             fullPath = os.path.join(root, fileName)
-            modArchive.write(fullPath, fullPath.replace(reobfFolder, "mca/"))
+            modArchive.write(fullPath, fullPath.replace(reobfFolder, "mods/mca/"))
 
     modArchive.close()
 
@@ -187,7 +171,7 @@ def main():
         for fileName in files:
             containsCorrectHeader = True
             fullPath = os.path.join(root, fileName)
-            archiveName = fullPath.replace(sourceFolder, "mca/")
+            archiveName = fullPath.replace(sourceFolder, "mods/mca/")
             sourceArchive.write(fullPath, archiveName)
 
             with open(fullPath) as f:
