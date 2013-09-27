@@ -861,7 +861,7 @@ public class MCA
 		//Set running directory.
 		if (event.getSide() == Side.CLIENT)
 		{
-			runningDirectory = System.getProperty("user.dir");
+			runningDirectory = net.minecraft.client.Minecraft.getMinecraft().getMinecraftDir().getAbsolutePath();
 		}
 
 		else if (event.getSide() == Side.SERVER)
