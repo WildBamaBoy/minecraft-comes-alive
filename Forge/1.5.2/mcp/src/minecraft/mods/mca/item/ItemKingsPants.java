@@ -43,6 +43,6 @@ public class ItemKingsPants extends ItemArmor
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, int layer) 
 	{
-		return "mca:textures/armor/crown_layer_2.png";
+		return "/mods/mca/textures/armor/crown_layer_2.png";
 	}
 }

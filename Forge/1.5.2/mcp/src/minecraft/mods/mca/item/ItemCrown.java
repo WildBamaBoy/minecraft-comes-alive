@@ -49,7 +49,7 @@ public class ItemCrown extends ItemArmor
 	@Override
 	public String getArmorTexture(ItemStack stack, Entity entity, int slot, int layer) 
 	{
-		return "mca:textures/armor/crown_layer_1.png";
+		return "/mods/mca/textures/armor/crown_layer_1.png";
 	}
 	
 	@Override
