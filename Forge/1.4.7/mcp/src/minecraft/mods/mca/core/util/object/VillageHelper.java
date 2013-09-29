@@ -165,7 +165,7 @@ public class VillageHelper
 	 */
 	private void updateNumberOfGuards()
 	{
-		List villagers = world.getEntitiesWithinAABB(EntityVillagerAdult.class, AxisAlignedBB.getAABBPool().getAABB(village.getCenter().posX - village.getVillageRadius(), village.getCenter().posY - 4, village.getCenter().posZ - village.getVillageRadius(), village.getCenter().posX + village.getVillageRadius(), village.getCenter().posY + 4, village.getCenter().posZ + village.getVillageRadius()));
+		List villagers = world.getEntitiesWithinAABB(EntityVillagerAdult.class, AxisAlignedBB.getAABBPool().addOrModifyAABBInPool(village.getCenter().posX - village.getVillageRadius(), village.getCenter().posY - 4, village.getCenter().posZ - village.getVillageRadius(), village.getCenter().posX + village.getVillageRadius(), village.getCenter().posY + 4, village.getCenter().posZ + village.getVillageRadius()));
 
 		numberOfGuards = 0;
 
@@ -185,7 +185,7 @@ public class VillageHelper
 	 */
 	private void updateNumberOfVillagers()
 	{
-		List villagers = world.getEntitiesWithinAABB(AbstractEntity.class, AxisAlignedBB.getAABBPool().getAABB(village.getCenter().posX - village.getVillageRadius(), village.getCenter().posY - 4, village.getCenter().posZ - village.getVillageRadius(), village.getCenter().posX + village.getVillageRadius(), village.getCenter().posY + 4, village.getCenter().posZ + village.getVillageRadius()));
+		List villagers = world.getEntitiesWithinAABB(AbstractEntity.class, AxisAlignedBB.getAABBPool().addOrModifyAABBInPool(village.getCenter().posX - village.getVillageRadius(), village.getCenter().posY - 4, village.getCenter().posZ - village.getVillageRadius(), village.getCenter().posX + village.getVillageRadius(), village.getCenter().posY + 4, village.getCenter().posZ + village.getVillageRadius()));
 
 		numberOfVillagers = villagers.size();
 

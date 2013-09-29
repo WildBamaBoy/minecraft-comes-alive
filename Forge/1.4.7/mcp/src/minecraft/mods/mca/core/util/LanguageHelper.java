@@ -587,7 +587,7 @@ public final class LanguageHelper
 				switch (child.miningChore.oreType)
 				{
 				case 0: oreName = "Coal"; break;
-				case 1: oreName = "Iron"; break;
+				case 1: oreName = "Steel"; break;
 				case 2: oreName = "Lapis"; break;
 				case 3: oreName = "Gold"; break;
 				case 4: oreName = "Diamond"; break;

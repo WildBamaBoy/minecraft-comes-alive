@@ -9,17 +9,20 @@
 
 package mods.mca.item;
 
-import net.minecraft.client.renderer.texture.IconRegister;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import mods.mca.core.forge.ClientProxy;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.IArmorTextureProvider;
 
 /**
  * Defines what the King's crown is and how it behaves.
  */
-public class ItemKingsCoat extends ItemArmor
+public class ItemKingsCoat extends ItemArmor implements IArmorTextureProvider
 {
     /**
      * Constructor
@@ -29,19 +32,21 @@ public class ItemKingsCoat extends ItemArmor
     public ItemKingsCoat(int id)
     {
         super(id, EnumArmorMaterial.GOLD, 0, 1);
-        setUnlocalizedName("MonarchCoat");
+        setItemName("MonarchCoat");
         maxStackSize = 1;
         setCreativeTab(CreativeTabs.tabMisc);
+        setIconIndex(14);
     }
     
+    @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister iconRegister)
+    public String getTextureFile()
     {
-    	itemIcon = iconRegister.registerIcon("mca:KingCoat");
+    	return ClientProxy.items;
     }
 
 	@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, int slot, int layer) 
+	public String getArmorTextureFile(ItemStack itemstack) 
 	{
 		return "/mods/mca/textures/armor/crown_layer_1.png";
 	}

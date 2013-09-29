@@ -140,7 +140,7 @@ public class ChoreWoodcutting extends AbstractChore
 					treeCutInterval = 30;
 				}
 
-				else if (itemName.contains("Iron"))
+				else if (itemName.contains("Steel"))
 				{
 					treeCutInterval = 25;
 				}
@@ -169,7 +169,7 @@ public class ChoreWoodcutting extends AbstractChore
 			}
 		}
 
-		//A villager will cut with an iron axe.
+		//A villager will cut with an Steel axe.
 		else
 		{
 			treeCutInterval = 25;

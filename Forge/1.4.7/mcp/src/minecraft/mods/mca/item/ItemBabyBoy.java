@@ -9,7 +9,9 @@
 
 package mods.mca.item;
 
-import net.minecraft.client.renderer.texture.IconRegister;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import mods.mca.core.forge.ClientProxy;
 import net.minecraft.creativetab.CreativeTabs;
 
 /**
@@ -25,14 +27,16 @@ public class ItemBabyBoy extends ItemBaby
     public ItemBabyBoy(int id)
     {
         super(id);
-        setUnlocalizedName("Baby Boy");
+        setItemName("Baby Boy");
         gender = "Male";
         setCreativeTab(CreativeTabs.tabMisc);
+        setIconIndex(1);
     }
     
+    @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister iconRegister)
+    public String getTextureFile()
     {
-    	itemIcon = iconRegister.registerIcon("mca:BabyBoy");
+    	return ClientProxy.items;
     }
 }

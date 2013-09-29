@@ -9,9 +9,11 @@
 
 package mods.mca.item;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import mods.mca.core.forge.ClientProxy;
 import mods.mca.entity.EntityVillagerAdult;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -34,7 +36,8 @@ public class ItemEggFemale extends Item
 		super(id);
 		setHasSubtypes(true);
 		setCreativeTab(CreativeTabs.tabMisc);
-		setUnlocalizedName("SpawnFemaleVillager");
+		setItemName("SpawnFemaleVillager");
+		setIconIndex(3);
 	}
 
 	/**
@@ -80,11 +83,12 @@ public class ItemEggFemale extends Item
 		return true;
 	}
 
-	@Override
-	public void registerIcons(IconRegister iconRegister)
-	{
-		itemIcon = iconRegister.registerIcon("mca:EggFemale");
-	}
+    @SideOnly(Side.CLIENT)
+    @Override
+    public String getTextureFile()
+    {
+    	return ClientProxy.items;
+    }
 
 	/**
 	 * Spawns a villager into the world.

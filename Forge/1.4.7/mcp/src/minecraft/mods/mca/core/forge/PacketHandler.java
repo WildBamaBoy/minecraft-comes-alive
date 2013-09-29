@@ -996,7 +996,7 @@ public final class PacketHandler implements IPacketHandler
 		if (modPropertiesManager.equals(MCA.instance.modPropertiesManager))
 		{
 			//Give the player a world settings manager.
-			WorldPropertiesManager manager = new WorldPropertiesManager(world.getSaveHandler().getWorldDirectoryName(), entityPlayer.username);
+			WorldPropertiesManager manager = new WorldPropertiesManager(world.getSaveHandler().getSaveDirectoryName(), entityPlayer.username);
 
 			MCA.instance.playerWorldManagerMap.put(entityPlayer.username, manager);
 
@@ -1306,7 +1306,7 @@ public final class PacketHandler implements IPacketHandler
 
 		EntityVillagerAdult villager = (EntityVillagerAdult)worldObj.getEntityByID(entityId);
 		villager.setCustomer(entityPlayer);
-		entityPlayer.displayGUIMerchant(villager, villager.getTitle(MCA.instance.getIdOfPlayer(entityPlayer), true));
+		entityPlayer.displayGUIMerchant(villager);
 	}
 
 	/**

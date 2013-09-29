@@ -12,11 +12,11 @@ package mods.mca.item;
 import java.util.List;
 
 import mods.mca.core.MCA;
+import mods.mca.core.forge.ClientProxy;
 import mods.mca.core.util.LanguageHelper;
 import mods.mca.entity.AbstractEntity;
 import mods.mca.entity.EntityChild;
 import mods.mca.entity.EntityVillagerAdult;
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -40,6 +40,7 @@ public class ItemWhistle extends Item
 		super(id);
 		maxStackSize = 1;
 		setCreativeTab(CreativeTabs.tabMisc);
+		setIconIndex(7);
 	}
 
 	/**
@@ -81,11 +82,12 @@ public class ItemWhistle extends Item
 		return itemStack;
 	}
 
-	@Override
-	public void registerIcons(IconRegister iconRegister)
-	{
-		itemIcon = iconRegister.registerIcon("mca:Whistle");
-	}
+    @SideOnly(Side.CLIENT)
+    @Override
+    public String getTextureFile()
+    {
+    	return ClientProxy.items;
+    }
 
 	@Override
 	@SideOnly(Side.CLIENT)

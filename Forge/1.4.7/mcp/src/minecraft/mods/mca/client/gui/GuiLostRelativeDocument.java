@@ -408,18 +408,18 @@ public class GuiLostRelativeDocument extends AbstractGui
 		inRelationSelectGui = true;
 		inConfirmationGui = false;
 		
-		buttonList.clear();
+		controlList.clear();
 		recipient.generation = temporaryGeneration;
 		
 		if (recipient.gender.equals("Male"))
 		{
-			buttonList.add(buttonFather = new GuiButton(1, width / 2 - 180, height / 2 - 40, 120, 20, LanguageHelper.getString("family.father.formal")));
-			buttonList.add(buttonGrandfather = new GuiButton(2, width / 2 - 180, height / 2 - 20, 120, 20, LanguageHelper.getString("family.grandfather")));
-			buttonList.add(buttonGreatgrandfather = new GuiButton(3, width / 2 - 180, height / 2, 120, 20, LanguageHelper.getString(recipient, "family.greatgrandfather", false)));
-			buttonList.add(buttonBrother = new GuiButton(4, width / 2 - 60, height / 2 - 40, 120, 20, LanguageHelper.getString("family.brother")));
-			buttonList.add(buttonUncle = new GuiButton(5, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("family.uncle")));
-			buttonList.add(buttonNephew = new GuiButton(6, width / 2 - 60, height / 2, 120, 20, LanguageHelper.getString("family.nephew")));
-			buttonList.add(buttonCousin = new GuiButton(7, width / 2 + 60, height / 2 - 40, 120, 20, LanguageHelper.getString("family.cousin")));
+			controlList.add(buttonFather = new GuiButton(1, width / 2 - 180, height / 2 - 40, 120, 20, LanguageHelper.getString("family.father.formal")));
+			controlList.add(buttonGrandfather = new GuiButton(2, width / 2 - 180, height / 2 - 20, 120, 20, LanguageHelper.getString("family.grandfather")));
+			controlList.add(buttonGreatgrandfather = new GuiButton(3, width / 2 - 180, height / 2, 120, 20, LanguageHelper.getString(recipient, "family.greatgrandfather", false)));
+			controlList.add(buttonBrother = new GuiButton(4, width / 2 - 60, height / 2 - 40, 120, 20, LanguageHelper.getString("family.brother")));
+			controlList.add(buttonUncle = new GuiButton(5, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("family.uncle")));
+			controlList.add(buttonNephew = new GuiButton(6, width / 2 - 60, height / 2, 120, 20, LanguageHelper.getString("family.nephew")));
+			controlList.add(buttonCousin = new GuiButton(7, width / 2 + 60, height / 2 - 40, 120, 20, LanguageHelper.getString("family.cousin")));
 			
 			buttonFather.enabled = false;
 			buttonGrandfather.enabled = false;
@@ -432,13 +432,13 @@ public class GuiLostRelativeDocument extends AbstractGui
 		
 		else if (recipient.gender.equals("Female"))
 		{
-			buttonList.add(buttonMother = new GuiButton(1, width / 2 - 180, height / 2 - 40, 120, 20, LanguageHelper.getString("family.mother.formal")));
-			buttonList.add(buttonGrandmother = new GuiButton(2, width / 2 - 180, height / 2 - 20, 120, 20, LanguageHelper.getString("family.grandmother")));
-			buttonList.add(buttonGreatgrandmother = new GuiButton(3, width / 2 - 180, height / 2, 120, 20, LanguageHelper.getString(recipient, "family.greatgrandmother", false)));
-			buttonList.add(buttonSister = new GuiButton(4, width / 2 - 60, height / 2 - 40, 120, 20, LanguageHelper.getString("family.sister")));
-			buttonList.add(buttonAunt = new GuiButton(5, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("family.aunt")));
-			buttonList.add(buttonNiece = new GuiButton(6, width / 2 - 60, height / 2, 120, 20, LanguageHelper.getString("family.niece")));
-			buttonList.add(buttonCousin = new GuiButton(7, width / 2 + 60, height / 2 - 40, 120, 20, LanguageHelper.getString("family.cousin")));
+			controlList.add(buttonMother = new GuiButton(1, width / 2 - 180, height / 2 - 40, 120, 20, LanguageHelper.getString("family.mother.formal")));
+			controlList.add(buttonGrandmother = new GuiButton(2, width / 2 - 180, height / 2 - 20, 120, 20, LanguageHelper.getString("family.grandmother")));
+			controlList.add(buttonGreatgrandmother = new GuiButton(3, width / 2 - 180, height / 2, 120, 20, LanguageHelper.getString(recipient, "family.greatgrandmother", false)));
+			controlList.add(buttonSister = new GuiButton(4, width / 2 - 60, height / 2 - 40, 120, 20, LanguageHelper.getString("family.sister")));
+			controlList.add(buttonAunt = new GuiButton(5, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("family.aunt")));
+			controlList.add(buttonNiece = new GuiButton(6, width / 2 - 60, height / 2, 120, 20, LanguageHelper.getString("family.niece")));
+			controlList.add(buttonCousin = new GuiButton(7, width / 2 + 60, height / 2 - 40, 120, 20, LanguageHelper.getString("family.cousin")));
 			
 			buttonMother.enabled = false;
 			buttonGrandmother.enabled = false;
@@ -449,17 +449,17 @@ public class GuiLostRelativeDocument extends AbstractGui
 			buttonCousin.enabled = false;
 		}
 		
-		buttonList.add(buttonNone = new GuiButton(8, width / 2 + 60, height / 2 - 20, 120, 20, LanguageHelper.getString("family.none")));
-		buttonList.add(buttonGeneration = new GuiButton(9, width / 2 - 60, height / 2 + 35, 120, 20, LanguageHelper.getString(recipient, "gui.button.lostrelativedocument.generation", false)));
-		buttonList.add(buttonGenerationIncrease = new GuiButton(10, width / 2 + 60, height / 2 + 35, 20, 20, "+"));
-		buttonList.add(buttonGenerationDecrease = new GuiButton(11, width / 2 - 80, height / 2 + 35, 20, 20, "-"));
+		controlList.add(buttonNone = new GuiButton(8, width / 2 + 60, height / 2 - 20, 120, 20, LanguageHelper.getString("family.none")));
+		controlList.add(buttonGeneration = new GuiButton(9, width / 2 - 60, height / 2 + 35, 120, 20, LanguageHelper.getString(recipient, "gui.button.lostrelativedocument.generation", false)));
+		controlList.add(buttonGenerationIncrease = new GuiButton(10, width / 2 + 60, height / 2 + 35, 20, 20, "+"));
+		controlList.add(buttonGenerationDecrease = new GuiButton(11, width / 2 - 80, height / 2 + 35, 20, 20, "-"));
 		
 		buttonNone.enabled = false;
 		buttonGeneration.enabled = false;
 		buttonGenerationIncrease.enabled = false;
 		buttonGenerationDecrease.enabled = false;
 		
-		buttonList.add(buttonExit = new GuiButton(0, width / 2 - 50, height / 2 + 75, 100, 20, LanguageHelper.getString("gui.button.exit")));
+		controlList.add(buttonExit = new GuiButton(0, width / 2 - 50, height / 2 + 75, 100, 20, LanguageHelper.getString("gui.button.exit")));
 		
 		recipient.generation = originalGeneration;
 	}
@@ -477,9 +477,9 @@ public class GuiLostRelativeDocument extends AbstractGui
 		inConfirmationGui = true;
 		inRelationSelectGui = false;
 	
-		buttonList.clear();
+		controlList.clear();
 		
-		buttonList.add(buttonYes = new GuiButton(1, width / 2 - 80, height / 2 + 10, 60, 20, LanguageHelper.getString("gui.button.yes")));
-		buttonList.add(buttonNo = new GuiButton(2, width / 2 + 30, height / 2 + 10, 60, 20, LanguageHelper.getString("gui.button.no")));
+		controlList.add(buttonYes = new GuiButton(1, width / 2 - 80, height / 2 + 10, 60, 20, LanguageHelper.getString("gui.button.yes")));
+		controlList.add(buttonNo = new GuiButton(2, width / 2 + 30, height / 2 + 10, 60, 20, LanguageHelper.getString("gui.button.no")));
 	}
 }

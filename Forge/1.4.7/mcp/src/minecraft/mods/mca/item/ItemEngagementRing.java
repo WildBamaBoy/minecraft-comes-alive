@@ -11,8 +11,8 @@ package mods.mca.item;
 
 import java.util.List;
 
+import mods.mca.core.forge.ClientProxy;
 import mods.mca.core.util.LanguageHelper;
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -33,15 +33,17 @@ public class ItemEngagementRing extends Item
     public ItemEngagementRing(int id)
     {
         super(id);
-        setUnlocalizedName("Engagement Ring");
+        setItemName("Engagement Ring");
         maxStackSize = 1;
         setCreativeTab(CreativeTabs.tabMisc);
+        setIconIndex(5);
     }
     
+    @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister iconRegister)
+    public String getTextureFile()
     {
-    	itemIcon = iconRegister.registerIcon("mca:EngagementRing");
+    	return ClientProxy.items;
     }
     
 	@Override

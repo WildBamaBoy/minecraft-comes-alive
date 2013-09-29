@@ -219,7 +219,7 @@ public class ChoreFarming extends AbstractChore
 					delay = 30;
 				}
 
-				else if (itemName.contains("Iron"))
+				else if (itemName.contains("Steel"))
 				{
 					delay = 25;
 				}

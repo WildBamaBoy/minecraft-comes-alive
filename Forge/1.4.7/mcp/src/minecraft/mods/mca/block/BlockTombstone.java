@@ -11,16 +11,16 @@ package mods.mca.block;
 
 import java.util.Random;
 
+import javax.swing.Icon;
+
 import mods.mca.core.MCA;
 import mods.mca.tileentity.TileEntityTombstone;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -45,12 +45,6 @@ public class BlockTombstone extends BlockContainer
 		signEntityClass = tileEntityClass;
 		setBlockBounds(0.5F - 0.40F, 0.0F, 0.5F - 0.40F, 0.5F + 0.40F, 1.0F, 0.5F + 0.40F);
 	}
-
-	@Override
-    public Icon getIcon(int side, int unknown)
-    {
-        return Block.planks.getBlockTextureFromSide(side);
-    }
     
 	@Override
 	public TileEntity createNewTileEntity(World world) 
@@ -154,10 +148,5 @@ public class BlockTombstone extends BlockContainer
 		{
 			throw new RuntimeException(exception);
 		}
-	}
-	
-	public void registerIcons(IconRegister iconRegister)
-	{
-		blockIcon = iconRegister.registerIcon("mca:Tombstone");
 	}
 }

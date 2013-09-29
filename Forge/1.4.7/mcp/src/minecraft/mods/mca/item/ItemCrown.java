@@ -11,21 +11,22 @@ package mods.mca.item;
 
 import java.util.List;
 
+import mods.mca.core.forge.ClientProxy;
 import mods.mca.core.util.LanguageHelper;
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.IArmorTextureProvider;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * Defines what the Crown is and how it behaves.
  */
-public class ItemCrown extends ItemArmor
+public class ItemCrown extends ItemArmor implements IArmorTextureProvider
 {
     /**
      * Constructor
@@ -35,27 +36,29 @@ public class ItemCrown extends ItemArmor
     public ItemCrown(int id)
     {
         super(id, EnumArmorMaterial.GOLD, 0, 0);
-        setUnlocalizedName("Crown");
+        setItemName("Crown");
         maxStackSize = 1;
         setCreativeTab(CreativeTabs.tabMisc);
+        setIconIndex(12);
     }
     
+    @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister iconRegister)
+    public String getTextureFile()
     {
-    	itemIcon = iconRegister.registerIcon("mca:Crown");
+    	return ClientProxy.items;
     }
-
-	@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, int slot, int layer) 
-	{
-		return "/mods/mca/textures/armor/crown_layer_1.png";
-	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List informationList, boolean unknown)
 	{
 		informationList.add(LanguageHelper.getString("information.crown.line1"));
+	}
+
+	@Override
+	public String getArmorTextureFile(ItemStack itemstack) 
+	{
+		return "/mods/mca/textures/armor/crown_layer_1.png";
 	}
 }

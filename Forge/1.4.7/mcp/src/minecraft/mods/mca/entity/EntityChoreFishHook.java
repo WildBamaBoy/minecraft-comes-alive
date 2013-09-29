@@ -297,7 +297,7 @@ public class EntityChoreFishHook extends EntityFishHook implements IEntityAdditi
 				{
 					double boundingBoxMinY = this.boundingBox.minY + (this.boundingBox.maxY - this.boundingBox.minY) * (i + 0) / endByte - 0.125D + 0.125D;
 					double boundingBoxMaxY = this.boundingBox.minY + (this.boundingBox.maxY - this.boundingBox.minY) * (i + 1) / endByte - 0.125D + 0.125D;
-					AxisAlignedBB bb = AxisAlignedBB.getAABBPool().getAABB(this.boundingBox.minX, boundingBoxMinY, this.boundingBox.minZ, this.boundingBox.maxX, boundingBoxMaxY, this.boundingBox.maxZ);
+					AxisAlignedBB bb = AxisAlignedBB.getAABBPool().addOrModifyAABBInPool(this.boundingBox.minX, boundingBoxMinY, this.boundingBox.minZ, this.boundingBox.maxX, boundingBoxMaxY, this.boundingBox.maxZ);
 
 					if (this.worldObj.isAABBInMaterial(bb, Material.water))
 					{

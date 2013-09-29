@@ -325,12 +325,6 @@ public class Inventory implements IInventory, Serializable
 		onInventoryChanged();
 	}
 
-	@Override
-	public boolean isInvNameLocalized() 
-	{
-		return false;
-	}
-
 	/**
 	 * Counts the number of the specified item that is contained in the inventory.
 	 * 
@@ -529,7 +523,7 @@ public class Inventory implements IInventory, Serializable
 
 		else
 		{
-			return new ItemStack(Item.swordIron);
+			return new ItemStack(Item.swordSteel);
 		}
 	}
 
@@ -832,7 +826,7 @@ public class Inventory implements IInventory, Serializable
 						return 5;
 					}
 
-					else if (heldItem.getItemName().contains("iron"))
+					else if (heldItem.getItemName().contains("Steel"))
 					{
 						return 6;
 					}
@@ -887,7 +881,7 @@ public class Inventory implements IInventory, Serializable
 						return 5;
 					}
 
-					else if (heldItem.getItemName().contains("iron"))
+					else if (heldItem.getItemName().contains("Steel"))
 					{
 						return 6;
 					}
@@ -931,7 +925,7 @@ public class Inventory implements IInventory, Serializable
 					return 5;
 				}
 
-				else if (heldItem.getItemName().contains("iron"))
+				else if (heldItem.getItemName().contains("Steel"))
 				{
 					return 6;
 				}
@@ -1223,11 +1217,5 @@ public class Inventory implements IInventory, Serializable
 				inventoryItems[i] = inventoryStack;
 			}
 		}
-	}
-
-	@Override
-	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 }

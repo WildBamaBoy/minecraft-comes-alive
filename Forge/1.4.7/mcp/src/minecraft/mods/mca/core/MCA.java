@@ -451,11 +451,11 @@ public class MCA
 	public static Object[][] weddingRegularGiftIDs =
 		{
 		{Item.clay.itemID, 16, 32},
-		{Item.axeIron.itemID, 1, 1},
-		{Item.swordIron.itemID, 1, 1},
-		{Item.shovelIron.itemID, 1, 1},
+		{Item.axeSteel.itemID, 1, 1},
+		{Item.swordSteel.itemID, 1, 1},
+		{Item.shovelSteel.itemID, 1, 1},
 		{Item.arrow.itemID, 16, 32},
-		{Item.pickaxeIron.itemID, 1, 1},
+		{Item.pickaxeSteel.itemID, 1, 1},
 		{Item.redstone.itemID, 8, 32},
 		{Item.porkCooked.itemID, 6, 8},
 		{Item.beefCooked.itemID, 6, 8},
@@ -464,10 +464,10 @@ public class MCA
 		{Block.wood.blockID, 16, 32},
 		{Block.cobblestone.blockID, 16, 32},
 		{Item.coal.itemID, 10, 16},
-		{Item.legsIron.itemID, 1, 1},
-		{Item.helmetIron.itemID, 1, 1},
-		{Item.bootsIron.itemID, 1, 1},
-		{Item.plateIron.itemID, 1, 1},
+		{Item.legsSteel.itemID, 1, 1},
+		{Item.helmetSteel.itemID, 1, 1},
+		{Item.bootsSteel.itemID, 1, 1},
+		{Item.plateSteel.itemID, 1, 1},
 		{Item.melon.itemID, 4, 8},
 		{Block.bookShelf.blockID, 2, 4},
 		{Item.ingotIron.itemID, 8, 16}
@@ -500,7 +500,7 @@ public class MCA
 		{Block.jukebox.blockID, 1, 1},
 		{Block.blockDiamond.blockID, 1, 2},
 		{Block.blockGold.blockID, 1, 4},
-		{Block.blockIron.blockID, 1, 8},
+		{Block.blockSteel.blockID, 1, 8},
 		{Block.obsidian.blockID, 4, 8},
 		{Item.emerald.itemID, 4, 6}
 		};
@@ -877,22 +877,22 @@ public class MCA
 		proxy.registerTickHandlers();
 
 		//Register the items and blocks.
-		itemEngagementRing  = new ItemEngagementRing(modPropertiesManager.modProperties.itemID_EngagementRing).setUnlocalizedName("EngagementRing");
-		itemWeddingRing     = new ItemWeddingRing(modPropertiesManager.modProperties.itemID_WeddingRing).setUnlocalizedName("WeddingRing");
-		itemArrangersRing   = new ItemArrangersRing(modPropertiesManager.modProperties.itemID_ArrangersRing).setUnlocalizedName("ArrangersRing");
-		itemBabyBoy         = new ItemBabyBoy(modPropertiesManager.modProperties.itemID_BabyBoy).setUnlocalizedName("BabyBoy");
-		itemBabyGirl        = new ItemBabyGirl(modPropertiesManager.modProperties.itemID_BabyGirl).setUnlocalizedName("BabyGirl");
-		itemTombstone       = new ItemTombstone(modPropertiesManager.modProperties.itemID_Tombstone).setUnlocalizedName("Tombstone");
-		itemEggMale		    = new ItemEggMale(modPropertiesManager.modProperties.itemID_EggMale).setUnlocalizedName("MCAEggMale");
-		itemEggFemale       = new ItemEggFemale(modPropertiesManager.modProperties.itemID_EggFemale).setUnlocalizedName("MCAEggFemale");
-		itemWhistle		    = new ItemWhistle(modPropertiesManager.modProperties.itemID_Whistle).setUnlocalizedName("Whistle");
-		itemVillagerEditor  = new ItemVillagerEditor(modPropertiesManager.modProperties.itemID_VillagerEditor).setUnlocalizedName("VillagerEditor");
-		itemLostRelativeDocument = new ItemLostRelativeDocument(modPropertiesManager.modProperties.itemID_LostRelativeDocument).setUnlocalizedName("LostRelativeDocument");
-		itemCrown			= new ItemCrown(modPropertiesManager.modProperties.itemID_Crown).setUnlocalizedName("Crown");
-		itemHeirCrown		= new ItemHeirCrown(modPropertiesManager.modProperties.itemID_HeirCrown).setUnlocalizedName("HeirCrown");
-		itemKingsCoat		= new ItemKingsCoat(modPropertiesManager.modProperties.itemID_KingsCoat).setUnlocalizedName("KingsCoat");
-		itemKingsPants		= new ItemKingsPants(modPropertiesManager.modProperties.itemID_KingsPants).setUnlocalizedName("KingsPants");
-		itemKingsBoots		= new ItemKingsBoots(modPropertiesManager.modProperties.itemID_KingsBoots).setUnlocalizedName("KingsBoots");
+		itemEngagementRing  = new ItemEngagementRing(modPropertiesManager.modProperties.itemID_EngagementRing).setItemName("EngagementRing");
+		itemWeddingRing     = new ItemWeddingRing(modPropertiesManager.modProperties.itemID_WeddingRing).setItemName("WeddingRing");
+		itemArrangersRing   = new ItemArrangersRing(modPropertiesManager.modProperties.itemID_ArrangersRing).setItemName("ArrangersRing");
+		itemBabyBoy         = new ItemBabyBoy(modPropertiesManager.modProperties.itemID_BabyBoy).setItemName("BabyBoy");
+		itemBabyGirl        = new ItemBabyGirl(modPropertiesManager.modProperties.itemID_BabyGirl).setItemName("BabyGirl");
+		itemTombstone       = new ItemTombstone(modPropertiesManager.modProperties.itemID_Tombstone).setItemName("Tombstone");
+		itemEggMale		    = new ItemEggMale(modPropertiesManager.modProperties.itemID_EggMale).setItemName("MCAEggMale");
+		itemEggFemale       = new ItemEggFemale(modPropertiesManager.modProperties.itemID_EggFemale).setItemName("MCAEggFemale");
+		itemWhistle		    = new ItemWhistle(modPropertiesManager.modProperties.itemID_Whistle).setItemName("Whistle");
+		itemVillagerEditor  = new ItemVillagerEditor(modPropertiesManager.modProperties.itemID_VillagerEditor).setItemName("VillagerEditor");
+		itemLostRelativeDocument = new ItemLostRelativeDocument(modPropertiesManager.modProperties.itemID_LostRelativeDocument).setItemName("LostRelativeDocument");
+		itemCrown			= new ItemCrown(modPropertiesManager.modProperties.itemID_Crown).setItemName("Crown");
+		itemHeirCrown		= new ItemHeirCrown(modPropertiesManager.modProperties.itemID_HeirCrown).setItemName("HeirCrown");
+		itemKingsCoat		= new ItemKingsCoat(modPropertiesManager.modProperties.itemID_KingsCoat).setItemName("KingsCoat");
+		itemKingsPants		= new ItemKingsPants(modPropertiesManager.modProperties.itemID_KingsPants).setItemName("KingsPants");
+		itemKingsBoots		= new ItemKingsBoots(modPropertiesManager.modProperties.itemID_KingsBoots).setItemName("KingsBoots");
 		blockTombstone      = new BlockTombstone(modPropertiesManager.modProperties.blockID_Tombstone, TileEntityTombstone.class);
 
 		//Register creative tab.
@@ -1000,7 +1000,7 @@ public class MCA
 		achievementGetMarried = new Achievement(1535, "MCA_GetMarried", 0, 12, itemWeddingRing, achievementCharmer).registerAchievement();
 		achievementHaveBabyBoy = new Achievement(1536, "MCA_HaveBabyBoy", -1, 11, itemBabyBoy, achievementGetMarried).registerAchievement();
 		achievementHaveBabyGirl = new Achievement(1537, "MCA_HaveBabyGirl", 1, 11, itemBabyGirl, achievementGetMarried).registerAchievement();
-		achievementCookBaby = new Achievement(1538, "MCA_CookBaby", 3, 12, Block.furnaceBurning, null).registerAchievement();
+		achievementCookBaby = new Achievement(1538, "MCA_CookBaby", 3, 12, Block.stoneOvenActive, null).registerAchievement();
 		achievementBabyGrowUp = new Achievement(1539, "MCA_BabyGrowUp", 0, 10, Block.cake, achievementGetMarried).registerAchievement();
 		achievementChildFarm = new Achievement(1540, "MCA_ChildFarm", -1, 9, Item.wheat, achievementBabyGrowUp).registerAchievement();
 		achievementChildFish = new Achievement(1541, "MCA_ChildFish", -1, 8, Item.fishRaw, achievementBabyGrowUp).registerAchievement();
@@ -1019,9 +1019,9 @@ public class MCA
 		achievementHardcoreSecret = new Achievement(1556, "MCA_HardcoreSecret", 0, -4, itemTombstone, achievementAdultMarried).setSpecial().registerAchievement();
 		achievementCraftCrown = new Achievement(1557, "MCA_CraftCrown", 7, 12, itemCrown, null).setSpecial().registerAchievement();
 		achievementExecuteVillager = new Achievement(1558, "MCA_ExecuteVillager", 4, 10, Item.skull, achievementCraftCrown).registerAchievement(); 
-		achievementMakeKnight = new Achievement(1559, "MCA_MakeKnight", 6, 10, Item.swordIron, achievementCraftCrown).registerAchievement();
+		achievementMakeKnight = new Achievement(1559, "MCA_MakeKnight", 6, 10, Item.swordSteel, achievementCraftCrown).registerAchievement();
 		achievementKnightArmy = new Achievement(1560, "MCA_KnightArmy", 6, 8, Item.swordDiamond, achievementMakeKnight).setSpecial().registerAchievement();
-		achievementMakePeasant = new Achievement(1561, "MCA_MakePeasant", 8, 10, Item.hoeIron, achievementCraftCrown).registerAchievement();
+		achievementMakePeasant = new Achievement(1561, "MCA_MakePeasant", 8, 10, Item.hoeSteel, achievementCraftCrown).registerAchievement();
 		achievementPeasantArmy = new Achievement(1562, "MCA_PeasantArmy", 8, 8, Item.hoeDiamond, achievementMakePeasant).setSpecial().registerAchievement();
 		achievementNameHeir = new Achievement(1563, "MCA_NameHeir", 10, 10, itemHeirCrown, achievementCraftCrown).registerAchievement();
 		achievementMonarchSecret = new Achievement(1564, "MCA_MonarchSecret", 7, 5, Item.writableBook, achievementCraftCrown).setSpecial().registerAchievement();
@@ -1345,16 +1345,16 @@ public class MCA
 		acceptableGifts.put(Item.cookie.itemID, 10);
 		acceptableGifts.put(Item.melon.itemID, 10);
 		acceptableGifts.put(Item.melonSeeds.itemID, 5);
-		acceptableGifts.put(Item.helmetIron.itemID, 10);
-		acceptableGifts.put(Item.plateIron.itemID, 10);
-		acceptableGifts.put(Item.legsIron.itemID, 10);
-		acceptableGifts.put(Item.bootsIron.itemID, 10);
+		acceptableGifts.put(Item.helmetSteel.itemID, 10);
+		acceptableGifts.put(Item.plateSteel.itemID, 10);
+		acceptableGifts.put(Item.legsSteel.itemID, 10);
+		acceptableGifts.put(Item.bootsSteel.itemID, 10);
 		acceptableGifts.put(Item.cake.itemID, 12);
-		acceptableGifts.put(Item.swordIron.itemID, 10);
-		acceptableGifts.put(Item.axeIron.itemID, 10);
-		acceptableGifts.put(Item.hoeIron.itemID, 10);
-		acceptableGifts.put(Item.pickaxeIron.itemID, 10);
-		acceptableGifts.put(Item.shovelIron.itemID, 10);
+		acceptableGifts.put(Item.swordSteel.itemID, 10);
+		acceptableGifts.put(Item.axeSteel.itemID, 10);
+		acceptableGifts.put(Item.hoeSteel.itemID, 10);
+		acceptableGifts.put(Item.pickaxeSteel.itemID, 10);
+		acceptableGifts.put(Item.shovelSteel.itemID, 10);
 		acceptableGifts.put(Item.fishingRod.itemID, 3);
 		acceptableGifts.put(Item.bow.itemID, 5);
 		acceptableGifts.put(Item.book.itemID, 5);
@@ -1368,7 +1368,7 @@ public class MCA
 		acceptableGifts.put(Item.redstone.itemID, 5);
 		acceptableGifts.put(Item.boat.itemID, 4);
 		acceptableGifts.put(Item.doorWood.itemID, 4);
-		acceptableGifts.put(Item.doorIron.itemID, 6);
+		acceptableGifts.put(Item.doorSteel.itemID, 6);
 		acceptableGifts.put(Item.minecartEmpty.itemID, 3);
 		acceptableGifts.put(Item.minecartCrate.itemID, 5);
 		acceptableGifts.put(Item.minecartPowered.itemID, 7);
@@ -1427,13 +1427,13 @@ public class MCA
 		acceptableGifts.put(Block.rail.blockID, 3);
 		acceptableGifts.put(Block.railDetector.blockID, 5);
 		acceptableGifts.put(Block.railPowered.blockID, 5);
-		acceptableGifts.put(Block.furnaceIdle.blockID, 5);
+		acceptableGifts.put(Block.stoneOvenIdle.blockID, 5);
 		acceptableGifts.put(Block.workbench.blockID, 5);
 		acceptableGifts.put(Block.blockLapis.blockID, 15);
 
 		acceptableGifts.put(Block.bookShelf.blockID, 7);
 		acceptableGifts.put(Block.blockGold.blockID, 50);
-		acceptableGifts.put(Block.blockIron.blockID, 25);
+		acceptableGifts.put(Block.blockSteel.blockID, 25);
 		acceptableGifts.put(Block.blockDiamond.blockID, 100);
 		acceptableGifts.put(Block.brewingStand.blockID, 12);
 		acceptableGifts.put(Block.enchantmentTable.blockID, 25);

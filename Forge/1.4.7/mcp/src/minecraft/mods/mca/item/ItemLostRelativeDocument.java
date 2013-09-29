@@ -11,8 +11,8 @@ package mods.mca.item;
 
 import java.util.List;
 
+import mods.mca.core.forge.ClientProxy;
 import mods.mca.core.util.LanguageHelper;
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -33,15 +33,17 @@ public class ItemLostRelativeDocument extends Item
 	public ItemLostRelativeDocument(int id) 
 	{
 		super(id);
-        setUnlocalizedName("Lost Relative Document");
+        setItemName("Lost Relative Document");
         maxStackSize = 64;
         setCreativeTab(CreativeTabs.tabMisc);
+        setIconIndex(11);
 	}
 	
+    @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister iconRegister)
+    public String getTextureFile()
     {
-    	itemIcon = iconRegister.registerIcon("mca:LostRelativeDocument");
+    	return ClientProxy.items;
     }
     
 	@Override

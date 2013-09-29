@@ -80,7 +80,7 @@ public class ChoreMining extends AbstractChore
 	/** How far from the start position the owner will continue active mining.*/
 	public int activeDistance = 5;
 
-	/**The ore that should be mined. 0 = Coal, 1 = Iron, 2 = Lapis Lazuli, 3 = Gold, 4 = Diamond, 5 = Redstone, 6 = Emerald*/
+	/**The ore that should be mined. 0 = Coal, 1 = Steel, 2 = Lapis Lazuli, 3 = Gold, 4 = Diamond, 5 = Redstone, 6 = Emerald*/
 	public int oreType = 0;
 
 	/**The ID of the block that a passive miner is looking for.*/
@@ -399,7 +399,7 @@ public class ChoreMining extends AbstractChore
 	{
 		if (owner.worldObj.isRemote)
 		{
-			owner.setRotationYawHead(heading);
+			owner.setHeadRotationYaw(heading);
 		}
 
 		//Calculate interval based on their fastest pickaxe.
@@ -421,7 +421,7 @@ public class ChoreMining extends AbstractChore
 					activeMineInterval = 30;
 				}
 
-				else if (itemName.contains("Iron"))
+				else if (itemName.contains("Steel"))
 				{
 					activeMineInterval = 25;
 				}
@@ -436,7 +436,7 @@ public class ChoreMining extends AbstractChore
 					activeMineInterval = 5;
 				}
 
-				else //Unrecognized item type, assume iron since it may be from another mod.
+				else //Unrecognized item type, assume Steel since it may be from another mod.
 				{
 					activeMineInterval = 25;
 				}

@@ -389,7 +389,7 @@ public class EntityVillagerAdult extends AbstractEntity
 
 			if (chore instanceof ChoreFarming)
 			{
-				return new ItemStack(Item.hoeIron);
+				return new ItemStack(Item.hoeSteel);
 			}
 
 			else if (chore instanceof ChoreFishing)
@@ -399,12 +399,12 @@ public class EntityVillagerAdult extends AbstractEntity
 
 			else if (chore instanceof ChoreWoodcutting)
 			{
-				return new ItemStack(Item.axeIron);
+				return new ItemStack(Item.axeSteel);
 			}
 
 			else if (chore instanceof ChoreMining)
 			{
-				return new ItemStack(Item.pickaxeIron);
+				return new ItemStack(Item.pickaxeSteel);
 			}
 		}
 
@@ -457,12 +457,12 @@ public class EntityVillagerAdult extends AbstractEntity
 					{
 						if (profession == 5)
 						{
-							return new ItemStack(Item.swordIron);
+							return new ItemStack(Item.swordSteel);
 						}
 
 						else if (isInChoreMode && profession == 7)
 						{
-							return new ItemStack(Item.pickaxeIron);
+							return new ItemStack(Item.pickaxeSteel);
 						}
 
 						else
@@ -535,12 +535,12 @@ public class EntityVillagerAdult extends AbstractEntity
 				{
 					if (profession == 5)
 					{
-						return new ItemStack(Item.swordIron);
+						return new ItemStack(Item.swordSteel);
 					}
 
 					else if (isInChoreMode && profession == 7)
 					{
-						return new ItemStack(Item.pickaxeIron);
+						return new ItemStack(Item.pickaxeSteel);
 					}
 
 					else

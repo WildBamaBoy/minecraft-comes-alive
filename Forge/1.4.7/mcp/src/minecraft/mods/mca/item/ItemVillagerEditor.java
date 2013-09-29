@@ -11,8 +11,8 @@ package mods.mca.item;
 
 import java.util.List;
 
+import mods.mca.core.forge.ClientProxy;
 import mods.mca.core.util.LanguageHelper;
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -33,15 +33,17 @@ public class ItemVillagerEditor extends Item
 	public ItemVillagerEditor(int id) 
 	{
 		super(id);
-        setUnlocalizedName("Villager Editor");
+        setItemName("Villager Editor");
         maxStackSize = 1;
         setCreativeTab(CreativeTabs.tabMisc);
+        setIconIndex(10);
 	}
 	
+    @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister iconRegister)
+    public String getTextureFile()
     {
-    	itemIcon = iconRegister.registerIcon("mca:VillagerEditor");
+    	return ClientProxy.items;
     }
     
 	@SideOnly(Side.CLIENT)

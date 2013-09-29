@@ -177,7 +177,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/** The direction mining should go. 0 = Forward, 1 = Backward, 2 = Left, 3 = Right*/
 	private int mineDirection = 0;
 
-	/** The ore that should be mined. 0 = Coal, 1 = Iron, 2 = Lapis Lazuli, 3 = Gold, 4 = Diamond, 5 = Redstone, 6 = Emerald*/
+	/** The ore that should be mined. 0 = Coal, 1 = Steel, 2 = Lapis Lazuli, 3 = Gold, 4 = Diamond, 5 = Redstone, 6 = Emerald*/
 	private int mineOre = 0;
 
 	/** The distance in blocks that mining should go.*/
@@ -212,7 +212,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	@Override
 	public void initGui()
 	{
-		buttonList.clear();
+		controlList.clear();
 		hearts = entityVillager.getHearts(player);
 		drawBaseGui();
 	}
@@ -547,7 +547,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void drawBaseGui()
 	{
-		buttonList.clear();
+		controlList.clear();
 		inSpecialGui = false;
 		inMiningGui = false;
 		inNoSpecialGui = false;
@@ -556,46 +556,46 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		inInteractionSelectGui = false;
 		displaySuccessChance = false;
 
-		buttonList.add(interactButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.interact")));
-		buttonList.add(followButton  = new GuiButton(2, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
-		buttonList.add(stayButton    = new GuiButton(3, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
-		buttonList.add(setHomeButton = new GuiButton(4, width / 2 - 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.sethome")));
+		controlList.add(interactButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.interact")));
+		controlList.add(followButton  = new GuiButton(2, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
+		controlList.add(stayButton    = new GuiButton(3, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
+		controlList.add(setHomeButton = new GuiButton(4, width / 2 - 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.sethome")));
 
 		if (!(entityVillager instanceof EntityPlayerChild))
 		{
-			buttonList.add(specialButton = new GuiButton(5, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.special")));
+			controlList.add(specialButton = new GuiButton(5, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.special")));
 		}
 		
 		if (entityVillager.getProfession() != 5 && !(entityVillager instanceof EntityPlayerChild))
 		{
-			buttonList.add(tradeButton = new GuiButton(8, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.trade")));
+			controlList.add(tradeButton = new GuiButton(8, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.trade")));
 		}
 
 		if (entityVillager.hasArrangerRing)
 		{
-			buttonList.add(takeArrangerRingButton = new GuiButton(8, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.interact.takearrangerring")));
+			controlList.add(takeArrangerRingButton = new GuiButton(8, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.interact.takearrangerring")));
 		}
 
 		else if (entityVillager.playerMemoryMap.get(player.username).hasGift)
 		{
-			buttonList.add(takeGiftButton = new GuiButton(8, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.interact.takegift")));
+			controlList.add(takeGiftButton = new GuiButton(8, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.interact.takegift")));
 		}
 
 		if (MCA.instance.playerWorldManagerMap.get(player.username).worldProperties.isMonarch)
 		{
 			if (entityVillager.getProfession() != 5)
 			{
-				buttonList.add(monarchButton = new GuiButton(9, width / 2 + 30, height / 2 + 60, 60, 20, LanguageHelper.getString("monarch.title.monarch")));
+				controlList.add(monarchButton = new GuiButton(9, width / 2 + 30, height / 2 + 60, 60, 20, LanguageHelper.getString("monarch.title.monarch")));
 			}
 
 			else
 			{
-				buttonList.add(monarchButton = new GuiButton(9, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("monarch.title.monarch")));
+				controlList.add(monarchButton = new GuiButton(9, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("monarch.title.monarch")));
 			}
 		}
 
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		controlList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		controlList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = false;
 
 		if (entityVillager.isFollowing) followButton.displayString = LanguageHelper.getString("gui.button.interact.followstop");
@@ -609,44 +609,44 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	@Override
 	protected void drawInteractionGui()
 	{
-		buttonList.clear();
+		controlList.clear();
 
 		inSpecialGui = true;
 		inInteractionSelectGui = true;
 
-		buttonList.add(chatButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.chat")));
-		buttonList.add(jokeButton = new GuiButton(2, width / 2 - 90, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.joke")));
-		buttonList.add(giftButton = new GuiButton(3, width / 2 - 90, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.gift")));
-		buttonList.add(greetButton = new GuiButton(4, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.greet")));
-		buttonList.add(tellStoryButton = new GuiButton(5, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.tellstory")));
+		controlList.add(chatButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.chat")));
+		controlList.add(jokeButton = new GuiButton(2, width / 2 - 90, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.joke")));
+		controlList.add(giftButton = new GuiButton(3, width / 2 - 90, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.gift")));
+		controlList.add(greetButton = new GuiButton(4, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.greet")));
+		controlList.add(tellStoryButton = new GuiButton(5, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.tellstory")));
 
 		EnumRelation relationToPlayer = entityVillager.familyTree.getRelationTo(MCA.instance.getIdOfPlayer(player));
 
 		if (relationToPlayer == EnumRelation.None || relationToPlayer == EnumRelation.Spouse)
 		{
-			buttonList.add(kissButton = new GuiButton(6, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.kiss")));
-			buttonList.add(flirtButton = new GuiButton(7, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.flirt")));
+			controlList.add(kissButton = new GuiButton(6, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.kiss")));
+			controlList.add(flirtButton = new GuiButton(7, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.flirt")));
 		}
 
 		greetButton.displayString = entityVillager.playerMemoryMap.get(player.username).hearts >= 50 ? LanguageHelper.getString("gui.button.interact.greet.highfive") : LanguageHelper.getString("gui.button.interact.greet.handshake");
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		controlList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		controlList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 	}
 
 	private void drawHiringGui()
 	{
-		buttonList.clear();
+		controlList.clear();
 		inSpecialGui = true;
 		inHiringGui = true;
 
-		buttonList.add(hoursButton = new GuiButton(1, width / 2 - 30, height / 2 - 0, 60, 20, LanguageHelper.getString("gui.button.hiring.hours") + hiringHours));
-		buttonList.add(hoursIncreaseButton = new GuiButton(2, width / 2 + 30, height / 2 - 0, 15, 20, ">>"));
-		buttonList.add(hoursDecreaseButton = new GuiButton(3, width / 2 - 44, height / 2 - 0, 15, 20, "<<"));
+		controlList.add(hoursButton = new GuiButton(1, width / 2 - 30, height / 2 - 0, 60, 20, LanguageHelper.getString("gui.button.hiring.hours") + hiringHours));
+		controlList.add(hoursIncreaseButton = new GuiButton(2, width / 2 + 30, height / 2 - 0, 15, 20, ">>"));
+		controlList.add(hoursDecreaseButton = new GuiButton(3, width / 2 - 44, height / 2 - 0, 15, 20, "<<"));
 
-		buttonList.add(hireButton = new GuiButton(4, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.special.guard.hire")));
+		controlList.add(hireButton = new GuiButton(4, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.special.guard.hire")));
 
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		controlList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		controlList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = true;
 	}
 	/**
@@ -654,22 +654,22 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void drawPriestSpecialGui()
 	{
-		buttonList.clear();
+		controlList.clear();
 		inSpecialGui = true;
 
-		buttonList.add(divorceSpouseButton = new GuiButton(1, width / 2 - 125, height / 2 + 10, 85, 20, LanguageHelper.getString("gui.button.special.priest.divorcespouse")));
-		buttonList.add(divorceCoupleButton = new GuiButton(2, width / 2 - 40, height / 2 + 10, 85, 20, LanguageHelper.getString("gui.button.special.priest.divorcecouple")));
-		buttonList.add(giveUpBabyButton    = new GuiButton(3, width / 2 + 45, height / 2 + 10, 85, 20, LanguageHelper.getString("gui.button.special.priest.giveupbaby")));
-		buttonList.add(adoptBabyButton     = new GuiButton(4, width / 2 - 125, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.special.priest.adoptbaby")));
-		buttonList.add(arrangedMarriageButton = new GuiButton(5, width / 2 - 40, height / 2 + 30, 120, 20, LanguageHelper.getString("gui.button.special.priest.arrangedmarriage")));
+		controlList.add(divorceSpouseButton = new GuiButton(1, width / 2 - 125, height / 2 + 10, 85, 20, LanguageHelper.getString("gui.button.special.priest.divorcespouse")));
+		controlList.add(divorceCoupleButton = new GuiButton(2, width / 2 - 40, height / 2 + 10, 85, 20, LanguageHelper.getString("gui.button.special.priest.divorcecouple")));
+		controlList.add(giveUpBabyButton    = new GuiButton(3, width / 2 + 45, height / 2 + 10, 85, 20, LanguageHelper.getString("gui.button.special.priest.giveupbaby")));
+		controlList.add(adoptBabyButton     = new GuiButton(4, width / 2 - 125, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.special.priest.adoptbaby")));
+		controlList.add(arrangedMarriageButton = new GuiButton(5, width / 2 - 40, height / 2 + 30, 120, 20, LanguageHelper.getString("gui.button.special.priest.arrangedmarriage")));
 
 		WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
 		divorceSpouseButton.enabled = manager.worldProperties.playerSpouseID != 0;
 		giveUpBabyButton.enabled = manager.worldProperties.babyExists;
 		arrangedMarriageButton.enabled = manager.worldProperties.playerSpouseID == 0;
 
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		controlList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		controlList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = true;
 	}
 
@@ -678,7 +678,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void drawMinerSpecialGui() 
 	{
-		buttonList.clear();
+		controlList.clear();
 		inSpecialGui = true;
 		inFarmingGui = false;
 		inFishingGui = false;
@@ -686,12 +686,12 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		inMiningGui = false;
 		inHiringGui = false;
 
-		buttonList.add(hireButton = new GuiButton (1, width / 2 - 90, height / 2 + 20, 85, 20, LanguageHelper.getString("gui.button.special.guard.hire")));
-		buttonList.add(dismissButton = new GuiButton (2, width / 2 - 90, height / 2 + 40, 85, 20, LanguageHelper.getString("gui.button.special.guard.dismiss")));
-		buttonList.add(miningButton = new GuiButton(3, width / 2 - 5, height / 2 + 20, 85, 20, LanguageHelper.getString("gui.button.chore.mining")));
+		controlList.add(hireButton = new GuiButton (1, width / 2 - 90, height / 2 + 20, 85, 20, LanguageHelper.getString("gui.button.special.guard.hire")));
+		controlList.add(dismissButton = new GuiButton (2, width / 2 - 90, height / 2 + 40, 85, 20, LanguageHelper.getString("gui.button.special.guard.dismiss")));
+		controlList.add(miningButton = new GuiButton(3, width / 2 - 5, height / 2 + 20, 85, 20, LanguageHelper.getString("gui.button.chore.mining")));
 
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		controlList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		controlList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = false;
 
 		hireButton.enabled = entityVillager.playerMemoryMap.get(player.username).isHired == false;
@@ -702,12 +702,12 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			if (entityVillager.isInChoreMode)
 			{
-				buttonList.add(choreStopButton = new GuiButton(7, width / 2 - 60, height / 2 - 30, 120, 20, LanguageHelper.getString("gui.button.child.stopchore")));
+				controlList.add(choreStopButton = new GuiButton(7, width / 2 - 60, height / 2 - 30, 120, 20, LanguageHelper.getString("gui.button.child.stopchore")));
 
 				miningButton.enabled = false;
 			}
 
-			buttonList.add(inventoryButton = new GuiButton(6, width / 2 - 60, height / 2 - 10, 120, 20, LanguageHelper.getString("gui.button.spouse.inventory")));
+			controlList.add(inventoryButton = new GuiButton(6, width / 2 - 60, height / 2 - 10, 120, 20, LanguageHelper.getString("gui.button.spouse.inventory")));
 		}
 	}
 
@@ -716,13 +716,13 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void drawBakerSpecialGui() 
 	{
-		buttonList.clear();
+		controlList.clear();
 		inSpecialGui = true;
 
-		buttonList.add(requestAidButton = new GuiButton(1, width / 2 - 40, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.special.baker.aid")));
+		controlList.add(requestAidButton = new GuiButton(1, width / 2 - 40, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.special.baker.aid")));
 
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		controlList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		controlList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = true;
 	}
 
@@ -731,19 +731,19 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void drawGuardSpecialGui() 
 	{
-		buttonList.clear();
+		controlList.clear();
 		inSpecialGui = true;
 		inCombatGui = false;
 		inHuntingGui = false;
 		inHiringGui = false;
 
-		buttonList.add(hireButton = new GuiButton (1, width / 2 - 90, height / 2 + 20, 85, 20, LanguageHelper.getString("gui.button.special.guard.hire")));
-		buttonList.add(dismissButton = new GuiButton (2, width / 2 - 90, height / 2 + 40, 85, 20, LanguageHelper.getString("gui.button.special.guard.dismiss")));
-		buttonList.add(combatButton = new GuiButton(3, width / 2 - 5, height / 2 + 20, 85, 20, LanguageHelper.getString("gui.button.chore.combat")));
-		buttonList.add(huntingButton = new GuiButton(4, width / 2 - 5, height / 2 + 40, 85, 20, LanguageHelper.getString("gui.button.chore.hunting")));
+		controlList.add(hireButton = new GuiButton (1, width / 2 - 90, height / 2 + 20, 85, 20, LanguageHelper.getString("gui.button.special.guard.hire")));
+		controlList.add(dismissButton = new GuiButton (2, width / 2 - 90, height / 2 + 40, 85, 20, LanguageHelper.getString("gui.button.special.guard.dismiss")));
+		controlList.add(combatButton = new GuiButton(3, width / 2 - 5, height / 2 + 20, 85, 20, LanguageHelper.getString("gui.button.chore.combat")));
+		controlList.add(huntingButton = new GuiButton(4, width / 2 - 5, height / 2 + 40, 85, 20, LanguageHelper.getString("gui.button.chore.hunting")));
 
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		controlList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		controlList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = false;
 
 		hireButton.enabled = entityVillager.playerMemoryMap.get(player.username).isHired == false;
@@ -755,12 +755,12 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			if (entityVillager.isInChoreMode)
 			{
-				buttonList.add(choreStopButton = new GuiButton(7, width / 2 - 60, height / 2 - 30, 120, 20, LanguageHelper.getString("gui.button.child.stopchore")));
+				controlList.add(choreStopButton = new GuiButton(7, width / 2 - 60, height / 2 - 30, 120, 20, LanguageHelper.getString("gui.button.child.stopchore")));
 
 				huntingButton.enabled = false;
 			}
 
-			buttonList.add(inventoryButton = new GuiButton(6, width / 2 - 60, height / 2 - 10, 120, 20, LanguageHelper.getString("gui.button.spouse.inventory")));
+			controlList.add(inventoryButton = new GuiButton(6, width / 2 - 60, height / 2 - 10, 120, 20, LanguageHelper.getString("gui.button.spouse.inventory")));
 		}
 	}
 
@@ -769,13 +769,13 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void drawButcherSpecialGui() 
 	{
-		buttonList.clear();
+		controlList.clear();
 		inSpecialGui = true;
 
-		buttonList.add(requestAidButton = new GuiButton(1, width / 2 - 40, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.special.butcher.aid")));
+		controlList.add(requestAidButton = new GuiButton(1, width / 2 - 40, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.special.butcher.aid")));
 
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		controlList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		controlList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = true;
 	}
 
@@ -784,13 +784,13 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void drawSmithSpecialGui() 
 	{
-		buttonList.clear();
+		controlList.clear();
 		inSpecialGui = true;
 
-		buttonList.add(requestAidButton = new GuiButton(1, width / 2 - 40, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.special.butcher.aid")));
+		controlList.add(requestAidButton = new GuiButton(1, width / 2 - 40, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.special.butcher.aid")));
 
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		controlList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		controlList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = true;
 	}
 
@@ -799,23 +799,23 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void drawFarmerSpecialGui()
 	{
-		buttonList.clear();
+		controlList.clear();
 		inSpecialGui = true;
 		inFarmingGui = false;
 		inFishingGui = false;
 		inWoodcuttingGui = false;
 		inHiringGui = false;
 
-		buttonList.add(hireButton = new GuiButton (1, width / 2 - 90, height / 2 + 20, 85, 20, LanguageHelper.getString("gui.button.special.guard.hire")));
-		buttonList.add(dismissButton = new GuiButton (2, width / 2 - 90, height / 2 + 40, 85, 20, LanguageHelper.getString("gui.button.special.guard.dismiss")));
-		buttonList.add(requestAidButton = new GuiButton(2, width / 2 - 90, height / 2 + 60, 85, 20, LanguageHelper.getString("gui.button.special.farmer.aid")));
+		controlList.add(hireButton = new GuiButton (1, width / 2 - 90, height / 2 + 20, 85, 20, LanguageHelper.getString("gui.button.special.guard.hire")));
+		controlList.add(dismissButton = new GuiButton (2, width / 2 - 90, height / 2 + 40, 85, 20, LanguageHelper.getString("gui.button.special.guard.dismiss")));
+		controlList.add(requestAidButton = new GuiButton(2, width / 2 - 90, height / 2 + 60, 85, 20, LanguageHelper.getString("gui.button.special.farmer.aid")));
 
-		buttonList.add(farmingButton = new GuiButton(3, width / 2 - 5, height / 2 + 20, 85, 20, LanguageHelper.getString("gui.button.chore.farming")));
-		buttonList.add(fishingButton = new GuiButton(4, width / 2 - 5, height / 2 + 40, 85, 20, LanguageHelper.getString("gui.button.chore.fishing")));
-		buttonList.add(woodcuttingButton = new GuiButton(5, width / 2 - 5, height / 2 + 60, 85, 20, LanguageHelper.getString("gui.button.chore.woodcutting")));
+		controlList.add(farmingButton = new GuiButton(3, width / 2 - 5, height / 2 + 20, 85, 20, LanguageHelper.getString("gui.button.chore.farming")));
+		controlList.add(fishingButton = new GuiButton(4, width / 2 - 5, height / 2 + 40, 85, 20, LanguageHelper.getString("gui.button.chore.fishing")));
+		controlList.add(woodcuttingButton = new GuiButton(5, width / 2 - 5, height / 2 + 60, 85, 20, LanguageHelper.getString("gui.button.chore.woodcutting")));
 
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		controlList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		controlList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = false;
 
 		hireButton.enabled = entityVillager.playerMemoryMap.get(player.username).isHired == false;
@@ -828,14 +828,14 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			if (entityVillager.isInChoreMode)
 			{
-				buttonList.add(choreStopButton = new GuiButton(7, width / 2 - 60, height / 2 - 30, 120, 20, LanguageHelper.getString("gui.button.child.stopchore")));
+				controlList.add(choreStopButton = new GuiButton(7, width / 2 - 60, height / 2 - 30, 120, 20, LanguageHelper.getString("gui.button.child.stopchore")));
 
 				farmingButton.enabled = false;
 				fishingButton.enabled = false;
 				woodcuttingButton.enabled = false;
 			}
 
-			buttonList.add(inventoryButton = new GuiButton(6, width / 2 - 60, height / 2 - 10, 120, 20, LanguageHelper.getString("gui.button.spouse.inventory")));
+			controlList.add(inventoryButton = new GuiButton(6, width / 2 - 60, height / 2 - 10, 120, 20, LanguageHelper.getString("gui.button.spouse.inventory")));
 		}
 	}
 
@@ -844,13 +844,13 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void drawLibrarianSpecialGui()
 	{
-		buttonList.clear();
+		controlList.clear();
 		inSpecialGui = true;
 
-		buttonList.add(openSetupButton = new GuiButton(1, width / 2 - 40, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.special.librarian.setup")));
+		controlList.add(openSetupButton = new GuiButton(1, width / 2 - 40, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.special.librarian.setup")));
 
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		controlList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		controlList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = true;
 	}
 
@@ -859,20 +859,20 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void drawFarmingGui()
 	{
-		buttonList.clear();
+		controlList.clear();
 		inInteractionSelectGui = false;
 		inFarmingGui = true;
 
-		buttonList.add(choreStartButton   = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
-		buttonList.add(farmMethodButton = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, LanguageHelper.getString("gui.button.chore.farming.method")));
+		controlList.add(choreStartButton   = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
+		controlList.add(farmMethodButton = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, LanguageHelper.getString("gui.button.chore.farming.method")));
 		farmMethodButton.enabled = false;
 
 		farmMethodButton.displayString += LanguageHelper.getString("gui.button.chore.farming.method.maintain");
-		buttonList.add(farmRadiusButton = new GuiButton(5, width / 2 - 70, height / 2 - 10, 135, 20, LanguageHelper.getString("gui.button.chore.farming.radius")));
+		controlList.add(farmRadiusButton = new GuiButton(5, width / 2 - 70, height / 2 - 10, 135, 20, LanguageHelper.getString("gui.button.chore.farming.radius")));
 		farmRadiusButton.displayString += farmRadius;
 
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		controlList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		controlList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 	}
 
 	/**
@@ -880,13 +880,13 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void drawFishingGui()
 	{
-		buttonList.clear();
+		controlList.clear();
 		inInteractionSelectGui = false;
 		inFishingGui = true;
 
-		buttonList.add(choreStartButton   = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		controlList.add(choreStartButton   = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
+		controlList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		controlList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = false;
 	}
 
@@ -895,24 +895,24 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void drawCombatGui()
 	{
-		buttonList.clear();
+		controlList.clear();
 		inInteractionSelectGui = false;
 		inCombatGui = true;
 
-		buttonList.add(combatMethodButton 			= new GuiButton(1,  width / 2 - 190, height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.method")));
-		buttonList.add(combatAttackPigsButton		= new GuiButton(2,  width / 2 - 190, height / 2 + 0,  120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.pig")));
-		buttonList.add(combatAttackSheepButton 		= new GuiButton(3,  width / 2 - 190, height / 2 + 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.sheep")));
-		buttonList.add(combatAttackCowsButton 		= new GuiButton(4,  width / 2 - 190, height / 2 + 40, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.cow")));
-		buttonList.add(combatAttackChickensButton 	= new GuiButton(5,  width / 2 - 190, height / 2 + 60, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.chicken")));
-		buttonList.add(combatAttackSpidersButton 	= new GuiButton(6,  width / 2 - 60,  height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.spider")));
-		buttonList.add(combatAttackZombiesButton 	= new GuiButton(7,  width / 2 - 60,  height / 2 + 0,  120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.zombie")));
-		buttonList.add(combatAttackSkeletonsButton 	= new GuiButton(8,  width / 2 - 60,  height / 2 + 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.skeleton")));
-		buttonList.add(combatAttackCreepersButton 	= new GuiButton(9,  width / 2 - 60,  height / 2 + 40, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.creeper")));
-		buttonList.add(combatAttackEndermenButton 	= new GuiButton(10, width / 2 - 60,  height / 2 + 60, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.enderman")));
-		buttonList.add(combatAttackUnknownButton 	= new GuiButton(11, width / 2 + 80,  height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.unknown")));
-		buttonList.add(combatSentryButton 			= new GuiButton(12, width / 2 + 80,  height / 2 + 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.sentry")));
-		buttonList.add(combatSentryRadiusButton 	= new GuiButton(13, width / 2 + 80,  height / 2 + 40, 120, 20, LanguageHelper.getString("gui.button.chore.combat.sentry.radius")));
-		buttonList.add(combatSentrySetPositionButton = new GuiButton(14, width / 2 + 80, height / 2 + 60, 120, 20, LanguageHelper.getString("gui.button.chore.combat.sentry.position.set")));
+		controlList.add(combatMethodButton 			= new GuiButton(1,  width / 2 - 190, height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.method")));
+		controlList.add(combatAttackPigsButton		= new GuiButton(2,  width / 2 - 190, height / 2 + 0,  120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.pig")));
+		controlList.add(combatAttackSheepButton 		= new GuiButton(3,  width / 2 - 190, height / 2 + 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.sheep")));
+		controlList.add(combatAttackCowsButton 		= new GuiButton(4,  width / 2 - 190, height / 2 + 40, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.cow")));
+		controlList.add(combatAttackChickensButton 	= new GuiButton(5,  width / 2 - 190, height / 2 + 60, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.chicken")));
+		controlList.add(combatAttackSpidersButton 	= new GuiButton(6,  width / 2 - 60,  height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.spider")));
+		controlList.add(combatAttackZombiesButton 	= new GuiButton(7,  width / 2 - 60,  height / 2 + 0,  120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.zombie")));
+		controlList.add(combatAttackSkeletonsButton 	= new GuiButton(8,  width / 2 - 60,  height / 2 + 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.skeleton")));
+		controlList.add(combatAttackCreepersButton 	= new GuiButton(9,  width / 2 - 60,  height / 2 + 40, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.creeper")));
+		controlList.add(combatAttackEndermenButton 	= new GuiButton(10, width / 2 - 60,  height / 2 + 60, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.enderman")));
+		controlList.add(combatAttackUnknownButton 	= new GuiButton(11, width / 2 + 80,  height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.attack.unknown")));
+		controlList.add(combatSentryButton 			= new GuiButton(12, width / 2 + 80,  height / 2 + 20, 120, 20, LanguageHelper.getString("gui.button.chore.combat.sentry")));
+		controlList.add(combatSentryRadiusButton 	= new GuiButton(13, width / 2 + 80,  height / 2 + 40, 120, 20, LanguageHelper.getString("gui.button.chore.combat.sentry.radius")));
+		controlList.add(combatSentrySetPositionButton = new GuiButton(14, width / 2 + 80, height / 2 + 60, 120, 20, LanguageHelper.getString("gui.button.chore.combat.sentry.position.set")));
 
 		if (entityVillager.combatChore.useMelee && entityVillager.combatChore.useRange)
 		{
@@ -962,8 +962,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		combatSentryRadiusButton.enabled = false;
 		combatSentrySetPositionButton.enabled = false;
 
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		controlList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		controlList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = false;
 	}
 
@@ -972,12 +972,12 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void drawWoodcuttingGui()
 	{
-		buttonList.clear();
+		controlList.clear();
 		inInteractionSelectGui = false;
 		inWoodcuttingGui = true;
 
-		buttonList.add(choreStartButton = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
-		buttonList.add(woodTreeTypeButton = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, LanguageHelper.getString("gui.button.chore.woodcutting.treetype")));
+		controlList.add(choreStartButton = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
+		controlList.add(woodTreeTypeButton = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, LanguageHelper.getString("gui.button.chore.woodcutting.treetype")));
 
 		if (treeType == 0)
 		{
@@ -999,8 +999,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			woodTreeTypeButton.displayString += LanguageHelper.getString("gui.button.chore.woodcutting.treetype.jungle");
 		}
 
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		controlList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		controlList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 	}
 
 	/**
@@ -1008,15 +1008,15 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void drawMiningGui()
 	{
-		buttonList.clear();
+		controlList.clear();
 		inInteractionSelectGui = false;
 		inMiningGui = true;
 
-		buttonList.add(choreStartButton    = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
-		buttonList.add(mineMethodButton    = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, LanguageHelper.getString("gui.button.chore.mining.method")));
-		buttonList.add(mineDirectionButton = new GuiButton(3, width / 2 - 70, height / 2 + 10, 135, 20, LanguageHelper.getString("gui.button.chore.mining.direction")));
-		buttonList.add(mineDistanceButton  = new GuiButton(4, width / 2 - 70, height / 2 + 30, 135, 20, LanguageHelper.getString("gui.button.chore.mining.distance") +  mineDistance));
-		buttonList.add(mineFindButton      = new GuiButton(5, width / 2 - 70, height / 2 + 50, 135, 20, LanguageHelper.getString("gui.button.chore.mining.find")));
+		controlList.add(choreStartButton    = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
+		controlList.add(mineMethodButton    = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, LanguageHelper.getString("gui.button.chore.mining.method")));
+		controlList.add(mineDirectionButton = new GuiButton(3, width / 2 - 70, height / 2 + 10, 135, 20, LanguageHelper.getString("gui.button.chore.mining.direction")));
+		controlList.add(mineDistanceButton  = new GuiButton(4, width / 2 - 70, height / 2 + 30, 135, 20, LanguageHelper.getString("gui.button.chore.mining.distance") +  mineDistance));
+		controlList.add(mineFindButton      = new GuiButton(5, width / 2 - 70, height / 2 + 50, 135, 20, LanguageHelper.getString("gui.button.chore.mining.find")));
 
 		switch (mineMethod)
 		{
@@ -1035,7 +1035,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		switch (mineOre)
 		{
 		case 0: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.coal"); break;
-		case 1: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.iron"); break;
+		case 1: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.Steel"); break;
 		case 2: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.lapis"); break;
 		case 3: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.gold"); break;
 		case 4: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.diamond"); break;
@@ -1048,8 +1048,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		mineDistanceButton.enabled = false;
 		mineFindButton.enabled = false;
 
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		controlList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		controlList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = false;
 	}
 
@@ -1058,12 +1058,12 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void drawHuntingGui()
 	{
-		buttonList.clear();
+		controlList.clear();
 		inInteractionSelectGui = false;
 		inHuntingGui = true;
 
-		buttonList.add(choreStartButton = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
-		buttonList.add(huntModeButton   = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, LanguageHelper.getString("gui.button.chore.hunting.mode")));
+		controlList.add(choreStartButton = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
+		controlList.add(huntModeButton   = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, LanguageHelper.getString("gui.button.chore.hunting.mode")));
 
 		if (huntMode == 0)
 		{
@@ -1077,8 +1077,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		huntModeButton.enabled = false;
 
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		controlList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		controlList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 	}
 
 	/**
@@ -1086,14 +1086,14 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void drawMonarchGui()
 	{
-		buttonList.clear();
+		controlList.clear();
 		inSpecialGui = true;
 		inMonarchGui = true;
 
-		buttonList.add(executeButton	 = new GuiButton(1, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("monarch.gui.button.interact.execute")));
-		buttonList.add(demandGiftButton  = new GuiButton(2, width / 2 - 60, height / 2 - 0, 120, 20, LanguageHelper.getString("monarch.gui.button.interact.demandgift")));
-		buttonList.add(makePeasantButton = new GuiButton(3, width / 2 - 60, height / 2 + 20, 120, 20, LanguageHelper.getString("monarch.gui.button.interact.makepeasant")));
-		buttonList.add(makeKnightButton  = new GuiButton(4, width / 2 - 60, height / 2 + 40, 120, 20, LanguageHelper.getString("monarch.gui.button.interact.makeknight")));
+		controlList.add(executeButton	 = new GuiButton(1, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("monarch.gui.button.interact.execute")));
+		controlList.add(demandGiftButton  = new GuiButton(2, width / 2 - 60, height / 2 - 0, 120, 20, LanguageHelper.getString("monarch.gui.button.interact.demandgift")));
+		controlList.add(makePeasantButton = new GuiButton(3, width / 2 - 60, height / 2 + 20, 120, 20, LanguageHelper.getString("monarch.gui.button.interact.makepeasant")));
+		controlList.add(makeKnightButton  = new GuiButton(4, width / 2 - 60, height / 2 + 40, 120, 20, LanguageHelper.getString("monarch.gui.button.interact.makeknight")));
 
 		demandGiftButton.enabled = MCA.instance.modPropertiesManager.modProperties.server_allowDemandGift;
 
@@ -1117,8 +1117,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			}
 		}
 
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		controlList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		controlList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = false;
 	}
 

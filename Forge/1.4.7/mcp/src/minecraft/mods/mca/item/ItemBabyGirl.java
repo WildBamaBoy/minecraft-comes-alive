@@ -9,8 +9,10 @@
 
 package mods.mca.item;
 
-import net.minecraft.client.renderer.texture.IconRegister;
+import mods.mca.core.forge.ClientProxy;
 import net.minecraft.creativetab.CreativeTabs;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * Defines what the Baby Girl is and how it behaves.
@@ -25,14 +27,16 @@ public class ItemBabyGirl extends ItemBaby
     public ItemBabyGirl(int id)
     {
         super(id);
-        setUnlocalizedName("Baby Girl");
+        setItemName("Baby Girl");
         gender = "Female";
         setCreativeTab(CreativeTabs.tabMisc);
+        setIconIndex(2);
     }
     
+    @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister iconRegister)
+    public String getTextureFile()
     {
-    	itemIcon = iconRegister.registerIcon("mca:BabyGirl");
+    	return ClientProxy.items;
     }
 }

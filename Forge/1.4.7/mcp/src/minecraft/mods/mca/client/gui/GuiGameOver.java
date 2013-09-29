@@ -70,7 +70,7 @@ public class GuiGameOver extends AbstractGui
 	@Override
 	public void initGui()
 	{
-		buttonList.clear();
+		controlList.clear();
 
 		if (mc.theWorld.getWorldInfo().isHardcoreModeEnabled())
 		{
@@ -198,13 +198,13 @@ public class GuiGameOver extends AbstractGui
 
 		else
 		{
-			GuiButton testButton = (GuiButton) this.buttonList.get(0);
+			GuiButton testButton = (GuiButton) this.controlList.get(0);
 
 			if (!testButton.enabled)
 			{
-				for (int i = 0; i < this.buttonList.size(); i++)
+				for (int i = 0; i < this.controlList.size(); i++)
 				{
-					GuiButton button = (GuiButton) this.buttonList.get(i);
+					GuiButton button = (GuiButton) this.controlList.get(i);
 					button.enabled = true;
 
 					if (shiftIndexLeftButton != null)
@@ -235,23 +235,23 @@ public class GuiGameOver extends AbstractGui
 	 */
 	public void drawHardcoreGameOverGUI()
 	{
-		buttonList.clear();
+		controlList.clear();
 
-		buttonList.add(deleteWorldButton = new GuiButton(1, width / 2 - 100, height / 4 + 56, StatCollector.translateToLocal("deathScreen.deleteWorld")));
+		controlList.add(deleteWorldButton = new GuiButton(1, width / 2 - 100, height / 4 + 56, StatCollector.translateToLocal("deathScreen.deleteWorld")));
 
 		if (adultChildren.isEmpty())
 		{
-			buttonList.add(selectedChildButton = new GuiButton(3, width / 2 - 100, height / 4 + 96, LanguageHelper.getString("gui.info.hardcoresecret.nochildren")));
+			controlList.add(selectedChildButton = new GuiButton(3, width / 2 - 100, height / 4 + 96, LanguageHelper.getString("gui.info.hardcoresecret.nochildren")));
 		}
 
 		else
 		{
-			buttonList.add(selectedChildButton = new GuiButton(3, width / 2 - 100, height / 4 + 96, LanguageHelper.getString("gui.info.hardcoresecret.spawnas") + adultChildren.get(currentIndex).name));
+			controlList.add(selectedChildButton = new GuiButton(3, width / 2 - 100, height / 4 + 96, LanguageHelper.getString("gui.info.hardcoresecret.spawnas") + adultChildren.get(currentIndex).name));
 		}
 
-		buttonList.add(shiftIndexLeftButton = new GuiButton(4, width / 2 - 122, height / 4 + 96, 20, 20, "<--"));
-		buttonList.add(shiftIndexRightButton = new GuiButton(5, width / 2 + 102, height / 4 + 96, 20, 20, "-->"));
-		buttonList.add(respawnAsChildButton = new GuiButton(6, width / 2 - 100, height / 4 + 120, LanguageHelper.getString("gui.info.hardcoresecret.respawn")));
+		controlList.add(shiftIndexLeftButton = new GuiButton(4, width / 2 - 122, height / 4 + 96, 20, 20, "<--"));
+		controlList.add(shiftIndexRightButton = new GuiButton(5, width / 2 + 102, height / 4 + 96, 20, 20, "-->"));
+		controlList.add(respawnAsChildButton = new GuiButton(6, width / 2 - 100, height / 4 + 120, LanguageHelper.getString("gui.info.hardcoresecret.respawn")));
 
 		deleteWorldButton.enabled = false;
 		selectedChildButton.enabled = false;
@@ -266,12 +266,12 @@ public class GuiGameOver extends AbstractGui
 	 */
 	public void drawGameOverGUI()
 	{
-		buttonList.add(respawnButton = new GuiButton(1, width / 2 - 100, height / 4 + 72, StatCollector.translateToLocal("deathScreen.respawn")));
-		buttonList.add(titleScreenButton = new GuiButton(2, width / 2 - 100, height / 4 + 96, StatCollector.translateToLocal("deathScreen.titleScreen")));
+		controlList.add(respawnButton = new GuiButton(1, width / 2 - 100, height / 4 + 72, StatCollector.translateToLocal("deathScreen.respawn")));
+		controlList.add(titleScreenButton = new GuiButton(2, width / 2 - 100, height / 4 + 96, StatCollector.translateToLocal("deathScreen.titleScreen")));
 
 		if (mc.session == null)
 		{
-			((GuiButton)buttonList.get(1)).enabled = false;
+			((GuiButton)controlList.get(1)).enabled = false;
 		}
 
 		respawnButton.enabled = false;

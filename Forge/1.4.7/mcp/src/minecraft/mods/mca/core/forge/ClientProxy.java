@@ -28,6 +28,9 @@ import cpw.mods.fml.relauncher.Side;
  */
 public class ClientProxy extends CommonProxy 
 {	
+	/** Location of the item.png file.*/
+	public static String items = "/mods/mca/textures/items.png";
+	
 	@Override
 	public void registerRenderers() 
 	{

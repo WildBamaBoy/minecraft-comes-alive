@@ -9,17 +9,20 @@
 
 package mods.mca.item;
 
-import net.minecraft.client.renderer.texture.IconRegister;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import mods.mca.core.forge.ClientProxy;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.IArmorTextureProvider;
 
 /**
  * Defines what the King's Pants is and how it behaves.
  */
-public class ItemKingsPants extends ItemArmor
+public class ItemKingsPants extends ItemArmor implements IArmorTextureProvider
 {
     /**
      * Constructor
@@ -29,19 +32,21 @@ public class ItemKingsPants extends ItemArmor
     public ItemKingsPants(int id)
     {
         super(id, EnumArmorMaterial.GOLD, 0, 2);
-        setUnlocalizedName("MonarchPants");
+        setItemName("MonarchPants");
         maxStackSize = 1;
         setCreativeTab(CreativeTabs.tabMisc);
+        setIconIndex(15);
     }
     
+    @SideOnly(Side.CLIENT)
     @Override
-    public void registerIcons(IconRegister iconRegister)
+    public String getTextureFile()
     {
-    	itemIcon = iconRegister.registerIcon("mca:KingPants");
+    	return ClientProxy.items;
     }
 
 	@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, int slot, int layer) 
+	public String getArmorTextureFile(ItemStack itemstack) 
 	{
 		return "/mods/mca/textures/armor/crown_layer_2.png";
 	}

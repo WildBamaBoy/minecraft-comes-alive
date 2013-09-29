@@ -153,7 +153,7 @@ public class GuiDivorceCouple extends AbstractGui
 		{
 			boolean hotkeysDisplayed = false;
 
-			for (Object obj : buttonList)
+			for (Object obj : controlList)
 			{
 				GuiButton button = (GuiButton)obj;
 
@@ -181,7 +181,7 @@ public class GuiDivorceCouple extends AbstractGui
 
 			if (hotkeysDisplayed)
 			{
-				for (Object obj : buttonList)
+				for (Object obj : controlList)
 				{
 					GuiButton button = (GuiButton)obj;
 
@@ -209,7 +209,7 @@ public class GuiDivorceCouple extends AbstractGui
 			{
 				int id = Integer.parseInt(Character.toString(c));
 
-				for (Object obj : buttonList)
+				for (Object obj : controlList)
 				{
 					GuiButton button = (GuiButton)obj;
 
@@ -246,26 +246,26 @@ public class GuiDivorceCouple extends AbstractGui
 	 */
 	private void drawDivorceCoupleSelectGui()
 	{
-		buttonList.clear();
-
-		buttonList.add(shiftIndexDownButton = new GuiButton(1, width / 2 - 135, height / 2 + -16, 40, 20, "<--"));
-		buttonList.add(shiftIndexUpButton = new GuiButton(2, width / 2 + 105, height / 2 + -16, 40, 20, "-->"));
-		buttonList.add(divorceButton = new GuiButton(3, width / 2 - 20, height / 2 + 50 + -16, 65, 20, LanguageHelper.getString("gui.button.special.priest.divorce")));
+		controlList.clear();
+		
+		controlList.add(shiftIndexDownButton = new GuiButton(1, width / 2 - 135, height / 2 + -16, 40, 20, "<--"));
+		controlList.add(shiftIndexUpButton = new GuiButton(2, width / 2 + 105, height / 2 + -16, 40, 20, "-->"));
+		controlList.add(divorceButton = new GuiButton(3, width / 2 - 20, height / 2 + 50 + -16, 65, 20, LanguageHelper.getString("gui.button.special.priest.divorce")));
 
 		try
 		{
 			String husbandName = (String)marriedVillagers.keySet().toArray()[currentIndex];
 			String wifeName = (String)marriedVillagers.values().toArray()[currentIndex];
-			buttonList.add(selectedCoupleButton = new GuiButton(4, width / 2 - 95, height / 2 + -16, husbandName + " & " + wifeName));
+			controlList.add(selectedCoupleButton = new GuiButton(4, width / 2 - 95, height / 2 + -16, husbandName + " & " + wifeName));
 		}
 
 		catch (ArrayIndexOutOfBoundsException e)
 		{
-			buttonList.add(selectedCoupleButton = new GuiButton(4, width / 2 - 95, height / 2 + -16, LanguageHelper.getString("gui.button.special.priest.divorcecouple.nonefound")));
+			controlList.add(selectedCoupleButton = new GuiButton(4, width / 2 - 95, height / 2 + -16, LanguageHelper.getString("gui.button.special.priest.divorcecouple.nonefound")));
 		}
 
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		controlList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		controlList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = true;
 	}
 

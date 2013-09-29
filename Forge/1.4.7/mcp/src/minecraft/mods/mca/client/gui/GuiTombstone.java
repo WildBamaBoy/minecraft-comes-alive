@@ -58,9 +58,9 @@ public class GuiTombstone extends AbstractGui
 	@Override
 	public void initGui()
 	{
-		buttonList.clear();
+		controlList.clear();
 		Keyboard.enableRepeatEvents(true);
-		buttonList.add(new GuiButton(0, width / 2 - 100, height / 2 + 70, LanguageHelper.getString("gui.button.ok")));
+		controlList.add(new GuiButton(0, width / 2 - 100, height / 2 + 70, LanguageHelper.getString("gui.button.ok")));
 		entityTombstone.guiOpen = true;
 	}
 

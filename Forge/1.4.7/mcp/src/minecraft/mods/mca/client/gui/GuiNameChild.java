@@ -81,9 +81,9 @@ public class GuiNameChild extends AbstractGui
 	{
 		Keyboard.enableRepeatEvents(true);
 
-		buttonList.clear();
-		buttonList.add(doneButton = new GuiButton(1, width / 2 - 40, height / 2 - 10, 80, 20, LanguageHelper.getString("gui.button.done")));
-		buttonList.add(randomButton = new GuiButton(2, width / 2 + 105, height / 2 - 60, 60, 20, LanguageHelper.getString("gui.button.random")));
+		controlList.clear();
+		controlList.add(doneButton = new GuiButton(1, width / 2 - 40, height / 2 - 10, 80, 20, LanguageHelper.getString("gui.button.done")));
+		controlList.add(randomButton = new GuiButton(2, width / 2 + 105, height / 2 - 60, 60, 20, LanguageHelper.getString("gui.button.random")));
 
 		babyNameTextField = new GuiTextField(fontRenderer, width / 2 - 100, height / 2 - 60, 200, 20);
 		babyNameTextField.setMaxStringLength(32);
@@ -137,7 +137,7 @@ public class GuiNameChild extends AbstractGui
 		if (text.contains("/") || text.contains("?") || text.contains("<") || text.contains(">") || text.contains("\\") || text.contains(":") || text.contains("*") || text.contains("|") || text.contains("\""))
 		{
 			containsInvalidCharacters = true;
-			((GuiButton)buttonList.get(0)).enabled = false;
+			((GuiButton)controlList.get(0)).enabled = false;
 		}
 
 		else

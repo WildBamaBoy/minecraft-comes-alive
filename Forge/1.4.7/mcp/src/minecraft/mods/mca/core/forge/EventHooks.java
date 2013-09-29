@@ -103,9 +103,9 @@ public class EventHooks
 				mob.tasks.addTask(2, new EntityAIAttackOnCollide(mob, EntityVillagerAdult.class, moveSpeed, false));
 				mob.tasks.addTask(2, new EntityAIAttackOnCollide(mob, EntityPlayerChild.class, moveSpeed, false));
 				mob.tasks.addTask(2, new EntityAIAttackOnCollide(mob, EntityVillagerChild.class, moveSpeed, false));
-				mob.targetTasks.addTask(2, new EntityAINearestAttackableTarget(mob, EntityVillagerAdult.class, 16, 50, false));
-				mob.targetTasks.addTask(2, new EntityAINearestAttackableTarget(mob, EntityPlayerChild.class, 16, 50, false));
-				mob.targetTasks.addTask(2, new EntityAINearestAttackableTarget(mob, EntityVillagerChild.class, 16, 50, false));
+//				mob.targetTasks.addTask(2, new EntityAINearestAttackableTarget(mob, EntityVillagerAdult.class, 16, 50, false));
+//				mob.targetTasks.addTask(2, new EntityAINearestAttackableTarget(mob, EntityPlayerChild.class, 16, 50, false));
+//				mob.targetTasks.addTask(2, new EntityAINearestAttackableTarget(mob, EntityVillagerChild.class, 16, 50, false));
 			}
 
 			else if (mob instanceof EntityCreeper)
@@ -189,7 +189,7 @@ public class EventHooks
 			{
 				MCA.instance.log("Loading world properties for dedicated server...");
 
-				String worldName = MinecraftServer.getServer().worldServers[0].getSaveHandler().getWorldDirectoryName();
+				String worldName = MinecraftServer.getServer().worldServers[0].getSaveHandler().getSaveDirectoryName();
 				File worldPropertiesFolderPath = new File(MCA.instance.runningDirectory + "/config/MCA/ServerWorlds/" + worldName);
 
 				if (!worldPropertiesFolderPath.exists())
@@ -208,7 +208,7 @@ public class EventHooks
 			{
 				MCA.instance.log("Loading world properties for integrated server...");
 
-				String worldName = MinecraftServer.getServer().worldServers[0].getSaveHandler().getWorldDirectoryName();
+				String worldName = MinecraftServer.getServer().worldServers[0].getSaveHandler().getSaveDirectoryName();
 				File worldPropertiesFolderPath = new File(MCA.instance.runningDirectory + "/config/MCA/Worlds/" + worldName);
 
 				if (!worldPropertiesFolderPath.exists())

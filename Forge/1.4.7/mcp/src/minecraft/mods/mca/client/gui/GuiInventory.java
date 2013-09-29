@@ -67,9 +67,9 @@ public class GuiInventory extends InventoryEffectRenderer
 	{
 		super.initGui();
 
-		buttonList.clear();
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
+		controlList.clear();
+		controlList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		controlList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 	}
 
 	@Override
@@ -128,7 +128,7 @@ public class GuiInventory extends InventoryEffectRenderer
 	protected void drawGuiContainerBackgroundLayer(float offset, int mouseX, int mouseY)
 	{
 		int textureId = mc.renderEngine.getTexture("/gui/container.png");
-		mc.renderEngine.bindTexture("/gui/container.png");
+		mc.renderEngine.bindTexture(textureId);
 		
 		int addX = Minecraft.getMinecraft().thePlayer.getActivePotionEffects().size() > 0 ? 120 : 0;
 

@@ -70,7 +70,7 @@ public class GuiSetup extends AbstractGui
 	@Override
 	public void initGui()
 	{
-		buttonList.clear();
+		controlList.clear();
 
 		if (manager.worldProperties.playerGender.equals(""))
 		{
@@ -204,11 +204,11 @@ public class GuiSetup extends AbstractGui
 		inGenderSelectGui = true;
 		inOptionsGui      = false;
 
-		buttonList.clear();
+		controlList.clear();
 
-		buttonList.add(genderButton = new GuiButton(1, width / 2 - 70, height / 2 - 10, 140, 20, LanguageHelper.getString("gui.button.setup.gender" + manager.worldProperties.playerGender.toLowerCase())));
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(nextButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.next")));
+		controlList.add(genderButton = new GuiButton(1, width / 2 - 70, height / 2 - 10, 140, 20, LanguageHelper.getString("gui.button.setup.gender" + manager.worldProperties.playerGender.toLowerCase())));
+		controlList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		controlList.add(nextButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.next")));
 
 		genderButton.enabled = !viewedFromLibrarian;
 		backButton.enabled = false;
@@ -225,13 +225,13 @@ public class GuiSetup extends AbstractGui
 		inGenderSelectGui = false;
 		inOptionsGui      = false;
 
-		buttonList.clear();
+		controlList.clear();
 
 		nameTextField = new GuiTextField(fontRenderer, width / 2 - 100, height / 2 - 10, 200, 20);
 		nameTextField.setText(manager.worldProperties.playerName);
 
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(nextButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.next")));
+		controlList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		controlList.add(nextButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.next")));
 
 		backButton.enabled = false;
 
@@ -247,15 +247,15 @@ public class GuiSetup extends AbstractGui
 		inGenderSelectGui = false;
 		inOptionsGui      = true;
 
-		buttonList.clear();
+		controlList.clear();
 
-		buttonList.add(hideTagsButton              = new GuiButton(1, width / 2 - 80, height / 2 - 10, 170, 20, LanguageHelper.getString("gui.button.setup.hidesleepingtag")));
-		buttonList.add(autoGrowChildrenButton      = new GuiButton(2, width / 2 - 80, height / 2 + 10, 170, 20, LanguageHelper.getString("gui.button.setup.growchildrenautomatically")));
-		buttonList.add(displayMoodParticlesButton  = new GuiButton(3, width / 2 - 80, height / 2 + 30, 170, 20, LanguageHelper.getString("gui.button.setup.displaymoodparticles")));
-		buttonList.add(preferenceButton = new GuiButton(4, width / 2 - 80, height / 2 + 50, 170, 20, LanguageHelper.getString("gui.button.setup.preference")));
+		controlList.add(hideTagsButton              = new GuiButton(1, width / 2 - 80, height / 2 - 10, 170, 20, LanguageHelper.getString("gui.button.setup.hidesleepingtag")));
+		controlList.add(autoGrowChildrenButton      = new GuiButton(2, width / 2 - 80, height / 2 + 10, 170, 20, LanguageHelper.getString("gui.button.setup.growchildrenautomatically")));
+		controlList.add(displayMoodParticlesButton  = new GuiButton(3, width / 2 - 80, height / 2 + 30, 170, 20, LanguageHelper.getString("gui.button.setup.displaymoodparticles")));
+		controlList.add(preferenceButton = new GuiButton(4, width / 2 - 80, height / 2 + 50, 170, 20, LanguageHelper.getString("gui.button.setup.preference")));
 
-		buttonList.add(backButton   = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
-		buttonList.add(finishButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.setup.finish")));
+		controlList.add(backButton   = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
+		controlList.add(finishButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.setup.finish")));
 
 		if (manager.worldProperties.hideSleepingTag) hideTagsButton.displayString = hideTagsButton.displayString + LanguageHelper.getString("gui.button.yes");
 		else hideTagsButton.displayString = hideTagsButton.displayString + LanguageHelper.getString("gui.button.no");

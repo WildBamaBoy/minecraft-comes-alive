@@ -12,9 +12,9 @@ package mods.mca.item;
 import java.util.List;
 
 import mods.mca.core.MCA;
+import mods.mca.core.forge.ClientProxy;
 import mods.mca.core.util.LanguageHelper;
 import mods.mca.tileentity.TileEntityTombstone;
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -39,6 +39,7 @@ public class ItemTombstone extends Item
 		super(id);
 		maxStackSize = 1;
 		setCreativeTab(CreativeTabs.tabMisc);
+		setIconIndex(8);
 	}
 
 	/**
@@ -115,7 +116,7 @@ public class ItemTombstone extends Item
 
 					if (i1 == 0 || i1 == 4 || i1 == 8 || i1 == 12)
 					{
-						world.setBlock(x, y, z, MCA.instance.blockTombstone.blockID, i1, 2);
+						world.setBlockAndMetadata(x, y, z, MCA.instance.blockTombstone.blockID, i1);
 					}
 					else
 					{
@@ -124,7 +125,7 @@ public class ItemTombstone extends Item
 				}
 				else
 				{
-					world.setBlock(x, y, z, MCA.instance.blockTombstone.blockID, meta, 2);
+					world.setBlockAndMetadata(x, y, z, MCA.instance.blockTombstone.blockID, meta);
 				}
 
 				--itemStack.stackSize;
@@ -140,11 +141,12 @@ public class ItemTombstone extends Item
 		}
 	}
 
-	@Override
-	public void registerIcons(IconRegister iconRegister)
-	{
-		itemIcon = iconRegister.registerIcon("mca:Tombstone");
-	}
+    @SideOnly(Side.CLIENT)
+    @Override
+    public String getTextureFile()
+    {
+    	return ClientProxy.items;
+    }
 	
 	@Override
 	@SideOnly(Side.CLIENT)
