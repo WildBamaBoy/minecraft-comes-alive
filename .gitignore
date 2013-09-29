@@ -17,35 +17,35 @@
 *.war
 *.ear
 
-# 1.6.2 Folders #
+# 1.4.7 Folders #
 Build/*
 Submissions/*
-Forge/1.6.2/client/*
-Forge/1.6.2/common/*
-Forge/1.6.2/fml/*
-Forge/1.6.2/patches/*
-Forge/1.6.2/mcp/bin/*
-Forge/1.6.2/mcp/conf/*
-Forge/1.6.2/mcp/docs/*
-Forge/1.6.2/mcp/eclipse/*
-Forge/1.6.2/mcp/jars/*
-Forge/1.6.2/mcp/lib/*
-Forge/1.6.2/mcp/logs/*
-Forge/1.6.2/mcp/modsrc/*
-Forge/1.6.2/mcp/reobf/*
-Forge/1.6.2/mcp/runtime/*
-Forge/1.6.2/mcp/src/minecraft/cpw/*
-Forge/1.6.2/mcp/src/minecraft/ibxm/*
-Forge/1.6.2/mcp/src/minecraft/net/*
-Forge/1.6.2/mcp/src/minecraft/paulscode/*
-Forge/1.6.2/mcp/temp/*
+Forge/1.4.7/client/*
+Forge/1.4.7/common/*
+Forge/1.4.7/fml/*
+Forge/1.4.7/patches/*
+Forge/1.4.7/mcp/bin/*
+Forge/1.4.7/mcp/conf/*
+Forge/1.4.7/mcp/docs/*
+Forge/1.4.7/mcp/eclipse/*
+Forge/1.4.7/mcp/jars/*
+Forge/1.4.7/mcp/lib/*
+Forge/1.4.7/mcp/logs/*
+Forge/1.4.7/mcp/modsrc/*
+Forge/1.4.7/mcp/reobf/*
+Forge/1.4.7/mcp/runtime/*
+Forge/1.4.7/mcp/src/minecraft/cpw/*
+Forge/1.4.7/mcp/src/minecraft/ibxm/*
+Forge/1.4.7/mcp/src/minecraft/net/*
+Forge/1.4.7/mcp/src/minecraft/paulscode/*
+Forge/1.4.7/mcp/temp/*
 
-# 1.6.2 Files #
-Forge/1.6.2/mcp/src/minecraft/forge_logo.png
-Forge/1.6.2/mcp/src/minecraft/Start.java
-Forge/1.6.2/mcp/CHANGELOG
-Forge/1.6.2/mcp/src/minecraft/mcpmod.info
-Forge/1.6.2/mcp/src/minecraft/mcp.png
+# 1.4.7 Files #
+Forge/1.4.7/mcp/src/minecraft/forge_logo.png
+Forge/1.4.7/mcp/src/minecraft/Start.java
+Forge/1.4.7/mcp/CHANGELOG
+Forge/1.4.7/mcp/src/minecraft/mcpmod.info
+Forge/1.4.7/mcp/src/minecraft/mcp.png
 
 # 1.5.2 Folders #
 Build/*
@@ -76,6 +76,36 @@ Forge/1.5.2/mcp/src/minecraft/Start.java
 Forge/1.5.2/mcp/CHANGELOG
 Forge/1.5.2/mcp/src/minecraft/mcpmod.info
 Forge/1.5.2/mcp/src/minecraft/mcp.png
+
+# 1.6.2 Folders #
+Build/*
+Submissions/*
+Forge/1.6.2/client/*
+Forge/1.6.2/common/*
+Forge/1.6.2/fml/*
+Forge/1.6.2/patches/*
+Forge/1.6.2/mcp/bin/*
+Forge/1.6.2/mcp/conf/*
+Forge/1.6.2/mcp/docs/*
+Forge/1.6.2/mcp/eclipse/*
+Forge/1.6.2/mcp/jars/*
+Forge/1.6.2/mcp/lib/*
+Forge/1.6.2/mcp/logs/*
+Forge/1.6.2/mcp/modsrc/*
+Forge/1.6.2/mcp/reobf/*
+Forge/1.6.2/mcp/runtime/*
+Forge/1.6.2/mcp/src/minecraft/cpw/*
+Forge/1.6.2/mcp/src/minecraft/ibxm/*
+Forge/1.6.2/mcp/src/minecraft/net/*
+Forge/1.6.2/mcp/src/minecraft/paulscode/*
+Forge/1.6.2/mcp/temp/*
+
+# 1.6.2 Files #
+Forge/1.6.2/mcp/src/minecraft/forge_logo.png
+Forge/1.6.2/mcp/src/minecraft/Start.java
+Forge/1.6.2/mcp/CHANGELOG
+Forge/1.6.2/mcp/src/minecraft/mcpmod.info
+Forge/1.6.2/mcp/src/minecraft/mcp.png
 
 # 1.6.4 Folders #
 Build/*
@@ -142,10 +172,15 @@ Forge/1.7/mcp/src/minecraft/mcp.png
 !/Assemble.py
 !/Assemble 1.5.2.py
 !/Master.properties
-!/Forge/1.6.2/mcp/getchangedsrc.bat
-!/Forge/1.6.2/mcp/recompile.bat
-!/Forge/1.6.4/mcp/getchangedsrc.bat
-!/Forge/1.6.4/mcp/recompile.bat
+!/Forge/1.4.7/mcp/getchangedsrc.bat
+!/Forge/1.4.7/mcp/recompile.bat
+!/Forge/1.4.7/mcp/reobfuscate.bat
 !/Forge/1.5.2/mcp/getchangedsrc.bat
 !/Forge/1.5.2/mcp/recompile.bat
+!/Forge/1.5.2/mcp/reobfuscate.bat
+!/Forge/1.6.2/mcp/getchangedsrc.bat
+!/Forge/1.6.2/mcp/recompile.bat
 !/Forge/1.6.2/mcp/reobfuscate.bat
+!/Forge/1.6.4/mcp/getchangedsrc.bat
+!/Forge/1.6.4/mcp/recompile.bat
+!/Forge/1.6.4/mcp/reobfuscate.bat
