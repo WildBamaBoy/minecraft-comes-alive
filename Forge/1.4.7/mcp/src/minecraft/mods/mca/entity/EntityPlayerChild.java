@@ -1088,7 +1088,8 @@ public class EntityPlayerChild extends EntityChild
 				}
 
 				isAdult = true;
-
+				setChoresStopped();
+				
 				EntityPlayer player = worldObj.getPlayerEntityByName(ownerPlayerName);
 
 				if (player != null)
