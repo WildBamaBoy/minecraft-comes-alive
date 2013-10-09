@@ -5,7 +5,7 @@
   "description": "No more squidward-villagers! Interact with male and female human villagers and raise a family.",
   "version": "3.5.1",
   "credits": "mezzodrinker, The_Nanobots, many others.",
-  "logoFile": "/mca.png",
+  "logoFile" : "mca.png",
   "mcversion": "1.6.4",
   "url": "http://www.minecraftforum.net/topic/926757-minecraft-comes-alive/",
   "updateUrl": "",
