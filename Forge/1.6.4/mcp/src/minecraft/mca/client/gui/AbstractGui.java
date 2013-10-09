@@ -74,7 +74,12 @@ public abstract class AbstractGui extends GuiScreen
 	@Override
 	protected void keyTyped(char eventCharacter, int eventKey)
 	{
-		if ((eventKey == Keyboard.KEY_LCONTROL || eventKey == Keyboard.KEY_RCONTROL) && inInteractionSelectGui)
+		if (eventKey == Keyboard.KEY_ESCAPE)
+		{
+			close();
+		}
+		
+		else if ((eventKey == Keyboard.KEY_LCONTROL || eventKey == Keyboard.KEY_RCONTROL) && inInteractionSelectGui)
 		{
 			displaySuccessChance = !displaySuccessChance;
 			drawInteractionGui();
