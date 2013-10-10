@@ -80,6 +80,7 @@ import mca.item.ItemWeddingRing;
 import mca.item.ItemWhistle;
 import mca.tileentity.TileEntityTombstone;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
@@ -869,7 +870,7 @@ public class MCA
 
 		//Load external data and register things.
 		modPropertiesManager = new ModPropertiesManager();
-		proxy.loadSkinsFromArchive();
+		proxy.loadSkins();
 		proxy.registerTileEntities();
 		proxy.registerRenderers();
 		proxy.registerTickHandlers();
@@ -1160,11 +1161,13 @@ public class MCA
 		PrintWriter stackTraceWriter = new PrintWriter(stackTrace);
 		e.printStackTrace(stackTraceWriter);
 
-		logger.log(Level.FINER, "Minecraft Comes Alive: An exception occurred.\n" + stackTrace.toString());
-		System.out.println("Minecraft Comes Alive: An exception occurred.\n" + stackTrace.toString());
+		logger.log(Level.FINER, "Minecraft Comes Alive: An exception occurred.\n>>>>>" + description + "<<<<<\n" + stackTrace.toString());
+		System.out.println("Minecraft Comes Alive: An exception occurred.\n>>>>>" + description + "<<<<<\n" + stackTrace.toString());
 
 		CrashReport crashReport = new CrashReport("MCA: " + description, e);
-		net.minecraft.client.Minecraft.getMinecraft().crashed(crashReport);
+		
+		Minecraft.getMinecraft().crashed(crashReport);
+		Minecraft.getMinecraft().displayCrashReport(crashReport);
 	}
 
 	/**
