@@ -708,7 +708,7 @@ public class MCA
 			return "UNABLE TO PROCESS";
 		}
 	}
-
+	
 	/**
 	 * Deletes a path and all files and folders within.
 	 * 
@@ -1166,7 +1166,6 @@ public class MCA
 		System.out.println("Minecraft Comes Alive: An exception occurred.\n>>>>>" + description + "<<<<<\n" + stackTrace.toString());
 
 		CrashReport crashReport = new CrashReport("MCA: " + description, e);
-		
 		Minecraft.getMinecraft().crashed(crashReport);
 		Minecraft.getMinecraft().displayCrashReport(crashReport);
 	}
