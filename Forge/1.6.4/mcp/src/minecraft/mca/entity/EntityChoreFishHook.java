@@ -52,7 +52,7 @@ public class EntityChoreFishHook extends EntityFishHook implements IEntityAdditi
 
 	/** An instance of the person holding the fishing rod. */
 	public AbstractEntity angler;
-	
+
 	@SideOnly(Side.CLIENT)
 	private double velocityX;
 	@SideOnly(Side.CLIENT)
@@ -393,9 +393,13 @@ public class EntityChoreFishHook extends EntityFishHook implements IEntityAdditi
 	public void readSpawnData(ByteArrayDataInput data) 
 	{
 		int anglerId = data.readInt();
-		
+
 		angler = (AbstractEntity)worldObj.getEntityByID(anglerId);
-		angler.fishingChore.fishEntity = this;
-		angler.tasks.taskEntries.clear();
+
+		if (angler != null)
+		{
+			angler.fishingChore.fishEntity = this;
+			angler.tasks.taskEntries.clear();
+		}
 	}
 }
