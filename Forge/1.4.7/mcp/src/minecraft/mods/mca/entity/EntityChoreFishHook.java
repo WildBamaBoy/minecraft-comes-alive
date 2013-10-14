@@ -395,7 +395,11 @@ public class EntityChoreFishHook extends EntityFishHook implements IEntityAdditi
 		int anglerId = data.readInt();
 		
 		angler = (AbstractEntity)worldObj.getEntityByID(anglerId);
-		angler.fishingChore.fishEntity = this;
-		angler.tasks.taskEntries.clear();
+		
+		if (angler != null)
+		{
+			angler.fishingChore.fishEntity = this;
+			angler.tasks.taskEntries.clear();
+		}
 	}
 }

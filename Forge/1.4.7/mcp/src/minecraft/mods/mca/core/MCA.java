@@ -80,6 +80,7 @@ import mods.mca.item.ItemWeddingRing;
 import mods.mca.item.ItemWhistle;
 import mods.mca.tileentity.TileEntityTombstone;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
@@ -639,7 +640,7 @@ public class MCA
 
 		catch (Throwable e)
 		{
-			MCA.instance.quitWithError("Error compressing byte array.", e);
+			MCA.instance.quitWithThrowable("Error compressing byte array.", e);
 			return null;
 		}
 	}
@@ -674,7 +675,7 @@ public class MCA
 
 		catch (Throwable e)
 		{
-			MCA.instance.quitWithError("Error decompressing byte array.", e);
+			MCA.instance.quitWithThrowable("Error decompressing byte array.", e);
 			return null;
 		}
 	}
@@ -871,7 +872,7 @@ public class MCA
 
 		//Load external data and register things.
 		modPropertiesManager = new ModPropertiesManager();
-		proxy.loadSkinsFromArchive();
+		proxy.loadSkins();
 		proxy.registerTileEntities();
 		proxy.registerRenderers();
 		proxy.registerTickHandlers();
@@ -1155,18 +1156,43 @@ public class MCA
 	 * @param 	e			The exception that caused this method to be called.
 	 */
 	@SideOnly(Side.CLIENT)
-	public void quitWithError(String description, Throwable e)
+	public void quitWithDescription(String description)
+	{
+		Writer stackTrace = new StringWriter();
+
+		Throwable e = new Throwable();
+		PrintWriter stackTraceWriter = new PrintWriter(stackTrace);
+		e.printStackTrace(stackTraceWriter);
+
+		logger.log(Level.FINER, "Minecraft Comes Alive: An exception occurred.\n>>>>>" + description + "<<<<<\n" + stackTrace.toString());
+		System.out.println("Minecraft Comes Alive: An exception occurred.\n>>>>>" + description + "<<<<<\n" + stackTrace.toString());
+
+		CrashReport crashReport = new CrashReport("MCA: " + description, e);
+		Minecraft.getMinecraft().crashed(crashReport);
+		Minecraft.getMinecraft().displayCrashReport(crashReport);
+	}
+	
+	/**
+	 * Stops the game and writes the error to the Forge crash log.
+	 * 
+	 * @param 	description	A string providing a short description of the problem.
+	 * @param 	e			The exception that caused this method to be called.
+	 */
+	@SideOnly(Side.CLIENT)
+	public void quitWithThrowable(String description, Throwable e)
 	{
 		Writer stackTrace = new StringWriter();
 
 		PrintWriter stackTraceWriter = new PrintWriter(stackTrace);
 		e.printStackTrace(stackTraceWriter);
 
-		logger.log(Level.FINER, "Minecraft Comes Alive: An exception occurred.\n" + stackTrace.toString());
-		System.out.println("Minecraft Comes Alive: An exception occurred.\n" + stackTrace.toString());
+		logger.log(Level.FINER, "Minecraft Comes Alive: An exception occurred.\n>>>>>" + description + "<<<<<\n" + stackTrace.toString());
+		System.out.println("Minecraft Comes Alive: An exception occurred.\n>>>>>" + description + "<<<<<\n" + stackTrace.toString());
 
 		CrashReport crashReport = new CrashReport("MCA: " + description, e);
-		net.minecraft.client.Minecraft.getMinecraft().crashed(crashReport);
+		
+		Minecraft.getMinecraft().crashed(crashReport);
+		Minecraft.getMinecraft().displayCrashReport(crashReport);
 	}
 
 	/**

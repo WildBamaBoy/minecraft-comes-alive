@@ -140,7 +140,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 	/** The direction mining should go. 0 = Forward, 1 = Backward, 2 = Left, 3 = Right*/
 	private int mineDirection = 0;
 
-	/** The ore that should be mined. 0 = Coal, 1 = Steel, 2 = Lapis Lazuli, 3 = Gold, 4 = Diamond, 5 = Redstone, 6 = Emerald*/
+	/** The ore that should be mined. 0 = Coal, 1 = Iron, 2 = Lapis Lazuli, 3 = Gold, 4 = Diamond, 5 = Redstone, 6 = Emerald*/
 	private int mineOre = 0;
 
 	/** The distance in blocks that mining should go.*/
@@ -459,26 +459,8 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		controlList.add(followButton    = new GuiButton(2, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
 		controlList.add(stayButton      = new GuiButton(3, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
 		controlList.add(setHomeButton   = new GuiButton(4, width / 2 - 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.sethome")));
-
-		if (entityChild.isAdult)
-		{
-			if (MCA.instance.playerWorldManagerMap.get(player.username).worldProperties.isMonarch)
-			{
-				controlList.add(choresButton    = new GuiButton(7, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.child.chores")));
-				controlList.add(inventoryButton = new GuiButton(8, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.child.inventory")));
-			}
-
-			else
-			{
-				controlList.add(inventoryButton = new GuiButton(7, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.child.inventory")));
-			}
-		}
-
-		else
-		{
-			controlList.add(choresButton    = new GuiButton(7, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.child.chores")));
-			controlList.add(inventoryButton = new GuiButton(8, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.child.inventory")));
-		}
+		controlList.add(choresButton    = new GuiButton(7, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.child.chores")));
+		controlList.add(inventoryButton = new GuiButton(8, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.child.inventory")));
 
 		controlList.add(backButton      = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		controlList.add(exitButton      = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
@@ -568,6 +550,15 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		controlList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		controlList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = false;
+		
+		if (entityChild.isAdult)
+		{
+			farmingButton.enabled = false;
+			fishingButton.enabled = false;
+			woodcuttingButton.enabled = false;
+			miningButton.enabled = false;
+			huntingButton.enabled = false;
+		}
 	}
 
 	/**
@@ -803,7 +794,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		switch (mineOre)
 		{
 		case 0: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.coal"); break;
-		case 1: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.Steel"); break;
+		case 1: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.iron"); break;
 		case 2: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.lapis"); break;
 		case 3: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.gold"); break;
 		case 4: mineFindButton.displayString += LanguageHelper.getString("gui.button.chore.mining.find.diamond"); break;

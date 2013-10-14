@@ -402,7 +402,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		catch (Throwable e)
 		{
-			MCA.instance.quitWithError("Error writing a field to NBT.", e);
+			MCA.instance.quitWithThrowable("Error writing a field to NBT.", e);
 		}
 	}
 
@@ -525,7 +525,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		catch (Throwable e)
 		{
-			MCA.instance.quitWithError("Error reading from NBT.", e);
+			MCA.instance.quitWithThrowable("Error reading from NBT.", e);
 		}
 	}
 

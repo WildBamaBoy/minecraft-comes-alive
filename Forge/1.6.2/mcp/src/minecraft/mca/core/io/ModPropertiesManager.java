@@ -103,17 +103,17 @@ public class ModPropertiesManager implements Serializable
 
 		catch (FileNotFoundException e)
 		{
-			MCA.instance.quitWithError("FileNotFoundException occurred while creating a new mod properties file.", e);
+			MCA.instance.quitWithThrowable("FileNotFoundException occurred while creating a new mod properties file.", e);
 		}
 
 		catch (IllegalAccessException e)
 		{
-			MCA.instance.quitWithError("IllegalAccessException occurred while creating a new mod properties file.", e);
+			MCA.instance.quitWithThrowable("IllegalAccessException occurred while creating a new mod properties file.", e);
 		}
 
 		catch (IOException e)
 		{
-			MCA.instance.quitWithError("IOException occurred while creating a new mod properties file.", e);
+			MCA.instance.quitWithThrowable("IOException occurred while creating a new mod properties file.", e);
 		}
 	}
 
@@ -176,17 +176,17 @@ public class ModPropertiesManager implements Serializable
 
 		catch (FileNotFoundException e)
 		{
-			MCA.instance.quitWithError("MCA: FileNotFoundException occurred while loading the mod properties file.", e);
+			MCA.instance.quitWithThrowable("MCA: FileNotFoundException occurred while loading the mod properties file.", e);
 		}
 
 		catch (IllegalAccessException e)
 		{
-			MCA.instance.quitWithError("MCA: IllegalAccessException occurred while loading the new mod properties file.", e);
+			MCA.instance.quitWithThrowable("MCA: IllegalAccessException occurred while loading the new mod properties file.", e);
 		}
 
 		catch (IOException e)
 		{
-			MCA.instance.quitWithError("MCA: IOException occurred while loading the new mod properties file.", e);
+			MCA.instance.quitWithThrowable("MCA: IOException occurred while loading the new mod properties file.", e);
 		}
 	}
 

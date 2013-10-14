@@ -459,26 +459,8 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		buttonList.add(followButton    = new GuiButton(2, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
 		buttonList.add(stayButton      = new GuiButton(3, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
 		buttonList.add(setHomeButton   = new GuiButton(4, width / 2 - 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.sethome")));
-
-		if (entityChild.isAdult)
-		{
-			if (MCA.instance.playerWorldManagerMap.get(player.username).worldProperties.isMonarch)
-			{
-				buttonList.add(choresButton    = new GuiButton(7, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.child.chores")));
-				buttonList.add(inventoryButton = new GuiButton(8, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.child.inventory")));
-			}
-
-			else
-			{
-				buttonList.add(inventoryButton = new GuiButton(7, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.child.inventory")));
-			}
-		}
-
-		else
-		{
-			buttonList.add(choresButton    = new GuiButton(7, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.child.chores")));
-			buttonList.add(inventoryButton = new GuiButton(8, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.child.inventory")));
-		}
+		buttonList.add(choresButton    = new GuiButton(7, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.child.chores")));
+		buttonList.add(inventoryButton = new GuiButton(8, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.child.inventory")));
 
 		buttonList.add(backButton      = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton      = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
@@ -568,6 +550,15 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 		backButton.enabled = false;
+		
+		if (entityChild.isAdult)
+		{
+			farmingButton.enabled = false;
+			fishingButton.enabled = false;
+			woodcuttingButton.enabled = false;
+			miningButton.enabled = false;
+			huntingButton.enabled = false;
+		}
 	}
 
 	/**

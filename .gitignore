@@ -17,9 +17,12 @@
 *.war
 *.ear
 
-# 1.4.7 Folders #
+# Base Folders #
 Build/*
 Submissions/*
+Crowdin/*
+
+# 1.4.7 Folders #
 Forge/1.4.7/client/*
 Forge/1.4.7/common/*
 Forge/1.4.7/fml/*
@@ -48,8 +51,6 @@ Forge/1.4.7/mcp/src/minecraft/mcpmod.info
 Forge/1.4.7/mcp/src/minecraft/mcp.png
 
 # 1.5.2 Folders #
-Build/*
-Submissions/*
 Forge/1.5.2/client/*
 Forge/1.5.2/common/*
 Forge/1.5.2/fml/*
@@ -78,8 +79,6 @@ Forge/1.5.2/mcp/src/minecraft/mcpmod.info
 Forge/1.5.2/mcp/src/minecraft/mcp.png
 
 # 1.6.2 Folders #
-Build/*
-Submissions/*
 Forge/1.6.2/client/*
 Forge/1.6.2/common/*
 Forge/1.6.2/fml/*
@@ -108,8 +107,6 @@ Forge/1.6.2/mcp/src/minecraft/mcpmod.info
 Forge/1.6.2/mcp/src/minecraft/mcp.png
 
 # 1.6.4 Folders #
-Build/*
-Submissions/*
 Forge/1.6.4/client/*
 Forge/1.6.4/common/*
 Forge/1.6.4/fml/*
@@ -138,8 +135,6 @@ Forge/1.6.4/mcp/src/minecraft/mcpmod.info
 Forge/1.6.4/mcp/src/minecraft/mcp.png
 
 # 1.7 Folders #
-Build/*
-Submissions/*
 Forge/1.7/client/*
 Forge/1.7/common/*
 Forge/1.7/fml/*
@@ -167,8 +162,7 @@ Forge/1.7/mcp/CHANGELOG
 Forge/1.7/mcp/src/minecraft/mcpmod.info
 Forge/1.7/mcp/src/minecraft/mcp.png
 
-# Special #
-!/Crowdin/Build/*.properties
+# Do Not Ignore #
 !/Assemble.py
 !/Assemble 1.5.2.py
 !/Master.properties
