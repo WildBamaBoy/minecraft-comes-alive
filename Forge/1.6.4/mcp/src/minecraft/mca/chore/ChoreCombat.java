@@ -78,7 +78,7 @@ public class ChoreCombat extends AbstractChore
 	public boolean attackEndermen = false;
 
 	/** Should unknown mobs be attacked? */
-	public boolean attackUnknown = true;
+	public boolean attackUnknown = false;
 
 	/**Is the entity in sentry mode? */
 	public boolean sentryMode = false;
