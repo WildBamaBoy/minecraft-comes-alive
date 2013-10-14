@@ -202,13 +202,13 @@ public class WorldPropertiesManager implements Serializable
 				//message. Skip saving if it's encountered.
 				if (!e.getMessage().contains("user-mapped"))
 				{
-					MCA.instance.quitWithError("FileNotFoundException occurred while saving world properties to file.", e);
+					MCA.instance.quitWithThrowable("FileNotFoundException occurred while saving world properties to file.", e);
 				}
 			}
 
 			catch (IllegalAccessException e)
 			{
-				MCA.instance.quitWithError("IllegalAccessException occurred while saving world properties to file.", e);
+				MCA.instance.quitWithThrowable("IllegalAccessException occurred while saving world properties to file.", e);
 			}
 
 			catch (IOException e)
@@ -219,7 +219,7 @@ public class WorldPropertiesManager implements Serializable
 			catch (NullPointerException e)
 			{
 				MCA.instance.log(e);
-				MCA.instance.quitWithError("NullPointerException while saving world properties.", e);
+				MCA.instance.quitWithThrowable("NullPointerException while saving world properties.", e);
 			}
 		}
 
@@ -286,17 +286,17 @@ public class WorldPropertiesManager implements Serializable
 
 		catch (FileNotFoundException e)
 		{
-			MCA.instance.quitWithError("FileNotFoundException occurred while loading world properties from file.", e);
+			MCA.instance.quitWithThrowable("FileNotFoundException occurred while loading world properties from file.", e);
 		}
 
 		catch (IllegalAccessException e)
 		{
-			MCA.instance.quitWithError("IllegalAccessException occurred while loading world properties from file.", e);
+			MCA.instance.quitWithThrowable("IllegalAccessException occurred while loading world properties from file.", e);
 		}
 
 		catch (IOException e)
 		{
-			MCA.instance.quitWithError("IOException occurred while loading world properties from file.", e);
+			MCA.instance.quitWithThrowable("IOException occurred while loading world properties from file.", e);
 		}
 
 		catch (NullPointerException e)

@@ -188,7 +188,7 @@ public final class LanguageHelper
 
 		catch (Throwable e)
 		{
-			MCA.instance.quitWithError("Error while loading language.", e);
+			MCA.instance.quitWithThrowable("Error while loading language.", e);
 		}
 	}
 
@@ -824,7 +824,7 @@ public final class LanguageHelper
 
 		catch (IOException e)
 		{
-			MCA.instance.quitWithError("Error reading from Minecraft options.txt file.", e);
+			MCA.instance.quitWithThrowable("Error reading from Minecraft options.txt file.", e);
 			return null;
 		}
 
