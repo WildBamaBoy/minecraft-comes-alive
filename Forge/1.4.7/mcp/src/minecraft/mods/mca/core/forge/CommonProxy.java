@@ -110,57 +110,54 @@ public class CommonProxy
 
 		for (File f : new File(MCA.instance.runningDirectory + "/mods").listFiles())
 		{
-			if (f.isFile())
+			if (f.isFile() && f.getName().contains(".zip"))
 			{
-				MCA.instance.log("Testing " + f.getName() + " for MCA data...");
-
-				ZipFile archive = new java.util.zip.ZipFile(f);
-				Enumeration enumerator = archive.entries();
-				ZipEntry entry;					
-
-				while (enumerator.hasMoreElements())
+				if (fileContainsModData(f))
 				{
-					entry = (ZipEntry)enumerator.nextElement();
-
-					//Test for random files unique to MCA.
-					if (entry.getName().contains("mca/core/MCA.class") || entry.getName().contains("sleeping/EE1.png"))
-					{
-						returnFile = f;
-						MCA.instance.log(f.getName() + " verified as MCA data file.");
-						break;
-					}
+					return f;
 				}
+			}
 
-				archive.close();
+			else if (f.isDirectory())
+			{
+				File modData = getModFileFromNestedFolder(f);
+
+				if (modData != null)
+				{
+					return modData;
+				}
 			}
 		}
 
 		return returnFile;
 	}
 
-	private File findModAsFolder()
+	private File findModAsFolder() throws IOException
 	{
 		MCA.instance.log("Attempting to find MCA as a folder in the mods folder...");
 		File returnFile = null;
-		
+
 		for (File f : new File(MCA.instance.runningDirectory + "/mods").listFiles())
 		{
-			MCA.instance.log("Testing folder for MCA data: " + f.getName());
-			
 			if (f.isDirectory())
 			{
-				File testModFolder1 = new File(f.getAbsolutePath() + "/mca/core/MCA.class");
-				File testModFolder2 = new File(f.getAbsolutePath() + "/mods/mca/textures/skins/EE1.png");
-				
-				if (testModFolder1.exists() || testModFolder2.exists())
+				if (folderContainsModData(f))
 				{
-					MCA.instance.log("Folder verified as MCA data folder: " + f.getName());
-					returnFile = f;
-					break;
+					return f;
+				}
+
+				else
+				{
+					File modData = getModFolderFromNestedFolder(f);
+
+					if (modData != null)
+					{
+						return modData;
+					}
 				}
 			}
 		}
-		
+
 		return returnFile;
 	}
 
@@ -422,6 +419,107 @@ public class CommonProxy
 					MCA.minerSkinsFemale.add(fileLocation);
 				}
 			}
+		}
+	}
+	
+	private File getModFileFromNestedFolder(File nestedFolder) throws IOException
+	{
+		File[] filesInNestedFolder = nestedFolder.listFiles();
+
+		for (File file : filesInNestedFolder)
+		{
+			if (file.isDirectory())
+			{
+				getModFileFromNestedFolder(file);
+			}
+
+			else
+			{
+				if (fileContainsModData(file))
+				{
+					return file;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	private File getModFolderFromNestedFolder(File nestedFolder) throws IOException
+	{
+		File[] filesInNestedFolder = nestedFolder.listFiles();
+
+		for (File file : filesInNestedFolder)
+		{
+			if (file.isDirectory())
+			{
+				if (folderContainsModData(file))
+				{
+					return file;
+				}
+
+				else
+				{
+					getModFolderFromNestedFolder(file);
+				}
+			}
+		}
+
+		return null;
+	}
+
+	private boolean fileContainsModData(File potentialDataFile) throws IOException
+	{
+		if (potentialDataFile.getName().contains(".zip"))
+		{
+			try
+			{
+				ZipFile archive = new java.util.zip.ZipFile(potentialDataFile);
+				Enumeration enumerator = archive.entries();
+				ZipEntry entry;					
+
+				while (enumerator.hasMoreElements())
+				{
+					entry = (ZipEntry)enumerator.nextElement();
+
+					//Test for random files unique to MCA.
+					if (entry.getName().contains("mca/core/MCA.class") || entry.getName().contains("sleeping/EE1.png"))
+					{
+						MCA.instance.log(" -" + potentialDataFile.getName() + " <YES>");
+						archive.close();
+						return true;
+					}
+				}
+
+				archive.close();
+			}
+
+			catch (ZipException e)
+			{
+				MCA.instance.log(" -" + potentialDataFile.getName() + " <ERR>");
+			}
+
+			MCA.instance.log(" -" + potentialDataFile.getName() + " <NOT>");
+		}
+
+		return false;
+	}
+
+	private boolean folderContainsModData(File potentialDataFolder) throws IOException
+	{
+		File testFile1 = new File(potentialDataFolder.getAbsolutePath() + "/mca/core/MCA.class");
+		File testFile2 = new File(potentialDataFolder.getAbsolutePath() + "/assets/mca/textures/skins/EE1.png");
+
+		if (testFile1.exists() || testFile2.exists())
+		{
+			MCA.instance.log(" -" + potentialDataFolder.getName() + " <YES>");
+			return true;
+		}
+
+		else
+		{
+			MCA.instance.log(" -" + potentialDataFolder.getName() + " <NOT>");
+			return false;
 		}
 	}
 }
