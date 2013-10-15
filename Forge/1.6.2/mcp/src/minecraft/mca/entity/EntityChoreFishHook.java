@@ -178,7 +178,16 @@ public class EntityChoreFishHook extends EntityFishHook implements IEntityAdditi
 					if (this.ticksInGround >= 20)
 					{
 						this.setDead();
-						angler.fishingChore.fishEntity = null;
+						
+						try
+						{
+							angler.fishingChore.fishEntity = null;
+						}
+						
+						catch (NullPointerException e)
+						{
+							return;
+						}
 					}
 
 					return;
