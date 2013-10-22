@@ -990,7 +990,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		isInChoreMode = false;
 		currentChore = "";
 
-		if (!worldObj.isRemote)
+		if (worldObj.isRemote)
 		{
 			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isInChoreMode", isInChoreMode));
 			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "currentChore", currentChore));
