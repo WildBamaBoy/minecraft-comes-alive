@@ -309,7 +309,7 @@ public class CommonProxy
 		{
 			//Fix the file's location in the folder and determine what type of villager the skin belongs to.
 			//Skins are named like [Profession][Gender][ID].png.
-			String fileLocation = skinsFolder.replace(modFolder.getName() + "/assets/mca/", "") + "/" + fileName.getName();
+			String fileLocation = skinsFolder.replace(modFolder.getAbsolutePath() + "/assets/mca/", "") + fileName.getName();
 
 			if (fileLocation.contains("Farmer"))
 			{

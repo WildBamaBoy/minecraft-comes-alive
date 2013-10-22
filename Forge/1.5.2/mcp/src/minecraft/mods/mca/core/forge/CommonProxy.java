@@ -298,15 +298,15 @@ public class CommonProxy
 	{
 		MCA.instance.log("Loading skins from folder containing MCA data: " + modFolder.getName() + "...");
 
-		String skinsFolder = modFolder + "/mods/mca/textures/skins/";
-		String sleepingSkinsFolder = modFolder + "/mods/mca/textures/skins/sleeping/";
+		String skinsFolder = modFolder + "/mca/textures/skins/";
+		String sleepingSkinsFolder = modFolder + "/mca/textures/skins/sleeping/";
 
 		for (File fileName : new File(skinsFolder).listFiles())
 		{
 			//Fix the file's location in the folder and determine what type of villager the skin belongs to.
 			//Skins are named like [Profession][Gender][ID].png.
-			String fileLocation = skinsFolder.replace(modFolder.getName() + "/mods/mca/", "") + "/" + fileName.getName();
-
+			String fileLocation = "/" + modFolder.getName() + skinsFolder.replace(modFolder.getAbsolutePath(), "") + fileName.getName();
+			
 			if (fileLocation.contains("Farmer"))
 			{
 				//Remove everything but the Gender and ID to properly identify what the gender is.
@@ -508,7 +508,7 @@ public class CommonProxy
 	private boolean folderContainsModData(File potentialDataFolder) throws IOException
 	{
 		File testFile1 = new File(potentialDataFolder.getAbsolutePath() + "/mca/core/MCA.class");
-		File testFile2 = new File(potentialDataFolder.getAbsolutePath() + "/assets/mca/textures/skins/EE1.png");
+		File testFile2 = new File(potentialDataFolder.getAbsolutePath() + "/mca/textures/skins/sleeping/EE1.png");
 
 		if (testFile1.exists() || testFile2.exists())
 		{
