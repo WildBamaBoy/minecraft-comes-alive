@@ -15,7 +15,7 @@ import java.util.Scanner;
 import mods.mca.core.MCA;
 import mods.mca.core.io.ModPropertiesManager;
 import mods.mca.core.util.Color;
-import mods.mca.core.util.LanguageHelper;
+import mods.mca.core.util.Format;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.network.packet.NetHandler;
 
@@ -25,7 +25,7 @@ import net.minecraft.network.packet.NetHandler;
 public class UpdateHandler implements Runnable
 {
 	/** The current version of MCA. */
-	public static final String VERSION = "3.5.3";
+	public static final String VERSION = "3.5.4";
 	
 	/** The update's compatible Minecraft version. */
 	public static String compatibleMinecraftVersion = "";
@@ -76,14 +76,32 @@ public class UpdateHandler implements Runnable
 				{
 					if (netHandler != null)
 					{
-						netHandler.getPlayer().sendChatToPlayer(Color.YELLOW + LanguageHelper.getString("notify.update.available.line1"));
-						netHandler.getPlayer().sendChatToPlayer(Color.YELLOW + LanguageHelper.getString("notify.update.available.line2"));
+						netHandler.getPlayer().sendChatToPlayer(
+								Color.DARKGREEN + "MCA v" + mostRecentVersion + 
+								Color.YELLOW + " for " + 
+								Color.DARKGREEN + "Minecraft v" + compatibleMinecraftVersion + 
+								Color.YELLOW + " is available.");
+						netHandler.getPlayer().sendChatToPlayer(
+								Color.YELLOW + "Click " + 
+								Color.BLUE + Format.ITALIC + "http://goo.gl/4Kwohv " + Format.RESET + 
+								Color.YELLOW + "to download.");
+						netHandler.getPlayer().sendChatToPlayer(
+								Color.RED + "To turn off notifications about this update, type /mca.checkupdates off");
 					}
 
 					else if (commandSender != null)
 					{
-						commandSender.sendChatToPlayer(Color.YELLOW + LanguageHelper.getString("notify.update.available.line1"));
-						commandSender.sendChatToPlayer(Color.YELLOW + LanguageHelper.getString("notify.update.available.line2"));
+						commandSender.sendChatToPlayer(
+								Color.DARKGREEN + "MCA v" + mostRecentVersion + 
+								Color.YELLOW + " for " + 
+								Color.DARKGREEN + "Minecraft v" + compatibleMinecraftVersion + 
+								Color.YELLOW + " is available.");
+						commandSender.sendChatToPlayer(
+								Color.YELLOW + "Click " + 
+								Color.BLUE + Format.ITALIC + "http://goo.gl/4Kwohv " + Format.RESET + 
+								Color.YELLOW + "to download.");
+						commandSender.sendChatToPlayer(
+								Color.RED + "To turn off notifications about this update, type /mca.checkupdates off");
 					}
 				}
 
