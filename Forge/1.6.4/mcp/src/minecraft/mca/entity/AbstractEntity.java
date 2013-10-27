@@ -14,6 +14,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import mca.api.IGiftableItem;
 import mca.chore.AbstractChore;
 import mca.chore.ChoreCombat;
 import mca.chore.ChoreFarming;
@@ -510,7 +512,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 			//Set trait.
 			trait = EnumTrait.getTraitById(traitId);
-			
+
 			//Add to entity list.
 			MCA.instance.entitiesMap.put(this.mcaID, this);
 		}
@@ -679,14 +681,14 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		if (isMarried)
 		{
 			AbstractEntity spouse = familyTree.getInstanceOfRelative(EnumRelation.Spouse);
-			
+
 			if (spouse != null)
 			{
 				spouse.isMarried = false;
 				spouse.familyTree.removeFamilyTreeEntry(EnumRelation.Spouse);
 			}
 		}
-		
+
 		//Try to turn them into a zombie if they were killed by one.
 		if (damageSource.getSourceOfDamage() instanceof EntityZombie)
 		{
@@ -697,7 +699,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				worldObj.spawnEntityInWorld(newZombie);
 			}
 		}
-		
+
 		//Erase from the entities map.
 		MCA.instance.entitiesMap.remove(this.mcaID);
 	}
@@ -960,7 +962,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "currentChore", currentChore));
 			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityId, chore));
 		}
-		
+
 		else
 		{
 			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "isInChoreMode", isInChoreMode));
@@ -1258,7 +1260,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(9) + 3)) + heartsModifier);
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
 		}
-		
+
 		memory.interactionFatigue++;
 		playerMemoryMap.put(player.username, memory);
 		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
@@ -1307,7 +1309,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(3) + 3)) + heartsModifier);
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
 		}
-		
+
 		memory.interactionFatigue++;
 		playerMemoryMap.put(player.username, memory);
 		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
@@ -1353,7 +1355,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(9) + 3)) + heartsModifier);
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
 		}
-		
+
 		memory.interactionFatigue++;
 		playerMemoryMap.put(player.username, memory);
 		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
@@ -1399,7 +1401,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(6) + 6)) + heartsModifier);
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
 		}
-		
+
 		memory.interactionFatigue++;
 		playerMemoryMap.put(player.username, memory);
 		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
@@ -1453,7 +1455,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(8) + 4)) + heartsModifier);
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
 		}
-		
+
 		memory.interactionFatigue++;
 		playerMemoryMap.put(player.username, memory);
 		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
@@ -1513,7 +1515,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(16) + 6)) + heartsModifier);
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()));
 		}
-		
+
 		memory.interactionFatigue++;
 		playerMemoryMap.put(player.username, memory);
 		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
@@ -1852,53 +1854,63 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	protected void doGift(ItemStack itemStack, EntityPlayer player)
 	{
+		PlayerMemory memory = playerMemoryMap.get(player.username);
+		int baseHeartValue = 0;
+		int heartIncrease = 0;
+		
 		//Check the acceptable gifts for the item stack's item ID.
 		if (MCA.acceptableGifts.containsKey(itemStack.itemID))
 		{
-			PlayerMemory memory = playerMemoryMap.get(player.username);
-
-			int heartIncrease = -(memory.interactionFatigue * 7) + MCA.acceptableGifts.get(itemStack.itemID) + mood.getHeartsModifier("gift") + trait.getHeartsModifier("gift");
-
-			//Verify it's always positive.
-			if (heartIncrease <= 0)
-			{
-				heartIncrease = 1;
-			}
-
-			modifyHearts(player, heartIncrease);
-			removeItemFromPlayer(itemStack, player);
-
-			//Say the appropriate phrase based on base hearts increase.
-			if (MCA.acceptableGifts.get(itemStack.itemID) <= 5)
-			{
-				say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.small"));
-				modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, 0.3F);
-
-			}
-
-			else if (MCA.acceptableGifts.get(itemStack.itemID) > 5 && MCA.acceptableGifts.get(itemStack.itemID) < 10)
-			{
-				say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.regular"));
-				modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, 0.5F);
-			}
-
-			else
-			{
-				say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.great"));
-				modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, 1.0F);
-			}
-
-			memory.interactionFatigue++;
-			playerMemoryMap.put(player.username, memory);
+			baseHeartValue = MCA.acceptableGifts.get(itemStack.itemID);
+			heartIncrease = -(memory.interactionFatigue * 7) + baseHeartValue + mood.getHeartsModifier("gift") + trait.getHeartsModifier("gift");
 		}
 
-		//The gift wasn't contained in the acceptable gifts map.
+		else if (itemStack.getItem() instanceof IGiftableItem)
+		{
+			IGiftableItem item = (IGiftableItem) itemStack.getItem();
+			baseHeartValue = item.getGiftValue();
+			heartIncrease = -(memory.interactionFatigue * 7) + baseHeartValue + mood.getHeartsModifier("gift") + trait.getHeartsModifier("gift");
+		}
+
+		//The gift wasn't contained in the acceptable gifts map or it's not a giftable item.
 		else
 		{
 			modifyHearts(player, -(worldObj.rand.nextInt(9) + 5));
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, 0.5F);
 			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.bad"));
+			return;
 		}
+		
+		//Verify heart increase is always positive.
+		if (heartIncrease <= 0)
+		{
+			heartIncrease = 1;
+		}
+
+		modifyHearts(player, heartIncrease);
+		removeItemFromPlayer(itemStack, player);
+
+		//Say the appropriate phrase based on base hearts increase.
+		if (baseHeartValue <= 5)
+		{
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.small"));
+			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, 0.3F);
+		}
+
+		else if (baseHeartValue > 5 && baseHeartValue < 10)
+		{
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.regular"));
+			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, 0.5F);
+		}
+
+		else
+		{
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.great"));
+			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, 1.0F);
+		}
+
+		memory.interactionFatigue++;
+		playerMemoryMap.put(player.username, memory);
 	}
 
 	/**
@@ -2428,7 +2440,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(40.0D);
 			this.setHealth(40);
 		}
-		
+
 		if (getHealth() < getMaxHealth() && getHealth() > 0)
 		{
 			int healthRegenerationPeriod = 20;
