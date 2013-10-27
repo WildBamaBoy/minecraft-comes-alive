@@ -14,6 +14,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+import mca.api.IGiftableItem;
 import mca.chore.AbstractChore;
 import mca.chore.ChoreCombat;
 import mca.chore.ChoreFarming;

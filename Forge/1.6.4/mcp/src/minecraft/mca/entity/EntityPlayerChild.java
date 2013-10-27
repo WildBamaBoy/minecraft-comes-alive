@@ -14,6 +14,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+import mca.api.IGiftableItem;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
@@ -337,7 +338,12 @@ public class EntityPlayerChild extends EntityChild
 
 				if (worldObj.isRemote)
 				{
-					if (itemStack.getItem() instanceof ItemArrangersRing && isAdult)
+					if (itemStack.getItem() instanceof IGiftableItem)
+					{
+						doGift(itemStack, player);
+					}
+					
+					else if (itemStack.getItem() instanceof ItemArrangersRing && isAdult)
 					{
 						doGiftOfArrangersRing(itemStack, player);
 					}
