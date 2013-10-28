@@ -16,7 +16,6 @@ import mca.core.MCA;
 import mca.core.io.ModPropertiesManager;
 import mca.core.util.Color;
 import mca.core.util.Format;
-import mca.core.util.LanguageHelper;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.network.packet.NetHandler;
 import net.minecraft.util.ChatMessageComponent;
