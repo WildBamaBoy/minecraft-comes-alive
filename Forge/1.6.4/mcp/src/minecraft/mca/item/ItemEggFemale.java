@@ -9,6 +9,7 @@
 
 package mca.item;
 
+import mca.api.VillagerRegistryMCA;
 import mca.entity.EntityVillagerAdult;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -100,7 +101,7 @@ public class ItemEggFemale extends Item
 	{
 		if (!world.isRemote)
 		{	
-			EntityVillagerAdult entityVillager = new EntityVillagerAdult(world, "Female", world.rand.nextInt(8));
+			EntityVillagerAdult entityVillager = new EntityVillagerAdult(world, "Female", world.rand.nextInt(VillagerRegistryMCA.getNumberOfRegisteredVillagers() - 1));
 
 			if (entityVillager.profession == 4) entityVillager.profession = 0;
 			entityVillager.setTexture();

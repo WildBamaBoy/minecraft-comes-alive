@@ -9,6 +9,8 @@
 
 package mca.entity;
 
+import mca.api.VillagerEntryMCA;
+import mca.api.VillagerRegistryMCA;
 import mca.core.MCA;
 import mca.core.util.object.PlayerMemory;
 import mca.enums.EnumRelation;
@@ -88,34 +90,24 @@ public class EntityVillagerChild extends EntityChild
 	@Override
 	public void setTexture() 
 	{
-		if (gender.equals("Male"))
+		VillagerEntryMCA entry = VillagerRegistryMCA.getRegisteredVillagerEntry(profession);
+
+		try
 		{
-			switch (profession)
+			if (gender.equals("Male"))
 			{
-			case 0: texture = MCA.farmerSkinsMale.get(worldObj.rand.nextInt(MCA.farmerSkinsMale.size())); break;
-			case 1: texture = MCA.librarianSkinsMale.get(worldObj.rand.nextInt(MCA.librarianSkinsMale.size())); break;
-			case 2: texture = MCA.priestSkinsMale.get(worldObj.rand.nextInt(MCA.priestSkinsMale.size())); break;
-			case 3: texture = MCA.smithSkinsMale.get(worldObj.rand.nextInt(MCA.smithSkinsMale.size())); break;
-			case 4: texture = MCA.butcherSkinsMale.get(worldObj.rand.nextInt(MCA.butcherSkinsMale.size())); break;
-			case 5: texture = MCA.guardSkinsMale.get(worldObj.rand.nextInt(MCA.guardSkinsMale.size())); break;
-			case 6: texture = MCA.bakerSkinsMale.get(worldObj.rand.nextInt(MCA.bakerSkinsMale.size())); break;
-			case 7: texture = MCA.minerSkinsMale.get(worldObj.rand.nextInt(MCA.minerSkinsMale.size())); break;
+				texture = entry.skinsMale.get(worldObj.rand.nextInt(entry.skinsMale.size()));
+			}
+
+			else
+			{
+				texture = entry.skinsFemale.get(worldObj.rand.nextInt(entry.skinsFemale.size()));
 			}
 		}
 
-		else
+		catch (IllegalArgumentException e)
 		{
-			switch (profession)
-			{
-			case 0: texture = MCA.farmerSkinsFemale.get(worldObj.rand.nextInt(MCA.farmerSkinsFemale.size())); break;
-			case 1: texture = MCA.librarianSkinsFemale.get(worldObj.rand.nextInt(MCA.librarianSkinsFemale.size())); break;
-			case 2: texture = MCA.priestSkinsFemale.get(worldObj.rand.nextInt(MCA.priestSkinsFemale.size())); break;
-			case 3: texture = MCA.smithSkinsFemale.get(worldObj.rand.nextInt(MCA.smithSkinsFemale.size())); break;
-			case 4: texture = null; break;
-			case 5: texture = MCA.guardSkinsFemale.get(worldObj.rand.nextInt(MCA.guardSkinsFemale.size())); break;
-			case 6: texture = MCA.bakerSkinsFemale.get(worldObj.rand.nextInt(MCA.bakerSkinsFemale.size())); break;
-			case 7: texture = MCA.minerSkinsFemale.get(worldObj.rand.nextInt(MCA.minerSkinsFemale.size())); break;
-			}
+			texture = null;
 		}
 	}
 
