@@ -14,7 +14,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
-import mca.api.IGiftableItem;
 import mca.api.VillagerEntryMCA;
 import mca.api.VillagerRegistryMCA;
 import mca.chore.AbstractChore;
