@@ -16,6 +16,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
+import mca.api.VillagerEntryMCA;
+import mca.api.VillagerRegistryMCA;
 import mca.core.MCA;
 import mca.tileentity.TileEntityTombstone;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -66,18 +68,6 @@ public class CommonProxy
 			{
 				loadSkinsFromFolder(modFile);
 			}
-
-			int loadedSkins = MCA.farmerSkinsMale.size() + MCA.librarianSkinsMale.size() +
-					MCA.priestSkinsMale.size() + MCA.smithSkinsMale .size() +
-					MCA.butcherSkinsMale.size() + MCA.guardSkinsMale.size() + 
-					MCA.kidSkinsMale.size() + MCA.bakerSkinsMale.size() +
-					MCA.minerSkinsMale.size() + MCA.farmerSkinsFemale.size() +
-					MCA.librarianSkinsFemale.size() + MCA.priestSkinsFemale.size() +
-					MCA.smithSkinsFemale.size() + MCA.butcherSkinsFemale.size() +
-					MCA.guardSkinsFemale.size() + MCA.kidSkinsFemale.size() +
-					MCA.bakerSkinsFemale.size() + MCA.minerSkinsFemale.size();
-
-			MCA.instance.log("Loaded " + loadedSkins + " skins.");
 		}
 
 		catch (Throwable e)
@@ -174,122 +164,34 @@ public class CommonProxy
 			ZipEntry file = (ZipEntry)enumerator.nextElement();
 			String fileLocationInArchive = "/" + file.getName();
 
-			if (fileLocationInArchive.contains("/assets/mca/textures/skins/") && fileLocationInArchive.contains("sleeping") == false)
+			for (VillagerEntryMCA entry : VillagerRegistryMCA.getRegisteredVillagersMap().values())
 			{
-				//Fix the file's location in the JAR and determine what type of villager the skin belongs to.
-				//Skins are named like [Profession][Gender][ID].png.
-				fileLocationInArchive = fileLocationInArchive.replace("/assets/mca/", "");
-
-				if (fileLocationInArchive.contains("Farmer"))
+				if (entry.getUseDefaultTexture())
 				{
-					//Remove everything but the Gender and ID to properly identify what the gender is.
-					if (fileLocationInArchive.replace("textures/skins/Farmer", "").contains("M"))
-					{
-						MCA.farmerSkinsMale.add(fileLocationInArchive);
-					}
-
-					else
-					{
-						MCA.farmerSkinsFemale.add(fileLocationInArchive);
-					}
+					entry.skinsMale.add("textures/api/skins/DefaultM1.png");
+					entry.skinsFemale.add("textures/api/skins/DefaultF1.png");
 				}
 
-				else if (fileLocationInArchive.contains("Librarian"))
+				else
 				{
-					if (fileLocationInArchive.replace("textures/skins/Librarian", "").contains("M"))
+					if (fileLocationInArchive.contains(entry.getTexturesLocation()) && fileLocationInArchive.contains("sleeping") == false)
 					{
-						MCA.librarianSkinsMale.add(fileLocationInArchive);
-					}
+						//Fix the file's location in the JAR and determine what type of villager the skin belongs to.
+						//Skins are named like [Profession][Gender][ID].png.
+						fileLocationInArchive = fileLocationInArchive.replace("/assets/mca/", "");
 
-					else
-					{
-						MCA.librarianSkinsFemale.add(fileLocationInArchive);
-					}
-				}
+						if (fileLocationInArchive.contains(entry.getUnlocalizedProfessionName()))
+						{
+							if (fileLocationInArchive.replace("textures/skins/" + entry.getUnlocalizedProfessionName(), "").contains("M"))
+							{
+								entry.skinsMale.add(fileLocationInArchive);
+							}
 
-				else if (fileLocationInArchive.contains("Priest"))
-				{
-					if (fileLocationInArchive.replace("textures/skins/Priest", "").contains("M"))
-					{
-						MCA.priestSkinsMale.add(fileLocationInArchive);
-					}
-
-					else
-					{
-						MCA.priestSkinsFemale.add(fileLocationInArchive);
-					}
-				}
-
-				else if (fileLocationInArchive.contains("Smith"))
-				{
-					if (fileLocationInArchive.replace("textures/skins/Smith", "").contains("M"))
-					{
-						MCA.smithSkinsMale.add(fileLocationInArchive);
-					}
-
-					else
-					{
-						MCA.smithSkinsFemale.add(fileLocationInArchive);
-					}
-				}
-
-				else if (fileLocationInArchive.contains("Butcher"))
-				{
-					if (fileLocationInArchive.replace("textures/skins/Butcher", "").contains("M"))
-					{
-						MCA.butcherSkinsMale.add(fileLocationInArchive);
-					}
-				}
-
-				else if (fileLocationInArchive.contains("Guard"))
-				{
-					if (fileLocationInArchive.replace("textures/skins/Guard", "").contains("M"))
-					{
-						MCA.guardSkinsMale.add(fileLocationInArchive);
-					}
-
-					else
-					{
-						MCA.guardSkinsFemale.add(fileLocationInArchive);
-					}
-				}
-
-				else if (fileLocationInArchive.contains("Kid"))
-				{
-					if (fileLocationInArchive.replace("textures/skins/Kid", "").contains("M"))
-					{
-						MCA.kidSkinsMale.add(fileLocationInArchive);
-					}
-
-					else
-					{
-						MCA.kidSkinsFemale.add(fileLocationInArchive);
-					}
-				}
-
-				else if (fileLocationInArchive.contains("Baker"))
-				{
-					if (fileLocationInArchive.replace("textures/skins/Baker", "").contains("M"))
-					{
-						MCA.bakerSkinsMale.add(fileLocationInArchive);
-					}
-
-					else
-					{
-						MCA.bakerSkinsFemale.add(fileLocationInArchive);
-					}
-				}
-
-				else if (fileLocationInArchive.contains("Miner"))
-				{
-					if (fileLocationInArchive.replace("textures/skins/Miner", "").contains("M"))
-					{
-						MCA.minerSkinsMale.add(fileLocationInArchive);
-					}
-
-					else
-					{
-						MCA.minerSkinsFemale.add(fileLocationInArchive);
+							else
+							{
+								entry.skinsFemale.add(fileLocationInArchive);
+							}
+						}
 					}
 				}
 			}
@@ -302,125 +204,37 @@ public class CommonProxy
 	{
 		MCA.instance.log("Loading skins from data folder: " + modFolder.getName() + "...");
 
-		String skinsFolder = modFolder + "/assets/mca/textures/skins/";
-		String sleepingSkinsFolder = modFolder + "/assets/mca/textures/skins/sleeping/";
-
-		for (File fileName : new File(skinsFolder).listFiles())
+		for (VillagerEntryMCA entry : VillagerRegistryMCA.getRegisteredVillagersMap().values())
 		{
-			//Fix the file's location in the folder and determine what type of villager the skin belongs to.
-			//Skins are named like [Profession][Gender][ID].png.
-			String fileLocation = skinsFolder.replace(modFolder.getAbsolutePath() + "/assets/mca/", "") + fileName.getName();
-
-			if (fileLocation.contains("Farmer"))
+			if (entry.getUseDefaultTexture())
 			{
-				//Remove everything but the Gender and ID to properly identify what the gender is.
-				if (fileLocation.replace("textures/skins/Farmer", "").contains("M"))
-				{
-					MCA.farmerSkinsMale.add(fileLocation);
-				}
-
-				else
-				{
-					MCA.farmerSkinsFemale.add(fileLocation);
-				}
+				entry.skinsMale.add("textures/api/skins/DefaultM1.png");
+				entry.skinsFemale.add("textures/api/skins/DefaultF1.png");
 			}
 
-			else if (fileLocation.contains("Librarian"))
+			else
 			{
-				if (fileLocation.replace("textures/skins/Librarian", "").contains("M"))
-				{
-					MCA.librarianSkinsMale.add(fileLocation);
-				}
+				String skinsFolder = modFolder + entry.getTexturesLocation();
+				String sleepingSkinsFolder = modFolder + entry.getTexturesLocation() + "/sleeping/";
 
-				else
+				for (File fileName : new File(skinsFolder).listFiles())
 				{
-					MCA.librarianSkinsFemale.add(fileLocation);
-				}
-			}
+					//Fix the file's location in the folder and determine what type of villager the skin belongs to.
+					//Skins are named like [Profession][Gender][ID].png.
+					String fileLocation = skinsFolder.replace(modFolder.getAbsolutePath() + "/assets/mca/", "") + fileName.getName();
 
-			else if (fileLocation.contains("Priest"))
-			{
-				if (fileLocation.replace("textures/skins/Priest", "").contains("M"))
-				{
-					MCA.priestSkinsMale.add(fileLocation);
-				}
+					if (fileLocation.contains(entry.getUnlocalizedProfessionName()))
+					{
+						if (fileLocation.replace("textures/skins/" + entry.getUnlocalizedProfessionName(), "").contains("M"))
+						{
+							entry.skinsMale.add(fileLocation);
+						}
 
-				else
-				{
-					MCA.priestSkinsFemale.add(fileLocation);
-				}
-			}
-
-			else if (fileLocation.contains("Smith"))
-			{
-				if (fileLocation.replace("textures/skins/Smith", "").contains("M"))
-				{
-					MCA.smithSkinsMale.add(fileLocation);
-				}
-
-				else
-				{
-					MCA.smithSkinsFemale.add(fileLocation);
-				}
-			}
-
-			else if (fileLocation.contains("Butcher"))
-			{
-				if (fileLocation.replace("textures/skins/Butcher", "").contains("M"))
-				{
-					MCA.butcherSkinsMale.add(fileLocation);
-				}
-			}
-
-			else if (fileLocation.contains("Guard"))
-			{
-				if (fileLocation.replace("textures/skins/Guard", "").contains("M"))
-				{
-					MCA.guardSkinsMale.add(fileLocation);
-				}
-
-				else
-				{
-					MCA.guardSkinsFemale.add(fileLocation);
-				}
-			}
-
-			else if (fileLocation.contains("Kid"))
-			{
-				if (fileLocation.replace("textures/skins/Kid", "").contains("M"))
-				{
-					MCA.kidSkinsMale.add(fileLocation);
-				}
-
-				else
-				{
-					MCA.kidSkinsFemale.add(fileLocation);
-				}
-			}
-
-			else if (fileLocation.contains("Baker"))
-			{
-				if (fileLocation.replace("textures/skins/Baker", "").contains("M"))
-				{
-					MCA.bakerSkinsMale.add(fileLocation);
-				}
-
-				else
-				{
-					MCA.bakerSkinsFemale.add(fileLocation);
-				}
-			}
-
-			else if (fileLocation.contains("Miner"))
-			{
-				if (fileLocation.replace("textures/skins/Miner", "").contains("M"))
-				{
-					MCA.minerSkinsMale.add(fileLocation);
-				}
-
-				else
-				{
-					MCA.minerSkinsFemale.add(fileLocation);
+						else
+						{
+							entry.skinsFemale.add(fileLocation);
+						}
+					}
 				}
 			}
 		}

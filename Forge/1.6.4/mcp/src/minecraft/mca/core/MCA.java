@@ -30,6 +30,8 @@ import java.util.logging.Logger;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
+import mca.api.VillagerEntryMCA;
+import mca.api.VillagerRegistryMCA;
 import mca.block.BlockTombstone;
 import mca.command.CommandBlock;
 import mca.command.CommandBlockAll;
@@ -254,60 +256,6 @@ public class MCA
 
 	/** List of the female names loaded from FemaleNames.txt.*/
 	public static List<String> femaleNames = new ArrayList<String>();
-
-	/** List of the locations of male farmer skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> farmerSkinsMale = new ArrayList<String>();
-
-	/** List of the locations of male librarian skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> librarianSkinsMale = new ArrayList<String>();
-
-	/** List of the locations of male priest skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> priestSkinsMale = new ArrayList<String>();
-
-	/** List of the locations of male smith skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> smithSkinsMale  = new ArrayList<String>();
-
-	/** List of the locations of male butcher skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> butcherSkinsMale = new ArrayList<String>();
-
-	/** List of the locations of male guard skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> guardSkinsMale = new ArrayList<String>();
-
-	/** List of the locations of male kid skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> kidSkinsMale = new ArrayList<String>();
-
-	/** List of the locations of male baker skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> bakerSkinsMale = new ArrayList<String>();
-
-	/** List of the locations of male miner skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> minerSkinsMale = new ArrayList<String>();
-
-	/** List of the locations of female farmer skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> farmerSkinsFemale = new ArrayList<String>();
-
-	/** List of the locations of female librarian skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> librarianSkinsFemale = new ArrayList<String>();
-
-	/** List of the locations of female priest skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> priestSkinsFemale = new ArrayList<String>();
-
-	/** List of the locations of female smith skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> smithSkinsFemale = new ArrayList<String>();
-
-	/** List of the locations of female butcher skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> butcherSkinsFemale = new ArrayList<String>();
-
-	/** List of the locations of female guard skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> guardSkinsFemale = new ArrayList<String>();
-
-	/** List of the locations of female kid skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> kidSkinsFemale = new ArrayList<String>();
-
-	/** List of the locations of female baker skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> bakerSkinsFemale	= new ArrayList<String>();
-
-	/** List of the locations of female miner skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> minerSkinsFemale	= new ArrayList<String>();
 
 	public static String[] normalFarmFiveByFive = 
 		{
@@ -557,53 +505,65 @@ public class MCA
 	 */
 	public static List<String> getSkinList(AbstractEntity entity)
 	{
-		if (!(entity instanceof EntityPlayerChild))
+		VillagerEntryMCA entry = VillagerRegistryMCA.getRegisteredVillagersMap().get(entity.profession);
+		
+		if (entity.gender.equals("Male"))
 		{
-			if (entity.gender.equals("Male"))
-			{
-				switch (entity.profession)
-				{
-				case 0: return MCA.farmerSkinsMale;
-				case 1: return MCA.librarianSkinsMale;
-				case 2: return MCA.priestSkinsMale;
-				case 3: return MCA.smithSkinsMale;
-				case 4: return MCA.butcherSkinsMale;
-				case 5: return MCA.guardSkinsMale;
-				case 6: return MCA.bakerSkinsMale;
-				case 7: return MCA.minerSkinsMale;
-				}
-			}
-
-			else
-			{
-				switch (entity.profession)
-				{
-				case 0: return MCA.farmerSkinsFemale;
-				case 1: return MCA.librarianSkinsFemale;
-				case 2: return MCA.priestSkinsFemale;
-				case 3: return MCA.smithSkinsFemale;
-				case 4: return null;
-				case 5: return MCA.guardSkinsFemale;
-				case 6: return MCA.bakerSkinsFemale;
-				case 7: return MCA.minerSkinsFemale;
-				}
-			}
+			return entry.skinsMale;
 		}
-
+		
 		else
 		{
-			if (entity.gender.equals("Male"))
-			{
-				return MCA.kidSkinsMale;
-			}
-
-			else if (entity.gender.equals("Female"))
-			{
-				return MCA.kidSkinsFemale;
-			}
+			return entry.skinsFemale;
 		}
-
-		return null;
+//		
+//		if (!(entity instanceof EntityPlayerChild))
+//		{
+//			if (entity.gender.equals("Male"))
+//			{
+//				switch (entity.profession)
+//				{
+//				case 0: return MCA.farmerSkinsMale;
+//				case 1: return MCA.librarianSkinsMale;
+//				case 2: return MCA.priestSkinsMale;
+//				case 3: return MCA.smithSkinsMale;
+//				case 4: return MCA.butcherSkinsMale;
+//				case 5: return MCA.guardSkinsMale;
+//				case 6: return MCA.bakerSkinsMale;
+//				case 7: return MCA.minerSkinsMale;
+//				}
+//			}
+//
+//			else
+//			{
+//				switch (entity.profession)
+//				{
+//				case 0: return MCA.farmerSkinsFemale;
+//				case 1: return MCA.librarianSkinsFemale;
+//				case 2: return MCA.priestSkinsFemale;
+//				case 3: return MCA.smithSkinsFemale;
+//				case 4: return null;
+//				case 5: return MCA.guardSkinsFemale;
+//				case 6: return MCA.bakerSkinsFemale;
+//				case 7: return MCA.minerSkinsFemale;
+//				}
+//			}
+//		}
+//
+//		else
+//		{
+//			if (entity.gender.equals("Male"))
+//			{
+//				return MCA.kidSkinsMale;
+//			}
+//
+//			else if (entity.gender.equals("Female"))
+//			{
+//				return MCA.kidSkinsFemale;
+//			}
+//		}
+//
+//		return null;
 	}
 
 	/**
@@ -868,7 +828,18 @@ public class MCA
 			runningDirectory = System.getProperty("user.dir");
 		}
 
-		//Load external data and register things.
+		//Register villagers with API.
+		VillagerRegistryMCA.registerVillagerType(-1, "Kid", this.getClass());
+		VillagerRegistryMCA.registerVillagerType(0, "Farmer", this.getClass());
+		VillagerRegistryMCA.registerVillagerType(1, "Librarian", this.getClass());
+		VillagerRegistryMCA.registerVillagerType(2, "Priest", this.getClass());
+		VillagerRegistryMCA.registerVillagerType(3, "Smith", this.getClass());
+		VillagerRegistryMCA.registerVillagerType(4, "Butcher", this.getClass());
+		VillagerRegistryMCA.registerVillagerType(5, "Guard", this.getClass());
+		VillagerRegistryMCA.registerVillagerType(6, "Baker", this.getClass());
+		VillagerRegistryMCA.registerVillagerType(7, "Miner", this.getClass());
+		
+		//Load external data and register proxy methods.
 		modPropertiesManager = new ModPropertiesManager();
 		proxy.loadSkins();
 		proxy.registerTileEntities();

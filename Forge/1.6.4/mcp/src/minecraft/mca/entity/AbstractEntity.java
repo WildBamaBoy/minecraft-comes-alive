@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 import mca.api.IGiftableItem;
+import mca.api.VillagerEntryMCA;
+import mca.api.VillagerRegistryMCA;
 import mca.chore.AbstractChore;
 import mca.chore.ChoreCombat;
 import mca.chore.ChoreFarming;
@@ -1564,29 +1566,41 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		else
 		{
-			switch (profession)
+			VillagerEntryMCA entry = VillagerRegistryMCA.getRegisteredVillagerEntry(profession);
+			
+			if (entry.getIsLocalized())
 			{
-			case -1:
-				return LanguageHelper.getString(this, "profession.playerchild." + this.gender.toLowerCase(), false);
-			case 0:
-				return LanguageHelper.getString(this, "profession.farmer." + this.gender.toLowerCase(), false);
-			case 1:
-				return LanguageHelper.getString(this, "profession.librarian." + this.gender.toLowerCase(), false);
-			case 2:
-				return LanguageHelper.getString(this, "profession.priest." + this.gender.toLowerCase(), false);
-			case 3:
-				return LanguageHelper.getString(this, "profession.smith." + this.gender.toLowerCase(), false);
-			case 4:
-				return LanguageHelper.getString(this, "profession.butcher." + this.gender.toLowerCase(), false);
-			case 5:
-				return LanguageHelper.getString(this, "profession.guard." + this.gender.toLowerCase(), false);
-			case 6:
-				return LanguageHelper.getString(this, "profession.baker." + this.gender.toLowerCase(), false);
-			case 7:
-				return LanguageHelper.getString(this, "profession.miner." + this.gender.toLowerCase(), false);
-			default:
-				return null;
+				return LanguageHelper.getString(this, VillagerRegistryMCA.getRegisteredVillagerEntry(profession).getLocalizedProfessionID() + "." + this.gender.toLowerCase(), false);	
 			}
+			
+			else
+			{
+				return this.name + " the " + entry.getUnlocalizedProfessionName();
+			}
+//			
+//			switch (profession)
+//			{
+//			case -1:
+//				return LanguageHelper.getString(this, "profession.playerchild." + this.gender.toLowerCase(), false);
+//			case 0:
+//				return LanguageHelper.getString(this, "profession.farmer." + this.gender.toLowerCase(), false);
+//			case 1:
+//				return LanguageHelper.getString(this, "profession.librarian." + this.gender.toLowerCase(), false);
+//			case 2:
+//				return LanguageHelper.getString(this, "profession.priest." + this.gender.toLowerCase(), false);
+//			case 3:
+//				return LanguageHelper.getString(this, "profession.smith." + this.gender.toLowerCase(), false);
+//			case 4:
+//				return LanguageHelper.getString(this, "profession.butcher." + this.gender.toLowerCase(), false);
+//			case 5:
+//				return LanguageHelper.getString(this, "profession.guard." + this.gender.toLowerCase(), false);
+//			case 6:
+//				return LanguageHelper.getString(this, "profession.baker." + this.gender.toLowerCase(), false);
+//			case 7:
+//				return LanguageHelper.getString(this, "profession.miner." + this.gender.toLowerCase(), false);
+//			default:
+//				return null;
+//			}
 		}
 	}
 
