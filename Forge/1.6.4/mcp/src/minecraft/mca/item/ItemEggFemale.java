@@ -102,9 +102,6 @@ public class ItemEggFemale extends Item
 		if (!world.isRemote)
 		{	
 			EntityVillagerAdult entityVillager = new EntityVillagerAdult(world, "Female", world.rand.nextInt(VillagerRegistryMCA.getNumberOfRegisteredVillagers() - 1));
-
-			if (entityVillager.profession == 4) entityVillager.profession = 0;
-			entityVillager.setTexture();
 			entityVillager.setLocationAndAngles(posX, posY, posZ, world.rand.nextFloat() * 360F, 0.0F);
 
 			if (!world.isRemote)

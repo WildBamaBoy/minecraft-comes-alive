@@ -205,7 +205,20 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Sets the appropriate texture for this entity.
 	 */
-	public abstract void setTexture();
+	public void setTexture()
+	{
+		VillagerEntryMCA entry = VillagerRegistryMCA.getRegisteredVillagerEntry(profession);
+
+		if (gender.equals("Male"))
+		{
+			texture = entry.getRandomMaleSkin();
+		}
+
+		else
+		{
+			texture = entry.getRandomFemaleSkin();
+		}
+	}
 
 	/**
 	 * Sets the texture of the entity to the specified texture.
@@ -1566,40 +1579,40 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		else
 		{
 			VillagerEntryMCA entry = VillagerRegistryMCA.getRegisteredVillagerEntry(profession);
-			
+
 			if (entry.getIsLocalized())
 			{
 				return LanguageHelper.getString(this, VillagerRegistryMCA.getRegisteredVillagerEntry(profession).getLocalizedProfessionID() + "." + this.gender.toLowerCase(), false);	
 			}
-			
+
 			else
 			{
 				return this.name + " the " + entry.getUnlocalizedProfessionName();
 			}
-//			
-//			switch (profession)
-//			{
-//			case -1:
-//				return LanguageHelper.getString(this, "profession.playerchild." + this.gender.toLowerCase(), false);
-//			case 0:
-//				return LanguageHelper.getString(this, "profession.farmer." + this.gender.toLowerCase(), false);
-//			case 1:
-//				return LanguageHelper.getString(this, "profession.librarian." + this.gender.toLowerCase(), false);
-//			case 2:
-//				return LanguageHelper.getString(this, "profession.priest." + this.gender.toLowerCase(), false);
-//			case 3:
-//				return LanguageHelper.getString(this, "profession.smith." + this.gender.toLowerCase(), false);
-//			case 4:
-//				return LanguageHelper.getString(this, "profession.butcher." + this.gender.toLowerCase(), false);
-//			case 5:
-//				return LanguageHelper.getString(this, "profession.guard." + this.gender.toLowerCase(), false);
-//			case 6:
-//				return LanguageHelper.getString(this, "profession.baker." + this.gender.toLowerCase(), false);
-//			case 7:
-//				return LanguageHelper.getString(this, "profession.miner." + this.gender.toLowerCase(), false);
-//			default:
-//				return null;
-//			}
+			//			
+			//			switch (profession)
+			//			{
+			//			case -1:
+			//				return LanguageHelper.getString(this, "profession.playerchild." + this.gender.toLowerCase(), false);
+			//			case 0:
+			//				return LanguageHelper.getString(this, "profession.farmer." + this.gender.toLowerCase(), false);
+			//			case 1:
+			//				return LanguageHelper.getString(this, "profession.librarian." + this.gender.toLowerCase(), false);
+			//			case 2:
+			//				return LanguageHelper.getString(this, "profession.priest." + this.gender.toLowerCase(), false);
+			//			case 3:
+			//				return LanguageHelper.getString(this, "profession.smith." + this.gender.toLowerCase(), false);
+			//			case 4:
+			//				return LanguageHelper.getString(this, "profession.butcher." + this.gender.toLowerCase(), false);
+			//			case 5:
+			//				return LanguageHelper.getString(this, "profession.guard." + this.gender.toLowerCase(), false);
+			//			case 6:
+			//				return LanguageHelper.getString(this, "profession.baker." + this.gender.toLowerCase(), false);
+			//			case 7:
+			//				return LanguageHelper.getString(this, "profession.miner." + this.gender.toLowerCase(), false);
+			//			default:
+			//				return null;
+			//			}
 		}
 	}
 
@@ -1870,7 +1883,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		PlayerMemory memory = playerMemoryMap.get(player.username);
 		int baseHeartValue = 0;
 		int heartIncrease = 0;
-		
+
 		//Check the acceptable gifts for the item stack's item ID.
 		if (MCA.acceptableGifts.containsKey(itemStack.itemID))
 		{
@@ -1893,7 +1906,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.bad"));
 			return;
 		}
-		
+
 		//Verify heart increase is always positive.
 		if (heartIncrease <= 0)
 		{

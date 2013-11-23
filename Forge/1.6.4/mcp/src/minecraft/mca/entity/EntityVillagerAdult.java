@@ -129,8 +129,8 @@ public class EntityVillagerAdult extends AbstractEntity
 	{
 		super(world);
 
-		this.gender = getRandomGender();
 		this.name = getRandomName(gender);
+		this.gender = getRandomGender();
 		this.profession = professionID;
 
 		if (profession == 4) //Butcher
@@ -149,7 +149,7 @@ public class EntityVillagerAdult extends AbstractEntity
 	}
 
 	/**
-	 * Constructor
+	 * Constructor. Called when spawning from egg.
 	 * 
 	 * @param 	world			The world that the villager is being spawned in.
 	 * @param 	gender			The gender that the villager should be.
@@ -157,10 +157,22 @@ public class EntityVillagerAdult extends AbstractEntity
 	 */
 	public EntityVillagerAdult(World world, String gender, int professionID)
 	{
-		this(world, professionID);
-
+		super(world);
+		
+		if (gender.equals("Female") && professionID == 4)
+		{
+			professionID = 0;
+		}
+		
+		if (profession == 5)
+		{
+			setHealth(40);
+		}
+		
 		this.name = getRandomName(gender);
 		this.gender = gender;
+		this.profession = professionID;
+		
 		this.setTexture();
 	}
 
@@ -275,30 +287,6 @@ public class EntityVillagerAdult extends AbstractEntity
 			{
 				return "villager";
 			}
-		}
-	}
-
-	@Override
-	public void setTexture()
-	{
-		VillagerEntryMCA entry = VillagerRegistryMCA.getRegisteredVillagerEntry(profession);
-
-		try
-		{
-			if (gender.equals("Male"))
-			{
-				texture = entry.skinsMale.get(worldObj.rand.nextInt(entry.skinsMale.size()));
-			}
-
-			else
-			{
-				texture = entry.skinsFemale.get(worldObj.rand.nextInt(entry.skinsFemale.size()));
-			}
-		}
-
-		catch (IllegalArgumentException e)
-		{
-			texture = null;
 		}
 	}
 

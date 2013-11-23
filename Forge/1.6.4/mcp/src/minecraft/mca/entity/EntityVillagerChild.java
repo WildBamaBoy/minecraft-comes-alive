@@ -88,30 +88,6 @@ public class EntityVillagerChild extends EntityChild
 	}
 
 	@Override
-	public void setTexture() 
-	{
-		VillagerEntryMCA entry = VillagerRegistryMCA.getRegisteredVillagerEntry(profession);
-
-		try
-		{
-			if (gender.equals("Male"))
-			{
-				texture = entry.skinsMale.get(worldObj.rand.nextInt(entry.skinsMale.size()));
-			}
-
-			else
-			{
-				texture = entry.skinsFemale.get(worldObj.rand.nextInt(entry.skinsFemale.size()));
-			}
-		}
-
-		catch (IllegalArgumentException e)
-		{
-			texture = null;
-		}
-	}
-
-	@Override
 	public String getCharacterType(int playerId) 
 	{
 		if (familyTree.getRelationOf(playerId) == EnumRelation.Grandparent || familyTree.getRelationOf(playerId) == EnumRelation.Greatgrandparent)

@@ -509,61 +509,13 @@ public class MCA
 		
 		if (entity.gender.equals("Male"))
 		{
-			return entry.skinsMale;
+			return entry.getMaleSkinsList();
 		}
 		
 		else
 		{
-			return entry.skinsFemale;
+			return entry.getFemaleSkinsList();
 		}
-//		
-//		if (!(entity instanceof EntityPlayerChild))
-//		{
-//			if (entity.gender.equals("Male"))
-//			{
-//				switch (entity.profession)
-//				{
-//				case 0: return MCA.farmerSkinsMale;
-//				case 1: return MCA.librarianSkinsMale;
-//				case 2: return MCA.priestSkinsMale;
-//				case 3: return MCA.smithSkinsMale;
-//				case 4: return MCA.butcherSkinsMale;
-//				case 5: return MCA.guardSkinsMale;
-//				case 6: return MCA.bakerSkinsMale;
-//				case 7: return MCA.minerSkinsMale;
-//				}
-//			}
-//
-//			else
-//			{
-//				switch (entity.profession)
-//				{
-//				case 0: return MCA.farmerSkinsFemale;
-//				case 1: return MCA.librarianSkinsFemale;
-//				case 2: return MCA.priestSkinsFemale;
-//				case 3: return MCA.smithSkinsFemale;
-//				case 4: return null;
-//				case 5: return MCA.guardSkinsFemale;
-//				case 6: return MCA.bakerSkinsFemale;
-//				case 7: return MCA.minerSkinsFemale;
-//				}
-//			}
-//		}
-//
-//		else
-//		{
-//			if (entity.gender.equals("Male"))
-//			{
-//				return MCA.kidSkinsMale;
-//			}
-//
-//			else if (entity.gender.equals("Female"))
-//			{
-//				return MCA.kidSkinsFemale;
-//			}
-//		}
-//
-//		return null;
 	}
 
 	/**

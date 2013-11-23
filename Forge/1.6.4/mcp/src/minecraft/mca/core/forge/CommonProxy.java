@@ -164,32 +164,35 @@ public class CommonProxy
 			ZipEntry file = (ZipEntry)enumerator.nextElement();
 			String fileLocationInArchive = "/" + file.getName();
 
-			for (VillagerEntryMCA entry : VillagerRegistryMCA.getRegisteredVillagersMap().values())
+			if (fileLocationInArchive.contains("textures/skins"))
 			{
-				if (entry.getUseDefaultTexture())
+				for (VillagerEntryMCA entry : VillagerRegistryMCA.getRegisteredVillagersMap().values())
 				{
-					entry.skinsMale.add("textures/api/skins/DefaultM1.png");
-					entry.skinsFemale.add("textures/api/skins/DefaultF1.png");
-				}
-
-				else
-				{
-					if (fileLocationInArchive.contains(entry.getTexturesLocation()) && fileLocationInArchive.contains("sleeping") == false)
+					if (entry.getUseDefaultTexture())
 					{
-						//Fix the file's location in the JAR and determine what type of villager the skin belongs to.
-						//Skins are named like [Profession][Gender][ID].png.
-						fileLocationInArchive = fileLocationInArchive.replace("/assets/mca/", "");
+						entry.addMaleSkin("textures/api/skins/DefaultM1.png");
+						entry.addFemaleSkin("textures/api/skins/DefaultF1.png");
+					}
 
-						if (fileLocationInArchive.contains(entry.getUnlocalizedProfessionName()))
+					else
+					{
+						if (fileLocationInArchive.contains(entry.getTexturesLocation().replace("/assets/mca/", "")) && fileLocationInArchive.contains("sleeping") == false)
 						{
-							if (fileLocationInArchive.replace("textures/skins/" + entry.getUnlocalizedProfessionName(), "").contains("M"))
-							{
-								entry.skinsMale.add(fileLocationInArchive);
-							}
+							//Fix the file's location in the JAR and determine what type of villager the skin belongs to.
+							//Skins are named like [Profession][Gender][ID].png.
+							fileLocationInArchive = fileLocationInArchive.replace("/assets/mca/", "");
 
-							else
+							if (fileLocationInArchive.contains(entry.getUnlocalizedProfessionName()))
 							{
-								entry.skinsFemale.add(fileLocationInArchive);
+								if (fileLocationInArchive.replace("textures/skins/" + entry.getUnlocalizedProfessionName(), "").contains("M"))
+								{
+									entry.addMaleSkin(fileLocationInArchive);
+								}
+
+								else
+								{
+									entry.addFemaleSkin(fileLocationInArchive);
+								}
 							}
 						}
 					}
@@ -208,8 +211,8 @@ public class CommonProxy
 		{
 			if (entry.getUseDefaultTexture())
 			{
-				entry.skinsMale.add("textures/api/skins/DefaultM1.png");
-				entry.skinsFemale.add("textures/api/skins/DefaultF1.png");
+				entry.addMaleSkin("textures/api/skins/DefaultM1.png");
+				entry.addFemaleSkin("textures/api/skins/DefaultF1.png");
 			}
 
 			else
@@ -227,12 +230,12 @@ public class CommonProxy
 					{
 						if (fileLocation.replace("textures/skins/" + entry.getUnlocalizedProfessionName(), "").contains("M"))
 						{
-							entry.skinsMale.add(fileLocation);
+							entry.addMaleSkin(fileLocation);
 						}
 
 						else
 						{
-							entry.skinsFemale.add(fileLocation);
+							entry.addFemaleSkin(fileLocation);
 						}
 					}
 				}

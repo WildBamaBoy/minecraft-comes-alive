@@ -59,7 +59,7 @@ public final class VillagerRegistryMCA
 	 */
 	public static void registerVillagerType(int id, String professionName, Class registeringClass)
 	{
-		registerVillagerType(id, professionName, "/assets/mca/textures/api/skins/", registeringClass);
+		registerVillagerType(id, professionName, "/assets/mca/textures/skins/", registeringClass);
 	}
 	
 	private static void registerVillagerType(int id, String professionName, String textureLocation, Class registeringClass)
@@ -84,7 +84,7 @@ public final class VillagerRegistryMCA
 				if (registeringClass.getSimpleName().equals("MCA"))
 				{
 					VillagerEntryMCA entry = new VillagerEntryMCA(id, professionName, "/assets/mca/textures/skins/");
-					entry.isLocalized = true;
+					entry.setIsLocalized(true);
 					registeredVillagersMap.put(id, entry);
 				}
 				
