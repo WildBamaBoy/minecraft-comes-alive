@@ -12,23 +12,25 @@ package mca.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import mca.core.MCA;
+
 /**
  * Object used to keep track of villager types registered with MCA.
  */
 public class VillagerEntryMCA 
 {
 	/** A list of skins that can be used for male villagers. */
-	public List<String> skinsMale = new ArrayList<String>();
+	private List<String> skinsMale = new ArrayList<String>();
 	
 	/** A list of skins that can be used for female villagers. */
-	public List<String> skinsFemale = new ArrayList<String>();
+	private List<String> skinsFemale = new ArrayList<String>();
 	
-	protected int id;
-	protected boolean isLocalized;
-	protected boolean useDefaultTexture;
-	protected String professionName;
-	protected String texturesLocation;
-
+	public final int id;
+	public final boolean useDefaultTexture;
+	public final String professionName;
+	public final String texturesLocation;
+	private boolean isLocalized;
+	
 	/**
 	 * Constructor
 	 * 
@@ -51,6 +53,14 @@ public class VillagerEntryMCA
 	public boolean getIsLocalized()
 	{
 		return isLocalized;
+	}
+	
+	/**
+	 * Used only by MCA at this time.
+	 */
+	public void setIsLocalized(boolean value)
+	{
+		this.isLocalized = value;
 	}
 
 	/**
@@ -98,5 +108,65 @@ public class VillagerEntryMCA
 	public String getTexturesLocation() 
 	{
 		return texturesLocation;
+	}
+	
+	/**
+	 * Adds the location of a texture to this entry's male skin list.
+	 * 
+	 * @param 	skinLocation	The location of the male skin texture.
+	 */
+	public void addMaleSkin(String skinLocation)
+	{
+		this.skinsMale.add(skinLocation);
+	}
+	
+	/**
+	 * Adds the location of a texture to this entry's female skin list.
+	 * 
+	 * @param 	skinLocation	The location of the female skin texture.
+	 */
+	public void addFemaleSkin(String skinLocation)
+	{
+		this.skinsFemale.add(skinLocation);
+	}
+	
+	/**
+	 * Gets a random male skin appropriate from this entry's male skin list.
+	 * 
+	 * @return	Random male skin stored in male skin list.
+	 */
+	public String getRandomMaleSkin()
+	{
+		return this.skinsMale.get(MCA.instance.rand.nextInt(skinsMale.size()));
+	}
+	
+	/**
+	 * Gets a random female skin appropriate from this entry's female skin list.
+	 * 
+	 * @return	Random female skin stored in female skin list.
+	 */
+	public String getRandomFemaleSkin()
+	{
+		return this.skinsFemale.get(MCA.instance.rand.nextInt(skinsFemale.size()));
+	}
+	
+	/**
+	 * Returns reference to the male skins list.
+	 * 
+	 * @return	The male skin list contained in this entry.
+	 */
+	public List<String> getMaleSkinsList()
+	{
+		return this.skinsMale;
+	}
+	
+	/**
+	 * Returns reference to the female skins list.
+	 * 
+	 * @return	The female skin list contained in this entry.
+	 */
+	public List<String> getFemaleSkinsList()
+	{
+		return this.skinsFemale;
 	}
 }

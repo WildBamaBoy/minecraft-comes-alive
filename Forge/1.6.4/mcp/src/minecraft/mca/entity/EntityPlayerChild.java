@@ -177,7 +177,7 @@ public class EntityPlayerChild extends EntityChild
 
 			else
 			{
-				texture = entry.skinsMale.get(worldObj.rand.nextInt(entry.skinsMale.size()));
+				texture = entry.getRandomMaleSkin();
 			}
 		}
 
@@ -200,7 +200,7 @@ public class EntityPlayerChild extends EntityChild
 
 			else
 			{
-				texture = entry.skinsFemale.get(worldObj.rand.nextInt(entry.skinsFemale.size()));
+				texture = entry.getRandomFemaleSkin();
 			}
 		}
 	}
