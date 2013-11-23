@@ -9,8 +9,6 @@
 
 package mca.entity;
 
-import mca.api.VillagerEntryMCA;
-import mca.api.VillagerRegistryMCA;
 import mca.core.MCA;
 import mca.core.util.object.PlayerMemory;
 import mca.enums.EnumRelation;
