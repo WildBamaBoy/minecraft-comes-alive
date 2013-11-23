@@ -11,6 +11,7 @@
 *.properties
 *.lzma
 *.cfg
+*.lang
 
 # Package Files #
 *.jar
@@ -133,9 +134,9 @@ Forge/1.6.4/mcp/src/minecraft/Start.java
 Forge/1.6.4/mcp/CHANGELOG
 Forge/1.6.4/mcp/src/minecraft/mcpmod.info
 Forge/1.6.4/mcp/src/minecraft/mcp.png
-Forge/1.6.4/mcp/src/minecraft/assets/forge/lang/en_US.lang
-Forge/1.6.4/mcp/src/minecraft/assets/forge/lang/es_ES.lang
-Forge/1.6.4/mcp/src/minecraft/assets/forge/lang/fr_FR.lang
+Forge/1.6.4/mcp/src/minecraft/assets/forge/*
+Forge/1.6.4/mcp/src/minecraft/assets/forge/*
+Forge/1.6.4/mcp/src/minecraft/assets/forge/*
 
 # 1.7 Folders #
 Forge/1.7/client/*
