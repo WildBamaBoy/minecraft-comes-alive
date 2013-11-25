@@ -32,6 +32,7 @@ public final class Constants
 	public static final byte ID_GUI_LOSTRELATIVE = 12;
 
 	//Movement speeds.
+	public static final float SPEED_SNEAK = 0.4F;
 	public static final float SPEED_WALK = 0.6F;
 	public static final float SPEED_RUN = 0.7F;
 	public static final float SPEED_SPRINT = 0.8F;
