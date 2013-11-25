@@ -34,58 +34,58 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 public class ChoreFarming extends AbstractChore
 {
 	/** The method of farming to perform. 0 = create farm, 1 = maintain farm. */
-	public int method;
+	public int method = 0;
 
 	/**The radius of the maintaining function. */
-	public int radius;
+	public int radius = 0;
 
 	/**The type of seeds that should be planted. 0 = Wheat, 1 = Melon, 2 = Pumpkin, 3 = Carrot, 4 = Potato, 5 = sugarcane. */
-	public int seedType;
+	public int seedType = 0;
 
 	/** The ID of the seed item to remove from the inventory when a crop is placed.*/
-	public int cropSeedId;
+	public int cropSeedId = 0;
 
 	/** The ID of the crop that will be placed. */
-	public int cropBlockId;
+	public int cropBlockId = 0;
 
 	/** How many ticks the entity should wait before continuing with the chore. */
-	public int delay;
+	public int delay = 0;
 
 	/** Keeps up with how many ticks the entity has remained idle.*/
-	public int delayCounter;
+	public int delayCounter = 0;
 
 	/** The X location of the coordinates the entity started at.*/
-	public int startX;
+	public int startX = 0;
 
 	/** The Y location of the coordinates the entity started at.*/
-	public int startY;
+	public int startY = 0;
 
 	/** The Z location of the coordinates the entity started at.*/
-	public int startZ;
+	public int startZ = 0;
 
 	/** From a 2D aspect, how many blocks the X side of the farming area is.*/
-	public int areaX;
+	public int areaX = 0;
 
 	/** From a 2D aspect, how many blocks the Y side of the farming area is.*/
-	public int areaY;
+	public int areaY = 0;
 
 	/**The X coordinates of the block the entity should be performing an action on. */
-	public int targetX;
+	public int targetX = 0;
 
 	/**The Y coordinates of the block the entity should be performing an action on. */
-	public int targetY;
+	public int targetY = 0;
 
 	/**The Z coordinates of the block the entity should be performing an action on. */
-	public int targetZ;
+	public int targetZ = 0;
 
 	/** Index of the current farmable land. Used to place water on certain blocks.*/
-	public int farmlandIndex;
+	public int farmlandIndex = 0;
 
 	/** Has the entity done any work at all? */
-	public boolean hasDoneWork;
+	public boolean hasDoneWork = false;
 
 	/**Is the entity supposed to have a path to a block? */
-	public boolean hasAssignedPathToBlock;
+	public boolean hasAssignedPathToBlock = false;
 
 	/**
 	 * Constructor
@@ -256,23 +256,31 @@ public class ChoreFarming extends AbstractChore
 			//Check for the correct amount of seeds as well.
 			int seedsRequired = 0;
 
-			if (!owner.worldObj.isRemote)
+			try
 			{
-				for (String s : MCA.getFarmMap(areaX, seedType))
+				if (!owner.worldObj.isRemote)
 				{
-					if (s.equals("S"))
+					for (String s : MCA.getFarmMap(areaX, seedType))
 					{
-						seedsRequired++;
+						if (s.equals("S"))
+						{
+							seedsRequired++;
+						}
+					}
+
+					if (owner.inventory.getQuantityOfItem(cropSeedId) < seedsRequired)
+					{
+						owner.say(LanguageHelper.getString("notify.child.chore.interrupted.farming.noseeds"));
+
+						endChore();
+						return;
 					}
 				}
+			}
 
-				if (owner.inventory.getQuantityOfItem(cropSeedId) < seedsRequired)
-				{
-					owner.say(LanguageHelper.getString("notify.child.chore.interrupted.farming.noseeds"));
-
-					endChore();
-					return;
-				}
+			catch (NullPointerException e)
+			{
+				e.printStackTrace();
 			}
 		}
 
