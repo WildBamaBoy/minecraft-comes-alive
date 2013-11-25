@@ -9,9 +9,9 @@
 
 package mca.command;
 
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.core.util.Color;
 import net.minecraft.command.ICommandSender;
 
 /**
@@ -39,7 +39,7 @@ public class CommandBlockAll extends AbstractCommand
 			boolean argument = arguments[0].toUpperCase().equals("TRUE");
 			
 			//Get the sender's world properties.
-			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(sender.getCommandSenderName());
+			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(sender.getCommandSenderName());
 			
 			if (manager != null)
 			{
@@ -49,24 +49,24 @@ public class CommandBlockAll extends AbstractCommand
 				//Notify the sender what happened.
 				if (argument)
 				{
-					this.sendChatToPlayer(sender, "multiplayer.command.output.blockall.true.successful", Color.GREEN, null);
+					this.sendChatToPlayer(sender, "multiplayer.command.output.blockall.true.successful", Constants.COLOR_GREEN, null);
 				}
 				
 				else
 				{
-					this.sendChatToPlayer(sender, "multiplayer.command.output.blockall.false.successful", Color.GREEN, null);
+					this.sendChatToPlayer(sender, "multiplayer.command.output.blockall.false.successful", Constants.COLOR_GREEN, null);
 				}
 			}
 			
 			else
 			{
-				this.sendChatToPlayer(sender, "multiplayer.command.error.unknown", Color.RED, null);
+				this.sendChatToPlayer(sender, "multiplayer.command.error.unknown", Constants.COLOR_RED, null);
 			}
 		}
 		
 		else
 		{
-			this.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Color.RED, getCommandUsage(sender));
+			this.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Constants.COLOR_RED, getCommandUsage(sender));
 		}
 	}
 }

@@ -34,58 +34,58 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 public class ChoreFarming extends AbstractChore
 {
 	/** The method of farming to perform. 0 = create farm, 1 = maintain farm. */
-	public int method = 0;
+	public int method;
 
 	/**The radius of the maintaining function. */
-	public int radius = 0;
+	public int radius;
 
 	/**The type of seeds that should be planted. 0 = Wheat, 1 = Melon, 2 = Pumpkin, 3 = Carrot, 4 = Potato, 5 = sugarcane. */
-	public int seedType = 0;
+	public int seedType;
 
 	/** The ID of the seed item to remove from the inventory when a crop is placed.*/
-	public int cropSeedId = 0;
+	public int cropSeedId;
 
 	/** The ID of the crop that will be placed. */
-	public int cropBlockId = 0;
+	public int cropBlockId;
 
 	/** How many ticks the entity should wait before continuing with the chore. */
-	public int delay = 0;
+	public int delay;
 
 	/** Keeps up with how many ticks the entity has remained idle.*/
-	public int delayCounter = 0;
+	public int delayCounter;
 
 	/** The X location of the coordinates the entity started at.*/
-	public int startX = 0;
+	public int startX;
 
 	/** The Y location of the coordinates the entity started at.*/
-	public int startY = 0;
+	public int startY;
 
 	/** The Z location of the coordinates the entity started at.*/
-	public int startZ = 0;
+	public int startZ;
 
 	/** From a 2D aspect, how many blocks the X side of the farming area is.*/
-	public int areaX = 0;
+	public int areaX;
 
 	/** From a 2D aspect, how many blocks the Y side of the farming area is.*/
-	public int areaY = 0;
+	public int areaY;
 
 	/**The X coordinates of the block the entity should be performing an action on. */
-	public int targetX = 0;
+	public int targetX;
 
 	/**The Y coordinates of the block the entity should be performing an action on. */
-	public int targetY = 0;
+	public int targetY;
 
 	/**The Z coordinates of the block the entity should be performing an action on. */
-	public int targetZ = 0;
+	public int targetZ;
 
 	/** Index of the current farmable land. Used to place water on certain blocks.*/
-	public int farmlandIndex = 0;
+	public int farmlandIndex;
 
 	/** Has the entity done any work at all? */
-	public boolean hasDoneWork = false;
+	public boolean hasDoneWork;
 
 	/**Is the entity supposed to have a path to a block? */
-	public boolean hasAssignedPathToBlock = false;
+	public boolean hasAssignedPathToBlock;
 
 	/**
 	 * Constructor
@@ -154,9 +154,9 @@ public class ChoreFarming extends AbstractChore
 	@Override
 	public void beginChore() 
 	{
-		if (MCA.instance.isDedicatedServer)
+		if (MCA.getInstance().isDedicatedServer)
 		{
-			if (!MCA.instance.modPropertiesManager.modProperties.server_allowFarmingChore)
+			if (!MCA.getInstance().modPropertiesManager.modProperties.server_allowFarmingChore)
 			{
 				//End the chore and sync all clients so that the chore is stopped everywhere.
 				endChore();
@@ -256,31 +256,23 @@ public class ChoreFarming extends AbstractChore
 			//Check for the correct amount of seeds as well.
 			int seedsRequired = 0;
 
-			try
+			if (!owner.worldObj.isRemote)
 			{
-				if (!owner.worldObj.isRemote)
+				for (String s : MCA.getFarmMap(areaX, seedType))
 				{
-					for (String s : MCA.getFarmMap(areaX, seedType))
+					if (s.equals("S"))
 					{
-						if (s.equals("S"))
-						{
-							seedsRequired++;
-						}
-					}
-
-					if (owner.inventory.getQuantityOfItem(cropSeedId) < seedsRequired)
-					{
-						owner.say(LanguageHelper.getString("notify.child.chore.interrupted.farming.noseeds"));
-
-						endChore();
-						return;
+						seedsRequired++;
 					}
 				}
-			}
 
-			catch (NullPointerException e)
-			{
-				e.printStackTrace();
+				if (owner.inventory.getQuantityOfItem(cropSeedId) < seedsRequired)
+				{
+					owner.say(LanguageHelper.getString("notify.child.chore.interrupted.farming.noseeds"));
+
+					endChore();
+					return;
+				}
 			}
 		}
 
@@ -368,9 +360,9 @@ public class ChoreFarming extends AbstractChore
 				}
 			}
 
-			catch (Throwable e)
+			catch (Exception e)
 			{
-				MCA.instance.log(e);
+				MCA.getInstance().log(e);
 				continue;
 			}
 		}
@@ -413,9 +405,9 @@ public class ChoreFarming extends AbstractChore
 				}
 			}
 
-			catch (Throwable e)
+			catch (Exception e)
 			{
-				MCA.instance.log(e);
+				MCA.getInstance().log(e);
 				continue;
 			}
 		}
@@ -550,7 +542,7 @@ public class ChoreFarming extends AbstractChore
 
 							if (player != null)
 							{
-								player.triggerAchievement(MCA.instance.achievementChildFarm);						
+								player.triggerAchievement(MCA.getInstance().achievementChildFarm);						
 							}
 						}
 					}
@@ -617,7 +609,7 @@ public class ChoreFarming extends AbstractChore
 						//Must be constants.
 						case 59: 	cropID = Item.wheat.itemID;
 						cropsToAdd = 1;
-						seedsToAdd = MCA.instance.rand.nextInt(4);
+						seedsToAdd = MCA.rand.nextInt(4);
 
 						if (seedsToAdd > 0 || owner.inventory.getQuantityOfItem(Item.seeds) > 0)
 						{
@@ -631,17 +623,17 @@ public class ChoreFarming extends AbstractChore
 						break;
 
 						case 142:	cropID = Item.potato.itemID;
-						cropsToAdd = MCA.instance.rand.nextInt(5) + 1;
+						cropsToAdd = MCA.rand.nextInt(5) + 1;
 						owner.worldObj.setBlock(targetX, targetY, targetZ, 142);
 						break;
 
 						case 141:	cropID = Item.carrot.itemID;
-						cropsToAdd = MCA.instance.rand.nextInt(5) + 1;
+						cropsToAdd = MCA.rand.nextInt(5) + 1;
 						owner.worldObj.setBlock(targetX, targetY, targetZ, 141);
 						break;
 
 						case 103:	cropID = Item.melon.itemID;
-						cropsToAdd = MCA.instance.rand.nextInt(5) + 3;
+						cropsToAdd = MCA.rand.nextInt(5) + 3;
 						break;
 
 						case 83:	cropID = Item.reed.itemID;

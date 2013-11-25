@@ -12,6 +12,7 @@ package mca.chore;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
@@ -128,9 +129,9 @@ public class ChoreMining extends AbstractChore
 	@Override
 	public void beginChore() 
 	{
-		if (MCA.instance.isDedicatedServer)
+		if (MCA.getInstance().isDedicatedServer)
 		{
-			if (!MCA.instance.modPropertiesManager.modProperties.server_allowMiningChore)
+			if (!MCA.getInstance().modPropertiesManager.modProperties.server_allowMiningChore)
 			{
 				//End the chore and sync all clients so that the chore is stopped everywhere.
 				endChore();
@@ -244,9 +245,9 @@ public class ChoreMining extends AbstractChore
 				}
 			}
 
-			catch (Throwable e)
+			catch (Exception e)
 			{
-				MCA.instance.log(e);
+				MCA.getInstance().log(e);
 				continue;
 			}
 		}
@@ -289,9 +290,9 @@ public class ChoreMining extends AbstractChore
 				}
 			}
 
-			catch (Throwable e)
+			catch (Exception e)
 			{
-				MCA.instance.log(e);
+				MCA.getInstance().log(e);
 				continue;
 			}
 		}
@@ -634,7 +635,7 @@ public class ChoreMining extends AbstractChore
 
 									if (player != null)
 									{
-										player.triggerAchievement(MCA.instance.achievementChildMine);
+										player.triggerAchievement(MCA.getInstance().achievementChildMine);
 									}
 								}
 							}
@@ -654,7 +655,7 @@ public class ChoreMining extends AbstractChore
 					{
 						if (owner.getNavigator().noPath())
 						{
-							owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ((int)activeNextCoordinatesX, (int)activeNextCoordinatesY, (int)activeNextCoordinatesZ), 0.6F);
+							owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ((int)activeNextCoordinatesX, (int)activeNextCoordinatesY, (int)activeNextCoordinatesZ), Constants.SPEED_WALK);
 						}
 					}
 				}

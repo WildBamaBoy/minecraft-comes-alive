@@ -29,7 +29,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ItemBaby extends Item
 {
 	/** The gender of the baby. */
-	public String gender;
+	public boolean isMale;
 
 	/**
 	 * Constructor
@@ -61,26 +61,26 @@ public class ItemBaby extends Item
 	@Override
 	public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int meta, float xOffset, float yOffset, float zOffset)
 	{
-		WorldPropertiesManager worldPropertiesManager = MCA.instance.playerWorldManagerMap.get(player.username);
+		WorldPropertiesManager worldPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 
 		if (worldPropertiesManager.worldProperties.babyReadyToGrow)
 		{
 			if (!world.isRemote)
 			{	
-				EntityPlayerChild entityPlayerChild = new EntityPlayerChild(world, player, worldPropertiesManager.worldProperties.babyName, gender);
+				EntityPlayerChild entityPlayerChild = new EntityPlayerChild(world, player, worldPropertiesManager.worldProperties.babyName, isMale);
 				entityPlayerChild.setLocationAndAngles(x, y + 1, z, player.rotationYaw, player.rotationPitch);
 				world.spawnEntityInWorld(entityPlayerChild);
 
 				//Trigger the achievement
-				player.triggerAchievement(MCA.instance.achievementBabyGrowUp);
+				player.triggerAchievement(MCA.getInstance().achievementBabyGrowUp);
 
-				WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
+				WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 
 				//Set relevant properties back to their default values so that the player can have another baby.
 				manager.worldProperties.babyExists = false;
 				manager.worldProperties.babyName = "";
 				manager.worldProperties.babyReadyToGrow = false;
-				manager.worldProperties.babyGender = "";
+				manager.worldProperties.babyIsMale = false;
 				manager.worldProperties.minutesBabyExisted = 0;
 				manager.saveWorldProperties();
 
@@ -88,29 +88,29 @@ public class ItemBaby extends Item
 				if (manager.worldProperties.playerSpouseID < 0)
 				{
 					int spouseID = manager.worldProperties.playerSpouseID;
-					EntityPlayer spouseEntity = MCA.instance.getPlayerByID(world, spouseID);
+					EntityPlayer spouseEntity = MCA.getInstance().getPlayerByID(world, spouseID);
 					WorldPropertiesManager spouseManager = null;
 					
 					if (spouseEntity != null)
 					{
-						spouseManager = MCA.instance.playerWorldManagerMap.get(spouseEntity.username);
+						spouseManager = MCA.getInstance().playerWorldManagerMap.get(spouseEntity.username);
 					}
 					
 					//Fail-safe for when spouse is not logged in. Their properties are still loaded, though.
 					else
 					{
-						spouseManager = MCA.instance.playerWorldManagerMap.get(manager.worldProperties.playerSpouseName);
+						spouseManager = MCA.getInstance().playerWorldManagerMap.get(manager.worldProperties.playerSpouseName);
 					}
 					
 					spouseManager.worldProperties.babyExists = false;
 					spouseManager.worldProperties.babyName = "";
 					spouseManager.worldProperties.babyReadyToGrow = false;
-					spouseManager.worldProperties.babyGender = "";
+					spouseManager.worldProperties.babyIsMale = false;
 					spouseManager.worldProperties.minutesBabyExisted = 0;
 					spouseManager.saveWorldProperties();
 				}
 
-				MCA.instance.hasNotifiedOfBabyReadyToGrow = false;
+				MCA.getInstance().hasNotifiedOfBabyReadyToGrow = false;
 			}
 
 			else

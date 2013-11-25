@@ -32,6 +32,7 @@ import mca.chore.ChoreFishing;
 import mca.chore.ChoreHunting;
 import mca.chore.ChoreMining;
 import mca.chore.ChoreWoodcutting;
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
@@ -82,9 +83,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 {
 	//Primitive types
 	public String name = "";
-	public String gender = "";
+	
 	public String currentChore = "";
-	public String heldBabyGender = "None";
 	public String lastInteractingPlayer = "";
 	public String followingPlayer = "None";
 	public String spousePlayerName = "";
@@ -101,13 +101,15 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public int heldBabyProfession = 0;
 	public int traitId = 0;
 	public int moodUpdateTicks = 0;
-	public int moodUpdateDeviation = MCA.instance.rand.nextInt(50) + MCA.instance.rand.nextInt(50);
+	public int moodUpdateDeviation = MCA.rand.nextInt(50) + MCA.rand.nextInt(50);
 	public int particleTicks = 0;
 	public int procreateTicks = 0;
 	public int villagerBabyCalendarPrevMinutes	  = Calendar.getInstance().get(Calendar.MINUTE);
 	public int villagerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 	public int workCalendarPrevMinutes	  = Calendar.getInstance().get(Calendar.MINUTE);
 	public int workCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+	public boolean isMale = false;
+	public boolean isHeldBabyMale = false;
 	public boolean isSleeping = false;
 	public boolean isSwinging = false;
 	public boolean isFollowing = false;
@@ -136,12 +138,15 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public boolean hasReturnedInventory = false;
 	public boolean hasBeenHeir = false;
 	public boolean hasBaby = false;
+	public boolean isAffectedByHeight = getBooleanWithProbability(40);
+	public boolean isHeightNegative = MCA.rand.nextBoolean();
 	public double homePointX = 0D;
 	public double homePointY = 0D;
 	public double homePointZ = 0D;
 	public float moodPointsHappy = 0.0F;
 	public float moodPointsSad = 0.0F;
 	public float moodPointsAnger = 0.0F;
+	public float villagerHeightFactor = isHeightNegative ? (MCA.rand.nextFloat() / 12) : (MCA.rand.nextFloat() / 12) * -1;
 
 	//Object types
 	public FamilyTree familyTree = new FamilyTree(this);
@@ -173,7 +178,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		//Get the appropriate MCA id for the person.
 		if (!world.isRemote)
 		{
-			for (Map.Entry<Integer, Integer> mapEntry : MCA.instance.idsMap.entrySet())
+			for (Map.Entry<Integer, Integer> mapEntry : MCA.getInstance().idsMap.entrySet())
 			{
 				if (mapEntry.getKey() > this.mcaID)
 				{
@@ -184,11 +189,11 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			this.mcaID++;
 
 			//Put the ID in the list.
-			MCA.instance.idsMap.put(this.mcaID, this.entityId);
+			MCA.getInstance().idsMap.put(this.mcaID, this.entityId);
 		}
 
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20.0D);
-		setSize(0.6F, 1.8F);
+		setSize(Constants.WIDTH_ADULT, Constants.HEIGHT_ADULT);
 	}
 
 	@Override
@@ -209,7 +214,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		VillagerEntryMCA entry = VillagerRegistryMCA.getRegisteredVillagerEntry(profession);
 
-		if (gender.equals("Male"))
+		if (isMale)
 		{
 			texture = entry.getRandomMaleSkin();
 		}
@@ -287,7 +292,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			{
 				if (!worldObj.isRemote)
 				{
-					worldObj.getPlayerEntityByName(lastInteractingPlayer).openGui(MCA.instance, MCA.instance.guiInventoryID, worldObj, (int)posX, (int)posY, (int)posZ);
+					worldObj.getPlayerEntityByName(lastInteractingPlayer).openGui(MCA.getInstance(), Constants.ID_GUI_INVENTORY, worldObj, (int)posX, (int)posY, (int)posZ);
 				}
 
 				shouldOpenInventory = false;
@@ -408,9 +413,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			}
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.quitWithThrowable("Error writing a field to NBT.", e);
+			MCA.getInstance().quitWithException("Error writing a field to NBT.", e);
 		}
 	}
 
@@ -450,27 +455,27 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 						{
 							if (fieldType.contains("String"))
 							{
-								f.set(this, new String(NBT.getString(fieldName)));
+								f.set(this, String.valueOf(NBT.getString(fieldName)));
 							}
 
 							else if (fieldType.contains("boolean"))
 							{
-								f.set(this, new Boolean(NBT.getBoolean(fieldName)));
+								f.set(this, Boolean.valueOf(NBT.getBoolean(fieldName)));
 							}
 
 							else if (fieldType.contains("double"))
 							{
-								f.set(this, new Double(NBT.getDouble(fieldName)));
+								f.set(this, Double.valueOf(NBT.getDouble(fieldName)));
 							}
 
 							else if (fieldType.contains("int"))
 							{
-								f.set(this, new Integer(NBT.getInteger(fieldName)));
+								f.set(this, Integer.valueOf(NBT.getInteger(fieldName)));
 							}
 
 							else if (fieldType.contains("float"))
 							{
-								f.set(this, new Float(NBT.getFloat(fieldName)));
+								f.set(this, Float.valueOf(NBT.getFloat(fieldName)));
 							}
 						}
 					}
@@ -519,7 +524,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				catch (NullPointerException e)
 				{
-					MCA.instance.log(e);
+					MCA.getInstance().log(e);
 					break;
 				}
 			}
@@ -528,12 +533,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			trait = EnumTrait.getTraitById(traitId);
 
 			//Add to entity list.
-			MCA.instance.entitiesMap.put(this.mcaID, this);
+			MCA.getInstance().entitiesMap.put(this.mcaID, this);
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.quitWithThrowable("Error reading from NBT.", e);
+			MCA.getInstance().quitWithException("Error reading from NBT.", e);
 		}
 	}
 
@@ -638,7 +643,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		if (!worldObj.isRemote && this instanceof EntityPlayerChild)
 		{
 			EntityPlayerChild playerChild = (EntityPlayerChild)this;
-			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(playerChild.ownerPlayerName);
+			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(playerChild.ownerPlayerName);
 
 			if (manager != null)
 			{
@@ -666,16 +671,16 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			if (familyTree.idIsRelative(i))
 			{
-				EntityPlayer player = MCA.instance.getPlayerByID(worldObj, i);
+				EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, i);
 
 				if (player != null)
 				{
 					if (!worldObj.isRemote)
 					{
-						notifyPlayer(player, LanguageHelper.getString(player, this, "notify.death." + gender.toLowerCase(), false));
+						notifyPlayer(player, LanguageHelper.getString(player, this, "notify.death." + getGenderAsString(), false));
 					}
 
-					player.inventory.addItemStackToInventory(new ItemStack(MCA.instance.itemTombstone));
+					player.inventory.addItemStackToInventory(new ItemStack(MCA.getInstance().itemTombstone));
 				}
 			}
 		}
@@ -715,7 +720,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		}
 
 		//Erase from the entities map.
-		MCA.instance.entitiesMap.remove(this.mcaID);
+		MCA.getInstance().entitiesMap.remove(this.mcaID);
 	}
 
 	@Override
@@ -876,7 +881,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		//Only notify the related players of these events.
 		for (int i : familyTree.getListOfPlayers())
 		{
-			EntityPlayer player = MCA.instance.getPlayerByID(worldObj, i);
+			EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, i);
 			Item itemInStack = stack.getItem();
 
 			if (itemInStack instanceof ItemArmor)
@@ -1011,13 +1016,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				if (!name.equals(""))
 				{
 					EntityPlayer player = worldObj.getPlayerEntityByName(lastInteractingPlayer);
-					player.addChatMessage(getTitle(MCA.instance.getIdOfPlayer(player), true) + ": " + text);
+					player.addChatMessage(getTitle(MCA.getInstance().getIdOfPlayer(player), true) + ": " + text);
 				}
 			}
 
 			catch (NullPointerException e)
 			{
-				MCA.instance.log("WARNING: Unable to get last interacting player.");
+				MCA.getInstance().log("WARNING: Unable to get last interacting player.");
 			}
 
 			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isSleeping", false));
@@ -1137,7 +1142,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				{
 					for (int i : familyTree.getListOfPlayers())
 					{
-						EntityPlayer player = MCA.instance.getPlayerByID(worldObj, i);
+						EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, i);
 
 						if (worldObj.isRemote)
 						{
@@ -1155,7 +1160,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			for (int i : familyTree.getListOfPlayers())
 			{
-				EntityPlayer player = MCA.instance.getPlayerByID(worldObj, i);
+				EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, i);
 
 				if (worldObj.isRemote)
 				{
@@ -1536,6 +1541,16 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	}
 
 	/**
+	 * Gets the string representation of this entity's gender.
+	 * 
+	 * @return	"Male" if isMale is True, "Female" if otherwise.
+	 */
+	public String getGenderAsString()
+	{
+		return isMale ? "Male" : "Female";
+	}
+	
+	/**
 	 * Gets the title of this entity that will be displayed to the player interacting with it.
 	 * 
 	 * @param	playerId	The id of the player requesting the entity's title.
@@ -1554,13 +1569,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 			else
 			{
-				return LanguageHelper.getString(this, "profession.playerchild." + gender.toLowerCase(), false);
+				return LanguageHelper.getString(this, "profession.playerchild." + getGenderAsString(), false);
 			}
 		}
 
 		else
 		{
-			return familyTree.getRelationTo(playerId).toString(this, gender, isInformal) + " " + name;
+			return familyTree.getRelationTo(playerId).toString(this, isMale, isInformal) + " " + name;
 		}
 	}
 
@@ -1573,7 +1588,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		if (isKnight)
 		{
-			return LanguageHelper.getString(this, "monarch.title.knight." + this.gender.toLowerCase(), false);
+			return LanguageHelper.getString(this, "monarch.title.knight." + getGenderAsString(), false);
 		}
 
 		else
@@ -1582,7 +1597,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 			if (entry.getIsLocalized())
 			{
-				return LanguageHelper.getString(this, VillagerRegistryMCA.getRegisteredVillagerEntry(profession).getLocalizedProfessionID() + "." + this.gender.toLowerCase(), false);	
+				return LanguageHelper.getString(this, VillagerRegistryMCA.getRegisteredVillagerEntry(profession).getLocalizedProfessionID() + "." + getGenderAsString(), false);	
 			}
 
 			else
@@ -1593,23 +1608,23 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			//			switch (profession)
 			//			{
 			//			case -1:
-			//				return LanguageHelper.getString(this, "profession.playerchild." + this.gender.toLowerCase(), false);
+			//				return LanguageHelper.getString(this, "profession.playerchild." + this.getGenderAsString(), false);
 			//			case 0:
-			//				return LanguageHelper.getString(this, "profession.farmer." + this.gender.toLowerCase(), false);
+			//				return LanguageHelper.getString(this, "profession.farmer." + this.getGenderAsString(), false);
 			//			case 1:
-			//				return LanguageHelper.getString(this, "profession.librarian." + this.gender.toLowerCase(), false);
+			//				return LanguageHelper.getString(this, "profession.librarian." + this.getGenderAsString(), false);
 			//			case 2:
-			//				return LanguageHelper.getString(this, "profession.priest." + this.gender.toLowerCase(), false);
+			//				return LanguageHelper.getString(this, "profession.priest." + this.getGenderAsString(), false);
 			//			case 3:
-			//				return LanguageHelper.getString(this, "profession.smith." + this.gender.toLowerCase(), false);
+			//				return LanguageHelper.getString(this, "profession.smith." + this.getGenderAsString(), false);
 			//			case 4:
-			//				return LanguageHelper.getString(this, "profession.butcher." + this.gender.toLowerCase(), false);
+			//				return LanguageHelper.getString(this, "profession.butcher." + this.getGenderAsString(), false);
 			//			case 5:
-			//				return LanguageHelper.getString(this, "profession.guard." + this.gender.toLowerCase(), false);
+			//				return LanguageHelper.getString(this, "profession.guard." + this.getGenderAsString(), false);
 			//			case 6:
-			//				return LanguageHelper.getString(this, "profession.baker." + this.gender.toLowerCase(), false);
+			//				return LanguageHelper.getString(this, "profession.baker." + this.getGenderAsString(), false);
 			//			case 7:
-			//				return LanguageHelper.getString(this, "profession.miner." + this.gender.toLowerCase(), false);
+			//				return LanguageHelper.getString(this, "profession.miner." + this.getGenderAsString(), false);
 			//			default:
 			//				return null;
 			//			}
@@ -1822,7 +1837,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		if (merchantRecipe.hasSameIDsAs((MerchantRecipe)buyingList.get(buyingList.size() - 1)))
 		{
-			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, new Integer(40), 6);
+			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, Integer.valueOf(40), 6);
 			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, true, 7);
 
 			EntityPlayer buyingPlayer = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 4);
@@ -1840,7 +1855,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		if (merchantRecipe.getItemToBuy().itemID == Item.emerald.itemID)
 		{
 			int wealth = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 8);
-			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, new Integer(wealth + merchantRecipe.getItemToBuy().stackSize), 8);
+			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, Integer.valueOf(wealth + merchantRecipe.getItemToBuy().stackSize), 8);
 		}
 	}
 
@@ -1989,16 +2004,16 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 			if (playerMemory.hearts >= 100)
 			{
-				player.triggerAchievement(MCA.instance.achievementCharmer);
+				player.triggerAchievement(MCA.getInstance().achievementCharmer);
 
 				if (worldObj.isRemote)
 				{
-					PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementCharmer, player.entityId));
+					PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementCharmer, player.entityId));
 				}
 
 				else
 				{
-					PacketDispatcher.sendPacketToPlayer(PacketHelper.createAchievementPacket(MCA.instance.achievementCharmer, player.entityId), (Player) player);
+					PacketDispatcher.sendPacketToPlayer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementCharmer, player.entityId), (Player) player);
 				}
 			}
 		}
@@ -2024,7 +2039,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		if (!shouldSkipAreaModify)
 		{
 			PlayerMemory playerMemory = playerMemoryMap.get(player.username);
-			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
+			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 
 			if (playerMemory.acknowledgedAsMonarch)
 			{
@@ -2229,7 +2244,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 						if (getDistanceSqToEntity(target) > 5D)
 						{
-							float speed = 0.6F;
+							float speed = Constants.SPEED_WALK;
 
 							if (!this.getNavigator().tryMoveToEntityLiving(target, speed))
 							{
@@ -2240,6 +2255,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 								}
 							}
 						}
+						
+						
 					}
 				}
 			}
@@ -2258,12 +2275,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 							if (getDistanceSqToEntity(thePlayer) > 5D)
 							{
-								float speed = 0.6F;
-
-								if (thePlayer.isSprinting())
-								{
-									speed = 0.8F;
-								}
+								float speed = thePlayer.isSprinting() ? Constants.SPEED_SPRINT : Constants.SPEED_WALK;
 
 								if (!this.getNavigator().tryMoveToEntityLiving(thePlayer, speed))
 								{
@@ -2308,7 +2320,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		catch (NullPointerException e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 		}
 	}
 
@@ -2348,7 +2360,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 								if (getBooleanWithProbability(70) == true)
 								{
-									WorldPropertiesManager worldPropertiesManager = MCA.instance.playerWorldManagerMap.get(nearestPlayer.username);
+									WorldPropertiesManager worldPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(nearestPlayer.username);
 
 									if (worldPropertiesManager != null)
 									{
@@ -2357,7 +2369,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 										faceCoordinates(this, nearestPlayer.posX, nearestPlayer.posY, nearestPlayer.posZ, -10);
 
-										if (getCharacterType(MCA.instance.getIdOfPlayer(nearestPlayer)).equals("heir"))
+										if (getCharacterType(MCA.getInstance().getIdOfPlayer(nearestPlayer)).equals("heir"))
 										{
 											say(LanguageHelper.getString(nearestPlayer, this, "heir.bad.demandtribute"));
 											memory.tributeRequests++;
@@ -2372,7 +2384,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 											else if (hearts >= 0 && hearts <= 25)
 											{
-												if (getCharacterType(MCA.instance.getIdOfPlayer(nearestPlayer)).equals("villager") && worldPropertiesManager.worldProperties.isEngaged)
+												if (getCharacterType(MCA.getInstance().getIdOfPlayer(nearestPlayer)).equals("villager") && worldPropertiesManager.worldProperties.isEngaged)
 												{
 													say(LanguageHelper.getString(nearestPlayer, this, "greeting.wedding"));
 												}
@@ -2385,7 +2397,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 											else if (hearts > 25)
 											{
-												if (getCharacterType(MCA.instance.getIdOfPlayer(nearestPlayer)).equals("villager") && worldPropertiesManager.worldProperties.isEngaged)
+												if (getCharacterType(MCA.getInstance().getIdOfPlayer(nearestPlayer)).equals("villager") && worldPropertiesManager.worldProperties.isEngaged)
 												{
 													say(LanguageHelper.getString(nearestPlayer, this, "greeting.wedding"));
 												}
@@ -2396,7 +2408,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 												}
 											}
 
-											else if (hearts > 50 && getCharacterType(MCA.instance.getIdOfPlayer(nearestPlayer)).equals("villager") && 
+											else if (hearts > 50 && getCharacterType(MCA.getInstance().getIdOfPlayer(nearestPlayer)).equals("villager") && 
 													worldPropertiesManager.worldProperties.isEngaged == false && 
 													worldPropertiesManager.worldProperties.playerSpouseID == 0)
 											{
@@ -2418,13 +2430,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		catch (NullPointerException e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 		}
 
 		//Very very rare error. Doesn't hurt anything.
 		catch (ConcurrentModificationException e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 		}
 	}
 
@@ -2585,7 +2597,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				float distanceToPlayer = player.getDistanceToEntity(this);
 
 				//Immediately get a path to the player to simulate chasing.
-				getNavigator().tryMoveToEntityLiving(player, 0.6F);
+				getNavigator().tryMoveToEntityLiving(player, Constants.SPEED_WALK);
 
 				//Check if they need to stop because the player pulled out a weapon.
 				if (player.inventory.getCurrentItem() != null)
@@ -2650,7 +2662,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			for (Map.Entry<String, PlayerMemory> entry : playerMemoryMap.entrySet())
 			{
-				WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(entry.getKey());
+				WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(entry.getKey());
 
 				if (manager != null)
 				{
@@ -2693,19 +2705,19 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 									}
 
 									//Add kings armor.
-									if (!inventory.contains(MCA.instance.itemKingsCoat))
+									if (!inventory.contains(MCA.getInstance().itemKingsCoat))
 									{
-										inventory.addItemStackToInventory(new ItemStack(MCA.instance.itemKingsCoat));
+										inventory.addItemStackToInventory(new ItemStack(MCA.getInstance().itemKingsCoat));
 									}
 
-									if (!inventory.contains(MCA.instance.itemKingsPants))
+									if (!inventory.contains(MCA.getInstance().itemKingsPants))
 									{
-										inventory.addItemStackToInventory(new ItemStack(MCA.instance.itemKingsPants));
+										inventory.addItemStackToInventory(new ItemStack(MCA.getInstance().itemKingsPants));
 									}
 
-									if (!inventory.contains(MCA.instance.itemKingsBoots))
+									if (!inventory.contains(MCA.getInstance().itemKingsBoots))
 									{
-										inventory.addItemStackToInventory(new ItemStack(MCA.instance.itemKingsBoots));
+										inventory.addItemStackToInventory(new ItemStack(MCA.getInstance().itemKingsBoots));
 									}
 
 									inventory.setWornArmorItems();
@@ -2752,7 +2764,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		//Spawn particles if angry.
 		if (worldObj.isRemote)
 		{
-			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
+			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
 
 			if (manager != null)
 			{
@@ -2914,7 +2926,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 							memory.minutesSinceHired = 0;
 							memory.hoursHired = 0;
 							this.setChoresStopped();
-							this.notifyPlayer(MCA.instance.getPlayerByName(memory.playerName), LanguageHelper.getString(this, "notify.hiring.complete", false));
+							this.notifyPlayer(MCA.getInstance().getPlayerByName(memory.playerName), LanguageHelper.getString(this, "notify.hiring.complete", false));
 						}
 
 						hasChanged = true;
@@ -2934,7 +2946,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	private void updateDebug() 
 	{
-		if (MCA.instance.inDebugMode)
+		if (MCA.getInstance().inDebugMode)
 		{
 			return;
 		}
@@ -2963,41 +2975,29 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * 
 	 * @return	A string containing either "Male" or "Female".
 	 */
-	public static String getRandomGender()
+	public static boolean getRandomGender()
 	{
-		boolean isMale = MCA.instance.rand.nextBoolean();
-
-		if (isMale)
-		{
-			return "Male";
-		}
-
-		else
-		{
-			return "Female";
-		}
+		return MCA.rand.nextBoolean();
 	}
 
 	/**
 	 * Produces a random masculine or feminine name based on the gender provided.
 	 * 
-	 * @param	gender	The gender that the name should be generated for.
+	 * @param	isMale	Should the name be male?
 	 * 
 	 * @return	String containing a random name that would be appropriate for the specified gender.
 	 */
-	public static String getRandomName(String gender)
+	public static String getRandomName(boolean isMale)
 	{
-		if (gender.equals("Male"))
+		if (isMale)
 		{
-			return MCA.maleNames.get(MCA.instance.rand.nextInt(MCA.maleNames.size()));
+			return MCA.maleNames.get(MCA.rand.nextInt(MCA.maleNames.size()));
 		}
 
-		else if (gender.equals("Female"))
+		else
 		{
-			return MCA.femaleNames.get(MCA.instance.rand.nextInt(MCA.femaleNames.size()));
+			return MCA.femaleNames.get(MCA.rand.nextInt(MCA.femaleNames.size()));
 		}
-
-		return null;
 	}
 
 	/**
@@ -3016,7 +3016,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		else
 		{
-			int randomNumber = MCA.instance.rand.nextInt(100) + 1;
+			int randomNumber = MCA.rand.nextInt(100) + 1;
 
 			if (randomNumber <= probabilityOfTrue)
 			{

@@ -106,9 +106,9 @@ public class PlayerMemory implements Serializable
 			}
 		}
 		
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 		}
 	}
 
@@ -140,9 +140,9 @@ public class PlayerMemory implements Serializable
 			}
 		}
 		
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 		}
 	}
 }

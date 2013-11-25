@@ -83,7 +83,6 @@ public class GuiInteractionSpouse extends AbstractGui
 
 	private boolean inProcreationGui = false;
 	private boolean inCombatGui = false;
-	private boolean inSpecialGui = false;
 	private boolean inMonarchGui = false;
 
 	/**
@@ -174,7 +173,7 @@ public class GuiInteractionSpouse extends AbstractGui
 		else if (inCombatGui == true)
 		{
 			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.hearts") + " = " + hearts, width / 2, height / 2 -100, 0xffffff);
-			drawCenteredString(fontRenderer, entitySpouse.getTitle(MCA.instance.getIdOfPlayer(player), true), width / 2, height / 2 - 80, 0xffffff);
+			drawCenteredString(fontRenderer, entitySpouse.getTitle(MCA.getInstance().getIdOfPlayer(player), true), width / 2, height / 2 - 80, 0xffffff);
 
 			//Draw mood and trait.
 			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.mood") + entitySpouse.mood.getLocalizedValue(), width / 2 - 150, height / 2 - 65, 0xffffff);
@@ -199,7 +198,7 @@ public class GuiInteractionSpouse extends AbstractGui
 		else
 		{
 			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.hearts") + " = " + hearts, width / 2, height / 2 -100, 0xffffff);
-			drawCenteredString(fontRenderer, entitySpouse.getTitle(MCA.instance.getIdOfPlayer(player), true), width / 2, height / 2 - 80, 0xffffff);
+			drawCenteredString(fontRenderer, entitySpouse.getTitle(MCA.getInstance().getIdOfPlayer(player), true), width / 2, height / 2 - 80, 0xffffff);
 
 			//Draw mood and trait.
 			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.mood") + entitySpouse.mood.getLocalizedValue(), width / 2 - 150, height / 2 - 65, 0xffffff);
@@ -261,7 +260,6 @@ public class GuiInteractionSpouse extends AbstractGui
 		inProcreationGui = false;
 		inCombatGui = false;
 		inMonarchGui = false;
-		inSpecialGui = false;
 		displaySuccessChance = false;
 		
 		buttonList.clear();
@@ -274,7 +272,7 @@ public class GuiInteractionSpouse extends AbstractGui
 		buttonList.add(inventoryButton = new GuiButton(6, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.spouse.inventory")));
 		buttonList.add(combatButton    = new GuiButton(7, width / 2 + 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.chore.combat")));	
 
-		if (MCA.instance.playerWorldManagerMap.get(player.username).worldProperties.isMonarch)
+		if (MCA.getInstance().playerWorldManagerMap.get(player.username).worldProperties.isMonarch)
 		{
 			buttonList.add(monarchButton = new GuiButton(9, width / 2 - 30, height / 2 - 10, 60, 20, LanguageHelper.getString("monarch.title.monarch")));
 		}
@@ -300,7 +298,6 @@ public class GuiInteractionSpouse extends AbstractGui
 	{
 		buttonList.clear();
 		
-		inSpecialGui = true;
 		inInteractionSelectGui = true;
 
 		buttonList.add(chatButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.chat")));
@@ -411,7 +408,6 @@ public class GuiInteractionSpouse extends AbstractGui
 	private void drawMonarchGui()
 	{
 		buttonList.clear();
-		inSpecialGui = true;
 		inMonarchGui = true;
 
 		buttonList.add(executeButton	 = new GuiButton(1, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("monarch.gui.button.interact.execute")));
@@ -511,7 +507,7 @@ public class GuiInteractionSpouse extends AbstractGui
 
 			else
 			{
-				WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
+				WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 
 				if (!manager.worldProperties.babyExists)
 				{
@@ -761,14 +757,14 @@ public class GuiInteractionSpouse extends AbstractGui
 					//This will modify all surrounding villagers, too.
 					entitySpouse.modifyHearts(player, -30);
 
-					WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
+					WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 					manager.worldProperties.stat_wivesExecuted++;
 					manager.saveWorldProperties();
 
 					if (manager.worldProperties.stat_wivesExecuted >= 6)
 					{
-						player.triggerAchievement(MCA.instance.achievementMonarchSecret);
-						PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementMonarchSecret, player.entityId));
+						player.triggerAchievement(MCA.getInstance().achievementMonarchSecret);
+						PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementMonarchSecret, player.entityId));
 					}
 
 					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "hasBeenExecuted", entitySpouse.hasBeenExecuted));

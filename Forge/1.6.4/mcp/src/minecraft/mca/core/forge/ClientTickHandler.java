@@ -14,6 +14,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 import mca.client.gui.GuiGameOver;
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
@@ -91,15 +92,15 @@ public class ClientTickHandler implements ITickHandler
 			//Check if Setup needs to run.
 			if (Minecraft.getMinecraft().isSingleplayer())
 			{
-				if (!MCA.instance.isIntegratedClient)
+				if (!MCA.getInstance().isIntegratedClient)
 				{
-					MCA.instance.isIntegratedClient = true;
-					MCA.instance.isDedicatedClient = false;
+					MCA.getInstance().isIntegratedClient = true;
+					MCA.getInstance().isDedicatedClient = false;
 				}
 
 				try
 				{
-					WorldPropertiesManager clientPropertiesManager = MCA.instance.playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
+					WorldPropertiesManager clientPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
 
 					if (clientPropertiesManager != null)
 					{
@@ -107,23 +108,23 @@ public class ClientTickHandler implements ITickHandler
 						if (clientPropertiesManager.worldProperties.playerName.equals(""))
 						{
 							EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-							player.openGui(MCA.instance, MCA.instance.guiSetupID, player.worldObj, (int)player.posX, (int)player.posY, (int)player.posZ);
+							player.openGui(MCA.getInstance(), Constants.ID_GUI_SETUP, player.worldObj, (int)player.posX, (int)player.posY, (int)player.posZ);
 						}
 
 						//Update the growth of the player's baby.
 						if (clientPropertiesManager.worldProperties.babyExists)
 						{
 							//Update currentMinutes and compare to what prevMinutes was.
-							MCA.instance.playerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+							MCA.getInstance().playerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 
-							if (MCA.instance.playerBabyCalendarCurrentMinutes > MCA.instance.playerBabyCalendarPrevMinutes || MCA.instance.playerBabyCalendarCurrentMinutes == 0 && MCA.instance.playerBabyCalendarPrevMinutes == 59)
+							if (MCA.getInstance().playerBabyCalendarCurrentMinutes > MCA.getInstance().playerBabyCalendarPrevMinutes || MCA.getInstance().playerBabyCalendarCurrentMinutes == 0 && MCA.getInstance().playerBabyCalendarPrevMinutes == 59)
 							{
 								clientPropertiesManager.worldProperties.minutesBabyExisted++;
-								MCA.instance.playerBabyCalendarPrevMinutes = MCA.instance.playerBabyCalendarCurrentMinutes;
+								MCA.getInstance().playerBabyCalendarPrevMinutes = MCA.getInstance().playerBabyCalendarCurrentMinutes;
 								clientPropertiesManager.saveWorldProperties();
 							}
 
-							if (clientPropertiesManager.worldProperties.minutesBabyExisted >= MCA.instance.modPropertiesManager.modProperties.babyGrowUpTimeMinutes)
+							if (clientPropertiesManager.worldProperties.minutesBabyExisted >= MCA.getInstance().modPropertiesManager.modProperties.babyGrowUpTimeMinutes)
 							{
 								if (!clientPropertiesManager.worldProperties.babyReadyToGrow)
 								{
@@ -132,10 +133,10 @@ public class ClientTickHandler implements ITickHandler
 								}
 							}
 
-							if (clientPropertiesManager.worldProperties.babyReadyToGrow && !MCA.instance.hasNotifiedOfBabyReadyToGrow)
+							if (clientPropertiesManager.worldProperties.babyReadyToGrow && !MCA.getInstance().hasNotifiedOfBabyReadyToGrow)
 							{
 								Minecraft.getMinecraft().thePlayer.addChatMessage(LanguageHelper.getString("notify.baby.readytogrow"));
-								MCA.instance.hasNotifiedOfBabyReadyToGrow = true;
+								MCA.getInstance().hasNotifiedOfBabyReadyToGrow = true;
 							}
 						}
 
@@ -147,7 +148,7 @@ public class ClientTickHandler implements ITickHandler
 					}
 
 					//Debug checks
-					if (MCA.instance.inDebugMode)
+					if (MCA.getInstance().inDebugMode)
 					{
 						clientPropertiesManager.worldProperties.babyExists = true;
 						clientPropertiesManager.worldProperties.minutesBabyExisted = 10;
@@ -157,8 +158,8 @@ public class ClientTickHandler implements ITickHandler
 
 				catch (NullPointerException e)
 				{
-					MCA.instance.log("Client tick error!");
-					MCA.instance.log(e);
+					MCA.getInstance().log("Client tick error!");
+					MCA.getInstance().log(e);
 				}
 
 				finally
@@ -170,44 +171,44 @@ public class ClientTickHandler implements ITickHandler
 
 			else
 			{
-				if (!MCA.instance.isDedicatedClient)
+				if (!MCA.getInstance().isDedicatedClient)
 				{
-					MCA.instance.isDedicatedClient = true;
-					MCA.instance.isIntegratedClient = false;
+					MCA.getInstance().isDedicatedClient = true;
+					MCA.getInstance().isIntegratedClient = false;
 				}
 
 				else
 				{
 
-					WorldPropertiesManager clientPropertiesManager = MCA.instance.playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
+					WorldPropertiesManager clientPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
 
 					if (clientPropertiesManager != null)
 					{
 						if (clientPropertiesManager.worldProperties.playerName.equals(""))
 						{
 							EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-							player.openGui(MCA.instance, MCA.instance.guiSetupID, player.worldObj, (int)player.posX, (int)player.posY, (int)player.posZ);
+							player.openGui(MCA.getInstance(), Constants.ID_GUI_SETUP, player.worldObj, (int)player.posX, (int)player.posY, (int)player.posZ);
 						}
 
-						if (clientPropertiesManager.worldProperties.babyReadyToGrow && !MCA.instance.hasNotifiedOfBabyReadyToGrow)
+						if (clientPropertiesManager.worldProperties.babyReadyToGrow && !MCA.getInstance().hasNotifiedOfBabyReadyToGrow)
 						{
 							Minecraft.getMinecraft().thePlayer.addChatMessage(LanguageHelper.getString("notify.baby.readytogrow"));
-							MCA.instance.hasNotifiedOfBabyReadyToGrow = true;
+							MCA.getInstance().hasNotifiedOfBabyReadyToGrow = true;
 						}
 
 						if (clientPropertiesManager.worldProperties.babyExists)
 						{
 							//Update currentMinutes and compare to what prevMinutes was.
-							MCA.instance.playerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+							MCA.getInstance().playerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 
-							if (MCA.instance.playerBabyCalendarCurrentMinutes > MCA.instance.playerBabyCalendarPrevMinutes || MCA.instance.playerBabyCalendarCurrentMinutes == 0 && MCA.instance.playerBabyCalendarPrevMinutes == 59)
+							if (MCA.getInstance().playerBabyCalendarCurrentMinutes > MCA.getInstance().playerBabyCalendarPrevMinutes || MCA.getInstance().playerBabyCalendarCurrentMinutes == 0 && MCA.getInstance().playerBabyCalendarPrevMinutes == 59)
 							{
 								clientPropertiesManager.worldProperties.minutesBabyExisted++;
-								MCA.instance.playerBabyCalendarPrevMinutes = MCA.instance.playerBabyCalendarCurrentMinutes;
+								MCA.getInstance().playerBabyCalendarPrevMinutes = MCA.getInstance().playerBabyCalendarCurrentMinutes;
 								clientPropertiesManager.saveWorldProperties();
 							}
 
-							if (clientPropertiesManager.worldProperties.minutesBabyExisted >= MCA.instance.modPropertiesManager.modProperties.babyGrowUpTimeMinutes)
+							if (clientPropertiesManager.worldProperties.minutesBabyExisted >= MCA.getInstance().modPropertiesManager.modProperties.babyGrowUpTimeMinutes)
 							{
 								if (!clientPropertiesManager.worldProperties.babyReadyToGrow)
 								{
@@ -216,10 +217,10 @@ public class ClientTickHandler implements ITickHandler
 								}
 							}
 
-							if (clientPropertiesManager.worldProperties.babyReadyToGrow && !MCA.instance.hasNotifiedOfBabyReadyToGrow)
+							if (clientPropertiesManager.worldProperties.babyReadyToGrow && !MCA.getInstance().hasNotifiedOfBabyReadyToGrow)
 							{
 								Minecraft.getMinecraft().thePlayer.addChatMessage(LanguageHelper.getString("notify.baby.readytogrow"));
-								MCA.instance.hasNotifiedOfBabyReadyToGrow = true;
+								MCA.getInstance().hasNotifiedOfBabyReadyToGrow = true;
 							}
 						}
 					}
@@ -243,7 +244,7 @@ public class ClientTickHandler implements ITickHandler
 		//If the GUI is the main menu, reset ticks and world properties.
 		if (guiScreen instanceof GuiMainMenu)
 		{
-			if (!MCA.instance.hasCompletedMainMenuTick)
+			if (!MCA.getInstance().hasCompletedMainMenuTick)
 			{
 				ticks = 20;
 
@@ -254,50 +255,50 @@ public class ClientTickHandler implements ITickHandler
 				}
 
 				//Reset world specific data.
-				MCA.instance.hasNotifiedOfBabyReadyToGrow = false;
-				MCA.instance.playerWorldManagerMap.clear();
+				MCA.getInstance().hasNotifiedOfBabyReadyToGrow = false;
+				MCA.getInstance().playerWorldManagerMap.clear();
 
 				//Check to see if dialogue should be reloaded.
-				if (MCA.instance.languageLoaded == false)
+				if (MCA.getInstance().languageLoaded == false)
 				{
 					try
 					{
 						LanguageHelper.loadLanguage(Minecraft.getMinecraft().gameSettings.language);
-						MCA.instance.languageLoaded = true;
+						MCA.getInstance().languageLoaded = true;
 					}
 
-					catch (Throwable e)
+					catch (Exception e)
 					{
-						MCA.instance.log("Failed to load language: " + Minecraft.getMinecraft().gameSettings.language);
-						MCA.instance.log(e.getMessage());
+						MCA.getInstance().log("Failed to load language: " + Minecraft.getMinecraft().gameSettings.language);
+						MCA.getInstance().log(e.getMessage());
 
 						LanguageHelper.loadLanguage("en_US");
-						MCA.instance.languageLoaded = true;
+						MCA.getInstance().languageLoaded = true;
 					}
 				}
 
-				MCA.instance.hasCompletedMainMenuTick = true;
+				MCA.getInstance().hasCompletedMainMenuTick = true;
 			}
 		}
 
 		else if (guiScreen instanceof GuiOptions)
 		{
 			//Check to see if dialogue should be reloaded.
-			if (MCA.instance.languageLoaded == false)
+			if (MCA.getInstance().languageLoaded == false)
 			{
 				try
 				{
 					LanguageHelper.loadLanguage(Minecraft.getMinecraft().gameSettings.language);
-					MCA.instance.languageLoaded = true;
+					MCA.getInstance().languageLoaded = true;
 				}
 
-				catch (Throwable e)
+				catch (Exception e)
 				{
-					MCA.instance.log("Failed to load language: " + Minecraft.getMinecraft().gameSettings.language);
-					MCA.instance.log(e.getMessage());
+					MCA.getInstance().log("Failed to load language: " + Minecraft.getMinecraft().gameSettings.language);
+					MCA.getInstance().log(e.getMessage());
 
 					LanguageHelper.loadLanguage("en_US");
-					MCA.instance.languageLoaded = true;
+					MCA.getInstance().languageLoaded = true;
 				}
 			}
 		}
@@ -312,14 +313,14 @@ public class ClientTickHandler implements ITickHandler
 		//that it is reloaded.
 		else if (guiScreen instanceof GuiLanguage)
 		{
-			MCA.instance.languageLoaded = false;
-			MCA.instance.hasCompletedMainMenuTick = false;
+			MCA.getInstance().languageLoaded = false;
+			MCA.getInstance().hasCompletedMainMenuTick = false;
 		}
 
 		//If it's the original game over screen, override it with MCA's game over screen IN HARDCORE MODE ONLY.
 		else if (guiScreen instanceof net.minecraft.client.gui.GuiGameOver)
 		{
-			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
+			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
 
 			if (!hasCommentedOnDeath)
 			{
@@ -332,7 +333,7 @@ public class ClientTickHandler implements ITickHandler
 					{
 						EntityPlayerChild playerChild = (EntityPlayerChild)entity;
 
-						if (playerChild.familyTree.getEntitiesWithRelation(EnumRelation.Parent).contains(MCA.instance.getIdOfPlayer(player)) &&
+						if (playerChild.familyTree.getEntitiesWithRelation(EnumRelation.Parent).contains(MCA.getInstance().getIdOfPlayer(player)) &&
 								!hasCommentedOnDeath && playerChild.name.equals("Ezio"))
 						{
 							hasCommentedOnDeath = true;

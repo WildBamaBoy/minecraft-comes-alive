@@ -39,22 +39,22 @@ public class RenderHumanSmall extends RenderHuman
 	 */
 	protected void renderScale(AbstractEntity entity, float partialTickTime)
 	{
-		if (MCA.instance.playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username).worldProperties.childrenGrowAutomatically && !(((EntityChild)entity).isAdult))
+		if (MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username).worldProperties.childrenGrowAutomatically && !(((EntityChild)entity).isAdult))
 		{
 			int age = ((EntityChild)entity).age;
 			
 			//Children initially start at 0.55F as their scale. Divide the distance between the player's size and the child's size by
 			//the amount of time it takes for them to grow and multiply that times their age. This makes the child gradually get taller
 			//as they get older.
-			float interval = ((EntityChild)entity).gender.equals("Male") ? 0.39F : 0.37F;
-			float scale = 0.55F + ((interval / MCA.instance.modPropertiesManager.modProperties.kidGrowUpTimeMinutes) * age);
+			float interval = ((EntityChild)entity).isMale ? 0.39F : 0.37F;
+			float scale = 0.55F + ((interval / MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes) * age);
 			GL11.glScalef(scale, scale, scale);
 		}
 
 		//The child is an adult, so render it at the player's scale.
 		else if (((EntityChild)entity).isAdult)
 		{
-			if (((EntityChild)entity).gender.equals("Female"))
+			if (!((EntityChild)entity).isMale)
 			{
 				GL11.glScalef(0.915F, 0.915F, 0.915F);
 			}

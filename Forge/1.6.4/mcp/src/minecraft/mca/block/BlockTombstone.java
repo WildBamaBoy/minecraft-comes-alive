@@ -21,7 +21,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Icon;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 /**
@@ -29,29 +28,23 @@ import net.minecraft.world.World;
  */
 public class BlockTombstone extends BlockContainer
 {
-	/** The tile entity that contains the sign information.*/
-	private Class signEntityClass;
-
 	/**
 	 * Constructor
 	 * 
-	 * @param 	id				The block's ID.
-	 * @param 	tileEntityClass	The tileEntity containing the information for the sign.
+	 * @param 	blockId	The block's ID.
 	 */
-	public BlockTombstone(int id, Class tileEntityClass)
+	public BlockTombstone(int blockId)
 	{
-		super(id, Material.rock);
-
-		signEntityClass = tileEntityClass;
+		super(blockId, Material.rock);
 		setBlockBounds(0.5F - 0.40F, 0.0F, 0.5F - 0.40F, 0.5F + 0.40F, 1.0F, 0.5F + 0.40F);
 	}
 
 	@Override
-    public Icon getIcon(int side, int unknown)
-    {
-        return Block.planks.getBlockTextureFromSide(side);
-    }
-    
+	public Icon getIcon(int side, int unknown)
+	{
+		return Block.planks.getBlockTextureFromSide(side);
+	}
+
 	@Override
 	public TileEntity createNewTileEntity(World world) 
 	{
@@ -59,23 +52,17 @@ public class BlockTombstone extends BlockContainer
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
+	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int posX, int posY, int posZ)
 	{
 		//Return null for no collision.
 		return null;
 	}
 
 	@Override
-	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z)
+	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int posX, int posY, int posZ)
 	{
-		setBlockBoundsBasedOnState(world, x, y, z);
-		return super.getSelectedBoundingBoxFromPool(world, x, y, z);
-	}
-
-	@Override
-	public void setBlockBoundsBasedOnState(IBlockAccess iblockaccess, int x, int y, int z)
-	{
-		return;
+		setBlockBoundsBasedOnState(world, posX, posY, posZ);
+		return super.getSelectedBoundingBoxFromPool(world, posX, posY, posZ);
 	}
 
 	@Override
@@ -98,64 +85,38 @@ public class BlockTombstone extends BlockContainer
 	}
 
 	@Override
-	public int idDropped(int x, Random random, int y)
+	public int idDropped(int meta, Random random, int fortune)
 	{
-		return MCA.instance.itemTombstone.itemID;
+		return MCA.getInstance().itemTombstone.itemID;
 	}
 
 	@Override
-	public void onNeighborBlockChange(World world, int x, int y, int z, int meta)
+	public void onNeighborBlockChange(World world, int posX, int posY, int posZ, int meta)
 	{
-		boolean flag = false;
-
-		if (!world.getBlockMaterial(x, y - 1, z).isSolid())
+		if (!world.getBlockMaterial(posX, posY - 1, posZ).isSolid())
 		{
-			flag = true;
+			dropBlockAsItem(world, posX, posY, posZ, world.getBlockMetadata(posX, posY, posZ), 0);
+			world.setBlock(posX, posY, posZ, 0);
 		}
 
-		if (flag)
-		{
-			dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
-			world.setBlock(x, y, z, 0);
-		}
-
-		super.onNeighborBlockChange(world, x, y, z, meta);
+		super.onNeighborBlockChange(world, posX, posY, posZ, meta);
 	}
 
 	@Override
-	public void onBlockDestroyedByPlayer(World world, int x, int y, int z, int meta)
+	public void onBlockDestroyedByPlayer(World world, int posX, int posY, int posZ, int meta)
 	{
 		if (!world.getWorldInfo().getGameType().isCreative())
 		{
-			dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+			dropBlockAsItem(world, posX, posY, posZ, world.getBlockMetadata(posX, posY, posZ), 0);
 		}
 	}
 
 	@Override
-	public void harvestBlock(World world, EntityPlayer player, int x, int y, int z, int meta)
+	public void harvestBlock(World world, EntityPlayer player, int posX, int posY, int posZ, int meta)
 	{
 		//Do nothing to avoid duplication glitch.
-		return;
 	}
 
-	/**
-	 * Returns an instance of the sign entity associated with this block.
-	 * 
-	 * @return	The tile entity associated with this block.
-	 */
-	public TileEntity getBlockEntity()
-	{
-		try
-		{
-			return (TileEntity)signEntityClass.newInstance();
-		}
-
-		catch (Exception exception)
-		{
-			throw new RuntimeException(exception);
-		}
-	}
-	
 	public void registerIcons(IconRegister iconRegister)
 	{
 		blockIcon = iconRegister.registerIcon("mca:Tombstone");

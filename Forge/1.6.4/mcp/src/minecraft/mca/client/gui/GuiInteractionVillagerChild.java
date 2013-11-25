@@ -109,7 +109,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 		drawDefaultBackground();
 
 		drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.hearts") + " = " + hearts, width / 2, height / 2 -100, 0xffffff);
-		drawCenteredString(fontRenderer, entityVillagerChild.getTitle(MCA.instance.getIdOfPlayer(player), true), width / 2, height / 2 - 80, 0xffffff);
+		drawCenteredString(fontRenderer, entityVillagerChild.getTitle(MCA.getInstance().getIdOfPlayer(player), true), width / 2, height / 2 - 80, 0xffffff);
 
 		//Draw mood and trait.
 		drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.mood") + entityVillagerChild.mood.getLocalizedValue(), width / 2 - 150, height / 2 - 65, 0xffffff);
@@ -119,8 +119,8 @@ public class GuiInteractionVillagerChild extends AbstractGui
 
 		if (parents.size() == 2)
 		{
-			AbstractEntity parent1 = (AbstractEntity) entityVillagerChild.worldObj.getEntityByID(MCA.instance.idsMap.get(parents.get(0)));
-			AbstractEntity parent2 = (AbstractEntity) entityVillagerChild.worldObj.getEntityByID(MCA.instance.idsMap.get(parents.get(1)));
+			AbstractEntity parent1 = (AbstractEntity) entityVillagerChild.worldObj.getEntityByID(MCA.getInstance().idsMap.get(parents.get(0)));
+			AbstractEntity parent2 = (AbstractEntity) entityVillagerChild.worldObj.getEntityByID(MCA.getInstance().idsMap.get(parents.get(1)));
 			
 			boolean bothParentsAlive = parent1 != null && parent2 != null;
 			boolean neitherParentsAlive = parent1 == null && parent2 == null;
@@ -261,7 +261,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 		{
 			if (entityVillagerChild instanceof EntityPlayerChild)
 			{
-				if (!entityVillagerChild.familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player)))
+				if (!entityVillagerChild.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
 				{
 					entityVillagerChild.notifyPlayer(player, LanguageHelper.getString("multiplayer.interaction.reject.child"));
 					close();
@@ -302,7 +302,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 		{
 			if (entityVillagerChild instanceof EntityPlayerChild)
 			{
-				if (!entityVillagerChild.familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player)))
+				if (!entityVillagerChild.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
 				{
 					entityVillagerChild.notifyPlayer(player, LanguageHelper.getString("multiplayer.interaction.reject.child"));
 					close();
@@ -324,7 +324,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 		{
 			if (entityVillagerChild instanceof EntityPlayerChild)
 			{
-				if (!entityVillagerChild.familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player)))
+				if (!entityVillagerChild.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
 				{
 					entityVillagerChild.notifyPlayer(player, LanguageHelper.getString("multiplayer.interaction.reject.child"));
 					close();

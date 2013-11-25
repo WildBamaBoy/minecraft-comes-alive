@@ -31,15 +31,15 @@ public class CraftingHandler implements ICraftingHandler
 	{
 		if (itemStack.getItem() instanceof ItemCrown)
 		{
-			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
+			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 			
 			if (!manager.worldProperties.isMonarch)
 			{
 				manager.worldProperties.isMonarch = true;
 				manager.saveWorldProperties();
 				
-				PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementCraftCrown, player.entityId));
-				player.triggerAchievement(MCA.instance.achievementCraftCrown);
+				PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementCraftCrown, player.entityId));
+				player.triggerAchievement(MCA.getInstance().achievementCraftCrown);
 				
 				if (player.worldObj.isRemote)
 				{
@@ -54,11 +54,11 @@ public class CraftingHandler implements ICraftingHandler
 	{
 		if (itemStack.getItem() instanceof ItemBaby)
 		{
-			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
+			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 			
 			//Reset all information about the baby.
 			manager.worldProperties.babyExists = false;
-			manager.worldProperties.babyGender = "";
+			manager.worldProperties.babyIsMale = false;
 			manager.worldProperties.babyName = "";
 			manager.worldProperties.babyReadyToGrow = false;
 			manager.worldProperties.minutesBabyExisted = 0;
@@ -70,8 +70,8 @@ public class CraftingHandler implements ICraftingHandler
 				player.addChatMessage(LanguageHelper.getString("notify.baby.cooked"));
 			}
 			
-			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementCookBaby, player.entityId));
-			player.triggerAchievement(MCA.instance.achievementCookBaby);
+			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementCookBaby, player.entityId));
+			player.triggerAchievement(MCA.getInstance().achievementCookBaby);
 		}
 	}
 }

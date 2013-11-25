@@ -9,8 +9,8 @@
 
 package mca.command;
 
+import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.util.Color;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
@@ -39,11 +39,11 @@ public class CommandMarryDecline extends AbstractCommand
 		if (arguments.length == 1)
 		{
 			//Ensure that the provided player has asked to marry this person.
-			String mostRecentPlayerAsked = MCA.instance.marriageRequests.get(arguments[0]);
+			String mostRecentPlayerAsked = MCA.getInstance().marriageRequests.get(arguments[0]);
 
 			if (mostRecentPlayerAsked == null)
 			{
-				super.sendChatToPlayer(sender, "multiplayer.command.output.marry.norequest", Color.RED, null);
+				super.sendChatToPlayer(sender, "multiplayer.command.output.marry.norequest", Constants.COLOR_RED, null);
 			}
 
 			else
@@ -66,25 +66,25 @@ public class CommandMarryDecline extends AbstractCommand
 					{
 						//Notify the recipient that the other player declined.
 						super.sendChatToOtherPlayer(sender, recipient, "multiplayer.command.output.marry.decline", null, null);
-						MCA.instance.marriageRequests.remove(sender.getCommandSenderName());
+						MCA.getInstance().marriageRequests.remove(sender.getCommandSenderName());
 					}
 
 					else
 					{
-						super.sendChatToPlayer(sender, "multiplayer.command.error.playeroffline", Color.RED, null);
+						super.sendChatToPlayer(sender, "multiplayer.command.error.playeroffline", Constants.COLOR_RED, null);
 					}
 				}
 
 				else
 				{
-					super.sendChatToPlayer(sender, "multiplayer.command.output.marry.norequest", Color.RED, null);
+					super.sendChatToPlayer(sender, "multiplayer.command.output.marry.norequest", Constants.COLOR_RED, null);
 				}
 			}
 		}
 
 		else
 		{
-			super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Color.RED, null);
+			super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Constants.COLOR_RED, null);
 		}
 	}
 }

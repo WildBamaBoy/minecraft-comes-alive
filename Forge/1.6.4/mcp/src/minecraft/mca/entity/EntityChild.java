@@ -55,31 +55,31 @@ public abstract class EntityChild extends AbstractEntity
 		//Check if age should be increased.
 		currentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 
-		if (MCA.instance.inDebugMode)
+		if (MCA.getInstance().inDebugMode)
 		{
-			if (this instanceof EntityPlayerChild && !isAdult && MCA.instance.debugDoRapidPlayerChildGrowth)
+			if (this instanceof EntityPlayerChild && !isAdult && MCA.getInstance().debugDoRapidPlayerChildGrowth)
 			{
 				age++;
 			}
 			
-			else if (this instanceof EntityVillagerChild && MCA.instance.debugDoRapidVillagerChildGrowth)
+			else if (this instanceof EntityVillagerChild && MCA.getInstance().debugDoRapidVillagerChildGrowth)
 			{
 				age++;
 			}
 		}
 		if (currentMinutes > prevMinutes || currentMinutes == 0 && prevMinutes == 59)
 		{
-			if (age < MCA.instance.modPropertiesManager.modProperties.kidGrowUpTimeMinutes)
+			if (age < MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes)
 			{
 				age++;
 				prevMinutes = currentMinutes;
 			}
 		}
 
-		if (age >= MCA.instance.modPropertiesManager.modProperties.kidGrowUpTimeMinutes)
+		if (age >= MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes)
 		{
 			//Set age to the maximum to prevent the renderer from going nuts just in case age is higher than grow up time.
-			age = MCA.instance.modPropertiesManager.modProperties.kidGrowUpTimeMinutes;
+			age = MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes;
 			isReadyToGrow = true;
 		}
 	}

@@ -25,7 +25,7 @@ import net.minecraft.nbt.NBTTagCompound;
 /**
  * Handles information about each person's family.
  */
-public class FamilyTree implements Serializable
+public class FamilyTree implements Serializable, Cloneable
 {
 	/** The actual owner of this family tree.*/
 	public transient AbstractEntity owner;
@@ -48,57 +48,57 @@ public class FamilyTree implements Serializable
 	 * Gets the opposing relation of the specified relation value.
 	 * For instance, if someone is your MOTHER, then you are their SON or DAUGHTER.
 	 * 
-	 * @param	gender		The gender of the entity who should have the opposing relation that is returned.	
+	 * @param	isMale		The gender of the entity who should have the opposing relation that is returned.	
 	 * @param 	relation	The relation to find the opposing relation of.
 	 * 
 	 * @return	EnumRelation constant that is the opposing relation of the specified relation value.
 	 */
-	public static EnumRelation getOpposingRelation(String gender, EnumRelation relation)
+	public static EnumRelation getOpposingRelation(boolean isMale, EnumRelation relation)
 	{
 		switch (relation)
 		{
 		case Aunt:
-			if (gender.equals("Male")) return EnumRelation.Nephew; else return EnumRelation.Niece;
+			if (isMale) return EnumRelation.Nephew; else return EnumRelation.Niece;
 		case Brother:
-			if (gender.equals("Male")) return EnumRelation.Brother; else return EnumRelation.Sister;
+			if (isMale) return EnumRelation.Brother; else return EnumRelation.Sister;
 		case Cousin:
 			return EnumRelation.Cousin;
 		case Daughter:
-			if (gender.equals("Male")) return EnumRelation.Father; else return EnumRelation.Mother;
+			if (isMale) return EnumRelation.Father; else return EnumRelation.Mother;
 		case Father:
-			if (gender.equals("Male")) return EnumRelation.Son; else return EnumRelation.Daughter;
+			if (isMale) return EnumRelation.Son; else return EnumRelation.Daughter;
 		case Granddaughter:
-			if (gender.equals("Male")) return EnumRelation.Grandfather; else return EnumRelation.Grandmother;
+			if (isMale) return EnumRelation.Grandfather; else return EnumRelation.Grandmother;
 		case Grandson:
-			if (gender.equals("Male")) return EnumRelation.Grandfather; else return EnumRelation.Grandmother;
+			if (isMale) return EnumRelation.Grandfather; else return EnumRelation.Grandmother;
 		case Greatgranddaughter:
-			if (gender.equals("Male")) return EnumRelation.Greatgrandfather; else return EnumRelation.Greatgrandmother;
+			if (isMale) return EnumRelation.Greatgrandfather; else return EnumRelation.Greatgrandmother;
 		case Greatgrandson:
-			if (gender.equals("Male")) return EnumRelation.Greatgrandfather; else return EnumRelation.Greatgrandmother;
+			if (isMale) return EnumRelation.Greatgrandfather; else return EnumRelation.Greatgrandmother;
 		case Husband:
-			if (gender.equals("Male")) return EnumRelation.Husband; else return EnumRelation.Wife;
+			if (isMale) return EnumRelation.Husband; else return EnumRelation.Wife;
 		case Mother:
-			if (gender.equals("Male")) return EnumRelation.Son; else return EnumRelation.Daughter;
+			if (isMale) return EnumRelation.Son; else return EnumRelation.Daughter;
 		case Nephew:
-			if (gender.equals("Male")) return EnumRelation.Uncle; else return EnumRelation.Aunt;
+			if (isMale) return EnumRelation.Uncle; else return EnumRelation.Aunt;
 		case Niece:
-			if (gender.equals("Male")) return EnumRelation.Uncle; else return EnumRelation.Aunt;
+			if (isMale) return EnumRelation.Uncle; else return EnumRelation.Aunt;
 		case Sister:
-			if (gender.equals("Male")) return EnumRelation.Brother; else return EnumRelation.Sister;
+			if (isMale) return EnumRelation.Brother; else return EnumRelation.Sister;
 		case Son:
-			if (gender.equals("Male")) return EnumRelation.Father; else return EnumRelation.Mother;
+			if (isMale) return EnumRelation.Father; else return EnumRelation.Mother;
 		case Uncle:
-			if (gender.equals("Male")) return EnumRelation.Nephew; else return EnumRelation.Niece;
+			if (isMale) return EnumRelation.Nephew; else return EnumRelation.Niece;
 		case Wife:
-			if (gender.equals("Male")) return EnumRelation.Husband; else return EnumRelation.Wife;
+			if (isMale) return EnumRelation.Husband; else return EnumRelation.Wife;
 		case Spouse:
-			if (gender.equals("Male")) return EnumRelation.Husband; else return EnumRelation.Wife;
+			if (isMale) return EnumRelation.Husband; else return EnumRelation.Wife;
 		case Grandparent:
-			if (gender.equals("Male")) return EnumRelation.Grandson; else return EnumRelation.Granddaughter;
+			if (isMale) return EnumRelation.Grandson; else return EnumRelation.Granddaughter;
 		case Greatgrandparent:
-			if (gender.equals("Male")) return EnumRelation.Greatgrandson; else return EnumRelation.Greatgranddaughter;
+			if (isMale) return EnumRelation.Greatgrandson; else return EnumRelation.Greatgranddaughter;
 		case Parent:
-			if (gender.equals("Male")) return EnumRelation.Son; else return EnumRelation.Daughter;
+			if (isMale) return EnumRelation.Son; else return EnumRelation.Daughter;
 		default:
 			break;
 		}
@@ -115,7 +115,7 @@ public class FamilyTree implements Serializable
 	public void addFamilyTreeEntry(EntityPlayer player, EnumRelation relation)
 	{
 		//Add the player's ID and relation to the map.
-		relationMap.put(MCA.instance.getIdOfPlayer(player), relation);
+		relationMap.put(MCA.getInstance().getIdOfPlayer(player), relation);
 	}
 
 	/**
@@ -152,7 +152,7 @@ public class FamilyTree implements Serializable
 	 */
 	public void removeFamilyTreeEntry(EntityPlayer player)
 	{
-		relationMap.remove(MCA.instance.getIdOfPlayer(player));
+		relationMap.remove(MCA.getInstance().getIdOfPlayer(player));
 	}
 
 	/**
@@ -274,7 +274,7 @@ public class FamilyTree implements Serializable
 			{
 				if (id < 0)
 				{
-					WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(MCA.instance.getPlayerByID(owner.worldObj, id).username);
+					WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(MCA.getInstance().getPlayerByID(owner.worldObj, id).username);
 
 					if (manager.worldProperties.playerGender.equals("Male"))
 					{
@@ -292,7 +292,7 @@ public class FamilyTree implements Serializable
 			{
 				if (id < 0)
 				{
-					WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(MCA.instance.getPlayerByID(owner.worldObj, id).username);
+					WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(MCA.getInstance().getPlayerByID(owner.worldObj, id).username);
 
 					if (manager.worldProperties.playerGender.equals("Male"))
 					{
@@ -326,7 +326,7 @@ public class FamilyTree implements Serializable
 	{
 		if (idIsRelative(entity.mcaID))
 		{
-			return getOpposingRelation(owner.gender, relationMap.get(entity.mcaID));
+			return getOpposingRelation(owner.isMale, relationMap.get(entity.mcaID));
 		}
 
 		else
@@ -346,7 +346,7 @@ public class FamilyTree implements Serializable
 	{
 		if (idIsRelative(id))
 		{
-			return getOpposingRelation(owner.gender, relationMap.get(id));
+			return getOpposingRelation(owner.isMale, relationMap.get(id));
 		}
 
 		else
@@ -455,11 +455,11 @@ public class FamilyTree implements Serializable
 	 */
 	public void dumpTreeContents()
 	{
-		MCA.instance.log("Family tree of " + owner.name + ". MCA ID: " + owner.mcaID);
+		MCA.getInstance().log("Family tree of " + owner.name + ". MCA ID: " + owner.mcaID);
 
 		for (Map.Entry<Integer, EnumRelation> entry : relationMap.entrySet())
 		{
-			MCA.instance.log(entry.getKey() + " : " + entry.getValue().getValue());
+			MCA.getInstance().log(entry.getKey() + " : " + entry.getValue().getValue());
 		}
 	}
 
@@ -474,7 +474,7 @@ public class FamilyTree implements Serializable
 	{
 		for (Map.Entry<Integer, EnumRelation> entrySet : relationMap.entrySet())
 		{
-			for (AbstractEntity entity : MCA.instance.entitiesMap.values())
+			for (AbstractEntity entity : MCA.getInstance().entitiesMap.values())
 			{
 				if (entity.mcaID == entrySet.getKey() && entity.familyTree.getRelationOf(owner) == relation)
 				{
@@ -522,9 +522,10 @@ public class FamilyTree implements Serializable
 	 * 
 	 * @return	Value copy of the family tree referenced by this instance of FamilyTree.
 	 */
+	@Override
 	public FamilyTree clone()
 	{
-		FamilyTree returnTree = new FamilyTree(owner);
+		final FamilyTree returnTree = new FamilyTree(owner);
 		returnTree.setRelationMap(relationMap);
 		return returnTree;
 	}

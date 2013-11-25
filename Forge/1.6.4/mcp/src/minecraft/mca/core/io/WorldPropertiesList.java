@@ -25,7 +25,7 @@ public class WorldPropertiesList implements Serializable
 	public String  babyName = "";
 	
 	/**The gender of the player's baby.*/
-	public String babyGender = "";
+	public boolean babyIsMale = false;
 	
 	/**The selected name of the player.*/
 	public String  playerName = "";

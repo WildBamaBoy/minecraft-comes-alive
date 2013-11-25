@@ -21,6 +21,7 @@ import mca.client.gui.GuiNameChild;
 import mca.client.gui.GuiSetup;
 import mca.client.gui.GuiTombstone;
 import mca.client.gui.GuiVillagerEditor;
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LogicHelper;
@@ -44,7 +45,7 @@ public class GuiHandler implements IGuiHandler
 	{
 		AbstractEntity entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, x, y, z);
 
-		if (id == MCA.instance.guiInventoryID)
+		if (id == Constants.ID_GUI_INVENTORY)
 		{
 			return new ContainerInventory(player.inventory, entity.inventory);
 		}
@@ -58,96 +59,59 @@ public class GuiHandler implements IGuiHandler
 	@Override
 	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) 
 	{
-		if (id == MCA.instance.guiInventoryID)
+		AbstractEntity entity;
+		
+		switch (id)
 		{
-			AbstractEntity entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, x, y, z);
+		case Constants.ID_GUI_INVENTORY:
+			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, x, y, z);
 			return new GuiInventory(entity, player.inventory, entity.inventory, false);
-		}
-
-		else if (id == MCA.instance.guiGameOverID)
-		{
+			
+		case Constants.ID_GUI_GAMEOVER:
 			return new GuiGameOver(player);
-		}
-
-		else if (id == MCA.instance.guiInteractionPlayerChildID)
-		{
-			EntityPlayerChild entity = (EntityPlayerChild)LogicHelper.getEntityOfTypeAtXYZ(EntityPlayerChild.class, world, x, y, z);
-			return new GuiInteractionPlayerChild(entity, player);
-		}
-
-		else if (id == MCA.instance.guiInteractionSpouseID)
-		{
-			AbstractEntity entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, x, y, z);
+			
+		case Constants.ID_GUI_PLAYERCHILD:
+			entity = (EntityPlayerChild)LogicHelper.getEntityOfTypeAtXYZ(EntityPlayerChild.class, world, x, y, z);
+			return new GuiInteractionPlayerChild((EntityPlayerChild) entity, player);
+			
+		case Constants.ID_GUI_SPOUSE:
+			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, x, y, z);
 			return new GuiInteractionSpouse(entity, player);
-		}
-
-		else if (id == MCA.instance.guiInteractionVillagerAdultID)
-		{
-			AbstractEntity entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, x, y, z);
+			
+		case Constants.ID_GUI_ADULT:
+			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, x, y, z);
 			return new GuiInteractionVillagerAdult(entity, player);
-		}
-
-		else if (id == MCA.instance.guiInteractionVillagerChildID)
-		{
-			EntityChild entity = (EntityChild)LogicHelper.getEntityOfTypeAtXYZ(EntityChild.class, world, x, y, z);
-			return new GuiInteractionVillagerChild(entity, player);
-		}
-
-		else if (id == MCA.instance.guiNameChildID)
-		{
-			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
-			return new GuiNameChild(player, manager.worldProperties.babyGender);
-		}
-
-		else if (id == MCA.instance.guiSetupID)
-		{
-			AbstractEntity entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, x, y, z);
 			
-			if (entity != null)
-			{
-				if (entity.profession == 1)
-				{
-					return new GuiSetup(player, true);
-				}
-				
-				else
-				{
-					return new GuiSetup(player, false);
-				}
-			}
+		case Constants.ID_GUI_CHILD:
+			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(EntityChild.class, world, x, y, z);
+			return new GuiInteractionVillagerChild((EntityChild) entity, player);
 			
-			else
-			{
-				return new GuiSetup(player, false);
-			}
-		}
-
-		else if (id == MCA.instance.guiSpecialDivorceCoupleID)
-		{
+		case Constants.ID_GUI_NAMECHILD:
+			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
+			return new GuiNameChild(player, manager.worldProperties.babyIsMale);
+			
+		case Constants.ID_GUI_SETUP:
+			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, x, y, z);
+			if (entity != null && entity.profession == 1) return new GuiSetup(player, true);
+			else return new GuiSetup(player, false);
+			
+		case Constants.ID_GUI_DIVORCECOUPLE:
 			return new GuiDivorceCouple(player);
-		}
-
-		else if (id == MCA.instance.guiTombstoneID)
-		{
+			
+		case Constants.ID_GUI_TOMBSTONE:
 			TileEntityTombstone tombstone = (TileEntityTombstone)world.getBlockTileEntity(x, y, z);
 			return new GuiTombstone(tombstone);
-		}
-
-		else if (id == MCA.instance.guiVillagerEditorID)
-		{
-			AbstractEntity entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, x, y, z);
+			
+		case Constants.ID_GUI_EDITOR:
+			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, x, y, z);
 			return new GuiVillagerEditor(entity, player);
-		}
-		
-		else if (id == MCA.instance.guiLostRelativeDocumentID)
-		{
-			EntityVillagerAdult entity = (EntityVillagerAdult)LogicHelper.getEntityOfTypeAtXYZ(EntityVillagerAdult.class, world, x, y, z);
+			
+		case Constants.ID_GUI_LOSTRELATIVE:
+			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(EntityVillagerAdult.class, world, x, y, z);
 			return new GuiLostRelativeDocument(player, entity);
-		}
-
-		else
-		{
-			return null;
+			
+		default:
+			throw new IllegalArgumentException("Unknown GUI ID.");
 		}
 	}
 }

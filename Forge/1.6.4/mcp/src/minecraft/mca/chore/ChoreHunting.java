@@ -80,9 +80,9 @@ public class ChoreHunting extends AbstractChore
 	public void beginChore()
 	{
 		//Check and be sure that the chore is allowed to run.
-		if (MCA.instance.isDedicatedServer)
+		if (MCA.getInstance().isDedicatedServer)
 		{
-			if (!MCA.instance.modPropertiesManager.modProperties.server_allowHuntingChore)
+			if (!MCA.getInstance().modPropertiesManager.modProperties.server_allowHuntingChore)
 			{
 				//End the chore and sync all clients so that the chore is stopped everywhere.
 				endChore();
@@ -93,7 +93,7 @@ public class ChoreHunting extends AbstractChore
 		}
 
 		//Generate a random return time, 1 - 5 minutes. Only used server-side.
-		huntingReturnTicks = MCA.instance.inDebugMode ? 100 : 1200 * (owner.worldObj.rand.nextInt(5) + 1);
+		huntingReturnTicks = MCA.getInstance().inDebugMode ? 100 : 1200 * (owner.worldObj.rand.nextInt(5) + 1);
 
 		//Determine if entity has armor and weapon and their chance of death.
 		if (owner.inventory.getBestItemOfType(ItemSword.class) != null || owner.inventory.getBestItemOfType(ItemBow.class) != null)
@@ -127,7 +127,7 @@ public class ChoreHunting extends AbstractChore
 		{
 			if (huntingTicks < huntingReturnTicks)
 			{
-				if (MCA.instance.inDebugMode)
+				if (MCA.getInstance().inDebugMode)
 				{
 					huntingTicks = huntingReturnTicks;
 				}
@@ -167,7 +167,7 @@ public class ChoreHunting extends AbstractChore
 
 					if (AbstractEntity.getBooleanWithProbability(chanceOfDeath) == true)
 					{
-						EntityPlayer ownerPlayer = MCA.instance.getPlayerByName(((EntityPlayerChild)owner).ownerPlayerName);
+						EntityPlayer ownerPlayer = MCA.getInstance().getPlayerByName(((EntityPlayerChild)owner).ownerPlayerName);
 						owner.notifyPlayer(ownerPlayer, LanguageHelper.getString(owner, "notify.child.chore.failed.hunting.death", false));
 						owner.setDeadWithoutNotification();
 						endChore();
@@ -343,7 +343,7 @@ public class ChoreHunting extends AbstractChore
 
 							if (player != null)
 							{
-								player.triggerAchievement(MCA.instance.achievementChildHuntKill);
+								player.triggerAchievement(MCA.getInstance().achievementChildHuntKill);
 							}
 						}
 					}
@@ -370,7 +370,7 @@ public class ChoreHunting extends AbstractChore
 
 							if (player != null)
 							{
-								player.triggerAchievement(MCA.instance.achievementChildHuntTame);
+								player.triggerAchievement(MCA.getInstance().achievementChildHuntTame);
 							}
 						}
 					}
@@ -509,9 +509,9 @@ public class ChoreHunting extends AbstractChore
 				}
 			}
 
-			catch (Throwable e)
+			catch (Exception e)
 			{
-				MCA.instance.log(e);
+				MCA.getInstance().log(e);
 				continue;
 			}
 		}
@@ -554,9 +554,9 @@ public class ChoreHunting extends AbstractChore
 				}
 			}
 
-			catch (Throwable e)
+			catch (Exception e)
 			{
-				MCA.instance.log(e);
+				MCA.getInstance().log(e);
 				continue;
 			}
 		}

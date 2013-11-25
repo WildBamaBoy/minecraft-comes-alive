@@ -9,9 +9,9 @@
 
 package mca.command;
 
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.core.util.Color;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
@@ -74,33 +74,33 @@ public class CommandMarry extends AbstractCommand
 			//Make sure they didn't type in their own name.
 			if (senderName.equals(recipientName))
 			{
-				super.sendChatToPlayer(senderEntity, "multiplayer.command.error.parameter", Color.RED, getCommandUsage(sender));
+				super.sendChatToPlayer(senderEntity, "multiplayer.command.error.parameter", Constants.COLOR_RED, getCommandUsage(sender));
 				return;
 			}
 
 			//Check that both sender and receiver were found.
 			if (senderEntity == null)
 			{
-				super.sendChatToPlayer(senderEntity, "multiplayer.command.error.unknown", Color.RED, null);
+				super.sendChatToPlayer(senderEntity, "multiplayer.command.error.unknown", Constants.COLOR_RED, null);
 				return;
 			}
 		
 			if (recipientEntity == null)
 			{
-				super.sendChatToPlayer(senderEntity, "multiplayer.command.error.playeroffline", Color.RED, null);
+				super.sendChatToPlayer(senderEntity, "multiplayer.command.error.playeroffline", Constants.COLOR_RED, null);
 				return;
 			}
 			
 			//Check the sender for a wedding ring.
-			if (senderEntity.inventory.hasItem(MCA.instance.itemWeddingRing.itemID))
+			if (senderEntity.inventory.hasItem(MCA.getInstance().itemWeddingRing.itemID))
 			{
 				//Check if the other player has blocked the sender.
-				WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(recipientName);
+				WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(recipientName);
 				
 				//Check that the recipient isn't married.
 				if (manager.worldProperties.playerSpouseID != 0)
 				{
-					super.sendChatToPlayer(sender, "multiplayer.output.marry.alreadymarried", Color.RED, null);
+					super.sendChatToPlayer(sender, "multiplayer.output.marry.alreadymarried", Constants.COLOR_RED, null);
 					return;
 				}
 				
@@ -108,20 +108,20 @@ public class CommandMarry extends AbstractCommand
 				if (!manager.worldProperties.blockList.contains(senderName) && !manager.worldProperties.blockMarriageRequests)
 				{
 					super.sendChatToOtherPlayer(sender, recipientEntity, "multiplayer.command.output.marry.request", null, null);
-					MCA.instance.marriageRequests.put(senderName, recipientName);
+					MCA.getInstance().marriageRequests.put(senderName, recipientName);
 				}
 			}
 			
 			//The sender doesn't have a wedding ring.
 			else
 			{
-				super.sendChatToPlayer(senderEntity, "multiplayer.command.output.marry.noring", Color.RED, null);
+				super.sendChatToPlayer(senderEntity, "multiplayer.command.output.marry.noring", Constants.COLOR_RED, null);
 			}
 		}
 
 		else
 		{
-			super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Color.RED, getCommandUsage(sender));
+			super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Constants.COLOR_RED, getCommandUsage(sender));
 		}
 	}
 }

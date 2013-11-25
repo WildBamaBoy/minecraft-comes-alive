@@ -100,7 +100,7 @@ public class ItemEggMale extends Item
 	{
 		if (!world.isRemote)
 		{
-			EntityVillagerAdult entityVillager = new EntityVillagerAdult(world, "Male", world.rand.nextInt(VillagerRegistryMCA.getNumberOfRegisteredVillagers() - 1));
+			EntityVillagerAdult entityVillager = new EntityVillagerAdult(world, true, world.rand.nextInt(VillagerRegistryMCA.getNumberOfRegisteredVillagers() - 1));
 
 			entityVillager.setLocationAndAngles(posX, posY, posZ, world.rand.nextFloat() * 360F, 0.0F);
 

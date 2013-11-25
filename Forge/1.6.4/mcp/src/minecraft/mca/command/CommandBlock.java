@@ -9,9 +9,9 @@
 
 package mca.command;
 
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.core.util.Color;
 import net.minecraft.command.ICommandSender;
 
 /**
@@ -40,7 +40,7 @@ public class CommandBlock extends AbstractCommand
 			String playerName = arguments[0];
 			
 			//Get the sender's world properties.
-			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(senderName);
+			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(senderName);
 			
 			if (manager != null)
 			{
@@ -48,13 +48,13 @@ public class CommandBlock extends AbstractCommand
 				if (manager.worldProperties.blockList.contains(playerName))
 				{
 					//It does contain the name so notify the player that they're already blocked.
-					this.sendChatToPlayer(sender, "multiplayer.command.output.block.failed", Color.RED, null);
+					this.sendChatToPlayer(sender, "multiplayer.command.output.block.failed", Constants.COLOR_RED, null);
 				}
 				
 				//It doesn't contain that name, so add it to the list.
 				else
 				{
-					this.sendChatToPlayer(sender, "multiplayer.command.output.block.successful", Color.GREEN, null);
+					this.sendChatToPlayer(sender, "multiplayer.command.output.block.successful", Constants.COLOR_GREEN, null);
 					manager.worldProperties.blockList.add(playerName);
 					manager.saveWorldProperties();
 				}
@@ -62,13 +62,13 @@ public class CommandBlock extends AbstractCommand
 			
 			else
 			{
-				this.sendChatToPlayer(sender, "multiplayer.command.error.unknown", Color.RED, null);
+				this.sendChatToPlayer(sender, "multiplayer.command.error.unknown", Constants.COLOR_RED, null);
 			}
 		}
 		
 		else
 		{
-			this.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Color.RED, getCommandUsage(sender));
+			this.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Constants.COLOR_RED, getCommandUsage(sender));
 		}
 	}
 }
