@@ -117,8 +117,8 @@ public class GuiGameOver extends AbstractGui
 			EntityPlayerChild adultToRespawnAs = (EntityPlayerChild)adultChildren.get(currentIndex);
 
 			//Trigger achievement.
-			mc.thePlayer.triggerAchievement(MCA.instance.achievementHardcoreSecret);
-			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementHardcoreSecret, player.entityId));
+			mc.thePlayer.triggerAchievement(MCA.getInstance().achievementHardcoreSecret);
+			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementHardcoreSecret, player.entityId));
 
 			//Respawn the player.
 			mc.thePlayer.setSpawnChunk(new ChunkCoordinates((int)adultToRespawnAs.posX, (int)adultToRespawnAs.posY, (int)adultToRespawnAs.posZ), true);
@@ -283,7 +283,7 @@ public class GuiGameOver extends AbstractGui
 	 */
 	private void buildAdultChildrenList()
 	{
-		for (AbstractEntity entity : MCA.instance.entitiesMap.values())
+		for (AbstractEntity entity : MCA.getInstance().entitiesMap.values())
 		{
 			if (entity instanceof EntityPlayerChild)
 			{
@@ -291,7 +291,7 @@ public class GuiGameOver extends AbstractGui
 
 				if (playerChild.isAdult)
 				{
-					if (playerChild.familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) == EnumRelation.Parent)
+					if (playerChild.familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) == EnumRelation.Parent)
 					{
 						adultChildren.add(playerChild);
 					}

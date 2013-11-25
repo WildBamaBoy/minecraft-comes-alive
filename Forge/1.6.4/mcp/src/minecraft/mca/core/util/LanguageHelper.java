@@ -14,12 +14,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.object.UpdateHandler;
@@ -34,7 +34,6 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.common.registry.LanguageRegistry;
-import cpw.mods.fml.relauncher.Side;
 
 /**
  * Handles loading the language files into the mod and retrieving strings from them.
@@ -42,13 +41,19 @@ import cpw.mods.fml.relauncher.Side;
 public final class LanguageHelper 
 {
 	/** Map containing language IDs and their names in English. */
-	private static final Map<String, String> languagesMap = new HashMap<String, String>();
+	private static final ConcurrentHashMap<String, String> LANGUAGE_MAP = new ConcurrentHashMap<String, String>();
 
+	/** Map that contains string translations loaded from language files. */
+	private static ConcurrentHashMap<String, String> translationsMap = new ConcurrentHashMap();
+	
 	/** The English name for the language. */
 	private static String languageName = "";
 
 	/** The properties instance used to load languages. */
 	private static Properties properties = new Properties();
+	
+	/** Private constructor. */
+	private LanguageHelper() {}
 	
 	/**
 	 * Loads the language whose ID is in the options.txt file.
@@ -56,7 +61,7 @@ public final class LanguageHelper
 	public static void loadLanguage()
 	{
 		loadLanguage(getLanguageIDFromOptions());
-		MCA.instance.languageLoaded = true;
+		MCA.getInstance().languageLoaded = true;
 	}
 
 	/**
@@ -67,21 +72,21 @@ public final class LanguageHelper
 	public static void loadLanguage(String languageID)
 	{
 		//Clear old data.
-		MCA.stringTranslations.clear();
+		translationsMap.clear();
 
 		//Get the name and location of the appropriate language file.
-		languageName = languagesMap.get(getLanguageIDFromOptions());
-		MCA.instance.log("Loading " + languageName + "...");
+		languageName = LANGUAGE_MAP.get(getLanguageIDFromOptions());
+		MCA.getInstance().log("Loading " + languageName + "...");
 
 		try
 		{
 			properties.load(StringTranslate.class.getResourceAsStream("/assets/mca/language/" + languageName + ".properties"));
 
 			//Loop through each item in the properties instance.
-			for (Map.Entry<Object, Object> entrySet : properties.entrySet())
+			for (final Map.Entry<Object, Object> entrySet : properties.entrySet())
 			{
 				//OMIT will make the language loader skip that phrase.
-				if (!entrySet.getValue().toString().toUpperCase().equals("OMIT"))
+				if (!entrySet.getValue().toString().equalsIgnoreCase("OMIT"))
 				{
 					if (entrySet.getKey().toString().contains("name.male"))
 					{
@@ -95,7 +100,7 @@ public final class LanguageHelper
 
 					else
 					{
-						MCA.stringTranslations.put(entrySet.getKey().toString(), entrySet.getValue().toString());
+						translationsMap.put(entrySet.getKey().toString(), entrySet.getValue().toString());
 					}
 				}
 			}
@@ -103,95 +108,102 @@ public final class LanguageHelper
 			//Clear the properties instance.
 			properties.clear();
 			
-			//Add localized item names.
-			LanguageRegistry.addName(MCA.instance.itemEngagementRing, LanguageHelper.getString("item.ring.engagement"));
-			LanguageRegistry.addName(MCA.instance.itemWeddingRing, LanguageHelper.getString("item.ring.wedding"));
-			LanguageRegistry.addName(MCA.instance.itemArrangersRing, LanguageHelper.getString("item.ring.arranger"));
-			LanguageRegistry.addName(MCA.instance.itemTombstone, LanguageHelper.getString("item.tombstone"));
-			LanguageRegistry.addName(MCA.instance.itemWhistle, LanguageHelper.getString("item.whistle"));
-			LanguageRegistry.addName(MCA.instance.itemBabyBoy, LanguageHelper.getString("item.baby.boy"));
-			LanguageRegistry.addName(MCA.instance.itemBabyGirl, LanguageHelper.getString("item.baby.girl"));
-			LanguageRegistry.addName(MCA.instance.itemEggMale, LanguageHelper.getString("item.egg.male"));
-			LanguageRegistry.addName(MCA.instance.itemEggFemale, LanguageHelper.getString("item.egg.female"));
-			LanguageRegistry.addName(MCA.instance.itemVillagerEditor, LanguageHelper.getString("item.editor"));
-			LanguageRegistry.addName(MCA.instance.itemLostRelativeDocument, LanguageHelper.getString("item.lostrelativedocument"));
-			LanguageRegistry.addName(MCA.instance.itemCrown, LanguageHelper.getString("item.crown"));
-			LanguageRegistry.addName(MCA.instance.itemHeirCrown, LanguageHelper.getString("item.heircrown"));
-			LanguageRegistry.addName(MCA.instance.itemKingsCoat, LanguageHelper.getString("item.kingscoat"));
-			LanguageRegistry.addName(MCA.instance.itemKingsPants, LanguageHelper.getString("item.kingspants"));
-			LanguageRegistry.addName(MCA.instance.itemKingsBoots, LanguageHelper.getString("item.kingsboots"));
-			
-			//Add achievements.
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_Charmer", languageID, LanguageHelper.getString("achievement.title.charmer"));
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_Charmer.desc", languageID, LanguageHelper.getString("achievement.descr.charmer")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_GetMarried", languageID, LanguageHelper.getString("achievement.title.getmarried"));
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_GetMarried.desc", languageID, LanguageHelper.getString("achievement.descr.getmarried")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveBabyBoy", languageID, LanguageHelper.getString("achievement.title.havebabyboy"));
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveBabyBoy.desc", languageID, LanguageHelper.getString("achievement.descr.havebabyboy")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveBabyGirl", languageID, LanguageHelper.getString("achievement.title.havebabygirl"));
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveBabyGirl.desc", languageID, LanguageHelper.getString("achievement.descr.havebabygirl")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_CookBaby", languageID, LanguageHelper.getString("achievement.title.cookbaby"));
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_CookBaby.desc", languageID, LanguageHelper.getString("achievement.descr.cookbaby")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_BabyGrowUp", languageID, LanguageHelper.getString("achievement.title.growbaby"));
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_BabyGrowUp.desc", languageID, LanguageHelper.getString("achievement.descr.growbaby")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildFarm", languageID, LanguageHelper.getString("achievement.title.farming"));
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildFarm.desc", languageID, LanguageHelper.getString("achievement.descr.farming")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildFish", languageID, LanguageHelper.getString("achievement.title.fishing"));
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildFish.desc", languageID, LanguageHelper.getString("achievement.descr.fishing")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildWoodcut", languageID, LanguageHelper.getString("achievement.title.woodcutting"));
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildWoodcut.desc", languageID, LanguageHelper.getString("achievement.descr.woodcutting")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildMine", languageID, LanguageHelper.getString("achievement.title.mining"));
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildMine.desc", languageID, LanguageHelper.getString("achievement.descr.mining")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildHuntKill", languageID, LanguageHelper.getString("achievement.title.huntkill"));
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildHuntKill.desc", languageID, LanguageHelper.getString("achievement.descr.huntkill"));
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildHuntTame", languageID, LanguageHelper.getString("achievement.title.hunttame"));
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildHuntTame.desc", languageID, LanguageHelper.getString("achievement.descr.hunttame"));		
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildGrowUp", languageID, LanguageHelper.getString("achievement.title.growkid"));
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildGrowUp.desc", languageID, LanguageHelper.getString("achievement.descr.growkid")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_AdultFullyEquipped", languageID, LanguageHelper.getString("achievement.title.equipadult"));
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_AdultFullyEquipped.desc", languageID, LanguageHelper.getString("achievement.descr.equipadult")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_AdultKills", languageID, LanguageHelper.getString("achievement.title.mobkills"));
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_AdultKills.desc", languageID, LanguageHelper.getString("achievement.descr.mobkills")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_AdultMarried", languageID, LanguageHelper.getString("achievement.title.marrychild"));
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_AdultMarried.desc", languageID, LanguageHelper.getString("achievement.descr.marrychild")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveGrandchild", languageID, LanguageHelper.getString("achievement.title.havegrandchild"));
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveGrandchild.desc", languageID, LanguageHelper.getString("achievement.descr.havegrandchild"));
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveGreatGrandchild", languageID, LanguageHelper.getString("achievement.title.havegreatgrandchild"));
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveGreatGrandchild.desc", languageID, LanguageHelper.getString("achievement.descr.havegreatgrandchild")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveGreatx2Grandchild", languageID, LanguageHelper.getString("achievement.title.havegreatx2grandchild"));
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveGreatx2Grandchild.desc", languageID, LanguageHelper.getString("achievement.descr.havegreatx2grandchild")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveGreatx10Grandchild", languageID, LanguageHelper.getString("achievement.title.havegreatx10grandchild"));
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveGreatx10Grandchild.desc", languageID, LanguageHelper.getString("achievement.descr.havegreatx10grandchild")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HardcoreSecret", languageID, LanguageHelper.getString("achievement.title.hardcoresecret"));
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HardcoreSecret.desc", languageID, LanguageHelper.getString("achievement.descr.hardcoresecret")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_CraftCrown", languageID, LanguageHelper.getString("achievement.title.craftcrown")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_CraftCrown.desc", languageID, LanguageHelper.getString("achievement.descr.craftcrown")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ExecuteVillager", languageID, LanguageHelper.getString("achievement.title.executevillager")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ExecuteVillager.desc", languageID, LanguageHelper.getString("achievement.descr.executevillager")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_MakeKnight", languageID, LanguageHelper.getString("achievement.title.makeknight")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_MakeKnight.desc", languageID, LanguageHelper.getString("achievement.descr.makeknight")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_KnightArmy", languageID, LanguageHelper.getString("achievement.title.knightarmy")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_KnightArmy.desc", languageID, LanguageHelper.getString("achievement.descr.knightarmy")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_MakePeasant", languageID, LanguageHelper.getString("achievement.title.makepeasant")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_MakePeasant.desc", languageID, LanguageHelper.getString("achievement.descr.makepeasant")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_PeasantArmy", languageID, LanguageHelper.getString("achievement.title.peasantarmy")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_PeasantArmy.desc", languageID, LanguageHelper.getString("achievement.descr.peasantarmy")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_NameHeir", languageID, LanguageHelper.getString("achievement.title.nameheir")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_NameHeir.desc", languageID, LanguageHelper.getString("achievement.descr.nameheir")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_MonarchSecret", languageID, LanguageHelper.getString("achievement.title.monarchsecret")); 
-			LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_MonarchSecret.desc", languageID, LanguageHelper.getString("achievement.descr.monarchsecret")); 
+			addLocalizedItemNames();
+			addLocalizedAchievementNames(languageID);
 
 			LanguageRegistry.reloadLanguageTable();
 
-			MCA.instance.log("Loaded " + MCA.stringTranslations.size() + " phrases in " + languageName + ".");
+			MCA.getInstance().log("Loaded " + translationsMap.size() + " phrases in " + languageName + ".");
 		}
 
-		catch (Throwable e)
+		catch (IOException e)
 		{
-			MCA.instance.quitWithThrowable("Error while loading language.", e);
+			MCA.getInstance().quitWithException("IOException while loading language.", e);
 		}
 	}
 
+	private static void addLocalizedItemNames()
+	{
+		LanguageRegistry.addName(MCA.getInstance().itemEngagementRing, LanguageHelper.getString("item.ring.engagement"));
+		LanguageRegistry.addName(MCA.getInstance().itemWeddingRing, LanguageHelper.getString("item.ring.wedding"));
+		LanguageRegistry.addName(MCA.getInstance().itemArrangersRing, LanguageHelper.getString("item.ring.arranger"));
+		LanguageRegistry.addName(MCA.getInstance().itemTombstone, LanguageHelper.getString("item.tombstone"));
+		LanguageRegistry.addName(MCA.getInstance().itemWhistle, LanguageHelper.getString("item.whistle"));
+		LanguageRegistry.addName(MCA.getInstance().itemBabyBoy, LanguageHelper.getString("item.baby.boy"));
+		LanguageRegistry.addName(MCA.getInstance().itemBabyGirl, LanguageHelper.getString("item.baby.girl"));
+		LanguageRegistry.addName(MCA.getInstance().itemEggMale, LanguageHelper.getString("item.egg.male"));
+		LanguageRegistry.addName(MCA.getInstance().itemEggFemale, LanguageHelper.getString("item.egg.female"));
+		LanguageRegistry.addName(MCA.getInstance().itemVillagerEditor, LanguageHelper.getString("item.editor"));
+		LanguageRegistry.addName(MCA.getInstance().itemLostRelativeDocument, LanguageHelper.getString("item.lostrelativedocument"));
+		LanguageRegistry.addName(MCA.getInstance().itemCrown, LanguageHelper.getString("item.crown"));
+		LanguageRegistry.addName(MCA.getInstance().itemHeirCrown, LanguageHelper.getString("item.heircrown"));
+		LanguageRegistry.addName(MCA.getInstance().itemKingsCoat, LanguageHelper.getString("item.kingscoat"));
+		LanguageRegistry.addName(MCA.getInstance().itemKingsPants, LanguageHelper.getString("item.kingspants"));
+		LanguageRegistry.addName(MCA.getInstance().itemKingsBoots, LanguageHelper.getString("item.kingsboots"));
+	}
+	
+	private static void addLocalizedAchievementNames(String languageID)
+	{
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_Charmer", languageID, LanguageHelper.getString("achievement.title.charmer"));
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_Charmer.desc", languageID, LanguageHelper.getString("achievement.descr.charmer")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_GetMarried", languageID, LanguageHelper.getString("achievement.title.getmarried"));
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_GetMarried.desc", languageID, LanguageHelper.getString("achievement.descr.getmarried")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveBabyBoy", languageID, LanguageHelper.getString("achievement.title.havebabyboy"));
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveBabyBoy.desc", languageID, LanguageHelper.getString("achievement.descr.havebabyboy")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveBabyGirl", languageID, LanguageHelper.getString("achievement.title.havebabygirl"));
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveBabyGirl.desc", languageID, LanguageHelper.getString("achievement.descr.havebabygirl")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_CookBaby", languageID, LanguageHelper.getString("achievement.title.cookbaby"));
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_CookBaby.desc", languageID, LanguageHelper.getString("achievement.descr.cookbaby")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_BabyGrowUp", languageID, LanguageHelper.getString("achievement.title.growbaby"));
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_BabyGrowUp.desc", languageID, LanguageHelper.getString("achievement.descr.growbaby")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildFarm", languageID, LanguageHelper.getString("achievement.title.farming"));
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildFarm.desc", languageID, LanguageHelper.getString("achievement.descr.farming")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildFish", languageID, LanguageHelper.getString("achievement.title.fishing"));
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildFish.desc", languageID, LanguageHelper.getString("achievement.descr.fishing")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildWoodcut", languageID, LanguageHelper.getString("achievement.title.woodcutting"));
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildWoodcut.desc", languageID, LanguageHelper.getString("achievement.descr.woodcutting")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildMine", languageID, LanguageHelper.getString("achievement.title.mining"));
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildMine.desc", languageID, LanguageHelper.getString("achievement.descr.mining")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildHuntKill", languageID, LanguageHelper.getString("achievement.title.huntkill"));
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildHuntKill.desc", languageID, LanguageHelper.getString("achievement.descr.huntkill"));
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildHuntTame", languageID, LanguageHelper.getString("achievement.title.hunttame"));
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildHuntTame.desc", languageID, LanguageHelper.getString("achievement.descr.hunttame"));		
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildGrowUp", languageID, LanguageHelper.getString("achievement.title.growkid"));
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ChildGrowUp.desc", languageID, LanguageHelper.getString("achievement.descr.growkid")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_AdultFullyEquipped", languageID, LanguageHelper.getString("achievement.title.equipadult"));
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_AdultFullyEquipped.desc", languageID, LanguageHelper.getString("achievement.descr.equipadult")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_AdultKills", languageID, LanguageHelper.getString("achievement.title.mobkills"));
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_AdultKills.desc", languageID, LanguageHelper.getString("achievement.descr.mobkills")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_AdultMarried", languageID, LanguageHelper.getString("achievement.title.marrychild"));
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_AdultMarried.desc", languageID, LanguageHelper.getString("achievement.descr.marrychild")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveGrandchild", languageID, LanguageHelper.getString("achievement.title.havegrandchild"));
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveGrandchild.desc", languageID, LanguageHelper.getString("achievement.descr.havegrandchild"));
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveGreatGrandchild", languageID, LanguageHelper.getString("achievement.title.havegreatgrandchild"));
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveGreatGrandchild.desc", languageID, LanguageHelper.getString("achievement.descr.havegreatgrandchild")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveGreatx2Grandchild", languageID, LanguageHelper.getString("achievement.title.havegreatx2grandchild"));
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveGreatx2Grandchild.desc", languageID, LanguageHelper.getString("achievement.descr.havegreatx2grandchild")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveGreatx10Grandchild", languageID, LanguageHelper.getString("achievement.title.havegreatx10grandchild"));
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HaveGreatx10Grandchild.desc", languageID, LanguageHelper.getString("achievement.descr.havegreatx10grandchild")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HardcoreSecret", languageID, LanguageHelper.getString("achievement.title.hardcoresecret"));
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_HardcoreSecret.desc", languageID, LanguageHelper.getString("achievement.descr.hardcoresecret")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_CraftCrown", languageID, LanguageHelper.getString("achievement.title.craftcrown")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_CraftCrown.desc", languageID, LanguageHelper.getString("achievement.descr.craftcrown")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ExecuteVillager", languageID, LanguageHelper.getString("achievement.title.executevillager")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_ExecuteVillager.desc", languageID, LanguageHelper.getString("achievement.descr.executevillager")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_MakeKnight", languageID, LanguageHelper.getString("achievement.title.makeknight")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_MakeKnight.desc", languageID, LanguageHelper.getString("achievement.descr.makeknight")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_KnightArmy", languageID, LanguageHelper.getString("achievement.title.knightarmy")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_KnightArmy.desc", languageID, LanguageHelper.getString("achievement.descr.knightarmy")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_MakePeasant", languageID, LanguageHelper.getString("achievement.title.makepeasant")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_MakePeasant.desc", languageID, LanguageHelper.getString("achievement.descr.makepeasant")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_PeasantArmy", languageID, LanguageHelper.getString("achievement.title.peasantarmy")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_PeasantArmy.desc", languageID, LanguageHelper.getString("achievement.descr.peasantarmy")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_NameHeir", languageID, LanguageHelper.getString("achievement.title.nameheir")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_NameHeir.desc", languageID, LanguageHelper.getString("achievement.descr.nameheir")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_MonarchSecret", languageID, LanguageHelper.getString("achievement.title.monarchsecret")); 
+		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_MonarchSecret.desc", languageID, LanguageHelper.getString("achievement.descr.monarchsecret")); 
+	}
+	
 	/**
 	 * Retrieves the specified string from the string translations map. Used when the string being retrieved
 	 * is not being spoken by an entity, such as a GUI button or item name.
@@ -208,28 +220,28 @@ public final class LanguageHelper
 	/**
 	 * Retrieves the specified string from the string translations map.
 	 * 
-	 * @param 	entity	The MCA entity that is speaking.
-	 * @param 	id		The ID of the string to retrieve.
+	 * @param 	entity		The MCA entity that is speaking.
+	 * @param 	phraseId	The ID of the string to retrieve.
 	 * 
 	 * @return	Returns parsed localized string matching the ID provided.
 	 */
-	public static String getString(AbstractEntity entity, String id)
+	public static String getString(AbstractEntity entity, String phraseId)
 	{
-		return getString(null, entity, id, true, null, null);
+		return getString(null, entity, phraseId, true, null, null);
 	}
 
 	/**
 	 * Retrieves the specified string from the string translations map.
 	 * 
 	 * @param 	entity				The MCA entity that is speaking.
-	 * @param 	id					The ID of the string to retrieve.
+	 * @param 	phraseId			The ID of the string to retrieve.
 	 * @param	useCharacterType	Should the entity's character type be inserted before the ID of the string?
 	 * 
 	 * @return	Returns parsed localized string matching the ID provided.
 	 */
-	public static String getString(AbstractEntity entity, String id, boolean useCharacterType)
+	public static String getString(AbstractEntity entity, String phraseId, boolean useCharacterType)
 	{
-		return getString(null, entity, id, useCharacterType, null, null);
+		return getString(null, entity, phraseId, useCharacterType, null, null);
 	}
 
 	/**
@@ -279,102 +291,65 @@ public final class LanguageHelper
 	 * 
 	 * @param	player				The player that will be receiving this string.
 	 * @param 	entity				The MCA entity that is speaking.
-	 * @param 	id					The ID of the string to retrieve.
+	 * @param 	phraseId			The ID of the string to retrieve.
 	 * @param	useCharacterType	Should the entity's character type be inserted before the ID of the string?
 	 * @param	prefix				The string that should be added to the beginning of the localized string.
 	 * @param	suffix				The string that should be added to the end of the localized string.
 	 * 
 	 * @return	Returns parsed localized string matching the ID provided.
 	 */
-	public static String getString(EntityPlayer player, AbstractEntity entity, String id, boolean useCharacterType, String prefix, String suffix)
+	public static String getString(EntityPlayer player, AbstractEntity entity, String phraseId, boolean useCharacterType, String prefix, String suffix)
 	{
-		if (MinecraftServer.getServer() != null)
+		final List<String> matchingValues = new ArrayList();
+		String outputString = "";
+		phraseId = phraseId.toLowerCase();
+		
+		//Check for call to getString on a server. Invalid as the player will receive an untranslated string.
+		if (MinecraftServer.getServer() != null && MCA.getInstance().isDedicatedServer && FMLCommonHandler.instance().getEffectiveSide().isServer())
 		{
-			//Call to getString on server. Invalid as the player will receive an untranslated string.
-			if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER && MCA.instance.isDedicatedServer)
-			{
-				PacketDispatcher.sendPacketToPlayer(PacketHelper.createSayLocalizedPacket(player, entity, id, useCharacterType, prefix, suffix), (Player)player);
-				return "";
-			}
+			PacketDispatcher.sendPacketToPlayer(PacketHelper.createSayLocalizedPacket(player, entity, phraseId, useCharacterType, prefix, suffix), (Player)player);
 		}
-
-		int playerId = MCA.instance.getIdOfPlayer(player);
 
 		if (useCharacterType)
 		{
-			id = entity.getCharacterType(playerId) + "." + id;
+			phraseId = entity.getCharacterType(MCA.getInstance().getIdOfPlayer(player)) + "." + phraseId;
 		}
 
-		List<String> matchingValuesList = new ArrayList();
-
 		//Loop through each item in the string translations map.
-		for (Map.Entry<String, String> entrySet : MCA.stringTranslations.entrySet())
+		for (final Map.Entry<String, String> entrySet : translationsMap.entrySet())
 		{
 			//Check if the entry's key contains the ID.
-			if (entrySet.getKey().contains(id))
+			if (entrySet.getKey().contains(phraseId))
 			{
 				//Then check if it completely equals the ID.
-				if (entrySet.getKey().equals(id))
+				if (entrySet.getKey().equals(phraseId))
 				{
 					//In this case, clear the values list and add only the value that equals the ID.
-					matchingValuesList.clear();
-					matchingValuesList.add(entrySet.getValue());
+					matchingValues.clear();
+					matchingValues.add(entrySet.getValue());
 					break;
 				}
 
 				else //Otherwise just add the matching ID's value to the matching values list.
 				{
-					matchingValuesList.add(entrySet.getValue());
+					matchingValues.add(entrySet.getValue());
 				}
 			}
 		}
 
-		if (matchingValuesList.size() == 0)
+		if (matchingValues.isEmpty())
 		{
-			new Throwable().printStackTrace();
-			return "(" + id + " not found)";
+			outputString = "(" + phraseId + " not found)";
 		}
 
 		else
 		{
-			//Find an instance of Random rather than making a new one.
-			Random rand = null;
-			
-			if (player != null)
-			{
-				rand = player.worldObj.rand;
-			}
-			
-			else if (entity != null)
-			{
-				rand = entity.worldObj.rand;
-			}
-			
-			else
-			{
-				rand = new Random();
-			}
-			
-			if (prefix != null && suffix != null)
-			{
-				return prefix + parseString(player, entity, matchingValuesList.get(rand.nextInt(matchingValuesList.size())) + suffix);
-			}
-
-			else if (prefix != null)
-			{
-				return prefix + parseString(player, entity, matchingValuesList.get(rand.nextInt(matchingValuesList.size())));
-			}
-
-			else if (suffix != null)
-			{
-				return parseString(player, entity, matchingValuesList.get(rand.nextInt(matchingValuesList.size())) + suffix);
-			}
-
-			else
-			{
-				return parseString(player, entity, matchingValuesList.get(rand.nextInt(matchingValuesList.size())));
-			}
+			prefix = prefix == null ? "" : prefix;
+			suffix = suffix == null ? "" : suffix;
+			outputString = prefix + parseString(player, entity, matchingValues.get(MCA.rand.nextInt(matchingValues.size())) + suffix);
 		}
+		
+		return outputString;
 	}
 
 	/**
@@ -393,8 +368,8 @@ public final class LanguageHelper
 
 		if (player != null)
 		{
-			worldPropertiesManager = MCA.instance.playerWorldManagerMap.get(player.username);
-			playerId = MCA.instance.getIdOfPlayer(player);
+			worldPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(player.username);
+			playerId = MCA.getInstance().getIdOfPlayer(player);
 		}
 
 		try
@@ -418,7 +393,7 @@ public final class LanguageHelper
 			{
 				if (entity instanceof EntityPlayerChild)
 				{
-					List<Integer> parents = entity.familyTree.getEntitiesWithRelation(EnumRelation.Parent);
+					final List<Integer> parents = entity.familyTree.getEntitiesWithRelation(EnumRelation.Parent);
 
 					if (parents.get(0) < 0 && parents.get(1) < 0)
 					{
@@ -437,17 +412,16 @@ public final class LanguageHelper
 				{
 					try
 					{
-						List<Integer> parents = entity.familyTree.getEntitiesWithRelation(EnumRelation.Parent);
+						final List<Integer> parents = entity.familyTree.getEntitiesWithRelation(EnumRelation.Parent);
+						final AbstractEntity parent1 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.getInstance().idsMap.get(parents.get(0)));
+						final AbstractEntity parent2 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.getInstance().idsMap.get(parents.get(1)));
 
-						AbstractEntity parent1 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.instance.idsMap.get(parents.get(0)));
-						AbstractEntity parent2 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.instance.idsMap.get(parents.get(1)));
-
-						if (parent1.gender.equals(parent2.gender))
+						if (parent1.isMale == parent2.isMale)
 						{
 							text = text.replace("%MotherName%", parent1.name);
 						}
 
-						else if (parent1.gender.equals("Male"))
+						else if (parent1.isMale)
 						{
 							text = text.replace("%MotherName%", parent2.name);
 						}
@@ -473,22 +447,22 @@ public final class LanguageHelper
 
 					if (parents.get(0) < 0 && parents.get(1) < 0)
 					{
-						text = text.replace("%FatherName%", MCA.instance.playerWorldManagerMap.get(player.username).worldProperties.playerSpouseName);
+						text = text.replace("%FatherName%", MCA.getInstance().playerWorldManagerMap.get(player.username).worldProperties.playerSpouseName);
 					}
 
-					//One of the parents is not a player (since this is a player child no further logic is required.)
+					//One of the parents is not a player (since this is a player child, no further logic is required.)
 					//Always use the villager as the last name.
 					else
 					{
 						try
 						{
-							AbstractEntity parent = (AbstractEntity)entity.worldObj.getEntityByID(MCA.instance.idsMap.get(parents.get(1)));
+							final AbstractEntity parent = (AbstractEntity)entity.worldObj.getEntityByID(MCA.getInstance().idsMap.get(parents.get(1)));
 							text = text.replace("%FatherName%", parent.getTitle(0, false));
 						}
 
 						catch (NullPointerException e)
 						{
-							AbstractEntity parent = (AbstractEntity)entity.worldObj.getEntityByID(MCA.instance.idsMap.get(parents.get(0)));
+							final AbstractEntity parent = (AbstractEntity)entity.worldObj.getEntityByID(MCA.getInstance().idsMap.get(parents.get(0)));
 							text = text.replace("%FatherName%", parent.getTitle(0, false));
 						}
 					}
@@ -498,17 +472,16 @@ public final class LanguageHelper
 				{
 					try
 					{
-						List<Integer> parents = entity.familyTree.getEntitiesWithRelation(EnumRelation.Parent);
+						final List<Integer> parents = entity.familyTree.getEntitiesWithRelation(EnumRelation.Parent);
+						final AbstractEntity parent1 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.getInstance().idsMap.get(parents.get(0)));
+						final AbstractEntity parent2 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.getInstance().idsMap.get(parents.get(1)));
 
-						AbstractEntity parent1 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.instance.idsMap.get(parents.get(0)));
-						AbstractEntity parent2 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.instance.idsMap.get(parents.get(1)));
-
-						if (parent1.gender.equals(parent2.gender))
+						if (parent1.isMale == parent2.isMale)
 						{
 							text = text.replace("%FatherName%", parent2.name);
 						}
 
-						else if (parent1.gender.equals("Male"))
+						else if (parent1.isMale)
 						{
 							text = text.replace("%FatherName%", parent1.name);
 						}
@@ -528,8 +501,8 @@ public final class LanguageHelper
 
 			if (text.contains("%SpouseRelation%"))
 			{
-				AbstractEntity spouse = entity.familyTree.getInstanceOfRelative(EnumRelation.Spouse);
-				text = text.replace("%SpouseRelation%", spouse.familyTree.getRelationTo(playerId).toString(spouse, spouse.gender, true));
+				final AbstractEntity spouse = entity.familyTree.getInstanceOfRelative(EnumRelation.Spouse);
+				text = text.replace("%SpouseRelation%", spouse.familyTree.getRelationTo(playerId).toString(spouse, spouse.isMale, true));
 			}
 
 			if (text.contains("%PlayerSpouseName%"))
@@ -559,7 +532,7 @@ public final class LanguageHelper
 
 			if (text.contains("%SpouseFullName%"))
 			{
-				AbstractEntity spouse = entity.familyTree.getInstanceOfRelative(EnumRelation.Spouse);
+				final AbstractEntity spouse = entity.familyTree.getInstanceOfRelative(EnumRelation.Spouse);
 
 				if (spouse != null)
 				{
@@ -580,7 +553,7 @@ public final class LanguageHelper
 
 			if (text.contains("%OreType%"))
 			{
-				EntityChild child = (EntityChild)entity;
+				final EntityChild child = (EntityChild)entity;
 
 				String oreName = "";
 
@@ -600,13 +573,13 @@ public final class LanguageHelper
 
 			if (text.contains("%OreDistance%"))
 			{
-				EntityChild child = (EntityChild)entity;
+				final EntityChild child = (EntityChild)entity;
 				text = text.replace("%OreDistance%", String.valueOf(child.miningChore.passiveDistanceToOre));
 			}
 
 			if (text.contains("%ChildTitle%"))
 			{
-				if (entity.gender.equals("Male"))
+				if (entity.isMale)
 				{
 					text = text.replace("%ChildTitle%", LanguageHelper.getString("family.son"));
 				}
@@ -619,20 +592,20 @@ public final class LanguageHelper
 
 			if (text.contains("%RandomName%"))
 			{
-				if (entity.gender.equals("Male"))
+				if (entity.isMale)
 				{
-					text = text.replace("%RandomName%", AbstractEntity.getRandomName("Female"));
+					text = text.replace("%RandomName%", AbstractEntity.getRandomName(!entity.isMale));
 				}
 
 				else
 				{
-					text = text.replace("%RandomName%", AbstractEntity.getRandomName("Male"));
+					text = text.replace("%RandomName%", AbstractEntity.getRandomName(entity.isMale));
 				}
 			}
 
 			if (text.contains("%CallPlayerParent%"))
 			{
-				if (!MCA.instance.isDedicatedServer)
+				if (!MCA.getInstance().isDedicatedServer)
 				{
 					if (worldPropertiesManager.worldProperties.playerGender.equals("Male"))
 					{
@@ -647,7 +620,7 @@ public final class LanguageHelper
 
 				else
 				{
-					WorldPropertiesManager serverPropertiesManager = MCA.instance.playerWorldManagerMap.get(player.username);
+					final WorldPropertiesManager serverPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 
 					if (serverPropertiesManager.worldProperties.playerGender.equals("Male"))
 					{
@@ -663,14 +636,14 @@ public final class LanguageHelper
 
 			if (text.contains("%PlayerName%"))
 			{
-				if (!MCA.instance.isDedicatedServer)
+				if (!MCA.getInstance().isDedicatedServer)
 				{
 					text = text.replace("%PlayerName%", worldPropertiesManager.worldProperties.playerName);
 				}
 
 				else
 				{
-					WorldPropertiesManager serverPropertiesManager = MCA.instance.playerWorldManagerMap.get(player.username);
+					WorldPropertiesManager serverPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 					text = text.replace("%PlayerName%", serverPropertiesManager.worldProperties.playerName);
 				}
 			}
@@ -682,7 +655,7 @@ public final class LanguageHelper
 
 			if (text.contains("%ParentOpposite%"))
 			{
-				if (!MCA.instance.isDedicatedServer)
+				if (!MCA.getInstance().isDedicatedServer)
 				{
 					if (worldPropertiesManager.worldProperties.playerGender.equals("Male"))
 					{
@@ -697,7 +670,7 @@ public final class LanguageHelper
 
 				else
 				{
-					WorldPropertiesManager serverPropertiesManager = MCA.instance.playerWorldManagerMap.get(player.username);
+					WorldPropertiesManager serverPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 
 					if (serverPropertiesManager.worldProperties.playerGender.equals("Male"))
 					{
@@ -713,14 +686,14 @@ public final class LanguageHelper
 
 			if (text.contains("%BabyName%"))
 			{
-				if (!MCA.instance.isDedicatedServer)
+				if (!MCA.getInstance().isDedicatedServer)
 				{
 					text = text.replace("%BabyName%", worldPropertiesManager.worldProperties.babyName);
 				}
 
 				else
 				{
-					WorldPropertiesManager serverPropertiesManager = MCA.instance.playerWorldManagerMap.get(player.username);
+					WorldPropertiesManager serverPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 					text = text.replace("%BabyName%", serverPropertiesManager.worldProperties.babyName);
 				}
 			}
@@ -760,16 +733,15 @@ public final class LanguageHelper
 			
 			if (text.contains("%URL%"))
 			{
-				text = text.replace("%URL%", Color.BLUE + Format.ITALIC + "http://goo.gl/4Kwohv" + Format.RESET + Color.YELLOW);
+				text = text.replace("%URL%", Constants.COLOR_BLUE + Constants.FORMAT_ITALIC + "http://goo.gl/4Kwohv" + Constants.FORMAT_RESET + Constants.COLOR_YELLOW);
 			}
 			
 			if (text.contains("%LivingParent%"))
 			{
-				List<Integer> parents = entity.familyTree.getEntitiesWithRelation(EnumRelation.Parent);
-				AbstractEntity parent1 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.instance.idsMap.get(parents.get(0)));
-				AbstractEntity parent2 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.instance.idsMap.get(parents.get(1)));
-				
-				AbstractEntity nonNullParent = parent1 != null ? parent1 : parent2 != null ? parent2 : null;
+				final List<Integer> parents = entity.familyTree.getEntitiesWithRelation(EnumRelation.Parent);
+				final AbstractEntity parent1 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.getInstance().idsMap.get(parents.get(0)));
+				final AbstractEntity parent2 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.getInstance().idsMap.get(parents.get(1)));
+				final AbstractEntity nonNullParent = parent1 != null ? parent1 : parent2 != null ? parent2 : null;
 
 				text = text.replace("%LivingParent%", nonNullParent.name);
 			}
@@ -777,7 +749,7 @@ public final class LanguageHelper
 
 		catch (NullPointerException e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			text += " (Parsing error)";
 		}
 
@@ -792,10 +764,11 @@ public final class LanguageHelper
 	public static String getLanguageIDFromOptions()
 	{
 		BufferedReader reader = null;
-
+		String languageID = "";
+		
 		try 
 		{
-			reader = new BufferedReader(new FileReader(MCA.instance.runningDirectory + "/options.txt"));
+			reader = new BufferedReader(new FileReader(MCA.getInstance().runningDirectory + "/options.txt"));
 
 			String line = "";
 
@@ -812,93 +785,93 @@ public final class LanguageHelper
 			if (!line.isEmpty())
 			{
 				reader.close();
-				return line.substring(5);
+				languageID = line.substring(5);
 			}
 		} 
 
 		catch (FileNotFoundException e) 
 		{
-			MCA.instance.log("Could not find options.txt file. Defaulting to English.");
-			return "en_US";
+			MCA.getInstance().log("Could not find options.txt file. Defaulting to English.");
+			languageID = "en_US";
 		} 
 
 		catch (IOException e)
 		{
-			MCA.instance.quitWithThrowable("Error reading from Minecraft options.txt file.", e);
-			return null;
+			MCA.getInstance().quitWithException("Error reading from Minecraft options.txt file.", e);
+			languageID = null;
 		}
 
 		catch (NullPointerException e)
 		{
-			MCA.instance.log("NullPointerException while trying to read options.txt. Defaulting to English.");
-			return "en_US";
+			MCA.getInstance().log("NullPointerException while trying to read options.txt. Defaulting to English.");
+			languageID = "en_US";
 		}
-
-		return null;
+		
+		return languageID;
 	}
 
 	static
 	{
-		languagesMap.put("af_ZA", "Afrikaans");
-		languagesMap.put("ar_SA", "Arabic");
-		languagesMap.put("bg_BG", "Bulgarian");
-		languagesMap.put("ca_ES", "Catalan");
-		languagesMap.put("cs_CZ", "Czech");
-		languagesMap.put("cy_GB", "Welsh");
-		languagesMap.put("da_DK", "Danish");
-		languagesMap.put("de_DE", "German");
-		languagesMap.put("el_GR", "Greek");
-		languagesMap.put("en_AU", "English");
-		languagesMap.put("en_CA", "English");
-		languagesMap.put("en_GB", "English");
-		languagesMap.put("en_PT", "Pirate");
-		languagesMap.put("en_US", "English");
-		languagesMap.put("eo_UY", "Esperanto");
-		languagesMap.put("es_AR", "Argentina Spanish");
-		languagesMap.put("es_ES", "Spanish");
-		languagesMap.put("es_MX", "Mexico Spanish");
-		languagesMap.put("es_UY", "Uruguay Spanish");
-		languagesMap.put("es_VE", "Venezuela Spanish");
-		languagesMap.put("et_EE", "Estonian");
-		languagesMap.put("eu_ES", "Basque");
-		languagesMap.put("fi_FI", "Finnish");
-		languagesMap.put("fr_FR", "French");
-		languagesMap.put("fr_CA", "Canadian French");
-		languagesMap.put("ga_IE", "Irish");
-		languagesMap.put("gl_ES", "Galician");
-		languagesMap.put("he_IL", "Hebrew");
-		languagesMap.put("hi_IN", "Hindi");
-		languagesMap.put("hr_HR", "Croatian");
-		languagesMap.put("hu_HU", "Hungarian");
-		languagesMap.put("id_ID", "Bahasa Indonesia");
-		languagesMap.put("is_IS", "Icelandic");
-		languagesMap.put("it_IT", "Italian");
-		languagesMap.put("ja_JP", "Japanese");
-		languagesMap.put("ka_GE", "Georgian");
-		languagesMap.put("ko_KR", "Korean");
-		languagesMap.put("ko_KO", "Cornish");
-		languagesMap.put("lt_LT", "Lithuanian");
-		languagesMap.put("lv_LV", "Latvian");
-		languagesMap.put("ms_MY", "Malay");
-		languagesMap.put("mt_MT", "Maltese");
-		languagesMap.put("nl_NL", "Dutch");
-		languagesMap.put("nn_NO", "Nynorsk");
-		languagesMap.put("nb_NO", "Norwegian");
-		languagesMap.put("pl_PL", "Polish");
-		languagesMap.put("pt_BR", "Brazilian Portuguese");
-		languagesMap.put("pt_PT", "Portuguese");
-		languagesMap.put("qya_AA", "Quenya");
-		languagesMap.put("ru_RU", "Russian");
-		languagesMap.put("sk_SK", "Slovak");
-		languagesMap.put("sl_SI", "Slovenian");
-		languagesMap.put("sr_SP", "Serbian");
-		languagesMap.put("sv_SE", "Swedish");
-		languagesMap.put("th_TH", "Thai");
-		languagesMap.put("tlh_AA", "Klingon");
-		languagesMap.put("tr_TR", "Turkish");
-		languagesMap.put("uk_UA", "Ukrainian");
-		languagesMap.put("vi_VN", "Vietnamese");
-		languagesMap.put("zh_CN", "Chinese Simplified");
-		languagesMap.put("zh_TW", "Chinese Traditional");
+		LANGUAGE_MAP.put("af_ZA", "Afrikaans");
+		LANGUAGE_MAP.put("ar_SA", "Arabic");
+		LANGUAGE_MAP.put("bg_BG", "Bulgarian");
+		LANGUAGE_MAP.put("ca_ES", "Catalan");
+		LANGUAGE_MAP.put("cs_CZ", "Czech");
+		LANGUAGE_MAP.put("cy_GB", "Welsh");
+		LANGUAGE_MAP.put("da_DK", "Danish");
+		LANGUAGE_MAP.put("de_DE", "German");
+		LANGUAGE_MAP.put("el_GR", "Greek");
+		LANGUAGE_MAP.put("en_AU", "English");
+		LANGUAGE_MAP.put("en_CA", "English");
+		LANGUAGE_MAP.put("en_GB", "English");
+		LANGUAGE_MAP.put("en_PT", "Pirate");
+		LANGUAGE_MAP.put("en_US", "English");
+		LANGUAGE_MAP.put("eo_UY", "Esperanto");
+		LANGUAGE_MAP.put("es_AR", "Argentina Spanish");
+		LANGUAGE_MAP.put("es_ES", "Spanish");
+		LANGUAGE_MAP.put("es_MX", "Mexico Spanish");
+		LANGUAGE_MAP.put("es_UY", "Uruguay Spanish");
+		LANGUAGE_MAP.put("es_VE", "Venezuela Spanish");
+		LANGUAGE_MAP.put("et_EE", "Estonian");
+		LANGUAGE_MAP.put("eu_ES", "Basque");
+		LANGUAGE_MAP.put("fi_FI", "Finnish");
+		LANGUAGE_MAP.put("fr_FR", "French");
+		LANGUAGE_MAP.put("fr_CA", "Canadian French");
+		LANGUAGE_MAP.put("ga_IE", "Irish");
+		LANGUAGE_MAP.put("gl_ES", "Galician");
+		LANGUAGE_MAP.put("he_IL", "Hebrew");
+		LANGUAGE_MAP.put("hi_IN", "Hindi");
+		LANGUAGE_MAP.put("hr_HR", "Croatian");
+		LANGUAGE_MAP.put("hu_HU", "Hungarian");
+		LANGUAGE_MAP.put("id_ID", "Bahasa Indonesia");
+		LANGUAGE_MAP.put("is_IS", "Icelandic");
+		LANGUAGE_MAP.put("it_IT", "Italian");
+		LANGUAGE_MAP.put("ja_JP", "Japanese");
+		LANGUAGE_MAP.put("ka_GE", "Georgian");
+		LANGUAGE_MAP.put("ko_KR", "Korean");
+		LANGUAGE_MAP.put("ko_KO", "Cornish");
+		LANGUAGE_MAP.put("lt_LT", "Lithuanian");
+		LANGUAGE_MAP.put("lv_LV", "Latvian");
+		LANGUAGE_MAP.put("ms_MY", "Malay");
+		LANGUAGE_MAP.put("mt_MT", "Maltese");
+		LANGUAGE_MAP.put("nl_NL", "Dutch");
+		LANGUAGE_MAP.put("nn_NO", "Nynorsk");
+		LANGUAGE_MAP.put("nb_NO", "Norwegian");
+		LANGUAGE_MAP.put("pl_PL", "Polish");
+		LANGUAGE_MAP.put("pt_BR", "Brazilian Portuguese");
+		LANGUAGE_MAP.put("pt_PT", "Portuguese");
+		LANGUAGE_MAP.put("qya_AA", "Quenya");
+		LANGUAGE_MAP.put("ru_RU", "Russian");
+		LANGUAGE_MAP.put("sk_SK", "Slovak");
+		LANGUAGE_MAP.put("sl_SI", "Slovenian");
+		LANGUAGE_MAP.put("sr_SP", "Serbian");
+		LANGUAGE_MAP.put("sv_SE", "Swedish");
+		LANGUAGE_MAP.put("th_TH", "Thai");
+		LANGUAGE_MAP.put("tlh_AA", "Klingon");
+		LANGUAGE_MAP.put("tr_TR", "Turkish");
+		LANGUAGE_MAP.put("uk_UA", "Ukrainian");
+		LANGUAGE_MAP.put("vi_VN", "Vietnamese");
+		LANGUAGE_MAP.put("zh_CN", "Chinese Simplified");
+		LANGUAGE_MAP.put("zh_TW", "Chinese Traditional");
 	}
 }

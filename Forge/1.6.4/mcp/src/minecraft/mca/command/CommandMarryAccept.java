@@ -9,9 +9,9 @@
 
 package mca.command;
 
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.core.util.Color;
 import mca.core.util.PacketHelper;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -43,11 +43,11 @@ public class CommandMarryAccept extends AbstractCommand
 		if (arguments.length == 1)
 		{
 			//Ensure that the provided player has asked to marry this person.
-			String mostRecentPlayerAsked = MCA.instance.marriageRequests.get(arguments[0]);
+			String mostRecentPlayerAsked = MCA.getInstance().marriageRequests.get(arguments[0]);
 
 			if (mostRecentPlayerAsked == null)
 			{
-				super.sendChatToPlayer(sender, "multiplayer.command.output.marry.norequest", Color.RED, null);
+				super.sendChatToPlayer(sender, "multiplayer.command.output.marry.norequest", Constants.COLOR_RED, null);
 			}
 
 			else
@@ -69,8 +69,8 @@ public class CommandMarryAccept extends AbstractCommand
 					if (recipient != null)
 					{	
 						//Set both to married.
-						WorldPropertiesManager senderProperties = MCA.instance.playerWorldManagerMap.get(sender.getCommandSenderName());
-						WorldPropertiesManager recipientProperties = MCA.instance.playerWorldManagerMap.get(recipient.username);
+						WorldPropertiesManager senderProperties = MCA.getInstance().playerWorldManagerMap.get(sender.getCommandSenderName());
+						WorldPropertiesManager recipientProperties = MCA.getInstance().playerWorldManagerMap.get(recipient.username);
 						
 						senderProperties.worldProperties.playerSpouseID = recipientProperties.worldProperties.playerID;
 						senderProperties.worldProperties.playerSpouseName = recipient.username;
@@ -87,20 +87,20 @@ public class CommandMarryAccept extends AbstractCommand
 
 					else
 					{
-						super.sendChatToPlayer(sender, "multiplayer.command.error.playeroffline", Color.RED, null);
+						super.sendChatToPlayer(sender, "multiplayer.command.error.playeroffline", Constants.COLOR_RED, null);
 					}
 				}
 
 				else
 				{
-					super.sendChatToPlayer(sender, "multiplayer.command.output.marry.norequest", Color.RED, null);
+					super.sendChatToPlayer(sender, "multiplayer.command.output.marry.norequest", Constants.COLOR_RED, null);
 				}
 			}
 		}
 
 		else
 		{
-			super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Color.RED, null);
+			super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Constants.COLOR_RED, null);
 		}
 	}
 }

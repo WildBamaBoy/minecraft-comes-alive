@@ -45,21 +45,29 @@ public class GuiVillagerEditor extends AbstractGui
 	private GuiTextField dummyTextField;
 	private GuiButton randomButton;
 	private GuiButton genderButton;
-	private GuiButton textureButton;
 	private GuiButton shiftTextureIndexUpButton;
 	private GuiButton shiftTextureIndexDownButton;
 	private GuiButton professionButton;
 	private GuiButton shiftProfessionUpButton;
 	private GuiButton shiftProfessionDownButton;
 	private GuiButton inventoryButton;
-	private GuiButton moodButton;
 	private GuiButton shiftMoodUpButton;
 	private GuiButton shiftMoodDownButton;
-	private GuiButton traitButton;
 	private GuiButton shiftTraitUpButton;
 	private GuiButton shiftTraitDownButton;
 	private GuiButton doneButton;
 	
+	/** Label buttons. */
+	@SuppressWarnings("unused")
+	private GuiButton textureButton;
+
+	@SuppressWarnings("unused")
+	private GuiButton moodButton;
+	
+	@SuppressWarnings("unused")
+	private GuiButton traitButton;
+	
+	/** Variables */
 	private boolean containsInvalidCharacters;
 	private List<EnumMood> moodList = EnumMood.getMoodsAsCyclableList();
 	private int moodListIndex = 0;
@@ -128,7 +136,7 @@ public class GuiVillagerEditor extends AbstractGui
 
 		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerBeingEdited.entityId, "name", villagerBeingEdited.name));
 		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerBeingEdited.entityId, "texture", villagerBeingEdited.getTexture()));
-		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerBeingEdited.entityId, "gender", villagerBeingEdited.gender));
+		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerBeingEdited.entityId, "isMale", villagerBeingEdited.isMale));
 		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerBeingEdited.entityId, "profession", villagerBeingEdited.profession));
 		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerBeingEdited.entityId, "traitId", villagerBeingEdited.traitId));
 	}
@@ -148,7 +156,7 @@ public class GuiVillagerEditor extends AbstractGui
 
 		else if (guibutton == randomButton)
 		{
-			nameTextField.setText(AbstractEntity.getRandomName(villagerBeingEdited.gender));
+			nameTextField.setText(AbstractEntity.getRandomName(villagerBeingEdited.isMale));
 			villagerBeingEdited.name = nameTextField.getText();
 			nameTextField.mouseClicked(5, 5, 5);
 			drawEditorGui();
@@ -156,16 +164,7 @@ public class GuiVillagerEditor extends AbstractGui
 		
 		else if (guibutton == genderButton)
 		{
-			if (villagerBeingEdited.gender.equals("Male"))
-			{
-				villagerBeingEdited.gender = "Female";
-			}
-			
-			else
-			{
-				villagerBeingEdited.gender = "Male";
-			}
-			
+			villagerBeingEdited.isMale = !villagerBeingEdited.isMale;
 			villagerBeingEdited.setTexture();
 			drawEditorGui();
 		}
@@ -222,7 +221,7 @@ public class GuiVillagerEditor extends AbstractGui
 				villagerBeingEdited.profession = 0;
 			}
 			
-			if (villagerBeingEdited.profession == 4 && villagerBeingEdited.gender.equals("Female"))
+			if (villagerBeingEdited.profession == 4 && !villagerBeingEdited.isMale)
 			{
 				villagerBeingEdited.profession++;
 			}
@@ -243,7 +242,7 @@ public class GuiVillagerEditor extends AbstractGui
 				villagerBeingEdited.profession = 7;
 			}
 			
-			if (villagerBeingEdited.profession == 4 && villagerBeingEdited.gender.equals("Female"))
+			if (villagerBeingEdited.profession == 4 && !villagerBeingEdited.isMale)
 			{
 				villagerBeingEdited.profession--;
 			}
@@ -498,7 +497,7 @@ public class GuiVillagerEditor extends AbstractGui
 	{
 		buttonList.clear();
 		buttonList.add(randomButton                = new GuiButton(1,  width / 2 - 50,  height / 2 - 75, 60, 20, LanguageHelper.getString("gui.button.random")));
-		buttonList.add(genderButton                = new GuiButton(2,  width / 2 - 190, height / 2 - 40, 175, 20, LanguageHelper.getString("gui.button.setup.gender" + villagerBeingEdited.gender.toLowerCase())));
+		buttonList.add(genderButton                = new GuiButton(2,  width / 2 - 190, height / 2 - 40, 175, 20, LanguageHelper.getString("gui.button.setup.isMale" + villagerBeingEdited.getGenderAsString())));
 		buttonList.add(textureButton               = new GuiButton(3,  width / 2 - 190, height / 2 - 20, 175, 20, "Texture: " + villagerBeingEdited.getTexture().replace("textures/skins//", "").replace(".png", "")));
 		buttonList.add(shiftTextureIndexUpButton   = new GuiButton(4,  width / 2 - 15,  height / 2 - 20, 20, 20, ">>"));
 		buttonList.add(shiftTextureIndexDownButton = new GuiButton(5,  width / 2 - 210, height / 2 - 20, 20, 20, "<<"));

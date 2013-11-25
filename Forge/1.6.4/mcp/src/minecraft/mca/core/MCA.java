@@ -58,7 +58,6 @@ import mca.core.forge.PacketHandler;
 import mca.core.io.ModPropertiesManager;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
-import mca.core.util.object.UpdateHandler;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityChoreFishHook;
 import mca.entity.EntityPlayerChild;
@@ -80,7 +79,6 @@ import mca.item.ItemTombstone;
 import mca.item.ItemVillagerEditor;
 import mca.item.ItemWeddingRing;
 import mca.item.ItemWhistle;
-import mca.tileentity.TileEntityTombstone;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.crash.CrashReport;
@@ -116,7 +114,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * Main entry point and core of the Minecraft Comes Alive mod.
  */
-@Mod(modid="mca", name="Minecraft Comes Alive", version=UpdateHandler.VERSION)
+@Mod(modid="mca", name="Minecraft Comes Alive", version=Constants.VERSION)
 @NetworkMod(clientSideRequired=true, serverSideRequired=false, 
 channels={"MCA_F_REQ", "MCA_F_VAL", "MCA_TARGET", "MCA_REMOVEITEM", "MCA_ACHIEV", "MCA_SYNC", 
 		"MCA_SYNC_REQ", "MCA_ENGAGE", "MCA_ADDITEM", "MCA_DROPITEM", "MCA_FAMTREE", "MCA_INVENTORY", 
@@ -128,11 +126,12 @@ public class MCA
 {
 	/** An instance of the core MCA class. */
 	@Instance("mca")
-	public static MCA instance;
+	private static MCA instance;
 
 	/** An instance of the sided proxy. */
 	@SidedProxy(clientSide="mca.core.forge.ClientProxy", serverSide="mca.core.forge.CommonProxy")
 	public static CommonProxy proxy;
+	public static Random rand = new Random();
 
 	//Creative tab.
 	public CreativeTabs tabMCA;
@@ -211,10 +210,9 @@ public class MCA
 	public  boolean hasCheckedForUpdates	   = false;
 	public 	int 	playerBabyCalendarPrevMinutes	   = Calendar.getInstance().get(Calendar.MINUTE);
 	public 	int 	playerBabyCalendarCurrentMinutes   = Calendar.getInstance().get(Calendar.MINUTE);
-	private Logger	logger 					   = FMLLog.getLogger();
+	private static final Logger	logger 					   = FMLLog.getLogger();
 	public  ModPropertiesManager modPropertiesManager = null;
-	public  Random  rand = new Random();
-
+	
 	//Debug fields.
 	public boolean inDebugMode				   		= false;
 	public boolean debugDoSimulateHardcore 			= false;
@@ -490,13 +488,6 @@ public class MCA
 		};
 
 	/**
-	 * Map that contains string translations loaded from language files.
-	 * Key will be the ID of the phrase.
-	 * Value will be the translated representation of the phrase.
-	 */
-	public static Map<String, String> stringTranslations = new HashMap();
-
-	/**
 	 * Gets the appropriate skin list for the entity provided.
 	 * 
 	 * @param 	entity	The entity that needs a list of valid skins.
@@ -507,7 +498,7 @@ public class MCA
 	{
 		VillagerEntryMCA entry = VillagerRegistryMCA.getRegisteredVillagersMap().get(entity.profession);
 		
-		if (entity.gender.equals("Male"))
+		if (entity.isMale)
 		{
 			return entry.getMaleSkinsList();
 		}
@@ -548,9 +539,9 @@ public class MCA
 			return byteOutput.toByteArray();
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.quitWithThrowable("Error compressing byte array.", e);
+			MCA.getInstance().quitWithException("Error compressing byte array.", e);
 			return null;
 		}
 	}
@@ -583,44 +574,13 @@ public class MCA
 			return byteOutput.toByteArray();
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.quitWithThrowable("Error decompressing byte array.", e);
+			MCA.getInstance().quitWithException("Error decompressing byte array.", e);
 			return null;
 		}
 	}
 
-	/**
-	 * Provides an MD5 hash based on input
-	 * 
-	 * @param 	input	String of data that MD5 hash will be generated for.
-	 * 
-	 * @return	MD5 hash of the provided input in string format.
-	 */
-	public static String getMD5Hash(String input)
-	{
-		try
-		{
-			MessageDigest md5 = MessageDigest.getInstance("MD5");
-			md5.update(input.getBytes());
-
-			byte[] hash = md5.digest();
-			StringBuffer buffer = new StringBuffer();
-
-			for (byte b : hash) 
-			{
-				buffer.append(Integer.toHexString(b & 0xff));
-			}
-
-			return buffer.toString();
-		}
-
-		catch (Throwable e)
-		{
-			return "UNABLE TO PROCESS";
-		}
-	}
-	
 	/**
 	 * Deletes a path and all files and folders within.
 	 * 
@@ -657,7 +617,7 @@ public class MCA
 			file.delete();
 		}
 	}
-
+	
 	/**
 	 * Tests all valid lines within the source for errors when requested from the language system.
 	 */
@@ -710,12 +670,17 @@ public class MCA
 				br.close();
 			}
 
-			catch (Throwable e)
+			catch (Exception e)
 			{
 				System.out.println("Error on " + readString);
 				continue;
 			}
 		}
+	}
+
+	public static MCA getInstance()
+	{
+		return instance;
 	}
 
 	/**
@@ -754,6 +719,37 @@ public class MCA
 		}
 
 		return null;
+	}
+
+	/**
+	 * Provides an MD5 hash based on input
+	 * 
+	 * @param 	input	String of data that MD5 hash will be generated for.
+	 * 
+	 * @return	MD5 hash of the provided input in string format.
+	 */
+	public static String getMD5Hash(String input)
+	{
+		try
+		{
+			MessageDigest md5 = MessageDigest.getInstance("MD5");
+			md5.update(input.getBytes());
+	
+			byte[] hash = md5.digest();
+			StringBuffer buffer = new StringBuffer();
+	
+			for (byte b : hash) 
+			{
+				buffer.append(Integer.toHexString(b & 0xff));
+			}
+	
+			return buffer.toString();
+		}
+	
+		catch (Exception e)
+		{
+			return "UNABLE TO PROCESS";
+		}
 	}
 
 	/**
@@ -815,7 +811,7 @@ public class MCA
 		itemKingsCoat		= new ItemKingsCoat(modPropertiesManager.modProperties.itemID_KingsCoat).setUnlocalizedName("KingsCoat");
 		itemKingsPants		= new ItemKingsPants(modPropertiesManager.modProperties.itemID_KingsPants).setUnlocalizedName("KingsPants");
 		itemKingsBoots		= new ItemKingsBoots(modPropertiesManager.modProperties.itemID_KingsBoots).setUnlocalizedName("KingsBoots");
-		blockTombstone      = new BlockTombstone(modPropertiesManager.modProperties.blockID_Tombstone, TileEntityTombstone.class);
+		blockTombstone      = new BlockTombstone(modPropertiesManager.modProperties.blockID_Tombstone);
 
 		//Register creative tab.
 		tabMCA = new CreativeTabs("tabMCA")
@@ -1081,7 +1077,7 @@ public class MCA
 	{
 		Writer stackTrace = new StringWriter();
 
-		Throwable e = new Throwable();
+		Exception e = new Exception();
 		PrintWriter stackTraceWriter = new PrintWriter(stackTrace);
 		e.printStackTrace(stackTraceWriter);
 
@@ -1100,7 +1096,7 @@ public class MCA
 	 * @param 	e			The exception that caused this method to be called.
 	 */
 	@SideOnly(Side.CLIENT)
-	public void quitWithThrowable(String description, Throwable e)
+	public void quitWithException(String description, Exception e)
 	{
 		Writer stackTrace = new StringWriter();
 
@@ -1153,7 +1149,7 @@ public class MCA
 			isIntegratedServer = true;
 		}
 
-		MCA.instance.log("Minecraft Comes Alive is running.");
+		MCA.getInstance().log("Minecraft Comes Alive is running.");
 	}
 
 	/**

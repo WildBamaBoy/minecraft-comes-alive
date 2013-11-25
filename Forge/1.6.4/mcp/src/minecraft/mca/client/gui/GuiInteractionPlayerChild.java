@@ -249,7 +249,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 	{
 		drawDefaultBackground();
 		drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.hearts") + " = " + hearts, width / 2, 20, 0xffffff);
-		drawCenteredString(fontRenderer, entityChild.getTitle(MCA.instance.getIdOfPlayer(player), true), width / 2, 40, 0xffffff);
+		drawCenteredString(fontRenderer, entityChild.getTitle(MCA.getInstance().getIdOfPlayer(player), true), width / 2, 40, 0xffffff);
 
 		//Draw mood and trait.
 		drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.mood") + entityChild.mood.getLocalizedValue(), width / 2 - 150, height / 2 - 65, 0xffffff);
@@ -356,7 +356,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		if (spouse != null)
 		{
 			//If they have a villager spouse and the player is related, then draw (Married to %SpouseRelation% %SpouseName%.)
-			if (entityChild.isMarried && spouse.familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player)))
+			if (entityChild.isMarried && spouse.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
 			{
 				drawCenteredString(fontRenderer, LanguageHelper.getString(player, entityChild, "gui.info.family.spouse", false), width / 2 , height / 2 - 60, 0xffffff);
 			}
@@ -386,7 +386,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			if (parents.size() == 2)
 			{
 				//Check if the current player is not the parent. Then the family information doesn't need to be displayed.
-				if (!parents.contains(MCA.instance.getIdOfPlayer(player)))
+				if (!parents.contains(MCA.getInstance().getIdOfPlayer(player)))
 				{
 					drawCenteredString(fontRenderer, LanguageHelper.getString(entityChild, "gui.info.family.parents", false), width / 2, height / 2 - 60, 0xffffff);
 				}
@@ -467,7 +467,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 		backButton.enabled = false;
 
-		if (entityChild.familyTree.getEntitiesWithRelation(EnumRelation.Parent).contains(MCA.instance.getIdOfPlayer(player)) && entityChild.shouldActAsHeir)
+		if (entityChild.familyTree.getEntitiesWithRelation(EnumRelation.Parent).contains(MCA.getInstance().getIdOfPlayer(player)) && entityChild.shouldActAsHeir)
 		{
 			buttonList.add(requestCrownButton = new GuiButton(9, width / 2 + 5, height / 2 - 20, 120, 20, LanguageHelper.getString("heir.gui.requestcrown")));
 
@@ -966,12 +966,12 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		{
 			entityChild.hasArrangerRing = false;
 
-			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
+			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 			manager.worldProperties.arrangerRingHolderID = 0;
 			manager.saveWorldProperties();
 
 			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "hasArrangerRing", false));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(entityChild.entityId, MCA.instance.itemArrangersRing.itemID, 1));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(entityChild.entityId, MCA.getInstance().itemArrangersRing.itemID, 1));
 
 			close();
 		}
@@ -995,7 +995,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		{
 			if (entityChild.isGoodHeir)
 			{
-				WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
+				WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 				manager.worldProperties.isMonarch = true;
 				manager.worldProperties.heirId = -1;
 				manager.saveWorldProperties();

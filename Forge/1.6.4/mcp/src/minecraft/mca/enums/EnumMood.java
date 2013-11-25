@@ -175,7 +175,7 @@ public enum EnumMood
 	 */
 	public static List<EnumMood> getMoodsAsCyclableList()
 	{
-		List<EnumMood> moods = new ArrayList<EnumMood>();
+		final List<EnumMood> moods = new ArrayList<EnumMood>();
 
 		moods.add(Ecstatic);
 		moods.add(Cheerful);
@@ -190,7 +190,6 @@ public enum EnumMood
 		moods.add(Sad);
 		moods.add(Unhappy);
 		moods.add(Blue);
-		
 		
 		moods.add(Infuriated);
 		moods.add(Seething);

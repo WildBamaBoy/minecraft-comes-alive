@@ -54,7 +54,7 @@ public class EventHooks
 	{
 		if (event.entityItem.getEntityItem().getItem() instanceof ItemBaby)
 		{
-			if (MCA.instance.playerWorldManagerMap.get(event.player.username).worldProperties.babyExists)
+			if (MCA.getInstance().playerWorldManagerMap.get(event.player.username).worldProperties.babyExists)
 			{
 				PacketDispatcher.sendPacketToPlayer(PacketHelper.createSayLocalizedPacket(event.player, null, "notify.player.droppedbaby", false, null, null), (Player)event.player);
 				event.player.inventory.addItemStackToInventory(event.entityItem.getEntityItem());
@@ -181,49 +181,49 @@ public class EventHooks
 	@ForgeSubscribe
 	public void worldLoadEventHandler(WorldEvent.Load event)
 	{
-		if (!event.world.isRemote && !MCA.instance.hasLoadedProperties)
+		if (!event.world.isRemote && !MCA.getInstance().hasLoadedProperties)
 		{
 			MinecraftServer server = MinecraftServer.getServer();
 
 			if (server.isDedicatedServer())
 			{
-				MCA.instance.log("Loading world properties for dedicated server...");
+				MCA.getInstance().log("Loading world properties for dedicated server...");
 
 				String worldName = MinecraftServer.getServer().worldServers[0].getSaveHandler().getWorldDirectoryName();
-				File worldPropertiesFolderPath = new File(MCA.instance.runningDirectory + "/config/MCA/ServerWorlds/" + worldName);
+				File worldPropertiesFolderPath = new File(MCA.getInstance().runningDirectory + "/config/MCA/ServerWorlds/" + worldName);
 
 				if (!worldPropertiesFolderPath.exists())
 				{
-					MCA.instance.log("Creating folder " + worldPropertiesFolderPath.getPath());
+					MCA.getInstance().log("Creating folder " + worldPropertiesFolderPath.getPath());
 					worldPropertiesFolderPath.mkdirs();
 				}
 
 				for (File file : worldPropertiesFolderPath.listFiles())
 				{
-					MCA.instance.playerWorldManagerMap.put(file.getName(), new WorldPropertiesManager(worldName, file.getName()));
+					MCA.getInstance().playerWorldManagerMap.put(file.getName(), new WorldPropertiesManager(worldName, file.getName()));
 				}
 			}
 
 			else
 			{
-				MCA.instance.log("Loading world properties for integrated server...");
+				MCA.getInstance().log("Loading world properties for integrated server...");
 
 				String worldName = MinecraftServer.getServer().worldServers[0].getSaveHandler().getWorldDirectoryName();
-				File worldPropertiesFolderPath = new File(MCA.instance.runningDirectory + "/config/MCA/Worlds/" + worldName);
+				File worldPropertiesFolderPath = new File(MCA.getInstance().runningDirectory + "/config/MCA/Worlds/" + worldName);
 
 				if (!worldPropertiesFolderPath.exists())
 				{
-					MCA.instance.log("Creating folder " + worldPropertiesFolderPath.getPath());
+					MCA.getInstance().log("Creating folder " + worldPropertiesFolderPath.getPath());
 					worldPropertiesFolderPath.mkdirs();
 				}
 
 				for (File file : worldPropertiesFolderPath.listFiles())
 				{
-					MCA.instance.playerWorldManagerMap.put(file.getName(), new WorldPropertiesManager(worldName, file.getName()));
+					MCA.getInstance().playerWorldManagerMap.put(file.getName(), new WorldPropertiesManager(worldName, file.getName()));
 				}
 			}
 
-			MCA.instance.hasLoadedProperties = true;
+			MCA.getInstance().hasLoadedProperties = true;
 		}
 	}
 
@@ -235,7 +235,7 @@ public class EventHooks
 	@ForgeSubscribe
 	public void worldSaveEventHandler(WorldEvent.Unload event)
 	{
-		for (WorldPropertiesManager manager : MCA.instance.playerWorldManagerMap.values())
+		for (WorldPropertiesManager manager : MCA.getInstance().playerWorldManagerMap.values())
 		{
 			manager.saveWorldProperties();
 		}
@@ -249,6 +249,6 @@ public class EventHooks
 	@ForgeSubscribe
 	public void playerDropsEventHandler(PlayerDropsEvent event)
 	{
-		MCA.instance.deadPlayerInventories.put(event.entityPlayer.username, event.drops);
+		MCA.getInstance().deadPlayerInventories.put(event.entityPlayer.username, event.drops);
 	}
 }

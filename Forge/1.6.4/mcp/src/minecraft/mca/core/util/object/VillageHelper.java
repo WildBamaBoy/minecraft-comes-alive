@@ -60,9 +60,9 @@ public class VillageHelper
 		{
 			this.updateNumberOfGuards();
 
-			if (MCA.instance.modPropertiesManager.modProperties.guardSpawnRate != 0)
+			if (MCA.getInstance().modPropertiesManager.modProperties.guardSpawnRate != 0)
 			{
-				int desiredNumberOfGuards = this.numberOfVillagers / MCA.instance.modPropertiesManager.modProperties.guardSpawnRate;
+				int desiredNumberOfGuards = this.numberOfVillagers / MCA.getInstance().modPropertiesManager.modProperties.guardSpawnRate;
 
 				if (this.numberOfGuards < desiredNumberOfGuards)
 				{

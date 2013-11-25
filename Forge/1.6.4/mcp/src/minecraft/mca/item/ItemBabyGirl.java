@@ -26,7 +26,7 @@ public class ItemBabyGirl extends ItemBaby
     {
         super(id);
         setUnlocalizedName("Baby Girl");
-        gender = "Female";
+        isMale = false;
         setCreativeTab(CreativeTabs.tabMisc);
     }
     

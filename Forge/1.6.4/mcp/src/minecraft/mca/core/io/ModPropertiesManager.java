@@ -40,8 +40,8 @@ public class ModPropertiesManager implements Serializable
 	public ModPropertiesManager()
 	{
 		//Assign the location of the mod properties file and config folder.
-		configFolder = new File(MCA.instance.runningDirectory + "/config/MCA/");
-		modPropertiesFile = new File(MCA.instance.runningDirectory + "/config/MCA/ModProps.properties");
+		configFolder = new File(MCA.getInstance().runningDirectory + "/config/MCA/");
+		modPropertiesFile = new File(MCA.getInstance().runningDirectory + "/config/MCA/ModProps.properties");
 
 		//Ensure the config folder exists.
 		if (!configFolder.exists())
@@ -52,7 +52,7 @@ public class ModPropertiesManager implements Serializable
 		//Now check if the mod properties file must be created or should be loaded.
 		if (!modPropertiesFile.exists())
 		{
-			MCA.instance.log("File not found: " + MCA.instance.runningDirectory + "/config/MCA/ModProps.properties. " + "Creating new mod properties file...");
+			MCA.getInstance().log("File not found: " + MCA.getInstance().runningDirectory + "/config/MCA/ModProps.properties. " + "Creating new mod properties file...");
 			saveModProperties();
 		}
 
@@ -98,22 +98,22 @@ public class ModPropertiesManager implements Serializable
 			properties.store(outputStream, "MCA Mod Properties File - Change Item IDs and server settings here.");
 			outputStream.close();
 
-			MCA.instance.log("Mod properties successfully saved.");
+			MCA.getInstance().log("Mod properties successfully saved.");
 		}
 
 		catch (FileNotFoundException e)
 		{
-			MCA.instance.quitWithThrowable("FileNotFoundException occurred while creating a new mod properties file.", e);
+			MCA.getInstance().quitWithException("FileNotFoundException occurred while creating a new mod properties file.", e);
 		}
 
 		catch (IllegalAccessException e)
 		{
-			MCA.instance.quitWithThrowable("IllegalAccessException occurred while creating a new mod properties file.", e);
+			MCA.getInstance().quitWithException("IllegalAccessException occurred while creating a new mod properties file.", e);
 		}
 
 		catch (IOException e)
 		{
-			MCA.instance.quitWithThrowable("IOException occurred while creating a new mod properties file.", e);
+			MCA.getInstance().quitWithException("IOException occurred while creating a new mod properties file.", e);
 		}
 	}
 
@@ -122,7 +122,7 @@ public class ModPropertiesManager implements Serializable
 	 */
 	public void loadModProperties()
 	{
-		MCA.instance.log("Loading mod properties...");
+		MCA.getInstance().log("Loading mod properties...");
 
 		try
 		{
@@ -161,7 +161,7 @@ public class ModPropertiesManager implements Serializable
 
 			else //The mod properties file does not exist. It was either deleted by the user or hasn't been created yet.
 			{
-				MCA.instance.log("Mod properties file was not found.");
+				MCA.getInstance().log("Mod properties file was not found.");
 				saveModProperties();
 			}
 		}
@@ -169,24 +169,24 @@ public class ModPropertiesManager implements Serializable
 		//The user didn't edit the file correctly or assigned an invalid ID for an item or block. A new property could have also been added.
 		catch (NumberFormatException e)
 		{
-			MCA.instance.log("NumberFormatException while reading mod properties. You edited the file incorrectly or a new property has been added to MCA.");
+			MCA.getInstance().log("NumberFormatException while reading mod properties. You edited the file incorrectly or a new property has been added to MCA.");
 			resetModProperties();
 			saveModProperties();
 		}
 
 		catch (FileNotFoundException e)
 		{
-			MCA.instance.quitWithThrowable("MCA: FileNotFoundException occurred while loading the mod properties file.", e);
+			MCA.getInstance().quitWithException("MCA: FileNotFoundException occurred while loading the mod properties file.", e);
 		}
 
 		catch (IllegalAccessException e)
 		{
-			MCA.instance.quitWithThrowable("MCA: IllegalAccessException occurred while loading the new mod properties file.", e);
+			MCA.getInstance().quitWithException("MCA: IllegalAccessException occurred while loading the new mod properties file.", e);
 		}
 
 		catch (IOException e)
 		{
-			MCA.instance.quitWithThrowable("MCA: IOException occurred while loading the new mod properties file.", e);
+			MCA.getInstance().quitWithException("MCA: IOException occurred while loading the new mod properties file.", e);
 		}
 	}
 
@@ -215,7 +215,7 @@ public class ModPropertiesManager implements Serializable
 
 						if (valueInMe != valueInOther)
 						{
-							MCA.instance.log("Mod property value mismatch! Client value: " + f.getName() + " = " + valueInOther + ". " +
+							MCA.getInstance().log("Mod property value mismatch! Client value: " + f.getName() + " = " + valueInOther + ". " +
 									"Server value: " + f.getName() + " = " + valueInMe);
 							return false;
 						}
@@ -231,9 +231,9 @@ public class ModPropertiesManager implements Serializable
 			}
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return false;
 		}
 	}

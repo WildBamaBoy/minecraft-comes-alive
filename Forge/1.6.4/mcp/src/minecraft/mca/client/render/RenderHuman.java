@@ -9,6 +9,7 @@
 
 package mca.client.render;
 
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.util.LanguageHelper;
 import mca.core.util.object.PlayerMemory;
@@ -82,36 +83,39 @@ public class RenderHuman extends RenderBiped
 	}
 
 	@Override
-	protected int shouldRenderPass(EntityLivingBase EntityLivingBase, int armorId, float partialTickTime)
+	protected int shouldRenderPass(EntityLivingBase entityLivingBase, int armorId, float partialTickTime)
 	{
-		return setArmorModel((AbstractEntity)EntityLivingBase, armorId, partialTickTime);
+		return setArmorModel((AbstractEntity)entityLivingBase, armorId, partialTickTime);
 	}
 
 	@Override
-	protected void preRenderCallback(EntityLivingBase EntityLivingBase, float partialTickTime)
+	protected void preRenderCallback(EntityLivingBase entityLivingBase, float partialTickTime)
 	{
-		//Scale the entity.
-		if (((AbstractEntity)EntityLivingBase).gender.equals("Female"))
-		{
-			GL11.glScalef(0.915F, 0.915F, 0.915F);
-		}
+		AbstractEntity entity = (AbstractEntity)entityLivingBase;
 
+		final float scale = entity.isMale ? Constants.SCALE_MALE_ADULT: Constants.SCALE_FEMALE_ADULT;
+		
+		if (entity.isAffectedByHeight)
+		{
+			GL11.glScalef(scale, scale + entity.villagerHeightFactor, scale);
+		}
+		
 		else
 		{
-			GL11.glScalef(0.9375F, 0.9375F, 0.9375F);
+			GL11.glScalef(scale, scale, scale);
 		}
 	}
 
 	@Override
-	protected void renderEquippedItems(EntityLivingBase EntityLivingBase, float partialTickTime)
+	protected void renderEquippedItems(EntityLivingBase entityLivingBase, float partialTickTime)
 	{
-		if (!((AbstractEntity)EntityLivingBase).currentChore.equals("Hunting"))
+		if (!((AbstractEntity)entityLivingBase).currentChore.equals("Hunting"))
 		{
-			super.renderEquippedItems(EntityLivingBase, partialTickTime);
+			super.renderEquippedItems(entityLivingBase, partialTickTime);
 
 			try
 			{
-				AbstractEntity entity = (AbstractEntity)EntityLivingBase;
+				AbstractEntity entity = (AbstractEntity)entityLivingBase;
 
 				ItemStack bootStack = entity.inventory.armorItemInSlot(3);
 
@@ -215,6 +219,22 @@ public class RenderHuman extends RenderBiped
 		if (!((AbstractEntity)entityLivingBase).currentChore.equals("Hunting"))
 		{
 			super.renderLivingAt(entityLivingBase, posX, posY, posZ);
+		}
+	}
+
+	@Override
+	protected ResourceLocation getEntityTexture(Entity entity) 
+	{
+		AbstractEntity abstractEntity = (AbstractEntity)entity;
+		
+		if (abstractEntity.texture.contains("steve"))
+		{
+			return new ResourceLocation("minecraft:" + abstractEntity.texture);
+		}
+		
+		else
+		{
+			return new ResourceLocation("mca:" + abstractEntity.texture);
 		}
 	}
 
@@ -421,7 +441,7 @@ public class RenderHuman extends RenderBiped
 					renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.hasring"));
 				}
 
-				else if (entity.isSleeping && MCA.instance.playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username).worldProperties.hideSleepingTag == false)
+				else if (entity.isSleeping && MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username).worldProperties.hideSleepingTag == false)
 				{
 					if (entity.canEntityBeSeen(Minecraft.getMinecraft().thePlayer))
 					{
@@ -502,22 +522,6 @@ public class RenderHuman extends RenderBiped
 			GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 			GL11.glPopMatrix();
-		}
-	}
-
-	@Override
-	protected ResourceLocation getEntityTexture(Entity entity) 
-	{
-		AbstractEntity abstractEntity = (AbstractEntity)entity;
-		
-		if (abstractEntity.texture.contains("steve"))
-		{
-			return new ResourceLocation("minecraft:" + abstractEntity.texture);
-		}
-		
-		else
-		{
-			return new ResourceLocation("mca:" + abstractEntity.texture);
 		}
 	}
 }

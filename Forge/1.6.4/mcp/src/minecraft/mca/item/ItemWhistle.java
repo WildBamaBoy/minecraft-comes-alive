@@ -54,11 +54,11 @@ public class ItemWhistle extends Item
 	{
 		if (!world.isRemote)
 		{
-			for (AbstractEntity entity : MCA.instance.entitiesMap.values())
+			for (AbstractEntity entity : MCA.getInstance().entitiesMap.values())
 			{
 				if (entity instanceof EntityChild)
 				{
-					if (entity.familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player)))
+					if (entity.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
 					{
 						entity.setPosition(player.posX, player.posY, player.posZ);
 					}
@@ -69,7 +69,7 @@ public class ItemWhistle extends Item
 					EntityVillagerAdult adult = (EntityVillagerAdult)entity;
 					if (adult.isSpouse || adult.isEngaged)
 					{
-						if (entity.familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player)))
+						if (entity.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
 						{
 							entity.setPosition(player.posX, player.posY, player.posZ);
 						}

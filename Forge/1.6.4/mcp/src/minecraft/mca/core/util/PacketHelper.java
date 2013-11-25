@@ -56,13 +56,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -93,13 +93,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -128,13 +128,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -167,13 +167,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -202,13 +202,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -237,13 +237,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -270,13 +270,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -303,13 +303,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -338,13 +338,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -373,13 +373,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -410,13 +410,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -445,13 +445,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -480,13 +480,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -519,13 +519,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -554,13 +554,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -593,13 +593,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -626,13 +626,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -659,13 +659,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -692,14 +692,14 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.instance.logPacketInformation("Created world properties packet for " + worldPropertiesManager.worldProperties.playerName);
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Created world properties packet for " + worldPropertiesManager.worldProperties.playerName);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -774,13 +774,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 		
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -812,13 +812,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 		
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -848,13 +848,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 		
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -882,13 +882,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 		
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -916,13 +916,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 		
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -956,13 +956,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 		
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -972,11 +972,11 @@ public final class PacketHelper
 	 * 
 	 * @param	villager	The villager that is procreating with the player.
 	 * @param	player		The player that is procreating with the villager.
-	 * @param	babyGender	The gender of the baby that will be added to the villager's inventory.
+	 * @param	babyIsMale	The gender of the baby that will be added to the villager's inventory.
 	 * 
 	 * @return	A VillagerPlayerProcreate packet.
 	 */
-	public static Packet createVillagerPlayerProcreatePacket(AbstractEntity villager, EntityPlayer player, String babyGender) 
+	public static Packet createVillagerPlayerProcreatePacket(AbstractEntity villager, EntityPlayer player, boolean babyIsMale) 
 	{
 		try
 		{
@@ -988,19 +988,19 @@ public final class PacketHelper
 			
 			objectOutput.writeObject(villager.entityId);
 			objectOutput.writeObject(player.entityId);
-			objectOutput.writeObject(babyGender);
+			objectOutput.writeObject(babyIsMale);
 			objectOutput.close();
 			
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 		
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -1028,13 +1028,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 		
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}
@@ -1062,13 +1062,13 @@ public final class PacketHelper
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 			
-			MCA.instance.logPacketInformation("Sent packet: " + thePacket.channel);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
 		
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return null;
 		}
 	}

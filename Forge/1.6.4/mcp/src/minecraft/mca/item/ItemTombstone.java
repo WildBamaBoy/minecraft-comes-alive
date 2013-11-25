@@ -11,6 +11,7 @@ package mca.item;
 
 import java.util.List;
 
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.util.LanguageHelper;
 import mca.tileentity.TileEntityTombstone;
@@ -102,7 +103,7 @@ public class ItemTombstone extends Item
 				return false;
 			}
 
-			else if (!MCA.instance.blockTombstone.canPlaceBlockAt(world, x, y, z))
+			else if (!MCA.getInstance().blockTombstone.canPlaceBlockAt(world, x, y, z))
 			{
 				return false;
 			}
@@ -115,7 +116,7 @@ public class ItemTombstone extends Item
 
 					if (i1 == 0 || i1 == 4 || i1 == 8 || i1 == 12)
 					{
-						world.setBlock(x, y, z, MCA.instance.blockTombstone.blockID, i1, 2);
+						world.setBlock(x, y, z, MCA.getInstance().blockTombstone.blockID, i1, 2);
 					}
 					else
 					{
@@ -124,7 +125,7 @@ public class ItemTombstone extends Item
 				}
 				else
 				{
-					world.setBlock(x, y, z, MCA.instance.blockTombstone.blockID, meta, 2);
+					world.setBlock(x, y, z, MCA.getInstance().blockTombstone.blockID, meta, 2);
 				}
 
 				--itemStack.stackSize;
@@ -132,7 +133,7 @@ public class ItemTombstone extends Item
 
 				if (tombstone != null)
 				{
-					player.openGui(MCA.instance, MCA.instance.guiTombstoneID, world, tombstone.xCoord, tombstone.yCoord, tombstone.zCoord);
+					player.openGui(MCA.getInstance(), Constants.ID_GUI_TOMBSTONE, world, tombstone.xCoord, tombstone.yCoord, tombstone.zCoord);
 				}
 
 				return true;

@@ -9,8 +9,8 @@
 
 package mca.command;
 
+import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.util.Color;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.util.ChatMessageComponent;
@@ -51,37 +51,37 @@ public class CommandDebugRule extends AbstractCommand
 		{
 			if (arguments[0].toLowerCase().equals("dosimulatehardcore"))
 			{
-				MCA.instance.debugDoSimulateHardcore = arguments[1].toLowerCase().equals("true");
-				sender.sendChatToPlayer(new ChatMessageComponent().addText(Color.YELLOW + "Rule doSimulateHardcore set to " + MCA.instance.debugDoSimulateHardcore));
+				MCA.getInstance().debugDoSimulateHardcore = arguments[1].toLowerCase().equals("true");
+				sender.sendChatToPlayer(new ChatMessageComponent().addText(Constants.COLOR_YELLOW + "Rule doSimulateHardcore set to " + MCA.getInstance().debugDoSimulateHardcore));
 			}
 			
 			else if (arguments[0].toLowerCase().equals("dorapidvillagerbabygrowth"))
 			{
-				MCA.instance.debugDoRapidVillagerBabyGrowth = arguments[1].toLowerCase().equals("true");
-				sender.sendChatToPlayer(new ChatMessageComponent().addText(Color.YELLOW + "Rule doRapidVillagerBabyGrowth set to " + MCA.instance.debugDoRapidVillagerBabyGrowth));
+				MCA.getInstance().debugDoRapidVillagerBabyGrowth = arguments[1].toLowerCase().equals("true");
+				sender.sendChatToPlayer(new ChatMessageComponent().addText(Constants.COLOR_YELLOW + "Rule doRapidVillagerBabyGrowth set to " + MCA.getInstance().debugDoRapidVillagerBabyGrowth));
 			}
 			
 			else if (arguments[0].toLowerCase().equals("dorapidplayerchildgrowth"))
 			{
-				MCA.instance.debugDoRapidPlayerChildGrowth = arguments[1].toLowerCase().equals("true");
-				sender.sendChatToPlayer(new ChatMessageComponent().addText(Color.YELLOW + "Rule doRapidPlayerChildGrowth set to " + MCA.instance.debugDoRapidPlayerChildGrowth));
+				MCA.getInstance().debugDoRapidPlayerChildGrowth = arguments[1].toLowerCase().equals("true");
+				sender.sendChatToPlayer(new ChatMessageComponent().addText(Constants.COLOR_YELLOW + "Rule doRapidPlayerChildGrowth set to " + MCA.getInstance().debugDoRapidPlayerChildGrowth));
 			}
 			
 			else if (arguments[0].toLowerCase().equals("dorapidvillagerchildgrowth"))
 			{
-				MCA.instance.debugDoRapidVillagerChildGrowth = arguments[1].toLowerCase().equals("true");
-				sender.sendChatToPlayer(new ChatMessageComponent().addText(Color.YELLOW + "Rule doRapidVillagerChildGrowth set to " + MCA.instance.debugDoRapidVillagerChildGrowth));
+				MCA.getInstance().debugDoRapidVillagerChildGrowth = arguments[1].toLowerCase().equals("true");
+				sender.sendChatToPlayer(new ChatMessageComponent().addText(Constants.COLOR_YELLOW + "Rule doRapidVillagerChildGrowth set to " + MCA.getInstance().debugDoRapidVillagerChildGrowth));
 			}
 			
 			else if (arguments[0].toLowerCase().equals("dologpackets"))
 			{
-				MCA.instance.debugDoLogPackets = arguments[1].toLowerCase().equals("true");
-				sender.sendChatToPlayer(new ChatMessageComponent().addText(Color.YELLOW + "Rule doLogPackets set to " + MCA.instance.debugDoLogPackets));
+				MCA.getInstance().debugDoLogPackets = arguments[1].toLowerCase().equals("true");
+				sender.sendChatToPlayer(new ChatMessageComponent().addText(Constants.COLOR_YELLOW + "Rule doLogPackets set to " + MCA.getInstance().debugDoLogPackets));
 			}
 			
 			else
 			{
-				sender.sendChatToPlayer(new ChatMessageComponent().addText(Color.RED + "Unrecognized debug rule."));
+				sender.sendChatToPlayer(new ChatMessageComponent().addText(Constants.COLOR_RED + "Unrecognized debug rule."));
 			}
 		}
 

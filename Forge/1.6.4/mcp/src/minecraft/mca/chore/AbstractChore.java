@@ -20,13 +20,13 @@ import net.minecraft.nbt.NBTTagCompound;
 public abstract class AbstractChore implements Serializable
 {
 	/**The entity performing this chore.*/
-	public AbstractEntity owner = null;
+	public AbstractEntity owner;
 	
 	/**Has beginChore() been ran?*/
-	public boolean hasBegun = false;
+	public boolean hasBegun;
 
 	/**Has endChore() been ran?*/
-	public boolean hasEnded = false;
+	public boolean hasEnded;
 	
 	/**
 	 * Constructor

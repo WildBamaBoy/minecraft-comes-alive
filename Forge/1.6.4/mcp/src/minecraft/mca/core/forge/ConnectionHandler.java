@@ -59,11 +59,11 @@ public class ConnectionHandler implements IConnectionHandler
 	@Override
 	public void clientLoggedIn(NetHandler clientHandler, INetworkManager manager, Packet1Login login) 
 	{
-		if (!MCA.instance.isIntegratedServer)
+		if (!MCA.getInstance().isIntegratedServer)
 		{
-			MCA.instance.isDedicatedClient = true;
+			MCA.getInstance().isDedicatedClient = true;
 		}
 
-		manager.addToSendQueue(PacketHelper.createLoginPacket(MCA.instance.modPropertiesManager));
+		manager.addToSendQueue(PacketHelper.createLoginPacket(MCA.getInstance().modPropertiesManager));
 	}
 }

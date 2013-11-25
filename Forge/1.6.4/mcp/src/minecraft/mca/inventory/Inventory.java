@@ -108,9 +108,9 @@ public class Inventory implements IInventory, Serializable
 			}
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 			return false;
 		}
 	}
@@ -269,20 +269,20 @@ public class Inventory implements IInventory, Serializable
 
 					if (hasWeapon)
 					{
-						EntityPlayer player = MCA.instance.getPlayerByName(theChild.ownerPlayerName);
+						EntityPlayer player = MCA.getInstance().getPlayerByName(theChild.ownerPlayerName);
 
 						if (player != null)
 						{
-							player.triggerAchievement(MCA.instance.achievementAdultFullyEquipped);
-							PacketDispatcher.sendPacketToPlayer(PacketHelper.createAchievementPacket(MCA.instance.achievementAdultFullyEquipped, player.entityId), (Player)player);
+							player.triggerAchievement(MCA.getInstance().achievementAdultFullyEquipped);
+							PacketDispatcher.sendPacketToPlayer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementAdultFullyEquipped, player.entityId), (Player)player);
 						}
 					}
 				}
 			}
 
-			if (this.owner.heldBabyGender.equals("None") && (this.contains(MCA.instance.itemBabyBoy) || this.contains(MCA.instance.itemBabyGirl)))
+			if (this.contains(MCA.getInstance().itemBabyBoy) || this.contains(MCA.getInstance().itemBabyGirl))
 			{
-				this.owner.heldBabyGender = this.contains(MCA.instance.itemBabyBoy) ? "Male" : "Female";
+				this.owner.isHeldBabyMale = this.contains(MCA.getInstance().itemBabyBoy) ? true : false;
 				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(this.owner));
 			}
 		}
@@ -449,7 +449,7 @@ public class Inventory implements IInventory, Serializable
 			return null;
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
 			return null;
 		}

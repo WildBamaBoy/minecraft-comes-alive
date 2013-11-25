@@ -9,8 +9,8 @@
 
 package mca.command;
 
+import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.util.Color;
 import mca.core.util.object.UpdateHandler;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
@@ -51,21 +51,21 @@ public class CommandCheckUpdates extends AbstractCommand
 		{
 			if (arguments[0].toLowerCase().equals("on"))
 			{
-				super.sendChatToPlayer(sender, "notify.update.turnedon", Color.GREEN, null);
+				super.sendChatToPlayer(sender, "notify.update.turnedon", Constants.COLOR_GREEN, null);
 				
-				MCA.instance.hasCheckedForUpdates = false;
-				MCA.instance.modPropertiesManager.modProperties.checkForUpdates = true;
-				MCA.instance.modPropertiesManager.saveModProperties();
+				MCA.getInstance().hasCheckedForUpdates = false;
+				MCA.getInstance().modPropertiesManager.modProperties.checkForUpdates = true;
+				MCA.getInstance().modPropertiesManager.saveModProperties();
 				
 				new Thread(new UpdateHandler(sender)).run();
 			}
 
 			else
 			{
-				super.sendChatToPlayer(sender, "notify.update.turnedoff", Color.RED, null);
+				super.sendChatToPlayer(sender, "notify.update.turnedoff", Constants.COLOR_RED, null);
 				
-				MCA.instance.modPropertiesManager.modProperties.checkForUpdates = false;
-				MCA.instance.modPropertiesManager.saveModProperties();
+				MCA.getInstance().modPropertiesManager.modProperties.checkForUpdates = false;
+				MCA.getInstance().modPropertiesManager.saveModProperties();
 				
 				new Thread(new UpdateHandler(sender)).run();
 			}

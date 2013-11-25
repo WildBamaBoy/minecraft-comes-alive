@@ -70,9 +70,9 @@ public class CommonProxy
 			}
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.quitWithThrowable("Unexpected exception while loading skins.", e);
+			MCA.getInstance().quitWithException("Unexpected exception while loading skins.", e);
 		}
 	}
 
@@ -86,7 +86,7 @@ public class CommonProxy
 
 			if (modData == null)
 			{
-				MCA.instance.quitWithDescription("Unable to find file or folder containing MCA assets.");
+				MCA.getInstance().quitWithDescription("Unable to find file or folder containing MCA assets.");
 			}
 		}
 
@@ -95,10 +95,10 @@ public class CommonProxy
 
 	private File findModAsArchive() throws ZipException, IOException
 	{
-		MCA.instance.log("Attempting to find MCA as an archive in the mods folder...");
+		MCA.getInstance().log("Attempting to find MCA as an archive in the mods folder...");
 		File returnFile = null;
 
-		for (File f : new File(MCA.instance.runningDirectory + "/mods").listFiles())
+		for (File f : new File(MCA.getInstance().runningDirectory + "/mods").listFiles())
 		{
 			if (f.isFile() && f.getName().contains(".zip"))
 			{
@@ -124,10 +124,10 @@ public class CommonProxy
 
 	private File findModAsFolder() throws IOException
 	{
-		MCA.instance.log("Attempting to find MCA as a folder in the mods folder...");
+		MCA.getInstance().log("Attempting to find MCA as a folder in the mods folder...");
 		File returnFile = null;
 
-		for (File f : new File(MCA.instance.runningDirectory + "/mods").listFiles())
+		for (File f : new File(MCA.getInstance().runningDirectory + "/mods").listFiles())
 		{
 			if (f.isDirectory())
 			{
@@ -153,7 +153,7 @@ public class CommonProxy
 
 	private void loadSkinsFromFile(File modDataFile) throws ZipException, IOException
 	{
-		MCA.instance.log("Loading skins from data file: " + modDataFile.getName() + "...");
+		MCA.getInstance().log("Loading skins from data file: " + modDataFile.getName() + "...");
 
 		ZipFile modArchive = new ZipFile(modDataFile);
 		Enumeration enumerator = modArchive.entries();
@@ -205,7 +205,7 @@ public class CommonProxy
 
 	private void loadSkinsFromFolder(File modFolder)
 	{
-		MCA.instance.log("Loading skins from data folder: " + modFolder.getName() + "...");
+		MCA.getInstance().log("Loading skins from data folder: " + modFolder.getName() + "...");
 
 		for (VillagerEntryMCA entry : VillagerRegistryMCA.getRegisteredVillagersMap().values())
 		{
@@ -218,7 +218,6 @@ public class CommonProxy
 			else
 			{
 				String skinsFolder = modFolder + entry.getTexturesLocation();
-				String sleepingSkinsFolder = modFolder + entry.getTexturesLocation() + "/sleeping/";
 
 				for (File fileName : new File(skinsFolder).listFiles())
 				{
@@ -306,7 +305,7 @@ public class CommonProxy
 					//Test for random files unique to MCA.
 					if (entry.getName().contains("mca/core/MCA.class") || entry.getName().contains("sleeping/EE1.png"))
 					{
-						MCA.instance.log(" -" + potentialDataFile.getName() + " <YES>");
+						MCA.getInstance().log(" -" + potentialDataFile.getName() + " <YES>");
 						archive.close();
 						return true;
 					}
@@ -317,10 +316,10 @@ public class CommonProxy
 
 			catch (ZipException e)
 			{
-				MCA.instance.log(" -" + potentialDataFile.getName() + " <ERR>");
+				MCA.getInstance().log(" -" + potentialDataFile.getName() + " <ERR>");
 			}
 
-			MCA.instance.log(" -" + potentialDataFile.getName() + " <NOT>");
+			MCA.getInstance().log(" -" + potentialDataFile.getName() + " <NOT>");
 		}
 
 		return false;
@@ -333,13 +332,13 @@ public class CommonProxy
 
 		if (testFile1.exists() || testFile2.exists())
 		{
-			MCA.instance.log(" -" + potentialDataFolder.getName() + " <YES>");
+			MCA.getInstance().log(" -" + potentialDataFolder.getName() + " <YES>");
 			return true;
 		}
 
 		else
 		{
-			MCA.instance.log(" -" + potentialDataFolder.getName() + " <NOT>");
+			MCA.getInstance().log(" -" + potentialDataFolder.getName() + " <NOT>");
 			return false;
 		}
 	}

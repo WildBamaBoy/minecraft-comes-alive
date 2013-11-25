@@ -65,7 +65,7 @@ public class ServerTickHandler implements ITickHandler
 			if (ticks >= 20)
 			{
 				//Update every player's world properties.
-				for (Map.Entry<String, WorldPropertiesManager> entry : MCA.instance.playerWorldManagerMap.entrySet())
+				for (Map.Entry<String, WorldPropertiesManager> entry : MCA.getInstance().playerWorldManagerMap.entrySet())
 				{
 					EntityPlayer player = worldServer.getPlayerEntityByName(entry.getKey());
 					WorldPropertiesManager manager = entry.getValue();
@@ -77,18 +77,18 @@ public class ServerTickHandler implements ITickHandler
 						if (manager.worldProperties.babyExists)
 						{
 							//Update currentMinutes and compare to what prevMinutes was.
-							MCA.instance.playerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+							MCA.getInstance().playerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 
-							if (MCA.instance.playerBabyCalendarCurrentMinutes > MCA.instance.playerBabyCalendarPrevMinutes || MCA.instance.playerBabyCalendarCurrentMinutes == 0 && MCA.instance.playerBabyCalendarPrevMinutes == 59)
+							if (MCA.getInstance().playerBabyCalendarCurrentMinutes > MCA.getInstance().playerBabyCalendarPrevMinutes || MCA.getInstance().playerBabyCalendarCurrentMinutes == 0 && MCA.getInstance().playerBabyCalendarPrevMinutes == 59)
 							{
 								manager.worldProperties.minutesBabyExisted++;
-								MCA.instance.playerBabyCalendarPrevMinutes = MCA.instance.playerBabyCalendarCurrentMinutes;
+								MCA.getInstance().playerBabyCalendarPrevMinutes = MCA.getInstance().playerBabyCalendarCurrentMinutes;
 								manager.saveWorldProperties();
 							}
 
 							if (!manager.worldProperties.babyReadyToGrow &&
 									manager.worldProperties.minutesBabyExisted >= 
-									MCA.instance.modPropertiesManager.modProperties.babyGrowUpTimeMinutes)
+									MCA.getInstance().modPropertiesManager.modProperties.babyGrowUpTimeMinutes)
 							{
 								manager.worldProperties.babyReadyToGrow = true;
 								manager.saveWorldProperties();
@@ -96,7 +96,7 @@ public class ServerTickHandler implements ITickHandler
 						}
 						
 						//Debug checks
-						if (MCA.instance.inDebugMode)
+						if (MCA.getInstance().inDebugMode)
 						{
 							manager.worldProperties.babyExists = true;
 							manager.worldProperties.minutesBabyExisted = 10;

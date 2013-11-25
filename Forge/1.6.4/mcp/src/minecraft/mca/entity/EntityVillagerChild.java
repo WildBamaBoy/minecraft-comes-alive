@@ -9,6 +9,7 @@
 
 package mca.entity;
 
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.util.object.PlayerMemory;
 import mca.enums.EnumRelation;
@@ -47,22 +48,22 @@ public class EntityVillagerChild extends EntityChild
 	 * Constructor
 	 * 
 	 * @param 	world			The world that the entity should be spawned in.
-	 * @param 	gender			The entity's desired gender.
+	 * @param 	isMale			Is the entity male?
 	 * @param 	professionID	The entity's desired profession.
 	 */
-	public EntityVillagerChild(World world, String gender, int professionID)
+	public EntityVillagerChild(World world, boolean isMale, int professionID)
 	{
-		super(world);
+		this(world);
 
-		this.name = getRandomName(gender);
+		this.name = getRandomName(isMale);
 		this.profession = professionID;
-		this.gender = gender;
+		this.isMale = isMale;
 		
 		if (profession == 4) //Butcher
 		{
 			//There are no female skins for butchers. Always make them Male.
-			this.gender = "Male";
-			this.name = getRandomName(gender);
+			this.isMale = true;
+			this.name = getRandomName(this.isMale);
 		}
 
 		this.setTexture();
@@ -74,14 +75,14 @@ public class EntityVillagerChild extends EntityChild
 		this.getNavigator().setBreakDoors(true);
 		this.getNavigator().setAvoidsWater(true);
 		this.tasks.addTask(0, new EntityAISwimming(this));
-		this.tasks.addTask(1, new EntityAIAvoidEntity(this, EntityZombie.class, 8.0F, 0.6F, 0.35F));
+		this.tasks.addTask(1, new EntityAIAvoidEntity(this, EntityZombie.class, 8.0F, Constants.SPEED_WALK, 0.35F));
 		this.tasks.addTask(2, new EntityAIMoveIndoors(this));
 		this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
 		this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
-		this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.6F));
+		this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, Constants.SPEED_WALK));
 		this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
 		this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityVillagerAdult.class, 5.0F, 0.02F));
-		this.tasks.addTask(9, new EntityAIWander(this, 0.6F));
+		this.tasks.addTask(9, new EntityAIWander(this, Constants.SPEED_WALK));
 		this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLivingBase.class, 8.0F));
 	}
 
@@ -120,7 +121,7 @@ public class EntityVillagerChild extends EntityChild
 				//Rare entity is already tracked error.
 				catch (IllegalStateException e)
 				{
-					MCA.instance.log(e);
+					MCA.getInstance().log(e);
 				}
 			}
 
@@ -149,14 +150,14 @@ public class EntityVillagerChild extends EntityChild
 		{
 			if (itemStack.getItem() instanceof ItemVillagerEditor)
 			{
-				player.openGui(MCA.instance, MCA.instance.guiVillagerEditorID, worldObj, (int)posX, (int)posY, (int)posZ);
+				player.openGui(MCA.getInstance(), Constants.ID_GUI_EDITOR, worldObj, (int)posX, (int)posY, (int)posZ);
 				return true;
 			}
 		}
 		
 		if (!memory.isInGiftMode)
 		{			
-			player.openGui(MCA.instance, MCA.instance.guiInteractionVillagerChildID, worldObj, (int)posX, (int)posY, (int)posZ);
+			player.openGui(MCA.getInstance(), Constants.ID_GUI_CHILD, worldObj, (int)posX, (int)posY, (int)posZ);
 		}
 
 		else if (itemStack != null)

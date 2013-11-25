@@ -62,14 +62,14 @@ public class WorldPropertiesManager implements Serializable
 
 		if (server.isDedicatedServer())
 		{
-			worldPropertiesFolderPath   = new File(MCA.instance.runningDirectory + "/config/MCA/ServerWorlds/");
+			worldPropertiesFolderPath   = new File(MCA.getInstance().runningDirectory + "/config/MCA/ServerWorlds/");
 			worldPropertiesFolder   	= new File(worldPropertiesFolderPath.getPath() + "/" + worldName + "/" + playerName + "/");
 			worldPropertiesFile     	= new File(worldPropertiesFolder.getPath() + "/" + "ServerWorldProps.properties");
 		}
 
 		else
 		{
-			worldPropertiesFolderPath   = new File(MCA.instance.runningDirectory + "/config/MCA/Worlds/");
+			worldPropertiesFolderPath   = new File(MCA.getInstance().runningDirectory + "/config/MCA/Worlds/");
 			worldPropertiesFolder   	= new File(worldPropertiesFolderPath.getPath() + "/" + worldName + "/" + playerName + "/");
 			worldPropertiesFile     	= new File(worldPropertiesFolder.getPath() + "/" + "WorldProps.properties");
 		}
@@ -84,14 +84,14 @@ public class WorldPropertiesManager implements Serializable
 		if (worldPropertiesFolderPath.exists() == false)
 		{
 			worldPropertiesFolderPath.mkdir();
-			MCA.instance.log("Created Worlds folder.");
+			MCA.getInstance().log("Created Worlds folder.");
 		}
 
 		//Now check if the current world has its own properties folder.
 		if (worldPropertiesFolder.exists() == false)
 		{
 			worldPropertiesFolder.mkdirs();
-			MCA.instance.log("Created new properties folder for the world '" + worldName + "'.");
+			MCA.getInstance().log("Created new properties folder for the world '" + worldName + "'.");
 
 		}
 
@@ -101,7 +101,7 @@ public class WorldPropertiesManager implements Serializable
 			//Set the player's ID.
 			int lowestPlayerId = 0;
 
-			for (WorldPropertiesManager manager : MCA.instance.playerWorldManagerMap.values())
+			for (WorldPropertiesManager manager : MCA.getInstance().playerWorldManagerMap.values())
 			{
 				int idInProperties = manager.worldProperties.playerID;
 
@@ -114,14 +114,14 @@ public class WorldPropertiesManager implements Serializable
 			worldProperties.playerID = lowestPlayerId - 1;
 
 			saveWorldProperties();
-			MCA.instance.log("Saved new world properties for world '" + worldName + "' and player '" + playerName + "'.");
+			MCA.getInstance().log("Saved new world properties for world '" + worldName + "' and player '" + playerName + "'.");
 		}
 
 		//If the world does have its own world properties file, then load it.
 		else
 		{
 			loadWorldProperties();
-			MCA.instance.log("Loaded existing world properties for world '" + worldName + "' and player '" + playerName + "'.");
+			MCA.getInstance().log("Loaded existing world properties for world '" + worldName + "' and player '" + playerName + "'.");
 		}
 	}
 
@@ -168,7 +168,7 @@ public class WorldPropertiesManager implements Serializable
 
 					catch (NullPointerException e)
 					{
-						MCA.instance.log(e);
+						MCA.getInstance().log(e);
 						continue;
 					}
 				}
@@ -178,21 +178,21 @@ public class WorldPropertiesManager implements Serializable
 				properties.store(outputStream, "MCA Properties for World: " + currentWorldName);
 				outputStream.close();
 
-				MCA.instance.log("Saved world properties for player " + currentPlayerName + " in world " + currentWorldName);
-				MCA.instance.playerWorldManagerMap.put(currentPlayerName, this);
+				MCA.getInstance().log("Saved world properties for player " + currentPlayerName + " in world " + currentWorldName);
+				MCA.getInstance().playerWorldManagerMap.put(currentPlayerName, this);
 
 				//Load properties again to update them across the client and integrated server.
 				loadWorldProperties();
 
 				//Send the properties to the server or client.
-				if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT && MCA.instance.isIntegratedClient)
+				if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT && MCA.getInstance().isIntegratedClient)
 				{
 					PacketDispatcher.sendPacketToServer(PacketHelper.createWorldPropertiesPacket(this));
 				}
 
 				else if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
 				{
-					PacketDispatcher.sendPacketToPlayer(PacketHelper.createWorldPropertiesPacket(this), (Player)MCA.instance.getPlayerByName(currentPlayerName));
+					PacketDispatcher.sendPacketToPlayer(PacketHelper.createWorldPropertiesPacket(this), (Player)MCA.getInstance().getPlayerByName(currentPlayerName));
 				}
 			}
 
@@ -202,13 +202,13 @@ public class WorldPropertiesManager implements Serializable
 				//message. Skip saving if it's encountered.
 				if (!e.getMessage().contains("user-mapped"))
 				{
-					MCA.instance.quitWithThrowable("FileNotFoundException occurred while saving world properties to file.", e);
+					MCA.getInstance().quitWithException("FileNotFoundException occurred while saving world properties to file.", e);
 				}
 			}
 
 			catch (IllegalAccessException e)
 			{
-				MCA.instance.quitWithThrowable("IllegalAccessException occurred while saving world properties to file.", e);
+				MCA.getInstance().quitWithException("IllegalAccessException occurred while saving world properties to file.", e);
 			}
 
 			catch (IOException e)
@@ -218,8 +218,8 @@ public class WorldPropertiesManager implements Serializable
 
 			catch (NullPointerException e)
 			{
-				MCA.instance.log(e);
-				MCA.instance.quitWithThrowable("NullPointerException while saving world properties.", e);
+				MCA.getInstance().log(e);
+				MCA.getInstance().quitWithException("NullPointerException while saving world properties.", e);
 			}
 		}
 
@@ -281,22 +281,22 @@ public class WorldPropertiesManager implements Serializable
 				}
 			}
 
-			MCA.instance.playerWorldManagerMap.put(currentPlayerName, this);
+			MCA.getInstance().playerWorldManagerMap.put(currentPlayerName, this);
 		}
 
 		catch (FileNotFoundException e)
 		{
-			MCA.instance.quitWithThrowable("FileNotFoundException occurred while loading world properties from file.", e);
+			MCA.getInstance().quitWithException("FileNotFoundException occurred while loading world properties from file.", e);
 		}
 
 		catch (IllegalAccessException e)
 		{
-			MCA.instance.quitWithThrowable("IllegalAccessException occurred while loading world properties from file.", e);
+			MCA.getInstance().quitWithException("IllegalAccessException occurred while loading world properties from file.", e);
 		}
 
 		catch (IOException e)
 		{
-			MCA.instance.quitWithThrowable("IOException occurred while loading world properties from file.", e);
+			MCA.getInstance().quitWithException("IOException occurred while loading world properties from file.", e);
 		}
 
 		catch (NullPointerException e)
@@ -318,7 +318,7 @@ public class WorldPropertiesManager implements Serializable
 		//Retain the player's ID when resetting.
 		int oldId = worldProperties.playerID;
 
-		MCA.instance.log(currentPlayerName + "'s world properties are errored. Resetting back to original settings.");
+		MCA.getInstance().log(currentPlayerName + "'s world properties are errored. Resetting back to original settings.");
 		worldProperties = new WorldPropertiesList();
 		worldProperties.playerID = oldId;
 
@@ -330,8 +330,8 @@ public class WorldPropertiesManager implements Serializable
 	 */
 	public static void emptyOldWorldProperties()
 	{
-		File minecraftSavesFolder = new File(MCA.instance.runningDirectory + "/saves");
-		File configSavesFolder = new File(MCA.instance.runningDirectory + "/config/MCA/Worlds");
+		File minecraftSavesFolder = new File(MCA.getInstance().runningDirectory + "/saves");
+		File configSavesFolder = new File(MCA.getInstance().runningDirectory + "/config/MCA/Worlds");
 
 		if (!minecraftSavesFolder.exists())
 		{
@@ -357,8 +357,8 @@ public class WorldPropertiesManager implements Serializable
 
 		for (String invalidSaveName : invalidSaves)
 		{
-			MCA.instance.log("Deleted old properties folder: " + invalidSaveName);
-			MCA.deletePath(new File(MCA.instance.runningDirectory + "/config/MCA/Worlds/" + invalidSaveName));
+			MCA.getInstance().log("Deleted old properties folder: " + invalidSaveName);
+			MCA.deletePath(new File(MCA.getInstance().runningDirectory + "/config/MCA/Worlds/" + invalidSaveName));
 		}
 	}
 }

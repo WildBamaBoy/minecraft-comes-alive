@@ -48,7 +48,7 @@ public enum EnumTrait
 	 */
 	public static EnumTrait getRandomTrait()
 	{
-		int randomId = MCA.instance.rand.nextInt(EnumTrait.values().length);
+		int randomId = MCA.rand.nextInt(EnumTrait.values().length);
 		
 		for (EnumTrait trait : EnumTrait.values())
 		{

@@ -92,7 +92,7 @@ public class RenderFishHook extends Render
 			if (entityFishHook.angler instanceof EntityPlayerChild)
 			{
 				int age = ((EntityChild)entityFishHook.angler).age;
-				scale = 0.55F + ((0.39F / MCA.instance.modPropertiesManager.modProperties.kidGrowUpTimeMinutes) * age);
+				scale = 0.55F + ((0.39F / MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes) * age);
 			}
 			
 			float offsetYaw = (entityFishHook.angler.prevRenderYawOffset + (entityFishHook.angler.renderYawOffset - entityFishHook.angler.prevRenderYawOffset) * offsetY) * (float)Math.PI / 180.0F;

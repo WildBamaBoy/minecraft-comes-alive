@@ -86,12 +86,12 @@ public enum EnumRelation
 	 * instead of "Husband" and "Wife".
 	 * 
 	 * @param 	entity		The entity whose relation is being retreived.
-	 * @param 	gender		The gender of the entity.
+	 * @param 	isMale		Is the entity male?
 	 * @param	isInformal	Should localization use the informal version of the relation if applicable?
 	 * 
 	 * @return	Localized representation of the current enum constant's value.
 	 */
-	public String toString(AbstractEntity entity, String gender, boolean isInformal)
+	public String toString(AbstractEntity entity, boolean isMale, boolean isInformal)
 	{
 		if (value.equals("Mother") || value.equals("Father"))
 		{
@@ -113,7 +113,7 @@ public enum EnumRelation
 		
 		else if (value.equals("Parent"))
 		{
-			if (gender.equals("Male"))
+			if (isMale)
 			{
 				value = "Father";
 			}
@@ -128,7 +128,7 @@ public enum EnumRelation
 		
 		else
 		{			
-			if (gender.equals("Male"))
+			if (isMale)
 			{
 				value = "Husband";
 			}

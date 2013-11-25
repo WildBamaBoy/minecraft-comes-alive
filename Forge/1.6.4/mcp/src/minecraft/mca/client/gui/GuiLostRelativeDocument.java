@@ -83,7 +83,7 @@ public class GuiLostRelativeDocument extends AbstractGui
 	@Override
 	protected void actionPerformed(GuiButton guibutton)
 	{
-		String playerGender = MCA.instance.playerWorldManagerMap.get(player.username).worldProperties.playerGender;
+		String playerGender = MCA.getInstance().playerWorldManagerMap.get(player.username).worldProperties.playerGender;
 		
 		if (guibutton.enabled == false)
 		{
@@ -329,9 +329,9 @@ public class GuiLostRelativeDocument extends AbstractGui
 		{
 			PacketDispatcher.sendPacketToServer(PacketHelper.createFamilyTreePacket(recipient.entityId, recipient.familyTree));
 			
-			AbstractEntity.removeItemFromPlayer(new ItemStack(MCA.instance.itemLostRelativeDocument, 1), player);
+			AbstractEntity.removeItemFromPlayer(new ItemStack(MCA.getInstance().itemLostRelativeDocument, 1), player);
 			
-			if (recipient.familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player)))
+			if (recipient.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
 			{
 				player.addChatMessage(LanguageHelper.getString(player, recipient, "notify.lostrelativedocument.success", false));
 			}
@@ -388,7 +388,7 @@ public class GuiLostRelativeDocument extends AbstractGui
 		else if (inConfirmationGui)
 		{
 			drawCenteredString(fontRenderer, LanguageHelper.getString(recipient, "gui.title.lostrelativedocument.confirm", false), width / 2, (height / 2) - 90, 0xFFFFFF);
-			drawCenteredString(fontRenderer, recipient.getTitle(MCA.instance.getIdOfPlayer(player), false), width /2 , height / 2 - 70, 0xFFFFFF);
+			drawCenteredString(fontRenderer, recipient.getTitle(MCA.getInstance().getIdOfPlayer(player), false), width /2 , height / 2 - 70, 0xFFFFFF);
 		}
 		
 		super.drawScreen(sizeX, sizeY, offset);
@@ -411,7 +411,7 @@ public class GuiLostRelativeDocument extends AbstractGui
 		buttonList.clear();
 		recipient.generation = temporaryGeneration;
 		
-		if (recipient.gender.equals("Male"))
+		if (recipient.isMale)
 		{
 			buttonList.add(buttonFather = new GuiButton(1, width / 2 - 180, height / 2 - 40, 120, 20, LanguageHelper.getString("family.father.formal")));
 			buttonList.add(buttonGrandfather = new GuiButton(2, width / 2 - 180, height / 2 - 20, 120, 20, LanguageHelper.getString("family.grandfather")));
@@ -430,7 +430,7 @@ public class GuiLostRelativeDocument extends AbstractGui
 			buttonCousin.enabled = false;
 		}
 		
-		else if (recipient.gender.equals("Female"))
+		else
 		{
 			buttonList.add(buttonMother = new GuiButton(1, width / 2 - 180, height / 2 - 40, 120, 20, LanguageHelper.getString("family.mother.formal")));
 			buttonList.add(buttonGrandmother = new GuiButton(2, width / 2 - 180, height / 2 - 20, 120, 20, LanguageHelper.getString("family.grandmother")));

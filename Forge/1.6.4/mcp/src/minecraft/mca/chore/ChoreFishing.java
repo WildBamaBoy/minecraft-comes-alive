@@ -12,6 +12,7 @@ package mca.chore;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
@@ -75,9 +76,9 @@ public class ChoreFishing extends AbstractChore
 	@Override
 	public void beginChore()
 	{
-		if (MCA.instance.isDedicatedServer)
+		if (MCA.getInstance().isDedicatedServer)
 		{
-			if (!MCA.instance.modPropertiesManager.modProperties.server_allowFishingChore)
+			if (!MCA.getInstance().modPropertiesManager.modProperties.server_allowFishingChore)
 			{
 				//End the chore and sync all clients so that the chore is stopped everywhere.
 				endChore();
@@ -150,7 +151,7 @@ public class ChoreFishing extends AbstractChore
 			if (!LogicHelper.isBlockNearby(owner, Block.waterStill.blockID, 1))
 			{
 				//And set a path to their water coordinates if they aren't.
-				owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(waterCoordinatesX, waterCoordinatesY, waterCoordinatesZ), 0.6F);
+				owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(waterCoordinatesX, waterCoordinatesY, waterCoordinatesZ), Constants.SPEED_WALK);
 			}
 
 			//If they are within 1 block of still water, they can begin fishing.
@@ -243,7 +244,7 @@ public class ChoreFishing extends AbstractChore
 
 												if (player != null)
 												{
-													player.triggerAchievement(MCA.instance.achievementChildFish);
+													player.triggerAchievement(MCA.getInstance().achievementChildFish);
 												}
 											}
 										}
@@ -367,9 +368,9 @@ public class ChoreFishing extends AbstractChore
 				}
 			}
 
-			catch (Throwable e)
+			catch (Exception e)
 			{
-				MCA.instance.log(e);
+				MCA.getInstance().log(e);
 				continue;
 			}
 		}
@@ -412,9 +413,9 @@ public class ChoreFishing extends AbstractChore
 				}
 			}
 
-			catch (Throwable e)
+			catch (Exception e)
 			{
-				MCA.instance.log(e);
+				MCA.getInstance().log(e);
 				continue;
 			}
 		}

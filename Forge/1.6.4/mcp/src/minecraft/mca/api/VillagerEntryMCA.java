@@ -20,30 +20,30 @@ import mca.core.MCA;
 public class VillagerEntryMCA 
 {
 	/** A list of skins that can be used for male villagers. */
-	private List<String> skinsMale = new ArrayList<String>();
+	private final List<String> skinsMale = new ArrayList<String>();
 	
 	/** A list of skins that can be used for female villagers. */
-	private List<String> skinsFemale = new ArrayList<String>();
+	private final List<String> skinsFemale = new ArrayList<String>();
 	
-	public final int id;
+	public final int professionId;
 	public final boolean useDefaultTexture;
 	public final String professionName;
 	public final String texturesLocation;
-	private boolean isLocalized;
+	private boolean useLocalizedForm;
 	
 	/**
 	 * Constructor
 	 * 
-	 * @param 	id					The profession ID of the villager.
+	 * @param 	professionId		The profession ID of the villager.
 	 * @param 	professionName		The villager's unlocalized profession name.
 	 * @param 	texturesLocation	The folder containing skins that the villager can use.
 	 */
-	protected VillagerEntryMCA(int id, String professionName, String texturesLocation)
+	protected VillagerEntryMCA(int professionId, String professionName, String texturesLocation)
 	{
-		this.id = id;
+		this.professionId = professionId;
 		this.professionName = professionName;
 		this.texturesLocation = texturesLocation;
-		this.isLocalized = false;
+		this.useLocalizedForm = false;
 		this.useDefaultTexture = this.texturesLocation.equals("/assets/mca/textures/api/skins/");
 	}
 
@@ -52,7 +52,7 @@ public class VillagerEntryMCA
 	 */
 	public boolean getIsLocalized()
 	{
-		return isLocalized;
+		return useLocalizedForm;
 	}
 	
 	/**
@@ -60,7 +60,7 @@ public class VillagerEntryMCA
 	 */
 	public void setIsLocalized(boolean value)
 	{
-		this.isLocalized = value;
+		this.useLocalizedForm = value;
 	}
 
 	/**
@@ -78,14 +78,14 @@ public class VillagerEntryMCA
 	 */
 	public String getLocalizedProfessionID()
 	{
-		if (this.id != -1)
+		if (this.professionId == -1)
 		{
-			return "profession." + professionName.toLowerCase();
+			return "profession.playerchild";
 		}
 		
 		else
 		{
-			return "profession.playerchild";
+			return "profession." + professionName.toLowerCase();
 		}
 	}
 
@@ -137,7 +137,7 @@ public class VillagerEntryMCA
 	 */
 	public String getRandomMaleSkin()
 	{
-		return this.skinsMale.get(MCA.instance.rand.nextInt(skinsMale.size()));
+		return this.skinsMale.get(MCA.rand.nextInt(skinsMale.size()));
 	}
 	
 	/**
@@ -147,7 +147,7 @@ public class VillagerEntryMCA
 	 */
 	public String getRandomFemaleSkin()
 	{
-		return this.skinsFemale.get(MCA.instance.rand.nextInt(skinsFemale.size()));
+		return this.skinsFemale.get(MCA.rand.nextInt(skinsFemale.size()));
 	}
 	
 	/**

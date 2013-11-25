@@ -25,6 +25,7 @@ import mca.chore.ChoreFishing;
 import mca.chore.ChoreHunting;
 import mca.chore.ChoreMining;
 import mca.chore.ChoreWoodcutting;
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.ModPropertiesManager;
 import mca.core.io.WorldPropertiesManager;
@@ -75,9 +76,9 @@ public final class PacketHandler implements IPacketHandler
 	{
 		try
 		{
-			if (MCA.instance.inDebugMode & MCA.instance.debugDoLogPackets)
+			if (MCA.getInstance().inDebugMode & MCA.getInstance().debugDoLogPackets)
 			{
-				MCA.instance.logPacketInformation("Received packet: " + packet.channel + ". Size = " + packet.length);
+				MCA.getInstance().logPacketInformation("Received packet: " + packet.channel + ". Size = " + packet.length);
 			}
 			
 			if (packet.channel.equals("MCA_F_REQ"))
@@ -226,9 +227,9 @@ public final class PacketHandler implements IPacketHandler
 			}
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 		}
 	}
 
@@ -648,8 +649,8 @@ public final class PacketHandler implements IPacketHandler
 			clientEntity.setTexture(receivedTexture);
 
 			//Put the client entity's ID in the ids map.
-			MCA.instance.idsMap.put(clientEntity.mcaID, clientEntity.entityId);
-			MCA.instance.entitiesMap.put(clientEntity.mcaID, clientEntity);
+			MCA.getInstance().idsMap.put(clientEntity.mcaID, clientEntity.entityId);
+			MCA.getInstance().entitiesMap.put(clientEntity.mcaID, clientEntity);
 			
 			//Set the entity mood and trait.
 			clientEntity.setMoodByMoodPoints(false);
@@ -856,7 +857,7 @@ public final class PacketHandler implements IPacketHandler
 
 		else
 		{
-			MCA.instance.log("Unidentified chore type received when handling chore packet.");
+			MCA.getInstance().log("Unidentified chore type received when handling chore packet.");
 		}
 	}
 
@@ -993,12 +994,12 @@ public final class PacketHandler implements IPacketHandler
 		ModPropertiesManager modPropertiesManager = (ModPropertiesManager) objectInput.readObject();
 
 		//Ensure item IDs are the same.
-		if (modPropertiesManager.equals(MCA.instance.modPropertiesManager))
+		if (modPropertiesManager.equals(MCA.getInstance().modPropertiesManager))
 		{
 			//Give the player a world settings manager.
 			WorldPropertiesManager manager = new WorldPropertiesManager(world.getSaveHandler().getWorldDirectoryName(), entityPlayer.username);
 
-			MCA.instance.playerWorldManagerMap.put(entityPlayer.username, manager);
+			MCA.getInstance().playerWorldManagerMap.put(entityPlayer.username, manager);
 
 			//Send it to the client.
 			PacketDispatcher.sendPacketToPlayer(PacketHelper.createWorldPropertiesPacket(manager), player);
@@ -1029,23 +1030,23 @@ public final class PacketHandler implements IPacketHandler
 
 		//Assign received data.
 		WorldPropertiesManager manager = (WorldPropertiesManager)objectInput.readObject();
-		MCA.instance.logPacketInformation("Received world properties manager for " + ((EntityPlayer)player).username);
+		MCA.getInstance().logPacketInformation("Received world properties manager for " + ((EntityPlayer)player).username);
 
 		//Client side.
 		if (world.isRemote)
 		{
-			MCA.instance.playerWorldManagerMap.put(entityPlayer.username, manager);
+			MCA.getInstance().playerWorldManagerMap.put(entityPlayer.username, manager);
 		}
 
 		//Server side.
 		else
 		{
 			//Update only the actual properties on the old manager to retain the ability to save.
-			WorldPropertiesManager oldWorldPropertiesManager = MCA.instance.playerWorldManagerMap.get(entityPlayer.username);
+			WorldPropertiesManager oldWorldPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(entityPlayer.username);
 			oldWorldPropertiesManager.worldProperties = manager.worldProperties;
 
 			//Put the changed manager back into the map and save it.
-			MCA.instance.playerWorldManagerMap.put(entityPlayer.username, oldWorldPropertiesManager);
+			MCA.getInstance().playerWorldManagerMap.put(entityPlayer.username, oldWorldPropertiesManager);
 			oldWorldPropertiesManager.saveWorldProperties();
 		}
 	}
@@ -1090,7 +1091,7 @@ public final class PacketHandler implements IPacketHandler
 
 		catch (NullPointerException e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 		}
 
 		try
@@ -1197,7 +1198,7 @@ public final class PacketHandler implements IPacketHandler
 		displayString = displayString.replace("%SpouseName%", playerName);
 		entityPlayer.addChatMessage(displayString);
 
-		entityPlayer.inventory.consumeInventoryItem(MCA.instance.itemWeddingRing.itemID);
+		entityPlayer.inventory.consumeInventoryItem(MCA.getInstance().itemWeddingRing.itemID);
 	}
 
 	/**
@@ -1224,31 +1225,31 @@ public final class PacketHandler implements IPacketHandler
 
 		//Trigger the name baby gui.
 		ItemBaby itemBaby = null;
-		String babyGender = AbstractEntity.getRandomGender();
+		boolean babyIsMale = AbstractEntity.getRandomGender();
 
-		if (babyGender.equals("Male"))
+		if (babyIsMale)
 		{
-			itemBaby = (ItemBaby)MCA.instance.itemBabyBoy;
-			entityPlayer.triggerAchievement(MCA.instance.achievementHaveBabyBoy);
-			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementHaveBabyBoy, playerId));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementHaveBabyBoy, spouseId));
+			itemBaby = (ItemBaby)MCA.getInstance().itemBabyBoy;
+			entityPlayer.triggerAchievement(MCA.getInstance().achievementHaveBabyBoy);
+			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementHaveBabyBoy, playerId));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementHaveBabyBoy, spouseId));
 		}
 
-		else if (babyGender.equals("Female"))
+		else
 		{
-			itemBaby = (ItemBaby)MCA.instance.itemBabyGirl;
-			entityPlayer.triggerAchievement(MCA.instance.achievementHaveBabyGirl);
-			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementHaveBabyGirl, playerId));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementHaveBabyGirl, spouseId));
+			itemBaby = (ItemBaby)MCA.getInstance().itemBabyGirl;
+			entityPlayer.triggerAchievement(MCA.getInstance().achievementHaveBabyGirl);
+			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementHaveBabyGirl, playerId));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementHaveBabyGirl, spouseId));
 		}
 
-		WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(entityPlayer.username);
-		manager.worldProperties.babyGender = babyGender;
+		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(entityPlayer.username);
+		manager.worldProperties.babyIsMale = babyIsMale;
 		manager.worldProperties.babyExists = true;
 		manager.saveWorldProperties();
 
 		PacketDispatcher.sendPacketToServer(PacketHelper.createAddItemPacket(itemBaby.itemID, entityPlayer.entityId));
-		entityPlayer.openGui(MCA.instance, MCA.instance.guiNameChildID, worldObj, (int)entityPlayer.posX, (int)entityPlayer.posY, (int)entityPlayer.posZ);
+		entityPlayer.openGui(MCA.getInstance(), Constants.ID_GUI_NAMECHILD, worldObj, (int)entityPlayer.posX, (int)entityPlayer.posY, (int)entityPlayer.posZ);
 	}
 
 	/**
@@ -1273,10 +1274,10 @@ public final class PacketHandler implements IPacketHandler
 		objectInput.close();
 
 		//Set the player's spouse's manager to have the same baby info.
-		WorldPropertiesManager spouseManager = MCA.instance.playerWorldManagerMap.get(receivedManager.worldProperties.playerSpouseName);
+		WorldPropertiesManager spouseManager = MCA.getInstance().playerWorldManagerMap.get(receivedManager.worldProperties.playerSpouseName);
 
 		spouseManager.worldProperties.babyExists = receivedManager.worldProperties.babyExists;
-		spouseManager.worldProperties.babyGender = receivedManager.worldProperties.babyGender;
+		spouseManager.worldProperties.babyIsMale = receivedManager.worldProperties.babyIsMale;
 		spouseManager.worldProperties.babyName = receivedManager.worldProperties.babyName;
 		spouseManager.worldProperties.babyReadyToGrow = receivedManager.worldProperties.babyReadyToGrow;
 
@@ -1306,7 +1307,7 @@ public final class PacketHandler implements IPacketHandler
 
 		EntityVillagerAdult villager = (EntityVillagerAdult)worldObj.getEntityByID(entityId);
 		villager.setCustomer(entityPlayer);
-		entityPlayer.displayGUIMerchant(villager, villager.getTitle(MCA.instance.getIdOfPlayer(entityPlayer), true));
+		entityPlayer.displayGUIMerchant(villager, villager.getTitle(MCA.getInstance().getIdOfPlayer(entityPlayer), true));
 	}
 
 	/**
@@ -1383,7 +1384,7 @@ public final class PacketHandler implements IPacketHandler
 
 		int villagerId = (Integer)objectInput.readObject();
 		int playerId = (Integer)objectInput.readObject();
-		String babyGender = (String)objectInput.readObject();
+		boolean babyIsMale = (Boolean)objectInput.readObject();
 
 		objectInput.close();
 
@@ -1391,34 +1392,34 @@ public final class PacketHandler implements IPacketHandler
 		ItemBaby itemBaby = null;
 
 		//Give the villager an appropriate baby item and unlock achievements for the player.
-		if (babyGender.equals("Male"))
+		if (babyIsMale)
 		{
-			itemBaby = (ItemBaby)MCA.instance.itemBabyBoy;
+			itemBaby = (ItemBaby)MCA.getInstance().itemBabyBoy;
 			villager.inventory.addItemStackToInventory(new ItemStack(itemBaby, 1));
-			entityPlayer.triggerAchievement(MCA.instance.achievementHaveBabyBoy);
+			entityPlayer.triggerAchievement(MCA.getInstance().achievementHaveBabyBoy);
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementHaveBabyBoy, entityPlayer.entityId));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementHaveBabyBoy, entityPlayer.entityId));
 			PacketDispatcher.sendPacketToServer(PacketHelper.createInventoryPacket(villagerId, villager.inventory));
 		}
 
-		else if (babyGender.equals("Female"))
+		else
 		{
-			itemBaby = (ItemBaby)MCA.instance.itemBabyGirl;
+			itemBaby = (ItemBaby)MCA.getInstance().itemBabyGirl;
 			villager.inventory.addItemStackToInventory(new ItemStack(itemBaby, 1));
-			entityPlayer.triggerAchievement(MCA.instance.achievementHaveBabyGirl);
+			entityPlayer.triggerAchievement(MCA.getInstance().achievementHaveBabyGirl);
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementHaveBabyGirl, entityPlayer.entityId));
+			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementHaveBabyGirl, entityPlayer.entityId));
 			PacketDispatcher.sendPacketToServer(PacketHelper.createInventoryPacket(villagerId, villager.inventory));
 		}
 
 		//Modify the player's world properties manager.
-		WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(entityPlayer.username);
-		manager.worldProperties.babyGender = babyGender;
+		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(entityPlayer.username);
+		manager.worldProperties.babyIsMale = babyIsMale;
 		manager.worldProperties.babyExists = true;
 		manager.saveWorldProperties();
 
 		//Make the entityPlayer choose a name for the baby.
-		entityPlayer.openGui(MCA.instance, MCA.instance.guiNameChildID, worldObj, (int)entityPlayer.posX, (int)entityPlayer.posY, (int)entityPlayer.posZ);
+		entityPlayer.openGui(MCA.getInstance(), Constants.ID_GUI_NAMECHILD, worldObj, (int)entityPlayer.posX, (int)entityPlayer.posY, (int)entityPlayer.posZ);
 	}
 
 	/**
@@ -1468,13 +1469,13 @@ public final class PacketHandler implements IPacketHandler
 		objectInput.close();
 
 		AbstractEntity entity = (AbstractEntity)worldObj.getEntityByID(entityId);
-		ArrayList<EntityItem> itemList = MCA.instance.deadPlayerInventories.get(entityPlayer.username);
+		ArrayList<EntityItem> itemList = MCA.getInstance().deadPlayerInventories.get(entityPlayer.username);
 		
 		for (EntityItem item : itemList)
 		{
 			entity.entityDropItem(item.getEntityItem(), 0.3F);
 		}
 		
-		MCA.instance.deadPlayerInventories.remove(entityPlayer.username);
+		MCA.getInstance().deadPlayerInventories.remove(entityPlayer.username);
 	}
 }

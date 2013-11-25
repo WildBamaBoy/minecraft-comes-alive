@@ -9,9 +9,9 @@
 
 package mca.command;
 
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.core.util.Color;
 import net.minecraft.command.ICommandSender;
 
 /**
@@ -37,7 +37,7 @@ public class CommandUnblockAll extends AbstractCommand
 		String senderName = sender.getCommandSenderName();
 
 		//Get the sender's world properties.
-		WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(senderName);
+		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(senderName);
 
 		if (manager != null)
 		{
@@ -45,12 +45,12 @@ public class CommandUnblockAll extends AbstractCommand
 			manager.worldProperties.blockList.clear();
 			manager.saveWorldProperties();
 			
-			this.sendChatToPlayer(sender, "multiplayer.command.output.unblockall.successful", Color.GREEN, null);
+			this.sendChatToPlayer(sender, "multiplayer.command.output.unblockall.successful", Constants.COLOR_GREEN, null);
 		}
 
 		else
 		{
-			this.sendChatToPlayer(sender, "multiplayer.command.error.unknown", Color.RED, null);
+			this.sendChatToPlayer(sender, "multiplayer.command.error.unknown", Constants.COLOR_RED, null);
 		}
 	}
 }

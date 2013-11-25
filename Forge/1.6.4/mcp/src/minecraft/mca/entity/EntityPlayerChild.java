@@ -17,6 +17,7 @@ import java.util.Map;
 import mca.api.IGiftableItem;
 import mca.api.VillagerEntryMCA;
 import mca.api.VillagerRegistryMCA;
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
@@ -112,18 +113,18 @@ public class EntityPlayerChild extends EntityChild
 	 * @param 	world	The world that the child should be spawned in.
 	 * @param 	player	The player who owns this child.
 	 * @param 	name	The child's name.
-	 * @param 	gender	The child's gender.
+	 * @param 	isMale	Is the child male?
 	 */
-	public EntityPlayerChild(World world, EntityPlayer player, String name, String gender) 
+	public EntityPlayerChild(World world, EntityPlayer player, String name, boolean isMale) 
 	{
 		this(world);
 
 		this.name = name;
-		this.gender = gender;
+		this.isMale = isMale;
 		this.setTexture();
 		this.ownerPlayerName = player.username;
 
-		WorldPropertiesManager worldPropertiesManager = MCA.instance.playerWorldManagerMap.get(ownerPlayerName);
+		WorldPropertiesManager worldPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(ownerPlayerName);
 
 		this.familyTree.addFamilyTreeEntry(player, EnumRelation.Parent);
 		this.familyTree.addFamilyTreeEntry(worldPropertiesManager.worldProperties.playerSpouseID, EnumRelation.Parent);
@@ -151,7 +152,7 @@ public class EntityPlayerChild extends EntityChild
 		VillagerEntryMCA entry = VillagerRegistryMCA.getRegisteredVillagerEntry(-1);
 		
 		//Check for specific names to set hidden skins.
-		if (gender.equals("Male"))
+		if (isMale)
 		{
 			if (name.equals("Shepard"))
 			{
@@ -212,7 +213,7 @@ public class EntityPlayerChild extends EntityChild
 		{
 			if (isAdult)
 			{
-				if (isSpouse && MCA.instance.getPlayerByID(worldObj, playerId).username.equals(spousePlayerName))
+				if (isSpouse && MCA.getInstance().getPlayerByID(worldObj, playerId).username.equals(spousePlayerName))
 				{
 					return "spouse";
 				}
@@ -222,7 +223,7 @@ public class EntityPlayerChild extends EntityChild
 					return "playerchild.adult";
 
 					//FIXME
-					//					WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(MCA.instance.getPlayerByID(worldObj, playerId).username);
+					//					WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(MCA.getInstance().getPlayerByID(worldObj, playerId).username);
 					//
 					//					if (manager.worldProperties.heirId == this.mcaID && !this.isGoodHeir && this.shouldActAsHeir)
 					//					{
@@ -285,7 +286,7 @@ public class EntityPlayerChild extends EntityChild
 		if (!currentChore.equals("Hunting"))
 		{
 			super.interact(player);
-			int playerId = MCA.instance.getIdOfPlayer(player);
+			int playerId = MCA.getInstance().getIdOfPlayer(player);
 			ItemStack itemStack = player.inventory.getCurrentItem();
 
 			if (itemStack != null)
@@ -293,7 +294,7 @@ public class EntityPlayerChild extends EntityChild
 				//Check for special items like the villager editor and lost relative document.
 				if (itemStack.getItem() instanceof ItemVillagerEditor)
 				{
-					player.openGui(MCA.instance, MCA.instance.guiVillagerEditorID, worldObj, (int)posX, (int)posY, (int)posZ);
+					player.openGui(MCA.getInstance(), Constants.ID_GUI_EDITOR, worldObj, (int)posX, (int)posY, (int)posZ);
 					return true;
 				}
 			}
@@ -312,12 +313,12 @@ public class EntityPlayerChild extends EntityChild
 				{
 					if (isSpouse && player.username.equals(spousePlayerName))
 					{
-						player.openGui(MCA.instance, MCA.instance.guiInteractionSpouseID, worldObj, (int)posX, (int)posY, (int)posZ);
+						player.openGui(MCA.getInstance(), Constants.ID_GUI_SPOUSE, worldObj, (int)posX, (int)posY, (int)posZ);
 					}
 
 					else
 					{
-						player.openGui(MCA.instance, MCA.instance.guiInteractionPlayerChildID, worldObj, (int)posX, (int)posY, (int)posZ);
+						player.openGui(MCA.getInstance(), Constants.ID_GUI_PLAYERCHILD, worldObj, (int)posX, (int)posY, (int)posZ);
 					}
 				}
 
@@ -325,12 +326,12 @@ public class EntityPlayerChild extends EntityChild
 				{
 					if (!isAdult && !isMarried && !isSpouse)
 					{
-						player.openGui(MCA.instance, MCA.instance.guiInteractionVillagerChildID, worldObj, (int)posX, (int)posY, (int)posZ);
+						player.openGui(MCA.getInstance(), Constants.ID_GUI_CHILD, worldObj, (int)posX, (int)posY, (int)posZ);
 					}
 					
 					else
 					{
-						player.openGui(MCA.instance, MCA.instance.guiInteractionVillagerAdultID, worldObj, (int)posX, (int)posY, (int)posZ);
+						player.openGui(MCA.getInstance(), Constants.ID_GUI_ADULT, worldObj, (int)posX, (int)posY, (int)posZ);
 					}
 				}
 			}
@@ -389,7 +390,7 @@ public class EntityPlayerChild extends EntityChild
 						doGiftOfChoreItem(itemStack, player);
 					}
 
-					else if (itemStack.itemID == MCA.instance.itemHeirCrown.itemID)
+					else if (itemStack.itemID == MCA.getInstance().itemHeirCrown.itemID)
 					{
 						doGiftOfHeirCrown(itemStack, player);
 					}
@@ -429,14 +430,14 @@ public class EntityPlayerChild extends EntityChild
 	@Override
 	public ItemStack getHeldItem()
 	{
-		if (heldBabyGender.equals("Male"))
+		if (isHeldBabyMale)
 		{
-			return new ItemStack(MCA.instance.itemBabyBoy);
+			return new ItemStack(MCA.getInstance().itemBabyBoy);
 		}
 
-		else if (heldBabyGender.equals("Female"))
+		else if (!isHeldBabyMale)
 		{
-			return new ItemStack(MCA.instance.itemBabyGirl);
+			return new ItemStack(MCA.getInstance().itemBabyGirl);
 		}
 
 		else if (isInChoreMode)
@@ -527,7 +528,7 @@ public class EntityPlayerChild extends EntityChild
 	{
 		if (isSpouse && spousePlayerName.equals(player.username))
 		{
-			if (inventory.contains(MCA.instance.itemBabyBoy) || inventory.contains(MCA.instance.itemBabyGirl))
+			if (inventory.contains(MCA.getInstance().itemBabyBoy) || inventory.contains(MCA.getInstance().itemBabyGirl))
 			{
 				say(LanguageHelper.getString("notify.spouse.gifted.anotherbaby"));
 			}
@@ -560,7 +561,7 @@ public class EntityPlayerChild extends EntityChild
 	 */
 	private void doGiftOfArrangersRing(ItemStack itemStack, EntityPlayer player) 
 	{
-		WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
+		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 
 		if (!isSpouse)
 		{
@@ -614,7 +615,7 @@ public class EntityPlayerChild extends EntityChild
 
 								if (child.ownerPlayerName.equals(this.ownerPlayerName))
 								{
-									say(LanguageHelper.getString("notify.villager.gifted.arrangerring.othernotnearby." + gender.toLowerCase()));
+									say(LanguageHelper.getString("notify.villager.gifted.arrangerring.othernotnearby." + getGenderAsString()));
 									notifyPlayer(player, LanguageHelper.getString("notify.villager.gifted.arrangerring.toofarapart"));
 									return;
 								}
@@ -666,15 +667,15 @@ public class EntityPlayerChild extends EntityChild
 							if (spouse instanceof EntityPlayerChild)
 							{
 								//Unlock achievement.
-								player.triggerAchievement(MCA.instance.achievementAdultMarried);
-								PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementAdultMarried, player.entityId));
+								player.triggerAchievement(MCA.getInstance().achievementAdultMarried);
+								PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementAdultMarried, player.entityId));
 							}
 						}
 
 						//A person was not close to the villager receiving the second ring.
 						else
 						{
-							say(LanguageHelper.getString("notify.villager.gifted.arrangerring.othernotnearby." + gender.toLowerCase()));
+							say(LanguageHelper.getString("notify.villager.gifted.arrangerring.othernotnearby." + getGenderAsString()));
 							notifyPlayer(player, LanguageHelper.getString("notify.villager.gifted.arrangerring.toofarapart"));
 						}
 					}
@@ -683,7 +684,7 @@ public class EntityPlayerChild extends EntityChild
 				//This villager already has an arranger ring and was gifted one again.
 				else
 				{
-					say(LanguageHelper.getString("notify.villager.gifted.arrangerring.hasring." + gender.toLowerCase()));
+					say(LanguageHelper.getString("notify.villager.gifted.arrangerring.hasring." + getGenderAsString()));
 				}
 			}
 		}
@@ -697,7 +698,7 @@ public class EntityPlayerChild extends EntityChild
 	 */
 	private void doGiftOfEngagementRing(ItemStack itemStack, EntityPlayer player) 
 	{
-		WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
+		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 
 		if (!isSpouse)
 		{
@@ -721,8 +722,8 @@ public class EntityPlayerChild extends EntityChild
 					manager.worldProperties.isEngaged = true;
 					manager.saveWorldProperties();
 
-					player.triggerAchievement(MCA.instance.achievementGetMarried);
-					PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementGetMarried, player.entityId));
+					player.triggerAchievement(MCA.getInstance().achievementGetMarried);
+					PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId));
 				}
 
 				else //The hearts aren't high enough.
@@ -762,7 +763,7 @@ public class EntityPlayerChild extends EntityChild
 	 */
 	private void doGiftOfWeddingRing(ItemStack itemStack, EntityPlayer player) 
 	{
-		WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
+		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 
 		if (!isSpouse)
 		{	
@@ -788,7 +789,7 @@ public class EntityPlayerChild extends EntityChild
 					shouldSkipAreaModify = false;
 
 					isSpouse = true;
-					player.triggerAchievement(MCA.instance.achievementGetMarried);
+					player.triggerAchievement(MCA.getInstance().achievementGetMarried);
 
 					manager.worldProperties.playerSpouseID = this.mcaID;
 					manager.worldProperties.isEngaged = false;
@@ -798,7 +799,7 @@ public class EntityPlayerChild extends EntityChild
 					PacketDispatcher.sendPacketToServer(PacketHelper.createFamilyTreePacket(entityId, familyTree));
 					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isSpouse", true));
 					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "spousePlayerName", player.username));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementGetMarried, player.entityId));
+					PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId));
 
 					//Reset AI in case the spouse is a guard.
 					addAI();
@@ -867,9 +868,9 @@ public class EntityPlayerChild extends EntityChild
 	private void doGiftOfCake(ItemStack itemStack, EntityPlayer player)
 	{
 		//Check if the player isn't the parent.
-		if (familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Mother &&
-				familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Father &&
-				familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Parent)
+		if (familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) != EnumRelation.Mother &&
+				familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) != EnumRelation.Father &&
+				familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) != EnumRelation.Parent)
 		{
 			doGift(itemStack, player);
 		}
@@ -890,7 +891,7 @@ public class EntityPlayerChild extends EntityChild
 					if (getDistanceToEntity(spouse) <= 5)
 					{
 						//They are within 5 blocks, so be sure neither the spouse nor this entity have a baby.
-						if (spouse.heldBabyGender.equals("None") && this.heldBabyGender.equals("None"))
+						if (!spouse.hasBaby && !this.hasBaby)
 						{
 							//Now check and be sure that the spouse also has a cake.
 							if (spouse.hasCake)
@@ -921,14 +922,14 @@ public class EntityPlayerChild extends EntityChild
 						//Either the spouse or this entity has a baby already.
 						else
 						{
-							say(LanguageHelper.getString("notify.villager.gifted.cake.withbaby." + gender.toLowerCase()));
+							say(LanguageHelper.getString("notify.villager.gifted.cake.withbaby." + getGenderAsString()));
 						}
 					}
 
 					//This entity is not within 5 blocks of their spouse.
 					else
 					{
-						say(LanguageHelper.getString("notify.villager.gifted.cake.spousenotnearby." + gender.toLowerCase()));
+						say(LanguageHelper.getString("notify.villager.gifted.cake.spousenotnearby." + getGenderAsString()));
 						notifyPlayer(player, LanguageHelper.getString("notify.villager.gifted.cake.toofarapart"));
 					}
 				}
@@ -957,9 +958,9 @@ public class EntityPlayerChild extends EntityChild
 	private void doGiftOfChoreItem(ItemStack itemStack, EntityPlayer player)
 	{
 		//Check if the player isn't the parent.
-		if (familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Mother ||
-				familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Father ||
-				familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Parent)
+		if (familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) != EnumRelation.Mother ||
+				familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) != EnumRelation.Father ||
+				familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) != EnumRelation.Parent)
 		{
 			doGift(itemStack, player);
 		}
@@ -1001,9 +1002,9 @@ public class EntityPlayerChild extends EntityChild
 	private void doGiftOfHeirCrown(ItemStack itemStack, EntityPlayer player)
 	{
 		//Check for parent relation.
-		if (familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Mother ||
-				familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Father ||
-				familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Parent)
+		if (familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) != EnumRelation.Mother ||
+				familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) != EnumRelation.Father ||
+				familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) != EnumRelation.Parent)
 		{
 			if (this.hasBeenHeir)
 			{
@@ -1012,7 +1013,7 @@ public class EntityPlayerChild extends EntityChild
 
 			else
 			{
-				WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
+				WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 
 				if (manager != null)
 				{
@@ -1055,9 +1056,9 @@ public class EntityPlayerChild extends EntityChild
 	 */
 	private void updateGrowth()
 	{
-		WorldPropertiesManager worldPropertiesManager = MCA.instance.playerWorldManagerMap.get(ownerPlayerName);
+		WorldPropertiesManager worldPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(ownerPlayerName);
 
-		if (worldPropertiesManager != null && MCA.instance.getPlayerByID(worldObj, worldPropertiesManager.worldProperties.playerID) != null)
+		if (worldPropertiesManager != null && MCA.getInstance().getPlayerByID(worldObj, worldPropertiesManager.worldProperties.playerID) != null)
 		{			
 			shouldGrowAutomatically = worldPropertiesManager.worldProperties.childrenGrowAutomatically;
 
@@ -1067,7 +1068,7 @@ public class EntityPlayerChild extends EntityChild
 				{
 					for (int i : familyTree.getListOfPlayers())
 					{
-						EntityPlayer player = MCA.instance.getPlayerByID(worldObj, i);
+						EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, i);
 
 						if (!worldObj.isRemote)
 						{
@@ -1089,7 +1090,7 @@ public class EntityPlayerChild extends EntityChild
 			{
 				for (int i : familyTree.getListOfPlayers())
 				{
-					EntityPlayer player = MCA.instance.getPlayerByID(worldObj, i);
+					EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, i);
 
 					if (!worldObj.isRemote)
 					{
@@ -1104,7 +1105,7 @@ public class EntityPlayerChild extends EntityChild
 
 				if (player != null)
 				{
-					player.triggerAchievement(MCA.instance.achievementChildGrowUp);
+					player.triggerAchievement(MCA.getInstance().achievementChildGrowUp);
 				}
 			}
 		}
@@ -1116,12 +1117,12 @@ public class EntityPlayerChild extends EntityChild
 	private void updateBabyGrowth()
 	{
 		//Check for debug.
-		if (MCA.instance.inDebugMode && MCA.instance.debugDoRapidVillagerBabyGrowth && !heldBabyGender.equals("None") && this.hasBaby)
+		if (MCA.getInstance().inDebugMode && MCA.getInstance().debugDoRapidVillagerBabyGrowth && this.hasBaby)
 		{
 			heldBabyAge++;
 		}
 
-		if (!heldBabyGender.equals("None") && this.hasBaby)
+		if (this.hasBaby)
 		{
 			//Get the current minutes from the system.
 			villagerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
@@ -1135,7 +1136,7 @@ public class EntityPlayerChild extends EntityChild
 			}
 
 			//It's time for the baby to grow.
-			if (heldBabyAge >= MCA.instance.modPropertiesManager.modProperties.babyGrowUpTimeMinutes)
+			if (heldBabyAge >= MCA.getInstance().modPropertiesManager.modProperties.babyGrowUpTimeMinutes)
 			{
 				shouldSpawnBaby = true;
 			}
@@ -1144,7 +1145,7 @@ public class EntityPlayerChild extends EntityChild
 		//Check if the baby should be spawned.
 		if (shouldSpawnBaby)
 		{
-			EntityVillagerChild child = new EntityVillagerChild(worldObj, heldBabyGender, heldBabyProfession);
+			EntityVillagerChild child = new EntityVillagerChild(worldObj, isHeldBabyMale, heldBabyProfession);
 
 			child.familyTree.addFamilyTreeEntry(this, EnumRelation.Parent);
 			child.familyTree.addFamilyTreeEntry(this.familyTree.getInstanceOfRelative(EnumRelation.Spouse), EnumRelation.Parent);
@@ -1155,7 +1156,7 @@ public class EntityPlayerChild extends EntityChild
 			}
 
 			//Get the appropriate MCA id for the person.
-			for (Map.Entry<Integer, Integer> mapEntry : MCA.instance.idsMap.entrySet())
+			for (Map.Entry<Integer, Integer> mapEntry : MCA.getInstance().idsMap.entrySet())
 			{
 				if (mapEntry.getKey() > child.mcaID)
 				{
@@ -1171,11 +1172,11 @@ public class EntityPlayerChild extends EntityChild
 				worldObj.spawnEntityInWorld(child);
 			}
 
-			MCA.instance.idsMap.put(child.mcaID, child.entityId);
+			MCA.getInstance().idsMap.put(child.mcaID, child.entityId);
 
 			//Reset baby info on the server.
 			shouldSpawnBaby = false;
-			heldBabyGender = "None";
+			isHeldBabyMale = false;
 			heldBabyAge = 0;
 			heldBabyProfession = 0;
 			hasBaby = false;
@@ -1185,7 +1186,7 @@ public class EntityPlayerChild extends EntityChild
 
 			if (player != null)
 			{
-				player.triggerAchievement(MCA.instance.achievementHaveGrandchild);
+				player.triggerAchievement(MCA.getInstance().achievementHaveGrandchild);
 			}
 		}
 	}
@@ -1224,13 +1225,13 @@ public class EntityPlayerChild extends EntityChild
 				if (worldObj.isRemote)
 				{
 					//Check if this is the mother.
-					if (this.gender.equals("Female"))
+					if (!isMale)
 					{
-						this.heldBabyGender = getRandomGender();
+						this.isHeldBabyMale = getRandomGender();
 						this.heldBabyProfession = spouse.profession;
 						this.hasBaby = true;
 
-						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "heldBabyGender", heldBabyGender));
+						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "heldBabyIsMale", isHeldBabyMale));
 						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "heldBabyProfession", heldBabyProfession));
 						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "hasBaby", hasBaby));
 					}
@@ -1260,19 +1261,19 @@ public class EntityPlayerChild extends EntityChild
 		if (isProcreatingWithPlayer)
 		{
 			//Make sure the player doesn't have too many children.
-			if (MCA.instance.isDedicatedServer)
+			if (MCA.getInstance().isDedicatedServer)
 			{
 				EntityPlayer player = worldObj.getPlayerEntityByName(spousePlayerName);
 				List<EntityPlayerChild> children = new ArrayList<EntityPlayerChild>();
 
 				//Build a list of children belonging to the player.
-				for (AbstractEntity entity : MCA.instance.entitiesMap.values())
+				for (AbstractEntity entity : MCA.getInstance().entitiesMap.values())
 				{
 					if (entity instanceof EntityPlayerChild)
 					{
 						EntityPlayerChild playerChild = (EntityPlayerChild)entity;
 
-						if (playerChild.familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) == EnumRelation.Parent)
+						if (playerChild.familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) == EnumRelation.Parent)
 						{
 							children.add(playerChild);
 						}
@@ -1280,16 +1281,16 @@ public class EntityPlayerChild extends EntityChild
 				}
 
 				//Compare to the server allowed settings and stop if necessary.
-				if (MCA.instance.modPropertiesManager.modProperties.server_childLimit > -1)
+				if (MCA.getInstance().modPropertiesManager.modProperties.server_childLimit > -1)
 				{
-					if (children.size() >= MCA.instance.modPropertiesManager.modProperties.server_childLimit)
+					if (children.size() >= MCA.getInstance().modPropertiesManager.modProperties.server_childLimit)
 					{
 						//Reset values and send update packet.
 						isProcreatingWithPlayer = false;
 						isJumping = false;
 						procreateTicks = 0;
 
-						player.addChatMessage("\u00a7cYou have reached the child limit set by the server administrator: " + MCA.instance.modPropertiesManager.modProperties.server_childLimit);
+						player.addChatMessage("\u00a7cYou have reached the child limit set by the server administrator: " + MCA.getInstance().modPropertiesManager.modProperties.server_childLimit);
 						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(this));
 						return;
 					}
@@ -1335,9 +1336,8 @@ public class EntityPlayerChild extends EntityChild
 						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(this));
 
 						//And dispatch another packet to the client player after determining the baby's gender.
-						String babyGender = getRandomGender();
-						MCA.instance.log("A");
-						PacketDispatcher.sendPacketToPlayer(PacketHelper.createVillagerPlayerProcreatePacket(this, spousePlayer, babyGender), (Player)spousePlayer);
+						boolean babyIsMale = getRandomGender();
+						PacketDispatcher.sendPacketToPlayer(PacketHelper.createVillagerPlayerProcreatePacket(this, spousePlayer, babyIsMale), (Player)spousePlayer);
 					}
 
 					else
@@ -1364,14 +1364,14 @@ public class EntityPlayerChild extends EntityChild
 		{
 			shouldDivorce = false;
 			isMarried = false;
-			heldBabyGender = "None";
+			isHeldBabyMale = false;
 			heldBabyAge = 0;
 			heldBabyProfession = 0;
 			hasBaby = false;
 			familyTree.removeFamilyTreeEntry(EnumRelation.Spouse);
 
 			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "isMarried", false));
-			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "heldBabyGender", "None"));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "heldBabyIsMale", "None"));
 			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "heldBabyProfession", 0));
 			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "heldBabyAge", 0));
 			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "hasBaby", false));

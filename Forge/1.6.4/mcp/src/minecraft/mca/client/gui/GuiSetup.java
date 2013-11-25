@@ -64,7 +64,7 @@ public class GuiSetup extends AbstractGui
 	{
 		super(player);
 		this.viewedFromLibrarian = viewedFromLibrarian;
-		this.manager = MCA.instance.playerWorldManagerMap.get(player.username);
+		this.manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 	}
 
 	@Override
@@ -165,9 +165,9 @@ public class GuiSetup extends AbstractGui
 			manager.saveWorldProperties();
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 		}
 
 		manager.saveWorldProperties();
@@ -271,7 +271,7 @@ public class GuiSetup extends AbstractGui
 
 		finishButton.enabled = false;
 
-		if (MCA.instance.isDedicatedClient)
+		if (MCA.getInstance().isDedicatedClient)
 		{
 			//overwriteTestificatesButton.enabled = false;
 			autoGrowChildrenButton.enabled = false;
