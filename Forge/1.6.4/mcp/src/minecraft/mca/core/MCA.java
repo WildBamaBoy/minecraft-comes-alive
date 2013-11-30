@@ -255,97 +255,97 @@ public class MCA
 	/** List of the female names loaded from FemaleNames.txt.*/
 	public static List<String> femaleNames = new ArrayList<String>();
 
-	public static String[] normalFarmFiveByFive = 
+	public static char[] normalFarmFiveByFive = 
 		{
-		"S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S",
-		"S", "S", "W", "S", "S",
-		"S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S"
+		'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'W', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S'
 		};
 
-	public static String[] sugarcaneFarmFiveByFive =
+	public static char[] sugarcaneFarmFiveByFive =
 		{
-		"W", "W", "W", "W", "W",
-		"S", "S", "S", "S", "S",
-		"W", "W", "W", "W", "W",
-		"S", "S", "S", "S", "S",
-		"W", "W", "W", "W", "W"
+		'W', 'W', 'W', 'W', 'W',
+		'S', 'S', 'S', 'S', 'S',
+		'W', 'W', 'W', 'W', 'W',
+		'S', 'S', 'S', 'S', 'S',
+		'W', 'W', 'W', 'W', 'W'
 		};
 
-	public static String[] blockFarmFiveByFive =
+	public static char[] blockFarmFiveByFive =
 		{
-		"W", "P", "P", "P", "W",
-		"P", "S", "S", "S", "P",
-		"P", "S", "W", "S", "P",
-		"P", "S", "S", "S", "P",
-		"W", "P", "P", "P", "W",
+		'W', 'P', 'P', 'P', 'W',
+		'P', 'S', 'S', 'S', 'P',
+		'P', 'S', 'W', 'S', 'P',
+		'P', 'S', 'S', 'S', 'P',
+		'W', 'P', 'P', 'P', 'W',
 		};
 
-	public static String[] normalFarmTenByTen = 
+	public static char[] normalFarmTenByTen = 
 		{
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "W", "S", "S", "S", "S", "W", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "W", "S", "S", "S", "S", "W", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S"
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S'
 		};
 
-	public static String[] sugarcaneFarmTenByTen =
+	public static char[] sugarcaneFarmTenByTen =
 		{
-		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W"
+		'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'
 		};
 
-	public static String[] normalFarmFifteenByFifteen =
+	public static char[] normalFarmFifteenByFifteen =
 		{
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "W", "S", "S", "S", "S", "W", "S", "S", "S", "S", "W", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "W", "S", "S", "S", "S", "W", "S", "S", "S", "S", "W", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "W", "S", "S", "S", "S", "W", "S", "S", "S", "S", "W", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
 		};
 
-	public static String[] sugarcaneFarmFifteenByFifteen =
+	public static char[] sugarcaneFarmFifteenByFifteen =
 		{
-		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", 
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W",		
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W",
+		'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W',		
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W',
 		};
 
 	/** Map of the IDs of items and the amount of hearts given to the villager who receives this item.*/
@@ -691,7 +691,7 @@ public class MCA
 
 	 * @return	The appropriate farm creation map.
 	 */
-	public static String[] getFarmMap(int areaX, int seedType)
+	public static char[] getFarmMap(int areaX, int seedType)
 	{
 		if (seedType == 0 || seedType == 3 || seedType == 4)
 		{

@@ -404,9 +404,9 @@ public class ChoreFarming extends AbstractChore
 
 		if (!owner.worldObj.isRemote)
 		{
-			for (final String taskString : MCA.getFarmMap(areaX, seedType))
+			for (final char taskString : MCA.getFarmMap(areaX, seedType))
 			{
-				if (taskString.equals("S"))
+				if (taskString == 'S')
 				{
 					seedsRequired++;
 				}
@@ -432,11 +432,9 @@ public class ChoreFarming extends AbstractChore
 		if (hasAssignedNextBlock)
 		{
 			setPathToNextBlock();
-			MCA.getInstance().log("PATH");
 
 			if (canDoNextCreateTask())
 			{
-				MCA.getInstance().log("DO");
 				doNextCreateTask();
 			}
 
@@ -502,9 +500,9 @@ public class ChoreFarming extends AbstractChore
 	 */
 	private void doNextCreateTask()
 	{
-		final String nextOperation = MCA.getFarmMap(areaX, seedType)[farmlandIndex];
+		final char nextOperation = MCA.getFarmMap(areaX, seedType)[farmlandIndex];
 
-		if (nextOperation.equals("S"))
+		if (nextOperation == 'S')
 		{
 			owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(cropSeedId), 1);
 		}
@@ -512,20 +510,20 @@ public class ChoreFarming extends AbstractChore
 		if (!owner.worldObj.isRemote)
 		{
 			//"Plow"
-			if (nextOperation.equals("P"))
+			if (nextOperation == 'P')
 			{
 				owner.worldObj.setBlock(targetX, targetY, targetZ, Block.tilledField.blockID);
 			}
 
 			//"Water"
-			else if (nextOperation.equals("W"))
+			else if (nextOperation == 'W')
 			{
 				owner.worldObj.setBlock(targetX, targetY + 1, targetZ, 0);
 				owner.worldObj.setBlock(targetX, targetY, targetZ, Block.waterStill.blockID);
 			}
 
 			//"Seed"
-			else if (nextOperation.equals("S"))
+			else if (nextOperation == 'S')
 			{
 				if (cropBlockId == Block.reed.blockID)
 				{
