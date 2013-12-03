@@ -682,7 +682,7 @@ public class ChoreFarming extends AbstractChore
 	{
 		delayCounter = 0;
 		hasAssignedNextBlock = false;
-		MCA.getInstance().log("A");
+
 		if (!owner.worldObj.isRemote)
 		{
 			int cropID = 0;
