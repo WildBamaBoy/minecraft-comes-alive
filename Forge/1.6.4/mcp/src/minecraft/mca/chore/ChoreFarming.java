@@ -476,28 +476,17 @@ public class ChoreFarming extends AbstractChore
 		}
 	}
 
-	/**
-	 * Checks if it is time for the next create farm task to run.
-	 * 
-	 * @return	True if the next create farm task should run.
-	 */
 	private boolean canDoNextCreateTask()
 	{	
 		return delayCounter >= delay && 
 				LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, targetX, targetY, targetZ) < 1.7F;
 	}
 
-	/**
-	 * Increments the delay counter for creating a farm.
-	 */
 	private void updateCreateFarm()
 	{
 		delay++;
 	}
 
-	/**
-	 * Performs the next create farm task.
-	 */
 	private void doNextCreateTask()
 	{
 		final char nextOperation = MCA.getFarmMap(areaX, seedType)[farmlandIndex];
@@ -550,9 +539,6 @@ public class ChoreFarming extends AbstractChore
 		updateAchievementStats();
 	}
 
-	/**
-	 * Finds and assigns the next block in the world that is to be farmed.
-	 */
 	private void doAssignNextBlockForCreation()
 	{
 		final List<Coordinates> farmland = LogicHelper.getNearbyFarmableLand(owner, startX, startY, startZ, areaX, areaY);
@@ -592,11 +578,6 @@ public class ChoreFarming extends AbstractChore
 		}
 	}
 
-	/**
-	 * Sets the owner's path to the target block.
-	 * 
-	 * @return	True if a path was set. False if otherwise.
-	 */
 	private boolean setPathToNextBlock()
 	{
 		if (LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, targetX, targetY, targetZ) > 1.7F)
@@ -612,9 +593,6 @@ public class ChoreFarming extends AbstractChore
 		return false;
 	}
 
-	/**
-	 * Increments and unlocks achievements for player children.
-	 */
 	private void updateAchievementStats()
 	{
 		if (owner instanceof EntityPlayerChild)
@@ -634,9 +612,6 @@ public class ChoreFarming extends AbstractChore
 		}
 	}
 
-	/**
-	 * Finds and assigns the next block that is to be maintained.
-	 */
 	private void doAssignNextBlockForMaintain()
 	{
 		final List<Coordinates> coords = LogicHelper.getNearbyHarvestableCrops(owner, startX, startY, startZ, radius);
@@ -664,20 +639,12 @@ public class ChoreFarming extends AbstractChore
 		}
 	}
 
-	/**
-	 * Checks if the next maintain farm task should run.
-	 * 
-	 * @return	True if the task should run. False if otherwise.
-	 */
 	private boolean canDoNextMaintainTask()
 	{
 		return delayCounter >= delay && 
 				LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, targetX, targetY, targetZ) <= 2.5F;
 	}
 
-	/**
-	 * Performs the next maintenance task on the farm.
-	 */
 	private void doNextMaintainTask()
 	{
 		delayCounter = 0;
@@ -751,9 +718,6 @@ public class ChoreFarming extends AbstractChore
 		}
 	}
 
-	/**
-	 * Swings the owner's arm and updates the maintain farm delay.
-	 */
 	private void updateMaintainFarm()
 	{
 		delayCounter++;
