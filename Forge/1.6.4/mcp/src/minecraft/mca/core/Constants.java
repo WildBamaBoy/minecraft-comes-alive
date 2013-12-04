@@ -9,6 +9,8 @@
 
 package mca.core;
 
+import net.minecraft.item.Item;
+
 /**
  * Defines constants used by MCA.
  */
@@ -16,6 +18,31 @@ public final class Constants
 {
 	/** MCA's current version. */
 	public static final String VERSION = "3.6.0";
+	
+	//Ticks per second, minute, and hour.
+	public static final int TICKS_SECOND = 20;
+	public static final int TICKS_MINUTE = 1200;
+	public static final int TICKS_HOUR   = 72000;
+	
+	//Animal IDs for hunting chore.
+	public static final byte ID_ANIMAL_SHEEP = 0;
+	public static final byte ID_ANIMAL_COW = 1;
+	public static final byte ID_ANIMAL_PIG = 2;
+	public static final byte ID_ANIMAL_CHICKEN = 3;
+	public static final byte ID_ANIMAL_WOLF = 4;
+	
+	/**Animal data for hunting chore.
+	 * Index zero contains the animal's ID.
+	 * Index one contains the item ID used to tame the animal.
+	 * Index two contains the probability of successful taming.*/
+	public static final int[][] ANIMAL_DATA = 
+		{
+		{Constants.ID_ANIMAL_SHEEP, Item.wheat.itemID, 50},
+		{Constants.ID_ANIMAL_COW, Item.wheat.itemID, 40},
+		{Constants.ID_ANIMAL_PIG, Item.carrot.itemID, 70},
+		{Constants.ID_ANIMAL_CHICKEN, Item.seeds.itemID, 70},
+		{Constants.ID_ANIMAL_WOLF, Item.bone.itemID, 33},
+		};
 	
 	//Gui IDs
 	public static final byte ID_GUI_INVENTORY = 0;
