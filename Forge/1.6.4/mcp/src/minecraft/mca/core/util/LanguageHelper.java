@@ -574,7 +574,7 @@ public final class LanguageHelper
 			if (text.contains("%OreDistance%"))
 			{
 				final EntityChild child = (EntityChild)entity;
-				text = text.replace("%OreDistance%", String.valueOf(child.miningChore.passiveDistanceToOre));
+				text = text.replace("%OreDistance%", String.valueOf(child.miningChore.distanceToOre));
 			}
 
 			if (text.contains("%ChildTitle%"))

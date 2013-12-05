@@ -123,28 +123,28 @@ public class ChoreHunting extends AbstractChore
 
 				else
 				{
-					final int sheepSuccessful 		= getHuntingResults(Constants.ID_ANIMAL_SHEEP, owner.worldObj.rand.nextInt(10));
-					final int cowsSuccessful 		= getHuntingResults(Constants.ID_ANIMAL_COW, owner.worldObj.rand.nextInt(10));
-					final int wolvesSuccessful 		= getHuntingResults(Constants.ID_ANIMAL_WOLF, huntingMode == 0 ? 0 : owner.worldObj.rand.nextInt(5));
-					final int pigsSuccessful 		= getHuntingResults(Constants.ID_ANIMAL_PIG, owner.worldObj.rand.nextInt(10));
-					final int chickensSuccessful 	= getHuntingResults(Constants.ID_ANIMAL_CHICKEN, owner.worldObj.rand.nextInt(10));
-					final int totalSuccess 			= sheepSuccessful + cowsSuccessful + wolvesSuccessful + pigsSuccessful + chickensSuccessful;
+					final int sheepSuccess 		= getHuntingResults(Constants.ID_ANIMAL_SHEEP, owner.worldObj.rand.nextInt(10));
+					final int cowSuccess 		= getHuntingResults(Constants.ID_ANIMAL_COW, owner.worldObj.rand.nextInt(10));
+					final int wolfSuccess 		= getHuntingResults(Constants.ID_ANIMAL_WOLF, huntingMode == 0 ? 0 : owner.worldObj.rand.nextInt(5));
+					final int pigSuccess 		= getHuntingResults(Constants.ID_ANIMAL_PIG, owner.worldObj.rand.nextInt(10));
+					final int chickenSuccess 	= getHuntingResults(Constants.ID_ANIMAL_CHICKEN, owner.worldObj.rand.nextInt(10));
+					final int totalSuccess 		= sheepSuccess + cowSuccess + wolfSuccess + pigSuccess + chickenSuccess;
 
 					//Now add meat to inventory if kill mode.
 					if (huntingMode == 0)
 					{
-						addObtainedMeat(sheepSuccessful, cowsSuccessful, pigsSuccessful, chickensSuccessful);
+						addObtainedMeat(sheepSuccess, cowSuccess, pigSuccess, chickenSuccess);
 						updateKillAchievement(totalSuccess);
 					}
 
 					//Add the entity to the world if in tame mode.
 					else
 					{
-						addEntityToWorld(Constants.ID_ANIMAL_SHEEP, sheepSuccessful);
-						addEntityToWorld(Constants.ID_ANIMAL_COW, cowsSuccessful);
-						addEntityToWorld(Constants.ID_ANIMAL_WOLF, wolvesSuccessful);
-						addEntityToWorld(Constants.ID_ANIMAL_PIG, pigsSuccessful);
-						addEntityToWorld(Constants.ID_ANIMAL_CHICKEN, chickensSuccessful);
+						addEntityToWorld(Constants.ID_ANIMAL_SHEEP, sheepSuccess);
+						addEntityToWorld(Constants.ID_ANIMAL_COW, cowSuccess);
+						addEntityToWorld(Constants.ID_ANIMAL_WOLF, wolfSuccess);
+						addEntityToWorld(Constants.ID_ANIMAL_PIG, pigSuccess);
+						addEntityToWorld(Constants.ID_ANIMAL_CHICKEN, chickenSuccess);
 						updateTameAchievement(totalSuccess);
 					}
 
@@ -180,7 +180,7 @@ public class ChoreHunting extends AbstractChore
 	}
 
 	@Override
-	public void writeChoreToNBT(NBTTagCompound NBT) 
+	public void writeChoreToNBT(NBTTagCompound nbt) 
 	{
 		//Loop through each field in this class and write to NBT.
 		for (final Field field : this.getClass().getFields())
@@ -191,32 +191,32 @@ public class ChoreHunting extends AbstractChore
 				{
 					if (field.getType().toString().contains("int"))
 					{
-						NBT.setInteger(field.getName(), Integer.parseInt(field.get(owner.huntingChore).toString()));
+						nbt.setInteger(field.getName(), Integer.parseInt(field.get(owner.huntingChore).toString()));
 					}
 
 					else if (field.getType().toString().contains("double"))
 					{
-						NBT.setDouble(field.getName(), Double.parseDouble(field.get(owner.huntingChore).toString()));
+						nbt.setDouble(field.getName(), Double.parseDouble(field.get(owner.huntingChore).toString()));
 					}
 
 					else if (field.getType().toString().contains("float"))
 					{
-						NBT.setFloat(field.getName(), Float.parseFloat(field.get(owner.huntingChore).toString()));
+						nbt.setFloat(field.getName(), Float.parseFloat(field.get(owner.huntingChore).toString()));
 					}
 
 					else if (field.getType().toString().contains("String"))
 					{
-						NBT.setString(field.getName(), field.get(owner.huntingChore).toString());
+						nbt.setString(field.getName(), field.get(owner.huntingChore).toString());
 					}
 
 					else if (field.getType().toString().contains("boolean"))
 					{
-						NBT.setBoolean(field.getName(), Boolean.parseBoolean(field.get(owner.huntingChore).toString()));
+						nbt.setBoolean(field.getName(), Boolean.parseBoolean(field.get(owner.huntingChore).toString()));
 					}
 				}
 			}
 
-			catch (Exception e)
+			catch (IllegalAccessException e)
 			{
 				MCA.getInstance().log(e);
 				continue;
@@ -225,7 +225,7 @@ public class ChoreHunting extends AbstractChore
 	}
 
 	@Override
-	public void readChoreFromNBT(NBTTagCompound NBT) 
+	public void readChoreFromNBT(NBTTagCompound nbt) 
 	{
 		//Loop through each field in this class and read from NBT.
 		for (final Field field : this.getClass().getFields())
@@ -236,37 +236,43 @@ public class ChoreHunting extends AbstractChore
 				{
 					if (field.getType().toString().contains("int"))
 					{
-						field.set(owner.huntingChore, NBT.getInteger(field.getName()));
+						field.set(owner.huntingChore, nbt.getInteger(field.getName()));
 					}
 
 					else if (field.getType().toString().contains("double"))
 					{
-						field.set(owner.huntingChore, NBT.getDouble(field.getName()));
+						field.set(owner.huntingChore, nbt.getDouble(field.getName()));
 					}
 
 					else if (field.getType().toString().contains("float"))
 					{
-						field.set(owner.huntingChore, NBT.getFloat(field.getName()));
+						field.set(owner.huntingChore, nbt.getFloat(field.getName()));
 					}
 
 					else if (field.getType().toString().contains("String"))
 					{
-						field.set(owner.huntingChore, NBT.getString(field.getName()));
+						field.set(owner.huntingChore, nbt.getString(field.getName()));
 					}
 
 					else if (field.getType().toString().contains("boolean"))
 					{
-						field.set(owner.huntingChore, NBT.getBoolean(field.getName()));
+						field.set(owner.huntingChore, nbt.getBoolean(field.getName()));
 					}
 				}
 			}
 
-			catch (Exception e)
+			catch (IllegalAccessException e)
 			{
 				MCA.getInstance().log(e);
 				continue;
 			}
 		}
+	}
+
+	@Override
+	protected int getDelayForToolType(ItemStack toolStack) 
+	{
+		return 0;
 	}
 
 	private void updateHuntingTime()
@@ -335,12 +341,12 @@ public class ChoreHunting extends AbstractChore
 		return successfulAnimals;
 	}
 
-	private void addObtainedMeat(int sheepSuccessful, int cowsSuccessful, int pigsSuccessful, int chickensSuccessful)
+	private void addObtainedMeat(int sheepSuccess, int cowSuccess, int pigSuccess, int chickenSuccess)
 	{
 		if (owner instanceof EntityPlayerChild)
 		{
 			EntityPlayerChild child = (EntityPlayerChild)owner;
-			child.animalsKilled += sheepSuccessful + cowsSuccessful + pigsSuccessful + chickensSuccessful;
+			child.animalsKilled += sheepSuccess + cowSuccess + pigSuccess + chickenSuccess;
 
 			//Check for achievement
 			if (child.animalsKilled >= 100)
@@ -354,10 +360,10 @@ public class ChoreHunting extends AbstractChore
 			}
 		}
 
-		owner.inventory.addItemStackToInventory(new ItemStack(Block.cloth, sheepSuccessful * 2));
-		owner.inventory.addItemStackToInventory(new ItemStack(Item.beefRaw, cowsSuccessful));
-		owner.inventory.addItemStackToInventory(new ItemStack(Item.porkRaw, pigsSuccessful));
-		owner.inventory.addItemStackToInventory(new ItemStack(Item.chickenRaw, chickensSuccessful));
+		owner.inventory.addItemStackToInventory(new ItemStack(Block.cloth, sheepSuccess * 2));
+		owner.inventory.addItemStackToInventory(new ItemStack(Item.beefRaw, cowSuccess));
+		owner.inventory.addItemStackToInventory(new ItemStack(Item.porkRaw, pigSuccess));
+		owner.inventory.addItemStackToInventory(new ItemStack(Item.chickenRaw, chickenSuccess));
 	}
 
 	private void updateTameAchievement(int animalsTamed)
@@ -418,6 +424,7 @@ public class ChoreHunting extends AbstractChore
 			case Constants.ID_ANIMAL_WOLF: entityToSpawn = new EntityWolf(owner.worldObj); break;
 			case Constants.ID_ANIMAL_PIG: entityToSpawn = new EntityPig(owner.worldObj); break;
 			case Constants.ID_ANIMAL_CHICKEN: entityToSpawn = new EntityChicken(owner.worldObj); break;
+			default: break;
 			}
 
 			while (counter != 0)

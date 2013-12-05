@@ -23,7 +23,9 @@ import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemAxe;
+import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -491,6 +493,22 @@ public class ChoreWoodcutting extends AbstractChore
 				MCA.getInstance().log(e);
 				continue;
 			}
+		}
+	}
+
+	@Override
+	protected int getDelayForToolType(ItemStack toolStack) 
+	{
+		final EnumToolMaterial material = EnumToolMaterial.valueOf(((ItemAxe)toolStack.getItem()).getToolMaterialName());
+		
+		switch (material)
+		{
+		case WOOD: 		return 40;
+		case STONE: 	return 30;
+		case IRON: 		return 25;
+		case EMERALD: 	return 10;
+		case GOLD: 		return 5;
+		default: 		return 25;
 		}
 	}
 }

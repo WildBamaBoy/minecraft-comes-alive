@@ -23,6 +23,7 @@ import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
@@ -86,7 +87,7 @@ public class ChoreFarming extends AbstractChore
 	public boolean hasDoneWork;
 
 	/**Is the entity supposed to have a path to a block? */
-	public boolean hasAssignedNextBlock;
+	public boolean hasNextPathBlock;
 
 	/**
 	 * Constructor
@@ -222,7 +223,7 @@ public class ChoreFarming extends AbstractChore
 	}
 
 	@Override
-	public void writeChoreToNBT(NBTTagCompound NBT) 
+	public void writeChoreToNBT(NBTTagCompound nbt) 
 	{
 		//Loop through each field in this class and write to NBT.
 		for (final Field field : this.getClass().getFields())
@@ -233,27 +234,27 @@ public class ChoreFarming extends AbstractChore
 				{
 					if (field.getType().toString().contains("int"))
 					{
-						NBT.setInteger(field.getName(), Integer.parseInt(field.get(owner.farmingChore).toString()));
+						nbt.setInteger(field.getName(), Integer.parseInt(field.get(owner.farmingChore).toString()));
 					}
 
 					else if (field.getType().toString().contains("double"))
 					{
-						NBT.setDouble(field.getName(), Double.parseDouble(field.get(owner.farmingChore).toString()));
+						nbt.setDouble(field.getName(), Double.parseDouble(field.get(owner.farmingChore).toString()));
 					}
 
 					else if (field.getType().toString().contains("float"))
 					{
-						NBT.setFloat(field.getName(), Float.parseFloat(field.get(owner.farmingChore).toString()));
+						nbt.setFloat(field.getName(), Float.parseFloat(field.get(owner.farmingChore).toString()));
 					}
 
 					else if (field.getType().toString().contains("String"))
 					{
-						NBT.setString(field.getName(), field.get(owner.farmingChore).toString());
+						nbt.setString(field.getName(), field.get(owner.farmingChore).toString());
 					}
 
 					else if (field.getType().toString().contains("boolean"))
 					{
-						NBT.setBoolean(field.getName(), Boolean.parseBoolean(field.get(owner.farmingChore).toString()));
+						nbt.setBoolean(field.getName(), Boolean.parseBoolean(field.get(owner.farmingChore).toString()));
 					}
 				}
 			}
@@ -267,7 +268,7 @@ public class ChoreFarming extends AbstractChore
 	}
 
 	@Override
-	public void readChoreFromNBT(NBTTagCompound NBT) 
+	public void readChoreFromNBT(NBTTagCompound nbt) 
 	{
 		//Loop through each field in this class and read from NBT.
 		for (final Field field : this.getClass().getFields())
@@ -278,27 +279,27 @@ public class ChoreFarming extends AbstractChore
 				{
 					if (field.getType().toString().contains("int"))
 					{
-						field.set(owner.farmingChore, NBT.getInteger(field.getName()));
+						field.set(owner.farmingChore, nbt.getInteger(field.getName()));
 					}
 
 					else if (field.getType().toString().contains("double"))
 					{
-						field.set(owner.farmingChore, NBT.getDouble(field.getName()));
+						field.set(owner.farmingChore, nbt.getDouble(field.getName()));
 					}
 
 					else if (field.getType().toString().contains("float"))
 					{
-						field.set(owner.farmingChore, NBT.getFloat(field.getName()));
+						field.set(owner.farmingChore, nbt.getFloat(field.getName()));
 					}
 
 					else if (field.getType().toString().contains("String"))
 					{
-						field.set(owner.farmingChore, NBT.getString(field.getName()));
+						field.set(owner.farmingChore, nbt.getString(field.getName()));
 					}
 
 					else if (field.getType().toString().contains("boolean"))
 					{
-						field.set(owner.farmingChore, NBT.getBoolean(field.getName()));
+						field.set(owner.farmingChore, nbt.getBoolean(field.getName()));
 					}
 				}
 			}
@@ -311,44 +312,27 @@ public class ChoreFarming extends AbstractChore
 		}
 	}
 
+	@Override
+	protected int getDelayForToolType(ItemStack toolStack)
+	{
+		final EnumToolMaterial material = EnumToolMaterial.valueOf(((ItemHoe)toolStack.getItem()).getMaterialName());
+		
+		switch (material)
+		{
+		case WOOD: 		return 40;
+		case STONE: 	return 30;
+		case IRON: 		return 25;
+		case EMERALD: 	return 10;
+		case GOLD: 		return 5;
+		default: 		return 25;
+		}
+	}
+
 	private boolean initializeCreateFarm()
 	{
 		//Assign the seed ID and crop ID from the selected seed type from the GUI.
-		if (seedType == 0)
-		{
-			cropSeedId = Item.seeds.itemID;
-			cropBlockId = Block.crops.blockID;
-		}
-
-		else if (seedType == 1)
-		{
-			cropSeedId = Item.melonSeeds.itemID;
-			cropBlockId = Block.melonStem.blockID;
-		}
-
-		else if (seedType == 2)
-		{
-			cropSeedId = Item.pumpkinSeeds.itemID;
-			cropBlockId = Block.pumpkinStem.blockID;
-		}
-
-		else if (seedType == 3)
-		{
-			cropSeedId = Item.carrot.itemID;
-			cropBlockId = Block.carrot.blockID;
-		}
-
-		else if (seedType == 4)
-		{
-			cropSeedId = Item.potato.itemID;
-			cropBlockId = Block.potato.blockID;
-		}
-
-		else if (seedType == 5)
-		{
-			cropSeedId = Item.reed.itemID;
-			cropBlockId = Block.reed.blockID;
-		}
+		cropSeedId = Constants.CROP_DATA[seedType][1];
+		cropBlockId = Constants.CROP_DATA[seedType][2];
 
 		//Set the delay based on type of farming tool.
 		final ItemStack hoeStack = owner.inventory.getBestItemOfType(ItemHoe.class);
@@ -361,64 +345,16 @@ public class ChoreFarming extends AbstractChore
 			}
 
 			endChore();
+			return false;
 		}
 
-		//They don't have a hoe in their inventory.
-		else
+		delayCounter = getDelayForToolType(hoeStack);
+
+		if (!owner.worldObj.isRemote && owner.inventory.getQuantityOfItem(cropSeedId) < getSeedsRequired())
 		{
-			final String itemName = hoeStack.getDisplayName();
-
-			if (itemName.contains("Wood"))
-			{
-				delayCounter = 40;
-			}
-
-			else if (itemName.contains("Stone"))
-			{
-				delayCounter = 30;
-			}
-
-			else if (itemName.contains("Iron"))
-			{
-				delayCounter = 25;
-			}
-
-			else if (itemName.contains("Diamond"))
-			{
-				delayCounter = 10;
-			}
-
-			else if (itemName.contains("Gold"))
-			{
-				delayCounter = 5;
-			}
-
-			else
-			{
-				delayCounter = 25;
-			}
-		}
-
-		//Check for the correct amount of seeds as well.
-		int seedsRequired = 0;
-
-		if (!owner.worldObj.isRemote)
-		{
-			for (final char taskString : MCA.getFarmMap(areaX, seedType))
-			{
-				if (taskString == 'S')
-				{
-					seedsRequired++;
-				}
-			}
-
-			if (owner.inventory.getQuantityOfItem(cropSeedId) < seedsRequired)
-			{
-				owner.say(LanguageHelper.getString("notify.child.chore.interrupted.farming.noseeds"));
-
-				endChore();
-				return false;
-			}
+			owner.say(LanguageHelper.getString("notify.child.chore.interrupted.farming.noseeds"));
+			endChore();
+			return false;
 		}
 
 		return true;
@@ -429,7 +365,7 @@ public class ChoreFarming extends AbstractChore
 	 */
 	private void runCreateFarmLogic()
 	{
-		if (hasAssignedNextBlock)
+		if (hasNextPathBlock)
 		{
 			setPathToNextBlock();
 
@@ -455,7 +391,7 @@ public class ChoreFarming extends AbstractChore
 	 */
 	private void runMaintainFarmLogic()
 	{
-		if (hasAssignedNextBlock)
+		if (hasNextPathBlock)
 		{
 			setPathToNextBlock();
 
@@ -534,7 +470,7 @@ public class ChoreFarming extends AbstractChore
 		delayCounter = 0;
 		farmlandIndex++;
 		hasDoneWork = true;
-		hasAssignedNextBlock = false;
+		hasNextPathBlock = false;
 
 		updateAchievementStats();
 	}
@@ -574,7 +510,7 @@ public class ChoreFarming extends AbstractChore
 			targetX = (int)farmland.get(0).x;
 			targetY = (int)farmland.get(0).y;
 			targetZ = (int)farmland.get(0).z;
-			hasAssignedNextBlock = true;
+			hasNextPathBlock = true;
 		}
 	}
 
@@ -621,7 +557,7 @@ public class ChoreFarming extends AbstractChore
 			targetX = (int)coords.get(0).x;
 			targetY = (int)coords.get(0).y;
 			targetZ = (int)coords.get(0).z;
-			hasAssignedNextBlock = true;
+			hasNextPathBlock = true;
 
 			final int blockID = owner.worldObj.getBlockId(targetX, targetY, targetZ);
 			if (blockID == Block.pumpkin.blockID || blockID == Block.melon.blockID)
@@ -648,61 +584,16 @@ public class ChoreFarming extends AbstractChore
 	private void doNextMaintainTask()
 	{
 		delayCounter = 0;
-		hasAssignedNextBlock = false;
+		hasNextPathBlock = false;
 
 		if (!owner.worldObj.isRemote)
 		{
-			int cropID = 0;
-			int cropsToAdd = 0;
-			int seedsToAdd = 0;
-
-			final int blockID = owner.worldObj.getBlockId(targetX, targetY, targetZ);
 			owner.worldObj.setBlock(targetX, targetY, targetZ, 0);
 
-			if (blockID == Block.crops.blockID)
-			{
-				cropID = Item.wheat.itemID;
-				cropsToAdd = 1;
-				seedsToAdd = MCA.rand.nextInt(4);
-
-				if (seedsToAdd > 0 || owner.inventory.getQuantityOfItem(Item.seeds) > 0)
-				{
-					owner.worldObj.setBlock(targetX, targetY, targetZ, 59);
-				}
-			}
-
-			else if (blockID == Block.pumpkin.blockID)
-			{
-				cropID = blockID;
-				cropsToAdd = 1;
-			}
-
-			else if (blockID == Block.potato.blockID)
-			{
-				cropID = Item.potato.itemID;
-				cropsToAdd = MCA.rand.nextInt(5) + 1;
-				owner.worldObj.setBlock(targetX, targetY, targetZ, 142);
-			}
-
-			else if (blockID == Block.carrot.blockID)
-			{
-				cropID = Item.carrot.itemID;
-				cropsToAdd = MCA.rand.nextInt(5) + 1;
-				owner.worldObj.setBlock(targetX, targetY, targetZ, 141);
-			}
-
-			else if (blockID == Block.melon.blockID)
-			{
-				cropID = Item.melon.itemID;
-				cropsToAdd = MCA.rand.nextInt(5) + 3;
-			}
-
-			else if (blockID == Block.reed.blockID)
-			{
-				cropID = Item.reed.itemID;
-				cropsToAdd = 1;
-			}
-
+			final int cropID = Constants.CROP_DATA[seedType][3];
+			final int cropsToAdd = getNumberOfCropsToAdd(seedType);
+			final int seedsToAdd = getNumberOfSeedsToAdd(seedType);
+			
 			if (seedsToAdd != 0)
 			{
 				owner.inventory.addItemStackToInventory(new ItemStack(Item.seeds, seedsToAdd));
@@ -722,5 +613,39 @@ public class ChoreFarming extends AbstractChore
 	{
 		delayCounter++;
 		owner.swingItem();
+	}
+
+	private int getSeedsRequired()
+	{
+		int seedsRequired = 0;
+
+		for (final char taskString : MCA.getFarmMap(areaX, seedType))
+		{
+			if (taskString == 'S')
+			{
+				seedsRequired++;
+			}
+		}
+
+		return seedsRequired;
+	}
+	
+	private int getNumberOfCropsToAdd(int seedType)
+	{
+		switch (seedType)
+		{
+		case Constants.ID_CROP_WHEAT: return 1;
+		case Constants.ID_CROP_MELON: return MCA.rand.nextInt(5) + 3;
+		case Constants.ID_CROP_PUMPKIN: return 1;
+		case Constants.ID_CROP_CARROT: return MCA.rand.nextInt(5) + 1;
+		case Constants.ID_CROP_POTATO: return MCA.rand.nextInt(5) + 1;
+		case Constants.ID_CROP_SUGARCANE: return 1;
+		default: return 0;
+		}
+	}
+	
+	private int getNumberOfSeedsToAdd(int seedType)
+	{
+		return seedType == Constants.ID_CROP_WHEAT ? MCA.rand.nextInt(4) : 0;
 	}
 }

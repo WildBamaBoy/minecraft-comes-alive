@@ -2047,7 +2047,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == farmPlantButton)
 		{
-			if (farmPlantType == 5)
+			if (farmPlantType == Constants.CROP_DATA.length)
 			{
 				farmPlantType = 0;
 			}

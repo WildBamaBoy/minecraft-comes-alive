@@ -33,6 +33,7 @@ import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
@@ -123,55 +124,11 @@ public class ChoreCombat extends AbstractChore
 		//Run the appropriate AI depending on the combat chore settings.
 		if (sentryMode)
 		{
-			if (owner.isFollowing)
-			{
-				owner.isFollowing = false;
-				owner.target = null;
-			}
-
-			//Check if they need to move back to their sentry position.
-			if (owner.target == null || owner.target.isDead)
-			{
-				if (owner.getNavigator().noPath())
-				{
-					if (!owner.worldObj.isRemote)
-					{
-						if (Math.abs(sentryPosX - owner.posX) < 1.0D && Math.abs(sentryPosY - owner.posY) < 1.0D && Math.abs(sentryPosZ) - owner.posZ < 1.0D)
-						{
-							if (!owner.isStaying)
-							{
-								PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(owner.entityId, "isStaying", true));
-								owner.isStaying = true;
-							}
-						}
-
-						else
-						{
-							if (owner.isStaying)
-							{
-								PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(owner.entityId, "isStaying", false));
-								owner.isStaying = false;
-							}
-
-							owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(sentryPosX, sentryPosY, sentryPosZ), 0.6F);
-						}
-					}
-				}
-			}
-
-			else if (owner.target != null)
-			{
-				if (!owner.worldObj.isRemote)
-				{
-					if (owner.isStaying)
-					{
-						owner.isStaying = false;
-						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(owner.entityId, "isStaying", false));
-					}
-				}
-			}
+			runSentryAI();
 		}
 
+		//The sentry AI only tells when to start moving and when to move back. Fall through to
+		//actually make them attack.
 		if (useMelee && !useRange)
 		{
 			runMeleeAI();
@@ -201,7 +158,7 @@ public class ChoreCombat extends AbstractChore
 	}
 
 	@Override
-	public void writeChoreToNBT(NBTTagCompound NBT) 
+	public void writeChoreToNBT(NBTTagCompound nbt) 
 	{
 		//Loop through each field in this class and write to NBT.
 		for (final Field field : this.getClass().getFields())
@@ -212,27 +169,27 @@ public class ChoreCombat extends AbstractChore
 				{
 					if (field.getType().toString().contains("int"))
 					{
-						NBT.setInteger(field.getName(), (Integer)field.get(owner.combatChore));
+						nbt.setInteger(field.getName(), (Integer)field.get(owner.combatChore));
 					}
 
 					else if (field.getType().toString().contains("double"))
 					{
-						NBT.setDouble(field.getName(), (Double)field.get(owner.combatChore));
+						nbt.setDouble(field.getName(), (Double)field.get(owner.combatChore));
 					}
 
 					else if (field.getType().toString().contains("float"))
 					{
-						NBT.setFloat(field.getName(), (Float)field.get(owner.combatChore));
+						nbt.setFloat(field.getName(), (Float)field.get(owner.combatChore));
 					}
 
 					else if (field.getType().toString().contains("String"))
 					{
-						NBT.setString(field.getName(), (String)field.get(owner.combatChore));
+						nbt.setString(field.getName(), (String)field.get(owner.combatChore));
 					}
 
 					else if (field.getType().toString().contains("boolean"))
 					{
-						NBT.setBoolean(field.getName(), (Boolean)field.get(owner.combatChore));
+						nbt.setBoolean(field.getName(), (Boolean)field.get(owner.combatChore));
 					}
 				}
 			}
@@ -246,7 +203,7 @@ public class ChoreCombat extends AbstractChore
 	}
 
 	@Override
-	public void readChoreFromNBT(NBTTagCompound NBT) 
+	public void readChoreFromNBT(NBTTagCompound nbt) 
 	{
 		//Loop through each field in this class and read it from NBT.
 		for (final Field field : this.getClass().getFields())
@@ -257,27 +214,27 @@ public class ChoreCombat extends AbstractChore
 				{
 					if (field.getType().toString().contains("int"))
 					{
-						field.set(owner.combatChore, NBT.getInteger(field.getName()));
+						field.set(owner.combatChore, nbt.getInteger(field.getName()));
 					}
 
 					else if (field.getType().toString().contains("double"))
 					{
-						field.set(owner.combatChore, NBT.getDouble(field.getName()));
+						field.set(owner.combatChore, nbt.getDouble(field.getName()));
 					}
 
 					else if (field.getType().toString().contains("float"))
 					{
-						field.set(owner.combatChore, NBT.getFloat(field.getName()));
+						field.set(owner.combatChore, nbt.getFloat(field.getName()));
 					}
 
 					else if (field.getType().toString().contains("String"))
 					{
-						field.set(owner.combatChore, NBT.getString(field.getName()));
+						field.set(owner.combatChore, nbt.getString(field.getName()));
 					}
 
 					else if (field.getType().toString().contains("boolean"))
 					{
-						field.set(owner.combatChore, NBT.getBoolean(field.getName()));
+						field.set(owner.combatChore, nbt.getBoolean(field.getName()));
 					}
 				}
 			}
@@ -288,6 +245,12 @@ public class ChoreCombat extends AbstractChore
 				continue;
 			}
 		}
+	}
+
+	@Override
+	protected int getDelayForToolType(ItemStack toolStack) 
+	{
+		return 0;
 	}
 
 	/**
@@ -356,6 +319,43 @@ public class ChoreCombat extends AbstractChore
 			else
 			{
 				runRangeAI();
+			}
+		}
+	}
+
+	private void runSentryAI()
+	{
+		if (owner.isFollowing)
+		{
+			owner.isFollowing = false;
+			owner.target = null;
+		}
+
+		if (!owner.worldObj.isRemote)
+		{
+			if (owner.target == null || owner.target.isDead)
+			{
+				if (owner.getNavigator().noPath())
+				{
+					if (isWithinSentryArea() && !owner.isStaying)
+					{
+						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(owner.entityId, "isStaying", true));
+						owner.isStaying = true;
+					}
+
+					else if (!isWithinSentryArea() && owner.isStaying)
+					{
+						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(owner.entityId, "isStaying", false));
+						owner.isStaying = false;
+						owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(sentryPosX, sentryPosY, sentryPosZ), 0.6F);
+					}
+				}
+			}
+
+			else if (owner.target != null && owner.isStaying)
+			{
+				owner.isStaying = false;
+				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(owner.entityId, "isStaying", false));
 			}
 		}
 	}
@@ -472,7 +472,8 @@ public class ChoreCombat extends AbstractChore
 		return owner.name.equals("Shepard") && 
 				owner.target instanceof EntityCreeper && 
 				owner.getDistanceToEntity(owner.target) > 3 && 
-				owner.getDistanceToEntity(owner.target) < 15;
+				owner.getDistanceToEntity(owner.target) < 15 && 
+				owner.worldObj.canBlockSeeTheSky((int)owner.target.posX, (int)owner.target.posY, (int)owner.target.posZ);
 	}
 
 	private boolean canDoMeleeAttack()
@@ -576,5 +577,10 @@ public class ChoreCombat extends AbstractChore
 			AbstractEntity.faceCoordinates(owner, owner.target.posX, owner.target.posY, owner.target.posZ);
 			rangedAttackTime--;
 		}
+	}
+
+	private boolean isWithinSentryArea()
+	{
+		return Math.abs(sentryPosX - owner.posX) < 1.0D && Math.abs(sentryPosY - owner.posY) < 1.0D && Math.abs(sentryPosZ) - owner.posZ < 1.0D;
 	}
 }
