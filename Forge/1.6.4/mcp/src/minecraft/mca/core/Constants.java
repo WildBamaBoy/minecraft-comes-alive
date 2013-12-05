@@ -9,6 +9,7 @@
 
 package mca.core;
 
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 
 /**
@@ -31,10 +32,12 @@ public final class Constants
 	public static final byte ID_ANIMAL_CHICKEN = 3;
 	public static final byte ID_ANIMAL_WOLF = 4;
 	
-	/**Animal data for hunting chore.
+	/**
+	 * Animal data for hunting chore.
 	 * Index zero contains the animal's ID.
 	 * Index one contains the item ID used to tame the animal.
-	 * Index two contains the probability of successful taming.*/
+	 * Index two contains the probability of successful taming.
+	 */
 	public static final int[][] ANIMAL_DATA = 
 		{
 		{Constants.ID_ANIMAL_SHEEP, Item.wheat.itemID, 50},
@@ -43,6 +46,40 @@ public final class Constants
 		{Constants.ID_ANIMAL_CHICKEN, Item.seeds.itemID, 70},
 		{Constants.ID_ANIMAL_WOLF, Item.bone.itemID, 33},
 		};
+	
+	//Crop IDs for farming chore.
+	public static final byte ID_CROP_WHEAT = 0;
+	public static final byte ID_CROP_MELON = 1;
+	public static final byte ID_CROP_PUMPKIN = 2;
+	public static final byte ID_CROP_CARROT = 3;
+	public static final byte ID_CROP_POTATO = 4;
+	public static final byte ID_CROP_SUGARCANE = 5;
+	
+	/**
+	 * Crop data for farming chore.
+	 * Index zero contains the crop's ID as defined by MCA.
+	 * Index one contains the ID of the item that serves as seeds for the crop.
+	 * Index two contains the block ID placed on the ground that forms actual crops.
+	 * Index three contains the ID given back when the crop is harvested.
+	 */
+	public static final int[][] CROP_DATA =
+		{
+		{ID_CROP_WHEAT, Item.seeds.itemID, Block.crops.blockID, Item.wheat.itemID},
+		{ID_CROP_MELON, Item.melonSeeds.itemID, Block.melonStem.blockID, Item.melon.itemID},
+		{ID_CROP_PUMPKIN, Item.pumpkinSeeds.itemID, Block.pumpkinStem.blockID, Block.pumpkin.blockID},
+		{ID_CROP_CARROT, Item.carrot.itemID, Block.carrot.blockID, Item.carrot.itemID},
+		{ID_CROP_POTATO, Item.potato.itemID, Block.potato.blockID, Item.potato.itemID},
+		{ID_CROP_SUGARCANE, Item.reed.itemID, Block.reed.blockID, Item.reed.itemID},
+		};
+	
+	//Ore IDs for mining chore.
+	public static final byte ID_ORE_COAL = 0;
+	public static final byte ID_ORE_IRON = 1;
+	public static final byte ID_ORE_LAPIS = 2;
+	public static final byte ID_ORE_GOLD = 3;
+	public static final byte ID_ORE_DIAMOND = 4;
+	public static final byte ID_ORE_REDSTONE = 5;
+	public static final byte ID_ORE_EMERALD = 6;
 	
 	//Gui IDs
 	public static final byte ID_GUI_INVENTORY = 0;

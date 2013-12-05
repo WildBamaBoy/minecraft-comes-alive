@@ -16,6 +16,7 @@ import mca.chore.ChoreFishing;
 import mca.chore.ChoreHunting;
 import mca.chore.ChoreMining;
 import mca.chore.ChoreWoodcutting;
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
@@ -1183,7 +1184,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 		else if (button == farmPlantButton)
 		{
-			if (farmPlantType == 5)
+			if (farmPlantType == Constants.CROP_DATA.length)
 			{
 				farmPlantType = 0;
 			}

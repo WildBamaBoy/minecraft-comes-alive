@@ -12,6 +12,7 @@ package mca.chore;
 import java.io.Serializable;
 
 import mca.entity.AbstractEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 /**
@@ -63,14 +64,21 @@ public abstract class AbstractChore implements Serializable
 	/**
 	 * Writes the chore to NBT.
 	 * 
-	 * @param 	NBT	The NBTTagCompound to write the chore to.
+	 * @param 	nbt	The NBTTagCompound to write the chore to.
 	 */
-	public abstract void writeChoreToNBT(NBTTagCompound NBT);
+	public abstract void writeChoreToNBT(NBTTagCompound nbt);
 
 	/**
 	 * Reads the chore from NBT.
 	 * 
-	 * @param 	NBT	The NBTTagCompound to read the chore from.
+	 * @param 	nbt	The NBTTagCompound to read the chore from.
 	 */
-	public abstract void readChoreFromNBT(NBTTagCompound NBT);
+	public abstract void readChoreFromNBT(NBTTagCompound nbt);
+	
+	/**
+	 * Returns a delay amount based on the material of the item in the provided ItemStack.
+	 * 
+	 * @param 	toolStack	The ItemStack containing the chore's tool.
+	 */
+	protected abstract int getDelayForToolType(ItemStack toolStack);
 }

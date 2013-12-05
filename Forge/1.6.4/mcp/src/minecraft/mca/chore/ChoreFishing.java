@@ -37,7 +37,7 @@ public class ChoreFishing extends AbstractChore
 	public transient EntityChoreFishHook fishEntity;
 
 	/** Does the owner have coordinates of water?*/
-	public boolean hasWaterCoordinates;
+	public boolean hasWaterCoords;
 
 	/** Does the owner have a random water block they should move to?*/
 	public boolean hasFishingTarget;
@@ -101,7 +101,7 @@ public class ChoreFishing extends AbstractChore
 	{
 		doItemVerification();
 
-		if (hasWaterCoordinates)
+		if (hasWaterCoords)
 		{
 			if (canFishingBegin())
 			{
@@ -186,7 +186,7 @@ public class ChoreFishing extends AbstractChore
 	}
 
 	@Override
-	public void writeChoreToNBT(NBTTagCompound NBT) 
+	public void writeChoreToNBT(NBTTagCompound nbt) 
 	{
 		//Loop through each field in this class and write to NBT.
 		for (final Field field : this.getClass().getFields())
@@ -197,32 +197,32 @@ public class ChoreFishing extends AbstractChore
 				{
 					if (field.getType().toString().contains("int"))
 					{
-						NBT.setInteger(field.getName(), (Integer)field.get(owner.fishingChore));
+						nbt.setInteger(field.getName(), (Integer)field.get(owner.fishingChore));
 					}
 
 					else if (field.getType().toString().contains("double"))
 					{
-						NBT.setDouble(field.getName(), (Double)field.get(owner.fishingChore));
+						nbt.setDouble(field.getName(), (Double)field.get(owner.fishingChore));
 					}
 
 					else if (field.getType().toString().contains("float"))
 					{
-						NBT.setFloat(field.getName(), (Float)field.get(owner.fishingChore));
+						nbt.setFloat(field.getName(), (Float)field.get(owner.fishingChore));
 					}
 
 					else if (field.getType().toString().contains("String"))
 					{
-						NBT.setString(field.getName(), (String)field.get(owner.fishingChore));
+						nbt.setString(field.getName(), (String)field.get(owner.fishingChore));
 					}
 
 					else if (field.getType().toString().contains("boolean"))
 					{
-						NBT.setBoolean(field.getName(), (Boolean)field.get(owner.fishingChore));
+						nbt.setBoolean(field.getName(), (Boolean)field.get(owner.fishingChore));
 					}
 				}
 			}
 
-			catch (Exception e)
+			catch (IllegalAccessException e)
 			{
 				MCA.getInstance().log(e);
 				continue;
@@ -231,7 +231,7 @@ public class ChoreFishing extends AbstractChore
 	}
 
 	@Override
-	public void readChoreFromNBT(NBTTagCompound NBT) 
+	public void readChoreFromNBT(NBTTagCompound nbt) 
 	{
 		//Loop through each field in this class and read from NBT.
 		for (final Field field : this.getClass().getFields())
@@ -242,37 +242,43 @@ public class ChoreFishing extends AbstractChore
 				{
 					if (field.getType().toString().contains("int"))
 					{
-						field.set(owner.fishingChore, NBT.getInteger(field.getName()));
+						field.set(owner.fishingChore, nbt.getInteger(field.getName()));
 					}
 
 					else if (field.getType().toString().contains("double"))
 					{
-						field.set(owner.fishingChore, NBT.getDouble(field.getName()));
+						field.set(owner.fishingChore, nbt.getDouble(field.getName()));
 					}
 
 					else if (field.getType().toString().contains("float"))
 					{
-						field.set(owner.fishingChore, NBT.getFloat(field.getName()));
+						field.set(owner.fishingChore, nbt.getFloat(field.getName()));
 					}
 
 					else if (field.getType().toString().contains("String"))
 					{
-						field.set(owner.fishingChore, NBT.getString(field.getName()));
+						field.set(owner.fishingChore, nbt.getString(field.getName()));
 					}
 
 					else if (field.getType().toString().contains("boolean"))
 					{
-						field.set(owner.fishingChore, NBT.getBoolean(field.getName()));
+						field.set(owner.fishingChore, nbt.getBoolean(field.getName()));
 					}
 				}
 			}
 
-			catch (Exception e)
+			catch (IllegalAccessException e)
 			{
 				MCA.getInstance().log(e);
 				continue;
 			}
 		}
+	}
+
+	@Override
+	protected int getDelayForToolType(ItemStack toolStack) 
+	{
+		return 0;
 	}
 
 	private boolean setWaterCoordinates()
@@ -296,7 +302,7 @@ public class ChoreFishing extends AbstractChore
 			waterCoordinatesX = (int)waterCoordinates.x;
 			waterCoordinatesY = (int)waterCoordinates.y;
 			waterCoordinatesZ = (int)waterCoordinates.z;
-			hasWaterCoordinates = true;
+			hasWaterCoords = true;
 
 			return true;
 		}
