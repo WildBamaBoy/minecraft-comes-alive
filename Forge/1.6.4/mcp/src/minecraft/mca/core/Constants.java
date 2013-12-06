@@ -22,8 +22,6 @@ public final class Constants
 {
 	/** MCA's current version. */
 	public static final String VERSION = "3.6.0";
-
-	public static final int RANDOM = -1;
 	
 	//Ticks per second, minute, and hour.
 	public static final int TICKS_SECOND = 20;
