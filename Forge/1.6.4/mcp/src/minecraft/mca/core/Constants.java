@@ -9,6 +9,9 @@
 
 package mca.core;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 
@@ -19,19 +22,21 @@ public final class Constants
 {
 	/** MCA's current version. */
 	public static final String VERSION = "3.6.0";
+
+	public static final int RANDOM = -1;
 	
 	//Ticks per second, minute, and hour.
 	public static final int TICKS_SECOND = 20;
 	public static final int TICKS_MINUTE = 1200;
 	public static final int TICKS_HOUR   = 72000;
-	
+
 	//Animal IDs for hunting chore.
 	public static final byte ID_ANIMAL_SHEEP = 0;
 	public static final byte ID_ANIMAL_COW = 1;
 	public static final byte ID_ANIMAL_PIG = 2;
 	public static final byte ID_ANIMAL_CHICKEN = 3;
 	public static final byte ID_ANIMAL_WOLF = 4;
-	
+
 	/**
 	 * Animal data for hunting chore.
 	 * Index zero contains the animal's ID.
@@ -46,7 +51,7 @@ public final class Constants
 		{Constants.ID_ANIMAL_CHICKEN, Item.seeds.itemID, 70},
 		{Constants.ID_ANIMAL_WOLF, Item.bone.itemID, 33},
 		};
-	
+
 	//Crop IDs for farming chore.
 	public static final byte ID_CROP_WHEAT = 0;
 	public static final byte ID_CROP_MELON = 1;
@@ -54,7 +59,7 @@ public final class Constants
 	public static final byte ID_CROP_CARROT = 3;
 	public static final byte ID_CROP_POTATO = 4;
 	public static final byte ID_CROP_SUGARCANE = 5;
-	
+
 	/**
 	 * Crop data for farming chore.
 	 * Index zero contains the crop's ID as defined by MCA.
@@ -71,7 +76,7 @@ public final class Constants
 		{ID_CROP_POTATO, Item.potato.itemID, Block.potato.blockID, Item.potato.itemID},
 		{ID_CROP_SUGARCANE, Item.reed.itemID, Block.reed.blockID, Item.reed.itemID},
 		};
-	
+
 	//Ore IDs for mining chore.
 	public static final byte ID_ORE_COAL = 0;
 	public static final byte ID_ORE_IRON = 1;
@@ -80,7 +85,40 @@ public final class Constants
 	public static final byte ID_ORE_DIAMOND = 4;
 	public static final byte ID_ORE_REDSTONE = 5;
 	public static final byte ID_ORE_EMERALD = 6;
-	
+
+	/**
+	 * Ore data for farming chore.
+	 * Index zero contains the crop's ID as defined by MCA.
+	 * Index one contains the ID of the item that serves as seeds for the crop.
+	 * Index two contains the block ID placed on the ground that forms actual crops.
+	 * Index three contains the ID given back when the crop is harvested.
+	 */
+	public static final int[][] ORE_DATA =
+		{
+		{ID_ORE_COAL, Block.oreCoal.blockID},
+		{ID_ORE_IRON, Block.oreIron.blockID},
+		{ID_ORE_LAPIS, Block.oreLapis.blockID},
+		{ID_ORE_GOLD, Block.oreGold.blockID},
+		{ID_ORE_DIAMOND, Block.oreDiamond.blockID},
+		{ID_ORE_REDSTONE, Block.oreRedstone.blockID},
+		{ID_ORE_EMERALD, Block.oreEmerald.blockID},
+		};
+
+	public static final int[] UNMINEABLE_BLOCKS =
+		{
+		Block.bedrock.blockID,
+		Block.waterStill.blockID,
+		Block.waterMoving.blockID,
+		Block.lavaStill.blockID,
+		Block.lavaMoving.blockID,
+		Block.fire.blockID,
+		Block.mobSpawner.blockID,
+		Block.redstoneWire.blockID,
+		Block.crops.blockID,
+		Block.tilledField.blockID,
+		Block.reed.blockID,	
+		};
+
 	//Gui IDs
 	public static final byte ID_GUI_INVENTORY = 0;
 	public static final byte ID_GUI_GAMEOVER = 1;
@@ -104,16 +142,16 @@ public final class Constants
 	//Hitbox sizes.
 	public static final float HEIGHT_ADULT = 1.8F;
 	public static final float WIDTH_ADULT = 0.6F;
-	
+
 	//Model sizes.
 	public static final float SCALE_MALE_ADULT = 0.9375F;
 	public static final float SCALE_FEMALE_ADULT = 0.915F;
 	public static final float SCALE_MAX = 1.1F;
 	public static final float SCALE_MIN = 0.85F;
-	
+
 	//Colors & formatting
 	private static final char SECTION_SIGN = '§';
-	
+
 	public static final String COLOR_BLACK = SECTION_SIGN + "0";
 	public static final String COLOR_DARKBLUE = SECTION_SIGN + "1";
 	public static final String COLOR_DARKGREEN = SECTION_SIGN + "2";
@@ -130,13 +168,33 @@ public final class Constants
 	public static final String COLOR_LIGHTPURPLE = SECTION_SIGN + "D";
 	public static final String COLOR_YELLOW = SECTION_SIGN + "E";
 	public static final String COLOR_WHITE = SECTION_SIGN + "F";
-	
+
 	public static final String FORMAT_OBFUSCATED = SECTION_SIGN + "k";
 	public static final String FORMAT_BOLD = SECTION_SIGN + "l";
 	public static final String FORMAT_STRIKETHROUGH = SECTION_SIGN + "m";
 	public static final String FORMAT_UNDERLINE = SECTION_SIGN + "n";
 	public static final String FORMAT_ITALIC = SECTION_SIGN + "o";
 	public static final String FORMAT_RESET = SECTION_SIGN + "r";
+
+	/**
+	 * Map containing yields of harvestable ore.
+	 * <Block ID>, <Integer[] containing the following data>
+	 * [0] = ID to add to inventory
+	 * [1] = Damage/meta value of the ID to add
+	 * [2] = Minimum amount to add
+	 * [3] = Maximum amount to add
+	 */
+	public static final Map<Integer, Integer[]> ORE_HARVEST_YIELD = new HashMap<Integer, Integer[]>();
 	
 	private Constants() { }
+	
+	static
+	{
+		ORE_HARVEST_YIELD.put(Block.stone.blockID, new Integer[]{Block.cobblestone.blockID, 0, 1, 1});
+		ORE_HARVEST_YIELD.put(Block.oreCoal.blockID, new Integer[]{Item.coal.itemID, 0, 1, 1});
+		ORE_HARVEST_YIELD.put(Block.oreRedstone.blockID, new Integer[]{Item.redstone.itemID, 0, 4, 5});
+		ORE_HARVEST_YIELD.put(Block.oreDiamond.blockID, new Integer[]{Item.diamond.itemID, 0, 1, 1});
+		ORE_HARVEST_YIELD.put(Block.oreLapis.blockID, new Integer[]{Item.dyePowder.itemID, 4, 8});
+		ORE_HARVEST_YIELD.put(Block.oreEmerald.blockID, new Integer[]{Item.emerald.itemID, 1, 1});
+	}
 }

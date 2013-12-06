@@ -20,9 +20,8 @@ import mca.core.util.PacketHelper;
 import mca.core.util.object.Coordinates;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -34,58 +33,58 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 public class ChoreMining extends AbstractChore
 {
 	/** Is the chore in passive mode?*/
-	public boolean inPassiveMode = false;
+	public boolean inPassiveMode;
 
 	/** Does the owner have coordinates they should be moving to? (Active only)*/
-	public boolean hasNextActiveCoordinates = false;
+	public boolean hasNextPath;
 
 	/** Has the owner given their ore to the player that hired them? (Villagers only)*/
 	public boolean hasGivenMinedOre = true;
 
 	/** The X coordinates that the active mining chore stated at.*/
-	public double activeStartCoordinatesX = 0D;
+	public double startX;
 
 	/** The Y coordinates that the active mining chore stated at.*/
-	public double activeStartCoordinatesY = 0D;
+	public double startY;
 
 	/** The Z coordinates that the active mining chore stated at.*/
-	public double activeStartCoordinatesZ = 0D;
+	public double startZ;
 
 	/** The X coordinates that the owner should be moving to. (Active only)*/
-	public double activeNextCoordinatesX = 0D;
+	public double nextX;
 
 	/** The Y coordinates that the owner should be moving to. (Active only)*/
-	public double activeNextCoordinatesY = 0D;
+	public double nextY;
 
 	/** The Z coordinates that the owner should be moving to. (Active only)*/
-	public double activeNextCoordinatesZ = 0D;
+	public double nextZ;
 
 	/** The amount of time it takes for a block to be broken when mining.*/
-	public int activeMineInterval = 0;
+	public int delayInterval;
 
 	/** The amount of time the owner has been swinging the pick.*/
-	public int activeMineTicks = 0;
+	public int delayCounter;
 
 	/** The amount of time that needs to pass for the owner to notify the player that ore is nearby.*/
-	public int passiveNotificationInterval = 200;
+	public int notifyInterval;
 
 	/** The amount of time that has passed since the player was notified of nearby ore.*/
-	public int passiveNotificationTicks = 0;
+	public int notifyCounter;
 
 	/** The distance from the owner's current point to the ore they have found.*/
-	public int passiveDistanceToOre = 0;
+	public int distanceToOre;
 
 	/** The direction the owner is facing. (Active only)*/
-	public int heading = 0;
+	public int heading;
 
 	/** How far from the start position the owner will continue active mining.*/
-	public int activeDistance = 5;
+	public int maxDistance;
 
 	/**The ore that should be mined. 0 = Coal, 1 = Iron, 2 = Lapis Lazuli, 3 = Gold, 4 = Diamond, 5 = Redstone, 6 = Emerald*/
-	public int oreType = 0;
+	public int oreType;
 
 	/**The ID of the block that a passive miner is looking for.*/
-	public int blockIDSearchingFor = 0;
+	public int searchID;
 
 	/**
 	 * Constructor
@@ -109,56 +108,38 @@ public class ChoreMining extends AbstractChore
 	public ChoreMining(AbstractEntity entity, int mode, int direction, int oreType, int distance)
 	{
 		super(entity);
-		inPassiveMode = mode == 0 ? true : false;
 		this.oreType = oreType;
-		activeDistance = distance;
-		heading = LogicHelper.getHeadingRelativeToPlayerAndSpecifiedDirection(entity.worldObj.getPlayerEntityByName(entity.lastInteractingPlayer), direction);
 
-		switch (oreType)
-		{
-		case 0: blockIDSearchingFor = Block.oreCoal.blockID; break;
-		case 1: blockIDSearchingFor = Block.oreIron.blockID; break;
-		case 2: blockIDSearchingFor = Block.oreLapis.blockID; break;
-		case 3: blockIDSearchingFor = Block.oreGold.blockID; break;
-		case 4: blockIDSearchingFor = Block.oreDiamond.blockID; break;
-		case 5: blockIDSearchingFor = Block.oreRedstone.blockID; break;
-		case 6: blockIDSearchingFor = Block.oreEmerald.blockID; break;
-		}
+		inPassiveMode = mode == 0 ? true : false;
+		searchID = Constants.ORE_DATA[oreType][1];
+		maxDistance = distance;
+		heading = LogicHelper.getHeadingRelativeToPlayerAndSpecifiedDirection(entity.worldObj.getPlayerEntityByName(entity.lastInteractingPlayer), direction);
+		delayInterval = getDelayForToolType(entity.inventory.getBestItemOfType(ItemPickaxe.class));
 	}
 
 	@Override
 	public void beginChore() 
 	{
-		if (MCA.getInstance().isDedicatedServer)
+		if (MCA.getInstance().isDedicatedServer && !MCA.getInstance().modPropertiesManager.modProperties.server_allowMiningChore)
 		{
-			if (!MCA.getInstance().modPropertiesManager.modProperties.server_allowMiningChore)
-			{
-				//End the chore and sync all clients so that the chore is stopped everywhere.
-				endChore();
-				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(owner));
-				owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer).addChatMessage("\u00a7cChore disabled by the server administrator.");
-				return;
-			}
+			//End the chore and sync all clients so that the chore is stopped everywhere.
+			endChore();
+
+			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(owner));
+			owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer).addChatMessage("\u00a7cChore disabled by the server administrator.");
+			return;
 		}
 
-		if (owner instanceof EntityPlayerChild)
+		if (owner instanceof EntityPlayerChild && !owner.worldObj.isRemote)
 		{
-			if (!owner.worldObj.isRemote)
-			{
-				owner.say(LanguageHelper.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.mining", true));
-			}
+			owner.say(LanguageHelper.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.mining", true));
 		}
 
-		if (inPassiveMode)
+		if (!inPassiveMode)
 		{
-			//Nothing that needs to be done for passive mode.
-		}
-
-		else
-		{
-			activeStartCoordinatesX = owner.posX;
-			activeStartCoordinatesY = owner.posY;
-			activeStartCoordinatesZ = owner.posZ; 
+			startX = owner.posX;
+			startY = owner.posY;
+			startZ = owner.posZ; 
 			owner.isFollowing = false;
 			owner.isStaying = false;
 		}
@@ -192,60 +173,59 @@ public class ChoreMining extends AbstractChore
 	@Override
 	public void endChore() 
 	{
-		if (!owner.worldObj.isRemote)
+		if (owner.worldObj.isRemote)
+		{
+			PacketDispatcher.sendPacketToServer(PacketHelper.createAddAIPacket(owner));
+		}
+
+		else
 		{
 			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(owner));
 			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createAddAIPacket(owner));
 		}
 
-		else
-		{
-			PacketDispatcher.sendPacketToServer(PacketHelper.createAddAIPacket(owner));
-		}
-
 		owner.addAI();
-
 		hasEnded = true;
 	}
 
 	@Override
-	public void writeChoreToNBT(NBTTagCompound NBT) 
+	public void writeChoreToNBT(NBTTagCompound nbt) 
 	{
 		//Loop through each field in this class and write to NBT.
-		for (Field f : this.getClass().getFields())
+		for (final Field field : this.getClass().getFields())
 		{
 			try
 			{
-				if (f.getModifiers() != Modifier.TRANSIENT)
+				if (field.getModifiers() != Modifier.TRANSIENT)
 				{
-					if (f.getType().toString().contains("int"))
+					if (field.getType().toString().contains("int"))
 					{
-						NBT.setInteger(f.getName(), Integer.parseInt(f.get(owner.miningChore).toString()));
+						nbt.setInteger(field.getName(), Integer.parseInt(field.get(owner.miningChore).toString()));
 					}
 
-					else if (f.getType().toString().contains("double"))
+					else if (field.getType().toString().contains("double"))
 					{
-						NBT.setDouble(f.getName(), Double.parseDouble(f.get(owner.miningChore).toString()));
+						nbt.setDouble(field.getName(), Double.parseDouble(field.get(owner.miningChore).toString()));
 					}
 
-					else if (f.getType().toString().contains("float"))
+					else if (field.getType().toString().contains("float"))
 					{
-						NBT.setFloat(f.getName(), Float.parseFloat(f.get(owner.miningChore).toString()));
+						nbt.setFloat(field.getName(), Float.parseFloat(field.get(owner.miningChore).toString()));
 					}
 
-					else if (f.getType().toString().contains("String"))
+					else if (field.getType().toString().contains("String"))
 					{
-						NBT.setString(f.getName(), f.get(owner.miningChore).toString());
+						nbt.setString(field.getName(), field.get(owner.miningChore).toString());
 					}
 
-					else if (f.getType().toString().contains("boolean"))
+					else if (field.getType().toString().contains("boolean"))
 					{
-						NBT.setBoolean(f.getName(), Boolean.parseBoolean(f.get(owner.miningChore).toString()));
+						nbt.setBoolean(field.getName(), Boolean.parseBoolean(field.get(owner.miningChore).toString()));
 					}
 				}
 			}
 
-			catch (Exception e)
+			catch (IllegalAccessException e)
 			{
 				MCA.getInstance().log(e);
 				continue;
@@ -254,47 +234,63 @@ public class ChoreMining extends AbstractChore
 	}
 
 	@Override
-	public void readChoreFromNBT(NBTTagCompound NBT) 
+	public void readChoreFromNBT(NBTTagCompound nbt) 
 	{
 		//Loop through each field in this class and read from NBT.
-		for (Field f : this.getClass().getFields())
+		for (final Field field : this.getClass().getFields())
 		{
 			try
 			{
-				if (f.getModifiers() != Modifier.TRANSIENT)
+				if (field.getModifiers() != Modifier.TRANSIENT)
 				{
-					if (f.getType().toString().contains("int"))
+					if (field.getType().toString().contains("int"))
 					{
-						f.set(owner.miningChore, NBT.getInteger(f.getName()));
+						field.set(owner.miningChore, nbt.getInteger(field.getName()));
 					}
 
-					else if (f.getType().toString().contains("double"))
+					else if (field.getType().toString().contains("double"))
 					{
-						f.set(owner.miningChore, NBT.getDouble(f.getName()));
+						field.set(owner.miningChore, nbt.getDouble(field.getName()));
 					}
 
-					else if (f.getType().toString().contains("float"))
+					else if (field.getType().toString().contains("float"))
 					{
-						f.set(owner.miningChore, NBT.getFloat(f.getName()));
+						field.set(owner.miningChore, nbt.getFloat(field.getName()));
 					}
 
-					else if (f.getType().toString().contains("String"))
+					else if (field.getType().toString().contains("String"))
 					{
-						f.set(owner.miningChore, NBT.getString(f.getName()));
+						field.set(owner.miningChore, nbt.getString(field.getName()));
 					}
 
-					else if (f.getType().toString().contains("boolean"))
+					else if (field.getType().toString().contains("boolean"))
 					{
-						f.set(owner.miningChore, NBT.getBoolean(f.getName()));
+						field.set(owner.miningChore, nbt.getBoolean(field.getName()));
 					}
 				}
 			}
 
-			catch (Exception e)
+			catch (IllegalAccessException e)
 			{
 				MCA.getInstance().log(e);
 				continue;
 			}
+		}
+	}
+
+	@Override
+	protected int getDelayForToolType(ItemStack toolStack) 
+	{
+		final EnumToolMaterial material = EnumToolMaterial.valueOf(((ItemPickaxe)toolStack.getItem()).getToolMaterialName());
+
+		switch (material)
+		{
+		case WOOD: 		return 40;
+		case STONE: 	return 30;
+		case IRON: 		return 25;
+		case EMERALD: 	return 10;
+		case GOLD: 		return 5;
+		default: 		return 25;
 		}
 	}
 
@@ -303,10 +299,34 @@ public class ChoreMining extends AbstractChore
 	 */
 	private void runPassiveAI()
 	{
-		//Make sure they have a pick.
-		ItemStack pickStack = owner.inventory.getBestItemOfType(ItemPickaxe.class);
+		if (hasPick())
+		{
+			if (notifyCounter >= notifyInterval)
+			{
+				final Coordinates nearestBlock = getNearestBlockCoordinates();
 
-		if (pickStack == null)
+				if (nearestBlock != null)
+				{
+					distanceToOre = Math.round((float)LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, nearestBlock.x, nearestBlock.y, nearestBlock.z));
+					doOreDistanceNotification();
+
+					//TODO: Experience changes # of times damaged.
+					for (int i = 0; i < 3; i++) 
+					{
+						owner.damageHeldItem();
+					}
+				}
+
+				notifyCounter = 0;
+			}
+
+			else //Logic for finding a block is not ready to run.
+			{
+				notifyCounter++;
+			}
+		}
+
+		else //No longer carrying a pick.
 		{
 			if (!owner.worldObj.isRemote)
 			{
@@ -314,82 +334,6 @@ public class ChoreMining extends AbstractChore
 			}
 
 			endChore();
-			return;
-		}
-
-		else //They do have a pick, continue working.
-		{
-			//Check if the logic is ready to run by comparing the ticks to the interval.
-			if (passiveNotificationTicks >= passiveNotificationInterval)
-			{
-				Coordinates coordinatesOfBlock = null;
-				Double distance = null;
-
-				//Get the coordinates of the nearest block found of the specified ID.
-				for (Coordinates coords : LogicHelper.getNearbyBlocksBottomTop(owner, blockIDSearchingFor, 20))
-				{
-					if (distance != null)
-					{
-						Double thisDistance = LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, coords.x, coords.y, coords.z);
-
-						if (thisDistance < distance)
-						{
-							coordinatesOfBlock = coords;
-						}
-					}
-
-					else
-					{
-						distance = LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, coords.x, coords.y, coords.z);
-						coordinatesOfBlock = coords;
-					}
-				}				
-
-				//Be sure a block was found...
-				if (coordinatesOfBlock != null)
-				{
-					//Determine the distance to the block.
-					passiveDistanceToOre = Math.round((float)LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, coordinatesOfBlock.x, coordinatesOfBlock.y, coordinatesOfBlock.z));
-
-					//Verify that it is not more than 30 blocks away.
-					if (passiveDistanceToOre > 30)
-					{
-						//Return to avoid damaging the pick.
-						passiveNotificationTicks = 0;
-						return;
-					}
-
-					else if (passiveDistanceToOre > 5)
-					{
-						//Say how many blocks away that ore is.
-						if (!owner.worldObj.isRemote)
-						{
-							owner.say(LanguageHelper.getString(owner, "notify.child.chore.status.mining.orefound", false));
-						}
-					}
-
-					else if (passiveDistanceToOre <= 5)
-					{
-						//Say that the ore is just 'nearby' since the distance is less than 5.
-						if (!owner.worldObj.isRemote)
-						{
-							owner.say(LanguageHelper.getString(owner, "notify.child.chore.status.mining.orenearby", false));
-						}
-					}
-
-					//Damage the pick three times.
-					owner.damageHeldItem();
-					owner.damageHeldItem();
-					owner.damageHeldItem();
-				}
-
-				passiveNotificationTicks = 0;
-			}
-
-			else //Logic for finding a block is not ready to run.
-			{
-				passiveNotificationTicks++;
-			}
 		}
 	}
 
@@ -398,268 +342,235 @@ public class ChoreMining extends AbstractChore
 	 */
 	private void runActiveAI()
 	{
+		doLookTowardsHeading();
+
+		//Check if the coordinates for the next block to mine have been assigned.
+		if (hasNextPath)
+		{
+			if (LogicHelper.getDistanceToXYZ(startX, startY, startZ, nextX, nextY, nextZ) > maxDistance)
+			{
+				endForFinished();
+				return;
+			}
+
+			else
+			{
+				if (!isNextBlockValid())
+				{
+					endForNoBlocks();
+					return;
+				}
+
+				if (LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, nextX, nextY, nextZ) <= 2.5)
+				{	
+					if (delayCounter < delayInterval)
+					{
+						owner.swingItem();
+						delayCounter++;
+					}
+
+					else			
+					{
+						final int nextBlockId = owner.worldObj.getBlockId((int)nextX, (int)nextY, (int)nextZ);
+
+						if (nextBlockId != 0)
+						{
+							owner.damageHeldItem();
+							doHarvestBlock(nextBlockId);
+							doUpdateAchievements();
+						}
+
+						delayCounter = 0;
+						hasNextPath = false;
+					}
+				}
+
+				else //Not within 2.5 blocks of target.
+				{
+					doSetPathToNextBlock();
+				}
+			}
+		}
+
+		else //No path.
+		{
+			doSetNextPath();
+		}
+	}
+
+	private Coordinates getNearestBlockCoordinates()
+	{
+		final double lastDistance = 100D;
+		Coordinates nearestCoords = null;
+	
+		for (final Coordinates coords : LogicHelper.getNearbyBlocksBottomTop(owner, searchID, 20))
+		{
+			final double thisDistance = LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, coords.x, coords.y, coords.z);
+	
+			if (thisDistance < lastDistance)
+			{
+				nearestCoords = coords;
+			}
+		}
+	
+		return nearestCoords;
+	}
+
+	private boolean isNextBlockValid() 
+	{
+		final int blockId = owner.worldObj.getBlockId((int)nextX, (int)nextY, (int)nextZ);
+	
+		for (final int invalidId : Constants.UNMINEABLE_BLOCKS)
+		{
+			if (blockId == invalidId)
+			{
+				return true;
+			}
+		}
+	
+		return false;
+	}
+
+	private boolean hasPick()
+	{
+		return owner.inventory.getBestItemOfType(ItemPickaxe.class) != null;
+	}
+
+	private void doOreDistanceNotification()
+	{
+		if (distanceToOre > 5 && !owner.worldObj.isRemote)
+		{
+			owner.say(LanguageHelper.getString(owner, "notify.child.chore.status.mining.orefound", false));
+		}
+	
+		else if (distanceToOre <= 5 && !owner.worldObj.isRemote)
+		{
+			owner.say(LanguageHelper.getString(owner, "notify.child.chore.status.mining.orenearby", false));
+		}
+	}
+
+	private void doLookTowardsHeading()
+	{
 		if (owner.worldObj.isRemote)
 		{
 			owner.setRotationYawHead(heading);
 		}
+	}
 
-		//Calculate interval based on their fastest pickaxe.
-		if (owner instanceof EntityPlayerChild)
+	private void doSetNextPath()
+	{
+		int scanDistance = 0;
+	
+		while (scanDistance != maxDistance)
 		{
-			ItemStack pickStack = owner.inventory.getBestItemOfType(ItemPickaxe.class);
-
-			if (pickStack != null)
+			nextY = owner.posY;
+	
+			switch (heading)
 			{
-				String itemName = pickStack.getDisplayName();
-
-				if (itemName.contains("Wood"))
-				{
-					activeMineInterval = 40;
-				}
-
-				else if (itemName.contains("Stone"))
-				{
-					activeMineInterval = 30;
-				}
-
-				else if (itemName.contains("Iron"))
-				{
-					activeMineInterval = 25;
-				}
-
-				else if (itemName.contains("Diamond"))
-				{
-					activeMineInterval = 10;
-				}
-
-				else if (itemName.contains("Gold"))
-				{
-					activeMineInterval = 5;
-				}
-
-				else //Unrecognized item type, assume iron since it may be from another mod.
-				{
-					activeMineInterval = 25;
-				}
+			case 0:    nextX = owner.posX; nextZ = owner.posZ + scanDistance; break; 
+			case 180:  nextX = owner.posX; nextZ = owner.posZ - scanDistance; break; 
+			case -90:  nextX = owner.posX + scanDistance; nextZ = owner.posZ; break;
+			case 90:   nextX = owner.posX - scanDistance; nextZ = owner.posZ; break;
+			default: break;
 			}
-
-			else //Item is bare hands. Not allowed for mining.
+	
+			if (owner.worldObj.getBlockId((int)nextX, (int)nextY, (int)nextZ) == 0)
 			{
-				if (!owner.worldObj.isRemote)
+				if (owner.worldObj.getBlockId((int)nextX, (int)nextY + 1, (int)nextZ) == 0)
 				{
-					owner.say(LanguageHelper.getString(owner, "notify.child.chore.interrupted.mining.nopickaxe", false));
+					hasNextPath = false;
+					scanDistance++;
 				}
-
-				endChore();
-				return;
-			}
-		}
-		
-		else
-		{
-			activeMineInterval = 25;
-		}
-
-		//Check if the coordinates for the next block to mine have been assigned.
-		if (hasNextActiveCoordinates == false)
-		{
-			int searchDistance = 0;
-
-			//Search up to the stopping distance
-			while (searchDistance != activeDistance)
-			{
-				//Calculate where the next block should be based on heading.
-				activeNextCoordinatesY = owner.posY;
-
-				switch (heading)
+	
+				else
 				{
-				case 0:    activeNextCoordinatesX = owner.posX; activeNextCoordinatesZ = owner.posZ + searchDistance; break; 
-				case 180:  activeNextCoordinatesX = owner.posX; activeNextCoordinatesZ = owner.posZ - searchDistance; break; 
-				case -90:  activeNextCoordinatesX = owner.posX + searchDistance; activeNextCoordinatesZ = owner.posZ; break;
-				case 90:   activeNextCoordinatesX = owner.posX - searchDistance; activeNextCoordinatesZ = owner.posZ; break;
-				}
-
-				//Check the ID of the next block. If it's air, continue.
-				if (owner.worldObj.getBlockId((int)activeNextCoordinatesX, (int)activeNextCoordinatesY, (int)activeNextCoordinatesZ) == 0)
-				{
-					//Check the ID of the block above the next block.
-					if (owner.worldObj.getBlockId((int)activeNextCoordinatesX, (int)activeNextCoordinatesY + 1, (int)activeNextCoordinatesZ) == 0)
-					{
-						//If it's air, there are no blocks to mine on this pair of XZ coordinates. Increase the search distance by one and look for more.
-						hasNextActiveCoordinates = false;
-						searchDistance++;
-					}
-
-					else //The ID of the block above the next block is not air, and can be mined.
-					{
-						//Increase the Y coords by 1 and set the coordinates as assigned so they start working.
-						activeNextCoordinatesY = owner.posY + 1;
-						hasNextActiveCoordinates = true;
-						break;
-					}
-				}
-
-				else //The next block is not air and can be mined. Set the coordinates as assigned so they start working.
-				{
-					hasNextActiveCoordinates = true;
+					nextY = owner.posY + 1;
+					hasNextPath = true;
 					break;
 				}
 			}
-
-			//Check if the loop stopped due to hitting the stopping distance.
-			if (searchDistance == activeDistance)
+	
+			else
 			{
-				//Say that there are no blocks to mine and stop the chore.
-				if (!owner.worldObj.isRemote)
-				{
-					owner.say(LanguageHelper.getString(owner, "notify.child.chore.interrupted.mining.noblocks", false));
-				}
-
-				endChore();
-				return;
+				hasNextPath = true;
+				break;
 			}
 		}
-
-		else //The coordinates of the next block have been assigned.
+	
+		if (scanDistance == maxDistance)
 		{
-			//Check the distance from the starting position.
-			if (LogicHelper.getDistanceToXYZ(activeStartCoordinatesX, activeStartCoordinatesY, activeStartCoordinatesZ, activeNextCoordinatesX, activeNextCoordinatesY, activeNextCoordinatesZ) > activeDistance)
+			endForNoBlocks();
+		}
+	}
+
+	private void doHarvestBlock(int blockId)
+	{
+		int yieldId = blockId;
+		int yieldMeta = 0;
+		int yieldMin = 1;
+		int yieldMax = 1;
+
+		if (Constants.ORE_HARVEST_YIELD.containsKey(blockId))
+		{
+			yieldId = Constants.ORE_HARVEST_YIELD.get(blockId)[0];
+			yieldMeta = Constants.ORE_HARVEST_YIELD.get(blockId)[1];
+			yieldMin = Constants.ORE_HARVEST_YIELD.get(blockId)[2];
+			yieldMax = Constants.ORE_HARVEST_YIELD.get(blockId)[3];
+		}
+
+		final int totalYield = MCA.rand.nextInt(yieldMax + 1 - yieldMin) + yieldMin;
+		final ItemStack stackToAdd = new ItemStack(yieldId, totalYield, yieldMeta);
+		stackToAdd.damageItem(yieldMeta, owner);
+		owner.inventory.addItemStackToInventory(stackToAdd);
+
+		owner.worldObj.setBlock((int)nextX, (int)nextY, (int)nextZ, 0);
+	}
+
+	private void doUpdateAchievements()
+	{
+		if (owner instanceof EntityPlayerChild)
+		{
+			EntityPlayerChild child = (EntityPlayerChild)owner;
+
+			child.blocksMined++;
+
+			if (child.blocksMined >= 300)
 			{
-				//If the distance is greater than the stopping distance, stop the chore.
-				if (!owner.worldObj.isRemote)
+				final EntityPlayer player = child.worldObj.getPlayerEntityByName(child.ownerPlayerName);
+
+				if (player != null)
 				{
-					owner.say(LanguageHelper.getString(owner, "notify.child.chore.finished.mining", false));
-				}
-
-				endChore();
-				return;
-			}
-
-			else //The distance is not greater than the stopping distance, so keep working.
-			{
-				//Check that the block is valid.
-				int blockId = owner.worldObj.getBlockId((int)activeNextCoordinatesX, (int)activeNextCoordinatesY, (int)activeNextCoordinatesZ);
-
-				//List of all blocks that are not minable by the player.
-				if (blockId == 7 || blockId == 8 || blockId == 9 || blockId == 10 || blockId == 11 ||
-						blockId == 51 || blockId == 52 || blockId == 55 || blockId == 63 || blockId == 64 ||
-						blockId == 59 || blockId == 60 || blockId == 68 || blockId == 71 || blockId == 75 ||
-						blockId == 79 || blockId == 83 || blockId == 92 || blockId == 93 || blockId == 94 ||
-						blockId == 95 || blockId == 115 || blockId == 117 || blockId == 118 || blockId == 119 ||
-						blockId == 127 || blockId == 132 || blockId == 137 || blockId == 140 || blockId == 141 ||
-						blockId == 142 || blockId == 144)
-				{
-					if (!owner.worldObj.isRemote)
-					{
-						owner.say(LanguageHelper.getString(owner, "notify.child.chore.interrupted.mining.noblocks", false));
-					}
-
-					endChore();
-					return;
-				}
-
-				//Check if the entity is close enough to mine the block.
-				if (LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, activeNextCoordinatesX, activeNextCoordinatesY, activeNextCoordinatesZ) <= 2.5)
-				{	
-					if (activeMineTicks != activeMineInterval)
-					{
-						//Swing the pick and increase ticks until the interval is hit.
-						owner.swingItem();
-						activeMineTicks++;
-					}
-
-					else //When the ticks match the interval...
-					{
-						owner.damageHeldItem();
-
-						//Get the block's information.
-						int id     = owner.worldObj.getBlockId((int)activeNextCoordinatesX, (int)activeNextCoordinatesY, (int)activeNextCoordinatesZ);
-						int damage = owner.worldObj.getBlockMetadata((int)activeNextCoordinatesX, (int)activeNextCoordinatesY, (int)activeNextCoordinatesZ);
-						int quantity = 1;
-
-						//Make absolutely sure it's not air. Will cause a crash.
-						if (id != 0)
-						{
-							//Check the ID to see if it needs to be changed to another item or give more than one.
-							if (id == Block.stone.blockID)
-							{
-								id = Block.cobblestone.blockID;
-							}
-
-							else if (id == Block.oreCoal.blockID)
-							{
-								id = Item.coal.itemID;
-							}
-
-							else if (id == Block.oreRedstone.blockID)
-							{
-								id = Item.redstone.itemID;
-								quantity = 4 + owner.worldObj.rand.nextInt(2) + 1;
-							}
-
-							else if (id == Block.oreDiamond.blockID)
-							{
-								id = Item.diamond.itemID;
-								quantity = owner.worldObj.rand.nextInt(4) + 1;
-							}
-
-							else if (id == Block.oreLapis.blockID)
-							{
-								id = Item.dyePowder.itemID;
-								quantity = 4 + owner.worldObj.rand.nextInt(5);
-								damage = 4;
-							}
-
-							//Create the stack, damage it, and add it to the inventory.
-							ItemStack stackToAdd = new ItemStack(id, quantity, damage);
-							stackToAdd.damageItem(damage, owner);
-							owner.inventory.addItemStackToInventory(stackToAdd);
-
-							//Remove the mined block from the world.
-							owner.worldObj.setBlock((int)activeNextCoordinatesX, (int)activeNextCoordinatesY, (int)activeNextCoordinatesZ, 0);
-
-							//Reset the mining ticks and set coordinates to not being assigned so more are found.
-							activeMineTicks = 0;
-							hasNextActiveCoordinates = false;
-
-							//Increment stat and check for achievement.
-							if (owner instanceof EntityPlayerChild)
-							{
-								EntityPlayerChild child = (EntityPlayerChild)owner;
-
-								child.blocksMined++;
-
-								if (child.blocksMined >= 300)
-								{
-									EntityPlayer player = child.worldObj.getPlayerEntityByName(child.ownerPlayerName);
-
-									if (player != null)
-									{
-										player.triggerAchievement(MCA.getInstance().achievementChildMine);
-									}
-								}
-							}
-						}
-
-						else //Somehow they're trying to mine ID 0, which is air.
-						{
-							activeMineTicks = 0;
-							hasNextActiveCoordinates = false;
-						}
-					}
-				}
-
-				else //The entity is not within 2.5 blocks of the block they're supposed to be mining.
-				{
-					if (!owner.worldObj.isRemote)
-					{
-						if (owner.getNavigator().noPath())
-						{
-							owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ((int)activeNextCoordinatesX, (int)activeNextCoordinatesY, (int)activeNextCoordinatesZ), Constants.SPEED_WALK);
-						}
-					}
+					player.triggerAchievement(MCA.getInstance().achievementChildMine);
 				}
 			}
 		}
+	}
+
+	private void doSetPathToNextBlock()
+	{
+		if (!owner.worldObj.isRemote && owner.getNavigator().noPath())
+		{
+			owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ((int)nextX, (int)nextY, (int)nextZ), Constants.SPEED_WALK);
+		}
+	}
+
+	private void endForNoBlocks()
+	{
+		if (!owner.worldObj.isRemote)
+		{
+			owner.say(LanguageHelper.getString(owner, "notify.child.chore.interrupted.mining.noblocks", false));
+		}
+	
+		endChore();
+	}
+
+	private void endForFinished()
+	{
+		if (!owner.worldObj.isRemote)
+		{
+			owner.say(LanguageHelper.getString(owner, "notify.child.chore.finished.mining", false));
+		}
+	
+		endChore();
 	}
 }
