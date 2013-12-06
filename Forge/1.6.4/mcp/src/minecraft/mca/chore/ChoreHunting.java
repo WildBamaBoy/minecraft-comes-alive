@@ -123,29 +123,29 @@ public class ChoreHunting extends AbstractChore
 
 				else
 				{
-					final int sheepSuccess 		= getHuntingResults(Constants.ID_ANIMAL_SHEEP, owner.worldObj.rand.nextInt(10));
-					final int cowSuccess 		= getHuntingResults(Constants.ID_ANIMAL_COW, owner.worldObj.rand.nextInt(10));
-					final int wolfSuccess 		= getHuntingResults(Constants.ID_ANIMAL_WOLF, huntingMode == 0 ? 0 : owner.worldObj.rand.nextInt(5));
-					final int pigSuccess 		= getHuntingResults(Constants.ID_ANIMAL_PIG, owner.worldObj.rand.nextInt(10));
-					final int chickenSuccess 	= getHuntingResults(Constants.ID_ANIMAL_CHICKEN, owner.worldObj.rand.nextInt(10));
+					final int sheepSuccess 		= doCalculateHuntingResults(Constants.ID_ANIMAL_SHEEP, owner.worldObj.rand.nextInt(10));
+					final int cowSuccess 		= doCalculateHuntingResults(Constants.ID_ANIMAL_COW, owner.worldObj.rand.nextInt(10));
+					final int wolfSuccess 		= doCalculateHuntingResults(Constants.ID_ANIMAL_WOLF, huntingMode == 0 ? 0 : owner.worldObj.rand.nextInt(5));
+					final int pigSuccess 		= doCalculateHuntingResults(Constants.ID_ANIMAL_PIG, owner.worldObj.rand.nextInt(10));
+					final int chickenSuccess 	= doCalculateHuntingResults(Constants.ID_ANIMAL_CHICKEN, owner.worldObj.rand.nextInt(10));
 					final int totalSuccess 		= sheepSuccess + cowSuccess + wolfSuccess + pigSuccess + chickenSuccess;
 
 					//Now add meat to inventory if kill mode.
 					if (huntingMode == 0)
 					{
-						addObtainedMeat(sheepSuccess, cowSuccess, pigSuccess, chickenSuccess);
-						updateKillAchievement(totalSuccess);
+						doAddMeat(sheepSuccess, cowSuccess, pigSuccess, chickenSuccess);
+						doUpdateKillAchievement(totalSuccess);
 					}
 
 					//Add the entity to the world if in tame mode.
 					else
 					{
-						addEntityToWorld(Constants.ID_ANIMAL_SHEEP, sheepSuccess);
-						addEntityToWorld(Constants.ID_ANIMAL_COW, cowSuccess);
-						addEntityToWorld(Constants.ID_ANIMAL_WOLF, wolfSuccess);
-						addEntityToWorld(Constants.ID_ANIMAL_PIG, pigSuccess);
-						addEntityToWorld(Constants.ID_ANIMAL_CHICKEN, chickenSuccess);
-						updateTameAchievement(totalSuccess);
+						doSpawnTamedAnimals(Constants.ID_ANIMAL_SHEEP, sheepSuccess);
+						doSpawnTamedAnimals(Constants.ID_ANIMAL_COW, cowSuccess);
+						doSpawnTamedAnimals(Constants.ID_ANIMAL_WOLF, wolfSuccess);
+						doSpawnTamedAnimals(Constants.ID_ANIMAL_PIG, pigSuccess);
+						doSpawnTamedAnimals(Constants.ID_ANIMAL_CHICKEN, chickenSuccess);
+						doUpdateTameAchievement(totalSuccess);
 					}
 
 					owner.say(LanguageHelper.getString("notify.child.chore.finished.hunting"));
@@ -155,7 +155,7 @@ public class ChoreHunting extends AbstractChore
 
 			else //It is not time to return from hunting.
 			{
-				updateHuntingTime();
+				doHuntingUpdate();
 			}
 		}
 	}
@@ -275,7 +275,7 @@ public class ChoreHunting extends AbstractChore
 		return 0;
 	}
 
-	private void updateHuntingTime()
+	private void doHuntingUpdate()
 	{
 		if (MCA.getInstance().inDebugMode)
 		{
@@ -310,7 +310,7 @@ public class ChoreHunting extends AbstractChore
 		return false;
 	}
 
-	private int getHuntingResults(byte animalId, int animalsSeen)
+	private int doCalculateHuntingResults(byte animalId, int animalsSeen)
 	{
 		final int requiredItemId = Constants.ANIMAL_DATA[animalId][1];
 		final int tameSuccessChance = owner.name.equals("Ash") ? 80 : Constants.ANIMAL_DATA[animalId][2];
@@ -341,7 +341,7 @@ public class ChoreHunting extends AbstractChore
 		return successfulAnimals;
 	}
 
-	private void addObtainedMeat(int sheepSuccess, int cowSuccess, int pigSuccess, int chickenSuccess)
+	private void doAddMeat(int sheepSuccess, int cowSuccess, int pigSuccess, int chickenSuccess)
 	{
 		if (owner instanceof EntityPlayerChild)
 		{
@@ -366,7 +366,7 @@ public class ChoreHunting extends AbstractChore
 		owner.inventory.addItemStackToInventory(new ItemStack(Item.chickenRaw, chickenSuccess));
 	}
 
-	private void updateTameAchievement(int animalsTamed)
+	private void doUpdateTameAchievement(int animalsTamed)
 	{
 		//Update fields on a child that have to do with achievements.
 		if (owner instanceof EntityPlayerChild)
@@ -387,7 +387,7 @@ public class ChoreHunting extends AbstractChore
 		}
 	}
 
-	private void updateKillAchievement(int animalsKilled)
+	private void doUpdateKillAchievement(int animalsKilled)
 	{
 		//Update fields on a child that have to do with achievements.
 		if (owner instanceof EntityPlayerChild)
@@ -408,7 +408,7 @@ public class ChoreHunting extends AbstractChore
 		}
 	}
 
-	private void addEntityToWorld(byte animalId, int animalsTamed)
+	private void doSpawnTamedAnimals(byte animalId, int animalsTamed)
 	{
 		if (!owner.worldObj.isRemote)
 		{

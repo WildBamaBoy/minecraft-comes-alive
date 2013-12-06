@@ -111,16 +111,16 @@ public class ChoreFishing extends AbstractChore
 				{
 					if (idleFishingTime < 20)
 					{
-						updateFishingIdle();
+						doFishingIdleUpdate();
 					}
 
 					else
 					{
-						faceFishEntity();
+						doFaceFishEntity();
 
 						if (fishCatchCheck == 0)
 						{
-							generateNextFishCatchCheck();
+							doGenerateNextCatchCheck();
 						}
 
 						//See if they've been fishing long enough to attempt catching a fish.
@@ -131,14 +131,14 @@ public class ChoreFishing extends AbstractChore
 
 						else
 						{
-							updateFishingTicks();
+							doFishingActiveUpdate();
 						}
 					}
 				}
 
 				else //No fishing target.
 				{
-					setFishingTargetBlock();
+					doSetFishingTarget();
 				}
 			}
 
@@ -150,7 +150,7 @@ public class ChoreFishing extends AbstractChore
 
 		else //No water coordinates.
 		{
-			setWaterCoordinates();
+			trySetWaterCoordinates();
 		}
 	}
 
@@ -281,7 +281,7 @@ public class ChoreFishing extends AbstractChore
 		return 0;
 	}
 
-	private boolean setWaterCoordinates()
+	private boolean trySetWaterCoordinates()
 	{
 		//Get all water up to 10 blocks away from the entity.
 		final Coordinates waterCoordinates = LogicHelper.getNearbyBlockTopBottom(owner, Block.waterStill.blockID, 10);
@@ -313,7 +313,7 @@ public class ChoreFishing extends AbstractChore
 		return LogicHelper.isBlockNearby(owner, Block.waterStill.blockID, 1);
 	}
 
-	private void setFishingTargetBlock()
+	private void doSetFishingTarget()
 	{
 		if (!owner.worldObj.isRemote)
 		{
@@ -327,7 +327,7 @@ public class ChoreFishing extends AbstractChore
 		hasFishingTarget = true;
 	}
 
-	private void updateFishingIdle()
+	private void doFishingIdleUpdate()
 	{
 		if (fishEntity != null && !owner.worldObj.isRemote)
 		{
@@ -338,7 +338,7 @@ public class ChoreFishing extends AbstractChore
 		idleFishingTime++;
 	}
 
-	private void generateNextFishCatchCheck()
+	private void doGenerateNextCatchCheck()
 	{
 		if (!owner.worldObj.isRemote)
 		{
@@ -408,7 +408,7 @@ public class ChoreFishing extends AbstractChore
 		}
 	}
 
-	private void updateFishingTicks()
+	private void doFishingActiveUpdate()
 	{
 		if (!owner.worldObj.isRemote)
 		{
@@ -426,7 +426,7 @@ public class ChoreFishing extends AbstractChore
 		}
 	}
 
-	private void faceFishEntity()
+	private void doFaceFishEntity()
 	{
 		if (fishEntity != null)
 		{

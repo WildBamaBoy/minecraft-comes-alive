@@ -260,7 +260,7 @@ public class ChoreCombat extends AbstractChore
 	{
 		getTarget();
 
-		if (!handleTargetDeath())
+		if (!tryHandleTargetDeath())
 		{
 			if (canDoCreeperThrow())
 			{
@@ -286,7 +286,7 @@ public class ChoreCombat extends AbstractChore
 	{
 		getTarget();
 
-		if (!handleTargetDeath())
+		if (!tryHandleTargetDeath())
 		{
 			if (canDoRangedAttack())
 			{
@@ -295,7 +295,7 @@ public class ChoreCombat extends AbstractChore
 
 			else
 			{
-				updateRangedAttack();
+				doUpdateRangedAttack();
 			}
 		}
 	}
@@ -438,7 +438,7 @@ public class ChoreCombat extends AbstractChore
 		}
 	}
 
-	private boolean handleTargetDeath()
+	private boolean tryHandleTargetDeath()
 	{
 		if (owner.target != null && !owner.target.isEntityAlive())
 		{
@@ -569,7 +569,7 @@ public class ChoreCombat extends AbstractChore
 		}
 	}
 
-	private void updateRangedAttack()
+	private void doUpdateRangedAttack()
 	{
 		if (owner.target != null)
 		{

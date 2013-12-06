@@ -367,7 +367,7 @@ public class ChoreFarming extends AbstractChore
 	{
 		if (hasNextPathBlock)
 		{
-			setPathToNextBlock();
+			doSetNextPath();
 
 			if (canDoNextCreateTask())
 			{
@@ -376,7 +376,7 @@ public class ChoreFarming extends AbstractChore
 
 			else
 			{
-				updateCreateFarm();
+				doUpdateCreateFarm();
 			}
 		}
 
@@ -393,7 +393,7 @@ public class ChoreFarming extends AbstractChore
 	{
 		if (hasNextPathBlock)
 		{
-			setPathToNextBlock();
+			doSetNextPath();
 
 			if (canDoNextMaintainTask())
 			{
@@ -402,7 +402,7 @@ public class ChoreFarming extends AbstractChore
 
 			else
 			{
-				updateMaintainFarm();
+				doUpdateMaintainFarm();
 			}
 		}
 
@@ -418,7 +418,7 @@ public class ChoreFarming extends AbstractChore
 				LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, targetX, targetY, targetZ) < 1.7F;
 	}
 
-	private void updateCreateFarm()
+	private void doUpdateCreateFarm()
 	{
 		delay++;
 	}
@@ -472,7 +472,7 @@ public class ChoreFarming extends AbstractChore
 		hasDoneWork = true;
 		hasNextPathBlock = false;
 
-		updateAchievementStats();
+		doUpdateAchievements();
 	}
 
 	private void doAssignNextBlockForCreation()
@@ -514,7 +514,7 @@ public class ChoreFarming extends AbstractChore
 		}
 	}
 
-	private boolean setPathToNextBlock()
+	private boolean doSetNextPath()
 	{
 		if (LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, targetX, targetY, targetZ) > 1.7F)
 		{
@@ -529,7 +529,7 @@ public class ChoreFarming extends AbstractChore
 		return false;
 	}
 
-	private void updateAchievementStats()
+	private void doUpdateAchievements()
 	{
 		if (owner instanceof EntityPlayerChild)
 		{
@@ -609,7 +609,7 @@ public class ChoreFarming extends AbstractChore
 		}
 	}
 
-	private void updateMaintainFarm()
+	private void doUpdateMaintainFarm()
 	{
 		delayCounter++;
 		owner.swingItem();
