@@ -39,11 +39,11 @@ public final class Constants
 
 	/**
 	 * Animal data for hunting chore.
-	 * Index zero contains the animal's ID.
-	 * Index one contains the item ID used to tame the animal.
-	 * Index two contains the probability of successful taming.
+	 * [0] = The animal's ID as defined by MCA.
+	 * [1] = The item ID used to tame the animal.
+	 * [2] = The probability of successful taming.
 	 */
-	public static final int[][] ANIMAL_DATA = 
+	public static final int[][] ANIMAL_DATA = //Must be in numeric order.
 		{
 		{Constants.ID_ANIMAL_SHEEP, Item.wheat.itemID, 50},
 		{Constants.ID_ANIMAL_COW, Item.wheat.itemID, 40},
@@ -62,12 +62,12 @@ public final class Constants
 
 	/**
 	 * Crop data for farming chore.
-	 * Index zero contains the crop's ID as defined by MCA.
-	 * Index one contains the ID of the item that serves as seeds for the crop.
-	 * Index two contains the block ID placed on the ground that forms actual crops.
-	 * Index three contains the ID given back when the crop is harvested.
+	 * [0] = The crop's ID as defined by MCA.
+	 * [1] = The ID of the item that serves as seeds for the crop.
+	 * [2] = The block ID placed on the ground that forms actual crops.
+	 * [3] = The ID given back when the crop is harvested.
 	 */
-	public static final int[][] CROP_DATA =
+	public static final int[][] CROP_DATA = //Must be in numeric order.
 		{
 		{ID_CROP_WHEAT, Item.seeds.itemID, Block.crops.blockID, Item.wheat.itemID},
 		{ID_CROP_MELON, Item.melonSeeds.itemID, Block.melonStem.blockID, Item.melon.itemID},
@@ -87,13 +87,11 @@ public final class Constants
 	public static final byte ID_ORE_EMERALD = 6;
 
 	/**
-	 * Ore data for farming chore.
-	 * Index zero contains the crop's ID as defined by MCA.
-	 * Index one contains the ID of the item that serves as seeds for the crop.
-	 * Index two contains the block ID placed on the ground that forms actual crops.
-	 * Index three contains the ID given back when the crop is harvested.
+	 * Ore data for mining chore.
+	 * [0] = The ore's ID as defined by MCA.
+	 * [1] = The actual block ID of the ore.
 	 */
-	public static final int[][] ORE_DATA =
+	public static final int[][] ORE_DATA = //Must be in numeric order.
 		{
 		{ID_ORE_COAL, Block.oreCoal.blockID},
 		{ID_ORE_IRON, Block.oreIron.blockID},
@@ -104,6 +102,9 @@ public final class Constants
 		{ID_ORE_EMERALD, Block.oreEmerald.blockID},
 		};
 
+	/**
+	 * Array of blocks that cannot be mined by the mining chore.
+	 */
 	public static final int[] UNMINEABLE_BLOCKS =
 		{
 		Block.bedrock.blockID,
@@ -119,6 +120,37 @@ public final class Constants
 		Block.reed.blockID,	
 		};
 
+	/**
+	 * Map containing yields of harvestable ore.
+	 * <Block ID>, <Integer[] containing the following data>
+	 * [0] = ID to add to inventory
+	 * [1] = Damage/meta value of the ID to add
+	 * [2] = Minimum amount to add
+	 * [3] = Maximum amount to add
+	 */
+	public static final Map<Integer, Integer[]> ORE_HARVEST_YIELD = new HashMap<Integer, Integer[]>();
+	
+	//Tree IDs for woodcutting chore.
+	public static final byte ID_TREE_ALL = -1;
+	public static final byte ID_TREE_OAK = 0;
+	public static final byte ID_TREE_SPRUCE = 1;
+	public static final byte ID_TREE_BIRCH = 2;
+	public static final byte ID_TREE_JUNGLE = 3;
+	
+	/**
+	 * Tree data for woodcutting chore.
+	 * [0] = The tree ID as defined by MCA.
+	 * [1] = The actual block value of the tree's log.
+	 * [2] = The damage value of the tree's log.
+	 */
+	public static final int[][] TREE_DATA = //Must be in numeric order.
+		{
+		{ID_TREE_OAK, Block.wood.blockID, 0},
+		{ID_TREE_SPRUCE, Block.wood.blockID, 1},
+		{ID_TREE_BIRCH, Block.wood.blockID, 2},
+		{ID_TREE_JUNGLE, Block.wood.blockID, 3},
+		};
+	
 	//Gui IDs
 	public static final byte ID_GUI_INVENTORY = 0;
 	public static final byte ID_GUI_GAMEOVER = 1;
@@ -175,16 +207,6 @@ public final class Constants
 	public static final String FORMAT_UNDERLINE = SECTION_SIGN + "n";
 	public static final String FORMAT_ITALIC = SECTION_SIGN + "o";
 	public static final String FORMAT_RESET = SECTION_SIGN + "r";
-
-	/**
-	 * Map containing yields of harvestable ore.
-	 * <Block ID>, <Integer[] containing the following data>
-	 * [0] = ID to add to inventory
-	 * [1] = Damage/meta value of the ID to add
-	 * [2] = Minimum amount to add
-	 * [3] = Maximum amount to add
-	 */
-	public static final Map<Integer, Integer[]> ORE_HARVEST_YIELD = new HashMap<Integer, Integer[]>();
 	
 	private Constants() { }
 	
