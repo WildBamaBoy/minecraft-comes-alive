@@ -110,11 +110,11 @@ public class ChoreMining extends AbstractChore
 		super(entity);
 		this.oreType = oreType;
 
-		inPassiveMode = mode == 0 ? true : false;
-		searchID = Constants.ORE_DATA[oreType][1];
-		maxDistance = distance;
-		heading = LogicHelper.getHeadingRelativeToPlayerAndSpecifiedDirection(entity.worldObj.getPlayerEntityByName(entity.lastInteractingPlayer), direction);
-		delayInterval = getDelayForToolType(entity.inventory.getBestItemOfType(ItemPickaxe.class));
+		this.inPassiveMode = mode == 0 ? true : false;
+		this.searchID = Constants.ORE_DATA[oreType][1];
+		this.maxDistance = distance;
+		this.heading = LogicHelper.getHeadingRelativeToPlayerAndSpecifiedDirection(entity.worldObj.getPlayerEntityByName(entity.lastInteractingPlayer), direction);
+		this.delayInterval = getDelayForToolType(entity.inventory.getBestItemOfType(ItemPickaxe.class));
 	}
 
 	@Override
