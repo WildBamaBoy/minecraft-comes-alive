@@ -137,7 +137,7 @@ public class ChoreWoodcutting extends AbstractChore
 					if (cutCounter >= cutInterval)
 					{
 						doCutLog();
-						updateAchievements();
+						doUpdateAchievements();
 					}
 
 					else
@@ -421,7 +421,7 @@ public class ChoreWoodcutting extends AbstractChore
 		owner.damageHeldItem();
 	}
 	
-	private void updateAchievements()
+	private void doUpdateAchievements()
 	{
 		if (owner instanceof EntityPlayerChild)
 		{
