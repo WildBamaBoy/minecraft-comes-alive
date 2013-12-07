@@ -35,7 +35,6 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -100,7 +99,7 @@ public class ChoreCombat extends AbstractChore
 	public double sentryPosZ;
 
 	/**Has the creeper "woosh" sound been played?*/
-	private transient boolean playedSound;
+	private transient boolean playedWoosh;
 
 	/**
 	 * Constructor
@@ -260,7 +259,7 @@ public class ChoreCombat extends AbstractChore
 	{
 		getTarget();
 
-		if (!tryHandleTargetDeath())
+		if (!doTryHandleTargetDeath())
 		{
 			if (canDoCreeperThrow())
 			{
@@ -286,7 +285,7 @@ public class ChoreCombat extends AbstractChore
 	{
 		getTarget();
 
-		if (!tryHandleTargetDeath())
+		if (!doTryHandleTargetDeath())
 		{
 			if (canDoRangedAttack())
 			{
@@ -367,70 +366,15 @@ public class ChoreCombat extends AbstractChore
 	{
 		if (owner.target == null)
 		{
-			EntityLivingBase closestEntity = null;
-			List<Entity> entitiesAroundMe = null;
+			final List<EntityLivingBase> nearbyEntities = getNearbyEntities();
+			EntityLivingBase closestEntity = nearbyEntities.isEmpty() ? null : nearbyEntities.get(0);
 
-			if (sentryMode)
+			for (final Entity entity : nearbyEntities)
 			{
-				entitiesAroundMe = owner.worldObj.getEntitiesWithinAABBExcludingEntity(owner, AxisAlignedBB.getBoundingBox(owner.posX - sentryRadius, owner.posY - 3, owner.posZ - sentryRadius, owner.posX + sentryRadius, owner.posY + 3, owner.posZ + sentryRadius));
-			}
-
-			else
-			{
-				entitiesAroundMe = owner.worldObj.getEntitiesWithinAABBExcludingEntity(owner, AxisAlignedBB.getBoundingBox(owner.posX - 15, owner.posY - 3, owner.posZ - 15, owner.posX + 15, owner.posY + 3, owner.posZ + 15));
-			}
-
-			//Find the closest entity.
-			for (final Entity entity : entitiesAroundMe)
-			{
-				if (entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer) && !(entity instanceof AbstractEntity))
+				if (!(entity instanceof EntityPlayer) && !(entity instanceof AbstractEntity) && 
+						isTargetValidForSettings(entity) && owner.getDistanceToEntity(entity) < owner.getDistanceToEntity(closestEntity))
 				{
-					if (closestEntity == null)
-					{
-						//Determine if they should attack by checking the target's class against entities selected as attackable.
-						if (entity instanceof EntityPig && attackPigs           	||
-								entity instanceof EntitySheep && attackSheep        ||
-								entity instanceof EntityCow && attackCows           ||
-								entity instanceof EntityChicken && attackChickens   ||
-								entity instanceof EntitySpider && attackSpiders     ||
-								entity instanceof EntityZombie && attackZombies     ||
-								entity instanceof EntitySkeleton && attackSkeletons ||
-								entity instanceof EntityCreeper && attackCreepers   ||
-								entity instanceof EntityEnderman && attackEndermen)
-						{
-							closestEntity = (EntityLivingBase)entity;
-						}
-
-						else if (entity instanceof EntityMob && attackUnknown)
-						{
-							closestEntity = (EntityLivingBase)entity;
-						}
-					}
-
-					else
-					{
-						//Determine if they should attack by checking the target's class against entities selected as attackable.
-						if (entity instanceof EntityPig && attackPigs           	||
-								entity instanceof EntitySheep && attackSheep        ||
-								entity instanceof EntityCow && attackCows           ||
-								entity instanceof EntityChicken && attackChickens   ||
-								entity instanceof EntitySpider && attackSpiders     ||
-								entity instanceof EntityZombie && attackZombies     ||
-								entity instanceof EntitySkeleton && attackSkeletons ||
-								entity instanceof EntityCreeper && attackCreepers   ||
-								entity instanceof EntityEnderman && attackEndermen)
-						{
-							if (owner.getDistanceToEntity(entity) < owner.getDistanceToEntity(closestEntity))
-							{
-								closestEntity = (EntityLivingBase)entity;
-							}
-						}
-
-						else if (entity instanceof EntityMob && attackUnknown)
-						{
-							closestEntity = (EntityLivingBase)entity;
-						}
-					}
+					closestEntity = (EntityLivingBase)entity;
 				}
 			}
 
@@ -438,7 +382,7 @@ public class ChoreCombat extends AbstractChore
 		}
 	}
 
-	private boolean tryHandleTargetDeath()
+	private boolean doTryHandleTargetDeath()
 	{
 		if (owner.target != null && !owner.target.isEntityAlive())
 		{
@@ -501,10 +445,10 @@ public class ChoreCombat extends AbstractChore
 	{
 		owner.target.motionY += 0.4D;
 
-		if (!playedSound)
+		if (!playedWoosh)
 		{
 			owner.worldObj.playSoundAtEntity(owner.target, "mob.enderdragon.wings", 1.0F, 1.0F);
-			playedSound = true;
+			playedWoosh = true;
 		}
 	}
 
@@ -565,7 +509,7 @@ public class ChoreCombat extends AbstractChore
 
 			targetCreeper.setDead();
 			targetCreeper.dropItem(Item.gunpowder.itemID, owner.worldObj.rand.nextInt(1) + 1);
-			playedSound = false;
+			playedWoosh = false;
 		}
 	}
 
@@ -582,5 +526,26 @@ public class ChoreCombat extends AbstractChore
 	private boolean isWithinSentryArea()
 	{
 		return Math.abs(sentryPosX - owner.posX) < 1.0D && Math.abs(sentryPosY - owner.posY) < 1.0D && Math.abs(sentryPosZ) - owner.posZ < 1.0D;
+	}
+
+	private boolean isTargetValidForSettings(Entity entity)
+	{
+		return entity instanceof EntityPig && attackPigs           ||
+				entity instanceof EntitySheep && attackSheep        ||
+				entity instanceof EntityCow && attackCows           ||
+				entity instanceof EntityChicken && attackChickens   ||
+				entity instanceof EntitySpider && attackSpiders     ||
+				entity instanceof EntityZombie && attackZombies     ||
+				entity instanceof EntitySkeleton && attackSkeletons ||
+				entity instanceof EntityCreeper && attackCreepers   ||
+				entity instanceof EntityEnderman && attackEndermen  ||
+				entity instanceof EntityMob && attackUnknown;
+	}
+
+	private List<EntityLivingBase> getNearbyEntities()
+	{
+		return sentryMode ? 
+				(List<EntityLivingBase>)LogicHelper.getAllEntitiesOfTypeWithinDistanceOfEntity(owner, EntityLivingBase.class, sentryRadius) :
+					(List<EntityLivingBase>)LogicHelper.getAllEntitiesOfTypeWithinDistanceOfEntity(owner, EntityLivingBase.class, 15);
 	}
 }
