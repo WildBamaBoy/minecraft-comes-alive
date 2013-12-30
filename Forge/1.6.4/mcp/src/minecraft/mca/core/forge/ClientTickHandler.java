@@ -40,10 +40,8 @@ import cpw.mods.fml.common.TickType;
 public class ClientTickHandler implements ITickHandler
 {
 	/** The number of ticks since the main loop has been run.*/
-	public int ticks = 20;
-
-	/** For Ezio comment */
-	public boolean hasCommentedOnDeath = false;
+	private int clientTicks = 20;
+	public boolean doEzioComment;
 
 	@Override
 	public void tickStart(EnumSet<TickType> type, Object... tickData) {	}
@@ -51,20 +49,18 @@ public class ClientTickHandler implements ITickHandler
 	@Override
 	public void tickEnd(EnumSet<TickType> type, Object... tickData) 
 	{
-		//Determine where the tick came from and pass the tick to 
-		//the appropriate tick handler.
 		if (type.equals(EnumSet.of(TickType.CLIENT)))
 		{
-			GuiScreen guiScreen = Minecraft.getMinecraft().currentScreen;
+			final GuiScreen guiScreen = Minecraft.getMinecraft().currentScreen;
 
-			if (guiScreen != null)
+			if (guiScreen == null)
 			{
-				onTickInGui(guiScreen);
+				onTickInGame();
 			}
 
 			else
 			{
-				onTickInGame();
+				onTickInGui(guiScreen);
 			}
 		}
 	}
@@ -86,152 +82,38 @@ public class ClientTickHandler implements ITickHandler
 	 */
 	public void onTickInGame()
 	{
-		//Run this every 20 ticks to avoid performance problems.
-		if (ticks >= 20)
+		if (clientTicks >= 20)
 		{
-			//Check if Setup needs to run.
 			if (Minecraft.getMinecraft().isSingleplayer())
 			{
+				final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
+
 				if (!MCA.getInstance().isIntegratedClient)
 				{
 					MCA.getInstance().isIntegratedClient = true;
 					MCA.getInstance().isDedicatedClient = false;
 				}
 
-				try
+				if (manager.worldProperties.playerName.equals(""))
 				{
-					WorldPropertiesManager clientPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
-
-					if (clientPropertiesManager != null)
-					{
-
-						if (clientPropertiesManager.worldProperties.playerName.equals(""))
-						{
-							EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-							player.openGui(MCA.getInstance(), Constants.ID_GUI_SETUP, player.worldObj, (int)player.posX, (int)player.posY, (int)player.posZ);
-						}
-
-						//Update the growth of the player's baby.
-						if (clientPropertiesManager.worldProperties.babyExists)
-						{
-							//Update currentMinutes and compare to what prevMinutes was.
-							MCA.getInstance().playerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
-
-							if (MCA.getInstance().playerBabyCalendarCurrentMinutes > MCA.getInstance().playerBabyCalendarPrevMinutes || MCA.getInstance().playerBabyCalendarCurrentMinutes == 0 && MCA.getInstance().playerBabyCalendarPrevMinutes == 59)
-							{
-								clientPropertiesManager.worldProperties.minutesBabyExisted++;
-								MCA.getInstance().playerBabyCalendarPrevMinutes = MCA.getInstance().playerBabyCalendarCurrentMinutes;
-								clientPropertiesManager.saveWorldProperties();
-							}
-
-							if (clientPropertiesManager.worldProperties.minutesBabyExisted >= MCA.getInstance().modPropertiesManager.modProperties.babyGrowUpTimeMinutes)
-							{
-								if (!clientPropertiesManager.worldProperties.babyReadyToGrow)
-								{
-									clientPropertiesManager.worldProperties.babyReadyToGrow = true;
-									clientPropertiesManager.saveWorldProperties();
-								}
-							}
-
-							if (clientPropertiesManager.worldProperties.babyReadyToGrow && !MCA.getInstance().hasNotifiedOfBabyReadyToGrow)
-							{
-								Minecraft.getMinecraft().thePlayer.addChatMessage(LanguageHelper.getString("notify.baby.readytogrow"));
-								MCA.getInstance().hasNotifiedOfBabyReadyToGrow = true;
-							}
-						}
-
-						//Determine if this is the first time the world has been loaded.
-						if (clientPropertiesManager.worldProperties.firstWorldLoad)
-						{
-							clientPropertiesManager.worldProperties.firstWorldLoad = false;
-						}
-					}
-
-					//Debug checks
-					if (MCA.getInstance().inDebugMode)
-					{
-						clientPropertiesManager.worldProperties.babyExists = true;
-						clientPropertiesManager.worldProperties.minutesBabyExisted = 10;
-						clientPropertiesManager.worldProperties.babyName = "DEBUG";
-					}
-				}
-
-				catch (NullPointerException e)
-				{
-					MCA.getInstance().log("Client tick error!");
-					MCA.getInstance().log(e);
-				}
-
-				finally
-				{
-					//Reset ticks back to zero.
-					ticks = 0;
-				}
-			}
-
-			else
-			{
-				if (!MCA.getInstance().isDedicatedClient)
-				{
-					MCA.getInstance().isDedicatedClient = true;
-					MCA.getInstance().isIntegratedClient = false;
+					doRunSetup(manager);
 				}
 
 				else
 				{
-
-					WorldPropertiesManager clientPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
-
-					if (clientPropertiesManager != null)
-					{
-						if (clientPropertiesManager.worldProperties.playerName.equals(""))
-						{
-							EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-							player.openGui(MCA.getInstance(), Constants.ID_GUI_SETUP, player.worldObj, (int)player.posX, (int)player.posY, (int)player.posZ);
-						}
-
-						if (clientPropertiesManager.worldProperties.babyReadyToGrow && !MCA.getInstance().hasNotifiedOfBabyReadyToGrow)
-						{
-							Minecraft.getMinecraft().thePlayer.addChatMessage(LanguageHelper.getString("notify.baby.readytogrow"));
-							MCA.getInstance().hasNotifiedOfBabyReadyToGrow = true;
-						}
-
-						if (clientPropertiesManager.worldProperties.babyExists)
-						{
-							//Update currentMinutes and compare to what prevMinutes was.
-							MCA.getInstance().playerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
-
-							if (MCA.getInstance().playerBabyCalendarCurrentMinutes > MCA.getInstance().playerBabyCalendarPrevMinutes || MCA.getInstance().playerBabyCalendarCurrentMinutes == 0 && MCA.getInstance().playerBabyCalendarPrevMinutes == 59)
-							{
-								clientPropertiesManager.worldProperties.minutesBabyExisted++;
-								MCA.getInstance().playerBabyCalendarPrevMinutes = MCA.getInstance().playerBabyCalendarCurrentMinutes;
-								clientPropertiesManager.saveWorldProperties();
-							}
-
-							if (clientPropertiesManager.worldProperties.minutesBabyExisted >= MCA.getInstance().modPropertiesManager.modProperties.babyGrowUpTimeMinutes)
-							{
-								if (!clientPropertiesManager.worldProperties.babyReadyToGrow)
-								{
-									clientPropertiesManager.worldProperties.babyReadyToGrow = true;
-									clientPropertiesManager.saveWorldProperties();
-								}
-							}
-
-							if (clientPropertiesManager.worldProperties.babyReadyToGrow && !MCA.getInstance().hasNotifiedOfBabyReadyToGrow)
-							{
-								Minecraft.getMinecraft().thePlayer.addChatMessage(LanguageHelper.getString("notify.baby.readytogrow"));
-								MCA.getInstance().hasNotifiedOfBabyReadyToGrow = true;
-							}
-						}
-					}
+					doUpdateBabyGrowth(manager);
+					doDebug(manager);
 				}
+
+				clientTicks = 0;
 			}
+
 		}
 
 		else //Ticks isn't greater than or equal to 20.
 		{
-			ticks++;
-		}
+			clientTicks++;
+		}	
 	}
 
 	/**
@@ -246,7 +128,7 @@ public class ClientTickHandler implements ITickHandler
 		{
 			if (!MCA.getInstance().hasCompletedMainMenuTick)
 			{
-				ticks = 20;
+				clientTicks = 20;
 
 				//Check for random splash text.
 				if (AbstractEntity.getBooleanWithProbability(10))
@@ -322,7 +204,7 @@ public class ClientTickHandler implements ITickHandler
 		{
 			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
 
-			if (!hasCommentedOnDeath)
+			if (!doEzioComment)
 			{
 				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 				List<Entity> entityList = (List<Entity>) LogicHelper.getAllEntitiesOfTypeWithinDistanceOfEntity(player, EntityPlayerChild.class, 15);
@@ -334,9 +216,9 @@ public class ClientTickHandler implements ITickHandler
 						EntityPlayerChild playerChild = (EntityPlayerChild)entity;
 
 						if (playerChild.familyTree.getEntitiesWithRelation(EnumRelation.Parent).contains(MCA.getInstance().getIdOfPlayer(player)) &&
-								!hasCommentedOnDeath && playerChild.name.equals("Ezio"))
+								!doEzioComment && playerChild.name.equals("Ezio"))
 						{
-							hasCommentedOnDeath = true;
+							doEzioComment = true;
 							playerChild.say("Requiescat in pace.");
 							break;
 						}
@@ -370,6 +252,53 @@ public class ClientTickHandler implements ITickHandler
 			{
 				Minecraft.getMinecraft().displayGuiScreen(null);
 			}
+		}
+	}
+
+	private void doUpdateBabyGrowth(WorldPropertiesManager manager)
+	{
+		if (manager.worldProperties.babyExists)
+		{
+			//TODO Stop using the calendar.
+			MCA.getInstance().playerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+
+			if (MCA.getInstance().playerBabyCalendarCurrentMinutes > MCA.getInstance().playerBabyCalendarPrevMinutes || MCA.getInstance().playerBabyCalendarCurrentMinutes == 0 && MCA.getInstance().playerBabyCalendarPrevMinutes == 59)
+			{
+				manager.worldProperties.minutesBabyExisted++;
+				MCA.getInstance().playerBabyCalendarPrevMinutes = MCA.getInstance().playerBabyCalendarCurrentMinutes;
+				manager.saveWorldProperties();
+			}
+
+			if (manager.worldProperties.minutesBabyExisted >= MCA.getInstance().modPropertiesManager.modProperties.babyGrowUpTimeMinutes)
+			{
+				if (!manager.worldProperties.babyReadyToGrow)
+				{
+					manager.worldProperties.babyReadyToGrow = true;
+					manager.saveWorldProperties();
+				}
+			}
+
+			if (manager.worldProperties.babyReadyToGrow && !MCA.getInstance().hasNotifiedOfBabyReadyToGrow)
+			{
+				Minecraft.getMinecraft().thePlayer.addChatMessage(LanguageHelper.getString("notify.baby.readytogrow"));
+				MCA.getInstance().hasNotifiedOfBabyReadyToGrow = true;
+			}
+		}
+	}
+
+	private void doRunSetup(WorldPropertiesManager manager)
+	{
+		EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		player.openGui(MCA.getInstance(), Constants.ID_GUI_SETUP, player.worldObj, (int)player.posX, (int)player.posY, (int)player.posZ);
+	}
+
+	private void doDebug(WorldPropertiesManager manager)
+	{
+		if (MCA.getInstance().inDebugMode)
+		{
+			manager.worldProperties.babyExists = true;
+			manager.worldProperties.minutesBabyExisted = 10;
+			manager.worldProperties.babyName = "DEBUG";
 		}
 	}
 }
