@@ -22,52 +22,52 @@ public class PlayerMemory implements Serializable
 {
 	/** The username of the player being remembered. */
 	public String playerName;
-	
+
 	/** The hearts value towards the player. */
-	public int hearts = 0;
-	
+	public int hearts;
+
 	/** The amount of time since greeting the player. */
 	public int greetingTicks = 2000;
-	
+
 	/** Does this villager have a gift for the player? */
-	public boolean hasGift = false;
-	
+	public boolean hasGift;
+
 	/** Has the player hired this villager? */
-	public boolean isHired = false;
-	
+	public boolean isHired;
+
 	/** How long the villager has been hired for. */
-	public int hoursHired = 0;
-	
+	public int hoursHired;
+
 	/** How long it has been since the villager has been hired. */
-	public int minutesSinceHired = 0;
-	
+	public int minutesSinceHired;
+
 	/** Is this villager in gift mode for this player? */
-	public boolean isInGiftMode = false;
+	public boolean isInGiftMode;
 
 	/** Has hearts been updated to acknowledge the player as a monarch? */
-	public boolean acknowledgedAsMonarch = false;
-	
+	public boolean acknowledgedAsMonarch;
+
 	/** How many gifts this player has demanded as a monarch. */
-	public int monarchGiftsDemanded = 0;
-	
+	public int monarchGiftsDemanded;
+
 	/** How much time left until monarch gifts are reset. */
-	public int monarchResetTicks = 0;
-	
+	public int monarchResetTicks;
+
 	/** Has the villager refused the player's demands for a gift? */
-	public boolean hasRefusedDemands = false;
-	
+	public boolean hasRefusedDemands;
+
 	/** How many executions this villager has witnessed by this player. */
-	public int executionsWitnessed = 0;
-	
+	public int executionsWitnessed;
+
 	/** How much this villager is tired of talking with the player. */
-	public int interactionFatigue = 0;
-	
+	public int interactionFatigue;
+
 	/** How many times has this heir requested tribute from the player? */
-	public int tributeRequests = 0;
-	
+	public int tributeRequests;
+
 	/** Will this heir and their guards attack the player? */
-	public boolean willAttackPlayer = false;
-	
+	public boolean willAttackPlayer;
+
 	/**
 	 * Constructor
 	 * 
@@ -81,68 +81,70 @@ public class PlayerMemory implements Serializable
 	/**
 	 * Writes the player memory to NBT.
 	 * 
-	 * @param 	NBT	An instance of the NBTTagCompound used to write info about an entity.
+	 * @param 	nbt	An instance of the NBTTagCompound used to write info about an entity.
 	 */
-	public void writePlayerMemoryToNBT(NBTTagCompound NBT)
+	public void writePlayerMemoryToNBT(NBTTagCompound nbt)
 	{
-		try
+		for (final Field field : PlayerMemory.class.getFields())
 		{
-			for (Field f : PlayerMemory.class.getFields())
+			try
 			{
-				if (f.getType().getName().contains("boolean"))
+				if (field.getType().getName().contains("boolean"))
 				{
-					NBT.setBoolean("playerMemoryValue" + playerName + f.getName(), f.getBoolean(this));
+					nbt.setBoolean("playerMemoryValue" + playerName + field.getName(), field.getBoolean(this));
 				}
 
-				else if (f.getType().getName().contains("int"))
+				else if (field.getType().getName().contains("int"))
 				{
-					NBT.setInteger("playerMemoryValue" + playerName + f.getName(), f.getInt(this));
+					nbt.setInteger("playerMemoryValue" + playerName + field.getName(), field.getInt(this));
 				}
 
-				else if (f.getType().getName().contains("String"))
+				else if (field.getType().getName().contains("String"))
 				{
-					NBT.setString("playerMemoryValue" + playerName + f.getName(), f.get(this).toString());
+					nbt.setString("playerMemoryValue" + playerName + field.getName(), field.get(this).toString());
 				}
 			}
-		}
-		
-		catch (Exception e)
-		{
-			MCA.getInstance().log(e);
+
+			catch (IllegalAccessException e)
+			{
+				MCA.getInstance().log(e);
+				continue;
+			}
 		}
 	}
 
 	/**
 	 * Reads the player memory from NBT.
 	 * 
-	 * @param 	NBT	An instance of the NBTTagCompound used to load info about an entity.
+	 * @param 	nbt	An instance of the NBTTagCompound used to load info about an entity.
 	 */
-	public void readPlayerMemoryFromNBT(NBTTagCompound NBT)
+	public void readPlayerMemoryFromNBT(NBTTagCompound nbt)
 	{
-		try
+		for (final Field field : this.getClass().getFields())
 		{
-			for (Field f : this.getClass().getFields())
+			try
 			{
-				if (f.getType().getName().contains("boolean"))
+				if (field.getType().getName().contains("boolean"))
 				{
-					f.set(this, NBT.getBoolean("playerMemoryValue" + playerName + f.getName()));
+					field.set(this, nbt.getBoolean("playerMemoryValue" + playerName + field.getName()));
 				}
 
-				else if (f.getType().getName().contains("int"))
+				else if (field.getType().getName().contains("int"))
 				{
-					f.set(this, NBT.getInteger("playerMemoryValue" + playerName + f.getName()));
+					field.set(this, nbt.getInteger("playerMemoryValue" + playerName + field.getName()));
 				}
 
-				else if (f.getType().getName().contains("String"))
+				else if (field.getType().getName().contains("String"))
 				{
-					f.set(this, NBT.getString("playerMemoryValue" + playerName + f.getName()));
+					field.set(this, nbt.getString("playerMemoryValue" + playerName + field.getName()));
 				}
 			}
-		}
-		
-		catch (Exception e)
-		{
-			MCA.getInstance().log(e);
+
+			catch (IllegalAccessException e)
+			{
+				MCA.getInstance().log(e);
+				continue;
+			}
 		}
 	}
 }

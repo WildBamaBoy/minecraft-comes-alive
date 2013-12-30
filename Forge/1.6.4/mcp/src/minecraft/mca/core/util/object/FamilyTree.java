@@ -136,13 +136,13 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Adds the specified int and relation value to the family tree.
 	 * 
-	 * @param 	id			The ID to add to the family tree.
+	 * @param 	idToAdd			The ID to add to the family tree.
 	 * @param 	relation	The relation of the entity with the specified ID to the owner of the family tree.
 	 */
-	public void addFamilyTreeEntry(int id, EnumRelation relation)
+	public void addFamilyTreeEntry(int idToAdd, EnumRelation relation)
 	{
 		//Add the ID and relation to the map.
-		relationMap.put(id, relation);
+		relationMap.put(idToAdd, relation);
 	}
 
 	/**
@@ -184,7 +184,7 @@ public class FamilyTree implements Serializable, Cloneable
 	{
 		int removalKey = 0;
 
-		for(Map.Entry<Integer, EnumRelation> entry : relationMap.entrySet())
+		for(final Map.Entry<Integer, EnumRelation> entry : relationMap.entrySet())
 		{
 			if (entry.getValue().equals(relation))
 			{
@@ -204,37 +204,19 @@ public class FamilyTree implements Serializable, Cloneable
 	 */
 	public boolean entityIsRelative(AbstractEntity entity)
 	{
-		//Easily self explanatory.
-		if (relationMap.containsKey(entity.mcaID))
-		{
-			return true;
-		}
-
-		else
-		{
-			return false;
-		}
+		return relationMap.containsKey(entity.mcaID);
 	}
 
 	/**
 	 * Checks if an id is related to the owner of this family tree.
 	 * 
-	 * @param	id	The entity id being checked for relation to the owner.
+	 * @param	mcaID	The entity id being checked for relation to the owner.
 	 * 
 	 * @return	boolean identifying whether or not the provided entity is related to the owner of the family tree.
 	 */
-	public boolean idIsRelative(int id)
+	public boolean idIsRelative(int mcaID)
 	{
-		//Easily self explanatory.
-		if (relationMap.containsKey(id))
-		{
-			return true;
-		}
-
-		else
-		{
-			return false;
-		}
+		return relationMap.containsKey(mcaID);
 	}
 
 	/**
@@ -260,21 +242,21 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Gets a person's relation to the owner from the map.
 	 * 
-	 * @param 	id	The ID of the entity.
+	 * @param 	mcaID	The ID of the entity.
 	 * 
 	 * @return	The relation of the entity with the provided ID.
 	 */
-	public EnumRelation getRelationOf(int id)
+	public EnumRelation getRelationOf(int mcaID)
 	{
-		if (idIsRelative(id))
+		if (idIsRelative(mcaID))
 		{
-			EnumRelation returnRelation = relationMap.get(id);
+			final EnumRelation returnRelation = relationMap.get(mcaID);
 
 			if (returnRelation.equals(EnumRelation.Greatgrandparent))
 			{
-				if (id < 0)
+				if (mcaID < 0)
 				{
-					WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(MCA.getInstance().getPlayerByID(owner.worldObj, id).username);
+					final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(MCA.getInstance().getPlayerByID(owner.worldObj, mcaID).username);
 
 					if (manager.worldProperties.playerGender.equals("Male"))
 					{
@@ -290,9 +272,9 @@ public class FamilyTree implements Serializable, Cloneable
 
 			else if (returnRelation.equals(EnumRelation.Grandparent))
 			{
-				if (id < 0)
+				if (mcaID < 0)
 				{
-					WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(MCA.getInstance().getPlayerByID(owner.worldObj, id).username);
+					final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(MCA.getInstance().getPlayerByID(owner.worldObj, mcaID).username);
 
 					if (manager.worldProperties.playerGender.equals("Male"))
 					{
@@ -306,7 +288,7 @@ public class FamilyTree implements Serializable, Cloneable
 				}
 			}
 
-			return relationMap.get(id);
+			return relationMap.get(mcaID);
 		}
 
 		else
@@ -338,15 +320,15 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Gets a person's relation to the owner from the map.
 	 * 
-	 * @param 	id	The ID of the entity.
+	 * @param 	mcaID	The ID of the entity.
 	 * 
 	 * @return	The relation of the entity with the provided ID.
 	 */
-	public EnumRelation getRelationTo(int id)
+	public EnumRelation getRelationTo(int mcaID)
 	{
-		if (idIsRelative(id))
+		if (idIsRelative(mcaID))
 		{
-			return getOpposingRelation(owner.isMale, relationMap.get(id));
+			return getOpposingRelation(owner.isMale, relationMap.get(mcaID));
 		}
 
 		else
@@ -364,7 +346,7 @@ public class FamilyTree implements Serializable, Cloneable
 	 */
 	public int getEntityWithRelation(EnumRelation relation)
 	{
-		for (Map.Entry<Integer, EnumRelation> entry : relationMap.entrySet())
+		for (final Map.Entry<Integer, EnumRelation> entry : relationMap.entrySet())
 		{
 			if (entry.getValue() == relation)
 			{
@@ -384,9 +366,9 @@ public class FamilyTree implements Serializable, Cloneable
 	 */
 	public List<Integer> getEntitiesWithRelation(EnumRelation relation)
 	{
-		List<Integer> returnList = new ArrayList<Integer>();
+		final List<Integer> returnList = new ArrayList<Integer>();
 
-		for (Map.Entry<Integer, EnumRelation> entry : relationMap.entrySet())
+		for (final Map.Entry<Integer, EnumRelation> entry : relationMap.entrySet())
 		{
 			if (entry.getValue() == relation)
 			{
@@ -400,16 +382,16 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Writes the entity's family tree to NBT.
 	 * 
-	 * @param	NBT	The NBT object that saves information about the entity.
+	 * @param	nbt	The NBT object that saves information about the entity.
 	 */
-	public void writeTreeToNBT(NBTTagCompound NBT)
+	public void writeTreeToNBT(NBTTagCompound nbt)
 	{
 		int counter = 0;
 
-		for(Map.Entry<Integer, EnumRelation> KVP : relationMap.entrySet())
+		for(final Map.Entry<Integer, EnumRelation> KVP : relationMap.entrySet())
 		{
-			NBT.setInteger("familyTreeEntryID" + counter, KVP.getKey());
-			NBT.setString("familyTreeEntryRelation" + counter, KVP.getValue().getValue());
+			nbt.setInteger("familyTreeEntryID" + counter, KVP.getKey());
+			nbt.setString("familyTreeEntryRelation" + counter, KVP.getValue().getValue());
 
 			counter++;
 		}
@@ -418,34 +400,26 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Reads the entity's family tree from NBT.
 	 * 
-	 * @param	NBT	The NBT object that reads information about the entity.
+	 * @param	nbt	The NBT object that reads information about the entity.
 	 */
-	public void readTreeFromNBT(NBTTagCompound NBT)
+	public void readTreeFromNBT(NBTTagCompound nbt)
 	{
 		int counter = 0;
 
 		while (true)
 		{
-			try
-			{
-				int entryID = NBT.getInteger("familyTreeEntryID" + counter);
-				String entryRelation = NBT.getString("familyTreeEntryRelation" + counter);
+			final int entryID = nbt.getInteger("familyTreeEntryID" + counter);
+			final String entryRelation = nbt.getString("familyTreeEntryRelation" + counter);
 
-				if (entryID == 0 && entryRelation.equals(""))
-				{
-					break;
-				}
-
-				else
-				{
-					relationMap.put(entryID, EnumRelation.getEnum(entryRelation));
-					counter++;
-				}
-			}
-
-			catch (NullPointerException e)
+			if (entryID == 0 && entryRelation.equals(""))
 			{
 				break;
+			}
+
+			else
+			{
+				relationMap.put(entryID, EnumRelation.getEnum(entryRelation));
+				counter++;
 			}
 		}
 	}
@@ -457,7 +431,7 @@ public class FamilyTree implements Serializable, Cloneable
 	{
 		MCA.getInstance().log("Family tree of " + owner.name + ". MCA ID: " + owner.mcaID);
 
-		for (Map.Entry<Integer, EnumRelation> entry : relationMap.entrySet())
+		for (final Map.Entry<Integer, EnumRelation> entry : relationMap.entrySet())
 		{
 			MCA.getInstance().log(entry.getKey() + " : " + entry.getValue().getValue());
 		}
@@ -472,9 +446,9 @@ public class FamilyTree implements Serializable, Cloneable
 	 */
 	public AbstractEntity getInstanceOfRelative(EnumRelation relation) 
 	{
-		for (Map.Entry<Integer, EnumRelation> entrySet : relationMap.entrySet())
+		for (final Map.Entry<Integer, EnumRelation> entrySet : relationMap.entrySet())
 		{
-			for (AbstractEntity entity : MCA.getInstance().entitiesMap.values())
+			for (final AbstractEntity entity : MCA.getInstance().entitiesMap.values())
 			{
 				if (entity.mcaID == entrySet.getKey() && entity.familyTree.getRelationOf(owner) == relation)
 				{
@@ -493,9 +467,9 @@ public class FamilyTree implements Serializable, Cloneable
 	 */
 	public List<Integer> getListOfPlayers()
 	{
-		List<Integer> returnList = new ArrayList<Integer>();
+		final List<Integer> returnList = new ArrayList<Integer>();
 
-		for (Integer integer : relationMap.keySet())
+		for (final Integer integer : relationMap.keySet())
 		{
 			//All player IDs are negative.
 			if (integer < 0 && !returnList.contains(integer))

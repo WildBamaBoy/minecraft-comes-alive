@@ -724,7 +724,7 @@ public final class LanguageHelper
 			
 			if (text.contains("%MinecraftVersionNumber%"))
 			{
-				text = text.replace("%MinecraftVersionNumber%", UpdateHandler.compatibleMinecraftVersion);
+				text = text.replace("%MinecraftVersionNumber%", UpdateHandler.validGameVersions);
 			}
 			
 			if (text.contains("%ModVersionNumber%"))

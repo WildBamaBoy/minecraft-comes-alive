@@ -9,6 +9,8 @@
 
 package mca.core.util.object;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -25,13 +27,13 @@ import net.minecraft.util.ChatMessageComponent;
 public class UpdateHandler implements Runnable
 {	
 	/** The update's compatible Minecraft version. */
-	public static String compatibleMinecraftVersion = "";
-	
+	public static String validGameVersions = "";
+
 	/** The most recent version of MCA. */
 	public static String mostRecentVersion = "";
-	
-	private NetHandler netHandler = null;
-	private ICommandSender commandSender = null;
+
+	private NetHandler netHandler;
+	private ICommandSender commandSender;
 
 	/**
 	 * Constructor used when a player logs in.
@@ -60,48 +62,48 @@ public class UpdateHandler implements Runnable
 		{
 			if (!MCA.getInstance().hasCheckedForUpdates && !MCA.getInstance().isDedicatedServer && !MCA.getInstance().isDedicatedClient)
 			{
-				MCA.getInstance().hasCheckedForUpdates = true;
-				URL url = new URL("http://pastebin.com/raw.php?i=mfenhJaJ");
-				Scanner scanner = new Scanner(url.openStream());
+				final ModPropertiesManager manager = MCA.getInstance().modPropertiesManager;
+				final URL url = new URL("http://pastebin.com/raw.php?i=mfenhJaJ");
+				final Scanner scanner = new Scanner(url.openStream());
 
-				compatibleMinecraftVersion = scanner.nextLine();
+				validGameVersions = scanner.nextLine();
 				mostRecentVersion = scanner.nextLine();
 
-				ModPropertiesManager manager = MCA.getInstance().modPropertiesManager;
-				
+				MCA.getInstance().hasCheckedForUpdates = true;
+
 				if (!mostRecentVersion.equals(Constants.VERSION) && (manager.modProperties.checkForUpdates || !manager.modProperties.lastFoundUpdate.equals(mostRecentVersion)))
 				{
-					if (netHandler != null)
+					if (netHandler == null)
 					{
-						netHandler.getPlayer().sendChatToPlayer(new ChatMessageComponent().addText(
+						commandSender.sendChatToPlayer(new ChatMessageComponent().addText(
 								Constants.COLOR_DARKGREEN + "MCA v" + mostRecentVersion + 
 								Constants.COLOR_YELLOW + " for " + 
-								Constants.COLOR_DARKGREEN + "Minecraft v" + compatibleMinecraftVersion + 
+								Constants.COLOR_DARKGREEN + "Minecraft v" + validGameVersions + 
 								Constants.COLOR_YELLOW + " is available."));
-						
-						netHandler.getPlayer().sendChatToPlayer(new ChatMessageComponent().addText(
+
+						commandSender.sendChatToPlayer(new ChatMessageComponent().addText(
 								Constants.COLOR_YELLOW + "Click " + 
-								Constants.COLOR_BLUE + Constants.FORMAT_ITALIC + "http://goo.gl/4Kwohv " + Constants.FORMAT_RESET + 
-								Constants.COLOR_YELLOW + "to download."));
-						
-						netHandler.getPlayer().sendChatToPlayer(new ChatMessageComponent().addText(
+										Constants.COLOR_BLUE + Constants.FORMAT_ITALIC + "http://goo.gl/4Kwohv " + Constants.FORMAT_RESET + 
+										Constants.COLOR_YELLOW + "to download."));
+
+						commandSender.sendChatToPlayer(new ChatMessageComponent().addText(
 								Constants.COLOR_RED + "To turn off notifications about this update, type /mca.checkupdates off"));
 					}
 
-					else if (commandSender != null)
+					else if (commandSender == null)
 					{
-						commandSender.sendChatToPlayer(new ChatMessageComponent().addText(
+						netHandler.getPlayer().sendChatToPlayer(new ChatMessageComponent().addText(
 								Constants.COLOR_DARKGREEN + "MCA v" + mostRecentVersion + 
 								Constants.COLOR_YELLOW + " for " + 
-								Constants.COLOR_DARKGREEN + "Minecraft v" + compatibleMinecraftVersion + 
+								Constants.COLOR_DARKGREEN + "Minecraft v" + validGameVersions + 
 								Constants.COLOR_YELLOW + " is available."));
-						
-						commandSender.sendChatToPlayer(new ChatMessageComponent().addText(
+
+						netHandler.getPlayer().sendChatToPlayer(new ChatMessageComponent().addText(
 								Constants.COLOR_YELLOW + "Click " + 
-								Constants.COLOR_BLUE + Constants.FORMAT_ITALIC + "http://goo.gl/4Kwohv " + Constants.FORMAT_RESET + 
-								Constants.COLOR_YELLOW + "to download."));
-						
-						commandSender.sendChatToPlayer(new ChatMessageComponent().addText(
+										Constants.COLOR_BLUE + Constants.FORMAT_ITALIC + "http://goo.gl/4Kwohv " + Constants.FORMAT_RESET + 
+										Constants.COLOR_YELLOW + "to download."));
+
+						netHandler.getPlayer().sendChatToPlayer(new ChatMessageComponent().addText(
 								Constants.COLOR_RED + "To turn off notifications about this update, type /mca.checkupdates off"));
 					}
 				}
@@ -112,8 +114,15 @@ public class UpdateHandler implements Runnable
 			}
 		}
 
-		catch (Exception e)
+		catch (MalformedURLException e)
 		{
+			MCA.getInstance().log("Error checking for update.");
+			MCA.getInstance().log(e);
+		}
+		
+		catch (IOException e)
+		{
+			MCA.getInstance().log("Error checking for update.");
 			MCA.getInstance().log(e);
 		}
 	}
