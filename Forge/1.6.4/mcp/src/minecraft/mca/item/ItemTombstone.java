@@ -33,11 +33,11 @@ public class ItemTombstone extends Item
 	/**
 	 * Constructor
 	 *
-	 * @param	id	The Item's ID.
+	 * @param	itemId	The Item's ID.
 	 */
-	public ItemTombstone(int id)
+	public ItemTombstone(int itemId)
 	{
-		super(id);
+		super(itemId);
 		maxStackSize = 1;
 		setCreativeTab(CreativeTabs.tabMisc);
 	}
@@ -48,9 +48,9 @@ public class ItemTombstone extends Item
 	 * @param	itemStack	The item stack that the player was holding when they right clicked.
 	 * @param	player		The player that right clicked.
 	 * @param	world		The world that the player right clicked in.
-	 * @param	x			X coordinate of the block that the player right clicked.
-	 * @param	y			Y coordinate of the block that the player right clicked.
-	 * @param	z			Z coordinate of the block that the player right clicked.
+	 * @param	posX		X coordinate of the block that the player right clicked.
+	 * @param	posY		Y coordinate of the block that the player right clicked.
+	 * @param	posZ		Z coordinate of the block that the player right clicked.
 	 * @param	meta		Metadata associated with the block clicked.
 	 * @param	xOffset		X offset of the point where the block was clicked.
 	 * @param	yOffset		Y offset of the point where the block was clicked.
@@ -59,14 +59,14 @@ public class ItemTombstone extends Item
 	 * @return	True or false depending on if placing the item into the world was successful.
 	 */
 	@Override
-	public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int meta, float xOffset, float yOffset, float zOffset)
+	public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int posX, int posY, int posZ, int meta, float xOffset, float yOffset, float zOffset)
 	{
 		if (meta == 0)
 		{
 			return false;
 		}
 
-		else if (!world.getBlockMaterial(x, y, z).isSolid())
+		else if (!world.getBlockMaterial(posX, posY, posZ).isSolid())
 		{
 			return false;
 		}
@@ -75,66 +75,55 @@ public class ItemTombstone extends Item
 		{
 			if (meta == 1)
 			{
-				++y;
+				++posY;
 			}
 
 			if (meta == 2)
 			{
-				--z;
+				--posZ;
 			}
 
 			if (meta == 3)
 			{
-				++z;
+				++posZ;
 			}
 
 			if (meta == 4)
 			{
-				--x;
+				--posX;
 			}
 
 			if (meta == 5)
 			{
-				++x;
+				++posX;
 			}
 
-			if (!player.canPlayerEdit(x, y, z, meta, itemStack))
+			if (!player.canPlayerEdit(posX, posY, posZ, meta, itemStack))
 			{
 				return false;
 			}
 
-			else if (!MCA.getInstance().blockTombstone.canPlaceBlockAt(world, x, y, z))
+			else if (!MCA.getInstance().blockTombstone.canPlaceBlockAt(world, posX, posY, posZ))
 			{
 				return false;
 			}
 
 			else
 			{
+				--itemStack.stackSize;
+
 				if (meta == 1)
 				{
-					int i1 = MathHelper.floor_double(((player.rotationYaw + 180F) * 16F) / 360F + 0.5D) & 0xf;
-
-					if (i1 == 0 || i1 == 4 || i1 == 8 || i1 == 12)
-					{
-						world.setBlock(x, y, z, MCA.getInstance().blockTombstone.blockID, i1, 2);
-					}
-					else
-					{
-						return false;
-					}
+					final int newMeta = MathHelper.floor_double(((player.rotationYaw + 180F) * 16F) / 360F + 0.5D) & 0xf;
+					world.setBlock(posX, posY, posZ, MCA.getInstance().blockTombstone.blockID, newMeta, 2);
 				}
 				else
 				{
-					world.setBlock(x, y, z, MCA.getInstance().blockTombstone.blockID, meta, 2);
+					world.setBlock(posX, posY, posZ, MCA.getInstance().blockTombstone.blockID, meta, 2);
 				}
 
-				--itemStack.stackSize;
-				TileEntityTombstone tombstone = (TileEntityTombstone)world.getBlockTileEntity(x, y, z);
-
-				if (tombstone != null)
-				{
-					player.openGui(MCA.getInstance(), Constants.ID_GUI_TOMBSTONE, world, tombstone.xCoord, tombstone.yCoord, tombstone.zCoord);
-				}
+				final TileEntityTombstone tombstone = (TileEntityTombstone)world.getBlockTileEntity(posX, posY, posZ);
+				player.openGui(MCA.getInstance(), Constants.ID_GUI_TOMBSTONE, world, tombstone.xCoord, tombstone.yCoord, tombstone.zCoord);
 
 				return true;
 			}
@@ -146,7 +135,7 @@ public class ItemTombstone extends Item
 	{
 		itemIcon = iconRegister.registerIcon("mca:Tombstone");
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List informationList, boolean unknown)

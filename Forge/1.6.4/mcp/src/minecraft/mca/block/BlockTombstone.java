@@ -13,14 +13,12 @@ import java.util.Random;
 
 import mca.core.MCA;
 import mca.tileentity.TileEntityTombstone;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
 /**
@@ -36,13 +34,7 @@ public class BlockTombstone extends BlockContainer
 	public BlockTombstone(int blockId)
 	{
 		super(blockId, Material.rock);
-		setBlockBounds(0.5F - 0.40F, 0.0F, 0.5F - 0.40F, 0.5F + 0.40F, 1.0F, 0.5F + 0.40F);
-	}
-
-	@Override
-	public Icon getIcon(int side, int unknown)
-	{
-		return Block.planks.getBlockTextureFromSide(side);
+		setBlockBounds(0.1F, 0.0F, 0.1F, 0.9F, 0.75F, 0.9F);
 	}
 
 	@Override
@@ -54,8 +46,7 @@ public class BlockTombstone extends BlockContainer
 	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int posX, int posY, int posZ)
 	{
-		//Return null for no collision.
-		return null;
+		return null; //No collision.
 	}
 
 	@Override
@@ -74,7 +65,6 @@ public class BlockTombstone extends BlockContainer
 	@Override
 	public boolean renderAsNormalBlock()
 	{
-		//Return false since the tombstone is not a cube.
 		return false;
 	}
 
@@ -120,5 +110,11 @@ public class BlockTombstone extends BlockContainer
 	public void registerIcons(IconRegister iconRegister)
 	{
 		blockIcon = iconRegister.registerIcon("mca:Tombstone");
+	}
+
+	@Override
+	public boolean canPlaceBlockAt(World world, int posX, int posY, int posZ) 
+	{
+		return world.getBlockId(posX, posY - 1, posZ) != 0 && super.canPlaceBlockAt(world, posX, posY, posZ);
 	}
 }
