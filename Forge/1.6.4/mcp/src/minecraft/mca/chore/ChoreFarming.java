@@ -18,7 +18,7 @@ import mca.core.MCA;
 import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
-import mca.core.util.object.Coordinates;
+import mca.core.util.object.Point3D;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import net.minecraft.block.Block;
@@ -477,7 +477,7 @@ public class ChoreFarming extends AbstractChore
 
 	private void doAssignNextBlockForCreation()
 	{
-		final List<Coordinates> farmland = LogicHelper.getNearbyFarmableLand(owner, startX, startY, startZ, areaX, areaY);
+		final List<Point3D> farmland = LogicHelper.getNearbyFarmableLand(owner, startX, startY, startZ, areaX, areaY);
 
 		if (farmland.isEmpty())
 		{
@@ -507,9 +507,9 @@ public class ChoreFarming extends AbstractChore
 
 		else
 		{
-			targetX = (int)farmland.get(0).x;
-			targetY = (int)farmland.get(0).y;
-			targetZ = (int)farmland.get(0).z;
+			targetX = (int)farmland.get(0).posX;
+			targetY = (int)farmland.get(0).posY;
+			targetZ = (int)farmland.get(0).posZ;
 			hasNextPathBlock = true;
 		}
 	}
@@ -550,13 +550,13 @@ public class ChoreFarming extends AbstractChore
 
 	private void doAssignNextBlockForMaintain()
 	{
-		final List<Coordinates> coords = LogicHelper.getNearbyHarvestableCrops(owner, startX, startY, startZ, radius);
+		final List<Point3D> points = LogicHelper.getNearbyHarvestableCrops(owner, startX, startY, startZ, radius);
 
-		if (!coords.isEmpty())
+		if (!points.isEmpty())
 		{
-			targetX = (int)coords.get(0).x;
-			targetY = (int)coords.get(0).y;
-			targetZ = (int)coords.get(0).z;
+			targetX = (int)points.get(0).posX;
+			targetY = (int)points.get(0).posY;
+			targetZ = (int)points.get(0).posZ;
 			hasNextPathBlock = true;
 
 			final int blockID = owner.worldObj.getBlockId(targetX, targetY, targetZ);

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Coordinates.java
+ * Point3D.java
  * Copyright (c) 2013 WildBamaBoy.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v3.0
@@ -12,29 +12,24 @@ package mca.core.util.object;
 /**
  * Used to store a group of 3D coordinates and easily move them around.
  */
-public class Coordinates
+public class Point3D
 {
-	/** The X coordinate value. */
-    public double x;
-    
-    /** The Y coordinate value. */
-    public double y;
-    
-    /** The Z coordinate value. */
-    public double z;
+    public double posX;
+    public double posY;
+    public double posZ;
 
     /**
      * Constructor
      * 
-     * @param	x	The x coordinate value.
-     * @param	y	The y coordinate value.
-     * @param	z	The z coordinate value.
+     * @param	posX	The x coordinate value.
+     * @param	posY	The y coordinate value.
+     * @param	posZ	The z coordinate value.
      */
-    public Coordinates(double x, double y, double z)
+    public Point3D(double posX, double posY, double posZ)
     {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.posX = posX;
+        this.posY = posY;
+        this.posZ = posZ;
     }
     
     /**
@@ -44,6 +39,6 @@ public class Coordinates
      */
     public String toString()
     {
-    	return x + ", " + y + ", " + z;
+    	return posX + ", " + posY + ", " + posZ;
     }
 }

@@ -18,7 +18,7 @@ import mca.core.MCA;
 import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
-import mca.core.util.object.Coordinates;
+import mca.core.util.object.Point3D;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import net.minecraft.block.Block;
@@ -319,7 +319,7 @@ public class ChoreWoodcutting extends AbstractChore
 
 	private void doSetTreeLocation()
 	{
-		final List<Coordinates> woodCoordList = treeType == -1 ? LogicHelper.getNearbyBlockCoordinates(owner, Block.wood.blockID, 10) : LogicHelper.getNearbyBlockCoordinatesWithMetadata(owner, Block.wood.blockID, treeType, 10);
+		final List<Point3D> woodCoordList = treeType == -1 ? LogicHelper.getNearbyBlockCoordinates(owner, Block.wood.blockID, 10) : LogicHelper.getNearbyBlockCoordinatesWithMetadata(owner, Block.wood.blockID, treeType, 10);
 
 		if (woodCoordList.isEmpty())
 		{
@@ -337,17 +337,17 @@ public class ChoreWoodcutting extends AbstractChore
 		else
 		{
 			hasTreeLocation = true;
-			Coordinates treeCoordinates = null;
+			Point3D treeCoordinates = null;
 			double lastDistance = 100D;
 
 			//Get the coordinates of the nearest valid wood block found of the specified ID.
-			for (final Coordinates coords : woodCoordList)
+			for (final Point3D point : woodCoordList)
 			{
-				final double thisDistance = LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, coords.x, coords.y, coords.z);
+				final double thisDistance = LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, point.posX, point.posY, point.posZ);
 
 				if (thisDistance < lastDistance)
 				{
-					treeCoordinates = coords;
+					treeCoordinates = point;
 					lastDistance = thisDistance;
 				}
 			}
@@ -359,9 +359,9 @@ public class ChoreWoodcutting extends AbstractChore
 
 			else
 			{
-				treeBaseX = treeCoordinates.x;
-				treeBaseY = treeCoordinates.y;
-				treeBaseZ = treeCoordinates.z;
+				treeBaseX = treeCoordinates.posX;
+				treeBaseY = treeCoordinates.posY;
+				treeBaseZ = treeCoordinates.posZ;
 
 				int distanceFromY = 0;
 
@@ -387,11 +387,11 @@ public class ChoreWoodcutting extends AbstractChore
 
 	private void doRemoveAdjacentLeaves()
 	{
-		final List<Coordinates> leafCoords = LogicHelper.getNearbyBlocksBottomTop(owner, Block.leaves.blockID, 1, 1);
+		final List<Point3D> leafPoint = LogicHelper.getNearbyBlocksBottomTop(owner, Block.leaves.blockID, 1, 1);
 
-		for (final Coordinates coords : leafCoords)
+		for (final Point3D point : leafPoint)
 		{
-			owner.worldObj.setBlock((int)coords.x, (int)coords.y, (int)coords.z, 0);
+			owner.worldObj.setBlock((int)point.posX, (int)point.posY, (int)point.posZ, 0);
 		}
 	}
 

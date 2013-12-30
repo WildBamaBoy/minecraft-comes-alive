@@ -2211,13 +2211,13 @@ public final class PacketHandler implements IPacketHandler
 	 * Creates a packet used to respawn the player in hardcore mode.
 	 * 
 	 * @param 	player			The player that is respawning.
-	 * @param	chunkCoordsX	X chunk coordinates of the player's new respawn point.
-	 * @param	chunkCoordsY	Y chunk coordinates of the player's new respawn point.
-	 * @param	chunkCoordsZ	Z chunk coordinates of the player's new respawn point.
+	 * @param	chunkPointX	X chunk coordinates of the player's new respawn point.
+	 * @param	chunkPointY	Y chunk coordinates of the player's new respawn point.
+	 * @param	chunkPointZ	Z chunk coordinates of the player's new respawn point.
 	 *  
 	 * @return	A trade packet.
 	 */
-	public static Packet createRespawnPacket(EntityPlayer player, int chunkCoordsX, int chunkCoordsY, int chunkCoordsZ)
+	public static Packet createRespawnPacket(EntityPlayer player, int chunkPointX, int chunkPointY, int chunkPointZ)
 	{
 		try
 		{
@@ -2227,9 +2227,9 @@ public final class PacketHandler implements IPacketHandler
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
 			
-			objectOutput.writeObject(chunkCoordsX);
-			objectOutput.writeObject(chunkCoordsY);
-			objectOutput.writeObject(chunkCoordsZ);
+			objectOutput.writeObject(chunkPointX);
+			objectOutput.writeObject(chunkPointY);
+			objectOutput.writeObject(chunkPointZ);
 			objectOutput.writeObject(player.entityId);
 			objectOutput.close();
 			
@@ -2265,9 +2265,9 @@ public final class PacketHandler implements IPacketHandler
 		World worldObj = entityPlayer.worldObj;
 		MinecraftServer theServer = MinecraftServer.getServer();
 
-		int chunkCoordsX = (Integer)objectInput.readObject();
-		int chunkCoordsY = (Integer)objectInput.readObject();
-		int chunkCoordsZ = (Integer)objectInput.readObject();
+		int chunkPointX = (Integer)objectInput.readObject();
+		int chunkPointY = (Integer)objectInput.readObject();
+		int chunkPointZ = (Integer)objectInput.readObject();
 		int playerEntityId = (Integer)objectInput.readObject();
 
 		objectInput.close();
@@ -2289,7 +2289,7 @@ public final class PacketHandler implements IPacketHandler
 					if (serverHandler.playerEntity.username.equals(entityPlayer.username))
 					{
 						//Manually respawn the player rather than allowing the game to do it, which would delete the world in hardcore mode.
-						serverHandler.playerEntity.setSpawnChunk(new ChunkCoordinates(chunkCoordsX, chunkCoordsY, chunkCoordsZ), true);
+						serverHandler.playerEntity.setSpawnChunk(new ChunkCoordinates(chunkPointX, chunkPointY, chunkPointZ), true);
 						serverHandler.playerEntity = theServer.getConfigurationManager().respawnPlayer(entityPlayer, entityPlayer.dimension, false);
 
 						break;
