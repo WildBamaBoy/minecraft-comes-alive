@@ -10,8 +10,8 @@
 package mca.client.gui;
 
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
-import mca.core.util.PacketHelper;
 import mca.core.util.object.FamilyTree;
 import mca.entity.AbstractEntity;
 import mca.enums.EnumRelation;
@@ -320,14 +320,14 @@ public class GuiLostRelativeDocument extends AbstractGui
 		else if (guibutton == buttonNo)
 		{
 			recipient.familyTree = originalFamilyTree;
-			PacketDispatcher.sendPacketToServer(PacketHelper.createSyncRequestPacket(recipient.entityId));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createSyncRequestPacket(recipient.entityId));
 			drawLostRelativeDocumentGui();
 			return;
 		}
 		
 		else if (guibutton == buttonYes)
 		{
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFamilyTreePacket(recipient.entityId, recipient.familyTree));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFamilyTreePacket(recipient.entityId, recipient.familyTree));
 			
 			AbstractEntity.removeItemFromPlayer(new ItemStack(MCA.getInstance().itemLostRelativeDocument, 1), player);
 			

@@ -11,8 +11,8 @@ package mca.command;
 
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
-import mca.core.util.PacketHelper;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -54,7 +54,7 @@ public class CommandHaveBabyAccept extends AbstractCommand
 				{
 					//Notify the other that they want to have a baby and tell the server they have asked.
 					this.sendChatToPlayer(spouse, "multiplayer.command.output.havebaby.successful", Constants.COLOR_GREEN, null);
-					PacketDispatcher.sendPacketToPlayer(PacketHelper.createHaveBabyPacket(spouse.entityId, player.entityId), (Player)spouse);
+					PacketDispatcher.sendPacketToPlayer(PacketHandler.createHaveBabyPacket(spouse.entityId, player.entityId), (Player)spouse);
 					
 					//And remove their entry from the map.
 					MCA.getInstance().babyRequests.remove(sender.getCommandSenderName());

@@ -12,8 +12,8 @@ package mca.client.gui;
 import java.util.List;
 
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
-import mca.core.util.PacketHelper;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityChild;
@@ -275,9 +275,9 @@ public class GuiInteractionVillagerChild extends AbstractGui
 				entityVillagerChild.isStaying = false;
 				entityVillagerChild.followingPlayer = player.username;
 
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "isFollowing", true));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "isStaying", false));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "followingPlayer", player.username));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "isFollowing", true));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "isStaying", false));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "followingPlayer", player.username));
 
 				entityVillagerChild.say(LanguageHelper.getString(player, entityVillagerChild, "follow.start"));
 				close();
@@ -289,9 +289,9 @@ public class GuiInteractionVillagerChild extends AbstractGui
 				entityVillagerChild.isStaying = false;
 				entityVillagerChild.followingPlayer = "None";
 
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "isFollowing", false));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "isStaying", false));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "followingPlayer", "None"));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "isFollowing", false));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "isStaying", false));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "followingPlayer", "None"));
 
 				entityVillagerChild.say(LanguageHelper.getString(player, entityVillagerChild, "follow.stop"));
 				close();
@@ -314,9 +314,9 @@ public class GuiInteractionVillagerChild extends AbstractGui
 			entityVillagerChild.isFollowing = false;
 			entityVillagerChild.idleTicks = 0;
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "isStaying", entityVillagerChild.isStaying));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "isFollowing", false));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "idleTicks", 0));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "isStaying", entityVillagerChild.isStaying));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "isFollowing", false));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "idleTicks", 0));
 			close();
 		}
 
@@ -337,10 +337,10 @@ public class GuiInteractionVillagerChild extends AbstractGui
 			entityVillagerChild.homePointZ = entityVillagerChild.posZ;
 			entityVillagerChild.hasHomePoint = true;
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "homePointX", entityVillagerChild.posX));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "homePointY", entityVillagerChild.posY));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "homePointZ", entityVillagerChild.posZ));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "hasHomePoint", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "homePointX", entityVillagerChild.posX));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "homePointY", entityVillagerChild.posY));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "homePointZ", entityVillagerChild.posZ));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "hasHomePoint", true));
 
 			entityVillagerChild.testNewHomePoint();
 
@@ -370,7 +370,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 		else if (button == giftButton)
 		{
 			entityVillagerChild.playerMemoryMap.get(player.username).isInGiftMode = true;
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillagerChild.entityId, "playerMemoryMap", entityVillagerChild.playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "playerMemoryMap", entityVillagerChild.playerMemoryMap));
 			close();
 		}
 		

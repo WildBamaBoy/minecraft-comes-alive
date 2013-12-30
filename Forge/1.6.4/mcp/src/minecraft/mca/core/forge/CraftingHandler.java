@@ -12,7 +12,6 @@ package mca.core.forge;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
-import mca.core.util.PacketHelper;
 import mca.item.ItemBaby;
 import mca.item.ItemCrown;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,7 +37,7 @@ public class CraftingHandler implements ICraftingHandler
 				manager.worldProperties.isMonarch = true;
 				manager.saveWorldProperties();
 				
-				PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementCraftCrown, player.entityId));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementCraftCrown, player.entityId));
 				player.triggerAchievement(MCA.getInstance().achievementCraftCrown);
 				
 				if (player.worldObj.isRemote)
@@ -70,7 +69,7 @@ public class CraftingHandler implements ICraftingHandler
 				player.addChatMessage(LanguageHelper.getString("notify.baby.cooked"));
 			}
 			
-			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementCookBaby, player.entityId));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementCookBaby, player.entityId));
 			player.triggerAchievement(MCA.getInstance().achievementCookBaby);
 		}
 	}

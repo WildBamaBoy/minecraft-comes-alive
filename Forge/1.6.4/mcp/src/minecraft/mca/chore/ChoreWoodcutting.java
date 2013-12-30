@@ -15,9 +15,9 @@ import java.util.List;
 
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
-import mca.core.util.PacketHelper;
 import mca.core.util.object.Coordinates;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
@@ -99,7 +99,7 @@ public class ChoreWoodcutting extends AbstractChore
 		if (MCA.getInstance().isDedicatedServer && !MCA.getInstance().modPropertiesManager.modProperties.server_allowWoodcuttingChore)
 		{
 			endChore();	
-			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(owner));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(owner));
 
 			owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer).addChatMessage("\u00a7cChore disabled by the server administrator.");
 			return;
@@ -172,13 +172,13 @@ public class ChoreWoodcutting extends AbstractChore
 	{
 		if (owner.worldObj.isRemote)
 		{
-			PacketDispatcher.sendPacketToServer(PacketHelper.createAddAIPacket(owner));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createAddAIPacket(owner));
 		}
 
 		else
 		{
-			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(owner));
-			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createAddAIPacket(owner));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(owner));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createAddAIPacket(owner));
 		}
 
 		owner.addAI();

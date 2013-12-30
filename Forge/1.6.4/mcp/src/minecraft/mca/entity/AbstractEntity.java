@@ -34,10 +34,10 @@ import mca.chore.ChoreMining;
 import mca.chore.ChoreWoodcutting;
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
-import mca.core.util.PacketHelper;
 import mca.core.util.object.FamilyTree;
 import mca.core.util.object.PlayerMemory;
 import mca.enums.EnumMood;
@@ -256,7 +256,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			if (texture.contains("steve") && !sentSyncRequest)
 			{
 				//Request sync from the server.
-				PacketDispatcher.sendPacketToServer(PacketHelper.createSyncRequestPacket(entityId));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createSyncRequestPacket(entityId));
 				sentSyncRequest = true;
 			}
 		}
@@ -580,15 +580,15 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				lastInteractingPlayer = player.username;
 				say(LanguageHelper.getString(player, this, "hitbyplayer", true));
 
-				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "lastInteractingPlayer", lastInteractingPlayer));
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "lastInteractingPlayer", lastInteractingPlayer));
 
 				if (this instanceof EntityVillagerAdult)
 				{
 					isRetaliating = true;
 					target = player;
 
-					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSetTargetPacket(entityId, target.entityId));
-					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "isRetaliating", isRetaliating));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSetTargetPacket(entityId, target.entityId));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isRetaliating", isRetaliating));
 				}
 
 				else if (this instanceof EntityVillagerChild)
@@ -608,8 +608,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 									entity.isRetaliating = true;
 									entity.target = player;
 
-									PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSetTargetPacket(entity.entityId, player.entityId));
-									PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entity.entityId , "isRetaliating", entity.isRetaliating));
+									PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSetTargetPacket(entity.entityId, player.entityId));
+									PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entity.entityId , "isRetaliating", entity.isRetaliating));
 								}
 							}
 						}
@@ -622,14 +622,14 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				if (target != null && (damageSource.getSourceOfDamage() instanceof EntityLivingBase))
 				{
 					target = (EntityLivingBase)damageSource.getSourceOfDamage();
-					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSetTargetPacket(entityId, target.entityId));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSetTargetPacket(entityId, target.entityId));
 				}
 			}
 
 			isSleeping = false;
 			idleTicks = 0;
-			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "idleTicks", idleTicks));
-			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "isSleeping", false));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "idleTicks", idleTicks));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isSleeping", false));
 		}
 	}
 
@@ -950,12 +950,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		if (this.worldObj.isRemote)
 		{
-			PacketDispatcher.sendPacketToServer(PacketHelper.createKillPacket(this));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createKillPacket(this));
 		}
 
 		else
 		{
-			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createKillPacket(this));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createKillPacket(this));
 		}
 	}
 
@@ -977,16 +977,16 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		if (worldObj.isRemote)
 		{
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isInChoreMode", isInChoreMode));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "currentChore", currentChore));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityId, chore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "isInChoreMode", isInChoreMode));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "currentChore", currentChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityId, chore));
 		}
 
 		else
 		{
-			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "isInChoreMode", isInChoreMode));
-			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "currentChore", currentChore));
-			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createChorePacket(entityId, chore));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isInChoreMode", isInChoreMode));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "currentChore", currentChore));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createChorePacket(entityId, chore));
 		}
 	}
 
@@ -1025,8 +1025,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				MCA.getInstance().log("WARNING: Unable to get last interacting player.");
 			}
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isSleeping", false));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "idleTicks", idleTicks));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "isSleeping", false));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "idleTicks", idleTicks));
 		}
 	}
 
@@ -1190,7 +1190,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			//Notify that the home point was not successfully set.
 			notifyPlayer(worldObj.getPlayerEntityByName(lastInteractingPlayer), LanguageHelper.getString("notify.homepoint.invalid"));
 			hasHomePoint = false;
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "hasHomePoint", false));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "hasHomePoint", false));
 		}
 	}
 
@@ -1236,7 +1236,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		memory.interactionFatigue++;
 		playerMemoryMap.put(player.username, memory);
-		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 	}
 
 	/**
@@ -1282,7 +1282,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		memory.interactionFatigue++;
 		playerMemoryMap.put(player.username, memory);
-		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 	}
 
 	/**
@@ -1331,7 +1331,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		memory.interactionFatigue++;
 		playerMemoryMap.put(player.username, memory);
-		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 	}
 
 	/**
@@ -1377,7 +1377,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		memory.interactionFatigue++;
 		playerMemoryMap.put(player.username, memory);
-		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 	}
 
 	/**
@@ -1423,7 +1423,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		memory.interactionFatigue++;
 		playerMemoryMap.put(player.username, memory);
-		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 	}
 
 	/**
@@ -1477,7 +1477,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		memory.interactionFatigue++;
 		playerMemoryMap.put(player.username, memory);
-		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 	}
 
 	/**
@@ -1537,7 +1537,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		memory.interactionFatigue++;
 		playerMemoryMap.put(player.username, memory);
-		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 	}
 
 	/**
@@ -1725,16 +1725,16 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			if (worldObj.isRemote)
 			{
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "moodPointsHappy", moodPointsHappy));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "moodPointsSad", moodPointsSad));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "moodPointsAnger", moodPointsAnger));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "moodPointsHappy", moodPointsHappy));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "moodPointsSad", moodPointsSad));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "moodPointsAnger", moodPointsAnger));
 			}
 
 			else
 			{
-				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "moodPointsHappy", moodPointsHappy));
-				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "moodPointsSad", moodPointsSad));
-				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "moodPointsAnger", moodPointsAnger));
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "moodPointsHappy", moodPointsHappy));
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "moodPointsSad", moodPointsSad));
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "moodPointsAnger", moodPointsAnger));
 			}
 		}
 
@@ -1875,7 +1875,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		if (nextStackSize <= 0)
 		{
 			player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack)null);
-			PacketDispatcher.sendPacketToServer(PacketHelper.createRemoveItemPacket(player.entityId, player.inventory.currentItem, amount, itemStack.getItemDamageForDisplay()));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createRemoveItemPacket(player.entityId, player.inventory.currentItem, amount, itemStack.getItemDamageForDisplay()));
 		}
 
 		//The new stack size is greater than zero.
@@ -1883,7 +1883,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			ItemStack newItemStack = new ItemStack(itemStack.getItem(), nextStackSize);
 			player.inventory.setInventorySlotContents(player.inventory.currentItem, newItemStack);
-			PacketDispatcher.sendPacketToServer(PacketHelper.createRemoveItemPacket(player.entityId, player.inventory.currentItem, amount, itemStack.getItemDamageForDisplay()));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createRemoveItemPacket(player.entityId, player.inventory.currentItem, amount, itemStack.getItemDamageForDisplay()));
 		}
 	}
 
@@ -1977,12 +1977,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		if (worldObj.isRemote)
 		{
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 		}
 
 		else
 		{
-			PacketDispatcher.sendPacketToPlayer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap), (Player) player);
+			PacketDispatcher.sendPacketToPlayer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap), (Player) player);
 		}
 
 		return hearts;
@@ -2008,12 +2008,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				if (worldObj.isRemote)
 				{
-					PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementCharmer, player.entityId));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementCharmer, player.entityId));
 				}
 
 				else
 				{
-					PacketDispatcher.sendPacketToPlayer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementCharmer, player.entityId), (Player) player);
+					PacketDispatcher.sendPacketToPlayer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementCharmer, player.entityId), (Player) player);
 				}
 			}
 		}
@@ -2027,12 +2027,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		if (worldObj.isRemote)
 		{
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 		}
 
 		else
 		{
-			PacketDispatcher.sendPacketToPlayer(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap), (Player) player);
+			PacketDispatcher.sendPacketToPlayer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap), (Player) player);
 		}
 
 		//Check for monarch status and area modification.
@@ -2163,7 +2163,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 						isSleeping = false;
 						hasTeleportedHome = false;
 						modifyMoodPoints(EnumMoodChangeContext.MoodCycle, 0);
-						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(this));
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(this));
 					}
 
 					//Then check if they should be going to sleep.
@@ -2194,21 +2194,21 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					if (isSleeping && texture.contains("sleeping") == false)
 					{
 						texture = texture.replace("/skins/", "/skins/sleeping/");
-						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(this));
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(this));
 					}
 
 					//Then check if it needs to be swapped back to the original texture.
 					else if (isSleeping == false && texture.contains("sleeping") == true)
 					{
 						texture = texture.replace("/skins/sleeping/", "/skins/");
-						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(this));
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(this));
 					}
 
 					//Check if they've teleported home and it needs to be reset.
 					if (hasTeleportedHome && serverWorldObj.isDaytime())
 					{
 						hasTeleportedHome = false;
-						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(this));
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(this));
 					}
 				}
 			}
@@ -2417,7 +2417,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 											//Increase hearts 1 to 3 points each greeting.
 											modifyHearts(nearestPlayer, worldObj.rand.nextInt(3) + 1);
-											PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "lastInteractingPlayer", lastInteractingPlayer));
+											PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "lastInteractingPlayer", lastInteractingPlayer));
 										}
 									}
 								}
@@ -2509,7 +2509,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					setHealth(getHealth() + 3);
 					eatingTicks = 0;
 
-					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createInventoryPacket(entityId, inventory));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createInventoryPacket(entityId, inventory));
 				}
 			}
 
@@ -2701,7 +2701,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 										//isGoodHeir = getBooleanWithProbability(90);
 
 										isGoodHeir = true;
-										PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "isGoodHeir", isGoodHeir));
+										PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isGoodHeir", isGoodHeir));
 									}
 
 									//Add kings armor.
@@ -2758,7 +2758,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			trait = EnumTrait.values()[rand.nextInt(EnumTrait.values().length - 1) + 1];
 			traitId = trait.getId();
-			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "traitId", traitId));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "traitId", traitId));
 		}
 
 		//Spawn particles if angry.
@@ -2890,10 +2890,10 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					moodUpdateTicks = 0;
 
 					//Update clients.
-					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "moodPointsHappy", moodPointsHappy));
-					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "moodPointsAnger", moodPointsAnger));
-					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "moodPointsSad", moodPointsSad));
-					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "moodPointsHappy", moodPointsHappy));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "moodPointsAnger", moodPointsAnger));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "moodPointsSad", moodPointsSad));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 				}
 			}
 		}
@@ -2935,7 +2935,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				if (hasChanged)
 				{
-					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 				}
 			}
 		}
@@ -2960,7 +2960,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	public static void removeItemFromPlayer(ItemStack itemStack, EntityPlayer player)
 	{
-		PacketDispatcher.sendPacketToServer(PacketHelper.createRemoveItemPacket(player.entityId, player.inventory.currentItem, 1, itemStack.getItemDamageForDisplay()));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createRemoveItemPacket(player.entityId, player.inventory.currentItem, 1, itemStack.getItemDamageForDisplay()));
 
 		itemStack.stackSize--;
 

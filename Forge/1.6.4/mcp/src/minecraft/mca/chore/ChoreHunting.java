@@ -14,8 +14,8 @@ import java.lang.reflect.Modifier;
 
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
-import mca.core.util.PacketHelper;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import net.minecraft.block.Block;
@@ -86,7 +86,7 @@ public class ChoreHunting extends AbstractChore
 		{
 			//End the chore and sync all clients so that the chore is stopped everywhere.
 			endChore();
-			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(owner));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(owner));
 			owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer).addChatMessage("\u00a7cChore disabled by the server administrator.");
 
 			return;
@@ -176,7 +176,7 @@ public class ChoreHunting extends AbstractChore
 		isHunting = false;
 		hasEnded = true;
 
-		PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(owner));
+		PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(owner));
 	}
 
 	@Override

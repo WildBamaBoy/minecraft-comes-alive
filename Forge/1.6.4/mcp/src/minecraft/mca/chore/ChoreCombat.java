@@ -14,8 +14,8 @@ import java.lang.reflect.Modifier;
 import java.util.List;
 
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.util.LogicHelper;
-import mca.core.util.PacketHelper;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import net.minecraft.entity.Entity;
@@ -35,6 +35,7 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -99,7 +100,7 @@ public class ChoreCombat extends AbstractChore
 	public double sentryPosZ;
 
 	/**Has the creeper "woosh" sound been played?*/
-	private transient boolean playedWoosh;
+	private transient boolean playedSound;
 
 	/**
 	 * Constructor
@@ -259,7 +260,7 @@ public class ChoreCombat extends AbstractChore
 	{
 		getTarget();
 
-		if (!doTryHandleTargetDeath())
+		if (!tryHandleTargetDeath())
 		{
 			if (canDoCreeperThrow())
 			{
@@ -285,7 +286,7 @@ public class ChoreCombat extends AbstractChore
 	{
 		getTarget();
 
-		if (!doTryHandleTargetDeath())
+		if (!tryHandleTargetDeath())
 		{
 			if (canDoRangedAttack())
 			{
@@ -338,13 +339,13 @@ public class ChoreCombat extends AbstractChore
 				{
 					if (isWithinSentryArea() && !owner.isStaying)
 					{
-						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(owner.entityId, "isStaying", true));
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, "isStaying", true));
 						owner.isStaying = true;
 					}
 
 					else if (!isWithinSentryArea() && owner.isStaying)
 					{
-						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(owner.entityId, "isStaying", false));
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, "isStaying", false));
 						owner.isStaying = false;
 						owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(sentryPosX, sentryPosY, sentryPosZ), 0.6F);
 					}
@@ -354,7 +355,7 @@ public class ChoreCombat extends AbstractChore
 			else if (owner.target != null && owner.isStaying)
 			{
 				owner.isStaying = false;
-				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createFieldValuePacket(owner.entityId, "isStaying", false));
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, "isStaying", false));
 			}
 		}
 	}
@@ -366,15 +367,70 @@ public class ChoreCombat extends AbstractChore
 	{
 		if (owner.target == null)
 		{
-			final List<EntityLivingBase> nearbyEntities = getNearbyEntities();
-			EntityLivingBase closestEntity = nearbyEntities.isEmpty() ? null : nearbyEntities.get(0);
+			EntityLivingBase closestEntity = null;
+			List<Entity> entitiesAroundMe = null;
 
-			for (final Entity entity : nearbyEntities)
+			if (sentryMode)
 			{
-				if (!(entity instanceof EntityPlayer) && !(entity instanceof AbstractEntity) && 
-						isTargetValidForSettings(entity) && owner.getDistanceToEntity(entity) < owner.getDistanceToEntity(closestEntity))
+				entitiesAroundMe = owner.worldObj.getEntitiesWithinAABBExcludingEntity(owner, AxisAlignedBB.getBoundingBox(owner.posX - sentryRadius, owner.posY - 3, owner.posZ - sentryRadius, owner.posX + sentryRadius, owner.posY + 3, owner.posZ + sentryRadius));
+			}
+
+			else
+			{
+				entitiesAroundMe = owner.worldObj.getEntitiesWithinAABBExcludingEntity(owner, AxisAlignedBB.getBoundingBox(owner.posX - 15, owner.posY - 3, owner.posZ - 15, owner.posX + 15, owner.posY + 3, owner.posZ + 15));
+			}
+
+			//Find the closest entity.
+			for (final Entity entity : entitiesAroundMe)
+			{
+				if (entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer) && !(entity instanceof AbstractEntity))
 				{
-					closestEntity = (EntityLivingBase)entity;
+					if (closestEntity == null)
+					{
+						//Determine if they should attack by checking the target's class against entities selected as attackable.
+						if (entity instanceof EntityPig && attackPigs           	||
+								entity instanceof EntitySheep && attackSheep        ||
+								entity instanceof EntityCow && attackCows           ||
+								entity instanceof EntityChicken && attackChickens   ||
+								entity instanceof EntitySpider && attackSpiders     ||
+								entity instanceof EntityZombie && attackZombies     ||
+								entity instanceof EntitySkeleton && attackSkeletons ||
+								entity instanceof EntityCreeper && attackCreepers   ||
+								entity instanceof EntityEnderman && attackEndermen)
+						{
+							closestEntity = (EntityLivingBase)entity;
+						}
+
+						else if (entity instanceof EntityMob && attackUnknown)
+						{
+							closestEntity = (EntityLivingBase)entity;
+						}
+					}
+
+					else
+					{
+						//Determine if they should attack by checking the target's class against entities selected as attackable.
+						if (entity instanceof EntityPig && attackPigs           	||
+								entity instanceof EntitySheep && attackSheep        ||
+								entity instanceof EntityCow && attackCows           ||
+								entity instanceof EntityChicken && attackChickens   ||
+								entity instanceof EntitySpider && attackSpiders     ||
+								entity instanceof EntityZombie && attackZombies     ||
+								entity instanceof EntitySkeleton && attackSkeletons ||
+								entity instanceof EntityCreeper && attackCreepers   ||
+								entity instanceof EntityEnderman && attackEndermen)
+						{
+							if (owner.getDistanceToEntity(entity) < owner.getDistanceToEntity(closestEntity))
+							{
+								closestEntity = (EntityLivingBase)entity;
+							}
+						}
+
+						else if (entity instanceof EntityMob && attackUnknown)
+						{
+							closestEntity = (EntityLivingBase)entity;
+						}
+					}
 				}
 			}
 
@@ -382,7 +438,7 @@ public class ChoreCombat extends AbstractChore
 		}
 	}
 
-	private boolean doTryHandleTargetDeath()
+	private boolean tryHandleTargetDeath()
 	{
 		if (owner.target != null && !owner.target.isEntityAlive())
 		{
@@ -445,10 +501,10 @@ public class ChoreCombat extends AbstractChore
 	{
 		owner.target.motionY += 0.4D;
 
-		if (!playedWoosh)
+		if (!playedSound)
 		{
 			owner.worldObj.playSoundAtEntity(owner.target, "mob.enderdragon.wings", 1.0F, 1.0F);
-			playedWoosh = true;
+			playedSound = true;
 		}
 	}
 
@@ -509,7 +565,7 @@ public class ChoreCombat extends AbstractChore
 
 			targetCreeper.setDead();
 			targetCreeper.dropItem(Item.gunpowder.itemID, owner.worldObj.rand.nextInt(1) + 1);
-			playedWoosh = false;
+			playedSound = false;
 		}
 	}
 
@@ -526,26 +582,5 @@ public class ChoreCombat extends AbstractChore
 	private boolean isWithinSentryArea()
 	{
 		return Math.abs(sentryPosX - owner.posX) < 1.0D && Math.abs(sentryPosY - owner.posY) < 1.0D && Math.abs(sentryPosZ) - owner.posZ < 1.0D;
-	}
-
-	private boolean isTargetValidForSettings(Entity entity)
-	{
-		return entity instanceof EntityPig && attackPigs           ||
-				entity instanceof EntitySheep && attackSheep        ||
-				entity instanceof EntityCow && attackCows           ||
-				entity instanceof EntityChicken && attackChickens   ||
-				entity instanceof EntitySpider && attackSpiders     ||
-				entity instanceof EntityZombie && attackZombies     ||
-				entity instanceof EntitySkeleton && attackSkeletons ||
-				entity instanceof EntityCreeper && attackCreepers   ||
-				entity instanceof EntityEnderman && attackEndermen  ||
-				entity instanceof EntityMob && attackUnknown;
-	}
-
-	private List<EntityLivingBase> getNearbyEntities()
-	{
-		return sentryMode ? 
-				(List<EntityLivingBase>)LogicHelper.getAllEntitiesOfTypeWithinDistanceOfEntity(owner, EntityLivingBase.class, sentryRadius) :
-					(List<EntityLivingBase>)LogicHelper.getAllEntitiesOfTypeWithinDistanceOfEntity(owner, EntityLivingBase.class, 15);
 	}
 }
