@@ -45,10 +45,10 @@ public class PlayerMemory implements Serializable
 	public boolean isInGiftMode;
 
 	/** Has hearts been updated to acknowledge the player as a monarch? */
-	public boolean acknowledgedAsMonarch;
+	public boolean hasBoostedHearts;
 
 	/** How many gifts this player has demanded as a monarch. */
-	public int monarchGiftsDemanded;
+	public int giftsDemanded;
 
 	/** How much time left until monarch gifts are reset. */
 	public int monarchResetTicks;
@@ -57,7 +57,7 @@ public class PlayerMemory implements Serializable
 	public boolean hasRefusedDemands;
 
 	/** How many executions this villager has witnessed by this player. */
-	public int executionsWitnessed;
+	public int executionsSeen;
 
 	/** How much this villager is tired of talking with the player. */
 	public int interactionFatigue;
