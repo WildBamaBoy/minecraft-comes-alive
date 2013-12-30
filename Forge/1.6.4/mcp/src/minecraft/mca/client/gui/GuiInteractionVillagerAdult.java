@@ -2496,7 +2496,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			PlayerMemory memory = entityVillager.playerMemoryMap.get(player.username);
 
 			//Increase gifts demanded.
-			memory.monarchGiftsDemanded++;
+			memory.giftsDemanded++;
 
 			//Don't want to set ticks back to the maximum when they're in the process of counting down. Only reset them when
 			//they're already zero.
@@ -2506,13 +2506,13 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			}
 
 			//More than two is too many.
-			if (memory.monarchGiftsDemanded > 2)
+			if (memory.giftsDemanded > 2)
 			{
 				//Modifying hearts affects everyone in the area.
-				entityVillager.modifyHearts(player, -(5 * memory.monarchGiftsDemanded));
+				entityVillager.modifyHearts(player, -(5 * memory.giftsDemanded));
 
 				//There is a chance of refusing, and continue to refuse after doing so.
-				if (AbstractEntity.getBooleanWithProbability(5 * memory.monarchGiftsDemanded) || memory.hasRefusedDemands)
+				if (AbstractEntity.getBooleanWithProbability(5 * memory.giftsDemanded) || memory.hasRefusedDemands)
 				{
 					memory.hasRefusedDemands = true;
 					entityVillager.say(LanguageHelper.getString(player, "monarch.demandgift.dictator"));

@@ -2041,7 +2041,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			PlayerMemory playerMemory = playerMemoryMap.get(player.username);
 			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 
-			if (playerMemory.acknowledgedAsMonarch)
+			if (playerMemory.hasBoostedHearts)
 			{
 				for (Entity entity : LogicHelper.getAllEntitiesWithinDistanceOfEntity(this, 30))
 				{
@@ -2063,9 +2063,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 								if (playerMemoryOnOtherVillager != null)
 								{
-									playerMemoryOnOtherVillager.executionsWitnessed++;
+									playerMemoryOnOtherVillager.executionsSeen++;
 
-									if (playerMemoryOnOtherVillager.executionsWitnessed > 3)
+									if (playerMemoryOnOtherVillager.executionsSeen > 3)
 									{
 										abstractEntity.shouldSkipAreaModify = true;
 										abstractEntity.modifyHearts(player, -30);
@@ -2671,15 +2671,15 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					if (memory != null)
 					{
 						//Check if they're acknowledged as a monarch.
-						if (memory.acknowledgedAsMonarch && !manager.worldProperties.isMonarch)
+						if (memory.hasBoostedHearts && !manager.worldProperties.isMonarch)
 						{
 							//The player is no longer a monarch.
-							memory.acknowledgedAsMonarch = false;
+							memory.hasBoostedHearts = false;
 							memory.hearts = 0;
 							memory.hasRefusedDemands = false;
-							memory.monarchGiftsDemanded = 0;
+							memory.giftsDemanded = 0;
 							memory.monarchResetTicks = 0;
-							memory.executionsWitnessed = 0;
+							memory.executionsSeen = 0;
 
 							if (memory.playerName.equals(monarchPlayerName))
 							{
@@ -2725,17 +2725,17 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 							}
 						}
 
-						else if (!memory.acknowledgedAsMonarch && manager.worldProperties.isMonarch)
+						else if (!memory.hasBoostedHearts && manager.worldProperties.isMonarch)
 						{
-							memory.acknowledgedAsMonarch = true;
+							memory.hasBoostedHearts = true;
 							memory.hearts = 100;
 						}
 
 						//Check reset ticks.
 						if (memory.monarchResetTicks <= 0)
 						{
-							memory.monarchGiftsDemanded = 0;
-							memory.executionsWitnessed = 0;
+							memory.giftsDemanded = 0;
+							memory.executionsSeen = 0;
 						}
 
 						else

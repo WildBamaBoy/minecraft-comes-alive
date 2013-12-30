@@ -58,47 +58,47 @@ public class FamilyTree implements Serializable, Cloneable
 		switch (relation)
 		{
 		case Aunt:
-			if (isMale) return EnumRelation.Nephew; else return EnumRelation.Niece;
+			return isMale ? EnumRelation.Nephew : EnumRelation.Niece;
 		case Brother:
-			if (isMale) return EnumRelation.Brother; else return EnumRelation.Sister;
+			return isMale ? EnumRelation.Brother : EnumRelation.Sister;
 		case Cousin:
 			return EnumRelation.Cousin;
 		case Daughter:
-			if (isMale) return EnumRelation.Father; else return EnumRelation.Mother;
+			return isMale ? EnumRelation.Father : EnumRelation.Mother;
 		case Father:
-			if (isMale) return EnumRelation.Son; else return EnumRelation.Daughter;
+			return isMale ? EnumRelation.Son : EnumRelation.Daughter;
 		case Granddaughter:
-			if (isMale) return EnumRelation.Grandfather; else return EnumRelation.Grandmother;
+			return isMale ? EnumRelation.Grandfather : EnumRelation.Grandmother;
 		case Grandson:
-			if (isMale) return EnumRelation.Grandfather; else return EnumRelation.Grandmother;
+			return isMale ? EnumRelation.Grandfather : EnumRelation.Grandmother;
 		case Greatgranddaughter:
-			if (isMale) return EnumRelation.Greatgrandfather; else return EnumRelation.Greatgrandmother;
+			return isMale ? EnumRelation.Greatgrandfather : EnumRelation.Greatgrandmother;
 		case Greatgrandson:
-			if (isMale) return EnumRelation.Greatgrandfather; else return EnumRelation.Greatgrandmother;
+			return isMale ? EnumRelation.Greatgrandfather : EnumRelation.Greatgrandmother;
 		case Husband:
-			if (isMale) return EnumRelation.Husband; else return EnumRelation.Wife;
+			return isMale ? EnumRelation.Husband : EnumRelation.Wife;
 		case Mother:
-			if (isMale) return EnumRelation.Son; else return EnumRelation.Daughter;
+			return isMale ? EnumRelation.Son : EnumRelation.Daughter;
 		case Nephew:
-			if (isMale) return EnumRelation.Uncle; else return EnumRelation.Aunt;
+			return isMale ? EnumRelation.Uncle : EnumRelation.Aunt;
 		case Niece:
-			if (isMale) return EnumRelation.Uncle; else return EnumRelation.Aunt;
+			return isMale ? EnumRelation.Uncle : EnumRelation.Aunt;
 		case Sister:
-			if (isMale) return EnumRelation.Brother; else return EnumRelation.Sister;
+			return isMale ? EnumRelation.Brother : EnumRelation.Sister;
 		case Son:
-			if (isMale) return EnumRelation.Father; else return EnumRelation.Mother;
+			return isMale ? EnumRelation.Father : EnumRelation.Mother;
 		case Uncle:
-			if (isMale) return EnumRelation.Nephew; else return EnumRelation.Niece;
+			return isMale ? EnumRelation.Nephew : EnumRelation.Niece;
 		case Wife:
-			if (isMale) return EnumRelation.Husband; else return EnumRelation.Wife;
+			return isMale ? EnumRelation.Husband : EnumRelation.Wife;
 		case Spouse:
-			if (isMale) return EnumRelation.Husband; else return EnumRelation.Wife;
+			return isMale ? EnumRelation.Husband : EnumRelation.Wife;
 		case Grandparent:
-			if (isMale) return EnumRelation.Grandson; else return EnumRelation.Granddaughter;
+			return isMale ? EnumRelation.Grandson : EnumRelation.Granddaughter;
 		case Greatgrandparent:
-			if (isMale) return EnumRelation.Greatgrandson; else return EnumRelation.Greatgranddaughter;
+			return isMale ? EnumRelation.Greatgrandson : EnumRelation.Greatgranddaughter;
 		case Parent:
-			if (isMale) return EnumRelation.Son; else return EnumRelation.Daughter;
+			return isMale ? EnumRelation.Son : EnumRelation.Daughter;
 		default:
 			break;
 		}
@@ -114,7 +114,6 @@ public class FamilyTree implements Serializable, Cloneable
 	 */
 	public void addFamilyTreeEntry(EntityPlayer player, EnumRelation relation)
 	{
-		//Add the player's ID and relation to the map.
 		relationMap.put(MCA.getInstance().getIdOfPlayer(player), relation);
 	}
 
@@ -126,7 +125,6 @@ public class FamilyTree implements Serializable, Cloneable
 	 */
 	public void addFamilyTreeEntry(AbstractEntity entity, EnumRelation relation)
 	{
-		//Add the entity's ID and relation to the map.
 		if (entity != null)
 		{
 			relationMap.put(entity.mcaID, relation);
@@ -141,7 +139,6 @@ public class FamilyTree implements Serializable, Cloneable
 	 */
 	public void addFamilyTreeEntry(int idToAdd, EnumRelation relation)
 	{
-		//Add the ID and relation to the map.
 		relationMap.put(idToAdd, relation);
 	}
 
