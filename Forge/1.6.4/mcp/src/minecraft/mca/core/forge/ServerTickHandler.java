@@ -27,7 +27,7 @@ import cpw.mods.fml.common.TickType;
 public class ServerTickHandler implements ITickHandler
 {
 	/** The number of ticks since the loop has been ran. */
-	public int ticks = 20;
+	private int serverTicks = 20;
 
 	@Override
 	public void tickStart(EnumSet<TickType> type, Object... tickData) {	}
@@ -59,60 +59,63 @@ public class ServerTickHandler implements ITickHandler
 	 */
 	public void onTickInGame()
 	{
-		for (WorldServer worldServer : MinecraftServer.getServer().worldServers)
+		for (final WorldServer worldServer : MinecraftServer.getServer().worldServers)
 		{
-			//Run this every 20 ticks to avoid performance problems.
-			if (ticks >= 20)
+			if (serverTicks >= 20)
 			{
-				//Update every player's world properties.
-				for (Map.Entry<String, WorldPropertiesManager> entry : MCA.getInstance().playerWorldManagerMap.entrySet())
+				for (final Map.Entry<String, WorldPropertiesManager> entry : MCA.getInstance().playerWorldManagerMap.entrySet())
 				{
-					EntityPlayer player = worldServer.getPlayerEntityByName(entry.getKey());
-					WorldPropertiesManager manager = entry.getValue();
+					final EntityPlayer player = worldServer.getPlayerEntityByName(entry.getKey());
+					final WorldPropertiesManager manager = entry.getValue();
 
-					//Only update when the player is on the server.
 					if (player != null)
 					{
-						//Update the growth of the player's baby.
-						if (manager.worldProperties.babyExists)
-						{
-							//Update currentMinutes and compare to what prevMinutes was.
-							MCA.getInstance().playerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
-
-							if (MCA.getInstance().playerBabyCalendarCurrentMinutes > MCA.getInstance().playerBabyCalendarPrevMinutes || MCA.getInstance().playerBabyCalendarCurrentMinutes == 0 && MCA.getInstance().playerBabyCalendarPrevMinutes == 59)
-							{
-								manager.worldProperties.minutesBabyExisted++;
-								MCA.getInstance().playerBabyCalendarPrevMinutes = MCA.getInstance().playerBabyCalendarCurrentMinutes;
-								manager.saveWorldProperties();
-							}
-
-							if (!manager.worldProperties.babyReadyToGrow &&
-									manager.worldProperties.minutesBabyExisted >= 
-									MCA.getInstance().modPropertiesManager.modProperties.babyGrowUpTimeMinutes)
-							{
-								manager.worldProperties.babyReadyToGrow = true;
-								manager.saveWorldProperties();
-							}
-						}
-						
-						//Debug checks
-						if (MCA.getInstance().inDebugMode)
-						{
-							manager.worldProperties.babyExists = true;
-							manager.worldProperties.minutesBabyExisted = 10;
-							manager.worldProperties.babyName = "DEBUG";
-						}
+						doUpdateBabyGrowth(manager);
+						doDebug(manager);
 					}
 				}
 
-				//Reset ticks back to zero.
-				ticks = 0;
+				serverTicks = 0;
 			}
 
-			else //Ticks isn't greater than or equal to 20.
+			else
 			{
-				ticks++;
+				serverTicks++;
 			}
+		}
+	}
+	
+	private void doUpdateBabyGrowth(WorldPropertiesManager manager)
+	{
+		if (manager.worldProperties.babyExists)
+		{
+			//TODO Stop using the calendar.
+			MCA.getInstance().playerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+
+			if (MCA.getInstance().playerBabyCalendarCurrentMinutes > MCA.getInstance().playerBabyCalendarPrevMinutes || MCA.getInstance().playerBabyCalendarCurrentMinutes == 0 && MCA.getInstance().playerBabyCalendarPrevMinutes == 59)
+			{
+				manager.worldProperties.minutesBabyExisted++;
+				MCA.getInstance().playerBabyCalendarPrevMinutes = MCA.getInstance().playerBabyCalendarCurrentMinutes;
+				manager.saveWorldProperties();
+			}
+
+			if (!manager.worldProperties.babyReadyToGrow &&
+					manager.worldProperties.minutesBabyExisted >= 
+					MCA.getInstance().modPropertiesManager.modProperties.babyGrowUpTimeMinutes)
+			{
+				manager.worldProperties.babyReadyToGrow = true;
+				manager.saveWorldProperties();
+			}
+		}
+	}
+	
+	private void doDebug(WorldPropertiesManager manager)
+	{
+		if (MCA.getInstance().inDebugMode)
+		{
+			manager.worldProperties.babyExists = true;
+			manager.worldProperties.minutesBabyExisted = 10;
+			manager.worldProperties.babyName = "DEBUG";
 		}
 	}
 }

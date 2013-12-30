@@ -27,8 +27,7 @@ public class ConnectionHandler implements IConnectionHandler
 	@Override
 	public void playerLoggedIn(Player player, NetHandler netHandler, INetworkManager manager) 
 	{
-		new Thread(new UpdateHandler(netHandler)).run();
-		return;
+		new Thread(new UpdateHandler(netHandler)).start();
 	}
 
 	@Override
@@ -40,19 +39,19 @@ public class ConnectionHandler implements IConnectionHandler
 	@Override
 	public void connectionOpened(NetHandler netClientHandler, String server, int port, INetworkManager manager) 
 	{
-		return;
+		//Do nothing.
 	}
 
 	@Override
 	public void connectionOpened(NetHandler netClientHandler, MinecraftServer server, INetworkManager manager)
 	{
-		return;
+		//Do nothing.
 	}
 
 	@Override
 	public void connectionClosed(INetworkManager manager) 
 	{
-		return;
+		//Do nothing.
 	}
 
 	@Override
