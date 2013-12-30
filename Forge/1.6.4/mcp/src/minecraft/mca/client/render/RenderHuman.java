@@ -81,7 +81,7 @@ public class RenderHuman extends RenderBiped
 	protected void preRenderCallback(EntityLivingBase entityLivingBase, float partialTickTime)
 	{
 		final AbstractEntity entity = (AbstractEntity)entityLivingBase;
-		final float scale = entity.isMale ? Constants.SCALE_MALE_ADULT: Constants.SCALE_FEMALE_ADULT;
+		final float scale = entity.isMale ? Constants.SCALE_M_ADULT: Constants.SCALE_F_ADULT;
 
 		if (entity.isAffectedByHeight)
 		{

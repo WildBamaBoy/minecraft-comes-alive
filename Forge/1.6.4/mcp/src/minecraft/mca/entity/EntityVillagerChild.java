@@ -157,7 +157,7 @@ public class EntityVillagerChild extends EntityChild
 		
 		if (!memory.isInGiftMode)
 		{			
-			player.openGui(MCA.getInstance(), Constants.ID_GUI_CHILD, worldObj, (int)posX, (int)posY, (int)posZ);
+			player.openGui(MCA.getInstance(), Constants.ID_GUI_VCHILD, worldObj, (int)posX, (int)posY, (int)posZ);
 		}
 
 		else if (itemStack != null)
