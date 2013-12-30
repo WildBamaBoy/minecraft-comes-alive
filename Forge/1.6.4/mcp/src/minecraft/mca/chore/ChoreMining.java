@@ -17,7 +17,7 @@ import mca.core.MCA;
 import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
-import mca.core.util.object.Coordinates;
+import mca.core.util.object.Point3D;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import net.minecraft.entity.player.EntityPlayer;
@@ -303,11 +303,11 @@ public class ChoreMining extends AbstractChore
 		{
 			if (notifyCounter >= notifyInterval)
 			{
-				final Coordinates nearestBlock = getNearestBlockCoordinates();
+				final Point3D nearestBlock = getNearestBlockCoordinates();
 
 				if (nearestBlock != null)
 				{
-					distanceToOre = Math.round((float)LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, nearestBlock.x, nearestBlock.y, nearestBlock.z));
+					distanceToOre = Math.round((float)LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, nearestBlock.posX, nearestBlock.posY, nearestBlock.posZ));
 					doOreDistanceNotification();
 
 					//TODO: Experience changes # of times damaged.
@@ -398,22 +398,22 @@ public class ChoreMining extends AbstractChore
 		}
 	}
 
-	private Coordinates getNearestBlockCoordinates()
+	private Point3D getNearestBlockCoordinates()
 	{
 		final double lastDistance = 100D;
-		Coordinates nearestCoords = null;
+		Point3D nearestPoint = null;
 	
-		for (final Coordinates coords : LogicHelper.getNearbyBlocksBottomTop(owner, searchID, 20))
+		for (final Point3D point : LogicHelper.getNearbyBlocksBottomTop(owner, searchID, 20))
 		{
-			final double thisDistance = LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, coords.x, coords.y, coords.z);
+			final double thisDistance = LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, point.posX, point.posY, point.posZ);
 	
 			if (thisDistance < lastDistance)
 			{
-				nearestCoords = coords;
+				nearestPoint = point;
 			}
 		}
 	
-		return nearestCoords;
+		return nearestPoint;
 	}
 
 	private boolean isNextBlockValid() 

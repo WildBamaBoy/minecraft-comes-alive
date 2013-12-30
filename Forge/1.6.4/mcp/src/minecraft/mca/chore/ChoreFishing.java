@@ -17,7 +17,7 @@ import mca.core.MCA;
 import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
-import mca.core.util.object.Coordinates;
+import mca.core.util.object.Point3D;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityChoreFishHook;
 import mca.entity.EntityPlayerChild;
@@ -37,7 +37,7 @@ public class ChoreFishing extends AbstractChore
 	public transient EntityChoreFishHook fishEntity;
 
 	/** Does the owner have coordinates of water?*/
-	public boolean hasWaterCoords;
+	public boolean hasWaterPoint;
 
 	/** Does the owner have a random water block they should move to?*/
 	public boolean hasFishingTarget;
@@ -101,7 +101,7 @@ public class ChoreFishing extends AbstractChore
 	{
 		doItemVerification();
 
-		if (hasWaterCoords)
+		if (hasWaterPoint)
 		{
 			if (canFishingBegin())
 			{
@@ -284,7 +284,7 @@ public class ChoreFishing extends AbstractChore
 	private boolean trySetWaterCoordinates()
 	{
 		//Get all water up to 10 blocks away from the entity.
-		final Coordinates waterCoordinates = LogicHelper.getNearbyBlockTopBottom(owner, Block.waterStill.blockID, 10);
+		final Point3D waterCoordinates = LogicHelper.getNearbyBlockTopBottom(owner, Block.waterStill.blockID, 10);
 
 		if (waterCoordinates == null)
 		{
@@ -299,10 +299,10 @@ public class ChoreFishing extends AbstractChore
 
 		else
 		{
-			waterCoordinatesX = (int)waterCoordinates.x;
-			waterCoordinatesY = (int)waterCoordinates.y;
-			waterCoordinatesZ = (int)waterCoordinates.z;
-			hasWaterCoords = true;
+			waterCoordinatesX = (int)waterCoordinates.posX;
+			waterCoordinatesY = (int)waterCoordinates.posY;
+			waterCoordinatesZ = (int)waterCoordinates.posZ;
+			hasWaterPoint = true;
 
 			return true;
 		}
@@ -317,11 +317,11 @@ public class ChoreFishing extends AbstractChore
 	{
 		if (!owner.worldObj.isRemote)
 		{
-			final Coordinates randomNearbyWater = LogicHelper.getRandomNearbyBlockCoordinatesOfType(owner, Block.waterStill.blockID);
+			final Point3D randomNearbyWater = LogicHelper.getRandomNearbyBlockCoordinatesOfType(owner, Block.waterStill.blockID);
 
-			waterCoordinatesX = (int)randomNearbyWater.x;
-			waterCoordinatesY = (int)randomNearbyWater.y;
-			waterCoordinatesZ = (int)randomNearbyWater.z;
+			waterCoordinatesX = (int)randomNearbyWater.posX;
+			waterCoordinatesY = (int)randomNearbyWater.posY;
+			waterCoordinatesZ = (int)randomNearbyWater.posZ;
 		}
 
 		hasFishingTarget = true;

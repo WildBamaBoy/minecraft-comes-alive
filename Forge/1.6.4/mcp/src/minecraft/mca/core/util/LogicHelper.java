@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import mca.core.MCA;
-import mca.core.util.object.Coordinates;
+import mca.core.util.object.Point3D;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityVillagerAdult;
 import net.minecraft.block.Block;
@@ -144,7 +144,7 @@ public final class LogicHelper
 	 * 
 	 * @return	Coordinates object containing the coordinates of the first block found.
 	 */
-	public static Coordinates getNearbyBlockTopBottom(Entity entity, int blockID, int maxDistanceAway)
+	public static Point3D getNearbyBlockTopBottom(Entity entity, int blockID, int maxDistanceAway)
 	{
 		int x = (int)entity.posX;
 		int y = (int)entity.posY;
@@ -160,7 +160,7 @@ public final class LogicHelper
 
 			if (currentBlockID == blockID)
 			{
-				return new Coordinates(x + xMov, y + yMov, z + zMov);
+				return new Point3D(x + xMov, y + yMov, z + zMov);
 			}
 
 			if (zMov == maxDistanceAway && xMov == maxDistanceAway && yMov == -3)
@@ -199,7 +199,7 @@ public final class LogicHelper
 	 * 
 	 * @return	Coordinates object containing the coordinates of the first block found.
 	 */
-	public static Coordinates getNearbyBlockBottomTop(Entity entity, int blockID, int maxDistanceAway)
+	public static Point3D getNearbyBlockBottomTop(Entity entity, int blockID, int maxDistanceAway)
 	{
 		int x = (int)entity.posX;
 		int y = (int)entity.posY;
@@ -215,7 +215,7 @@ public final class LogicHelper
 
 			if (currentBlockID == blockID)
 			{
-				return new Coordinates(x + xMov, y + yMov, z + zMov);
+				return new Point3D(x + xMov, y + yMov, z + zMov);
 			}
 
 			if (zMov == maxDistanceAway && xMov == maxDistanceAway && yMov == 3)
@@ -254,7 +254,7 @@ public final class LogicHelper
 	 * 
 	 * @return	Coordinates object containing the coordinates of the first block found.
 	 */
-	public static List<Coordinates> getNearbyBlocksBottomTop(Entity entity, int blockID, int maxDistanceAway)
+	public static List<Point3D> getNearbyBlocksBottomTop(Entity entity, int blockID, int maxDistanceAway)
 	{
 		int x = (int)entity.posX;
 		int y = (int)entity.posY;
@@ -264,7 +264,7 @@ public final class LogicHelper
 		int yMov = -3;
 		int zMov = 0 - maxDistanceAway;
 
-		List<Coordinates> coordinatesList = new ArrayList<Coordinates>();
+		List<Point3D> pointsList = new ArrayList<Point3D>();
 
 		while (true)
 		{
@@ -272,7 +272,7 @@ public final class LogicHelper
 
 			if (currentBlockID == blockID)
 			{
-				coordinatesList.add(new Coordinates(x + xMov, y + yMov, z + zMov));
+				pointsList.add(new Point3D(x + xMov, y + yMov, z + zMov));
 			}
 
 			if (zMov == maxDistanceAway && xMov == maxDistanceAway && yMov == 3)
@@ -298,7 +298,7 @@ public final class LogicHelper
 			xMov++;
 		}
 
-		return coordinatesList;
+		return pointsList;
 	}
 
 	/**
@@ -312,7 +312,7 @@ public final class LogicHelper
 	 * 
 	 * @return	Coordinates object containing the coordinates of the first block found.
 	 */
-	public static List<Coordinates> getNearbyBlocksBottomTop(Entity entity, int blockID, int maxDistanceAway, int maxY)
+	public static List<Point3D> getNearbyBlocksBottomTop(Entity entity, int blockID, int maxDistanceAway, int maxY)
 	{
 		int x = (int)entity.posX;
 		int y = (int)entity.posY;
@@ -322,7 +322,7 @@ public final class LogicHelper
 		int yMov = -3;
 		int zMov = 0 - maxDistanceAway;
 
-		List<Coordinates> coordinatesList = new ArrayList<Coordinates>();
+		List<Point3D> pointsList = new ArrayList<Point3D>();
 
 		while (true)
 		{
@@ -330,7 +330,7 @@ public final class LogicHelper
 
 			if (currentBlockID == blockID)
 			{
-				coordinatesList.add(new Coordinates(x + xMov, y + yMov, z + zMov));
+				pointsList.add(new Point3D(x + xMov, y + yMov, z + zMov));
 			}
 
 			if (zMov == maxDistanceAway && xMov == maxDistanceAway && yMov == maxY)
@@ -356,7 +356,7 @@ public final class LogicHelper
 			xMov++;
 		}
 
-		return coordinatesList;
+		return pointsList;
 	}
 
 	/**
@@ -371,9 +371,9 @@ public final class LogicHelper
 	 * 
 	 * @return	List containing coordinates of valid farmable land.
 	 */
-	public static List<Coordinates> getNearbyFarmableLand(Entity entity, int startCoordinatesX, int startCoordinatesY, int startCoordinatesZ, int areaX, int areaZ)
+	public static List<Point3D> getNearbyFarmableLand(Entity entity, int startCoordinatesX, int startCoordinatesY, int startCoordinatesZ, int areaX, int areaZ)
 	{
-		List<Coordinates> coordinatesList = new LinkedList<Coordinates>();
+		List<Point3D> pointsList = new LinkedList<Point3D>();
 
 		int x = startCoordinatesX;
 		int y = startCoordinatesY;
@@ -390,7 +390,7 @@ public final class LogicHelper
 			{
 				if (entity.worldObj.isAirBlock(x + xMov, (y + yMov) + 1, z + zMov))
 				{
-					coordinatesList.add(new Coordinates(x + xMov, y + yMov, z + zMov));
+					pointsList.add(new Point3D(x + xMov, y + yMov, z + zMov));
 				}
 			}
 
@@ -409,7 +409,7 @@ public final class LogicHelper
 			xMov++;
 		}
 
-		return coordinatesList;
+		return pointsList;
 	}
 
 	/**
@@ -423,13 +423,13 @@ public final class LogicHelper
 	 * 
 	 * @return	List containing Coordinates objects of each crop within radius that is ready to harvest.
 	 */
-	public static List<Coordinates> getNearbyHarvestableCrops(Entity entity, int startCoordinatesX, int startCoordinatesY, int startCoordinatesZ, int radius)
+	public static List<Point3D> getNearbyHarvestableCrops(Entity entity, int startCoordinatesX, int startCoordinatesY, int startCoordinatesZ, int radius)
 	{
 		int xMov = 0 - radius;
 		int yMov = -3;
 		int zMov = 0 - radius;
 
-		List<Coordinates> coordinatesList = new ArrayList<Coordinates>();
+		List<Point3D> pointsList = new ArrayList<Point3D>();
 
 		while (true)
 		{
@@ -443,7 +443,7 @@ public final class LogicHelper
 
 					if (currentBlockMeta == 7)
 					{
-						coordinatesList.add(new Coordinates(startCoordinatesX + xMov, startCoordinatesY + yMov, startCoordinatesZ + zMov));
+						pointsList.add(new Point3D(startCoordinatesX + xMov, startCoordinatesY + yMov, startCoordinatesZ + zMov));
 					}
 				}
 
@@ -454,13 +454,13 @@ public final class LogicHelper
 						//Check for reeds above the base reed.
 						if (entity.worldObj.getBlockId(startCoordinatesX + xMov, startCoordinatesY + yMov + 1, startCoordinatesZ + zMov) == Block.reed.blockID)
 						{
-							coordinatesList.add(new Coordinates(startCoordinatesX + xMov, startCoordinatesY + yMov + 1, startCoordinatesZ + zMov));
+							pointsList.add(new Point3D(startCoordinatesX + xMov, startCoordinatesY + yMov + 1, startCoordinatesZ + zMov));
 						}
 					}
 					
 					else
 					{
-						coordinatesList.add(new Coordinates(startCoordinatesX + xMov, startCoordinatesY + yMov, startCoordinatesZ + zMov));
+						pointsList.add(new Point3D(startCoordinatesX + xMov, startCoordinatesY + yMov, startCoordinatesZ + zMov));
 					}
 				}
 			}
@@ -489,7 +489,7 @@ public final class LogicHelper
 			xMov++;
 		}
 
-		return coordinatesList;
+		return pointsList;
 	}
 
 	/**
@@ -522,9 +522,9 @@ public final class LogicHelper
 	 * 
 	 * @return	List containing the coordinates of each block with the provided ID within the specified distance of the entity.
 	 */
-	public static List<Coordinates> getNearbyBlockCoordinates(AbstractEntity entity, int blockID, int maxDistanceAway)
+	public static List<Point3D> getNearbyBlockCoordinates(AbstractEntity entity, int blockID, int maxDistanceAway)
 	{
-		List<Coordinates> CoordinatesList = new LinkedList<Coordinates>();
+		List<Point3D> CoordinatesList = new LinkedList<Point3D>();
 
 		int x = (int)entity.posX;
 		int y = (int)entity.posY;
@@ -538,7 +538,7 @@ public final class LogicHelper
 		{
 			if (entity.worldObj.getBlockId(x + xMov, y + yMov, z + zMov) == blockID)
 			{
-				CoordinatesList.add(new Coordinates(x + xMov, y + yMov, z + zMov));
+				CoordinatesList.add(new Point3D(x + xMov, y + yMov, z + zMov));
 			}
 
 			if (zMov == maxDistanceAway && xMov == maxDistanceAway && yMov == maxDistanceAway)
@@ -574,9 +574,9 @@ public final class LogicHelper
 	 * 
 	 * @return	List containing the coordinates of each block with the provided ID within the specified distance of the entity.
 	 */
-	public static List<Coordinates> getNearbyBlockCoordinatesWithMetadata(AbstractEntity entity, int blockID, int metadata, int maxDistanceAway)
+	public static List<Point3D> getNearbyBlockCoordinatesWithMetadata(AbstractEntity entity, int blockID, int metadata, int maxDistanceAway)
 	{
-		List<Coordinates> CoordinatesList = new LinkedList<Coordinates>();
+		List<Point3D> CoordinatesList = new LinkedList<Point3D>();
 
 		int x = (int)entity.posX;
 		int y = (int)entity.posY;
@@ -592,7 +592,7 @@ public final class LogicHelper
 			{
 				if (entity.worldObj.getBlockMetadata(x + xMov, y + yMov, z + zMov) == metadata)
 				{
-					CoordinatesList.add(new Coordinates(x + xMov, y + yMov, z + zMov));
+					CoordinatesList.add(new Point3D(x + xMov, y + yMov, z + zMov));
 				}
 			}
 
@@ -794,10 +794,10 @@ public final class LogicHelper
 	 * 
 	 * @return	An coordinates object containing the coordinates of the randomly selected block.
 	 */
-	public static Coordinates getRandomNearbyBlockCoordinatesOfType(AbstractEntity entity, int blockID)
+	public static Point3D getRandomNearbyBlockCoordinatesOfType(AbstractEntity entity, int blockID)
 	{
 		//Create a list to store valid coordinates and specify the maximum distance away.
-		List<Coordinates> validCoordinatesList = new LinkedList<Coordinates>();
+		List<Point3D> validCoordinatesList = new LinkedList<Point3D>();
 		int maxDistanceAway = 10;
 
 		//Assign entity's position.
@@ -816,7 +816,7 @@ public final class LogicHelper
 			if (entity.worldObj.getBlockId(x + xMov, y + yMov, z + zMov) == blockID)
 			{
 				//Add the block's coordinates to the coordinates list.
-				validCoordinatesList.add(new Coordinates(x + xMov, y + yMov, z + zMov));
+				validCoordinatesList.add(new Point3D(x + xMov, y + yMov, z + zMov));
 			}
 
 			//If z and x movement has reached the maximum distance and y movement has reached 2, then return the list as searching has completed.
