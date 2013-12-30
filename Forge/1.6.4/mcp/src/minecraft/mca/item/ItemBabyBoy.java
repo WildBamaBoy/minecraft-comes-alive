@@ -22,9 +22,9 @@ public class ItemBabyBoy extends ItemBaby
      *
      * @param	id	The item's ID.
      */
-    public ItemBabyBoy(int id)
+    public ItemBabyBoy(int itemId)
     {
-        super(id);
+        super(itemId);
         setUnlocalizedName("Baby Boy");
         isMale = true;
         setCreativeTab(CreativeTabs.tabMisc);

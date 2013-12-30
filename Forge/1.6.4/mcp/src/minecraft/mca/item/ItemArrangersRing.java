@@ -30,9 +30,9 @@ public class ItemArrangersRing extends Item
      * 
      * @param	i	The item's ID.
      */
-    public ItemArrangersRing(int i)
+    public ItemArrangersRing(int itemId)
     {
-        super(i);
+        super(itemId);
         maxStackSize = 1;
         setUnlocalizedName("Arranger's Ring");
         setCreativeTab(CreativeTabs.tabMisc);

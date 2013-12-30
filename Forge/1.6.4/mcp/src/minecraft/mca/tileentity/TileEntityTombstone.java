@@ -21,19 +21,19 @@ public class TileEntityTombstone extends TileEntity
 {
 	/** The current line of the sign that is being edited. -1 for no selected line. */
 	public int lineBeingEdited;
-	
+
 	/** Is the GUI open? */
-	public boolean guiOpen = false;
-	
+	public boolean guiOpen;
+
 	/** Has the tombstone synced with the server? */
-	public boolean hasSynced = false;
-	
+	public boolean hasSynced;
+
 	/** The text displayed on the tombstone. */
 	public String signText[] =
 		{
 			"Here Lies", "", "", ""
 		};
-	
+
 	/**
 	 * Constructor
 	 */
@@ -43,37 +43,34 @@ public class TileEntityTombstone extends TileEntity
 	}
 
 	@Override
-    public void updateEntity()
-    {
-    	if (worldObj.isRemote)
-    	{
-    		if(!hasSynced && !guiOpen)
-    		{
-    			PacketDispatcher.sendPacketToServer(PacketHandler.createTombstoneRequestPacket(this));
-    			hasSynced = true;
-    		}
-    	}
-    }
-    
-    @Override
-	public void writeToNBT(NBTTagCompound nbttagcompound)
+	public void updateEntity()
 	{
-		super.writeToNBT(nbttagcompound);
-		
-		nbttagcompound.setString("Text1", signText[0]);
-		nbttagcompound.setString("Text2", signText[1]);
-		nbttagcompound.setString("Text3", signText[2]);
-		nbttagcompound.setString("Text4", signText[3]);
+		if (worldObj.isRemote && !hasSynced && !guiOpen)
+		{
+			PacketDispatcher.sendPacketToServer(PacketHandler.createTombstoneRequestPacket(this));
+			hasSynced = true;
+		}
 	}
 
-    @Override
-	public void readFromNBT(NBTTagCompound nbttagcompound)
+	@Override
+	public void writeToNBT(NBTTagCompound nbt)
 	{
-		super.readFromNBT(nbttagcompound);
+		super.writeToNBT(nbt);
+
+		nbt.setString("Text1", signText[0]);
+		nbt.setString("Text2", signText[1]);
+		nbt.setString("Text3", signText[2]);
+		nbt.setString("Text4", signText[3]);
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt)
+	{
+		super.readFromNBT(nbt);
 
 		for (int i = 0; i < 4; i++)
 		{
-			signText[i] = nbttagcompound.getString((new StringBuilder()).append("Text").append(i + 1).toString());
+			signText[i] = nbt.getString((new StringBuilder()).append("Text").append(i + 1).toString());
 
 			if (signText[i].length() > 15)
 			{

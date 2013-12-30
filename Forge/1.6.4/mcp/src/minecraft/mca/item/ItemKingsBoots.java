@@ -26,9 +26,9 @@ public class ItemKingsBoots extends ItemArmor
      * 
      * @param 	id	The item's ID.
      */
-    public ItemKingsBoots(int id)
+    public ItemKingsBoots(int itemId)
     {
-        super(id, EnumArmorMaterial.GOLD, 0, 3);
+        super(itemId, EnumArmorMaterial.GOLD, 0, 3);
         setUnlocalizedName("MonarchBoots");
         maxStackSize = 1;
         setCreativeTab(CreativeTabs.tabMisc);

@@ -36,9 +36,9 @@ public class ItemBaby extends Item
 	 *
 	 * @param	id	The item's ID.
 	 */
-	public ItemBaby(int id)
+	public ItemBaby(int itemId)
 	{
-		super(id);
+		super(itemId);
 		maxStackSize = 1;
 	}
 
@@ -48,9 +48,9 @@ public class ItemBaby extends Item
 	 * @param	itemStack	The item stack that the player was holding when they right clicked.
 	 * @param	player		The player that right clicked.
 	 * @param	world		The world that the player right clicked in.
-	 * @param	x			X coordinate of the block that the player right clicked.
-	 * @param	y			Y coordinate of the block that the player right clicked.
-	 * @param	z			Z coordinate of the block that the player right clicked.
+	 * @param	posX		X coordinate of the block that the player right clicked.
+	 * @param	posY		Y coordinate of the block that the player right clicked.
+	 * @param	posZ		Z coordinate of the block that the player right clicked.
 	 * @param	meta		Metadata associated with the block clicked.
 	 * @param	xOffset		X offset of the point where the block was clicked.
 	 * @param	yOffset		Y offset of the point where the block was clicked.
@@ -59,22 +59,21 @@ public class ItemBaby extends Item
 	 * @return	True or false depending on if placing the item into the world was successful.
 	 */
 	@Override
-	public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int meta, float xOffset, float yOffset, float zOffset)
+	public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int posX, int posY, int posZ, int meta, float xOffset, float yOffset, float zOffset)
 	{
-		WorldPropertiesManager worldPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 
-		if (worldPropertiesManager.worldProperties.babyReadyToGrow)
-		{
-			if (!world.isRemote)
-			{	
-				EntityPlayerChild entityPlayerChild = new EntityPlayerChild(world, player, worldPropertiesManager.worldProperties.babyName, isMale);
-				entityPlayerChild.setLocationAndAngles(x, y + 1, z, player.rotationYaw, player.rotationPitch);
+		if (!world.isRemote)
+		{	
+			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
+
+			if (manager.worldProperties.babyReadyToGrow)
+			{
+				final EntityPlayerChild entityPlayerChild = new EntityPlayerChild(world, player, manager.worldProperties.babyName, isMale);
+				entityPlayerChild.setLocationAndAngles(posX, posY + 1, posZ, player.rotationYaw, player.rotationPitch);
 				world.spawnEntityInWorld(entityPlayerChild);
 
 				//Trigger the achievement
 				player.triggerAchievement(MCA.getInstance().achievementBabyGrowUp);
-
-				WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 
 				//Set relevant properties back to their default values so that the player can have another baby.
 				manager.worldProperties.babyExists = false;
@@ -87,21 +86,21 @@ public class ItemBaby extends Item
 				//Check if married to another player.
 				if (manager.worldProperties.playerSpouseID < 0)
 				{
-					int spouseID = manager.worldProperties.playerSpouseID;
-					EntityPlayer spouseEntity = MCA.getInstance().getPlayerByID(world, spouseID);
+					final int spouseID = manager.worldProperties.playerSpouseID;
+					final EntityPlayer spouseEntity = MCA.getInstance().getPlayerByID(world, spouseID);
 					WorldPropertiesManager spouseManager = null;
-					
-					if (spouseEntity != null)
+
+					if (spouseEntity == null)
+					{
+						//Properties for player will still be loaded when they are not logged in.
+						spouseManager = MCA.getInstance().playerWorldManagerMap.get(manager.worldProperties.playerSpouseName);						
+					}
+
+					else
 					{
 						spouseManager = MCA.getInstance().playerWorldManagerMap.get(spouseEntity.username);
 					}
-					
-					//Fail-safe for when spouse is not logged in. Their properties are still loaded, though.
-					else
-					{
-						spouseManager = MCA.getInstance().playerWorldManagerMap.get(manager.worldProperties.playerSpouseName);
-					}
-					
+
 					spouseManager.worldProperties.babyExists = false;
 					spouseManager.worldProperties.babyName = "";
 					spouseManager.worldProperties.babyReadyToGrow = false;
@@ -121,7 +120,7 @@ public class ItemBaby extends Item
 
 		return true;
 	}
-	
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List informationList, boolean unknown)
