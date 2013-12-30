@@ -17,10 +17,10 @@ import net.minecraft.client.model.ModelRenderer;
  */
 public class ModelTombstone extends ModelBase
 {
-    private ModelRenderer tombstoneBase;
-    private ModelRenderer tombstoneBlock;
-    private ModelRenderer tombstoneBlockMidpoint;
-    private ModelRenderer tombstoneBlockTopPoint;
+    private final ModelRenderer base;
+    private final ModelRenderer center;
+    private final ModelRenderer centerCurve;
+    private final ModelRenderer topEdge;
 
     /**
      * Constructor
@@ -30,25 +30,25 @@ public class ModelTombstone extends ModelBase
         textureWidth = 64;
         textureHeight = 32;
         
-        tombstoneBase = new ModelRenderer(this, 0, 28);
-        tombstoneBase.addBox(0F, 0F, 0F, 14, 1, 3);
-        tombstoneBase.setRotationPoint(-7F, 23F, -2F);
-        tombstoneBase.setTextureSize(64, 32);
+        base = new ModelRenderer(this, 0, 28);
+        base.addBox(0F, 0F, 0F, 14, 1, 3);
+        base.setRotationPoint(-7F, 23F, -2F);
+        base.setTextureSize(64, 32);
         
-        tombstoneBlock = new ModelRenderer(this, 6, 18);
-        tombstoneBlock.addBox(0F, 0F, 0F, 10, 9, 1);
-        tombstoneBlock.setRotationPoint(-5F, 14F, -1F);
-        tombstoneBlock.setTextureSize(64, 32);
+        center = new ModelRenderer(this, 6, 18);
+        center.addBox(0F, 0F, 0F, 10, 9, 1);
+        center.setRotationPoint(-5F, 14F, -1F);
+        center.setTextureSize(64, 32);
         
-        tombstoneBlockMidpoint = new ModelRenderer(this, 8, 16);
-        tombstoneBlockMidpoint.addBox(0F, 0F, 0F, 8, 1, 1);
-        tombstoneBlockMidpoint.setRotationPoint(-4F, 13F, -1F);
-        tombstoneBlockMidpoint.setTextureSize(64, 32);
+        centerCurve = new ModelRenderer(this, 8, 16);
+        centerCurve.addBox(0F, 0F, 0F, 8, 1, 1);
+        centerCurve.setRotationPoint(-4F, 13F, -1F);
+        centerCurve.setTextureSize(64, 32);
         
-        tombstoneBlockTopPoint = new ModelRenderer(this, 10, 14);
-        tombstoneBlockTopPoint.addBox(0F, 0F, 0F, 6, 1, 1);
-        tombstoneBlockTopPoint.setRotationPoint(-3F, 12F, -1F);
-        tombstoneBlockTopPoint.setTextureSize(64, 32);
+        topEdge = new ModelRenderer(this, 10, 14);
+        topEdge.addBox(0F, 0F, 0F, 6, 1, 1);
+        topEdge.setRotationPoint(-3F, 12F, -1F);
+        topEdge.setTextureSize(64, 32);
     }
 
     /**
@@ -56,9 +56,9 @@ public class ModelTombstone extends ModelBase
      */
     public void renderTombstone()
     {
-        tombstoneBase.render(0.0625F);
-        tombstoneBlock.render(0.0625F);
-        tombstoneBlockMidpoint.render(0.0625F);
-        tombstoneBlockTopPoint.render(0.0625F);
+        base.render(0.0625F);
+        center.render(0.0625F);
+        centerCurve.render(0.0625F);
+        topEdge.render(0.0625F);
     }
 }
