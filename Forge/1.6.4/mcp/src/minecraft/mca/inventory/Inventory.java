@@ -23,10 +23,12 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
@@ -121,7 +123,7 @@ public class Inventory implements IInventory, Serializable
 	 * @return	The total number of slots in the inventory.
 	 */
 	@Override
-	public int getSizeInventory()
+	public final int getSizeInventory()
 	{
 		return 36;
 	}
@@ -150,18 +152,28 @@ public class Inventory implements IInventory, Serializable
 	@Override
 	public ItemStack decrStackSize(int slotId, int removalAmount)
 	{
-		if (slotId != -1)
+		if (slotId == -1)
 		{
-			if (inventoryItems[slotId] != null)
+			return null;
+		}
+
+		else
+		{
+			if (inventoryItems[slotId] == null)
+			{
+				return null;
+			}
+
+			else
 			{
 				if (inventoryItems[slotId].stackSize <= removalAmount)
 				{
-					ItemStack itemstack = inventoryItems[slotId];
+					final ItemStack itemstack = inventoryItems[slotId];
 					inventoryItems[slotId] = null;
 					return itemstack;
 				}
 
-				ItemStack itemstack1 = inventoryItems[slotId].splitStack(removalAmount);
+				final ItemStack newStack = inventoryItems[slotId].splitStack(removalAmount);
 
 				if (inventoryItems[slotId].stackSize == 0)
 				{
@@ -169,18 +181,8 @@ public class Inventory implements IInventory, Serializable
 				}
 
 				onInventoryChanged();
-				return itemstack1;
+				return newStack;
 			}
-
-			else
-			{
-				return null;
-			}
-		}
-		
-		else
-		{
-			return null;
 		}
 	}
 
@@ -194,16 +196,16 @@ public class Inventory implements IInventory, Serializable
 	@Override
 	public ItemStack getStackInSlotOnClosing(int slotId)
 	{
-		if (inventoryItems[slotId] != null)
+		if (inventoryItems[slotId] == null)
 		{
-			ItemStack itemstack = inventoryItems[slotId];
-			inventoryItems[slotId] = null;
-			return itemstack;
+			return null;
 		}
 
 		else
 		{
-			return null;
+			final ItemStack itemStack = inventoryItems[slotId];
+			inventoryItems[slotId] = null;
+			return itemStack;
 		}
 	}
 
@@ -260,16 +262,16 @@ public class Inventory implements IInventory, Serializable
 
 			if (this.owner instanceof EntityPlayerChild)
 			{
-				EntityPlayerChild theChild = (EntityPlayerChild)this.owner;
-				boolean fullArmor = armorItemInSlot(0) != null && armorItemInSlot(1) != null && armorItemInSlot(2) != null && armorItemInSlot(3) != null;
+				final EntityPlayerChild theChild = (EntityPlayerChild)this.owner;
+				final boolean inFullArmor = armorItemInSlot(0) != null && armorItemInSlot(1) != null && armorItemInSlot(2) != null && armorItemInSlot(3) != null;
 
-				if (fullArmor)
+				if (inFullArmor)
 				{
-					boolean hasWeapon = this.getBestItemOfType(ItemSword.class) != null || this.getBestItemOfType(ItemBow.class) != null;
+					final boolean hasWeapon = this.getBestItemOfType(ItemSword.class) != null || this.getBestItemOfType(ItemBow.class) != null;
 
 					if (hasWeapon)
 					{
-						EntityPlayer player = MCA.getInstance().getPlayerByName(theChild.ownerPlayerName);
+						final EntityPlayer player = MCA.getInstance().getPlayerByName(theChild.ownerPlayerName);
 
 						if (player != null)
 						{
@@ -312,7 +314,7 @@ public class Inventory implements IInventory, Serializable
 	@Override
 	public void openChest()
 	{
-
+		//Nothing to do.
 	}
 
 	/**
@@ -332,7 +334,7 @@ public class Inventory implements IInventory, Serializable
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemstack) 
+	public boolean isItemValidForSlot(int slot, ItemStack itemStack) 
 	{
 		return false;
 	}
@@ -348,14 +350,11 @@ public class Inventory implements IInventory, Serializable
 	{
 		int quantity = 0;
 
-		for (ItemStack stack : inventoryItems)
+		for (final ItemStack stack : inventoryItems)
 		{
-			if (stack != null)
+			if (stack != null && stack.getItem().itemID == item.itemID)
 			{
-				if (stack.getItem().itemID == item.itemID)
-				{
-					quantity += stack.stackSize;
-				}
+				quantity += stack.stackSize;
 			}
 		}
 
@@ -373,14 +372,11 @@ public class Inventory implements IInventory, Serializable
 	{
 		int quantity = 0;
 
-		for (ItemStack stack : inventoryItems)
+		for (final ItemStack stack : inventoryItems)
 		{
-			if (stack != null)
+			if (stack != null && stack.getItem().itemID == itemId)
 			{
-				if (stack.getItem().itemID == itemId)
-				{
-					quantity += stack.stackSize;
-				}
+				quantity += stack.stackSize;
 			}
 		}
 
@@ -394,7 +390,7 @@ public class Inventory implements IInventory, Serializable
 	{
 		for (int i = 0; i < inventoryItems.length; i++)
 		{
-			ItemStack stack = inventoryItems[i];
+			final ItemStack stack = inventoryItems[i];
 
 			if (stack != null)
 			{
@@ -419,7 +415,7 @@ public class Inventory implements IInventory, Serializable
 		{
 			if (armorItemInSlot(slot) != null)
 			{
-				ItemStack armorItem = armorItemInSlot(slot);
+				final ItemStack armorItem = armorItemInSlot(slot);
 				armorValue += ((ItemArmor)armorItem.getItem()).damageReduceAmount;
 			}
 		}
@@ -430,29 +426,18 @@ public class Inventory implements IInventory, Serializable
 	/**
 	 * Gets the armor item that is in the specified slot.
 	 * 
-	 * @param	i	The armor slot that the item stack should be retrieved from.
+	 * @param	slotId	The armor slot that the item stack should be retrieved from.
 	 * 
 	 * @return	The item stack contained in the specified armor slot.
 	 */
-	public ItemStack armorItemInSlot(int i)
+	public ItemStack armorItemInSlot(int slotId)
 	{
-		try
+		if (slotId != -1 && this.armorItems[slotId] != null)
 		{
-			if (i != -1)
-			{
-				if (this.armorItems[i] != null)
-				{
-					return this.inventoryItems[this.getFirstSlotContainingItem(this.armorItems[i].itemID)];
-				}
-			}
-
-			return null;
+			return this.inventoryItems[this.getFirstSlotContainingItem(this.armorItems[slotId].itemID)];
 		}
 
-		catch (Exception e)
-		{
-			return null;
-		}
+		return null;
 	}
 
 	/**
@@ -460,28 +445,16 @@ public class Inventory implements IInventory, Serializable
 	 */
 	public void setWornArmorItems()
 	{
-		for (ItemStack stack : inventoryItems)
+		for (final ItemStack stack : inventoryItems)
 		{
-			if (stack != null)
+			if (stack != null && stack.getItem() instanceof ItemArmor)
 			{
-				if (stack.getItem() instanceof ItemArmor)
+				ItemArmor itemAsArmor = (ItemArmor)stack.getItem();
+				int armorType = itemAsArmor.armorType;
+
+				if (((ItemArmor)armorItems[armorType].getItem()).damageReduceAmount < itemAsArmor.damageReduceAmount)
 				{
-					ItemArmor itemAsArmor = (ItemArmor)stack.getItem();
-					int armorType = itemAsArmor.armorType;
-
-					try
-					{
-						if (((ItemArmor)armorItems[armorType].getItem()).damageReduceAmount < itemAsArmor.damageReduceAmount)
-						{
-							armorItems[armorType] = stack;
-						}
-					}
-
-					//Hit when there's nothing in that armor slot.
-					catch (NullPointerException e)
-					{
-						armorItems[armorType] = stack;
-					}
+					armorItems[armorType] = stack;
 				}
 			}
 		}
@@ -490,12 +463,9 @@ public class Inventory implements IInventory, Serializable
 		//Set it to null if it is not contained in the main inventory.
 		for (int i = 0; i < 4; i++)
 		{
-			if (armorItems[i] != null)
+			if (armorItems[i] != null && getQuantityOfItem(armorItems[i].getItem()) == 0)
 			{
-				if (getQuantityOfItem(armorItems[i].getItem()) == 0)
-				{
-					armorItems[i] = null;
-				}
+				armorItems[i] = null;
 			}
 		}
 	}
@@ -509,33 +479,28 @@ public class Inventory implements IInventory, Serializable
 	 */
 	public ItemStack getBestItemOfType(Class type)
 	{
-		if (owner.profession != 5)
+		if (owner.profession == 5)
 		{
-			ItemStack stack = null;
-			int highestMaxDamage = 0;
-
-			for (ItemStack stackInInventory : inventoryItems)
-			{
-				if (stackInInventory != null)
-				{
-					if (stackInInventory.getItem().getClass().getName().equals(type.getName()))
-					{
-						//Search for the item with the highest max damage, as damage increases with the rarity of material. (except gold)	
-						if (highestMaxDamage < stackInInventory.getMaxDamage())
-						{
-							highestMaxDamage = stackInInventory.getMaxDamage();
-							stack = stackInInventory;
-						}			
-					}
-				}
-			}
-
-			return stack;
+			return new ItemStack(Item.swordIron);
 		}
 
 		else
 		{
-			return new ItemStack(Item.swordIron);
+			ItemStack stack = null;
+			int highestMaxDamage = 0;
+
+			for (final ItemStack stackInInventory : inventoryItems)
+			{
+				final String itemClassName = stackInInventory.getItem().getClass().getName();
+
+				if (stackInInventory != null && itemClassName.equals(type.getName()) && highestMaxDamage < stackInInventory.getMaxDamage())
+				{
+					highestMaxDamage = stackInInventory.getMaxDamage();
+					stack = stackInInventory;			
+				}
+			}
+
+			return stack;
 		}
 	}
 
@@ -586,12 +551,11 @@ public class Inventory implements IInventory, Serializable
 	 */
 	private int storePartialItemStack(ItemStack itemStack)
 	{
-		int itemId = itemStack.itemID;
 		int stackSize = itemStack.stackSize;
 
 		if (itemStack.getMaxStackSize() == 1)
 		{
-			int slotId = getFirstEmptyStack();
+			final int slotId = getFirstEmptyStack();
 
 			if (slotId < 0)
 			{
@@ -620,7 +584,7 @@ public class Inventory implements IInventory, Serializable
 
 		if (inventoryItems[slotId] == null)
 		{
-			inventoryItems[slotId] = new ItemStack(itemId, 0, itemStack.getItemDamage());
+			inventoryItems[slotId] = new ItemStack(itemStack.itemID, 0, itemStack.getItemDamage());
 
 			if (itemStack.hasTagCompound())
 			{
@@ -644,6 +608,7 @@ public class Inventory implements IInventory, Serializable
 		{
 			return stackSize;
 		}
+
 		else
 		{
 			stackSize -= itemStackSize;
@@ -765,22 +730,22 @@ public class Inventory implements IInventory, Serializable
 	 */
 	public void damageArmor(int damageAmount)
 	{
-		damageAmount /= 4;
+		int newDamageAmount = damageAmount /= 4;
 
-		if (damageAmount < 1)
+		if (newDamageAmount < 1)
 		{
-			damageAmount = 1;
+			newDamageAmount = 1;
 		}
 
 		for (int i = 0; i < armorItems.length; i++)
 		{
-			if (armorItems[i] == null || !(armorItems[i].getItem() instanceof ItemArmor))
+			if (!(armorItems[i].getItem() instanceof ItemArmor))
 			{
 				continue;
 			}
 
 			//Damage the armor and update the main inventory with the damaged armor.
-			armorItems[i].damageItem(damageAmount, owner);
+			armorItems[i].damageItem(newDamageAmount, owner);
 			setInventorySlotContents(getFirstSlotContainingItem(armorItems[i].getItem()), armorItems[i]);
 
 			if (armorItems[i].stackSize == 0)
@@ -808,156 +773,22 @@ public class Inventory implements IInventory, Serializable
 		{
 			return 1;
 		}
-		
+
 		//Check for unique names.
 		if (owner.name.equals("Katniss"))
 		{
 			if (owner.getHeldItem().getItem() instanceof ItemBow)
 			{
-				return 10;
-			}
-
-			else
-			{
-				ItemStack heldItem = owner.getHeldItem();
-
-				if (heldItem != null)
-				{
-					if (heldItem.getDisplayName().contains("wood"))
-					{
-						return 4;
-					}
-
-					else if (heldItem.getDisplayName().contains("gold"))
-					{
-						return 4;
-					}
-
-					else if (heldItem.getDisplayName().contains("stone"))
-					{
-						return 5;
-					}
-
-					else if (heldItem.getDisplayName().contains("iron"))
-					{
-						return 6;
-					}
-
-					else if (heldItem.getDisplayName().contains("diamond"))
-					{
-						return 7;
-					}
-
-					else
-					{
-						return 5;
-					}
-				}
-
-				else
-				{
-					return 1;
-				}
-
-				//return (int) heldItem.getItem().getDamageVsEntity(target, heldItem);
-				//return (int) (heldItem != null ? owner.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111125_b() : 2);
+				return 15;
 			}
 		}
 
-		else if (owner.name.equals("Altair") || owner.name.equals("Ezio"))
+		else if (owner.name.equals("Altair") || owner.name.equals("Ezio") && owner.getHeldItem().getItem() instanceof ItemSword)
 		{
-			if (owner.getHeldItem().getItem() instanceof ItemSword)
-			{
-				return 10;
-			}
-
-			//Not using a sword.
-			else
-			{
-				ItemStack heldItem = owner.getHeldItem();
-
-				if (heldItem != null)
-				{
-					if (heldItem.getDisplayName().contains("wood"))
-					{
-						return 4;
-					}
-
-					else if (heldItem.getDisplayName().contains("gold"))
-					{
-						return 4;
-					}
-
-					else if (heldItem.getDisplayName().contains("stone"))
-					{
-						return 5;
-					}
-
-					else if (heldItem.getDisplayName().contains("iron"))
-					{
-						return 6;
-					}
-
-					else if (heldItem.getDisplayName().contains("diamond"))
-					{
-						return 7;
-					}
-
-					else
-					{
-						return 5;
-					}
-				}
-
-				else
-				{
-					return 1;
-				}
-			}
+			return getDamageByHeldItemType(owner.getHeldItem()) + 3;
 		}
 
-		else //The owner's name is not unique.
-		{
-			ItemStack heldItem = owner.getHeldItem();
-
-			if (heldItem != null)
-			{
-				if (heldItem.getDisplayName().contains("wood"))
-				{
-					return 4;
-				}
-
-				else if (heldItem.getDisplayName().contains("gold"))
-				{
-					return 4;
-				}
-
-				else if (heldItem.getDisplayName().contains("stone"))
-				{
-					return 5;
-				}
-
-				else if (heldItem.getDisplayName().contains("iron"))
-				{
-					return 6;
-				}
-
-				else if (heldItem.getDisplayName().contains("diamond"))
-				{
-					return 7;
-				}
-
-				else
-				{
-					return 5;
-				}
-			}
-
-			else
-			{
-				return 1;
-			}
-		}
+		return getDamageByHeldItemType(owner.getHeldItem());
 	}
 
 	/**
@@ -970,16 +801,12 @@ public class Inventory implements IInventory, Serializable
 	public int getFirstSlotContainingItem(Item item)
 	{
 		int slot = 0;
-		int id = item.itemID;
 
-		for (ItemStack stack : inventoryItems)
+		for (final ItemStack stack : inventoryItems)
 		{
-			if (stack != null)
+			if (stack != null && stack.getItem().itemID == item.itemID)
 			{
-				if (stack.getItem().itemID == id)
-				{
-					return slot;
-				}
+				return slot;
 			}
 
 			slot++;
@@ -999,14 +826,11 @@ public class Inventory implements IInventory, Serializable
 	{
 		int slot = 0;
 
-		for (ItemStack stack : inventoryItems)
+		for (final ItemStack stack : inventoryItems)
 		{
-			if (stack != null)
+			if (stack != null && stack.getItem().itemID == itemId)
 			{
-				if (stack.getItem().itemID == itemId)
-				{
-					return slot;
-				}
+				return slot;
 			}
 
 			slot++;
@@ -1024,14 +848,11 @@ public class Inventory implements IInventory, Serializable
 	{
 		int slot = 0;
 
-		for (ItemStack stack : inventoryItems)
+		for (final ItemStack stack : inventoryItems)
 		{
-			if (stack != null)
+			if (stack != null && stack.getItem() instanceof ItemFood)
 			{
-				if (stack.getItem() instanceof ItemFood)
-				{
-					return slot;
-				}
+				return slot;
 			}
 
 			slot++;
@@ -1049,16 +870,11 @@ public class Inventory implements IInventory, Serializable
 	 */
 	public boolean contains(Item item)
 	{
-		int id = item.itemID;
-
-		for (ItemStack stack : inventoryItems)
+		for (final ItemStack stack : inventoryItems)
 		{
-			if (stack != null)
+			if (stack != null && stack.getItem().itemID == item.itemID)
 			{
-				if (stack.getItem().itemID == id)
-				{
-					return true;
-				}
+				return true;
 			}
 		}
 
@@ -1074,16 +890,11 @@ public class Inventory implements IInventory, Serializable
 	 */
 	public boolean contains(Block block)
 	{
-		int id = block.blockID;
-
-		for (ItemStack stack : inventoryItems)
+		for (final ItemStack stack : inventoryItems)
 		{
-			if (stack != null)
+			if (stack != null && stack.getItem().itemID == block.blockID)
 			{
-				if (stack.getItem().itemID == id)
-				{
-					return true;
-				}
+				return true;
 			}
 		}
 
@@ -1093,9 +904,9 @@ public class Inventory implements IInventory, Serializable
 	/**
 	 * Writes the owner's inventory to NBT.
 	 * 
-	 * @param	NBT	The instance of the NBTTagCompound used to write info to NBT.
+	 * @param	nbt	The instance of the NBTTagCompound used to write info to NBT.
 	 */
-	public void writeInventoryToNBT(NBTTagCompound NBT)
+	public void writeInventoryToNBT(NBTTagCompound nbt)
 	{
 		//Write the main inventory to NBT.
 		NBTTagList nbttaglist = new NBTTagList();
@@ -1104,14 +915,14 @@ public class Inventory implements IInventory, Serializable
 		{
 			if (this.inventoryItems[i] != null)
 			{
-				NBTTagCompound nbttagcompound = new NBTTagCompound();
-				nbttagcompound.setByte("Slot", (byte)i);
-				this.inventoryItems[i].writeToNBT(nbttagcompound);
-				nbttaglist.appendTag(nbttagcompound);
+				final NBTTagCompound tagCompound = new NBTTagCompound();
+				tagCompound.setByte("Slot", (byte)i);
+				this.inventoryItems[i].writeToNBT(tagCompound);
+				nbttaglist.appendTag(tagCompound);
 			}
 		}
 
-		NBT.setTag("Items", nbttaglist);
+		nbt.setTag("Items", nbttaglist);
 
 		//Write the armor inventory to NBT.
 		nbttaglist = new NBTTagList();
@@ -1120,30 +931,29 @@ public class Inventory implements IInventory, Serializable
 		{
 			if (this.armorItems[i] != null)
 			{
-				NBTTagCompound nbttagcompound = new NBTTagCompound();
-				nbttagcompound.setByte("Slot", (byte)i);
-				this.armorItems[i].writeToNBT(nbttagcompound);
-				nbttaglist.appendTag(nbttagcompound);
+				final NBTTagCompound tagCompound = new NBTTagCompound();
+				tagCompound.setByte("Slot", (byte)i);
+				this.armorItems[i].writeToNBT(tagCompound);
+				nbttaglist.appendTag(tagCompound);
 			}
 		}
 
-		NBT.setTag("Armor", nbttaglist);
+		nbt.setTag("Armor", nbttaglist);
 	}
 
 	/**
 	 * Reads the owner's inventory from NBT.
 	 * 
-	 * @param	NBT	The instance of the NBTTagCompound used to read info from NBT.
+	 * @param	nbt	The instance of the NBTTagCompound used to read info from NBT.
 	 */
-	public void readInventoryFromNBT(NBTTagCompound NBT)
+	public void readInventoryFromNBT(NBTTagCompound nbt)
 	{
-		//Read the main inventory from NBT.
-		NBTTagList nbttaglist = NBT.getTagList("Items");
+		NBTTagList tagList = nbt.getTagList("Items");
 		this.inventoryItems = new ItemStack[this.getSizeInventory()];
 
-		for (int i = 0; i < nbttaglist.tagCount(); i++)
+		for (int i = 0; i < tagList.tagCount(); i++)
 		{
-			NBTTagCompound nbttagcompound = (NBTTagCompound)nbttaglist.tagAt(i);
+			final NBTTagCompound nbttagcompound = (NBTTagCompound)tagList.tagAt(i);
 			int slotId = nbttagcompound.getByte("Slot") & 0xff;
 
 			if (slotId >= 0 && slotId < this.inventoryItems.length)
@@ -1152,13 +962,12 @@ public class Inventory implements IInventory, Serializable
 			}
 		}
 
-		//Read the armor inventory from NBT.
-		nbttaglist = NBT.getTagList("Armor");
+		tagList = nbt.getTagList("Armor");
 		this.armorItems = new ItemStack[4];
 
-		for (int i = 0; i < nbttaglist.tagCount(); i++)
+		for (int i = 0; i < tagList.tagCount(); i++)
 		{
-			NBTTagCompound nbttagcompound = (NBTTagCompound)nbttaglist.tagAt(i);
+			final NBTTagCompound nbttagcompound = (NBTTagCompound)tagList.tagAt(i);
 			int armorSlotId = nbttagcompound.getByte("Slot") & 0xff;
 
 			if (armorSlotId >= 0 && armorSlotId < this.armorItems.length)
@@ -1171,28 +980,28 @@ public class Inventory implements IInventory, Serializable
 	/**
 	 * Writes this object to an object output stream. (Serialization)
 	 * 
-	 * @param 	out	The object output stream that this object should be written to.
+	 * @param 	outStream	The object output stream that this object should be written to.
 	 * 
 	 * @throws 	IOException	This exception should never happen.
 	 */
-	private void writeObject(ObjectOutputStream out) throws IOException
+	private void writeObject(ObjectOutputStream outStream) throws IOException
 	{
 		for (int i = 0; i < getSizeInventory(); i++)
 		{
 			try
 			{
-				ItemStack stack = inventoryItems[i];
-				out.writeObject(i + ":" + stack.itemID + ":" + stack.stackSize + ":" + stack.getItemDamage());
+				final ItemStack stack = inventoryItems[i];
+				outStream.writeObject(i + ":" + stack.itemID + ":" + stack.stackSize + ":" + stack.getItemDamage());
 			}
 
 			catch (NullPointerException e)
 			{
-				out.writeObject(i + ":" + "null");
+				outStream.writeObject(i + ":" + "null");
 			}
 
 			catch (ArrayIndexOutOfBoundsException e)
 			{
-				out.writeObject(i + ":" + "null");
+				outStream.writeObject(i + ":" + "null");
 			}
 		}
 	}
@@ -1200,19 +1009,19 @@ public class Inventory implements IInventory, Serializable
 	/**
 	 * Reads this object from an object input stream. (Deserialization)
 	 * 
-	 * @param 	in	The object input stream that this object should be read from.
+	 * @param 	inStream	The object input stream that this object should be read from.
 	 * 
 	 * @throws 	IOException				This exception should never happen.
 	 * @throws 	ClassNotFoundException	This exception should never happen.
 	 */
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	private void readObject(ObjectInputStream inStream) throws IOException, ClassNotFoundException
 	{
 		inventoryItems = new ItemStack[getSizeInventory()];
 		armorItems = new ItemStack[4];
 
 		for (int i = 0; i < getSizeInventory(); i++)
 		{
-			String data = in.readObject().toString();
+			final String data = inStream.readObject().toString();
 
 			if (data.contains("null"))
 			{
@@ -1221,13 +1030,41 @@ public class Inventory implements IInventory, Serializable
 
 			else
 			{
-				int itemID = Integer.parseInt(data.split(":")[1]);
-				int stackSize = Integer.parseInt(data.split(":")[2]);
-				int damage = Integer.parseInt(data.split(":")[3]);
+				final int itemID = Integer.parseInt(data.split(":")[1]);
+				final int stackSize = Integer.parseInt(data.split(":")[2]);
+				final int damage = Integer.parseInt(data.split(":")[3]);
 
-				ItemStack inventoryStack = new ItemStack(itemID, stackSize, damage);
+				final ItemStack inventoryStack = new ItemStack(itemID, stackSize, damage);
 				inventoryItems[i] = inventoryStack;
 			}
+		}
+	}
+
+	private int getDamageByHeldItemType(ItemStack stack)
+	{
+		if (stack.getItem() instanceof ItemSword)
+		{
+			final EnumToolMaterial material = EnumToolMaterial.valueOf(((ItemSword)stack.getItem()).getToolMaterialName());
+
+			switch (material)
+			{
+			case WOOD: 		return 4;
+			case STONE: 	return 5;
+			case IRON: 		return 6;
+			case GOLD: 		return 4;
+			case EMERALD:	return 7;
+			default: 		return 5;
+			}
+		}
+
+		else if (stack.getItem() instanceof ItemBow)
+		{
+			return 9;
+		}
+
+		else
+		{
+			return 1;
 		}
 	}
 }
