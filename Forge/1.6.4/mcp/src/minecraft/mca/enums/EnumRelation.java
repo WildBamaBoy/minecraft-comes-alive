@@ -153,7 +153,7 @@ public enum EnumRelation
 	{
 		if (value != null)
 		{
-			for (EnumRelation relation : EnumRelation.values())
+			for (final EnumRelation relation : EnumRelation.values())
 			{
 				if (relation.getValue().equals(value))
 				{
