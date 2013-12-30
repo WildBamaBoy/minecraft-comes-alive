@@ -70,7 +70,7 @@ public class GuiHandler implements IGuiHandler
 		case Constants.ID_GUI_GAMEOVER:
 			return new GuiGameOver(player);
 			
-		case Constants.ID_GUI_PLAYERCHILD:
+		case Constants.ID_GUI_PCHILD:
 			entity = (EntityPlayerChild)LogicHelper.getEntityOfTypeAtXYZ(EntityPlayerChild.class, world, x, y, z);
 			return new GuiInteractionPlayerChild((EntityPlayerChild) entity, player);
 			
@@ -82,7 +82,7 @@ public class GuiHandler implements IGuiHandler
 			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, x, y, z);
 			return new GuiInteractionVillagerAdult(entity, player);
 			
-		case Constants.ID_GUI_CHILD:
+		case Constants.ID_GUI_VCHILD:
 			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(EntityChild.class, world, x, y, z);
 			return new GuiInteractionVillagerChild((EntityChild) entity, player);
 			
@@ -95,7 +95,7 @@ public class GuiHandler implements IGuiHandler
 			if (entity != null && entity.profession == 1) return new GuiSetup(player, true);
 			else return new GuiSetup(player, false);
 			
-		case Constants.ID_GUI_DIVORCECOUPLE:
+		case Constants.ID_GUI_DIVORCE:
 			return new GuiDivorceCouple(player);
 			
 		case Constants.ID_GUI_TOMBSTONE:
@@ -106,7 +106,7 @@ public class GuiHandler implements IGuiHandler
 			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, x, y, z);
 			return new GuiVillagerEditor(entity, player);
 			
-		case Constants.ID_GUI_LOSTRELATIVE:
+		case Constants.ID_GUI_LRD:
 			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(EntityVillagerAdult.class, world, x, y, z);
 			return new GuiLostRelativeDocument(player, entity);
 			

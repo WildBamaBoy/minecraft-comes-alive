@@ -318,7 +318,7 @@ public class EntityPlayerChild extends EntityChild
 
 					else
 					{
-						player.openGui(MCA.getInstance(), Constants.ID_GUI_PLAYERCHILD, worldObj, (int)posX, (int)posY, (int)posZ);
+						player.openGui(MCA.getInstance(), Constants.ID_GUI_PCHILD, worldObj, (int)posX, (int)posY, (int)posZ);
 					}
 				}
 
@@ -326,7 +326,7 @@ public class EntityPlayerChild extends EntityChild
 				{
 					if (!isAdult && !isMarried && !isSpouse)
 					{
-						player.openGui(MCA.getInstance(), Constants.ID_GUI_CHILD, worldObj, (int)posX, (int)posY, (int)posZ);
+						player.openGui(MCA.getInstance(), Constants.ID_GUI_VCHILD, worldObj, (int)posX, (int)posY, (int)posZ);
 					}
 					
 					else

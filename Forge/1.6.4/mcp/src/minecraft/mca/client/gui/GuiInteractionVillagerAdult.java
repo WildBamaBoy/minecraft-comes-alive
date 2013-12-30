@@ -1548,7 +1548,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == divorceCoupleButton)
 		{
-			player.openGui(MCA.getInstance(), Constants.ID_GUI_DIVORCECOUPLE, player.worldObj, (int)player.posX, (int)player.posY, (int)player.posZ);
+			player.openGui(MCA.getInstance(), Constants.ID_GUI_DIVORCE, player.worldObj, (int)player.posX, (int)player.posY, (int)player.posZ);
 		}
 
 		else if (button == giveUpBabyButton)
