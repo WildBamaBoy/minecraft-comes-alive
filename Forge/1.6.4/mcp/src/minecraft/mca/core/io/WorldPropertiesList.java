@@ -69,9 +69,6 @@ public class WorldPropertiesList implements Serializable
 	/**Should children grow up automatically?*/
 	public boolean childrenGrowAutomatically = true;
 	
-	/**Is this the first time the world has been loaded?*/
-	public boolean firstWorldLoad = true;
-	
 	/**Should all marriage requests be blocked?*/
 	public boolean blockMarriageRequests = false;
 	
