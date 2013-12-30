@@ -152,16 +152,16 @@ public final class Constants
 	//Gui IDs
 	public static final byte ID_GUI_INVENTORY = 0;
 	public static final byte ID_GUI_GAMEOVER = 1;
-	public static final byte ID_GUI_PLAYERCHILD = 2;
+	public static final byte ID_GUI_PCHILD = 2;
 	public static final byte ID_GUI_SPOUSE = 3;
 	public static final byte ID_GUI_ADULT = 4;
-	public static final byte ID_GUI_CHILD = 5;
+	public static final byte ID_GUI_VCHILD = 5;
 	public static final byte ID_GUI_NAMECHILD = 7;
 	public static final byte ID_GUI_SETUP = 8;
-	public static final byte ID_GUI_DIVORCECOUPLE = 9;
+	public static final byte ID_GUI_DIVORCE = 9;
 	public static final byte ID_GUI_TOMBSTONE = 10;
 	public static final byte ID_GUI_EDITOR = 11;
-	public static final byte ID_GUI_LOSTRELATIVE = 12;
+	public static final byte ID_GUI_LRD = 12;
 
 	//Movement speeds.
 	public static final float SPEED_SNEAK = 0.4F;
@@ -174,8 +174,8 @@ public final class Constants
 	public static final float WIDTH_ADULT = 0.6F;
 
 	//Model sizes.
-	public static final float SCALE_MALE_ADULT = 0.9375F;
-	public static final float SCALE_FEMALE_ADULT = 0.915F;
+	public static final float SCALE_M_ADULT = 0.9375F;
+	public static final float SCALE_F_ADULT = 0.915F;
 	public static final float SCALE_MAX = 1.1F;
 	public static final float SCALE_MIN = 0.85F;
 
@@ -201,7 +201,7 @@ public final class Constants
 
 	public static final String FORMAT_OBFUSCATED = SECTION_SIGN + "k";
 	public static final String FORMAT_BOLD = SECTION_SIGN + "l";
-	public static final String FORMAT_STRIKETHROUGH = SECTION_SIGN + "m";
+	public static final String FORMAT_STRIKE = SECTION_SIGN + "m";
 	public static final String FORMAT_UNDERLINE = SECTION_SIGN + "n";
 	public static final String FORMAT_ITALIC = SECTION_SIGN + "o";
 	public static final String FORMAT_RESET = SECTION_SIGN + "r";
