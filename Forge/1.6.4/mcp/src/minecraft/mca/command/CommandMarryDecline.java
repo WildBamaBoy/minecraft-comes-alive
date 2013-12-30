@@ -39,21 +39,21 @@ public class CommandMarryDecline extends AbstractCommand
 		if (arguments.length == 1)
 		{
 			//Ensure that the provided player has asked to marry this person.
-			String mostRecentPlayerAsked = MCA.getInstance().marriageRequests.get(arguments[0]);
+			final String mostRecentRequest = MCA.getInstance().marriageRequests.get(arguments[0]);
 
-			if (mostRecentPlayerAsked == null)
+			if (mostRecentRequest == null)
 			{
 				super.sendChatToPlayer(sender, "multiplayer.command.output.marry.norequest", Constants.COLOR_RED, null);
 			}
 
 			else
 			{
-				if (mostRecentPlayerAsked.equals(sender.getCommandSenderName()))
+				if (mostRecentRequest.equals(sender.getCommandSenderName()))
 				{
 					//Make sure the recipient is on the server.
 					EntityPlayer recipient = null;
 
-					for (WorldServer world : MinecraftServer.getServer().worldServers)
+					for (final WorldServer world : MinecraftServer.getServer().worldServers)
 					{
 						if (world.getPlayerEntityByName(arguments[0]) != null)
 						{
@@ -62,16 +62,15 @@ public class CommandMarryDecline extends AbstractCommand
 						}
 					}
 
-					if (recipient != null)
+					if (recipient == null)
 					{
-						//Notify the recipient that the other player declined.
-						super.sendChatToOtherPlayer(sender, recipient, "multiplayer.command.output.marry.decline", null, null);
-						MCA.getInstance().marriageRequests.remove(sender.getCommandSenderName());
+						super.sendChatToPlayer(sender, "multiplayer.command.error.playeroffline", Constants.COLOR_RED, null);
 					}
 
 					else
 					{
-						super.sendChatToPlayer(sender, "multiplayer.command.error.playeroffline", Constants.COLOR_RED, null);
+						super.sendChatToOtherPlayer(sender, recipient, "multiplayer.command.output.marry.decline", null, null);
+						MCA.getInstance().marriageRequests.remove(sender.getCommandSenderName());
 					}
 				}
 

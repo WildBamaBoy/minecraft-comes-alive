@@ -24,7 +24,7 @@ public class CommandBlockAll extends AbstractCommand
 	{
 		return "/mca.block.all [TRUE/FALSE]";
 	}
-	
+
 	@Override
 	public String getCommandName() 
 	{
@@ -34,36 +34,24 @@ public class CommandBlockAll extends AbstractCommand
 	@Override
 	public void processCommand(ICommandSender sender, String[] arguments) 
 	{
-		if (arguments.length == 1 && (arguments[0].toUpperCase().equals("TRUE") || arguments[0].toUpperCase().equals("FALSE")))
+		if (arguments.length == 1 && (arguments[0].equalsIgnoreCase("TRUE") || arguments[0].equalsIgnoreCase("FALSE")))
 		{
-			boolean argument = arguments[0].toUpperCase().equals("TRUE");
-			
-			//Get the sender's world properties.
-			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(sender.getCommandSenderName());
-			
-			if (manager != null)
+			final boolean argument = arguments[0].equalsIgnoreCase("TRUE");
+			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(sender.getCommandSenderName());
+
+			manager.worldProperties.blockMarriageRequests = argument;
+
+			if (argument)
 			{
-				//Set the world property to the provided value.
-				manager.worldProperties.blockMarriageRequests = argument;
-				
-				//Notify the sender what happened.
-				if (argument)
-				{
-					this.sendChatToPlayer(sender, "multiplayer.command.output.blockall.true.successful", Constants.COLOR_GREEN, null);
-				}
-				
-				else
-				{
-					this.sendChatToPlayer(sender, "multiplayer.command.output.blockall.false.successful", Constants.COLOR_GREEN, null);
-				}
+				this.sendChatToPlayer(sender, "multiplayer.command.output.blockall.true.successful", Constants.COLOR_GREEN, null);
 			}
-			
+
 			else
 			{
-				this.sendChatToPlayer(sender, "multiplayer.command.error.unknown", Constants.COLOR_RED, null);
+				this.sendChatToPlayer(sender, "multiplayer.command.output.blockall.false.successful", Constants.COLOR_GREEN, null);
 			}
 		}
-		
+
 		else
 		{
 			this.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Constants.COLOR_RED, getCommandUsage(sender));

@@ -49,33 +49,35 @@ public class CommandDebugRule extends AbstractCommand
 	{
 		if (arguments.length == 2)
 		{
-			if (arguments[0].toLowerCase().equals("dosimulatehardcore"))
+			final boolean setValue = arguments[1].equalsIgnoreCase("true");
+			
+			if (arguments[0].equalsIgnoreCase("dosimulatehardcore"))
 			{
-				MCA.getInstance().debugDoSimulateHardcore = arguments[1].toLowerCase().equals("true");
+				MCA.getInstance().debugDoSimulateHardcore = setValue;
 				sender.sendChatToPlayer(new ChatMessageComponent().addText(Constants.COLOR_YELLOW + "Rule doSimulateHardcore set to " + MCA.getInstance().debugDoSimulateHardcore));
 			}
 			
-			else if (arguments[0].toLowerCase().equals("dorapidvillagerbabygrowth"))
+			else if (arguments[0].equalsIgnoreCase("dorapidvillagerbabygrowth"))
 			{
-				MCA.getInstance().debugDoRapidVillagerBabyGrowth = arguments[1].toLowerCase().equals("true");
+				MCA.getInstance().debugDoRapidVillagerBabyGrowth = setValue;
 				sender.sendChatToPlayer(new ChatMessageComponent().addText(Constants.COLOR_YELLOW + "Rule doRapidVillagerBabyGrowth set to " + MCA.getInstance().debugDoRapidVillagerBabyGrowth));
 			}
 			
-			else if (arguments[0].toLowerCase().equals("dorapidplayerchildgrowth"))
+			else if (arguments[0].equalsIgnoreCase("dorapidplayerchildgrowth"))
 			{
-				MCA.getInstance().debugDoRapidPlayerChildGrowth = arguments[1].toLowerCase().equals("true");
+				MCA.getInstance().debugDoRapidPlayerChildGrowth = setValue;
 				sender.sendChatToPlayer(new ChatMessageComponent().addText(Constants.COLOR_YELLOW + "Rule doRapidPlayerChildGrowth set to " + MCA.getInstance().debugDoRapidPlayerChildGrowth));
 			}
 			
-			else if (arguments[0].toLowerCase().equals("dorapidvillagerchildgrowth"))
+			else if (arguments[0].equalsIgnoreCase("dorapidvillagerchildgrowth"))
 			{
-				MCA.getInstance().debugDoRapidVillagerChildGrowth = arguments[1].toLowerCase().equals("true");
+				MCA.getInstance().debugDoRapidVillagerChildGrowth = setValue;
 				sender.sendChatToPlayer(new ChatMessageComponent().addText(Constants.COLOR_YELLOW + "Rule doRapidVillagerChildGrowth set to " + MCA.getInstance().debugDoRapidVillagerChildGrowth));
 			}
 			
-			else if (arguments[0].toLowerCase().equals("dologpackets"))
+			else if (arguments[0].equalsIgnoreCase("dologpackets"))
 			{
-				MCA.getInstance().debugDoLogPackets = arguments[1].toLowerCase().equals("true");
+				MCA.getInstance().debugDoLogPackets = setValue;
 				sender.sendChatToPlayer(new ChatMessageComponent().addText(Constants.COLOR_YELLOW + "Rule doLogPackets set to " + MCA.getInstance().debugDoLogPackets));
 			}
 			

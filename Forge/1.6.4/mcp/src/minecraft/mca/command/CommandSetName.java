@@ -48,8 +48,9 @@ public class CommandSetName extends AbstractCommand
 	{
 		if (arguments.length == 1)
 		{
-			String playerName = sender.getCommandSenderName();
-			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(playerName);
+			final String playerName = sender.getCommandSenderName();
+			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(playerName);
+			
 			manager.worldProperties.playerName = arguments[0];
 			
 			super.sendChatToPlayer(sender, "multiplayer.command.output.setname", Constants.COLOR_GREEN, arguments[0]);

@@ -32,14 +32,14 @@ public class CommandHelp extends AbstractCommand
 	@Override
 	public void processCommand(ICommandSender sender, String[] arguments) 
 	{
-		StringBuilder stringBuilder = new StringBuilder();
+		final StringBuilder stringBuilder = new StringBuilder(1024);
 
 		stringBuilder.append("-----------------------------------------\n");
 		
 		stringBuilder.append("/mca.help\n");
 		stringBuilder.append("/mca.checkupdates <on/off>\n");
 		stringBuilder.append("/mca.set.name <name>\n");
-		stringBuilder.append("/mca.set.isMale <male/female>\n");
+		stringBuilder.append("/mca.set.gender <male/female>\n");
 		stringBuilder.append("/mca.marry <username>\n");
 		stringBuilder.append("/mca.marry.accept <username>\n");
 		stringBuilder.append("/mca.marry.decline <username>\n");

@@ -49,7 +49,7 @@ public class CommandCheckUpdates extends AbstractCommand
 	{
 		if (arguments.length == 1)
 		{
-			if (arguments[0].toLowerCase().equals("on"))
+			if (arguments[0].equalsIgnoreCase("ON"))
 			{
 				super.sendChatToPlayer(sender, "notify.update.turnedon", Constants.COLOR_GREEN, null);
 				
@@ -57,17 +57,22 @@ public class CommandCheckUpdates extends AbstractCommand
 				MCA.getInstance().modPropertiesManager.modProperties.checkForUpdates = true;
 				MCA.getInstance().modPropertiesManager.saveModProperties();
 				
-				new Thread(new UpdateHandler(sender)).run();
+				new Thread(new UpdateHandler(sender)).start();
 			}
 
-			else
+			else if (arguments[0].equalsIgnoreCase("OFF"))
 			{
 				super.sendChatToPlayer(sender, "notify.update.turnedoff", Constants.COLOR_RED, null);
 				
 				MCA.getInstance().modPropertiesManager.modProperties.checkForUpdates = false;
 				MCA.getInstance().modPropertiesManager.saveModProperties();
 				
-				new Thread(new UpdateHandler(sender)).run();
+				new Thread(new UpdateHandler(sender)).start();
+			}
+			
+			else
+			{
+				throw new WrongUsageException(getCommandUsage(sender));
 			}
 		}
 

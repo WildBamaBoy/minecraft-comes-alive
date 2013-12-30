@@ -34,23 +34,12 @@ public class CommandUnblockAll extends AbstractCommand
 	@Override
 	public void processCommand(ICommandSender sender, String[] arguments) 
 	{
-		String senderName = sender.getCommandSenderName();
+		final String senderName = sender.getCommandSenderName();
+		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(senderName);
 
-		//Get the sender's world properties.
-		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(senderName);
+		manager.worldProperties.blockList.clear();
+		manager.saveWorldProperties();
 
-		if (manager != null)
-		{
-			//Reset the block list.
-			manager.worldProperties.blockList.clear();
-			manager.saveWorldProperties();
-			
-			this.sendChatToPlayer(sender, "multiplayer.command.output.unblockall.successful", Constants.COLOR_GREEN, null);
-		}
-
-		else
-		{
-			this.sendChatToPlayer(sender, "multiplayer.command.error.unknown", Constants.COLOR_RED, null);
-		}
+		this.sendChatToPlayer(sender, "multiplayer.command.output.unblockall.successful", Constants.COLOR_GREEN, null);
 	}
 }
