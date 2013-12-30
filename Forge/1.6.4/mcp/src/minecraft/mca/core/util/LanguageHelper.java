@@ -750,7 +750,6 @@ public final class LanguageHelper
 
 		catch (NullPointerException e)
 		{
-			MCA.getInstance().log(e);
 			text += " (Parsing error)";
 		}
 
@@ -811,6 +810,11 @@ public final class LanguageHelper
 		return languageID;
 	}
 
+	public static Map<String, String> getTranslations()
+	{
+		return translationsMap;
+	}
+	
 	static
 	{
 		LANGUAGE_MAP.put("af_ZA", "Afrikaans");

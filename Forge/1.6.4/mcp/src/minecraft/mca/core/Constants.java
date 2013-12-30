@@ -180,7 +180,7 @@ public final class Constants
 	public static final float SCALE_MIN = 0.85F;
 
 	//Colors & formatting
-	private static final char SECTION_SIGN = '§';
+	private static final String SECTION_SIGN = "/u00a7";
 
 	public static final String COLOR_BLACK = SECTION_SIGN + "0";
 	public static final String COLOR_DARKBLUE = SECTION_SIGN + "1";

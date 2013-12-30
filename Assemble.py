@@ -185,7 +185,7 @@ def main():
 
     for root, dirs, files in os.walk(sourceFolder):
         for fileName in files:
-            containsCorrectHeader = True
+            containsCorrectHeader = False
             fullPath = os.path.join(root, fileName)
             archiveName = fullPath.replace(sourceFolder, "mca/")
             sourceArchive.write(fullPath, archiveName)
@@ -196,8 +196,10 @@ def main():
                 for line in lines:
                     linesOfCode += 1
 
-                    if fileName in lines:
+                    if fileName in line:
                         containsCorrectHeader = True
+                    if "doSelfTest();" in line:
+                        print "WARNING: Self tester will run!"
 
             if not containsCorrectHeader:
                 print "WARNING: Malformed header on " + fileName + "."

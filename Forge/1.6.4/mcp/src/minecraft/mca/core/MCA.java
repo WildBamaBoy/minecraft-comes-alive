@@ -212,7 +212,7 @@ public class MCA
 	public 	int 	playerBabyCalendarCurrentMinutes   = Calendar.getInstance().get(Calendar.MINUTE);
 	private static final Logger	logger 					   = FMLLog.getLogger();
 	public  ModPropertiesManager modPropertiesManager = null;
-	
+
 	//Debug fields.
 	public boolean inDebugMode				   		= false;
 	public boolean debugDoSimulateHardcore 			= false;
@@ -220,7 +220,7 @@ public class MCA
 	public boolean debugDoRapidVillagerChildGrowth 	= false;
 	public boolean debugDoRapidPlayerChildGrowth 	= false;
 	public boolean debugDoLogPackets 				= false;
-	
+
 	//Side related fields.
 	public boolean isDedicatedServer 	= false;
 	public boolean isIntegratedServer	= false;
@@ -242,7 +242,7 @@ public class MCA
 
 	/**Map of MCA ids and their associated entity. Key = mcaId, Value = abstractEntity. */
 	public Map<Integer, AbstractEntity> entitiesMap = new HashMap<Integer, AbstractEntity>();
-	
+
 	/**Map of all current players and their world properties manager. Server side only.**/
 	public Map<String, WorldPropertiesManager> playerWorldManagerMap = new HashMap<String, WorldPropertiesManager>();
 
@@ -497,12 +497,12 @@ public class MCA
 	public static List<String> getSkinList(AbstractEntity entity)
 	{
 		VillagerEntryMCA entry = VillagerRegistryMCA.getRegisteredVillagersMap().get(entity.profession);
-		
+
 		if (entity.isMale)
 		{
 			return entry.getMaleSkinsList();
 		}
-		
+
 		else
 		{
 			return entry.getFemaleSkinsList();
@@ -617,63 +617,87 @@ public class MCA
 			file.delete();
 		}
 	}
-	
-	/**
-	 * Tests all valid lines within the source for errors when requested from the language system.
-	 */
-	@Deprecated
-	public static void testLanguage()
+
+	@SuppressWarnings("unused")
+	private static void doSelfTest()
 	{
-		AbstractEntity dummyEntity = new EntityVillagerAdult();
-		String sourceDir = "D:/Programming/Minecraft Comes Alive/Development/src/minecraft/mca/";
-		FileInputStream fileStream;
-		DataInputStream in;
-		BufferedReader br;
-		int lineNumber = 0;
-		System.out.println(sourceDir);
+		MCA.instance.log("Beginning self test...");
 
-		for (File file : new File(sourceDir).listFiles())
-		{
-			lineNumber = 0;
-			String readString = "";
-
-			try
-			{
-				fileStream = new FileInputStream(file);
-				in = new DataInputStream(fileStream);
-				br = new BufferedReader(new InputStreamReader(in));
-
-				while ((readString = br.readLine()) != null)  
+		final File[] sourceDirs = new File[]
 				{
-					lineNumber++;
+				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/api"),
+				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/block"),
+				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/chore"),
+				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/client/gui"),
+				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/client/model"),
+				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/client/render"),
+				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/command"),
+				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/core"),
+				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/core/forge"),
+				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/core/io"),
+				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/core/util"),
+				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/entity"),
+				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/enums"),
+				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/inventory"),
+				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/item"),
+				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/tileentity")
+				};
 
-					if (readString.contains("Localization.getString(") && readString.contains("static") == false)
+		FileInputStream fileStream;
+		DataInputStream dataStream;
+		BufferedReader reader;
+
+		MCA.instance.log("Checking source files for valid phrase IDs...");
+		{
+			int lineNumber = 0;
+
+			for (final File sourceDir : sourceDirs)
+			{
+				for (final File sourceFile : sourceDir.listFiles())
+				{
+					if (sourceFile.isFile())
 					{
-						readString = readString.trim();
+						lineNumber = 0;
+						String readString = "";
 
-						boolean useCharacterType = readString.contains("true");
-						int firstQuoteIndex = readString.indexOf('"');
-						int nextQuoteIndex = readString.indexOf('"', firstQuoteIndex + 1);
-
-						String validString = readString.substring(firstQuoteIndex, nextQuoteIndex).replaceAll("\"", "");
-						String result = LanguageHelper.getString(null, dummyEntity, validString, useCharacterType);
-
-						if (result.contains("not found") || result.contains("(Parsing error)"))
+						try
 						{
-							System.out.println(result + " in " + file.getName() + " line " + lineNumber);
+							fileStream = new FileInputStream(sourceFile);
+							dataStream = new DataInputStream(fileStream);
+							reader = new BufferedReader(new InputStreamReader(dataStream));
+
+							while ((readString = reader.readLine()) != null)  
+							{
+								lineNumber++;
+
+								if (readString.contains("LanguageHelper.getString(") && !readString.contains("%"))
+								{
+									readString = readString.trim();
+
+									final boolean useCharacterType = readString.contains("true");
+									final int firstQuoteIndex = readString.indexOf('"');
+									final int nextQuoteIndex = readString.indexOf('"', firstQuoteIndex + 1);
+									final String phraseId = readString.substring(firstQuoteIndex, nextQuoteIndex).replaceAll("\"", "");
+									final String result = LanguageHelper.getString(null, null, phraseId, useCharacterType);
+
+									if (result.contains("not found"))
+									{
+										MCA.instance.log("Self-test error: Phrase <" + 
+												phraseId + "> in file <" + sourceFile.getName() + 
+												">  at line <" + lineNumber + "> not found.");
+									}
+								}
+							}
+
+							reader.close();
 						}
 
-						//System.out.println("Result of: " + validString + " in " + file.getName() + " = \t\t\t" + getString(null, validString));
+						catch (Exception e)
+						{
+							continue;
+						}
 					}
 				}
-				
-				br.close();
-			}
-
-			catch (Exception e)
-			{
-				System.out.println("Error on " + readString);
-				continue;
 			}
 		}
 	}
@@ -734,18 +758,18 @@ public class MCA
 		{
 			MessageDigest md5 = MessageDigest.getInstance("MD5");
 			md5.update(input.getBytes());
-	
+
 			byte[] hash = md5.digest();
 			StringBuffer buffer = new StringBuffer();
-	
+
 			for (byte b : hash) 
 			{
 				buffer.append(Integer.toHexString(b & 0xff));
 			}
-	
+
 			return buffer.toString();
 		}
-	
+
 		catch (Exception e)
 		{
 			return "UNABLE TO PROCESS";
@@ -786,7 +810,7 @@ public class MCA
 		VillagerRegistryMCA.registerVillagerType(5, "Guard", this.getClass());
 		VillagerRegistryMCA.registerVillagerType(6, "Baker", this.getClass());
 		VillagerRegistryMCA.registerVillagerType(7, "Miner", this.getClass());
-		
+
 		//Load external data and register proxy methods.
 		modPropertiesManager = new ModPropertiesManager();
 		proxy.loadSkins();
@@ -987,7 +1011,7 @@ public class MCA
 	 */
 	public void log(Object obj)
 	{
-		Side side = FMLCommonHandler.instance().getEffectiveSide();
+		final Side side = FMLCommonHandler.instance().getEffectiveSide();
 
 		if (obj instanceof Throwable)
 		{
@@ -999,14 +1023,11 @@ public class MCA
 			logger.log(Level.FINER, "Minecraft Comes Alive " + side.toString() + ": " + obj.toString());
 			System.out.println("Minecraft Comes Alive " + side.toString() + ": " + obj.toString());
 
-			MinecraftServer server = MinecraftServer.getServer();
+			final MinecraftServer server = MinecraftServer.getServer();
 
-			if (server != null)
+			if (server != null && server.isDedicatedServer())
 			{
-				if (server.isDedicatedServer())
-				{
-					MinecraftServer.getServer().logInfo("MCA: " + obj.toString());
-				}
+				MinecraftServer.getServer().logInfo("MCA: " + obj.toString());
 			}
 		}
 
@@ -1015,14 +1036,11 @@ public class MCA
 			logger.log(Level.FINER, "Minecraft Comes Alive " + side.toString() + ": null");
 			System.out.println("MCA: null");
 
-			MinecraftServer server = MinecraftServer.getServer();
+			final MinecraftServer server = MinecraftServer.getServer();
 
-			if (server != null)
+			if (server != null &&  server.isDedicatedServer())
 			{
-				if (server.isDedicatedServer())
-				{
-					MinecraftServer.getServer().logDebug("Minecraft Comes Alive " + side.toString() + ": null");
-				}
+				MinecraftServer.getServer().logDebug("Minecraft Comes Alive " + side.toString() + ": null");
 			}
 		}
 	}
@@ -1036,7 +1054,7 @@ public class MCA
 	{
 		if (inDebugMode && debugDoLogPackets)
 		{
-			Side side = FMLCommonHandler.instance().getEffectiveSide();
+			final Side side = FMLCommonHandler.instance().getEffectiveSide();
 
 			if (obj instanceof Throwable)
 			{
@@ -1075,39 +1093,37 @@ public class MCA
 	@SideOnly(Side.CLIENT)
 	public void quitWithDescription(String description)
 	{
-		Writer stackTrace = new StringWriter();
+		final Writer stackTrace = new StringWriter();
+		final Exception exception = new Exception();
 
-		Exception e = new Exception();
 		PrintWriter stackTraceWriter = new PrintWriter(stackTrace);
-		e.printStackTrace(stackTraceWriter);
+		exception.printStackTrace(stackTraceWriter);
 
 		logger.log(Level.FINER, "Minecraft Comes Alive: An exception occurred.\n>>>>>" + description + "<<<<<\n" + stackTrace.toString());
 		System.out.println("Minecraft Comes Alive: An exception occurred.\n>>>>>" + description + "<<<<<\n" + stackTrace.toString());
 
-		CrashReport crashReport = new CrashReport("MCA: " + description, e);
+		final CrashReport crashReport = new CrashReport("MCA: " + description, exception);
 		Minecraft.getMinecraft().crashed(crashReport);
 		Minecraft.getMinecraft().displayCrashReport(crashReport);
 	}
-	
+
 	/**
 	 * Stops the game and writes the error to the Forge crash log.
 	 * 
 	 * @param 	description	A string providing a short description of the problem.
-	 * @param 	e			The exception that caused this method to be called.
+	 * @param 	exception	The exception that caused this method to be called.
 	 */
 	@SideOnly(Side.CLIENT)
-	public void quitWithException(String description, Exception e)
+	public void quitWithException(String description, Exception exception)
 	{
-		Writer stackTrace = new StringWriter();
-
-		PrintWriter stackTraceWriter = new PrintWriter(stackTrace);
-		e.printStackTrace(stackTraceWriter);
+		final Writer stackTrace = new StringWriter();
+		final PrintWriter stackTraceWriter = new PrintWriter(stackTrace);
+		exception.printStackTrace(stackTraceWriter);
 
 		logger.log(Level.FINER, "Minecraft Comes Alive: An exception occurred.\n>>>>>" + description + "<<<<<\n" + stackTrace.toString());
 		System.out.println("Minecraft Comes Alive: An exception occurred.\n>>>>>" + description + "<<<<<\n" + stackTrace.toString());
 
-		CrashReport crashReport = new CrashReport("MCA: " + description, e);
-		
+		final CrashReport crashReport = new CrashReport("MCA: " + description, exception);
 		Minecraft.getMinecraft().crashed(crashReport);
 		Minecraft.getMinecraft().displayCrashReport(crashReport);
 	}
@@ -1136,7 +1152,7 @@ public class MCA
 		event.registerServerCommand(new CommandUnblockAll());
 		event.registerServerCommand(new CommandCheckUpdates());
 		event.registerServerCommand(new CommandDebugRule());
-		
+
 		if (event.getServer() instanceof DedicatedServer)
 		{
 			isDedicatedServer = true;
@@ -1164,7 +1180,7 @@ public class MCA
 
 		if (isDedicatedServer)
 		{
-			for (WorldPropertiesManager manager : playerWorldManagerMap.values())
+			for (final WorldPropertiesManager manager : playerWorldManagerMap.values())
 			{
 				manager.saveWorldProperties();
 			}
@@ -1185,7 +1201,7 @@ public class MCA
 	 */
 	public EntityPlayer getPlayerByID(World world, int id)
 	{
-		for (Map.Entry<String, WorldPropertiesManager> entry : playerWorldManagerMap.entrySet())
+		for (final Map.Entry<String, WorldPropertiesManager> entry : playerWorldManagerMap.entrySet())
 		{
 			if (entry.getValue().worldProperties.playerID == id)
 			{
@@ -1205,18 +1221,18 @@ public class MCA
 	 */
 	public EntityPlayer getPlayerByName(String username)
 	{
-		for (WorldServer world : MinecraftServer.getServer().worldServers)
+		for (final WorldServer world : MinecraftServer.getServer().worldServers)
 		{
-			EntityPlayer player = world.getPlayerEntityByName(username);
+			final EntityPlayer player = world.getPlayerEntityByName(username);
 
-			if (player != null)
+			if (player == null)
 			{
-				return player;
+				continue;
 			}
 
 			else
 			{
-				continue;
+				return player;
 			}
 		}
 
@@ -1236,7 +1252,7 @@ public class MCA
 	{
 		try
 		{
-			for (Map.Entry<String, WorldPropertiesManager> entry : playerWorldManagerMap.entrySet())
+			for (final Map.Entry<String, WorldPropertiesManager> entry : playerWorldManagerMap.entrySet())
 			{
 				if (entry.getKey().equals(player.username))
 				{
@@ -1250,6 +1266,7 @@ public class MCA
 		//Happens in a client side GUI.
 		catch (NullPointerException e)
 		{
+			//TODO Watch this
 			return 0;
 		}
 	}
