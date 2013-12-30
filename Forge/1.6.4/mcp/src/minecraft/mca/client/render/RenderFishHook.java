@@ -32,7 +32,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderFishHook extends Render
 {
-	private static final ResourceLocation resourceLocation = new ResourceLocation("textures/particle/particles.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation("textures/particle/particles.png");
 
 	/**
 	 * Renders the fish hook in the world.
@@ -53,11 +53,11 @@ public class RenderFishHook extends Render
 		
 		this.bindEntityTexture(entityFishHook);
 		
-		Tessellator tessellator = Tessellator.instance;
-		float textureSizeU = (1 * 8 + 0) / 128.0F;
-		float textureSizeV = (1 * 8 + 8) / 128.0F;
-		float textureLocationX = (2 * 8 + 0) / 128.0F;
-		float textureLocationY = (2 * 8 + 8) / 128.0F;
+		final Tessellator tessellator = Tessellator.instance;
+		final float textureSizeU = (1 * 8 + 0) / 128.0F;
+		final float textureSizeV = (1 * 8 + 8) / 128.0F;
+		final float textureLocationX = (2 * 8 + 0) / 128.0F;
+		final float textureLocationY = (2 * 8 + 8) / 128.0F;
 
 		GL11.glRotatef(180.0F - this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(-this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
@@ -75,9 +75,9 @@ public class RenderFishHook extends Render
 
 		if (entityFishHook.angler != null)
 		{
-			float orientation = MathHelper.sin(MathHelper.sqrt_float(entityFishHook.angler.getSwingProgress(offsetY)) * (float)Math.PI);
-			
-			Vec3 vec3 = entityFishHook.worldObj.getWorldVec3Pool().getVecFromPool(-0.5D, 0.03D, 0.8D);
+			final float orientation = MathHelper.sin(MathHelper.sqrt_float(entityFishHook.angler.getSwingProgress(offsetY)) * (float)Math.PI);
+
+			final Vec3 vec3 = entityFishHook.worldObj.getWorldVec3Pool().getVecFromPool(-0.5D, 0.03D, 0.8D);
 			vec3.rotateAroundX(-(entityFishHook.angler.prevRotationPitch + (entityFishHook.angler.rotationPitch - entityFishHook.angler.prevRotationPitch) * offsetY) * (float)Math.PI / 180.0F);
 			vec3.rotateAroundY(-(entityFishHook.angler.prevRotationYaw + (entityFishHook.angler.rotationYaw - entityFishHook.angler.prevRotationYaw) * offsetY) * (float)Math.PI / 180.0F);
 			vec3.rotateAroundY(orientation * 0.5F);
@@ -91,34 +91,33 @@ public class RenderFishHook extends Render
 			
 			if (entityFishHook.angler instanceof EntityPlayerChild)
 			{
-				int age = ((EntityChild)entityFishHook.angler).age;
-				scale = 0.55F + ((0.39F / MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes) * age);
+				final int age = ((EntityChild)entityFishHook.angler).age;
+				scale = 0.55F + 0.39F / MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes * age;
 			}
 			
-			float offsetYaw = (entityFishHook.angler.prevRenderYawOffset + (entityFishHook.angler.renderYawOffset - entityFishHook.angler.prevRenderYawOffset) * offsetY) * (float)Math.PI / 180.0F;
-			double sinOffsetYaw = MathHelper.sin(offsetYaw);
-			double cosOffsetYaw = MathHelper.cos(offsetYaw);
+			final float offsetYaw = (entityFishHook.angler.prevRenderYawOffset + (entityFishHook.angler.renderYawOffset - entityFishHook.angler.prevRenderYawOffset) * offsetY) * (float)Math.PI / 180.0F;
+			final double sinOffsetYaw = MathHelper.sin(offsetYaw);
+			final double cosOffsetYaw = MathHelper.cos(offsetYaw);
 			correctedPosX = entityFishHook.angler.prevPosX + (entityFishHook.angler.posX - entityFishHook.angler.prevPosX) * offsetY - cosOffsetYaw * 0.35D - sinOffsetYaw * 0.85D;
 			correctedPosY = entityFishHook.angler.prevPosY + scale * 1.6 + (entityFishHook.angler.posY - entityFishHook.angler.prevPosY) * offsetY - 0.45D;
 			correctedPosZ = entityFishHook.angler.prevPosZ + (entityFishHook.angler.posZ - entityFishHook.angler.prevPosZ) * offsetY - sinOffsetYaw * 0.35D + cosOffsetYaw * 0.85D;
 
-			double distX = entityFishHook.prevPosX + (entityFishHook.posX - entityFishHook.prevPosX) * (double)offsetY;
-			double distY = entityFishHook.prevPosY + (entityFishHook.posY - entityFishHook.prevPosY) * (double)offsetY + 0.25D;
-			double distZ = entityFishHook.prevPosZ + (entityFishHook.posZ - entityFishHook.prevPosZ) * (double)offsetY;
-			double correctionX = (double)((float)(correctedPosX - distX));
-			double correctionY = (double)((float)(correctedPosY - distY));
-			double correctionZ = (double)((float)(correctedPosZ - distZ));
+			final double distX = entityFishHook.prevPosX + (entityFishHook.posX - entityFishHook.prevPosX) * (double)offsetY;
+			final double distY = entityFishHook.prevPosY + (entityFishHook.posY - entityFishHook.prevPosY) * (double)offsetY + 0.25D;
+			final double distZ = entityFishHook.prevPosZ + (entityFishHook.posZ - entityFishHook.prevPosZ) * (double)offsetY;
+			final double correctionX = (double)((float)(correctedPosX - distX));
+			final double correctionY = (double)((float)(correctedPosY - distY));
+			final double correctionZ = (double)((float)(correctedPosZ - distZ));
 
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			GL11.glDisable(GL11.GL_LIGHTING);
 			tessellator.startDrawing(3);
 			tessellator.setColorOpaque_I(0);
 
-			for (int i = 0; i <= 16; ++i)
+			for (int loop = 0; loop <= 16; ++loop)
 			{
-				float f = (float)i / (float)16;
-				//System.out.println(fishHookCorrectionY);
-				tessellator.addVertex(posX + correctionX * f, posY + correctionY * (f * f + f) * 0.5D + 0.25D, posZ + correctionZ * f);
+				final float unknown = (float)loop / (float)16;
+				tessellator.addVertex(posX + correctionX * unknown, posY + correctionY * (unknown * unknown + unknown) * 0.5D + 0.25D, posZ + correctionZ * unknown);
 			}
 
 			tessellator.draw();
@@ -136,6 +135,6 @@ public class RenderFishHook extends Render
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) 
 	{
-		return resourceLocation;
+		return TEXTURE;
 	}
 }

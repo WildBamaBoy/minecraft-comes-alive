@@ -10,10 +10,8 @@
 package mca.client.render;
 
 import mca.core.MCA;
-import mca.entity.AbstractEntity;
 import mca.entity.EntityChild;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLivingBase;
 
 import org.lwjgl.opengl.GL11;
@@ -28,7 +26,7 @@ public class RenderHumanSmall extends RenderHuman
 	 */
 	public RenderHumanSmall()
 	{
-		super(new ModelBiped(0.0F), 0.5F);
+		super();
 	}
 
 	/**
@@ -37,35 +35,35 @@ public class RenderHumanSmall extends RenderHuman
 	 * @param	entity				The entity being rendered.
 	 * @param	partialTickTime		The time since the last in-game tick.
 	 */
-	protected void renderScale(AbstractEntity entity, float partialTickTime)
+	protected void renderScale(EntityChild entity, float partialTickTime)
 	{
-		if (MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username).worldProperties.childrenGrowAutomatically && !(((EntityChild)entity).isAdult))
+		final boolean doGradualGrowth = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username).worldProperties.childrenGrowAutomatically;
+		
+		if (doGradualGrowth && !entity.isAdult)
 		{
-			int age = ((EntityChild)entity).age;
-			
 			//Children initially start at 0.55F as their scale. Divide the distance between the player's size and the child's size by
 			//the amount of time it takes for them to grow and multiply that times their age. This makes the child gradually get taller
 			//as they get older.
-			float interval = ((EntityChild)entity).isMale ? 0.39F : 0.37F;
-			float scale = 0.55F + ((interval / MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes) * age);
+			
+			final int age = entity.age;
+			final float interval = entity.isMale ? 0.39F : 0.37F;
+			final float scale = 0.55F + interval / MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes * age;
 			GL11.glScalef(scale, scale, scale);
 		}
 
-		//The child is an adult, so render it at the player's scale.
-		else if (((EntityChild)entity).isAdult)
+		else if (entity.isAdult)
 		{
-			if (!((EntityChild)entity).isMale)
+			if (entity.isMale)
 			{
-				GL11.glScalef(0.915F, 0.915F, 0.915F);
+				GL11.glScalef(0.9375F, 0.9375F, 0.9375F);
 			}
 			
 			else
 			{
-				GL11.glScalef(0.9375F, 0.9375F, 0.9375F);
+				GL11.glScalef(0.915F, 0.915F, 0.915F);
 			}
 		}
 		
-		//Render children the old way.
 		else
 		{
 			GL11.glScalef(0.55F, 0.55F, 0.55F);
@@ -81,6 +79,6 @@ public class RenderHumanSmall extends RenderHuman
 	@Override
 	protected void preRenderCallback(EntityLivingBase EntityLivingBase, float partialTickTime)
 	{
-		renderScale((AbstractEntity)EntityLivingBase, partialTickTime);
+		renderScale((EntityChild)EntityLivingBase, partialTickTime);
 	}
 }
