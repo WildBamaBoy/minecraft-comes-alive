@@ -20,8 +20,6 @@ import mca.entity.EntityPlayerChild;
 import mca.enums.EnumRelation;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.WorldServer;
 
 /**
  * Defines the marry command and what it does.
@@ -56,37 +54,44 @@ public class CommandHaveBaby extends AbstractCommand
 	@Override
 	public void processCommand(ICommandSender sender, String[] arguments) 
 	{
-		//Make sure they are married to a player.
-		WorldPropertiesManager senderManager = MCA.getInstance().playerWorldManagerMap.get(sender.getCommandSenderName());
+		final WorldPropertiesManager senderManager = MCA.getInstance().playerWorldManagerMap.get(sender.getCommandSenderName());
 
 		if (senderManager.worldProperties.playerSpouseID < 0)
 		{
 			//Check if the spouse is on the server.
-			EntityPlayer spouse = MCA.getInstance().getPlayerByName(senderManager.worldProperties.playerSpouseName);
-			WorldPropertiesManager spouseManager = MCA.getInstance().playerWorldManagerMap.get(spouse.username);
+			final EntityPlayer spouse = MCA.getInstance().getPlayerByName(senderManager.worldProperties.playerSpouseName);
+			final WorldPropertiesManager spouseManager = MCA.getInstance().playerWorldManagerMap.get(spouse.username);
 
-			if (spouse != null)
+			if (spouse == null)
+			{
+				this.sendChatToPlayer(sender, "multiplayer.command.output.havebaby.failed.offline", Constants.COLOR_RED, null);
+			}
+
+			//The spouse is not on the server.
+			else
 			{
 				//Make sure that they don't already have a baby.
-				if (senderManager.worldProperties.babyExists == false && spouseManager.worldProperties.babyExists == false)
+				if (senderManager.worldProperties.babyExists || spouseManager.worldProperties.babyExists)
+				{
+					this.sendChatToPlayer(sender, "notify.baby.exists", Constants.COLOR_RED, null);
+				}
+
+				else
 				{
 					//Make sure that they haven't reached the limit.
-					List<EntityPlayerChild> children = new ArrayList<EntityPlayerChild>();
+					final List<EntityPlayerChild> children = new ArrayList<EntityPlayerChild>();
 
 					//Build a list of children belonging to the players.
-					for (WorldServer server : MinecraftServer.getServer().worldServers)
+					for (final AbstractEntity entity : MCA.getInstance().entitiesMap.values())
 					{
-						for (AbstractEntity entity : MCA.getInstance().entitiesMap.values())
+						if (entity instanceof EntityPlayerChild)
 						{
-							if (entity instanceof EntityPlayerChild)
-							{
-								EntityPlayerChild playerChild = (EntityPlayerChild)entity;
+							final EntityPlayerChild playerChild = (EntityPlayerChild)entity;
 
-								if (playerChild.familyTree.getRelationOf(senderManager.worldProperties.playerID) == EnumRelation.Parent &&
-										playerChild.familyTree.getRelationOf(spouseManager.worldProperties.playerID) == EnumRelation.Parent)
-								{
-									children.add(playerChild);
-								}
+							if (playerChild.familyTree.getRelationOf(senderManager.worldProperties.playerID) == EnumRelation.Parent &&
+									playerChild.familyTree.getRelationOf(spouseManager.worldProperties.playerID) == EnumRelation.Parent)
+							{
+								children.add(playerChild);
 							}
 						}
 					}
@@ -105,18 +110,6 @@ public class CommandHaveBaby extends AbstractCommand
 						MCA.getInstance().babyRequests.put(sender.getCommandSenderName(), spouse.username);
 					}
 				}
-
-				//One of them already has a baby.
-				else
-				{
-					this.sendChatToPlayer(sender, "notify.baby.exists", Constants.COLOR_RED, null);
-				}
-			}
-
-			//The spouse is not on the server.
-			else
-			{
-				this.sendChatToPlayer(sender, "multiplayer.command.output.havebaby.failed.offline", Constants.COLOR_RED, null);
 			}
 		}
 

@@ -51,14 +51,13 @@ public class CommandMarry extends AbstractCommand
 	{
 		if (arguments.length == 1)
 		{
-			String senderName = sender.getCommandSenderName();
-			String recipientName = arguments[0];
+			final String senderName = sender.getCommandSenderName();
+			final String recipientName = arguments[0];
 			
 			EntityPlayer senderEntity = null;
 			EntityPlayer recipientEntity = null;
 			
-			//Find the sender and recipient entity.
-			for (WorldServer world : MinecraftServer.getServer().worldServers)
+			for (final WorldServer world : MinecraftServer.getServer().worldServers)
 			{
 				if (world.getPlayerEntityByName(senderName) != null)
 				{
@@ -94,8 +93,7 @@ public class CommandMarry extends AbstractCommand
 			//Check the sender for a wedding ring.
 			if (senderEntity.inventory.hasItem(MCA.getInstance().itemWeddingRing.itemID))
 			{
-				//Check if the other player has blocked the sender.
-				WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(recipientName);
+				final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(recipientName);
 				
 				//Check that the recipient isn't married.
 				if (manager.worldProperties.playerSpouseID != 0)

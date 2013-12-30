@@ -39,15 +39,20 @@ public class CommandHaveBabyAccept extends AbstractCommand
 	public void processCommand(ICommandSender sender, String[] arguments) 
 	{
 		//Make sure they are married to a player.
-		EntityPlayer player = MCA.getInstance().getPlayerByName(sender.getCommandSenderName());
-		WorldPropertiesManager senderManager = MCA.getInstance().playerWorldManagerMap.get(sender.getCommandSenderName());
+		final EntityPlayer player = MCA.getInstance().getPlayerByName(sender.getCommandSenderName());
+		final WorldPropertiesManager senderManager = MCA.getInstance().playerWorldManagerMap.get(sender.getCommandSenderName());
 
 		if (senderManager.worldProperties.playerSpouseID < 0)
 		{
 			//Check if the spouse is on the server.
-			EntityPlayer spouse = MCA.getInstance().getPlayerByName(senderManager.worldProperties.playerSpouseName);
+			final EntityPlayer spouse = MCA.getInstance().getPlayerByName(senderManager.worldProperties.playerSpouseName);
 
-			if (spouse != null)
+			if (spouse == null)
+			{
+				this.sendChatToPlayer(sender, "multiplayer.command.output.havebaby.failed.offline", Constants.COLOR_RED, null);
+			}
+
+			else
 			{
 				//Make sure they were asked.
 				if (MCA.getInstance().babyRequests.get(spouse.username).equals(sender.getCommandSenderName()))
@@ -55,22 +60,16 @@ public class CommandHaveBabyAccept extends AbstractCommand
 					//Notify the other that they want to have a baby and tell the server they have asked.
 					this.sendChatToPlayer(spouse, "multiplayer.command.output.havebaby.successful", Constants.COLOR_GREEN, null);
 					PacketDispatcher.sendPacketToPlayer(PacketHandler.createHaveBabyPacket(spouse.entityId, player.entityId), (Player)spouse);
-					
+
 					//And remove their entry from the map.
 					MCA.getInstance().babyRequests.remove(sender.getCommandSenderName());
 					MCA.getInstance().babyRequests.remove(spouse.username);
 				}
-				
+
 				else
 				{
 					this.sendChatToPlayer(sender, "multiplayer.command.output.havebaby.failed.notasked", Constants.COLOR_RED, null);
 				}
-			}
-
-			//The spouse is not on the server.
-			else
-			{
-				this.sendChatToPlayer(sender, "multiplayer.command.output.havebaby.failed.offline", Constants.COLOR_RED, null);
 			}
 		}
 

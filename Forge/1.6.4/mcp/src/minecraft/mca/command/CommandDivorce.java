@@ -35,8 +35,8 @@ public class CommandDivorce extends AbstractCommand
 	@Override
 	public void processCommand(ICommandSender sender, String[] arguments) 
 	{
-		EntityPlayer player = (EntityPlayer)sender;
-		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
+		final EntityPlayer player = (EntityPlayer)sender;
+		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 		
 		//Check if they're married to nobody at all.
 		if (manager.worldProperties.playerSpouseID == 0)
@@ -54,7 +54,7 @@ public class CommandDivorce extends AbstractCommand
 		if (manager.worldProperties.playerSpouseID < 0)
 		{
 			//Make sure the other player is on the server.
-			EntityPlayer spouse = MCA.getInstance().getPlayerByName(manager.worldProperties.playerSpouseName);
+			final EntityPlayer spouse = MCA.getInstance().getPlayerByName(manager.worldProperties.playerSpouseName);
 			
 			if (spouse == null)
 			{
@@ -65,7 +65,7 @@ public class CommandDivorce extends AbstractCommand
 			else
 			{
 				//Get the spouse's world properties.
-				WorldPropertiesManager spouseManager = MCA.getInstance().playerWorldManagerMap.get(manager.worldProperties.playerSpouseName);
+				final WorldPropertiesManager spouseManager = MCA.getInstance().playerWorldManagerMap.get(manager.worldProperties.playerSpouseName);
 				
 				//Notify both that they are no longer married. Sender's text will be Constants.COLOR_GREEN, recipient's text will be red.
 				this.sendChatToPlayer(sender, "multiplayer.command.output.divorce.successful", Constants.COLOR_GREEN, null);

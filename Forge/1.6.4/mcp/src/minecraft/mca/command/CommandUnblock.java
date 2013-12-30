@@ -36,36 +36,23 @@ public class CommandUnblock extends AbstractCommand
 	{
 		if (arguments.length == 1)
 		{
-			String senderName = sender.getCommandSenderName();
-			String playerName = arguments[0];
-			
-			//Get the sender's world properties.
-			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(senderName);
-			
-			if (manager != null)
+			final String senderName = sender.getCommandSenderName();
+			final String playerName = arguments[0];
+			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(senderName);
+
+			if (manager.worldProperties.blockList.contains(playerName))
 			{
-				//Check to see if the player name provided is not in the block list.
-				if (!manager.worldProperties.blockList.contains(playerName))
-				{
-					//It does contain the name so notify the player that they're already unblocked.
-					this.sendChatToPlayer(sender, "multiplayer.command.output.unblock.failed", Constants.COLOR_RED, null);
-				}
-				
-				//It does contain that name, so add it to the list.
-				else
-				{
-					this.sendChatToPlayer(sender, "multiplayer.command.output.unblock.successful", Constants.COLOR_GREEN, null);
-					manager.worldProperties.blockList.remove(playerName);
-					manager.saveWorldProperties();
-				}
+				this.sendChatToPlayer(sender, "multiplayer.command.output.unblock.successful", Constants.COLOR_GREEN, null);
+				manager.worldProperties.blockList.remove(playerName);
+				manager.saveWorldProperties();
 			}
-			
+
 			else
 			{
-				this.sendChatToPlayer(sender, "multiplayer.command.error.unknown", Constants.COLOR_RED, null);
+				this.sendChatToPlayer(sender, "multiplayer.command.output.unblock.failed", Constants.COLOR_RED, null);
 			}
 		}
-		
+
 		else
 		{
 			this.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Constants.COLOR_RED, getCommandUsage(sender));
