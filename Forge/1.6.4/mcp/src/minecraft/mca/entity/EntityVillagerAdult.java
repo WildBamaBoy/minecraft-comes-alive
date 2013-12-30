@@ -580,7 +580,7 @@ public class EntityVillagerAdult extends AbstractEntity
 
 			else if (itemStack.getItem() instanceof ItemLostRelativeDocument)
 			{
-				player.openGui(MCA.getInstance(), Constants.ID_GUI_LOSTRELATIVE, worldObj, (int)posX, (int)posY, (int)posZ);
+				player.openGui(MCA.getInstance(), Constants.ID_GUI_LRD, worldObj, (int)posX, (int)posY, (int)posZ);
 				return true;
 			}
 		}
