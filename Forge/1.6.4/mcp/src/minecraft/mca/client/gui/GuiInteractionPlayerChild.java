@@ -18,9 +18,9 @@ import mca.chore.ChoreMining;
 import mca.chore.ChoreWoodcutting;
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
-import mca.core.util.PacketHelper;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
@@ -847,7 +847,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 	private void drawInventoryGui()
 	{
 		entityChild.shouldOpenInventory = true;
-		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "shouldOpenInventory", true));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "shouldOpenInventory", true));
 		close();
 	}
 
@@ -871,9 +871,9 @@ public class GuiInteractionPlayerChild extends AbstractGui
 				entityChild.isStaying = false;
 				entityChild.followingPlayer = player.username;
 
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isFollowing", true));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isStaying", false));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "followingPlayer", player.username));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isFollowing", true));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isStaying", false));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "followingPlayer", player.username));
 
 				entityChild.say(LanguageHelper.getString(player, entityChild, "follow.start"));
 				close();
@@ -885,9 +885,9 @@ public class GuiInteractionPlayerChild extends AbstractGui
 				entityChild.isStaying = false;
 				entityChild.followingPlayer = "None";
 
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isFollowing", false));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isStaying", false));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "followingPlayer", "None"));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isFollowing", false));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isStaying", false));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "followingPlayer", "None"));
 
 				entityChild.say(LanguageHelper.getString(player, entityChild, "follow.stop"));
 				close();
@@ -900,9 +900,9 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			entityChild.isFollowing = false;
 			entityChild.idleTicks = 0;
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isStaying", entityChild.isStaying));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isFollowing", false));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "idleTicks", 0));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isStaying", entityChild.isStaying));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isFollowing", false));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "idleTicks", 0));
 			close();
 		}
 
@@ -914,10 +914,10 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			entityChild.hasHomePoint = true;
 			entityChild.testNewHomePoint();
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "homePointX", entityChild.posX));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "homePointY", entityChild.posY));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "homePointZ", entityChild.posZ));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "hasHomePoint", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "homePointX", entityChild.posX));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "homePointY", entityChild.posY));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "homePointZ", entityChild.posZ));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "hasHomePoint", true));
 
 			close();
 		}
@@ -927,7 +927,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			if (entityChild.isInChoreMode)
 			{
 				entityChild.isInChoreMode = false;
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isInChoreMode", false));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isInChoreMode", false));
 
 				if (entityChild.currentChore.equals("Farming"))
 				{
@@ -971,8 +971,8 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			manager.worldProperties.arrangerRingHolderID = 0;
 			manager.saveWorldProperties();
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "hasArrangerRing", false));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(entityChild.entityId, MCA.getInstance().itemArrangersRing.itemID, 1));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "hasArrangerRing", false));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createDropItemPacket(entityChild.entityId, MCA.getInstance().itemArrangersRing.itemID, 1));
 
 			close();
 		}
@@ -983,10 +983,10 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			{
 				entityChild.say(LanguageHelper.getString("heir.good.founditems"));
 
-				PacketDispatcher.sendPacketToServer(PacketHelper.createReturnInventoryPacket(entityChild));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createReturnInventoryPacket(entityChild));
 
 				entityChild.hasReturnedInventory = true;
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "hasReturnedInventory", true));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "hasReturnedInventory", true));
 				close();
 				return;
 			}
@@ -1007,9 +1007,9 @@ public class GuiInteractionPlayerChild extends AbstractGui
 				entityChild.hasBeenHeir = true;
 				entityChild.shouldActAsHeir = false;
 				entityChild.hasReturnedInventory = false;
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "hasBeenHeir", true));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "shouldActAsHeir", false));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "hasReturnedInventory", false));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "hasBeenHeir", true));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "shouldActAsHeir", false));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "hasReturnedInventory", false));
 
 				close();
 				return;
@@ -1032,7 +1032,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 					entityChild.say(LanguageHelper.getString("heir.bad.demandtribute"));
 				}
 
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "playerMemoryMap", entityChild.playerMemoryMap));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "playerMemoryMap", entityChild.playerMemoryMap));
 				close();
 				return;
 			}
@@ -1041,7 +1041,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		else if (button == growUpButton)
 		{
 			entityChild.playerApprovedGrowth = true;
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "playerApprovedGrowth", entityChild.playerApprovedGrowth));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "playerApprovedGrowth", entityChild.playerApprovedGrowth));
 		}
 	}
 
@@ -1067,7 +1067,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		else if (button == giftButton)
 		{
 			entityChild.playerMemoryMap.get(player.username).isInGiftMode = true;
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "playerMemoryMap", entityChild.playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "playerMemoryMap", entityChild.playerMemoryMap));
 			close();
 		}
 
@@ -1243,9 +1243,9 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 			entityChild.isInChoreMode = true;
 			entityChild.currentChore = entityChild.farmingChore.getChoreName();
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isInChoreMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "currentChore", "Farming"));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityChild.entityId, entityChild.farmingChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isInChoreMode", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "currentChore", "Farming"));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityChild.entityId, entityChild.farmingChore));
 
 			close();
 		}
@@ -1268,9 +1268,9 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			entityChild.fishingChore = new ChoreFishing(entityChild);
 			entityChild.isInChoreMode = true;
 			entityChild.currentChore = entityChild.fishingChore.getChoreName();
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isInChoreMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "currentChore", "Fishing"));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityChild.entityId, entityChild.fishingChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isInChoreMode", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "currentChore", "Fishing"));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityChild.entityId, entityChild.fishingChore));
 
 			close();
 		}
@@ -1391,7 +1391,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			entityChild.combatChore.sentryPosZ = entityChild.posZ;
 		}
 
-		PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityChild.entityId, entityChild.combatChore));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityChild.entityId, entityChild.combatChore));
 		drawCombatGui();
 	}
 
@@ -1428,9 +1428,9 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			entityChild.isInChoreMode = true;
 			entityChild.currentChore = entityChild.woodcuttingChore.getChoreName();
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityChild.entityId, entityChild.woodcuttingChore));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isInChoreMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "currentChore", "Woodcutting"));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityChild.entityId, entityChild.woodcuttingChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isInChoreMode", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "currentChore", "Woodcutting"));
 			close();
 		}
 	}
@@ -1513,9 +1513,9 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			entityChild.isInChoreMode = true;
 			entityChild.currentChore = entityChild.miningChore.getChoreName();
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isInChoreMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "currentChore", "Mining"));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityChild.entityId, entityChild.miningChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isInChoreMode", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "currentChore", "Mining"));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityChild.entityId, entityChild.miningChore));
 			close();
 		}
 	}
@@ -1553,9 +1553,9 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			entityChild.isInChoreMode = true;
 			entityChild.currentChore = entityChild.huntingChore.getChoreName();
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isInChoreMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "currentChore", "Hunting"));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityChild.entityId, entityChild.huntingChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isInChoreMode", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "currentChore", "Hunting"));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityChild.entityId, entityChild.huntingChore));
 			close();
 		}
 	}

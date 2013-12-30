@@ -21,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.object.UpdateHandler;
 import mca.entity.AbstractEntity;
@@ -307,7 +308,7 @@ public final class LanguageHelper
 		//Check for call to getString on a server. Invalid as the player will receive an untranslated string.
 		if (MinecraftServer.getServer() != null && MCA.getInstance().isDedicatedServer && FMLCommonHandler.instance().getEffectiveSide().isServer())
 		{
-			PacketDispatcher.sendPacketToPlayer(PacketHelper.createSayLocalizedPacket(player, entity, phraseId, useCharacterType, prefix, suffix), (Player)player);
+			PacketDispatcher.sendPacketToPlayer(PacketHandler.createSayLocalizedPacket(player, entity, phraseId, useCharacterType, prefix, suffix), (Player)player);
 		}
 
 		if (useCharacterType)

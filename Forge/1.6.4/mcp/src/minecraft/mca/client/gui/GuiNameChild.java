@@ -10,9 +10,9 @@
 package mca.client.gui;
 
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
-import mca.core.util.PacketHelper;
 import mca.entity.AbstractEntity;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -114,7 +114,7 @@ public class GuiNameChild extends AbstractGui
 			//Check if the player is married to another player.
 			if (manager.worldProperties.playerSpouseID < 0)
 			{
-				PacketDispatcher.sendPacketToServer(PacketHelper.createBabyInfoPacket(manager));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createBabyInfoPacket(manager));
 			}
 
 			//Close the GUI

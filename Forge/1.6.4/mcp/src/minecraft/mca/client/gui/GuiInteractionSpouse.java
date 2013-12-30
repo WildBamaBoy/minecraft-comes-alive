@@ -10,10 +10,10 @@
 package mca.client.gui;
 
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
-import mca.core.util.PacketHelper;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
 import mca.enums.EnumMood;
@@ -330,7 +330,7 @@ public class GuiInteractionSpouse extends AbstractGui
 	private void drawInventoryGui()
 	{
 		entitySpouse.shouldOpenInventory = true;
-		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "shouldOpenInventory", true));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "shouldOpenInventory", true));
 		close();
 	}
 
@@ -444,9 +444,9 @@ public class GuiInteractionSpouse extends AbstractGui
 				entitySpouse.isStaying = false;
 				entitySpouse.followingPlayer = "None";
 
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "isFollowing", true));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "isStaying", false));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "followingPlayer", player.username));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isFollowing", true));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isStaying", false));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "followingPlayer", player.username));
 
 				entitySpouse.say(LanguageHelper.getString(player, entitySpouse, "follow.start"));
 				close();
@@ -458,9 +458,9 @@ public class GuiInteractionSpouse extends AbstractGui
 				entitySpouse.isStaying = false;
 				entitySpouse.followingPlayer = "None";
 
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "isFollowing", false));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "isStaying", false));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "followingPlayer", "None"));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isFollowing", false));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isStaying", false));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "followingPlayer", "None"));
 
 				entitySpouse.say(LanguageHelper.getString(player, entitySpouse, "follow.stop"));
 				close();
@@ -473,9 +473,9 @@ public class GuiInteractionSpouse extends AbstractGui
 			entitySpouse.isFollowing = false;
 			entitySpouse.idleTicks = 0;
 			
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "isStaying", entitySpouse.isStaying));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "isFollowing", false));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "idleTicks", 0));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isStaying", entitySpouse.isStaying));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isFollowing", false));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "idleTicks", 0));
 			close();
 		}
 
@@ -486,10 +486,10 @@ public class GuiInteractionSpouse extends AbstractGui
 			entitySpouse.homePointZ = entitySpouse.posZ;
 			entitySpouse.hasHomePoint = true;
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "homePointX", entitySpouse.posX));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "homePointY", entitySpouse.posY));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "homePointZ", entitySpouse.posZ));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "hasHomePoint", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "homePointX", entitySpouse.posX));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "homePointY", entitySpouse.posY));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "homePointZ", entitySpouse.posZ));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "hasHomePoint", true));
 
 			entitySpouse.testNewHomePoint();
 
@@ -520,7 +520,7 @@ public class GuiInteractionSpouse extends AbstractGui
 					else
 					{
 						entitySpouse.isProcreatingWithPlayer = true;
-						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "isProcreatingWithPlayer", true));
+						PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isProcreatingWithPlayer", true));
 					}
 				}
 
@@ -571,7 +571,7 @@ public class GuiInteractionSpouse extends AbstractGui
 		else if (button == giftButton)
 		{
 			entitySpouse.playerMemoryMap.get(player.username).isInGiftMode = true;
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "playerMemoryMap", entitySpouse.playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "playerMemoryMap", entitySpouse.playerMemoryMap));
 			close();
 		}
 		
@@ -716,7 +716,7 @@ public class GuiInteractionSpouse extends AbstractGui
 			entitySpouse.combatChore.attackUnknown = !entitySpouse.combatChore.attackUnknown;
 		}
 
-		PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entitySpouse.entityId, entitySpouse.combatChore));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entitySpouse.entityId, entitySpouse.combatChore));
 		drawCombatGui();
 	}
 
@@ -764,10 +764,10 @@ public class GuiInteractionSpouse extends AbstractGui
 					if (manager.worldProperties.stat_wivesExecuted >= 6)
 					{
 						player.triggerAchievement(MCA.getInstance().achievementMonarchSecret);
-						PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementMonarchSecret, player.entityId));
+						PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementMonarchSecret, player.entityId));
 					}
 
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "hasBeenExecuted", entitySpouse.hasBeenExecuted));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "hasBeenExecuted", entitySpouse.hasBeenExecuted));
 					close();
 				}
 
@@ -813,7 +813,7 @@ public class GuiInteractionSpouse extends AbstractGui
 
 					//Update, send to server, and stop here.
 					entitySpouse.playerMemoryMap.put(player.username, memory);
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "playerMemoryMap", entitySpouse.playerMemoryMap));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "playerMemoryMap", entitySpouse.playerMemoryMap));
 
 					close();
 					return;
@@ -834,8 +834,8 @@ public class GuiInteractionSpouse extends AbstractGui
 			entitySpouse.playerMemoryMap.put(player.username, memory);
 			ItemStack giftStack = LogicHelper.getGiftStackFromRelationship(player, entitySpouse);
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "playerMemoryMap", entitySpouse.playerMemoryMap));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(entitySpouse.entityId, giftStack.itemID, giftStack.stackSize));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "playerMemoryMap", entitySpouse.playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createDropItemPacket(entitySpouse.entityId, giftStack.itemID, giftStack.stackSize));
 			close();
 		}
 
@@ -856,8 +856,8 @@ public class GuiInteractionSpouse extends AbstractGui
 
 					player.addChatMessage(LanguageHelper.getString("monarch.makepeasant.success"));
 
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "isPeasant", entitySpouse.isPeasant));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "monarchPlayerName", entitySpouse.monarchPlayerName));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isPeasant", entitySpouse.isPeasant));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "monarchPlayerName", entitySpouse.monarchPlayerName));
 					close();
 				}
 			}
@@ -886,8 +886,8 @@ public class GuiInteractionSpouse extends AbstractGui
 
 					player.addChatMessage(LanguageHelper.getString("monarch.makeknight.success"));
 
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "isKnight", entitySpouse.isKnight));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entitySpouse.entityId, "monarchPlayerName", entitySpouse.monarchPlayerName));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isKnight", entitySpouse.isKnight));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "monarchPlayerName", entitySpouse.monarchPlayerName));
 					close();
 				}
 			}

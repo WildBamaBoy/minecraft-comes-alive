@@ -9,7 +9,7 @@
 
 package mca.tileentity;
 
-import mca.core.util.PacketHelper;
+import mca.core.forge.PacketHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -49,7 +49,7 @@ public class TileEntityTombstone extends TileEntity
     	{
     		if(!hasSynced && !guiOpen)
     		{
-    			PacketDispatcher.sendPacketToServer(PacketHelper.createTombstoneRequestPacket(this));
+    			PacketDispatcher.sendPacketToServer(PacketHandler.createTombstoneRequestPacket(this));
     			hasSynced = true;
     		}
     	}

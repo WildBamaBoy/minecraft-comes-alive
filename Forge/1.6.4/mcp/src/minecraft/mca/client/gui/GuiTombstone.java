@@ -9,8 +9,8 @@
 
 package mca.client.gui;
 
+import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
-import mca.core.util.PacketHelper;
 import mca.tileentity.TileEntityTombstone;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
@@ -74,7 +74,7 @@ public class GuiTombstone extends AbstractGui
 			mc.thePlayer.sendQueue.addToSendQueue(new Packet130UpdateSign(entityTombstone.xCoord, entityTombstone.yCoord, entityTombstone.zCoord, entityTombstone.signText));
 		}
 		
-		PacketDispatcher.sendPacketToServer(PacketHelper.createTombstonePacket(entityTombstone));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createTombstonePacket(entityTombstone));
 		entityTombstone.guiOpen = false;
 	}
 

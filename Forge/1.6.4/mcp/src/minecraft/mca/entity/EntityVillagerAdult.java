@@ -22,10 +22,10 @@ import mca.chore.ChoreMining;
 import mca.chore.ChoreWoodcutting;
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
-import mca.core.util.PacketHelper;
 import mca.core.util.object.PlayerMemory;
 import mca.core.util.object.VillageHelper;
 import mca.enums.EnumRelation;
@@ -619,9 +619,9 @@ public class EntityVillagerAdult extends AbstractEntity
 							hasGivenAnvil = true;
 
 							player.inventory.addItemStackToInventory(new ItemStack(Block.anvil));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createAddItemPacket(Block.anvil.blockID, player.entityId));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isInAnvilGiftMode", false));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "hasGivenAnvil", true));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createAddItemPacket(Block.anvil.blockID, player.entityId));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "isInAnvilGiftMode", false));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "hasGivenAnvil", true));
 						}
 
 						else
@@ -699,7 +699,7 @@ public class EntityVillagerAdult extends AbstractEntity
 					{
 						inventory.addItemStackToInventory(itemStack);
 						inventory.setWornArmorItems();
-						PacketDispatcher.sendPacketToServer(PacketHelper.createInventoryPacket(entityId, inventory));
+						PacketDispatcher.sendPacketToServer(PacketHandler.createInventoryPacket(entityId, inventory));
 
 						removeItemFromPlayer(itemStack, player);
 					}
@@ -739,8 +739,8 @@ public class EntityVillagerAdult extends AbstractEntity
 				removeItemFromPlayer(itemStack, player);
 
 				memory.isInGiftMode = false;
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isInGiftMode", false));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createInventoryPacket(entityId, inventory));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "isInGiftMode", false));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createInventoryPacket(entityId, inventory));
 			}
 		}
 
@@ -794,7 +794,7 @@ public class EntityVillagerAdult extends AbstractEntity
 						removeItemFromPlayer(itemStack, player);
 
 						hasArrangerRing = true;
-						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "hasArrangerRing", true));
+						PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "hasArrangerRing", true));
 					}
 
 					//Another villager also has a ring because the ID of the holder is not zero. Marry these two.
@@ -812,13 +812,13 @@ public class EntityVillagerAdult extends AbstractEntity
 							if (this.generation != 0)
 							{
 								spouse.generation = this.generation;
-								PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouse.entityId, "generation", this.generation));
+								PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouse.entityId, "generation", this.generation));
 							}
 
 							else if (spouse.generation != 0)
 							{
 								this.generation = spouse.generation;
-								PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(this.entityId, "generation", spouse.generation));
+								PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(this.entityId, "generation", spouse.generation));
 							}
 
 							//Notify the player that the two were married.
@@ -837,22 +837,22 @@ public class EntityVillagerAdult extends AbstractEntity
 							spouse.hasArrangerRing = false;
 							spouse.familyTree.addFamilyTreeEntry(this, EnumRelation.Spouse);
 
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isMarried", this.isMarried));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouse.entityId, "isMarried", spouse.isMarried));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "hasArrangerRing", false));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouse.entityId, "hasArrangerRing", false));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFamilyTreePacket(entityId, familyTree));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFamilyTreePacket(spouse.entityId, spouse.familyTree));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "isMarried", this.isMarried));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouse.entityId, "isMarried", spouse.isMarried));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "hasArrangerRing", false));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouse.entityId, "hasArrangerRing", false));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFamilyTreePacket(entityId, familyTree));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFamilyTreePacket(spouse.entityId, spouse.familyTree));
 
-							PacketDispatcher.sendPacketToServer(PacketHelper.createSyncRequestPacket(entityId));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createSyncRequestPacket(spouse.entityId));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createSyncRequestPacket(entityId));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createSyncRequestPacket(spouse.entityId));
 
 							//Check if the spouse is a player child.
 							if (spouse instanceof EntityPlayerChild)
 							{
 								//Unlock achievement.
 								player.triggerAchievement(MCA.getInstance().achievementAdultMarried);
-								PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementAdultMarried, player.entityId));
+								PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementAdultMarried, player.entityId));
 							}
 						}
 
@@ -914,15 +914,15 @@ public class EntityVillagerAdult extends AbstractEntity
 					isEngaged = true;
 					familyTree.addFamilyTreeEntry(player, EnumRelation.Spouse);
 
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFamilyTreePacket(entityId, familyTree));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isEngaged", true));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFamilyTreePacket(entityId, familyTree));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "isEngaged", true));
 
 					manager.worldProperties.playerSpouseID = this.mcaID;
 					manager.worldProperties.isEngaged = true;
 					manager.saveWorldProperties();
 
 					player.triggerAchievement(MCA.getInstance().achievementGetMarried);
-					PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId));
 				}
 
 				else //The hearts aren't high enough.
@@ -995,10 +995,10 @@ public class EntityVillagerAdult extends AbstractEntity
 					manager.saveWorldProperties();
 
 					familyTree.addFamilyTreeEntry(player, EnumRelation.Spouse);
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFamilyTreePacket(entityId, familyTree));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isSpouse", true));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "spousePlayerName", player.username));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFamilyTreePacket(entityId, familyTree));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "isSpouse", true));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "spousePlayerName", player.username));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId));
 
 					//Reset AI in case the spouse is a guard.
 					addAI();
@@ -1006,8 +1006,8 @@ public class EntityVillagerAdult extends AbstractEntity
 					if (isEngaged)
 					{
 						isEngaged = false;
-						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isEngaged", false));
-						PacketDispatcher.sendPacketToServer(PacketHelper.createEngagementPacket(entityId));
+						PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "isEngaged", false));
+						PacketDispatcher.sendPacketToServer(PacketHandler.createEngagementPacket(entityId));
 
 						List<Entity> entitiesAroundMe = LogicHelper.getAllEntitiesWithinDistanceOfEntity(this, 64);
 
@@ -1101,10 +1101,10 @@ public class EntityVillagerAdult extends AbstractEntity
 							this.isProcreatingWithSpouse = true;
 							spouse.isProcreatingWithSpouse = true;
 
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "hasCake", hasCake));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouse.entityId, "hasCake", spouse.hasCake));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isProcreatingWithSpouse", isProcreatingWithSpouse));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouse.entityId, "isProcreatingWithSpouse", spouse.isProcreatingWithSpouse));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "hasCake", hasCake));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouse.entityId, "hasCake", spouse.hasCake));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "isProcreatingWithSpouse", isProcreatingWithSpouse));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouse.entityId, "isProcreatingWithSpouse", spouse.isProcreatingWithSpouse));
 
 							removeItemFromPlayer(itemStack, player);
 						}
@@ -1113,7 +1113,7 @@ public class EntityVillagerAdult extends AbstractEntity
 						else
 						{
 							hasCake = true;
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "hasCake", hasCake));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "hasCake", hasCake));
 							say(LanguageHelper.getString("notify.villager.gifted.cake.spousenearby"));
 							removeItemFromPlayer(itemStack, player);
 						}
@@ -1315,9 +1315,9 @@ public class EntityVillagerAdult extends AbstractEntity
 						this.heldBabyProfession = spouse.profession;
 						this.hasBaby = true;
 
-						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "heldBabyIsMale", isHeldBabyMale));
-						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "heldBabyProfession", heldBabyProfession));
-						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "hasBaby", hasBaby));
+						PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "heldBabyIsMale", isHeldBabyMale));
+						PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "heldBabyProfession", heldBabyProfession));
+						PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "hasBaby", hasBaby));
 					}
 
 					//Make sure everything is reset so it stops on all clients.
@@ -1327,7 +1327,7 @@ public class EntityVillagerAdult extends AbstractEntity
 
 				else
 				{
-					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(this));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(this));
 
 					//Reset procreation information after packet is dispatched so it stops server side.
 					isProcreatingWithSpouse = false;
@@ -1375,7 +1375,7 @@ public class EntityVillagerAdult extends AbstractEntity
 						procreateTicks = 0;
 
 						player.addChatMessage("\u00a7cYou have reached the child limit set by the server administrator: " + MCA.getInstance().modPropertiesManager.modProperties.server_childLimit);
-						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(this));
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(this));
 						return;
 					}
 				}
@@ -1417,11 +1417,11 @@ public class EntityVillagerAdult extends AbstractEntity
 						worldObj.playSoundAtEntity(this, "mob.chickenplop", 1.0F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
 
 						//Dispatch a packet so that everything is updated on all clients.
-						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(this));
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(this));
 
 						//And dispatch another packet to the client player after determining the baby's gender.
 						boolean babyIsMale = getRandomGender();
-						PacketDispatcher.sendPacketToPlayer(PacketHelper.createVillagerPlayerProcreatePacket(this, spousePlayer, babyIsMale), (Player)spousePlayer);
+						PacketDispatcher.sendPacketToPlayer(PacketHandler.createVillagerPlayerProcreatePacket(this, spousePlayer, babyIsMale), (Player)spousePlayer);
 					}
 
 					else

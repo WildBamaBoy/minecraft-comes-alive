@@ -9,8 +9,8 @@
 
 package mca.client.gui;
 
+import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
-import mca.core.util.PacketHelper;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
@@ -145,6 +145,6 @@ public class GuiInventory extends InventoryEffectRenderer
 	public void onGuiClosed() 
 	{
 		super.onGuiClosed();
-		PacketDispatcher.sendPacketToServer(PacketHelper.createInventoryPacket(owner.entityId, owner.inventory));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createInventoryPacket(owner.entityId, owner.inventory));
 	}
 }

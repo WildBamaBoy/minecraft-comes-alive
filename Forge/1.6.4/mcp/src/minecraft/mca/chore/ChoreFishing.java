@@ -14,9 +14,9 @@ import java.lang.reflect.Modifier;
 
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
-import mca.core.util.PacketHelper;
 import mca.core.util.object.Coordinates;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityChoreFishHook;
@@ -81,7 +81,7 @@ public class ChoreFishing extends AbstractChore
 			//End the chore and sync all clients so that the chore is stopped everywhere.
 			endChore();
 
-			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(owner));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(owner));
 			owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer).addChatMessage("\u00a7cChore disabled by the server administrator.");
 			return;
 		}
@@ -173,13 +173,13 @@ public class ChoreFishing extends AbstractChore
 
 		if (owner.worldObj.isRemote)
 		{
-			PacketDispatcher.sendPacketToServer(PacketHelper.createAddAIPacket(owner));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createAddAIPacket(owner));
 		}
 
 		else
 		{
-			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(owner));
-			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createAddAIPacket(owner));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(owner));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createAddAIPacket(owner));
 		}
 
 		owner.addAI();

@@ -11,8 +11,8 @@ package mca.command;
 
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
-import mca.core.util.PacketHelper;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
@@ -81,8 +81,8 @@ public class CommandMarryAccept extends AbstractCommand
 						recipientProperties.saveWorldProperties();
 						
 						//Notify both that they are married.
-						PacketDispatcher.sendPacketToPlayer(PacketHelper.createPlayerMarriagePacket(senderProperties.worldProperties.playerID, recipient.username, recipientProperties.worldProperties.playerID), (Player)sender);
-						PacketDispatcher.sendPacketToPlayer(PacketHelper.createPlayerMarriagePacket(recipientProperties.worldProperties.playerID, sender.getCommandSenderName(), senderProperties.worldProperties.playerID), (Player)recipient);
+						PacketDispatcher.sendPacketToPlayer(PacketHandler.createPlayerMarriagePacket(senderProperties.worldProperties.playerID, recipient.username, recipientProperties.worldProperties.playerID), (Player)sender);
+						PacketDispatcher.sendPacketToPlayer(PacketHandler.createPlayerMarriagePacket(recipientProperties.worldProperties.playerID, sender.getCommandSenderName(), senderProperties.worldProperties.playerID), (Player)recipient);
 					}
 
 					else

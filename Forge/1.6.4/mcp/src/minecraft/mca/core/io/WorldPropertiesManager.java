@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Properties;
 
 import mca.core.MCA;
-import mca.core.util.PacketHelper;
+import mca.core.forge.PacketHandler;
 import net.minecraft.server.MinecraftServer;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -187,12 +187,12 @@ public class WorldPropertiesManager implements Serializable
 				//Send the properties to the server or client.
 				if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT && MCA.getInstance().isIntegratedClient)
 				{
-					PacketDispatcher.sendPacketToServer(PacketHelper.createWorldPropertiesPacket(this));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createWorldPropertiesPacket(this));
 				}
 
 				else if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
 				{
-					PacketDispatcher.sendPacketToPlayer(PacketHelper.createWorldPropertiesPacket(this), (Player)MCA.getInstance().getPlayerByName(currentPlayerName));
+					PacketDispatcher.sendPacketToPlayer(PacketHandler.createWorldPropertiesPacket(this), (Player)MCA.getInstance().getPlayerByName(currentPlayerName));
 				}
 			}
 
@@ -225,7 +225,7 @@ public class WorldPropertiesManager implements Serializable
 
 		else
 		{
-			PacketDispatcher.sendPacketToServer(PacketHelper.createWorldPropertiesPacket(this));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createWorldPropertiesPacket(this));
 		}
 	}
 

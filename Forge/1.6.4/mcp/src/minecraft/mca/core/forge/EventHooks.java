@@ -13,7 +13,6 @@ import java.io.File;
 
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.core.util.PacketHelper;
 import mca.entity.AbstractEntity;
 import mca.entity.AbstractSerializableEntity;
 import mca.entity.EntityPlayerChild;
@@ -56,12 +55,12 @@ public class EventHooks
 		{
 			if (MCA.getInstance().playerWorldManagerMap.get(event.player.username).worldProperties.babyExists)
 			{
-				PacketDispatcher.sendPacketToPlayer(PacketHelper.createSayLocalizedPacket(event.player, null, "notify.player.droppedbaby", false, null, null), (Player)event.player);
+				PacketDispatcher.sendPacketToPlayer(PacketHandler.createSayLocalizedPacket(event.player, null, "notify.player.droppedbaby", false, null, null), (Player)event.player);
 				event.player.inventory.addItemStackToInventory(event.entityItem.getEntityItem());
 
 				if (event.entity.worldObj.isRemote)
 				{
-					PacketDispatcher.sendPacketToServer(PacketHelper.createAddItemPacket(event.entityItem.getEntityItem().itemID, event.player.entityId));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createAddItemPacket(event.entityItem.getEntityItem().itemID, event.player.entityId));
 				}
 
 				event.setCanceled(true);

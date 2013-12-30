@@ -13,8 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
-import mca.core.util.PacketHelper;
 import mca.entity.AbstractEntity;
 import mca.enums.EnumRelation;
 import net.minecraft.client.Minecraft;
@@ -280,12 +280,12 @@ public class GuiDivorceCouple extends AbstractGui
 
 		if (spouseEntity1 != null)
 		{
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouseEntity1.entityId, "shouldDivorce", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouseEntity1.entityId, "shouldDivorce", true));
 		}
 
 		if (spouseEntity2 != null)
 		{
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouseEntity2.entityId, "shouldDivorce", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouseEntity2.entityId, "shouldDivorce", true));
 		}
 	}
 }

@@ -12,8 +12,8 @@ package mca.client.gui;
 import java.util.List;
 
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
-import mca.core.util.PacketHelper;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import mca.enums.EnumMood;
@@ -84,7 +84,7 @@ public class GuiVillagerEditor extends AbstractGui
 		villagerBeingEdited = abstractEntity;
 		villagerBeingEdited.isSleeping = false;
 		moodListIndex = moodList.indexOf(villagerBeingEdited.mood);
-		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerBeingEdited.entityId, "isSleeping", false));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerBeingEdited.entityId, "isSleeping", false));
 	}
 	
 	@Override
@@ -134,11 +134,11 @@ public class GuiVillagerEditor extends AbstractGui
 	{
 		Keyboard.enableRepeatEvents(false);
 
-		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerBeingEdited.entityId, "name", villagerBeingEdited.name));
-		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerBeingEdited.entityId, "texture", villagerBeingEdited.getTexture()));
-		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerBeingEdited.entityId, "isMale", villagerBeingEdited.isMale));
-		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerBeingEdited.entityId, "profession", villagerBeingEdited.profession));
-		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerBeingEdited.entityId, "traitId", villagerBeingEdited.traitId));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerBeingEdited.entityId, "name", villagerBeingEdited.name));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerBeingEdited.entityId, "texture", villagerBeingEdited.getTexture()));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerBeingEdited.entityId, "isMale", villagerBeingEdited.isMale));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerBeingEdited.entityId, "profession", villagerBeingEdited.profession));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerBeingEdited.entityId, "traitId", villagerBeingEdited.traitId));
 	}
 
 	@Override
@@ -378,7 +378,7 @@ public class GuiVillagerEditor extends AbstractGui
 		else if (guibutton == inventoryButton)
 		{
 			villagerBeingEdited.shouldOpenInventory = true;
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerBeingEdited.entityId, "shouldOpenInventory", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerBeingEdited.entityId, "shouldOpenInventory", true));
 			close();
 		}
 	}

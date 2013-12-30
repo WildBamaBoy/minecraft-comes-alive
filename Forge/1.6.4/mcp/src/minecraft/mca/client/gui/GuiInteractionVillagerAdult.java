@@ -19,10 +19,10 @@ import mca.chore.ChoreMining;
 import mca.chore.ChoreWoodcutting;
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
-import mca.core.util.PacketHelper;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
@@ -1158,9 +1158,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 								entityVillager.isStaying = false;
 								entityVillager.followingPlayer = player.username;
 
-								PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", true));
-								PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
-								PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "followingPlayer", player.username));
+								PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isFollowing", true));
+								PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
+								PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "followingPlayer", player.username));
 
 								entityVillager.say(LanguageHelper.getString(player, entityVillager, "monarch.knight.follow.start", false));
 								close();
@@ -1172,9 +1172,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 								entityVillager.isStaying = false;
 								entityVillager.followingPlayer = "None";
 
-								PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
-								PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
-								PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "followingPlayer", "None"));
+								PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
+								PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
+								PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "followingPlayer", "None"));
 
 								entityVillager.say(LanguageHelper.getString(player, entityVillager, "monarch.knight.follow.stop", false));
 							}
@@ -1199,9 +1199,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 							entityVillager.isStaying = false;
 							entityVillager.followingPlayer = player.username;
 
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", true));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "followingPlayer", player.username));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isFollowing", true));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "followingPlayer", player.username));
 
 							entityVillager.say(LanguageHelper.getString(player, entityVillager, "follow.start"));
 							close();
@@ -1213,9 +1213,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 							entityVillager.isStaying = false;
 							entityVillager.followingPlayer = "None";
 
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "followingPlayer", "None"));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "followingPlayer", "None"));
 
 							entityVillager.say(LanguageHelper.getString(player, entityVillager, "follow.stop"));
 						}
@@ -1230,9 +1230,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 					entityVillager.isStaying = false;
 					entityVillager.followingPlayer = player.username;
 
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", true));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "followingPlayer", player.username));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isFollowing", true));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "followingPlayer", player.username));
 
 					entityVillager.say(LanguageHelper.getString(player, entityVillager, "follow.start"));
 					close();
@@ -1244,9 +1244,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 					entityVillager.isStaying = false;
 					entityVillager.followingPlayer = "None";
 
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "followingPlayer", "None"));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "followingPlayer", "None"));
 
 					entityVillager.say(LanguageHelper.getString(player, entityVillager, "follow.stop"));
 				}
@@ -1268,9 +1268,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				entityVillager.isFollowing = false;
 				entityVillager.idleTicks = 0;
 
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", entityVillager.isStaying));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "idleTicks", 0));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isStaying", entityVillager.isStaying));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "idleTicks", 0));
 			}
 
 			else
@@ -1290,10 +1290,10 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				entityVillager.homePointZ = entityVillager.posZ;
 				entityVillager.hasHomePoint = true;
 
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "homePointX", entityVillager.posX));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "homePointY", entityVillager.posY));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "homePointZ", entityVillager.posZ));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "hasHomePoint", true));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "homePointX", entityVillager.posX));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "homePointY", entityVillager.posY));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "homePointZ", entityVillager.posZ));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "hasHomePoint", true));
 
 				entityVillager.testNewHomePoint();
 			}
@@ -1327,8 +1327,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			entityVillager.hasArrangerRing = false;
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "hasArrangerRing", false));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(entityVillager.entityId, MCA.getInstance().itemArrangersRing.itemID, 1));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "hasArrangerRing", false));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createDropItemPacket(entityVillager.entityId, MCA.getInstance().itemArrangersRing.itemID, 1));
 			manager.worldProperties.arrangerRingHolderID = 0;
 			manager.saveWorldProperties();
 			close();
@@ -1342,8 +1342,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			ItemStack giftStack = LogicHelper.getGiftStackFromRelationship(player, entityVillager);
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(entityVillager.entityId, giftStack.itemID, giftStack.stackSize));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createDropItemPacket(entityVillager.entityId, giftStack.itemID, giftStack.stackSize));
 			close();
 		}
 
@@ -1351,7 +1351,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			if (entityVillager.isEntityAlive() && !entityVillager.isTrading())
 			{
-				PacketDispatcher.sendPacketToServer(PacketHelper.createTradePacket((EntityVillagerAdult)entityVillager));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createTradePacket((EntityVillagerAdult)entityVillager));
 				close();
 			}
 		}
@@ -1384,7 +1384,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		else if (button == giftButton)
 		{
 			entityVillager.playerMemoryMap.get(player.username).isInGiftMode = true;
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
 			close();
 		}
 
@@ -1438,7 +1438,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 						if (stack.stackSize >= hiringHours)
 						{
 							player.inventory.decrStackSize(i, hiringHours);
-							PacketDispatcher.sendPacketToServer(PacketHelper.createRemoveItemPacket(player.entityId, i, hiringHours, 0));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createRemoveItemPacket(player.entityId, i, hiringHours, 0));
 						}
 
 						break;
@@ -1455,7 +1455,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			entityVillager.say(LanguageHelper.getString("generic.hire.accept"));
 
 			entityVillager.playerMemoryMap.put(player.username, memory);
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
 			close();
 		}
 
@@ -1512,7 +1512,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				{	
 					EntityVillagerAdult spouse = (EntityVillagerAdult)playerSpouse;
 					spouse.shouldDivorce = true;
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouse.entityId, "shouldDivorce", true));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouse.entityId, "shouldDivorce", true));
 				}
 
 				else //The spouse is not nearby.
@@ -1530,7 +1530,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 					if (spouse != null)
 					{
 						spouse.shouldDivorce = true;
-						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouse.entityId, "shouldDivorce", true));
+						PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouse.entityId, "shouldDivorce", true));
 					}
 				}
 			}
@@ -1586,7 +1586,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 					entityVillager.say(LanguageHelper.getString(player, "priest.adopt.male"));
 
 					player.inventory.addItemStackToInventory(new ItemStack(MCA.getInstance().itemBabyBoy, 1));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createAddItemPacket(MCA.getInstance().itemBabyBoy.itemID, player.entityId));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createAddItemPacket(MCA.getInstance().itemBabyBoy.itemID, player.entityId));
 				}
 
 				else
@@ -1595,7 +1595,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 					entityVillager.say(LanguageHelper.getString(player, "priest.adopt.female"));
 
 					player.inventory.addItemStackToInventory(new ItemStack(MCA.getInstance().itemBabyGirl, 1));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createAddItemPacket(MCA.getInstance().itemBabyGirl.itemID, player.entityId));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createAddItemPacket(MCA.getInstance().itemBabyGirl.itemID, player.entityId));
 				}
 
 				manager.saveWorldProperties();
@@ -1646,15 +1646,15 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				//Reset AI in case of guard.
 				villagerToMarry.addAI();
 
-				PacketDispatcher.sendPacketToServer(PacketHelper.createAddAIPacket(villagerToMarry));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFamilyTreePacket(villagerToMarry.entityId, villagerToMarry.familyTree));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerToMarry.entityId, "isSpouse", true));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerToMarry.entityId, "spousePlayerName", player.username));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerToMarry.entityId, "marriageToPlayerWasArranged", true));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createAddAIPacket(villagerToMarry));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFamilyTreePacket(villagerToMarry.entityId, villagerToMarry.familyTree));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerToMarry.entityId, "isSpouse", true));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerToMarry.entityId, "spousePlayerName", player.username));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerToMarry.entityId, "marriageToPlayerWasArranged", true));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId));
 
 				villagerToMarry.setPosition(player.posX, player.posY, player.posZ);
-				PacketDispatcher.sendPacketToServer(PacketHelper.createPositionPacket(villagerToMarry, player.posX, player.posY, player.posZ));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createPositionPacket(villagerToMarry, player.posX, player.posY, player.posZ));
 
 				entityVillager.say(LanguageHelper.getString(player, villagerToMarry, "priest.arrangemarriage", false));
 				close();
@@ -1688,9 +1688,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			entityVillager.setChoresStopped();
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
 			close();
 		}
 
@@ -1704,14 +1704,14 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			entityVillager.isInChoreMode = false;
 			entityVillager.getInstanceOfCurrentChore().endChore();
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", false));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", false));
 			close();
 		}
 
 		else if (button == inventoryButton)
 		{
 			entityVillager.shouldOpenInventory = true;
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "shouldOpenInventory", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "shouldOpenInventory", true));
 			close();
 		}
 	}
@@ -1741,17 +1741,17 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 					int quantityGiven = villager.worldObj.rand.nextInt(Integer.parseInt(giftInfo[2].toString())) + Integer.parseInt(giftInfo[1].toString());
 
 
-					PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(villager.entityId, Integer.parseInt(giftInfo[0].toString()), quantityGiven));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createDropItemPacket(villager.entityId, Integer.parseInt(giftInfo[0].toString()), quantityGiven));
 					villager.say(LanguageHelper.getString("baker.aid.accept"));
 					villager.aidCooldown = 12000;
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
 				}
 
 				else
 				{
 					villager.say(LanguageHelper.getString("baker.aid.refuse"));
 					villager.aidCooldown = 12000;
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
 				}
 			}
 
@@ -1785,9 +1785,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			entityVillager.setChoresStopped();
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
 			close();
 		}
 
@@ -1805,14 +1805,14 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			entityVillager.isInChoreMode = false;
 			entityVillager.getInstanceOfCurrentChore().endChore();
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", false));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", false));
 			close();
 		}
 
 		else if (button == inventoryButton)
 		{
 			entityVillager.shouldOpenInventory = true;
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "shouldOpenInventory", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "shouldOpenInventory", true));
 			close();
 		}
 	}
@@ -1841,18 +1841,18 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 					giftInfo = MCA.butcherAidIDs[villager.worldObj.rand.nextInt(MCA.butcherAidIDs.length)];
 					int quantityGiven = villager.worldObj.rand.nextInt(Integer.parseInt(giftInfo[2].toString())) + Integer.parseInt(giftInfo[1].toString());
 
-					PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(villager.entityId, Integer.parseInt(giftInfo[0].toString()), quantityGiven));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createDropItemPacket(villager.entityId, Integer.parseInt(giftInfo[0].toString()), quantityGiven));
 					villager.say(LanguageHelper.getString("butcher.aid.accept"));
 
 					villager.aidCooldown = 12000;
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
 				}
 
 				else
 				{
 					villager.say(LanguageHelper.getString("butcher.aid.refuse"));
 					villager.aidCooldown = 12000;
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
 				}
 			}
 
@@ -1896,10 +1896,10 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			memory.isInGiftMode = true;
 			villager.playerMemoryMap.put(player.username, memory);
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "itemIdRequiredForSale", villager.itemIdRequiredForSale));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "amountRequiredForSale", villager.amountRequiredForSale));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "isInAnvilGiftMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "playerMemoryMap", villager.playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villager.entityId, "itemIdRequiredForSale", villager.itemIdRequiredForSale));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villager.entityId, "amountRequiredForSale", villager.amountRequiredForSale));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villager.entityId, "isInAnvilGiftMode", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villager.entityId, "playerMemoryMap", villager.playerMemoryMap));
 		}
 
 		close();
@@ -1931,9 +1931,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			entityVillager.setChoresStopped();
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
 			close();
 		}
 
@@ -1955,17 +1955,17 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 					int quantityGiven = villager.worldObj.rand.nextInt(Integer.parseInt(giftInfo[2].toString())) + Integer.parseInt(giftInfo[1].toString());
 
 
-					PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(villager.entityId, Integer.parseInt(giftInfo[0].toString()), quantityGiven));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createDropItemPacket(villager.entityId, Integer.parseInt(giftInfo[0].toString()), quantityGiven));
 					villager.say(LanguageHelper.getString("farmer.aid.accept"));
 					villager.aidCooldown = 12000;
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
 				}
 
 				else
 				{
 					villager.say(LanguageHelper.getString("farmer.aid.refuse"));
 					villager.aidCooldown = 12000;
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
 				}
 			}
 
@@ -1992,14 +1992,14 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			entityVillager.isInChoreMode = false;
 			entityVillager.getInstanceOfCurrentChore().endChore();
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", false));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", false));
 			close();
 		}
 
 		else if (button == inventoryButton)
 		{
 			entityVillager.shouldOpenInventory = true;
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "shouldOpenInventory", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "shouldOpenInventory", true));
 			close();
 		}
 	}
@@ -2106,9 +2106,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			entityVillager.isInChoreMode = true;
 			entityVillager.currentChore = entityVillager.farmingChore.getChoreName();
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "currentChore", "Farming"));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.farmingChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "currentChore", "Farming"));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityVillager.entityId, entityVillager.farmingChore));
 
 			close();
 		}
@@ -2136,9 +2136,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			entityVillager.fishingChore = new ChoreFishing(entityVillager);
 			entityVillager.isInChoreMode = true;
 			entityVillager.currentChore = entityVillager.fishingChore.getChoreName();
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "currentChore", "Fishing"));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.fishingChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "currentChore", "Fishing"));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityVillager.entityId, entityVillager.fishingChore));
 
 			close();
 		}
@@ -2259,7 +2259,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			entityVillager.combatChore.sentryPosZ = entityVillager.posZ;
 		}
 
-		PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.combatChore));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityVillager.entityId, entityVillager.combatChore));
 		drawCombatGui();
 	}
 
@@ -2296,9 +2296,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			entityVillager.isInChoreMode = true;
 			entityVillager.currentChore = entityVillager.woodcuttingChore.getChoreName();
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.woodcuttingChore));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "currentChore", "Woodcutting"));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityVillager.entityId, entityVillager.woodcuttingChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "currentChore", "Woodcutting"));
 			close();
 		}
 	}
@@ -2381,9 +2381,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			entityVillager.isInChoreMode = true;
 			entityVillager.currentChore = entityVillager.miningChore.getChoreName();
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "currentChore", "Mining"));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.miningChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "currentChore", "Mining"));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityVillager.entityId, entityVillager.miningChore));
 			close();
 		}
 	}
@@ -2421,9 +2421,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			entityVillager.isInChoreMode = true;
 			entityVillager.currentChore = entityVillager.huntingChore.getChoreName();
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "currentChore", "Hunting"));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.huntingChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "currentChore", "Hunting"));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityVillager.entityId, entityVillager.huntingChore));
 			close();
 		}
 	}
@@ -2471,9 +2471,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 					manager.saveWorldProperties();
 
 					player.triggerAchievement(MCA.getInstance().achievementExecuteVillager);
-					PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementExecuteVillager, player.entityId));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementExecuteVillager, player.entityId));
 
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "hasBeenExecuted", entityVillager.hasBeenExecuted));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "hasBeenExecuted", entityVillager.hasBeenExecuted));
 					close();
 				}
 
@@ -2519,7 +2519,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 					//Update, send to server, and stop here.
 					entityVillager.playerMemoryMap.put(player.username, memory);
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
 
 					close();
 					return;
@@ -2540,8 +2540,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			entityVillager.playerMemoryMap.put(player.username, memory);
 			ItemStack giftStack = LogicHelper.getGiftStackFromRelationship(player, entityVillager);
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(entityVillager.entityId, giftStack.itemID, giftStack.stackSize));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createDropItemPacket(entityVillager.entityId, giftStack.itemID, giftStack.stackSize));
 			close();
 		}
 
@@ -2568,15 +2568,15 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 					if (manager.worldProperties.stat_villagersMadePeasants >= 20)
 					{
 						player.triggerAchievement(MCA.getInstance().achievementPeasantArmy);
-						PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementPeasantArmy, player.entityId));
+						PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementPeasantArmy, player.entityId));
 					}
 
 					player.addChatMessage(LanguageHelper.getString("monarch.makepeasant.success"));
 
 					player.triggerAchievement(MCA.getInstance().achievementMakePeasant);
-					PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementMakePeasant, player.entityId));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isPeasant", entityVillager.isPeasant));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "monarchPlayerName", entityVillager.monarchPlayerName));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementMakePeasant, player.entityId));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isPeasant", entityVillager.isPeasant));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "monarchPlayerName", entityVillager.monarchPlayerName));
 					close();
 				}
 			}
@@ -2611,15 +2611,15 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 					if (manager.worldProperties.stat_guardsMadeKnights >= 20)
 					{
 						player.triggerAchievement(MCA.getInstance().achievementMakeKnight);
-						PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementKnightArmy, player.entityId));
+						PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementKnightArmy, player.entityId));
 					}
 
 					player.addChatMessage(LanguageHelper.getString("monarch.makeknight.success"));
 
 					player.triggerAchievement(MCA.getInstance().achievementMakeKnight);
-					PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementMakeKnight, player.entityId));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isKnight", entityVillager.isKnight));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "monarchPlayerName", entityVillager.monarchPlayerName));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementMakeKnight, player.entityId));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isKnight", entityVillager.isKnight));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "monarchPlayerName", entityVillager.monarchPlayerName));
 					close();
 				}
 			}

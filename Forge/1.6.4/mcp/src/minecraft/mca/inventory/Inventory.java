@@ -15,8 +15,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
-import mca.core.util.PacketHelper;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import net.minecraft.block.Block;
@@ -256,7 +256,7 @@ public class Inventory implements IInventory, Serializable
 	{
 		if (!owner.worldObj.isRemote)
 		{
-			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createInventoryPacket(owner.entityId, this));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createInventoryPacket(owner.entityId, this));
 
 			if (this.owner instanceof EntityPlayerChild)
 			{
@@ -274,7 +274,7 @@ public class Inventory implements IInventory, Serializable
 						if (player != null)
 						{
 							player.triggerAchievement(MCA.getInstance().achievementAdultFullyEquipped);
-							PacketDispatcher.sendPacketToPlayer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementAdultFullyEquipped, player.entityId), (Player)player);
+							PacketDispatcher.sendPacketToPlayer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementAdultFullyEquipped, player.entityId), (Player)player);
 						}
 					}
 				}
@@ -283,7 +283,7 @@ public class Inventory implements IInventory, Serializable
 			if (this.contains(MCA.getInstance().itemBabyBoy) || this.contains(MCA.getInstance().itemBabyGirl))
 			{
 				this.owner.isHeldBabyMale = this.contains(MCA.getInstance().itemBabyBoy) ? true : false;
-				PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(this.owner));
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(this.owner));
 			}
 		}
 	}

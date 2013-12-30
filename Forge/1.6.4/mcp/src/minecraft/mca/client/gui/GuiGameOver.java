@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
-import mca.core.util.PacketHelper;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import mca.enums.EnumRelation;
@@ -118,16 +118,16 @@ public class GuiGameOver extends AbstractGui
 
 			//Trigger achievement.
 			mc.thePlayer.triggerAchievement(MCA.getInstance().achievementHardcoreSecret);
-			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.getInstance().achievementHardcoreSecret, player.entityId));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementHardcoreSecret, player.entityId));
 
 			//Respawn the player.
 			mc.thePlayer.setSpawnChunk(new ChunkCoordinates((int)adultToRespawnAs.posX, (int)adultToRespawnAs.posY, (int)adultToRespawnAs.posZ), true);
-			PacketDispatcher.sendPacketToServer(PacketHelper.createRespawnPacket(player, (int)adultToRespawnAs.posX, (int)adultToRespawnAs.posY, (int)adultToRespawnAs.posZ));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createRespawnPacket(player, (int)adultToRespawnAs.posX, (int)adultToRespawnAs.posY, (int)adultToRespawnAs.posZ));
 			mc.displayGuiScreen(null);
 
 			//Kill that adult.
 			adultToRespawnAs.setDeadWithoutNotification();
-			PacketDispatcher.sendPacketToServer(PacketHelper.createKillPacket(adultToRespawnAs));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createKillPacket(adultToRespawnAs));
 		}
 
 		if (guibutton == shiftIndexLeftButton)
