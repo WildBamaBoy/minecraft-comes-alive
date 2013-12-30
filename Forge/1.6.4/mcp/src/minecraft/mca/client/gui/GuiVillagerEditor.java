@@ -497,7 +497,7 @@ public class GuiVillagerEditor extends AbstractGui
 	{
 		buttonList.clear();
 		buttonList.add(randomButton                = new GuiButton(1,  width / 2 - 50,  height / 2 - 75, 60, 20, LanguageHelper.getString("gui.button.random")));
-		buttonList.add(genderButton                = new GuiButton(2,  width / 2 - 190, height / 2 - 40, 175, 20, LanguageHelper.getString("gui.button.setup.isMale" + villagerBeingEdited.getGenderAsString())));
+		buttonList.add(genderButton                = new GuiButton(2,  width / 2 - 190, height / 2 - 40, 175, 20, LanguageHelper.getString("gui.button.setup.gender" + "." + villagerBeingEdited.getGenderAsString())));
 		buttonList.add(textureButton               = new GuiButton(3,  width / 2 - 190, height / 2 - 20, 175, 20, "Texture: " + villagerBeingEdited.getTexture().replace("textures/skins//", "").replace(".png", "")));
 		buttonList.add(shiftTextureIndexUpButton   = new GuiButton(4,  width / 2 - 15,  height / 2 - 20, 20, 20, ">>"));
 		buttonList.add(shiftTextureIndexDownButton = new GuiButton(5,  width / 2 - 210, height / 2 - 20, 20, 20, "<<"));
