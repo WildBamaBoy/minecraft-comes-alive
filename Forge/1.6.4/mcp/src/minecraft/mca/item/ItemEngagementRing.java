@@ -30,9 +30,9 @@ public class ItemEngagementRing extends Item
      * 
      * @param 	id	The item's ID.
      */
-    public ItemEngagementRing(int id)
+    public ItemEngagementRing(int itemId)
     {
-        super(id);
+        super(itemId);
         setUnlocalizedName("Engagement Ring");
         maxStackSize = 1;
         setCreativeTab(CreativeTabs.tabMisc);

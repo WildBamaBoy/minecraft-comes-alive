@@ -35,9 +35,9 @@ public class ItemWhistle extends Item
 	 * 
 	 * @param 	id	The item's ID.
 	 */
-	public ItemWhistle(int id)
+	public ItemWhistle(int itemId)
 	{
-		super(id);
+		super(itemId);
 		maxStackSize = 1;
 		setCreativeTab(CreativeTabs.tabMisc);
 	}
@@ -54,7 +54,7 @@ public class ItemWhistle extends Item
 	{
 		if (!world.isRemote)
 		{
-			for (AbstractEntity entity : MCA.getInstance().entitiesMap.values())
+			for (final AbstractEntity entity : MCA.getInstance().entitiesMap.values())
 			{
 				if (entity instanceof EntityChild)
 				{
@@ -66,13 +66,11 @@ public class ItemWhistle extends Item
 
 				else if (entity instanceof EntityVillagerAdult)
 				{
-					EntityVillagerAdult adult = (EntityVillagerAdult)entity;
-					if (adult.isSpouse || adult.isEngaged)
+					final EntityVillagerAdult adult = (EntityVillagerAdult)entity;
+
+					if (adult.isSpouse || adult.isEngaged && entity.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
 					{
-						if (entity.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
-						{
-							entity.setPosition(player.posX, player.posY, player.posZ);
-						}
+						entity.setPosition(player.posX, player.posY, player.posZ);
 					}
 				}
 			}

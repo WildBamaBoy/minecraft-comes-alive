@@ -30,9 +30,9 @@ public class ItemVillagerEditor extends Item
 	 * 
 	 * @param 	id	The item's ID.
 	 */
-	public ItemVillagerEditor(int id) 
+	public ItemVillagerEditor(int itemId) 
 	{
-		super(id);
+		super(itemId);
         setUnlocalizedName("Villager Editor");
         maxStackSize = 1;
         setCreativeTab(CreativeTabs.tabMisc);

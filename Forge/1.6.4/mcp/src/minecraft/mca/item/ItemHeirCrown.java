@@ -32,9 +32,9 @@ public class ItemHeirCrown extends ItemArmor
      * 
      * @param 	id	The item's ID.
      */
-    public ItemHeirCrown(int id)
+    public ItemHeirCrown(int itemId)
     {
-    	super(id, EnumArmorMaterial.GOLD, 0, 0);
+    	super(itemId, EnumArmorMaterial.GOLD, 0, 0);
         setUnlocalizedName("Heir Crown");
         maxStackSize = 1;
         setCreativeTab(CreativeTabs.tabMisc);

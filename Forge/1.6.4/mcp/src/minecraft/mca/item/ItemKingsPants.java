@@ -26,9 +26,9 @@ public class ItemKingsPants extends ItemArmor
      * 
      * @param 	id	The item's ID.
      */
-    public ItemKingsPants(int id)
+    public ItemKingsPants(int itemId)
     {
-        super(id, EnumArmorMaterial.GOLD, 0, 2);
+        super(itemId, EnumArmorMaterial.GOLD, 0, 2);
         setUnlocalizedName("MonarchPants");
         maxStackSize = 1;
         setCreativeTab(CreativeTabs.tabMisc);

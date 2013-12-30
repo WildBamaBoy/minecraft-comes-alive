@@ -30,9 +30,9 @@ public class ItemLostRelativeDocument extends Item
 	 * 
 	 * @param 	id	The item's ID.
 	 */
-	public ItemLostRelativeDocument(int id) 
+	public ItemLostRelativeDocument(int itemId) 
 	{
-		super(id);
+		super(itemId);
         setUnlocalizedName("Lost Relative Document");
         maxStackSize = 64;
         setCreativeTab(CreativeTabs.tabMisc);

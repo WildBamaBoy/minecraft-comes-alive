@@ -30,9 +30,9 @@ public class ItemWeddingRing extends Item
      * 
      * @param 	id	The item's ID.
      */
-    public ItemWeddingRing(int id)
+    public ItemWeddingRing(int itemId)
     {
-        super(id);
+        super(itemId);
         setUnlocalizedName("Wedding Ring");
         maxStackSize = 1;
         setCreativeTab(CreativeTabs.tabMisc);

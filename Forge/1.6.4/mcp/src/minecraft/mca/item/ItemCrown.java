@@ -32,9 +32,9 @@ public class ItemCrown extends ItemArmor
      * 
      * @param 	id	The item's ID.
      */
-    public ItemCrown(int id)
+    public ItemCrown(int itemId)
     {
-        super(id, EnumArmorMaterial.GOLD, 0, 0);
+        super(itemId, EnumArmorMaterial.GOLD, 0, 0);
         setUnlocalizedName("Crown");
         maxStackSize = 1;
         setCreativeTab(CreativeTabs.tabMisc);
