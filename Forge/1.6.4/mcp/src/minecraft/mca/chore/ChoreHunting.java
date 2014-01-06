@@ -16,6 +16,7 @@ import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
+import mca.core.util.Utility;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import net.minecraft.block.Block;
@@ -304,7 +305,7 @@ public class ChoreHunting extends AbstractChore
 				chanceOfDeath -= 50;
 			}
 
-			return AbstractEntity.getBooleanWithProbability(chanceOfDeath);
+			return Utility.getBooleanWithProbability(chanceOfDeath);
 		}
 
 		return false;
@@ -322,7 +323,7 @@ public class ChoreHunting extends AbstractChore
 		{
 			if (huntingMode == 1)
 			{
-				if (AbstractEntity.getBooleanWithProbability(tameSuccessChance) && owner.inventory.getQuantityOfItem(requiredItemId) != 0)
+				if (Utility.getBooleanWithProbability(tameSuccessChance) && owner.inventory.getQuantityOfItem(requiredItemId) != 0)
 				{
 					successfulAnimals++;
 					owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(requiredItemId), 1);
@@ -331,7 +332,7 @@ public class ChoreHunting extends AbstractChore
 
 			else
 			{
-				if (AbstractEntity.getBooleanWithProbability(killSuccessChance))
+				if (Utility.getBooleanWithProbability(killSuccessChance))
 				{
 					successfulAnimals++;
 				}

@@ -24,8 +24,8 @@ import mca.core.MCA;
 import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.object.UpdateHandler;
+import mca.entity.AbstractChild;
 import mca.entity.AbstractEntity;
-import mca.entity.EntityChild;
 import mca.entity.EntityPlayerChild;
 import mca.enums.EnumRelation;
 import net.minecraft.entity.player.EntityPlayer;
@@ -554,7 +554,7 @@ public final class LanguageHelper
 
 			if (text.contains("%OreType%"))
 			{
-				final EntityChild child = (EntityChild)entity;
+				final AbstractChild child = (AbstractChild)entity;
 
 				String oreName = "";
 
@@ -574,7 +574,7 @@ public final class LanguageHelper
 
 			if (text.contains("%OreDistance%"))
 			{
-				final EntityChild child = (EntityChild)entity;
+				final AbstractChild child = (AbstractChild)entity;
 				text = text.replace("%OreDistance%", String.valueOf(child.miningChore.distanceToOre));
 			}
 
@@ -595,12 +595,12 @@ public final class LanguageHelper
 			{
 				if (entity.isMale)
 				{
-					text = text.replace("%RandomName%", AbstractEntity.getRandomName(!entity.isMale));
+					text = text.replace("%RandomName%", Utility.getRandomName(!entity.isMale));
 				}
 
 				else
 				{
-					text = text.replace("%RandomName%", AbstractEntity.getRandomName(entity.isMale));
+					text = text.replace("%RandomName%", Utility.getRandomName(entity.isMale));
 				}
 			}
 

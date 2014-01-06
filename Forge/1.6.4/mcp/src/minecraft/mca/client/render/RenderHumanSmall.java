@@ -10,7 +10,7 @@
 package mca.client.render;
 
 import mca.core.MCA;
-import mca.entity.EntityChild;
+import mca.entity.AbstractChild;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 
@@ -35,7 +35,7 @@ public class RenderHumanSmall extends RenderHuman
 	 * @param	entity				The entity being rendered.
 	 * @param	partialTickTime		The time since the last in-game tick.
 	 */
-	protected void renderScale(EntityChild entity, float partialTickTime)
+	protected void renderScale(AbstractChild entity, float partialTickTime)
 	{
 		final boolean doGradualGrowth = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username).worldProperties.childrenGrowAutomatically;
 		
@@ -79,6 +79,6 @@ public class RenderHumanSmall extends RenderHuman
 	@Override
 	protected void preRenderCallback(EntityLivingBase EntityLivingBase, float partialTickTime)
 	{
-		renderScale((EntityChild)EntityLivingBase, partialTickTime);
+		renderScale((AbstractChild)EntityLivingBase, partialTickTime);
 	}
 }

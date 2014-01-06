@@ -18,6 +18,7 @@ import mca.core.MCA;
 import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
+import mca.core.util.Utility;
 import mca.core.util.object.Point3D;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
@@ -142,7 +143,7 @@ public class ChoreWoodcutting extends AbstractChore
 
 					else
 					{
-						AbstractEntity.faceCoordinates(owner, logX, logY, logZ);
+						Utility.faceCoordinates(owner, logX, logY, logZ);
 						owner.swingItem();
 						cutCounter++;
 					}

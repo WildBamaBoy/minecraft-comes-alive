@@ -11,6 +11,7 @@ package mca.entity;
 
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.util.Utility;
 import mca.core.util.object.PlayerMemory;
 import mca.enums.EnumRelation;
 import mca.item.ItemVillagerEditor;
@@ -32,7 +33,7 @@ import net.minecraft.world.World;
 /**
  * Defines a villager child and how it behaves.
  */
-public class EntityVillagerChild extends EntityChild
+public class EntityVillagerChild extends AbstractChild
 {
 	/**
 	 * Constructor
@@ -55,7 +56,7 @@ public class EntityVillagerChild extends EntityChild
 	{
 		this(world);
 
-		this.name = getRandomName(isMale);
+		this.name = Utility.getRandomName(isMale);
 		this.profession = professionID;
 		this.isMale = isMale;
 		
@@ -63,7 +64,7 @@ public class EntityVillagerChild extends EntityChild
 		{
 			//There are no female skins for butchers. Always make them Male.
 			this.isMale = true;
-			this.name = getRandomName(this.isMale);
+			this.name = Utility.getRandomName(this.isMale);
 		}
 
 		this.setTexture();

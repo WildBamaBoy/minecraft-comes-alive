@@ -48,11 +48,10 @@ public class WorldPropertiesList implements Serializable
 	/**The name of the player's spouse.*/
 	public String playerSpouseName = "";
 	
-	/**The amount of time that the player has had a baby, in minutes.*/
-	public int minutesBabyExisted = 0;
-	
 	/**The MCA ID of the person who is holding the arranger's ring.*/
 	public int arrangerRingHolderID = 0;
+	
+	public int minutesBabyExisted = 0;
 	
 	/**Is the player engaged to someone?*/
 	public boolean isEngaged = false;
@@ -71,6 +70,9 @@ public class WorldPropertiesList implements Serializable
 	
 	/**Should all marriage requests be blocked?*/
 	public boolean blockMarriageRequests = false;
+	
+	/**Should name tags be rendered above a villager?*/
+	public boolean showNameTags = true;
 	
 	/**The list containing all usernames whose marriage requests will be blocked.*/
 	public List<String> blockList = new ArrayList<String>();

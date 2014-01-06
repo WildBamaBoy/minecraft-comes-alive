@@ -190,7 +190,7 @@ public class GuiDivorceCouple extends AbstractGui
 			{
 				AbstractEntity abstractEntity = (AbstractEntity)entity;
 
-				if (abstractEntity.isMarried)
+				if (abstractEntity.isMarriedToVillager)
 				{
 					//Be sure the value isn't already contained in the key set.
 					if (tempIDMap.containsKey(abstractEntity.mcaID) == false && tempIDMap.containsValue(abstractEntity.mcaID) == false)
@@ -262,7 +262,7 @@ public class GuiDivorceCouple extends AbstractGui
 			{
 				AbstractEntity abstractEntity = (AbstractEntity)obj;
 
-				if (abstractEntity.isMarried)
+				if (abstractEntity.isMarriedToVillager)
 				{
 					//Find instances of the husband and wife entity.
 					if (abstractEntity.name.equals(spouseEntity1Name) && abstractEntity.familyTree.getInstanceOfRelative(EnumRelation.Spouse).name.equals(spouseEntity2Name))
@@ -280,12 +280,12 @@ public class GuiDivorceCouple extends AbstractGui
 
 		if (spouseEntity1 != null)
 		{
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouseEntity1.entityId, "shouldDivorce", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouseEntity1.entityId, "doDivorce", true));
 		}
 
 		if (spouseEntity2 != null)
 		{
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouseEntity2.entityId, "shouldDivorce", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouseEntity2.entityId, "doDivorce", true));
 		}
 	}
 }

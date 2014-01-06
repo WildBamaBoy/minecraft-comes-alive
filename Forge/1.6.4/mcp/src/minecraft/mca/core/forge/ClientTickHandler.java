@@ -19,7 +19,7 @@ import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
-import mca.entity.AbstractEntity;
+import mca.core.util.Utility;
 import mca.entity.EntityPlayerChild;
 import mca.enums.EnumRelation;
 import net.minecraft.client.Minecraft;
@@ -94,17 +94,20 @@ public class ClientTickHandler implements ITickHandler
 					MCA.getInstance().isDedicatedClient = false;
 				}
 
-				if (manager.worldProperties.playerName.equals(""))
+				if (manager != null) //Happens sometimes when creating new world. Unknown as to why.
 				{
-					doRunSetup(manager);
-				}
+					if (manager.worldProperties.playerName.equals(""))
+					{
+						doRunSetup(manager);
+					}
 
-				else
-				{
-					doUpdateBabyGrowth(manager);
-					doDebug(manager);
+					else
+					{
+						doUpdateBabyGrowth(manager);
+						doDebug(manager);
+					}
 				}
-
+				
 				clientTicks = 0;
 			}
 
@@ -131,7 +134,7 @@ public class ClientTickHandler implements ITickHandler
 				clientTicks = 20;
 
 				//Check for random splash text.
-				if (AbstractEntity.getBooleanWithProbability(10))
+				if (Utility.getBooleanWithProbability(10))
 				{
 					ObfuscationReflectionHelper.setPrivateValue(GuiMainMenu.class, (GuiMainMenu)guiScreen, "Minecraft Comes Alive!", 2);
 				}

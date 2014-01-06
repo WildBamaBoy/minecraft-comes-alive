@@ -17,6 +17,7 @@ import mca.core.MCA;
 import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
+import mca.core.util.Utility;
 import mca.core.util.object.Point3D;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityChoreFishHook;
@@ -334,7 +335,7 @@ public class ChoreFishing extends AbstractChore
 			fishEntity.setDead();
 		}
 
-		AbstractEntity.faceCoordinates(owner, waterCoordinatesX, waterCoordinatesY, waterCoordinatesZ);
+		Utility.faceCoordinates(owner, waterCoordinatesX, waterCoordinatesY, waterCoordinatesZ);
 		idleFishingTime++;
 	}
 
@@ -430,7 +431,7 @@ public class ChoreFishing extends AbstractChore
 	{
 		if (fishEntity != null)
 		{
-			AbstractEntity.faceCoordinates(owner, fishEntity.posX, fishEntity.posY, fishEntity.posZ);
+			Utility.faceCoordinates(owner, fishEntity.posX, fishEntity.posY, fishEntity.posZ);
 		}
 	}
 

@@ -13,8 +13,8 @@ import java.util.List;
 
 import mca.core.MCA;
 import mca.core.util.LanguageHelper;
+import mca.entity.AbstractChild;
 import mca.entity.AbstractEntity;
-import mca.entity.EntityChild;
 import mca.entity.EntityVillagerAdult;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -56,7 +56,7 @@ public class ItemWhistle extends Item
 		{
 			for (final AbstractEntity entity : MCA.getInstance().entitiesMap.values())
 			{
-				if (entity instanceof EntityChild)
+				if (entity instanceof AbstractChild)
 				{
 					if (entity.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
 					{
@@ -68,7 +68,7 @@ public class ItemWhistle extends Item
 				{
 					final EntityVillagerAdult adult = (EntityVillagerAdult)entity;
 
-					if (adult.isSpouse || adult.isEngaged && entity.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
+					if (adult.isMarriedToPlayer || adult.isEngaged && entity.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
 					{
 						entity.setPosition(player.posX, player.posY, player.posZ);
 					}

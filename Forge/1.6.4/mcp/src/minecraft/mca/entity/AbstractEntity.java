@@ -17,7 +17,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,8 +37,11 @@ import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
+import mca.core.util.ServerLimits;
+import mca.core.util.Utility;
 import mca.core.util.object.FamilyTree;
 import mca.core.util.object.PlayerMemory;
+import mca.core.util.object.TickMarker;
 import mca.enums.EnumMood;
 import mca.enums.EnumMoodChangeContext;
 import mca.enums.EnumRelation;
@@ -77,78 +79,77 @@ import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 
 /**
- * Base class for all mod entities.
+ * This behemoth is the base class for all mod entities.
  */
 public abstract class AbstractEntity extends AbstractSerializableEntity implements Serializable
 {
 	//Primitive types
 	public String name = "";
-	
 	public String currentChore = "";
 	public String lastInteractingPlayer = "";
 	public String followingPlayer = "None";
 	public String spousePlayerName = "";
 	public String monarchPlayerName = "";
 	public String texture = "textures/entity/steve.png";
-	public int mcaID = 0;
-	public int generation = 0;
-	public int profession = 0;
-	public int idleTicks = 0;
-	public int eatingTicks = 0;
-	public int healthRegenerationTicks = 0;
-	public int swingProgressTicks = 0;
-	public int heldBabyAge = 0;
-	public int heldBabyProfession = 0;
-	public int traitId = 0;
-	public int moodUpdateTicks = 0;
+	public int mcaID;
+	public int generation;
+	public int profession;
+	public int lifeTicks;
+	public int idleTicks;
+	public int eatingTicks;
+	public int healthRegenerationTicks;
+	public int swingProgressTicks;
+	public int traitId;
+	public int moodUpdateTicks;
 	public int moodUpdateDeviation = MCA.rand.nextInt(50) + MCA.rand.nextInt(50);
-	public int particleTicks = 0;
-	public int procreateTicks = 0;
-	public int villagerBabyCalendarPrevMinutes	  = Calendar.getInstance().get(Calendar.MINUTE);
-	public int villagerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
-	public int workCalendarPrevMinutes	  = Calendar.getInstance().get(Calendar.MINUTE);
+	public int particleTicks;
+	public int procreateTicks;
+	public int heldBabyProfession;
+	public int workCalendarPrevMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 	public int workCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
-	public boolean isMale = false;
-	public boolean isHeldBabyMale = false;
-	public boolean isSleeping = false;
-	public boolean isSwinging = false;
-	public boolean isFollowing = false;
-	public boolean isStaying = false;
-	public boolean isInChoreMode = false;
-	public boolean isProcreatingWithSpouse = false;
-	public boolean isMarried = false;
-	public boolean isSpouse = false;
-	public boolean isEngaged = false;
-	public boolean isRetaliating = false;
-	public boolean isPeasant = false;
-	public boolean isKnight = false;
-	public boolean hasHomePoint = false;
-	public boolean hasTeleportedHome = false;
-	public boolean hasArrangerRing = false;
-	public boolean hasCake = false;
-	public boolean hasBeenExecuted = false;
-	public boolean hasRunExecution = false;
-	public boolean shouldSpawnBaby = false;
-	public boolean shouldDivorce = false;
-	public boolean shouldOpenInventory = false;
-	public boolean shouldSkipAreaModify = false;
-	public boolean isProcreatingWithPlayer = false;
-	public boolean shouldActAsHeir = false;
+	public boolean isMale;
+	public boolean isSleeping;
+	public boolean isSwinging;
+	public boolean isFollowing;
+	public boolean isStaying;
+	public boolean isInChoreMode;
+	public boolean isRetaliating;
+	public boolean isPeasant;
+	public boolean isKnight;
+	public boolean hasHomePoint;
+	public boolean hasTeleportedHome;
+	public boolean hasArrangerRing;
+	public boolean hasCake;
+	public boolean hasBeenExecuted;
+	public boolean hasRunExecution;
+	public boolean doOpenInventory;
+	public boolean isProcreatingWithPlayer;
+	public boolean doActAsHeir;
 	public boolean isGoodHeir = true;
-	public boolean hasReturnedInventory = false;
-	public boolean hasBeenHeir = false;
-	public boolean hasBaby = false;
-	public boolean isAffectedByHeight = getBooleanWithProbability(40);
+	public boolean hasReturnedInventory;
+	public boolean hasBeenHeir;
+	public boolean isMarriageToPlayerArranged;
+	public boolean isHeldBabyMale;
+	public boolean isProcreatingWithVillager;
+	public boolean isMarriedToVillager;
+	public boolean isMarriedToPlayer;
+	public boolean isEngaged;
+	public boolean doSpawnBaby;
+	public boolean doDivorce;
+	public boolean hasBaby;
+	public boolean doApplyHeight = Utility.getBooleanWithProbability(40);
 	public boolean isHeightNegative = MCA.rand.nextBoolean();
-	public double homePointX = 0D;
-	public double homePointY = 0D;
-	public double homePointZ = 0D;
-	public float moodPointsHappy = 0.0F;
-	public float moodPointsSad = 0.0F;
-	public float moodPointsAnger = 0.0F;
-	public float villagerHeightFactor = isHeightNegative ? (MCA.rand.nextFloat() / 12) : (MCA.rand.nextFloat() / 12) * -1;
+	public double homePointX;
+	public double homePointY;
+	public double homePointZ;
+	public float moodPointsHappy;
+	public float moodPointsSad;
+	public float moodPointsAnger;
+	public float heightFactor = isHeightNegative ? MCA.rand.nextFloat() / 12 : MCA.rand.nextFloat() / 12 * -1;
 
 	//Object types
+	public TickMarker tickMarkerGrowBaby = new TickMarker(this, -1);
+
 	public FamilyTree familyTree = new FamilyTree(this);
 	public ChoreCombat combatChore = new ChoreCombat(this);
 	public ChoreFarming farmingChore = new ChoreFarming(this);
@@ -162,9 +163,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	//Transient fields
 	public transient EnumMood mood = EnumMood.Passive;
 	public transient EnumTrait trait = EnumTrait.None;
-	public transient EntityLivingBase target = null;
-	public transient boolean sentSyncRequest = false;
-	public transient boolean addedAI = false;
+	public transient EntityLivingBase target;
+	public transient boolean sentSyncRequest;
+	public transient boolean addedAI;
 
 	/**
 	 * Constructor
@@ -178,28 +179,22 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		//Get the appropriate MCA id for the person.
 		if (!world.isRemote)
 		{
-			for (Map.Entry<Integer, Integer> mapEntry : MCA.getInstance().idsMap.entrySet())
+			for (final Map.Entry<Integer, Integer> mapEntry : MCA.getInstance().idsMap.entrySet())
 			{
-				if (mapEntry.getKey() > this.mcaID)
+				if (mapEntry.getKey() > mcaID)
 				{
-					this.mcaID = mapEntry.getKey();
+					mcaID = mapEntry.getKey();
 				}
 			}
 
-			this.mcaID++;
+			mcaID++;
 
 			//Put the ID in the list.
-			MCA.getInstance().idsMap.put(this.mcaID, this.entityId);
+			MCA.getInstance().idsMap.put(mcaID, entityId);
 		}
 
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20.0D);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20.0D);
 		setSize(Constants.WIDTH_ADULT, Constants.HEIGHT_ADULT);
-	}
-
-	@Override
-	public boolean isAIEnabled()
-	{
-		return true;
 	}
 
 	/**
@@ -212,7 +207,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	public void setTexture()
 	{
-		VillagerEntryMCA entry = VillagerRegistryMCA.getRegisteredVillagerEntry(profession);
+		final VillagerEntryMCA entry = VillagerRegistryMCA.getRegisteredVillagerEntry(profession);
 
 		if (isMale)
 		{
@@ -251,14 +246,10 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		super.onUpdate();
 
 		//Sync with server if data hasn't been assigned.
-		if (worldObj.isRemote)
+		if (worldObj.isRemote && texture.contains("steve") && !sentSyncRequest)
 		{
-			if (texture.contains("steve") && !sentSyncRequest)
-			{
-				//Request sync from the server.
-				PacketDispatcher.sendPacketToServer(PacketHandler.createSyncRequestPacket(entityId));
-				sentSyncRequest = true;
-			}
+			PacketDispatcher.sendPacketToServer(PacketHandler.createSyncRequestPacket(entityId));
+			sentSyncRequest = true;
 		}
 
 		//Check for the texture, which would only NOT be there client-side. Update code cannot run without
@@ -272,10 +263,14 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				addedAI = true;
 			}
 
+			//TODO Don't do this constantly. Only do when inventory changes.
 			inventory.setWornArmorItems();
 
+			lifeTicks++;
+
+			updateTickMarkers();
 			updateSleeping();
-			updatePathing();
+			updateMovement();
 			updateGreeting();
 			updateIdle();
 			updateHealing();
@@ -286,20 +281,29 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			updateMood();
 			updateWorkTime();
 			updateDebug();
+			updateDivorce();
+			updateProcreationWithPlayer();
+			updateProcreationWithVillager();
 
 			//Check if inventory should be opened.
-			if (shouldOpenInventory)
+			if (doOpenInventory)
 			{
 				if (!worldObj.isRemote)
 				{
 					worldObj.getPlayerEntityByName(lastInteractingPlayer).openGui(MCA.getInstance(), Constants.ID_GUI_INVENTORY, worldObj, (int)posX, (int)posY, (int)posZ);
 				}
 
-				shouldOpenInventory = false;
+				doOpenInventory = false;
 			}
 		}
 	}
 
+
+	@Override
+	public boolean isAIEnabled()
+	{
+		return true;
+	}
 
 	@Override
 	protected void updateAITasks() 
@@ -313,233 +317,210 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 			if (isStaying && !isSleeping)
 			{
-				this.tasks.onUpdateTasks();
-				this.getLookHelper().onUpdateLook();
+				tasks.onUpdateTasks();
+				getLookHelper().onUpdateLook();
 			}
 
 			if (isStaying || isSleeping)
 			{
-				this.getNavigator().clearPathEntity();
+				getNavigator().clearPathEntity();
 			}
 		}
 	}
 
 	@Override
-	public void writeEntityToNBT(NBTTagCompound NBT)
+	public void writeEntityToNBT(NBTTagCompound nbt)
 	{
-		super.writeEntityToNBT(NBT);
-		inventory.writeInventoryToNBT(NBT);
-		familyTree.writeTreeToNBT(NBT);
-		combatChore.writeChoreToNBT(NBT);
-		farmingChore.writeChoreToNBT(NBT);
-		fishingChore.writeChoreToNBT(NBT);
-		woodcuttingChore.writeChoreToNBT(NBT);
-		miningChore.writeChoreToNBT(NBT);
-		huntingChore.writeChoreToNBT(NBT);
+		super.writeEntityToNBT(nbt);
 
-		NBT.setString("texture", texture);
+		inventory.writeInventoryToNBT(nbt);
+		familyTree.writeTreeToNBT(nbt);
+		combatChore.writeChoreToNBT(nbt);
+		farmingChore.writeChoreToNBT(nbt);
+		fishingChore.writeChoreToNBT(nbt);
+		woodcuttingChore.writeChoreToNBT(nbt);
+		miningChore.writeChoreToNBT(nbt);
+		huntingChore.writeChoreToNBT(nbt);
+		tickMarkerGrowBaby.writeMarkerToNBT(this, nbt);
+
+		nbt.setString("texture", texture);
 
 		String fieldName = null;
 		String fieldType = null;
 
-		try
+		for (final Field field : getClass().getFields())
 		{
-			for (Field f : this.getClass().getFields())
-			{
-				if (EntityChild.class.isAssignableFrom(f.getDeclaringClass()) || EntityPlayerChild.class.isAssignableFrom(f.getDeclaringClass()) ||
-						EntityVillagerChild.class.isAssignableFrom(f.getDeclaringClass()) || EntityVillagerAdult.class.isAssignableFrom(f.getDeclaringClass()) ||
-						AbstractEntity.class.isAssignableFrom(f.getDeclaringClass()))
-				{
-					try
-					{
-						fieldName = f.getName();
-						fieldType = f.getType().toString();
+			final Class declaringClass = field.getDeclaringClass();
 
-						//Do not save transient fields.
-						if (!Modifier.isTransient(f.getModifiers()))
-						{
-							if (fieldType.contains("String"))
-							{
-								NBT.setString(fieldName, (String)f.get(this));
-							}
-
-							else if (fieldType.contains("boolean"))
-							{
-								NBT.setBoolean(fieldName, Boolean.parseBoolean(f.get(this).toString()));
-							}
-
-							else if (fieldType.contains("double"))
-							{
-								NBT.setDouble(fieldName, Double.parseDouble(f.get(this).toString()));
-							}
-
-							else if (fieldType.contains("int"))
-							{
-								NBT.setInteger(fieldName, Integer.parseInt(f.get(this).toString()));
-							}
-
-							else if (fieldType.contains("float"))
-							{
-								NBT.setFloat(fieldName, Float.parseFloat(f.get(this).toString()));
-							}
-						}
-					}
-
-					catch (NullPointerException e)
-					{
-						continue;
-					}
-
-					catch (IllegalArgumentException e)
-					{
-						continue;
-					}
-
-					catch (IllegalAccessException e)
-					{
-						continue;
-					}
-				}
-			}
-
-			int counter = 0;
-
-			//Save the player memories to NBT.
-			for(Map.Entry<String, PlayerMemory> KVP : playerMemoryMap.entrySet())
-			{
-				NBT.setString("playerMemoryKey" + counter, KVP.getKey());
-				KVP.getValue().writePlayerMemoryToNBT(NBT);
-				counter++;
-			}
-		}
-
-		catch (Exception e)
-		{
-			MCA.getInstance().quitWithException("Error writing a field to NBT.", e);
-		}
-	}
-
-	@Override
-	public void readEntityFromNBT(NBTTagCompound NBT)
-	{
-		super.readEntityFromNBT(NBT);
-
-		inventory.readInventoryFromNBT(NBT);
-		familyTree.readTreeFromNBT(NBT);
-		combatChore.readChoreFromNBT(NBT);
-		farmingChore.readChoreFromNBT(NBT);
-		fishingChore.readChoreFromNBT(NBT);
-		woodcuttingChore.readChoreFromNBT(NBT);
-		miningChore.readChoreFromNBT(NBT);
-		huntingChore.readChoreFromNBT(NBT);
-
-		texture = NBT.getString("texture");
-
-		String fieldName = null;
-		String fieldType = null;
-
-		try
-		{
-			for (Field f : this.getClass().getFields())
-			{
-				if (EntityChild.class.isAssignableFrom(f.getDeclaringClass()) || EntityPlayerChild.class.isAssignableFrom(f.getDeclaringClass()) ||
-						EntityVillagerChild.class.isAssignableFrom(f.getDeclaringClass()) || EntityVillagerAdult.class.isAssignableFrom(f.getDeclaringClass()) ||
-						AbstractEntity.class.isAssignableFrom(f.getDeclaringClass()))
-				{
-					try
-					{
-						fieldName = f.getName();
-						fieldType = f.getType().toString();
-
-						if (!Modifier.isTransient(f.getModifiers()))
-						{
-							if (fieldType.contains("String"))
-							{
-								f.set(this, String.valueOf(NBT.getString(fieldName)));
-							}
-
-							else if (fieldType.contains("boolean"))
-							{
-								f.set(this, Boolean.valueOf(NBT.getBoolean(fieldName)));
-							}
-
-							else if (fieldType.contains("double"))
-							{
-								f.set(this, Double.valueOf(NBT.getDouble(fieldName)));
-							}
-
-							else if (fieldType.contains("int"))
-							{
-								f.set(this, Integer.valueOf(NBT.getInteger(fieldName)));
-							}
-
-							else if (fieldType.contains("float"))
-							{
-								f.set(this, Float.valueOf(NBT.getFloat(fieldName)));
-							}
-						}
-					}
-
-					catch (NullPointerException e)
-					{
-						continue;
-					}
-
-					catch (IllegalArgumentException e)
-					{
-						continue;
-					}
-
-					catch (IllegalAccessException e)
-					{
-						//Happens when characterType is hit.
-						continue;
-					}
-				}
-			}
-
-			//Get the player memories.
-			int counter = 0;
-
-			while (true)
+			if (AbstractChild.class.isAssignableFrom(declaringClass) || EntityPlayerChild.class.isAssignableFrom(declaringClass) ||
+					EntityVillagerChild.class.isAssignableFrom(declaringClass) || EntityVillagerAdult.class.isAssignableFrom(declaringClass) ||
+					AbstractEntity.class.isAssignableFrom(declaringClass))
 			{
 				try
 				{
-					String playerName = NBT.getString("playerMemoryKey" + counter);
+					fieldName = field.getName();
+					fieldType = field.getType().toString();
 
-					if (playerName.equals(""))
+					if (!Modifier.isTransient(field.getModifiers()))
 					{
-						break;
-					}
+						if (fieldType.contains("String"))
+						{
+							nbt.setString(fieldName, (String)field.get(this));
+						}
 
-					else
-					{
-						PlayerMemory playerMemory = new PlayerMemory(playerName);
-						playerMemory.readPlayerMemoryFromNBT(NBT);
-						playerMemoryMap.put(playerName, playerMemory);
+						else if (fieldType.contains("boolean"))
+						{
+							nbt.setBoolean(fieldName, Boolean.parseBoolean(field.get(this).toString()));
+						}
 
-						counter++;
+						else if (fieldType.contains("double"))
+						{
+							nbt.setDouble(fieldName, Double.parseDouble(field.get(this).toString()));
+						}
+
+						else if (fieldType.contains("int"))
+						{
+							nbt.setInteger(fieldName, Integer.parseInt(field.get(this).toString()));
+						}
+
+						else if (fieldType.contains("float"))
+						{
+							nbt.setFloat(fieldName, Float.parseFloat(field.get(this).toString()));
+						}
 					}
 				}
 
 				catch (NullPointerException e)
 				{
-					MCA.getInstance().log(e);
-					break;
+					continue;
+				}
+
+				catch (IllegalArgumentException e)
+				{
+					continue;
+				}
+
+				catch (IllegalAccessException e)
+				{
+					continue;
 				}
 			}
-
-			//Set trait.
-			trait = EnumTrait.getTraitById(traitId);
-
-			//Add to entity list.
-			MCA.getInstance().entitiesMap.put(this.mcaID, this);
 		}
 
-		catch (Exception e)
+		int counter = 0;
+
+		//Save the player memories to NBT.
+		for(final Map.Entry<String, PlayerMemory> keyValuePair : playerMemoryMap.entrySet())
 		{
-			MCA.getInstance().quitWithException("Error reading from NBT.", e);
+			nbt.setString("playerMemoryKey" + counter, keyValuePair.getKey());
+			keyValuePair.getValue().writePlayerMemoryToNBT(nbt);
+			counter++;
 		}
+	}
+
+	@Override
+	public void readEntityFromNBT(NBTTagCompound nbt)
+	{
+		super.readEntityFromNBT(nbt);
+
+		inventory.readInventoryFromNBT(nbt);
+		familyTree.readTreeFromNBT(nbt);
+		combatChore.readChoreFromNBT(nbt);
+		farmingChore.readChoreFromNBT(nbt);
+		fishingChore.readChoreFromNBT(nbt);
+		woodcuttingChore.readChoreFromNBT(nbt);
+		miningChore.readChoreFromNBT(nbt);
+		huntingChore.readChoreFromNBT(nbt);
+		tickMarkerGrowBaby.readMarkerFromNBT(this, nbt);
+
+		texture = nbt.getString("texture");
+
+		String fieldName = null;
+		String fieldType = null;
+
+		for (final Field field : getClass().getFields())
+		{
+			final Class declaringClass = field.getDeclaringClass();
+
+			if (AbstractChild.class.isAssignableFrom(declaringClass) || EntityPlayerChild.class.isAssignableFrom(declaringClass) ||
+					EntityVillagerChild.class.isAssignableFrom(declaringClass) || EntityVillagerAdult.class.isAssignableFrom(declaringClass) ||
+					AbstractEntity.class.isAssignableFrom(declaringClass))
+			{
+				try
+				{
+					fieldName = field.getName();
+					fieldType = field.getType().toString();
+
+					if (!Modifier.isTransient(field.getModifiers()))
+					{
+						if (fieldType.contains("String"))
+						{
+							field.set(this, String.valueOf(nbt.getString(fieldName)));
+						}
+
+						else if (fieldType.contains("boolean"))
+						{
+							field.set(this, Boolean.valueOf(nbt.getBoolean(fieldName)));
+						}
+
+						else if (fieldType.contains("double"))
+						{
+							field.set(this, Double.valueOf(nbt.getDouble(fieldName)));
+						}
+
+						else if (fieldType.contains("int"))
+						{
+							field.set(this, Integer.valueOf(nbt.getInteger(fieldName)));
+						}
+
+						else if (fieldType.contains("float"))
+						{
+							field.set(this, Float.valueOf(nbt.getFloat(fieldName)));
+						}
+					}
+				}
+
+				catch (NullPointerException e)
+				{
+					continue;
+				}
+
+				catch (IllegalArgumentException e)
+				{
+					continue;
+				}
+
+				catch (IllegalAccessException e)
+				{
+					continue;
+				}
+			}
+		}
+
+		//Get the player memories.
+		int counter = 0;
+
+		while (true)
+		{
+			final String playerName = nbt.getString("playerMemoryKey" + counter);
+
+			if (playerName.equals(""))
+			{
+				break;
+			}
+
+			else
+			{
+				final PlayerMemory playerMemory = new PlayerMemory(playerName);
+				playerMemory.readPlayerMemoryFromNBT(nbt);
+				playerMemoryMap.put(playerName, playerMemory);
+
+				counter++;
+			}
+		}
+
+		trait = EnumTrait.getTraitById(traitId);
+		MCA.getInstance().entitiesMap.put(mcaID, this);
 	}
 
 	@Override
@@ -553,16 +534,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		if (!currentChore.equals("Hunting"))
 		{
-			if (name.equals("Chell") && AbstractEntity.getBooleanWithProbability(50) && !damageSource.isUnblockable())
+			if (name.equals("Chell") && Utility.getBooleanWithProbability(50) && !damageSource.isUnblockable())
 			{
 				//Skip!
 				return;
 			}
 
-			//Calculate carryover damage.
 			float unabsorbedDamage = ISpecialArmor.ArmorProperties.ApplyArmor(this, inventory.armorItems, damageSource, damageAmount);
-
-			//Damage the entity.
 			super.damageEntity(damageSource, unabsorbedDamage);
 
 			//Account for sleep being interrupted.
@@ -574,10 +552,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			//Account for being hit by the player.
 			if (damageSource.getSourceOfDamage() instanceof EntityPlayer)
 			{
-				EntityPlayer player = (EntityPlayer)damageSource.getSourceOfDamage();
+				final EntityPlayer player = (EntityPlayer)damageSource.getSourceOfDamage();
+
 				modifyHearts(player, -5);
 				modifyMoodPoints(EnumMoodChangeContext.HitByPlayer, 0.5F);
 				lastInteractingPlayer = player.username;
+
 				say(LanguageHelper.getString(player, this, "hitbyplayer", true));
 
 				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "lastInteractingPlayer", lastInteractingPlayer));
@@ -587,23 +567,22 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					isRetaliating = true;
 					target = player;
 
-					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSetTargetPacket(entityId, target.entityId));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSetTargetPacket(entityId, player.entityId));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isRetaliating", isRetaliating));
 				}
 
 				else if (this instanceof EntityVillagerChild)
 				{
 					//Make parents of a villager child attack the player if they're nearby.
-					for (int id : familyTree.getEntitiesWithRelation(EnumRelation.Parent))
+					for (final int relativeID : familyTree.getEntitiesWithRelation(EnumRelation.Parent))
 					{
-						//Logical to use entity list here.
-						for (Object obj : worldObj.loadedEntityList)
+						for (final Object obj : worldObj.loadedEntityList)
 						{
 							if (obj instanceof AbstractEntity)
 							{
-								AbstractEntity entity = (AbstractEntity)obj;
+								final AbstractEntity entity = (AbstractEntity)obj;
 
-								if (entity.mcaID == id && LogicHelper.getDistanceToEntity(entity, player) <= 15)
+								if (entity.mcaID == relativeID && LogicHelper.getDistanceToEntity(entity, player) <= 15)
 								{
 									entity.isRetaliating = true;
 									entity.target = player;
@@ -619,7 +598,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 			else
 			{
-				if (target != null && (damageSource.getSourceOfDamage() instanceof EntityLivingBase))
+				if (target != null && damageSource.getSourceOfDamage() instanceof EntityLivingBase)
 				{
 					target = (EntityLivingBase)damageSource.getSourceOfDamage();
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSetTargetPacket(entityId, target.entityId));
@@ -639,88 +618,81 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		super.onDeath(damageSource);
 
-		//Check for heir.
-		if (!worldObj.isRemote && this instanceof EntityPlayerChild)
+		if (!worldObj.isRemote)
 		{
-			EntityPlayerChild playerChild = (EntityPlayerChild)this;
-			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(playerChild.ownerPlayerName);
-
-			if (manager != null)
+			if (this instanceof EntityPlayerChild)
 			{
-				if (manager.worldProperties.heirId == this.mcaID)
+				final EntityPlayerChild playerChild = (EntityPlayerChild)this;
+				final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(playerChild.ownerPlayerName);
+
+				if (manager != null && manager.worldProperties.heirId == mcaID)
 				{
 					manager.worldProperties.heirId = -1;
 					manager.saveWorldProperties();
 				}
 			}
-		}
 
-		//Make them drop all their items.
-		if (!worldObj.isRemote && damageSource != DamageSource.outOfWorld)
-		{
-			inventory.dropAllItems();
-
-			if (hasBeenExecuted)
+			if (damageSource != DamageSource.outOfWorld)
 			{
-				this.entityDropItem(new ItemStack(Item.skull, 1, 3), worldObj.rand.nextFloat());
-			}
-		}
+				inventory.dropAllItems();
 
-		//Notify related players that the entity died.
-		for (int i : familyTree.getListOfPlayers())
-		{
-			if (familyTree.idIsRelative(i))
-			{
-				EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, i);
-
-				if (player != null)
+				if (hasBeenExecuted)
 				{
-					if (!worldObj.isRemote)
-					{
-						notifyPlayer(player, LanguageHelper.getString(player, this, "notify.death." + getGenderAsString(), false));
-					}
-
-					player.inventory.addItemStackToInventory(new ItemStack(MCA.getInstance().itemTombstone));
+					entityDropItem(new ItemStack(Item.skull, 1, 3), worldObj.rand.nextFloat());
 				}
 			}
-		}
 
-		//Notify nearby villagers of the death and modify their mood.
-		for (Entity entity : (List<Entity>)LogicHelper.getAllEntitiesOfTypeWithinDistanceOfEntity(this, AbstractEntity.class, 15))
-		{
-			AbstractEntity abstractEntity = (AbstractEntity)entity;
-
-			if (abstractEntity.canEntityBeSeen(this))
+			for (final int relatedPlayerID : familyTree.getListOfPlayers())
 			{
-				abstractEntity.modifyMoodPoints(EnumMoodChangeContext.WitnessDeath, worldObj.rand.nextFloat() + worldObj.rand.nextFloat());
+				if (familyTree.idIsRelative(relatedPlayerID))
+				{
+					final EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, relatedPlayerID);
+
+					if (player != null)
+					{
+						notifyPlayer(player, LanguageHelper.getString(player, this, "notify.death." + getGenderAsString(), false));
+						player.inventory.addItemStackToInventory(new ItemStack(MCA.getInstance().itemTombstone));
+					}
+				}
 			}
-		}
 
-		//Search for their spouse and set to not married.
-		if (isMarried)
-		{
-			AbstractEntity spouse = familyTree.getInstanceOfRelative(EnumRelation.Spouse);
-
-			if (spouse != null)
+			//Notify nearby villagers of the death and modify their mood.
+			for (final Entity entity : (List<Entity>)LogicHelper.getAllEntitiesOfTypeWithinDistanceOfEntity(this, AbstractEntity.class, 15))
 			{
-				spouse.isMarried = false;
-				spouse.familyTree.removeFamilyTreeEntry(EnumRelation.Spouse);
+				final AbstractEntity abstractEntity = (AbstractEntity)entity;
+
+				if (abstractEntity.canEntityBeSeen(this))
+				{
+					abstractEntity.modifyMoodPoints(EnumMoodChangeContext.WitnessDeath, worldObj.rand.nextFloat() + worldObj.rand.nextFloat());
+				}
 			}
-		}
 
-		//Try to turn them into a zombie if they were killed by one.
-		if (damageSource.getSourceOfDamage() instanceof EntityZombie)
-		{
-			if (!this.worldObj.isRemote)
+			if (this instanceof AbstractEntity)
 			{
-				EntityZombie newZombie = new EntityZombie(worldObj);
+				final AbstractEntity thisAsFertile = (AbstractEntity)this;
+
+				if (thisAsFertile.isMarriedToVillager)
+				{
+					final AbstractEntity spouse = (AbstractEntity)familyTree.getInstanceOfRelative(EnumRelation.Spouse);
+
+					if (spouse != null)
+					{
+						spouse.isMarriedToVillager = false;
+						spouse.familyTree.removeFamilyTreeEntry(EnumRelation.Spouse);
+					}
+				}
+			}
+
+			if (damageSource.getSourceOfDamage() instanceof EntityZombie) //Try to turn into a zombie if killed by one.
+			{
+				final EntityZombie newZombie = new EntityZombie(worldObj);
 				newZombie.setPositionAndRotation(posX, posY, posZ, rotationYaw, rotationPitch);
 				worldObj.spawnEntityInWorld(newZombie);
 			}
-		}
 
-		//Erase from the entities map.
-		MCA.getInstance().entitiesMap.remove(this.mcaID);
+			//Erase from the entities map.
+			MCA.getInstance().entitiesMap.remove(mcaID);
+		}
 	}
 
 	@Override
@@ -743,45 +715,25 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public boolean interact(EntityPlayer player)
 	{		
 		lastInteractingPlayer = player.username;
+		
+		if (!playerMemoryMap.containsKey(player.username))
+		{
+			playerMemoryMap.put(player.username, new PlayerMemory(player.username));
+		}
+		
 		return false;
 	}
 
 	@Override
 	public boolean canEntityBeSeen(Entity entity)
 	{
-		if (entity != null)
-		{
-			return super.canEntityBeSeen(entity);
-		}
-
-		else
-		{
-			return false;
-		}
-	}
-
-	/**
-	 * Returns the texture string for this entity.
-	 * 
-	 * @return	Location of the texture for this entity.
-	 */
-	public String getTexture()
-	{
-		return texture;
+		return entity == null ? false : super.canEntityBeSeen(entity);
 	}
 
 	@Override
 	public boolean canBePushed()
 	{
-		if (isSleeping)
-		{
-			return false;
-		}
-
-		else
-		{
-			return true;
-		}
+		return !isSleeping;
 	}
 
 	@Override
@@ -802,6 +754,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		return getHurtSound();
 	}
 
+	@Override
 	public Icon getItemIcon(ItemStack itemStack, int unknown)
 	{
 		Icon icon = super.getItemIcon(itemStack, unknown);
@@ -814,33 +767,43 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		return icon;
 	}
 
-	/**
-	 * Writes this object to an object output stream. (Serialization)
-	 * 
-	 * @param 	out	The object output stream that this object should be written to.
-	 * 
-	 * @throws 	IOException	This exception should never happen.
-	 */
-	private void writeObject(ObjectOutputStream out) throws IOException
+	@Override
+	public void func_110297_a_(ItemStack itemStack)
 	{
-		out.defaultWriteObject();
-		out.writeObject(texture);
-		out.writeObject(entityId);
+		//Stop the horrendous sounds.
 	}
 
-	/**
-	 * Reads this object from an object input stream. (Deserialization)
-	 * 
-	 * @param 	in	The object input stream that this object should be read from.
-	 * 
-	 * @throws 	IOException				This exception should never happen.
-	 * @throws 	ClassNotFoundException	This exception should never happen.
-	 */
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException
+	@Override
+	public void useRecipe(MerchantRecipe merchantRecipe)
 	{
-		in.defaultReadObject();
-		texture = (String)in.readObject();
-		entityId = (Integer)in.readObject();
+		//Representation of EntityVillager's useRecipe without playing sounds.
+		merchantRecipe.incrementToolUses();
+		livingSoundTime = -getTalkInterval();
+
+		final MerchantRecipeList buyingList = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 5);
+
+		if (merchantRecipe.hasSameIDsAs((MerchantRecipe)buyingList.get(buyingList.size() - 1)))
+		{
+			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, Integer.valueOf(40), 6);
+			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, true, 7);
+
+			final EntityPlayer buyingPlayer = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 4);
+			if (buyingPlayer == null)
+			{
+				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, null, 9);
+			}
+
+			else
+			{
+				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, buyingPlayer.getCommandSenderName(), 9);
+			}
+		}
+
+		if (merchantRecipe.getItemToBuy().itemID == Item.emerald.itemID)
+		{
+			final int wealth = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 8);
+			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, Integer.valueOf(wealth + merchantRecipe.getItemToBuy().stackSize), 8);
+		}
 	}
 
 	/**
@@ -848,26 +811,18 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	public void damageHeldItem()
 	{
-		try
-		{
-			ItemStack heldItem = getHeldItem();
+		final ItemStack heldItem = getHeldItem();
 
-			if (heldItem != null)
+		if (heldItem != null)
+		{
+			final int itemSlot = inventory.getFirstSlotContainingItem(heldItem.getItem());
+			inventory.inventoryItems[itemSlot].damageItem(1, this);
+
+			if (inventory.inventoryItems[itemSlot].stackSize == 0)
 			{
-				int itemSlot = inventory.getFirstSlotContainingItem(heldItem.getItem());
-				inventory.inventoryItems[itemSlot].damageItem(1, this);
-
-				if (inventory.inventoryItems[itemSlot].stackSize == 0)
-				{
-					onItemDestroyed(inventory.inventoryItems[itemSlot]);
-					inventory.setInventorySlotContents(inventory.getFirstSlotContainingItem(inventory.inventoryItems[itemSlot].getItem()), null);
-				}
+				onItemDestroyed(inventory.inventoryItems[itemSlot]);
+				inventory.setInventorySlotContents(inventory.getFirstSlotContainingItem(inventory.inventoryItems[itemSlot].getItem()), null);
 			}
-		}
-
-		catch (ArrayIndexOutOfBoundsException e)
-		{
-			return;
 		}
 	}
 
@@ -879,33 +834,22 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public void onItemDestroyed(ItemStack stack)
 	{
 		//Only notify the related players of these events.
-		for (int i : familyTree.getListOfPlayers())
+		for (final int relatedPlayerID : familyTree.getListOfPlayers())
 		{
-			EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, i);
-			Item itemInStack = stack.getItem();
+			final EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, relatedPlayerID);
+			final Item itemInStack = stack.getItem();
 
 			if (itemInStack instanceof ItemArmor)
 			{
-				ItemArmor itemAsArmor = (ItemArmor)itemInStack;
+				final ItemArmor itemAsArmor = (ItemArmor)itemInStack;
 
-				if (itemAsArmor.armorType == 0)
+				switch (itemAsArmor.armorType)
 				{
-					notifyPlayer(player, LanguageHelper.getString(this, "notify.item.broken.helmet"));
-				}
-
-				else if (itemAsArmor.armorType == 1)
-				{
-					notifyPlayer(player, LanguageHelper.getString(this, "notify.item.broken.chestplate"));
-				}
-
-				else if (itemAsArmor.armorType == 2)
-				{
-					notifyPlayer(player, LanguageHelper.getString(this, "notify.item.broken.leggings"));
-				}
-
-				else if (itemAsArmor.armorType == 3)
-				{
-					notifyPlayer(player, LanguageHelper.getString(this, "notify.item.broken.boots"));
+				case 0: notifyPlayer(player, LanguageHelper.getString(this, "notify.item.broken.helmet")); break;
+				case 1: notifyPlayer(player, LanguageHelper.getString(this, "notify.item.broken.chestplate")); break;
+				case 2: notifyPlayer(player, LanguageHelper.getString(this, "notify.item.broken.leggings")); break;
+				case 3: notifyPlayer(player, LanguageHelper.getString(this, "notify.item.broken.boots")); break;
+				default: break;
 				}
 			}
 
@@ -948,7 +892,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		super.setDead();
 
-		if (this.worldObj.isRemote)
+		if (worldObj.isRemote)
 		{
 			PacketDispatcher.sendPacketToServer(PacketHandler.createKillPacket(this));
 		}
@@ -964,7 +908,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	public void setChoresStopped()
 	{
-		AbstractChore chore = getInstanceOfCurrentChore();
+		final AbstractChore chore = getInstanceOfCurrentChore();
 
 		if (!(chore instanceof ChoreCombat))
 		{
@@ -1007,22 +951,15 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		else
 		{
+			final EntityPlayer player = worldObj.getPlayerEntityByName(lastInteractingPlayer);
+
 			isSleeping = false;
 			idleTicks = 0;
 
 			//Ensure that the entity is synced with the server by checking if it has a name.
-			try
+			if (!name.equals("") && player != null)
 			{
-				if (!name.equals(""))
-				{
-					EntityPlayer player = worldObj.getPlayerEntityByName(lastInteractingPlayer);
-					player.addChatMessage(getTitle(MCA.getInstance().getIdOfPlayer(player), true) + ": " + text);
-				}
-			}
-
-			catch (NullPointerException e)
-			{
-				MCA.getInstance().log("WARNING: Unable to get last interacting player.");
+				player.addChatMessage(getTitle(MCA.getInstance().getIdOfPlayer(player), true) + ": " + text);
 			}
 
 			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "isSleeping", false));
@@ -1061,7 +998,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			if (worldObj.isRemote)
 			{
-				EntityPlayer clientPlayer = (EntityPlayer)worldObj.playerEntities.get(0);
+				final EntityPlayer clientPlayer = (EntityPlayer)worldObj.playerEntities.get(0);
 				clientPlayer.addChatMessage(text);
 			}
 		}
@@ -1077,6 +1014,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	public void spawnAtHomePoint()
 	{
+		//TODO Check side.
+
 		//Check if they actually have a home point.
 		if (hasHomePoint)
 		{
@@ -1125,9 +1064,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					//Make them go to sleep.
 					if (this instanceof EntityVillagerAdult)
 					{
-						EntityVillagerAdult adult = (EntityVillagerAdult)this;
+						final EntityVillagerAdult adult = (EntityVillagerAdult)this;
 
-						if (adult.profession == 5 && !adult.isSpouse)
+						if (adult.profession == 5 && !adult.isMarriedToPlayer)
 						{
 							hasTeleportedHome = true;
 							return;
@@ -1138,11 +1077,11 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					hasTeleportedHome = true;
 				}
 
-				else //The test for obstructed home point failed. Notify the player.
+				else //The test for obstructed home point failed. Notify the related players.
 				{
-					for (int i : familyTree.getListOfPlayers())
+					for (final int relatedPlayerId : familyTree.getListOfPlayers())
 					{
-						EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, i);
+						final EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, relatedPlayerId);
 
 						if (worldObj.isRemote)
 						{
@@ -1158,9 +1097,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		//This person doesn't have a home point.
 		else
 		{
-			for (int i : familyTree.getListOfPlayers())
+			for (final int relatedPlayerId : familyTree.getListOfPlayers())
 			{
-				EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, i);
+				final EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, relatedPlayerId);
 
 				if (worldObj.isRemote)
 				{
@@ -1181,363 +1120,26 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		if (worldObj.getBlockId((int)homePointX, (int)(homePointY + 0), (int)homePointZ) == 0 &&
 				worldObj.getBlockId((int)homePointX, (int)(homePointY + 1), (int)homePointZ) == 0)
 		{
-			//Notify that the home point was successfully set.
 			notifyPlayer(worldObj.getPlayerEntityByName(lastInteractingPlayer), LanguageHelper.getString("notify.homepoint.set"));
 		}
 
 		else //The home point is obstructed, therefore invalid.
 		{
-			//Notify that the home point was not successfully set.
 			notifyPlayer(worldObj.getPlayerEntityByName(lastInteractingPlayer), LanguageHelper.getString("notify.homepoint.invalid"));
 			hasHomePoint = false;
+
 			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "hasHomePoint", false));
 		}
 	}
 
 	/**
-	 * Calculate if a chat should be good or bad and say the appropriate response.
+	 * Returns the texture string for this entity.
 	 * 
-	 * @param 	player	The player whose hearts should change.
+	 * @return	Location of the texture for this entity.
 	 */
-	public void doChat(EntityPlayer player)
+	public String getTexture()
 	{
-		boolean chatWasGood = false;
-
-		PlayerMemory memory = playerMemoryMap.get(player.username);
-		int chanceModifier = -(memory.interactionFatigue * 7) + mood.getChanceModifier("chat") + trait.getChanceModifier("chat");
-		int heartsModifier = mood.getHeartsModifier("chat") + trait.getHeartsModifier("chat");
-		chatWasGood = getBooleanWithProbability(65 + chanceModifier);
-
-		if (chatWasGood)
-		{
-			//Don't want to apply a negative value to a good interaction. Set it to 1 so player still has penalty
-			//of performing wrong interaction based on traits or mood.
-			if (heartsModifier < 0)
-			{
-				heartsModifier = 1;
-			}
-
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "chat.good"));
-			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), (worldObj.rand.nextInt(5) + 1) + heartsModifier);
-			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
-		}
-
-		else
-		{
-			if (heartsModifier > 0)
-			{
-				heartsModifier = -1;
-			}
-
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "chat.bad"));
-			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(5) + 1)) + heartsModifier);
-			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
-		}
-
-		memory.interactionFatigue++;
-		playerMemoryMap.put(player.username, memory);
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
-	}
-
-	/**
-	 * Calculate if a joke should be good or bad and say the appropriate response.
-	 * 
-	 * @param 	player	The player whose hearts should change.
-	 */
-	public void doJoke(EntityPlayer player)
-	{
-		boolean jokeWasGood = false;
-
-		PlayerMemory memory = playerMemoryMap.get(player.username);
-		int chanceModifier = -(memory.interactionFatigue * 7) + mood.getChanceModifier("joke") + trait.getChanceModifier("joke");
-		int heartsModifier = mood.getHeartsModifier("joke") + trait.getHeartsModifier("joke");
-
-		jokeWasGood = getBooleanWithProbability(65 + chanceModifier);
-
-		if (jokeWasGood)
-		{
-			//Don't want to apply a negative value to a good interaction. Set it to 1 so player still has penalty
-			//of performing wrong interaction based on traits or mood.
-			if (heartsModifier < 0)
-			{
-				heartsModifier = 1;
-			}
-
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "joke.good"));
-			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), (worldObj.rand.nextInt(9) + 3) + heartsModifier);
-			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
-		}
-
-		else
-		{
-			if (heartsModifier > 0)
-			{
-				heartsModifier = -1;
-			}
-
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "joke.bad"));
-			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(9) + 3)) + heartsModifier);
-			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
-		}
-
-		memory.interactionFatigue++;
-		playerMemoryMap.put(player.username, memory);
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
-	}
-
-	/**
-	 * Calculate if a greeting should be good or bad and say the appropriate response.
-	 * 
-	 * @param 	player	The player whose hearts should change.
-	 */
-	public void doGreeting(EntityPlayer player)
-	{
-		boolean greetingWasGood = false;
-
-		//This has a higher interaction fatigue, so that reactions are appropriate when the player "greets" someone multiple times.
-		PlayerMemory memory = playerMemoryMap.get(player.username);
-		int chanceModifier = -(memory.interactionFatigue * 20) + mood.getChanceModifier("greeting") + trait.getChanceModifier("greeting");
-		int heartsModifier = mood.getHeartsModifier("greeting") + trait.getHeartsModifier("greeting");
-
-		//Base 90% chance of success.
-		greetingWasGood = getBooleanWithProbability(90 + chanceModifier);
-		String greetingType = memory.hearts >= 50 ? "highfive" : "handshake";
-
-		if (greetingWasGood)
-		{
-			//Don't want to apply a negative value to a good interaction. Set it to 1 so player still has penalty
-			//of performing wrong interaction based on traits or mood.
-			if (heartsModifier < 0)
-			{
-				heartsModifier = 1;
-			}
-
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "greeting." + greetingType + ".good"));
-			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), (worldObj.rand.nextInt(3) + 3) + heartsModifier);
-			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
-		}
-
-		else
-		{
-			if (heartsModifier > 0)
-			{
-				heartsModifier = -1;
-			}
-
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "greeting." + greetingType + ".bad"));
-			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(3) + 3)) + heartsModifier);
-			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
-		}
-
-		memory.interactionFatigue++;
-		playerMemoryMap.put(player.username, memory);
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
-	}
-
-	/**
-	 * Calculate if a story should be good or bad and say the appropriate response.
-	 * 
-	 * @param 	player	The player whose hearts should change.
-	 */
-	public void doTellStory(EntityPlayer player)
-	{
-		boolean storyWasGood = false;
-
-		PlayerMemory memory = playerMemoryMap.get(player.username);
-		int chanceModifier = -(memory.interactionFatigue * 7) + mood.getChanceModifier("story") + trait.getChanceModifier("story");
-		int heartsModifier = mood.getHeartsModifier("story") + trait.getHeartsModifier("story");
-
-		storyWasGood = getBooleanWithProbability(65 + chanceModifier);
-
-		if (storyWasGood)
-		{
-			//Don't want to apply a negative value to a good interaction. Set it to 1 so player still has penalty
-			//of performing wrong interaction based on traits or mood.
-			if (heartsModifier < 0)
-			{
-				heartsModifier = 1;
-			}
-
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "tellstory.good"));
-			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), (worldObj.rand.nextInt(9) + 3) + heartsModifier);
-			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
-		}
-
-		else
-		{
-			if (heartsModifier > 0)
-			{
-				heartsModifier = -1;
-			}
-
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "tellstory.bad"));
-			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(9) + 3)) + heartsModifier);
-			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
-		}
-
-		memory.interactionFatigue++;
-		playerMemoryMap.put(player.username, memory);
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
-	}
-
-	/**
-	 * Calculate if play should be good or bad and say the appropriate response.
-	 * 
-	 * @param 	player	The player whose hearts should change.
-	 */
-	public void doPlay(EntityPlayer player)
-	{
-		boolean playWasGood = false;
-
-		PlayerMemory memory = playerMemoryMap.get(player.username);
-		int chanceModifier = -(memory.interactionFatigue * 7) + mood.getChanceModifier("play") + trait.getChanceModifier("play");
-		int heartsModifier = mood.getHeartsModifier("play") + trait.getHeartsModifier("play");
-
-		playWasGood = getBooleanWithProbability(65 + chanceModifier);
-
-		if (playWasGood)
-		{
-			//Don't want to apply a negative value to a good interaction. Set it to 1 so player still has penalty
-			//of performing wrong interaction based on traits or mood.
-			if (heartsModifier < 0)
-			{
-				heartsModifier = 1;
-			}
-
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "play.good"));
-			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), (worldObj.rand.nextInt(6) + 6) + heartsModifier);
-			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
-		}
-
-		else
-		{
-			if (heartsModifier > 0)
-			{
-				heartsModifier = -1;
-			}
-
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "play.bad"));
-			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(6) + 6)) + heartsModifier);
-			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
-		}
-
-		memory.interactionFatigue++;
-		playerMemoryMap.put(player.username, memory);
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
-	}
-
-	/**
-	 * Calculate if a flirt should be good or bad and say the appropriate response.
-	 * 
-	 * @param 	player	The player whose hearts should change.
-	 */
-	public void doFlirt(EntityPlayer player)
-	{
-		int hearts = getHearts(player);
-		boolean flirtWasGood = false;
-
-		PlayerMemory memory = playerMemoryMap.get(player.username);
-		int chanceModifier = -(memory.interactionFatigue * 7) + mood.getChanceModifier("flirt") + trait.getChanceModifier("flirt");
-		int heartsModifier = mood.getHeartsModifier("flirt") + trait.getHeartsModifier("flirt");
-
-		//When hearts are above 50, add 35 to the chance modifier to make more sense.
-		if (hearts > 50)
-		{
-			chanceModifier += 35;
-		}
-
-		//Base 10% chance of success.
-		flirtWasGood = getBooleanWithProbability(10 + chanceModifier);
-
-		if (flirtWasGood)
-		{
-			//Don't want to apply a negative value to a good interaction. Set it to 1 so player still has penalty
-			//of performing wrong interaction based on traits or mood.
-			if (heartsModifier < 0)
-			{
-				heartsModifier = 1;
-			}
-
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "flirt.good"));
-			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), (worldObj.rand.nextInt(8) + 4) + heartsModifier);
-			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
-		}
-
-		else
-		{
-			if (heartsModifier > 0)
-			{
-				heartsModifier = -1;
-			}
-
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "flirt.bad"));
-			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(8) + 4)) + heartsModifier);
-			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()) / 2);
-		}
-
-		memory.interactionFatigue++;
-		playerMemoryMap.put(player.username, memory);
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
-	}
-
-	/**
-	 * Calculate if a kiss should be good or bad and say the appropriate response.
-	 * 
-	 * @param 	player	The player whose hearts should change.
-	 */
-	public void doKiss(EntityPlayer player)
-	{
-		int hearts = getHearts(player);
-		boolean kissWasGood = false;
-
-		//This has a higher interaction fatigue.
-		PlayerMemory memory = playerMemoryMap.get(player.username);
-		int chanceModifier = -(memory.interactionFatigue * 10) + mood.getChanceModifier("kiss") + trait.getChanceModifier("kiss");
-		int heartsModifier = mood.getHeartsModifier("kiss") + trait.getHeartsModifier("kiss");
-
-		//When hearts are above 75, add 75 to the chance modifier to make more sense.
-		if (hearts > 75)
-		{
-			chanceModifier += 75;
-		}
-
-		else
-		{
-			chanceModifier -= 25;
-		}
-
-		//Base 10% chance of success.
-		kissWasGood = getBooleanWithProbability(10 + chanceModifier);
-
-		if (kissWasGood)
-		{
-			//Don't want to apply a negative value to a good interaction. Set it to 1 so player still has penalty
-			//of performing wrong interaction based on traits or mood.
-			if (heartsModifier < 0)
-			{
-				heartsModifier = 1;
-			}
-
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "kiss.good"));
-			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), (worldObj.rand.nextInt(16) + 6) + heartsModifier);
-			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()));
-		}
-
-		else
-		{
-			if (heartsModifier > 0)
-			{
-				heartsModifier = -1;
-			}
-
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "kiss.bad"));
-			modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -((worldObj.rand.nextInt(16) + 6)) + heartsModifier);
-			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, (worldObj.rand.nextFloat() + worldObj.rand.nextFloat()));
-		}
-
-		memory.interactionFatigue++;
-		playerMemoryMap.put(player.username, memory);
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
+		return texture;
 	}
 
 	/**
@@ -1549,7 +1151,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		return isMale ? "Male" : "Female";
 	}
-	
+
 	/**
 	 * Gets the title of this entity that will be displayed to the player interacting with it.
 	 * 
@@ -1560,22 +1162,15 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	public String getTitle(int playerId, boolean isInformal)
 	{
-		if (!familyTree.idIsRelative(playerId))
+		if (familyTree.idIsRelative(playerId))
 		{
-			if (!(this instanceof EntityChild))
-			{
-				return getLocalizedProfessionString();
-			}
+			return familyTree.getRelationTo(playerId).toString(this, isMale, isInformal) + " " + name;
 
-			else
-			{
-				return LanguageHelper.getString(this, "profession.playerchild." + getGenderAsString(), false);
-			}
 		}
 
 		else
 		{
-			return familyTree.getRelationTo(playerId).toString(this, isMale, isInformal) + " " + name;
+			return this instanceof AbstractChild ? LanguageHelper.getString(this, "profession.playerchild." + getGenderAsString(), false) : getLocalizedProfessionString();
 		}
 	}
 
@@ -1593,7 +1188,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		else
 		{
-			VillagerEntryMCA entry = VillagerRegistryMCA.getRegisteredVillagerEntry(profession);
+			final VillagerEntryMCA entry = VillagerRegistryMCA.getRegisteredVillagerEntry(profession);
 
 			if (entry.getIsLocalized())
 			{
@@ -1602,32 +1197,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 			else
 			{
-				return this.name + " the " + entry.getUnlocalizedProfessionName();
+				return name + " the " + entry.getUnlocalizedProfessionName();
 			}
-			//			
-			//			switch (profession)
-			//			{
-			//			case -1:
-			//				return LanguageHelper.getString(this, "profession.playerchild." + this.getGenderAsString(), false);
-			//			case 0:
-			//				return LanguageHelper.getString(this, "profession.farmer." + this.getGenderAsString(), false);
-			//			case 1:
-			//				return LanguageHelper.getString(this, "profession.librarian." + this.getGenderAsString(), false);
-			//			case 2:
-			//				return LanguageHelper.getString(this, "profession.priest." + this.getGenderAsString(), false);
-			//			case 3:
-			//				return LanguageHelper.getString(this, "profession.smith." + this.getGenderAsString(), false);
-			//			case 4:
-			//				return LanguageHelper.getString(this, "profession.butcher." + this.getGenderAsString(), false);
-			//			case 5:
-			//				return LanguageHelper.getString(this, "profession.guard." + this.getGenderAsString(), false);
-			//			case 6:
-			//				return LanguageHelper.getString(this, "profession.baker." + this.getGenderAsString(), false);
-			//			case 7:
-			//				return LanguageHelper.getString(this, "profession.miner." + this.getGenderAsString(), false);
-			//			default:
-			//				return null;
-			//			}
 		}
 	}
 
@@ -1676,7 +1247,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	public void setMoodByMoodPoints(boolean dispatchPackets)
 	{
-		List<Float> moodValues = new ArrayList<Float>();
+		final List<Float> moodValues = new ArrayList<Float>();
 		moodValues.add(moodPointsHappy);
 		moodValues.add(moodPointsSad);
 		moodValues.add(moodPointsAnger);
@@ -1684,16 +1255,16 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		float highestValue = 0.0F;
 		int moodIndex = 0;
 
-		int i = 0;
-		while (i != 3)
+		int index = 0;
+		while (index != 3)
 		{
-			if (moodValues.get(i) > highestValue)
+			if (moodValues.get(index) > highestValue)
 			{
-				highestValue = moodValues.get(i);
-				moodIndex = i;
+				highestValue = moodValues.get(index);
+				moodIndex = index;
 			}
 
-			i++;
+			index++;
 		}
 
 		//Mood will be passive if the highest value of each is between -0.5 and 0.5.
@@ -1737,8 +1308,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "moodPointsAnger", moodPointsAnger));
 			}
 		}
-
-
 	}
 
 	/**
@@ -1787,24 +1356,24 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				break;
 			}
 
-			int moodLevel = worldObj.rand.nextInt(4) + 1;
+			final int moodLevel = worldObj.rand.nextInt(4) + 1;
 
 			//Bad moods first.
-			if (getBooleanWithProbability(chanceOfSad))
+			if (Utility.getBooleanWithProbability(chanceOfSad))
 			{
 				moodPointsSad = moodLevel;
 				moodPointsAnger = 0.0F;
 				moodPointsHappy = 0.0F;
 			}
 
-			else if (getBooleanWithProbability(chanceOfMad))
+			else if (Utility.getBooleanWithProbability(chanceOfMad))
 			{
 				moodPointsSad = 0.0F;
 				moodPointsAnger = moodLevel;
 				moodPointsHappy = 0.0F;
 			}
 
-			else if (getBooleanWithProbability(chanceOfHappy))
+			else if (Utility.getBooleanWithProbability(chanceOfHappy))
 			{
 				moodPointsSad = 0.0F;
 				moodPointsAnger = 0.0F;
@@ -1820,45 +1389,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		}
 	}
 
-	@Override
-	public void func_110297_a_(ItemStack itemStack)
-	{
-		//Stop the horrendous sounds.
-	}
-
-	@Override
-	public void useRecipe(MerchantRecipe merchantRecipe)
-	{
-		//Stop the horrendous sounds.
-		merchantRecipe.incrementToolUses();
-		this.livingSoundTime = -this.getTalkInterval();
-
-		MerchantRecipeList buyingList = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 5);
-
-		if (merchantRecipe.hasSameIDsAs((MerchantRecipe)buyingList.get(buyingList.size() - 1)))
-		{
-			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, Integer.valueOf(40), 6);
-			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, true, 7);
-
-			EntityPlayer buyingPlayer = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 4);
-			if (buyingPlayer != null)
-			{
-				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, buyingPlayer.getCommandSenderName(), 9);
-			}
-
-			else
-			{
-				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, null, 9);
-			}
-		}
-
-		if (merchantRecipe.getItemToBuy().itemID == Item.emerald.itemID)
-		{
-			int wealth = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 8);
-			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, Integer.valueOf(wealth + merchantRecipe.getItemToBuy().stackSize), 8);
-		}
-	}
-
 	/**
 	 * Removes the specified amount of the provided item from the server and client side player inventory.
 	 * 
@@ -1867,9 +1397,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	protected void removeAmountFromGiftedItem(ItemStack itemStack, int amount)
 	{
-		int nextStackSize = itemStack.stackSize - amount;
-
-		EntityPlayer player = worldObj.getPlayerEntityByName(lastInteractingPlayer);
+		final int nextStackSize = itemStack.stackSize - amount;
+		final EntityPlayer player = worldObj.getPlayerEntityByName(lastInteractingPlayer);
 
 		//Check if the next size is zero or below, meaning it must be null.
 		if (nextStackSize <= 0)
@@ -1881,77 +1410,10 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		//The new stack size is greater than zero.
 		else
 		{
-			ItemStack newItemStack = new ItemStack(itemStack.getItem(), nextStackSize);
+			final ItemStack newItemStack = new ItemStack(itemStack.getItem(), nextStackSize);
 			player.inventory.setInventorySlotContents(player.inventory.currentItem, newItemStack);
 			PacketDispatcher.sendPacketToServer(PacketHandler.createRemoveItemPacket(player.entityId, player.inventory.currentItem, amount, itemStack.getItemDamageForDisplay()));
 		}
-	}
-
-	/**
-	 * Processes the gifting of an item stack to an entity.
-	 * 
-	 * @param 	itemStack	The item stack that was given to the entity.
-	 * @param	player		The player that gifted the item.
-	 */
-	protected void doGift(ItemStack itemStack, EntityPlayer player)
-	{
-		PlayerMemory memory = playerMemoryMap.get(player.username);
-		int baseHeartValue = 0;
-		int heartIncrease = 0;
-
-		//Check the acceptable gifts for the item stack's item ID.
-		if (MCA.acceptableGifts.containsKey(itemStack.itemID))
-		{
-			baseHeartValue = MCA.acceptableGifts.get(itemStack.itemID);
-			heartIncrease = -(memory.interactionFatigue * 7) + baseHeartValue + mood.getHeartsModifier("gift") + trait.getHeartsModifier("gift");
-		}
-
-		else if (itemStack.getItem() instanceof IGiftableItem)
-		{
-			IGiftableItem item = (IGiftableItem) itemStack.getItem();
-			baseHeartValue = item.getGiftValue();
-			heartIncrease = -(memory.interactionFatigue * 7) + baseHeartValue + mood.getHeartsModifier("gift") + trait.getHeartsModifier("gift");
-		}
-
-		//The gift wasn't contained in the acceptable gifts map or it's not a giftable item.
-		else
-		{
-			modifyHearts(player, -(worldObj.rand.nextInt(9) + 5));
-			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, 0.5F);
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.bad"));
-			return;
-		}
-
-		//Verify heart increase is always positive.
-		if (heartIncrease <= 0)
-		{
-			heartIncrease = 1;
-		}
-
-		modifyHearts(player, heartIncrease);
-		removeItemFromPlayer(itemStack, player);
-
-		//Say the appropriate phrase based on base hearts increase.
-		if (baseHeartValue <= 5)
-		{
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.small"));
-			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, 0.3F);
-		}
-
-		else if (baseHeartValue > 5 && baseHeartValue < 10)
-		{
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.regular"));
-			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, 0.5F);
-		}
-
-		else
-		{
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.great"));
-			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, 1.0F);
-		}
-
-		memory.interactionFatigue++;
-		playerMemoryMap.put(player.username, memory);
 	}
 
 	/**
@@ -2020,7 +1482,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		else
 		{
-			PlayerMemory playerMemory = new PlayerMemory(player.username);
+			final PlayerMemory playerMemory = new PlayerMemory(player.username);
 			playerMemory.hearts = amount;
 			playerMemoryMap.put(player.username, playerMemory);
 		}
@@ -2036,59 +1498,50 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		}
 
 		//Check for monarch status and area modification.
-		if (!shouldSkipAreaModify)
+		final PlayerMemory playerMemory = playerMemoryMap.get(player.username);
+		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
+
+		if (playerMemory.hasBoostedHearts)
 		{
-			PlayerMemory playerMemory = playerMemoryMap.get(player.username);
-			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
-
-			if (playerMemory.hasBoostedHearts)
+			for (final Entity entity : LogicHelper.getAllEntitiesWithinDistanceOfEntity(this, 30))
 			{
-				for (Entity entity : LogicHelper.getAllEntitiesWithinDistanceOfEntity(this, 30))
+				if (entity instanceof AbstractEntity)
 				{
-					if (entity instanceof AbstractEntity)
+					final AbstractEntity abstractEntity = (AbstractEntity)entity;
+
+					//Relatives to the player are not affected.
+					if (!abstractEntity.familyTree.idIsRelative(manager.worldProperties.playerID))
 					{
-						AbstractEntity abstractEntity = (AbstractEntity)entity;
+						//Other villagers are affected by 50% of the original value.
+						final Double percentage = amount * 0.50;
 
-						//Relatives to the player are not affected.
-						if (!abstractEntity.familyTree.idIsRelative(manager.worldProperties.playerID))
+						//Check if this entity has been executed. If so, check the number of executions witnessed by each
+						//surrounding villager. If it's more than three, then they suffer a drop in hearts.
+						if (hasBeenExecuted)
 						{
-							//Other villagers are affected by 50% of the original value.
-							Double percentage = amount * 0.50;
+							final PlayerMemory otherMemory = abstractEntity.playerMemoryMap.get(player.username);
 
-							//Check if this entity has been executed. If so, check the number of executions witnessed by each
-							//surrounding villager. If it's more than three, then they suffer a drop in hearts.
-							if (this.hasBeenExecuted)
+							if (otherMemory != null)
 							{
-								PlayerMemory playerMemoryOnOtherVillager = abstractEntity.playerMemoryMap.get(player.username);
+								otherMemory.executionsSeen++;
 
-								if (playerMemoryOnOtherVillager != null)
+								if (otherMemory.executionsSeen > 3)
 								{
-									playerMemoryOnOtherVillager.executionsSeen++;
+									abstractEntity.modifyHearts(player, -30);
+								}
 
-									if (playerMemoryOnOtherVillager.executionsSeen > 3)
-									{
-										abstractEntity.shouldSkipAreaModify = true;
-										abstractEntity.modifyHearts(player, -30);
-										abstractEntity.shouldSkipAreaModify = false;
-									}
-
-									else
-									{
-										abstractEntity.shouldSkipAreaModify = true;
-										abstractEntity.modifyHearts(player, 30);
-										abstractEntity.shouldSkipAreaModify = false;
-									}
+								else
+								{
+									abstractEntity.modifyHearts(player, 30);
 								}
 							}
+						}
 
-							//This villager has not been executed.
-							else
-							{
-								//Prevent an infinite loop.
-								abstractEntity.shouldSkipAreaModify = true;
-								abstractEntity.modifyHearts(player, percentage.intValue());
-								abstractEntity.shouldSkipAreaModify = false;
-							}
+						//This villager has not been executed.
+						else
+						{
+							//Prevent an infinite loop.
+							abstractEntity.modifyHearts(player, percentage.intValue());
 						}
 					}
 				}
@@ -2097,12 +1550,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	}
 
 	/**
-	 * Updates the villager's mood points depending on the provided context.
+	 * Updates the villager's mood points depending on the provided context. 
+	 * NOTE: Calls setMoodByMoodPoints(true) to update the other side.
 	 * 
 	 * @param 	context	EnumMoodChangeContext explaining what happened to cause the mood change.
 	 * @param 	value	The amount of mood points to apply to the appropriate mood.
 	 */
-	protected void modifyMoodPoints(EnumMoodChangeContext context, float value)
+	public void modifyMoodPoints(EnumMoodChangeContext context, float value)
 	{
 		switch (context)
 		{
@@ -2143,160 +1597,873 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	}
 
 	/**
-	 * Handles an entity going to sleep. Makes them teleport home and go to sleep.
+	 * Processes the gifting of an item stack to an entity.
+	 * 
+	 * @param 	itemStack	The item stack that was given to the entity.
+	 * @param	player		The player that gifted the item.
 	 */
-	private void updateSleeping()
+	protected void doGift(ItemStack itemStack, EntityPlayer player)
 	{
-		try
+		PlayerMemory memory = playerMemoryMap.get(player.username);
+		int baseHeartValue = 0;
+		int heartIncrease = 0;
+
+		//Check the acceptable gifts for the item stack's item ID.
+		if (MCA.acceptableGifts.containsKey(itemStack.itemID))
 		{
-			if (!worldObj.isRemote)
+			baseHeartValue = MCA.acceptableGifts.get(itemStack.itemID);
+			heartIncrease = -(memory.interactionFatigue * 7) + baseHeartValue + mood.getHeartsModifier("gift") + trait.getHeartsModifier("gift");
+		}
+
+		else if (itemStack.getItem() instanceof IGiftableItem)
+		{
+			final IGiftableItem item = (IGiftableItem) itemStack.getItem();
+			baseHeartValue = item.getGiftValue();
+			heartIncrease = -(memory.interactionFatigue * 7) + baseHeartValue + mood.getHeartsModifier("gift") + trait.getHeartsModifier("gift");
+		}
+
+		//The gift wasn't contained in the acceptable gifts map or it's not a giftable item.
+		else
+		{
+			modifyHearts(player, -(worldObj.rand.nextInt(9) + 5));
+			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, 0.5F);
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.bad"));
+			return;
+		}
+
+		//Verify heart increase is always positive.
+		if (heartIncrease <= 0)
+		{
+			heartIncrease = 1;
+		}
+
+		modifyHearts(player, heartIncrease);
+		Utility.removeItemFromPlayer(itemStack, player);
+
+		//Say the appropriate phrase based on base hearts increase.
+		if (baseHeartValue <= 5)
+		{
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.small"));
+			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, 0.3F);
+		}
+
+		else if (baseHeartValue > 5 && baseHeartValue < 10)
+		{
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.regular"));
+			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, 0.5F);
+		}
+
+		else
+		{
+			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.great"));
+			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, 1.0F);
+		}
+
+		memory.interactionFatigue++;
+		memory.isInGiftMode = false;
+		playerMemoryMap.put(player.username, memory);
+		PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap);
+	}
+
+	/**
+	 * Handle the gift of a baby.
+	 * 
+	 * @param 	itemStack	The item stack containing the baby.
+	 * @param	player		The player that gifted the baby.
+	 */
+	protected void doGiftOfBaby(ItemStack itemStack, EntityPlayer player) 
+	{
+		if (isMarriedToPlayer)
+		{
+			if (inventory.contains(MCA.getInstance().itemBabyBoy) || inventory.contains(MCA.getInstance().itemBabyGirl))
 			{
-				//Only update sleeping if the entity is in the overworld.
-				if (worldObj.provider.dimensionId == 0)
+				say(LanguageHelper.getString("notify.spouse.gifted.anotherbaby"));
+			}
+
+			else
+			{
+				PlayerMemory memory = playerMemoryMap.get(player.username);
+
+				say(LanguageHelper.getString(this, "spouse.gifted.baby", false));
+				inventory.addItemStackToInventory(itemStack);
+				Utility.removeItemFromPlayer(itemStack, player);
+
+				memory.isInGiftMode = false;
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createInventoryPacket(entityId, inventory));
+			}
+		}
+
+		else
+		{
+			say(LanguageHelper.getString(this, "gifted.baby"));
+		}
+	}
+
+	/**
+	 * Handle the gift of an arranger's ring.
+	 * 
+	 * @param 	itemStack	The item stack containing the arranger's ring.
+	 * @param	player		The player that gifted the ring.
+	 */
+	protected void doGiftOfArrangersRing(ItemStack itemStack, EntityPlayer player) 
+	{
+		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
+
+		if (!isMarriedToPlayer)
+		{
+			if (isMarriedToVillager)
+			{
+				say(LanguageHelper.getString("marriage.refusal.villagermarried"));
+			}
+
+			else
+			{
+				//Check if this person isn't already the holder of the ring.
+				if (!hasArrangerRing)
 				{
-					//Must use the server world object since it is the only one whose "isDaytime" actually works.
-					World serverWorldObj = MinecraftServer.getServer().worldServers[0];
-
-					//Check if the entity should wake up.
-					if (isSleeping && serverWorldObj.isDaytime())
+					//Check if the holder's ID is zero, meaning this is the first person to receive an arranger's ring.
+					if (manager.worldProperties.arrangerRingHolderID == 0)
 					{
-						isSleeping = false;
-						hasTeleportedHome = false;
-						modifyMoodPoints(EnumMoodChangeContext.MoodCycle, 0);
-						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(this));
-					}
+						manager.worldProperties.arrangerRingHolderID = mcaID;
+						manager.saveWorldProperties();
 
-					//Then check if they should be going to sleep.
-					else if (!isSleeping && !serverWorldObj.isDaytime() && !hasTeleportedHome)
-					{
-						setMoodByMoodPoints(true);
+						//Search for a random villager of the opposite gender.
+						EntityVillagerAdult nearbyVillager = LogicHelper.getRandomNearbyVillager(this);
 
-						//Replacement for going to sleep while idle.
-						if (isStaying)
+						if (nearbyVillager == null)
 						{
-							isSleeping = true;
-						}
-
-						//Check for chore mode & skip if necessary.
-						if (!isInChoreMode)
-						{
-							spawnAtHomePoint();
+							say(LanguageHelper.getString("notify.villager.gifted.arrangerring.nobodynearby"));
 						}
 
 						else
 						{
-							hasTeleportedHome = true;
-							return;
+							say(LanguageHelper.getString(this, "notify.villager.gifted.arrangerring", false));
+						}
+
+						Utility.removeItemFromPlayer(itemStack, player);
+
+						hasArrangerRing = true;
+						PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "hasArrangerRing", true));
+					}
+
+					//Another villager also has a ring because the ID of the holder is not zero. Marry these two.
+					else
+					{
+						AbstractEntity spouse = (AbstractEntity) LogicHelper.getEntityWithIDWithinDistance(this, manager.worldProperties.arrangerRingHolderID, 5);
+
+						//Make sure a person was found nearby, or else they can't get married.
+						if (spouse != null)
+						{					
+							//Remove the ring from the player's inventory.
+							Utility.removeItemFromPlayer(itemStack, player);
+
+							//Assign generation.
+							if (generation != 0)
+							{
+								spouse.generation = generation;
+								PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouse.entityId, "generation", generation));
+							}
+
+							else if (spouse.generation != 0)
+							{
+								generation = spouse.generation;
+								PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "generation", spouse.generation));
+							}
+
+							//Notify the player that the two were married.
+							notifyPlayer(player, LanguageHelper.getString("notify.villager.married"));
+
+							//Reset the world properties.
+							manager.worldProperties.arrangerRingHolderID = 0;
+							manager.saveWorldProperties();
+
+							//Update relevant data on client and server.					
+							isMarriedToVillager = true;
+							hasArrangerRing = false;
+							familyTree.addFamilyTreeEntry(spouse, EnumRelation.Spouse);
+
+							spouse.isMarriedToVillager = true;
+							spouse.hasArrangerRing = false;
+							spouse.familyTree.addFamilyTreeEntry(this, EnumRelation.Spouse);
+
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "isMarriedToVillager", isMarriedToVillager));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouse.entityId, "isMarriedToVillager", spouse.isMarriedToVillager));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "hasArrangerRing", false));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouse.entityId, "hasArrangerRing", false));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFamilyTreePacket(entityId, familyTree));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFamilyTreePacket(spouse.entityId, spouse.familyTree));
+
+							PacketDispatcher.sendPacketToServer(PacketHandler.createSyncRequestPacket(entityId));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createSyncRequestPacket(spouse.entityId));
+
+							//Check if the spouse is a player child.
+							if (spouse instanceof EntityPlayerChild)
+							{
+								//Unlock achievement.
+								player.triggerAchievement(MCA.getInstance().achievementAdultMarried);
+								PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementAdultMarried, player.entityId));
+							}
+						}
+
+						//A person was not close to the villager receiving the second ring.
+						else
+						{
+							say(LanguageHelper.getString("notify.villager.gifted.arrangerring.othernotnearby." + getGenderAsString()));
+							notifyPlayer(player, LanguageHelper.getString("notify.villager.gifted.arrangerring.toofarapart"));
 						}
 					}
+				}
 
-					//Check if their texture needs to be swapped because of sleeping.
-					if (isSleeping && texture.contains("sleeping") == false)
-					{
-						texture = texture.replace("/skins/", "/skins/sleeping/");
-						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(this));
-					}
-
-					//Then check if it needs to be swapped back to the original texture.
-					else if (isSleeping == false && texture.contains("sleeping") == true)
-					{
-						texture = texture.replace("/skins/sleeping/", "/skins/");
-						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(this));
-					}
-
-					//Check if they've teleported home and it needs to be reset.
-					if (hasTeleportedHome && serverWorldObj.isDaytime())
-					{
-						hasTeleportedHome = false;
-						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(this));
-					}
+				//This villager already has an arranger ring and was gifted one again.
+				else
+				{
+					say(LanguageHelper.getString("notify.villager.gifted.arrangerring.hasring." + getGenderAsString()));
 				}
 			}
 		}
 
-		catch (NullPointerException e)
+		//The villager is the spouse of another player.
+		else
 		{
-			//Happens time to time if the loop tries to run before the world is properly loaded client side.
-			return;
+			if (manager.worldProperties.playerSpouseID == mcaID)
+			{
+				say(LanguageHelper.getString(this, "notify.villager.gifted.arrangerring.relative", false));
+			}
+
+			else
+			{
+				say(LanguageHelper.getString(this, "villager.marriage.refusal.villagermarried", false));
+				modifyHearts(player, -30);
+			}
+		}
+	}
+
+	/**
+	 * Handle the gift of an engagement ring.
+	 * 
+	 * @param 	itemStack	The item stack containing the engagement ring.
+	 * @param 	player		The player gifting the ring.
+	 */
+	protected void doGiftOfEngagementRing(ItemStack itemStack, EntityPlayer player) 
+	{
+		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
+
+		if (!isMarriedToPlayer)
+		{
+			if (manager.worldProperties.playerSpouseID == 0) //Spouse ID will be zero if they're not married.
+			{
+				int hearts = getHearts(player);
+
+				if (hearts >= 100) //Acceptance of marriage is at 100 hearts or above.
+				{
+					Utility.removeItemFromPlayer(itemStack, player);
+					say(LanguageHelper.getString(this, "engagement.accept"));
+
+					modifyHearts(player, 50);
+					isEngaged = true;
+					familyTree.addFamilyTreeEntry(player, EnumRelation.Spouse);
+
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFamilyTreePacket(entityId, familyTree));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "isEngaged", true));
+
+					manager.worldProperties.playerSpouseID = mcaID;
+					manager.worldProperties.isEngaged = true;
+					manager.saveWorldProperties();
+
+					player.triggerAchievement(MCA.getInstance().achievementGetMarried);
+					PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId));
+				}
+
+				else //The hearts aren't high enough.
+				{
+					say(LanguageHelper.getString(this, "marriage.refusal.lowhearts"));
+					modifyHearts(player, -30);
+				}
+			}
+
+			else //Player is already married
+			{
+				say(LanguageHelper.getString(this, "marriage.refusal.playermarried"));
+			}
 		}
 
-		catch (ArrayIndexOutOfBoundsException e)
+		//The entity receiving the wedding band a player's spouse.
+		else
 		{
-			//Happens rarely when this is ran on the client and the world info hasn't been given.
-			return;
+			if (manager.worldProperties.playerSpouseID == mcaID)
+			{
+				say(LanguageHelper.getString(this, "notify.villager.gifted.arrangerring.relative", false));
+			}
+
+			else
+			{
+				say(LanguageHelper.getString(this, "villager.marriage.refusal.villagermarried", false));
+				modifyHearts(player, -30);
+			}
+		}
+	}
+
+	/**
+	 * Handle the gift of a wedding ring.
+	 * 
+	 * @param 	itemStack	The item stack containing the wedding ring.
+	 * @param 	player		The player that gifted the ring.
+	 * @category Refactored
+	 */
+	protected void doGiftOfWeddingRing(ItemStack itemStack, EntityPlayer player) 
+	{
+		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
+
+		if (isMarriedToPlayer)
+		{
+			if (manager.worldProperties.playerSpouseID == mcaID)
+			{
+				say(LanguageHelper.getString(this, "notify.villager.gifted.arrangerring.relative", false));
+			}
+
+			else
+			{
+				say(LanguageHelper.getString(this, "villager.marriage.refusal.villagermarried", false));
+				modifyHearts(player, -30);
+			}
+		}
+
+		else
+		{
+			if (manager.worldProperties.playerSpouseID == 0 || isEngaged || manager.worldProperties.isMonarch) 
+			{
+				if (manager.worldProperties.playerSpouseID != 0)
+				{
+					modifyHearts(player, -20);
+				}
+
+				if (getHearts(player) < 100)
+				{
+					say(LanguageHelper.getString(this, "marriage.refusal.lowhearts"));
+					modifyHearts(player, -30);
+				}
+
+				else //Acceptance is at 100 hearts or above.
+				{
+					Utility.removeItemFromPlayer(itemStack, player);
+					say(LanguageHelper.getString(this, "marriage.acceptance"));
+
+					modifyHearts(player, 50);
+
+					manager.worldProperties.playerSpouseID = mcaID;
+					manager.worldProperties.isEngaged = false;
+					manager.saveWorldProperties();
+
+					isMarriedToPlayer = true;
+					spousePlayerName = player.username;
+					familyTree.addFamilyTreeEntry(player, EnumRelation.Spouse);
+					
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "isMarriedToPlayer", isMarriedToPlayer));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "spousePlayerName", spousePlayerName));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFamilyTreePacket(entityId, familyTree));
+
+					player.triggerAchievement(MCA.getInstance().achievementGetMarried);
+					PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId));
+
+					//Reset AI in case the spouse is a guard.
+					addAI();
+
+					if (isEngaged)
+					{
+						isEngaged = false;
+						PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "isEngaged", isEngaged));
+						PacketDispatcher.sendPacketToServer(PacketHandler.createEngagementPacket(entityId));
+
+						final List<Entity> entitiesAroundMe = LogicHelper.getAllEntitiesWithinDistanceOfEntity(this, 64);
+
+						for (final Entity entity : entitiesAroundMe)
+						{
+							if (entity instanceof EntityVillagerAdult)
+							{
+								final EntityVillagerAdult entityVillager = (EntityVillagerAdult)entity;
+								final PlayerMemory memory = entityVillager.playerMemoryMap.get(player.username);
+
+								if (memory != null)
+								{
+									memory.hasGift = true;
+									entityVillager.playerMemoryMap.put(player.username, memory);
+								}
+							}
+						}
+					}
+				}
+			}
+
+			else //Player is already married.
+			{
+				say(LanguageHelper.getString(this, "marriage.refusal.playermarried"));
+			}
+		}
+	}
+
+	/**
+	 * Handle the gift of cake.
+	 * 
+	 * @param 	itemStack	The item stack containing the cake.
+	 * @param	player		The player that gifted the cake.
+	 * @category Tested
+	 */
+	protected void doGiftOfCake(ItemStack itemStack, EntityPlayer player)
+	{
+		if (hasCake)
+		{
+			say(LanguageHelper.getString("notify.villager.gifted.cake.alreadygifted"));
+		}
+
+		else
+		{
+			final AbstractEntity spouse = (AbstractEntity) familyTree.getInstanceOfRelative(EnumRelation.Spouse);
+
+			if (spouse == null)
+			{
+				doGift(itemStack, player);
+			}
+
+			else
+			{
+				if (getDistanceToEntity(spouse) > 5)
+				{
+					say(LanguageHelper.getString("notify.villager.gifted.cake.spousenotnearby." + getGenderAsString()));
+					notifyPlayer(player, LanguageHelper.getString("notify.villager.gifted.cake.toofarapart"));
+				}
+
+				else //Spouse is within 5 blocks.
+				{
+					if (this.hasBaby || spouse.hasBaby)
+					{
+						say(LanguageHelper.getString("notify.villager.gifted.cake.withbaby." + getGenderAsString()));
+					}
+
+					else //This couple doesn't have a baby.
+					{
+						if (spouse.hasCake)
+						{
+							hasCake = false;
+							spouse.hasCake = false;
+							isProcreatingWithVillager = true;
+							spouse.isProcreatingWithVillager = true;
+
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "hasCake", hasCake));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouse.entityId, "hasCake", spouse.hasCake));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "isProcreatingWithVillager", isProcreatingWithVillager));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouse.entityId, "isProcreatingWithVillager", spouse.isProcreatingWithVillager));
+
+							Utility.removeItemFromPlayer(itemStack, player);
+						}
+
+						else
+						{
+							hasCake = true;
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "hasCake", hasCake));
+							say(LanguageHelper.getString("notify.villager.gifted.cake.spousenearby"));
+							Utility.removeItemFromPlayer(itemStack, player);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Update the growth of the person's held baby.
+	 * @category Tested
+	 */
+	protected void updateBabyGrowth()
+	{
+		if (!worldObj.isRemote && hasBaby && tickMarkerGrowBaby.isComplete() || hasBaby && MCA.getInstance().debugDoRapidVillagerBabyGrowth && MCA.getInstance().inDebugMode)
+		{
+			//Create child and assign family tree entries.
+			final EntityVillagerChild child = new EntityVillagerChild(worldObj, isHeldBabyMale, heldBabyProfession);
+			child.familyTree.addFamilyTreeEntry(this, EnumRelation.Parent);
+			child.familyTree.addFamilyTreeEntry(familyTree.getInstanceOfRelative(EnumRelation.Spouse), EnumRelation.Parent);
+
+			if (familyTree.getInstanceOfRelative(EnumRelation.Spouse) != null)
+			{
+				final AbstractEntity spouse = familyTree.getInstanceOfRelative(EnumRelation.Spouse);
+
+				for (final int relatedPlayerId : spouse.familyTree.getListOfPlayers())
+				{
+					if (spouse instanceof EntityPlayerChild)
+					{
+						child.familyTree.addFamilyTreeEntry(relatedPlayerId, EnumRelation.Grandparent);
+					}
+
+					else if (familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandfather || familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandmother ||
+							familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandfather || familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandmother ||
+							spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandfather || spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandmother ||
+							spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandfather || spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandmother)
+					{
+						child.familyTree.addFamilyTreeEntry(relatedPlayerId, EnumRelation.Greatgrandparent);
+						child.generation = generation + 1;
+					}
+				}
+
+				for (final int relatedPlayerId : familyTree.getListOfPlayers())
+				{
+					if (spouse instanceof EntityPlayerChild)
+					{
+						child.familyTree.addFamilyTreeEntry(relatedPlayerId, EnumRelation.Grandparent);
+					}
+
+					else if (familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandfather || familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandmother ||
+							familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandfather || familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandmother ||
+							spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandfather || spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandmother ||
+							spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandfather || spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandmother)
+					{
+						child.familyTree.addFamilyTreeEntry(relatedPlayerId, EnumRelation.Greatgrandparent);
+						child.generation = generation + 1;
+					}
+				}
+			}
+
+			child.setLocationAndAngles(posX, posY, posZ, rotationPitch, rotationYaw);	
+			worldObj.spawnEntityInWorld(child);
+
+			//Reset baby variables.
+			doSpawnBaby = false;
+			isHeldBabyMale = false;
+			heldBabyProfession = 0;
+			hasBaby = false;
+			tickMarkerGrowBaby.reset();
+
+			//Send to clients.
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isHeldBabyMale", isHeldBabyMale));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "hasBaby", hasBaby));
+
+			//Check for achievement.
+			final EntityPlayer player = worldObj.getPlayerEntityByName(lastInteractingPlayer);
+
+			if (player != null)
+			{
+				switch (child.generation)
+				{
+				case 1: player.triggerAchievement(MCA.getInstance().achievementHaveGreatGrandchild); break;
+				case 2: player.triggerAchievement(MCA.getInstance().achievementHaveGreatx2Grandchild); break;
+				case 10: player.triggerAchievement(MCA.getInstance().achievementHaveGreatx10Grandchild); break;
+				default: break;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Update procreation event with another villager.
+	 * @category Tested
+	 */
+	protected void updateProcreationWithVillager()
+	{
+		//Note: updateProcreationWithPlayer can sometimes bleed into this method, but only client-side to cause jumping to stop.
+		if (isProcreatingWithVillager || isJumping && !isProcreatingWithPlayer && !isFollowing)
+		{
+			final AbstractEntity spouse = familyTree.getInstanceOfRelative(EnumRelation.Spouse);
+
+			if (worldObj.isRemote)
+			{
+				if (!isProcreatingWithVillager)
+				{
+					isJumping = false;
+					return;
+				}
+
+				isJumping = true;
+				final double velX  = rand.nextGaussian() * 0.02D;
+				final double velY = rand.nextGaussian() * 0.02D;
+				final double velZ = rand.nextGaussian() * 0.02D;
+				worldObj.spawnParticle("heart", posX + rand.nextFloat() * width * 2.0F - width, posY + 0.5D + rand.nextFloat() * height, posZ + rand.nextFloat() * width * 2.0F - width, velX, velY, velZ);
+			}
+
+			else //Server-side
+			{
+				motionX = 0.0D;
+				motionZ = 0.0D;
+
+				if (procreateTicks >= 50)
+				{
+					if (spouse.isMale && !this.isMale || this.isMale && !spouse.isMale) //Only opposite-sex couples can have children.
+					{
+						if (!isMale) //Give the mother the baby.
+						{
+							worldObj.playSoundAtEntity(this, "mob.chickenplop", 1.0F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+
+							hasBaby = true;
+							isHeldBabyMale = Utility.getRandomGender();
+							heldBabyProfession = spouse.profession;
+							tickMarkerGrowBaby = new TickMarker(this, Constants.TICKS_MINUTE * MCA.getInstance().modPropertiesManager.modProperties.babyGrowUpTimeMinutes);
+
+							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isHeldBabyMale", isHeldBabyMale));
+							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "hasBaby", hasBaby));
+						}
+					}
+
+					isProcreatingWithVillager = false;
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isProcreatingWithVillager", isProcreatingWithVillager));
+				}
+
+				else
+				{
+					procreateTicks++;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Update procreation event with the player.
+	 * @category Tested
+	 */
+	protected void updateProcreationWithPlayer()
+	{
+		//Note: updateProcreationWithVillager can sometimes bleed into this method, but only client-side to cause jumping to stop.
+		if (isProcreatingWithPlayer || isJumping && !isProcreatingWithVillager && !isFollowing) 
+		{
+			if (worldObj.isRemote)
+			{
+				if (!isProcreatingWithPlayer)
+				{
+					isJumping = false;
+					return;
+				}
+
+				isJumping = true;
+				final double velX  = rand.nextGaussian() * 0.02D;
+				final double velY = rand.nextGaussian() * 0.02D;
+				final double velZ = rand.nextGaussian() * 0.02D;
+				worldObj.spawnParticle("heart", posX + rand.nextFloat() * width * 2.0F - width, posY + 0.5D + rand.nextFloat() * height, posZ + rand.nextFloat() * width * 2.0F - width, velX, velY, velZ);
+			}
+
+			else //Server-side
+			{
+				final EntityPlayer player = worldObj.getPlayerEntityByName(spousePlayerName);
+
+				if (ServerLimits.hasPlayerReachedBabyLimit(player))
+				{
+					isProcreatingWithPlayer = false;
+					procreateTicks = 0;
+					player.addChatMessage(Constants.COLOR_RED + "You have reached the child limit set by the server administrator: " + MCA.getInstance().modPropertiesManager.modProperties.server_childLimit);
+
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isProcreatingWithPlayer", isProcreatingWithPlayer));
+				}
+
+				else
+				{
+					player.motionX = 0.0D;
+					player.motionZ = 0.0D;
+					this.motionX = 0.0D;
+					this.motionZ = 0.0D;
+
+					if (procreateTicks >= 50)
+					{
+						worldObj.playSoundAtEntity(this, "mob.chickenplop", 1.0F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+						isProcreatingWithPlayer = false;
+						procreateTicks = 0;
+
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isProcreatingWithPlayer", isProcreatingWithPlayer));
+						PacketDispatcher.sendPacketToPlayer(PacketHandler.createVillagerPlayerProcreatePacket(this, Utility.getRandomGender()), (Player)player);
+					}
+
+					else
+					{
+						procreateTicks++;
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Update divorcing.
+	 * @category Tested
+	 */
+	protected void updateDivorce()
+	{
+		if (!worldObj.isRemote && doDivorce)
+		{
+			if (isMarriedToPlayer)
+			{
+				final EntityPlayer player = worldObj.getPlayerEntityByName(spousePlayerName);
+				final WorldPropertiesManager worldManager = MCA.getInstance().playerWorldManagerMap.get(lastInteractingPlayer);
+				worldManager.worldProperties.playerSpouseID = 0;
+				worldManager.saveWorldProperties();
+
+				modifyHearts(player, -200);
+				modifyMoodPoints(EnumMoodChangeContext.BadInteraction, 5.0F);
+
+				if (getDistanceToEntity(player) < 10.0F)
+				{
+					say(LanguageHelper.getString(this, "spouse.divorce", false));
+
+					if (!isMarriageToPlayerArranged)
+					{
+						dropItem(MCA.getInstance().itemWeddingRing.itemID, 1);
+					}
+
+					inventory.dropAllItems();
+				}
+
+				else
+				{
+					notifyPlayer(player, LanguageHelper.getString("notify.divorce.spousemissing"));
+					inventory = new Inventory(this);
+				}
+
+				spousePlayerName = "";
+				familyTree.removeFamilyTreeEntry(worldManager.worldProperties.playerID);
+
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "spousePlayerName", spousePlayerName));
+			}
+
+			else if (isMarriedToVillager)
+			{
+				tickMarkerGrowBaby.reset();
+				familyTree.removeFamilyTreeEntry(EnumRelation.Spouse);
+			}
+
+			doDivorce = false;
+			isFollowing = false;
+			isHeldBabyMale = false;
+			isMarriedToPlayer = false;
+			isMarriedToVillager = false;
+			isMarriageToPlayerArranged = false;
+
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "doDivorce", doDivorce));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isFollowing", isFollowing));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isHeldBabyMale", isHeldBabyMale));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isMarriedToPlayer", isMarriedToPlayer));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isMarriedToVillager", isMarriedToVillager));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(entityId, familyTree));
+		}
+	}
+
+	/**
+	 * Calls update() on all tick markers.
+	 * @category Tested
+	 */
+	protected void updateTickMarkers()
+	{
+		if (tickMarkerGrowBaby != null)
+		{
+			tickMarkerGrowBaby.update();
+		}
+	}
+
+	/**
+	 * Handles an entity going to sleep. Makes them teleport home and go to sleep.
+	 * @category Tested
+	 */
+	private void updateSleeping()
+	{
+		if (!worldObj.isRemote && worldObj.provider.dimensionId == 0)
+		{
+			final World serverWorldObj = MinecraftServer.getServer().worldServers[0];
+
+			if (isSleeping && serverWorldObj.isDaytime()) //Waking up.
+			{
+				isSleeping = false;
+				hasTeleportedHome = false;
+				modifyMoodPoints(EnumMoodChangeContext.MoodCycle, 0);
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isSleeping", isSleeping));
+			}
+
+			else if (!isSleeping && !serverWorldObj.isDaytime() && !hasTeleportedHome) //Going to sleep.
+			{
+				setMoodByMoodPoints(true);
+
+				if (isStaying) //Make them sleep on the current point if staying.
+				{
+					isSleeping = true;
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isSleeping", isSleeping));
+					return;
+				}
+
+				if (isInChoreMode) //Skip when doing chores.
+				{
+					hasTeleportedHome = true;
+					return;
+				}
+
+				else
+				{
+					spawnAtHomePoint();
+				}
+			}
+
+			if (hasTeleportedHome && serverWorldObj.isDaytime()) //Reset for those who skipped sleeping.
+			{
+				hasTeleportedHome = false;
+			}
+
+			if (isSleeping && !texture.contains("sleeping")) //Check for sleeping texture.
+			{
+				texture = texture.replace("/skins/", "/skins/sleeping/");
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "texture", texture));
+			}
+
+			else if (!isSleeping && texture.contains("sleeping")) //Replace sleeping texture with normal texture.
+			{
+				texture = texture.replace("/skins/sleeping/", "/skins/");
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "texture", texture));
+			}
 		}
 	}
 
 	/**
 	 * Handles moving to a target or the player.
+	 * @category Partially tested
 	 */
-	private void updatePathing()
+	private void updateMovement()
 	{
-		try
-		{	
-			if (target != null && !isRetaliating)
+		if (!worldObj.isRemote)
+		{
+			//TODO Test
+			if (target != null && target.onGround && !isRetaliating && !combatChore.useRange)
 			{
-				if (target.onGround)
+				getLookHelper().setLookPositionWithEntity(target, 10.0F, getVerticalFaceSpeed());
+
+				if (getDistanceToEntity(target) > 3.5D)
 				{
-					if (!combatChore.useRange)
-					{
-						this.getLookHelper().setLookPositionWithEntity(target, 10.0F, this.getVerticalFaceSpeed());
+					target = null;
+					getNavigator().clearPathEntity();
+				}
 
-						if (getDistanceSqToEntity(target) > 5D)
-						{
-							float speed = Constants.SPEED_WALK;
-
-							if (!this.getNavigator().tryMoveToEntityLiving(target, speed))
-							{
-								if (getDistanceSqToEntity(target) >= 144.0D)
-								{
-									target = null;
-									this.getNavigator().clearPathEntity();
-								}
-							}
-						}
-						
-						
-					}
+				else
+				{
+					getNavigator().tryMoveToEntityLiving(target, Constants.SPEED_WALK);
 				}
 			}
 
-			else if (isFollowing)
+			else if (isFollowing && !followingPlayer.equals("None"))
 			{
-				if (!followingPlayer.equals("None"))
+				final EntityPlayer player = worldObj.getPlayerEntityByName(followingPlayer);
+
+				if (player != null && player.onGround)
 				{
-					EntityPlayer thePlayer = worldObj.getPlayerEntityByName(followingPlayer);
+					getLookHelper().setLookPositionWithEntity(player, 10.0F, getVerticalFaceSpeed());
 
-					if (thePlayer != null)
+					if (getDistanceToEntity(player) > 3.5D)
 					{
-						if (thePlayer.onGround)
+						final boolean pathSet = getNavigator().tryMoveToEntityLiving(player, player.isSprinting() ? Constants.SPEED_SPRINT : Constants.SPEED_WALK);
+
+						if (!pathSet && getDistanceToEntity(player) >= 10.0D)
 						{
-							this.getLookHelper().setLookPositionWithEntity(thePlayer, 10.0F, this.getVerticalFaceSpeed());
+							final int playerX = MathHelper.floor_double(player.posX) - 2;
+							final int playerY = MathHelper.floor_double(player.boundingBox.minY);
+							final int playerZ = MathHelper.floor_double(player.posZ) - 2;
 
-							if (getDistanceSqToEntity(thePlayer) > 5D)
+							for (int i = 0; i <= 4; ++i)
 							{
-								float speed = thePlayer.isSprinting() ? Constants.SPEED_SPRINT : Constants.SPEED_WALK;
-
-								if (!this.getNavigator().tryMoveToEntityLiving(thePlayer, speed))
+								for (int i2 = 0; i2 <= 4; ++i2)
 								{
-									if (getDistanceSqToEntity(thePlayer) >= 144.0D)
+									if ((i < 1 || i2 < 1 || i > 3 || i2 > 3) && worldObj.doesBlockHaveSolidTopSurface(playerX + i, playerY - 1, playerZ + i2) && !worldObj.isBlockNormalCube(playerX + i, playerY, playerZ + i2) && !worldObj.isBlockNormalCube(playerX + i, playerY + 1, playerZ + i2))
 									{
-										int playerX = MathHelper.floor_double(thePlayer.posX) - 2;
-										int playerZ = MathHelper.floor_double(thePlayer.posZ) - 2;
-										int playerY = MathHelper.floor_double(thePlayer.boundingBox.minY);
-
-										for (int i = 0; i <= 4; ++i)
-										{
-											for (int i2 = 0; i2 <= 4; ++i2)
-											{
-												if ((i < 1 || i2 < 1 || i > 3 || i2 > 3) && worldObj.doesBlockHaveSolidTopSurface(playerX + i, playerY - 1, playerZ + i2) && !worldObj.isBlockNormalCube(playerX + i, playerY, playerZ + i2) && !worldObj.isBlockNormalCube(playerX + i, playerY + 1, playerZ + i2))
-												{
-													this.setLocationAndAngles(playerX + i + 0.5F, playerY, playerZ + i2 + 0.5F, this.rotationYaw, this.rotationPitch);
-													this.getNavigator().clearPathEntity();
-													return;
-												}
-											}
-										}
+										setLocationAndAngles(playerX + i + 0.5F, playerY, playerZ + i2 + 0.5F, rotationYaw, rotationPitch);
+										getNavigator().clearPathEntity();
+										return;
 									}
 								}
 							}
@@ -2309,116 +2476,106 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			{
 				if (motionX != 0 || motionZ != 0)
 				{
-					this.motionX = 0;
-					this.motionY = 0;
-					this.motionZ = 0;
+					motionX = 0;
+					motionY = 0;
+					motionZ = 0;
 				}
 
-				this.getNavigator().clearPathEntity();
+				getNavigator().clearPathEntity();
 			}
-		}
-
-		catch (NullPointerException e)
-		{
-			MCA.getInstance().log(e);
 		}
 	}
 
 	/**
 	 * Handles greeting a player.
+	 * @category Tested
 	 */
 	private void updateGreeting()
 	{
-		try
+		if (!worldObj.isRemote && !isInChoreMode && !isFollowing)
 		{
-			if (!worldObj.isRemote && !isInChoreMode && !isFollowing)
-			{
-				EntityPlayer nearestPlayer = worldObj.getClosestPlayer(posX, posY, posZ, -1);
+			final EntityPlayer nearestPlayer = worldObj.getClosestPlayer(posX, posY, posZ, -1);
 
-				//Check to see that the player is in the map. Add them if they aren't.
-				if (nearestPlayer != null)
+			if (nearestPlayer != null)
+			{
+				if (!playerMemoryMap.containsKey(nearestPlayer.username))
 				{
-					if (!playerMemoryMap.containsKey(nearestPlayer.username))
+					playerMemoryMap.put(nearestPlayer.username, new PlayerMemory(nearestPlayer.username));
+				}
+
+				for (PlayerMemory memory : playerMemoryMap.values())
+				{
+					if (memory.greetingTicks < 2000)
 					{
-						playerMemoryMap.put(nearestPlayer.username, new PlayerMemory(nearestPlayer.username));
+						memory.greetingTicks++;
 					}
 
-					for (PlayerMemory memory : playerMemoryMap.values())
+					else
 					{
-						if (memory.greetingTicks < 2000)
+						if (!isSleeping && canEntityBeSeen(nearestPlayer) && getDistanceToEntity(nearestPlayer) <= 5.0D && nearestPlayer.username.equals(memory.playerName))
 						{
-							memory.greetingTicks++;
-						}
+							memory.greetingTicks = 0;
 
-						else
-						{
-							if (!isSleeping && canEntityBeSeen(nearestPlayer) && 
-									getDistanceToEntity(nearestPlayer) <= 5 && 
-									nearestPlayer.username.equals(memory.playerName))
+							if (Utility.getBooleanWithProbability(70))
 							{
-								memory.greetingTicks = 0;
+								final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(nearestPlayer.username);
 
-								if (getBooleanWithProbability(70) == true)
+								if (manager != null)
 								{
-									WorldPropertiesManager worldPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(nearestPlayer.username);
+									final int hearts = getHearts(nearestPlayer);
+									lastInteractingPlayer = nearestPlayer.username;
 
-									if (worldPropertiesManager != null)
+									Utility.faceCoordinates(this, nearestPlayer.posX, nearestPlayer.posY, nearestPlayer.posZ, -10);
+
+									if (getCharacterType(MCA.getInstance().getIdOfPlayer(nearestPlayer)).equals("heir"))
 									{
-										int hearts = getHearts(nearestPlayer);
-										lastInteractingPlayer = nearestPlayer.username;
+										say(LanguageHelper.getString(nearestPlayer, this, "heir.bad.demandtribute"));
+										memory.tributeRequests++;
+									}
 
-										faceCoordinates(this, nearestPlayer.posX, nearestPlayer.posY, nearestPlayer.posZ, -10);
-
-										if (getCharacterType(MCA.getInstance().getIdOfPlayer(nearestPlayer)).equals("heir"))
+									else
+									{
+										if (hearts < 0)
 										{
-											say(LanguageHelper.getString(nearestPlayer, this, "heir.bad.demandtribute"));
-											memory.tributeRequests++;
+											say(LanguageHelper.getString(nearestPlayer, this, "greeting.hate"));
 										}
 
-										else
+										else if (hearts >= 0 && hearts <= 25)
 										{
-											if (hearts < 0)
+											if (getCharacterType(MCA.getInstance().getIdOfPlayer(nearestPlayer)).equals("villager") && manager.worldProperties.isEngaged)
 											{
-												say(LanguageHelper.getString(nearestPlayer, this, "greeting.hate"));
+												say(LanguageHelper.getString(nearestPlayer, this, "greeting.wedding"));
 											}
 
-											else if (hearts >= 0 && hearts <= 25)
+											else
 											{
-												if (getCharacterType(MCA.getInstance().getIdOfPlayer(nearestPlayer)).equals("villager") && worldPropertiesManager.worldProperties.isEngaged)
-												{
-													say(LanguageHelper.getString(nearestPlayer, this, "greeting.wedding"));
-												}
-
-												else
-												{
-													say(LanguageHelper.getString(nearestPlayer, this, "greeting.basic"));
-												}
+												say(LanguageHelper.getString(nearestPlayer, this, "greeting.basic"));
 											}
-
-											else if (hearts > 25)
-											{
-												if (getCharacterType(MCA.getInstance().getIdOfPlayer(nearestPlayer)).equals("villager") && worldPropertiesManager.worldProperties.isEngaged)
-												{
-													say(LanguageHelper.getString(nearestPlayer, this, "greeting.wedding"));
-												}
-
-												else
-												{
-													say(LanguageHelper.getString(nearestPlayer, this, "greeting.friend"));	
-												}
-											}
-
-											else if (hearts > 50 && getCharacterType(MCA.getInstance().getIdOfPlayer(nearestPlayer)).equals("villager") && 
-													worldPropertiesManager.worldProperties.isEngaged == false && 
-													worldPropertiesManager.worldProperties.playerSpouseID == 0)
-											{
-												say(LanguageHelper.getString(nearestPlayer, this, "greeting.interest"));
-											}
-
-											//Increase hearts 1 to 3 points each greeting.
-											modifyHearts(nearestPlayer, worldObj.rand.nextInt(3) + 1);
-											PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "lastInteractingPlayer", lastInteractingPlayer));
 										}
+
+										else if (hearts > 25)
+										{
+											if (getCharacterType(MCA.getInstance().getIdOfPlayer(nearestPlayer)).equals("villager") && manager.worldProperties.isEngaged)
+											{
+												say(LanguageHelper.getString(nearestPlayer, this, "greeting.wedding"));
+											}
+
+											else
+											{
+												say(LanguageHelper.getString(nearestPlayer, this, "greeting.friend"));	
+											}
+										}
+
+										else if (hearts > 50 && getCharacterType(MCA.getInstance().getIdOfPlayer(nearestPlayer)).equals("villager") && 
+												!manager.worldProperties.isEngaged && 
+												manager.worldProperties.playerSpouseID == 0)
+										{
+											say(LanguageHelper.getString(nearestPlayer, this, "greeting.interest"));
+										}
+
+										//Increase hearts 1 to 3 points each greeting.
+										modifyHearts(nearestPlayer, worldObj.rand.nextInt(3) + 1);
+										PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "lastInteractingPlayer", lastInteractingPlayer));
 									}
 								}
 							}
@@ -2427,29 +2584,19 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				}
 			}
 		}
-
-		catch (NullPointerException e)
-		{
-			MCA.getInstance().log(e);
-		}
-
-		//Very very rare error. Doesn't hurt anything.
-		catch (ConcurrentModificationException e)
-		{
-			MCA.getInstance().log(e);
-		}
 	}
 
 	/**
 	 * Handles updating idle time.
+	 * @category Tested
 	 */
 	private void updateIdle()
 	{
-		idleTicks++;
-
-		if (!worldObj.isRemote)
+		if (!worldObj.isRemote && worldObj.provider.dimensionId == 0 && !isFollowing && profession != 5)
 		{
-			if (idleTicks >= 2400 && worldObj.isDaytime() == false && isFollowing == false && profession != 5)
+			idleTicks++;
+
+			if (idleTicks >= Constants.TICKS_MINUTE * 1 && !worldObj.isDaytime())
 			{
 				if (isStaying)
 				{
@@ -2458,7 +2605,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				else
 				{
-					if (hasTeleportedHome == false)
+					if (!hasTeleportedHome)
 					{
 						spawnAtHomePoint();
 					}
@@ -2469,43 +2616,39 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Handles health regeneration.
+	 * @category Tested
 	 */
 	private void updateHealing()
 	{
-		//Check for correct attribute for guards.
-		if (profession == 5 && getEntityAttribute(SharedMonsterAttributes.maxHealth).getAttributeValue() != 40.0D)
+		if (!worldObj.isRemote)
 		{
-			getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(40.0D);
-			this.setHealth(40);
-		}
-
-		if (getHealth() < getMaxHealth() && getHealth() > 0)
-		{
-			int healthRegenerationPeriod = 20;
-
-			if (healthRegenerationTicks >= healthRegenerationPeriod)
+			if (profession == 5 && getEntityAttribute(SharedMonsterAttributes.maxHealth).getAttributeValue() != 40.0D)
 			{
-				setHealth(getHealth() + 1);
-				healthRegenerationTicks = 0;
+				getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(40.0D);
+				setHealth(40);
 			}
 
-			else
+			if (getHealth() < getMaxHealth() && getHealth() > 0)
 			{
-				healthRegenerationTicks++;
-			}
-		}
-
-		//Check for sufficient injury and if food should be eaten.
-		if (getHealth() <= 15)
-		{
-			if (eatingTicks >= 40)
-			{
-				int slotContainingFood = inventory.getFirstSlotContainingFood();
-
-				if (slotContainingFood != -1)
+				if (healthRegenerationTicks >= 20)
 				{
-					inventory.decrStackSize(slotContainingFood, 1);
+					setHealth(getHealth() + 1);
+					healthRegenerationTicks = 0;
+				}
 
+				else
+				{
+					healthRegenerationTicks++;
+				}
+			}
+
+			if (getHealth() <= 15 && eatingTicks >= 40)
+			{
+				final int foodSlot = inventory.getFirstSlotContainingFood();
+
+				if (foodSlot != -1)
+				{
+					inventory.decrStackSize(foodSlot, 1);
 					setHealth(getHealth() + 3);
 					eatingTicks = 0;
 
@@ -2522,6 +2665,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Handles the swinging of the entity's arm.
+	 * @category Tested
 	 */
 	private void updateSwinging()
 	{
@@ -2551,9 +2695,15 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		if (isInChoreMode)
 		{
-			AbstractChore chore = getInstanceOfCurrentChore();
+			final AbstractChore chore = getInstanceOfCurrentChore();
 
-			if (!(chore instanceof ChoreCombat))
+			//TODO Might be unneccessary.
+			if (chore instanceof ChoreCombat)
+			{
+				combatChore.runChoreAI();				
+			}
+
+			else
 			{
 				if (chore.hasEnded)
 				{
@@ -2571,11 +2721,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					chore.beginChore();
 				}
 			}
-
-			else
-			{
-				combatChore.runChoreAI();
-			}
 		}
 
 		else
@@ -2586,59 +2731,54 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Handles retaliation.
+	 * @category Needs repair
 	 */
 	private void updateRetaliation()
 	{
-		if (isRetaliating && target != null)
-		{
-			if (target instanceof EntityPlayer)
+		if (isRetaliating && target instanceof EntityPlayer)
+		{	
+			//TODO Client-side doesn't fire. Target not assigned properly.
+			final EntityPlayer player = (EntityPlayer)target;
+
+			if (worldObj.isRemote)
 			{
-				EntityPlayer player = (EntityPlayer)target;
-				float distanceToPlayer = player.getDistanceToEntity(this);
-
-				//Immediately get a path to the player to simulate chasing.
-				getNavigator().tryMoveToEntityLiving(player, Constants.SPEED_WALK);
-
-				//Check if they need to stop because the player pulled out a weapon.
-				if (player.inventory.getCurrentItem() != null)
+				if (profession != 5 && player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem() instanceof ItemSword)
 				{
-					if (profession != 5)
-					{
-						if (player.inventory.getCurrentItem().getItem() instanceof ItemSword ||
-								player.inventory.getCurrentItem().getItem() instanceof ItemAxe)
-						{
-							saySideOnly(Side.CLIENT, LanguageHelper.getString(this, "scared"));
-							isRetaliating = false;
-							target = null;
-							getNavigator().clearPathEntity();
-						}
-					}
+					endRetaliation();
 				}
 
-				if (distanceToPlayer > 10F) //Stop chasing the player if they're 10 or more blocks away.
+				if (getDistanceToEntity(player) > 10.0F)
 				{
-					saySideOnly(Side.CLIENT, LanguageHelper.getString(this, "angry"));
-					isRetaliating = false;
-					target = null;
-					getNavigator().clearPathEntity();
+					endRetaliation();
 				}
 
-				else if (distanceToPlayer < 2.5F) //Damage the player when they're within 2.5 blocks.
+				else if (getDistanceToEntity(player) <= 2.5F)
 				{
 					swingItem();
+				}
+			}
 
-					if (profession == 5)
-					{
-						player.attackEntityFrom(DamageSource.causeMobDamage(this), 3);
-					}
+			else //Server-side.
+			{
+				getNavigator().tryMoveToEntityLiving(player, Constants.SPEED_WALK);
 
-					else
-					{
-						player.attackEntityFrom(DamageSource.causeMobDamage(this), 1);
-					}
+				if (profession != 5 && player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem() instanceof ItemSword)
+				{
+					endRetaliation("scared");
+				}
 
-					isRetaliating = false;
-					target = null;
+				if (getDistanceToEntity(player) > 10.0F)
+				{
+					endRetaliation("angry");
+				}
+
+				else if (getDistanceToEntity(player) <= 2.5F)
+				{
+					final int damageAmount = profession == 5 ? 3 : 1;
+					player.attackEntityFrom(DamageSource.causeMobDamage(this), damageAmount);
+					swingItem();
+
+					endRetaliation();
 				}
 			}
 		}
@@ -2649,10 +2789,11 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	private void updateMonarchs()
 	{
+		//TODO
 		//First check if they've been executed.
 		if (hasBeenExecuted && !hasRunExecution)
 		{
-			this.playSound(getHurtSound(), 1.0F, 1.0F);
+			playSound(getHurtSound(), 1.0F, 1.0F);
 			setHealth(0);
 			onDeath(DamageSource.generic);
 			hasRunExecution = true;
@@ -2691,14 +2832,14 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 							//Check if this person is the player's heir.
 							if (this instanceof EntityPlayerChild)
 							{
-								if (manager.worldProperties.heirId == this.mcaID)
+								if (manager.worldProperties.heirId == mcaID)
 								{
-									shouldActAsHeir = true;
+									doActAsHeir = true;
 
 									if (!worldObj.isRemote)
 									{
 										//FIXME
-										//isGoodHeir = getBooleanWithProbability(90);
+										//isGoodHeir = Utility.getBooleanWithProbability(90);
 
 										isGoodHeir = true;
 										PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isGoodHeir", isGoodHeir));
@@ -2750,150 +2891,140 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Updates the villager's mood and assigns a trait if one has not been assigned.
+	 * @category Tested
 	 */
 	private void updateMood()
 	{	
-		//Check for NONE trait.
-		if ((traitId == 0 || trait == EnumTrait.None) && !worldObj.isRemote)
-		{
-			trait = EnumTrait.values()[rand.nextInt(EnumTrait.values().length - 1) + 1];
-			traitId = trait.getId();
-			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "traitId", traitId));
-		}
-
-		//Spawn particles if angry.
 		if (worldObj.isRemote)
 		{
-			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
+			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
 
-			if (manager != null)
+			if (manager.worldProperties.displayMoodParticles && !isSleeping && (mood.isAnger() || mood.isSadness()))
 			{
-				if (manager.worldProperties.displayMoodParticles && !isSleeping)
+				final int moodLevel = mood.getMoodLevel();
+				int particleInterval = 0;
+				String particleName = "";
+
+				if (mood.isAnger())
 				{
-					if (mood.isAnger() || mood.isSadness())
+					switch (moodLevel)
 					{
-						int moodLevel = mood.getMoodLevel();
-						int particleRate = 0;
-						String particle = "";
-
-						//Particles: happyVillager, angryVillager, smoke, flame
-						if (mood.isAnger())
-						{
-							switch (moodLevel)
-							{
-							case 1: particle = "smoke"; particleRate = 15; break;
-							case 2: particle = "smoke"; particleRate = 10; break;
-							case 3: particle = "angryVillager"; particleRate = 7; break;
-							case 4: particle = "angryVillager"; particleRate = 4; break;
-							case 5: particle = "flame"; particleRate = 0; break;
-							default: particle = "flame"; particleRate = 0; break;
-							}
-						}
-
-						else if (mood.isSadness())
-						{
-							switch (moodLevel)
-							{
-							case 1: particle = "splash"; particleRate = 15; break;
-							case 2: particle = "splash"; particleRate = 10; break;
-							case 3: particle = "splash"; particleRate = 7; break;
-							case 4: particle = "tilecrack_9_0"; particleRate = 4; break;
-							case 5: particle = "tilecrack_9_0"; particleRate = 0; break;
-							default: particle = "tilecrack_9_0"; particleRate = 0; break;
-							}
-						}
-
-						if (particleTicks >= particleRate)
-						{
-							double velX = rand.nextGaussian() * 0.02D;
-							double velY = rand.nextGaussian() * 0.02D;
-							double velZ = rand.nextGaussian() * 0.02D;
-
-							worldObj.spawnParticle(particle, (posX + rand.nextFloat() * width * 2.0F) - width, posY + 0.5D + rand.nextFloat() * height, (posZ + rand.nextFloat() * width * 2.0F) - width, velX, velY, velZ);
-							particleTicks = 0;
-						}
-
-						else
-						{
-							particleTicks++;
-						}
+					case 1: particleName = "smoke"; particleInterval = 15; break;
+					case 2: particleName = "smoke"; particleInterval = 10; break;
+					case 3: particleName = "angryVillager"; particleInterval = 7; break;
+					case 4: particleName = "angryVillager"; particleInterval = 4; break;
+					case 5: particleName = "flame"; particleInterval = 0; break;
+					default: particleName = "flame"; particleInterval = 0; break;
 					}
 				}
-			}
-		}
 
-		//Server-side only for actual updates.
-		if (!worldObj.isRemote)
-		{
-			//Update the mood naturally every 600 ticks (30 seconds) in world time, or keep running this loop when update ticks are not zero.
-			if (worldObj.getWorldTime() % 600 == 0 || moodUpdateTicks != 0)
-			{
-				//Avoid possible performance issues by making each entity update at a slightly different time.
-				if (moodUpdateTicks != moodUpdateDeviation)
+				else if (mood.isSadness())
 				{
-					moodUpdateTicks++;
+					switch (moodLevel)
+					{
+					case 1: particleName = "splash"; particleInterval = 15; break;
+					case 2: particleName = "splash"; particleInterval = 10; break;
+					case 3: particleName = "splash"; particleInterval = 7; break;
+					case 4: particleName = "tilecrack_9_0"; particleInterval = 4; break;
+					case 5: particleName = "tilecrack_9_0"; particleInterval = 0; break;
+					default: particleName = "tilecrack_9_0"; particleInterval = 0; break;
+					}
+				}
+
+				if (particleTicks >= particleInterval)
+				{
+					final double velX = rand.nextGaussian() * 0.02D;
+					final double velY = rand.nextGaussian() * 0.02D;
+					final double velZ = rand.nextGaussian() * 0.02D;
+
+					worldObj.spawnParticle(particleName, posX + rand.nextFloat() * width * 2.0F - width, posY + 0.5D + rand.nextFloat() * height, posZ + rand.nextFloat() * width * 2.0F - width, velX, velY, velZ);
+					particleTicks = 0;
 				}
 
 				else
 				{
-					//Random updates while awake.
-					if (!isSleeping)
+					particleTicks++;
+				}
+			}
+		}
+
+		else //Server-side.
+		{
+			if (traitId == 0 || trait == EnumTrait.None)
+			{
+				trait = EnumTrait.values()[rand.nextInt(EnumTrait.values().length - 1) + 1];
+				traitId = trait.getId();
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "traitId", traitId));
+			}
+
+			if (worldObj.getWorldTime() % 600 == 0 || moodUpdateTicks != 0)
+			{
+				if (moodUpdateTicks == moodUpdateDeviation)
+				{
+					final boolean doRandomCycle = worldObj.rand.nextBoolean() && worldObj.rand.nextBoolean() && worldObj.rand.nextBoolean();
+					final float positiveCooldown = trait.getPositiveCooldownModifier();
+					final float negativeCooldown = trait.getNegativeCooldownModifier();
+					final boolean doModifyAnger = moodPointsAnger > 0.0F;
+					final boolean doModifyHappy = moodPointsHappy > 0.0F;
+					final boolean doModifySad = moodPointsSad > 0.0F;
+
+					if (!isSleeping && doRandomCycle)
 					{
-						if (worldObj.rand.nextBoolean() && worldObj.rand.nextBoolean() && worldObj.rand.nextBoolean())
-						{
-							modifyMoodPoints(EnumMoodChangeContext.MoodCycle, 0);
-						}
+						modifyMoodPoints(EnumMoodChangeContext.MoodCycle, 0);
 					}
 
-					float positiveCooldownModifier = trait.getPositiveCooldownModifier();
-					float negativeCooldownModifier = trait.getNegativeCooldownModifier();
-
 					//Update interaction fatigue on all memories.
-					for (PlayerMemory memory : playerMemoryMap.values())
+					for (final PlayerMemory memory : playerMemoryMap.values())
 					{
 						memory.interactionFatigue = 0;
 					}
 
 					//Do natural mood cooldowns.
-					if (moodPointsAnger > 0.0F)
+					if (doModifyAnger)
 					{
-						moodPointsAnger -= negativeCooldownModifier;
+						moodPointsAnger -= negativeCooldown;
 
 						if (moodPointsAnger < 0.0F)
 						{
 							moodPointsAnger = 0.0F;
 						}
+
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "moodPointsAnger", moodPointsAnger));
 					}
 
-					if (moodPointsHappy > 0.0F)
+					if (doModifyHappy)
 					{
-						moodPointsHappy -= positiveCooldownModifier;
+						moodPointsHappy -= positiveCooldown;
 
 						if (moodPointsHappy < 0.0F)
 						{
 							moodPointsHappy = 0.0F;
 						}
+
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "moodPointsHappy", moodPointsHappy));
 					}
 
-					if (moodPointsSad > 0.0F)
+					if (doModifySad)
 					{
-						moodPointsSad -= negativeCooldownModifier;
+						moodPointsSad -= negativeCooldown;
 
 						if (moodPointsSad < 0.0F)
 						{
 							moodPointsSad = 0.0F;
 						}
+
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "moodPointsSad", moodPointsSad));
 					}
 
 					//Assign different update deviation and reset.
 					moodUpdateDeviation = worldObj.rand.nextInt(50) + worldObj.rand.nextInt(50);
 					moodUpdateTicks = 0;
-
-					//Update clients.
-					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "moodPointsHappy", moodPointsHappy));
-					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "moodPointsAnger", moodPointsAnger));
-					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "moodPointsSad", moodPointsSad));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
+				}
+
+				else
+				{
+					moodUpdateTicks++;					
 				}
 			}
 		}
@@ -2901,6 +3032,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Updates the amount of time the entity has been working.
+	 * @category Tested
 	 */
 	private void updateWorkTime()
 	{
@@ -2925,8 +3057,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 							memory.isHired = false;
 							memory.minutesSinceHired = 0;
 							memory.hoursHired = 0;
-							this.setChoresStopped();
-							this.notifyPlayer(MCA.getInstance().getPlayerByName(memory.playerName), LanguageHelper.getString(this, "notify.hiring.complete", false));
+							setChoresStopped();
+							notifyPlayer(MCA.getInstance().getPlayerByName(memory.playerName), LanguageHelper.getString(this, "notify.hiring.complete", false));
 						}
 
 						hasChanged = true;
@@ -2943,6 +3075,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Runs code used to assist with debugging.
+	 * @category Tested
 	 */
 	private void updateDebug() 
 	{
@@ -2953,169 +3086,48 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	}
 
 	/**
-	 * Removes one item from the item stack from the server side and client side player inventory.
+	 * Writes this object to an object output stream. (Serialization)
 	 * 
-	 * @param 	itemStack	The item stack that should be removed.
-	 * @param	player		The player to remove the item from.
+	 * @param 	objectOut	The object output stream that this object should be written to.
+	 * 
+	 * @throws 	IOException	This exception should never happen.
 	 */
-	public static void removeItemFromPlayer(ItemStack itemStack, EntityPlayer player)
+	private void writeObject(ObjectOutputStream objectOut) throws IOException
 	{
-		PacketDispatcher.sendPacketToServer(PacketHandler.createRemoveItemPacket(player.entityId, player.inventory.currentItem, 1, itemStack.getItemDamageForDisplay()));
-
-		itemStack.stackSize--;
-
-		if (itemStack.stackSize <= 0)
-		{
-			player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack)null);
-		}
+		objectOut.defaultWriteObject();
+		objectOut.writeObject(texture);
+		objectOut.writeObject(entityId);
 	}
 
 	/**
-	 * Produces a random gender.
+	 * Reads this object from an object input stream. (Deserialization)
 	 * 
-	 * @return	A string containing either "Male" or "Female".
+	 * @param 	objectIn	The object input stream that this object should be read from.
+	 * 
+	 * @throws 	IOException				This exception should never happen.
+	 * @throws 	ClassNotFoundException	This exception should never happen.
 	 */
-	public static boolean getRandomGender()
+	private void readObject(ObjectInputStream objectIn) throws IOException, ClassNotFoundException
 	{
-		return MCA.rand.nextBoolean();
+		objectIn.defaultReadObject();
+		texture = (String)objectIn.readObject();
+		entityId = (Integer)objectIn.readObject();
 	}
 
-	/**
-	 * Produces a random masculine or feminine name based on the gender provided.
-	 * 
-	 * @param	isMale	Should the name be male?
-	 * 
-	 * @return	String containing a random name that would be appropriate for the specified gender.
-	 */
-	public static String getRandomName(boolean isMale)
+	private void endRetaliation()
 	{
-		if (isMale)
-		{
-			return MCA.maleNames.get(MCA.rand.nextInt(MCA.maleNames.size()));
-		}
-
-		else
-		{
-			return MCA.femaleNames.get(MCA.rand.nextInt(MCA.femaleNames.size()));
-		}
+		endRetaliation("");
 	}
 
-	/**
-	 * Gets a random boolean with a probability of being true.
-	 * 
-	 * @param	probabilityOfTrue	The probability that true should be returned.
-	 * 
-	 * @return	A randomly generated boolean.
-	 */
-	public static boolean getBooleanWithProbability(int probabilityOfTrue)
+	private void endRetaliation(String phraseId)
 	{
-		if (probabilityOfTrue < 0)
+		target = null;
+		isRetaliating = false;
+		getNavigator().clearPathEntity();
+
+		if (!phraseId.isEmpty())
 		{
-			return false;
+			say(LanguageHelper.getString(this, phraseId));
 		}
-
-		else
-		{
-			int randomNumber = MCA.rand.nextInt(100) + 1;
-
-			if (randomNumber <= probabilityOfTrue)
-			{
-				return true;
-			}
-
-			else
-			{
-				return false;
-			}
-		}
-	}
-
-	/**
-	 * Makes an entity face the specified coordinates, with a rotation pitch of 10 so they are looking down at the coordinates.
-	 * 
-	 * @param	entity			The entity that should face the provided coordinates.
-	 * @param	posX			The X coordinate that the entity should face.
-	 * @param	posY			The Y coordinate that the entity should face.
-	 * @param	posZ			The Z coordinate that the entity should face.
-	 */
-	public static void faceCoordinates(AbstractEntity entity, double posX, double posY, double posZ)
-	{
-		double deltaX = posX - entity.posX;
-		double deltaY = entity.posY - posY;
-		double deltaZ = posZ - entity.posZ;
-
-		double deltaLength = MathHelper.sqrt_double(deltaX * deltaX + deltaZ * deltaZ);
-		float angle1 = (float)((Math.atan2(deltaZ, deltaX) * 180D) / Math.PI) - 90F;
-		float angle2 = (float)(-((Math.atan2(deltaY, deltaLength) * 180D) / Math.PI));
-
-		entity.rotationPitch = -updateEntityRotation(entity.rotationPitch, angle2, 10.0F);
-		entity.rotationYaw = updateEntityRotation(entity.rotationYaw, angle1, 10.0F);
-
-		entity.rotationPitch = 10;
-
-		if (entity.worldObj.isRemote)
-		{
-			entity.setRotationYawHead(entity.rotationYaw);
-		}
-	}
-
-	/**
-	 * Makes an entity face the specified coordinates, with the specified rotation pitch that determines the angle of their head.
-	 * 
-	 * @param	entity			The entity that should face the provided coordinates.
-	 * @param	posX			The X coordinate that the entity should face.
-	 * @param	posY			The Y coordinate that the entity should face.
-	 * @param	posZ			The Z coordinate that the entity should face.
-	 * @param	rotationPitch	The pitch that the entity's head should be at.
-	 */
-	public static void faceCoordinates(EntityLivingBase entity, double posX, double posY, double posZ, int rotationPitch)
-	{
-		double deltaX = posX - entity.posX;
-		double deltaY = entity.posY - posY;
-		double deltaZ = posZ - entity.posZ;
-
-		double deltaLength = MathHelper.sqrt_double(deltaX * deltaX + deltaZ * deltaZ);
-		float angle1 = (float)((Math.atan2(deltaZ, deltaX) * 180D) / Math.PI) - 90F;
-		float angle2 = (float)(-((Math.atan2(deltaY, deltaLength) * 180D) / Math.PI));
-
-		entity.rotationPitch = -updateEntityRotation(entity.rotationPitch, angle2, 10.0F);
-		entity.rotationYaw = updateEntityRotation(entity.rotationYaw, angle1, 10.0F);
-
-		entity.rotationPitch = rotationPitch;
-
-		if (entity.worldObj.isRemote)
-		{
-			entity.setRotationYawHead(entity.rotationYaw);
-		}
-	}
-
-	/**
-	 * Updates an entity's rotation based on given values.
-	 * 
-	 * @param 	angleToUpdate	The orignal angle that is being updated.
-	 * @param 	angleToAdd		The angle to add to the original.
-	 * @param 	pitch			The pitch effecting the angle.
-	 * 
-	 * @return	Angle with provided data added to it.
-	 */
-	public static float updateEntityRotation(float angleToUpdate, float angleToAdd, float pitch)
-	{
-		float addedAngle;
-
-		for (addedAngle = angleToAdd - angleToUpdate; addedAngle < -180F; addedAngle += 360F) { }
-
-		for (; addedAngle >= 180F; addedAngle -= 360F) { }
-
-		if (addedAngle > pitch)
-		{
-			addedAngle = pitch;
-		}
-
-		if (addedAngle < -pitch)
-		{
-			addedAngle = -pitch;
-		}
-
-		return angleToUpdate + addedAngle;
 	}
 }

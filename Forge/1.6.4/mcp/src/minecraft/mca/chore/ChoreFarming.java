@@ -57,13 +57,13 @@ public class ChoreFarming extends AbstractChore
 	public int delayCounter;
 
 	/** The X location of the coordinates the entity started at.*/
-	public int startX;
+	public double startX;
 
 	/** The Y location of the coordinates the entity started at.*/
-	public int startY;
+	public double startY;
 
 	/** The Z location of the coordinates the entity started at.*/
-	public int startZ;
+	public double startZ;
 
 	/** From a 2D aspect, how many blocks the X side of the farming area is.*/
 	public int areaX;
@@ -477,7 +477,7 @@ public class ChoreFarming extends AbstractChore
 
 	private void doAssignNextBlockForCreation()
 	{
-		final List<Point3D> farmland = LogicHelper.getNearbyFarmableLand(owner, startX, startY, startZ, areaX, areaY);
+		final List<Point3D> farmland = LogicHelper.getNearbyFarmableLand(owner, (int)startX, (int)startY, (int)startZ, areaX, areaY);
 
 		if (farmland.isEmpty())
 		{
@@ -550,7 +550,7 @@ public class ChoreFarming extends AbstractChore
 
 	private void doAssignNextBlockForMaintain()
 	{
-		final List<Point3D> points = LogicHelper.getNearbyHarvestableCrops(owner, startX, startY, startZ, radius);
+		final List<Point3D> points = LogicHelper.getNearbyHarvestableCrops(owner, (int)startX, (int)startY, (int)startZ, radius);
 
 		if (!points.isEmpty())
 		{

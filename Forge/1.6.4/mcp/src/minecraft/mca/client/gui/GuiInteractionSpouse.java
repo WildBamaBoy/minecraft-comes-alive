@@ -12,8 +12,10 @@ package mca.client.gui;
 import mca.core.MCA;
 import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
+import mca.core.util.Interactions;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
+import mca.core.util.Utility;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
 import mca.enums.EnumMood;
@@ -329,8 +331,8 @@ public class GuiInteractionSpouse extends AbstractGui
 	 */
 	private void drawInventoryGui()
 	{
-		entitySpouse.shouldOpenInventory = true;
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "shouldOpenInventory", true));
+		entitySpouse.doOpenInventory = true;
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "doOpenInventory", true));
 		close();
 	}
 
@@ -558,13 +560,13 @@ public class GuiInteractionSpouse extends AbstractGui
 	{
 		if (button == chatButton)
 		{
-			entitySpouse.doChat(player);
+			Interactions.doChat(entitySpouse, player);
 			close();
 		}
 
 		else if (button == jokeButton)
 		{
-			entitySpouse.doJoke(player);
+			Interactions.doJoke(entitySpouse, player);
 			close();
 		}
 
@@ -577,30 +579,30 @@ public class GuiInteractionSpouse extends AbstractGui
 		
 		else if (button == greetButton)
 		{
-			entitySpouse.doGreeting(player);
+			Interactions.doGreeting(entitySpouse, player);
 			close();
 		}
 		
 		else if (button == tellStoryButton)
 		{
-			entitySpouse.doTellStory(player);
+			Interactions.doTellStory(entitySpouse, player);
 			close();
 		}
 		else if (button == kissButton)
 		{
-			entitySpouse.doKiss(player);
+			Interactions.doKiss(entitySpouse, player);
 			close();
 		}
 		
 		else if (button == flirtButton)
 		{
-			entitySpouse.doFlirt(player);
+			Interactions.doFlirt(entitySpouse, player);
 			close();
 		}
 		
 		else if (button == tellStoryButton)
 		{
-			entitySpouse.doTellStory(player);
+			Interactions.doTellStory(entitySpouse, player);
 			close();
 		}
 		
@@ -750,7 +752,7 @@ public class GuiInteractionSpouse extends AbstractGui
 
 			if (hasSword)
 			{
-				if (!entitySpouse.isSpouse || entitySpouse.spousePlayerName.equals(player.username))
+				if (!entitySpouse.isMarriedToPlayer || entitySpouse.spousePlayerName.equals(player.username))
 				{
 					entitySpouse.hasBeenExecuted = true;
 
@@ -806,7 +808,7 @@ public class GuiInteractionSpouse extends AbstractGui
 				entitySpouse.modifyHearts(player, -(5 * memory.giftsDemanded));
 
 				//There is a chance of refusing, and continue to refuse after doing so.
-				if (AbstractEntity.getBooleanWithProbability(5 * memory.giftsDemanded) || memory.hasRefusedDemands)
+				if (Utility.getBooleanWithProbability(5 * memory.giftsDemanded) || memory.hasRefusedDemands)
 				{
 					memory.hasRefusedDemands = true;
 					entitySpouse.say(LanguageHelper.getString("monarch.demandgift.dictator"));
@@ -843,7 +845,7 @@ public class GuiInteractionSpouse extends AbstractGui
 		{
 			if (!entitySpouse.isPeasant)
 			{
-				if (entitySpouse.isSpouse)
+				if (entitySpouse.isMarriedToPlayer)
 				{
 					player.addChatMessage(LanguageHelper.getString("monarch.makepeasant.failure.playerspouse"));
 					close();
@@ -873,7 +875,7 @@ public class GuiInteractionSpouse extends AbstractGui
 		{
 			if (!entitySpouse.isKnight)
 			{
-				if (entitySpouse.isSpouse)
+				if (entitySpouse.isMarriedToPlayer)
 				{
 					player.addChatMessage(LanguageHelper.getString("monarch.makeknight.failure.playerspouse"));
 					close();

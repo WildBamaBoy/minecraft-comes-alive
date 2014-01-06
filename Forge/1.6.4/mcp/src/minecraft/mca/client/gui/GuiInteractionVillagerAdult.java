@@ -21,8 +21,10 @@ import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
+import mca.core.util.Interactions;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
+import mca.core.util.Utility;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
@@ -310,7 +312,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	public void drawScreen(int i, int j, float f)
 	{
 		drawDefaultBackground();
-
+		
 		//Draw hearts.
 		drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.hearts") + " = " + hearts, width / 2, height / 2 - 100, 0xffffff);
 
@@ -385,7 +387,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			if (spouse != null)
 			{
 				//If they have a villager spouse and the player is related, then draw (Married to %SpouseRelation% %SpouseName%.)
-				if (entityVillager.isMarried && spouse.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
+				if (entityVillager.isMarriedToVillager && spouse.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
 				{
 					drawCenteredString(fontRenderer, LanguageHelper.getString(player, entityVillager, "gui.info.family.spouse", false), width / 2 , height / 2 - 60, 0xffffff);
 				}
@@ -399,7 +401,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			//Spouse turned up null, but check if they're a villager spouse or player spouse anyway.
 			//If they are, just draw (Married to %SpouseFullName%), which is remembered regardless of if the spouse is present.
-			else if (entityVillager.isMarried || entityVillager.isSpouse)
+			else if (entityVillager.isMarriedToVillager || entityVillager.isMarriedToPlayer)
 			{
 				drawCenteredString(fontRenderer, LanguageHelper.getString(player, entityVillager, "gui.info.family.spouse.unrelated", false), width / 2, height / 2 - 60, 0xffffff);
 			}
@@ -1138,7 +1140,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == followButton)
 		{
-			if (!entityVillager.isSpouse || (entityVillager.isSpouse && entityVillager.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player))))
+			if (!entityVillager.isMarriedToPlayer || (entityVillager.isMarriedToPlayer && entityVillager.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player))))
 			{
 				if (entityVillager.profession == 5)
 				{
@@ -1262,7 +1264,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == stayButton)
 		{
-			if (!entityVillager.isSpouse || (entityVillager.isSpouse && entityVillager.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player))))
+			if (!entityVillager.isMarriedToPlayer || (entityVillager.isMarriedToPlayer && entityVillager.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player))))
 			{
 				entityVillager.isStaying = !entityVillager.isStaying;
 				entityVillager.isFollowing = false;
@@ -1283,7 +1285,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == setHomeButton)
 		{
-			if (!entityVillager.isSpouse || (entityVillager.isSpouse && entityVillager.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player))))
+			if (!entityVillager.isMarriedToPlayer || (entityVillager.isMarriedToPlayer && entityVillager.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player))))
 			{
 				entityVillager.homePointX = entityVillager.posX;
 				entityVillager.homePointY = entityVillager.posY;
@@ -1371,13 +1373,13 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	{
 		if (button == chatButton)
 		{
-			entityVillager.doChat(player);
+			Interactions.doChat(entityVillager, player);
 			close();
 		}
 
 		else if (button == jokeButton)
 		{
-			entityVillager.doJoke(player);
+			Interactions.doJoke(entityVillager, player);
 			close();
 		}
 
@@ -1390,30 +1392,30 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == greetButton)
 		{
-			entityVillager.doGreeting(player);
+			Interactions.doGreeting(entityVillager, player);
 			close();
 		}
 
 		else if (button == tellStoryButton)
 		{
-			entityVillager.doTellStory(player);
+			Interactions.doTellStory(entityVillager, player);
 			close();
 		}
 		else if (button == kissButton)
 		{
-			entityVillager.doKiss(player);
+			Interactions.doKiss(entityVillager, player);
 			close();
 		}
 
 		else if (button == flirtButton)
 		{
-			entityVillager.doFlirt(player);
+			Interactions.doFlirt(entityVillager, player);
 			close();
 		}
 
 		else if (button == tellStoryButton)
 		{
-			entityVillager.doTellStory(player);
+			Interactions.doTellStory(entityVillager, player);
 			close();
 		}
 
@@ -1511,8 +1513,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				if (playerSpouse != null)
 				{	
 					EntityVillagerAdult spouse = (EntityVillagerAdult)playerSpouse;
-					spouse.shouldDivorce = true;
-					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouse.entityId, "shouldDivorce", true));
+					spouse.doDivorce = true;
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouse.entityId, "doDivorce", true));
 				}
 
 				else //The spouse is not nearby.
@@ -1529,8 +1531,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 					if (spouse != null)
 					{
-						spouse.shouldDivorce = true;
-						PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouse.entityId, "shouldDivorce", true));
+						spouse.doDivorce = true;
+						PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouse.entityId, "doDivorce", true));
 					}
 				}
 			}
@@ -1578,11 +1580,11 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				manager.worldProperties.minutesBabyExisted = 0;
 				manager.worldProperties.babyReadyToGrow = false;
 
-				boolean isMale = AbstractEntity.getRandomGender();
+				boolean isMale = Utility.getRandomGender();
 				
 				if (isMale)
 				{
-					manager.worldProperties.babyName = AbstractEntity.getRandomName(isMale);
+					manager.worldProperties.babyName = Utility.getRandomName(isMale);
 					entityVillager.say(LanguageHelper.getString(player, "priest.adopt.male"));
 
 					player.inventory.addItemStackToInventory(new ItemStack(MCA.getInstance().itemBabyBoy, 1));
@@ -1591,7 +1593,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 				else
 				{
-					manager.worldProperties.babyName = AbstractEntity.getRandomName(isMale);
+					manager.worldProperties.babyName = Utility.getRandomName(isMale);
 					entityVillager.say(LanguageHelper.getString(player, "priest.adopt.female"));
 
 					player.inventory.addItemStackToInventory(new ItemStack(MCA.getInstance().itemBabyGirl, 1));
@@ -1616,7 +1618,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			{
 				if (adult.getGenderAsString().equals(preferredGender))
 				{
-					if (AbstractEntity.getBooleanWithProbability(30))
+					if (Utility.getBooleanWithProbability(30))
 					{
 						villagerToMarry = adult;
 						break;
@@ -1633,8 +1635,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			else
 			{
-				villagerToMarry.marriageToPlayerWasArranged = true;
-				villagerToMarry.isSpouse = true;
+				villagerToMarry.isMarriageToPlayerArranged = true;
+				villagerToMarry.isMarriedToPlayer = true;
 				villagerToMarry.spousePlayerName = player.username;
 				villagerToMarry.familyTree.addFamilyTreeEntry(player, EnumRelation.Spouse);
 
@@ -1648,9 +1650,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 				PacketDispatcher.sendPacketToServer(PacketHandler.createAddAIPacket(villagerToMarry));
 				PacketDispatcher.sendPacketToServer(PacketHandler.createFamilyTreePacket(villagerToMarry.entityId, villagerToMarry.familyTree));
-				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerToMarry.entityId, "isSpouse", true));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerToMarry.entityId, "isMarriedToPlayer", true));
 				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerToMarry.entityId, "spousePlayerName", player.username));
-				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerToMarry.entityId, "marriageToPlayerWasArranged", true));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerToMarry.entityId, "isMarriageToPlayerArranged", true));
 				PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId));
 
 				villagerToMarry.setPosition(player.posX, player.posY, player.posZ);
@@ -1710,8 +1712,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == inventoryButton)
 		{
-			entityVillager.shouldOpenInventory = true;
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "shouldOpenInventory", true));
+			entityVillager.doOpenInventory = true;
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "doOpenInventory", true));
 			close();
 		}
 	}
@@ -1734,7 +1736,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			else
 			{
-				if (AbstractEntity.getBooleanWithProbability(80))
+				if (Utility.getBooleanWithProbability(80))
 				{
 					Object[] giftInfo = null;
 					giftInfo = MCA.bakerAidIDs[villager.worldObj.rand.nextInt(MCA.bakerAidIDs.length)];
@@ -1811,8 +1813,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == inventoryButton)
 		{
-			entityVillager.shouldOpenInventory = true;
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "shouldOpenInventory", true));
+			entityVillager.doOpenInventory = true;
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "doOpenInventory", true));
 			close();
 		}
 	}
@@ -1835,7 +1837,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			else
 			{
-				if (AbstractEntity.getBooleanWithProbability(80))
+				if (Utility.getBooleanWithProbability(80))
 				{
 					Object[] giftInfo = null;
 					giftInfo = MCA.butcherAidIDs[villager.worldObj.rand.nextInt(MCA.butcherAidIDs.length)];
@@ -1948,7 +1950,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			else
 			{
-				if (AbstractEntity.getBooleanWithProbability(80))
+				if (Utility.getBooleanWithProbability(80))
 				{
 					Object[] giftInfo = null;
 					giftInfo = MCA.farmerAidIDs[villager.worldObj.rand.nextInt(MCA.farmerAidIDs.length)];
@@ -1998,8 +2000,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == inventoryButton)
 		{
-			entityVillager.shouldOpenInventory = true;
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "shouldOpenInventory", true));
+			entityVillager.doOpenInventory = true;
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "doOpenInventory", true));
 			close();
 		}
 	}
@@ -2458,7 +2460,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			if (hasSword)
 			{
-				if (!entityVillager.isSpouse)
+				if (!entityVillager.isMarriedToPlayer)
 				{
 					entityVillager.hasBeenExecuted = true;
 
@@ -2512,7 +2514,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				entityVillager.modifyHearts(player, -(5 * memory.giftsDemanded));
 
 				//There is a chance of refusing, and continue to refuse after doing so.
-				if (AbstractEntity.getBooleanWithProbability(5 * memory.giftsDemanded) || memory.hasRefusedDemands)
+				if (Utility.getBooleanWithProbability(5 * memory.giftsDemanded) || memory.hasRefusedDemands)
 				{
 					memory.hasRefusedDemands = true;
 					entityVillager.say(LanguageHelper.getString(player, "monarch.demandgift.dictator"));
@@ -2549,7 +2551,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			if (!entityVillager.isPeasant)
 			{
-				if (entityVillager.isSpouse)
+				if (entityVillager.isMarriedToPlayer)
 				{
 					player.addChatMessage(LanguageHelper.getString("monarch.makepeasant.failure.playerspouse"));
 					close();
@@ -2592,7 +2594,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			if (!entityVillager.isKnight)
 			{
-				if (entityVillager.isSpouse)
+				if (entityVillager.isMarriedToPlayer)
 				{
 					player.addChatMessage(LanguageHelper.getString("monarch.makeknight.failure.playerspouse"));
 					close();

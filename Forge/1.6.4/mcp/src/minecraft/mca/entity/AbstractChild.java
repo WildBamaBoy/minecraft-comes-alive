@@ -9,40 +9,32 @@
 
 package mca.entity;
 
-import java.util.Calendar;
-
 import mca.core.MCA;
 import net.minecraft.world.World;
 
 /**
  * Defines a child entity.
  */
-public abstract class EntityChild extends AbstractEntity
+public abstract class AbstractChild extends AbstractEntity
 {
 	/** The age of the child in minutes. */
-	public int age = 0;
+	public int age;
 	
 	/** Is the child ready to grow up? */
-	public boolean isReadyToGrow = false;
+	public boolean isReadyToGrow;
 	
 	/** Is the child fully grown? */
-	public boolean isAdult = false;
+	public boolean isAdult;
 	
 	/** The name of the player who owns this child. */
 	public String ownerPlayerName = "";
-
-	/** The minute value gotten from the last minute value check. */
-	protected int prevMinutes    = Calendar.getInstance().get(Calendar.MINUTE);
-	
-	/** The minute value gotten from the current minute value check. */
-	protected int currentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 
 	/**
 	 * Constructor
 	 * 
 	 * @param 	world	An instance of the world object.
 	 */
-	public EntityChild(World world)
+	public AbstractChild(World world)
 	{
 		super(world);
 	}
@@ -52,29 +44,31 @@ public abstract class EntityChild extends AbstractEntity
 	{
 		super.onUpdate();
 
-		//Check if age should be increased.
-		currentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
-
-		if (MCA.getInstance().inDebugMode)
-		{
-			if (this instanceof EntityPlayerChild && !isAdult && MCA.getInstance().debugDoRapidPlayerChildGrowth)
-			{
-				age++;
-			}
-			
-			else if (this instanceof EntityVillagerChild && MCA.getInstance().debugDoRapidVillagerChildGrowth)
-			{
-				age++;
-			}
-		}
-		if (currentMinutes > prevMinutes || currentMinutes == 0 && prevMinutes == 59)
-		{
-			if (age < MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes)
-			{
-				age++;
-				prevMinutes = currentMinutes;
-			}
-		}
+		//TODO
+//		//Check if age should be increased.
+//		currentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+//
+//		if (MCA.getInstance().inDebugMode)
+//		{
+//			if (this instanceof EntityPlayerChild && !isAdult && MCA.getInstance().debugDoRapidPlayerChildGrowth)
+//			{
+//				age++;
+//			}
+//			
+//			else if (this instanceof EntityVillagerChild && MCA.getInstance().debugDoRapidVillagerChildGrowth)
+//			{
+//				age++;
+//			}
+//		}
+//		
+//		if (currentMinutes > prevMinutes || currentMinutes == 0 && prevMinutes == 59)
+//		{
+//			if (age < MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes)
+//			{
+//				age++;
+//				prevMinutes = currentMinutes;
+//			}
+//		}
 
 		if (age >= MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes)
 		{

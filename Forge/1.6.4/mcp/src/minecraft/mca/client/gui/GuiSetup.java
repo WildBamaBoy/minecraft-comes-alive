@@ -36,6 +36,7 @@ public class GuiSetup extends AbstractGui
 	private GuiButton hideTagsButton;
 	private GuiButton autoGrowChildrenButton;
 	private GuiButton displayMoodParticlesButton;
+	private GuiButton showNameTagsButton;
 	private GuiButton preferenceButton;
 	private GuiButton finishButton;
 
@@ -249,10 +250,11 @@ public class GuiSetup extends AbstractGui
 
 		buttonList.clear();
 
-		buttonList.add(hideTagsButton              = new GuiButton(1, width / 2 - 80, height / 2 - 10, 170, 20, LanguageHelper.getString("gui.button.setup.hidesleepingtag")));
-		buttonList.add(autoGrowChildrenButton      = new GuiButton(2, width / 2 - 80, height / 2 + 10, 170, 20, LanguageHelper.getString("gui.button.setup.growchildrenautomatically")));
-		buttonList.add(displayMoodParticlesButton  = new GuiButton(3, width / 2 - 80, height / 2 + 30, 170, 20, LanguageHelper.getString("gui.button.setup.displaymoodparticles")));
-		buttonList.add(preferenceButton = new GuiButton(4, width / 2 - 80, height / 2 + 50, 170, 20, LanguageHelper.getString("gui.button.setup.preference")));
+		buttonList.add(hideTagsButton              	= new GuiButton(1, width / 2 - 80, height / 2 - 10, 170, 20, LanguageHelper.getString("gui.button.setup.hidesleepingtag")));
+		buttonList.add(autoGrowChildrenButton      	= new GuiButton(2, width / 2 - 80, height / 2 + 10, 170, 20, LanguageHelper.getString("gui.button.setup.growchildrenautomatically")));
+		buttonList.add(displayMoodParticlesButton  	= new GuiButton(3, width / 2 - 80, height / 2 + 30, 170, 20, LanguageHelper.getString("gui.button.setup.displaymoodparticles")));
+		buttonList.add(showNameTagsButton  			= new GuiButton(4, width / 2 - 80, height / 2 + 50, 170, 20, LanguageHelper.getString("gui.button.setup.shownametags")));
+		buttonList.add(preferenceButton 			= new GuiButton(5, width / 2 - 80, height / 2 + 70, 170, 20, LanguageHelper.getString("gui.button.setup.preference")));
 
 		buttonList.add(backButton   = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(finishButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.setup.finish")));
@@ -268,6 +270,9 @@ public class GuiSetup extends AbstractGui
 
 		if (manager.worldProperties.displayMoodParticles) displayMoodParticlesButton.displayString = displayMoodParticlesButton.displayString + LanguageHelper.getString("gui.button.yes");
 		else displayMoodParticlesButton.displayString = displayMoodParticlesButton.displayString + LanguageHelper.getString("gui.button.no");
+
+		if (manager.worldProperties.showNameTags) showNameTagsButton.displayString = showNameTagsButton.displayString + LanguageHelper.getString("gui.button.yes");
+		else showNameTagsButton.displayString = showNameTagsButton.displayString + LanguageHelper.getString("gui.button.no");
 
 		finishButton.enabled = false;
 
@@ -373,6 +378,13 @@ public class GuiSetup extends AbstractGui
 		else if (button == displayMoodParticlesButton)
 		{
 			manager.worldProperties.displayMoodParticles = !manager.worldProperties.displayMoodParticles;
+			manager.saveWorldProperties();
+			drawOptionsGui();
+		}
+		
+		else if (button == showNameTagsButton)
+		{
+			manager.worldProperties.showNameTags = !manager.worldProperties.showNameTags;
 			manager.saveWorldProperties();
 			drawOptionsGui();
 		}
