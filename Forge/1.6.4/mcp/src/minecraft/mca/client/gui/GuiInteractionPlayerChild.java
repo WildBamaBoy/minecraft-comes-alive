@@ -20,6 +20,7 @@ import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
+import mca.core.util.Interactions;
 import mca.core.util.LanguageHelper;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
@@ -357,7 +358,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		if (spouse != null)
 		{
 			//If they have a villager spouse and the player is related, then draw (Married to %SpouseRelation% %SpouseName%.)
-			if (entityChild.isMarried && spouse.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
+			if (entityChild.isMarriedToVillager && spouse.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
 			{
 				drawCenteredString(fontRenderer, LanguageHelper.getString(player, entityChild, "gui.info.family.spouse", false), width / 2 , height / 2 - 60, 0xffffff);
 			}
@@ -371,7 +372,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 		//Spouse turned up null, but check if they're a villager spouse or player spouse anyway.
 		//If they are, just draw (Married to %SpouseFullName%), which is remembered regardless of if the spouse is present.
-		else if (entityChild.isMarried || entityChild.isSpouse)
+		else if (entityChild.isMarriedToVillager || entityChild.isMarriedToPlayer)
 		{
 			if (!entityChild.spousePlayerName.equals(player.username))
 			{
@@ -468,7 +469,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 		backButton.enabled = false;
 
-		if (entityChild.familyTree.getEntitiesWithRelation(EnumRelation.Parent).contains(MCA.getInstance().getIdOfPlayer(player)) && entityChild.shouldActAsHeir)
+		if (entityChild.familyTree.getEntitiesWithRelation(EnumRelation.Parent).contains(MCA.getInstance().getIdOfPlayer(player)) && entityChild.doActAsHeir)
 		{
 			buttonList.add(requestCrownButton = new GuiButton(9, width / 2 + 5, height / 2 - 20, 120, 20, LanguageHelper.getString("heir.gui.requestcrown")));
 
@@ -493,7 +494,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		if (entityChild.isFollowing) followButton.displayString = LanguageHelper.getString("gui.button.interact.followstop");
 		if (entityChild.isStaying)   stayButton.displayString = LanguageHelper.getString("gui.button.interact.staystop");
 
-		if (entityChild.isSpouse)
+		if (entityChild.isMarriedToPlayer)
 		{
 			inventoryButton.enabled = false;
 			setHomeButton.enabled = false;
@@ -846,8 +847,8 @@ public class GuiInteractionPlayerChild extends AbstractGui
 	 */
 	private void drawInventoryGui()
 	{
-		entityChild.shouldOpenInventory = true;
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "shouldOpenInventory", true));
+		entityChild.doOpenInventory = true;
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "doOpenInventory", true));
 		close();
 	}
 
@@ -1005,10 +1006,10 @@ public class GuiInteractionPlayerChild extends AbstractGui
 				player.addChatMessage(LanguageHelper.getString("notify.monarch.resume"));
 
 				entityChild.hasBeenHeir = true;
-				entityChild.shouldActAsHeir = false;
+				entityChild.doActAsHeir = false;
 				entityChild.hasReturnedInventory = false;
 				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "hasBeenHeir", true));
-				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "shouldActAsHeir", false));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "doActAsHeir", false));
 				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "hasReturnedInventory", false));
 
 				close();
@@ -1054,13 +1055,13 @@ public class GuiInteractionPlayerChild extends AbstractGui
 	{
 		if (button == chatButton)
 		{
-			entityChild.doChat(player);
+			Interactions.doChat(entityChild, player);
 			close();
 		}
 
 		else if (button == jokeButton)
 		{
-			entityChild.doJoke(player);
+			Interactions.doJoke(entityChild, player);
 			close();
 		}
 
@@ -1073,36 +1074,36 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 		else if (button == greetButton)
 		{
-			entityChild.doGreeting(player);
+			Interactions.doGreeting(entityChild, player);
 			close();
 		}
 
 		else if (button == tellStoryButton)
 		{
-			entityChild.doTellStory(player);
+			Interactions.doTellStory(entityChild, player);
 			close();
 		}
 		else if (button == kissButton)
 		{
-			entityChild.doKiss(player);
+			Interactions.doKiss(entityChild, player);
 			close();
 		}
 
 		else if (button == flirtButton)
 		{
-			entityChild.doFlirt(player);
+			Interactions.doFlirt(entityChild, player);
 			close();
 		}
 
 		else if (button == tellStoryButton)
 		{
-			entityChild.doTellStory(player);
+			Interactions.doTellStory(entityChild, player);
 			close();
 		}
 
 		else if (button == playButton)
 		{
-			entityChild.doPlay(player);
+			Interactions.doPlay(entityChild, player);
 			close();
 		}
 

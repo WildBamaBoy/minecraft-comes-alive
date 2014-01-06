@@ -9,12 +9,8 @@
 
 package mca.core;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -58,6 +54,7 @@ import mca.core.forge.PacketHandler;
 import mca.core.io.ModPropertiesManager;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
+import mca.core.util.SelfTester;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityChoreFishHook;
 import mca.entity.EntityPlayerChild;
@@ -618,90 +615,6 @@ public class MCA
 		}
 	}
 
-	@SuppressWarnings("unused")
-	private static void doSelfTest()
-	{
-		MCA.instance.log("Beginning self test...");
-
-		final File[] sourceDirs = new File[]
-				{
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/api"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/block"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/chore"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/client/gui"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/client/model"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/client/render"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/command"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/core"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/core/forge"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/core/io"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/core/util"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/entity"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/enums"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/inventory"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/item"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/tileentity")
-				};
-
-		FileInputStream fileStream;
-		DataInputStream dataStream;
-		BufferedReader reader;
-
-		MCA.instance.log("Checking source files for valid phrase IDs...");
-		{
-			int lineNumber = 0;
-
-			for (final File sourceDir : sourceDirs)
-			{
-				for (final File sourceFile : sourceDir.listFiles())
-				{
-					if (sourceFile.isFile())
-					{
-						lineNumber = 0;
-						String readString = "";
-
-						try
-						{
-							fileStream = new FileInputStream(sourceFile);
-							dataStream = new DataInputStream(fileStream);
-							reader = new BufferedReader(new InputStreamReader(dataStream));
-
-							while ((readString = reader.readLine()) != null)  
-							{
-								lineNumber++;
-
-								if (readString.contains("LanguageHelper.getString(") && !readString.contains("%"))
-								{
-									readString = readString.trim();
-
-									final boolean useCharacterType = readString.contains("true");
-									final int firstQuoteIndex = readString.indexOf('"');
-									final int nextQuoteIndex = readString.indexOf('"', firstQuoteIndex + 1);
-									final String phraseId = readString.substring(firstQuoteIndex, nextQuoteIndex).replaceAll("\"", "");
-									final String result = LanguageHelper.getString(null, null, phraseId, useCharacterType);
-
-									if (result.contains("not found"))
-									{
-										MCA.instance.log("Self-test error: Phrase <" + 
-												phraseId + "> in file <" + sourceFile.getName() + 
-												">  at line <" + lineNumber + "> not found.");
-									}
-								}
-							}
-
-							reader.close();
-						}
-
-						catch (Exception e)
-						{
-							continue;
-						}
-					}
-				}
-			}
-		}
-	}
-
 	public static MCA getInstance()
 	{
 		return instance;
@@ -1002,6 +915,7 @@ public class MCA
 		AchievementPage.registerAchievementPage(achievementPageMCA);
 
 		LanguageHelper.loadLanguage();
+		new SelfTester().doSelfTest();
 	}
 
 	/**

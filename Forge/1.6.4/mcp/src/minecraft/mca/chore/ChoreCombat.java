@@ -16,6 +16,7 @@ import java.util.List;
 import mca.core.MCA;
 import mca.core.forge.PacketHandler;
 import mca.core.util.LogicHelper;
+import mca.core.util.Utility;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import net.minecraft.entity.Entity;
@@ -574,7 +575,7 @@ public class ChoreCombat extends AbstractChore
 		if (owner.target != null)
 		{
 			owner.getNavigator().clearPathEntity();
-			AbstractEntity.faceCoordinates(owner, owner.target.posX, owner.target.posY, owner.target.posZ);
+			Utility.faceCoordinates(owner, owner.target.posX, owner.target.posY, owner.target.posZ);
 			rangedAttackTime--;
 		}
 	}

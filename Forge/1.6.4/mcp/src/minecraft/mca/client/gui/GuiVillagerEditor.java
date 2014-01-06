@@ -14,6 +14,7 @@ import java.util.List;
 import mca.core.MCA;
 import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
+import mca.core.util.Utility;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import mca.enums.EnumMood;
@@ -156,7 +157,7 @@ public class GuiVillagerEditor extends AbstractGui
 
 		else if (guibutton == randomButton)
 		{
-			nameTextField.setText(AbstractEntity.getRandomName(villagerBeingEdited.isMale));
+			nameTextField.setText(Utility.getRandomName(villagerBeingEdited.isMale));
 			villagerBeingEdited.name = nameTextField.getText();
 			nameTextField.mouseClicked(5, 5, 5);
 			drawEditorGui();
@@ -377,8 +378,8 @@ public class GuiVillagerEditor extends AbstractGui
 		
 		else if (guibutton == inventoryButton)
 		{
-			villagerBeingEdited.shouldOpenInventory = true;
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerBeingEdited.entityId, "shouldOpenInventory", true));
+			villagerBeingEdited.doOpenInventory = true;
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerBeingEdited.entityId, "doOpenInventory", true));
 			close();
 		}
 	}
@@ -497,8 +498,8 @@ public class GuiVillagerEditor extends AbstractGui
 	{
 		buttonList.clear();
 		buttonList.add(randomButton                = new GuiButton(1,  width / 2 - 50,  height / 2 - 75, 60, 20, LanguageHelper.getString("gui.button.random")));
-		buttonList.add(genderButton                = new GuiButton(2,  width / 2 - 190, height / 2 - 40, 175, 20, LanguageHelper.getString("gui.button.setup.gender" + "." + villagerBeingEdited.getGenderAsString())));
-		buttonList.add(textureButton               = new GuiButton(3,  width / 2 - 190, height / 2 - 20, 175, 20, "Texture: " + villagerBeingEdited.getTexture().replace("textures/skins//", "").replace(".png", "")));
+		buttonList.add(genderButton                = new GuiButton(2,  width / 2 - 190, height / 2 - 40, 175, 20, LanguageHelper.getString("gui.button.setup.gender" + villagerBeingEdited.getGenderAsString())));
+		buttonList.add(textureButton               = new GuiButton(3,  width / 2 - 190, height / 2 - 20, 175, 20, "Texture: " + villagerBeingEdited.getTexture().replace("textures/skins/", "").replace(".png", "")));
 		buttonList.add(shiftTextureIndexUpButton   = new GuiButton(4,  width / 2 - 15,  height / 2 - 20, 20, 20, ">>"));
 		buttonList.add(shiftTextureIndexDownButton = new GuiButton(5,  width / 2 - 210, height / 2 - 20, 20, 20, "<<"));
 		buttonList.add(professionButton            = new GuiButton(6,  width / 2 - 190, height / 2 - 0, 175, 20, "Title: " + villagerBeingEdited.getLocalizedProfessionString()));

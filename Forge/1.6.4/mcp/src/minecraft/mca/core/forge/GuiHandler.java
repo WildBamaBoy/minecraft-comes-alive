@@ -25,8 +25,8 @@ import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LogicHelper;
+import mca.entity.AbstractChild;
 import mca.entity.AbstractEntity;
-import mca.entity.EntityChild;
 import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
 import mca.inventory.ContainerInventory;
@@ -83,8 +83,8 @@ public class GuiHandler implements IGuiHandler
 			return new GuiInteractionVillagerAdult(entity, player);
 
 		case Constants.ID_GUI_VCHILD:
-			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(EntityChild.class, world, posX, posY, posZ);
-			return new GuiInteractionVillagerChild((EntityChild) entity, player);
+			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractChild.class, world, posX, posY, posZ);
+			return new GuiInteractionVillagerChild((AbstractChild) entity, player);
 
 		case Constants.ID_GUI_NAMECHILD:
 			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);

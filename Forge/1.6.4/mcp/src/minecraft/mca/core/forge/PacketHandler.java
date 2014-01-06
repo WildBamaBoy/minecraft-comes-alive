@@ -33,10 +33,11 @@ import mca.core.io.ModPropertiesManager;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
+import mca.core.util.Utility;
 import mca.core.util.object.FamilyTree;
 import mca.core.util.object.PlayerMemory;
+import mca.entity.AbstractChild;
 import mca.entity.AbstractEntity;
-import mca.entity.EntityChild;
 import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
 import mca.entity.EntityVillagerChild;
@@ -372,7 +373,12 @@ public final class PacketHandler implements IPacketHandler
 		int entityId     = (Integer)objectInput.readObject();
 		String fieldName = (String)objectInput.readObject();
 		Object fieldValue = objectInput.readObject();
-
+		
+		if (MCA.getInstance().debugDoLogPackets && MCA.getInstance().inDebugMode)
+		{
+			MCA.getInstance().log("\t" + entityId + " | " + fieldName + " | " + fieldValue.toString());
+		}
+		
 		for (Object obj : world.loadedEntityList)
 		{
 			Entity entity = (Entity)obj;
@@ -541,16 +547,16 @@ public final class PacketHandler implements IPacketHandler
 
 			if (entity.entityId == entityId)
 			{
-				AbstractEntity genderizedEntity = (AbstractEntity)entity;
+				AbstractEntity clientEntity = (AbstractEntity)entity;
 
 				if (targetId == 0)
 				{
-					genderizedEntity.target = null;
+					clientEntity.target = null;
 				}
 
 				else
 				{
-					genderizedEntity.target = (EntityLivingBase)genderizedEntity.worldObj.getEntityByID(targetId);
+					clientEntity.target = (EntityLivingBase)clientEntity.worldObj.getEntityByID(targetId);
 				}
 			}
 		}
@@ -842,7 +848,7 @@ public final class PacketHandler implements IPacketHandler
 
 			if (receivedEntity instanceof EntityPlayerChild || receivedEntity instanceof EntityVillagerChild)
 			{
-				classList.add(EntityChild.class);
+				classList.add(AbstractChild.class);
 			}
 
 			//Loop through each field in each class that the received entity is made of and set the value of
@@ -2054,7 +2060,7 @@ public final class PacketHandler implements IPacketHandler
 
 		//Trigger the name baby gui.
 		ItemBaby itemBaby = null;
-		boolean babyIsMale = AbstractEntity.getRandomGender();
+		boolean babyIsMale = Utility.getRandomGender();
 
 		if (babyIsMale)
 		{
@@ -2306,12 +2312,11 @@ public final class PacketHandler implements IPacketHandler
 	 * Creates a packet used to make a villager who is procreating with a player actually have a baby.
 	 * 
 	 * @param	villager	The villager that is procreating with the player.
-	 * @param	player		The player that is procreating with the villager.
 	 * @param	babyIsMale	The gender of the baby that will be added to the villager's inventory.
 	 * 
 	 * @return	A VillagerPlayerProcreate packet.
 	 */
-	public static Packet createVillagerPlayerProcreatePacket(AbstractEntity villager, EntityPlayer player, boolean babyIsMale) 
+	public static Packet createVillagerPlayerProcreatePacket(AbstractEntity villager, boolean babyIsMale) 
 	{
 		try
 		{
@@ -2322,7 +2327,6 @@ public final class PacketHandler implements IPacketHandler
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
 			
 			objectOutput.writeObject(villager.entityId);
-			objectOutput.writeObject(player.entityId);
 			objectOutput.writeObject(babyIsMale);
 			objectOutput.close();
 			
@@ -2358,7 +2362,6 @@ public final class PacketHandler implements IPacketHandler
 		World worldObj = entityPlayer.worldObj;
 
 		int villagerId = (Integer)objectInput.readObject();
-		int playerId = (Integer)objectInput.readObject();
 		boolean babyIsMale = (Boolean)objectInput.readObject();
 
 		objectInput.close();

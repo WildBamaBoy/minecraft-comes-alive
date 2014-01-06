@@ -13,7 +13,7 @@ import mca.core.MCA;
 import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
-import mca.entity.AbstractEntity;
+import mca.core.util.Utility;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
@@ -123,7 +123,7 @@ public class GuiNameChild extends AbstractGui
 
 		else if (guibutton == randomButton)
 		{
-			babyNameTextField.setText(AbstractEntity.getRandomName(isMale));
+			babyNameTextField.setText(Utility.getRandomName(isMale));
 			babyNameTextField.mouseClicked(5, 5, 5);
 		}
 	}

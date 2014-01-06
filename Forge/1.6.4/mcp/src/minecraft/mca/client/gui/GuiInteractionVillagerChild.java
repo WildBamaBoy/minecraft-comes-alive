@@ -13,10 +13,11 @@ import java.util.List;
 
 import mca.core.MCA;
 import mca.core.forge.PacketHandler;
+import mca.core.util.Interactions;
 import mca.core.util.LanguageHelper;
 import mca.core.util.object.PlayerMemory;
+import mca.entity.AbstractChild;
 import mca.entity.AbstractEntity;
-import mca.entity.EntityChild;
 import mca.entity.EntityPlayerChild;
 import mca.enums.EnumMood;
 import mca.enums.EnumRelation;
@@ -34,7 +35,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class GuiInteractionVillagerChild extends AbstractGui 
 {
 	/** An instance of the villager child. */
-	private EntityChild entityVillagerChild;
+	private AbstractChild entityVillagerChild;
 
 	/** Hearts value for the current player. */
 	int hearts;
@@ -65,7 +66,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 	 * @param 	entity	The entity that is being interacted with.
 	 * @param   player	The player interacting with the entity.
 	 */
-	public GuiInteractionVillagerChild(EntityChild entity, EntityPlayer player)
+	public GuiInteractionVillagerChild(AbstractChild entity, EntityPlayer player)
 	{
 		super(player);
 		entityVillagerChild = entity;
@@ -226,7 +227,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 		buttonList.add(greetButton = new GuiButton(4, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.greet")));
 		buttonList.add(tellStoryButton = new GuiButton(5, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.tellstory")));
 		
-		if ((entityVillagerChild.isSpouse && entityVillagerChild.spousePlayerName.equals(player.username)) || (entityVillagerChild.isAdult && !entityVillagerChild.ownerPlayerName.equals(player.username)))
+		if ((entityVillagerChild.isMarriedToPlayer && entityVillagerChild.spousePlayerName.equals(player.username)) || (entityVillagerChild.isAdult && !entityVillagerChild.ownerPlayerName.equals(player.username)))
 		{
 			buttonList.add(kissButton = new GuiButton(6, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.kiss")));
 			buttonList.add(flirtButton = new GuiButton(7, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.flirt")));
@@ -357,13 +358,13 @@ public class GuiInteractionVillagerChild extends AbstractGui
 	{
 		if (button == chatButton)
 		{
-			entityVillagerChild.doChat(player);
+			Interactions.doChat(entityVillagerChild, player);
 			close();
 		}
 
 		else if (button == jokeButton)
 		{
-			entityVillagerChild.doJoke(player);
+			Interactions.doJoke(entityVillagerChild, player);
 			close();
 		}
 
@@ -376,37 +377,37 @@ public class GuiInteractionVillagerChild extends AbstractGui
 		
 		else if (button == greetButton)
 		{
-			entityVillagerChild.doGreeting(player);
+			Interactions.doGreeting(entityVillagerChild, player);
 			close();
 		}
 		
 		else if (button == tellStoryButton)
 		{
-			entityVillagerChild.doTellStory(player);
+			Interactions.doTellStory(entityVillagerChild, player);
 			close();
 		}
 		
 		else if (button == tellStoryButton)
 		{
-			entityVillagerChild.doTellStory(player);
+			Interactions.doTellStory(entityVillagerChild, player);
 			close();
 		}
 		
 		else if (button == playButton)
 		{
-			entityVillagerChild.doPlay(player);
+			Interactions.doPlay(entityVillagerChild, player);
 			close();
 		}
 		
 		else if (button == kissButton)
 		{
-			entityVillagerChild.doKiss(player);
+			Interactions.doKiss(entityVillagerChild, player);
 			close();
 		}
 		
 		else if (button == flirtButton)
 		{
-			entityVillagerChild.doFlirt(player);
+			Interactions.doFlirt(entityVillagerChild, player);
 			close();
 		}
 		

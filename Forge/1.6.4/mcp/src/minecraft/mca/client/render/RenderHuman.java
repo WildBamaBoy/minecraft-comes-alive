@@ -13,6 +13,7 @@ import mca.chore.ChoreHunting;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesList;
+import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
@@ -34,6 +35,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vec3;
 import net.minecraftforge.common.DimensionManager;
 
 import org.lwjgl.opengl.GL11;
@@ -83,9 +85,9 @@ public class RenderHuman extends RenderBiped
 		final AbstractEntity entity = (AbstractEntity)entityLivingBase;
 		final float scale = entity.isMale ? Constants.SCALE_M_ADULT: Constants.SCALE_F_ADULT;
 
-		if (entity.isAffectedByHeight)
+		if (entity.doApplyHeight)
 		{
-			GL11.glScalef(scale, scale + entity.villagerHeightFactor, scale);
+			GL11.glScalef(scale, scale + entity.heightFactor, scale);
 		}
 
 		else
@@ -210,6 +212,18 @@ public class RenderHuman extends RenderBiped
 		}
 	}
 
+	protected boolean canRenderNameTag(EntityLivingBase entityRendering)
+	{
+		final EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
+		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(entityPlayer.username);
+		final Vec3 entityLookVector = entityPlayer.worldObj.getWorldVec3Pool().getVecFromPool(entityRendering.posX - entityPlayer.posX, entityRendering.boundingBox.minY + (double)entityRendering.height / 2.0F - entityPlayer.posY + (double)entityPlayer.getEyeHeight(), entityRendering.posZ - entityPlayer.posZ).normalize();
+		final double dotProduct = entityPlayer.getLook(1.0F).normalize().dotProduct(entityLookVector);
+		final boolean isPlayerLookingAt = dotProduct > 1.0D - 0.025D / entityLookVector.lengthVector() ? entityPlayer.canEntityBeSeen(entityRendering) : false;
+		final double distance = entityRendering.getDistanceToEntity(this.renderManager.livingPlayer);
+
+		return manager != null && manager.worldProperties.showNameTags && distance < 5.0D && isPlayerLookingAt && Minecraft.isGuiEnabled() && entityRendering != this.renderManager.livingPlayer && !entityRendering.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) && entityRendering.riddenByEntity == null;
+	}
+
 	/**
 	 * Sets the model of the armor that the Entity is wearing.
 	 * 
@@ -313,8 +327,6 @@ public class RenderHuman extends RenderBiped
 
 			shadowOpaque = 1.0F;
 
-			//			GL11.glColor3f(1.0F, 1.0F, 1.0F);
-
 			final ItemStack heldItem = entity.getHeldItem();
 			modelArmorChestplate.heldItemRight = modelArmor.heldItemRight = modelBipedMain.heldItemRight = heldItem == null ? 0 : 1;
 			modelArmorChestplate.isSneak = modelArmor.isSneak = modelBipedMain.isSneak = entity.isSneaking();
@@ -355,41 +367,48 @@ public class RenderHuman extends RenderBiped
 		final WorldPropertiesList propertiesList = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username).worldProperties;
 		final AbstractEntity clientEntity = (AbstractEntity)DimensionManager.getWorld(entity.worldObj.provider.dimensionId).getEntityByID(entity.entityId);
 
-		if (clientEntity.getHealth() < entity.getMaxHealth())
+		if (clientEntity != null)
 		{
-			renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.health") + Math.round(clientEntity.getHealth()) + "/" + entity.getMaxHealth());
-			return;
-		}
-
-		else if (clientEntity.hasArrangerRing)
-		{
-			renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.hasring"));
-		}
-
-		else if (clientEntity.isSleeping && clientEntity.canEntityBeSeen(Minecraft.getMinecraft().thePlayer) && !propertiesList.hideSleepingTag)
-		{
-			renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.sleeping"));
-		}
-
-		else if (entity instanceof EntityVillagerAdult)
-		{
-			final EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-			final EntityVillagerAdult villager = (EntityVillagerAdult)entity;
-
-			if (villager.playerMemoryMap.containsKey(player.username))
+			if (clientEntity.getHealth() < entity.getMaxHealth())
 			{
-				final PlayerMemory memory = villager.playerMemoryMap.get(player.username);
+				renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.health") + Math.round(clientEntity.getHealth()) + "/" + entity.getMaxHealth());
+			}
 
-				if (memory.hasGift)
+			else if (clientEntity.hasArrangerRing)
+			{
+				renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.hasring"));
+			}
+
+			else if (clientEntity.isSleeping && clientEntity.canEntityBeSeen(Minecraft.getMinecraft().thePlayer) && !propertiesList.hideSleepingTag)
+			{
+				renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.sleeping"));
+			}
+
+			else if (canRenderNameTag(clientEntity))
+			{
+				renderLabel(clientEntity, posX, posY, posZ, clientEntity.getTitle(MCA.getInstance().getIdOfPlayer(Minecraft.getMinecraft().thePlayer), true));
+			}
+
+			else if (entity instanceof EntityVillagerAdult)
+			{
+				final EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+				final EntityVillagerAdult villager = (EntityVillagerAdult)entity;
+
+				if (villager.playerMemoryMap.containsKey(player.username))
 				{
-					renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.hasgift"));
+					final PlayerMemory memory = villager.playerMemoryMap.get(player.username);
+
+					if (memory.hasGift)
+					{
+						renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.hasgift"));
+					}
 				}
 			}
 		}
 	}
 
 	/**
-	 * Determines the appropriate label to render over an entity's head on the dedicated server, if any.
+	 * Determines the appropriate label to render over an entity's head on the dedicated client, if any.
 	 * 
 	 * @param 	entity	The entity that the labels will be rendered on.
 	 * @param 	posX	The entity's x position.
@@ -445,7 +464,7 @@ public class RenderHuman extends RenderBiped
 			final Tessellator  tessellator = Tessellator.instance;
 			final FontRenderer fontRenderer = getFontRendererFromRenderManager();
 			final int stringWidth = fontRenderer.getStringWidth(labelText) / 2;
-			
+
 			GL11.glPushMatrix();
 
 			GL11.glTranslatef((float)posX + 0.0F, (float)posY + 2.3F, (float)posZ);

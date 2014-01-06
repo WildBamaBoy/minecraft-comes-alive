@@ -14,7 +14,7 @@ import java.util.List;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
-import mca.entity.AbstractEntity;
+import mca.core.util.Utility;
 import mca.entity.EntityPlayerChild;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -114,7 +114,7 @@ public class ItemBaby extends Item
 
 			else
 			{
-				AbstractEntity.removeItemFromPlayer(itemStack, player);
+				Utility.removeItemFromPlayer(itemStack, player);
 			}
 		}
 

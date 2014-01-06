@@ -13,7 +13,7 @@ import java.io.File;
 
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.entity.AbstractEntity;
+import mca.core.util.Utility;
 import mca.entity.AbstractSerializableEntity;
 import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
@@ -198,7 +198,7 @@ public class EventHooks
 			switch (villager.getProfession())
 			{
 			case 0:
-				if (AbstractEntity.getBooleanWithProbability(30))
+				if (Utility.getBooleanWithProbability(30))
 				{
 					newProfession = 7;
 				}
@@ -211,7 +211,7 @@ public class EventHooks
 				break;
 
 			case 4: 
-				if (AbstractEntity.getBooleanWithProbability(50))
+				if (Utility.getBooleanWithProbability(50))
 				{
 					newProfession = 6;
 				}

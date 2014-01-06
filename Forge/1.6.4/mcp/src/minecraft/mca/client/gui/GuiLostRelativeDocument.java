@@ -12,6 +12,7 @@ package mca.client.gui;
 import mca.core.MCA;
 import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
+import mca.core.util.Utility;
 import mca.core.util.object.FamilyTree;
 import mca.entity.AbstractEntity;
 import mca.enums.EnumRelation;
@@ -329,7 +330,7 @@ public class GuiLostRelativeDocument extends AbstractGui
 		{
 			PacketDispatcher.sendPacketToServer(PacketHandler.createFamilyTreePacket(recipient.entityId, recipient.familyTree));
 			
-			AbstractEntity.removeItemFromPlayer(new ItemStack(MCA.getInstance().itemLostRelativeDocument, 1), player);
+			Utility.removeItemFromPlayer(new ItemStack(MCA.getInstance().itemLostRelativeDocument, 1), player);
 			
 			if (recipient.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
 			{

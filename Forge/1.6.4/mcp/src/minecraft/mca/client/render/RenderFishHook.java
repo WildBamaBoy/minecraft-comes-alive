@@ -10,7 +10,7 @@
 package mca.client.render;
 
 import mca.core.MCA;
-import mca.entity.EntityChild;
+import mca.entity.AbstractChild;
 import mca.entity.EntityChoreFishHook;
 import mca.entity.EntityPlayerChild;
 import net.minecraft.client.renderer.Tessellator;
@@ -91,7 +91,7 @@ public class RenderFishHook extends Render
 			
 			if (entityFishHook.angler instanceof EntityPlayerChild)
 			{
-				final int age = ((EntityChild)entityFishHook.angler).age;
+				final int age = ((AbstractChild)entityFishHook.angler).age;
 				scale = 0.55F + 0.39F / MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes * age;
 			}
 			
