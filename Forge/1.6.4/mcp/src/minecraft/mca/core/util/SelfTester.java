@@ -31,27 +31,25 @@ public class SelfTester
 		declaredVariables.add("playerMemoryMap");
 
 		MCA.getInstance().log("-------------- Beginning self-test --------------");
-		
-		String path = System.getProperty("user.dir");
 
 		final File[] sourceDirs = new File[]
 				{
-				new File(path + "/../src/minecraft/mca/api"),
-				new File(path + "/../src/minecraft/mca/block"),
-				new File(path + "/../src/minecraft/mca/chore"),
-				new File(path + "/../src/minecraft/mca/client/gui"),
-				new File(path + "/../src/minecraft/mca/client/model"),
-				new File(path + "/../src/minecraft/mca/client/render"),
-				new File(path + "/../src/minecraft/mca/command"),
-				new File(path + "/../src/minecraft/mca/core"),
-				new File(path + "/../src/minecraft/mca/core/forge"),
-				new File(path + "/../src/minecraft/mca/core/io"),
-				new File(path + "/../src/minecraft/mca/core/util"),
-				new File(path + "/../src/minecraft/mca/entity"),
-				new File(path + "/../src/minecraft/mca/enums"),
-				new File(path + "/../src/minecraft/mca/inventory"),
-				new File(path + "/../src/minecraft/mca/item"),
-				new File(path + "/../src/minecraft/mca/tileentity")
+				new File(MCA.getInstance().runningDirectory + "/../src/minecraft/mca/api"),
+				new File(MCA.getInstance().runningDirectory + "/../src/minecraft/mca/block"),
+				new File(MCA.getInstance().runningDirectory + "/../src/minecraft/mca/chore"),
+				new File(MCA.getInstance().runningDirectory + "/../src/minecraft/mca/client/gui"),
+				new File(MCA.getInstance().runningDirectory + "/../src/minecraft/mca/client/model"),
+				new File(MCA.getInstance().runningDirectory + "/../src/minecraft/mca/client/render"),
+				new File(MCA.getInstance().runningDirectory + "/../src/minecraft/mca/command"),
+				new File(MCA.getInstance().runningDirectory + "/../src/minecraft/mca/core"),
+				new File(MCA.getInstance().runningDirectory + "/../src/minecraft/mca/core/forge"),
+				new File(MCA.getInstance().runningDirectory + "/../src/minecraft/mca/core/io"),
+				new File(MCA.getInstance().runningDirectory + "/../src/minecraft/mca/core/util"),
+				new File(MCA.getInstance().runningDirectory + "/../src/minecraft/mca/entity"),
+				new File(MCA.getInstance().runningDirectory + "/../src/minecraft/mca/enums"),
+				new File(MCA.getInstance().runningDirectory + "/../src/minecraft/mca/inventory"),
+				new File(MCA.getInstance().runningDirectory + "/../src/minecraft/mca/item"),
+				new File(MCA.getInstance().runningDirectory + "/../src/minecraft/mca/tileentity")
 				};
 
 		FileInputStream fileStream;
@@ -105,7 +103,7 @@ public class SelfTester
 							{
 								MCA.getInstance().log(e);
 							}
-							
+
 							continue;
 						}
 					}
@@ -145,7 +143,7 @@ public class SelfTester
 			final int endParenthesisIndex = line.indexOf(')', nextQuoteIndex + 1);
 			final String fieldName = line.substring(firstQuoteIndex, nextQuoteIndex).replaceAll("\"", "");
 			final String providedFieldName = line.substring(nextQuoteIndex + 2, endParenthesisIndex).trim(); 
-			
+
 			boolean wasFound = false;
 			boolean possiblyInvalid = true;
 			for (final String string : declaredVariables)
@@ -153,12 +151,12 @@ public class SelfTester
 				if (string.equals(fieldName))
 				{
 					wasFound = true;
-					
+
 					if (providedFieldName.contains(fieldName))
 					{
 						possiblyInvalid = false;
 					}
-					
+
 					break;
 				}
 			}
@@ -167,7 +165,7 @@ public class SelfTester
 			{
 				MCA.getInstance().log("\tReference to <" + fieldName + "> cannot be found. Method called at (" + fileName + ":" + lineNumber + ")");
 			}
-			
+
 			else if (wasFound && possiblyInvalid)
 			{
 				MCA.getInstance().log("\tPossible invalid assignment value. <" + fieldName + "> provided as name, <" + providedFieldName + "> provided as assignment value. Method called at (" + fileName + ":" + lineNumber + ")");
