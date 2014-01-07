@@ -451,7 +451,14 @@ public class Inventory implements IInventory, Serializable
 				ItemArmor itemAsArmor = (ItemArmor)stack.getItem();
 				int armorType = itemAsArmor.armorType;
 
-				if (((ItemArmor)armorItems[armorType].getItem()).damageReduceAmount < itemAsArmor.damageReduceAmount)
+				if (armorItems[armorType] != null)
+				{
+					if (((ItemArmor)armorItems[armorType].getItem()).damageReduceAmount < itemAsArmor.damageReduceAmount)
+					{
+						armorItems[armorType] = stack;
+					}
+				}
+				else
 				{
 					armorItems[armorType] = stack;
 				}
@@ -490,12 +497,15 @@ public class Inventory implements IInventory, Serializable
 
 			for (final ItemStack stackInInventory : inventoryItems)
 			{
-				final String itemClassName = stackInInventory.getItem().getClass().getName();
-
-				if (stackInInventory != null && itemClassName.equals(type.getName()) && highestMaxDamage < stackInInventory.getMaxDamage())
+				if (stackInInventory != null)
 				{
-					highestMaxDamage = stackInInventory.getMaxDamage();
-					stack = stackInInventory;			
+					final String itemClassName = stackInInventory.getItem().getClass().getName();
+
+					if (itemClassName.equals(type.getName()) && highestMaxDamage < stackInInventory.getMaxDamage())
+					{
+						highestMaxDamage = stackInInventory.getMaxDamage();
+						stack = stackInInventory;			
+					}
 				}
 			}
 

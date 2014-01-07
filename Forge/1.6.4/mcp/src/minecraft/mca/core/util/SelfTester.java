@@ -31,25 +31,27 @@ public class SelfTester
 		declaredVariables.add("playerMemoryMap");
 
 		MCA.getInstance().log("-------------- Beginning self-test --------------");
+		
+		String path = System.getProperty("user.dir");
 
 		final File[] sourceDirs = new File[]
 				{
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/api"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/block"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/chore"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/client/gui"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/client/model"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/client/render"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/command"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/core"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/core/forge"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/core/io"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/core/util"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/entity"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/enums"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/inventory"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/item"),
-				new File("D:/Programming/minecraft-comes-alive/Forge/1.6.4/mcp/src/minecraft/mca/tileentity")
+				new File(path + "/../src/minecraft/mca/api"),
+				new File(path + "/../src/minecraft/mca/block"),
+				new File(path + "/../src/minecraft/mca/chore"),
+				new File(path + "/../src/minecraft/mca/client/gui"),
+				new File(path + "/../src/minecraft/mca/client/model"),
+				new File(path + "/../src/minecraft/mca/client/render"),
+				new File(path + "/../src/minecraft/mca/command"),
+				new File(path + "/../src/minecraft/mca/core"),
+				new File(path + "/../src/minecraft/mca/core/forge"),
+				new File(path + "/../src/minecraft/mca/core/io"),
+				new File(path + "/../src/minecraft/mca/core/util"),
+				new File(path + "/../src/minecraft/mca/entity"),
+				new File(path + "/../src/minecraft/mca/enums"),
+				new File(path + "/../src/minecraft/mca/inventory"),
+				new File(path + "/../src/minecraft/mca/item"),
+				new File(path + "/../src/minecraft/mca/tileentity")
 				};
 
 		FileInputStream fileStream;
