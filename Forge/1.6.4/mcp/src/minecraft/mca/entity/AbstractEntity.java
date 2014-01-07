@@ -138,14 +138,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public boolean doDivorce;
 	public boolean hasBaby;
 	public boolean doApplyHeight = Utility.getBooleanWithProbability(40);
-	public boolean isHeightNegative = MCA.rand.nextBoolean();
 	public double homePointX;
 	public double homePointY;
 	public double homePointZ;
 	public float moodPointsHappy;
 	public float moodPointsSad;
 	public float moodPointsAnger;
-	public float heightFactor = isHeightNegative ? MCA.rand.nextFloat() / 12 : MCA.rand.nextFloat() / 12 * -1;
+	public float heightFactor = MCA.rand.nextBoolean() ? MCA.rand.nextFloat() / 12 : MCA.rand.nextFloat() / 12 * -1;
 
 	//Object types
 	public TickMarker tickMarkerGrowBaby = new TickMarker(this, -1);
