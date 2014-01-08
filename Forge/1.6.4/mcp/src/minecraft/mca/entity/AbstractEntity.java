@@ -1661,7 +1661,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		memory.interactionFatigue++;
 		memory.isInGiftMode = false;
 		playerMemoryMap.put(player.username, memory);
-		PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap);
 	}
 
 	/**
@@ -1688,7 +1687,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				Utility.removeItemFromPlayer(itemStack, player);
 
 				memory.isInGiftMode = false;
-				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createInventoryPacket(entityId, inventory));
 			}
 		}
@@ -1743,7 +1741,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 						Utility.removeItemFromPlayer(itemStack, player);
 
 						hasArrangerRing = true;
-						PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "hasArrangerRing", true));
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "hasArrangerRing", true));
 					}
 
 					//Another villager also has a ring because the ID of the holder is not zero. Marry these two.
@@ -1761,13 +1759,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 							if (generation != 0)
 							{
 								spouse.generation = generation;
-								PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouse.entityId, "generation", generation));
+								PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(spouse.entityId, "generation", generation));
 							}
 
 							else if (spouse.generation != 0)
 							{
 								generation = spouse.generation;
-								PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "generation", spouse.generation));
+								PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "generation", spouse.generation));
 							}
 
 							//Notify the player that the two were married.
@@ -1786,22 +1784,23 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 							spouse.hasArrangerRing = false;
 							spouse.familyTree.addFamilyTreeEntry(this, EnumRelation.Spouse);
 
-							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "isMarriedToVillager", isMarriedToVillager));
-							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouse.entityId, "isMarriedToVillager", spouse.isMarriedToVillager));
-							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "hasArrangerRing", false));
-							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouse.entityId, "hasArrangerRing", false));
-							PacketDispatcher.sendPacketToServer(PacketHandler.createFamilyTreePacket(entityId, familyTree));
-							PacketDispatcher.sendPacketToServer(PacketHandler.createFamilyTreePacket(spouse.entityId, spouse.familyTree));
+							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isMarriedToVillager", isMarriedToVillager));
+							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(spouse.entityId, "isMarriedToVillager", spouse.isMarriedToVillager));
+							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "hasArrangerRing", false));
+							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(spouse.entityId, "hasArrangerRing", false));
+							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(entityId, familyTree));
+							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(spouse.entityId, spouse.familyTree));
 
-							PacketDispatcher.sendPacketToServer(PacketHandler.createSyncRequestPacket(entityId));
-							PacketDispatcher.sendPacketToServer(PacketHandler.createSyncRequestPacket(spouse.entityId));
+							//TODO Remove
+							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncRequestPacket(entityId));
+							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncRequestPacket(spouse.entityId));
 
 							//Check if the spouse is a player child.
 							if (spouse instanceof EntityPlayerChild)
 							{
 								//Unlock achievement.
 								player.triggerAchievement(MCA.getInstance().achievementAdultMarried);
-								PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementAdultMarried, player.entityId));
+								PacketDispatcher.sendPacketToPlayer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementAdultMarried, player.entityId), (Player)player);
 							}
 						}
 
@@ -1863,15 +1862,15 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					isEngaged = true;
 					familyTree.addFamilyTreeEntry(player, EnumRelation.Spouse);
 
-					PacketDispatcher.sendPacketToServer(PacketHandler.createFamilyTreePacket(entityId, familyTree));
-					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "isEngaged", true));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(entityId, familyTree));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isEngaged", true));
 
 					manager.worldProperties.playerSpouseID = mcaID;
 					manager.worldProperties.isEngaged = true;
 					manager.saveWorldProperties();
 
 					player.triggerAchievement(MCA.getInstance().achievementGetMarried);
-					PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId));
 				}
 
 				else //The hearts aren't high enough.
@@ -1958,12 +1957,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					spousePlayerName = player.username;
 					familyTree.addFamilyTreeEntry(player, EnumRelation.Spouse);
 					
-					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "isMarriedToPlayer", isMarriedToPlayer));
-					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "spousePlayerName", spousePlayerName));
-					PacketDispatcher.sendPacketToServer(PacketHandler.createFamilyTreePacket(entityId, familyTree));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isMarriedToPlayer", isMarriedToPlayer));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "spousePlayerName", spousePlayerName));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(entityId, familyTree));
 
 					player.triggerAchievement(MCA.getInstance().achievementGetMarried);
-					PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId));
 
 					//Reset AI in case the spouse is a guard.
 					addAI();
@@ -1971,8 +1970,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					if (isEngaged)
 					{
 						isEngaged = false;
-						PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "isEngaged", isEngaged));
-						PacketDispatcher.sendPacketToServer(PacketHandler.createEngagementPacket(entityId));
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isEngaged", isEngaged));
 
 						final List<Entity> entitiesAroundMe = LogicHelper.getAllEntitiesWithinDistanceOfEntity(this, 64);
 
@@ -2048,10 +2046,10 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 							isProcreatingWithVillager = true;
 							spouse.isProcreatingWithVillager = true;
 
-							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "hasCake", hasCake));
-							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouse.entityId, "hasCake", spouse.hasCake));
-							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "isProcreatingWithVillager", isProcreatingWithVillager));
-							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouse.entityId, "isProcreatingWithVillager", spouse.isProcreatingWithVillager));
+							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "hasCake", hasCake));
+							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(spouse.entityId, "hasCake", spouse.hasCake));
+							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isProcreatingWithVillager", isProcreatingWithVillager));
+							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(spouse.entityId, "isProcreatingWithVillager", spouse.isProcreatingWithVillager));
 
 							Utility.removeItemFromPlayer(itemStack, player);
 						}
@@ -2059,7 +2057,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 						else
 						{
 							hasCake = true;
-							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "hasCake", hasCake));
+							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "hasCake", hasCake));
 							say(LanguageHelper.getString("notify.villager.gifted.cake.spousenearby"));
 							Utility.removeItemFromPlayer(itemStack, player);
 						}
@@ -2157,8 +2155,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	protected void updateProcreationWithVillager()
 	{
-		//Note: updateProcreationWithPlayer can sometimes bleed into this method, but only client-side to cause jumping to stop.
-		if (isProcreatingWithVillager || isJumping && !isProcreatingWithPlayer && !isFollowing)
+		if (isProcreatingWithVillager)
 		{
 			final AbstractEntity spouse = familyTree.getInstanceOfRelative(EnumRelation.Spouse);
 
@@ -2219,7 +2216,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	protected void updateProcreationWithPlayer()
 	{
 		//Note: updateProcreationWithVillager can sometimes bleed into this method, but only client-side to cause jumping to stop.
-		if (isProcreatingWithPlayer || isJumping && !isProcreatingWithVillager && !isFollowing) 
+		if (isProcreatingWithPlayer) 
 		{
 			if (worldObj.isRemote)
 			{
