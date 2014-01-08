@@ -648,6 +648,38 @@ public final class LogicHelper
 
 		return null;
 	}
+	
+	/**
+	 * Gets a random villager with isMale set to the provided value up to thirty blocks away and returns an instance of it.
+	 * 
+	 * @param	entity	The entity used as a base point to begin searching for a nearby villager.
+	 * @param	isMale	Should the returned entity be male?
+	 * 
+	 * @return	An instance of a random nearby villager of the provided gender. Null if none are nearby.
+	 */
+	public static EntityVillagerAdult getRandomNearbyVillagerOfGender(Entity entity, boolean isMale)
+	{
+		final double posX = entity.posX;
+		final double posY = entity.posY;
+		final double posZ = entity.posZ;
+		final List<Entity> entitiesAroundMe = entity.worldObj.getEntitiesWithinAABBExcludingEntity(entity, AxisAlignedBB.getBoundingBox(posX - 30, posY - 30, posZ - 30, posX + 30, posY + 30, posZ + 30));
+
+		for (final Entity entityNearMe : entitiesAroundMe)
+		{
+			//We are only searching for villager adults.
+			if (entityNearMe instanceof EntityVillagerAdult)
+			{
+				final EntityVillagerAdult nearbyAdult = (EntityVillagerAdult)entityNearMe;
+				
+				if (nearbyAdult.isMale == isMale && MCA.rand.nextBoolean()) //Return randomly.
+				{
+					return (EntityVillagerAdult)entityNearMe;
+				}
+			}
+		}
+
+		return null;
+	}
 
 	/**
 	 * Gets a list containing instances of all entities around the specified entity up to the specified distance away.
