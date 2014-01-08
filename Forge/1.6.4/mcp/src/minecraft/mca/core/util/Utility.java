@@ -1,13 +1,11 @@
 package mca.core.util;
 
 import mca.core.MCA;
-import mca.core.forge.PacketHandler;
 import mca.entity.AbstractEntity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
-import cpw.mods.fml.common.network.PacketDispatcher;
 
 public final class Utility 
 {

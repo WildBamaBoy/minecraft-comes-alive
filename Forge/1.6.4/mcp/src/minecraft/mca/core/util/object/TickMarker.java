@@ -2,7 +2,6 @@ package mca.core.util.object;
 
 import java.io.Serializable;
 
-import mca.core.MCA;
 import mca.entity.AbstractEntity;
 import net.minecraft.nbt.NBTTagCompound;
 
