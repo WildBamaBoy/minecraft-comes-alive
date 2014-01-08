@@ -60,6 +60,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.village.Village;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
 
 /**
  * The main entity of MCA. Can be interacted with, talked to, married, etc.
@@ -541,81 +542,53 @@ public class EntityVillagerAdult extends AbstractEntity
 	{
 		super.interact(player);
 
-		final PlayerMemory memory = playerMemoryMap.get(player.username);
-		final ItemStack itemStack = player.inventory.getCurrentItem();
-
-		if (worldObj.isRemote)
+		if (!worldObj.isRemote)
 		{
-			if (itemStack != null)
+			final PlayerMemory memory = playerMemoryMap.get(player.username);
+			final ItemStack itemStack = player.inventory.getCurrentItem();
+			
+			if (itemStack != null) //Items here will always perform their functions regardless of the entity's state.
 			{
 				if (itemStack.getItem() instanceof ItemVillagerEditor)
 				{
-					player.openGui(MCA.getInstance(), Constants.ID_GUI_EDITOR, worldObj, (int)posX, (int)posY, (int)posZ);
+					PacketDispatcher.sendPacketToPlayer(PacketHandler.createOpenGuiPacket(entityId, Constants.ID_GUI_EDITOR), (Player)player);
 					return true;
 				}
 
 				else if (itemStack.getItem() instanceof ItemLostRelativeDocument)
 				{
-					player.openGui(MCA.getInstance(), Constants.ID_GUI_LRD, worldObj, (int)posX, (int)posY, (int)posZ);
+					PacketDispatcher.sendPacketToPlayer(PacketHandler.createOpenGuiPacket(entityId, Constants.ID_GUI_LRD), (Player)player);
 					return true;
 				}
 
 				else if (itemStack.getItem() instanceof ItemNameTag && itemStack.hasDisplayName())
 				{
-					name = itemStack.getDisplayName();
-					itemStack.stackSize--;
-					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "name", name));
+					if (!name.equals(itemStack.getDisplayName()))
+					{
+						name = itemStack.getDisplayName();
+						Utility.removeItemFromPlayer(itemStack, player);
+
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "name", name));
+					}
+					
 					return true;
 				}
 			}
 
-			if (!memory.isInGiftMode || memory.isInGiftMode && itemStack == null)
+			if (!memory.isInGiftMode || memory.isInGiftMode && itemStack == null) //When right clicked in gift mode without an item to give or when out of gift mode.
 			{
 				if (familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) == EnumRelation.Spouse)
 				{
-					player.openGui(MCA.getInstance(), Constants.ID_GUI_SPOUSE, worldObj, (int)posX, (int)posY, (int)posZ);
+					PacketDispatcher.sendPacketToPlayer(PacketHandler.createOpenGuiPacket(entityId, Constants.ID_GUI_SPOUSE), (Player)player);
 				}
 
 				else
 				{
-					player.openGui(MCA.getInstance(), Constants.ID_GUI_ADULT, worldObj, (int)posX, (int)posY, (int)posZ);
+					PacketDispatcher.sendPacketToPlayer(PacketHandler.createOpenGuiPacket(entityId, Constants.ID_GUI_ADULT), (Player)player);
 				}
 			}
 
-			else if (isInAnvilGiftMode)
-			{
-				if (itemStack.getItem().itemID == itemIdRequiredForSale)
-				{
-					if (itemStack.stackSize >= amountRequiredForSale)
-					{
-						say(LanguageHelper.getString("smith.aid.accept"));
-						removeAmountFromGiftedItem(itemStack, amountRequiredForSale);
-
-						isInAnvilGiftMode = false;
-						hasGivenAnvil = true;
-
-						player.inventory.addItemStackToInventory(new ItemStack(Block.anvil));
-						//TODO PacketDispatcher.sendPacketToPlayer(PacketHandler.createAddItemPacket(Block.anvil.blockID), (Player)player);
-						PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "isInAnvilGiftMode", isInAnvilGiftMode));
-						PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "hasGivenAnvil", hasGivenAnvil));
-					}
-
-					else
-					{
-						say(LanguageHelper.getString("smith.aid.refuse.rightitem"));
-					}
-				}
-
-				else
-				{
-					say(LanguageHelper.getString("smith.aid.refuse.wrongitem"));
-				}
-			}
-		}
-
-		else if (!worldObj.isRemote)
-		{
-			if (itemStack != null && memory.isInGiftMode)
+			else if (itemStack != null && memory.isInGiftMode) //When the player right clicks with an item and entity is in gift mode.
 			{
 				if (itemStack.getItem() instanceof ItemWeddingRing)
 				{
@@ -645,7 +618,7 @@ public class EntityVillagerAdult extends AbstractEntity
 
 				else if (itemStack.getItem() instanceof ItemArrangersRing)
 				{
-					EnumRelation relationToPlayer = this.familyTree.getRelationTo(MCA.getInstance().getIdOfPlayer(player));
+					final EnumRelation relationToPlayer = this.familyTree.getRelationTo(MCA.getInstance().getIdOfPlayer(player));
 
 					if (relationToPlayer != EnumRelation.None && relationToPlayer != EnumRelation.Granddaughter && relationToPlayer != EnumRelation.Grandson &&
 							relationToPlayer != EnumRelation.Greatgranddaughter && relationToPlayer != EnumRelation.Greatgrandson)
@@ -678,9 +651,9 @@ public class EntityVillagerAdult extends AbstractEntity
 				{
 					inventory.addItemStackToInventory(itemStack);
 					inventory.setWornArmorItems();
-					PacketDispatcher.sendPacketToServer(PacketHandler.createInventoryPacket(entityId, inventory));
 
 					Utility.removeItemFromPlayer(itemStack, player);
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createInventoryPacket(entityId, inventory));
 				}
 
 				else
@@ -688,7 +661,36 @@ public class EntityVillagerAdult extends AbstractEntity
 					doGift(itemStack, player);
 				}
 			}
-			return super.interact(player);
+
+			else if (isInAnvilGiftMode)
+			{
+				if (itemStack.getItem().itemID == itemIdRequiredForSale)
+				{
+					if (itemStack.stackSize >= amountRequiredForSale)
+					{
+						say(LanguageHelper.getString("smith.aid.accept"));
+						removeAmountFromGiftedItem(itemStack, amountRequiredForSale);
+
+						isInAnvilGiftMode = false;
+						hasGivenAnvil = true;
+
+						player.inventory.addItemStackToInventory(new ItemStack(Block.anvil));
+						PacketDispatcher.sendPacketToPlayer(PacketHandler.createAddItemPacket(Block.anvil.blockID), (Player)player);
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isInAnvilGiftMode", isInAnvilGiftMode));
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "hasGivenAnvil", hasGivenAnvil));
+					}
+
+					else
+					{
+						say(LanguageHelper.getString("smith.aid.refuse.rightitem"));
+					}
+				}
+
+				else
+				{
+					say(LanguageHelper.getString("smith.aid.refuse.wrongitem"));
+				}
+			}
 		}
 
 		return super.interact(player);
