@@ -1667,6 +1667,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * 
 	 * @param 	itemStack	The item stack containing the baby.
 	 * @param	player		The player that gifted the baby.
+	 * @category Tested
 	 */
 	protected void doGiftOfBaby(ItemStack itemStack, EntityPlayer player) 
 	{
@@ -1701,7 +1702,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * 
 	 * @param 	itemStack	The item stack containing the arranger's ring.
 	 * @param	player		The player that gifted the ring.
-	 * @category Refactored
+	 * @category Tested
 	 */
 	protected void doGiftOfArrangersRing(ItemStack itemStack, EntityPlayer player) 
 	{
@@ -1854,6 +1855,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					isEngaged = true;
 					familyTree.addFamilyTreeEntry(player, EnumRelation.Spouse);
 
+					//TODO Engagement packet -- ?
+					
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(entityId, familyTree));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isEngaged", isEngaged));
 
@@ -1884,7 +1887,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * 
 	 * @param 	itemStack	The item stack containing the wedding ring.
 	 * @param 	player		The player that gifted the ring.
-	 * @category Refactored
+	 * @category Needs repair
 	 */
 	protected void doGiftOfWeddingRing(ItemStack itemStack, EntityPlayer player) 
 	{
