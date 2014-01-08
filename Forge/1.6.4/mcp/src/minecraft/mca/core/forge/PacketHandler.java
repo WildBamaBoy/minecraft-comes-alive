@@ -228,6 +228,11 @@ public final class PacketHandler implements IPacketHandler
 			{
 				handleReturnInventory(packet, player);
 			}
+			
+			else if (packet.channel.equals("MCA_OPENGUI"))
+			{
+				handleOpenGui(packet, player);
+			}
 		}
 
 		catch (Exception e)
@@ -2523,5 +2528,66 @@ public final class PacketHandler implements IPacketHandler
 		}
 		
 		MCA.getInstance().deadPlayerInventories.remove(entityPlayer.username);
+	}
+	
+	/**
+	 * Creates a packet used to open a GUI.
+	 * 
+	 * @param	entityId	The ID of the entity that will be used for the worldObj and pos arguments.
+	 * @param	guiId		The ID of the GUI to open.
+	 * 
+	 * @return	An open gui packet.
+	 */
+	public static Packet createOpenGuiPacket(int entityId, int guiId)
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_OPENGUI";
+			
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+			
+			objectOutput.writeObject(entityId);
+			objectOutput.writeObject(guiId);
+			objectOutput.close();
+			
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+			
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+		
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
+		}
+	}
+
+	/**
+	 * Handles a packet used to make an heir return the player's inventory.
+	 * 
+	 * @param 	packet	The packet containing the required information.
+	 * @param	player	The player that the packet came from.
+	 */
+	@SuppressWarnings("javadoc")
+	private static void handleOpenGui(Packet250CustomPayload packet, Player player) throws IOException, ClassNotFoundException
+	{
+		byte[] data = MCA.decompressBytes(packet.data);
+
+		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
+		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
+
+		EntityPlayer entityPlayer = (EntityPlayer)player;
+		World worldObj = entityPlayer.worldObj;
+
+		int entityId = (Integer)objectInput.readObject();
+		int guiId = (Integer)objectInput.readObject();
+		objectInput.close();
+
+		AbstractEntity entity = (AbstractEntity)worldObj.getEntityByID(entityId);
+		entityPlayer.openGui(MCA.getInstance(), guiId, worldObj, (int)entity.posX, (int)entity.posY, (int)entity.posZ);
 	}
 }
