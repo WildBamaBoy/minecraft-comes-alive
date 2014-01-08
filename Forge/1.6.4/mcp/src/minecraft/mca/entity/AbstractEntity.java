@@ -714,12 +714,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public boolean interact(EntityPlayer player)
 	{		
 		lastInteractingPlayer = player.username;
-		
+
 		if (!playerMemoryMap.containsKey(player.username))
 		{
 			playerMemoryMap.put(player.username, new PlayerMemory(player.username));
 		}
-		
+
 		return false;
 	}
 
@@ -1621,8 +1621,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			heartIncrease = -(memory.interactionFatigue * 7) + baseHeartValue + mood.getHeartsModifier("gift") + trait.getHeartsModifier("gift");
 		}
 
-		//The gift wasn't contained in the acceptable gifts map or it's not a giftable item.
-		else
+		else //The gift wasn't contained in the acceptable gifts map or it's not a giftable item. Remove some hearts points and return.
 		{
 			modifyHearts(player, -(worldObj.rand.nextInt(9) + 5));
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, 0.5F);
@@ -1630,7 +1629,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			return;
 		}
 
-		//Verify heart increase is always positive.
+		//Verify heart increase is always positive at this point.
 		if (heartIncrease <= 0)
 		{
 			heartIncrease = 1;
@@ -1671,7 +1670,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	protected void doGiftOfBaby(ItemStack itemStack, EntityPlayer player) 
 	{
-		if (isMarriedToPlayer)
+		if (isMarriedToPlayer && MCA.getInstance().getIdOfPlayer(player) == familyTree.getEntityWithRelation(EnumRelation.Spouse))
 		{
 			if (inventory.contains(MCA.getInstance().itemBabyBoy) || inventory.contains(MCA.getInstance().itemBabyGirl))
 			{
@@ -1680,7 +1679,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 			else
 			{
-				PlayerMemory memory = playerMemoryMap.get(player.username);
+				final PlayerMemory memory = playerMemoryMap.get(player.username);
 
 				say(LanguageHelper.getString(this, "spouse.gifted.baby", false));
 				inventory.addItemStackToInventory(itemStack);
@@ -1702,127 +1701,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * 
 	 * @param 	itemStack	The item stack containing the arranger's ring.
 	 * @param	player		The player that gifted the ring.
+	 * @category Refactored
 	 */
 	protected void doGiftOfArrangersRing(ItemStack itemStack, EntityPlayer player) 
 	{
-		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
+		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 
-		if (!isMarriedToPlayer)
-		{
-			if (isMarriedToVillager)
-			{
-				say(LanguageHelper.getString("marriage.refusal.villagermarried"));
-			}
-
-			else
-			{
-				//Check if this person isn't already the holder of the ring.
-				if (!hasArrangerRing)
-				{
-					//Check if the holder's ID is zero, meaning this is the first person to receive an arranger's ring.
-					if (manager.worldProperties.arrangerRingHolderID == 0)
-					{
-						manager.worldProperties.arrangerRingHolderID = mcaID;
-						manager.saveWorldProperties();
-
-						//Search for a random villager of the opposite gender.
-						EntityVillagerAdult nearbyVillager = LogicHelper.getRandomNearbyVillager(this);
-
-						if (nearbyVillager == null)
-						{
-							say(LanguageHelper.getString("notify.villager.gifted.arrangerring.nobodynearby"));
-						}
-
-						else
-						{
-							say(LanguageHelper.getString(this, "notify.villager.gifted.arrangerring", false));
-						}
-
-						Utility.removeItemFromPlayer(itemStack, player);
-
-						hasArrangerRing = true;
-						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "hasArrangerRing", true));
-					}
-
-					//Another villager also has a ring because the ID of the holder is not zero. Marry these two.
-					else
-					{
-						AbstractEntity spouse = (AbstractEntity) LogicHelper.getEntityWithIDWithinDistance(this, manager.worldProperties.arrangerRingHolderID, 5);
-
-						//Make sure a person was found nearby, or else they can't get married.
-						if (spouse != null)
-						{					
-							//Remove the ring from the player's inventory.
-							Utility.removeItemFromPlayer(itemStack, player);
-
-							//Assign generation.
-							if (generation != 0)
-							{
-								spouse.generation = generation;
-								PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(spouse.entityId, "generation", generation));
-							}
-
-							else if (spouse.generation != 0)
-							{
-								generation = spouse.generation;
-								PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "generation", spouse.generation));
-							}
-
-							//Notify the player that the two were married.
-							notifyPlayer(player, LanguageHelper.getString("notify.villager.married"));
-
-							//Reset the world properties.
-							manager.worldProperties.arrangerRingHolderID = 0;
-							manager.saveWorldProperties();
-
-							//Update relevant data on client and server.					
-							isMarriedToVillager = true;
-							hasArrangerRing = false;
-							familyTree.addFamilyTreeEntry(spouse, EnumRelation.Spouse);
-
-							spouse.isMarriedToVillager = true;
-							spouse.hasArrangerRing = false;
-							spouse.familyTree.addFamilyTreeEntry(this, EnumRelation.Spouse);
-
-							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isMarriedToVillager", isMarriedToVillager));
-							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(spouse.entityId, "isMarriedToVillager", spouse.isMarriedToVillager));
-							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "hasArrangerRing", false));
-							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(spouse.entityId, "hasArrangerRing", false));
-							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(entityId, familyTree));
-							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(spouse.entityId, spouse.familyTree));
-
-							//TODO Remove
-							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncRequestPacket(entityId));
-							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncRequestPacket(spouse.entityId));
-
-							//Check if the spouse is a player child.
-							if (spouse instanceof EntityPlayerChild)
-							{
-								//Unlock achievement.
-								player.triggerAchievement(MCA.getInstance().achievementAdultMarried);
-								PacketDispatcher.sendPacketToPlayer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementAdultMarried, player.entityId), (Player)player);
-							}
-						}
-
-						//A person was not close to the villager receiving the second ring.
-						else
-						{
-							say(LanguageHelper.getString("notify.villager.gifted.arrangerring.othernotnearby." + getGenderAsString()));
-							notifyPlayer(player, LanguageHelper.getString("notify.villager.gifted.arrangerring.toofarapart"));
-						}
-					}
-				}
-
-				//This villager already has an arranger ring and was gifted one again.
-				else
-				{
-					say(LanguageHelper.getString("notify.villager.gifted.arrangerring.hasring." + getGenderAsString()));
-				}
-			}
-		}
-
-		//The villager is the spouse of another player.
-		else
+		if (isMarriedToPlayer)
 		{
 			if (manager.worldProperties.playerSpouseID == mcaID)
 			{
@@ -1833,6 +1718,99 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			{
 				say(LanguageHelper.getString(this, "villager.marriage.refusal.villagermarried", false));
 				modifyHearts(player, -30);
+			}
+		}
+
+		else if (isMarriedToVillager)
+		{
+			say(LanguageHelper.getString("marriage.refusal.villagermarried"));
+		}
+
+		else if (hasArrangerRing)
+		{
+			say(LanguageHelper.getString("notify.villager.gifted.arrangerring.hasring." + getGenderAsString()));
+		}
+
+		else	
+		{
+			if (manager.worldProperties.arrangerRingHolderID == 0) //Zero means no-one is holding a ring for that player.
+			{
+				manager.worldProperties.arrangerRingHolderID = mcaID;
+				manager.saveWorldProperties();
+
+				final EntityVillagerAdult nearbyVillager = LogicHelper.getRandomNearbyVillagerOfGender(this, !isMale);
+
+				if (nearbyVillager == null)
+				{
+					say(LanguageHelper.getString("notify.villager.gifted.arrangerring.nobodynearby"));
+				}
+
+				else
+				{
+					say(LanguageHelper.getString(this, "notify.villager.gifted.arrangerring", false));
+				}
+
+				Utility.removeItemFromPlayer(itemStack, player);
+
+				hasArrangerRing = true;
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "hasArrangerRing", true));
+			}
+
+			else //Another is holding a ring. Search for them.
+			{
+				final AbstractEntity entityHoldingRing = (AbstractEntity) LogicHelper.getEntityWithIDWithinDistance(this, manager.worldProperties.arrangerRingHolderID, 5);
+
+				if (entityHoldingRing == null)
+				{
+					say(LanguageHelper.getString("notify.villager.gifted.arrangerring.othernotnearby." + getGenderAsString()));
+					notifyPlayer(player, LanguageHelper.getString("notify.villager.gifted.arrangerring.toofarapart"));
+				}
+				
+				else
+				{
+					notifyPlayer(player, LanguageHelper.getString("notify.villager.married"));
+					Utility.removeItemFromPlayer(itemStack, player);
+
+					 //Assign generation.
+					if (generation != 0)
+					{
+						entityHoldingRing.generation = generation;
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityHoldingRing.entityId, "generation", generation));
+					}
+
+					else if (entityHoldingRing.generation != 0)
+					{
+						generation = entityHoldingRing.generation;
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "generation", entityHoldingRing.generation));
+					}
+
+					//Reset the world properties.
+					manager.worldProperties.arrangerRingHolderID = 0;
+					manager.saveWorldProperties();
+
+					//Update relevant data on client and server.
+					isMarriedToVillager = true;
+					hasArrangerRing = false;
+					familyTree.addFamilyTreeEntry(entityHoldingRing, EnumRelation.Spouse);
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isMarriedToVillager", isMarriedToVillager));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "hasArrangerRing", hasArrangerRing));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(entityId, familyTree));
+					
+					entityHoldingRing.isMarriedToVillager = true;
+					entityHoldingRing.hasArrangerRing = false;
+					entityHoldingRing.familyTree.addFamilyTreeEntry(this, EnumRelation.Spouse);
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityHoldingRing.entityId, "isMarriedToVillager", entityHoldingRing.isMarriedToVillager));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityHoldingRing.entityId, "hasArrangerRing", entityHoldingRing.hasArrangerRing));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(entityHoldingRing.entityId, entityHoldingRing.familyTree));
+
+					//Check if the now-spouse is a player child for achievement.
+					if (entityHoldingRing instanceof EntityPlayerChild)
+					{
+						//Unlock achievement.
+						player.triggerAchievement(MCA.getInstance().achievementAdultMarried);
+						PacketDispatcher.sendPacketToPlayer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementAdultMarried, player.entityId), (Player)player);
+					}
+				}
 			}
 		}
 	}
@@ -1845,13 +1823,27 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	protected void doGiftOfEngagementRing(ItemStack itemStack, EntityPlayer player) 
 	{
-		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
+		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 
-		if (!isMarriedToPlayer)
+		if (isMarriedToPlayer)
+		{
+			if (manager.worldProperties.playerSpouseID == mcaID)
+			{
+				say(LanguageHelper.getString(this, "notify.villager.gifted.arrangerring.relative", false));
+			}
+
+			else
+			{
+				say(LanguageHelper.getString(this, "villager.marriage.refusal.villagermarried", false));
+				modifyHearts(player, -30);
+			}
+		}
+		
+		else
 		{
 			if (manager.worldProperties.playerSpouseID == 0) //Spouse ID will be zero if they're not married.
 			{
-				int hearts = getHearts(player);
+				final int hearts = getHearts(player);
 
 				if (hearts >= 100) //Acceptance of marriage is at 100 hearts or above.
 				{
@@ -1863,14 +1855,14 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					familyTree.addFamilyTreeEntry(player, EnumRelation.Spouse);
 
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(entityId, familyTree));
-					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isEngaged", true));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isEngaged", isEngaged));
 
 					manager.worldProperties.playerSpouseID = mcaID;
 					manager.worldProperties.isEngaged = true;
 					manager.saveWorldProperties();
 
 					player.triggerAchievement(MCA.getInstance().achievementGetMarried);
-					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId));
+					PacketDispatcher.sendPacketToPlayer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId), (Player)player);
 				}
 
 				else //The hearts aren't high enough.
@@ -1883,21 +1875,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			else //Player is already married
 			{
 				say(LanguageHelper.getString(this, "marriage.refusal.playermarried"));
-			}
-		}
-
-		//The entity receiving the wedding band a player's spouse.
-		else
-		{
-			if (manager.worldProperties.playerSpouseID == mcaID)
-			{
-				say(LanguageHelper.getString(this, "notify.villager.gifted.arrangerring.relative", false));
-			}
-
-			else
-			{
-				say(LanguageHelper.getString(this, "villager.marriage.refusal.villagermarried", false));
-				modifyHearts(player, -30);
 			}
 		}
 	}
@@ -1946,7 +1923,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				{
 					Utility.removeItemFromPlayer(itemStack, player);
 					say(LanguageHelper.getString(this, "marriage.acceptance"));
-
 					modifyHearts(player, 50);
 
 					manager.worldProperties.playerSpouseID = mcaID;
@@ -1956,22 +1932,19 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					isMarriedToPlayer = true;
 					spousePlayerName = player.username;
 					familyTree.addFamilyTreeEntry(player, EnumRelation.Spouse);
-					
+
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isMarriedToPlayer", isMarriedToPlayer));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "spousePlayerName", spousePlayerName));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(entityId, familyTree));
 
 					player.triggerAchievement(MCA.getInstance().achievementGetMarried);
-					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId));
+					PacketDispatcher.sendPacketToPlayer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId), (Player)player);
 
-					//Reset AI in case the spouse is a guard.
-					addAI();
+					addAI(); //Reset AI in case the spouse is a guard.
 
 					if (isEngaged)
 					{
 						isEngaged = false;
-						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isEngaged", isEngaged));
-
 						final List<Entity> entitiesAroundMe = LogicHelper.getAllEntitiesWithinDistanceOfEntity(this, 64);
 
 						for (final Entity entity : entitiesAroundMe)
@@ -2042,13 +2015,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 						if (spouse.hasCake)
 						{
 							hasCake = false;
-							spouse.hasCake = false;
 							isProcreatingWithVillager = true;
-							spouse.isProcreatingWithVillager = true;
-
 							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "hasCake", hasCake));
-							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(spouse.entityId, "hasCake", spouse.hasCake));
 							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isProcreatingWithVillager", isProcreatingWithVillager));
+							
+							spouse.hasCake = false;
+							spouse.isProcreatingWithVillager = true;
+							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(spouse.entityId, "hasCake", spouse.hasCake));
 							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(spouse.entityId, "isProcreatingWithVillager", spouse.isProcreatingWithVillager));
 
 							Utility.removeItemFromPlayer(itemStack, player);
@@ -2056,9 +2029,11 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 						else
 						{
+							say(LanguageHelper.getString("notify.villager.gifted.cake.spousenearby"));
+							
 							hasCake = true;
 							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "hasCake", hasCake));
-							say(LanguageHelper.getString("notify.villager.gifted.cake.spousenearby"));
+							
 							Utility.removeItemFromPlayer(itemStack, player);
 						}
 					}
