@@ -660,6 +660,8 @@ public class EntityVillagerAdult extends AbstractEntity
 				{
 					doGift(itemStack, player);
 				}
+				
+				memory.isInGiftMode = false;
 			}
 
 			else if (isInAnvilGiftMode)
