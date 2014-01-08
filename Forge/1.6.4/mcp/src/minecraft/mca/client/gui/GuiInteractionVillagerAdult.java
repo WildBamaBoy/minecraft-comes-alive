@@ -1588,7 +1588,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 					entityVillager.say(LanguageHelper.getString(player, "priest.adopt.male"));
 
 					player.inventory.addItemStackToInventory(new ItemStack(MCA.getInstance().itemBabyBoy, 1));
-					PacketDispatcher.sendPacketToServer(PacketHandler.createAddItemPacket(MCA.getInstance().itemBabyBoy.itemID, player.entityId));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createAddItemPacket(MCA.getInstance().itemBabyBoy.itemID));
 				}
 
 				else
@@ -1597,7 +1597,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 					entityVillager.say(LanguageHelper.getString(player, "priest.adopt.female"));
 
 					player.inventory.addItemStackToInventory(new ItemStack(MCA.getInstance().itemBabyGirl, 1));
-					PacketDispatcher.sendPacketToServer(PacketHandler.createAddItemPacket(MCA.getInstance().itemBabyGirl.itemID, player.entityId));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createAddItemPacket(MCA.getInstance().itemBabyGirl.itemID));
 				}
 
 				manager.saveWorldProperties();

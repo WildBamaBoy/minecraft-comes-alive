@@ -1000,11 +1000,10 @@ public final class PacketHandler implements IPacketHandler
 	 * Creates a packet used to add an item to the provided player's inventory.
 	 * 
 	 * @param 	itemId		The id of the item to add.
-	 * @param 	playerId	The id of the player that is receiving the item.
 	 * 
 	 * @return	An add item packet.
 	 */
-	public static Packet createAddItemPacket(int itemId, int playerId)
+	public static Packet createAddItemPacket(int itemId)
 	{
 		try
 		{
@@ -1014,7 +1013,6 @@ public final class PacketHandler implements IPacketHandler
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
 			objectOutput.writeObject(itemId);
-			objectOutput.writeObject(playerId);
 			objectOutput.close();
 	
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
@@ -1047,7 +1045,6 @@ public final class PacketHandler implements IPacketHandler
 
 		//Assign received data.
 		int itemId = (Integer)objectInput.readObject();
-		int playerId = (Integer)objectInput.readObject();
 
 		EntityPlayer entityPlayer = (EntityPlayer)player;
 		entityPlayer.inventory.addItemStackToInventory(new ItemStack(itemId, 1, 0));
@@ -2088,7 +2085,7 @@ public final class PacketHandler implements IPacketHandler
 		manager.worldProperties.babyExists = true;
 		manager.saveWorldProperties();
 
-		PacketDispatcher.sendPacketToServer(PacketHandler.createAddItemPacket(itemBaby.itemID, entityPlayer.entityId));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createAddItemPacket(itemBaby.itemID));
 		entityPlayer.openGui(MCA.getInstance(), Constants.ID_GUI_NAMECHILD, worldObj, (int)entityPlayer.posX, (int)entityPlayer.posY, (int)entityPlayer.posZ);
 	}
 
