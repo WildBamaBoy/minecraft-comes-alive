@@ -68,30 +68,16 @@ import cpw.mods.fml.common.network.Player;
 public class EntityVillagerAdult extends AbstractEntity
 {
 	//Vanilla fields
-	/** An instance of the village that the villager is in. */
 	public transient Village villageObj;
-
-	/** A random number used to update AI. */
 	public int randomTick;
 
 	//New fields
-	/** How long it has been since a player has requested aid. */
-	public int aidCooldown = 0;
-
-	/** An instance of the entity's village helper object. */
+	public int aidCooldown;
+	public int itemIdRequiredForSale;
+	public int amountRequiredForSale;
+	public boolean hasGivenAnvil;
+	public boolean isInAnvilGiftMode;
 	public transient VillageHelper villageHelper;
-
-	/** (Smiths) Has the entity given away their anvil? */
-	public boolean hasGivenAnvil = false;
-
-	/** (Smiths) Has the player asked for aid? */
-	public boolean isInAnvilGiftMode = false;
-
-	/** (Smiths) The item ID required to give the anvil. */
-	public int itemIdRequiredForSale = 0;
-
-	/** (Smiths) The amount of the item required to give the anvil. */
-	public int amountRequiredForSale = 0;
 
 	/**
 	 * Constructor
@@ -159,10 +145,7 @@ public class EntityVillagerAdult extends AbstractEntity
 
 		this.name = Utility.getRandomName(isMale);
 		this.isMale = isMale;
-
-		if (!isMale && professionID == 4) this.profession = 0;
-		else this.profession = professionID;
-
+		this.profession = !isMale && professionID == 4 ? 0 : professionID;
 		this.setTexture();
 	}
 
@@ -244,7 +227,7 @@ public class EntityVillagerAdult extends AbstractEntity
 
 			else
 			{
-				ChunkCoordinates chunkcoordinates = this.villageObj.getCenter();
+				final ChunkCoordinates chunkcoordinates = this.villageObj.getCenter();
 				this.setHomeArea(chunkcoordinates.posX, chunkcoordinates.posY, chunkcoordinates.posZ, (int)(this.villageObj.getVillageRadius() * Constants.SPEED_WALK));
 			}
 		}
@@ -302,32 +285,26 @@ public class EntityVillagerAdult extends AbstractEntity
 
 		isFollowing = false;
 
-		for (Map.Entry<String, WorldPropertiesManager> entry : MCA.getInstance().playerWorldManagerMap.entrySet())
+		for (final Map.Entry<String, WorldPropertiesManager> entry : MCA.getInstance().playerWorldManagerMap.entrySet())
 		{
+			final WorldPropertiesManager manager = entry.getValue();
 			boolean propertiesChanged = false;
-			WorldPropertiesManager manager = entry.getValue();
 
-			if (hasArrangerRing)
+			if (hasArrangerRing && manager.worldProperties.arrangerRingHolderID == this.mcaID)
 			{
-				if (manager.worldProperties.arrangerRingHolderID == this.mcaID)
-				{
-					propertiesChanged = true;
-					manager.worldProperties.arrangerRingHolderID = 0;
-					this.dropItem(MCA.getInstance().itemArrangersRing.itemID, 1);
-				}
+				propertiesChanged = true;
+				manager.worldProperties.arrangerRingHolderID = 0;
+				this.dropItem(MCA.getInstance().itemArrangersRing.itemID, 1);
 			}
 
-			if (isMarriedToPlayer || isEngaged)
+			if ((isMarriedToPlayer || isEngaged) && manager.worldProperties.playerSpouseID == this.mcaID)
 			{
-				if (manager.worldProperties.playerSpouseID == this.mcaID)
-				{
-					propertiesChanged = true;
-					manager.worldProperties.playerSpouseID = 0;
+				propertiesChanged = true;
+				manager.worldProperties.playerSpouseID = 0;
 
-					if (inventory.contains(MCA.getInstance().itemBabyBoy) || inventory.contains(MCA.getInstance().itemBabyGirl))
-					{
-						manager.worldProperties.babyExists = false;
-					}
+				if (inventory.contains(MCA.getInstance().itemBabyBoy) || inventory.contains(MCA.getInstance().itemBabyGirl))
+				{
+					manager.worldProperties.babyExists = false;
 				}
 			}
 
@@ -343,7 +320,7 @@ public class EntityVillagerAdult extends AbstractEntity
 	{
 		if (isInChoreMode)
 		{
-			AbstractChore chore = getInstanceOfCurrentChore();
+			final AbstractChore chore = getInstanceOfCurrentChore();
 
 			if (chore instanceof ChoreFarming)
 			{
@@ -546,7 +523,7 @@ public class EntityVillagerAdult extends AbstractEntity
 		{
 			final PlayerMemory memory = playerMemoryMap.get(player.username);
 			final ItemStack itemStack = player.inventory.getCurrentItem();
-			
+
 			if (itemStack != null) //Items here will always perform their functions regardless of the entity's state.
 			{
 				if (itemStack.getItem() instanceof ItemVillagerEditor)
@@ -570,7 +547,7 @@ public class EntityVillagerAdult extends AbstractEntity
 
 						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "name", name));
 					}
-					
+
 					return true;
 				}
 			}
@@ -590,6 +567,9 @@ public class EntityVillagerAdult extends AbstractEntity
 
 			else if (itemStack != null && memory.isInGiftMode) //When the player right clicks with an item and entity is in gift mode.
 			{
+				memory.isInGiftMode = false;
+				playerMemoryMap.put(player.username, memory);
+
 				if (itemStack.getItem() instanceof ItemWeddingRing)
 				{
 					if (familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)) && !isEngaged)
@@ -660,8 +640,6 @@ public class EntityVillagerAdult extends AbstractEntity
 				{
 					doGift(itemStack, player);
 				}
-				
-				memory.isInGiftMode = false;
 			}
 
 			else if (isInAnvilGiftMode)
@@ -716,28 +694,25 @@ public class EntityVillagerAdult extends AbstractEntity
 	private void updateCombatChore()
 	{
 		//Adjust combat chore settings for villagers and guards.
-		if (profession != 5)
+		if (profession == 5)
 		{
-			combatChore.useMelee = false;
-			combatChore.useRange = false;
-		}
-
-		//If they're not hired, reset the combat chore.
-		else if (profession == 5)
-		{
-			//Check if hired by anyone or a knight.
-			for (PlayerMemory memory : playerMemoryMap.values())
+			for (final PlayerMemory memory : playerMemoryMap.values())
 			{
 				if (memory.isHired || isKnight)
 				{
-					//Get out if they're hired by anybody.
 					return;
 				}
 			}
 
-			//This code will run if they're not hired by anybody.
+			//This code will run if the guard can't be controlled by a player.
 			combatChore = new ChoreCombat(this);
 			combatChore.useMelee = true;
+		}
+
+		else
+		{
+			combatChore.useMelee = false;
+			combatChore.useRange = false;	
 		}
 	}
 
@@ -751,18 +726,10 @@ public class EntityVillagerAdult extends AbstractEntity
 			aidCooldown--;
 		}
 
-		try
+		if (isInAnvilGiftMode && LogicHelper.getDistanceToEntity(this, worldObj.getPlayerEntityByName(lastInteractingPlayer)) > 4)
 		{
-			if (isInAnvilGiftMode && LogicHelper.getDistanceToEntity(this, worldObj.getPlayerEntityByName(lastInteractingPlayer)) > 4)
-			{
-				isInAnvilGiftMode = false;
-				say(LanguageHelper.getString("smith.aid.outofrange"));
-			}
-		}
-
-		catch (NullPointerException e)
-		{
-			//Pass
+			isInAnvilGiftMode = false;
+			say(LanguageHelper.getString("smith.aid.outofrange"));
 		}
 	}
 
@@ -772,7 +739,7 @@ public class EntityVillagerAdult extends AbstractEntity
 	private void updateHomePoint()
 	{
 		//Assign their current coordinates as the home point if they don't have one.
-		if (hasHomePoint == false)
+		if (!hasHomePoint)
 		{
 			homePointX = posX;
 			homePointY = posY;
