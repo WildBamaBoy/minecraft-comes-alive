@@ -53,7 +53,7 @@ public class GuiInventory extends InventoryEffectRenderer
 	 */
 	public GuiInventory(AbstractEntity entity, IInventory playerInventory, IInventory entityInventory, boolean fromEditor)
 	{
-		super(new ContainerInventory(playerInventory, entityInventory));
+		super(new ContainerInventory(playerInventory, entityInventory, entity));
 
 		owner = entity;
 		allowUserInput = false;

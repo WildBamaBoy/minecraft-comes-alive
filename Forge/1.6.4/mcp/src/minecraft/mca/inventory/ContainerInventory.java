@@ -9,6 +9,7 @@
 
 package mca.inventory;
 
+import mca.entity.AbstractEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -21,21 +22,30 @@ import net.minecraft.item.ItemStack;
  */
 public class ContainerInventory extends Container
 {
+	/* MCA entity */
+	protected final AbstractEntity entity;
+	
 	/**
 	 * Constructor
 	 * 
 	 * @param 	inventoryPlayer	An instance of a player's inventory.
 	 * @param 	inventoryEntity	An instance of an MCA entity's inventory.
 	 */
-	public ContainerInventory(IInventory inventoryPlayer, IInventory inventoryEntity)
+	public ContainerInventory(IInventory inventoryPlayer, IInventory inventoryEntity, AbstractEntity entity)
 	{
+		this.entity = entity;
 		for (int inventoryHeight = 0; inventoryHeight < 4; ++inventoryHeight)
 		{
-			for (int inventoryWidth = 0; inventoryWidth < 9; ++inventoryWidth)
+			for (int inventoryWidth = 0; inventoryWidth < 8; ++inventoryWidth)
 			{
-				this.addSlotToContainer(new Slot(inventoryEntity, inventoryWidth + inventoryHeight * 9, 8 + inventoryWidth * 18, 18 + inventoryHeight * 18));
+				this.addSlotToContainer(new Slot(inventoryEntity, inventoryWidth + inventoryHeight * 8, 8 + (inventoryWidth + 1) * 18, 18 + inventoryHeight * 18));
 			}
 		}
+		
+		for (int slot = 0; slot < 4; ++slot)
+        {
+            this.addSlotToContainer(new SlotArmor(this, inventoryEntity, inventoryEntity.getSizeInventory() - 1 - slot, 8, 18 + slot * 18, slot));
+        }
 
 		bindPlayerInventory((InventoryPlayer)inventoryPlayer);
 	}

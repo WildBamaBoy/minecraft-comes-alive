@@ -47,7 +47,7 @@ public class GuiHandler implements IGuiHandler
 
 		if (guiId == Constants.ID_GUI_INVENTORY)
 		{
-			return new ContainerInventory(player.inventory, entity.inventory);
+			return new ContainerInventory(player.inventory, entity.inventory, entity);
 		}
 
 		else

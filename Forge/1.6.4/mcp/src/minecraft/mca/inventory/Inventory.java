@@ -444,35 +444,10 @@ public class Inventory implements IInventory, Serializable
 	 */
 	public void setWornArmorItems()
 	{
-		for (final ItemStack stack : inventoryItems)
+		final int totalItems = inventoryItems.length - 1;
+		for (int i = 0; i < 4; ++i)
 		{
-			if (stack != null && stack.getItem() instanceof ItemArmor)
-			{
-				ItemArmor itemAsArmor = (ItemArmor)stack.getItem();
-				int armorType = itemAsArmor.armorType;
-
-				if (armorItems[armorType] != null)
-				{
-					if (((ItemArmor)armorItems[armorType].getItem()).damageReduceAmount < itemAsArmor.damageReduceAmount)
-					{
-						armorItems[armorType] = stack;
-					}
-				}
-				else
-				{
-					armorItems[armorType] = stack;
-				}
-			}
-		}
-
-		//Check and be sure the inventory still contains each armor item in the armor slots.
-		//Set it to null if it is not contained in the main inventory.
-		for (int i = 0; i < 4; i++)
-		{
-			if (armorItems[i] != null && getQuantityOfItem(armorItems[i].getItem()) == 0)
-			{
-				armorItems[i] = null;
-			}
+			armorItems[i] = inventoryItems[totalItems-i];
 		}
 	}
 
