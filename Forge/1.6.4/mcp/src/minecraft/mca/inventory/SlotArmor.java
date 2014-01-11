@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * SlotArmor.java
+ * Copyright (c) 2013 WildBamaBoy.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/licenses/gpl.html
+ ******************************************************************************/
+
 package mca.inventory;
 
 import cpw.mods.fml.relauncher.Side;
@@ -9,6 +18,10 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 
+/**
+ * Defines an inventory slot that contains armor.
+ * @author ko2fan
+ */
 class SlotArmor extends Slot
 {
     /**
@@ -21,11 +34,11 @@ class SlotArmor extends Slot
      */
     final ContainerInventory parent;
 
-    SlotArmor(ContainerInventory par1ContainerPlayer, IInventory par2IInventory, int par3, int par4, int par5, int par6)
+    SlotArmor(ContainerInventory playerContainer, IInventory inventory, int slotIndex, int posX, int posY, int armorType)
     {
-        super(par2IInventory, par3, par4, par5);
-        this.parent = par1ContainerPlayer;
-        this.armorType = par6;
+        super(inventory, slotIndex, posX, posY);
+        this.parent = playerContainer;
+        this.armorType = armorType;
     }
 
     /**
@@ -40,10 +53,10 @@ class SlotArmor extends Slot
     /**
      * Check if the stack is a valid item for this slot. Always true beside for the armor slots.
      */
-    public boolean isItemValid(ItemStack par1ItemStack)
+    public boolean isItemValid(ItemStack itemStack)
     {
-        Item item = (par1ItemStack == null ? null : par1ItemStack.getItem());
-        return item != null && item.isValidArmor(par1ItemStack, armorType, parent.entity);
+        final Item item = (itemStack == null ? null : itemStack.getItem());
+        return item != null && item.isValidArmor(itemStack, armorType, parent.entity);
     }
 
     @SideOnly(Side.CLIENT)
