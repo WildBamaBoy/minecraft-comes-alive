@@ -289,7 +289,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			{
 				if (!worldObj.isRemote)
 				{
-					worldObj.getPlayerEntityByName(lastInteractingPlayer).openGui(MCA.getInstance(), Constants.ID_GUI_INVENTORY, worldObj, (int)posX, (int)posY, (int)posZ);
+					EntityPlayer player = worldObj.getPlayerEntityByName(lastInteractingPlayer);
+					if (player != null)
+						player.openGui(MCA.getInstance(), Constants.ID_GUI_INVENTORY, worldObj, (int)posX, (int)posY, (int)posZ);
 				}
 
 				doOpenInventory = false;
@@ -815,12 +817,15 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		if (heldItem != null)
 		{
 			final int itemSlot = inventory.getFirstSlotContainingItem(heldItem.getItem());
-			inventory.inventoryItems[itemSlot].damageItem(1, this);
-
-			if (inventory.inventoryItems[itemSlot].stackSize == 0)
+			if (itemSlot != -1)
 			{
-				onItemDestroyed(inventory.inventoryItems[itemSlot]);
-				inventory.setInventorySlotContents(inventory.getFirstSlotContainingItem(inventory.inventoryItems[itemSlot].getItem()), null);
+				inventory.inventoryItems[itemSlot].damageItem(1, this);
+
+				if (inventory.inventoryItems[itemSlot].stackSize == 0)
+				{
+					onItemDestroyed(inventory.inventoryItems[itemSlot]);
+					inventory.setInventorySlotContents(inventory.getFirstSlotContainingItem(inventory.inventoryItems[itemSlot].getItem()), null);
+				}
 			}
 		}
 	}
