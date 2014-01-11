@@ -59,11 +59,10 @@ class SlotArmor extends Slot
         return item != null && item.isValidArmor(itemStack, armorType, parent.entity);
     }
 
-    @SideOnly(Side.CLIENT)
-
     /**
      * Returns the icon index on items.png that is used as background image of the slot.
      */
+    @SideOnly(Side.CLIENT)
     public Icon getBackgroundIconIndex()
     {
         return ItemArmor.func_94602_b(this.armorType);

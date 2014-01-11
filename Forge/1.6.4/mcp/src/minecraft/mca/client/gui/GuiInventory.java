@@ -31,7 +31,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiInventory extends InventoryEffectRenderer
 {	
-	private static final ResourceLocation resourceLocation = new ResourceLocation("textures/gui/container/generic_54.png");
+	private static final ResourceLocation resourceLocation = new ResourceLocation("mca:textures/gui/container/inventory.png");
 
 	private AbstractEntity owner;
 	private GuiButton backButton;
@@ -62,6 +62,7 @@ public class GuiInventory extends InventoryEffectRenderer
 		char c = '\336';
 		int i = c - 108;		
 		inventoryRows = entityInventory.getSizeInventory() / 9;
+		xSize = xSize + 24;
 		ySize = i + inventoryRows * 18;
 	}
 
@@ -69,7 +70,6 @@ public class GuiInventory extends InventoryEffectRenderer
 	public void initGui()
 	{
 		super.initGui();
-
 		buttonList.clear();
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
@@ -124,7 +124,7 @@ public class GuiInventory extends InventoryEffectRenderer
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
-		fontRenderer.drawString(LanguageHelper.getString(owner, "gui.title.inventory", false), 7, 6, 4210752);
+		fontRenderer.drawString(LanguageHelper.getString(owner, "gui.title.inventory", false), 32, 6, 4210752);
 	}
 
 	@Override

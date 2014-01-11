@@ -36,15 +36,16 @@ public class ContainerInventory extends Container
 		this.entity = entity;
 		for (int inventoryHeight = 0; inventoryHeight < 4; ++inventoryHeight)
 		{
-			for (int inventoryWidth = 0; inventoryWidth < 8; ++inventoryWidth)
+			for (int inventoryWidth = 0; inventoryWidth < 9; ++inventoryWidth)
 			{
-				this.addSlotToContainer(new Slot(inventoryEntity, inventoryWidth + inventoryHeight * 8, 8 + (inventoryWidth + 1) * 18, 18 + inventoryHeight * 18));
+				this.addSlotToContainer(new Slot(inventoryEntity, inventoryWidth + inventoryHeight * 9, 33 + inventoryWidth * 18, 18 + inventoryHeight * 18));
+				//this.addSlotToContainer(new Slot(inventoryEntity, inventoryWidth + inventoryHeight * 8, 8 + (inventoryWidth + 1) * 18, 18 + inventoryHeight * 18));
 			}
 		}
 		
 		for (int slot = 0; slot < 4; ++slot)
         {
-            this.addSlotToContainer(new SlotArmor(this, inventoryEntity, inventoryEntity.getSizeInventory() - 1 - slot, 8, 18 + slot * 18, slot));
+            this.addSlotToContainer(new SlotArmor(this, inventoryEntity, slot + 35, 8, 18 + slot * 18, slot));
         }
 
 		bindPlayerInventory((InventoryPlayer)inventoryPlayer);
@@ -105,13 +106,13 @@ public class ContainerInventory extends Container
 		{
 			for (int inventoryWidth = 0; inventoryWidth < 9; inventoryWidth++) 
 			{
-				addSlotToContainer(new Slot(inventoryPlayer, inventoryWidth + inventoryHeight * 9 + 9, 8 + inventoryWidth * 18, 103 + inventoryHeight * 18));
+				addSlotToContainer(new Slot(inventoryPlayer, inventoryWidth + inventoryHeight * 9 + 9, 33 + inventoryWidth * 18, 103 + inventoryHeight * 18));
 			}
 		}
 
 		for (int i = 0; i < 9; i++) 
 		{
-			addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 161));
+			addSlotToContainer(new Slot(inventoryPlayer, i, 33 + i * 18, 161));
 		}	
 	}
 }

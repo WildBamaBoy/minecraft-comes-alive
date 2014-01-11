@@ -124,7 +124,7 @@ public class Inventory implements IInventory, Serializable
 	@Override
 	public final int getSizeInventory()
 	{
-		return 36;
+		return 40;
 	}
 
 	/**
@@ -444,10 +444,9 @@ public class Inventory implements IInventory, Serializable
 	 */
 	public void setWornArmorItems()
 	{
-		final int totalItems = inventoryItems.length - 1;
 		for (int i = 0; i < 4; ++i)
 		{
-			armorItems[i] = inventoryItems[totalItems-i];
+			armorItems[i] = inventoryItems[35 + i];
 		}
 	}
 
