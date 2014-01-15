@@ -107,6 +107,7 @@ public class BlockTombstone extends BlockContainer
 		//Do nothing to avoid duplication glitch.
 	}
 
+	@Override
 	public void registerIcons(IconRegister iconRegister)
 	{
 		blockIcon = iconRegister.registerIcon("mca:Tombstone");

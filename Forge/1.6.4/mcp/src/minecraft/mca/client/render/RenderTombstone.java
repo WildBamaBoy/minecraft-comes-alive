@@ -49,7 +49,6 @@ public class RenderTombstone extends TileEntitySpecialRenderer
 	{
 		final StringBuilder stringBuilder = new StringBuilder();
 		final FontRenderer fontRenderer = getFontRenderer();
-		fontRenderer.FONT_HEIGHT = 4;
 
 		final int meta = tombstoneEntity.getBlockMetadata();
 		float rotation = 0.0F;
