@@ -921,27 +921,34 @@ public class MCA
 	/**
 	 * Writes the specified object's string representation to System.out.
 	 * 
-	 * @param 	obj	The object to write to System.out.
+	 * @param 	objects	The object(s) to write to System.out.
 	 */
-	public void log(Object obj)
+	public void log(Object... objects)
 	{
 		final Side side = FMLCommonHandler.instance().getEffectiveSide();
-
-		if (obj instanceof Throwable)
+		String objectsToString = "";
+		
+		for (int index = 0; index < objects.length; index++)
 		{
-			((Throwable)obj).printStackTrace();
+			final boolean useComma = index > 0;
+			objectsToString = useComma ? objectsToString + ", " + objects[index].toString() : objectsToString + objects[index].toString();
+		}
+		
+		if (objects[0] instanceof Throwable)
+		{
+			((Throwable)objects[0]).printStackTrace();
 		}
 
 		try
 		{
-			logger.log(Level.FINER, "Minecraft Comes Alive " + side.toString() + ": " + obj.toString());
-			System.out.println("Minecraft Comes Alive " + side.toString() + ": " + obj.toString());
+			logger.log(Level.FINER, "Minecraft Comes Alive " + side.toString() + ": " + objectsToString);
+			System.out.println("Minecraft Comes Alive " + side.toString() + ": " + objectsToString);
 
 			final MinecraftServer server = MinecraftServer.getServer();
 
 			if (server != null && server.isDedicatedServer())
 			{
-				MinecraftServer.getServer().logInfo("MCA: " + obj.toString());
+				MinecraftServer.getServer().logInfo("MCA: " + objectsToString);
 			}
 		}
 
