@@ -927,20 +927,21 @@ public class MCA
 	{
 		final Side side = FMLCommonHandler.instance().getEffectiveSide();
 		String objectsToString = "";
-		
-		for (int index = 0; index < objects.length; index++)
-		{
-			final boolean useComma = index > 0;
-			objectsToString = useComma ? objectsToString + ", " + objects[index].toString() : objectsToString + objects[index].toString();
-		}
-		
-		if (objects[0] instanceof Throwable)
-		{
-			((Throwable)objects[0]).printStackTrace();
-		}
 
 		try
 		{
+			for (int index = 0; index < objects.length; index++)
+			{
+				final boolean useComma = index > 0;
+				objectsToString = useComma ? objectsToString + ", " + objects[index].toString() : objectsToString + objects[index].toString();
+			}
+
+			if (objects[0] instanceof Throwable)
+			{
+				((Throwable)objects[0]).printStackTrace();
+			}
+
+
 			logger.log(Level.FINER, "Minecraft Comes Alive " + side.toString() + ": " + objectsToString);
 			System.out.println("Minecraft Comes Alive " + side.toString() + ": " + objectsToString);
 
