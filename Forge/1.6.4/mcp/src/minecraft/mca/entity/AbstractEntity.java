@@ -286,9 +286,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			{
 				if (!worldObj.isRemote)
 				{
-					EntityPlayer player = worldObj.getPlayerEntityByName(lastInteractingPlayer);
+					final EntityPlayer player = worldObj.getPlayerEntityByName(lastInteractingPlayer);
+					
 					if (player != null)
+					{
 						player.openGui(MCA.getInstance(), Constants.ID_GUI_INVENTORY, worldObj, (int)posX, (int)posY, (int)posZ);
+					}
 				}
 
 				doOpenInventory = false;
