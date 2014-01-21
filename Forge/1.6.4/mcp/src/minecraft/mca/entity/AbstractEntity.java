@@ -262,11 +262,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				addedAI = true;
 			}
 
-			//TODO Don't do this constantly. Only do when inventory changes.
-			inventory.setWornArmorItems();
-
 			lifeTicks++;
-
+			
 			updateTickMarkers();
 			updateSleeping();
 			updateMovement();

@@ -443,7 +443,7 @@ public class Inventory implements IInventory, Serializable
 	 * Sets the best possible armor combination in the armor inventory.
 	 */
 	public void setWornArmorItems()
-	{
+	{	
 		for (int i = 0; i < 4; ++i)
 		{
 			armorItems[i] = inventoryItems[35 + i];
@@ -958,6 +958,8 @@ public class Inventory implements IInventory, Serializable
 				this.armorItems[armorSlotId] = ItemStack.loadItemStackFromNBT(nbttagcompound);
 			}
 		}
+		
+		setWornArmorItems();
 	}
 
 	/**

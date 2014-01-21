@@ -145,6 +145,7 @@ public class GuiInventory extends InventoryEffectRenderer
 	public void onGuiClosed() 
 	{
 		super.onGuiClosed();
+		owner.inventory.closeChest();
 		PacketDispatcher.sendPacketToServer(PacketHandler.createInventoryPacket(owner.entityId, owner.inventory));
 	}
 }

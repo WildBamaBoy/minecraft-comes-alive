@@ -775,6 +775,7 @@ public final class PacketHandler implements IPacketHandler
 				if (entity.entityId == entityId)
 				{
 					PacketDispatcher.sendPacketToPlayer(PacketHandler.createSyncPacket(entity), player);
+					PacketDispatcher.sendPacketToPlayer(PacketHandler.createInventoryPacket(entityId, entity.inventory), player);
 					break;
 				}
 			}
@@ -1233,6 +1234,7 @@ public final class PacketHandler implements IPacketHandler
 		AbstractEntity entity = (AbstractEntity)world.getEntityByID(entityId);
 		inventory.owner = entity;
 		entity.inventory = inventory;
+		entity.inventory.setWornArmorItems();
 	}
 
 	/**
