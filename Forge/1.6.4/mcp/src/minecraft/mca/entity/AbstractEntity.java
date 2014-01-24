@@ -263,7 +263,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			}
 
 			lifeTicks++;
-			
+
 			updateTickMarkers();
 			updateSleeping();
 			updateMovement();
@@ -287,7 +287,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				if (!worldObj.isRemote)
 				{
 					final EntityPlayer player = worldObj.getPlayerEntityByName(lastInteractingPlayer);
-					
+
 					if (player != null)
 					{
 						player.openGui(MCA.getInstance(), Constants.ID_GUI_INVENTORY, worldObj, (int)posX, (int)posY, (int)posZ);
@@ -1017,9 +1017,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * Spawns the entity at their home point if it is safe.
 	 */
 	public void spawnAtHomePoint()
-	{
-		//TODO Check side.
-
+	{	
 		//Check if they actually have a home point.
 		if (hasHomePoint)
 		{
@@ -1028,32 +1026,25 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			{
 				hasTeleportedHome = true;
 
-				EntityPlayer player = null;
+				final EntityPlayer player = isFollowing ? worldObj.getPlayerEntityByName(followingPlayer) : worldObj.getPlayerEntityByName(lastInteractingPlayer);
 
-				if (worldObj.isRemote)
+				if (player != null)
 				{
-					player = (EntityPlayer)worldObj.playerEntities.get(0);
-				}
+					if (isStaying)
+					{
+						isSleeping = true;
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isSleeping", isSleeping));
 
-				else
-				{
-					player = worldObj.getPlayerEntityByName(lastInteractingPlayer);
-				}
+						if (familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
+						{
+							PacketDispatcher.sendPacketToPlayer(PacketHandler.createNotifyPacket(this, "notify.homepoint.teleport.skip.staying"), (Player)player);
+						}
+					}
 
-				//Fail-safe check.
-				if (player == null)
-				{
-					player = worldObj.getClosestPlayerToEntity(this, -1);
-				}
-
-				if (isStaying)
-				{
-					notifyPlayer(player, LanguageHelper.getString(this, "notify.homepoint.teleport.skip.staying", false));
-				}
-
-				else if (isFollowing)
-				{
-					notifyPlayer(player, LanguageHelper.getString(this, "notify.homepoint.teleport.skip.following", false));
+					else if (isFollowing)
+					{
+						PacketDispatcher.sendPacketToPlayer(PacketHandler.createNotifyPacket(this, "notify.homepoint.teleport.skip.following"), (Player)player);
+					}
 				}
 			}
 
@@ -1086,14 +1077,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					for (final int relatedPlayerId : familyTree.getListOfPlayers())
 					{
 						final EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, relatedPlayerId);
-
-						if (worldObj.isRemote)
 						{
-							notifyPlayer(player, LanguageHelper.getString(this, "notify.homepoint.obstructed", false));
+							PacketDispatcher.sendPacketToPlayer(PacketHandler.createNotifyPacket(this, "notify.homepoint.obstructed"), (Player)player);
 						}
 					}
 
 					hasHomePoint = false;
+					hasTeleportedHome = true;
 				}
 			}
 		}
@@ -1104,12 +1094,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			for (final int relatedPlayerId : familyTree.getListOfPlayers())
 			{
 				final EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, relatedPlayerId);
-
-				if (worldObj.isRemote)
-				{
-					notifyPlayer(player, LanguageHelper.getString(this, "notify.homepoint.none", false));
-				}
-
+				PacketDispatcher.sendPacketToPlayer(PacketHandler.createNotifyPacket(this, "notify.homepoint.none"), (Player)player);
 				hasTeleportedHome = true;
 			}
 		}
@@ -1771,13 +1756,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					say(LanguageHelper.getString("notify.villager.gifted.arrangerring.othernotnearby." + getGenderAsString()));
 					notifyPlayer(player, LanguageHelper.getString("notify.villager.gifted.arrangerring.toofarapart"));
 				}
-				
+
 				else
 				{
 					notifyPlayer(player, LanguageHelper.getString("notify.villager.married"));
 					Utility.removeItemFromPlayer(itemStack, player);
 
-					 //Assign generation.
+					//Assign generation.
 					if (generation != 0)
 					{
 						entityHoldingRing.generation = generation;
@@ -1801,7 +1786,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isMarriedToVillager", isMarriedToVillager));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "hasArrangerRing", hasArrangerRing));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(entityId, familyTree));
-					
+
 					entityHoldingRing.isMarriedToVillager = true;
 					entityHoldingRing.hasArrangerRing = false;
 					entityHoldingRing.familyTree.addFamilyTreeEntry(this, EnumRelation.Spouse);
@@ -1844,7 +1829,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				modifyHearts(player, -30);
 			}
 		}
-		
+
 		else
 		{
 			if (manager.worldProperties.playerSpouseID == 0) //Spouse ID will be zero if they're not married.
@@ -1861,7 +1846,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					familyTree.addFamilyTreeEntry(player, EnumRelation.Spouse);
 
 					//TODO Engagement packet -- ?
-					
+
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(entityId, familyTree));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isEngaged", isEngaged));
 
@@ -2026,7 +2011,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 							isProcreatingWithVillager = true;
 							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "hasCake", hasCake));
 							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isProcreatingWithVillager", isProcreatingWithVillager));
-							
+
 							spouse.hasCake = false;
 							spouse.isProcreatingWithVillager = true;
 							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(spouse.entityId, "hasCake", spouse.hasCake));
@@ -2038,10 +2023,10 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 						else
 						{
 							say(LanguageHelper.getString("notify.villager.gifted.cake.spousenearby"));
-							
+
 							hasCake = true;
 							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "hasCake", hasCake));
-							
+
 							Utility.removeItemFromPlayer(itemStack, player);
 						}
 					}
@@ -2353,13 +2338,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			{
 				setMoodByMoodPoints(true);
 
-				if (isStaying) //Make them sleep on the current point if staying.
-				{
-					isSleeping = true;
-					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isSleeping", isSleeping));
-					return;
-				}
-
 				if (isInChoreMode) //Skip when doing chores.
 				{
 					hasTeleportedHome = true;
@@ -2393,18 +2371,17 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Handles moving to a target or the player.
-	 * @category Partially tested
+	 * @category Tested
 	 */
 	private void updateMovement()
 	{
 		if (!worldObj.isRemote)
 		{
-			//TODO Test
 			if (target != null && target.onGround && !isRetaliating && !combatChore.useRange)
 			{
 				getLookHelper().setLookPositionWithEntity(target, 10.0F, getVerticalFaceSpeed());
 
-				if (getDistanceToEntity(target) > 3.5D)
+				if (getDistanceToEntity(target) > 15.0D)
 				{
 					target = null;
 					getNavigator().clearPathEntity();
@@ -2412,7 +2389,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				else
 				{
-					getNavigator().tryMoveToEntityLiving(target, Constants.SPEED_WALK);
+					getNavigator().tryMoveToEntityLiving(target, Constants.SPEED_RUN);
 				}
 			}
 
@@ -2669,6 +2646,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Handles running chore AI.
+	 * @category Tested
 	 */
 	private void updateChores()
 	{
@@ -2676,29 +2654,20 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			final AbstractChore chore = getInstanceOfCurrentChore();
 
-			//TODO Might be unneccessary.
-			if (chore instanceof ChoreCombat)
+			if (chore.hasEnded)
 			{
-				combatChore.runChoreAI();				
+				currentChore = "";
+				isInChoreMode = false;
+			}
+
+			else if (chore.hasBegun)
+			{
+				chore.runChoreAI();
 			}
 
 			else
 			{
-				if (chore.hasEnded)
-				{
-					currentChore = "";
-					isInChoreMode = false;
-				}
-
-				else if (chore.hasBegun)
-				{
-					chore.runChoreAI();
-				}
-
-				else
-				{
-					chore.beginChore();
-				}
+				chore.beginChore();
 			}
 		}
 

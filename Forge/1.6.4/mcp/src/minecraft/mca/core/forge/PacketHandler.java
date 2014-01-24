@@ -233,6 +233,11 @@ public final class PacketHandler implements IPacketHandler
 			{
 				handleOpenGui(packet, player);
 			}
+			
+			else if (packet.channel.equals("MCA_NOTIFY"))
+			{
+				handleNotify(packet, player);
+			}
 		}
 
 		catch (Exception e)
@@ -2588,5 +2593,66 @@ public final class PacketHandler implements IPacketHandler
 
 		AbstractEntity entity = (AbstractEntity)worldObj.getEntityByID(entityId);
 		entityPlayer.openGui(MCA.getInstance(), guiId, worldObj, (int)entity.posX, (int)entity.posY, (int)entity.posZ);
+	}
+	
+	/**
+	 * Creates a packet used to notify a player with a localized string.
+	 * 
+	 * @param	entity		The entity that caused this notification.
+	 * @param	phraseId	The phrase ID to be localized for the player.
+	 * 
+	 * @return	An open gui packet.
+	 */
+	public static Packet createNotifyPacket(AbstractEntity entity, String phraseId)
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_NOTIFY";
+			
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+			
+			objectOutput.writeObject(entity.entityId);
+			objectOutput.writeObject(phraseId);
+			objectOutput.close();
+			
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+			
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+		
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
+		}
+	}
+
+	/**
+	 * Handles a packet used to notify a player with a localized string.
+	 * 
+	 * @param 	packet	The packet containing the required information.
+	 * @param	player	The player that the packet came from.
+	 */
+	@SuppressWarnings("javadoc")
+	private static void handleNotify(Packet250CustomPayload packet, Player player) throws IOException, ClassNotFoundException
+	{
+		byte[] data = MCA.decompressBytes(packet.data);
+
+		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
+		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
+
+		EntityPlayer entityPlayer = (EntityPlayer)player;
+		World worldObj = entityPlayer.worldObj;
+
+		int entityId = (Integer)objectInput.readObject();
+		String phraseId = (String)objectInput.readObject();
+		objectInput.close();
+
+		AbstractEntity entity = (AbstractEntity)worldObj.getEntityByID(entityId);
+		entity.notifyPlayer(entityPlayer, LanguageHelper.getString(entity, phraseId, false));
 	}
 }

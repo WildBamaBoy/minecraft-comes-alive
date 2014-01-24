@@ -435,7 +435,10 @@ public class ChoreCombat extends AbstractChore
 				}
 			}
 
-			owner.target = closestEntity;
+			if (owner.canEntityBeSeen(closestEntity))
+			{
+				owner.target = closestEntity;
+			}
 		}
 	}
 
