@@ -145,7 +145,7 @@ def main():
     convertLanguageFiles()
     
     #Zip up the mod archive.
-    modArchive = zipfile.ZipFile(buildFolder + "/MCA " + releaseVersion + ".zip", "w", zipfile.ZIP_DEFLATED)
+    modArchive = zipfile.ZipFile(buildFolder + "/MCA-" + releaseVersion + " MC-" + minecraftVersion + ".zip", "w", zipfile.ZIP_DEFLATED)
     modFiles = os.listdir(buildFolder)
 
     modArchive.write(projectFolder + "src/minecraft/mca.png", "mca.png")
@@ -180,7 +180,7 @@ def main():
     
     print "Zipping up source archive..."
     getSource()
-    sourceArchive = zipfile.ZipFile(buildFolder + "/MCA " + releaseVersion + " - Source.zip", "w", zipfile.ZIP_DEFLATED)
+    sourceArchive = zipfile.ZipFile(buildFolder + "/MCA-" + releaseVersion + " MC-" + minecraftVersion + " - Source.zip", "w", zipfile.ZIP_DEFLATED)
     sourceFiles = os.listdir(sourceFolder)
 
     for root, dirs, files in os.walk(sourceFolder):
