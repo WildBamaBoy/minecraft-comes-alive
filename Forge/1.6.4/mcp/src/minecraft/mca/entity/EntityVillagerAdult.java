@@ -627,7 +627,16 @@ public class EntityVillagerAdult extends AbstractEntity
 					doGiftOfCake(itemStack, player);
 				}
 
-				else if (itemStack.getItem() instanceof ItemArmor || itemStack.getItem() instanceof ItemTool || itemStack.getItem() instanceof ItemSword)
+				else if (itemStack.getItem() instanceof ItemArmor)
+				{
+					final ItemArmor armor = (ItemArmor)itemStack.getItem();
+					inventory.inventoryItems[36 + armor.armorType] = itemStack;
+					Utility.removeItemFromPlayer(itemStack, player);
+					
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createInventoryPacket(entityId, inventory));
+				}
+				
+				else if (itemStack.getItem() instanceof ItemTool || itemStack.getItem() instanceof ItemSword)
 				{
 					inventory.addItemStackToInventory(itemStack);
 					inventory.setWornArmorItems();

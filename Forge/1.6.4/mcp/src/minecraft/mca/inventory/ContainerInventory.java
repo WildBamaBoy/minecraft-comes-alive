@@ -45,7 +45,7 @@ public class ContainerInventory extends Container
 		
 		for (int slot = 0; slot < 4; ++slot)
         {
-            this.addSlotToContainer(new SlotArmor(this, inventoryEntity, slot + 35, 8, 18 + slot * 18, slot));
+            this.addSlotToContainer(new SlotArmor(this, inventoryEntity, slot + 36, 8, 18 + slot * 18, slot));
         }
 
 		bindPlayerInventory((InventoryPlayer)inventoryPlayer);

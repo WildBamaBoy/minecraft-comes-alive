@@ -446,7 +446,7 @@ public class Inventory implements IInventory, Serializable
 	{	
 		for (int i = 0; i < 4; ++i)
 		{
-			armorItems[i] = inventoryItems[35 + i];
+			armorItems[i] = inventoryItems[36 + i];
 		}
 	}
 
