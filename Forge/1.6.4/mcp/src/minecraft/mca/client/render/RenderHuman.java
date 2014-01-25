@@ -10,6 +10,7 @@
 package mca.client.render;
 
 import mca.chore.ChoreHunting;
+import mca.client.gui.GuiVillagerEditor;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesList;
@@ -221,7 +222,7 @@ public class RenderHuman extends RenderBiped
 		final boolean isPlayerLookingAt = dotProduct > 1.0D - 0.025D / entityLookVector.lengthVector() ? entityPlayer.canEntityBeSeen(entityRendering) : false;
 		final double distance = entityRendering.getDistanceToEntity(this.renderManager.livingPlayer);
 
-		return manager != null && manager.worldProperties.showNameTags && distance < 5.0D && isPlayerLookingAt && Minecraft.isGuiEnabled() && entityRendering != this.renderManager.livingPlayer && !entityRendering.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) && entityRendering.riddenByEntity == null;
+		return manager != null && manager.worldProperties.showNameTags && distance < 5.0D && isPlayerLookingAt && Minecraft.isGuiEnabled() && !(Minecraft.getMinecraft().currentScreen instanceof GuiVillagerEditor) && entityRendering != this.renderManager.livingPlayer && !entityRendering.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) && entityRendering.riddenByEntity == null;
 	}
 
 	/**
