@@ -1873,9 +1873,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					manager.worldProperties.playerSpouseID = mcaID;
 					manager.worldProperties.isEngaged = true;
 					manager.saveWorldProperties();
-
-					player.triggerAchievement(MCA.getInstance().achievementGetMarried);
-					PacketDispatcher.sendPacketToPlayer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId), (Player)player);
 				}
 
 				else //The hearts aren't high enough.
