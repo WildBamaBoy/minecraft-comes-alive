@@ -1020,7 +1020,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Spawns the entity at their home point if it is safe.
-	 * @category Tested
 	 */
 	public void spawnAtHomePoint()
 	{	
@@ -1154,7 +1153,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * @param	isInformal	Should the title be informal?
 	 * 
 	 * @return	Localized string that is the title of the entity.
-	 * @category Tested
 	 */
 	public String getTitle(int playerId, boolean isInformal)
 	{
@@ -1183,7 +1181,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * Gets the entity's profession.
 	 * 
 	 * @return	Localized string representation of the entity's profession.
-	 * @category Tested
 	 */
 	public String getLocalizedProfessionString()
 	{
@@ -1212,7 +1209,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * Returns an instance of the entity's current chore.
 	 * 
 	 * @return	Instance of the chore the entity should be running.
-	 * @category Tested
 	 */
 	public AbstractChore getInstanceOfCurrentChore()
 	{
@@ -1251,7 +1247,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * Sets a person's mood based on the highest mood points value.
 	 * 
 	 * @param 	dispatchPackets	Should packets be dispatched to client or server?
-	 * @category Tested
 	 */
 	public void setMoodByMoodPoints(boolean dispatchPackets)
 	{
@@ -1320,7 +1315,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Changes a villager's mood based on their trait.
-	 * @category Tested
 	 */
 	public void doMoodCycle()
 	{
@@ -1403,7 +1397,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * 
 	 * @param 	itemStack	The item stack that should be removed.
 	 * @param 	amount		The amount to be removed.
-	 * @category Tested
 	 */
 	protected void removeAmountFromGiftedItem(ItemStack itemStack, int amount)
 	{
@@ -1432,7 +1425,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * @param 	player	The player that needs the heart information.
 	 * 
 	 * @return	Hearts value for the specified player.
-	 * @category Tested
 	 */
 	public int getHearts(EntityPlayer player)
 	{
@@ -1466,7 +1458,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * 
 	 * @param 	player	The player whose heart information is being modified.
 	 * @param	amount	The amount to modify the hearts by.
-	 * @category Tested
 	 */
 	public void modifyHearts(EntityPlayer player, int amount)
 	{
@@ -1567,7 +1558,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * 
 	 * @param 	context	EnumMoodChangeContext explaining what happened to cause the mood change.
 	 * @param 	value	The amount of mood points to apply to the appropriate mood.
-	 * @category Tested
 	 */
 	public void modifyMoodPoints(EnumMoodChangeContext context, float value)
 	{
@@ -1614,7 +1604,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * 
 	 * @param 	itemStack	The item stack that was given to the entity.
 	 * @param	player		The player that gifted the item.
-	 * @category	Tested
 	 */
 	protected void doGift(ItemStack itemStack, EntityPlayer player)
 	{
@@ -1684,7 +1673,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * 
 	 * @param 	itemStack	The item stack containing the baby.
 	 * @param	player		The player that gifted the baby.
-	 * @category Tested
 	 */
 	protected void doGiftOfBaby(ItemStack itemStack, EntityPlayer player) 
 	{
@@ -1719,7 +1707,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * 
 	 * @param 	itemStack	The item stack containing the arranger's ring.
 	 * @param	player		The player that gifted the ring.
-	 * @category Tested
 	 */
 	protected void doGiftOfArrangersRing(ItemStack itemStack, EntityPlayer player) 
 	{
@@ -1838,7 +1825,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * 
 	 * @param 	itemStack	The item stack containing the engagement ring.
 	 * @param 	player		The player gifting the ring.
-	 * @category	Tested
 	 */
 	protected void doGiftOfEngagementRing(ItemStack itemStack, EntityPlayer player) 
 	{
@@ -1904,7 +1890,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * 
 	 * @param 	itemStack	The item stack containing the wedding ring.
 	 * @param 	player		The player that gifted the ring.
-	 * @category Tested
 	 */
 	protected void doGiftOfWeddingRing(ItemStack itemStack, EntityPlayer player) 
 	{
@@ -1997,7 +1982,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * 
 	 * @param 	itemStack	The item stack containing the cake.
 	 * @param	player		The player that gifted the cake.
-	 * @category Tested
 	 */
 	protected void doGiftOfCake(ItemStack itemStack, EntityPlayer player)
 	{
@@ -2064,7 +2048,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Update the growth of the person's held baby.
-	 * @category Tested
 	 */
 	protected void updateBabyGrowth()
 	{
@@ -2146,7 +2129,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Update procreation event with another villager.
-	 * @category Tested
 	 */
 	protected void updateProcreationWithVillager()
 	{
@@ -2206,7 +2188,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Update procreation event with the player.
-	 * @category Tested
 	 */
 	protected void updateProcreationWithPlayer()
 	{
@@ -2269,7 +2250,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Update divorcing.
-	 * @category Tested
 	 */
 	protected void updateDivorce()
 	{
@@ -2333,7 +2313,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Calls update() on all tick markers.
-	 * @category Tested
 	 */
 	protected void updateTickMarkers()
 	{
@@ -2345,7 +2324,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Cancels gift mode for a player when greater than 10 blocks away, or logged out.
-	 * @category Tested
 	 */
 	private void updateGiftMode()
 	{
@@ -2367,7 +2345,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Handles an entity going to sleep. Makes them teleport home and go to sleep.
-	 * @category Tested
 	 */
 	private void updateSleeping()
 	{
@@ -2420,7 +2397,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Handles moving to a target or the player.
-	 * @category Tested
 	 */
 	private void updateMovement()
 	{
@@ -2493,7 +2469,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Handles greeting a player.
-	 * @category Tested
 	 */
 	private void updateGreeting()
 	{
@@ -2593,7 +2568,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Handles updating idle time.
-	 * @category Tested
 	 */
 	private void updateIdle()
 	{
@@ -2621,7 +2595,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Handles health regeneration.
-	 * @category Tested
 	 */
 	private void updateHealing()
 	{
@@ -2670,7 +2643,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Handles the swinging of the entity's arm.
-	 * @category Tested
 	 */
 	private void updateSwinging()
 	{
@@ -2695,7 +2667,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Handles running chore AI.
-	 * @category Tested
 	 */
 	private void updateChores()
 	{
@@ -2728,7 +2699,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Handles retaliation.
-	 * @category Tested
 	 */
 	private void updateRetaliation()
 	{
@@ -2864,7 +2834,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Updates the villager's mood and assigns a trait if one has not been assigned.
-	 * @category Tested
 	 */
 	private void updateMood()
 	{	
@@ -3005,7 +2974,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Updates the amount of time the entity has been working.
-	 * @category Tested
 	 */
 	private void updateWorkTime()
 	{
@@ -3048,7 +3016,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Runs code used to assist with debugging.
-	 * @category Tested
 	 */
 	private void updateDebug() 
 	{
