@@ -2686,7 +2686,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		if (!worldObj.isRemote && isRetaliating && target instanceof EntityPlayer)
 		{
 			final EntityPlayer player = (EntityPlayer)target;
-			getNavigator().tryMoveToEntityLiving(player, Constants.SPEED_WALK);
+			getNavigator().tryMoveToEntityLiving(player, Constants.SPEED_RUN);
 
 			if (profession != 5 && player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem() instanceof ItemSword)
 			{
