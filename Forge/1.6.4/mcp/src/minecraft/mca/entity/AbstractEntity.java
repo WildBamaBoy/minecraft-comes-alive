@@ -554,12 +554,17 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			if (damageSource.getSourceOfDamage() instanceof EntityPlayer)
 			{
 				final EntityPlayer player = (EntityPlayer)damageSource.getSourceOfDamage();
-
+				final Item heldItem = player.getHeldItem() == null ? null : player.getHeldItem().getItem();
+				
 				modifyHearts(player, -5);
 				modifyMoodPoints(EnumMoodChangeContext.HitByPlayer, 0.5F);
 				lastInteractingPlayer = player.username;
 
-				say(LanguageHelper.getString(player, this, "hitbyplayer", true));
+				//Only speak when not hit by a weapon that will cause retaliation to cancel.
+				if (!(heldItem instanceof ItemSword))
+				{
+					say(LanguageHelper.getString(player, this, "hitbyplayer", true));	
+				}
 
 				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "lastInteractingPlayer", lastInteractingPlayer));
 
@@ -569,7 +574,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					target = player;
 
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSetTargetPacket(entityId, player.entityId));
-					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isRetaliating", isRetaliating));
 				}
 
 				else if (this instanceof EntityVillagerChild)
@@ -1153,8 +1157,17 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		if (familyTree.idIsRelative(playerId))
 		{
-			return familyTree.getRelationTo(playerId).toString(this, isMale, isInformal) + " " + name;
-
+			EnumRelation relation = familyTree.getRelationTo(playerId);
+			
+			if ((relation == EnumRelation.Spouse || relation == EnumRelation.Husband || relation == EnumRelation.Wife) && isEngaged)
+			{
+				return LanguageHelper.getString("family.fiance") + " " + name;
+			}
+			
+			else
+			{
+				return relation.toString(this, isMale, isInformal) + " " + name;
+			}
 		}
 
 		else
@@ -1877,7 +1890,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * 
 	 * @param 	itemStack	The item stack containing the wedding ring.
 	 * @param 	player		The player that gifted the ring.
-	 * @category Needs repair
+	 * @category Tested
 	 */
 	protected void doGiftOfWeddingRing(ItemStack itemStack, EntityPlayer player) 
 	{
