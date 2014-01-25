@@ -306,9 +306,10 @@ public final class LanguageHelper
 		phraseId = phraseId.toLowerCase();
 		
 		//Check for call to getString on a server. Invalid as the player will receive an untranslated string.
-		if (MinecraftServer.getServer() != null && MCA.getInstance().isDedicatedServer && FMLCommonHandler.instance().getEffectiveSide().isServer())
+		if (MCA.getInstance().isDedicatedServer && FMLCommonHandler.instance().getEffectiveSide().isServer())
 		{
 			PacketDispatcher.sendPacketToPlayer(PacketHandler.createSayLocalizedPacket(player, entity, phraseId, useCharacterType, prefix, suffix), (Player)player);
+			return "";
 		}
 
 		if (useCharacterType)

@@ -780,11 +780,11 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	}
 
 	@Override
-    public ItemStack func_130225_q(int armorId)
-    {
+	public ItemStack func_130225_q(int armorId)
+	{
 		return inventory.armorItemInSlot(3 - armorId);
-    }
-    
+	}
+
 	@Override
 	public void useRecipe(MerchantRecipe merchantRecipe)
 	{
@@ -828,7 +828,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		if (heldItem != null)
 		{
 			final int itemSlot = inventory.getFirstSlotContainingItem(heldItem.getItem());
-			
+
 			if (itemSlot != -1)
 			{
 				inventory.inventoryItems[itemSlot].damageItem(1, this);
@@ -962,13 +962,15 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			isSleeping = false;
 			idleTicks = 0;
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isSleeping", isSleeping));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "idleTicks", idleTicks));
 			return;
 		}
 
 		else
 		{
 			final EntityPlayer player = worldObj.getPlayerEntityByName(lastInteractingPlayer);
-
+			
 			isSleeping = false;
 			idleTicks = 0;
 
@@ -977,9 +979,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			{
 				player.addChatMessage(getTitle(MCA.getInstance().getIdOfPlayer(player), true) + ": " + text);
 			}
-
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "isSleeping", false));
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "idleTicks", idleTicks));
 		}
 	}
 
@@ -2337,7 +2336,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			{
 				final EntityPlayer player = worldObj.getPlayerEntityByName(entry.getKey());
 				final PlayerMemory memory = entry.getValue();
-				
+
 				if (player != null && memory.isInGiftMode && getDistanceToEntity(player) > 10.0F || player == null && memory.isInGiftMode)
 				{
 					memory.isInGiftMode = false;
@@ -2476,7 +2475,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	private void updateGreeting()
 	{
-		if (!worldObj.isRemote && !isInChoreMode && !isFollowing)
+		if (!worldObj.isRemote && !isInChoreMode && !isFollowing && !name.equals(""))
 		{
 			final EntityPlayer nearestPlayer = worldObj.getClosestPlayer(posX, posY, posZ, -1);
 
@@ -2508,7 +2507,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 								{
 									final int hearts = getHearts(nearestPlayer);
 									lastInteractingPlayer = nearestPlayer.username;
-
+									PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "lastInteractingPlayer", lastInteractingPlayer));
+									
 									Utility.faceCoordinates(this, nearestPlayer.posX, nearestPlayer.posY, nearestPlayer.posZ, -10);
 
 									if (getCharacterType(MCA.getInstance().getIdOfPlayer(nearestPlayer)).equals("heir"))

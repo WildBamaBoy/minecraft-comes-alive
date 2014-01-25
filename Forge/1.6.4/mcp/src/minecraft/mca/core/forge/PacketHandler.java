@@ -1921,11 +1921,13 @@ public final class PacketHandler implements IPacketHandler
 
 			if (receivedPlayer != null)
 			{
+				speaker.lastInteractingPlayer = receivedPlayer.username;
 				speaker.say(LanguageHelper.getString(receivedPlayer, speaker, phraseId, useCharacterType, prefix, suffix));
 			}
 
 			else
 			{
+				speaker.lastInteractingPlayer = entityPlayer.username;
 				speaker.say(LanguageHelper.getString(entityPlayer, speaker, phraseId, useCharacterType, prefix, suffix));
 			}
 		}
