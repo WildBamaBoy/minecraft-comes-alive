@@ -144,7 +144,7 @@ public class EntityPlayerChild extends AbstractChild
 	public void setTexture()
 	{
 		VillagerEntryMCA entry = VillagerRegistryMCA.getRegisteredVillagerEntry(-1);
-		
+
 		//Check for specific names to set hidden skins.
 		if (isMale)
 		{
@@ -250,7 +250,7 @@ public class EntityPlayerChild extends AbstractChild
 	public void onUpdate()
 	{
 		super.onUpdate();
-		
+
 		if (!isAdult)
 		{
 			updateGrowth();
@@ -322,7 +322,7 @@ public class EntityPlayerChild extends AbstractChild
 					{
 						player.openGui(MCA.getInstance(), Constants.ID_GUI_VCHILD, worldObj, (int)posX, (int)posY, (int)posZ);
 					}
-					
+
 					else
 					{
 						player.openGui(MCA.getInstance(), Constants.ID_GUI_ADULT, worldObj, (int)posX, (int)posY, (int)posZ);
@@ -341,7 +341,7 @@ public class EntityPlayerChild extends AbstractChild
 					{
 						doGift(itemStack, player);
 					}
-					
+
 					else if (itemStack.getItem() instanceof ItemArrangersRing && isAdult)
 					{
 						doGiftOfArrangersRing(itemStack, player);
@@ -424,14 +424,17 @@ public class EntityPlayerChild extends AbstractChild
 	@Override
 	public ItemStack getHeldItem()
 	{
-		if (isHeldBabyMale)
+		if (hasBaby)
 		{
-			return new ItemStack(MCA.getInstance().itemBabyBoy);
-		}
+			if (isHeldBabyMale)
+			{
+				return new ItemStack(MCA.getInstance().itemBabyBoy);
+			}
 
-		else if (!isHeldBabyMale)
-		{
-			return new ItemStack(MCA.getInstance().itemBabyGirl);
+			else
+			{
+				return new ItemStack(MCA.getInstance().itemBabyGirl);
+			}
 		}
 
 		else if (isInChoreMode)
@@ -663,7 +666,7 @@ public class EntityPlayerChild extends AbstractChild
 
 				isAdult = true;
 				setChoresStopped();
-				
+
 				EntityPlayer player = worldObj.getPlayerEntityByName(ownerPlayerName);
 
 				if (player != null)
