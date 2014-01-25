@@ -31,9 +31,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
@@ -77,7 +75,7 @@ public class RenderHuman extends RenderBiped
 	@Override
 	protected int shouldRenderPass(EntityLivingBase entityLivingBase, int armorId, float partialTickTime)
 	{
-		return setArmorModel((AbstractEntity)entityLivingBase, armorId);
+		return func_130006_a((EntityLiving)entityLivingBase, armorId, partialTickTime);
 	}
 
 	@Override
@@ -223,74 +221,6 @@ public class RenderHuman extends RenderBiped
 		final double distance = entityRendering.getDistanceToEntity(this.renderManager.livingPlayer);
 
 		return manager != null && manager.worldProperties.showNameTags && distance < 5.0D && isPlayerLookingAt && Minecraft.isGuiEnabled() && !(Minecraft.getMinecraft().currentScreen instanceof GuiVillagerEditor) && entityRendering != this.renderManager.livingPlayer && !entityRendering.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) && entityRendering.riddenByEntity == null;
-	}
-
-	/**
-	 * Sets the model of the armor that the Entity is wearing.
-	 * 
-	 * @param	entity				The entity whose armor model is being set.
-	 * @param	armorId				The ID of the armor piece being set.
-	 * @param	partialTickTime		The amount of time since the last tick.
-	 * 
-	 * @return	-1 if setting the armor model wasn't successful. 1 if the armor is not enchanted. 15 if the armor is enchanted.
-	 */
-	private int setArmorModel(AbstractEntity entity, int armorId)
-	{
-		final ItemStack itemStack = entity.inventory.armorItemInSlot(armorId);
-
-		if (itemStack != null)
-		{
-			final Item item = itemStack.getItem();
-
-			if (item instanceof ItemArmor)
-			{
-				final ItemArmor itemArmor = (ItemArmor)item;
-				final ModelBiped armorModel = armorId == 2 ? modelArmor : modelArmorChestplate;
-
-				bindTexture(getArmorResource(entity, itemStack, armorId, null));
-
-				armorModel.bipedHead.showModel = armorId == 0;
-				armorModel.bipedHeadwear.showModel = armorId == 0;
-				armorModel.bipedBody.showModel = armorId == 1 || armorId == 2;
-				armorModel.bipedRightArm.showModel = armorId == 1;
-				armorModel.bipedLeftArm.showModel = armorId == 1;
-				armorModel.bipedRightLeg.showModel = armorId == 2 || armorId == 3;
-				armorModel.bipedLeftLeg.showModel = armorId == 2 || armorId == 3;
-
-				setRenderPassModel(armorModel);
-
-				if (armorModel != null)
-				{
-					armorModel.onGround = mainModel.onGround;
-					armorModel.isRiding = mainModel.isRiding;
-				}
-
-				if (itemArmor.getArmorMaterial() == EnumArmorMaterial.CLOTH)
-				{
-					final int armorColor = itemArmor.getColor(itemStack);
-					final float colorRed = (armorColor >> 16 & 255) / 255.0F;
-					final float colorGreen = (armorColor >> 8 & 255) / 255.0F;
-					final float colorBlue = (armorColor & 255) / 255.0F;
-
-					GL11.glColor3f(colorRed, colorGreen, colorBlue);
-
-					if (itemStack.isItemEnchanted())
-					{
-						return 31;
-					}
-
-					else
-					{
-						return 16;
-					}
-				}
-
-				GL11.glColor3f(1.0F, 1.0F, 1.0F);
-				return itemStack.isItemEnchanted() ? 15 : 1;
-			}
-		}
-
-		return -1;
 	}
 
 	/**

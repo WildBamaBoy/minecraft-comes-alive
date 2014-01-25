@@ -780,6 +780,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	}
 
 	@Override
+    public ItemStack func_130225_q(int armorId)
+    {
+		return inventory.armorItemInSlot(3 - armorId);
+    }
+    
+	@Override
 	public void useRecipe(MerchantRecipe merchantRecipe)
 	{
 		//Representation of EntityVillager's useRecipe without playing sounds.
