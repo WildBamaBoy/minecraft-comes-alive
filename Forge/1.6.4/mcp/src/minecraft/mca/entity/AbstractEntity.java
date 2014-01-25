@@ -542,7 +542,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				return;
 			}
 
-			float unabsorbedDamage = ISpecialArmor.ArmorProperties.ApplyArmor(this, inventory.armorItems, damageSource, damageAmount);
+			final float unabsorbedDamage = ISpecialArmor.ArmorProperties.ApplyArmor(this, inventory.armorItems, damageSource, damageAmount);
 			super.damageEntity(damageSource, unabsorbedDamage);
 
 			//Account for sleep being interrupted.
@@ -1020,6 +1020,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Spawns the entity at their home point if it is safe.
+	 * @category Tested
 	 */
 	public void spawnAtHomePoint()
 	{	
@@ -1108,7 +1109,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Tests to see if the home point being set can be safely spawned at.
 	 */
-	public void testNewHomePoint()
+	public void verifyHomePointIsValid()
 	{
 		//Test the home point and the block above to be sure it isn't obstructed.
 		if (worldObj.getBlockId((int)homePointX, (int)(homePointY + 0), (int)homePointZ) == 0 &&
@@ -1153,12 +1154,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * @param	isInformal	Should the title be informal?
 	 * 
 	 * @return	Localized string that is the title of the entity.
+	 * @category Tested
 	 */
 	public String getTitle(int playerId, boolean isInformal)
 	{
 		if (familyTree.idIsRelative(playerId))
 		{
-			EnumRelation relation = familyTree.getRelationTo(playerId);
+			final EnumRelation relation = familyTree.getRelationTo(playerId);
 
 			if ((relation == EnumRelation.Spouse || relation == EnumRelation.Husband || relation == EnumRelation.Wife) && isEngaged)
 			{
@@ -1181,6 +1183,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * Gets the entity's profession.
 	 * 
 	 * @return	Localized string representation of the entity's profession.
+	 * @category Tested
 	 */
 	public String getLocalizedProfessionString()
 	{
@@ -1209,6 +1212,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * Returns an instance of the entity's current chore.
 	 * 
 	 * @return	Instance of the chore the entity should be running.
+	 * @category Tested
 	 */
 	public AbstractChore getInstanceOfCurrentChore()
 	{
@@ -1247,6 +1251,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * Sets a person's mood based on the highest mood points value.
 	 * 
 	 * @param 	dispatchPackets	Should packets be dispatched to client or server?
+	 * @category Tested
 	 */
 	public void setMoodByMoodPoints(boolean dispatchPackets)
 	{
@@ -1315,6 +1320,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Changes a villager's mood based on their trait.
+	 * @category Tested
 	 */
 	public void doMoodCycle()
 	{
@@ -1397,6 +1403,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * 
 	 * @param 	itemStack	The item stack that should be removed.
 	 * @param 	amount		The amount to be removed.
+	 * @category Tested
 	 */
 	protected void removeAmountFromGiftedItem(ItemStack itemStack, int amount)
 	{
@@ -1425,6 +1432,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * @param 	player	The player that needs the heart information.
 	 * 
 	 * @return	Hearts value for the specified player.
+	 * @category Tested
 	 */
 	public int getHearts(EntityPlayer player)
 	{
@@ -1458,6 +1466,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * 
 	 * @param 	player	The player whose heart information is being modified.
 	 * @param	amount	The amount to modify the hearts by.
+	 * @category Tested
 	 */
 	public void modifyHearts(EntityPlayer player, int amount)
 	{
@@ -1558,6 +1567,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * 
 	 * @param 	context	EnumMoodChangeContext explaining what happened to cause the mood change.
 	 * @param 	value	The amount of mood points to apply to the appropriate mood.
+	 * @category Tested
 	 */
 	public void modifyMoodPoints(EnumMoodChangeContext context, float value)
 	{
@@ -1604,6 +1614,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * 
 	 * @param 	itemStack	The item stack that was given to the entity.
 	 * @param	player		The player that gifted the item.
+	 * @category	Tested
 	 */
 	protected void doGift(ItemStack itemStack, EntityPlayer player)
 	{
@@ -1827,6 +1838,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * 
 	 * @param 	itemStack	The item stack containing the engagement ring.
 	 * @param 	player		The player gifting the ring.
+	 * @category	Tested
 	 */
 	protected void doGiftOfEngagementRing(ItemStack itemStack, EntityPlayer player) 
 	{
@@ -1861,8 +1873,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					isEngaged = true;
 					familyTree.addFamilyTreeEntry(player, EnumRelation.Spouse);
 
-					//TODO Engagement packet -- ?
-
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createEngagementPacket(entityId));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(entityId, familyTree));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isEngaged", isEngaged));
 
@@ -2747,6 +2758,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Updates fields having to do with players that are monarchs.
+	 * @category Needs Repair
 	 */
 	private void updateMonarchs()
 	{
@@ -2762,9 +2774,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		else
 		{
-			for (Map.Entry<String, PlayerMemory> entry : playerMemoryMap.entrySet())
+			for (final Map.Entry<String, PlayerMemory> entry : playerMemoryMap.entrySet())
 			{
-				WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(entry.getKey());
+				final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(entry.getKey());
 
 				if (manager != null)
 				{
@@ -3042,11 +3054,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		if (MCA.getInstance().inDebugMode)
 		{
-			for (final Map.Entry<String, PlayerMemory> entry : playerMemoryMap.entrySet())
-			{
-				MCA.getInstance().log(entry.getKey() + " : " + entry.getValue().isInGiftMode);
-			}
-
 			return;
 		}
 	}

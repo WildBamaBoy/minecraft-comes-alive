@@ -913,7 +913,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			entityChild.homePointY = entityChild.posY;
 			entityChild.homePointZ = entityChild.posZ;
 			entityChild.hasHomePoint = true;
-			entityChild.testNewHomePoint();
+			entityChild.verifyHomePointIsValid();
 
 			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "homePointX", entityChild.posX));
 			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "homePointY", entityChild.posY));

@@ -343,7 +343,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "homePointZ", entityVillagerChild.posZ));
 			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "hasHomePoint", true));
 
-			entityVillagerChild.testNewHomePoint();
+			entityVillagerChild.verifyHomePointIsValid();
 
 			close();
 		}

@@ -493,7 +493,7 @@ public class GuiInteractionSpouse extends AbstractGui
 			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "homePointZ", entitySpouse.posZ));
 			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "hasHomePoint", true));
 
-			entitySpouse.testNewHomePoint();
+			entitySpouse.verifyHomePointIsValid();
 
 			close();
 		}
