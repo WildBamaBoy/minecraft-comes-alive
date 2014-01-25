@@ -214,6 +214,11 @@ public final class PacketHandler implements IPacketHandler
 			{
 				handleOpenGui(packet, player);
 			}
+			
+			else if (packet.channel.equals("MCA_GENERIC"))
+			{
+				handleGenericPacket(packet, player);
+			}
 		}
 
 		catch (Exception e)
@@ -2373,17 +2378,18 @@ public final class PacketHandler implements IPacketHandler
 		}
 	}
 	
-	private static void handleGenericPacket(Packet250CustomPayload packet, EntityPlayer entityPlayer) throws IOException, ClassNotFoundException
+	private static void handleGenericPacket(Packet250CustomPayload packet, Player player) throws IOException, ClassNotFoundException
 	{
 		//Initialize
 		final ByteArrayInputStream input = new ByteArrayInputStream(packet.data);
 		final ObjectInputStream objectInput = new ObjectInputStream(input);
+		final EntityPlayer entityPlayer = (EntityPlayer)player;
 		//---------------------------------------------------------------------------------------
 
 		//Read data
 		final EnumGenericCommand command = EnumGenericCommand.getEnum((String)objectInput.readObject());
 		final int argumentsLength = (Integer)objectInput.readObject();
-		final Object[] arguments = new Object[argumentsLength - 1];
+		final Object[] arguments = new Object[argumentsLength];
 
 		for (int index = 0; index < argumentsLength; index++)
 		{
@@ -2393,6 +2399,7 @@ public final class PacketHandler implements IPacketHandler
 		//---------------------------------------------------------------------------------------
 
 		//Process
+		MCA.getInstance().logPacketInformation("\tGeneric packet type: " + command);
 		int entityId;
 		AbstractEntity entity;
 		
