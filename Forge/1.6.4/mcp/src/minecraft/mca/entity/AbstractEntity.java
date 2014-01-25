@@ -3022,6 +3022,11 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		if (MCA.getInstance().inDebugMode)
 		{
+			for (Map.Entry<String, PlayerMemory> entry : playerMemoryMap.entrySet())
+			{
+				MCA.getInstance().log(entry.getKey(), entry.getValue().isInGiftMode);
+			}
+			
 			return;
 		}
 	}

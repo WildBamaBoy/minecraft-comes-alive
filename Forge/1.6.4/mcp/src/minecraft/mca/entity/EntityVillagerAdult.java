@@ -627,6 +627,8 @@ public class EntityVillagerAdult extends AbstractEntity
 				{
 					doGift(itemStack, player);
 				}
+				
+				PacketDispatcher.sendPacketToPlayer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap), (Player)player);
 			}
 
 			else if (isInAnvilGiftMode)
