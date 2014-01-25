@@ -22,6 +22,7 @@ import mca.core.util.object.Point3D;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityChoreFishHook;
 import mca.entity.EntityPlayerChild;
+import mca.enums.EnumGenericCommand;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -174,13 +175,13 @@ public class ChoreFishing extends AbstractChore
 
 		if (owner.worldObj.isRemote)
 		{
-			PacketDispatcher.sendPacketToServer(PacketHandler.createAddAIPacket(owner));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createGenericPacket(EnumGenericCommand.AddAI, owner.entityId));
 		}
 
 		else
 		{
 			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(owner));
-			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createAddAIPacket(owner));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createGenericPacket(EnumGenericCommand.AddAI, owner.entityId));
 		}
 
 		owner.addAI();

@@ -42,6 +42,7 @@ import mca.core.util.Utility;
 import mca.core.util.object.FamilyTree;
 import mca.core.util.object.PlayerMemory;
 import mca.core.util.object.TickMarker;
+import mca.enums.EnumGenericCommand;
 import mca.enums.EnumMood;
 import mca.enums.EnumMoodChangeContext;
 import mca.enums.EnumRelation;
@@ -910,12 +911,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		if (worldObj.isRemote)
 		{
-			PacketDispatcher.sendPacketToServer(PacketHandler.createKillPacket(this));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createGenericPacket(EnumGenericCommand.BroadcastKillEntity, entityId));
 		}
 
 		else
 		{
-			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createKillPacket(this));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.KillEntity, entityId));
 		}
 	}
 
@@ -1048,13 +1049,15 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 						if (familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
 						{
-							PacketDispatcher.sendPacketToPlayer(PacketHandler.createNotifyPacket(this, "notify.homepoint.teleport.skip.staying"), (Player)player);
+							PacketDispatcher.sendPacketToPlayer(PacketHandler.createGenericPacket(
+									EnumGenericCommand.NotifyPlayer, entityId, "notify.homepoint.teleport.skip.staying"), (Player)player);
 						}
 					}
 
 					else if (isFollowing)
 					{
-						PacketDispatcher.sendPacketToPlayer(PacketHandler.createNotifyPacket(this, "notify.homepoint.teleport.skip.following"), (Player)player);
+						PacketDispatcher.sendPacketToPlayer(PacketHandler.createGenericPacket(
+								EnumGenericCommand.NotifyPlayer, entityId, "notify.homepoint.teleport.skip.following"), (Player)player);
 					}
 				}
 			}
@@ -1089,7 +1092,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					{
 						final EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, relatedPlayerId);
 						{
-							PacketDispatcher.sendPacketToPlayer(PacketHandler.createNotifyPacket(this, "notify.homepoint.obstructed"), (Player)player);
+							PacketDispatcher.sendPacketToPlayer(PacketHandler.createGenericPacket(
+									EnumGenericCommand.NotifyPlayer, entityId, "notify.homepoint.obstructed"), (Player)player);
 						}
 					}
 
@@ -1105,7 +1109,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			for (final int relatedPlayerId : familyTree.getListOfPlayers())
 			{
 				final EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, relatedPlayerId);
-				PacketDispatcher.sendPacketToPlayer(PacketHandler.createNotifyPacket(this, "notify.homepoint.none"), (Player)player);
+				PacketDispatcher.sendPacketToPlayer(PacketHandler.createGenericPacket(
+						EnumGenericCommand.NotifyPlayer, entityId, "notify.homepoint.none"), (Player)player);
 				hasTeleportedHome = true;
 			}
 		}
@@ -3078,7 +3083,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			say(LanguageHelper.getString(this, phraseId));
 		}
 
-		PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSwingPacket(this));
+		PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.SwingArm, entityId));
 		PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSetTargetPacket(entityId, 0));
 	}
 }

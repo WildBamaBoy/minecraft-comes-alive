@@ -29,6 +29,7 @@ import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
+import mca.enums.EnumGenericCommand;
 import mca.enums.EnumMood;
 import mca.enums.EnumRelation;
 import mca.enums.EnumTrait;
@@ -1353,7 +1354,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			if (entityVillager.isEntityAlive() && !entityVillager.isTrading())
 			{
-				PacketDispatcher.sendPacketToServer(PacketHandler.createTradePacket((EntityVillagerAdult)entityVillager));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createGenericPacket(EnumGenericCommand.StartTrade, entityVillager.entityId));
 				close();
 			}
 		}
@@ -1648,7 +1649,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				//Reset AI in case of guard.
 				villagerToMarry.addAI();
 
-				PacketDispatcher.sendPacketToServer(PacketHandler.createAddAIPacket(villagerToMarry));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createGenericPacket(EnumGenericCommand.AddAI, villagerToMarry.entityId));
 				PacketDispatcher.sendPacketToServer(PacketHandler.createFamilyTreePacket(villagerToMarry.entityId, villagerToMarry.familyTree));
 				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerToMarry.entityId, "isMarriedToPlayer", true));
 				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerToMarry.entityId, "spousePlayerName", player.username));
@@ -1656,7 +1657,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId));
 
 				villagerToMarry.setPosition(player.posX, player.posY, player.posZ);
-				PacketDispatcher.sendPacketToServer(PacketHandler.createPositionPacket(villagerToMarry, player.posX, player.posY, player.posZ));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createGenericPacket(EnumGenericCommand.SetPosition, villagerToMarry.entityId, player.posX, player.posY, player.posZ));
 
 				entityVillager.say(LanguageHelper.getString(player, villagerToMarry, "priest.arrangemarriage", false));
 				close();

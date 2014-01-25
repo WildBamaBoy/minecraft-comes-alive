@@ -20,6 +20,7 @@ import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
 import mca.core.util.Utility;
 import mca.core.util.object.PlayerMemory;
+import mca.enums.EnumGenericCommand;
 import mca.enums.EnumRelation;
 import mca.item.ItemArrangersRing;
 import mca.item.ItemBaby;
@@ -704,7 +705,7 @@ public class EntityPlayerChild extends AbstractChild
 						if (timeHeartsNegative >= 24000)
 						{
 							player.addChatMessage(LanguageHelper.getString(this, "notify.child.ranaway", false));
-							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createKillPacket(this));
+							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.KillEntity, entityId));
 							setDeadWithoutNotification();
 						}
 					}

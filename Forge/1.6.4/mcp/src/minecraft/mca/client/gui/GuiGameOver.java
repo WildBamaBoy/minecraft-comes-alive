@@ -17,6 +17,7 @@ import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
+import mca.enums.EnumGenericCommand;
 import mca.enums.EnumRelation;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMainMenu;
@@ -127,7 +128,7 @@ public class GuiGameOver extends AbstractGui
 
 			//Kill that adult.
 			adultToRespawnAs.setDeadWithoutNotification();
-			PacketDispatcher.sendPacketToServer(PacketHandler.createKillPacket(adultToRespawnAs));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createGenericPacket(EnumGenericCommand.BroadcastKillEntity, adultToRespawnAs.entityId));
 		}
 
 		if (guibutton == shiftIndexLeftButton)

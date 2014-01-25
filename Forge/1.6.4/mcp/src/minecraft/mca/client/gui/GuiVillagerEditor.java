@@ -17,6 +17,7 @@ import mca.core.util.LanguageHelper;
 import mca.core.util.Utility;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
+import mca.enums.EnumGenericCommand;
 import mca.enums.EnumMood;
 import mca.enums.EnumTrait;
 import net.minecraft.client.gui.GuiButton;
@@ -40,8 +41,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiVillagerEditor extends AbstractGui 
 {
-	private AbstractEntity villagerBeingEdited;
-	
+	private AbstractEntity editingVillager;
+
 	private GuiTextField nameTextField;
 	private GuiTextField dummyTextField;
 	private GuiButton randomButton;
@@ -57,22 +58,22 @@ public class GuiVillagerEditor extends AbstractGui
 	private GuiButton shiftTraitUpButton;
 	private GuiButton shiftTraitDownButton;
 	private GuiButton doneButton;
-	
+
 	/** Label buttons. */
 	@SuppressWarnings("unused")
 	private GuiButton textureButton;
 
 	@SuppressWarnings("unused")
 	private GuiButton moodButton;
-	
+
 	@SuppressWarnings("unused")
 	private GuiButton traitButton;
-	
+
 	/** Variables */
 	private boolean containsInvalidCharacters;
 	private List<EnumMood> moodList = EnumMood.getMoodsAsCyclableList();
 	private int moodListIndex = 0;
-	
+
 	/**
 	 * Constructor
 	 * 
@@ -82,12 +83,12 @@ public class GuiVillagerEditor extends AbstractGui
 	public GuiVillagerEditor(AbstractEntity abstractEntity, EntityPlayer player) 
 	{
 		super(player);
-		villagerBeingEdited = abstractEntity;
-		villagerBeingEdited.isSleeping = false;
-		moodListIndex = moodList.indexOf(villagerBeingEdited.mood);
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerBeingEdited.entityId, "isSleeping", false));
+		editingVillager = abstractEntity;
+		editingVillager.isSleeping = false;
+		moodListIndex = moodList.indexOf(editingVillager.mood);
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(editingVillager.entityId, "isSleeping", false));
 	}
-	
+
 	@Override
 	public void updateScreen()
 	{
@@ -121,11 +122,11 @@ public class GuiVillagerEditor extends AbstractGui
 		Keyboard.enableRepeatEvents(true);
 
 		drawEditorGui();
-		
+
 		nameTextField = new GuiTextField(fontRenderer, width / 2 - 205, height / 2 - 75, 150, 20);
 		nameTextField.setMaxStringLength(32);
-		nameTextField.setText(villagerBeingEdited.name);
-		
+		nameTextField.setText(editingVillager.name);
+
 		dummyTextField = new GuiTextField(fontRenderer, width / 2 + 90, height / 2 - 100, 100, 200);
 		dummyTextField.setMaxStringLength(0);
 	}
@@ -135,11 +136,11 @@ public class GuiVillagerEditor extends AbstractGui
 	{
 		Keyboard.enableRepeatEvents(false);
 
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerBeingEdited.entityId, "name", villagerBeingEdited.name));
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerBeingEdited.entityId, "texture", villagerBeingEdited.getTexture()));
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerBeingEdited.entityId, "isMale", villagerBeingEdited.isMale));
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerBeingEdited.entityId, "profession", villagerBeingEdited.profession));
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerBeingEdited.entityId, "traitId", villagerBeingEdited.traitId));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(editingVillager.entityId, "name", editingVillager.name));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(editingVillager.entityId, "texture", editingVillager.getTexture()));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(editingVillager.entityId, "isMale", editingVillager.isMale));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(editingVillager.entityId, "profession", editingVillager.profession));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(editingVillager.entityId, "traitId", editingVillager.traitId));
 	}
 
 	@Override
@@ -152,234 +153,238 @@ public class GuiVillagerEditor extends AbstractGui
 
 		else if (guibutton == doneButton)
 		{
+			PacketDispatcher.sendPacketToServer(
+					PacketHandler.createGenericPacket(EnumGenericCommand.SetTexture, editingVillager.entityId, editingVillager.getTexture()));
+			PacketDispatcher.sendPacketToServer(
+					PacketHandler.createGenericPacket(EnumGenericCommand.SyncEditorSettings, editingVillager.entityId));
 			close();
 		}
 
 		else if (guibutton == randomButton)
 		{
-			nameTextField.setText(Utility.getRandomName(villagerBeingEdited.isMale));
-			villagerBeingEdited.name = nameTextField.getText();
+			nameTextField.setText(Utility.getRandomName(editingVillager.isMale));
+			editingVillager.name = nameTextField.getText();
 			nameTextField.mouseClicked(5, 5, 5);
 			drawEditorGui();
 		}
-		
+
 		else if (guibutton == genderButton)
 		{
-			villagerBeingEdited.isMale = !villagerBeingEdited.isMale;
-			villagerBeingEdited.setTexture();
+			editingVillager.isMale = !editingVillager.isMale;
+			editingVillager.setTexture();
 			drawEditorGui();
 		}
-		
+
 		else if (guibutton == shiftTextureIndexUpButton)
 		{
-			List<String> textureList = MCA.getSkinList(villagerBeingEdited);
-			int textureIndex = textureList.indexOf(villagerBeingEdited.getTexture());
+			List<String> textureList = MCA.getSkinList(editingVillager);
+			int textureIndex = textureList.indexOf(editingVillager.getTexture());
 			int maxIndex = textureList.size() - 1;
-			
+
 			if (textureIndex != maxIndex)
 			{
 				textureIndex++;
 			}
-			
+
 			else
 			{
 				textureIndex = 0;
 			}
-			
-			villagerBeingEdited.setTexture(textureList.get(textureIndex));
+
+			editingVillager.setTexture(textureList.get(textureIndex));
 			drawEditorGui();
 		}
-		
+
 		else if (guibutton == shiftTextureIndexDownButton)
 		{
-			List<String> textureList = MCA.getSkinList(villagerBeingEdited);
-			int textureIndex = textureList.indexOf(villagerBeingEdited.getTexture());
+			List<String> textureList = MCA.getSkinList(editingVillager);
+			int textureIndex = textureList.indexOf(editingVillager.getTexture());
 			int maxIndex = textureList.size() - 1;
-			
+
 			if (textureIndex != 0)
 			{
 				textureIndex--;
 			}
-			
+
 			else
 			{
 				textureIndex = maxIndex;
 			}
-			
-			villagerBeingEdited.setTexture(textureList.get(textureIndex));
+
+			editingVillager.setTexture(textureList.get(textureIndex));
 			drawEditorGui();
 		}
-		
+
 		else if (guibutton == shiftProfessionUpButton)
 		{
-			if (villagerBeingEdited.profession != 7)
+			if (editingVillager.profession != 7)
 			{
-				villagerBeingEdited.profession++;
+				editingVillager.profession++;
 			}
-			
+
 			else
 			{
-				villagerBeingEdited.profession = 0;
+				editingVillager.profession = 0;
 			}
-			
-			if (villagerBeingEdited.profession == 4 && !villagerBeingEdited.isMale)
+
+			if (editingVillager.profession == 4 && !editingVillager.isMale)
 			{
-				villagerBeingEdited.profession++;
+				editingVillager.profession++;
 			}
-			
-			villagerBeingEdited.setTexture();
+
+			editingVillager.setTexture();
 			drawEditorGui();
 		}
-		
+
 		else if (guibutton == shiftProfessionDownButton)
 		{
-			if (villagerBeingEdited.profession != 0)
+			if (editingVillager.profession != 0)
 			{
-				villagerBeingEdited.profession--;
+				editingVillager.profession--;
 			}
-			
+
 			else
 			{
-				villagerBeingEdited.profession = 7;
+				editingVillager.profession = 7;
 			}
-			
-			if (villagerBeingEdited.profession == 4 && !villagerBeingEdited.isMale)
+
+			if (editingVillager.profession == 4 && !editingVillager.isMale)
 			{
-				villagerBeingEdited.profession--;
+				editingVillager.profession--;
 			}
-			
-			villagerBeingEdited.setTexture();
+
+			editingVillager.setTexture();
 			drawEditorGui();
 		}
-		
+
 		else if (guibutton == shiftMoodUpButton)
 		{
 			if (moodListIndex != 0)
 			{
 				moodListIndex--;
 			}
-			
+
 			else
 			{
 				moodListIndex = moodList.size() - 1;
 			}
-			
-			villagerBeingEdited.mood = moodList.get(moodListIndex);
-			
-			if (villagerBeingEdited.mood.isAnger())
+
+			editingVillager.mood = moodList.get(moodListIndex);
+
+			if (editingVillager.mood.isAnger())
 			{
-				villagerBeingEdited.moodPointsAnger = villagerBeingEdited.mood.getMoodLevel();
-				villagerBeingEdited.moodPointsHappy = 0.0F;
-				villagerBeingEdited.moodPointsSad = 0.0F;
+				editingVillager.moodPointsAnger = editingVillager.mood.getMoodLevel();
+				editingVillager.moodPointsHappy = 0.0F;
+				editingVillager.moodPointsSad = 0.0F;
 			}
-			
-			else if (villagerBeingEdited.mood.isSadness())
+
+			else if (editingVillager.mood.isSadness())
 			{
-				villagerBeingEdited.moodPointsAnger = 0.0F;
-				villagerBeingEdited.moodPointsHappy = 0.0F;
-				villagerBeingEdited.moodPointsSad = villagerBeingEdited.mood.getMoodLevel();
+				editingVillager.moodPointsAnger = 0.0F;
+				editingVillager.moodPointsHappy = 0.0F;
+				editingVillager.moodPointsSad = editingVillager.mood.getMoodLevel();
 			}
-			
-			else if (villagerBeingEdited.mood.isHappy())
+
+			else if (editingVillager.mood.isHappy())
 			{
-				villagerBeingEdited.moodPointsAnger = 0.0F;
-				villagerBeingEdited.moodPointsHappy = villagerBeingEdited.mood.getMoodLevel();
-				villagerBeingEdited.moodPointsSad = 0.0F;
+				editingVillager.moodPointsAnger = 0.0F;
+				editingVillager.moodPointsHappy = editingVillager.mood.getMoodLevel();
+				editingVillager.moodPointsSad = 0.0F;
 			}
-			
-			else if (villagerBeingEdited.mood.isNeutral())
+
+			else if (editingVillager.mood.isNeutral())
 			{
-				villagerBeingEdited.moodPointsAnger = 0.0F;
-				villagerBeingEdited.moodPointsHappy = 0.0F;
-				villagerBeingEdited.moodPointsSad = 0.0F;
+				editingVillager.moodPointsAnger = 0.0F;
+				editingVillager.moodPointsHappy = 0.0F;
+				editingVillager.moodPointsSad = 0.0F;
 			}
-			
-			villagerBeingEdited.setMoodByMoodPoints(true);
+
+			editingVillager.setMoodByMoodPoints(true);
 			drawEditorGui();
 		}
-		
+
 		else if (guibutton == shiftMoodDownButton)
 		{
 			if (moodListIndex != moodList.size() - 1)
 			{
 				moodListIndex++;
 			}
-			
+
 			else
 			{
 				moodListIndex = 0;
 			}
-			
-			villagerBeingEdited.mood = moodList.get(moodListIndex);
-			
-			if (villagerBeingEdited.mood.isAnger())
+
+			editingVillager.mood = moodList.get(moodListIndex);
+
+			if (editingVillager.mood.isAnger())
 			{
-				villagerBeingEdited.moodPointsAnger = villagerBeingEdited.mood.getMoodLevel();
-				villagerBeingEdited.moodPointsHappy = 0.0F;
-				villagerBeingEdited.moodPointsSad = 0.0F;
+				editingVillager.moodPointsAnger = editingVillager.mood.getMoodLevel();
+				editingVillager.moodPointsHappy = 0.0F;
+				editingVillager.moodPointsSad = 0.0F;
 			}
-			
-			else if (villagerBeingEdited.mood.isSadness())
+
+			else if (editingVillager.mood.isSadness())
 			{
-				villagerBeingEdited.moodPointsAnger = 0.0F;
-				villagerBeingEdited.moodPointsHappy = 0.0F;
-				villagerBeingEdited.moodPointsSad = villagerBeingEdited.mood.getMoodLevel();
+				editingVillager.moodPointsAnger = 0.0F;
+				editingVillager.moodPointsHappy = 0.0F;
+				editingVillager.moodPointsSad = editingVillager.mood.getMoodLevel();
 			}
-			
-			else if (villagerBeingEdited.mood.isHappy())
+
+			else if (editingVillager.mood.isHappy())
 			{
-				villagerBeingEdited.moodPointsAnger = 0.0F;
-				villagerBeingEdited.moodPointsHappy = villagerBeingEdited.mood.getMoodLevel();
-				villagerBeingEdited.moodPointsSad = 0.0F;
+				editingVillager.moodPointsAnger = 0.0F;
+				editingVillager.moodPointsHappy = editingVillager.mood.getMoodLevel();
+				editingVillager.moodPointsSad = 0.0F;
 			}
-			
-			else if (villagerBeingEdited.mood.isNeutral())
+
+			else if (editingVillager.mood.isNeutral())
 			{
-				villagerBeingEdited.moodPointsAnger = 0.0F;
-				villagerBeingEdited.moodPointsHappy = 0.0F;
-				villagerBeingEdited.moodPointsSad = 0.0F;
+				editingVillager.moodPointsAnger = 0.0F;
+				editingVillager.moodPointsHappy = 0.0F;
+				editingVillager.moodPointsSad = 0.0F;
 			}
-			
-			villagerBeingEdited.setMoodByMoodPoints(true);
+
+			editingVillager.setMoodByMoodPoints(true);
 			drawEditorGui();
 		}
-		
+
 		else if (guibutton == shiftTraitUpButton)
 		{
-			if (villagerBeingEdited.traitId != EnumTrait.values().length - 1)
+			if (editingVillager.traitId != EnumTrait.values().length - 1)
 			{
-				villagerBeingEdited.traitId++;
+				editingVillager.traitId++;
 			}
-			
+
 			else
 			{
-				villagerBeingEdited.traitId = 1;
+				editingVillager.traitId = 1;
 			}
-			
-			villagerBeingEdited.trait = EnumTrait.getTraitById(villagerBeingEdited.traitId);
+
+			editingVillager.trait = EnumTrait.getTraitById(editingVillager.traitId);
 			drawEditorGui();
 		}
-		
+
 		else if (guibutton == shiftTraitDownButton)
 		{
-			if (villagerBeingEdited.traitId != 1)
+			if (editingVillager.traitId != 1)
 			{
-				villagerBeingEdited.traitId--;
+				editingVillager.traitId--;
 			}
-			
+
 			else
 			{
-				villagerBeingEdited.traitId = EnumTrait.values().length - 1;
+				editingVillager.traitId = EnumTrait.values().length - 1;
 			}
-			
-			villagerBeingEdited.trait = EnumTrait.getTraitById(villagerBeingEdited.traitId);
+
+			editingVillager.trait = EnumTrait.getTraitById(editingVillager.traitId);
 			drawEditorGui();
 		}
-		
+
 		else if (guibutton == inventoryButton)
 		{
-			villagerBeingEdited.doOpenInventory = true;
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerBeingEdited.entityId, "doOpenInventory", true));
+			editingVillager.doOpenInventory = true;
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(editingVillager.entityId, "doOpenInventory", true));
 			close();
 		}
 	}
@@ -400,12 +405,12 @@ public class GuiVillagerEditor extends AbstractGui
 		{
 			containsInvalidCharacters = false;
 		}
-		
+
 		if (!containsInvalidCharacters)
 		{
-			villagerBeingEdited.name = nameTextField.getText();
+			editingVillager.name = nameTextField.getText();
 		}
-		
+
 		drawEditorGui();
 	}
 
@@ -424,49 +429,49 @@ public class GuiVillagerEditor extends AbstractGui
 		int posX = width / 2 + 140;
 		int posY = height / 2 + 95;
 		int scale = 80;
-		
-		if (!villagerBeingEdited.isSleeping)
+
+		if (!editingVillager.isSleeping)
 		{
 			posY = height / 2 + 80;
 		}
-		
-        GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-        GL11.glPushMatrix();
-        GL11.glTranslatef(posX, posY, 50.0F);
-        GL11.glScalef((-scale), scale, scale);
-        GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
-        
-        float yawOffset = villagerBeingEdited.renderYawOffset;
-        float rotationYaw = villagerBeingEdited.rotationYaw;
-        float rotationPitch = villagerBeingEdited.rotationPitch;
-        
-        GL11.glRotatef(135.0F, 0.0F, 1.0F, 0.0F);
-        RenderHelper.enableStandardItemLighting();
-        GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
-        GL11.glRotatef(-((float)Math.atan(0F / 40.0F)) * 20.0F, 1.0F, 0.0F, 0.0F);
-        
-        villagerBeingEdited.renderYawOffset = (float)Math.atan(0F / 40.0F) * 20.0F;
-        villagerBeingEdited.rotationYaw = (float)Math.atan(0F / 40.0F) * 40.0F;
-        villagerBeingEdited.rotationPitch = -((float)Math.atan(0F / 40.0F)) * 20.0F;
-        villagerBeingEdited.rotationYawHead = villagerBeingEdited.rotationYaw;
-        
-        GL11.glTranslatef(0.0F, villagerBeingEdited.yOffset, 0.0F);
-        
-        RenderManager.instance.playerViewY = 180.0F;
-        RenderManager.instance.renderEntityWithPosYaw(villagerBeingEdited, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
-        
-        villagerBeingEdited.renderYawOffset = yawOffset;
-        villagerBeingEdited.rotationYaw = rotationYaw;
-        villagerBeingEdited.rotationPitch = rotationPitch;
-        
-        GL11.glPopMatrix();
-        
-        RenderHelper.disableStandardItemLighting();
-        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-        OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
-		
+
+		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+		GL11.glPushMatrix();
+		GL11.glTranslatef(posX, posY, 50.0F);
+		GL11.glScalef((-scale), scale, scale);
+		GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
+
+		float yawOffset = editingVillager.renderYawOffset;
+		float rotationYaw = editingVillager.rotationYaw;
+		float rotationPitch = editingVillager.rotationPitch;
+
+		GL11.glRotatef(135.0F, 0.0F, 1.0F, 0.0F);
+		RenderHelper.enableStandardItemLighting();
+		GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
+		GL11.glRotatef(-((float)Math.atan(0F / 40.0F)) * 20.0F, 1.0F, 0.0F, 0.0F);
+
+		editingVillager.renderYawOffset = (float)Math.atan(0F / 40.0F) * 20.0F;
+		editingVillager.rotationYaw = (float)Math.atan(0F / 40.0F) * 40.0F;
+		editingVillager.rotationPitch = -((float)Math.atan(0F / 40.0F)) * 20.0F;
+		editingVillager.rotationYawHead = editingVillager.rotationYaw;
+
+		GL11.glTranslatef(0.0F, editingVillager.yOffset, 0.0F);
+
+		RenderManager.instance.playerViewY = 180.0F;
+		RenderManager.instance.renderEntityWithPosYaw(editingVillager, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
+
+		editingVillager.renderYawOffset = yawOffset;
+		editingVillager.rotationYaw = rotationYaw;
+		editingVillager.rotationPitch = rotationPitch;
+
+		GL11.glPopMatrix();
+
+		RenderHelper.disableStandardItemLighting();
+		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+		OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
+
 		drawString(fontRenderer, LanguageHelper.getString("gui.editor.name"), width / 2 - 205, height / 2 - 87, 0xa0a0a0);
 
 		if (containsInvalidCharacters)
@@ -481,10 +486,10 @@ public class GuiVillagerEditor extends AbstractGui
 		GL11.glScalef(1.5F, 1.5F, 1.5F);
 		drawCenteredString(fontRenderer, LanguageHelper.getString("item.editor"), width / 2 - 75, (height / 2) - 115, 0xffffff);
 		GL11.glPopMatrix();
-		
+
 		super.drawScreen(sizeX, sizeY, offset);
 	}
-	
+
 	@Override
 	public boolean doesGuiPauseGame()
 	{
@@ -498,23 +503,23 @@ public class GuiVillagerEditor extends AbstractGui
 	{
 		buttonList.clear();
 		buttonList.add(randomButton                = new GuiButton(1,  width / 2 - 50,  height / 2 - 75, 60, 20, LanguageHelper.getString("gui.button.random")));
-		buttonList.add(genderButton                = new GuiButton(2,  width / 2 - 190, height / 2 - 40, 175, 20, LanguageHelper.getString("gui.button.setup.gender" + villagerBeingEdited.getGenderAsString())));
-		buttonList.add(textureButton               = new GuiButton(3,  width / 2 - 190, height / 2 - 20, 175, 20, "Texture: " + villagerBeingEdited.getTexture().replace("textures/skins/", "").replace(".png", "")));
+		buttonList.add(genderButton                = new GuiButton(2,  width / 2 - 190, height / 2 - 40, 175, 20, LanguageHelper.getString("gui.button.setup.gender" + editingVillager.getGenderAsString())));
+		buttonList.add(textureButton               = new GuiButton(3,  width / 2 - 190, height / 2 - 20, 175, 20, "Texture: " + editingVillager.getTexture().replace("textures/skins/", "").replace(".png", "")));
 		buttonList.add(shiftTextureIndexUpButton   = new GuiButton(4,  width / 2 - 15,  height / 2 - 20, 20, 20, ">>"));
 		buttonList.add(shiftTextureIndexDownButton = new GuiButton(5,  width / 2 - 210, height / 2 - 20, 20, 20, "<<"));
-		buttonList.add(professionButton            = new GuiButton(6,  width / 2 - 190, height / 2 - 0, 175, 20, "Title: " + villagerBeingEdited.getLocalizedProfessionString()));
+		buttonList.add(professionButton            = new GuiButton(6,  width / 2 - 190, height / 2 - 0, 175, 20, "Title: " + editingVillager.getLocalizedProfessionString()));
 		buttonList.add(shiftProfessionUpButton     = new GuiButton(7,  width / 2 - 15,  height / 2 - 0, 20, 20, ">>"));
 		buttonList.add(shiftProfessionDownButton   = new GuiButton(8,  width / 2 - 210, height / 2 - 0, 20, 20, "<<"));
-		buttonList.add(moodButton                  = new GuiButton(9, width / 2 - 190, height / 2 + 20, 175, 20, LanguageHelper.getString("gui.button.editor.mood") + villagerBeingEdited.mood.getLocalizedValue() + " (Lvl. " + villagerBeingEdited.mood.getMoodLevel() + ")"));
+		buttonList.add(moodButton                  = new GuiButton(9, width / 2 - 190, height / 2 + 20, 175, 20, LanguageHelper.getString("gui.button.editor.mood") + editingVillager.mood.getLocalizedValue() + " (Lvl. " + editingVillager.mood.getMoodLevel() + ")"));
 		buttonList.add(shiftMoodUpButton           = new GuiButton(10, width / 2 - 15,  height / 2 + 20, 20, 20, ">>"));
 		buttonList.add(shiftMoodDownButton         = new GuiButton(11, width / 2 - 210, height / 2 + 20, 20, 20, "<<"));
-		buttonList.add(traitButton                 = new GuiButton(12, width / 2 - 190, height / 2 + 40, 175, 20, LanguageHelper.getString("gui.button.editor.trait") + villagerBeingEdited.trait.getLocalizedValue()));
+		buttonList.add(traitButton                 = new GuiButton(12, width / 2 - 190, height / 2 + 40, 175, 20, LanguageHelper.getString("gui.button.editor.trait") + editingVillager.trait.getLocalizedValue()));
 		buttonList.add(shiftTraitUpButton          = new GuiButton(13, width / 2 - 15,  height / 2 + 40, 20, 20, ">>"));
 		buttonList.add(shiftTraitDownButton        = new GuiButton(14, width / 2 - 210, height / 2 + 40, 20, 20, "<<"));
 		buttonList.add(inventoryButton             = new GuiButton(15, width / 2 - 190, height / 2 + 60, 175, 20, LanguageHelper.getString("gui.button.spouse.inventory")));
 		buttonList.add(doneButton                  = new GuiButton(16, width / 2 - 50,  height / 2 + 85, 100, 20, LanguageHelper.getString("gui.button.done")));
-		
-		if (villagerBeingEdited instanceof EntityPlayerChild)
+
+		if (editingVillager instanceof EntityPlayerChild)
 		{
 			professionButton.enabled = false;
 			shiftProfessionUpButton.enabled = false;
