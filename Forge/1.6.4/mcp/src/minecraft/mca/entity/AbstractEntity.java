@@ -1865,7 +1865,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					isEngaged = true;
 					familyTree.addFamilyTreeEntry(player, EnumRelation.Spouse);
 
-					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createEngagementPacket(entityId));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(entityId, familyTree));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isEngaged", isEngaged));
 
@@ -1944,7 +1943,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isMarriedToPlayer", isMarriedToPlayer));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "spousePlayerName", spousePlayerName));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(entityId, familyTree));
-
+					
+					if (isEngaged)
+					{
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createEngagementPacket(entityId));
+					}
+					
 					player.triggerAchievement(MCA.getInstance().achievementGetMarried);
 					PacketDispatcher.sendPacketToPlayer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId), (Player)player);
 
