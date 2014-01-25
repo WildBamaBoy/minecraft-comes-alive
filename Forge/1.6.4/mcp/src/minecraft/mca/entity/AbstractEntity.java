@@ -263,8 +263,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			}
 
 			lifeTicks++;
-			
+
 			updateTickMarkers();
+			updateGiftMode();
 			updateSleeping();
 			updateMovement();
 			updateGreeting();
@@ -555,7 +556,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			{
 				final EntityPlayer player = (EntityPlayer)damageSource.getSourceOfDamage();
 				final Item heldItem = player.getHeldItem() == null ? null : player.getHeldItem().getItem();
-				
+
 				modifyHearts(player, -5);
 				modifyMoodPoints(EnumMoodChangeContext.HitByPlayer, 0.5F);
 				lastInteractingPlayer = player.username;
@@ -1158,12 +1159,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		if (familyTree.idIsRelative(playerId))
 		{
 			EnumRelation relation = familyTree.getRelationTo(playerId);
-			
+
 			if ((relation == EnumRelation.Spouse || relation == EnumRelation.Husband || relation == EnumRelation.Wife) && isEngaged)
 			{
 				return LanguageHelper.getString("family.fiance") + " " + name;
 			}
-			
+
 			else
 			{
 				return relation.toString(this, isMale, isInformal) + " " + name;
@@ -1663,6 +1664,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		memory.interactionFatigue++;
 		memory.isInGiftMode = false;
 		playerMemoryMap.put(player.username, memory);
+
+		PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
 	}
 
 	/**
@@ -2326,6 +2329,28 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		if (tickMarkerGrowBaby != null)
 		{
 			tickMarkerGrowBaby.update();
+		}
+	}
+
+	/**
+	 * Cancels gift mode for a player when greater than 10 blocks away, or logged out.
+	 * @category Tested
+	 */
+	private void updateGiftMode()
+	{
+		if (!worldObj.isRemote)
+		{
+			for (final Map.Entry<String, PlayerMemory> entry : playerMemoryMap.entrySet())
+			{
+				final EntityPlayer player = worldObj.getPlayerEntityByName(entry.getKey());
+				final PlayerMemory memory = entry.getValue();
+				
+				if (player != null && memory.isInGiftMode && getDistanceToEntity(player) > 10.0F || player == null && memory.isInGiftMode)
+				{
+					memory.isInGiftMode = false;
+					PacketDispatcher.sendPacketToPlayer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap), (Player)player);
+				}
+			}
 		}
 	}
 
@@ -3017,6 +3042,11 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		if (MCA.getInstance().inDebugMode)
 		{
+			for (final Map.Entry<String, PlayerMemory> entry : playerMemoryMap.entrySet())
+			{
+				MCA.getInstance().log(entry.getKey() + " : " + entry.getValue().isInGiftMode);
+			}
+
 			return;
 		}
 	}
@@ -3065,7 +3095,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			say(LanguageHelper.getString(this, phraseId));
 		}
-		
+
 		PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSwingPacket(this));
 		PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSetTargetPacket(entityId, 0));
 	}
