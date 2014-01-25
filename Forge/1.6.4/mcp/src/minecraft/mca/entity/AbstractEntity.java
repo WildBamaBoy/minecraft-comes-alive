@@ -263,7 +263,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			}
 
 			lifeTicks++;
-
+			
 			updateTickMarkers();
 			updateSleeping();
 			updateMovement();
@@ -2679,55 +2679,30 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Handles retaliation.
-	 * @category Needs repair
+	 * @category Tested
 	 */
 	private void updateRetaliation()
 	{
-		if (isRetaliating && target instanceof EntityPlayer)
-		{	
-			//TODO Client-side doesn't fire. Target not assigned properly.
+		if (!worldObj.isRemote && isRetaliating && target instanceof EntityPlayer)
+		{
 			final EntityPlayer player = (EntityPlayer)target;
+			getNavigator().tryMoveToEntityLiving(player, Constants.SPEED_WALK);
 
-			if (worldObj.isRemote)
+			if (profession != 5 && player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem() instanceof ItemSword)
 			{
-				if (profession != 5 && player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem() instanceof ItemSword)
-				{
-					endRetaliation();
-				}
-
-				if (getDistanceToEntity(player) > 10.0F)
-				{
-					endRetaliation();
-				}
-
-				else if (getDistanceToEntity(player) <= 2.5F)
-				{
-					swingItem();
-				}
+				endRetaliation("scared");
 			}
 
-			else //Server-side.
+			if (getDistanceToEntity(player) > 10.0F)
 			{
-				getNavigator().tryMoveToEntityLiving(player, Constants.SPEED_WALK);
+				endRetaliation("angry");
+			}
 
-				if (profession != 5 && player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem() instanceof ItemSword)
-				{
-					endRetaliation("scared");
-				}
-
-				if (getDistanceToEntity(player) > 10.0F)
-				{
-					endRetaliation("angry");
-				}
-
-				else if (getDistanceToEntity(player) <= 2.5F)
-				{
-					final int damageAmount = profession == 5 ? 3 : 1;
-					player.attackEntityFrom(DamageSource.causeMobDamage(this), damageAmount);
-					swingItem();
-
-					endRetaliation();
-				}
+			else if (getDistanceToEntity(player) <= 2.5F)
+			{
+				final int damageAmount = profession == 5 ? 3 : 1;
+				player.attackEntityFrom(DamageSource.causeMobDamage(this), damageAmount);
+				endRetaliation();
 			}
 		}
 	}
@@ -3077,5 +3052,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			say(LanguageHelper.getString(this, phraseId));
 		}
+		
+		PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSwingPacket(this));
+		PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSetTargetPacket(entityId, 0));
 	}
 }

@@ -238,6 +238,11 @@ public final class PacketHandler implements IPacketHandler
 			{
 				handleNotify(packet, player);
 			}
+			
+			else if (packet.channel.equals("MCA_SWING"))
+			{
+				handleSwing(packet, player);
+			}
 		}
 
 		catch (Exception e)
@@ -2654,5 +2659,63 @@ public final class PacketHandler implements IPacketHandler
 
 		AbstractEntity entity = (AbstractEntity)worldObj.getEntityByID(entityId);
 		entity.notifyPlayer(entityPlayer, LanguageHelper.getString(entity, phraseId, false));
+	}
+	
+	/**
+	 * Creates a packet used to make an entity swing their arm.
+	 * 
+	 * @param	entity		The entity that should swing their arm.
+	 * 
+	 * @return	A swing packet.
+	 */
+	public static Packet createSwingPacket(AbstractEntity entity)
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_SWING";
+			
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+			
+			objectOutput.writeObject(entity.entityId);
+			objectOutput.close();
+			
+			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+			
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+		
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
+		}
+	}
+
+	/**
+	 * Handles a packet used to make an entity swing their arm.
+	 * 
+	 * @param 	packet	The packet containing the required information.
+	 * @param	player	The player that the packet came from.
+	 */
+	@SuppressWarnings("javadoc")
+	private static void handleSwing(Packet250CustomPayload packet, Player player) throws IOException, ClassNotFoundException
+	{
+		byte[] data = MCA.decompressBytes(packet.data);
+
+		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
+		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
+
+		EntityPlayer entityPlayer = (EntityPlayer)player;
+		World worldObj = entityPlayer.worldObj;
+
+		int entityId = (Integer)objectInput.readObject();
+		objectInput.close();
+
+		AbstractEntity entity = (AbstractEntity)worldObj.getEntityByID(entityId);
+		entity.swingItem();
 	}
 }
