@@ -23,6 +23,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -984,7 +985,21 @@ public class Inventory implements IInventory, Serializable
 			try
 			{
 				final ItemStack stack = inventoryItems[i];
-				outStream.writeObject(i + ":" + stack.itemID + ":" + stack.stackSize + ":" + stack.getItemDamage());
+
+				String writeString = i + ":" + stack.itemID + ":" + stack.stackSize + ":" + stack.getItemDamage();
+				
+				if (stack.getItem() instanceof ItemArmor)
+				{
+					ItemArmor armor = (ItemArmor)stack.getItem();
+					writeString += ":" + armor.getColor(stack);
+				}
+				
+				else
+				{
+					writeString += ":0";
+				}
+				
+				outStream.writeObject(writeString);
 			}
 
 			catch (NullPointerException e)
@@ -1026,8 +1041,20 @@ public class Inventory implements IInventory, Serializable
 				final int itemID = Integer.parseInt(data.split(":")[1]);
 				final int stackSize = Integer.parseInt(data.split(":")[2]);
 				final int damage = Integer.parseInt(data.split(":")[3]);
-
+				final int color = Integer.parseInt(data.split(":")[4]);
+				
 				final ItemStack inventoryStack = new ItemStack(itemID, stackSize, damage);
+				
+				if (inventoryStack.getItem() instanceof ItemArmor)
+				{
+					final ItemArmor armor = (ItemArmor)inventoryStack.getItem();
+					
+					if (armor.getArmorMaterial() == EnumArmorMaterial.CLOTH)
+					{
+						armor.func_82813_b(inventoryStack, color);
+					}
+				}
+				
 				inventoryItems[i] = inventoryStack;
 			}
 		}

@@ -47,6 +47,7 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.EntityAIWatchClosest2;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBow;
@@ -464,7 +465,7 @@ public class EntityVillagerAdult extends AbstractEntity
 						return new ItemStack(MCA.getInstance().itemBabyGirl);
 					}
 				}
-				
+
 				else if (profession == 5)
 				{
 					return new ItemStack(Item.swordIron);
@@ -608,8 +609,15 @@ public class EntityVillagerAdult extends AbstractEntity
 				else if (itemStack.getItem() instanceof ItemArmor)
 				{
 					final ItemArmor armor = (ItemArmor)itemStack.getItem();
-					inventory.inventoryItems[36 + armor.armorType] = new ItemStack(itemStack.itemID, 1, itemStack.getItemDamage());
+					final ItemStack transferStack = new ItemStack(itemStack.itemID, 1, itemStack.getItemDamage());
 					
+					if (armor.getArmorMaterial() == EnumArmorMaterial.CLOTH)
+					{
+						armor.func_82813_b(transferStack, armor.getColor(itemStack));
+					}
+					
+					inventory.inventoryItems[36 + armor.armorType] = transferStack;
+
 					Utility.removeItemFromPlayer(itemStack, player);
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createInventoryPacket(entityId, inventory));
 				}
@@ -627,7 +635,7 @@ public class EntityVillagerAdult extends AbstractEntity
 				{
 					doGift(itemStack, player);
 				}
-				
+
 				PacketDispatcher.sendPacketToPlayer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap), (Player)player);
 			}
 
