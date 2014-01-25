@@ -822,6 +822,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		if (heldItem != null)
 		{
 			final int itemSlot = inventory.getFirstSlotContainingItem(heldItem.getItem());
+			
 			if (itemSlot != -1)
 			{
 				inventory.inventoryItems[itemSlot].damageItem(1, this);

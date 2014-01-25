@@ -345,6 +345,7 @@ public class EntityVillagerAdult extends AbstractEntity
 
 		else if (isFollowing)
 		{
+			//Held item for combat.
 			if (combatChore.useMelee && combatChore.useRange)
 			{
 				if (target != null)
@@ -373,6 +374,7 @@ public class EntityVillagerAdult extends AbstractEntity
 
 			else
 			{
+				//Held item for player marriage.
 				if (isMarriedToPlayer)
 				{
 					if (inventory.contains(MCA.getInstance().itemBabyBoy))
@@ -388,25 +390,8 @@ public class EntityVillagerAdult extends AbstractEntity
 
 				else
 				{
-					if (!hasBaby)
-					{
-						if (profession == 5)
-						{
-							return new ItemStack(Item.swordIron);
-						}
-
-						else if (isInChoreMode && profession == 7)
-						{
-							return new ItemStack(Item.pickaxeIron);
-						}
-
-						else
-						{
-							return null;
-						}
-					}
-
-					else
+					//Held item for villagers with baby.
+					if (hasBaby)
 					{
 						if (isHeldBabyMale)
 						{
@@ -418,11 +403,25 @@ public class EntityVillagerAdult extends AbstractEntity
 							return new ItemStack(MCA.getInstance().itemBabyGirl);
 						}
 					}
+
+					else
+					{
+						//Other
+						if (profession == 5)
+						{
+							return new ItemStack(Item.swordIron);
+						}
+
+						else if (isInChoreMode && profession == 7)
+						{
+							return new ItemStack(Item.pickaxeIron);
+						}				
+					}
 				}
 			}
 		}
 
-		//They're not following and they don't have a target.
+		//They're not following and they have a target. I.E. going to attack a target or retaliating.
 		else if (target != null)
 		{
 			if (combatChore.useMelee)
@@ -434,22 +433,9 @@ public class EntityVillagerAdult extends AbstractEntity
 			{
 				return inventory.getBestItemOfType(ItemBow.class);
 			}
-
-			else
-			{
-				if (isHeldBabyMale)
-				{
-					return new ItemStack(MCA.getInstance().itemBabyBoy);
-				}
-
-				else
-				{
-					return new ItemStack(MCA.getInstance().itemBabyGirl);
-				}
-			}
 		}
 
-		else
+		else //Passively holding an item.
 		{
 			if (isMarriedToPlayer)
 			{
@@ -466,25 +452,7 @@ public class EntityVillagerAdult extends AbstractEntity
 
 			else
 			{		
-				if (!hasBaby)
-				{
-					if (profession == 5)
-					{
-						return new ItemStack(Item.swordIron);
-					}
-
-					else if (isInChoreMode && profession == 7)
-					{
-						return new ItemStack(Item.pickaxeIron);
-					}
-
-					else
-					{
-						return null;
-					}
-				}
-
-				else
+				if (hasBaby)
 				{
 					if (isHeldBabyMale)
 					{
@@ -495,6 +463,16 @@ public class EntityVillagerAdult extends AbstractEntity
 					{
 						return new ItemStack(MCA.getInstance().itemBabyGirl);
 					}
+				}
+				
+				else if (profession == 5)
+				{
+					return new ItemStack(Item.swordIron);
+				}
+
+				else if (isInChoreMode && profession == 7)
+				{
+					return new ItemStack(Item.pickaxeIron);
 				}
 			}
 		}
@@ -632,10 +610,10 @@ public class EntityVillagerAdult extends AbstractEntity
 					final ItemArmor armor = (ItemArmor)itemStack.getItem();
 					inventory.inventoryItems[36 + armor.armorType] = itemStack;
 					Utility.removeItemFromPlayer(itemStack, player);
-					
+
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createInventoryPacket(entityId, inventory));
 				}
-				
+
 				else if (itemStack.getItem() instanceof ItemTool || itemStack.getItem() instanceof ItemSword)
 				{
 					inventory.addItemStackToInventory(itemStack);
