@@ -431,9 +431,17 @@ public class Inventory implements IInventory, Serializable
 	 */
 	public ItemStack armorItemInSlot(int slotId)
 	{
-		if (slotId != -1 && this.armorItems[slotId] != null)
+		try
 		{
-			return this.inventoryItems[this.getFirstSlotContainingItem(this.armorItems[slotId].itemID)];
+			if (slotId != -1 && this.armorItems[slotId] != null)
+			{
+				return this.inventoryItems[this.getFirstSlotContainingItem(this.armorItems[slotId].itemID)];
+			}
+		}
+
+		catch (ArrayIndexOutOfBoundsException e)
+		{
+			return null;
 		}
 
 		return null;
@@ -958,7 +966,7 @@ public class Inventory implements IInventory, Serializable
 				this.armorItems[armorSlotId] = ItemStack.loadItemStackFromNBT(nbttagcompound);
 			}
 		}
-		
+
 		setWornArmorItems();
 	}
 

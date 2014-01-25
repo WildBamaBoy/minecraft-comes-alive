@@ -608,9 +608,9 @@ public class EntityVillagerAdult extends AbstractEntity
 				else if (itemStack.getItem() instanceof ItemArmor)
 				{
 					final ItemArmor armor = (ItemArmor)itemStack.getItem();
-					inventory.inventoryItems[36 + armor.armorType] = itemStack;
+					inventory.inventoryItems[36 + armor.armorType] = new ItemStack(itemStack.itemID, 1, itemStack.getItemDamage());
+					
 					Utility.removeItemFromPlayer(itemStack, player);
-
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createInventoryPacket(entityId, inventory));
 				}
 
