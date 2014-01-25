@@ -495,10 +495,10 @@ public final class PacketHandler implements IPacketHandler
 		}
 
 		//Sync with all other players if server side.
-		if (!world.isRemote)
-		{
-			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket((AbstractEntity) world.getEntityByID(entityId)));
-		}
+//		if (!world.isRemote)
+//		{
+//			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket((AbstractEntity) world.getEntityByID(entityId)));
+//		}
 	}
 
 	/**
