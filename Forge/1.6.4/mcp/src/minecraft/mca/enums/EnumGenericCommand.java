@@ -10,7 +10,8 @@ public enum EnumGenericCommand
 	StartTrade("StartTrade"), 
 	KillEntity("KillEntity"),
 	BroadcastKillEntity("BroadcastKillEntity"),
-	SetPosition("SetPosition");
+	SetPosition("SetPosition"),
+	StopJumping("StopJumping");
 
 	/** The actual string value of the enum constant */
 	private String value;

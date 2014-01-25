@@ -2446,6 +2446,12 @@ public final class PacketHandler implements IPacketHandler
 			villager.setCustomer(entityPlayer);
 			entityPlayer.displayGUIMerchant(villager, villager.getTitle(MCA.getInstance().getIdOfPlayer(entityPlayer), true));
 			break;
+		case StopJumping:
+			entityId = (Integer)arguments[0];
+			entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
+			
+			entity.setJumping(false);
+			break;
 		case SwingArm:
 			entityId = (Integer)arguments[0];
 			entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);

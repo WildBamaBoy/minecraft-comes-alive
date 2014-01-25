@@ -2188,6 +2188,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 					isProcreatingWithVillager = false;
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isProcreatingWithVillager", isProcreatingWithVillager));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.StopJumping, entityId));
 				}
 
 				else
@@ -2248,6 +2249,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 						procreateTicks = 0;
 
 						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isProcreatingWithPlayer", isProcreatingWithPlayer));
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.StopJumping, entityId));
 						PacketDispatcher.sendPacketToPlayer(PacketHandler.createVillagerPlayerProcreatePacket(this, Utility.getRandomGender()), (Player)player);
 					}
 
