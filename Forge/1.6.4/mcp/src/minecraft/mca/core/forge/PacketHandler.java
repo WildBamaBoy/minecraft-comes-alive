@@ -1256,6 +1256,11 @@ public final class PacketHandler implements IPacketHandler
 		inventory.owner = entity;
 		entity.inventory = inventory;
 		entity.inventory.setWornArmorItems();
+		
+		if (!world.isRemote)
+		{
+			PacketHandler.sendPacketToAllPlayersExcept(PacketHandler.createInventoryPacket(entityId, inventory), (EntityPlayer)player);
+		}
 	}
 
 	/**
@@ -2219,7 +2224,6 @@ public final class PacketHandler implements IPacketHandler
 			entityPlayer.triggerAchievement(MCA.getInstance().achievementHaveBabyBoy);
 
 			PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementHaveBabyBoy, entityPlayer.entityId));
-			PacketDispatcher.sendPacketToServer(PacketHandler.createInventoryPacket(villagerId, villager.inventory));
 		}
 
 		else
@@ -2228,10 +2232,11 @@ public final class PacketHandler implements IPacketHandler
 			villager.inventory.addItemStackToInventory(new ItemStack(itemBaby, 1));
 			entityPlayer.triggerAchievement(MCA.getInstance().achievementHaveBabyGirl);
 
-			PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementHaveBabyGirl, entityPlayer.entityId));
-			PacketDispatcher.sendPacketToServer(PacketHandler.createInventoryPacket(villagerId, villager.inventory));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementHaveBabyGirl, entityPlayer.entityId));	
 		}
 
+		PacketDispatcher.sendPacketToServer(PacketHandler.createInventoryPacket(villagerId, villager.inventory));
+		
 		//Modify the player's world properties manager.
 		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(entityPlayer.username);
 		manager.worldProperties.babyIsMale = babyIsMale;
