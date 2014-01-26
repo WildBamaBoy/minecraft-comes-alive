@@ -1636,13 +1636,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			final VillagerInformation villagerInfo = getVillagerInformation();
 			final IGiftableItem item = (IGiftableItem) itemStack.getItem();
-			isGiftValid = item.doPreCallback(villagerInfo, posX, posY, posZ);
+			isGiftValid = item.doPreCallback(villagerInfo, player, itemStack, posX, posY, posZ);
 
 			if (isGiftValid)
 			{
 				baseHeartValue = item.getGiftValue();
 				heartIncrease = -(memory.interactionFatigue * 7) + baseHeartValue + mood.getHeartsModifier("gift") + trait.getHeartsModifier("gift");
-				item.doPostCallback(villagerInfo, posX, posY, posZ);
+				item.doPostCallback(villagerInfo, player, itemStack, posX, posY, posZ);
 			}
 		}
 
