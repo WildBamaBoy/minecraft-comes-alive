@@ -60,10 +60,13 @@ import net.minecraft.network.NetworkListenThread;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
@@ -82,9 +85,9 @@ public final class PacketHandler implements IPacketHandler
 		{
 			if (MCA.getInstance().inDebugMode & MCA.getInstance().debugDoLogPackets)
 			{
-				MCA.getInstance().logPacketInformation("Received packet: " + packet.channel + ". Size = " + packet.length);
+				MCA.getInstance().logPacketInformation("Received packet: " + packet.channel + ". Size = " + packet.length + " bytes");
 			}
-			
+
 			if (packet.channel.equals("MCA_F_REQ"))
 			{
 				handleFieldRequest(packet, player);
@@ -204,17 +207,17 @@ public final class PacketHandler implements IPacketHandler
 			{
 				handleVillagerPlayerProcreate(packet, player);
 			}
-			
+
 			else if (packet.channel.equals("MCA_RETURNINV"))
 			{
 				handleReturnInventory(packet, player);
 			}
-			
+
 			else if (packet.channel.equals("MCA_OPENGUI"))
 			{
 				handleOpenGui(packet, player);
 			}
-			
+
 			else if (packet.channel.equals("MCA_GENERIC"))
 			{
 				handleGenericPacket(packet, player);
@@ -225,6 +228,37 @@ public final class PacketHandler implements IPacketHandler
 		{
 			MCA.getInstance().log(e);
 		}
+	}
+
+	public static void sendPacketToAllPlayersExcept(Packet packet, EntityPlayer player)
+	{
+		final MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+
+		if (server != null)
+		{
+			final ServerConfigurationManager serverConfiguration = server.getConfigurationManager();
+			
+			for (int i = 0; i < serverConfiguration.playerEntityList.size(); ++i)
+			{
+				final EntityPlayerMP playerInList = (EntityPlayerMP)serverConfiguration.playerEntityList.get(i);
+				
+				if (!playerInList.username.equals(player.username))
+				{
+					MCA.getInstance().logPacketInformation("\tSent packet to player: " + playerInList.username);
+					playerInList.playerNetServerHandler.sendPacketToPlayer(packet);
+				}
+				
+				else
+				{
+					MCA.getInstance().logPacketInformation("\tSkipped provided player: " + player.username);
+				}
+			}
+		}
+		
+        else
+        {
+            FMLLog.fine("MCA: Attempt to send packet to all without a server instance available.");
+        }
 	}
 
 	/**
@@ -241,20 +275,20 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_F_REQ";
-	
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
 			objectOutput.writeObject(entityId);
 			objectOutput.writeObject(fieldName);
 			objectOutput.close();
-	
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-	
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-	
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -321,21 +355,21 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_F_VAL";
-	
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
 			objectOutput.writeObject(entityId);
 			objectOutput.writeObject(fieldName);
 			objectOutput.writeObject(fieldValue);
 			objectOutput.close();
-	
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-	
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-	
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -364,12 +398,12 @@ public final class PacketHandler implements IPacketHandler
 		int entityId     = (Integer)objectInput.readObject();
 		String fieldName = (String)objectInput.readObject();
 		Object fieldValue = objectInput.readObject();
-		
+
 		if (MCA.getInstance().debugDoLogPackets && MCA.getInstance().inDebugMode)
 		{
 			MCA.getInstance().log("\t" + entityId + " | " + fieldName + " | " + fieldValue.toString());
 		}
-		
+
 		for (Object obj : world.loadedEntityList)
 		{
 			Entity entity = (Entity)obj;
@@ -474,7 +508,7 @@ public final class PacketHandler implements IPacketHandler
 		if (!world.isRemote)
 		{
 			MCA.getInstance().logPacketInformation("Broadcasting field value change.");
-			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, fieldName, fieldValue));
+			PacketHandler.sendPacketToAllPlayersExcept(PacketHandler.createFieldValuePacket(entityId, fieldName, fieldValue), entityPlayer);
 		}
 	}
 
@@ -492,20 +526,20 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_TARGET";
-	
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
 			objectOutput.writeObject(entityId);
 			objectOutput.writeObject(targetId);
 			objectOutput.close();
-	
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-	
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-	
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -570,7 +604,7 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_REMOVEITEM";
-	
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
 			objectOutput.writeObject(playerID);
@@ -578,14 +612,14 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(quantity);
 			objectOutput.writeObject(damage);
 			objectOutput.close();
-	
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-	
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-	
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -647,20 +681,20 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_ACHIEV";
-	
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
 			objectOutput.writeObject(achievement.statId);
 			objectOutput.writeObject(playerId);
 			objectOutput.close();
-	
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-	
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-	
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -713,19 +747,19 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_SYNC_REQ";
-	
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
 			objectOutput.writeObject(entityId);
 			objectOutput.close();
-	
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-	
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-	
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -782,21 +816,21 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_SYNC";
-	
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
 			objectOutput.writeObject(abstractEntity);
 			objectOutput.writeObject(abstractEntity.entityId);
 			objectOutput.writeObject(abstractEntity.getTexture());
 			objectOutput.close();
-	
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-	
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-	
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -901,7 +935,7 @@ public final class PacketHandler implements IPacketHandler
 			//Put the client entity's ID in the ids map.
 			MCA.getInstance().idsMap.put(clientEntity.mcaID, clientEntity.entityId);
 			MCA.getInstance().entitiesMap.put(clientEntity.mcaID, clientEntity);
-			
+
 			//Set the entity mood and trait.
 			clientEntity.setMoodByMoodPoints(false);
 			clientEntity.trait = EnumTrait.getTraitById(clientEntity.traitId);
@@ -926,19 +960,19 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_ENGAGE";
-	
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
 			objectOutput.writeObject(entityId);
 			objectOutput.close();
-	
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-	
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-	
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -997,19 +1031,19 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_ADDITEM";
-	
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
 			objectOutput.writeObject(itemId);
 			objectOutput.close();
-	
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-	
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-	
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -1052,20 +1086,20 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_FAMTREE";
-	
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
 			objectOutput.writeObject(entityId);
 			objectOutput.writeObject(familyTree);
 			objectOutput.close();
-	
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-	
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-	
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -1115,21 +1149,21 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_DROPITEM";
-	
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
 			objectOutput.writeObject(entityId);
 			objectOutput.writeObject(itemId);
 			objectOutput.writeObject(count);
 			objectOutput.close();
-	
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-	
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-	
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -1176,20 +1210,20 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_INVENTORY";
-	
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
 			objectOutput.writeObject(entityId);
 			objectOutput.writeObject(inventory);
 			objectOutput.close();
-	
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-	
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-	
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -1238,20 +1272,20 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_CHORE";
-	
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
 			objectOutput.writeObject(entityId);
 			objectOutput.writeObject(chore);
 			objectOutput.close();
-	
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-	
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-	
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -1332,7 +1366,7 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_TOMB";
-			
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
 			objectOutput.writeObject(tombstone.xCoord);
@@ -1343,14 +1377,14 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(tombstone.signText[2]);
 			objectOutput.writeObject(tombstone.signText[3]);
 			objectOutput.close();
-	
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-	
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-	
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -1405,21 +1439,21 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_TOMB_REQ";
-	
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
 			objectOutput.writeObject(tombstone.xCoord);
 			objectOutput.writeObject(tombstone.yCoord);
 			objectOutput.writeObject(tombstone.zCoord);
 			objectOutput.close();
-	
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-	
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-	
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -1465,19 +1499,19 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_LOGIN";
-	
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
 			objectOutput.writeObject(modPropertiesManager);
 			objectOutput.close();
-	
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-	
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-	
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -1536,20 +1570,20 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_WORLDPROP";
-	
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
 			objectOutput.writeObject(worldPropertiesManager);
 			objectOutput.close();
-	
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-	
+
 			MCA.getInstance().logPacketInformation("Created world properties packet for " + worldPropertiesManager.worldProperties.playerName);
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-	
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -1615,62 +1649,62 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_SAYLOCAL";
-			
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
-	
+
 			if (player != null)
 			{
 				objectOutput.writeObject(player.username);
 			}
-			
+
 			else
 			{
 				objectOutput.writeObject(null);
 			}
-			
+
 			if (entity != null)
 			{
 				objectOutput.writeObject(entity.entityId);
 			}
-			
+
 			else
 			{
 				objectOutput.writeObject(null);
 			}
-			
+
 			objectOutput.writeObject(id);
 			objectOutput.writeObject(useCharacterType);
-			
+
 			if (prefix != null)
 			{
 				objectOutput.writeObject(prefix);
 			}
-			
+
 			else
 			{
 				objectOutput.writeObject(null);
 			}
-			
+
 			if (suffix != null)
 			{
 				objectOutput.writeObject(suffix);
 			}
-			
+
 			else
 			{
 				objectOutput.writeObject(null);
 			}
-			
+
 			objectOutput.close();
-			
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-			
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-		
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -1814,22 +1848,22 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_PLMARRY";
-			
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
-			
+
 			objectOutput.writeObject(playerId);
 			objectOutput.writeObject(playerName);
 			objectOutput.writeObject(spouseId);
 			objectOutput.close();
-			
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-			
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-		
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -1882,21 +1916,21 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_HAVEBABY";
-			
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
-			
+
 			objectOutput.writeObject(playerId);
 			objectOutput.writeObject(spouseId);
 			objectOutput.close();
-			
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-			
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-		
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -1968,20 +2002,20 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_BABYINFO";
-			
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
-			
+
 			objectOutput.writeObject(worldPropertiesManager);
 			objectOutput.close();
-			
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-			
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-		
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -2037,23 +2071,23 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_RESPAWN";
-			
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
-			
+
 			objectOutput.writeObject(chunkPointX);
 			objectOutput.writeObject(chunkPointY);
 			objectOutput.writeObject(chunkPointZ);
 			objectOutput.writeObject(player.entityId);
 			objectOutput.close();
-			
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-			
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-		
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -2130,21 +2164,21 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_VPPROC";
-			
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
-			
+
 			objectOutput.writeObject(villager.entityId);
 			objectOutput.writeObject(babyIsMale);
 			objectOutput.close();
-			
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-			
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-		
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -2221,20 +2255,20 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_RETURNINV";
-			
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
-			
+
 			objectOutput.writeObject(entity.entityId);
 			objectOutput.close();
-			
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-			
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-		
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -2265,15 +2299,15 @@ public final class PacketHandler implements IPacketHandler
 
 		AbstractEntity entity = (AbstractEntity)worldObj.getEntityByID(entityId);
 		ArrayList<EntityItem> itemList = MCA.getInstance().deadPlayerInventories.get(entityPlayer.username);
-		
+
 		for (EntityItem item : itemList)
 		{
 			entity.entityDropItem(item.getEntityItem(), 0.3F);
 		}
-		
+
 		MCA.getInstance().deadPlayerInventories.remove(entityPlayer.username);
 	}
-	
+
 	/**
 	 * Creates a packet used to open a GUI.
 	 * 
@@ -2288,21 +2322,21 @@ public final class PacketHandler implements IPacketHandler
 		{
 			Packet250CustomPayload thePacket = new Packet250CustomPayload();
 			thePacket.channel = "MCA_OPENGUI";
-			
+
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
-			
+
 			objectOutput.writeObject(entityId);
 			objectOutput.writeObject(guiId);
 			objectOutput.close();
-			
+
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
-			
+
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
-		
+
 		catch (Exception e)
 		{
 			MCA.getInstance().log(e);
@@ -2334,7 +2368,7 @@ public final class PacketHandler implements IPacketHandler
 		AbstractEntity entity = (AbstractEntity)worldObj.getEntityByID(entityId);
 		entityPlayer.openGui(MCA.getInstance(), guiId, worldObj, (int)entity.posX, (int)entity.posY, (int)entity.posZ);
 	}
-	
+
 	/**
 	 * Creates a packet used for simple commands that require very little processing, such as making
 	 * a single method run on the receiving side.
@@ -2358,7 +2392,7 @@ public final class PacketHandler implements IPacketHandler
 			//Write data
 			objectOutput.writeObject(command.getValue());
 			objectOutput.writeObject(arguments.length);
-			
+
 			for (final Object obj : arguments)
 			{
 				objectOutput.writeObject(obj);
@@ -2378,7 +2412,7 @@ public final class PacketHandler implements IPacketHandler
 			return null;
 		}
 	}
-	
+
 	private static void handleGenericPacket(Packet250CustomPayload packet, Player player) throws IOException, ClassNotFoundException
 	{
 		//Initialize
@@ -2396,26 +2430,26 @@ public final class PacketHandler implements IPacketHandler
 		{
 			arguments[index] = objectInput.readObject();
 		}
-		
+
 		//---------------------------------------------------------------------------------------
 
 		//Process
 		MCA.getInstance().logPacketInformation("\tGeneric packet type: " + command);
 		int entityId;
 		AbstractEntity entity;
-		
+
 		switch (command)
 		{
 		case AddAI:
 			entityId = (Integer)arguments[0];
 			entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
-			
+
 			entity.addAI();
 			break;
 		case BroadcastKillEntity:
 			entityId = (Integer)arguments[0];
 			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.KillEntity, entityId));
-			
+
 			break;
 		case KillEntity:
 			entityId = (Integer)arguments[0];
@@ -2433,43 +2467,43 @@ public final class PacketHandler implements IPacketHandler
 		case SetPosition:
 			entityId = (Integer)arguments[0];
 			entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
-			
+
 			final double xCoord = (Double)arguments[1];
 			final double yCoord = (Double)arguments[2];
 			final double zCoord = (Double)arguments[3];
-			
+
 			entity.setPosition(xCoord, yCoord, zCoord);
 			break;
 		case SetTexture:
 			entityId = (Integer)arguments[0];
 			entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
 			final String newTexture = (String)arguments[1];
-			
+
 			entity.setTexture(newTexture);
 			break;
 		case StartTrade:
 			entityId = (Integer)arguments[0];
 			final EntityVillagerAdult villager = (EntityVillagerAdult)entityPlayer.worldObj.getEntityByID(entityId);
-			
+
 			villager.setCustomer(entityPlayer);
 			entityPlayer.displayGUIMerchant(villager, villager.getTitle(MCA.getInstance().getIdOfPlayer(entityPlayer), true));
 			break;
 		case StopJumping:
 			entityId = (Integer)arguments[0];
 			entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
-			
+
 			entity.setJumping(false);
 			break;
 		case SwingArm:
 			entityId = (Integer)arguments[0];
 			entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
-			
+
 			entity.swingItem();
 			break;
 		case SyncEditorSettings:
 			entityId = (Integer)arguments[0];
 			entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
-			
+
 			entity.name = (String)arguments[1];
 			entity.isMale = (Boolean)arguments[2];
 			entity.profession = (Integer)arguments[3];
@@ -2479,7 +2513,7 @@ public final class PacketHandler implements IPacketHandler
 			entity.traitId = (Integer)arguments[7];
 			entity.inventory = (Inventory)arguments[8];
 			entity.texture = (String)arguments[9];
-			
+
 			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(entity));
 			break;
 		default:
