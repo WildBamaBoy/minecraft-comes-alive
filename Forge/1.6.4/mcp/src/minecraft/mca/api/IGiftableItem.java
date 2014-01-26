@@ -32,14 +32,24 @@ public interface IGiftableItem
 	 * This method will be called before a villager accepts this gift. Use this, for example, to check
 	 * and see if certain conditions are met before the gift is actually consumed.
 	 * 
+	 * @param	villagerInfo	Information pertaining to the villager receiving the gift.
+	 * @param	posX			The villager's posX.
+	 * @param	posY			The villager's posY.
+	 * @param	posZ			The villager's posZ.
+	 * 
 	 * @return	True if the gift is valid and can be consumed. False if otherwise. Note that if false is returned, 
 	 * 			a villager will not say anything to indicate that gifting failed. You must do this yourself.
 	 */
-	boolean doPreCallback();
+	boolean doPreCallback(VillagerInformation villagerInfo, double posX, double posY, double posZ);
 	
 	/**
 	 * This method will be called after a villager accepts this gift. Use this, for example, to register
 	 * certain conditions or make something happen after the gift is accepted and consumed.
+	 * 
+	 * @param	villagerInfo	Information pertaining to the villager receiving the gift.
+	 * @param	posX			The villager's posX.
+	 * @param	posY			The villager's posY.
+	 * @param	posZ			The villager's posZ.
 	 */
-	void doPostCallback();
+	void doPostCallback(VillagerInformation villagerInfo, double posX, double posY, double posZ);
 }

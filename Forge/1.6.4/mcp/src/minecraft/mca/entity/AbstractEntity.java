@@ -21,8 +21,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import mca.api.EnumVillagerType;
 import mca.api.IGiftableItem;
 import mca.api.VillagerEntryMCA;
+import mca.api.VillagerInformation;
 import mca.api.VillagerRegistryMCA;
 import mca.chore.AbstractChore;
 import mca.chore.ChoreCombat;
@@ -1632,14 +1634,15 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		else if (itemStack.getItem() instanceof IGiftableItem)
 		{
+			final VillagerInformation villagerInfo = getVillagerInformation();
 			final IGiftableItem item = (IGiftableItem) itemStack.getItem();
-			isGiftValid = item.doPreCallback();
+			isGiftValid = item.doPreCallback(villagerInfo, posX, posY, posZ);
 
 			if (isGiftValid)
 			{
 				baseHeartValue = item.getGiftValue();
 				heartIncrease = -(memory.interactionFatigue * 7) + baseHeartValue + mood.getHeartsModifier("gift") + trait.getHeartsModifier("gift");
-				item.doPostCallback();
+				item.doPostCallback(villagerInfo, posX, posY, posZ);
 			}
 		}
 
@@ -3098,5 +3101,29 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.SwingArm, entityId));
 		PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSetTargetPacket(entityId, 0));
+	}
+	
+	private VillagerInformation getVillagerInformation()
+	{
+		final VillagerInformation villagerInfo = new VillagerInformation(
+				name, null, profession, isMale, isEngaged, isMarriedToPlayer, isMarriedToVillager,
+				hasBaby);
+		
+		if (this instanceof EntityVillagerAdult)
+		{
+			villagerInfo.type = EnumVillagerType.VillagerAdult;
+		}
+		
+		else if (this instanceof EntityVillagerChild)
+		{
+			villagerInfo.type = EnumVillagerType.VillagerChild;
+		}
+		
+		else if (this instanceof EntityPlayerChild)
+		{
+			villagerInfo.type = EnumVillagerType.PlayerChild;
+		}
+		
+		return villagerInfo;
 	}
 }
