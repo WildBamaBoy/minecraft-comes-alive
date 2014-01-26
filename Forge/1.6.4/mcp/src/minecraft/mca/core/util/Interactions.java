@@ -51,7 +51,6 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.username, memory);
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entity.entityId, "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -97,7 +96,6 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.username, memory);
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entity.entityId, "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -146,7 +144,6 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.username, memory);
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entity.entityId, "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -192,7 +189,6 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.username, memory);
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entity.entityId, "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -238,7 +234,6 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.username, memory);
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entity.entityId, "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -292,7 +287,6 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.username, memory);
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entity.entityId, "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -352,6 +346,5 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.username, memory);
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entity.entityId, "playerMemoryMap", entity.playerMemoryMap));
 	}
 }

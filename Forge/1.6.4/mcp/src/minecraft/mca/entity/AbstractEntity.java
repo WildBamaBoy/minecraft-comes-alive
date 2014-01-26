@@ -1451,16 +1451,16 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		else
 		{
 			playerMemoryMap.put(player.username, new PlayerMemory(player.username));
-		}
+			
+			if (worldObj.isRemote)
+			{
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
+			}
 
-		if (worldObj.isRemote)
-		{
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
-		}
-
-		else
-		{
-			PacketDispatcher.sendPacketToPlayer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap), (Player) player);
+			else
+			{
+				PacketDispatcher.sendPacketToPlayer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap), (Player) player);
+			}
 		}
 
 		return hearts;
