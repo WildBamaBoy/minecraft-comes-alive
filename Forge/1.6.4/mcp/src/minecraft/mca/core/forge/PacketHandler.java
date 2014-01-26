@@ -2370,7 +2370,7 @@ public final class PacketHandler implements IPacketHandler
 		int guiId = (Integer)objectInput.readObject();
 		objectInput.close();
 
-		AbstractEntity entity = (AbstractEntity)worldObj.getEntityByID(entityId);
+		Entity entity = worldObj.getEntityByID(entityId);
 		entityPlayer.openGui(MCA.getInstance(), guiId, worldObj, (int)entity.posX, (int)entity.posY, (int)entity.posZ);
 	}
 

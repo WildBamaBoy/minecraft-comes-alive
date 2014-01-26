@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.EnumSet;
 import java.util.Map;
 
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,6 +21,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
+import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
 
 /**
  * Handles ticking server-side for MCA. Only dedicated servers.
@@ -70,6 +73,7 @@ public class ServerTickHandler implements ITickHandler
 
 					if (player != null)
 					{
+						doRunSetup(manager, player);
 						doUpdateBabyGrowth(manager);
 						doDebug(manager);
 					}
@@ -82,6 +86,14 @@ public class ServerTickHandler implements ITickHandler
 			{
 				serverTicks++;
 			}
+		}
+	}
+	
+	private void doRunSetup(WorldPropertiesManager manager, EntityPlayer player)
+	{
+		if (manager.worldProperties.playerName.equals(""))
+		{
+			PacketDispatcher.sendPacketToPlayer(PacketHandler.createOpenGuiPacket(player.entityId, Constants.ID_GUI_SETUP), (Player)player);
 		}
 	}
 	
