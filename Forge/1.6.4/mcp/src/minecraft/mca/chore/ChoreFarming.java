@@ -159,9 +159,7 @@ public class ChoreFarming extends AbstractChore
 	{
 		if (MCA.getInstance().isDedicatedServer && !MCA.getInstance().modPropertiesManager.modProperties.server_allowFarmingChore)
 		{
-			//End the chore and sync all clients so that the chore is stopped everywhere.
 			endChore();
-			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(owner));
 			owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer).addChatMessage("\u00a7cChore disabled by the server administrator.");
 			return;
 		}
@@ -216,8 +214,8 @@ public class ChoreFarming extends AbstractChore
 
 		else
 		{
-			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(owner));
-			PacketDispatcher.sendPacketToServer(PacketHandler.createGenericPacket(EnumGenericCommand.AddAI, owner.entityId));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createChorePacket(owner.entityId, this));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.AddAI, owner.entityId));
 		}
 
 		owner.addAI();

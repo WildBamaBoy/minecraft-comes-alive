@@ -284,8 +284,8 @@ public class Inventory implements IInventory, Serializable
 
 			if (this.contains(MCA.getInstance().itemBabyBoy) || this.contains(MCA.getInstance().itemBabyGirl))
 			{
-				this.owner.isHeldBabyMale = this.contains(MCA.getInstance().itemBabyBoy) ? true : false;
-				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(this.owner));
+				owner.isHeldBabyMale = this.contains(MCA.getInstance().itemBabyBoy) ? true : false;
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, "isHeldBabyMale", owner.isHeldBabyMale));
 			}
 		}
 	}

@@ -123,10 +123,7 @@ public class ChoreMining extends AbstractChore
 	{
 		if (MCA.getInstance().isDedicatedServer && !MCA.getInstance().modPropertiesManager.modProperties.server_allowMiningChore)
 		{
-			//End the chore and sync all clients so that the chore is stopped everywhere.
 			endChore();
-
-			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(owner));
 			owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer).addChatMessage("\u00a7cChore disabled by the server administrator.");
 			return;
 		}
@@ -174,6 +171,8 @@ public class ChoreMining extends AbstractChore
 	@Override
 	public void endChore() 
 	{
+		hasEnded = true;
+
 		if (owner.worldObj.isRemote)
 		{
 			PacketDispatcher.sendPacketToServer(PacketHandler.createGenericPacket(EnumGenericCommand.AddAI, owner.entityId));
@@ -181,12 +180,11 @@ public class ChoreMining extends AbstractChore
 
 		else
 		{
-			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(owner));
-			PacketDispatcher.sendPacketToServer(PacketHandler.createGenericPacket(EnumGenericCommand.AddAI, owner.entityId));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createChorePacket(owner.entityId, this));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.AddAI, owner.entityId));
 		}
 
 		owner.addAI();
-		hasEnded = true;
 	}
 
 	@Override

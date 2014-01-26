@@ -19,6 +19,7 @@ import mca.core.util.LanguageHelper;
 import mca.core.util.Utility;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
+import mca.enums.EnumGenericCommand;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.passive.EntityChicken;
@@ -85,11 +86,8 @@ public class ChoreHunting extends AbstractChore
 		//Check and be sure that the chore is allowed to run.
 		if (MCA.getInstance().isDedicatedServer && !MCA.getInstance().modPropertiesManager.modProperties.server_allowHuntingChore)
 		{
-			//End the chore and sync all clients so that the chore is stopped everywhere.
 			endChore();
-			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(owner));
 			owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer).addChatMessage("\u00a7cChore disabled by the server administrator.");
-
 			return;
 		}
 
@@ -170,14 +168,8 @@ public class ChoreHunting extends AbstractChore
 	@Override
 	public void endChore() 
 	{
-		//Client must be notified.
-		owner.currentChore = "";
-		owner.isInChoreMode = false;
-		huntingTimePassed = 0;
-		isHunting = false;
 		hasEnded = true;
-
-		PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(owner));
+		PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createChorePacket(owner.entityId, this));
 	}
 
 	@Override
