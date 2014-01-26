@@ -72,6 +72,8 @@ public class ItemBaby extends Item
 				entityPlayerChild.setLocationAndAngles(posX, posY + 1, posZ, player.rotationYaw, player.rotationPitch);
 				world.spawnEntityInWorld(entityPlayerChild);
 
+				Utility.removeItemFromPlayer(itemStack, player);
+				
 				//Trigger the achievement
 				player.triggerAchievement(MCA.getInstance().achievementBabyGrowUp);
 
@@ -110,11 +112,6 @@ public class ItemBaby extends Item
 				}
 
 				MCA.getInstance().hasNotifiedOfBabyReadyToGrow = false;
-			}
-
-			else
-			{
-				Utility.removeItemFromPlayer(itemStack, player);
 			}
 		}
 
