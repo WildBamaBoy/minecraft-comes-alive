@@ -832,7 +832,7 @@ public final class PacketHandler implements IPacketHandler
 		//Get the client side entity.
 		clientEntity = (AbstractEntity)world.getEntityByID(receivedId);
 
-		if (clientEntity.entityId == receivedId)
+		if (clientEntity != null && clientEntity.entityId == receivedId)
 		{
 			//Figure out which classes the entity is composed of.
 			List<Class> classList = new ArrayList<Class>();
