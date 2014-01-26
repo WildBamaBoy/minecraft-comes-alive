@@ -154,9 +154,10 @@ public class GuiVillagerEditor extends AbstractGui
 		else if (guibutton == doneButton)
 		{
 			PacketDispatcher.sendPacketToServer(
-					PacketHandler.createGenericPacket(EnumGenericCommand.SetTexture, editingVillager.entityId, editingVillager.getTexture()));
-			PacketDispatcher.sendPacketToServer(
-					PacketHandler.createGenericPacket(EnumGenericCommand.SyncEditorSettings, editingVillager.entityId));
+					PacketHandler.createGenericPacket(EnumGenericCommand.SyncEditorSettings, 
+							editingVillager.entityId, editingVillager.name, editingVillager.isMale, editingVillager.profession, 
+							editingVillager.moodPointsAnger, editingVillager.moodPointsHappy, editingVillager.moodPointsSad, 
+							editingVillager.traitId, editingVillager.inventory, editingVillager.texture));
 			close();
 		}
 

@@ -2469,6 +2469,16 @@ public final class PacketHandler implements IPacketHandler
 			entityId = (Integer)arguments[0];
 			entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
 			
+			entity.name = (String)arguments[1];
+			entity.isMale = (Boolean)arguments[2];
+			entity.profession = (Integer)arguments[3];
+			entity.moodPointsAnger = (Float)arguments[4];
+			entity.moodPointsHappy = (Float)arguments[5];
+			entity.moodPointsSad = (Float)arguments[6];
+			entity.traitId = (Integer)arguments[7];
+			entity.inventory = (Inventory)arguments[8];
+			entity.texture = (String)arguments[9];
+			
 			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(entity));
 			break;
 		default:
