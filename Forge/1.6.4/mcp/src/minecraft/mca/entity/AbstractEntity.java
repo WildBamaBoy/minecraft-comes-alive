@@ -971,7 +971,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		else
 		{
 			final EntityPlayer player = worldObj.getPlayerEntityByName(lastInteractingPlayer);
-			
+
 			isSleeping = false;
 			idleTicks = 0;
 
@@ -1621,6 +1621,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		PlayerMemory memory = playerMemoryMap.get(player.username);
 		int baseHeartValue = 0;
 		int heartIncrease = 0;
+		boolean isGiftValid = true;
 
 		//Check the acceptable gifts for the item stack's item ID.
 		if (MCA.acceptableGifts.containsKey(itemStack.itemID))
@@ -1632,8 +1633,14 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		else if (itemStack.getItem() instanceof IGiftableItem)
 		{
 			final IGiftableItem item = (IGiftableItem) itemStack.getItem();
-			baseHeartValue = item.getGiftValue();
-			heartIncrease = -(memory.interactionFatigue * 7) + baseHeartValue + mood.getHeartsModifier("gift") + trait.getHeartsModifier("gift");
+			isGiftValid = item.doPreCallback();
+
+			if (isGiftValid)
+			{
+				baseHeartValue = item.getGiftValue();
+				heartIncrease = -(memory.interactionFatigue * 7) + baseHeartValue + mood.getHeartsModifier("gift") + trait.getHeartsModifier("gift");
+				item.doPostCallback();
+			}
 		}
 
 		else //The gift wasn't contained in the acceptable gifts map or it's not a giftable item. Remove some hearts points and return.
@@ -1644,35 +1651,39 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			return;
 		}
 
-		//Verify heart increase is always positive at this point.
-		if (heartIncrease <= 0)
+		if (isGiftValid)
 		{
-			heartIncrease = 1;
+			//Verify heart increase is always positive at this point.
+			if (heartIncrease <= 0)
+			{
+				heartIncrease = 1;
+			}
+
+			modifyHearts(player, heartIncrease);
+			Utility.removeItemFromPlayer(itemStack, player);
+
+			//Say the appropriate phrase based on base hearts increase.
+			if (baseHeartValue <= 5)
+			{
+				say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.small"));
+				modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, 0.3F);
+			}
+
+			else if (baseHeartValue > 5 && baseHeartValue < 10)
+			{
+				say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.regular"));
+				modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, 0.5F);
+			}
+
+			else
+			{
+				say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.great"));
+				modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, 1.0F);
+			}
+
+			memory.interactionFatigue++;
 		}
-
-		modifyHearts(player, heartIncrease);
-		Utility.removeItemFromPlayer(itemStack, player);
-
-		//Say the appropriate phrase based on base hearts increase.
-		if (baseHeartValue <= 5)
-		{
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.small"));
-			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, 0.3F);
-		}
-
-		else if (baseHeartValue > 5 && baseHeartValue < 10)
-		{
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.regular"));
-			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, 0.5F);
-		}
-
-		else
-		{
-			say(LanguageHelper.getString(worldObj.getPlayerEntityByName(lastInteractingPlayer), this, "gift.great"));
-			modifyMoodPoints(EnumMoodChangeContext.GoodInteraction, 1.0F);
-		}
-
-		memory.interactionFatigue++;
+		
 		memory.isInGiftMode = false;
 		playerMemoryMap.put(player.username, memory);
 
@@ -1948,12 +1959,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isMarriedToPlayer", isMarriedToPlayer));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "spousePlayerName", spousePlayerName));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(entityId, familyTree));
-					
+
 					if (isEngaged)
 					{
 						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createEngagementPacket(entityId));
 					}
-					
+
 					player.triggerAchievement(MCA.getInstance().achievementGetMarried);
 					PacketDispatcher.sendPacketToPlayer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId), (Player)player);
 
@@ -2519,7 +2530,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 									final int hearts = getHearts(nearestPlayer);
 									lastInteractingPlayer = nearestPlayer.username;
 									PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "lastInteractingPlayer", lastInteractingPlayer));
-									
+
 									Utility.faceCoordinates(this, nearestPlayer.posX, nearestPlayer.posY, nearestPlayer.posZ, -10);
 
 									if (getCharacterType(MCA.getInstance().getIdOfPlayer(nearestPlayer)).equals("heir"))

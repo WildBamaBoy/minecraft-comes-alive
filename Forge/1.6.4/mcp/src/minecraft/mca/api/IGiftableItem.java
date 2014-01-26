@@ -9,22 +9,37 @@
 
 package mca.api;
 
-
 /**
  * Allows an item to be gifted to an MCA villager.
  */
 public interface IGiftableItem 
 {
 	/**
-	 * Provides gift value of the item. Note that MCA villagers will automatically accept and place items that
-	 * extend from ItemTool, ItemSword, or ItemArmor into their inventory. If the villager is a player's child,
-	 * they will also equip items that extend from ItemHoe or ItemFishingRod.
+	 * Provides gift value of the item. 
 	 * 
-	 * If you implement this interface on an item that extends from any of the mentioned classes, the item will 
-	 * be treated as a regular gift instead and disappear permanently while increasing a villagers' hearts.
+	 * Note that MCA villagers will automatically accept and place items that extend from ItemTool, ItemSword, or ItemArmor 
+	 * into their inventory. If the villager is a player's child, they will also equip items that extend from ItemHoe or ItemFishingRod.
 	 * 
-	 * @return	Base amount that hearts will increase when item is gifted. This is modified by a villager's 
-	 * 			interaction fatigue, mood, and trait.
+	 * If you implement this interface on an item that extends from any of the mentioned classes, you will 
+	 * override this behavior and may cause some confusion.
+	 * 
+	 * @return	The base amount that hearts will increase when item is gifted. This is modified by a villager's 
+	 * 			interaction fatigue, mood, and trait. You cannot disable these modifications.
 	 */
-	public int getGiftValue();
+	int getGiftValue();
+	
+	/**
+	 * This method will be called before a villager accepts this gift. Use this, for example, to check
+	 * and see if certain conditions are met before the gift is actually consumed.
+	 * 
+	 * @return	True if the gift is valid and can be consumed. False if otherwise. Note that if false is returned, 
+	 * 			a villager will not say anything to indicate that gifting failed. You must do this yourself.
+	 */
+	boolean doPreCallback();
+	
+	/**
+	 * This method will be called after a villager accepts this gift. Use this, for example, to register
+	 * certain conditions or make something happen after the gift is accepted and consumed.
+	 */
+	void doPostCallback();
 }
