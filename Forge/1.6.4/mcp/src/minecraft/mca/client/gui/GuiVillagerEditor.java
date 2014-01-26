@@ -135,12 +135,6 @@ public class GuiVillagerEditor extends AbstractGui
 	public void onGuiClosed()
 	{
 		Keyboard.enableRepeatEvents(false);
-
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(editingVillager.entityId, "name", editingVillager.name));
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(editingVillager.entityId, "texture", editingVillager.getTexture()));
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(editingVillager.entityId, "isMale", editingVillager.isMale));
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(editingVillager.entityId, "profession", editingVillager.profession));
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(editingVillager.entityId, "traitId", editingVillager.traitId));
 	}
 
 	@Override
