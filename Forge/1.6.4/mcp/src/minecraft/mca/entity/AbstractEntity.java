@@ -300,6 +300,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				doOpenInventory = false;
 			}
+			
+			//Workaround for inventories not being assigned an owner for some reason.
+			if (inventory != null && inventory.owner == null)
+			{
+				inventory.owner = this;
+			}
 		}
 	}
 
