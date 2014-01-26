@@ -13,6 +13,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.List;
 
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.forge.PacketHandler;
 import mca.core.util.LogicHelper;
@@ -340,15 +341,15 @@ public class ChoreCombat extends AbstractChore
 				{
 					if (isWithinSentryArea() && !owner.isStaying)
 					{
-						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, "isStaying", true));
 						owner.isStaying = true;
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, "isStaying", owner.isStaying));
 					}
 
 					else if (!isWithinSentryArea() && owner.isStaying)
 					{
-						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, "isStaying", false));
 						owner.isStaying = false;
-						owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(sentryPosX, sentryPosY, sentryPosZ), 0.6F);
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, "isStaying", owner.isStaying));
+						owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(sentryPosX, sentryPosY, sentryPosZ), Constants.SPEED_WALK);
 					}
 				}
 			}
@@ -356,7 +357,7 @@ public class ChoreCombat extends AbstractChore
 			else if (owner.target != null && owner.isStaying)
 			{
 				owner.isStaying = false;
-				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, "isStaying", false));
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, "isStaying", owner.isStaying));
 			}
 		}
 	}

@@ -280,12 +280,14 @@ public class GuiDivorceCouple extends AbstractGui
 
 		if (spouseEntity1 != null)
 		{
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouseEntity1.entityId, "doDivorce", true));
+			spouseEntity1.doDivorce = true;
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouseEntity1.entityId, "doDivorce", spouseEntity1.doDivorce));
 		}
 
 		if (spouseEntity2 != null)
 		{
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouseEntity2.entityId, "doDivorce", true));
+			spouseEntity2.doDivorce = true;
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouseEntity2.entityId, "doDivorce", spouseEntity2.doDivorce));
 		}
 	}
 }

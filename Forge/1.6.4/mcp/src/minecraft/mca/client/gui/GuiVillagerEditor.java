@@ -86,7 +86,8 @@ public class GuiVillagerEditor extends AbstractGui
 		editingVillager = abstractEntity;
 		editingVillager.isSleeping = false;
 		moodListIndex = moodList.indexOf(editingVillager.mood);
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(editingVillager.entityId, "isSleeping", false));
+		
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(editingVillager.entityId, "isSleeping", editingVillager.isSleeping));
 	}
 
 	@Override
@@ -379,7 +380,7 @@ public class GuiVillagerEditor extends AbstractGui
 		else if (guibutton == inventoryButton)
 		{
 			editingVillager.doOpenInventory = true;
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(editingVillager.entityId, "doOpenInventory", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(editingVillager.entityId, "doOpenInventory", editingVillager.doOpenInventory));
 			close();
 		}
 	}

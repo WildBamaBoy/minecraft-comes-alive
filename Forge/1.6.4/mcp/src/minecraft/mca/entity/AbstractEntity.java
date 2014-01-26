@@ -617,7 +617,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			isSleeping = false;
 			idleTicks = 0;
 			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "idleTicks", idleTicks));
-			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isSleeping", false));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isSleeping", isSleeping));
 		}
 	}
 
@@ -1135,7 +1135,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			notifyPlayer(worldObj.getPlayerEntityByName(lastInteractingPlayer), LanguageHelper.getString("notify.homepoint.invalid"));
 			hasHomePoint = false;
 
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "hasHomePoint", false));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "hasHomePoint", hasHomePoint));
 		}
 	}
 
@@ -1783,7 +1783,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				Utility.removeItemFromPlayer(itemStack, player);
 
 				hasArrangerRing = true;
-				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "hasArrangerRing", true));
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "hasArrangerRing", hasArrangerRing));
 			}
 
 			else //Another is holding a ring. Search for them.

@@ -276,9 +276,9 @@ public class GuiInteractionVillagerChild extends AbstractGui
 				entityVillagerChild.isStaying = false;
 				entityVillagerChild.followingPlayer = player.username;
 
-				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "isFollowing", true));
-				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "isStaying", false));
-				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "followingPlayer", player.username));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "isFollowing", entityVillagerChild.isFollowing));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "isStaying", entityVillagerChild.isStaying));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "followingPlayer", entityVillagerChild.followingPlayer));
 
 				entityVillagerChild.say(LanguageHelper.getString(player, entityVillagerChild, "follow.start"));
 				close();
@@ -290,9 +290,9 @@ public class GuiInteractionVillagerChild extends AbstractGui
 				entityVillagerChild.isStaying = false;
 				entityVillagerChild.followingPlayer = "None";
 
-				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "isFollowing", false));
-				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "isStaying", false));
-				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "followingPlayer", "None"));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "isFollowing", entityVillagerChild.isFollowing));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "isStaying", entityVillagerChild.isStaying));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "followingPlayer", entityVillagerChild.followingPlayer));
 
 				entityVillagerChild.say(LanguageHelper.getString(player, entityVillagerChild, "follow.stop"));
 				close();
@@ -316,8 +316,8 @@ public class GuiInteractionVillagerChild extends AbstractGui
 			entityVillagerChild.idleTicks = 0;
 
 			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "isStaying", entityVillagerChild.isStaying));
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "isFollowing", false));
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "idleTicks", 0));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "isFollowing", entityVillagerChild.isFollowing));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "idleTicks", entityVillagerChild.idleTicks));
 			close();
 		}
 
@@ -338,10 +338,10 @@ public class GuiInteractionVillagerChild extends AbstractGui
 			entityVillagerChild.homePointZ = entityVillagerChild.posZ;
 			entityVillagerChild.hasHomePoint = true;
 
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "homePointX", entityVillagerChild.posX));
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "homePointY", entityVillagerChild.posY));
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "homePointZ", entityVillagerChild.posZ));
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "hasHomePoint", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "homePointX", entityVillagerChild.homePointX));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "homePointY", entityVillagerChild.homePointY));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "homePointZ", entityVillagerChild.homePointZ));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillagerChild.entityId, "hasHomePoint", entityVillagerChild.hasHomePoint));
 
 			entityVillagerChild.verifyHomePointIsValid();
 

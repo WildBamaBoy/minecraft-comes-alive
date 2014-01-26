@@ -20,7 +20,7 @@ import java.util.List;
 import mca.core.MCA;
 
 /**
- * Tests MCA's source code for various errors.
+ * Reads MCA's source code to find potential errors.
  */
 public class SelfTester 
 {

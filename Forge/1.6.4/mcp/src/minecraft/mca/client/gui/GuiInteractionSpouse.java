@@ -332,7 +332,7 @@ public class GuiInteractionSpouse extends AbstractGui
 	private void drawInventoryGui()
 	{
 		entitySpouse.doOpenInventory = true;
-		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "doOpenInventory", true));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "doOpenInventory", entitySpouse.doOpenInventory));
 		close();
 	}
 
@@ -444,11 +444,11 @@ public class GuiInteractionSpouse extends AbstractGui
 			{
 				entitySpouse.isFollowing = true;
 				entitySpouse.isStaying = false;
-				entitySpouse.followingPlayer = "None";
+				entitySpouse.followingPlayer = player.username;
 
-				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isFollowing", true));
-				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isStaying", false));
-				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "followingPlayer", player.username));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isFollowing", entitySpouse.isFollowing));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isStaying", entitySpouse.isStaying));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "followingPlayer", entitySpouse.followingPlayer));
 
 				entitySpouse.say(LanguageHelper.getString(player, entitySpouse, "follow.start"));
 				close();
@@ -460,9 +460,9 @@ public class GuiInteractionSpouse extends AbstractGui
 				entitySpouse.isStaying = false;
 				entitySpouse.followingPlayer = "None";
 
-				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isFollowing", false));
-				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isStaying", false));
-				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "followingPlayer", "None"));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isFollowing", entitySpouse.isFollowing));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isStaying", entitySpouse.isStaying));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "followingPlayer", entitySpouse.followingPlayer));
 
 				entitySpouse.say(LanguageHelper.getString(player, entitySpouse, "follow.stop"));
 				close();
@@ -476,8 +476,8 @@ public class GuiInteractionSpouse extends AbstractGui
 			entitySpouse.idleTicks = 0;
 			
 			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isStaying", entitySpouse.isStaying));
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isFollowing", false));
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "idleTicks", 0));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isFollowing", entitySpouse.isFollowing));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "idleTicks", entitySpouse.idleTicks));
 			close();
 		}
 
@@ -488,10 +488,10 @@ public class GuiInteractionSpouse extends AbstractGui
 			entitySpouse.homePointZ = entitySpouse.posZ;
 			entitySpouse.hasHomePoint = true;
 
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "homePointX", entitySpouse.posX));
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "homePointY", entitySpouse.posY));
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "homePointZ", entitySpouse.posZ));
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "hasHomePoint", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "homePointX", entitySpouse.homePointX));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "homePointY", entitySpouse.homePointY));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "homePointZ", entitySpouse.homePointZ));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "hasHomePoint", entitySpouse.hasHomePoint));
 
 			entitySpouse.verifyHomePointIsValid();
 
@@ -522,7 +522,7 @@ public class GuiInteractionSpouse extends AbstractGui
 					else
 					{
 						entitySpouse.isProcreatingWithPlayer = true;
-						PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isProcreatingWithPlayer", true));
+						PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isProcreatingWithPlayer", entitySpouse.isProcreatingWithPlayer));
 					}
 				}
 
