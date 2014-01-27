@@ -104,7 +104,7 @@ public class CommandMarryAccept extends AbstractCommand
 
 		else
 		{
-			super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Constants.COLOR_RED, null);
+			super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Constants.COLOR_RED, getCommandUsage(sender));
 		}
 	}
 }
