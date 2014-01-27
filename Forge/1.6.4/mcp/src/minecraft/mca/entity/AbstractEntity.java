@@ -1152,7 +1152,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	public String getTexture()
 	{
-		return texture;
+		return texture == null ? "textures/entity/steve.png" : texture;
 	}
 
 	/**
