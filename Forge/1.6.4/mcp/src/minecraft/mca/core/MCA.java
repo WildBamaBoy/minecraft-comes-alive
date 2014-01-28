@@ -183,20 +183,6 @@ public class MCA
 	public Achievement achievementMonarchSecret;
 	public AchievementPage achievementPageMCA;
 
-	//Gui IDs
-	public int guiInventoryID = 0;
-	public int guiGameOverID = 1;
-	public int guiInteractionPlayerChildID = 2;
-	public int guiInteractionSpouseID = 3;
-	public int guiInteractionVillagerAdultID = 4;
-	public int guiInteractionVillagerChildID = 5;
-	public int guiNameChildID = 7;
-	public int guiSetupID = 8;
-	public int guiSpecialDivorceCoupleID = 9;
-	public int guiTombstoneID = 10;
-	public int guiVillagerEditorID = 11;
-	public int guiLostRelativeDocumentID = 12;
-
 	//Various fields for core functions.
 	public  String 	runningDirectory           = "";
 	public  boolean languageLoaded 			   = false;
