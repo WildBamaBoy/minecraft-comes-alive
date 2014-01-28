@@ -16,6 +16,9 @@ import java.util.Map;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
+import mca.core.util.LanguageHelper;
+import mca.enums.EnumGenericCommand;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
@@ -31,7 +34,10 @@ public class ServerTickHandler implements ITickHandler
 {
 	/** The number of ticks since the loop has been ran. */
 	private int serverTicks = 20;
-
+	private int timePrevious = Calendar.getInstance().get(Calendar.MINUTE);
+	private int timeCurrent = Calendar.getInstance().get(Calendar.MINUTE);
+	private boolean hasProcessedNewMinute = false;
+	
 	@Override
 	public void tickStart(EnumSet<TickType> type, Object... tickData) {	}
 
@@ -56,7 +62,6 @@ public class ServerTickHandler implements ITickHandler
 		return "MCA Server Ticks";
 	}
 
-
 	/**
 	 * Fires once per tick in-game.
 	 */
@@ -66,6 +71,8 @@ public class ServerTickHandler implements ITickHandler
 		{
 			if (serverTicks >= 20)
 			{
+				doUpdateTime();
+				
 				for (final Map.Entry<String, WorldPropertiesManager> entry : MCA.getInstance().playerWorldManagerMap.entrySet())
 				{
 					final EntityPlayer player = worldServer.getPlayerEntityByName(entry.getKey());
@@ -74,7 +81,7 @@ public class ServerTickHandler implements ITickHandler
 					if (player != null)
 					{
 						doRunSetup(manager, player);
-						doUpdateBabyGrowth(manager);
+						doUpdateBabyGrowth(manager, player);
 						doDebug(manager);
 					}
 				}
@@ -97,18 +104,17 @@ public class ServerTickHandler implements ITickHandler
 		}
 	}
 	
-	private void doUpdateBabyGrowth(WorldPropertiesManager manager)
+	private void doUpdateBabyGrowth(WorldPropertiesManager manager, EntityPlayer player)
 	{
 		if (manager.worldProperties.babyExists)
 		{
-			//TODO Stop using the calendar.
-			MCA.getInstance().playerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+			timeCurrent = Calendar.getInstance().get(Calendar.MINUTE);
 
-			if (MCA.getInstance().playerBabyCalendarCurrentMinutes > MCA.getInstance().playerBabyCalendarPrevMinutes || MCA.getInstance().playerBabyCalendarCurrentMinutes == 0 && MCA.getInstance().playerBabyCalendarPrevMinutes == 59)
+			if (!hasProcessedNewMinute)
 			{
 				manager.worldProperties.minutesBabyExisted++;
-				MCA.getInstance().playerBabyCalendarPrevMinutes = MCA.getInstance().playerBabyCalendarCurrentMinutes;
 				manager.saveWorldProperties();
+				hasProcessedNewMinute = true;
 			}
 
 			if (!manager.worldProperties.babyReadyToGrow &&
@@ -118,6 +124,23 @@ public class ServerTickHandler implements ITickHandler
 				manager.worldProperties.babyReadyToGrow = true;
 				manager.saveWorldProperties();
 			}
+			
+			if (manager.worldProperties.babyReadyToGrow && !MCA.getInstance().hasNotifiedOfBabyReadyToGrow)
+			{
+				PacketDispatcher.sendPacketToPlayer(PacketHandler.createGenericPacket(EnumGenericCommand.NotifyPlayer, 0, "notify.baby.readytogrow"), (Player)player);
+				MCA.getInstance().hasNotifiedOfBabyReadyToGrow = true;
+			}
+		}
+	}
+	
+	private void doUpdateTime()
+	{
+		timeCurrent = Calendar.getInstance().get(Calendar.MINUTE);
+		
+		if (timeCurrent > timePrevious || timeCurrent == 0 && timePrevious == 59)
+		{
+			timePrevious = timeCurrent;
+			hasProcessedNewMinute = false;
 		}
 	}
 	

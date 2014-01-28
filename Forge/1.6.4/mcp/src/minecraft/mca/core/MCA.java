@@ -204,9 +204,7 @@ public class MCA
 	public 	boolean hasCompletedMainMenuTick   = false;
 	public  boolean hasEmptiedPropertiesFolder = false;
 	public  boolean hasCheckedForUpdates	   = false;
-	public 	int 	playerBabyCalendarPrevMinutes	   = Calendar.getInstance().get(Calendar.MINUTE);
-	public 	int 	playerBabyCalendarCurrentMinutes   = Calendar.getInstance().get(Calendar.MINUTE);
-	private static final Logger	logger 					   = FMLLog.getLogger();
+	private static final Logger	logger = FMLLog.getLogger();
 	public  ModPropertiesManager modPropertiesManager = null;
 
 	//Debug fields.

@@ -1181,7 +1181,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 			if ((relation == EnumRelation.Spouse || relation == EnumRelation.Husband || relation == EnumRelation.Wife) && isEngaged)
 			{
-				return LanguageHelper.getString("family.fiance") + " " + name;
+				String gender = isMale ? ".male" : ".female";
+				return LanguageHelper.getString("family.fiance" + gender) + " " + name;
 			}
 
 			else
@@ -1971,7 +1972,10 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 					if (isEngaged)
 					{
+						isEngaged = false;
+						
 						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createEngagementPacket(entityId));
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isEngaged", isEngaged));
 					}
 
 					player.triggerAchievement(MCA.getInstance().achievementGetMarried);
