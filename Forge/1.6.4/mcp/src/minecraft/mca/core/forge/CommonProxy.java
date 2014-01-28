@@ -168,7 +168,7 @@ public class CommonProxy
 			{
 				for (final VillagerEntryMCA entry : VillagerRegistryMCA.getRegisteredVillagersMap().values())
 				{
-					if (entry.getUseDefaultTexture())
+					if (entry.isDefaultTextureUsed())
 					{
 						entry.addMaleSkin("textures/api/skins/DefaultM1.png");
 						entry.addFemaleSkin("textures/api/skins/DefaultF1.png");
@@ -209,7 +209,7 @@ public class CommonProxy
 
 		for (final VillagerEntryMCA entry : VillagerRegistryMCA.getRegisteredVillagersMap().values())
 		{
-			if (entry.getUseDefaultTexture())
+			if (entry.isDefaultTextureUsed())
 			{
 				entry.addMaleSkin("textures/api/skins/DefaultM1.png");
 				entry.addFemaleSkin("textures/api/skins/DefaultF1.png");

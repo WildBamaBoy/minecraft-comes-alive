@@ -50,7 +50,7 @@ public class VillagerEntryMCA
 	/**
 	 * Used only by MCA at this time.
 	 */
-	public boolean getIsLocalized()
+	public boolean isLocalized()
 	{
 		return useLocalizedForm;
 	}
@@ -68,7 +68,7 @@ public class VillagerEntryMCA
 	 * 
 	 * @return	True if the villager's texture wasn't provided. False if otherwise.
 	 */
-	public boolean getUseDefaultTexture()
+	public boolean isDefaultTextureUsed()
 	{
 		return useDefaultTexture;
 	}

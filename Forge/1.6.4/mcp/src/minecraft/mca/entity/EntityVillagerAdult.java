@@ -213,7 +213,7 @@ public class EntityVillagerAdult extends AbstractEntity
 		
 		for (IVillagerPlugin plugin : VillagerRegistryMCA.getRegisteredVillagerPlugins())
 		{
-			plugin.addAI(getVillagerInformation(), this.tasks, this.getNavigator());
+			plugin.onAddAI(getVillagerInformation(), this.tasks, this.getNavigator());
 		}
 	}
 

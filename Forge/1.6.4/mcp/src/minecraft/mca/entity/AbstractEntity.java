@@ -1213,7 +1213,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			final VillagerEntryMCA entry = VillagerRegistryMCA.getRegisteredVillagerEntry(profession);
 
-			if (entry.getIsLocalized())
+			if (entry.isLocalized())
 			{
 				return LanguageHelper.getString(this, VillagerRegistryMCA.getRegisteredVillagerEntry(profession).getLocalizedProfessionID() + "." + getGenderAsString(), false);	
 			}

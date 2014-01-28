@@ -27,8 +27,10 @@ public final class VillagerRegistryMCA
 	/**
 	 * Registers an object implementing IVillagerPlugin so that its additions to villagers
 	 * will be applied.
+	 * 
+	 * @param	The object implementing IVillagerPlugin that is to be added to the registered villagers map.
 	 */
-	public static void registerVillagerPlugin(IVillagerPlugin pluginObject, EnumVillagerType affectedVillagerType, int affectedProfession)
+	public static void registerVillagerPlugin(IVillagerPlugin pluginObject)
 	{
 		registeredVillagerPlugins.add(pluginObject);
 	}
