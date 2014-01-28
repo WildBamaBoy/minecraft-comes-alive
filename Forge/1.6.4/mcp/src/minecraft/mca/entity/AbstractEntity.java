@@ -3113,7 +3113,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSetTargetPacket(entityId, 0));
 	}
 	
-	private VillagerInformation getVillagerInformation()
+	public VillagerInformation getVillagerInformation()
 	{
 		final VillagerInformation villagerInfo = new VillagerInformation(
 				name, null, profession, isMale, isEngaged, isMarriedToPlayer, isMarriedToVillager,

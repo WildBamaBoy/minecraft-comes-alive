@@ -11,6 +11,8 @@ package mca.entity;
 
 import java.util.Map;
 
+import mca.api.IVillagerPlugin;
+import mca.api.VillagerRegistryMCA;
 import mca.chore.AbstractChore;
 import mca.chore.ChoreCombat;
 import mca.chore.ChoreFarming;
@@ -207,6 +209,11 @@ public class EntityVillagerAdult extends AbstractEntity
 			this.tasks.addTask(1, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
 			this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityLivingBase.class, 8.0F));
 			this.tasks.addTask(3, new EntityAILookIdle(this));
+		}
+		
+		for (IVillagerPlugin plugin : VillagerRegistryMCA.getRegisteredVillagerPlugins())
+		{
+			plugin.addAI(getVillagerInformation(), this.tasks, this.getNavigator());
 		}
 	}
 

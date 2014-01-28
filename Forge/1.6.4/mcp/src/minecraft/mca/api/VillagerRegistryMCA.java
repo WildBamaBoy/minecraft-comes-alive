@@ -9,7 +9,9 @@
 
 package mca.api;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,8 +20,18 @@ import java.util.Map;
 public final class VillagerRegistryMCA 
 {
 	private static Map<Integer, VillagerEntryMCA> registeredVillagersMap = new HashMap<Integer, VillagerEntryMCA>();
-
+	private static List<IVillagerPlugin> registeredVillagerPlugins = new ArrayList<IVillagerPlugin>();
+	
 	private VillagerRegistryMCA() { }
+	
+	/**
+	 * Registers an object implementing IVillagerPlugin so that its additions to villagers
+	 * will be applied.
+	 */
+	public static void registerVillagerPlugin(IVillagerPlugin pluginObject, EnumVillagerType affectedVillagerType, int affectedProfession)
+	{
+		registeredVillagerPlugins.add(pluginObject);
+	}
 	
 	/**
 	 * Registers a villager of the provided id with MCA. Profession name defaults to "Villager" and
@@ -141,5 +153,15 @@ public final class VillagerRegistryMCA
 	public static Map<Integer, VillagerEntryMCA> getRegisteredVillagersMap() 
 	{
 		return registeredVillagersMap;
+	}
+	
+	/**
+	 * Gets the registered villager plugins list.
+	 * 
+	 * @return	The villager registry's registered villager plugins list.
+	 */
+	public static List<IVillagerPlugin> getRegisteredVillagerPlugins()
+	{
+		return registeredVillagerPlugins;
 	}
 }
