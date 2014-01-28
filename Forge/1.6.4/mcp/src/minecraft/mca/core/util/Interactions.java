@@ -1,11 +1,9 @@
 package mca.core.util;
 
-import mca.core.forge.PacketHandler;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
 import mca.enums.EnumMoodChangeContext;
 import net.minecraft.entity.player.EntityPlayer;
-import cpw.mods.fml.common.network.PacketDispatcher;
 
 public final class Interactions 
 {
