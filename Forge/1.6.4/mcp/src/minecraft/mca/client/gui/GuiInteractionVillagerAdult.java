@@ -75,7 +75,6 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private GuiButton tellStoryButton;
 
 	//Buttons appearing at the top of the screen.
-	private GuiButton takeArrangerRingButton;
 	private GuiButton takeGiftButton;
 
 	//Buttons for monarchs.
@@ -1362,13 +1361,6 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			case 6: drawBakerSpecialGui(); break;
 			case 7: drawMinerSpecialGui(); break;
 			}
-		}
-
-		else if (button == takeArrangerRingButton)
-		{
-			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
-			PacketDispatcher.sendPacketToServer(PacketHandler.createDropItemPacket(entityVillager.entityId, MCA.getInstance().itemArrangersRing.itemID, 1));
-			close();
 		}
 
 		else if (button == takeGiftButton)
