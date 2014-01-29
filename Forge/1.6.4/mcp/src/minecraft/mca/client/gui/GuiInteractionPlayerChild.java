@@ -968,10 +968,6 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		{
 			entityChild.hasArrangerRing = false;
 
-			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
-			manager.worldProperties.arrangerRingHolderID = 0;
-			manager.saveWorldProperties();
-
 			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "hasArrangerRing", entityChild.hasArrangerRing));
 			PacketDispatcher.sendPacketToServer(PacketHandler.createDropItemPacket(entityChild.entityId, MCA.getInstance().itemArrangersRing.itemID, 1));
 

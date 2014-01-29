@@ -1031,6 +1031,46 @@ public final class LogicHelper
 
 		return entityCandidate;
 	}
+	
+	/**
+	 * Gets the closest villager to the specified entity.
+	 * 
+	 * @param 	entity	The entity looking for a villager.
+	 * 
+	 * @return	The villager closest to the provided entity.
+	 */
+	public static AbstractEntity getNearestVillager(AbstractEntity entity)
+	{
+		double posX = entity.posX;
+		double posY = entity.posY;
+		double posZ = entity.posZ;
+		int maxDistanceAway = 3;
+
+		List<Entity> entitiesAroundMe = entity.worldObj.getEntitiesWithinAABBExcludingEntity(entity, AxisAlignedBB.getBoundingBox(posX - maxDistanceAway, posY - maxDistanceAway, posZ - maxDistanceAway, posX + maxDistanceAway, posY + maxDistanceAway, posZ + maxDistanceAway));
+
+		AbstractEntity entityCandidate = null;
+
+		for (Entity entityAroundMe : entitiesAroundMe)
+		{
+			if (entityAroundMe instanceof AbstractEntity)
+			{
+				if (entityCandidate != null)
+				{
+					if (getDistanceToEntity(entity, entityCandidate) > getDistanceToEntity(entity, entityAroundMe))
+					{
+						entityCandidate = (AbstractEntity)entityAroundMe;
+					}
+				}
+
+				else
+				{
+					entityCandidate = (AbstractEntity)entityAroundMe;
+				}
+			}
+		}
+
+		return entityCandidate;
+	}
 
 	/**
 	 * Gets an entity of the specified type located at the XYZ coordinates in the specified world.

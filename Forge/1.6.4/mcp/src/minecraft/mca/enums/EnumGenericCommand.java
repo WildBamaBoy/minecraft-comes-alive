@@ -11,7 +11,8 @@ public enum EnumGenericCommand
 	KillEntity("KillEntity"),
 	BroadcastKillEntity("BroadcastKillEntity"),
 	SetPosition("SetPosition"),
-	StopJumping("StopJumping");
+	StopJumping("StopJumping"),
+	ArrangedMarriageParticles("ArrangedMarriageParticles");
 
 	/** The actual string value of the enum constant */
 	private String value;

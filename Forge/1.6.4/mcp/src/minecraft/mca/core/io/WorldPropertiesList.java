@@ -48,9 +48,6 @@ public class WorldPropertiesList implements Serializable
 	/**The name of the player's spouse.*/
 	public String playerSpouseName = "";
 	
-	/**The MCA ID of the person who is holding the arranger's ring.*/
-	public int arrangerRingHolderID = 0;
-	
 	public int minutesBabyExisted = 0;
 	
 	/**Is the player engaged to someone?*/

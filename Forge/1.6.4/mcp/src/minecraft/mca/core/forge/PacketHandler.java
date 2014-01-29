@@ -237,28 +237,28 @@ public final class PacketHandler implements IPacketHandler
 		if (server != null)
 		{
 			final ServerConfigurationManager serverConfiguration = server.getConfigurationManager();
-			
+
 			for (int i = 0; i < serverConfiguration.playerEntityList.size(); ++i)
 			{
 				final EntityPlayerMP playerInList = (EntityPlayerMP)serverConfiguration.playerEntityList.get(i);
-				
+
 				if (!playerInList.username.equals(player.username))
 				{
 					MCA.getInstance().logPacketInformation("\tSent packet to player: " + playerInList.username);
 					playerInList.playerNetServerHandler.sendPacketToPlayer(packet);
 				}
-				
+
 				else
 				{
 					MCA.getInstance().logPacketInformation("\tSkipped provided player: " + player.username);
 				}
 			}
 		}
-		
-        else
-        {
-            FMLLog.fine("MCA: Attempt to send packet to all without a server instance available.");
-        }
+
+		else
+		{
+			FMLLog.fine("MCA: Attempt to send packet to all without a server instance available.");
+		}
 	}
 
 	/**
@@ -1256,7 +1256,7 @@ public final class PacketHandler implements IPacketHandler
 		inventory.owner = entity;
 		entity.inventory = inventory;
 		entity.inventory.setWornArmorItems();
-		
+
 		if (!world.isRemote)
 		{
 			PacketHandler.sendPacketToAllPlayersExcept(PacketHandler.createInventoryPacket(entityId, inventory), (EntityPlayer)player);
@@ -2236,7 +2236,7 @@ public final class PacketHandler implements IPacketHandler
 		}
 
 		PacketDispatcher.sendPacketToServer(PacketHandler.createInventoryPacket(villagerId, villager.inventory));
-		
+
 		//Modify the player's world properties manager.
 		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(entityPlayer.username);
 		manager.worldProperties.babyIsMale = babyIsMale;
@@ -2520,6 +2520,23 @@ public final class PacketHandler implements IPacketHandler
 
 			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(entity));
 			break;
+		case ArrangedMarriageParticles:
+			final int entityId1 = (Integer)arguments[0];
+			final int entityId2 = (Integer)arguments[1];
+			final AbstractEntity entity1 = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId1);
+			final AbstractEntity entity2 = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId2);
+
+			for (int loops = 0; loops < 16; loops++)
+			{
+				final double velX = MCA.rand.nextGaussian() * 0.02D;
+				final double velY = MCA.rand.nextGaussian() * 0.02D;
+				final double velZ = MCA.rand.nextGaussian() * 0.02D;
+
+				entity1.worldObj.spawnParticle("happyVillager", entity1.posX + MCA.rand.nextFloat() * entity1.width * 2.0F - entity1.width, entity1.posY + 0.5D + MCA.rand.nextFloat() * entity1.height, entity1.posZ + MCA.rand.nextFloat() * entity1.width * 2.0F - entity1.width, velX, velY, velZ);
+				entity2.worldObj.spawnParticle("happyVillager", entity2.posX + MCA.rand.nextFloat() * entity2.width * 2.0F - entity2.width, entity2.posY + 0.5D + MCA.rand.nextFloat() * entity2.height, entity2.posZ + MCA.rand.nextFloat() * entity2.width * 2.0F - entity2.width, velX, velY, velZ);
+			}
+			break;
+			
 		default:
 			MCA.getInstance().log("Invalid generic command specified: " + command);
 		}

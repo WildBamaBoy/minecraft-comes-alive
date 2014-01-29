@@ -298,10 +298,8 @@ public class EntityVillagerAdult extends AbstractEntity
 			final WorldPropertiesManager manager = entry.getValue();
 			boolean propertiesChanged = false;
 
-			if (hasArrangerRing && manager.worldProperties.arrangerRingHolderID == this.mcaID)
+			if (hasArrangerRing)
 			{
-				propertiesChanged = true;
-				manager.worldProperties.arrangerRingHolderID = 0;
 				this.dropItem(MCA.getInstance().itemArrangersRing.itemID, 1);
 			}
 

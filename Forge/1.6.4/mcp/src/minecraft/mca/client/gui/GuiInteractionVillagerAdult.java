@@ -1332,8 +1332,6 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "hasArrangerRing", entityVillager.hasArrangerRing));
 			PacketDispatcher.sendPacketToServer(PacketHandler.createDropItemPacket(entityVillager.entityId, MCA.getInstance().itemArrangersRing.itemID, 1));
-			manager.worldProperties.arrangerRingHolderID = 0;
-			manager.saveWorldProperties();
 			close();
 		}
 
