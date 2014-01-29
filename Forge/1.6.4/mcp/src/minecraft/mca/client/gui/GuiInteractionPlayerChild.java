@@ -1030,7 +1030,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		else if (button == growUpButton)
 		{
 			entityChild.isGrowthApproved = true;
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "playerApprovedGrowth", entityChild.isGrowthApproved));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isGrowthApproved", entityChild.isGrowthApproved));
 		}
 	}
 
