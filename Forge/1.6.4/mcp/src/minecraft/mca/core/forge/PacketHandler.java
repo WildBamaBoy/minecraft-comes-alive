@@ -933,7 +933,7 @@ public final class PacketHandler implements IPacketHandler
 			clientEntity.setTexture(receivedTexture);
 
 			//Put the client entity's ID in the ids map.
-			MCA.getInstance().idsMap.put(clientEntity.mcaID, receivedId);
+			MCA.getInstance().idsMap.put(clientEntity.mcaID, clientEntity.entityId);
 			MCA.getInstance().entitiesMap.put(clientEntity.mcaID, clientEntity);
 
 			//Set the entity mood and trait.

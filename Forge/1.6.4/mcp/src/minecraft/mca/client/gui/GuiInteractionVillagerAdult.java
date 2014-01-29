@@ -11,7 +11,6 @@ package mca.client.gui;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import mca.chore.ChoreFarming;
 import mca.chore.ChoreFishing;
@@ -314,7 +313,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	public void drawScreen(int i, int j, float f)
 	{
 		drawDefaultBackground();
-
+		
 		//Draw hearts.
 		drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.hearts") + " = " + hearts, width / 2, height / 2 - 100, 0xffffff);
 
@@ -415,51 +414,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 				if (parents.size() == 2)
 				{
-					int parent1Id = -1;
-					int parent2Id = -1;
-
-					for (Map.Entry<Integer, Integer> entry : MCA.getInstance().idsMap.entrySet())
-					{
-						int keyInt = entry.getKey();
-						int valueInt = entry.getValue();
-
-						if (keyInt == parents.get(0))
-						{
-							parent1Id = valueInt;
-						}
-
-						else if (keyInt == parents.get(1))
-						{
-							parent2Id = valueInt;
-						}
-					}
-
-					try
-					{
-						AbstractEntity parent1 = (AbstractEntity) entityVillager.worldObj.getEntityByID(parent1Id);
-						AbstractEntity parent2 = (AbstractEntity) entityVillager.worldObj.getEntityByID(parent2Id);
-
-						boolean bothParentsAlive = parent1 != null && parent2 != null;
-						boolean neitherParentsAlive = parent1 == null && parent2 == null;
-
-						if (bothParentsAlive)
-						{
-							drawCenteredString(fontRenderer, LanguageHelper.getString(player, entityVillager, "gui.info.family.parents", false), width / 2, height / 2 - 60, 0xffffff);
-						}
-
-						else if (neitherParentsAlive)
-						{
-							drawCenteredString(fontRenderer, LanguageHelper.getString(player, entityVillager, "gui.info.family.parents.deceased", false), width / 2, height / 2 - 60, 0xffffff);
-						}
-
-						//1 parent alive.
-						else
-						{
-							drawCenteredString(fontRenderer, LanguageHelper.getString(player, entityVillager, "gui.info.family.parent", false), width / 2, height / 2 - 60, 0xffffff);
-						}
-					}
-
-					catch (NullPointerException e) {}
+					drawCenteredString(fontRenderer, LanguageHelper.getString(entityVillager, "gui.info.family.parents", false), width / 2, height / 2 - 60, 0xffffff);
 				}
 			}
 
@@ -615,7 +570,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			buttonList.add(specialButton = new GuiButton(5, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.special")));
 		}
-
+		
 		if (entityVillager.getProfession() != 5 && !(entityVillager instanceof EntityPlayerChild))
 		{
 			buttonList.add(tradeButton = new GuiButton(8, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.trade")));
@@ -1625,7 +1580,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				manager.worldProperties.babyReadyToGrow = false;
 
 				boolean isMale = Utility.getRandomGender();
-
+				
 				if (isMale)
 				{
 					manager.worldProperties.babyName = Utility.getRandomName(isMale);
@@ -1770,7 +1725,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private void actionPerformedBaker(GuiButton button) 
 	{
 		EntityVillagerAdult villager = (EntityVillagerAdult)entityVillager;
-
+		
 		if (button == requestAidButton)
 		{
 			if (villager.aidCooldown != 0)
@@ -1794,7 +1749,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				{
 					villager.say(LanguageHelper.getString("baker.aid.refuse"));
 				}
-
+				
 				villager.aidCooldown = 12000;
 				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villager.entityId, "aidCooldown", villager.aidCooldown));
 			}
@@ -1869,7 +1824,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private void actionPerformedButcher(GuiButton button) 
 	{
 		EntityVillagerAdult villager = (EntityVillagerAdult)entityVillager;
-
+		
 		if (button == requestAidButton)
 		{
 			if (villager.aidCooldown != 0)
@@ -1893,7 +1848,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				{
 					villager.say(LanguageHelper.getString("butcher.aid.refuse"));
 				}
-
+				
 				villager.aidCooldown = 12000;
 				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villager.entityId, "aidCooldown", villager.aidCooldown));
 			}
@@ -1910,7 +1865,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private void actionPerformedSmith(GuiButton button) 
 	{
 		EntityVillagerAdult villager = (EntityVillagerAdult)entityVillager;
-
+		
 		if (button == requestAidButton)
 		{
 			if (villager.itemIdRequiredForSale == 0)
@@ -1982,7 +1937,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		else if (button == requestAidButton)
 		{
 			EntityVillagerAdult villager = (EntityVillagerAdult)entityVillager;
-
+			
 			if (villager.aidCooldown != 0)
 			{
 				villager.say(LanguageHelper.getString("farmer.aid.refuse"));
@@ -2004,7 +1959,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				{
 					villager.say(LanguageHelper.getString("farmer.aid.refuse"));
 				}
-
+				
 				villager.aidCooldown = 12000;
 				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villager.entityId, "aidCooldown", villager.aidCooldown));
 			}
@@ -2146,7 +2101,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			entityVillager.isInChoreMode = true;
 			entityVillager.currentChore = entityVillager.farmingChore.getChoreName();
-
+		
 			PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityVillager.entityId, entityVillager.farmingChore));
 			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", entityVillager.isInChoreMode));
 			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "currentChore", entityVillager.currentChore));

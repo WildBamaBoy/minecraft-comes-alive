@@ -45,16 +45,16 @@ public final class LanguageHelper
 
 	/** Map that contains string translations loaded from language files. */
 	private static ConcurrentHashMap<String, String> translationsMap = new ConcurrentHashMap();
-
+	
 	/** The English name for the language. */
 	private static String languageName = "";
 
 	/** The properties instance used to load languages. */
 	private static Properties properties = new Properties();
-
+	
 	/** Private constructor. */
 	private LanguageHelper() {}
-
+	
 	/**
 	 * Loads the language whose ID is in the options.txt file.
 	 */
@@ -107,7 +107,7 @@ public final class LanguageHelper
 
 			//Clear the properties instance.
 			properties.clear();
-
+			
 			addLocalizedItemNames();
 			addLocalizedAchievementNames(languageID);
 
@@ -141,7 +141,7 @@ public final class LanguageHelper
 		LanguageRegistry.addName(MCA.getInstance().itemKingsPants, LanguageHelper.getString("item.kingspants"));
 		LanguageRegistry.addName(MCA.getInstance().itemKingsBoots, LanguageHelper.getString("item.kingsboots"));
 	}
-
+	
 	private static void addLocalizedAchievementNames(String languageID)
 	{
 		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_Charmer", languageID, LanguageHelper.getString("achievement.title.charmer"));
@@ -203,7 +203,7 @@ public final class LanguageHelper
 		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_MonarchSecret", languageID, LanguageHelper.getString("achievement.title.monarchsecret")); 
 		LanguageRegistry.instance().addStringLocalization("achievement." + "MCA_MonarchSecret.desc", languageID, LanguageHelper.getString("achievement.descr.monarchsecret")); 
 	}
-
+	
 	/**
 	 * Retrieves the specified string from the string translations map. Used when the string being retrieved
 	 * is not being spoken by an entity, such as a GUI button or item name.
@@ -303,7 +303,7 @@ public final class LanguageHelper
 		final List<String> matchingValues = new ArrayList();
 		String outputString = "";
 		phraseId = phraseId.toLowerCase();
-
+		
 		//Check for call to getString on a server. Invalid as the player will receive an untranslated string.
 		if (MCA.getInstance().isDedicatedServer && FMLCommonHandler.instance().getEffectiveSide().isServer())
 		{
@@ -349,7 +349,7 @@ public final class LanguageHelper
 			suffix = suffix == null ? "" : suffix;
 			outputString = prefix + parseString(player, entity, matchingValues.get(MCA.rand.nextInt(matchingValues.size())) + suffix);
 		}
-
+		
 		return outputString;
 	}
 
@@ -520,11 +520,11 @@ public final class LanguageHelper
 					text = text.replace("%PlayerSpouseName%", worldPropertiesManager.worldProperties.playerSpouseName);
 				}
 			}
-
+			
 			if (text.contains("%VillagerSpouseName%"))
 			{
 				AbstractEntity spouse = entity.familyTree.getInstanceOfRelative(EnumRelation.Spouse);
-
+				
 				if (spouse != null)
 				{
 					text = text.replace("%VillagerSpouseName%", spouse.name);
@@ -698,71 +698,50 @@ public final class LanguageHelper
 					text = text.replace("%BabyName%", serverPropertiesManager.worldProperties.babyName);
 				}
 			}
-
+			
 			if (text.contains("%MonarchTitle%"))
 			{
 				if (worldPropertiesManager.worldProperties.playerGender.equals("Male"))
 				{
 					text = text.replace("%MonarchTitle%", getString("monarch.title.male.player"));
 				}
-
+				
 				else
 				{
 					text = text.replace("%MonarchTitle%", getString("monarch.title.female.player"));
 				}
 			}
-
+			
 			if (text.contains("%MonarchPlayerName%"))
 			{
 				text = text.replace("%MonarchPlayerName%", entity.monarchPlayerName);
 			}
-
+			
 			if (text.contains("%Trait%"))
 			{
 				text = text.replace("%Trait%", entity.trait.getLocalizedValue());
 			}
-
+			
 			if (text.contains("%MinecraftVersionNumber%"))
 			{
 				text = text.replace("%MinecraftVersionNumber%", UpdateHandler.validGameVersions);
 			}
-
+			
 			if (text.contains("%ModVersionNumber%"))
 			{
 				text = text.replace("%ModVersionNumber%", UpdateHandler.mostRecentVersion);
 			}
-
+			
 			if (text.contains("%URL%"))
 			{
 				text = text.replace("%URL%", Constants.COLOR_BLUE + Constants.FORMAT_ITALIC + "http://goo.gl/4Kwohv" + Constants.FORMAT_RESET + Constants.COLOR_YELLOW);
 			}
-
+			
 			if (text.contains("%LivingParent%"))
 			{
 				final List<Integer> parents = entity.familyTree.getEntitiesWithRelation(EnumRelation.Parent);
-
-				int parent1Id = -1;
-				int parent2Id = -1;
-
-				for (Map.Entry<Integer, Integer> entry : MCA.getInstance().idsMap.entrySet())
-				{
-					int keyInt = entry.getKey();
-					int valueInt = entry.getValue();
-
-					if (keyInt == parents.get(0))
-					{
-						parent1Id = valueInt;
-					}
-
-					else if (keyInt == parents.get(1))
-					{
-						parent2Id = valueInt;
-					}
-				}
-
-				AbstractEntity parent1 = (AbstractEntity) player.worldObj.getEntityByID(parent1Id);
-				AbstractEntity parent2 = (AbstractEntity) player.worldObj.getEntityByID(parent2Id);
-
+				final AbstractEntity parent1 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.getInstance().idsMap.get(parents.get(0)));
+				final AbstractEntity parent2 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.getInstance().idsMap.get(parents.get(1)));
 				final AbstractEntity nonNullParent = parent1 != null ? parent1 : parent2 != null ? parent2 : null;
 
 				text = text.replace("%LivingParent%", nonNullParent.name);
@@ -786,7 +765,7 @@ public final class LanguageHelper
 	{
 		BufferedReader reader = null;
 		String languageID = "";
-
+		
 		try 
 		{
 			reader = new BufferedReader(new FileReader(MCA.getInstance().runningDirectory + "/options.txt"));
@@ -827,7 +806,7 @@ public final class LanguageHelper
 			MCA.getInstance().log("NullPointerException while trying to read options.txt. Defaulting to English.");
 			languageID = "en_US";
 		}
-
+		
 		return languageID;
 	}
 
@@ -835,7 +814,7 @@ public final class LanguageHelper
 	{
 		return translationsMap;
 	}
-
+	
 	static
 	{
 		LANGUAGE_MAP.put("af_ZA", "Afrikaans");

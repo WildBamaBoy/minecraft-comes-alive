@@ -670,7 +670,7 @@ public class MCA
 			return "UNABLE TO PROCESS";
 		}
 	}
-	
+
 	/**
 	 * Runs code as soon as possible. Specifically before a player's stats are checked for invalidity (Achievement bug).
 	 * So just for the heck of it, let's init EVERYTHING here along with achievements.
