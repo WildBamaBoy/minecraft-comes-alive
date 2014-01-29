@@ -20,36 +20,33 @@ public class TickMarker implements Serializable
 		this.isComplete = false;
 		this.endTicks = owner.lifeTicks + durationInTicks;
 	}
-	
+
 	public void update()
 	{
-		if (owner != null)
+		if (owner != null && endTicks != -1 && !isComplete && owner.lifeTicks >= endTicks)
 		{
-			if (endTicks != -1 && !isComplete && owner.lifeTicks >= endTicks)
-			{
-				isComplete = true;
-			}
+			isComplete = true;
 		}
 	}
-	
+
 	public boolean isComplete()
 	{
 		return endTicks == -1 ? false : isComplete;
 	}
-	
+
 	public void reset()
 	{
 		endTicks = -1;
 		isComplete = true;
 	}
-	
+
 	public void writeMarkerToNBT(AbstractEntity owner, NBTTagCompound nbt)
 	{
 		this.owner = owner;
 		nbt.setInteger("endTicks", endTicks);
 		nbt.setBoolean("isComplete", isComplete);
 	}
-	
+
 	public void readMarkerFromNBT(AbstractEntity owner, NBTTagCompound nbt)
 	{
 		this.owner = owner;
