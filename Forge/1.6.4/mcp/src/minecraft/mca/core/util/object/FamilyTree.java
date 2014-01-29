@@ -199,7 +199,7 @@ public class FamilyTree implements Serializable, Cloneable
 	 * 
 	 * @return	boolean identifying whether or not the provided entity is related to the owner of the family tree.
 	 */
-	public boolean entityIsRelative(AbstractEntity entity)
+	public boolean entityIsARelative(AbstractEntity entity)
 	{
 		return relationMap.containsKey(entity.mcaID);
 	}
@@ -211,7 +211,7 @@ public class FamilyTree implements Serializable, Cloneable
 	 * 
 	 * @return	boolean identifying whether or not the provided entity is related to the owner of the family tree.
 	 */
-	public boolean idIsRelative(int mcaID)
+	public boolean idIsARelative(int mcaID)
 	{
 		return relationMap.containsKey(mcaID);
 	}
@@ -225,7 +225,7 @@ public class FamilyTree implements Serializable, Cloneable
 	 */
 	public EnumRelation getRelationOf(AbstractEntity entity)
 	{
-		if (entityIsRelative(entity))
+		if (entityIsARelative(entity))
 		{
 			return relationMap.get(entity.mcaID);
 		}
@@ -245,7 +245,7 @@ public class FamilyTree implements Serializable, Cloneable
 	 */
 	public EnumRelation getRelationOf(int mcaID)
 	{
-		if (idIsRelative(mcaID))
+		if (idIsARelative(mcaID))
 		{
 			final EnumRelation returnRelation = relationMap.get(mcaID);
 
@@ -301,9 +301,9 @@ public class FamilyTree implements Serializable, Cloneable
 	 * 
 	 * @return	The relation of the entity provided to the owner of this family tree.
 	 */
-	public EnumRelation getRelationTo(AbstractEntity entity)
+	public EnumRelation getMyRelationTo(AbstractEntity entity)
 	{
-		if (idIsRelative(entity.mcaID))
+		if (idIsARelative(entity.mcaID))
 		{
 			return getOpposingRelation(owner.isMale, relationMap.get(entity.mcaID));
 		}
@@ -321,9 +321,9 @@ public class FamilyTree implements Serializable, Cloneable
 	 * 
 	 * @return	The relation of the entity with the provided ID.
 	 */
-	public EnumRelation getRelationTo(int mcaID)
+	public EnumRelation getMyRelationTo(int mcaID)
 	{
-		if (idIsRelative(mcaID))
+		if (idIsARelative(mcaID))
 		{
 			return getOpposingRelation(owner.isMale, relationMap.get(mcaID));
 		}
@@ -341,7 +341,7 @@ public class FamilyTree implements Serializable, Cloneable
 	 * 
 	 * @return	The entity's ID who has the specified relation to the owner of the family tree. 0 if one is not found.
 	 */
-	public int getEntityWithRelation(EnumRelation relation)
+	public int getFirstIDWithRelation(EnumRelation relation)
 	{
 		for (final Map.Entry<Integer, EnumRelation> entry : relationMap.entrySet())
 		{
@@ -361,7 +361,7 @@ public class FamilyTree implements Serializable, Cloneable
 	 * 
 	 * @return	List containing the IDs of entities who have the specified relation to the owner of the family tree.
 	 */
-	public List<Integer> getEntitiesWithRelation(EnumRelation relation)
+	public List<Integer> getIDsWithRelation(EnumRelation relation)
 	{
 		final List<Integer> returnList = new ArrayList<Integer>();
 
@@ -441,7 +441,7 @@ public class FamilyTree implements Serializable, Cloneable
 	 * 
 	 * @return	Entity whose relation to this entity matches the provided relation.
 	 */
-	public AbstractEntity getInstanceOfRelative(EnumRelation relation) 
+	public AbstractEntity getRelativeAsEntity(EnumRelation relation) 
 	{
 		for (final Map.Entry<Integer, EnumRelation> entrySet : relationMap.entrySet())
 		{
@@ -462,7 +462,7 @@ public class FamilyTree implements Serializable, Cloneable
 	 * 
 	 * @return	A list of all the players contained in the relation map.
 	 */
-	public List<Integer> getListOfPlayers()
+	public List<Integer> getListOfPlayerIDs()
 	{
 		final List<Integer> returnList = new ArrayList<Integer>();
 

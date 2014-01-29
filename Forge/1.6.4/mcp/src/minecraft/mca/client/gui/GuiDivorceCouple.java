@@ -195,7 +195,7 @@ public class GuiDivorceCouple extends AbstractGui
 					//Be sure the value isn't already contained in the key set.
 					if (tempIDMap.containsKey(abstractEntity.mcaID) == false && tempIDMap.containsValue(abstractEntity.mcaID) == false)
 					{
-						int spouseId = abstractEntity.familyTree.getEntityWithRelation(EnumRelation.Spouse);
+						int spouseId = abstractEntity.familyTree.getFirstIDWithRelation(EnumRelation.Spouse);
 
 						if (spouseId == -1)
 						{
@@ -265,12 +265,12 @@ public class GuiDivorceCouple extends AbstractGui
 				if (abstractEntity.isMarriedToVillager)
 				{
 					//Find instances of the husband and wife entity.
-					if (abstractEntity.name.equals(spouseEntity1Name) && abstractEntity.familyTree.getInstanceOfRelative(EnumRelation.Spouse).name.equals(spouseEntity2Name))
+					if (abstractEntity.name.equals(spouseEntity1Name) && abstractEntity.familyTree.getRelativeAsEntity(EnumRelation.Spouse).name.equals(spouseEntity2Name))
 					{
 						spouseEntity1 = abstractEntity;
 					}
 
-					else if (abstractEntity.name.equals(spouseEntity2Name) && abstractEntity.familyTree.getInstanceOfRelative(EnumRelation.Spouse).name.equals(spouseEntity1Name))
+					else if (abstractEntity.name.equals(spouseEntity2Name) && abstractEntity.familyTree.getRelativeAsEntity(EnumRelation.Spouse).name.equals(spouseEntity1Name))
 					{
 						spouseEntity2 = abstractEntity;
 					}

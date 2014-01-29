@@ -141,7 +141,7 @@ public class ClientTickHandler implements ITickHandler
 					{
 						final EntityPlayerChild playerChild = (EntityPlayerChild)entity;
 
-						if (playerChild.familyTree.getEntitiesWithRelation(EnumRelation.Parent).contains(MCA.getInstance().getIdOfPlayer(player)) &&
+						if (playerChild.familyTree.getIDsWithRelation(EnumRelation.Parent).contains(MCA.getInstance().getIdOfPlayer(player)) &&
 								!doEzioComment && playerChild.name.equals("Ezio"))
 						{
 							doEzioComment = true;

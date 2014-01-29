@@ -60,40 +60,37 @@ import cpw.mods.fml.common.network.Player;
 public class EntityPlayerChild extends AbstractChild
 {
 	/** Should this child grow up automatically? */
-	public boolean shouldGrowAutomatically = false;
+	public boolean doAutoGrow;
 
 	/** Has this child notified their owner that they're ready to grow up? */
-	public boolean hasNotifiedGrowthReady = false;
+	public boolean hasNotifiedReady;
 
 	/** Has the child's owner approved their growth? */
-	public boolean playerApprovedGrowth = false;
-
-	/** Has the child been registered in the family tree? */
-	public boolean registeredInFamilyTree = false;
+	public boolean isGrowthApproved;
 
 	/** How long hearts have been in the negatives for the owner player. */
-	public int timeHeartsNegative = 0;
+	public int runawayTicks;
 
 	/** The number of blocks that have been farmed. */
-	public int landFarmed = 0;
+	public int landFarmed;
 
 	/** The number of blocks that have been mined. */
-	public int blocksMined = 0;
+	public int blocksMined;
 
 	/** The number of fish that have been caught. */
-	public int fishCaught = 0;
+	public int fishCaught;
 
 	/** The number of trees that have been cut. */
-	public int woodChopped = 0;
+	public int woodChopped;
 
 	/** The number of mobs that have been killed. */
-	public int mobsKilled = 0;
+	public int mobsKilled;
 
 	/** The number of animals that have been killed. */ 
-	public int animalsKilled = 0;
+	public int animalsKilled;
 
 	/** The number of animals that have been tamed. */
-	public int animalsTamed = 0;
+	public int animalsTamed;
 
 	/**
 	 * Constructor
@@ -122,10 +119,9 @@ public class EntityPlayerChild extends AbstractChild
 		this.setTexture();
 		this.ownerPlayerName = player.username;
 
-		WorldPropertiesManager worldPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(ownerPlayerName);
-
+		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(ownerPlayerName);
 		this.familyTree.addFamilyTreeEntry(player, EnumRelation.Parent);
-		this.familyTree.addFamilyTreeEntry(worldPropertiesManager.worldProperties.playerSpouseID, EnumRelation.Parent);
+		this.familyTree.addFamilyTreeEntry(manager.worldProperties.playerSpouseID, EnumRelation.Parent);
 	}
 
 	@Override
@@ -147,7 +143,7 @@ public class EntityPlayerChild extends AbstractChild
 	@Override
 	public void setTexture()
 	{
-		VillagerEntryMCA entry = VillagerRegistryMCA.getRegisteredVillagerEntry(-1);
+		final VillagerEntryMCA entry = VillagerRegistryMCA.getRegisteredVillagerEntry(-1);
 
 		//Check for specific names to set hidden skins.
 		if (isMale)
@@ -207,7 +203,7 @@ public class EntityPlayerChild extends AbstractChild
 	@Override
 	public String getCharacterType(int playerId) 
 	{
-		if (familyTree.idIsRelative(playerId))
+		if (familyTree.idIsARelative(playerId))
 		{
 			if (isAdult)
 			{
@@ -255,25 +251,25 @@ public class EntityPlayerChild extends AbstractChild
 	{
 		super.onUpdate();
 
-		if (!isAdult)
-		{
-			updateGrowth();
-		}
-
-		else
+		if (isAdult)
 		{
 			updateBabyGrowth();
 			updateDivorce();
 
-			if (!isMarriedToPlayer)
+			if (isMarriedToPlayer)
 			{
-				updateProcreationWithVillager();
+				updateProcreationWithPlayer();
 			}
 
 			else
 			{
-				updateProcreationWithPlayer();
+				updateProcreationWithVillager();
 			}
+		}
+
+		else
+		{
+			updateGrowth();
 		}
 
 		updateRunAway();
@@ -313,7 +309,7 @@ public class EntityPlayerChild extends AbstractChild
 
 			if (!memory.isInGiftMode || memory.isInGiftMode && itemStack == null) //When right clicked in gift mode without an item to give or when out of gift mode.
 			{
-				if (familyTree.idIsRelative(playerId))
+				if (familyTree.idIsARelative(playerId))
 				{
 					if (isMarriedToPlayer && player.username.equals(spousePlayerName))
 					{
@@ -328,14 +324,14 @@ public class EntityPlayerChild extends AbstractChild
 
 				else
 				{
-					if (!isAdult && !isMarriedToVillager && !isMarriedToPlayer)
+					if (isAdult && isMarriedToVillager && isMarriedToPlayer)
 					{
-						PacketDispatcher.sendPacketToPlayer(PacketHandler.createOpenGuiPacket(entityId, Constants.ID_GUI_VCHILD), (Player)player);
+						PacketDispatcher.sendPacketToPlayer(PacketHandler.createOpenGuiPacket(entityId, Constants.ID_GUI_ADULT), (Player)player);
 					}
 
 					else
 					{
-						PacketDispatcher.sendPacketToPlayer(PacketHandler.createOpenGuiPacket(entityId, Constants.ID_GUI_ADULT), (Player)player);
+						PacketDispatcher.sendPacketToPlayer(PacketHandler.createOpenGuiPacket(entityId, Constants.ID_GUI_VCHILD), (Player)player);
 					}
 				}
 			}
@@ -352,7 +348,7 @@ public class EntityPlayerChild extends AbstractChild
 
 				else if (itemStack.getItem() instanceof ItemWeddingRing && isAdult)
 				{
-					if (familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)) && !isEngaged)
+					if (familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)) && !isEngaged)
 					{
 						say(LanguageHelper.getString(player, this, "notify.villager.gifted.arrangerring.relative", false));
 					}
@@ -365,7 +361,7 @@ public class EntityPlayerChild extends AbstractChild
 
 				else if (itemStack.getItem() instanceof ItemEngagementRing && isAdult)
 				{
-					if (familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
+					if (familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 					{
 						say(LanguageHelper.getString(player, this, "notify.villager.gifted.arrangerring.relative", false));
 					}
@@ -598,7 +594,7 @@ public class EntityPlayerChild extends AbstractChild
 
 			else
 			{
-				WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
+				final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 
 				if (manager != null)
 				{
@@ -641,19 +637,19 @@ public class EntityPlayerChild extends AbstractChild
 	 */
 	private void updateGrowth()
 	{
-		WorldPropertiesManager worldPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(ownerPlayerName);
+		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(ownerPlayerName);
 
-		if (worldPropertiesManager != null && MCA.getInstance().getPlayerByID(worldObj, worldPropertiesManager.worldProperties.playerID) != null)
+		if (manager != null && MCA.getInstance().getPlayerByID(worldObj, manager.worldProperties.playerID) != null)
 		{			
-			shouldGrowAutomatically = worldPropertiesManager.worldProperties.childrenGrowAutomatically;
+			doAutoGrow = manager.worldProperties.childrenGrowAutomatically;
 
-			if (shouldGrowAutomatically && !playerApprovedGrowth)
+			if (doAutoGrow && !isGrowthApproved)
 			{
-				if (isReadyToGrow && !hasNotifiedGrowthReady && !shouldGrowAutomatically)
+				if (isReadyToGrow && !hasNotifiedReady && !doAutoGrow)
 				{
-					for (int i : familyTree.getListOfPlayers())
+					for (final int playerId : familyTree.getListOfPlayerIDs())
 					{
-						EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, i);
+						final EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, playerId);
 
 						if (!worldObj.isRemote)
 						{
@@ -661,21 +657,21 @@ public class EntityPlayerChild extends AbstractChild
 						}
 					}
 
-					hasNotifiedGrowthReady = true;
+					hasNotifiedReady = true;
 				}
 
-				else if (isReadyToGrow && shouldGrowAutomatically)
+				else if (isReadyToGrow && doAutoGrow)
 				{
-					playerApprovedGrowth = true;
+					isGrowthApproved = true;
 				}
 			}
 
 			//Check if the player approved the growth of this child.
-			if (playerApprovedGrowth)
+			if (isGrowthApproved)
 			{
-				for (int i : familyTree.getListOfPlayers())
+				for (final int playerId : familyTree.getListOfPlayerIDs())
 				{
-					EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, i);
+					final EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, playerId);
 
 					if (!worldObj.isRemote)
 					{
@@ -686,7 +682,7 @@ public class EntityPlayerChild extends AbstractChild
 				isAdult = true;
 				setChoresStopped();
 
-				EntityPlayer player = worldObj.getPlayerEntityByName(ownerPlayerName);
+				final EntityPlayer player = worldObj.getPlayerEntityByName(ownerPlayerName);
 
 				if (player != null)
 				{
@@ -715,12 +711,12 @@ public class EntityPlayerChild extends AbstractChild
 				{
 					if (playerMemoryMap.get(ownerPlayerName).hearts < 0)
 					{
-						timeHeartsNegative++;
+						runawayTicks++;
 					}
 
 					if (!worldObj.isRemote)
 					{
-						if (timeHeartsNegative >= 24000)
+						if (runawayTicks >= 24000)
 						{
 							player.addChatMessage(LanguageHelper.getString(this, "notify.child.ranaway", false));
 							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.KillEntity, entityId));

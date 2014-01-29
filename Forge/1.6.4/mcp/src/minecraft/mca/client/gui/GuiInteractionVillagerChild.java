@@ -117,7 +117,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 		drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.mood") + entityVillagerChild.mood.getLocalizedValue(), width / 2 - 150, height / 2 - 65, 0xffffff);
 		drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.trait") + entityVillagerChild.trait.getLocalizedValue(), width / 2 - 150, height / 2 - 50, 0xffffff);
 
-		List<Integer> parents = entityVillagerChild.familyTree.getEntitiesWithRelation(EnumRelation.Parent);
+		List<Integer> parents = entityVillagerChild.familyTree.getIDsWithRelation(EnumRelation.Parent);
 
 		if (parents.size() == 2)
 		{
@@ -288,7 +288,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 		{
 			if (entityVillagerChild instanceof EntityPlayerChild)
 			{
-				if (!entityVillagerChild.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
+				if (!entityVillagerChild.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 				{
 					entityVillagerChild.notifyPlayer(player, LanguageHelper.getString("multiplayer.interaction.reject.child"));
 					close();
@@ -329,7 +329,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 		{
 			if (entityVillagerChild instanceof EntityPlayerChild)
 			{
-				if (!entityVillagerChild.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
+				if (!entityVillagerChild.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 				{
 					entityVillagerChild.notifyPlayer(player, LanguageHelper.getString("multiplayer.interaction.reject.child"));
 					close();
@@ -351,7 +351,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 		{
 			if (entityVillagerChild instanceof EntityPlayerChild)
 			{
-				if (!entityVillagerChild.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
+				if (!entityVillagerChild.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 				{
 					entityVillagerChild.notifyPlayer(player, LanguageHelper.getString("multiplayer.interaction.reject.child"));
 					close();

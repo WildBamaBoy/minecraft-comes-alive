@@ -365,11 +365,11 @@ public final class LanguageHelper
 	private static String parseString(EntityPlayer player, AbstractEntity entity, String text)
 	{
 		int playerId = 0;
-		WorldPropertiesManager worldPropertiesManager = null;
+		WorldPropertiesManager manager = null;
 
 		if (player != null)
 		{
-			worldPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(player.username);
+			manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 			playerId = MCA.getInstance().getIdOfPlayer(player);
 		}
 
@@ -382,7 +382,7 @@ public final class LanguageHelper
 
 			if (text.contains("%RelationToPlayer%"))
 			{
-				text = text.replace("%RelationToPlayer%", entity.familyTree.getRelationTo(playerId).toString());
+				text = text.replace("%RelationToPlayer%", entity.familyTree.getMyRelationTo(playerId).toString());
 			}
 
 			if (text.contains("%RelationOfPlayer%"))
@@ -394,7 +394,7 @@ public final class LanguageHelper
 			{
 				if (entity instanceof EntityPlayerChild)
 				{
-					final List<Integer> parents = entity.familyTree.getEntitiesWithRelation(EnumRelation.Parent);
+					final List<Integer> parents = entity.familyTree.getIDsWithRelation(EnumRelation.Parent);
 
 					if (parents.get(0) < 0 && parents.get(1) < 0)
 					{
@@ -413,7 +413,7 @@ public final class LanguageHelper
 				{
 					try
 					{
-						final List<Integer> parents = entity.familyTree.getEntitiesWithRelation(EnumRelation.Parent);
+						final List<Integer> parents = entity.familyTree.getIDsWithRelation(EnumRelation.Parent);
 						final AbstractEntity parent1 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.getInstance().idsMap.get(parents.get(0)));
 						final AbstractEntity parent2 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.getInstance().idsMap.get(parents.get(1)));
 
@@ -444,7 +444,7 @@ public final class LanguageHelper
 			{
 				if (entity instanceof EntityPlayerChild)
 				{
-					List<Integer> parents = entity.familyTree.getEntitiesWithRelation(EnumRelation.Parent);
+					List<Integer> parents = entity.familyTree.getIDsWithRelation(EnumRelation.Parent);
 
 					if (parents.get(0) < 0 && parents.get(1) < 0)
 					{
@@ -473,7 +473,7 @@ public final class LanguageHelper
 				{
 					try
 					{
-						final List<Integer> parents = entity.familyTree.getEntitiesWithRelation(EnumRelation.Parent);
+						final List<Integer> parents = entity.familyTree.getIDsWithRelation(EnumRelation.Parent);
 						final AbstractEntity parent1 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.getInstance().idsMap.get(parents.get(0)));
 						final AbstractEntity parent2 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.getInstance().idsMap.get(parents.get(1)));
 
@@ -502,28 +502,28 @@ public final class LanguageHelper
 
 			if (text.contains("%SpouseRelation%"))
 			{
-				final AbstractEntity spouse = entity.familyTree.getInstanceOfRelative(EnumRelation.Spouse);
-				text = text.replace("%SpouseRelation%", spouse.familyTree.getRelationTo(playerId).toString(spouse, spouse.isMale, true));
+				final AbstractEntity spouse = entity.familyTree.getRelativeAsEntity(EnumRelation.Spouse);
+				text = text.replace("%SpouseRelation%", spouse.familyTree.getMyRelationTo(playerId).toString(spouse, spouse.isMale, true));
 			}
 
 			if (text.contains("%PlayerSpouseName%"))
 			{
 				//Check world properties to see if the player is married to another player or an NPC.
-				if (worldPropertiesManager.worldProperties.playerSpouseID > 0)
+				if (manager.worldProperties.playerSpouseID > 0)
 				{
 					//Player married to NPC, so the NPC is provided.
-					text = text.replace("%PlayerSpouseName%", entity.familyTree.getInstanceOfRelative(EnumRelation.Spouse).name);
+					text = text.replace("%PlayerSpouseName%", entity.familyTree.getRelativeAsEntity(EnumRelation.Spouse).name);
 				}
 
 				else
 				{
-					text = text.replace("%PlayerSpouseName%", worldPropertiesManager.worldProperties.playerSpouseName);
+					text = text.replace("%PlayerSpouseName%", manager.worldProperties.playerSpouseName);
 				}
 			}
 
 			if (text.contains("%VillagerSpouseName%"))
 			{
-				AbstractEntity spouse = entity.familyTree.getInstanceOfRelative(EnumRelation.Spouse);
+				AbstractEntity spouse = entity.familyTree.getRelativeAsEntity(EnumRelation.Spouse);
 
 				if (spouse != null)
 				{
@@ -533,11 +533,11 @@ public final class LanguageHelper
 
 			if (text.contains("%SpouseFullName%"))
 			{
-				final AbstractEntity spouse = entity.familyTree.getInstanceOfRelative(EnumRelation.Spouse);
+				final AbstractEntity spouse = entity.familyTree.getRelativeAsEntity(EnumRelation.Spouse);
 
 				if (spouse != null)
 				{
-					text = text.replace("%SpouseFullName%", entity.familyTree.getInstanceOfRelative(EnumRelation.Spouse).getTitle(playerId, true));
+					text = text.replace("%SpouseFullName%", entity.familyTree.getRelativeAsEntity(EnumRelation.Spouse).getTitle(playerId, true));
 				}
 
 				else
@@ -608,12 +608,12 @@ public final class LanguageHelper
 			{
 				if (!MCA.getInstance().isDedicatedServer)
 				{
-					if (worldPropertiesManager.worldProperties.playerGender.equals("Male"))
+					if (manager.worldProperties.playerGender.equals("Male"))
 					{
 						text = text.replace("%CallPlayerParent%", getString("parser." + entity.getCharacterType(playerId) + ".callplayerparent.male"));
 					}
 
-					else if (worldPropertiesManager.worldProperties.playerGender.equals("Female"))
+					else if (manager.worldProperties.playerGender.equals("Female"))
 					{
 						text = text.replace("%CallPlayerParent%", getString("parser." + entity.getCharacterType(playerId) + ".callplayerparent.female"));
 					}
@@ -639,7 +639,7 @@ public final class LanguageHelper
 			{
 				if (!MCA.getInstance().isDedicatedServer)
 				{
-					text = text.replace("%PlayerName%", worldPropertiesManager.worldProperties.playerName);
+					text = text.replace("%PlayerName%", manager.worldProperties.playerName);
 				}
 
 				else
@@ -658,12 +658,12 @@ public final class LanguageHelper
 			{
 				if (!MCA.getInstance().isDedicatedServer)
 				{
-					if (worldPropertiesManager.worldProperties.playerGender.equals("Male"))
+					if (manager.worldProperties.playerGender.equals("Male"))
 					{
 						text = text.replace("%ParentOpposite%", getString("parser." + entity.getCharacterType(playerId) + ".parentopposite.male"));
 					}
 
-					else if (worldPropertiesManager.worldProperties.playerGender.equals("Female"))
+					else if (manager.worldProperties.playerGender.equals("Female"))
 					{
 						text = text.replace("%ParentOpposite%", getString("parser." + entity.getCharacterType(playerId) + ".parentopposite.female"));
 					}
@@ -689,7 +689,7 @@ public final class LanguageHelper
 			{
 				if (!MCA.getInstance().isDedicatedServer)
 				{
-					text = text.replace("%BabyName%", worldPropertiesManager.worldProperties.babyName);
+					text = text.replace("%BabyName%", manager.worldProperties.babyName);
 				}
 
 				else
@@ -701,7 +701,7 @@ public final class LanguageHelper
 
 			if (text.contains("%MonarchTitle%"))
 			{
-				if (worldPropertiesManager.worldProperties.playerGender.equals("Male"))
+				if (manager.worldProperties.playerGender.equals("Male"))
 				{
 					text = text.replace("%MonarchTitle%", getString("monarch.title.male.player"));
 				}
@@ -739,7 +739,7 @@ public final class LanguageHelper
 
 			if (text.contains("%LivingParent%"))
 			{
-				final List<Integer> parents = entity.familyTree.getEntitiesWithRelation(EnumRelation.Parent);
+				final List<Integer> parents = entity.familyTree.getIDsWithRelation(EnumRelation.Parent);
 
 				int parent1Id = -1;
 				int parent2Id = -1;

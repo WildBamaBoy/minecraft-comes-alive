@@ -383,12 +383,12 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			 * Spousal IF block
 			 **********************************/
 			//Check if they have a spouse...
-			AbstractEntity spouse = entityVillager.familyTree.getInstanceOfRelative(EnumRelation.Spouse);
+			AbstractEntity spouse = entityVillager.familyTree.getRelativeAsEntity(EnumRelation.Spouse);
 
 			if (spouse != null)
 			{
 				//If they have a villager spouse and the player is related, then draw (Married to %SpouseRelation% %SpouseName%.)
-				if (entityVillager.isMarriedToVillager && spouse.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
+				if (entityVillager.isMarriedToVillager && spouse.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 				{
 					drawCenteredString(fontRenderer, LanguageHelper.getString(player, entityVillager, "gui.info.family.spouse", false), width / 2 , height / 2 - 60, 0xffffff);
 				}
@@ -410,7 +410,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			//They're not married at all. Check to see if they have parents and draw their names.
 			else
 			{
-				List<Integer> parents = entityVillager.familyTree.getEntitiesWithRelation(EnumRelation.Parent);
+				List<Integer> parents = entityVillager.familyTree.getIDsWithRelation(EnumRelation.Parent);
 
 				if (parents.size() == 2)
 				{
@@ -664,7 +664,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		buttonList.add(greetButton = new GuiButton(4, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.greet")));
 		buttonList.add(tellStoryButton = new GuiButton(5, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.tellstory")));
 
-		EnumRelation relationToPlayer = entityVillager.familyTree.getRelationTo(MCA.getInstance().getIdOfPlayer(player));
+		EnumRelation relationToPlayer = entityVillager.familyTree.getMyRelationTo(MCA.getInstance().getIdOfPlayer(player));
 
 		if (relationToPlayer == EnumRelation.None || relationToPlayer == EnumRelation.Spouse)
 		{
@@ -1180,7 +1180,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == followButton)
 		{
-			if (!entityVillager.isMarriedToPlayer || (entityVillager.isMarriedToPlayer && entityVillager.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player))))
+			if (!entityVillager.isMarriedToPlayer || (entityVillager.isMarriedToPlayer && entityVillager.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player))))
 			{
 				if (entityVillager.profession == 5)
 				{
@@ -1304,7 +1304,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == stayButton)
 		{
-			if (!entityVillager.isMarriedToPlayer || (entityVillager.isMarriedToPlayer && entityVillager.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player))))
+			if (!entityVillager.isMarriedToPlayer || (entityVillager.isMarriedToPlayer && entityVillager.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player))))
 			{
 				entityVillager.isStaying = !entityVillager.isStaying;
 				entityVillager.isFollowing = false;
@@ -1325,7 +1325,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == setHomeButton)
 		{
-			if (!entityVillager.isMarriedToPlayer || (entityVillager.isMarriedToPlayer && entityVillager.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player))))
+			if (!entityVillager.isMarriedToPlayer || (entityVillager.isMarriedToPlayer && entityVillager.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player))))
 			{
 				entityVillager.homePointX = entityVillager.posX;
 				entityVillager.homePointY = entityVillager.posY;

@@ -1565,11 +1565,11 @@ public final class PacketHandler implements IPacketHandler
 	/**
 	 * Creates a packet used to give a client or server a player's world properties.
 	 * 
-	 * @param 	worldPropertiesManager	An instance of the server world properties manager.
+	 * @param 	manager	An instance of the server world properties manager.
 	 * 
 	 * @return	A world properties packet.
 	 */
-	public static Packet createWorldPropertiesPacket(WorldPropertiesManager worldPropertiesManager)
+	public static Packet createWorldPropertiesPacket(WorldPropertiesManager manager)
 	{
 		try
 		{
@@ -1578,13 +1578,13 @@ public final class PacketHandler implements IPacketHandler
 
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
-			objectOutput.writeObject(worldPropertiesManager);
+			objectOutput.writeObject(manager);
 			objectOutput.close();
 
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
-			MCA.getInstance().logPacketInformation("Created world properties packet for " + worldPropertiesManager.worldProperties.playerName);
+			MCA.getInstance().logPacketInformation("Created world properties packet for " + manager.worldProperties.playerName);
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
 			return thePacket;
 		}
@@ -1997,11 +1997,11 @@ public final class PacketHandler implements IPacketHandler
 	/**
 	 * Creates a packet used to update a player with a baby's info when it is adopted.
 	 * 
-	 * @param 	worldPropertiesManager	The world properties manager to send.
+	 * @param 	manager	The world properties manager to send.
 	 *  
 	 * @return	A baby info packet.
 	 */
-	public static Packet createBabyInfoPacket(WorldPropertiesManager worldPropertiesManager) 
+	public static Packet createBabyInfoPacket(WorldPropertiesManager manager) 
 	{
 		try
 		{
@@ -2011,7 +2011,7 @@ public final class PacketHandler implements IPacketHandler
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
 
-			objectOutput.writeObject(worldPropertiesManager);
+			objectOutput.writeObject(manager);
 			objectOutput.close();
 
 			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());

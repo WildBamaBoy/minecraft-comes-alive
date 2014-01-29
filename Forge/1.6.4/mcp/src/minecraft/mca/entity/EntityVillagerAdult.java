@@ -551,7 +551,7 @@ public class EntityVillagerAdult extends AbstractEntity
 
 				if (itemStack.getItem() instanceof ItemWeddingRing)
 				{
-					if (familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)) && !isEngaged)
+					if (familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)) && !isEngaged)
 					{
 						say(LanguageHelper.getString(player, this, "notify.villager.gifted.arrangerring.relative", false));
 					}
@@ -564,7 +564,7 @@ public class EntityVillagerAdult extends AbstractEntity
 
 				else if (itemStack.getItem() instanceof ItemEngagementRing)
 				{
-					if (familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
+					if (familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 					{
 						say(LanguageHelper.getString(player, this, "notify.villager.gifted.arrangerring.relative", false));
 					}
@@ -577,7 +577,7 @@ public class EntityVillagerAdult extends AbstractEntity
 
 				else if (itemStack.getItem() instanceof ItemArrangersRing)
 				{
-					final EnumRelation relationToPlayer = this.familyTree.getRelationTo(MCA.getInstance().getIdOfPlayer(player));
+					final EnumRelation relationToPlayer = this.familyTree.getMyRelationTo(MCA.getInstance().getIdOfPlayer(player));
 
 					if (relationToPlayer != EnumRelation.None && relationToPlayer != EnumRelation.Granddaughter && relationToPlayer != EnumRelation.Grandson &&
 							relationToPlayer != EnumRelation.Greatgranddaughter && relationToPlayer != EnumRelation.Greatgrandson)

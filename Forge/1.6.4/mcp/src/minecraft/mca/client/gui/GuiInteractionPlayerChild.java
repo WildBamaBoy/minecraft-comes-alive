@@ -354,11 +354,11 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		 * Spousal IF block
 		 **********************************/
 		//Check if they have a spouse...
-		AbstractEntity spouse = entityChild.familyTree.getInstanceOfRelative(EnumRelation.Spouse);
+		AbstractEntity spouse = entityChild.familyTree.getRelativeAsEntity(EnumRelation.Spouse);
 		if (spouse != null)
 		{
 			//If they have a villager spouse and the player is related, then draw (Married to %SpouseRelation% %SpouseName%.)
-			if (entityChild.isMarriedToVillager && spouse.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
+			if (entityChild.isMarriedToVillager && spouse.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 			{
 				drawCenteredString(fontRenderer, LanguageHelper.getString(player, entityChild, "gui.info.family.spouse", false), width / 2 , height / 2 - 60, 0xffffff);
 			}
@@ -383,7 +383,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		//They're not married at all. Check to see if they have parents and draw their names.
 		else
 		{
-			List<Integer> parents = entityChild.familyTree.getEntitiesWithRelation(EnumRelation.Parent);
+			List<Integer> parents = entityChild.familyTree.getIDsWithRelation(EnumRelation.Parent);
 
 			if (parents.size() == 2)
 			{
@@ -469,7 +469,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 		backButton.enabled = false;
 
-		if (entityChild.familyTree.getEntitiesWithRelation(EnumRelation.Parent).contains(MCA.getInstance().getIdOfPlayer(player)) && entityChild.doActAsHeir)
+		if (entityChild.familyTree.getIDsWithRelation(EnumRelation.Parent).contains(MCA.getInstance().getIdOfPlayer(player)) && entityChild.doActAsHeir)
 		{
 			buttonList.add(requestCrownButton = new GuiButton(9, width / 2 + 5, height / 2 - 20, 120, 20, LanguageHelper.getString("heir.gui.requestcrown")));
 
@@ -480,7 +480,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			}
 		}
 
-		else if (entityChild.hasNotifiedGrowthReady && !entityChild.isAdult)
+		else if (entityChild.hasNotifiedReady && !entityChild.isAdult)
 		{
 			buttonList.add(growUpButton = new GuiButton(9, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.child.growup")));
 		}
@@ -1029,8 +1029,8 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 		else if (button == growUpButton)
 		{
-			entityChild.playerApprovedGrowth = true;
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "playerApprovedGrowth", entityChild.playerApprovedGrowth));
+			entityChild.isGrowthApproved = true;
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "playerApprovedGrowth", entityChild.isGrowthApproved));
 		}
 	}
 

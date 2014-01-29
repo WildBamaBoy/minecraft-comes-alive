@@ -22,15 +22,15 @@ public abstract class AbstractChild extends AbstractEntity
 	/** The age of the child in minutes. */
 	public int age;
 
-	public int currentGrowthMinutes = Calendar.getInstance().get(Calendar.MINUTE);
-	public int prevGrowthMinutes = Calendar.getInstance().get(Calendar.MINUTE);
-	
+	public int growMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+	public int prevGrowMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+
 	/** Is the child ready to grow up? */
 	public boolean isReadyToGrow;
-	
+
 	/** Is the child fully grown? */
 	public boolean isAdult;
-	
+
 	/** The name of the player who owns this child. */
 	public String ownerPlayerName = "";
 
@@ -48,30 +48,19 @@ public abstract class AbstractChild extends AbstractEntity
 	public void onUpdate()
 	{
 		super.onUpdate();
-
-		//Check if age should be increased.
-		currentGrowthMinutes = Calendar.getInstance().get(Calendar.MINUTE);
-
-		if (MCA.getInstance().inDebugMode)
-		{
-			if (this instanceof EntityPlayerChild && !isAdult && MCA.getInstance().debugDoRapidPlayerChildGrowth)
-			{
-				age++;
-			}
-			
-			else if (this instanceof EntityVillagerChild && MCA.getInstance().debugDoRapidVillagerChildGrowth)
-			{
-				age++;
-			}
-		}
 		
-		if (currentGrowthMinutes > prevGrowthMinutes || currentGrowthMinutes == 0 && prevGrowthMinutes == 59)
+		updateGrowth();
+		updateDebug();
+	}
+
+	private void updateGrowth()
+	{
+		growMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+
+		if ((growMinutes > prevGrowMinutes || growMinutes == 0 && prevGrowMinutes == 59) && age < MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes)
 		{
-			if (age < MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes)
-			{
-				age++;
-				prevGrowthMinutes = currentGrowthMinutes;
-			}
+			age++;
+			prevGrowMinutes = growMinutes;
 		}
 
 		if (age >= MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes)
@@ -79,6 +68,22 @@ public abstract class AbstractChild extends AbstractEntity
 			//Set age to the maximum to prevent the renderer from going nuts just in case age is higher than grow up time.
 			age = MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes;
 			isReadyToGrow = true;
+		}
+	}
+
+	private void updateDebug()
+	{
+		if (MCA.getInstance().inDebugMode)
+		{
+			if (this instanceof EntityPlayerChild && !isAdult && MCA.getInstance().debugDoRapidPlayerChildGrowth)
+			{
+				age++;
+			}
+
+			else if (this instanceof EntityVillagerChild && MCA.getInstance().debugDoRapidVillagerChildGrowth)
+			{
+				age++;
+			}
 		}
 	}
 }

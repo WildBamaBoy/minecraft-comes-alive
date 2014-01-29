@@ -332,7 +332,7 @@ public class GuiLostRelativeDocument extends AbstractGui
 			
 			Utility.removeItemFromPlayer(new ItemStack(MCA.getInstance().itemLostRelativeDocument, 1), player);
 			
-			if (recipient.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
+			if (recipient.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 			{
 				player.addChatMessage(LanguageHelper.getString(player, recipient, "notify.lostrelativedocument.success", false));
 			}

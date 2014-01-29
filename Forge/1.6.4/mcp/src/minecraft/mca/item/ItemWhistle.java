@@ -58,7 +58,7 @@ public class ItemWhistle extends Item
 			{
 				if (entity instanceof AbstractChild)
 				{
-					if (entity.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
+					if (entity.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 					{
 						entity.setPosition(player.posX, player.posY, player.posZ);
 					}
@@ -68,7 +68,7 @@ public class ItemWhistle extends Item
 				{
 					final EntityVillagerAdult adult = (EntityVillagerAdult)entity;
 
-					if (adult.isMarriedToPlayer || adult.isEngaged && entity.familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
+					if (adult.isMarriedToPlayer || adult.isEngaged && entity.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 					{
 						entity.setPosition(player.posX, player.posY, player.posZ);
 					}

@@ -587,7 +587,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				else if (this instanceof EntityVillagerChild)
 				{
 					//Make parents of a villager child attack the player if they're nearby.
-					for (final int relativeID : familyTree.getEntitiesWithRelation(EnumRelation.Parent))
+					for (final int relativeID : familyTree.getIDsWithRelation(EnumRelation.Parent))
 					{
 						for (final Object obj : worldObj.loadedEntityList)
 						{
@@ -655,9 +655,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				}
 			}
 
-			for (final int relatedPlayerID : familyTree.getListOfPlayers())
+			for (final int relatedPlayerID : familyTree.getListOfPlayerIDs())
 			{
-				if (familyTree.idIsRelative(relatedPlayerID))
+				if (familyTree.idIsARelative(relatedPlayerID))
 				{
 					final EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, relatedPlayerID);
 
@@ -680,37 +680,32 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				}
 			}
 
-			if (this instanceof AbstractEntity)
+			if (isMarriedToVillager)
 			{
-				final AbstractEntity thisAsFertile = (AbstractEntity)this;
+				final int spouseMCAID = familyTree.getFirstIDWithRelation(EnumRelation.Spouse);
+				int spouseEntityId = 1;
 
-				if (thisAsFertile.isMarriedToVillager)
+				for (final Map.Entry<Integer, Integer> entry : MCA.getInstance().idsMap.entrySet())
 				{
-					int spouseMCAID = familyTree.getEntityWithRelation(EnumRelation.Spouse);
-					int spouseEntityId = 1;
+					final int keyInt = entry.getKey();
+					final int valueInt = entry.getValue();
 
-					for (Map.Entry<Integer, Integer> entry : MCA.getInstance().idsMap.entrySet())
+					if (keyInt == spouseMCAID)
 					{
-						int keyInt = entry.getKey();
-						int valueInt = entry.getValue();
-
-						if (keyInt == spouseMCAID)
-						{
-							spouseEntityId = valueInt;
-							break;
-						}
+						spouseEntityId = valueInt;
+						break;
 					}
+				}
 
-					final AbstractEntity spouse = (AbstractEntity)worldObj.getEntityByID(spouseEntityId);
+				final AbstractEntity spouse = (AbstractEntity)worldObj.getEntityByID(spouseEntityId);
 
-					if (spouse != null)
-					{
-						spouse.isMarriedToVillager = false;
-						spouse.familyTree.removeFamilyTreeEntry(EnumRelation.Spouse);
+				if (spouse != null)
+				{
+					spouse.isMarriedToVillager = false;
+					spouse.familyTree.removeFamilyTreeEntry(EnumRelation.Spouse);
 
-						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(spouse.entityId, "isMarriedToVillager", spouse.isMarriedToVillager));
-						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(spouse.entityId, spouse.familyTree));
-					}
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(spouse.entityId, "isMarriedToVillager", spouse.isMarriedToVillager));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(spouse.entityId, spouse.familyTree));
 				}
 			}
 
@@ -875,7 +870,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public void onItemDestroyed(ItemStack stack)
 	{
 		//Only notify the related players of these events.
-		for (final int relatedPlayerID : familyTree.getListOfPlayers())
+		for (final int relatedPlayerID : familyTree.getListOfPlayerIDs())
 		{
 			final EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, relatedPlayerID);
 			final Item itemInStack = stack.getItem();
@@ -1071,7 +1066,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 						isSleeping = true;
 						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isSleeping", isSleeping));
 
-						if (familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
+						if (familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 						{
 							PacketDispatcher.sendPacketToPlayer(PacketHandler.createGenericPacket(
 									EnumGenericCommand.NotifyPlayer, entityId, "notify.homepoint.teleport.skip.staying"), (Player)player);
@@ -1112,7 +1107,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				else //The test for obstructed home point failed. Notify the related players.
 				{
-					for (final int relatedPlayerId : familyTree.getListOfPlayers())
+					for (final int relatedPlayerId : familyTree.getListOfPlayerIDs())
 					{
 						final EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, relatedPlayerId);
 						{
@@ -1130,7 +1125,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		//This person doesn't have a home point.
 		else
 		{
-			for (final int relatedPlayerId : familyTree.getListOfPlayers())
+			for (final int relatedPlayerId : familyTree.getListOfPlayerIDs())
 			{
 				final EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, relatedPlayerId);
 				PacketDispatcher.sendPacketToPlayer(PacketHandler.createGenericPacket(
@@ -1191,9 +1186,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	public String getTitle(int playerId, boolean isInformal)
 	{
-		if (familyTree.idIsRelative(playerId))
+		if (familyTree.idIsARelative(playerId))
 		{
-			final EnumRelation relation = familyTree.getRelationTo(playerId);
+			final EnumRelation relation = familyTree.getMyRelationTo(playerId);
 
 			if ((relation == EnumRelation.Spouse || relation == EnumRelation.Husband || relation == EnumRelation.Wife) && isEngaged)
 			{
@@ -1549,7 +1544,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					final AbstractEntity abstractEntity = (AbstractEntity)entity;
 
 					//Relatives to the player are not affected.
-					if (!abstractEntity.familyTree.idIsRelative(manager.worldProperties.playerID))
+					if (!abstractEntity.familyTree.idIsARelative(manager.worldProperties.playerID))
 					{
 						//Other villagers are affected by 50% of the original value.
 						final Double percentage = amount * 0.50;
@@ -1724,7 +1719,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	protected void doGiftOfBaby(ItemStack itemStack, EntityPlayer player) 
 	{
-		if (isMarriedToPlayer && MCA.getInstance().getIdOfPlayer(player) == familyTree.getEntityWithRelation(EnumRelation.Spouse))
+		if (isMarriedToPlayer && MCA.getInstance().getIdOfPlayer(player) == familyTree.getFirstIDWithRelation(EnumRelation.Spouse))
 		{
 			if (inventory.contains(MCA.getInstance().itemBabyBoy) || inventory.contains(MCA.getInstance().itemBabyGirl))
 			{
@@ -1805,7 +1800,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			}
 
 			if (!nearestVillager.isMarriedToPlayer && !nearestVillager.isMarriedToVillager && !nearestVillager.isEngaged && 
-					familyTree.getRelationTo(nearestVillager) == EnumRelation.None)
+					familyTree.getMyRelationTo(nearestVillager) == EnumRelation.None)
 			{
 				notifyPlayer(player, LanguageHelper.getString("notify.villager.married"));
 
@@ -2043,7 +2038,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		else
 		{
-			if (getDistanceToEntity(nearestVillager) > 5 || nearestVillager.mcaID != familyTree.getEntityWithRelation(EnumRelation.Spouse))
+			if (getDistanceToEntity(nearestVillager) > 5 || nearestVillager.mcaID != familyTree.getFirstIDWithRelation(EnumRelation.Spouse))
 			{
 				say(LanguageHelper.getString("notify.villager.gifted.cake.spousenotnearby." + getGenderAsString()));
 			}
@@ -2107,13 +2102,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			//Create child and assign family tree entries.
 			final EntityVillagerChild child = new EntityVillagerChild(worldObj, isHeldBabyMale, heldBabyProfession);
 			child.familyTree.addFamilyTreeEntry(this, EnumRelation.Parent);
-			child.familyTree.addFamilyTreeEntry(familyTree.getInstanceOfRelative(EnumRelation.Spouse), EnumRelation.Parent);
+			child.familyTree.addFamilyTreeEntry(familyTree.getRelativeAsEntity(EnumRelation.Spouse), EnumRelation.Parent);
 
-			if (familyTree.getInstanceOfRelative(EnumRelation.Spouse) != null)
+			if (familyTree.getRelativeAsEntity(EnumRelation.Spouse) != null)
 			{
-				final AbstractEntity spouse = familyTree.getInstanceOfRelative(EnumRelation.Spouse);
+				final AbstractEntity spouse = familyTree.getRelativeAsEntity(EnumRelation.Spouse);
 
-				for (final int relatedPlayerId : spouse.familyTree.getListOfPlayers())
+				for (final int relatedPlayerId : spouse.familyTree.getListOfPlayerIDs())
 				{
 					if (spouse instanceof EntityPlayerChild)
 					{
@@ -2130,7 +2125,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					}
 				}
 
-				for (final int relatedPlayerId : familyTree.getListOfPlayers())
+				for (final int relatedPlayerId : familyTree.getListOfPlayerIDs())
 				{
 					if (spouse instanceof EntityPlayerChild)
 					{
@@ -2185,7 +2180,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		if (isProcreatingWithVillager)
 		{
-			final AbstractEntity spouse = familyTree.getInstanceOfRelative(EnumRelation.Spouse);
+			final AbstractEntity spouse = familyTree.getRelativeAsEntity(EnumRelation.Spouse);
 
 			if (worldObj.isRemote)
 			{
