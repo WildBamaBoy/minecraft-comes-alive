@@ -18,6 +18,7 @@ import mca.core.MCA;
 import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
+import mca.core.util.Utility;
 import mca.core.util.object.Point3D;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
@@ -174,7 +175,6 @@ public class ChoreFarming extends AbstractChore
 			owner.say(LanguageHelper.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.farming", true));
 		}
 
-		owner.setSneaking(true);
 		owner.isFollowing = false;
 		owner.isStaying = false;
 		owner.tasks.taskEntries.clear();
@@ -204,7 +204,6 @@ public class ChoreFarming extends AbstractChore
 	@Override
 	public void endChore()
 	{
-		owner.setSneaking(false);
 		hasEnded = true;
 
 		if (owner.worldObj.isRemote)
@@ -315,7 +314,7 @@ public class ChoreFarming extends AbstractChore
 	protected int getDelayForToolType(ItemStack toolStack)
 	{
 		final EnumToolMaterial material = EnumToolMaterial.valueOf(((ItemHoe)toolStack.getItem()).getMaterialName());
-		
+
 		switch (material)
 		{
 		case WOOD: 		return 40;
@@ -325,6 +324,23 @@ public class ChoreFarming extends AbstractChore
 		case GOLD: 		return 5;
 		default: 		return 25;
 		}
+	}
+
+	@Override
+	protected float getChoreXpLevel() 
+	{
+		return owner.xpLvlFarming;
+	}
+
+	@Override
+	protected void incrementChoreXpLevel(float amount) 
+	{
+		if (amount <= 0)
+		{
+			amount = 0.02F;
+		}
+
+		owner.xpLvlFarming += amount;
 	}
 
 	private boolean initializeCreateFarm()
@@ -412,14 +428,14 @@ public class ChoreFarming extends AbstractChore
 	}
 
 	private boolean canDoNextCreateTask()
-	{	
+	{
 		return delayCounter >= delay && 
-				LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, targetX, targetY, targetZ) < 1.7F;
+				LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, targetX, targetY, targetZ) <= 1.7F;
 	}
 
 	private void doUpdateCreateFarm()
 	{
-		delay++;
+		delayCounter++;
 	}
 
 	private void doNextCreateTask()
@@ -472,6 +488,7 @@ public class ChoreFarming extends AbstractChore
 		hasNextPathBlock = false;
 
 		doUpdateAchievements();
+		incrementChoreXpLevel((float)(0.15 - 0.01 * getChoreXpLevel()));
 	}
 
 	private void doAssignNextBlockForCreation()
@@ -519,7 +536,7 @@ public class ChoreFarming extends AbstractChore
 		{
 			if (owner.getNavigator().noPath())
 			{
-				owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(targetX, targetY, targetZ), Constants.SPEED_SNEAK);
+				owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(targetX, targetY, targetZ), getChoreXpLevel() >= 10.0F ? Constants.SPEED_RUN : Constants.SPEED_SNEAK);
 			}
 
 			return true;
@@ -570,7 +587,7 @@ public class ChoreFarming extends AbstractChore
 				delay = 5;
 			}
 
-			owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(targetX, targetY, targetZ), Constants.SPEED_SNEAK);
+			owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(targetX, targetY, targetZ), getChoreXpLevel() >= 10.0F ? Constants.SPEED_RUN : Constants.SPEED_SNEAK);
 		}
 	}
 
@@ -589,9 +606,17 @@ public class ChoreFarming extends AbstractChore
 		{
 			owner.worldObj.setBlock(targetX, targetY, targetZ, 0);
 
-			final int cropID = Constants.CROP_DATA[seedType][3];
-			final int cropsToAdd = getNumberOfCropsToAdd(seedType);
-			final int seedsToAdd = getNumberOfSeedsToAdd(seedType);
+			final int seedID = Constants.CROP_DATA[seedType][1];
+			final int blockID = Constants.CROP_DATA[seedType][2];
+			final int yieldID = Constants.CROP_DATA[seedType][3];
+			int cropsToAdd = getNumberOfCropsToAdd(seedType);
+			int seedsToAdd = getNumberOfSeedsToAdd(seedType);
+			
+			if (getChoreXpLevel() >= 20.0F && Utility.getBooleanWithProbability(65))
+			{
+				seedsToAdd *= 2;
+				cropsToAdd *= 2;
+			}
 			
 			if (seedsToAdd != 0)
 			{
@@ -600,10 +625,19 @@ public class ChoreFarming extends AbstractChore
 
 			if (cropsToAdd != 0)
 			{
-				final ItemStack stackToAdd = cropID == 86 ? new ItemStack(Block.pumpkin, cropsToAdd) : new ItemStack(Item.itemsList[cropID], cropsToAdd);
+				final ItemStack stackToAdd = yieldID == 86 ? new ItemStack(Block.pumpkin, cropsToAdd) : new ItemStack(Item.itemsList[yieldID], cropsToAdd);
 				owner.inventory.addItemStackToInventory(stackToAdd);
 			}
 
+			if (owner.inventory.getQuantityOfItem(seedID) > 0)
+			{
+				final int seedLocation = owner.inventory.getFirstSlotContainingItem(seedID);
+				owner.inventory.decrStackSize(seedLocation, 1);
+				owner.worldObj.setBlock(targetX, targetY, targetZ, blockID);
+			}
+
+			incrementChoreXpLevel((float)(0.15 - 0.005 * getChoreXpLevel()));
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, "xpLvlFarming", owner.xpLvlFarming));
 			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createInventoryPacket(owner.entityId, owner.inventory));
 		}
 	}
@@ -611,7 +645,11 @@ public class ChoreFarming extends AbstractChore
 	private void doUpdateMaintainFarm()
 	{
 		delayCounter++;
-		owner.swingItem();
+		
+		if (LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, targetX, targetY, targetZ) <= 2.5F)
+		{
+			owner.swingItem();
+		}
 	}
 
 	private int getSeedsRequired()
@@ -628,23 +666,39 @@ public class ChoreFarming extends AbstractChore
 
 		return seedsRequired;
 	}
-	
+
 	private int getNumberOfCropsToAdd(int seedType)
 	{
+		int returnAmount = 0;
+		
 		switch (seedType)
 		{
-		case Constants.ID_CROP_WHEAT: return 1;
-		case Constants.ID_CROP_MELON: return MCA.rand.nextInt(5) + 3;
-		case Constants.ID_CROP_PUMPKIN: return 1;
-		case Constants.ID_CROP_CARROT: return MCA.rand.nextInt(5) + 1;
-		case Constants.ID_CROP_POTATO: return MCA.rand.nextInt(5) + 1;
-		case Constants.ID_CROP_SUGARCANE: return 1;
+		case Constants.ID_CROP_WHEAT: returnAmount = 1; break;
+		case Constants.ID_CROP_MELON: returnAmount = MCA.rand.nextInt(5) + 3; break;
+		case Constants.ID_CROP_PUMPKIN: returnAmount = 1; break;
+		case Constants.ID_CROP_CARROT: returnAmount = MCA.rand.nextInt(5) + 1; break;
+		case Constants.ID_CROP_POTATO: returnAmount = MCA.rand.nextInt(5) + 1; break;
+		case Constants.ID_CROP_SUGARCANE: returnAmount = 1; break;
 		default: return 0;
 		}
+		
+		if (getChoreXpLevel() >= 15.0F)
+		{
+			returnAmount += MCA.rand.nextInt(3) + 1;
+		}
+		
+		return returnAmount;
 	}
-	
+
 	private int getNumberOfSeedsToAdd(int seedType)
 	{
-		return seedType == Constants.ID_CROP_WHEAT ? MCA.rand.nextInt(4) : 0;
+		int minimum = 0;
+		
+		if (getChoreXpLevel() >= 5.0F)
+		{
+			minimum = 2;
+		}
+		
+		return seedType == Constants.ID_CROP_WHEAT ? MCA.rand.nextInt(4) + minimum : 0;
 	}
 }

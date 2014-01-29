@@ -266,7 +266,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		{
 			backButton.enabled = true;
 			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.options"), width / 2, 80, 0xffffff);
-
+			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.experience") + " " + String.format("%.4g", entityChild.xpLvlFarming), width / 2, 160, 0xffffff);
 			farmMethodButton.enabled = true;
 
 			if (farmMethod == 0)
