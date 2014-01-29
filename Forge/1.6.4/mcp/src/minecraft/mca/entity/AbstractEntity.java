@@ -2218,6 +2218,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 					isProcreatingWithVillager = false;
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isProcreatingWithVillager", isProcreatingWithVillager));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(spouse.entityId, "isProcreatingWithVillager", spouse.isProcreatingWithVillager));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.StopJumping, entityId));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.StopJumping, spouse.entityId));
 				}
