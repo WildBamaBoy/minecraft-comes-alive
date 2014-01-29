@@ -122,7 +122,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public boolean hasHomePoint;
 	public boolean hasTeleportedHome;
 	public boolean hasArrangerRing;
-	public boolean hasCake;
 	public boolean hasBeenExecuted;
 	public boolean hasRunExecution;
 	public boolean doOpenInventory;
@@ -266,7 +265,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			}
 
 			lifeTicks++;
-
+			
 			updateTickMarkers();
 			updateGiftMode();
 			updateSleeping();
@@ -688,12 +687,30 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				if (thisAsFertile.isMarriedToVillager)
 				{
-					final AbstractEntity spouse = (AbstractEntity)familyTree.getInstanceOfRelative(EnumRelation.Spouse);
+					int spouseMCAID = familyTree.getEntityWithRelation(EnumRelation.Spouse);
+					int spouseEntityId = -1;
 
+					for (Map.Entry<Integer, Integer> entry : MCA.getInstance().idsMap.entrySet())
+					{
+						int keyInt = entry.getKey();
+						int valueInt = entry.getValue();
+
+						if (keyInt == spouseMCAID)
+						{
+							spouseEntityId = valueInt;
+							break;
+						}
+					}
+				
+					final AbstractEntity spouse = (AbstractEntity)worldObj.getEntityByID(spouseEntityId);
+					
 					if (spouse != null)
 					{
 						spouse.isMarriedToVillager = false;
 						spouse.familyTree.removeFamilyTreeEntry(EnumRelation.Spouse);
+						
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(spouse.entityId, "isMarriedToVillager", spouse.isMarriedToVillager));
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(spouse.entityId, spouse.familyTree));
 					}
 				}
 			}
@@ -1786,7 +1803,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				say(LanguageHelper.getString(this, "notify.villager.gifted.arrangerring.othernotnearby", false));
 				return;
 			}
-			
+
 			if (arrangerRingCount < 2)
 			{
 				say(LanguageHelper.getString(this, "notify.villager.gifted.arrangerring.notenoughrings", false));
@@ -1797,14 +1814,14 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					familyTree.getRelationTo(nearestVillager) == EnumRelation.None)
 			{
 				notifyPlayer(player, LanguageHelper.getString("notify.villager.married"));
-				
+
 				//Remove two arranger's rings.
 				for (int loops = 0; loops < 2; loops++)
 				{
 					for (int slot = 0; slot < player.inventory.mainInventory.length; slot++)
 					{
 						final ItemStack stack = player.inventory.mainInventory[slot];
-						
+
 						if (stack != null && stack.getItem().itemID == MCA.getInstance().itemArrangersRing.itemID)
 						{
 							player.inventory.setInventorySlotContents(slot, (ItemStack)null);
@@ -1850,7 +1867,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					PacketDispatcher.sendPacketToPlayer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementAdultMarried, player.entityId), (Player)player);
 				}
 			}
-			
+
 			else
 			{
 				say(LanguageHelper.getString(nearestVillager, "notify.villager.gifted.arrangerring.invalidpartner", false));
@@ -2027,60 +2044,62 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	protected void doGiftOfCake(ItemStack itemStack, EntityPlayer player)
 	{
-		if (hasCake)
+		final AbstractEntity nearestVillager = LogicHelper.getNearestVillager(this);
+
+		if (!isMarriedToVillager)
 		{
-			say(LanguageHelper.getString("notify.villager.gifted.cake.alreadygifted"));
+			doGift(itemStack, player);
 		}
 
 		else
 		{
-			final AbstractEntity spouse = (AbstractEntity) familyTree.getInstanceOfRelative(EnumRelation.Spouse);
-
-			if (spouse == null)
+			if (getDistanceToEntity(nearestVillager) > 5 || nearestVillager.mcaID != familyTree.getEntityWithRelation(EnumRelation.Spouse))
 			{
-				doGift(itemStack, player);
+				say(LanguageHelper.getString("notify.villager.gifted.cake.spousenotnearby." + getGenderAsString()));
 			}
 
-			else
+			else //nearestVillager is within 5 blocks.
 			{
-				if (getDistanceToEntity(spouse) > 5)
+				int cakeCount = 0;
+
+				//Check number of cakes in inventory.
+				for (final ItemStack stack : player.inventory.mainInventory)
 				{
-					say(LanguageHelper.getString("notify.villager.gifted.cake.spousenotnearby." + getGenderAsString()));
-					notifyPlayer(player, LanguageHelper.getString("notify.villager.gifted.cake.toofarapart"));
+					if (stack != null && stack.getItem().itemID == Item.cake.itemID)
+					{
+						cakeCount++;
+					}
+				}
+				
+				if (this.hasBaby || nearestVillager.hasBaby)
+				{
+					say(LanguageHelper.getString("notify.villager.gifted.cake.withbaby." + getGenderAsString()));
 				}
 
-				else //Spouse is within 5 blocks.
+				else if (cakeCount < 2)
 				{
-					if (this.hasBaby || spouse.hasBaby)
+					say(LanguageHelper.getString(this, "notify.villager.gifted.cake.notenough", false));
+				}
+				
+				else //This couple doesn't have a baby.
+				{
+					isProcreatingWithVillager = true;
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isProcreatingWithVillager", isProcreatingWithVillager));
+					nearestVillager.isProcreatingWithVillager = true;
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(nearestVillager.entityId, "isProcreatingWithVillager", nearestVillager.isProcreatingWithVillager));
+
+					//Remove two cakes.
+					for (int loops = 0; loops < 2; loops++)
 					{
-						say(LanguageHelper.getString("notify.villager.gifted.cake.withbaby." + getGenderAsString()));
-					}
-
-					else //This couple doesn't have a baby.
-					{
-						if (spouse.hasCake)
+						for (int slot = 0; slot < player.inventory.mainInventory.length; slot++)
 						{
-							hasCake = false;
-							isProcreatingWithVillager = true;
-							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "hasCake", hasCake));
-							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isProcreatingWithVillager", isProcreatingWithVillager));
+							final ItemStack stack = player.inventory.mainInventory[slot];
 
-							spouse.hasCake = false;
-							spouse.isProcreatingWithVillager = true;
-							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(spouse.entityId, "hasCake", spouse.hasCake));
-							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(spouse.entityId, "isProcreatingWithVillager", spouse.isProcreatingWithVillager));
-
-							Utility.removeItemFromPlayer(itemStack, player);
-						}
-
-						else
-						{
-							say(LanguageHelper.getString("notify.villager.gifted.cake.spousenearby"));
-
-							hasCake = true;
-							PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "hasCake", hasCake));
-
-							Utility.removeItemFromPlayer(itemStack, player);
+							if (stack != null && stack.getItem().itemID == Item.cake.itemID)
+							{
+								player.inventory.setInventorySlotContents(slot, (ItemStack)null);
+								break;
+							}
 						}
 					}
 				}
@@ -2093,7 +2112,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	protected void updateBabyGrowth()
 	{
-		if (!worldObj.isRemote && hasBaby && tickMarkerGrowBaby.isComplete() || hasBaby && MCA.getInstance().debugDoRapidVillagerBabyGrowth && MCA.getInstance().inDebugMode)
+		if (!worldObj.isRemote && hasBaby && tickMarkerGrowBaby.isComplete() || !worldObj.isRemote && hasBaby && MCA.getInstance().debugDoRapidVillagerBabyGrowth && MCA.getInstance().inDebugMode)
 		{
 			//Create child and assign family tree entries.
 			final EntityVillagerChild child = new EntityVillagerChild(worldObj, isHeldBabyMale, heldBabyProfession);
@@ -2180,12 +2199,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 			if (worldObj.isRemote)
 			{
-				if (!isProcreatingWithVillager)
-				{
-					isJumping = false;
-					return;
-				}
-
 				isJumping = true;
 				final double velX  = rand.nextGaussian() * 0.02D;
 				final double velY = rand.nextGaussian() * 0.02D;
@@ -2216,11 +2229,10 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 						}
 					}
 
+					procreateTicks = 0;
 					isProcreatingWithVillager = false;
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isProcreatingWithVillager", isProcreatingWithVillager));
-					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(spouse.entityId, "isProcreatingWithVillager", spouse.isProcreatingWithVillager));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.StopJumping, entityId));
-					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.StopJumping, spouse.entityId));
 				}
 
 				else
