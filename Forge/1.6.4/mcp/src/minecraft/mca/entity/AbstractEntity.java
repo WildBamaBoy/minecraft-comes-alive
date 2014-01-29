@@ -108,8 +108,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public int particleTicks;
 	public int procreateTicks;
 	public int heldBabyProfession;
-	public int workCalendarPrevMinutes = Calendar.getInstance().get(Calendar.MINUTE);
-	public int workCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+	public int workPrevMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+	public int workCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 	public boolean isMale;
 	public boolean isSleeping;
 	public boolean isSwinging;
@@ -145,6 +145,11 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public float moodPointsHappy;
 	public float moodPointsSad;
 	public float moodPointsAnger;
+	public float xpLvlFarming;
+	public float xpLvlFishing;
+	public float xpLvlHunting;
+	public float xpLvlMining;
+	public float xpLvlWoodcutting;
 	public float heightFactor = MCA.rand.nextBoolean() ? MCA.rand.nextFloat() / 12 : MCA.rand.nextFloat() / 12 * -1;
 
 	//Object types
@@ -3023,11 +3028,11 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		if (!worldObj.isRemote)
 		{
-			workCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+			workCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 
-			if (workCalendarCurrentMinutes > workCalendarPrevMinutes || workCalendarCurrentMinutes == 0 && workCalendarPrevMinutes == 59)
+			if (workCurrentMinutes > workPrevMinutes || workCurrentMinutes == 0 && workPrevMinutes == 59)
 			{
-				workCalendarPrevMinutes = workCalendarCurrentMinutes;
+				workPrevMinutes = workCurrentMinutes;
 
 				boolean hasChanged = false;
 

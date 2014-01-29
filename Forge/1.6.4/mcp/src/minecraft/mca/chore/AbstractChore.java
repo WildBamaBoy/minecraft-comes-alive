@@ -81,4 +81,16 @@ public abstract class AbstractChore implements Serializable
 	 * @param 	toolStack	The ItemStack containing the chore's tool.
 	 */
 	protected abstract int getDelayForToolType(ItemStack toolStack);
+	
+	/**
+	 * Must return the owner's xp level for this chore.
+	 * 
+	 * @return	Owner's xp lvl for this chore.
+	 */
+	protected abstract float getChoreXpLevel();
+	
+	/**
+	 * Increases the owner's xp level for this chore.
+	 */
+	protected abstract void incrementChoreXpLevel(float amount);
 }
