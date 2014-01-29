@@ -19,8 +19,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.src.ModLoader;
 import net.minecraft.util.ResourceLocation;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -103,7 +103,7 @@ public class GuiInventory extends InventoryEffectRenderer
 
 			else
 			{
-				ModLoader.openGUI(Minecraft.getMinecraft().thePlayer, new GuiVillagerEditor(owner, Minecraft.getMinecraft().thePlayer));
+				FMLClientHandler.instance().displayGuiScreen(Minecraft.getMinecraft().thePlayer, new GuiVillagerEditor(owner, Minecraft.getMinecraft().thePlayer));
 			}
 		}
 
@@ -116,7 +116,7 @@ public class GuiInventory extends InventoryEffectRenderer
 
 			else
 			{
-				ModLoader.openGUI(Minecraft.getMinecraft().thePlayer, new GuiVillagerEditor(owner, Minecraft.getMinecraft().thePlayer));
+				FMLClientHandler.instance().displayGuiScreen(Minecraft.getMinecraft().thePlayer, new GuiVillagerEditor(owner, Minecraft.getMinecraft().thePlayer));
 			}
 		}
 	}
