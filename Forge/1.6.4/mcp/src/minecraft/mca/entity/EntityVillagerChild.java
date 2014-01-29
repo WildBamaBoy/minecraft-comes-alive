@@ -11,6 +11,7 @@ package mca.entity;
 
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.util.Utility;
 import mca.core.util.object.PlayerMemory;
 import mca.enums.EnumRelation;
@@ -29,6 +30,8 @@ import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
 
 /**
  * Defines a villager child and how it behaves.
@@ -137,41 +140,36 @@ public class EntityVillagerChild extends AbstractChild
 	public boolean interact(EntityPlayer player)
 	{
 		super.interact(player);
-		ItemStack itemStack = player.inventory.getCurrentItem();
+		
+		if (!worldObj.isRemote)
+		{
+			final PlayerMemory memory = playerMemoryMap.get(player.username);
+			final ItemStack itemStack = player.inventory.getCurrentItem();
 
-		//Players get added to the playerMemory map when they interact with an entity.
-		if (!playerMemoryMap.containsKey(player.username))
-		{
-			playerMemoryMap.put(player.username, new PlayerMemory(player.username));
-		}
-		
-		PlayerMemory memory = playerMemoryMap.get(player.username);
-		
-		if (itemStack != null)
-		{
-			if (itemStack.getItem() instanceof ItemVillagerEditor)
+			if (itemStack != null) //Items here will always perform their functions regardless of the entity's state.
 			{
-				player.openGui(MCA.getInstance(), Constants.ID_GUI_EDITOR, worldObj, (int)posX, (int)posY, (int)posZ);
-				return true;
+				if (itemStack.getItem() instanceof ItemVillagerEditor)
+				{
+					PacketDispatcher.sendPacketToPlayer(PacketHandler.createOpenGuiPacket(entityId, Constants.ID_GUI_EDITOR), (Player)player);
+					return true;
+				}
 			}
-		}
-		
-		if (!memory.isInGiftMode)
-		{			
-			player.openGui(MCA.getInstance(), Constants.ID_GUI_VCHILD, worldObj, (int)posX, (int)posY, (int)posZ);
-		}
 
-		else if (itemStack != null)
-		{
-			memory.isInGiftMode = false;
-			playerMemoryMap.put(player.username, memory);
-			
-			if (worldObj.isRemote)
+			if (!memory.isInGiftMode || memory.isInGiftMode && itemStack == null) //When right clicked in gift mode without an item to give or when out of gift mode.
 			{
+				PacketDispatcher.sendPacketToPlayer(PacketHandler.createOpenGuiPacket(entityId, Constants.ID_GUI_VCHILD), (Player)player);
+			}
+
+			else if (itemStack != null && memory.isInGiftMode) //When the player right clicks with an item and entity is in gift mode.
+			{
+				memory.isInGiftMode = false;
+				playerMemoryMap.put(player.username, memory);
 				doGift(itemStack, player);
+
+				PacketDispatcher.sendPacketToPlayer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap), (Player)player);
 			}
 		}
 
-		return false;
+		return super.interact(player);
 	}
 }

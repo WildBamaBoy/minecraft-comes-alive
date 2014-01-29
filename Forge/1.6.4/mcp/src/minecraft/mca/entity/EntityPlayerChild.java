@@ -38,18 +38,21 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.EntityAIWatchClosest2;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemHoe;
+import net.minecraft.item.ItemNameTag;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
 
 /**
  * Defines a child belonging to a player.
@@ -278,42 +281,48 @@ public class EntityPlayerChild extends AbstractChild
 
 	public boolean interact(EntityPlayer player)
 	{
-		if (!currentChore.equals("Hunting"))
-		{
-			super.interact(player);
-			int playerId = MCA.getInstance().getIdOfPlayer(player);
-			ItemStack itemStack = player.inventory.getCurrentItem();
+		super.interact(player);
 
-			if (itemStack != null)
+		if (!worldObj.isRemote)
+		{
+			final PlayerMemory memory = playerMemoryMap.get(player.username);
+			final ItemStack itemStack = player.inventory.getCurrentItem();
+			final int playerId = MCA.getInstance().getIdOfPlayer(player);
+
+			if (itemStack != null) //Items here will always perform their functions regardless of the entity's state.
 			{
-				//Check for special items like the villager editor and lost relative document.
 				if (itemStack.getItem() instanceof ItemVillagerEditor)
 				{
-					player.openGui(MCA.getInstance(), Constants.ID_GUI_EDITOR, worldObj, (int)posX, (int)posY, (int)posZ);
+					PacketDispatcher.sendPacketToPlayer(PacketHandler.createOpenGuiPacket(entityId, Constants.ID_GUI_EDITOR), (Player)player);
+					return true;
+				}
+
+				else if (itemStack.getItem() instanceof ItemNameTag && itemStack.hasDisplayName())
+				{
+					if (!name.equals(itemStack.getDisplayName()))
+					{
+						name = itemStack.getDisplayName();
+						Utility.removeItemFromPlayer(itemStack, player);
+
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "name", name));
+					}
+
 					return true;
 				}
 			}
 
-			//Players get added to the playerMemory map when they interact with an entity.
-			if (!playerMemoryMap.containsKey(player.username))
-			{
-				playerMemoryMap.put(player.username, new PlayerMemory(player.username));
-			}
-
-			PlayerMemory memory = playerMemoryMap.get(player.username);
-
-			if (!memory.isInGiftMode)
+			if (!memory.isInGiftMode || memory.isInGiftMode && itemStack == null) //When right clicked in gift mode without an item to give or when out of gift mode.
 			{
 				if (familyTree.idIsRelative(playerId))
 				{
 					if (isMarriedToPlayer && player.username.equals(spousePlayerName))
 					{
-						player.openGui(MCA.getInstance(), Constants.ID_GUI_SPOUSE, worldObj, (int)posX, (int)posY, (int)posZ);
+						PacketDispatcher.sendPacketToPlayer(PacketHandler.createOpenGuiPacket(entityId, Constants.ID_GUI_SPOUSE), (Player)player);
 					}
 
 					else
 					{
-						player.openGui(MCA.getInstance(), Constants.ID_GUI_PCHILD, worldObj, (int)posX, (int)posY, (int)posZ);
+						PacketDispatcher.sendPacketToPlayer(PacketHandler.createOpenGuiPacket(entityId, Constants.ID_GUI_PCHILD), (Player)player);
 					}
 				}
 
@@ -321,105 +330,114 @@ public class EntityPlayerChild extends AbstractChild
 				{
 					if (!isAdult && !isMarriedToVillager && !isMarriedToPlayer)
 					{
-						player.openGui(MCA.getInstance(), Constants.ID_GUI_VCHILD, worldObj, (int)posX, (int)posY, (int)posZ);
+						PacketDispatcher.sendPacketToPlayer(PacketHandler.createOpenGuiPacket(entityId, Constants.ID_GUI_VCHILD), (Player)player);
 					}
 
 					else
 					{
-						player.openGui(MCA.getInstance(), Constants.ID_GUI_ADULT, worldObj, (int)posX, (int)posY, (int)posZ);
+						PacketDispatcher.sendPacketToPlayer(PacketHandler.createOpenGuiPacket(entityId, Constants.ID_GUI_ADULT), (Player)player);
 					}
 				}
 			}
 
-			else if (itemStack != null)
+			else if (itemStack != null && memory.isInGiftMode) //When the player right clicks with an item and entity is in gift mode.
 			{
 				memory.isInGiftMode = false;
 				playerMemoryMap.put(player.username, memory);
 
-				if (worldObj.isRemote)
+				if (itemStack.getItem() instanceof IGiftableItem)
 				{
-					if (itemStack.getItem() instanceof IGiftableItem)
+					doGift(itemStack, player);
+				}
+
+				else if (itemStack.getItem() instanceof ItemWeddingRing && isAdult)
+				{
+					if (familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)) && !isEngaged)
 					{
-						doGift(itemStack, player);
-					}
-
-					else if (itemStack.getItem() instanceof ItemArrangersRing && isAdult)
-					{
-						doGiftOfArrangersRing(itemStack, player);
-					}
-
-					else if (itemStack.getItem() instanceof ItemWeddingRing && isAdult)
-					{
-						if (player.username.equals(ownerPlayerName))
-						{
-							doGift(itemStack, player);
-						}
-
-						else
-						{
-							doGiftOfWeddingRing(itemStack, player);
-						}
-					}
-
-					else if (itemStack.getItem() instanceof ItemEngagementRing && isAdult)
-					{
-						if (player.username.equals(ownerPlayerName))
-						{
-							doGift(itemStack, player);
-						}
-
-						else
-						{
-							doGiftOfEngagementRing(itemStack, player);
-						}
-					}
-
-					else if (itemStack.itemID == Block.cake.blockID || itemStack.itemID == Item.cake.itemID)
-					{
-						doGiftOfCake(itemStack, player);
-					}
-
-					else if (itemStack.itemID == Item.seeds.itemID || itemStack.itemID == Item.carrot.itemID || 
-							itemStack.itemID == Item.wheat.itemID || itemStack.itemID == Item.bone.itemID)
-					{
-						doGiftOfChoreItem(itemStack, player);
-					}
-
-					else if (itemStack.itemID == MCA.getInstance().itemHeirCrown.itemID)
-					{
-						doGiftOfHeirCrown(itemStack, player);
-					}
-
-					else if (itemStack.getItem() instanceof ItemArmor || itemStack.getItem() instanceof ItemTool || 
-							itemStack.getItem() instanceof ItemSword || itemStack.getItem() instanceof ItemFishingRod ||
-							itemStack.getItem() instanceof ItemHoe)
-					{
-						inventory.addItemStackToInventory(itemStack);
-						inventory.setWornArmorItems();
-						Utility.removeItemFromPlayer(itemStack, player);
-
-						PacketDispatcher.sendPacketToServer(PacketHandler.createInventoryPacket(entityId, inventory));
-					}
-
-					else if (itemStack.getItem() instanceof ItemBaby)
-					{
-						doGiftOfBaby(itemStack, player);
+						say(LanguageHelper.getString(player, this, "notify.villager.gifted.arrangerring.relative", false));
 					}
 
 					else
 					{
-						doGift(itemStack, player);
+						doGiftOfWeddingRing(itemStack, player);
 					}
 				}
+
+				else if (itemStack.getItem() instanceof ItemEngagementRing && isAdult)
+				{
+					if (familyTree.idIsRelative(MCA.getInstance().getIdOfPlayer(player)))
+					{
+						say(LanguageHelper.getString(player, this, "notify.villager.gifted.arrangerring.relative", false));
+					}
+
+					else
+					{
+						doGiftOfEngagementRing(itemStack, player);
+					}
+				}
+
+				else if (itemStack.getItem() instanceof ItemArrangersRing && isAdult)
+				{
+					doGiftOfArrangersRing(itemStack, player);
+				}
+
+				else if (itemStack.itemID == Block.cake.blockID || itemStack.itemID == Item.cake.itemID)
+				{
+					doGiftOfCake(itemStack, player);
+				}
+
+				else if (itemStack.itemID == Item.seeds.itemID || itemStack.itemID == Item.carrot.itemID || 
+						itemStack.itemID == Item.wheat.itemID || itemStack.itemID == Item.bone.itemID)
+				{
+					doGiftOfChoreItem(itemStack, player);
+				}
+
+				else if (itemStack.itemID == MCA.getInstance().itemHeirCrown.itemID)
+				{
+					doGiftOfHeirCrown(itemStack, player);
+				}
+
+				else if (itemStack.getItem() instanceof ItemArmor)
+				{
+					final ItemArmor armor = (ItemArmor)itemStack.getItem();
+					final ItemStack transferStack = new ItemStack(itemStack.itemID, 1, itemStack.getItemDamage());
+
+					if (armor.getArmorMaterial() == EnumArmorMaterial.CLOTH)
+					{
+						armor.func_82813_b(transferStack, armor.getColor(itemStack));
+					}
+
+					inventory.inventoryItems[36 + armor.armorType] = transferStack;
+
+					Utility.removeItemFromPlayer(itemStack, player);
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createInventoryPacket(entityId, inventory));
+				}
+
+				else if (itemStack.getItem() instanceof ItemTool || itemStack.getItem() instanceof ItemSword || 
+						itemStack.getItem() instanceof ItemFishingRod || itemStack.getItem() instanceof ItemHoe)
+				{
+					inventory.addItemStackToInventory(itemStack);
+					inventory.setWornArmorItems();
+
+					Utility.removeItemFromPlayer(itemStack, player);
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createInventoryPacket(entityId, inventory));
+				}
+
+				else if (itemStack.getItem() instanceof ItemBaby)
+				{
+					doGiftOfBaby(itemStack, player);
+				}
+
+				else
+				{
+					doGift(itemStack, player);
+				}
+
+				PacketDispatcher.sendPacketToPlayer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap), (Player)player);
 			}
-
-			return true;
 		}
 
-		else
-		{
-			return false;
-		}
+		return super.interact(player);
 	}
 
 	@Override

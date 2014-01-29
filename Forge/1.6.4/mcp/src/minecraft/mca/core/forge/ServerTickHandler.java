@@ -108,7 +108,7 @@ public class ServerTickHandler implements ITickHandler
 		{
 			timeCurrent = Calendar.getInstance().get(Calendar.MINUTE);
 
-			if (!hasProcessedNewMinute)
+			if (!hasProcessedNewMinute && !manager.worldProperties.babyReadyToGrow)
 			{
 				manager.worldProperties.minutesBabyExisted++;
 				manager.saveWorldProperties();
@@ -121,6 +121,7 @@ public class ServerTickHandler implements ITickHandler
 			{
 				manager.worldProperties.babyReadyToGrow = true;
 				manager.saveWorldProperties();
+				return;
 			}
 			
 			if (manager.worldProperties.babyReadyToGrow && !MCA.getInstance().hasNotifiedOfBabyReadyToGrow)
@@ -146,9 +147,7 @@ public class ServerTickHandler implements ITickHandler
 	{
 		if (MCA.getInstance().inDebugMode)
 		{
-			manager.worldProperties.babyExists = true;
-			manager.worldProperties.minutesBabyExisted = 10;
-			manager.worldProperties.babyName = "DEBUG";
+			hasProcessedNewMinute = false;
 		}
 	}
 }

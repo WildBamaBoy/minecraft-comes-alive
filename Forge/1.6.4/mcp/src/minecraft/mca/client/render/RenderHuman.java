@@ -99,15 +99,7 @@ public class RenderHuman extends RenderBiped
 
 		if (Minecraft.isGuiEnabled() && !(entity.getInstanceOfCurrentChore() instanceof ChoreHunting))
 		{
-			if (Minecraft.getMinecraft().isSingleplayer())
-			{
-				renderLabelsIntegrated(entity, posX, posY, posZ);
-			}
-
-			else
-			{
-				renderLabelsDedicated(entity, posX, posY, posZ);
-			}
+			renderLabelsIntegrated(entity, posX, posY, posZ);
 		}
 	}
 
@@ -265,34 +257,7 @@ public class RenderHuman extends RenderBiped
 
 	private void renderLabelsDedicated(AbstractEntity entity, double posX, double posY, double posZ)
 	{
-		if (entity.hasArrangerRing)
-		{
-			renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.hasring"));
-		}
-
-		else if (entity.isSleeping)
-		{
-			if (entity.canEntityBeSeen(Minecraft.getMinecraft().thePlayer))
-			{
-				renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.sleeping"));
-			}
-		}
-
-		else if (entity instanceof EntityVillagerAdult)
-		{					
-			final EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-			final EntityVillagerAdult villager = (EntityVillagerAdult)entity;
-
-			if (villager.playerMemoryMap.containsKey(player.username))
-			{
-				final PlayerMemory memory = villager.playerMemoryMap.get(player.username);
-
-				if (memory.hasGift)
-				{
-					renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.hasgift"));
-				}
-			}
-		}
+	
 	}
 
 	/**

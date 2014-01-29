@@ -9,6 +9,8 @@
 
 package mca.entity;
 
+import java.util.Calendar;
+
 import mca.core.MCA;
 import net.minecraft.world.World;
 
@@ -19,6 +21,9 @@ public abstract class AbstractChild extends AbstractEntity
 {
 	/** The age of the child in minutes. */
 	public int age;
+
+	public int currentGrowthMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+	public int prevGrowthMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 	
 	/** Is the child ready to grow up? */
 	public boolean isReadyToGrow;
@@ -44,31 +49,30 @@ public abstract class AbstractChild extends AbstractEntity
 	{
 		super.onUpdate();
 
-		//TODO
-//		//Check if age should be increased.
-//		currentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
-//
-//		if (MCA.getInstance().inDebugMode)
-//		{
-//			if (this instanceof EntityPlayerChild && !isAdult && MCA.getInstance().debugDoRapidPlayerChildGrowth)
-//			{
-//				age++;
-//			}
-//			
-//			else if (this instanceof EntityVillagerChild && MCA.getInstance().debugDoRapidVillagerChildGrowth)
-//			{
-//				age++;
-//			}
-//		}
-//		
-//		if (currentMinutes > prevMinutes || currentMinutes == 0 && prevMinutes == 59)
-//		{
-//			if (age < MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes)
-//			{
-//				age++;
-//				prevMinutes = currentMinutes;
-//			}
-//		}
+		//Check if age should be increased.
+		currentGrowthMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+
+		if (MCA.getInstance().inDebugMode)
+		{
+			if (this instanceof EntityPlayerChild && !isAdult && MCA.getInstance().debugDoRapidPlayerChildGrowth)
+			{
+				age++;
+			}
+			
+			else if (this instanceof EntityVillagerChild && MCA.getInstance().debugDoRapidVillagerChildGrowth)
+			{
+				age++;
+			}
+		}
+		
+		if (currentGrowthMinutes > prevGrowthMinutes || currentGrowthMinutes == 0 && prevGrowthMinutes == 59)
+		{
+			if (age < MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes)
+			{
+				age++;
+				prevGrowthMinutes = currentGrowthMinutes;
+			}
+		}
 
 		if (age >= MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes)
 		{
