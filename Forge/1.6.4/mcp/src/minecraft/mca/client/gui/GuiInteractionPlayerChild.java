@@ -485,11 +485,6 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			buttonList.add(growUpButton = new GuiButton(9, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.child.growup")));
 		}
 
-		if (entityChild.hasArrangerRing)
-		{
-			buttonList.add(takeArrangerRingButton = new GuiButton(12, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.interact.takearrangerring")));
-		}
-
 		if (entityChild.isInChoreMode) choresButton.displayString = LanguageHelper.getString("gui.button.child.stopchore");
 		if (entityChild.isFollowing) followButton.displayString = LanguageHelper.getString("gui.button.interact.followstop");
 		if (entityChild.isStaying)   stayButton.displayString = LanguageHelper.getString("gui.button.interact.staystop");
@@ -966,9 +961,6 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 		else if (button == takeArrangerRingButton)
 		{
-			entityChild.hasArrangerRing = false;
-
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "hasArrangerRing", entityChild.hasArrangerRing));
 			PacketDispatcher.sendPacketToServer(PacketHandler.createDropItemPacket(entityChild.entityId, MCA.getInstance().itemArrangersRing.itemID, 1));
 
 			close();

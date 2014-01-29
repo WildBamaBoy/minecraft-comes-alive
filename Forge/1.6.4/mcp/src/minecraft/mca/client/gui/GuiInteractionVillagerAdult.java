@@ -621,11 +621,6 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			buttonList.add(tradeButton = new GuiButton(8, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.trade")));
 		}
 
-		if (entityVillager.hasArrangerRing)
-		{
-			buttonList.add(takeArrangerRingButton = new GuiButton(8, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.interact.takearrangerring")));
-		}
-
 		else if (entityVillager.playerMemoryMap.get(player.username).hasGift)
 		{
 			buttonList.add(takeGiftButton = new GuiButton(8, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.interact.takegift")));
@@ -1372,10 +1367,6 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		else if (button == takeArrangerRingButton)
 		{
 			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
-
-			entityVillager.hasArrangerRing = false;
-
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "hasArrangerRing", entityVillager.hasArrangerRing));
 			PacketDispatcher.sendPacketToServer(PacketHandler.createDropItemPacket(entityVillager.entityId, MCA.getInstance().itemArrangersRing.itemID, 1));
 			close();
 		}

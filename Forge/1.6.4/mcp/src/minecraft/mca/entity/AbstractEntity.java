@@ -121,7 +121,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public boolean isKnight;
 	public boolean hasHomePoint;
 	public boolean hasTeleportedHome;
-	public boolean hasArrangerRing;
 	public boolean hasBeenExecuted;
 	public boolean hasRunExecution;
 	public boolean doOpenInventory;
@@ -1780,11 +1779,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			say(LanguageHelper.getString("marriage.refusal.villagermarried"));
 		}
 
-		else if (hasArrangerRing)
-		{
-			say(LanguageHelper.getString("notify.villager.gifted.arrangerring.hasring." + getGenderAsString()));
-		}
-
 		else	
 		{
 			final AbstractEntity nearestVillager = LogicHelper.getNearestVillager(this);
@@ -1845,17 +1839,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				//Update relevant data on client and server.
 				isMarriedToVillager = true;
-				hasArrangerRing = false;
 				familyTree.addFamilyTreeEntry(nearestVillager, EnumRelation.Spouse);
 				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isMarriedToVillager", isMarriedToVillager));
-				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "hasArrangerRing", hasArrangerRing));
 				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(entityId, familyTree));
 
 				nearestVillager.isMarriedToVillager = true;
-				nearestVillager.hasArrangerRing = false;
 				nearestVillager.familyTree.addFamilyTreeEntry(this, EnumRelation.Spouse);
 				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(nearestVillager.entityId, "isMarriedToVillager", nearestVillager.isMarriedToVillager));
-				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(nearestVillager.entityId, "hasArrangerRing", nearestVillager.hasArrangerRing));
 				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(nearestVillager.entityId, nearestVillager.familyTree));
 
 				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.ArrangedMarriageParticles, this.entityId, nearestVillager.entityId));

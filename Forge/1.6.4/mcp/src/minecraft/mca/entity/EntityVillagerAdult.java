@@ -298,11 +298,6 @@ public class EntityVillagerAdult extends AbstractEntity
 			final WorldPropertiesManager manager = entry.getValue();
 			boolean propertiesChanged = false;
 
-			if (hasArrangerRing)
-			{
-				this.dropItem(MCA.getInstance().itemArrangersRing.itemID, 1);
-			}
-
 			if ((isMarriedToPlayer || isEngaged) && manager.worldProperties.playerSpouseID == this.mcaID)
 			{
 				propertiesChanged = true;

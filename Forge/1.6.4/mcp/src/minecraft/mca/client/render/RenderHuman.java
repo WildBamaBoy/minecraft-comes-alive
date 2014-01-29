@@ -99,7 +99,7 @@ public class RenderHuman extends RenderBiped
 
 		if (Minecraft.isGuiEnabled() && !(entity.getInstanceOfCurrentChore() instanceof ChoreHunting))
 		{
-			renderLabelsIntegrated(entity, posX, posY, posZ);
+			renderLabels(entity, posX, posY, posZ);
 		}
 	}
 
@@ -193,7 +193,7 @@ public class RenderHuman extends RenderBiped
 	}
 
 	/**
-	 * Determines the appropriate label to render over an entity's head on the integrated server, if any.
+	 * Determines the appropriate label to render over an entity's head.
 	 * 
 	 * @param 	entity	The entity that the labels will be rendered on.
 	 * @param 	posX	The entity's x position.
@@ -201,7 +201,7 @@ public class RenderHuman extends RenderBiped
 	 * @param 	posZ	The entity's z position.
 	 */
 
-	private void renderLabelsIntegrated(AbstractEntity entity, double posX, double posY, double posZ)
+	private void renderLabels(AbstractEntity entity, double posX, double posY, double posZ)
 	{
 		final WorldPropertiesList propertiesList = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username).worldProperties;
 		final AbstractEntity clientEntity = (AbstractEntity)DimensionManager.getWorld(entity.worldObj.provider.dimensionId).getEntityByID(entity.entityId);
@@ -211,11 +211,6 @@ public class RenderHuman extends RenderBiped
 			if (clientEntity.getHealth() < entity.getMaxHealth())
 			{
 				renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.health") + Math.round(clientEntity.getHealth()) + "/" + entity.getMaxHealth());
-			}
-
-			else if (clientEntity.hasArrangerRing)
-			{
-				renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.hasring"));
 			}
 
 			else if (clientEntity.isSleeping && clientEntity.canEntityBeSeen(Minecraft.getMinecraft().thePlayer) && !propertiesList.hideSleepingTag)
@@ -244,20 +239,6 @@ public class RenderHuman extends RenderBiped
 				}
 			}
 		}
-	}
-
-	/**
-	 * Determines the appropriate label to render over an entity's head on the dedicated client, if any.
-	 * 
-	 * @param 	entity	The entity that the labels will be rendered on.
-	 * @param 	posX	The entity's x position.
-	 * @param 	posY	The entity's y position.
-	 * @param 	posZ	The entity's z position.
-	 */
-
-	private void renderLabelsDedicated(AbstractEntity entity, double posX, double posY, double posZ)
-	{
-	
 	}
 
 	/**

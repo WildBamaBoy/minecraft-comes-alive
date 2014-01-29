@@ -18,7 +18,7 @@ public class VillagerInformation
 
 	/**
 	 * True if this villager is actually holding a baby that is theirs.
-	 * Will be false for players' spouses.
+	 * Will always be false for players' spouses.
 	 */
 	public boolean hasBaby;
 
