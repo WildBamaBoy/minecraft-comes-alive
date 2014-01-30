@@ -280,6 +280,37 @@ public class ChoreFishing extends AbstractChore
 		return 0;
 	}
 
+	@Override
+	protected float getChoreXpLevel() 
+	{
+		return owner.xpLvlFishing;
+	}
+
+	@Override
+	protected void incrementChoreXpLevel(float amount) 
+	{
+		if (owner instanceof EntityPlayerChild)
+		{
+			final EntityPlayer ownerPlayer = owner.worldObj.getPlayerEntityByName(((EntityPlayerChild)owner).ownerPlayerName);
+
+			if (amount <= 0)
+			{
+				amount = 0.02F;
+			}
+
+			final float prevAmount = owner.xpLvlFishing;
+			final float newAmount = prevAmount + amount;
+
+			notifyOfChoreLevelIncrease(prevAmount, newAmount, "notify.child.chore.levelup.fishing", ownerPlayer);
+			owner.xpLvlFishing= newAmount;
+			
+			if (!owner.worldObj.isRemote)
+			{
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, "xpLvlFishing", owner.xpLvlFishing));
+			}
+		}
+	}
+	
 	private boolean trySetWaterCoordinates()
 	{
 		//Get all water up to 10 blocks away from the entity.
@@ -346,7 +377,7 @@ public class ChoreFishing extends AbstractChore
 				owner.damageHeldItem();
 			}
 
-			fishCatchCheck = owner.worldObj.rand.nextInt(200) + 200;
+			fishCatchCheck = getChoreXpLevel() >= 5.0F ? getChoreXpLevel() >= 15.0F ? MCA.rand.nextInt(50) + 25 : MCA.rand.nextInt(100) + 50 : MCA.rand.nextInt(200) + 100;
 			fishEntity = new EntityChoreFishHook(owner.worldObj, owner);
 			owner.worldObj.spawnEntityInWorld(fishEntity);
 			owner.tasks.taskEntries.clear();
@@ -355,13 +386,19 @@ public class ChoreFishing extends AbstractChore
 
 	private void doFishCatchAttempt()
 	{
+		//TODO Common and rare treasures.
+		
 		if (!owner.worldObj.isRemote)
 		{
-			final int catchChance = owner.worldObj.rand.nextInt(10);
+			final int catchChance = getChoreXpLevel() >= 5.0F ? getChoreXpLevel() >= 15.0F ? 90 : 60 : 30;
 
-			if (catchChance <= 4) //About a 30 percent chance of catching the fish. In this case they did catch it.
+			if (Utility.getBooleanWithProbability(catchChance))
 			{
-				owner.inventory.addItemStackToInventory(new ItemStack(Item.fishRaw, 1));
+				incrementChoreXpLevel((float)(0.30 - 0.01 * getChoreXpLevel()));
+			
+				final int amountToAdd = getChoreXpLevel() >= 20.0F ? MCA.rand.nextInt(5) + 1 : 1;
+				
+				owner.inventory.addItemStackToInventory(new ItemStack(Item.fishRaw, amountToAdd));
 				fishCatchCheck = 0;
 				fishingTicks = 0;
 
@@ -370,7 +407,7 @@ public class ChoreFishing extends AbstractChore
 				{
 					EntityPlayerChild child = (EntityPlayerChild)owner;
 
-					child.fishCaught++;
+					child.fishCaught += amountToAdd;
 
 					if (child.fishCaught >= 100)
 					{
