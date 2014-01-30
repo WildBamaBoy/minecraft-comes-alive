@@ -11,7 +11,12 @@ package mca.chore;
 
 import java.io.Serializable;
 
+import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
+import mca.core.forge.PacketHandler;
 import mca.entity.AbstractEntity;
+import mca.enums.EnumGenericCommand;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -93,4 +98,34 @@ public abstract class AbstractChore implements Serializable
 	 * Increases the owner's xp level for this chore.
 	 */
 	protected abstract void incrementChoreXpLevel(float amount);
+	
+	protected void notifyOfChoreLevelIncrease(float prevAmount, float newAmount, String notificationString, EntityPlayer playerToNotify)
+	{
+		if (!owner.worldObj.isRemote && playerToNotify != null)
+		{
+			if (prevAmount < 5.0F && newAmount >= 5.0F)
+			{
+				PacketDispatcher.sendPacketToPlayer(PacketHandler.createGenericPacket(EnumGenericCommand.NotifyPlayer, 
+						owner.entityId, notificationString + ".5"), (Player)playerToNotify);
+			}
+
+			else if (prevAmount < 10.0F && newAmount >= 10.0F)
+			{
+				PacketDispatcher.sendPacketToPlayer(PacketHandler.createGenericPacket(EnumGenericCommand.NotifyPlayer, 
+						owner.entityId, notificationString + ".10"), (Player)playerToNotify);
+			}
+
+			else if (prevAmount < 15.0F && newAmount >= 15.0F)
+			{
+				PacketDispatcher.sendPacketToPlayer(PacketHandler.createGenericPacket(EnumGenericCommand.NotifyPlayer, 
+						owner.entityId, notificationString + ".15"), (Player)playerToNotify);
+			}
+
+			else if (prevAmount < 20.0F && newAmount >= 20.0F)
+			{
+				PacketDispatcher.sendPacketToPlayer(PacketHandler.createGenericPacket(EnumGenericCommand.NotifyPlayer, 
+						owner.entityId, notificationString + ".20"), (Player)playerToNotify);
+			}
+		}
+	}
 }

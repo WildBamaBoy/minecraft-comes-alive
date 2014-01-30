@@ -2464,9 +2464,10 @@ public final class PacketHandler implements IPacketHandler
 			break;
 		case NotifyPlayer:
 			entityId = (Integer)arguments[0];
+			entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
 			final String phraseId = (String)arguments[1];
 
-			entityPlayer.addChatMessage(LanguageHelper.getString(phraseId));
+			entityPlayer.addChatMessage(LanguageHelper.getString(entity, phraseId, false));
 			break;
 		case SetPosition:
 			entityId = (Integer)arguments[0];

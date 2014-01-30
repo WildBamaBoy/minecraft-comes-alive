@@ -255,6 +255,18 @@ public class ChoreCombat extends AbstractChore
 		return 0;
 	}
 
+	@Override
+	protected float getChoreXpLevel() 
+	{
+		return 0;
+	}
+
+	@Override
+	protected void incrementChoreXpLevel(float amount) 
+	{
+		//Combat chore doesn't have experience.
+	}
+
 	/**
 	 * Runs the melee only section of the combat chore.
 	 */

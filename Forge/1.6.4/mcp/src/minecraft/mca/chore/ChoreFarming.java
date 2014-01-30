@@ -31,6 +31,7 @@ import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
 
 /**
  * The farming chore handles planting crops.
@@ -335,12 +336,26 @@ public class ChoreFarming extends AbstractChore
 	@Override
 	protected void incrementChoreXpLevel(float amount) 
 	{
-		if (amount <= 0)
+		if (owner instanceof EntityPlayerChild)
 		{
-			amount = 0.02F;
-		}
+			final EntityPlayer ownerPlayer = owner.worldObj.getPlayerEntityByName(((EntityPlayerChild)owner).ownerPlayerName);
 
-		owner.xpLvlFarming += amount;
+			if (amount <= 0)
+			{
+				amount = 0.02F;
+			}
+
+			final float prevAmount = owner.xpLvlFarming;
+			final float newAmount = prevAmount + amount;
+
+			notifyOfChoreLevelIncrease(prevAmount, newAmount, "notify.child.chore.levelup.farming", ownerPlayer);
+			owner.xpLvlFarming = newAmount;
+			
+			if (!owner.worldObj.isRemote)
+			{
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, "xpLvlFarming", owner.xpLvlFarming));
+			}
+		}
 	}
 
 	private boolean initializeCreateFarm()
@@ -611,13 +626,13 @@ public class ChoreFarming extends AbstractChore
 			final int yieldID = Constants.CROP_DATA[seedType][3];
 			int cropsToAdd = getNumberOfCropsToAdd(seedType);
 			int seedsToAdd = getNumberOfSeedsToAdd(seedType);
-			
+
 			if (getChoreXpLevel() >= 20.0F && Utility.getBooleanWithProbability(65))
 			{
 				seedsToAdd *= 2;
 				cropsToAdd *= 2;
 			}
-			
+
 			if (seedsToAdd != 0)
 			{
 				owner.inventory.addItemStackToInventory(new ItemStack(Item.seeds, seedsToAdd));
@@ -637,7 +652,6 @@ public class ChoreFarming extends AbstractChore
 			}
 
 			incrementChoreXpLevel((float)(0.15 - 0.005 * getChoreXpLevel()));
-			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, "xpLvlFarming", owner.xpLvlFarming));
 			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createInventoryPacket(owner.entityId, owner.inventory));
 		}
 	}
@@ -645,7 +659,7 @@ public class ChoreFarming extends AbstractChore
 	private void doUpdateMaintainFarm()
 	{
 		delayCounter++;
-		
+
 		if (LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, targetX, targetY, targetZ) <= 2.5F)
 		{
 			owner.swingItem();
@@ -670,7 +684,7 @@ public class ChoreFarming extends AbstractChore
 	private int getNumberOfCropsToAdd(int seedType)
 	{
 		int returnAmount = 0;
-		
+
 		switch (seedType)
 		{
 		case Constants.ID_CROP_WHEAT: returnAmount = 1; break;
@@ -681,24 +695,24 @@ public class ChoreFarming extends AbstractChore
 		case Constants.ID_CROP_SUGARCANE: returnAmount = 1; break;
 		default: return 0;
 		}
-		
+
 		if (getChoreXpLevel() >= 15.0F)
 		{
 			returnAmount += MCA.rand.nextInt(3) + 1;
 		}
-		
+
 		return returnAmount;
 	}
 
 	private int getNumberOfSeedsToAdd(int seedType)
 	{
 		int minimum = 0;
-		
+
 		if (getChoreXpLevel() >= 5.0F)
 		{
 			minimum = 2;
 		}
-		
+
 		return seedType == Constants.ID_CROP_WHEAT ? MCA.rand.nextInt(4) + minimum : 0;
 	}
 }
