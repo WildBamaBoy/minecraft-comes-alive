@@ -303,7 +303,7 @@ public class ChoreFishing extends AbstractChore
 			final float newAmount = prevAmount + adjustableAmount;
 
 			notifyOfChoreLevelIncrease(prevAmount, newAmount, "notify.child.chore.levelup.fishing", ownerPlayer);
-			owner.xpLvlFarming = newAmount;
+			owner.xpLvlFishing = newAmount;
 			
 			if (!owner.worldObj.isRemote)
 			{
