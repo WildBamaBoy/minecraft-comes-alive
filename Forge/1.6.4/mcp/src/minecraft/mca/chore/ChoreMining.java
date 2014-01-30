@@ -293,6 +293,38 @@ public class ChoreMining extends AbstractChore
 		}
 	}
 
+	@Override
+	protected float getChoreXpLevel() 
+	{
+		return owner.xpLvlMining;
+	}
+
+	@Override
+	protected void incrementChoreXpLevel(float amount) 
+	{
+		if (owner instanceof EntityPlayerChild)
+		{
+			float adjustableAmount = amount;
+			final EntityPlayer ownerPlayer = owner.worldObj.getPlayerEntityByName(((EntityPlayerChild)owner).ownerPlayerName);
+
+			if (adjustableAmount <= 0)
+			{
+				adjustableAmount = 0.02F;
+			}
+
+			final float prevAmount = owner.xpLvlMining;
+			final float newAmount = prevAmount + adjustableAmount;
+
+			notifyOfChoreLevelIncrease(prevAmount, newAmount, "notify.child.chore.levelup.mining", ownerPlayer);
+			owner.xpLvlMining = newAmount;
+			
+			if (!owner.worldObj.isRemote)
+			{
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, "xpLvlMining", owner.xpLvlMining));
+			}
+		}
+	}
+	
 	/**
 	 * Runs the passive mining AI.
 	 */

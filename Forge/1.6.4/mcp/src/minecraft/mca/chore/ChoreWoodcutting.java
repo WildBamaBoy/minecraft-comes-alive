@@ -300,6 +300,38 @@ public class ChoreWoodcutting extends AbstractChore
 		}
 	}
 
+	@Override
+	protected float getChoreXpLevel() 
+	{
+		return owner.xpLvlWoodcutting;
+	}
+
+	@Override
+	protected void incrementChoreXpLevel(float amount) 
+	{
+		if (owner instanceof EntityPlayerChild)
+		{
+			float adjustableAmount = amount;
+			final EntityPlayer ownerPlayer = owner.worldObj.getPlayerEntityByName(((EntityPlayerChild)owner).ownerPlayerName);
+
+			if (adjustableAmount <= 0)
+			{
+				adjustableAmount = 0.02F;
+			}
+
+			final float prevAmount = owner.xpLvlWoodcutting;
+			final float newAmount = prevAmount + adjustableAmount;
+
+			notifyOfChoreLevelIncrease(prevAmount, newAmount, "notify.child.chore.levelup.woodcutting", ownerPlayer);
+			owner.xpLvlWoodcutting = newAmount;
+			
+			if (!owner.worldObj.isRemote)
+			{
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, "xpLvlWoodcutting", owner.xpLvlWoodcutting));
+			}
+		}
+	}
+	
 	private void endForNoTrees()
 	{
 		if (!owner.worldObj.isRemote)
@@ -410,18 +442,18 @@ public class ChoreWoodcutting extends AbstractChore
 		{
 			owner.worldObj.setBlock((int)logX, (int)logY, (int)logZ, 0);
 		}
-
+	
 		logY++;
-
+	
 		final ItemStack stackToAdd = new ItemStack(Block.wood, 1, treeType);
 		stackToAdd.damageItem(treeType, owner);
 		owner.inventory.addItemStackToInventory(stackToAdd);
-
+	
 		cutCounter = 0;
 		hasDoneWork = true;
 		owner.damageHeldItem();
 	}
-	
+
 	private void doUpdateAchievements()
 	{
 		if (owner instanceof EntityPlayerChild)
