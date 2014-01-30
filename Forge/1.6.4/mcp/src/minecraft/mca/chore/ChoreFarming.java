@@ -31,7 +31,6 @@ import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import cpw.mods.fml.common.network.PacketDispatcher;
-import cpw.mods.fml.common.network.Player;
 
 /**
  * The farming chore handles planting crops.
@@ -338,15 +337,16 @@ public class ChoreFarming extends AbstractChore
 	{
 		if (owner instanceof EntityPlayerChild)
 		{
+			float adjustableAmount = amount;
 			final EntityPlayer ownerPlayer = owner.worldObj.getPlayerEntityByName(((EntityPlayerChild)owner).ownerPlayerName);
 
-			if (amount <= 0)
+			if (adjustableAmount <= 0)
 			{
-				amount = 0.02F;
+				adjustableAmount = 0.02F;
 			}
 
 			final float prevAmount = owner.xpLvlFarming;
-			final float newAmount = prevAmount + amount;
+			final float newAmount = prevAmount + adjustableAmount;
 
 			notifyOfChoreLevelIncrease(prevAmount, newAmount, "notify.child.chore.levelup.farming", ownerPlayer);
 			owner.xpLvlFarming = newAmount;

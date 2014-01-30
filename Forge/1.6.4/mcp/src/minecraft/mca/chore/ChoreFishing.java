@@ -291,18 +291,19 @@ public class ChoreFishing extends AbstractChore
 	{
 		if (owner instanceof EntityPlayerChild)
 		{
+			float adjustableAmount = amount;
 			final EntityPlayer ownerPlayer = owner.worldObj.getPlayerEntityByName(((EntityPlayerChild)owner).ownerPlayerName);
 
-			if (amount <= 0)
+			if (adjustableAmount <= 0)
 			{
-				amount = 0.02F;
+				adjustableAmount = 0.02F;
 			}
 
 			final float prevAmount = owner.xpLvlFishing;
-			final float newAmount = prevAmount + amount;
+			final float newAmount = prevAmount + adjustableAmount;
 
 			notifyOfChoreLevelIncrease(prevAmount, newAmount, "notify.child.chore.levelup.fishing", ownerPlayer);
-			owner.xpLvlFishing= newAmount;
+			owner.xpLvlFarming = newAmount;
 			
 			if (!owner.worldObj.isRemote)
 			{
@@ -387,16 +388,17 @@ public class ChoreFishing extends AbstractChore
 	private void doFishCatchAttempt()
 	{
 		//TODO Common and rare treasures.
+		//TODO Lvl 20 horse armor.
 		
 		if (!owner.worldObj.isRemote)
 		{
-			final int catchChance = getChoreXpLevel() >= 5.0F ? getChoreXpLevel() >= 15.0F ? 90 : 60 : 30;
+			final int catchChance = getFishCatchChance();
 
 			if (Utility.getBooleanWithProbability(catchChance))
 			{
 				incrementChoreXpLevel((float)(0.30 - 0.01 * getChoreXpLevel()));
 			
-				final int amountToAdd = getChoreXpLevel() >= 20.0F ? MCA.rand.nextInt(5) + 1 : 1;
+				final int amountToAdd = getFishAmountToAdd();
 				
 				owner.inventory.addItemStackToInventory(new ItemStack(Item.fishRaw, amountToAdd));
 				fishCatchCheck = 0;
@@ -483,5 +485,16 @@ public class ChoreFishing extends AbstractChore
 			endChore();
 			return;
 		}
+	}
+	
+	private int getFishCatchChance()
+	{
+		//Less than 5 = 30%, greater than 5 = 60%, greater than 15 = 90%
+		return getChoreXpLevel() >= 5.0F ? getChoreXpLevel() >= 15.0F ? 90 : 60 : 30;
+	}
+	
+	private int getFishAmountToAdd()
+	{
+		return getChoreXpLevel() >= 20.0F ? MCA.rand.nextInt(5) + 1 : 1;
 	}
 }
