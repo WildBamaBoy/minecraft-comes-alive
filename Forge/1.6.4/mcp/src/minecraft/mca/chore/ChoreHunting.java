@@ -90,7 +90,9 @@ public class ChoreHunting extends AbstractChore
 			return;
 		}
 
-		huntingReturnTime = MCA.getInstance().inDebugMode ? 100 : Constants.TICKS_MINUTE * (owner.worldObj.rand.nextInt(5) + 1);
+		huntingReturnTime = MCA.getInstance().inDebugMode ? 100 : 
+			getChoreXpLevel() >= 20.0F ? Constants.TICKS_MINUTE * 1 : 
+				Constants.TICKS_MINUTE * (owner.worldObj.rand.nextInt(5) + 1);
 		hasWeapon = doesOwnerHaveWeapon();
 		hasArmor = doesOwnerHaveArmor();
 
@@ -111,6 +113,8 @@ public class ChoreHunting extends AbstractChore
 		{
 			if (huntingTimePassed < huntingReturnTime)
 			{
+				incrementChoreXpLevel((float) (1.2F - 0.035 * getChoreXpLevel()));
+				
 				if (didChildDieWhileHunting())
 				{
 					final EntityPlayer ownerPlayer = MCA.getInstance().getPlayerByName(((EntityPlayerChild)owner).ownerPlayerName);
@@ -267,6 +271,38 @@ public class ChoreHunting extends AbstractChore
 		return 0;
 	}
 
+	@Override
+	protected float getChoreXpLevel() 
+	{
+		return owner.xpLvlHunting;
+	}
+
+	@Override
+	protected void incrementChoreXpLevel(float amount) 
+	{
+		if (owner instanceof EntityPlayerChild)
+		{
+			float adjustableAmount = amount;
+			final EntityPlayer ownerPlayer = owner.worldObj.getPlayerEntityByName(((EntityPlayerChild)owner).ownerPlayerName);
+
+			if (adjustableAmount <= 0)
+			{
+				adjustableAmount = 0.02F;
+			}
+
+			final float prevAmount = owner.xpLvlHunting;
+			final float newAmount = prevAmount + adjustableAmount;
+
+			notifyOfChoreLevelIncrease(prevAmount, newAmount, "notify.child.chore.levelup.hunting", ownerPlayer);
+			owner.xpLvlFarming = newAmount;
+
+			if (!owner.worldObj.isRemote)
+			{
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, "xpLvlHunting", owner.xpLvlHunting));
+			}
+		}
+	}
+
 	private void doHuntingUpdate()
 	{
 		if (MCA.getInstance().inDebugMode)
@@ -282,24 +318,32 @@ public class ChoreHunting extends AbstractChore
 
 	private boolean didChildDieWhileHunting()
 	{
-		int chanceOfDeath = 70;
-
-		if (owner instanceof EntityPlayerChild)
+		if (getChoreXpLevel() >= 10.0F)
 		{
-			if (hasWeapon)
-			{
-				chanceOfDeath -= 15;
-			}
-			
-			if (hasArmor)
-			{
-				chanceOfDeath -= 50;
-			}
-
-			return Utility.getBooleanWithProbability(chanceOfDeath);
+			return false;
 		}
 
-		return false;
+		else
+		{
+			int chanceOfDeath = 70;
+
+			if (owner instanceof EntityPlayerChild)
+			{
+				if (hasWeapon)
+				{
+					chanceOfDeath -= 15;
+				}
+
+				if (hasArmor)
+				{
+					chanceOfDeath -= 50;
+				}
+
+				return Utility.getBooleanWithProbability(chanceOfDeath);
+			}
+
+			return false;
+		}
 	}
 
 	private int doCalculateHuntingResults(byte animalId, int animalsSeen)
@@ -316,7 +360,7 @@ public class ChoreHunting extends AbstractChore
 			{
 				if (Utility.getBooleanWithProbability(tameSuccessChance) && owner.inventory.getQuantityOfItem(requiredItemId) != 0)
 				{
-					successfulAnimals++;
+					successfulAnimals = getChoreXpLevel() >= 5.0F ? successfulAnimals + MCA.rand.nextInt(3) + 1 : successfulAnimals + 1;
 					owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(requiredItemId), 1);
 				}
 			}
@@ -325,7 +369,7 @@ public class ChoreHunting extends AbstractChore
 			{
 				if (Utility.getBooleanWithProbability(killSuccessChance))
 				{
-					successfulAnimals++;
+					successfulAnimals = getChoreXpLevel() >= 15.0F ? successfulAnimals + MCA.rand.nextInt(5) + 2 : successfulAnimals + 1;
 				}
 			}
 		}
@@ -429,13 +473,13 @@ public class ChoreHunting extends AbstractChore
 			}
 		}
 	}
-	
+
 	private boolean doesOwnerHaveArmor()
 	{
 		return owner.inventory.armorItemInSlot(0) != null || owner.inventory.armorItemInSlot(1) != null ||
 				owner.inventory.armorItemInSlot(2) != null || owner.inventory.armorItemInSlot(3) != null;
 	}
-	
+
 	private boolean doesOwnerHaveWeapon()
 	{
 		return owner.inventory.getBestItemOfType(ItemSword.class) != null || 
