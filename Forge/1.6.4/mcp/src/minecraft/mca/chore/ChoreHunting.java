@@ -32,6 +32,9 @@ import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
+
+import org.apache.commons.lang3.mutable.MutableFloat;
+
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 /**
@@ -91,7 +94,7 @@ public class ChoreHunting extends AbstractChore
 		}
 
 		huntingReturnTime = MCA.getInstance().inDebugMode ? 100 : 
-			getChoreXpLevel() >= 20.0F ? Constants.TICKS_MINUTE * 1 : 
+			getImmutableChoreXp() >= 20.0F ? Constants.TICKS_MINUTE * 1 : 
 				Constants.TICKS_MINUTE * (owner.worldObj.rand.nextInt(5) + 1);
 		hasWeapon = doesOwnerHaveWeapon();
 		hasArmor = doesOwnerHaveArmor();
@@ -113,7 +116,7 @@ public class ChoreHunting extends AbstractChore
 		{
 			if (huntingTimePassed < huntingReturnTime)
 			{
-				incrementChoreXpLevel((float) (1.2F - 0.035 * getChoreXpLevel()));
+				incrementChoreXpLevel((float) (1.2F - 0.035 * getImmutableChoreXp()));
 				
 				if (didChildDieWhileHunting())
 				{
@@ -272,37 +275,23 @@ public class ChoreHunting extends AbstractChore
 	}
 
 	@Override
-	protected float getChoreXpLevel() 
+	protected MutableFloat getMutableChoreXp() 
 	{
-		return owner.xpLvlHunting;
+		return new MutableFloat(owner.xpLvlHunting);
 	}
 
 	@Override
-	protected void incrementChoreXpLevel(float amount) 
+	protected String getChoreXpName() 
 	{
-		if (owner instanceof EntityPlayerChild)
-		{
-			float adjustableAmount = amount;
-			final EntityPlayer ownerPlayer = owner.worldObj.getPlayerEntityByName(((EntityPlayerChild)owner).ownerPlayerName);
-
-			if (adjustableAmount <= 0)
-			{
-				adjustableAmount = 0.02F;
-			}
-
-			final float prevAmount = owner.xpLvlHunting;
-			final float newAmount = prevAmount + adjustableAmount;
-
-			notifyOfChoreLevelIncrease(prevAmount, newAmount, "notify.child.chore.levelup.hunting", ownerPlayer);
-			owner.xpLvlFarming = newAmount;
-
-			if (!owner.worldObj.isRemote)
-			{
-				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, "xpLvlHunting", owner.xpLvlHunting));
-			}
-		}
+		return "xpLvlHunting";
 	}
 
+	@Override
+	protected String getBaseLevelUpPhrase() 
+	{
+		return "notify.child.chore.levelup.hunting";
+	}
+	
 	private void doHuntingUpdate()
 	{
 		if (MCA.getInstance().inDebugMode)
@@ -318,7 +307,7 @@ public class ChoreHunting extends AbstractChore
 
 	private boolean didChildDieWhileHunting()
 	{
-		if (getChoreXpLevel() >= 10.0F)
+		if (getImmutableChoreXp() >= 10.0F)
 		{
 			return false;
 		}
@@ -360,7 +349,7 @@ public class ChoreHunting extends AbstractChore
 			{
 				if (Utility.getBooleanWithProbability(tameSuccessChance) && owner.inventory.getQuantityOfItem(requiredItemId) != 0)
 				{
-					successfulAnimals = getChoreXpLevel() >= 5.0F ? successfulAnimals + MCA.rand.nextInt(3) + 1 : successfulAnimals + 1;
+					successfulAnimals = getImmutableChoreXp() >= 5.0F ? successfulAnimals + MCA.rand.nextInt(3) + 1 : successfulAnimals + 1;
 					owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(requiredItemId), 1);
 				}
 			}
@@ -369,7 +358,7 @@ public class ChoreHunting extends AbstractChore
 			{
 				if (Utility.getBooleanWithProbability(killSuccessChance))
 				{
-					successfulAnimals = getChoreXpLevel() >= 15.0F ? successfulAnimals + MCA.rand.nextInt(5) + 2 : successfulAnimals + 1;
+					successfulAnimals = getImmutableChoreXp() >= 15.0F ? successfulAnimals + MCA.rand.nextInt(5) + 2 : successfulAnimals + 1;
 				}
 			}
 		}

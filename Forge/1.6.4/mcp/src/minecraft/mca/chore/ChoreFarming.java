@@ -30,6 +30,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+
+import org.apache.commons.lang3.mutable.MutableFloat;
+
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 /**
@@ -327,35 +330,21 @@ public class ChoreFarming extends AbstractChore
 	}
 
 	@Override
-	protected float getChoreXpLevel() 
+	protected MutableFloat getMutableChoreXp() 
 	{
-		return owner.xpLvlFarming;
+		return new MutableFloat(owner.xpLvlFarming);
 	}
 
 	@Override
-	protected void incrementChoreXpLevel(float amount) 
+	protected String getChoreXpName() 
 	{
-		if (owner instanceof EntityPlayerChild)
-		{
-			float adjustableAmount = amount;
-			final EntityPlayer ownerPlayer = owner.worldObj.getPlayerEntityByName(((EntityPlayerChild)owner).ownerPlayerName);
+		return "xpLvlFarming";
+	}
 
-			if (adjustableAmount <= 0)
-			{
-				adjustableAmount = 0.02F;
-			}
-
-			final float prevAmount = owner.xpLvlFarming;
-			final float newAmount = prevAmount + adjustableAmount;
-
-			notifyOfChoreLevelIncrease(prevAmount, newAmount, "notify.child.chore.levelup.farming", ownerPlayer);
-			owner.xpLvlFarming = newAmount;
-			
-			if (!owner.worldObj.isRemote)
-			{
-				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, "xpLvlFarming", owner.xpLvlFarming));
-			}
-		}
+	@Override
+	protected String getBaseLevelUpPhrase() 
+	{
+		return "notify.child.chore.levelup.farming";
 	}
 
 	private boolean initializeCreateFarm()
@@ -503,7 +492,7 @@ public class ChoreFarming extends AbstractChore
 		hasNextPathBlock = false;
 
 		doUpdateAchievements();
-		incrementChoreXpLevel((float)(0.15 - 0.01 * getChoreXpLevel()));
+		incrementChoreXpLevel((float)(0.15 - 0.01 * getImmutableChoreXp()));
 	}
 
 	private void doAssignNextBlockForCreation()
@@ -551,7 +540,7 @@ public class ChoreFarming extends AbstractChore
 		{
 			if (owner.getNavigator().noPath())
 			{
-				owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(targetX, targetY, targetZ), getChoreXpLevel() >= 10.0F ? Constants.SPEED_RUN : Constants.SPEED_SNEAK);
+				owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(targetX, targetY, targetZ), getImmutableChoreXp() >= 10.0F ? Constants.SPEED_RUN : Constants.SPEED_SNEAK);
 			}
 
 			return true;
@@ -602,7 +591,7 @@ public class ChoreFarming extends AbstractChore
 				delay = 5;
 			}
 
-			owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(targetX, targetY, targetZ), getChoreXpLevel() >= 10.0F ? Constants.SPEED_RUN : Constants.SPEED_SNEAK);
+			owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(targetX, targetY, targetZ), getImmutableChoreXp() >= 10.0F ? Constants.SPEED_RUN : Constants.SPEED_SNEAK);
 		}
 	}
 
@@ -627,7 +616,7 @@ public class ChoreFarming extends AbstractChore
 			int cropsToAdd = getNumberOfCropsToAdd(seedType);
 			int seedsToAdd = getNumberOfSeedsToAdd(seedType);
 
-			if (getChoreXpLevel() >= 20.0F && Utility.getBooleanWithProbability(65))
+			if (getImmutableChoreXp() >= 20.0F && Utility.getBooleanWithProbability(65))
 			{
 				seedsToAdd *= 2;
 				cropsToAdd *= 2;
@@ -651,7 +640,7 @@ public class ChoreFarming extends AbstractChore
 				owner.worldObj.setBlock(targetX, targetY, targetZ, blockID);
 			}
 
-			incrementChoreXpLevel((float)(0.15 - 0.005 * getChoreXpLevel()));
+			incrementChoreXpLevel((float)(0.15 - 0.005 * getImmutableChoreXp()));
 			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createInventoryPacket(owner.entityId, owner.inventory));
 		}
 	}
@@ -696,7 +685,7 @@ public class ChoreFarming extends AbstractChore
 		default: return 0;
 		}
 
-		if (getChoreXpLevel() >= 15.0F)
+		if (getImmutableChoreXp() >= 15.0F)
 		{
 			returnAmount += MCA.rand.nextInt(3) + 1;
 		}
@@ -708,7 +697,7 @@ public class ChoreFarming extends AbstractChore
 	{
 		int minimum = 0;
 
-		if (getChoreXpLevel() >= 5.0F)
+		if (getImmutableChoreXp() >= 5.0F)
 		{
 			minimum = 2;
 		}

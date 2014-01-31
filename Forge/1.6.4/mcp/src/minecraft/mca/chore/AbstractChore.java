@@ -11,14 +11,18 @@ package mca.chore;
 
 import java.io.Serializable;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
-import cpw.mods.fml.common.network.Player;
 import mca.core.forge.PacketHandler;
 import mca.entity.AbstractEntity;
+import mca.entity.EntityPlayerChild;
 import mca.enums.EnumGenericCommand;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+
+import org.apache.commons.lang3.mutable.MutableFloat;
+
+import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
 
 /**
  * Defines a chore that can be run by an AbstractEntity.
@@ -88,16 +92,55 @@ public abstract class AbstractChore implements Serializable
 	protected abstract int getDelayForToolType(ItemStack toolStack);
 	
 	/**
-	 * Must return the owner's xp level for this chore.
-	 * 
-	 * @return	Owner's xp lvl for this chore.
+	 * @return	Owner's mutable xp level for this chore.
 	 */
-	protected abstract float getChoreXpLevel();
+	protected abstract MutableFloat getMutableChoreXp();
 	
+	/**
+	 * @return 	The name of the chore's XP field.
+	 */
+	protected abstract String getChoreXpName();
+	
+	/**
+	 * @return	The base phrase ID of the chore's level up phrase.
+	 */
+	protected abstract String getBaseLevelUpPhrase();
+	
+	/**
+	 * @return	Owner's immutable xp level for this chore.
+	 */
+	protected final float getImmutableChoreXp()
+	{
+		return getMutableChoreXp().floatValue();
+	}
+
 	/**
 	 * Increases the owner's xp level for this chore.
 	 */
-	protected abstract void incrementChoreXpLevel(float amount);
+	protected final void incrementChoreXpLevel(float amount)
+	{
+		if (owner instanceof EntityPlayerChild)
+		{
+			float adjustableAmount = amount;
+			final EntityPlayer ownerPlayer = owner.worldObj.getPlayerEntityByName(((EntityPlayerChild)owner).ownerPlayerName);
+
+			if (adjustableAmount <= 0)
+			{
+				adjustableAmount = 0.02F;
+			}
+
+			final float prevAmount = getMutableChoreXp().floatValue();
+			final float newAmount = prevAmount + adjustableAmount;
+
+			notifyOfChoreLevelIncrease(prevAmount, newAmount, getBaseLevelUpPhrase(), ownerPlayer);
+			getMutableChoreXp().setValue(newAmount);
+
+			if (!owner.worldObj.isRemote)
+			{
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, getChoreXpName(), getMutableChoreXp().floatValue()));
+			}
+		}
+	}
 	
 	protected void notifyOfChoreLevelIncrease(float prevAmount, float newAmount, String notificationString, EntityPlayer playerToNotify)
 	{

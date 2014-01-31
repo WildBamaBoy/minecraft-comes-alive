@@ -28,6 +28,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+
+import org.apache.commons.lang3.mutable.MutableFloat;
+
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 /**
@@ -281,37 +284,23 @@ public class ChoreFishing extends AbstractChore
 	}
 
 	@Override
-	protected float getChoreXpLevel() 
+	protected MutableFloat getMutableChoreXp() 
 	{
-		return owner.xpLvlFishing;
+		return new MutableFloat(owner.xpLvlFishing);
 	}
 
 	@Override
-	protected void incrementChoreXpLevel(float amount) 
+	protected String getChoreXpName() 
 	{
-		if (owner instanceof EntityPlayerChild)
-		{
-			float adjustableAmount = amount;
-			final EntityPlayer ownerPlayer = owner.worldObj.getPlayerEntityByName(((EntityPlayerChild)owner).ownerPlayerName);
-
-			if (adjustableAmount <= 0)
-			{
-				adjustableAmount = 0.02F;
-			}
-
-			final float prevAmount = owner.xpLvlFishing;
-			final float newAmount = prevAmount + adjustableAmount;
-
-			notifyOfChoreLevelIncrease(prevAmount, newAmount, "notify.child.chore.levelup.fishing", ownerPlayer);
-			owner.xpLvlFishing = newAmount;
-			
-			if (!owner.worldObj.isRemote)
-			{
-				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, "xpLvlFishing", owner.xpLvlFishing));
-			}
-		}
+		return "xpLvlFishing";
 	}
-	
+
+	@Override
+	protected String getBaseLevelUpPhrase() 
+	{
+		return "notify.child.chore.levelup.fishing";
+	}
+
 	private boolean trySetWaterCoordinates()
 	{
 		//Get all water up to 10 blocks away from the entity.
@@ -378,7 +367,7 @@ public class ChoreFishing extends AbstractChore
 				owner.damageHeldItem();
 			}
 
-			fishCatchCheck = getChoreXpLevel() >= 5.0F ? getChoreXpLevel() >= 15.0F ? MCA.rand.nextInt(50) + 25 : MCA.rand.nextInt(100) + 50 : MCA.rand.nextInt(200) + 100;
+			fishCatchCheck = getImmutableChoreXp() >= 5.0F ? getImmutableChoreXp() >= 15.0F ? MCA.rand.nextInt(50) + 25 : MCA.rand.nextInt(100) + 50 : MCA.rand.nextInt(200) + 100;
 			fishEntity = new EntityChoreFishHook(owner.worldObj, owner);
 			owner.worldObj.spawnEntityInWorld(fishEntity);
 			owner.tasks.taskEntries.clear();
@@ -396,7 +385,7 @@ public class ChoreFishing extends AbstractChore
 
 			if (Utility.getBooleanWithProbability(catchChance))
 			{
-				incrementChoreXpLevel((float)(0.30 - 0.01 * getChoreXpLevel()));
+				incrementChoreXpLevel((float)(0.30 - 0.01 * getImmutableChoreXp()));
 			
 				final int amountToAdd = getFishAmountToAdd();
 				
@@ -490,11 +479,11 @@ public class ChoreFishing extends AbstractChore
 	private int getFishCatchChance()
 	{
 		//Less than 5 = 30%, greater than 5 = 60%, greater than 15 = 90%
-		return getChoreXpLevel() >= 5.0F ? getChoreXpLevel() >= 15.0F ? 90 : 60 : 30;
+		return getImmutableChoreXp() >= 5.0F ? getImmutableChoreXp() >= 15.0F ? 90 : 60 : 30;
 	}
 	
 	private int getFishAmountToAdd()
 	{
-		return getChoreXpLevel() >= 20.0F ? MCA.rand.nextInt(5) + 1 : 1;
+		return getImmutableChoreXp() >= 20.0F ? MCA.rand.nextInt(5) + 1 : 1;
 	}
 }

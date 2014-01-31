@@ -40,6 +40,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+
+import org.apache.commons.lang3.mutable.MutableFloat;
+
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 /**
@@ -256,15 +259,21 @@ public class ChoreCombat extends AbstractChore
 	}
 
 	@Override
-	protected float getChoreXpLevel() 
+	protected MutableFloat getMutableChoreXp() 
 	{
-		return 0;
+		return null;
 	}
 
 	@Override
-	protected void incrementChoreXpLevel(float amount) 
+	protected String getChoreXpName() 
 	{
-		//Combat chore doesn't have experience.
+		return null;
+	}
+
+	@Override
+	protected String getBaseLevelUpPhrase() 
+	{
+		return null;
 	}
 
 	/**

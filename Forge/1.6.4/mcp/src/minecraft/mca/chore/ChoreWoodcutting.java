@@ -29,6 +29,9 @@ import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+
+import org.apache.commons.lang3.mutable.MutableFloat;
+
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 /**
@@ -301,35 +304,21 @@ public class ChoreWoodcutting extends AbstractChore
 	}
 
 	@Override
-	protected float getChoreXpLevel() 
+	protected MutableFloat getMutableChoreXp() 
 	{
-		return owner.xpLvlWoodcutting;
+		return new MutableFloat(owner.xpLvlWoodcutting);
 	}
 
 	@Override
-	protected void incrementChoreXpLevel(float amount) 
+	protected String getChoreXpName() 
 	{
-		if (owner instanceof EntityPlayerChild)
-		{
-			float adjustableAmount = amount;
-			final EntityPlayer ownerPlayer = owner.worldObj.getPlayerEntityByName(((EntityPlayerChild)owner).ownerPlayerName);
+		return "xpLvlWoodcutting";
+	}
 
-			if (adjustableAmount <= 0)
-			{
-				adjustableAmount = 0.02F;
-			}
-
-			final float prevAmount = owner.xpLvlWoodcutting;
-			final float newAmount = prevAmount + adjustableAmount;
-
-			notifyOfChoreLevelIncrease(prevAmount, newAmount, "notify.child.chore.levelup.woodcutting", ownerPlayer);
-			owner.xpLvlWoodcutting = newAmount;
-			
-			if (!owner.worldObj.isRemote)
-			{
-				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, "xpLvlWoodcutting", owner.xpLvlWoodcutting));
-			}
-		}
+	@Override
+	protected String getBaseLevelUpPhrase() 
+	{
+		return "notify.child.chore.levelup.woodcutting";
 	}
 	
 	private void endForNoTrees()
