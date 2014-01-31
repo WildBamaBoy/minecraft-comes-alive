@@ -29,9 +29,6 @@ import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-
-import org.apache.commons.lang3.mutable.MutableFloat;
-
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 /**
@@ -297,19 +294,13 @@ public class ChoreWoodcutting extends AbstractChore
 			default: 		returnAmount = 25; break;
 			}
 			
-			return getImmutableChoreXp() >= 10.0F ? returnAmount / 2 : returnAmount;
+			return getChoreXp() >= 10.0F ? returnAmount / 2 : returnAmount;
 		}
 
 		else
 		{
 			return 25;
 		}
-	}
-
-	@Override
-	protected MutableFloat getMutableChoreXp() 
-	{
-		return new MutableFloat(owner.xpLvlWoodcutting);
 	}
 
 	@Override
@@ -322,6 +313,18 @@ public class ChoreWoodcutting extends AbstractChore
 	protected String getBaseLevelUpPhrase() 
 	{
 		return "notify.child.chore.levelup.woodcutting";
+	}
+	
+	@Override
+	protected float getChoreXp() 
+	{
+		return owner.xpLvlWoodcutting;
+	}
+
+	@Override
+	protected void setChoreXp(float setAmount) 
+	{
+		owner.xpLvlWoodcutting = setAmount;
 	}
 	
 	private void endForNoTrees()
@@ -425,7 +428,7 @@ public class ChoreWoodcutting extends AbstractChore
 		if (!owner.worldObj.isRemote)
 		{
 			owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(treeBaseX, treeBaseY, treeBaseZ), 
-					getImmutableChoreXp() >= 5.0F ? Constants.SPEED_RUN : Constants.SPEED_WALK);
+					getChoreXp() >= 5.0F ? Constants.SPEED_RUN : Constants.SPEED_WALK);
 		}
 	}
 	
@@ -438,12 +441,12 @@ public class ChoreWoodcutting extends AbstractChore
 	
 		logY++;
 	
-		final int amountToAdd = getImmutableChoreXp() >= 20.0F ? 3 : getImmutableChoreXp() >= 15.0F ? MCA.rand.nextBoolean() ? 2 : 1 : 1;
+		final int amountToAdd = getChoreXp() >= 20.0F ? 3 : getChoreXp() >= 15.0F ? MCA.rand.nextBoolean() ? 2 : 1 : 1;
 		final ItemStack stackToAdd = new ItemStack(Block.wood, amountToAdd, treeType);
 		stackToAdd.damageItem(treeType, owner);
 		owner.inventory.addItemStackToInventory(stackToAdd);
 	
-		incrementChoreXpLevel((float)(0.15 - 0.01 * getImmutableChoreXp()));
+		incrementChoreXpLevel((float)(0.15 - 0.01 * getChoreXp()));
 		
 		cutCounter = 0;
 		hasDoneWork = true;

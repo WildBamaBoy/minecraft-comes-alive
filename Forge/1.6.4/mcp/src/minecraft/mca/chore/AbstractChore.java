@@ -18,9 +18,6 @@ import mca.enums.EnumGenericCommand;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-
-import org.apache.commons.lang3.mutable.MutableFloat;
-
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
@@ -92,11 +89,6 @@ public abstract class AbstractChore implements Serializable
 	protected abstract int getDelayForToolType(ItemStack toolStack);
 	
 	/**
-	 * @return	Owner's mutable xp level for this chore.
-	 */
-	protected abstract MutableFloat getMutableChoreXp();
-	
-	/**
 	 * @return 	The name of the chore's XP field.
 	 */
 	protected abstract String getChoreXpName();
@@ -107,13 +99,17 @@ public abstract class AbstractChore implements Serializable
 	protected abstract String getBaseLevelUpPhrase();
 	
 	/**
-	 * @return	Owner's immutable xp level for this chore.
+	 * @return	Owner's xp level for this chore.
 	 */
-	protected final float getImmutableChoreXp()
-	{
-		return getMutableChoreXp().floatValue();
-	}
+	protected abstract float getChoreXp();
 
+	/**
+	 * Set's the chore's XP field to the provided value.
+	 * 
+	 * @param 	setAmount	The value that the chore's XP field should be set to.
+	 */
+	protected abstract void setChoreXp(float setAmount);
+	
 	/**
 	 * Increases the owner's xp level for this chore.
 	 */
@@ -129,15 +125,15 @@ public abstract class AbstractChore implements Serializable
 				adjustableAmount = 0.02F;
 			}
 
-			final float prevAmount = getMutableChoreXp().floatValue();
+			final float prevAmount = getChoreXp();
 			final float newAmount = prevAmount + adjustableAmount;
 
 			notifyOfChoreLevelIncrease(prevAmount, newAmount, getBaseLevelUpPhrase(), ownerPlayer);
-			getMutableChoreXp().setValue(newAmount);
+			setChoreXp(newAmount);
 
 			if (!owner.worldObj.isRemote)
 			{
-				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, getChoreXpName(), getMutableChoreXp().floatValue()));
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(owner.entityId, getChoreXpName(), getChoreXp()));
 			}
 		}
 	}

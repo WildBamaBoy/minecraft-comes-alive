@@ -23,12 +23,10 @@ import mca.entity.EntityPlayerChild;
 import mca.enums.EnumGenericCommand;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumToolMaterial;
+import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-
-import org.apache.commons.lang3.mutable.MutableFloat;
-
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 /**
@@ -62,6 +60,15 @@ public class ChoreMining extends AbstractChore
 
 	/** The Z coordinates that the owner should be moving to. (Active only)*/
 	public double nextZ;
+
+	/** The X coordinates of the nearest valid block. (Passive only)*/
+	public int nearestX;
+
+	/** The Y coordinates of the nearest valid block. (Passive only)*/
+	public int nearestY;
+
+	/** The Z coordinates of the nearest valid block. (Passive only)*/
+	public int nearestZ;
 
 	/** The amount of time it takes for a block to be broken when mining.*/
 	public int delayInterval;
@@ -119,6 +126,7 @@ public class ChoreMining extends AbstractChore
 		this.maxDistance = distance;
 		this.heading = LogicHelper.getHeadingRelativeToPlayerAndSpecifiedDirection(entity.worldObj.getPlayerEntityByName(entity.lastInteractingPlayer), direction);
 		this.delayInterval = getDelayForToolType(entity.inventory.getBestItemOfType(ItemPickaxe.class));
+		this.notifyInterval = Constants.TICKS_SECOND * 10;
 	}
 
 	@Override
@@ -283,23 +291,25 @@ public class ChoreMining extends AbstractChore
 	@Override
 	protected int getDelayForToolType(ItemStack toolStack) 
 	{
-		final EnumToolMaterial material = EnumToolMaterial.valueOf(((ItemPickaxe)toolStack.getItem()).getToolMaterialName());
-
-		switch (material)
+		if (owner instanceof EntityPlayerChild && toolStack != null)
 		{
-		case WOOD: 		return 40;
-		case STONE: 	return 30;
-		case IRON: 		return 25;
-		case EMERALD: 	return 10;
-		case GOLD: 		return 5;
-		default: 		return 25;
-		}
-	}
+			final EnumToolMaterial material = EnumToolMaterial.valueOf(((ItemPickaxe)toolStack.getItem()).getToolMaterialName());
+			int returnAmount = 0;
 
-	@Override
-	protected MutableFloat getMutableChoreXp() 
-	{
-		return new MutableFloat(owner.xpLvlMining);
+			switch (material)
+			{
+			case WOOD: 		returnAmount = 40; break;
+			case STONE: 	returnAmount = 30; break;
+			case IRON: 		returnAmount = 25; break;
+			case EMERALD: 	returnAmount = 10; break;
+			case GOLD: 		returnAmount = 5; break;
+			default: 		returnAmount = 25; break;
+			}
+
+			return getChoreXp() >= 5.0F ? returnAmount / 2 : returnAmount;
+		}
+
+		return 25;
 	}
 
 	@Override
@@ -313,7 +323,19 @@ public class ChoreMining extends AbstractChore
 	{
 		return "notify.child.chore.levelup.mining";
 	}
-	
+
+	@Override
+	protected float getChoreXp() 
+	{
+		return owner.xpLvlMining;
+	}
+
+	@Override
+	protected void setChoreXp(float setAmount) 
+	{
+		owner.xpLvlMining = setAmount;
+	}
+
 	/**
 	 * Runs the passive mining AI.
 	 */
@@ -327,11 +349,16 @@ public class ChoreMining extends AbstractChore
 
 				if (nearestBlock != null)
 				{
-					distanceToOre = Math.round((float)LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, nearestBlock.posX, nearestBlock.posY, nearestBlock.posZ));
+					nearestX = (int) nearestBlock.posX;
+					nearestY = (int) nearestBlock.posY;
+					nearestZ = (int) nearestBlock.posZ;
+
+					incrementChoreXpLevel(0.05F - 0.002F * getChoreXp());
+
+					distanceToOre = Math.round((float)LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, nearestX, nearestY, nearestZ));
 					doOreDistanceNotification();
 
-					//TODO: Experience changes # of times damaged.
-					for (int i = 0; i < 3; i++) 
+					for (int i = 0; i < (getChoreXp() >= 10.0F ? 1 : 3); i++) 
 					{
 						owner.damageHeldItem();
 					}
@@ -422,24 +449,24 @@ public class ChoreMining extends AbstractChore
 	{
 		final double lastDistance = 100D;
 		Point3D nearestPoint = null;
-	
+
 		for (final Point3D point : LogicHelper.getNearbyBlocksBottomTop(owner, searchID, 20))
 		{
 			final double thisDistance = LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, point.posX, point.posY, point.posZ);
-	
+
 			if (thisDistance < lastDistance)
 			{
 				nearestPoint = point;
 			}
 		}
-	
+
 		return nearestPoint;
 	}
 
 	private boolean isNextBlockValid() 
 	{
 		final int blockId = owner.worldObj.getBlockId((int)nextX, (int)nextY, (int)nextZ);
-	
+
 		for (final int invalidId : Constants.UNMINEABLE_BLOCKS)
 		{
 			if (blockId == invalidId)
@@ -447,7 +474,7 @@ public class ChoreMining extends AbstractChore
 				return true;
 			}
 		}
-	
+
 		return false;
 	}
 
@@ -458,14 +485,25 @@ public class ChoreMining extends AbstractChore
 
 	private void doOreDistanceNotification()
 	{
-		if (distanceToOre > 5 && !owner.worldObj.isRemote)
+		if (getChoreXp() < 20.0F)
 		{
-			owner.say(LanguageHelper.getString(owner, "notify.child.chore.status.mining.orefound", false));
+			if (distanceToOre > 5 && !owner.worldObj.isRemote)
+			{
+				owner.say(LanguageHelper.getString(owner, "notify.child.chore.status.mining.orefound", false));
+			}
+
+			else if (distanceToOre <= 5 && !owner.worldObj.isRemote)
+			{
+				owner.say(LanguageHelper.getString(owner, "notify.child.chore.status.mining.orenearby", false));
+			}
 		}
-	
-		else if (distanceToOre <= 5 && !owner.worldObj.isRemote)
+
+		else
 		{
-			owner.say(LanguageHelper.getString(owner, "notify.child.chore.status.mining.orenearby", false));
+			if (!owner.worldObj.isRemote)
+			{
+				owner.say(LanguageHelper.getString(owner, "notify.child.chore.status.mining.oredistance", false));
+			}
 		}
 	}
 
@@ -480,11 +518,11 @@ public class ChoreMining extends AbstractChore
 	private void doSetNextPath()
 	{
 		int scanDistance = 0;
-	
+
 		while (scanDistance != maxDistance)
 		{
 			nextY = owner.posY;
-	
+
 			switch (heading)
 			{
 			case 0:    nextX = owner.posX; nextZ = owner.posZ + scanDistance; break; 
@@ -493,7 +531,7 @@ public class ChoreMining extends AbstractChore
 			case 90:   nextX = owner.posX - scanDistance; nextZ = owner.posZ; break;
 			default: break;
 			}
-	
+
 			if (owner.worldObj.getBlockId((int)nextX, (int)nextY, (int)nextZ) == 0)
 			{
 				if (owner.worldObj.getBlockId((int)nextX, (int)nextY + 1, (int)nextZ) == 0)
@@ -501,7 +539,7 @@ public class ChoreMining extends AbstractChore
 					hasNextPath = false;
 					scanDistance++;
 				}
-	
+
 				else
 				{
 					nextY = owner.posY + 1;
@@ -509,14 +547,14 @@ public class ChoreMining extends AbstractChore
 					break;
 				}
 			}
-	
+
 			else
 			{
 				hasNextPath = true;
 				break;
 			}
 		}
-	
+
 		if (scanDistance == maxDistance)
 		{
 			endForNoBlocks();
@@ -539,10 +577,12 @@ public class ChoreMining extends AbstractChore
 		}
 
 		final int totalYield = MCA.rand.nextInt(yieldMax + 1 - yieldMin) + yieldMin;
-		final ItemStack stackToAdd = new ItemStack(yieldId, totalYield, yieldMeta);
-		stackToAdd.damageItem(yieldMeta, owner);
-		owner.inventory.addItemStackToInventory(stackToAdd);
+		final int addAmount = getChoreXp() >= 15.0F ? totalYield * 2 : totalYield;
 
+		final ItemStack stackToAdd = new ItemStack(yieldId, addAmount, yieldMeta);
+		stackToAdd.damageItem(yieldMeta, owner);
+
+		owner.inventory.addItemStackToInventory(stackToAdd);
 		owner.worldObj.setBlock((int)nextX, (int)nextY, (int)nextZ, 0);
 	}
 
@@ -580,7 +620,7 @@ public class ChoreMining extends AbstractChore
 		{
 			owner.say(LanguageHelper.getString(owner, "notify.child.chore.interrupted.mining.noblocks", false));
 		}
-	
+
 		endChore();
 	}
 
@@ -590,7 +630,7 @@ public class ChoreMining extends AbstractChore
 		{
 			owner.say(LanguageHelper.getString(owner, "notify.child.chore.finished.mining", false));
 		}
-	
+
 		endChore();
 	}
 }

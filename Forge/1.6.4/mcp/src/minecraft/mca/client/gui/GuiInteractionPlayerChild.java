@@ -266,7 +266,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		{
 			backButton.enabled = true;
 			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.options"), width / 2, 80, 0xffffff);
-			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.experience") + " " + String.format("%.3g", entityChild.xpLvlFarming), width / 2, 160, 0xffffff);
+			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.experience") + " " + String.format("%.3g", entityChild.xpLvlFarming), width / 2, 190, 0xffffff);
 			farmMethodButton.enabled = true;
 
 			if (farmMethod == 0)
@@ -300,7 +300,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		{
 			backButton.enabled = true;
 			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.options.none"), width / 2, 100, 0xffffff);
-			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.experience") + " " + String.format("%.3g", entityChild.xpLvlFishing), width / 2, 115, 0xffffff);
+			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.experience") + " " + String.format("%.3g", entityChild.xpLvlFishing), width / 2, 190, 0xffffff);
 		}
 
 		else if (inCombatGui == true)
@@ -328,7 +328,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		{
 			backButton.enabled = true;
 			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.options"), width / 2, 80, 0xffffff);
-			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.experience") + " " + String.format("%.3g", entityChild.xpLvlWoodcutting), width / 2, 120, 0xffffff);
+			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.experience") + " " + String.format("%.3g", entityChild.xpLvlWoodcutting), width / 2, 190, 0xffffff);
 			woodTreeTypeButton.enabled = true;
 		}
 
@@ -348,7 +348,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		{
 			backButton.enabled = true;
 			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.options"), width / 2, 80, 0xffffff);
-			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.experience") + " " + String.format("%.3g", entityChild.xpLvlHunting), width / 2, 115, 0xffffff);
+			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.experience") + " " + String.format("%.3g", entityChild.xpLvlHunting), width / 2, 190, 0xffffff);
 			
 			huntModeButton.enabled = true;
 		}
@@ -773,9 +773,9 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 		buttonList.add(choreStartButton    = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
 		buttonList.add(mineMethodButton    = new GuiButton(2, width / 2 - 70, height / 2 - 40, 135, 20, LanguageHelper.getString("gui.button.chore.mining.method")));
-		buttonList.add(mineDirectionButton = new GuiButton(3, width / 2 - 70, height / 2 + 0, 135, 20, LanguageHelper.getString("gui.button.chore.mining.direction")));
-		buttonList.add(mineDistanceButton  = new GuiButton(4, width / 2 - 70, height / 2 + 20, 135, 20, LanguageHelper.getString("gui.button.chore.mining.distance") +  mineDistance));
-		buttonList.add(mineFindButton      = new GuiButton(5, width / 2 - 70, height / 2 + 40, 135, 20, LanguageHelper.getString("gui.button.chore.mining.find")));
+		buttonList.add(mineDirectionButton = new GuiButton(3, width / 2 - 70, height / 2 - 15, 135, 20, LanguageHelper.getString("gui.button.chore.mining.direction")));
+		buttonList.add(mineDistanceButton  = new GuiButton(4, width / 2 - 70, height / 2 + 5, 135, 20, LanguageHelper.getString("gui.button.chore.mining.distance") +  mineDistance));
+		buttonList.add(mineFindButton      = new GuiButton(5, width / 2 - 70, height / 2 + 25, 135, 20, LanguageHelper.getString("gui.button.chore.mining.find")));
 
 		switch (mineMethod)
 		{

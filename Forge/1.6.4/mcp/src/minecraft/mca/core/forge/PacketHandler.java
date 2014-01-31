@@ -2441,7 +2441,7 @@ public final class PacketHandler implements IPacketHandler
 		//Process
 		MCA.getInstance().logPacketInformation("\tGeneric packet type: " + command);
 		int entityId;
-		AbstractEntity entity;
+		AbstractEntity entity = null;
 
 		switch (command)
 		{
@@ -2464,7 +2464,16 @@ public final class PacketHandler implements IPacketHandler
 			break;
 		case NotifyPlayer:
 			entityId = (Integer)arguments[0];
-			entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
+			try
+			{
+				entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
+			}
+			
+			catch (ClassCastException e) 
+			{ 
+				//Occurs when player passed as an argument.
+			}
+			
 			final String phraseId = (String)arguments[1];
 
 			entityPlayer.addChatMessage(LanguageHelper.getString(entity, phraseId, false));

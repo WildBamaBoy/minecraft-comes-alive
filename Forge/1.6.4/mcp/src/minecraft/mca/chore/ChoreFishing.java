@@ -28,9 +28,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-
-import org.apache.commons.lang3.mutable.MutableFloat;
-
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 /**
@@ -284,12 +281,6 @@ public class ChoreFishing extends AbstractChore
 	}
 
 	@Override
-	protected MutableFloat getMutableChoreXp() 
-	{
-		return new MutableFloat(owner.xpLvlFishing);
-	}
-
-	@Override
 	protected String getChoreXpName() 
 	{
 		return "xpLvlFishing";
@@ -301,6 +292,18 @@ public class ChoreFishing extends AbstractChore
 		return "notify.child.chore.levelup.fishing";
 	}
 
+	@Override
+	protected float getChoreXp() 
+	{
+		return owner.xpLvlFishing;
+	}
+
+	@Override
+	protected void setChoreXp(float setAmount) 
+	{
+		owner.xpLvlFishing = setAmount;
+	}
+	
 	private boolean trySetWaterCoordinates()
 	{
 		//Get all water up to 10 blocks away from the entity.
@@ -367,7 +370,7 @@ public class ChoreFishing extends AbstractChore
 				owner.damageHeldItem();
 			}
 
-			fishCatchCheck = getImmutableChoreXp() >= 5.0F ? getImmutableChoreXp() >= 15.0F ? MCA.rand.nextInt(50) + 25 : MCA.rand.nextInt(100) + 50 : MCA.rand.nextInt(200) + 100;
+			fishCatchCheck = getChoreXp() >= 5.0F ? getChoreXp() >= 15.0F ? MCA.rand.nextInt(50) + 25 : MCA.rand.nextInt(100) + 50 : MCA.rand.nextInt(200) + 100;
 			fishEntity = new EntityChoreFishHook(owner.worldObj, owner);
 			owner.worldObj.spawnEntityInWorld(fishEntity);
 			owner.tasks.taskEntries.clear();
@@ -385,7 +388,7 @@ public class ChoreFishing extends AbstractChore
 
 			if (Utility.getBooleanWithProbability(catchChance))
 			{
-				incrementChoreXpLevel((float)(0.30 - 0.01 * getImmutableChoreXp()));
+				incrementChoreXpLevel((float)(0.30 - 0.01 * getChoreXp()));
 			
 				final int amountToAdd = getFishAmountToAdd();
 				
@@ -479,11 +482,11 @@ public class ChoreFishing extends AbstractChore
 	private int getFishCatchChance()
 	{
 		//Less than 5 = 30%, greater than 5 = 60%, greater than 15 = 90%
-		return getImmutableChoreXp() >= 5.0F ? getImmutableChoreXp() >= 15.0F ? 90 : 60 : 30;
+		return getChoreXp() >= 5.0F ? getChoreXp() >= 15.0F ? 90 : 60 : 30;
 	}
 	
 	private int getFishAmountToAdd()
 	{
-		return getImmutableChoreXp() >= 20.0F ? MCA.rand.nextInt(5) + 1 : 1;
+		return getChoreXp() >= 20.0F ? MCA.rand.nextInt(5) + 1 : 1;
 	}
 }

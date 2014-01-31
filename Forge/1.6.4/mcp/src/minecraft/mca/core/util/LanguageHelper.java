@@ -578,6 +578,24 @@ public final class LanguageHelper
 				text = text.replace("%OreDistance%", String.valueOf(child.miningChore.distanceToOre));
 			}
 
+			if (text.contains("%OreX"))
+			{
+				final AbstractChild child = (AbstractChild)entity;
+				text = text.replace("%OreX%", String.valueOf(child.miningChore.nearestX));
+			}
+			
+			if (text.contains("%OreY"))
+			{
+				final AbstractChild child = (AbstractChild)entity;
+				text = text.replace("%OreY%", String.valueOf(child.miningChore.nearestY));
+			}
+			
+			if (text.contains("%OreZ"))
+			{
+				final AbstractChild child = (AbstractChild)entity;
+				text = text.replace("%OreZ%", String.valueOf(child.miningChore.nearestZ));
+			}
+			
 			if (text.contains("%ChildTitle%"))
 			{
 				if (entity.isMale)

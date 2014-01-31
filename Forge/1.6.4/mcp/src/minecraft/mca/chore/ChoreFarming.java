@@ -30,9 +30,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-
-import org.apache.commons.lang3.mutable.MutableFloat;
-
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 /**
@@ -330,12 +327,6 @@ public class ChoreFarming extends AbstractChore
 	}
 
 	@Override
-	protected MutableFloat getMutableChoreXp() 
-	{
-		return new MutableFloat(owner.xpLvlFarming);
-	}
-
-	@Override
 	protected String getChoreXpName() 
 	{
 		return "xpLvlFarming";
@@ -347,6 +338,18 @@ public class ChoreFarming extends AbstractChore
 		return "notify.child.chore.levelup.farming";
 	}
 
+	@Override
+	protected float getChoreXp() 
+	{
+		return owner.xpLvlFarming;
+	}
+
+	@Override
+	protected void setChoreXp(float setAmount) 
+	{
+		owner.xpLvlFarming = setAmount;
+	}
+	
 	private boolean initializeCreateFarm()
 	{
 		//Assign the seed ID and crop ID from the selected seed type from the GUI.
@@ -492,7 +495,7 @@ public class ChoreFarming extends AbstractChore
 		hasNextPathBlock = false;
 
 		doUpdateAchievements();
-		incrementChoreXpLevel((float)(0.15 - 0.01 * getImmutableChoreXp()));
+		incrementChoreXpLevel((float)(0.15 - 0.01 * getChoreXp()));
 	}
 
 	private void doAssignNextBlockForCreation()
@@ -540,7 +543,7 @@ public class ChoreFarming extends AbstractChore
 		{
 			if (owner.getNavigator().noPath())
 			{
-				owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(targetX, targetY, targetZ), getImmutableChoreXp() >= 10.0F ? Constants.SPEED_RUN : Constants.SPEED_SNEAK);
+				owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(targetX, targetY, targetZ), getChoreXp() >= 10.0F ? Constants.SPEED_RUN : Constants.SPEED_SNEAK);
 			}
 
 			return true;
@@ -591,7 +594,7 @@ public class ChoreFarming extends AbstractChore
 				delay = 5;
 			}
 
-			owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(targetX, targetY, targetZ), getImmutableChoreXp() >= 10.0F ? Constants.SPEED_RUN : Constants.SPEED_SNEAK);
+			owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(targetX, targetY, targetZ), getChoreXp() >= 10.0F ? Constants.SPEED_RUN : Constants.SPEED_SNEAK);
 		}
 	}
 
@@ -616,7 +619,7 @@ public class ChoreFarming extends AbstractChore
 			int cropsToAdd = getNumberOfCropsToAdd(seedType);
 			int seedsToAdd = getNumberOfSeedsToAdd(seedType);
 
-			if (getImmutableChoreXp() >= 20.0F && Utility.getBooleanWithProbability(65))
+			if (getChoreXp() >= 20.0F && Utility.getBooleanWithProbability(65))
 			{
 				seedsToAdd *= 2;
 				cropsToAdd *= 2;
@@ -640,7 +643,7 @@ public class ChoreFarming extends AbstractChore
 				owner.worldObj.setBlock(targetX, targetY, targetZ, blockID);
 			}
 
-			incrementChoreXpLevel((float)(0.15 - 0.005 * getImmutableChoreXp()));
+			incrementChoreXpLevel((float)(0.15 - 0.005 * getChoreXp()));
 			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createInventoryPacket(owner.entityId, owner.inventory));
 		}
 	}
@@ -685,7 +688,7 @@ public class ChoreFarming extends AbstractChore
 		default: return 0;
 		}
 
-		if (getImmutableChoreXp() >= 15.0F)
+		if (getChoreXp() >= 15.0F)
 		{
 			returnAmount += MCA.rand.nextInt(3) + 1;
 		}
@@ -697,7 +700,7 @@ public class ChoreFarming extends AbstractChore
 	{
 		int minimum = 0;
 
-		if (getImmutableChoreXp() >= 5.0F)
+		if (getChoreXp() >= 5.0F)
 		{
 			minimum = 2;
 		}
