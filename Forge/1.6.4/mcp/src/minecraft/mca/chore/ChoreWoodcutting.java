@@ -443,6 +443,8 @@ public class ChoreWoodcutting extends AbstractChore
 		stackToAdd.damageItem(treeType, owner);
 		owner.inventory.addItemStackToInventory(stackToAdd);
 	
+		incrementChoreXpLevel((float)(0.15 - 0.01 * getImmutableChoreXp()));
+		
 		cutCounter = 0;
 		hasDoneWork = true;
 		owner.damageHeldItem();
