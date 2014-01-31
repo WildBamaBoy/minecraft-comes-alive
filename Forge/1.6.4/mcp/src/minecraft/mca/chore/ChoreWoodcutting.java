@@ -285,16 +285,19 @@ public class ChoreWoodcutting extends AbstractChore
 		if (owner instanceof EntityPlayerChild)
 		{
 			final EnumToolMaterial material = EnumToolMaterial.valueOf(((ItemAxe)toolStack.getItem()).getToolMaterialName());
-
+			int returnAmount = 0;
+			
 			switch (material)
 			{
-			case WOOD: 		return 40;
-			case STONE: 	return 30;
-			case IRON: 		return 25;
-			case EMERALD: 	return 10;
-			case GOLD: 		return 5;
-			default: 		return 25;
+			case WOOD: 		returnAmount = 40; break;
+			case STONE: 	returnAmount = 30; break;
+			case IRON: 		returnAmount = 25; break;
+			case EMERALD: 	returnAmount = 10; break;
+			case GOLD: 		returnAmount = 5; break;
+			default: 		returnAmount = 25; break;
 			}
+			
+			return getImmutableChoreXp() >= 10.0F ? returnAmount / 2 : returnAmount;
 		}
 
 		else
@@ -421,7 +424,8 @@ public class ChoreWoodcutting extends AbstractChore
 	{
 		if (!owner.worldObj.isRemote)
 		{
-			owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(treeBaseX, treeBaseY, treeBaseZ), Constants.SPEED_WALK);
+			owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(treeBaseX, treeBaseY, treeBaseZ), 
+					getImmutableChoreXp() >= 5.0F ? Constants.SPEED_RUN : Constants.SPEED_WALK);
 		}
 	}
 	
@@ -434,7 +438,8 @@ public class ChoreWoodcutting extends AbstractChore
 	
 		logY++;
 	
-		final ItemStack stackToAdd = new ItemStack(Block.wood, 1, treeType);
+		final int amountToAdd = getImmutableChoreXp() >= 20.0F ? 3 : getImmutableChoreXp() >= 15.0F ? MCA.rand.nextBoolean() ? 2 : 1 : 1;
+		final ItemStack stackToAdd = new ItemStack(Block.wood, amountToAdd, treeType);
 		stackToAdd.damageItem(treeType, owner);
 		owner.inventory.addItemStackToInventory(stackToAdd);
 	
