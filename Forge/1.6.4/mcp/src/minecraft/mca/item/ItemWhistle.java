@@ -12,19 +12,15 @@ package mca.item;
 import java.util.List;
 
 import mca.core.MCA;
-import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
 import mca.entity.AbstractChild;
-import mca.entity.AbstractEntity;
 import mca.entity.EntityVillagerAdult;
-import mca.enums.EnumGenericCommand;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
