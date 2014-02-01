@@ -12,16 +12,19 @@ package mca.item;
 import java.util.List;
 
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
 import mca.entity.AbstractChild;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityVillagerAdult;
+import mca.enums.EnumGenericCommand;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -54,23 +57,25 @@ public class ItemWhistle extends Item
 	{
 		if (!world.isRemote)
 		{
-			for (final AbstractEntity entity : MCA.getInstance().entitiesMap.values())
+			for (final Object obj : world.loadedEntityList)
 			{
-				if (entity instanceof AbstractChild)
+				if (obj instanceof AbstractChild)
 				{
-					if (entity.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
+					final AbstractChild child = (AbstractChild)obj;
+					
+					if (child.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 					{
-						entity.setPosition(player.posX, player.posY, player.posZ);
+						child.setLocationAndAngles(player.posX, player.posY, player.posZ, player.rotationYaw, player.rotationPitch);
 					}
 				}
 
-				else if (entity instanceof EntityVillagerAdult)
+				else if (obj instanceof EntityVillagerAdult)
 				{
-					final EntityVillagerAdult adult = (EntityVillagerAdult)entity;
+					final EntityVillagerAdult adult = (EntityVillagerAdult)obj;
 
-					if (adult.isMarriedToPlayer || adult.isEngaged && entity.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
+					if (adult.isMarriedToPlayer || adult.isEngaged && adult.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 					{
-						entity.setPosition(player.posX, player.posY, player.posZ);
+						adult.setLocationAndAngles(player.posX, player.posY, player.posZ, player.rotationYaw, player.rotationPitch);
 					}
 				}
 			}
