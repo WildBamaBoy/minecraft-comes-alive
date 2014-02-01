@@ -59,10 +59,12 @@ import mca.entity.EntityChoreFishHook;
 import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
 import mca.entity.EntityVillagerChild;
+import mca.enums.EnumCrownColor;
 import mca.item.ItemArrangersRing;
 import mca.item.ItemBabyBoy;
 import mca.item.ItemBabyGirl;
 import mca.item.ItemCrown;
+import mca.item.ItemDecorativeCrown;
 import mca.item.ItemEggFemale;
 import mca.item.ItemEggMale;
 import mca.item.ItemEngagementRing;
@@ -148,6 +150,11 @@ public class MCA
 	public Item itemKingsCoat;
 	public Item itemKingsPants;
 	public Item itemKingsBoots;
+	public Item itemRedCrown;
+	public Item itemGreenCrown;
+	public Item itemBlueCrown;
+	public Item itemPinkCrown;
+	public Item itemPurpleCrown;
 	public Block blockTombstone;
 
 	//Achievements
@@ -730,6 +737,11 @@ public class MCA
 		itemKingsCoat		= new ItemKingsCoat(modPropertiesManager.modProperties.itemID_KingsCoat).setUnlocalizedName("KingsCoat");
 		itemKingsPants		= new ItemKingsPants(modPropertiesManager.modProperties.itemID_KingsPants).setUnlocalizedName("KingsPants");
 		itemKingsBoots		= new ItemKingsBoots(modPropertiesManager.modProperties.itemID_KingsBoots).setUnlocalizedName("KingsBoots");
+		itemRedCrown = new ItemDecorativeCrown(modPropertiesManager.modProperties.itemID_RedCrown, EnumCrownColor.Red);
+		itemGreenCrown = new ItemDecorativeCrown(modPropertiesManager.modProperties.itemID_GreenCrown, EnumCrownColor.Green);
+		itemBlueCrown = new ItemDecorativeCrown(modPropertiesManager.modProperties.itemID_BlueCrown, EnumCrownColor.Blue);
+		itemPinkCrown = new ItemDecorativeCrown(modPropertiesManager.modProperties.itemID_PinkCrown, EnumCrownColor.Pink);
+		itemPurpleCrown = new ItemDecorativeCrown(modPropertiesManager.modProperties.itemID_PurpleCrown, EnumCrownColor.Purple);
 		blockTombstone      = new BlockTombstone(modPropertiesManager.modProperties.blockID_Tombstone);
 
 		//Register creative tab.
@@ -759,6 +771,11 @@ public class MCA
 		itemKingsCoat = itemKingsCoat.setCreativeTab(tabMCA);
 		itemKingsPants = itemKingsPants.setCreativeTab(tabMCA);
 		itemKingsBoots = itemKingsBoots.setCreativeTab(tabMCA);
+		itemRedCrown = itemRedCrown.setCreativeTab(tabMCA);
+		itemGreenCrown = itemGreenCrown.setCreativeTab(tabMCA);
+		itemBlueCrown = itemBlueCrown.setCreativeTab(tabMCA);
+		itemPurpleCrown = itemPurpleCrown.setCreativeTab(tabMCA);
+		itemPinkCrown = itemPinkCrown.setCreativeTab(tabMCA);
 		blockTombstone = blockTombstone.setCreativeTab(tabMCA);
 
 		//Register recipes.
@@ -816,7 +833,37 @@ public class MCA
 				{
 			"G G", "R R", 'G', Item.ingotGold, 'R', new ItemStack(Block.cloth, 1, 14)
 				});
-
+		
+		GameRegistry.addRecipe(new ItemStack(itemHeirCrown, 1), new Object[]
+				{
+			"GEG", "G G", "GGG", 'E', Item.emerald, 'G', Item.ingotGold
+				});
+		
+		GameRegistry.addRecipe(new ItemStack(itemRedCrown, 1), new Object[]
+				{
+			"GDG", "G G", "GGG", 'D', new ItemStack(Item.dyePowder, 1, 1), 'G', Item.ingotGold
+				});
+		
+		GameRegistry.addRecipe(new ItemStack(itemGreenCrown, 1), new Object[]
+				{
+			"GDG", "G G", "GGG", 'D', new ItemStack(Item.dyePowder, 1, 2), 'G', Item.ingotGold
+				});
+		
+		GameRegistry.addRecipe(new ItemStack(itemBlueCrown, 1), new Object[]
+				{
+			"GDG", "G G", "GGG", 'D', new ItemStack(Item.dyePowder, 1, 4), 'G', Item.ingotGold
+				});
+		
+		GameRegistry.addRecipe(new ItemStack(itemPinkCrown, 1), new Object[]
+				{
+			"GDG", "G G", "GGG", 'D', new ItemStack(Item.dyePowder, 1, 9), 'G', Item.ingotGold
+				});
+		
+		GameRegistry.addRecipe(new ItemStack(itemPurpleCrown, 1), new Object[]
+				{
+			"GDG", "G G", "GGG", 'D', new ItemStack(Item.dyePowder, 1, 5), 'G', Item.ingotGold
+				});
+		
 		//Register GUI handlers.
 		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
 		NetworkRegistry.instance().registerConnectionHandler(new ConnectionHandler());

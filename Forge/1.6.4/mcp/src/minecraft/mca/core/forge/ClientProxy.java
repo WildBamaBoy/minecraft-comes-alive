@@ -38,6 +38,11 @@ public class ClientProxy extends CommonProxy
 		
 		RenderingRegistry.addNewArmourRendererPrefix("crown");
 		RenderingRegistry.addNewArmourRendererPrefix("heircrown");
+		RenderingRegistry.addNewArmourRendererPrefix("redcrown");
+		RenderingRegistry.addNewArmourRendererPrefix("greencrown");
+		RenderingRegistry.addNewArmourRendererPrefix("bluecrown");
+		RenderingRegistry.addNewArmourRendererPrefix("pinkcrown");
+		RenderingRegistry.addNewArmourRendererPrefix("purplecrown");
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityTombstone.class, new RenderTombstone());
 	}

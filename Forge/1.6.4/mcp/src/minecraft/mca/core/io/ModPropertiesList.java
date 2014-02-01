@@ -70,6 +70,21 @@ public class ModPropertiesList implements Serializable
 	/** The item ID of the kings boots.*/
 	public int itemID_KingsBoots = 25675;
 	
+	/** The item ID of the red crown.*/
+	public int itemID_RedCrown = 25676;
+
+	/** The item ID of the green crown.*/
+	public int itemID_GreenCrown = 25677;
+	
+	/** The item ID of the blue crown.*/
+	public int itemID_BlueCrown = 25678;
+
+	/** The item ID of the pink crown.*/
+	public int itemID_PinkCrown = 25679;
+	
+	/** The item ID of the purple crown.*/
+	public int itemID_PurpleCrown = 25680;
+	
 	/** The block ID of the tombstone.*/
 	public int blockID_Tombstone = 2388;
 

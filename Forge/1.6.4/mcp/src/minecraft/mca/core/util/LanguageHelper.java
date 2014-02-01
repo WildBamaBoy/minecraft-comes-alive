@@ -140,6 +140,11 @@ public final class LanguageHelper
 		LanguageRegistry.addName(MCA.getInstance().itemKingsCoat, LanguageHelper.getString("item.kingscoat"));
 		LanguageRegistry.addName(MCA.getInstance().itemKingsPants, LanguageHelper.getString("item.kingspants"));
 		LanguageRegistry.addName(MCA.getInstance().itemKingsBoots, LanguageHelper.getString("item.kingsboots"));
+		LanguageRegistry.addName(MCA.getInstance().itemRedCrown, LanguageHelper.getString("item.redcrown"));
+		LanguageRegistry.addName(MCA.getInstance().itemBlueCrown, LanguageHelper.getString("item.bluecrown"));
+		LanguageRegistry.addName(MCA.getInstance().itemGreenCrown, LanguageHelper.getString("item.greencrown"));
+		LanguageRegistry.addName(MCA.getInstance().itemPinkCrown, LanguageHelper.getString("item.pinkcrown"));
+		LanguageRegistry.addName(MCA.getInstance().itemPurpleCrown, LanguageHelper.getString("item.purplecrown"));
 	}
 
 	private static void addLocalizedAchievementNames(String languageID)
