@@ -18,7 +18,7 @@ import mca.entity.AbstractSerializableEntity;
 import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
 import mca.entity.EntityVillagerChild;
-import mca.item.ItemBaby;
+import mca.item.AbstractBaby;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -52,7 +52,7 @@ public class EventHooks
 	@ForgeSubscribe
 	public void itemTossedEventHandler(ItemTossEvent event)
 	{
-		if (event.entityItem.getEntityItem().getItem() instanceof ItemBaby && MCA.getInstance().playerWorldManagerMap.get(event.player.username).worldProperties.babyExists)
+		if (event.entityItem.getEntityItem().getItem() instanceof AbstractBaby && MCA.getInstance().playerWorldManagerMap.get(event.player.username).worldProperties.babyExists)
 		{
 			PacketDispatcher.sendPacketToPlayer(PacketHandler.createSayLocalizedPacket(event.player, null, "notify.player.droppedbaby", false, null, null), (Player)event.player);
 			event.player.inventory.addItemStackToInventory(event.entityItem.getEntityItem());

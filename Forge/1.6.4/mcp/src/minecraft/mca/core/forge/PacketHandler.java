@@ -44,7 +44,7 @@ import mca.entity.EntityVillagerChild;
 import mca.enums.EnumGenericCommand;
 import mca.enums.EnumTrait;
 import mca.inventory.Inventory;
-import mca.item.ItemBaby;
+import mca.item.AbstractBaby;
 import mca.tileentity.TileEntityTombstone;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
@@ -1966,12 +1966,12 @@ public final class PacketHandler implements IPacketHandler
 		objectInput.close();
 
 		//Trigger the name baby gui.
-		ItemBaby itemBaby = null;
+		AbstractBaby itemBaby = null;
 		boolean babyIsMale = Utility.getRandomGender();
 
 		if (babyIsMale)
 		{
-			itemBaby = (ItemBaby)MCA.getInstance().itemBabyBoy;
+			itemBaby = (AbstractBaby)MCA.getInstance().itemBabyBoy;
 			entityPlayer.triggerAchievement(MCA.getInstance().achievementHaveBabyBoy);
 			PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementHaveBabyBoy, playerId));
 			PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementHaveBabyBoy, spouseId));
@@ -1979,7 +1979,7 @@ public final class PacketHandler implements IPacketHandler
 
 		else
 		{
-			itemBaby = (ItemBaby)MCA.getInstance().itemBabyGirl;
+			itemBaby = (AbstractBaby)MCA.getInstance().itemBabyGirl;
 			entityPlayer.triggerAchievement(MCA.getInstance().achievementHaveBabyGirl);
 			PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementHaveBabyGirl, playerId));
 			PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementHaveBabyGirl, spouseId));
@@ -2214,12 +2214,12 @@ public final class PacketHandler implements IPacketHandler
 		objectInput.close();
 
 		AbstractEntity villager = (AbstractEntity)worldObj.getEntityByID(villagerId);		
-		ItemBaby itemBaby = null;
+		AbstractBaby itemBaby = null;
 
 		//Give the villager an appropriate baby item and unlock achievements for the player.
 		if (babyIsMale)
 		{
-			itemBaby = (ItemBaby)MCA.getInstance().itemBabyBoy;
+			itemBaby = (AbstractBaby)MCA.getInstance().itemBabyBoy;
 			villager.inventory.addItemStackToInventory(new ItemStack(itemBaby, 1));
 			entityPlayer.triggerAchievement(MCA.getInstance().achievementHaveBabyBoy);
 
@@ -2228,7 +2228,7 @@ public final class PacketHandler implements IPacketHandler
 
 		else
 		{
-			itemBaby = (ItemBaby)MCA.getInstance().itemBabyGirl;
+			itemBaby = (AbstractBaby)MCA.getInstance().itemBabyGirl;
 			villager.inventory.addItemStackToInventory(new ItemStack(itemBaby, 1));
 			entityPlayer.triggerAchievement(MCA.getInstance().achievementHaveBabyGirl);
 

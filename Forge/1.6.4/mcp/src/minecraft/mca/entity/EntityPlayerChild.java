@@ -23,7 +23,7 @@ import mca.core.util.object.PlayerMemory;
 import mca.enums.EnumGenericCommand;
 import mca.enums.EnumRelation;
 import mca.item.ItemArrangersRing;
-import mca.item.ItemBaby;
+import mca.item.AbstractBaby;
 import mca.item.ItemEngagementRing;
 import mca.item.ItemVillagerEditor;
 import mca.item.ItemWeddingRing;
@@ -419,7 +419,7 @@ public class EntityPlayerChild extends AbstractChild
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createInventoryPacket(entityId, inventory));
 				}
 
-				else if (itemStack.getItem() instanceof ItemBaby)
+				else if (itemStack.getItem() instanceof AbstractBaby)
 				{
 					doGiftOfBaby(itemStack, player);
 				}

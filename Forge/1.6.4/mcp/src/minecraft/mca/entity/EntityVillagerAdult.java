@@ -30,7 +30,7 @@ import mca.core.util.object.PlayerMemory;
 import mca.core.util.object.VillageHelper;
 import mca.enums.EnumRelation;
 import mca.item.ItemArrangersRing;
-import mca.item.ItemBaby;
+import mca.item.AbstractBaby;
 import mca.item.ItemEngagementRing;
 import mca.item.ItemLostRelativeDocument;
 import mca.item.ItemVillagerEditor;
@@ -591,7 +591,7 @@ public class EntityVillagerAdult extends AbstractEntity
 					}
 				}
 
-				else if (itemStack.getItem() instanceof ItemBaby)
+				else if (itemStack.getItem() instanceof AbstractBaby)
 				{
 					doGiftOfBaby(itemStack, player);
 				}

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * ItemBaby.java
+ * AbstractBaby.java
  * Copyright (c) 2013 WildBamaBoy.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v3.0
@@ -26,7 +26,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * Defines what the ItemBaby is and information about it. This serves as a base class to the ItemBabyBoy and ItemBabyGirl.
  */
-public class ItemBaby extends Item
+public abstract class AbstractBaby extends Item
 {
 	/** The gender of the baby. */
 	public boolean isMale;
@@ -36,7 +36,7 @@ public class ItemBaby extends Item
 	 *
 	 * @param	id	The item's ID.
 	 */
-	public ItemBaby(int itemId)
+	public AbstractBaby(int itemId)
 	{
 		super(itemId);
 		maxStackSize = 1;

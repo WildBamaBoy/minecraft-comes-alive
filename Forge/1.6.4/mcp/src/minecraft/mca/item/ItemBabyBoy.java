@@ -15,7 +15,7 @@ import net.minecraft.creativetab.CreativeTabs;
 /**
  * Defines what the Baby Girl is and how it behaves.
  */
-public class ItemBabyBoy extends ItemBaby
+public class ItemBabyBoy extends AbstractBaby
 {
     /**
      * Constructor
