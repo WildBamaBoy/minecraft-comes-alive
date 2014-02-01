@@ -29,6 +29,8 @@ import mca.entity.AbstractChild;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
+import mca.entity.EntityVillagerChild;
+import mca.enums.EnumRelation;
 import mca.inventory.ContainerInventory;
 import mca.tileentity.TileEntityTombstone;
 import net.minecraft.entity.player.EntityPlayer;
@@ -76,14 +78,21 @@ public class GuiHandler implements IGuiHandler
 
 		case Constants.ID_GUI_SPOUSE:
 			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, posX, posY, posZ);
-			return new GuiInteractionSpouse(entity, player);
+			final EnumRelation relationOfPlayer = entity.familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player));
 
+			if (relationOfPlayer == EnumRelation.Spouse)
+			{
+				return new GuiInteractionSpouse(entity, player);
+			}
+			
+			return null;
+			
 		case Constants.ID_GUI_ADULT:
 			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, posX, posY, posZ);
 			return new GuiInteractionVillagerAdult(entity, player);
 
 		case Constants.ID_GUI_VCHILD:
-			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractChild.class, world, posX, posY, posZ);
+			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(EntityVillagerChild.class, world, posX, posY, posZ);
 			return new GuiInteractionVillagerChild((AbstractChild) entity, player);
 
 		case Constants.ID_GUI_NAMECHILD:
