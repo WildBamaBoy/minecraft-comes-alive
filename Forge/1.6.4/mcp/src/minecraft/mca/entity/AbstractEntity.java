@@ -3141,25 +3141,28 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	public VillagerInformation getVillagerInformation()
 	{
-		final VillagerInformation villagerInfo = new VillagerInformation(
-				name, null, profession, isMale, isEngaged, isMarriedToPlayer, isMarriedToVillager,
-				hasBaby);
-
+		EnumVillagerType villagerType = null;
+		boolean isChild = false;
+		
 		if (this instanceof EntityVillagerAdult)
 		{
-			villagerInfo.type = EnumVillagerType.VillagerAdult;
+			villagerType = EnumVillagerType.VillagerAdult;
 		}
 
 		else if (this instanceof EntityVillagerChild)
 		{
-			villagerInfo.type = EnumVillagerType.VillagerChild;
+			villagerType = EnumVillagerType.VillagerChild;
+			isChild = true;
 		}
 
 		else if (this instanceof EntityPlayerChild)
 		{
-			villagerInfo.type = EnumVillagerType.PlayerChild;
+			villagerType = EnumVillagerType.PlayerChild;
+			isChild = !((EntityPlayerChild)this).isAdult;
 		}
 
-		return villagerInfo;
+		return new VillagerInformation(
+				name, villagerType, profession, isMale, isEngaged, isMarriedToPlayer, isMarriedToVillager,
+				hasBaby, isChild);
 	}
 }

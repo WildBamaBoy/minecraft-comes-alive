@@ -35,6 +35,7 @@ public final class VillagerInformation
 	public boolean isEngaged;
 	public boolean isMarriedToPlayer;
 	public boolean isMarriedToVillager;
+	public boolean isChild;
 	
 	/**
 	 * Constructor
@@ -49,7 +50,8 @@ public final class VillagerInformation
 	 * @param 	hasBaby
 	 */
 	public VillagerInformation(String name, EnumVillagerType type, int profession, boolean isMale, 
-			boolean isEngaged, boolean isMarriedToPlayer, boolean isMarriedToVillager, boolean hasBaby)
+			boolean isEngaged, boolean isMarriedToPlayer, boolean isMarriedToVillager, boolean hasBaby,
+			boolean isChild)
 	{
 		this.name = name;
 		this.type = type;
@@ -59,5 +61,6 @@ public final class VillagerInformation
 		this.isMarriedToPlayer = isMarriedToPlayer;
 		this.isMarriedToVillager = isMarriedToVillager;
 		this.hasBaby = hasBaby;
+		this.isChild = isChild;
 	}
 }
