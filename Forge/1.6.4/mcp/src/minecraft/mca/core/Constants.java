@@ -149,6 +149,20 @@ public final class Constants
 		{ID_TREE_JUNGLE, Block.wood.blockID, 3},
 		};
 	
+	/**
+	 * Cooking data for the cooking chore.
+	 * [0] = The raw version of the cooking ingredient.
+	 * [1] = The cooked version of the ingredient.
+	 */
+	public static final int[][] COOKING_DATA =
+		{
+		{Item.porkRaw.itemID, Item.porkCooked.itemID},
+		{Item.beefRaw.itemID, Item.beefCooked.itemID},
+		{Item.chickenRaw.itemID, Item.chickenCooked.itemID},
+		{Item.fishRaw.itemID, Item.fishCooked.itemID},
+		{Item.potato.itemID, Item.bakedPotato.itemID},
+		};
+	
 	//Gui IDs
 	public static final byte ID_GUI_INVENTORY = 0;
 	public static final byte ID_GUI_GAMEOVER = 1;

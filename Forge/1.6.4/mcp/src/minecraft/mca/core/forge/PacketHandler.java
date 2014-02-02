@@ -22,6 +22,7 @@ import java.util.Map;
 
 import mca.chore.AbstractChore;
 import mca.chore.ChoreCombat;
+import mca.chore.ChoreCooking;
 import mca.chore.ChoreFarming;
 import mca.chore.ChoreFishing;
 import mca.chore.ChoreHunting;
@@ -46,6 +47,7 @@ import mca.enums.EnumTrait;
 import mca.inventory.Inventory;
 import mca.item.AbstractBaby;
 import mca.tileentity.TileEntityTombstone;
+import net.minecraft.block.BlockFurnace;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.Entity;
@@ -1351,6 +1353,11 @@ public final class PacketHandler implements IPacketHandler
 		{
 			entity.huntingChore = (ChoreHunting) chore;
 		}
+		
+		else if (chore instanceof ChoreCooking)
+		{
+			entity.cookingChore = (ChoreCooking) chore;
+		}
 
 		else
 		{
@@ -2547,6 +2554,12 @@ public final class PacketHandler implements IPacketHandler
 			}
 			break;
 			
+		case UpdateFurnace:
+			entityId = (Integer)arguments[0];
+			entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
+			
+			BlockFurnace.updateFurnaceBlockState((Boolean)arguments[1], entity.worldObj, entity.cookingChore.furnacePosX, entity.cookingChore.furnacePosY, entity.cookingChore.furnacePosZ);
+			break;
 		default:
 			MCA.getInstance().log("Invalid generic command specified: " + command);
 		}

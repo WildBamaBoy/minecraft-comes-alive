@@ -28,6 +28,7 @@ import mca.api.VillagerInformation;
 import mca.api.VillagerRegistryMCA;
 import mca.chore.AbstractChore;
 import mca.chore.ChoreCombat;
+import mca.chore.ChoreCooking;
 import mca.chore.ChoreFarming;
 import mca.chore.ChoreFishing;
 import mca.chore.ChoreHunting;
@@ -110,6 +111,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public int heldBabyProfession;
 	public int workPrevMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 	public int workCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
+	public int cookingSpeed = Constants.TICKS_SECOND * MCA.rand.nextInt(10) + 1;
 	public boolean isMale;
 	public boolean isSleeping;
 	public boolean isSwinging;
@@ -162,6 +164,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public ChoreWoodcutting woodcuttingChore = new ChoreWoodcutting(this);
 	public ChoreMining  miningChore = new ChoreMining(this);
 	public ChoreHunting huntingChore = new ChoreHunting(this);
+	public ChoreCooking cookingChore = new ChoreCooking(this);
 	public Inventory inventory = new Inventory(this);
 	public Map<String, PlayerMemory> playerMemoryMap = new HashMap<String, PlayerMemory>();
 
@@ -735,10 +738,18 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	@Override
 	public void swingItem()
 	{
-		if (!isSwinging || swingProgressTicks >= 8 / 2 || swingProgressTicks < 0)
+		if (worldObj.isRemote)
 		{
-			swingProgressTicks = -1;
-			isSwinging = true;
+			if (!isSwinging || swingProgressTicks >= 8 / 2 || swingProgressTicks < 0)
+			{
+				swingProgressTicks = -1;
+				isSwinging = true;
+			}
+		}
+
+		else
+		{
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.SwingArm, entityId));
 		}
 	}
 
@@ -1271,6 +1282,11 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		else if (currentChore.equals("Hunting"))
 		{
 			return huntingChore;
+		}
+
+		else if (currentChore.equals("Cooking"))
+		{
+			return cookingChore;
 		}
 
 		else

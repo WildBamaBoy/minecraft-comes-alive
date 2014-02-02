@@ -24,7 +24,8 @@ public enum EnumGenericCommand
 	BroadcastKillEntity("BroadcastKillEntity"),
 	SetPosition("SetPosition"),
 	StopJumping("StopJumping"),
-	ArrangedMarriageParticles("ArrangedMarriageParticles");
+	ArrangedMarriageParticles("ArrangedMarriageParticles"),
+	UpdateFurnace("UpdateFurnace");
 
 	/** The actual string value of the enum constant */
 	private String value;

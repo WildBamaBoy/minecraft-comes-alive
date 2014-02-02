@@ -9,6 +9,7 @@
 
 package mca.client.gui;
 
+import mca.chore.ChoreCooking;
 import mca.core.MCA;
 import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
@@ -42,6 +43,7 @@ public class GuiInteractionSpouse extends AbstractGui
 
 	//Basic interaction buttons.
 	private GuiButton interactButton;
+	private GuiButton cookingButton;
 	private GuiButton followButton;
 	private GuiButton stayButton;
 	private GuiButton setHomeButton;
@@ -58,7 +60,7 @@ public class GuiInteractionSpouse extends AbstractGui
 	private GuiButton kissButton;
 	private GuiButton flirtButton;
 	private GuiButton tellStoryButton;
-	
+
 	private GuiButton procreateBackButton;
 
 	private GuiButton backButton;
@@ -132,7 +134,7 @@ public class GuiInteractionSpouse extends AbstractGui
 		{
 			actionPerformedInteraction(button);
 		}
-		
+
 		else if (inProcreationGui)
 		{
 			actionPerformedProcreation(button);
@@ -218,17 +220,17 @@ public class GuiInteractionSpouse extends AbstractGui
 			PlayerMemory memory = entitySpouse.playerMemoryMap.get(player.username);
 			EnumMood mood = entitySpouse.mood;
 			EnumTrait trait = entitySpouse.trait;
-			
+
 			int chatChance = 65 + -(memory.interactionFatigue * 7) + mood.getChanceModifier("chat") + trait.getChanceModifier("chat");
 			int jokeChance = 65 + -(memory.interactionFatigue * 7) + mood.getChanceModifier("joke") + trait.getChanceModifier("joke");
 			int greetChance = 90 + -(memory.interactionFatigue * 20) + mood.getChanceModifier("greeting") + trait.getChanceModifier("greeting");
 			int tellStoryChance = 65 + -(memory.interactionFatigue * 7) + mood.getChanceModifier("story") + trait.getChanceModifier("story");
-		
+
 			int kissModify = memory.hearts > 75 ? 75 : -25;
 			int flirtModify = memory.hearts > 50 ? 35 : 0;
 			int kissChance = 10 + kissModify + -(memory.interactionFatigue * 10) + mood.getChanceModifier("kiss") + trait.getChanceModifier("kiss");
 			int flirtChance = 10 + flirtModify + -(memory.interactionFatigue * 7) + mood.getChanceModifier("flirt") + trait.getChanceModifier("flirt");
-	
+
 			//Limit highs to 100 and lows to 0.
 			chatChance 		= chatChance 		< 0 ? 0 : chatChance 		> 100 ? 100 : chatChance;
 			jokeChance 		= jokeChance 		< 0 ? 0 : jokeChance 		> 100 ? 100 : jokeChance;
@@ -236,13 +238,13 @@ public class GuiInteractionSpouse extends AbstractGui
 			tellStoryChance = tellStoryChance 	< 0 ? 0 : tellStoryChance 	> 100 ? 100 : tellStoryChance;
 			kissChance 		= kissChance 		< 0 ? 0 : kissChance		> 100 ? 100 : kissChance;
 			flirtChance 	= flirtChance 		< 0 ? 0 : flirtChance		> 100 ? 100 : flirtChance;
-			
+
 			drawCenteredString(fontRenderer, chatButton.displayString + ": " + chatChance + "%", width / 2 - 70, 95, 0xffffff);
 			drawCenteredString(fontRenderer, jokeButton.displayString + ": " + jokeChance + "%", width / 2 - 70, 110, 0xffffff);
 			drawCenteredString(fontRenderer, giftButton.displayString + ": " + "100" + "%", width / 2 - 70, 125, 0xffffff);
 			drawCenteredString(fontRenderer, greetButton.displayString + ": " + greetChance + "%", width / 2, 95, 0xffffff);
 			drawCenteredString(fontRenderer, tellStoryButton.displayString + ": " + tellStoryChance + "%", width / 2, 110, 0xffffff);
-			
+
 			//Kiss and flirt buttons will not be assigned for relatives of the player and children.
 			if (kissButton != null)
 			{
@@ -263,16 +265,17 @@ public class GuiInteractionSpouse extends AbstractGui
 		inCombatGui = false;
 		inMonarchGui = false;
 		displaySuccessChance = false;
-		
+
 		buttonList.clear();
 
-		buttonList.add(interactButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.interact")));
-		buttonList.add(followButton    = new GuiButton(2, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
-		buttonList.add(stayButton      = new GuiButton(3, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
-		buttonList.add(setHomeButton   = new GuiButton(4, width / 2 - 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.sethome")));
-		buttonList.add(procreateButton = new GuiButton(5, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.spouse.procreate")));
-		buttonList.add(inventoryButton = new GuiButton(6, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.spouse.inventory")));
-		buttonList.add(combatButton    = new GuiButton(7, width / 2 + 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.chore.combat")));	
+		buttonList.add(interactButton 	= new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.interact")));
+		buttonList.add(cookingButton		= new GuiButton(2, width / 2 - 90, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.spouse.cookfood")));
+		buttonList.add(followButton    	= new GuiButton(3, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
+		buttonList.add(stayButton      	= new GuiButton(4, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
+		buttonList.add(setHomeButton   	= new GuiButton(5, width / 2 - 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.sethome")));
+		buttonList.add(procreateButton 	= new GuiButton(6, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.spouse.procreate")));
+		buttonList.add(inventoryButton 	= new GuiButton(7, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.spouse.inventory")));
+		buttonList.add(combatButton    	= new GuiButton(8, width / 2 + 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.chore.combat")));	
 
 		if (MCA.getInstance().playerWorldManagerMap.get(player.username).worldProperties.isMonarch)
 		{
@@ -285,6 +288,8 @@ public class GuiInteractionSpouse extends AbstractGui
 
 		if (entitySpouse.isFollowing) followButton.displayString = LanguageHelper.getString("gui.button.interact.followstop");
 		if (entitySpouse.isStaying)   stayButton.displayString = LanguageHelper.getString("gui.button.interact.staystop");
+		if (entitySpouse.getInstanceOfCurrentChore() instanceof ChoreCooking) 
+			cookingButton.displayString = LanguageHelper.getString("gui.button.spouse.stopcooking");
 
 		followButton.enabled = false;
 		stayButton.enabled = false;
@@ -292,14 +297,14 @@ public class GuiInteractionSpouse extends AbstractGui
 		procreateButton.enabled = false;
 		inventoryButton.enabled = false;
 	}
-	
+
 	/**
 	 * Draws the GUI containing all interactions.
 	 */
 	protected void drawInteractionGui()
 	{
 		buttonList.clear();
-		
+
 		inInteractionSelectGui = true;
 
 		buttonList.add(chatButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.chat")));
@@ -309,12 +314,12 @@ public class GuiInteractionSpouse extends AbstractGui
 		buttonList.add(tellStoryButton = new GuiButton(5, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.tellstory")));
 		buttonList.add(kissButton = new GuiButton(6, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.kiss")));
 		buttonList.add(flirtButton = new GuiButton(7, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.flirt")));
-		
+
 		greetButton.displayString = entitySpouse.playerMemoryMap.get(player.username).hearts >= 50 ? LanguageHelper.getString("gui.button.interact.greet.highfive") : LanguageHelper.getString("gui.button.interact.greet.handshake");
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 	}
-	
+
 	/**
 	 * Draws the procreation GUI.
 	 */
@@ -474,7 +479,7 @@ public class GuiInteractionSpouse extends AbstractGui
 			entitySpouse.isStaying = !entitySpouse.isStaying;
 			entitySpouse.isFollowing = false;
 			entitySpouse.idleTicks = 0;
-			
+
 			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isStaying", entitySpouse.isStaying));
 			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isFollowing", entitySpouse.isFollowing));
 			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "idleTicks", entitySpouse.idleTicks));
@@ -549,6 +554,28 @@ public class GuiInteractionSpouse extends AbstractGui
 		{
 			drawMonarchGui();
 		}
+
+		else if (button == cookingButton)
+		{
+			if (entitySpouse.getInstanceOfCurrentChore() instanceof ChoreCooking)
+			{
+				entitySpouse.getInstanceOfCurrentChore().endChore();
+				PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entitySpouse.entityId, entitySpouse.cookingChore));
+			}
+
+			else
+			{
+				entitySpouse.cookingChore = new ChoreCooking(entitySpouse);
+				entitySpouse.isInChoreMode = true;
+				entitySpouse.currentChore = entitySpouse.cookingChore.getChoreName();
+
+				PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entitySpouse.entityId, entitySpouse.cookingChore));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "isInChoreMode", entitySpouse.isInChoreMode));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "currentChore", entitySpouse.currentChore));
+			}
+
+			close();
+		}
 	}
 
 	/**
@@ -576,13 +603,13 @@ public class GuiInteractionSpouse extends AbstractGui
 			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entitySpouse.entityId, "playerMemoryMap", entitySpouse.playerMemoryMap));
 			close();
 		}
-		
+
 		else if (button == greetButton)
 		{
 			Interactions.doGreeting(entitySpouse, player);
 			close();
 		}
-		
+
 		else if (button == tellStoryButton)
 		{
 			Interactions.doTellStory(entitySpouse, player);
@@ -593,25 +620,25 @@ public class GuiInteractionSpouse extends AbstractGui
 			Interactions.doKiss(entitySpouse, player);
 			close();
 		}
-		
+
 		else if (button == flirtButton)
 		{
 			Interactions.doFlirt(entitySpouse, player);
 			close();
 		}
-		
+
 		else if (button == tellStoryButton)
 		{
 			Interactions.doTellStory(entitySpouse, player);
 			close();
 		}
-		
+
 		else if (button == backButton)
 		{
 			drawBaseGui();
 		}
 	}
-	
+
 	/**
 	 * Handles an action performed in the procreation GUI.
 	 * 

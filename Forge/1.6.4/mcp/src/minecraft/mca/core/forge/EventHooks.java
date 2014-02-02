@@ -11,14 +11,17 @@ package mca.core.forge;
 
 import java.io.File;
 
+import mca.chore.ChoreCooking;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.Utility;
+import mca.entity.AbstractEntity;
 import mca.entity.AbstractSerializableEntity;
 import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
 import mca.entity.EntityVillagerChild;
 import mca.item.AbstractBaby;
+import net.minecraft.block.Block;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -35,6 +38,7 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
@@ -141,6 +145,40 @@ public class EventHooks
 	public void playerDropsEventHandler(PlayerDropsEvent event)
 	{
 		MCA.getInstance().deadPlayerInventories.put(event.entityPlayer.username, event.drops);
+	}
+
+	/**
+	 * Fired when the player interacts with something, like an entity or a block.
+	 * 
+	 * @param 	event	An instance of the PlayerInteractEvent.
+	 */
+	@ForgeSubscribe
+	public void playerInteractEventHandler(PlayerInteractEvent event)
+	{
+		if (!event.entityPlayer.worldObj.isRemote && event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
+		{
+			final int blockId = event.entityPlayer.worldObj.getBlockId(event.x, event.y, event.z);
+
+			if (blockId == Block.furnaceBurning.blockID || blockId == Block.furnaceIdle.blockID)
+			{
+				for (final Object obj : event.entityPlayer.worldObj.loadedEntityList)
+				{
+					if (obj instanceof AbstractEntity)
+					{
+						final AbstractEntity entity = (AbstractEntity)obj;
+
+						if (entity.getInstanceOfCurrentChore() instanceof ChoreCooking && 
+							entity.cookingChore.hasCookableFood &&
+								entity.cookingChore.furnacePosX == event.x &&
+								entity.cookingChore.furnacePosY == event.y &&
+								entity.cookingChore.furnacePosZ == event.z)
+						{
+							event.setCanceled(true);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	private void doAddMobTasks(EntityMob mob)
