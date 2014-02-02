@@ -11,11 +11,14 @@ package mca.api;
 
 public final class VillagerInformation 
 {
+	/** The villager's entity id. */
+	public final int entityId;
+	
 	/** The villager's name. */
-	public String name;
+	public final String name;
 	
 	/** The villager's type, such as VillagerAdult, VillagerChild, or PlayerChild. */
-	public EnumVillagerType type;
+	public final EnumVillagerType type;
 	
 	/** 
 	 * The villager's profession id. MCA reserves -1 through 7 by default.
@@ -23,36 +26,25 @@ public final class VillagerInformation
 	 * -1 = Kid (Villager Child), 0 = Farmer, 1 = Librarian, 2 = Priest, 
 	 * 3 = Smith, 4 = Butcher, 5 = Guard, 6 = Baker, 7 = Miner
 	 */
-	public int profession;
+	public final int profession;
 
 	/**
 	 * True if this villager is actually holding a baby that is theirs.
 	 * Will always be false for players' spouses.
 	 */
-	public boolean hasBaby;
+	public final boolean hasBaby;
 
-	public boolean isMale;
-	public boolean isEngaged;
-	public boolean isMarriedToPlayer;
-	public boolean isMarriedToVillager;
-	public boolean isChild;
+	public final boolean isMale;
+	public final boolean isEngaged;
+	public final boolean isMarriedToPlayer;
+	public final boolean isMarriedToVillager;
+	public final boolean isChild;
 	
-	/**
-	 * Constructor
-	 * 
-	 * @param 	name
-	 * @param 	type
-	 * @param 	profession
-	 * @param 	isMale
-	 * @param 	isEngaged
-	 * @param 	isMarriedToPlayer
-	 * @param 	isMarriedToVillager
-	 * @param 	hasBaby
-	 */
-	public VillagerInformation(String name, EnumVillagerType type, int profession, boolean isMale, 
+	public VillagerInformation(int entityId, String name, EnumVillagerType type, int profession, boolean isMale, 
 			boolean isEngaged, boolean isMarriedToPlayer, boolean isMarriedToVillager, boolean hasBaby,
 			boolean isChild)
 	{
+		this.entityId = entityId;
 		this.name = name;
 		this.type = type;
 		this.profession = profession;

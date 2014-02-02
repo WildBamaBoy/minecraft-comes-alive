@@ -3162,7 +3162,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		}
 
 		return new VillagerInformation(
-				name, villagerType, profession, isMale, isEngaged, isMarriedToPlayer, isMarriedToVillager,
+				entityId, name, villagerType, profession, isMale, isEngaged, isMarriedToPlayer, isMarriedToVillager,
 				hasBaby, isChild);
 	}
 }
