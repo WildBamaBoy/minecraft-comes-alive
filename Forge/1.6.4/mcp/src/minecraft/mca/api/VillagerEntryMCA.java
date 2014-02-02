@@ -11,8 +11,7 @@ package mca.api;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import mca.core.MCA;
+import java.util.Random;
 
 /**
  * Object used to keep track of villager types registered with MCA.
@@ -137,7 +136,7 @@ public final class VillagerEntryMCA
 	 */
 	public String getRandomMaleSkin()
 	{
-		return this.skinsMale.get(MCA.rand.nextInt(skinsMale.size()));
+		return this.skinsMale.get(new Random().nextInt(skinsMale.size()));
 	}
 	
 	/**
@@ -147,7 +146,7 @@ public final class VillagerEntryMCA
 	 */
 	public String getRandomFemaleSkin()
 	{
-		return this.skinsFemale.get(MCA.rand.nextInt(skinsFemale.size()));
+		return this.skinsFemale.get(new Random().nextInt(skinsFemale.size()));
 	}
 	
 	/**
