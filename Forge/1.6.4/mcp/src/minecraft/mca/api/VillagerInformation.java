@@ -9,7 +9,7 @@
 
 package mca.api;
 
-public class VillagerInformation 
+public final class VillagerInformation 
 {
 	/** The villager's name. */
 	public String name;

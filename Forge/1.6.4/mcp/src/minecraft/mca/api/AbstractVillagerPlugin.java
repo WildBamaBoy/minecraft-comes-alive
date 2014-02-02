@@ -1,5 +1,5 @@
 /*******************************************************************************
- * IVillagerPlugin.java
+ * AbstractVillagerPlugin.java
  * Copyright (c) 2013 WildBamaBoy.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v3.0
@@ -15,7 +15,7 @@ import net.minecraft.pathfinding.PathNavigate;
 /**
  * An interface that plugs in to an MCA villager's methods to add or change their behavior.
  */
-public interface IVillagerPlugin 
+public abstract class AbstractVillagerPlugin 
 {
 	//TODO More things can be added here! Suggestions are welcome.
 	
@@ -26,5 +26,5 @@ public interface IVillagerPlugin
 	 * @param 	tasks			The villager's AI tasks.
 	 * @param 	navigator		The villager's path navigator.
 	 */
-	void onAddAI(VillagerInformation villagerInfo, EntityAITasks tasks, PathNavigate navigator);
+	public abstract void onAddAI(VillagerInformation villagerInfo, EntityAITasks tasks, PathNavigate navigator);
 }

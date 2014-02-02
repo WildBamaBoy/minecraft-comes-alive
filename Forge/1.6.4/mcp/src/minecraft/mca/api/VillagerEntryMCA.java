@@ -17,7 +17,7 @@ import mca.core.MCA;
 /**
  * Object used to keep track of villager types registered with MCA.
  */
-public class VillagerEntryMCA 
+public final class VillagerEntryMCA 
 {
 	/** A list of skins that can be used for male villagers. */
 	private final List<String> skinsMale = new ArrayList<String>();

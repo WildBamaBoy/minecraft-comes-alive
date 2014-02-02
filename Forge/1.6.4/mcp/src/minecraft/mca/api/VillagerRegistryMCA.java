@@ -20,7 +20,7 @@ import java.util.Map;
 public final class VillagerRegistryMCA 
 {
 	private static Map<Integer, VillagerEntryMCA> registeredVillagersMap = new HashMap<Integer, VillagerEntryMCA>();
-	private static List<IVillagerPlugin> registeredVillagerPlugins = new ArrayList<IVillagerPlugin>();
+	private static List<AbstractVillagerPlugin> registeredVillagerPlugins = new ArrayList<AbstractVillagerPlugin>();
 	
 	private VillagerRegistryMCA() { }
 	
@@ -30,7 +30,7 @@ public final class VillagerRegistryMCA
 	 * 
 	 * @param	The object implementing IVillagerPlugin that is to be added to the registered villagers map.
 	 */
-	public static void registerVillagerPlugin(IVillagerPlugin pluginObject)
+	public static void registerVillagerPlugin(AbstractVillagerPlugin pluginObject)
 	{
 		registeredVillagerPlugins.add(pluginObject);
 	}
@@ -162,7 +162,7 @@ public final class VillagerRegistryMCA
 	 * 
 	 * @return	The villager registry's registered villager plugins list.
 	 */
-	public static List<IVillagerPlugin> getRegisteredVillagerPlugins()
+	public static List<AbstractVillagerPlugin> getRegisteredVillagerPlugins()
 	{
 		return registeredVillagerPlugins;
 	}
