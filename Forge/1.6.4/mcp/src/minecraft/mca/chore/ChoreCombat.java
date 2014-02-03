@@ -411,51 +411,26 @@ public class ChoreCombat extends AbstractChore
 			{
 				if (entity instanceof EntityLivingBase && !(entity instanceof EntityPlayer) && !(entity instanceof AbstractEntity))
 				{
-					if (closestEntity == null)
+					//Determine if they should attack by checking the target's class against entities selected as attackable.
+					if (isSetToAttackEntity(entity))
 					{
-						//Determine if they should attack by checking the target's class against entities selected as attackable.
-						if (entity instanceof EntityPig && attackPigs           	||
-								entity instanceof EntitySheep && attackSheep        ||
-								entity instanceof EntityCow && attackCows           ||
-								entity instanceof EntityChicken && attackChickens   ||
-								entity instanceof EntitySpider && attackSpiders     ||
-								entity instanceof EntityZombie && attackZombies     ||
-								entity instanceof EntitySkeleton && attackSkeletons ||
-								entity instanceof EntityCreeper && attackCreepers   ||
-								entity instanceof EntityEnderman && attackEndermen)
+						if (closestEntity == null)
 						{
 							closestEntity = (EntityLivingBase)entity;
 						}
 
-						else if (entity instanceof EntityMob && attackUnknown && !(entity instanceof EntityCreeper))
-						{
-							closestEntity = (EntityLivingBase)entity;
-						}
-					}
-
-					else
-					{
-						//Determine if they should attack by checking the target's class against entities selected as attackable.
-						if (entity instanceof EntityPig && attackPigs           	||
-								entity instanceof EntitySheep && attackSheep        ||
-								entity instanceof EntityCow && attackCows           ||
-								entity instanceof EntityChicken && attackChickens   ||
-								entity instanceof EntitySpider && attackSpiders     ||
-								entity instanceof EntityZombie && attackZombies     ||
-								entity instanceof EntitySkeleton && attackSkeletons ||
-								entity instanceof EntityCreeper && attackCreepers   ||
-								entity instanceof EntityEnderman && attackEndermen)
+						else
 						{
 							if (owner.getDistanceToEntity(entity) < owner.getDistanceToEntity(closestEntity))
 							{
 								closestEntity = (EntityLivingBase)entity;
 							}
 						}
+					}
 
-						else if (entity instanceof EntityMob && attackUnknown && !(entity instanceof EntityCreeper))
-						{
-							closestEntity = (EntityLivingBase)entity;
-						}
+					else if (isUnknownEntityValidTarget(entity))
+					{
+						closestEntity = (EntityLivingBase)entity;
 					}
 				}
 			}
@@ -611,5 +586,21 @@ public class ChoreCombat extends AbstractChore
 	private boolean isWithinSentryArea()
 	{
 		return Math.abs(sentryPosX - owner.posX) < 1.0D && Math.abs(sentryPosY - owner.posY) < 1.0D && Math.abs(sentryPosZ) - owner.posZ < 1.0D;
+	}
+
+	private boolean isSetToAttackEntity(Entity entity)
+	{
+		return entity instanceof EntityPig && attackPigs  			|| entity instanceof EntitySheep && attackSheep 		||
+				entity instanceof EntityCow && attackCows 			|| entity instanceof EntityChicken && attackChickens   	||
+				entity instanceof EntitySpider && attackSpiders     || entity instanceof EntityZombie && attackZombies     	||
+				entity instanceof EntitySkeleton && attackSkeletons || entity instanceof EntityCreeper && attackCreepers   	||
+				entity instanceof EntityEnderman && attackEndermen;
+	}
+	
+	private boolean isUnknownEntityValidTarget(Entity entity)
+	{
+		return entity instanceof EntityMob && attackUnknown && !(entity instanceof EntityCreeper) &&
+				!(entity instanceof EntitySpider) && !(entity instanceof EntitySkeleton) && ! (entity instanceof EntityZombie) &&
+				!(entity instanceof EntityEnderman);
 	}
 }
