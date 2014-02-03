@@ -427,7 +427,7 @@ public class ChoreCombat extends AbstractChore
 							closestEntity = (EntityLivingBase)entity;
 						}
 
-						else if (entity instanceof EntityMob && attackUnknown)
+						else if (entity instanceof EntityMob && attackUnknown && !(entity instanceof EntityCreeper))
 						{
 							closestEntity = (EntityLivingBase)entity;
 						}
@@ -452,7 +452,7 @@ public class ChoreCombat extends AbstractChore
 							}
 						}
 
-						else if (entity instanceof EntityMob && attackUnknown)
+						else if (entity instanceof EntityMob && attackUnknown && !(entity instanceof EntityCreeper))
 						{
 							closestEntity = (EntityLivingBase)entity;
 						}
