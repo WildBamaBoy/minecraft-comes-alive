@@ -9,6 +9,8 @@
 
 package mca.client.gui;
 
+import java.lang.reflect.Field;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import mca.core.MCA;
@@ -57,6 +59,15 @@ public class GuiVillagerEditor extends AbstractGui
 	private GuiButton shiftMoodDownButton;
 	private GuiButton shiftTraitUpButton;
 	private GuiButton shiftTraitDownButton;
+
+	//Buttons on page 2
+	private GuiButton appliesHeightButton;
+	private GuiButton heightButton;
+	private GuiButton shiftHeightUpButton;
+	private GuiButton shiftHeightDownButton;
+
+	private GuiButton backButton;
+	private GuiButton nextButton;
 	private GuiButton doneButton;
 
 	/** Label buttons. */
@@ -73,6 +84,7 @@ public class GuiVillagerEditor extends AbstractGui
 	private boolean containsInvalidCharacters;
 	private List<EnumMood> moodList = EnumMood.getMoodsAsCyclableList();
 	private int moodListIndex = 0;
+	private int currentPage = 1;
 
 	/**
 	 * Constructor
@@ -86,7 +98,7 @@ public class GuiVillagerEditor extends AbstractGui
 		editingVillager = abstractEntity;
 		editingVillager.isSleeping = false;
 		moodListIndex = moodList.indexOf(editingVillager.mood);
-		
+
 		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(editingVillager.entityId, "isSleeping", editingVillager.isSleeping));
 	}
 
@@ -122,11 +134,19 @@ public class GuiVillagerEditor extends AbstractGui
 	{
 		Keyboard.enableRepeatEvents(true);
 
-		drawEditorGui();
+		if (!MCA.getInstance().inDebugMode)
+		{
+			drawEditorGuiPage1();
 
-		nameTextField = new GuiTextField(fontRenderer, width / 2 - 205, height / 2 - 75, 150, 20);
-		nameTextField.setMaxStringLength(32);
-		nameTextField.setText(editingVillager.name);
+			nameTextField = new GuiTextField(fontRenderer, width / 2 - 205, height / 2 - 75, 150, 20);
+			nameTextField.setMaxStringLength(32);
+			nameTextField.setText(editingVillager.name);
+		}
+
+		else
+		{
+			currentPage = -1;
+		}
 
 		dummyTextField = new GuiTextField(fontRenderer, width / 2 + 90, height / 2 - 100, 100, 200);
 		dummyTextField.setMaxStringLength(0);
@@ -161,14 +181,14 @@ public class GuiVillagerEditor extends AbstractGui
 			nameTextField.setText(Utility.getRandomName(editingVillager.isMale));
 			editingVillager.name = nameTextField.getText();
 			nameTextField.mouseClicked(5, 5, 5);
-			drawEditorGui();
+			drawEditorGuiPage1();
 		}
 
 		else if (guibutton == genderButton)
 		{
 			editingVillager.isMale = !editingVillager.isMale;
 			editingVillager.setTexture();
-			drawEditorGui();
+			drawEditorGuiPage1();
 		}
 
 		else if (guibutton == shiftTextureIndexUpButton)
@@ -188,7 +208,7 @@ public class GuiVillagerEditor extends AbstractGui
 			}
 
 			editingVillager.setTexture(textureList.get(textureIndex));
-			drawEditorGui();
+			drawEditorGuiPage1();
 		}
 
 		else if (guibutton == shiftTextureIndexDownButton)
@@ -208,7 +228,7 @@ public class GuiVillagerEditor extends AbstractGui
 			}
 
 			editingVillager.setTexture(textureList.get(textureIndex));
-			drawEditorGui();
+			drawEditorGuiPage1();
 		}
 
 		else if (guibutton == shiftProfessionUpButton)
@@ -229,7 +249,7 @@ public class GuiVillagerEditor extends AbstractGui
 			}
 
 			editingVillager.setTexture();
-			drawEditorGui();
+			drawEditorGuiPage1();
 		}
 
 		else if (guibutton == shiftProfessionDownButton)
@@ -250,7 +270,7 @@ public class GuiVillagerEditor extends AbstractGui
 			}
 
 			editingVillager.setTexture();
-			drawEditorGui();
+			drawEditorGuiPage1();
 		}
 
 		else if (guibutton == shiftMoodUpButton)
@@ -296,7 +316,7 @@ public class GuiVillagerEditor extends AbstractGui
 			}
 
 			editingVillager.setMoodByMoodPoints(true);
-			drawEditorGui();
+			drawEditorGuiPage1();
 		}
 
 		else if (guibutton == shiftMoodDownButton)
@@ -342,7 +362,7 @@ public class GuiVillagerEditor extends AbstractGui
 			}
 
 			editingVillager.setMoodByMoodPoints(true);
-			drawEditorGui();
+			drawEditorGuiPage1();
 		}
 
 		else if (guibutton == shiftTraitUpButton)
@@ -358,7 +378,7 @@ public class GuiVillagerEditor extends AbstractGui
 			}
 
 			editingVillager.trait = EnumTrait.getTraitById(editingVillager.traitId);
-			drawEditorGui();
+			drawEditorGuiPage1();
 		}
 
 		else if (guibutton == shiftTraitDownButton)
@@ -374,7 +394,7 @@ public class GuiVillagerEditor extends AbstractGui
 			}
 
 			editingVillager.trait = EnumTrait.getTraitById(editingVillager.traitId);
-			drawEditorGui();
+			drawEditorGuiPage1();
 		}
 
 		else if (guibutton == inventoryButton)
@@ -383,38 +403,89 @@ public class GuiVillagerEditor extends AbstractGui
 			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(editingVillager.entityId, "doOpenInventory", editingVillager.doOpenInventory));
 			close();
 		}
+
+		else if (guibutton == nextButton)
+		{
+			switch (currentPage)
+			{
+			case 1: drawEditorGuiPage2(); break;
+			case 2: drawEditorGuiPage2(); break;
+			}
+		}
+
+		else if (guibutton == backButton)
+		{
+			switch (currentPage)
+			{
+			case 1: drawEditorGuiPage1(); break;
+			case 2: drawEditorGuiPage1(); break;
+			}
+		}
+
+		else if (guibutton == shiftHeightUpButton)
+		{
+			editingVillager.heightFactor += 0.01F;
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(editingVillager.entityId, "heightFactor", editingVillager.heightFactor));
+			drawEditorGuiPage2();
+		}
+
+		else if (guibutton == shiftHeightDownButton)
+		{
+			editingVillager.heightFactor -= 0.01F;
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(editingVillager.entityId, "heightFactor", editingVillager.heightFactor));
+			drawEditorGuiPage2();
+		}
+
+		else if (guibutton == appliesHeightButton)
+		{
+			editingVillager.doApplyHeight = !editingVillager.doApplyHeight;
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(editingVillager.entityId, "doApplyHeight", editingVillager.doApplyHeight));
+			drawEditorGuiPage2();
+		}
 	}
 
 	@Override
 	protected void keyTyped(char c, int i)
 	{
-		nameTextField.textboxKeyTyped(c, i);
-		String text = nameTextField.getText().trim();
-
-		if (text.contains("/") || text.contains("?") || text.contains("<") || text.contains(">") || text.contains("\\") || text.contains(":") || text.contains("*") || text.contains("|") || text.contains("\""))
+		if (currentPage == 1)
 		{
-			containsInvalidCharacters = true;
-			doneButton.enabled = false;
-		}
+			nameTextField.textboxKeyTyped(c, i);
+			String text = nameTextField.getText().trim();
 
+			if (text.contains("/") || text.contains("?") || text.contains("<") || text.contains(">") || text.contains("\\") || text.contains(":") || text.contains("*") || text.contains("|") || text.contains("\""))
+			{
+				containsInvalidCharacters = true;
+				doneButton.enabled = false;
+			}
+
+			else
+			{
+				containsInvalidCharacters = false;
+			}
+
+			if (!containsInvalidCharacters)
+			{
+				editingVillager.name = nameTextField.getText();
+			}
+
+			drawEditorGuiPage1();
+		}
+		
 		else
 		{
-			containsInvalidCharacters = false;
+			super.keyTyped(c, i);
 		}
-
-		if (!containsInvalidCharacters)
-		{
-			editingVillager.name = nameTextField.getText();
-		}
-
-		drawEditorGui();
 	}
 
 	@Override
 	protected void mouseClicked(int clickX, int clickY, int clicked)
 	{
 		super.mouseClicked(clickX, clickY, clicked);
-		nameTextField.mouseClicked(clickX, clickY, clicked);
+
+		if (currentPage == 1)
+		{
+			nameTextField.mouseClicked(clickX, clickY, clicked);
+		}
 	}
 
 	@Override
@@ -422,66 +493,77 @@ public class GuiVillagerEditor extends AbstractGui
 	{
 		drawGradientRect(0, 0, this.width, this.height, -1072689136, -804253680);
 
-		int posX = width / 2 + 140;
-		int posY = height / 2 + 95;
-		int scale = 80;
-
-		if (!editingVillager.isSleeping)
+		if (currentPage != -1)
 		{
-			posY = height / 2 + 80;
+			int posX = width / 2 + 140;
+			int posY = height / 2 + 95;
+			int scale = 80;
+
+			if (!editingVillager.isSleeping)
+			{
+				posY = height / 2 + 80;
+			}
+
+			GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+			GL11.glPushMatrix();
+			GL11.glTranslatef(posX, posY, 50.0F);
+			GL11.glScalef((-scale), scale, scale);
+			GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
+
+			float yawOffset = editingVillager.renderYawOffset;
+			float rotationYaw = editingVillager.rotationYaw;
+			float rotationPitch = editingVillager.rotationPitch;
+
+			GL11.glRotatef(135.0F, 0.0F, 1.0F, 0.0F);
+			RenderHelper.enableStandardItemLighting();
+			GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
+			GL11.glRotatef(-((float)Math.atan(0F / 40.0F)) * 20.0F, 1.0F, 0.0F, 0.0F);
+
+			editingVillager.renderYawOffset = (float)Math.atan(0F / 40.0F) * 20.0F;
+			editingVillager.rotationYaw = (float)Math.atan(0F / 40.0F) * 40.0F;
+			editingVillager.rotationPitch = -((float)Math.atan(0F / 40.0F)) * 20.0F;
+			editingVillager.rotationYawHead = editingVillager.rotationYaw;
+
+			GL11.glTranslatef(0.0F, editingVillager.yOffset, 0.0F);
+
+			RenderManager.instance.playerViewY = 180.0F;
+			RenderManager.instance.renderEntityWithPosYaw(editingVillager, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
+
+			editingVillager.renderYawOffset = yawOffset;
+			editingVillager.rotationYaw = rotationYaw;
+			editingVillager.rotationPitch = rotationPitch;
+
+			GL11.glPopMatrix();
+
+			RenderHelper.disableStandardItemLighting();
+			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+			OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
+			GL11.glDisable(GL11.GL_TEXTURE_2D);
+			OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
+
+			dummyTextField.drawTextBox();
 		}
 
-		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-		GL11.glPushMatrix();
-		GL11.glTranslatef(posX, posY, 50.0F);
-		GL11.glScalef((-scale), scale, scale);
-		GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
-
-		float yawOffset = editingVillager.renderYawOffset;
-		float rotationYaw = editingVillager.rotationYaw;
-		float rotationPitch = editingVillager.rotationPitch;
-
-		GL11.glRotatef(135.0F, 0.0F, 1.0F, 0.0F);
-		RenderHelper.enableStandardItemLighting();
-		GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(-((float)Math.atan(0F / 40.0F)) * 20.0F, 1.0F, 0.0F, 0.0F);
-
-		editingVillager.renderYawOffset = (float)Math.atan(0F / 40.0F) * 20.0F;
-		editingVillager.rotationYaw = (float)Math.atan(0F / 40.0F) * 40.0F;
-		editingVillager.rotationPitch = -((float)Math.atan(0F / 40.0F)) * 20.0F;
-		editingVillager.rotationYawHead = editingVillager.rotationYaw;
-
-		GL11.glTranslatef(0.0F, editingVillager.yOffset, 0.0F);
-
-		RenderManager.instance.playerViewY = 180.0F;
-		RenderManager.instance.renderEntityWithPosYaw(editingVillager, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
-
-		editingVillager.renderYawOffset = yawOffset;
-		editingVillager.rotationYaw = rotationYaw;
-		editingVillager.rotationPitch = rotationPitch;
-
-		GL11.glPopMatrix();
-
-		RenderHelper.disableStandardItemLighting();
-		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-		OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
-
-		drawString(fontRenderer, LanguageHelper.getString("gui.editor.name"), width / 2 - 205, height / 2 - 87, 0xa0a0a0);
-
-		if (containsInvalidCharacters)
+		if (currentPage == 1)
 		{
-			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.editor.name.invalid"), width / 2 - 90, (height / 2) - 87, 0xCC0000);
-		}
+			drawString(fontRenderer, LanguageHelper.getString("gui.editor.name"), width / 2 - 205, height / 2 - 87, 0xa0a0a0);
+			nameTextField.drawTextBox();
 
-		nameTextField.drawTextBox();
-		dummyTextField.drawTextBox();
+			if (containsInvalidCharacters)
+			{
+				drawCenteredString(fontRenderer, LanguageHelper.getString("gui.editor.name.invalid"), width / 2 - 90, (height / 2) - 87, 0xCC0000);
+			}
+		}
 
 		GL11.glPushMatrix();
 		GL11.glScalef(1.5F, 1.5F, 1.5F);
 		drawCenteredString(fontRenderer, LanguageHelper.getString("item.editor"), width / 2 - 75, (height / 2) - 115, 0xffffff);
 		GL11.glPopMatrix();
+
+		if (currentPage == -1)
+		{
+			drawEditorDebugText();
+		}
 
 		super.drawScreen(sizeX, sizeY, offset);
 	}
@@ -492,11 +574,61 @@ public class GuiVillagerEditor extends AbstractGui
 		return false;
 	}
 
+	private void drawEditorDebugText()
+	{
+		int fieldIndex = 0;
+		for (int column = 1; column < 4; column++)
+		{
+			int fieldsAdded = 0;
+			final Field[] fieldArray = AbstractEntity.class.getDeclaredFields();
+
+			if (fieldIndex < fieldArray.length - 1)
+			{
+				while (fieldsAdded != 13)
+				{
+					try
+					{
+						String fieldName = fieldArray[fieldIndex].getName();
+						String fieldValue = fieldArray[fieldIndex].get(editingVillager).toString();
+						
+						if (fieldName.length() > 14)
+						{
+							fieldName = fieldName.substring(0, 13) + "...";
+						}
+
+						if (fieldValue.length() > 10)
+						{
+							fieldValue = fieldValue.substring(0, 9) + "...";
+						}
+						
+						drawString(fontRenderer, fieldName + " = " + fieldValue, width / 2 - 340 + (140 * column), height / 2 - 90 + 15 * fieldsAdded, 0xffffff);
+						fieldIndex++;
+						fieldsAdded++;
+					}
+
+					catch (Exception e)
+					{
+						continue;
+					}
+				}
+
+				continue;
+			}
+
+			else
+			{
+				break;
+			}
+		}
+	}
+
 	/**
 	 * Draws the editor GUI.
 	 */
-	private void drawEditorGui()
+	private void drawEditorGuiPage1()
 	{
+		currentPage = 1;
+
 		buttonList.clear();
 		buttonList.add(randomButton                = new GuiButton(1,  width / 2 - 50,  height / 2 - 75, 60, 20, LanguageHelper.getString("gui.button.random")));
 		buttonList.add(genderButton                = new GuiButton(2,  width / 2 - 190, height / 2 - 40, 175, 20, LanguageHelper.getString("gui.button.setup.gender" + editingVillager.getGenderAsString())));
@@ -513,7 +645,9 @@ public class GuiVillagerEditor extends AbstractGui
 		buttonList.add(shiftTraitUpButton          = new GuiButton(13, width / 2 - 15,  height / 2 + 40, 20, 20, ">>"));
 		buttonList.add(shiftTraitDownButton        = new GuiButton(14, width / 2 - 210, height / 2 + 40, 20, 20, "<<"));
 		buttonList.add(inventoryButton             = new GuiButton(15, width / 2 - 190, height / 2 + 60, 175, 20, LanguageHelper.getString("gui.button.spouse.inventory")));
-		buttonList.add(doneButton                  = new GuiButton(16, width / 2 - 50,  height / 2 + 85, 100, 20, LanguageHelper.getString("gui.button.done")));
+		buttonList.add(doneButton                  = new GuiButton(16, width / 2 - 50,  height / 2 + 85, 75, 20, LanguageHelper.getString("gui.button.done")));
+		buttonList.add(nextButton                  = new GuiButton(17, width / 2 + 25,  height / 2 + 85, 50, 20, LanguageHelper.getString("gui.button.next")));
+		buttonList.add(backButton                  = new GuiButton(18, width / 2 - 101,  height / 2 + 85, 50, 20, LanguageHelper.getString("gui.button.back")));
 
 		if (editingVillager instanceof EntityPlayerChild)
 		{
@@ -521,5 +655,46 @@ public class GuiVillagerEditor extends AbstractGui
 			shiftProfessionUpButton.enabled = false;
 			shiftProfessionDownButton.enabled = false;
 		}
+
+		backButton.enabled = false;
+	}
+
+	/**
+	 * Draws the editor GUI.
+	 */
+	private void drawEditorGuiPage2()
+	{
+		final int displayHeight = Math.round(editingVillager.heightFactor * 100);
+		final DecimalFormat decimalFormatter = new DecimalFormat("0.00");
+		final float formattedHeight = Float.parseFloat(decimalFormatter.format(editingVillager.heightFactor));
+
+		currentPage = 2;
+		buttonList.clear();
+		buttonList.add(appliesHeightButton   = new GuiButton(1,  width / 2 - 190, height / 2 - 60, 175, 20, "Applies Height: " + editingVillager.doApplyHeight));
+		buttonList.add(heightButton          = new GuiButton(2,  width / 2 - 190, height / 2 - 40, 175, 20, "Height Factor: " + displayHeight));
+		buttonList.add(shiftHeightUpButton   = new GuiButton(3,  width / 2 - 15,  height / 2 - 40, 20, 20, ">>"));
+		buttonList.add(shiftHeightDownButton = new GuiButton(4,  width / 2 - 210, height / 2 - 40, 20, 20, "<<"));
+		buttonList.add(doneButton            = new GuiButton(16, width / 2 - 50,  height / 2 + 85, 75, 20, LanguageHelper.getString("gui.button.done")));
+		buttonList.add(nextButton            = new GuiButton(17, width / 2 + 25,  height / 2 + 85, 50, 20, LanguageHelper.getString("gui.button.next")));
+		buttonList.add(backButton            = new GuiButton(18, width / 2 - 101,  height / 2 + 85, 50, 20, LanguageHelper.getString("gui.button.back")));
+
+		if (formattedHeight >= 0.10F)
+		{
+			shiftHeightUpButton.enabled = false;
+		}
+
+		else if (formattedHeight <= -0.10F)
+		{
+			shiftHeightDownButton.enabled = false;
+		}
+
+		if (!editingVillager.doApplyHeight)
+		{
+			heightButton.enabled = false;
+			shiftHeightUpButton.enabled = false;
+			shiftHeightDownButton.enabled = false;
+		}
+
+		nextButton.enabled = false;
 	}
 }
