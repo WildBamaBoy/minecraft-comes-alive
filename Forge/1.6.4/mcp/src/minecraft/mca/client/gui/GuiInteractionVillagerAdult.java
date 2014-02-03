@@ -36,6 +36,7 @@ import mca.enums.EnumRelation;
 import mca.enums.EnumTrait;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -58,6 +59,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 	//Base buttons.
 	private GuiButton interactButton;
+	private GuiButton horseButton;
 	private GuiButton followButton;
 	private GuiButton setHomeButton;
 	private GuiButton stayButton;
@@ -606,6 +608,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		displaySuccessChance = false;
 
 		buttonList.add(interactButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.interact")));
+		buttonList.add(horseButton = new GuiButton(2, width / 2 - 90, height /2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.ridehorse")));
 		buttonList.add(followButton  = new GuiButton(2, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
 		buttonList.add(stayButton    = new GuiButton(3, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
 		buttonList.add(setHomeButton = new GuiButton(4, width / 2 - 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.sethome")));
@@ -644,6 +647,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		if (entityVillager.isFollowing) followButton.displayString = LanguageHelper.getString("gui.button.interact.followstop");
 		if (entityVillager.isStaying) stayButton.displayString = LanguageHelper.getString("gui.button.interact.staystop");
+		if (entityVillager.ridingEntity instanceof EntityHorse) horseButton.displayString = LanguageHelper.getString("gui.button.interact.dismount");
 		if (entityVillager.isEntityAlive() && entityVillager.isTrading()) tradeButton.enabled = false;
 	}
 
@@ -1176,6 +1180,32 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		if (button == interactButton)
 		{
 			drawInteractionGui();
+		}
+
+		else if (button == horseButton)
+		{
+			if (!entityVillager.isMarriedToPlayer || (entityVillager.isMarriedToPlayer && entityVillager.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player))))
+			{
+				EntityHorse nearestHorse = (EntityHorse)LogicHelper.getNearestEntityOfType(entityVillager, EntityHorse.class, 5);
+
+				if (nearestHorse != null)
+				{
+					PacketDispatcher.sendPacketToServer(PacketHandler.createGenericPacket(EnumGenericCommand.MountHorse, entityVillager.entityId, nearestHorse.entityId));
+				}
+
+				else
+				{
+					entityVillager.say(LanguageHelper.getString("notify.horse.notfound"));
+				}
+
+			}
+
+			else
+			{
+				entityVillager.notifyPlayer(player, LanguageHelper.getString("multiplayer.interaction.reject.spouse"));
+			}
+			
+			close();
 		}
 
 		else if (button == followButton)

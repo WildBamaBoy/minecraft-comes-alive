@@ -53,6 +53,7 @@ import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -1353,7 +1354,7 @@ public final class PacketHandler implements IPacketHandler
 		{
 			entity.huntingChore = (ChoreHunting) chore;
 		}
-		
+
 		else if (chore instanceof ChoreCooking)
 		{
 			entity.cookingChore = (ChoreCooking) chore;
@@ -2475,12 +2476,12 @@ public final class PacketHandler implements IPacketHandler
 			{
 				entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
 			}
-			
+
 			catch (ClassCastException e) 
 			{ 
 				//Occurs when player passed as an argument.
 			}
-			
+
 			final String phraseId = (String)arguments[1];
 
 			entityPlayer.addChatMessage(LanguageHelper.getString(entity, phraseId, false));
@@ -2553,12 +2554,50 @@ public final class PacketHandler implements IPacketHandler
 				entity2.worldObj.spawnParticle("happyVillager", entity2.posX + MCA.rand.nextFloat() * entity2.width * 2.0F - entity2.width, entity2.posY + 0.5D + MCA.rand.nextFloat() * entity2.height, entity2.posZ + MCA.rand.nextFloat() * entity2.width * 2.0F - entity2.width, velX, velY, velZ);
 			}
 			break;
-			
+
 		case UpdateFurnace:
 			entityId = (Integer)arguments[0];
 			entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
-			
+
 			BlockFurnace.updateFurnaceBlockState((Boolean)arguments[1], entity.worldObj, entity.cookingChore.furnacePosX, entity.cookingChore.furnacePosY, entity.cookingChore.furnacePosZ);
+			break;
+		case MountHorse:
+			entityId = (Integer)arguments[0];
+			entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
+
+			final int horseId = (Integer)arguments[1];
+			final EntityHorse horse = (EntityHorse) entityPlayer.worldObj.getEntityByID(horseId);
+
+			if (horse.riddenByEntity != null && horse.riddenByEntity.entityId == entity.entityId)
+			{
+				entity.dismountEntity(horse);
+				entity.ridingEntity = null;
+				horse.riddenByEntity = null;
+				horse.setHorseSaddled(true);
+			}
+
+			else
+			{
+				if (horse.isTame() && horse.isAdultHorse() && horse.riddenByEntity == null && horse.isHorseSaddled())
+				{
+					entity.mountEntity(horse);
+					horse.setHorseSaddled(false);
+				}
+
+				else
+				{
+					if (!entity.worldObj.isRemote)
+					{
+						entity.say(LanguageHelper.getString("notify.horse.invalid"));
+					}
+				}
+			}
+
+			if (!entity.worldObj.isRemote)
+			{
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.MountHorse, entityId, horseId));
+			}
+			
 			break;
 		default:
 			MCA.getInstance().log("Invalid generic command specified: " + command);

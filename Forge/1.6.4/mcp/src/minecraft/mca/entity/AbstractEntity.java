@@ -53,9 +53,11 @@ import mca.enums.EnumTrait;
 import mca.inventory.Inventory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -1068,8 +1070,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		//Check if they actually have a home point.
 		if (hasHomePoint)
 		{
-			//If they're staying or following someone then they will skip teleporting.
-			if (isStaying || isFollowing)
+			//If they're staying, following someone, or riding a horse, then they will skip teleporting.
+			if (isStaying || isFollowing || ridingEntity instanceof EntityHorse)
 			{
 				hasTeleportedHome = true;
 
@@ -2466,19 +2468,31 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		if (!worldObj.isRemote)
 		{
+			final EntityLiving entityPathController = (EntityLiving) (this.ridingEntity instanceof EntityHorse ? this.ridingEntity : this);
+
+			if (entityPathController instanceof EntityHorse)
+			{
+				final EntityHorse horse = (EntityHorse)entityPathController;
+				
+				if (horse.isHorseSaddled())
+				{
+					horse.setHorseSaddled(false);
+				}
+			}
+			
 			if (target != null && target.onGround && !isRetaliating && !combatChore.useRange)
 			{
-				getLookHelper().setLookPositionWithEntity(target, 10.0F, getVerticalFaceSpeed());
+				entityPathController.getLookHelper().setLookPositionWithEntity(target, 10.0F, getVerticalFaceSpeed());
 
 				if (getDistanceToEntity(target) > 15.0D)
 				{
 					target = null;
-					getNavigator().clearPathEntity();
+					entityPathController.getNavigator().clearPathEntity();
 				}
 
 				else
 				{
-					getNavigator().tryMoveToEntityLiving(target, Constants.SPEED_RUN);
+					entityPathController.getNavigator().tryMoveToEntityLiving(target, (entityPathController instanceof EntityHorse) ? Constants.SPEED_HORSE_RUN : Constants.SPEED_RUN);
 				}
 			}
 
@@ -2486,14 +2500,18 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			{
 				final EntityPlayer player = worldObj.getPlayerEntityByName(followingPlayer);
 
-				if (player != null && player.onGround)
+				if (player != null && (player.onGround || player.ridingEntity instanceof EntityHorse))
 				{
-					getLookHelper().setLookPositionWithEntity(player, 10.0F, getVerticalFaceSpeed());
+					entityPathController.getLookHelper().setLookPositionWithEntity(player, 10.0F, getVerticalFaceSpeed());
 
+					if (entityPathController != this) this.getLookHelper().setLookPositionWithEntity(player, 10.0F, getVerticalFaceSpeed());
+					
 					if (getDistanceToEntity(player) > 3.5D)
 					{
-						final boolean pathSet = getNavigator().tryMoveToEntityLiving(player, player.isSprinting() ? Constants.SPEED_SPRINT : Constants.SPEED_WALK);
-
+						final boolean pathSet = entityPathController.getNavigator().tryMoveToEntityLiving(player, 
+								(entityPathController instanceof EntityHorse) ?  Constants.SPEED_HORSE_RUN : player.isSprinting() ? Constants.SPEED_SPRINT : Constants.SPEED_WALK);
+						entityPathController.getNavigator().onUpdateNavigation();
+						
 						if (!pathSet && getDistanceToEntity(player) >= 10.0D)
 						{
 							final int playerX = MathHelper.floor_double(player.posX) - 2;
@@ -2507,7 +2525,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 									if ((i < 1 || i2 < 1 || i > 3 || i2 > 3) && worldObj.doesBlockHaveSolidTopSurface(playerX + i, playerY - 1, playerZ + i2) && !worldObj.isBlockNormalCube(playerX + i, playerY, playerZ + i2) && !worldObj.isBlockNormalCube(playerX + i, playerY + 1, playerZ + i2))
 									{
 										setLocationAndAngles(playerX + i + 0.5F, playerY, playerZ + i2 + 0.5F, rotationYaw, rotationPitch);
-										getNavigator().clearPathEntity();
+										entityPathController.getNavigator().clearPathEntity();
 										return;
 									}
 								}
@@ -2526,7 +2544,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					motionZ = 0;
 				}
 
-				getNavigator().clearPathEntity();
+				entityPathController.getNavigator().clearPathEntity();
 			}
 		}
 	}
@@ -3143,7 +3161,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		EnumVillagerType villagerType = null;
 		boolean isChild = false;
-		
+
 		if (this instanceof EntityVillagerAdult)
 		{
 			villagerType = EnumVillagerType.VillagerAdult;

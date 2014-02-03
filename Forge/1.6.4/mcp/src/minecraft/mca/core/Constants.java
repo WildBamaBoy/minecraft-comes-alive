@@ -182,6 +182,7 @@ public final class Constants
 	public static final float SPEED_WALK = 0.6F;
 	public static final float SPEED_RUN = 0.7F;
 	public static final float SPEED_SPRINT = 0.8F;
+	public static final float SPEED_HORSE_RUN = 2.1F;
 
 	//Hitbox sizes.
 	public static final float HEIGHT_ADULT = 1.8F;

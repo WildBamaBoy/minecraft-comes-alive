@@ -22,13 +22,16 @@ import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.Interactions;
 import mca.core.util.LanguageHelper;
+import mca.core.util.LogicHelper;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
+import mca.enums.EnumGenericCommand;
 import mca.enums.EnumMood;
 import mca.enums.EnumRelation;
 import mca.enums.EnumTrait;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
@@ -47,6 +50,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 	//Basic interaction buttons.
 	private GuiButton interactButton;
+	private GuiButton horseButton;
 	private GuiButton followButton;
 	private GuiButton stayButton;
 	private GuiButton setHomeButton;
@@ -460,12 +464,13 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 		buttonList.clear();
 
-		buttonList.add(interactButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.interact")));
-		buttonList.add(followButton    = new GuiButton(2, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
-		buttonList.add(stayButton      = new GuiButton(3, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
-		buttonList.add(setHomeButton   = new GuiButton(4, width / 2 - 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.sethome")));
-		buttonList.add(choresButton    = new GuiButton(7, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.child.chores")));
-		buttonList.add(inventoryButton = new GuiButton(8, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.child.inventory")));
+		buttonList.add(interactButton  = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.interact")));
+		buttonList.add(horseButton 	   = new GuiButton(2, width / 2 - 90, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.ridehorse")));
+		buttonList.add(followButton    = new GuiButton(3, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
+		buttonList.add(stayButton      = new GuiButton(4, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
+		buttonList.add(setHomeButton   = new GuiButton(5, width / 2 - 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.sethome")));
+		buttonList.add(choresButton    = new GuiButton(6, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.child.chores")));
+		buttonList.add(inventoryButton = new GuiButton(7, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.child.inventory")));
 
 		buttonList.add(backButton      = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton      = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
@@ -491,7 +496,8 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		if (entityChild.isInChoreMode) choresButton.displayString = LanguageHelper.getString("gui.button.child.stopchore");
 		if (entityChild.isFollowing) followButton.displayString = LanguageHelper.getString("gui.button.interact.followstop");
 		if (entityChild.isStaying)   stayButton.displayString = LanguageHelper.getString("gui.button.interact.staystop");
-
+		if (entityChild.ridingEntity instanceof EntityHorse) horseButton.displayString = LanguageHelper.getString("gui.button.interact.dismount");
+		
 		if (entityChild.isMarriedToPlayer)
 		{
 			inventoryButton.enabled = false;
@@ -862,6 +868,23 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			drawInteractionGui();
 		}
 
+		else if (button == horseButton)
+		{
+			EntityHorse nearestHorse = (EntityHorse)LogicHelper.getNearestEntityOfType(entityChild, EntityHorse.class, 5);
+			
+			if (nearestHorse != null)
+			{
+				PacketDispatcher.sendPacketToServer(PacketHandler.createGenericPacket(EnumGenericCommand.MountHorse, entityChild.entityId, nearestHorse.entityId));
+			}
+			
+			else
+			{
+				entityChild.say(LanguageHelper.getString("notify.horse.notfound"));
+			}
+			
+			close();
+		}
+		
 		else if (button == followButton)
 		{
 			if (!entityChild.isFollowing)

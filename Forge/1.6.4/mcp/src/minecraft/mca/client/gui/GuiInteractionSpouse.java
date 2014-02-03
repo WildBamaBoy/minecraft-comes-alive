@@ -19,9 +19,11 @@ import mca.core.util.LogicHelper;
 import mca.core.util.Utility;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
+import mca.enums.EnumGenericCommand;
 import mca.enums.EnumMood;
 import mca.enums.EnumTrait;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -43,6 +45,7 @@ public class GuiInteractionSpouse extends AbstractGui
 
 	//Basic interaction buttons.
 	private GuiButton interactButton;
+	private GuiButton horseButton;
 	private GuiButton cookingButton;
 	private GuiButton followButton;
 	private GuiButton stayButton;
@@ -269,13 +272,14 @@ public class GuiInteractionSpouse extends AbstractGui
 		buttonList.clear();
 
 		buttonList.add(interactButton 	= new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.interact")));
-		buttonList.add(cookingButton		= new GuiButton(2, width / 2 - 90, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.spouse.cookfood")));
-		buttonList.add(followButton    	= new GuiButton(3, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
-		buttonList.add(stayButton      	= new GuiButton(4, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
-		buttonList.add(setHomeButton   	= new GuiButton(5, width / 2 - 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.sethome")));
-		buttonList.add(procreateButton 	= new GuiButton(6, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.spouse.procreate")));
-		buttonList.add(inventoryButton 	= new GuiButton(7, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.spouse.inventory")));
-		buttonList.add(combatButton    	= new GuiButton(8, width / 2 + 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.chore.combat")));	
+		buttonList.add(cookingButton	= new GuiButton(2, width / 2 - 90, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.spouse.cookfood")));
+		buttonList.add(horseButton 		= new GuiButton(3, width / 2 - 90, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.ridehorse")));
+		buttonList.add(followButton    	= new GuiButton(4, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
+		buttonList.add(stayButton      	= new GuiButton(5, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
+		buttonList.add(setHomeButton   	= new GuiButton(6, width / 2 - 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.sethome")));
+		buttonList.add(procreateButton 	= new GuiButton(7, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.spouse.procreate")));
+		buttonList.add(inventoryButton 	= new GuiButton(8, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.spouse.inventory")));
+		buttonList.add(combatButton    	= new GuiButton(9, width / 2 + 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.chore.combat")));	
 
 		if (MCA.getInstance().playerWorldManagerMap.get(player.username).worldProperties.isMonarch)
 		{
@@ -290,7 +294,8 @@ public class GuiInteractionSpouse extends AbstractGui
 		if (entitySpouse.isStaying)   stayButton.displayString = LanguageHelper.getString("gui.button.interact.staystop");
 		if (entitySpouse.getInstanceOfCurrentChore() instanceof ChoreCooking) 
 			cookingButton.displayString = LanguageHelper.getString("gui.button.spouse.stopcooking");
-
+		if (entitySpouse.ridingEntity instanceof EntityHorse) horseButton.displayString = LanguageHelper.getString("gui.button.interact.dismount");
+		
 		followButton.enabled = false;
 		stayButton.enabled = false;
 		setHomeButton.enabled = false;
@@ -443,6 +448,23 @@ public class GuiInteractionSpouse extends AbstractGui
 			drawInteractionGui();
 		}
 
+		else if (button == horseButton)
+		{
+			EntityHorse nearestHorse = (EntityHorse)LogicHelper.getNearestEntityOfType(entitySpouse, EntityHorse.class, 5);
+			
+			if (nearestHorse != null)
+			{
+				PacketDispatcher.sendPacketToServer(PacketHandler.createGenericPacket(EnumGenericCommand.MountHorse, entitySpouse.entityId, nearestHorse.entityId));
+			}
+			
+			else
+			{
+				entitySpouse.say(LanguageHelper.getString("notify.horse.notfound"));
+			}
+			
+			close();
+		}
+		
 		else if (button == followButton)
 		{
 			if (!entitySpouse.isFollowing)

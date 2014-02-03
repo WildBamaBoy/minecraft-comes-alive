@@ -16,14 +16,17 @@ import mca.core.MCA;
 import mca.core.forge.PacketHandler;
 import mca.core.util.Interactions;
 import mca.core.util.LanguageHelper;
+import mca.core.util.LogicHelper;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractChild;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
+import mca.enums.EnumGenericCommand;
 import mca.enums.EnumMood;
 import mca.enums.EnumRelation;
 import mca.enums.EnumTrait;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
@@ -43,6 +46,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 
 	//Basic interaction buttons.
 	private GuiButton interactButton;
+	private GuiButton horseButton;
 	private GuiButton followButton;
 	private GuiButton setHomeButton;
 	private GuiButton stayButton;
@@ -226,9 +230,10 @@ public class GuiInteractionVillagerChild extends AbstractGui
 		displaySuccessChance = false;
 
 		buttonList.add(interactButton = new GuiButton(1, width / 2 - 65, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.interact")));
-		buttonList.add(followButton  = new GuiButton(2, width / 2 - 5, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
-		buttonList.add(stayButton    = new GuiButton(3, width / 2 - 5, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
-		buttonList.add(setHomeButton = new GuiButton(4, width / 2 - 5, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.sethome")));
+		buttonList.add(horseButton 	  = new GuiButton(2, width / 2 - 65, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.ridehorse")));
+		buttonList.add(followButton   = new GuiButton(3, width / 2 - 5,  height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
+		buttonList.add(stayButton     = new GuiButton(4, width / 2 - 5,  height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
+		buttonList.add(setHomeButton  = new GuiButton(5, width / 2 - 5,  height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.sethome")));
 
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
@@ -236,6 +241,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 
 		if (entityVillagerChild.isFollowing) followButton.displayString = LanguageHelper.getString("gui.button.interact.followstop");
 		if (entityVillagerChild.isStaying) stayButton.displayString = LanguageHelper.getString("gui.button.interact.staystop");
+		if (entityVillagerChild.ridingEntity instanceof EntityHorse) horseButton.displayString = LanguageHelper.getString("gui.button.interact.dismount");
 	}
 
 	/**
@@ -282,6 +288,31 @@ public class GuiInteractionVillagerChild extends AbstractGui
 		if (button == interactButton)
 		{
 			drawInteractionGui();
+		}
+
+		else if (button == horseButton)
+		{
+			if (!entityVillagerChild.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)) && entityVillagerChild instanceof EntityPlayerChild)
+			{
+				entityVillagerChild.notifyPlayer(player, LanguageHelper.getString("multiplayer.interaction.reject.child"));
+			}
+			
+			else
+			{
+				EntityHorse nearestHorse = (EntityHorse)LogicHelper.getNearestEntityOfType(entityVillagerChild, EntityHorse.class, 5);
+
+				if (nearestHorse != null)
+				{
+					PacketDispatcher.sendPacketToServer(PacketHandler.createGenericPacket(EnumGenericCommand.MountHorse, entityVillagerChild.entityId, nearestHorse.entityId));
+				}
+
+				else
+				{
+					entityVillagerChild.say(LanguageHelper.getString("notify.horse.notfound"));
+				}
+			}
+			
+			close();
 		}
 
 		else if (button == followButton)

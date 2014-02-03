@@ -25,7 +25,8 @@ public enum EnumGenericCommand
 	SetPosition("SetPosition"),
 	StopJumping("StopJumping"),
 	ArrangedMarriageParticles("ArrangedMarriageParticles"),
-	UpdateFurnace("UpdateFurnace");
+	UpdateFurnace("UpdateFurnace"),
+	MountHorse("MountHorse");
 
 	/** The actual string value of the enum constant */
 	private String value;

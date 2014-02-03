@@ -31,12 +31,14 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
+import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -148,7 +150,7 @@ public class EventHooks
 	}
 
 	/**
-	 * Fired when the player interacts with something, like an entity or a block.
+	 * Fired when the player right-clicks something.
 	 * 
 	 * @param 	event	An instance of the PlayerInteractEvent.
 	 */
@@ -181,6 +183,28 @@ public class EventHooks
 		}
 	}
 
+	/**
+	 * Fired when the player interacts with an entity.
+	 * 
+	 * @param 	event	An instance of the EntityInteractEvent.
+	 */
+	@ForgeSubscribe
+	public void entityInteractEventHandler(EntityInteractEvent event)
+	{
+		//Make it so that when right clicking a horse that an MCA villager is riding,
+		//open up that villager's interaction GUI.
+		if (event.target instanceof EntityHorse)
+		{
+			final EntityHorse entityHorse = (EntityHorse)event.target;
+			
+			if (entityHorse.riddenByEntity instanceof AbstractEntity)
+			{
+				final AbstractEntity entity = (AbstractEntity)entityHorse.riddenByEntity;
+				entity.interact(event.entityPlayer);
+			}
+		}
+	}
+	
 	private void doAddMobTasks(EntityMob mob)
 	{
 		if (mob instanceof EntityEnderman)

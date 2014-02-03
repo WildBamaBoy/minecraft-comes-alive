@@ -17,6 +17,7 @@ import mca.core.io.WorldPropertiesList;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
 import mca.core.util.object.PlayerMemory;
+import mca.entity.AbstractChild;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityVillagerAdult;
 import net.minecraft.client.Minecraft;
@@ -27,6 +28,7 @@ import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
@@ -183,6 +185,50 @@ public class RenderHuman extends RenderBiped
 			if (entity.isSneaking())
 			{
 				posYCorrection -= 0.125D;
+			}
+
+			if (entity.ridingEntity != null)
+			{
+				if (entity.ridingEntity instanceof EntityHorse)
+				{
+					EntityHorse horse = (EntityHorse)entity.ridingEntity;
+
+					switch (horse.getHorseType())
+					{
+					case 0: posYCorrection -= 0.45D; break;
+					case 1: posYCorrection -= 0.70D; break;
+					case 2: break;
+					}
+
+					if (entity instanceof AbstractChild)
+					{
+						AbstractChild child = (AbstractChild)entity;
+
+						if (!child.isAdult)
+						{
+							final int age = child.age;
+							final float interval = entity.isMale ? 0.39F : 0.37F;
+							final float scale = 0.55F + interval / MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes * age;
+
+							MCA.getInstance().log(scale);
+
+							if (scale < 0.68F)
+							{
+								posYCorrection += 0.2F;
+							}
+
+							else if (scale >= 0.68F && scale < 0.81F)
+							{
+								posYCorrection += 0.15F;
+							}
+
+							else if (scale >= 0.81F)
+							{
+								posYCorrection += 0.03F;
+							}
+						}
+					}
+				}
 			}
 
 			super.doRenderLiving((EntityLiving)entity, posX, posYCorrection, posZ, rotationYaw, rotationPitch);
