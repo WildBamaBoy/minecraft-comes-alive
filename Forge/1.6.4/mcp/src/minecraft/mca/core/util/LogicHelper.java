@@ -1001,35 +1001,7 @@ public final class LogicHelper
 	 */
 	public static EntityPlayer getNearestPlayer(AbstractEntity entity)
 	{
-		double posX = entity.posX;
-		double posY = entity.posY;
-		double posZ = entity.posZ;
-		int maxDistanceAway = 64;
-
-		List<Entity> entitiesAroundMe = entity.worldObj.getEntitiesWithinAABBExcludingEntity(entity, AxisAlignedBB.getBoundingBox(posX - maxDistanceAway, posY - maxDistanceAway, posZ - maxDistanceAway, posX + maxDistanceAway, posY + maxDistanceAway, posZ + maxDistanceAway));
-
-		EntityPlayer entityCandidate = null;
-
-		for (Entity entityAroundMe : entitiesAroundMe)
-		{
-			if (entityAroundMe instanceof EntityPlayer)
-			{
-				if (entityCandidate != null)
-				{
-					if (getDistanceToEntity(entity, entityCandidate) > getDistanceToEntity(entity, entityAroundMe))
-					{
-						entityCandidate = (EntityPlayer)entityAroundMe;
-					}
-				}
-
-				else
-				{
-					entityCandidate = (EntityPlayer)entityAroundMe;
-				}
-			}
-		}
-
-		return entityCandidate;
+		return (EntityPlayer) getNearestEntityOfType(entity, EntityPlayer.class, 64);
 	}
 	
 	/**
@@ -1041,30 +1013,43 @@ public final class LogicHelper
 	 */
 	public static AbstractEntity getNearestVillager(AbstractEntity entity)
 	{
-		double posX = entity.posX;
-		double posY = entity.posY;
-		double posZ = entity.posZ;
-		int maxDistanceAway = 3;
+		return (AbstractEntity) getNearestEntityOfType(entity, AbstractEntity.class, 10);
+	}
+	
+	/**
+	 * Gets the closest entity of the provided type.
+	 * 
+	 * @param 	entityOrigin	The entity that will serve as the origin point.
+	 * @param	entityType		The type of entity to search for.
+	 * @param	maxDistanceAway	The maximum distance from the origin to search.
+	 * 
+	 * @return	The entity of the provided type closest to the provided entity.
+	 */
+	public static Entity getNearestEntityOfType(Entity entityOrigin, Class entityType, int maxDistanceAway)
+	{
+		double posX = entityOrigin.posX;
+		double posY = entityOrigin.posY;
+		double posZ = entityOrigin.posZ;
 
-		List<Entity> entitiesAroundMe = entity.worldObj.getEntitiesWithinAABBExcludingEntity(entity, AxisAlignedBB.getBoundingBox(posX - maxDistanceAway, posY - maxDistanceAway, posZ - maxDistanceAway, posX + maxDistanceAway, posY + maxDistanceAway, posZ + maxDistanceAway));
+		List<Entity> entitiesAroundMe = entityOrigin.worldObj.getEntitiesWithinAABBExcludingEntity(entityOrigin, AxisAlignedBB.getBoundingBox(posX - maxDistanceAway, posY - maxDistanceAway, posZ - maxDistanceAway, posX + maxDistanceAway, posY + maxDistanceAway, posZ + maxDistanceAway));
 
-		AbstractEntity entityCandidate = null;
+		Entity entityCandidate = null;
 
 		for (Entity entityAroundMe : entitiesAroundMe)
 		{
-			if (entityAroundMe instanceof AbstractEntity)
+			if (entityAroundMe.getClass().toString().equals(entityType.toString()))
 			{
 				if (entityCandidate != null)
 				{
-					if (getDistanceToEntity(entity, entityCandidate) > getDistanceToEntity(entity, entityAroundMe))
+					if (getDistanceToEntity(entityOrigin, entityCandidate) > getDistanceToEntity(entityOrigin, entityAroundMe))
 					{
-						entityCandidate = (AbstractEntity)entityAroundMe;
+						entityCandidate = entityAroundMe;
 					}
 				}
 
 				else
 				{
-					entityCandidate = (AbstractEntity)entityAroundMe;
+					entityCandidate = entityAroundMe;
 				}
 			}
 		}
