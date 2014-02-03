@@ -29,7 +29,6 @@ import mca.entity.AbstractChild;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
-import mca.entity.EntityVillagerChild;
 import mca.enums.EnumRelation;
 import mca.inventory.ContainerInventory;
 import mca.tileentity.TileEntityTombstone;
@@ -92,7 +91,7 @@ public class GuiHandler implements IGuiHandler
 			return new GuiInteractionVillagerAdult(entity, player);
 
 		case Constants.ID_GUI_VCHILD:
-			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(EntityVillagerChild.class, world, posX, posY, posZ);
+			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractChild.class, world, posX, posY, posZ);
 			return new GuiInteractionVillagerChild((AbstractChild) entity, player);
 
 		case Constants.ID_GUI_NAMECHILD:
