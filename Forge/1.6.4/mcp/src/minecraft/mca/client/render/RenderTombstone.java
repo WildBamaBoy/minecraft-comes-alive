@@ -25,7 +25,7 @@ import org.lwjgl.opengl.GL11;
  */
 public class RenderTombstone extends TileEntitySpecialRenderer
 {
-	private static final ResourceLocation texture = new ResourceLocation("mca:textures/blocks/Tombstone.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation("mca:textures/blocks/Tombstone.png");
 	private final ModelTombstone tombstoneModel;
 
 	/**
@@ -51,35 +51,14 @@ public class RenderTombstone extends TileEntitySpecialRenderer
 		final FontRenderer fontRenderer = getFontRenderer();
 
 		final int meta = tombstoneEntity.getBlockMetadata();
-		float rotation = 0.0F;
+		final float rotation = setRotationByMeta(meta);
 
 		GL11.glPushMatrix();
-
-		switch (meta)
-		{
-		case 0: rotation = 0.0F; break;
-		case 1: rotation = 45F; break;
-		case 2: rotation = 45F; break;
-		case 3: rotation = 45F; break;
-		case 4: rotation = 90F; break;
-		case 5: rotation = 135F; break;
-		case 6: rotation = 135F; break;
-		case 7: rotation = 135F; break;
-		case 8: rotation = 180F; break;
-		case 9: rotation = 225F; break;
-		case 10: rotation = 225F; break;
-		case 11: rotation = 225F; break;
-		case 12: rotation = 270F; break;
-		case 13: rotation = 315F; break;
-		case 14: rotation = 315F; break;
-		case 15: rotation = 315F; break;
-		default: break;
-		}
 
 		GL11.glTranslated(posX + 0.45F, posY + 1F, posZ + 0.53F);
 		GL11.glRotatef(-rotation, 0.0F, 1.0F, 0.0F);
 		GL11.glTranslatef(0, 0.5F, 0);
-		this.bindResource(texture);
+		this.bindResource(TEXTURE);
 
 		GL11.glPushMatrix();
 		{
@@ -123,6 +102,30 @@ public class RenderTombstone extends TileEntitySpecialRenderer
 		if (textureManager != null)
 		{
 			textureManager.bindTexture(resourceLocation);
+		}
+	}
+	
+	private float setRotationByMeta(int meta)
+	{
+		switch (meta)
+		{
+		case 0: return 0F;
+		case 1: return 45F;
+		case 2: return 45F;
+		case 3: return 45F;
+		case 4: return 90F;
+		case 5: return 135F;
+		case 6: return 135F;
+		case 7: return 135F;
+		case 8: return 180F;
+		case 9: return 225F;
+		case 10: return 225F;
+		case 11: return 225F;
+		case 12: return 270F;
+		case 13: return 315F;
+		case 14: return 315F;
+		case 15: return 315F;
+		default: return 0F;
 		}
 	}
 }

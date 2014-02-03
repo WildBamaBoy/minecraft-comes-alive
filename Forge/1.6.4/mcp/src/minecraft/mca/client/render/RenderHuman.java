@@ -44,7 +44,7 @@ import org.lwjgl.opengl.GL11;
 public class RenderHuman extends RenderBiped
 {
 	private static final float LABEL_SCALE = 0.027F;
-	private final ModelBiped modelArmorChestplate;
+	private final ModelBiped modelArmorPlate;
 	private final ModelBiped modelArmor;
 
 	/**
@@ -54,9 +54,9 @@ public class RenderHuman extends RenderBiped
 	{
 		super(new ModelBiped(0.0F), 0.5F);
 
-		modelBipedMain       = (ModelBiped)mainModel;
-		modelArmorChestplate = new ModelBiped(1.0F);
-		modelArmor           = new ModelBiped(0.5F);
+		modelBipedMain  = (ModelBiped)mainModel;
+		modelArmorPlate = new ModelBiped(1.0F);
+		modelArmor      = new ModelBiped(0.5F);
 	}
 
 	@Override
@@ -169,8 +169,8 @@ public class RenderHuman extends RenderBiped
 			shadowOpaque = 1.0F;
 
 			final ItemStack heldItem = entity.getHeldItem();
-			modelArmorChestplate.heldItemRight = modelArmor.heldItemRight = modelBipedMain.heldItemRight = heldItem == null ? 0 : 1;
-			modelArmorChestplate.isSneak = modelArmor.isSneak = modelBipedMain.isSneak = entity.isSneaking();
+			modelArmorPlate.heldItemRight = modelArmor.heldItemRight = modelBipedMain.heldItemRight = heldItem == null ? 0 : 1;
+			modelArmorPlate.isSneak = modelArmor.isSneak = modelBipedMain.isSneak = entity.isSneaking();
 
 			if (heldItem != null)
 			{
@@ -178,7 +178,7 @@ public class RenderHuman extends RenderBiped
 
 				if (useAction == EnumAction.bow)
 				{
-					modelArmorChestplate.aimedBow = modelArmor.aimedBow = modelBipedMain.aimedBow = true;
+					modelArmorPlate.aimedBow = modelArmor.aimedBow = modelBipedMain.aimedBow = true;
 				}
 			}
 
@@ -187,54 +187,11 @@ public class RenderHuman extends RenderBiped
 				posYCorrection -= 0.125D;
 			}
 
-			if (entity.ridingEntity != null)
-			{
-				if (entity.ridingEntity instanceof EntityHorse)
-				{
-					EntityHorse horse = (EntityHorse)entity.ridingEntity;
-
-					switch (horse.getHorseType())
-					{
-					case 0: posYCorrection -= 0.45D; break;
-					case 1: posYCorrection -= 0.70D; break;
-					case 2: break;
-					}
-
-					if (entity instanceof AbstractChild)
-					{
-						AbstractChild child = (AbstractChild)entity;
-
-						if (!child.isAdult)
-						{
-							final int age = child.age;
-							final float interval = entity.isMale ? 0.39F : 0.37F;
-							final float scale = 0.55F + interval / MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes * age;
-
-							MCA.getInstance().log(scale);
-
-							if (scale < 0.68F)
-							{
-								posYCorrection += 0.2F;
-							}
-
-							else if (scale >= 0.68F && scale < 0.81F)
-							{
-								posYCorrection += 0.15F;
-							}
-
-							else if (scale >= 0.81F)
-							{
-								posYCorrection += 0.03F;
-							}
-						}
-					}
-				}
-			}
-
+			posYCorrection = applyHorseCorrection(entity, posYCorrection);
 			super.doRenderLiving((EntityLiving)entity, posX, posYCorrection, posZ, rotationYaw, rotationPitch);
-			modelArmorChestplate.aimedBow = modelArmor.aimedBow = modelBipedMain.aimedBow = false;
-			modelArmorChestplate.isSneak = modelArmor.isSneak = modelBipedMain.isSneak = false;
-			modelArmorChestplate.heldItemRight = modelArmor.heldItemRight = modelBipedMain.heldItemRight = 0;
+			modelArmorPlate.aimedBow = modelArmor.aimedBow = modelBipedMain.aimedBow = false;
+			modelArmorPlate.isSneak = modelArmor.isSneak = modelBipedMain.isSneak = false;
+			modelArmorPlate.heldItemRight = modelArmor.heldItemRight = modelBipedMain.heldItemRight = 0;
 		}
 	}
 
@@ -342,5 +299,60 @@ public class RenderHuman extends RenderBiped
 		{
 			renderLivingLabel(abstractEntity, labelText, posX, posY, posZ, 64);
 		}
+	}
+
+	/**
+	 * Changes the entity's posY according to the type of horse being ridden and scale.
+	 * 
+	 * @param 	entity			The entity riding the horse.
+	 * @param 	posYCorrection	The entity's current posYCorrection.
+	 * 
+	 * @return	Modified posYCorrection that will render the entity correctly.
+	 */
+	private double applyHorseCorrection(AbstractEntity entity, double posYCorrection)
+	{
+		double newPosYCorrection = posYCorrection;
+		
+		if (entity.ridingEntity instanceof EntityHorse)
+		{
+			final EntityHorse horse = (EntityHorse)entity.ridingEntity;
+
+			switch (horse.getHorseType())
+			{
+			case 0: newPosYCorrection -= 0.45D; break;
+			case 1: newPosYCorrection -= 0.70D; break;
+			case 2: newPosYCorrection -= 0.55D; break;
+			default: break;
+			}
+
+			if (entity instanceof AbstractChild)
+			{
+				final AbstractChild child = (AbstractChild)entity;
+
+				if (!child.isAdult)
+				{
+					final int age = child.age;
+					final float interval = entity.isMale ? 0.39F : 0.37F;
+					final float scale = 0.55F + interval / MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes * age;
+
+					if (scale < 0.68F)
+					{
+						newPosYCorrection += 0.2F;
+					}
+
+					else if (scale >= 0.68F && scale < 0.81F)
+					{
+						newPosYCorrection += 0.15F;
+					}
+
+					else if (scale >= 0.81F)
+					{
+						newPosYCorrection += 0.03F;
+					}
+				}
+			}
+		}
+
+		return newPosYCorrection;
 	}
 }

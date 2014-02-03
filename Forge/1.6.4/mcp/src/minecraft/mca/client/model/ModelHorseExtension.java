@@ -22,18 +22,18 @@ import net.minecraft.util.MathHelper;
  */
 public class ModelHorseExtension extends ModelHorse
 {
-	private ModelRenderer headpiece;
-	private ModelRenderer seatCenter;
-	private ModelRenderer seatFront;
-	private ModelRenderer seatBack;
-	private ModelRenderer leftLegRein;
-	private ModelRenderer leftLegReinClip;
-	private ModelRenderer rightLegRein;
-	private ModelRenderer rightLegReinClip;
-	private ModelRenderer leftBit;
-	private ModelRenderer rightBit;
-	private ModelRenderer leftNeckRein;
-	private ModelRenderer rightNeckRein;
+	private final ModelRenderer headpiece;
+	private final ModelRenderer seatCenter;
+	private final ModelRenderer seatFront;
+	private final ModelRenderer seatBack;
+	private final ModelRenderer leftLegRein;
+	private final ModelRenderer leftLegReinClip;
+	private final ModelRenderer rightLegRein;
+	private final ModelRenderer rightLegReinClip;
+	private final ModelRenderer leftBit;
+	private final ModelRenderer rightBit;
+	private final ModelRenderer leftNeckRein;
+	private final ModelRenderer rightNeckRein;
 
 	public ModelHorseExtension()
 	{

@@ -73,12 +73,12 @@ public class RenderHumanSmall extends RenderHuman
 	/**
 	 * Called after the model and specials have been rendered. Applies additional tweaking to the rendered model.
 	 * 
-	 * @param	EntityLivingBase	The entity being rendered.
-	 * @param	partialTickTime	The time since the last in-game tick.
+	 * @param	entityLivingBase	The entity being rendered.
+	 * @param	partialTickTime		The time since the last in-game tick.
 	 */
 	@Override
-	protected void preRenderCallback(EntityLivingBase EntityLivingBase, float partialTickTime)
+	protected void preRenderCallback(EntityLivingBase entityLivingBase, float partialTickTime)
 	{
-		renderScale((AbstractChild)EntityLivingBase, partialTickTime);
+		renderScale((AbstractChild)entityLivingBase, partialTickTime);
 	}
 }
