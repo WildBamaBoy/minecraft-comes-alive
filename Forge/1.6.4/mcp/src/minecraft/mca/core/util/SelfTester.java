@@ -86,11 +86,24 @@ public class SelfTester
 							{
 								lineNumber++;
 
+								try
+								{
 								switch (loops)
 								{
 								case 0: tryAddLineToDeclaredFields(readString); break;
 								case 1: testLineInLanguageSystem(readString, sourceFile.getName(), lineNumber); break;
 								case 2:	testLineForFieldUpdateValidity(readString, sourceFile.getName(), lineNumber); break;
+								}
+								}
+								
+								catch (StringIndexOutOfBoundsException e)
+								{
+									continue;
+								}
+								
+								catch (NullPointerException e)
+								{
+									continue;
 								}
 							}
 
