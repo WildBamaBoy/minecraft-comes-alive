@@ -1206,14 +1206,22 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		if (familyTree.idIsARelative(playerId))
 		{
+			final EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, playerId);
+			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 			final EnumRelation relation = familyTree.getMyRelationTo(playerId);
+			final String gender = isMale ? ".male" : ".female";
+			final boolean isMarriedToThisPlayer = relation == EnumRelation.Spouse || relation == EnumRelation.Husband || relation == EnumRelation.Wife;
 
-			if ((relation == EnumRelation.Spouse || relation == EnumRelation.Husband || relation == EnumRelation.Wife) && isEngaged)
+			if (isMarriedToThisPlayer && isEngaged)
 			{
-				String gender = isMale ? ".male" : ".female";
 				return LanguageHelper.getString("family.fiance" + gender) + " " + name;
 			}
 
+			else if (isMarriedToThisPlayer && manager.worldProperties.isMonarch)
+			{
+				return LanguageHelper.getString("monarch.title" + gender + ".player") + " " + name;
+			}
+			
 			else
 			{
 				return relation.toString(this, isMale, isInformal) + " " + name;
