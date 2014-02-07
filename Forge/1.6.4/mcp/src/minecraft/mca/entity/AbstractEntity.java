@@ -1210,22 +1210,22 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 			final EnumRelation relation = familyTree.getMyRelationTo(playerId);
 			final String gender = isMale ? ".male" : ".female";
-			final boolean isMarriedToThisPlayer = relation == EnumRelation.Spouse || relation == EnumRelation.Husband || relation == EnumRelation.Wife;
+			final boolean isMarried = relation == EnumRelation.Spouse || relation == EnumRelation.Husband || relation == EnumRelation.Wife;
 
-			if (isMarriedToThisPlayer && isEngaged)
+			if (player != null && manager != null)
 			{
-				return LanguageHelper.getString("family.fiance" + gender) + " " + name;
-			}
+				if (isMarried && isEngaged)
+				{
+					return LanguageHelper.getString("family.fiance" + gender) + " " + name;
+				}
 
-			else if (isMarriedToThisPlayer && manager.worldProperties.isMonarch)
-			{
-				return LanguageHelper.getString("monarch.title" + gender + ".player") + " " + name;
+				else if (isMarried && manager.worldProperties.isMonarch)
+				{
+					return LanguageHelper.getString("monarch.title" + gender + ".player") + " " + name;
+				}
 			}
 			
-			else
-			{
-				return relation.toString(this, isMale, isInformal) + " " + name;
-			}
+			return relation.toString(this, isMale, isInformal) + " " + name;
 		}
 
 		else
@@ -2481,13 +2481,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			if (entityPathController instanceof EntityHorse)
 			{
 				final EntityHorse horse = (EntityHorse)entityPathController;
-				
+
 				if (horse.isHorseSaddled())
 				{
 					horse.setHorseSaddled(false);
 				}
 			}
-			
+
 			if (target != null && target.onGround && !isRetaliating && !combatChore.useRange)
 			{
 				entityPathController.getLookHelper().setLookPositionWithEntity(target, 10.0F, getVerticalFaceSpeed());
@@ -2513,13 +2513,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					entityPathController.getLookHelper().setLookPositionWithEntity(player, 10.0F, getVerticalFaceSpeed());
 
 					if (entityPathController != this) this.getLookHelper().setLookPositionWithEntity(player, 10.0F, getVerticalFaceSpeed());
-					
+
 					if (getDistanceToEntity(player) > 3.5D)
 					{
 						final boolean pathSet = entityPathController.getNavigator().tryMoveToEntityLiving(player, 
 								(entityPathController instanceof EntityHorse) ?  Constants.SPEED_HORSE_RUN : player.isSprinting() ? Constants.SPEED_SPRINT : Constants.SPEED_WALK);
 						entityPathController.getNavigator().onUpdateNavigation();
-						
+
 						if (!pathSet && getDistanceToEntity(player) >= 10.0D)
 						{
 							final int playerX = MathHelper.floor_double(player.posX) - 2;
