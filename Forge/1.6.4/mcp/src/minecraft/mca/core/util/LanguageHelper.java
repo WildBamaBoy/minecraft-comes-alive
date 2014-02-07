@@ -76,6 +76,14 @@ public final class LanguageHelper
 
 		//Get the name and location of the appropriate language file.
 		languageName = LANGUAGE_MAP.get(getLanguageIDFromOptions());
+		MCA.getInstance().log("Language ID: " + languageID);
+		
+		if (languageName == null)
+		{
+			MCA.getInstance().log("WARNING: Unable to find mapping of langauge ID. Defaulting to English.");
+			languageName = "English";
+		}
+		
 		MCA.getInstance().log("Loading " + languageName + "...");
 
 		try
