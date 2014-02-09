@@ -285,7 +285,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(fieldName);
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -308,7 +308,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleFieldRequest(Packet250CustomPayload packet, Player player) throws IOException, ClassNotFoundException, IllegalAccessException, SecurityException, NoSuchFieldException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -366,7 +366,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(fieldValue);
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -389,7 +389,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleFieldValue(Packet250CustomPayload packet, Player player) throws IOException, ClassNotFoundException, IllegalArgumentException, SecurityException, IllegalAccessException, NoSuchFieldException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -536,7 +536,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(targetId);
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -559,7 +559,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleTarget(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -616,7 +616,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(damage);
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -639,7 +639,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleRemoveItem(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -691,7 +691,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(playerId);
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -714,7 +714,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleAchievement(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -756,7 +756,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(entityId);
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -779,7 +779,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleSyncRequest(Packet250CustomPayload packet, Player player) throws IllegalArgumentException, IllegalAccessException, IOException, ClassNotFoundException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -827,7 +827,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(abstractEntity.getTexture());
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -851,7 +851,7 @@ public final class PacketHandler implements IPacketHandler
 	@SideOnly(Side.CLIENT)
 	private static void handleSync(Packet250CustomPayload packet, Player player) throws IllegalArgumentException, IllegalAccessException, IOException, ClassNotFoundException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -969,7 +969,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(entityId);
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -992,7 +992,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleEngagement(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException 
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -1040,7 +1040,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(itemId);
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -1063,7 +1063,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleAddItem(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException 
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -1096,7 +1096,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(familyTree);
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -1119,7 +1119,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleFamilyTree(Packet250CustomPayload packet, Player player) throws IOException, ClassNotFoundException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -1160,7 +1160,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(count);
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -1183,7 +1183,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleDropItem(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException 
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -1220,7 +1220,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(inventory);
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -1243,7 +1243,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleInventory(Packet250CustomPayload packet, Player player) throws NumberFormatException, IOException, ClassNotFoundException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -1287,7 +1287,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(chore);
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -1310,7 +1310,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleChore(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -1391,7 +1391,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(tombstone.signText[3]);
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -1414,7 +1414,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleTombstone(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -1460,7 +1460,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(tombstone.zCoord);
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -1483,7 +1483,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleTombstoneRequest(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -1518,7 +1518,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(modPropertiesManager);
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -1541,7 +1541,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleLogin(Packet250CustomPayload packet, Player player) throws IOException, ClassNotFoundException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -1589,7 +1589,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(manager);
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Created world properties packet for " + manager.worldProperties.playerName);
@@ -1613,7 +1613,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleWorldProperties(Packet250CustomPayload packet, Player player) throws IOException, ClassNotFoundException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -1711,7 +1711,7 @@ public final class PacketHandler implements IPacketHandler
 
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -1734,7 +1734,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleSayLocalized(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -1870,7 +1870,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(spouseId);
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -1893,7 +1893,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handlePlayerMarried(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -1937,7 +1937,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(spouseId);
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -1960,7 +1960,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleHaveBaby(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -2022,7 +2022,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(manager);
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -2045,7 +2045,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleBabyInfo(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -2094,7 +2094,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(player.entityId);
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -2117,7 +2117,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleRespawn(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException, IllegalArgumentException, IllegalAccessException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -2185,7 +2185,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(babyIsMale);
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -2208,7 +2208,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleVillagerPlayerProcreate(Packet250CustomPayload packet, Player player) throws IOException, ClassNotFoundException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -2275,7 +2275,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(entity.entityId);
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -2298,7 +2298,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleReturnInventory(Packet250CustomPayload packet, Player player) throws IOException, ClassNotFoundException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -2343,7 +2343,7 @@ public final class PacketHandler implements IPacketHandler
 			objectOutput.writeObject(guiId);
 			objectOutput.close();
 
-			thePacket.data = MCA.compressBytes(byteOutput.toByteArray());
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
 			thePacket.length = thePacket.data.length;
 
 			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
@@ -2366,7 +2366,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleOpenGui(Packet250CustomPayload packet, Player player) throws IOException, ClassNotFoundException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);

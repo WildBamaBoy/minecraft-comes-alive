@@ -11,6 +11,7 @@ package mca.core;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -22,6 +23,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
@@ -40,6 +42,7 @@ import mca.command.CommandHelp;
 import mca.command.CommandMarry;
 import mca.command.CommandMarryAccept;
 import mca.command.CommandMarryDecline;
+import mca.command.CommandModProps;
 import mca.command.CommandSetGender;
 import mca.command.CommandSetName;
 import mca.command.CommandUnblock;
@@ -502,30 +505,38 @@ public class MCA
 	 * 
 	 * @return	Deflated byte array.
 	 */
-	public static byte[] compressBytes(byte[] input)
+	public byte[] compressBytes(byte[] input)
 	{
 		try
 		{
-			Deflater deflater = new Deflater();
-			deflater.setLevel(Deflater.BEST_COMPRESSION);
-			deflater.setInput(input);
-
-			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream(input.length);
-			deflater.finish();
-
-			byte[] buffer = new byte[1024];
-
-			while(!deflater.finished())
+			if (modPropertiesManager.modProperties.compressPackets)
 			{
-				int count = deflater.deflate(buffer);
-				byteOutput.write(buffer, 0, count);
+				final Deflater deflater = new Deflater();
+				deflater.setLevel(Deflater.BEST_COMPRESSION);
+				deflater.setInput(input);
+
+				final ByteArrayOutputStream byteOutput = new ByteArrayOutputStream(input.length);
+				deflater.finish();
+
+				final byte[] buffer = new byte[1024];
+
+				while(!deflater.finished())
+				{
+					final int count = deflater.deflate(buffer);
+					byteOutput.write(buffer, 0, count);
+				}
+
+				byteOutput.close();
+				return byteOutput.toByteArray();
 			}
 
-			byteOutput.close();
-			return byteOutput.toByteArray();
+			else
+			{
+				return input;
+			}
 		}
 
-		catch (Exception e)
+		catch (IOException e)
 		{
 			MCA.getInstance().quitWithException("Error compressing byte array.", e);
 			return null;
@@ -539,28 +550,40 @@ public class MCA
 	 * 
 	 * @return	Decompressed byte array.
 	 */
-	public static byte[] decompressBytes(byte[] input)
+	public byte[] decompressBytes(byte[] input)
 	{
 		try
 		{
-			Inflater inflater = new Inflater();
-			inflater.setInput(input);
-
-			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream(input.length);
-
-			byte[] buffer = new byte[1024];
-
-			while(!inflater.finished())
+			if (modPropertiesManager.modProperties.compressPackets)
 			{
-				int count = inflater.inflate(buffer);
-				byteOutput.write(buffer, 0, count);
+				final Inflater inflater = new Inflater();
+				final ByteArrayOutputStream byteOutput = new ByteArrayOutputStream(input.length);
+				final byte[] buffer = new byte[1024];
+				inflater.setInput(input);
+
+				while(!inflater.finished())
+				{
+					final int count = inflater.inflate(buffer);
+					byteOutput.write(buffer, 0, count);
+				}
+
+				byteOutput.close();
+				return byteOutput.toByteArray();
 			}
 
-			byteOutput.close();
-			return byteOutput.toByteArray();
+			else
+			{
+				return input;
+			}
 		}
 
-		catch (Exception e)
+		catch (DataFormatException e)
+		{
+			MCA.getInstance().quitWithException("Error decompressing byte array.", e);
+			return null;
+		}
+		
+		catch (IOException e)
 		{
 			MCA.getInstance().quitWithException("Error decompressing byte array.", e);
 			return null;
@@ -833,37 +856,37 @@ public class MCA
 				{
 			"G G", "R R", 'G', Item.ingotGold, 'R', new ItemStack(Block.cloth, 1, 14)
 				});
-		
+
 		GameRegistry.addRecipe(new ItemStack(itemHeirCrown, 1), new Object[]
 				{
 			"GEG", "G G", "GGG", 'E', Item.emerald, 'G', Item.ingotGold
 				});
-		
+
 		GameRegistry.addRecipe(new ItemStack(itemRedCrown, 1), new Object[]
 				{
 			"GDG", "G G", "GGG", 'D', new ItemStack(Item.dyePowder, 1, 1), 'G', Item.ingotGold
 				});
-		
+
 		GameRegistry.addRecipe(new ItemStack(itemGreenCrown, 1), new Object[]
 				{
 			"GDG", "G G", "GGG", 'D', new ItemStack(Item.dyePowder, 1, 2), 'G', Item.ingotGold
 				});
-		
+
 		GameRegistry.addRecipe(new ItemStack(itemBlueCrown, 1), new Object[]
 				{
 			"GDG", "G G", "GGG", 'D', new ItemStack(Item.dyePowder, 1, 4), 'G', Item.ingotGold
 				});
-		
+
 		GameRegistry.addRecipe(new ItemStack(itemPinkCrown, 1), new Object[]
 				{
 			"GDG", "G G", "GGG", 'D', new ItemStack(Item.dyePowder, 1, 9), 'G', Item.ingotGold
 				});
-		
+
 		GameRegistry.addRecipe(new ItemStack(itemPurpleCrown, 1), new Object[]
 				{
 			"GDG", "G G", "GGG", 'D', new ItemStack(Item.dyePowder, 1, 5), 'G', Item.ingotGold
 				});
-		
+
 		//Register GUI handlers.
 		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
 		NetworkRegistry.instance().registerConnectionHandler(new ConnectionHandler());
@@ -1103,7 +1126,8 @@ public class MCA
 		event.registerServerCommand(new CommandUnblockAll());
 		event.registerServerCommand(new CommandCheckUpdates());
 		event.registerServerCommand(new CommandDebugRule());
-
+		event.registerServerCommand(new CommandModProps());
+		
 		if (event.getServer() instanceof DedicatedServer)
 		{
 			isDedicatedServer = true;

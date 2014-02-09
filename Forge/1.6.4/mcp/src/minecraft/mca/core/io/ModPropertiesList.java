@@ -117,4 +117,7 @@ public class ModPropertiesList implements Serializable
 	
 	/** How many villagers there must be in order for one guard to spawn. */
 	public int guardSpawnRate = 3;
+	
+	/** Should packet data be compressed before being sent? */
+	public boolean compressPackets = true;
 }
