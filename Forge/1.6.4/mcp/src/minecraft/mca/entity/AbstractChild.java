@@ -48,26 +48,29 @@ public abstract class AbstractChild extends AbstractEntity
 	public void onUpdate()
 	{
 		super.onUpdate();
-		
+
 		updateGrowth();
 		updateDebug();
 	}
 
 	private void updateGrowth()
 	{
-		growMinutes = Calendar.getInstance().get(Calendar.MINUTE);
-
-		if ((growMinutes > prevGrowMinutes || growMinutes == 0 && prevGrowMinutes == 59) && age < MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes)
+		if (!MCA.getInstance().modPropertiesManager.modProperties.haltChildGrowth)
 		{
-			age++;
-			prevGrowMinutes = growMinutes;
-		}
+			growMinutes = Calendar.getInstance().get(Calendar.MINUTE);
 
-		if (age >= MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes)
-		{
-			//Set age to the maximum to prevent the renderer from going nuts just in case age is higher than grow up time.
-			age = MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes;
-			isReadyToGrow = true;
+			if ((growMinutes > prevGrowMinutes || growMinutes == 0 && prevGrowMinutes == 59) && age < MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes)
+			{
+				age++;
+				prevGrowMinutes = growMinutes;
+			}
+
+			if (age >= MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes)
+			{
+				//Set age to the maximum to prevent the renderer from going nuts just in case age is higher than grow up time.
+				age = MCA.getInstance().modPropertiesManager.modProperties.kidGrowUpTimeMinutes;
+				isReadyToGrow = true;
+			}
 		}
 	}
 

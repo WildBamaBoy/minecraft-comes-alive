@@ -35,6 +35,7 @@ import mca.command.CommandBlockAll;
 import mca.command.CommandCheckUpdates;
 import mca.command.CommandDebugMode;
 import mca.command.CommandDebugRule;
+import mca.command.CommandDevControl;
 import mca.command.CommandDivorce;
 import mca.command.CommandHaveBaby;
 import mca.command.CommandHaveBabyAccept;
@@ -199,6 +200,8 @@ public class MCA
 	public 	boolean hasCompletedMainMenuTick   = false;
 	public  boolean hasEmptiedPropertiesFolder = false;
 	public  boolean hasCheckedForUpdates	   = false;
+	public  boolean isDevelopmentEnvironment   = false;
+
 	private static final Logger	logger = FMLLog.getLogger();
 	public  ModPropertiesManager modPropertiesManager = null;
 
@@ -582,7 +585,7 @@ public class MCA
 			MCA.getInstance().quitWithException("Error decompressing byte array.", e);
 			return null;
 		}
-		
+
 		catch (IOException e)
 		{
 			MCA.getInstance().quitWithException("Error decompressing byte array.", e);
@@ -710,6 +713,18 @@ public class MCA
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
+		try
+		{
+			final String sourcePath = MCA.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+
+			if (sourcePath.contains("bin/mca/core/MCA.class"))
+			{
+				isDevelopmentEnvironment = true;
+			}
+		}
+
+		catch (NullPointerException e) { }
+
 		//Set instance.
 		instance = this;
 		MinecraftForge.EVENT_BUS.register(new EventHooks());
@@ -1127,7 +1142,8 @@ public class MCA
 		event.registerServerCommand(new CommandCheckUpdates());
 		event.registerServerCommand(new CommandDebugRule());
 		event.registerServerCommand(new CommandModProps());
-		
+		event.registerServerCommand(new CommandDevControl());
+
 		if (event.getServer() instanceof DedicatedServer)
 		{
 			isDedicatedServer = true;

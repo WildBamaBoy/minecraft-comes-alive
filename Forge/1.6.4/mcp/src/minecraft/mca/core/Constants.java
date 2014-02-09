@@ -22,7 +22,10 @@ public final class Constants
 {
 	/** MCA's current version. */
 	public static final String VERSION = "3.6.0";
-	
+
+	/** Users that are allowed to use the dev controls. */
+	public static final String[] PRIVELAGED_USERS = {"WildBamaBoy", "LuvTrumpetStyle"};
+			
 	//Ticks per second, minute, and hour.
 	public static final int TICKS_SECOND = 20;
 	public static final int TICKS_MINUTE = 1200;

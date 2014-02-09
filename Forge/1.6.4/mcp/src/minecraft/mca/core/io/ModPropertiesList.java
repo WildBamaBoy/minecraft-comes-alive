@@ -120,4 +120,7 @@ public class ModPropertiesList implements Serializable
 	
 	/** Should packet data be compressed before being sent? */
 	public boolean compressPackets = true;
+	
+	/** Should children growth be halted? */
+	public boolean haltChildGrowth = false;
 }
