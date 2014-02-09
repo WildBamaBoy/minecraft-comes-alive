@@ -13,6 +13,7 @@ import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
+import mca.enums.EnumGenericCommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -64,6 +65,9 @@ public class CommandHaveBabyAccept extends AbstractCommand
 					//And remove their entry from the map.
 					MCA.getInstance().babyRequests.remove(sender.getCommandSenderName());
 					MCA.getInstance().babyRequests.remove(spouse.username);
+					
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.ClientRemoveBabyRequest, sender.getCommandSenderName()));
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.ClientRemoveBabyRequest, spouse.username));
 				}
 
 				else

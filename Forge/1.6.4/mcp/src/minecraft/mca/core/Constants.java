@@ -179,7 +179,8 @@ public final class Constants
 	public static final byte ID_GUI_TOMBSTONE = 10;
 	public static final byte ID_GUI_EDITOR = 11;
 	public static final byte ID_GUI_LRD = 12;
-
+	public static final byte ID_GUI_PLAYER = 13;
+	
 	//Movement speeds.
 	public static final float SPEED_SNEAK = 0.4F;
 	public static final float SPEED_WALK = 0.6F;

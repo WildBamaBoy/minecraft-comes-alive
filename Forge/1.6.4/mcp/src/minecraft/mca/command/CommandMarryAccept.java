@@ -13,6 +13,7 @@ import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
+import mca.enums.EnumGenericCommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
@@ -92,6 +93,9 @@ public class CommandMarryAccept extends AbstractCommand
 						//Notify both that they are married.
 						PacketDispatcher.sendPacketToPlayer(PacketHandler.createPlayerMarriagePacket(senderProperties.worldProperties.playerID, recipient.username, spouseProperties.worldProperties.playerID), (Player)sender);
 						PacketDispatcher.sendPacketToPlayer(PacketHandler.createPlayerMarriagePacket(spouseProperties.worldProperties.playerID, sender.getCommandSenderName(), senderProperties.worldProperties.playerID), (Player)recipient);
+						
+						MCA.getInstance().marriageRequests.remove(senderPlayer.username);
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.ClientRemoveMarriageRequest, senderPlayer.username));
 					}
 				}
 

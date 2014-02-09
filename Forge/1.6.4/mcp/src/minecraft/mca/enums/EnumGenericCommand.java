@@ -26,8 +26,13 @@ public enum EnumGenericCommand
 	StopJumping("StopJumping"),
 	ArrangedMarriageParticles("ArrangedMarriageParticles"),
 	UpdateFurnace("UpdateFurnace"),
-	MountHorse("MountHorse");
-
+	MountHorse("MountHorse"),
+	ClientSideCommand("ClientSideCommand"),
+	ClientAddMarriageRequest("ClientAddMarriageRequest"),
+	ClientAddBabyRequest("ClientAddBabyRequest"),
+	ClientRemoveMarriageRequest("ClientRemoveMarriageRequest"),
+	ClientRemoveBabyRequest("ClientRemoveBabyRequest");
+	
 	/** The actual string value of the enum constant */
 	private String value;
 	

@@ -14,12 +14,15 @@ import java.util.List;
 
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
+import mca.enums.EnumGenericCommand;
 import mca.enums.EnumRelation;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 /**
  * Defines the marry command and what it does.
@@ -108,6 +111,7 @@ public class CommandHaveBaby extends AbstractCommand
 						//Notify the other that they want to have a baby and tell the server they have asked.
 						this.sendChatToPlayer(spouse, "multiplayer.command.output.havebaby.request", null, null);
 						MCA.getInstance().babyRequests.put(sender.getCommandSenderName(), spouse.username);
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.ClientAddBabyRequest, sender.getCommandSenderName(), spouse.username));
 					}
 				}
 			}

@@ -12,6 +12,7 @@ package mca.core.forge;
 import java.io.File;
 
 import mca.chore.ChoreCooking;
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.Utility;
@@ -21,6 +22,7 @@ import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
 import mca.entity.EntityVillagerChild;
 import mca.item.AbstractBaby;
+import mca.item.ItemWeddingRing;
 import net.minecraft.block.Block;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
@@ -33,6 +35,9 @@ import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.ForgeSubscribe;
@@ -203,6 +208,11 @@ public class EventHooks
 				entity.interact(event.entityPlayer);
 			}
 		}
+		
+		else if (event.target instanceof EntityPlayer && canInteractWithPlayer(event.entityPlayer) && !event.entityPlayer.worldObj.isRemote)
+		{
+			PacketDispatcher.sendPacketToPlayer(PacketHandler.createOpenGuiPacket(event.target.entityId, Constants.ID_GUI_PLAYER), (Player)event.entityPlayer);
+		}
 	}
 	
 	private void doAddMobTasks(EntityMob mob)
@@ -291,6 +301,28 @@ public class EventHooks
 
 			villager.worldObj.spawnEntityInWorld(newVillager);
 			villager.setDead();
+		}
+	}
+	
+	private boolean canInteractWithPlayer(EntityPlayer player)
+	{
+		final ItemStack itemStack = player.getHeldItem();
+		
+		if (itemStack != null)
+		{
+			final Item heldItem = itemStack.getItem();
+			
+			if (heldItem instanceof ItemWeddingRing)
+			{
+				return true;
+			}
+			
+			return false;
+		}
+		
+		else
+		{
+			return true;
 		}
 	}
 }

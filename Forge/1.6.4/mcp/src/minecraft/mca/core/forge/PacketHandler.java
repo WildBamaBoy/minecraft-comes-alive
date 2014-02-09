@@ -50,6 +50,7 @@ import mca.tileentity.TileEntityTombstone;
 import net.minecraft.block.BlockFurnace;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -2450,7 +2451,9 @@ public final class PacketHandler implements IPacketHandler
 		MCA.getInstance().logPacketInformation("\tGeneric packet type: " + command);
 		int entityId;
 		AbstractEntity entity = null;
-
+		String senderName = "";
+		String recipientName = "";
+		
 		switch (command)
 		{
 		case AddAI:
@@ -2598,6 +2601,33 @@ public final class PacketHandler implements IPacketHandler
 				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.MountHorse, entityId, horseId));
 			}
 			
+			break;
+		case ClientSideCommand:
+			final String commandName = arguments[0].toString();
+			final ICommandSender sender = (ICommandSender)player;
+			
+			MinecraftServer.getServer().getCommandManager().executeCommand(sender, commandName);
+			break;
+		
+		case ClientAddMarriageRequest:
+			senderName = arguments[0].toString();
+			recipientName = arguments[1].toString();
+			
+			MCA.getInstance().marriageRequests.put(senderName, recipientName);
+			break;
+		case ClientAddBabyRequest:
+			senderName = arguments[0].toString();
+			recipientName = arguments[1].toString();
+			
+			MCA.getInstance().babyRequests.put(senderName, recipientName);
+			break;
+		case ClientRemoveMarriageRequest:
+			senderName = arguments[0].toString();
+			MCA.getInstance().marriageRequests.remove(senderName);
+			break;
+		case ClientRemoveBabyRequest:
+			senderName = arguments[0].toString();
+			MCA.getInstance().babyRequests.remove(senderName);
 			break;
 		default:
 			MCA.getInstance().log("Invalid generic command specified: " + command);
