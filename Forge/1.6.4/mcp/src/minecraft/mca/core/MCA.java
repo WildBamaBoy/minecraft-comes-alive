@@ -488,7 +488,17 @@ public class MCA
 	 */
 	public static List<String> getSkinList(AbstractEntity entity)
 	{
-		VillagerEntryMCA entry = VillagerRegistryMCA.getRegisteredVillagersMap().get(entity.profession);
+		VillagerEntryMCA entry = null;
+
+		if (entity instanceof EntityPlayerChild)
+		{
+			entry = VillagerRegistryMCA.getRegisteredVillagerEntry(-1);
+		}
+
+		else
+		{
+			entry = VillagerRegistryMCA.getRegisteredVillagersMap().get(entity.profession);
+		}
 
 		if (entity.isMale)
 		{
