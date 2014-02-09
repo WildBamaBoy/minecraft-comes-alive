@@ -11,6 +11,8 @@ package mca.client.gui;
 
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import mca.core.MCA;
@@ -194,6 +196,8 @@ public class GuiVillagerEditor extends AbstractGui
 		else if (guibutton == shiftTextureIndexUpButton)
 		{
 			List<String> textureList = MCA.getSkinList(editingVillager);
+			sortTextureList(textureList);
+			
 			int textureIndex = textureList.indexOf(editingVillager.getTexture());
 			int maxIndex = textureList.size() - 1;
 
@@ -214,6 +218,8 @@ public class GuiVillagerEditor extends AbstractGui
 		else if (guibutton == shiftTextureIndexDownButton)
 		{
 			List<String> textureList = MCA.getSkinList(editingVillager);
+			sortTextureList(textureList);
+			
 			int textureIndex = textureList.indexOf(editingVillager.getTexture());
 			int maxIndex = textureList.size() - 1;
 
@@ -696,5 +702,31 @@ public class GuiVillagerEditor extends AbstractGui
 		}
 
 		nextButton.enabled = false;
+	}
+	
+	private void sortTextureList(List<String>listToSort)
+	{
+		Collections.sort(listToSort, 
+				new Comparator<String>()
+				{
+					@Override
+					public int compare(String o1, String o2) 
+					{
+						final int skinNumber1 = Integer.parseInt(o1.replaceAll("[^0-9]+", " ").trim());
+						final int skinNumber2 = Integer.parseInt(o2.replaceAll("[^0-9]+", " ").trim());
+						
+						if (skinNumber1 == skinNumber2)
+						{
+							return 0;
+						}
+						
+						else if (skinNumber1 < skinNumber2)
+						{
+							return -1;
+						}
+						
+						return 1;
+					}
+				});
 	}
 }
