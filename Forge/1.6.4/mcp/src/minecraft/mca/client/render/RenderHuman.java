@@ -207,40 +207,49 @@ public class RenderHuman extends RenderBiped
 	private void renderLabels(AbstractEntity entity, double posX, double posY, double posZ)
 	{
 		final WorldPropertiesList propertiesList = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username).worldProperties;
-		final AbstractEntity clientEntity = (AbstractEntity)DimensionManager.getWorld(entity.worldObj.provider.dimensionId).getEntityByID(entity.entityId);
 
-		if (clientEntity != null)
+		try
 		{
-			if (clientEntity.getHealth() < entity.getMaxHealth())
-			{
-				renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.health") + Math.round(clientEntity.getHealth()) + "/" + entity.getMaxHealth());
-			}
+			final AbstractEntity clientEntity = (AbstractEntity)DimensionManager.getWorld(entity.worldObj.provider.dimensionId).getEntityByID(entity.entityId);
 
-			else if (clientEntity.isSleeping && clientEntity.canEntityBeSeen(Minecraft.getMinecraft().thePlayer) && !propertiesList.hideSleepingTag)
+			if (clientEntity != null)
 			{
-				renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.sleeping"));
-			}
-
-			else if (canRenderNameTag(clientEntity))
-			{
-				renderLabel(clientEntity, posX, posY, posZ, clientEntity.getTitle(MCA.getInstance().getIdOfPlayer(Minecraft.getMinecraft().thePlayer), true));
-			}
-
-			else if (entity instanceof EntityVillagerAdult)
-			{
-				final EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-				final EntityVillagerAdult villager = (EntityVillagerAdult)entity;
-
-				if (villager.playerMemoryMap.containsKey(player.username))
+				if (clientEntity.getHealth() < entity.getMaxHealth())
 				{
-					final PlayerMemory memory = villager.playerMemoryMap.get(player.username);
+					renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.health") + Math.round(clientEntity.getHealth()) + "/" + entity.getMaxHealth());
+				}
 
-					if (memory.hasGift)
+				else if (clientEntity.isSleeping && clientEntity.canEntityBeSeen(Minecraft.getMinecraft().thePlayer) && !propertiesList.hideSleepingTag)
+				{
+					renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.sleeping"));
+				}
+
+				else if (canRenderNameTag(clientEntity))
+				{
+					renderLabel(clientEntity, posX, posY, posZ, clientEntity.getTitle(MCA.getInstance().getIdOfPlayer(Minecraft.getMinecraft().thePlayer), true));
+				}
+
+				else if (entity instanceof EntityVillagerAdult)
+				{
+					final EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+					final EntityVillagerAdult villager = (EntityVillagerAdult)entity;
+
+					if (villager.playerMemoryMap.containsKey(player.username))
 					{
-						renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.hasgift"));
+						final PlayerMemory memory = villager.playerMemoryMap.get(player.username);
+
+						if (memory.hasGift)
+						{
+							renderLabel(entity, posX, posY, posZ, LanguageHelper.getString("gui.overhead.hasgift"));
+						}
 					}
 				}
 			}
+		}
+
+		catch (NullPointerException e)
+		{
+
 		}
 	}
 
@@ -312,7 +321,7 @@ public class RenderHuman extends RenderBiped
 	private double applyHorseCorrection(AbstractEntity entity, double posYCorrection)
 	{
 		double newPosYCorrection = posYCorrection;
-		
+
 		if (entity.ridingEntity instanceof EntityHorse)
 		{
 			final EntityHorse horse = (EntityHorse)entity.ridingEntity;
