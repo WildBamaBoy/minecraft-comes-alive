@@ -1128,4 +1128,9 @@ public final class LogicHelper
 
 		return nearestEntity;
 	}
+	
+	public static int getNumberInRange(int minimum, int maximum)
+	{
+		return MCA.rand.nextInt((maximum - minimum) + 1) + minimum;
+	}
 }

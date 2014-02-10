@@ -166,6 +166,59 @@ public final class Constants
 		{Item.potato.itemID, Item.bakedPotato.itemID},
 		};
 	
+	/**
+	 * Standard random finds when fishing.
+	 * 
+	 * [0] = The item returned. 
+	 * [1] = The minimum amount given.
+	 * [2] = The maximum amount given.
+	 */
+	public static final int[][] FISHING_DATA_STANDARD =
+		{
+			{Block.torchWood.blockID, 1, 4},
+			{Item.seeds.itemID, 1, 4},
+			{Item.bucketEmpty.itemID, 1, 1},
+			{Item.pickaxeStone.itemID, 1, 1},
+			{Item.shovelStone.itemID, 1, 1},
+			{Block.rail.blockID, 1, 1},
+			{Item.book.itemID, 1, 3},
+			{Item.bone.itemID, 1, 4},
+			{Item.flintAndSteel.itemID, 1, 1},
+			{Item.compass.itemID, 1, 1},
+			{Item.arrow.itemID, 3, 12},
+			{Item.bow.itemID, 1, 1},
+			{Item.bootsLeather.itemID, 1 ,1},
+			{Item.stick.itemID, 1, 5},
+			{Item.melonSeeds.itemID, 1, 3},
+			{Item.pumpkinSeeds.itemID, 1, 3},
+			{Item.clay.itemID, 2, 5}
+		};
+	
+	/**
+	 * Enhanced random finds when fishing.
+	 * 
+	 * [0] = The item returned. 
+	 * [1] = The minimum amount given.
+	 * [2] = The maximum amount given.
+	 */
+	public static final int[][] FISHING_DATA_ENHANCED =
+		{
+			{Item.boat.itemID, 1, 1},
+			{Item.diamond.itemID, 1, 1},
+			{Item.emerald.itemID, 1, 1},
+			{Block.tnt.blockID, 1, 2},
+			{Item.fishingRod.itemID, 1, 1},
+			{Item.horseArmorDiamond.itemID, 1, 1},
+			{Item.horseArmorGold.itemID, 1, 1},
+			{Item.horseArmorIron.itemID, 1, 1},
+			{Item.pickaxeDiamond.itemID, 1, 1},
+			{Item.shovelDiamond.itemID, 1, 1},
+			{Item.nameTag.itemID, 1, 1},
+			{Item.helmetDiamond.itemID, 1, 1},
+			{Item.bootsDiamond.itemID, 1, 1},
+			{Item.enderPearl.itemID, 1, 3}
+		};
+	
 	//Gui IDs
 	public static final byte ID_GUI_INVENTORY = 0;
 	public static final byte ID_GUI_GAMEOVER = 1;

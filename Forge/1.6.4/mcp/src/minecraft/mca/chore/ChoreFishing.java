@@ -378,10 +378,7 @@ public class ChoreFishing extends AbstractChore
 	}
 
 	private void doFishCatchAttempt()
-	{
-		//TODO Common and rare treasures.
-		//TODO Lvl 20 horse armor.
-		
+	{	
 		if (!owner.worldObj.isRemote)
 		{
 			final int catchChance = getFishCatchChance();
@@ -396,6 +393,13 @@ public class ChoreFishing extends AbstractChore
 				fishCatchCheck = 0;
 				fishingTicks = 0;
 
+				//Add experience rewards.
+				final ItemStack experienceReward = getExperienceReward();
+				if (experienceReward != null)
+				{
+					owner.inventory.addItemStackToInventory(experienceReward);
+				}
+				
 				//Increment achievement values and check for achievement.
 				if (owner instanceof EntityPlayerChild)
 				{
@@ -488,5 +492,31 @@ public class ChoreFishing extends AbstractChore
 	private int getFishAmountToAdd()
 	{
 		return getChoreXp() >= 20.0F ? MCA.rand.nextInt(5) + 1 : 1;
+	}
+	
+	private ItemStack getExperienceReward()
+	{
+		int[][] rewardArray = null;
+		
+		if (getChoreXp() >= 10.0F && MCA.rand.nextBoolean())
+		{
+			rewardArray = Constants.FISHING_DATA_STANDARD;
+		}
+		
+		else if (getChoreXp() >= 20.0F && MCA.rand.nextBoolean())
+		{
+			rewardArray = Constants.FISHING_DATA_ENHANCED;
+		}
+		
+		if (rewardArray != null && Utility.getBooleanWithProbability(40))
+		{
+			final int index = LogicHelper.getNumberInRange(0, rewardArray.length - 1);
+			final int itemID = rewardArray[index][0];
+			final int returnAmount = LogicHelper.getNumberInRange(rewardArray[index][1], rewardArray[index][2]);
+			
+			return new ItemStack(itemID, returnAmount, 0);
+		}
+		
+		return null;
 	}
 }
