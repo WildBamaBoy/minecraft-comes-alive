@@ -206,10 +206,10 @@ public class RenderHuman extends RenderBiped
 
 	private void renderLabels(AbstractEntity entity, double posX, double posY, double posZ)
 	{
-		final WorldPropertiesList propertiesList = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username).worldProperties;
-
 		try
 		{
+			final WorldPropertiesList propertiesList = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username).worldProperties;
+
 			final AbstractEntity clientEntity = (AbstractEntity)DimensionManager.getWorld(entity.worldObj.provider.dimensionId).getEntityByID(entity.entityId);
 
 			if (clientEntity != null)
