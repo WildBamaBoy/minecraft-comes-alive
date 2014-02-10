@@ -1037,7 +1037,7 @@ public final class LogicHelper
 
 		for (Entity entityAroundMe : entitiesAroundMe)
 		{
-			if (entityAroundMe.getClass().toString().equals(entityType.toString()))
+			if (entityType.isAssignableFrom(entityAroundMe.getClass()))
 			{
 				if (entityCandidate != null)
 				{
