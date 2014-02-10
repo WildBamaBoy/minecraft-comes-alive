@@ -992,7 +992,6 @@ public class MCA
 		AchievementPage.registerAchievementPage(achievementPageMCA);
 
 		LanguageHelper.loadLanguage();
-		new SelfTester().doSelfTest();
 	}
 
 	/**
