@@ -10,7 +10,6 @@
 package mca.client.render;
 
 import mca.client.model.ModelTombstone;
-import mca.core.Constants;
 import mca.tileentity.TileEntityTombstone;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -55,9 +54,11 @@ public class RenderTombstone extends TileEntitySpecialRenderer
 
 		GL11.glPushMatrix();
 
-		GL11.glTranslated(posX + 0.45F, posY + 1F, posZ + 0.53F);
+		GL11.glTranslated(posX + 0.50F, posY + 1.59F, posZ + 0.53F);
 		GL11.glRotatef(-rotation, 0.0F, 1.0F, 0.0F);
 		GL11.glTranslatef(0, 0.5F, 0);
+		GL11.glScalef(1.4F, 1.4F, 1.4F);
+		
 		this.bindResource(TEXTURE);
 
 		GL11.glPushMatrix();
@@ -68,14 +69,14 @@ public class RenderTombstone extends TileEntitySpecialRenderer
 		GL11.glPopMatrix();
 
 		//Text size is 0.017F.
-		GL11.glTranslatef(0.0F, -1.1F, 0.07F);
+		GL11.glTranslatef(0.0F, -1.15F, 0.07F);
 		GL11.glScalef(0.017F / 2, -0.017F / 2, 0.017F / 2);
 		GL11.glNormal3f(0.0F, 0.0F, -1F * 0.017F);
 		GL11.glDepthMask(false);
 
 		for (int line = 0; line < tombstoneEntity.signText.length; line++)
 		{
-			String lineText = Constants.FORMAT_BOLD + tombstoneEntity.signText[line];
+			String lineText = tombstoneEntity.signText[line];
 
 			if (line == tombstoneEntity.lineBeingEdited)
 			{

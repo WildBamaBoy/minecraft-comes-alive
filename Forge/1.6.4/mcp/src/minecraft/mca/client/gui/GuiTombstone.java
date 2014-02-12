@@ -132,9 +132,9 @@ public class GuiTombstone extends AbstractGui
 		GL11.glPushMatrix();
 		
 		//Prepare to render the tile entity by placing it in the center of the screen.
-		GL11.glTranslatef(width / 2, 0.0F, 50F);
+		GL11.glTranslatef(width / 2, -50.0F, 50F);
 		GL11.glScalef(-150.00F, -150.00F, -150.00F);
-		GL11.glTranslatef(0, -0.4F, 0);
+		GL11.glTranslatef(0, -0.8F, 0);
 		GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
 		
 		//Then rotate according to orientation.
