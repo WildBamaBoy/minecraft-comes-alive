@@ -2009,14 +2009,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "spousePlayerName", spousePlayerName));
 					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFamilyTreePacket(entityId, familyTree));
 
-					if (isEngaged)
-					{
-						isEngaged = false;
-
-						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createEngagementPacket(entityId));
-						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isEngaged", isEngaged));
-					}
-
 					player.triggerAchievement(MCA.getInstance().achievementGetMarried);
 					PacketDispatcher.sendPacketToPlayer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId), (Player)player);
 
@@ -2041,6 +2033,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 								}
 							}
 						}
+						
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createEngagementPacket(entityId));
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isEngaged", isEngaged));
 					}
 				}
 			}
