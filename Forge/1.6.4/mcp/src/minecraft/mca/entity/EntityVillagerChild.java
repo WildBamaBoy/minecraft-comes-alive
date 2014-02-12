@@ -12,6 +12,7 @@ package mca.entity;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.forge.PacketHandler;
+import mca.core.util.LogicHelper;
 import mca.core.util.Utility;
 import mca.core.util.object.PlayerMemory;
 import mca.enums.EnumRelation;
@@ -28,6 +29,7 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.EntityAIWatchClosest2;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemAppleGold;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -164,7 +166,17 @@ public class EntityVillagerChild extends AbstractChild
 			{
 				memory.isInGiftMode = false;
 				playerMemoryMap.put(player.username, memory);
-				doGift(itemStack, player);
+				
+				if (itemStack.getItem() instanceof ItemAppleGold)
+				{
+					this.age += LogicHelper.getNumberInRange(30, 90);
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "age", age));
+				}
+				
+				else
+				{
+					doGift(itemStack, player);
+				}
 
 				PacketDispatcher.sendPacketToPlayer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap), (Player)player);
 			}

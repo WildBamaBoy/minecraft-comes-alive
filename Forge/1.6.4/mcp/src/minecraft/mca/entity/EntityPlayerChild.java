@@ -40,6 +40,7 @@ import net.minecraft.entity.ai.EntityAIWatchClosest2;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemAppleGold;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemBow;
@@ -424,6 +425,12 @@ public class EntityPlayerChild extends AbstractChild
 					doGiftOfBaby(itemStack, player);
 				}
 
+				else if (itemStack.getItem() instanceof ItemAppleGold)
+				{
+					this.age += LogicHelper.getNumberInRange(30, 90);
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "age", age));
+				}
+				
 				else
 				{
 					doGift(itemStack, player);
