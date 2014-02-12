@@ -9,33 +9,33 @@
 
 package mca.core;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.security.MessageDigest;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
+import mca.api.VillagerEntryMCA;
+import mca.api.VillagerRegistryMCA;
 import mca.block.BlockTombstone;
 import mca.command.CommandBlock;
 import mca.command.CommandBlockAll;
 import mca.command.CommandCheckUpdates;
 import mca.command.CommandDebugMode;
 import mca.command.CommandDebugRule;
+import mca.command.CommandDevControl;
 import mca.command.CommandDivorce;
 import mca.command.CommandHaveBaby;
 import mca.command.CommandHaveBabyAccept;
@@ -43,6 +43,7 @@ import mca.command.CommandHelp;
 import mca.command.CommandMarry;
 import mca.command.CommandMarryAccept;
 import mca.command.CommandMarryDecline;
+import mca.command.CommandModProps;
 import mca.command.CommandSetGender;
 import mca.command.CommandSetName;
 import mca.command.CommandUnblock;
@@ -56,16 +57,17 @@ import mca.core.forge.PacketHandler;
 import mca.core.io.ModPropertiesManager;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
-import mca.core.util.object.UpdateHandler;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityChoreFishHook;
 import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
 import mca.entity.EntityVillagerChild;
+import mca.enums.EnumCrownColor;
 import mca.item.ItemArrangersRing;
 import mca.item.ItemBabyBoy;
 import mca.item.ItemBabyGirl;
 import mca.item.ItemCrown;
+import mca.item.ItemDecorativeCrown;
 import mca.item.ItemEggFemale;
 import mca.item.ItemEggMale;
 import mca.item.ItemEngagementRing;
@@ -78,7 +80,6 @@ import mca.item.ItemTombstone;
 import mca.item.ItemVillagerEditor;
 import mca.item.ItemWeddingRing;
 import mca.item.ItemWhistle;
-import mca.tileentity.TileEntityTombstone;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.crash.CrashReport;
@@ -114,23 +115,23 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * Main entry point and core of the Minecraft Comes Alive mod.
  */
-@Mod(modid="mca", name="Minecraft Comes Alive", version=UpdateHandler.VERSION)
+@Mod(modid="mca", name="Minecraft Comes Alive", version=Constants.VERSION)
 @NetworkMod(clientSideRequired=true, serverSideRequired=false, 
 channels={"MCA_F_REQ", "MCA_F_VAL", "MCA_TARGET", "MCA_REMOVEITEM", "MCA_ACHIEV", "MCA_SYNC", 
 		"MCA_SYNC_REQ", "MCA_ENGAGE", "MCA_ADDITEM", "MCA_DROPITEM", "MCA_FAMTREE", "MCA_INVENTORY", 
-		"MCA_CHORE", "MCA_TOMB", "MCA_TOMB_REQ", "MCA_POSITION", "MCA_KILL", "MCA_LOGIN", "MCA_WORLDPROP",
-		"MCA_SAYLOCAL", "MCA_PLMARRY", "MCA_HAVEBABY", "MCA_BABYINFO", "MCA_TRADE", "MCA_RESPAWN", "MCA_VPPROC",
-		"MCA_ADDAI", "MCA_RETURNINV"},
+		"MCA_CHORE", "MCA_TOMB", "MCA_TOMB_REQ", "MCA_LOGIN", "MCA_WORLDPROP", "MCA_SAYLOCAL", "MCA_PLMARRY", 
+		"MCA_HAVEBABY", "MCA_BABYINFO", "MCA_RESPAWN", "MCA_VPPROC", "MCA_RETURNINV", "MCA_OPENGUI", "MCA_GENERIC"},
 		packetHandler = PacketHandler.class)
 public class MCA
 {
 	/** An instance of the core MCA class. */
 	@Instance("mca")
-	public static MCA instance;
+	private static MCA instance;
 
 	/** An instance of the sided proxy. */
 	@SidedProxy(clientSide="mca.core.forge.ClientProxy", serverSide="mca.core.forge.CommonProxy")
 	public static CommonProxy proxy;
+	public static Random rand = new Random();
 
 	//Creative tab.
 	public CreativeTabs tabMCA;
@@ -152,6 +153,11 @@ public class MCA
 	public Item itemKingsCoat;
 	public Item itemKingsPants;
 	public Item itemKingsBoots;
+	public Item itemRedCrown;
+	public Item itemGreenCrown;
+	public Item itemBlueCrown;
+	public Item itemPinkCrown;
+	public Item itemPurpleCrown;
 	public Block blockTombstone;
 
 	//Achievements
@@ -186,20 +192,6 @@ public class MCA
 	public Achievement achievementMonarchSecret;
 	public AchievementPage achievementPageMCA;
 
-	//Gui IDs
-	public int guiInventoryID = 0;
-	public int guiGameOverID = 1;
-	public int guiInteractionPlayerChildID = 2;
-	public int guiInteractionSpouseID = 3;
-	public int guiInteractionVillagerAdultID = 4;
-	public int guiInteractionVillagerChildID = 5;
-	public int guiNameChildID = 7;
-	public int guiSetupID = 8;
-	public int guiSpecialDivorceCoupleID = 9;
-	public int guiTombstoneID = 10;
-	public int guiVillagerEditorID = 11;
-	public int guiLostRelativeDocumentID = 12;
-
 	//Various fields for core functions.
 	public  String 	runningDirectory           = "";
 	public  boolean languageLoaded 			   = false;
@@ -207,11 +199,10 @@ public class MCA
 	public 	boolean hasCompletedMainMenuTick   = false;
 	public  boolean hasEmptiedPropertiesFolder = false;
 	public  boolean hasCheckedForUpdates	   = false;
-	public 	int 	playerBabyCalendarPrevMinutes	   = Calendar.getInstance().get(Calendar.MINUTE);
-	public 	int 	playerBabyCalendarCurrentMinutes   = Calendar.getInstance().get(Calendar.MINUTE);
-	private Logger	logger 					   = FMLLog.getLogger();
+	public  boolean isDevelopmentEnvironment   = false;
+
+	private static final Logger	logger = FMLLog.getLogger();
 	public  ModPropertiesManager modPropertiesManager = null;
-	public  Random  rand = new Random();
 
 	//Debug fields.
 	public boolean inDebugMode				   		= false;
@@ -220,7 +211,7 @@ public class MCA
 	public boolean debugDoRapidVillagerChildGrowth 	= false;
 	public boolean debugDoRapidPlayerChildGrowth 	= false;
 	public boolean debugDoLogPackets 				= false;
-	
+
 	//Side related fields.
 	public boolean isDedicatedServer 	= false;
 	public boolean isIntegratedServer	= false;
@@ -242,7 +233,7 @@ public class MCA
 
 	/**Map of MCA ids and their associated entity. Key = mcaId, Value = abstractEntity. */
 	public Map<Integer, AbstractEntity> entitiesMap = new HashMap<Integer, AbstractEntity>();
-	
+
 	/**Map of all current players and their world properties manager. Server side only.**/
 	public Map<String, WorldPropertiesManager> playerWorldManagerMap = new HashMap<String, WorldPropertiesManager>();
 
@@ -255,151 +246,97 @@ public class MCA
 	/** List of the female names loaded from FemaleNames.txt.*/
 	public static List<String> femaleNames = new ArrayList<String>();
 
-	/** List of the locations of male farmer skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> farmerSkinsMale = new ArrayList<String>();
-
-	/** List of the locations of male librarian skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> librarianSkinsMale = new ArrayList<String>();
-
-	/** List of the locations of male priest skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> priestSkinsMale = new ArrayList<String>();
-
-	/** List of the locations of male smith skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> smithSkinsMale  = new ArrayList<String>();
-
-	/** List of the locations of male butcher skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> butcherSkinsMale = new ArrayList<String>();
-
-	/** List of the locations of male guard skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> guardSkinsMale = new ArrayList<String>();
-
-	/** List of the locations of male kid skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> kidSkinsMale = new ArrayList<String>();
-
-	/** List of the locations of male baker skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> bakerSkinsMale = new ArrayList<String>();
-
-	/** List of the locations of male miner skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> minerSkinsMale = new ArrayList<String>();
-
-	/** List of the locations of female farmer skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> farmerSkinsFemale = new ArrayList<String>();
-
-	/** List of the locations of female librarian skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> librarianSkinsFemale = new ArrayList<String>();
-
-	/** List of the locations of female priest skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> priestSkinsFemale = new ArrayList<String>();
-
-	/** List of the locations of female smith skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> smithSkinsFemale = new ArrayList<String>();
-
-	/** List of the locations of female butcher skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> butcherSkinsFemale = new ArrayList<String>();
-
-	/** List of the locations of female guard skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> guardSkinsFemale = new ArrayList<String>();
-
-	/** List of the locations of female kid skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> kidSkinsFemale = new ArrayList<String>();
-
-	/** List of the locations of female baker skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> bakerSkinsFemale	= new ArrayList<String>();
-
-	/** List of the locations of female miner skins in the Minecraft JAR/MCA Folder.*/
-	public static List<String> minerSkinsFemale	= new ArrayList<String>();
-
-	public static String[] normalFarmFiveByFive = 
+	public static char[] normalFarmFiveByFive = 
 		{
-		"S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S",
-		"S", "S", "W", "S", "S",
-		"S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S"
+		'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'W', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S'
 		};
 
-	public static String[] sugarcaneFarmFiveByFive =
+	public static char[] sugarcaneFarmFiveByFive =
 		{
-		"W", "W", "W", "W", "W",
-		"S", "S", "S", "S", "S",
-		"W", "W", "W", "W", "W",
-		"S", "S", "S", "S", "S",
-		"W", "W", "W", "W", "W"
+		'W', 'W', 'W', 'W', 'W',
+		'S', 'S', 'S', 'S', 'S',
+		'W', 'W', 'W', 'W', 'W',
+		'S', 'S', 'S', 'S', 'S',
+		'W', 'W', 'W', 'W', 'W'
 		};
 
-	public static String[] blockFarmFiveByFive =
+	public static char[] blockFarmFiveByFive =
 		{
-		"W", "P", "P", "P", "W",
-		"P", "S", "S", "S", "P",
-		"P", "S", "W", "S", "P",
-		"P", "S", "S", "S", "P",
-		"W", "P", "P", "P", "W",
+		'W', 'P', 'P', 'P', 'W',
+		'P', 'S', 'S', 'S', 'P',
+		'P', 'S', 'W', 'S', 'P',
+		'P', 'S', 'S', 'S', 'P',
+		'W', 'P', 'P', 'P', 'W',
 		};
 
-	public static String[] normalFarmTenByTen = 
+	public static char[] normalFarmTenByTen = 
 		{
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "W", "S", "S", "S", "S", "W", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "W", "S", "S", "S", "S", "W", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S"
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S'
 		};
 
-	public static String[] sugarcaneFarmTenByTen =
+	public static char[] sugarcaneFarmTenByTen =
 		{
-		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W"
+		'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'
 		};
 
-	public static String[] normalFarmFifteenByFifteen =
+	public static char[] normalFarmFifteenByFifteen =
 		{
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "W", "S", "S", "S", "S", "W", "S", "S", "S", "S", "W", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "W", "S", "S", "S", "S", "W", "S", "S", "S", "S", "W", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "W", "S", "S", "S", "S", "W", "S", "S", "S", "S", "W", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
 		};
 
-	public static String[] sugarcaneFarmFifteenByFifteen =
+	public static char[] sugarcaneFarmFifteenByFifteen =
 		{
-		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", 
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W",		
-		"S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S",
-		"W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W", "W",
+		'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W',		
+		'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
+		'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W',
 		};
 
 	/** Map of the IDs of items and the amount of hearts given to the villager who receives this item.*/
@@ -542,13 +479,6 @@ public class MCA
 		};
 
 	/**
-	 * Map that contains string translations loaded from language files.
-	 * Key will be the ID of the phrase.
-	 * Value will be the translated representation of the phrase.
-	 */
-	public static Map<String, String> stringTranslations = new HashMap();
-
-	/**
 	 * Gets the appropriate skin list for the entity provided.
 	 * 
 	 * @param 	entity	The entity that needs a list of valid skins.
@@ -557,53 +487,27 @@ public class MCA
 	 */
 	public static List<String> getSkinList(AbstractEntity entity)
 	{
-		if (!(entity instanceof EntityPlayerChild))
-		{
-			if (entity.gender.equals("Male"))
-			{
-				switch (entity.profession)
-				{
-				case 0: return MCA.farmerSkinsMale;
-				case 1: return MCA.librarianSkinsMale;
-				case 2: return MCA.priestSkinsMale;
-				case 3: return MCA.smithSkinsMale;
-				case 4: return MCA.butcherSkinsMale;
-				case 5: return MCA.guardSkinsMale;
-				case 6: return MCA.bakerSkinsMale;
-				case 7: return MCA.minerSkinsMale;
-				}
-			}
+		VillagerEntryMCA entry = null;
 
-			else
-			{
-				switch (entity.profession)
-				{
-				case 0: return MCA.farmerSkinsFemale;
-				case 1: return MCA.librarianSkinsFemale;
-				case 2: return MCA.priestSkinsFemale;
-				case 3: return MCA.smithSkinsFemale;
-				case 4: return null;
-				case 5: return MCA.guardSkinsFemale;
-				case 6: return MCA.bakerSkinsFemale;
-				case 7: return MCA.minerSkinsFemale;
-				}
-			}
+		if (entity instanceof EntityPlayerChild)
+		{
+			entry = VillagerRegistryMCA.getRegisteredVillagerEntry(-1);
 		}
 
 		else
 		{
-			if (entity.gender.equals("Male"))
-			{
-				return MCA.kidSkinsMale;
-			}
-
-			else if (entity.gender.equals("Female"))
-			{
-				return MCA.kidSkinsFemale;
-			}
+			entry = VillagerRegistryMCA.getRegisteredVillagersMap().get(entity.profession);
 		}
 
-		return null;
+		if (entity.isMale)
+		{
+			return entry.getMaleSkinsList();
+		}
+
+		else
+		{
+			return entry.getFemaleSkinsList();
+		}
 	}
 
 	/**
@@ -613,32 +517,40 @@ public class MCA
 	 * 
 	 * @return	Deflated byte array.
 	 */
-	public static byte[] compressBytes(byte[] input)
+	public byte[] compressBytes(byte[] input)
 	{
 		try
 		{
-			Deflater deflater = new Deflater();
-			deflater.setLevel(Deflater.BEST_COMPRESSION);
-			deflater.setInput(input);
-
-			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream(input.length);
-			deflater.finish();
-
-			byte[] buffer = new byte[1024];
-
-			while(!deflater.finished())
+			if (modPropertiesManager.modProperties.compressPackets)
 			{
-				int count = deflater.deflate(buffer);
-				byteOutput.write(buffer, 0, count);
+				final Deflater deflater = new Deflater();
+				deflater.setLevel(Deflater.BEST_COMPRESSION);
+				deflater.setInput(input);
+
+				final ByteArrayOutputStream byteOutput = new ByteArrayOutputStream(input.length);
+				deflater.finish();
+
+				final byte[] buffer = new byte[1024];
+
+				while(!deflater.finished())
+				{
+					final int count = deflater.deflate(buffer);
+					byteOutput.write(buffer, 0, count);
+				}
+
+				byteOutput.close();
+				return byteOutput.toByteArray();
 			}
 
-			byteOutput.close();
-			return byteOutput.toByteArray();
+			else
+			{
+				return input;
+			}
 		}
 
-		catch (Throwable e)
+		catch (IOException e)
 		{
-			MCA.instance.quitWithThrowable("Error compressing byte array.", e);
+			MCA.getInstance().quitWithException("Error compressing byte array.", e);
 			return null;
 		}
 	}
@@ -650,62 +562,43 @@ public class MCA
 	 * 
 	 * @return	Decompressed byte array.
 	 */
-	public static byte[] decompressBytes(byte[] input)
+	public byte[] decompressBytes(byte[] input)
 	{
 		try
 		{
-			Inflater inflater = new Inflater();
-			inflater.setInput(input);
-
-			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream(input.length);
-
-			byte[] buffer = new byte[1024];
-
-			while(!inflater.finished())
+			if (modPropertiesManager.modProperties.compressPackets)
 			{
-				int count = inflater.inflate(buffer);
-				byteOutput.write(buffer, 0, count);
+				final Inflater inflater = new Inflater();
+				final ByteArrayOutputStream byteOutput = new ByteArrayOutputStream(input.length);
+				final byte[] buffer = new byte[1024];
+				inflater.setInput(input);
+
+				while(!inflater.finished())
+				{
+					final int count = inflater.inflate(buffer);
+					byteOutput.write(buffer, 0, count);
+				}
+
+				byteOutput.close();
+				return byteOutput.toByteArray();
 			}
 
-			byteOutput.close();
-			return byteOutput.toByteArray();
+			else
+			{
+				return input;
+			}
 		}
 
-		catch (Throwable e)
+		catch (DataFormatException e)
 		{
-			MCA.instance.quitWithThrowable("Error decompressing byte array.", e);
+			MCA.getInstance().quitWithException("Error decompressing byte array.", e);
 			return null;
 		}
-	}
 
-	/**
-	 * Provides an MD5 hash based on input
-	 * 
-	 * @param 	input	String of data that MD5 hash will be generated for.
-	 * 
-	 * @return	MD5 hash of the provided input in string format.
-	 */
-	public static String getMD5Hash(String input)
-	{
-		try
+		catch (IOException e)
 		{
-			MessageDigest md5 = MessageDigest.getInstance("MD5");
-			md5.update(input.getBytes());
-
-			byte[] hash = md5.digest();
-			StringBuffer buffer = new StringBuffer();
-
-			for (byte b : hash) 
-			{
-				buffer.append(Integer.toHexString(b & 0xff));
-			}
-
-			return buffer.toString();
-		}
-
-		catch (Throwable e)
-		{
-			return "UNABLE TO PROCESS";
+			MCA.getInstance().quitWithException("Error decompressing byte array.", e);
+			return null;
 		}
 	}
 
@@ -746,64 +639,9 @@ public class MCA
 		}
 	}
 
-	/**
-	 * Tests all valid lines within the source for errors when requested from the language system.
-	 */
-	@Deprecated
-	public static void testLanguage()
+	public static MCA getInstance()
 	{
-		AbstractEntity dummyEntity = new EntityVillagerAdult();
-		String sourceDir = "D:/Programming/Minecraft Comes Alive/Development/src/minecraft/mca/";
-		FileInputStream fileStream;
-		DataInputStream in;
-		BufferedReader br;
-		int lineNumber = 0;
-		System.out.println(sourceDir);
-
-		for (File file : new File(sourceDir).listFiles())
-		{
-			lineNumber = 0;
-			String readString = "";
-
-			try
-			{
-				fileStream = new FileInputStream(file);
-				in = new DataInputStream(fileStream);
-				br = new BufferedReader(new InputStreamReader(in));
-
-				while ((readString = br.readLine()) != null)  
-				{
-					lineNumber++;
-
-					if (readString.contains("Localization.getString(") && readString.contains("static") == false)
-					{
-						readString = readString.trim();
-
-						boolean useCharacterType = readString.contains("true");
-						int firstQuoteIndex = readString.indexOf('"');
-						int nextQuoteIndex = readString.indexOf('"', firstQuoteIndex + 1);
-
-						String validString = readString.substring(firstQuoteIndex, nextQuoteIndex).replaceAll("\"", "");
-						String result = LanguageHelper.getString(null, dummyEntity, validString, useCharacterType);
-
-						if (result.contains("not found") || result.contains("(Parsing error)"))
-						{
-							System.out.println(result + " in " + file.getName() + " line " + lineNumber);
-						}
-
-						//System.out.println("Result of: " + validString + " in " + file.getName() + " = \t\t\t" + getString(null, validString));
-					}
-				}
-				
-				br.close();
-			}
-
-			catch (Throwable e)
-			{
-				System.out.println("Error on " + readString);
-				continue;
-			}
-		}
+		return instance;
 	}
 
 	/**
@@ -814,7 +652,7 @@ public class MCA
 
 	 * @return	The appropriate farm creation map.
 	 */
-	public static String[] getFarmMap(int areaX, int seedType)
+	public static char[] getFarmMap(int areaX, int seedType)
 	{
 		if (seedType == 0 || seedType == 3 || seedType == 4)
 		{
@@ -845,6 +683,37 @@ public class MCA
 	}
 
 	/**
+	 * Provides an MD5 hash based on input
+	 * 
+	 * @param 	input	String of data that MD5 hash will be generated for.
+	 * 
+	 * @return	MD5 hash of the provided input in string format.
+	 */
+	public static String getMD5Hash(String input)
+	{
+		try
+		{
+			MessageDigest md5 = MessageDigest.getInstance("MD5");
+			md5.update(input.getBytes());
+
+			byte[] hash = md5.digest();
+			StringBuffer buffer = new StringBuffer();
+
+			for (byte b : hash) 
+			{
+				buffer.append(Integer.toHexString(b & 0xff));
+			}
+
+			return buffer.toString();
+		}
+
+		catch (Exception e)
+		{
+			return "UNABLE TO PROCESS";
+		}
+	}
+
+	/**
 	 * Runs code as soon as possible. Specifically before a player's stats are checked for invalidity (Achievement bug).
 	 * So just for the heck of it, let's init EVERYTHING here along with achievements.
 	 * 
@@ -853,6 +722,18 @@ public class MCA
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
+		try
+		{
+			final String sourcePath = MCA.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+
+			if (sourcePath.contains("bin/mca/core/MCA.class"))
+			{
+				isDevelopmentEnvironment = true;
+			}
+		}
+
+		catch (NullPointerException e) { }
+
 		//Set instance.
 		instance = this;
 		MinecraftForge.EVENT_BUS.register(new EventHooks());
@@ -868,7 +749,18 @@ public class MCA
 			runningDirectory = System.getProperty("user.dir");
 		}
 
-		//Load external data and register things.
+		//Register villagers with API.
+		VillagerRegistryMCA.registerVillagerType(-1, "Kid", this.getClass());
+		VillagerRegistryMCA.registerVillagerType(0, "Farmer", this.getClass());
+		VillagerRegistryMCA.registerVillagerType(1, "Librarian", this.getClass());
+		VillagerRegistryMCA.registerVillagerType(2, "Priest", this.getClass());
+		VillagerRegistryMCA.registerVillagerType(3, "Smith", this.getClass());
+		VillagerRegistryMCA.registerVillagerType(4, "Butcher", this.getClass());
+		VillagerRegistryMCA.registerVillagerType(5, "Guard", this.getClass());
+		VillagerRegistryMCA.registerVillagerType(6, "Baker", this.getClass());
+		VillagerRegistryMCA.registerVillagerType(7, "Miner", this.getClass());
+
+		//Load external data and register proxy methods.
 		modPropertiesManager = new ModPropertiesManager();
 		proxy.loadSkins();
 		proxy.registerTileEntities();
@@ -892,7 +784,12 @@ public class MCA
 		itemKingsCoat		= new ItemKingsCoat(modPropertiesManager.modProperties.itemID_KingsCoat).setUnlocalizedName("KingsCoat");
 		itemKingsPants		= new ItemKingsPants(modPropertiesManager.modProperties.itemID_KingsPants).setUnlocalizedName("KingsPants");
 		itemKingsBoots		= new ItemKingsBoots(modPropertiesManager.modProperties.itemID_KingsBoots).setUnlocalizedName("KingsBoots");
-		blockTombstone      = new BlockTombstone(modPropertiesManager.modProperties.blockID_Tombstone, TileEntityTombstone.class);
+		itemRedCrown = new ItemDecorativeCrown(modPropertiesManager.modProperties.itemID_RedCrown, EnumCrownColor.Red);
+		itemGreenCrown = new ItemDecorativeCrown(modPropertiesManager.modProperties.itemID_GreenCrown, EnumCrownColor.Green);
+		itemBlueCrown = new ItemDecorativeCrown(modPropertiesManager.modProperties.itemID_BlueCrown, EnumCrownColor.Blue);
+		itemPinkCrown = new ItemDecorativeCrown(modPropertiesManager.modProperties.itemID_PinkCrown, EnumCrownColor.Pink);
+		itemPurpleCrown = new ItemDecorativeCrown(modPropertiesManager.modProperties.itemID_PurpleCrown, EnumCrownColor.Purple);
+		blockTombstone      = new BlockTombstone(modPropertiesManager.modProperties.blockID_Tombstone);
 
 		//Register creative tab.
 		tabMCA = new CreativeTabs("tabMCA")
@@ -921,6 +818,11 @@ public class MCA
 		itemKingsCoat = itemKingsCoat.setCreativeTab(tabMCA);
 		itemKingsPants = itemKingsPants.setCreativeTab(tabMCA);
 		itemKingsBoots = itemKingsBoots.setCreativeTab(tabMCA);
+		itemRedCrown = itemRedCrown.setCreativeTab(tabMCA);
+		itemGreenCrown = itemGreenCrown.setCreativeTab(tabMCA);
+		itemBlueCrown = itemBlueCrown.setCreativeTab(tabMCA);
+		itemPurpleCrown = itemPurpleCrown.setCreativeTab(tabMCA);
+		itemPinkCrown = itemPinkCrown.setCreativeTab(tabMCA);
 		blockTombstone = blockTombstone.setCreativeTab(tabMCA);
 
 		//Register recipes.
@@ -977,6 +879,36 @@ public class MCA
 		GameRegistry.addRecipe(new ItemStack(itemKingsBoots, 1), new Object[]
 				{
 			"G G", "R R", 'G', Item.ingotGold, 'R', new ItemStack(Block.cloth, 1, 14)
+				});
+
+		GameRegistry.addRecipe(new ItemStack(itemHeirCrown, 1), new Object[]
+				{
+			"GEG", "G G", "GGG", 'E', Item.emerald, 'G', Item.ingotGold
+				});
+
+		GameRegistry.addRecipe(new ItemStack(itemRedCrown, 1), new Object[]
+				{
+			"GDG", "G G", "GGG", 'D', new ItemStack(Item.dyePowder, 1, 1), 'G', Item.ingotGold
+				});
+
+		GameRegistry.addRecipe(new ItemStack(itemGreenCrown, 1), new Object[]
+				{
+			"GDG", "G G", "GGG", 'D', new ItemStack(Item.dyePowder, 1, 2), 'G', Item.ingotGold
+				});
+
+		GameRegistry.addRecipe(new ItemStack(itemBlueCrown, 1), new Object[]
+				{
+			"GDG", "G G", "GGG", 'D', new ItemStack(Item.dyePowder, 1, 4), 'G', Item.ingotGold
+				});
+
+		GameRegistry.addRecipe(new ItemStack(itemPinkCrown, 1), new Object[]
+				{
+			"GDG", "G G", "GGG", 'D', new ItemStack(Item.dyePowder, 1, 9), 'G', Item.ingotGold
+				});
+
+		GameRegistry.addRecipe(new ItemStack(itemPurpleCrown, 1), new Object[]
+				{
+			"GDG", "G G", "GGG", 'D', new ItemStack(Item.dyePowder, 1, 5), 'G', Item.ingotGold
 				});
 
 		//Register GUI handlers.
@@ -1064,30 +996,35 @@ public class MCA
 	/**
 	 * Writes the specified object's string representation to System.out.
 	 * 
-	 * @param 	obj	The object to write to System.out.
+	 * @param 	objects	The object(s) to write to System.out.
 	 */
-	public void log(Object obj)
+	public void log(Object... objects)
 	{
-		Side side = FMLCommonHandler.instance().getEffectiveSide();
-
-		if (obj instanceof Throwable)
-		{
-			((Throwable)obj).printStackTrace();
-		}
+		final Side side = FMLCommonHandler.instance().getEffectiveSide();
+		String objectsToString = "";
 
 		try
 		{
-			logger.log(Level.FINER, "Minecraft Comes Alive " + side.toString() + ": " + obj.toString());
-			System.out.println("Minecraft Comes Alive " + side.toString() + ": " + obj.toString());
-
-			MinecraftServer server = MinecraftServer.getServer();
-
-			if (server != null)
+			for (int index = 0; index < objects.length; index++)
 			{
-				if (server.isDedicatedServer())
-				{
-					MinecraftServer.getServer().logInfo("MCA: " + obj.toString());
-				}
+				final boolean useComma = index > 0;
+				objectsToString = useComma ? objectsToString + ", " + objects[index].toString() : objectsToString + objects[index].toString();
+			}
+
+			if (objects[0] instanceof Throwable)
+			{
+				((Throwable)objects[0]).printStackTrace();
+			}
+
+
+			logger.log(Level.FINER, "Minecraft Comes Alive " + side.toString() + ": " + objectsToString);
+			System.out.println("Minecraft Comes Alive " + side.toString() + ": " + objectsToString);
+
+			final MinecraftServer server = MinecraftServer.getServer();
+
+			if (server != null && server.isDedicatedServer())
+			{
+				MinecraftServer.getServer().logInfo("MCA: " + objectsToString);
 			}
 		}
 
@@ -1096,14 +1033,11 @@ public class MCA
 			logger.log(Level.FINER, "Minecraft Comes Alive " + side.toString() + ": null");
 			System.out.println("MCA: null");
 
-			MinecraftServer server = MinecraftServer.getServer();
+			final MinecraftServer server = MinecraftServer.getServer();
 
-			if (server != null)
+			if (server != null &&  server.isDedicatedServer())
 			{
-				if (server.isDedicatedServer())
-				{
-					MinecraftServer.getServer().logDebug("Minecraft Comes Alive " + side.toString() + ": null");
-				}
+				MinecraftServer.getServer().logDebug("Minecraft Comes Alive " + side.toString() + ": null");
 			}
 		}
 	}
@@ -1117,7 +1051,7 @@ public class MCA
 	{
 		if (inDebugMode && debugDoLogPackets)
 		{
-			Side side = FMLCommonHandler.instance().getEffectiveSide();
+			final Side side = FMLCommonHandler.instance().getEffectiveSide();
 
 			if (obj instanceof Throwable)
 			{
@@ -1156,39 +1090,37 @@ public class MCA
 	@SideOnly(Side.CLIENT)
 	public void quitWithDescription(String description)
 	{
-		Writer stackTrace = new StringWriter();
+		final Writer stackTrace = new StringWriter();
+		final Exception exception = new Exception();
 
-		Throwable e = new Throwable();
 		PrintWriter stackTraceWriter = new PrintWriter(stackTrace);
-		e.printStackTrace(stackTraceWriter);
+		exception.printStackTrace(stackTraceWriter);
 
 		logger.log(Level.FINER, "Minecraft Comes Alive: An exception occurred.\n>>>>>" + description + "<<<<<\n" + stackTrace.toString());
 		System.out.println("Minecraft Comes Alive: An exception occurred.\n>>>>>" + description + "<<<<<\n" + stackTrace.toString());
 
-		CrashReport crashReport = new CrashReport("MCA: " + description, e);
+		final CrashReport crashReport = new CrashReport("MCA: " + description, exception);
 		Minecraft.getMinecraft().crashed(crashReport);
 		Minecraft.getMinecraft().displayCrashReport(crashReport);
 	}
-	
+
 	/**
 	 * Stops the game and writes the error to the Forge crash log.
 	 * 
 	 * @param 	description	A string providing a short description of the problem.
-	 * @param 	e			The exception that caused this method to be called.
+	 * @param 	exception	The exception that caused this method to be called.
 	 */
 	@SideOnly(Side.CLIENT)
-	public void quitWithThrowable(String description, Throwable e)
+	public void quitWithException(String description, Exception exception)
 	{
-		Writer stackTrace = new StringWriter();
-
-		PrintWriter stackTraceWriter = new PrintWriter(stackTrace);
-		e.printStackTrace(stackTraceWriter);
+		final Writer stackTrace = new StringWriter();
+		final PrintWriter stackTraceWriter = new PrintWriter(stackTrace);
+		exception.printStackTrace(stackTraceWriter);
 
 		logger.log(Level.FINER, "Minecraft Comes Alive: An exception occurred.\n>>>>>" + description + "<<<<<\n" + stackTrace.toString());
 		System.out.println("Minecraft Comes Alive: An exception occurred.\n>>>>>" + description + "<<<<<\n" + stackTrace.toString());
 
-		CrashReport crashReport = new CrashReport("MCA: " + description, e);
-		
+		final CrashReport crashReport = new CrashReport("MCA: " + description, exception);
 		Minecraft.getMinecraft().crashed(crashReport);
 		Minecraft.getMinecraft().displayCrashReport(crashReport);
 	}
@@ -1217,7 +1149,9 @@ public class MCA
 		event.registerServerCommand(new CommandUnblockAll());
 		event.registerServerCommand(new CommandCheckUpdates());
 		event.registerServerCommand(new CommandDebugRule());
-		
+		event.registerServerCommand(new CommandModProps());
+		event.registerServerCommand(new CommandDevControl());
+
 		if (event.getServer() instanceof DedicatedServer)
 		{
 			isDedicatedServer = true;
@@ -1230,7 +1164,7 @@ public class MCA
 			isIntegratedServer = true;
 		}
 
-		MCA.instance.log("Minecraft Comes Alive is running.");
+		MCA.getInstance().log("Minecraft Comes Alive is running.");
 	}
 
 	/**
@@ -1245,7 +1179,7 @@ public class MCA
 
 		if (isDedicatedServer)
 		{
-			for (WorldPropertiesManager manager : playerWorldManagerMap.values())
+			for (final WorldPropertiesManager manager : playerWorldManagerMap.values())
 			{
 				manager.saveWorldProperties();
 			}
@@ -1266,7 +1200,7 @@ public class MCA
 	 */
 	public EntityPlayer getPlayerByID(World world, int id)
 	{
-		for (Map.Entry<String, WorldPropertiesManager> entry : playerWorldManagerMap.entrySet())
+		for (final Map.Entry<String, WorldPropertiesManager> entry : playerWorldManagerMap.entrySet())
 		{
 			if (entry.getValue().worldProperties.playerID == id)
 			{
@@ -1286,18 +1220,18 @@ public class MCA
 	 */
 	public EntityPlayer getPlayerByName(String username)
 	{
-		for (WorldServer world : MinecraftServer.getServer().worldServers)
+		for (final WorldServer world : MinecraftServer.getServer().worldServers)
 		{
-			EntityPlayer player = world.getPlayerEntityByName(username);
+			final EntityPlayer player = world.getPlayerEntityByName(username);
 
-			if (player != null)
+			if (player == null)
 			{
-				return player;
+				continue;
 			}
 
 			else
 			{
-				continue;
+				return player;
 			}
 		}
 
@@ -1317,7 +1251,7 @@ public class MCA
 	{
 		try
 		{
-			for (Map.Entry<String, WorldPropertiesManager> entry : playerWorldManagerMap.entrySet())
+			for (final Map.Entry<String, WorldPropertiesManager> entry : playerWorldManagerMap.entrySet())
 			{
 				if (entry.getKey().equals(player.username))
 				{
@@ -1331,6 +1265,7 @@ public class MCA
 		//Happens in a client side GUI.
 		catch (NullPointerException e)
 		{
+			//TODO Watch this
 			return 0;
 		}
 	}

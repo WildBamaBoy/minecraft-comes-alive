@@ -13,10 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
-import mca.core.util.PacketHelper;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
+import mca.enums.EnumGenericCommand;
 import mca.enums.EnumRelation;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMainMenu;
@@ -117,17 +118,17 @@ public class GuiGameOver extends AbstractGui
 			EntityPlayerChild adultToRespawnAs = (EntityPlayerChild)adultChildren.get(currentIndex);
 
 			//Trigger achievement.
-			mc.thePlayer.triggerAchievement(MCA.instance.achievementHardcoreSecret);
-			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementHardcoreSecret, player.entityId));
+			mc.thePlayer.triggerAchievement(MCA.getInstance().achievementHardcoreSecret);
+			PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementHardcoreSecret, player.entityId));
 
 			//Respawn the player.
 			mc.thePlayer.setSpawnChunk(new ChunkCoordinates((int)adultToRespawnAs.posX, (int)adultToRespawnAs.posY, (int)adultToRespawnAs.posZ), true);
-			PacketDispatcher.sendPacketToServer(PacketHelper.createRespawnPacket(player, (int)adultToRespawnAs.posX, (int)adultToRespawnAs.posY, (int)adultToRespawnAs.posZ));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createRespawnPacket(player, (int)adultToRespawnAs.posX, (int)adultToRespawnAs.posY, (int)adultToRespawnAs.posZ));
 			mc.displayGuiScreen(null);
 
 			//Kill that adult.
 			adultToRespawnAs.setDeadWithoutNotification();
-			PacketDispatcher.sendPacketToServer(PacketHelper.createKillPacket(adultToRespawnAs));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createGenericPacket(EnumGenericCommand.BroadcastKillEntity, adultToRespawnAs.entityId));
 		}
 
 		if (guibutton == shiftIndexLeftButton)
@@ -283,7 +284,7 @@ public class GuiGameOver extends AbstractGui
 	 */
 	private void buildAdultChildrenList()
 	{
-		for (AbstractEntity entity : MCA.instance.entitiesMap.values())
+		for (AbstractEntity entity : MCA.getInstance().entitiesMap.values())
 		{
 			if (entity instanceof EntityPlayerChild)
 			{
@@ -291,7 +292,7 @@ public class GuiGameOver extends AbstractGui
 
 				if (playerChild.isAdult)
 				{
-					if (playerChild.familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) == EnumRelation.Parent)
+					if (playerChild.familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) == EnumRelation.Parent)
 					{
 						adultChildren.add(playerChild);
 					}

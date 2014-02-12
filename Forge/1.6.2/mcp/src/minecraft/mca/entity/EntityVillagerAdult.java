@@ -9,34 +9,33 @@
 
 package mca.entity;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 import java.util.Map;
 
+import mca.api.AbstractVillagerPlugin;
+import mca.api.VillagerRegistryMCA;
 import mca.chore.AbstractChore;
 import mca.chore.ChoreCombat;
 import mca.chore.ChoreFarming;
 import mca.chore.ChoreFishing;
 import mca.chore.ChoreMining;
 import mca.chore.ChoreWoodcutting;
+import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
-import mca.core.util.PacketHelper;
+import mca.core.util.Utility;
 import mca.core.util.object.PlayerMemory;
 import mca.core.util.object.VillageHelper;
 import mca.enums.EnumRelation;
-import mca.inventory.Inventory;
+import mca.item.AbstractBaby;
 import mca.item.ItemArrangersRing;
-import mca.item.ItemBaby;
 import mca.item.ItemEngagementRing;
 import mca.item.ItemLostRelativeDocument;
 import mca.item.ItemVillagerEditor;
 import mca.item.ItemWeddingRing;
 import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -50,13 +49,14 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.EntityAIWatchClosest2;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBow;
+import net.minecraft.item.ItemNameTag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
@@ -71,33 +71,16 @@ import cpw.mods.fml.common.network.Player;
 public class EntityVillagerAdult extends AbstractEntity
 {
 	//Vanilla fields
-	/** An instance of the village that the villager is in. */
 	public transient Village villageObj;
-
-	/** A random number used to update AI. */
 	public int randomTick;
 
 	//New fields
-	/** How long it has been since a player has requested aid. */
-	public int aidCooldown = 0;
-
-	/** An instance of the entity's village helper object. */
+	public int aidCooldown;
+	public int itemIdRequiredForSale;
+	public int amountRequiredForSale;
+	public boolean hasGivenAnvil;
+	public boolean isInAnvilGiftMode;
 	public transient VillageHelper villageHelper;
-
-	/** (Smiths) Has the entity given away their anvil? */
-	public boolean hasGivenAnvil = false;
-
-	/** (Smiths) Has the player asked for aid? */
-	public boolean isInAnvilGiftMode = false;
-
-	/** Was the villager married to the player via an arranged marriage? */
-	public boolean marriageToPlayerWasArranged = false;
-
-	/** (Smiths) The item ID required to give the anvil. */
-	public int itemIdRequiredForSale = 0;
-
-	/** (Smiths) The amount of the item required to give the anvil. */
-	public int amountRequiredForSale = 0;
 
 	/**
 	 * Constructor
@@ -115,6 +98,7 @@ public class EntityVillagerAdult extends AbstractEntity
 	public EntityVillagerAdult(World world) 
 	{
 		super(world);
+		setSize(Constants.WIDTH_ADULT, Constants.HEIGHT_ADULT);
 	}
 
 	/**
@@ -125,17 +109,17 @@ public class EntityVillagerAdult extends AbstractEntity
 	 */
 	public EntityVillagerAdult(World world, int professionID)
 	{
-		super(world);
+		this(world);
 
-		this.gender = getRandomGender();
-		this.name = getRandomName(gender);
+		this.name = Utility.getRandomName(isMale);
+		this.isMale = Utility.getRandomGender();
 		this.profession = professionID;
 
 		if (profession == 4) //Butcher
 		{
 			//There are no female skins for butchers. Always make them Male.
-			this.gender = "Male";
-			this.name = getRandomName(gender);
+			this.isMale = true;
+			this.name = Utility.getRandomName(isMale);
 		}
 
 		if (profession == 5)
@@ -147,18 +131,24 @@ public class EntityVillagerAdult extends AbstractEntity
 	}
 
 	/**
-	 * Constructor
+	 * Constructor. Called when spawning from egg.
 	 * 
 	 * @param 	world			The world that the villager is being spawned in.
-	 * @param 	gender			The gender that the villager should be.
+	 * @param 	isMale			Is the villager a male?
 	 * @param 	professionID	The profession that the villager should be.
 	 */
-	public EntityVillagerAdult(World world, String gender, int professionID)
+	public EntityVillagerAdult(World world, boolean isMale, int professionID)
 	{
-		this(world, professionID);
+		this(world);
 
-		this.name = getRandomName(gender);
-		this.gender = gender;
+		if (profession == 5)
+		{
+			setEntityHealth(40);
+		}
+
+		this.name = Utility.getRandomName(isMale);
+		this.isMale = isMale;
+		this.profession = !isMale && professionID == 4 ? 0 : professionID;
 		this.setTexture();
 	}
 
@@ -170,11 +160,11 @@ public class EntityVillagerAdult extends AbstractEntity
 	 */
 	public EntityVillagerAdult(World world, EntityVillagerChild child)
 	{
-		super(world);
+		this(world);
 
 		this.texture = child.getTexture();
 		this.name = child.name;
-		this.gender = child.gender;
+		this.isMale = child.isMale;
 		this.profession = child.profession;
 		this.lastInteractingPlayer = child.lastInteractingPlayer;
 		this.familyTree = child.familyTree;
@@ -187,7 +177,7 @@ public class EntityVillagerAdult extends AbstractEntity
 		this.generation = child.generation;
 		this.mcaID = child.mcaID;
 
-		addAI();
+		this.addAI();
 	}
 
 	@Override
@@ -198,17 +188,17 @@ public class EntityVillagerAdult extends AbstractEntity
 		this.getNavigator().setBreakDoors(true);
 		this.getNavigator().setAvoidsWater(true);
 
-		if (profession != 5 || isSpouse)
+		if (profession != 5 || isMarriedToPlayer)
 		{
 			this.tasks.addTask(0, new EntityAISwimming(this));
-			this.tasks.addTask(1, new EntityAIAvoidEntity(this, EntityZombie.class, 8.0F, 0.6F, 0.35F));
+			this.tasks.addTask(1, new EntityAIAvoidEntity(this, EntityZombie.class, 8.0F, Constants.SPEED_RUN, 0.35F));
 			this.tasks.addTask(2, new EntityAIMoveIndoors(this));
 			this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
 			this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
-			this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.6D));
+			this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, Constants.SPEED_WALK));
 			this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
 			this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityVillagerAdult.class, 5.0F, 0.02F));
-			this.tasks.addTask(9, new EntityAIWander(this, 0.6D));
+			this.tasks.addTask(9, new EntityAIWander(this, Constants.SPEED_WALK));
 			this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLivingBase.class, 8.0F));
 		}
 
@@ -219,6 +209,11 @@ public class EntityVillagerAdult extends AbstractEntity
 			this.tasks.addTask(1, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
 			this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityLivingBase.class, 8.0F));
 			this.tasks.addTask(3, new EntityAILookIdle(this));
+		}
+		
+		for (AbstractVillagerPlugin plugin : VillagerRegistryMCA.getRegisteredVillagerPlugins())
+		{
+			plugin.onAddAI(getVillagerInformation(), this.tasks, this.getNavigator());
 		}
 	}
 
@@ -240,8 +235,8 @@ public class EntityVillagerAdult extends AbstractEntity
 
 			else
 			{
-				ChunkCoordinates chunkcoordinates = this.villageObj.getCenter();
-				this.func_110171_b(chunkcoordinates.posX, chunkcoordinates.posY, chunkcoordinates.posZ, (int)(this.villageObj.getVillageRadius() * 0.6F));
+				final ChunkCoordinates chunkcoordinates = this.villageObj.getCenter();
+				this.func_110171_b(chunkcoordinates.posX, chunkcoordinates.posY, chunkcoordinates.posZ, (int)(this.villageObj.getVillageRadius() * Constants.SPEED_WALK));
 			}
 		}
 	}
@@ -249,7 +244,7 @@ public class EntityVillagerAdult extends AbstractEntity
 	@Override
 	public String getCharacterType(int playerId)
 	{
-		if (!isSpouse && !isEngaged)
+		if (!isMarriedToPlayer && !isEngaged)
 		{
 			if (familyTree.getRelationOf(playerId) == EnumRelation.Grandparent || familyTree.getRelationOf(playerId) == EnumRelation.Greatgrandparent)
 			{
@@ -277,63 +272,17 @@ public class EntityVillagerAdult extends AbstractEntity
 	}
 
 	@Override
-	public void setTexture()
-	{
-		if (gender.equals("Male"))
-		{
-			switch (profession)
-			{
-			case 0: texture = MCA.farmerSkinsMale.get(worldObj.rand.nextInt(MCA.farmerSkinsMale.size())); break;
-			case 1: texture = MCA.librarianSkinsMale.get(worldObj.rand.nextInt(MCA.librarianSkinsMale.size())); break;
-			case 2: texture = MCA.priestSkinsMale.get(worldObj.rand.nextInt(MCA.priestSkinsMale.size())); break;
-			case 3: texture = MCA.smithSkinsMale.get(worldObj.rand.nextInt(MCA.smithSkinsMale.size())); break;
-			case 4: texture = MCA.butcherSkinsMale.get(worldObj.rand.nextInt(MCA.butcherSkinsMale.size())); break;
-			case 5: texture = MCA.guardSkinsMale.get(worldObj.rand.nextInt(MCA.guardSkinsMale.size())); break;
-			case 6: texture = MCA.bakerSkinsMale.get(worldObj.rand.nextInt(MCA.bakerSkinsMale.size())); break;
-			case 7: texture = MCA.minerSkinsMale.get(worldObj.rand.nextInt(MCA.minerSkinsMale.size())); break;
-			}
-		}
-
-		else
-		{
-			switch (profession)
-			{
-			case 0: texture = MCA.farmerSkinsFemale.get(worldObj.rand.nextInt(MCA.farmerSkinsFemale.size())); break;
-			case 1: texture = MCA.librarianSkinsFemale.get(worldObj.rand.nextInt(MCA.librarianSkinsFemale.size())); break;
-			case 2: texture = MCA.priestSkinsFemale.get(worldObj.rand.nextInt(MCA.priestSkinsFemale.size())); break;
-			case 3: texture = MCA.smithSkinsFemale.get(worldObj.rand.nextInt(MCA.smithSkinsFemale.size())); break;
-			case 4: texture = null; break;
-			case 5: texture = MCA.guardSkinsFemale.get(worldObj.rand.nextInt(MCA.guardSkinsFemale.size())); break;
-			case 6: texture = MCA.bakerSkinsFemale.get(worldObj.rand.nextInt(MCA.bakerSkinsFemale.size())); break;
-			case 7: texture = MCA.minerSkinsFemale.get(worldObj.rand.nextInt(MCA.minerSkinsFemale.size())); break;
-			}
-		}
-	}
-
-	@Override
 	public void onUpdate()
 	{
 		super.onUpdate();
 
-		if (!isSpouse)
+		if (!isMarriedToPlayer)
 		{
 			updateBabyGrowth();
-			updateProcreationWithVillager();
 			updateCombatChore();
 			updateSpecialAbilities();
 			updateHomePoint();
 			updateVillage();
-
-			if (isMarried)
-			{
-				updateDivorce();
-			}
-		}
-
-		else
-		{
-			updateProcreationWithPlayer();
-			updateDivorce();
 		}
 	}
 
@@ -344,32 +293,19 @@ public class EntityVillagerAdult extends AbstractEntity
 
 		isFollowing = false;
 
-		for (Map.Entry<String, WorldPropertiesManager> entry : MCA.instance.playerWorldManagerMap.entrySet())
+		for (final Map.Entry<String, WorldPropertiesManager> entry : MCA.getInstance().playerWorldManagerMap.entrySet())
 		{
+			final WorldPropertiesManager manager = entry.getValue();
 			boolean propertiesChanged = false;
-			WorldPropertiesManager manager = entry.getValue();
 
-			if (hasArrangerRing)
+			if ((isMarriedToPlayer || isEngaged) && manager.worldProperties.playerSpouseID == this.mcaID)
 			{
-				if (manager.worldProperties.arrangerRingHolderID == this.mcaID)
-				{
-					propertiesChanged = true;
-					manager.worldProperties.arrangerRingHolderID = 0;
-					this.dropItem(MCA.instance.itemArrangersRing.itemID, 1);
-				}
-			}
+				propertiesChanged = true;
+				manager.worldProperties.playerSpouseID = 0;
 
-			if (isSpouse || isEngaged)
-			{
-				if (manager.worldProperties.playerSpouseID == this.mcaID)
+				if (inventory.contains(MCA.getInstance().itemBabyBoy) || inventory.contains(MCA.getInstance().itemBabyGirl))
 				{
-					propertiesChanged = true;
-					manager.worldProperties.playerSpouseID = 0;
-
-					if (inventory.contains(MCA.instance.itemBabyBoy) || inventory.contains(MCA.instance.itemBabyGirl))
-					{
-						manager.worldProperties.babyExists = false;
-					}
+					manager.worldProperties.babyExists = false;
 				}
 			}
 
@@ -385,7 +321,7 @@ public class EntityVillagerAdult extends AbstractEntity
 	{
 		if (isInChoreMode)
 		{
-			AbstractChore chore = getInstanceOfCurrentChore();
+			final AbstractChore chore = getInstanceOfCurrentChore();
 
 			if (chore instanceof ChoreFarming)
 			{
@@ -410,6 +346,7 @@ public class EntityVillagerAdult extends AbstractEntity
 
 		else if (isFollowing)
 		{
+			//Held item for combat.
 			if (combatChore.useMelee && combatChore.useRange)
 			{
 				if (target != null)
@@ -438,23 +375,39 @@ public class EntityVillagerAdult extends AbstractEntity
 
 			else
 			{
-				if (isSpouse)
+				//Held item for player marriage.
+				if (isMarriedToPlayer)
 				{
-					if (inventory.contains(MCA.instance.itemBabyBoy))
+					if (inventory.contains(MCA.getInstance().itemBabyBoy))
 					{
-						return new ItemStack(MCA.instance.itemBabyBoy);
+						return new ItemStack(MCA.getInstance().itemBabyBoy);
 					}
 
-					else if (inventory.contains(MCA.instance.itemBabyGirl))
+					else if (inventory.contains(MCA.getInstance().itemBabyGirl))
 					{
-						return new ItemStack(MCA.instance.itemBabyGirl);
+						return new ItemStack(MCA.getInstance().itemBabyGirl);
 					}
 				}
 
 				else
 				{
-					if (heldBabyGender.equals("None"))
+					//Held item for villagers with baby.
+					if (hasBaby)
 					{
+						if (isHeldBabyMale)
+						{
+							return new ItemStack(MCA.getInstance().itemBabyBoy);
+						}
+
+						else if (!isHeldBabyMale)
+						{
+							return new ItemStack(MCA.getInstance().itemBabyGirl);
+						}
+					}
+
+					else
+					{
+						//Other
 						if (profession == 5)
 						{
 							return new ItemStack(Item.swordIron);
@@ -463,31 +416,13 @@ public class EntityVillagerAdult extends AbstractEntity
 						else if (isInChoreMode && profession == 7)
 						{
 							return new ItemStack(Item.pickaxeIron);
-						}
-
-						else
-						{
-							return null;
-						}
-					}
-
-					else
-					{
-						if (heldBabyGender.equals("Male"))
-						{
-							return new ItemStack(MCA.instance.itemBabyBoy);
-						}
-
-						else if (heldBabyGender.equals("Female"))
-						{
-							return new ItemStack(MCA.instance.itemBabyGirl);
-						}
+						}				
 					}
 				}
 			}
 		}
 
-		//They're not following and they don't have a target.
+		//They're not following and they have a target. I.E. going to attack a target or retaliating.
 		else if (target != null)
 		{
 			if (combatChore.useMelee)
@@ -499,67 +434,46 @@ public class EntityVillagerAdult extends AbstractEntity
 			{
 				return inventory.getBestItemOfType(ItemBow.class);
 			}
-
-			else
-			{
-				if (heldBabyGender.equals("Male"))
-				{
-					return new ItemStack(MCA.instance.itemBabyBoy);
-				}
-
-				else if (heldBabyGender.equals("Female"))
-				{
-					return new ItemStack(MCA.instance.itemBabyGirl);
-				}
-			}
 		}
 
-		else
+		else //Passively holding an item.
 		{
-			if (isSpouse)
+			if (isMarriedToPlayer)
 			{
-				if (inventory.contains(MCA.instance.itemBabyBoy))
+				if (inventory.contains(MCA.getInstance().itemBabyBoy))
 				{
-					return new ItemStack(MCA.instance.itemBabyBoy);
+					return new ItemStack(MCA.getInstance().itemBabyBoy);
 				}
 
-				else if (inventory.contains(MCA.instance.itemBabyGirl))
+				else if (inventory.contains(MCA.getInstance().itemBabyGirl))
 				{
-					return new ItemStack(MCA.instance.itemBabyGirl);
+					return new ItemStack(MCA.getInstance().itemBabyGirl);
 				}
 			}
 
 			else
 			{		
-				if (heldBabyGender.equals("None"))
+				if (hasBaby)
 				{
-					if (profession == 5)
+					if (isHeldBabyMale)
 					{
-						return new ItemStack(Item.swordIron);
-					}
-
-					else if (isInChoreMode && profession == 7)
-					{
-						return new ItemStack(Item.pickaxeIron);
+						return new ItemStack(MCA.getInstance().itemBabyBoy);
 					}
 
 					else
 					{
-						return null;
+						return new ItemStack(MCA.getInstance().itemBabyGirl);
 					}
 				}
 
-				else
+				else if (profession == 5)
 				{
-					if (heldBabyGender.equals("Male"))
-					{
-						return new ItemStack(MCA.instance.itemBabyBoy);
-					}
+					return new ItemStack(Item.swordIron);
+				}
 
-					else if (heldBabyGender.equals("Female"))
-					{
-						return new ItemStack(MCA.instance.itemBabyGirl);
-					}
+				else if (isInChoreMode && profession == 7)
+				{
+					return new ItemStack(Item.pickaxeIron);
 				}
 			}
 		}
@@ -584,522 +498,179 @@ public class EntityVillagerAdult extends AbstractEntity
 	{
 		super.interact(player);
 
-		//Players get added to the playerMemory map when they interact with an entity.
-		if (!playerMemoryMap.containsKey(player.username))
+		if (!worldObj.isRemote)
 		{
-			playerMemoryMap.put(player.username, new PlayerMemory(player.username));
-		}
+			final PlayerMemory memory = playerMemoryMap.get(player.username);
+			final ItemStack itemStack = player.inventory.getCurrentItem();
 
-		PlayerMemory memory = playerMemoryMap.get(player.username);
-		ItemStack itemStack = player.inventory.getCurrentItem();
-
-		if (itemStack != null)
-		{
-			//Check for special items like the villager editor and lost relative document.
-			if (itemStack.getItem() instanceof ItemVillagerEditor)
+			if (itemStack != null) //Items here will always perform their functions regardless of the entity's state.
 			{
-				player.openGui(MCA.instance, MCA.instance.guiVillagerEditorID, worldObj, (int)posX, (int)posY, (int)posZ);
-				return true;
-			}
-
-			else if (itemStack.getItem() instanceof ItemLostRelativeDocument)
-			{
-				player.openGui(MCA.instance, MCA.instance.guiLostRelativeDocumentID, worldObj, (int)posX, (int)posY, (int)posZ);
-				return true;
-			}
-		}
-
-		if (!memory.isInGiftMode || (memory.isInGiftMode && itemStack == null))
-		{
-			if (familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) != EnumRelation.Spouse)
-			{
-				player.openGui(MCA.instance, MCA.instance.guiInteractionVillagerAdultID, worldObj, (int)posX, (int)posY, (int)posZ);
-			}
-
-			else
-			{
-				player.openGui(MCA.instance, MCA.instance.guiInteractionSpouseID, worldObj, (int)posX, (int)posY, (int)posZ);
-			}
-		}
-
-		else if (itemStack != null)
-		{
-			memory.isInGiftMode = false;
-			playerMemoryMap.put(player.username, memory);
-
-			//Only process gifts on the client.
-			if (worldObj.isRemote)
-			{
-				if (isInAnvilGiftMode)
+				if (itemStack.getItem() instanceof ItemVillagerEditor)
 				{
-					if (itemStack.getItem().itemID == itemIdRequiredForSale)
+					PacketDispatcher.sendPacketToPlayer(PacketHandler.createOpenGuiPacket(entityId, Constants.ID_GUI_EDITOR), (Player)player);
+					return true;
+				}
+
+				else if (itemStack.getItem() instanceof ItemLostRelativeDocument)
+				{
+					PacketDispatcher.sendPacketToPlayer(PacketHandler.createOpenGuiPacket(entityId, Constants.ID_GUI_LRD), (Player)player);
+					return true;
+				}
+
+				else if (itemStack.getItem() instanceof ItemNameTag && itemStack.hasDisplayName())
+				{
+					if (!name.equals(itemStack.getDisplayName()))
 					{
-						if (itemStack.stackSize >= amountRequiredForSale)
-						{
-							say(LanguageHelper.getString("smith.aid.accept"));
-							removeAmountFromGiftedItem(itemStack, amountRequiredForSale);
+						name = itemStack.getDisplayName();
+						Utility.removeItemFromPlayer(itemStack, player);
 
-							isInAnvilGiftMode = false;
-							hasGivenAnvil = true;
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "name", name));
+					}
 
-							player.inventory.addItemStackToInventory(new ItemStack(Block.anvil));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createAddItemPacket(Block.anvil.blockID, player.entityId));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isInAnvilGiftMode", false));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "hasGivenAnvil", true));
-						}
+					return true;
+				}
+			}
 
-						else
-						{
-							say(LanguageHelper.getString("smith.aid.refuse.rightitem"));
-						}
+			if (!memory.isInGiftMode || memory.isInGiftMode && itemStack == null) //When right clicked in gift mode without an item to give or when out of gift mode.
+			{
+				if (familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) == EnumRelation.Spouse)
+				{
+					PacketDispatcher.sendPacketToPlayer(PacketHandler.createOpenGuiPacket(entityId, Constants.ID_GUI_SPOUSE), (Player)player);
+				}
+
+				else
+				{
+					PacketDispatcher.sendPacketToPlayer(PacketHandler.createOpenGuiPacket(entityId, Constants.ID_GUI_ADULT), (Player)player);
+				}
+			}
+
+			else if (itemStack != null && memory.isInGiftMode) //When the player right clicks with an item and entity is in gift mode.
+			{
+				memory.isInGiftMode = false;
+				playerMemoryMap.put(player.username, memory);
+
+				if (itemStack.getItem() instanceof ItemWeddingRing)
+				{
+					if (familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)) && !isEngaged)
+					{
+						say(LanguageHelper.getString(player, this, "notify.villager.gifted.arrangerring.relative", false));
 					}
 
 					else
 					{
-						say(LanguageHelper.getString("smith.aid.refuse.wrongitem"));
+						doGiftOfWeddingRing(itemStack, player);
+					}
+				}
+
+				else if (itemStack.getItem() instanceof ItemEngagementRing)
+				{
+					if (familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
+					{
+						say(LanguageHelper.getString(player, this, "notify.villager.gifted.arrangerring.relative", false));
+					}
+
+					else
+					{
+						doGiftOfEngagementRing(itemStack, player);
+					}
+				}
+
+				else if (itemStack.getItem() instanceof ItemArrangersRing)
+				{
+					final EnumRelation relationToPlayer = this.familyTree.getMyRelationTo(MCA.getInstance().getIdOfPlayer(player));
+
+					if (relationToPlayer != EnumRelation.None && relationToPlayer != EnumRelation.Granddaughter && relationToPlayer != EnumRelation.Grandson &&
+							relationToPlayer != EnumRelation.Greatgranddaughter && relationToPlayer != EnumRelation.Greatgrandson)
+					{
+						say(LanguageHelper.getString(player, this, "notify.villager.gifted.arrangerring.relative", false));
+					}
+
+					else
+					{
+						doGiftOfArrangersRing(itemStack, player);
+					}
+				}
+
+				else if (itemStack.getItem() instanceof AbstractBaby)
+				{
+					doGiftOfBaby(itemStack, player);
+				}
+
+				else if (itemStack.itemID == Block.tnt.blockID)
+				{
+					doGiftOfTNT(itemStack, player);
+				}
+
+				else if (itemStack.itemID == Block.cake.blockID || itemStack.itemID == Item.cake.itemID)
+				{
+					doGiftOfCake(itemStack, player);
+				}
+
+				else if (itemStack.getItem() instanceof ItemArmor)
+				{
+					final ItemArmor armor = (ItemArmor)itemStack.getItem();
+					final ItemStack transferStack = new ItemStack(itemStack.itemID, 1, itemStack.getItemDamage());
+					
+					if (armor.getArmorMaterial() == EnumArmorMaterial.CLOTH)
+					{
+						armor.func_82813_b(transferStack, armor.getColor(itemStack));
+					}
+					
+					inventory.inventoryItems[36 + armor.armorType] = transferStack;
+
+					Utility.removeItemFromPlayer(itemStack, player);
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createInventoryPacket(entityId, inventory));
+				}
+
+				else if (itemStack.getItem() instanceof ItemTool || itemStack.getItem() instanceof ItemSword)
+				{
+					inventory.addItemStackToInventory(itemStack);
+					inventory.setWornArmorItems();
+
+					Utility.removeItemFromPlayer(itemStack, player);
+					PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createInventoryPacket(entityId, inventory));
+				}
+
+				else
+				{
+					doGift(itemStack, player);
+				}
+
+				PacketDispatcher.sendPacketToPlayer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap), (Player)player);
+			}
+
+			else if (isInAnvilGiftMode)
+			{
+				if (itemStack.getItem().itemID == itemIdRequiredForSale)
+				{
+					if (itemStack.stackSize >= amountRequiredForSale)
+					{
+						say(LanguageHelper.getString("smith.aid.accept"));
+						removeAmountFromGiftedItem(itemStack, amountRequiredForSale);
+
+						isInAnvilGiftMode = false;
+						hasGivenAnvil = true;
+
+						player.inventory.addItemStackToInventory(new ItemStack(Block.anvil));
+						PacketDispatcher.sendPacketToPlayer(PacketHandler.createAddItemPacket(Block.anvil.blockID), (Player)player);
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isInAnvilGiftMode", isInAnvilGiftMode));
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "hasGivenAnvil", hasGivenAnvil));
+					}
+
+					else
+					{
+						say(LanguageHelper.getString("smith.aid.refuse.rightitem"));
 					}
 				}
 
 				else
 				{
-					if (itemStack.getItem() instanceof ItemWeddingRing)
-					{
-						if (familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player)) && !isEngaged)
-						{
-							say(LanguageHelper.getString(player, this, "notify.villager.gifted.arrangerring.relative", false));
-						}
-
-						else
-						{
-							doGiftOfWeddingRing(itemStack, player);
-						}
-					}
-
-					else if (itemStack.getItem() instanceof ItemEngagementRing)
-					{
-						if (familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player)))
-						{
-							say(LanguageHelper.getString(player, this, "notify.villager.gifted.arrangerring.relative", false));
-						}
-
-						else
-						{
-							doGiftOfEngagementRing(itemStack, player);
-						}
-					}
-
-					else if (itemStack.getItem() instanceof ItemArrangersRing)
-					{
-						EnumRelation relationToPlayer = this.familyTree.getRelationTo(MCA.instance.getIdOfPlayer(player));
-
-						if (relationToPlayer != EnumRelation.None && relationToPlayer != EnumRelation.Granddaughter && relationToPlayer != EnumRelation.Grandson &&
-								relationToPlayer != EnumRelation.Greatgranddaughter && relationToPlayer != EnumRelation.Greatgrandson)
-						{
-							say(LanguageHelper.getString(player, this, "notify.villager.gifted.arrangerring.relative", false));
-						}
-
-						else
-						{
-							doGiftOfArrangersRing(itemStack, player);
-						}
-					}
-
-					else if (itemStack.getItem() instanceof ItemBaby)
-					{
-						doGiftOfBaby(itemStack, player);
-					}
-
-					else if (itemStack.itemID == Block.tnt.blockID)
-					{
-						doGiftOfTNT(itemStack, player);
-					}
-
-					else if (itemStack.itemID == Block.cake.blockID || itemStack.itemID == Item.cake.itemID)
-					{
-						doGiftOfCake(itemStack, player);
-					}
-
-					else if (itemStack.getItem() instanceof ItemArmor || itemStack.getItem() instanceof ItemTool || itemStack.getItem() instanceof ItemSword)
-					{
-						inventory.addItemStackToInventory(itemStack);
-						inventory.setWornArmorItems();
-						PacketDispatcher.sendPacketToServer(PacketHelper.createInventoryPacket(entityId, inventory));
-
-						removeItemFromPlayer(itemStack, player);
-					}
-
-					else
-					{
-						doGift(itemStack, player);
-					}
+					say(LanguageHelper.getString("smith.aid.refuse.wrongitem"));
 				}
 			}
 		}
 
 		return super.interact(player);
-	}
-
-	/**
-	 * (abstract) Protected helper method to write subclass entity data to NBT.
-	 * 
-	 * @param 	NBT	An instance of an NBTTagCompound.
-	 */
-	public void writeEntityToNBT(NBTTagCompound NBT)
-	{
-		super.writeEntityToNBT(NBT);
-	}
-
-	/**
-	 * (abstract) Protected helper method to read subclass entity data from NBT.
-	 * 
-	 * @param 	NBT	An instance of an NBTTagCompound.
-	 */
-	public void readEntityFromNBT(NBTTagCompound NBT)
-	{
-		super.readEntityFromNBT(NBT);
-	}
-
-	/**
-	 * Handle the gift of a baby.
-	 * 
-	 * @param 	itemStack	The item stack containing the baby.
-	 * @param	player		The player that gifted the baby.
-	 */
-	private void doGiftOfBaby(ItemStack itemStack, EntityPlayer player) 
-	{
-		if (isSpouse)
-		{
-			if (inventory.contains(MCA.instance.itemBabyBoy) || inventory.contains(MCA.instance.itemBabyGirl))
-			{
-				say(LanguageHelper.getString("notify.spouse.gifted.anotherbaby"));
-			}
-
-			else
-			{
-				PlayerMemory memory = playerMemoryMap.get(player.username);
-
-				say(LanguageHelper.getString(this, "spouse.gifted.baby", false));
-				inventory.addItemStackToInventory(itemStack);
-				removeItemFromPlayer(itemStack, player);
-
-				memory.isInGiftMode = false;
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isInGiftMode", false));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createInventoryPacket(entityId, inventory));
-			}
-		}
-
-		else
-		{
-			say(LanguageHelper.getString(this, "gifted.baby"));
-		}
-	}
-
-	/**
-	 * Handle the gift of an arranger's ring.
-	 * 
-	 * @param 	itemStack	The item stack containing the arranger's ring.
-	 * @param	player		The player that gifted the ring.
-	 */
-	private void doGiftOfArrangersRing(ItemStack itemStack, EntityPlayer player) 
-	{
-		WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
-
-		if (!isSpouse)
-		{
-			if (isMarried)
-			{
-				say(LanguageHelper.getString("marriage.refusal.villagermarried"));
-			}
-
-			else
-			{
-				//Check if this person isn't already the holder of the ring.
-				if (!hasArrangerRing)
-				{
-					//Check if the holder's ID is zero, meaning this is the first person to receive an arranger's ring.
-					if (manager.worldProperties.arrangerRingHolderID == 0)
-					{
-						manager.worldProperties.arrangerRingHolderID = mcaID;
-						manager.saveWorldProperties();
-
-						//Search for a random villager of the opposite gender.
-						EntityVillagerAdult nearbyVillager = LogicHelper.getRandomNearbyVillager(this);
-
-						if (nearbyVillager == null)
-						{
-							say(LanguageHelper.getString("notify.villager.gifted.arrangerring.nobodynearby"));
-						}
-
-						else
-						{
-							say(LanguageHelper.getString(this, "notify.villager.gifted.arrangerring", false));
-						}
-
-						removeItemFromPlayer(itemStack, player);
-
-						hasArrangerRing = true;
-						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "hasArrangerRing", true));
-					}
-
-					//Another villager also has a ring because the ID of the holder is not zero. Marry these two.
-					else
-					{
-						AbstractEntity spouse = LogicHelper.getEntityWithIDWithinDistance(this, manager.worldProperties.arrangerRingHolderID, 5);
-
-						//Make sure a person was found nearby, or else they can't get married.
-						if (spouse != null)
-						{					
-							//Remove the ring from the player's inventory.
-							removeItemFromPlayer(itemStack, player);
-
-							//Assign generation.
-							if (this.generation != 0)
-							{
-								spouse.generation = this.generation;
-								PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouse.entityId, "generation", this.generation));
-							}
-
-							else if (spouse.generation != 0)
-							{
-								this.generation = spouse.generation;
-								PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(this.entityId, "generation", spouse.generation));
-							}
-
-							//Notify the player that the two were married.
-							notifyPlayer(player, LanguageHelper.getString("notify.villager.married"));
-
-							//Reset the world properties.
-							manager.worldProperties.arrangerRingHolderID = 0;
-							manager.saveWorldProperties();
-
-							//Update relevant data on client and server.					
-							this.isMarried = true;
-							this.hasArrangerRing = false;
-							this.familyTree.addFamilyTreeEntry(spouse, EnumRelation.Spouse);
-
-							spouse.isMarried = true;
-							spouse.hasArrangerRing = false;
-							spouse.familyTree.addFamilyTreeEntry(this, EnumRelation.Spouse);
-
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isMarried", this.isMarried));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouse.entityId, "isMarried", spouse.isMarried));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "hasArrangerRing", false));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouse.entityId, "hasArrangerRing", false));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFamilyTreePacket(entityId, familyTree));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFamilyTreePacket(spouse.entityId, spouse.familyTree));
-
-							PacketDispatcher.sendPacketToServer(PacketHelper.createSyncRequestPacket(entityId));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createSyncRequestPacket(spouse.entityId));
-
-							//Check if the spouse is a player child.
-							if (spouse instanceof EntityPlayerChild)
-							{
-								//Unlock achievement.
-								player.triggerAchievement(MCA.instance.achievementAdultMarried);
-								PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementAdultMarried, player.entityId));
-							}
-						}
-
-						//A person was not close to the villager receiving the second ring.
-						else
-						{
-							say(LanguageHelper.getString("notify.villager.gifted.arrangerring.othernotnearby." + gender.toLowerCase()));
-							notifyPlayer(player, LanguageHelper.getString("notify.villager.gifted.arrangerring.toofarapart"));
-						}
-					}
-				}
-
-				//This villager already has an arranger ring and was gifted one again.
-				else
-				{
-					say(LanguageHelper.getString("notify.villager.gifted.arrangerring.hasring." + gender.toLowerCase()));
-				}
-			}
-		}
-
-		//The villager is the spouse of another player.
-		else
-		{
-			if (manager.worldProperties.playerSpouseID == this.mcaID)
-			{
-				say(LanguageHelper.getString(this, "notify.villager.gifted.arrangerring.relative", false));
-			}
-
-			else
-			{
-				say(LanguageHelper.getString(this, "villager.marriage.refusal.villagermarried", false));
-				modifyHearts(player, -30);
-			}
-		}
-	}
-
-	/**
-	 * Handle the gift of an engagement ring.
-	 * 
-	 * @param 	itemStack	The item stack containing the engagement ring.
-	 * @param 	player		The player gifting the ring.
-	 */
-	private void doGiftOfEngagementRing(ItemStack itemStack, EntityPlayer player) 
-	{
-		WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
-
-		if (!isSpouse)
-		{
-			if (manager.worldProperties.playerSpouseID == 0) //Spouse ID will be zero if they're not married.
-			{
-				int hearts = getHearts(player);
-
-				if (hearts >= 100) //Acceptance of marriage is at 100 hearts or above.
-				{
-					removeItemFromPlayer(itemStack, player);
-					say(LanguageHelper.getString(this, "engagement.accept"));
-
-					modifyHearts(player, 50);
-					isEngaged = true;
-					familyTree.addFamilyTreeEntry(player, EnumRelation.Spouse);
-
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFamilyTreePacket(entityId, familyTree));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isEngaged", true));
-
-					manager.worldProperties.playerSpouseID = this.mcaID;
-					manager.worldProperties.isEngaged = true;
-					manager.saveWorldProperties();
-
-					player.triggerAchievement(MCA.instance.achievementGetMarried);
-					PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementGetMarried, player.entityId));
-				}
-
-				else //The hearts aren't high enough.
-				{
-					say(LanguageHelper.getString(this, "marriage.refusal.lowhearts"));
-					modifyHearts(player, -30);
-				}
-			}
-
-			else //Player is already married
-			{
-				say(LanguageHelper.getString(this, "marriage.refusal.playermarried"));
-			}
-		}
-
-		//The entity receiving the wedding band a player's spouse.
-		else
-		{
-			if (manager.worldProperties.playerSpouseID == this.mcaID)
-			{
-				say(LanguageHelper.getString(this, "notify.villager.gifted.arrangerring.relative", false));
-			}
-
-			else
-			{
-				say(LanguageHelper.getString(this, "villager.marriage.refusal.villagermarried", false));
-				modifyHearts(player, -30);
-			}
-		}
-	}
-
-	/**
-	 * Handle the gift of a wedding ring.
-	 * 
-	 * @param 	itemStack	The item stack containing the wedding ring.
-	 * @param 	player		The player that gifted the ring.
-	 */
-	private void doGiftOfWeddingRing(ItemStack itemStack, EntityPlayer player) 
-	{
-		WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
-
-		if (!isSpouse)
-		{	
-			//Spouse ID will be zero if they're not married. Also keep going if the player is engaged or is a monarch.
-			if (manager.worldProperties.playerSpouseID == 0 || isEngaged || manager.worldProperties.isMonarch) 
-			{
-				//Check if the player is already married in the case of a monarch.
-				if (manager.worldProperties.playerSpouseID != 0)
-				{
-					modifyHearts(player, -20);
-				}
-
-				int hearts = getHearts(player);
-
-				if (hearts >= 100) //Acceptance of marriage is at 100 hearts or above.
-				{
-					removeItemFromPlayer(itemStack, player);
-					this.spousePlayerName = player.username;
-					say(LanguageHelper.getString(this, "marriage.acceptance"));
-
-					shouldSkipAreaModify = true;
-					modifyHearts(player, 50);
-					shouldSkipAreaModify = false;
-
-					isSpouse = true;
-					player.triggerAchievement(MCA.instance.achievementGetMarried);
-
-					manager.worldProperties.playerSpouseID = this.mcaID;
-					manager.worldProperties.isEngaged = false;
-					manager.saveWorldProperties();
-
-					familyTree.addFamilyTreeEntry(player, EnumRelation.Spouse);
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFamilyTreePacket(entityId, familyTree));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isSpouse", true));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "spousePlayerName", player.username));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementGetMarried, player.entityId));
-
-					//Reset AI in case the spouse is a guard.
-					addAI();
-
-					if (isEngaged)
-					{
-						isEngaged = false;
-						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isEngaged", false));
-						PacketDispatcher.sendPacketToServer(PacketHelper.createEngagementPacket(entityId));
-
-						List<Entity> entitiesAroundMe = LogicHelper.getAllEntitiesWithinDistanceOfEntity(this, 64);
-
-						for (Entity entity : entitiesAroundMe)
-						{
-							if (entity instanceof EntityVillagerAdult)
-							{
-								EntityVillagerAdult entityVillager = (EntityVillagerAdult)entity;
-
-								PlayerMemory memory = entityVillager.playerMemoryMap.get(player.username);
-
-								if (memory != null)
-								{
-									memory.hasGift = true;
-									entityVillager.playerMemoryMap.put(player.username, memory);
-								}
-							}
-						}
-					}
-				}
-
-				else //The hearts aren't high enough for marriage.
-				{
-					say(LanguageHelper.getString(this, "marriage.refusal.lowhearts"));
-					modifyHearts(player, -30);
-				}
-			}
-
-			else //Player is already married
-			{
-				say(LanguageHelper.getString(this, "marriage.refusal.playermarried"));
-			}
-		}
-
-		//The entity receiving the wedding band a player's spouse.
-		else
-		{
-			if (manager.worldProperties.playerSpouseID == this.mcaID)
-			{
-				say(LanguageHelper.getString(this, "notify.villager.gifted.arrangerring.relative", false));
-			}
-
-			else
-			{
-				say(LanguageHelper.getString(this, "villager.marriage.refusal.villagermarried", false));
-				modifyHearts(player, -30);
-			}
-		}
 	}
 
 	/**
@@ -1110,433 +681,8 @@ public class EntityVillagerAdult extends AbstractEntity
 	 */
 	private void doGiftOfTNT(ItemStack itemStack, EntityPlayer player)
 	{
-		removeItemFromPlayer(itemStack, player);
+		Utility.removeItemFromPlayer(itemStack, player);
 		worldObj.createExplosion(this, posX, posY, posZ, 3.0F, true);
-	}
-
-	/**
-	 * Handle the gift of cake.
-	 * 
-	 * @param 	itemStack	The item stack containing the cake.
-	 * @param	player		The player that gifted the cake.
-	 */
-	private void doGiftOfCake(ItemStack itemStack, EntityPlayer player)
-	{
-		//Check and be sure they haven't already been given a cake.
-		if (hasCake == false)
-		{
-			//Get an instance of their spouse.
-			AbstractEntity spouse = familyTree.getInstanceOfRelative(EnumRelation.Spouse);
-
-			//Make sure the spouse was found.
-			if (spouse != null)
-			{
-				//Check if the spouse is close enough.
-				if (getDistanceToEntity(spouse) <= 5)
-				{
-					//They are within 5 blocks, so be sure neither the spouse nor this entity have a baby.
-					if (spouse.heldBabyGender.equals("None") && this.heldBabyGender.equals("None"))
-					{
-						//Now check and be sure that the spouse also has a cake.
-						if (spouse.hasCake)
-						{
-							this.hasCake = false;
-							spouse.hasCake = false;
-							this.isProcreatingWithSpouse = true;
-							spouse.isProcreatingWithSpouse = true;
-
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "hasCake", hasCake));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouse.entityId, "hasCake", spouse.hasCake));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "isProcreatingWithSpouse", isProcreatingWithSpouse));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouse.entityId, "isProcreatingWithSpouse", spouse.isProcreatingWithSpouse));
-
-							removeItemFromPlayer(itemStack, player);
-						}
-
-						//The spouse doesn't have a cake.
-						else
-						{
-							hasCake = true;
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "hasCake", hasCake));
-							say(LanguageHelper.getString("notify.villager.gifted.cake.spousenearby"));
-							removeItemFromPlayer(itemStack, player);
-						}
-					}
-
-					//Either the spouse or this entity has a baby already.
-					else
-					{
-						say(LanguageHelper.getString("notify.villager.gifted.cake.withbaby." + gender.toLowerCase()));
-					}
-				}
-
-				//This entity is not within 5 blocks of their spouse.
-				else
-				{
-					say(LanguageHelper.getString("notify.villager.gifted.cake.spousenotnearby." + gender.toLowerCase()));
-					notifyPlayer(player, LanguageHelper.getString("notify.villager.gifted.cake.toofarapart"));
-				}
-			}
-
-			//Spouse turned out to be null, so just process the gift as a normal gift.
-			else
-			{
-				super.doGift(itemStack, player);
-			}
-		}
-
-		//This entity already has a cake.
-		else
-		{
-			say(LanguageHelper.getString("notify.villager.gifted.cake.alreadygifted"));
-		}
-	}
-
-	/**
-	 * Update the growth of the person's held baby.
-	 */
-	private void updateBabyGrowth()
-	{
-		//Check for debug.
-		if (MCA.instance.inDebugMode && MCA.instance.debugDoRapidVillagerBabyGrowth && !heldBabyGender.equals("None") && this.hasBaby)
-		{
-			heldBabyAge++;
-		}
-
-		if (!heldBabyGender.equals("None") && this.hasBaby)
-		{
-			//Get the current minutes from the system.
-			villagerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
-
-			//Check it against previousMinutes to see if the time changed.
-			if (villagerBabyCalendarCurrentMinutes > villagerBabyCalendarPrevMinutes || villagerBabyCalendarCurrentMinutes == 0 && villagerBabyCalendarPrevMinutes == 59)
-			{
-				//If it did, bump up the baby's age and set prevMinutes.
-				heldBabyAge++;
-				villagerBabyCalendarPrevMinutes = villagerBabyCalendarCurrentMinutes;
-			}
-
-			//It's time for the baby to grow.
-			if (heldBabyAge >= MCA.instance.modPropertiesManager.modProperties.babyGrowUpTimeMinutes)
-			{
-				shouldSpawnBaby = true;
-			}
-		}
-
-		//Check if the baby should be spawned.
-		if (shouldSpawnBaby)
-		{
-			EntityVillagerChild child = new EntityVillagerChild(worldObj, heldBabyGender, heldBabyProfession);
-
-			child.familyTree.addFamilyTreeEntry(this, EnumRelation.Parent);
-			child.familyTree.addFamilyTreeEntry(this.familyTree.getInstanceOfRelative(EnumRelation.Spouse), EnumRelation.Parent);
-
-			//Check for the appropriate relation.
-			if (this.familyTree.getInstanceOfRelative(EnumRelation.Spouse) != null)
-			{
-				AbstractEntity spouse = this.familyTree.getInstanceOfRelative(EnumRelation.Spouse);
-
-				for (int i : spouse.familyTree.getListOfPlayers())
-				{
-					if (spouse instanceof EntityPlayerChild)
-					{
-						child.familyTree.addFamilyTreeEntry(i, EnumRelation.Grandparent);
-					}
-
-					else if (this.familyTree.getRelationOf(i) == EnumRelation.Grandfather || this.familyTree.getRelationOf(i) == EnumRelation.Grandmother ||
-							this.familyTree.getRelationOf(i) == EnumRelation.Greatgrandfather || this.familyTree.getRelationOf(i) == EnumRelation.Greatgrandmother ||
-							spouse.familyTree.getRelationOf(i) == EnumRelation.Grandfather || spouse.familyTree.getRelationOf(i) == EnumRelation.Grandmother ||
-							spouse.familyTree.getRelationOf(i) == EnumRelation.Greatgrandfather || spouse.familyTree.getRelationOf(i) == EnumRelation.Greatgrandmother)
-					{
-						child.familyTree.addFamilyTreeEntry(i, EnumRelation.Greatgrandparent);
-						child.generation = this.generation + 1;
-					}
-				}
-
-				for (int i : familyTree.getListOfPlayers())
-				{
-					if (spouse instanceof EntityPlayerChild)
-					{
-						child.familyTree.addFamilyTreeEntry(i, EnumRelation.Grandparent);
-					}
-
-					else if (this.familyTree.getRelationOf(i) == EnumRelation.Grandfather || this.familyTree.getRelationOf(i) == EnumRelation.Grandmother ||
-							this.familyTree.getRelationOf(i) == EnumRelation.Greatgrandfather || this.familyTree.getRelationOf(i) == EnumRelation.Greatgrandmother ||
-							spouse.familyTree.getRelationOf(i) == EnumRelation.Grandfather || spouse.familyTree.getRelationOf(i) == EnumRelation.Grandmother ||
-							spouse.familyTree.getRelationOf(i) == EnumRelation.Greatgrandfather || spouse.familyTree.getRelationOf(i) == EnumRelation.Greatgrandmother)
-					{
-						child.familyTree.addFamilyTreeEntry(i, EnumRelation.Greatgrandparent);
-						child.generation = this.generation + 1;
-					}
-				}
-			}
-
-			//Get the appropriate MCA id for the person.
-			for (Map.Entry<Integer, Integer> mapEntry : MCA.instance.idsMap.entrySet())
-			{
-				if (mapEntry.getKey() > child.mcaID)
-				{
-					child.mcaID = mapEntry.getKey();
-				}
-			}
-
-			child.mcaID++;
-
-			if (!worldObj.isRemote)
-			{
-				child.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationPitch, this.rotationYaw);	
-				worldObj.spawnEntityInWorld(child);
-			}
-
-			MCA.instance.idsMap.put(child.mcaID, child.entityId);
-
-			shouldSpawnBaby = false;
-			heldBabyGender = "None";
-			heldBabyAge = 0;
-			heldBabyProfession = 0;
-			hasBaby = false;
-
-			//Check for achievement.
-			EntityPlayer player = worldObj.getPlayerEntityByName(lastInteractingPlayer);
-
-			if (player != null)
-			{
-				if (child.generation == 1)
-				{
-					player.triggerAchievement(MCA.instance.achievementHaveGreatGrandchild);
-				}
-
-				else if (child.generation == 2)
-				{
-					player.triggerAchievement(MCA.instance.achievementHaveGreatx2Grandchild);
-				}
-
-				else if (child.generation == 10)
-				{
-					player.triggerAchievement(MCA.instance.achievementHaveGreatx10Grandchild);
-				}
-			}
-		}
-	}
-
-	/**
-	 * Update procreation event with spouse.
-	 */
-	private void updateProcreationWithVillager()
-	{
-		//Check if they should be procreating with their spouse.
-		if (isProcreatingWithSpouse)
-		{
-			AbstractEntity spouse = familyTree.getInstanceOfRelative(EnumRelation.Spouse);
-
-			isJumping = true;
-			
-			if (spouse != null)
-			{
-				faceEntity(spouse, 0.5F, 0.5F);
-			}
-			
-			motionX = 0.0D;
-			motionZ = 0.0D;
-
-			double d  = rand.nextGaussian() * 0.02D;
-			double d1 = rand.nextGaussian() * 0.02D;
-			double d2 = rand.nextGaussian() * 0.02D;
-			worldObj.spawnParticle("heart", (posX + rand.nextFloat() * width * 2.0F) - width, posY + 0.5D + rand.nextFloat() * height, (posZ + rand.nextFloat() * width * 2.0F) - width, d, d1, d2);
-
-			procreateTicks++;
-
-			if (procreateTicks >= 50)
-			{
-				isJumping = false;
-
-				if (worldObj.isRemote)
-				{
-					//Check if this is the mother.
-					if (this.gender.equals("Female"))
-					{
-						this.heldBabyGender = getRandomGender();
-						this.heldBabyProfession = spouse.profession;
-						this.hasBaby = true;
-
-						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "heldBabyGender", heldBabyGender));
-						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "heldBabyProfession", heldBabyProfession));
-						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityId, "hasBaby", hasBaby));
-					}
-
-					//Make sure everything is reset so it stops on all clients.
-					isProcreatingWithSpouse = false;
-					procreateTicks = 0;
-				}
-
-				else
-				{
-					PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(this));
-
-					//Reset procreation information after packet is dispatched so it stops server side.
-					isProcreatingWithSpouse = false;
-					procreateTicks = 0;
-				}
-			}
-		}
-	}
-
-	/**
-	 * Update procreation event with the player.
-	 */
-	private void updateProcreationWithPlayer()
-	{
-		if (isProcreatingWithPlayer)
-		{
-			//Make sure the player doesn't have too many children.
-			if (MCA.instance.isDedicatedServer)
-			{
-				EntityPlayer player = worldObj.getPlayerEntityByName(spousePlayerName);
-				List<EntityPlayerChild> children = new ArrayList<EntityPlayerChild>();
-
-				//Build a list of children belonging to the player.
-				for (AbstractEntity entity : MCA.instance.entitiesMap.values())
-				{
-					if (entity instanceof EntityPlayerChild)
-					{
-						EntityPlayerChild playerChild = (EntityPlayerChild)entity;
-
-						if (playerChild.familyTree.getRelationOf(MCA.instance.getIdOfPlayer(player)) == EnumRelation.Parent)
-						{
-							children.add(playerChild);
-						}
-					}
-				}
-
-				//Compare to the server allowed settings and stop if necessary.
-				if (MCA.instance.modPropertiesManager.modProperties.server_childLimit > -1)
-				{
-					if (children.size() >= MCA.instance.modPropertiesManager.modProperties.server_childLimit)
-					{
-						//Reset values and send update packet.
-						isProcreatingWithPlayer = false;
-						isJumping = false;
-						procreateTicks = 0;
-
-						player.addChatMessage("\u00a7cYou have reached the child limit set by the server administrator: " + MCA.instance.modPropertiesManager.modProperties.server_childLimit);
-						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(this));
-						return;
-					}
-				}
-			}
-
-			//Make them jump.
-			isJumping = true;
-
-			//Spawn hearts particles.
-			double velX = rand.nextGaussian() * 0.02D;
-			double velY = rand.nextGaussian() * 0.02D;
-			double velZ = rand.nextGaussian() * 0.02D;
-			worldObj.spawnParticle("heart", (posX + rand.nextFloat() * width * 2.0F) - width, posY + 0.5D + rand.nextFloat() * height, (posZ + rand.nextFloat() * width * 2.0F) - width, velX, velY, velZ);
-
-			//Make the spouse player (almost) unable to move.
-			EntityPlayer spousePlayer = worldObj.getPlayerEntityByName(spousePlayerName);
-
-			if (spousePlayer != null)
-			{
-				faceEntity(spousePlayer, 5.0F, 5.0F);
-
-				spousePlayer.motionX = 0.0D;
-				spousePlayer.motionY = 0.0D;
-				spousePlayer.motionZ = 0.0D;
-
-				//Make the entity only be able to jump.
-				motionX = 0.0D;
-				motionZ = 0.0D;
-
-				if (!worldObj.isRemote)
-				{
-					if (procreateTicks >= 50)
-					{
-						isJumping = false;
-						isProcreatingWithPlayer = false;
-						procreateTicks = 0;
-
-						//Make the "plop" sound.
-						worldObj.playSoundAtEntity(this, "mob.chickenplop", 1.0F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
-
-						//Dispatch a packet so that everything is updated on all clients.
-						PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket(this));
-
-						//And dispatch another packet to the client player after determining the baby's gender.
-						String babyGender = getRandomGender();
-						PacketDispatcher.sendPacketToPlayer(PacketHelper.createVillagerPlayerProcreatePacket(this, spousePlayer, babyGender), (Player)spousePlayer);
-					}
-
-					else
-					{
-						procreateTicks++;
-					}
-				}
-			}
-		}
-
-		else
-		{
-			isJumping = false;
-		}
-	}
-
-	/**
-	 * Update divorcing.
-	 */
-	private void updateDivorce()
-	{
-		//Check if they should divorce from the player.
-		if (shouldDivorce)
-		{
-			if (isSpouse)
-			{
-				modifyHearts(worldObj.getPlayerEntityByName(lastInteractingPlayer), -200);
-				isFollowing = false;
-
-				WorldPropertiesManager worldPropertiesManager = MCA.instance.playerWorldManagerMap.get(lastInteractingPlayer);
-				worldPropertiesManager.worldProperties.playerSpouseID = 0;
-				worldPropertiesManager.saveWorldProperties();
-
-				if (getDistanceToEntity(worldObj.getPlayerEntityByName(lastInteractingPlayer)) < 10)
-				{
-					if (!worldObj.isRemote)
-					{
-						say(LanguageHelper.getString(this, "spouse.divorce", false));
-						
-						if (!marriageToPlayerWasArranged)
-						{
-							this.dropItem(MCA.instance.itemWeddingRing.itemID, 1);
-						}
-						
-						inventory.dropAllItems();
-					}
-				}
-
-				else
-				{
-					notifyPlayer(worldObj.getPlayerEntityByName(lastInteractingPlayer), LanguageHelper.getString("notify.divorce.spousemissing"));
-					inventory = new Inventory(this);
-				}
-
-				shouldDivorce = false;
-				isSpouse = false;
-				spousePlayerName = "";
-				marriageToPlayerWasArranged = false;
-				familyTree.removeFamilyTreeEntry(worldPropertiesManager.worldProperties.playerID);
-			}
-
-			//Divorce two villagers.
-			else
-			{
-				shouldDivorce = false;
-				isMarried = false;
-				heldBabyGender = "None";
-				heldBabyAge = 0;
-				familyTree.removeFamilyTreeEntry(EnumRelation.Spouse);
-			}
-		}
 	}
 
 	/**
@@ -1545,28 +691,25 @@ public class EntityVillagerAdult extends AbstractEntity
 	private void updateCombatChore()
 	{
 		//Adjust combat chore settings for villagers and guards.
-		if (profession != 5)
+		if (profession == 5)
 		{
-			combatChore.useMelee = false;
-			combatChore.useRange = false;
-		}
-
-		//If they're not hired, reset the combat chore.
-		else if (profession == 5)
-		{
-			//Check if hired by anyone or a knight.
-			for (PlayerMemory memory : playerMemoryMap.values())
+			for (final PlayerMemory memory : playerMemoryMap.values())
 			{
 				if (memory.isHired || isKnight)
 				{
-					//Get out if they're hired by anybody.
 					return;
 				}
 			}
 
-			//This code will run if they're not hired by anybody.
+			//This code will run if the guard can't be controlled by a player.
 			combatChore = new ChoreCombat(this);
 			combatChore.useMelee = true;
+		}
+
+		else
+		{
+			combatChore.useMelee = false;
+			combatChore.useRange = false;	
 		}
 	}
 
@@ -1580,18 +723,10 @@ public class EntityVillagerAdult extends AbstractEntity
 			aidCooldown--;
 		}
 
-		try
+		if (isInAnvilGiftMode && LogicHelper.getDistanceToEntity(this, worldObj.getPlayerEntityByName(lastInteractingPlayer)) > 4)
 		{
-			if (isInAnvilGiftMode && LogicHelper.getDistanceToEntity(this, worldObj.getPlayerEntityByName(lastInteractingPlayer)) > 4)
-			{
-				isInAnvilGiftMode = false;
-				say(LanguageHelper.getString("smith.aid.outofrange"));
-			}
-		}
-
-		catch (NullPointerException e)
-		{
-			//Pass
+			isInAnvilGiftMode = false;
+			say(LanguageHelper.getString("smith.aid.outofrange"));
 		}
 	}
 
@@ -1601,7 +736,7 @@ public class EntityVillagerAdult extends AbstractEntity
 	private void updateHomePoint()
 	{
 		//Assign their current coordinates as the home point if they don't have one.
-		if (hasHomePoint == false)
+		if (!hasHomePoint)
 		{
 			homePointX = posX;
 			homePointY = posY;

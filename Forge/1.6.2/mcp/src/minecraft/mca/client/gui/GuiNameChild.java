@@ -10,10 +10,10 @@
 package mca.client.gui;
 
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
-import mca.core.util.PacketHelper;
-import mca.entity.AbstractEntity;
+import mca.core.util.Utility;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,7 +31,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class GuiNameChild extends AbstractGui
 {
 	private GuiTextField babyNameTextField;
-	private String gender;
+	private boolean isMale;
 	private boolean containsInvalidCharacters;
 
 	private GuiButton doneButton;
@@ -41,12 +41,12 @@ public class GuiNameChild extends AbstractGui
 	 * Constructor
 	 * 
 	 * @param 	player	The player that opened this GUI.
-	 * @param 	gender 	The gender of the baby.
+	 * @param 	isMale 	Is the baby a male?
 	 */
-	public GuiNameChild(EntityPlayer player, String gender)
+	public GuiNameChild(EntityPlayer player, boolean isMale)
 	{
 		super(player);
-		this.gender = gender;
+		this.isMale = isMale;
 	}
 
 	@Override
@@ -105,7 +105,7 @@ public class GuiNameChild extends AbstractGui
 
 		else if (guibutton == doneButton)
 		{
-			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
+			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 			
 			//Assign babyName the string that is in the text field, trimmed of whitespace.
 			manager.worldProperties.babyName = babyNameTextField.getText().trim();
@@ -114,7 +114,7 @@ public class GuiNameChild extends AbstractGui
 			//Check if the player is married to another player.
 			if (manager.worldProperties.playerSpouseID < 0)
 			{
-				PacketDispatcher.sendPacketToServer(PacketHelper.createBabyInfoPacket(manager));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createBabyInfoPacket(manager));
 			}
 
 			//Close the GUI
@@ -123,7 +123,7 @@ public class GuiNameChild extends AbstractGui
 
 		else if (guibutton == randomButton)
 		{
-			babyNameTextField.setText(AbstractEntity.getRandomName(gender));
+			babyNameTextField.setText(Utility.getRandomName(isMale));
 			babyNameTextField.mouseClicked(5, 5, 5);
 		}
 	}
@@ -158,7 +158,7 @@ public class GuiNameChild extends AbstractGui
 	{
 		drawDefaultBackground();
 
-		if (gender.equals("Male"))
+		if (isMale)
 		{
 			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.title.namebaby.male"), width / 2, (height / 2) - 90, 0xffffff);
 		}

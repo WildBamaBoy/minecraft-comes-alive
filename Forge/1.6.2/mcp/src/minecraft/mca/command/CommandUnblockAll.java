@@ -9,9 +9,9 @@
 
 package mca.command;
 
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.core.util.Color;
 import net.minecraft.command.ICommandSender;
 
 /**
@@ -34,23 +34,12 @@ public class CommandUnblockAll extends AbstractCommand
 	@Override
 	public void processCommand(ICommandSender sender, String[] arguments) 
 	{
-		String senderName = sender.getCommandSenderName();
+		final String senderName = sender.getCommandSenderName();
+		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(senderName);
 
-		//Get the sender's world properties.
-		WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(senderName);
+		manager.worldProperties.blockList.clear();
+		manager.saveWorldProperties();
 
-		if (manager != null)
-		{
-			//Reset the block list.
-			manager.worldProperties.blockList.clear();
-			manager.saveWorldProperties();
-			
-			this.sendChatToPlayer(sender, "multiplayer.command.output.unblockall.successful", Color.GREEN, null);
-		}
-
-		else
-		{
-			this.sendChatToPlayer(sender, "multiplayer.command.error.unknown", Color.RED, null);
-		}
+		this.sendChatToPlayer(sender, "multiplayer.command.output.unblockall.successful", Constants.COLOR_GREEN, null);
 	}
 }

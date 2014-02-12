@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import mca.core.Constants;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.pathfinding.PathEntity;
@@ -130,7 +131,7 @@ public class EntityAIPatrolVillage extends EntityAIBase
 	 */
 	public void startExecuting()
 	{
-		this.guard.getNavigator().setPath(this.entityPathNavigate, 0.6F);
+		this.guard.getNavigator().setPath(this.entityPathNavigate, Constants.SPEED_WALK);
 	}
 
 	/**

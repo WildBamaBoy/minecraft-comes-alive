@@ -9,6 +9,7 @@
 
 package mca.inventory;
 
+import mca.entity.AbstractEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -21,21 +22,31 @@ import net.minecraft.item.ItemStack;
  */
 public class ContainerInventory extends Container
 {
+	/* MCA entity */
+	protected final AbstractEntity entity;
+	
 	/**
 	 * Constructor
 	 * 
 	 * @param 	inventoryPlayer	An instance of a player's inventory.
 	 * @param 	inventoryEntity	An instance of an MCA entity's inventory.
 	 */
-	public ContainerInventory(IInventory inventoryPlayer, IInventory inventoryEntity)
+	public ContainerInventory(IInventory inventoryPlayer, IInventory inventoryEntity, AbstractEntity entity)
 	{
+		this.entity = entity;
 		for (int inventoryHeight = 0; inventoryHeight < 4; ++inventoryHeight)
 		{
 			for (int inventoryWidth = 0; inventoryWidth < 9; ++inventoryWidth)
 			{
-				this.addSlotToContainer(new Slot(inventoryEntity, inventoryWidth + inventoryHeight * 9, 8 + inventoryWidth * 18, 18 + inventoryHeight * 18));
+				this.addSlotToContainer(new Slot(inventoryEntity, inventoryWidth + inventoryHeight * 9, 33 + inventoryWidth * 18, 18 + inventoryHeight * 18));
+				//this.addSlotToContainer(new Slot(inventoryEntity, inventoryWidth + inventoryHeight * 8, 8 + (inventoryWidth + 1) * 18, 18 + inventoryHeight * 18));
 			}
 		}
+		
+		for (int slot = 0; slot < 4; ++slot)
+        {
+            this.addSlotToContainer(new SlotArmor(this, inventoryEntity, slot + 36, 8, 18 + slot * 18, slot));
+        }
 
 		bindPlayerInventory((InventoryPlayer)inventoryPlayer);
 	}
@@ -49,12 +60,12 @@ public class ContainerInventory extends Container
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotId)
 	{
+		final Slot slot = (Slot)this.inventorySlots.get(slotId);
 		ItemStack transferStack = null;
-		Slot slot = (Slot)this.inventorySlots.get(slotId);
 
 		if (slot != null && slot.getHasStack())
 		{
-			ItemStack slotStack = slot.getStack();
+			final ItemStack slotStack = slot.getStack();
 			transferStack = slotStack.copy();
 
 			if (slotId < 4 * 9)
@@ -64,6 +75,7 @@ public class ContainerInventory extends Container
 					return null;
 				}
 			}
+			
 			else if (!this.mergeItemStack(slotStack, 0, 4 * 9, false))
 			{
 				return null;
@@ -73,6 +85,7 @@ public class ContainerInventory extends Container
 			{
 				slot.putStack((ItemStack)null);
 			}
+			
 			else
 			{
 				slot.onSlotChanged();
@@ -93,13 +106,13 @@ public class ContainerInventory extends Container
 		{
 			for (int inventoryWidth = 0; inventoryWidth < 9; inventoryWidth++) 
 			{
-				addSlotToContainer(new Slot(inventoryPlayer, inventoryWidth + inventoryHeight * 9 + 9, 8 + inventoryWidth * 18, 103 + inventoryHeight * 18));
+				addSlotToContainer(new Slot(inventoryPlayer, inventoryWidth + inventoryHeight * 9 + 9, 33 + inventoryWidth * 18, 103 + inventoryHeight * 18));
 			}
 		}
 
 		for (int i = 0; i < 9; i++) 
 		{
-			addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 161));
+			addSlotToContainer(new Slot(inventoryPlayer, i, 33 + i * 18, 161));
 		}	
 	}
 }

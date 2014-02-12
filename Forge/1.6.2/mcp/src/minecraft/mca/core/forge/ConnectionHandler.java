@@ -10,7 +10,6 @@
 package mca.core.forge;
 
 import mca.core.MCA;
-import mca.core.util.PacketHelper;
 import mca.core.util.object.UpdateHandler;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.NetLoginHandler;
@@ -28,8 +27,7 @@ public class ConnectionHandler implements IConnectionHandler
 	@Override
 	public void playerLoggedIn(Player player, NetHandler netHandler, INetworkManager manager) 
 	{
-		new Thread(new UpdateHandler(netHandler)).run();
-		return;
+		new Thread(new UpdateHandler(netHandler)).start();
 	}
 
 	@Override
@@ -41,29 +39,29 @@ public class ConnectionHandler implements IConnectionHandler
 	@Override
 	public void connectionOpened(NetHandler netClientHandler, String server, int port, INetworkManager manager) 
 	{
-		return;
+		//Do nothing.
 	}
 
 	@Override
 	public void connectionOpened(NetHandler netClientHandler, MinecraftServer server, INetworkManager manager)
 	{
-		return;
+		//Do nothing.
 	}
 
 	@Override
 	public void connectionClosed(INetworkManager manager) 
 	{
-		return;
+		//Do nothing.
 	}
 
 	@Override
 	public void clientLoggedIn(NetHandler clientHandler, INetworkManager manager, Packet1Login login) 
 	{
-		if (!MCA.instance.isIntegratedServer)
+		if (!MCA.getInstance().isIntegratedServer)
 		{
-			MCA.instance.isDedicatedClient = true;
+			MCA.getInstance().isDedicatedClient = true;
 		}
 
-		manager.addToSendQueue(PacketHelper.createLoginPacket(MCA.instance.modPropertiesManager));
+		manager.addToSendQueue(PacketHandler.createLoginPacket(MCA.getInstance().modPropertiesManager));
 	}
 }

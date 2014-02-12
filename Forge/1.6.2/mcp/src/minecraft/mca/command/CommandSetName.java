@@ -9,9 +9,9 @@
 
 package mca.command;
 
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.core.util.Color;
 import net.minecraft.command.ICommandSender;
 
 /**
@@ -48,17 +48,18 @@ public class CommandSetName extends AbstractCommand
 	{
 		if (arguments.length == 1)
 		{
-			String playerName = sender.getCommandSenderName();
-			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(playerName);
+			final String playerName = sender.getCommandSenderName();
+			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(playerName);
+			
 			manager.worldProperties.playerName = arguments[0];
 			
-			super.sendChatToPlayer(sender, "multiplayer.command.output.setname", Color.GREEN, arguments[0]);
+			super.sendChatToPlayer(sender, "multiplayer.command.output.setname", Constants.COLOR_GREEN, arguments[0]);
 			manager.saveWorldProperties();
 		}
 
 		else
 		{
-			super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Color.RED, getCommandUsage(sender));
+			super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Constants.COLOR_RED, getCommandUsage(sender));
 		}
 	}
 }

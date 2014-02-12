@@ -13,8 +13,7 @@ import java.util.List;
 
 import mca.core.MCA;
 import mca.core.util.LanguageHelper;
-import mca.entity.AbstractEntity;
-import mca.entity.EntityChild;
+import mca.entity.AbstractChild;
 import mca.entity.EntityVillagerAdult;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -35,9 +34,9 @@ public class ItemWhistle extends Item
 	 * 
 	 * @param 	id	The item's ID.
 	 */
-	public ItemWhistle(int id)
+	public ItemWhistle(int itemId)
 	{
-		super(id);
+		super(itemId);
 		maxStackSize = 1;
 		setCreativeTab(CreativeTabs.tabMisc);
 	}
@@ -54,25 +53,25 @@ public class ItemWhistle extends Item
 	{
 		if (!world.isRemote)
 		{
-			for (AbstractEntity entity : MCA.instance.entitiesMap.values())
+			for (final Object obj : world.loadedEntityList)
 			{
-				if (entity instanceof EntityChild)
+				if (obj instanceof AbstractChild)
 				{
-					if (entity.familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player)))
+					final AbstractChild child = (AbstractChild)obj;
+					
+					if (child.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 					{
-						entity.setPosition(player.posX, player.posY, player.posZ);
+						child.setLocationAndAngles(player.posX, player.posY, player.posZ, player.rotationYaw, player.rotationPitch);
 					}
 				}
 
-				else if (entity instanceof EntityVillagerAdult)
+				else if (obj instanceof EntityVillagerAdult)
 				{
-					EntityVillagerAdult adult = (EntityVillagerAdult)entity;
-					if (adult.isSpouse || adult.isEngaged)
+					final EntityVillagerAdult adult = (EntityVillagerAdult)obj;
+
+					if (adult.isMarriedToPlayer || adult.isEngaged && adult.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 					{
-						if (entity.familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player)))
-						{
-							entity.setPosition(player.posX, player.posY, player.posZ);
-						}
+						adult.setLocationAndAngles(player.posX, player.posY, player.posZ, player.rotationYaw, player.rotationPitch);
 					}
 				}
 			}

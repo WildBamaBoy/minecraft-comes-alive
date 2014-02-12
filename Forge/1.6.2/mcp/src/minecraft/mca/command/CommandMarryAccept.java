@@ -9,10 +9,11 @@
 
 package mca.command;
 
+import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
-import mca.core.util.Color;
-import mca.core.util.PacketHelper;
+import mca.enums.EnumGenericCommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
@@ -43,21 +44,21 @@ public class CommandMarryAccept extends AbstractCommand
 		if (arguments.length == 1)
 		{
 			//Ensure that the provided player has asked to marry this person.
-			String mostRecentPlayerAsked = MCA.instance.marriageRequests.get(arguments[0]);
+			final String mostRecentRequest = MCA.getInstance().marriageRequests.get(arguments[0]);
 
-			if (mostRecentPlayerAsked == null)
+			if (mostRecentRequest == null)
 			{
-				super.sendChatToPlayer(sender, "multiplayer.command.output.marry.norequest", Color.RED, null);
+				super.sendChatToPlayer(sender, "multiplayer.command.output.marry.norequest", Constants.COLOR_RED, null);
 			}
 
 			else
 			{
-				if (mostRecentPlayerAsked.equals(sender.getCommandSenderName()))
+				if (mostRecentRequest.equals(sender.getCommandSenderName()))
 				{
 					//Make sure the recipient is on the server.
 					EntityPlayer recipient = null;
 
-					for (WorldServer world : MinecraftServer.getServer().worldServers)
+					for (final WorldServer world : MinecraftServer.getServer().worldServers)
 					{
 						if (world.getPlayerEntityByName(arguments[0]) != null)
 						{
@@ -66,41 +67,48 @@ public class CommandMarryAccept extends AbstractCommand
 						}
 					}
 
-					if (recipient != null)
+					if (recipient == null)
 					{	
-						//Set both to married.
-						WorldPropertiesManager senderProperties = MCA.instance.playerWorldManagerMap.get(sender.getCommandSenderName());
-						WorldPropertiesManager recipientProperties = MCA.instance.playerWorldManagerMap.get(recipient.username);
-						
-						senderProperties.worldProperties.playerSpouseID = recipientProperties.worldProperties.playerID;
-						senderProperties.worldProperties.playerSpouseName = recipient.username;
-						recipientProperties.worldProperties.playerSpouseID = senderProperties.worldProperties.playerID;
-						recipientProperties.worldProperties.playerSpouseName = sender.getCommandSenderName();
-						
-						senderProperties.saveWorldProperties();
-						recipientProperties.saveWorldProperties();
-						
-						//Notify both that they are married.
-						PacketDispatcher.sendPacketToPlayer(PacketHelper.createPlayerMarriagePacket(senderProperties.worldProperties.playerID, recipient.username, recipientProperties.worldProperties.playerID), (Player)sender);
-						PacketDispatcher.sendPacketToPlayer(PacketHelper.createPlayerMarriagePacket(recipientProperties.worldProperties.playerID, sender.getCommandSenderName(), senderProperties.worldProperties.playerID), (Player)recipient);
+						super.sendChatToPlayer(sender, "multiplayer.command.error.playeroffline", Constants.COLOR_RED, null);
 					}
 
 					else
 					{
-						super.sendChatToPlayer(sender, "multiplayer.command.error.playeroffline", Color.RED, null);
+						//Consume the sender's wedding ring.
+						final EntityPlayer senderPlayer = (EntityPlayer)sender;
+						senderPlayer.inventory.consumeInventoryItem(MCA.getInstance().itemWeddingRing.itemID);
+						
+						//Set both to married.
+						final WorldPropertiesManager senderProperties = MCA.getInstance().playerWorldManagerMap.get(sender.getCommandSenderName());
+						final WorldPropertiesManager spouseProperties = MCA.getInstance().playerWorldManagerMap.get(recipient.username);
+						
+						senderProperties.worldProperties.playerSpouseID = spouseProperties.worldProperties.playerID;
+						senderProperties.worldProperties.playerSpouseName = recipient.username;
+						spouseProperties.worldProperties.playerSpouseID = senderProperties.worldProperties.playerID;
+						spouseProperties.worldProperties.playerSpouseName = sender.getCommandSenderName();
+						
+						senderProperties.saveWorldProperties();
+						spouseProperties.saveWorldProperties();
+						
+						//Notify both that they are married.
+						PacketDispatcher.sendPacketToPlayer(PacketHandler.createPlayerMarriagePacket(senderProperties.worldProperties.playerID, recipient.username, spouseProperties.worldProperties.playerID), (Player)sender);
+						PacketDispatcher.sendPacketToPlayer(PacketHandler.createPlayerMarriagePacket(spouseProperties.worldProperties.playerID, sender.getCommandSenderName(), senderProperties.worldProperties.playerID), (Player)recipient);
+						
+						MCA.getInstance().marriageRequests.remove(senderPlayer.username);
+						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.ClientRemoveMarriageRequest, senderPlayer.username));
 					}
 				}
 
 				else
 				{
-					super.sendChatToPlayer(sender, "multiplayer.command.output.marry.norequest", Color.RED, null);
+					super.sendChatToPlayer(sender, "multiplayer.command.output.marry.norequest", Constants.COLOR_RED, null);
 				}
 			}
 		}
 
 		else
 		{
-			super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Color.RED, null);
+			super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Constants.COLOR_RED, getCommandUsage(sender));
 		}
 	}
 }

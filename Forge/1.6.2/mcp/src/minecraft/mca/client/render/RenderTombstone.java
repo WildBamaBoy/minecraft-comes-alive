@@ -24,10 +24,8 @@ import org.lwjgl.opengl.GL11;
  */
 public class RenderTombstone extends TileEntitySpecialRenderer
 {
-	private static final ResourceLocation texture = new ResourceLocation("mca:textures/blocks/Tombstone.png");
-	
-	/** The model of the tombstone. */
-	private ModelTombstone tombstoneModel;
+	private static final ResourceLocation TEXTURE = new ResourceLocation("mca:textures/blocks/Tombstone.png");
+	private final ModelTombstone tombstoneModel;
 
 	/**
 	 * Constructor
@@ -48,38 +46,30 @@ public class RenderTombstone extends TileEntitySpecialRenderer
 	 */
 	public void renderTileEntityTombstoneAt(TileEntityTombstone tombstoneEntity, double posX, double posY, double posZ, float partialTickTime)
 	{
-		int meta = tombstoneEntity.getBlockMetadata();
-		float rotation = 0.0F;
-		
+		final StringBuilder stringBuilder = new StringBuilder();
+		final FontRenderer fontRenderer = getFontRenderer();
+
+		final int meta = tombstoneEntity.getBlockMetadata();
+		final float rotation = setRotationByMeta(meta);
+
 		GL11.glPushMatrix();
 
-		switch (meta)
-		{
-			case 2: rotation = 180F; break;
-			case 4: rotation = 90F; break;
-			case 8: rotation = -180F; break;
-			case 12: rotation = -90F; break;
-		}
-
-		//Orient the tombstone properly and give it a texture.
-		GL11.glTranslatef((float)posX + 0.5F, (float)posY + 1F, (float)posZ + 0.5F);
+		GL11.glTranslated(posX + 0.50F, posY + 1.59F, posZ + 0.53F);
 		GL11.glRotatef(-rotation, 0.0F, 1.0F, 0.0F);
 		GL11.glTranslatef(0, 0.5F, 0);
-		this.func_110628_a(texture);
+		GL11.glScalef(1.4F, 1.4F, 1.4F);
+		
+		this.bindResource(TEXTURE);
 
 		GL11.glPushMatrix();
-		
-		GL11.glScalef(1F, -1F, -1F);
-		tombstoneModel.renderTombstone();
-		
+		{
+			GL11.glScalef(1F, -1F, -1F);
+			tombstoneModel.renderTombstone();
+		}
 		GL11.glPopMatrix();
-		
-		//Render the text.
-		FontRenderer fontrenderer = getFontRenderer();
-		fontrenderer.FONT_HEIGHT = 4;
-		
+
 		//Text size is 0.017F.
-		GL11.glTranslatef(0.0F, -1.1F, 0.07F);
+		GL11.glTranslatef(0.0F, -1.15F, 0.07F);
 		GL11.glScalef(0.017F / 2, -0.017F / 2, 0.017F / 2);
 		GL11.glNormal3f(0.0F, 0.0F, -1F * 0.017F);
 		GL11.glDepthMask(false);
@@ -90,36 +80,13 @@ public class RenderTombstone extends TileEntitySpecialRenderer
 
 			if (line == tombstoneEntity.lineBeingEdited)
 			{
-				lineText = (new StringBuilder()).append("> ").append(lineText).append(" <").toString();
-
-				if (tombstoneEntity.guiOpen)
-				{
-					fontrenderer.drawString(lineText, -fontrenderer.getStringWidth(lineText) / 2, line * 10 - tombstoneEntity.signText.length * 5, 0x000000);
-				}
-
-				else
-				{
-					fontrenderer.drawString(lineText, -fontrenderer.getStringWidth(lineText) / 2, line * 10 - tombstoneEntity.signText.length * 5, 0xCFB52B);
-				}
+				lineText = stringBuilder.append("> ").append(lineText).append(" <").toString();
 			}
 			
-			else
-			{
-				if (tombstoneEntity.guiOpen)
-				{
-					fontrenderer.drawString(lineText, -fontrenderer.getStringWidth(lineText) / 2, line * 10 - tombstoneEntity.signText.length * 5, 0x000000);
-				}
-				
-				else
-				{
-					fontrenderer.drawString(lineText, -fontrenderer.getStringWidth(lineText) / 2, line * 10 - tombstoneEntity.signText.length * 5, 0xCFB52B);
-				}
-			}
-
+			fontRenderer.drawString(lineText, -fontRenderer.getStringWidth(lineText) / 2, line * 10 - tombstoneEntity.signText.length * 5, 0x000000);
 		}
 
 		GL11.glDepthMask(true);
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glPopMatrix();
 	}
 
@@ -128,14 +95,38 @@ public class RenderTombstone extends TileEntitySpecialRenderer
 	{
 		renderTileEntityTombstoneAt((TileEntityTombstone)tombstoneEntity, posX, posY, posZ, partialTickTime);
 	}
-	
-    protected void func_110628_a(ResourceLocation resourceLocation)
-    {
-        TextureManager texturemanager = this.tileEntityRenderer.renderEngine;
 
-        if (texturemanager != null)
-        {
-            texturemanager.func_110577_a(resourceLocation);
-        }
-    }
+	protected void bindResource(ResourceLocation resourceLocation)
+	{
+		final TextureManager textureManager = this.tileEntityRenderer.renderEngine;
+
+		if (textureManager != null)
+		{
+			textureManager.func_110577_a(resourceLocation);
+		}
+	}
+	
+	private float setRotationByMeta(int meta)
+	{
+		switch (meta)
+		{
+		case 0: return 0F;
+		case 1: return 45F;
+		case 2: return 45F;
+		case 3: return 45F;
+		case 4: return 90F;
+		case 5: return 135F;
+		case 6: return 135F;
+		case 7: return 135F;
+		case 8: return 180F;
+		case 9: return 225F;
+		case 10: return 225F;
+		case 11: return 225F;
+		case 12: return 270F;
+		case 13: return 315F;
+		case 14: return 315F;
+		case 15: return 315F;
+		default: return 0F;
+		}
+	}
 }

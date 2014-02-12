@@ -9,7 +9,7 @@
 
 package mca.command;
 
-import mca.core.util.Color;
+import mca.core.Constants;
 import net.minecraft.command.ICommandSender;
 
 /**
@@ -32,7 +32,7 @@ public class CommandHelp extends AbstractCommand
 	@Override
 	public void processCommand(ICommandSender sender, String[] arguments) 
 	{
-		StringBuilder stringBuilder = new StringBuilder();
+		final StringBuilder stringBuilder = new StringBuilder(1024);
 
 		stringBuilder.append("-----------------------------------------\n");
 		
@@ -53,6 +53,6 @@ public class CommandHelp extends AbstractCommand
 
 		stringBuilder.append("-----------------------------------------");
 
-		this.sendChatToPlayer(sender, "multiplayer.command.output.help", Color.GREEN, "\n" + stringBuilder.toString());
+		this.sendChatToPlayer(sender, "multiplayer.command.output.help", Constants.COLOR_GREEN, "\n" + stringBuilder.toString());
 	}
 }

@@ -11,15 +11,19 @@ package mca.core.forge;
 
 import java.io.File;
 
+import mca.chore.ChoreCooking;
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.core.util.PacketHelper;
+import mca.core.util.Utility;
 import mca.entity.AbstractEntity;
 import mca.entity.AbstractSerializableEntity;
 import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
 import mca.entity.EntityVillagerChild;
-import mca.item.ItemBaby;
+import mca.item.AbstractBaby;
+import mca.item.ItemWeddingRing;
+import net.minecraft.block.Block;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -29,12 +33,19 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
+import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
@@ -52,20 +63,12 @@ public class EventHooks
 	@ForgeSubscribe
 	public void itemTossedEventHandler(ItemTossEvent event)
 	{
-		if (event.entityItem.getEntityItem().getItem() instanceof ItemBaby)
+		if (event.entityItem.getEntityItem().getItem() instanceof AbstractBaby && MCA.getInstance().playerWorldManagerMap.get(event.player.username).worldProperties.babyExists)
 		{
-			if (MCA.instance.playerWorldManagerMap.get(event.player.username).worldProperties.babyExists)
-			{
-				PacketDispatcher.sendPacketToPlayer(PacketHelper.createSayLocalizedPacket(event.player, null, "notify.player.droppedbaby", false, null, null), (Player)event.player);
-				event.player.inventory.addItemStackToInventory(event.entityItem.getEntityItem());
-
-				if (event.entity.worldObj.isRemote)
-				{
-					PacketDispatcher.sendPacketToServer(PacketHelper.createAddItemPacket(event.entityItem.getEntityItem().itemID, event.player.entityId));
-				}
-
-				event.setCanceled(true);
-			}
+			PacketDispatcher.sendPacketToPlayer(PacketHandler.createSayLocalizedPacket(event.player, null, "notify.player.droppedbaby", false, null, null), (Player)event.player);
+			event.player.inventory.addItemStackToInventory(event.entityItem.getEntityItem());
+			event.setCanceled(true);
+			event.setResult(Result.DENY);
 		}
 	}
 
@@ -77,98 +80,16 @@ public class EventHooks
 	@ForgeSubscribe
 	public void entityJoinedWorldEventHandler(EntityJoinWorldEvent event)
 	{
-		if (event.entity instanceof EntityMob)
-		{
-			EntityMob mob = (EntityMob)event.entity;
-
-			if (!(mob instanceof EntityEnderman) && !(mob instanceof EntityCreeper))
-			{
-				float moveSpeed = 0.7F;
-
-				if (mob instanceof EntitySpider)
-				{
-					moveSpeed = 1.2F;
-				}
-
-				else if (mob instanceof EntitySkeleton)
-				{
-					moveSpeed = 1.1F;
-				}
-
-				else if (mob instanceof EntityZombie)
-				{
-					moveSpeed = 0.9F;
-				}
-
-				mob.tasks.addTask(2, new EntityAIAttackOnCollide(mob, EntityVillagerAdult.class, moveSpeed, false));
-				mob.tasks.addTask(2, new EntityAIAttackOnCollide(mob, EntityPlayerChild.class, moveSpeed, false));
-				mob.tasks.addTask(2, new EntityAIAttackOnCollide(mob, EntityVillagerChild.class, moveSpeed, false));
-				mob.targetTasks.addTask(2, new EntityAINearestAttackableTarget(mob, EntityVillagerAdult.class, 16, false));
-				mob.targetTasks.addTask(2, new EntityAINearestAttackableTarget(mob, EntityPlayerChild.class, 16, false));
-				mob.targetTasks.addTask(2, new EntityAINearestAttackableTarget(mob, EntityVillagerChild.class, 16, false));
-			}
-
-			else if (mob instanceof EntityCreeper)
-			{
-				mob.tasks.addTask(0, new EntityAIAvoidEntity(mob, EntityVillager.class, 16F, 1.35F, 1.35F));
-			}
-		}
-
 		if (!event.world.isRemote)
 		{
-			//Now check the event's entity and see if it is a Testificate.
+			if (event.entity instanceof EntityMob)
+			{
+				doAddMobTasks((EntityMob)event.entity);
+			}
+
 			if (event.entity instanceof EntityVillager && !(event.entity instanceof AbstractSerializableEntity))
 			{
-				EntityVillager villager = (EntityVillager)event.entity;
-
-				//Only run this if the profession of the villager being spawned is one of the six
-				//original professions.
-				if (villager.getProfession() < 6 && villager.getProfession() > -1)
-				{
-					//Cancel the spawn.
-					event.setCanceled(true);
-
-					int newVillagerProfession = 0;
-
-					//Factor in MCA's added professions.
-					switch (villager.getProfession())
-					{
-					case 0:
-						if (AbstractEntity.getBooleanWithProbability(30))
-						{
-							newVillagerProfession = 7;
-						}
-
-						else
-						{
-							newVillagerProfession = villager.getProfession();
-						}
-
-						break;
-
-					case 4: 
-						if (AbstractEntity.getBooleanWithProbability(50))
-						{
-							newVillagerProfession = 6;
-						}
-
-						break;
-
-					default:
-						newVillagerProfession = villager.getProfession();
-						break;
-					}
-
-					//Create the replacement villager and set its location.
-					EntityVillagerAdult newVillager = new EntityVillagerAdult(event.world, newVillagerProfession);
-					newVillager.setPositionAndRotation(villager.posX, villager.posY, villager.posZ, villager.rotationYaw, villager.rotationPitch);
-
-					//Kill the Testificate.
-					villager.setDead();
-
-					//Spawn the new villager.
-					event.world.spawnEntityInWorld(newVillager);
-				}
+				doOverwriteVillager(event, (EntityVillager)event.entity);
 			}
 		}
 	}
@@ -181,49 +102,27 @@ public class EventHooks
 	@ForgeSubscribe
 	public void worldLoadEventHandler(WorldEvent.Load event)
 	{
-		if (!event.world.isRemote && !MCA.instance.hasLoadedProperties)
+		if (!event.world.isRemote && !MCA.getInstance().hasLoadedProperties)
 		{
-			MinecraftServer server = MinecraftServer.getServer();
+			final MinecraftServer server = MinecraftServer.getServer();
+			final String worldName = MinecraftServer.getServer().worldServers[0].getSaveHandler().getWorldDirectoryName();
+			final String folderName = server.isDedicatedServer() ? "ServerWorlds" : "Worlds";
+			final File folderPath = new File(MCA.getInstance().runningDirectory + "/config/MCA/" + folderName + "/" + worldName);
 
-			if (server.isDedicatedServer())
+			MCA.getInstance().log("Loading world properties from " + folderPath.getAbsolutePath() +"...");
+
+			if (!folderPath.exists())
 			{
-				MCA.instance.log("Loading world properties for dedicated server...");
-
-				String worldName = MinecraftServer.getServer().worldServers[0].getSaveHandler().getWorldDirectoryName();
-				File worldPropertiesFolderPath = new File(MCA.instance.runningDirectory + "/config/MCA/ServerWorlds/" + worldName);
-
-				if (!worldPropertiesFolderPath.exists())
-				{
-					MCA.instance.log("Creating folder " + worldPropertiesFolderPath.getPath());
-					worldPropertiesFolderPath.mkdirs();
-				}
-
-				for (File file : worldPropertiesFolderPath.listFiles())
-				{
-					MCA.instance.playerWorldManagerMap.put(file.getName(), new WorldPropertiesManager(worldName, file.getName()));
-				}
+				MCA.getInstance().log("Creating folder " + folderPath.getPath());
+				folderPath.mkdirs();
 			}
 
-			else
+			for (final File propertiesFile : folderPath.listFiles())
 			{
-				MCA.instance.log("Loading world properties for integrated server...");
-
-				String worldName = MinecraftServer.getServer().worldServers[0].getSaveHandler().getWorldDirectoryName();
-				File worldPropertiesFolderPath = new File(MCA.instance.runningDirectory + "/config/MCA/Worlds/" + worldName);
-
-				if (!worldPropertiesFolderPath.exists())
-				{
-					MCA.instance.log("Creating folder " + worldPropertiesFolderPath.getPath());
-					worldPropertiesFolderPath.mkdirs();
-				}
-
-				for (File file : worldPropertiesFolderPath.listFiles())
-				{
-					MCA.instance.playerWorldManagerMap.put(file.getName(), new WorldPropertiesManager(worldName, file.getName()));
-				}
+				MCA.getInstance().playerWorldManagerMap.put(propertiesFile.getName(), new WorldPropertiesManager(worldName, propertiesFile.getName()));
 			}
 
-			MCA.instance.hasLoadedProperties = true;
+			MCA.getInstance().hasLoadedProperties = true;
 		}
 	}
 
@@ -235,12 +134,15 @@ public class EventHooks
 	@ForgeSubscribe
 	public void worldSaveEventHandler(WorldEvent.Unload event)
 	{
-		for (WorldPropertiesManager manager : MCA.instance.playerWorldManagerMap.values())
+		if (!event.world.isRemote)
 		{
-			manager.saveWorldProperties();
+			for (final WorldPropertiesManager manager : MCA.getInstance().playerWorldManagerMap.values())
+			{
+				manager.saveWorldProperties();
+			}
 		}
 	}
-	
+
 	/**
 	 * Fired when the player dies.
 	 * 
@@ -249,6 +151,178 @@ public class EventHooks
 	@ForgeSubscribe
 	public void playerDropsEventHandler(PlayerDropsEvent event)
 	{
-		MCA.instance.deadPlayerInventories.put(event.entityPlayer.username, event.drops);
+		MCA.getInstance().deadPlayerInventories.put(event.entityPlayer.username, event.drops);
+	}
+
+	/**
+	 * Fired when the player right-clicks something.
+	 * 
+	 * @param 	event	An instance of the PlayerInteractEvent.
+	 */
+	@ForgeSubscribe
+	public void playerInteractEventHandler(PlayerInteractEvent event)
+	{
+		if (!event.entityPlayer.worldObj.isRemote && event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
+		{
+			final int blockId = event.entityPlayer.worldObj.getBlockId(event.x, event.y, event.z);
+
+			if (blockId == Block.furnaceBurning.blockID || blockId == Block.furnaceIdle.blockID)
+			{
+				for (final Object obj : event.entityPlayer.worldObj.loadedEntityList)
+				{
+					if (obj instanceof AbstractEntity)
+					{
+						final AbstractEntity entity = (AbstractEntity)obj;
+
+						if (entity.getInstanceOfCurrentChore() instanceof ChoreCooking && 
+							entity.cookingChore.hasCookableFood &&
+								entity.cookingChore.furnacePosX == event.x &&
+								entity.cookingChore.furnacePosY == event.y &&
+								entity.cookingChore.furnacePosZ == event.z)
+						{
+							event.setCanceled(true);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Fired when the player interacts with an entity.
+	 * 
+	 * @param 	event	An instance of the EntityInteractEvent.
+	 */
+	@ForgeSubscribe
+	public void entityInteractEventHandler(EntityInteractEvent event)
+	{
+		//Make it so that when right clicking a horse that an MCA villager is riding,
+		//open up that villager's interaction GUI.
+		if (event.target instanceof EntityHorse)
+		{
+			final EntityHorse entityHorse = (EntityHorse)event.target;
+			
+			if (entityHorse.riddenByEntity instanceof AbstractEntity)
+			{
+				final AbstractEntity entity = (AbstractEntity)entityHorse.riddenByEntity;
+				entity.interact(event.entityPlayer);
+			}
+		}
+		
+		else if (event.target instanceof EntityPlayer && canInteractWithPlayer(event.entityPlayer) && !event.entityPlayer.worldObj.isRemote)
+		{
+			PacketDispatcher.sendPacketToPlayer(PacketHandler.createOpenGuiPacket(event.target.entityId, Constants.ID_GUI_PLAYER), (Player)event.entityPlayer);
+		}
+	}
+	
+	private void doAddMobTasks(EntityMob mob)
+	{
+		if (mob instanceof EntityEnderman)
+		{
+			return;
+		}
+
+		else if (mob instanceof EntityCreeper)
+		{
+			mob.tasks.addTask(0, new EntityAIAvoidEntity(mob, EntityVillager.class, 16F, 1.35F, 1.35F));
+		}
+
+		else
+		{
+			float moveSpeed = 0.7F;
+
+			if (mob instanceof EntitySpider)
+			{
+				moveSpeed = 1.2F;
+			}
+
+			else if (mob instanceof EntitySkeleton)
+			{
+				moveSpeed = 1.1F;
+			}
+
+			else if (mob instanceof EntityZombie)
+			{
+				moveSpeed = 0.9F;
+			}
+
+			mob.tasks.addTask(2, new EntityAIAttackOnCollide(mob, EntityVillagerAdult.class, moveSpeed, false));
+			mob.tasks.addTask(2, new EntityAIAttackOnCollide(mob, EntityPlayerChild.class, moveSpeed, false));
+			mob.tasks.addTask(2, new EntityAIAttackOnCollide(mob, EntityVillagerChild.class, moveSpeed, false));
+			mob.targetTasks.addTask(2, new EntityAINearestAttackableTarget(mob, EntityVillagerAdult.class, 16, false));
+			mob.targetTasks.addTask(2, new EntityAINearestAttackableTarget(mob, EntityPlayerChild.class, 16, false));
+			mob.targetTasks.addTask(2, new EntityAINearestAttackableTarget(mob, EntityVillagerChild.class, 16, false));
+		}
+	}
+
+	private void doOverwriteVillager(EntityJoinWorldEvent event, EntityVillager villager)
+	{
+		//Only run this if the profession of the villager being spawned is one of the six
+		//original professions.
+		if (villager.getProfession() < 6 && villager.getProfession() > -1)
+		{
+			//Cancel the spawn.
+			event.setCanceled(true);
+
+			int newProfession = 0;
+
+			//Factor in MCA's added professions.
+			switch (villager.getProfession())
+			{
+			case 0:
+				if (Utility.getBooleanWithProbability(30))
+				{
+					newProfession = 7;
+				}
+
+				else
+				{
+					newProfession = villager.getProfession();
+				}
+
+				break;
+
+			case 4: 
+				if (Utility.getBooleanWithProbability(50))
+				{
+					newProfession = 6;
+				}
+
+				break;
+
+			default:
+				newProfession = villager.getProfession();
+				break;
+			}
+
+			//Create the replacement villager and set its location.
+			final EntityVillagerAdult newVillager = new EntityVillagerAdult(villager.worldObj, newProfession);
+			newVillager.setPositionAndRotation(villager.posX, villager.posY, villager.posZ, villager.rotationYaw, villager.rotationPitch);
+
+			villager.worldObj.spawnEntityInWorld(newVillager);
+			villager.setDead();
+		}
+	}
+	
+	private boolean canInteractWithPlayer(EntityPlayer player)
+	{
+		final ItemStack itemStack = player.getHeldItem();
+		
+		if (itemStack != null)
+		{
+			final Item heldItem = itemStack.getItem();
+			
+			if (heldItem instanceof ItemWeddingRing)
+			{
+				return true;
+			}
+			
+			return false;
+		}
+		
+		else
+		{
+			return true;
+		}
 	}
 }

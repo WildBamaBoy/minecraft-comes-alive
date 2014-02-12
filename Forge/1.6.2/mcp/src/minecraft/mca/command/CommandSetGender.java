@@ -9,9 +9,9 @@
 
 package mca.command;
 
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.core.util.Color;
 import net.minecraft.command.ICommandSender;
 
 /**
@@ -22,7 +22,7 @@ public class CommandSetGender extends AbstractCommand
 	@Override
 	public String getCommandUsage(ICommandSender sender) 
 	{
-		return "/mca.set.gender <MALE/FEMALE>";
+		return "/mca.set.isMale <MALE/FEMALE>";
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class CommandSetGender extends AbstractCommand
 	@Override
 	public String getCommandName() 
 	{
-		return "mca.set.gender";
+		return "mca.set.isMale";
 	}
 
 	@Override
@@ -48,26 +48,26 @@ public class CommandSetGender extends AbstractCommand
 	{
 		if (arguments.length == 1)
 		{
-			if (arguments[0].toUpperCase().equals("MALE") || arguments[0].toUpperCase().equals("FEMALE"))
+			if (arguments[0].equalsIgnoreCase("MALE") || arguments[0].equalsIgnoreCase("FEMALE"))
 			{
-				String playerName = sender.getCommandSenderName();
-				String realGender = Character.toUpperCase(arguments[0].charAt(0)) + arguments[0].substring(1);
-				WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(playerName);
+				final String playerName = sender.getCommandSenderName();
+				final String realGender = Character.toUpperCase(arguments[0].charAt(0)) + arguments[0].substring(1);
+				final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(playerName);
 	
 				manager.worldProperties.playerGender = realGender;
-				super.sendChatToPlayer(sender, "multiplayer.command.output.setgender", Color.GREEN, realGender);
+				super.sendChatToPlayer(sender, "multiplayer.command.output.setgender", Constants.COLOR_GREEN, realGender);
 				manager.saveWorldProperties();
 			}
 			
 			else
 			{
-				super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Color.RED, getCommandUsage(sender));
+				super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Constants.COLOR_RED, getCommandUsage(sender));
 			}
 		}
 
 		else
 		{
-			super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Color.RED, getCommandUsage(sender));
+			super.sendChatToPlayer(sender, "multiplayer.command.error.parameter", Constants.COLOR_RED, getCommandUsage(sender));
 		}
 	}
 }

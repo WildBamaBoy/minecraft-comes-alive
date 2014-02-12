@@ -10,6 +10,7 @@
 package mca.core.forge;
 
 import mca.client.gui.GuiInventory;
+import mca.core.Constants;
 import mca.entity.AbstractEntity;
 import mca.inventory.ContainerInventory;
 import net.minecraft.entity.player.EntityPlayer;
@@ -22,7 +23,7 @@ import cpw.mods.fml.common.network.IGuiHandler;
 public class GuiHandlerInventory implements IGuiHandler
 {
 	/** The ID of the entity whose inventory is being edited. */
-	private int entityId;
+	private final int entityId;
 	
 	/**
 	 * Constructor
@@ -35,13 +36,13 @@ public class GuiHandlerInventory implements IGuiHandler
 	}
 	
 	@Override
-	public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) 
+	public Object getServerGuiElement(int guiId, EntityPlayer player, World world, int posX, int posY, int posZ) 
 	{
-		AbstractEntity entity = (AbstractEntity)world.getEntityByID(entityId);
+		final AbstractEntity entity = (AbstractEntity)world.getEntityByID(entityId);
 		
-		if (id == 0)
+		if (guiId == Constants.ID_GUI_INVENTORY)
 		{
-			return new ContainerInventory(player.inventory, entity.inventory);
+			return new ContainerInventory(player.inventory, entity.inventory, entity);
 		}
 		
 		else
@@ -51,11 +52,11 @@ public class GuiHandlerInventory implements IGuiHandler
 	}
 
 	@Override
-	public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) 
+	public Object getClientGuiElement(int guiId, EntityPlayer player, World world, int posX, int posY, int posZ) 
 	{
-		AbstractEntity entity = (AbstractEntity)world.getEntityByID(entityId);
+		final AbstractEntity entity = (AbstractEntity)world.getEntityByID(entityId);
 		
-		if (id == 0)
+		if (guiId == Constants.ID_GUI_INVENTORY)
 		{
 			return new GuiInventory(entity, player.inventory, entity.inventory, false);
 		}

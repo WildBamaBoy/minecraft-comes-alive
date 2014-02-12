@@ -16,6 +16,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
+import mca.api.VillagerEntryMCA;
+import mca.api.VillagerRegistryMCA;
 import mca.core.MCA;
 import mca.tileentity.TileEntityTombstone;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -32,7 +34,7 @@ public class CommonProxy
 	 */
 	public void registerRenderers() 
 	{
-		return;
+		//Server-side.
 	}
 
 	/**
@@ -55,7 +57,7 @@ public class CommonProxy
 	{
 		try
 		{
-			File modFile = findModData();
+			final File modFile = findModData();
 
 			if (modFile.isFile())
 			{
@@ -66,23 +68,11 @@ public class CommonProxy
 			{
 				loadSkinsFromFolder(modFile);
 			}
-
-			int loadedSkins = MCA.farmerSkinsMale.size() + MCA.librarianSkinsMale.size() +
-					MCA.priestSkinsMale.size() + MCA.smithSkinsMale .size() +
-					MCA.butcherSkinsMale.size() + MCA.guardSkinsMale.size() + 
-					MCA.kidSkinsMale.size() + MCA.bakerSkinsMale.size() +
-					MCA.minerSkinsMale.size() + MCA.farmerSkinsFemale.size() +
-					MCA.librarianSkinsFemale.size() + MCA.priestSkinsFemale.size() +
-					MCA.smithSkinsFemale.size() + MCA.butcherSkinsFemale.size() +
-					MCA.guardSkinsFemale.size() + MCA.kidSkinsFemale.size() +
-					MCA.bakerSkinsFemale.size() + MCA.minerSkinsFemale.size();
-
-			MCA.instance.log("Loaded " + loadedSkins + " skins.");
 		}
-
-		catch (Throwable e)
+		
+		catch (IOException e)
 		{
-			MCA.instance.quitWithThrowable("Unexpected exception while loading skins.", e);
+			MCA.getInstance().quitWithException("IOException while loading skins.", e);
 		}
 	}
 
@@ -96,7 +86,7 @@ public class CommonProxy
 
 			if (modData == null)
 			{
-				MCA.instance.quitWithDescription("Unable to find file or folder containing MCA assets.");
+				MCA.getInstance().quitWithDescription("Unable to find file or folder containing MCA assets.");
 			}
 		}
 
@@ -105,22 +95,22 @@ public class CommonProxy
 
 	private File findModAsArchive() throws ZipException, IOException
 	{
-		MCA.instance.log("Attempting to find MCA as an archive in the mods folder...");
-		File returnFile = null;
+		MCA.getInstance().log("Attempting to find MCA as an archive in the mods folder...");
+		final File modsFolder = new File(MCA.getInstance().runningDirectory + "/mods");
 
-		for (File f : new File(MCA.instance.runningDirectory + "/mods").listFiles())
+		for (final File fileInMods : modsFolder.listFiles())
 		{
-			if (f.isFile() && f.getName().contains(".zip"))
+			if (fileInMods.isFile() && fileInMods.getName().contains(".zip"))
 			{
-				if (fileContainsModData(f))
+				if (fileContainsModData(fileInMods))
 				{
-					return f;
+					return fileInMods;
 				}
 			}
 
-			else if (f.isDirectory())
+			else if (fileInMods.isDirectory())
 			{
-				File modData = getModFileFromNestedFolder(f);
+				final File modData = getModFileFromNestedFolder(fileInMods);
 
 				if (modData != null)
 				{
@@ -128,27 +118,27 @@ public class CommonProxy
 				}
 			}
 		}
-
-		return returnFile;
+		
+		return null;
 	}
 
 	private File findModAsFolder() throws IOException
 	{
-		MCA.instance.log("Attempting to find MCA as a folder in the mods folder...");
-		File returnFile = null;
+		MCA.getInstance().log("Attempting to find MCA as a folder in the mods folder...");
+		final File modsFolder = new File(MCA.getInstance().runningDirectory + "/mods");
 
-		for (File f : new File(MCA.instance.runningDirectory + "/mods").listFiles())
+		for (final File fileInMods : modsFolder.listFiles())
 		{
-			if (f.isDirectory())
+			if (fileInMods.isDirectory())
 			{
-				if (folderContainsModData(f))
+				if (folderContainsModData(fileInMods))
 				{
-					return f;
+					return fileInMods;
 				}
 
 				else
 				{
-					File modData = getModFolderFromNestedFolder(f);
+					final File modData = getModFolderFromNestedFolder(fileInMods);
 
 					if (modData != null)
 					{
@@ -158,138 +148,53 @@ public class CommonProxy
 			}
 		}
 
-		return returnFile;
+		return null;
 	}
 
 	private void loadSkinsFromFile(File modDataFile) throws ZipException, IOException
 	{
-		MCA.instance.log("Loading skins from data file: " + modDataFile.getName() + "...");
+		MCA.getInstance().log("Loading skins from data file: " + modDataFile.getName() + "...");
 
-		ZipFile modArchive = new ZipFile(modDataFile);
-		Enumeration enumerator = modArchive.entries();
+		final ZipFile modArchive = new ZipFile(modDataFile);
+		final Enumeration enumerator = modArchive.entries();
 
 		while (enumerator.hasMoreElements())
 		{
 			//Loop through each entry within the JAR until the MCA folder is hit.
-			ZipEntry file = (ZipEntry)enumerator.nextElement();
-			String fileLocationInArchive = "/" + file.getName();
+			final ZipEntry file = (ZipEntry)enumerator.nextElement();
+			String archiveFilePath = "/" + file.getName();
 
-			if (fileLocationInArchive.contains("/assets/mca/textures/skins/") && fileLocationInArchive.contains("sleeping") == false)
+			if (archiveFilePath.contains("textures/skins"))
 			{
-				//Fix the file's location in the JAR and determine what type of villager the skin belongs to.
-				//Skins are named like [Profession][Gender][ID].png.
-				fileLocationInArchive = fileLocationInArchive.replace("/assets/mca/", "");
-
-				if (fileLocationInArchive.contains("Farmer"))
+				for (final VillagerEntryMCA entry : VillagerRegistryMCA.getRegisteredVillagersMap().values())
 				{
-					//Remove everything but the Gender and ID to properly identify what the gender is.
-					if (fileLocationInArchive.replace("textures/skins/Farmer", "").contains("M"))
+					if (entry.isDefaultTextureUsed())
 					{
-						MCA.farmerSkinsMale.add(fileLocationInArchive);
+						entry.addMaleSkin("textures/api/skins/DefaultM1.png");
+						entry.addFemaleSkin("textures/api/skins/DefaultF1.png");
 					}
 
 					else
 					{
-						MCA.farmerSkinsFemale.add(fileLocationInArchive);
-					}
-				}
+						if (archiveFilePath.contains(entry.getTexturesLocation().replace("/assets/mca/", "")) && !archiveFilePath.contains("sleeping"))
+						{
+							//Fix the file's location in the JAR and determine what type of villager the skin belongs to.
+							//Skins are named like [Profession][Gender][ID].png.
+							archiveFilePath = archiveFilePath.replace("/assets/mca/", "");
 
-				else if (fileLocationInArchive.contains("Librarian"))
-				{
-					if (fileLocationInArchive.replace("textures/skins/Librarian", "").contains("M"))
-					{
-						MCA.librarianSkinsMale.add(fileLocationInArchive);
-					}
+							if (archiveFilePath.contains(entry.getUnlocalizedProfessionName()))
+							{
+								if (archiveFilePath.replace("textures/skins/" + entry.getUnlocalizedProfessionName(), "").contains("M"))
+								{
+									entry.addMaleSkin(archiveFilePath);
+								}
 
-					else
-					{
-						MCA.librarianSkinsFemale.add(fileLocationInArchive);
-					}
-				}
-
-				else if (fileLocationInArchive.contains("Priest"))
-				{
-					if (fileLocationInArchive.replace("textures/skins/Priest", "").contains("M"))
-					{
-						MCA.priestSkinsMale.add(fileLocationInArchive);
-					}
-
-					else
-					{
-						MCA.priestSkinsFemale.add(fileLocationInArchive);
-					}
-				}
-
-				else if (fileLocationInArchive.contains("Smith"))
-				{
-					if (fileLocationInArchive.replace("textures/skins/Smith", "").contains("M"))
-					{
-						MCA.smithSkinsMale.add(fileLocationInArchive);
-					}
-
-					else
-					{
-						MCA.smithSkinsFemale.add(fileLocationInArchive);
-					}
-				}
-
-				else if (fileLocationInArchive.contains("Butcher"))
-				{
-					if (fileLocationInArchive.replace("textures/skins/Butcher", "").contains("M"))
-					{
-						MCA.butcherSkinsMale.add(fileLocationInArchive);
-					}
-				}
-
-				else if (fileLocationInArchive.contains("Guard"))
-				{
-					if (fileLocationInArchive.replace("textures/skins/Guard", "").contains("M"))
-					{
-						MCA.guardSkinsMale.add(fileLocationInArchive);
-					}
-
-					else
-					{
-						MCA.guardSkinsFemale.add(fileLocationInArchive);
-					}
-				}
-
-				else if (fileLocationInArchive.contains("Kid"))
-				{
-					if (fileLocationInArchive.replace("textures/skins/Kid", "").contains("M"))
-					{
-						MCA.kidSkinsMale.add(fileLocationInArchive);
-					}
-
-					else
-					{
-						MCA.kidSkinsFemale.add(fileLocationInArchive);
-					}
-				}
-
-				else if (fileLocationInArchive.contains("Baker"))
-				{
-					if (fileLocationInArchive.replace("textures/skins/Baker", "").contains("M"))
-					{
-						MCA.bakerSkinsMale.add(fileLocationInArchive);
-					}
-
-					else
-					{
-						MCA.bakerSkinsFemale.add(fileLocationInArchive);
-					}
-				}
-
-				else if (fileLocationInArchive.contains("Miner"))
-				{
-					if (fileLocationInArchive.replace("textures/skins/Miner", "").contains("M"))
-					{
-						MCA.minerSkinsMale.add(fileLocationInArchive);
-					}
-
-					else
-					{
-						MCA.minerSkinsFemale.add(fileLocationInArchive);
+								else
+								{
+									entry.addFemaleSkin(archiveFilePath);
+								}
+							}
+						}
 					}
 				}
 			}
@@ -300,127 +205,39 @@ public class CommonProxy
 
 	private void loadSkinsFromFolder(File modFolder)
 	{
-		MCA.instance.log("Loading skins from data folder: " + modFolder.getName() + "...");
+		MCA.getInstance().log("Loading skins from data folder: " + modFolder.getName() + "...");
 
-		String skinsFolder = modFolder + "/assets/mca/textures/skins/";
-		String sleepingSkinsFolder = modFolder + "/assets/mca/textures/skins/sleeping/";
-
-		for (File fileName : new File(skinsFolder).listFiles())
+		for (final VillagerEntryMCA entry : VillagerRegistryMCA.getRegisteredVillagersMap().values())
 		{
-			//Fix the file's location in the folder and determine what type of villager the skin belongs to.
-			//Skins are named like [Profession][Gender][ID].png.
-			String fileLocation = skinsFolder.replace(modFolder.getAbsolutePath() + "/assets/mca/", "") + fileName.getName();
-
-			if (fileLocation.contains("Farmer"))
+			if (entry.isDefaultTextureUsed())
 			{
-				//Remove everything but the Gender and ID to properly identify what the gender is.
-				if (fileLocation.replace("textures/skins/Farmer", "").contains("M"))
-				{
-					MCA.farmerSkinsMale.add(fileLocation);
-				}
-
-				else
-				{
-					MCA.farmerSkinsFemale.add(fileLocation);
-				}
+				entry.addMaleSkin("textures/api/skins/DefaultM1.png");
+				entry.addFemaleSkin("textures/api/skins/DefaultF1.png");
 			}
 
-			else if (fileLocation.contains("Librarian"))
+			else
 			{
-				if (fileLocation.replace("textures/skins/Librarian", "").contains("M"))
+				final String skinsFolderPath = modFolder + entry.getTexturesLocation();
+				final File skinsFolder = new File(skinsFolderPath);
+				
+				for (final File skinFile : skinsFolder.listFiles())
 				{
-					MCA.librarianSkinsMale.add(fileLocation);
-				}
+					//Fix the file's location in the folder and determine what type of villager the skin belongs to.
+					//Skins are named: [Profession][Gender][ID].png.
+					final String fileLocation = skinsFolderPath.replace(modFolder.getAbsolutePath() + "/assets/mca/", "") + skinFile.getName();
 
-				else
-				{
-					MCA.librarianSkinsFemale.add(fileLocation);
-				}
-			}
+					if (fileLocation.contains(entry.getUnlocalizedProfessionName()))
+					{
+						if (fileLocation.replace("textures/skins/" + entry.getUnlocalizedProfessionName(), "").contains("M"))
+						{
+							entry.addMaleSkin(fileLocation);
+						}
 
-			else if (fileLocation.contains("Priest"))
-			{
-				if (fileLocation.replace("textures/skins/Priest", "").contains("M"))
-				{
-					MCA.priestSkinsMale.add(fileLocation);
-				}
-
-				else
-				{
-					MCA.priestSkinsFemale.add(fileLocation);
-				}
-			}
-
-			else if (fileLocation.contains("Smith"))
-			{
-				if (fileLocation.replace("textures/skins/Smith", "").contains("M"))
-				{
-					MCA.smithSkinsMale.add(fileLocation);
-				}
-
-				else
-				{
-					MCA.smithSkinsFemale.add(fileLocation);
-				}
-			}
-
-			else if (fileLocation.contains("Butcher"))
-			{
-				if (fileLocation.replace("textures/skins/Butcher", "").contains("M"))
-				{
-					MCA.butcherSkinsMale.add(fileLocation);
-				}
-			}
-
-			else if (fileLocation.contains("Guard"))
-			{
-				if (fileLocation.replace("textures/skins/Guard", "").contains("M"))
-				{
-					MCA.guardSkinsMale.add(fileLocation);
-				}
-
-				else
-				{
-					MCA.guardSkinsFemale.add(fileLocation);
-				}
-			}
-
-			else if (fileLocation.contains("Kid"))
-			{
-				if (fileLocation.replace("textures/skins/Kid", "").contains("M"))
-				{
-					MCA.kidSkinsMale.add(fileLocation);
-				}
-
-				else
-				{
-					MCA.kidSkinsFemale.add(fileLocation);
-				}
-			}
-
-			else if (fileLocation.contains("Baker"))
-			{
-				if (fileLocation.replace("textures/skins/Baker", "").contains("M"))
-				{
-					MCA.bakerSkinsMale.add(fileLocation);
-				}
-
-				else
-				{
-					MCA.bakerSkinsFemale.add(fileLocation);
-				}
-			}
-
-			else if (fileLocation.contains("Miner"))
-			{
-				if (fileLocation.replace("textures/skins/Miner", "").contains("M"))
-				{
-					MCA.minerSkinsMale.add(fileLocation);
-				}
-
-				else
-				{
-					MCA.minerSkinsFemale.add(fileLocation);
+						else
+						{
+							entry.addFemaleSkin(fileLocation);
+						}
+					}
 				}
 			}
 		}
@@ -428,9 +245,9 @@ public class CommonProxy
 
 	private File getModFileFromNestedFolder(File nestedFolder) throws IOException
 	{
-		File[] filesInNestedFolder = nestedFolder.listFiles();
+		final File[] nestedFiles = nestedFolder.listFiles();
 
-		for (File file : filesInNestedFolder)
+		for (final File file : nestedFiles)
 		{
 			if (file.isDirectory())
 			{
@@ -451,9 +268,9 @@ public class CommonProxy
 
 	private File getModFolderFromNestedFolder(File nestedFolder) throws IOException
 	{
-		File[] filesInNestedFolder = nestedFolder.listFiles();
+		final File[] nestedFiles = nestedFolder.listFiles();
 
-		for (File file : filesInNestedFolder)
+		for (final File file : nestedFiles)
 		{
 			if (file.isDirectory())
 			{
@@ -472,14 +289,14 @@ public class CommonProxy
 		return null;
 	}
 
-	private boolean fileContainsModData(File potentialDataFile) throws IOException
+	private boolean fileContainsModData(File fileToTest) throws IOException
 	{
-		if (potentialDataFile.getName().contains(".zip"))
+		if (fileToTest.getName().contains(".zip"))
 		{
 			try
 			{
-				ZipFile archive = new java.util.zip.ZipFile(potentialDataFile);
-				Enumeration enumerator = archive.entries();
+				final ZipFile archive = new ZipFile(fileToTest);
+				final Enumeration enumerator = archive.entries();
 				ZipEntry entry;					
 
 				while (enumerator.hasMoreElements())
@@ -489,7 +306,7 @@ public class CommonProxy
 					//Test for random files unique to MCA.
 					if (entry.getName().contains("mca/core/MCA.class") || entry.getName().contains("sleeping/EE1.png"))
 					{
-						MCA.instance.log(" -" + potentialDataFile.getName() + " <YES>");
+						MCA.getInstance().log(" -" + fileToTest.getName() + " <YES>");
 						archive.close();
 						return true;
 					}
@@ -500,29 +317,29 @@ public class CommonProxy
 
 			catch (ZipException e)
 			{
-				MCA.instance.log(" -" + potentialDataFile.getName() + " <ERR>");
+				MCA.getInstance().log(" -" + fileToTest.getName() + " <ERR>");
 			}
 
-			MCA.instance.log(" -" + potentialDataFile.getName() + " <NOT>");
+			MCA.getInstance().log(" -" + fileToTest.getName() + " <NOT>");
 		}
 
 		return false;
 	}
 
-	private boolean folderContainsModData(File potentialDataFolder) throws IOException
+	private boolean folderContainsModData(File folderToTest) throws IOException
 	{
-		File testFile1 = new File(potentialDataFolder.getAbsolutePath() + "/mca/core/MCA.class");
-		File testFile2 = new File(potentialDataFolder.getAbsolutePath() + "/assets/mca/textures/skins/EE1.png");
+		final File testFile1 = new File(folderToTest.getAbsolutePath() + "/mca/core/MCA.class");
+		final File testFile2 = new File(folderToTest.getAbsolutePath() + "/assets/mca/textures/skins/EE1.png");
 
 		if (testFile1.exists() || testFile2.exists())
 		{
-			MCA.instance.log(" -" + potentialDataFolder.getName() + " <YES>");
+			MCA.getInstance().log(" -" + folderToTest.getName() + " <YES>");
 			return true;
 		}
 
 		else
 		{
-			MCA.instance.log(" -" + potentialDataFolder.getName() + " <NOT>");
+			MCA.getInstance().log(" -" + folderToTest.getName() + " <NOT>");
 			return false;
 		}
 	}

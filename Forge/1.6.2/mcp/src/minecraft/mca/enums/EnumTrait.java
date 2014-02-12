@@ -27,18 +27,18 @@ public enum EnumTrait
 	Outgoing("trait.outgoing", 7);
 	
 	private String value;
-	private int id;
+	private int traitId;
 	
 	/**
 	 * Constructor
 	 * 
-	 * @param 	value	The trait's ID within the language files.
-	 * @param 	id		The trait's numeric ID.
+	 * @param 	value		The trait's ID within the language files.
+	 * @param 	traitId		The trait's numeric ID.
 	 */
-	private EnumTrait(String value, int id)
+	private EnumTrait(String value, int traitId)
 	{
 		this.value = value;
-		this.id = id;
+		this.traitId = traitId;
 	}
 	
 	/**
@@ -48,9 +48,9 @@ public enum EnumTrait
 	 */
 	public static EnumTrait getRandomTrait()
 	{
-		int randomId = MCA.instance.rand.nextInt(EnumTrait.values().length);
+		final int randomId = MCA.rand.nextInt(EnumTrait.values().length);
 		
-		for (EnumTrait trait : EnumTrait.values())
+		for (final EnumTrait trait : EnumTrait.values())
 		{
 			if (trait.getId() == randomId)
 			{
@@ -88,21 +88,21 @@ public enum EnumTrait
 	 */
 	public int getId()
 	{
-		return id;
+		return traitId;
 	}
 	
 	/**
 	 * Gets the appropriate trait for a villager based on the ID provided.
 	 * 
-	 * @param 	id	The trait's ID.
+	 * @param 	traitId	The trait's ID.
 	 * 
 	 * @return	EnumTrait with matching ID provided.
 	 */
-	public static EnumTrait getTraitById(int id)
+	public static EnumTrait getTraitById(int traitId)
 	{
-		for (EnumTrait trait : EnumTrait.values())
+		for (final EnumTrait trait : EnumTrait.values())
 		{
-			if (trait.getId() == id)
+			if (trait.getId() == traitId)
 			{
 				return trait;
 			}

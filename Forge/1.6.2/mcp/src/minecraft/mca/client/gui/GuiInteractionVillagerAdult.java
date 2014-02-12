@@ -11,27 +11,32 @@ package mca.client.gui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import mca.chore.ChoreFarming;
 import mca.chore.ChoreFishing;
 import mca.chore.ChoreHunting;
 import mca.chore.ChoreMining;
 import mca.chore.ChoreWoodcutting;
+import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
-import mca.core.util.Color;
+import mca.core.util.Interactions;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
-import mca.core.util.PacketHelper;
+import mca.core.util.Utility;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
+import mca.enums.EnumGenericCommand;
 import mca.enums.EnumMood;
 import mca.enums.EnumRelation;
 import mca.enums.EnumTrait;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -54,6 +59,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 	//Base buttons.
 	private GuiButton interactButton;
+	private GuiButton horseButton;
 	private GuiButton followButton;
 	private GuiButton setHomeButton;
 	private GuiButton stayButton;
@@ -71,7 +77,6 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private GuiButton tellStoryButton;
 
 	//Buttons appearing at the top of the screen.
-	private GuiButton takeArrangerRingButton;
 	private GuiButton takeGiftButton;
 
 	//Buttons for monarchs.
@@ -87,6 +92,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private GuiButton inventoryButton;
 
 	//Buttons for hiring.
+	/** Acts as a label to show how many hours are selected. */
+	@SuppressWarnings("unused")
 	private GuiButton hoursButton;
 	private GuiButton hoursIncreaseButton;
 	private GuiButton hoursDecreaseButton;
@@ -327,14 +334,14 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				//Draw (Peasant) beside their name if this is the owner player.
 				if (entityVillager.monarchPlayerName.equals(player.username))
 				{
-					drawCenteredString(fontRenderer, entityVillager.getTitle(MCA.instance.getIdOfPlayer(player), true) + " " + LanguageHelper.getString("monarch.title.peasant." + entityVillager.gender.toLowerCase() + ".owner"), width / 2, height / 2 - 80, 0xffffff);
+					drawCenteredString(fontRenderer, entityVillager.getTitle(MCA.getInstance().getIdOfPlayer(player), true) + " " + LanguageHelper.getString("monarch.title.peasant." + entityVillager.getGenderAsString() + ".owner"), width / 2, height / 2 - 80, 0xffffff);
 				}
 
 				//Else draw (Peasant of %Name%) below their name.
 				else
 				{
-					drawCenteredString(fontRenderer, entityVillager.getTitle(MCA.instance.getIdOfPlayer(player), true), width / 2, height / 2 - 80, 0xffffff);
-					drawCenteredString(fontRenderer, LanguageHelper.getString(entityVillager, "monarch.title.peasant." + entityVillager.gender.toLowerCase() + ".otherplayer", false), width / 2, height / 2 - 60, 0xffffff);
+					drawCenteredString(fontRenderer, entityVillager.getTitle(MCA.getInstance().getIdOfPlayer(player), true), width / 2, height / 2 - 80, 0xffffff);
+					drawCenteredString(fontRenderer, LanguageHelper.getString(entityVillager, "monarch.title.peasant." + entityVillager.getGenderAsString() + ".otherplayer", false), width / 2, height / 2 - 60, 0xffffff);
 				}
 			}
 
@@ -344,14 +351,14 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				//Draw (Knight of %Name%) below their name if this is NOT the owner player.
 				if (!entityVillager.monarchPlayerName.equals(player.username))
 				{
-					drawCenteredString(fontRenderer, entityVillager.getTitle(MCA.instance.getIdOfPlayer(player), true), width / 2, height / 2 - 80, 0xffffff);
-					drawCenteredString(fontRenderer, LanguageHelper.getString(entityVillager, "monarch.title.knight." + entityVillager.gender.toLowerCase() + ".otherplayer", false), width / 2, height / 2 - 60, 0xffffff);
+					drawCenteredString(fontRenderer, entityVillager.getTitle(MCA.getInstance().getIdOfPlayer(player), true), width / 2, height / 2 - 80, 0xffffff);
+					drawCenteredString(fontRenderer, LanguageHelper.getString(entityVillager, "monarch.title.knight." + entityVillager.getGenderAsString() + ".otherplayer", false), width / 2, height / 2 - 60, 0xffffff);
 				}
 
 				//Else draw their title like normal. It will be changed to Knight.
 				else
 				{
-					drawCenteredString(fontRenderer, entityVillager.getTitle(MCA.instance.getIdOfPlayer(player), true), width / 2, height / 2 - 80, 0xffffff);
+					drawCenteredString(fontRenderer, entityVillager.getTitle(MCA.getInstance().getIdOfPlayer(player), true), width / 2, height / 2 - 80, 0xffffff);
 				}
 			}
 
@@ -359,18 +366,18 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			else if (entityVillager.playerMemoryMap.get(player.username).isHired)
 			{
 				PlayerMemory memory = entityVillager.playerMemoryMap.get(player.username);
-				drawCenteredString(fontRenderer, entityVillager.getTitle(MCA.instance.getIdOfPlayer(player), true) + " " + LanguageHelper.getString("gui.title.special.hired"), width / 2, height / 2 - 80, 0xffffff);
+				drawCenteredString(fontRenderer, entityVillager.getTitle(MCA.getInstance().getIdOfPlayer(player), true) + " " + LanguageHelper.getString("gui.title.special.hired"), width / 2, height / 2 - 80, 0xffffff);
 
 				if (!inSpecialGui)
 				{
-					drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.hire.minutesremaining").replace("%x%", new Integer((memory.hoursHired * 60) - memory.minutesSinceHired).toString()), width / 2, height / 2, 0xffffff);
+					drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.hire.minutesremaining").replace("%x%", Integer.valueOf((memory.hoursHired * 60) - memory.minutesSinceHired).toString()), width / 2, height / 2, 0xffffff);
 				}
 			}
 
 			//They're not hired by this player. Draw their title like normal.
 			else
 			{
-				drawCenteredString(fontRenderer, entityVillager.getTitle(MCA.instance.getIdOfPlayer(player), true), width / 2, height / 2 - 80, 0xffffff);
+				drawCenteredString(fontRenderer, entityVillager.getTitle(MCA.getInstance().getIdOfPlayer(player), true), width / 2, height / 2 - 80, 0xffffff);
 			}
 
 
@@ -378,12 +385,12 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			 * Spousal IF block
 			 **********************************/
 			//Check if they have a spouse...
-			AbstractEntity spouse = entityVillager.familyTree.getInstanceOfRelative(EnumRelation.Spouse);
+			AbstractEntity spouse = entityVillager.familyTree.getRelativeAsEntity(EnumRelation.Spouse);
 
 			if (spouse != null)
 			{
 				//If they have a villager spouse and the player is related, then draw (Married to %SpouseRelation% %SpouseName%.)
-				if (entityVillager.isMarried && spouse.familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player)))
+				if (entityVillager.isMarriedToVillager && spouse.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 				{
 					drawCenteredString(fontRenderer, LanguageHelper.getString(player, entityVillager, "gui.info.family.spouse", false), width / 2 , height / 2 - 60, 0xffffff);
 				}
@@ -397,7 +404,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			//Spouse turned up null, but check if they're a villager spouse or player spouse anyway.
 			//If they are, just draw (Married to %SpouseFullName%), which is remembered regardless of if the spouse is present.
-			else if (entityVillager.isMarried || entityVillager.isSpouse)
+			else if (entityVillager.isMarriedToVillager || entityVillager.isMarriedToPlayer)
 			{
 				drawCenteredString(fontRenderer, LanguageHelper.getString(player, entityVillager, "gui.info.family.spouse.unrelated", false), width / 2, height / 2 - 60, 0xffffff);
 			}
@@ -405,11 +412,55 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			//They're not married at all. Check to see if they have parents and draw their names.
 			else
 			{
-				List<Integer> parents = entityVillager.familyTree.getEntitiesWithRelation(EnumRelation.Parent);
+				List<Integer> parents = entityVillager.familyTree.getIDsWithRelation(EnumRelation.Parent);
 
 				if (parents.size() == 2)
 				{
-					drawCenteredString(fontRenderer, LanguageHelper.getString(entityVillager, "gui.info.family.parents", false), width / 2, height / 2 - 60, 0xffffff);
+					int parent1Id = -1;
+					int parent2Id = -1;
+
+					for (Map.Entry<Integer, Integer> entry : MCA.getInstance().idsMap.entrySet())
+					{
+						int keyInt = entry.getKey();
+						int valueInt = entry.getValue();
+
+						if (keyInt == parents.get(0))
+						{
+							parent1Id = valueInt;
+						}
+
+						else if (keyInt == parents.get(1))
+						{
+							parent2Id = valueInt;
+						}
+					}
+
+					try
+					{
+						AbstractEntity parent1 = (AbstractEntity) entityVillager.worldObj.getEntityByID(parent1Id);
+						AbstractEntity parent2 = (AbstractEntity) entityVillager.worldObj.getEntityByID(parent2Id);
+
+						boolean bothParentsAlive = parent1 != null && parent2 != null;
+						boolean neitherParentsAlive = parent1 == null && parent2 == null;
+
+						if (bothParentsAlive)
+						{
+							drawCenteredString(fontRenderer, LanguageHelper.getString(player, entityVillager, "gui.info.family.parents", false), width / 2, height / 2 - 60, 0xffffff);
+						}
+
+						else if (neitherParentsAlive)
+						{
+							drawCenteredString(fontRenderer, LanguageHelper.getString(player, entityVillager, "gui.info.family.parents.deceased", false), width / 2, height / 2 - 60, 0xffffff);
+						}
+
+						//1 parent alive.
+						else
+						{
+							drawCenteredString(fontRenderer, LanguageHelper.getString(player, entityVillager, "gui.info.family.parent", false), width / 2, height / 2 - 60, 0xffffff);
+						}
+					}
+
+					catch (NullPointerException e) {}
 				}
 			}
 
@@ -467,7 +518,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			if (inHiringGui)
 			{
-				drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.hire.price").replace("%x%", new Integer(hiringHours).toString()), width / 2, 80, 0xffffff);
+				drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.hire.price").replace("%x%", String.valueOf(hiringHours)), width / 2, 80, 0xffffff);
 
 				boolean hasGold = false;
 
@@ -489,13 +540,13 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 				if (hasGold)
 				{
-					drawCenteredString(fontRenderer, Color.GREEN + LanguageHelper.getString("gui.info.hire.hasgold"), width / 2, 95, 0xffffff);
+					drawCenteredString(fontRenderer, Constants.COLOR_GREEN + LanguageHelper.getString("gui.info.hire.hasgold"), width / 2, 95, 0xffffff);
 					hireButton.enabled = true;
 				}
 
 				else
 				{
-					drawCenteredString(fontRenderer, Color.RED + LanguageHelper.getString("gui.info.hire.notenoughgold"), width / 2, 95, 0xffffff);
+					drawCenteredString(fontRenderer, Constants.COLOR_RED + LanguageHelper.getString("gui.info.hire.notenoughgold"), width / 2, 95, 0xffffff);
 					hireButton.enabled = false;
 				}
 			}
@@ -557,6 +608,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		displaySuccessChance = false;
 
 		buttonList.add(interactButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.interact")));
+		buttonList.add(horseButton = new GuiButton(2, width / 2 - 90, height /2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.ridehorse")));
 		buttonList.add(followButton  = new GuiButton(2, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
 		buttonList.add(stayButton    = new GuiButton(3, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
 		buttonList.add(setHomeButton = new GuiButton(4, width / 2 - 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.sethome")));
@@ -565,15 +617,10 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			buttonList.add(specialButton = new GuiButton(5, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.special")));
 		}
-		
+
 		if (entityVillager.getProfession() != 5 && !(entityVillager instanceof EntityPlayerChild))
 		{
 			buttonList.add(tradeButton = new GuiButton(8, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.trade")));
-		}
-
-		if (entityVillager.hasArrangerRing)
-		{
-			buttonList.add(takeArrangerRingButton = new GuiButton(8, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.interact.takearrangerring")));
 		}
 
 		else if (entityVillager.playerMemoryMap.get(player.username).hasGift)
@@ -581,7 +628,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			buttonList.add(takeGiftButton = new GuiButton(8, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.interact.takegift")));
 		}
 
-		if (MCA.instance.playerWorldManagerMap.get(player.username).worldProperties.isMonarch)
+		if (MCA.getInstance().playerWorldManagerMap.get(player.username).worldProperties.isMonarch)
 		{
 			if (entityVillager.getProfession() != 5)
 			{
@@ -600,6 +647,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		if (entityVillager.isFollowing) followButton.displayString = LanguageHelper.getString("gui.button.interact.followstop");
 		if (entityVillager.isStaying) stayButton.displayString = LanguageHelper.getString("gui.button.interact.staystop");
+		if (entityVillager.ridingEntity instanceof EntityHorse) horseButton.displayString = LanguageHelper.getString("gui.button.interact.dismount");
 		if (entityVillager.isEntityAlive() && entityVillager.isTrading()) tradeButton.enabled = false;
 	}
 
@@ -620,7 +668,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		buttonList.add(greetButton = new GuiButton(4, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.greet")));
 		buttonList.add(tellStoryButton = new GuiButton(5, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.tellstory")));
 
-		EnumRelation relationToPlayer = entityVillager.familyTree.getRelationTo(MCA.instance.getIdOfPlayer(player));
+		EnumRelation relationToPlayer = entityVillager.familyTree.getMyRelationTo(MCA.getInstance().getIdOfPlayer(player));
 
 		if (relationToPlayer == EnumRelation.None || relationToPlayer == EnumRelation.Spouse)
 		{
@@ -663,7 +711,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		buttonList.add(adoptBabyButton     = new GuiButton(4, width / 2 - 125, height / 2 + 30, 85, 20, LanguageHelper.getString("gui.button.special.priest.adoptbaby")));
 		buttonList.add(arrangedMarriageButton = new GuiButton(5, width / 2 - 40, height / 2 + 30, 120, 20, LanguageHelper.getString("gui.button.special.priest.arrangedmarriage")));
 
-		WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
+		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
 		divorceSpouseButton.enabled = manager.worldProperties.playerSpouseID != 0;
 		giveUpBabyButton.enabled = manager.worldProperties.babyExists;
 		arrangedMarriageButton.enabled = manager.worldProperties.playerSpouseID == 0;
@@ -1095,7 +1143,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		buttonList.add(makePeasantButton = new GuiButton(3, width / 2 - 60, height / 2 + 20, 120, 20, LanguageHelper.getString("monarch.gui.button.interact.makepeasant")));
 		buttonList.add(makeKnightButton  = new GuiButton(4, width / 2 - 60, height / 2 + 40, 120, 20, LanguageHelper.getString("monarch.gui.button.interact.makeknight")));
 
-		demandGiftButton.enabled = MCA.instance.modPropertiesManager.modProperties.server_allowDemandGift;
+		demandGiftButton.enabled = MCA.getInstance().modPropertiesManager.modProperties.server_allowDemandGift;
 
 		if (entityVillager.profession == 5)
 		{
@@ -1134,9 +1182,35 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			drawInteractionGui();
 		}
 
+		else if (button == horseButton)
+		{
+			if (!entityVillager.isMarriedToPlayer || (entityVillager.isMarriedToPlayer && entityVillager.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player))))
+			{
+				EntityHorse nearestHorse = (EntityHorse)LogicHelper.getNearestEntityOfType(entityVillager, EntityHorse.class, 5);
+
+				if (nearestHorse != null)
+				{
+					PacketDispatcher.sendPacketToServer(PacketHandler.createGenericPacket(EnumGenericCommand.MountHorse, entityVillager.entityId, nearestHorse.entityId));
+				}
+
+				else
+				{
+					entityVillager.say(LanguageHelper.getString("notify.horse.notfound"));
+				}
+
+			}
+
+			else
+			{
+				entityVillager.notifyPlayer(player, LanguageHelper.getString("multiplayer.interaction.reject.spouse"));
+			}
+			
+			close();
+		}
+
 		else if (button == followButton)
 		{
-			if (!entityVillager.isSpouse || (entityVillager.isSpouse && entityVillager.familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player))))
+			if (!entityVillager.isMarriedToPlayer || (entityVillager.isMarriedToPlayer && entityVillager.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player))))
 			{
 				if (entityVillager.profession == 5)
 				{
@@ -1156,9 +1230,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 								entityVillager.isStaying = false;
 								entityVillager.followingPlayer = player.username;
 
-								PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", true));
-								PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
-								PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "followingPlayer", player.username));
+								PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isFollowing", entityVillager.isFollowing));
+								PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isStaying", entityVillager.isStaying));
+								PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "followingPlayer", entityVillager.followingPlayer));
 
 								entityVillager.say(LanguageHelper.getString(player, entityVillager, "monarch.knight.follow.start", false));
 								close();
@@ -1170,9 +1244,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 								entityVillager.isStaying = false;
 								entityVillager.followingPlayer = "None";
 
-								PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
-								PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
-								PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "followingPlayer", "None"));
+								PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isFollowing", entityVillager.isFollowing));
+								PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isStaying", entityVillager.isStaying));
+								PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "followingPlayer", entityVillager.followingPlayer));
 
 								entityVillager.say(LanguageHelper.getString(player, entityVillager, "monarch.knight.follow.stop", false));
 							}
@@ -1197,9 +1271,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 							entityVillager.isStaying = false;
 							entityVillager.followingPlayer = player.username;
 
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", true));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "followingPlayer", player.username));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isFollowing", entityVillager.isFollowing));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isStaying", entityVillager.isStaying));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "followingPlayer", entityVillager.followingPlayer));
 
 							entityVillager.say(LanguageHelper.getString(player, entityVillager, "follow.start"));
 							close();
@@ -1211,9 +1285,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 							entityVillager.isStaying = false;
 							entityVillager.followingPlayer = "None";
 
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
-							PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "followingPlayer", "None"));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isFollowing", entityVillager.isFollowing));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isStaying", entityVillager.isStaying));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "followingPlayer", entityVillager.followingPlayer));
 
 							entityVillager.say(LanguageHelper.getString(player, entityVillager, "follow.stop"));
 						}
@@ -1228,9 +1302,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 					entityVillager.isStaying = false;
 					entityVillager.followingPlayer = player.username;
 
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", true));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "followingPlayer", player.username));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isFollowing", entityVillager.isFollowing));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isStaying", entityVillager.isStaying));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "followingPlayer", entityVillager.followingPlayer));
 
 					entityVillager.say(LanguageHelper.getString(player, entityVillager, "follow.start"));
 					close();
@@ -1242,9 +1316,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 					entityVillager.isStaying = false;
 					entityVillager.followingPlayer = "None";
 
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "followingPlayer", "None"));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isFollowing", entityVillager.isFollowing));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isStaying", entityVillager.isStaying));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "followingPlayer", entityVillager.followingPlayer));
 
 					entityVillager.say(LanguageHelper.getString(player, entityVillager, "follow.stop"));
 				}
@@ -1260,15 +1334,15 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == stayButton)
 		{
-			if (!entityVillager.isSpouse || (entityVillager.isSpouse && entityVillager.familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player))))
+			if (!entityVillager.isMarriedToPlayer || (entityVillager.isMarriedToPlayer && entityVillager.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player))))
 			{
 				entityVillager.isStaying = !entityVillager.isStaying;
 				entityVillager.isFollowing = false;
 				entityVillager.idleTicks = 0;
 
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", entityVillager.isStaying));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "idleTicks", 0));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isStaying", entityVillager.isStaying));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isFollowing", entityVillager.isFollowing));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "idleTicks", entityVillager.idleTicks));
 			}
 
 			else
@@ -1281,19 +1355,19 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == setHomeButton)
 		{
-			if (!entityVillager.isSpouse || (entityVillager.isSpouse && entityVillager.familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player))))
+			if (!entityVillager.isMarriedToPlayer || (entityVillager.isMarriedToPlayer && entityVillager.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player))))
 			{
 				entityVillager.homePointX = entityVillager.posX;
 				entityVillager.homePointY = entityVillager.posY;
 				entityVillager.homePointZ = entityVillager.posZ;
 				entityVillager.hasHomePoint = true;
 
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "homePointX", entityVillager.posX));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "homePointY", entityVillager.posY));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "homePointZ", entityVillager.posZ));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "hasHomePoint", true));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "homePointX", entityVillager.homePointX));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "homePointY", entityVillager.homePointY));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "homePointZ", entityVillager.homePointZ));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "hasHomePoint", entityVillager.hasHomePoint));
 
-				entityVillager.testNewHomePoint();
+				entityVillager.verifyHomePointIsValid();
 			}
 
 			else
@@ -1319,19 +1393,6 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			}
 		}
 
-		else if (button == takeArrangerRingButton)
-		{
-			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
-
-			entityVillager.hasArrangerRing = false;
-
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "hasArrangerRing", false));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(entityVillager.entityId, MCA.instance.itemArrangersRing.itemID, 1));
-			manager.worldProperties.arrangerRingHolderID = 0;
-			manager.saveWorldProperties();
-			close();
-		}
-
 		else if (button == takeGiftButton)
 		{
 			PlayerMemory memory = entityVillager.playerMemoryMap.get(player.username);
@@ -1340,8 +1401,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			ItemStack giftStack = LogicHelper.getGiftStackFromRelationship(player, entityVillager);
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(entityVillager.entityId, giftStack.itemID, giftStack.stackSize));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createDropItemPacket(entityVillager.entityId, giftStack.itemID, giftStack.stackSize));
 			close();
 		}
 
@@ -1349,7 +1410,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			if (entityVillager.isEntityAlive() && !entityVillager.isTrading())
 			{
-				PacketDispatcher.sendPacketToServer(PacketHelper.createTradePacket((EntityVillagerAdult)entityVillager));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createGenericPacket(EnumGenericCommand.StartTrade, entityVillager.entityId));
 				close();
 			}
 		}
@@ -1369,49 +1430,49 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	{
 		if (button == chatButton)
 		{
-			entityVillager.doChat(player);
+			Interactions.doChat(entityVillager, player);
 			close();
 		}
 
 		else if (button == jokeButton)
 		{
-			entityVillager.doJoke(player);
+			Interactions.doJoke(entityVillager, player);
 			close();
 		}
 
 		else if (button == giftButton)
 		{
 			entityVillager.playerMemoryMap.get(player.username).isInGiftMode = true;
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
 			close();
 		}
 
 		else if (button == greetButton)
 		{
-			entityVillager.doGreeting(player);
+			Interactions.doGreeting(entityVillager, player);
 			close();
 		}
 
 		else if (button == tellStoryButton)
 		{
-			entityVillager.doTellStory(player);
+			Interactions.doTellStory(entityVillager, player);
 			close();
 		}
 		else if (button == kissButton)
 		{
-			entityVillager.doKiss(player);
+			Interactions.doKiss(entityVillager, player);
 			close();
 		}
 
 		else if (button == flirtButton)
 		{
-			entityVillager.doFlirt(player);
+			Interactions.doFlirt(entityVillager, player);
 			close();
 		}
 
 		else if (button == tellStoryButton)
 		{
-			entityVillager.doTellStory(player);
+			Interactions.doTellStory(entityVillager, player);
 			close();
 		}
 
@@ -1436,7 +1497,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 						if (stack.stackSize >= hiringHours)
 						{
 							player.inventory.decrStackSize(i, hiringHours);
-							PacketDispatcher.sendPacketToServer(PacketHelper.createRemoveItemPacket(player.entityId, i, hiringHours, 0));
+							PacketDispatcher.sendPacketToServer(PacketHandler.createRemoveItemPacket(player.entityId, i, hiringHours, 0));
 						}
 
 						break;
@@ -1453,7 +1514,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			entityVillager.say(LanguageHelper.getString("generic.hire.accept"));
 
 			entityVillager.playerMemoryMap.put(player.username, memory);
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
 			close();
 		}
 
@@ -1498,7 +1559,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	 */
 	private void actionPerformedPriest(GuiButton button)
 	{
-		WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
+		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
 
 		if (button == divorceSpouseButton)
 		{
@@ -1509,15 +1570,15 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				if (playerSpouse != null)
 				{	
 					EntityVillagerAdult spouse = (EntityVillagerAdult)playerSpouse;
-					spouse.shouldDivorce = true;
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouse.entityId, "shouldDivorce", true));
+					spouse.doDivorce = true;
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouse.entityId, "doDivorce", spouse.doDivorce));
 				}
 
 				else //The spouse is not nearby.
 				{
 					EntityVillagerAdult spouse = null;
 
-					for (AbstractEntity entity : MCA.instance.entitiesMap.values())
+					for (AbstractEntity entity : MCA.getInstance().entitiesMap.values())
 					{
 						if (entity.mcaID == manager.worldProperties.playerSpouseID)
 						{
@@ -1527,13 +1588,13 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 					if (spouse != null)
 					{
-						spouse.shouldDivorce = true;
-						PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouse.entityId, "shouldDivorce", true));
+						spouse.doDivorce = true;
+						PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouse.entityId, "doDivorce", spouse.doDivorce));
 					}
 				}
 			}
 
-			catch (Throwable e)
+			catch (Exception e)
 			{
 				//The spouse wasn't found in the entities map for some reason. Just reset the player's spouse ID.
 				manager.worldProperties.playerSpouseID = 0;
@@ -1546,7 +1607,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == divorceCoupleButton)
 		{
-			player.openGui(MCA.instance, MCA.instance.guiSpecialDivorceCoupleID, player.worldObj, (int)player.posX, (int)player.posY, (int)player.posZ);
+			player.openGui(MCA.getInstance(), Constants.ID_GUI_DIVORCE, player.worldObj, (int)player.posX, (int)player.posY, (int)player.posZ);
 		}
 
 		else if (button == giveUpBabyButton)
@@ -1554,7 +1615,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			manager.worldProperties.babyExists = false;
 			manager.worldProperties.babyName = "";
 			manager.worldProperties.babyReadyToGrow = false;
-			manager.worldProperties.babyGender = "";
+			manager.worldProperties.babyIsMale = false;
 			manager.worldProperties.minutesBabyExisted = 0;
 
 			entityVillager.notifyPlayer(player, LanguageHelper.getString("notify.baby.gaveup"));
@@ -1576,22 +1637,24 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				manager.worldProperties.minutesBabyExisted = 0;
 				manager.worldProperties.babyReadyToGrow = false;
 
-				if (AbstractEntity.getRandomGender().equals("Male"))
+				boolean isMale = Utility.getRandomGender();
+
+				if (isMale)
 				{
-					manager.worldProperties.babyName = AbstractEntity.getRandomName("Male");
+					manager.worldProperties.babyName = Utility.getRandomName(isMale);
 					entityVillager.say(LanguageHelper.getString(player, "priest.adopt.male"));
 
-					player.inventory.addItemStackToInventory(new ItemStack(MCA.instance.itemBabyBoy, 1));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createAddItemPacket(MCA.instance.itemBabyBoy.itemID, player.entityId));
+					player.inventory.addItemStackToInventory(new ItemStack(MCA.getInstance().itemBabyBoy, 1));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createAddItemPacket(MCA.getInstance().itemBabyBoy.itemID));
 				}
 
 				else
 				{
-					manager.worldProperties.babyName = AbstractEntity.getRandomName("Female");
+					manager.worldProperties.babyName = Utility.getRandomName(isMale);
 					entityVillager.say(LanguageHelper.getString(player, "priest.adopt.female"));
 
-					player.inventory.addItemStackToInventory(new ItemStack(MCA.instance.itemBabyGirl, 1));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createAddItemPacket(MCA.instance.itemBabyGirl.itemID, player.entityId));
+					player.inventory.addItemStackToInventory(new ItemStack(MCA.getInstance().itemBabyGirl, 1));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createAddItemPacket(MCA.getInstance().itemBabyGirl.itemID));
 				}
 
 				manager.saveWorldProperties();
@@ -1610,9 +1673,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			for (EntityVillagerAdult adult : nearbyVillagers)
 			{
-				if (adult.gender.equals(preferredGender))
+				if (adult.getGenderAsString().equals(preferredGender))
 				{
-					if (AbstractEntity.getBooleanWithProbability(30))
+					if (Utility.getBooleanWithProbability(30))
 					{
 						villagerToMarry = adult;
 						break;
@@ -1629,12 +1692,12 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			else
 			{
-				villagerToMarry.marriageToPlayerWasArranged = true;
-				villagerToMarry.isSpouse = true;
+				villagerToMarry.isMarriageToPlayerArranged = true;
+				villagerToMarry.isMarriedToPlayer = true;
 				villagerToMarry.spousePlayerName = player.username;
 				villagerToMarry.familyTree.addFamilyTreeEntry(player, EnumRelation.Spouse);
 
-				player.triggerAchievement(MCA.instance.achievementGetMarried);
+				player.triggerAchievement(MCA.getInstance().achievementGetMarried);
 
 				manager.worldProperties.playerSpouseID = villagerToMarry.mcaID;
 				manager.saveWorldProperties();
@@ -1642,15 +1705,15 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				//Reset AI in case of guard.
 				villagerToMarry.addAI();
 
-				PacketDispatcher.sendPacketToServer(PacketHelper.createAddAIPacket(villagerToMarry));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFamilyTreePacket(villagerToMarry.entityId, villagerToMarry.familyTree));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerToMarry.entityId, "isSpouse", true));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerToMarry.entityId, "spousePlayerName", player.username));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villagerToMarry.entityId, "marriageToPlayerWasArranged", true));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementGetMarried, player.entityId));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createGenericPacket(EnumGenericCommand.AddAI, villagerToMarry.entityId));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFamilyTreePacket(villagerToMarry.entityId, villagerToMarry.familyTree));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerToMarry.entityId, "isMarriedToPlayer", villagerToMarry.isMarriedToPlayer));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerToMarry.entityId, "spousePlayerName", villagerToMarry.spousePlayerName));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villagerToMarry.entityId, "isMarriageToPlayerArranged", villagerToMarry.isMarriageToPlayerArranged));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementGetMarried, player.entityId));
 
 				villagerToMarry.setPosition(player.posX, player.posY, player.posZ);
-				PacketDispatcher.sendPacketToServer(PacketHelper.createPositionPacket(villagerToMarry, player.posX, player.posY, player.posZ));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createGenericPacket(EnumGenericCommand.SetPosition, villagerToMarry.entityId, player.posX, player.posY, player.posZ));
 
 				entityVillager.say(LanguageHelper.getString(player, villagerToMarry, "priest.arrangemarriage", false));
 				close();
@@ -1684,9 +1747,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			entityVillager.setChoresStopped();
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isFollowing", entityVillager.isFollowing));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isStaying", entityVillager.isStaying));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
 			close();
 		}
 
@@ -1700,14 +1763,14 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			entityVillager.isInChoreMode = false;
 			entityVillager.getInstanceOfCurrentChore().endChore();
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", false));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", entityVillager.isInChoreMode));
 			close();
 		}
 
 		else if (button == inventoryButton)
 		{
-			entityVillager.shouldOpenInventory = true;
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "shouldOpenInventory", true));
+			entityVillager.doOpenInventory = true;
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "doOpenInventory", entityVillager.doOpenInventory));
 			close();
 		}
 	}
@@ -1720,7 +1783,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private void actionPerformedBaker(GuiButton button) 
 	{
 		EntityVillagerAdult villager = (EntityVillagerAdult)entityVillager;
-		
+
 		if (button == requestAidButton)
 		{
 			if (villager.aidCooldown != 0)
@@ -1730,25 +1793,23 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			else
 			{
-				if (AbstractEntity.getBooleanWithProbability(80))
+				if (Utility.getBooleanWithProbability(80))
 				{
 					Object[] giftInfo = null;
 					giftInfo = MCA.bakerAidIDs[villager.worldObj.rand.nextInt(MCA.bakerAidIDs.length)];
 					int quantityGiven = villager.worldObj.rand.nextInt(Integer.parseInt(giftInfo[2].toString())) + Integer.parseInt(giftInfo[1].toString());
 
-
-					PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(villager.entityId, Integer.parseInt(giftInfo[0].toString()), quantityGiven));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createDropItemPacket(villager.entityId, Integer.parseInt(giftInfo[0].toString()), quantityGiven));
 					villager.say(LanguageHelper.getString("baker.aid.accept"));
-					villager.aidCooldown = 12000;
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
 				}
 
 				else
 				{
 					villager.say(LanguageHelper.getString("baker.aid.refuse"));
-					villager.aidCooldown = 12000;
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
 				}
+
+				villager.aidCooldown = 12000;
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villager.entityId, "aidCooldown", villager.aidCooldown));
 			}
 
 			close();
@@ -1781,9 +1842,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			entityVillager.setChoresStopped();
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isFollowing", entityVillager.isFollowing));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isStaying", entityVillager.isStaying));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
 			close();
 		}
 
@@ -1801,14 +1862,14 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			entityVillager.isInChoreMode = false;
 			entityVillager.getInstanceOfCurrentChore().endChore();
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", false));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", entityVillager.isInChoreMode));
 			close();
 		}
 
 		else if (button == inventoryButton)
 		{
-			entityVillager.shouldOpenInventory = true;
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "shouldOpenInventory", true));
+			entityVillager.doOpenInventory = true;
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "doOpenInventory", entityVillager.doOpenInventory));
 			close();
 		}
 	}
@@ -1821,7 +1882,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private void actionPerformedButcher(GuiButton button) 
 	{
 		EntityVillagerAdult villager = (EntityVillagerAdult)entityVillager;
-		
+
 		if (button == requestAidButton)
 		{
 			if (villager.aidCooldown != 0)
@@ -1831,25 +1892,23 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			else
 			{
-				if (AbstractEntity.getBooleanWithProbability(80))
+				if (Utility.getBooleanWithProbability(80))
 				{
 					Object[] giftInfo = null;
 					giftInfo = MCA.butcherAidIDs[villager.worldObj.rand.nextInt(MCA.butcherAidIDs.length)];
 					int quantityGiven = villager.worldObj.rand.nextInt(Integer.parseInt(giftInfo[2].toString())) + Integer.parseInt(giftInfo[1].toString());
 
-					PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(villager.entityId, Integer.parseInt(giftInfo[0].toString()), quantityGiven));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createDropItemPacket(villager.entityId, Integer.parseInt(giftInfo[0].toString()), quantityGiven));
 					villager.say(LanguageHelper.getString("butcher.aid.accept"));
-
-					villager.aidCooldown = 12000;
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
 				}
 
 				else
 				{
 					villager.say(LanguageHelper.getString("butcher.aid.refuse"));
-					villager.aidCooldown = 12000;
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
 				}
+
+				villager.aidCooldown = 12000;
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villager.entityId, "aidCooldown", villager.aidCooldown));
 			}
 
 			close();
@@ -1864,7 +1923,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private void actionPerformedSmith(GuiButton button) 
 	{
 		EntityVillagerAdult villager = (EntityVillagerAdult)entityVillager;
-		
+
 		if (button == requestAidButton)
 		{
 			if (villager.itemIdRequiredForSale == 0)
@@ -1892,10 +1951,10 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			memory.isInGiftMode = true;
 			villager.playerMemoryMap.put(player.username, memory);
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "itemIdRequiredForSale", villager.itemIdRequiredForSale));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "amountRequiredForSale", villager.amountRequiredForSale));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "isInAnvilGiftMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "playerMemoryMap", villager.playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villager.entityId, "itemIdRequiredForSale", villager.itemIdRequiredForSale));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villager.entityId, "amountRequiredForSale", villager.amountRequiredForSale));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villager.entityId, "isInAnvilGiftMode", villager.isInAnvilGiftMode));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villager.entityId, "playerMemoryMap", villager.playerMemoryMap));
 		}
 
 		close();
@@ -1927,16 +1986,16 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			entityVillager.setChoresStopped();
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isFollowing", false));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isStaying", false));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isFollowing", entityVillager.isFollowing));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isStaying", entityVillager.isStaying));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
 			close();
 		}
 
 		else if (button == requestAidButton)
 		{
 			EntityVillagerAdult villager = (EntityVillagerAdult)entityVillager;
-			
+
 			if (villager.aidCooldown != 0)
 			{
 				villager.say(LanguageHelper.getString("farmer.aid.refuse"));
@@ -1944,25 +2003,23 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			else
 			{
-				if (AbstractEntity.getBooleanWithProbability(80))
+				if (Utility.getBooleanWithProbability(80))
 				{
 					Object[] giftInfo = null;
 					giftInfo = MCA.farmerAidIDs[villager.worldObj.rand.nextInt(MCA.farmerAidIDs.length)];
 					int quantityGiven = villager.worldObj.rand.nextInt(Integer.parseInt(giftInfo[2].toString())) + Integer.parseInt(giftInfo[1].toString());
 
-
-					PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(villager.entityId, Integer.parseInt(giftInfo[0].toString()), quantityGiven));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createDropItemPacket(villager.entityId, Integer.parseInt(giftInfo[0].toString()), quantityGiven));
 					villager.say(LanguageHelper.getString("farmer.aid.accept"));
-					villager.aidCooldown = 12000;
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
 				}
 
 				else
 				{
 					villager.say(LanguageHelper.getString("farmer.aid.refuse"));
-					villager.aidCooldown = 12000;
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(villager.entityId, "aidCooldown", 12000));
 				}
+
+				villager.aidCooldown = 12000;
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(villager.entityId, "aidCooldown", villager.aidCooldown));
 			}
 
 			close();
@@ -1988,14 +2045,14 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			entityVillager.isInChoreMode = false;
 			entityVillager.getInstanceOfCurrentChore().endChore();
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", false));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", entityVillager.isInChoreMode));
 			close();
 		}
 
 		else if (button == inventoryButton)
 		{
-			entityVillager.shouldOpenInventory = true;
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "shouldOpenInventory", true));
+			entityVillager.doOpenInventory = true;
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "doOpenInventory", entityVillager.doOpenInventory));
 			close();
 		}
 	}
@@ -2010,7 +2067,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		if (button == openSetupButton)
 		{
 			mc.displayGuiScreen(null);
-			player.openGui(MCA.instance, MCA.instance.guiSetupID, player.worldObj, (int)entityVillager.posX, (int)entityVillager.posY, (int)entityVillager.posZ);
+			player.openGui(MCA.getInstance(), Constants.ID_GUI_SETUP, player.worldObj, (int)entityVillager.posX, (int)entityVillager.posY, (int)entityVillager.posZ);
 		}
 	}
 
@@ -2043,7 +2100,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == farmPlantButton)
 		{
-			if (farmPlantType == 5)
+			if (farmPlantType == Constants.CROP_DATA.length)
 			{
 				farmPlantType = 0;
 			}
@@ -2102,9 +2159,10 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			entityVillager.isInChoreMode = true;
 			entityVillager.currentChore = entityVillager.farmingChore.getChoreName();
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "currentChore", "Farming"));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.farmingChore));
+
+			PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityVillager.entityId, entityVillager.farmingChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", entityVillager.isInChoreMode));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "currentChore", entityVillager.currentChore));
 
 			close();
 		}
@@ -2132,9 +2190,10 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			entityVillager.fishingChore = new ChoreFishing(entityVillager);
 			entityVillager.isInChoreMode = true;
 			entityVillager.currentChore = entityVillager.fishingChore.getChoreName();
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "currentChore", "Fishing"));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.fishingChore));
+
+			PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityVillager.entityId, entityVillager.fishingChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", entityVillager.isInChoreMode));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "currentChore", entityVillager.currentChore));
 
 			close();
 		}
@@ -2255,7 +2314,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			entityVillager.combatChore.sentryPosZ = entityVillager.posZ;
 		}
 
-		PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.combatChore));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityVillager.entityId, entityVillager.combatChore));
 		drawCombatGui();
 	}
 
@@ -2292,9 +2351,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			entityVillager.isInChoreMode = true;
 			entityVillager.currentChore = entityVillager.woodcuttingChore.getChoreName();
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.woodcuttingChore));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "currentChore", "Woodcutting"));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityVillager.entityId, entityVillager.woodcuttingChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", entityVillager.isInChoreMode));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "currentChore", entityVillager.currentChore));
 			close();
 		}
 	}
@@ -2377,9 +2436,10 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			entityVillager.isInChoreMode = true;
 			entityVillager.currentChore = entityVillager.miningChore.getChoreName();
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "currentChore", "Mining"));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.miningChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityVillager.entityId, entityVillager.miningChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", entityVillager.isInChoreMode));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "currentChore", entityVillager.currentChore));
+
 			close();
 		}
 	}
@@ -2417,9 +2477,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			entityVillager.isInChoreMode = true;
 			entityVillager.currentChore = entityVillager.huntingChore.getChoreName();
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "currentChore", "Hunting"));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityVillager.entityId, entityVillager.huntingChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityVillager.entityId, entityVillager.huntingChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isInChoreMode", entityVillager.isInChoreMode));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "currentChore", entityVillager.currentChore));
 			close();
 		}
 	}
@@ -2454,7 +2514,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			if (hasSword)
 			{
-				if (!entityVillager.isSpouse)
+				if (!entityVillager.isMarriedToPlayer)
 				{
 					entityVillager.hasBeenExecuted = true;
 
@@ -2462,14 +2522,14 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 					entityVillager.modifyHearts(player, -30);
 
 					//Update stats and check for achievement.
-					WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
+					WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 					manager.worldProperties.stat_villagersExecuted++;
 					manager.saveWorldProperties();
 
-					player.triggerAchievement(MCA.instance.achievementExecuteVillager);
-					PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementExecuteVillager, player.entityId));
+					player.triggerAchievement(MCA.getInstance().achievementExecuteVillager);
+					PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementExecuteVillager, player.entityId));
 
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "hasBeenExecuted", entityVillager.hasBeenExecuted));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "hasBeenExecuted", entityVillager.hasBeenExecuted));
 					close();
 				}
 
@@ -2492,7 +2552,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			PlayerMemory memory = entityVillager.playerMemoryMap.get(player.username);
 
 			//Increase gifts demanded.
-			memory.monarchGiftsDemanded++;
+			memory.giftsDemanded++;
 
 			//Don't want to set ticks back to the maximum when they're in the process of counting down. Only reset them when
 			//they're already zero.
@@ -2502,20 +2562,20 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			}
 
 			//More than two is too many.
-			if (memory.monarchGiftsDemanded > 2)
+			if (memory.giftsDemanded > 2)
 			{
 				//Modifying hearts affects everyone in the area.
-				entityVillager.modifyHearts(player, -(5 * memory.monarchGiftsDemanded));
+				entityVillager.modifyHearts(player, -(5 * memory.giftsDemanded));
 
 				//There is a chance of refusing, and continue to refuse after doing so.
-				if (AbstractEntity.getBooleanWithProbability(5 * memory.monarchGiftsDemanded) || memory.hasRefusedDemands)
+				if (Utility.getBooleanWithProbability(5 * memory.giftsDemanded) || memory.hasRefusedDemands)
 				{
 					memory.hasRefusedDemands = true;
 					entityVillager.say(LanguageHelper.getString(player, "monarch.demandgift.dictator"));
 
 					//Update, send to server, and stop here.
 					entityVillager.playerMemoryMap.put(player.username, memory);
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
 
 					close();
 					return;
@@ -2536,8 +2596,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			entityVillager.playerMemoryMap.put(player.username, memory);
 			ItemStack giftStack = LogicHelper.getGiftStackFromRelationship(player, entityVillager);
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(entityVillager.entityId, giftStack.itemID, giftStack.stackSize));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "playerMemoryMap", entityVillager.playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createDropItemPacket(entityVillager.entityId, giftStack.itemID, giftStack.stackSize));
 			close();
 		}
 
@@ -2545,7 +2605,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			if (!entityVillager.isPeasant)
 			{
-				if (entityVillager.isSpouse)
+				if (entityVillager.isMarriedToPlayer)
 				{
 					player.addChatMessage(LanguageHelper.getString("monarch.makepeasant.failure.playerspouse"));
 					close();
@@ -2557,22 +2617,22 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 					entityVillager.monarchPlayerName = player.username;
 
 					//Update stats and check for achievement.
-					WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
+					WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 					manager.worldProperties.stat_villagersMadePeasants++;
 					manager.saveWorldProperties();
 
 					if (manager.worldProperties.stat_villagersMadePeasants >= 20)
 					{
-						player.triggerAchievement(MCA.instance.achievementPeasantArmy);
-						PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementPeasantArmy, player.entityId));
+						player.triggerAchievement(MCA.getInstance().achievementPeasantArmy);
+						PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementPeasantArmy, player.entityId));
 					}
 
 					player.addChatMessage(LanguageHelper.getString("monarch.makepeasant.success"));
 
-					player.triggerAchievement(MCA.instance.achievementMakePeasant);
-					PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementMakePeasant, player.entityId));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isPeasant", entityVillager.isPeasant));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "monarchPlayerName", entityVillager.monarchPlayerName));
+					player.triggerAchievement(MCA.getInstance().achievementMakePeasant);
+					PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementMakePeasant, player.entityId));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isPeasant", entityVillager.isPeasant));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "monarchPlayerName", entityVillager.monarchPlayerName));
 					close();
 				}
 			}
@@ -2588,7 +2648,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			if (!entityVillager.isKnight)
 			{
-				if (entityVillager.isSpouse)
+				if (entityVillager.isMarriedToPlayer)
 				{
 					player.addChatMessage(LanguageHelper.getString("monarch.makeknight.failure.playerspouse"));
 					close();
@@ -2600,22 +2660,22 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 					entityVillager.monarchPlayerName = player.username;
 
 					//Update stats and check for achievement.
-					WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
+					WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 					manager.worldProperties.stat_guardsMadeKnights++;
 					manager.saveWorldProperties();
 
 					if (manager.worldProperties.stat_guardsMadeKnights >= 20)
 					{
-						player.triggerAchievement(MCA.instance.achievementMakeKnight);
-						PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementKnightArmy, player.entityId));
+						player.triggerAchievement(MCA.getInstance().achievementMakeKnight);
+						PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementKnightArmy, player.entityId));
 					}
 
 					player.addChatMessage(LanguageHelper.getString("monarch.makeknight.success"));
 
-					player.triggerAchievement(MCA.instance.achievementMakeKnight);
-					PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementMakeKnight, player.entityId));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "isKnight", entityVillager.isKnight));
-					PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityVillager.entityId, "monarchPlayerName", entityVillager.monarchPlayerName));
+					player.triggerAchievement(MCA.getInstance().achievementMakeKnight);
+					PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementMakeKnight, player.entityId));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "isKnight", entityVillager.isKnight));
+					PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityVillager.entityId, "monarchPlayerName", entityVillager.monarchPlayerName));
 					close();
 				}
 			}

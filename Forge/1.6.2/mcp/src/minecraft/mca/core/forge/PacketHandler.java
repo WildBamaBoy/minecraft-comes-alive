@@ -10,8 +10,10 @@
 package mca.core.forge;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -20,45 +22,55 @@ import java.util.Map;
 
 import mca.chore.AbstractChore;
 import mca.chore.ChoreCombat;
+import mca.chore.ChoreCooking;
 import mca.chore.ChoreFarming;
 import mca.chore.ChoreFishing;
 import mca.chore.ChoreHunting;
 import mca.chore.ChoreMining;
 import mca.chore.ChoreWoodcutting;
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.ModPropertiesManager;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
 import mca.core.util.LogicHelper;
-import mca.core.util.PacketHelper;
+import mca.core.util.Utility;
 import mca.core.util.object.FamilyTree;
 import mca.core.util.object.PlayerMemory;
+import mca.entity.AbstractChild;
 import mca.entity.AbstractEntity;
-import mca.entity.EntityChild;
 import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
 import mca.entity.EntityVillagerChild;
+import mca.enums.EnumGenericCommand;
 import mca.enums.EnumTrait;
 import mca.inventory.Inventory;
-import mca.item.ItemBaby;
+import mca.item.AbstractBaby;
 import mca.tileentity.TileEntityTombstone;
+import net.minecraft.block.BlockFurnace;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.NetServerHandler;
 import net.minecraft.network.NetworkListenThread;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.stats.Achievement;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
@@ -75,11 +87,11 @@ public final class PacketHandler implements IPacketHandler
 	{
 		try
 		{
-			if (MCA.instance.inDebugMode & MCA.instance.debugDoLogPackets)
+			if (MCA.getInstance().inDebugMode & MCA.getInstance().debugDoLogPackets)
 			{
-				MCA.instance.logPacketInformation("Received packet: " + packet.channel + ". Size = " + packet.length);
+				MCA.getInstance().logPacketInformation("Received packet: " + packet.channel + ". Size = " + packet.length + " bytes");
 			}
-			
+
 			if (packet.channel.equals("MCA_F_REQ"))
 			{
 				handleFieldRequest(packet, player);
@@ -155,19 +167,9 @@ public final class PacketHandler implements IPacketHandler
 				handleTombstoneRequest(packet, player);
 			}
 
-			else if (packet.channel.equals("MCA_POSITION"))
-			{
-				handlePosition(packet, player);
-			}
-
 			else if (packet.channel.equals("MCA_REMOVEITEM"))
 			{
 				handleRemoveItem(packet, player);
-			}
-
-			else if (packet.channel.equals("MCA_KILL"))
-			{
-				handleKill(packet, player);
 			}
 
 			else if (packet.channel.equals("MCA_LOGIN"))
@@ -200,11 +202,6 @@ public final class PacketHandler implements IPacketHandler
 				handleBabyInfo(packet, player);
 			}
 
-			else if (packet.channel.equals("MCA_TRADE"))
-			{
-				handleTrade(packet, player);
-			}
-
 			else if (packet.channel.equals("MCA_RESPAWN"))
 			{
 				handleRespawn(packet, player);
@@ -215,20 +212,91 @@ public final class PacketHandler implements IPacketHandler
 				handleVillagerPlayerProcreate(packet, player);
 			}
 
-			else if (packet.channel.equals("MCA_ADDAI"))
-			{
-				handleAddAI(packet, player);
-			}
-			
 			else if (packet.channel.equals("MCA_RETURNINV"))
 			{
 				handleReturnInventory(packet, player);
 			}
+
+			else if (packet.channel.equals("MCA_OPENGUI"))
+			{
+				handleOpenGui(packet, player);
+			}
+
+			else if (packet.channel.equals("MCA_GENERIC"))
+			{
+				handleGenericPacket(packet, player);
+			}
 		}
 
-		catch (Throwable e)
+		catch (Exception e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
+		}
+	}
+
+	public static void sendPacketToAllPlayersExcept(Packet packet, EntityPlayer player)
+	{
+		final MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+
+		if (server != null)
+		{
+			final ServerConfigurationManager serverConfiguration = server.getConfigurationManager();
+
+			for (int i = 0; i < serverConfiguration.playerEntityList.size(); ++i)
+			{
+				final EntityPlayerMP playerInList = (EntityPlayerMP)serverConfiguration.playerEntityList.get(i);
+
+				if (!playerInList.username.equals(player.username))
+				{
+					MCA.getInstance().logPacketInformation("\tSent packet to player: " + playerInList.username);
+					playerInList.playerNetServerHandler.sendPacketToPlayer(packet);
+				}
+
+				else
+				{
+					MCA.getInstance().logPacketInformation("\tSkipped provided player: " + player.username);
+				}
+			}
+		}
+
+		else
+		{
+			FMLLog.fine("MCA: Attempt to send packet to all without a server instance available.");
+		}
+	}
+
+	/**
+	 * Creates packet used to request the value of a field.
+	 * 
+	 * @param 	entityId	The id of the entity that contains the field.
+	 * @param 	fieldName	The name of the field being requested.
+	 * 
+	 * @return	A field request packet.
+	 */
+	public static Packet createFieldRequestPacket(int entityId, String fieldName)
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_F_REQ";
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+			objectOutput.writeObject(entityId);
+			objectOutput.writeObject(fieldName);
+			objectOutput.close();
+
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
 		}
 	}
 
@@ -241,7 +309,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleFieldRequest(Packet250CustomPayload packet, Player player) throws IOException, ClassNotFoundException, IllegalAccessException, SecurityException, NoSuchFieldException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -262,17 +330,54 @@ public final class PacketHandler implements IPacketHandler
 				//Workaround for protected field "texture".
 				if (fieldName.equals("texture"))
 				{
-					PacketDispatcher.sendPacketToPlayer(PacketHelper.createFieldValuePacket(entityId, fieldName, ((AbstractEntity)entity).getTexture()), player);
+					PacketDispatcher.sendPacketToPlayer(PacketHandler.createFieldValuePacket(entityId, fieldName, ((AbstractEntity)entity).getTexture()), player);
 					break;
 				}
 
 				else
 				{
 					Field field = entity.getClass().getField(fieldName);
-					PacketDispatcher.sendPacketToPlayer(PacketHelper.createFieldValuePacket(entityId, fieldName, field.get(entity)), player);
+					PacketDispatcher.sendPacketToPlayer(PacketHandler.createFieldValuePacket(entityId, fieldName, field.get(entity)), player);
 					break;
 				}
 			}
+		}
+	}
+
+	/**
+	 * Creates packet used to assign the value of a field.
+	 * 
+	 * @param 	entityId	The id of the entity that contains the field to be changed.
+	 * @param 	fieldName	The name of the field to be changed.
+	 * @param 	fieldValue	The new value of the field.
+	 * 
+	 * @return	A field value packet.
+	 */
+	public static Packet createFieldValuePacket(int entityId, String fieldName, Object fieldValue)
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_F_VAL";
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+			objectOutput.writeObject(entityId);
+			objectOutput.writeObject(fieldName);
+			objectOutput.writeObject(fieldValue);
+			objectOutput.close();
+
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
 		}
 	}
 
@@ -285,7 +390,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleFieldValue(Packet250CustomPayload packet, Player player) throws IOException, ClassNotFoundException, IllegalArgumentException, SecurityException, IllegalAccessException, NoSuchFieldException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -297,6 +402,11 @@ public final class PacketHandler implements IPacketHandler
 		int entityId     = (Integer)objectInput.readObject();
 		String fieldName = (String)objectInput.readObject();
 		Object fieldValue = objectInput.readObject();
+
+		if (MCA.getInstance().debugDoLogPackets && MCA.getInstance().inDebugMode)
+		{
+			MCA.getInstance().log("\t" + entityId + " | " + fieldName + " | " + fieldValue.toString());
+		}
 
 		for (Object obj : world.loadedEntityList)
 		{
@@ -401,7 +511,43 @@ public final class PacketHandler implements IPacketHandler
 		//Sync with all other players if server side.
 		if (!world.isRemote)
 		{
-			PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createSyncPacket((AbstractEntity) world.getEntityByID(entityId)));
+			MCA.getInstance().logPacketInformation("Broadcasting field value change.");
+			PacketHandler.sendPacketToAllPlayersExcept(PacketHandler.createFieldValuePacket(entityId, fieldName, fieldValue), entityPlayer);
+		}
+	}
+
+	/**
+	 * Creates packet used to set an entity's target.
+	 * 
+	 * @param 	entityId	The id of the entity the target is being assigned to.
+	 * @param 	targetId	The target entity's ID.
+	 * 
+	 * @return	A set target packet.
+	 */
+	public static Packet createSetTargetPacket(int entityId, int targetId)
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_TARGET";
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+			objectOutput.writeObject(entityId);
+			objectOutput.writeObject(targetId);
+			objectOutput.close();
+
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
 		}
 	}
 
@@ -414,7 +560,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleTarget(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -431,18 +577,57 @@ public final class PacketHandler implements IPacketHandler
 
 			if (entity.entityId == entityId)
 			{
-				AbstractEntity genderizedEntity = (AbstractEntity)entity;
+				AbstractEntity clientEntity = (AbstractEntity)entity;
 
 				if (targetId == 0)
 				{
-					genderizedEntity.target = null;
+					clientEntity.target = null;
 				}
 
 				else
 				{
-					genderizedEntity.target = (EntityLivingBase)genderizedEntity.worldObj.getEntityByID(targetId);
+					clientEntity.target = (EntityLivingBase)clientEntity.worldObj.getEntityByID(targetId);
 				}
 			}
+		}
+	}
+
+	/**
+	 * Creates packet used to remove one of an item from the player's inventory.
+	 * 
+	 * @param 	playerID	The id of the player to remove the item from.
+	 * @param	slotID		The slot id that the item is contained in.
+	 * @param	quantity	The amount of the item to remove.
+	 * @param	damage		The damage of the item.
+	 * 
+	 * @return	A gift packet.
+	 */
+	public static Packet createRemoveItemPacket(int playerID, int slotID, int quantity, int damage)
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_REMOVEITEM";
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+			objectOutput.writeObject(playerID);
+			objectOutput.writeObject(slotID);
+			objectOutput.writeObject(quantity);
+			objectOutput.writeObject(damage);
+			objectOutput.close();
+
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
 		}
 	}
 
@@ -455,7 +640,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleRemoveItem(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -487,6 +672,41 @@ public final class PacketHandler implements IPacketHandler
 	}
 
 	/**
+	 * Creates packet used to unlock an achievement for a player.
+	 * 
+	 * @param 	achievement				The achievement to unlock.
+	 * @param 	playerId				The id of the player to unlock the achievement on. 
+	 * 
+	 * @return	An achievement packet.
+	 */
+	public static Packet createAchievementPacket(Achievement achievement, int playerId) 
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_ACHIEV";
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+			objectOutput.writeObject(achievement.statId);
+			objectOutput.writeObject(playerId);
+			objectOutput.close();
+
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
+		}
+	}
+
+	/**
 	 * Handles a packet that unlocks an achievement for a player.
 	 * 
 	 * @param 	packet	The packet containing the achievement and player data.
@@ -495,7 +715,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleAchievement(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -519,6 +739,39 @@ public final class PacketHandler implements IPacketHandler
 	}
 
 	/**
+	 * Creates a packet used to request synchronization of a client side entity.
+	 * 
+	 * @param 	entityId	The id of the client side entity that must be synced.
+	 * 
+	 * @return	A sync request packet.
+	 */
+	public static Packet createSyncRequestPacket(int entityId)
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_SYNC_REQ";
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+			objectOutput.writeObject(entityId);
+			objectOutput.close();
+
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
+		}
+	}
+
+	/**
 	 * Handles a packet that requests synchronization of a client and server side entity.
 	 * 
 	 * @param 	packet	The packet containing the sync request data.
@@ -527,7 +780,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleSyncRequest(Packet250CustomPayload packet, Player player) throws IllegalArgumentException, IllegalAccessException, IOException, ClassNotFoundException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -546,10 +799,46 @@ public final class PacketHandler implements IPacketHandler
 
 				if (entity.entityId == entityId)
 				{
-					PacketDispatcher.sendPacketToPlayer(PacketHelper.createSyncPacket(entity), player);
+					PacketDispatcher.sendPacketToPlayer(PacketHandler.createSyncPacket(entity), player);
+					PacketDispatcher.sendPacketToPlayer(PacketHandler.createInventoryPacket(entityId, entity.inventory), player);
 					break;
 				}
 			}
+		}
+	}
+
+	/**
+	 * Creates a packet used to synchronize a client side entity with the server side one.
+	 * 
+	 * @param 	abstractEntity	The id of the server side entity that will be sent to the client.
+	 * 
+	 * @return	A sync packet.
+	 */
+	public static Packet createSyncPacket(AbstractEntity abstractEntity)
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_SYNC";
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+			objectOutput.writeObject(abstractEntity);
+			objectOutput.writeObject(abstractEntity.entityId);
+			objectOutput.writeObject(abstractEntity.getTexture());
+			objectOutput.close();
+
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
 		}
 	}
 
@@ -563,7 +852,7 @@ public final class PacketHandler implements IPacketHandler
 	@SideOnly(Side.CLIENT)
 	private static void handleSync(Packet250CustomPayload packet, Player player) throws IllegalArgumentException, IllegalAccessException, IOException, ClassNotFoundException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -581,7 +870,7 @@ public final class PacketHandler implements IPacketHandler
 		//Get the client side entity.
 		clientEntity = (AbstractEntity)world.getEntityByID(receivedId);
 
-		if (clientEntity.entityId == receivedId)
+		if (clientEntity != null && clientEntity.entityId == receivedId)
 		{
 			//Figure out which classes the entity is composed of.
 			List<Class> classList = new ArrayList<Class>();
@@ -590,7 +879,7 @@ public final class PacketHandler implements IPacketHandler
 
 			if (receivedEntity instanceof EntityPlayerChild || receivedEntity instanceof EntityVillagerChild)
 			{
-				classList.add(EntityChild.class);
+				classList.add(AbstractChild.class);
 			}
 
 			//Loop through each field in each class that the received entity is made of and set the value of
@@ -648,9 +937,9 @@ public final class PacketHandler implements IPacketHandler
 			clientEntity.setTexture(receivedTexture);
 
 			//Put the client entity's ID in the ids map.
-			MCA.instance.idsMap.put(clientEntity.mcaID, clientEntity.entityId);
-			MCA.instance.entitiesMap.put(clientEntity.mcaID, clientEntity);
-			
+			MCA.getInstance().idsMap.put(clientEntity.mcaID, receivedId);
+			MCA.getInstance().entitiesMap.put(clientEntity.mcaID, clientEntity);
+
 			//Set the entity mood and trait.
 			clientEntity.setMoodByMoodPoints(false);
 			clientEntity.trait = EnumTrait.getTraitById(clientEntity.traitId);
@@ -663,6 +952,39 @@ public final class PacketHandler implements IPacketHandler
 	}
 
 	/**
+	 * Creates a packet used to notify all surrounding villagers of an engagement, making them give the player gifts.
+	 * 
+	 * @param 	entityId	The id of the entity getting engaged.
+	 * 
+	 * @return	An engagement packet.
+	 */
+	public static Packet createEngagementPacket(int entityId)
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_ENGAGE";
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+			objectOutput.writeObject(entityId);
+			objectOutput.close();
+
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
+		}
+	}
+
+	/**
 	 * Handles a packet that makes villagers have gifts for player who are engaged.
 	 * 
 	 * @param 	packet	The packet containing the engagement data.
@@ -671,7 +993,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleEngagement(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException 
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -701,6 +1023,39 @@ public final class PacketHandler implements IPacketHandler
 	}
 
 	/**
+	 * Creates a packet used to add an item to the provided player's inventory.
+	 * 
+	 * @param 	itemId		The id of the item to add.
+	 * 
+	 * @return	An add item packet.
+	 */
+	public static Packet createAddItemPacket(int itemId)
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_ADDITEM";
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+			objectOutput.writeObject(itemId);
+			objectOutput.close();
+
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
+		}
+	}
+
+	/**
 	 * Handles a packet that adds an item to the player's inventory.
 	 * 
 	 * @param 	packet	The packet containing the item data.
@@ -709,17 +1064,51 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleAddItem(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException 
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
 
 		//Assign received data.
 		int itemId = (Integer)objectInput.readObject();
-		int playerId = (Integer)objectInput.readObject();
 
 		EntityPlayer entityPlayer = (EntityPlayer)player;
 		entityPlayer.inventory.addItemStackToInventory(new ItemStack(itemId, 1, 0));
+	}
+
+	/**
+	 * Creates a packet used to update a family tree across the client and server.
+	 * 
+	 * @param 	entityId	The id of the entity that owns the family tree.
+	 * @param 	familyTree	The family tree to send to the entity.
+	 * 
+	 * @return	A family tree packet.
+	 */
+	public static Packet createFamilyTreePacket(int entityId, FamilyTree familyTree)
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_FAMTREE";
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+			objectOutput.writeObject(entityId);
+			objectOutput.writeObject(familyTree);
+			objectOutput.close();
+
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
+		}
 	}
 
 	/**
@@ -731,7 +1120,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleFamilyTree(Packet250CustomPayload packet, Player player) throws IOException, ClassNotFoundException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -750,6 +1139,43 @@ public final class PacketHandler implements IPacketHandler
 	}
 
 	/**
+	 * Creates a packet used to make an entity drop an item not within their inventory.
+	 * 
+	 * @param 	entityId	The id of the entity dropping the items.
+	 * @param 	itemId		The id of the item to drop.
+	 * @param 	count		The amount of the item to drop.
+	 * 
+	 * @return	A drop item packet.
+	 */
+	public static Packet createDropItemPacket(int entityId, int itemId, int count)
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_DROPITEM";
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+			objectOutput.writeObject(entityId);
+			objectOutput.writeObject(itemId);
+			objectOutput.writeObject(count);
+			objectOutput.close();
+
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
+		}
+	}
+
+	/**
 	 * Handles a packet that makes an entity drop an item that is not in its inventory.
 	 * 
 	 * @param 	packet	The packet containing the drop item data.
@@ -758,7 +1184,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleDropItem(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException 
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -775,6 +1201,41 @@ public final class PacketHandler implements IPacketHandler
 	}
 
 	/**
+	 * Creates a packet used to update an inventory across the client and server.
+	 * 
+	 * @param 	entityId	The id of the entity who owns the inventory.
+	 * @param 	inventory	The inventory to send to the entity.
+	 * 
+	 * @return	An inventory packet.
+	 */
+	public static Packet createInventoryPacket(int entityId, Inventory inventory)
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_INVENTORY";
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+			objectOutput.writeObject(entityId);
+			objectOutput.writeObject(inventory);
+			objectOutput.close();
+
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
+		}
+	}
+
+	/**
 	 * Handles a packet that updates an inventory.
 	 * 
 	 * @param	packet	The packet containing the inventory data.
@@ -783,7 +1244,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleInventory(Packet250CustomPayload packet, Player player) throws NumberFormatException, IOException, ClassNotFoundException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -798,6 +1259,47 @@ public final class PacketHandler implements IPacketHandler
 		AbstractEntity entity = (AbstractEntity)world.getEntityByID(entityId);
 		inventory.owner = entity;
 		entity.inventory = inventory;
+		entity.inventory.setWornArmorItems();
+
+		if (!world.isRemote)
+		{
+			PacketHandler.sendPacketToAllPlayersExcept(PacketHandler.createInventoryPacket(entityId, inventory), (EntityPlayer)player);
+		}
+	}
+
+	/**
+	 * Creates a packet used to update a chore across the client and server.
+	 * 
+	 * @param 	entityId	The id of the entity who owns the chore.
+	 * @param 	chore		The chore to send to the entity.
+	 * 
+	 * @return	A chore packet.
+	 */
+	public static Packet createChorePacket(int entityId, AbstractChore chore) 
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_CHORE";
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+			objectOutput.writeObject(entityId);
+			objectOutput.writeObject(chore);
+			objectOutput.close();
+
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
+		}
 	}
 
 	/**
@@ -809,7 +1311,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleChore(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -854,9 +1356,53 @@ public final class PacketHandler implements IPacketHandler
 			entity.huntingChore = (ChoreHunting) chore;
 		}
 
+		else if (chore instanceof ChoreCooking)
+		{
+			entity.cookingChore = (ChoreCooking) chore;
+		}
+
 		else
 		{
-			MCA.instance.log("Unidentified chore type received when handling chore packet.");
+			MCA.getInstance().log("Unidentified chore type received when handling chore packet.");
+		}
+	}
+
+	/**
+	 * Creates a packet used to synchronize the text on a tombstone across the client and server.
+	 * 
+	 * @param	tombstone	The tileEntity of the tombstone being synchronized.
+	 * 
+	 * @return	A tombstone packet.
+	 */
+	public static Packet createTombstonePacket(TileEntityTombstone tombstone)
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_TOMB";
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+			objectOutput.writeObject(tombstone.xCoord);
+			objectOutput.writeObject(tombstone.yCoord);
+			objectOutput.writeObject(tombstone.zCoord);
+			objectOutput.writeObject(tombstone.signText[0]);
+			objectOutput.writeObject(tombstone.signText[1]);
+			objectOutput.writeObject(tombstone.signText[2]);
+			objectOutput.writeObject(tombstone.signText[3]);
+			objectOutput.close();
+
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
 		}
 	}
 
@@ -869,7 +1415,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleTombstone(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -895,6 +1441,41 @@ public final class PacketHandler implements IPacketHandler
 	}
 
 	/**
+	 * Creates a packet used to request the text of a tombstone at certain coordinates.
+	 * 
+	 * @param 	tombstone	The client-side tombstone that is requesting text.
+	 * 
+	 * @return	A tombstone request packet.
+	 */
+	public static Packet createTombstoneRequestPacket(TileEntityTombstone tombstone) 
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_TOMB_REQ";
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+			objectOutput.writeObject(tombstone.xCoord);
+			objectOutput.writeObject(tombstone.yCoord);
+			objectOutput.writeObject(tombstone.zCoord);
+			objectOutput.close();
+
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
+		}
+	}
+
+	/**
 	 * Handles a packet that requests an update for a tombstone.
 	 * 
 	 * @param 	packet	The packet that contains the tombstone request data.
@@ -903,7 +1484,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleTombstoneRequest(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -916,59 +1497,39 @@ public final class PacketHandler implements IPacketHandler
 		int zCoord = (Integer)objectInput.readObject();
 
 		TileEntityTombstone tombstone = (TileEntityTombstone)world.getBlockTileEntity(xCoord, yCoord, zCoord);
-		PacketDispatcher.sendPacketToAllPlayers(PacketHelper.createTombstonePacket(tombstone));
+		PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createTombstonePacket(tombstone));
 	}
 
 	/**
-	 * Handles a packet that sets an entity's position.
+	 * Creates a packet used to log in to a server running MCA.
 	 * 
-	 * @param 	packet	The packet that contains the position information.
-	 * @param 	player	The player that the packet came from.
-	 */
-	@SuppressWarnings("javadoc")
-	private static void handlePosition(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException
-	{
-		byte[] data = MCA.decompressBytes(packet.data);
-
-		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
-		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
-
-		World world = ((EntityPlayer)player).worldObj;
-
-		//Assign received data.
-		int entityId = (Integer)objectInput.readObject();
-		double xCoord = (Double)objectInput.readObject();
-		double yCoord = (Double)objectInput.readObject();
-		double zCoord = (Double)objectInput.readObject();
-
-		Entity entity = world.getEntityByID(entityId);
-		entity.setPosition(xCoord, yCoord, zCoord);
-	}
-
-	/**
-	 * Handles a packet that kills an entity.
+	 * @param 	modPropertiesManager	An instance of the client's mod properties manager.
 	 * 
-	 * @param 	packet	The packet that contains the kill information.
-	 * @param 	player	The player that the packet came from.
+	 * @return	A login packet.
 	 */
-	@SuppressWarnings("javadoc")
-	private static void handleKill(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException
+	public static Packet createLoginPacket(ModPropertiesManager modPropertiesManager)
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
-
-		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
-		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
-
-		World world = ((EntityPlayer)player).worldObj;
-
-		//Assign received data.
-		int entityId = (Integer)objectInput.readObject();
-
-		AbstractEntity entity = (AbstractEntity)world.getEntityByID(entityId);
-
-		if (entity != null)
+		try
 		{
-			entity.setDeadWithoutNotification();
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_LOGIN";
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+			objectOutput.writeObject(modPropertiesManager);
+			objectOutput.close();
+
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
 		}
 	}
 
@@ -981,7 +1542,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleLogin(Packet250CustomPayload packet, Player player) throws IOException, ClassNotFoundException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -993,20 +1554,54 @@ public final class PacketHandler implements IPacketHandler
 		ModPropertiesManager modPropertiesManager = (ModPropertiesManager) objectInput.readObject();
 
 		//Ensure item IDs are the same.
-		if (modPropertiesManager.equals(MCA.instance.modPropertiesManager))
+		if (modPropertiesManager.equals(MCA.getInstance().modPropertiesManager))
 		{
 			//Give the player a world settings manager.
 			WorldPropertiesManager manager = new WorldPropertiesManager(world.getSaveHandler().getWorldDirectoryName(), entityPlayer.username);
 
-			MCA.instance.playerWorldManagerMap.put(entityPlayer.username, manager);
+			MCA.getInstance().playerWorldManagerMap.put(entityPlayer.username, manager);
 
 			//Send it to the client.
-			PacketDispatcher.sendPacketToPlayer(PacketHelper.createWorldPropertiesPacket(manager), player);
+			PacketDispatcher.sendPacketToPlayer(PacketHandler.createWorldPropertiesPacket(manager), player);
 		}
 
 		else
 		{
 			((EntityPlayerMP)player).playerNetServerHandler.kickPlayerFromServer("Minecraft Comes Alive: Server item IDs do not match your own. You cannot log in.");
+		}
+	}
+
+	/**
+	 * Creates a packet used to give a client or server a player's world properties.
+	 * 
+	 * @param 	manager	An instance of the server world properties manager.
+	 * 
+	 * @return	A world properties packet.
+	 */
+	public static Packet createWorldPropertiesPacket(WorldPropertiesManager manager)
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_WORLDPROP";
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+			objectOutput.writeObject(manager);
+			objectOutput.close();
+
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+
+			MCA.getInstance().logPacketInformation("Created world properties packet for " + manager.worldProperties.playerName);
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
 		}
 	}
 
@@ -1019,7 +1614,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleWorldProperties(Packet250CustomPayload packet, Player player) throws IOException, ClassNotFoundException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -1029,24 +1624,105 @@ public final class PacketHandler implements IPacketHandler
 
 		//Assign received data.
 		WorldPropertiesManager manager = (WorldPropertiesManager)objectInput.readObject();
-		MCA.instance.logPacketInformation("Received world properties manager for " + ((EntityPlayer)player).username);
+		MCA.getInstance().logPacketInformation("Received world properties manager for " + ((EntityPlayer)player).username);
 
 		//Client side.
 		if (world.isRemote)
 		{
-			MCA.instance.playerWorldManagerMap.put(entityPlayer.username, manager);
+			MCA.getInstance().playerWorldManagerMap.put(entityPlayer.username, manager);
 		}
 
 		//Server side.
 		else
 		{
 			//Update only the actual properties on the old manager to retain the ability to save.
-			WorldPropertiesManager oldWorldPropertiesManager = MCA.instance.playerWorldManagerMap.get(entityPlayer.username);
+			WorldPropertiesManager oldWorldPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(entityPlayer.username);
 			oldWorldPropertiesManager.worldProperties = manager.worldProperties;
 
 			//Put the changed manager back into the map and save it.
-			MCA.instance.playerWorldManagerMap.put(entityPlayer.username, oldWorldPropertiesManager);
+			MCA.getInstance().playerWorldManagerMap.put(entityPlayer.username, oldWorldPropertiesManager);
 			oldWorldPropertiesManager.saveWorldProperties();
+		}
+	}
+
+	/**
+	 * Creates a packet used to make a client say a phrase in the correct localized form.
+	 * 
+	 * @param 	player				The player to receive the string passed to Localization.
+	 * @param 	entity				The speaker entity passed to Localization.
+	 * @param 	id					The phrase ID passed to Localization.
+	 * @param 	useCharacterType	The useCharacterType boolean passed to Localization.
+	 * @param	prefix				The string that must be added to the beginning of the localized string.
+	 * @param	suffix				The string that must be added to the end of the localized string.
+	 * 
+	 * @return	A say localized packet.
+	 */
+	public static Packet createSayLocalizedPacket(EntityPlayer player, AbstractEntity entity, String id, boolean useCharacterType, String prefix, String suffix)
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_SAYLOCAL";
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+
+			if (player != null)
+			{
+				objectOutput.writeObject(player.username);
+			}
+
+			else
+			{
+				objectOutput.writeObject(null);
+			}
+
+			if (entity != null)
+			{
+				objectOutput.writeObject(entity.entityId);
+			}
+
+			else
+			{
+				objectOutput.writeObject(null);
+			}
+
+			objectOutput.writeObject(id);
+			objectOutput.writeObject(useCharacterType);
+
+			if (prefix != null)
+			{
+				objectOutput.writeObject(prefix);
+			}
+
+			else
+			{
+				objectOutput.writeObject(null);
+			}
+
+			if (suffix != null)
+			{
+				objectOutput.writeObject(suffix);
+			}
+
+			else
+			{
+				objectOutput.writeObject(null);
+			}
+
+			objectOutput.close();
+
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
 		}
 	}
 
@@ -1059,7 +1735,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleSayLocalized(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -1090,7 +1766,7 @@ public final class PacketHandler implements IPacketHandler
 
 		catch (NullPointerException e)
 		{
-			MCA.instance.log(e);
+			MCA.getInstance().log(e);
 		}
 
 		try
@@ -1145,11 +1821,13 @@ public final class PacketHandler implements IPacketHandler
 
 			if (receivedPlayer != null)
 			{
+				speaker.lastInteractingPlayer = receivedPlayer.username;
 				speaker.say(LanguageHelper.getString(receivedPlayer, speaker, phraseId, useCharacterType, prefix, suffix));
 			}
 
 			else
 			{
+				speaker.lastInteractingPlayer = entityPlayer.username;
 				speaker.say(LanguageHelper.getString(entityPlayer, speaker, phraseId, useCharacterType, prefix, suffix));
 			}
 		}
@@ -1170,6 +1848,44 @@ public final class PacketHandler implements IPacketHandler
 	}
 
 	/**
+	 * Creates a packet used to notify a player that they have married another player.
+	 * 
+	 * @param 	playerId	The ID of the player the packet is being sent to.
+	 * @param	playerName	The name of the player receiving the packet.
+	 * @param 	spouseId	The ID of the player's spouse.
+	 * 
+	 * @return	A player marriage packet.
+	 */
+	public static Packet createPlayerMarriagePacket(int playerId, String playerName, int spouseId)
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_PLMARRY";
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+
+			objectOutput.writeObject(playerId);
+			objectOutput.writeObject(playerName);
+			objectOutput.writeObject(spouseId);
+			objectOutput.close();
+
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
+		}
+	}
+
+	/**
 	 * Handles a packet used to mark a player as married.
 	 * 
 	 * @param 	packet	The packet containing the required information.
@@ -1178,7 +1894,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handlePlayerMarried(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -1197,7 +1913,43 @@ public final class PacketHandler implements IPacketHandler
 		displayString = displayString.replace("%SpouseName%", playerName);
 		entityPlayer.addChatMessage(displayString);
 
-		entityPlayer.inventory.consumeInventoryItem(MCA.instance.itemWeddingRing.itemID);
+		entityPlayer.inventory.consumeInventoryItem(MCA.getInstance().itemWeddingRing.itemID);
+	}
+
+	/**
+	 * Creates a packet used to make a player have a baby.
+	 * 
+	 * @param 	playerId	The entity ID of the player having the baby. 
+	 * @param 	spouseId	The entity ID of the spouse of the player.
+	 *  
+	 * @return	A have baby packet. 
+	 */
+	public static Packet createHaveBabyPacket(int playerId, int spouseId)
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_HAVEBABY";
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+
+			objectOutput.writeObject(playerId);
+			objectOutput.writeObject(spouseId);
+			objectOutput.close();
+
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
+		}
 	}
 
 	/**
@@ -1209,7 +1961,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleHaveBaby(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -1223,32 +1975,66 @@ public final class PacketHandler implements IPacketHandler
 		objectInput.close();
 
 		//Trigger the name baby gui.
-		ItemBaby itemBaby = null;
-		String babyGender = AbstractEntity.getRandomGender();
+		AbstractBaby itemBaby = null;
+		boolean babyIsMale = Utility.getRandomGender();
 
-		if (babyGender.equals("Male"))
+		if (babyIsMale)
 		{
-			itemBaby = (ItemBaby)MCA.instance.itemBabyBoy;
-			entityPlayer.triggerAchievement(MCA.instance.achievementHaveBabyBoy);
-			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementHaveBabyBoy, playerId));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementHaveBabyBoy, spouseId));
+			itemBaby = (AbstractBaby)MCA.getInstance().itemBabyBoy;
+			entityPlayer.triggerAchievement(MCA.getInstance().achievementHaveBabyBoy);
+			PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementHaveBabyBoy, playerId));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementHaveBabyBoy, spouseId));
 		}
 
-		else if (babyGender.equals("Female"))
+		else
 		{
-			itemBaby = (ItemBaby)MCA.instance.itemBabyGirl;
-			entityPlayer.triggerAchievement(MCA.instance.achievementHaveBabyGirl);
-			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementHaveBabyGirl, playerId));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementHaveBabyGirl, spouseId));
+			itemBaby = (AbstractBaby)MCA.getInstance().itemBabyGirl;
+			entityPlayer.triggerAchievement(MCA.getInstance().achievementHaveBabyGirl);
+			PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementHaveBabyGirl, playerId));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementHaveBabyGirl, spouseId));
 		}
 
-		WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(entityPlayer.username);
-		manager.worldProperties.babyGender = babyGender;
+		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(entityPlayer.username);
+		manager.worldProperties.babyIsMale = babyIsMale;
 		manager.worldProperties.babyExists = true;
 		manager.saveWorldProperties();
 
-		PacketDispatcher.sendPacketToServer(PacketHelper.createAddItemPacket(itemBaby.itemID, entityPlayer.entityId));
-		entityPlayer.openGui(MCA.instance, MCA.instance.guiNameChildID, worldObj, (int)entityPlayer.posX, (int)entityPlayer.posY, (int)entityPlayer.posZ);
+		PacketDispatcher.sendPacketToServer(PacketHandler.createAddItemPacket(itemBaby.itemID));
+		entityPlayer.openGui(MCA.getInstance(), Constants.ID_GUI_NAMECHILD, worldObj, (int)entityPlayer.posX, (int)entityPlayer.posY, (int)entityPlayer.posZ);
+	}
+
+	/**
+	 * Creates a packet used to update a player with a baby's info when it is adopted.
+	 * 
+	 * @param 	manager	The world properties manager to send.
+	 *  
+	 * @return	A baby info packet.
+	 */
+	public static Packet createBabyInfoPacket(WorldPropertiesManager manager) 
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_BABYINFO";
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+
+			objectOutput.writeObject(manager);
+			objectOutput.close();
+
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
+		}
 	}
 
 	/**
@@ -1260,7 +2046,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleBabyInfo(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -1273,10 +2059,10 @@ public final class PacketHandler implements IPacketHandler
 		objectInput.close();
 
 		//Set the player's spouse's manager to have the same baby info.
-		WorldPropertiesManager spouseManager = MCA.instance.playerWorldManagerMap.get(receivedManager.worldProperties.playerSpouseName);
+		WorldPropertiesManager spouseManager = MCA.getInstance().playerWorldManagerMap.get(receivedManager.worldProperties.playerSpouseName);
 
 		spouseManager.worldProperties.babyExists = receivedManager.worldProperties.babyExists;
-		spouseManager.worldProperties.babyGender = receivedManager.worldProperties.babyGender;
+		spouseManager.worldProperties.babyIsMale = receivedManager.worldProperties.babyIsMale;
 		spouseManager.worldProperties.babyName = receivedManager.worldProperties.babyName;
 		spouseManager.worldProperties.babyReadyToGrow = receivedManager.worldProperties.babyReadyToGrow;
 
@@ -1284,29 +2070,43 @@ public final class PacketHandler implements IPacketHandler
 	}
 
 	/**
-	 * Handles a packet used to open the trade GUI.
+	 * Creates a packet used to respawn the player in hardcore mode.
 	 * 
-	 * @param 	packet	The packet containing the required information.
-	 * @param	player	The player that the packet came from.
+	 * @param 	player			The player that is respawning.
+	 * @param	chunkPointX	X chunk coordinates of the player's new respawn point.
+	 * @param	chunkPointY	Y chunk coordinates of the player's new respawn point.
+	 * @param	chunkPointZ	Z chunk coordinates of the player's new respawn point.
+	 *  
+	 * @return	A trade packet.
 	 */
-	@SuppressWarnings("javadoc")
-	private static void handleTrade(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException
+	public static Packet createRespawnPacket(EntityPlayer player, int chunkPointX, int chunkPointY, int chunkPointZ)
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_RESPAWN";
 
-		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
-		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
 
-		EntityPlayer entityPlayer = (EntityPlayer)player;
-		World worldObj = entityPlayer.worldObj;
+			objectOutput.writeObject(chunkPointX);
+			objectOutput.writeObject(chunkPointY);
+			objectOutput.writeObject(chunkPointZ);
+			objectOutput.writeObject(player.entityId);
+			objectOutput.close();
 
-		int entityId = (Integer)objectInput.readObject();
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
 
-		objectInput.close();
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
 
-		EntityVillagerAdult villager = (EntityVillagerAdult)worldObj.getEntityByID(entityId);
-		villager.setCustomer(entityPlayer);
-		entityPlayer.displayGUIMerchant(villager, villager.getTitle(MCA.instance.getIdOfPlayer(entityPlayer), true));
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
+		}
 	}
 
 	/**
@@ -1318,7 +2118,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleRespawn(Packet250CustomPayload packet, Player player) throws ClassNotFoundException, IOException, IllegalArgumentException, IllegalAccessException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -1327,9 +2127,9 @@ public final class PacketHandler implements IPacketHandler
 		World worldObj = entityPlayer.worldObj;
 		MinecraftServer theServer = MinecraftServer.getServer();
 
-		int chunkCoordsX = (Integer)objectInput.readObject();
-		int chunkCoordsY = (Integer)objectInput.readObject();
-		int chunkCoordsZ = (Integer)objectInput.readObject();
+		int chunkPointX = (Integer)objectInput.readObject();
+		int chunkPointY = (Integer)objectInput.readObject();
+		int chunkPointZ = (Integer)objectInput.readObject();
 		int playerEntityId = (Integer)objectInput.readObject();
 
 		objectInput.close();
@@ -1351,7 +2151,7 @@ public final class PacketHandler implements IPacketHandler
 					if (serverHandler.playerEntity.username.equals(entityPlayer.username))
 					{
 						//Manually respawn the player rather than allowing the game to do it, which would delete the world in hardcore mode.
-						serverHandler.playerEntity.setSpawnChunk(new ChunkCoordinates(chunkCoordsX, chunkCoordsY, chunkCoordsZ), true);
+						serverHandler.playerEntity.setSpawnChunk(new ChunkCoordinates(chunkPointX, chunkPointY, chunkPointZ), true);
 						serverHandler.playerEntity = theServer.getConfigurationManager().respawnPlayer(entityPlayer, entityPlayer.dimension, false);
 
 						break;
@@ -1365,6 +2165,42 @@ public final class PacketHandler implements IPacketHandler
 	}
 
 	/**
+	 * Creates a packet used to make a villager who is procreating with a player actually have a baby.
+	 * 
+	 * @param	villager	The villager that is procreating with the player.
+	 * @param	babyIsMale	The gender of the baby that will be added to the villager's inventory.
+	 * 
+	 * @return	A VillagerPlayerProcreate packet.
+	 */
+	public static Packet createVillagerPlayerProcreatePacket(AbstractEntity villager, boolean babyIsMale) 
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_VPPROC";
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+
+			objectOutput.writeObject(villager.entityId);
+			objectOutput.writeObject(babyIsMale);
+			objectOutput.close();
+
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
+		}
+	}
+
+	/**
 	 * Handles a packet used to create a baby when a villager and player procreate.
 	 * 
 	 * @param 	packet	The packet containing the required information.
@@ -1373,7 +2209,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleVillagerPlayerProcreate(Packet250CustomPayload packet, Player player) throws IOException, ClassNotFoundException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -1382,70 +2218,78 @@ public final class PacketHandler implements IPacketHandler
 		World worldObj = entityPlayer.worldObj;
 
 		int villagerId = (Integer)objectInput.readObject();
-		int playerId = (Integer)objectInput.readObject();
-		String babyGender = (String)objectInput.readObject();
+		boolean babyIsMale = (Boolean)objectInput.readObject();
 
 		objectInput.close();
 
 		AbstractEntity villager = (AbstractEntity)worldObj.getEntityByID(villagerId);		
-		ItemBaby itemBaby = null;
+		AbstractBaby itemBaby = null;
 
 		//Give the villager an appropriate baby item and unlock achievements for the player.
-		if (babyGender.equals("Male"))
+		if (babyIsMale)
 		{
-			itemBaby = (ItemBaby)MCA.instance.itemBabyBoy;
+			itemBaby = (AbstractBaby)MCA.getInstance().itemBabyBoy;
 			villager.inventory.addItemStackToInventory(new ItemStack(itemBaby, 1));
-			entityPlayer.triggerAchievement(MCA.instance.achievementHaveBabyBoy);
+			entityPlayer.triggerAchievement(MCA.getInstance().achievementHaveBabyBoy);
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementHaveBabyBoy, entityPlayer.entityId));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createInventoryPacket(villagerId, villager.inventory));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementHaveBabyBoy, entityPlayer.entityId));
 		}
 
-		else if (babyGender.equals("Female"))
+		else
 		{
-			itemBaby = (ItemBaby)MCA.instance.itemBabyGirl;
+			itemBaby = (AbstractBaby)MCA.getInstance().itemBabyGirl;
 			villager.inventory.addItemStackToInventory(new ItemStack(itemBaby, 1));
-			entityPlayer.triggerAchievement(MCA.instance.achievementHaveBabyGirl);
+			entityPlayer.triggerAchievement(MCA.getInstance().achievementHaveBabyGirl);
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createAchievementPacket(MCA.instance.achievementHaveBabyGirl, entityPlayer.entityId));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createInventoryPacket(villagerId, villager.inventory));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createAchievementPacket(MCA.getInstance().achievementHaveBabyGirl, entityPlayer.entityId));	
 		}
+
+		PacketDispatcher.sendPacketToServer(PacketHandler.createInventoryPacket(villagerId, villager.inventory));
 
 		//Modify the player's world properties manager.
-		WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(entityPlayer.username);
-		manager.worldProperties.babyGender = babyGender;
+		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(entityPlayer.username);
+		manager.worldProperties.babyIsMale = babyIsMale;
 		manager.worldProperties.babyExists = true;
 		manager.saveWorldProperties();
 
 		//Make the entityPlayer choose a name for the baby.
-		entityPlayer.openGui(MCA.instance, MCA.instance.guiNameChildID, worldObj, (int)entityPlayer.posX, (int)entityPlayer.posY, (int)entityPlayer.posZ);
+		entityPlayer.openGui(MCA.getInstance(), Constants.ID_GUI_NAMECHILD, worldObj, (int)entityPlayer.posX, (int)entityPlayer.posY, (int)entityPlayer.posZ);
 	}
 
 	/**
-	 * Handles a packet used to add AI to a villager.
+	 * Creates a packet used to drop a dead player's inventory at the entity's feet.
 	 * 
-	 * @param 	packet	The packet containing the required information.
-	 * @param	player	The player that the packet came from.
+	 * @param	entity	The entity that will drop the items.
+	 * 
+	 * @return	A return inventory packet.
 	 */
-	@SuppressWarnings("javadoc")
-	private static void handleAddAI(Packet250CustomPayload packet, Player player) throws IOException, ClassNotFoundException
+	public static Packet createReturnInventoryPacket(AbstractEntity entity)
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_RETURNINV";
 
-		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
-		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
 
-		EntityPlayer entityPlayer = (EntityPlayer)player;
-		World worldObj = entityPlayer.worldObj;
+			objectOutput.writeObject(entity.entityId);
+			objectOutput.close();
 
-		int entityId = (Integer)objectInput.readObject();
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
 
-		objectInput.close();
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
 
-		AbstractEntity entity = (AbstractEntity)worldObj.getEntityByID(entityId);
-		entity.addAI();
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
+		}
 	}
-	
+
 	/**
 	 * Handles a packet used to make an heir return the player's inventory.
 	 * 
@@ -1455,7 +2299,7 @@ public final class PacketHandler implements IPacketHandler
 	@SuppressWarnings("javadoc")
 	private static void handleReturnInventory(Packet250CustomPayload packet, Player player) throws IOException, ClassNotFoundException
 	{
-		byte[] data = MCA.decompressBytes(packet.data);
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
 
 		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
 		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
@@ -1468,13 +2312,325 @@ public final class PacketHandler implements IPacketHandler
 		objectInput.close();
 
 		AbstractEntity entity = (AbstractEntity)worldObj.getEntityByID(entityId);
-		ArrayList<EntityItem> itemList = MCA.instance.deadPlayerInventories.get(entityPlayer.username);
-		
+		ArrayList<EntityItem> itemList = MCA.getInstance().deadPlayerInventories.get(entityPlayer.username);
+
 		for (EntityItem item : itemList)
 		{
 			entity.entityDropItem(item.getEntityItem(), 0.3F);
 		}
+
+		MCA.getInstance().deadPlayerInventories.remove(entityPlayer.username);
+	}
+
+	/**
+	 * Creates a packet used to open a GUI.
+	 * 
+	 * @param	entityId	The ID of the entity that will be used for the worldObj and pos arguments.
+	 * @param	guiId		The ID of the GUI to open.
+	 * 
+	 * @return	An open gui packet.
+	 */
+	public static Packet createOpenGuiPacket(int entityId, int guiId)
+	{
+		try
+		{
+			Packet250CustomPayload thePacket = new Packet250CustomPayload();
+			thePacket.channel = "MCA_OPENGUI";
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+
+			objectOutput.writeObject(entityId);
+			objectOutput.writeObject(guiId);
+			objectOutput.close();
+
+			thePacket.data = MCA.getInstance().compressBytes(byteOutput.toByteArray());
+			thePacket.length = thePacket.data.length;
+
+			MCA.getInstance().logPacketInformation("Sent packet: " + thePacket.channel);
+			return thePacket;
+		}
+
+		catch (Exception e)
+		{
+			MCA.getInstance().log(e);
+			return null;
+		}
+	}
+
+	/**
+	 * Handles a packet used to make an heir return the player's inventory.
+	 * 
+	 * @param 	packet	The packet containing the required information.
+	 * @param	player	The player that the packet came from.
+	 */
+	@SuppressWarnings("javadoc")
+	private static void handleOpenGui(Packet250CustomPayload packet, Player player) throws IOException, ClassNotFoundException
+	{
+		byte[] data = MCA.getInstance().decompressBytes(packet.data);
+
+		ByteArrayInputStream byteInput = new ByteArrayInputStream(data);
+		ObjectInputStream objectInput = new ObjectInputStream(byteInput);
+
+		EntityPlayer entityPlayer = (EntityPlayer)player;
+		World worldObj = entityPlayer.worldObj;
+
+		int entityId = (Integer)objectInput.readObject();
+		int guiId = (Integer)objectInput.readObject();
+		objectInput.close();
+
+		Entity entity = worldObj.getEntityByID(entityId);
+		entityPlayer.openGui(MCA.getInstance(), guiId, worldObj, (int)entity.posX, (int)entity.posY, (int)entity.posZ);
+	}
+
+	/**
+	 * Creates a packet used for simple commands that require very little processing, such as making
+	 * a single method run on the receiving side.
+	 * 
+	 * @param command	The name of the command to perform.
+	 * @param arguments	The arguments that should be passed to the command.
+	 * 
+	 * @return	A generic packet.
+	 */
+	public static Packet250CustomPayload createGenericPacket(EnumGenericCommand command, Object... arguments)
+	{
+		try
+		{
+			//Initialize
+			final ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			final ObjectOutputStream objectOutput = new ObjectOutputStream(byteOutput);
+			final Packet250CustomPayload packet = new Packet250CustomPayload();
+			packet.channel = "MCA_GENERIC";
+			//---------------------------------------------------------------------------------------
+
+			//Write data
+			objectOutput.writeObject(command.getValue());
+			objectOutput.writeObject(arguments.length);
+
+			for (final Object obj : arguments)
+			{
+				objectOutput.writeObject(obj);
+			}
+
+			//---------------------------------------------------------------------------------------
+
+			//Cleanup and return
+			packet.data = byteOutput.toByteArray();
+			packet.length = packet.data.length;
+			return packet;
+		}
+
+		catch (IOException exception)
+		{
+			exception.printStackTrace();
+			return null;
+		}
+	}
+
+	private static void handleGenericPacket(Packet250CustomPayload packet, Player player) throws IOException, ClassNotFoundException
+	{
+		//Initialize
+		final ByteArrayInputStream input = new ByteArrayInputStream(packet.data);
+		final ObjectInputStream objectInput = new ObjectInputStream(input);
+		final EntityPlayer entityPlayer = (EntityPlayer)player;
+		//---------------------------------------------------------------------------------------
+
+		//Read data
+		final EnumGenericCommand command = EnumGenericCommand.getEnum((String)objectInput.readObject());
+		final int argumentsLength = (Integer)objectInput.readObject();
+		final Object[] arguments = new Object[argumentsLength];
+
+		for (int index = 0; index < argumentsLength; index++)
+		{
+			arguments[index] = objectInput.readObject();
+		}
+
+		//---------------------------------------------------------------------------------------
+
+		//Process
+		MCA.getInstance().logPacketInformation("\tGeneric packet type: " + command);
+		int entityId;
+		AbstractEntity entity = null;
+		String senderName = "";
+		String recipientName = "";
 		
-		MCA.instance.deadPlayerInventories.remove(entityPlayer.username);
+		switch (command)
+		{
+		case AddAI:
+			entityId = (Integer)arguments[0];
+			entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
+
+			entity.addAI();
+			break;
+		case BroadcastKillEntity:
+			entityId = (Integer)arguments[0];
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.KillEntity, entityId));
+
+			break;
+		case KillEntity:
+			entityId = (Integer)arguments[0];
+			entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);	
+
+			entity.setDeadWithoutNotification();
+			break;
+		case NotifyPlayer:
+			entityId = (Integer)arguments[0];
+			try
+			{
+				entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
+			}
+
+			catch (ClassCastException e) 
+			{ 
+				//Occurs when player passed as an argument.
+			}
+
+			final String phraseId = (String)arguments[1];
+
+			entityPlayer.addChatMessage(LanguageHelper.getString(entity, phraseId, false));
+			break;
+		case SetPosition:
+			entityId = (Integer)arguments[0];
+			entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
+
+			final double xCoord = (Double)arguments[1];
+			final double yCoord = (Double)arguments[2];
+			final double zCoord = (Double)arguments[3];
+
+			entity.setPosition(xCoord, yCoord, zCoord);
+			break;
+		case SetTexture:
+			entityId = (Integer)arguments[0];
+			entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
+			final String newTexture = (String)arguments[1];
+
+			entity.setTexture(newTexture);
+			break;
+		case StartTrade:
+			entityId = (Integer)arguments[0];
+			final EntityVillagerAdult villager = (EntityVillagerAdult)entityPlayer.worldObj.getEntityByID(entityId);
+
+			villager.setCustomer(entityPlayer);
+			entityPlayer.displayGUIMerchant(villager, villager.getTitle(MCA.getInstance().getIdOfPlayer(entityPlayer), true));
+			break;
+		case StopJumping:
+			entityId = (Integer)arguments[0];
+			entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
+
+			entity.setJumping(false);
+			break;
+		case SwingArm:
+			entityId = (Integer)arguments[0];
+			entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
+
+			entity.swingItem();
+			break;
+		case SyncEditorSettings:
+			entityId = (Integer)arguments[0];
+			entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
+
+			entity.name = (String)arguments[1];
+			entity.isMale = (Boolean)arguments[2];
+			entity.profession = (Integer)arguments[3];
+			entity.moodPointsAnger = (Float)arguments[4];
+			entity.moodPointsHappy = (Float)arguments[5];
+			entity.moodPointsSad = (Float)arguments[6];
+			entity.traitId = (Integer)arguments[7];
+			entity.inventory = (Inventory)arguments[8];
+			entity.texture = (String)arguments[9];
+
+			PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createSyncPacket(entity));
+			break;
+		case ArrangedMarriageParticles:
+			final int entityId1 = (Integer)arguments[0];
+			final int entityId2 = (Integer)arguments[1];
+			final AbstractEntity entity1 = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId1);
+			final AbstractEntity entity2 = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId2);
+
+			for (int loops = 0; loops < 16; loops++)
+			{
+				final double velX = MCA.rand.nextGaussian() * 0.02D;
+				final double velY = MCA.rand.nextGaussian() * 0.02D;
+				final double velZ = MCA.rand.nextGaussian() * 0.02D;
+
+				entity1.worldObj.spawnParticle("happyVillager", entity1.posX + MCA.rand.nextFloat() * entity1.width * 2.0F - entity1.width, entity1.posY + 0.5D + MCA.rand.nextFloat() * entity1.height, entity1.posZ + MCA.rand.nextFloat() * entity1.width * 2.0F - entity1.width, velX, velY, velZ);
+				entity2.worldObj.spawnParticle("happyVillager", entity2.posX + MCA.rand.nextFloat() * entity2.width * 2.0F - entity2.width, entity2.posY + 0.5D + MCA.rand.nextFloat() * entity2.height, entity2.posZ + MCA.rand.nextFloat() * entity2.width * 2.0F - entity2.width, velX, velY, velZ);
+			}
+			break;
+
+		case UpdateFurnace:
+			entityId = (Integer)arguments[0];
+			entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
+
+			BlockFurnace.updateFurnaceBlockState((Boolean)arguments[1], entity.worldObj, entity.cookingChore.furnacePosX, entity.cookingChore.furnacePosY, entity.cookingChore.furnacePosZ);
+			break;
+		case MountHorse:
+			entityId = (Integer)arguments[0];
+			entity = (AbstractEntity) entityPlayer.worldObj.getEntityByID(entityId);
+
+			final int horseId = (Integer)arguments[1];
+			final EntityHorse horse = (EntityHorse) entityPlayer.worldObj.getEntityByID(horseId);
+
+			if (horse.riddenByEntity != null && horse.riddenByEntity.entityId == entity.entityId)
+			{
+				entity.func_110145_l(horse);
+				entity.ridingEntity = null;
+				horse.riddenByEntity = null;
+				horse.func_110251_o(true);
+			}
+
+			else
+			{
+				if (horse.func_110248_bS() && horse.func_110228_bR() && horse.riddenByEntity == null && horse.func_110257_ck())
+				{
+					entity.mountEntity(horse);
+					horse.func_110251_o(false);
+				}
+
+				else
+				{
+					if (!entity.worldObj.isRemote)
+					{
+						entity.say(LanguageHelper.getString("notify.horse.invalid"));
+					}
+				}
+			}
+
+			if (!entity.worldObj.isRemote)
+			{
+				PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createGenericPacket(EnumGenericCommand.MountHorse, entityId, horseId));
+			}
+			
+			break;
+		case ClientSideCommand:
+			final String commandName = arguments[0].toString();
+			final ICommandSender sender = (ICommandSender)player;
+			
+			MinecraftServer.getServer().getCommandManager().executeCommand(sender, commandName);
+			break;
+		
+		case ClientAddMarriageRequest:
+			senderName = arguments[0].toString();
+			recipientName = arguments[1].toString();
+			
+			MCA.getInstance().marriageRequests.put(senderName, recipientName);
+			break;
+		case ClientAddBabyRequest:
+			senderName = arguments[0].toString();
+			recipientName = arguments[1].toString();
+			
+			MCA.getInstance().babyRequests.put(senderName, recipientName);
+			break;
+		case ClientRemoveMarriageRequest:
+			senderName = arguments[0].toString();
+			MCA.getInstance().marriageRequests.remove(senderName);
+			break;
+		case ClientRemoveBabyRequest:
+			senderName = arguments[0].toString();
+			MCA.getInstance().babyRequests.remove(senderName);
+			break;
+		default:
+			MCA.getInstance().log("Invalid generic command specified: " + command);
+		}
 	}
 }

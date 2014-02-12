@@ -48,15 +48,15 @@ public class CommandDebugMode extends AbstractCommand
 	{
 		if (arguments.length == 1)
 		{
-			if (arguments[0].toLowerCase().equals("on"))
+			if (arguments[0].equalsIgnoreCase("ON"))
 			{
-				MCA.instance.inDebugMode = true;
+				MCA.getInstance().inDebugMode = true;
 				sender.sendChatToPlayer(new ChatMessageComponent().func_111072_b("MCA debug mode is on."));
 			}
 
 			else
 			{
-				MCA.instance.inDebugMode = false;
+				MCA.getInstance().inDebugMode = false;
 				sender.sendChatToPlayer(new ChatMessageComponent().func_111072_b("MCA debug mode is off."));
 			}
 		}

@@ -15,18 +15,18 @@ import net.minecraft.creativetab.CreativeTabs;
 /**
  * Defines what the Baby Girl is and how it behaves.
  */
-public class ItemBabyGirl extends ItemBaby
+public class ItemBabyGirl extends AbstractBaby
 {
     /**
      * Constructor
      *
      * @param	id	The item's ID.
      */
-    public ItemBabyGirl(int id)
+    public ItemBabyGirl(int itemId)
     {
-        super(id);
+        super(itemId);
         setUnlocalizedName("Baby Girl");
-        gender = "Female";
+        isMale = false;
         setCreativeTab(CreativeTabs.tabMisc);
     }
     

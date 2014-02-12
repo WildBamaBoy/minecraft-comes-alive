@@ -9,8 +9,8 @@
 
 package mca.client.gui;
 
+import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
-import mca.core.util.PacketHelper;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
@@ -19,8 +19,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.src.ModLoader;
 import net.minecraft.util.ResourceLocation;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -31,7 +31,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiInventory extends InventoryEffectRenderer
 {	
-	private static final ResourceLocation resourceLocation = new ResourceLocation("textures/gui/container/generic_54.png");
+	private static final ResourceLocation resourceLocation = new ResourceLocation("mca:textures/gui/container/inventory.png");
 
 	private AbstractEntity owner;
 	private GuiButton backButton;
@@ -53,7 +53,7 @@ public class GuiInventory extends InventoryEffectRenderer
 	 */
 	public GuiInventory(AbstractEntity entity, IInventory playerInventory, IInventory entityInventory, boolean fromEditor)
 	{
-		super(new ContainerInventory(playerInventory, entityInventory));
+		super(new ContainerInventory(playerInventory, entityInventory, entity));
 
 		owner = entity;
 		allowUserInput = false;
@@ -62,6 +62,7 @@ public class GuiInventory extends InventoryEffectRenderer
 		char c = '\336';
 		int i = c - 108;		
 		inventoryRows = entityInventory.getSizeInventory() / 9;
+		xSize = xSize + 24;
 		ySize = i + inventoryRows * 18;
 	}
 
@@ -69,7 +70,6 @@ public class GuiInventory extends InventoryEffectRenderer
 	public void initGui()
 	{
 		super.initGui();
-
 		buttonList.clear();
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
@@ -103,7 +103,7 @@ public class GuiInventory extends InventoryEffectRenderer
 
 			else
 			{
-				ModLoader.openGUI(Minecraft.getMinecraft().thePlayer, new GuiVillagerEditor(owner, Minecraft.getMinecraft().thePlayer));
+				FMLClientHandler.instance().displayGuiScreen(Minecraft.getMinecraft().thePlayer, new GuiVillagerEditor(owner, Minecraft.getMinecraft().thePlayer));
 			}
 		}
 
@@ -116,7 +116,7 @@ public class GuiInventory extends InventoryEffectRenderer
 
 			else
 			{
-				ModLoader.openGUI(Minecraft.getMinecraft().thePlayer, new GuiVillagerEditor(owner, Minecraft.getMinecraft().thePlayer));
+				FMLClientHandler.instance().displayGuiScreen(Minecraft.getMinecraft().thePlayer, new GuiVillagerEditor(owner, Minecraft.getMinecraft().thePlayer));
 			}
 		}
 	}
@@ -124,7 +124,7 @@ public class GuiInventory extends InventoryEffectRenderer
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
-		fontRenderer.drawString(LanguageHelper.getString(owner, "gui.title.inventory", false), 7, 6, 4210752);
+		fontRenderer.drawString(LanguageHelper.getString(owner, "gui.title.inventory", false), 32, 6, 4210752);
 	}
 
 	@Override
@@ -145,6 +145,7 @@ public class GuiInventory extends InventoryEffectRenderer
 	public void onGuiClosed() 
 	{
 		super.onGuiClosed();
-		PacketDispatcher.sendPacketToServer(PacketHelper.createInventoryPacket(owner.entityId, owner.inventory));
+		owner.inventory.closeChest();
+		PacketDispatcher.sendPacketToServer(PacketHandler.createInventoryPacket(owner.entityId, owner.inventory));
 	}
 }

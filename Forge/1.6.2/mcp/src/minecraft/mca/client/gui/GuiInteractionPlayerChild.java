@@ -16,17 +16,22 @@ import mca.chore.ChoreFishing;
 import mca.chore.ChoreHunting;
 import mca.chore.ChoreMining;
 import mca.chore.ChoreWoodcutting;
+import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.io.WorldPropertiesManager;
+import mca.core.util.Interactions;
 import mca.core.util.LanguageHelper;
-import mca.core.util.PacketHelper;
+import mca.core.util.LogicHelper;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
+import mca.enums.EnumGenericCommand;
 import mca.enums.EnumMood;
 import mca.enums.EnumRelation;
 import mca.enums.EnumTrait;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
@@ -45,6 +50,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 	//Basic interaction buttons.
 	private GuiButton interactButton;
+	private GuiButton horseButton;
 	private GuiButton followButton;
 	private GuiButton stayButton;
 	private GuiButton setHomeButton;
@@ -249,7 +255,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 	{
 		drawDefaultBackground();
 		drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.hearts") + " = " + hearts, width / 2, 20, 0xffffff);
-		drawCenteredString(fontRenderer, entityChild.getTitle(MCA.instance.getIdOfPlayer(player), true), width / 2, 40, 0xffffff);
+		drawCenteredString(fontRenderer, entityChild.getTitle(MCA.getInstance().getIdOfPlayer(player), true), width / 2, 40, 0xffffff);
 
 		//Draw mood and trait.
 		drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.mood") + entityChild.mood.getLocalizedValue(), width / 2 - 150, height / 2 - 65, 0xffffff);
@@ -264,7 +270,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		{
 			backButton.enabled = true;
 			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.options"), width / 2, 80, 0xffffff);
-
+			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.experience") + " " + String.format("%.3g", entityChild.xpLvlFarming), width / 2, 190, 0xffffff);
 			farmMethodButton.enabled = true;
 
 			if (farmMethod == 0)
@@ -297,7 +303,8 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		else if (inFishingGui == true)
 		{
 			backButton.enabled = true;
-			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.options.none"), width / 2, 80, 0xffffff);
+			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.options.none"), width / 2, 100, 0xffffff);
+			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.experience") + " " + String.format("%.3g", entityChild.xpLvlFishing), width / 2, 190, 0xffffff);
 		}
 
 		else if (inCombatGui == true)
@@ -325,7 +332,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		{
 			backButton.enabled = true;
 			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.options"), width / 2, 80, 0xffffff);
-
+			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.experience") + " " + String.format("%.3g", entityChild.xpLvlWoodcutting), width / 2, 190, 0xffffff);
 			woodTreeTypeButton.enabled = true;
 		}
 
@@ -333,7 +340,8 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		{
 			backButton.enabled = true;
 			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.options"), width / 2, 80, 0xffffff);
-
+			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.experience") + " " + String.format("%.3g", entityChild.xpLvlMining), width / 2, 190, 0xffffff);
+			
 			mineMethodButton.enabled    = true;
 			mineDirectionButton.enabled = mineMethod == 1 ? true : false;
 			mineDistanceButton.enabled  = mineMethod == 1 ? true : false;
@@ -344,7 +352,8 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		{
 			backButton.enabled = true;
 			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.options"), width / 2, 80, 0xffffff);
-
+			drawCenteredString(fontRenderer, LanguageHelper.getString("gui.info.chore.experience") + " " + String.format("%.3g", entityChild.xpLvlHunting), width / 2, 190, 0xffffff);
+			
 			huntModeButton.enabled = true;
 		}
 
@@ -352,11 +361,11 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		 * Spousal IF block
 		 **********************************/
 		//Check if they have a spouse...
-		AbstractEntity spouse = entityChild.familyTree.getInstanceOfRelative(EnumRelation.Spouse);
+		AbstractEntity spouse = entityChild.familyTree.getRelativeAsEntity(EnumRelation.Spouse);
 		if (spouse != null)
 		{
 			//If they have a villager spouse and the player is related, then draw (Married to %SpouseRelation% %SpouseName%.)
-			if (entityChild.isMarried && spouse.familyTree.idIsRelative(MCA.instance.getIdOfPlayer(player)))
+			if (entityChild.isMarriedToVillager && spouse.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 			{
 				drawCenteredString(fontRenderer, LanguageHelper.getString(player, entityChild, "gui.info.family.spouse", false), width / 2 , height / 2 - 60, 0xffffff);
 			}
@@ -370,7 +379,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 		//Spouse turned up null, but check if they're a villager spouse or player spouse anyway.
 		//If they are, just draw (Married to %SpouseFullName%), which is remembered regardless of if the spouse is present.
-		else if (entityChild.isMarried || entityChild.isSpouse)
+		else if (entityChild.isMarriedToVillager || entityChild.isMarriedToPlayer)
 		{
 			if (!entityChild.spousePlayerName.equals(player.username))
 			{
@@ -381,12 +390,12 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		//They're not married at all. Check to see if they have parents and draw their names.
 		else
 		{
-			List<Integer> parents = entityChild.familyTree.getEntitiesWithRelation(EnumRelation.Parent);
+			List<Integer> parents = entityChild.familyTree.getIDsWithRelation(EnumRelation.Parent);
 
 			if (parents.size() == 2)
 			{
 				//Check if the current player is not the parent. Then the family information doesn't need to be displayed.
-				if (!parents.contains(MCA.instance.getIdOfPlayer(player)))
+				if (!parents.contains(MCA.getInstance().getIdOfPlayer(player)))
 				{
 					drawCenteredString(fontRenderer, LanguageHelper.getString(entityChild, "gui.info.family.parents", false), width / 2, height / 2 - 60, 0xffffff);
 				}
@@ -455,19 +464,20 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 		buttonList.clear();
 
-		buttonList.add(interactButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.interact")));
-		buttonList.add(followButton    = new GuiButton(2, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
-		buttonList.add(stayButton      = new GuiButton(3, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
-		buttonList.add(setHomeButton   = new GuiButton(4, width / 2 - 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.sethome")));
-		buttonList.add(choresButton    = new GuiButton(7, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.child.chores")));
-		buttonList.add(inventoryButton = new GuiButton(8, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.child.inventory")));
+		buttonList.add(interactButton  = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.interact")));
+		buttonList.add(horseButton 	   = new GuiButton(2, width / 2 - 90, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.ridehorse")));
+		buttonList.add(followButton    = new GuiButton(3, width / 2 - 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.interact.follow")));
+		buttonList.add(stayButton      = new GuiButton(4, width / 2 - 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.interact.stay")));
+		buttonList.add(setHomeButton   = new GuiButton(5, width / 2 - 30, height / 2 + 60, 60, 20, LanguageHelper.getString("gui.button.interact.sethome")));
+		buttonList.add(choresButton    = new GuiButton(6, width / 2 + 30, height / 2 + 20, 60, 20, LanguageHelper.getString("gui.button.child.chores")));
+		buttonList.add(inventoryButton = new GuiButton(7, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.child.inventory")));
 
 		buttonList.add(backButton      = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.back")));
 		buttonList.add(exitButton      = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, LanguageHelper.getString("gui.button.exit")));
 
 		backButton.enabled = false;
 
-		if (entityChild.familyTree.getEntitiesWithRelation(EnumRelation.Parent).contains(MCA.instance.getIdOfPlayer(player)) && entityChild.shouldActAsHeir)
+		if (entityChild.familyTree.getIDsWithRelation(EnumRelation.Parent).contains(MCA.getInstance().getIdOfPlayer(player)) && entityChild.doActAsHeir)
 		{
 			buttonList.add(requestCrownButton = new GuiButton(9, width / 2 + 5, height / 2 - 20, 120, 20, LanguageHelper.getString("heir.gui.requestcrown")));
 
@@ -478,21 +488,17 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			}
 		}
 
-		else if (entityChild.hasNotifiedGrowthReady && !entityChild.isAdult)
+		else if (entityChild.hasNotifiedReady && !entityChild.isAdult)
 		{
 			buttonList.add(growUpButton = new GuiButton(9, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.child.growup")));
-		}
-
-		if (entityChild.hasArrangerRing)
-		{
-			buttonList.add(takeArrangerRingButton = new GuiButton(12, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.interact.takearrangerring")));
 		}
 
 		if (entityChild.isInChoreMode) choresButton.displayString = LanguageHelper.getString("gui.button.child.stopchore");
 		if (entityChild.isFollowing) followButton.displayString = LanguageHelper.getString("gui.button.interact.followstop");
 		if (entityChild.isStaying)   stayButton.displayString = LanguageHelper.getString("gui.button.interact.staystop");
-
-		if (entityChild.isSpouse)
+		if (entityChild.ridingEntity instanceof EntityHorse) horseButton.displayString = LanguageHelper.getString("gui.button.interact.dismount");
+		
+		if (entityChild.isMarriedToPlayer)
 		{
 			inventoryButton.enabled = false;
 			setHomeButton.enabled = false;
@@ -772,10 +778,10 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		inMiningGui = true;
 
 		buttonList.add(choreStartButton    = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, LanguageHelper.getString("gui.button.chore.start")));
-		buttonList.add(mineMethodButton    = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, LanguageHelper.getString("gui.button.chore.mining.method")));
-		buttonList.add(mineDirectionButton = new GuiButton(3, width / 2 - 70, height / 2 + 10, 135, 20, LanguageHelper.getString("gui.button.chore.mining.direction")));
-		buttonList.add(mineDistanceButton  = new GuiButton(4, width / 2 - 70, height / 2 + 30, 135, 20, LanguageHelper.getString("gui.button.chore.mining.distance") +  mineDistance));
-		buttonList.add(mineFindButton      = new GuiButton(5, width / 2 - 70, height / 2 + 50, 135, 20, LanguageHelper.getString("gui.button.chore.mining.find")));
+		buttonList.add(mineMethodButton    = new GuiButton(2, width / 2 - 70, height / 2 - 40, 135, 20, LanguageHelper.getString("gui.button.chore.mining.method")));
+		buttonList.add(mineDirectionButton = new GuiButton(3, width / 2 - 70, height / 2 - 15, 135, 20, LanguageHelper.getString("gui.button.chore.mining.direction")));
+		buttonList.add(mineDistanceButton  = new GuiButton(4, width / 2 - 70, height / 2 + 5, 135, 20, LanguageHelper.getString("gui.button.chore.mining.distance") +  mineDistance));
+		buttonList.add(mineFindButton      = new GuiButton(5, width / 2 - 70, height / 2 + 25, 135, 20, LanguageHelper.getString("gui.button.chore.mining.find")));
 
 		switch (mineMethod)
 		{
@@ -845,8 +851,8 @@ public class GuiInteractionPlayerChild extends AbstractGui
 	 */
 	private void drawInventoryGui()
 	{
-		entityChild.shouldOpenInventory = true;
-		PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "shouldOpenInventory", true));
+		entityChild.doOpenInventory = true;
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "doOpenInventory", entityChild.doOpenInventory));
 		close();
 	}
 
@@ -862,6 +868,23 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			drawInteractionGui();
 		}
 
+		else if (button == horseButton)
+		{
+			EntityHorse nearestHorse = (EntityHorse)LogicHelper.getNearestEntityOfType(entityChild, EntityHorse.class, 5);
+			
+			if (nearestHorse != null)
+			{
+				PacketDispatcher.sendPacketToServer(PacketHandler.createGenericPacket(EnumGenericCommand.MountHorse, entityChild.entityId, nearestHorse.entityId));
+			}
+			
+			else
+			{
+				entityChild.say(LanguageHelper.getString("notify.horse.notfound"));
+			}
+			
+			close();
+		}
+		
 		else if (button == followButton)
 		{
 			if (!entityChild.isFollowing)
@@ -870,9 +893,9 @@ public class GuiInteractionPlayerChild extends AbstractGui
 				entityChild.isStaying = false;
 				entityChild.followingPlayer = player.username;
 
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isFollowing", true));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isStaying", false));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "followingPlayer", player.username));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isFollowing", entityChild.isFollowing));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isStaying", entityChild.isStaying));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "followingPlayer", entityChild.followingPlayer));
 
 				entityChild.say(LanguageHelper.getString(player, entityChild, "follow.start"));
 				close();
@@ -884,9 +907,9 @@ public class GuiInteractionPlayerChild extends AbstractGui
 				entityChild.isStaying = false;
 				entityChild.followingPlayer = "None";
 
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isFollowing", false));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isStaying", false));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "followingPlayer", "None"));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isFollowing", entityChild.isFollowing));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isStaying", entityChild.isStaying));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "followingPlayer", entityChild.followingPlayer));
 
 				entityChild.say(LanguageHelper.getString(player, entityChild, "follow.stop"));
 				close();
@@ -899,9 +922,9 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			entityChild.isFollowing = false;
 			entityChild.idleTicks = 0;
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isStaying", entityChild.isStaying));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isFollowing", false));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "idleTicks", 0));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isStaying", entityChild.isStaying));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isFollowing", entityChild.isFollowing));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "idleTicks", entityChild.idleTicks));
 			close();
 		}
 
@@ -911,12 +934,12 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			entityChild.homePointY = entityChild.posY;
 			entityChild.homePointZ = entityChild.posZ;
 			entityChild.hasHomePoint = true;
-			entityChild.testNewHomePoint();
+			entityChild.verifyHomePointIsValid();
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "homePointX", entityChild.posX));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "homePointY", entityChild.posY));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "homePointZ", entityChild.posZ));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "hasHomePoint", true));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "homePointX", entityChild.homePointX));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "homePointY", entityChild.homePointY));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "homePointZ", entityChild.homePointZ));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "hasHomePoint", entityChild.hasHomePoint));
 
 			close();
 		}
@@ -926,7 +949,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			if (entityChild.isInChoreMode)
 			{
 				entityChild.isInChoreMode = false;
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isInChoreMode", false));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isInChoreMode", entityChild.isInChoreMode));
 
 				if (entityChild.currentChore.equals("Farming"))
 				{
@@ -964,14 +987,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 		else if (button == takeArrangerRingButton)
 		{
-			entityChild.hasArrangerRing = false;
-
-			WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
-			manager.worldProperties.arrangerRingHolderID = 0;
-			manager.saveWorldProperties();
-
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "hasArrangerRing", false));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createDropItemPacket(entityChild.entityId, MCA.instance.itemArrangersRing.itemID, 1));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createDropItemPacket(entityChild.entityId, MCA.getInstance().itemArrangersRing.itemID, 1));
 
 			close();
 		}
@@ -982,10 +998,10 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			{
 				entityChild.say(LanguageHelper.getString("heir.good.founditems"));
 
-				PacketDispatcher.sendPacketToServer(PacketHelper.createReturnInventoryPacket(entityChild));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createReturnInventoryPacket(entityChild));
 
 				entityChild.hasReturnedInventory = true;
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "hasReturnedInventory", true));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "hasReturnedInventory", entityChild.hasReturnedInventory));
 				close();
 				return;
 			}
@@ -995,7 +1011,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		{
 			if (entityChild.isGoodHeir)
 			{
-				WorldPropertiesManager manager = MCA.instance.playerWorldManagerMap.get(player.username);
+				WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 				manager.worldProperties.isMonarch = true;
 				manager.worldProperties.heirId = -1;
 				manager.saveWorldProperties();
@@ -1004,11 +1020,11 @@ public class GuiInteractionPlayerChild extends AbstractGui
 				player.addChatMessage(LanguageHelper.getString("notify.monarch.resume"));
 
 				entityChild.hasBeenHeir = true;
-				entityChild.shouldActAsHeir = false;
+				entityChild.doActAsHeir = false;
 				entityChild.hasReturnedInventory = false;
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "hasBeenHeir", true));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "shouldActAsHeir", false));
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "hasReturnedInventory", false));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "hasBeenHeir", entityChild.hasBeenHeir));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "doActAsHeir", entityChild.doActAsHeir));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "hasReturnedInventory", entityChild.hasReturnedInventory));
 
 				close();
 				return;
@@ -1031,7 +1047,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 					entityChild.say(LanguageHelper.getString("heir.bad.demandtribute"));
 				}
 
-				PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "playerMemoryMap", entityChild.playerMemoryMap));
+				PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "playerMemoryMap", entityChild.playerMemoryMap));
 				close();
 				return;
 			}
@@ -1039,8 +1055,8 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 		else if (button == growUpButton)
 		{
-			entityChild.playerApprovedGrowth = true;
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "playerApprovedGrowth", entityChild.playerApprovedGrowth));
+			entityChild.isGrowthApproved = true;
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isGrowthApproved", entityChild.isGrowthApproved));
 		}
 	}
 
@@ -1053,55 +1069,55 @@ public class GuiInteractionPlayerChild extends AbstractGui
 	{
 		if (button == chatButton)
 		{
-			entityChild.doChat(player);
+			Interactions.doChat(entityChild, player);
 			close();
 		}
 
 		else if (button == jokeButton)
 		{
-			entityChild.doJoke(player);
+			Interactions.doJoke(entityChild, player);
 			close();
 		}
 
 		else if (button == giftButton)
 		{
 			entityChild.playerMemoryMap.get(player.username).isInGiftMode = true;
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "playerMemoryMap", entityChild.playerMemoryMap));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "playerMemoryMap", entityChild.playerMemoryMap));
 			close();
 		}
 
 		else if (button == greetButton)
 		{
-			entityChild.doGreeting(player);
+			Interactions.doGreeting(entityChild, player);
 			close();
 		}
 
 		else if (button == tellStoryButton)
 		{
-			entityChild.doTellStory(player);
+			Interactions.doTellStory(entityChild, player);
 			close();
 		}
 		else if (button == kissButton)
 		{
-			entityChild.doKiss(player);
+			Interactions.doKiss(entityChild, player);
 			close();
 		}
 
 		else if (button == flirtButton)
 		{
-			entityChild.doFlirt(player);
+			Interactions.doFlirt(entityChild, player);
 			close();
 		}
 
 		else if (button == tellStoryButton)
 		{
-			entityChild.doTellStory(player);
+			Interactions.doTellStory(entityChild, player);
 			close();
 		}
 
 		else if (button == playButton)
 		{
-			entityChild.doPlay(player);
+			Interactions.doPlay(entityChild, player);
 			close();
 		}
 
@@ -1183,7 +1199,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 		else if (button == farmPlantButton)
 		{
-			if (farmPlantType == 5)
+			if (farmPlantType == Constants.CROP_DATA.length)
 			{
 				farmPlantType = 0;
 			}
@@ -1242,10 +1258,11 @@ public class GuiInteractionPlayerChild extends AbstractGui
 
 			entityChild.isInChoreMode = true;
 			entityChild.currentChore = entityChild.farmingChore.getChoreName();
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isInChoreMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "currentChore", "Farming"));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityChild.entityId, entityChild.farmingChore));
 
+			PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityChild.entityId, entityChild.farmingChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isInChoreMode", entityChild.isInChoreMode));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "currentChore", entityChild.currentChore));
+			
 			close();
 		}
 	}
@@ -1267,9 +1284,10 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			entityChild.fishingChore = new ChoreFishing(entityChild);
 			entityChild.isInChoreMode = true;
 			entityChild.currentChore = entityChild.fishingChore.getChoreName();
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isInChoreMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "currentChore", "Fishing"));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityChild.entityId, entityChild.fishingChore));
+			
+			PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityChild.entityId, entityChild.fishingChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isInChoreMode", entityChild.isInChoreMode));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "currentChore", entityChild.currentChore));
 
 			close();
 		}
@@ -1390,7 +1408,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			entityChild.combatChore.sentryPosZ = entityChild.posZ;
 		}
 
-		PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityChild.entityId, entityChild.combatChore));
+		PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityChild.entityId, entityChild.combatChore));
 		drawCombatGui();
 	}
 
@@ -1427,9 +1445,9 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			entityChild.isInChoreMode = true;
 			entityChild.currentChore = entityChild.woodcuttingChore.getChoreName();
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityChild.entityId, entityChild.woodcuttingChore));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isInChoreMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "currentChore", "Woodcutting"));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityChild.entityId, entityChild.woodcuttingChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isInChoreMode", entityChild.isInChoreMode));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "currentChore", entityChild.currentChore));
 			close();
 		}
 	}
@@ -1512,9 +1530,9 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			entityChild.isInChoreMode = true;
 			entityChild.currentChore = entityChild.miningChore.getChoreName();
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isInChoreMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "currentChore", "Mining"));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityChild.entityId, entityChild.miningChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityChild.entityId, entityChild.miningChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isInChoreMode", entityChild.isInChoreMode));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "currentChore", entityChild.currentChore));
 			close();
 		}
 	}
@@ -1552,9 +1570,9 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			entityChild.isInChoreMode = true;
 			entityChild.currentChore = entityChild.huntingChore.getChoreName();
 
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "isInChoreMode", true));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(entityChild.entityId, "currentChore", "Hunting"));
-			PacketDispatcher.sendPacketToServer(PacketHelper.createChorePacket(entityChild.entityId, entityChild.huntingChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createChorePacket(entityChild.entityId, entityChild.huntingChore));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "isInChoreMode", entityChild.isInChoreMode));
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityChild.entityId, "currentChore", entityChild.currentChore));
 			close();
 		}
 	}

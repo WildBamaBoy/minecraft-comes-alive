@@ -13,17 +13,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mca.core.MCA;
+import mca.core.forge.PacketHandler;
 import mca.core.util.LanguageHelper;
-import mca.core.util.PacketHelper;
 import mca.entity.AbstractEntity;
 import mca.enums.EnumRelation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-
-import org.lwjgl.input.Keyboard;
-
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -43,7 +40,10 @@ public class GuiDivorceCouple extends AbstractGui
 	/** The max index in the married villagers map. */
 	public int maxIndex = 0;
 
+	/** Button used as a label to show the selected couple. */
+	@SuppressWarnings("unused")
 	private GuiButton selectedCoupleButton;
+	
 	private GuiButton shiftIndexDownButton;
 	private GuiButton shiftIndexUpButton;
 
@@ -129,105 +129,6 @@ public class GuiDivorceCouple extends AbstractGui
 	}
 
 	@Override
-	protected void keyTyped(char c, int i)
-	{
-		if (i == Keyboard.KEY_BACK)
-		{
-			if (backButton.enabled)
-			{
-				actionPerformed(backButton);
-			}
-
-			else
-			{
-				actionPerformed(exitButton);
-			}
-		}
-
-		else if (i == Keyboard.KEY_ESCAPE)
-		{
-			actionPerformed(exitButton);
-		}
-
-		else if (i == Keyboard.KEY_LSHIFT || i == Keyboard.KEY_RSHIFT)
-		{
-			boolean hotkeysDisplayed = false;
-
-			for (Object obj : buttonList)
-			{
-				GuiButton button = (GuiButton)obj;
-
-				if (button.displayString.contains(new Integer(button.id).toString()))
-				{
-					hotkeysDisplayed = true;
-					break;
-				}
-
-				if (button.id == 10) //Back button
-				{
-					button.displayString = "Bkspc: " + button.displayString;
-				}
-
-				else if (button.id == 11) //Exit button
-				{
-					button.displayString = "Esc: " + button.displayString;
-				}
-
-				else
-				{
-					button.displayString = button.id + ": " + button.displayString;
-				}
-			}
-
-			if (hotkeysDisplayed)
-			{
-				for (Object obj : buttonList)
-				{
-					GuiButton button = (GuiButton)obj;
-
-					if (button.id == 10) //Back button
-					{
-						button.displayString = "gui.button.back";
-					}
-
-					else if (button.id == 11) //Exit button
-					{
-						button.displayString = "gui.button.exit";
-					}
-
-					else
-					{
-						button.displayString = button.displayString.substring(3);
-					}
-				}
-			}
-		}
-
-		else
-		{
-			try
-			{
-				int id = Integer.parseInt(Character.toString(c));
-
-				for (Object obj : buttonList)
-				{
-					GuiButton button = (GuiButton)obj;
-
-					if (button.id == id)
-					{
-						actionPerformed(button);
-					}
-				}
-			}
-
-			catch (Throwable e)
-			{
-				return;
-			}
-		}
-	}
-
-	@Override
 	public void updateScreen()
 	{
 		super.updateScreen();
@@ -289,16 +190,16 @@ public class GuiDivorceCouple extends AbstractGui
 			{
 				AbstractEntity abstractEntity = (AbstractEntity)entity;
 
-				if (abstractEntity.isMarried)
+				if (abstractEntity.isMarriedToVillager)
 				{
 					//Be sure the value isn't already contained in the key set.
 					if (tempIDMap.containsKey(abstractEntity.mcaID) == false && tempIDMap.containsValue(abstractEntity.mcaID) == false)
 					{
-						int spouseId = abstractEntity.familyTree.getEntityWithRelation(EnumRelation.Spouse);
+						int spouseId = abstractEntity.familyTree.getFirstIDWithRelation(EnumRelation.Spouse);
 
 						if (spouseId == -1)
 						{
-							MCA.instance.log("WARNING: Wife or Husband not found for entity identified as married.");
+							MCA.getInstance().log("WARNING: Wife or Husband not found for entity identified as married.");
 						}
 
 						tempIDMap.put(abstractEntity.mcaID, spouseId);
@@ -361,15 +262,15 @@ public class GuiDivorceCouple extends AbstractGui
 			{
 				AbstractEntity abstractEntity = (AbstractEntity)obj;
 
-				if (abstractEntity.isMarried)
+				if (abstractEntity.isMarriedToVillager)
 				{
 					//Find instances of the husband and wife entity.
-					if (abstractEntity.name.equals(spouseEntity1Name) && abstractEntity.familyTree.getInstanceOfRelative(EnumRelation.Spouse).name.equals(spouseEntity2Name))
+					if (abstractEntity.name.equals(spouseEntity1Name) && abstractEntity.familyTree.getRelativeAsEntity(EnumRelation.Spouse).name.equals(spouseEntity2Name))
 					{
 						spouseEntity1 = abstractEntity;
 					}
 
-					else if (abstractEntity.name.equals(spouseEntity2Name) && abstractEntity.familyTree.getInstanceOfRelative(EnumRelation.Spouse).name.equals(spouseEntity1Name))
+					else if (abstractEntity.name.equals(spouseEntity2Name) && abstractEntity.familyTree.getRelativeAsEntity(EnumRelation.Spouse).name.equals(spouseEntity1Name))
 					{
 						spouseEntity2 = abstractEntity;
 					}
@@ -379,12 +280,14 @@ public class GuiDivorceCouple extends AbstractGui
 
 		if (spouseEntity1 != null)
 		{
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouseEntity1.entityId, "shouldDivorce", true));
+			spouseEntity1.doDivorce = true;
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouseEntity1.entityId, "doDivorce", spouseEntity1.doDivorce));
 		}
 
 		if (spouseEntity2 != null)
 		{
-			PacketDispatcher.sendPacketToServer(PacketHelper.createFieldValuePacket(spouseEntity2.entityId, "shouldDivorce", true));
+			spouseEntity2.doDivorce = true;
+			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(spouseEntity2.entityId, "doDivorce", spouseEntity2.doDivorce));
 		}
 	}
 }

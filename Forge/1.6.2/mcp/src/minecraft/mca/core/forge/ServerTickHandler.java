@@ -13,13 +13,17 @@ import java.util.Calendar;
 import java.util.EnumSet;
 import java.util.Map;
 
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
+import mca.enums.EnumGenericCommand;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
+import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
 
 /**
  * Handles ticking server-side for MCA. Only dedicated servers.
@@ -27,8 +31,11 @@ import cpw.mods.fml.common.TickType;
 public class ServerTickHandler implements ITickHandler
 {
 	/** The number of ticks since the loop has been ran. */
-	public int ticks = 20;
-
+	private int serverTicks = 20;
+	private int timePrevious = Calendar.getInstance().get(Calendar.MINUTE);
+	private int timeCurrent = Calendar.getInstance().get(Calendar.MINUTE);
+	private boolean hasProcessedNewMinute = false;
+	
 	@Override
 	public void tickStart(EnumSet<TickType> type, Object... tickData) {	}
 
@@ -53,66 +60,94 @@ public class ServerTickHandler implements ITickHandler
 		return "MCA Server Ticks";
 	}
 
-
 	/**
 	 * Fires once per tick in-game.
 	 */
 	public void onTickInGame()
 	{
-		for (WorldServer worldServer : MinecraftServer.getServer().worldServers)
+		for (final WorldServer worldServer : MinecraftServer.getServer().worldServers)
 		{
-			//Run this every 20 ticks to avoid performance problems.
-			if (ticks >= 20)
+			if (serverTicks >= 20)
 			{
-				//Update every player's world properties.
-				for (Map.Entry<String, WorldPropertiesManager> entry : MCA.instance.playerWorldManagerMap.entrySet())
+				doUpdateTime();
+				
+				for (final Map.Entry<String, WorldPropertiesManager> entry : MCA.getInstance().playerWorldManagerMap.entrySet())
 				{
-					EntityPlayer player = worldServer.getPlayerEntityByName(entry.getKey());
-					WorldPropertiesManager manager = entry.getValue();
+					final EntityPlayer player = worldServer.getPlayerEntityByName(entry.getKey());
+					final WorldPropertiesManager manager = entry.getValue();
 
-					//Only update when the player is on the server.
 					if (player != null)
 					{
-						//Update the growth of the player's baby.
-						if (manager.worldProperties.babyExists)
-						{
-							//Update currentMinutes and compare to what prevMinutes was.
-							MCA.instance.playerBabyCalendarCurrentMinutes = Calendar.getInstance().get(Calendar.MINUTE);
-
-							if (MCA.instance.playerBabyCalendarCurrentMinutes > MCA.instance.playerBabyCalendarPrevMinutes || MCA.instance.playerBabyCalendarCurrentMinutes == 0 && MCA.instance.playerBabyCalendarPrevMinutes == 59)
-							{
-								manager.worldProperties.minutesBabyExisted++;
-								MCA.instance.playerBabyCalendarPrevMinutes = MCA.instance.playerBabyCalendarCurrentMinutes;
-								manager.saveWorldProperties();
-							}
-
-							if (!manager.worldProperties.babyReadyToGrow &&
-									manager.worldProperties.minutesBabyExisted >= 
-									MCA.instance.modPropertiesManager.modProperties.babyGrowUpTimeMinutes)
-							{
-								manager.worldProperties.babyReadyToGrow = true;
-								manager.saveWorldProperties();
-							}
-						}
-						
-						//Debug checks
-						if (MCA.instance.inDebugMode)
-						{
-							manager.worldProperties.babyExists = true;
-							manager.worldProperties.minutesBabyExisted = 10;
-							manager.worldProperties.babyName = "DEBUG";
-						}
+						doRunSetup(manager, player);
+						doUpdateBabyGrowth(manager, player);
+						doDebug(manager);
 					}
 				}
 
-				//Reset ticks back to zero.
-				ticks = 0;
+				serverTicks = 0;
 			}
 
-			else //Ticks isn't greater than or equal to 20.
+			else
 			{
-				ticks++;
+				serverTicks++;
 			}
+		}
+	}
+	
+	private void doRunSetup(WorldPropertiesManager manager, EntityPlayer player)
+	{
+		if (manager.worldProperties.playerName.equals(""))
+		{
+			PacketDispatcher.sendPacketToPlayer(PacketHandler.createOpenGuiPacket(player.entityId, Constants.ID_GUI_SETUP), (Player)player);
+		}
+	}
+	
+	private void doUpdateBabyGrowth(WorldPropertiesManager manager, EntityPlayer player)
+	{
+		if (manager.worldProperties.babyExists)
+		{
+			timeCurrent = Calendar.getInstance().get(Calendar.MINUTE);
+
+			if (!hasProcessedNewMinute && !manager.worldProperties.babyReadyToGrow)
+			{
+				manager.worldProperties.minutesBabyExisted++;
+				manager.saveWorldProperties();
+				hasProcessedNewMinute = true;
+			}
+
+			if (!manager.worldProperties.babyReadyToGrow &&
+					manager.worldProperties.minutesBabyExisted >= 
+					MCA.getInstance().modPropertiesManager.modProperties.babyGrowUpTimeMinutes)
+			{
+				manager.worldProperties.babyReadyToGrow = true;
+				manager.saveWorldProperties();
+				return;
+			}
+			
+			if (manager.worldProperties.babyReadyToGrow && !MCA.getInstance().hasNotifiedOfBabyReadyToGrow)
+			{
+				PacketDispatcher.sendPacketToPlayer(PacketHandler.createGenericPacket(EnumGenericCommand.NotifyPlayer, 0, "notify.baby.readytogrow"), (Player)player);
+				MCA.getInstance().hasNotifiedOfBabyReadyToGrow = true;
+			}
+		}
+	}
+	
+	private void doUpdateTime()
+	{
+		timeCurrent = Calendar.getInstance().get(Calendar.MINUTE);
+		
+		if (timeCurrent > timePrevious || timeCurrent == 0 && timePrevious == 59)
+		{
+			timePrevious = timeCurrent;
+			hasProcessedNewMinute = false;
+		}
+	}
+	
+	private void doDebug(WorldPropertiesManager manager)
+	{
+		if (MCA.getInstance().inDebugMode)
+		{
+			hasProcessedNewMinute = false;
 		}
 	}
 }
