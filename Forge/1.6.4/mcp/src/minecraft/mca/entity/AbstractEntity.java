@@ -1224,7 +1224,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					return LanguageHelper.getString("monarch.title" + gender + ".player") + " " + name;
 				}
 			}
-			
+
 			return relation.toString(this, isMale, isInformal) + " " + name;
 		}
 
@@ -1516,12 +1516,24 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	}
 
 	/**
-	 * Modifies the hearts amount for the specified player.
+	 * Modifies the hearts amount for the specified player and allows dispatching.
 	 * 
-	 * @param 	player	The player whose heart information is being modified.
-	 * @param	amount	The amount to modify the hearts by.
+	 * @param 	player				The player whose heart information is being modified.
+	 * @param	amount				The amount to modify the hearts by.
 	 */
 	public void modifyHearts(EntityPlayer player, int amount)
+	{
+		modifyHearts(player, amount, true);
+	}
+	
+	/**
+	 * Modifies the hearts amount for the specified player.
+	 * 
+	 * @param 	player				The player whose heart information is being modified.
+	 * @param	amount				The amount to modify the hearts by.
+	 * @param	isDispatchAllowed	Is the area modification allowed?
+	 */
+	public void modifyHearts(EntityPlayer player, int amount, boolean isDispatchAllowed)
 	{
 		if (playerMemoryMap.containsKey(player.username))
 		{
@@ -1552,61 +1564,59 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			playerMemoryMap.put(player.username, playerMemory);
 		}
 
-		if (worldObj.isRemote)
-		{
-			PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap));
-		}
-
-		else
+		if (!worldObj.isRemote)
 		{
 			PacketDispatcher.sendPacketToPlayer(PacketHandler.createFieldValuePacket(entityId, "playerMemoryMap", playerMemoryMap), (Player) player);
 		}
 
-		//Check for monarch status and area modification.
-		final PlayerMemory playerMemory = playerMemoryMap.get(player.username);
-		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
-
-		if (playerMemory.hasBoostedHearts)
+		if (isDispatchAllowed)
 		{
-			for (final Entity entity : LogicHelper.getAllEntitiesWithinDistanceOfEntity(this, 30))
+			//Check for monarch status and area modification.
+			final PlayerMemory playerMemory = playerMemoryMap.get(player.username);
+			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
+
+			if (playerMemory.hasBoostedHearts)
 			{
-				if (entity instanceof AbstractEntity)
+				for (final Entity entity : LogicHelper.getAllEntitiesWithinDistanceOfEntity(this, 30))
 				{
-					final AbstractEntity abstractEntity = (AbstractEntity)entity;
-
-					//Relatives to the player are not affected.
-					if (!abstractEntity.familyTree.idIsARelative(manager.worldProperties.playerID))
+					if (entity instanceof AbstractEntity)
 					{
-						//Other villagers are affected by 50% of the original value.
-						final Double percentage = amount * 0.50;
+						final AbstractEntity abstractEntity = (AbstractEntity)entity;
 
-						//Check if this entity has been executed. If so, check the number of executions witnessed by each
-						//surrounding villager. If it's more than three, then they suffer a drop in hearts.
-						if (hasBeenExecuted)
+						//Relatives to the player are not affected.
+						if (!abstractEntity.familyTree.idIsARelative(manager.worldProperties.playerID))
 						{
-							final PlayerMemory otherMemory = abstractEntity.playerMemoryMap.get(player.username);
+							//Other villagers are affected by 50% of the original value.
+							final Double percentage = amount * 0.50;
 
-							if (otherMemory != null)
+							//Check if this entity has been executed. If so, check the number of executions witnessed by each
+							//surrounding villager. If it's more than three, then they suffer a drop in hearts.
+							if (hasBeenExecuted)
 							{
-								otherMemory.executionsSeen++;
+								final PlayerMemory otherMemory = abstractEntity.playerMemoryMap.get(player.username);
 
-								if (otherMemory.executionsSeen > 3)
+								if (otherMemory != null)
 								{
-									abstractEntity.modifyHearts(player, -30);
-								}
+									otherMemory.executionsSeen++;
 
-								else
-								{
-									abstractEntity.modifyHearts(player, 30);
+									if (otherMemory.executionsSeen > 3)
+									{
+										abstractEntity.modifyHearts(player, -30, false);
+									}
+
+									else
+									{
+										abstractEntity.modifyHearts(player, 30, false);
+									}
 								}
 							}
-						}
 
-						//This villager has not been executed.
-						else
-						{
-							//Prevent an infinite loop.
-							abstractEntity.modifyHearts(player, percentage.intValue());
+							//This villager has not been executed.
+							else
+							{
+								//Prevent an infinite loop.
+								abstractEntity.modifyHearts(player, percentage.intValue(), false);
+							}
 						}
 					}
 				}
@@ -2033,7 +2043,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 								}
 							}
 						}
-						
+
 						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createEngagementPacket(entityId));
 						PacketDispatcher.sendPacketToAllPlayers(PacketHandler.createFieldValuePacket(entityId, "isEngaged", isEngaged));
 					}
