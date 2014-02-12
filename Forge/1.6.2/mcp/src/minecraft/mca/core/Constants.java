@@ -21,7 +21,7 @@ import net.minecraft.item.Item;
 public final class Constants 
 {
 	/** MCA's current version. */
-	public static final String VERSION = "3.6.0";
+	public static final String VERSION = "3.6.0b";
 
 	/** Users that are allowed to use the dev controls. */
 	public static final String[] PRIVELAGED_USERS = {"WildBamaBoy", "LuvTrumpetStyle"};
