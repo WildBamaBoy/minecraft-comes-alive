@@ -57,7 +57,6 @@ import mca.core.forge.PacketHandler;
 import mca.core.io.ModPropertiesManager;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LanguageHelper;
-import mca.core.util.SelfTester;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityChoreFishHook;
 import mca.entity.EntityPlayerChild;
