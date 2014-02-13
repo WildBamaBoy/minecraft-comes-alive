@@ -105,7 +105,7 @@ public class ChoreWoodcutting extends AbstractChore
 			return;
 		}
 
-		if (!owner.worldObj.isRemote)
+		if (!owner.worldObj.isRemote && owner instanceof EntityPlayerChild)
 		{
 			owner.say(LanguageHelper.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.woodcutting", true));
 		}

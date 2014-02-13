@@ -138,7 +138,7 @@ public class ChoreMining extends AbstractChore
 			return;
 		}
 
-		if (owner instanceof EntityPlayerChild && !owner.worldObj.isRemote)
+		if (!owner.worldObj.isRemote && owner instanceof EntityPlayerChild)
 		{
 			owner.say(LanguageHelper.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.mining", true));
 		}

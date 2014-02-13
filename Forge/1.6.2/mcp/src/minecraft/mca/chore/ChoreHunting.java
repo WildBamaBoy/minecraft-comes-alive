@@ -100,7 +100,7 @@ public class ChoreHunting extends AbstractChore
 		owner.isStaying = false;
 		hasBegun = true;
 
-		if (!owner.worldObj.isRemote)
+		if (!owner.worldObj.isRemote && owner instanceof EntityPlayerChild)
 		{
 			owner.say(LanguageHelper.getString(owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, "chore.start.hunting", true));
 		}
@@ -364,6 +364,8 @@ public class ChoreHunting extends AbstractChore
 					successfulAnimals = getChoreXp() >= 15.0F ? successfulAnimals + MCA.rand.nextInt(5) + 2 : successfulAnimals + 1;
 				}
 			}
+			
+			animalsSeen--;
 		}
 
 		return successfulAnimals;
