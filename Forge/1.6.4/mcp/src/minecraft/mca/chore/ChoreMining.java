@@ -401,7 +401,7 @@ public class ChoreMining extends AbstractChore
 
 			else
 			{
-				if (!isNextBlockValid())
+				if (isNextBlockInvalid())
 				{
 					endForNoBlocks();
 					return;
@@ -462,10 +462,10 @@ public class ChoreMining extends AbstractChore
 		return nearestPoint;
 	}
 
-	private boolean isNextBlockValid() 
+	private boolean isNextBlockInvalid() 
 	{
 		final int blockId = owner.worldObj.getBlockId((int)nextX, (int)nextY, (int)nextZ);
-
+		
 		for (final int invalidId : Constants.UNMINEABLE_BLOCKS)
 		{
 			if (blockId == invalidId)

@@ -562,6 +562,20 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			final float unabsorbedDamage = ISpecialArmor.ArmorProperties.ApplyArmor(this, inventory.armorItems, damageSource, damageAmount);
 			super.damageEntity(damageSource, unabsorbedDamage);
 
+			//Account for getting hurt while doing the mining chore
+			if (getInstanceOfCurrentChore() instanceof ChoreMining)
+			{
+				final ChoreMining miningChore = (ChoreMining) getInstanceOfCurrentChore();
+
+				if (!miningChore.inPassiveMode)
+				{
+					this.setPosition(miningChore.startX, miningChore.startY, miningChore.startZ);
+					this.notifyPlayer(worldObj.getPlayerEntityByName(lastInteractingPlayer), LanguageHelper.getString(this, "notify.child.chore.interrupted.mining.tookdamage", false));
+					this.extinguish();
+					this.miningChore.endChore();
+				}
+			}
+
 			//Account for sleep being interrupted.
 			if (isSleeping)
 			{
