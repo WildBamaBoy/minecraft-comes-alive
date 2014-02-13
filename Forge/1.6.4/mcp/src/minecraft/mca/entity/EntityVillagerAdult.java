@@ -17,6 +17,7 @@ import mca.chore.AbstractChore;
 import mca.chore.ChoreCombat;
 import mca.chore.ChoreFarming;
 import mca.chore.ChoreFishing;
+import mca.chore.ChoreHunting;
 import mca.chore.ChoreMining;
 import mca.chore.ChoreWoodcutting;
 import mca.core.Constants;
@@ -498,7 +499,7 @@ public class EntityVillagerAdult extends AbstractEntity
 	{
 		super.interact(player);
 
-		if (!worldObj.isRemote)
+		if (!worldObj.isRemote && !(getInstanceOfCurrentChore() instanceof ChoreHunting))
 		{
 			final PlayerMemory memory = playerMemoryMap.get(player.username);
 			final ItemStack itemStack = player.inventory.getCurrentItem();

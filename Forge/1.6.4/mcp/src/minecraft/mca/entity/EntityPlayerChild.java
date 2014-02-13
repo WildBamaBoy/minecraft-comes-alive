@@ -12,6 +12,7 @@ package mca.entity;
 import mca.api.IGiftableItem;
 import mca.api.VillagerEntryMCA;
 import mca.api.VillagerRegistryMCA;
+import mca.chore.ChoreHunting;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.forge.PacketHandler;
@@ -280,7 +281,7 @@ public class EntityPlayerChild extends AbstractChild
 	{
 		super.interact(player);
 
-		if (!worldObj.isRemote)
+		if (!worldObj.isRemote && !(getInstanceOfCurrentChore() instanceof ChoreHunting))
 		{
 			final PlayerMemory memory = playerMemoryMap.get(player.username);
 			final ItemStack itemStack = player.inventory.getCurrentItem();

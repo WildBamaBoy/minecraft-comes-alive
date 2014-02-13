@@ -90,6 +90,7 @@ public class ChoreHunting extends AbstractChore
 			return;
 		}
 
+		huntingTimePassed = 0;
 		huntingReturnTime = MCA.getInstance().inDebugMode ? 100 : 
 			getChoreXp() >= 20.0F ? Constants.TICKS_MINUTE * 1 : 
 				Constants.TICKS_MINUTE * (owner.worldObj.rand.nextInt(5) + 1);
@@ -111,7 +112,7 @@ public class ChoreHunting extends AbstractChore
 	{
 		if (!owner.worldObj.isRemote)
 		{
-			if (huntingTimePassed < huntingReturnTime)
+			if (huntingTimePassed >= huntingReturnTime)
 			{
 				incrementChoreXpLevel((float) (1.2F - 0.035 * getChoreXp()));
 				

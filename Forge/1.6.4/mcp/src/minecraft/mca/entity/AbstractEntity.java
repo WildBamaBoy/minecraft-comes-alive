@@ -2933,7 +2933,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	private void updateMood()
 	{	
-		if (worldObj.isRemote)
+		if (worldObj.isRemote && !(getInstanceOfCurrentChore() instanceof ChoreHunting))
 		{
 			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.username);
 
