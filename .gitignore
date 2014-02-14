@@ -85,6 +85,15 @@ Forge/1.6.4/mcp/src/minecraft/assets/forge/*
 Forge/1.6.4/mcp/src/minecraft/assets/forge/*
 
 # 1.7.2 Folders #
+Forge/1.7.2/.gradle/*
+Forge/1.7.2/.settings/*
+Forge/1.7.2/bin/*
+Forge/1.7.2/build/*
+Forge/1.7.2/.gradle/*
+Forge/1.7.2/gradle/*
+Forge/1.7.2/src/*
+Forge/1.7.2/.classpath
+Forge/1.7.2/.project
 Forge/1.7.2/*
 
 # Do Not Ignore #
