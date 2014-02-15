@@ -61,9 +61,9 @@ public class EntityVillagerChild extends AbstractChild
 	{
 		this(world);
 
-		this.name = Utility.getRandomName(isMale);
 		this.profession = professionID;
 		this.isMale = isMale;
+		this.name = Utility.getRandomName(isMale);
 		
 		if (profession == 4) //Butcher
 		{

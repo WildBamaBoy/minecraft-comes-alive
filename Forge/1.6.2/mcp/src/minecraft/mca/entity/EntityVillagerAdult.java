@@ -112,8 +112,8 @@ public class EntityVillagerAdult extends AbstractEntity
 	{
 		this(world);
 
-		this.name = Utility.getRandomName(isMale);
 		this.isMale = Utility.getRandomGender();
+		this.name = Utility.getRandomName(isMale);
 		this.profession = professionID;
 
 		if (profession == 4) //Butcher
@@ -146,9 +146,9 @@ public class EntityVillagerAdult extends AbstractEntity
 		{
 			setEntityHealth(40);
 		}
-
-		this.name = Utility.getRandomName(isMale);
+		
 		this.isMale = isMale;
+		this.name = Utility.getRandomName(isMale);
 		this.profession = !isMale && professionID == 4 ? 0 : professionID;
 		this.setTexture();
 	}
