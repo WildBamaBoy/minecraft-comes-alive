@@ -623,7 +623,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			buttonList.add(tradeButton = new GuiButton(8, width / 2 + 30, height / 2 + 40, 60, 20, LanguageHelper.getString("gui.button.trade")));
 		}
 
-		else if (entityVillager.playerMemoryMap.get(player.username).hasGift)
+		if (entityVillager.playerMemoryMap.get(player.username).hasGift)
 		{
 			buttonList.add(takeGiftButton = new GuiButton(8, width / 2 - 60, height / 2 - 20, 120, 20, LanguageHelper.getString("gui.button.interact.takegift")));
 		}
