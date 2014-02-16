@@ -11,8 +11,8 @@ package mca.core.forge;
 
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.item.AbstractBaby;
 import mca.item.ItemCrown;
+import mca.item.ItemTombstone;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -47,7 +47,7 @@ public class CraftingHandler implements ICraftingHandler
 	@Override
 	public void onSmelting(EntityPlayer player, ItemStack itemStack) 
 	{
-		if (itemStack.getItem() instanceof AbstractBaby && !player.worldObj.isRemote)
+		if (itemStack.getItem() instanceof ItemTombstone && !player.worldObj.isRemote)
 		{
 			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.username);
 
