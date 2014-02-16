@@ -329,8 +329,7 @@ public class GuiLostRelativeDocument extends AbstractGui
 		else if (guibutton == buttonYes)
 		{
 			PacketDispatcher.sendPacketToServer(PacketHandler.createFamilyTreePacket(recipient.entityId, recipient.familyTree));
-			
-			Utility.removeItemFromPlayer(new ItemStack(MCA.getInstance().itemLostRelativeDocument, 1), player);
+			PacketDispatcher.sendPacketToServer(PacketHandler.createRemoveItemPacket(player.entityId, player.inventory.currentItem, 1, 0));
 			
 			if (recipient.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 			{
