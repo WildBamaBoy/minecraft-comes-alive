@@ -465,7 +465,7 @@ public class ChoreMining extends AbstractChore
 	private boolean isNextBlockInvalid() 
 	{
 		final int blockId = owner.worldObj.getBlockId((int)nextX, (int)nextY, (int)nextZ);
-		
+
 		for (final int invalidId : Constants.UNMINEABLE_BLOCKS)
 		{
 			if (blockId == invalidId)
@@ -578,10 +578,19 @@ public class ChoreMining extends AbstractChore
 		final int totalYield = MCA.rand.nextInt(yieldMax + 1 - yieldMin) + yieldMin;
 		final int addAmount = getChoreXp() >= 15.0F ? totalYield * 2 : totalYield;
 
-		final ItemStack stackToAdd = new ItemStack(yieldId, addAmount, yieldMeta);
-		stackToAdd.damageItem(yieldMeta, owner);
+		try
+		{
+			final ItemStack stackToAdd = new ItemStack(yieldId, addAmount, yieldMeta);
+			stackToAdd.damageItem(yieldMeta, owner);
 
-		owner.inventory.addItemStackToInventory(stackToAdd);
+			owner.inventory.addItemStackToInventory(stackToAdd);
+		}
+
+		catch (NullPointerException e)
+		{
+			MCA.getInstance().log("Unable to mine block at " + nextX + ", " + nextY + ", " + nextZ);
+		}
+
 		owner.worldObj.setBlock((int)nextX, (int)nextY, (int)nextZ, 0);
 	}
 
