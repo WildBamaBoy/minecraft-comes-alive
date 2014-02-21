@@ -2384,6 +2384,17 @@ public final class PacketHandler implements IPacketHandler
 		objectInput.close();
 
 		Entity entity = worldObj.getEntityByID(entityId);
+		
+		if (guiId == Constants.ID_GUI_SETUP && MCA.getInstance().hasReceivedClientSetup)
+		{
+			return;
+		}
+		
+		else if (guiId == Constants.ID_GUI_SETUP && !MCA.getInstance().hasReceivedClientSetup)
+		{
+			MCA.getInstance().hasReceivedClientSetup = true;
+		}
+		
 		entityPlayer.openGui(MCA.getInstance(), guiId, worldObj, (int)entity.posX, (int)entity.posY, (int)entity.posZ);
 	}
 

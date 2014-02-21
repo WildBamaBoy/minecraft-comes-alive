@@ -9,10 +9,12 @@
 
 package mca.core.util;
 
+import mca.core.forge.PacketHandler;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
 import mca.enums.EnumMoodChangeContext;
 import net.minecraft.entity.player.EntityPlayer;
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 /**
  * Defines all interactions performed under the "Interact" button.
@@ -61,6 +63,7 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.username, memory);
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entity.entityId, "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -106,6 +109,7 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.username, memory);
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entity.entityId, "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -154,6 +158,7 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.username, memory);
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entity.entityId, "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -199,6 +204,7 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.username, memory);
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entity.entityId, "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -244,6 +250,7 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.username, memory);
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entity.entityId, "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -297,6 +304,7 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.username, memory);
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entity.entityId, "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -356,5 +364,6 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.username, memory);
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entity.entityId, "playerMemoryMap", entity.playerMemoryMap));
 	}
 }

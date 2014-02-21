@@ -89,6 +89,7 @@ public class ClientTickHandler implements ITickHandler
 				//Reset world specific data.
 				MCA.getInstance().hasNotifiedOfBabyReadyToGrow = false;
 				MCA.getInstance().playerWorldManagerMap.clear();
+				MCA.getInstance().hasReceivedClientSetup = false;
 
 				//Check to see if dialogue should be reloaded.
 				if (!MCA.getInstance().languageLoaded)

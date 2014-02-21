@@ -9,6 +9,8 @@
 
 package mca.core.util;
 
+import cpw.mods.fml.common.network.PacketDispatcher;
+import mca.core.forge.PacketHandler;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
 import mca.enums.EnumMoodChangeContext;
@@ -61,6 +63,7 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.username, memory);
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entity.entityId, "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -106,6 +109,7 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.username, memory);
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entity.entityId, "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -154,6 +158,7 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.username, memory);
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entity.entityId, "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -199,6 +204,7 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.username, memory);
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entity.entityId, "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -244,6 +250,7 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.username, memory);
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entity.entityId, "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -297,6 +304,7 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.username, memory);
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entity.entityId, "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -356,5 +364,6 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.username, memory);
+		PacketDispatcher.sendPacketToServer(PacketHandler.createFieldValuePacket(entity.entityId, "playerMemoryMap", entity.playerMemoryMap));
 	}
 }
