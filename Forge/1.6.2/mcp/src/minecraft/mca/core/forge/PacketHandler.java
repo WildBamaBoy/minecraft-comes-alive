@@ -801,6 +801,10 @@ public final class PacketHandler implements IPacketHandler
 				{
 					PacketDispatcher.sendPacketToPlayer(PacketHandler.createSyncPacket(entity), player);
 					PacketDispatcher.sendPacketToPlayer(PacketHandler.createInventoryPacket(entityId, entity.inventory), player);
+
+					//Workaround for entities not being added to the server entity list.
+					MCA.getInstance().entitiesMap.put(entity.mcaID, entity);
+
 					break;
 				}
 			}
