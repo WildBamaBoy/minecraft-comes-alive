@@ -671,7 +671,7 @@ public class GuiVillagerEditor extends AbstractGui
 	private void drawEditorGuiPage2()
 	{
 		final int displayHeight = Math.round(editingVillager.heightFactor * 100);
-		final DecimalFormat decimalFormatter = new DecimalFormat("0.00");
+		final DecimalFormat decimalFormatter = new DecimalFormat("#.##");
 		final float formattedHeight = Float.parseFloat(decimalFormatter.format(editingVillager.heightFactor));
 
 		currentPage = 2;
