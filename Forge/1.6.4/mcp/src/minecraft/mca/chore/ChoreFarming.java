@@ -313,16 +313,24 @@ public class ChoreFarming extends AbstractChore
 	@Override
 	protected int getDelayForToolType(ItemStack toolStack)
 	{
-		final EnumToolMaterial material = EnumToolMaterial.valueOf(((ItemHoe)toolStack.getItem()).getMaterialName());
-
-		switch (material)
+		try
 		{
-		case WOOD: 		return 40;
-		case STONE: 	return 30;
-		case IRON: 		return 25;
-		case EMERALD: 	return 10;
-		case GOLD: 		return 5;
-		default: 		return 25;
+			final EnumToolMaterial material = EnumToolMaterial.valueOf(((ItemHoe)toolStack.getItem()).getMaterialName());
+
+			switch (material)
+			{
+			case WOOD: 		return 40;
+			case STONE: 	return 30;
+			case IRON: 		return 25;
+			case EMERALD: 	return 10;
+			case GOLD: 		return 5;
+			default: 		return 25;
+			}
+		}
+
+		catch (NullPointerException e)
+		{
+			return 60;
 		}
 	}
 
@@ -349,7 +357,7 @@ public class ChoreFarming extends AbstractChore
 	{
 		owner.xpLvlFarming = setAmount;
 	}
-	
+
 	private boolean initializeCreateFarm()
 	{
 		//Assign the seed ID and crop ID from the selected seed type from the GUI.

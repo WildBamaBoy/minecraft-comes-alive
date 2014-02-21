@@ -281,20 +281,28 @@ public class ChoreWoodcutting extends AbstractChore
 	{
 		if (owner instanceof EntityPlayerChild)
 		{
-			final EnumToolMaterial material = EnumToolMaterial.valueOf(((ItemAxe)toolStack.getItem()).getToolMaterialName());
-			int returnAmount = 0;
-			
-			switch (material)
+			try
 			{
-			case WOOD: 		returnAmount = 40; break;
-			case STONE: 	returnAmount = 30; break;
-			case IRON: 		returnAmount = 25; break;
-			case EMERALD: 	returnAmount = 10; break;
-			case GOLD: 		returnAmount = 5; break;
-			default: 		returnAmount = 25; break;
+				final EnumToolMaterial material = EnumToolMaterial.valueOf(((ItemAxe)toolStack.getItem()).getToolMaterialName());
+				int returnAmount = 0;
+
+				switch (material)
+				{
+				case WOOD: 		returnAmount = 40; break;
+				case STONE: 	returnAmount = 30; break;
+				case IRON: 		returnAmount = 25; break;
+				case EMERALD: 	returnAmount = 10; break;
+				case GOLD: 		returnAmount = 5; break;
+				default: 		returnAmount = 25; break;
+				}
+
+				return getChoreXp() >= 10.0F ? returnAmount / 2 : returnAmount;
 			}
-			
-			return getChoreXp() >= 10.0F ? returnAmount / 2 : returnAmount;
+
+			catch (NullPointerException e)
+			{
+				return getChoreXp() >= 10.0F ? 30 : 60; 
+			}
 		}
 
 		else
@@ -314,7 +322,7 @@ public class ChoreWoodcutting extends AbstractChore
 	{
 		return "notify.child.chore.levelup.woodcutting";
 	}
-	
+
 	@Override
 	protected float getChoreXp() 
 	{
@@ -326,7 +334,7 @@ public class ChoreWoodcutting extends AbstractChore
 	{
 		owner.xpLvlWoodcutting = setAmount;
 	}
-	
+
 	private void endForNoTrees()
 	{
 		if (!owner.worldObj.isRemote)
@@ -431,23 +439,23 @@ public class ChoreWoodcutting extends AbstractChore
 					getChoreXp() >= 5.0F ? Constants.SPEED_RUN : Constants.SPEED_WALK);
 		}
 	}
-	
+
 	private void doCutLog()
 	{
 		if (!owner.worldObj.isRemote)
 		{
 			owner.worldObj.setBlock((int)logX, (int)logY, (int)logZ, 0);
 		}
-	
+
 		logY++;
-	
+
 		final int amountToAdd = getChoreXp() >= 20.0F ? 3 : getChoreXp() >= 15.0F ? MCA.rand.nextBoolean() ? 2 : 1 : 1;
 		final ItemStack stackToAdd = new ItemStack(Block.wood, amountToAdd, treeType);
 		stackToAdd.damageItem(treeType, owner);
 		owner.inventory.addItemStackToInventory(stackToAdd);
-	
+
 		incrementChoreXpLevel((float)(0.15 - 0.01 * getChoreXp()));
-		
+
 		cutCounter = 0;
 		hasDoneWork = true;
 		owner.damageHeldItem();
