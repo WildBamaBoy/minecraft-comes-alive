@@ -200,8 +200,6 @@ public class MCA
 	public  boolean hasEmptiedPropertiesFolder = false;
 	public  boolean hasCheckedForUpdates	   = false;
 	public  boolean isDevelopmentEnvironment   = false;
-	
-	@SideOnly(Side.CLIENT)
 	public  boolean hasReceivedClientSetup	   = false;
 
 	private static final Logger	logger = FMLLog.getLogger();
