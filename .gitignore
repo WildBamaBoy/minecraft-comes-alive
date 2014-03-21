@@ -20,10 +20,14 @@
 *.war
 *.ear
 
+# API Key Files #
+API.keys
+
 # Base Folders #
 Build/*
 Submissions/*
 Crowdin/*
+<<<<<<< HEAD
 Forge/*
 
 # 1.6.4 Folders #
@@ -66,3 +70,26 @@ Minecraft/1.7.2/*
 !/Minecraft/1.6.4/mcp/getchangedsrc.bat
 !/Minecraft/1.6.4/mcp/recompile.bat
 !/Minecraft/1.6.4/mcp/reobfuscate.bat
+=======
+
+# 1.6.4 Folder #
+Minecraft/1.6.4/*
+
+# 1.7.2 Files #
+Minecraft/1.7.2/gradlew
+
+# 1.7.2 Folders #
+Minecraft/1.7.2/.gradle/*
+Minecraft/1.7.2/.settings/*
+Minecraft/1.7.2/bin/*
+Minecraft/1.7.2/build/*
+Minecraft/1.7.2/.gradle/*
+Minecraft/1.7.2/gradle/*
+Minecraft/1.7.2/eclipse/*
+Minecraft/1.7.2/.classpath
+Minecraft/1.7.2/.project
+
+# Do Not Ignore #
+!/Assemble.py
+!/Master.lang
+>>>>>>> origin/4.0.0-Beta
