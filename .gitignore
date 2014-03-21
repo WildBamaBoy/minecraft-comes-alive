@@ -20,19 +20,14 @@
 *.war
 *.ear
 
-# API Key Files #
-API.keys
-
 # Base Folders #
 Build/*
 Submissions/*
 Crowdin/*
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
-# 1.6.4 Folder #
-Minecraft/1.6.4/*
+# Do Not Ignore #
+!/Assemble.py
+!/Master.lang
 
 # 1.7.2 Files #
 Minecraft/1.7.2/gradlew
@@ -47,73 +42,3 @@ Minecraft/1.7.2/gradle/*
 Minecraft/1.7.2/eclipse/*
 Minecraft/1.7.2/.classpath
 Minecraft/1.7.2/.project
-
-# Do Not Ignore #
-!/Assemble.py
-!/Master.lang
-=======
-<<<<<<< HEAD
->>>>>>> 4.0.0-Beta
-Forge/*
-
-# 1.6.4 Folders #
-Minecraft/1.6.4/client/*
-Minecraft/1.6.4/common/*
-Minecraft/1.6.4/fml/*
-Minecraft/1.6.4/patches/*
-Minecraft/1.6.4/mcp/bin/*
-Minecraft/1.6.4/mcp/conf/*
-Minecraft/1.6.4/mcp/docs/*
-Minecraft/1.6.4/mcp/eclipse/*
-Minecraft/1.6.4/mcp/jars/*
-Minecraft/1.6.4/mcp/lib/*
-Minecraft/1.6.4/mcp/logs/*
-Minecraft/1.6.4/mcp/modsrc/*
-Minecraft/1.6.4/mcp/reobf/*
-Minecraft/1.6.4/mcp/runtime/*
-Minecraft/1.6.4/mcp/src/minecraft/cpw/*
-Minecraft/1.6.4/mcp/src/minecraft/ibxm/*
-Minecraft/1.6.4/mcp/src/minecraft/net/*
-Minecraft/1.6.4/mcp/src/minecraft/paulscode/*
-Minecraft/1.6.4/mcp/temp/*
-
-# 1.6.4 Files #
-Minecraft/1.6.4/mcp/src/minecraft/Minecraft_logo.png
-Minecraft/1.6.4/mcp/src/minecraft/Start.java
-Minecraft/1.6.4/mcp/CHANGELOG
-Minecraft/1.6.4/mcp/src/minecraft/mcpmod.info
-Minecraft/1.6.4/mcp/src/minecraft/mcp.png
-Minecraft/1.6.4/mcp/src/minecraft/assets/Minecraft/*
-Minecraft/1.6.4/mcp/src/minecraft/assets/Minecraft/*
-Minecraft/1.6.4/mcp/src/minecraft/assets/Minecraft/*
-
-# Do Not Ignore #
-!/Assemble.py
-!/Master.properties
-=======
-
-# 1.6.4 Folder #
-Minecraft/1.6.4/*
-
-# 1.7.2 Files #
-Minecraft/1.7.2/gradlew
-
-# 1.7.2 Folders #
-Minecraft/1.7.2/.gradle/*
-Minecraft/1.7.2/.settings/*
-Minecraft/1.7.2/bin/*
-Minecraft/1.7.2/build/*
-Minecraft/1.7.2/.gradle/*
-Minecraft/1.7.2/gradle/*
-Minecraft/1.7.2/eclipse/*
-Minecraft/1.7.2/.classpath
-Minecraft/1.7.2/.project
-
-# Do Not Ignore #
-!/Assemble.py
-!/Master.lang
->>>>>>> origin/4.0.0-Beta
-<<<<<<< HEAD
-=======
->>>>>>> origin/master
->>>>>>> 4.0.0-Beta
