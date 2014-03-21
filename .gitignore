@@ -28,6 +28,32 @@ Build/*
 Submissions/*
 Crowdin/*
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+# 1.6.4 Folder #
+Minecraft/1.6.4/*
+
+# 1.7.2 Files #
+Minecraft/1.7.2/gradlew
+
+# 1.7.2 Folders #
+Minecraft/1.7.2/.gradle/*
+Minecraft/1.7.2/.settings/*
+Minecraft/1.7.2/bin/*
+Minecraft/1.7.2/build/*
+Minecraft/1.7.2/.gradle/*
+Minecraft/1.7.2/gradle/*
+Minecraft/1.7.2/eclipse/*
+Minecraft/1.7.2/.classpath
+Minecraft/1.7.2/.project
+
+# Do Not Ignore #
+!/Assemble.py
+!/Master.lang
+=======
+<<<<<<< HEAD
+>>>>>>> 4.0.0-Beta
 Forge/*
 
 # 1.6.4 Folders #
@@ -61,15 +87,9 @@ Minecraft/1.6.4/mcp/src/minecraft/assets/Minecraft/*
 Minecraft/1.6.4/mcp/src/minecraft/assets/Minecraft/*
 Minecraft/1.6.4/mcp/src/minecraft/assets/Minecraft/*
 
-# 1.7.2 Folders #
-Minecraft/1.7.2/*
-
 # Do Not Ignore #
 !/Assemble.py
 !/Master.properties
-!/Minecraft/1.6.4/mcp/getchangedsrc.bat
-!/Minecraft/1.6.4/mcp/recompile.bat
-!/Minecraft/1.6.4/mcp/reobfuscate.bat
 =======
 
 # 1.6.4 Folder #
@@ -93,3 +113,7 @@ Minecraft/1.7.2/.project
 !/Assemble.py
 !/Master.lang
 >>>>>>> origin/4.0.0-Beta
+<<<<<<< HEAD
+=======
+>>>>>>> origin/master
+>>>>>>> 4.0.0-Beta
