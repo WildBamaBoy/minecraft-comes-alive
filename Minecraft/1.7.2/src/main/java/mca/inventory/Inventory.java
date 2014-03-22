@@ -258,7 +258,7 @@ public class Inventory implements IInventory, IInvBasic, Serializable
 	@Override
 	public void markDirty() 
 	{
-		//Nothing to do.
+		onInventoryChanged(this);
 	}
 
 	/**
@@ -335,7 +335,6 @@ public class Inventory implements IInventory, IInvBasic, Serializable
 	public void closeInventory()
 	{
 		setWornArmorItems();
-		onInventoryChanged(this);
 	}
 
 	@Override
@@ -1094,8 +1093,8 @@ public class Inventory implements IInventory, IInvBasic, Serializable
 	}
 
 	@Override
-	public void onInventoryChanged(InventoryBasic var1) {
-		// TODO Auto-generated method stub
-		
+	public void onInventoryChanged(InventoryBasic var1) 
+	{
+		//Nothing to do here.
 	}
 }
