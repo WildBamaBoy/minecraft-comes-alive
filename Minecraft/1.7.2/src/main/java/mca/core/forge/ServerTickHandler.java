@@ -91,6 +91,17 @@ public class ServerTickHandler
 			if (manager.worldProperties.babyReadyToGrow && !MCA.getInstance().hasNotifiedOfBabyReadyToGrow)
 			{
 				MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.NotifyPlayer, 0, "notify.baby.readytogrow"), (EntityPlayerMP)player);
+				
+				if (manager.worldProperties.playerSpouseID < 0)
+				{
+					final EntityPlayer spousePlayer = MCA.getInstance().getPlayerByID(player.worldObj, manager.worldProperties.playerSpouseID);
+					
+					if (spousePlayer != null)
+					{
+						MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.NotifyPlayer, 0, "notify.baby.readytogrow"), (EntityPlayerMP)spousePlayer);
+					}
+				}
+				
 				MCA.getInstance().hasNotifiedOfBabyReadyToGrow = true;
 			}
 		}
