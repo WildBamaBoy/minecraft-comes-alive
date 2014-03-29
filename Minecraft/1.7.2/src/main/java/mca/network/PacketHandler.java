@@ -856,15 +856,33 @@ public final class PacketHandler extends AbstractPacketHandler
 		try
 		{
 			entity = (AbstractEntity) player.worldObj.getEntityByID(entityId);
+			
+			if (entity == null)
+			{
+				int mcaId = -1;
+				
+				for (Map.Entry<Integer, Integer> entry : MCA.getInstance().idsMap.entrySet())
+				{
+					if (entry.getValue() == entityId)
+					{
+						mcaId = entry.getKey();
+						break;
+					}
+				}
+				
+				if (mcaId > -1)
+				{
+					entity = MCA.getInstance().entitiesMap.get(mcaId);
+				}
+			}
 		}
 
 		catch (ClassCastException e) 
 		{ 
 			//Occurs when player passed as an argument.
 		}
-
+		
 		final String phraseId = (String)arguments[1];
-
 		player.addChatMessage(new ChatComponentText(MCA.getInstance().getLanguageLoader().getString(phraseId, null, entity, false)));
 	}
 
