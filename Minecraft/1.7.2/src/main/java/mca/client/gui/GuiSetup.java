@@ -163,8 +163,12 @@ public class GuiSetup extends AbstractGui
 				endIndex += 7;
 			}
 
-			manager.worldProperties.genderPreference = hashedPreference.substring(beginIndex, endIndex);
-			manager.saveWorldProperties();
+			final String preferenceSection = hashedPreference.substring(beginIndex, endIndex);
+			
+			if (!manager.worldProperties.genderPreference.contains(preferenceSection))
+			{
+				manager.worldProperties.genderPreference = preferenceSection;
+			}
 		}
 
 		catch (Exception e)
@@ -299,7 +303,6 @@ public class GuiSetup extends AbstractGui
 				prefersMales = false;
 			}
 
-			manager.saveWorldProperties();
 			drawGenderSelectGui();
 		}
 
@@ -346,21 +349,18 @@ public class GuiSetup extends AbstractGui
 
 		else if (button == finishButton)
 		{
-			manager.saveWorldProperties();	
 			Minecraft.getMinecraft().displayGuiScreen(null);
 		}
 
 		else if (button == hideTagsButton)
 		{
 			manager.worldProperties.hideSleepingTag = !manager.worldProperties.hideSleepingTag;
-			manager.saveWorldProperties();
 			drawOptionsGui();
 		}
 
 		else if (button == autoGrowChildrenButton)
 		{
 			manager.worldProperties.childrenGrowAutomatically = !manager.worldProperties.childrenGrowAutomatically;
-			manager.saveWorldProperties();
 			drawOptionsGui();
 		}
 
@@ -373,16 +373,13 @@ public class GuiSetup extends AbstractGui
 		else if (button == displayMoodParticlesButton)
 		{
 			manager.worldProperties.displayMoodParticles = !manager.worldProperties.displayMoodParticles;
-			manager.saveWorldProperties();
 			drawOptionsGui();
 		}
 		
 		else if (button == showNameTagsButton)
 		{
 			manager.worldProperties.showNameTags = !manager.worldProperties.showNameTags;
-			manager.saveWorldProperties();
 			drawOptionsGui();
 		}
 	}
 }
-
