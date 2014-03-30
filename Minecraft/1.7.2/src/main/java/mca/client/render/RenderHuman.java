@@ -214,8 +214,7 @@ public class RenderHuman extends RenderBiped
 		try
 		{
 			final WorldPropertiesList propertiesList = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName()).worldProperties;
-
-			final AbstractEntity clientEntity = (AbstractEntity)DimensionManager.getWorld(entity.worldObj.provider.dimensionId).getEntityByID(entity.getEntityId());
+			final AbstractEntity clientEntity = (AbstractEntity)entity; //(AbstractEntity)DimensionManager.getWorld(entity.worldObj.provider.dimensionId).getEntityByID(entity.getEntityId());
 
 			if (clientEntity != null)
 			{
