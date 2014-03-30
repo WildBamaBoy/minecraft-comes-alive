@@ -26,6 +26,7 @@ import mca.chore.ChoreMining;
 import mca.chore.ChoreWoodcutting;
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.io.WorldPropertiesList;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.LogicExtension;
 import mca.core.util.Utility;
@@ -84,7 +85,7 @@ public final class PacketHandler extends AbstractPacketHandler
 	public void onHandlePacket(Packet packet, EntityPlayer player, Side side) 
 	{
 		EnumPacketType type = (EnumPacketType)packet.packetType;
-		
+
 		try
 		{
 			switch (type)
@@ -225,25 +226,25 @@ public final class PacketHandler extends AbstractPacketHandler
 		final int entityId = (Integer)arguments[0];
 		final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(entityId);
 		final ItemStack dropStack = LogicExtension.getGiftStackFromRelationship(player, entity);
-		
+
 		entity.entityDropItem(dropStack, 0.2F);
 	}
-	
+
 	private void handleGiveAid(Object[] arguments, EntityPlayer player)
 	{
 		final int entityId = (Integer)arguments[0];
 		final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(entityId);
 		final ItemStack dropStack = null;
-		
+
 		Object[] giftInfo = null;
 		giftInfo = 
 				entity.profession == 0 ? Constants.farmerAidIDs[entity.worldObj.rand.nextInt(Constants.farmerAidIDs.length)] : 
 					entity.profession == 4 ? Constants.butcherAidIDs[entity.worldObj.rand.nextInt(Constants.butcherAidIDs.length)] :
 						Constants.bakerAidIDs[entity.worldObj.rand.nextInt(Constants.bakerAidIDs.length)];
-					
-		int quantityGiven = entity.worldObj.rand.nextInt(Integer.parseInt(giftInfo[2].toString())) + Integer.parseInt(giftInfo[1].toString());
-		
-		entity.entityDropItem(new ItemStack((Item)giftInfo[0], quantityGiven), 0.2F);
+
+					int quantityGiven = entity.worldObj.rand.nextInt(Integer.parseInt(giftInfo[2].toString())) + Integer.parseInt(giftInfo[1].toString());
+
+					entity.entityDropItem(new ItemStack((Item)giftInfo[0], quantityGiven), 0.2F);
 	}
 
 	private void handleUpdateFurnace(Object[] arguments, EntityPlayer player) 
@@ -407,22 +408,64 @@ public final class PacketHandler extends AbstractPacketHandler
 
 	private void handleSetWorldProperties(Object[] arguments, EntityPlayer player) 
 	{
-		final WorldPropertiesManager manager = (WorldPropertiesManager) arguments[0];
+		final WorldPropertiesManager recvManager = (WorldPropertiesManager) arguments[0];
+		final WorldPropertiesManager myManager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
 
-		if (player.worldObj.isRemote)
+		try
 		{
-			MCA.getInstance().playerWorldManagerMap.put(player.getCommandSenderName(), manager);
+			if (myManager != null)
+			{
+				if (player.worldObj.isRemote) //Received from the server.
+				{
+					for (final Field field : WorldPropertiesList.class.getDeclaredFields())
+					{
+						final Object serverValue = field.get(recvManager.worldProperties);
+						final Object clientValue = field.get(myManager.worldProperties);
+
+						if (!clientValue.equals(serverValue))
+						{
+							field.set(myManager.worldProperties, serverValue);
+							
+							if (MCA.getInstance().inDebugMode)
+							{
+								MCA.getInstance().getLogger().log("Updated field: " + field.getName() + " : " + serverValue);
+							}
+						}
+					}
+				}
+
+				else //Received from client.
+				{
+					for (final Field field : WorldPropertiesList.class.getDeclaredFields())
+					{
+						final Object clientValue = field.get(recvManager.worldProperties);
+						final Object serverValue = field.get(myManager.worldProperties);
+
+						if (MCA.getInstance().inDebugMode)
+						{
+							MCA.getInstance().getLogger().log(field.getName() + ":" + clientValue + ":" + serverValue);
+						}
+						
+						if (!serverValue.equals(clientValue) && !field.getName().equals("playerID"))
+						{
+							field.set(myManager.worldProperties, clientValue);
+							MCA.getInstance().getLogger().log("Updated field: " + field.getName() + " : " + clientValue);
+						}
+					}
+					
+					myManager.saveWorldProperties();
+				}
+			}
+			
+			else
+			{
+				MCA.getInstance().playerWorldManagerMap.put(player.getCommandSenderName(), recvManager);
+			}
 		}
 
-		else
+		catch (Throwable e)
 		{
-			//Update only the actual properties on the old manager to retain the ability to save.
-			WorldPropertiesManager oldWorldPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
-			oldWorldPropertiesManager.worldProperties = manager.worldProperties;
-
-			//Put the changed manager back into the map and save it.
-			MCA.getInstance().playerWorldManagerMap.put(player.getCommandSenderName(), oldWorldPropertiesManager);
-			oldWorldPropertiesManager.saveWorldProperties();
+			e.printStackTrace();
 		}
 	}
 
@@ -514,11 +557,11 @@ public final class PacketHandler extends AbstractPacketHandler
 			try
 			{
 				final Entity entity = (Entity)obj;
-				
+
 				if (entity.getEntityId() == entityId)
 				{
 					final AbstractEntity abstractEntity = (AbstractEntity)entity;
-					
+
 					for (final Field f : entity.getClass().getFields())
 					{
 						if (!fieldName.equals("texture"))
@@ -530,44 +573,44 @@ public final class PacketHandler extends AbstractPacketHandler
 								{
 									manager.worldProperties.stat_villagersMadePeasants++;
 									player.triggerAchievement(MCA.getInstance().achievementMakePeasant);
-									
+
 									if (manager.worldProperties.stat_villagersMadePeasants >= 20)
 									{
 										player.triggerAchievement(MCA.getInstance().achievementPeasantArmy);
 									}
-									
+
 									manager.saveWorldProperties();
 								}
-								
+
 								if (f.getName().equals("isKnight") && fieldValue.toString().equals("true"))
 								{
 									manager.worldProperties.stat_guardsMadeKnights++;
 									player.triggerAchievement(MCA.getInstance().achievementMakeKnight);
-									
+
 									if (manager.worldProperties.stat_guardsMadeKnights >= 20)
 									{
 										player.triggerAchievement(MCA.getInstance().achievementKnightArmy);
 									}
-									
+
 									manager.saveWorldProperties();
 								}
-								
+
 								if (f.getName().equals("hasBeenExecuted") && fieldValue.toString().equals("true"))
 								{
 									manager.worldProperties.stat_villagersExecuted++;
 									player.triggerAchievement(MCA.getInstance().achievementExecuteVillager);
-									
+
 									if (abstractEntity.familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) == EnumRelation.Spouse)
 									{
 										manager.worldProperties.stat_wivesExecuted++;
-										
+
 										if (manager.worldProperties.stat_wivesExecuted >= 6)
 										{
 											player.triggerAchievement(MCA.getInstance().achievementMonarchSecret);
 										}
 									}
 									manager.saveWorldProperties();
-									
+
 								}
 								//Setting the value.
 								if (f.getType().getName().contains("boolean"))
@@ -810,7 +853,7 @@ public final class PacketHandler extends AbstractPacketHandler
 		final int slot = (Integer) arguments[1];
 		final int amount = (Integer) arguments[2];
 		final int damage = (Integer) arguments[3];
-		
+
 		final EntityPlayer entityPlayer = (EntityPlayer) player.worldObj.getEntityByID(entityId);
 		player.inventory.decrStackSize(slot, amount);
 	}
@@ -839,7 +882,7 @@ public final class PacketHandler extends AbstractPacketHandler
 		{
 			return;
 		}
-		
+
 		else if (guiId == Constants.ID_GUI_SETUP && !MCA.getInstance().hasReceivedClientSetup)
 		{
 			MCA.getInstance().hasReceivedClientSetup = true;
@@ -856,11 +899,11 @@ public final class PacketHandler extends AbstractPacketHandler
 		try
 		{
 			entity = (AbstractEntity) player.worldObj.getEntityByID(entityId);
-			
+
 			if (entity == null)
 			{
 				int mcaId = -1;
-				
+
 				for (Map.Entry<Integer, Integer> entry : MCA.getInstance().idsMap.entrySet())
 				{
 					if (entry.getValue() == entityId)
@@ -869,7 +912,7 @@ public final class PacketHandler extends AbstractPacketHandler
 						break;
 					}
 				}
-				
+
 				if (mcaId > -1)
 				{
 					entity = MCA.getInstance().entitiesMap.get(mcaId);
@@ -881,7 +924,7 @@ public final class PacketHandler extends AbstractPacketHandler
 		{ 
 			//Occurs when player passed as an argument.
 		}
-		
+
 		final String phraseId = (String)arguments[1];
 		player.addChatMessage(new ChatComponentText(MCA.getInstance().getLanguageLoader().getString(phraseId, null, entity, false)));
 	}
@@ -973,7 +1016,7 @@ public final class PacketHandler extends AbstractPacketHandler
 		final int playerId = (Integer) arguments[0];
 		final int spouseId = (Integer) arguments[1];
 		final EntityPlayer spouse = (EntityPlayer)player.worldObj.getEntityByID(spouseId);
-		
+
 		//Trigger the name baby gui.
 		AbstractBaby itemBaby = null;
 		boolean babyIsMale = Utility.getRandomGender();
@@ -1012,7 +1055,7 @@ public final class PacketHandler extends AbstractPacketHandler
 	{
 		final MinecraftServer theServer = MinecraftServer.getServer();
 		final EntityPlayerMP playerMP = (EntityPlayerMP) player;
-		
+
 		theServer.getConfigurationManager().respawnPlayer(playerMP, 0, false);
 	}
 
@@ -1123,29 +1166,29 @@ public final class PacketHandler extends AbstractPacketHandler
 		final Item itemToAdd = ((Boolean)arguments[0]) == true ? MCA.getInstance().itemBabyBoy : MCA.getInstance().itemBabyGirl;
 		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
 		EntityPlayer spousePlayer = null;
-		
+
 		//Check for spouse.
 		if (manager != null && manager.worldProperties.playerSpouseID < 0)
 		{
 			spousePlayer = player.worldObj.getPlayerEntityByName(manager.worldProperties.playerSpouseName);
 		}
-		
+
 		player.inventory.addItemStackToInventory(new ItemStack(itemToAdd));
-		
+
 		if (itemToAdd instanceof ItemBabyBoy)
 		{
 			player.triggerAchievement(MCA.getInstance().achievementHaveBabyBoy);
-			
+
 			if (spousePlayer != null)
 			{
 				spousePlayer.triggerAchievement(MCA.getInstance().achievementHaveBabyBoy);	
 			}
 		}
-		
+
 		else if (itemToAdd instanceof ItemBabyGirl)
 		{
 			player.triggerAchievement(MCA.getInstance().achievementHaveBabyBoy);
-			
+
 			if (spousePlayer != null)
 			{
 				spousePlayer.triggerAchievement(MCA.getInstance().achievementHaveBabyGirl);
