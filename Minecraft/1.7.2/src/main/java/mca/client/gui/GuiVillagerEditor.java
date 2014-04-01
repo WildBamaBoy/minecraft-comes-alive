@@ -66,6 +66,10 @@ public class GuiVillagerEditor extends AbstractGui
 	private GuiButton heightButton;
 	private GuiButton shiftHeightUpButton;
 	private GuiButton shiftHeightDownButton;
+	private GuiButton appliesGirthButton;
+	private GuiButton girthButton;
+	private GuiButton shiftGirthUpButton;
+	private GuiButton shiftGirthDownButton;
 
 	private GuiButton backButton;
 	private GuiButton nextButton;
@@ -436,10 +440,31 @@ public class GuiVillagerEditor extends AbstractGui
 			drawEditorGuiPage2();
 		}
 
+		else if (guibutton == shiftGirthUpButton)
+		{
+			editingVillager.girthFactor += 0.01F;
+			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, editingVillager.getEntityId(), "girthFactor", editingVillager.girthFactor));
+			drawEditorGuiPage2();
+		}
+
+		else if (guibutton == shiftGirthDownButton)
+		{
+			editingVillager.girthFactor -= 0.01F;
+			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, editingVillager.getEntityId(), "girthFactor", editingVillager.girthFactor));
+			drawEditorGuiPage2();
+		}
+		
 		else if (guibutton == appliesHeightButton)
 		{
 			editingVillager.doApplyHeight = !editingVillager.doApplyHeight;
 			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, editingVillager.getEntityId(), "doApplyHeight", editingVillager.doApplyHeight));
+			drawEditorGuiPage2();
+		}
+		
+		else if (guibutton == appliesGirthButton)
+		{
+			editingVillager.doApplyGirth = !editingVillager.doApplyGirth;
+			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, editingVillager.getEntityId(), "doApplyGirth", editingVillager.doApplyGirth));
 			drawEditorGuiPage2();
 		}
 	}
@@ -665,8 +690,7 @@ public class GuiVillagerEditor extends AbstractGui
 	private void drawEditorGuiPage2()
 	{
 		final int displayHeight = Math.round(editingVillager.heightFactor * 100);
-		final DecimalFormat decimalFormatter = new DecimalFormat("0.00");
-		final float formattedHeight = Float.parseFloat(decimalFormatter.format(editingVillager.heightFactor));
+		final int displayGirth = Math.round(editingVillager.girthFactor * 100);
 
 		currentPage = 2;
 		buttonList.clear();
@@ -674,25 +698,26 @@ public class GuiVillagerEditor extends AbstractGui
 		buttonList.add(heightButton          = new GuiButton(2,  width / 2 - 190, height / 2 - 40, 175, 20, "Height Factor: " + displayHeight));
 		buttonList.add(shiftHeightUpButton   = new GuiButton(3,  width / 2 - 15,  height / 2 - 40, 20, 20, ">>"));
 		buttonList.add(shiftHeightDownButton = new GuiButton(4,  width / 2 - 210, height / 2 - 40, 20, 20, "<<"));
+		buttonList.add(appliesGirthButton   = new GuiButton(5,  width / 2 - 190, height / 2 - 20, 175, 20, "Applies Girth: " + editingVillager.doApplyGirth));
+		buttonList.add(girthButton          = new GuiButton(6,  width / 2 - 190, height / 2 - 0, 175, 20, "Girth Factor: " + displayGirth));
+		buttonList.add(shiftGirthUpButton   = new GuiButton(7,  width / 2 - 15,  height / 2 - 0, 20, 20, ">>"));
+		buttonList.add(shiftGirthDownButton = new GuiButton(8,  width / 2 - 210, height / 2 - 0, 20, 20, "<<"));
 		buttonList.add(doneButton            = new GuiButton(16, width / 2 - 50,  height / 2 + 85, 75, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.done")));
 		buttonList.add(nextButton            = new GuiButton(17, width / 2 + 25,  height / 2 + 85, 50, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.next")));
 		buttonList.add(backButton            = new GuiButton(18, width / 2 - 101,  height / 2 + 85, 50, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
-
-		if (formattedHeight >= 0.10F)
-		{
-			shiftHeightUpButton.enabled = false;
-		}
-
-		else if (formattedHeight <= -0.10F)
-		{
-			shiftHeightDownButton.enabled = false;
-		}
 
 		if (!editingVillager.doApplyHeight)
 		{
 			heightButton.enabled = false;
 			shiftHeightUpButton.enabled = false;
 			shiftHeightDownButton.enabled = false;
+		}
+		
+		if (!editingVillager.doApplyGirth)
+		{
+			girthButton.enabled = false;
+			shiftGirthUpButton.enabled = false;
+			shiftGirthDownButton.enabled = false;
 		}
 
 		nextButton.enabled = false;

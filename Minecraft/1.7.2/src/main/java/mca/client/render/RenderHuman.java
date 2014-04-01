@@ -75,10 +75,18 @@ public class RenderHuman extends RenderBiped
 	{
 		final AbstractEntity entity = (AbstractEntity)entityLivingBase;
 		final float scale = entity.isMale ? Constants.SCALE_M_ADULT: Constants.SCALE_F_ADULT;
-
-		if (entity.doApplyHeight)
+		
+		if (entity.doApplyHeight || entity.doApplyGirth)
 		{
-			GL11.glScalef(scale, scale + entity.heightFactor, scale);
+			if (entity.doApplyHeight)
+			{
+				GL11.glScalef(scale, scale + entity.heightFactor, scale);
+			}
+			
+			if (entity.doApplyGirth)
+			{
+				GL11.glScalef(scale + entity.girthFactor, scale, scale + entity.girthFactor);
+			}
 		}
 
 		else
