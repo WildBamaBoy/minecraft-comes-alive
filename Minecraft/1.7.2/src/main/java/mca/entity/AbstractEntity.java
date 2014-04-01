@@ -149,6 +149,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public boolean doDivorce;
 	public boolean hasBaby;
 	public boolean doApplyHeight = Utility.getBooleanWithProbability(40);
+	public boolean doApplyGirth = Utility.getBooleanWithProbability(30);
 	public double homePointX;
 	public double homePointY;
 	public double homePointZ;
@@ -161,6 +162,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public float xpLvlMining;
 	public float xpLvlWoodcutting;
 	public float heightFactor = MCA.rand.nextBoolean() ? MCA.rand.nextFloat() / 12 : MCA.rand.nextFloat() / 12 * -1;
+	public float girthFactor = MCA.rand.nextBoolean() ? MCA.rand.nextFloat() / 6 : MCA.rand.nextFloat() / 6 * -1;
 
 	public TickMarkerBaby tickMarkerBaby = new TickMarkerBaby(this, -1);
 	public FamilyTree familyTree = new FamilyTree(this);
@@ -2027,7 +2029,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				for (final int relatedPlayerId : spouse.familyTree.getListOfPlayerIDs())
 				{
-					if (spouse instanceof EntityPlayerChild)
+					if (spouse instanceof EntityPlayerChild || this instanceof EntityPlayerChild)
 					{
 						child.familyTree.addFamilyTreeEntry(relatedPlayerId, EnumRelation.Grandparent);
 					}
@@ -2044,7 +2046,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				for (final int relatedPlayerId : familyTree.getListOfPlayerIDs())
 				{
-					if (spouse instanceof EntityPlayerChild)
+					if (spouse instanceof EntityPlayerChild || this instanceof EntityPlayerChild)
 					{
 						child.familyTree.addFamilyTreeEntry(relatedPlayerId, EnumRelation.Grandparent);
 					}

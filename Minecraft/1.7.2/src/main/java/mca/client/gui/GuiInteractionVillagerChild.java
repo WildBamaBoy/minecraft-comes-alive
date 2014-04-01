@@ -149,12 +149,26 @@ public class GuiInteractionVillagerChild extends AbstractGui
 				AbstractEntity parent1 = (AbstractEntity) entityVillagerChild.worldObj.getEntityByID(parent1Id);
 				AbstractEntity parent2 = (AbstractEntity) entityVillagerChild.worldObj.getEntityByID(parent2Id);
 
-				boolean bothParentsAlive = parent1 != null && parent2 != null;
+				//Try to find parents through the entities map as well.
+				for (Map.Entry<Integer, Integer> entry : MCA.getInstance().idsMap.entrySet())
+				{
+					if (entry.getValue() == parent1Id && parent1 == null)
+					{
+						parent1 = MCA.getInstance().entitiesMap.get(entry.getKey());
+					}
+
+					else if (entry.getValue() == parent2Id && parent2 == null)
+					{
+						parent2 = MCA.getInstance().entitiesMap.get(entry.getKey());
+					}
+				}
+
+				boolean bothParentsAlive = (parent1 != null && !parent1.isDead) && (parent2 != null && !parent2.isDead);
 				boolean neitherParentsAlive = parent1 == null && parent2 == null;
 
 				if (bothParentsAlive)
 				{
-					drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString( "gui.info.family.parents", player, entityVillagerChild, false), width / 2, height / 2 - 60, 0xffffff);
+					drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.info.family.parents", player, entityVillagerChild, false), width / 2, height / 2 - 60, 0xffffff);
 				}
 
 				else if (neitherParentsAlive)
@@ -295,7 +309,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 			{
 				entityVillagerChild.notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("multiplayer.interaction.reject.child"));
 			}
-			
+
 			else
 			{
 				EntityHorse nearestHorse = (EntityHorse)LogicHelper.getNearestEntityOfType(entityVillagerChild, EntityHorse.class, 5);
@@ -310,7 +324,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 					entityVillagerChild.say(MCA.getInstance().getLanguageLoader().getString("notify.horse.notfound"));
 				}
 			}
-			
+
 			close();
 		}
 

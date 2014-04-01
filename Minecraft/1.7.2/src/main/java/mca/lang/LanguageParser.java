@@ -68,7 +68,6 @@ public class LanguageParser implements ILanguageParser
 				if (entity instanceof EntityPlayerChild)
 				{
 					final List<Integer> parents = entity.familyTree.getIDsWithRelation(EnumRelation.Parent);
-
 					if (parents.get(0) < 0 && parents.get(1) < 0)
 					{
 						text = text.replace("%MotherName%", player.getCommandSenderName());
@@ -87,9 +86,9 @@ public class LanguageParser implements ILanguageParser
 					try
 					{
 						final List<Integer> parents = entity.familyTree.getIDsWithRelation(EnumRelation.Parent);
-						final AbstractEntity parent1 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.getInstance().idsMap.get(parents.get(0)));
-						final AbstractEntity parent2 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.getInstance().idsMap.get(parents.get(1)));
-
+						final AbstractEntity parent1 = MCA.getInstance().entitiesMap.get(parents.get(0));
+						final AbstractEntity parent2 = MCA.getInstance().entitiesMap.get(parents.get(1));
+						
 						if (parent1.isMale == parent2.isMale)
 						{
 							text = text.replace("%MotherName%", parent1.name);
@@ -147,8 +146,8 @@ public class LanguageParser implements ILanguageParser
 					try
 					{
 						final List<Integer> parents = entity.familyTree.getIDsWithRelation(EnumRelation.Parent);
-						final AbstractEntity parent1 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.getInstance().idsMap.get(parents.get(0)));
-						final AbstractEntity parent2 = (AbstractEntity)entity.worldObj.getEntityByID(MCA.getInstance().idsMap.get(parents.get(1)));
+						final AbstractEntity parent1 = MCA.getInstance().entitiesMap.get(parents.get(0));
+						final AbstractEntity parent2 = MCA.getInstance().entitiesMap.get(parents.get(1));
 
 						if (parent1.isMale == parent2.isMale)
 						{
@@ -363,31 +362,29 @@ public class LanguageParser implements ILanguageParser
 			if (text.contains("%LivingParent%"))
 			{
 				final List<Integer> parents = entity.familyTree.getIDsWithRelation(EnumRelation.Parent);
+				final AbstractEntity parent1 = MCA.getInstance().entitiesMap.get(parents.get(0));
+				final AbstractEntity parent2 = MCA.getInstance().entitiesMap.get(parents.get(1));
+				AbstractEntity nonNullParent = parent1 != null ? parent1 : parent2 != null ? parent2 : null;
 
-				int parent1Id = -1;
-				int parent2Id = -1;
-
-				for (final Map.Entry<Integer, Integer> entry : MCA.getInstance().idsMap.entrySet())
+				if (nonNullParent == parent1 && parent1.isDead)
 				{
-					final int keyInt = entry.getKey();
-					final int valueInt = entry.getValue();
-
-					if (keyInt == parents.get(0))
-					{
-						parent1Id = valueInt;
-					}
-
-					else if (keyInt == parents.get(1))
-					{
-						parent2Id = valueInt;
-					}
+					nonNullParent = parent2;
 				}
-
-				final AbstractEntity parent1 = (AbstractEntity) player.worldObj.getEntityByID(parent1Id);
-				final AbstractEntity parent2 = (AbstractEntity) player.worldObj.getEntityByID(parent2Id);
-				final AbstractEntity nonNullParent = parent1 != null ? parent1 : parent2 != null ? parent2 : null;
-
-				text = text.replace("%LivingParent%", nonNullParent.name);
+				
+				if (nonNullParent == parent2 && parent2.isDead)
+				{
+					nonNullParent = parent1;
+				}
+				
+				if (!nonNullParent.isDead)
+				{
+					text = text.replace("%LivingParent%", nonNullParent.name);
+				}
+				
+				else
+				{
+					text = languageLoader.getString("gui.info.family.parents.deceased");
+				}
 			}
 		}
 
