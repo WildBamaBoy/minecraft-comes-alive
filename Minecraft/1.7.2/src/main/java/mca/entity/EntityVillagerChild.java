@@ -96,7 +96,10 @@ public class EntityVillagerChild extends AbstractChild
 	@Override
 	public String getCharacterType(int playerId) 
 	{
-		if (familyTree.getRelationOf(playerId) == EnumRelation.Grandparent || familyTree.getRelationOf(playerId) == EnumRelation.Greatgrandparent)
+		final EnumRelation relation = familyTree.getRelationOf(playerId);
+		
+		if (relation == EnumRelation.Grandparent || relation == EnumRelation.Greatgrandparent || relation == EnumRelation.Grandfather ||
+			relation == EnumRelation.Grandmother || relation == EnumRelation.Greatgrandfather || relation == EnumRelation.Greatgrandmother)
 		{
 			return "grandchild";
 		}
