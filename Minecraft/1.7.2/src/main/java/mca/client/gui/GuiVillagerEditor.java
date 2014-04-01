@@ -10,7 +10,6 @@
 package mca.client.gui;
 
 import java.lang.reflect.Field;
-import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;

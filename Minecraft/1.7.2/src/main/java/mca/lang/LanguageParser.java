@@ -10,7 +10,6 @@
 package mca.lang;
 
 import java.util.List;
-import java.util.Map;
 
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
