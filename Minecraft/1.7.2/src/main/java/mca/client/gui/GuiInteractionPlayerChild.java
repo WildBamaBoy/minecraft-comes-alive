@@ -566,7 +566,7 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.exit")));
 		backButton.enabled = false;
 		
-		if (entityChild.isAdult)
+		if (entityChild.isAdult && !MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName()).worldProperties.isMonarch)
 		{
 			farmingButton.enabled = false;
 			fishingButton.enabled = false;
