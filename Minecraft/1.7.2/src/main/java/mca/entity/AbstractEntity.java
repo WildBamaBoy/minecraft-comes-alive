@@ -1080,8 +1080,25 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public void verifyHomePointIsValid()
 	{
 		//Test the home point and the block above to be sure it isn't obstructed.
-		if (worldObj.getBlock((int)homePointX, (int)(homePointY + 0), (int)homePointZ) == Blocks.air &&
-				worldObj.getBlock((int)homePointX, (int)(homePointY + 1), (int)homePointZ) == Blocks.air)
+		final Block blockStanding = worldObj.getBlock((int)homePointX, (int)(homePointY + 0), (int)homePointZ);
+		final Block blockAbove = worldObj.getBlock((int)homePointX, (int)(homePointY + 1), (int)homePointZ);
+		boolean blockStandingIsValid = false;
+		boolean blockAboveIsValid = false;
+		
+		for (final Block validBlock : Constants.VALID_HOMEPOINT_BLOCKS)
+		{
+			if (validBlock == blockStanding)
+			{
+				blockStandingIsValid = true;
+			}
+			
+			if (validBlock == blockAbove)
+			{
+				blockAboveIsValid = true;
+			}
+		}
+		
+		if (blockStandingIsValid && blockAboveIsValid)
 		{
 			notifyPlayer(worldObj.getPlayerEntityByName(lastInteractingPlayer), MCA.getInstance().getLanguageLoader().getString("notify.homepoint.set"));
 		}
