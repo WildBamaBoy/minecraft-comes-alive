@@ -11,6 +11,7 @@ package mca.core.forge;
 
 import java.io.File;
 
+import mca.api.registries.VillagerRegistryMCA;
 import mca.chore.ChoreCooking;
 import mca.core.Constants;
 import mca.core.MCA;
@@ -361,8 +362,9 @@ public class EventHooks
 	private void doOverwriteVillager(EntityJoinWorldEvent event, EntityVillager villager)
 	{
 		//Only run this if the profession of the villager being spawned is one of the six
-		//original professions.
-		if (villager.getProfession() < 6 && villager.getProfession() > -1)
+		//original professions or one of mod-registered professions
+		if ((villager.getProfession() < 6 && villager.getProfession() > -1)
+				|| VillagerRegistryMCA.getRegisteredVillagersMap().containsKey(villager.getProfession()))
 		{
 			//Cancel the spawn.
 			event.setCanceled(true);
