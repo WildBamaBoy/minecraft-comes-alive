@@ -938,6 +938,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			{
 				player.addChatMessage(new ChatComponentText(getTitle(MCA.getInstance().getIdOfPlayer(player), true) + ": " + text));
 			}
+			
+			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isSleeping", isSleeping));
+			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "idleTicks", idleTicks));
 		}
 	}
 
