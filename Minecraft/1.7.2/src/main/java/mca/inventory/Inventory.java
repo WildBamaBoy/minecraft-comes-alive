@@ -59,7 +59,7 @@ public class Inventory implements IInventory, IInvBasic, Serializable
 	{
 		super();
 	}
-	
+
 	/**
 	 * Constructor
 	 * 
@@ -277,24 +277,27 @@ public class Inventory implements IInventory, IInvBasic, Serializable
 	 */
 	public void onInventoryChanged(Inventory inventory)
 	{
-		MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetInventory, owner.getEntityId(), this));
-
-		if (this.owner instanceof EntityPlayerChild)
+		if (!inventory.owner.worldObj.isRemote)
 		{
-			final EntityPlayerChild theChild = (EntityPlayerChild)this.owner;
-			final boolean inFullArmor = armorItemInSlot(0) != null && armorItemInSlot(1) != null && armorItemInSlot(2) != null && armorItemInSlot(3) != null;
+			MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetInventory, owner.getEntityId(), this));
 
-			if (inFullArmor)
+			if (this.owner instanceof EntityPlayerChild)
 			{
-				final boolean hasWeapon = this.getBestItemOfType(ItemSword.class) != null || this.getBestItemOfType(ItemBow.class) != null;
+				final EntityPlayerChild theChild = (EntityPlayerChild)this.owner;
+				final boolean inFullArmor = armorItemInSlot(0) != null && armorItemInSlot(1) != null && armorItemInSlot(2) != null && armorItemInSlot(3) != null;
 
-				if (hasWeapon)
+				if (inFullArmor)
 				{
-					final EntityPlayer player = MCA.getInstance().getPlayerByName(theChild.ownerPlayerName);
+					final boolean hasWeapon = this.getBestItemOfType(ItemSword.class) != null || this.getBestItemOfType(ItemBow.class) != null;
 
-					if (player != null)
+					if (hasWeapon)
 					{
-						player.triggerAchievement(MCA.getInstance().achievementAdultFullyEquipped);
+						final EntityPlayer player = MCA.getInstance().getPlayerByName(theChild.ownerPlayerName);
+
+						if (player != null)
+						{
+							player.triggerAchievement(MCA.getInstance().achievementAdultFullyEquipped);
+						}
 					}
 				}
 			}
@@ -991,18 +994,18 @@ public class Inventory implements IInventory, IInvBasic, Serializable
 				final ItemStack stack = inventoryItems[i];
 
 				String writeString = i + ":" + Item.getIdFromItem(stack.getItem()) + ":" + stack.stackSize + ":" + stack.getItemDamage();
-				
+
 				if (stack.getItem() instanceof ItemArmor)
 				{
 					ItemArmor armor = (ItemArmor)stack.getItem();
 					writeString += ":" + armor.getColor(stack);
 				}
-				
+
 				else
 				{
 					writeString += ":0";
 				}
-				
+
 				outStream.writeObject(writeString);
 			}
 
@@ -1046,19 +1049,19 @@ public class Inventory implements IInventory, IInvBasic, Serializable
 				final int stackSize = Integer.parseInt(data.split(":")[2]);
 				final int damage = Integer.parseInt(data.split(":")[3]);
 				final int color = Integer.parseInt(data.split(":")[4]);
-				
+
 				final ItemStack inventoryStack = new ItemStack(Item.getItemById(itemID), stackSize, damage);
-				
+
 				if (inventoryStack.getItem() instanceof ItemArmor)
 				{
 					final ItemArmor armor = (ItemArmor)inventoryStack.getItem();
-					
+
 					if (armor.getArmorMaterial() == ArmorMaterial.CLOTH)
 					{
 						armor.func_82813_b(inventoryStack, color);
 					}
 				}
-				
+
 				inventoryItems[i] = inventoryStack;
 			}
 		}
