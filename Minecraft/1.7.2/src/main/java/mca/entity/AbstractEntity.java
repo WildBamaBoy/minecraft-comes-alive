@@ -455,7 +455,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			if (getInstanceOfCurrentChore() instanceof ChoreMining)
 			{
 				final ChoreMining miningChore = (ChoreMining) getInstanceOfCurrentChore();
-				
+
 				if (!miningChore.inPassiveMode)
 				{
 					this.setPosition(miningChore.startX, miningChore.startY, miningChore.startZ);
@@ -464,7 +464,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					this.miningChore.endChore();
 				}
 			}
-			
+
 			//Account for sleep being interrupted.
 			if (isSleeping)
 			{
@@ -764,7 +764,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		return lifeTicks;
 	}
-	
+
 	/**
 	 * Calls update() on all tick markers.
 	 */
@@ -1084,20 +1084,20 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		final Block blockAbove = worldObj.getBlock((int)homePointX, (int)(homePointY + 1), (int)homePointZ);
 		boolean blockStandingIsValid = false;
 		boolean blockAboveIsValid = false;
-		
+
 		for (final Block validBlock : Constants.VALID_HOMEPOINT_BLOCKS)
 		{
 			if (validBlock == blockStanding)
 			{
 				blockStandingIsValid = true;
 			}
-			
+
 			if (validBlock == blockAbove)
 			{
 				blockAboveIsValid = true;
 			}
 		}
-		
+
 		if (blockStandingIsValid && blockAboveIsValid)
 		{
 			notifyPlayer(worldObj.getPlayerEntityByName(lastInteractingPlayer), MCA.getInstance().getLanguageLoader().getString("notify.homepoint.set"));
@@ -1436,7 +1436,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		modifyHearts(player, amount, true);
 	}
-	
+
 	/**
 	 * Modifies the hearts amount for the specified player.
 	 * 
@@ -2119,48 +2119,56 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			final AbstractEntity spouse = familyTree.getRelativeAsEntity(EnumRelation.Spouse);
 
-			if (worldObj.isRemote)
+			if (spouse != null)
 			{
-				isJumping = true;
-				final double velX  = rand.nextGaussian() * 0.02D;
-				final double velY = rand.nextGaussian() * 0.02D;
-				final double velZ = rand.nextGaussian() * 0.02D;
-				worldObj.spawnParticle("heart", posX + rand.nextFloat() * width * 2.0F - width, posY + 0.5D + rand.nextFloat() * height, posZ + rand.nextFloat() * width * 2.0F - width, velX, velY, velZ);
-			}
-
-			else //Server-side
-			{
-				motionX = 0.0D;
-				motionZ = 0.0D;
-
-				if (procreateTicks >= 50)
+				if (worldObj.isRemote)
 				{
-					if (spouse.isMale && !this.isMale || this.isMale && !spouse.isMale) //Only opposite-sex couples can have children.
+					isJumping = true;
+					final double velX  = rand.nextGaussian() * 0.02D;
+					final double velY = rand.nextGaussian() * 0.02D;
+					final double velZ = rand.nextGaussian() * 0.02D;
+					worldObj.spawnParticle("heart", posX + rand.nextFloat() * width * 2.0F - width, posY + 0.5D + rand.nextFloat() * height, posZ + rand.nextFloat() * width * 2.0F - width, velX, velY, velZ);
+				}
+
+				else //Server-side
+				{
+					motionX = 0.0D;
+					motionZ = 0.0D;
+
+					if (procreateTicks >= 50)
 					{
-						if (!isMale) //Give the mother the baby.
+						if (spouse.isMale && !this.isMale || this.isMale && !spouse.isMale) //Only opposite-sex couples can have children.
 						{
-							worldObj.playSoundAtEntity(this, "mob.chickenplop", 1.0F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+							if (!isMale) //Give the mother the baby.
+							{
+								worldObj.playSoundAtEntity(this, "mob.chickenplop", 1.0F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
 
-							hasBaby = true;
-							isHeldBabyMale = Utility.getRandomGender();
-							heldBabyProfession = spouse.profession;
-							tickMarkerBaby = new TickMarkerBaby(this, Time.MINUTE * MCA.getInstance().getModProperties().babyGrowUpTimeMinutes);
+								hasBaby = true;
+								isHeldBabyMale = Utility.getRandomGender();
+								heldBabyProfession = spouse.profession;
+								tickMarkerBaby = new TickMarkerBaby(this, Time.MINUTE * MCA.getInstance().getModProperties().babyGrowUpTimeMinutes);
 
-							MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isHeldBabyMale", isHeldBabyMale));
-							MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "hasBaby", hasBaby));
+								MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isHeldBabyMale", isHeldBabyMale));
+								MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "hasBaby", hasBaby));
+							}
 						}
+
+						procreateTicks = 0;
+						isProcreatingWithVillager = false;
+						MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isProcreatingWithVillager", isProcreatingWithVillager));
+						MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.StopJumping, getEntityId()));
 					}
 
-					procreateTicks = 0;
-					isProcreatingWithVillager = false;
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isProcreatingWithVillager", isProcreatingWithVillager));
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.StopJumping, getEntityId()));
+					else
+					{
+						procreateTicks++;
+					}
 				}
-
-				else
-				{
-					procreateTicks++;
-				}
+			}
+			
+			else //Prevent a possible crash. Player should start over if this happens.
+			{
+				isProcreatingWithVillager = false;
 			}
 		}
 	}
@@ -2216,15 +2224,15 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 						MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isProcreatingWithPlayer", isProcreatingWithPlayer));
 						MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.StopJumping, getEntityId()));
-						
+
 						boolean babyIsMale = Utility.getRandomGender();
 						MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.NameBaby, this.getEntityId(), babyIsMale), (EntityPlayerMP)player);
-						
+
 						if (babyIsMale)
 						{
 							player.triggerAchievement(MCA.getInstance().achievementHaveBabyBoy);
 						}
-						
+
 						else
 						{
 							player.triggerAchievement(MCA.getInstance().achievementHaveBabyGirl);
@@ -2599,7 +2607,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		if (!worldObj.isRemote)
 		{
 			int maxHealth = MCA.getInstance().getModProperties().villagerBaseHealth;
-			
+
 			if (profession == 5 && getEntityAttribute(SharedMonsterAttributes.maxHealth).getAttributeValue() != maxHealth * 2)
 			{
 				getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealth * 2);
@@ -3077,7 +3085,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		return getEntityId();
 	}
-	
+
 	/**
 	 * Builds a VillagerInformation object based on this villager instance.
 	 * 
@@ -3109,7 +3117,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				getEntityId(), name, villagerType, profession, isMale, isEngaged, isMarriedToPlayer, isMarriedToVillager,
 				hasBaby, isChild);
 	}
-	
+
 	/**
 	 * Determines if the ItemStack provided is an acceptable gift.
 	 * 
@@ -3124,16 +3132,16 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			Block block = Block.getBlockFromItem(stack.getItem());
 			return MCA.acceptableGifts.containsKey(block);
 		}
-		
+
 		else if (stack.getItem() instanceof Item)
 		{
 			Item item = stack.getItem();
 			return MCA.acceptableGifts.containsKey(item);
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Determines the provided ItemStack's gift value.
 	 * 
@@ -3148,13 +3156,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			Block block = Block.getBlockFromItem(stack.getItem());
 			return MCA.acceptableGifts.get(block);
 		}
-		
+
 		else if (stack.getItem() instanceof Item)
 		{
 			Item item = stack.getItem();
 			return MCA.acceptableGifts.get(item);
 		}
-		
+
 		//Will never be hit.
 		return 0;
 	}
