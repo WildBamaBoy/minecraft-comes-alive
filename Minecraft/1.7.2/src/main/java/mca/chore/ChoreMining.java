@@ -358,9 +358,9 @@ public class ChoreMining extends AbstractChore
 
 				if (nearestBlock != null)
 				{
-					nearestX = (int) nearestBlock.posX;
-					nearestY = (int) nearestBlock.posY;
-					nearestZ = (int) nearestBlock.posZ;
+					nearestX = nearestBlock.iPosX;
+					nearestY = nearestBlock.iPosY;
+					nearestZ = nearestBlock.iPosZ;
 
 					incrementChoreXpLevel(0.05F - 0.002F * getChoreXp());
 
@@ -469,7 +469,7 @@ public class ChoreMining extends AbstractChore
 
 		for (final Point3D point : LogicHelper.getNearbyBlocks_StartAtBottom(owner, searchBlock, 20))
 		{
-			final double thisDistance = LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, point.posX, point.posY, point.posZ);
+			final double thisDistance = LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, point.dPosX, point.dPosY, point.dPosZ);
 
 			if (thisDistance < lastDistance)
 			{

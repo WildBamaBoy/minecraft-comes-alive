@@ -328,9 +328,9 @@ public class ChoreFishing extends AbstractChore
 
 		else
 		{
-			waterCoordinatesX = (int)waterCoordinates.posX;
-			waterCoordinatesY = (int)waterCoordinates.posY;
-			waterCoordinatesZ = (int)waterCoordinates.posZ;
+			waterCoordinatesX = waterCoordinates.iPosX;
+			waterCoordinatesY = waterCoordinates.iPosY;
+			waterCoordinatesZ = waterCoordinates.iPosZ;
 			hasWaterPoint = true;
 
 			return true;
@@ -348,9 +348,9 @@ public class ChoreFishing extends AbstractChore
 		{
 			final Point3D randomNearbyWater = LogicHelper.getRandomNearbyBlockCoordinatesOfType(owner, Blocks.water);
 
-			waterCoordinatesX = (int)randomNearbyWater.posX;
-			waterCoordinatesY = (int)randomNearbyWater.posY;
-			waterCoordinatesZ = (int)randomNearbyWater.posZ;
+			waterCoordinatesX = randomNearbyWater.iPosX;
+			waterCoordinatesY = randomNearbyWater.iPosY;
+			waterCoordinatesZ = randomNearbyWater.iPosZ;
 		}
 
 		hasFishingTarget = true;

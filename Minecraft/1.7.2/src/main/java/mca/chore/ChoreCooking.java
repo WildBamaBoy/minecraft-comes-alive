@@ -297,13 +297,13 @@ public class ChoreCooking extends AbstractChore
 
 		for (final Point3D point : nearbyFurnaces)
 		{
-			final double distanceToPoint = LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, point.posX, point.posY, point.posZ);
+			final double distanceToPoint = LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, point.dPosX, point.dPosY, point.dPosZ);
 
 			if (distanceToPoint < distanceToFurnace)
 			{
-				furnacePosX = (int) point.posX;
-				furnacePosY = (int) point.posY;
-				furnacePosZ = (int) point.posZ;
+				furnacePosX = point.iPosX;
+				furnacePosY = point.iPosY;
+				furnacePosZ = point.iPosZ;
 				distanceToFurnace = distanceToPoint;
 			}
 		}

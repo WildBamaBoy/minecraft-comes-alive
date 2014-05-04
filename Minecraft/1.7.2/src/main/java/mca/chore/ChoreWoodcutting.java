@@ -393,7 +393,7 @@ public class ChoreWoodcutting extends AbstractChore
 			//Get the coordinates of the nearest valid wood block found of the specified ID.
 			for (final Point3D point : woodCoordList)
 			{
-				final double thisDistance = LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, point.posX, point.posY, point.posZ);
+				final double thisDistance = LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, point.dPosX, point.dPosY, point.dPosZ);
 
 				if (thisDistance < lastDistance)
 				{
@@ -409,9 +409,9 @@ public class ChoreWoodcutting extends AbstractChore
 
 			else
 			{
-				treeBaseX = treeCoordinates.posX;
-				treeBaseY = treeCoordinates.posY;
-				treeBaseZ = treeCoordinates.posZ;
+				treeBaseX = treeCoordinates.dPosX;
+				treeBaseY = treeCoordinates.dPosY;
+				treeBaseZ = treeCoordinates.dPosZ;
 
 				int distanceFromY = 0;
 
@@ -441,7 +441,7 @@ public class ChoreWoodcutting extends AbstractChore
 
 		for (final Point3D point : leafPoint)
 		{
-			owner.worldObj.setBlock((int)point.posX, (int)point.posY, (int)point.posZ, Blocks.air);
+			owner.worldObj.setBlock(point.iPosX, point.iPosY, point.iPosZ, Blocks.air);
 		}
 	}
 

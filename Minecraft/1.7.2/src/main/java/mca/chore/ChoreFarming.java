@@ -538,9 +538,9 @@ public class ChoreFarming extends AbstractChore
 
 		else
 		{
-			targetX = (int)farmland.get(0).posX;
-			targetY = (int)farmland.get(0).posY;
-			targetZ = (int)farmland.get(0).posZ;
+			targetX = farmland.get(0).iPosX;
+			targetY = farmland.get(0).iPosY;
+			targetZ = farmland.get(0).iPosZ;
 			hasNextPathBlock = true;
 		}
 	}
@@ -588,9 +588,9 @@ public class ChoreFarming extends AbstractChore
 			if (!points.isEmpty())
 			{
 				cropEntry = entry;
-				targetX = (int)points.get(0).posX;
-				targetY = (int)points.get(0).posY;
-				targetZ = (int)points.get(0).posZ;
+				targetX = points.get(0).iPosX;
+				targetY = points.get(0).iPosY;
+				targetZ = points.get(0).iPosZ;
 				hasNextPathBlock = true;
 
 				if (entry.getYieldsBlock())
