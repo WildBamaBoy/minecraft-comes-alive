@@ -9,6 +9,7 @@
 
 package mca.api.villagers;
 
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.pathfinding.PathNavigate;
 
@@ -22,9 +23,10 @@ public abstract class AbstractVillagerPlugin
 	/**
 	 * Called after each call to addAI(). Modify and/or add AI tasks here.
 	 * 
+	 * @param	villager		An instance of the villager, as an EntityCreature.
 	 * @param 	villagerInfo	Standard information about this villager.
 	 * @param 	tasks			The villager's AI tasks.
 	 * @param 	navigator		The villager's path navigator.
 	 */
-	public abstract void onAddAI(VillagerInformation villagerInfo, EntityAITasks tasks, PathNavigate navigator);
+	public abstract void onAddAI(EntityCreature villager, VillagerInformation villagerInfo, EntityAITasks tasks, PathNavigate navigator);
 }
