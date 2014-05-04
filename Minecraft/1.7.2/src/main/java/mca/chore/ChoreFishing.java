@@ -346,7 +346,7 @@ public class ChoreFishing extends AbstractChore
 	{
 		if (!owner.worldObj.isRemote)
 		{
-			final Point3D randomNearbyWater = LogicHelper.getRandomNearbyBlockCoordinatesOfType(owner, Blocks.water);
+			final Point3D randomNearbyWater = LogicHelper.getRandomNearbyBlockCoordinatesOfType(owner, Blocks.water, 10);
 
 			waterCoordinatesX = randomNearbyWater.iPosX;
 			waterCoordinatesY = randomNearbyWater.iPosY;
