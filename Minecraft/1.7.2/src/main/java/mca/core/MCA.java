@@ -81,6 +81,7 @@ import mca.lang.LanguageParser;
 import mca.network.PacketCodec;
 import mca.network.PacketHandler;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityChicken;
@@ -113,6 +114,7 @@ import com.radixshock.radixcore.network.AbstractPacketHandler;
 import com.radixshock.radixcore.network.Packet;
 import com.radixshock.radixcore.network.PacketPipeline;
 
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
@@ -528,7 +530,8 @@ public class MCA extends UnenforcedCore
 	@Override
 	public String getRedirectURL() 
 	{
-		return "http://goo.gl/4Kwohv";
+		return "http://radix-shock.com/update-page.html?userMCA=" + getVersion() + "&currentMCA=%" + 
+				"&userMC=" + Loader.instance().getMCVersionString().substring(10) + "&currentMC=%";
 	}
 
 	@Override
