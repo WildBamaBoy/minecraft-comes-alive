@@ -373,8 +373,6 @@ public class ChoreCooking extends AbstractChore
 			{
 				if (isCooking)
 				{
-					MCA.getInstance().getLogger().log(cookingTicks, cookingInterval);
-					
 					if (cookingTicks <= cookingInterval)
 					{
 						if (owner.worldObj.getBlock(furnacePosX, furnacePosY, furnacePosZ) != Blocks.lit_furnace)

@@ -453,55 +453,63 @@ public class ChoreFarming extends AbstractChore
 
 	private void doNextCreateTask()
 	{
-		final char nextOperation = getFarmMap(areaX)[farmlandIndex];
-
-		if (nextOperation == 'S')
+		try
 		{
-			owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(cropEntry.getSeedItem()), 1);
-		}
+			final char nextOperation = getFarmMap(areaX)[farmlandIndex];
 
-		if (!owner.worldObj.isRemote)
-		{
-			//"Plow"
-			if (nextOperation == 'P')
+			if (nextOperation == 'S')
 			{
-				owner.worldObj.setBlock(targetX, targetY, targetZ, Blocks.farmland);
+				owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(cropEntry.getSeedItem()), 1);
 			}
 
-			//"Water"
-			else if (nextOperation == 'W')
+			if (!owner.worldObj.isRemote)
 			{
-				owner.worldObj.setBlock(targetX, targetY + 1, targetZ, Blocks.air);
-				owner.worldObj.setBlock(targetX, targetY, targetZ, Blocks.water);
-			}
-
-			//"Seed"
-			else if (nextOperation == 'S')
-			{
-				if (cropEntry.getFarmType() == EnumFarmType.SUGARCANE)
-				{
-					owner.worldObj.setBlock(targetX, targetY, targetZ, Blocks.grass);
-				}
-
-				else
+				//"Plow"
+				if (nextOperation == 'P')
 				{
 					owner.worldObj.setBlock(targetX, targetY, targetZ, Blocks.farmland);
 				}
 
-				owner.worldObj.setBlock(targetX, targetY + 1, targetZ, cropEntry.getBlockCrop());
+				//"Water"
+				else if (nextOperation == 'W')
+				{
+					owner.worldObj.setBlock(targetX, targetY + 1, targetZ, Blocks.air);
+					owner.worldObj.setBlock(targetX, targetY, targetZ, Blocks.water);
+				}
+
+				//"Seed"
+				else if (nextOperation == 'S')
+				{
+					if (cropEntry.getFarmType() == EnumFarmType.SUGARCANE)
+					{
+						owner.worldObj.setBlock(targetX, targetY, targetZ, Blocks.grass);
+					}
+
+					else
+					{
+						owner.worldObj.setBlock(targetX, targetY, targetZ, Blocks.farmland);
+					}
+
+					owner.worldObj.setBlock(targetX, targetY + 1, targetZ, cropEntry.getBlockCrop());
+				}
 			}
+
+			owner.swingItem();
+			owner.damageHeldItem();
+
+			delayCounter = 0;
+			farmlandIndex++;
+			hasDoneWork = true;
+			hasNextPathBlock = false;
+
+			doUpdateAchievements();
+			incrementChoreXpLevel((float)(0.15 - 0.01 * getChoreXp()));
 		}
 
-		owner.swingItem();
-		owner.damageHeldItem();
-
-		delayCounter = 0;
-		farmlandIndex++;
-		hasDoneWork = true;
-		hasNextPathBlock = false;
-
-		doUpdateAchievements();
-		incrementChoreXpLevel((float)(0.15 - 0.01 * getChoreXp()));
+		catch (ArrayIndexOutOfBoundsException e)
+		{
+			endChore();
+		}
 	}
 
 	private void doAssignNextBlockForCreation()

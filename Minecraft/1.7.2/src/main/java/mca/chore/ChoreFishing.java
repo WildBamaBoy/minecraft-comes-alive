@@ -395,7 +395,6 @@ public class ChoreFishing extends AbstractChore
 
 				try
 				{
-					MCA.getInstance().getLogger().log("HHH");
 					final List<CatchableFish> entries = ChoreRegistry.getFishingFishEntries();
 					final CatchableFish entry = entries.get(LogicHelper.getNumberInRange(0, entries.size() - 1));
 					final int amountToAdd = getFishAmountToAdd();
