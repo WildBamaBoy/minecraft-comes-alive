@@ -2432,7 +2432,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 					if (entityPathController != this) this.getLookHelper().setLookPositionWithEntity(player, 10.0F, getVerticalFaceSpeed());
 
-					if (getDistanceToEntity(player) > 3.5D)
+					if (getDistanceToEntity(player) > 4.5D)
 					{
 						final boolean pathSet = entityPathController.getNavigator().tryMoveToEntityLiving(player, 
 								(entityPathController instanceof EntityHorse) ?  Constants.SPEED_HORSE_RUN : player.isSprinting() ? Constants.SPEED_SPRINT : Constants.SPEED_WALK);
