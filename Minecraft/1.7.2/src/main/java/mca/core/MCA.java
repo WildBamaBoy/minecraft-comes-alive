@@ -223,7 +223,7 @@ public class MCA extends UnenforcedCore
 	public  boolean hasCheckedForUpdates	   = false;
 	public  boolean isDevelopmentEnvironment   = false;
 	public 	boolean hasReceivedClientSetup     = false;
-
+	
 	public  ModPropertiesManager modPropertiesManager = null;
 
 	//Debug fields.

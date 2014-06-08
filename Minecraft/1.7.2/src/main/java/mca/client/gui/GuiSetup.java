@@ -34,6 +34,7 @@ public class GuiSetup extends AbstractGui
 	private GuiButton genderButton;
 
 	private GuiTextField nameTextField;
+	private GuiButton liteModeButton;
 	private GuiButton hideTagsButton;
 	private GuiButton autoGrowChildrenButton;
 	private GuiButton displayMoodParticlesButton;
@@ -90,7 +91,13 @@ public class GuiSetup extends AbstractGui
 	@Override
 	protected void actionPerformed(GuiButton button)
 	{
-		if (inNameSelectGui)
+		if (button == liteModeButton)
+		{
+			manager.worldProperties.isInLiteMode = !manager.worldProperties.isInLiteMode;
+			drawLiteModeButton(true);
+		}
+
+		else if (inNameSelectGui)
 		{
 			actionPerformedNameSelect(button);
 		}
@@ -149,7 +156,7 @@ public class GuiSetup extends AbstractGui
 	public void onGuiClosed()
 	{
 		Keyboard.enableRepeatEvents(false);
-		
+
 		String input = prefersMales == true ? "Males" : "Females";
 
 		try
@@ -164,7 +171,7 @@ public class GuiSetup extends AbstractGui
 			}
 
 			final String preferenceSection = hashedPreference.substring(beginIndex, endIndex);
-			
+
 			if (!manager.worldProperties.genderPreference.contains(preferenceSection))
 			{
 				manager.worldProperties.genderPreference = preferenceSection;
@@ -202,6 +209,34 @@ public class GuiSetup extends AbstractGui
 	}
 
 	/**
+	 * Draws the "MCA Lite: " button.
+	 */
+	private void drawLiteModeButton(boolean redrawCurrentGui)
+	{
+		buttonList.add(liteModeButton = new GuiButton(1, width / 2 + 120, height / 2 - 100, 85, 20, "MCA Lite: " + (manager.worldProperties.isInLiteMode ? "Yes" : "No")));
+
+		if (redrawCurrentGui)
+		{
+			buttonList.clear();
+			
+			if (inNameSelectGui)
+			{
+				drawNameSelectGui();
+			}
+
+			else if (inGenderSelectGui)
+			{
+				drawGenderSelectGui();
+			}
+			
+			else if (inOptionsGui)
+			{
+				drawOptionsGui();
+			}
+		}
+	}
+
+	/**
 	 * Draws the gender selection GUI.
 	 */
 	private void drawGenderSelectGui()
@@ -215,6 +250,7 @@ public class GuiSetup extends AbstractGui
 		buttonList.add(genderButton = new GuiButton(1, width / 2 - 70, height / 2 - 10, 140, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.setup.gender" + manager.worldProperties.playerGender.toLowerCase())));
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
 		buttonList.add(nextButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.next")));
+		drawLiteModeButton(false);
 
 		genderButton.enabled = !viewedFromLibrarian;
 		backButton.enabled = false;
@@ -238,6 +274,7 @@ public class GuiSetup extends AbstractGui
 
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
 		buttonList.add(nextButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.next")));
+		drawLiteModeButton(false);
 
 		backButton.enabled = false;
 
@@ -263,6 +300,7 @@ public class GuiSetup extends AbstractGui
 
 		buttonList.add(backButton   = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
 		buttonList.add(finishButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.setup.finish")));
+		drawLiteModeButton(false);
 
 		if (manager.worldProperties.hideSleepingTag) hideTagsButton.displayString = hideTagsButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.yes");
 		else hideTagsButton.displayString = hideTagsButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.no");
@@ -375,7 +413,7 @@ public class GuiSetup extends AbstractGui
 			manager.worldProperties.displayMoodParticles = !manager.worldProperties.displayMoodParticles;
 			drawOptionsGui();
 		}
-		
+
 		else if (button == showNameTagsButton)
 		{
 			manager.worldProperties.showNameTags = !manager.worldProperties.showNameTags;

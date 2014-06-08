@@ -35,6 +35,7 @@ import mca.item.ItemLostRelativeDocument;
 import mca.item.ItemVillagerEditor;
 import mca.item.ItemWeddingRing;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -112,7 +113,7 @@ public class EntityVillagerAdult extends AbstractEntity
 		this.name = Utility.getRandomName(isMale);
 		this.profession = professionID;
 		this.setHealth(MCA.getInstance().getModProperties().villagerBaseHealth);
-		
+
 		if (profession == 4) //Butcher
 		{
 			//There are no female skins for butchers. Always make them Male.
@@ -208,7 +209,7 @@ public class EntityVillagerAdult extends AbstractEntity
 			this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityLivingBase.class, 8.0F));
 			this.tasks.addTask(3, new EntityAILookIdle(this));
 		}
-		
+
 		for (AbstractVillagerPlugin plugin : VillagerRegistryMCA.getRegisteredVillagerPlugins())
 		{
 			plugin.onAddAI(this, getVillagerInformation(), this.tasks, this.getNavigator());
@@ -547,7 +548,9 @@ public class EntityVillagerAdult extends AbstractEntity
 				memory.isInGiftMode = false;
 				playerMemoryMap.put(player.getCommandSenderName(), memory);
 
-				if (itemStack.getItem() instanceof ItemWeddingRing)
+				WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
+
+				if (itemStack.getItem() instanceof ItemWeddingRing && !manager.worldProperties.isInLiteMode)
 				{
 					if (familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)) && !isEngaged)
 					{
@@ -560,7 +563,7 @@ public class EntityVillagerAdult extends AbstractEntity
 					}
 				}
 
-				else if (itemStack.getItem() instanceof ItemEngagementRing)
+				else if (itemStack.getItem() instanceof ItemEngagementRing && !manager.worldProperties.isInLiteMode)
 				{
 					if (familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 					{
@@ -573,7 +576,7 @@ public class EntityVillagerAdult extends AbstractEntity
 					}
 				}
 
-				else if (itemStack.getItem() instanceof ItemArrangersRing)
+				else if (itemStack.getItem() instanceof ItemArrangersRing && !manager.worldProperties.isInLiteMode)
 				{
 					final EnumRelation relationToPlayer = this.familyTree.getMyRelationTo(MCA.getInstance().getIdOfPlayer(player));
 
@@ -608,12 +611,12 @@ public class EntityVillagerAdult extends AbstractEntity
 				{
 					final ItemArmor armor = (ItemArmor)itemStack.getItem();
 					final ItemStack transferStack = new ItemStack(itemStack.getItem(), 1, itemStack.getItemDamage());
-					
+
 					if (armor.getArmorMaterial() == ArmorMaterial.CLOTH)
 					{
 						armor.func_82813_b(transferStack, armor.getColor(itemStack));
 					}
-					
+
 					inventory.inventoryItems[36 + armor.armorType] = transferStack;
 
 					Utility.removeItemFromPlayer(itemStack, player);

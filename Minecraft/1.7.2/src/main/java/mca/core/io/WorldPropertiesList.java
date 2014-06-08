@@ -57,6 +57,9 @@ public class WorldPropertiesList implements Serializable
 	/**Does the player want the "Sleeping" tag to appear above MCA villagers?*/
 	public boolean hideSleepingTag = false;
 	
+	/**Is "Lite" mode enabled for this player?*/
+	public boolean isInLiteMode = false;
+	
 //	/**Does the player want testificates to be overwritten with MCA villagers?*/
 //	public boolean overwriteTestificates = true;
 	

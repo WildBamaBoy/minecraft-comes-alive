@@ -205,7 +205,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 	private FarmableCrop cropEntry = ChoreRegistry.getFarmingCropEntries().get(0);
 	private CuttableLog treeEntry = ChoreRegistry.getWoodcuttingTreeEntries().get(0);
-	
+
 	//Fields used to help draw text and manipulate buttons on the gui.
 	private boolean inSpecialGui = false;
 	private boolean inNoSpecialGui = false;
@@ -623,6 +623,12 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		if (!(entityVillager instanceof EntityPlayerChild))
 		{
 			buttonList.add(specialButton = new GuiButton(5, width / 2 + 30, height / 2 + 20, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special")));
+
+			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName());
+			if (manager.worldProperties.isInLiteMode && entityVillager.profession == 2)
+			{
+				specialButton.enabled = false;
+			}
 		}
 
 		if (entityVillager.getProfession() != 5 && !(entityVillager instanceof EntityPlayerChild))
@@ -675,14 +681,19 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		buttonList.add(greetButton = new GuiButton(4, width / 2 - 30, height / 2 + 20, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.greet")));
 		buttonList.add(tellStoryButton = new GuiButton(5, width / 2 - 30, height / 2 + 40, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.tellstory")));
 
-		EnumRelation relationToPlayer = entityVillager.familyTree.getMyRelationTo(MCA.getInstance().getIdOfPlayer(player));
+		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName());
 
-		if (relationToPlayer == EnumRelation.None || relationToPlayer == EnumRelation.Spouse)
+		if (!manager.worldProperties.isInLiteMode)
 		{
-			buttonList.add(kissButton = new GuiButton(6, width / 2 + 30, height / 2 + 20, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.kiss")));
-			buttonList.add(flirtButton = new GuiButton(7, width / 2 + 30, height / 2 + 40, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.flirt")));
-		}
+			EnumRelation relationToPlayer = entityVillager.familyTree.getMyRelationTo(MCA.getInstance().getIdOfPlayer(player));
 
+			if (relationToPlayer == EnumRelation.None || relationToPlayer == EnumRelation.Spouse)
+			{
+				buttonList.add(kissButton = new GuiButton(6, width / 2 + 30, height / 2 + 20, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.kiss")));
+				buttonList.add(flirtButton = new GuiButton(7, width / 2 + 30, height / 2 + 40, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.flirt")));
+			}
+		}
+		
 		greetButton.displayString = entityVillager.playerMemoryMap.get(player.getCommandSenderName()).hearts >= 50 ? MCA.getInstance().getLanguageLoader().getString("gui.button.interact.greet.highfive") : MCA.getInstance().getLanguageLoader().getString("gui.button.interact.greet.handshake");
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.exit")));
@@ -712,16 +723,20 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		buttonList.clear();
 		inSpecialGui = true;
 
-		buttonList.add(divorceSpouseButton = new GuiButton(1, width / 2 - 125, height / 2 + 10, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.divorcespouse")));
-		buttonList.add(divorceCoupleButton = new GuiButton(2, width / 2 - 40, height / 2 + 10, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.divorcecouple")));
-		buttonList.add(giveUpBabyButton    = new GuiButton(3, width / 2 + 45, height / 2 + 10, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.giveupbaby")));
-		buttonList.add(adoptBabyButton     = new GuiButton(4, width / 2 - 125, height / 2 + 30, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.adoptbaby")));
-		buttonList.add(arrangedMarriageButton = new GuiButton(5, width / 2 - 40, height / 2 + 30, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.arrangedmarriage")));
-
 		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName());
-		divorceSpouseButton.enabled = manager.worldProperties.playerSpouseID != 0;
-		giveUpBabyButton.enabled = manager.worldProperties.babyExists;
-		arrangedMarriageButton.enabled = manager.worldProperties.playerSpouseID == 0;
+
+		if (!manager.worldProperties.isInLiteMode)
+		{
+			buttonList.add(divorceSpouseButton = new GuiButton(1, width / 2 - 125, height / 2 + 10, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.divorcespouse")));
+			buttonList.add(divorceCoupleButton = new GuiButton(2, width / 2 - 40, height / 2 + 10, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.divorcecouple")));
+			buttonList.add(giveUpBabyButton    = new GuiButton(3, width / 2 + 45, height / 2 + 10, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.giveupbaby")));
+			buttonList.add(adoptBabyButton     = new GuiButton(4, width / 2 - 125, height / 2 + 30, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.adoptbaby")));
+			buttonList.add(arrangedMarriageButton = new GuiButton(5, width / 2 - 40, height / 2 + 30, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.arrangedmarriage")));
+
+			divorceSpouseButton.enabled = manager.worldProperties.playerSpouseID != 0;
+			giveUpBabyButton.enabled = manager.worldProperties.babyExists;
+			arrangedMarriageButton.enabled = manager.worldProperties.playerSpouseID == 0;
+		}
 
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.exit")));
@@ -1036,11 +1051,11 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		woodTreeTypeButton.displayString += 
 				MCA.getInstance().getLanguageLoader().isValidString(treeEntry.getTreeName()) ? 
-					MCA.getInstance().getLanguageLoader().getString(treeEntry.getTreeName()) :
-						treeEntry.getTreeName();
+						MCA.getInstance().getLanguageLoader().getString(treeEntry.getTreeName()) :
+							treeEntry.getTreeName();
 
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.exit")));
+						buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
+						buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.exit")));
 	}
 
 	/**
@@ -1196,7 +1211,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			{
 				entityVillager.notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("multiplayer.interaction.reject.spouse"));
 			}
-			
+
 			close();
 		}
 
