@@ -558,12 +558,12 @@ public class ChoreFarming extends AbstractChore
 	private boolean doSetNextPath()
 	{
 		final Block blockStanding = owner.worldObj.getBlock((int)owner.posX, (int)owner.posY, (int)owner.posZ);
-		
+
 		if (blockStanding instanceof BlockStaticLiquid)
 		{
 			owner.setPositionAndUpdate(targetX, targetY, targetZ);
 		}
-		
+
 		if (LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, targetX, targetY, targetZ) > 1.7F)
 		{
 			if (owner.getNavigator().noPath())
@@ -623,6 +623,30 @@ public class ChoreFarming extends AbstractChore
 				owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(targetX, targetY, targetZ), getChoreXp() >= 10.0F ? Constants.SPEED_RUN : Constants.SPEED_SNEAK);
 				break;
 			}
+
+			else
+			{
+				final List<Point3D> nearbyDirt = (List<Point3D>) LogicHelper.getNearbyBlocks_StartAtBottom(owner, Blocks.dirt, radius);
+
+				for (Point3D point : nearbyDirt)
+				{
+					final Block blockAdj1 = owner.worldObj.getBlock(point.iPosX + 1, point.iPosY + 1, point.iPosZ);
+					final Block blockAdj2 = owner.worldObj.getBlock(point.iPosX - 1, point.iPosY + 1, point.iPosZ);
+					final Block blockAdj3 = owner.worldObj.getBlock(point.iPosX, point.iPosY + 1, point.iPosZ + 1);
+					final Block blockAdj4 = owner.worldObj.getBlock(point.iPosX, point.iPosY + 1, point.iPosZ - 1);
+
+					if (blockAdj1 == entry.getBlockCrop() || blockAdj2 == entry.getBlockCrop() || blockAdj3 == entry.getBlockCrop() || blockAdj4 == entry.getBlockCrop())
+					{
+						cropEntry = entry;
+						targetX = point.iPosX;
+						targetY = point.iPosY;
+						targetZ = point.iPosZ;
+						hasNextPathBlock = true;
+
+						return;
+					}
+				}
+			}
 		}
 	}
 
@@ -639,47 +663,62 @@ public class ChoreFarming extends AbstractChore
 
 		if (!owner.worldObj.isRemote)
 		{
-			owner.worldObj.setBlock(targetX, targetY, targetZ, Blocks.air);
-
-			int cropsToAdd = getNumberOfCropsToAdd();
-			int seedsToAdd = getNumberOfSeedsToAdd();
-
-			if (getChoreXp() >= 20.0F && Utility.getBooleanWithProbability(65))
+			if (owner.worldObj.getBlock(targetX, targetY, targetZ) == Blocks.dirt || owner.worldObj.getBlock(targetX, targetY, targetZ) == Blocks.farmland)
 			{
-				seedsToAdd *= 2;
-				cropsToAdd *= 2;
-			}
+				owner.worldObj.setBlock(targetX, targetY, targetZ, Blocks.farmland);
 
-			if (seedsToAdd != 0)
-			{
-				owner.inventory.addItemStackToInventory(new ItemStack(cropEntry.getSeedItem(), seedsToAdd));
-			}
-
-			if (cropsToAdd != 0)
-			{
-				ItemStack stackToAdd = null;
-
-				if (cropEntry.getYieldsBlock())
+				if (owner.inventory.getQuantityOfItem(cropEntry.getSeedItem()) > 0)
 				{
-					stackToAdd = new ItemStack(cropEntry.getBlockYield(), cropsToAdd);
+					final int seedLocation = owner.inventory.getFirstSlotContainingItem(cropEntry.getSeedItem());
+					owner.inventory.decrStackSize(seedLocation, 1);
+					owner.worldObj.setBlock(targetX, targetY + 1, targetZ, cropEntry.getBlockCrop());
+				}
+			}
+
+			else
+			{
+				owner.worldObj.setBlock(targetX, targetY, targetZ, Blocks.air);
+
+				int cropsToAdd = getNumberOfCropsToAdd();
+				int seedsToAdd = getNumberOfSeedsToAdd();
+
+				if (getChoreXp() >= 20.0F && Utility.getBooleanWithProbability(65))
+				{
+					seedsToAdd *= 2;
+					cropsToAdd *= 2;
 				}
 
-				else
+				if (seedsToAdd != 0)
 				{
-					stackToAdd = new ItemStack(cropEntry.getItemYield(), cropsToAdd);
+					owner.inventory.addItemStackToInventory(new ItemStack(cropEntry.getSeedItem(), seedsToAdd));
 				}
 
-				owner.inventory.addItemStackToInventory(stackToAdd);
-			}
+				if (cropsToAdd != 0)
+				{
+					ItemStack stackToAdd = null;
 
-			if (cropEntry.getFarmType() == EnumFarmType.NORMAL && owner.inventory.getQuantityOfItem(cropEntry.getSeedItem()) > 0)
-			{
-				final int seedLocation = owner.inventory.getFirstSlotContainingItem(cropEntry.getSeedItem());
-				owner.inventory.decrStackSize(seedLocation, 1);
-				owner.worldObj.setBlock(targetX, targetY, targetZ, cropEntry.getBlockCrop());
-			}
+					if (cropEntry.getYieldsBlock())
+					{
+						stackToAdd = new ItemStack(cropEntry.getBlockYield(), cropsToAdd);
+					}
 
-			incrementChoreXpLevel((float)(0.15 - 0.005 * getChoreXp()));
+					else
+					{
+						stackToAdd = new ItemStack(cropEntry.getItemYield(), cropsToAdd);
+					}
+
+					owner.inventory.addItemStackToInventory(stackToAdd);
+				}
+
+				if (cropEntry.getFarmType() == EnumFarmType.NORMAL && owner.inventory.getQuantityOfItem(cropEntry.getSeedItem()) > 0)
+				{
+					final int seedLocation = owner.inventory.getFirstSlotContainingItem(cropEntry.getSeedItem());
+					owner.inventory.decrStackSize(seedLocation, 1);
+					owner.worldObj.setBlock(targetX, targetY, targetZ, cropEntry.getBlockCrop());
+				}
+
+				incrementChoreXpLevel((float)(0.15 - 0.005 * getChoreXp()));
+			}
 		}
 	}
 
