@@ -23,6 +23,8 @@ import mca.core.util.Utility;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import mca.enums.EnumPacketType;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockStaticLiquid;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item.ToolMaterial;
@@ -555,6 +557,13 @@ public class ChoreFarming extends AbstractChore
 
 	private boolean doSetNextPath()
 	{
+		final Block blockStanding = owner.worldObj.getBlock((int)owner.posX, (int)owner.posY, (int)owner.posZ);
+		
+		if (blockStanding instanceof BlockStaticLiquid)
+		{
+			owner.setPositionAndUpdate(targetX, targetY, targetZ);
+		}
+		
 		if (LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, targetX, targetY, targetZ) > 1.7F)
 		{
 			if (owner.getNavigator().noPath())
