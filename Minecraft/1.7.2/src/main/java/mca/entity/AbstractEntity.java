@@ -194,17 +194,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		//Get the appropriate MCA id for the person.
 		if (!world.isRemote)
 		{
-			for (final Map.Entry<Integer, Integer> mapEntry : MCA.getInstance().idsMap.entrySet())
-			{
-				if (mapEntry.getKey() > mcaID)
-				{
-					mcaID = mapEntry.getKey();
-				}
-			}
-
-			mcaID++;
-
-			//Put the ID in the list.
+			mcaID = (int) (getEntityId() + System.currentTimeMillis() % (1024 * 1024));
 			MCA.getInstance().idsMap.put(mcaID, getEntityId());
 		}
 

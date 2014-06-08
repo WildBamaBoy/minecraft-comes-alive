@@ -102,21 +102,8 @@ public class WorldPropertiesManager implements Serializable
 		//Then check if the world has a properties file within that folder. If it doesn't, a new one is created.
 		if (worldPropertiesFile.exists() == false)
 		{
-			//Set the player's ID.
-			int lowestPlayerId = 0;
-
-			for (WorldPropertiesManager manager : MCA.getInstance().playerWorldManagerMap.values())
-			{
-				int idInProperties = manager.worldProperties.playerID;
-
-				if (lowestPlayerId > idInProperties)
-				{
-					lowestPlayerId = idInProperties;
-				}
-			}
-
-			worldProperties.playerID = lowestPlayerId - 1;
-
+			worldProperties.playerID = (int) (playerName.hashCode() + System.currentTimeMillis() % (1024 * 1024));
+			
 			saveWorldProperties();
 			MCA.getInstance().getLogger().log("Saved new world properties for world '" + worldName + "' and player '" + playerName + "'.");
 		}
