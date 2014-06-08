@@ -27,10 +27,14 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntityFurnace;
 
+import com.radixshock.radixcore.constant.Time;
 import com.radixshock.radixcore.logic.LogicHelper;
 import com.radixshock.radixcore.logic.Point3D;
 import com.radixshock.radixcore.network.Packet;
+
+import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
  * Defines the cooking chore.
@@ -284,8 +288,28 @@ public class ChoreCooking extends AbstractChore
 
 	private boolean isFuelInInventory() 
 	{
-		hasFuel = owner.inventory.contains(Items.coal);
-		fuelUsesRemaining = hasFuel ? 8 : 0;
+		for (ItemStack stack : owner.inventory.inventoryItems)
+		{
+			if (stack != null)
+			{
+				final boolean isFuel = TileEntityFurnace.isItemFuel(stack);
+				int fuelValue = TileEntityFurnace.getItemBurnTime(stack) == 0 ? GameRegistry.getFuelValue(stack) : TileEntityFurnace.getItemBurnTime(stack);
+				fuelValue = fuelValue / Time.SECOND / 10;
+				
+				if (fuelValue == 0 && isFuel)
+				{
+					fuelValue = 1;
+				}
+				
+				if (fuelValue > 0)
+				{
+					hasFuel = true;
+					fuelUsesRemaining = fuelValue;
+					owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(stack.getItem()), 1);
+				}
+			}
+		}
+
 		return hasFuel;
 	}
 
@@ -385,8 +409,11 @@ public class ChoreCooking extends AbstractChore
 
 					else
 					{
-						owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(itemCookingRaw), 1);
-						owner.inventory.addItemStackToInventory(new ItemStack(itemCookingCooked, 1, 0));
+						if (owner.inventory.contains(itemCookingRaw))
+						{
+							owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(itemCookingRaw), 1);
+							owner.inventory.addItemStackToInventory(new ItemStack(itemCookingCooked, 1, 0));
+						}
 
 						isCooking = false;
 						hasCookableFood = false;
@@ -397,7 +424,6 @@ public class ChoreCooking extends AbstractChore
 
 						if (fuelUsesRemaining <= 0)
 						{
-							owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(Items.coal), 1);
 							hasFuel = false;
 						}
 					}
