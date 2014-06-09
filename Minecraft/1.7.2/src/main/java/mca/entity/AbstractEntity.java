@@ -1035,6 +1035,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 					isSleeping = true;
 					hasTeleportedHome = true;
+					
+					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isSleeping", isSleeping));
 				}
 
 				else //The test for obstructed home point failed. Notify the related players.
