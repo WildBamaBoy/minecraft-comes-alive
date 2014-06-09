@@ -58,13 +58,13 @@ public class ChoreFarming extends AbstractChore
 	public int delayCounter;
 
 	/** The X location of the coordinates the entity started at.*/
-	public double startX;
+	public int startX;
 
 	/** The Y location of the coordinates the entity started at.*/
-	public double startY;
+	public int startY;
 
 	/** The Z location of the coordinates the entity started at.*/
-	public double startZ;
+	public int startZ;
 
 	/** From a 2D aspect, how many blocks the X side of the farming area is.*/
 	public int areaX;
@@ -194,6 +194,14 @@ public class ChoreFarming extends AbstractChore
 
 		else if (method == 1)
 		{
+			//Workaround for failure to save NBT.
+			if (startX == 0 && startY == 0 && startZ == 0)
+			{
+				startX = (int)owner.posX;
+				startY = (int)owner.posY;
+				startZ = (int)owner.posZ;
+			}
+			
 			runMaintainFarmLogic();
 		}
 	}
@@ -424,7 +432,6 @@ public class ChoreFarming extends AbstractChore
 		if (hasNextPathBlock)
 		{
 			doSetNextPath();
-
 			if (canDoNextMaintainTask())
 			{
 				doNextMaintainTask();
@@ -597,7 +604,7 @@ public class ChoreFarming extends AbstractChore
 	}
 
 	private void doAssignNextBlockForMaintain()
-	{
+	{	
 		for (final FarmableCrop entry : ChoreRegistry.getFarmingCropEntries())
 		{
 			final List<Point3D> points = LogicExtension.getNearbyHarvestableCrops(owner, entry, (int)startX, (int)startY, (int)startZ, radius);
