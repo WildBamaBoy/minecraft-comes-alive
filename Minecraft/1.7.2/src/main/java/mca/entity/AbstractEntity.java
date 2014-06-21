@@ -42,10 +42,20 @@ import mca.core.util.object.FamilyTree;
 import mca.core.util.object.PlayerMemory;
 import mca.enums.EnumMood;
 import mca.enums.EnumMoodChangeContext;
-import mca.enums.EnumPacketType;
 import mca.enums.EnumRelation;
 import mca.enums.EnumTrait;
 import mca.inventory.Inventory;
+import mca.network.packets.PacketNotifyPlayer;
+import mca.network.packets.PacketOnEngagement;
+import mca.network.packets.PacketOnVillagerProcreate;
+import mca.network.packets.PacketSetChore;
+import mca.network.packets.PacketSetFamilyTree;
+import mca.network.packets.PacketSetFieldValue;
+import mca.network.packets.PacketSetInventory;
+import mca.network.packets.PacketSetTarget;
+import mca.network.packets.PacketStopJumping;
+import mca.network.packets.PacketSwingArm;
+import mca.network.packets.PacketSyncRequest;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -81,11 +91,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 
 import com.radixshock.radixcore.constant.Font.Color;
+import com.radixshock.radixcore.constant.Particle;
 import com.radixshock.radixcore.constant.Time;
 import com.radixshock.radixcore.entity.ITickableEntity;
 import com.radixshock.radixcore.logic.LogicHelper;
 import com.radixshock.radixcore.logic.NBTHelper;
-import com.radixshock.radixcore.network.Packet;
+import com.radixshock.radixcore.network.packets.PacketSpawnParticles;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
@@ -254,7 +265,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		//Sync with server if data hasn't been assigned.
 		if (worldObj.isRemote && texture.contains("steve") && !sentSyncRequest)
 		{
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SyncRequest, getEntityId()));
+			MCA.packetHandler.sendPacketToServer(new PacketSyncRequest(getEntityId()));
 			sentSyncRequest = true;
 		}
 
@@ -477,14 +488,14 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					say(MCA.getInstance().getLanguageLoader().getString("hitbyplayer", player, this, true));	
 				}
 
-				MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "lastInteractingPlayer", lastInteractingPlayer));
+				MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "lastInteractingPlayer", lastInteractingPlayer));
 
 				if (this instanceof EntityVillagerAdult)
 				{
 					isRetaliating = true;
 					target = player;
 
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetTarget, getEntityId(), player.getEntityId()));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetTarget(getEntityId(), player.getEntityId()));
 				}
 
 				else if (this instanceof EntityVillagerChild)
@@ -503,8 +514,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 									entity.isRetaliating = true;
 									entity.target = player;
 
-									MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetTarget, entity.getEntityId(), player.getEntityId()));
-									MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, entity.getEntityId() , "isRetaliating", entity.isRetaliating));
+									MCA.packetHandler.sendPacketToAllPlayers(new PacketSetTarget(entity.getEntityId(), player.getEntityId()));
+									MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(entity.getEntityId() , "isRetaliating", entity.isRetaliating));
 								}
 							}
 						}
@@ -517,14 +528,14 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				if (target != null && damageSource.getSourceOfDamage() instanceof EntityLivingBase)
 				{
 					target = (EntityLivingBase)damageSource.getSourceOfDamage();
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetTarget, getEntityId(), target.getEntityId()));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetTarget(getEntityId(), target.getEntityId()));
 				}
 			}
 
 			isSleeping = false;
 			idleTicks = 0;
-			MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "idleTicks", idleTicks));
-			MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isSleeping", isSleeping));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "idleTicks", idleTicks));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isSleeping", isSleeping));
 		}
 	}
 
@@ -607,8 +618,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					spouse.isMarriedToVillager = false;
 					spouse.familyTree.removeFamilyTreeEntry(EnumRelation.Spouse);
 
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, spouse.getEntityId(), "isMarriedToVillager", spouse.isMarriedToVillager));
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFamilyTree, spouse.getEntityId(), spouse.familyTree));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(spouse.getEntityId(), "isMarriedToVillager", spouse.isMarriedToVillager));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFamilyTree(spouse.getEntityId(), spouse.familyTree));
 				}
 			}
 
@@ -644,7 +655,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		else
 		{
-			MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SwingArm, getEntityId()));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSwingArm(getEntityId()));
 		}
 	}
 
@@ -856,16 +867,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public void setDeadWithoutNotification()
 	{
 		super.setDead();
-
-		if (worldObj.isRemote)
-		{
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.BroadcastKillEntity, getEntityId()));
-		}
-
-		else
-		{
-			MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.KillEntity, getEntityId()));
-		}
 	}
 
 	/**
@@ -886,16 +887,16 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		if (worldObj.isRemote)
 		{
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isInChoreMode", isInChoreMode));
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "currentChore", currentChore));
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetChore, getEntityId(), chore));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(getEntityId(), "isInChoreMode", isInChoreMode));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(getEntityId(), "currentChore", currentChore));
+			MCA.packetHandler.sendPacketToServer(new PacketSetChore(getEntityId(), chore));
 		}
 
 		else
 		{
-			MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isInChoreMode", isInChoreMode));
-			MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "currentChore", currentChore));
-			MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetChore, getEntityId(), chore));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isInChoreMode", isInChoreMode));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "currentChore", currentChore));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSetChore(getEntityId(), chore));
 		}
 	}
 
@@ -911,8 +912,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			isSleeping = false;
 			idleTicks = 0;
-			MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isSleeping", isSleeping));
-			MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "idleTicks", idleTicks));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isSleeping", isSleeping));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "idleTicks", idleTicks));
 			return;
 		}
 
@@ -929,8 +930,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				player.addChatMessage(new ChatComponentText(getTitle(MCA.getInstance().getIdOfPlayer(player), true) + ": " + text));
 			}
 			
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isSleeping", isSleeping));
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "idleTicks", idleTicks));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(getEntityId(), "isSleeping", isSleeping));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(getEntityId(), "idleTicks", idleTicks));
 		}
 	}
 
@@ -996,19 +997,17 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					if (isStaying)
 					{
 						isSleeping = true;
-						MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isSleeping", isSleeping));
+						MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isSleeping", isSleeping));
 
 						if (familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 						{
-							MCA.packetPipeline.sendPacketToPlayer(new Packet(
-									EnumPacketType.NotifyPlayer, getEntityId(), "notify.homepoint.teleport.skip.staying"), (EntityPlayerMP)player);
+							MCA.packetHandler.sendPacketToPlayer(new PacketNotifyPlayer(getEntityId(), "notify.homepoint.teleport.skip.staying"), (EntityPlayerMP)player);
 						}
 					}
 
 					else if (isFollowing)
 					{
-						MCA.packetPipeline.sendPacketToPlayer(new Packet(
-								EnumPacketType.NotifyPlayer, getEntityId(), "notify.homepoint.teleport.skip.following"), (EntityPlayerMP)player);
+						MCA.packetHandler.sendPacketToPlayer(new PacketNotifyPlayer(getEntityId(), "notify.homepoint.teleport.skip.following"), (EntityPlayerMP)player);
 					}
 				}
 			}
@@ -1036,7 +1035,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					isSleeping = true;
 					hasTeleportedHome = true;
 					
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isSleeping", isSleeping));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isSleeping", isSleeping));
 				}
 
 				else //The test for obstructed home point failed. Notify the related players.
@@ -1045,8 +1044,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					{
 						final EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, relatedPlayerId);
 						{
-							MCA.packetPipeline.sendPacketToPlayer(new Packet(
-									EnumPacketType.NotifyPlayer, getEntityId(), "notify.homepoint.obstructed"), (EntityPlayerMP)player);
+							MCA.packetHandler.sendPacketToPlayer(new PacketNotifyPlayer(getEntityId(), "notify.homepoint.obstructed"), (EntityPlayerMP)player);
 						}
 					}
 
@@ -1062,8 +1060,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			for (final int relatedPlayerId : familyTree.getListOfPlayerIDs())
 			{
 				final EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, relatedPlayerId);
-				MCA.packetPipeline.sendPacketToPlayer(new Packet(
-						EnumPacketType.NotifyPlayer, getEntityId(), "notify.homepoint.none"), (EntityPlayerMP)player);
+				MCA.packetHandler.sendPacketToPlayer(new PacketNotifyPlayer(getEntityId(), "notify.homepoint.none"), (EntityPlayerMP)player);
 				hasTeleportedHome = true;
 			}
 		}
@@ -1103,7 +1100,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			notifyPlayer(worldObj.getPlayerEntityByName(lastInteractingPlayer), MCA.getInstance().getLanguageLoader().getString("notify.homepoint.invalid"));
 			hasHomePoint = false;
 
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "hasHomePoint", hasHomePoint));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(getEntityId(), "hasHomePoint", hasHomePoint));
 		}
 	}
 
@@ -1294,16 +1291,16 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			if (worldObj.isRemote)
 			{
-				MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "moodPointsHappy", moodPointsHappy));
-				MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "moodPointsSad", moodPointsSad));
-				MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "moodPointsAnger", moodPointsAnger));
+				MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(getEntityId(), "moodPointsHappy", moodPointsHappy));
+				MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(getEntityId(), "moodPointsSad", moodPointsSad));
+				MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(getEntityId(), "moodPointsAnger", moodPointsAnger));
 			}
 
 			else
 			{
-				MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "moodPointsHappy", moodPointsHappy));
-				MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "moodPointsSad", moodPointsSad));
-				MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "moodPointsAnger", moodPointsAnger));
+				MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "moodPointsHappy", moodPointsHappy));
+				MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "moodPointsSad", moodPointsSad));
+				MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "moodPointsAnger", moodPointsAnger));
 			}
 		}
 	}
@@ -1409,12 +1406,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 			if (worldObj.isRemote)
 			{
-				MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "playerMemoryMap", playerMemoryMap));
+				MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(getEntityId(), "playerMemoryMap", playerMemoryMap));
 			}
 
 			else
 			{
-				MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "playerMemoryMap", playerMemoryMap), (EntityPlayerMP) player);
+				MCA.packetHandler.sendPacketToPlayer(new PacketSetFieldValue(getEntityId(), "playerMemoryMap", playerMemoryMap), (EntityPlayerMP) player);
 			}
 		}
 
@@ -1462,7 +1459,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		if (!worldObj.isRemote)
 		{
-			MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "playerMemoryMap", playerMemoryMap), (EntityPlayerMP) player);
+			MCA.packetHandler.sendPacketToPlayer(new PacketSetFieldValue(getEntityId(), "playerMemoryMap", playerMemoryMap), (EntityPlayerMP) player);
 		}
 
 		if (isDispatchAllowed)
@@ -1645,7 +1642,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		memory.isInGiftMode = false;
 		playerMemoryMap.put(player.getCommandSenderName(), memory);
 
-		MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "playerMemoryMap", playerMemoryMap));
+		MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "playerMemoryMap", playerMemoryMap));
 	}
 
 	/**
@@ -1672,7 +1669,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				Utility.removeItemFromPlayer(itemStack, player);
 
 				memory.isInGiftMode = false;
-				MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetInventory, getEntityId(), inventory));
+				MCA.packetHandler.sendPacketToAllPlayers(new PacketSetInventory(getEntityId(), inventory));
 			}
 		}
 
@@ -1760,27 +1757,28 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				if (generation != 0)
 				{
 					nearestVillager.generation = generation;
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, nearestVillager.getEntityId(), "generation", generation));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(nearestVillager.getEntityId(), "generation", generation));
 				}
 
 				else if (nearestVillager.generation != 0)
 				{
 					generation = nearestVillager.generation;
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "generation", nearestVillager.generation));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "generation", nearestVillager.generation));
 				}
 
 				//Update relevant data on client and server.
 				isMarriedToVillager = true;
 				familyTree.addFamilyTreeEntry(nearestVillager, EnumRelation.Spouse);
-				MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isMarriedToVillager", isMarriedToVillager));
-				MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFamilyTree, getEntityId(), familyTree));
+				MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isMarriedToVillager", isMarriedToVillager));
+				MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFamilyTree(getEntityId(), familyTree));
 
 				nearestVillager.isMarriedToVillager = true;
 				nearestVillager.familyTree.addFamilyTreeEntry(this, EnumRelation.Spouse);
-				MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, nearestVillager.getEntityId(), "isMarriedToVillager", nearestVillager.isMarriedToVillager));
-				MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFamilyTree, nearestVillager.getEntityId(), nearestVillager.familyTree));
+				MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(nearestVillager.getEntityId(), "isMarriedToVillager", nearestVillager.isMarriedToVillager));
+				MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFamilyTree(nearestVillager.getEntityId(), nearestVillager.familyTree));
 
-				MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.ArrangedMarriageParticles, this.getEntityId(), nearestVillager.getEntityId()));
+				MCA.packetHandler.sendPacketToAllPlayers(new PacketSpawnParticles(this.posX, this.posY, this.posZ, this.width, this.height, Particle.HAPPY, 16));
+				MCA.packetHandler.sendPacketToAllPlayers(new PacketSpawnParticles(nearestVillager.posX, nearestVillager.posY, nearestVillager.posZ, nearestVillager.width, nearestVillager.height, Particle.HAPPY, 16));
 
 				//Check if the now-spouse is a player child for achievement.
 				if (nearestVillager instanceof EntityPlayerChild || this instanceof EntityPlayerChild)
@@ -1836,8 +1834,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					isEngaged = true;
 					familyTree.addFamilyTreeEntry(player, EnumRelation.Spouse);
 
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFamilyTree, getEntityId(), familyTree));
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isEngaged", isEngaged));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFamilyTree(getEntityId(), familyTree));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isEngaged", isEngaged));
 
 					manager.worldProperties.playerSpouseID = mcaID;
 					manager.worldProperties.isEngaged = true;
@@ -1911,9 +1909,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					spousePlayerName = player.getCommandSenderName();
 					familyTree.addFamilyTreeEntry(player, EnumRelation.Spouse);
 
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isMarriedToPlayer", isMarriedToPlayer));
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "spousePlayerName", spousePlayerName));
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFamilyTree, getEntityId(), familyTree));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isMarriedToPlayer", isMarriedToPlayer));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "spousePlayerName", spousePlayerName));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFamilyTree(getEntityId(), familyTree));
 
 					player.triggerAchievement(MCA.getInstance().achievementGetMarried);
 
@@ -1939,8 +1937,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 							}
 						}
 
-						MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.Engagement, getEntityId()));
-						MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isEngaged", isEngaged));
+						MCA.packetHandler.sendPacketToAllPlayers(new PacketOnEngagement(getEntityId()));
+						MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isEngaged", isEngaged));
 					}
 				}
 			}
@@ -2000,9 +1998,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				else //This couple doesn't have a baby.
 				{
 					isProcreatingWithVillager = true;
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isProcreatingWithVillager", isProcreatingWithVillager));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isProcreatingWithVillager", isProcreatingWithVillager));
 					nearestVillager.isProcreatingWithVillager = true;
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, nearestVillager.getEntityId(), "isProcreatingWithVillager", nearestVillager.isProcreatingWithVillager));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(nearestVillager.getEntityId(), "isProcreatingWithVillager", nearestVillager.isProcreatingWithVillager));
 
 					//Remove two cakes.
 					for (int loops = 0; loops < 2; loops++)
@@ -2085,8 +2083,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			tickMarkerBaby.reset();
 
 			//Send to clients.
-			MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isHeldBabyMale", isHeldBabyMale));
-			MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "hasBaby", hasBaby));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isHeldBabyMale", isHeldBabyMale));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "hasBaby", hasBaby));
 
 			//Check for achievement.
 			final EntityPlayer player = worldObj.getPlayerEntityByName(lastInteractingPlayer);
@@ -2143,15 +2141,15 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 								heldBabyProfession = spouse.profession;
 								tickMarkerBaby = new TickMarkerBaby(this, Time.MINUTE * MCA.getInstance().getModProperties().babyGrowUpTimeMinutes);
 
-								MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isHeldBabyMale", isHeldBabyMale));
-								MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "hasBaby", hasBaby));
+								MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isHeldBabyMale", isHeldBabyMale));
+								MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "hasBaby", hasBaby));
 							}
 						}
 
 						procreateTicks = 0;
 						isProcreatingWithVillager = false;
-						MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isProcreatingWithVillager", isProcreatingWithVillager));
-						MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.StopJumping, getEntityId()));
+						MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isProcreatingWithVillager", isProcreatingWithVillager));
+						MCA.packetHandler.sendPacketToAllPlayers(new PacketStopJumping(getEntityId()));
 					}
 
 					else
@@ -2201,7 +2199,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					procreateTicks = 0;
 					player.addChatMessage(new ChatComponentText(Color.RED + "You have reached the child limit set by the server administrator: " + MCA.getInstance().getModProperties().server_childLimit));
 
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isProcreatingWithPlayer", isProcreatingWithPlayer));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isProcreatingWithPlayer", isProcreatingWithPlayer));
 				}
 
 				else
@@ -2217,11 +2215,11 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 						isProcreatingWithPlayer = false;
 						procreateTicks = 0;
 
-						MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isProcreatingWithPlayer", isProcreatingWithPlayer));
-						MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.StopJumping, getEntityId()));
+						MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isProcreatingWithPlayer", isProcreatingWithPlayer));
+						MCA.packetHandler.sendPacketToAllPlayers(new PacketStopJumping(getEntityId()));
 
 						boolean babyIsMale = Utility.getRandomGender();
-						MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.NameBaby, this.getEntityId(), babyIsMale), (EntityPlayerMP)player);
+						MCA.packetHandler.sendPacketToPlayer(new PacketOnVillagerProcreate(this.getEntityId(), babyIsMale), (EntityPlayerMP)player);
 
 						if (babyIsMale)
 						{
@@ -2281,7 +2279,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				spousePlayerName = "";
 				familyTree.removeFamilyTreeEntry(worldManager.worldProperties.playerID);
 
-				MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "spousePlayerName", spousePlayerName));
+				MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "spousePlayerName", spousePlayerName));
 			}
 
 			else if (isMarriedToVillager)
@@ -2297,12 +2295,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			isMarriedToVillager = false;
 			isMarriageToPlayerArranged = false;
 
-			MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "doDivorce", doDivorce));
-			MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isFollowing", isFollowing));
-			MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isHeldBabyMale", isHeldBabyMale));
-			MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isMarriedToPlayer", isMarriedToPlayer));
-			MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isMarriedToVillager", isMarriedToVillager));
-			MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFamilyTree, getEntityId(), familyTree));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "doDivorce", doDivorce));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isFollowing", isFollowing));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isHeldBabyMale", isHeldBabyMale));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isMarriedToPlayer", isMarriedToPlayer));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isMarriedToVillager", isMarriedToVillager));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFamilyTree(getEntityId(), familyTree));
 		}
 	}
 
@@ -2321,7 +2319,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				if (player != null && memory.isInGiftMode && getDistanceToEntity(player) > 10.0F || player == null && memory.isInGiftMode)
 				{
 					memory.isInGiftMode = false;
-					MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "playerMemoryMap", playerMemoryMap), (EntityPlayerMP)player);
+					MCA.packetHandler.sendPacketToPlayer(new PacketSetFieldValue(getEntityId(), "playerMemoryMap", playerMemoryMap), (EntityPlayerMP)player);
 				}
 			}
 		}
@@ -2341,7 +2339,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				isSleeping = false;
 				hasTeleportedHome = false;
 				modifyMoodPoints(EnumMoodChangeContext.MoodCycle, 0);
-				MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isSleeping", isSleeping));
+				MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isSleeping", isSleeping));
 			}
 
 			else if (!isSleeping && !serverWorldObj.isDaytime() && !hasTeleportedHome) //Going to sleep.
@@ -2368,13 +2366,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			if (isSleeping && !texture.contains("sleeping")) //Check for sleeping texture.
 			{
 				texture = texture.replace("/skins/", "/skins/sleeping/");
-				MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "texture", texture));
+				MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "texture", texture));
 			}
 
 			else if (!isSleeping && texture.contains("sleeping")) //Replace sleeping texture with normal texture.
 			{
 				texture = texture.replace("/skins/sleeping/", "/skins/");
-				MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "texture", texture));
+				MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "texture", texture));
 			}
 		}
 	}
@@ -2504,7 +2502,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 								{
 									final int hearts = getHearts(nearestPlayer);
 									lastInteractingPlayer = nearestPlayer.getCommandSenderName();
-									MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "lastInteractingPlayer", lastInteractingPlayer));
+									MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "lastInteractingPlayer", lastInteractingPlayer));
 
 									Utility.faceCoordinates(this, nearestPlayer.posX, nearestPlayer.posY, nearestPlayer.posZ, -10);
 
@@ -2556,7 +2554,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 										//Increase hearts 1 to 3 points each greeting.
 										modifyHearts(nearestPlayer, worldObj.rand.nextInt(3) + 1);
-										MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "lastInteractingPlayer", lastInteractingPlayer));
+										MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "lastInteractingPlayer", lastInteractingPlayer));
 									}
 								}
 							}
@@ -2633,7 +2631,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					setHealth(getHealth() + 3);
 					eatingTicks = 0;
 
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetInventory, getEntityId(), inventory));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetInventory(getEntityId(), inventory));
 				}
 			}
 
@@ -2788,7 +2786,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 										//isGoodHeir = Utility.getBooleanWithProbability(90);
 
 										isGoodHeir = true;
-										MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "isGoodHeir", isGoodHeir));
+										MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isGoodHeir", isGoodHeir));
 									}
 
 									//Add kings armor.
@@ -2899,7 +2897,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			{
 				trait = EnumTrait.values()[rand.nextInt(EnumTrait.values().length - 1) + 1];
 				traitId = trait.getId();
-				MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "traitId", traitId));
+				MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "traitId", traitId));
 			}
 
 			if (worldObj.getWorldTime() % 600 == 0 || moodUpdateTicks != 0)
@@ -2934,7 +2932,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 							moodPointsAnger = 0.0F;
 						}
 
-						MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "moodPointsAnger", moodPointsAnger));
+						MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "moodPointsAnger", moodPointsAnger));
 					}
 
 					if (doModifyHappy)
@@ -2946,7 +2944,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 							moodPointsHappy = 0.0F;
 						}
 
-						MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "moodPointsHappy", moodPointsHappy));
+						MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "moodPointsHappy", moodPointsHappy));
 					}
 
 					if (doModifySad)
@@ -2958,13 +2956,13 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 							moodPointsSad = 0.0F;
 						}
 
-						MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "moodPointsSad", moodPointsSad));
+						MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "moodPointsSad", moodPointsSad));
 					}
 
 					//Assign different update deviation and reset.
 					moodUpdateDeviation = worldObj.rand.nextInt(50) + worldObj.rand.nextInt(50);
 					moodUpdateTicks = 0;
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "playerMemoryMap", playerMemoryMap));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "playerMemoryMap", playerMemoryMap));
 				}
 
 				else
@@ -3011,7 +3009,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				if (hasChanged)
 				{
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "playerMemoryMap", playerMemoryMap));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "playerMemoryMap", playerMemoryMap));
 				}
 			}
 		}
@@ -3071,8 +3069,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			say(MCA.getInstance().getLanguageLoader().getString(phraseId, null, this, false));
 		}
 
-		MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SwingArm, getEntityId()));
-		MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetTarget, getEntityId(), 0));
+		MCA.packetHandler.sendPacketToAllPlayers(new PacketSwingArm(getEntityId()));
+		MCA.packetHandler.sendPacketToAllPlayers(new PacketSetTarget(getEntityId(), 0));
 	}
 
 	@Override

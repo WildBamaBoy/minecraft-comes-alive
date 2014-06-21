@@ -18,7 +18,7 @@ import mca.core.MCA;
 import mca.core.util.Utility;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
-import mca.enums.EnumPacketType;
+import mca.network.packets.PacketSetFieldValue;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -41,7 +41,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 
 import com.radixshock.radixcore.logic.LogicHelper;
-import com.radixshock.radixcore.network.Packet;
 
 /**
  * The combat chore handles fighting other entities.
@@ -367,13 +366,13 @@ public class ChoreCombat extends AbstractChore
 					if (isWithinSentryArea() && !owner.isStaying)
 					{
 						owner.isStaying = true;
-						MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, owner.getEntityId(), "isStaying", owner.isStaying));
+						MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(owner.getEntityId(), "isStaying", owner.isStaying));
 					}
 
 					else if (!isWithinSentryArea() && owner.isStaying)
 					{
 						owner.isStaying = false;
-						MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, owner.getEntityId(), "isStaying", owner.isStaying));
+						MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(owner.getEntityId(), "isStaying", owner.isStaying));
 						owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(sentryPosX, sentryPosY, sentryPosZ), Constants.SPEED_WALK);
 					}
 				}
@@ -382,7 +381,7 @@ public class ChoreCombat extends AbstractChore
 			else if (owner.target != null && owner.isStaying)
 			{
 				owner.isStaying = false;
-				MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, owner.getEntityId(), "isStaying", owner.isStaying));
+				MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(owner.getEntityId(), "isStaying", owner.isStaying));
 			}
 		}
 	}

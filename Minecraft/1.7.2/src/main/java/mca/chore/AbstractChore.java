@@ -14,13 +14,12 @@ import java.io.Serializable;
 import mca.core.MCA;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
-import mca.enums.EnumPacketType;
+import mca.network.packets.PacketNotifyPlayer;
+import mca.network.packets.PacketSetFieldValue;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-
-import com.radixshock.radixcore.network.Packet;
 
 /**
  * Defines a chore that can be run by an AbstractEntity.
@@ -139,7 +138,7 @@ public abstract class AbstractChore implements Serializable
 
 			if (!owner.worldObj.isRemote)
 			{
-				MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, owner.getEntityId(), getChoreXpName(), getChoreXp()));
+				MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(owner.getEntityId(), getChoreXpName(), getChoreXp()));
 			}
 		}
 	}
@@ -160,26 +159,22 @@ public abstract class AbstractChore implements Serializable
 			
 			if (prevAmount < 5.0F && newAmount >= 5.0F)
 			{
-				MCA.packetPipeline.sendPacketToPlayer(
-						new Packet(EnumPacketType.NotifyPlayer, owner.getEntityId(), notificationString + ".5"), entityPlayerMP);
+				MCA.packetHandler.sendPacketToPlayer(new PacketNotifyPlayer(owner.getEntityId(), notificationString + ".5"), entityPlayerMP);
 			}
 
 			else if (prevAmount < 10.0F && newAmount >= 10.0F)
 			{
-				MCA.packetPipeline.sendPacketToPlayer(
-						new Packet(EnumPacketType.NotifyPlayer, owner.getEntityId(), notificationString + ".10"), entityPlayerMP);
+				MCA.packetHandler.sendPacketToPlayer(new PacketNotifyPlayer(owner.getEntityId(), notificationString + ".10"), entityPlayerMP);
 			}
 
 			else if (prevAmount < 15.0F && newAmount >= 15.0F)
 			{
-				MCA.packetPipeline.sendPacketToPlayer(
-						new Packet(EnumPacketType.NotifyPlayer, owner.getEntityId(), notificationString + ".15"), entityPlayerMP);
+				MCA.packetHandler.sendPacketToPlayer(new PacketNotifyPlayer(owner.getEntityId(), notificationString + ".15"), entityPlayerMP);
 			}
 
 			else if (prevAmount < 20.0F && newAmount >= 20.0F)
 			{
-				MCA.packetPipeline.sendPacketToPlayer(
-						new Packet(EnumPacketType.NotifyPlayer, owner.getEntityId(), notificationString + ".20"), entityPlayerMP);
+				MCA.packetHandler.sendPacketToPlayer(new PacketNotifyPlayer(owner.getEntityId(), notificationString + ".20"), entityPlayerMP);
 			}
 		}
 	}

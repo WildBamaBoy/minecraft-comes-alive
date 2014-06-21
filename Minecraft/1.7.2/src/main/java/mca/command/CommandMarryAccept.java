@@ -11,7 +11,8 @@ package mca.command;
 
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.enums.EnumPacketType;
+import mca.network.packets.PacketOnPlayerMarriage;
+import mca.network.packets.PacketRemoveMarriageRequest;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -19,7 +20,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
 
 import com.radixshock.radixcore.constant.Font.Color;
-import com.radixshock.radixcore.network.Packet;
 
 /**
  * Handles the marriage acceptance command.
@@ -91,11 +91,11 @@ public class CommandMarryAccept extends AbstractCommand
 						spouseProperties.saveWorldProperties();
 						
 						//Notify both that they are married.
-						MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.PlayerMarriage, senderProperties.worldProperties.playerID, recipient.getCommandSenderName(), spouseProperties.worldProperties.playerID), (EntityPlayerMP)sender);
-						MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.PlayerMarriage, spouseProperties.worldProperties.playerID, sender.getCommandSenderName(), senderProperties.worldProperties.playerID), (EntityPlayerMP)recipient);
+						MCA.packetHandler.sendPacketToPlayer(new PacketOnPlayerMarriage(senderProperties.worldProperties.playerID, recipient.getCommandSenderName(), spouseProperties.worldProperties.playerID), (EntityPlayerMP)sender);
+						MCA.packetHandler.sendPacketToPlayer(new PacketOnPlayerMarriage(spouseProperties.worldProperties.playerID, sender.getCommandSenderName(), senderProperties.worldProperties.playerID), (EntityPlayerMP)recipient);
 						
 						MCA.getInstance().marriageRequests.remove(senderPlayer.getCommandSenderName());
-						MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.RemoveMarriageRequest, senderPlayer.getCommandSenderName()));
+						MCA.packetHandler.sendPacketToAllPlayers(new PacketRemoveMarriageRequest(senderPlayer.getCommandSenderName()));
 					}
 				}
 

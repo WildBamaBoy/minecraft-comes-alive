@@ -18,7 +18,7 @@ import mca.core.MCA;
 import mca.core.util.Utility;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
-import mca.enums.EnumPacketType;
+import mca.network.packets.PacketSetChore;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,7 +31,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 import com.radixshock.radixcore.constant.Time;
-import com.radixshock.radixcore.network.Packet;
 
 /**
  * The hunting chore handles "hunting" for animals far away.
@@ -166,7 +165,7 @@ public class ChoreHunting extends AbstractChore
 	public void endChore() 
 	{
 		hasEnded = true;
-		MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetChore, owner.getEntityId(), this));
+		MCA.packetHandler.sendPacketToAllPlayers(new PacketSetChore(owner.getEntityId(), this));
 	}
 
 	@Override

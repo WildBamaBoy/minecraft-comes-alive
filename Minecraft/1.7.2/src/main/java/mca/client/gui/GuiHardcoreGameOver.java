@@ -15,7 +15,6 @@ import java.util.List;
 import mca.core.MCA;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
-import mca.enums.EnumPacketType;
 import mca.enums.EnumRelation;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMainMenu;
@@ -25,8 +24,6 @@ import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
-
-import com.radixshock.radixcore.network.Packet;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -121,12 +118,13 @@ public class GuiHardcoreGameOver extends AbstractGui
 
 			//Respawn the player.
 			mc.thePlayer.setSpawnChunk(new ChunkCoordinates((int)adultToRespawnAs.posX, (int)adultToRespawnAs.posY, (int)adultToRespawnAs.posZ), true);
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.ForceRespawn, (int)adultToRespawnAs.posX, (int)adultToRespawnAs.posY, (int)adultToRespawnAs.posZ, player.getEntityId()));
+
+//TODO
+//			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.ForceRespawn, (int)adultToRespawnAs.posX, (int)adultToRespawnAs.posY, (int)adultToRespawnAs.posZ, player.getEntityId()));
 			mc.displayGuiScreen(null);
 
 			//Kill that adult.
 			adultToRespawnAs.setDeadWithoutNotification();
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.BroadcastKillEntity, adultToRespawnAs.getEntityId()));
 		}
 
 		if (guibutton == shiftIndexLeftButton)

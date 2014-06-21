@@ -26,7 +26,6 @@ import mca.core.io.WorldPropertiesManager;
 import mca.core.util.Utility;
 import mca.core.util.object.PlayerMemory;
 import mca.core.util.object.VillageHelper;
-import mca.enums.EnumPacketType;
 import mca.enums.EnumRelation;
 import mca.item.AbstractBaby;
 import mca.item.ItemArrangersRing;
@@ -34,8 +33,11 @@ import mca.item.ItemEngagementRing;
 import mca.item.ItemLostRelativeDocument;
 import mca.item.ItemVillagerEditor;
 import mca.item.ItemWeddingRing;
+import mca.network.packets.PacketAddAI;
+import mca.network.packets.PacketOpenGui;
+import mca.network.packets.PacketSetFieldValue;
+import mca.network.packets.PacketSetInventory;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -65,7 +67,6 @@ import net.minecraft.village.Village;
 import net.minecraft.world.World;
 
 import com.radixshock.radixcore.logic.LogicHelper;
-import com.radixshock.radixcore.network.Packet;
 
 /**
  * The main entity of MCA. Can be interacted with, talked to, married, etc.
@@ -282,6 +283,11 @@ public class EntityVillagerAdult extends AbstractEntity
 			updateSpecialAbilities();
 			updateHomePoint();
 			updateVillage();
+		}
+		
+		if (worldObj.isRemote)
+		{
+			MCA.getInstance().packetHandler.sendPacketToServer(new PacketAddAI(2));
 		}
 	}
 
@@ -506,13 +512,13 @@ public class EntityVillagerAdult extends AbstractEntity
 			{
 				if (itemStack.getItem() instanceof ItemVillagerEditor)
 				{
-					MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.OpenGui, getEntityId(), Constants.ID_GUI_EDITOR), (EntityPlayerMP)player);
+					MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_EDITOR), (EntityPlayerMP)player);
 					return true;
 				}
 
 				else if (itemStack.getItem() instanceof ItemLostRelativeDocument)
 				{
-					MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.OpenGui, getEntityId(), Constants.ID_GUI_LRD), (EntityPlayerMP)player);
+					MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_LRD), (EntityPlayerMP)player);
 					return true;
 				}
 
@@ -523,7 +529,7 @@ public class EntityVillagerAdult extends AbstractEntity
 						name = itemStack.getDisplayName();
 						Utility.removeItemFromPlayer(itemStack, player);
 
-						MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "name", name));
+						MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "name", name));
 					}
 
 					return true;
@@ -534,12 +540,12 @@ public class EntityVillagerAdult extends AbstractEntity
 			{
 				if (familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) == EnumRelation.Spouse)
 				{
-					MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.OpenGui, getEntityId(), Constants.ID_GUI_SPOUSE), (EntityPlayerMP)player);
+					MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_SPOUSE), (EntityPlayerMP)player);
 				}
 
 				else
 				{
-					MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.OpenGui, getEntityId(), Constants.ID_GUI_ADULT), (EntityPlayerMP)player);
+					MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_ADULT), (EntityPlayerMP)player);
 				}
 			}
 
@@ -620,7 +626,7 @@ public class EntityVillagerAdult extends AbstractEntity
 					inventory.inventoryItems[36 + armor.armorType] = transferStack;
 
 					Utility.removeItemFromPlayer(itemStack, player);
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetInventory, getEntityId(), inventory));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetInventory(getEntityId(), inventory));
 				}
 
 				else if (itemStack.getItem() instanceof ItemTool || itemStack.getItem() instanceof ItemSword)
@@ -629,7 +635,7 @@ public class EntityVillagerAdult extends AbstractEntity
 					inventory.setWornArmorItems();
 
 					Utility.removeItemFromPlayer(itemStack, player);
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetInventory, getEntityId(), inventory));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetInventory(getEntityId(), inventory));
 				}
 
 				else
@@ -637,7 +643,7 @@ public class EntityVillagerAdult extends AbstractEntity
 					doGift(itemStack, player);
 				}
 
-				MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "playerMemoryMap", playerMemoryMap), (EntityPlayerMP)player);
+				MCA.packetHandler.sendPacketToPlayer(new PacketSetFieldValue(getEntityId(), "playerMemoryMap", playerMemoryMap), (EntityPlayerMP)player);
 			}
 		}
 

@@ -9,12 +9,8 @@
 
 package mca.tileentity;
 
-import mca.core.MCA;
-import mca.enums.EnumPacketType;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-
-import com.radixshock.radixcore.network.Packet;
 
 /**
  * Defines the tombstone tile entity and how it behaves.
@@ -49,9 +45,6 @@ public class TileEntityTombstone extends TileEntity
 	{
 		if (worldObj.isRemote && !hasSynced && !guiOpen)
 		{
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.GetTombstoneText, 
-					this.xCoord, this.yCoord, this.zCoord));
-			
 			hasSynced = true;
 		}
 	}

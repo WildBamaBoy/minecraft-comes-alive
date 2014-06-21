@@ -22,11 +22,13 @@ import mca.entity.AbstractSerializableEntity;
 import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
 import mca.entity.EntityVillagerChild;
-import mca.enums.EnumPacketType;
 import mca.item.AbstractBaby;
 import mca.item.ItemCrown;
 import mca.item.ItemTombstone;
 import mca.item.ItemWeddingRing;
+import mca.network.packets.PacketOpenGui;
+import mca.network.packets.PacketSayLocalized;
+import mca.network.packets.PacketSetWorldProperties;
 import net.minecraft.block.Block;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
@@ -53,7 +55,6 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
 
 import com.radixshock.radixcore.core.RadixCore;
-import com.radixshock.radixcore.network.Packet;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -78,7 +79,7 @@ public class EventHooks
 	{
 		if (event.entityItem.getEntityItem().getItem() instanceof AbstractBaby && MCA.getInstance().playerWorldManagerMap.get(event.player.getCommandSenderName()).worldProperties.babyExists)
 		{
-			MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.SayLocalized, event.player, null, "notify.player.droppedbaby", false, null, null), (EntityPlayerMP)event.player);
+			MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(event.player, null, "notify.player.droppedbaby", false, null, null), (EntityPlayerMP)event.player);
 			event.player.inventory.addItemStackToInventory(event.entityItem.getEntityItem());
 			event.setCanceled(true);
 			event.setResult(Result.DENY);
@@ -224,7 +225,7 @@ public class EventHooks
 		
 		else if (event.target instanceof EntityPlayer && canInteractWithPlayer(event.entityPlayer) && !event.entityPlayer.worldObj.isRemote)
 		{
-			MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.OpenGui, event.target.getEntityId(), Constants.ID_GUI_PLAYER), (EntityPlayerMP)event.entityPlayer);
+			MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(event.target.getEntityId(), Constants.ID_GUI_PLAYER), (EntityPlayerMP)event.entityPlayer);
 		}
 	}
 	
@@ -262,11 +263,11 @@ public class EventHooks
 		final WorldPropertiesManager manager = new WorldPropertiesManager(event.player.worldObj.getSaveHandler().getWorldDirectoryName(), event.player.getCommandSenderName());
 		MCA.getInstance().playerWorldManagerMap.put(event.player.getCommandSenderName(), manager);
 		
-		MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.SetWorldProperties, manager), (EntityPlayerMP) event.player);
+		MCA.packetHandler.sendPacketToPlayer(new PacketSetWorldProperties(manager), (EntityPlayerMP) event.player);
 		
 		if (manager.worldProperties.playerName.equals(""))
 		{
-			MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.OpenGui, event.player.getEntityId(), Constants.ID_GUI_SETUP), (EntityPlayerMP)event.player);
+			MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(event.player.getEntityId(), Constants.ID_GUI_SETUP), (EntityPlayerMP)event.player);
 		}
 	}
 	
@@ -287,7 +288,7 @@ public class EventHooks
 				manager.worldProperties.isMonarch = true;
 				manager.saveWorldProperties();
 
-				MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.SayLocalized, event.player, null, "notify.monarch.began", false, null, null), (EntityPlayerMP)event.player);
+				MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(event.player, null, "notify.monarch.began", false, null, null), (EntityPlayerMP)event.player);
 				event.player.triggerAchievement(MCA.getInstance().achievementCraftCrown);
 			}
 		}
@@ -314,7 +315,7 @@ public class EventHooks
 
 			manager.saveWorldProperties();
 
-			MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.SayLocalized, event.player, null, "notify.baby.cooked", false, null, null), (EntityPlayerMP)event.player);
+			MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(event.player, null, "notify.baby.cooked", false, null, null), (EntityPlayerMP)event.player);
 			event.player.triggerAchievement(MCA.getInstance().achievementCookBaby);
 		}
 	}

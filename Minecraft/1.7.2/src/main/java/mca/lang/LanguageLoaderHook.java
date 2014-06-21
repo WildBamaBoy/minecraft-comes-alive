@@ -15,12 +15,11 @@ import java.util.Map;
 
 import mca.core.MCA;
 import mca.entity.AbstractEntity;
-import mca.enums.EnumPacketType;
+import mca.network.packets.PacketSayLocalized;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 
 import com.radixshock.radixcore.lang.ILanguageLoaderHook;
-import com.radixshock.radixcore.network.Packet;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 
@@ -77,7 +76,7 @@ public class LanguageLoaderHook implements ILanguageLoaderHook
 				player = entity.worldObj.getPlayerEntityByName(entity.lastInteractingPlayer);
 			}
 			
-			MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.SayLocalized, player, entity, elementId, useCharacterType, prefix, suffix), (EntityPlayerMP)player);
+			MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(player, entity.getEntityId(), elementId, useCharacterType, prefix, suffix), (EntityPlayerMP)player);
 			return "";
 		}
 

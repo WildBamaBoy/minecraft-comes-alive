@@ -19,11 +19,12 @@ import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.util.Utility;
 import mca.entity.AbstractEntity;
-import mca.enums.EnumPacketType;
+import mca.network.packets.PacketAddAI;
+import mca.network.packets.PacketSetChore;
+import mca.network.packets.PacketUpdateFurnace;
 import net.minecraft.block.BlockFurnace;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -32,7 +33,6 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import com.radixshock.radixcore.constant.Time;
 import com.radixshock.radixcore.logic.LogicHelper;
 import com.radixshock.radixcore.logic.Point3D;
-import com.radixshock.radixcore.network.Packet;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -149,14 +149,14 @@ public class ChoreCooking extends AbstractChore
 
 		if (owner.worldObj.isRemote)
 		{
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.AddAI, owner.getEntityId()));
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.UpdateFurnace, owner.getEntityId(), false));
+			MCA.packetHandler.sendPacketToServer(new PacketAddAI(owner.getEntityId()));
+			MCA.packetHandler.sendPacketToServer(new PacketUpdateFurnace(owner.getEntityId(), false));
 		}
 
 		else
 		{
-			MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetChore, owner.getEntityId(), this));
-			MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.AddAI, owner.getEntityId()));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSetChore(owner.getEntityId(), this));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketAddAI(owner.getEntityId()));
 		}
 
 		furnacePosX = 0;

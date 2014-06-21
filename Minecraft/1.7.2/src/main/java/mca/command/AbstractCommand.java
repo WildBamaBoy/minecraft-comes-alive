@@ -10,15 +10,13 @@
 package mca.command;
 
 import mca.core.MCA;
-import mca.enums.EnumPacketType;
+import mca.network.packets.PacketSayLocalized;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
-
-import com.radixshock.radixcore.network.Packet;
 
 /**
  * Base class for all commands used in MCA.
@@ -73,7 +71,7 @@ public abstract class AbstractCommand extends CommandBase
 			}
 		}
 
-		MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.SayLocalized, player, null, phraseId, false, prefix, suffix), (EntityPlayerMP)player);
+		MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(player, null, phraseId, false, prefix, suffix), (EntityPlayerMP)player);
 	}
 
 	/**
@@ -99,6 +97,6 @@ public abstract class AbstractCommand extends CommandBase
 			}
 		}
 
-		MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.SayLocalized, player, null, phraseId, false, prefix, suffix), (EntityPlayerMP)recipient);
+		MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(player, null, phraseId, false, prefix, suffix), (EntityPlayerMP)player);
 	}
 }

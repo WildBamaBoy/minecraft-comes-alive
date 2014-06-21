@@ -13,10 +13,8 @@ import mca.core.MCA;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
 import mca.enums.EnumMoodChangeContext;
-import mca.enums.EnumPacketType;
+import mca.network.packets.PacketSetFieldValue;
 import net.minecraft.entity.player.EntityPlayer;
-
-import com.radixshock.radixcore.network.Packet;
 
 /**
  * Defines all interactions performed under the "Interact" button.
@@ -66,7 +64,7 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.getCommandSenderName(), memory);
-		MCA.getInstance().getPacketPipeline().sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entity.getEntityId(), "playerMemoryMap", entity.playerMemoryMap));
+		MCA.getInstance().packetHandler.sendPacketToServer(new PacketSetFieldValue(entity.getEntityId(), "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -113,7 +111,7 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.getCommandSenderName(), memory);
-		MCA.getInstance().getPacketPipeline().sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entity.getEntityId(), "playerMemoryMap", entity.playerMemoryMap));
+		MCA.getInstance().packetHandler.sendPacketToServer(new PacketSetFieldValue(entity.getEntityId(), "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -163,7 +161,7 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.getCommandSenderName(), memory);
-		MCA.getInstance().getPacketPipeline().sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entity.getEntityId(), "playerMemoryMap", entity.playerMemoryMap));
+		MCA.getInstance().packetHandler.sendPacketToServer(new PacketSetFieldValue(entity.getEntityId(), "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -210,7 +208,7 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.getCommandSenderName(), memory);
-		MCA.getInstance().getPacketPipeline().sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entity.getEntityId(), "playerMemoryMap", entity.playerMemoryMap));
+		MCA.getInstance().packetHandler.sendPacketToServer(new PacketSetFieldValue(entity.getEntityId(), "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -257,7 +255,7 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.getCommandSenderName(), memory);
-		MCA.getInstance().getPacketPipeline().sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entity.getEntityId(), "playerMemoryMap", entity.playerMemoryMap));
+		MCA.getInstance().packetHandler.sendPacketToServer(new PacketSetFieldValue(entity.getEntityId(), "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -312,7 +310,7 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.getCommandSenderName(), memory);
-		MCA.getInstance().getPacketPipeline().sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entity.getEntityId(), "playerMemoryMap", entity.playerMemoryMap));
+		MCA.getInstance().packetHandler.sendPacketToServer(new PacketSetFieldValue(entity.getEntityId(), "playerMemoryMap", entity.playerMemoryMap));
 	}
 
 	/**
@@ -373,6 +371,6 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.getCommandSenderName(), memory);
-		MCA.getInstance().getPacketPipeline().sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entity.getEntityId(), "playerMemoryMap", entity.playerMemoryMap));
+		MCA.getInstance().packetHandler.sendPacketToServer(new PacketSetFieldValue(entity.getEntityId(), "playerMemoryMap", entity.playerMemoryMap));
 	}
 }

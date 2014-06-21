@@ -14,13 +14,11 @@ import java.util.Map;
 
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.enums.EnumPacketType;
+import mca.network.packets.PacketNotifyPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
-
-import com.radixshock.radixcore.network.Packet;
 
 /**
  * Handles ticking server-side for MCA.
@@ -90,7 +88,7 @@ public class ServerTickHandler
 			
 			if (manager.worldProperties.babyReadyToGrow && !MCA.getInstance().hasNotifiedOfBabyReadyToGrow)
 			{
-				MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.NotifyPlayer, 0, "notify.baby.readytogrow"), (EntityPlayerMP)player);
+				MCA.packetHandler.sendPacketToPlayer(new PacketNotifyPlayer(0, "notify.baby.readytogrow"), (EntityPlayerMP)player);
 				
 				if (manager.worldProperties.playerSpouseID < 0)
 				{
@@ -98,7 +96,7 @@ public class ServerTickHandler
 					
 					if (spousePlayer != null)
 					{
-						MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.NotifyPlayer, 0, "notify.baby.readytogrow"), (EntityPlayerMP)spousePlayer);
+						MCA.packetHandler.sendPacketToPlayer(new PacketNotifyPlayer(0, "notify.baby.readytogrow"), (EntityPlayerMP)spousePlayer);
 					}
 				}
 				

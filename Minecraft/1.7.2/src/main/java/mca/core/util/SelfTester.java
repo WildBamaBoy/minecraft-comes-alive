@@ -153,7 +153,7 @@ public final class SelfTester
 
 	private void testLineForFieldUpdateValidity(String line, String fileName, int lineNumber)
 	{
-		if (line.contains("new Packet(EnumPacketType.SetFieldValue, ") && !line.contains("line") && !line.contains("fieldName"))
+		if (line.contains("new PacketSetFieldValue(") && !line.contains("line") && !line.contains("fieldName"))
 		{
 			line = line.trim();
 			final int firstQuoteIndex = line.indexOf('"');

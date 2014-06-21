@@ -19,8 +19,9 @@ import mca.core.util.Utility;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import mca.enums.EnumMood;
-import mca.enums.EnumPacketType;
 import mca.enums.EnumTrait;
+import mca.network.packets.PacketSetFieldValue;
+import mca.network.packets.PacketSyncEditorSettings;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -31,8 +32,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-
-import com.radixshock.radixcore.network.Packet;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -98,7 +97,7 @@ public class GuiVillagerEditor extends AbstractGui
 		editingVillager.isSleeping = false;
 		moodListIndex = moodList.indexOf(editingVillager.mood);
 
-		MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, editingVillager.getEntityId(), "isSleeping", editingVillager.isSleeping));
+		MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(editingVillager.getEntityId(), "isSleeping", editingVillager.isSleeping));
 	}
 
 	@Override
@@ -167,11 +166,7 @@ public class GuiVillagerEditor extends AbstractGui
 
 		else if (guibutton == doneButton)
 		{
-			MCA.packetPipeline.sendPacketToServer(
-					new Packet(EnumPacketType.SyncEditorSettings, 
-							editingVillager.getEntityId(), editingVillager.name, editingVillager.isMale, editingVillager.profession, 
-							editingVillager.moodPointsAnger, editingVillager.moodPointsHappy, editingVillager.moodPointsSad, 
-							editingVillager.traitId, editingVillager.inventory, editingVillager.texture));
+			MCA.packetHandler.sendPacketToServer(new PacketSyncEditorSettings(editingVillager));
 			close();
 		}
 
@@ -403,7 +398,7 @@ public class GuiVillagerEditor extends AbstractGui
 		else if (guibutton == inventoryButton)
 		{
 			editingVillager.doOpenInventory = true;
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, editingVillager.getEntityId(), "doOpenInventory", editingVillager.doOpenInventory));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(editingVillager.getEntityId(), "doOpenInventory", editingVillager.doOpenInventory));
 			close();
 		}
 
@@ -428,42 +423,42 @@ public class GuiVillagerEditor extends AbstractGui
 		else if (guibutton == shiftHeightUpButton)
 		{
 			editingVillager.heightFactor += 0.01F;
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, editingVillager.getEntityId(), "heightFactor", editingVillager.heightFactor));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(editingVillager.getEntityId(), "heightFactor", editingVillager.heightFactor));
 			drawEditorGuiPage2();
 		}
 
 		else if (guibutton == shiftHeightDownButton)
 		{
 			editingVillager.heightFactor -= 0.01F;
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, editingVillager.getEntityId(), "heightFactor", editingVillager.heightFactor));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(editingVillager.getEntityId(), "heightFactor", editingVillager.heightFactor));
 			drawEditorGuiPage2();
 		}
 
 		else if (guibutton == shiftGirthUpButton)
 		{
 			editingVillager.girthFactor += 0.01F;
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, editingVillager.getEntityId(), "girthFactor", editingVillager.girthFactor));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(editingVillager.getEntityId(), "girthFactor", editingVillager.girthFactor));
 			drawEditorGuiPage2();
 		}
 
 		else if (guibutton == shiftGirthDownButton)
 		{
 			editingVillager.girthFactor -= 0.01F;
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, editingVillager.getEntityId(), "girthFactor", editingVillager.girthFactor));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(editingVillager.getEntityId(), "girthFactor", editingVillager.girthFactor));
 			drawEditorGuiPage2();
 		}
 		
 		else if (guibutton == appliesHeightButton)
 		{
 			editingVillager.doApplyHeight = !editingVillager.doApplyHeight;
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, editingVillager.getEntityId(), "doApplyHeight", editingVillager.doApplyHeight));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(editingVillager.getEntityId(), "doApplyHeight", editingVillager.doApplyHeight));
 			drawEditorGuiPage2();
 		}
 		
 		else if (guibutton == appliesGirthButton)
 		{
 			editingVillager.doApplyGirth = !editingVillager.doApplyGirth;
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, editingVillager.getEntityId(), "doApplyGirth", editingVillager.doApplyGirth));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(editingVillager.getEntityId(), "doApplyGirth", editingVillager.doApplyGirth));
 			drawEditorGuiPage2();
 		}
 	}

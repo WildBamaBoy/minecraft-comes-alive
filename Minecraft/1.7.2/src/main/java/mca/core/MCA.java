@@ -78,10 +78,8 @@ import mca.item.ItemWeddingRing;
 import mca.item.ItemWhistle;
 import mca.lang.LanguageLoaderHook;
 import mca.lang.LanguageParser;
-import mca.network.PacketCodec;
-import mca.network.PacketHandler;
+import mca.network.PacketRegistry;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityChicken;
@@ -109,10 +107,7 @@ import com.radixshock.radixcore.file.ModPropertiesManager;
 import com.radixshock.radixcore.lang.ILanguageLoaderHook;
 import com.radixshock.radixcore.lang.ILanguageParser;
 import com.radixshock.radixcore.lang.LanguageLoader;
-import com.radixshock.radixcore.network.AbstractPacketCodec;
 import com.radixshock.radixcore.network.AbstractPacketHandler;
-import com.radixshock.radixcore.network.Packet;
-import com.radixshock.radixcore.network.PacketPipeline;
 
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
@@ -142,14 +137,11 @@ public class MCA extends UnenforcedCore
 	/** An instance of the sided proxy. */
 	@SidedProxy(clientSide="mca.core.forge.ClientProxy", serverSide="mca.core.forge.CommonProxy")
 	public static CommonProxy proxy;
-
-	public static PacketPipeline packetPipeline;
+	public static AbstractPacketHandler packetHandler;	
 	public static ServerTickHandler serverTickHandler;
 	public static ClientTickHandler clientTickHandler; 
 
 	private static ModLogger logger;
-	private static PacketCodec packetCodec;
-	private static PacketHandler packetHandler;
 	private static LanguageLoader languageLoader;
 	private static LanguageParser languageParser;
 	private static LanguageLoaderHook languageLoaderHook;
@@ -547,24 +539,6 @@ public class MCA extends UnenforcedCore
 	}
 
 	@Override
-	public AbstractPacketCodec getPacketCodec() 
-	{
-		return packetCodec;
-	}
-
-	@Override
-	public AbstractPacketHandler getPacketHandler() 
-	{
-		return packetHandler;
-	}
-
-	@Override
-	public PacketPipeline getPacketPipeline() 
-	{
-		return packetPipeline;
-	}
-
-	@Override
 	public Class getPacketTypeClass() 
 	{
 		return EnumPacketType.class;
@@ -826,13 +800,8 @@ public class MCA extends UnenforcedCore
 
 	@Override
 	public void initializeNetwork() 
-	{
-		packetPipeline = new PacketPipeline(this);
-		packetCodec = new PacketCodec(this);
-		packetHandler = new PacketHandler(this);
-
-		packetPipeline.addChannel("MCA");
-		packetPipeline.registerPacket(Packet.class);
+	{		
+		packetHandler = new PacketRegistry(this);
 	}
 
 	@Override

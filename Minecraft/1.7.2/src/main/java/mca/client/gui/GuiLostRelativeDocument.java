@@ -12,13 +12,13 @@ package mca.client.gui;
 import mca.core.MCA;
 import mca.core.util.object.FamilyTree;
 import mca.entity.AbstractEntity;
-import mca.enums.EnumPacketType;
 import mca.enums.EnumRelation;
+import mca.network.packets.PacketRemoveItem;
+import mca.network.packets.PacketSetFamilyTree;
+import mca.network.packets.PacketSyncRequest;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
-
-import com.radixshock.radixcore.network.Packet;
 
 /**
  * Defines the GUI shown when the player gives someone a lost relative document.
@@ -320,15 +320,15 @@ public class GuiLostRelativeDocument extends AbstractGui
 		else if (guibutton == buttonNo)
 		{
 			recipient.familyTree = originalFamilyTree;
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SyncRequest, recipient.getEntityId()));
+			MCA.packetHandler.sendPacketToServer(new PacketSyncRequest(recipient.getEntityId()));
 			drawLostRelativeDocumentGui();
 			return;
 		}
 		
 		else if (guibutton == buttonYes)
 		{
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFamilyTree, recipient.getEntityId(), recipient.familyTree));
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.RemoveItem, player.getEntityId(), player.inventory.currentItem, 1, 0));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFamilyTree(recipient.getEntityId(), recipient.familyTree));
+			MCA.packetHandler.sendPacketToServer(new PacketRemoveItem(player.getEntityId(), player.inventory.currentItem, 1, 0));
 
 			if (recipient.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 			{

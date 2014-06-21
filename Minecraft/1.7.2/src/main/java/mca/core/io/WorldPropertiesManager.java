@@ -22,12 +22,11 @@ import java.util.List;
 import java.util.Properties;
 
 import mca.core.MCA;
-import mca.enums.EnumPacketType;
+import mca.network.packets.PacketSetWorldProperties;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 
 import com.radixshock.radixcore.core.RadixCore;
-import com.radixshock.radixcore.network.Packet;
 import com.radixshock.radixcore.util.FileSystemOperations;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -178,12 +177,12 @@ public class WorldPropertiesManager implements Serializable
 				//Send the properties to the server or client.
 				if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 				{
-					MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetWorldProperties, this));
+					MCA.packetHandler.sendPacketToServer(new PacketSetWorldProperties(this));
 				}
 
 				else if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
 				{
-					MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.SetWorldProperties, this), (EntityPlayerMP)MCA.getInstance().getPlayerByName(currentPlayerName));
+					MCA.packetHandler.sendPacketToPlayer(new PacketSetWorldProperties(this), (EntityPlayerMP)MCA.getInstance().getPlayerByName(currentPlayerName));
 				}
 			}
 
@@ -216,7 +215,7 @@ public class WorldPropertiesManager implements Serializable
 
 		else
 		{
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetWorldProperties, this));
+			MCA.packetHandler.sendPacketToServer(new PacketSetWorldProperties(this));
 		}
 	}
 

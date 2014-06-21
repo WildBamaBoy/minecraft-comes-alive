@@ -12,14 +12,12 @@ package mca.client.gui;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
 import mca.core.util.Utility;
-import mca.enums.EnumPacketType;
+import mca.network.packets.PacketBabyInfo;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 
 import org.lwjgl.input.Keyboard;
-
-import com.radixshock.radixcore.network.Packet;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -114,7 +112,7 @@ public class GuiNameChild extends AbstractGui
 			//Check if the player is married to another player.
 			if (manager.worldProperties.playerSpouseID < 0)
 			{
-				MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.BabyInfo, manager));
+				MCA.packetHandler.sendPacketToServer(new PacketBabyInfo(manager));
 			}
 
 			//Close the GUI

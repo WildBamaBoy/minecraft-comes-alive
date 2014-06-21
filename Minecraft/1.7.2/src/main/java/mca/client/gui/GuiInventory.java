@@ -13,16 +13,13 @@ import mca.core.MCA;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
-import mca.enums.EnumPacketType;
 import mca.inventory.ContainerInventory;
+import mca.network.packets.PacketSetInventory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
-
-import com.radixshock.radixcore.network.Packet;
-
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -148,6 +145,6 @@ public class GuiInventory extends InventoryEffectRenderer
 	{
 		super.onGuiClosed();
 		owner.inventory.closeInventory();
-		MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetInventory, owner.getEntityId(), owner.inventory));
+		MCA.packetHandler.sendPacketToServer(new PacketSetInventory(owner.getEntityId(), owner.inventory));
 	}
 }

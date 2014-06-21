@@ -10,7 +10,7 @@
 package mca.client.gui;
 
 import mca.core.MCA;
-import mca.enums.EnumPacketType;
+import mca.network.packets.PacketSetTombstoneText;
 import mca.tileentity.TileEntityTombstone;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -20,8 +20,6 @@ import net.minecraft.util.ChatAllowedCharacters;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
-
-import com.radixshock.radixcore.network.Packet;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -77,10 +75,8 @@ public class GuiTombstone extends AbstractGui
             nethandlerplayclient.addToSendQueue(new C12PacketUpdateSign(this.entityTombstone.xCoord, this.entityTombstone.yCoord, this.entityTombstone.zCoord, this.entityTombstone.signText));
         }
 
-		MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetTombstoneText, 
-				entityTombstone.xCoord, entityTombstone.yCoord, entityTombstone.zCoord,
-				entityTombstone.signText[0], entityTombstone.signText[1], entityTombstone.signText[2],
-				entityTombstone.signText[3]));
+		MCA.packetHandler.sendPacketToServer(new PacketSetTombstoneText(entityTombstone.xCoord, entityTombstone.yCoord, entityTombstone.zCoord,
+				entityTombstone.signText[0], entityTombstone.signText[1], entityTombstone.signText[2], entityTombstone.signText[3]));
 		entityTombstone.hasSynced = true;
 		entityTombstone.guiOpen = false;
 	}

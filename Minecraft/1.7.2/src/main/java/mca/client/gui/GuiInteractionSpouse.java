@@ -18,8 +18,11 @@ import mca.core.util.Utility;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
 import mca.enums.EnumMood;
-import mca.enums.EnumPacketType;
 import mca.enums.EnumTrait;
+import mca.network.packets.PacketClickMountHorse;
+import mca.network.packets.PacketClickTakeGift;
+import mca.network.packets.PacketSetChore;
+import mca.network.packets.PacketSetFieldValue;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,7 +31,6 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.util.ChatComponentText;
 
 import com.radixshock.radixcore.logic.LogicHelper;
-import com.radixshock.radixcore.network.Packet;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -344,7 +346,7 @@ public class GuiInteractionSpouse extends AbstractGui
 	private void drawInventoryGui()
 	{
 		entitySpouse.doOpenInventory = true;
-		MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "doOpenInventory", entitySpouse.doOpenInventory));
+		MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "doOpenInventory", entitySpouse.doOpenInventory));
 		close();
 	}
 
@@ -456,7 +458,7 @@ public class GuiInteractionSpouse extends AbstractGui
 			
 			if (nearestHorse != null)
 			{
-				MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.MountHorse, entitySpouse.getEntityId(), nearestHorse.getEntityId()));
+				MCA.packetHandler.sendPacketToServer(new PacketClickMountHorse(entitySpouse.getEntityId(), nearestHorse.getEntityId()));
 			}
 			
 			else
@@ -475,9 +477,9 @@ public class GuiInteractionSpouse extends AbstractGui
 				entitySpouse.isStaying = false;
 				entitySpouse.followingPlayer = player.getCommandSenderName();
 
-				MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "isFollowing", entitySpouse.isFollowing));
-				MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "isStaying", entitySpouse.isStaying));
-				MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "followingPlayer", entitySpouse.followingPlayer));
+				MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "isFollowing", entitySpouse.isFollowing));
+				MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "isStaying", entitySpouse.isStaying));
+				MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "followingPlayer", entitySpouse.followingPlayer));
 
 				entitySpouse.say(MCA.getInstance().getLanguageLoader().getString("follow.start", player, entitySpouse, true));
 				close();
@@ -489,9 +491,9 @@ public class GuiInteractionSpouse extends AbstractGui
 				entitySpouse.isStaying = false;
 				entitySpouse.followingPlayer = "None";
 
-				MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "isFollowing", entitySpouse.isFollowing));
-				MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "isStaying", entitySpouse.isStaying));
-				MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "followingPlayer", entitySpouse.followingPlayer));
+				MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "isFollowing", entitySpouse.isFollowing));
+				MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "isStaying", entitySpouse.isStaying));
+				MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "followingPlayer", entitySpouse.followingPlayer));
 
 				entitySpouse.say(MCA.getInstance().getLanguageLoader().getString("follow.stop", player, entitySpouse, true));
 				close();
@@ -504,9 +506,9 @@ public class GuiInteractionSpouse extends AbstractGui
 			entitySpouse.isFollowing = false;
 			entitySpouse.idleTicks = 0;
 
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "isStaying", entitySpouse.isStaying));
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "isFollowing", entitySpouse.isFollowing));
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "idleTicks", entitySpouse.idleTicks));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "isStaying", entitySpouse.isStaying));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "isFollowing", entitySpouse.isFollowing));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "idleTicks", entitySpouse.idleTicks));
 			close();
 		}
 
@@ -517,10 +519,10 @@ public class GuiInteractionSpouse extends AbstractGui
 			entitySpouse.homePointZ = entitySpouse.posZ;
 			entitySpouse.hasHomePoint = true;
 
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "homePointX", entitySpouse.homePointX));
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "homePointY", entitySpouse.homePointY));
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "homePointZ", entitySpouse.homePointZ));
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "hasHomePoint", entitySpouse.hasHomePoint));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "homePointX", entitySpouse.homePointX));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "homePointY", entitySpouse.homePointY));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "homePointZ", entitySpouse.homePointZ));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "hasHomePoint", entitySpouse.hasHomePoint));
 
 			entitySpouse.verifyHomePointIsValid();
 
@@ -551,7 +553,7 @@ public class GuiInteractionSpouse extends AbstractGui
 					else
 					{
 						entitySpouse.isProcreatingWithPlayer = true;
-						MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "isProcreatingWithPlayer", entitySpouse.isProcreatingWithPlayer));
+						MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "isProcreatingWithPlayer", entitySpouse.isProcreatingWithPlayer));
 					}
 				}
 
@@ -584,7 +586,7 @@ public class GuiInteractionSpouse extends AbstractGui
 			if (entitySpouse.getInstanceOfCurrentChore() instanceof ChoreCooking)
 			{
 				entitySpouse.getInstanceOfCurrentChore().endChore();
-				MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetChore, entitySpouse.getEntityId(), entitySpouse.cookingChore));
+				MCA.packetHandler.sendPacketToServer(new PacketSetChore(entitySpouse.getEntityId(), entitySpouse.cookingChore));
 			}
 
 			else
@@ -593,9 +595,9 @@ public class GuiInteractionSpouse extends AbstractGui
 				entitySpouse.isInChoreMode = true;
 				entitySpouse.currentChore = entitySpouse.cookingChore.getChoreName();
 
-				MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetChore, entitySpouse.getEntityId(), entitySpouse.cookingChore));
-				MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "isInChoreMode", entitySpouse.isInChoreMode));
-				MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "currentChore", entitySpouse.currentChore));
+				MCA.packetHandler.sendPacketToServer(new PacketSetChore(entitySpouse.getEntityId(), entitySpouse.cookingChore));
+				MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "isInChoreMode", entitySpouse.isInChoreMode));
+				MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "currentChore", entitySpouse.currentChore));
 			}
 
 			close();
@@ -624,7 +626,7 @@ public class GuiInteractionSpouse extends AbstractGui
 		else if (button == giftButton)
 		{
 			entitySpouse.playerMemoryMap.get(player.getCommandSenderName()).isInGiftMode = true;
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "playerMemoryMap", entitySpouse.playerMemoryMap));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "playerMemoryMap", entitySpouse.playerMemoryMap));
 			close();
 		}
 
@@ -769,7 +771,7 @@ public class GuiInteractionSpouse extends AbstractGui
 			entitySpouse.combatChore.attackUnknown = !entitySpouse.combatChore.attackUnknown;
 		}
 
-		MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetChore, entitySpouse.getEntityId(), entitySpouse.combatChore));
+		MCA.packetHandler.sendPacketToServer(new PacketSetChore(entitySpouse.getEntityId(), entitySpouse.combatChore));
 		drawCombatGui();
 	}
 
@@ -810,7 +812,7 @@ public class GuiInteractionSpouse extends AbstractGui
 					//This will modify all surrounding villagers, too.
 					entitySpouse.modifyHearts(player, -30);
 
-					MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "hasBeenExecuted", entitySpouse.hasBeenExecuted));
+					MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "hasBeenExecuted", entitySpouse.hasBeenExecuted));
 					close();
 				}
 
@@ -856,7 +858,7 @@ public class GuiInteractionSpouse extends AbstractGui
 
 					//Update, send to server, and stop here.
 					entitySpouse.playerMemoryMap.put(player.getCommandSenderName(), memory);
-					MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "playerMemoryMap", entitySpouse.playerMemoryMap));
+					MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "playerMemoryMap", entitySpouse.playerMemoryMap));
 
 					close();
 					return;
@@ -877,8 +879,8 @@ public class GuiInteractionSpouse extends AbstractGui
 			entitySpouse.playerMemoryMap.put(player.getCommandSenderName(), memory);
 			ItemStack giftStack = LogicExtension.getGiftStackFromRelationship(player, entitySpouse);
 
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "playerMemoryMap", entitySpouse.playerMemoryMap));
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.GiveRelationshipGift, entitySpouse.getEntityId()));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "playerMemoryMap", entitySpouse.playerMemoryMap));
+			MCA.packetHandler.sendPacketToServer(new PacketClickTakeGift(entitySpouse.getEntityId()));
 			close();
 		}
 
@@ -899,8 +901,8 @@ public class GuiInteractionSpouse extends AbstractGui
 
 					player.addChatMessage(new ChatComponentText(MCA.getInstance().getLanguageLoader().getString("monarch.makepeasant.success")));
 
-					MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "isPeasant", entitySpouse.isPeasant));
-					MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "monarchPlayerName", entitySpouse.monarchPlayerName));
+					MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "isPeasant", entitySpouse.isPeasant));
+					MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "monarchPlayerName", entitySpouse.monarchPlayerName));
 					close();
 				}
 			}
@@ -929,8 +931,8 @@ public class GuiInteractionSpouse extends AbstractGui
 
 					player.addChatMessage(new ChatComponentText(MCA.getInstance().getLanguageLoader().getString("monarch.makeknight.success")));
 
-					MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "isKnight", entitySpouse.isKnight));
-					MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, entitySpouse.getEntityId(), "monarchPlayerName", entitySpouse.monarchPlayerName));
+					MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "isKnight", entitySpouse.isKnight));
+					MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "monarchPlayerName", entitySpouse.monarchPlayerName));
 					close();
 				}
 			}

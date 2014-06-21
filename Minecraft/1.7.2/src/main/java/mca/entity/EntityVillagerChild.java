@@ -13,9 +13,10 @@ import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.util.Utility;
 import mca.core.util.object.PlayerMemory;
-import mca.enums.EnumPacketType;
 import mca.enums.EnumRelation;
 import mca.item.ItemVillagerEditor;
+import mca.network.packets.PacketOpenGui;
+import mca.network.packets.PacketSetFieldValue;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
@@ -33,7 +34,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 import com.radixshock.radixcore.logic.LogicHelper;
-import com.radixshock.radixcore.network.Packet;
 
 /**
  * Defines a villager child and how it behaves.
@@ -155,14 +155,14 @@ public class EntityVillagerChild extends AbstractChild
 			{
 				if (itemStack.getItem() instanceof ItemVillagerEditor)
 				{
-					MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.OpenGui, getEntityId(), Constants.ID_GUI_EDITOR), (EntityPlayerMP)player);
+					MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_EDITOR), (EntityPlayerMP)player);
 					return true;
 				}
 			}
 
 			if (!memory.isInGiftMode || memory.isInGiftMode && itemStack == null) //When right clicked in gift mode without an item to give or when out of gift mode.
 			{
-				MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.OpenGui, getEntityId(), Constants.ID_GUI_VCHILD), (EntityPlayerMP)player);
+				MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_VCHILD), (EntityPlayerMP)player);
 			}
 
 			else if (itemStack != null && memory.isInGiftMode) //When the player right clicks with an item and entity is in gift mode.
@@ -173,7 +173,7 @@ public class EntityVillagerChild extends AbstractChild
 				if (itemStack.getItem() instanceof ItemAppleGold)
 				{
 					this.age += LogicHelper.getNumberInRange(30, 90);
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "age", age));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "age", age));
 				}
 				
 				else
@@ -181,7 +181,7 @@ public class EntityVillagerChild extends AbstractChild
 					doGift(itemStack, player);
 				}
 
-				MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.SetFieldValue, getEntityId(), "playerMemoryMap", playerMemoryMap), (EntityPlayerMP)player);
+				MCA.packetHandler.sendPacketToPlayer(new PacketSetFieldValue(getEntityId(), "playerMemoryMap", playerMemoryMap), (EntityPlayerMP)player);
 			}
 		}
 

@@ -14,15 +14,12 @@ import java.util.Map;
 
 import mca.core.MCA;
 import mca.entity.AbstractEntity;
-import mca.enums.EnumPacketType;
 import mca.enums.EnumRelation;
+import mca.network.packets.PacketSetFieldValue;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-
-import com.radixshock.radixcore.network.Packet;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -281,13 +278,13 @@ public class GuiDivorceCouple extends AbstractGui
 		if (spouseEntity1 != null)
 		{
 			spouseEntity1.doDivorce = true;
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, spouseEntity1.getEntityId(), "doDivorce", spouseEntity1.doDivorce));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(spouseEntity1.getEntityId(), "doDivorce", spouseEntity1.doDivorce));
 		}
 
 		if (spouseEntity2 != null)
 		{
 			spouseEntity2.doDivorce = true;
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.SetFieldValue, spouseEntity2.getEntityId(), "doDivorce", spouseEntity2.doDivorce));
+			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(spouseEntity2.getEntityId(), "doDivorce", spouseEntity2.doDivorce));
 		}
 	}
 }

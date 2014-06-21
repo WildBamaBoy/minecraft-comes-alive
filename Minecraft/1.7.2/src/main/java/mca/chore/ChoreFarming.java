@@ -22,7 +22,8 @@ import mca.core.util.LogicExtension;
 import mca.core.util.Utility;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
-import mca.enums.EnumPacketType;
+import mca.network.packets.PacketAddAI;
+import mca.network.packets.PacketSetChore;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStaticLiquid;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,7 +36,6 @@ import net.minecraft.util.ChatComponentText;
 
 import com.radixshock.radixcore.logic.LogicHelper;
 import com.radixshock.radixcore.logic.Point3D;
-import com.radixshock.radixcore.network.Packet;
 
 /**
  * The farming chore handles planting crops.
@@ -219,13 +219,13 @@ public class ChoreFarming extends AbstractChore
 
 		if (owner.worldObj.isRemote)
 		{
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.AddAI, owner.getEntityId()));
+			MCA.packetHandler.sendPacketToServer(new PacketAddAI(owner.getEntityId()));
 		}
 
 		else
 		{
-			MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetChore, owner.getEntityId(), this));
-			MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.AddAI, owner.getEntityId()));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSetChore(owner.getEntityId(), this));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketAddAI(owner.getEntityId()));
 		}
 
 		owner.addAI();

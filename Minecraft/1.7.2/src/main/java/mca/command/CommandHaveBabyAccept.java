@@ -11,13 +11,13 @@ package mca.command;
 
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.enums.EnumPacketType;
+import mca.network.packets.PacketOnPlayerProcreate;
+import mca.network.packets.PacketRemoveBabyRequest;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 
 import com.radixshock.radixcore.constant.Font.Color;
-import com.radixshock.radixcore.network.Packet;
 
 /**
  * Handles the marriage acceptance command.
@@ -60,14 +60,14 @@ public class CommandHaveBabyAccept extends AbstractCommand
 				{
 					//Notify the other that they want to have a baby and tell the server they have asked.
 					this.addChatMessage(spouse, "multiplayer.command.output.havebaby.successful", Color.GREEN, null);
-					MCA.packetPipeline.sendPacketToPlayer(new Packet(EnumPacketType.HaveBaby, spouse.getEntityId(), player.getEntityId()), (EntityPlayerMP)spouse);
+					MCA.packetHandler.sendPacketToPlayer(new PacketOnPlayerProcreate(spouse.getEntityId(), player.getEntityId()), (EntityPlayerMP)spouse);
 
 					//And remove their entry from the map.
 					MCA.getInstance().babyRequests.remove(sender.getCommandSenderName());
 					MCA.getInstance().babyRequests.remove(spouse.getCommandSenderName());
 					
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.RemoveBabyRequest, sender.getCommandSenderName()));
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.RemoveBabyRequest, spouse.getCommandSenderName()));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketRemoveBabyRequest(sender.getCommandSenderName()));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketRemoveBabyRequest(spouse.getCommandSenderName()));
 				}
 
 				else

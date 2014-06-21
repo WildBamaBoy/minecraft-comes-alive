@@ -11,14 +11,12 @@ package mca.command;
 
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.enums.EnumPacketType;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
 
 import com.radixshock.radixcore.constant.Font.Color;
-import com.radixshock.radixcore.network.Packet;
 
 /**
  * Defines the marry command and what it does.
@@ -110,7 +108,6 @@ public class CommandMarry extends AbstractCommand
 				{
 					super.sendChatToOtherPlayer(sender, recipientEntity, "multiplayer.command.output.marry.request", null, null);
 					MCA.getInstance().marriageRequests.put(senderName, recipientName);
-					MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.AddMarriageRequest, senderName, recipientName));
 				}
 			}
 			

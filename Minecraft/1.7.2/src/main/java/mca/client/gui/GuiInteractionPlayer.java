@@ -13,12 +13,9 @@ import java.util.Map;
 
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesManager;
-import mca.enums.EnumPacketType;
+import mca.network.packets.PacketClientCommand;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
-
-import com.radixshock.radixcore.network.Packet;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -181,32 +178,32 @@ public class GuiInteractionPlayer extends AbstractGui
 	{
 		if (button == askToMarryButton)
 		{
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.ClientSideCommand, "/mca.marry " + playerTarget.getCommandSenderName()));
+			MCA.packetHandler.sendPacketToServer(new PacketClientCommand("/mca.marry " + playerTarget.getCommandSenderName()));
 		}
 
 		else if (button == acceptMarriageButton)
 		{
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.ClientSideCommand, "/mca.marry.accept " + playerTarget.getCommandSenderName()));
+			MCA.packetHandler.sendPacketToServer(new PacketClientCommand("/mca.marry.accept " + playerTarget.getCommandSenderName()));
 		}
 
 		else if (button == declineMarriageButton)
 		{
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.ClientSideCommand, "/mca.marry.decline " + playerTarget.getCommandSenderName()));
+			MCA.packetHandler.sendPacketToServer(new PacketClientCommand("/mca.marry.decline " + playerTarget.getCommandSenderName()));
 		}
 
 		else if (button == haveBabyButton)
 		{
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.ClientSideCommand, "/mca.havebaby"));
+			MCA.packetHandler.sendPacketToServer(new PacketClientCommand("/mca.havebaby"));
 		}
 
 		else if (button == acceptBabyButton)
 		{
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.ClientSideCommand, "/mca.havebaby.accept"));
+			MCA.packetHandler.sendPacketToServer(new PacketClientCommand("/mca.havebaby.accept"));
 		}
 
 		else if (button == divorceButton)
 		{
-			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.ClientSideCommand, "/mca.divorce"));
+			MCA.packetHandler.sendPacketToServer(new PacketClientCommand("/mca.divorce"));
 		}
 
 		close();

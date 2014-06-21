@@ -10,14 +10,13 @@
 package mca.command;
 
 import mca.core.MCA;
-import mca.enums.EnumPacketType;
+import mca.network.packets.PacketRemoveMarriageRequest;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
 
 import com.radixshock.radixcore.constant.Font.Color;
-import com.radixshock.radixcore.network.Packet;
 
 /**
  * Handles the marriage decline command.
@@ -74,7 +73,7 @@ public class CommandMarryDecline extends AbstractCommand
 					{
 						super.sendChatToOtherPlayer(sender, recipient, "multiplayer.command.output.marry.decline", null, null);
 						MCA.getInstance().marriageRequests.remove(recipient.getCommandSenderName());
-						MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.RemoveMarriageRequest, recipient.getCommandSenderName()));
+						MCA.packetHandler.sendPacketToAllPlayers(new PacketRemoveMarriageRequest(recipient.getCommandSenderName()));
 					}
 				}
 

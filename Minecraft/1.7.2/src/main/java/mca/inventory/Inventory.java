@@ -17,7 +17,7 @@ import java.io.Serializable;
 import mca.core.MCA;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
-import mca.enums.EnumPacketType;
+import mca.network.packets.PacketSetInventory;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,8 +35,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-
-import com.radixshock.radixcore.network.Packet;
 
 /**
  * Defines an inventory belonging to an entity from MCA.
@@ -279,7 +277,7 @@ public class Inventory implements IInventory, IInvBasic, Serializable
 	{
 		if (!inventory.owner.worldObj.isRemote)
 		{
-			MCA.packetPipeline.sendPacketToAllPlayers(new Packet(EnumPacketType.SetInventory, owner.getEntityId(), this));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSetInventory(owner.getEntityId(), this));
 
 			if (this.owner instanceof EntityPlayerChild)
 			{
