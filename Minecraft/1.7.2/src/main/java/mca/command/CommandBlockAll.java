@@ -10,10 +10,10 @@
 package mca.command;
 
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
 import net.minecraft.command.ICommandSender;
 
 import com.radixshock.radixcore.constant.Font.Color;
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 
 /**
  * Handles the block all command.
@@ -40,7 +40,7 @@ public class CommandBlockAll extends AbstractCommand
 			final boolean argument = arguments[0].equalsIgnoreCase("TRUE");
 			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(sender.getCommandSenderName());
 
-			manager.worldProperties.blockMarriageRequests = argument;
+			MCA.getInstance().getWorldProperties(manager).blockMarriageRequests = argument;
 
 			if (argument)
 			{

@@ -10,6 +10,7 @@
 package mca.client.gui;
 
 import mca.core.MCA;
+import mca.core.io.WorldPropertiesList;
 import mca.core.util.object.FamilyTree;
 import mca.entity.AbstractEntity;
 import mca.enums.EnumRelation;
@@ -83,7 +84,8 @@ public class GuiLostRelativeDocument extends AbstractGui
 	@Override
 	protected void actionPerformed(GuiButton guibutton)
 	{
-		String playerGender = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName()).worldProperties.playerGender;
+		final WorldPropertiesList properties = (WorldPropertiesList)MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName()).worldPropertiesInstance;
+		String playerGender = properties.playerGender;
 		
 		if (guibutton.enabled == false)
 		{

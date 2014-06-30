@@ -10,7 +10,7 @@
 package mca.command;
 
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
+import mca.core.io.WorldPropertiesList;
 import mca.network.packets.PacketOnPlayerProcreate;
 import mca.network.packets.PacketRemoveBabyRequest;
 import net.minecraft.command.ICommandSender;
@@ -18,6 +18,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 
 import com.radixshock.radixcore.constant.Font.Color;
+import com.radixshock.radixcore.core.RadixCore;
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 
 /**
  * Handles the marriage acceptance command.
@@ -40,13 +42,14 @@ public class CommandHaveBabyAccept extends AbstractCommand
 	public void processCommand(ICommandSender sender, String[] arguments) 
 	{
 		//Make sure they are married to a player.
-		final EntityPlayer player = MCA.getInstance().getPlayerByName(sender.getCommandSenderName());
+		final EntityPlayer player = RadixCore.getPlayerByName(sender.getCommandSenderName());
 		final WorldPropertiesManager senderManager = MCA.getInstance().playerWorldManagerMap.get(sender.getCommandSenderName());
-
-		if (senderManager.worldProperties.playerSpouseID < 0)
+		final WorldPropertiesList properties = (WorldPropertiesList)senderManager.worldPropertiesInstance;
+		
+		if (properties.playerSpouseID < 0)
 		{
 			//Check if the spouse is on the server.
-			final EntityPlayer spouse = MCA.getInstance().getPlayerByName(senderManager.worldProperties.playerSpouseName);
+			final EntityPlayer spouse = RadixCore.getInstance().getPlayerByName(properties.playerSpouseName);
 
 			if (spouse == null)
 			{

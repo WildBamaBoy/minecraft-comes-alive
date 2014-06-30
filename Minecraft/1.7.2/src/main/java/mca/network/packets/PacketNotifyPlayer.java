@@ -6,7 +6,6 @@ import java.util.Map;
 
 import mca.core.MCA;
 import mca.entity.AbstractEntity;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 

@@ -5,18 +5,16 @@ import io.netty.buffer.ByteBuf;
 import java.lang.reflect.Field;
 
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesList;
-import mca.core.io.WorldPropertiesManager;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
+import com.radixshock.radixcore.core.RadixCore;
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 import com.radixshock.radixcore.network.ByteBufIO;
 import com.radixshock.radixcore.network.packets.AbstractPacket;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import cpw.mods.fml.relauncher.Side;
 
 public class PacketSetWorldProperties extends AbstractPacket implements IMessage, IMessageHandler<PacketSetWorldProperties, IMessage>
 {
@@ -56,39 +54,29 @@ public class PacketSetWorldProperties extends AbstractPacket implements IMessage
 			{
 				if (player.worldObj.isRemote) //Received from the server.
 				{
-					for (final Field field : WorldPropertiesList.class.getDeclaredFields())
+					for (final Field field : myManager.worldPropertiesInstance.getClass().getDeclaredFields())
 					{
-						final Object serverValue = field.get(recvManager.worldProperties);
-						final Object clientValue = field.get(myManager.worldProperties);
+						final Object serverValue = field.get(recvManager.worldPropertiesInstance);
+						final Object clientValue = field.get(myManager.worldPropertiesInstance);
 
 						if (!clientValue.equals(serverValue))
 						{
-							field.set(myManager.worldProperties, serverValue);
-							
-							if (MCA.getInstance().inDebugMode)
-							{
-								MCA.getInstance().getLogger().log("Updated field: " + field.getName() + " : " + serverValue);
-							}
+							field.set(myManager.worldPropertiesInstance, serverValue);
 						}
 					}
 				}
 
 				else //Received from client.
 				{
-					for (final Field field : WorldPropertiesList.class.getDeclaredFields())
+					for (final Field field : myManager.worldPropertiesInstance.getClass().getDeclaredFields())
 					{
-						final Object clientValue = field.get(recvManager.worldProperties);
-						final Object serverValue = field.get(myManager.worldProperties);
-
-						if (MCA.getInstance().inDebugMode)
-						{
-							MCA.getInstance().getLogger().log(field.getName() + ":" + clientValue + ":" + serverValue);
-						}
+						final Object clientValue = field.get(recvManager.worldPropertiesInstance);
+						final Object serverValue = field.get(myManager.worldPropertiesInstance);
 						
 						if (!serverValue.equals(clientValue) && !field.getName().equals("playerID"))
 						{
-							field.set(myManager.worldProperties, clientValue);
-							MCA.getInstance().getLogger().log("Updated field: " + field.getName() + " : " + clientValue);
+							field.set(myManager.worldPropertiesInstance, clientValue);
+							RadixCore.getInstance().getLogger().log("Updated field: " + field.getName() + " : " + clientValue);
 						}
 					}
 					

@@ -2,7 +2,6 @@ package mca.network.packets;
 
 import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 

@@ -10,10 +10,10 @@
 package mca.command;
 
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
 import net.minecraft.command.ICommandSender;
 
 import com.radixshock.radixcore.constant.Font.Color;
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 
 /**
  * Defines the help command and what it does.
@@ -55,7 +55,7 @@ public class CommandSetGender extends AbstractCommand
 				final String realGender = Character.toUpperCase(arguments[0].charAt(0)) + arguments[0].substring(1);
 				final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(playerName);
 	
-				manager.worldProperties.playerGender = realGender;
+				MCA.getInstance().getWorldProperties(manager).playerGender = realGender;
 				super.addChatMessage(sender, "multiplayer.command.output.setgender", Color.GREEN, realGender);
 				manager.saveWorldProperties();
 			}

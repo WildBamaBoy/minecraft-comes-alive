@@ -3,12 +3,12 @@ package mca.network.packets;
 import io.netty.buffer.ByteBuf;
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
 import mca.core.util.Utility;
 import mca.item.AbstractBaby;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 import com.radixshock.radixcore.network.packets.AbstractPacket;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -65,8 +65,8 @@ public class PacketOnPlayerProcreate extends AbstractPacket implements IMessage,
 		}
 
 		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(sender.getCommandSenderName());
-		manager.worldProperties.babyIsMale = babyIsMale;
-		manager.worldProperties.babyExists = true;
+		MCA.getInstance().getWorldProperties(manager).babyIsMale = babyIsMale;
+		MCA.getInstance().getWorldProperties(manager).babyExists = true;
 		manager.saveWorldProperties();
 
 		MCA.packetHandler.sendPacketToServer(new PacketAddBaby(babyIsMale));

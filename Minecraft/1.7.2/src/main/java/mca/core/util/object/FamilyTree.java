@@ -16,11 +16,12 @@ import java.util.List;
 import java.util.Map;
 
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
 import mca.entity.AbstractEntity;
 import mca.enums.EnumRelation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 
 /**
  * Handles information about each person's family.
@@ -255,7 +256,7 @@ public class FamilyTree implements Serializable, Cloneable
 				{
 					final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(MCA.getInstance().getPlayerByID(owner.worldObj, mcaID).getCommandSenderName());
 
-					if (manager.worldProperties.playerGender.equals("Male"))
+					if (MCA.getInstance().getWorldProperties(manager).playerGender.equals("Male"))
 					{
 						return EnumRelation.Greatgrandfather;
 					}
@@ -273,7 +274,7 @@ public class FamilyTree implements Serializable, Cloneable
 				{
 					final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(MCA.getInstance().getPlayerByID(owner.worldObj, mcaID).getCommandSenderName());
 
-					if (manager.worldProperties.playerGender.equals("Male"))
+					if (MCA.getInstance().getWorldProperties(manager).playerGender.equals("Male"))
 					{
 						return EnumRelation.Grandfather;
 					}

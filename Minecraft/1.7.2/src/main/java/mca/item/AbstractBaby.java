@@ -12,13 +12,15 @@ package mca.item;
 import java.util.List;
 
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
 import mca.core.util.Utility;
 import mca.entity.EntityPlayerChild;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+
+import com.radixshock.radixcore.file.WorldPropertiesManager;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -63,9 +65,9 @@ public abstract class AbstractBaby extends Item
 		{	
 			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
 
-			if (manager.worldProperties.babyReadyToGrow)
+			if (MCA.getInstance().getWorldProperties(manager).babyReadyToGrow)
 			{
-				final EntityPlayerChild entityPlayerChild = new EntityPlayerChild(world, player, manager.worldProperties.babyName, isMale);
+				final EntityPlayerChild entityPlayerChild = new EntityPlayerChild(world, player, MCA.getInstance().getWorldProperties(manager).babyName, isMale);
 				entityPlayerChild.setLocationAndAngles(posX, posY + 1, posZ, player.rotationYaw, player.rotationPitch);
 				world.spawnEntityInWorld(entityPlayerChild);
 
@@ -75,24 +77,24 @@ public abstract class AbstractBaby extends Item
 				player.triggerAchievement(MCA.getInstance().achievementBabyGrowUp);
 
 				//Set relevant properties back to their default values so that the player can have another baby.
-				manager.worldProperties.babyExists = false;
-				manager.worldProperties.babyName = "";
-				manager.worldProperties.babyReadyToGrow = false;
-				manager.worldProperties.babyIsMale = false;
-				manager.worldProperties.minutesBabyExisted = 0;
+				MCA.getInstance().getWorldProperties(manager).babyExists = false;
+				MCA.getInstance().getWorldProperties(manager).babyName = "";
+				MCA.getInstance().getWorldProperties(manager).babyReadyToGrow = false;
+				MCA.getInstance().getWorldProperties(manager).babyIsMale = false;
+				MCA.getInstance().getWorldProperties(manager).minutesBabyExisted = 0;
 				manager.saveWorldProperties();
 
 				//Check if married to another player.
-				if (manager.worldProperties.playerSpouseID < 0)
+				if (MCA.getInstance().getWorldProperties(manager).playerSpouseID < 0)
 				{
-					final int spouseID = manager.worldProperties.playerSpouseID;
+					final int spouseID = MCA.getInstance().getWorldProperties(manager).playerSpouseID;
 					final EntityPlayer spouseEntity = MCA.getInstance().getPlayerByID(world, spouseID);
 					WorldPropertiesManager spouseManager = null;
 
 					if (spouseEntity == null)
 					{
 						//Properties for player will still be loaded when they are not logged in.
-						spouseManager = MCA.getInstance().playerWorldManagerMap.get(manager.worldProperties.playerSpouseName);						
+						spouseManager = MCA.getInstance().playerWorldManagerMap.get(MCA.getInstance().getWorldProperties(manager).playerSpouseName);						
 					}
 
 					else
@@ -100,11 +102,11 @@ public abstract class AbstractBaby extends Item
 						spouseManager = MCA.getInstance().playerWorldManagerMap.get(spouseEntity.getCommandSenderName());
 					}
 
-					spouseManager.worldProperties.babyExists = false;
-					spouseManager.worldProperties.babyName = "";
-					spouseManager.worldProperties.babyReadyToGrow = false;
-					spouseManager.worldProperties.babyIsMale = false;
-					spouseManager.worldProperties.minutesBabyExisted = 0;
+					MCA.getInstance().getWorldProperties(spouseManager).babyExists = false;
+					MCA.getInstance().getWorldProperties(spouseManager).babyName = "";
+					MCA.getInstance().getWorldProperties(spouseManager).babyReadyToGrow = false;
+					MCA.getInstance().getWorldProperties(spouseManager).babyIsMale = false;
+					MCA.getInstance().getWorldProperties(spouseManager).minutesBabyExisted = 0;
 					spouseManager.saveWorldProperties();
 				}
 

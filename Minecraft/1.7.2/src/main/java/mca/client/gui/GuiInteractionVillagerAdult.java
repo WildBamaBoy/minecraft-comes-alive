@@ -22,7 +22,7 @@ import mca.chore.ChoreMining;
 import mca.chore.ChoreWoodcutting;
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
+import mca.core.io.WorldPropertiesList;
 import mca.core.util.Interactions;
 import mca.core.util.LogicExtension;
 import mca.core.util.Utility;
@@ -55,6 +55,7 @@ import net.minecraft.util.ChatComponentText;
 
 import com.radixshock.radixcore.constant.Font.Color;
 import com.radixshock.radixcore.crypto.HashGenerator;
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 import com.radixshock.radixcore.logic.LogicHelper;
 
 import cpw.mods.fml.relauncher.Side;
@@ -634,7 +635,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			buttonList.add(specialButton = new GuiButton(5, width / 2 + 30, height / 2 + 20, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special")));
 
 			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName());
-			if (manager.worldProperties.isInLiteMode && entityVillager.profession == 2)
+			if (MCA.getInstance().getWorldProperties(manager).isInLiteMode && entityVillager.profession == 2)
 			{
 				specialButton.enabled = false;
 			}
@@ -650,7 +651,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			buttonList.add(takeGiftButton = new GuiButton(8, width / 2 - 60, height / 2 - 20, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.takegift")));
 		}
 
-		if (MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName()).worldProperties.isMonarch)
+		final WorldPropertiesList properties = (WorldPropertiesList)MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName()).worldPropertiesInstance;
+		if (properties.isMonarch)
 		{
 			if (entityVillager.getProfession() != 5)
 			{
@@ -692,7 +694,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName());
 
-		if (!manager.worldProperties.isInLiteMode)
+		if (!MCA.getInstance().getWorldProperties(manager).isInLiteMode)
 		{
 			EnumRelation relationToPlayer = entityVillager.familyTree.getMyRelationTo(MCA.getInstance().getIdOfPlayer(player));
 
@@ -734,7 +736,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName());
 
-		if (!manager.worldProperties.isInLiteMode)
+		if (!MCA.getInstance().getWorldProperties(manager).isInLiteMode)
 		{
 			buttonList.add(divorceSpouseButton = new GuiButton(1, width / 2 - 125, height / 2 + 10, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.divorcespouse")));
 			buttonList.add(divorceCoupleButton = new GuiButton(2, width / 2 - 40, height / 2 + 10, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.divorcecouple")));
@@ -742,9 +744,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			buttonList.add(adoptBabyButton     = new GuiButton(4, width / 2 - 125, height / 2 + 30, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.adoptbaby")));
 			buttonList.add(arrangedMarriageButton = new GuiButton(5, width / 2 - 40, height / 2 + 30, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.arrangedmarriage")));
 
-			divorceSpouseButton.enabled = manager.worldProperties.playerSpouseID != 0;
-			giveUpBabyButton.enabled = manager.worldProperties.babyExists;
-			arrangedMarriageButton.enabled = manager.worldProperties.playerSpouseID == 0;
+			divorceSpouseButton.enabled = MCA.getInstance().getWorldProperties(manager).playerSpouseID != 0;
+			giveUpBabyButton.enabled = MCA.getInstance().getWorldProperties(manager).babyExists;
+			arrangedMarriageButton.enabled = MCA.getInstance().getWorldProperties(manager).playerSpouseID == 0;
 		}
 
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
@@ -1579,7 +1581,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		if (button == divorceSpouseButton)
 		{
-			AbstractEntity playerSpouse = LogicExtension.getEntityWithIDWithinDistance(player, manager.worldProperties.playerSpouseID, 10);
+			AbstractEntity playerSpouse = LogicExtension.getEntityWithIDWithinDistance(player, MCA.getInstance().getWorldProperties(manager).playerSpouseID, 10);
 
 			try
 			{
@@ -1596,7 +1598,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 					for (AbstractEntity entity : MCA.getInstance().entitiesMap.values())
 					{
-						if (entity.mcaID == manager.worldProperties.playerSpouseID)
+						if (entity.mcaID == MCA.getInstance().getWorldProperties(manager).playerSpouseID)
 						{
 							spouse = (EntityVillagerAdult)entity;
 						}
@@ -1613,7 +1615,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			catch (Exception e)
 			{
 				//The spouse wasn't found in the entities map for some reason. Just reset the player's spouse ID.
-				manager.worldProperties.playerSpouseID = 0;
+				MCA.getInstance().getWorldProperties(manager).playerSpouseID = 0;
 				manager.saveWorldProperties();
 				entityVillager.notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("notify.divorce.spousemissing"));
 			}
@@ -1628,11 +1630,11 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == giveUpBabyButton)
 		{
-			manager.worldProperties.babyExists = false;
-			manager.worldProperties.babyName = "";
-			manager.worldProperties.babyReadyToGrow = false;
-			manager.worldProperties.babyIsMale = false;
-			manager.worldProperties.minutesBabyExisted = 0;
+			MCA.getInstance().getWorldProperties(manager).babyExists = false;
+			MCA.getInstance().getWorldProperties(manager).babyName = "";
+			MCA.getInstance().getWorldProperties(manager).babyReadyToGrow = false;
+			MCA.getInstance().getWorldProperties(manager).babyIsMale = false;
+			MCA.getInstance().getWorldProperties(manager).minutesBabyExisted = 0;
 
 			entityVillager.notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("notify.baby.gaveup"));
 			manager.saveWorldProperties();
@@ -1642,22 +1644,22 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == adoptBabyButton)
 		{
-			if (manager.worldProperties.babyExists)
+			if (MCA.getInstance().getWorldProperties(manager).babyExists)
 			{
 				entityVillager.notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("notify.baby.exists"));
 			}
 
 			else
 			{
-				manager.worldProperties.babyExists = true;
-				manager.worldProperties.minutesBabyExisted = 0;
-				manager.worldProperties.babyReadyToGrow = false;
+				MCA.getInstance().getWorldProperties(manager).babyExists = true;
+				MCA.getInstance().getWorldProperties(manager).minutesBabyExisted = 0;
+				MCA.getInstance().getWorldProperties(manager).babyReadyToGrow = false;
 
 				boolean isMale = Utility.getRandomGender();
 
 				if (isMale)
 				{
-					manager.worldProperties.babyName = Utility.getRandomName(isMale);
+					MCA.getInstance().getWorldProperties(manager).babyName = Utility.getRandomName(isMale);
 					entityVillager.say(MCA.getInstance().getLanguageLoader().getString("priest.adopt.male", player, entityVillager, false));
 
 					player.inventory.addItemStackToInventory(new ItemStack(MCA.getInstance().itemBabyBoy, 1));
@@ -1666,7 +1668,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 				else
 				{
-					manager.worldProperties.babyName = Utility.getRandomName(isMale);
+					MCA.getInstance().getWorldProperties(manager).babyName = Utility.getRandomName(isMale);
 					entityVillager.say(MCA.getInstance().getLanguageLoader().getString("priest.adopt.female", player, entityVillager, false));
 
 					player.inventory.addItemStackToInventory(new ItemStack(MCA.getInstance().itemBabyGirl, 1));
@@ -1683,7 +1685,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			List<EntityVillagerAdult> nearbyVillagers = (List<EntityVillagerAdult>) LogicHelper.getAllEntitiesOfTypeWithinDistanceOfEntity(entityVillager, EntityVillagerAdult.class, 30);
 
-			String preferredGender = HashGenerator.getMD5Hash("Males").contains(manager.worldProperties.genderPreference) ? "Male" : "Female";
+			String preferredGender = HashGenerator.getMD5Hash("Males").contains(MCA.getInstance().getWorldProperties(manager).genderPreference) ? "Male" : "Female";
 
 			EntityVillagerAdult villagerToMarry = null;
 
@@ -1715,7 +1717,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 				player.triggerAchievement(MCA.getInstance().achievementGetMarried);
 
-				manager.worldProperties.playerSpouseID = villagerToMarry.mcaID;
+				MCA.getInstance().getWorldProperties(manager).playerSpouseID = villagerToMarry.mcaID;
 				manager.saveWorldProperties();
 
 				//Reset AI in case of guard.

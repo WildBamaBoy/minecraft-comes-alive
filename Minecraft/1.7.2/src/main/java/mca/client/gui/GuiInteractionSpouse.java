@@ -11,7 +11,7 @@ package mca.client.gui;
 
 import mca.chore.ChoreCooking;
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
+import mca.core.io.WorldPropertiesList;
 import mca.core.util.Interactions;
 import mca.core.util.LogicExtension;
 import mca.core.util.Utility;
@@ -30,6 +30,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.ChatComponentText;
 
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 import com.radixshock.radixcore.logic.LogicHelper;
 
 import cpw.mods.fml.relauncher.Side;
@@ -285,7 +286,8 @@ public class GuiInteractionSpouse extends AbstractGui
 		buttonList.add(inventoryButton 	= new GuiButton(8, width / 2 + 30, height / 2 + 40, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.spouse.inventory")));
 		buttonList.add(combatButton    	= new GuiButton(9, width / 2 + 30, height / 2 + 60, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat")));	
 
-		if (MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName()).worldProperties.isMonarch)
+		final WorldPropertiesList properties = (WorldPropertiesList)MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName()).worldPropertiesInstance;
+		if (properties.isMonarch)
 		{
 			buttonList.add(monarchButton = new GuiButton(9, width / 2 - 30, height / 2 - 10, 60, 20, MCA.getInstance().getLanguageLoader().getString("monarch.title.monarch")));
 		}
@@ -542,9 +544,9 @@ public class GuiInteractionSpouse extends AbstractGui
 			{
 				WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
 
-				if (!manager.worldProperties.babyExists)
+				if (!MCA.getInstance().getWorldProperties(manager).babyExists)
 				{
-					if (manager.worldProperties.isEngaged)
+					if (MCA.getInstance().getWorldProperties(manager).isEngaged)
 					{
 						drawProcreationGui();
 						return;

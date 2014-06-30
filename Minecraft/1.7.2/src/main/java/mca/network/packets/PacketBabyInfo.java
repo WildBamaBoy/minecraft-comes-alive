@@ -2,8 +2,9 @@ package mca.network.packets;
 
 import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
+import mca.core.io.WorldPropertiesList;
 
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 import com.radixshock.radixcore.network.ByteBufIO;
 import com.radixshock.radixcore.network.packets.AbstractPacket;
 
@@ -26,12 +27,12 @@ public class PacketBabyInfo  extends AbstractPacket implements IMessage, IMessag
 	
 	public PacketBabyInfo(WorldPropertiesManager manager)
 	{
-		this.targetSpouseName = manager.worldProperties.playerSpouseName;
+		this.targetSpouseName = MCA.getInstance().getWorldProperties(manager).playerSpouseName;
 		
-		this.babyName = manager.worldProperties.babyName;
-		this.babyExists = manager.worldProperties.babyExists;
-		this.babyIsMale = manager.worldProperties.babyIsMale;
-		this.babyReadyToGrow = manager.worldProperties.babyReadyToGrow;
+		this.babyName = MCA.getInstance().getWorldProperties(manager).babyName;
+		this.babyExists = MCA.getInstance().getWorldProperties(manager).babyExists;
+		this.babyIsMale = MCA.getInstance().getWorldProperties(manager).babyIsMale;
+		this.babyReadyToGrow = MCA.getInstance().getWorldProperties(manager).babyReadyToGrow;
 	}
 	
 	@Override
@@ -58,12 +59,13 @@ public class PacketBabyInfo  extends AbstractPacket implements IMessage, IMessag
 	public IMessage onMessage(PacketBabyInfo packet, MessageContext context) 
 	{
 		//Set the player's spouse's manager to have the same baby info.
-		WorldPropertiesManager spouseManager = MCA.getInstance().playerWorldManagerMap.get(targetSpouseName);
-
-		spouseManager.worldProperties.babyExists = packet.babyExists;
-		spouseManager.worldProperties.babyIsMale = packet.babyIsMale;
-		spouseManager.worldProperties.babyName = packet.babyName;
-		spouseManager.worldProperties.babyReadyToGrow = packet.babyReadyToGrow;
+		final WorldPropertiesManager spouseManager = MCA.getInstance().playerWorldManagerMap.get(targetSpouseName);
+		final WorldPropertiesList properties = (WorldPropertiesList)spouseManager.worldPropertiesInstance;
+		
+		properties.babyExists = packet.babyExists;
+		properties.babyIsMale = packet.babyIsMale;
+		properties.babyName = packet.babyName;
+		properties.babyReadyToGrow = packet.babyReadyToGrow;
 
 		spouseManager.saveWorldProperties();
 		

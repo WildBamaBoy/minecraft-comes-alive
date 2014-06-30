@@ -10,10 +10,10 @@
 package mca.command;
 
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
 import net.minecraft.command.ICommandSender;
 
 import com.radixshock.radixcore.constant.Font.Color;
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 
 /**
  * Handles the unblock command.
@@ -41,10 +41,10 @@ public class CommandUnblock extends AbstractCommand
 			final String playerName = arguments[0];
 			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(senderName);
 
-			if (manager.worldProperties.blockList.contains(playerName))
+			if (MCA.getInstance().getWorldProperties(manager).blockList.contains(playerName))
 			{
 				this.addChatMessage(sender, "multiplayer.command.output.unblock.successful", Color.GREEN, null);
-				manager.worldProperties.blockList.remove(playerName);
+				MCA.getInstance().getWorldProperties(manager).blockList.remove(playerName);
 				manager.saveWorldProperties();
 			}
 

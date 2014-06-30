@@ -10,7 +10,7 @@
 package mca.command;
 
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
+import mca.core.io.WorldPropertiesList;
 import mca.network.packets.PacketOnPlayerMarriage;
 import mca.network.packets.PacketRemoveMarriageRequest;
 import net.minecraft.command.ICommandSender;
@@ -20,6 +20,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
 
 import com.radixshock.radixcore.constant.Font.Color;
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 
 /**
  * Handles the marriage acceptance command.
@@ -81,18 +82,20 @@ public class CommandMarryAccept extends AbstractCommand
 						//Set both to married.
 						final WorldPropertiesManager senderProperties = MCA.getInstance().playerWorldManagerMap.get(sender.getCommandSenderName());
 						final WorldPropertiesManager spouseProperties = MCA.getInstance().playerWorldManagerMap.get(recipient.getCommandSenderName());
+						final WorldPropertiesList senderList = (WorldPropertiesList)senderProperties.worldPropertiesInstance;
+						final WorldPropertiesList spouseList = (WorldPropertiesList)spouseProperties.worldPropertiesInstance;
 						
-						senderProperties.worldProperties.playerSpouseID = spouseProperties.worldProperties.playerID;
-						senderProperties.worldProperties.playerSpouseName = recipient.getCommandSenderName();
-						spouseProperties.worldProperties.playerSpouseID = senderProperties.worldProperties.playerID;
-						spouseProperties.worldProperties.playerSpouseName = sender.getCommandSenderName();
+						senderList.playerSpouseID = spouseList.playerID;
+						senderList.playerSpouseName = recipient.getCommandSenderName();
+						senderList.playerSpouseID = spouseList.playerID;
+						senderList.playerSpouseName = sender.getCommandSenderName();
 						
 						senderProperties.saveWorldProperties();
 						spouseProperties.saveWorldProperties();
 						
 						//Notify both that they are married.
-						MCA.packetHandler.sendPacketToPlayer(new PacketOnPlayerMarriage(senderProperties.worldProperties.playerID, recipient.getCommandSenderName(), spouseProperties.worldProperties.playerID), (EntityPlayerMP)sender);
-						MCA.packetHandler.sendPacketToPlayer(new PacketOnPlayerMarriage(spouseProperties.worldProperties.playerID, sender.getCommandSenderName(), senderProperties.worldProperties.playerID), (EntityPlayerMP)recipient);
+						MCA.packetHandler.sendPacketToPlayer(new PacketOnPlayerMarriage(senderList.playerID, recipient.getCommandSenderName(), spouseList.playerID), (EntityPlayerMP)sender);
+						MCA.packetHandler.sendPacketToPlayer(new PacketOnPlayerMarriage(spouseList.playerID, sender.getCommandSenderName(), senderList.playerID), (EntityPlayerMP)recipient);
 						
 						MCA.getInstance().marriageRequests.remove(senderPlayer.getCommandSenderName());
 						MCA.packetHandler.sendPacketToAllPlayers(new PacketRemoveMarriageRequest(senderPlayer.getCommandSenderName()));

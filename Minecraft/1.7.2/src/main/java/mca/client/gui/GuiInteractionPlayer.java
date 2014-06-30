@@ -12,10 +12,13 @@ package mca.client.gui;
 import java.util.Map;
 
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
+import mca.core.io.WorldPropertiesList;
 import mca.network.packets.PacketClientCommand;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
+
+import com.radixshock.radixcore.file.WorldPropertiesManager;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -65,7 +68,7 @@ public class GuiInteractionPlayer extends AbstractGui
 		final Map<String, String> babyRequests = MCA.getInstance().babyRequests;
 		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
 		
-		if (manager.worldProperties.playerSpouseName.equals(playerTarget.getCommandSenderName()))
+		if (MCA.getInstance().getWorldProperties(manager).playerSpouseName.equals(playerTarget.getCommandSenderName()))
 		{
 			isMarriedToTarget = true;
 
@@ -79,7 +82,7 @@ public class GuiInteractionPlayer extends AbstractGui
 		}
 
 		else if (marriageRequests.size() > 0 && marriageRequests.get(playerTarget.getCommandSenderName()).equals(player.getCommandSenderName()) && 
-				manager.worldProperties.playerSpouseID == 0)
+				MCA.getInstance().getWorldProperties(manager).playerSpouseID == 0)
 		{
 			doesTargetWantToMarry = true;
 		}
@@ -110,10 +113,11 @@ public class GuiInteractionPlayer extends AbstractGui
 	public void drawScreen(int i, int j, float f)
 	{
 		drawDefaultBackground();
-
 		drawCenteredString(fontRendererObj, playerTarget.getCommandSenderName(), width / 2, height / 2 - 80, 0xffffff);
 
-		if (doesTargetWantToMarry && MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName()).worldProperties.playerSpouseID == 0)
+		final WorldPropertiesList properties = MCA.getInstance().getWorldProperties(MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName()).worldPropertiesInstance);
+		
+		if (doesTargetWantToMarry && properties.playerSpouseID == 0)
 		{
 			drawCenteredString(fontRendererObj, playerTarget.getCommandSenderName() + " would like to marry you.", width / 2, height / 2 - 30, 0xffffff);
 		}

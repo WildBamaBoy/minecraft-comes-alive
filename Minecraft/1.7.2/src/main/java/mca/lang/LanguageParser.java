@@ -12,7 +12,7 @@ package mca.lang;
 import java.util.List;
 
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
+import mca.core.io.WorldPropertiesList;
 import mca.core.util.Utility;
 import mca.entity.AbstractChild;
 import mca.entity.AbstractEntity;
@@ -20,6 +20,7 @@ import mca.entity.EntityPlayerChild;
 import mca.enums.EnumRelation;
 import net.minecraft.entity.player.EntityPlayer;
 
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 import com.radixshock.radixcore.lang.ILanguageParser;
 import com.radixshock.radixcore.lang.LanguageLoader;
 
@@ -38,10 +39,12 @@ public class LanguageParser implements ILanguageParser
 		final AbstractEntity entity = (AbstractEntity) arguments[1];
 
 		WorldPropertiesManager manager = null;
-
+		WorldPropertiesList properties = null;
+		
 		if (player != null)
 		{
 			manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
+			properties = (WorldPropertiesList)manager.worldPropertiesInstance;
 			playerId = MCA.getInstance().getIdOfPlayer(player);
 		}
 
@@ -119,7 +122,7 @@ public class LanguageParser implements ILanguageParser
 
 					if (parents.get(0) < 0 && parents.get(1) < 0)
 					{
-						text = text.replace("%FatherName%", MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName()).worldProperties.playerSpouseName);
+						text = text.replace("%FatherName%", properties.playerSpouseName);
 					}
 
 					//One of the parents is not a player (since this is a player child, no further logic is required.)
@@ -180,7 +183,7 @@ public class LanguageParser implements ILanguageParser
 			if (text.contains("%PlayerSpouseName%"))
 			{
 				//Check world properties to see if the player is married to another player or an NPC.
-				if (manager.worldProperties.playerSpouseID > 0)
+				if (MCA.getInstance().getWorldProperties(manager).playerSpouseID > 0)
 				{
 					//Player married to NPC, so the NPC is provided.
 					text = text.replace("%PlayerSpouseName%", entity.familyTree.getRelativeAsEntity(EnumRelation.Spouse).name);
@@ -188,7 +191,7 @@ public class LanguageParser implements ILanguageParser
 
 				else
 				{
-					text = text.replace("%PlayerSpouseName%", manager.worldProperties.playerSpouseName);
+					text = text.replace("%PlayerSpouseName%", MCA.getInstance().getWorldProperties(manager).playerSpouseName);
 				}
 			}
 
@@ -292,12 +295,12 @@ public class LanguageParser implements ILanguageParser
 
 			if (text.contains("%CallPlayerParent%"))
 			{
-				if (manager.worldProperties.playerGender.equals("Male"))
+				if (MCA.getInstance().getWorldProperties(manager).playerGender.equals("Male"))
 				{
 					text = text.replace("%CallPlayerParent%", languageLoader.getString("parser." + entity.getCharacterType(playerId) + ".callplayerparent.male"));
 				}
 
-				else if (manager.worldProperties.playerGender.equals("Female"))
+				else if (MCA.getInstance().getWorldProperties(manager).playerGender.equals("Female"))
 				{
 					text = text.replace("%CallPlayerParent%", languageLoader.getString("parser." + entity.getCharacterType(playerId) + ".callplayerparent.female"));
 				}
@@ -306,7 +309,8 @@ public class LanguageParser implements ILanguageParser
 			if (text.contains("%PlayerName%"))
 			{
 				WorldPropertiesManager serverPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
-				text = text.replace("%PlayerName%", serverPropertiesManager.worldProperties.playerName);
+				WorldPropertiesList serverProperties = (WorldPropertiesList)serverPropertiesManager.worldPropertiesInstance;
+				text = text.replace("%PlayerName%", serverProperties.playerName);
 			}
 
 			if (text.contains("%TruePlayerName%"))
@@ -317,13 +321,14 @@ public class LanguageParser implements ILanguageParser
 			if (text.contains("%ParentOpposite%"))
 			{
 				WorldPropertiesManager serverPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
-
-				if (serverPropertiesManager.worldProperties.playerGender.equals("Male"))
+				WorldPropertiesList serverProperties = (WorldPropertiesList)serverPropertiesManager.worldPropertiesInstance;
+				
+				if (serverProperties.playerGender.equals("Male"))
 				{
 					text = text.replace("%ParentOpposite%", languageLoader.getString("parser." + entity.getCharacterType(playerId) + ".parentopposite.male"));
 				}
 
-				else if (serverPropertiesManager.worldProperties.playerGender.equals("Female"))
+				else if (serverProperties.playerGender.equals("Female"))
 				{
 					text = text.replace("%ParentOpposite%", languageLoader.getString("parser." + entity.getCharacterType(playerId) + ".parentopposite.female"));
 				}
@@ -332,12 +337,13 @@ public class LanguageParser implements ILanguageParser
 			if (text.contains("%BabyName%"))
 			{
 				WorldPropertiesManager serverPropertiesManager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
-				text = text.replace("%BabyName%", serverPropertiesManager.worldProperties.babyName);
+				WorldPropertiesList serverProperties = (WorldPropertiesList)serverPropertiesManager.worldPropertiesInstance;
+				text = text.replace("%BabyName%", serverProperties.babyName);
 			}
 
 			if (text.contains("%MonarchTitle%"))
 			{
-				if (manager.worldProperties.playerGender.equals("Male"))
+				if (MCA.getInstance().getWorldProperties(manager).playerGender.equals("Male"))
 				{
 					text = text.replace("%MonarchTitle%", languageLoader.getString("monarch.title.male.player"));
 				}

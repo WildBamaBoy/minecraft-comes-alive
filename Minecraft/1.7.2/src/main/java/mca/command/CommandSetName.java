@@ -10,10 +10,10 @@
 package mca.command;
 
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
 import net.minecraft.command.ICommandSender;
 
 import com.radixshock.radixcore.constant.Font.Color;
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 
 /**
  * Defines the help command and what it does.
@@ -52,7 +52,7 @@ public class CommandSetName extends AbstractCommand
 			final String playerName = sender.getCommandSenderName();
 			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(playerName);
 			
-			manager.worldProperties.playerName = arguments[0];
+			MCA.getInstance().getWorldProperties(manager).playerName = arguments[0];
 			
 			super.addChatMessage(sender, "multiplayer.command.output.setname", Color.GREEN, arguments[0]);
 			manager.saveWorldProperties();

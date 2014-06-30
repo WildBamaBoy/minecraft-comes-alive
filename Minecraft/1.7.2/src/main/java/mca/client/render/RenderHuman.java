@@ -14,7 +14,6 @@ import mca.client.gui.GuiVillagerEditor;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.io.WorldPropertiesList;
-import mca.core.io.WorldPropertiesManager;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractChild;
 import mca.entity.AbstractEntity;
@@ -35,6 +34,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 
 import org.lwjgl.opengl.GL11;
+
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 
 /**
  * Determines how a Human is rendered.
@@ -142,7 +143,7 @@ public class RenderHuman extends RenderBiped
 		final boolean isPlayerLookingAt = dotProduct > 1.0D - 0.025D / entityLookVector.lengthVector() ? entityPlayer.canEntityBeSeen(entityRendering) : false;
 		final double distance = entityRendering.getDistanceToEntity(this.renderManager.livingPlayer);
 
-		return manager != null && manager.worldProperties.showNameTags && distance < 5.0D && isPlayerLookingAt && Minecraft.isGuiEnabled() && !(Minecraft.getMinecraft().currentScreen instanceof GuiVillagerEditor) && entityRendering != this.renderManager.livingPlayer && !entityRendering.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) && entityRendering.riddenByEntity == null;
+		return manager != null && MCA.getInstance().getWorldProperties(manager).showNameTags && distance < 5.0D && isPlayerLookingAt && Minecraft.isGuiEnabled() && !(Minecraft.getMinecraft().currentScreen instanceof GuiVillagerEditor) && entityRendering != this.renderManager.livingPlayer && !entityRendering.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) && entityRendering.riddenByEntity == null;
 	}
 
 	/**
@@ -220,8 +221,8 @@ public class RenderHuman extends RenderBiped
 	{
 		try
 		{
-			final WorldPropertiesList propertiesList = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName()).worldProperties;
-			final AbstractEntity clientEntity = (AbstractEntity)entity; //(AbstractEntity)DimensionManager.getWorld(entity.worldObj.provider.dimensionId).getEntityByID(entity.getEntityId());
+			final WorldPropertiesList propertiesList = MCA.getInstance().getWorldProperties(MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName()));
+			final AbstractEntity clientEntity = (AbstractEntity)entity;
 
 			if (clientEntity != null)
 			{

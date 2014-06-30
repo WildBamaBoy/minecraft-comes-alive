@@ -15,7 +15,7 @@ import mca.api.registries.VillagerRegistryMCA;
 import mca.chore.ChoreCooking;
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
+import mca.core.io.WorldPropertiesList;
 import mca.core.util.Utility;
 import mca.entity.AbstractEntity;
 import mca.entity.AbstractSerializableEntity;
@@ -55,6 +55,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
 
 import com.radixshock.radixcore.core.RadixCore;
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -77,7 +78,9 @@ public class EventHooks
 	@SubscribeEvent
 	public void itemTossedEventHandler(ItemTossEvent event)
 	{
-		if (event.entityItem.getEntityItem().getItem() instanceof AbstractBaby && MCA.getInstance().playerWorldManagerMap.get(event.player.getCommandSenderName()).worldProperties.babyExists)
+		final WorldPropertiesList properties = (WorldPropertiesList)MCA.getInstance().playerWorldManagerMap.get(event.player.getCommandSenderName()).worldPropertiesInstance;
+
+		if (event.entityItem.getEntityItem().getItem() instanceof AbstractBaby && properties.babyExists)
 		{
 			MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(event.player, null, "notify.player.droppedbaby", false, null, null), (EntityPlayerMP)event.player);
 			event.player.inventory.addItemStackToInventory(event.entityItem.getEntityItem());
@@ -150,7 +153,7 @@ public class EventHooks
 
 			for (final File propertiesFile : folderPath.listFiles())
 			{
-				MCA.getInstance().playerWorldManagerMap.put(propertiesFile.getName(), new WorldPropertiesManager(worldName, propertiesFile.getName()));
+				MCA.getInstance().playerWorldManagerMap.put(propertiesFile.getName(), new WorldPropertiesManager(MCA.getInstance(), worldName, propertiesFile.getName(), WorldPropertiesList.class));
 			}
 
 			MCA.getInstance().hasLoadedProperties = true;
@@ -260,12 +263,12 @@ public class EventHooks
 	@SubscribeEvent
 	public void playerLoggedInEventHandler(PlayerLoggedInEvent event)
 	{
-		final WorldPropertiesManager manager = new WorldPropertiesManager(event.player.worldObj.getSaveHandler().getWorldDirectoryName(), event.player.getCommandSenderName());
+		final WorldPropertiesManager manager = new WorldPropertiesManager(MCA.getInstance(), event.player.worldObj.getSaveHandler().getWorldDirectoryName(), event.player.getCommandSenderName(), WorldPropertiesList.class);
 		MCA.getInstance().playerWorldManagerMap.put(event.player.getCommandSenderName(), manager);
 		
 		MCA.packetHandler.sendPacketToPlayer(new PacketSetWorldProperties(manager), (EntityPlayerMP) event.player);
 		
-		if (manager.worldProperties.playerName.equals(""))
+		if (MCA.getInstance().getWorldProperties(manager).playerName.equals(""))
 		{
 			MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(event.player.getEntityId(), Constants.ID_GUI_SETUP), (EntityPlayerMP)event.player);
 		}
@@ -283,9 +286,9 @@ public class EventHooks
 		{
 			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(event.player.getCommandSenderName());
 
-			if (!manager.worldProperties.isMonarch)
+			if (!MCA.getInstance().getWorldProperties(manager).isMonarch)
 			{
-				manager.worldProperties.isMonarch = true;
+				MCA.getInstance().getWorldProperties(manager).isMonarch = true;
 				manager.saveWorldProperties();
 
 				MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(event.player, null, "notify.monarch.began", false, null, null), (EntityPlayerMP)event.player);
@@ -307,11 +310,11 @@ public class EventHooks
 			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(event.player.getCommandSenderName());
 
 			//Reset all information about the baby.
-			manager.worldProperties.babyExists = false;
-			manager.worldProperties.babyIsMale = false;
-			manager.worldProperties.babyName = "";
-			manager.worldProperties.babyReadyToGrow = false;
-			manager.worldProperties.minutesBabyExisted = 0;
+			MCA.getInstance().getWorldProperties(manager).babyExists = false;
+			MCA.getInstance().getWorldProperties(manager).babyIsMale = false;
+			MCA.getInstance().getWorldProperties(manager).babyName = "";
+			MCA.getInstance().getWorldProperties(manager).babyReadyToGrow = false;
+			MCA.getInstance().getWorldProperties(manager).minutesBabyExisted = 0;
 
 			manager.saveWorldProperties();
 

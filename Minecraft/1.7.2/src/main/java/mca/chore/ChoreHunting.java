@@ -31,6 +31,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
 import com.radixshock.radixcore.constant.Time;
+import com.radixshock.radixcore.core.RadixCore;
 
 /**
  * The hunting chore handles "hunting" for animals far away.
@@ -116,7 +117,7 @@ public class ChoreHunting extends AbstractChore
 
 				if (didChildDieWhileHunting())
 				{
-					final EntityPlayer ownerPlayer = MCA.getInstance().getPlayerByName(((EntityPlayerChild)owner).ownerPlayerName);
+					final EntityPlayer ownerPlayer = RadixCore.getPlayerByName(((EntityPlayerChild)owner).ownerPlayerName);
 					owner.notifyPlayer(ownerPlayer, MCA.getInstance().getLanguageLoader().getString("notify.child.chore.failed.hunting.death", null, owner, false));
 					owner.setDeadWithoutNotification();
 					endChore();

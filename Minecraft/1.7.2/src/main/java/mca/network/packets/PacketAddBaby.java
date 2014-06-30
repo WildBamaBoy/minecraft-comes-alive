@@ -2,13 +2,13 @@ package mca.network.packets;
 
 import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
 import mca.item.ItemBabyBoy;
 import mca.item.ItemBabyGirl;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 import com.radixshock.radixcore.network.packets.AbstractPacket;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -50,9 +50,9 @@ public class PacketAddBaby  extends AbstractPacket implements IMessage, IMessage
 		EntityPlayer spousePlayer = null;
 
 		//Check for spouse.
-		if (manager != null && manager.worldProperties.playerSpouseID < 0)
+		if (manager != null && MCA.getInstance().getWorldProperties(manager).playerSpouseID < 0)
 		{
-			spousePlayer = player.worldObj.getPlayerEntityByName(manager.worldProperties.playerSpouseName);
+			spousePlayer = player.worldObj.getPlayerEntityByName(MCA.getInstance().getWorldProperties(manager).playerSpouseName);
 		}
 
 		player.inventory.addItemStackToInventory(new ItemStack(itemToAdd));

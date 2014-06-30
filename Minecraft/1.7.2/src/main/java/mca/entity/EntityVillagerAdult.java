@@ -22,7 +22,6 @@ import mca.chore.ChoreMining;
 import mca.chore.ChoreWoodcutting;
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
 import mca.core.util.Utility;
 import mca.core.util.object.PlayerMemory;
 import mca.core.util.object.VillageHelper;
@@ -33,7 +32,6 @@ import mca.item.ItemEngagementRing;
 import mca.item.ItemLostRelativeDocument;
 import mca.item.ItemVillagerEditor;
 import mca.item.ItemWeddingRing;
-import mca.network.packets.PacketAddAI;
 import mca.network.packets.PacketOpenGui;
 import mca.network.packets.PacketSetFieldValue;
 import mca.network.packets.PacketSetInventory;
@@ -66,6 +64,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.village.Village;
 import net.minecraft.world.World;
 
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 import com.radixshock.radixcore.logic.LogicHelper;
 
 /**
@@ -284,11 +283,6 @@ public class EntityVillagerAdult extends AbstractEntity
 			updateHomePoint();
 			updateVillage();
 		}
-		
-		if (worldObj.isRemote)
-		{
-			MCA.getInstance().packetHandler.sendPacketToServer(new PacketAddAI(2));
-		}
 	}
 
 	@Override
@@ -303,14 +297,14 @@ public class EntityVillagerAdult extends AbstractEntity
 			final WorldPropertiesManager manager = entry.getValue();
 			boolean propertiesChanged = false;
 
-			if ((isMarriedToPlayer || isEngaged) && manager.worldProperties.playerSpouseID == this.mcaID)
+			if ((isMarriedToPlayer || isEngaged) && MCA.getInstance().getWorldProperties(manager).playerSpouseID == this.mcaID)
 			{
 				propertiesChanged = true;
-				manager.worldProperties.playerSpouseID = 0;
+				MCA.getInstance().getWorldProperties(manager).playerSpouseID = 0;
 
 				if (inventory.contains(MCA.getInstance().itemBabyBoy) || inventory.contains(MCA.getInstance().itemBabyGirl))
 				{
-					manager.worldProperties.babyExists = false;
+					MCA.getInstance().getWorldProperties(manager).babyExists = false;
 				}
 			}
 
@@ -556,7 +550,7 @@ public class EntityVillagerAdult extends AbstractEntity
 
 				WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
 
-				if (itemStack.getItem() instanceof ItemWeddingRing && !manager.worldProperties.isInLiteMode)
+				if (itemStack.getItem() instanceof ItemWeddingRing && !MCA.getInstance().getWorldProperties(manager).isInLiteMode)
 				{
 					if (familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)) && !isEngaged)
 					{
@@ -569,7 +563,7 @@ public class EntityVillagerAdult extends AbstractEntity
 					}
 				}
 
-				else if (itemStack.getItem() instanceof ItemEngagementRing && !manager.worldProperties.isInLiteMode)
+				else if (itemStack.getItem() instanceof ItemEngagementRing && !MCA.getInstance().getWorldProperties(manager).isInLiteMode)
 				{
 					if (familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 					{
@@ -582,7 +576,7 @@ public class EntityVillagerAdult extends AbstractEntity
 					}
 				}
 
-				else if (itemStack.getItem() instanceof ItemArrangersRing && !manager.worldProperties.isInLiteMode)
+				else if (itemStack.getItem() instanceof ItemArrangersRing && !MCA.getInstance().getWorldProperties(manager).isInLiteMode)
 				{
 					final EnumRelation relationToPlayer = this.familyTree.getMyRelationTo(MCA.getInstance().getIdOfPlayer(player));
 

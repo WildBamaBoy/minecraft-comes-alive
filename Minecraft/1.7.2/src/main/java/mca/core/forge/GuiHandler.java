@@ -24,7 +24,6 @@ import mca.client.gui.GuiTombstone;
 import mca.client.gui.GuiVillagerEditor;
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
 import mca.entity.AbstractChild;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
@@ -35,6 +34,7 @@ import mca.tileentity.TileEntityTombstone;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 import com.radixshock.radixcore.logic.LogicHelper;
 
 import cpw.mods.fml.common.network.IGuiHandler;
@@ -99,7 +99,7 @@ public class GuiHandler implements IGuiHandler
 
 		case Constants.ID_GUI_NAMECHILD:
 			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
-			return new GuiNameChild(player, manager.worldProperties.babyIsMale);
+			return new GuiNameChild(player, MCA.getInstance().getWorldProperties(manager).babyIsMale);
 
 		case Constants.ID_GUI_SETUP:
 			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, posX, posY, posZ);

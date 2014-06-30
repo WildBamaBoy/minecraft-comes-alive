@@ -6,7 +6,6 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
 import mca.enums.EnumRelation;
@@ -15,6 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 import com.radixshock.radixcore.network.ByteBufIO;
 import com.radixshock.radixcore.network.packets.AbstractPacket;
 
@@ -63,7 +63,7 @@ public class PacketSetFieldValue extends AbstractPacket implements IMessage, IMe
 		
 		if (MCA.getInstance().debugDoLogPackets && MCA.getInstance().inDebugMode)
 		{
-			MCA.getInstance().getLogger().log("\t" + entityId + " | " + fieldName + " | " + fieldValue.toString());
+			MCA.getInstance().getLogger().log("\t" + packet.entityId + " | " + packet.fieldName + " | " + packet.fieldValue);
 		}
 
 		for (Object obj : player.worldObj.loadedEntityList)
@@ -72,23 +72,23 @@ public class PacketSetFieldValue extends AbstractPacket implements IMessage, IMe
 			{
 				final Entity entity = (Entity)obj;
 
-				if (entity.getEntityId() == entityId)
+				if (entity.getEntityId() == packet.entityId)
 				{
 					final AbstractEntity abstractEntity = (AbstractEntity)entity;
 
 					for (final Field f : entity.getClass().getFields())
 					{
-						if (!fieldName.equals("texture"))
+						if (!packet.fieldName.equals("texture"))
 						{
-							if (f.getName().equals(fieldName))
+							if (f.getName().equals(packet.fieldName))
 							{
 								//Achievements
-								if (f.getName().equals("isPeasant") && fieldValue.toString().equals("true"))
+								if (f.getName().equals("isPeasant") && packet.fieldValue.toString().equals("true"))
 								{
-									manager.worldProperties.stat_villagersMadePeasants++;
+									MCA.getInstance().getWorldProperties(manager).stat_villagersMadePeasants++;
 									player.triggerAchievement(MCA.getInstance().achievementMakePeasant);
 
-									if (manager.worldProperties.stat_villagersMadePeasants >= 20)
+									if (MCA.getInstance().getWorldProperties(manager).stat_villagersMadePeasants >= 20)
 									{
 										player.triggerAchievement(MCA.getInstance().achievementPeasantArmy);
 									}
@@ -96,12 +96,12 @@ public class PacketSetFieldValue extends AbstractPacket implements IMessage, IMe
 									manager.saveWorldProperties();
 								}
 
-								if (f.getName().equals("isKnight") && fieldValue.toString().equals("true"))
+								if (f.getName().equals("isKnight") && packet.fieldValue.toString().equals("true"))
 								{
-									manager.worldProperties.stat_guardsMadeKnights++;
+									MCA.getInstance().getWorldProperties(manager).stat_guardsMadeKnights++;
 									player.triggerAchievement(MCA.getInstance().achievementMakeKnight);
 
-									if (manager.worldProperties.stat_guardsMadeKnights >= 20)
+									if (MCA.getInstance().getWorldProperties(manager).stat_guardsMadeKnights >= 20)
 									{
 										player.triggerAchievement(MCA.getInstance().achievementKnightArmy);
 									}
@@ -109,16 +109,16 @@ public class PacketSetFieldValue extends AbstractPacket implements IMessage, IMe
 									manager.saveWorldProperties();
 								}
 
-								if (f.getName().equals("hasBeenExecuted") && fieldValue.toString().equals("true"))
+								if (f.getName().equals("hasBeenExecuted") && packet.fieldValue.toString().equals("true"))
 								{
-									manager.worldProperties.stat_villagersExecuted++;
+									MCA.getInstance().getWorldProperties(manager).stat_villagersExecuted++;
 									player.triggerAchievement(MCA.getInstance().achievementExecuteVillager);
 
 									if (abstractEntity.familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) == EnumRelation.Spouse)
 									{
-										manager.worldProperties.stat_wivesExecuted++;
+										MCA.getInstance().getWorldProperties(manager).stat_wivesExecuted++;
 
-										if (manager.worldProperties.stat_wivesExecuted >= 6)
+										if (MCA.getInstance().getWorldProperties(manager).stat_wivesExecuted >= 6)
 										{
 											player.triggerAchievement(MCA.getInstance().achievementMonarchSecret);
 										}
@@ -129,7 +129,7 @@ public class PacketSetFieldValue extends AbstractPacket implements IMessage, IMe
 								//Setting the value.
 								if (f.getType().getName().contains("boolean"))
 								{
-									entity.getClass().getField(fieldName).set(entity, Boolean.parseBoolean(fieldValue.toString()));
+									entity.getClass().getField(packet.fieldName).set(entity, Boolean.parseBoolean(packet.fieldValue.toString()));
 
 									//Special condition. When isSpouse is changed, a villager's AI must be updated just in case it is a guard who is
 									//either getting married or getting divorced.
@@ -141,7 +141,7 @@ public class PacketSetFieldValue extends AbstractPacket implements IMessage, IMe
 
 								else if (f.getType().getName().contains("int"))
 								{
-									entity.getClass().getField(fieldName).set(entity, Integer.parseInt(fieldValue.toString()));
+									entity.getClass().getField(packet.fieldName).set(entity, Integer.parseInt(packet.fieldValue.toString()));
 
 									if (f.getName().equals("traitId"))
 									{
@@ -156,19 +156,19 @@ public class PacketSetFieldValue extends AbstractPacket implements IMessage, IMe
 
 								else if (f.getType().getName().contains("double"))
 								{
-									entity.getClass().getField(fieldName).set(entity, Double.parseDouble(fieldValue.toString()));
+									entity.getClass().getField(packet.fieldName).set(entity, Double.parseDouble(packet.fieldValue.toString()));
 								}
 
 								else if (f.getType().getName().contains("float"))
 								{
-									entity.getClass().getField(fieldName).set(entity, Float.parseFloat(fieldValue.toString()));
+									entity.getClass().getField(packet.fieldName).set(entity, Float.parseFloat(packet.fieldValue.toString()));
 
 									abstractEntity.setMoodByMoodPoints(false);
 								}
 
 								else if (f.getType().getName().contains("String"))
 								{
-									entity.getClass().getField(fieldName).set(entity, fieldValue.toString());
+									entity.getClass().getField(packet.fieldName).set(entity, packet.fieldValue.toString());
 								}
 
 								else if (f.getType().getName().contains("Map"))
@@ -176,7 +176,7 @@ public class PacketSetFieldValue extends AbstractPacket implements IMessage, IMe
 									if (f.getName().equals("playerMemoryMap"))
 									{
 										//Player name must be set if the map is a memory map since it is transient.
-										Map<String, PlayerMemory> memoryMap = (Map<String, PlayerMemory>)fieldValue;
+										Map<String, PlayerMemory> memoryMap = (Map<String, PlayerMemory>)packet.fieldValue;
 										PlayerMemory memory = memoryMap.get(player.getCommandSenderName());
 
 										if (memory != null)
@@ -190,12 +190,12 @@ public class PacketSetFieldValue extends AbstractPacket implements IMessage, IMe
 											memoryMap.put(player.getCommandSenderName(), new PlayerMemory(player.getCommandSenderName()));
 										}
 
-										entity.getClass().getField(fieldName).set(entity, memoryMap);
+										entity.getClass().getField(packet.fieldName).set(entity, memoryMap);
 									}
 
 									else
 									{
-										entity.getClass().getField(fieldName).set(entity, fieldValue);
+										entity.getClass().getField(packet.fieldName).set(entity, packet.fieldValue);
 									}
 								}
 							}
@@ -203,7 +203,7 @@ public class PacketSetFieldValue extends AbstractPacket implements IMessage, IMe
 
 						else
 						{
-							((AbstractEntity)entity).setTexture(fieldValue.toString());
+							((AbstractEntity)entity).setTexture(packet.fieldValue.toString());
 						}
 					}
 
@@ -222,7 +222,7 @@ public class PacketSetFieldValue extends AbstractPacket implements IMessage, IMe
 		//Sync with all other players if server side.
 		if (!player.worldObj.isRemote)
 		{
-			MCA.packetHandler.sendPacketToAllPlayersExcept(new PacketSetFieldValue(entityId, fieldName, fieldValue), (EntityPlayerMP) player);
+			MCA.packetHandler.sendPacketToAllPlayersExcept(new PacketSetFieldValue(packet.entityId, packet.fieldName, packet.fieldValue), (EntityPlayerMP) player);
 		}
 		
 		return null;

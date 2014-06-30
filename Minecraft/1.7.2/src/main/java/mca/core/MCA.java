@@ -50,7 +50,7 @@ import mca.core.forge.EventHooks;
 import mca.core.forge.GuiHandler;
 import mca.core.forge.ServerTickHandler;
 import mca.core.io.ModPropertiesList;
-import mca.core.io.WorldPropertiesManager;
+import mca.core.io.WorldPropertiesList;
 import mca.core.util.SkinLoader;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityChoreFishHook;
@@ -58,7 +58,6 @@ import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
 import mca.entity.EntityVillagerChild;
 import mca.enums.EnumCrownColor;
-import mca.enums.EnumPacketType;
 import mca.item.ItemArrangersRing;
 import mca.item.ItemBabyBoy;
 import mca.item.ItemBabyGirl;
@@ -79,6 +78,7 @@ import mca.item.ItemWhistle;
 import mca.lang.LanguageLoaderHook;
 import mca.lang.LanguageParser;
 import mca.network.PacketRegistry;
+import mca.network.packets.PacketSetWorldProperties;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
@@ -88,27 +88,27 @@ import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFishFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.stats.Achievement;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.AchievementPage;
 
 import com.radixshock.radixcore.core.ModLogger;
 import com.radixshock.radixcore.core.RadixCore;
 import com.radixshock.radixcore.core.UnenforcedCore;
-import com.radixshock.radixcore.enums.EnumNetworkType;
 import com.radixshock.radixcore.file.ModPropertiesManager;
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 import com.radixshock.radixcore.lang.ILanguageLoaderHook;
 import com.radixshock.radixcore.lang.ILanguageParser;
 import com.radixshock.radixcore.lang.LanguageLoader;
 import com.radixshock.radixcore.network.AbstractPacketHandler;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Instance;
@@ -217,7 +217,8 @@ public class MCA extends UnenforcedCore
 	public 	boolean hasReceivedClientSetup     = false;
 	
 	public  ModPropertiesManager modPropertiesManager = null;
-
+	public  WorldPropertiesManager worldPropertiesManager = null;
+	
 	//Debug fields.
 	public boolean inDebugMode				   		= false;
 	public boolean debugDoSimulateHardcore 			= false;
@@ -282,6 +283,23 @@ public class MCA extends UnenforcedCore
 	}
 
 	/**
+	 * @return	Gets the world properties list.
+	 */
+	public WorldPropertiesList getWorldProperties()
+	{
+		return (WorldPropertiesList)worldPropertiesManager.worldPropertiesInstance;
+	}
+	
+	/**
+	 * @return  Gets the world properties list associated with the provided manager.
+	 */
+	public WorldPropertiesList getWorldProperties(Object obj)
+	{
+		final WorldPropertiesManager manager = (WorldPropertiesManager)obj;
+		return (WorldPropertiesList)manager.worldPropertiesInstance;
+	}
+	
+	/**
 	 * Gets the appropriate skin list for the entity provided.
 	 * 
 	 * @param 	entity	The entity that needs a list of valid skins.
@@ -326,7 +344,7 @@ public class MCA extends UnenforcedCore
 		}
 
 		serverTickHandler = new ServerTickHandler();
-
+		
 		try
 		{
 			final String sourcePath = MCA.class.getProtectionDomain().getCodeSource().getLocation().getPath();
@@ -508,6 +526,12 @@ public class MCA extends UnenforcedCore
 	}
 
 	@Override
+	public String getMinimumRadixCoreVersion() 
+	{
+		return Constants.REQUIRED_RADIX;
+	}
+	
+	@Override
 	public boolean getChecksForUpdates() 
 	{
 		return true;
@@ -530,18 +554,6 @@ public class MCA extends UnenforcedCore
 	public ModLogger getLogger() 
 	{
 		return logger;
-	}
-
-	@Override
-	public EnumNetworkType getNetworkSystemType() 
-	{
-		return EnumNetworkType.Legacy;
-	}
-
-	@Override
-	public Class getPacketTypeClass() 
-	{
-		return EnumPacketType.class;
 	}
 
 	@Override
@@ -809,6 +821,12 @@ public class MCA extends UnenforcedCore
 	{
 		return modPropertiesManager;
 	}
+	
+	@Override
+	public WorldPropertiesManager getWorldPropertiesManager()
+	{
+		return worldPropertiesManager;
+	}
 
 	@Override
 	public boolean getSetModPropertyCommandEnabled() 
@@ -834,6 +852,12 @@ public class MCA extends UnenforcedCore
 		return "mca.";
 	}
 
+	@Override
+	public AbstractPacketHandler getPacketHandler()
+	{
+		return packetHandler;
+	}
+	
 	@Override
 	public LanguageLoader getLanguageLoader()
 	{
@@ -876,36 +900,9 @@ public class MCA extends UnenforcedCore
 	{
 		for (final Map.Entry<String, WorldPropertiesManager> entry : playerWorldManagerMap.entrySet())
 		{
-			if (entry.getValue().worldProperties.playerID == id)
+			if (getWorldProperties(entry.getValue().worldPropertiesInstance).playerID == id)
 			{
 				return world.getPlayerEntityByName(entry.getKey());
-			}
-		}
-
-		return null;
-	}
-
-	/**
-	 * Gets a player with the name provided.
-	 * 
-	 * @param 	username	The username of the player.
-	 * 
-	 * @return	The player entity with the specified username.
-	 */
-	public EntityPlayer getPlayerByName(String username)
-	{
-		for (final WorldServer world : MinecraftServer.getServer().worldServers)
-		{
-			final EntityPlayer player = world.getPlayerEntityByName(username);
-
-			if (player == null)
-			{
-				continue;
-			}
-
-			else
-			{
-				return player;
 			}
 		}
 
@@ -929,7 +926,7 @@ public class MCA extends UnenforcedCore
 			{
 				if (entry.getKey().equals(player.getCommandSenderName()))
 				{
-					return entry.getValue().worldProperties.playerID;
+					return getWorldProperties(entry.getValue()).playerID;
 				}
 			}
 
@@ -939,11 +936,43 @@ public class MCA extends UnenforcedCore
 		//Happens in a client side GUI.
 		catch (NullPointerException e)
 		{
-			//TODO Watch this
 			return 0;
 		}
 	}
 
+	@Override
+	public void onCreateNewWorldProperties(WorldPropertiesManager manager)
+	{
+		WorldPropertiesList list = (WorldPropertiesList)manager.worldPropertiesInstance;
+		list.playerID = (int) Math.abs((list.playerName.hashCode() + System.currentTimeMillis() % (1024 * 1024))) * -1;
+	}
+	
+	@Override
+	public void onSaveWorldProperties(WorldPropertiesManager manager)
+	{
+		this.playerWorldManagerMap.put(manager.getCurrentPlayerName(), manager);
+	}
+	
+	@Override
+	public void onLoadWorldProperties(WorldPropertiesManager manager)
+	{
+		this.playerWorldManagerMap.put(manager.getCurrentPlayerName(), manager);
+	}
+	
+	@Override
+	public void onUpdateWorldProperties(WorldPropertiesManager manager)
+	{
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
+		{
+			packetHandler.sendPacketToServer(new PacketSetWorldProperties(manager));
+		}
+
+		else if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
+		{
+			packetHandler.sendPacketToPlayer(new PacketSetWorldProperties(manager), (EntityPlayerMP)RadixCore.getPlayerByName(manager.getCurrentPlayerName()));
+		}
+	}
+	
 	static
 	{
 		acceptableGifts.put(Items.wooden_sword, 3);

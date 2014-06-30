@@ -10,6 +10,7 @@
 package mca.client.render;
 
 import mca.core.MCA;
+import mca.core.io.WorldPropertiesList;
 import mca.entity.AbstractChild;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
@@ -37,7 +38,8 @@ public class RenderHumanSmall extends RenderHuman
 	 */
 	protected void renderScale(AbstractChild entity, float partialTickTime)
 	{
-		final boolean doGradualGrowth = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName()).worldProperties.childrenGrowAutomatically;
+		final WorldPropertiesList properties = (WorldPropertiesList)MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName()).worldPropertiesInstance;
+		final boolean doGradualGrowth = properties.childrenGrowAutomatically;
 		
 		if (doGradualGrowth && !entity.isAdult)
 		{

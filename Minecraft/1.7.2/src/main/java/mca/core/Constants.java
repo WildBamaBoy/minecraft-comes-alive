@@ -18,9 +18,9 @@ import net.minecraft.init.Items;
  */
 public final class Constants 
 {
-	/** MCA's current version. */
 	public static final String VERSION = "4.0.4";
-
+	public static final String REQUIRED_RADIX = "1.3.0";
+	
 	/** Users that are allowed to use the dev controls. */
 	public static final String[] PRIVELAGED_USERS = {"WildBamaBoy", "LuvTrumpetStyle"};
 

@@ -10,13 +10,13 @@
 package mca.command;
 
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
 
 import com.radixshock.radixcore.constant.Font.Color;
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 
 /**
  * Defines the marry command and what it does.
@@ -97,14 +97,14 @@ public class CommandMarry extends AbstractCommand
 				final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(recipientName);
 				
 				//Check that the recipient isn't married.
-				if (manager.worldProperties.playerSpouseID != 0)
+				if (MCA.getInstance().getWorldProperties(manager).playerSpouseID != 0)
 				{
 					super.addChatMessage(sender, "multiplayer.output.marry.alreadymarried", Color.RED, null);
 					return;
 				}
 				
 				//Send the request to the other player and add the request to server's request map only if the sender isn't blocked.
-				if (!manager.worldProperties.blockList.contains(senderName) && !manager.worldProperties.blockMarriageRequests)
+				if (!MCA.getInstance().getWorldProperties(manager).blockList.contains(senderName) && !MCA.getInstance().getWorldProperties(manager).blockMarriageRequests)
 				{
 					super.sendChatToOtherPlayer(sender, recipientEntity, "multiplayer.command.output.marry.request", null, null);
 					MCA.getInstance().marriageRequests.put(senderName, recipientName);

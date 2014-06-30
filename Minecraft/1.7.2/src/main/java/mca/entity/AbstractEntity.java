@@ -34,7 +34,7 @@ import mca.chore.ChoreMining;
 import mca.chore.ChoreWoodcutting;
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
+import mca.core.io.WorldPropertiesList;
 import mca.core.util.ServerLimits;
 import mca.core.util.TickMarkerBaby;
 import mca.core.util.Utility;
@@ -93,7 +93,9 @@ import net.minecraftforge.common.ISpecialArmor;
 import com.radixshock.radixcore.constant.Font.Color;
 import com.radixshock.radixcore.constant.Particle;
 import com.radixshock.radixcore.constant.Time;
+import com.radixshock.radixcore.core.RadixCore;
 import com.radixshock.radixcore.entity.ITickableEntity;
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 import com.radixshock.radixcore.logic.LogicHelper;
 import com.radixshock.radixcore.logic.NBTHelper;
 import com.radixshock.radixcore.network.packets.PacketSpawnParticles;
@@ -552,9 +554,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				final EntityPlayerChild playerChild = (EntityPlayerChild)this;
 				final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(playerChild.ownerPlayerName);
 
-				if (manager != null && manager.worldProperties.heirId == mcaID)
+				if (manager != null && MCA.getInstance().getWorldProperties(manager).heirId == mcaID)
 				{
-					manager.worldProperties.heirId = -1;
+					MCA.getInstance().getWorldProperties(manager).heirId = -1;
 					manager.saveWorldProperties();
 				}
 			}
@@ -1149,7 +1151,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					return MCA.getInstance().getLanguageLoader().getString("family.fiance" + gender) + " " + name;
 				}
 
-				else if (isMarried && manager.worldProperties.isMonarch)
+				else if (isMarried && MCA.getInstance().getWorldProperties(manager).isMonarch)
 				{
 					return MCA.getInstance().getLanguageLoader().getString("monarch.title" + gender + ".player") + " " + name;
 				}
@@ -1477,7 +1479,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 						final AbstractEntity abstractEntity = (AbstractEntity)entity;
 
 						//Relatives to the player are not affected.
-						if (!abstractEntity.familyTree.idIsARelative(manager.worldProperties.playerID))
+						if (!abstractEntity.familyTree.idIsARelative(MCA.getInstance().getWorldProperties(manager).playerID))
 						{
 							//Other villagers are affected by 50% of the original value.
 							final Double percentage = amount * 0.50;
@@ -1691,7 +1693,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		if (isMarriedToPlayer)
 		{
-			if (manager.worldProperties.playerSpouseID == mcaID)
+			if (MCA.getInstance().getWorldProperties(manager).playerSpouseID == mcaID)
 			{
 				say(MCA.getInstance().getLanguageLoader().getString("notify.villager.gifted.arrangerring.relative", null, this, false));
 			}
@@ -1807,7 +1809,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		if (isMarriedToPlayer)
 		{
-			if (manager.worldProperties.playerSpouseID == mcaID)
+			if (MCA.getInstance().getWorldProperties(manager).playerSpouseID == mcaID)
 			{
 				say(MCA.getInstance().getLanguageLoader().getString("notify.villager.gifted.arrangerring.relative", null, this, false));
 			}
@@ -1821,7 +1823,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		else
 		{
-			if (manager.worldProperties.playerSpouseID == 0) //Spouse ID will be zero if they're not married.
+			if (MCA.getInstance().getWorldProperties(manager).playerSpouseID == 0) //Spouse ID will be zero if they're not married.
 			{
 				final int hearts = getHearts(player);
 
@@ -1837,8 +1839,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFamilyTree(getEntityId(), familyTree));
 					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isEngaged", isEngaged));
 
-					manager.worldProperties.playerSpouseID = mcaID;
-					manager.worldProperties.isEngaged = true;
+					MCA.getInstance().getWorldProperties(manager).playerSpouseID = mcaID;
+					MCA.getInstance().getWorldProperties(manager).isEngaged = true;
 					manager.saveWorldProperties();
 				}
 
@@ -1868,7 +1870,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		if (isMarriedToPlayer)
 		{
-			if (manager.worldProperties.playerSpouseID == mcaID)
+			if (MCA.getInstance().getWorldProperties(manager).playerSpouseID == mcaID)
 			{
 				say(MCA.getInstance().getLanguageLoader().getString("notify.villager.gifted.arrangerring.relative", null, this, false));
 			}
@@ -1882,9 +1884,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		else
 		{
-			if (manager.worldProperties.playerSpouseID == 0 || isEngaged || manager.worldProperties.isMonarch) 
+			if (MCA.getInstance().getWorldProperties(manager).playerSpouseID == 0 || isEngaged || MCA.getInstance().getWorldProperties(manager).isMonarch) 
 			{
-				if (manager.worldProperties.playerSpouseID != 0)
+				if (MCA.getInstance().getWorldProperties(manager).playerSpouseID != 0)
 				{
 					modifyHearts(player, -20);
 				}
@@ -1901,8 +1903,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					say(MCA.getInstance().getLanguageLoader().getString("marriage.acceptance", null, this, false));
 					modifyHearts(player, 50);
 
-					manager.worldProperties.playerSpouseID = mcaID;
-					manager.worldProperties.isEngaged = false;
+					MCA.getInstance().getWorldProperties(manager).playerSpouseID = mcaID;
+					MCA.getInstance().getWorldProperties(manager).isEngaged = false;
 					manager.saveWorldProperties();
 
 					isMarriedToPlayer = true;
@@ -2252,7 +2254,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			{
 				final EntityPlayer player = worldObj.getPlayerEntityByName(spousePlayerName);
 				final WorldPropertiesManager worldManager = MCA.getInstance().playerWorldManagerMap.get(lastInteractingPlayer);
-				worldManager.worldProperties.playerSpouseID = 0;
+				final WorldPropertiesList properties = MCA.getInstance().getWorldProperties(worldManager);
+				properties.playerSpouseID = 0;
 				worldManager.saveWorldProperties();
 
 				modifyHearts(player, -200);
@@ -2277,7 +2280,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				}
 
 				spousePlayerName = "";
-				familyTree.removeFamilyTreeEntry(worldManager.worldProperties.playerID);
+				familyTree.removeFamilyTreeEntry(properties.playerID);
 
 				MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "spousePlayerName", spousePlayerName));
 			}
@@ -2521,7 +2524,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 										else if (hearts >= 0 && hearts <= 25)
 										{
-											if (getCharacterType(MCA.getInstance().getIdOfPlayer(nearestPlayer)).equals("villager") && manager.worldProperties.isEngaged)
+											if (getCharacterType(MCA.getInstance().getIdOfPlayer(nearestPlayer)).equals("villager") && MCA.getInstance().getWorldProperties(manager).isEngaged)
 											{
 												say(MCA.getInstance().getLanguageLoader().getString("greeting.wedding", nearestPlayer, this, true));
 											}
@@ -2534,7 +2537,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 										else if (hearts > 25)
 										{
-											if (getCharacterType(MCA.getInstance().getIdOfPlayer(nearestPlayer)).equals("villager") && manager.worldProperties.isEngaged)
+											if (getCharacterType(MCA.getInstance().getIdOfPlayer(nearestPlayer)).equals("villager") && MCA.getInstance().getWorldProperties(manager).isEngaged)
 											{
 												say(MCA.getInstance().getLanguageLoader().getString("greeting.wedding", nearestPlayer, this, true));
 											}
@@ -2546,8 +2549,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 										}
 
 										else if (hearts > 50 && getCharacterType(MCA.getInstance().getIdOfPlayer(nearestPlayer)).equals("villager") && 
-												!manager.worldProperties.isEngaged && 
-												manager.worldProperties.playerSpouseID == 0)
+												!MCA.getInstance().getWorldProperties(manager).isEngaged && 
+												MCA.getInstance().getWorldProperties(manager).playerSpouseID == 0)
 										{
 											say(MCA.getInstance().getLanguageLoader().getString("greeting.interest", nearestPlayer, this, true));
 										}
@@ -2756,7 +2759,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					if (memory != null)
 					{
 						//Check if they're acknowledged as a monarch.
-						if (memory.hasBoostedHearts && !manager.worldProperties.isMonarch)
+						if (memory.hasBoostedHearts && !MCA.getInstance().getWorldProperties(manager).isMonarch)
 						{
 							//The player is no longer a monarch.
 							memory.hasBoostedHearts = false;
@@ -2776,7 +2779,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 							//Check if this person is the player's heir.
 							if (this instanceof EntityPlayerChild)
 							{
-								if (manager.worldProperties.heirId == mcaID)
+								if (MCA.getInstance().getWorldProperties(manager).heirId == mcaID)
 								{
 									doActAsHeir = true;
 
@@ -2810,7 +2813,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 							}
 						}
 
-						else if (!memory.hasBoostedHearts && manager.worldProperties.isMonarch)
+						else if (!memory.hasBoostedHearts && MCA.getInstance().getWorldProperties(manager).isMonarch)
 						{
 							memory.hasBoostedHearts = true;
 							memory.hearts = 100;
@@ -2842,7 +2845,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName());
 
-			if (manager != null && manager.worldProperties.displayMoodParticles && !isSleeping && (mood.isAnger() || mood.isSadness()))
+			if (manager != null && MCA.getInstance().getWorldProperties(manager).displayMoodParticles && !isSleeping && (mood.isAnger() || mood.isSadness()))
 			{
 				final int moodLevel = mood.getMoodLevel();
 				int particleInterval = 0;
@@ -3000,7 +3003,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 							memory.minutesSinceHired = 0;
 							memory.hoursHired = 0;
 							setChoresStopped();
-							notifyPlayer(MCA.getInstance().getPlayerByName(memory.playerName), MCA.getInstance().getLanguageLoader().getString("notify.hiring.complete", null, this, false));
+							notifyPlayer(RadixCore.getPlayerByName(memory.playerName), MCA.getInstance().getLanguageLoader().getString("notify.hiring.complete", null, this, false));
 						}
 
 						hasChanged = true;

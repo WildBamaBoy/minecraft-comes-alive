@@ -10,7 +10,6 @@
 package mca.client.gui;
 
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
 import mca.core.util.Utility;
 import mca.network.packets.PacketBabyInfo;
 import net.minecraft.client.gui.GuiButton;
@@ -18,6 +17,8 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 
 import org.lwjgl.input.Keyboard;
+
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -106,11 +107,11 @@ public class GuiNameChild extends AbstractGui
 			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
 			
 			//Assign babyName the string that is in the text field, trimmed of whitespace.
-			manager.worldProperties.babyName = babyNameTextField.getText().trim();
+			MCA.getInstance().getWorldProperties(manager).babyName = babyNameTextField.getText().trim();
 			manager.saveWorldProperties();
 
 			//Check if the player is married to another player.
-			if (manager.worldProperties.playerSpouseID < 0)
+			if (MCA.getInstance().getWorldProperties(manager).playerSpouseID < 0)
 			{
 				MCA.packetHandler.sendPacketToServer(new PacketBabyInfo(manager));
 			}

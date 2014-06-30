@@ -10,10 +10,10 @@
 package mca.command;
 
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
 import net.minecraft.command.ICommandSender;
 
 import com.radixshock.radixcore.constant.Font.Color;
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 
 /**
  * Handles the block command.
@@ -41,7 +41,7 @@ public class CommandBlock extends AbstractCommand
 			final String playerName = arguments[0];
 			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(senderName);
 
-			if (manager.worldProperties.blockList.contains(playerName))
+			if (MCA.getInstance().getWorldProperties(manager).blockList.contains(playerName))
 			{
 				this.addChatMessage(sender, "multiplayer.command.output.block.failed", Color.RED, null);
 			}
@@ -49,7 +49,7 @@ public class CommandBlock extends AbstractCommand
 			else
 			{
 				this.addChatMessage(sender, "multiplayer.command.output.block.successful", Color.GREEN, null);
-				manager.worldProperties.blockList.add(playerName);
+				MCA.getInstance().getWorldProperties(manager).blockList.add(playerName);
 				manager.saveWorldProperties();
 			}
 		}

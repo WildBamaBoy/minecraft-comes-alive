@@ -36,6 +36,8 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
+import com.radixshock.radixcore.core.RadixCore;
+
 /**
  * Defines an inventory belonging to an entity from MCA.
  */
@@ -290,7 +292,7 @@ public class Inventory implements IInventory, IInvBasic, Serializable
 
 					if (hasWeapon)
 					{
-						final EntityPlayer player = MCA.getInstance().getPlayerByName(theChild.ownerPlayerName);
+						final EntityPlayer player = RadixCore.getPlayerByName(theChild.ownerPlayerName);
 
 						if (player != null)
 						{

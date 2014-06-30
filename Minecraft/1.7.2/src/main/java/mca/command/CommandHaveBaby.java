@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
+import mca.core.io.WorldPropertiesList;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import mca.enums.EnumRelation;
@@ -21,6 +21,8 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 
 import com.radixshock.radixcore.constant.Font.Color;
+import com.radixshock.radixcore.core.RadixCore;
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 
 /**
  * Defines the marry command and what it does.
@@ -56,13 +58,15 @@ public class CommandHaveBaby extends AbstractCommand
 	public void processCommand(ICommandSender sender, String[] arguments) 
 	{
 		final WorldPropertiesManager senderManager = MCA.getInstance().playerWorldManagerMap.get(sender.getCommandSenderName());
-
-		if (senderManager.worldProperties.playerSpouseID < 0)
+		final WorldPropertiesList senderProperties = (WorldPropertiesList)senderManager.worldPropertiesInstance;
+		
+		if (senderProperties.playerSpouseID < 0)
 		{
 			//Check if the spouse is on the server.
-			final EntityPlayer spouse = MCA.getInstance().getPlayerByName(senderManager.worldProperties.playerSpouseName);
+			final EntityPlayer spouse = RadixCore.getInstance().getPlayerByName(senderProperties.playerSpouseName);
 			final WorldPropertiesManager spouseManager = MCA.getInstance().playerWorldManagerMap.get(spouse.getCommandSenderName());
-
+			final WorldPropertiesList spouseProperties = (WorldPropertiesList)spouseManager.worldPropertiesInstance;
+			
 			if (spouse == null)
 			{
 				this.addChatMessage(sender, "multiplayer.command.output.havebaby.failed.offline", Color.RED, null);
@@ -72,7 +76,7 @@ public class CommandHaveBaby extends AbstractCommand
 			else
 			{
 				//Make sure that they don't already have a baby.
-				if (senderManager.worldProperties.babyExists || spouseManager.worldProperties.babyExists)
+				if (senderProperties.babyExists || spouseProperties.babyExists)
 				{
 					this.addChatMessage(sender, "notify.baby.exists", Color.RED, null);
 				}
@@ -89,8 +93,8 @@ public class CommandHaveBaby extends AbstractCommand
 						{
 							final EntityPlayerChild playerChild = (EntityPlayerChild)entity;
 
-							if (playerChild.familyTree.getRelationOf(senderManager.worldProperties.playerID) == EnumRelation.Parent &&
-									playerChild.familyTree.getRelationOf(spouseManager.worldProperties.playerID) == EnumRelation.Parent)
+							if (playerChild.familyTree.getRelationOf(senderProperties.playerID) == EnumRelation.Parent &&
+									playerChild.familyTree.getRelationOf(spouseProperties.playerID) == EnumRelation.Parent)
 							{
 								children.add(playerChild);
 							}

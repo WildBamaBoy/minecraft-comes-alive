@@ -21,7 +21,7 @@ import mca.chore.ChoreHunting;
 import mca.chore.ChoreMining;
 import mca.chore.ChoreWoodcutting;
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
+import mca.core.io.WorldPropertiesList;
 import mca.core.util.Interactions;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;
@@ -38,6 +38,7 @@ import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
 
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 import com.radixshock.radixcore.logic.LogicHelper;
 
 import cpw.mods.fml.relauncher.Side;
@@ -568,7 +569,8 @@ public class GuiInteractionPlayerChild extends AbstractGui
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.exit")));
 		backButton.enabled = false;
 		
-		if (entityChild.isAdult && !MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName()).worldProperties.isMonarch)
+		final WorldPropertiesList properties = (WorldPropertiesList)MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName()).worldPropertiesInstance;
+		if (entityChild.isAdult && !properties.isMonarch)
 		{
 			farmingButton.enabled = false;
 			fishingButton.enabled = false;
@@ -975,8 +977,8 @@ public class GuiInteractionPlayerChild extends AbstractGui
 			if (entityChild.isGoodHeir)
 			{
 				WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
-				manager.worldProperties.isMonarch = true;
-				manager.worldProperties.heirId = -1;
+				MCA.getInstance().getWorldProperties(manager).isMonarch = true;
+				MCA.getInstance().getWorldProperties(manager).heirId = -1;
 				manager.saveWorldProperties();
 
 				entityChild.say(MCA.getInstance().getLanguageLoader().getString( "heir.good.returncrown", player, entityChild, false));

@@ -15,7 +15,6 @@ import mca.api.villagers.VillagerEntryMCA;
 import mca.chore.ChoreHunting;
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
 import mca.core.util.Utility;
 import mca.core.util.object.PlayerMemory;
 import mca.enums.EnumRelation;
@@ -53,6 +52,7 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 import com.radixshock.radixcore.logic.LogicHelper;
 
 /**
@@ -123,7 +123,7 @@ public class EntityPlayerChild extends AbstractChild
 
 		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(ownerPlayerName);
 		this.familyTree.addFamilyTreeEntry(player, EnumRelation.Parent);
-		this.familyTree.addFamilyTreeEntry(manager.worldProperties.playerSpouseID, EnumRelation.Parent);
+		this.familyTree.addFamilyTreeEntry(MCA.getInstance().getWorldProperties(manager).playerSpouseID, EnumRelation.Parent);
 	}
 
 	@Override
@@ -221,7 +221,7 @@ public class EntityPlayerChild extends AbstractChild
 					//FIXME
 					//					WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(MCA.getInstance().getPlayerByID(worldObj, playerId).getCommandSenderName());
 					//
-					//					if (manager.worldProperties.heirId == this.mcaID && !this.isGoodHeir && this.shouldActAsHeir)
+					//					if (MCA.getInstance().getWorldProperties(manager).heirId == this.mcaID && !this.isGoodHeir && this.shouldActAsHeir)
 					//					{
 					//						return "heir";
 					//					}
@@ -606,13 +606,13 @@ public class EntityPlayerChild extends AbstractChild
 
 				if (manager != null)
 				{
-					if (manager.worldProperties.heirId == -1)
+					if (MCA.getInstance().getWorldProperties(manager).heirId == -1)
 					{
 						inventory.addItemStackToInventory(itemStack);
 						inventory.setWornArmorItems();
 						Utility.removeItemFromPlayer(itemStack, player);
 
-						manager.worldProperties.heirId = this.mcaID;
+						MCA.getInstance().getWorldProperties(manager).heirId = this.mcaID;
 						manager.saveWorldProperties();
 
 						MCA.packetHandler.sendPacketToServer(new PacketSetInventory(getEntityId(), inventory));
@@ -620,12 +620,12 @@ public class EntityPlayerChild extends AbstractChild
 						return;
 					}
 
-					else if (manager.worldProperties.heirId == this.mcaID)
+					else if (MCA.getInstance().getWorldProperties(manager).heirId == this.mcaID)
 					{
 						notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("heir.set.failure.sameperson", null, this, false));
 					}
 
-					else if (manager.worldProperties.heirId != -1)
+					else if (MCA.getInstance().getWorldProperties(manager).heirId != -1)
 					{
 						notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("heir.set.failure.alreadyset", null, this, false));
 					}
@@ -647,9 +647,9 @@ public class EntityPlayerChild extends AbstractChild
 	{
 		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(ownerPlayerName);
 
-		if (manager != null && MCA.getInstance().getPlayerByID(worldObj, manager.worldProperties.playerID) != null)
+		if (manager != null && MCA.getInstance().getPlayerByID(worldObj, MCA.getInstance().getWorldProperties(manager).playerID) != null)
 		{			
-			doAutoGrow = manager.worldProperties.childrenGrowAutomatically;
+			doAutoGrow = MCA.getInstance().getWorldProperties(manager).childrenGrowAutomatically;
 
 			if (isReadyToGrow && !hasNotifiedReady)
 			{

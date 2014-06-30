@@ -3,17 +3,14 @@ package mca.network.packets;
 import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
 import mca.entity.AbstractEntity;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 
 import com.radixshock.radixcore.network.packets.AbstractPacket;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import cpw.mods.fml.relauncher.Side;
 
 public class PacketClickMountHorse  extends AbstractPacket implements IMessage, IMessageHandler<PacketClickMountHorse, IMessage>
 {

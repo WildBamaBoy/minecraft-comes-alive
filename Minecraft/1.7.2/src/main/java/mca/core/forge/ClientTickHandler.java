@@ -13,7 +13,6 @@ import java.util.List;
 
 import mca.client.gui.GuiHardcoreGameOver;
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
 import mca.core.util.Utility;
 import mca.entity.EntityPlayerChild;
 import mca.enums.EnumRelation;
@@ -28,6 +27,7 @@ import net.minecraft.client.gui.GuiSelectWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 import com.radixshock.radixcore.logic.LogicHelper;
 
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
@@ -99,7 +99,7 @@ public class ClientTickHandler
 		//If the GUI screen is the Select World screen, empty all world properties.
 		else if (guiScreen instanceof GuiSelectWorld)
 		{
-			WorldPropertiesManager.emptyOldWorldProperties();
+			WorldPropertiesManager.emptyOldWorldProperties(MCA.getInstance());
 		}
 
 		//If the GUI screen is the Select Language screen, set language loaded to false so
@@ -143,9 +143,9 @@ public class ClientTickHandler
 				}
 			}
 
-			if (manager != null && manager.worldProperties.isMonarch)
+			if (manager != null && MCA.getInstance().getWorldProperties(manager).isMonarch)
 			{
-				manager.worldProperties.isMonarch = false;
+				MCA.getInstance().getWorldProperties(manager).isMonarch = false;
 				manager.saveWorldProperties();
 			}
 

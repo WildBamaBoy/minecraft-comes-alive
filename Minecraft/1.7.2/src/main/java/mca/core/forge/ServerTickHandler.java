@@ -13,12 +13,13 @@ import java.util.Calendar;
 import java.util.Map;
 
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
 import mca.network.packets.PacketNotifyPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
+
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 
 /**
  * Handles ticking server-side for MCA.
@@ -66,33 +67,33 @@ public class ServerTickHandler
 	
 	private void doUpdateBabyGrowth(WorldPropertiesManager manager, EntityPlayer player)
 	{
-		if (manager.worldProperties.babyExists)
+		if (MCA.getInstance().getWorldProperties(manager).babyExists)
 		{
 			timeCurrent = Calendar.getInstance().get(Calendar.MINUTE);
 
-			if (!hasProcessedNewMinute && !manager.worldProperties.babyReadyToGrow)
+			if (!hasProcessedNewMinute && !MCA.getInstance().getWorldProperties(manager).babyReadyToGrow)
 			{
-				manager.worldProperties.minutesBabyExisted++;
+				MCA.getInstance().getWorldProperties(manager).minutesBabyExisted++;
 				manager.saveWorldProperties();
 				hasProcessedNewMinute = true;
 			}
 
-			if (!manager.worldProperties.babyReadyToGrow &&
-					manager.worldProperties.minutesBabyExisted >= 
+			if (!MCA.getInstance().getWorldProperties(manager).babyReadyToGrow &&
+					MCA.getInstance().getWorldProperties(manager).minutesBabyExisted >= 
 					MCA.getInstance().getModProperties().babyGrowUpTimeMinutes)
 			{
-				manager.worldProperties.babyReadyToGrow = true;
+				MCA.getInstance().getWorldProperties(manager).babyReadyToGrow = true;
 				manager.saveWorldProperties();
 				return;
 			}
 			
-			if (manager.worldProperties.babyReadyToGrow && !MCA.getInstance().hasNotifiedOfBabyReadyToGrow)
+			if (MCA.getInstance().getWorldProperties(manager).babyReadyToGrow && !MCA.getInstance().hasNotifiedOfBabyReadyToGrow)
 			{
 				MCA.packetHandler.sendPacketToPlayer(new PacketNotifyPlayer(0, "notify.baby.readytogrow"), (EntityPlayerMP)player);
 				
-				if (manager.worldProperties.playerSpouseID < 0)
+				if (MCA.getInstance().getWorldProperties(manager).playerSpouseID < 0)
 				{
-					final EntityPlayer spousePlayer = MCA.getInstance().getPlayerByID(player.worldObj, manager.worldProperties.playerSpouseID);
+					final EntityPlayer spousePlayer = MCA.getInstance().getPlayerByID(player.worldObj, MCA.getInstance().getWorldProperties(manager).playerSpouseID);
 					
 					if (spousePlayer != null)
 					{

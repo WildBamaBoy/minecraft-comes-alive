@@ -10,11 +10,13 @@
 package mca.command;
 
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesManager;
+import mca.core.io.WorldPropertiesList;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 
 import com.radixshock.radixcore.constant.Font.Color;
+import com.radixshock.radixcore.core.RadixCore;
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 
 /**
  * Handles the divorce command.
@@ -40,22 +42,22 @@ public class CommandDivorce extends AbstractCommand
 		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
 		
 		//Check if they're married to nobody at all.
-		if (manager.worldProperties.playerSpouseID == 0)
+		if (MCA.getInstance().getWorldProperties(manager).playerSpouseID == 0)
 		{
 			this.addChatMessage(sender, "multiplayer.command.output.divorce.failed.notmarried", Color.RED, null);
 		}
 		
 		//Check if they're married to a villager.
-		if (manager.worldProperties.playerSpouseID > 0)
+		if (MCA.getInstance().getWorldProperties(manager).playerSpouseID > 0)
 		{
 			this.addChatMessage(sender, "multiplayer.command.output.divorce.failed.notmarriedtoplayer", Color.RED, null);
 		}
 		
 		//Ensure they're married to a player
-		if (manager.worldProperties.playerSpouseID < 0)
+		if (MCA.getInstance().getWorldProperties(manager).playerSpouseID < 0)
 		{
 			//Make sure the other player is on the server.
-			final EntityPlayer spouse = MCA.getInstance().getPlayerByName(manager.worldProperties.playerSpouseName);
+			final EntityPlayer spouse = RadixCore.getPlayerByName(MCA.getInstance().getWorldProperties(manager).playerSpouseName);
 			
 			if (spouse == null)
 			{
@@ -66,16 +68,17 @@ public class CommandDivorce extends AbstractCommand
 			else
 			{
 				//Get the spouse's world properties.
-				final WorldPropertiesManager spouseManager = MCA.getInstance().playerWorldManagerMap.get(manager.worldProperties.playerSpouseName);
+				final WorldPropertiesManager spouseManager = MCA.getInstance().playerWorldManagerMap.get(MCA.getInstance().getWorldProperties(manager).playerSpouseName);
+				final WorldPropertiesList properties = (WorldPropertiesList)spouseManager.worldPropertiesInstance;
 				
 				//Notify both that they are no longer married. Sender's text will be Color.GREEN, recipient's text will be red.
 				this.addChatMessage(sender, "multiplayer.command.output.divorce.successful", Color.GREEN, null);
 				this.addChatMessage(spouse, "multiplayer.command.output.divorce.successful", Color.RED, null);
 				
-				manager.worldProperties.playerSpouseID = 0;
-				manager.worldProperties.playerSpouseName = "";
-				spouseManager.worldProperties.playerSpouseID = 0;
-				spouseManager.worldProperties.playerSpouseName = "";
+				MCA.getInstance().getWorldProperties(manager).playerSpouseID = 0;
+				MCA.getInstance().getWorldProperties(manager).playerSpouseName = "";
+				properties.playerSpouseID = 0;
+				properties.playerSpouseName = "";
 				
 				manager.saveWorldProperties();
 				spouseManager.saveWorldProperties();
