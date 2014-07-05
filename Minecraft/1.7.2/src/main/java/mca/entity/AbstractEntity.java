@@ -2418,8 +2418,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			else if (isFollowing && !followingPlayer.equals("None"))
 			{
 				final EntityPlayer player = worldObj.getPlayerEntityByName(followingPlayer);
-
-				if (player != null && (player.onGround || player.ridingEntity instanceof EntityHorse))
+				
+				if (player != null && (player.isInWater() || player.onGround || player.ridingEntity instanceof EntityHorse))
 				{
 					entityPathController.getLookHelper().setLookPositionWithEntity(player, 10.0F, getVerticalFaceSpeed());
 

@@ -79,7 +79,9 @@ public class EntityVillagerChild extends AbstractChild
 	public void addAI() 
 	{
 		this.getNavigator().setBreakDoors(true);
-		this.getNavigator().setAvoidsWater(true);
+		this.getNavigator().setAvoidsWater(false);
+		this.getNavigator().setCanSwim(true);
+		
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(1, new EntityAIAvoidEntity(this, EntityZombie.class, 8.0F, Constants.SPEED_WALK, 0.35F));
 		this.tasks.addTask(2, new EntityAIMoveIndoors(this));

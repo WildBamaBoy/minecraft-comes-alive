@@ -185,8 +185,9 @@ public class EntityVillagerAdult extends AbstractEntity
 		this.tasks.taskEntries.clear();
 
 		this.getNavigator().setBreakDoors(true);
-		this.getNavigator().setAvoidsWater(true);
-
+		this.getNavigator().setAvoidsWater(false);
+		this.getNavigator().setCanSwim(true);
+		
 		if (profession != 5 || isMarriedToPlayer)
 		{
 			this.tasks.addTask(0, new EntityAISwimming(this));

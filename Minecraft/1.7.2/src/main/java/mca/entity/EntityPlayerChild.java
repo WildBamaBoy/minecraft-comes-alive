@@ -130,7 +130,9 @@ public class EntityPlayerChild extends AbstractChild
 	public void addAI() 
 	{
 		this.getNavigator().setBreakDoors(true);
-		this.getNavigator().setAvoidsWater(true);
+		this.getNavigator().setAvoidsWater(false);
+		this.getNavigator().setCanSwim(true);
+		
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(2, new EntityAIMoveIndoors(this));
 		this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
