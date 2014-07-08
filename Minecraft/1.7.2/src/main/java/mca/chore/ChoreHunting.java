@@ -32,6 +32,7 @@ import net.minecraft.world.World;
 
 import com.radixshock.radixcore.constant.Time;
 import com.radixshock.radixcore.core.RadixCore;
+import com.radixshock.radixcore.file.WorldPropertiesManager;
 
 /**
  * The hunting chore handles "hunting" for animals far away.
@@ -119,6 +120,19 @@ public class ChoreHunting extends AbstractChore
 				{
 					final EntityPlayer ownerPlayer = RadixCore.getPlayerByName(((EntityPlayerChild)owner).ownerPlayerName);
 					owner.notifyPlayer(ownerPlayer, MCA.getInstance().getLanguageLoader().getString("notify.child.chore.failed.hunting.death", null, owner, false));
+					
+					if (owner instanceof EntityPlayerChild)
+					{
+						final EntityPlayerChild child = (EntityPlayerChild)owner;
+						final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(child.ownerPlayerName);
+
+						if (manager != null && MCA.getInstance().getWorldProperties(manager).heirId == child.mcaID)
+						{
+							MCA.getInstance().getWorldProperties(manager).heirId = -1;
+							manager.saveWorldProperties();
+						}
+					}
+					
 					owner.setDeadWithoutNotification();
 					endChore();
 				}
