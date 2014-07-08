@@ -585,6 +585,11 @@ public class ChoreMining extends AbstractChore
 		int yieldMeta = 0;
 		int yieldAmount = 1;
 
+		if (yieldBlock == Blocks.stone)
+		{
+			yieldBlock = Blocks.cobblestone;
+		}
+		
 		for (MineableOre entry : ChoreRegistry.getMiningOreEntries())
 		{
 			if (nextBlock == entry.getOreBlock())
