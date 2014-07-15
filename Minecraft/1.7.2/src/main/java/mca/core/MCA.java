@@ -215,10 +215,10 @@ public class MCA extends UnenforcedCore
 	public  boolean hasCheckedForUpdates	   = false;
 	public  boolean isDevelopmentEnvironment   = false;
 	public 	boolean hasReceivedClientSetup     = false;
-	
+
 	public  ModPropertiesManager modPropertiesManager = null;
 	public  WorldPropertiesManager worldPropertiesManager = null;
-	
+
 	//Debug fields.
 	public boolean inDebugMode				   		= false;
 	public boolean debugDoSimulateHardcore 			= false;
@@ -289,16 +289,24 @@ public class MCA extends UnenforcedCore
 	{
 		return (WorldPropertiesList)worldPropertiesManager.worldPropertiesInstance;
 	}
-	
+
 	/**
 	 * @return  Gets the world properties list associated with the provided manager.
 	 */
 	public WorldPropertiesList getWorldProperties(Object obj)
 	{
-		final WorldPropertiesManager manager = (WorldPropertiesManager)obj;
-		return (WorldPropertiesList)manager.worldPropertiesInstance;
+		if (obj instanceof WorldPropertiesList)
+		{
+			return (WorldPropertiesList)obj;
+		}
+
+		else
+		{
+			final WorldPropertiesManager manager = (WorldPropertiesManager)obj;
+			return (WorldPropertiesList)manager.worldPropertiesInstance;
+		}
 	}
-	
+
 	/**
 	 * Gets the appropriate skin list for the entity provided.
 	 * 
@@ -337,14 +345,14 @@ public class MCA extends UnenforcedCore
 		instance = this;
 		logger = new ModLogger(this);
 		languageLoader = new LanguageLoader(this);
-		
+
 		if (event.getSide() == Side.CLIENT)
 		{
 			clientTickHandler = new ClientTickHandler();
 		}
 
 		serverTickHandler = new ServerTickHandler();
-		
+
 		try
 		{
 			final String sourcePath = MCA.class.getProtectionDomain().getCodeSource().getLocation().getPath();
@@ -375,27 +383,27 @@ public class MCA extends UnenforcedCore
 		VillagerRegistryMCA.registerVillagerType(7, "Miner", this.getClass());
 
 		SkinLoader.loadMainSkins();
-		
+
 		//Register chore data with API.
 		ChoreRegistry.registerChoreEntry(new CookableFood(Items.porkchop, Items.cooked_porkchop));
 		ChoreRegistry.registerChoreEntry(new CookableFood(Items.beef, Items.cooked_beef));
 		ChoreRegistry.registerChoreEntry(new CookableFood(Items.chicken, Items.cooked_chicken));
 		ChoreRegistry.registerChoreEntry(new CookableFood(Items.fish, Items.cooked_fished));
 		ChoreRegistry.registerChoreEntry(new CookableFood(Items.potato, Items.baked_potato));
-		
+
 		ChoreRegistry.registerChoreEntry(new FarmableCrop("gui.button.chore.farming.plant.wheat", Items.wheat_seeds, Blocks.wheat, Items.wheat, 1, 1, EnumFarmType.NORMAL, true));
 		ChoreRegistry.registerChoreEntry(new FarmableCrop("gui.button.chore.farming.plant.melon", Items.melon_seeds, Blocks.melon_stem, Blocks.melon_block, Items.melon, 3, 7, EnumFarmType.BLOCK, false));
 		ChoreRegistry.registerChoreEntry(new FarmableCrop("gui.button.chore.farming.plant.pumpkin", Items.pumpkin_seeds, Blocks.pumpkin_stem, Blocks.pumpkin, 1, 1, EnumFarmType.BLOCK, false));
 		ChoreRegistry.registerChoreEntry(new FarmableCrop("gui.button.chore.farming.plant.carrot", Items.carrot, Blocks.carrots, Items.carrot, 1, 6, EnumFarmType.NORMAL, false));
 		ChoreRegistry.registerChoreEntry(new FarmableCrop("gui.button.chore.farming.plant.potato", Items.potato, Blocks.potatoes, Items.potato, 1, 6, EnumFarmType.NORMAL, false));
 		ChoreRegistry.registerChoreEntry(new FarmableCrop("gui.button.chore.farming.plant.sugarcane", Items.reeds, Blocks.reeds, Items.reeds, 1, 1, EnumFarmType.SUGARCANE, false));
-		
+
 		ChoreRegistry.registerChoreEntry(new CatchableFish(Items.fish));
 		ChoreRegistry.registerChoreEntry(new CatchableFish(Items.fish, ItemFishFood.FishType.CLOWNFISH.func_150976_a()));
 		ChoreRegistry.registerChoreEntry(new CatchableFish(Items.fish, ItemFishFood.FishType.COD.func_150976_a()));
 		ChoreRegistry.registerChoreEntry(new CatchableFish(Items.fish, ItemFishFood.FishType.PUFFERFISH.func_150976_a()));
 		ChoreRegistry.registerChoreEntry(new CatchableFish(Items.fish, ItemFishFood.FishType.SALMON.func_150976_a()));
-		
+
 		ChoreRegistry.registerChoreEntry(new FishingReward(Blocks.torch, false, 1 , 4));
 		ChoreRegistry.registerChoreEntry(new FishingReward(Items.wheat_seeds, false, 1 , 4));
 		ChoreRegistry.registerChoreEntry(new FishingReward(Items.bucket, false, 1 , 1));
@@ -413,7 +421,7 @@ public class MCA extends UnenforcedCore
 		ChoreRegistry.registerChoreEntry(new FishingReward(Items.melon_seeds, false, 1 , 3));
 		ChoreRegistry.registerChoreEntry(new FishingReward(Items.pumpkin_seeds, false, 1 , 3));
 		ChoreRegistry.registerChoreEntry(new FishingReward(Items.clay_ball, false, 2 , 5));
-		
+
 		ChoreRegistry.registerChoreEntry(new FishingReward(Items.boat, true, 1, 1));
 		ChoreRegistry.registerChoreEntry(new FishingReward(Items.diamond, true, 1, 1));
 		ChoreRegistry.registerChoreEntry(new FishingReward(Items.emerald, true, 1, 1));
@@ -428,14 +436,14 @@ public class MCA extends UnenforcedCore
 		ChoreRegistry.registerChoreEntry(new FishingReward(Items.diamond_helmet, true, 1, 1));
 		ChoreRegistry.registerChoreEntry(new FishingReward(Items.diamond_boots, true, 1, 1));
 		ChoreRegistry.registerChoreEntry(new FishingReward(Items.ender_pearl, true, 1, 3));
-		
+
 		ChoreRegistry.registerChoreEntry(new CuttableLog("gui.button.chore.woodcutting.treetype.oak", Blocks.log, 0));
 		ChoreRegistry.registerChoreEntry(new CuttableLog("gui.button.chore.woodcutting.treetype.spruce", Blocks.log, 1));
 		ChoreRegistry.registerChoreEntry(new CuttableLog("gui.button.chore.woodcutting.treetype.birch", Blocks.log, 2));
 		ChoreRegistry.registerChoreEntry(new CuttableLog("gui.button.chore.woodcutting.treetype.jungle", Blocks.log, 3));
 		ChoreRegistry.registerChoreEntry(new CuttableLog("gui.button.chore.woodcutting.treetype.acacia", Blocks.log2, 0));
 		ChoreRegistry.registerChoreEntry(new CuttableLog("gui.button.chore.woodcutting.treetype.darkoak", Blocks.log2, 1));
-		
+
 		ChoreRegistry.registerChoreEntry(new MineableOre("gui.button.chore.mining.find.coal", Blocks.coal_ore, Items.coal, 0, 1, 1));
 		ChoreRegistry.registerChoreEntry(new MineableOre("gui.button.chore.mining.find.iron", Blocks.iron_ore, Blocks.iron_ore, 0, 1, 1));
 		ChoreRegistry.registerChoreEntry(new MineableOre("gui.button.chore.mining.find.lapis", Blocks.lapis_ore, Items.dye, 4, 4, 8));
@@ -443,13 +451,13 @@ public class MCA extends UnenforcedCore
 		ChoreRegistry.registerChoreEntry(new MineableOre("gui.button.chore.mining.find.diamond", Blocks.diamond_ore, Items.diamond, 0, 1, 1));
 		ChoreRegistry.registerChoreEntry(new MineableOre("gui.button.chore.mining.find.redstone", Blocks.redstone_ore, Items.redstone, 0, 4, 5));
 		ChoreRegistry.registerChoreEntry(new MineableOre("gui.button.chore.mining.find.emerald", Blocks.emerald_ore, Items.emerald, 0, 1, 1));
-		
+
 		ChoreRegistry.registerChoreEntry(new HuntableAnimal(EntitySheep.class, Blocks.wool, Items.wheat, 50, true, true));
 		ChoreRegistry.registerChoreEntry(new HuntableAnimal(EntityCow.class, Items.beef, Items.wheat, 40, true, true));
 		ChoreRegistry.registerChoreEntry(new HuntableAnimal(EntityPig.class, Items.porkchop, Items.carrot, 70, true, true));
 		ChoreRegistry.registerChoreEntry(new HuntableAnimal(EntityChicken.class, Items.chicken, Items.wheat_seeds, 70, true, true));
 		ChoreRegistry.registerChoreEntry(new HuntableAnimal(EntityWolf.class, (Item)null, Items.bone, 33, false, true));
-		
+
 		languageLoader = new LanguageLoader(this);
 		languageParser = new LanguageParser();
 		languageLoaderHook = new LanguageLoaderHook();
@@ -530,7 +538,7 @@ public class MCA extends UnenforcedCore
 	{
 		return Constants.REQUIRED_RADIX;
 	}
-	
+
 	@Override
 	public boolean getChecksForUpdates() 
 	{
@@ -821,7 +829,7 @@ public class MCA extends UnenforcedCore
 	{
 		return modPropertiesManager;
 	}
-	
+
 	@Override
 	public WorldPropertiesManager getWorldPropertiesManager()
 	{
@@ -857,7 +865,7 @@ public class MCA extends UnenforcedCore
 	{
 		return packetHandler;
 	}
-	
+
 	@Override
 	public LanguageLoader getLanguageLoader()
 	{
@@ -946,19 +954,19 @@ public class MCA extends UnenforcedCore
 		WorldPropertiesList list = (WorldPropertiesList)manager.worldPropertiesInstance;
 		list.playerID = (int) Math.abs((list.playerName.hashCode() + System.currentTimeMillis() % (1024 * 1024))) * -1;
 	}
-	
+
 	@Override
 	public void onSaveWorldProperties(WorldPropertiesManager manager)
 	{
 		this.playerWorldManagerMap.put(manager.getCurrentPlayerName(), manager);
 	}
-	
+
 	@Override
 	public void onLoadWorldProperties(WorldPropertiesManager manager)
 	{
 		this.playerWorldManagerMap.put(manager.getCurrentPlayerName(), manager);
 	}
-	
+
 	@Override
 	public void onUpdateWorldProperties(WorldPropertiesManager manager)
 	{
@@ -972,7 +980,7 @@ public class MCA extends UnenforcedCore
 			packetHandler.sendPacketToPlayer(new PacketSetWorldProperties(manager), (EntityPlayerMP)RadixCore.getPlayerByName(manager.getCurrentPlayerName()));
 		}
 	}
-	
+
 	static
 	{
 		acceptableGifts.put(Items.wooden_sword, 3);

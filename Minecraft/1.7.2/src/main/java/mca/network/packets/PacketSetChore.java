@@ -54,46 +54,46 @@ public class PacketSetChore extends AbstractPacket implements IMessage, IMessage
 	public IMessage onMessage(PacketSetChore packet, MessageContext context) 
 	{
 		final EntityPlayer player = getPlayer(context);
-		final AbstractEntity entity = (AbstractEntity)player.worldObj.getEntityByID(entityId);
-		chore.owner = entity;
+		final AbstractEntity entity = (AbstractEntity)player.worldObj.getEntityByID(packet.entityId);
+		packet.chore.owner = entity;
 
-		if (chore instanceof ChoreFarming)
+		if (packet.chore instanceof ChoreFarming)
 		{
-			entity.farmingChore = (ChoreFarming) chore;
+			entity.farmingChore = (ChoreFarming) packet.chore;
 			entity.farmingChore.cropEntry = ChoreRegistry.getFarmingCropEntries().get(entity.farmingChore.entryIndex);
 		}
 
-		else if (chore instanceof ChoreWoodcutting)
+		else if (packet.chore instanceof ChoreWoodcutting)
 		{
-			entity.woodcuttingChore = (ChoreWoodcutting) chore;
+			entity.woodcuttingChore = (ChoreWoodcutting) packet.chore;
 			entity.woodcuttingChore.treeEntry = ChoreRegistry.getWoodcuttingTreeEntries().get(entity.woodcuttingChore.treeTypeIndex);
 		}
 
-		else if (chore instanceof ChoreFishing)
+		else if (packet.chore instanceof ChoreFishing)
 		{
-			entity.fishingChore = (ChoreFishing) chore;
+			entity.fishingChore = (ChoreFishing) packet.chore;
 		}
 
-		else if (chore instanceof ChoreMining)
+		else if (packet.chore instanceof ChoreMining)
 		{
-			entity.miningChore = (ChoreMining) chore;
+			entity.miningChore = (ChoreMining) packet.chore;
 			entity.miningChore.oreEntry = ChoreRegistry.getMiningOreEntries().get(entity.miningChore.entryIndex);
 			entity.miningChore.searchBlock = entity.miningChore.oreEntry.getOreBlock();
 		}
 
-		else if (chore instanceof ChoreCombat)
+		else if (packet.chore instanceof ChoreCombat)
 		{
-			entity.combatChore = (ChoreCombat) chore;
+			entity.combatChore = (ChoreCombat) packet.chore;
 		}
 
-		else if (chore instanceof ChoreHunting)
+		else if (packet.chore instanceof ChoreHunting)
 		{
-			entity.huntingChore = (ChoreHunting) chore;
+			entity.huntingChore = (ChoreHunting) packet.chore;
 		}
 
-		else if (chore instanceof ChoreCooking)
+		else if (packet.chore instanceof ChoreCooking)
 		{
-			entity.cookingChore = (ChoreCooking) chore;
+			entity.cookingChore = (ChoreCooking) packet.chore;
 		}
 
 		else

@@ -46,8 +46,9 @@ public class PacketSetFamilyTree extends AbstractPacket implements IMessage, IMe
 	{
 		final EntityPlayer player = getPlayer(context);
 		final AbstractEntity entity = (AbstractEntity)player.worldObj.getEntityByID(packet.entityId);
-		familyTree.owner = entity;
-		entity.familyTree = familyTree;
+
+		packet.familyTree.owner = entity;
+		entity.familyTree = packet.familyTree;
 		
 		return null;
 	}

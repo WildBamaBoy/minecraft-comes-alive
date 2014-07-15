@@ -28,7 +28,11 @@ public class PacketSayLocalized extends AbstractPacket implements IMessage, IMes
 	
 	public PacketSayLocalized(EntityPlayer player, Integer speakerEntityId, String phraseId, boolean useCharacterType, String prefix, String suffix)
 	{
-		this.playerName = player.getCommandSenderName();
+		if (player != null)
+		{
+			this.playerName = player.getCommandSenderName();
+		}
+		
 		this.entityId = speakerEntityId;
 		this.phraseId = phraseId;
 		this.useCharacterType = useCharacterType;
