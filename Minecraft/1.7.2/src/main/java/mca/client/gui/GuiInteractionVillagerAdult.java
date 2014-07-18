@@ -22,7 +22,7 @@ import mca.chore.ChoreMining;
 import mca.chore.ChoreWoodcutting;
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesList;
+import mca.core.WorldPropertiesList;
 import mca.core.util.Interactions;
 import mca.core.util.LogicExtension;
 import mca.core.util.Utility;

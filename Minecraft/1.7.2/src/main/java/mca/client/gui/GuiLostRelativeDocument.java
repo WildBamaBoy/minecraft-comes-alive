@@ -10,7 +10,7 @@
 package mca.client.gui;
 
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesList;
+import mca.core.WorldPropertiesList;
 import mca.core.util.object.FamilyTree;
 import mca.entity.AbstractEntity;
 import mca.enums.EnumRelation;

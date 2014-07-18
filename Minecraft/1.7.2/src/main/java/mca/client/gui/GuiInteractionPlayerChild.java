@@ -21,7 +21,7 @@ import mca.chore.ChoreHunting;
 import mca.chore.ChoreMining;
 import mca.chore.ChoreWoodcutting;
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesList;
+import mca.core.WorldPropertiesList;
 import mca.core.util.Interactions;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractEntity;

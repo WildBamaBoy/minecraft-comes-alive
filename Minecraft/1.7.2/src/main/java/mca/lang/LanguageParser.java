@@ -12,7 +12,7 @@ package mca.lang;
 import java.util.List;
 
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesList;
+import mca.core.WorldPropertiesList;
 import mca.core.util.Utility;
 import mca.entity.AbstractChild;
 import mca.entity.AbstractEntity;

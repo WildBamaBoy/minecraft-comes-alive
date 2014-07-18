@@ -11,7 +11,7 @@ package mca.client.gui;
 
 import mca.chore.ChoreCooking;
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesList;
+import mca.core.WorldPropertiesList;
 import mca.core.util.Interactions;
 import mca.core.util.LogicExtension;
 import mca.core.util.Utility;

@@ -15,7 +15,7 @@ import mca.api.registries.VillagerRegistryMCA;
 import mca.chore.ChoreCooking;
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesList;
+import mca.core.WorldPropertiesList;
 import mca.core.util.Utility;
 import mca.entity.AbstractEntity;
 import mca.entity.AbstractSerializableEntity;

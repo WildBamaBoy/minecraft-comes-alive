@@ -12,7 +12,7 @@ package mca.client.gui;
 import java.util.Map;
 
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesList;
+import mca.core.WorldPropertiesList;
 import mca.network.packets.PacketClientCommand;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;

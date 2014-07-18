@@ -7,7 +7,7 @@
  * http://www.gnu.org/licenses/gpl.html
  ******************************************************************************/
 
-package mca.core.io;
+package mca.core;
 
 import java.io.Serializable;
 
@@ -51,4 +51,7 @@ public class ModPropertiesList implements Serializable
 	
 	/** Should children growth be halted? */
 	public boolean haltChildGrowth = false;
+	
+	/** The prefix to append to villagers' chat */
+	public String villagerChatPrefix = "";
 }

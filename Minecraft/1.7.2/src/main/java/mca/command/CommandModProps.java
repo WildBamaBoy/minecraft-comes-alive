@@ -12,7 +12,7 @@ package mca.command;
 import java.lang.reflect.Field;
 
 import mca.core.MCA;
-import mca.core.io.ModPropertiesList;
+import mca.core.ModPropertiesList;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.util.ChatComponentText;

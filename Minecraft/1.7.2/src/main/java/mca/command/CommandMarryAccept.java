@@ -10,7 +10,7 @@
 package mca.command;
 
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesList;
+import mca.core.WorldPropertiesList;
 import mca.network.packets.PacketOnPlayerMarriage;
 import mca.network.packets.PacketRemoveMarriageRequest;
 import net.minecraft.command.ICommandSender;

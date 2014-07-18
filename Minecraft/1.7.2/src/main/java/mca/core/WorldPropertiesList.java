@@ -7,7 +7,7 @@
  * http://www.gnu.org/licenses/gpl.html
  ******************************************************************************/
 
-package mca.core.io;
+package mca.core;
 
 import java.io.Serializable;
 import java.util.ArrayList;

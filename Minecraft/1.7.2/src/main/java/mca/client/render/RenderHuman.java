@@ -13,7 +13,7 @@ import mca.chore.ChoreHunting;
 import mca.client.gui.GuiVillagerEditor;
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesList;
+import mca.core.WorldPropertiesList;
 import mca.core.util.object.PlayerMemory;
 import mca.entity.AbstractChild;
 import mca.entity.AbstractEntity;

@@ -49,8 +49,6 @@ import mca.core.forge.CommonProxy;
 import mca.core.forge.EventHooks;
 import mca.core.forge.GuiHandler;
 import mca.core.forge.ServerTickHandler;
-import mca.core.io.ModPropertiesList;
-import mca.core.io.WorldPropertiesList;
 import mca.core.util.SkinLoader;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityChoreFishHook;

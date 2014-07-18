@@ -2,7 +2,7 @@ package mca.network.packets;
 
 import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
-import mca.core.io.WorldPropertiesList;
+import mca.core.WorldPropertiesList;
 
 import com.radixshock.radixcore.file.WorldPropertiesManager;
 import com.radixshock.radixcore.network.ByteBufIO;
