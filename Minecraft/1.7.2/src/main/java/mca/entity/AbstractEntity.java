@@ -90,6 +90,7 @@ import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 
+import com.radixshock.radixcore.constant.Font;
 import com.radixshock.radixcore.constant.Font.Color;
 import com.radixshock.radixcore.constant.Particle;
 import com.radixshock.radixcore.constant.Time;
@@ -929,7 +930,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			//Ensure that the entity is synced with the server by checking if it has a name.
 			if (!name.equals("") && player != null)
 			{
-				player.addChatMessage(new ChatComponentText(getTitle(MCA.getInstance().getIdOfPlayer(player), true) + ": " + text));
+				String prefix = MCA.getInstance().getModProperties().villagerChatPrefix.replace("&", Font.SECTION_SIGN);
+				player.addChatMessage(new ChatComponentText(prefix + getTitle(MCA.getInstance().getIdOfPlayer(player), true) + ": " + text));
 			}
 			
 			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(getEntityId(), "isSleeping", isSleeping));

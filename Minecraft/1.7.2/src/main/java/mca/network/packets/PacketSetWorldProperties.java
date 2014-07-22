@@ -48,10 +48,13 @@ public class PacketSetWorldProperties extends AbstractPacket implements IMessage
 		final WorldPropertiesManager recvManager = packet.manager;
 		final WorldPropertiesManager myManager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
 
+		recvManager.mod = MCA.getInstance();
+
 		try
 		{
 			if (myManager != null)
 			{
+				myManager.mod = MCA.getInstance();
 				if (player.worldObj.isRemote) //Received from the server.
 				{
 					for (final Field field : myManager.worldPropertiesInstance.getClass().getDeclaredFields())

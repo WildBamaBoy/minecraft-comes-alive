@@ -40,6 +40,8 @@ import mca.command.CommandMarry;
 import mca.command.CommandMarryAccept;
 import mca.command.CommandMarryDecline;
 import mca.command.CommandModProps;
+import mca.command.CommandReloadModProperties;
+import mca.command.CommandReloadWorldProperties;
 import mca.command.CommandSetGender;
 import mca.command.CommandSetName;
 import mca.command.CommandUnblock;
@@ -494,7 +496,9 @@ public class MCA extends UnenforcedCore
 		event.registerServerCommand(new CommandDebugRule());
 		event.registerServerCommand(new CommandModProps());
 		event.registerServerCommand(new CommandDevControl());
-
+		event.registerServerCommand(new CommandReloadModProperties());
+		event.registerServerCommand(new CommandReloadWorldProperties());
+		
 		MCA.getInstance().getLogger().log("Minecraft Comes Alive is running.");
 	}
 

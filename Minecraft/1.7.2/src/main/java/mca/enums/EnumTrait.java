@@ -23,7 +23,8 @@ public enum EnumTrait
 	Friendly("trait.friendly", 4),
 	Irritable("trait.irritable", 5),
 	Emotional("trait.emotional", 6),
-	Outgoing("trait.outgoing", 7);
+	Outgoing("trait.outgoing", 7),
+	Greedy("trait.greedy", 8);
 	
 	private String value;
 	private int traitId;
@@ -47,7 +48,7 @@ public enum EnumTrait
 	 */
 	public static EnumTrait getRandomTrait()
 	{
-		final int randomId = MCA.rand.nextInt(EnumTrait.values().length);
+		int randomId = MCA.rand.nextInt(EnumTrait.values().length);
 		
 		for (final EnumTrait trait : EnumTrait.values())
 		{

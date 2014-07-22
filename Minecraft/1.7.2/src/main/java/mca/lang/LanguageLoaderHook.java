@@ -55,7 +55,7 @@ public class LanguageLoaderHook implements ILanguageLoaderHook
 		String prefix = null;
 		String suffix = null;
 		
-		if (arguments.length > 0)
+		if (arguments != null && arguments.length > 0)
 		{	
 			player = (EntityPlayer) (arguments.length >= 1 ? arguments[0] : null);
 			entity = (AbstractEntity) (arguments.length >= 2 ? arguments[1] : null);
@@ -76,7 +76,16 @@ public class LanguageLoaderHook implements ILanguageLoaderHook
 				player = entity.worldObj.getPlayerEntityByName(entity.lastInteractingPlayer);
 			}
 			
-			MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(player, entity.getEntityId(), elementId, useCharacterType, prefix, suffix), (EntityPlayerMP)player);
+			if (entity != null)
+			{
+				MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(player, entity.getEntityId(), elementId, useCharacterType, prefix, suffix), (EntityPlayerMP)player);
+			}
+			
+			else
+			{
+				MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(player, null, elementId, useCharacterType, prefix, suffix), (EntityPlayerMP)player);
+			}
+			
 			return "";
 		}
 

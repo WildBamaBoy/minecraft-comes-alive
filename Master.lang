@@ -76,6 +76,7 @@ trait.friendly=Friendly
 trait.irritable=Irritable
 trait.emotional=Emotional
 trait.outgoing=Outgoing
+trait.greedy=Greedy
 
 ##########
 # Moods
@@ -457,6 +458,11 @@ multiplayer.command.output.unblock.failed = That player is not blocked.
 multiplayer.command.output.unblock.successful = Player successfully unblocked.
 
 multiplayer.command.output.unblockall.successful = All blocked players have now been unblocked.
+
+multiplayer.command.output.reloadmodproperties = Mod properties reloaded and updated.
+multiplayer.command.output.reloadworldproperties.all =
+multiplayer.command.output.reloadworldproperties.success = World properties for %TargetName% reloaded and updated.
+multiplayer.command.output.reloadworldproperties.fail = Failure to reload world properties. Player not found.
 
 multiplayer.interaction.reject.spouse = You cannot control another player's spouse.
 multiplayer.interaction.reject.child = You cannot control another player's child.
