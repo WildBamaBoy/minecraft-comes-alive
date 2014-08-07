@@ -41,7 +41,11 @@ public class PacketSwingArm extends AbstractPacket implements IMessage, IMessage
 		final EntityPlayer player = getPlayer(context);
 		final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(packet.entityId);
 
-		entity.swingItem();
+		if (entity != null)
+		{
+			entity.swingItem();
+		}
+		
 		return null;
 	}
 }
