@@ -11,6 +11,7 @@ package mca.command;
 
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.util.SelfTester;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.util.ChatComponentText;
@@ -91,6 +92,12 @@ public class CommandDevControl extends AbstractCommand
 				{
 					sender.addChatMessage(new ChatComponentText(Color.RED + "Argument must be true or false."));
 				}
+			}
+			
+			else if (commandName.equalsIgnoreCase("doSelfTest"))
+			{
+				SelfTester tester = new SelfTester();
+				tester.doSelfTest();
 			}
 		}
 

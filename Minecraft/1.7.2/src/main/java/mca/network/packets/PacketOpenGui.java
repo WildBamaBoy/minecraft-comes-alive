@@ -47,12 +47,12 @@ public class PacketOpenGui extends AbstractPacket implements IMessage, IMessageH
 		final EntityPlayer player = getPlayer(context);
 		final Entity entity = player.worldObj.getEntityByID(packet.interactingEntityId);
 
-		if (guiId == Constants.ID_GUI_SETUP && MCA.getInstance().hasReceivedClientSetup)
+		if (packet.guiId == Constants.ID_GUI_SETUP && MCA.getInstance().hasReceivedClientSetup)
 		{
 			return null;
 		}
 
-		else if (guiId == Constants.ID_GUI_SETUP && !MCA.getInstance().hasReceivedClientSetup)
+		else if (packet.guiId == Constants.ID_GUI_SETUP && !MCA.getInstance().hasReceivedClientSetup)
 		{
 			MCA.getInstance().hasReceivedClientSetup = true;
 		}

@@ -58,7 +58,7 @@ public class PacketSetInventory extends AbstractPacket implements IMessage, IMes
 
 		if (!player.worldObj.isRemote)
 		{
-			MCA.packetHandler.sendPacketToAllPlayersExcept(new PacketSetInventory(entityId, inventory), (EntityPlayerMP)player);
+			MCA.packetHandler.sendPacketToAllPlayersExcept(new PacketSetInventory(packet.entityId, packet.inventory), (EntityPlayerMP)player);
 		}
 
 		return null;

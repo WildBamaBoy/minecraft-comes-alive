@@ -52,7 +52,7 @@ public class PacketOnVillagerProcreate extends AbstractPacket implements IMessag
 		AbstractBaby itemBaby = null;
 
 		//Unlock the appropriate achievement.
-		if (babyIsMale)
+		if (packet.babyIsMale)
 		{
 			itemBaby = (AbstractBaby)MCA.getInstance().itemBabyBoy;
 			player.triggerAchievement(MCA.getInstance().achievementHaveBabyBoy);
@@ -70,7 +70,7 @@ public class PacketOnVillagerProcreate extends AbstractPacket implements IMessag
 
 		//Modify the player's world properties manager.
 		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
-		MCA.getInstance().getWorldProperties(manager).babyIsMale = babyIsMale;
+		MCA.getInstance().getWorldProperties(manager).babyIsMale = packet.babyIsMale;
 		MCA.getInstance().getWorldProperties(manager).babyExists = true;
 		manager.saveWorldProperties();
 

@@ -20,7 +20,7 @@ import com.radixshock.radixcore.file.WorldPropertiesManager;
 /**
  * Defines the ReloadModProperties command.
  */
-public class CommandReloadWorldProperties extends CommandBase
+public class CommandReloadWorldProperties extends AbstractCommand
 {
 	public CommandReloadWorldProperties()
 	{
@@ -53,7 +53,7 @@ public class CommandReloadWorldProperties extends CommandBase
 					MCA.getInstance().onUpdateWorldProperties(manager);		//Send to client.
 				}
 				
-				sender.addChatMessage(new ChatComponentText(MCA.getInstance().getLanguageLoader().getString("multiplayer.command.output.reloadworldproperties.all")));
+				super.addChatMessage(sender, "multiplayer.command.output.reloadworldproperties.all", null, null);
 			}
 			
 			else
@@ -65,15 +65,12 @@ public class CommandReloadWorldProperties extends CommandBase
 					manager.loadWorldProperties();
 					MCA.getInstance().onUpdateWorldProperties(manager);
 					
-					String response = MCA.getInstance().getLanguageLoader().getString("multiplayer.command.output.reloadworldproperties.success");
-					response = response.replace("%TargetName%", arguments[0]);
-					
-					sender.addChatMessage(new ChatComponentText(response));
+					super.addChatMessage(sender, "multiplayer.command.output.reloadworldproperties.success", null, null);
 				}
 				
 				else
 				{
-					sender.addChatMessage(new ChatComponentText(MCA.getInstance().getLanguageLoader().getString("multiplayer.command.output.reloadworldproperties.fail")));	
+					super.addChatMessage(sender, "multiplayer.command.output.reloadworldproperties.fail", null, null);
 				}
 			}
 		}

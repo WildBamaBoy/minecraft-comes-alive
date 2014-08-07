@@ -44,7 +44,7 @@ public class PacketReturnInventory extends AbstractPacket implements IMessage, I
 	public IMessage onMessage(PacketReturnInventory packet, MessageContext context) 
 	{
 		final EntityPlayer player = getPlayer(context);
-		final AbstractEntity entity = (AbstractEntity)player.worldObj.getEntityByID(entityId);
+		final AbstractEntity entity = (AbstractEntity)player.worldObj.getEntityByID(packet.entityId);
 
 		ArrayList<EntityItem> itemList = MCA.getInstance().deadPlayerInventories.get(player.getCommandSenderName());
 

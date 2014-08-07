@@ -28,46 +28,59 @@ public final class SelfTester
 {
 	private final List<String> declaredVariables = new ArrayList<String>();
 
+	private List<String> privateVariablesInPacketFile = new ArrayList<String>();
+	private String lastPacketFile = "";
+	private boolean startTestingPacketLine = false;
+
 	/**
 	 * Runs the self tester.
 	 */
 	public void doSelfTest()
 	{
+		String runningDirectory = RadixCore.getInstance().runningDirectory.replace("eclipse", "");
+
 		declaredVariables.add("playerMemoryMap");
 
 		MCA.getInstance().getLogger().log("-------------- Beginning self-test --------------");
 
 		final File[] sourceDirs = new File[]
 				{
-				new File(RadixCore.getInstance().runningDirectory + "/../src/minecraft/mca/api"),
-				new File(RadixCore.getInstance().runningDirectory + "/../src/minecraft/mca/block"),
-				new File(RadixCore.getInstance().runningDirectory + "/../src/minecraft/mca/chore"),
-				new File(RadixCore.getInstance().runningDirectory + "/../src/minecraft/mca/client/gui"),
-				new File(RadixCore.getInstance().runningDirectory + "/../src/minecraft/mca/client/model"),
-				new File(RadixCore.getInstance().runningDirectory + "/../src/minecraft/mca/client/render"),
-				new File(RadixCore.getInstance().runningDirectory + "/../src/minecraft/mca/command"),
-				new File(RadixCore.getInstance().runningDirectory + "/../src/minecraft/mca/core"),
-				new File(RadixCore.getInstance().runningDirectory + "/../src/minecraft/mca/core/forge"),
-				new File(RadixCore.getInstance().runningDirectory + "/../src/minecraft/mca/core/io"),
-				new File(RadixCore.getInstance().runningDirectory + "/../src/minecraft/mca/core/util"),
-				new File(RadixCore.getInstance().runningDirectory + "/../src/minecraft/mca/entity"),
-				new File(RadixCore.getInstance().runningDirectory + "/../src/minecraft/mca/enums"),
-				new File(RadixCore.getInstance().runningDirectory + "/../src/minecraft/mca/inventory"),
-				new File(RadixCore.getInstance().runningDirectory + "/../src/minecraft/mca/item"),
-				new File(RadixCore.getInstance().runningDirectory + "/../src/minecraft/mca/tileentity")
+				new File(runningDirectory + "/src/main/java/mca/api/chores"),
+				new File(runningDirectory + "/src/main/java/mca/api/enums"),
+				new File(runningDirectory + "/src/main/java/mca/api/registries"),
+				new File(runningDirectory + "/src/main/java/mca/api/villagers"),
+				new File(runningDirectory + "/src/main/java/mca/block"),
+				new File(runningDirectory + "/src/main/java/mca/chore"),
+				new File(runningDirectory + "/src/main/java/mca/client/gui"),
+				new File(runningDirectory + "/src/main/java/mca/client/model"),
+				new File(runningDirectory + "/src/main/java/mca/client/render"),
+				new File(runningDirectory + "/src/main/java/mca/command"),
+				new File(runningDirectory + "/src/main/java/mca/core"),
+				new File(runningDirectory + "/src/main/java/mca/core/forge"),
+				new File(runningDirectory + "/src/main/java/mca/core/util"),
+				new File(runningDirectory + "/src/main/java/mca/core/util/object"),
+				new File(runningDirectory + "/src/main/java/mca/entity"),
+				new File(runningDirectory + "/src/main/java/mca/enums"),
+				new File(runningDirectory + "/src/main/java/mca/inventory"),
+				new File(runningDirectory + "/src/main/java/mca/item"),
+				new File(runningDirectory + "/src/main/java/mca/lang"),
+				new File(runningDirectory + "/src/main/java/mca/network"),
+				new File(runningDirectory + "/src/main/java/mca/network/packets"),
+				new File(runningDirectory + "/src/main/java/mca/tileentity")
 				};
 
 		FileInputStream fileStream;
 		DataInputStream dataStream;
 		BufferedReader reader;
 
-		for (int loops = 0; loops < 3; loops++)
+		for (int loops = 0; loops < 4; loops++)
 		{
 			switch (loops)
 			{
 			case 0: MCA.getInstance().getLogger().log("Building list of declared variables in entity and gui files..."); break;
 			case 1: MCA.getInstance().getLogger().log("Testing calls to language system for validity..."); break;
-			case 2:	MCA.getInstance().getLogger().log("Testing for invalid calls to createFieldUpdatePacket..."); break;
+			case 2: MCA.getInstance().getLogger().log("Testing calls for field update validity..."); break;
+			case 3:	MCA.getInstance().getLogger().log("Testing for calls to packet data without packet reference..."); break;
 			}
 
 			int lineNumber = 0;
@@ -93,19 +106,20 @@ public final class SelfTester
 
 								try
 								{
-								switch (loops)
-								{
-								case 0: tryAddLineToDeclaredFields(readString); break;
-								case 1: testLineInLanguageSystem(readString, sourceFile.getName(), lineNumber); break;
-								case 2:	testLineForFieldUpdateValidity(readString, sourceFile.getName(), lineNumber); break;
+									switch (loops)
+									{
+									case 0: tryAddLineToDeclaredFields(readString); break;
+									case 1: testLineInLanguageSystem(readString, sourceFile.getName(), lineNumber); break;
+									case 2:	testLineForFieldUpdateValidity(readString, sourceFile.getName(), lineNumber); break;
+									case 3: testLineForPacketReference(readString, sourceFile.getName(), lineNumber); break;
+									}
 								}
-								}
-								
+
 								catch (StringIndexOutOfBoundsException e)
 								{
 									continue;
 								}
-								
+
 								catch (NullPointerException e)
 								{
 									continue;
@@ -130,6 +144,65 @@ public final class SelfTester
 			MCA.getInstance().getLogger().log("   Done.");
 		}
 		MCA.getInstance().getLogger().log("-------------- End self-test --------------");
+	}
+
+	private void testLineForPacketReference(String line, String fileName, int lineNumber) 
+	{
+		if (fileName.contains("Packet"))
+		{
+			if (!lastPacketFile.equals(fileName))
+			{
+				lastPacketFile = fileName;
+				startTestingPacketLine = false;
+				privateVariablesInPacketFile.clear();
+			}
+
+			if (!startTestingPacketLine)
+			{
+				if (line.contains(";") && (line.contains("private int") || line.contains("private boolean") || line.contains("private byte") || line.contains("private String") || line.contains("private double") || line.contains("private float")))
+				{
+					line = line.trim().replace("public ", "").trim();
+
+					if (line.contains("="))
+					{
+						line = line.substring(0, line.indexOf("=")).trim() + ";";
+					}
+
+					if (line.contains(";"))
+					{
+						final int spaceIndex = line.indexOf(' ');
+						final int semicolonIndex = line.indexOf(';');
+						line = line.substring(spaceIndex + 1, semicolonIndex);
+					}
+
+					line = line.replace("boolean ", "");
+					line = line.replace("int ", "");
+					line = line.replace("byte ", "");
+					line = line.replace("String ", "");
+					line = line.replace("double ", "");
+					line = line.replace("float ", "");
+					line = line.trim();
+					
+					privateVariablesInPacketFile.add(line);
+				}
+			}
+
+			if (line.contains("onMessage"))
+			{
+				startTestingPacketLine = true;
+			}
+			
+			if (startTestingPacketLine)
+			{
+				for (String variable : privateVariablesInPacketFile)
+				{
+					if (line.contains(variable) && !line.contains("packet." + variable))
+					{
+						MCA.getInstance().getLogger().log("\tReference to <" + variable + "> does not use a packet reference. Located at (" + fileName + ":" + lineNumber + ")");
+					}
+				}
+			}
+		}
 	}
 
 	private void testLineInLanguageSystem(String line, String fileName, int lineNumber)

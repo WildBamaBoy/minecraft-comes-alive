@@ -59,7 +59,7 @@ public class PacketBabyInfo  extends AbstractPacket implements IMessage, IMessag
 	public IMessage onMessage(PacketBabyInfo packet, MessageContext context) 
 	{
 		//Set the player's spouse's manager to have the same baby info.
-		final WorldPropertiesManager spouseManager = MCA.getInstance().playerWorldManagerMap.get(targetSpouseName);
+		final WorldPropertiesManager spouseManager = MCA.getInstance().playerWorldManagerMap.get(packet.targetSpouseName);
 		final WorldPropertiesList properties = (WorldPropertiesList)spouseManager.worldPropertiesInstance;
 		
 		properties.babyExists = packet.babyExists;

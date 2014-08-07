@@ -50,7 +50,7 @@ public class PacketRemoveItem extends AbstractPacket implements IMessage, IMessa
 	public IMessage onMessage(PacketRemoveItem packet, MessageContext context) 
 	{
 		final EntityPlayer player = getPlayer(context);
-		player.inventory.decrStackSize(slot, amount);
+		player.inventory.decrStackSize(packet.slot, packet.amount);
 		
 		return null;
 	}

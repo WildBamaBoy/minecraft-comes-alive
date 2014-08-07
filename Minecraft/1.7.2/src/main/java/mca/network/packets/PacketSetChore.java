@@ -25,17 +25,17 @@ public class PacketSetChore extends AbstractPacket implements IMessage, IMessage
 {
 	private int entityId;
 	private AbstractChore chore;
-	
+
 	public PacketSetChore()
 	{
 	}
-	
+
 	public PacketSetChore(int entityId, AbstractChore chore)
 	{
 		this.entityId = entityId;
 		this.chore = chore;
 	}
-	
+
 	@Override
 	public void fromBytes(ByteBuf byteBuf) 
 	{
@@ -57,48 +57,51 @@ public class PacketSetChore extends AbstractPacket implements IMessage, IMessage
 		final AbstractEntity entity = (AbstractEntity)player.worldObj.getEntityByID(packet.entityId);
 		packet.chore.owner = entity;
 
-		if (packet.chore instanceof ChoreFarming)
+		if (entity != null)
 		{
-			entity.farmingChore = (ChoreFarming) packet.chore;
-			entity.farmingChore.cropEntry = ChoreRegistry.getFarmingCropEntries().get(entity.farmingChore.entryIndex);
-		}
+			if (packet.chore instanceof ChoreFarming)
+			{
+				entity.farmingChore = (ChoreFarming) packet.chore;
+				entity.farmingChore.cropEntry = ChoreRegistry.getFarmingCropEntries().get(entity.farmingChore.entryIndex);
+			}
 
-		else if (packet.chore instanceof ChoreWoodcutting)
-		{
-			entity.woodcuttingChore = (ChoreWoodcutting) packet.chore;
-			entity.woodcuttingChore.treeEntry = ChoreRegistry.getWoodcuttingTreeEntries().get(entity.woodcuttingChore.treeTypeIndex);
-		}
+			else if (packet.chore instanceof ChoreWoodcutting)
+			{
+				entity.woodcuttingChore = (ChoreWoodcutting) packet.chore;
+				entity.woodcuttingChore.treeEntry = ChoreRegistry.getWoodcuttingTreeEntries().get(entity.woodcuttingChore.treeTypeIndex);
+			}
 
-		else if (packet.chore instanceof ChoreFishing)
-		{
-			entity.fishingChore = (ChoreFishing) packet.chore;
-		}
+			else if (packet.chore instanceof ChoreFishing)
+			{
+				entity.fishingChore = (ChoreFishing) packet.chore;
+			}
 
-		else if (packet.chore instanceof ChoreMining)
-		{
-			entity.miningChore = (ChoreMining) packet.chore;
-			entity.miningChore.oreEntry = ChoreRegistry.getMiningOreEntries().get(entity.miningChore.entryIndex);
-			entity.miningChore.searchBlock = entity.miningChore.oreEntry.getOreBlock();
-		}
+			else if (packet.chore instanceof ChoreMining)
+			{
+				entity.miningChore = (ChoreMining) packet.chore;
+				entity.miningChore.oreEntry = ChoreRegistry.getMiningOreEntries().get(entity.miningChore.entryIndex);
+				entity.miningChore.searchBlock = entity.miningChore.oreEntry.getOreBlock();
+			}
 
-		else if (packet.chore instanceof ChoreCombat)
-		{
-			entity.combatChore = (ChoreCombat) packet.chore;
-		}
+			else if (packet.chore instanceof ChoreCombat)
+			{
+				entity.combatChore = (ChoreCombat) packet.chore;
+			}
 
-		else if (packet.chore instanceof ChoreHunting)
-		{
-			entity.huntingChore = (ChoreHunting) packet.chore;
-		}
+			else if (packet.chore instanceof ChoreHunting)
+			{
+				entity.huntingChore = (ChoreHunting) packet.chore;
+			}
 
-		else if (packet.chore instanceof ChoreCooking)
-		{
-			entity.cookingChore = (ChoreCooking) packet.chore;
-		}
+			else if (packet.chore instanceof ChoreCooking)
+			{
+				entity.cookingChore = (ChoreCooking) packet.chore;
+			}
 
-		else
-		{
-			MCA.getInstance().getLogger().log("Unidentified chore type received when handling chore packet.");
+			else
+			{
+				MCA.getInstance().getLogger().log("Unidentified chore type received when handling chore packet.");
+			}
 		}
 		
 		return null;

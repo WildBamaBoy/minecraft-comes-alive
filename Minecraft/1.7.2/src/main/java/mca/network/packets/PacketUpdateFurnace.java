@@ -44,7 +44,7 @@ public class PacketUpdateFurnace extends AbstractPacket implements IMessage, IMe
 	public IMessage onMessage(PacketUpdateFurnace packet, MessageContext context) 
 	{
 		final EntityPlayer player = getPlayer(context);
-		final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(entityId);
+		final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(packet.entityId);
 
 		BlockFurnace.updateFurnaceBlockState(packet.state, entity.worldObj, entity.cookingChore.furnacePosX, entity.cookingChore.furnacePosY, entity.cookingChore.furnacePosZ);
 		
