@@ -125,7 +125,7 @@ public class LanguageLoaderHook implements ILanguageLoaderHook
 		{
 			prefix = prefix == null ? "" : prefix;
 			suffix = suffix == null ? "" : suffix;
-			outputString = prefix + MCA.getInstance().getLanguageParser().parseString(matchingValues.get(MCA.rand.nextInt(matchingValues.size())), player, entity, useCharacterType, prefix, suffix);
+			outputString = prefix + MCA.getInstance().getLanguageParser().parseString(matchingValues.get(MCA.rand.nextInt(matchingValues.size())), player, entity, useCharacterType, prefix, suffix) + suffix;
 		}
 
 		return outputString;

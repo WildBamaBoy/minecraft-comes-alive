@@ -15,6 +15,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.util.ChatComponentText;
 
+import com.radixshock.radixcore.constant.Font.Color;
 import com.radixshock.radixcore.file.WorldPropertiesManager;
 
 /**
@@ -53,7 +54,7 @@ public class CommandReloadWorldProperties extends AbstractCommand
 					MCA.getInstance().onUpdateWorldProperties(manager);		//Send to client.
 				}
 				
-				super.addChatMessage(sender, "multiplayer.command.output.reloadworldproperties.all", null, null);
+				super.addChatMessage(sender, "multiplayer.command.output.reloadworldproperties.all", Color.GREEN, null);
 			}
 			
 			else
@@ -65,12 +66,12 @@ public class CommandReloadWorldProperties extends AbstractCommand
 					manager.loadWorldProperties();
 					MCA.getInstance().onUpdateWorldProperties(manager);
 					
-					super.addChatMessage(sender, "multiplayer.command.output.reloadworldproperties.success", null, null);
+					super.addChatMessage(sender, "multiplayer.command.output.reloadworldproperties.success", Color.GREEN, arguments[0]);
 				}
 				
 				else
 				{
-					super.addChatMessage(sender, "multiplayer.command.output.reloadworldproperties.fail", null, null);
+					super.addChatMessage(sender, "multiplayer.command.output.reloadworldproperties.fail", Color.RED, null);
 				}
 			}
 		}

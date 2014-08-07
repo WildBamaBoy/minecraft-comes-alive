@@ -461,7 +461,7 @@ multiplayer.command.output.unblockall.successful = All blocked players have now 
 
 multiplayer.command.output.reloadmodproperties = Mod properties reloaded and updated.
 multiplayer.command.output.reloadworldproperties.all = All world properties reloaded and updated.
-multiplayer.command.output.reloadworldproperties.success = World properties for %TargetName% reloaded and updated.
+multiplayer.command.output.reloadworldproperties.success = World properties reloaded and updated for: 
 multiplayer.command.output.reloadworldproperties.fail = Failure to reload world properties. Player not found.
 
 multiplayer.interaction.reject.spouse = You cannot control another player's spouse.
