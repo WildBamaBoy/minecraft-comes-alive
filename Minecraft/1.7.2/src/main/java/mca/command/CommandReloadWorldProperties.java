@@ -48,7 +48,9 @@ public class CommandReloadWorldProperties extends CommandBase
 				for (WorldPropertiesManager manager : MCA.getInstance().playerWorldManagerMap.values())
 				{
 					MCA.getInstance().getLogger().log("Reloading properties for " + manager.getCurrentPlayerName());
-					manager.loadWorldProperties();
+
+					manager.loadWorldProperties();							//Load from file again.
+					MCA.getInstance().onUpdateWorldProperties(manager);		//Send to client.
 				}
 				
 				sender.addChatMessage(new ChatComponentText(MCA.getInstance().getLanguageLoader().getString("multiplayer.command.output.reloadworldproperties.all")));
@@ -61,6 +63,7 @@ public class CommandReloadWorldProperties extends CommandBase
 				if (manager != null)
 				{
 					manager.loadWorldProperties();
+					MCA.getInstance().onUpdateWorldProperties(manager);
 					
 					String response = MCA.getInstance().getLanguageLoader().getString("multiplayer.command.output.reloadworldproperties.success");
 					response = response.replace("%TargetName%", arguments[0]);
