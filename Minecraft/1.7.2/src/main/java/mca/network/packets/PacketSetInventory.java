@@ -18,17 +18,17 @@ public class PacketSetInventory extends AbstractPacket implements IMessage, IMes
 {
 	private int entityId;
 	private Inventory inventory;
-	
+
 	public PacketSetInventory()
 	{
 	}
-	
+
 	public PacketSetInventory(int entityId, Inventory inventory)
 	{
 		this.entityId = entityId;
 		this.inventory = inventory;
 	}
-	
+
 	@Override
 	public void fromBytes(ByteBuf byteBuf) 
 	{
@@ -48,15 +48,19 @@ public class PacketSetInventory extends AbstractPacket implements IMessage, IMes
 	{
 		final EntityPlayer player = getPlayer(context);
 		final AbstractEntity entity = (AbstractEntity)player.worldObj.getEntityByID(packet.entityId);
-		packet.inventory.owner = entity;
-		entity.inventory = packet.inventory;
-		entity.inventory.setWornArmorItems();
+
+		if (entity != null)
+		{
+			packet.inventory.owner = entity;
+			entity.inventory = packet.inventory;
+			entity.inventory.setWornArmorItems();
+		}
 
 		if (!player.worldObj.isRemote)
 		{
 			MCA.packetHandler.sendPacketToAllPlayersExcept(new PacketSetInventory(entityId, inventory), (EntityPlayerMP)player);
 		}
-		
+
 		return null;
 	}
 }
