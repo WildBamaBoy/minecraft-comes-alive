@@ -25,25 +25,25 @@ public class PacketSayLocalized extends AbstractPacket implements IMessage, IMes
 	private boolean useCharacterType;
 	private String prefix;
 	private String suffix;
-	
+
 	public PacketSayLocalized()
 	{
 	}
-	
+
 	public PacketSayLocalized(EntityPlayer player, Integer speakerEntityId, String phraseId, boolean useCharacterType, String prefix, String suffix)
 	{
 		if (player != null)
 		{
 			this.playerName = player.getCommandSenderName();
 		}
-		
+
 		this.entityId = speakerEntityId;
 		this.phraseId = phraseId;
 		this.useCharacterType = useCharacterType;
 		this.prefix = prefix;
 		this.suffix = suffix;
 	}
-	
+
 	@Override
 	public void fromBytes(ByteBuf byteBuf) 
 	{
@@ -52,10 +52,11 @@ public class PacketSayLocalized extends AbstractPacket implements IMessage, IMes
 		hasPrefix = byteBuf.readBoolean();
 		hasSuffix = byteBuf.readBoolean();
 
-		String playerName = hasPlayer ? (String) ByteBufIO.readObject(byteBuf) : null;
-		entityId = hasEntity ? byteBuf.readInt() : -1;
+		playerName = hasPlayer ? (String) ByteBufIO.readObject(byteBuf) : null;
+		entityId = hasEntity ? (Integer) ByteBufIO.readObject(byteBuf) : -1;
 		phraseId = (String) ByteBufIO.readObject(byteBuf);
 		useCharacterType = byteBuf.readBoolean();
+
 		prefix = hasPrefix ? (String) ByteBufIO.readObject(byteBuf) : null;
 		suffix = hasSuffix ? (String) ByteBufIO.readObject(byteBuf) : null;
 	}
@@ -84,6 +85,7 @@ public class PacketSayLocalized extends AbstractPacket implements IMessage, IMes
 		}
 
 		ByteBufIO.writeObject(byteBuf, phraseId);
+
 		byteBuf.writeBoolean(useCharacterType);
 
 		if (hasPrefix)
@@ -142,7 +144,7 @@ public class PacketSayLocalized extends AbstractPacket implements IMessage, IMes
 				player.addChatMessage(new ChatComponentText(MCA.getInstance().getLanguageLoader().getString(packet.phraseId, player, null, packet.useCharacterType, packet.prefix, packet.suffix)));
 			}
 		}
-		
+
 		return null;
 	}
 }
