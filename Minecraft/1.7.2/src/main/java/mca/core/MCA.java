@@ -138,6 +138,8 @@ public class MCA extends UnenforcedCore
 	@SidedProxy(clientSide="mca.core.forge.ClientProxy", serverSide="mca.core.forge.CommonProxy")
 	public static CommonProxy proxy;
 	public static AbstractPacketHandler packetHandler;	
+	public static boolean packetsRegisteredServerSide;
+	
 	public static ServerTickHandler serverTickHandler;
 	public static ClientTickHandler clientTickHandler; 
 
@@ -498,6 +500,12 @@ public class MCA extends UnenforcedCore
 		event.registerServerCommand(new CommandDevControl());
 		event.registerServerCommand(new CommandReloadModProperties());
 		event.registerServerCommand(new CommandReloadWorldProperties());
+		
+		if (!packetsRegisteredServerSide)
+		{
+			packetHandler.registerPackets();
+			packetsRegisteredServerSide = true;
+		}
 		
 		MCA.getInstance().getLogger().log("Minecraft Comes Alive is running.");
 	}
