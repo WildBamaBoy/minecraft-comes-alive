@@ -832,6 +832,11 @@ public class MCA extends UnenforcedCore
 	public void initializeNetwork() 
 	{		
 		packetHandler = new PacketRegistry(this);
+		
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
+		{
+			packetsRegisteredServerSide = true;
+		}
 	}
 
 	@Override
