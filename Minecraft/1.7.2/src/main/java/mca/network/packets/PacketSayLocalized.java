@@ -118,16 +118,19 @@ public class PacketSayLocalized extends AbstractPacket implements IMessage, IMes
 
 		if (packet.entityId != -1)
 		{
-			if (receivedPlayer != null && entity != null)
+			if (entity != null)
 			{
-				entity.lastInteractingPlayer = receivedPlayer.getCommandSenderName();
-				entity.say(MCA.getInstance().getLanguageLoader().getString(packet.phraseId, receivedPlayer, entity, packet.useCharacterType, packet.prefix, packet.suffix));
-			}
+				if (receivedPlayer != null)
+				{
+					entity.lastInteractingPlayer = receivedPlayer.getCommandSenderName();
+					entity.say(MCA.getInstance().getLanguageLoader().getString(packet.phraseId, receivedPlayer, entity, packet.useCharacterType, packet.prefix, packet.suffix));
+				}
 
-			else
-			{
-				entity.lastInteractingPlayer = player.getCommandSenderName();
-				entity.say(MCA.getInstance().getLanguageLoader().getString(packet.phraseId, player, entity, packet.useCharacterType, packet.prefix, packet.suffix));
+				else
+				{
+					entity.lastInteractingPlayer = player.getCommandSenderName();
+					entity.say(MCA.getInstance().getLanguageLoader().getString(packet.phraseId, player, entity, packet.useCharacterType, packet.prefix, packet.suffix));
+				}
 			}
 		}
 

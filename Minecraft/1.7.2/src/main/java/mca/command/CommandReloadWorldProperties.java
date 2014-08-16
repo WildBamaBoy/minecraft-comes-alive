@@ -10,10 +10,8 @@
 package mca.command;
 
 import mca.core.MCA;
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.util.ChatComponentText;
 
 import com.radixshock.radixcore.constant.Font.Color;
 import com.radixshock.radixcore.file.WorldPropertiesManager;

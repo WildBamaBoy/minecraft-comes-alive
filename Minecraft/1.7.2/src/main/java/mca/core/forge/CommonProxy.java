@@ -10,6 +10,7 @@
 package mca.core.forge;
 
 import mca.tileentity.TileEntityTombstone;
+import mca.tileentity.TileEntityVillagerBed;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
@@ -31,5 +32,6 @@ public class CommonProxy
 	public void registerTileEntities()
 	{
 		GameRegistry.registerTileEntity(TileEntityTombstone.class, TileEntityTombstone.class.getSimpleName());
+		GameRegistry.registerTileEntity(TileEntityVillagerBed.class, TileEntityVillagerBed.class.getSimpleName());
 	}
 }

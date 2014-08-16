@@ -69,20 +69,20 @@ public class RenderHuman extends RenderBiped
 	{
 		renderHuman((AbstractEntity)entityLiving, posX, posY, posZ, rotationYaw, rotationPitch);
 	}
-	
+
 	@Override
 	protected void preRenderCallback(EntityLivingBase entityLivingBase, float partialTickTime)
 	{
 		final AbstractEntity entity = (AbstractEntity)entityLivingBase;
 		final float scale = entity.isMale ? Constants.SCALE_M_ADULT: Constants.SCALE_F_ADULT;
-		
+
 		if (entity.doApplyHeight || entity.doApplyGirth)
 		{
 			if (entity.doApplyHeight)
 			{
 				GL11.glScalef(scale, scale + entity.heightFactor, scale);
 			}
-			
+
 			if (entity.doApplyGirth)
 			{
 				GL11.glScalef(scale + entity.girthFactor, scale, scale + entity.girthFactor);
@@ -92,6 +92,11 @@ public class RenderHuman extends RenderBiped
 		else
 		{
 			GL11.glScalef(scale, scale, scale);
+		}
+
+		if (entity.isSleeping && entity.hasBed)
+		{
+			renderHumanSleeping(entity, partialTickTime);
 		}
 	}
 
@@ -120,7 +125,7 @@ public class RenderHuman extends RenderBiped
 		{
 			return new ResourceLocation("mca:" + abstractEntity.texture);
 		}
-		
+
 		else
 		{
 			return new ResourceLocation(abstractEntity.texture);
@@ -208,6 +213,45 @@ public class RenderHuman extends RenderBiped
 		}
 	}
 
+	private void renderHumanSleeping(AbstractEntity entity, double partialTickTime)
+	{
+		int meta = entity.worldObj.getBlockMetadata(entity.bedPosX, entity.bedPosY, entity.bedPosZ);
+
+		if (meta == 0)
+		{
+			entity.rotationYawHead = 180.0F;
+			GL11.glTranslated(-0.5D, 0.0D, 0.0D);
+			GL11.glRotated(90, -1, 0, 0);
+			GL11.glTranslated(0.0D, 0.0D, -0.75D);
+		}
+
+		else if (meta == 3)
+		{
+			entity.rotationYawHead = 90.0F;
+			GL11.glTranslated(0.5D, 0.0D, 0.0D);
+			GL11.glRotated(90, -1, 0, 0);
+			GL11.glTranslated(0.0D, 0.0D, -0.75D);
+		}
+
+		else if (meta == 2)
+		{
+			entity.rotationYawHead = 0.0F;
+			GL11.glTranslated(0.5D, 0.0D, 0.0D);
+			GL11.glTranslated(0.0D, 0.0D, -1.0D);
+			GL11.glRotated(90, -1, 0, 0);
+			GL11.glTranslated(0.0D, 0.0D, -0.75D);
+		}
+
+		else if (meta == 1)
+		{
+			entity.rotationYawHead = -90.0F;
+			GL11.glTranslated(-0.5D, 0.0D, 0.0D);
+			GL11.glTranslated(0.0D, 0.0D, -1.0D);
+			GL11.glRotated(90, -1, 0, 0);
+			GL11.glTranslated(0.0D, 0.0D, -0.75D);			
+		}
+	}
+
 	/**
 	 * Determines the appropriate label to render over an entity's head.
 	 * 
@@ -226,33 +270,41 @@ public class RenderHuman extends RenderBiped
 
 			if (clientEntity != null)
 			{
-				if (clientEntity.getHealth() < entity.getMaxHealth())
+				if (clientEntity.isSleeping && clientEntity.hasBed)
 				{
-					renderLabel(entity, posX, posY, posZ, MCA.getInstance().getLanguageLoader().getString("gui.overhead.health") + Math.round(clientEntity.getHealth()) + "/" + entity.getMaxHealth());
+					return;
 				}
 
-				else if (clientEntity.isSleeping && clientEntity.canEntityBeSeen(Minecraft.getMinecraft().thePlayer) && !propertiesList.hideSleepingTag)
+				else
 				{
-					renderLabel(entity, posX, posY, posZ, MCA.getInstance().getLanguageLoader().getString("gui.overhead.sleeping"));
-				}
-
-				else if (canRenderNameTag(clientEntity))
-				{
-					renderLabel(clientEntity, posX, posY, posZ, clientEntity.getTitle(MCA.getInstance().getIdOfPlayer(Minecraft.getMinecraft().thePlayer), true));
-				}
-
-				else if (entity instanceof EntityVillagerAdult)
-				{
-					final EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-					final EntityVillagerAdult villager = (EntityVillagerAdult)entity;
-
-					if (villager.playerMemoryMap.containsKey(player.getCommandSenderName()))
+					if (clientEntity.getHealth() < entity.getMaxHealth())
 					{
-						final PlayerMemory memory = villager.playerMemoryMap.get(player.getCommandSenderName());
+						renderLabel(entity, posX, posY, posZ, MCA.getInstance().getLanguageLoader().getString("gui.overhead.health") + Math.round(clientEntity.getHealth()) + "/" + entity.getMaxHealth());
+					}
 
-						if (memory.hasGift)
+					else if (clientEntity.isSleeping && clientEntity.canEntityBeSeen(Minecraft.getMinecraft().thePlayer) && !propertiesList.hideSleepingTag)
+					{
+						renderLabel(entity, posX, posY, posZ, MCA.getInstance().getLanguageLoader().getString("gui.overhead.sleeping"));
+					}
+
+					else if (canRenderNameTag(clientEntity))
+					{
+						renderLabel(clientEntity, posX, posY, posZ, clientEntity.getTitle(MCA.getInstance().getIdOfPlayer(Minecraft.getMinecraft().thePlayer), true));
+					}
+
+					else if (entity instanceof EntityVillagerAdult)
+					{
+						final EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+						final EntityVillagerAdult villager = (EntityVillagerAdult)entity;
+
+						if (villager.playerMemoryMap.containsKey(player.getCommandSenderName()))
 						{
-							renderLabel(entity, posX, posY, posZ, MCA.getInstance().getLanguageLoader().getString("gui.overhead.hasgift"));
+							final PlayerMemory memory = villager.playerMemoryMap.get(player.getCommandSenderName());
+
+							if (memory.hasGift)
+							{
+								renderLabel(entity, posX, posY, posZ, MCA.getInstance().getLanguageLoader().getString("gui.overhead.hasgift"));
+							}
 						}
 					}
 				}

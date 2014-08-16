@@ -27,6 +27,11 @@ import mca.api.registries.ChoreRegistry;
 import mca.api.registries.VillagerRegistryMCA;
 import mca.api.villagers.VillagerEntryMCA;
 import mca.block.BlockTombstone;
+import mca.block.BlockVillagerBedBlue;
+import mca.block.BlockVillagerBedGreen;
+import mca.block.BlockVillagerBedPink;
+import mca.block.BlockVillagerBedPurple;
+import mca.block.BlockVillagerBedRed;
 import mca.command.CommandBlock;
 import mca.command.CommandBlockAll;
 import mca.command.CommandDebugMode;
@@ -72,6 +77,11 @@ import mca.item.ItemKingsCoat;
 import mca.item.ItemKingsPants;
 import mca.item.ItemLostRelativeDocument;
 import mca.item.ItemTombstone;
+import mca.item.ItemVillagerBedBlue;
+import mca.item.ItemVillagerBedGreen;
+import mca.item.ItemVillagerBedPink;
+import mca.item.ItemVillagerBedPurple;
+import mca.item.ItemVillagerBedRed;
 import mca.item.ItemVillagerEditor;
 import mca.item.ItemWeddingRing;
 import mca.item.ItemWhistle;
@@ -175,7 +185,18 @@ public class MCA extends UnenforcedCore
 	public Item itemBlueCrown;
 	public Item itemPinkCrown;
 	public Item itemPurpleCrown;
+	public Item itemVillagerBedRed;
+	public Item itemVillagerBedBlue;
+	public Item itemVillagerBedGreen;
+	public Item itemVillagerBedPurple;
+	public Item itemVillagerBedPink;
+	
 	public Block blockTombstone;
+	public Block blockVillagerBedRed;
+	public Block blockVillagerBedBlue;
+	public Block blockVillagerBedGreen;
+	public Block blockVillagerBedPurple;
+	public Block blockVillagerBedPink;
 
 	//Achievements
 	public Achievement achievementCharmer;
@@ -625,6 +646,11 @@ public class MCA extends UnenforcedCore
 		itemBlueCrown = new ItemDecorativeCrown(EnumCrownColor.Blue).setUnlocalizedName("bluecrown").setCreativeTab(tabMCA);
 		itemPinkCrown = new ItemDecorativeCrown(EnumCrownColor.Pink).setUnlocalizedName("pinkcrown").setCreativeTab(tabMCA);
 		itemPurpleCrown = new ItemDecorativeCrown(EnumCrownColor.Purple).setUnlocalizedName("purplecrown").setCreativeTab(tabMCA);
+		itemVillagerBedRed = new ItemVillagerBedRed().setUnlocalizedName("redbed").setCreativeTab(tabMCA);
+		itemVillagerBedBlue = new ItemVillagerBedBlue().setUnlocalizedName("bluebed").setCreativeTab(tabMCA);
+		itemVillagerBedGreen = new ItemVillagerBedGreen().setUnlocalizedName("greenbed").setCreativeTab(tabMCA);
+		itemVillagerBedPurple = new ItemVillagerBedPurple().setUnlocalizedName("purplebed").setCreativeTab(tabMCA);
+		itemVillagerBedPink = new ItemVillagerBedPink().setUnlocalizedName("pinkbed").setCreativeTab(tabMCA);
 
 		GameRegistry.registerItem(itemWeddingRing, "MCA_WeddingRing");
 		GameRegistry.registerItem(itemArrangersRing, "MCA_ArangersRing");
@@ -646,6 +672,11 @@ public class MCA extends UnenforcedCore
 		GameRegistry.registerItem(itemBlueCrown, "MCA_BlueCrown");
 		GameRegistry.registerItem(itemPinkCrown, "MCA_PinkCrown");
 		GameRegistry.registerItem(itemPurpleCrown, "MCA_PurpleCrown");
+		GameRegistry.registerItem(itemVillagerBedRed, "MCA_VillagerBedRed");
+		GameRegistry.registerItem(itemVillagerBedBlue, "MCA_VillagerBedBlue");
+		GameRegistry.registerItem(itemVillagerBedGreen, "MCA_VillagerBedGreen");
+		GameRegistry.registerItem(itemVillagerBedPurple, "MCA_VillagerBedPurple");
+		GameRegistry.registerItem(itemVillagerBedPink, "MCA_VillagerBedPink");
 	}
 
 	@Override
@@ -653,6 +684,21 @@ public class MCA extends UnenforcedCore
 	{
 		blockTombstone = new BlockTombstone().setBlockName("tombstone");
 		GameRegistry.registerBlock(blockTombstone, "MCA_BlockTombstone");
+		
+		blockVillagerBedRed = new BlockVillagerBedRed().setBlockName("villagerbedred");
+		GameRegistry.registerBlock(blockVillagerBedRed, "MCA_BlockVillagerBedRed");
+		
+		blockVillagerBedBlue = new BlockVillagerBedBlue().setBlockName("villagerbedblue");
+		GameRegistry.registerBlock(blockVillagerBedBlue, "MCA_BlockVillagerBedBlue");
+		
+		blockVillagerBedGreen = new BlockVillagerBedGreen().setBlockName("villagerbedgreen");
+		GameRegistry.registerBlock(blockVillagerBedGreen, "MCA_BlockVillagerBedGreen");
+		
+		blockVillagerBedPurple = new BlockVillagerBedPurple().setBlockName("villagerbedpurple");
+		GameRegistry.registerBlock(blockVillagerBedPurple, "MCA_BlockVillagerBedPurple");
+		
+		blockVillagerBedPink = new BlockVillagerBedPink().setBlockName("villagerbedpink");
+		GameRegistry.registerBlock(blockVillagerBedPink, "MCA_BlockVillagerBedPink");
 	}
 
 	@Override
