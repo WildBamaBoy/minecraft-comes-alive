@@ -32,7 +32,8 @@ public abstract class ItemVillagerBed extends Item
 
     public abstract BlockVillagerBed getVillagerBedType();
     
-    public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, int posX, int posY, int posZ, int meta, float xOffset, float yOffset, float zOffset)
+    @Override
+	public boolean onItemUse(ItemStack itemStack, EntityPlayer entityPlayer, World world, int posX, int posY, int posZ, int meta, float xOffset, float yOffset, float zOffset)
     {
         if (world.isRemote)
         {
@@ -49,7 +50,7 @@ public abstract class ItemVillagerBed extends Item
             ++posY;
             BlockVillagerBed blockVillagerBed = getVillagerBedType();
             
-            int metaCalc = MathHelper.floor_double((double)(entityPlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+            int metaCalc = MathHelper.floor_double(entityPlayer.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
             
             byte movX = 0;
             byte movZ = 0;

@@ -83,9 +83,9 @@ public class RenderFishHook extends Render
 			vec3.rotateAroundY(orientation * 0.5F);
 			vec3.rotateAroundX(-orientation * 0.7F);
 			
-			double correctedPosX = entityFishHook.angler.prevPosX + (entityFishHook.angler.posX - entityFishHook.angler.prevPosX) * (double)offsetY + vec3.xCoord;
-			double correctedPosY = entityFishHook.angler.prevPosY + (entityFishHook.angler.posY - entityFishHook.angler.prevPosY) * (double)offsetY + vec3.yCoord;
-			double correctedPosZ = entityFishHook.angler.prevPosZ + (entityFishHook.angler.posZ - entityFishHook.angler.prevPosZ) * (double)offsetY + vec3.zCoord;
+			double correctedPosX = entityFishHook.angler.prevPosX + (entityFishHook.angler.posX - entityFishHook.angler.prevPosX) * offsetY + vec3.xCoord;
+			double correctedPosY = entityFishHook.angler.prevPosY + (entityFishHook.angler.posY - entityFishHook.angler.prevPosY) * offsetY + vec3.yCoord;
+			double correctedPosZ = entityFishHook.angler.prevPosZ + (entityFishHook.angler.posZ - entityFishHook.angler.prevPosZ) * offsetY + vec3.zCoord;
 			
 			float scale = 0.7F;
 			
@@ -102,12 +102,12 @@ public class RenderFishHook extends Render
 			correctedPosY = entityFishHook.angler.prevPosY + scale * 1.6 + (entityFishHook.angler.posY - entityFishHook.angler.prevPosY) * offsetY - 0.45D;
 			correctedPosZ = entityFishHook.angler.prevPosZ + (entityFishHook.angler.posZ - entityFishHook.angler.prevPosZ) * offsetY - sinOffsetYaw * 0.35D + cosOffsetYaw * 0.85D;
 
-			final double distX = entityFishHook.prevPosX + (entityFishHook.posX - entityFishHook.prevPosX) * (double)offsetY;
-			final double distY = entityFishHook.prevPosY + (entityFishHook.posY - entityFishHook.prevPosY) * (double)offsetY + 0.25D;
-			final double distZ = entityFishHook.prevPosZ + (entityFishHook.posZ - entityFishHook.prevPosZ) * (double)offsetY;
-			final double correctionX = (double)((float)(correctedPosX - distX));
-			final double correctionY = (double)((float)(correctedPosY - distY));
-			final double correctionZ = (double)((float)(correctedPosZ - distZ));
+			final double distX = entityFishHook.prevPosX + (entityFishHook.posX - entityFishHook.prevPosX) * offsetY;
+			final double distY = entityFishHook.prevPosY + (entityFishHook.posY - entityFishHook.prevPosY) * offsetY + 0.25D;
+			final double distZ = entityFishHook.prevPosZ + (entityFishHook.posZ - entityFishHook.prevPosZ) * offsetY;
+			final double correctionX = ((float)(correctedPosX - distX));
+			final double correctionY = ((float)(correctedPosY - distY));
+			final double correctionZ = ((float)(correctedPosZ - distZ));
 
 			GL11.glDisable(GL11.GL_TEXTURE_2D);
 			GL11.glDisable(GL11.GL_LIGHTING);

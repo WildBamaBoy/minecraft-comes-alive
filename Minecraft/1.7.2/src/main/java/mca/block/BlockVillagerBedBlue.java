@@ -24,7 +24,8 @@ public class BlockVillagerBedBlue extends BlockVillagerBed
     	super();
     }
 
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister iconRegister)
     {
         this.textureTop = new IIcon[] {iconRegister.registerIcon("mca:VillagerBed-Feet-Top-Blue"), iconRegister.registerIcon("mca:VillagerBed-Head-Top-Blue")};
@@ -32,7 +33,8 @@ public class BlockVillagerBedBlue extends BlockVillagerBed
         this.textureSide = new IIcon[] {iconRegister.registerIcon("mca:VillagerBed-Feet-Side-Blue"), iconRegister.registerIcon("mca:VillagerBed-Head-Side-Blue")};
     }
 
-    @SideOnly(Side.CLIENT)
+    @Override
+	@SideOnly(Side.CLIENT)
     public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
     {
         return Items.bed;

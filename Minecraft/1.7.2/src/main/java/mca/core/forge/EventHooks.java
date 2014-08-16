@@ -242,7 +242,8 @@ public class EventHooks
 	@SubscribeEvent
 	public void serverTickEventHandler(ServerTickEvent event)
 	{
-		MCA.getInstance().serverTickHandler.onTick();
+		MCA.getInstance();
+		MCA.serverTickHandler.onTick();
 	}
 
 	/**
@@ -253,7 +254,8 @@ public class EventHooks
 	@SubscribeEvent
 	public void clientTickEventHandler(ClientTickEvent event)
 	{
-		MCA.getInstance().clientTickHandler.onTick();
+		MCA.getInstance();
+		MCA.clientTickHandler.onTick();
 	}
 
 	/**

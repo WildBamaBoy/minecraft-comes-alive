@@ -73,6 +73,7 @@ public enum EnumRelation
 	 * 
 	 * @return	Localized string of the enum's value.
 	 */
+	@Override
 	public String toString() 
 	{
 		return MCA.getInstance().getLanguageLoader().getString("family." + this.getValue().toLowerCase().replaceAll(" ", ""));

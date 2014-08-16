@@ -349,7 +349,7 @@ public class ChoreHunting extends AbstractChore
 	private int doCalculateHuntingResults(HuntableAnimal entry, int animalsSeen)
 	{
 		final Item requiredItem = entry.getTamingItem();
-		final int tameSuccessChance = (Integer) (owner.name.equals("Ash") ? 80 : entry.getProbabilityOfSuccess());
+		final int tameSuccessChance = owner.name.equals("Ash") ? 80 : entry.getProbabilityOfSuccess();
 		final int killSuccessChance = hasWeapon ? 70 : 10;
 
 		int successfulAnimals = 0;

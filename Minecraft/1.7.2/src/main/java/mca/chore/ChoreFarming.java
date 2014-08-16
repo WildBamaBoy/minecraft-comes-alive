@@ -523,7 +523,7 @@ public class ChoreFarming extends AbstractChore
 
 	private void doAssignNextBlockForCreation()
 	{
-		final List<Point3D> farmland = LogicHelper.getNearbyFarmableLand(owner, (int)startX, (int)startY, (int)startZ, areaX, areaY);
+		final List<Point3D> farmland = LogicHelper.getNearbyFarmableLand(owner, startX, startY, startZ, areaX, areaY);
 
 		if (farmland.isEmpty())
 		{
@@ -607,7 +607,7 @@ public class ChoreFarming extends AbstractChore
 	{	
 		for (final FarmableCrop entry : ChoreRegistry.getFarmingCropEntries())
 		{
-			final List<Point3D> points = LogicExtension.getNearbyHarvestableCrops(owner, entry, (int)startX, (int)startY, (int)startZ, radius);
+			final List<Point3D> points = LogicExtension.getNearbyHarvestableCrops(owner, entry, startX, startY, startZ, radius);
 
 			if (!points.isEmpty())
 			{
@@ -633,7 +633,7 @@ public class ChoreFarming extends AbstractChore
 
 			else
 			{
-				final List<Point3D> nearbyDirt = (List<Point3D>) LogicHelper.getNearbyBlocks_StartAtBottom(owner, Blocks.dirt, radius);
+				final List<Point3D> nearbyDirt = LogicHelper.getNearbyBlocks_StartAtBottom(owner, Blocks.dirt, radius);
 
 				for (Point3D point : nearbyDirt)
 				{

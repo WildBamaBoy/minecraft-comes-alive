@@ -37,7 +37,8 @@ public class EntityAIMoveIndoors extends EntityAIBase
     /**
      * Returns whether the EntityAIBase should begin execution.
      */
-    public boolean shouldExecute()
+    @Override
+	public boolean shouldExecute()
     {
         int i = MathHelper.floor_double(this.entityObj.posX);
         int j = MathHelper.floor_double(this.entityObj.posY);
@@ -49,7 +50,7 @@ public class EntityAIMoveIndoors extends EntityAIBase
             {
                 return false;
             }
-            else if (this.insidePosX != -1 && this.entityObj.getDistanceSq((double)this.insidePosX, this.entityObj.posY, (double)this.insidePosZ) < 4.0D)
+            else if (this.insidePosX != -1 && this.entityObj.getDistanceSq(this.insidePosX, this.entityObj.posY, this.insidePosZ) < 4.0D)
             {
                 return false;
             }
@@ -77,7 +78,8 @@ public class EntityAIMoveIndoors extends EntityAIBase
     /**
      * Returns whether an in-progress EntityAIBase should continue executing
      */
-    public boolean continueExecuting()
+    @Override
+	public boolean continueExecuting()
     {
         return !this.entityObj.getNavigator().noPath();
     }
@@ -85,13 +87,14 @@ public class EntityAIMoveIndoors extends EntityAIBase
     /**
      * Execute a one shot task or start executing a continuous task
      */
-    public void startExecuting()
+    @Override
+	public void startExecuting()
     {
         this.insidePosX = -1;
 
-        if (this.entityObj.getDistanceSq((double)this.doorInfo.getInsidePosX(), (double)this.doorInfo.posY, (double)this.doorInfo.getInsidePosZ()) > 256.0D)
+        if (this.entityObj.getDistanceSq(this.doorInfo.getInsidePosX(), this.doorInfo.posY, this.doorInfo.getInsidePosZ()) > 256.0D)
         {
-            Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(this.entityObj, 14, 3, this.entityObj.worldObj.getWorldVec3Pool().getVecFromPool((double)this.doorInfo.getInsidePosX() + 0.5D, (double)this.doorInfo.getInsidePosY(), (double)this.doorInfo.getInsidePosZ() + 0.5D));
+            Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(this.entityObj, 14, 3, this.entityObj.worldObj.getWorldVec3Pool().getVecFromPool(this.doorInfo.getInsidePosX() + 0.5D, this.doorInfo.getInsidePosY(), this.doorInfo.getInsidePosZ() + 0.5D));
 
             if (vec3 != null)
             {
@@ -100,14 +103,15 @@ public class EntityAIMoveIndoors extends EntityAIBase
         }
         else
         {
-            this.entityObj.getNavigator().tryMoveToXYZ((double)this.doorInfo.getInsidePosX() + 0.5D, (double)this.doorInfo.getInsidePosY(), (double)this.doorInfo.getInsidePosZ() + 0.5D, Constants.SPEED_WALK);
+            this.entityObj.getNavigator().tryMoveToXYZ(this.doorInfo.getInsidePosX() + 0.5D, this.doorInfo.getInsidePosY(), this.doorInfo.getInsidePosZ() + 0.5D, Constants.SPEED_WALK);
         }
     }
 
     /**
      * Resets the task
      */
-    public void resetTask()
+    @Override
+	public void resetTask()
     {
         this.insidePosX = this.doorInfo.getInsidePosX();
         this.insidePosZ = this.doorInfo.getInsidePosZ();

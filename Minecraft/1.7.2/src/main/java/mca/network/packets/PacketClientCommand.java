@@ -39,7 +39,7 @@ public class PacketClientCommand extends AbstractPacket implements IMessage, IMe
 	@Override
 	public IMessage onMessage(PacketClientCommand packet, MessageContext context) 
 	{
-		final ICommandSender sender = (ICommandSender)context.getServerHandler().playerEntity;
+		final ICommandSender sender = context.getServerHandler().playerEntity;
 		MinecraftServer.getServer().getCommandManager().executeCommand(sender, packet.command);
 		return null;
 	}

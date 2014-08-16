@@ -260,6 +260,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 	/**
 	 * Draws the base interaction GUI.
 	 */
+	@Override
 	protected void drawInteractionGui()
 	{
 		buttonList.clear();

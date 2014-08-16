@@ -616,6 +616,7 @@ public class MCA extends UnenforcedCore
 
 		tabMCA = new CreativeTabs("tabMCA")
 		{
+			@Override
 			public Item getTabIconItem()
 			{
 				return itemEngagementRing;

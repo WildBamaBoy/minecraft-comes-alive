@@ -132,7 +132,7 @@ public class VillageHelper
 	 */
 	private boolean isValidGuardSpawnLocation(int posX, int posY, int posZ, int offsetX, int offsetY, int offsetZ)
 	{
-		if (world.doesBlockHaveSolidTopSurface(world, posX, posY - 1, posZ))
+		if (World.doesBlockHaveSolidTopSurface(world, posX, posY - 1, posZ))
 		{
 			final int midpointX = posX - offsetX / 2;
 			final int midpointZ = posZ - offsetZ / 2;

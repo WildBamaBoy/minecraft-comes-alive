@@ -33,13 +33,15 @@ public class LanguageLoaderHook implements ILanguageLoaderHook
 	{
 		if (entrySet.getKey().toString().contains("name.male"))
 		{
-			MCA.getInstance().maleNames.add(entrySet.getValue().toString());
+			MCA.getInstance();
+			MCA.maleNames.add(entrySet.getValue().toString());
 			return true;
 		}
 
 		else if (entrySet.getKey().toString().contains("name.female"))
 		{
-			MCA.getInstance().femaleNames.add(entrySet.getValue().toString());
+			MCA.getInstance();
+			MCA.femaleNames.add(entrySet.getValue().toString());
 			return true;
 		}
 

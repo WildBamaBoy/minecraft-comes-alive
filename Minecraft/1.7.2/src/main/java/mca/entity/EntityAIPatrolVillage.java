@@ -49,6 +49,7 @@ public class EntityAIPatrolVillage extends EntityAIBase
 	 * 
 	 * @return	True if AI should execute.
 	 */
+	@Override
 	public boolean shouldExecute()
 	{		
 		this.removeNextDoor();
@@ -112,6 +113,7 @@ public class EntityAIPatrolVillage extends EntityAIBase
 	 * 
 	 * @return	True if AI should continue executing.
 	 */
+	@Override
 	public boolean continueExecuting()
 	{
 		if (this.guard.getNavigator().noPath())
@@ -129,6 +131,7 @@ public class EntityAIPatrolVillage extends EntityAIBase
 	/**
 	 * Execute a one shot task or start executing a continuous task
 	 */
+	@Override
 	public void startExecuting()
 	{
 		this.guard.getNavigator().setPath(this.entityPathNavigate, Constants.SPEED_WALK);
@@ -137,6 +140,7 @@ public class EntityAIPatrolVillage extends EntityAIBase
 	/**
 	 * Resets the task
 	 */
+	@Override
 	public void resetTask()
 	{
 		if (this.guard.getNavigator().noPath() || this.guard.getDistanceSq(this.doorInfo.posX, this.doorInfo.posY, this.doorInfo.posZ) < 16.0D)

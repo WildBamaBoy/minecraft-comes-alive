@@ -143,7 +143,7 @@ public class RenderHuman extends RenderBiped
 	{
 		final EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
 		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(entityPlayer.getCommandSenderName());
-		final Vec3 entityLookVector = entityPlayer.worldObj.getWorldVec3Pool().getVecFromPool(entityRendering.posX - entityPlayer.posX, entityRendering.boundingBox.minY + (double)entityRendering.height / 2.0F - entityPlayer.posY + (double)entityPlayer.getEyeHeight(), entityRendering.posZ - entityPlayer.posZ).normalize();
+		final Vec3 entityLookVector = entityPlayer.worldObj.getWorldVec3Pool().getVecFromPool(entityRendering.posX - entityPlayer.posX, entityRendering.boundingBox.minY + (double)entityRendering.height / 2.0F - entityPlayer.posY + entityPlayer.getEyeHeight(), entityRendering.posZ - entityPlayer.posZ).normalize();
 		final double dotProduct = entityPlayer.getLook(1.0F).normalize().dotProduct(entityLookVector);
 		final boolean isPlayerLookingAt = dotProduct > 1.0D - 0.025D / entityLookVector.lengthVector() ? entityPlayer.canEntityBeSeen(entityRendering) : false;
 		final double distance = entityRendering.getDistanceToEntity(this.renderManager.livingPlayer);
@@ -206,7 +206,7 @@ public class RenderHuman extends RenderBiped
 			}
 
 			posYCorrection = applyHorseCorrection(entity, posYCorrection);
-			super.doRender((EntityLiving)entity, posX, posYCorrection, posZ, rotationYaw, rotationPitch);
+			super.doRender(entity, posX, posYCorrection, posZ, rotationYaw, rotationPitch);
 			modelArmorPlate.aimedBow = modelArmor.aimedBow = modelBipedMain.aimedBow = false;
 			modelArmorPlate.isSneak = modelArmor.isSneak = modelBipedMain.isSneak = false;
 			modelArmorPlate.heldItemRight = modelArmor.heldItemRight = modelBipedMain.heldItemRight = 0;
@@ -266,7 +266,7 @@ public class RenderHuman extends RenderBiped
 		try
 		{
 			final WorldPropertiesList propertiesList = MCA.getInstance().getWorldProperties(MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName()));
-			final AbstractEntity clientEntity = (AbstractEntity)entity;
+			final AbstractEntity clientEntity = entity;
 
 			if (clientEntity != null)
 			{

@@ -312,6 +312,7 @@ public class GuiInteractionSpouse extends AbstractGui
 	/**
 	 * Draws the GUI containing all interactions.
 	 */
+	@Override
 	protected void drawInteractionGui()
 	{
 		buttonList.clear();

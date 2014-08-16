@@ -279,6 +279,7 @@ public class EntityPlayerChild extends AbstractChild
 		updateRunAway();
 	}
 
+	@Override
 	public boolean interact(EntityPlayer player)
 	{
 		super.interact(player);

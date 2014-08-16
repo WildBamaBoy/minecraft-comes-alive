@@ -952,7 +952,7 @@ public class Inventory implements IInventory, IInvBasic, Serializable
 
 		for (int i = 0; i < tagList.tagCount(); i++)
 		{
-			final NBTTagCompound nbttagcompound = (NBTTagCompound)tagList.getCompoundTagAt(i);
+			final NBTTagCompound nbttagcompound = tagList.getCompoundTagAt(i);
 			int slotId = nbttagcompound.getByte("Slot") & 0xff;
 
 			if (slotId >= 0 && slotId < this.inventoryItems.length)
@@ -966,7 +966,7 @@ public class Inventory implements IInventory, IInvBasic, Serializable
 
 		for (int i = 0; i < tagList.tagCount(); i++)
 		{
-			final NBTTagCompound nbttagcompound = (NBTTagCompound)tagList.getCompoundTagAt(i);
+			final NBTTagCompound nbttagcompound = tagList.getCompoundTagAt(i);
 			int armorSlotId = nbttagcompound.getByte("Slot") & 0xff;
 
 			if (armorSlotId >= 0 && armorSlotId < this.armorItems.length)

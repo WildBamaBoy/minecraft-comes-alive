@@ -51,6 +51,7 @@ public abstract class BlockVillagerBed extends BlockDirectional implements ITile
 		this.setBlockBounds();
 	}
 
+	@Override
 	public boolean onBlockActivated(World worldObj, int posX, int posY, int posZ, EntityPlayer entityPlayer, int unknown, float unknown2, float unknown3, float unknown4)
 	{
 		if (worldObj.isRemote)
@@ -64,6 +65,7 @@ public abstract class BlockVillagerBed extends BlockDirectional implements ITile
 	/**
 	 * Gets the block's texture. Args: side, meta
 	 */
+	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int p_149691_1_, int p_149691_2_)
 	{
@@ -81,29 +83,35 @@ public abstract class BlockVillagerBed extends BlockDirectional implements ITile
 		}
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public abstract void registerBlockIcons(IIconRegister iconRegister);
 
+	@Override
 	public int getRenderType()
 	{
 		return 14;
 	}
 
+	@Override
 	public boolean renderAsNormalBlock()
 	{
 		return false;
 	}
 
+	@Override
 	public boolean isOpaqueCube()
 	{
 		return false;
 	}
 
+	@Override
 	public void setBlockBoundsBasedOnState(IBlockAccess p_149719_1_, int p_149719_2_, int p_149719_3_, int p_149719_4_)
 	{
 		this.setBlockBounds();
 	}
 
+	@Override
 	public void onNeighborBlockChange(World worldObj, int posX, int posY, int posZ, Block block)
 	{
 		int l = worldObj.getBlockMetadata(posX, posY, posZ);
@@ -127,6 +135,7 @@ public abstract class BlockVillagerBed extends BlockDirectional implements ITile
 		}
 	}
 
+	@Override
 	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
 	{
 		return Item.getItemById(0);
@@ -154,6 +163,7 @@ public abstract class BlockVillagerBed extends BlockDirectional implements ITile
 		return (meta & 4) != 0;
 	}
 
+	@Override
 	public void dropBlockAsItemWithChance(World p_149690_1_, int p_149690_2_, int p_149690_3_, int p_149690_4_, int p_149690_5_, float p_149690_6_, int p_149690_7_)
 	{
 		if (!isBlockHeadOfBed(p_149690_5_))
@@ -162,17 +172,20 @@ public abstract class BlockVillagerBed extends BlockDirectional implements ITile
 		}
 	}
 
+	@Override
 	public int getMobilityFlag()
 	{
 		return 1;
 	}
 
+	@Override
 	@SideOnly(Side.CLIENT)
 	public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
 	{
 		return Items.bed;
 	}
 
+	@Override
 	public void onBlockHarvested(World world, int posX, int posY, int posZ, int meta, EntityPlayer entityPlayer)
 	{
 		if (entityPlayer.capabilities.isCreativeMode && isBlockHeadOfBed(meta))

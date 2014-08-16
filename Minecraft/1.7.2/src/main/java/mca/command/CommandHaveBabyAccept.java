@@ -48,8 +48,9 @@ public class CommandHaveBabyAccept extends AbstractCommand
 		
 		if (properties.playerSpouseID < 0)
 		{
+			RadixCore.getInstance();
 			//Check if the spouse is on the server.
-			final EntityPlayer spouse = RadixCore.getInstance().getPlayerByName(properties.playerSpouseName);
+			final EntityPlayer spouse = RadixCore.getPlayerByName(properties.playerSpouseName);
 
 			if (spouse == null)
 			{

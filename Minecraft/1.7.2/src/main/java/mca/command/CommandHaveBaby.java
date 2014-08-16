@@ -62,8 +62,9 @@ public class CommandHaveBaby extends AbstractCommand
 		
 		if (senderProperties.playerSpouseID < 0)
 		{
+			RadixCore.getInstance();
 			//Check if the spouse is on the server.
-			final EntityPlayer spouse = RadixCore.getInstance().getPlayerByName(senderProperties.playerSpouseName);
+			final EntityPlayer spouse = RadixCore.getPlayerByName(senderProperties.playerSpouseName);
 			final WorldPropertiesManager spouseManager = MCA.getInstance().playerWorldManagerMap.get(spouse.getCommandSenderName());
 			final WorldPropertiesList spouseProperties = (WorldPropertiesList)spouseManager.worldPropertiesInstance;
 			
