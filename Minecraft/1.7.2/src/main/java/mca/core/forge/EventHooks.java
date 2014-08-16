@@ -33,6 +33,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntityMob;
@@ -45,6 +46,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBed;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -192,7 +194,7 @@ public class EventHooks
 						final AbstractEntity entity = (AbstractEntity)obj;
 
 						if (entity.getInstanceOfCurrentChore() instanceof ChoreCooking && 
-							entity.cookingChore.hasCookableFood &&
+								entity.cookingChore.hasCookableFood &&
 								entity.cookingChore.furnacePosX == event.x &&
 								entity.cookingChore.furnacePosY == event.y &&
 								entity.cookingChore.furnacePosZ == event.z)
@@ -218,20 +220,20 @@ public class EventHooks
 		if (event.target instanceof EntityHorse)
 		{
 			final EntityHorse entityHorse = (EntityHorse)event.target;
-			
+
 			if (entityHorse.riddenByEntity instanceof AbstractEntity)
 			{
 				final AbstractEntity entity = (AbstractEntity)entityHorse.riddenByEntity;
 				entity.interact(event.entityPlayer);
 			}
 		}
-		
+
 		else if (event.target instanceof EntityPlayer && canInteractWithPlayer(event.entityPlayer) && !event.entityPlayer.worldObj.isRemote)
 		{
 			MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(event.target.getEntityId(), Constants.ID_GUI_PLAYER), (EntityPlayerMP)event.entityPlayer);
 		}
 	}
-	
+
 	/**
 	 * Ticks the server tick handler.
 	 * 
@@ -242,7 +244,7 @@ public class EventHooks
 	{
 		MCA.getInstance().serverTickHandler.onTick();
 	}
-	
+
 	/**
 	 * Ticks the client tick handler.
 	 * 
@@ -265,15 +267,15 @@ public class EventHooks
 	{
 		final WorldPropertiesManager manager = new WorldPropertiesManager(MCA.getInstance(), event.player.worldObj.getSaveHandler().getWorldDirectoryName(), event.player.getCommandSenderName(), WorldPropertiesList.class);
 		MCA.getInstance().playerWorldManagerMap.put(event.player.getCommandSenderName(), manager);
-		
+
 		MCA.packetHandler.sendPacketToPlayer(new PacketSetWorldProperties(manager), (EntityPlayerMP) event.player);
-		
+
 		if (MCA.getInstance().getWorldProperties(manager).playerName.equals(""))
 		{
 			MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(event.player.getEntityId(), Constants.ID_GUI_SETUP), (EntityPlayerMP)event.player);
 		}
 	}
-	
+
 	/**
 	 * Handles crafting of a crown and setting to monarch status.
 	 * 
@@ -282,7 +284,7 @@ public class EventHooks
 	@SubscribeEvent
 	public void itemCraftedEventHandler(ItemCraftedEvent event)
 	{
-		if (event.crafting.getItem() instanceof ItemCrown && !event.player.worldObj.isRemote)
+		if (event.crafting.getItem() instanceof ItemCrown && event.player.worldObj.isRemote)
 		{
 			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(event.player.getCommandSenderName());
 
@@ -295,8 +297,64 @@ public class EventHooks
 				event.player.triggerAchievement(MCA.getInstance().achievementCraftCrown);
 			}
 		}
+
+		else if (event.crafting.getItem() instanceof ItemBed)
+		{
+			ItemStack returnStack = null;
+
+			try
+			{
+				for (int i = 0; i < event.craftMatrix.getSizeInventory(); i++)
+				{
+					ItemStack stack = event.craftMatrix.getStackInSlot(i);
+
+					if (stack != null)
+					{
+						if (stack.getItem() == MCA.getInstance().itemVillagerBedRed)
+						{
+							returnStack = new ItemStack(Blocks.carpet, 1, 14);
+						}
+
+						else if (stack.getItem() == MCA.getInstance().itemVillagerBedBlue)
+						{
+							returnStack = new ItemStack(Blocks.carpet, 1, 11);
+						}
+
+						else if (stack.getItem() == MCA.getInstance().itemVillagerBedGreen)
+						{
+							returnStack = new ItemStack(Blocks.carpet, 1, 13);
+						}
+
+						else if (stack.getItem() == MCA.getInstance().itemVillagerBedPink)
+						{
+							returnStack = new ItemStack(Blocks.carpet, 1, 6);
+						}
+
+						else if (stack.getItem() == MCA.getInstance().itemVillagerBedPurple)
+						{
+							returnStack = new ItemStack(Blocks.carpet, 1, 10);
+						}
+					}
+				}
+			}
+
+			catch (Throwable e)
+			{
+				e.printStackTrace();
+			}
+
+			if (returnStack != null)
+			{
+				//Failed to add to inventory
+				if (!event.player.inventory.addItemStackToInventory(returnStack))
+				{
+					EntityItem entityItem = new EntityItem(event.player.worldObj, event.player.posX, event.player.posY, event.player.posZ, returnStack);
+					event.player.worldObj.spawnEntityInWorld(entityItem);
+				}
+			}
+		}
 	}
-	
+
 	/**
 	 * Handles the smelting of a baby.
 	 * 
@@ -322,7 +380,7 @@ public class EventHooks
 			event.player.triggerAchievement(MCA.getInstance().achievementCookBaby);
 		}
 	}
-	
+
 	private void doAddMobTasks(EntityMob mob)
 	{
 		if (mob instanceof EntityEnderman)
@@ -412,23 +470,23 @@ public class EventHooks
 			villager.setDead();
 		}
 	}
-	
+
 	private boolean canInteractWithPlayer(EntityPlayer player)
 	{
 		final ItemStack itemStack = player.getHeldItem();
-		
+
 		if (itemStack != null)
 		{
 			final Item heldItem = itemStack.getItem();
-			
+
 			if (heldItem instanceof ItemWeddingRing)
 			{
 				return true;
 			}
-			
+
 			return false;
 		}
-		
+
 		else
 		{
 			return true;

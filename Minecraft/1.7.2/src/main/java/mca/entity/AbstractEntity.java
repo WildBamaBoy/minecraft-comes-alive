@@ -331,31 +331,31 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			{
 				inventory.owner = this;
 			}
-			
+
 			//Keep rotation pitch at one setting when sleeping in a bed
 			if (hasBed && isSleeping)
 			{
 				setPosition(bedPosX, bedPosY, bedPosZ);
 				int meta = worldObj.getBlockMetadata(bedPosX, bedPosY, bedPosZ);
-				
+
 				if (meta == 0)
 				{
-					rotationYawHead = 180.0F;
+					rotationYawHead = renderYawOffset = prevRenderYawOffset = 180.0F;
 				}
-				
+
 				else if (meta == 3)
 				{
-					rotationYawHead = 90.0F;
+					rotationYawHead = renderYawOffset = prevRenderYawOffset = 90.0F;
 				}
-				
+
 				else if (meta == 2)
 				{
-					rotationYawHead = 0.0F;
+					rotationYawHead = renderYawOffset = prevRenderYawOffset = 0.0F;
 				}
-				
+
 				else if (meta == 1)
 				{
-					rotationYawHead = -90.0F;
+					rotationYawHead = renderYawOffset = prevRenderYawOffset = -90.0F;
 				}
 			}	
 		}
@@ -1036,6 +1036,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					if (isStaying)
 					{
 						isSleeping = true;
+
 						MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isSleeping", isSleeping));
 
 						if (familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
@@ -1074,7 +1075,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					isSleeping = true;
 					hasTeleportedHome = true;
 					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isSleeping", isSleeping));
-
+					
 					if (hasBed)
 					{
 						TileEntity tileEntity = worldObj.getTileEntity(bedPosX, bedPosY, bedPosZ);
@@ -1082,30 +1083,31 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 						if (tileEntity instanceof TileEntityVillagerBed)
 						{
 							TileEntityVillagerBed villagerBed = (TileEntityVillagerBed)tileEntity;
-							
+
 							if (!villagerBed.getIsVillagerSleepingIn())
 							{
 								villagerBed.setIsVillagerSleepingIn(true);
 								villagerBed.setSleepingVillagerId(mcaID);
-								
+
 								hasBed = true;
 								bedPosX = tileEntity.xCoord;
 								bedPosY = tileEntity.yCoord;
 								bedPosZ = tileEntity.zCoord;
-								
+
 								setPosition(bedPosX, bedPosY, bedPosZ);
+
 								MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "hasBed", hasBed));
 								MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "bedPosX", bedPosX));
 								MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "bedPosY", bedPosY));
 								MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "bedPosZ", bedPosZ));
-								
+
 								return;
 							}
 						}
 
 						resetBedStatus();
 					}
-					
+
 					for (Object obj : worldObj.loadedTileEntityList)
 					{
 						if (obj instanceof TileEntityVillagerBed)
@@ -1116,23 +1118,23 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 							if (distance < 5.0D)
 							{
 								int meta = worldObj.getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
-								
+
 								if (!BlockVillagerBed.isBlockHeadOfBed(meta) && !tileEntity.getIsVillagerSleepingIn())
 								{
 									tileEntity.setIsVillagerSleepingIn(true);
 									tileEntity.setSleepingVillagerId(mcaID);
-									
+
 									hasBed = true;
 									bedPosX = tileEntity.xCoord;
 									bedPosY = tileEntity.yCoord;
 									bedPosZ = tileEntity.zCoord;
-									
+
 									setPosition(bedPosX, bedPosY, bedPosZ);
 									MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "hasBed", hasBed));
 									MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "bedPosX", bedPosX));
 									MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "bedPosY", bedPosY));
 									MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "bedPosZ", bedPosZ));
-									
+
 									break;
 								}
 							}
@@ -2483,18 +2485,18 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public void resetBedStatus() 
 	{
 		TileEntityVillagerBed bed = (TileEntityVillagerBed) worldObj.getTileEntity(bedPosX, bedPosY, bedPosZ);
-		
+
 		if (bed != null)
 		{
 			bed.setIsVillagerSleepingIn(false);
 			bed.setSleepingVillagerId(-1);
 		}
-		
+
 		hasBed = false;
 		bedPosX = 0;
 		bedPosY = 0;
 		bedPosZ = 0;
-		
+
 		MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "hasBed", hasBed));
 		MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "bedPosX", bedPosX));
 		MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "bedPosY", bedPosY));
@@ -2703,6 +2705,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				if (isStaying)
 				{
 					isSleeping = true;
+
 				}
 
 				else

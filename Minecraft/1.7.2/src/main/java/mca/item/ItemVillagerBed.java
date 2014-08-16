@@ -27,6 +27,7 @@ public abstract class ItemVillagerBed extends Item
     public ItemVillagerBed()
     {
         this.setCreativeTab(MCA.getInstance().tabMCA);
+        this.setMaxStackSize(1);
     }
 
     public abstract BlockVillagerBed getVillagerBedType();

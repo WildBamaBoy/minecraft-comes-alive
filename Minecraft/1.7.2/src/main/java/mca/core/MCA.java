@@ -788,6 +788,18 @@ public class MCA extends UnenforcedCore
 				{
 			"GDG", "G G", "GGG", 'D', new ItemStack(Items.dye, 1, 5), 'G', Items.gold_ingot
 				});
+		
+		GameRegistry.addShapelessRecipe(new ItemStack(itemVillagerBedRed), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 14));
+		GameRegistry.addShapelessRecipe(new ItemStack(itemVillagerBedBlue), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 11));
+		GameRegistry.addShapelessRecipe(new ItemStack(itemVillagerBedGreen), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 13));
+		GameRegistry.addShapelessRecipe(new ItemStack(itemVillagerBedPurple), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 10));
+		GameRegistry.addShapelessRecipe(new ItemStack(itemVillagerBedPink), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 6));
+
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(itemVillagerBedRed));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(itemVillagerBedBlue));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(itemVillagerBedGreen));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(itemVillagerBedPurple));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(itemVillagerBedPink));
 	}
 
 	@Override
