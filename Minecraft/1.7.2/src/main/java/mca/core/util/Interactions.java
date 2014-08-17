@@ -64,7 +64,6 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.getCommandSenderName(), memory);
-		MCA.getInstance();
 		MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entity.getEntityId(), "playerMemoryMap", entity.playerMemoryMap));
 	}
 
@@ -112,7 +111,6 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.getCommandSenderName(), memory);
-		MCA.getInstance();
 		MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entity.getEntityId(), "playerMemoryMap", entity.playerMemoryMap));
 	}
 
@@ -163,7 +161,6 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.getCommandSenderName(), memory);
-		MCA.getInstance();
 		MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entity.getEntityId(), "playerMemoryMap", entity.playerMemoryMap));
 	}
 
@@ -211,7 +208,6 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.getCommandSenderName(), memory);
-		MCA.getInstance();
 		MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entity.getEntityId(), "playerMemoryMap", entity.playerMemoryMap));
 	}
 
@@ -259,7 +255,6 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.getCommandSenderName(), memory);
-		MCA.getInstance();
 		MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entity.getEntityId(), "playerMemoryMap", entity.playerMemoryMap));
 	}
 
@@ -315,7 +310,6 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.getCommandSenderName(), memory);
-		MCA.getInstance();
 		MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entity.getEntityId(), "playerMemoryMap", entity.playerMemoryMap));
 	}
 
@@ -377,7 +371,6 @@ public final class Interactions
 
 		memory.interactionFatigue++;
 		entity.playerMemoryMap.put(player.getCommandSenderName(), memory);
-		MCA.getInstance();
 		MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entity.getEntityId(), "playerMemoryMap", entity.playerMemoryMap));
 	}
 }
