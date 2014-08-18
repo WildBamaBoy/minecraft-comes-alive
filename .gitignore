@@ -42,3 +42,17 @@ Minecraft/1.7.2/gradle/*
 Minecraft/1.7.2/eclipse/*
 Minecraft/1.7.2/.classpath
 Minecraft/1.7.2/.project
+
+# 1.7.2 Files #
+Minecraft/1.7.2/gradlew
+
+# 1.7.10 Folders #
+Minecraft/1.7.10/.gradle/*
+Minecraft/1.7.10/.settings/*
+Minecraft/1.7.10/bin/*
+Minecraft/1.7.10/build/*
+Minecraft/1.7.10/.gradle/*
+Minecraft/1.7.10/gradle/*
+Minecraft/1.7.10/eclipse/*
+Minecraft/1.7.10/.classpath
+Minecraft/1.7.10/.project
