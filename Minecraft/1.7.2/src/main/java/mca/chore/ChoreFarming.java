@@ -432,6 +432,7 @@ public class ChoreFarming extends AbstractChore
 		if (hasNextPathBlock)
 		{
 			doSetNextPath();
+			
 			if (canDoNextMaintainTask())
 			{
 				doNextMaintainTask();
@@ -575,7 +576,15 @@ public class ChoreFarming extends AbstractChore
 		{
 			if (owner.getNavigator().noPath())
 			{
-				owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(targetX, targetY, targetZ), getChoreXp() >= 10.0F ? Constants.SPEED_RUN : Constants.SPEED_SNEAK);
+				boolean success = owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(targetX, targetY, targetZ), getChoreXp() >= 10.0F ? Constants.SPEED_RUN : Constants.SPEED_SNEAK);
+				
+				if (!success)
+				{
+					double midX = (owner.posX + targetX) / 2;
+					double midZ = (owner.posZ + targetZ) / 2;
+					
+					owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(midX, targetY, midZ), getChoreXp() >= 10.0F ? Constants.SPEED_RUN : Constants.SPEED_SNEAK);
+				}
 			}
 
 			return true;
