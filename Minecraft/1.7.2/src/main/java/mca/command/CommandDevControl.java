@@ -12,11 +12,15 @@ package mca.command;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.util.SelfTester;
+import mca.network.packets.PacketSayLocalized;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
 
 import com.radixshock.radixcore.constant.Font.Color;
+import com.radixshock.radixcore.constant.Font.Format;
 
 /**
  * Defines commands used by developers only.
@@ -98,6 +102,20 @@ public class CommandDevControl extends AbstractCommand
 			{
 				SelfTester tester = new SelfTester();
 				tester.doSelfTest();
+			}
+			
+			else if (commandName.equalsIgnoreCase("loadLanguage"))
+			{
+				MCA.getInstance().setLanguageLoaded(false);
+				MCA.getInstance().getLanguageLoader().loadLanguage();
+				sender.addChatMessage(new ChatComponentText(Color.GREEN + "Language reloaded."));
+			}
+			
+			else if (commandName.equalsIgnoreCase("getString"))
+			{
+				final String phraseId = arguments[1];
+				sender.addChatMessage(new ChatComponentText(Color.YELLOW + "Querying language system for " + Color.RED + phraseId + Format.RESET + "..."));
+				MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized((EntityPlayer) sender, null, phraseId, false, Color.YELLOW + "Response: " + Format.RESET, null), (EntityPlayerMP) sender);
 			}
 		}
 
