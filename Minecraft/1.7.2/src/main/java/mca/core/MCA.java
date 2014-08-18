@@ -1021,6 +1021,59 @@ public class MCA extends UnenforcedCore
 			return 0;
 		}
 	}
+	
+	/**
+	 * Gets the ID of a provided player entity.
+	 * 
+	 * @param 	player	The player whose ID should be gotten.
+	 * 
+	 * @return	The ID of the provided player. 0 if the player doesn't have an ID, which is invalid
+	 * 			since all player IDs are negative.
+	 *
+	 */
+	public int getIdOfPlayer(String playerName)
+	{
+		try
+		{
+			for (final Map.Entry<String, WorldPropertiesManager> entry : playerWorldManagerMap.entrySet())
+			{
+				if (entry.getKey().equals(playerName))
+				{
+					return getWorldProperties(entry.getValue()).playerID;
+				}
+			}
+
+			return 0;
+		}
+
+		//Happens in a client side GUI.
+		catch (NullPointerException e)
+		{
+			return 0;
+		}
+	}
+
+	public String getPlayerName(int id)
+	{
+		try
+		{
+			for (final Map.Entry<String, WorldPropertiesManager> entry : playerWorldManagerMap.entrySet())
+			{
+				if (getWorldProperties(entry.getValue()).playerID == id)
+				{
+					return entry.getKey();
+				}
+			}
+
+			return null;
+		}
+
+		//Happens in a client side GUI.
+		catch (NullPointerException e)
+		{
+			return null;
+		}
+	}
 
 	@Override
 	public void onCreateNewWorldProperties(WorldPropertiesManager manager)

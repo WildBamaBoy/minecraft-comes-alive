@@ -496,6 +496,11 @@ public class FamilyTree implements Serializable, Cloneable
 	{
 		this.relationMap = map;
 	}
+	
+	public Map<Integer, EnumRelation> getRelationMap()
+	{
+		return relationMap;
+	}
 
 	/**
 	 * Returns a clone of this family tree.
