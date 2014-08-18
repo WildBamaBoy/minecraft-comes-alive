@@ -187,7 +187,7 @@ public class EntityVillagerAdult extends AbstractEntity
 		this.getNavigator().setBreakDoors(true);
 		this.getNavigator().setAvoidsWater(false);
 		this.getNavigator().setCanSwim(true);
-		
+
 		if (profession != 5 || isMarriedToPlayer)
 		{
 			this.tasks.addTask(0, new EntityAISwimming(this));
@@ -513,8 +513,19 @@ public class EntityVillagerAdult extends AbstractEntity
 
 				else if (itemStack.getItem() instanceof ItemLostRelativeDocument)
 				{
-					MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_LRD), (EntityPlayerMP)player);
-					return true;
+					EnumRelation relationToPlayer = familyTree.getMyRelationTo(MCA.getInstance().getIdOfPlayer(player));
+					
+					if (relationToPlayer == EnumRelation.Spouse || relationToPlayer == EnumRelation.Husband || relationToPlayer == EnumRelation.Mother)
+					{
+						say(MCA.getInstance().getLanguageLoader().getString("notify.villager.gifted.arrangerring.relative", player, this, false));
+						return true;
+					}
+
+					else
+					{
+						MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_LRD), (EntityPlayerMP)player);
+						return true;
+					}
 				}
 
 				else if (itemStack.getItem() instanceof ItemNameTag && itemStack.hasDisplayName())
