@@ -213,7 +213,7 @@ public class RenderHuman extends RenderBiped
 		}
 	}
 
-	private void renderHumanSleeping(AbstractEntity entity, double partialTickTime)
+	protected void renderHumanSleeping(AbstractEntity entity, double partialTickTime)
 	{
 		int meta = entity.worldObj.getBlockMetadata(entity.bedPosX, entity.bedPosY, entity.bedPosZ);
 

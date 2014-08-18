@@ -12,6 +12,7 @@ package mca.client.render;
 import mca.core.MCA;
 import mca.core.WorldPropertiesList;
 import mca.entity.AbstractChild;
+import mca.entity.AbstractEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 
@@ -40,16 +41,23 @@ public class RenderHumanSmall extends RenderHuman
 	{
 		final WorldPropertiesList properties = (WorldPropertiesList)MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName()).worldPropertiesInstance;
 		final boolean doGradualGrowth = properties.childrenGrowAutomatically;
+		final int age = entity.age;
+		final float interval = entity.isMale ? 0.39F : 0.37F;
+		final float growthFactor = interval / MCA.getInstance().getModProperties().kidGrowUpTimeMinutes * age;
+		float scale = 0.55F + growthFactor;
+		
+		if (entity.isSleeping && entity.hasBed)
+		{
+			renderHumanSleeping(entity, partialTickTime);
+			
+			GL11.glTranslated(0, -0.4F + growthFactor * scale, 0.1);
+		}
 		
 		if (doGradualGrowth && !entity.isAdult)
 		{
 			//Children initially start at 0.55F as their scale. Divide the distance between the player's size and the child's size by
 			//the amount of time it takes for them to grow and multiply that times their age. This makes the child gradually get taller
 			//as they get older.
-			
-			final int age = entity.age;
-			final float interval = entity.isMale ? 0.39F : 0.37F;
-			final float scale = 0.55F + interval / MCA.getInstance().getModProperties().kidGrowUpTimeMinutes * age;
 			GL11.glScalef(scale, scale, scale);
 		}
 
