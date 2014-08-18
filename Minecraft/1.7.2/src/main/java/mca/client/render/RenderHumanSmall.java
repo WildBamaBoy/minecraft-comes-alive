@@ -12,7 +12,6 @@ package mca.client.render;
 import mca.core.MCA;
 import mca.core.WorldPropertiesList;
 import mca.entity.AbstractChild;
-import mca.entity.AbstractEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 
