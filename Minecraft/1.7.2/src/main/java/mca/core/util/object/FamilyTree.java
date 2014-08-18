@@ -272,16 +272,24 @@ public class FamilyTree implements Serializable, Cloneable
 			{
 				if (mcaID < 0)
 				{
-					final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(MCA.getInstance().getPlayerByID(owner.worldObj, mcaID).getCommandSenderName());
+					final EntityPlayer player = MCA.getInstance().getPlayerByID(owner.worldObj, mcaID);
 
-					if (MCA.getInstance().getWorldProperties(manager).playerGender.equals("Male"))
+					if (player != null)
 					{
-						return EnumRelation.Grandfather;
-					}
+						final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
 
-					else
-					{
-						return EnumRelation.Grandmother;
+						if (manager != null)
+						{
+							if (MCA.getInstance().getWorldProperties(manager).playerGender.equals("Male"))
+							{
+								return EnumRelation.Grandfather;
+							}
+
+							else
+							{
+								return EnumRelation.Grandmother;
+							}
+						}
 					}
 				}
 			}
