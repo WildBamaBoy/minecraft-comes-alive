@@ -31,24 +31,35 @@ public class LanguageLoaderHook implements ILanguageLoaderHook
 	@Override
 	public boolean processEntrySet(Map.Entry<Object, Object> entrySet) 
 	{
-		if (entrySet.getKey().toString().contains("name.male"))
+		final String key = entrySet.getKey().toString();
+		final String value = entrySet.getValue().toString();
+		
+		if (key.contains("name.male"))
 		{
-			MCA.maleNames.add(entrySet.getValue().toString());
+			MCA.maleNames.add(value);
 			return true;
 		}
 
-		else if (entrySet.getKey().toString().contains("name.female"))
+		else if (key.contains("name.female"))
 		{
-			MCA.femaleNames.add(entrySet.getValue().toString());
+			MCA.femaleNames.add(value);
 			return true;
 		}
 
+		if (value.contains("\\!".substring(1)))
+		{
+			Map<String, String> translations = MCA.getInstance().getLanguageLoader().getTranslations();
+			translations.put(key, value.replace("\\!".substring(1), "!"));
+			
+			return true;
+		}
+		
 		return false;
 	}
 
 	@Override
 	public String onGetString(String elementId, Object... arguments) 
-	{	
+	{
 		EntityPlayer player = null;
 		AbstractEntity entity = null;
 		boolean useCharacterType = false;
