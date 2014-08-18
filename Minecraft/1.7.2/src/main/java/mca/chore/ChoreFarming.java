@@ -483,7 +483,7 @@ public class ChoreFarming extends AbstractChore
 				//"Water"
 				else if (nextOperation == 'W')
 				{
-					owner.worldObj.setBlock(targetX, targetY + 1, targetZ, Blocks.air);
+					owner.worldObj.setBlock(targetX, targetY + 1, targetZ, Blocks.stone_slab);
 					owner.worldObj.setBlock(targetX, targetY, targetZ, Blocks.water);
 				}
 
