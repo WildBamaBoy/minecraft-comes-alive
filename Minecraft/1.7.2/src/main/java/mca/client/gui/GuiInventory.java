@@ -136,8 +136,8 @@ public class GuiInventory extends InventoryEffectRenderer
 		//Draw the two inventories.
 		int x = (width - xSize + addX) / 2;
 		int y = (height - ySize) / 2;
-		drawTexturedModalRect(x, y, 0, 0, xSize, inventoryRows * 18 + 17);			//Top inventory
-		drawTexturedModalRect(x, y + inventoryRows * 18 + 17, 0, 126, xSize, 96);	//Bottom inventory
+		drawTexturedModalRect(x, y, 0, 0, xSize + 26, inventoryRows * 18 + 21);			//Top inventory
+		drawTexturedModalRect(x, y + inventoryRows * 18 + 17, 0, 126, xSize + 26, 96);	//Bottom inventory
 	}
 
 	@Override

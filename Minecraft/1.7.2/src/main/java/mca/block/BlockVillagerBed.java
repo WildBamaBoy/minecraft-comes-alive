@@ -217,18 +217,25 @@ public abstract class BlockVillagerBed extends BlockDirectional implements ITile
 
 				if (villagerBed.getSleepingVillagerId() != -1)
 				{
-					Entity entity = world.getEntityByID(MCA.getInstance().idsMap.get(villagerBed.getSleepingVillagerId()));
-
-					if (entity != null)
+					try
 					{
-						AbstractEntity villager = (AbstractEntity)entity;
+						Entity entity = world.getEntityByID(MCA.getInstance().idsMap.get(villagerBed.getSleepingVillagerId()));
 
-						villager.isSleeping = false;
-						villager.resetBedStatus();
-						villager.texture = villager.texture.replace("/skins/sleeping/", "/skins/");
+						if (entity != null)
+						{
+							AbstractEntity villager = (AbstractEntity)entity;
 
-						MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(villager.getEntityId(), "texture", villager.texture));
-						MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(villager.getEntityId(), "isSleeping", villager.isSleeping));
+							villager.isSleeping = false;
+							villager.resetBedStatus();
+							villager.texture = villager.texture.replace("/skins/sleeping/", "/skins/");
+
+							MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(villager.getEntityId(), "texture", villager.texture));
+							MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(villager.getEntityId(), "isSleeping", villager.isSleeping));
+						}
+					}
+
+					catch (NullPointerException e)
+					{
 					}
 				}
 			}

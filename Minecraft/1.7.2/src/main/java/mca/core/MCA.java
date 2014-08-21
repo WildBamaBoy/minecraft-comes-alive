@@ -72,6 +72,7 @@ import mca.item.ItemEggFemale;
 import mca.item.ItemEggMale;
 import mca.item.ItemEngagementRing;
 import mca.item.ItemHeirCrown;
+import mca.item.ItemIconInitializer;
 import mca.item.ItemKingsBoots;
 import mca.item.ItemKingsCoat;
 import mca.item.ItemKingsPants;
@@ -90,6 +91,8 @@ import mca.lang.LanguageParser;
 import mca.network.PacketRegistry;
 import mca.network.packets.PacketSetWorldProperties;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityChicken;
@@ -105,6 +108,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemFishFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
+import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.AchievementPage;
 
@@ -133,6 +137,7 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * Main entry point and core of the Minecraft Comes Alive mod.
@@ -144,6 +149,10 @@ public class MCA extends UnenforcedCore
 	@Instance("mca")
 	private static MCA instance;
 
+	/** Icons */
+	@SideOnly(Side.CLIENT)
+	public static IIcon iconFoodSlotEmpty;
+	
 	/** An instance of the sided proxy. */
 	@SidedProxy(clientSide="mca.core.forge.ClientProxy", serverSide="mca.core.forge.CommonProxy")
 	public static CommonProxy proxy;
@@ -368,7 +377,7 @@ public class MCA extends UnenforcedCore
 		instance = this;
 		logger = new ModLogger(this);
 		languageLoader = new LanguageLoader(this);
-
+				
 		if (event.getSide() == Side.CLIENT)
 		{
 			clientTickHandler = new ClientTickHandler();
@@ -496,6 +505,12 @@ public class MCA extends UnenforcedCore
 	public void postInit(FMLPostInitializationEvent event) 
 	{
 		SkinLoader.loadAddonSkins();
+		
+		if (event.getSide() == Side.CLIENT)
+		{
+			TextureMap textureMap = Minecraft.getMinecraft().getTextureMapBlocks();
+			iconFoodSlotEmpty = textureMap.registerIcon("mca:IconFoodEmpty");
+		}
 		return;
 	}
 
@@ -652,7 +667,10 @@ public class MCA extends UnenforcedCore
 		itemVillagerBedGreen = new ItemVillagerBedGreen().setUnlocalizedName("greenbed").setCreativeTab(tabMCA);
 		itemVillagerBedPurple = new ItemVillagerBedPurple().setUnlocalizedName("purplebed").setCreativeTab(tabMCA);
 		itemVillagerBedPink = new ItemVillagerBedPink().setUnlocalizedName("pinkbed").setCreativeTab(tabMCA);
-
+		
+		//Icons
+		new ItemIconInitializer();
+		
 		GameRegistry.registerItem(itemWeddingRing, "MCA_WeddingRing");
 		GameRegistry.registerItem(itemArrangersRing, "MCA_ArangersRing");
 		GameRegistry.registerItem(itemBabyBoy, "MCA_BabyBoy");
