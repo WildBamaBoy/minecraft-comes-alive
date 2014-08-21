@@ -13,16 +13,16 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 public class PacketStopJumping extends AbstractPacket implements IMessage, IMessageHandler<PacketStopJumping, IMessage>
 {
 	private int entityId;
-	
+
 	public PacketStopJumping()
 	{
 	}
-	
+
 	public PacketStopJumping(int entityId)
 	{
 		this.entityId = entityId;
 	}
-	
+
 	@Override
 	public void fromBytes(ByteBuf byteBuf) 
 	{
@@ -41,7 +41,11 @@ public class PacketStopJumping extends AbstractPacket implements IMessage, IMess
 		final EntityPlayer player = getPlayer(context);
 		final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(packet.entityId);
 
-		entity.setJumping(false);
+		if (entity != null)
+		{
+			entity.setJumping(false);
+		}
+
 		return null;
 	}
 }

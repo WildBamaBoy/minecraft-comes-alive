@@ -27,18 +27,18 @@ public class PacketSetFieldValue extends AbstractPacket implements IMessage, IMe
 	private int entityId;
 	private String fieldName;
 	private Object fieldValue;
-	
+
 	public PacketSetFieldValue()
 	{
 	}
-	
+
 	public PacketSetFieldValue(int entityId, String fieldName, Object fieldValue)
 	{
 		this.entityId = entityId;
 		this.fieldName = fieldName;
 		this.fieldValue = fieldValue;
 	}
-	
+
 	@Override
 	public void fromBytes(ByteBuf byteBuf) 
 	{
@@ -60,171 +60,174 @@ public class PacketSetFieldValue extends AbstractPacket implements IMessage, IMe
 	{
 		final EntityPlayer player = getPlayer(context);
 		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
-		
+
 		if (MCA.getInstance().debugDoLogPackets && MCA.getInstance().inDebugMode)
 		{
 			MCA.getInstance().getLogger().log("\t" + packet.entityId + " | " + packet.fieldName + " | " + packet.fieldValue);
 		}
 
-		for (Object obj : player.worldObj.loadedEntityList)
+		if (manager != null)
 		{
-			try
+			for (Object obj : player.worldObj.loadedEntityList)
 			{
-				final Entity entity = (Entity)obj;
-
-				if (entity.getEntityId() == packet.entityId)
+				try
 				{
-					final AbstractEntity abstractEntity = (AbstractEntity)entity;
+					final Entity entity = (Entity)obj;
 
-					for (final Field f : entity.getClass().getFields())
+					if (entity.getEntityId() == packet.entityId)
 					{
-						if (!packet.fieldName.equals("texture"))
+						final AbstractEntity abstractEntity = (AbstractEntity)entity;
+
+						for (final Field f : entity.getClass().getFields())
 						{
-							if (f.getName().equals(packet.fieldName))
+							if (!packet.fieldName.equals("texture"))
 							{
-								//Achievements
-								if (f.getName().equals("isPeasant") && packet.fieldValue.toString().equals("true"))
+								if (f.getName().equals(packet.fieldName))
 								{
-									MCA.getInstance().getWorldProperties(manager).stat_villagersMadePeasants++;
-									player.triggerAchievement(MCA.getInstance().achievementMakePeasant);
-
-									if (MCA.getInstance().getWorldProperties(manager).stat_villagersMadePeasants >= 20)
+									//Achievements
+									if (f.getName().equals("isPeasant") && packet.fieldValue.toString().equals("true"))
 									{
-										player.triggerAchievement(MCA.getInstance().achievementPeasantArmy);
-									}
+										MCA.getInstance().getWorldProperties(manager).stat_villagersMadePeasants++;
+										player.triggerAchievement(MCA.getInstance().achievementMakePeasant);
 
-									manager.saveWorldProperties();
-								}
-
-								if (f.getName().equals("isKnight") && packet.fieldValue.toString().equals("true"))
-								{
-									MCA.getInstance().getWorldProperties(manager).stat_guardsMadeKnights++;
-									player.triggerAchievement(MCA.getInstance().achievementMakeKnight);
-
-									if (MCA.getInstance().getWorldProperties(manager).stat_guardsMadeKnights >= 20)
-									{
-										player.triggerAchievement(MCA.getInstance().achievementKnightArmy);
-									}
-
-									manager.saveWorldProperties();
-								}
-
-								if (f.getName().equals("hasBeenExecuted") && packet.fieldValue.toString().equals("true"))
-								{
-									MCA.getInstance().getWorldProperties(manager).stat_villagersExecuted++;
-									player.triggerAchievement(MCA.getInstance().achievementExecuteVillager);
-
-									if (abstractEntity.familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) == EnumRelation.Spouse)
-									{
-										MCA.getInstance().getWorldProperties(manager).stat_wivesExecuted++;
-
-										if (MCA.getInstance().getWorldProperties(manager).stat_wivesExecuted >= 6)
+										if (MCA.getInstance().getWorldProperties(manager).stat_villagersMadePeasants >= 20)
 										{
-											player.triggerAchievement(MCA.getInstance().achievementMonarchSecret);
+											player.triggerAchievement(MCA.getInstance().achievementPeasantArmy);
+										}
+
+										manager.saveWorldProperties();
+									}
+
+									if (f.getName().equals("isKnight") && packet.fieldValue.toString().equals("true"))
+									{
+										MCA.getInstance().getWorldProperties(manager).stat_guardsMadeKnights++;
+										player.triggerAchievement(MCA.getInstance().achievementMakeKnight);
+
+										if (MCA.getInstance().getWorldProperties(manager).stat_guardsMadeKnights >= 20)
+										{
+											player.triggerAchievement(MCA.getInstance().achievementKnightArmy);
+										}
+
+										manager.saveWorldProperties();
+									}
+
+									if (f.getName().equals("hasBeenExecuted") && packet.fieldValue.toString().equals("true"))
+									{
+										MCA.getInstance().getWorldProperties(manager).stat_villagersExecuted++;
+										player.triggerAchievement(MCA.getInstance().achievementExecuteVillager);
+
+										if (abstractEntity.familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) == EnumRelation.Spouse)
+										{
+											MCA.getInstance().getWorldProperties(manager).stat_wivesExecuted++;
+
+											if (MCA.getInstance().getWorldProperties(manager).stat_wivesExecuted >= 6)
+											{
+												player.triggerAchievement(MCA.getInstance().achievementMonarchSecret);
+											}
+										}
+										manager.saveWorldProperties();
+
+									}
+									//Setting the value.
+									if (f.getType().getName().contains("boolean"))
+									{
+										entity.getClass().getField(packet.fieldName).set(entity, Boolean.parseBoolean(packet.fieldValue.toString()));
+
+										//Special condition. When isSpouse is changed, a villager's AI must be updated just in case it is a guard who is
+										//either getting married or getting divorced.
+										if (f.getName().equals("isSpouse"))
+										{
+											abstractEntity.addAI();
 										}
 									}
-									manager.saveWorldProperties();
 
-								}
-								//Setting the value.
-								if (f.getType().getName().contains("boolean"))
-								{
-									entity.getClass().getField(packet.fieldName).set(entity, Boolean.parseBoolean(packet.fieldValue.toString()));
-
-									//Special condition. When isSpouse is changed, a villager's AI must be updated just in case it is a guard who is
-									//either getting married or getting divorced.
-									if (f.getName().equals("isSpouse"))
+									else if (f.getType().getName().contains("int"))
 									{
-										abstractEntity.addAI();
-									}
-								}
+										entity.getClass().getField(packet.fieldName).set(entity, Integer.parseInt(packet.fieldValue.toString()));
 
-								else if (f.getType().getName().contains("int"))
-								{
-									entity.getClass().getField(packet.fieldName).set(entity, Integer.parseInt(packet.fieldValue.toString()));
-
-									if (f.getName().equals("traitId"))
-									{
-										abstractEntity.trait = EnumTrait.getTraitById(abstractEntity.traitId);
-									}
-
-									if (f.getName().equals("profession"))
-									{
-										abstractEntity.addAI();
-									}
-								}
-
-								else if (f.getType().getName().contains("double"))
-								{
-									entity.getClass().getField(packet.fieldName).set(entity, Double.parseDouble(packet.fieldValue.toString()));
-								}
-
-								else if (f.getType().getName().contains("float"))
-								{
-									entity.getClass().getField(packet.fieldName).set(entity, Float.parseFloat(packet.fieldValue.toString()));
-
-									abstractEntity.setMoodByMoodPoints(false);
-								}
-
-								else if (f.getType().getName().contains("String"))
-								{
-									entity.getClass().getField(packet.fieldName).set(entity, packet.fieldValue.toString());
-								}
-
-								else if (f.getType().getName().contains("Map"))
-								{
-									if (f.getName().equals("playerMemoryMap"))
-									{
-										//Player name must be set if the map is a memory map since it is transient.
-										Map<String, PlayerMemory> memoryMap = (Map<String, PlayerMemory>)packet.fieldValue;
-										PlayerMemory memory = memoryMap.get(player.getCommandSenderName());
-
-										if (memory != null)
+										if (f.getName().equals("traitId"))
 										{
-											memory.playerName = player.getCommandSenderName();
-											memoryMap.put(player.getCommandSenderName(), memory);
+											abstractEntity.trait = EnumTrait.getTraitById(abstractEntity.traitId);
+										}
+
+										if (f.getName().equals("profession"))
+										{
+											abstractEntity.addAI();
+										}
+									}
+
+									else if (f.getType().getName().contains("double"))
+									{
+										entity.getClass().getField(packet.fieldName).set(entity, Double.parseDouble(packet.fieldValue.toString()));
+									}
+
+									else if (f.getType().getName().contains("float"))
+									{
+										entity.getClass().getField(packet.fieldName).set(entity, Float.parseFloat(packet.fieldValue.toString()));
+
+										abstractEntity.setMoodByMoodPoints(false);
+									}
+
+									else if (f.getType().getName().contains("String"))
+									{
+										entity.getClass().getField(packet.fieldName).set(entity, packet.fieldValue.toString());
+									}
+
+									else if (f.getType().getName().contains("Map"))
+									{
+										if (f.getName().equals("playerMemoryMap"))
+										{
+											//Player name must be set if the map is a memory map since it is transient.
+											Map<String, PlayerMemory> memoryMap = (Map<String, PlayerMemory>)packet.fieldValue;
+											PlayerMemory memory = memoryMap.get(player.getCommandSenderName());
+
+											if (memory != null)
+											{
+												memory.playerName = player.getCommandSenderName();
+												memoryMap.put(player.getCommandSenderName(), memory);
+											}
+
+											else
+											{
+												memoryMap.put(player.getCommandSenderName(), new PlayerMemory(player.getCommandSenderName()));
+											}
+
+											entity.getClass().getField(packet.fieldName).set(entity, memoryMap);
 										}
 
 										else
 										{
-											memoryMap.put(player.getCommandSenderName(), new PlayerMemory(player.getCommandSenderName()));
+											entity.getClass().getField(packet.fieldName).set(entity, packet.fieldValue);
 										}
-
-										entity.getClass().getField(packet.fieldName).set(entity, memoryMap);
-									}
-
-									else
-									{
-										entity.getClass().getField(packet.fieldName).set(entity, packet.fieldValue);
 									}
 								}
 							}
+
+							else
+							{
+								((AbstractEntity)entity).setTexture(packet.fieldValue.toString());
+							}
 						}
 
-						else
-						{
-							((AbstractEntity)entity).setTexture(packet.fieldValue.toString());
-						}
+						break;
 					}
+				}
 
-					break;
+				catch (Throwable e)
+				{
+					MCA.getInstance().getLogger().log("Error setting field value.");
+					MCA.getInstance().getLogger().log(e);
+					continue;
 				}
 			}
 
-			catch (Throwable e)
+			//Sync with all other players if server side.
+			if (!player.worldObj.isRemote)
 			{
-				MCA.getInstance().getLogger().log("Error setting field value.");
-				MCA.getInstance().getLogger().log(e);
-				continue;
+				MCA.packetHandler.sendPacketToAllPlayersExcept(new PacketSetFieldValue(packet.entityId, packet.fieldName, packet.fieldValue), (EntityPlayerMP) player);
 			}
 		}
 
-		//Sync with all other players if server side.
-		if (!player.worldObj.isRemote)
-		{
-			MCA.packetHandler.sendPacketToAllPlayersExcept(new PacketSetFieldValue(packet.entityId, packet.fieldName, packet.fieldValue), (EntityPlayerMP) player);
-		}
-		
 		return null;
 	}
 }

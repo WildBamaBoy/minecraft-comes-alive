@@ -18,7 +18,7 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 public class PacketReturnInventory extends AbstractPacket implements IMessage, IMessageHandler<PacketReturnInventory, IMessage>
 {
 	private int entityId;
-	
+
 	public PacketReturnInventory()
 	{
 	}
@@ -46,14 +46,18 @@ public class PacketReturnInventory extends AbstractPacket implements IMessage, I
 		final EntityPlayer player = getPlayer(context);
 		final AbstractEntity entity = (AbstractEntity)player.worldObj.getEntityByID(packet.entityId);
 
-		ArrayList<EntityItem> itemList = MCA.getInstance().deadPlayerInventories.get(player.getCommandSenderName());
-
-		for (EntityItem item : itemList)
+		if (entity != null)
 		{
-			entity.entityDropItem(item.getEntityItem(), 0.3F);
-		}
+			ArrayList<EntityItem> itemList = MCA.getInstance().deadPlayerInventories.get(player.getCommandSenderName());
 
-		MCA.getInstance().deadPlayerInventories.remove(player.getCommandSenderName());
+			for (EntityItem item : itemList)
+			{
+				entity.entityDropItem(item.getEntityItem(), 0.3F);
+			}
+
+			MCA.getInstance().deadPlayerInventories.remove(player.getCommandSenderName());
+		}
+		
 		return null;
 	}
 }

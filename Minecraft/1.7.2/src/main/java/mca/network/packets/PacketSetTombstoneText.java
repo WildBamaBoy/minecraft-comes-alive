@@ -20,7 +20,7 @@ public class PacketSetTombstoneText extends AbstractPacket implements IMessage, 
 	private String line2;
 	private String line3;
 	private String line4;
-	
+
 	public PacketSetTombstoneText()
 	{
 	}
@@ -65,13 +65,16 @@ public class PacketSetTombstoneText extends AbstractPacket implements IMessage, 
 	{
 		final EntityPlayer player = getPlayer(context);
 		final TileEntityTombstone tombstone = (TileEntityTombstone)player.worldObj.getTileEntity(packet.posX, packet.posY, packet.posZ);
-		
-		tombstone.signText[0] = packet.line1;
-		tombstone.signText[1] = packet.line2;
-		tombstone.signText[2] = packet.line3;
-		tombstone.signText[3] = packet.line4;
-		tombstone.markDirty();
 
+		if (tombstone != null)
+		{
+			tombstone.signText[0] = packet.line1;
+			tombstone.signText[1] = packet.line2;
+			tombstone.signText[2] = packet.line3;
+			tombstone.signText[3] = packet.line4;
+			tombstone.markDirty();
+		}
+		
 		return null;
 	}
 }

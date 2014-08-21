@@ -14,16 +14,16 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 public class PacketOnClickTrade extends AbstractPacket implements IMessage, IMessageHandler<PacketOnClickTrade, IMessage>
 {
 	private int entityId;
-	
+
 	public PacketOnClickTrade()
 	{
 	}
-	
+
 	public PacketOnClickTrade(int entityId)
 	{
 		this.entityId = entityId;
 	}
-	
+
 	@Override
 	public void fromBytes(ByteBuf byteBuf) 
 	{
@@ -42,8 +42,11 @@ public class PacketOnClickTrade extends AbstractPacket implements IMessage, IMes
 		final EntityPlayer player = getPlayer(context);
 		final EntityVillagerAdult villager = (EntityVillagerAdult)player.worldObj.getEntityByID(packet.entityId);
 
-		villager.setCustomer(player);
-		player.displayGUIMerchant(villager, villager.getTitle(MCA.getInstance().getIdOfPlayer(player), true));
+		if (villager != null)
+		{
+			villager.setCustomer(player);
+			player.displayGUIMerchant(villager, villager.getTitle(MCA.getInstance().getIdOfPlayer(player), true));
+		}
 		
 		return null;
 	}

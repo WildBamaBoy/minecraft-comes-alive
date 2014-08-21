@@ -15,17 +15,17 @@ public class PacketUpdateFurnace extends AbstractPacket implements IMessage, IMe
 {
 	private int entityId;
 	private boolean state;
-	
+
 	public PacketUpdateFurnace()
 	{
 	}
-	
+
 	public PacketUpdateFurnace(int entityId, boolean state)
 	{
 		this.entityId = entityId;
 		this.state = state;
 	}
-	
+
 	@Override
 	public void fromBytes(ByteBuf byteBuf) 
 	{
@@ -46,7 +46,10 @@ public class PacketUpdateFurnace extends AbstractPacket implements IMessage, IMe
 		final EntityPlayer player = getPlayer(context);
 		final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(packet.entityId);
 
-		BlockFurnace.updateFurnaceBlockState(packet.state, entity.worldObj, entity.cookingChore.furnacePosX, entity.cookingChore.furnacePosY, entity.cookingChore.furnacePosZ);
+		if (player != null && entity != null)
+		{
+			BlockFurnace.updateFurnaceBlockState(packet.state, entity.worldObj, entity.cookingChore.furnacePosX, entity.cookingChore.furnacePosY, entity.cookingChore.furnacePosZ);
+		}
 		
 		return null;
 	}

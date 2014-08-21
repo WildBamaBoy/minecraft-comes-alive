@@ -52,8 +52,12 @@ public class PacketSetPosition extends AbstractPacket implements IMessage, IMess
 	{
 		final EntityPlayer player = getPlayer(context);
 		final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(packet.entityId);
-		entity.setPosition(packet.posX, packet.posY, packet.posZ);
-
+		
+		if (entity != null)
+		{
+			entity.setPosition(packet.posX, packet.posY, packet.posZ);
+		}
+		
 		return null;
 	}
 }

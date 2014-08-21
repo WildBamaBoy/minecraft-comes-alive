@@ -965,8 +965,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			//Ensure that the entity is synced with the server by checking if it has a name.
 			if (!name.equals("") && player != null)
 			{
-				String prefix = MCA.getInstance().getModProperties().villagerChatPrefix.replace("&", Font.SECTION_SIGN);
-				player.addChatMessage(new ChatComponentText(prefix + getTitle(MCA.getInstance().getIdOfPlayer(player), true) + ": " + text));
+				//String prefix = MCA.getInstance().getModProperties().villagerChatPrefix.replace("&", Font.SECTION_SIGN);
+//				player.addChatMessage(new ChatComponentText(prefix + getTitle(MCA.getInstance().getIdOfPlayer(player), true) + ": " + text));
+				player.addChatMessage(new ChatComponentText(getTitle(MCA.getInstance().getIdOfPlayer(player), true) + ": " + text));
 			}
 
 			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(getEntityId(), "isSleeping", isSleeping));
@@ -1881,8 +1882,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(nearestVillager.getEntityId(), "isMarriedToVillager", nearestVillager.isMarriedToVillager));
 				MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFamilyTree(nearestVillager.getEntityId(), nearestVillager.familyTree));
 
-				MCA.packetHandler.sendPacketToAllPlayers(new PacketSpawnParticles(this.posX, this.posY, this.posZ, this.width, this.height, Particle.HAPPY, 16));
-				MCA.packetHandler.sendPacketToAllPlayers(new PacketSpawnParticles(nearestVillager.posX, nearestVillager.posY, nearestVillager.posZ, nearestVillager.width, nearestVillager.height, Particle.HAPPY, 16));
+				//FIXME
+//				MCA.packetHandler.sendPacketToAllPlayers(new PacketSpawnParticles(this.posX, this.posY, this.posZ, this.width, this.height, Particle.HAPPY, 16));
+//				MCA.packetHandler.sendPacketToAllPlayers(new PacketSpawnParticles(nearestVillager.posX, nearestVillager.posY, nearestVillager.posZ, nearestVillager.width, nearestVillager.height, Particle.HAPPY, 16));
 
 				//Check if the now-spouse is a player child for achievement.
 				if (nearestVillager instanceof EntityPlayerChild || this instanceof EntityPlayerChild)

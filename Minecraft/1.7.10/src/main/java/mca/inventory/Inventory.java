@@ -45,7 +45,7 @@ public class Inventory implements IInventory, IInvBasic, Serializable
 {
 	/** The owner of the inventory. */
 	public AbstractEntity owner;
-
+	
 	/** The armor items that are being worn. */
 	public ItemStack armorItems[];
 
@@ -135,7 +135,7 @@ public class Inventory implements IInventory, IInvBasic, Serializable
 	@Override
 	public final int getSizeInventory()
 	{
-		return 40;
+		return 41;
 	}
 
 	/**

@@ -52,7 +52,7 @@ public class PacketSetTarget extends AbstractPacket implements IMessage, IMessag
 
 			if (entity.getEntityId() == packet.entityId)
 			{
-				AbstractEntity clientEntity = (AbstractEntity)entity;
+				final AbstractEntity clientEntity = (AbstractEntity)entity;
 
 				if (packet.targetId == 0)
 				{

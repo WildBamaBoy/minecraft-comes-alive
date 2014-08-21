@@ -25,11 +25,11 @@ public class PacketSyncEditorSettings extends AbstractPacket implements IMessage
 	private int traitId;
 	private Inventory inventory;
 	private String texture;
-	
+
 	public PacketSyncEditorSettings()
 	{
 	}
-	
+
 	public PacketSyncEditorSettings(AbstractEntity entity)
 	{
 		this.entityId = entity.getEntityId();
@@ -43,7 +43,7 @@ public class PacketSyncEditorSettings extends AbstractPacket implements IMessage
 		this.inventory = entity.inventory;
 		this.texture = entity.getTexture();
 	}
-	
+
 	@Override
 	public void fromBytes(ByteBuf byteBuf) 
 	{
@@ -80,17 +80,21 @@ public class PacketSyncEditorSettings extends AbstractPacket implements IMessage
 		final EntityPlayer player = getPlayer(context);
 		final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(packet.entityId);
 
-		entity.name = packet.name;
-		entity.isMale = packet.isMale;
-		entity.profession = packet.profession;
-		entity.moodPointsAnger = packet.moodPointsAnger;
-		entity.moodPointsHappy = packet.moodPointsHappy;
-		entity.moodPointsSad = packet.moodPointsSad;
-		entity.traitId = packet.traitId;
-		entity.inventory = packet.inventory;
-		entity.texture = packet.texture;
+		if (player != null && entity != null)
+		{
+			entity.name = packet.name;
+			entity.isMale = packet.isMale;
+			entity.profession = packet.profession;
+			entity.moodPointsAnger = packet.moodPointsAnger;
+			entity.moodPointsHappy = packet.moodPointsHappy;
+			entity.moodPointsSad = packet.moodPointsSad;
+			entity.traitId = packet.traitId;
+			entity.inventory = packet.inventory;
+			entity.texture = packet.texture;
 
-		MCA.packetHandler.sendPacketToAllPlayers(new PacketSync(entity.getEntityId(), entity));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSync(entity.getEntityId(), entity));
+		}
+		
 		return null;
 	}
 }

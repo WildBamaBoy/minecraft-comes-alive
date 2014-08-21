@@ -50,10 +50,13 @@ public class PacketGetTombstoneText extends AbstractPacket implements IMessage, 
 	{
 		final EntityPlayer player = getPlayer(context);
 		final TileEntityTombstone tombstone = (TileEntityTombstone)player.worldObj.getTileEntity(packet.posX, packet.posY, packet.posZ);
-		
-		MCA.packetHandler.sendPacketToPlayer(new PacketSetTombstoneText(packet.posX, packet.posY, packet.posZ, 
-				tombstone.signText[0], tombstone.signText[1], tombstone.signText[2], tombstone.signText[3]), (EntityPlayerMP)player);
-		
+
+		if (tombstone != null)
+		{
+			MCA.packetHandler.sendPacketToPlayer(new PacketSetTombstoneText(packet.posX, packet.posY, packet.posZ, 
+					tombstone.signText[0], tombstone.signText[1], tombstone.signText[2], tombstone.signText[3]), (EntityPlayerMP)player);
+		}
+
 		return null;
 	}
 }

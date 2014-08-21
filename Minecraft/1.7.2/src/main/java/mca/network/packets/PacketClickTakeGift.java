@@ -42,10 +42,13 @@ public class PacketClickTakeGift extends AbstractPacket implements IMessage, IMe
 	{
 		final EntityPlayer player = getPlayer(context);
 		final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(packet.interactingEntityId);
-		final ItemStack dropStack = LogicExtension.getGiftStackFromRelationship(player, entity);
 
-		entity.entityDropItem(dropStack, 0.2F);
-		
+		if (entity != null)
+		{
+			final ItemStack dropStack = LogicExtension.getGiftStackFromRelationship(player, entity);
+			entity.entityDropItem(dropStack, 0.2F);
+		}
+
 		return null;
 	}
 }
