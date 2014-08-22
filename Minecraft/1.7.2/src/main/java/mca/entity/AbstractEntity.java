@@ -943,7 +943,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * @param 	text	The text to appear in the player's chat box.
 	 */
 	public void say(String text)
-	{
+	{	
 		//Localization returns nothing when say() was used server-side.
 		if (text.equals(""))
 		{
@@ -965,7 +965,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			//Ensure that the entity is synced with the server by checking if it has a name.
 			if (!name.equals("") && player != null)
 			{
-				//String prefix = MCA.getInstance().getModProperties().villagerChatPrefix.replace("&", Font.SECTION_SIGN);
+				//FIXME
+//				String prefix = MCA.getInstance().getModProperties().villagerChatPrefix.replace("&", Font.SECTION_SIGN);
 //				player.addChatMessage(new ChatComponentText(prefix + getTitle(MCA.getInstance().getIdOfPlayer(player), true) + ": " + text));
 				player.addChatMessage(new ChatComponentText(getTitle(MCA.getInstance().getIdOfPlayer(player), true) + ": " + text));
 			}
@@ -1804,7 +1805,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			else
 			{
 				say(MCA.getInstance().getLanguageLoader().getString("villager.marriage.refusal.villagermarried", null, this, false));
-				modifyHearts(player, -30);
+				modifyHearts(player, -30);   
 			}
 		}
 
@@ -1881,10 +1882,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				nearestVillager.familyTree.addFamilyTreeEntry(this, EnumRelation.Spouse);
 				MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(nearestVillager.getEntityId(), "isMarriedToVillager", nearestVillager.isMarriedToVillager));
 				MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFamilyTree(nearestVillager.getEntityId(), nearestVillager.familyTree));
-
-				//FIXME
-//				MCA.packetHandler.sendPacketToAllPlayers(new PacketSpawnParticles(this.posX, this.posY, this.posZ, this.width, this.height, Particle.HAPPY, 16));
-//				MCA.packetHandler.sendPacketToAllPlayers(new PacketSpawnParticles(nearestVillager.posX, nearestVillager.posY, nearestVillager.posZ, nearestVillager.width, nearestVillager.height, Particle.HAPPY, 16));
 
 				//Check if the now-spouse is a player child for achievement.
 				if (nearestVillager instanceof EntityPlayerChild || this instanceof EntityPlayerChild)

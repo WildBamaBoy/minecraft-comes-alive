@@ -59,6 +59,11 @@ public class ItemWhistle extends Item
 					if (child.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 					{
 						child.setLocationAndAngles(player.posX, player.posY, player.posZ, player.rotationYaw, player.rotationPitch);
+						
+						if (child.isRiding())
+						{
+							child.ridingEntity.setLocationAndAngles(player.posX, player.posY, player.posZ, player.rotationYaw, player.rotationPitch);
+						}
 					}
 				}
 
@@ -69,6 +74,11 @@ public class ItemWhistle extends Item
 					if ((adult.isMarriedToPlayer || adult.isEngaged) && adult.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 					{
 						adult.setLocationAndAngles(player.posX, player.posY, player.posZ, player.rotationYaw, player.rotationPitch);
+						
+						if (adult.isRiding())
+						{
+							adult.ridingEntity.setLocationAndAngles(player.posX, player.posY, player.posZ, player.rotationYaw, player.rotationPitch);
+						}
 					}
 				}
 			}

@@ -45,7 +45,7 @@ public class PacketOnClickTrade extends AbstractPacket implements IMessage, IMes
 		if (villager != null)
 		{
 			villager.setCustomer(player);
-			player.displayGUIMerchant(villager, villager.getTitle(MCA.getInstance().getIdOfPlayer(player), true));
+			player.displayGUIMerchant(villager, "Villager");
 		}
 		
 		return null;

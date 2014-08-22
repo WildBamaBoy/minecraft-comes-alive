@@ -1,6 +1,7 @@
 package mca.network.packets;
 
 import io.netty.buffer.ByteBuf;
+import mca.core.MCA;
 import mca.core.util.object.FamilyTree;
 import mca.entity.AbstractEntity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,6 +12,7 @@ import com.radixshock.radixcore.network.packets.AbstractPacket;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import cpw.mods.fml.relauncher.Side;
 
 public class PacketSetFamilyTree extends AbstractPacket implements IMessage, IMessageHandler<PacketSetFamilyTree, IMessage>
 {
@@ -51,6 +53,11 @@ public class PacketSetFamilyTree extends AbstractPacket implements IMessage, IMe
 		{
 			packet.familyTree.owner = entity;
 			entity.familyTree = packet.familyTree;
+			
+			if (context.side == Side.SERVER)
+			{
+				MCA.packetHandler.sendPacketToAllPlayers(packet);
+			}
 		}
 		
 		return null;
