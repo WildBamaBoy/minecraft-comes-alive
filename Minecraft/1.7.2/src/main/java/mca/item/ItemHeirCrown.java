@@ -26,28 +26,28 @@ import cpw.mods.fml.relauncher.SideOnly;
  */
 public class ItemHeirCrown extends ItemArmor
 {
-    /**
-     * Constructor
-     */
-    public ItemHeirCrown()
-    {
-    	super(ArmorMaterial.GOLD, 0, 0);
-        maxStackSize = 1;
-        setCreativeTab(CreativeTabs.tabMisc);
-    }
-    
-    @Override
-    public void registerIcons(IIconRegister IIconRegister)
-    {
-    	itemIcon = IIconRegister.registerIcon("mca:HeirCrown");
-    }
-    
-    @Override
-	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) 
+	/**
+	 * Constructor
+	 */
+	public ItemHeirCrown()
+	{
+		super(ArmorMaterial.GOLD, 0, 0);
+		maxStackSize = 1;
+		setCreativeTab(CreativeTabs.tabMisc);
+	}
+
+	@Override
+	public void registerIcons(IIconRegister IIconRegister)
+	{
+		itemIcon = IIconRegister.registerIcon("mca:HeirCrown");
+	}
+
+	@Override
+	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
 	{
 		return "mca:textures/armor/heircrown_layer_1.png";
 	}
-    
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List informationList, boolean unknown)

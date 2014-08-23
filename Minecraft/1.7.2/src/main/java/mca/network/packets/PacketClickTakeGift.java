@@ -26,19 +26,19 @@ public class PacketClickTakeGift extends AbstractPacket implements IMessage, IMe
 	}
 
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		interactingEntityId = byteBuf.readInt();
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(interactingEntityId);
 	}
 
 	@Override
-	public IMessage onMessage(PacketClickTakeGift packet, MessageContext context) 
+	public IMessage onMessage(PacketClickTakeGift packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
 		final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(packet.interactingEntityId);

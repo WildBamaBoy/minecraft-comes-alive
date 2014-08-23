@@ -20,24 +20,24 @@ import net.minecraft.item.ItemStack;
  */
 public class ItemKingsBoots extends ItemArmor
 {
-    /**
-     * Constructor
-     */
-    public ItemKingsBoots()
-    {
-        super(ArmorMaterial.GOLD, 0, 3);
-        maxStackSize = 1;
-        setCreativeTab(CreativeTabs.tabMisc);
-    }
-    
-    @Override
-    public void registerIcons(IIconRegister IIconRegister)
-    {
-    	itemIcon = IIconRegister.registerIcon("MCA:KingBoots");
-    }
+	/**
+	 * Constructor
+	 */
+	public ItemKingsBoots()
+	{
+		super(ArmorMaterial.GOLD, 0, 3);
+		maxStackSize = 1;
+		setCreativeTab(CreativeTabs.tabMisc);
+	}
 
 	@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) 
+	public void registerIcons(IIconRegister IIconRegister)
+	{
+		itemIcon = IIconRegister.registerIcon("MCA:KingBoots");
+	}
+
+	@Override
+	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
 	{
 		return "mca:textures/armor/crown_layer_1.png";
 	}

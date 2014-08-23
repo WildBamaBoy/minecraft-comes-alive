@@ -24,29 +24,29 @@ public class PacketOnClickTrade extends AbstractPacket implements IMessage, IMes
 	}
 
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		entityId = byteBuf.readInt();
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(entityId);
 	}
 
 	@Override
-	public IMessage onMessage(PacketOnClickTrade packet, MessageContext context) 
+	public IMessage onMessage(PacketOnClickTrade packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
-		final EntityVillagerAdult villager = (EntityVillagerAdult)player.worldObj.getEntityByID(packet.entityId);
+		final EntityVillagerAdult villager = (EntityVillagerAdult) player.worldObj.getEntityByID(packet.entityId);
 
 		if (villager != null)
 		{
 			villager.setCustomer(player);
 			player.displayGUIMerchant(villager, "Villager");
 		}
-		
+
 		return null;
 	}
 }

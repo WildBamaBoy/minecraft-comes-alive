@@ -40,15 +40,15 @@ public class PacketSetFieldValue extends AbstractPacket implements IMessage, IMe
 	}
 
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		entityId = byteBuf.readInt();
-		fieldName = (String)ByteBufIO.readObject(byteBuf);
+		fieldName = (String) ByteBufIO.readObject(byteBuf);
 		fieldValue = ByteBufIO.readObject(byteBuf);
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(entityId);
 		ByteBufIO.writeObject(byteBuf, fieldName);
@@ -56,7 +56,7 @@ public class PacketSetFieldValue extends AbstractPacket implements IMessage, IMe
 	}
 
 	@Override
-	public IMessage onMessage(PacketSetFieldValue packet, MessageContext context) 
+	public IMessage onMessage(PacketSetFieldValue packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
 		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
@@ -68,15 +68,15 @@ public class PacketSetFieldValue extends AbstractPacket implements IMessage, IMe
 
 		if (manager != null)
 		{
-			for (Object obj : player.worldObj.loadedEntityList)
+			for (final Object obj : player.worldObj.loadedEntityList)
 			{
 				try
 				{
-					final Entity entity = (Entity)obj;
+					final Entity entity = (Entity) obj;
 
 					if (entity.getEntityId() == packet.entityId)
 					{
-						final AbstractEntity abstractEntity = (AbstractEntity)entity;
+						final AbstractEntity abstractEntity = (AbstractEntity) entity;
 
 						for (final Field f : entity.getClass().getFields())
 						{
@@ -178,8 +178,8 @@ public class PacketSetFieldValue extends AbstractPacket implements IMessage, IMe
 										if (f.getName().equals("playerMemoryMap"))
 										{
 											//Player name must be set if the map is a memory map since it is transient.
-											Map<String, PlayerMemory> memoryMap = (Map<String, PlayerMemory>)packet.fieldValue;
-											PlayerMemory memory = memoryMap.get(player.getCommandSenderName());
+											final Map<String, PlayerMemory> memoryMap = (Map<String, PlayerMemory>) packet.fieldValue;
+											final PlayerMemory memory = memoryMap.get(player.getCommandSenderName());
 
 											if (memory != null)
 											{
@@ -205,7 +205,7 @@ public class PacketSetFieldValue extends AbstractPacket implements IMessage, IMe
 
 							else
 							{
-								((AbstractEntity)entity).setTexture(packet.fieldValue.toString());
+								((AbstractEntity) entity).setTexture(packet.fieldValue.toString());
 							}
 						}
 
@@ -213,7 +213,7 @@ public class PacketSetFieldValue extends AbstractPacket implements IMessage, IMe
 					}
 				}
 
-				catch (Throwable e)
+				catch (final Throwable e)
 				{
 					MCA.getInstance().getLogger().log("Error setting field value.");
 					MCA.getInstance().getLogger().log(e);

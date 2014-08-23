@@ -17,31 +17,16 @@ import mca.core.MCA;
 /**
  * Applied to villagers to modify chance of interaction success and bonus points applied.
  */
-public enum EnumMood 
+public enum EnumMood
 {
-	Ecstatic("mood.happy.ecstatic"),
-	Cheerful("mood.happy.cheerful"),
-	Happy("mood.happy.happy"),
-	Fine("mood.happy.fine"),
-	Okay("mood.happy.okay"),
-	Passive("mood.neutral.passive"),
-	Blue("mood.sadness.blue"),
-	Unhappy("mood.sadness.unhappy"),
-	Sad("mood.sadness.sad"),
-	Cheerless("mood.sadness.cheerless"),
-	Depressed("mood.sadness.depressed"),
-	Annoyed("mood.anger.annoyed"),
-	Agitated("mood.anger.agitated"),
-	Mad("mood.anger.mad"),
-	Seething("mood.anger.seething"),
-	Infuriated("mood.anger.infuriated");
+	Ecstatic("mood.happy.ecstatic"), Cheerful("mood.happy.cheerful"), Happy("mood.happy.happy"), Fine("mood.happy.fine"), Okay("mood.happy.okay"), Passive("mood.neutral.passive"), Blue("mood.sadness.blue"), Unhappy("mood.sadness.unhappy"), Sad("mood.sadness.sad"), Cheerless("mood.sadness.cheerless"), Depressed("mood.sadness.depressed"), Annoyed("mood.anger.annoyed"), Agitated("mood.anger.agitated"), Mad("mood.anger.mad"), Seething("mood.anger.seething"), Infuriated("mood.anger.infuriated");
 
 	private String value;
 
 	/**
 	 * Constructor
 	 * 
-	 * @param 	value	The mood's ID within language files.
+	 * @param value The mood's ID within language files.
 	 */
 	private EnumMood(String value)
 	{
@@ -51,10 +36,9 @@ public enum EnumMood
 	/**
 	 * Gets the appropriate mood for a villager based on the mood type.
 	 * 
-	 * @param moodType	The type of mood the villager should be in: happy, sadness, anger, or neutral.
-	 * @param moodValue	The mood level that should be applied.
-	 * 
-	 * @return	EnumMood of the appropriate type based on provided type and value.
+	 * @param moodType The type of mood the villager should be in: happy, sadness, anger, or neutral.
+	 * @param moodValue The mood level that should be applied.
+	 * @return EnumMood of the appropriate type based on provided type and value.
 	 */
 	public static EnumMood getMoodByPointValue(String moodType, float moodValue)
 	{
@@ -171,7 +155,7 @@ public enum EnumMood
 	/**
 	 * Gets all possible moods as a list.
 	 * 
-	 * @return	ArrayList containing each possible EnumMood.
+	 * @return ArrayList containing each possible EnumMood.
 	 */
 	public static List<EnumMood> getMoodsAsCyclableList()
 	{
@@ -182,28 +166,28 @@ public enum EnumMood
 		moods.add(Happy);
 		moods.add(Fine);
 		moods.add(Okay);
-		
+
 		moods.add(Passive);
-		
+
 		moods.add(Depressed);
 		moods.add(Cheerless);
 		moods.add(Sad);
 		moods.add(Unhappy);
 		moods.add(Blue);
-		
+
 		moods.add(Infuriated);
 		moods.add(Seething);
 		moods.add(Mad);
 		moods.add(Agitated);
 		moods.add(Annoyed);
-		
+
 		return moods;
 	}
 
 	/**
 	 * Returns the mood's ID within the language files.
 	 * 
-	 * @return	mood.[mood type].[mood name]
+	 * @return mood.[mood type].[mood name]
 	 */
 	public String getValue()
 	{
@@ -213,7 +197,7 @@ public enum EnumMood
 	/**
 	 * Queries the language helper to get the translated name of this mood.
 	 * 
-	 * @return	Localized name of the mood.
+	 * @return Localized name of the mood.
 	 */
 	public String getLocalizedValue()
 	{
@@ -223,7 +207,7 @@ public enum EnumMood
 	/**
 	 * Is the mood one of the anger moods?
 	 * 
-	 * @return	True or false.
+	 * @return True or false.
 	 */
 	public boolean isAnger()
 	{
@@ -233,7 +217,7 @@ public enum EnumMood
 	/**
 	 * Is the mood one of the sadness moods?
 	 * 
-	 * @return	True or false.
+	 * @return True or false.
 	 */
 	public boolean isSadness()
 	{
@@ -243,7 +227,7 @@ public enum EnumMood
 	/**
 	 * Is the mood neutral?
 	 * 
-	 * @return	True or false.
+	 * @return True or false.
 	 */
 	public boolean isNeutral()
 	{
@@ -253,7 +237,7 @@ public enum EnumMood
 	/**
 	 * Is the mood one of the happy moods?
 	 * 
-	 * @return	True or false.
+	 * @return True or false.
 	 */
 	public boolean isHappy()
 	{
@@ -263,76 +247,75 @@ public enum EnumMood
 	/**
 	 * Returns the base mood level of this mood. Used for hearts and chance bonuses.
 	 * 
-	 * @return	1 - 5 depending on mood level.
+	 * @return 1 - 5 depending on mood level.
 	 */
 	public int getMoodLevel()
 	{
 		switch (this)
 		{
-		case Agitated:
-			return 2;
-		case Annoyed:
-			return 1;
-		case Blue:
-			return 1;
-		case Cheerful:
-			return 4;
-		case Cheerless:
-			return 4;
-		case Depressed:
-			return 5;
-		case Ecstatic:
-			return 5;
-		case Fine:
-			return 2;
-		case Happy:
-			return 3;
-		case Infuriated:
-			return 5;
-		case Mad:
-			return 3;
-		case Okay:
-			return 1;
-		case Passive:
-			return 1;
-		case Sad:
-			return 3;
-		case Seething:
-			return 4;
-		case Unhappy:
-			return 2;
-		default:
-			return 0;
+			case Agitated:
+				return 2;
+			case Annoyed:
+				return 1;
+			case Blue:
+				return 1;
+			case Cheerful:
+				return 4;
+			case Cheerless:
+				return 4;
+			case Depressed:
+				return 5;
+			case Ecstatic:
+				return 5;
+			case Fine:
+				return 2;
+			case Happy:
+				return 3;
+			case Infuriated:
+				return 5;
+			case Mad:
+				return 3;
+			case Okay:
+				return 1;
+			case Passive:
+				return 1;
+			case Sad:
+				return 3;
+			case Seething:
+				return 4;
+			case Unhappy:
+				return 2;
+			default:
+				return 0;
 		}
 	}
 
 	/**
 	 * Gets the amount to be applied to chance of interaction success. Gift is used to calculate chance of refusal.
 	 * 
-	 * @param 	interactionType	"chat", "joke", or "gift" depending on the interaction being performed.
-	 * 
-	 * @return	Hearts modifier based on mood and mood level. Amount is checked for validity by interaction before being applied.
+	 * @param interactionType "chat", "joke", or "gift" depending on the interaction being performed.
+	 * @return Hearts modifier based on mood and mood level. Amount is checked for validity by interaction before being applied.
 	 */
-	public int getChanceModifier(String interactionType) 
+	public int getChanceModifier(String interactionType)
 	{
 		if (interactionType.equals("chat"))
 		{
-			if (this.isAnger())
+			if (isAnger())
 			{
 				return -(20 * getMoodLevel());
 			}
 
-			else if (this.isHappy())
+			else if (isHappy())
 			{
 				return 5 * getMoodLevel();
 			}
 
-			else if (this.isNeutral())
+			else if (isNeutral())
 			{
 				return 0;
 			}
 
-			else if (this.isSadness())
+			else if (isSadness())
 			{
 				return -(20 * getMoodLevel());
 			}
@@ -340,22 +323,22 @@ public enum EnumMood
 
 		else if (interactionType.equals("joke"))
 		{
-			if (this.isAnger())
+			if (isAnger())
 			{
 				return -(20 * getMoodLevel());
 			}
 
-			else if (this.isHappy())
+			else if (isHappy())
 			{
 				return 5 * getMoodLevel();
 			}
 
-			else if (this.isNeutral())
+			else if (isNeutral())
 			{
 				return 0;
 			}
 
-			else if (this.isSadness())
+			else if (isSadness())
 			{
 				return -(20 * getMoodLevel());
 			}
@@ -364,22 +347,22 @@ public enum EnumMood
 		//This is only for chance of gift refusal.
 		else if (interactionType.equals("gift"))
 		{
-			if (this.isAnger())
+			if (isAnger())
 			{
 				return 20 * getMoodLevel();
 			}
 
-			else if (this.isHappy())
+			else if (isHappy())
 			{
 				return 0;
 			}
 
-			else if (this.isNeutral())
+			else if (isNeutral())
 			{
 				return 0;
 			}
 
-			else if (this.isSadness())
+			else if (isSadness())
 			{
 				return 0;
 			}
@@ -387,22 +370,22 @@ public enum EnumMood
 
 		else if (interactionType.equals("greeting"))
 		{
-			if (this.isAnger())
+			if (isAnger())
 			{
 				return -(20 * getMoodLevel());
 			}
-			
-			else if (this.isHappy())
+
+			else if (isHappy())
 			{
 				return 5 * getMoodLevel();
 			}
 
-			else if (this.isNeutral())
+			else if (isNeutral())
 			{
 				return 0;
 			}
 
-			else if (this.isSadness())
+			else if (isSadness())
 			{
 				return 0;
 			}
@@ -410,126 +393,125 @@ public enum EnumMood
 
 		else if (interactionType.equals("story"))
 		{
-			if (this.isAnger())
+			if (isAnger())
 			{
 				return -(20 * getMoodLevel());
 			}
 
-			else if (this.isHappy())
+			else if (isHappy())
 			{
 				return 5 * getMoodLevel();
 			}
 
-			else if (this.isNeutral())
+			else if (isNeutral())
 			{
 				return 0;
 			}
 
-			else if (this.isSadness())
+			else if (isSadness())
 			{
 				return 0;
 			}
 		}
-		
+
 		else if (interactionType.equals("kiss"))
 		{
-			if (this.isAnger())
+			if (isAnger())
 			{
 				return -(20 * getMoodLevel());
 			}
 
-			else if (this.isHappy())
+			else if (isHappy())
 			{
 				return 5 * getMoodLevel();
 			}
 
-			else if (this.isNeutral())
+			else if (isNeutral())
 			{
 				return 0;
 			}
 
-			else if (this.isSadness())
+			else if (isSadness())
 			{
 				return 5 * getMoodLevel();
-			}			
+			}
 		}
-		
+
 		else if (interactionType.equals("flirt"))
 		{
-			if (this.isAnger())
+			if (isAnger())
 			{
 				return -(20 * getMoodLevel());
 			}
 
-			else if (this.isHappy())
+			else if (isHappy())
 			{
 				return 3 * getMoodLevel();
 			}
 
-			else if (this.isNeutral())
+			else if (isNeutral())
 			{
 				return 0;
 			}
 
-			else if (this.isSadness())
+			else if (isSadness())
 			{
 				return 3 * getMoodLevel();
-			}			
+			}
 		}
 
 		else if (interactionType.equals("play"))
 		{
-			if (this.isAnger())
+			if (isAnger())
 			{
 				return -(5 * getMoodLevel());
 			}
 
-			else if (this.isHappy())
+			else if (isHappy())
 			{
 				return 3 * getMoodLevel();
 			}
 
-			else if (this.isNeutral())
+			else if (isNeutral())
 			{
 				return 0;
 			}
 
-			else if (this.isSadness())
+			else if (isSadness())
 			{
 				return 3 * getMoodLevel();
 			}
 		}
-		
+
 		return 0;
 	}
 
 	/**
 	 * Gets the amount to add to hearts based on mood.
 	 * 
-	 * @param 	interactionType	"chat", "joke", or "gift" depending on the interaction being performed.
-	 * 
-	 * @return	Hearts modifier based on mood and mood level. Amount is checked for validity by interaction before being applied.
+	 * @param interactionType "chat", "joke", or "gift" depending on the interaction being performed.
+	 * @return Hearts modifier based on mood and mood level. Amount is checked for validity by interaction before being applied.
 	 */
-	public int getHeartsModifier(String interactionType) 
+	public int getHeartsModifier(String interactionType)
 	{
 		if (interactionType.equals("chat"))
 		{
-			if (this.isAnger())
+			if (isAnger())
 			{
 				return -(3 * getMoodLevel());
 			}
 
-			else if (this.isHappy())
+			else if (isHappy())
 			{
 				return 3 * getMoodLevel();
 			}
 
-			else if (this.isNeutral())
+			else if (isNeutral())
 			{
 				return 0;
 			}
 
-			else if (this.isSadness())
+			else if (isSadness())
 			{
 				return -(6 * getMoodLevel());
 			}
@@ -537,22 +519,22 @@ public enum EnumMood
 
 		else if (interactionType.equals("joke"))
 		{
-			if (this.isAnger())
+			if (isAnger())
 			{
 				return -(6 * getMoodLevel());
 			}
 
-			else if (this.isHappy())
+			else if (isHappy())
 			{
 				return 3 * getMoodLevel();
 			}
 
-			else if (this.isNeutral())
+			else if (isNeutral())
 			{
 				return 0;
 			}
 
-			else if (this.isSadness())
+			else if (isSadness())
 			{
 				return -(6 * getMoodLevel());
 			}
@@ -560,22 +542,22 @@ public enum EnumMood
 
 		else if (interactionType.equals("gift"))
 		{
-			if (this.isAnger())
+			if (isAnger())
 			{
 				return -(6 * getMoodLevel());
 			}
 
-			else if (this.isHappy())
+			else if (isHappy())
 			{
 				return 3 * getMoodLevel();
 			}
 
-			else if (this.isNeutral())
+			else if (isNeutral())
 			{
 				return 0;
 			}
 
-			else if (this.isSadness())
+			else if (isSadness())
 			{
 				return 6 * getMoodLevel();
 			}
@@ -583,91 +565,91 @@ public enum EnumMood
 
 		else if (interactionType.equals("greeting"))
 		{
-			if (this.isAnger())
+			if (isAnger())
 			{
 				return 0;
 			}
 
-			else if (this.isHappy())
+			else if (isHappy())
 			{
 				return 3 * getMoodLevel();
 			}
 
-			else if (this.isNeutral())
+			else if (isNeutral())
 			{
 				return 0;
 			}
 
-			else if (this.isSadness())
+			else if (isSadness())
 			{
 				return 0;
 			}
 		}
-		
+
 		else if (interactionType.equals("story"))
 		{
-			if (this.isAnger())
+			if (isAnger())
 			{
 				return -(3 * getMoodLevel());
 			}
 
-			else if (this.isHappy())
+			else if (isHappy())
 			{
 				return 3 * getMoodLevel();
 			}
 
-			else if (this.isNeutral())
+			else if (isNeutral())
 			{
 				return 0;
 			}
 
-			else if (this.isSadness())
+			else if (isSadness())
 			{
 				return 3 * getMoodLevel();
 			}
 		}
-		
+
 		else if (interactionType.equals("kiss"))
 		{
-			if (this.isAnger())
+			if (isAnger())
 			{
 				return -(3 * getMoodLevel());
 			}
 
-			else if (this.isHappy())
+			else if (isHappy())
 			{
 				return 3 * getMoodLevel();
 			}
 
-			else if (this.isNeutral())
+			else if (isNeutral())
 			{
 				return 0;
 			}
 
-			else if (this.isSadness())
+			else if (isSadness())
 			{
 				return 3 * getMoodLevel();
 			}
 		}
-		
+
 		else if (interactionType.equals("flirt"))
 		{
-			if (this.isAnger())
+			if (isAnger())
 			{
 				return -(2 * getMoodLevel());
 			}
 
-			else if (this.isHappy())
+			else if (isHappy())
 			{
 				return 2 * getMoodLevel();
 			}
 
-			else if (this.isNeutral())
+			else if (isNeutral())
 			{
 				return 0;
 			}
 
-			else if (this.isSadness())
+			else if (isSadness())
 			{
 				return 2 * getMoodLevel();
 			}
@@ -675,27 +657,27 @@ public enum EnumMood
 
 		else if (interactionType.equals("play"))
 		{
-			if (this.isAnger())
+			if (isAnger())
 			{
 				return -(1 * getMoodLevel());
 			}
 
-			else if (this.isHappy())
+			else if (isHappy())
 			{
 				return 2 * getMoodLevel();
 			}
 
-			else if (this.isNeutral())
+			else if (isNeutral())
 			{
 				return 0;
 			}
 
-			else if (this.isSadness())
+			else if (isSadness())
 			{
 				return 2 * getMoodLevel();
 			}
 		}
-		
+
 		return 0;
 	}
 }

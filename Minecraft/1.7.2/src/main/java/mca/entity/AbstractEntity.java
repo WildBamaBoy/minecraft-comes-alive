@@ -188,7 +188,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public ChoreFarming farmingChore = new ChoreFarming(this);
 	public ChoreFishing fishingChore = new ChoreFishing(this);
 	public ChoreWoodcutting woodcuttingChore = new ChoreWoodcutting(this);
-	public ChoreMining  miningChore = new ChoreMining(this);
+	public ChoreMining miningChore = new ChoreMining(this);
 	public ChoreHunting huntingChore = new ChoreHunting(this);
 	public ChoreCooking cookingChore = new ChoreCooking(this);
 	public Inventory inventory = new Inventory(this);
@@ -203,7 +203,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Constructor
 	 * 
-	 * @param 	world	Instance of the world object that the entity is being spawned in.
+	 * @param world Instance of the world object that the entity is being spawned in.
 	 */
 	public AbstractEntity(World world)
 	{
@@ -247,7 +247,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Sets the texture of the entity to the specified texture.
 	 * 
-	 * @param 	texture		The location of the texture the entity should use.
+	 * @param texture The location of the texture the entity should use.
 	 */
 	public void setTexture(String texture)
 	{
@@ -255,12 +255,10 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	}
 
 	/**
-	 * Returns the string placed before the ID of a dialogue response that
-	 * identifies what kind of character is speaking.
+	 * Returns the string placed before the ID of a dialogue response that identifies what kind of character is speaking.
 	 * 
-	 * @param	playerId	The ID of the player requesting the character type.
-	 * 
-	 * @return	The character type of this entity.
+	 * @param playerId The ID of the player requesting the character type.
+	 * @return The character type of this entity.
 	 */
 	public abstract String getCharacterType(int playerId);
 
@@ -279,7 +277,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		//Check for the texture, which would only NOT be there client-side. Update code cannot run without
 		//the entity being synced client side.
 		if (!texture.contains("steve"))
-		{	
+		{
 			//Check if their AI has been added.
 			if (!addedAI)
 			{
@@ -306,7 +304,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			updateDivorce();
 			updateProcreationWithPlayer();
 			updateProcreationWithVillager();
-			
+
 			//Check if inventory should be opened.
 			if (doOpenInventory)
 			{
@@ -316,7 +314,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 					if (player != null)
 					{
-						player.openGui(MCA.getInstance(), Constants.ID_GUI_INVENTORY, worldObj, (int)posX, (int)posY, (int)posZ);
+						player.openGui(MCA.getInstance(), Constants.ID_GUI_INVENTORY, worldObj, (int) posX, (int) posY, (int) posZ);
 					}
 				}
 
@@ -333,7 +331,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			if (hasBed && isSleeping)
 			{
 				setPosition(bedPosX, bedPosY, bedPosZ);
-				int meta = worldObj.getBlockMetadata(bedPosX, bedPosY, bedPosZ);
+				final int meta = worldObj.getBlockMetadata(bedPosX, bedPosY, bedPosZ);
 
 				if (meta == 0)
 				{
@@ -354,10 +352,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				{
 					rotationYawHead = renderYawOffset = prevRenderYawOffset = -90.0F;
 				}
-			}	
+			}
 		}
 	}
-
 
 	@Override
 	public boolean isAIEnabled()
@@ -366,7 +363,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	}
 
 	@Override
-	protected void updateAITasks() 
+	protected void updateAITasks()
 	{
 		if (!currentChore.equals("Hunting"))
 		{
@@ -410,7 +407,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		int counter = 0;
 
 		//Save the player memories to NBT.
-		for(final Map.Entry<String, PlayerMemory> keyValuePair : playerMemoryMap.entrySet())
+		for (final Map.Entry<String, PlayerMemory> keyValuePair : playerMemoryMap.entrySet())
 		{
 			nbt.setString("playerMemoryKey" + counter, keyValuePair.getKey());
 			keyValuePair.getValue().writePlayerMemoryToNBT(nbt);
@@ -435,10 +432,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		texture = nbt.getString("texture");
 
-		NBTHelper.autoReadEntityFromNBT(this, nbt, 
-				AbstractChild.class, EntityPlayerChild.class, 
-				EntityVillagerChild.class, EntityVillagerAdult.class, 
-				AbstractEntity.class);
+		NBTHelper.autoReadEntityFromNBT(this, nbt, AbstractChild.class, EntityPlayerChild.class, EntityVillagerChild.class, EntityVillagerAdult.class, AbstractEntity.class);
 
 		//Get the player memories.
 		int counter = 0;
@@ -468,7 +462,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	@Override
 	public ItemStack getHeldItem()
-	{		
+	{
 		return null;
 	}
 
@@ -493,9 +487,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				if (!miningChore.inPassiveMode)
 				{
-					this.setPosition(miningChore.startX, miningChore.startY, miningChore.startZ);
-					this.notifyPlayer(worldObj.getPlayerEntityByName(lastInteractingPlayer), MCA.getInstance().getLanguageLoader().getString("notify.child.chore.interrupted.mining.tookdamage", null, this, false));
-					this.extinguish();
+					setPosition(miningChore.startX, miningChore.startY, miningChore.startZ);
+					notifyPlayer(worldObj.getPlayerEntityByName(lastInteractingPlayer), MCA.getInstance().getLanguageLoader().getString("notify.child.chore.interrupted.mining.tookdamage", null, this, false));
+					extinguish();
 					this.miningChore.endChore();
 				}
 			}
@@ -509,7 +503,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			//Account for being hit by the player.
 			if (damageSource.getSourceOfDamage() instanceof EntityPlayer)
 			{
-				final EntityPlayer player = (EntityPlayer)damageSource.getSourceOfDamage();
+				final EntityPlayer player = (EntityPlayer) damageSource.getSourceOfDamage();
 				final Item heldItem = player.getHeldItem() == null ? null : player.getHeldItem().getItem();
 
 				modifyHearts(player, -5);
@@ -519,7 +513,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				//Only speak when not hit by a weapon that will cause retaliation to cancel.
 				if (!(heldItem instanceof ItemSword))
 				{
-					say(MCA.getInstance().getLanguageLoader().getString("hitbyplayer", player, this, true));	
+					say(MCA.getInstance().getLanguageLoader().getString("hitbyplayer", player, this, true));
 				}
 
 				MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "lastInteractingPlayer", lastInteractingPlayer));
@@ -541,7 +535,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 						{
 							if (obj instanceof AbstractEntity)
 							{
-								final AbstractEntity entity = (AbstractEntity)obj;
+								final AbstractEntity entity = (AbstractEntity) obj;
 
 								if (entity.mcaID == relativeID && LogicHelper.getDistanceToEntity(entity, player) <= 15)
 								{
@@ -549,7 +543,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 									entity.target = player;
 
 									MCA.packetHandler.sendPacketToAllPlayers(new PacketSetTarget(entity.getEntityId(), player.getEntityId()));
-									MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(entity.getEntityId() , "isRetaliating", entity.isRetaliating));
+									MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(entity.getEntityId(), "isRetaliating", entity.isRetaliating));
 								}
 							}
 						}
@@ -561,7 +555,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			{
 				if (target != null && damageSource.getSourceOfDamage() instanceof EntityLivingBase)
 				{
-					target = (EntityLivingBase)damageSource.getSourceOfDamage();
+					target = (EntityLivingBase) damageSource.getSourceOfDamage();
 					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetTarget(getEntityId(), target.getEntityId()));
 				}
 			}
@@ -573,9 +567,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		}
 	}
 
-
 	@Override
-	public void onDeath(DamageSource damageSource) 
+	public void onDeath(DamageSource damageSource)
 	{
 		super.onDeath(damageSource);
 
@@ -583,7 +576,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			if (this instanceof EntityPlayerChild)
 			{
-				final EntityPlayerChild playerChild = (EntityPlayerChild)this;
+				final EntityPlayerChild playerChild = (EntityPlayerChild) this;
 				final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(playerChild.ownerPlayerName);
 
 				if (manager != null && MCA.getInstance().getWorldProperties(manager).heirId == mcaID)
@@ -618,9 +611,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			}
 
 			//Notify nearby villagers of the death and modify their mood.
-			for (final Entity entity : (List<Entity>)LogicHelper.getAllEntitiesOfTypeWithinDistanceOfEntity(this, AbstractEntity.class, 15))
+			for (final Entity entity : (List<Entity>) LogicHelper.getAllEntitiesOfTypeWithinDistanceOfEntity(this, AbstractEntity.class, 15))
 			{
-				final AbstractEntity abstractEntity = (AbstractEntity)entity;
+				final AbstractEntity abstractEntity = (AbstractEntity) entity;
 
 				if (abstractEntity.canEntityBeSeen(this))
 				{
@@ -645,7 +638,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					}
 				}
 
-				final AbstractEntity spouse = (AbstractEntity)worldObj.getEntityByID(spouseEntityId);
+				final AbstractEntity spouse = (AbstractEntity) worldObj.getEntityByID(spouseEntityId);
 
 				if (spouse != null)
 				{
@@ -770,7 +763,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		final MerchantRecipeList buyingList = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 5);
 
-		if (merchantRecipe.hasSameIDsAs((MerchantRecipe)buyingList.get(buyingList.size() - 1)))
+		if (merchantRecipe.hasSameIDsAs((MerchantRecipe) buyingList.get(buyingList.size() - 1)))
 		{
 			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, Integer.valueOf(40), 6);
 			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, true, 7);
@@ -839,7 +832,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Called when an item in the inventory is destroyed.
 	 * 
-	 * @param 	stack	The item stack containing the item that was destroyed.
+	 * @param stack The item stack containing the item that was destroyed.
 	 */
 	public void onItemDestroyed(ItemStack stack)
 	{
@@ -851,15 +844,24 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 			if (itemInStack instanceof ItemArmor)
 			{
-				final ItemArmor itemAsArmor = (ItemArmor)itemInStack;
+				final ItemArmor itemAsArmor = (ItemArmor) itemInStack;
 
 				switch (itemAsArmor.armorType)
 				{
-				case 0: notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("notify.item.broken.helmet", null, this, false)); break;
-				case 1: notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("notify.item.broken.chestplate", null, this, false)); break;
-				case 2: notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("notify.item.broken.leggings", null, this, false)); break;
-				case 3: notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("notify.item.broken.boots", null, this, false)); break;
-				default: break;
+					case 0:
+						notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("notify.item.broken.helmet", null, this, false));
+						break;
+					case 1:
+						notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("notify.item.broken.chestplate", null, this, false));
+						break;
+					case 2:
+						notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("notify.item.broken.leggings", null, this, false));
+						break;
+					case 3:
+						notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("notify.item.broken.boots", null, this, false));
+						break;
+					default:
+						break;
 				}
 			}
 
@@ -937,7 +939,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Makes the current entity add a message to the player's chat box identifying it as coming from this entity.
 	 * 
-	 * @param 	text	The text to appear in the player's chat box.
+	 * @param text The text to appear in the player's chat box.
 	 */
 	public void say(String text)
 	{
@@ -963,8 +965,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			if (!name.equals("") && player != null)
 			{
 				//FIXME
-//				String prefix = MCA.getInstance().getModProperties().villagerChatPrefix.replace("&", Font.SECTION_SIGN);
-//				player.addChatMessage(new ChatComponentText(prefix + getTitle(MCA.getInstance().getIdOfPlayer(player), true) + ": " + text));
+				//				String prefix = MCA.getInstance().getModProperties().villagerChatPrefix.replace("&", Font.SECTION_SIGN);
+				//				player.addChatMessage(new ChatComponentText(prefix + getTitle(MCA.getInstance().getIdOfPlayer(player), true) + ": " + text));
 				player.addChatMessage(new ChatComponentText(getTitle(MCA.getInstance().getIdOfPlayer(player), true) + ": " + text));
 			}
 
@@ -976,8 +978,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Says the specified text if the current side matches the side provided.
 	 * 
-	 * @param 	side	The side that the text should be displayed on.
-	 * @param 	text	The text to be displayed on screen.
+	 * @param side The side that the text should be displayed on.
+	 * @param text The text to be displayed on screen.
 	 */
 	public void saySideOnly(Side side, String text)
 	{
@@ -990,8 +992,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Displays the provided message to the player's chat box.
 	 * 
-	 * @param 	player	The player that should see the text.
-	 * @param 	text	The text to appear in the player's chat box.
+	 * @param player The player that should see the text.
+	 * @param text The text to appear in the player's chat box.
 	 */
 	public void notifyPlayer(EntityPlayer player, String text)
 	{
@@ -1004,7 +1006,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			if (worldObj.isRemote)
 			{
-				final EntityPlayer clientPlayer = (EntityPlayer)worldObj.playerEntities.get(0);
+				final EntityPlayer clientPlayer = (EntityPlayer) worldObj.playerEntities.get(0);
 				clientPlayer.addChatMessage(new ChatComponentText(text));
 			}
 		}
@@ -1019,7 +1021,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * Spawns the entity at their home point if it is safe.
 	 */
 	public void spawnAtHomePoint()
-	{	
+	{
 		//Check if they actually have a home point.
 		if (hasHomePoint)
 		{
@@ -1040,21 +1042,21 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 						if (familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 						{
-							MCA.packetHandler.sendPacketToPlayer(new PacketNotifyPlayer(getEntityId(), "notify.homepoint.teleport.skip.staying"), (EntityPlayerMP)player);
+							MCA.packetHandler.sendPacketToPlayer(new PacketNotifyPlayer(getEntityId(), "notify.homepoint.teleport.skip.staying"), (EntityPlayerMP) player);
 						}
 					}
 
 					else if (isFollowing)
 					{
-						MCA.packetHandler.sendPacketToPlayer(new PacketNotifyPlayer(getEntityId(), "notify.homepoint.teleport.skip.following"), (EntityPlayerMP)player);
+						MCA.packetHandler.sendPacketToPlayer(new PacketNotifyPlayer(getEntityId(), "notify.homepoint.teleport.skip.following"), (EntityPlayerMP) player);
 					}
 				}
 			}
 
-			else //The entity isn't staying or following the player.
+			else
+			//The entity isn't staying or following the player.
 			{
-				if (worldObj.getBlock((int)homePointX, (int)(homePointY + 0), (int)homePointZ) == Blocks.air &&
-						worldObj.getBlock((int)homePointX, (int)(homePointY + 1), (int)homePointZ) == Blocks.air)
+				if (worldObj.getBlock((int) homePointX, (int) (homePointY + 0), (int) homePointZ) == Blocks.air && worldObj.getBlock((int) homePointX, (int) (homePointY + 1), (int) homePointZ) == Blocks.air)
 				{
 					setPosition(homePointX, homePointY, homePointZ);
 					getNavigator().clearPathEntity();
@@ -1062,7 +1064,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					//Make them go to sleep.
 					if (this instanceof EntityVillagerAdult)
 					{
-						final EntityVillagerAdult adult = (EntityVillagerAdult)this;
+						final EntityVillagerAdult adult = (EntityVillagerAdult) this;
 
 						if (adult.profession == 5 && !adult.isMarriedToPlayer)
 						{
@@ -1074,14 +1076,14 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					isSleeping = true;
 					hasTeleportedHome = true;
 					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isSleeping", isSleeping));
-					
+
 					if (hasBed)
 					{
-						TileEntity tileEntity = worldObj.getTileEntity(bedPosX, bedPosY, bedPosZ);
+						final TileEntity tileEntity = worldObj.getTileEntity(bedPosX, bedPosY, bedPosZ);
 
 						if (tileEntity instanceof TileEntityVillagerBed)
 						{
-							TileEntityVillagerBed villagerBed = (TileEntityVillagerBed)tileEntity;
+							final TileEntityVillagerBed villagerBed = (TileEntityVillagerBed) tileEntity;
 
 							if (!villagerBed.getIsVillagerSleepingIn())
 							{
@@ -1107,16 +1109,16 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 						resetBedStatus();
 					}
 
-					for (Object obj : worldObj.loadedTileEntityList)
+					for (final Object obj : worldObj.loadedTileEntityList)
 					{
 						if (obj instanceof TileEntityVillagerBed)
 						{
-							TileEntityVillagerBed tileEntity = (TileEntityVillagerBed)obj;
-							double distance = LogicHelper.getDistanceToXYZ(this.posX, this.posY, this.posZ, tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
+							final TileEntityVillagerBed tileEntity = (TileEntityVillagerBed) obj;
+							final double distance = LogicHelper.getDistanceToXYZ(posX, posY, posZ, tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
 
 							if (distance < 5.0D)
 							{
-								int meta = worldObj.getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
+								final int meta = worldObj.getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
 
 								if (!BlockVillagerBed.isBlockHeadOfBed(meta) && !tileEntity.getIsVillagerSleepingIn())
 								{
@@ -1141,13 +1143,14 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					}
 				}
 
-				else //The test for obstructed home point failed. Notify the related players.
+				else
+				//The test for obstructed home point failed. Notify the related players.
 				{
 					for (final int relatedPlayerId : familyTree.getListOfPlayerIDs())
 					{
 						final EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, relatedPlayerId);
 						{
-							MCA.packetHandler.sendPacketToPlayer(new PacketNotifyPlayer(getEntityId(), "notify.homepoint.obstructed"), (EntityPlayerMP)player);
+							MCA.packetHandler.sendPacketToPlayer(new PacketNotifyPlayer(getEntityId(), "notify.homepoint.obstructed"), (EntityPlayerMP) player);
 						}
 					}
 
@@ -1163,7 +1166,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			for (final int relatedPlayerId : familyTree.getListOfPlayerIDs())
 			{
 				final EntityPlayer player = MCA.getInstance().getPlayerByID(worldObj, relatedPlayerId);
-				MCA.packetHandler.sendPacketToPlayer(new PacketNotifyPlayer(getEntityId(), "notify.homepoint.none"), (EntityPlayerMP)player);
+				MCA.packetHandler.sendPacketToPlayer(new PacketNotifyPlayer(getEntityId(), "notify.homepoint.none"), (EntityPlayerMP) player);
 				hasTeleportedHome = true;
 			}
 		}
@@ -1175,8 +1178,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public void verifyHomePointIsValid()
 	{
 		//Test the home point and the block above to be sure it isn't obstructed.
-		final Block blockStanding = worldObj.getBlock((int)homePointX, (int)(homePointY + 0), (int)homePointZ);
-		final Block blockAbove = worldObj.getBlock((int)homePointX, (int)(homePointY + 1), (int)homePointZ);
+		final Block blockStanding = worldObj.getBlock((int) homePointX, (int) (homePointY + 0), (int) homePointZ);
+		final Block blockAbove = worldObj.getBlock((int) homePointX, (int) (homePointY + 1), (int) homePointZ);
 		boolean blockStandingIsValid = false;
 		boolean blockAboveIsValid = false;
 
@@ -1198,7 +1201,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			notifyPlayer(worldObj.getPlayerEntityByName(lastInteractingPlayer), MCA.getInstance().getLanguageLoader().getString("notify.homepoint.set"));
 		}
 
-		else //The home point is obstructed, therefore invalid.
+		else
+		//The home point is obstructed, therefore invalid.
 		{
 			notifyPlayer(worldObj.getPlayerEntityByName(lastInteractingPlayer), MCA.getInstance().getLanguageLoader().getString("notify.homepoint.invalid"));
 			hasHomePoint = false;
@@ -1210,7 +1214,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Returns the texture string for this entity.
 	 * 
-	 * @return	Location of the texture for this entity.
+	 * @return Location of the texture for this entity.
 	 */
 	public String getTexture()
 	{
@@ -1220,7 +1224,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Gets the string representation of this entity's gender.
 	 * 
-	 * @return	"Male" if isMale is True, "Female" if otherwise.
+	 * @return "Male" if isMale is True, "Female" if otherwise.
 	 */
 	public String getGenderAsString()
 	{
@@ -1230,10 +1234,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Gets the title of this entity that will be displayed to the player interacting with it.
 	 * 
-	 * @param	playerId	The id of the player requesting the entity's title.
-	 * @param	isInformal	Should the title be informal?
-	 * 
-	 * @return	Localized string that is the title of the entity.
+	 * @param playerId The id of the player requesting the entity's title.
+	 * @param isInformal Should the title be informal?
+	 * @return Localized string that is the title of the entity.
 	 */
 	public String getTitle(int playerId, boolean isInformal)
 	{
@@ -1270,7 +1273,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Gets the entity's profession.
 	 * 
-	 * @return	Localized string representation of the entity's profession.
+	 * @return Localized string representation of the entity's profession.
 	 */
 	public String getLocalizedProfessionString()
 	{
@@ -1285,7 +1288,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 			if (entry.isLocalized())
 			{
-				return MCA.getInstance().getLanguageLoader().getString(VillagerRegistryMCA.getRegisteredVillagerEntry(profession).getLocalizedProfessionID() + "." + getGenderAsString(), null, this, false);	
+				return MCA.getInstance().getLanguageLoader().getString(VillagerRegistryMCA.getRegisteredVillagerEntry(profession).getLocalizedProfessionID() + "." + getGenderAsString(), null, this, false);
 			}
 
 			else
@@ -1298,7 +1301,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Returns an instance of the entity's current chore.
 	 * 
-	 * @return	Instance of the chore the entity should be running.
+	 * @return Instance of the chore the entity should be running.
 	 */
 	public AbstractChore getInstanceOfCurrentChore()
 	{
@@ -1341,7 +1344,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Sets a person's mood based on the highest mood points value.
 	 * 
-	 * @param 	dispatchPackets	Should packets be dispatched to client or server?
+	 * @param dispatchPackets Should packets be dispatched to client or server?
 	 */
 	public void setMoodByMoodPoints(boolean dispatchPackets)
 	{
@@ -1376,17 +1379,17 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			switch (moodIndex)
 			{
-			case 0:
-				mood = EnumMood.getMoodByPointValue("happy", highestValue);
-				break;
-			case 1:
-				mood = EnumMood.getMoodByPointValue("sadness", highestValue);
-				break;
-			case 2:
-				mood = EnumMood.getMoodByPointValue("anger", highestValue);
-				break;
-			default:
-				return;
+				case 0:
+					mood = EnumMood.getMoodByPointValue("happy", highestValue);
+					break;
+				case 1:
+					mood = EnumMood.getMoodByPointValue("sadness", highestValue);
+					break;
+				case 2:
+					mood = EnumMood.getMoodByPointValue("anger", highestValue);
+					break;
+				default:
+					return;
 			}
 		}
 
@@ -1421,37 +1424,37 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 			switch (trait)
 			{
-			case Emotional:
-				chanceOfHappy = 33;
-				chanceOfSad = 33;
-				chanceOfMad = 33;
-				break;
-			case Friendly:
-				chanceOfHappy = 75;
-				chanceOfMad = 25;
-				break;
-			case Fun:
-				chanceOfHappy = 80;
-				chanceOfMad = 20;
-				break;
-			case Irritable:
-				chanceOfHappy = 40;
-				chanceOfMad = 60;
-				break;
-			case None:
-				break;
-			case Outgoing:
-				chanceOfHappy = 60;
-				break;
-			case Serious:
-				chanceOfHappy = 30;
-				break;
-			case Shy:
-				chanceOfSad = 20;
-				chanceOfHappy = 30;
-				break;
-			default:
-				break;
+				case Emotional:
+					chanceOfHappy = 33;
+					chanceOfSad = 33;
+					chanceOfMad = 33;
+					break;
+				case Friendly:
+					chanceOfHappy = 75;
+					chanceOfMad = 25;
+					break;
+				case Fun:
+					chanceOfHappy = 80;
+					chanceOfMad = 20;
+					break;
+				case Irritable:
+					chanceOfHappy = 40;
+					chanceOfMad = 60;
+					break;
+				case None:
+					break;
+				case Outgoing:
+					chanceOfHappy = 60;
+					break;
+				case Serious:
+					chanceOfHappy = 30;
+					break;
+				case Shy:
+					chanceOfSad = 20;
+					chanceOfHappy = 30;
+					break;
+				default:
+					break;
 			}
 
 			final int moodLevel = worldObj.rand.nextInt(4) + 1;
@@ -1490,9 +1493,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Gets the hearts value for the specified player from the hearts map.
 	 * 
-	 * @param 	player	The player that needs the heart information.
-	 * 
-	 * @return	Hearts value for the specified player.
+	 * @param player The player that needs the heart information.
+	 * @return Hearts value for the specified player.
 	 */
 	public int getHearts(EntityPlayer player)
 	{
@@ -1524,8 +1526,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Modifies the hearts amount for the specified player and allows dispatching.
 	 * 
-	 * @param 	player				The player whose heart information is being modified.
-	 * @param	amount				The amount to modify the hearts by.
+	 * @param player The player whose heart information is being modified.
+	 * @param amount The amount to modify the hearts by.
 	 */
 	public void modifyHearts(EntityPlayer player, int amount)
 	{
@@ -1535,15 +1537,15 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Modifies the hearts amount for the specified player.
 	 * 
-	 * @param 	player				The player whose heart information is being modified.
-	 * @param	amount				The amount to modify the hearts by.
-	 * @param	isDispatchAllowed	Is the area modification allowed?
+	 * @param player The player whose heart information is being modified.
+	 * @param amount The amount to modify the hearts by.
+	 * @param isDispatchAllowed Is the area modification allowed?
 	 */
 	public void modifyHearts(EntityPlayer player, int amount, boolean isDispatchAllowed)
 	{
 		if (playerMemoryMap.containsKey(player.getCommandSenderName()))
 		{
-			PlayerMemory playerMemory = playerMemoryMap.get(player.getCommandSenderName());
+			final PlayerMemory playerMemory = playerMemoryMap.get(player.getCommandSenderName());
 			playerMemory.hearts += amount;
 			playerMemoryMap.put(player.getCommandSenderName(), playerMemory);
 
@@ -1577,7 +1579,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				{
 					if (entity instanceof AbstractEntity)
 					{
-						final AbstractEntity abstractEntity = (AbstractEntity)entity;
+						final AbstractEntity abstractEntity = (AbstractEntity) entity;
 
 						//Relatives to the player are not affected.
 						if (!abstractEntity.familyTree.idIsARelative(MCA.getInstance().getWorldProperties(manager).playerID))
@@ -1621,47 +1623,46 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	}
 
 	/**
-	 * Updates the villager's mood points depending on the provided context. 
-	 * NOTE: Calls setMoodByMoodPoints(true) to update the other side.
+	 * Updates the villager's mood points depending on the provided context. NOTE: Calls setMoodByMoodPoints(true) to update the other side.
 	 * 
-	 * @param 	context	EnumMoodChangeContext explaining what happened to cause the mood change.
-	 * @param 	value	The amount of mood points to apply to the appropriate mood.
+	 * @param context EnumMoodChangeContext explaining what happened to cause the mood change.
+	 * @param value The amount of mood points to apply to the appropriate mood.
 	 */
 	public void modifyMoodPoints(EnumMoodChangeContext context, float value)
 	{
 		switch (context)
 		{
-		case HitByPlayer: 
-			if (traitId == EnumTrait.Emotional.getId() || traitId == EnumTrait.Shy.getId())
-			{
-				moodPointsSad = moodPointsSad > 5.0F ? moodPointsSad = 5.0F : moodPointsSad + value;
-			}
+			case HitByPlayer:
+				if (traitId == EnumTrait.Emotional.getId() || traitId == EnumTrait.Shy.getId())
+				{
+					moodPointsSad = moodPointsSad > 5.0F ? moodPointsSad = 5.0F : moodPointsSad + value;
+				}
 
-			else
-			{
+				else
+				{
+					moodPointsAnger = moodPointsAnger > 5.0F ? moodPointsAnger = 5.0F : moodPointsAnger + value;
+				}
+
+				moodPointsHappy = moodPointsHappy < 0.0F ? moodPointsHappy = 0.0F : moodPointsHappy - value;
+				break;
+			case BadInteraction:
 				moodPointsAnger = moodPointsAnger > 5.0F ? moodPointsAnger = 5.0F : moodPointsAnger + value;
-			}
-
-			moodPointsHappy  = moodPointsHappy  < 0.0F ? moodPointsHappy  = 0.0F : moodPointsHappy  - value;
-			break;
-		case BadInteraction:
-			moodPointsAnger = moodPointsAnger > 5.0F ? moodPointsAnger = 5.0F : moodPointsAnger + value; 
-			moodPointsHappy  = moodPointsHappy  < 0.0F ? moodPointsHappy  = 0.0F : moodPointsHappy  - value;
-			break;
-		case GoodInteraction:
-			moodPointsHappy  = moodPointsHappy  > 5.0F ? moodPointsHappy  = 5.0F : moodPointsHappy  + value; 
-			moodPointsAnger = moodPointsAnger < 0.0F ? moodPointsAnger = 0.0F : moodPointsAnger - value;
-			break;
-		case SleepInterrupted:
-			moodPointsAnger = moodPointsAnger > 5.0F ? moodPointsAnger = 5.0F : moodPointsAnger + value;
-			moodPointsHappy  = moodPointsHappy  < 0.0F ? moodPointsHappy  = 0.0F : moodPointsHappy  - value;
-			break;
-		case MoodCycle:
-			doMoodCycle();
-			break;
-		case WitnessDeath:
-			moodPointsSad = moodPointsSad > 5.0F ? moodPointsSad = 5.0F : moodPointsSad + value;
-			break;
+				moodPointsHappy = moodPointsHappy < 0.0F ? moodPointsHappy = 0.0F : moodPointsHappy - value;
+				break;
+			case GoodInteraction:
+				moodPointsHappy = moodPointsHappy > 5.0F ? moodPointsHappy = 5.0F : moodPointsHappy + value;
+				moodPointsAnger = moodPointsAnger < 0.0F ? moodPointsAnger = 0.0F : moodPointsAnger - value;
+				break;
+			case SleepInterrupted:
+				moodPointsAnger = moodPointsAnger > 5.0F ? moodPointsAnger = 5.0F : moodPointsAnger + value;
+				moodPointsHappy = moodPointsHappy < 0.0F ? moodPointsHappy = 0.0F : moodPointsHappy - value;
+				break;
+			case MoodCycle:
+				doMoodCycle();
+				break;
+			case WitnessDeath:
+				moodPointsSad = moodPointsSad > 5.0F ? moodPointsSad = 5.0F : moodPointsSad + value;
+				break;
 		}
 
 		setMoodByMoodPoints(true);
@@ -1670,12 +1671,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Processes the gifting of an item stack to an entity.
 	 * 
-	 * @param 	itemStack	The item stack that was given to the entity.
-	 * @param	player		The player that gifted the item.
+	 * @param itemStack The item stack that was given to the entity.
+	 * @param player The player that gifted the item.
 	 */
 	protected void doGift(ItemStack itemStack, EntityPlayer player)
 	{
-		PlayerMemory memory = playerMemoryMap.get(player.getCommandSenderName());
+		final PlayerMemory memory = playerMemoryMap.get(player.getCommandSenderName());
 		int baseHeartValue = 0;
 		int heartIncrease = 0;
 		boolean isGiftValid = true;
@@ -1701,7 +1702,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			}
 		}
 
-		else //The gift wasn't contained in the acceptable gifts map or it's not a giftable item. Remove some hearts points and return.
+		else
+		//The gift wasn't contained in the acceptable gifts map or it's not a giftable item. Remove some hearts points and return.
 		{
 			modifyHearts(player, -(worldObj.rand.nextInt(9) + 5));
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, 0.5F);
@@ -1751,10 +1753,10 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Handle the gift of a baby.
 	 * 
-	 * @param 	itemStack	The item stack containing the baby.
-	 * @param	player		The player that gifted the baby.
+	 * @param itemStack The item stack containing the baby.
+	 * @param player The player that gifted the baby.
 	 */
-	protected void doGiftOfBaby(ItemStack itemStack, EntityPlayer player) 
+	protected void doGiftOfBaby(ItemStack itemStack, EntityPlayer player)
 	{
 		if (isMarriedToPlayer && MCA.getInstance().getIdOfPlayer(player) == familyTree.getFirstIDWithRelation(EnumRelation.Spouse))
 		{
@@ -1785,10 +1787,10 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Handle the gift of an arranger's ring.
 	 * 
-	 * @param 	itemStack	The item stack containing the arranger's ring.
-	 * @param	player		The player that gifted the ring.
+	 * @param itemStack The item stack containing the arranger's ring.
+	 * @param player The player that gifted the ring.
 	 */
-	protected void doGiftOfArrangersRing(ItemStack itemStack, EntityPlayer player) 
+	protected void doGiftOfArrangersRing(ItemStack itemStack, EntityPlayer player)
 	{
 		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
 
@@ -1802,7 +1804,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			else
 			{
 				say(MCA.getInstance().getLanguageLoader().getString("villager.marriage.refusal.villagermarried", null, this, false));
-				modifyHearts(player, -30);   
+				modifyHearts(player, -30);
 			}
 		}
 
@@ -1811,9 +1813,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			say(MCA.getInstance().getLanguageLoader().getString("marriage.refusal.villagermarried"));
 		}
 
-		else	
+		else
 		{
-			final AbstractEntity nearestVillager = (AbstractEntity) LogicHelper.getNearestEntityOfType(this,  AbstractEntity.class, 32);
+			final AbstractEntity nearestVillager = (AbstractEntity) LogicHelper.getNearestEntityOfType(this, AbstractEntity.class, 32);
 			int arrangerRingCount = 0;
 
 			for (final ItemStack stack : player.inventory.mainInventory)
@@ -1836,8 +1838,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				return;
 			}
 
-			if (!nearestVillager.isMarriedToPlayer && !nearestVillager.isMarriedToVillager && !nearestVillager.isEngaged && 
-					familyTree.getMyRelationTo(nearestVillager) == EnumRelation.None)
+			if (!nearestVillager.isMarriedToPlayer && !nearestVillager.isMarriedToVillager && !nearestVillager.isEngaged && familyTree.getMyRelationTo(nearestVillager) == EnumRelation.None)
 			{
 				notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("notify.villager.married"));
 
@@ -1850,7 +1851,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 						if (stack != null && stack.getItem() == MCA.getInstance().itemArrangersRing)
 						{
-							player.inventory.setInventorySlotContents(slot, (ItemStack)null);
+							player.inventory.setInventorySlotContents(slot, (ItemStack) null);
 							break;
 						}
 					}
@@ -1898,10 +1899,10 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Handle the gift of an engagement ring.
 	 * 
-	 * @param 	itemStack	The item stack containing the engagement ring.
-	 * @param 	player		The player gifting the ring.
+	 * @param itemStack The item stack containing the engagement ring.
+	 * @param player The player gifting the ring.
 	 */
-	protected void doGiftOfEngagementRing(ItemStack itemStack, EntityPlayer player) 
+	protected void doGiftOfEngagementRing(ItemStack itemStack, EntityPlayer player)
 	{
 		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
 
@@ -1942,14 +1943,16 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					manager.saveWorldProperties();
 				}
 
-				else //The hearts aren't high enough.
+				else
+				//The hearts aren't high enough.
 				{
 					say(MCA.getInstance().getLanguageLoader().getString("marriage.refusal.lowhearts", null, this, true));
 					modifyHearts(player, -30);
 				}
 			}
 
-			else //Player is already married
+			else
+			//Player is already married
 			{
 				say(MCA.getInstance().getLanguageLoader().getString("marriage.refusal.playermarried", null, this, true));
 			}
@@ -1959,10 +1962,10 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Handle the gift of a wedding ring.
 	 * 
-	 * @param 	itemStack	The item stack containing the wedding ring.
-	 * @param 	player		The player that gifted the ring.
+	 * @param itemStack The item stack containing the wedding ring.
+	 * @param player The player that gifted the ring.
 	 */
-	protected void doGiftOfWeddingRing(ItemStack itemStack, EntityPlayer player) 
+	protected void doGiftOfWeddingRing(ItemStack itemStack, EntityPlayer player)
 	{
 		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
 
@@ -1982,7 +1985,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 		else
 		{
-			if (MCA.getInstance().getWorldProperties(manager).playerSpouseID == 0 || isEngaged || MCA.getInstance().getWorldProperties(manager).isMonarch) 
+			if (MCA.getInstance().getWorldProperties(manager).playerSpouseID == 0 || isEngaged || MCA.getInstance().getWorldProperties(manager).isMonarch)
 			{
 				if (MCA.getInstance().getWorldProperties(manager).playerSpouseID != 0)
 				{
@@ -1995,7 +1998,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					modifyHearts(player, -30);
 				}
 
-				else //Acceptance is at 100 hearts or above.
+				else
+				//Acceptance is at 100 hearts or above.
 				{
 					Utility.removeItemFromPlayer(itemStack, player);
 					say(MCA.getInstance().getLanguageLoader().getString("marriage.acceptance", null, this, false));
@@ -2026,7 +2030,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 						{
 							if (entity instanceof EntityVillagerAdult)
 							{
-								final EntityVillagerAdult entityVillager = (EntityVillagerAdult)entity;
+								final EntityVillagerAdult entityVillager = (EntityVillagerAdult) entity;
 								final PlayerMemory memory = entityVillager.playerMemoryMap.get(player.getCommandSenderName());
 
 								if (memory != null)
@@ -2043,7 +2047,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				}
 			}
 
-			else //Player is already married.
+			else
+			//Player is already married.
 			{
 				say(MCA.getInstance().getLanguageLoader().getString("marriage.refusal.playermarried", null, this, false));
 			}
@@ -2053,8 +2058,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Handle the gift of cake.
 	 * 
-	 * @param 	itemStack	The item stack containing the cake.
-	 * @param	player		The player that gifted the cake.
+	 * @param itemStack The item stack containing the cake.
+	 * @param player The player that gifted the cake.
 	 */
 	protected void doGiftOfCake(ItemStack itemStack, EntityPlayer player)
 	{
@@ -2072,7 +2077,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				say(MCA.getInstance().getLanguageLoader().getString("notify.villager.gifted.cake.spousenotnearby." + getGenderAsString()));
 			}
 
-			else //nearestVillager is within 5 blocks.
+			else
+			//nearestVillager is within 5 blocks.
 			{
 				int cakeCount = 0;
 
@@ -2085,7 +2091,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					}
 				}
 
-				if (this.hasBaby || nearestVillager.hasBaby)
+				if (hasBaby || nearestVillager.hasBaby)
 				{
 					say(MCA.getInstance().getLanguageLoader().getString("notify.villager.gifted.cake.withbaby." + getGenderAsString()));
 				}
@@ -2095,7 +2101,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					say(MCA.getInstance().getLanguageLoader().getString("notify.villager.gifted.cake.notenough", null, this, false));
 				}
 
-				else //This couple doesn't have a baby.
+				else
+				//This couple doesn't have a baby.
 				{
 					isProcreatingWithVillager = true;
 					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isProcreatingWithVillager", isProcreatingWithVillager));
@@ -2111,7 +2118,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 							if (stack != null && stack.getItem() == Items.cake)
 							{
-								player.inventory.setInventorySlotContents(slot, (ItemStack)null);
+								player.inventory.setInventorySlotContents(slot, (ItemStack) null);
 								break;
 							}
 						}
@@ -2144,10 +2151,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 						child.familyTree.addFamilyTreeEntry(relatedPlayerId, EnumRelation.Grandparent);
 					}
 
-					else if (familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandfather || familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandmother ||
-							familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandfather || familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandmother ||
-							spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandfather || spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandmother ||
-							spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandfather || spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandmother)
+					else if (familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandfather || familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandmother || familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandfather || familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandmother || spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandfather || spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandmother
+							|| spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandfather || spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandmother)
 					{
 						child.familyTree.addFamilyTreeEntry(relatedPlayerId, EnumRelation.Greatgrandparent);
 						child.generation = generation + 1;
@@ -2161,10 +2166,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 						child.familyTree.addFamilyTreeEntry(relatedPlayerId, EnumRelation.Grandparent);
 					}
 
-					else if (familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandfather || familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandmother ||
-							familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandfather || familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandmother ||
-							spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandfather || spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandmother ||
-							spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandfather || spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandmother)
+					else if (familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandfather || familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandmother || familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandfather || familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandmother || spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandfather || spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Grandmother
+							|| spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandfather || spouse.familyTree.getRelationOf(relatedPlayerId) == EnumRelation.Greatgrandmother)
 					{
 						child.familyTree.addFamilyTreeEntry(relatedPlayerId, EnumRelation.Greatgrandparent);
 						child.generation = generation + 1;
@@ -2172,7 +2175,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				}
 			}
 
-			child.setLocationAndAngles(posX, posY, posZ, rotationPitch, rotationYaw);	
+			child.setLocationAndAngles(posX, posY, posZ, rotationPitch, rotationYaw);
 			worldObj.spawnEntityInWorld(child);
 
 			//Reset baby variables.
@@ -2193,11 +2196,20 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			{
 				switch (child.generation)
 				{
-				case 0: player.triggerAchievement(MCA.getInstance().achievementHaveGrandchild); break;
-				case 1: player.triggerAchievement(MCA.getInstance().achievementHaveGreatGrandchild); break;
-				case 2: player.triggerAchievement(MCA.getInstance().achievementHaveGreatx2Grandchild); break;
-				case 10: player.triggerAchievement(MCA.getInstance().achievementHaveGreatx10Grandchild); break;
-				default: break;
+					case 0:
+						player.triggerAchievement(MCA.getInstance().achievementHaveGrandchild);
+						break;
+					case 1:
+						player.triggerAchievement(MCA.getInstance().achievementHaveGreatGrandchild);
+						break;
+					case 2:
+						player.triggerAchievement(MCA.getInstance().achievementHaveGreatx2Grandchild);
+						break;
+					case 10:
+						player.triggerAchievement(MCA.getInstance().achievementHaveGreatx10Grandchild);
+						break;
+					default:
+						break;
 				}
 			}
 		}
@@ -2217,20 +2229,21 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				if (worldObj.isRemote)
 				{
 					isJumping = true;
-					final double velX  = rand.nextGaussian() * 0.02D;
+					final double velX = rand.nextGaussian() * 0.02D;
 					final double velY = rand.nextGaussian() * 0.02D;
 					final double velZ = rand.nextGaussian() * 0.02D;
 					worldObj.spawnParticle("heart", posX + rand.nextFloat() * width * 2.0F - width, posY + 0.5D + rand.nextFloat() * height, posZ + rand.nextFloat() * width * 2.0F - width, velX, velY, velZ);
 				}
 
-				else //Server-side
+				else
+				//Server-side
 				{
 					motionX = 0.0D;
 					motionZ = 0.0D;
 
 					if (procreateTicks >= 50)
 					{
-						if (spouse.isMale && !this.isMale || this.isMale && !spouse.isMale) //Only opposite-sex couples can have children.
+						if (spouse.isMale && !isMale || isMale && !spouse.isMale) //Only opposite-sex couples can have children.
 						{
 							if (!isMale) //Give the mother the baby.
 							{
@@ -2259,7 +2272,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				}
 			}
 
-			else //Prevent a possible crash. Player should start over if this happens.
+			else
+			//Prevent a possible crash. Player should start over if this happens.
 			{
 				isProcreatingWithVillager = false;
 			}
@@ -2272,7 +2286,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	protected void updateProcreationWithPlayer()
 	{
 		//Note: updateProcreationWithVillager can sometimes bleed into this method, but only client-side to cause jumping to stop.
-		if (isProcreatingWithPlayer) 
+		if (isProcreatingWithPlayer)
 		{
 			if (worldObj.isRemote)
 			{
@@ -2283,13 +2297,14 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				}
 
 				isJumping = true;
-				final double velX  = rand.nextGaussian() * 0.02D;
+				final double velX = rand.nextGaussian() * 0.02D;
 				final double velY = rand.nextGaussian() * 0.02D;
 				final double velZ = rand.nextGaussian() * 0.02D;
 				worldObj.spawnParticle("heart", posX + rand.nextFloat() * width * 2.0F - width, posY + 0.5D + rand.nextFloat() * height, posZ + rand.nextFloat() * width * 2.0F - width, velX, velY, velZ);
 			}
 
-			else //Server-side
+			else
+			//Server-side
 			{
 				final EntityPlayer player = worldObj.getPlayerEntityByName(spousePlayerName);
 
@@ -2306,8 +2321,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				{
 					player.motionX = 0.0D;
 					player.motionZ = 0.0D;
-					this.motionX = 0.0D;
-					this.motionZ = 0.0D;
+					motionX = 0.0D;
+					motionZ = 0.0D;
 
 					if (procreateTicks >= 50)
 					{
@@ -2318,8 +2333,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 						MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isProcreatingWithPlayer", isProcreatingWithPlayer));
 						MCA.packetHandler.sendPacketToAllPlayers(new PacketStopJumping(getEntityId()));
 
-						boolean babyIsMale = Utility.getRandomGender();
-						MCA.packetHandler.sendPacketToPlayer(new PacketOnVillagerProcreate(this.getEntityId(), babyIsMale), (EntityPlayerMP)player);
+						final boolean babyIsMale = Utility.getRandomGender();
+						MCA.packetHandler.sendPacketToPlayer(new PacketOnVillagerProcreate(getEntityId(), babyIsMale), (EntityPlayerMP) player);
 
 						if (babyIsMale)
 						{
@@ -2420,7 +2435,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				if (player != null && memory.isInGiftMode && getDistanceToEntity(player) > 10.0F || player == null && memory.isInGiftMode)
 				{
 					memory.isInGiftMode = false;
-					MCA.packetHandler.sendPacketToPlayer(new PacketSetFieldValue(getEntityId(), "playerMemoryMap", playerMemoryMap), (EntityPlayerMP)player);
+					MCA.packetHandler.sendPacketToPlayer(new PacketSetFieldValue(getEntityId(), "playerMemoryMap", playerMemoryMap), (EntityPlayerMP) player);
 				}
 			}
 		}
@@ -2478,9 +2493,9 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		}
 	}
 
-	public void resetBedStatus() 
+	public void resetBedStatus()
 	{
-		TileEntityVillagerBed bed = (TileEntityVillagerBed) worldObj.getTileEntity(bedPosX, bedPosY, bedPosZ);
+		final TileEntityVillagerBed bed = (TileEntityVillagerBed) worldObj.getTileEntity(bedPosX, bedPosY, bedPosZ);
 
 		if (bed != null)
 		{
@@ -2506,11 +2521,11 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		if (!worldObj.isRemote)
 		{
-			final EntityLiving entityPathController = (EntityLiving) (this.ridingEntity instanceof EntityHorse ? this.ridingEntity : this);
+			final EntityLiving entityPathController = (EntityLiving) (ridingEntity instanceof EntityHorse ? ridingEntity : this);
 
 			if (entityPathController instanceof EntityHorse)
 			{
-				final EntityHorse horse = (EntityHorse)entityPathController;
+				final EntityHorse horse = (EntityHorse) entityPathController;
 
 				if (horse.isHorseSaddled())
 				{
@@ -2530,7 +2545,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				else
 				{
-					entityPathController.getNavigator().tryMoveToEntityLiving(target, (entityPathController instanceof EntityHorse) ? Constants.SPEED_HORSE_RUN : Constants.SPEED_RUN);
+					entityPathController.getNavigator().tryMoveToEntityLiving(target, entityPathController instanceof EntityHorse ? Constants.SPEED_HORSE_RUN : Constants.SPEED_RUN);
 				}
 			}
 
@@ -2542,12 +2557,14 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				{
 					entityPathController.getLookHelper().setLookPositionWithEntity(player, 10.0F, getVerticalFaceSpeed());
 
-					if (entityPathController != this) this.getLookHelper().setLookPositionWithEntity(player, 10.0F, getVerticalFaceSpeed());
+					if (entityPathController != this)
+					{
+						getLookHelper().setLookPositionWithEntity(player, 10.0F, getVerticalFaceSpeed());
+					}
 
 					if (getDistanceToEntity(player) > 4.5D)
 					{
-						final boolean pathSet = entityPathController.getNavigator().tryMoveToEntityLiving(player, 
-								(entityPathController instanceof EntityHorse) ?  Constants.SPEED_HORSE_RUN : player.isSprinting() ? Constants.SPEED_SPRINT : Constants.SPEED_WALK);
+						final boolean pathSet = entityPathController.getNavigator().tryMoveToEntityLiving(player, entityPathController instanceof EntityHorse ? Constants.SPEED_HORSE_RUN : player.isSprinting() ? Constants.SPEED_SPRINT : Constants.SPEED_WALK);
 						entityPathController.getNavigator().onUpdateNavigation();
 
 						if (!pathSet && getDistanceToEntity(player) >= 10.0D)
@@ -2603,7 +2620,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					playerMemoryMap.put(nearestPlayer.getCommandSenderName(), new PlayerMemory(nearestPlayer.getCommandSenderName()));
 				}
 
-				for (PlayerMemory memory : playerMemoryMap.values())
+				for (final PlayerMemory memory : playerMemoryMap.values())
 				{
 					if (memory.greetingTicks < 2000)
 					{
@@ -2663,13 +2680,11 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 											else
 											{
-												say(MCA.getInstance().getLanguageLoader().getString("greeting.friend", nearestPlayer, this, true));	
+												say(MCA.getInstance().getLanguageLoader().getString("greeting.friend", nearestPlayer, this, true));
 											}
 										}
 
-										else if (hearts > 50 && getCharacterType(MCA.getInstance().getIdOfPlayer(nearestPlayer)).equals("villager") && 
-												!MCA.getInstance().getWorldProperties(manager).isEngaged && 
-												MCA.getInstance().getWorldProperties(manager).playerSpouseID == 0)
+										else if (hearts > 50 && getCharacterType(MCA.getInstance().getIdOfPlayer(nearestPlayer)).equals("villager") && !MCA.getInstance().getWorldProperties(manager).isEngaged && MCA.getInstance().getWorldProperties(manager).playerSpouseID == 0)
 										{
 											say(MCA.getInstance().getLanguageLoader().getString("greeting.interest", nearestPlayer, this, true));
 										}
@@ -2722,7 +2737,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		if (!worldObj.isRemote)
 		{
-			int maxHealth = MCA.getInstance().getModProperties().villagerBaseHealth;
+			final int maxHealth = MCA.getInstance().getModProperties().villagerBaseHealth;
 
 			if (profession == 5 && getEntityAttribute(SharedMonsterAttributes.maxHealth).getAttributeValue() != maxHealth * 2)
 			{
@@ -2744,7 +2759,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				}
 			}
 
-			if (getHealth() <= maxHealth - (maxHealth / 4) && eatingTicks >= 40)
+			if (getHealth() <= maxHealth - maxHealth / 4 && eatingTicks >= 40)
 			{
 				final int foodSlot = inventory.getFirstSlotContainingFood();
 
@@ -2786,7 +2801,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			swingProgressTicks = 0;
 		}
 
-		swingProgress = (float)swingProgressTicks / (float)8;
+		swingProgress = (float) swingProgressTicks / (float) 8;
 	}
 
 	/**
@@ -2816,7 +2831,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		}
 
 		else
-		{			
+		{
 			combatChore.runChoreAI();
 		}
 	}
@@ -2828,7 +2843,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		if (!worldObj.isRemote && isRetaliating && target instanceof EntityPlayer)
 		{
-			final EntityPlayer player = (EntityPlayer)target;
+			final EntityPlayer player = (EntityPlayer) target;
 			getNavigator().tryMoveToEntityLiving(player, Constants.SPEED_RUN);
 
 			if (profession != 5 && player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem() instanceof ItemSword)
@@ -2852,6 +2867,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	/**
 	 * Updates fields having to do with players that are monarchs.
+	 * 
 	 * @category Needs Repair
 	 */
 	private void updateMonarchs()
@@ -2874,7 +2890,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				if (manager != null)
 				{
-					PlayerMemory memory = entry.getValue();
+					final PlayerMemory memory = entry.getValue();
 
 					if (memory != null)
 					{
@@ -2960,7 +2976,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * Updates the villager's mood and assigns a trait if one has not been assigned.
 	 */
 	private void updateMood()
-	{	
+	{
 		if (worldObj.isRemote && !(getInstanceOfCurrentChore() instanceof ChoreHunting))
 		{
 			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName());
@@ -2975,12 +2991,30 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				{
 					switch (moodLevel)
 					{
-					case 1: particleName = "smoke"; particleInterval = 15; break;
-					case 2: particleName = "smoke"; particleInterval = 10; break;
-					case 3: particleName = "angryVillager"; particleInterval = 7; break;
-					case 4: particleName = "angryVillager"; particleInterval = 4; break;
-					case 5: particleName = "flame"; particleInterval = 0; break;
-					default: particleName = "flame"; particleInterval = 0; break;
+						case 1:
+							particleName = "smoke";
+							particleInterval = 15;
+							break;
+						case 2:
+							particleName = "smoke";
+							particleInterval = 10;
+							break;
+						case 3:
+							particleName = "angryVillager";
+							particleInterval = 7;
+							break;
+						case 4:
+							particleName = "angryVillager";
+							particleInterval = 4;
+							break;
+						case 5:
+							particleName = "flame";
+							particleInterval = 0;
+							break;
+						default:
+							particleName = "flame";
+							particleInterval = 0;
+							break;
 					}
 				}
 
@@ -2988,12 +3022,30 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				{
 					switch (moodLevel)
 					{
-					case 1: particleName = "splash"; particleInterval = 15; break;
-					case 2: particleName = "splash"; particleInterval = 10; break;
-					case 3: particleName = "splash"; particleInterval = 7; break;
-					case 4: particleName = "tilecrack_9_0"; particleInterval = 4; break;
-					case 5: particleName = "tilecrack_9_0"; particleInterval = 0; break;
-					default: particleName = "tilecrack_9_0"; particleInterval = 0; break;
+						case 1:
+							particleName = "splash";
+							particleInterval = 15;
+							break;
+						case 2:
+							particleName = "splash";
+							particleInterval = 10;
+							break;
+						case 3:
+							particleName = "splash";
+							particleInterval = 7;
+							break;
+						case 4:
+							particleName = "tilecrack_9_0";
+							particleInterval = 4;
+							break;
+						case 5:
+							particleName = "tilecrack_9_0";
+							particleInterval = 0;
+							break;
+						default:
+							particleName = "tilecrack_9_0";
+							particleInterval = 0;
+							break;
 					}
 				}
 
@@ -3014,7 +3066,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			}
 		}
 
-		else //Server-side.
+		else
+		//Server-side.
 		{
 			if (traitId == 0 || trait == EnumTrait.None)
 			{
@@ -3090,7 +3143,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				else
 				{
-					moodUpdateTicks++;					
+					moodUpdateTicks++;
 				}
 			}
 		}
@@ -3111,7 +3164,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				boolean hasChanged = false;
 
-				for (PlayerMemory memory : playerMemoryMap.values())
+				for (final PlayerMemory memory : playerMemoryMap.values())
 				{
 					if (memory.isHired)
 					{
@@ -3141,7 +3194,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Runs code used to assist with debugging.
 	 */
-	private void updateDebug() 
+	private void updateDebug()
 	{
 		if (MCA.getInstance().inDebugMode)
 		{
@@ -3152,9 +3205,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Writes this object to an object output stream. (Serialization)
 	 * 
-	 * @param 	objectOut	The object output stream that this object should be written to.
-	 * 
-	 * @throws 	IOException	This exception should never happen.
+	 * @param objectOut The object output stream that this object should be written to.
+	 * @throws IOException This exception should never happen.
 	 */
 	private void writeObject(ObjectOutputStream objectOut) throws IOException
 	{
@@ -3165,15 +3217,14 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Reads this object from an object input stream. (Deserialization)
 	 * 
-	 * @param 	objectIn	The object input stream that this object should be read from.
-	 * 
-	 * @throws 	IOException				This exception should never happen.
-	 * @throws 	ClassNotFoundException	This exception should never happen.
+	 * @param objectIn The object input stream that this object should be read from.
+	 * @throws IOException This exception should never happen.
+	 * @throws ClassNotFoundException This exception should never happen.
 	 */
 	private void readObject(ObjectInputStream objectIn) throws IOException, ClassNotFoundException
 	{
 		objectIn.defaultReadObject();
-		texture = (String)objectIn.readObject();
+		texture = (String) objectIn.readObject();
 	}
 
 	private void endRetaliation()
@@ -3205,7 +3256,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Builds a VillagerInformation object based on this villager instance.
 	 * 
-	 * @return	VillagerInformation object that is sent through the API.
+	 * @return VillagerInformation object that is sent through the API.
 	 */
 	public VillagerInformation getVillagerInformation()
 	{
@@ -3226,32 +3277,29 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		else if (this instanceof EntityPlayerChild)
 		{
 			villagerType = EnumVillagerType.PlayerChild;
-			isChild = !((EntityPlayerChild)this).isAdult;
+			isChild = !((EntityPlayerChild) this).isAdult;
 		}
 
-		return new VillagerInformation(
-				getEntityId(), name, villagerType, profession, isMale, isEngaged, isMarriedToPlayer, isMarriedToVillager,
-				hasBaby, isChild);
+		return new VillagerInformation(getEntityId(), name, villagerType, profession, isMale, isEngaged, isMarriedToPlayer, isMarriedToVillager, hasBaby, isChild);
 	}
 
 	/**
 	 * Determines if the ItemStack provided is an acceptable gift.
 	 * 
-	 * @param	stack	The ItemStack to check.
-	 * 
-	 * @return	True if the stack contains an acceptable gift. False if otherwise.
+	 * @param stack The ItemStack to check.
+	 * @return True if the stack contains an acceptable gift. False if otherwise.
 	 */
 	public static boolean isGiftAcceptable(ItemStack stack)
 	{
 		if (stack.getItem() instanceof ItemBlock)
 		{
-			Block block = Block.getBlockFromItem(stack.getItem());
+			final Block block = Block.getBlockFromItem(stack.getItem());
 			return MCA.acceptableGifts.containsKey(block);
 		}
 
 		else if (stack.getItem() instanceof Item)
 		{
-			Item item = stack.getItem();
+			final Item item = stack.getItem();
 			return MCA.acceptableGifts.containsKey(item);
 		}
 
@@ -3261,21 +3309,20 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	/**
 	 * Determines the provided ItemStack's gift value.
 	 * 
-	 * @param 	stack	The ItemStack to check.
-	 * 
-	 * @return	Integer amount that is used as a base for calculating hearts increase for gift.
+	 * @param stack The ItemStack to check.
+	 * @return Integer amount that is used as a base for calculating hearts increase for gift.
 	 */
 	public static int getGiftValue(ItemStack stack)
 	{
 		if (stack.getItem() instanceof ItemBlock)
 		{
-			Block block = Block.getBlockFromItem(stack.getItem());
+			final Block block = Block.getBlockFromItem(stack.getItem());
 			return MCA.acceptableGifts.get(block);
 		}
 
 		else if (stack.getItem() instanceof Item)
 		{
-			Item item = stack.getItem();
+			final Item item = stack.getItem();
 			return MCA.acceptableGifts.get(item);
 		}
 

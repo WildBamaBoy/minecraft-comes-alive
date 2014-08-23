@@ -16,28 +16,28 @@ import java.util.Random;
 /**
  * Object used to keep track of villager types registered with MCA.
  */
-public final class VillagerEntryMCA 
+public final class VillagerEntryMCA
 {
 	/** A list of skins that can be used for male villagers. */
 	private final List<String> skinsMale = new ArrayList<String>();
-	
+
 	/** A list of skins that can be used for female villagers. */
 	private final List<String> skinsFemale = new ArrayList<String>();
-	
+
 	public final int professionId;
 	public final boolean useDefaultTexture;
 	public final String professionName;
 	public final String texturesLocation;
 	public final String modId;
 	private boolean useLocalizedForm;
-	
+
 	/**
 	 * Constructor
 	 * 
-	 * @param 	professionId		The profession ID of the villager.
-	 * @param 	professionName		The villager's unlocalized profession name.
-	 * @param 	texturesLocation	The folder containing skins that the villager can use.
-	 * @param	modId				The mod ID of the mod the villager belongs to. This is the ID you use to access your mod's assets.
+	 * @param professionId The profession ID of the villager.
+	 * @param professionName The villager's unlocalized profession name.
+	 * @param texturesLocation The folder containing skins that the villager can use.
+	 * @param modId The mod ID of the mod the villager belongs to. This is the ID you use to access your mod's assets.
 	 */
 	public VillagerEntryMCA(int professionId, String professionName, String texturesLocation, String modId)
 	{
@@ -45,8 +45,8 @@ public final class VillagerEntryMCA
 		this.professionName = professionName;
 		this.texturesLocation = texturesLocation;
 		this.modId = modId;
-		this.useLocalizedForm = false;
-		this.useDefaultTexture = this.texturesLocation.equals("/assets/mca/textures/api/skins/");
+		useLocalizedForm = false;
+		useDefaultTexture = this.texturesLocation.equals("/assets/mca/textures/api/skins/");
 	}
 
 	/**
@@ -56,19 +56,19 @@ public final class VillagerEntryMCA
 	{
 		return useLocalizedForm;
 	}
-	
+
 	/**
 	 * Used only by MCA at this time.
 	 */
 	public void setIsLocalized(boolean value)
 	{
-		this.useLocalizedForm = value;
+		useLocalizedForm = value;
 	}
 
 	/**
 	 * Used by MCA's skin loader to determine of the API's default textures should be used.
 	 * 
-	 * @return	True if the villager's texture wasn't provided. False if otherwise.
+	 * @return True if the villager's texture wasn't provided. False if otherwise.
 	 */
 	public boolean isDefaultTextureUsed()
 	{
@@ -80,11 +80,11 @@ public final class VillagerEntryMCA
 	 */
 	public String getLocalizedProfessionID()
 	{
-		if (this.professionId == -1)
+		if (professionId == -1)
 		{
 			return "profession.playerchild";
 		}
-		
+
 		else
 		{
 			return "profession." + professionName.toLowerCase();
@@ -94,7 +94,7 @@ public final class VillagerEntryMCA
 	/**
 	 * Gets the villager type name provided when it was registered.
 	 * 
-	 * @return	professionName value of this villager entry.
+	 * @return professionName value of this villager entry.
 	 */
 	public String getUnlocalizedProfessionName()
 	{
@@ -104,79 +104,78 @@ public final class VillagerEntryMCA
 	/**
 	 * Gets the villager texture location provided when it was registered.
 	 * 
-	 * @return	Texture location provided to the villager registry. If a texture location was not provided,
-	 * 			returns "/assets/mca/textures/api/skins/"
+	 * @return Texture location provided to the villager registry. If a texture location was not provided, returns "/assets/mca/textures/api/skins/"
 	 */
-	public String getTexturesLocation() 
+	public String getTexturesLocation()
 	{
 		return texturesLocation;
 	}
-	
+
 	/**
 	 * Adds the location of a texture to this entry's male skin list.
 	 * 
-	 * @param 	skinLocation	The location of the male skin texture.
+	 * @param skinLocation The location of the male skin texture.
 	 */
 	public void addMaleSkin(String skinLocation)
 	{
-		this.skinsMale.add(skinLocation);
+		skinsMale.add(skinLocation);
 	}
-	
+
 	/**
 	 * Adds the location of a texture to this entry's female skin list.
 	 * 
-	 * @param 	skinLocation	The location of the female skin texture.
+	 * @param skinLocation The location of the female skin texture.
 	 */
 	public void addFemaleSkin(String skinLocation)
 	{
-		this.skinsFemale.add(skinLocation);
+		skinsFemale.add(skinLocation);
 	}
-	
+
 	/**
 	 * Gets a random male skin appropriate from this entry's male skin list.
 	 * 
-	 * @return	Random male skin stored in male skin list.
+	 * @return Random male skin stored in male skin list.
 	 */
 	public String getRandomMaleSkin()
 	{
-		return this.skinsMale.get(new Random().nextInt(skinsMale.size()));
+		return skinsMale.get(new Random().nextInt(skinsMale.size()));
 	}
-	
+
 	/**
 	 * Gets a random female skin appropriate from this entry's female skin list.
 	 * 
-	 * @return	Random female skin stored in female skin list.
+	 * @return Random female skin stored in female skin list.
 	 */
 	public String getRandomFemaleSkin()
 	{
-		return this.skinsFemale.get(new Random().nextInt(skinsFemale.size()));
+		return skinsFemale.get(new Random().nextInt(skinsFemale.size()));
 	}
-	
+
 	/**
 	 * Returns reference to the male skins list.
 	 * 
-	 * @return	The male skin list contained in this entry.
+	 * @return The male skin list contained in this entry.
 	 */
 	public List<String> getMaleSkinsList()
 	{
-		return this.skinsMale;
+		return skinsMale;
 	}
-	
+
 	/**
 	 * Returns reference to the female skins list.
 	 * 
-	 * @return	The female skin list contained in this entry.
+	 * @return The female skin list contained in this entry.
 	 */
 	public List<String> getFemaleSkinsList()
 	{
-		return this.skinsFemale;
+		return skinsFemale;
 	}
-	
+
 	/**
-	 * @return	The mod ID of the mod this entry belongs to.
+	 * @return The mod ID of the mod this entry belongs to.
 	 */
 	public String getModId()
 	{
-		return this.modId;
+		return modId;
 	}
 }

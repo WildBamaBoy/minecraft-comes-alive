@@ -83,33 +83,33 @@ public class ChoreCombat extends AbstractChore
 	/** Should unknown mobs be attacked? */
 	public boolean attackUnknown = true;
 
-	/**Is the entity in sentry mode? */
+	/** Is the entity in sentry mode? */
 	public boolean sentryMode;
 
-	/**How far the entity will go from the sentry area. */
+	/** How far the entity will go from the sentry area. */
 	public int sentryRadius = 5;
 
-	/**Used to manage the time between each ranged shot.*/
+	/** Used to manage the time between each ranged shot. */
 	public int rangedAttackTime;
 
-	/**The X position the entity will be a sentry at. */
+	/** The X position the entity will be a sentry at. */
 	public double sentryPosX;
 
-	/**The Y position the entity will be a sentry at. */
+	/** The Y position the entity will be a sentry at. */
 	public double sentryPosY;
 
-	/**The Z position the entity will be a sentry at. */
+	/** The Z position the entity will be a sentry at. */
 	public double sentryPosZ;
 
-	/**Has the creeper "woosh" sound been played?*/
+	/** Has the creeper "woosh" sound been played? */
 	private transient boolean playedSound;
 
 	/**
 	 * Constructor
 	 * 
-	 * @param 	entity	The entity that will be performing the chore.
+	 * @param entity The entity that will be performing the chore.
 	 */
-	public ChoreCombat(AbstractEntity entity) 
+	public ChoreCombat(AbstractEntity entity)
 	{
 		super(entity);
 	}
@@ -121,7 +121,7 @@ public class ChoreCombat extends AbstractChore
 	}
 
 	@Override
-	public void runChoreAI() 
+	public void runChoreAI()
 	{
 		//Run the appropriate AI depending on the combat chore settings.
 		if (sentryMode)
@@ -148,19 +148,19 @@ public class ChoreCombat extends AbstractChore
 	}
 
 	@Override
-	public String getChoreName() 
+	public String getChoreName()
 	{
 		return "Combat";
 	}
 
 	@Override
-	public void endChore() 
+	public void endChore()
 	{
 		hasEnded = true;
 	}
 
 	@Override
-	public void writeChoreToNBT(NBTTagCompound nbt) 
+	public void writeChoreToNBT(NBTTagCompound nbt)
 	{
 		//Loop through each field in this class and write to NBT.
 		for (final Field field : this.getClass().getFields())
@@ -171,32 +171,32 @@ public class ChoreCombat extends AbstractChore
 				{
 					if (field.getType().toString().contains("int"))
 					{
-						nbt.setInteger(field.getName(), (Integer)field.get(owner.combatChore));
+						nbt.setInteger(field.getName(), (Integer) field.get(owner.combatChore));
 					}
 
 					else if (field.getType().toString().contains("double"))
 					{
-						nbt.setDouble(field.getName(), (Double)field.get(owner.combatChore));
+						nbt.setDouble(field.getName(), (Double) field.get(owner.combatChore));
 					}
 
 					else if (field.getType().toString().contains("float"))
 					{
-						nbt.setFloat(field.getName(), (Float)field.get(owner.combatChore));
+						nbt.setFloat(field.getName(), (Float) field.get(owner.combatChore));
 					}
 
 					else if (field.getType().toString().contains("String"))
 					{
-						nbt.setString(field.getName(), (String)field.get(owner.combatChore));
+						nbt.setString(field.getName(), (String) field.get(owner.combatChore));
 					}
 
 					else if (field.getType().toString().contains("boolean"))
 					{
-						nbt.setBoolean(field.getName(), (Boolean)field.get(owner.combatChore));
+						nbt.setBoolean(field.getName(), (Boolean) field.get(owner.combatChore));
 					}
 				}
 			}
 
-			catch (IllegalAccessException e)
+			catch (final IllegalAccessException e)
 			{
 				MCA.getInstance().getLogger().log(e);
 				continue;
@@ -205,7 +205,7 @@ public class ChoreCombat extends AbstractChore
 	}
 
 	@Override
-	public void readChoreFromNBT(NBTTagCompound nbt) 
+	public void readChoreFromNBT(NBTTagCompound nbt)
 	{
 		//Loop through each field in this class and read it from NBT.
 		for (final Field field : this.getClass().getFields())
@@ -241,7 +241,7 @@ public class ChoreCombat extends AbstractChore
 				}
 			}
 
-			catch (IllegalAccessException e)
+			catch (final IllegalAccessException e)
 			{
 				MCA.getInstance().getLogger().log(e);
 				continue;
@@ -250,31 +250,31 @@ public class ChoreCombat extends AbstractChore
 	}
 
 	@Override
-	protected int getDelayForToolType(ItemStack toolStack) 
+	protected int getDelayForToolType(ItemStack toolStack)
 	{
 		return 0;
 	}
 
 	@Override
-	protected String getChoreXpName() 
+	protected String getChoreXpName()
 	{
 		return null;
 	}
 
 	@Override
-	protected String getBaseLevelUpPhrase() 
+	protected String getBaseLevelUpPhrase()
 	{
 		return null;
 	}
 
 	@Override
-	protected float getChoreXp() 
+	protected float getChoreXp()
 	{
 		return 0;
 	}
 
 	@Override
-	protected void setChoreXp(float setAmount) 
+	protected void setChoreXp(float setAmount)
 	{
 		//Combat doesn't use XP.
 	}
@@ -416,21 +416,21 @@ public class ChoreCombat extends AbstractChore
 					{
 						if (closestEntity == null)
 						{
-							closestEntity = (EntityLivingBase)entity;
+							closestEntity = (EntityLivingBase) entity;
 						}
 
 						else
 						{
 							if (owner.getDistanceToEntity(entity) < owner.getDistanceToEntity(closestEntity))
 							{
-								closestEntity = (EntityLivingBase)entity;
+								closestEntity = (EntityLivingBase) entity;
 							}
 						}
 					}
 
 					else if (isUnknownEntityValidTarget(entity))
 					{
-						closestEntity = (EntityLivingBase)entity;
+						closestEntity = (EntityLivingBase) entity;
 					}
 				}
 			}
@@ -452,9 +452,9 @@ public class ChoreCombat extends AbstractChore
 			//Assume the owner killed their target and check for achievement.
 			if (owner instanceof EntityPlayerChild)
 			{
-				final EntityPlayerChild child = (EntityPlayerChild)owner;
+				final EntityPlayerChild child = (EntityPlayerChild) owner;
 				final EntityPlayer owner = child.worldObj.getPlayerEntityByName(child.ownerPlayerName);
-				
+
 				if (child.isAdult)
 				{
 					child.mobsKilled++;
@@ -474,11 +474,7 @@ public class ChoreCombat extends AbstractChore
 
 	private boolean canDoCreeperThrow()
 	{
-		return owner.name.equals("Shepard") && 
-				owner.target instanceof EntityCreeper && 
-				owner.getDistanceToEntity(owner.target) > 3 && 
-				owner.getDistanceToEntity(owner.target) < 15 && 
-				owner.worldObj.canBlockSeeTheSky((int)owner.target.posX, (int)owner.target.posY, (int)owner.target.posZ);
+		return owner.name.equals("Shepard") && owner.target instanceof EntityCreeper && owner.getDistanceToEntity(owner.target) > 3 && owner.getDistanceToEntity(owner.target) < 15 && owner.worldObj.canBlockSeeTheSky((int) owner.target.posX, (int) owner.target.posY, (int) owner.target.posZ);
 	}
 
 	private boolean canDoMeleeAttack()
@@ -488,18 +484,12 @@ public class ChoreCombat extends AbstractChore
 
 	private boolean canDoRangedAttack()
 	{
-		return owner.target != null &&
-				rangedAttackTime <= 0 && 
-				owner.inventory.getQuantityOfItem(Items.arrow) > 0 &&
-				LogicHelper.getDistanceToEntity(owner, owner.target) < 10 &&
-				owner.canEntityBeSeen(owner.target);
+		return owner.target != null && rangedAttackTime <= 0 && owner.inventory.getQuantityOfItem(Items.arrow) > 0 && LogicHelper.getDistanceToEntity(owner, owner.target) < 10 && owner.canEntityBeSeen(owner.target);
 	}
 
 	private boolean canDoCreeperExplosion()
 	{
-		return owner.name.equals("Shepard") && 
-				owner.target instanceof EntityCreeper && 
-				owner.target.posY - owner.posY >= 15;
+		return owner.name.equals("Shepard") && owner.target instanceof EntityCreeper && owner.target.posY - owner.posY >= 15;
 	}
 
 	private void doCreeperThrow()
@@ -529,8 +519,8 @@ public class ChoreCombat extends AbstractChore
 			final double distanceZ = owner.target.posZ - owner.posZ;
 			final float realDistance = MathHelper.sqrt_double(distanceX * distanceX + distanceZ * distanceZ);
 
-			owner.motionX = (distanceX / realDistance) * 0.5D * 0.8D + owner.motionX * 0.2D;
-			owner.motionZ = (distanceZ / realDistance) * 0.5D * 0.8D + owner.motionZ * 0.2D;
+			owner.motionX = distanceX / realDistance * 0.5D * 0.8D + owner.motionX * 0.2D;
+			owner.motionZ = distanceZ / realDistance * 0.5D * 0.8D + owner.motionZ * 0.2D;
 			owner.motionY = 0.4;
 		}
 	}
@@ -552,7 +542,7 @@ public class ChoreCombat extends AbstractChore
 
 	private void doCreeperExplosion()
 	{
-		final EntityCreeper targetCreeper = (EntityCreeper)owner.target;
+		final EntityCreeper targetCreeper = (EntityCreeper) owner.target;
 
 		if (!targetCreeper.worldObj.isRemote)
 		{
@@ -591,17 +581,11 @@ public class ChoreCombat extends AbstractChore
 
 	private boolean isSetToAttackEntity(Entity entity)
 	{
-		return entity instanceof EntityPig && attackPigs  			|| entity instanceof EntitySheep && attackSheep 		||
-				entity instanceof EntityCow && attackCows 			|| entity instanceof EntityChicken && attackChickens   	||
-				entity instanceof EntitySpider && attackSpiders     || entity instanceof EntityZombie && attackZombies     	||
-				entity instanceof EntitySkeleton && attackSkeletons || entity instanceof EntityCreeper && attackCreepers   	||
-				entity instanceof EntityEnderman && attackEndermen;
+		return entity instanceof EntityPig && attackPigs || entity instanceof EntitySheep && attackSheep || entity instanceof EntityCow && attackCows || entity instanceof EntityChicken && attackChickens || entity instanceof EntitySpider && attackSpiders || entity instanceof EntityZombie && attackZombies || entity instanceof EntitySkeleton && attackSkeletons || entity instanceof EntityCreeper && attackCreepers || entity instanceof EntityEnderman && attackEndermen;
 	}
-	
+
 	private boolean isUnknownEntityValidTarget(Entity entity)
 	{
-		return entity instanceof EntityMob && attackUnknown && !(entity instanceof EntityCreeper) &&
-				!(entity instanceof EntitySpider) && !(entity instanceof EntitySkeleton) && ! (entity instanceof EntityZombie) &&
-				!(entity instanceof EntityEnderman);
+		return entity instanceof EntityMob && attackUnknown && !(entity instanceof EntityCreeper) && !(entity instanceof EntitySpider) && !(entity instanceof EntitySkeleton) && !(entity instanceof EntityZombie) && !(entity instanceof EntityEnderman);
 	}
 }

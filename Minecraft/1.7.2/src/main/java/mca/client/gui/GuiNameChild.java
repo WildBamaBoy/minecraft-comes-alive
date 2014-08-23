@@ -30,7 +30,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class GuiNameChild extends AbstractGui
 {
 	private GuiTextField babyNameTextField;
-	private boolean isMale;
+	private final boolean isMale;
 	private boolean containsInvalidCharacters;
 
 	private GuiButton doneButton;
@@ -39,8 +39,8 @@ public class GuiNameChild extends AbstractGui
 	/**
 	 * Constructor
 	 * 
-	 * @param 	player	The player that opened this GUI.
-	 * @param 	isMale 	Is the baby a male?
+	 * @param player The player that opened this GUI.
+	 * @param isMale Is the baby a male?
 	 */
 	public GuiNameChild(EntityPlayer player, boolean isMale)
 	{
@@ -69,7 +69,7 @@ public class GuiNameChild extends AbstractGui
 			}
 		}
 
-		catch (NullPointerException e)
+		catch (final NullPointerException e)
 		{
 
 		}
@@ -104,8 +104,8 @@ public class GuiNameChild extends AbstractGui
 
 		else if (guibutton == doneButton)
 		{
-			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
-			
+			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
+
 			//Assign babyName the string that is in the text field, trimmed of whitespace.
 			MCA.getInstance().getWorldProperties(manager).babyName = babyNameTextField.getText().trim();
 			manager.saveWorldProperties();
@@ -131,12 +131,12 @@ public class GuiNameChild extends AbstractGui
 	protected void keyTyped(char c, int i)
 	{
 		babyNameTextField.textboxKeyTyped(c, i);
-		String text = babyNameTextField.getText().trim();
+		final String text = babyNameTextField.getText().trim();
 
 		if (text.contains("/") || text.contains("?") || text.contains("<") || text.contains(">") || text.contains("\\") || text.contains(":") || text.contains("*") || text.contains("|") || text.contains("\""))
 		{
 			containsInvalidCharacters = true;
-			((GuiButton)buttonList.get(0)).enabled = false;
+			((GuiButton) buttonList.get(0)).enabled = false;
 		}
 
 		else
@@ -159,19 +159,19 @@ public class GuiNameChild extends AbstractGui
 
 		if (isMale)
 		{
-			drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.title.namebaby.male"), width / 2, (height / 2) - 90, 0xffffff);
+			drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.title.namebaby.male"), width / 2, height / 2 - 90, 0xffffff);
 		}
 
 		else
 		{
-			drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.title.namebaby.female"), width / 2, (height / 2) - 90, 0xffffff);
+			drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.title.namebaby.female"), width / 2, height / 2 - 90, 0xffffff);
 		}
 
 		drawString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.title.namebaby"), width / 2 - 100, height / 2 - 70, 0xa0a0a0);
 
 		if (containsInvalidCharacters)
 		{
-			drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.info.namebaby.invalidcharacters"), width / 2, (height / 2) + 20, 0xCC0000);
+			drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.info.namebaby.invalidcharacters"), width / 2, height / 2 + 20, 0xCC0000);
 		}
 
 		babyNameTextField.drawTextBox();

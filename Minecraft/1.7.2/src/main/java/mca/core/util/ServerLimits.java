@@ -23,16 +23,15 @@ public final class ServerLimits
 	/**
 	 * Checks if the player has reached the baby limit.
 	 * 
-	 * @param 	player	The player whose number of children should be checked.
-	 * 
-	 * @return	True if the player is at or over the baby limit.
+	 * @param player The player whose number of children should be checked.
+	 * @return True if the player is at or over the baby limit.
 	 */
 	public static boolean hasPlayerReachedBabyLimit(EntityPlayer player)
 	{
 		final int childLimit = MCA.getInstance().getModProperties().server_childLimit;
 		final int playerId = MCA.getInstance().getIdOfPlayer(player);
 		int numberOfChildren = 0;
-		
+
 		for (final AbstractEntity entity : MCA.getInstance().entitiesMap.values())
 		{
 			if (entity instanceof EntityPlayerChild && entity.familyTree.getRelationOf(playerId) == EnumRelation.Parent)
@@ -40,7 +39,7 @@ public final class ServerLimits
 				numberOfChildren++;
 			}
 		}
-		
+
 		return childLimit == -1 ? false : numberOfChildren >= childLimit;
 	}
 }

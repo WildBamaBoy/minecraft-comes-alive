@@ -28,21 +28,21 @@ public class PacketOpenGui extends AbstractPacket implements IMessage, IMessageH
 	}
 
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		interactingEntityId = byteBuf.readInt();
 		guiId = byteBuf.readByte();
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(interactingEntityId);
 		byteBuf.writeByte(guiId);
 	}
 
 	@Override
-	public IMessage onMessage(PacketOpenGui packet, MessageContext context) 
+	public IMessage onMessage(PacketOpenGui packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
 		final Entity entity = player.worldObj.getEntityByID(packet.interactingEntityId);
@@ -59,9 +59,9 @@ public class PacketOpenGui extends AbstractPacket implements IMessage, IMessageH
 				MCA.getInstance().hasReceivedClientSetup = true;
 			}
 
-			player.openGui(MCA.getInstance(), packet.guiId, player.worldObj, (int)entity.posX, (int)entity.posY, (int)entity.posZ);
+			player.openGui(MCA.getInstance(), packet.guiId, player.worldObj, (int) entity.posX, (int) entity.posY, (int) entity.posZ);
 		}
-		
+
 		return null;
 	}
 }

@@ -27,10 +27,7 @@ public class TileEntityTombstone extends TileEntity
 	public boolean hasSynced;
 
 	/** The text displayed on the tombstone. */
-	public String signText[] =
-		{
-			"Here Lies", "", "", ""
-		};
+	public String signText[] = { "Here Lies", "", "", "" };
 
 	/**
 	 * Constructor
@@ -67,7 +64,7 @@ public class TileEntityTombstone extends TileEntity
 
 		for (int i = 0; i < 4; i++)
 		{
-			signText[i] = nbt.getString((new StringBuilder()).append("Text").append(i + 1).toString());
+			signText[i] = nbt.getString(new StringBuilder().append("Text").append(i + 1).toString());
 
 			if (signText[i].length() > 15)
 			{

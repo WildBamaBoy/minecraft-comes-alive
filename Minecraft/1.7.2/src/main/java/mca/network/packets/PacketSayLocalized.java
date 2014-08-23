@@ -34,10 +34,10 @@ public class PacketSayLocalized extends AbstractPacket implements IMessage, IMes
 	{
 		if (player != null)
 		{
-			this.playerName = player.getCommandSenderName();
+			playerName = player.getCommandSenderName();
 		}
 
-		this.entityId = speakerEntityId;
+		entityId = speakerEntityId;
 		this.phraseId = phraseId;
 		this.useCharacterType = useCharacterType;
 		this.prefix = prefix;
@@ -45,7 +45,7 @@ public class PacketSayLocalized extends AbstractPacket implements IMessage, IMes
 	}
 
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		hasPlayer = byteBuf.readBoolean();
 		hasEntity = byteBuf.readBoolean();
@@ -62,7 +62,7 @@ public class PacketSayLocalized extends AbstractPacket implements IMessage, IMes
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		hasPlayer = playerName != null;
 		hasEntity = entityId != null;
@@ -100,7 +100,7 @@ public class PacketSayLocalized extends AbstractPacket implements IMessage, IMes
 	}
 
 	@Override
-	public IMessage onMessage(PacketSayLocalized packet, MessageContext context) 
+	public IMessage onMessage(PacketSayLocalized packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
 		EntityPlayer receivedPlayer = null;
@@ -113,7 +113,7 @@ public class PacketSayLocalized extends AbstractPacket implements IMessage, IMes
 
 		if (packet.hasEntity)
 		{
-			entity = (AbstractEntity)player.worldObj.getEntityByID(packet.entityId);
+			entity = (AbstractEntity) player.worldObj.getEntityByID(packet.entityId);
 		}
 
 		if (packet.entityId != -1)

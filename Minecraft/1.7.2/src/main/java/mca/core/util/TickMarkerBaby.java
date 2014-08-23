@@ -20,16 +20,16 @@ public class TickMarkerBaby extends TickMarker
 	/**
 	 * Constructor
 	 * 
-	 * @param 	owner			The owner of this TickMarker.
-	 * @param 	durationInTicks	The duration of this TickMarker.
+	 * @param owner The owner of this TickMarker.
+	 * @param durationInTicks The duration of this TickMarker.
 	 */
-	public TickMarkerBaby(ITickableEntity owner, int durationInTicks) 
+	public TickMarkerBaby(ITickableEntity owner, int durationInTicks)
 	{
 		super(owner, durationInTicks);
 	}
 
 	@Override
-	public void onComplete() 
+	public void onComplete()
 	{
 		//TODO
 	}

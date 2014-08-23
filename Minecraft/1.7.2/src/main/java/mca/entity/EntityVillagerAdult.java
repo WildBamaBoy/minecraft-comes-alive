@@ -91,9 +91,9 @@ public class EntityVillagerAdult extends AbstractEntity
 	/**
 	 * Constructor
 	 * 
-	 * @param 	world	The world that the villager is being spawned in.
+	 * @param world The world that the villager is being spawned in.
 	 */
-	public EntityVillagerAdult(World world) 
+	public EntityVillagerAdult(World world)
 	{
 		super(world);
 		setSize(Constants.WIDTH_ADULT, Constants.HEIGHT_ADULT);
@@ -102,28 +102,28 @@ public class EntityVillagerAdult extends AbstractEntity
 	/**
 	 * Constructor
 	 * 
-	 * @param 	world			The world that the villager is being spawned in.
-	 * @param	professionID	The profession that this villager should be.
+	 * @param world The world that the villager is being spawned in.
+	 * @param professionID The profession that this villager should be.
 	 */
 	public EntityVillagerAdult(World world, int professionID)
 	{
 		this(world);
 
-		this.isMale = Utility.getRandomGender();
-		this.name = Utility.getRandomName(isMale);
-		this.profession = professionID;
-		this.setHealth(MCA.getInstance().getModProperties().villagerBaseHealth);
+		isMale = Utility.getRandomGender();
+		name = Utility.getRandomName(isMale);
+		profession = professionID;
+		setHealth(MCA.getInstance().getModProperties().villagerBaseHealth);
 
 		if (profession == 4) //Butcher
 		{
 			//There are no female skins for butchers. Always make them Male.
-			this.isMale = true;
-			this.name = Utility.getRandomName(isMale);
+			isMale = true;
+			name = Utility.getRandomName(isMale);
 		}
 
 		if (profession == 5)
 		{
-			this.setHealth(MCA.getInstance().getModProperties().villagerBaseHealth * 2);
+			setHealth(MCA.getInstance().getModProperties().villagerBaseHealth * 2);
 		}
 
 		this.setTexture();
@@ -132,9 +132,9 @@ public class EntityVillagerAdult extends AbstractEntity
 	/**
 	 * Constructor. Called when spawning from egg.
 	 * 
-	 * @param 	world			The world that the villager is being spawned in.
-	 * @param 	isMale			Is the villager a male?
-	 * @param 	professionID	The profession that the villager should be.
+	 * @param world The world that the villager is being spawned in.
+	 * @param isMale Is the villager a male?
+	 * @param professionID The profession that the villager should be.
 	 */
 	public EntityVillagerAdult(World world, boolean isMale, int professionID)
 	{
@@ -145,75 +145,75 @@ public class EntityVillagerAdult extends AbstractEntity
 			setHealth(MCA.getInstance().getModProperties().villagerBaseHealth);
 		}
 
-		this.name = Utility.getRandomName(isMale);
+		name = Utility.getRandomName(isMale);
 		this.isMale = isMale;
-		this.profession = !isMale && professionID == 4 ? 0 : professionID;
+		profession = !isMale && professionID == 4 ? 0 : professionID;
 		this.setTexture();
 	}
 
 	/**
 	 * Constructor
 	 * 
-	 * @param 	world	The world that the villager will spawn in.
-	 * @param 	child	An instance of the child becoming a villager.
+	 * @param world The world that the villager will spawn in.
+	 * @param child An instance of the child becoming a villager.
 	 */
 	public EntityVillagerAdult(World world, EntityVillagerChild child)
 	{
 		this(world);
 
-		this.texture = child.getTexture();
-		this.name = child.name;
-		this.isMale = child.isMale;
-		this.profession = child.profession;
-		this.lastInteractingPlayer = child.lastInteractingPlayer;
-		this.familyTree = child.familyTree;
-		this.inventory = child.inventory;
-		this.playerMemoryMap = child.playerMemoryMap;
-		this.homePointX = child.homePointX;
-		this.homePointY = child.homePointY;
-		this.homePointZ = child.homePointZ;
-		this.hasHomePoint = child.hasHomePoint;
-		this.generation = child.generation;
-		this.mcaID = child.mcaID;
+		texture = child.getTexture();
+		name = child.name;
+		isMale = child.isMale;
+		profession = child.profession;
+		lastInteractingPlayer = child.lastInteractingPlayer;
+		familyTree = child.familyTree;
+		inventory = child.inventory;
+		playerMemoryMap = child.playerMemoryMap;
+		homePointX = child.homePointX;
+		homePointY = child.homePointY;
+		homePointZ = child.homePointZ;
+		hasHomePoint = child.hasHomePoint;
+		generation = child.generation;
+		mcaID = child.mcaID;
 
-		this.addAI();
+		addAI();
 	}
 
 	@Override
-	public void addAI() 
+	public void addAI()
 	{
-		this.tasks.taskEntries.clear();
+		tasks.taskEntries.clear();
 
-		this.getNavigator().setBreakDoors(true);
-		this.getNavigator().setAvoidsWater(false);
-		this.getNavigator().setCanSwim(true);
+		getNavigator().setBreakDoors(true);
+		getNavigator().setAvoidsWater(false);
+		getNavigator().setCanSwim(true);
 
 		if (profession != 5 || isMarriedToPlayer)
 		{
-			this.tasks.addTask(0, new EntityAISwimming(this));
-			this.tasks.addTask(1, new EntityAIAvoidEntity(this, EntityZombie.class, 8.0F, Constants.SPEED_RUN, 0.35F));
-			this.tasks.addTask(2, new EntityAIMoveIndoors(this));
-			this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
-			this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
-			this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, Constants.SPEED_WALK));
-			this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
-			this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityVillagerAdult.class, 5.0F, 0.02F));
-			this.tasks.addTask(9, new EntityAIWander(this, Constants.SPEED_WALK));
-			this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLivingBase.class, 8.0F));
+			tasks.addTask(0, new EntityAISwimming(this));
+			tasks.addTask(1, new EntityAIAvoidEntity(this, EntityZombie.class, 8.0F, Constants.SPEED_RUN, 0.35F));
+			tasks.addTask(2, new EntityAIMoveIndoors(this));
+			tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
+			tasks.addTask(4, new EntityAIOpenDoor(this, true));
+			tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, Constants.SPEED_WALK));
+			tasks.addTask(9, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
+			tasks.addTask(9, new EntityAIWatchClosest2(this, EntityVillagerAdult.class, 5.0F, 0.02F));
+			tasks.addTask(9, new EntityAIWander(this, Constants.SPEED_WALK));
+			tasks.addTask(10, new EntityAIWatchClosest(this, EntityLivingBase.class, 8.0F));
 		}
 
 		else if (profession == 5)
 		{
-			this.getNavigator().setEnterDoors(false);
-			this.tasks.addTask(0, new EntityAIPatrolVillage(this));
-			this.tasks.addTask(1, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
-			this.tasks.addTask(2, new EntityAIWatchClosest(this, EntityLivingBase.class, 8.0F));
-			this.tasks.addTask(3, new EntityAILookIdle(this));
+			getNavigator().setEnterDoors(false);
+			tasks.addTask(0, new EntityAIPatrolVillage(this));
+			tasks.addTask(1, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
+			tasks.addTask(2, new EntityAIWatchClosest(this, EntityLivingBase.class, 8.0F));
+			tasks.addTask(3, new EntityAILookIdle(this));
 		}
 
-		for (AbstractVillagerPlugin plugin : VillagerRegistryMCA.getRegisteredVillagerPlugins())
+		for (final AbstractVillagerPlugin plugin : VillagerRegistryMCA.getRegisteredVillagerPlugins())
 		{
-			plugin.onAddAI(this, getVillagerInformation(), this.tasks, this.getNavigator());
+			plugin.onAddAI(this, getVillagerInformation(), tasks, getNavigator());
 		}
 	}
 
@@ -222,21 +222,21 @@ public class EntityVillagerAdult extends AbstractEntity
 	{
 		super.updateAITick();
 
-		if (--this.randomTick <= 0)
+		if (--randomTick <= 0)
 		{
-			this.worldObj.villageCollectionObj.addVillagerPosition(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
-			this.randomTick = 70 + this.rand.nextInt(50);
-			this.villageObj = this.worldObj.villageCollectionObj.findNearestVillage(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ), 32);
+			worldObj.villageCollectionObj.addVillagerPosition(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ));
+			randomTick = 70 + rand.nextInt(50);
+			villageObj = worldObj.villageCollectionObj.findNearestVillage(MathHelper.floor_double(posX), MathHelper.floor_double(posY), MathHelper.floor_double(posZ), 32);
 
-			if (this.villageObj == null)
+			if (villageObj == null)
 			{
-				this.detachHome();
+				detachHome();
 			}
 
 			else
 			{
-				final ChunkCoordinates chunkcoordinates = this.villageObj.getCenter();
-				this.setHomeArea(chunkcoordinates.posX, chunkcoordinates.posY, chunkcoordinates.posZ, (int)(this.villageObj.getVillageRadius() * Constants.SPEED_WALK));
+				final ChunkCoordinates chunkcoordinates = villageObj.getCenter();
+				setHomeArea(chunkcoordinates.posX, chunkcoordinates.posY, chunkcoordinates.posZ, (int) (villageObj.getVillageRadius() * Constants.SPEED_WALK));
 			}
 		}
 	}
@@ -298,7 +298,7 @@ public class EntityVillagerAdult extends AbstractEntity
 			final WorldPropertiesManager manager = entry.getValue();
 			boolean propertiesChanged = false;
 
-			if ((isMarriedToPlayer || isEngaged) && MCA.getInstance().getWorldProperties(manager).playerSpouseID == this.mcaID)
+			if ((isMarriedToPlayer || isEngaged) && MCA.getInstance().getWorldProperties(manager).playerSpouseID == mcaID)
 			{
 				propertiesChanged = true;
 				MCA.getInstance().getWorldProperties(manager).playerSpouseID = 0;
@@ -416,7 +416,7 @@ public class EntityVillagerAdult extends AbstractEntity
 						else if (isInChoreMode && profession == 7)
 						{
 							return new ItemStack(Items.iron_pickaxe);
-						}				
+						}
 					}
 				}
 			}
@@ -436,7 +436,8 @@ public class EntityVillagerAdult extends AbstractEntity
 			}
 		}
 
-		else //Passively holding an item.
+		else
+		//Passively holding an item.
 		{
 			if (isMarriedToPlayer)
 			{
@@ -452,7 +453,7 @@ public class EntityVillagerAdult extends AbstractEntity
 			}
 
 			else
-			{		
+			{
 				if (hasBaby)
 				{
 					if (isHeldBabyMale)
@@ -485,11 +486,14 @@ public class EntityVillagerAdult extends AbstractEntity
 	public int getProfession()
 	{
 		//Workaround for trading.
-		switch (this.profession)
+		switch (profession)
 		{
-		case 6: return 0;
-		case 7: return 3;
-		default: return this.profession;
+			case 6:
+				return 0;
+			case 7:
+				return 3;
+			default:
+				return profession;
 		}
 	}
 
@@ -507,14 +511,14 @@ public class EntityVillagerAdult extends AbstractEntity
 			{
 				if (itemStack.getItem() instanceof ItemVillagerEditor)
 				{
-					MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_EDITOR), (EntityPlayerMP)player);
+					MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_EDITOR), (EntityPlayerMP) player);
 					return true;
 				}
 
 				else if (itemStack.getItem() instanceof ItemLostRelativeDocument)
 				{
-					EnumRelation relationToPlayer = familyTree.getMyRelationTo(MCA.getInstance().getIdOfPlayer(player));
-					
+					final EnumRelation relationToPlayer = familyTree.getMyRelationTo(MCA.getInstance().getIdOfPlayer(player));
+
 					if (relationToPlayer == EnumRelation.Spouse || relationToPlayer == EnumRelation.Husband || relationToPlayer == EnumRelation.Mother)
 					{
 						say(MCA.getInstance().getLanguageLoader().getString("notify.villager.gifted.arrangerring.relative", player, this, false));
@@ -523,7 +527,7 @@ public class EntityVillagerAdult extends AbstractEntity
 
 					else
 					{
-						MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_LRD), (EntityPlayerMP)player);
+						MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_LRD), (EntityPlayerMP) player);
 						return true;
 					}
 				}
@@ -546,12 +550,12 @@ public class EntityVillagerAdult extends AbstractEntity
 			{
 				if (familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) == EnumRelation.Spouse)
 				{
-					MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_SPOUSE), (EntityPlayerMP)player);
+					MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_SPOUSE), (EntityPlayerMP) player);
 				}
 
 				else
 				{
-					MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_ADULT), (EntityPlayerMP)player);
+					MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_ADULT), (EntityPlayerMP) player);
 				}
 			}
 
@@ -560,7 +564,7 @@ public class EntityVillagerAdult extends AbstractEntity
 				memory.isInGiftMode = false;
 				playerMemoryMap.put(player.getCommandSenderName(), memory);
 
-				WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
+				final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
 
 				if (itemStack.getItem() instanceof ItemWeddingRing && !MCA.getInstance().getWorldProperties(manager).isInLiteMode)
 				{
@@ -590,10 +594,9 @@ public class EntityVillagerAdult extends AbstractEntity
 
 				else if (itemStack.getItem() instanceof ItemArrangersRing && !MCA.getInstance().getWorldProperties(manager).isInLiteMode)
 				{
-					final EnumRelation relationToPlayer = this.familyTree.getMyRelationTo(MCA.getInstance().getIdOfPlayer(player));
+					final EnumRelation relationToPlayer = familyTree.getMyRelationTo(MCA.getInstance().getIdOfPlayer(player));
 
-					if (relationToPlayer != EnumRelation.None && relationToPlayer != EnumRelation.Granddaughter && relationToPlayer != EnumRelation.Grandson &&
-							relationToPlayer != EnumRelation.Greatgranddaughter && relationToPlayer != EnumRelation.Greatgrandson)
+					if (relationToPlayer != EnumRelation.None && relationToPlayer != EnumRelation.Granddaughter && relationToPlayer != EnumRelation.Grandson && relationToPlayer != EnumRelation.Greatgranddaughter && relationToPlayer != EnumRelation.Greatgrandson)
 					{
 						say(MCA.getInstance().getLanguageLoader().getString("notify.villager.gifted.arrangerring.relative", player, this, false));
 					}
@@ -621,7 +624,7 @@ public class EntityVillagerAdult extends AbstractEntity
 
 				else if (itemStack.getItem() instanceof ItemArmor)
 				{
-					final ItemArmor armor = (ItemArmor)itemStack.getItem();
+					final ItemArmor armor = (ItemArmor) itemStack.getItem();
 					final ItemStack transferStack = new ItemStack(itemStack.getItem(), 1, itemStack.getItemDamage());
 
 					if (armor.getArmorMaterial() == ArmorMaterial.CLOTH)
@@ -649,7 +652,7 @@ public class EntityVillagerAdult extends AbstractEntity
 					doGift(itemStack, player);
 				}
 
-				MCA.packetHandler.sendPacketToPlayer(new PacketSetFieldValue(getEntityId(), "playerMemoryMap", playerMemoryMap), (EntityPlayerMP)player);
+				MCA.packetHandler.sendPacketToPlayer(new PacketSetFieldValue(getEntityId(), "playerMemoryMap", playerMemoryMap), (EntityPlayerMP) player);
 			}
 		}
 
@@ -659,8 +662,8 @@ public class EntityVillagerAdult extends AbstractEntity
 	/**
 	 * Handle the gift of TNT.
 	 * 
-	 * @param 	itemStack	The item stack containing the TNT.
-	 * @param	player		The player gifting the TNT.
+	 * @param itemStack The item stack containing the TNT.
+	 * @param player The player gifting the TNT.
 	 */
 	private void doGiftOfTNT(ItemStack itemStack, EntityPlayer player)
 	{
@@ -692,7 +695,7 @@ public class EntityVillagerAdult extends AbstractEntity
 		else
 		{
 			combatChore.useMelee = false;
-			combatChore.useRange = false;	
+			combatChore.useRange = false;
 		}
 	}
 

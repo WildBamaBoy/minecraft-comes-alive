@@ -27,21 +27,21 @@ public class PacketUpdateFurnace extends AbstractPacket implements IMessage, IMe
 	}
 
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		entityId = byteBuf.readInt();
 		state = byteBuf.readBoolean();
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(entityId);
 		byteBuf.writeBoolean(state);
 	}
 
 	@Override
-	public IMessage onMessage(PacketUpdateFurnace packet, MessageContext context) 
+	public IMessage onMessage(PacketUpdateFurnace packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
 		final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(packet.entityId);
@@ -50,7 +50,7 @@ public class PacketUpdateFurnace extends AbstractPacket implements IMessage, IMe
 		{
 			BlockFurnace.updateFurnaceBlockState(packet.state, entity.worldObj, entity.cookingChore.furnacePosX, entity.cookingChore.furnacePosY, entity.cookingChore.furnacePosZ);
 		}
-		
+
 		return null;
 	}
 }

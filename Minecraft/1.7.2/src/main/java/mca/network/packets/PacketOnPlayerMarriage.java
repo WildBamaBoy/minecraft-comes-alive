@@ -17,7 +17,7 @@ public class PacketOnPlayerMarriage extends AbstractPacket implements IMessage, 
 	private int playerId;
 	private String playerName;
 	private int spouseId;
-	
+
 	public PacketOnPlayerMarriage()
 	{
 	}
@@ -30,15 +30,15 @@ public class PacketOnPlayerMarriage extends AbstractPacket implements IMessage, 
 	}
 
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
-		this.playerId = byteBuf.readInt();
-		this.playerName = (String)ByteBufIO.readObject(byteBuf);
-		this.spouseId = byteBuf.readInt();
+		playerId = byteBuf.readInt();
+		playerName = (String) ByteBufIO.readObject(byteBuf);
+		spouseId = byteBuf.readInt();
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(playerId);
 		ByteBufIO.writeObject(byteBuf, playerName);
@@ -46,7 +46,7 @@ public class PacketOnPlayerMarriage extends AbstractPacket implements IMessage, 
 	}
 
 	@Override
-	public IMessage onMessage(PacketOnPlayerMarriage packet, MessageContext context) 
+	public IMessage onMessage(PacketOnPlayerMarriage packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
 
@@ -56,7 +56,7 @@ public class PacketOnPlayerMarriage extends AbstractPacket implements IMessage, 
 
 		player.addChatMessage(new ChatComponentText(displayString));
 		player.inventory.consumeInventoryItem(MCA.getInstance().itemWeddingRing);
-		
+
 		return null;
 	}
 }

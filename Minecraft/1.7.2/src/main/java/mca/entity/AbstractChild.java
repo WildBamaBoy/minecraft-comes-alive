@@ -20,8 +20,8 @@ import net.minecraft.world.World;
 public abstract class AbstractChild extends AbstractEntity
 {
 	/** The age of the child in minutes. */
-	public  int age;
-	
+	public int age;
+
 	/** Is the child ready to grow up? */
 	public boolean isReadyToGrow;
 
@@ -37,7 +37,7 @@ public abstract class AbstractChild extends AbstractEntity
 	/**
 	 * Constructor
 	 * 
-	 * @param 	world	An instance of the world object.
+	 * @param world An instance of the world object.
 	 */
 	public AbstractChild(World world)
 	{

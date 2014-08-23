@@ -28,17 +28,17 @@ import net.minecraft.village.VillageDoorInfo;
 public class EntityAIPatrolVillage extends EntityAIBase
 {
 	/** The guard running this AI task. */
-	private EntityVillagerAdult guard;
+	private final EntityVillagerAdult guard;
 
 	private PathEntity entityPathNavigate;
 	private VillageDoorInfo doorInfo;
-	private List doorList = new ArrayList();
+	private final List doorList = new ArrayList();
 
 	/**
 	 * Constructor
 	 * 
-	 * @param 	guard	An instance of the guard performing this AI task.
-     */
+	 * @param guard An instance of the guard performing this AI task.
+	 */
 	public EntityAIPatrolVillage(EntityVillagerAdult guard)
 	{
 		this.guard = guard;
@@ -47,20 +47,20 @@ public class EntityAIPatrolVillage extends EntityAIBase
 	/**
 	 * Returns whether the EntityAIBase should begin execution.
 	 * 
-	 * @return	True if AI should execute.
+	 * @return True if AI should execute.
 	 */
 	@Override
 	public boolean shouldExecute()
-	{		
-		this.removeNextDoor();
+	{
+		removeNextDoor();
 
-		Village village = this.guard.villageObj;
+		final Village village = guard.villageObj;
 
 		if (village != null)
 		{
-			this.doorInfo = this.getDoorInfo(village);
+			doorInfo = getDoorInfo(village);
 
-			if (this.doorInfo == null)
+			if (doorInfo == null)
 			{
 				if (guard.villageObj.getVillageDoorInfoList().size() == doorList.size())
 				{
@@ -72,19 +72,19 @@ public class EntityAIPatrolVillage extends EntityAIBase
 
 			else
 			{
-				boolean flag = this.guard.getNavigator().getCanBreakDoors();
-				this.guard.getNavigator().setBreakDoors(false);
-				this.entityPathNavigate = this.guard.getNavigator().getPathToXYZ(this.doorInfo.posX, this.doorInfo.posY, this.doorInfo.posZ);
-				this.guard.getNavigator().setBreakDoors(flag);
+				final boolean flag = guard.getNavigator().getCanBreakDoors();
+				guard.getNavigator().setBreakDoors(false);
+				entityPathNavigate = guard.getNavigator().getPathToXYZ(doorInfo.posX, doorInfo.posY, doorInfo.posZ);
+				guard.getNavigator().setBreakDoors(flag);
 
-				if (this.entityPathNavigate != null)
+				if (entityPathNavigate != null)
 				{
 					return true;
 				}
 
 				else
 				{
-					Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(this.guard, 10, 7, this.guard.worldObj.getWorldVec3Pool().getVecFromPool(this.doorInfo.posX, this.doorInfo.posY, this.doorInfo.posZ));
+					final Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(guard, 10, 7, guard.worldObj.getWorldVec3Pool().getVecFromPool(doorInfo.posX, doorInfo.posY, doorInfo.posZ));
 
 					if (vec3 == null)
 					{
@@ -93,10 +93,10 @@ public class EntityAIPatrolVillage extends EntityAIBase
 
 					else
 					{
-						this.guard.getNavigator().setBreakDoors(false);
-						this.entityPathNavigate = this.guard.getNavigator().getPathToXYZ(vec3.xCoord, vec3.yCoord, vec3.zCoord);
-						this.guard.getNavigator().setBreakDoors(flag);
-						return this.entityPathNavigate != null;
+						guard.getNavigator().setBreakDoors(false);
+						entityPathNavigate = guard.getNavigator().getPathToXYZ(vec3.xCoord, vec3.yCoord, vec3.zCoord);
+						guard.getNavigator().setBreakDoors(flag);
+						return entityPathNavigate != null;
 					}
 				}
 			}
@@ -111,20 +111,20 @@ public class EntityAIPatrolVillage extends EntityAIBase
 	/**
 	 * Returns whether an in-progress EntityAIBase should continue executing
 	 * 
-	 * @return	True if AI should continue executing.
+	 * @return True if AI should continue executing.
 	 */
 	@Override
 	public boolean continueExecuting()
 	{
-		if (this.guard.getNavigator().noPath())
+		if (guard.getNavigator().noPath())
 		{
 			return false;
 		}
 
 		else
 		{
-			float f = this.guard.width + 4.0F;
-			return this.guard.getDistanceSq(this.doorInfo.posX, this.doorInfo.posY, this.doorInfo.posZ) > f * f;
+			final float f = guard.width + 4.0F;
+			return guard.getDistanceSq(doorInfo.posX, doorInfo.posY, doorInfo.posZ) > f * f;
 		}
 	}
 
@@ -134,7 +134,7 @@ public class EntityAIPatrolVillage extends EntityAIBase
 	@Override
 	public void startExecuting()
 	{
-		this.guard.getNavigator().setPath(this.entityPathNavigate, Constants.SPEED_WALK);
+		guard.getNavigator().setPath(entityPathNavigate, Constants.SPEED_WALK);
 	}
 
 	/**
@@ -143,32 +143,31 @@ public class EntityAIPatrolVillage extends EntityAIBase
 	@Override
 	public void resetTask()
 	{
-		if (this.guard.getNavigator().noPath() || this.guard.getDistanceSq(this.doorInfo.posX, this.doorInfo.posY, this.doorInfo.posZ) < 16.0D)
+		if (guard.getNavigator().noPath() || guard.getDistanceSq(doorInfo.posX, doorInfo.posY, doorInfo.posZ) < 16.0D)
 		{
-			this.doorList.add(this.doorInfo);
+			doorList.add(doorInfo);
 		}
 	}
 
 	/**
 	 * Gets the number and location of each door in the village.
 	 * 
-	 * @param 	village	An instance of the village this AI is running in.
-	 * 
-	 * @return	VillageDoorInfo object containing
+	 * @param village An instance of the village this AI is running in.
+	 * @return VillageDoorInfo object containing
 	 */
 	private VillageDoorInfo getDoorInfo(Village village)
 	{
 		VillageDoorInfo villagedoorinfo = null;
 		int i = Integer.MAX_VALUE;
-		List list = village.getVillageDoorInfoList();
-		Iterator iterator = list.iterator();
+		final List list = village.getVillageDoorInfoList();
+		final Iterator iterator = list.iterator();
 
 		while (iterator.hasNext())
 		{
-			VillageDoorInfo villagedoorinfo1 = (VillageDoorInfo)iterator.next();
-			int j = villagedoorinfo1.getDistanceSquared(MathHelper.floor_double(this.guard.posX), MathHelper.floor_double(this.guard.posY), MathHelper.floor_double(this.guard.posZ));
+			final VillageDoorInfo villagedoorinfo1 = (VillageDoorInfo) iterator.next();
+			final int j = villagedoorinfo1.getDistanceSquared(MathHelper.floor_double(guard.posX), MathHelper.floor_double(guard.posY), MathHelper.floor_double(guard.posZ));
 
-			if (j < i && !this.func_75413_a(villagedoorinfo1))
+			if (j < i && !func_75413_a(villagedoorinfo1))
 			{
 				villagedoorinfo = villagedoorinfo1;
 				i = j;
@@ -181,13 +180,12 @@ public class EntityAIPatrolVillage extends EntityAIBase
 	/**
 	 * Unknown function.
 	 * 
-	 * @param 	villageDoorInfo	An instance of a VillageDoorInfo object.
-	 * 
-	 * @return	Unknown boolean.
+	 * @param villageDoorInfo An instance of a VillageDoorInfo object.
+	 * @return Unknown boolean.
 	 */
 	private boolean func_75413_a(VillageDoorInfo villageDoorInfo)
 	{
-		Iterator iterator = this.doorList.iterator();
+		final Iterator iterator = doorList.iterator();
 		VillageDoorInfo tempDoorInfo;
 
 		do
@@ -197,7 +195,7 @@ public class EntityAIPatrolVillage extends EntityAIBase
 				return false;
 			}
 
-			tempDoorInfo = (VillageDoorInfo)iterator.next();
+			tempDoorInfo = (VillageDoorInfo) iterator.next();
 		}
 		while (villageDoorInfo.posX != tempDoorInfo.posX || villageDoorInfo.posY != tempDoorInfo.posY || villageDoorInfo.posZ != tempDoorInfo.posZ);
 
@@ -209,9 +207,9 @@ public class EntityAIPatrolVillage extends EntityAIBase
 	 */
 	private void removeNextDoor()
 	{
-		if (this.doorList.size() > 15)
+		if (doorList.size() > 15)
 		{
-			this.doorList.remove(0);
+			doorList.remove(0);
 		}
 	}
 }

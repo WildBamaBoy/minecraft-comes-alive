@@ -60,7 +60,7 @@ public class ChoreHunting extends AbstractChore
 	/**
 	 * Constructor
 	 * 
-	 * @param 	entity	The entity performing the chore.
+	 * @param entity The entity performing the chore.
 	 */
 	public ChoreHunting(AbstractEntity entity)
 	{
@@ -70,10 +70,10 @@ public class ChoreHunting extends AbstractChore
 	/**
 	 * Constructor
 	 * 
-	 * @param 	entity		The owner of the hunting chore.
-	 * @param 	huntingMode	The hunting mode that the hunting chore will use.
+	 * @param entity The owner of the hunting chore.
+	 * @param huntingMode The hunting mode that the hunting chore will use.
 	 */
-	public ChoreHunting(AbstractEntity entity, int huntingMode) 
+	public ChoreHunting(AbstractEntity entity, int huntingMode)
 	{
 		super(entity);
 		this.huntingMode = huntingMode;
@@ -91,24 +91,22 @@ public class ChoreHunting extends AbstractChore
 		}
 
 		huntingTimePassed = 0;
-		huntingReturnTime = MCA.getInstance().inDebugMode ? 100 : 
-			getChoreXp() >= 20.0F ? Time.MINUTE * 1 : 
-				Time.MINUTE * (owner.worldObj.rand.nextInt(5) + 1);
-			hasWeapon = doesOwnerHaveWeapon();
-			hasArmor = doesOwnerHaveArmor();
+		huntingReturnTime = MCA.getInstance().inDebugMode ? 100 : getChoreXp() >= 20.0F ? Time.MINUTE * 1 : Time.MINUTE * (owner.worldObj.rand.nextInt(5) + 1);
+		hasWeapon = doesOwnerHaveWeapon();
+		hasArmor = doesOwnerHaveArmor();
 
-			owner.isFollowing = false;
-			owner.isStaying = false;
-			hasBegun = true;
+		owner.isFollowing = false;
+		owner.isStaying = false;
+		hasBegun = true;
 
-			if (!owner.worldObj.isRemote && owner instanceof EntityPlayerChild)
-			{
-				owner.say(MCA.getInstance().getLanguageLoader().getString("chore.start.hunting", owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, true));
-			}
+		if (!owner.worldObj.isRemote && owner instanceof EntityPlayerChild)
+		{
+			owner.say(MCA.getInstance().getLanguageLoader().getString("chore.start.hunting", owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, true));
+		}
 	}
 
 	@Override
-	public void runChoreAI() 
+	public void runChoreAI()
 	{
 		if (!owner.worldObj.isRemote)
 		{
@@ -118,12 +116,12 @@ public class ChoreHunting extends AbstractChore
 
 				if (didChildDieWhileHunting())
 				{
-					final EntityPlayer ownerPlayer = RadixCore.getPlayerByName(((EntityPlayerChild)owner).ownerPlayerName);
+					final EntityPlayer ownerPlayer = RadixCore.getPlayerByName(((EntityPlayerChild) owner).ownerPlayerName);
 					owner.notifyPlayer(ownerPlayer, MCA.getInstance().getLanguageLoader().getString("notify.child.chore.failed.hunting.death", null, owner, false));
-					
+
 					if (owner instanceof EntityPlayerChild)
 					{
-						final EntityPlayerChild child = (EntityPlayerChild)owner;
+						final EntityPlayerChild child = (EntityPlayerChild) owner;
 						final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(child.ownerPlayerName);
 
 						if (manager != null && MCA.getInstance().getWorldProperties(manager).heirId == child.mcaID)
@@ -132,14 +130,14 @@ public class ChoreHunting extends AbstractChore
 							manager.saveWorldProperties();
 						}
 					}
-					
+
 					owner.setDeadWithoutNotification();
 					endChore();
 				}
 
 				else
 				{
-					for (HuntableAnimal entry : ChoreRegistry.getHuntingAnimalEntries())
+					for (final HuntableAnimal entry : ChoreRegistry.getHuntingAnimalEntries())
 					{
 						final int successAmount = doCalculateHuntingResults(entry, owner.worldObj.rand.nextInt(10));
 
@@ -163,7 +161,8 @@ public class ChoreHunting extends AbstractChore
 				}
 			}
 
-			else //It is not time to return from hunting.
+			else
+			//It is not time to return from hunting.
 			{
 				doHuntingUpdate();
 			}
@@ -171,20 +170,20 @@ public class ChoreHunting extends AbstractChore
 	}
 
 	@Override
-	public String getChoreName() 
+	public String getChoreName()
 	{
 		return "Hunting";
 	}
 
 	@Override
-	public void endChore() 
+	public void endChore()
 	{
 		hasEnded = true;
 		MCA.packetHandler.sendPacketToAllPlayers(new PacketSetChore(owner.getEntityId(), this));
 	}
 
 	@Override
-	public void writeChoreToNBT(NBTTagCompound nbt) 
+	public void writeChoreToNBT(NBTTagCompound nbt)
 	{
 		//Loop through each field in this class and write to NBT.
 		for (final Field field : this.getClass().getFields())
@@ -220,7 +219,7 @@ public class ChoreHunting extends AbstractChore
 				}
 			}
 
-			catch (IllegalAccessException e)
+			catch (final IllegalAccessException e)
 			{
 				MCA.getInstance().getLogger().log(e);
 				continue;
@@ -229,7 +228,7 @@ public class ChoreHunting extends AbstractChore
 	}
 
 	@Override
-	public void readChoreFromNBT(NBTTagCompound nbt) 
+	public void readChoreFromNBT(NBTTagCompound nbt)
 	{
 		//Loop through each field in this class and read from NBT.
 		for (final Field field : this.getClass().getFields())
@@ -265,7 +264,7 @@ public class ChoreHunting extends AbstractChore
 				}
 			}
 
-			catch (IllegalAccessException e)
+			catch (final IllegalAccessException e)
 			{
 				MCA.getInstance().getLogger().log(e);
 				continue;
@@ -274,31 +273,31 @@ public class ChoreHunting extends AbstractChore
 	}
 
 	@Override
-	protected int getDelayForToolType(ItemStack toolStack) 
+	protected int getDelayForToolType(ItemStack toolStack)
 	{
 		return 0;
 	}
 
 	@Override
-	protected String getChoreXpName() 
+	protected String getChoreXpName()
 	{
 		return "xpLvlHunting";
 	}
 
 	@Override
-	protected String getBaseLevelUpPhrase() 
+	protected String getBaseLevelUpPhrase()
 	{
 		return "notify.child.chore.levelup.hunting";
 	}
 
 	@Override
-	protected float getChoreXp() 
+	protected float getChoreXp()
 	{
 		return owner.xpLvlHunting;
 	}
 
 	@Override
-	protected void setChoreXp(float setAmount) 
+	protected void setChoreXp(float setAmount)
 	{
 		owner.xpLvlHunting = setAmount;
 	}
@@ -383,7 +382,7 @@ public class ChoreHunting extends AbstractChore
 	{
 		if (owner instanceof EntityPlayerChild)
 		{
-			final EntityPlayerChild child = (EntityPlayerChild)owner;
+			final EntityPlayerChild child = (EntityPlayerChild) owner;
 			child.animalsKilled += successAmount;
 
 			//Check for achievement
@@ -420,7 +419,7 @@ public class ChoreHunting extends AbstractChore
 		//Update fields on a child that have to do with achievements.
 		if (owner instanceof EntityPlayerChild)
 		{
-			EntityPlayerChild child = (EntityPlayerChild)owner;
+			final EntityPlayerChild child = (EntityPlayerChild) owner;
 			child.animalsTamed += animalsTamed;
 
 			//Check for achievement
@@ -441,7 +440,7 @@ public class ChoreHunting extends AbstractChore
 		//Update fields on a child that have to do with achievements.
 		if (owner instanceof EntityPlayerChild)
 		{
-			EntityPlayerChild child = (EntityPlayerChild)owner;
+			final EntityPlayerChild child = (EntityPlayerChild) owner;
 			child.animalsKilled += animalsKilled;
 
 			//Check for achievement
@@ -478,7 +477,7 @@ public class ChoreHunting extends AbstractChore
 				}
 			}
 
-			catch (Throwable e)
+			catch (final Throwable e)
 			{
 				MCA.getInstance().getLogger().log("WARNING: Error while spawning tamed animals. Requires a constructor that only accepts a World as an argument.");
 				MCA.getInstance().getLogger().log(e);
@@ -488,13 +487,11 @@ public class ChoreHunting extends AbstractChore
 
 	private boolean doesOwnerHaveArmor()
 	{
-		return owner.inventory.armorItemInSlot(0) != null || owner.inventory.armorItemInSlot(1) != null ||
-				owner.inventory.armorItemInSlot(2) != null || owner.inventory.armorItemInSlot(3) != null;
+		return owner.inventory.armorItemInSlot(0) != null || owner.inventory.armorItemInSlot(1) != null || owner.inventory.armorItemInSlot(2) != null || owner.inventory.armorItemInSlot(3) != null;
 	}
 
 	private boolean doesOwnerHaveWeapon()
 	{
-		return owner.inventory.getBestItemOfType(ItemSword.class) != null || 
-				owner.inventory.getBestItemOfType(ItemBow.class) != null;
+		return owner.inventory.getBestItemOfType(ItemSword.class) != null || owner.inventory.getBestItemOfType(ItemBow.class) != null;
 	}
 }

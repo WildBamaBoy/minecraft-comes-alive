@@ -25,22 +25,22 @@ import cpw.mods.fml.relauncher.SideOnly;
  */
 public class ItemArrangersRing extends Item
 {
-    /**
-     * Constructor
-     */
-    public ItemArrangersRing()
-    {
-        super();
-        maxStackSize = 1;
-        setCreativeTab(CreativeTabs.tabMisc);
-    }
-    
-    @Override
-    public void registerIcons(IIconRegister IIconRegister)
-    {
-    	itemIcon = IIconRegister.registerIcon("mca:ArrangerRing");
-    }
-    
+	/**
+	 * Constructor
+	 */
+	public ItemArrangersRing()
+	{
+		super();
+		maxStackSize = 1;
+		setCreativeTab(CreativeTabs.tabMisc);
+	}
+
+	@Override
+	public void registerIcons(IIconRegister IIconRegister)
+	{
+		itemIcon = IIconRegister.registerIcon("mca:ArrangerRing");
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List informationList, boolean unknown)

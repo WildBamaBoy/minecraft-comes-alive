@@ -12,14 +12,14 @@ package mca.api.villagers;
 /**
  * List of possible villager types.
  */
-public enum EnumVillagerType 
+public enum EnumVillagerType
 {
 	/** A regular, adult villager. */
 	VillagerAdult,
-	
+
 	/** The child of two vilagers, not grown up yet. */
 	VillagerChild,
-	
+
 	/** The child of a player, either grown or still a child. */
 	PlayerChild;
 }

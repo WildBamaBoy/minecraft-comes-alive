@@ -24,19 +24,19 @@ public class PacketStopJumping extends AbstractPacket implements IMessage, IMess
 	}
 
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		entityId = byteBuf.readInt();
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(entityId);
 	}
 
 	@Override
-	public IMessage onMessage(PacketStopJumping packet, MessageContext context) 
+	public IMessage onMessage(PacketStopJumping packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
 		final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(packet.entityId);

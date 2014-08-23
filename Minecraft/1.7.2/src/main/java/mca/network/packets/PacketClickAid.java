@@ -13,7 +13,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketClickAid  extends AbstractPacket implements IMessage, IMessageHandler<PacketClickAid, IMessage>
+public class PacketClickAid extends AbstractPacket implements IMessage, IMessageHandler<PacketClickAid, IMessage>
 {
 	private int interactingEntityId;
 
@@ -27,23 +27,22 @@ public class PacketClickAid  extends AbstractPacket implements IMessage, IMessag
 	}
 
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		interactingEntityId = byteBuf.readInt();
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(interactingEntityId);
 	}
 
 	@Override
-	public IMessage onMessage(PacketClickAid packet, MessageContext context) 
+	public IMessage onMessage(PacketClickAid packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
 		final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(packet.interactingEntityId);
-		final ItemStack dropStack = null;
 		Object[] giftInfo = null;
 
 		if (entity != null)
@@ -63,10 +62,10 @@ public class PacketClickAid  extends AbstractPacket implements IMessage, IMessag
 				giftInfo = Constants.bakerAidIDs[entity.worldObj.rand.nextInt(Constants.bakerAidIDs.length)];
 			}
 
-			int quantityGiven = entity.worldObj.rand.nextInt(Integer.parseInt(giftInfo[2].toString())) + Integer.parseInt(giftInfo[1].toString());
-			entity.entityDropItem(new ItemStack((Item)giftInfo[0], quantityGiven), 0.2F);
+			final int quantityGiven = entity.worldObj.rand.nextInt(Integer.parseInt(giftInfo[2].toString())) + Integer.parseInt(giftInfo[1].toString());
+			entity.entityDropItem(new ItemStack((Item) giftInfo[0], quantityGiven), 0.2F);
 		}
-		
+
 		return null;
 	}
 }

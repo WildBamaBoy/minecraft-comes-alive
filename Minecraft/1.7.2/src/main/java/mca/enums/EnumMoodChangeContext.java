@@ -12,12 +12,7 @@ package mca.enums;
 /**
  * Used to determine which mood is modified.
  */
-public enum EnumMoodChangeContext 
+public enum EnumMoodChangeContext
 {
-	GoodInteraction,
-	BadInteraction,
-	HitByPlayer,
-	SleepInterrupted,
-	MoodCycle,
-	WitnessDeath;
+	GoodInteraction, BadInteraction, HitByPlayer, SleepInterrupted, MoodCycle, WitnessDeath;
 }

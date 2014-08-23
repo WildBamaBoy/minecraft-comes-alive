@@ -13,30 +13,30 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 public class PacketRemoveBabyRequest extends AbstractPacket implements IMessage, IMessageHandler<PacketRemoveBabyRequest, IMessage>
 {
 	private String playerName;
-	
+
 	public PacketRemoveBabyRequest()
 	{
 	}
-	
+
 	public PacketRemoveBabyRequest(String playerName)
 	{
 		this.playerName = playerName;
 	}
-	
+
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
-		this.playerName = (String) ByteBufIO.readObject(byteBuf);
+		playerName = (String) ByteBufIO.readObject(byteBuf);
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		ByteBufIO.writeObject(byteBuf, playerName);
 	}
 
 	@Override
-	public IMessage onMessage(PacketRemoveBabyRequest packet, MessageContext context) 
+	public IMessage onMessage(PacketRemoveBabyRequest packet, MessageContext context)
 	{
 		MCA.getInstance().babyRequests.remove(packet.playerName);
 		return null;

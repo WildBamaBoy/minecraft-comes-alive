@@ -20,33 +20,33 @@ public class PacketNotifyPlayer extends AbstractPacket implements IMessage, IMes
 {
 	private int entityId;
 	private String phraseId;
-	
+
 	public PacketNotifyPlayer()
 	{
 	}
-	
+
 	public PacketNotifyPlayer(int entityId, String phraseId)
 	{
 		this.entityId = entityId;
 		this.phraseId = phraseId;
 	}
-	
+
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		entityId = byteBuf.readInt();
 		phraseId = (String) ByteBufIO.readObject(byteBuf);
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(entityId);
 		ByteBufIO.writeObject(byteBuf, phraseId);
 	}
 
 	@Override
-	public IMessage onMessage(PacketNotifyPlayer packet, MessageContext context) 
+	public IMessage onMessage(PacketNotifyPlayer packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
 		AbstractEntity entity = null;
@@ -59,7 +59,7 @@ public class PacketNotifyPlayer extends AbstractPacket implements IMessage, IMes
 			{
 				int mcaId = -1;
 
-				for (Map.Entry<Integer, Integer> entry : MCA.getInstance().idsMap.entrySet())
+				for (final Map.Entry<Integer, Integer> entry : MCA.getInstance().idsMap.entrySet())
 				{
 					if (entry.getValue() == packet.entityId)
 					{
@@ -75,13 +75,13 @@ public class PacketNotifyPlayer extends AbstractPacket implements IMessage, IMes
 			}
 		}
 
-		catch (ClassCastException e) 
-		{ 
+		catch (final ClassCastException e)
+		{
 			//Occurs when player passed as an argument.
 		}
 
 		player.addChatMessage(new ChatComponentText(MCA.getInstance().getLanguageLoader().getString(packet.phraseId, null, entity, false)));
-		
+
 		return null;
 	}
 }

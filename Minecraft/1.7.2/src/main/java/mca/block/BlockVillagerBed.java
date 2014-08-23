@@ -36,7 +36,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class BlockVillagerBed extends BlockDirectional implements ITileEntityProvider
 {
-	public static final int[][] blockMap = new int[][] {{0, 1}, { -1, 0}, {0, -1}, {1, 0}};
+	public static final int[][] blockMap = new int[][] { { 0, 1 }, { -1, 0 }, { 0, -1 }, { 1, 0 } };
 
 	@SideOnly(Side.CLIENT)
 	protected IIcon[] textureEnd;
@@ -76,10 +76,10 @@ public abstract class BlockVillagerBed extends BlockDirectional implements ITile
 
 		else
 		{
-			int k = getDirection(p_149691_2_);
-			int l = Direction.bedDirection[k][p_149691_1_];
-			int i1 = isBlockHeadOfBed(p_149691_2_) ? 1 : 0;
-			return (i1 != 1 || l != 2) && (i1 != 0 || l != 3) ? (l != 5 && l != 4 ? this.textureTop[i1] : this.textureSide[i1]) : this.textureEnd[i1];
+			final int k = getDirection(p_149691_2_);
+			final int l = Direction.bedDirection[k][p_149691_1_];
+			final int i1 = isBlockHeadOfBed(p_149691_2_) ? 1 : 0;
+			return (i1 != 1 || l != 2) && (i1 != 0 || l != 3) ? l != 5 && l != 4 ? textureTop[i1] : textureSide[i1] : textureEnd[i1];
 		}
 	}
 
@@ -114,8 +114,8 @@ public abstract class BlockVillagerBed extends BlockDirectional implements ITile
 	@Override
 	public void onNeighborBlockChange(World worldObj, int posX, int posY, int posZ, Block block)
 	{
-		int l = worldObj.getBlockMetadata(posX, posY, posZ);
-		int i1 = getDirection(l);
+		final int l = worldObj.getBlockMetadata(posX, posY, posZ);
+		final int i1 = getDirection(l);
 
 		if (isBlockHeadOfBed(l))
 		{
@@ -148,7 +148,7 @@ public abstract class BlockVillagerBed extends BlockDirectional implements ITile
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int unknown) 
+	public TileEntity createNewTileEntity(World world, int unknown)
 	{
 		return new TileEntityVillagerBed();
 	}
@@ -190,7 +190,7 @@ public abstract class BlockVillagerBed extends BlockDirectional implements ITile
 	{
 		if (entityPlayer.capabilities.isCreativeMode && isBlockHeadOfBed(meta))
 		{
-			int direction = getDirection(meta);
+			final int direction = getDirection(meta);
 			posX -= blockMap[direction][0];
 			posZ -= blockMap[direction][1];
 
@@ -201,9 +201,8 @@ public abstract class BlockVillagerBed extends BlockDirectional implements ITile
 		}
 	}
 
-
 	@Override
-	public void onBlockPreDestroy(World world, int posX, int posY, int posZ, int meta) 
+	public void onBlockPreDestroy(World world, int posX, int posY, int posZ, int meta)
 	{
 		super.onBlockPreDestroy(world, posX, posY, posZ, meta);
 
@@ -213,17 +212,17 @@ public abstract class BlockVillagerBed extends BlockDirectional implements ITile
 
 			if (tileEntity instanceof TileEntityVillagerBed)
 			{
-				TileEntityVillagerBed villagerBed = (TileEntityVillagerBed) tileEntity;
+				final TileEntityVillagerBed villagerBed = (TileEntityVillagerBed) tileEntity;
 
 				if (villagerBed.getSleepingVillagerId() != -1)
 				{
 					try
 					{
-						Entity entity = world.getEntityByID(MCA.getInstance().idsMap.get(villagerBed.getSleepingVillagerId()));
+						final Entity entity = world.getEntityByID(MCA.getInstance().idsMap.get(villagerBed.getSleepingVillagerId()));
 
 						if (entity != null)
 						{
-							AbstractEntity villager = (AbstractEntity)entity;
+							final AbstractEntity villager = (AbstractEntity) entity;
 
 							villager.isSleeping = false;
 							villager.resetBedStatus();
@@ -234,7 +233,7 @@ public abstract class BlockVillagerBed extends BlockDirectional implements ITile
 						}
 					}
 
-					catch (NullPointerException e)
+					catch (final NullPointerException e)
 					{
 					}
 				}

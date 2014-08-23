@@ -71,17 +71,17 @@ public class PlayerMemory implements Serializable
 	/**
 	 * Constructor
 	 * 
-	 * @param 	username	The username of the player who this player memory will belong to.
+	 * @param username The username of the player who this player memory will belong to.
 	 */
 	public PlayerMemory(String username)
 	{
-		this.playerName = username;
+		playerName = username;
 	}
 
 	/**
 	 * Writes the player memory to NBT.
 	 * 
-	 * @param 	nbt	An instance of the NBTTagCompound used to write info about an entity.
+	 * @param nbt An instance of the NBTTagCompound used to write info about an entity.
 	 */
 	public void writePlayerMemoryToNBT(NBTTagCompound nbt)
 	{
@@ -105,7 +105,7 @@ public class PlayerMemory implements Serializable
 				}
 			}
 
-			catch (IllegalAccessException e)
+			catch (final IllegalAccessException e)
 			{
 				MCA.getInstance().getLogger().log(e);
 				continue;
@@ -116,7 +116,7 @@ public class PlayerMemory implements Serializable
 	/**
 	 * Reads the player memory from NBT.
 	 * 
-	 * @param 	nbt	An instance of the NBTTagCompound used to load info about an entity.
+	 * @param nbt An instance of the NBTTagCompound used to load info about an entity.
 	 */
 	public void readPlayerMemoryFromNBT(NBTTagCompound nbt)
 	{
@@ -140,7 +140,7 @@ public class PlayerMemory implements Serializable
 				}
 			}
 
-			catch (IllegalAccessException e)
+			catch (final IllegalAccessException e)
 			{
 				MCA.getInstance().getLogger().log(e);
 				continue;

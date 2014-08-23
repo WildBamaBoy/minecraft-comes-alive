@@ -39,18 +39,17 @@ public class ItemEggMale extends Item
 	/**
 	 * Called when the player right clicks a block while holding this item.
 	 * 
-	 * @param	itemStack	The item stack that the player was holding when they right clicked.
-	 * @param	player		The player that right clicked.
-	 * @param	world		The world that the player right clicked in.
-	 * @param	posX		X coordinate of the block that the player right clicked.
-	 * @param	posY		Y coordinate of the block that the player right clicked.
-	 * @param	posZ		Z coordinate of the block that the player right clicked.
-	 * @param	meta		Metadata associated with the block clicked.
-	 * @param	xOffset		X offset of the point where the block was clicked.
-	 * @param	yOffset		Y offset of the point where the block was clicked.
-	 * @param	zOffset		Z offset of the point where the block was clicked.
-	 * 
-	 * @return	True or false depending on if placing the item into the world was successful.
+	 * @param itemStack The item stack that the player was holding when they right clicked.
+	 * @param player The player that right clicked.
+	 * @param world The world that the player right clicked in.
+	 * @param posX X coordinate of the block that the player right clicked.
+	 * @param posY Y coordinate of the block that the player right clicked.
+	 * @param posZ Z coordinate of the block that the player right clicked.
+	 * @param meta Metadata associated with the block clicked.
+	 * @param xOffset X offset of the point where the block was clicked.
+	 * @param yOffset Y offset of the point where the block was clicked.
+	 * @param zOffset Z offset of the point where the block was clicked.
+	 * @return True or false depending on if placing the item into the world was successful.
 	 */
 	@Override
 	public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int posX, int posY, int posZ, int meta, float xOffset, float yOffset, float zOffset)
@@ -89,17 +88,16 @@ public class ItemEggMale extends Item
 	/**
 	 * Spawns a villager into the world.
 	 * 
-	 * @param 	world		The world that the villager is being spawned in.
-	 * @param 	posX		X coordinates that the player clicked.
-	 * @param 	posY		Y coordinates that the player clicked.
-	 * @param 	posZ		Z coordinates that the player clicked.
-	 * 
-	 * @return	True or false depending on if placing the villager into the world was successful.
+	 * @param world The world that the villager is being spawned in.
+	 * @param posX X coordinates that the player clicked.
+	 * @param posY Y coordinates that the player clicked.
+	 * @param posZ Z coordinates that the player clicked.
+	 * @return True or false depending on if placing the villager into the world was successful.
 	 */
 	public static boolean spawnVillager(World world, double posX, double posY, double posZ)
 	{
 		if (world.isRemote)
-		{	
+		{
 			return true;
 		}
 

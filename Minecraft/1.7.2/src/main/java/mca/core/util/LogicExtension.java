@@ -28,32 +28,29 @@ import com.radixshock.radixcore.logic.Point3D;
 /**
  * Adds some additional logic that the LogicHelper doesn't use.
  */
-public final class LogicExtension 
+public final class LogicExtension
 {
 	/**
-	 * Searches for an MCA entity with the specified ID within the distance provided using the entity provided
-	 * as a base point to start the search. 
+	 * Searches for an MCA entity with the specified ID within the distance provided using the entity provided as a base point to start the search.
 	 * 
-	 * @param 	entityReference	The entity that will be used as a reference point for searching for the other entity.
-	 * @param 	id				The ID of the other entity to find.
-	 * @param 	maxDistanceAway	The max distance from the provided entity that the other entity may be.
-	 * 
-	 * @return	If the entity with the specified ID is within the specified amount of blocks of the entity provided, an instance of that
-	 * 		entity is returned. Otherwise, null.
+	 * @param entityReference The entity that will be used as a reference point for searching for the other entity.
+	 * @param id The ID of the other entity to find.
+	 * @param maxDistanceAway The max distance from the provided entity that the other entity may be.
+	 * @return If the entity with the specified ID is within the specified amount of blocks of the entity provided, an instance of that entity is returned. Otherwise, null.
 	 */
-	public static AbstractEntity getEntityWithIDWithinDistance(Entity entityReference, int id, int maxDistanceAway) 
+	public static AbstractEntity getEntityWithIDWithinDistance(Entity entityReference, int id, int maxDistanceAway)
 	{
-		double posX = entityReference.posX;
-		double posY = entityReference.posY;
-		double posZ = entityReference.posZ;
+		final double posX = entityReference.posX;
+		final double posY = entityReference.posY;
+		final double posZ = entityReference.posZ;
 
-		List<Entity> entitiesAroundMe = entityReference.worldObj.getEntitiesWithinAABBExcludingEntity(entityReference, AxisAlignedBB.getBoundingBox(posX - maxDistanceAway, posY - maxDistanceAway, posZ - maxDistanceAway, posX + maxDistanceAway, posY + maxDistanceAway, posZ + maxDistanceAway));
+		final List<Entity> entitiesAroundMe = entityReference.worldObj.getEntitiesWithinAABBExcludingEntity(entityReference, AxisAlignedBB.getBoundingBox(posX - maxDistanceAway, posY - maxDistanceAway, posZ - maxDistanceAway, posX + maxDistanceAway, posY + maxDistanceAway, posZ + maxDistanceAway));
 
-		for (Entity entityNearMe : entitiesAroundMe)
+		for (final Entity entityNearMe : entitiesAroundMe)
 		{
 			if (entityNearMe instanceof AbstractEntity)
 			{
-				AbstractEntity abstractEntity = (AbstractEntity)entityNearMe;
+				final AbstractEntity abstractEntity = (AbstractEntity) entityNearMe;
 
 				if (abstractEntity.mcaID == id)
 				{
@@ -68,16 +65,15 @@ public final class LogicExtension
 	/**
 	 * Returns the item stack given to the player when a gift is taken from the entity.
 	 * 
-	 * @param	player	The player receiving the gifts.
-	 * @param	entity	The entity that is giving the item stack to the player.
-	 * 
-	 * @return	The item stack that should be added to the player's inventory.
+	 * @param player The player receiving the gifts.
+	 * @param entity The entity that is giving the item stack to the player.
+	 * @return The item stack that should be added to the player's inventory.
 	 */
 	public static ItemStack getGiftStackFromRelationship(EntityPlayer player, AbstractEntity entity)
 	{
 		Object[] giftInfo = null;
 
-		int hearts = entity.getHearts(player);
+		final int hearts = entity.getHearts(player);
 
 		//Check for junk gifts (negative relationship)
 		if (hearts < 0)
@@ -111,30 +107,29 @@ public final class LogicExtension
 		}
 
 		ItemStack returnStack = null;
-		
+
 		if (giftInfo[0] instanceof Item)
 		{
-			returnStack = new ItemStack((Item)giftInfo[0], quantityGiven, 0);
+			returnStack = new ItemStack((Item) giftInfo[0], quantityGiven, 0);
 		}
-		
+
 		else if (giftInfo[0] instanceof Block)
 		{
-			returnStack = new ItemStack((Block)giftInfo[0], quantityGiven, 0);
+			returnStack = new ItemStack((Block) giftInfo[0], quantityGiven, 0);
 		}
-		
+
 		return returnStack;
 	}
 
 	/**
 	 * Gets crops nearby that are ready to harvest.
 	 * 
-	 * @param 	entity				The entity performing the chore.
-	 * @param 	startCoordinatesX	The X coordinates that the entity started farming on.
-	 * @param 	startCoordinatesY	The Y coordinates that the entity started farming on.
-	 * @param 	startCoordinatesZ	The Z coordinates that the entity started farming on.
-	 * @param 	radius			The radius set in the entity's farming chore.
-	 * 
-	 * @return	List containing Point3D objects of each crop within radius that is ready to harvest.
+	 * @param entity The entity performing the chore.
+	 * @param startCoordinatesX The X coordinates that the entity started farming on.
+	 * @param startCoordinatesY The Y coordinates that the entity started farming on.
+	 * @param startCoordinatesZ The Z coordinates that the entity started farming on.
+	 * @param radius The radius set in the entity's farming chore.
+	 * @return List containing Point3D objects of each crop within radius that is ready to harvest.
 	 */
 	public static List<Point3D> getNearbyHarvestableCrops(Entity entity, FarmableCrop entry, int startCoordinatesX, int startCoordinatesY, int startCoordinatesZ, int radius)
 	{
@@ -142,17 +137,17 @@ public final class LogicExtension
 		int yMov = -3;
 		int zMov = 0 - radius;
 
-		List<Point3D> pointsList = new ArrayList<Point3D>();
+		final List<Point3D> pointsList = new ArrayList<Point3D>();
 
 		while (true)
 		{
-			Block currentBlock = entity.worldObj.getBlock(startCoordinatesX + xMov, startCoordinatesY + yMov, startCoordinatesZ + zMov);
+			final Block currentBlock = entity.worldObj.getBlock(startCoordinatesX + xMov, startCoordinatesY + yMov, startCoordinatesZ + zMov);
 
-			if (currentBlock == entry.getBlockCrop() || (entry.getFarmType() == EnumFarmType.BLOCK && (currentBlock == entry.getBlockYield() || currentBlock == entry.getBlockGrown())))
+			if (currentBlock == entry.getBlockCrop() || entry.getFarmType() == EnumFarmType.BLOCK && (currentBlock == entry.getBlockYield() || currentBlock == entry.getBlockGrown()))
 			{
 				if (entry.getFarmType() == EnumFarmType.NORMAL)
 				{
-					int currentBlockMeta = entity.worldObj.getBlockMetadata(startCoordinatesX + xMov, startCoordinatesY + yMov, startCoordinatesZ + zMov);
+					final int currentBlockMeta = entity.worldObj.getBlockMetadata(startCoordinatesX + xMov, startCoordinatesY + yMov, startCoordinatesZ + zMov);
 
 					if (currentBlockMeta == 7)
 					{

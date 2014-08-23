@@ -45,9 +45,9 @@ import cpw.mods.fml.common.network.IGuiHandler;
 public class GuiHandler implements IGuiHandler
 {
 	@Override
-	public Object getServerGuiElement(int guiId, EntityPlayer player, World world, int posX, int posY, int posZ) 
+	public Object getServerGuiElement(int guiId, EntityPlayer player, World world, int posX, int posY, int posZ)
 	{
-		final AbstractEntity entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, posX, posY, posZ);
+		final AbstractEntity entity = (AbstractEntity) LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, posX, posY, posZ);
 
 		if (guiId == Constants.ID_GUI_INVENTORY)
 		{
@@ -61,68 +61,68 @@ public class GuiHandler implements IGuiHandler
 	}
 
 	@Override
-	public Object getClientGuiElement(int guiId, EntityPlayer player, World world, int posX, int posY, int posZ) 
+	public Object getClientGuiElement(int guiId, EntityPlayer player, World world, int posX, int posY, int posZ)
 	{
 		AbstractEntity entity;
 
 		switch (guiId)
 		{
-		case Constants.ID_GUI_INVENTORY:
-			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, posX, posY, posZ);
-			return new GuiInventory(entity, player.inventory, entity.inventory, false);
+			case Constants.ID_GUI_INVENTORY:
+				entity = (AbstractEntity) LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, posX, posY, posZ);
+				return new GuiInventory(entity, player.inventory, entity.inventory, false);
 
-		case Constants.ID_GUI_GAMEOVER:
-			return new GuiHardcoreGameOver(player);
+			case Constants.ID_GUI_GAMEOVER:
+				return new GuiHardcoreGameOver(player);
 
-		case Constants.ID_GUI_PCHILD:
-			entity = (EntityPlayerChild)LogicHelper.getEntityOfTypeAtXYZ(EntityPlayerChild.class, world, posX, posY, posZ);
-			return new GuiInteractionPlayerChild((EntityPlayerChild) entity, player);
+			case Constants.ID_GUI_PCHILD:
+				entity = (EntityPlayerChild) LogicHelper.getEntityOfTypeAtXYZ(EntityPlayerChild.class, world, posX, posY, posZ);
+				return new GuiInteractionPlayerChild((EntityPlayerChild) entity, player);
 
-		case Constants.ID_GUI_SPOUSE:
-			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, posX, posY, posZ);
-			final EnumRelation relationOfPlayer = entity.familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player));
+			case Constants.ID_GUI_SPOUSE:
+				entity = (AbstractEntity) LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, posX, posY, posZ);
+				final EnumRelation relationOfPlayer = entity.familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player));
 
-			if (relationOfPlayer == EnumRelation.Spouse)
-			{
-				return new GuiInteractionSpouse(entity, player);
-			}
-			
-			return null;
-			
-		case Constants.ID_GUI_ADULT:
-			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, posX, posY, posZ);
-			return new GuiInteractionVillagerAdult(entity, player);
+				if (relationOfPlayer == EnumRelation.Spouse)
+				{
+					return new GuiInteractionSpouse(entity, player);
+				}
 
-		case Constants.ID_GUI_VCHILD:
-			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractChild.class, world, posX, posY, posZ);
-			return new GuiInteractionVillagerChild((AbstractChild) entity, player);
+				return null;
 
-		case Constants.ID_GUI_NAMECHILD:
-			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
-			return new GuiNameChild(player, MCA.getInstance().getWorldProperties(manager).babyIsMale);
+			case Constants.ID_GUI_ADULT:
+				entity = (AbstractEntity) LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, posX, posY, posZ);
+				return new GuiInteractionVillagerAdult(entity, player);
 
-		case Constants.ID_GUI_SETUP:
-			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, posX, posY, posZ);
-			return new GuiSetup(player, entity != null && entity.profession == 1);
+			case Constants.ID_GUI_VCHILD:
+				entity = (AbstractEntity) LogicHelper.getEntityOfTypeAtXYZ(AbstractChild.class, world, posX, posY, posZ);
+				return new GuiInteractionVillagerChild((AbstractChild) entity, player);
 
-		case Constants.ID_GUI_DIVORCE:
-			return new GuiDivorceCouple(player);
+			case Constants.ID_GUI_NAMECHILD:
+				final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
+				return new GuiNameChild(player, MCA.getInstance().getWorldProperties(manager).babyIsMale);
 
-		case Constants.ID_GUI_TOMBSTONE:
-			return new GuiTombstone((TileEntityTombstone)world.getTileEntity(posX, posY, posZ));
+			case Constants.ID_GUI_SETUP:
+				entity = (AbstractEntity) LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, posX, posY, posZ);
+				return new GuiSetup(player, entity != null && entity.profession == 1);
 
-		case Constants.ID_GUI_EDITOR:
-			return new GuiVillagerEditor((AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, posX, posY, posZ), player);
+			case Constants.ID_GUI_DIVORCE:
+				return new GuiDivorceCouple(player);
 
-		case Constants.ID_GUI_LRD:
-			entity = (AbstractEntity)LogicHelper.getEntityOfTypeAtXYZ(EntityVillagerAdult.class, world, posX, posY, posZ);
-			return new GuiLostRelativeDocument(player, entity);
+			case Constants.ID_GUI_TOMBSTONE:
+				return new GuiTombstone((TileEntityTombstone) world.getTileEntity(posX, posY, posZ));
 
-		case Constants.ID_GUI_PLAYER:
-			return new GuiInteractionPlayer(player, (EntityPlayer)LogicHelper.getEntityOfTypeAtXYZ(EntityPlayer.class, world, posX, posY, posZ));
-			
-		default:
-			throw new IllegalArgumentException("Unknown GUI ID.");
+			case Constants.ID_GUI_EDITOR:
+				return new GuiVillagerEditor((AbstractEntity) LogicHelper.getEntityOfTypeAtXYZ(AbstractEntity.class, world, posX, posY, posZ), player);
+
+			case Constants.ID_GUI_LRD:
+				entity = (AbstractEntity) LogicHelper.getEntityOfTypeAtXYZ(EntityVillagerAdult.class, world, posX, posY, posZ);
+				return new GuiLostRelativeDocument(player, entity);
+
+			case Constants.ID_GUI_PLAYER:
+				return new GuiInteractionPlayer(player, (EntityPlayer) LogicHelper.getEntityOfTypeAtXYZ(EntityPlayer.class, world, posX, posY, posZ));
+
+			default:
+				throw new IllegalArgumentException("Unknown GUI ID.");
 		}
 	}
 }

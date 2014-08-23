@@ -16,43 +16,43 @@ public class PacketSetTarget extends AbstractPacket implements IMessage, IMessag
 {
 	private int entityId;
 	private int targetId;
-	
+
 	public PacketSetTarget()
 	{
 	}
-	
+
 	public PacketSetTarget(int entityId, int targetId)
 	{
 		this.entityId = entityId;
 		this.targetId = targetId;
 	}
-	
+
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		entityId = byteBuf.readInt();
 		targetId = byteBuf.readInt();
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(entityId);
 		byteBuf.writeInt(targetId);
 	}
 
 	@Override
-	public IMessage onMessage(PacketSetTarget packet, MessageContext context) 
+	public IMessage onMessage(PacketSetTarget packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
-		
+
 		for (final Object obj : player.worldObj.loadedEntityList)
 		{
-			Entity entity = (Entity)obj;
+			final Entity entity = (Entity) obj;
 
 			if (entity.getEntityId() == packet.entityId)
 			{
-				final AbstractEntity clientEntity = (AbstractEntity)entity;
+				final AbstractEntity clientEntity = (AbstractEntity) entity;
 
 				if (packet.targetId == 0)
 				{
@@ -61,11 +61,11 @@ public class PacketSetTarget extends AbstractPacket implements IMessage, IMessag
 
 				else
 				{
-					clientEntity.target = (EntityLivingBase)clientEntity.worldObj.getEntityByID(packet.targetId);
+					clientEntity.target = (EntityLivingBase) clientEntity.worldObj.getEntityByID(packet.targetId);
 				}
 			}
 		}
-		
+
 		return null;
 	}
 }

@@ -25,22 +25,22 @@ import cpw.mods.fml.relauncher.SideOnly;
  */
 public class ItemEngagementRing extends Item
 {
-    /**
-     * Constructor
-     */
-    public ItemEngagementRing()
-    {
-        super();
-        maxStackSize = 1;
-        setCreativeTab(CreativeTabs.tabMisc);
-    }
-    
-    @Override
-    public void registerIcons(IIconRegister IIconRegister)
-    {
-    	itemIcon = IIconRegister.registerIcon("mca:EngagementRing");
-    }
-    
+	/**
+	 * Constructor
+	 */
+	public ItemEngagementRing()
+	{
+		super();
+		maxStackSize = 1;
+		setCreativeTab(CreativeTabs.tabMisc);
+	}
+
+	@Override
+	public void registerIcons(IIconRegister IIconRegister)
+	{
+		itemIcon = IIconRegister.registerIcon("mca:EngagementRing");
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List informationList, boolean unknown)

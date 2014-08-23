@@ -15,11 +15,11 @@ public class PacketRemoveItem extends AbstractPacket implements IMessage, IMessa
 	private int slot;
 	private int amount;
 	private int damage;
-	
+
 	public PacketRemoveItem()
 	{
 	}
-	
+
 	public PacketRemoveItem(int entityId, int slot, int amount, int damage)
 	{
 		this.entityId = entityId;
@@ -27,9 +27,9 @@ public class PacketRemoveItem extends AbstractPacket implements IMessage, IMessa
 		this.amount = amount;
 		this.damage = damage;
 	}
-	
+
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		entityId = byteBuf.readInt();
 		slot = byteBuf.readInt();
@@ -38,7 +38,7 @@ public class PacketRemoveItem extends AbstractPacket implements IMessage, IMessa
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(entityId);
 		byteBuf.writeInt(slot);
@@ -47,11 +47,11 @@ public class PacketRemoveItem extends AbstractPacket implements IMessage, IMessa
 	}
 
 	@Override
-	public IMessage onMessage(PacketRemoveItem packet, MessageContext context) 
+	public IMessage onMessage(PacketRemoveItem packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
 		player.inventory.decrStackSize(packet.slot, packet.amount);
-		
+
 		return null;
 	}
 }

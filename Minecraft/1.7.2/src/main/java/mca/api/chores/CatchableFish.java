@@ -18,44 +18,47 @@ public class CatchableFish
 {
 	private final Item itemFish;
 	private final int itemDamage;
-	
+
 	/**
-	 * Constructs a catchable fish with an item damage of 0. Use this if your fish item doesn't have any subitems.<p>
-	 * 
+	 * Constructs a catchable fish with an item damage of 0. Use this if your fish item doesn't have any subitems.
+	 * <p>
 	 * MCA adds the original Minecraft fish with this. Ex:
-	 * <p><code>
+	 * <p>
+	 * <code>
 	 * ChoreRegistry.registerChoreEntry(new CatchableFish(Items.fish));
 	 * </code>
-	 * @param 	itemFish	The item that will be added to the fishing person's inventory when they successfully catch it.
+	 * 
+	 * @param itemFish The item that will be added to the fishing person's inventory when they successfully catch it.
 	 */
 	public CatchableFish(Item itemFish)
 	{
 		this.itemFish = itemFish;
-		this.itemDamage = 0;
+		itemDamage = 0;
 	}
-	
+
 	/**
-	 * Constructs a catchable fish with a variable item damage. Use this if your fish item has subitems you'd like to add.<p>
-	 * 
+	 * Constructs a catchable fish with a variable item damage. Use this if your fish item has subitems you'd like to add.
+	 * <p>
 	 * MCA uses this to add the pufferfish, salmon, etc. to the list of catchable fish. Ex:
-	 * <p><code>
+	 * <p>
+	 * <code>
 	 * ChoreRegistry.registerChoreEntry(new CatchableFish(Items.fish, ItemFishFood.FishType.SALMON.func_150976_a()));
 	 * </code>
-	 * @param 	itemFish	The item that will be added to the fishing person's inventory when they successfully catch it.
-	 * @param 	itemDamage	The "damage" or metadata that the item should have.
 	 * 
+	 * @param itemFish The item that will be added to the fishing person's inventory when they successfully catch it.
+	 * @param itemDamage The "damage" or metadata that the item should have.
 	 */
 	public CatchableFish(Item itemFish, int itemDamage)
 	{
 		this.itemFish = itemFish;
 		this.itemDamage = itemDamage;
 	}
-	
+
 	public Item getFishItem()
 	{
 		return itemFish;
 	}
-	
+
 	public int getItemDamage()
 	{
 		return itemDamage;

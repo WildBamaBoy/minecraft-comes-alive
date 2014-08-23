@@ -25,31 +25,31 @@ import com.radixshock.radixcore.constant.Font.Color;
 public class CommandModProps extends AbstractCommand
 {
 	@Override
-	public String getCommandUsage(ICommandSender sender) 
+	public String getCommandUsage(ICommandSender sender)
 	{
 		return "/mca.modprops <set/get> <name> <value (get only)>";
 	}
 
 	@Override
-	public boolean canCommandSenderUseCommand(ICommandSender sender) 
+	public boolean canCommandSenderUseCommand(ICommandSender sender)
 	{
 		return true;
 	}
 
 	@Override
-	public int getRequiredPermissionLevel() 
+	public int getRequiredPermissionLevel()
 	{
 		return 4;
 	}
 
 	@Override
-	public String getCommandName() 
+	public String getCommandName()
 	{
 		return "mca.modprops";
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] arguments) 
+	public void processCommand(ICommandSender sender, String[] arguments)
 	{
 		if (arguments[0].trim().equalsIgnoreCase("set") || arguments[0].trim().equalsIgnoreCase("get") || arguments[0].trim().equalsIgnoreCase("list"))
 		{
@@ -68,19 +68,19 @@ public class CommandModProps extends AbstractCommand
 				{
 					getModProperty(sender, arguments);
 				}
-				
+
 				else if (doList)
 				{
 					listModProperties(sender, arguments);
 				}
 			}
 
-			catch (WrongUsageException e)
+			catch (final WrongUsageException e)
 			{
 				throw e;
 			}
-			
-			catch (Exception e)
+
+			catch (final Exception e)
 			{
 				MCA.getInstance().getLogger().log(e);
 				sender.addChatMessage(new ChatComponentText(Color.RED + "An unknown exception has occured."));
@@ -166,7 +166,7 @@ public class CommandModProps extends AbstractCommand
 			throw new WrongUsageException(getCommandUsage(sender));
 		}
 	}
-	
+
 	private void listModProperties(ICommandSender sender, String[] arguments) throws IllegalArgumentException, IllegalAccessException
 	{
 		if (arguments.length == 1)

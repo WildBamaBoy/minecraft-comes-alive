@@ -55,19 +55,19 @@ public class GuiSetup extends AbstractGui
 	private boolean viewedFromLibrarian = false;
 
 	/** An instance of the player's world properties manager. */
-	private WorldPropertiesManager manager;
+	private final WorldPropertiesManager manager;
 
 	/**
 	 * Constructor
 	 * 
-	 * @param 	player				The player that opened the GUI.
-	 * @param 	viewedFromLibrarian	Was the GUI opened from a Librarian?
+	 * @param player The player that opened the GUI.
+	 * @param viewedFromLibrarian Was the GUI opened from a Librarian?
 	 */
 	public GuiSetup(EntityPlayer player, boolean viewedFromLibrarian)
 	{
 		super(player);
 		this.viewedFromLibrarian = viewedFromLibrarian;
-		this.manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
+		manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
 	}
 
 	@Override
@@ -137,7 +137,7 @@ public class GuiSetup extends AbstractGui
 		}
 
 		else if (inNameSelectGui)
-		{        	
+		{
 			drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.title.setup.name"), width / 2, height / 2 - 80, 0xffffff);
 			nameTextField.drawTextBox();
 			backButton.enabled = true;
@@ -157,12 +157,12 @@ public class GuiSetup extends AbstractGui
 	{
 		Keyboard.enableRepeatEvents(false);
 
-		String input = prefersMales == true ? "Males" : "Females";
+		final String input = prefersMales == true ? "Males" : "Females";
 
 		try
 		{
-			String hashedPreference = HashGenerator.getMD5Hash(input);
-			int beginIndex = new Random().nextInt(5);
+			final String hashedPreference = HashGenerator.getMD5Hash(input);
+			final int beginIndex = new Random().nextInt(5);
 			int endIndex = beginIndex + new Random().nextInt(hashedPreference.length() - beginIndex);
 
 			if (endIndex <= beginIndex || Math.abs(beginIndex - endIndex) < 5)
@@ -178,7 +178,7 @@ public class GuiSetup extends AbstractGui
 			}
 		}
 
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			MCA.getInstance().getLogger().log(e);
 		}
@@ -192,7 +192,7 @@ public class GuiSetup extends AbstractGui
 		if (inNameSelectGui)
 		{
 			nameTextField.textboxKeyTyped(c, i);
-			String text = nameTextField.getText().trim();
+			final String text = nameTextField.getText().trim();
 			MCA.getInstance().getWorldProperties(manager).playerName = text;
 		}
 	}
@@ -218,7 +218,7 @@ public class GuiSetup extends AbstractGui
 		if (redrawCurrentGui)
 		{
 			buttonList.clear();
-			
+
 			if (inNameSelectGui)
 			{
 				drawNameSelectGui();
@@ -228,7 +228,7 @@ public class GuiSetup extends AbstractGui
 			{
 				drawGenderSelectGui();
 			}
-			
+
 			else if (inOptionsGui)
 			{
 				drawOptionsGui();
@@ -241,9 +241,9 @@ public class GuiSetup extends AbstractGui
 	 */
 	private void drawGenderSelectGui()
 	{
-		inNameSelectGui   = false;
+		inNameSelectGui = false;
 		inGenderSelectGui = true;
-		inOptionsGui      = false;
+		inOptionsGui = false;
 
 		buttonList.clear();
 
@@ -263,9 +263,9 @@ public class GuiSetup extends AbstractGui
 	{
 		Keyboard.enableRepeatEvents(true);
 
-		inNameSelectGui   = true;
+		inNameSelectGui = true;
 		inGenderSelectGui = false;
-		inOptionsGui      = false;
+		inOptionsGui = false;
 
 		buttonList.clear();
 
@@ -286,36 +286,66 @@ public class GuiSetup extends AbstractGui
 	 */
 	private void drawOptionsGui()
 	{
-		inNameSelectGui   = false;
+		inNameSelectGui = false;
 		inGenderSelectGui = false;
-		inOptionsGui      = true;
+		inOptionsGui = true;
 
 		buttonList.clear();
 
-		buttonList.add(hideTagsButton              	= new GuiButton(1, width / 2 - 80, height / 2 - 30, 170, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.setup.hidesleepingtag")));
-		buttonList.add(autoGrowChildrenButton      	= new GuiButton(2, width / 2 - 80, height / 2 - 10, 170, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.setup.growchildrenautomatically")));
-		buttonList.add(displayMoodParticlesButton  	= new GuiButton(3, width / 2 - 80, height / 2 + 10, 170, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.setup.displaymoodparticles")));
-		buttonList.add(showNameTagsButton  			= new GuiButton(4, width / 2 - 80, height / 2 + 30, 170, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.setup.shownametags")));
-		buttonList.add(preferenceButton 			= new GuiButton(5, width / 2 - 80, height / 2 + 50, 170, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.setup.preference")));
+		buttonList.add(hideTagsButton = new GuiButton(1, width / 2 - 80, height / 2 - 30, 170, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.setup.hidesleepingtag")));
+		buttonList.add(autoGrowChildrenButton = new GuiButton(2, width / 2 - 80, height / 2 - 10, 170, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.setup.growchildrenautomatically")));
+		buttonList.add(displayMoodParticlesButton = new GuiButton(3, width / 2 - 80, height / 2 + 10, 170, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.setup.displaymoodparticles")));
+		buttonList.add(showNameTagsButton = new GuiButton(4, width / 2 - 80, height / 2 + 30, 170, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.setup.shownametags")));
+		buttonList.add(preferenceButton = new GuiButton(5, width / 2 - 80, height / 2 + 50, 170, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.setup.preference")));
 
-		buttonList.add(backButton   = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
+		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
 		buttonList.add(finishButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.setup.finish")));
 		drawLiteModeButton(false);
 
-		if (MCA.getInstance().getWorldProperties(manager).hideSleepingTag) hideTagsButton.displayString = hideTagsButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.yes");
-		else hideTagsButton.displayString = hideTagsButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.no");
+		if (MCA.getInstance().getWorldProperties(manager).hideSleepingTag)
+		{
+			hideTagsButton.displayString = hideTagsButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.yes");
+		}
+		else
+		{
+			hideTagsButton.displayString = hideTagsButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.no");
+		}
 
-		if (MCA.getInstance().getWorldProperties(manager).childrenGrowAutomatically) autoGrowChildrenButton.displayString = autoGrowChildrenButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.yes");
-		else autoGrowChildrenButton.displayString = autoGrowChildrenButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.no");
+		if (MCA.getInstance().getWorldProperties(manager).childrenGrowAutomatically)
+		{
+			autoGrowChildrenButton.displayString = autoGrowChildrenButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.yes");
+		}
+		else
+		{
+			autoGrowChildrenButton.displayString = autoGrowChildrenButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.no");
+		}
 
-		if (prefersMales) preferenceButton.displayString = preferenceButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.setup.males");
-		else preferenceButton.displayString = preferenceButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.setup.females");
+		if (prefersMales)
+		{
+			preferenceButton.displayString = preferenceButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.setup.males");
+		}
+		else
+		{
+			preferenceButton.displayString = preferenceButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.setup.females");
+		}
 
-		if (MCA.getInstance().getWorldProperties(manager).displayMoodParticles) displayMoodParticlesButton.displayString = displayMoodParticlesButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.yes");
-		else displayMoodParticlesButton.displayString = displayMoodParticlesButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.no");
+		if (MCA.getInstance().getWorldProperties(manager).displayMoodParticles)
+		{
+			displayMoodParticlesButton.displayString = displayMoodParticlesButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.yes");
+		}
+		else
+		{
+			displayMoodParticlesButton.displayString = displayMoodParticlesButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.no");
+		}
 
-		if (MCA.getInstance().getWorldProperties(manager).showNameTags) showNameTagsButton.displayString = showNameTagsButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.yes");
-		else showNameTagsButton.displayString = showNameTagsButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.no");
+		if (MCA.getInstance().getWorldProperties(manager).showNameTags)
+		{
+			showNameTagsButton.displayString = showNameTagsButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.yes");
+		}
+		else
+		{
+			showNameTagsButton.displayString = showNameTagsButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.no");
+		}
 
 		finishButton.enabled = false;
 	}
@@ -323,11 +353,11 @@ public class GuiSetup extends AbstractGui
 	/**
 	 * Handles an action performed on the Gender Select GUI.
 	 * 
-	 * @param 	button	The button that was pressed.
+	 * @param button The button that was pressed.
 	 */
 	private void actionPerformedGenderSelect(GuiButton button)
 	{
-		if (button == genderButton) 
+		if (button == genderButton)
 		{
 			if (MCA.getInstance().getWorldProperties(manager).playerGender.equals("Male"))
 			{
@@ -358,7 +388,7 @@ public class GuiSetup extends AbstractGui
 	/**
 	 * Handles an action performed on the Name Select GUI.
 	 * 
-	 * @param 	button	The button that was pressed.
+	 * @param button The button that was pressed.
 	 */
 	private void actionPerformedNameSelect(GuiButton button)
 	{
@@ -376,7 +406,7 @@ public class GuiSetup extends AbstractGui
 	/**
 	 * Handles an action performed on the Options GUI.
 	 * 
-	 * @param 	button	The button that was pressed.
+	 * @param button The button that was pressed.
 	 */
 	private void actionPerformedOptions(GuiButton button)
 	{

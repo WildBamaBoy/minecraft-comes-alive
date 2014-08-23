@@ -44,7 +44,7 @@ public class GuiHardcoreGameOver extends AbstractGui
 	private int maxIndex = 0;
 
 	/** List containing all adult children belonging to a player. */
-	private List<AbstractEntity> adultChildren = new ArrayList<AbstractEntity>();
+	private final List<AbstractEntity> adultChildren = new ArrayList<AbstractEntity>();
 
 	private GuiButton deleteWorldButton;
 	private GuiButton shiftIndexLeftButton;
@@ -57,7 +57,7 @@ public class GuiHardcoreGameOver extends AbstractGui
 	/**
 	 * Constructor
 	 * 
-	 * @param 	player	The player who died.
+	 * @param player The player who died.
 	 */
 	public GuiHardcoreGameOver(EntityPlayer player)
 	{
@@ -73,7 +73,7 @@ public class GuiHardcoreGameOver extends AbstractGui
 		{
 			buildAdultChildrenList();
 			drawHardcoreGameOverGUI();
-		} 
+		}
 
 		else
 		{
@@ -93,7 +93,7 @@ public class GuiHardcoreGameOver extends AbstractGui
 		if (guibutton == deleteWorldButton)
 		{
 			mc.thePlayer.respawnPlayer();
-			mc.displayGuiScreen((GuiScreen)null);
+			mc.displayGuiScreen((GuiScreen) null);
 		}
 
 		if (guibutton == respawnButton)
@@ -111,16 +111,16 @@ public class GuiHardcoreGameOver extends AbstractGui
 		if (guibutton == respawnAsChildButton)
 		{
 			//Assign data about the adult they're spawning as.
-			EntityPlayerChild adultToRespawnAs = (EntityPlayerChild)adultChildren.get(currentIndex);
+			final EntityPlayerChild adultToRespawnAs = (EntityPlayerChild) adultChildren.get(currentIndex);
 
 			//Trigger achievement.
 			mc.thePlayer.triggerAchievement(MCA.getInstance().achievementHardcoreSecret);
 
 			//Respawn the player.
-			mc.thePlayer.setSpawnChunk(new ChunkCoordinates((int)adultToRespawnAs.posX, (int)adultToRespawnAs.posY, (int)adultToRespawnAs.posZ), true);
+			mc.thePlayer.setSpawnChunk(new ChunkCoordinates((int) adultToRespawnAs.posX, (int) adultToRespawnAs.posY, (int) adultToRespawnAs.posZ), true);
 
-//TODO
-//			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.ForceRespawn, (int)adultToRespawnAs.posX, (int)adultToRespawnAs.posY, (int)adultToRespawnAs.posZ, player.getEntityId()));
+			//TODO
+			//			MCA.packetPipeline.sendPacketToServer(new Packet(EnumPacketType.ForceRespawn, (int)adultToRespawnAs.posX, (int)adultToRespawnAs.posY, (int)adultToRespawnAs.posZ, player.getEntityId()));
 			mc.displayGuiScreen(null);
 
 			//Kill that adult.
@@ -160,17 +160,17 @@ public class GuiHardcoreGameOver extends AbstractGui
 
 	@Override
 	public void drawScreen(int x, int y, float offset)
-	{		
+	{
 		drawGradientRect(0, 0, width, height, 0x60500000, 0xa0803030);
 
 		//Scale and draw the screen title.
 		GL11.glPushMatrix();
 		GL11.glScalef(2.0F, 2.0F, 2.0F);
 
-		if(mc.theWorld.getWorldInfo().isHardcoreModeEnabled())
+		if (mc.theWorld.getWorldInfo().isHardcoreModeEnabled())
 		{
 			drawCenteredString(fontRendererObj, StatCollector.translateToLocal("deathScreen.title.hardcore"), width / 2 / 2, 30, 0xffffff);
-		} 
+		}
 
 		else
 		{
@@ -180,13 +180,13 @@ public class GuiHardcoreGameOver extends AbstractGui
 		GL11.glPopMatrix();
 
 		//Add hardcore mode info and score.
-		if(mc.theWorld.getWorldInfo().isHardcoreModeEnabled())
+		if (mc.theWorld.getWorldInfo().isHardcoreModeEnabled())
 		{
 			drawCenteredString(fontRendererObj, StatCollector.translateToLocal("deathScreen.hardcoreInfo"), width / 2, 80, 0xffffff);
 			drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.info.hardcoresecret.prompt"), width / 2, 144, 0xffffff);
 		}
 
-		drawCenteredString(fontRendererObj, (new StringBuilder()).append(StatCollector.translateToLocal("deathScreen.score")).append(": \247e").append(mc.thePlayer.getScore()).toString(), width / 2, 100, 0xffffff);
+		drawCenteredString(fontRendererObj, new StringBuilder().append(StatCollector.translateToLocal("deathScreen.score")).append(": \247e").append(mc.thePlayer.getScore()).toString(), width / 2, 100, 0xffffff);
 
 		if (delayTicks != 0)
 		{
@@ -195,13 +195,13 @@ public class GuiHardcoreGameOver extends AbstractGui
 
 		else
 		{
-			GuiButton testButton = (GuiButton) this.buttonList.get(0);
+			final GuiButton testButton = (GuiButton) buttonList.get(0);
 
 			if (!testButton.enabled)
 			{
-				for (int i = 0; i < this.buttonList.size(); i++)
+				for (int i = 0; i < buttonList.size(); i++)
 				{
-					GuiButton button = (GuiButton) this.buttonList.get(i);
+					final GuiButton button = (GuiButton) buttonList.get(i);
 					button.enabled = true;
 
 					if (shiftIndexLeftButton != null)
@@ -268,7 +268,7 @@ public class GuiHardcoreGameOver extends AbstractGui
 
 		if (mc.getSession() == null)
 		{
-			((GuiButton)buttonList.get(1)).enabled = false;
+			((GuiButton) buttonList.get(1)).enabled = false;
 		}
 
 		respawnButton.enabled = false;
@@ -280,11 +280,11 @@ public class GuiHardcoreGameOver extends AbstractGui
 	 */
 	private void buildAdultChildrenList()
 	{
-		for (AbstractEntity entity : MCA.getInstance().entitiesMap.values())
+		for (final AbstractEntity entity : MCA.getInstance().entitiesMap.values())
 		{
 			if (entity instanceof EntityPlayerChild)
 			{
-				EntityPlayerChild playerChild = (EntityPlayerChild)entity;
+				final EntityPlayerChild playerChild = (EntityPlayerChild) entity;
 
 				if (playerChild.isAdult)
 				{

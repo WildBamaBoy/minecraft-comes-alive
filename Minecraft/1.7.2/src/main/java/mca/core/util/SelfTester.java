@@ -24,11 +24,11 @@ import com.radixshock.radixcore.core.RadixCore;
 /**
  * Reads MCA's source code to find potential errors.
  */
-public final class SelfTester 
+public final class SelfTester
 {
 	private final List<String> declaredVariables = new ArrayList<String>();
 
-	private List<String> privateVariablesInPacketFile = new ArrayList<String>();
+	private final List<String> privateVariablesInPacketFile = new ArrayList<String>();
 	private String lastPacketFile = "";
 	private boolean startTestingPacketLine = false;
 
@@ -37,37 +37,15 @@ public final class SelfTester
 	 */
 	public void doSelfTest()
 	{
-		String runningDirectory = RadixCore.getInstance().runningDirectory.replace("eclipse", "");
+		final String runningDirectory = RadixCore.getInstance().runningDirectory.replace("eclipse", "");
 
 		declaredVariables.add("playerMemoryMap");
 
 		MCA.getInstance().getLogger().log("-------------- Beginning self-test --------------");
 
-		final File[] sourceDirs = new File[]
-				{
-				new File(runningDirectory + "/src/main/java/mca/api/chores"),
-				new File(runningDirectory + "/src/main/java/mca/api/enums"),
-				new File(runningDirectory + "/src/main/java/mca/api/registries"),
-				new File(runningDirectory + "/src/main/java/mca/api/villagers"),
-				new File(runningDirectory + "/src/main/java/mca/block"),
-				new File(runningDirectory + "/src/main/java/mca/chore"),
-				new File(runningDirectory + "/src/main/java/mca/client/gui"),
-				new File(runningDirectory + "/src/main/java/mca/client/model"),
-				new File(runningDirectory + "/src/main/java/mca/client/render"),
-				new File(runningDirectory + "/src/main/java/mca/command"),
-				new File(runningDirectory + "/src/main/java/mca/core"),
-				new File(runningDirectory + "/src/main/java/mca/core/forge"),
-				new File(runningDirectory + "/src/main/java/mca/core/util"),
-				new File(runningDirectory + "/src/main/java/mca/core/util/object"),
-				new File(runningDirectory + "/src/main/java/mca/entity"),
-				new File(runningDirectory + "/src/main/java/mca/enums"),
-				new File(runningDirectory + "/src/main/java/mca/inventory"),
-				new File(runningDirectory + "/src/main/java/mca/item"),
-				new File(runningDirectory + "/src/main/java/mca/lang"),
-				new File(runningDirectory + "/src/main/java/mca/network"),
-				new File(runningDirectory + "/src/main/java/mca/network/packets"),
-				new File(runningDirectory + "/src/main/java/mca/tileentity")
-				};
+		final File[] sourceDirs = new File[] { new File(runningDirectory + "/src/main/java/mca/api/chores"), new File(runningDirectory + "/src/main/java/mca/api/enums"), new File(runningDirectory + "/src/main/java/mca/api/registries"), new File(runningDirectory + "/src/main/java/mca/api/villagers"), new File(runningDirectory + "/src/main/java/mca/block"), new File(runningDirectory + "/src/main/java/mca/chore"), new File(runningDirectory + "/src/main/java/mca/client/gui"),
+				new File(runningDirectory + "/src/main/java/mca/client/model"), new File(runningDirectory + "/src/main/java/mca/client/render"), new File(runningDirectory + "/src/main/java/mca/command"), new File(runningDirectory + "/src/main/java/mca/core"), new File(runningDirectory + "/src/main/java/mca/core/forge"), new File(runningDirectory + "/src/main/java/mca/core/util"), new File(runningDirectory + "/src/main/java/mca/core/util/object"),
+				new File(runningDirectory + "/src/main/java/mca/entity"), new File(runningDirectory + "/src/main/java/mca/enums"), new File(runningDirectory + "/src/main/java/mca/inventory"), new File(runningDirectory + "/src/main/java/mca/item"), new File(runningDirectory + "/src/main/java/mca/lang"), new File(runningDirectory + "/src/main/java/mca/network"), new File(runningDirectory + "/src/main/java/mca/network/packets"), new File(runningDirectory + "/src/main/java/mca/tileentity") };
 
 		FileInputStream fileStream;
 		DataInputStream dataStream;
@@ -77,10 +55,18 @@ public final class SelfTester
 		{
 			switch (loops)
 			{
-			case 0: MCA.getInstance().getLogger().log("Building list of declared variables in entity and gui files..."); break;
-			case 1: MCA.getInstance().getLogger().log("Testing calls to language system for validity..."); break;
-			case 2: MCA.getInstance().getLogger().log("Testing calls for field update validity..."); break;
-			case 3:	MCA.getInstance().getLogger().log("Testing for calls to packet data without packet reference..."); break;
+				case 0:
+					MCA.getInstance().getLogger().log("Building list of declared variables in entity and gui files...");
+					break;
+				case 1:
+					MCA.getInstance().getLogger().log("Testing calls to language system for validity...");
+					break;
+				case 2:
+					MCA.getInstance().getLogger().log("Testing calls for field update validity...");
+					break;
+				case 3:
+					MCA.getInstance().getLogger().log("Testing for calls to packet data without packet reference...");
+					break;
 			}
 
 			int lineNumber = 0;
@@ -100,7 +86,7 @@ public final class SelfTester
 							dataStream = new DataInputStream(fileStream);
 							reader = new BufferedReader(new InputStreamReader(dataStream));
 
-							while ((readString = reader.readLine()) != null)  
+							while ((readString = reader.readLine()) != null)
 							{
 								lineNumber++;
 
@@ -108,19 +94,27 @@ public final class SelfTester
 								{
 									switch (loops)
 									{
-									case 0: tryAddLineToDeclaredFields(readString); break;
-									case 1: testLineInLanguageSystem(readString, sourceFile.getName(), lineNumber); break;
-									case 2:	testLineForFieldUpdateValidity(readString, sourceFile.getName(), lineNumber); break;
-									case 3: testLineForPacketReference(readString, sourceFile.getName(), lineNumber); break;
+										case 0:
+											tryAddLineToDeclaredFields(readString);
+											break;
+										case 1:
+											testLineInLanguageSystem(readString, sourceFile.getName(), lineNumber);
+											break;
+										case 2:
+											testLineForFieldUpdateValidity(readString, sourceFile.getName(), lineNumber);
+											break;
+										case 3:
+											testLineForPacketReference(readString, sourceFile.getName(), lineNumber);
+											break;
 									}
 								}
 
-								catch (StringIndexOutOfBoundsException e)
+								catch (final StringIndexOutOfBoundsException e)
 								{
 									continue;
 								}
 
-								catch (NullPointerException e)
+								catch (final NullPointerException e)
 								{
 									continue;
 								}
@@ -129,7 +123,7 @@ public final class SelfTester
 							reader.close();
 						}
 
-						catch (Exception e)
+						catch (final Exception e)
 						{
 							if (loops == 2)
 							{
@@ -146,7 +140,7 @@ public final class SelfTester
 		MCA.getInstance().getLogger().log("-------------- End self-test --------------");
 	}
 
-	private void testLineForPacketReference(String line, String fileName, int lineNumber) 
+	private void testLineForPacketReference(String line, String fileName, int lineNumber)
 	{
 		if (fileName.contains("Packet"))
 		{
@@ -182,7 +176,7 @@ public final class SelfTester
 					line = line.replace("double ", "");
 					line = line.replace("float ", "");
 					line = line.trim();
-					
+
 					privateVariablesInPacketFile.add(line);
 				}
 			}
@@ -191,10 +185,10 @@ public final class SelfTester
 			{
 				startTestingPacketLine = true;
 			}
-			
+
 			if (startTestingPacketLine)
 			{
-				for (String variable : privateVariablesInPacketFile)
+				for (final String variable : privateVariablesInPacketFile)
 				{
 					if (line.contains(variable) && !line.contains("packet." + variable))
 					{
@@ -233,7 +227,7 @@ public final class SelfTester
 			final int nextQuoteIndex = line.indexOf('"', firstQuoteIndex + 1);
 			final int endParenthesisIndex = line.indexOf(')', nextQuoteIndex + 1);
 			final String fieldName = line.substring(firstQuoteIndex, nextQuoteIndex).replaceAll("\"", "");
-			final String providedFieldName = line.substring(nextQuoteIndex + 2, endParenthesisIndex).trim(); 
+			final String providedFieldName = line.substring(nextQuoteIndex + 2, endParenthesisIndex).trim();
 
 			boolean wasFound = false;
 			boolean possiblyInvalid = true;

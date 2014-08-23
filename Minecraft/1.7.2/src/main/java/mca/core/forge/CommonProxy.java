@@ -21,7 +21,7 @@ public class CommonProxy
 	/**
 	 * Registers all rendering information with Forge.
 	 */
-	public void registerRenderers() 
+	public void registerRenderers()
 	{
 		//Server-side.
 	}

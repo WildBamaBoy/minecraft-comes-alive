@@ -30,38 +30,38 @@ public class PacketOnEngagement extends AbstractPacket implements IMessage, IMes
 	}
 
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		interactingEntityId = byteBuf.readInt();
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(interactingEntityId);
 	}
 
 	@Override
-	public IMessage onMessage(PacketOnEngagement packet, MessageContext context) 
+	public IMessage onMessage(PacketOnEngagement packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
-		List<Entity> entitiesAroundMe = LogicHelper.getAllEntitiesWithinDistanceOfEntity(player.worldObj.getEntityByID(packet.interactingEntityId), 64);
+		final List<Entity> entitiesAroundMe = LogicHelper.getAllEntitiesWithinDistanceOfEntity(player.worldObj.getEntityByID(packet.interactingEntityId), 64);
 
-		for (Entity entity : entitiesAroundMe)
+		for (final Entity entity : entitiesAroundMe)
 		{
 			if (entity instanceof EntityVillagerAdult)
 			{
-				EntityVillagerAdult entityVillager = (EntityVillagerAdult)entity;
+				final EntityVillagerAdult entityVillager = (EntityVillagerAdult) entity;
 
 				if (entityVillager.playerMemoryMap.containsKey(player.getCommandSenderName()))
 				{
-					PlayerMemory memory = entityVillager.playerMemoryMap.get(player.getCommandSenderName());
+					final PlayerMemory memory = entityVillager.playerMemoryMap.get(player.getCommandSenderName());
 					memory.hasGift = true;
 					entityVillager.playerMemoryMap.put(player.getCommandSenderName(), memory);
 				}
 			}
 		}
-		
+
 		return null;
 	}
 }

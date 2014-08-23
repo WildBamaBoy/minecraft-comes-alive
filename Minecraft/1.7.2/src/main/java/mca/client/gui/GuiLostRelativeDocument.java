@@ -26,12 +26,12 @@ import net.minecraft.util.ChatComponentText;
  */
 public class GuiLostRelativeDocument extends AbstractGui
 {
-	private int originalGeneration;
+	private final int originalGeneration;
 	private int temporaryGeneration;
-	private AbstractEntity recipient;
-	private FamilyTree originalFamilyTree;
-	private FamilyTree temporaryFamilyTree;
-	
+	private final AbstractEntity recipient;
+	private final FamilyTree originalFamilyTree;
+	private final FamilyTree temporaryFamilyTree;
+
 	private GuiButton buttonAunt;
 	private GuiButton buttonBrother;
 	private GuiButton buttonCousin;
@@ -46,33 +46,33 @@ public class GuiLostRelativeDocument extends AbstractGui
 	private GuiButton buttonSister;
 	private GuiButton buttonUncle;
 	private GuiButton buttonNone;
-	
+
 	private GuiButton buttonGeneration;
 	private GuiButton buttonGenerationIncrease;
 	private GuiButton buttonGenerationDecrease;
-	
+
 	private GuiButton buttonExit;
-	
+
 	private GuiButton buttonYes;
 	private GuiButton buttonNo;
-	
+
 	private boolean inRelationSelectGui = false;
 	private boolean inConfirmationGui = false;
-	
+
 	/**
 	 * Constructor.
-	 *
-	 * @param 	player	The player that opened this GUI.
-	 * @param	target	The target entity.
+	 * 
+	 * @param player The player that opened this GUI.
+	 * @param target The target entity.
 	 */
-	public GuiLostRelativeDocument(EntityPlayer player, AbstractEntity target) 
+	public GuiLostRelativeDocument(EntityPlayer player, AbstractEntity target)
 	{
 		super(player);
-		this.recipient = target;
-		this.temporaryGeneration = target.generation;
-		this.originalGeneration = target.generation;
-		this.originalFamilyTree = target.familyTree.clone();
-		this.temporaryFamilyTree = target.familyTree.clone();
+		recipient = target;
+		temporaryGeneration = target.generation;
+		originalGeneration = target.generation;
+		originalFamilyTree = target.familyTree.clone();
+		temporaryFamilyTree = target.familyTree.clone();
 	}
 
 	@Override
@@ -80,245 +80,245 @@ public class GuiLostRelativeDocument extends AbstractGui
 	{
 		drawLostRelativeDocumentGui();
 	}
-	
+
 	@Override
 	protected void actionPerformed(GuiButton guibutton)
 	{
-		final WorldPropertiesList properties = (WorldPropertiesList)MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName()).worldPropertiesInstance;
-		String playerGender = properties.playerGender;
-		
+		final WorldPropertiesList properties = (WorldPropertiesList) MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName()).worldPropertiesInstance;
+		final String playerGender = properties.playerGender;
+
 		if (guibutton.enabled == false)
 		{
 			return;
 		}
-		
+
 		else if (guibutton == buttonExit)
 		{
 			close();
 			return;
 		}
-		
+
 		else if (guibutton == buttonAunt)
 		{
 			if (playerGender.equals("Male"))
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Nephew);
 			}
-			
+
 			else
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Niece);
 			}
-			
+
 			drawConfirmationGui();
 			return;
 		}
-		
+
 		else if (guibutton == buttonBrother)
 		{
 			if (playerGender.equals("Male"))
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Brother);
 			}
-			
+
 			else
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Sister);
 			}
-			
+
 			drawConfirmationGui();
 			return;
 		}
-		
+
 		else if (guibutton == buttonCousin)
 		{
 			temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Cousin);
 			drawConfirmationGui();
 			return;
 		}
-		
+
 		else if (guibutton == buttonFather)
 		{
 			if (playerGender.equals("Male"))
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Son);
 			}
-			
+
 			else
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Daughter);
 			}
-			
+
 			drawConfirmationGui();
 			return;
 		}
-		
+
 		else if (guibutton == buttonGrandfather)
 		{
 			if (playerGender.equals("Male"))
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Grandson);
 			}
-			
+
 			else
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Granddaughter);
 			}
-			
+
 			drawConfirmationGui();
 			return;
 		}
-		
+
 		else if (guibutton == buttonGreatgrandfather)
 		{
 			if (playerGender.equals("Male"))
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Greatgrandson);
 			}
-			
+
 			else
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Greatgranddaughter);
 			}
-			
+
 			drawConfirmationGui();
 			return;
 		}
-		
+
 		else if (guibutton == buttonGrandmother)
 		{
 			if (playerGender.equals("Male"))
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Grandson);
 			}
-			
+
 			else
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Granddaughter);
 			}
-			
+
 			drawConfirmationGui();
 			return;
 		}
-		
+
 		else if (guibutton == buttonGreatgrandmother)
 		{
 			if (playerGender.equals("Male"))
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Greatgrandson);
 			}
-			
+
 			else
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Greatgranddaughter);
 			}
-			
+
 			drawConfirmationGui();
 			return;
 		}
-		
+
 		else if (guibutton == buttonMother)
 		{
 			if (playerGender.equals("Male"))
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Son);
 			}
-			
+
 			else
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Daughter);
 			}
-			
+
 			drawConfirmationGui();
 			return;
 		}
-		
+
 		else if (guibutton == buttonNephew)
 		{
 			if (playerGender.equals("Male"))
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Uncle);
 			}
-			
+
 			else
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Aunt);
 			}
-			
+
 			drawConfirmationGui();
 			return;
 		}
-		
+
 		else if (guibutton == buttonNiece)
 		{
 			if (playerGender.equals("Male"))
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Uncle);
 			}
-			
+
 			else
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Aunt);
 			}
-			
+
 			drawConfirmationGui();
 			return;
 		}
-		
+
 		else if (guibutton == buttonSister)
 		{
 			if (playerGender.equals("Male"))
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Brother);
 			}
-			
+
 			else
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Sister);
 			}
-			
+
 			drawConfirmationGui();
 			return;
 		}
-		
+
 		else if (guibutton == buttonUncle)
 		{
 			if (playerGender.equals("Male"))
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Nephew);
 			}
-			
+
 			else
 			{
 				temporaryFamilyTree.addFamilyTreeEntry(player, EnumRelation.Niece);
 			}
-			
+
 			drawConfirmationGui();
 			return;
 		}
-		
+
 		else if (guibutton == buttonNone)
 		{
 			temporaryFamilyTree.removeFamilyTreeEntry(player);
 			drawConfirmationGui();
 			return;
 		}
-		
+
 		else if (guibutton == buttonGenerationIncrease)
 		{
 			temporaryGeneration++;
 		}
-		
+
 		else if (guibutton == buttonGenerationDecrease)
 		{
 			temporaryGeneration--;
 		}
-		
+
 		else if (guibutton == buttonGeneration)
 		{
 			temporaryGeneration = originalGeneration;
 		}
-		
+
 		else if (guibutton == buttonNo)
 		{
 			recipient.familyTree = originalFamilyTree;
@@ -326,7 +326,7 @@ public class GuiLostRelativeDocument extends AbstractGui
 			drawLostRelativeDocumentGui();
 			return;
 		}
-		
+
 		else if (guibutton == buttonYes)
 		{
 			MCA.packetHandler.sendPacketToServer(new PacketSetFamilyTree(recipient.getEntityId(), recipient.familyTree));
@@ -336,19 +336,19 @@ public class GuiLostRelativeDocument extends AbstractGui
 			{
 				player.addChatMessage(new ChatComponentText(MCA.getInstance().getLanguageLoader().getString("notify.lostrelativedocument.success", player, recipient, false)));
 			}
-			
+
 			else
 			{
 				player.addChatMessage(new ChatComponentText(MCA.getInstance().getLanguageLoader().getString("notify.lostrelativedocument.success.norelation", player, recipient, false)));
 			}
-			
+
 			close();
 			return;
 		}
-		
+
 		drawLostRelativeDocumentGui();
 	}
-	
+
 	@Override
 	public void drawScreen(int sizeX, int sizeY, float offset)
 	{
@@ -356,8 +356,8 @@ public class GuiLostRelativeDocument extends AbstractGui
 
 		if (inRelationSelectGui)
 		{
-			drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.title.lostrelativedocument", null, recipient, false), width / 2, (height / 2) - 90, 0xFFFFFF);
-			
+			drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.title.lostrelativedocument", null, recipient, false), width / 2, height / 2 - 90, 0xFFFFFF);
+
 			if (buttonMother != null)
 			{
 				buttonMother.enabled = true;
@@ -368,7 +368,7 @@ public class GuiLostRelativeDocument extends AbstractGui
 				buttonNiece.enabled = true;
 				buttonCousin.enabled = true;
 			}
-			
+
 			else
 			{
 				buttonFather.enabled = true;
@@ -379,28 +379,28 @@ public class GuiLostRelativeDocument extends AbstractGui
 				buttonNephew.enabled = true;
 				buttonCousin.enabled = true;
 			}
-			
+
 			buttonNone.enabled = true;
 			buttonGeneration.enabled = true;
 			buttonGenerationIncrease.enabled = true;
 			buttonGenerationDecrease.enabled = true;
 		}
-		
+
 		else if (inConfirmationGui)
 		{
-			drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.title.lostrelativedocument.confirm", null, recipient, false), width / 2, (height / 2) - 90, 0xFFFFFF);
-			drawCenteredString(fontRendererObj, recipient.getTitle(MCA.getInstance().getIdOfPlayer(player), false), width /2 , height / 2 - 70, 0xFFFFFF);
+			drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.title.lostrelativedocument.confirm", null, recipient, false), width / 2, height / 2 - 90, 0xFFFFFF);
+			drawCenteredString(fontRendererObj, recipient.getTitle(MCA.getInstance().getIdOfPlayer(player), false), width / 2, height / 2 - 70, 0xFFFFFF);
 		}
-		
+
 		super.drawScreen(sizeX, sizeY, offset);
 	}
-	
+
 	@Override
 	public boolean doesGuiPauseGame()
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Draws the lost relative document GUI.
 	 */
@@ -408,10 +408,10 @@ public class GuiLostRelativeDocument extends AbstractGui
 	{
 		inRelationSelectGui = true;
 		inConfirmationGui = false;
-		
+
 		buttonList.clear();
 		recipient.generation = temporaryGeneration;
-		
+
 		if (recipient.isMale)
 		{
 			buttonList.add(buttonFather = new GuiButton(1, width / 2 - 180, height / 2 - 40, 120, 20, MCA.getInstance().getLanguageLoader().getString("family.father.formal")));
@@ -421,7 +421,7 @@ public class GuiLostRelativeDocument extends AbstractGui
 			buttonList.add(buttonUncle = new GuiButton(5, width / 2 - 60, height / 2 - 20, 120, 20, MCA.getInstance().getLanguageLoader().getString("family.uncle")));
 			buttonList.add(buttonNephew = new GuiButton(6, width / 2 - 60, height / 2, 120, 20, MCA.getInstance().getLanguageLoader().getString("family.nephew")));
 			buttonList.add(buttonCousin = new GuiButton(7, width / 2 + 60, height / 2 - 40, 120, 20, MCA.getInstance().getLanguageLoader().getString("family.cousin")));
-			
+
 			buttonFather.enabled = false;
 			buttonGrandfather.enabled = false;
 			buttonGreatgrandfather.enabled = false;
@@ -430,7 +430,7 @@ public class GuiLostRelativeDocument extends AbstractGui
 			buttonNephew.enabled = false;
 			buttonCousin.enabled = false;
 		}
-		
+
 		else
 		{
 			buttonList.add(buttonMother = new GuiButton(1, width / 2 - 180, height / 2 - 40, 120, 20, MCA.getInstance().getLanguageLoader().getString("family.mother.formal")));
@@ -440,7 +440,7 @@ public class GuiLostRelativeDocument extends AbstractGui
 			buttonList.add(buttonAunt = new GuiButton(5, width / 2 - 60, height / 2 - 20, 120, 20, MCA.getInstance().getLanguageLoader().getString("family.aunt")));
 			buttonList.add(buttonNiece = new GuiButton(6, width / 2 - 60, height / 2, 120, 20, MCA.getInstance().getLanguageLoader().getString("family.niece")));
 			buttonList.add(buttonCousin = new GuiButton(7, width / 2 + 60, height / 2 - 40, 120, 20, MCA.getInstance().getLanguageLoader().getString("family.cousin")));
-			
+
 			buttonMother.enabled = false;
 			buttonGrandmother.enabled = false;
 			buttonGreatgrandmother.enabled = false;
@@ -449,22 +449,22 @@ public class GuiLostRelativeDocument extends AbstractGui
 			buttonNiece.enabled = false;
 			buttonCousin.enabled = false;
 		}
-		
+
 		buttonList.add(buttonNone = new GuiButton(8, width / 2 + 60, height / 2 - 20, 120, 20, MCA.getInstance().getLanguageLoader().getString("family.none")));
 		buttonList.add(buttonGeneration = new GuiButton(9, width / 2 - 60, height / 2 + 35, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.lostrelativedocument.generation", null, recipient, false)));
 		buttonList.add(buttonGenerationIncrease = new GuiButton(10, width / 2 + 60, height / 2 + 35, 20, 20, "+"));
 		buttonList.add(buttonGenerationDecrease = new GuiButton(11, width / 2 - 80, height / 2 + 35, 20, 20, "-"));
-		
+
 		buttonNone.enabled = false;
 		buttonGeneration.enabled = false;
 		buttonGenerationIncrease.enabled = false;
 		buttonGenerationDecrease.enabled = false;
-		
+
 		buttonList.add(buttonExit = new GuiButton(0, width / 2 - 50, height / 2 + 75, 100, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.exit")));
-		
+
 		recipient.generation = originalGeneration;
 	}
-	
+
 	/**
 	 * Draws the GUI that confirms that the player wants the recipient to have the selected relation to them.
 	 */
@@ -472,14 +472,14 @@ public class GuiLostRelativeDocument extends AbstractGui
 	{
 		temporaryFamilyTree.dumpTreeContents();
 		originalFamilyTree.dumpTreeContents();
-		
+
 		recipient.familyTree = temporaryFamilyTree;
-		
+
 		inConfirmationGui = true;
 		inRelationSelectGui = false;
-	
+
 		buttonList.clear();
-		
+
 		buttonList.add(buttonYes = new GuiButton(1, width / 2 - 80, height / 2 + 10, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.yes")));
 		buttonList.add(buttonNo = new GuiButton(2, width / 2 + 30, height / 2 + 10, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.no")));
 	}

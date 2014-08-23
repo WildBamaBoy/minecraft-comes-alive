@@ -13,30 +13,30 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 public class PacketRemoveMarriageRequest extends AbstractPacket implements IMessage, IMessageHandler<PacketRemoveMarriageRequest, IMessage>
 {
 	private String playerName;
-	
+
 	public PacketRemoveMarriageRequest()
 	{
 	}
-	
+
 	public PacketRemoveMarriageRequest(String playerName)
 	{
 		this.playerName = playerName;
 	}
-	
+
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
-		this.playerName = (String) ByteBufIO.readObject(byteBuf);
+		playerName = (String) ByteBufIO.readObject(byteBuf);
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		ByteBufIO.writeObject(byteBuf, playerName);
 	}
 
 	@Override
-	public IMessage onMessage(PacketRemoveMarriageRequest packet, MessageContext context) 
+	public IMessage onMessage(PacketRemoveMarriageRequest packet, MessageContext context)
 	{
 		MCA.getInstance().marriageRequests.remove(packet.playerName);
 		return null;

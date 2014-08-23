@@ -87,7 +87,7 @@ public class EntityPlayerChild extends AbstractChild
 	/** The number of mobs that have been killed. */
 	public int mobsKilled;
 
-	/** The number of animals that have been killed. */ 
+	/** The number of animals that have been killed. */
 	public int animalsKilled;
 
 	/** The number of animals that have been tamed. */
@@ -96,7 +96,7 @@ public class EntityPlayerChild extends AbstractChild
 	/**
 	 * Constructor
 	 * 
-	 * @param 	world	The world that the child should be spawned in.
+	 * @param world The world that the child should be spawned in.
 	 */
 	public EntityPlayerChild(World world)
 	{
@@ -106,42 +106,41 @@ public class EntityPlayerChild extends AbstractChild
 	/**
 	 * Constructor
 	 * 
-	 * @param 	world	The world that the child should be spawned in.
-	 * @param 	player	The player who owns this child.
-	 * @param 	name	The child's name.
-	 * @param 	isMale	Is the child male?
+	 * @param world The world that the child should be spawned in.
+	 * @param player The player who owns this child.
+	 * @param name The child's name.
+	 * @param isMale Is the child male?
 	 */
-	public EntityPlayerChild(World world, EntityPlayer player, String name, boolean isMale) 
+	public EntityPlayerChild(World world, EntityPlayer player, String name, boolean isMale)
 	{
 		this(world);
-
 
 		this.isMale = isMale;
 		this.name = name;
 		this.setTexture();
-		this.ownerPlayerName = player.getCommandSenderName();
+		ownerPlayerName = player.getCommandSenderName();
 
 		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(ownerPlayerName);
-		this.familyTree.addFamilyTreeEntry(player, EnumRelation.Parent);
-		this.familyTree.addFamilyTreeEntry(MCA.getInstance().getWorldProperties(manager).playerSpouseID, EnumRelation.Parent);
+		familyTree.addFamilyTreeEntry(player, EnumRelation.Parent);
+		familyTree.addFamilyTreeEntry(MCA.getInstance().getWorldProperties(manager).playerSpouseID, EnumRelation.Parent);
 	}
 
 	@Override
-	public void addAI() 
+	public void addAI()
 	{
-		this.getNavigator().setBreakDoors(true);
-		this.getNavigator().setAvoidsWater(false);
-		this.getNavigator().setCanSwim(true);
-		
-		this.tasks.addTask(0, new EntityAISwimming(this));
-		this.tasks.addTask(2, new EntityAIMoveIndoors(this));
-		this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
-		this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
-		this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.6D));
-		this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
-		this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityVillagerAdult.class, 5.0F, 0.02F));
-		this.tasks.addTask(9, new EntityAIWander(this, 0.6D));
-		this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLivingBase.class, 8.0F));
+		getNavigator().setBreakDoors(true);
+		getNavigator().setAvoidsWater(false);
+		getNavigator().setCanSwim(true);
+
+		tasks.addTask(0, new EntityAISwimming(this));
+		tasks.addTask(2, new EntityAIMoveIndoors(this));
+		tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
+		tasks.addTask(4, new EntityAIOpenDoor(this, true));
+		tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.6D));
+		tasks.addTask(9, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
+		tasks.addTask(9, new EntityAIWatchClosest2(this, EntityVillagerAdult.class, 5.0F, 0.02F));
+		tasks.addTask(9, new EntityAIWander(this, 0.6D));
+		tasks.addTask(10, new EntityAIWatchClosest(this, EntityLivingBase.class, 8.0F));
 	}
 
 	@Override
@@ -205,7 +204,7 @@ public class EntityPlayerChild extends AbstractChild
 	}
 
 	@Override
-	public String getCharacterType(int playerId) 
+	public String getCharacterType(int playerId)
 	{
 		if (familyTree.idIsARelative(playerId))
 		{
@@ -294,7 +293,7 @@ public class EntityPlayerChild extends AbstractChild
 			{
 				if (itemStack.getItem() instanceof ItemVillagerEditor)
 				{
-					MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_EDITOR), (EntityPlayerMP)player);
+					MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_EDITOR), (EntityPlayerMP) player);
 					return true;
 				}
 
@@ -318,12 +317,12 @@ public class EntityPlayerChild extends AbstractChild
 				{
 					if (isMarriedToPlayer && player.getCommandSenderName().equals(spousePlayerName))
 					{
-						MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_SPOUSE), (EntityPlayerMP)player);
+						MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_SPOUSE), (EntityPlayerMP) player);
 					}
 
 					else
 					{
-						MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_PCHILD), (EntityPlayerMP)player);
+						MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_PCHILD), (EntityPlayerMP) player);
 					}
 				}
 
@@ -331,12 +330,12 @@ public class EntityPlayerChild extends AbstractChild
 				{
 					if (isAdult && isMarriedToVillager && isMarriedToPlayer)
 					{
-						MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_ADULT), (EntityPlayerMP)player);
+						MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_ADULT), (EntityPlayerMP) player);
 					}
 
 					else
 					{
-						MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_VCHILD), (EntityPlayerMP)player);
+						MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(getEntityId(), Constants.ID_GUI_VCHILD), (EntityPlayerMP) player);
 					}
 				}
 			}
@@ -387,8 +386,7 @@ public class EntityPlayerChild extends AbstractChild
 					doGiftOfCake(itemStack, player);
 				}
 
-				else if (itemStack.getItem() == Items.wheat_seeds || itemStack.getItem() == Items.carrot || 
-						itemStack.getItem() == Items.wheat || itemStack.getItem() == Items.bone)
+				else if (itemStack.getItem() == Items.wheat_seeds || itemStack.getItem() == Items.carrot || itemStack.getItem() == Items.wheat || itemStack.getItem() == Items.bone)
 				{
 					doGiftOfChoreItem(itemStack, player);
 				}
@@ -400,7 +398,7 @@ public class EntityPlayerChild extends AbstractChild
 
 				else if (itemStack.getItem() instanceof ItemArmor)
 				{
-					final ItemArmor armor = (ItemArmor)itemStack.getItem();
+					final ItemArmor armor = (ItemArmor) itemStack.getItem();
 					final ItemStack transferStack = new ItemStack(itemStack.getItem(), 1, itemStack.getItemDamage());
 
 					if (armor.getArmorMaterial() == ArmorMaterial.CLOTH)
@@ -414,8 +412,7 @@ public class EntityPlayerChild extends AbstractChild
 					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetInventory(getEntityId(), inventory));
 				}
 
-				else if (itemStack.getItem() instanceof ItemTool || itemStack.getItem() instanceof ItemSword || 
-						itemStack.getItem() instanceof ItemFishingRod || itemStack.getItem() instanceof ItemHoe)
+				else if (itemStack.getItem() instanceof ItemTool || itemStack.getItem() instanceof ItemSword || itemStack.getItem() instanceof ItemFishingRod || itemStack.getItem() instanceof ItemHoe)
 				{
 					inventory.addItemStackToInventory(itemStack);
 					inventory.setWornArmorItems();
@@ -431,16 +428,16 @@ public class EntityPlayerChild extends AbstractChild
 
 				else if (itemStack.getItem() instanceof ItemAppleGold)
 				{
-					this.age += LogicHelper.getNumberInRange(30, 90);
+					age += LogicHelper.getNumberInRange(30, 90);
 					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "age", age));
 				}
-				
+
 				else
 				{
 					doGift(itemStack, player);
 				}
 
-				MCA.packetHandler.sendPacketToPlayer(new PacketSetFieldValue(getEntityId(), "playerMemoryMap", playerMemoryMap), (EntityPlayerMP)player);
+				MCA.packetHandler.sendPacketToPlayer(new PacketSetFieldValue(getEntityId(), "playerMemoryMap", playerMemoryMap), (EntityPlayerMP) player);
 			}
 		}
 
@@ -544,15 +541,13 @@ public class EntityPlayerChild extends AbstractChild
 	/**
 	 * Handles the gifting of a chore item.
 	 * 
-	 * @param itemStack	The item given to the entity.
-	 * @param player	The player that gave the item.
+	 * @param itemStack The item given to the entity.
+	 * @param player The player that gave the item.
 	 */
 	private void doGiftOfChoreItem(ItemStack itemStack, EntityPlayer player)
 	{
 		//Check if the player isn't the parent.
-		if (familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) != EnumRelation.Mother ||
-				familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) != EnumRelation.Father ||
-				familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) != EnumRelation.Parent)
+		if (familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) != EnumRelation.Mother || familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) != EnumRelation.Father || familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) != EnumRelation.Parent)
 		{
 			doGift(itemStack, player);
 		}
@@ -588,17 +583,15 @@ public class EntityPlayerChild extends AbstractChild
 	/**
 	 * Handles the gifting of an heir crown.
 	 * 
-	 * @param 	itemStack	The itemstack containing the crown.
-	 * @param 	player		The player that gifted the item.
+	 * @param itemStack The itemstack containing the crown.
+	 * @param player The player that gifted the item.
 	 */
 	private void doGiftOfHeirCrown(ItemStack itemStack, EntityPlayer player)
 	{
 		//Check for parent relation.
-		if (familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) != EnumRelation.Mother ||
-				familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) != EnumRelation.Father ||
-				familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) != EnumRelation.Parent)
+		if (familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) != EnumRelation.Mother || familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) != EnumRelation.Father || familyTree.getRelationOf(MCA.getInstance().getIdOfPlayer(player)) != EnumRelation.Parent)
 		{
-			if (this.hasBeenHeir)
+			if (hasBeenHeir)
 			{
 				notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("heir.set.failure.alreadyused", null, this, false));
 			}
@@ -615,7 +608,7 @@ public class EntityPlayerChild extends AbstractChild
 						inventory.setWornArmorItems();
 						Utility.removeItemFromPlayer(itemStack, player);
 
-						MCA.getInstance().getWorldProperties(manager).heirId = this.mcaID;
+						MCA.getInstance().getWorldProperties(manager).heirId = mcaID;
 						manager.saveWorldProperties();
 
 						MCA.packetHandler.sendPacketToServer(new PacketSetInventory(getEntityId(), inventory));
@@ -623,7 +616,7 @@ public class EntityPlayerChild extends AbstractChild
 						return;
 					}
 
-					else if (MCA.getInstance().getWorldProperties(manager).heirId == this.mcaID)
+					else if (MCA.getInstance().getWorldProperties(manager).heirId == mcaID)
 					{
 						notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("heir.set.failure.sameperson", null, this, false));
 					}
@@ -651,7 +644,7 @@ public class EntityPlayerChild extends AbstractChild
 		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(ownerPlayerName);
 
 		if (manager != null && MCA.getInstance().getPlayerByID(worldObj, MCA.getInstance().getWorldProperties(manager).playerID) != null)
-		{			
+		{
 			doAutoGrow = MCA.getInstance().getWorldProperties(manager).childrenGrowAutomatically;
 
 			if (isReadyToGrow && !hasNotifiedReady)
@@ -674,7 +667,7 @@ public class EntityPlayerChild extends AbstractChild
 								notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("notify.child.readytogrow", null, this, false));
 							}
 						}
-						
+
 						hasNotifiedReady = true;
 					}
 				}
@@ -715,11 +708,11 @@ public class EntityPlayerChild extends AbstractChild
 		if (!isMarriedToVillager)
 		{
 			//Only update when the player is on the server.
-			EntityPlayer player = worldObj.getPlayerEntityByName(ownerPlayerName);
+			final EntityPlayer player = worldObj.getPlayerEntityByName(ownerPlayerName);
 
 			if (player != null)
 			{
-				PlayerMemory memory = playerMemoryMap.get(ownerPlayerName);
+				final PlayerMemory memory = playerMemoryMap.get(ownerPlayerName);
 
 				if (memory != null)
 				{

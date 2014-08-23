@@ -26,19 +26,19 @@ import net.minecraft.nbt.NBTTagCompound;
  */
 public abstract class AbstractChore implements Serializable
 {
-	/**The entity performing this chore.*/
+	/** The entity performing this chore. */
 	public AbstractEntity owner;
-	
-	/**Has beginChore() been ran?*/
+
+	/** Has beginChore() been ran? */
 	public boolean hasBegun;
 
-	/**Has endChore() been ran?*/
+	/** Has endChore() been ran? */
 	public boolean hasEnded;
-	
+
 	/**
 	 * Constructor
 	 * 
-	 * @param 	entity	The entity that will be performing the chore.
+	 * @param entity The entity that will be performing the chore.
 	 */
 	public AbstractChore(AbstractEntity entity)
 	{
@@ -58,7 +58,7 @@ public abstract class AbstractChore implements Serializable
 	/**
 	 * Gets the name of the chore that is being performed.
 	 * 
-	 * @return	The name of the chore being performed.
+	 * @return The name of the chore being performed.
 	 */
 	public abstract String getChoreName();
 
@@ -66,63 +66,62 @@ public abstract class AbstractChore implements Serializable
 	 * Ends the chore.
 	 */
 	public abstract void endChore();
-	
+
 	/**
 	 * Writes the chore to NBT.
 	 * 
-	 * @param 	nbt	The NBTTagCompound to write the chore to.
+	 * @param nbt The NBTTagCompound to write the chore to.
 	 */
 	public abstract void writeChoreToNBT(NBTTagCompound nbt);
 
 	/**
 	 * Reads the chore from NBT.
 	 * 
-	 * @param 	nbt	The NBTTagCompound to read the chore from.
+	 * @param nbt The NBTTagCompound to read the chore from.
 	 */
 	public abstract void readChoreFromNBT(NBTTagCompound nbt);
-	
+
 	/**
 	 * Calculates delay amount depending on the tool provided.
 	 * 
-	 * @param 	toolStack	The ItemStack containing the chore's tool.
-	 * 
-	 * @return	Delay time in ticks depending on tool type.
+	 * @param toolStack The ItemStack containing the chore's tool.
+	 * @return Delay time in ticks depending on tool type.
 	 */
 	protected abstract int getDelayForToolType(ItemStack toolStack);
-	
+
 	/**
-	 * @return 	The name of the chore's XP field.
+	 * @return The name of the chore's XP field.
 	 */
 	protected abstract String getChoreXpName();
-	
+
 	/**
-	 * @return	The base phrase ID of the chore's level up phrase.
+	 * @return The base phrase ID of the chore's level up phrase.
 	 */
 	protected abstract String getBaseLevelUpPhrase();
-	
+
 	/**
-	 * @return	Owner's xp level for this chore.
+	 * @return Owner's xp level for this chore.
 	 */
 	protected abstract float getChoreXp();
 
 	/**
 	 * Set's the chore's XP field to the provided value.
 	 * 
-	 * @param 	setAmount	The value that the chore's XP field should be set to.
+	 * @param setAmount The value that the chore's XP field should be set to.
 	 */
 	protected abstract void setChoreXp(float setAmount);
-	
+
 	/**
 	 * Increases the chore's XP amount by the provided amount.
 	 * 
-	 * @param 	amount	Amount to increase the XP level by.
+	 * @param amount Amount to increase the XP level by.
 	 */
 	protected final void incrementChoreXpLevel(float amount)
 	{
 		if (owner instanceof EntityPlayerChild)
 		{
 			float adjustableAmount = amount;
-			final EntityPlayer ownerPlayer = owner.worldObj.getPlayerEntityByName(((EntityPlayerChild)owner).ownerPlayerName);
+			final EntityPlayer ownerPlayer = owner.worldObj.getPlayerEntityByName(((EntityPlayerChild) owner).ownerPlayerName);
 
 			if (adjustableAmount <= 0)
 			{
@@ -142,21 +141,21 @@ public abstract class AbstractChore implements Serializable
 			}
 		}
 	}
-	
+
 	/**
 	 * Tell the provided player that the child has gained an extra chore ability.
 	 * 
-	 * @param prevAmount			The amount of experience before earned experience applied.
-	 * @param newAmount				The amount of experience after earned experience applied.
-	 * @param notificationString	Partial phrase ID that notifies the player what happened.
-	 * @param playerToNotify		The player to be notified.
+	 * @param prevAmount The amount of experience before earned experience applied.
+	 * @param newAmount The amount of experience after earned experience applied.
+	 * @param notificationString Partial phrase ID that notifies the player what happened.
+	 * @param playerToNotify The player to be notified.
 	 */
 	protected void notifyOfChoreLevelIncrease(float prevAmount, float newAmount, String notificationString, EntityPlayer playerToNotify)
 	{
 		if (!owner.worldObj.isRemote && playerToNotify != null)
 		{
-			final EntityPlayerMP entityPlayerMP = (EntityPlayerMP)playerToNotify;
-			
+			final EntityPlayerMP entityPlayerMP = (EntityPlayerMP) playerToNotify;
+
 			if (prevAmount < 5.0F && newAmount >= 5.0F)
 			{
 				MCA.packetHandler.sendPacketToPlayer(new PacketNotifyPlayer(owner.getEntityId(), notificationString + ".5"), entityPlayerMP);

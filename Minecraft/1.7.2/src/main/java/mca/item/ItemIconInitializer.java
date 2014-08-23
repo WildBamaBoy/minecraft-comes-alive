@@ -18,19 +18,19 @@ import net.minecraft.item.Item;
  */
 public class ItemIconInitializer extends Item
 {
-    /**
-     * Constructor
-     */
-    public ItemIconInitializer()
-    {
-        super();
-        maxStackSize = 0;
-    }
-    
-    @Override
-    public void registerIcons(IIconRegister IIconRegister)
-    {
-    	System.out.println("A");
-    	MCA.iconFoodSlotEmpty = IIconRegister.registerIcon("mca:IconFoodEmpty");
-    }
+	/**
+	 * Constructor
+	 */
+	public ItemIconInitializer()
+	{
+		super();
+		maxStackSize = 0;
+	}
+
+	@Override
+	public void registerIcons(IIconRegister IIconRegister)
+	{
+		System.out.println("A");
+		MCA.iconFoodSlotEmpty = IIconRegister.registerIcon("mca:IconFoodEmpty");
+	}
 }

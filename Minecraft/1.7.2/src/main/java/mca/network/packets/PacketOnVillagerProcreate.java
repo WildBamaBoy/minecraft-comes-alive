@@ -19,7 +19,7 @@ public class PacketOnVillagerProcreate extends AbstractPacket implements IMessag
 {
 	private int entityId;
 	private boolean babyIsMale;
-	
+
 	public PacketOnVillagerProcreate()
 	{
 	}
@@ -31,36 +31,36 @@ public class PacketOnVillagerProcreate extends AbstractPacket implements IMessag
 	}
 
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
-		this.entityId = byteBuf.readInt();
-		this.babyIsMale = byteBuf.readBoolean();
+		entityId = byteBuf.readInt();
+		babyIsMale = byteBuf.readBoolean();
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(entityId);
 		byteBuf.writeBoolean(babyIsMale);
 	}
 
 	@Override
-	public IMessage onMessage(PacketOnVillagerProcreate packet, MessageContext context) 
+	public IMessage onMessage(PacketOnVillagerProcreate packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
-		AbstractEntity villager = (AbstractEntity)player.worldObj.getEntityByID(packet.entityId);
+		final AbstractEntity villager = (AbstractEntity) player.worldObj.getEntityByID(packet.entityId);
 		AbstractBaby itemBaby = null;
 
 		//Unlock the appropriate achievement.
 		if (packet.babyIsMale)
 		{
-			itemBaby = (AbstractBaby)MCA.getInstance().itemBabyBoy;
+			itemBaby = (AbstractBaby) MCA.getInstance().itemBabyBoy;
 			player.triggerAchievement(MCA.getInstance().achievementHaveBabyBoy);
 		}
 
 		else
 		{
-			itemBaby = (AbstractBaby)MCA.getInstance().itemBabyGirl;
+			itemBaby = (AbstractBaby) MCA.getInstance().itemBabyGirl;
 			player.triggerAchievement(MCA.getInstance().achievementHaveBabyGirl);
 		}
 
@@ -75,7 +75,7 @@ public class PacketOnVillagerProcreate extends AbstractPacket implements IMessag
 		manager.saveWorldProperties();
 
 		//Make the player choose a name for the baby.
-		player.openGui(MCA.getInstance(), Constants.ID_GUI_NAMECHILD, player.worldObj, (int)player.posX, (int)player.posY, (int)player.posZ);
+		player.openGui(MCA.getInstance(), Constants.ID_GUI_NAMECHILD, player.worldObj, (int) player.posX, (int) player.posY, (int) player.posZ);
 		return null;
 	}
 }

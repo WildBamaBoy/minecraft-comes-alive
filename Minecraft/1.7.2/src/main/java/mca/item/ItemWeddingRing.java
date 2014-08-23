@@ -25,22 +25,22 @@ import cpw.mods.fml.relauncher.SideOnly;
  */
 public class ItemWeddingRing extends Item
 {
-    /**
-     * Constructor
-     */
-    public ItemWeddingRing()
-    {
-        super();
-        maxStackSize = 1;
-        setCreativeTab(CreativeTabs.tabMisc);
-    }
-    
-    @Override
-    public void registerIcons(IIconRegister IIconRegister)
-    {
-    	itemIcon = IIconRegister.registerIcon("mca:WeddingRing");
-    }
-    
+	/**
+	 * Constructor
+	 */
+	public ItemWeddingRing()
+	{
+		super();
+		maxStackSize = 1;
+		setCreativeTab(CreativeTabs.tabMisc);
+	}
+
+	@Override
+	public void registerIcons(IIconRegister IIconRegister)
+	{
+		itemIcon = IIconRegister.registerIcon("mca:WeddingRing");
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List informationList, boolean unknown)

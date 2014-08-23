@@ -4,32 +4,32 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
 
-public final class RDXServerBridge 
+public final class RDXServerBridge
 {
 	public static String sendVersionQuery()
 	{
 		String version = null;
-		
+
 		try
 		{
-			Socket connectSocket = new Socket("107.170.27.20", 3577);
-	
-			DataOutputStream dataOut = new DataOutputStream(connectSocket.getOutputStream());
-			DataInputStream dataIn = new DataInputStream(connectSocket.getInputStream());
-	
+			final Socket connectSocket = new Socket("107.170.27.20", 3577);
+
+			final DataOutputStream dataOut = new DataOutputStream(connectSocket.getOutputStream());
+			final DataInputStream dataIn = new DataInputStream(connectSocket.getInputStream());
+
 			dataOut.writeByte(1);
 			dataOut.writeUTF("MCA");
-			
+
 			version = dataIn.readUTF();
-			
+
 			connectSocket.close();
 		}
-	
-		catch (Throwable e)
+
+		catch (final Throwable e)
 		{
 			e.printStackTrace();
 		}
-		
+
 		return version;
 	}
 
@@ -37,10 +37,10 @@ public final class RDXServerBridge
 	{
 		try
 		{
-			Socket connectSocket = new Socket("107.170.27.20", 3577);
+			final Socket connectSocket = new Socket("107.170.27.20", 3577);
 
-			DataOutputStream dataOut = new DataOutputStream(connectSocket.getOutputStream());
-			DataInputStream dataIn = new DataInputStream(connectSocket.getInputStream());
+			final DataOutputStream dataOut = new DataOutputStream(connectSocket.getOutputStream());
+			new DataInputStream(connectSocket.getInputStream());
 
 			dataOut.writeByte(2);
 			dataOut.writeUTF("MCA");
@@ -49,7 +49,7 @@ public final class RDXServerBridge
 			connectSocket.close();
 		}
 
-		catch (Throwable e)
+		catch (final Throwable e)
 		{
 			e.printStackTrace();
 		}

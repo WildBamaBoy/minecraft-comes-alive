@@ -15,79 +15,79 @@ import com.radixshock.radixcore.core.RadixCore;
 
 public class UpdateChecker implements IUpdateChecker
 {
-	private IEnforcedCore mod;
+	private final IEnforcedCore mod;
 	private boolean hasCheckedForUpdates;
 	private ICommandSender commandSender;
-	
+
 	public UpdateChecker(IEnforcedCore mod)
 	{
 		this.mod = mod;
-		this.hasCheckedForUpdates = false;
-	}
-	
-	@Override
-	public void setCommandSender(ICommandSender sender) 
-	{
-		this.commandSender = sender;
+		hasCheckedForUpdates = false;
 	}
 
 	@Override
-	public void run() 
+	public void setCommandSender(ICommandSender sender)
+	{
+		commandSender = sender;
+	}
+
+	@Override
+	public void run()
 	{
 		try
 		{
-		if (!hasCheckedForUpdates)
-		{
-			String versionSignature = RDXServerBridge.sendVersionQuery();
-		
-			String mostRecentVersion = versionSignature.substring(0, versionSignature.indexOf("|"));
-			String validGameVersions = versionSignature.substring(versionSignature.indexOf("|") + 1);
-
-			String updateRedirectionURL = mod.getRedirectURL();
-
-			hasCheckedForUpdates = true;
-
-			if (!mostRecentVersion.equals(mod.getVersion()))
+			if (!hasCheckedForUpdates)
 			{
-				final String messageUpdateVersion = Font.Color.DARKGREEN + mod.getShortModName() + " " + mostRecentVersion + Font.Color.YELLOW + " for " + Font.Color.DARKGREEN + "Minecraft " + validGameVersions + Font.Color.YELLOW + " is available.";
-				final String messageUpdateURL = Font.Color.YELLOW + "Click " + Font.Color.BLUE + Font.Format.ITALIC + Font.Format.UNDERLINE + "here" + Font.Format.RESET + Font.Color.YELLOW + " to download the update for " + mod.getShortModName() + ".";
+				final String versionSignature = RDXServerBridge.sendVersionQuery();
 
-				commandSender.addChatMessage(new ChatComponentText(messageUpdateVersion));
+				final String mostRecentVersion = versionSignature.substring(0, versionSignature.indexOf("|"));
+				final String validGameVersions = versionSignature.substring(versionSignature.indexOf("|") + 1);
 
-				if (updateRedirectionURL.contains("current" + mod.getShortModName() + "=%"))
+				String updateRedirectionURL = mod.getRedirectURL();
+
+				hasCheckedForUpdates = true;
+
+				if (!mostRecentVersion.equals(mod.getVersion()))
 				{
-					updateRedirectionURL = updateRedirectionURL.replace("current" + mod.getShortModName() + "=%", "current" + mod.getShortModName() + "=" + mostRecentVersion);
+					final String messageUpdateVersion = Font.Color.DARKGREEN + mod.getShortModName() + " " + mostRecentVersion + Font.Color.YELLOW + " for " + Font.Color.DARKGREEN + "Minecraft " + validGameVersions + Font.Color.YELLOW + " is available.";
+					final String messageUpdateURL = Font.Color.YELLOW + "Click " + Font.Color.BLUE + Font.Format.ITALIC + Font.Format.UNDERLINE + "here" + Font.Format.RESET + Font.Color.YELLOW + " to download the update for " + mod.getShortModName() + ".";
+
+					commandSender.addChatMessage(new ChatComponentText(messageUpdateVersion));
+
+					if (updateRedirectionURL.contains("current" + mod.getShortModName() + "=%"))
+					{
+						updateRedirectionURL = updateRedirectionURL.replace("current" + mod.getShortModName() + "=%", "current" + mod.getShortModName() + "=" + mostRecentVersion);
+					}
+
+					if (updateRedirectionURL.contains("currentMC=%"))
+					{
+						updateRedirectionURL = updateRedirectionURL.replace("currentMC=%", "currentMC=" + validGameVersions);
+					}
+
+					if (!updateRedirectionURL.contains("currentRadixCore=") && !updateRedirectionURL.contains("userRadixCore="))
+					{
+						updateRedirectionURL += "&userRadixCore=" + RadixCore.getInstance().getVersion();
+
+						final URL radixUrl = new URL(RadixCore.getInstance().getUpdateURL());
+						final Scanner radixScanner = new Scanner(radixUrl.openStream());
+
+						radixScanner.nextLine();
+						final String radixRecentVersion = radixScanner.nextLine();
+
+						radixScanner.close();
+
+						updateRedirectionURL += "&currentRadixCore=" + radixRecentVersion;
+					}
+
+					final IChatComponent chatComponentUpdate = new ChatComponentText(messageUpdateURL);
+					chatComponentUpdate.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, updateRedirectionURL));
+					chatComponentUpdate.getChatStyle().setUnderlined(true);
+					commandSender.addChatMessage(chatComponentUpdate);
 				}
-
-				if (updateRedirectionURL.contains("currentMC=%"))
-				{
-					updateRedirectionURL = updateRedirectionURL.replace("currentMC=%", "currentMC=" + validGameVersions);
-				}
-
-				if (!updateRedirectionURL.contains("currentRadixCore=") && !updateRedirectionURL.contains("userRadixCore="))
-				{
-					updateRedirectionURL += "&userRadixCore=" + RadixCore.getInstance().getVersion();
-
-					final URL radixUrl = new URL(RadixCore.getInstance().getUpdateURL());
-					final Scanner radixScanner = new Scanner(radixUrl.openStream());
-
-					radixScanner.nextLine();
-					final String radixRecentVersion = radixScanner.nextLine();
-
-					radixScanner.close();
-
-					updateRedirectionURL += "&currentRadixCore=" + radixRecentVersion;
-				}
-
-				final IChatComponent chatComponentUpdate = new ChatComponentText(messageUpdateURL);
-				chatComponentUpdate.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, updateRedirectionURL));
-				chatComponentUpdate.getChatStyle().setUnderlined(true);
-				commandSender.addChatMessage(chatComponentUpdate);
 			}
 		}
-		}
-		
-		catch (Throwable e)
+
+		catch (final Throwable e)
 		{
 			e.printStackTrace();
 			mod.getLogger().log("Error checking for updates.");

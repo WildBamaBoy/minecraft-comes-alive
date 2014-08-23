@@ -12,7 +12,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketClickMountHorse  extends AbstractPacket implements IMessage, IMessageHandler<PacketClickMountHorse, IMessage>
+public class PacketClickMountHorse extends AbstractPacket implements IMessage, IMessageHandler<PacketClickMountHorse, IMessage>
 {
 	private int interactingEntityId;
 	private int horseEntityId;
@@ -28,21 +28,21 @@ public class PacketClickMountHorse  extends AbstractPacket implements IMessage, 
 	}
 
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		interactingEntityId = byteBuf.readInt();
 		horseEntityId = byteBuf.readInt();
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(interactingEntityId);
 		byteBuf.writeInt(horseEntityId);
 	}
 
 	@Override
-	public IMessage onMessage(PacketClickMountHorse packet, MessageContext context) 
+	public IMessage onMessage(PacketClickMountHorse packet, MessageContext context)
 	{
 		try
 		{
@@ -84,7 +84,7 @@ public class PacketClickMountHorse  extends AbstractPacket implements IMessage, 
 			}
 		}
 
-		catch (NullPointerException e)
+		catch (final NullPointerException e)
 		{
 			e.printStackTrace();
 		}

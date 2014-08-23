@@ -29,35 +29,35 @@ public class PacketReturnInventory extends AbstractPacket implements IMessage, I
 	}
 
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		entityId = byteBuf.readInt();
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(entityId);
 	}
 
 	@Override
-	public IMessage onMessage(PacketReturnInventory packet, MessageContext context) 
+	public IMessage onMessage(PacketReturnInventory packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
-		final AbstractEntity entity = (AbstractEntity)player.worldObj.getEntityByID(packet.entityId);
+		final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(packet.entityId);
 
 		if (entity != null)
 		{
-			ArrayList<EntityItem> itemList = MCA.getInstance().deadPlayerInventories.get(player.getCommandSenderName());
+			final ArrayList<EntityItem> itemList = MCA.getInstance().deadPlayerInventories.get(player.getCommandSenderName());
 
-			for (EntityItem item : itemList)
+			for (final EntityItem item : itemList)
 			{
 				entity.entityDropItem(item.getEntityItem(), 0.3F);
 			}
 
 			MCA.getInstance().deadPlayerInventories.remove(player.getCommandSenderName());
 		}
-		
+
 		return null;
 	}
 }

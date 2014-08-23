@@ -30,24 +30,24 @@ public class PacketSetInventory extends AbstractPacket implements IMessage, IMes
 	}
 
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		entityId = byteBuf.readInt();
 		inventory = (Inventory) ByteBufIO.readObject(byteBuf);
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(entityId);
 		ByteBufIO.writeObject(byteBuf, inventory);
 	}
 
 	@Override
-	public IMessage onMessage(PacketSetInventory packet, MessageContext context) 
+	public IMessage onMessage(PacketSetInventory packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
-		final AbstractEntity entity = (AbstractEntity)player.worldObj.getEntityByID(packet.entityId);
+		final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(packet.entityId);
 
 		if (entity != null)
 		{
@@ -58,7 +58,7 @@ public class PacketSetInventory extends AbstractPacket implements IMessage, IMes
 
 		if (!player.worldObj.isRemote)
 		{
-			MCA.packetHandler.sendPacketToAllPlayersExcept(new PacketSetInventory(packet.entityId, packet.inventory), (EntityPlayerMP)player);
+			MCA.packetHandler.sendPacketToAllPlayersExcept(new PacketSetInventory(packet.entityId, packet.inventory), (EntityPlayerMP) player);
 		}
 
 		return null;

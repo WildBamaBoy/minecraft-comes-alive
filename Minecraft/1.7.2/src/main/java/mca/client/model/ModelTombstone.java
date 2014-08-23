@@ -19,10 +19,10 @@ public class ModelTombstone extends ModelBase
 {
 	/** The base, or bottom of the tombstone. */
 	ModelRenderer base;
-	
+
 	/** The center text area of the timestone. */
 	ModelRenderer textArea;
-	
+
 	/** The topmost curve of the tombstone. */
 	ModelRenderer topCurve;
 
@@ -47,7 +47,7 @@ public class ModelTombstone extends ModelBase
 		topCurve.setRotationPoint(-5F, 14F, -1F);
 		topCurve.setTextureSize(64, 64);
 	}
-	
+
 	/**
 	 * Renders each component of the tombstone.
 	 */

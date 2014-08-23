@@ -18,48 +18,48 @@ public class PacketSetFamilyTree extends AbstractPacket implements IMessage, IMe
 {
 	private int entityId;
 	private FamilyTree familyTree;
-	
+
 	public PacketSetFamilyTree()
 	{
 	}
-	
+
 	public PacketSetFamilyTree(int entityId, FamilyTree familyTree)
 	{
 		this.entityId = entityId;
 		this.familyTree = familyTree;
 	}
-	
+
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		entityId = byteBuf.readInt();
-		familyTree = (FamilyTree)ByteBufIO.readObject(byteBuf);
+		familyTree = (FamilyTree) ByteBufIO.readObject(byteBuf);
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(entityId);
 		ByteBufIO.writeObject(byteBuf, familyTree);
 	}
 
 	@Override
-	public IMessage onMessage(PacketSetFamilyTree packet, MessageContext context) 
+	public IMessage onMessage(PacketSetFamilyTree packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
-		final AbstractEntity entity = (AbstractEntity)player.worldObj.getEntityByID(packet.entityId);
+		final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(packet.entityId);
 
 		if (entity != null)
 		{
 			packet.familyTree.owner = entity;
 			entity.familyTree = packet.familyTree;
-			
+
 			if (context.side == Side.SERVER)
 			{
 				MCA.packetHandler.sendPacketToAllPlayers(packet);
 			}
 		}
-		
+
 		return null;
 	}
 }

@@ -13,30 +13,30 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 public class PacketAddAI extends AbstractPacket implements IMessage, IMessageHandler<PacketAddAI, IMessage>
 {
 	private int entityId;
-	
+
 	public PacketAddAI()
 	{
 	}
-	
+
 	public PacketAddAI(int entityId)
 	{
 		this.entityId = entityId;
 	}
-	
+
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		entityId = byteBuf.readInt();
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(entityId);
 	}
 
 	@Override
-	public IMessage onMessage(PacketAddAI packet, MessageContext context) 
+	public IMessage onMessage(PacketAddAI packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
 		final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(packet.entityId);
@@ -45,7 +45,7 @@ public class PacketAddAI extends AbstractPacket implements IMessage, IMessageHan
 		{
 			entity.addAI();
 		}
-		
+
 		return null;
 	}
 }

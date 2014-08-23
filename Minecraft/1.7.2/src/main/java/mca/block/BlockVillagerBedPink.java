@@ -19,24 +19,24 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockVillagerBedPink extends BlockVillagerBed
 {
-    public BlockVillagerBedPink()
-    {
-    	super();
-    }
+	public BlockVillagerBedPink()
+	{
+		super();
+	}
 
-    @Override
+	@Override
 	@SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister)
-    {
-        this.textureTop = new IIcon[] {iconRegister.registerIcon("mca:VillagerBed-Feet-Top-Pink"), iconRegister.registerIcon("mca:VillagerBed-Head-Top-Pink")};
-        this.textureEnd = new IIcon[] {iconRegister.registerIcon("mca:VillagerBed-Feet-End-Pink"), iconRegister.registerIcon("mca:VillagerBed-Head-End")};
-        this.textureSide = new IIcon[] {iconRegister.registerIcon("mca:VillagerBed-Feet-Side-Pink"), iconRegister.registerIcon("mca:VillagerBed-Head-Side-Pink")};
-    }
+	public void registerBlockIcons(IIconRegister iconRegister)
+	{
+		textureTop = new IIcon[] { iconRegister.registerIcon("mca:VillagerBed-Feet-Top-Pink"), iconRegister.registerIcon("mca:VillagerBed-Head-Top-Pink") };
+		textureEnd = new IIcon[] { iconRegister.registerIcon("mca:VillagerBed-Feet-End-Pink"), iconRegister.registerIcon("mca:VillagerBed-Head-End") };
+		textureSide = new IIcon[] { iconRegister.registerIcon("mca:VillagerBed-Feet-Side-Pink"), iconRegister.registerIcon("mca:VillagerBed-Head-Side-Pink") };
+	}
 
-    @Override
+	@Override
 	@SideOnly(Side.CLIENT)
-    public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
-    {
-        return Items.bed;
-    }
+	public Item getItem(World p_149694_1_, int p_149694_2_, int p_149694_3_, int p_149694_4_)
+	{
+		return Items.bed;
+	}
 }

@@ -28,26 +28,26 @@ public class ItemVillagerEditor extends Item
 	/**
 	 * Constructor
 	 */
-	public ItemVillagerEditor() 
+	public ItemVillagerEditor()
 	{
 		super();
-        maxStackSize = 1;
-        setCreativeTab(CreativeTabs.tabMisc);
+		maxStackSize = 1;
+		setCreativeTab(CreativeTabs.tabMisc);
 	}
-	
-    @Override
-    public void registerIcons(IIconRegister IIconRegister)
-    {
-    	itemIcon = IIconRegister.registerIcon("mca:VillagerEditor");
-    }
-    
+
+	@Override
+	public void registerIcons(IIconRegister IIconRegister)
+	{
+		itemIcon = IIconRegister.registerIcon("mca:VillagerEditor");
+	}
+
 	@SideOnly(Side.CLIENT)
 	@Override
-    public boolean hasEffect(ItemStack itemStack)
-    {
-        return true;
-    }
-	
+	public boolean hasEffect(ItemStack itemStack)
+	{
+		return true;
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List informationList, boolean unknown)

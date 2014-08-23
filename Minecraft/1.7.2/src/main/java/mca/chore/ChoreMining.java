@@ -39,67 +39,67 @@ import com.radixshock.radixcore.logic.Point3D;
  */
 public class ChoreMining extends AbstractChore
 {
-	/** Is the chore in passive mode?*/
+	/** Is the chore in passive mode? */
 	public boolean inPassiveMode;
 
-	/** Does the owner have coordinates they should be moving to? (Active only)*/
+	/** Does the owner have coordinates they should be moving to? (Active only) */
 	public boolean hasNextPath;
 
-	/** Has the owner given their ore to the player that hired them? (Villagers only)*/
+	/** Has the owner given their ore to the player that hired them? (Villagers only) */
 	public boolean hasGivenMinedOre = true;
 
-	/** The X coordinates that the active mining chore stated at.*/
+	/** The X coordinates that the active mining chore stated at. */
 	public double startX;
 
-	/** The Y coordinates that the active mining chore stated at.*/
+	/** The Y coordinates that the active mining chore stated at. */
 	public double startY;
 
-	/** The Z coordinates that the active mining chore stated at.*/
+	/** The Z coordinates that the active mining chore stated at. */
 	public double startZ;
 
-	/** The X coordinates that the owner should be moving to. (Active only)*/
+	/** The X coordinates that the owner should be moving to. (Active only) */
 	public double nextX;
 
-	/** The Y coordinates that the owner should be moving to. (Active only)*/
+	/** The Y coordinates that the owner should be moving to. (Active only) */
 	public double nextY;
 
-	/** The Z coordinates that the owner should be moving to. (Active only)*/
+	/** The Z coordinates that the owner should be moving to. (Active only) */
 	public double nextZ;
 
-	/** The X coordinates of the nearest valid block. (Passive only)*/
+	/** The X coordinates of the nearest valid block. (Passive only) */
 	public int nearestX;
 
-	/** The Y coordinates of the nearest valid block. (Passive only)*/
+	/** The Y coordinates of the nearest valid block. (Passive only) */
 	public int nearestY;
 
-	/** The Z coordinates of the nearest valid block. (Passive only)*/
+	/** The Z coordinates of the nearest valid block. (Passive only) */
 	public int nearestZ;
 
-	/** The amount of time it takes for a block to be broken when mining.*/
+	/** The amount of time it takes for a block to be broken when mining. */
 	public int delayInterval;
 
-	/** The amount of time the owner has been swinging the pick.*/
+	/** The amount of time the owner has been swinging the pick. */
 	public int delayCounter;
 
-	/** The amount of time that needs to pass for the owner to notify the player that ore is nearby.*/
+	/** The amount of time that needs to pass for the owner to notify the player that ore is nearby. */
 	public int notifyInterval;
 
-	/** The amount of time that has passed since the player was notified of nearby ore.*/
+	/** The amount of time that has passed since the player was notified of nearby ore. */
 	public int notifyCounter;
 
-	/** The distance from the owner's current point to the ore they have found.*/
+	/** The distance from the owner's current point to the ore they have found. */
 	public int distanceToOre;
 
-	/** The direction the owner is facing. (Active only)*/
+	/** The direction the owner is facing. (Active only) */
 	public int heading;
 
-	/** How far from the start position the owner will continue active mining.*/
+	/** How far from the start position the owner will continue active mining. */
 	public int maxDistance;
 
 	/** The index of the chore entry being used. */
 	public int entryIndex;
 
-	/** The ID of the block that a passive miner is looking for.*/
+	/** The ID of the block that a passive miner is looking for. */
 	public transient Block searchBlock;
 
 	/** The chore entry being used to find ore. */
@@ -108,7 +108,7 @@ public class ChoreMining extends AbstractChore
 	/**
 	 * Constructor
 	 * 
-	 * @param 	entity	The entity performing the chore.
+	 * @param entity The entity performing the chore.
 	 */
 	public ChoreMining(AbstractEntity entity)
 	{
@@ -118,28 +118,28 @@ public class ChoreMining extends AbstractChore
 	/**
 	 * Constructor
 	 * 
-	 * @param 	entity		The entity that should be performing this chore.
-	 * @param 	mode		0 = passive mode, 1 = active mode.
-	 * @param 	direction	The direction the entity should mine in. 0 = forward, 1 = backward, 2 = left, 3 = right/
-	 * @param 	oreType		(Passive only) The type of ore that should be searched for.
-	 * @param 	distance	(Active only) The distance that the entity should mine.
+	 * @param entity The entity that should be performing this chore.
+	 * @param mode 0 = passive mode, 1 = active mode.
+	 * @param direction The direction the entity should mine in. 0 = forward, 1 = backward, 2 = left, 3 = right/
+	 * @param oreType (Passive only) The type of ore that should be searched for.
+	 * @param distance (Active only) The distance that the entity should mine.
 	 */
 	public ChoreMining(AbstractEntity entity, int mode, MineableOre entry, int entryIndex, int direction, int distance)
 	{
 		super(entity);
-		this.oreEntry = entry;
+		oreEntry = entry;
 		this.entryIndex = entryIndex;
 
-		this.inPassiveMode = mode == 0 ? true : false;
-		this.searchBlock = entry == null ? null : entry.getOreBlock();
-		this.maxDistance = distance;
-		this.heading = LogicHelper.getHeadingRelativeToPlayerAndSpecifiedDirection(entity.worldObj.getPlayerEntityByName(entity.lastInteractingPlayer), direction);
-		this.delayInterval = getDelayForToolType(entity.inventory.getBestItemOfType(ItemPickaxe.class));
-		this.notifyInterval = Time.SECOND * 10;
+		inPassiveMode = mode == 0 ? true : false;
+		searchBlock = entry == null ? null : entry.getOreBlock();
+		maxDistance = distance;
+		heading = LogicHelper.getHeadingRelativeToPlayerAndSpecifiedDirection(entity.worldObj.getPlayerEntityByName(entity.lastInteractingPlayer), direction);
+		delayInterval = getDelayForToolType(entity.inventory.getBestItemOfType(ItemPickaxe.class));
+		notifyInterval = Time.SECOND * 10;
 	}
 
 	@Override
-	public void beginChore() 
+	public void beginChore()
 	{
 		if (!MCA.getInstance().getModProperties().server_allowMiningChore)
 		{
@@ -157,7 +157,7 @@ public class ChoreMining extends AbstractChore
 		{
 			startX = owner.posX;
 			startY = owner.posY;
-			startZ = owner.posZ; 
+			startZ = owner.posZ;
 			owner.isFollowing = false;
 			owner.isStaying = false;
 		}
@@ -169,7 +169,7 @@ public class ChoreMining extends AbstractChore
 	}
 
 	@Override
-	public void runChoreAI() 
+	public void runChoreAI()
 	{
 		if (inPassiveMode)
 		{
@@ -183,13 +183,13 @@ public class ChoreMining extends AbstractChore
 	}
 
 	@Override
-	public String getChoreName() 
+	public String getChoreName()
 	{
 		return "Mining";
 	}
 
 	@Override
-	public void endChore() 
+	public void endChore()
 	{
 		hasEnded = true;
 
@@ -208,7 +208,7 @@ public class ChoreMining extends AbstractChore
 	}
 
 	@Override
-	public void writeChoreToNBT(NBTTagCompound nbt) 
+	public void writeChoreToNBT(NBTTagCompound nbt)
 	{
 		//Loop through each field in this class and write to NBT.
 		for (final Field field : this.getClass().getFields())
@@ -244,7 +244,7 @@ public class ChoreMining extends AbstractChore
 				}
 			}
 
-			catch (IllegalAccessException e)
+			catch (final IllegalAccessException e)
 			{
 				MCA.getInstance().getLogger().log(e);
 				continue;
@@ -253,7 +253,7 @@ public class ChoreMining extends AbstractChore
 	}
 
 	@Override
-	public void readChoreFromNBT(NBTTagCompound nbt) 
+	public void readChoreFromNBT(NBTTagCompound nbt)
 	{
 		//Loop through each field in this class and read from NBT.
 		for (final Field field : this.getClass().getFields())
@@ -289,7 +289,7 @@ public class ChoreMining extends AbstractChore
 				}
 			}
 
-			catch (IllegalAccessException e)
+			catch (final IllegalAccessException e)
 			{
 				MCA.getInstance().getLogger().log(e);
 				continue;
@@ -298,21 +298,33 @@ public class ChoreMining extends AbstractChore
 	}
 
 	@Override
-	protected int getDelayForToolType(ItemStack toolStack) 
+	protected int getDelayForToolType(ItemStack toolStack)
 	{
 		if (owner instanceof EntityPlayerChild && toolStack != null)
 		{
-			final ToolMaterial material = ToolMaterial.valueOf(((ItemPickaxe)toolStack.getItem()).getToolMaterialName());
+			final ToolMaterial material = ToolMaterial.valueOf(((ItemPickaxe) toolStack.getItem()).getToolMaterialName());
 			int returnAmount = 0;
 
 			switch (material)
 			{
-			case WOOD: 		returnAmount = 40; break;
-			case STONE: 	returnAmount = 30; break;
-			case IRON: 		returnAmount = 25; break;
-			case EMERALD: 	returnAmount = 10; break;
-			case GOLD: 		returnAmount = 5; break;
-			default: 		returnAmount = 25; break;
+				case WOOD:
+					returnAmount = 40;
+					break;
+				case STONE:
+					returnAmount = 30;
+					break;
+				case IRON:
+					returnAmount = 25;
+					break;
+				case EMERALD:
+					returnAmount = 10;
+					break;
+				case GOLD:
+					returnAmount = 5;
+					break;
+				default:
+					returnAmount = 25;
+					break;
 			}
 
 			return getChoreXp() >= 5.0F ? returnAmount / 2 : returnAmount;
@@ -322,25 +334,25 @@ public class ChoreMining extends AbstractChore
 	}
 
 	@Override
-	protected String getChoreXpName() 
+	protected String getChoreXpName()
 	{
 		return "xpLvlMining";
 	}
 
 	@Override
-	protected String getBaseLevelUpPhrase() 
+	protected String getBaseLevelUpPhrase()
 	{
 		return "notify.child.chore.levelup.mining";
 	}
 
 	@Override
-	protected float getChoreXp() 
+	protected float getChoreXp()
 	{
 		return owner.xpLvlMining;
 	}
 
 	@Override
-	protected void setChoreXp(float setAmount) 
+	protected void setChoreXp(float setAmount)
 	{
 		owner.xpLvlMining = setAmount;
 	}
@@ -364,10 +376,10 @@ public class ChoreMining extends AbstractChore
 
 					incrementChoreXpLevel(0.05F - 0.002F * getChoreXp());
 
-					distanceToOre = Math.round((float)LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, nearestX, nearestY, nearestZ));
+					distanceToOre = Math.round((float) LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, nearestX, nearestY, nearestZ));
 					doOreDistanceNotification();
 
-					for (int i = 0; i < (getChoreXp() >= 10.0F ? 1 : 3); i++) 
+					for (int i = 0; i < (getChoreXp() >= 10.0F ? 1 : 3); i++)
 					{
 						owner.damageHeldItem();
 					}
@@ -376,7 +388,8 @@ public class ChoreMining extends AbstractChore
 				notifyCounter = 0;
 			}
 
-			else //Logic for finding a block is not ready to run.
+			else
+			//Logic for finding a block is not ready to run.
 			{
 				if (MCA.getInstance().inDebugMode)
 				{
@@ -390,7 +403,8 @@ public class ChoreMining extends AbstractChore
 			}
 		}
 
-		else //No longer carrying a pick.
+		else
+		//No longer carrying a pick.
 		{
 			if (!owner.worldObj.isRemote)
 			{
@@ -426,16 +440,16 @@ public class ChoreMining extends AbstractChore
 				}
 
 				if (LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, nextX, nextY, nextZ) <= 2.5)
-				{	
+				{
 					if (delayCounter < delayInterval)
 					{
 						owner.swingItem();
 						delayCounter++;
 					}
 
-					else			
+					else
 					{
-						final Block nextBlock = owner.worldObj.getBlock((int)nextX, (int)nextY, (int)nextZ);
+						final Block nextBlock = owner.worldObj.getBlock((int) nextX, (int) nextY, (int) nextZ);
 
 						if (nextBlock != Blocks.air)
 						{
@@ -449,14 +463,16 @@ public class ChoreMining extends AbstractChore
 					}
 				}
 
-				else //Not within 2.5 blocks of target.
+				else
+				//Not within 2.5 blocks of target.
 				{
 					doSetPathToNextBlock();
 				}
 			}
 		}
 
-		else //No path.
+		else
+		//No path.
 		{
 			doSetNextPath();
 		}
@@ -480,9 +496,9 @@ public class ChoreMining extends AbstractChore
 		return nearestPoint;
 	}
 
-	private boolean isNextBlockInvalid() 
+	private boolean isNextBlockInvalid()
 	{
-		final Block block = owner.worldObj.getBlock((int)nextX, (int)nextY, (int)nextZ);
+		final Block block = owner.worldObj.getBlock((int) nextX, (int) nextY, (int) nextZ);
 
 		for (final Block invalidBlock : Constants.UNMINEABLE_BLOCKS)
 		{
@@ -542,16 +558,29 @@ public class ChoreMining extends AbstractChore
 
 			switch (heading)
 			{
-			case 0:    nextX = owner.posX; nextZ = owner.posZ + scanDistance; break; 
-			case 180:  nextX = owner.posX; nextZ = owner.posZ - scanDistance; break; 
-			case -90:  nextX = owner.posX + scanDistance; nextZ = owner.posZ; break;
-			case 90:   nextX = owner.posX - scanDistance; nextZ = owner.posZ; break;
-			default: break;
+				case 0:
+					nextX = owner.posX;
+					nextZ = owner.posZ + scanDistance;
+					break;
+				case 180:
+					nextX = owner.posX;
+					nextZ = owner.posZ - scanDistance;
+					break;
+				case -90:
+					nextX = owner.posX + scanDistance;
+					nextZ = owner.posZ;
+					break;
+				case 90:
+					nextX = owner.posX - scanDistance;
+					nextZ = owner.posZ;
+					break;
+				default:
+					break;
 			}
 
-			if (owner.worldObj.getBlock((int)nextX, (int)nextY, (int)nextZ) == Blocks.air)
+			if (owner.worldObj.getBlock((int) nextX, (int) nextY, (int) nextZ) == Blocks.air)
 			{
-				if (owner.worldObj.getBlock((int)nextX, (int)nextY + 1, (int)nextZ) == Blocks.air)
+				if (owner.worldObj.getBlock((int) nextX, (int) nextY + 1, (int) nextZ) == Blocks.air)
 				{
 					hasNextPath = false;
 					scanDistance++;
@@ -589,8 +618,8 @@ public class ChoreMining extends AbstractChore
 		{
 			yieldBlock = Blocks.cobblestone;
 		}
-		
-		for (MineableOre entry : ChoreRegistry.getMiningOreEntries())
+
+		for (final MineableOre entry : ChoreRegistry.getMiningOreEntries())
 		{
 			if (nextBlock == entry.getOreBlock())
 			{
@@ -616,7 +645,7 @@ public class ChoreMining extends AbstractChore
 
 		try
 		{
-			ItemStack stackToAdd = null; 
+			ItemStack stackToAdd = null;
 
 			if (yieldBlock != null)
 			{
@@ -632,19 +661,19 @@ public class ChoreMining extends AbstractChore
 			owner.inventory.addItemStackToInventory(stackToAdd);
 		}
 
-		catch (NullPointerException e)
+		catch (final NullPointerException e)
 		{
 			MCA.getInstance().getLogger().log("Unable to mine block at " + nextX + ", " + nextY + ", " + nextZ);
 		}
 
-		owner.worldObj.setBlock((int)nextX, (int)nextY, (int)nextZ, Blocks.air);
+		owner.worldObj.setBlock((int) nextX, (int) nextY, (int) nextZ, Blocks.air);
 	}
 
 	private void doUpdateAchievements()
 	{
 		if (owner instanceof EntityPlayerChild)
 		{
-			EntityPlayerChild child = (EntityPlayerChild)owner;
+			final EntityPlayerChild child = (EntityPlayerChild) owner;
 
 			child.blocksMined++;
 
@@ -664,7 +693,7 @@ public class ChoreMining extends AbstractChore
 	{
 		if (!owner.worldObj.isRemote && owner.getNavigator().noPath())
 		{
-			owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ((int)nextX, (int)nextY, (int)nextZ), Constants.SPEED_WALK);
+			owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ((int) nextX, (int) nextY, (int) nextZ), Constants.SPEED_WALK);
 		}
 	}
 

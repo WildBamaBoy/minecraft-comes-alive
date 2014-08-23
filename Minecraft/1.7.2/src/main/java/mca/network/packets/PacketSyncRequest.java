@@ -28,19 +28,19 @@ public class PacketSyncRequest extends AbstractPacket implements IMessage, IMess
 	}
 
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		entityId = byteBuf.readInt();
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(entityId);
 	}
 
 	@Override
-	public IMessage onMessage(PacketSyncRequest packet, MessageContext context) 
+	public IMessage onMessage(PacketSyncRequest packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
 
@@ -52,12 +52,12 @@ public class PacketSyncRequest extends AbstractPacket implements IMessage, IMess
 				{
 					if (obj instanceof AbstractEntity)
 					{
-						AbstractEntity entity = (AbstractEntity)obj;
+						final AbstractEntity entity = (AbstractEntity) obj;
 
 						if (entity != null && entity.getEntityId() == packet.entityId)
 						{
 							MCA.packetHandler.sendPacketToPlayer(new PacketSync(entity.getEntityId(), entity), (EntityPlayerMP) player);
-							MCA.packetHandler.sendPacketToPlayer(new PacketSetInventory(entity.getEntityId(), entity.inventory), (EntityPlayerMP) player); 
+							MCA.packetHandler.sendPacketToPlayer(new PacketSetInventory(entity.getEntityId(), entity.inventory), (EntityPlayerMP) player);
 							MCA.getInstance().entitiesMap.put(entity.mcaID, entity);
 							break;
 						}
@@ -65,7 +65,7 @@ public class PacketSyncRequest extends AbstractPacket implements IMessage, IMess
 				}
 			}
 		}
-		
+
 		return null;
 	}
 }

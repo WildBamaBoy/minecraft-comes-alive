@@ -17,19 +17,19 @@ import net.minecraft.creativetab.CreativeTabs;
  */
 public class ItemBabyGirl extends AbstractBaby
 {
-    /**
-     * Constructor
-     */
-    public ItemBabyGirl()
-    {
-        super();
-        isMale = false;
-        setCreativeTab(CreativeTabs.tabMisc);
-    }
-    
-    @Override
-    public void registerIcons(IIconRegister IIconRegister)
-    {
-    	itemIcon = IIconRegister.registerIcon("mca:BabyGirl");
-    }
+	/**
+	 * Constructor
+	 */
+	public ItemBabyGirl()
+	{
+		super();
+		isMale = false;
+		setCreativeTab(CreativeTabs.tabMisc);
+	}
+
+	@Override
+	public void registerIcons(IIconRegister IIconRegister)
+	{
+		itemIcon = IIconRegister.registerIcon("mca:BabyGirl");
+	}
 }

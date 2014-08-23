@@ -32,35 +32,35 @@ public class PacketSyncEditorSettings extends AbstractPacket implements IMessage
 
 	public PacketSyncEditorSettings(AbstractEntity entity)
 	{
-		this.entityId = entity.getEntityId();
-		this.name = entity.name;
-		this.isMale = entity.isMale;
-		this.profession = entity.profession;
-		this.moodPointsAnger = entity.moodPointsAnger;
-		this.moodPointsHappy = entity.moodPointsHappy;
-		this.moodPointsSad = entity.moodPointsSad;
-		this.traitId = entity.traitId;
-		this.inventory = entity.inventory;
-		this.texture = entity.getTexture();
+		entityId = entity.getEntityId();
+		name = entity.name;
+		isMale = entity.isMale;
+		profession = entity.profession;
+		moodPointsAnger = entity.moodPointsAnger;
+		moodPointsHappy = entity.moodPointsHappy;
+		moodPointsSad = entity.moodPointsSad;
+		traitId = entity.traitId;
+		inventory = entity.inventory;
+		texture = entity.getTexture();
 	}
 
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
-		this.entityId = byteBuf.readInt();
-		this.name = (String)ByteBufIO.readObject(byteBuf);
-		this.isMale = byteBuf.readBoolean();
-		this.profession = byteBuf.readInt();
-		this.moodPointsAnger = byteBuf.readFloat();
-		this.moodPointsHappy = byteBuf.readFloat();
-		this.moodPointsSad = byteBuf.readFloat();
-		this.traitId = byteBuf.readInt();
-		this.inventory = (Inventory)ByteBufIO.readObject(byteBuf);
-		this.texture = (String)ByteBufIO.readObject(byteBuf);
+		entityId = byteBuf.readInt();
+		name = (String) ByteBufIO.readObject(byteBuf);
+		isMale = byteBuf.readBoolean();
+		profession = byteBuf.readInt();
+		moodPointsAnger = byteBuf.readFloat();
+		moodPointsHappy = byteBuf.readFloat();
+		moodPointsSad = byteBuf.readFloat();
+		traitId = byteBuf.readInt();
+		inventory = (Inventory) ByteBufIO.readObject(byteBuf);
+		texture = (String) ByteBufIO.readObject(byteBuf);
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(entityId);
 		ByteBufIO.writeObject(byteBuf, name);
@@ -75,7 +75,7 @@ public class PacketSyncEditorSettings extends AbstractPacket implements IMessage
 	}
 
 	@Override
-	public IMessage onMessage(PacketSyncEditorSettings packet, MessageContext context) 
+	public IMessage onMessage(PacketSyncEditorSettings packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
 		final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(packet.entityId);
@@ -94,7 +94,7 @@ public class PacketSyncEditorSettings extends AbstractPacket implements IMessage
 
 			MCA.packetHandler.sendPacketToAllPlayers(new PacketSync(entity.getEntityId(), entity));
 		}
-		
+
 		return null;
 	}
 }

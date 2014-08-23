@@ -22,31 +22,31 @@ import net.minecraft.util.ChatComponentText;
 public class CommandDebugMode extends AbstractCommand
 {
 	@Override
-	public String getCommandUsage(ICommandSender sender) 
+	public String getCommandUsage(ICommandSender sender)
 	{
 		return "/mca.debug <on/off>";
 	}
 
 	@Override
-	public boolean canCommandSenderUseCommand(ICommandSender sender) 
+	public boolean canCommandSenderUseCommand(ICommandSender sender)
 	{
 		return true;
 	}
 
 	@Override
-	public int getRequiredPermissionLevel() 
+	public int getRequiredPermissionLevel()
 	{
 		return 4;
 	}
 
 	@Override
-	public String getCommandName() 
+	public String getCommandName()
 	{
 		return "mca.debug";
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] arguments) 
+	public void processCommand(ICommandSender sender, String[] arguments)
 	{
 		if (arguments.length == 1)
 		{
@@ -54,7 +54,7 @@ public class CommandDebugMode extends AbstractCommand
 			{
 				MCA.getInstance().inDebugMode = true;
 				sender.addChatMessage(new ChatComponentText("MCA debug mode is on."));
-				
+
 				final CrashReport crashReport = new CrashReport("TEST", new Throwable());
 				Minecraft.getMinecraft().crashed(crashReport);
 				Minecraft.getMinecraft().displayCrashReport(crashReport);

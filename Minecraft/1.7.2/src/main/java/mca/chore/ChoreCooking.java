@@ -77,7 +77,7 @@ public class ChoreCooking extends AbstractChore
 	/**
 	 * Constructor
 	 * 
-	 * @param 	entity	The owner of this chore.
+	 * @param entity The owner of this chore.
 	 */
 	public ChoreCooking(AbstractEntity entity)
 	{
@@ -85,12 +85,11 @@ public class ChoreCooking extends AbstractChore
 	}
 
 	@Override
-	public void beginChore() 
+	public void beginChore()
 	{
 		if (!owner.worldObj.isRemote)
 		{
-			owner.say(MCA.getInstance().getLanguageLoader().getString(
-					"chore.start.cooking", owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, true));
+			owner.say(MCA.getInstance().getLanguageLoader().getString("chore.start.cooking", owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer), owner, true));
 		}
 
 		owner.isFollowing = false;
@@ -102,7 +101,7 @@ public class ChoreCooking extends AbstractChore
 	}
 
 	@Override
-	public void runChoreAI() 
+	public void runChoreAI()
 	{
 		if (!owner.worldObj.isRemote)
 		{
@@ -121,7 +120,7 @@ public class ChoreCooking extends AbstractChore
 				{
 					if (!isFuelInInventory())
 					{
-						endForNoFuel();	
+						endForNoFuel();
 					}
 				}
 			}
@@ -137,14 +136,14 @@ public class ChoreCooking extends AbstractChore
 	}
 
 	@Override
-	public String getChoreName() 
+	public String getChoreName()
 	{
 		return "Cooking";
 	}
 
 	@Override
-	public void endChore() 
-	{	
+	public void endChore()
+	{
 		hasEnded = true;
 
 		if (owner.worldObj.isRemote)
@@ -167,7 +166,7 @@ public class ChoreCooking extends AbstractChore
 	}
 
 	@Override
-	public void writeChoreToNBT(NBTTagCompound nbt) 
+	public void writeChoreToNBT(NBTTagCompound nbt)
 	{
 		//Loop through each field in this class and write to NBT.
 		for (final Field field : this.getClass().getFields())
@@ -178,32 +177,32 @@ public class ChoreCooking extends AbstractChore
 				{
 					if (field.getType().toString().contains("int"))
 					{
-						nbt.setInteger(field.getName(), (Integer)field.get(owner.fishingChore));
+						nbt.setInteger(field.getName(), (Integer) field.get(owner.fishingChore));
 					}
 
 					else if (field.getType().toString().contains("double"))
 					{
-						nbt.setDouble(field.getName(), (Double)field.get(owner.fishingChore));
+						nbt.setDouble(field.getName(), (Double) field.get(owner.fishingChore));
 					}
 
 					else if (field.getType().toString().contains("float"))
 					{
-						nbt.setFloat(field.getName(), (Float)field.get(owner.fishingChore));
+						nbt.setFloat(field.getName(), (Float) field.get(owner.fishingChore));
 					}
 
 					else if (field.getType().toString().contains("String"))
 					{
-						nbt.setString(field.getName(), (String)field.get(owner.fishingChore));
+						nbt.setString(field.getName(), (String) field.get(owner.fishingChore));
 					}
 
 					else if (field.getType().toString().contains("boolean"))
 					{
-						nbt.setBoolean(field.getName(), (Boolean)field.get(owner.fishingChore));
+						nbt.setBoolean(field.getName(), (Boolean) field.get(owner.fishingChore));
 					}
 				}
 			}
 
-			catch (IllegalAccessException e)
+			catch (final IllegalAccessException e)
 			{
 				MCA.getInstance().getLogger().log(e);
 				continue;
@@ -212,7 +211,7 @@ public class ChoreCooking extends AbstractChore
 	}
 
 	@Override
-	public void readChoreFromNBT(NBTTagCompound nbt) 
+	public void readChoreFromNBT(NBTTagCompound nbt)
 	{
 		//Loop through each field in this class and read from NBT.
 		for (final Field field : this.getClass().getFields())
@@ -248,7 +247,7 @@ public class ChoreCooking extends AbstractChore
 				}
 			}
 
-			catch (IllegalAccessException e)
+			catch (final IllegalAccessException e)
 			{
 				MCA.getInstance().getLogger().log(e);
 				continue;
@@ -257,50 +256,50 @@ public class ChoreCooking extends AbstractChore
 	}
 
 	@Override
-	protected int getDelayForToolType(ItemStack toolStack) 
+	protected int getDelayForToolType(ItemStack toolStack)
 	{
 		return 0;
 	}
 
 	@Override
-	protected String getChoreXpName() 
+	protected String getChoreXpName()
 	{
 		return null; //No chore XP for cooking.
 	}
 
 	@Override
-	protected String getBaseLevelUpPhrase() 
+	protected String getBaseLevelUpPhrase()
 	{
 		return null; //No level ups.
 	}
 
 	@Override
-	protected float getChoreXp() 
+	protected float getChoreXp()
 	{
 		return 0; //No chore experience.
 	}
 
 	@Override
-	protected void setChoreXp(float setAmount) 
+	protected void setChoreXp(float setAmount)
 	{
 		//No chore experience.
 	}
 
-	private boolean isFuelInInventory() 
+	private boolean isFuelInInventory()
 	{
-		for (ItemStack stack : owner.inventory.inventoryItems)
+		for (final ItemStack stack : owner.inventory.inventoryItems)
 		{
 			if (stack != null)
 			{
 				final boolean isFuel = TileEntityFurnace.isItemFuel(stack);
 				int fuelValue = TileEntityFurnace.getItemBurnTime(stack) == 0 ? GameRegistry.getFuelValue(stack) : TileEntityFurnace.getItemBurnTime(stack);
 				fuelValue = fuelValue / Time.SECOND / 10;
-				
+
 				if (fuelValue == 0 && isFuel)
 				{
 					fuelValue = 1;
 				}
-				
+
 				if (fuelValue > 0)
 				{
 					hasFuel = true;
@@ -313,7 +312,7 @@ public class ChoreCooking extends AbstractChore
 		return hasFuel;
 	}
 
-	private boolean isFurnaceNearby() 
+	private boolean isFurnaceNearby()
 	{
 		final List<Point3D> nearbyFurnaces = LogicHelper.getNearbyBlocks_StartAtBottom(owner, Blocks.furnace, 10, 2);
 
@@ -336,11 +335,11 @@ public class ChoreCooking extends AbstractChore
 		return hasFurnace;
 	}
 
-	private boolean isCookableFoodInInventory() 
+	private boolean isCookableFoodInInventory()
 	{
 		for (final ItemStack stack : owner.inventory.inventoryItems)
 		{
-			for (CookableFood entry : ChoreRegistry.getCookingEntries())
+			for (final CookableFood entry : ChoreRegistry.getCookingEntries())
 			{
 				if (stack != null && stack.getItem() == entry.getRawFoodItem())
 				{
@@ -356,16 +355,15 @@ public class ChoreCooking extends AbstractChore
 		return false;
 	}
 
-	private boolean isFurnaceStillPresent() 
+	private boolean isFurnaceStillPresent()
 	{
-		return owner.worldObj.getBlock(furnacePosX, furnacePosY, furnacePosZ) == Blocks.furnace ||
-				owner.worldObj.getBlock(furnacePosX, furnacePosY, furnacePosZ) == Blocks.lit_furnace;
+		return owner.worldObj.getBlock(furnacePosX, furnacePosY, furnacePosZ) == Blocks.furnace || owner.worldObj.getBlock(furnacePosX, furnacePosY, furnacePosZ) == Blocks.lit_furnace;
 	}
 
-	private boolean isReadyToCook() 
+	private boolean isReadyToCook()
 	{
 		if (hasCookableFood)
-		{	
+		{
 			if (isFurnaceStillPresent())
 			{
 				return true;
@@ -435,7 +433,7 @@ public class ChoreCooking extends AbstractChore
 					isCooking = true;
 				}
 			}
-		}	
+		}
 	}
 
 	private void setPathToFurnace()
@@ -448,14 +446,14 @@ public class ChoreCooking extends AbstractChore
 		}
 	}
 
-	private void endForNoFuel() 
+	private void endForNoFuel()
 	{
 		final EntityPlayer spouse = owner.worldObj.getPlayerEntityByName(owner.spousePlayerName);
 		owner.say(MCA.getInstance().getLanguageLoader().getString("notify.spouse.chore.interrupted.cooking.nofuel", spouse, owner, false));
 		endChore();
 	}
 
-	private void endForNoFurnace() 
+	private void endForNoFurnace()
 	{
 		final EntityPlayer spouse = owner.worldObj.getPlayerEntityByName(owner.spousePlayerName);
 		owner.say(MCA.getInstance().getLanguageLoader().getString("notify.spouse.chore.interrupted.cooking.nofurnace", spouse, owner, false));

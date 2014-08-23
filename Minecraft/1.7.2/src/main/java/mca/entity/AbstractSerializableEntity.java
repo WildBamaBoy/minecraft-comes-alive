@@ -24,11 +24,11 @@ public abstract class AbstractSerializableEntity extends EntityVillager
 	{
 		super(null);
 	}
-	
+
 	/**
 	 * Constructor
 	 * 
-	 * @param 	world	The world that the entity should spawn in.
+	 * @param world The world that the entity should spawn in.
 	 */
 	public AbstractSerializableEntity(World world)
 	{

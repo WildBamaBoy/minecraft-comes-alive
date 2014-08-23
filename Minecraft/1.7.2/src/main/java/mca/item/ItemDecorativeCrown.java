@@ -20,12 +20,12 @@ import net.minecraft.item.ItemStack;
  */
 public class ItemDecorativeCrown extends ItemArmor
 {
-	private EnumCrownColor color;
-	
+	private final EnumCrownColor color;
+
 	/**
 	 * Constructor
 	 * 
-	 * @param 	color	The crown's color.
+	 * @param color The crown's color.
 	 */
 	public ItemDecorativeCrown(EnumCrownColor color)
 	{
@@ -41,7 +41,7 @@ public class ItemDecorativeCrown extends ItemArmor
 	}
 
 	@Override
-	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) 
+	public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
 	{
 		return "mca:textures/armor/" + color.getColorName().toLowerCase() + "crown_layer_1.png";
 	}

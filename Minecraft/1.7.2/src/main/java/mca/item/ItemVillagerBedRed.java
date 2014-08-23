@@ -15,11 +15,11 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 
 public class ItemVillagerBedRed extends ItemVillagerBed
 {
-    public ItemVillagerBedRed()
-    {
-    	super();
-    }
-    
+	public ItemVillagerBedRed()
+	{
+		super();
+	}
+
 	@Override
 	public void registerIcons(IIconRegister IIconRegister)
 	{
@@ -27,7 +27,7 @@ public class ItemVillagerBedRed extends ItemVillagerBed
 	}
 
 	@Override
-	public BlockVillagerBed getVillagerBedType() 
+	public BlockVillagerBed getVillagerBedType()
 	{
 		return (BlockVillagerBed) MCA.getInstance().blockVillagerBedRed;
 	}

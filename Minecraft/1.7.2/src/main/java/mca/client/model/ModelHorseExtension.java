@@ -42,78 +42,78 @@ public class ModelHorseExtension extends ModelHorse
 	{
 		super();
 
-		this.seatCenter = new ModelRenderer(this, 80, 0);
-		this.seatCenter.addBox(-5.0F, 0.0F, -3.0F, 10, 1, 8);
-		this.seatCenter.setRotationPoint(0.0F, 2.0F, 2.0F);
+		seatCenter = new ModelRenderer(this, 80, 0);
+		seatCenter.addBox(-5.0F, 0.0F, -3.0F, 10, 1, 8);
+		seatCenter.setRotationPoint(0.0F, 2.0F, 2.0F);
 
-		this.seatFront = new ModelRenderer(this, 106, 9);
-		this.seatFront.addBox(-1.5F, -1.0F, -3.0F, 3, 1, 2);
-		this.seatFront.setRotationPoint(0.0F, 2.0F, 2.0F);
+		seatFront = new ModelRenderer(this, 106, 9);
+		seatFront.addBox(-1.5F, -1.0F, -3.0F, 3, 1, 2);
+		seatFront.setRotationPoint(0.0F, 2.0F, 2.0F);
 
-		this.seatBack = new ModelRenderer(this, 80, 9);
-		this.seatBack.addBox(-4.0F, -1.0F, 3.0F, 8, 1, 2);
-		this.seatBack.setRotationPoint(0.0F, 2.0F, 2.0F);
+		seatBack = new ModelRenderer(this, 80, 9);
+		seatBack.addBox(-4.0F, -1.0F, 3.0F, 8, 1, 2);
+		seatBack.setRotationPoint(0.0F, 2.0F, 2.0F);
 
-		this.leftLegReinClip = new ModelRenderer(this, 74, 0);
-		this.leftLegReinClip.addBox(-0.5F, 6.0F, -1.0F, 1, 2, 2);
-		this.leftLegReinClip.setRotationPoint(5.0F, 3.0F, 2.0F);
+		leftLegReinClip = new ModelRenderer(this, 74, 0);
+		leftLegReinClip.addBox(-0.5F, 6.0F, -1.0F, 1, 2, 2);
+		leftLegReinClip.setRotationPoint(5.0F, 3.0F, 2.0F);
 
-		this.leftLegRein = new ModelRenderer(this, 70, 0);
-		this.leftLegRein.addBox(-0.5F, 0.0F, -0.5F, 1, 6, 1);
-		this.leftLegRein.setRotationPoint(5.0F, 3.0F, 2.0F);
+		leftLegRein = new ModelRenderer(this, 70, 0);
+		leftLegRein.addBox(-0.5F, 0.0F, -0.5F, 1, 6, 1);
+		leftLegRein.setRotationPoint(5.0F, 3.0F, 2.0F);
 
-		this.rightLegReinClip = new ModelRenderer(this, 74, 4);
-		this.rightLegReinClip.addBox(-0.5F, 6.0F, -1.0F, 1, 2, 2);
-		this.rightLegReinClip.setRotationPoint(-5.0F, 3.0F, 2.0F);
+		rightLegReinClip = new ModelRenderer(this, 74, 4);
+		rightLegReinClip.addBox(-0.5F, 6.0F, -1.0F, 1, 2, 2);
+		rightLegReinClip.setRotationPoint(-5.0F, 3.0F, 2.0F);
 
-		this.rightLegRein = new ModelRenderer(this, 80, 0);
-		this.rightLegRein.addBox(-0.5F, 0.0F, -0.5F, 1, 6, 1);
-		this.rightLegRein.setRotationPoint(-5.0F, 3.0F, 2.0F);
+		rightLegRein = new ModelRenderer(this, 80, 0);
+		rightLegRein.addBox(-0.5F, 0.0F, -0.5F, 1, 6, 1);
+		rightLegRein.setRotationPoint(-5.0F, 3.0F, 2.0F);
 
-		this.leftBit = new ModelRenderer(this, 74, 13);
-		this.leftBit.addBox(1.5F, -8.0F, -4.0F, 1, 2, 2);
-		this.leftBit.setRotationPoint(0.0F, 4.0F, -10.0F);
-		this.setModelRotationAngles(this.leftBit, 0.5235988F, 0.0F, 0.0F);
+		leftBit = new ModelRenderer(this, 74, 13);
+		leftBit.addBox(1.5F, -8.0F, -4.0F, 1, 2, 2);
+		leftBit.setRotationPoint(0.0F, 4.0F, -10.0F);
+		setModelRotationAngles(leftBit, 0.5235988F, 0.0F, 0.0F);
 
-		this.rightBit = new ModelRenderer(this, 74, 13);
-		this.rightBit.addBox(-2.5F, -8.0F, -4.0F, 1, 2, 2);
-		this.rightBit.setRotationPoint(0.0F, 4.0F, -10.0F);
-		this.setModelRotationAngles(this.rightBit, 0.5235988F, 0.0F, 0.0F);
+		rightBit = new ModelRenderer(this, 74, 13);
+		rightBit.addBox(-2.5F, -8.0F, -4.0F, 1, 2, 2);
+		rightBit.setRotationPoint(0.0F, 4.0F, -10.0F);
+		setModelRotationAngles(rightBit, 0.5235988F, 0.0F, 0.0F);
 
-		this.leftNeckRein = new ModelRenderer(this, 44, 10);
-		this.leftNeckRein.addBox(2.6F, -6.0F, -6.0F, 0, 3, 16);
-		this.leftNeckRein.setRotationPoint(0.0F, 4.0F, -10.0F);
+		leftNeckRein = new ModelRenderer(this, 44, 10);
+		leftNeckRein.addBox(2.6F, -6.0F, -6.0F, 0, 3, 16);
+		leftNeckRein.setRotationPoint(0.0F, 4.0F, -10.0F);
 
-		this.rightNeckRein = new ModelRenderer(this, 44, 5);
-		this.rightNeckRein.addBox(-2.6F, -6.0F, -6.0F, 0, 3, 16);
-		this.rightNeckRein.setRotationPoint(0.0F, 4.0F, -10.0F);
+		rightNeckRein = new ModelRenderer(this, 44, 5);
+		rightNeckRein.addBox(-2.6F, -6.0F, -6.0F, 0, 3, 16);
+		rightNeckRein.setRotationPoint(0.0F, 4.0F, -10.0F);
 
-		this.headpiece = new ModelRenderer(this, 80, 12);
-		this.headpiece.addBox(-2.5F, -10.1F, -7.0F, 5, 5, 12, 0.2F);
-		this.headpiece.setRotationPoint(0.0F, 4.0F, -10.0F);
-		this.setModelRotationAngles(this.headpiece, 0.5235988F, 0.0F, 0.0F);
+		headpiece = new ModelRenderer(this, 80, 12);
+		headpiece.addBox(-2.5F, -10.1F, -7.0F, 5, 5, 12, 0.2F);
+		headpiece.setRotationPoint(0.0F, 4.0F, -10.0F);
+		setModelRotationAngles(headpiece, 0.5235988F, 0.0F, 0.0F);
 	}
 
 	@Override
-	public void render(Entity entity, float posX, float posY, float posZ, float rotationYaw, float rotationPitch, float yOffset) 
+	public void render(Entity entity, float posX, float posY, float posZ, float rotationYaw, float rotationPitch, float yOffset)
 	{
 		super.render(entity, posX, posY, posZ, rotationYaw, rotationPitch, yOffset);
-		final EntityHorse entityHorse = (EntityHorse)entity;
+		final EntityHorse entityHorse = (EntityHorse) entity;
 
 		if (entityHorse.riddenByEntity instanceof AbstractEntity)
 		{
-			this.headpiece.render(yOffset);
-			this.seatCenter.render(yOffset);
-			this.seatFront.render(yOffset);
-			this.seatBack.render(yOffset);
-			this.leftLegRein.render(yOffset);
-			this.leftLegReinClip.render(yOffset);
-			this.rightLegRein.render(yOffset);
-			this.rightLegReinClip.render(yOffset);
-			this.leftBit.render(yOffset);
-			this.rightBit.render(yOffset);
-			this.leftNeckRein.render(yOffset);
-			this.rightNeckRein.render(yOffset);
+			headpiece.render(yOffset);
+			seatCenter.render(yOffset);
+			seatFront.render(yOffset);
+			seatBack.render(yOffset);
+			leftLegRein.render(yOffset);
+			leftLegReinClip.render(yOffset);
+			rightLegRein.render(yOffset);
+			rightLegReinClip.render(yOffset);
+			leftBit.render(yOffset);
+			rightBit.render(yOffset);
+			leftNeckRein.render(yOffset);
+			rightNeckRein.render(yOffset);
 		}
 	}
 
@@ -142,16 +142,16 @@ public class ModelHorseExtension extends ModelHorse
 	}
 
 	@Override
-	public void setLivingAnimations(EntityLivingBase entityLiving, float limbSwing, float prevLimbSwing, float partialTickTime) 
+	public void setLivingAnimations(EntityLivingBase entityLiving, float limbSwing, float prevLimbSwing, float partialTickTime)
 	{
 		super.setLivingAnimations(entityLiving, limbSwing, prevLimbSwing, partialTickTime);
 
-		final EntityHorse entityHorse = (EntityHorse)entityLiving;
+		final EntityHorse entityHorse = (EntityHorse) entityLiving;
 
 		if (entityHorse.riddenByEntity instanceof AbstractEntity)
 		{
-			final float yawOffset = this.adjuestRotations(entityLiving.prevRenderYawOffset, entityLiving.renderYawOffset, partialTickTime);
-			final float rotationYawHead = this.adjuestRotations(entityLiving.prevRotationYawHead, entityLiving.rotationYawHead, partialTickTime);
+			final float yawOffset = adjuestRotations(entityLiving.prevRenderYawOffset, entityLiving.renderYawOffset, partialTickTime);
+			final float rotationYawHead = adjuestRotations(entityLiving.prevRotationYawHead, entityLiving.rotationYawHead, partialTickTime);
 			final float rotationPitch = entityLiving.prevRotationPitch + (entityLiving.rotationPitch - entityLiving.prevRotationPitch) * partialTickTime;
 
 			float deltaYawOffset = rotationYawHead - yawOffset;
@@ -166,7 +166,7 @@ public class ModelHorseExtension extends ModelHorse
 				deltaYawOffset = -20.0F;
 			}
 
-			float rotationPitch360 = rotationPitch / (180F / (float)Math.PI);
+			float rotationPitch360 = rotationPitch / (180F / (float) Math.PI);
 
 			if (prevLimbSwing > 0.2F)
 			{
@@ -181,55 +181,55 @@ public class ModelHorseExtension extends ModelHorse
 			final float headRotatePointY = rearingCurrent * -6.0F + grassEatingAmount * 11.0F + (1.0F - Math.max(rearingCurrent, grassEatingAmount)) * 4.0F;
 			final float headRotatePointZ = rearingCurrent * -1.0F + grassEatingAmount * -10.0F + (1.0F - Math.max(rearingCurrent, grassEatingAmount)) * -10.0F;
 			final float headRotateAngleX = rearingCurrent * (0.2617994F + rotationPitch360) + grassEatingAmount * 2.18166F + (1.0F - Math.max(rearingCurrent, grassEatingAmount)) * (0.5235988F + rotationPitch360);
-			final float headRotateAngleY = rearingCurrent * (deltaYawOffset / (180F / (float)Math.PI)) + (1.0F - Math.max(rearingCurrent, grassEatingAmount)) * (deltaYawOffset / (180F / (float)Math.PI));
-			final float bodyRotateAngleX = rearingCurrent * -((float)Math.PI / 4F) + rearingRemaining * 0.0F;
+			final float headRotateAngleY = rearingCurrent * (deltaYawOffset / (180F / (float) Math.PI)) + (1.0F - Math.max(rearingCurrent, grassEatingAmount)) * (deltaYawOffset / (180F / (float) Math.PI));
+			final float bodyRotateAngleX = rearingCurrent * -((float) Math.PI / 4F) + rearingRemaining * 0.0F;
 
-			this.seatCenter.rotationPointY = rearingCurrent * 0.5F + rearingRemaining * 2.0F;
-			this.seatCenter.rotationPointZ = rearingCurrent * 11.0F + rearingRemaining * 2.0F;
-			this.seatFront.rotationPointY = this.seatCenter.rotationPointY;
-			this.seatBack.rotationPointY = this.seatCenter.rotationPointY;
-			this.leftLegRein.rotationPointY = this.seatCenter.rotationPointY;
-			this.rightLegRein.rotationPointY = this.seatCenter.rotationPointY;
-			this.leftLegReinClip.rotationPointY = this.seatCenter.rotationPointY;
-			this.rightLegReinClip.rotationPointY = this.seatCenter.rotationPointY;
-			this.seatFront.rotationPointZ = this.seatCenter.rotationPointZ;
-			this.seatBack.rotationPointZ = this.seatCenter.rotationPointZ;
-			this.leftLegRein.rotationPointZ = this.seatCenter.rotationPointZ;
-			this.rightLegRein.rotationPointZ = this.seatCenter.rotationPointZ;
-			this.leftLegReinClip.rotationPointZ = this.seatCenter.rotationPointZ;
-			this.rightLegReinClip.rotationPointZ = this.seatCenter.rotationPointZ;
-			this.seatCenter.rotateAngleX = bodyRotateAngleX;
-			this.seatFront.rotateAngleX = bodyRotateAngleX;
-			this.seatBack.rotateAngleX = bodyRotateAngleX;
-			this.leftNeckRein.rotationPointY = headRotatePointY;
-			this.rightNeckRein.rotationPointY = headRotatePointY;
-			this.headpiece.rotationPointY = headRotatePointY;
-			this.leftBit.rotationPointY = headRotatePointY;
-			this.rightBit.rotationPointY = headRotatePointY;
-			this.leftNeckRein.rotationPointZ = headRotatePointZ;
-			this.rightNeckRein.rotationPointZ = headRotatePointZ;
-			this.headpiece.rotationPointZ = headRotatePointZ;
-			this.leftBit.rotationPointZ = headRotatePointZ;
-			this.rightBit.rotationPointZ = headRotatePointZ;
-			this.leftNeckRein.rotateAngleX = rotationPitch360;
-			this.rightNeckRein.rotateAngleX = rotationPitch360;
-			this.headpiece.rotateAngleX = headRotateAngleX;
-			this.leftBit.rotateAngleX = headRotateAngleX;
-			this.rightBit.rotateAngleX = headRotateAngleX;
-			this.headpiece.rotateAngleY = headRotateAngleY;
-			this.leftBit.rotateAngleY = headRotateAngleY;
-			this.leftNeckRein.rotateAngleY = headRotateAngleY;
-			this.rightBit.rotateAngleY = headRotateAngleY;
-			this.rightNeckRein.rotateAngleY = headRotateAngleY;
+			seatCenter.rotationPointY = rearingCurrent * 0.5F + rearingRemaining * 2.0F;
+			seatCenter.rotationPointZ = rearingCurrent * 11.0F + rearingRemaining * 2.0F;
+			seatFront.rotationPointY = seatCenter.rotationPointY;
+			seatBack.rotationPointY = seatCenter.rotationPointY;
+			leftLegRein.rotationPointY = seatCenter.rotationPointY;
+			rightLegRein.rotationPointY = seatCenter.rotationPointY;
+			leftLegReinClip.rotationPointY = seatCenter.rotationPointY;
+			rightLegReinClip.rotationPointY = seatCenter.rotationPointY;
+			seatFront.rotationPointZ = seatCenter.rotationPointZ;
+			seatBack.rotationPointZ = seatCenter.rotationPointZ;
+			leftLegRein.rotationPointZ = seatCenter.rotationPointZ;
+			rightLegRein.rotationPointZ = seatCenter.rotationPointZ;
+			leftLegReinClip.rotationPointZ = seatCenter.rotationPointZ;
+			rightLegReinClip.rotationPointZ = seatCenter.rotationPointZ;
+			seatCenter.rotateAngleX = bodyRotateAngleX;
+			seatFront.rotateAngleX = bodyRotateAngleX;
+			seatBack.rotateAngleX = bodyRotateAngleX;
+			leftNeckRein.rotationPointY = headRotatePointY;
+			rightNeckRein.rotationPointY = headRotatePointY;
+			headpiece.rotationPointY = headRotatePointY;
+			leftBit.rotationPointY = headRotatePointY;
+			rightBit.rotationPointY = headRotatePointY;
+			leftNeckRein.rotationPointZ = headRotatePointZ;
+			rightNeckRein.rotationPointZ = headRotatePointZ;
+			headpiece.rotationPointZ = headRotatePointZ;
+			leftBit.rotationPointZ = headRotatePointZ;
+			rightBit.rotationPointZ = headRotatePointZ;
+			leftNeckRein.rotateAngleX = rotationPitch360;
+			rightNeckRein.rotateAngleX = rotationPitch360;
+			headpiece.rotateAngleX = headRotateAngleX;
+			leftBit.rotateAngleX = headRotateAngleX;
+			rightBit.rotateAngleX = headRotateAngleX;
+			headpiece.rotateAngleY = headRotateAngleY;
+			leftBit.rotateAngleY = headRotateAngleY;
+			leftNeckRein.rotateAngleY = headRotateAngleY;
+			rightBit.rotateAngleY = headRotateAngleY;
+			rightNeckRein.rotateAngleY = headRotateAngleY;
 
-			this.leftLegRein.rotateAngleX = -1.0471976F;
-			this.leftLegReinClip.rotateAngleX = -1.0471976F;
-			this.rightLegRein.rotateAngleX = -1.0471976F;
-			this.rightLegReinClip.rotateAngleX = -1.0471976F;
-			this.leftLegRein.rotateAngleZ = 0.0F;
-			this.leftLegReinClip.rotateAngleZ = 0.0F;
-			this.rightLegRein.rotateAngleZ = 0.0F;
-			this.rightLegReinClip.rotateAngleZ = 0.0F;
+			leftLegRein.rotateAngleX = -1.0471976F;
+			leftLegReinClip.rotateAngleX = -1.0471976F;
+			rightLegRein.rotateAngleX = -1.0471976F;
+			rightLegReinClip.rotateAngleX = -1.0471976F;
+			leftLegRein.rotateAngleZ = 0.0F;
+			leftLegReinClip.rotateAngleZ = 0.0F;
+			rightLegRein.rotateAngleZ = 0.0F;
+			rightLegReinClip.rotateAngleZ = 0.0F;
 		}
 	}
 }

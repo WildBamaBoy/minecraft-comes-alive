@@ -19,15 +19,17 @@ import net.minecraft.util.MathHelper;
 /**
  * Contains various helper methods.
  */
-public final class Utility 
+public final class Utility
 {
-	private Utility() { }
-	
+	private Utility()
+	{
+	}
+
 	/**
 	 * Removes one item from the item stack from the server side and client side player inventory.
 	 * 
-	 * @param 	itemStack	The item stack that should be removed.
-	 * @param	player		The player to remove the item from.
+	 * @param itemStack The item stack that should be removed.
+	 * @param player The player to remove the item from.
 	 */
 	public static void removeItemFromPlayer(ItemStack itemStack, EntityPlayer player)
 	{
@@ -35,14 +37,14 @@ public final class Utility
 
 		if (itemStack.stackSize <= 0)
 		{
-			player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack)null);
+			player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack) null);
 		}
 	}
 
 	/**
 	 * Produces a random gender.
 	 * 
-	 * @return	True or false, true indicating Male.
+	 * @return True or false, true indicating Male.
 	 */
 	public static boolean getRandomGender()
 	{
@@ -52,9 +54,8 @@ public final class Utility
 	/**
 	 * Produces a random masculine or feminine name based on the gender provided.
 	 * 
-	 * @param	isMale	Should the name be male?
-	 * 
-	 * @return	String containing a random name that would be appropriate for the specified gender.
+	 * @param isMale Should the name be male?
+	 * @return String containing a random name that would be appropriate for the specified gender.
 	 */
 	public static String getRandomName(boolean isMale)
 	{
@@ -72,9 +73,8 @@ public final class Utility
 	/**
 	 * Gets a random boolean with a probability of being true.
 	 * 
-	 * @param	probabilityOfTrue	The probability that true should be returned.
-	 * 
-	 * @return	A randomly generated boolean.
+	 * @param probabilityOfTrue The probability that true should be returned.
+	 * @return A randomly generated boolean.
 	 */
 	public static boolean getBooleanWithProbability(int probabilityOfTrue)
 	{
@@ -92,10 +92,10 @@ public final class Utility
 	/**
 	 * Makes an entity face the specified coordinates, with a rotation pitch of 10 so they are looking down at the coordinates.
 	 * 
-	 * @param	entity			The entity that should face the provided coordinates.
-	 * @param	posX			The X coordinate that the entity should face.
-	 * @param	posY			The Y coordinate that the entity should face.
-	 * @param	posZ			The Z coordinate that the entity should face.
+	 * @param entity The entity that should face the provided coordinates.
+	 * @param posX The X coordinate that the entity should face.
+	 * @param posY The Y coordinate that the entity should face.
+	 * @param posZ The Z coordinate that the entity should face.
 	 */
 	public static void faceCoordinates(AbstractEntity entity, double posX, double posY, double posZ)
 	{
@@ -103,8 +103,8 @@ public final class Utility
 		final double deltaY = entity.posY - posY;
 		final double deltaZ = posZ - entity.posZ;
 		final double deltaLength = MathHelper.sqrt_double(deltaX * deltaX + deltaZ * deltaZ);
-		final float angle1 = (float)((Math.atan2(deltaZ, deltaX) * 180D) / Math.PI) - 90F;
-		final float angle2 = (float)(-((Math.atan2(deltaY, deltaLength) * 180D) / Math.PI));
+		final float angle1 = (float) (Math.atan2(deltaZ, deltaX) * 180D / Math.PI) - 90F;
+		final float angle2 = (float) -(Math.atan2(deltaY, deltaLength) * 180D / Math.PI);
 
 		entity.rotationPitch = -updateEntityRotation(entity.rotationPitch, angle2, 10.0F);
 		entity.rotationYaw = updateEntityRotation(entity.rotationYaw, angle1, 10.0F);
@@ -120,11 +120,11 @@ public final class Utility
 	/**
 	 * Makes an entity face the specified coordinates, with the specified rotation pitch that determines the angle of their head.
 	 * 
-	 * @param	entity			The entity that should face the provided coordinates.
-	 * @param	posX			The X coordinate that the entity should face.
-	 * @param	posY			The Y coordinate that the entity should face.
-	 * @param	posZ			The Z coordinate that the entity should face.
-	 * @param	rotationPitch	The pitch that the entity's head should be at.
+	 * @param entity The entity that should face the provided coordinates.
+	 * @param posX The X coordinate that the entity should face.
+	 * @param posY The Y coordinate that the entity should face.
+	 * @param posZ The Z coordinate that the entity should face.
+	 * @param rotationPitch The pitch that the entity's head should be at.
 	 */
 	public static void faceCoordinates(EntityLivingBase entity, double posX, double posY, double posZ, int rotationPitch)
 	{
@@ -133,8 +133,8 @@ public final class Utility
 		final double deltaZ = posZ - entity.posZ;
 
 		final double deltaLength = MathHelper.sqrt_double(deltaX * deltaX + deltaZ * deltaZ);
-		final float angle1 = (float)((Math.atan2(deltaZ, deltaX) * 180D) / Math.PI) - 90F;
-		final float angle2 = (float)(-((Math.atan2(deltaY, deltaLength) * 180D) / Math.PI));
+		final float angle1 = (float) (Math.atan2(deltaZ, deltaX) * 180D / Math.PI) - 90F;
+		final float angle2 = (float) -(Math.atan2(deltaY, deltaLength) * 180D / Math.PI);
 
 		entity.rotationPitch = -updateEntityRotation(entity.rotationPitch, angle2, 10.0F);
 		entity.rotationYaw = updateEntityRotation(entity.rotationYaw, angle1, 10.0F);
@@ -150,19 +150,22 @@ public final class Utility
 	/**
 	 * Updates an entity's rotation based on given values.
 	 * 
-	 * @param 	angleToUpdate	The orignal angle that is being updated.
-	 * @param 	angleToAdd		The angle to add to the original.
-	 * @param 	pitch			The pitch effecting the angle.
-	 * 
-	 * @return	Angle with provided data added to it.
+	 * @param angleToUpdate The orignal angle that is being updated.
+	 * @param angleToAdd The angle to add to the original.
+	 * @param pitch The pitch effecting the angle.
+	 * @return Angle with provided data added to it.
 	 */
 	public static float updateEntityRotation(float angleToUpdate, float angleToAdd, float pitch)
 	{
 		float addedAngle;
 
-		for (addedAngle = angleToAdd - angleToUpdate; addedAngle < -180F; addedAngle += 360F) { }
+		for (addedAngle = angleToAdd - angleToUpdate; addedAngle < -180F; addedAngle += 360F)
+		{
+		}
 
-		for (; addedAngle >= 180F; addedAngle -= 360F) { }
+		for (; addedAngle >= 180F; addedAngle -= 360F)
+		{
+		}
 
 		if (addedAngle > pitch)
 		{

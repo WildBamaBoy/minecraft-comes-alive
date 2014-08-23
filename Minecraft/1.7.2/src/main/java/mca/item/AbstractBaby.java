@@ -44,25 +44,24 @@ public abstract class AbstractBaby extends Item
 	/**
 	 * Called when the player right clicks a block while holding this item.
 	 * 
-	 * @param	itemStack	The item stack that the player was holding when they right clicked.
-	 * @param	player		The player that right clicked.
-	 * @param	world		The world that the player right clicked in.
-	 * @param	posX		X coordinate of the block that the player right clicked.
-	 * @param	posY		Y coordinate of the block that the player right clicked.
-	 * @param	posZ		Z coordinate of the block that the player right clicked.
-	 * @param	meta		Metadata associated with the block clicked.
-	 * @param	xOffset		X offset of the point where the block was clicked.
-	 * @param	yOffset		Y offset of the point where the block was clicked.
-	 * @param	zOffset		Z offset of the point where the block was clicked.
-	 * 
-	 * @return	True or false depending on if placing the item into the world was successful.
+	 * @param itemStack The item stack that the player was holding when they right clicked.
+	 * @param player The player that right clicked.
+	 * @param world The world that the player right clicked in.
+	 * @param posX X coordinate of the block that the player right clicked.
+	 * @param posY Y coordinate of the block that the player right clicked.
+	 * @param posZ Z coordinate of the block that the player right clicked.
+	 * @param meta Metadata associated with the block clicked.
+	 * @param xOffset X offset of the point where the block was clicked.
+	 * @param yOffset Y offset of the point where the block was clicked.
+	 * @param zOffset Z offset of the point where the block was clicked.
+	 * @return True or false depending on if placing the item into the world was successful.
 	 */
 	@Override
 	public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int posX, int posY, int posZ, int meta, float xOffset, float yOffset, float zOffset)
 	{
 
 		if (!world.isRemote)
-		{	
+		{
 			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
 
 			if (MCA.getInstance().getWorldProperties(manager).babyReadyToGrow)
@@ -72,7 +71,7 @@ public abstract class AbstractBaby extends Item
 				world.spawnEntityInWorld(entityPlayerChild);
 
 				Utility.removeItemFromPlayer(itemStack, player);
-				
+
 				//Trigger the achievement
 				player.triggerAchievement(MCA.getInstance().achievementBabyGrowUp);
 
@@ -94,7 +93,7 @@ public abstract class AbstractBaby extends Item
 					if (spouseEntity == null)
 					{
 						//Properties for player will still be loaded when they are not logged in.
-						spouseManager = MCA.getInstance().playerWorldManagerMap.get(MCA.getInstance().getWorldProperties(manager).playerSpouseName);						
+						spouseManager = MCA.getInstance().playerWorldManagerMap.get(MCA.getInstance().getWorldProperties(manager).playerSpouseName);
 					}
 
 					else

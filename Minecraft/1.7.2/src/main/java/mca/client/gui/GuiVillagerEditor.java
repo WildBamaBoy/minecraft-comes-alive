@@ -47,9 +47,9 @@ import cpw.mods.fml.relauncher.SideOnly;
  * Defines the GUI used to edit villager information.
  */
 @SideOnly(Side.CLIENT)
-public class GuiVillagerEditor extends AbstractGui 
+public class GuiVillagerEditor extends AbstractGui
 {
-	private AbstractEntity editingVillager;
+	private final AbstractEntity editingVillager;
 
 	private GuiButton familyTreeButton;
 
@@ -94,18 +94,18 @@ public class GuiVillagerEditor extends AbstractGui
 	private boolean containsInvalidCharacters;
 	private boolean inFamilyTreeGui;
 	private boolean clearFlag;
-	
-	private List<EnumMood> moodList = EnumMood.getMoodsAsCyclableList();
+
+	private final List<EnumMood> moodList = EnumMood.getMoodsAsCyclableList();
 	private int moodListIndex = 0;
 	private int currentPage = 1;
 
 	/**
 	 * Constructor
 	 * 
-	 * @param 	abstractEntity	The entity being edited.
-	 * @param 	player		The player that opened this GUI.
+	 * @param abstractEntity The entity being edited.
+	 * @param player The player that opened this GUI.
 	 */
-	public GuiVillagerEditor(AbstractEntity abstractEntity, EntityPlayer player) 
+	public GuiVillagerEditor(AbstractEntity abstractEntity, EntityPlayer player)
 	{
 		super(player);
 		editingVillager = abstractEntity;
@@ -136,7 +136,7 @@ public class GuiVillagerEditor extends AbstractGui
 			}
 		}
 
-		catch (NullPointerException e)
+		catch (final NullPointerException e)
 		{
 
 		}
@@ -205,11 +205,11 @@ public class GuiVillagerEditor extends AbstractGui
 
 		else if (guibutton == shiftTextureIndexUpButton)
 		{
-			List<String> textureList = MCA.getSkinList(editingVillager);
+			final List<String> textureList = MCA.getSkinList(editingVillager);
 			sortTextureList(textureList);
 
 			int textureIndex = textureList.indexOf(editingVillager.getTexture());
-			int maxIndex = textureList.size() - 1;
+			final int maxIndex = textureList.size() - 1;
 
 			if (textureIndex != maxIndex)
 			{
@@ -227,11 +227,11 @@ public class GuiVillagerEditor extends AbstractGui
 
 		else if (guibutton == shiftTextureIndexDownButton)
 		{
-			List<String> textureList = MCA.getSkinList(editingVillager);
+			final List<String> textureList = MCA.getSkinList(editingVillager);
 			sortTextureList(textureList);
 
 			int textureIndex = textureList.indexOf(editingVillager.getTexture());
-			int maxIndex = textureList.size() - 1;
+			final int maxIndex = textureList.size() - 1;
 
 			if (textureIndex != 0)
 			{
@@ -424,8 +424,12 @@ public class GuiVillagerEditor extends AbstractGui
 		{
 			switch (currentPage)
 			{
-			case 1: drawEditorGuiPage2(); break;
-			case 2: drawEditorGuiPage2(); break;
+				case 1:
+					drawEditorGuiPage2();
+					break;
+				case 2:
+					drawEditorGuiPage2();
+					break;
 			}
 		}
 
@@ -435,8 +439,12 @@ public class GuiVillagerEditor extends AbstractGui
 			{
 				switch (currentPage)
 				{
-				case 1: drawEditorGuiPage1(); break;
-				case 2: drawEditorGuiPage1(); break;
+					case 1:
+						drawEditorGuiPage1();
+						break;
+					case 2:
+						drawEditorGuiPage1();
+						break;
 				}
 			}
 
@@ -505,7 +513,7 @@ public class GuiVillagerEditor extends AbstractGui
 		if (currentPage == 1)
 		{
 			nameTextField.textboxKeyTyped(c, i);
-			String text = nameTextField.getText().trim();
+			final String text = nameTextField.getText().trim();
 
 			if (text.contains("/") || text.contains("?") || text.contains("<") || text.contains(">") || text.contains("\\") || text.contains(":") || text.contains("*") || text.contains("|") || text.contains("\""))
 			{
@@ -533,19 +541,19 @@ public class GuiVillagerEditor extends AbstractGui
 				entryTextField.setText("");
 				clearFlag = false;
 			}
-			
+
 			entryTextField.textboxKeyTyped(c, i);
 
 			if (i == Keyboard.KEY_RETURN)
 			{
 				if (!entryTextField.getText().isEmpty())
 				{
-					String[] split = entryTextField.getText().split(" ");
+					final String[] split = entryTextField.getText().split(" ");
 
 					if (split[0].equalsIgnoreCase("add") && split.length == 3)
 					{
 						EntityPlayer playerToAdd = editingVillager.worldObj.getPlayerEntityByName(split[1]);
-						EnumRelation relationToAdd = EnumRelation.getEnum(split[2]);
+						final EnumRelation relationToAdd = EnumRelation.getEnum(split[2]);
 
 						if (split[1].equalsIgnoreCase("me"))
 						{
@@ -554,8 +562,8 @@ public class GuiVillagerEditor extends AbstractGui
 
 						if (playerToAdd == null)
 						{
-							Integer playerId = MCA.getInstance().getIdOfPlayer(split[1]);
-							
+							final Integer playerId = MCA.getInstance().getIdOfPlayer(split[1]);
+
 							if (playerId != null && playerId != 0)
 							{
 								if (relationToAdd == null)
@@ -574,12 +582,12 @@ public class GuiVillagerEditor extends AbstractGui
 
 							else if (playerId == 0)
 							{
-								for (Object obj : editingVillager.worldObj.loadedEntityList)
+								for (final Object obj : editingVillager.worldObj.loadedEntityList)
 								{
 									if (obj instanceof AbstractEntity)
 									{
-										AbstractEntity entity = (AbstractEntity)obj;
-										
+										final AbstractEntity entity = (AbstractEntity) obj;
+
 										if (entity.mcaID == Integer.parseInt(split[1]))
 										{
 											editingVillager.familyTree.addFamilyTreeEntry(Integer.parseInt(split[1]), relationToAdd);
@@ -591,7 +599,7 @@ public class GuiVillagerEditor extends AbstractGui
 									}
 								}
 							}
-							
+
 							entryTextField.setText("No record found!");
 							clearFlag = true;
 							return;
@@ -604,8 +612,8 @@ public class GuiVillagerEditor extends AbstractGui
 							return;
 						}
 
-						int playerMCAID = MCA.getInstance().getIdOfPlayer(playerToAdd);
-						
+						final int playerMCAID = MCA.getInstance().getIdOfPlayer(playerToAdd);
+
 						editingVillager.familyTree.addFamilyTreeEntry(playerMCAID, relationToAdd);
 						MCA.packetHandler.sendPacketToServer(new PacketSetFamilyTree(editingVillager.getEntityId(), editingVillager.familyTree));
 						entryTextField.setText("Added!");
@@ -615,9 +623,9 @@ public class GuiVillagerEditor extends AbstractGui
 
 					else if (split[0].equalsIgnoreCase("del") && split.length == 2)
 					{
-						String toRemove = split[1];
+						final String toRemove = split[1];
 
-						EntityPlayer playerToRemove = editingVillager.worldObj.getPlayerEntityByName(toRemove);
+						final EntityPlayer playerToRemove = editingVillager.worldObj.getPlayerEntityByName(toRemove);
 
 						if (playerToRemove != null)
 						{
@@ -632,7 +640,7 @@ public class GuiVillagerEditor extends AbstractGui
 						{
 							try
 							{
-								int idToRemove = Integer.parseInt(toRemove);
+								final int idToRemove = Integer.parseInt(toRemove);
 								editingVillager.familyTree.removeFamilyTreeEntry(idToRemove);
 								MCA.packetHandler.sendPacketToServer(new PacketSetFamilyTree(editingVillager.getEntityId(), editingVillager.familyTree));
 								entryTextField.setText("Removed!");
@@ -640,9 +648,9 @@ public class GuiVillagerEditor extends AbstractGui
 								return;
 							}
 
-							catch (NumberFormatException e)
+							catch (final NumberFormatException e)
 							{
-								Integer idToRemove = MCA.getInstance().getIdOfPlayer(toRemove);
+								final Integer idToRemove = MCA.getInstance().getIdOfPlayer(toRemove);
 
 								if (idToRemove != null)
 								{
@@ -717,12 +725,12 @@ public class GuiVillagerEditor extends AbstractGui
 							fieldValue = fieldValue.substring(0, 9) + "...";
 						}
 
-						drawString(fontRendererObj, fieldName + " = " + fieldValue, width / 2 - 340 + (140 * column), height / 2 - 90 + 15 * fieldsAdded, 0xffffff);
+						drawString(fontRendererObj, fieldName + " = " + fieldValue, width / 2 - 340 + 140 * column, height / 2 - 90 + 15 * fieldsAdded, 0xffffff);
 						fieldIndex++;
 						fieldsAdded++;
 					}
 
-					catch (Exception e)
+					catch (final Exception e)
 					{
 						continue;
 					}
@@ -747,25 +755,25 @@ public class GuiVillagerEditor extends AbstractGui
 		inFamilyTreeGui = false;
 
 		buttonList.clear();
-		buttonList.add(randomButton                = new GuiButton(1,  width / 2 - 50,  height / 2 - 95, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.random")));
-		buttonList.add(genderButton                = new GuiButton(2,  width / 2 - 190, height / 2 - 60, 175, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.setup.gender" + editingVillager.getGenderAsString())));
-		buttonList.add(textureButton               = new GuiButton(3,  width / 2 - 190, height / 2 - 40, 175, 20, "Texture: " + editingVillager.getTexture().replace("textures/skins/", "").replace(".png", "")));
-		buttonList.add(shiftTextureIndexUpButton   = new GuiButton(4,  width / 2 - 15,  height / 2 - 40, 20, 20, ">>"));
-		buttonList.add(shiftTextureIndexDownButton = new GuiButton(5,  width / 2 - 210, height / 2 - 40, 20, 20, "<<"));
-		buttonList.add(professionButton            = new GuiButton(6,  width / 2 - 190, height / 2 - 20, 175, 20, "Title: " + editingVillager.getLocalizedProfessionString()));
-		buttonList.add(shiftProfessionUpButton     = new GuiButton(7,  width / 2 - 15,  height / 2 - 20, 20, 20, ">>"));
-		buttonList.add(shiftProfessionDownButton   = new GuiButton(8,  width / 2 - 210, height / 2 - 20, 20, 20, "<<"));
-		buttonList.add(moodButton                  = new GuiButton(9, width / 2 - 190, height / 2 + 0, 175, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.editor.mood") + editingVillager.mood.getLocalizedValue() + " (Lvl. " + editingVillager.mood.getMoodLevel() + ")"));
-		buttonList.add(shiftMoodUpButton           = new GuiButton(10, width / 2 - 15,  height / 2 + 0, 20, 20, ">>"));
-		buttonList.add(shiftMoodDownButton         = new GuiButton(11, width / 2 - 210, height / 2 + 0, 20, 20, "<<"));
-		buttonList.add(traitButton                 = new GuiButton(12, width / 2 - 190, height / 2 + 20, 175, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.editor.trait") + editingVillager.trait.getLocalizedValue()));
-		buttonList.add(shiftTraitUpButton          = new GuiButton(13, width / 2 - 15,  height / 2 + 20, 20, 20, ">>"));
-		buttonList.add(shiftTraitDownButton        = new GuiButton(14, width / 2 - 210, height / 2 + 20, 20, 20, "<<"));
-		buttonList.add(inventoryButton             = new GuiButton(15, width / 2 - 190, height / 2 + 40, 175, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.spouse.inventory")));
-		buttonList.add(familyTreeButton 		   = new GuiButton(16, width / 2 - 190, height / 2 + 60, 175, 20, "Family Tree"));
-		buttonList.add(doneButton                  = new GuiButton(17, width / 2 - 50,  height / 2 + 85, 75, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.done")));
-		buttonList.add(nextButton                  = new GuiButton(18, width / 2 + 25,  height / 2 + 85, 50, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.next")));
-		buttonList.add(backButton                  = new GuiButton(19, width / 2 - 101,  height / 2 + 85, 50, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
+		buttonList.add(randomButton = new GuiButton(1, width / 2 - 50, height / 2 - 95, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.random")));
+		buttonList.add(genderButton = new GuiButton(2, width / 2 - 190, height / 2 - 60, 175, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.setup.gender" + editingVillager.getGenderAsString())));
+		buttonList.add(textureButton = new GuiButton(3, width / 2 - 190, height / 2 - 40, 175, 20, "Texture: " + editingVillager.getTexture().replace("textures/skins/", "").replace(".png", "")));
+		buttonList.add(shiftTextureIndexUpButton = new GuiButton(4, width / 2 - 15, height / 2 - 40, 20, 20, ">>"));
+		buttonList.add(shiftTextureIndexDownButton = new GuiButton(5, width / 2 - 210, height / 2 - 40, 20, 20, "<<"));
+		buttonList.add(professionButton = new GuiButton(6, width / 2 - 190, height / 2 - 20, 175, 20, "Title: " + editingVillager.getLocalizedProfessionString()));
+		buttonList.add(shiftProfessionUpButton = new GuiButton(7, width / 2 - 15, height / 2 - 20, 20, 20, ">>"));
+		buttonList.add(shiftProfessionDownButton = new GuiButton(8, width / 2 - 210, height / 2 - 20, 20, 20, "<<"));
+		buttonList.add(moodButton = new GuiButton(9, width / 2 - 190, height / 2 + 0, 175, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.editor.mood") + editingVillager.mood.getLocalizedValue() + " (Lvl. " + editingVillager.mood.getMoodLevel() + ")"));
+		buttonList.add(shiftMoodUpButton = new GuiButton(10, width / 2 - 15, height / 2 + 0, 20, 20, ">>"));
+		buttonList.add(shiftMoodDownButton = new GuiButton(11, width / 2 - 210, height / 2 + 0, 20, 20, "<<"));
+		buttonList.add(traitButton = new GuiButton(12, width / 2 - 190, height / 2 + 20, 175, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.editor.trait") + editingVillager.trait.getLocalizedValue()));
+		buttonList.add(shiftTraitUpButton = new GuiButton(13, width / 2 - 15, height / 2 + 20, 20, 20, ">>"));
+		buttonList.add(shiftTraitDownButton = new GuiButton(14, width / 2 - 210, height / 2 + 20, 20, 20, "<<"));
+		buttonList.add(inventoryButton = new GuiButton(15, width / 2 - 190, height / 2 + 40, 175, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.spouse.inventory")));
+		buttonList.add(familyTreeButton = new GuiButton(16, width / 2 - 190, height / 2 + 60, 175, 20, "Family Tree"));
+		buttonList.add(doneButton = new GuiButton(17, width / 2 - 50, height / 2 + 85, 75, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.done")));
+		buttonList.add(nextButton = new GuiButton(18, width / 2 + 25, height / 2 + 85, 50, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.next")));
+		buttonList.add(backButton = new GuiButton(19, width / 2 - 101, height / 2 + 85, 50, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
 
 		if (editingVillager instanceof EntityPlayerChild)
 		{
@@ -787,17 +795,17 @@ public class GuiVillagerEditor extends AbstractGui
 
 		currentPage = 2;
 		buttonList.clear();
-		buttonList.add(appliesHeightButton   = new GuiButton(1,  width / 2 - 190, height / 2 - 60, 175, 20, "Applies Height: " + editingVillager.doApplyHeight));
-		buttonList.add(heightButton          = new GuiButton(2,  width / 2 - 190, height / 2 - 40, 175, 20, "Height Factor: " + displayHeight));
-		buttonList.add(shiftHeightUpButton   = new GuiButton(3,  width / 2 - 15,  height / 2 - 40, 20, 20, ">>"));
-		buttonList.add(shiftHeightDownButton = new GuiButton(4,  width / 2 - 210, height / 2 - 40, 20, 20, "<<"));
-		buttonList.add(appliesGirthButton   = new GuiButton(5,  width / 2 - 190, height / 2 - 20, 175, 20, "Applies Girth: " + editingVillager.doApplyGirth));
-		buttonList.add(girthButton          = new GuiButton(6,  width / 2 - 190, height / 2 - 0, 175, 20, "Girth Factor: " + displayGirth));
-		buttonList.add(shiftGirthUpButton   = new GuiButton(7,  width / 2 - 15,  height / 2 - 0, 20, 20, ">>"));
-		buttonList.add(shiftGirthDownButton = new GuiButton(8,  width / 2 - 210, height / 2 - 0, 20, 20, "<<"));
-		buttonList.add(doneButton            = new GuiButton(16, width / 2 - 50,  height / 2 + 85, 75, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.done")));
-		buttonList.add(nextButton            = new GuiButton(17, width / 2 + 25,  height / 2 + 85, 50, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.next")));
-		buttonList.add(backButton            = new GuiButton(18, width / 2 - 101,  height / 2 + 85, 50, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
+		buttonList.add(appliesHeightButton = new GuiButton(1, width / 2 - 190, height / 2 - 60, 175, 20, "Applies Height: " + editingVillager.doApplyHeight));
+		buttonList.add(heightButton = new GuiButton(2, width / 2 - 190, height / 2 - 40, 175, 20, "Height Factor: " + displayHeight));
+		buttonList.add(shiftHeightUpButton = new GuiButton(3, width / 2 - 15, height / 2 - 40, 20, 20, ">>"));
+		buttonList.add(shiftHeightDownButton = new GuiButton(4, width / 2 - 210, height / 2 - 40, 20, 20, "<<"));
+		buttonList.add(appliesGirthButton = new GuiButton(5, width / 2 - 190, height / 2 - 20, 175, 20, "Applies Girth: " + editingVillager.doApplyGirth));
+		buttonList.add(girthButton = new GuiButton(6, width / 2 - 190, height / 2 - 0, 175, 20, "Girth Factor: " + displayGirth));
+		buttonList.add(shiftGirthUpButton = new GuiButton(7, width / 2 - 15, height / 2 - 0, 20, 20, ">>"));
+		buttonList.add(shiftGirthDownButton = new GuiButton(8, width / 2 - 210, height / 2 - 0, 20, 20, "<<"));
+		buttonList.add(doneButton = new GuiButton(16, width / 2 - 50, height / 2 + 85, 75, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.done")));
+		buttonList.add(nextButton = new GuiButton(17, width / 2 + 25, height / 2 + 85, 50, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.next")));
+		buttonList.add(backButton = new GuiButton(18, width / 2 - 101, height / 2 + 85, 50, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
 
 		if (!editingVillager.doApplyHeight)
 		{
@@ -821,62 +829,59 @@ public class GuiVillagerEditor extends AbstractGui
 		currentPage = 3;
 		inFamilyTreeGui = true;
 		buttonList.clear();
-		buttonList.add(backButton                  = new GuiButton(19, width / 2 - 120,  height / 2 + 85, 50, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
+		buttonList.add(backButton = new GuiButton(19, width / 2 - 120, height / 2 + 85, 50, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
 
 	}
 
-	private void drawFamilyTreeText() 
+	private void drawFamilyTreeText()
 	{
 		try
 		{
-			drawString(fontRendererObj, "Family Tree Editor - "
-					+ Color.DARKRED + "<add/del> "
-					+ Color.RED + "<me/name/id> " 
-					+ Color.DARKAQUA + "<(add)relation>", width / 2 - 230, height / 2 - 90, 0xffffff);
+			drawString(fontRendererObj, "Family Tree Editor - " + Color.DARKRED + "<add/del> " + Color.RED + "<me/name/id> " + Color.DARKAQUA + "<(add)relation>", width / 2 - 230, height / 2 - 90, 0xffffff);
 
-			drawString(fontRendererObj, "ID",       width / 2 - 200, height / 2 - 50, 0xffff00);
-			drawString(fontRendererObj, "Name",     width / 2 - 110, height / 2 - 50, 0xffff00);
+			drawString(fontRendererObj, "ID", width / 2 - 200, height / 2 - 50, 0xffff00);
+			drawString(fontRendererObj, "Name", width / 2 - 110, height / 2 - 50, 0xffff00);
 			drawString(fontRendererObj, "Relation", width / 2 - 10, height / 2 - 50, 0xffff00);
 
 			drawString(fontRendererObj, "Ex: " + Color.WHITE + "add me Parent", width / 2 - 50, height / 2 - 68, 0xffff00);
-			
+
 			int column = 1;
 
-			for (Map.Entry<Integer, EnumRelation> entry : editingVillager.familyTree.getRelationMap().entrySet())
+			for (final Map.Entry<Integer, EnumRelation> entry : editingVillager.familyTree.getRelationMap().entrySet())
 			{
 				//ID
-				drawCenteredString(fontRendererObj, entry.getKey().toString(), width / 2 - 200, height / 2 - 50 + (column * 15), 0xffffff);
+				drawCenteredString(fontRendererObj, entry.getKey().toString(), width / 2 - 200, height / 2 - 50 + column * 15, 0xffffff);
 
 				//Name
 				if (entry.getKey() < 0)
 				{
-					EntityPlayer player = MCA.getInstance().getPlayerByID(editingVillager.worldObj, entry.getKey());
+					final EntityPlayer player = MCA.getInstance().getPlayerByID(editingVillager.worldObj, entry.getKey());
 
 					if (player != null)
 					{
-						drawCenteredString(fontRendererObj, player.getDisplayName(), width / 2 - 95, height / 2 - 50 + (column * 15), 0xffffff);
+						drawCenteredString(fontRendererObj, player.getDisplayName(), width / 2 - 95, height / 2 - 50 + column * 15, 0xffffff);
 					}
 
 					else
 					{
 						if (editingVillager instanceof AbstractChild && entry.getValue() == EnumRelation.Parent)
 						{
-							AbstractChild child = (AbstractChild)editingVillager;
-							drawCenteredString(fontRendererObj, child.ownerPlayerName, width / 2 - 95, height / 2 - 50 + (column * 15), 0xffffff);
+							final AbstractChild child = (AbstractChild) editingVillager;
+							drawCenteredString(fontRendererObj, child.ownerPlayerName, width / 2 - 95, height / 2 - 50 + column * 15, 0xffffff);
 						}
 
 						else
 						{
-							String playerName = MCA.getInstance().getPlayerName(entry.getKey());
+							final String playerName = MCA.getInstance().getPlayerName(entry.getKey());
 
 							if (playerName != null)
 							{
-								drawCenteredString(fontRendererObj, playerName, width / 2 - 95, height / 2 - 50 + (column * 15), 0xffffff);	
+								drawCenteredString(fontRendererObj, playerName, width / 2 - 95, height / 2 - 50 + column * 15, 0xffffff);
 							}
 
 							else
 							{
-								drawCenteredString(fontRendererObj, "(Player Offline)", width / 2 - 95, height / 2 - 50 + (column * 15), 0xffffff);	
+								drawCenteredString(fontRendererObj, "(Player Offline)", width / 2 - 95, height / 2 - 50 + column * 15, 0xffffff);
 							}
 						}
 					}
@@ -884,28 +889,28 @@ public class GuiVillagerEditor extends AbstractGui
 
 				else
 				{
-					Integer entityId = MCA.getInstance().idsMap.get(entry.getKey());
-					AbstractEntity entity = entityId != null ? (AbstractEntity) editingVillager.worldObj.getEntityByID(entityId) : null;
+					final Integer entityId = MCA.getInstance().idsMap.get(entry.getKey());
+					final AbstractEntity entity = entityId != null ? (AbstractEntity) editingVillager.worldObj.getEntityByID(entityId) : null;
 
 					if (entity != null)
 					{
-						drawCenteredString(fontRendererObj, entity.getTitle(0, true), width / 2 - 95, height / 2 - 50 + (column * 15), 0xffffff);
+						drawCenteredString(fontRendererObj, entity.getTitle(0, true), width / 2 - 95, height / 2 - 50 + column * 15, 0xffffff);
 					}
 
 					else
 					{
-						drawCenteredString(fontRendererObj, "Dead/Unloaded", width / 2 - 95, height / 2 - 50 + (column * 15), 0xffffff);
+						drawCenteredString(fontRendererObj, "Dead/Unloaded", width / 2 - 95, height / 2 - 50 + column * 15, 0xffffff);
 					}
 				}
 
 				//Relation
-				drawCenteredString(fontRendererObj, entry.getValue().name(), width / 2 + 8, height / 2 - 50 + (column * 15), 0xffffff);
+				drawCenteredString(fontRendererObj, entry.getValue().name(), width / 2 + 8, height / 2 - 50 + column * 15, 0xffffff);
 
 				column++;
 			}
 		}
 
-		catch (Throwable e)
+		catch (final Throwable e)
 		{
 			e.printStackTrace();
 		}
@@ -914,13 +919,13 @@ public class GuiVillagerEditor extends AbstractGui
 	@Override
 	public void drawScreen(int sizeX, int sizeY, float offset)
 	{
-		drawGradientRect(0, 0, this.width, this.height, -1072689136, -804253680);
+		drawGradientRect(0, 0, width, height, -1072689136, -804253680);
 
 		if (currentPage != -1)
 		{
-			int posX = width / 2 + 140;
+			final int posX = width / 2 + 140;
 			int posY = height / 2 + 95;
-			int scale = 80;
+			final int scale = 80;
 
 			if (!editingVillager.isSleeping)
 			{
@@ -930,21 +935,21 @@ public class GuiVillagerEditor extends AbstractGui
 			GL11.glEnable(GL11.GL_COLOR_MATERIAL);
 			GL11.glPushMatrix();
 			GL11.glTranslatef(posX, posY, 50.0F);
-			GL11.glScalef((-scale), scale, scale);
+			GL11.glScalef(-scale, scale, scale);
 			GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
 
-			float yawOffset = editingVillager.renderYawOffset;
-			float rotationYaw = editingVillager.rotationYaw;
-			float rotationPitch = editingVillager.rotationPitch;
+			final float yawOffset = editingVillager.renderYawOffset;
+			final float rotationYaw = editingVillager.rotationYaw;
+			final float rotationPitch = editingVillager.rotationPitch;
 
 			GL11.glRotatef(135.0F, 0.0F, 1.0F, 0.0F);
 			RenderHelper.enableStandardItemLighting();
 			GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
-			GL11.glRotatef(-((float)Math.atan(0F / 40.0F)) * 20.0F, 1.0F, 0.0F, 0.0F);
+			GL11.glRotatef(-((float) Math.atan(0F / 40.0F)) * 20.0F, 1.0F, 0.0F, 0.0F);
 
-			editingVillager.renderYawOffset = (float)Math.atan(0F / 40.0F) * 20.0F;
-			editingVillager.rotationYaw = (float)Math.atan(0F / 40.0F) * 40.0F;
-			editingVillager.rotationPitch = -((float)Math.atan(0F / 40.0F)) * 20.0F;
+			editingVillager.renderYawOffset = (float) Math.atan(0F / 40.0F) * 20.0F;
+			editingVillager.rotationYaw = (float) Math.atan(0F / 40.0F) * 40.0F;
+			editingVillager.rotationPitch = -((float) Math.atan(0F / 40.0F)) * 20.0F;
 			editingVillager.rotationYawHead = editingVillager.rotationYaw;
 
 			GL11.glTranslatef(0.0F, editingVillager.yOffset, 0.0F);
@@ -975,13 +980,13 @@ public class GuiVillagerEditor extends AbstractGui
 
 			if (containsInvalidCharacters)
 			{
-				drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.editor.name.invalid"), width / 2 - 90, (height / 2) - 87, 0xCC0000);
+				drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.editor.name.invalid"), width / 2 - 90, height / 2 - 87, 0xCC0000);
 			}
 		}
 
 		GL11.glPushMatrix();
 		GL11.glScalef(1.5F, 1.5F, 1.5F);
-		drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("item.editor"), width / 2 - 75, (height / 2) - 125, 0xffffff);
+		drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("item.editor"), width / 2 - 75, height / 2 - 125, 0xffffff);
 		GL11.glPopMatrix();
 
 		if (currentPage == -1)
@@ -998,13 +1003,12 @@ public class GuiVillagerEditor extends AbstractGui
 		super.drawScreen(sizeX, sizeY, offset);
 	}
 
-	private void sortTextureList(List<String>listToSort)
+	private void sortTextureList(List<String> listToSort)
 	{
-		Collections.sort(listToSort, 
-				new Comparator<String>()
-				{
+		Collections.sort(listToSort, new Comparator<String>()
+		{
 			@Override
-			public int compare(String o1, String o2) 
+			public int compare(String o1, String o2)
 			{
 				final int skinNumber1 = Integer.parseInt(o1.replaceAll("[^0-9]+", " ").trim());
 				final int skinNumber2 = Integer.parseInt(o2.replaceAll("[^0-9]+", " ").trim());
@@ -1021,6 +1025,6 @@ public class GuiVillagerEditor extends AbstractGui
 
 				return 1;
 			}
-				});
+		});
 	}
 }

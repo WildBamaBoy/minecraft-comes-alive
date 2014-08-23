@@ -16,29 +16,29 @@ public class TileEntityVillagerBed extends TileEntity
 {
 	private boolean isVillagerSleepingIn;
 	private int sleepingVillagerId;
-	
+
 	public TileEntityVillagerBed()
 	{
 		isVillagerSleepingIn = false;
 		sleepingVillagerId = -1;
 	}
-	
+
 	public boolean getIsVillagerSleepingIn()
 	{
 		return isVillagerSleepingIn;
 	}
-	
+
 	public void setIsVillagerSleepingIn(boolean value)
 	{
 		isVillagerSleepingIn = value;
 	}
-	
+
 	@Override
 	public void updateEntity()
 	{
 		super.updateEntity();
 	}
-	
+
 	@Override
 	public void writeToNBT(NBTTagCompound nbt)
 	{
@@ -52,16 +52,16 @@ public class TileEntityVillagerBed extends TileEntity
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		super.readFromNBT(nbt);
-		
+
 		isVillagerSleepingIn = nbt.getBoolean("isVillagerSleepingIn");
 		sleepingVillagerId = nbt.getInteger("sleepingVillagerId");
 	}
-	
+
 	public void setSleepingVillagerId(int value)
 	{
 		sleepingVillagerId = value;
 	}
-	
+
 	public int getSleepingVillagerId()
 	{
 		return sleepingVillagerId;

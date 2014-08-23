@@ -25,7 +25,7 @@ import com.radixshock.radixcore.core.RadixCore;
 /**
  * Handles loading of MCA's skins and other addon skins.
  */
-public final class SkinLoader 
+public final class SkinLoader
 {
 	/**
 	 * Atempts to find and load skins from MCA's archive.
@@ -47,7 +47,7 @@ public final class SkinLoader
 			}
 		}
 
-		catch (IOException e)
+		catch (final IOException e)
 		{
 			RadixCore.getInstance().quitWithException("IOException while loading skins.", e);
 		}
@@ -68,7 +68,7 @@ public final class SkinLoader
 			}
 		}
 
-		catch (IOException e)
+		catch (final IOException e)
 		{
 			e.printStackTrace();
 		}
@@ -155,7 +155,7 @@ public final class SkinLoader
 		while (enumerator.hasMoreElements())
 		{
 			//Loop through each entry within the JAR until the MCA folder is hit.
-			final ZipEntry file = (ZipEntry)enumerator.nextElement();
+			final ZipEntry file = (ZipEntry) enumerator.nextElement();
 			String archiveFilePath = "/" + file.getName();
 
 			if (archiveFilePath.contains("textures/skins"))
@@ -213,7 +213,7 @@ public final class SkinLoader
 				final File skinsFolder = new File(skinsFolderPath);
 
 				for (final File skinFile : skinsFolder.listFiles())
-				{	
+				{
 					//Fix the file's location in the folder and determine what type of villager the skin belongs to.
 					//Skins are named: [Profession][Gender][ID].png.
 					final String fileLocation = skinsFolderPath.replace(modFolder.getAbsolutePath() + "/assets/mca/", "") + skinFile.getName();
@@ -242,15 +242,13 @@ public final class SkinLoader
 
 		while (enumerator.hasMoreElements())
 		{
-			final ZipEntry file = (ZipEntry)enumerator.nextElement();
-			String archiveFilePath = "/" + file.getName();
-
+			final ZipEntry file = (ZipEntry) enumerator.nextElement();
 			for (final VillagerEntryMCA entry : VillagerRegistryMCA.getRegisteredVillagersMap().values())
 			{
 				if (file.getName().contains(entry.getTexturesLocation()) && file.getName().contains(entry.professionName) && file.getName().contains(".png"))
 				{
 					MCA.getInstance().getLogger().log(entry.modId);
-					
+
 					if (file.getName().replace(entry.getTexturesLocation() + "/" + entry.professionName, "").contains("M"))
 					{
 						entry.addMaleSkin(entry.getModId() + ":" + file.getName().replace("assets/" + entry.getModId() + "/", ""));
@@ -321,11 +319,11 @@ public final class SkinLoader
 			{
 				final ZipFile archive = new ZipFile(fileToTest);
 				final Enumeration enumerator = archive.entries();
-				ZipEntry entry;					
+				ZipEntry entry;
 
 				while (enumerator.hasMoreElements())
 				{
-					entry = (ZipEntry)enumerator.nextElement();
+					entry = (ZipEntry) enumerator.nextElement();
 
 					//Test for random files unique to MCA.
 					if (entry.getName().contains("mca/core/MCA.class") || entry.getName().contains("sleeping/EE1.png"))
@@ -338,7 +336,7 @@ public final class SkinLoader
 				archive.close();
 			}
 
-			catch (ZipException e)
+			catch (final ZipException e)
 			{
 				e.printStackTrace();
 			}
@@ -355,18 +353,18 @@ public final class SkinLoader
 			{
 				final ZipFile archive = new ZipFile(fileToTest);
 				final Enumeration enumerator = archive.entries();
-				ZipEntry entry;					
+				ZipEntry entry;
 
 				while (enumerator.hasMoreElements())
 				{
-					entry = (ZipEntry)enumerator.nextElement();
+					entry = (ZipEntry) enumerator.nextElement();
 
-					for (VillagerEntryMCA villagerEntry : VillagerRegistryMCA.getRegisteredVillagersMap().values())
+					for (final VillagerEntryMCA villagerEntry : VillagerRegistryMCA.getRegisteredVillagersMap().values())
 					{
 						if (entry.getName().equals(villagerEntry.texturesLocation))
 						{
 							MCA.getInstance().getLogger().log("Found addon skins in " + fileToTest.getName() + ".");
-							
+
 							archive.close();
 							return true;
 						}
@@ -376,7 +374,7 @@ public final class SkinLoader
 				archive.close();
 			}
 
-			catch (ZipException e)
+			catch (final ZipException e)
 			{
 				e.printStackTrace();
 			}

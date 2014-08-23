@@ -28,19 +28,19 @@ public class ItemLostRelativeDocument extends Item
 	/**
 	 * Constructor
 	 */
-	public ItemLostRelativeDocument() 
+	public ItemLostRelativeDocument()
 	{
 		super();
-        maxStackSize = 64;
-        setCreativeTab(CreativeTabs.tabMisc);
+		maxStackSize = 64;
+		setCreativeTab(CreativeTabs.tabMisc);
 	}
-	
-    @Override
-    public void registerIcons(IIconRegister IIconRegister)
-    {
-    	itemIcon = IIconRegister.registerIcon("mca:LostRelativeDocument");
-    }
-    
+
+	@Override
+	public void registerIcons(IIconRegister IIconRegister)
+	{
+		itemIcon = IIconRegister.registerIcon("mca:LostRelativeDocument");
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List informationList, boolean unknown)
@@ -49,4 +49,3 @@ public class ItemLostRelativeDocument extends Item
 		informationList.add(MCA.getInstance().getLanguageLoader().getString("information.lostrelativedocument.line2"));
 	}
 }
-

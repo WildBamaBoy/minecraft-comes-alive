@@ -37,7 +37,7 @@ import cpw.mods.fml.common.ObfuscationReflectionHelper;
  */
 public class ClientTickHandler
 {
-	/** The number of ticks since the main loop has been run.*/
+	/** The number of ticks since the main loop has been run. */
 	public boolean doEzioComment;
 
 	/**
@@ -56,7 +56,7 @@ public class ClientTickHandler
 	/**
 	 * Fires once per tick when a GUI screen is open.
 	 * 
-	 * @param 	guiScreen	The GUI that is currently open.
+	 * @param guiScreen The GUI that is currently open.
 	 */
 	public void onTickInGui(GuiScreen guiScreen)
 	{
@@ -67,14 +67,14 @@ public class ClientTickHandler
 				//Check for random splash text.
 				if (Utility.getBooleanWithProbability(10))
 				{
-					ObfuscationReflectionHelper.setPrivateValue(GuiMainMenu.class, (GuiMainMenu)guiScreen, "Minecraft Comes Alive!", 4);
+					ObfuscationReflectionHelper.setPrivateValue(GuiMainMenu.class, (GuiMainMenu) guiScreen, "Minecraft Comes Alive!", 4);
 				}
 
 				//Reset world specific data.
 				MCA.getInstance().hasNotifiedOfBabyReadyToGrow = false;
 				MCA.getInstance().playerWorldManagerMap.clear();
 				MCA.getInstance().hasReceivedClientSetup = false;
-				
+
 				//Check to see if dialogue should be reloaded.
 				if (!MCA.getInstance().languageLoaded)
 				{
@@ -115,7 +115,7 @@ public class ClientTickHandler
 		{
 			MCA.getInstance().hasCompletedMainMenuTick = false;
 		}
-		
+
 		//If it's the original game over screen, override it with MCA's game over screen IN HARDCORE MODE ONLY.
 		else if (guiScreen instanceof GuiGameOver)
 		{
@@ -130,10 +130,9 @@ public class ClientTickHandler
 				{
 					if (entity instanceof EntityPlayerChild)
 					{
-						final EntityPlayerChild playerChild = (EntityPlayerChild)entity;
+						final EntityPlayerChild playerChild = (EntityPlayerChild) entity;
 
-						if (playerChild.familyTree.getIDsWithRelation(EnumRelation.Parent).contains(MCA.getInstance().getIdOfPlayer(player)) &&
-								!doEzioComment && playerChild.name.equals("Ezio"))
+						if (playerChild.familyTree.getIDsWithRelation(EnumRelation.Parent).contains(MCA.getInstance().getIdOfPlayer(player)) && !doEzioComment && playerChild.name.equals("Ezio"))
 						{
 							doEzioComment = true;
 							playerChild.say("Requiescat in pace.");
@@ -150,10 +149,10 @@ public class ClientTickHandler
 			}
 
 			//FIXME
-//			if (Minecraft.getMinecraft().theWorld.getWorldInfo().isHardcoreModeEnabled() || MCA.getInstance().debugDoSimulateHardcore)
-//			{
-//				Minecraft.getMinecraft().displayGuiScreen(new GuiHardcoreGameOver(Minecraft.getMinecraft().thePlayer));
-//			}
+			//			if (Minecraft.getMinecraft().theWorld.getWorldInfo().isHardcoreModeEnabled() || MCA.getInstance().debugDoSimulateHardcore)
+			//			{
+			//				Minecraft.getMinecraft().displayGuiScreen(new GuiHardcoreGameOver(Minecraft.getMinecraft().thePlayer));
+			//			}
 		}
 
 		//If it's MCA's game over screen, check the player's health as it sometimes remains stuck

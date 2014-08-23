@@ -28,7 +28,7 @@ import cpw.mods.fml.relauncher.SideOnly;
  * Defines what the Tombstone is and how it behaves.
  */
 public class ItemTombstone extends Item
-{	
+{
 	/**
 	 * Constructor
 	 */
@@ -42,18 +42,17 @@ public class ItemTombstone extends Item
 	/**
 	 * Called when the player right clicks a block while holding this item.
 	 * 
-	 * @param	itemStack	The item stack that the player was holding when they right clicked.
-	 * @param	player		The player that right clicked.
-	 * @param	world		The world that the player right clicked in.
-	 * @param	posX		X coordinate of the block that the player right clicked.
-	 * @param	posY		Y coordinate of the block that the player right clicked.
-	 * @param	posZ		Z coordinate of the block that the player right clicked.
-	 * @param	meta		Metadata associated with the block clicked.
-	 * @param	xOffset		X offset of the point where the block was clicked.
-	 * @param	yOffset		Y offset of the point where the block was clicked.
-	 * @param	zOffset		Z offset of the point where the block was clicked.
-	 * 
-	 * @return	True or false depending on if placing the item into the world was successful.
+	 * @param itemStack The item stack that the player was holding when they right clicked.
+	 * @param player The player that right clicked.
+	 * @param world The world that the player right clicked in.
+	 * @param posX X coordinate of the block that the player right clicked.
+	 * @param posY Y coordinate of the block that the player right clicked.
+	 * @param posZ Z coordinate of the block that the player right clicked.
+	 * @param meta Metadata associated with the block clicked.
+	 * @param xOffset X offset of the point where the block was clicked.
+	 * @param yOffset Y offset of the point where the block was clicked.
+	 * @param zOffset Z offset of the point where the block was clicked.
+	 * @return True or false depending on if placing the item into the world was successful.
 	 */
 	@Override
 	public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int posX, int posY, int posZ, int meta, float xOffset, float yOffset, float zOffset)
@@ -109,24 +108,24 @@ public class ItemTombstone extends Item
 			{
 				if (meta == 1)
 				{
-					final int newMeta = MathHelper.floor_double(((player.rotationYaw + 180F) * 16F) / 360F + 0.5D) & 15;
+					final int newMeta = MathHelper.floor_double((player.rotationYaw + 180F) * 16F / 360F + 0.5D) & 15;
 					world.setBlock(posX, posY, posZ, MCA.getInstance().blockTombstone, newMeta, 2);
 				}
-				
+
 				else
 				{
 					world.setBlock(posX, posY, posZ, MCA.getInstance().blockTombstone, meta, 2);
 				}
 
 				--itemStack.stackSize;
-				final TileEntityTombstone tombstone = (TileEntityTombstone)world.getTileEntity(posX, posY, posZ);
-				
+				final TileEntityTombstone tombstone = (TileEntityTombstone) world.getTileEntity(posX, posY, posZ);
+
 				if (tombstone != null)
 				{
 					player.openGui(MCA.getInstance(), Constants.ID_GUI_TOMBSTONE, world, tombstone.xCoord, tombstone.yCoord, tombstone.zCoord);
 					//MCA.getInstance().getPacketPipeline().sendPacketToPlayer(new Packet(EnumPacketType.OpenGui, player.getEntityId(), Constants.ID_GUI_TOMBSTONE), (EntityPlayerMP)player);
 				}
-				
+
 				return true;
 			}
 		}

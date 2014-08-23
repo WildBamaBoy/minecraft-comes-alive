@@ -38,49 +38,48 @@ import com.radixshock.radixcore.logic.Point3D;
  */
 public class ChoreWoodcutting extends AbstractChore
 {
-	/** Does the owner have the coordinates of a tree?*/
+	/** Does the owner have the coordinates of a tree? */
 	public boolean hasTreeLocation;
 
-	/** Is the owner cutting a tree?*/
+	/** Is the owner cutting a tree? */
 	public boolean isCuttingTree;
 
 	/** Has the owner of this chore chopped at least one tree? */
 	public boolean hasDoneWork;
 
-	/** The X coordinates of the tree.*/
+	/** The X coordinates of the tree. */
 	public double treeBaseX;
 
-	/** The Y coordinates of the tree.*/
+	/** The Y coordinates of the tree. */
 	public double treeBaseY;
 
-	/** The Z coordinates of the tree.*/
+	/** The Z coordinates of the tree. */
 	public double treeBaseZ;
 
-	/** The X coordinates of the current log.*/
+	/** The X coordinates of the current log. */
 	public double logX;
 
-	/** The Y coordinates of the current log.*/
+	/** The Y coordinates of the current log. */
 	public double logY;
 
-	/** The Z coordinates of the current log.*/
+	/** The Z coordinates of the current log. */
 	public double logZ;
 
-	/** How many ticks the owner has been cutting the tree.*/
+	/** How many ticks the owner has been cutting the tree. */
 	public int cutCounter;
 
-	/** The amount of time it will take the owner to cut the tree.*/
+	/** The amount of time it will take the owner to cut the tree. */
 	public int cutInterval;
 
-	/**The index of the type of tree that should be cut.*/
+	/** The index of the type of tree that should be cut. */
 	public int treeTypeIndex;
-
 
 	public transient CuttableLog treeEntry;
 
 	/**
 	 * Constructor
 	 * 
-	 * @param 	entity	The entity performing the chore.
+	 * @param entity The entity performing the chore.
 	 */
 	public ChoreWoodcutting(AbstractEntity entity)
 	{
@@ -90,10 +89,10 @@ public class ChoreWoodcutting extends AbstractChore
 	/**
 	 * Constructor
 	 * 
-	 * @param 	entity		The entity that should be performing this chore.
-	 * @param 	treeType	The type of tree that should be cut.
+	 * @param entity The entity that should be performing this chore.
+	 * @param treeType The type of tree that should be cut.
 	 */
-	public ChoreWoodcutting(AbstractEntity entity, int treeTypeIndex, CuttableLog treeEntry) 
+	public ChoreWoodcutting(AbstractEntity entity, int treeTypeIndex, CuttableLog treeEntry)
 	{
 		super(entity);
 
@@ -102,11 +101,11 @@ public class ChoreWoodcutting extends AbstractChore
 	}
 
 	@Override
-	public void beginChore() 
-	{	
+	public void beginChore()
+	{
 		if (!MCA.getInstance().getModProperties().server_allowWoodcuttingChore)
 		{
-			endChore();	
+			endChore();
 			owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer).addChatMessage(new ChatComponentText("\u00a7cChore disabled by the server administrator."));
 			return;
 		}
@@ -122,7 +121,7 @@ public class ChoreWoodcutting extends AbstractChore
 	}
 
 	@Override
-	public void runChoreAI() 
+	public void runChoreAI()
 	{
 		owner.isFollowing = false;
 		owner.isStaying = false;
@@ -140,7 +139,7 @@ public class ChoreWoodcutting extends AbstractChore
 
 				else
 				{
-					if (owner.worldObj.getBlock((int)logX, (int)logY, (int)logZ) == treeEntry.getLogBlock())
+					if (owner.worldObj.getBlock((int) logX, (int) logY, (int) logZ) == treeEntry.getLogBlock())
 					{
 						if (cutCounter >= cutInterval)
 						{
@@ -169,7 +168,7 @@ public class ChoreWoodcutting extends AbstractChore
 			}
 		}
 
-		catch (Throwable e)
+		catch (final Throwable e)
 		{
 			e.printStackTrace();
 		}
@@ -182,7 +181,7 @@ public class ChoreWoodcutting extends AbstractChore
 	}
 
 	@Override
-	public void endChore() 
+	public void endChore()
 	{
 		hasEnded = true;
 
@@ -201,7 +200,7 @@ public class ChoreWoodcutting extends AbstractChore
 	}
 
 	@Override
-	public void writeChoreToNBT(NBTTagCompound nbt) 
+	public void writeChoreToNBT(NBTTagCompound nbt)
 	{
 		//Loop through each field in this class and write to NBT.
 		for (final Field field : this.getClass().getFields())
@@ -212,32 +211,32 @@ public class ChoreWoodcutting extends AbstractChore
 				{
 					if (field.getType().toString().contains("int"))
 					{
-						nbt.setInteger(field.getName(), (Integer)field.get(owner.woodcuttingChore));
+						nbt.setInteger(field.getName(), (Integer) field.get(owner.woodcuttingChore));
 					}
 
 					else if (field.getType().toString().contains("double"))
 					{
-						nbt.setDouble(field.getName(), (Double)field.get(owner.woodcuttingChore));
+						nbt.setDouble(field.getName(), (Double) field.get(owner.woodcuttingChore));
 					}
 
 					else if (field.getType().toString().contains("float"))
 					{
-						nbt.setFloat(field.getName(), (Float)field.get(owner.woodcuttingChore));
+						nbt.setFloat(field.getName(), (Float) field.get(owner.woodcuttingChore));
 					}
 
 					else if (field.getType().toString().contains("String"))
 					{
-						nbt.setString(field.getName(), (String)field.get(owner.woodcuttingChore));
+						nbt.setString(field.getName(), (String) field.get(owner.woodcuttingChore));
 					}
 
 					else if (field.getType().toString().contains("boolean"))
 					{
-						nbt.setBoolean(field.getName(), (Boolean)field.get(owner.woodcuttingChore));
+						nbt.setBoolean(field.getName(), (Boolean) field.get(owner.woodcuttingChore));
 					}
 				}
 			}
 
-			catch (IllegalAccessException e)
+			catch (final IllegalAccessException e)
 			{
 				MCA.getInstance().getLogger().log(e);
 				continue;
@@ -246,7 +245,7 @@ public class ChoreWoodcutting extends AbstractChore
 	}
 
 	@Override
-	public void readChoreFromNBT(NBTTagCompound nbt) 
+	public void readChoreFromNBT(NBTTagCompound nbt)
 	{
 		//Loop through each field in this class and read from NBT.
 		for (final Field field : this.getClass().getFields())
@@ -282,7 +281,7 @@ public class ChoreWoodcutting extends AbstractChore
 				}
 			}
 
-			catch (IllegalAccessException e)
+			catch (final IllegalAccessException e)
 			{
 				MCA.getInstance().getLogger().log(e);
 				continue;
@@ -291,29 +290,41 @@ public class ChoreWoodcutting extends AbstractChore
 	}
 
 	@Override
-	protected int getDelayForToolType(ItemStack toolStack) 
+	protected int getDelayForToolType(ItemStack toolStack)
 	{
 		if (owner instanceof EntityPlayerChild)
 		{
 			try
 			{
-				final ToolMaterial material = ToolMaterial.valueOf(((ItemAxe)toolStack.getItem()).getToolMaterialName());
+				final ToolMaterial material = ToolMaterial.valueOf(((ItemAxe) toolStack.getItem()).getToolMaterialName());
 				int returnAmount = 0;
 
 				switch (material)
 				{
-				case WOOD: 		returnAmount = 40; break;
-				case STONE: 	returnAmount = 30; break;
-				case IRON: 		returnAmount = 25; break;
-				case EMERALD: 	returnAmount = 10; break;
-				case GOLD: 		returnAmount = 5; break;
-				default: 		returnAmount = 25; break;
+					case WOOD:
+						returnAmount = 40;
+						break;
+					case STONE:
+						returnAmount = 30;
+						break;
+					case IRON:
+						returnAmount = 25;
+						break;
+					case EMERALD:
+						returnAmount = 10;
+						break;
+					case GOLD:
+						returnAmount = 5;
+						break;
+					default:
+						returnAmount = 25;
+						break;
 				}
 
 				return getChoreXp() >= 10.0F ? returnAmount / 2 : returnAmount;
 			}
 
-			catch (NullPointerException e)
+			catch (final NullPointerException e)
 			{
 				return getChoreXp() >= 10.0F ? 30 : 60;
 			}
@@ -326,25 +337,25 @@ public class ChoreWoodcutting extends AbstractChore
 	}
 
 	@Override
-	protected String getChoreXpName() 
+	protected String getChoreXpName()
 	{
 		return "xpLvlWoodcutting";
 	}
 
 	@Override
-	protected String getBaseLevelUpPhrase() 
+	protected String getBaseLevelUpPhrase()
 	{
 		return "notify.child.chore.levelup.woodcutting";
 	}
 
 	@Override
-	protected float getChoreXp() 
+	protected float getChoreXp()
 	{
 		return owner.xpLvlWoodcutting;
 	}
 
 	@Override
-	protected void setChoreXp(float setAmount) 
+	protected void setChoreXp(float setAmount)
 	{
 		owner.xpLvlWoodcutting = setAmount;
 	}
@@ -417,7 +428,7 @@ public class ChoreWoodcutting extends AbstractChore
 
 				while (distanceFromY != 10)
 				{
-					final Block block = owner.worldObj.getBlock((int)treeBaseX, (int)treeBaseY - distanceFromY, (int)treeBaseZ);
+					final Block block = owner.worldObj.getBlock((int) treeBaseX, (int) treeBaseY - distanceFromY, (int) treeBaseZ);
 
 					if (block != treeEntry.getLogBlock())
 					{
@@ -449,8 +460,7 @@ public class ChoreWoodcutting extends AbstractChore
 	{
 		if (!owner.worldObj.isRemote)
 		{
-			owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(treeBaseX, treeBaseY, treeBaseZ), 
-					getChoreXp() >= 5.0F ? Constants.SPEED_RUN : Constants.SPEED_WALK);
+			owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(treeBaseX, treeBaseY, treeBaseZ), getChoreXp() >= 5.0F ? Constants.SPEED_RUN : Constants.SPEED_WALK);
 		}
 	}
 
@@ -458,7 +468,7 @@ public class ChoreWoodcutting extends AbstractChore
 	{
 		if (!owner.worldObj.isRemote)
 		{
-			owner.worldObj.setBlock((int)logX, (int)logY, (int)logZ, Blocks.air);
+			owner.worldObj.setBlock((int) logX, (int) logY, (int) logZ, Blocks.air);
 		}
 
 		logY++;
@@ -468,7 +478,7 @@ public class ChoreWoodcutting extends AbstractChore
 		stackToAdd.damageItem(treeEntry.getLogDamage(), owner);
 		owner.inventory.addItemStackToInventory(stackToAdd);
 
-		incrementChoreXpLevel((float)(0.15 - 0.01 * getChoreXp()));
+		incrementChoreXpLevel((float) (0.15 - 0.01 * getChoreXp()));
 
 		cutCounter = 0;
 		hasDoneWork = true;
@@ -479,7 +489,7 @@ public class ChoreWoodcutting extends AbstractChore
 	{
 		if (owner instanceof EntityPlayerChild)
 		{
-			EntityPlayerChild child = (EntityPlayerChild)owner;
+			final EntityPlayerChild child = (EntityPlayerChild) owner;
 
 			child.woodChopped += 1;
 

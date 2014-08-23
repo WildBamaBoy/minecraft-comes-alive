@@ -28,13 +28,13 @@ import com.radixshock.radixcore.constant.Font.Format;
 public class CommandDevControl extends AbstractCommand
 {
 	@Override
-	public String getCommandUsage(ICommandSender sender) 
+	public String getCommandUsage(ICommandSender sender)
 	{
 		return "/mca.devcontrol <control name> <argument1> <argument2> <etc>";
 	}
 
 	@Override
-	public boolean canCommandSenderUseCommand(ICommandSender sender) 
+	public boolean canCommandSenderUseCommand(ICommandSender sender)
 	{
 		if (MCA.getInstance().isDevelopmentEnvironment)
 		{
@@ -56,61 +56,61 @@ public class CommandDevControl extends AbstractCommand
 	}
 
 	@Override
-	public int getRequiredPermissionLevel() 
+	public int getRequiredPermissionLevel()
 	{
 		return 4;
 	}
 
 	@Override
-	public String getCommandName() 
+	public String getCommandName()
 	{
 		return "mca.devcontrol";
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] arguments) 
+	public void processCommand(ICommandSender sender, String[] arguments)
 	{
 		try
 		{
 			final String commandName = arguments[0].trim();
-			
+
 			if (commandName.equalsIgnoreCase("haltChildGrowth"))
 			{
 				final String setValue = arguments[1];
-				
+
 				if (setValue.equalsIgnoreCase("true"))
 				{
 					sender.addChatMessage(new ChatComponentText(Color.GREEN + "Dev control set."));
 					MCA.getInstance().getModProperties().haltChildGrowth = true;
 					MCA.getInstance().modPropertiesManager.saveModProperties();
 				}
-				
+
 				else if (setValue.equalsIgnoreCase("false"))
 				{
 					sender.addChatMessage(new ChatComponentText(Color.GREEN + "Dev control set."));
 					MCA.getInstance().getModProperties().haltChildGrowth = false;
 					MCA.getInstance().modPropertiesManager.saveModProperties();
 				}
-				
+
 				else
 				{
 					sender.addChatMessage(new ChatComponentText(Color.RED + "Argument must be true or false."));
 				}
 			}
-			
+
 			else if (commandName.equalsIgnoreCase("doSelfTest"))
 			{
-				SelfTester tester = new SelfTester();
+				final SelfTester tester = new SelfTester();
 				tester.doSelfTest();
 			}
-			
+
 			else if (commandName.equalsIgnoreCase("loadLanguage"))
 			{
 				MCA.getInstance().setLanguageLoaded(false);
 				MCA.getInstance().getLanguageLoader().loadLanguage();
 				sender.addChatMessage(new ChatComponentText(Color.GREEN + "Language reloaded."));
 			}
-			
+
 			else if (commandName.equalsIgnoreCase("getString"))
 			{
 				final String phraseId = arguments[1];
@@ -119,7 +119,7 @@ public class CommandDevControl extends AbstractCommand
 			}
 		}
 
-		catch (Exception e)
+		catch (final Exception e)
 		{
 			MCA.getInstance().getLogger().log(e);
 			throw new WrongUsageException(getCommandUsage(sender));
