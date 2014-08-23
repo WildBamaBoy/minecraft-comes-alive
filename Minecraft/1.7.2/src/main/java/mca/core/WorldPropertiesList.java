@@ -10,8 +10,6 @@
 package mca.core;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Contains the fields that are used by the world properties manager.
@@ -60,23 +58,14 @@ public class WorldPropertiesList implements Serializable
 	/**Is "Lite" mode enabled for this player?*/
 	public boolean isInLiteMode = false;
 	
-//	/**Does the player want testificates to be overwritten with MCA villagers?*/
-//	public boolean overwriteTestificates = true;
-	
 	/**Should mood particles be displayed for anger, sadness, etc?*/
 	public boolean displayMoodParticles = true;
 	
 	/**Should children grow up automatically?*/
 	public boolean childrenGrowAutomatically = true;
 	
-	/**Should all marriage requests be blocked?*/
-	public boolean blockMarriageRequests = false;
-	
 	/**Should name tags be rendered above a villager?*/
 	public boolean showNameTags = true;
-	
-	/**The list containing all usernames whose marriage requests will be blocked.*/
-	public List<String> blockList = new ArrayList<String>();
 	
 	/**Is the player a monarch? */
 	public boolean isMonarch = false;

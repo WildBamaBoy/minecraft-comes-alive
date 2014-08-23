@@ -32,25 +32,13 @@ import mca.block.BlockVillagerBedGreen;
 import mca.block.BlockVillagerBedPink;
 import mca.block.BlockVillagerBedPurple;
 import mca.block.BlockVillagerBedRed;
-import mca.command.CommandBlock;
-import mca.command.CommandBlockAll;
 import mca.command.CommandDebugMode;
 import mca.command.CommandDebugRule;
 import mca.command.CommandDevControl;
-import mca.command.CommandDivorce;
-import mca.command.CommandHaveBaby;
-import mca.command.CommandHaveBabyAccept;
 import mca.command.CommandHelp;
-import mca.command.CommandMarry;
-import mca.command.CommandMarryAccept;
-import mca.command.CommandMarryDecline;
 import mca.command.CommandModProps;
 import mca.command.CommandReloadModProperties;
 import mca.command.CommandReloadWorldProperties;
-import mca.command.CommandSetGender;
-import mca.command.CommandSetName;
-import mca.command.CommandUnblock;
-import mca.command.CommandUnblockAll;
 import mca.core.forge.ClientTickHandler;
 import mca.core.forge.CommonProxy;
 import mca.core.forge.EventHooks;
@@ -63,6 +51,7 @@ import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
 import mca.entity.EntityVillagerChild;
 import mca.enums.EnumCrownColor;
+import mca.frontend.UpdateChecker;
 import mca.item.ItemArrangersRing;
 import mca.item.ItemBabyBoy;
 import mca.item.ItemBabyGirl;
@@ -112,6 +101,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.AchievementPage;
 
+import com.radixshock.radixcore.core.IUpdateChecker;
 import com.radixshock.radixcore.core.ModLogger;
 import com.radixshock.radixcore.core.RadixCore;
 import com.radixshock.radixcore.core.UnenforcedCore;
@@ -247,7 +237,8 @@ public class MCA extends UnenforcedCore
 	public  boolean hasCheckedForUpdates	   = false;
 	public  boolean isDevelopmentEnvironment   = false;
 	public 	boolean hasReceivedClientSetup     = false;
-
+	public  boolean hasSentCrashReport         = false;
+	
 	public  ModPropertiesManager modPropertiesManager = null;
 	public  WorldPropertiesManager worldPropertiesManager = null;
 
@@ -517,20 +508,8 @@ public class MCA extends UnenforcedCore
 	@Override
 	public void serverStarting(FMLServerStartingEvent event)
 	{
-		event.registerServerCommand(new CommandDebugMode());
 		event.registerServerCommand(new CommandHelp());
-		event.registerServerCommand(new CommandSetName());
-		event.registerServerCommand(new CommandSetGender());
-		event.registerServerCommand(new CommandMarry());
-		event.registerServerCommand(new CommandMarryAccept());
-		event.registerServerCommand(new CommandMarryDecline());
-		event.registerServerCommand(new CommandHaveBaby());
-		event.registerServerCommand(new CommandHaveBabyAccept());
-		event.registerServerCommand(new CommandDivorce());
-		event.registerServerCommand(new CommandBlock());
-		event.registerServerCommand(new CommandBlockAll());
-		event.registerServerCommand(new CommandUnblock());
-		event.registerServerCommand(new CommandUnblockAll());
+		event.registerServerCommand(new CommandDebugMode());
 		event.registerServerCommand(new CommandDebugRule());
 		event.registerServerCommand(new CommandModProps());
 		event.registerServerCommand(new CommandDevControl());
@@ -560,7 +539,7 @@ public class MCA extends UnenforcedCore
 		hasLoadedProperties = false;
 		hasCompletedMainMenuTick = false;
 	}
-
+	
 	@Override
 	public String getShortModName() 
 	{
@@ -591,6 +570,18 @@ public class MCA extends UnenforcedCore
 		return true;
 	}
 
+	@Override
+	public boolean getUsesCustomUpdateChecker() 
+	{
+		return true;
+	}
+
+	@Override
+	public IUpdateChecker getCustomUpdateChecker() 
+	{
+		return new UpdateChecker(this);
+	}
+	
 	@Override
 	public String getUpdateURL() 
 	{

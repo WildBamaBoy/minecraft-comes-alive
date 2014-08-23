@@ -90,13 +90,13 @@ public abstract class AbstractCommand extends CommandBase
 
 		for (final WorldServer world : MinecraftServer.getServer().worldServers)
 		{
-			if (world.getPlayerEntityByName(sender.getCommandSenderName()) != null)
+			if (world.getPlayerEntityByName(recipient.getCommandSenderName()) != null)
 			{
-				player = world.getPlayerEntityByName(sender.getCommandSenderName());
+				player = world.getPlayerEntityByName(recipient.getCommandSenderName());
 				break;
 			}
 		}
 
-		MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(player, null, phraseId, false, prefix, suffix), (EntityPlayerMP)player);
+		MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized((EntityPlayer) sender, null, phraseId, false, prefix, suffix), (EntityPlayerMP)player);
 	}
 }

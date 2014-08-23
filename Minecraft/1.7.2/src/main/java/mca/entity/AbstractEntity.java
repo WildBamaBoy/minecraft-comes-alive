@@ -93,16 +93,13 @@ import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ISpecialArmor;
 
-import com.radixshock.radixcore.constant.Font;
 import com.radixshock.radixcore.constant.Font.Color;
-import com.radixshock.radixcore.constant.Particle;
 import com.radixshock.radixcore.constant.Time;
 import com.radixshock.radixcore.core.RadixCore;
 import com.radixshock.radixcore.entity.ITickableEntity;
 import com.radixshock.radixcore.file.WorldPropertiesManager;
 import com.radixshock.radixcore.logic.LogicHelper;
 import com.radixshock.radixcore.logic.NBTHelper;
-import com.radixshock.radixcore.network.packets.PacketSpawnParticles;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
@@ -943,7 +940,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 * @param 	text	The text to appear in the player's chat box.
 	 */
 	public void say(String text)
-	{	
+	{
 		//Localization returns nothing when say() was used server-side.
 		if (text.equals(""))
 		{

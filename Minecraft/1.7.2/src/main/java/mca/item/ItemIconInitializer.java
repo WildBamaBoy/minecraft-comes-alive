@@ -11,9 +11,7 @@ package mca.item;
 
 import mca.core.MCA;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 
 /**
  * Initializes the icons needed for use in-game.

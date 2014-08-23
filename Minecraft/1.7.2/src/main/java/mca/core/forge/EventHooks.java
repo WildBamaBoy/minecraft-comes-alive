@@ -22,6 +22,7 @@ import mca.entity.AbstractSerializableEntity;
 import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
 import mca.entity.EntityVillagerChild;
+import mca.frontend.RDXServerBridge;
 import mca.item.AbstractBaby;
 import mca.item.ItemCrown;
 import mca.item.ItemTombstone;
@@ -30,6 +31,8 @@ import mca.network.packets.PacketOpenGui;
 import mca.network.packets.PacketSayLocalized;
 import mca.network.packets.PacketSetWorldProperties;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.crash.CrashReport;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -49,6 +52,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBed;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.dedicated.DedicatedServer;
+import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
@@ -59,6 +64,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import com.radixshock.radixcore.core.RadixCore;
 import com.radixshock.radixcore.file.WorldPropertiesManager;
 
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
@@ -126,6 +132,30 @@ public class EventHooks
 			for (final WorldPropertiesManager manager : MCA.getInstance().playerWorldManagerMap.values())
 			{
 				manager.saveWorldProperties();
+			}
+
+			if (!MCA.getInstance().hasSentCrashReport)
+			{
+				final MinecraftServer server = MinecraftServer.getServer();
+
+				if (server instanceof IntegratedServer)
+				{
+					IntegratedServer integServer = (IntegratedServer)server;
+					Boolean isCrashed = (Boolean)ObfuscationReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), 11);
+					CrashReport crashReport = (CrashReport)ObfuscationReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), 12);
+
+					if (isCrashed)
+					{
+						RDXServerBridge.sendCrashReport(crashReport.getCompleteReport());
+						MCA.getInstance().hasSentCrashReport = true;
+					}
+				}
+
+				else if (server instanceof DedicatedServer)
+				{
+
+				}
+				
 			}
 		}
 	}

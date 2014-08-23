@@ -6,7 +6,6 @@ import mca.network.packets.PacketBabyInfo;
 import mca.network.packets.PacketClickAid;
 import mca.network.packets.PacketClickMountHorse;
 import mca.network.packets.PacketClickTakeGift;
-import mca.network.packets.PacketClientCommand;
 import mca.network.packets.PacketGetTombstoneText;
 import mca.network.packets.PacketNotifyPlayer;
 import mca.network.packets.PacketOnClickTrade;
@@ -54,7 +53,6 @@ public class PacketRegistry extends AbstractPacketHandler
 		this.registerDoubleSidedPacket(PacketClickAid.class, 3);
 		this.registerDoubleSidedPacket(PacketClickMountHorse.class, 4);
 		this.registerDoubleSidedPacket(PacketClickTakeGift.class, 5);
-		this.registerDoubleSidedPacket(PacketClientCommand.class, 6);
 		this.registerDoubleSidedPacket(PacketGetTombstoneText.class, 7);
 		this.registerDoubleSidedPacket(PacketNotifyPlayer.class, 8);
 		this.registerDoubleSidedPacket(PacketOnClickTrade.class, 9);

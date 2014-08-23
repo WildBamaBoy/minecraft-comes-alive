@@ -1,7 +1,6 @@
 package mca.network.packets;
 
 import io.netty.buffer.ByteBuf;
-import mca.core.MCA;
 import mca.entity.EntityVillagerAdult;
 import net.minecraft.entity.player.EntityPlayer;
 

@@ -13,7 +13,6 @@ import java.util.Map;
 
 import mca.core.MCA;
 import mca.core.WorldPropertiesList;
-import mca.network.packets.PacketClientCommand;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -182,32 +181,32 @@ public class GuiInteractionPlayer extends AbstractGui
 	{
 		if (button == askToMarryButton)
 		{
-			MCA.packetHandler.sendPacketToServer(new PacketClientCommand("/mca.marry " + playerTarget.getCommandSenderName()));
+
 		}
 
 		else if (button == acceptMarriageButton)
 		{
-			MCA.packetHandler.sendPacketToServer(new PacketClientCommand("/mca.marry.accept " + playerTarget.getCommandSenderName()));
+		
 		}
 
 		else if (button == declineMarriageButton)
 		{
-			MCA.packetHandler.sendPacketToServer(new PacketClientCommand("/mca.marry.decline " + playerTarget.getCommandSenderName()));
+			
 		}
 
 		else if (button == haveBabyButton)
 		{
-			MCA.packetHandler.sendPacketToServer(new PacketClientCommand("/mca.havebaby"));
+			
 		}
 
 		else if (button == acceptBabyButton)
 		{
-			MCA.packetHandler.sendPacketToServer(new PacketClientCommand("/mca.havebaby.accept"));
+			
 		}
 
 		else if (button == divorceButton)
 		{
-			MCA.packetHandler.sendPacketToServer(new PacketClientCommand("/mca.divorce"));
+			
 		}
 
 		close();
