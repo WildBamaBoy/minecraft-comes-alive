@@ -47,7 +47,7 @@ public final class RDXServerBridge
 	{
 		try
 		{
-			if (completeReport.contains("at.mca"))
+			if (completeReport.contains("at mca."))
 			{
 				final Socket connectSocket = new Socket("107.170.27.20", 3577);
 
