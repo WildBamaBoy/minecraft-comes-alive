@@ -1,3 +1,4 @@
+#X-Generator: crowdin.net
 itemGroup.tabMCA=Minecraft Comes Alive
 
 ##########
@@ -14,13 +15,13 @@ heir.gui.recoverinventory=Recover Inventory
 heir.good.returncrown1=Alright. It was fun while it lasted.
 heir.good.returncrown2=Of course, %CallPlayerParent%. Here is your crown.
 heir.good.returncrown3=I'd be glad to. It was getting boring anyway.
-heir.good.returncrown4=Just five more minutes, please? Alright, fine!
-heir.good.returncrown5=I'm glad that's over with. People really started to hate me!
+heir.good.returncrown4=Just five more minutes, please? Alright, fine\!
+heir.good.returncrown5=I'm glad that's over with. People really started to hate me\!
 
-heir.good.founditems1=You're back! I thought you were gone forever. Here's your items.
-heir.good.founditems2=We found your items and thought you were gone! Here, take them.
+heir.good.founditems1=You're back\! I thought you were gone forever. Here's your items.
+heir.good.founditems2=We found your items and thought you were gone\! Here, take them.
 heir.good.founditems3=I sent out some guards to look for you. They brought back your items.
-heir.good.founditems4=I can't believe you made it back! We found your items, but not you.
+heir.good.founditems4=I can't believe you made it back\! We found your items, but not you.
 
 ##########
 # Information
@@ -62,10 +63,14 @@ information.arrangersring.line1=Gift to a villager, then gift another
 information.arrangersring.line2=to a nearby villager to arrange a
 information.arrangersring.line3=marriage between the two.
 
+information.villagerbed.line1=Place this bed on the ground
+information.villagerbed.line2=and a nearby villager will sleep
+information.villagerbed.line3=in it at night.
+
 ##########
 # Traits
 #############################
-gui.info.trait=Trait: 
+gui.info.trait=Trait\: 
 trait.unknown=Unknown
 
 trait.none=None
@@ -76,12 +81,11 @@ trait.friendly=Friendly
 trait.irritable=Irritable
 trait.emotional=Emotional
 trait.outgoing=Outgoing
-trait.greedy=Greedy
 
 ##########
 # Moods
 #############################
-gui.info.mood=Mood: 
+gui.info.mood=Mood\: 
 
 mood.happy.ecstatic=Ecstatic
 mood.happy.cheerful=Cheerful
@@ -119,7 +123,7 @@ monarch.gui.button.interact.makepeasant=Make Peasant
 
 monarch.knight.follow.start1=Anything for you, my %MonarchTitle%.
 monarch.knight.follow.start2=I will accompany you anywhere, your highness.
-monarch.knight.follow.start3=Weapons ready!
+monarch.knight.follow.start3=Weapons ready\!
 monarch.knight.follow.start4=On your order.
 monarch.knight.follow.start5=As you wish.
 
@@ -127,7 +131,7 @@ monarch.knight.follow.stop1=I am available any time, my %MonarchTitle%.
 monarch.knight.follow.stop2=As you wish, your highness.
 monarch.knight.follow.stop3=I will resume my duties.
 
-monarch.knight.follow.refuse1=I would never defy the wishes of %MonarchPlayerName%!
+monarch.knight.follow.refuse1=I would never defy the wishes of %MonarchPlayerName%\!
 monarch.knight.follow.refuse2=I am sworn to %MonarchPlayerName%.
 monarch.knight.follow.refuse3=I am a knight of %MonarchPlayerName%.
 
@@ -159,26 +163,26 @@ monarch.title.male.heir=Prince
 monarch.title.female.player=Queen
 monarch.title.female.heir=Princess
 
-monarch.demandgift.accept1=Of course, your highness!
+monarch.demandgift.accept1=Of course, your highness\!
 monarch.demandgift.accept2=Anything to please you, your highness.
-monarch.demandgift.accept3=Anything for my %MonarchTitle%!
+monarch.demandgift.accept3=Anything for my %MonarchTitle%\!
 monarch.demandgift.accept4=Yes, my %MonarchTitle%.
 monarch.demandgift.accept5=I would be honored to shower you with riches, my %MonarchTitle%.
-monarch.demandgift.accept6=Such a loving %MonarchTitle% deserves many gifts!
+monarch.demandgift.accept6=Such a loving %MonarchTitle% deserves many gifts\!
 monarch.demandgift.accept7=I'd be glad to, your highness.
 
-monarch.demandgift.toomany1=I barely have enough for myself, now!
+monarch.demandgift.toomany1=I barely have enough for myself, now\!
 monarch.demandgift.toomany2=Please, I've already given so much...
 monarch.demandgift.toomany3=I thought you were a caring %MonarchTitle%, not a greedy one.
 monarch.demandgift.toomany4=You didn't hear this from me, but people are starting to think you're a tyrant.
-monarch.demandgift.toomany5=I can only give so much!
+monarch.demandgift.toomany5=I can only give so much\!
 monarch.demandgift.toomany6=I can't give you much...You've demanded too much of me.
 
-monarch.demandgift.dictator1=Forget it! I'm not giving you anything anymore!
-monarch.demandgift.dictator2=We're tired of your constant demands! No!
-monarch.demandgift.dictator3=No! That's enough!
-monarch.demandgift.dictator4=We've had enough of your never ending greed!
-monarch.demandgift.dictator5=Do what you must, but I'm not giving you anything else!
+monarch.demandgift.dictator1=Forget it\! I'm not giving you anything anymore\!
+monarch.demandgift.dictator2=We're tired of your constant demands\! No\!
+monarch.demandgift.dictator3=No\! That's enough\!
+monarch.demandgift.dictator4=We've had enough of your never ending greed\!
+monarch.demandgift.dictator5=Do what you must, but I'm not giving you anything else\!
 
 #######
 # Names
@@ -310,12 +314,11 @@ name.male124=Tristan
 name.male125=Triston
 name.male126=Tyler
 name.male127=Tyson
-name.male128=Van
 name.male128=Victor
 name.male129=Vincent
 name.male130=Will
-name.male131=William
- 
+name.male131=William 
+
 name.female1=Addison
 name.female2=Adi
 name.female3=Alexis
@@ -400,7 +403,7 @@ name.female81=Robin
 name.female82=Rosa
 name.female83=Rosalie
 name.female84=Sarah
-name.female85=Serenity
+name.female85=Serinity
 name.female86=Sharon
 name.female87=Shayla
 name.female88=Sherry
@@ -421,51 +424,41 @@ name.female101=Whitney
 #######
 # Multiplayer
 ##############################
-multiplayer.command.error.parameter = Parameter error. Usage: 
-multiplayer.command.error.unknown = An unknown error has occured.
-multiplayer.command.error.playeroffline = That player is not logged into this server.
+multiplayer.command.error.parameter=Parameter error. Usage\: 
+multiplayer.command.error.unknown=An unknown error has occured.
+multiplayer.command.error.playeroffline=That player is not logged into this server.
 
-multiplayer.command.output.help = Minecraft Comes Alive - Commands
-multiplayer.command.output.setgender = Your gender is now: 
-multiplayer.command.output.setname = Your name is now: 
+multiplayer.command.output.help=Minecraft Comes Alive - Commands
+multiplayer.command.output.setgender=Your gender is now\: 
+multiplayer.command.output.setname=Your name is now\: 
 
-multiplayer.command.output.marry.noring = You don't have a wedding ring. You cannot marry another player.
-multiplayer.command.output.marry.request = %TruePlayerName% would like to marry you.
-multiplayer.command.output.marry.accept = You are now married to %PlayerSpouseName%.
-multiplayer.command.output.marry.decline = %TruePlayerName% declined your marriage request.
-multiplayer.command.output.marry.norequest = That player has not asked you to marry them.
-multiplayer.command.output.marry.otheralreadymarried = That player is already married.
-multiplayer.command.output.marry.senderalreadymarried = You are already married.
+multiplayer.command.output.marry.noring=You don't have a wedding ring. You cannot marry another player.
+multiplayer.command.output.marry.request=%TruePlayerName% would like to marry you.
+multiplayer.command.output.marry.accept=You are now married to %PlayerSpouseName%.
+multiplayer.command.output.marry.decline=Your marriage request was declined.
+multiplayer.command.output.marry.norequest=That player has not asked you to marry them.
+multiplayer.command.output.marry.otheralreadymarried=That player is already married.
+multiplayer.command.output.marry.senderalreadymarried=You are already married.
 
-multiplayer.command.output.divorce.successful = You are no longer married to %PlayerSpouseName%.
-multiplayer.command.output.divorce.failed.notmarried = You are not married to anyone.
-multiplayer.command.output.divorce.failed.notmarriedtoplayer = You are not married to a player.
+multiplayer.command.output.divorce.successful=You have been divorced from your current spouse.
 
-multiplayer.command.output.havebaby.request = %PlayerSpouseName% would like to have a baby.
-multiplayer.command.output.havebaby.successful = %PlayerSpouseName% accepted your request to have a baby.
-multiplayer.command.output.havebaby.failed.decline = %PlayerSpouseName% declined your request to have a baby.
-multiplayer.command.output.havebaby.failed.limitreached = You have reached the child limit set by the server administrator.
-multiplayer.command.output.havebaby.failed.offline = Your spouse is offline.
-multiplayer.command.output.havebaby.failed.notasked = Your spouse hasn't asked you to have a baby.
+multiplayer.command.output.havebaby.request=%PlayerSpouseName% would like to have a baby.
+multiplayer.command.output.havebaby.decline=Your request to have a baby was declined.
+multiplayer.command.output.havebaby.limitreached=You have reached the child limit set by the server administrator.
 
-multiplayer.command.output.block.failed = That player is already blocked.
-multiplayer.command.output.block.successful = Player successfully blocked.
+multiplayer.command.output.block.failed=That player is already blocked.
+multiplayer.command.output.block.successful=Player successfully blocked.
 
-multiplayer.command.output.blockall.true.successful = All marriage requests will now be blocked.
-multiplayer.command.output.blockall.false.successful = You will now receive marriage requests again.
+multiplayer.command.output.blockall.true.successful=All marriage requests will now be blocked.
+multiplayer.command.output.blockall.false.successful=You will now receive marriage requests again.
 
-multiplayer.command.output.unblock.failed = That player is not blocked.
-multiplayer.command.output.unblock.successful = Player successfully unblocked.
+multiplayer.command.output.unblock.failed=That player is not blocked.
+multiplayer.command.output.unblock.successful=Player successfully unblocked.
 
-multiplayer.command.output.unblockall.successful = All blocked players have now been unblocked.
+multiplayer.command.output.unblockall.successful=All blocked players have now been unblocked.
 
-multiplayer.command.output.reloadmodproperties = Mod properties reloaded and updated.
-multiplayer.command.output.reloadworldproperties.all = All world properties reloaded and updated.
-multiplayer.command.output.reloadworldproperties.success = World properties reloaded and updated for: 
-multiplayer.command.output.reloadworldproperties.fail = Failure to reload world properties. Player not found.
-
-multiplayer.interaction.reject.spouse = You cannot control another player's spouse.
-multiplayer.interaction.reject.child = You cannot control another player's child.
+multiplayer.interaction.reject.spouse=You cannot control another player's spouse.
+multiplayer.interaction.reject.child=You cannot control another player's child.
 
 #######
 # Achievements
@@ -473,8 +466,8 @@ multiplayer.interaction.reject.child = You cannot control another player's child
 achievement.charmer=Quite The Charmer
 achievement.getmarried=Gettin' Hitched
 achievement.cookbaby=For Science. You Monster.
-achievement.havebabyboy=It's a Boy!
-achievement.havebabygirl=It's a Girl!
+achievement.havebabyboy=It's a Boy\!
+achievement.havebabygirl=It's a Girl\!
 achievement.growbaby=They Grow Up So Fast
 achievement.farming=Free Labor
 achievement.fishing=Gotta Catch 'Em All
@@ -491,8 +484,8 @@ achievement.havegreatgrandchild=Old as Dirt
 achievement.havegreatx2grandchild=Older than Dirt
 achievement.havegreatx10grandchild=What's Your Secret?
 achievement.hardcoresecret=I Will Avenge You
-achievement.craftcrown=King Me!
-achievement.executevillager=Off With Your Head!
+achievement.craftcrown=King Me\!
+achievement.executevillager=Off With Your Head\!
 achievement.makeknight=This Isn't Chess
 achievement.knightarmy=Army of Twenty
 achievement.makepeasant=Good Day, My Lord
@@ -556,6 +549,11 @@ item.bluecrown.name=Blue Crown
 item.greencrown.name=Green Crown
 item.pinkcrown.name=Pink Crown
 item.purplecrown.name=Purple Crown
+item.redbed.name=Red Bed
+item.bluebed.name=Blue Bed
+item.greenbed.name=Green Bed
+item.pinkbed.name=Pink Bed
+item.purplebed.name=Purple Bed
 block.tombstone.name=Tombstone
 
 #######
@@ -629,22 +627,22 @@ gui.button.trade=Trade
 gui.button.setup.finish=Finish
 gui.button.setup.gendermale=Gender\: Male
 gui.button.setup.genderfemale=Gender\: Female
-gui.button.setup.hidesleepingtag=Hide Sleeping Tag: 
-gui.button.setup.overwritetestificates=Overwrite Testificates: 
-gui.button.setup.growchildrenautomatically=Children Grow Automatically: 
-gui.button.setup.displaymoodparticles=Display Mood Particles: 
-gui.button.setup.shownametags=Show Name Tags: 
-gui.button.setup.preference=Preference: 
+gui.button.setup.hidesleepingtag=Hide Sleeping Tag\: 
+gui.button.setup.overwritetestificates=Overwrite Testificates\: 
+gui.button.setup.growchildrenautomatically=Children Grow Automatically\: 
+gui.button.setup.displaymoodparticles=Display Mood Particles\: 
+gui.button.setup.shownametags=Show Name Tags\: 
+gui.button.setup.preference=Preference\: 
 
 gui.button.setup.males=Males
 gui.button.setup.females=Females
 
 gui.editor.name=Name
 gui.editor.name.invalid=That name contains invalid characters.
-gui.button.editor.texture=Texture: 
-gui.button.editor.title=Title: 
-gui.button.editor.mood=Mood: 
-gui.button.editor.trait=Trait: 
+gui.button.editor.texture=Texture\: 
+gui.button.editor.title=Title\: 
+gui.button.editor.mood=Mood\: 
+gui.button.editor.trait=Trait\: 
 
 gui.button.interact.interact=Interact
 gui.button.interact.chat=Chat
@@ -701,10 +699,10 @@ gui.button.child.stopchore=Stop Chore
 gui.button.child.growup=Grow Up
 
 gui.button.chore.farming=Farming
-gui.button.chore.farming.method=Method: 
+gui.button.chore.farming.method=Method\: 
 gui.button.chore.farming.method.create=Create Farm
 gui.button.chore.farming.method.maintain=Maintain Farm
-gui.button.chore.farming.plant=Plant: 
+gui.button.chore.farming.plant=Plant\: 
 gui.button.chore.farming.plant.wheat=Wheat
 gui.button.chore.farming.plant.melon=Melon
 gui.button.chore.farming.plant.pumpkin=Pumpkin
@@ -712,39 +710,39 @@ gui.button.chore.farming.plant.carrot=Carrot
 gui.button.chore.farming.plant.potato=Potato
 gui.button.chore.farming.plant.sugarcane=Sugarcane
 gui.button.chore.farming.farmsize=Farm Size\: 
-gui.button.chore.farming.radius=Radius: 
+gui.button.chore.farming.radius=Radius\: 
 gui.button.chore.fishing=Fishing
 gui.button.chore.combat=Combat
-gui.button.chore.combat.sentry=Sentry: 
-gui.button.chore.combat.sentry.radius=Radius: 
+gui.button.chore.combat.sentry=Sentry\: 
+gui.button.chore.combat.sentry.radius=Radius\: 
 gui.button.chore.combat.sentry.position.set=Set Sentry Position
-gui.button.chore.combat.method=Method: 
+gui.button.chore.combat.method=Method\: 
 gui.button.chore.combat.method.range=Range Only
 gui.button.chore.combat.method.melee=Melee Only
 gui.button.chore.combat.method.both=Range & Melee
 gui.button.chore.combat.method.neither=Do not fight
-gui.button.chore.combat.attack.pig=Attack Pigs: 
-gui.button.chore.combat.attack.sheep=Attack Sheep: 
-gui.button.chore.combat.attack.cow=Attack Cows: 
-gui.button.chore.combat.attack.chicken=Attack Chickens: 
-gui.button.chore.combat.attack.spider=Attack Spiders: 
-gui.button.chore.combat.attack.zombie=Attack Zombies: 
-gui.button.chore.combat.attack.skeleton=Attack Skeletons: 
-gui.button.chore.combat.attack.creeper=Attack Creepers: 
-gui.button.chore.combat.attack.enderman=Attack Endermen: 
-gui.button.chore.combat.attack.unknown=Attack Unknown: 
+gui.button.chore.combat.attack.pig=Attack Pigs\: 
+gui.button.chore.combat.attack.sheep=Attack Sheep\: 
+gui.button.chore.combat.attack.cow=Attack Cows\: 
+gui.button.chore.combat.attack.chicken=Attack Chickens\: 
+gui.button.chore.combat.attack.spider=Attack Spiders\: 
+gui.button.chore.combat.attack.zombie=Attack Zombies\: 
+gui.button.chore.combat.attack.skeleton=Attack Skeletons\: 
+gui.button.chore.combat.attack.creeper=Attack Creepers\: 
+gui.button.chore.combat.attack.enderman=Attack Endermen\: 
+gui.button.chore.combat.attack.unknown=Attack Unknown\:  
 gui.button.chore.woodcutting=Woodcutting
-gui.button.chore.woodcutting.treetype=Tree Type: 
+gui.button.chore.woodcutting.treetype=Tree Type\: 
 gui.button.chore.woodcutting.treetype.all=All
 gui.button.chore.woodcutting.treetype.oak=Oak
 gui.button.chore.woodcutting.treetype.spruce=Spruce
 gui.button.chore.woodcutting.treetype.birch=Birch
 gui.button.chore.woodcutting.treetype.jungle=Jungle
 gui.button.chore.mining=Mining
-gui.button.chore.mining.method=Method: 
+gui.button.chore.mining.method=Method\: 
 gui.button.chore.mining.method.passive=Passive
 gui.button.chore.mining.method.active=Active
-gui.button.chore.mining.direction=Direction: 
+gui.button.chore.mining.direction=Direction\: 
 gui.button.chore.mining.direction.forward=Forward
 gui.button.chore.mining.direction.backward=Backward
 gui.button.chore.mining.direction.left=Left
@@ -759,14 +757,14 @@ gui.button.chore.mining.find.diamond=Diamond
 gui.button.chore.mining.find.redstone=Redstone
 gui.button.chore.mining.find.emerald=Emerald
 gui.button.chore.hunting=Hunting
-gui.button.chore.hunting.mode=Mode: 
+gui.button.chore.hunting.mode=Mode\: 
 gui.button.chore.hunting.mode.kill=Kill
 gui.button.chore.hunting.mode.tame=Tame
 gui.button.chore.start=Start
 
-gui.button.hiring.hours=Hours: 
+gui.button.hiring.hours=Hours\: 
 
-gui.button.lostrelativedocument.generation=Generation: %Generation%
+gui.button.lostrelativedocument.generation=Generation\: %Generation%
 
 #Titles
 gui.title.setup=Minecraft Comes Alive Setup
@@ -787,7 +785,7 @@ gui.title.tombstone=Edit tombstone message\:
 gui.title.special.hired=(Hired)
 
 gui.title.lostrelativedocument=Select the desired relationship of %Name% to you.
-gui.title.lostrelativedocument.confirm=Are you sure you want %Name% to become: 
+gui.title.lostrelativedocument.confirm=Are you sure you want %Name% to become\: 
 
 #Information
 gui.info.hearts=Hearts
@@ -809,7 +807,7 @@ gui.info.procreate.confirm2=You must gift this villager a wedding ring.
 
 gui.info.chore.options=Options\:
 gui.info.chore.options.none=There are no customizable options for this chore.
-gui.info.chore.experience=Experience Level:
+gui.info.chore.experience=Experience Level\:
 
 gui.info.hire.price=Hiring this villager will require %x% gold ingot(s).
 gui.info.hire.hasgold=You have enough gold ingots.
@@ -817,8 +815,8 @@ gui.info.hire.notenoughgold=You do not have enough gold ingots.
 gui.info.hire.minutesremaining=%x% minutes remaining.
 
 gui.info.hardcoresecret.prompt=You may respawn as one of your children if you have any.
-gui.info.hardcoresecret.nochildren=No children!
-gui.info.hardcoresecret.spawnas=Spawn as: 
+gui.info.hardcoresecret.nochildren=No children\!
+gui.info.hardcoresecret.spawnas=Spawn as\: 
 gui.info.hardcoresecret.respawn=Respawn As Child
 
 #Overhead
@@ -845,8 +843,8 @@ notify.villager.gifted.cake.spousenotnearby.male=Cake? Go get my wife so I may s
 notify.villager.gifted.cake.spousenotnearby.female=Cake? Go get my husband so I may share it with him.
 notify.villager.gifted.arrangerring.othernotnearby=...What? There's no-one else around.
 notify.villager.gifted.arrangerring.relative=I'm your %RelationToPlayer%.
-notify.villager.gifted.arrangerring.notenoughrings=It looks like you don't have enough rings for us. We need two, of course!
-notify.villager.gifted.arrangerring.invalidpartner=I can't marry %Name%!
+notify.villager.gifted.arrangerring.notenoughrings=It looks like you don't have enough rings for us. We need two, of course\!
+notify.villager.gifted.arrangerring.invalidpartner=I can't marry %Name%\!
 
 notify.baby.gaveup=You may now have another baby.
 notify.baby.exists=You already have a baby.
@@ -908,7 +906,7 @@ notify.child.chore.levelup.woodcutting.10=%Name% has reached level 10 woodcuttin
 notify.child.chore.levelup.woodcutting.15=%Name% has reached level 15 woodcutting. They now have a chance of cutting two logs for every log they cut.
 notify.child.chore.levelup.woodcutting.20=%Name% has reached level 20 woodcutting. They now receive three logs for every log they cut.
 
-notify.child.chore.interrupted.farming.noseeds=I don't have enough seeds!
+notify.child.chore.interrupted.farming.noseeds=I don't have enough seeds\!
 notify.child.chore.interrupted.farming.noland=I don't see any dirt or grass\!
 notify.child.chore.interrupted.farming.nofarmland=You told me to only use farmland. Where is it?
 notify.child.chore.interrupted.farming.noroom=I didn't have enough room to finish farming.
@@ -934,10 +932,10 @@ notify.child.gifted.fishingrod=Now I can go fishing\!
 notify.child.gifted.hoe=This will help farm faster\!
 notify.child.gifted.seeds=Now I can farm\!
 notify.child.gifted.sword=This will keep bad guys away\!
-notify.child.gifted.wheat=I could use this for taming!
+notify.child.gifted.wheat=I could use this for taming\!
 notify.child.gifted.pickaxe=Now I can mine\!
-notify.child.gifted.carrot=I could use this for taming!
-notify.child.gifted.bone=I could use this for taming!
+notify.child.gifted.carrot=I could use this for taming\!
+notify.child.gifted.bone=I could use this for taming\!
 
 notify.child.emptiedinventory=%Name% has emptied their inventory.
 notify.child.readytogrow=%Name% is ready to grow up.
@@ -945,11 +943,11 @@ notify.child.growup=%Name% has grown into an adult.
 notify.child.ranaway=%Name% has ran away.
 
 notify.spouse.gifted.anotherbaby=I'm already holding our baby. Where did you get that one\!?
-notify.spouse.chore.interrupted.cooking.nofurnace = I don't see a furnace anywhere.
-notify.spouse.chore.interrupted.cooking.nofuel = I don't have any fuel to cook with.
+notify.spouse.chore.interrupted.cooking.nofurnace=I don't see a furnace anywhere.
+notify.spouse.chore.interrupted.cooking.nofuel=I don't have any fuel to cook with.
 
-notify.lostrelativedocument.success = %Name% is now your %RelationToPlayer%.
-notify.lostrelativedocument.success.norelation = %Name% is no longer related to you.
+notify.lostrelativedocument.success=%Name% is now your %RelationToPlayer%.
+notify.lostrelativedocument.success.norelation=%Name% is no longer related to you.
 
 notify.monarch.began=The responsibility of a monarch has been bestowed to you.
 notify.monarch.resume=You are now a monarch again. Your previous heir can no longer be used.
@@ -983,9 +981,9 @@ parser.playerchild.young.parentopposite.female=Daddy
 ##############################
 guard.follow.refuse1=No, I have a job to do.
 guard.follow.refuse2=I can't just leave my post.
-guard.follow.refuse3=You want me to walk off on the job? No!
+guard.follow.refuse3=You want me to walk off on the job? No\!
 guard.follow.refuse4=No, not unless you hire me.
-guard.follow.refuse5=I'll be fired if I just walk away!
+guard.follow.refuse5=I'll be fired if I just walk away\!
 
 guard.stay.refuse1=I'm on patrol. I can't stay there.
 guard.stay.refuse2=You're not my boss.
@@ -1002,17 +1000,17 @@ smith.aid.outofrange1=Let me know when you want to buy the anvil.
 smith.aid.outofrange2=Come back and tell me if you have an offer.
 
 smith.aid.alreadyaccepted1=You already have my anvil. There's nothing more I can do for you.
-smith.aid.alreadyaccepted2=You bought my anvil. Do your own repairs!
+smith.aid.alreadyaccepted2=You bought my anvil. Do your own repairs\!
 smith.aid.alreadyaccepted3=I don't have another anvil to sell to you, sorry.
 
-smith.aid.accept1=Ah! That's a good amount. Here you go.
-smith.aid.accept2=That'll do. Be careful, it's heavy!
-smith.aid.accept3=Thanks! Here's your anvil.
+smith.aid.accept1=Ah\! That's a good amount. Here you go.
+smith.aid.accept2=That'll do. Be careful, it's heavy\!
+smith.aid.accept3=Thanks\! Here's your anvil.
 smith.aid.accept4=Don't drop this on anyone, okay?
 
 smith.aid.refuse.rightitem1=These are what I want for the anvil. Do you have a few more you could give me?
 smith.aid.refuse.rightitem2=Yes, these are exactly what I want, but you don't have enough.
-smith.aid.refuse.rightitem3=Just what I needed! I need a few more before I'll give you the anvil.
+smith.aid.refuse.rightitem3=Just what I needed\! I need a few more before I'll give you the anvil.
 smith.aid.refuse.rightitem4=Throw in a few more of these and you've got yourself an anvil.
 
 smith.aid.refuse.wrongitem1=I don't want to exchange those for an anvil.
@@ -1031,27 +1029,27 @@ priest.arrangemarriage1=I hope you and %Name% find much happiness together.
 priest.arrangemarriage2=%PlayerName%, I'd like you to meet %Name%. You are now married.
 priest.arrangemarriage3=As you wish. You are now married to %Name%.
 
-generic.hire.accept1=Many thanks! I'll do whatever task you want.
+generic.hire.accept1=Many thanks\! I'll do whatever task you want.
 generic.hire.accept2=This is enough. I'll work for you now.
-generic.hire.accept3=I'm ready to work! 
+generic.hire.accept3=I'm ready to work\! 
 generic.hire.accept4=Let's get started, what's my first job?
 
-guard.hire.accept1=Thanks! I'm now your bodyguard.
+guard.hire.accept1=Thanks\! I'm now your bodyguard.
 guard.hire.accept2=I work for you, now.
 guard.hire.accept3=You're now my boss.
 guard.hire.accept4=What's my first job, boss?
 
 guard.hire.dismiss1=I'm sorry it didn't work out. I will return to my previous job.
-guard.hire.dismiss2=It was great working with you!
+guard.hire.dismiss2=It was great working with you\!
 guard.hire.dismiss3=I'll see if I can get my job back with the village.
 guard.hire.dismiss4=Great, I'm out of a job again...
 
-butcher.aid.accept1=Sure! I have plenty of meat to spare.
+butcher.aid.accept1=Sure\! I have plenty of meat to spare.
 butcher.aid.accept2=Here's some of my extra meat.
 butcher.aid.accept3=Here's some fresh meat for you.
 
 butcher.aid.refuse1=I don't have enough to spare, sorry.
-butcher.aid.refuse2=I need to keep what I have for paying customers!
+butcher.aid.refuse2=I need to keep what I have for paying customers\!
 butcher.aid.refuse3=I can't give you anything right now.
 
 baker.aid.accept1=I just baked this. You can have it.
@@ -1070,8 +1068,8 @@ farmer.aid.refuse1=I'm sorry, I don't have anything I could give you.
 farmer.aid.refuse2=Come back later, I don't have anything for you.
 farmer.aid.refuse3=Sorry, I don't have anything I can spare.
 
-miner.hire.accept1=Thanks! I can start immediately.
-miner.hire.accept2=I'm glad to join you! Where will I be mining?
+miner.hire.accept1=Thanks\! I can start immediately.
+miner.hire.accept2=I'm glad to join you\! Where will I be mining?
 miner.hire.accept3=Thanks for hiring me. I can start working right now.
 
 miner.hire.refuse1=I'll work for you for five gold. That will get you one-hundred blocks.
@@ -1297,7 +1295,7 @@ villager.joke.good5=Kinda funny.
 villager.joke.good6=Oh that's one of the best jokes I've ever heard\!
 villager.joke.good7=You really know some good jokes\!
 villager.joke.good8=Ha\! You know how to make someone laugh.
-villager.joke.good9=That means two things!
+villager.joke.good9=That means two things\!
 
 villager.marriage.acceptance1=I do.
 villager.marriage.acceptance2=I've been waiting for you to ask me\! Of course I do\!
@@ -1351,19 +1349,19 @@ villager.greeting.handshake.good3=Why isn't everyone this civil? Welcome.
 villager.greeting.handshake.good4=That's a nice firm grip you've got there.
 villager.greeting.handshake.good5=It was nice of you to come.
 
-villager.greeting.handshake.bad1=Ow! You hurt my hand!
+villager.greeting.handshake.bad1=Ow\! You hurt my hand\!
 villager.greeting.handshake.bad2=You shake too tightly.
 villager.greeting.handshake.bad3=No thank you.
 villager.greeting.handshake.bad4=Uh...no. Your hands look very dirty.
-villager.greeting.handshake.bad5=What IS that on your hands?!
+villager.greeting.handshake.bad5=What IS that on your hands?\!
 
-villager.greeting.highfive.good1=High five!
+villager.greeting.highfive.good1=High five\!
 villager.greeting.highfive.good2=What's up, %PlayerName%?
-villager.greeting.highfive.good3=Alright!
+villager.greeting.highfive.good3=Alright\!
 villager.greeting.highfive.good4=Hey, what's up?
-villager.greeting.highfive.good5=Great to see you!
+villager.greeting.highfive.good5=Great to see you\!
 
-villager.greeting.highfive.bad1=No! Don't hit me!
+villager.greeting.highfive.bad1=No\! Don't hit me\!
 villager.greeting.highfive.bad2=Who's special?
 villager.greeting.highfive.bad3=Uh...no, sorry.
 villager.greeting.highfive.bad4=Knock it off.
@@ -1375,10 +1373,10 @@ villager.kiss.good3=Your lips are soft and sweet.
 villager.kiss.good4=Tastes like honey.
 villager.kiss.good5=*Giggles* You're a cutie.
 
-villager.kiss.bad1=Do I even know you?!
+villager.kiss.bad1=Do I even know you?\!
 villager.kiss.bad2=*Slap*
-villager.kiss.bad3=I'm calling the guards!
-villager.kiss.bad4=What are you doing?!
+villager.kiss.bad3=I'm calling the guards\!
+villager.kiss.bad4=What are you doing?\!
 villager.kiss.bad5=My father would never approve. 
 
 villager.flirt.good1=*Blushes* Oh, my.
@@ -1387,21 +1385,21 @@ villager.flirt.good3=I love it when you speak that way.
 villager.flirt.good4=If I could rearrange the alphabet, I'd put you and I together.
 villager.flirt.good5=Hehe, we should get together some time.
 
-villager.flirt.bad1=I must be wearing baseball shorts, because I'm out of your league!
+villager.flirt.bad1=I must be wearing baseball shorts, because I'm out of your league\!
 villager.flirt.bad2=Ew, I don't think so.
 villager.flirt.bad3=Aren't you dating someone?
 villager.flirt.bad4=*Laughs* Sorry, I don't roll that way.
 villager.flirt.bad5=That was pathetic.
 
-villager.tellstory.good1=*Laughs* The pigs get the best of all of us!
+villager.tellstory.good1=*Laughs* The pigs get the best of all of us\!
 villager.tellstory.good2=I remember when I was younger I could do that too.
 villager.tellstory.good3=We should try that together sometimes.
-villager.tellstory.good4=At least you'll protect us from the zombies!
+villager.tellstory.good4=At least you'll protect us from the zombies\!
 villager.tellstory.good5=*Laughs* You're alright, %PlayerName%.
 
-villager.tellstory.bad1=You should be ashamed of yourself!
+villager.tellstory.bad1=You should be ashamed of yourself\!
 villager.tellstory.bad2=Serves you right.
-villager.tellstory.bad3=You should be attacked by a zombie for that!
+villager.tellstory.bad3=You should be attacked by a zombie for that\!
 villager.tellstory.bad4=Whatever.
 villager.tellstory.bad5=I feel very uncomfortable right now...
 
@@ -1410,56 +1408,56 @@ villager.tellstory.bad5=I feel very uncomfortable right now...
 ##############################
 
 grandchild.chat.bad1=You're old. And boring.
-grandchild.chat.bad2=I don't want to hear boring stories!
+grandchild.chat.bad2=I don't want to hear boring stories\!
 grandchild.chat.bad3=*Yawn*
 
-grandchild.chat.good1=I have the best %RelationOfPlayer% ever!
-grandchild.chat.good2=Wow! Did that really happen?
+grandchild.chat.good1=I have the best %RelationOfPlayer% ever\!
+grandchild.chat.good2=Wow\! Did that really happen?
 grandchild.chat.good3=Did all that really happen?
 grandchild.chat.good4=I always enjoy chatting with you.
 
 grandchild.follow.start1=Where are we going?
 grandchild.follow.start2=I want you to show me where you killed that creeper.
-grandchild.follow.start3=Okay, let's go!
+grandchild.follow.start3=Okay, let's go\!
 
 grandchild.follow.stop1=I'll wait on you, %RelationOfPlayer%.
 grandchild.follow.stop2=I'll wait here for you, %RelationOfPlayer%.
 grandchild.follow.stop3=Don't go too far away, %RelationOfPlayer%.
 
-grandchild.gift.bad1=How old is this thing? Ew!
+grandchild.gift.bad1=How old is this thing? Ew\!
 grandchild.gift.bad2=This looks like it came from the stone age.
 grandchild.gift.bad3=Ah...thanks. I guess.
 
-grandchild.gift.great1=This must've meant a lot to you. Thanks!
-grandchild.gift.great2=Wow! I can have this?!
-grandchild.gift.great3=I knew you'd bring me something nice!
+grandchild.gift.great1=This must've meant a lot to you. Thanks\!
+grandchild.gift.great2=Wow\! I can have this?\!
+grandchild.gift.great3=I knew you'd bring me something nice\!
 
-grandchild.gift.regular1=I always show everyone what my %RelationOfPlayer% brings me!
-grandchild.gift.regular2=Wow! This is cool!
+grandchild.gift.regular1=I always show everyone what my %RelationOfPlayer% brings me\!
+grandchild.gift.regular2=Wow\! This is cool\!
 grandchild.gift.regular3=I love when you bring me things, %RelationOfPlayer%.
 
-grandchild.gift.small1=Well, this is neat!
-grandchild.gift.small2=Hey, I like this!
-grandchild.gift.small3=Thanks, %RelationOfPlayer%!
+grandchild.gift.small1=Well, this is neat\!
+grandchild.gift.small2=Hey, I like this\!
+grandchild.gift.small3=Thanks, %RelationOfPlayer%\!
 grandchild.gift.small4=This is really cool, %RelationOfPlayer%.
 
 grandchild.greeting.basic1=Hi, %RelationOfPlayer%.
 grandchild.greeting.basic2=I haven't seen you in a while, %RelationOfPlayer%.
 
-grandchild.greeting.friend1=Hey, it's %RelationOfPlayer%!
-grandchild.greeting.friend2=Look everyone, my %RelationOfPlayer% is here!
+grandchild.greeting.friend1=Hey, it's %RelationOfPlayer%\!
+grandchild.greeting.friend2=Look everyone, my %RelationOfPlayer% is here\!
 
 grandchild.greeting.hate1=*Grumble*
 grandchild.greeting.hate2=Oh no. You're here.
 grandchild.greeting.hate3=You are not my favorite %RelationOfPlayer%.
-grandchild.greeting.hate4=Mom! %RelationOfPlayer% is here...
+grandchild.greeting.hate4=Mom\! %RelationOfPlayer% is here...
 
-grandchild.hitbyplayer1=Ow! That hurt!
-grandchild.hitbyplayer2=Stop it!
-grandchild.hitbyplayer3=You're playing too rough!
+grandchild.hitbyplayer1=Ow\! That hurt\!
+grandchild.hitbyplayer2=Stop it\!
+grandchild.hitbyplayer3=You're playing too rough\!
 grandchild.hitbyplayer4=Why are you hitting me, %RelationOfPlayer%?
 
-grandchild.gifted.baby1=You can still have babies!?
+grandchild.gifted.baby1=You can still have babies\!?
 grandchild.gifted.baby2=Is that...yours?
 
 grandchild.joke.bad1=That was really bad...
@@ -1467,39 +1465,39 @@ grandchild.joke.bad2=What???
 grandchild.joke.bad3=Maybe that was funny back then, but now...not so much.
 grandchild.joke.bad4=Your old jokes aren't funny.
 
-grandchild.joke.good1=I always tell everyone how funny my %RelationOfPlayer% is!
-grandchild.joke.good2=You should tell that one to my friend!
-grandchild.joke.good3=That was so funny, %RelationOfPlayer%!
-grandchild.joke.good4=My %RelationOfPlayer% is always so funny!
+grandchild.joke.good1=I always tell everyone how funny my %RelationOfPlayer% is\!
+grandchild.joke.good2=You should tell that one to my friend\!
+grandchild.joke.good3=That was so funny, %RelationOfPlayer%\!
+grandchild.joke.good4=My %RelationOfPlayer% is always so funny\!
 
 grandchild.greeting.handshake.good1=So you're my %RelationOfPlayer%?
 grandchild.greeting.handshake.good2=Nice to meet you. You're my %RelationOfPlayer%, aren't you?
 grandchild.greeting.handshake.good3=Hi, did you know I'm your %RelationToPlayer%? I didn't.
 grandchild.greeting.handshake.good4=Hello, %RelationOfPlayer%.
-grandchild.greeting.handshake.good5=Did you bring me something?!
+grandchild.greeting.handshake.good5=Did you bring me something?\!
 
 grandchild.greeting.handshake.bad1=A...handshake?
 grandchild.greeting.handshake.bad2=You shake hands with your grandchildren?
-grandchild.greeting.handshake.bad3=Gross! You're old!
-grandchild.greeting.handshake.bad4=Your hands are wrinkly!
-grandchild.greeting.handshake.bad5=Ouch! Why did you squeeze so hard?
+grandchild.greeting.handshake.bad3=Gross\! You're old\!
+grandchild.greeting.handshake.bad4=Your hands are wrinkly\!
+grandchild.greeting.handshake.bad5=Ouch\! Why did you squeeze so hard?
 
-grandchild.greeting.highfive.good1=Yay! Again!
-grandchild.greeting.highfive.good2=Again, again!
-grandchild.greeting.highfive.good3=Do it again!
+grandchild.greeting.highfive.good1=Yay\! Again\!
+grandchild.greeting.highfive.good2=Again, again\!
+grandchild.greeting.highfive.good3=Do it again\!
 grandchild.greeting.highfive.good4=Do it again, pretty please?
-grandchild.greeting.highfive.good5=Again!
+grandchild.greeting.highfive.good5=Again\!
 
 grandchild.greeting.highfive.bad1=My hands sting.
-grandchild.greeting.highfive.bad2=This is starting to hurt!
-grandchild.greeting.highfive.bad3=Stop!
+grandchild.greeting.highfive.bad2=This is starting to hurt\!
+grandchild.greeting.highfive.bad3=Stop\!
 grandchild.greeting.highfive.bad4=This is getting boring.
 grandchild.greeting.highfive.bad5=Okay, my hands are hurting now.
 
-grandchild.tellstory.good1=It's a good thing we have guards!
+grandchild.tellstory.good1=It's a good thing we have guards\!
 grandchild.tellstory.good2=Wow, did you really do that?
 grandchild.tellstory.good3=Then what did the skeleton do?
-grandchild.tellstory.good4=You're my hero!
+grandchild.tellstory.good4=You're my hero\!
 grandchild.tellstory.good5=Can you take me mining like that?
 
 grandchild.tellstory.bad1=I don't believe you.
@@ -1508,11 +1506,11 @@ grandchild.tellstory.bad3=Sure.
 grandchild.tellstory.bad4=I don't want to be around you anymore...
 grandchild.tellstory.bad5=I should go home now.
 
-grandchild.play.good1=Yay this is fun!
-grandchild.play.good2=I love spending time with you!
-grandchild.play.good3=You're the best!
-grandchild.play.good4=Let's play!
-grandchild.play.good5=I'll beat you!
+grandchild.play.good1=Yay this is fun\!
+grandchild.play.good2=I love spending time with you\!
+grandchild.play.good3=You're the best\!
+grandchild.play.good4=Let's play\!
+grandchild.play.good5=I'll beat you\!
 
 grandchild.play.bad1=Again?
 grandchild.play.bad2=You're too old to do that.
@@ -1589,11 +1587,11 @@ villagerchild.joke.good2=I really like your jokes\!
 villagerchild.joke.good3=That one was good\! I'm going to tell it to my friends\!
 villagerchild.joke.good4=How do you do that funny face? Do it again\!
 
-villagerchild.play.good1=Mommy and daddy never have time to do this!
-villagerchild.play.good2=Yay! Can you be my friend?
+villagerchild.play.good1=Mommy and daddy never have time to do this\!
+villagerchild.play.good2=Yay\! Can you be my friend?
 villagerchild.play.good3=Can I win some?
-villagerchild.play.good4=Let's play forever!
-villagerchild.play.good5=Let's have some fun!
+villagerchild.play.good4=Let's play forever\!
+villagerchild.play.good5=Let's have some fun\!
 
 villagerchild.play.bad1=Who are you?
 villagerchild.play.bad2=My mommy told me not to play with strangers.
@@ -1602,14 +1600,14 @@ villagerchild.play.bad4=No, that's okay.
 villagerchild.play.bad5=Go play with your own kid.
 
 villagerchild.tellstory.good1=I wish I was your kid...
-villagerchild.tellstory.good2=Can I go pet the squid too?!
-villagerchild.tellstory.good3=Wow, can you take me to the Nether?!
+villagerchild.tellstory.good2=Can I go pet the squid too?\!
+villagerchild.tellstory.good3=Wow, can you take me to the Nether?\!
 villagerchild.tellstory.good4=Why can't you tell me what happens after you feed them?
-villagerchild.tellstory.good5=I'm going to start my own club like you did!
+villagerchild.tellstory.good5=I'm going to start my own club like you did\!
 
 villagerchild.tellstory.bad1=You're not a good person are you?
 villagerchild.tellstory.bad2=I think I hear my mommy calling me for dinner.
-villagerchild.tellstory.bad3=My parents are going to die?!
+villagerchild.tellstory.bad3=My parents are going to die?\!
 villagerchild.tellstory.bad4=Go away.
 villagerchild.tellstory.bad5=Your stories are boring.
 
@@ -1679,7 +1677,7 @@ playerchild.adult.chore.start.woodcutting2=Do you ever wonder why the trees floa
 playerchild.adult.chore.start.woodcutting3=I'll sharpen my axe and get right on it.
 playerchild.adult.chore.start.woodcutting4=Are you making me build my own house?
 
-playerchild.adult.chore.start.hunting1=I'll bring you back ten pigs!
+playerchild.adult.chore.start.hunting1=I'll bring you back ten pigs\!
 playerchild.adult.chore.start.hunting2=This will be fun.
 playerchild.adult.chore.start.hunting3=I'll be back shortly.
 playerchild.adult.chore.start.hunting4=You're sending me because I'm a better hunter, aren't you?
@@ -1731,7 +1729,7 @@ playerchild.adult.gift.bad4=Throw away your own junk\!
 playerchild.adult.gift.bad5=How about some food every once and awhile?
 playerchild.adult.gift.bad6=Why would I want this?
 playerchild.adult.gift.bad7=This is... No. Just no.
-playerchild.adult.gift.bad8=Why are you even giving this to me?
+playerchild.adult.gift.bad8=Why are  you even giving this to me?
 playerchild.adult.gift.bad9=No, I won't keep this, definitely not.
 playerchild.adult.gift.bad10=I'll be sure to throw this in lava.
 playerchild.adult.gift.bad11=Do you see any trashcans around?
@@ -1808,31 +1806,31 @@ playerchild.adult.joke.good7=That's a good one\!
 
 playerchild.adult.greeting.handshake.good1=Hey, haven't talked to you in a while.
 playerchild.adult.greeting.handshake.good2=Hey, %CallPlayerParent%.
-playerchild.adult.greeting.handshake.good3=Great to see you again, %CallPlayerParent%!
+playerchild.adult.greeting.handshake.good3=Great to see you again, %CallPlayerParent%\!
 playerchild.adult.greeting.handshake.good4=Oh, %CallPlayerParent%, I have so much to tell you about.
 playerchild.adult.greeting.handshake.good5=Hey, great to see that you're back.
 
 playerchild.adult.greeting.handshake.bad1=Why don't you come visit more?
-playerchild.adult.greeting.handshake.bad2=This is the only contact we've had in forever, and you just shake my hand?!
+playerchild.adult.greeting.handshake.bad2=This is the only contact we've had in forever, and you just shake my hand?\!
 playerchild.adult.greeting.handshake.bad3=I don't want to shake your hand.
 playerchild.adult.greeting.handshake.bad4=I'm uh...busy right now.
 playerchild.adult.greeting.handshake.bad5=I'm too busy - like you always seem to be.
 
-playerchild.adult.greeting.highfive.good1=It's still fun!
+playerchild.adult.greeting.highfive.good1=It's still fun\!
 playerchild.adult.greeting.highfive.good2=*Cheers*
-playerchild.adult.greeting.highfive.good3=We are awesome!
-playerchild.adult.greeting.highfive.good4=Yes! I've missed this.
-playerchild.adult.greeting.highfive.good5=We're the best!
+playerchild.adult.greeting.highfive.good3=We are awesome\!
+playerchild.adult.greeting.highfive.good4=Yes\! I've missed this.
+playerchild.adult.greeting.highfive.good5=We're the best\!
 
 playerchild.adult.greeting.highfive.bad1=I'm too old to be high fiving all the time.
 playerchild.adult.greeting.highfive.bad2=Not right now, please.
 playerchild.adult.greeting.highfive.bad3=I don't want to high five with you.
-playerchild.adult.greeting.highfive.bad4=I want to talk, not high five!
+playerchild.adult.greeting.highfive.bad4=I want to talk, not high five\!
 playerchild.adult.greeting.highfive.bad5=Why won't you actually talk to me anymore?
 
 playerchild.adult.tellstory.good1=*Laughs* That reminds me of when I was a young child.
 playerchild.adult.tellstory.good2=You and %ParentOpposite% really loved each other, didn't you?
-playerchild.adult.tellstory.good3=That sounds fun! We should try it sometimes!
+playerchild.adult.tellstory.good3=That sounds fun\! We should try it sometimes\!
 playerchild.adult.tellstory.good4=*Laughs* I'm so glad I'm in this family.
 playerchild.adult.tellstory.good5=They did what to the chickens?
 
@@ -1840,7 +1838,7 @@ playerchild.adult.tellstory.bad1=Um, have you told that to %ParentOpposite%?
 playerchild.adult.tellstory.bad2=I don't approve.
 playerchild.adult.tellstory.bad3=You...probably shouldn't tell that to anyone else.
 playerchild.adult.tellstory.bad4=That wasn't very nice.
-playerchild.adult.tellstory.bad5=You know, that reminds me of %RandomName%!
+playerchild.adult.tellstory.bad5=You know, that reminds me of %RandomName%\!
 
 #######
 # Kid Dialogue
@@ -1909,9 +1907,9 @@ playerchild.young.chore.start.woodcutting2=I hope one doesn't fall on me again\!
 playerchild.young.chore.start.woodcutting3=Can we build a tree house after I'm done?
 playerchild.young.chore.start.woodcutting4=What are you using the wood for?
 
-playerchild.young.chore.start.hunting1=Alright! I love hunting.
+playerchild.young.chore.start.hunting1=Alright\! I love hunting.
 playerchild.young.chore.start.hunting2=I hope a wolf doesn't bite me again.
-playerchild.young.chore.start.hunting3=But I'm so small! Last time it took me hours to drag a cow back.
+playerchild.young.chore.start.hunting3=But I'm so small\! Last time it took me hours to drag a cow back.
 
 playerchild.young.chore.stop1=*Sighs with relief*
 playerchild.young.chore.stop2=I thought you'd never let me stop.
@@ -1996,22 +1994,22 @@ playerchild.young.hitbyplayer7=I'm telling %ParentOpposite%\!
 playerchild.young.gifted.baby1=Ew\! It's stinky\!
 
 playerchild.young.tellstory.good1=Did you get a spanking for that?
-playerchild.young.tellstory.good2=I want to do that!
-playerchild.young.tellstory.good3=I'll never disobey you again after hearing that!
+playerchild.young.tellstory.good2=I want to do that\!
+playerchild.young.tellstory.good3=I'll never disobey you again after hearing that\!
 playerchild.young.tellstory.good4=*Laughs* %ParentOpposite% did that?
-playerchild.young.tellstory.good5=I can't believe you did that!
+playerchild.young.tellstory.good5=I can't believe you did that\!
 
 playerchild.young.tellstory.bad1=*Cries* Why would you do such a thing?
 playerchild.young.tellstory.bad2=I'm telling %RandomName% you said that.
 playerchild.young.tellstory.bad3=Yeah, yeah, whatever. I don't want to hear any stories right now.
-playerchild.young.tellstory.bad4=The creeper will get me?!
-playerchild.young.tellstory.bad5=*Cries* I don't want %ParentOpposite% turning into a zombie!
+playerchild.young.tellstory.bad4=The creeper will get me?\!
+playerchild.young.tellstory.bad5=*Cries* I don't want %ParentOpposite% turning into a zombie\!
 
-playerchild.young.play.good1=You can't catch me!
+playerchild.young.play.good1=You can't catch me\!
 playerchild.young.play.good2=I love when you play with me, %CallPlayerParent%.
-playerchild.young.play.good3=I'm going to win!
-playerchild.young.play.good4=This is gonna be fun!
-playerchild.young.play.good5=You'll never beat me!
+playerchild.young.play.good3=I'm going to win\!
+playerchild.young.play.good4=This is gonna be fun\!
+playerchild.young.play.good5=You'll never beat me\!
 
 playerchild.young.play.bad1=You never let me win.
 playerchild.young.play.bad2=You need the excersise, but I don't.
@@ -2023,23 +2021,23 @@ playerchild.young.greeting.handshake.good1=Hi, %CallPlayerParent%.
 playerchild.young.greeting.handshake.good2=Where did you go today?
 playerchild.young.greeting.handshake.good3=Tell me about your adventures.
 playerchild.young.greeting.handshake.good4=You're back. What have you been doing?
-playerchild.young.greeting.handshake.good5=Let's do something!
+playerchild.young.greeting.handshake.good5=Let's do something\!
 
 playerchild.young.greeting.handshake.bad1=...Why are you shaking my hand?
 playerchild.young.greeting.handshake.bad2=Your hands are sweaty and gross.
-playerchild.young.greeting.handshake.bad3=Ew, don't touch me!
-playerchild.young.greeting.handshake.bad4=I don't want to shake hands!
+playerchild.young.greeting.handshake.bad3=Ew, don't touch me\!
+playerchild.young.greeting.handshake.bad4=I don't want to shake hands\!
 playerchild.young.greeting.handshake.bad5=Why don't you talk to me instead of shaking my hand all the time?
 
 playerchild.young.greeting.highfive.good1=Will you do it again?
-playerchild.young.greeting.highfive.good2=This is fun!
+playerchild.young.greeting.highfive.good2=This is fun\!
 playerchild.young.greeting.highfive.good3=*Laughs*
-playerchild.young.greeting.highfive.good4=Do a high five again!
-playerchild.young.greeting.highfive.good5=Please, just one more time!
+playerchild.young.greeting.highfive.good4=Do a high five again\!
+playerchild.young.greeting.highfive.good5=Please, just one more time\!
 
 playerchild.young.greeting.highfive.bad1=I'm bored of that now.
 playerchild.young.greeting.highfive.bad2=Do you do anything else?
-playerchild.young.greeting.highfive.bad3=I can't reach you, dummy!
+playerchild.young.greeting.highfive.bad3=I can't reach you, dummy\!
 playerchild.young.greeting.highfive.bad4=I don't want to high five any more.
 playerchild.young.greeting.highfive.bad5=That's getting annoying.
 
@@ -2055,8 +2053,8 @@ spouse.chat.bad6=Do you have anything else you want to tell me?
 
 spouse.chat.good1=I love it when you tell me your adventuring stories.
 spouse.chat.good2=Impressive\!
-spouse.chat.good3=Yes, things are okay around here.
-spouse.chat.good4=Well today I...oh, you don't want to hear, I'm sure!
+spouse.chat.good3=Yes, thing are okay around here.
+spouse.chat.good4=Well today I...oh, you don't want to hear, I'm sure\!
 spouse.chat.good5=Been a long day for you too, huh?
 spouse.chat.good6=That's why I love you.
 spouse.chat.good7=Wonderful that is, I'm glad I'm married to you.
@@ -2133,7 +2131,7 @@ spouse.greeting.basic10=I'm glad you're back.
 
 spouse.greeting.friend1=Hi, honey.
 spouse.greeting.friend2=Where have you been today?
-spouse.greeting.friend3=Hey, honey. How are you doing?
+spouse.greeting.friend3=Hey, honey. How are  you doing?
 spouse.greeting.friend4=Is everything alright?
 spouse.greeting.friend5=You're back from your adventure it seems. How are you, sweetheart?
 spouse.greeting.friend6=I missed you\! How have you been, dear?
@@ -2179,43 +2177,43 @@ spouse.joke.good4=How do you come up with these? Haha\!
 spouse.joke.good5=I really shouldn't laugh at that, but it's just too funny\!
 
 spouse.procreate.refuse1=No, I don't think so.
-spouse.procreate.refuse2=You must be joking!
-spouse.procreate.refuse3=Not after how you've treated me!
+spouse.procreate.refuse2=You must be joking\!
+spouse.procreate.refuse3=Not after how you've treated me\!
 spouse.procreate.refuse4=I barely even like you. There's no way I'll do that.
-spouse.procreate.refuse5=Yeah, right! Treat me a little better and I'll think about it.
+spouse.procreate.refuse5=Yeah, right\! Treat me a little better and I'll think about it.
 
 spouse.kiss.good1=You're so sweet.
 spouse.kiss.good2=I love you, too.
 spouse.kiss.good3=You're too good to me.
 spouse.kiss.good4=Thank you, that was sweet.
-spouse.kiss.good5=How nice of you!
+spouse.kiss.good5=How nice of you\!
 
 spouse.kiss.bad1=No. I'm not in the mood today.
 spouse.kiss.bad2=Why are you suddenly being nice to me?
 spouse.kiss.bad3=Go kiss a cow.
 spouse.kiss.bad4=I don't think so.
 spouse.kiss.bad5=Too late for that.
-spouse.kiss.bad6=Your nose poked me in the eye!
-spouse.kiss.bad7=Ew, that was wet and sloppy!
+spouse.kiss.bad6=Your nose poked me in the eye\!
+spouse.kiss.bad7=Ew, that was wet and sloppy\!
 spouse.kiss.bad8=You just don't know how to kiss.
 
 spouse.flirt.good1=You're such a smooth talker.
 spouse.flirt.good2=*Blush* You've always been quite the charmer.
-spouse.flirt.good3=Oh! You haven't changed a bit since we've gotten married.
-spouse.flirt.good4=Aw! That was so sweet!
+spouse.flirt.good3=Oh\! You haven't changed a bit since we've gotten married.
+spouse.flirt.good4=Aw\! That was so sweet\!
 spouse.flirt.good5=Oh my, I'm embarrassed.
 
-spouse.flirt.bad1=Ain't nobody got time for that!
+spouse.flirt.bad1=Ain't nobody got time for that\!
 spouse.flirt.bad2=How original.
 spouse.flirt.bad3=I bet you tell everyone that. No, I'm serious. I bet you do.
 spouse.flirt.bad4=I'm not in the mood.
 spouse.flirt.bad5=Now you want to try romancing me? What about when we were dating?
 
-spouse.tellstory.good1=That was a good one!
+spouse.tellstory.good1=That was a good one\!
 spouse.tellstory.good2=What did Cupquake do next?
-spouse.tellstory.good3=You watch ChimneySwift11's "Minecraft Files" too?!
+spouse.tellstory.good3=You watch ChimneySwift11's "Minecraft Files" too?\!
 spouse.tellstory.good4=*Laughs* That reminds me of the time my mother walked in on me, except I was cleaning.
-spouse.tellstory.good5=Aw, I want a daughter like that!
+spouse.tellstory.good5=Aw, I want a daughter like that\!
 
 spouse.tellstory.bad1=Why would you tell me that?
 spouse.tellstory.bad2=That makes me want to cry...
@@ -2224,7 +2222,7 @@ spouse.tellstory.bad4=Why did THAT bring you such joy?
 spouse.tellstory.bad5=You shouldn't make fun of %RandomName%.
 
 spouse.greeting.handshake.good1=I love the feeling of your hand in mine.
-spouse.greeting.handshake.good2=You're silly!
+spouse.greeting.handshake.good2=You're silly\!
 spouse.greeting.handshake.good3=How is your day going, sweetheart?
 spouse.greeting.handshake.good4=How are you doing?
 spouse.greeting.handshake.good5=Greetings, my love.
@@ -2233,22 +2231,22 @@ spouse.greeting.handshake.bad1=Ew, I know where your hands have been.
 spouse.greeting.handshake.bad2=Your hands are sweaty.
 spouse.greeting.handshake.bad3=A handshake? That's it?
 spouse.greeting.handshake.bad4=No, you've been in the caves all day.
-spouse.greeting.handshake.bad5=They smell like...cows?!
+spouse.greeting.handshake.bad5=They smell like...cows?\!
 
-spouse.greeting.highfive.good1=Ho yeah!
-spouse.greeting.highfive.good2=Up high!
-spouse.greeting.highfive.good3=High five!
+spouse.greeting.highfive.good1=Ho yeah\!
+spouse.greeting.highfive.good2=Up high\!
+spouse.greeting.highfive.good3=High five\!
 spouse.greeting.highfive.good4=What's up?
-spouse.greeting.highfive.good5=Heck yeah!
+spouse.greeting.highfive.good5=Heck yeah\!
 
 spouse.greeting.highfive.bad1=This is the most contact we've had in forever.
 spouse.greeting.highfive.bad2=I'm not five anymore.
 spouse.greeting.highfive.bad3=You are so immature.
-spouse.greeting.highfive.bad4=Ow! You hit me!
+spouse.greeting.highfive.bad4=Ow\! You hit me\!
 spouse.greeting.highfive.bad5=I wouldn't dare touch your hands.
 
-spouse.chore.start.cooking1=Of course! I'll cook any food you give me.
+spouse.chore.start.cooking1=Of course\! I'll cook any food you give me.
 spouse.chore.start.cooking2=Yes, dear. I'll get right on that.
-spouse.chore.start.cooking3=Save some for me this time! I did cook it, you know.
-spouse.chore.start.cooking4=I'm hungry, too!
+spouse.chore.start.cooking3=Save some for me this time\! I did cook it, you know.
+spouse.chore.start.cooking4=I'm hungry, too\!
 spouse.chore.start.cooking5=I hope I don't burn it this time.

@@ -10,10 +10,8 @@
 package mca.command;
 
 import mca.core.MCA;
-import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
-import net.minecraft.crash.CrashReport;
 import net.minecraft.util.ChatComponentText;
 
 /**
@@ -54,10 +52,6 @@ public class CommandDebugMode extends AbstractCommand
 			{
 				MCA.getInstance().inDebugMode = true;
 				sender.addChatMessage(new ChatComponentText("MCA debug mode is on."));
-
-				final CrashReport crashReport = new CrashReport("TEST", new Throwable());
-				Minecraft.getMinecraft().crashed(crashReport);
-				Minecraft.getMinecraft().displayCrashReport(crashReport);
 			}
 
 			else

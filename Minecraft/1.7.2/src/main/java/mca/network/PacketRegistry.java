@@ -7,16 +7,15 @@ import mca.network.packets.PacketClickAid;
 import mca.network.packets.PacketClickMountHorse;
 import mca.network.packets.PacketClickTakeGift;
 import mca.network.packets.PacketGetTombstoneText;
+import mca.network.packets.PacketNotifyLocalized;
 import mca.network.packets.PacketNotifyPlayer;
 import mca.network.packets.PacketOnClickTrade;
 import mca.network.packets.PacketOnEngagement;
 import mca.network.packets.PacketOnPlayerMarriage;
-import mca.network.packets.PacketOnPlayerProcreate;
 import mca.network.packets.PacketOnVillagerProcreate;
 import mca.network.packets.PacketOpenGui;
-import mca.network.packets.PacketRemoveBabyRequest;
+import mca.network.packets.PacketPlayerInteraction;
 import mca.network.packets.PacketRemoveItem;
-import mca.network.packets.PacketRemoveMarriageRequest;
 import mca.network.packets.PacketReturnInventory;
 import mca.network.packets.PacketSayLocalized;
 import mca.network.packets.PacketSetChore;
@@ -58,12 +57,9 @@ public class PacketRegistry extends AbstractPacketHandler
 		registerDoubleSidedPacket(PacketOnClickTrade.class, 9);
 		registerDoubleSidedPacket(PacketOnEngagement.class, 10);
 		registerDoubleSidedPacket(PacketOnPlayerMarriage.class, 11);
-		registerDoubleSidedPacket(PacketOnPlayerProcreate.class, 12);
 		registerDoubleSidedPacket(PacketOnVillagerProcreate.class, 13);
 		registerDoubleSidedPacket(PacketOpenGui.class, 14);
-		registerDoubleSidedPacket(PacketRemoveBabyRequest.class, 15);
 		registerDoubleSidedPacket(PacketRemoveItem.class, 16);
-		registerDoubleSidedPacket(PacketRemoveMarriageRequest.class, 17);
 		registerDoubleSidedPacket(PacketReturnInventory.class, 18);
 		registerDoubleSidedPacket(PacketSayLocalized.class, 19);
 		registerDoubleSidedPacket(PacketSetChore.class, 20);
@@ -80,5 +76,7 @@ public class PacketRegistry extends AbstractPacketHandler
 		registerDoubleSidedPacket(PacketSyncEditorSettings.class, 31);
 		registerDoubleSidedPacket(PacketSyncRequest.class, 32);
 		registerDoubleSidedPacket(PacketUpdateFurnace.class, 33);
+		registerDoubleSidedPacket(PacketPlayerInteraction.class, 34);
+		registerDoubleSidedPacket(PacketNotifyLocalized.class, 35);
 	}
 }

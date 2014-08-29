@@ -266,7 +266,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public void onUpdate()
 	{
 		super.onUpdate();
-
+		
 		//Sync with server if data hasn't been assigned.
 		if (worldObj.isRemote && texture.contains("steve") && !sentSyncRequest)
 		{

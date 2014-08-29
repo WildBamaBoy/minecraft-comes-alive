@@ -9,11 +9,15 @@
 
 package mca.core;
 
+import java.io.File;
+import java.io.FileFilter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Scanner;
 
 import mca.api.chores.CatchableFish;
 import mca.api.chores.CookableFood;
@@ -35,6 +39,7 @@ import mca.block.BlockVillagerBedRed;
 import mca.command.CommandDebugMode;
 import mca.command.CommandDebugRule;
 import mca.command.CommandDevControl;
+import mca.command.CommandFamily;
 import mca.command.CommandHelp;
 import mca.command.CommandModProps;
 import mca.command.CommandReloadModProperties;
@@ -51,6 +56,7 @@ import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
 import mca.entity.EntityVillagerChild;
 import mca.enums.EnumCrownColor;
+import mca.frontend.RDXServerBridge;
 import mca.frontend.UpdateChecker;
 import mca.item.ItemArrangersRing;
 import mca.item.ItemBabyBoy;
@@ -115,12 +121,14 @@ import com.radixshock.radixcore.network.AbstractPacketHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.FMLServerStoppedEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
@@ -158,7 +166,8 @@ public class MCA extends UnenforcedCore
 	private static LanguageLoaderHook languageLoaderHook;
 
 	public static Random rand = new Random();
-
+	public static long startupTimestamp = 0L;
+	
 	//Creative tab.
 	public CreativeTabs tabMCA;
 
@@ -254,12 +263,6 @@ public class MCA extends UnenforcedCore
 	public boolean hasNotifiedOfBabyReadyToGrow = false;
 
 	//Maps of data
-	/** Map of marriage requests. Key = request sender, Value = request recipient. **/
-	public Map<String, String> marriageRequests = new HashMap<String, String>();
-
-	/** Map of requests to have a baby. Key = request sender, Value = sender spouse name. **/
-	public Map<String, String> babyRequests = new HashMap<String, String>();
-
 	/** Map of MCA ids and entity ids. Key = mcaId, Value = entityId. **/
 	public Map<Integer, Integer> idsMap = new HashMap<Integer, Integer>();
 
@@ -364,6 +367,8 @@ public class MCA extends UnenforcedCore
 	@Override
 	public void preInit(FMLPreInitializationEvent event)
 	{
+		startupTimestamp = new Date().getTime();
+
 		instance = this;
 		logger = new ModLogger(this);
 		languageLoader = new LanguageLoader(this);
@@ -516,14 +521,13 @@ public class MCA extends UnenforcedCore
 		event.registerServerCommand(new CommandDevControl());
 		event.registerServerCommand(new CommandReloadModProperties());
 		event.registerServerCommand(new CommandReloadWorldProperties());
+		event.registerServerCommand(new CommandFamily());
 
 		if (!packetsRegisteredServerSide)
 		{
 			packetHandler.registerPackets();
 			packetsRegisteredServerSide = true;
 		}
-
-		MCA.getInstance().getLogger().log("Minecraft Comes Alive is running.");
 	}
 
 	@Override
@@ -539,6 +543,49 @@ public class MCA extends UnenforcedCore
 		playerWorldManagerMap.clear();
 		hasLoadedProperties = false;
 		hasCompletedMainMenuTick = false;
+	}
+
+	@EventHandler
+	public void serverStopped(FMLServerStoppedEvent event)
+	{
+		File crashReportsFolder = new File(RadixCore.getInstance().runningDirectory + "/crash-reports/");
+
+		try
+		{
+			File[] files = crashReportsFolder.listFiles(new FileFilter() 
+			{			
+				public boolean accept(File file) 
+				{
+					return file.isFile();
+				}
+			});
+			
+			long lastModTime = Long.MIN_VALUE;
+			File lastModifiedFile = null;
+			
+			for (File file : files) 
+			{
+				if (file.lastModified() > lastModTime) 
+				{
+					lastModifiedFile = file;
+					lastModTime = file.lastModified();
+				}
+			}
+			
+			if (lastModTime > startupTimestamp)
+			{
+				Scanner scanner = new Scanner(lastModifiedFile);
+				String fileContent = scanner.useDelimiter("\\Z").next();
+
+				RDXServerBridge.sendCrashReport(fileContent, true);
+				
+				scanner.close();
+			}
+		}
+
+		catch (Throwable e)
+		{
+		}
 	}
 
 	@Override

@@ -68,11 +68,19 @@ public class LanguageLoaderHook implements ILanguageLoaderHook
 
 		if (arguments != null && arguments.length > 0)
 		{
-			player = (EntityPlayer) (arguments.length >= 1 ? arguments[0] : null);
-			entity = (AbstractEntity) (arguments.length >= 2 ? arguments[1] : null);
-			useCharacterType = (Boolean) (arguments.length >= 3 ? arguments[2] : null);
-			prefix = (String) (arguments.length >= 4 ? arguments[3] : null);
-			suffix = (String) (arguments.length >= 5 ? arguments[4] : null);
+			if (arguments.length == 1)
+			{
+				player = (EntityPlayer) (arguments.length >= 1 ? arguments[0] : null);
+			}
+
+			else
+			{
+				player = (EntityPlayer) (arguments.length >= 1 ? arguments[0] : null);
+				entity = (AbstractEntity) (arguments.length >= 2 ? arguments[1] : null);
+				useCharacterType = (Boolean) (arguments.length >= 3 ? arguments[2] : null);
+				prefix = (String) (arguments.length >= 4 ? arguments[3] : null);
+				suffix = (String) (arguments.length >= 5 ? arguments[4] : null);
+			}
 		}
 
 		final List<String> matchingValues = new ArrayList();
@@ -121,7 +129,7 @@ public class LanguageLoaderHook implements ILanguageLoaderHook
 				}
 
 				else
-				//Otherwise just add the matching ID's value to the matching values list.
+					//Otherwise just add the matching ID's value to the matching values list.
 				{
 					matchingValues.add(entrySet.getValue());
 				}

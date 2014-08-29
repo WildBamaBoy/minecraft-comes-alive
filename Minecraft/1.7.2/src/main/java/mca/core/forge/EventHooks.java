@@ -52,7 +52,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBed;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
@@ -138,23 +137,25 @@ public class EventHooks
 			{
 				final MinecraftServer server = MinecraftServer.getServer();
 
-				if (server instanceof IntegratedServer)
+				try
 				{
-					final Boolean isCrashed = (Boolean) ObfuscationReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), 11);
-					final CrashReport crashReport = (CrashReport) ObfuscationReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), 12);
-
-					if (isCrashed)
+					if (server instanceof IntegratedServer)
 					{
-						RDXServerBridge.sendCrashReport(crashReport.getCompleteReport());
-						MCA.getInstance().hasSentCrashReport = true;
+						final Boolean isCrashed = (Boolean) ObfuscationReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), 11);
+						final CrashReport crashReport = (CrashReport) ObfuscationReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), 12);
+
+						if (isCrashed)
+						{
+							RDXServerBridge.sendCrashReport(crashReport.getCompleteReport(), false);
+							MCA.getInstance().hasSentCrashReport = true;
+						}
 					}
 				}
 
-				else if (server instanceof DedicatedServer)
+				catch (NoClassDefFoundError e) //Dedicated server.
 				{
-
+					//TODO
 				}
-
 			}
 		}
 	}

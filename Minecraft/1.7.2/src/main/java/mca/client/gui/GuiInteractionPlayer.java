@@ -9,10 +9,8 @@
 
 package mca.client.gui;
 
-import java.util.Map;
-
 import mca.core.MCA;
-import mca.core.WorldPropertiesList;
+import mca.network.packets.PacketPlayerInteraction;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -62,26 +60,12 @@ public class GuiInteractionPlayer extends AbstractGui
 	public void initGui()
 	{
 		buttonList.clear();
-
-		final Map<String, String> marriageRequests = MCA.getInstance().marriageRequests;
+		
 		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
 
 		if (MCA.getInstance().getWorldProperties(manager).playerSpouseName.equals(playerTarget.getCommandSenderName()))
 		{
 			isMarriedToTarget = true;
-
-			if (MCA.getInstance().babyRequests.size() > 0)
-			{
-				if (MCA.getInstance().babyRequests.get(playerTarget.getCommandSenderName()).equals(player.getCommandSenderName()))
-				{
-					doesTargetWantBaby = true;
-				}
-			}
-		}
-
-		else if (marriageRequests.size() > 0 && marriageRequests.get(playerTarget.getCommandSenderName()).equals(player.getCommandSenderName()) && MCA.getInstance().getWorldProperties(manager).playerSpouseID == 0)
-		{
-			doesTargetWantToMarry = true;
 		}
 
 		drawBaseGui();
@@ -111,19 +95,7 @@ public class GuiInteractionPlayer extends AbstractGui
 	{
 		drawDefaultBackground();
 		drawCenteredString(fontRendererObj, playerTarget.getCommandSenderName(), width / 2, height / 2 - 80, 0xffffff);
-
-		final WorldPropertiesList properties = MCA.getInstance().getWorldProperties(MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName()).worldPropertiesInstance);
-
-		if (doesTargetWantToMarry && properties.playerSpouseID == 0)
-		{
-			drawCenteredString(fontRendererObj, playerTarget.getCommandSenderName() + " would like to marry you.", width / 2, height / 2 - 30, 0xffffff);
-		}
-
-		else if (doesTargetWantBaby)
-		{
-			drawCenteredString(fontRendererObj, playerTarget.getCommandSenderName() + " would like to have a baby.", width / 2, height / 2 - 30, 0xffffff);
-		}
-
+		
 		drawBaseGui();
 		super.drawScreen(i, j, f);
 	}
@@ -144,19 +116,6 @@ public class GuiInteractionPlayer extends AbstractGui
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.exit")));
 		backButton.enabled = false;
-
-		if (doesTargetWantToMarry)
-		{
-			askToMarryButton.enabled = false;
-			buttonList.add(acceptMarriageButton = new GuiButton(2, width / 2 - 60, height / 2 - 20, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.player.accept")));
-			buttonList.add(declineMarriageButton = new GuiButton(3, width / 2 + 0, height / 2 - 20, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.player.decline")));
-		}
-
-		else if (doesTargetWantBaby)
-		{
-			haveBabyButton.enabled = false;
-			buttonList.add(acceptBabyButton = new GuiButton(2, width / 2 - 30, height / 2 - 20, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.player.accept")));
-		}
 
 		if (isMarriedToTarget)
 		{
@@ -179,32 +138,17 @@ public class GuiInteractionPlayer extends AbstractGui
 	{
 		if (button == askToMarryButton)
 		{
-
-		}
-
-		else if (button == acceptMarriageButton)
-		{
-
-		}
-
-		else if (button == declineMarriageButton)
-		{
-
+			MCA.packetHandler.sendPacketToServer(new PacketPlayerInteraction(1, player.getCommandSenderName(), playerTarget.getCommandSenderName()));
 		}
 
 		else if (button == haveBabyButton)
 		{
-
-		}
-
-		else if (button == acceptBabyButton)
-		{
-
+			MCA.packetHandler.sendPacketToServer(new PacketPlayerInteraction(4, player.getCommandSenderName(), playerTarget.getCommandSenderName()));
 		}
 
 		else if (button == divorceButton)
 		{
-
+			MCA.packetHandler.sendPacketToServer(new PacketPlayerInteraction(7, player.getCommandSenderName(), playerTarget.getCommandSenderName()));
 		}
 
 		close();

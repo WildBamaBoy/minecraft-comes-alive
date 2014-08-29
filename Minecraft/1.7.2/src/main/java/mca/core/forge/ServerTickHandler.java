@@ -38,7 +38,7 @@ public class ServerTickHandler
 	public void onTick()
 	{
 		for (final WorldServer worldServer : MinecraftServer.getServer().worldServers)
-		{
+		{			
 			if (serverTicks >= 20)
 			{
 				doUpdateTime();

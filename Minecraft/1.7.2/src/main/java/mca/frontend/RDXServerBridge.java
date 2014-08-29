@@ -4,6 +4,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
 
+import mca.core.Constants;
+
 public final class RDXServerBridge
 {
 	public static String sendVersionQuery()
@@ -19,6 +21,7 @@ public final class RDXServerBridge
 
 			dataOut.writeByte(1);
 			dataOut.writeUTF("MCA");
+			dataOut.writeUTF(Constants.VERSION);
 
 			version = dataIn.readUTF();
 
@@ -33,20 +36,25 @@ public final class RDXServerBridge
 		return version;
 	}
 
-	public static void sendCrashReport(String completeReport)
+	public static void sendCrashReport(String completeReport, boolean isServer)
 	{
 		try
 		{
-			final Socket connectSocket = new Socket("107.170.27.20", 3577);
+			if (completeReport.contains("at.mca"))
+			{
+				final Socket connectSocket = new Socket("107.170.27.20", 3577);
 
-			final DataOutputStream dataOut = new DataOutputStream(connectSocket.getOutputStream());
-			new DataInputStream(connectSocket.getInputStream());
+				final DataOutputStream dataOut = new DataOutputStream(connectSocket.getOutputStream());
+				new DataInputStream(connectSocket.getInputStream());
 
-			dataOut.writeByte(2);
-			dataOut.writeUTF("MCA");
-			dataOut.writeUTF(completeReport);
+				dataOut.writeByte(2);
+				dataOut.writeUTF("MCA");
+				dataOut.writeUTF(Constants.VERSION);
+				dataOut.writeBoolean(isServer);
+				dataOut.writeUTF(completeReport);
 
-			connectSocket.close();
+				connectSocket.close();
+			}
 		}
 
 		catch (final Throwable e)

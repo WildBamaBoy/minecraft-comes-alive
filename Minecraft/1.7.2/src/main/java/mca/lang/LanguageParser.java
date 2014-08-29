@@ -18,6 +18,7 @@ import mca.entity.AbstractChild;
 import mca.entity.AbstractEntity;
 import mca.entity.EntityPlayerChild;
 import mca.enums.EnumRelation;
+import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.entity.player.EntityPlayer;
 
 import com.radixshock.radixcore.file.WorldPropertiesManager;
@@ -44,8 +45,12 @@ public class LanguageParser implements ILanguageParser
 		if (player != null)
 		{
 			manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
-			properties = (WorldPropertiesList) manager.worldPropertiesInstance;
-			playerId = MCA.getInstance().getIdOfPlayer(player);
+
+			if (manager != null)
+			{
+				properties = (WorldPropertiesList) manager.worldPropertiesInstance;
+				playerId = MCA.getInstance().getIdOfPlayer(player);
+			}
 		}
 
 		try
@@ -182,8 +187,13 @@ public class LanguageParser implements ILanguageParser
 
 			if (text.contains("%PlayerSpouseName%"))
 			{
+				if (player instanceof EntityOtherPlayerMP)
+				{
+					text = text.replace("%PlayerSpouseName%", player.getCommandSenderName());
+				}
+
 				//Check world properties to see if the player is married to another player or an NPC.
-				if (MCA.getInstance().getWorldProperties(manager).playerSpouseID > 0)
+				else if (MCA.getInstance().getWorldProperties(manager).playerSpouseID > 0)
 				{
 					//Player married to NPC, so the NPC is provided.
 					text = text.replace("%PlayerSpouseName%", entity.familyTree.getRelativeAsEntity(EnumRelation.Spouse).name);

@@ -108,6 +108,8 @@ public final class Constants
 	public static final byte ID_GUI_EDITOR = 11;
 	public static final byte ID_GUI_LRD = 12;
 	public static final byte ID_GUI_PLAYER = 13;
+	public static final byte ID_GUI_MARRYREQUEST = 14;
+	public static final byte ID_GUI_BABYREQUEST = 15;
 
 	//Movement speeds.
 	public static final float SPEED_SNEAK = 0.4F;

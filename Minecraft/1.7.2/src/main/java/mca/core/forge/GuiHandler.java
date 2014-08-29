@@ -9,6 +9,7 @@
 
 package mca.core.forge;
 
+import mca.client.gui.GuiBabyRequest;
 import mca.client.gui.GuiDivorceCouple;
 import mca.client.gui.GuiHardcoreGameOver;
 import mca.client.gui.GuiInteractionPlayer;
@@ -18,6 +19,7 @@ import mca.client.gui.GuiInteractionVillagerAdult;
 import mca.client.gui.GuiInteractionVillagerChild;
 import mca.client.gui.GuiInventory;
 import mca.client.gui.GuiLostRelativeDocument;
+import mca.client.gui.GuiMarriageRequest;
 import mca.client.gui.GuiNameChild;
 import mca.client.gui.GuiSetup;
 import mca.client.gui.GuiTombstone;
@@ -121,6 +123,12 @@ public class GuiHandler implements IGuiHandler
 			case Constants.ID_GUI_PLAYER:
 				return new GuiInteractionPlayer(player, (EntityPlayer) LogicHelper.getEntityOfTypeAtXYZ(EntityPlayer.class, world, posX, posY, posZ));
 
+			case Constants.ID_GUI_MARRYREQUEST:
+				return new GuiMarriageRequest(player, (EntityPlayer) LogicHelper.getEntityOfTypeAtXYZ(EntityPlayer.class, world, posX, posY, posZ));
+				
+			case Constants.ID_GUI_BABYREQUEST:
+				return new GuiBabyRequest(player, (EntityPlayer) LogicHelper.getEntityOfTypeAtXYZ(EntityPlayer.class, world, posX, posY, posZ));
+				
 			default:
 				throw new IllegalArgumentException("Unknown GUI ID.");
 		}
