@@ -2,9 +2,7 @@
  * GuiInteractionVillagerChild.java
  * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/gpl.html
+ * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
 package mca.client.gui;
@@ -36,10 +34,10 @@ import cpw.mods.fml.relauncher.SideOnly;
  * Defines the GUI used to interact with a villager child, or a player child/adult that isn't your own.
  */
 @SideOnly(Side.CLIENT)
-public class GuiInteractionVillagerChild extends AbstractGui 
+public class GuiInteractionVillagerChild extends AbstractGui
 {
 	/** An instance of the villager child. */
-	private AbstractChild entityVillagerChild;
+	private final AbstractChild entityVillagerChild;
 
 	/** Hearts value for the current player. */
 	int hearts;
@@ -68,8 +66,8 @@ public class GuiInteractionVillagerChild extends AbstractGui
 	/**
 	 * Constructor
 	 * 
-	 * @param 	entity	The entity that is being interacted with.
-	 * @param   player	The player interacting with the entity.
+	 * @param entity The entity that is being interacted with.
+	 * @param player The player interacting with the entity.
 	 */
 	public GuiInteractionVillagerChild(AbstractChild entity, EntityPlayer player)
 	{
@@ -114,24 +112,24 @@ public class GuiInteractionVillagerChild extends AbstractGui
 	{
 		drawDefaultBackground();
 
-		drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.info.hearts") + " = " + hearts, width / 2, height / 2 -100, 0xffffff);
+		drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.info.hearts") + " = " + hearts, width / 2, height / 2 - 100, 0xffffff);
 		drawCenteredString(fontRendererObj, entityVillagerChild.getTitle(MCA.getInstance().getIdOfPlayer(player), true), width / 2, height / 2 - 80, 0xffffff);
 
 		//Draw mood and trait.
 		drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.info.mood") + entityVillagerChild.mood.getLocalizedValue(), width / 2 - 150, height / 2 - 65, 0xffffff);
 		drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.info.trait") + entityVillagerChild.trait.getLocalizedValue(), width / 2 - 150, height / 2 - 50, 0xffffff);
 
-		List<Integer> parents = entityVillagerChild.familyTree.getIDsWithRelation(EnumRelation.Parent);
+		final List<Integer> parents = entityVillagerChild.familyTree.getIDsWithRelation(EnumRelation.Parent);
 
 		if (parents.size() == 2)
 		{
 			int parent1Id = -1;
 			int parent2Id = -1;
 
-			for (Map.Entry<Integer, Integer> entry : MCA.getInstance().idsMap.entrySet())
+			for (final Map.Entry<Integer, Integer> entry : MCA.getInstance().idsMap.entrySet())
 			{
-				int keyInt = entry.getKey();
-				int valueInt = entry.getValue();
+				final int keyInt = entry.getKey();
+				final int valueInt = entry.getValue();
 
 				if (keyInt == parents.get(0))
 				{
@@ -150,7 +148,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 				AbstractEntity parent2 = (AbstractEntity) entityVillagerChild.worldObj.getEntityByID(parent2Id);
 
 				//Try to find parents through the entities map as well.
-				for (Map.Entry<Integer, Integer> entry : MCA.getInstance().idsMap.entrySet())
+				for (final Map.Entry<Integer, Integer> entry : MCA.getInstance().idsMap.entrySet())
 				{
 					if (entry.getValue() == parent1Id && parent1 == null)
 					{
@@ -163,8 +161,8 @@ public class GuiInteractionVillagerChild extends AbstractGui
 					}
 				}
 
-				boolean bothParentsAlive = (parent1 != null && !parent1.isDead) && (parent2 != null && !parent2.isDead);
-				boolean neitherParentsAlive = parent1 == null && parent2 == null;
+				final boolean bothParentsAlive = parent1 != null && !parent1.isDead && parent2 != null && !parent2.isDead;
+				final boolean neitherParentsAlive = parent1 == null && parent2 == null;
 
 				if (bothParentsAlive)
 				{
@@ -183,7 +181,9 @@ public class GuiInteractionVillagerChild extends AbstractGui
 				}
 			}
 
-			catch (NullPointerException e) {}
+			catch (final NullPointerException e)
+			{
+			}
 		}
 
 		//GUI stability.
@@ -195,27 +195,27 @@ public class GuiInteractionVillagerChild extends AbstractGui
 
 		if (displaySuccessChance)
 		{
-			PlayerMemory memory = entityVillagerChild.playerMemoryMap.get(player.getCommandSenderName());
-			EnumMood mood = entityVillagerChild.mood;
-			EnumTrait trait = entityVillagerChild.trait;
+			final PlayerMemory memory = entityVillagerChild.playerMemoryMap.get(player.getCommandSenderName());
+			final EnumMood mood = entityVillagerChild.mood;
+			final EnumTrait trait = entityVillagerChild.trait;
 
 			int chatChance = 65 + -(memory.interactionFatigue * 7) + mood.getChanceModifier("chat") + trait.getChanceModifier("chat");
 			int jokeChance = 65 + -(memory.interactionFatigue * 7) + mood.getChanceModifier("joke") + trait.getChanceModifier("joke");
 			int greetChance = 90 + -(memory.interactionFatigue * 20) + mood.getChanceModifier("greeting") + trait.getChanceModifier("greeting");
 			int tellStoryChance = 65 + -(memory.interactionFatigue * 7) + mood.getChanceModifier("story") + trait.getChanceModifier("story");
 
-			int kissModify = memory.hearts > 75 ? 75 : -25;
-			int flirtModify = memory.hearts > 50 ? 35 : 0;
+			final int kissModify = memory.hearts > 75 ? 75 : -25;
+			final int flirtModify = memory.hearts > 50 ? 35 : 0;
 			int kissChance = 10 + kissModify + -(memory.interactionFatigue * 10) + mood.getChanceModifier("kiss") + trait.getChanceModifier("kiss");
 			int flirtChance = 10 + flirtModify + -(memory.interactionFatigue * 7) + mood.getChanceModifier("flirt") + trait.getChanceModifier("flirt");
 
 			//Limit highs to 100 and lows to 0.
-			chatChance 		= chatChance 		< 0 ? 0 : chatChance 		> 100 ? 100 : chatChance;
-			jokeChance 		= jokeChance 		< 0 ? 0 : jokeChance 		> 100 ? 100 : jokeChance;
-			greetChance 	= greetChance 		< 0 ? 0 : greetChance 		> 100 ? 100 : greetChance;
-			tellStoryChance = tellStoryChance 	< 0 ? 0 : tellStoryChance 	> 100 ? 100 : tellStoryChance;
-			kissChance 		= kissChance 		< 0 ? 0 : kissChance		> 100 ? 100 : kissChance;
-			flirtChance 	= flirtChance 		< 0 ? 0 : flirtChance		> 100 ? 100 : flirtChance;
+			chatChance = chatChance < 0 ? 0 : chatChance > 100 ? 100 : chatChance;
+			jokeChance = jokeChance < 0 ? 0 : jokeChance > 100 ? 100 : jokeChance;
+			greetChance = greetChance < 0 ? 0 : greetChance > 100 ? 100 : greetChance;
+			tellStoryChance = tellStoryChance < 0 ? 0 : tellStoryChance > 100 ? 100 : tellStoryChance;
+			kissChance = kissChance < 0 ? 0 : kissChance > 100 ? 100 : kissChance;
+			flirtChance = flirtChance < 0 ? 0 : flirtChance > 100 ? 100 : flirtChance;
 
 			drawCenteredString(fontRendererObj, chatButton.displayString + ": " + chatChance + "%", width / 2 - 70, 95, 0xffffff);
 			drawCenteredString(fontRendererObj, jokeButton.displayString + ": " + jokeChance + "%", width / 2 - 70, 110, 0xffffff);
@@ -243,18 +243,27 @@ public class GuiInteractionVillagerChild extends AbstractGui
 		displaySuccessChance = false;
 
 		buttonList.add(interactButton = new GuiButton(1, width / 2 - 65, height / 2 + 20, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.interact")));
-		buttonList.add(horseButton 	  = new GuiButton(2, width / 2 - 65, height / 2 + 40, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.ridehorse")));
-		buttonList.add(followButton   = new GuiButton(3, width / 2 - 5,  height / 2 + 20, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.follow")));
-		buttonList.add(stayButton     = new GuiButton(4, width / 2 - 5,  height / 2 + 40, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.stay")));
-		buttonList.add(setHomeButton  = new GuiButton(5, width / 2 - 5,  height / 2 + 60, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.sethome")));
+		buttonList.add(horseButton = new GuiButton(2, width / 2 - 65, height / 2 + 40, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.ridehorse")));
+		buttonList.add(followButton = new GuiButton(3, width / 2 - 5, height / 2 + 20, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.follow")));
+		buttonList.add(stayButton = new GuiButton(4, width / 2 - 5, height / 2 + 40, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.stay")));
+		buttonList.add(setHomeButton = new GuiButton(5, width / 2 - 5, height / 2 + 60, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.sethome")));
 
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.exit")));
 		backButton.enabled = false;
 
-		if (entityVillagerChild.isFollowing) followButton.displayString = MCA.getInstance().getLanguageLoader().getString("gui.button.interact.followstop");
-		if (entityVillagerChild.isStaying) stayButton.displayString = MCA.getInstance().getLanguageLoader().getString("gui.button.interact.staystop");
-		if (entityVillagerChild.ridingEntity instanceof EntityHorse) horseButton.displayString = MCA.getInstance().getLanguageLoader().getString("gui.button.interact.dismount");
+		if (entityVillagerChild.isFollowing)
+		{
+			followButton.displayString = MCA.getInstance().getLanguageLoader().getString("gui.button.interact.followstop");
+		}
+		if (entityVillagerChild.isStaying)
+		{
+			stayButton.displayString = MCA.getInstance().getLanguageLoader().getString("gui.button.interact.staystop");
+		}
+		if (entityVillagerChild.ridingEntity instanceof EntityHorse)
+		{
+			horseButton.displayString = MCA.getInstance().getLanguageLoader().getString("gui.button.interact.dismount");
+		}
 	}
 
 	/**
@@ -273,7 +282,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 		buttonList.add(greetButton = new GuiButton(4, width / 2 - 30, height / 2 + 20, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.greet")));
 		buttonList.add(tellStoryButton = new GuiButton(5, width / 2 - 30, height / 2 + 40, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.tellstory")));
 
-		if ((entityVillagerChild.isMarriedToPlayer && entityVillagerChild.spousePlayerName.equals(player.getCommandSenderName())) || (entityVillagerChild.isAdult && !entityVillagerChild.ownerPlayerName.equals(player.getCommandSenderName())))
+		if (entityVillagerChild.isMarriedToPlayer && entityVillagerChild.spousePlayerName.equals(player.getCommandSenderName()) || entityVillagerChild.isAdult && !entityVillagerChild.ownerPlayerName.equals(player.getCommandSenderName()))
 		{
 			buttonList.add(kissButton = new GuiButton(6, width / 2 + 30, height / 2 + 20, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.kiss")));
 			buttonList.add(flirtButton = new GuiButton(7, width / 2 + 30, height / 2 + 40, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.flirt")));
@@ -295,7 +304,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 	/**
 	 * Handles an action performed in the base GUI.
 	 * 
-	 * @param	button	The button that was pressed.
+	 * @param button The button that was pressed.
 	 */
 	private void actionPerformedBase(GuiButton button)
 	{
@@ -313,7 +322,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 
 			else
 			{
-				EntityHorse nearestHorse = (EntityHorse)LogicHelper.getNearestEntityOfType(entityVillagerChild, EntityHorse.class, 5);
+				final EntityHorse nearestHorse = (EntityHorse) LogicHelper.getNearestEntityOfType(entityVillagerChild, EntityHorse.class, 5);
 
 				if (nearestHorse != null)
 				{
@@ -423,7 +432,7 @@ public class GuiInteractionVillagerChild extends AbstractGui
 	/**
 	 * Handles an action performed in the interaction GUI.
 	 * 
-	 * @param 	button	The button that was pressed.
+	 * @param button The button that was pressed.
 	 */
 	private void actionPerformedInteraction(GuiButton button)
 	{

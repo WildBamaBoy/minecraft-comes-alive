@@ -2,9 +2,7 @@
  * ItemWhistle.java
  * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/gpl.html
+ * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
 package mca.item;
@@ -41,9 +39,9 @@ public class ItemWhistle extends Item
 	/**
 	 * Called when the player right clicks the ground with the item equipped.
 	 * 
-	 * @param	itemStack	The item stack the player was holding.
-	 * @param	world		The world that the player was in.
-	 * @param	player		The player that right clicked.
+	 * @param itemStack The item stack the player was holding.
+	 * @param world The world that the player was in.
+	 * @param player The player that right clicked.
 	 */
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
@@ -54,21 +52,31 @@ public class ItemWhistle extends Item
 			{
 				if (obj instanceof AbstractChild)
 				{
-					final AbstractChild child = (AbstractChild)obj;
-					
+					final AbstractChild child = (AbstractChild) obj;
+
 					if (child.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 					{
 						child.setLocationAndAngles(player.posX, player.posY, player.posZ, player.rotationYaw, player.rotationPitch);
+
+						if (child.isRiding())
+						{
+							child.ridingEntity.setLocationAndAngles(player.posX, player.posY, player.posZ, player.rotationYaw, player.rotationPitch);
+						}
 					}
 				}
 
 				else if (obj instanceof EntityVillagerAdult)
 				{
-					final EntityVillagerAdult adult = (EntityVillagerAdult)obj;
+					final EntityVillagerAdult adult = (EntityVillagerAdult) obj;
 
 					if ((adult.isMarriedToPlayer || adult.isEngaged) && adult.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 					{
 						adult.setLocationAndAngles(player.posX, player.posY, player.posZ, player.rotationYaw, player.rotationPitch);
+
+						if (adult.isRiding())
+						{
+							adult.ridingEntity.setLocationAndAngles(player.posX, player.posY, player.posZ, player.rotationYaw, player.rotationPitch);
+						}
 					}
 				}
 			}

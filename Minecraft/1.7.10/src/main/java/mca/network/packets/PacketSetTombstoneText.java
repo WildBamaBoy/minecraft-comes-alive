@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * PacketSetTombstoneText.java
+ * Copyright (c) 2014 Radix-Shock Entertainment.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the MCA Minecraft Mod license.
+ ******************************************************************************/
+
 package mca.network.packets;
 
 import io.netty.buffer.ByteBuf;
@@ -20,7 +27,7 @@ public class PacketSetTombstoneText extends AbstractPacket implements IMessage, 
 	private String line2;
 	private String line3;
 	private String line4;
-	
+
 	public PacketSetTombstoneText()
 	{
 	}
@@ -37,19 +44,19 @@ public class PacketSetTombstoneText extends AbstractPacket implements IMessage, 
 	}
 
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
-		this.posX = byteBuf.readInt();
-		this.posY = byteBuf.readInt();
-		this.posZ = byteBuf.readInt();
-		this.line1 = (String) ByteBufIO.readObject(byteBuf);
-		this.line2 = (String) ByteBufIO.readObject(byteBuf);
-		this.line3 = (String) ByteBufIO.readObject(byteBuf);
-		this.line4 = (String) ByteBufIO.readObject(byteBuf);
+		posX = byteBuf.readInt();
+		posY = byteBuf.readInt();
+		posZ = byteBuf.readInt();
+		line1 = (String) ByteBufIO.readObject(byteBuf);
+		line2 = (String) ByteBufIO.readObject(byteBuf);
+		line3 = (String) ByteBufIO.readObject(byteBuf);
+		line4 = (String) ByteBufIO.readObject(byteBuf);
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(posX);
 		byteBuf.writeInt(posY);
@@ -61,16 +68,19 @@ public class PacketSetTombstoneText extends AbstractPacket implements IMessage, 
 	}
 
 	@Override
-	public IMessage onMessage(PacketSetTombstoneText packet, MessageContext context) 
+	public IMessage onMessage(PacketSetTombstoneText packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
-		final TileEntityTombstone tombstone = (TileEntityTombstone)player.worldObj.getTileEntity(packet.posX, packet.posY, packet.posZ);
-		
-		tombstone.signText[0] = packet.line1;
-		tombstone.signText[1] = packet.line2;
-		tombstone.signText[2] = packet.line3;
-		tombstone.signText[3] = packet.line4;
-		tombstone.markDirty();
+		final TileEntityTombstone tombstone = (TileEntityTombstone) player.worldObj.getTileEntity(packet.posX, packet.posY, packet.posZ);
+
+		if (tombstone != null)
+		{
+			tombstone.signText[0] = packet.line1;
+			tombstone.signText[1] = packet.line2;
+			tombstone.signText[2] = packet.line3;
+			tombstone.signText[3] = packet.line4;
+			tombstone.markDirty();
+		}
 
 		return null;
 	}

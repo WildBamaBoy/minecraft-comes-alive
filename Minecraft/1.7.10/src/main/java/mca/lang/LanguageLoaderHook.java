@@ -2,9 +2,7 @@
  * LanguageLoaderHook.java
  * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/gpl.html
+ * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
 package mca.lang;
@@ -29,11 +27,11 @@ import cpw.mods.fml.common.FMLCommonHandler;
 public class LanguageLoaderHook implements ILanguageLoaderHook
 {
 	@Override
-	public boolean processEntrySet(Map.Entry<Object, Object> entrySet) 
+	public boolean processEntrySet(Map.Entry<Object, Object> entrySet)
 	{
 		final String key = entrySet.getKey().toString();
 		final String value = entrySet.getValue().toString();
-		
+
 		if (key.contains("name.male"))
 		{
 			MCA.maleNames.add(value);
@@ -48,33 +46,41 @@ public class LanguageLoaderHook implements ILanguageLoaderHook
 
 		if (value.contains("\\!".substring(1)))
 		{
-			Map<String, String> translations = MCA.getInstance().getLanguageLoader().getTranslations();
+			final Map<String, String> translations = MCA.getInstance().getLanguageLoader().getTranslations();
 			translations.put(key, value.replace("\\!".substring(1), "!"));
-			
+
 			return true;
 		}
-		
+
 		return false;
 	}
 
 	@Override
-	public String onGetString(String elementId, Object... arguments) 
+	public String onGetString(String elementId, Object... arguments)
 	{
 		EntityPlayer player = null;
 		AbstractEntity entity = null;
 		boolean useCharacterType = false;
 		String prefix = null;
 		String suffix = null;
-		
+
 		if (arguments != null && arguments.length > 0)
-		{	
-			player = (EntityPlayer) (arguments.length >= 1 ? arguments[0] : null);
-			entity = (AbstractEntity) (arguments.length >= 2 ? arguments[1] : null);
-			useCharacterType = (Boolean) (arguments.length >= 3 ? arguments[2] : null);
-			prefix = (String) (arguments.length >= 4 ? arguments[3] : null);
-			suffix = (String) (arguments.length >= 5 ? arguments[4] : null);
+		{
+			if (arguments.length == 1)
+			{
+				player = (EntityPlayer) (arguments.length >= 1 ? arguments[0] : null);
+			}
+
+			else
+			{
+				player = (EntityPlayer) (arguments.length >= 1 ? arguments[0] : null);
+				entity = (AbstractEntity) (arguments.length >= 2 ? arguments[1] : null);
+				useCharacterType = (Boolean) (arguments.length >= 3 ? arguments[2] : null);
+				prefix = (String) (arguments.length >= 4 ? arguments[3] : null);
+				suffix = (String) (arguments.length >= 5 ? arguments[4] : null);
+			}
 		}
-		
+
 		final List<String> matchingValues = new ArrayList();
 		String outputString = "";
 		elementId = elementId.toLowerCase();
@@ -86,17 +92,17 @@ public class LanguageLoaderHook implements ILanguageLoaderHook
 			{
 				player = entity.worldObj.getPlayerEntityByName(entity.lastInteractingPlayer);
 			}
-			
+
 			if (entity != null)
 			{
-				MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(player, entity.getEntityId(), elementId, useCharacterType, prefix, suffix), (EntityPlayerMP)player);
+				MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(player, entity.getEntityId(), elementId, useCharacterType, prefix, suffix), (EntityPlayerMP) player);
 			}
-			
+
 			else
 			{
-				MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(player, null, elementId, useCharacterType, prefix, suffix), (EntityPlayerMP)player);
+				MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(player, null, elementId, useCharacterType, prefix, suffix), (EntityPlayerMP) player);
 			}
-			
+
 			return "";
 		}
 
@@ -120,7 +126,8 @@ public class LanguageLoaderHook implements ILanguageLoaderHook
 					break;
 				}
 
-				else //Otherwise just add the matching ID's value to the matching values list.
+				else
+					//Otherwise just add the matching ID's value to the matching values list.
 				{
 					matchingValues.add(entrySet.getValue());
 				}
@@ -143,7 +150,7 @@ public class LanguageLoaderHook implements ILanguageLoaderHook
 	}
 
 	@Override
-	public boolean shouldReceiveGetStringCalls() 
+	public boolean shouldReceiveGetStringCalls()
 	{
 		return true;
 	}

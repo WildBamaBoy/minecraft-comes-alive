@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * PacketSyncRequest.java
+ * Copyright (c) 2014 Radix-Shock Entertainment.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the MCA Minecraft Mod license.
+ ******************************************************************************/
+
 package mca.network.packets;
 
 import io.netty.buffer.ByteBuf;
@@ -17,51 +24,55 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 public class PacketSyncRequest extends AbstractPacket implements IMessage, IMessageHandler<PacketSyncRequest, IMessage>
 {
 	private int entityId;
-	
+
 	public PacketSyncRequest()
 	{
 	}
-	
+
 	public PacketSyncRequest(int entityId)
 	{
 		this.entityId = entityId;
 	}
-	
+
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		entityId = byteBuf.readInt();
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(entityId);
 	}
 
 	@Override
-	public IMessage onMessage(PacketSyncRequest packet, MessageContext context) 
+	public IMessage onMessage(PacketSyncRequest packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
-		
-		for (final World world : MinecraftServer.getServer().worldServers)
-		{
-			for (final Object obj : world.loadedEntityList)
-			{
-				if (obj instanceof AbstractEntity)
-				{
-					AbstractEntity entity = (AbstractEntity)obj;
 
-					if (entity.getEntityId() == packet.entityId)
+		if (player != null)
+		{
+			for (final World world : MinecraftServer.getServer().worldServers)
+			{
+				for (final Object obj : world.loadedEntityList)
+				{
+					if (obj instanceof AbstractEntity)
 					{
-						MCA.packetHandler.sendPacketToPlayer(new PacketSync(entity.getEntityId(), entity), (EntityPlayerMP) player);
-						MCA.packetHandler.sendPacketToPlayer(new PacketSetInventory(entity.getEntityId(), entity.inventory), (EntityPlayerMP) player); 
-						MCA.getInstance().entitiesMap.put(entity.mcaID, entity);
-						break;
+						final AbstractEntity entity = (AbstractEntity) obj;
+
+						if (entity != null && entity.getEntityId() == packet.entityId)
+						{
+							MCA.packetHandler.sendPacketToPlayer(new PacketSync(entity.getEntityId(), entity), (EntityPlayerMP) player);
+							MCA.packetHandler.sendPacketToPlayer(new PacketSetInventory(entity.getEntityId(), entity.inventory), (EntityPlayerMP) player);
+							MCA.getInstance().entitiesMap.put(entity.mcaID, entity);
+							break;
+						}
 					}
 				}
 			}
 		}
+
 		return null;
 	}
 }

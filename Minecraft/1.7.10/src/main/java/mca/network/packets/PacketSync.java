@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * PacketSync.java
+ * Copyright (c) 2014 Radix-Shock Entertainment.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the MCA Minecraft Mod license.
+ ******************************************************************************/
+
 package mca.network.packets;
 
 import io.netty.buffer.ByteBuf;
@@ -41,24 +48,24 @@ public class PacketSync extends AbstractPacket implements IMessage, IMessageHand
 	}
 
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		entityId = byteBuf.readInt();
-		entity = (AbstractEntity)ByteBufIO.readObject(byteBuf);
+		entity = (AbstractEntity) ByteBufIO.readObject(byteBuf);
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(entityId);
 		ByteBufIO.writeObject(byteBuf, entity);
 	}
 
 	@Override
-	public IMessage onMessage(PacketSync packet, MessageContext context) 
+	public IMessage onMessage(PacketSync packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
-		final AbstractEntity clientEntity = (AbstractEntity)player.worldObj.getEntityByID(packet.entityId);
+		final AbstractEntity clientEntity = (AbstractEntity) player.worldObj.getEntityByID(packet.entityId);
 
 		if (clientEntity == null)
 		{
@@ -68,7 +75,7 @@ public class PacketSync extends AbstractPacket implements IMessage, IMessageHand
 		else
 		{
 			//Figure out which classes the entity is composed of.
-			List<Class> classList = new ArrayList<Class>();
+			final List<Class> classList = new ArrayList<Class>();
 			classList.add(AbstractEntity.class);
 			classList.add(packet.entity.getClass());
 
@@ -86,7 +93,7 @@ public class PacketSync extends AbstractPacket implements IMessage, IMessageHand
 						//Assign each chore an owner.
 						if (field.get(packet.entity) instanceof AbstractChore)
 						{
-							AbstractChore theChore = (AbstractChore)field.get(packet.entity);
+							final AbstractChore theChore = (AbstractChore) field.get(packet.entity);
 							theChore.owner = clientEntity;
 
 							field.set(clientEntity, theChore);
@@ -95,7 +102,7 @@ public class PacketSync extends AbstractPacket implements IMessage, IMessageHand
 						//Assign the family tree an owner.
 						else if (field.get(packet.entity) instanceof FamilyTree)
 						{
-							FamilyTree theFamilyTree = (FamilyTree)field.get(packet.entity);
+							final FamilyTree theFamilyTree = (FamilyTree) field.get(packet.entity);
 							theFamilyTree.owner = clientEntity;
 
 							field.set(clientEntity, theFamilyTree);
@@ -104,7 +111,7 @@ public class PacketSync extends AbstractPacket implements IMessage, IMessageHand
 						//Assign the inventory an owner.
 						else if (field.get(packet.entity) instanceof Inventory)
 						{
-							Inventory theInventory = (Inventory)field.get(packet.entity);
+							final Inventory theInventory = (Inventory) field.get(packet.entity);
 							theInventory.owner = clientEntity;
 
 							if (!clientEntity.inventory.equals(theInventory))
@@ -119,7 +126,7 @@ public class PacketSync extends AbstractPacket implements IMessage, IMessageHand
 						}
 					}
 
-					catch (IllegalAccessException e)
+					catch (final IllegalAccessException e)
 					{
 						continue;
 					}

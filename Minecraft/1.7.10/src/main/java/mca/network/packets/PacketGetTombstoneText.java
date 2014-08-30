@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * PacketGetTombstoneText.java
+ * Copyright (c) 2014 Radix-Shock Entertainment.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the MCA Minecraft Mod license.
+ ******************************************************************************/
+
 package mca.network.packets;
 
 import io.netty.buffer.ByteBuf;
@@ -30,15 +37,15 @@ public class PacketGetTombstoneText extends AbstractPacket implements IMessage, 
 	}
 
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
-		this.posX = byteBuf.readInt();
-		this.posY = byteBuf.readInt();
-		this.posZ = byteBuf.readInt();
+		posX = byteBuf.readInt();
+		posY = byteBuf.readInt();
+		posZ = byteBuf.readInt();
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(posX);
 		byteBuf.writeInt(posY);
@@ -46,14 +53,16 @@ public class PacketGetTombstoneText extends AbstractPacket implements IMessage, 
 	}
 
 	@Override
-	public IMessage onMessage(PacketGetTombstoneText packet, MessageContext context) 
+	public IMessage onMessage(PacketGetTombstoneText packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
-		final TileEntityTombstone tombstone = (TileEntityTombstone)player.worldObj.getTileEntity(packet.posX, packet.posY, packet.posZ);
-		
-		MCA.packetHandler.sendPacketToPlayer(new PacketSetTombstoneText(packet.posX, packet.posY, packet.posZ, 
-				tombstone.signText[0], tombstone.signText[1], tombstone.signText[2], tombstone.signText[3]), (EntityPlayerMP)player);
-		
+		final TileEntityTombstone tombstone = (TileEntityTombstone) player.worldObj.getTileEntity(packet.posX, packet.posY, packet.posZ);
+
+		if (tombstone != null)
+		{
+			MCA.packetHandler.sendPacketToPlayer(new PacketSetTombstoneText(packet.posX, packet.posY, packet.posZ, tombstone.signText[0], tombstone.signText[1], tombstone.signText[2], tombstone.signText[3]), (EntityPlayerMP) player);
+		}
+
 		return null;
 	}
 }

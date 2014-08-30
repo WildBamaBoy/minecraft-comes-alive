@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * PacketSetChore.java
+ * Copyright (c) 2014 Radix-Shock Entertainment.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the MCA Minecraft Mod license.
+ ******************************************************************************/
+
 package mca.network.packets;
 
 import io.netty.buffer.ByteBuf;
@@ -37,24 +44,24 @@ public class PacketSetChore extends AbstractPacket implements IMessage, IMessage
 	}
 
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		entityId = byteBuf.readInt();
 		chore = (AbstractChore) ByteBufIO.readObject(byteBuf);
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(entityId);
 		ByteBufIO.writeObject(byteBuf, chore);
 	}
 
 	@Override
-	public IMessage onMessage(PacketSetChore packet, MessageContext context) 
+	public IMessage onMessage(PacketSetChore packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
-		final AbstractEntity entity = (AbstractEntity)player.worldObj.getEntityByID(packet.entityId);
+		final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(packet.entityId);
 		packet.chore.owner = entity;
 
 		if (entity != null)
@@ -103,7 +110,7 @@ public class PacketSetChore extends AbstractPacket implements IMessage, IMessage
 				MCA.getInstance().getLogger().log("Unidentified chore type received when handling chore packet.");
 			}
 		}
-		
+
 		return null;
 	}
 }

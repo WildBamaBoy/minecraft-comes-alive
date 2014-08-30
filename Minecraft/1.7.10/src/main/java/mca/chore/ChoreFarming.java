@@ -2,9 +2,7 @@
  * ChoreFarming.java
  * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/gpl.html
+ * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
 package mca.chore;
@@ -45,7 +43,7 @@ public class ChoreFarming extends AbstractChore
 	/** The method of farming to perform. 0 = create farm, 1 = maintain farm. */
 	public int method;
 
-	/**The radius of the maintaining function. */
+	/** The radius of the maintaining function. */
 	public int radius;
 
 	/** How many ticks the entity should wait before continuing with the chore. */
@@ -54,40 +52,40 @@ public class ChoreFarming extends AbstractChore
 	/** The index of the crop entry that will be used for farming. */
 	public int entryIndex;
 
-	/** Keeps up with how many ticks the entity has remained idle.*/
+	/** Keeps up with how many ticks the entity has remained idle. */
 	public int delayCounter;
 
-	/** The X location of the coordinates the entity started at.*/
+	/** The X location of the coordinates the entity started at. */
 	public int startX;
 
-	/** The Y location of the coordinates the entity started at.*/
+	/** The Y location of the coordinates the entity started at. */
 	public int startY;
 
-	/** The Z location of the coordinates the entity started at.*/
+	/** The Z location of the coordinates the entity started at. */
 	public int startZ;
 
-	/** From a 2D aspect, how many blocks the X side of the farming area is.*/
+	/** From a 2D aspect, how many blocks the X side of the farming area is. */
 	public int areaX;
 
-	/** From a 2D aspect, how many blocks the Y side of the farming area is.*/
+	/** From a 2D aspect, how many blocks the Y side of the farming area is. */
 	public int areaY;
 
-	/**The X coordinates of the block the entity should be performing an action on. */
+	/** The X coordinates of the block the entity should be performing an action on. */
 	public int targetX;
 
-	/**The Y coordinates of the block the entity should be performing an action on. */
+	/** The Y coordinates of the block the entity should be performing an action on. */
 	public int targetY;
 
-	/**The Z coordinates of the block the entity should be performing an action on. */
+	/** The Z coordinates of the block the entity should be performing an action on. */
 	public int targetZ;
 
-	/** Index of the current farmable land. Used to place water on certain blocks.*/
+	/** Index of the current farmable land. Used to place water on certain blocks. */
 	public int farmlandIndex;
 
 	/** Has the entity done any work at all? */
 	public boolean hasDoneWork;
 
-	/**Is the entity supposed to have a path to a block? */
+	/** Is the entity supposed to have a path to a block? */
 	public boolean hasNextPathBlock;
 
 	/** The entry selected in the GUI. */
@@ -96,7 +94,7 @@ public class ChoreFarming extends AbstractChore
 	/**
 	 * Constructor
 	 * 
-	 * @param 	entity	The entity performing the chore.
+	 * @param entity The entity performing the chore.
 	 */
 	public ChoreFarming(AbstractEntity entity)
 	{
@@ -106,38 +104,38 @@ public class ChoreFarming extends AbstractChore
 	/**
 	 * Constructor
 	 * 
-	 * @param 	entity		The entity that should be performing the chore.
-	 * @param 	method		The type of area that the chore should be performed as.
-	 * @param 	startX		The X position that the chore should start at. 
-	 * @param 	startY		The Y position that the chore should start at.
-	 * @param 	startZ		The Z position that the chore should start at.
+	 * @param entity The entity that should be performing the chore.
+	 * @param method The type of area that the chore should be performed as.
+	 * @param startX The X position that the chore should start at.
+	 * @param startY The Y position that the chore should start at.
+	 * @param startZ The Z position that the chore should start at.
 	 */
 	public ChoreFarming(AbstractEntity entity, int method, double startX, double startY, double startZ)
 	{
 		super(entity);
 		this.method = method;
-		this.startX = (int)startX;
-		this.startY = (int)startY;
-		this.startZ = (int)startZ;
+		this.startX = (int) startX;
+		this.startY = (int) startY;
+		this.startZ = (int) startZ;
 	}
 
 	/**
 	 * Constructor
 	 * 
-	 * @param 	entity		The entity that should be performing the chore.
-	 * @param 	method		The farming method to use.
-	 * @param 	seedType	The type of seed that should be planted.
-	 * @param 	startX		The X position that the chore should start at. 
-	 * @param 	startY		The Y position that the chore should start at.
-	 * @param 	startZ		The Z position that the chore should start at.
-	 * @param	areaX		The X size of the area to farm.
-	 * @param	areaY		The Z size of the area to farm.
+	 * @param entity The entity that should be performing the chore.
+	 * @param method The farming method to use.
+	 * @param seedType The type of seed that should be planted.
+	 * @param startX The X position that the chore should start at.
+	 * @param startY The Y position that the chore should start at.
+	 * @param startZ The Z position that the chore should start at.
+	 * @param areaX The X size of the area to farm.
+	 * @param areaY The Z size of the area to farm.
 	 */
-	public ChoreFarming(AbstractEntity entity, int method, int entryIndex, FarmableCrop entry, double startX, double startY, double startZ, int areaX, int areaY) 
+	public ChoreFarming(AbstractEntity entity, int method, int entryIndex, FarmableCrop entry, double startX, double startY, double startZ, int areaX, int areaY)
 	{
 		this(entity, method, startX, startY, startZ);
 		this.entryIndex = entryIndex;
-		this.cropEntry = entry;
+		cropEntry = entry;
 		this.areaX = areaX;
 		this.areaY = areaY;
 	}
@@ -145,12 +143,12 @@ public class ChoreFarming extends AbstractChore
 	/**
 	 * Constructor
 	 * 
-	 * @param 	entity	The entity that should be performing the chore.
-	 * @param 	method	The farming method to use.
-	 * @param 	startX	The X position the chore starts at.
-	 * @param 	startY	The Y position the chore starts at.
-	 * @param 	startZ	The Z position the chore starts at.
-	 * @param 	radius	The radius of the area to maintain.
+	 * @param entity The entity that should be performing the chore.
+	 * @param method The farming method to use.
+	 * @param startX The X position the chore starts at.
+	 * @param startY The Y position the chore starts at.
+	 * @param startZ The Z position the chore starts at.
+	 * @param radius The radius of the area to maintain.
 	 */
 	public ChoreFarming(AbstractEntity entity, int method, double startX, double startY, double startZ, int radius)
 	{
@@ -159,7 +157,7 @@ public class ChoreFarming extends AbstractChore
 	}
 
 	@Override
-	public void beginChore() 
+	public void beginChore()
 	{
 		if (!MCA.getInstance().getModProperties().server_allowFarmingChore)
 		{
@@ -185,7 +183,7 @@ public class ChoreFarming extends AbstractChore
 	}
 
 	@Override
-	public void runChoreAI() 
+	public void runChoreAI()
 	{
 		if (method == 0)
 		{
@@ -197,17 +195,17 @@ public class ChoreFarming extends AbstractChore
 			//Workaround for failure to save NBT.
 			if (startX == 0 && startY == 0 && startZ == 0)
 			{
-				startX = (int)owner.posX;
-				startY = (int)owner.posY;
-				startZ = (int)owner.posZ;
+				startX = (int) owner.posX;
+				startY = (int) owner.posY;
+				startZ = (int) owner.posZ;
 			}
-			
+
 			runMaintainFarmLogic();
 		}
 	}
 
 	@Override
-	public String getChoreName() 
+	public String getChoreName()
 	{
 		return "Farming";
 	}
@@ -232,7 +230,7 @@ public class ChoreFarming extends AbstractChore
 	}
 
 	@Override
-	public void writeChoreToNBT(NBTTagCompound nbt) 
+	public void writeChoreToNBT(NBTTagCompound nbt)
 	{
 		//Loop through each field in this class and write to NBT.
 		for (final Field field : this.getClass().getFields())
@@ -268,7 +266,7 @@ public class ChoreFarming extends AbstractChore
 				}
 			}
 
-			catch (IllegalAccessException e)
+			catch (final IllegalAccessException e)
 			{
 				MCA.getInstance().getLogger().log(e);
 				continue;
@@ -277,7 +275,7 @@ public class ChoreFarming extends AbstractChore
 	}
 
 	@Override
-	public void readChoreFromNBT(NBTTagCompound nbt) 
+	public void readChoreFromNBT(NBTTagCompound nbt)
 	{
 		//Loop through each field in this class and read from NBT.
 		for (final Field field : this.getClass().getFields())
@@ -313,7 +311,7 @@ public class ChoreFarming extends AbstractChore
 				}
 			}
 
-			catch (IllegalAccessException e)
+			catch (final IllegalAccessException e)
 			{
 				MCA.getInstance().getLogger().log(e);
 				continue;
@@ -326,45 +324,51 @@ public class ChoreFarming extends AbstractChore
 	{
 		try
 		{
-			final ToolMaterial material = ToolMaterial.valueOf(((ItemHoe)toolStack.getItem()).getToolMaterialName());
+			final ToolMaterial material = ToolMaterial.valueOf(((ItemHoe) toolStack.getItem()).getToolMaterialName());
 
 			switch (material)
 			{
-			case WOOD: 		return 40;
-			case STONE: 	return 30;
-			case IRON: 		return 25;
-			case EMERALD: 	return 10;
-			case GOLD: 		return 5;
-			default: 		return 25;
+				case WOOD:
+					return 40;
+				case STONE:
+					return 30;
+				case IRON:
+					return 25;
+				case EMERALD:
+					return 10;
+				case GOLD:
+					return 5;
+				default:
+					return 25;
 			}
 		}
 
-		catch (NullPointerException e)
+		catch (final NullPointerException e)
 		{
 			return 60;
 		}
 	}
 
 	@Override
-	protected String getChoreXpName() 
+	protected String getChoreXpName()
 	{
 		return "xpLvlFarming";
 	}
 
 	@Override
-	protected String getBaseLevelUpPhrase() 
+	protected String getBaseLevelUpPhrase()
 	{
 		return "notify.child.chore.levelup.farming";
 	}
 
 	@Override
-	protected float getChoreXp() 
+	protected float getChoreXp()
 	{
 		return owner.xpLvlFarming;
 	}
 
 	@Override
-	protected void setChoreXp(float setAmount) 
+	protected void setChoreXp(float setAmount)
 	{
 		owner.xpLvlFarming = setAmount;
 	}
@@ -432,7 +436,7 @@ public class ChoreFarming extends AbstractChore
 		if (hasNextPathBlock)
 		{
 			doSetNextPath();
-			
+
 			if (canDoNextMaintainTask())
 			{
 				doNextMaintainTask();
@@ -452,8 +456,7 @@ public class ChoreFarming extends AbstractChore
 
 	private boolean canDoNextCreateTask()
 	{
-		return delayCounter >= delay && 
-				LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, targetX, targetY, targetZ) <= 1.7F;
+		return delayCounter >= delay && LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, targetX, targetY, targetZ) <= 1.7F;
 	}
 
 	private void doUpdateCreateFarm()
@@ -513,10 +516,10 @@ public class ChoreFarming extends AbstractChore
 			hasNextPathBlock = false;
 
 			doUpdateAchievements();
-			incrementChoreXpLevel((float)(0.15 - 0.01 * getChoreXp()));
+			incrementChoreXpLevel((float) (0.15 - 0.01 * getChoreXp()));
 		}
 
-		catch (ArrayIndexOutOfBoundsException e)
+		catch (final ArrayIndexOutOfBoundsException e)
 		{
 			endChore();
 		}
@@ -565,7 +568,7 @@ public class ChoreFarming extends AbstractChore
 
 	private boolean doSetNextPath()
 	{
-		final Block blockStanding = owner.worldObj.getBlock((int)owner.posX, (int)owner.posY, (int)owner.posZ);
+		final Block blockStanding = owner.worldObj.getBlock((int) owner.posX, (int) owner.posY, (int) owner.posZ);
 
 		if (blockStanding instanceof BlockStaticLiquid)
 		{
@@ -576,13 +579,13 @@ public class ChoreFarming extends AbstractChore
 		{
 			if (owner.getNavigator().noPath())
 			{
-				boolean success = owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(targetX, targetY, targetZ), getChoreXp() >= 10.0F ? Constants.SPEED_RUN : Constants.SPEED_SNEAK);
-				
+				final boolean success = owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(targetX, targetY, targetZ), getChoreXp() >= 10.0F ? Constants.SPEED_RUN : Constants.SPEED_SNEAK);
+
 				if (!success)
 				{
-					double midX = (owner.posX + targetX) / 2;
-					double midZ = (owner.posZ + targetZ) / 2;
-					
+					final double midX = (owner.posX + targetX) / 2;
+					final double midZ = (owner.posZ + targetZ) / 2;
+
 					owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(midX, targetY, midZ), getChoreXp() >= 10.0F ? Constants.SPEED_RUN : Constants.SPEED_SNEAK);
 				}
 			}
@@ -597,7 +600,7 @@ public class ChoreFarming extends AbstractChore
 	{
 		if (owner instanceof EntityPlayerChild)
 		{
-			EntityPlayerChild child = (EntityPlayerChild)owner;
+			final EntityPlayerChild child = (EntityPlayerChild) owner;
 			child.landFarmed++;
 
 			if (child.landFarmed >= 100)
@@ -606,14 +609,14 @@ public class ChoreFarming extends AbstractChore
 
 				if (player != null)
 				{
-					player.triggerAchievement(MCA.getInstance().achievementChildFarm);						
+					player.triggerAchievement(MCA.getInstance().achievementChildFarm);
 				}
 			}
 		}
 	}
 
 	private void doAssignNextBlockForMaintain()
-	{	
+	{
 		for (final FarmableCrop entry : ChoreRegistry.getFarmingCropEntries())
 		{
 			final List<Point3D> points = LogicExtension.getNearbyHarvestableCrops(owner, entry, startX, startY, startZ, radius);
@@ -644,7 +647,7 @@ public class ChoreFarming extends AbstractChore
 			{
 				final List<Point3D> nearbyDirt = LogicHelper.getNearbyBlocks_StartAtBottom(owner, Blocks.dirt, radius);
 
-				for (Point3D point : nearbyDirt)
+				for (final Point3D point : nearbyDirt)
 				{
 					final Block blockAdj1 = owner.worldObj.getBlock(point.iPosX + 1, point.iPosY + 1, point.iPosZ);
 					final Block blockAdj2 = owner.worldObj.getBlock(point.iPosX - 1, point.iPosY + 1, point.iPosZ);
@@ -668,8 +671,7 @@ public class ChoreFarming extends AbstractChore
 
 	private boolean canDoNextMaintainTask()
 	{
-		return delayCounter >= delay && 
-				LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, targetX, targetY, targetZ) <= 2.5F;
+		return delayCounter >= delay && LogicHelper.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, targetX, targetY, targetZ) <= 2.5F;
 	}
 
 	private void doNextMaintainTask()
@@ -733,7 +735,7 @@ public class ChoreFarming extends AbstractChore
 					owner.worldObj.setBlock(targetX, targetY, targetZ, cropEntry.getBlockCrop());
 				}
 
-				incrementChoreXpLevel((float)(0.15 - 0.005 * getChoreXp()));
+				incrementChoreXpLevel((float) (0.15 - 0.005 * getChoreXp()));
 			}
 		}
 	}
@@ -790,9 +792,8 @@ public class ChoreFarming extends AbstractChore
 	/**
 	 * Gets the appropriate farm creation map for the area and seed type provided.
 	 * 
-	 * @param 	areaX		The X size of the area to farm. Used to identify the correct sized area.
-
-	 * @return	The appropriate farm creation map.
+	 * @param areaX The X size of the area to farm. Used to identify the correct sized area.
+	 * @return The appropriate farm creation map.
 	 */
 	public char[] getFarmMap(int areaX)
 	{
@@ -800,9 +801,12 @@ public class ChoreFarming extends AbstractChore
 		{
 			switch (areaX)
 			{
-			case 5: return Constants.normalFarmFiveByFive;
-			case 10: return Constants.normalFarmTenByTen;
-			case 15: return Constants.normalFarmFifteenByFifteen;
+				case 5:
+					return Constants.normalFarmFiveByFive;
+				case 10:
+					return Constants.normalFarmTenByTen;
+				case 15:
+					return Constants.normalFarmFifteenByFifteen;
 			}
 		}
 
@@ -815,9 +819,12 @@ public class ChoreFarming extends AbstractChore
 		{
 			switch (areaX)
 			{
-			case 5: return Constants.sugarcaneFarmFiveByFive;
-			case 10: return Constants.sugarcaneFarmTenByTen;
-			case 15: return Constants.sugarcaneFarmFifteenByFifteen;
+				case 5:
+					return Constants.sugarcaneFarmFiveByFive;
+				case 10:
+					return Constants.sugarcaneFarmTenByTen;
+				case 15:
+					return Constants.sugarcaneFarmFifteenByFifteen;
 			}
 		}
 

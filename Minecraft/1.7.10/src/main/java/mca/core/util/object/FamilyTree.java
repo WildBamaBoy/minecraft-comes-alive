@@ -2,9 +2,7 @@
  * FamilyTree.java
  * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/gpl.html
+ * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
 package mca.core.util.object;
@@ -28,16 +26,16 @@ import com.radixshock.radixcore.file.WorldPropertiesManager;
  */
 public class FamilyTree implements Serializable, Cloneable
 {
-	/** The actual owner of this family tree.*/
+	/** The actual owner of this family tree. */
 	public transient AbstractEntity owner;
 
-	/** Map containing the IDs of entities related to the owner as the key, and their relation to the owner as the value.*/
+	/** Map containing the IDs of entities related to the owner as the key, and their relation to the owner as the value. */
 	private Map<Integer, EnumRelation> relationMap;
 
 	/**
 	 * Constructor
 	 * 
-	 * @param	entity	The owner of the family tree.
+	 * @param entity The owner of the family tree.
 	 */
 	public FamilyTree(AbstractEntity entity)
 	{
@@ -46,62 +44,60 @@ public class FamilyTree implements Serializable, Cloneable
 	}
 
 	/**
-	 * Gets the opposing relation of the specified relation value.
-	 * For instance, if someone is your MOTHER, then you are their SON or DAUGHTER.
+	 * Gets the opposing relation of the specified relation value. For instance, if someone is your MOTHER, then you are their SON or DAUGHTER.
 	 * 
-	 * @param	isMale		The gender of the entity who should have the opposing relation that is returned.	
-	 * @param 	relation	The relation to find the opposing relation of.
-	 * 
-	 * @return	EnumRelation constant that is the opposing relation of the specified relation value.
+	 * @param isMale The gender of the entity who should have the opposing relation that is returned.
+	 * @param relation The relation to find the opposing relation of.
+	 * @return EnumRelation constant that is the opposing relation of the specified relation value.
 	 */
 	public static EnumRelation getOpposingRelation(boolean isMale, EnumRelation relation)
 	{
 		switch (relation)
 		{
-		case Aunt:
-			return isMale ? EnumRelation.Nephew : EnumRelation.Niece;
-		case Brother:
-			return isMale ? EnumRelation.Brother : EnumRelation.Sister;
-		case Cousin:
-			return EnumRelation.Cousin;
-		case Daughter:
-			return isMale ? EnumRelation.Father : EnumRelation.Mother;
-		case Father:
-			return isMale ? EnumRelation.Son : EnumRelation.Daughter;
-		case Granddaughter:
-			return isMale ? EnumRelation.Grandfather : EnumRelation.Grandmother;
-		case Grandson:
-			return isMale ? EnumRelation.Grandfather : EnumRelation.Grandmother;
-		case Greatgranddaughter:
-			return isMale ? EnumRelation.Greatgrandfather : EnumRelation.Greatgrandmother;
-		case Greatgrandson:
-			return isMale ? EnumRelation.Greatgrandfather : EnumRelation.Greatgrandmother;
-		case Husband:
-			return isMale ? EnumRelation.Husband : EnumRelation.Wife;
-		case Mother:
-			return isMale ? EnumRelation.Son : EnumRelation.Daughter;
-		case Nephew:
-			return isMale ? EnumRelation.Uncle : EnumRelation.Aunt;
-		case Niece:
-			return isMale ? EnumRelation.Uncle : EnumRelation.Aunt;
-		case Sister:
-			return isMale ? EnumRelation.Brother : EnumRelation.Sister;
-		case Son:
-			return isMale ? EnumRelation.Father : EnumRelation.Mother;
-		case Uncle:
-			return isMale ? EnumRelation.Nephew : EnumRelation.Niece;
-		case Wife:
-			return isMale ? EnumRelation.Husband : EnumRelation.Wife;
-		case Spouse:
-			return isMale ? EnumRelation.Husband : EnumRelation.Wife;
-		case Grandparent:
-			return isMale ? EnumRelation.Grandson : EnumRelation.Granddaughter;
-		case Greatgrandparent:
-			return isMale ? EnumRelation.Greatgrandson : EnumRelation.Greatgranddaughter;
-		case Parent:
-			return isMale ? EnumRelation.Son : EnumRelation.Daughter;
-		default:
-			break;
+			case Aunt:
+				return isMale ? EnumRelation.Nephew : EnumRelation.Niece;
+			case Brother:
+				return isMale ? EnumRelation.Brother : EnumRelation.Sister;
+			case Cousin:
+				return EnumRelation.Cousin;
+			case Daughter:
+				return isMale ? EnumRelation.Father : EnumRelation.Mother;
+			case Father:
+				return isMale ? EnumRelation.Son : EnumRelation.Daughter;
+			case Granddaughter:
+				return isMale ? EnumRelation.Grandfather : EnumRelation.Grandmother;
+			case Grandson:
+				return isMale ? EnumRelation.Grandfather : EnumRelation.Grandmother;
+			case Greatgranddaughter:
+				return isMale ? EnumRelation.Greatgrandfather : EnumRelation.Greatgrandmother;
+			case Greatgrandson:
+				return isMale ? EnumRelation.Greatgrandfather : EnumRelation.Greatgrandmother;
+			case Husband:
+				return isMale ? EnumRelation.Husband : EnumRelation.Wife;
+			case Mother:
+				return isMale ? EnumRelation.Son : EnumRelation.Daughter;
+			case Nephew:
+				return isMale ? EnumRelation.Uncle : EnumRelation.Aunt;
+			case Niece:
+				return isMale ? EnumRelation.Uncle : EnumRelation.Aunt;
+			case Sister:
+				return isMale ? EnumRelation.Brother : EnumRelation.Sister;
+			case Son:
+				return isMale ? EnumRelation.Father : EnumRelation.Mother;
+			case Uncle:
+				return isMale ? EnumRelation.Nephew : EnumRelation.Niece;
+			case Wife:
+				return isMale ? EnumRelation.Husband : EnumRelation.Wife;
+			case Spouse:
+				return isMale ? EnumRelation.Husband : EnumRelation.Wife;
+			case Grandparent:
+				return isMale ? EnumRelation.Grandson : EnumRelation.Granddaughter;
+			case Greatgrandparent:
+				return isMale ? EnumRelation.Greatgrandson : EnumRelation.Greatgranddaughter;
+			case Parent:
+				return isMale ? EnumRelation.Son : EnumRelation.Daughter;
+			default:
+				break;
 		}
 
 		return EnumRelation.None;
@@ -110,8 +106,8 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Adds the specified entity and relation value to the family tree.
 	 * 
-	 * @param 	player		The player being added to the family tree.
-	 * @param 	relation	The relation to the owner of the family tree.
+	 * @param player The player being added to the family tree.
+	 * @param relation The relation to the owner of the family tree.
 	 */
 	public void addFamilyTreeEntry(EntityPlayer player, EnumRelation relation)
 	{
@@ -121,8 +117,8 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Adds the specified entity and relation value to the family tree.
 	 * 
-	 * @param 	entity		The entity being added to the family tree.
-	 * @param 	relation	The entity's relation to the owner of the family tree.
+	 * @param entity The entity being added to the family tree.
+	 * @param relation The entity's relation to the owner of the family tree.
 	 */
 	public void addFamilyTreeEntry(AbstractEntity entity, EnumRelation relation)
 	{
@@ -135,8 +131,8 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Adds the specified int and relation value to the family tree.
 	 * 
-	 * @param 	idToAdd			The ID to add to the family tree.
-	 * @param 	relation	The relation of the entity with the specified ID to the owner of the family tree.
+	 * @param idToAdd The ID to add to the family tree.
+	 * @param relation The relation of the entity with the specified ID to the owner of the family tree.
 	 */
 	public void addFamilyTreeEntry(int idToAdd, EnumRelation relation)
 	{
@@ -146,7 +142,7 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Removes the provided player from the family tree.
 	 * 
-	 * @param 	player	The player to remove from the family tree.
+	 * @param player The player to remove from the family tree.
 	 */
 	public void removeFamilyTreeEntry(EntityPlayer player)
 	{
@@ -156,7 +152,7 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Removes the provided entity from the family tree.
 	 * 
-	 * @param 	entity	The entity to remove from the family tree.
+	 * @param entity The entity to remove from the family tree.
 	 */
 	public void removeFamilyTreeEntry(AbstractEntity entity)
 	{
@@ -166,7 +162,7 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Removes the provided ID from the family tree.
 	 * 
-	 * @param 	mcaId	The ID to remove from the family tree.
+	 * @param mcaId The ID to remove from the family tree.
 	 */
 	public void removeFamilyTreeEntry(int mcaId)
 	{
@@ -176,13 +172,13 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Removes the provided EnumRelation from the family tree.
 	 * 
-	 * @param 	relation	The EnumRelation to remove from the family tree.
+	 * @param relation The EnumRelation to remove from the family tree.
 	 */
 	public void removeFamilyTreeEntry(EnumRelation relation)
 	{
 		int removalKey = 0;
 
-		for(final Map.Entry<Integer, EnumRelation> entry : relationMap.entrySet())
+		for (final Map.Entry<Integer, EnumRelation> entry : relationMap.entrySet())
 		{
 			if (entry.getValue().equals(relation))
 			{
@@ -196,9 +192,8 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Checks if an entity is related to the owner of this family tree.
 	 * 
-	 * @param	entity	The entity being checked for relation to the owner.
-	 * 
-	 * @return	boolean identifying whether or not the provided entity is related to the owner of the family tree.
+	 * @param entity The entity being checked for relation to the owner.
+	 * @return boolean identifying whether or not the provided entity is related to the owner of the family tree.
 	 */
 	public boolean entityIsARelative(AbstractEntity entity)
 	{
@@ -208,9 +203,8 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Checks if an id is related to the owner of this family tree.
 	 * 
-	 * @param	mcaID	The entity id being checked for relation to the owner.
-	 * 
-	 * @return	boolean identifying whether or not the provided entity is related to the owner of the family tree.
+	 * @param mcaID The entity id being checked for relation to the owner.
+	 * @return boolean identifying whether or not the provided entity is related to the owner of the family tree.
 	 */
 	public boolean idIsARelative(int mcaID)
 	{
@@ -220,9 +214,8 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Gets a person's relation to the owner from the map.
 	 * 
-	 * @param 	entity	The entity whose relationship is being retrieved.
-	 * 
-	 * @return	The relation of the entity provided to the owner of this family tree.
+	 * @param entity The entity whose relationship is being retrieved.
+	 * @return The relation of the entity provided to the owner of this family tree.
 	 */
 	public EnumRelation getRelationOf(AbstractEntity entity)
 	{
@@ -240,9 +233,8 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Gets a person's relation to the owner from the map.
 	 * 
-	 * @param 	mcaID	The ID of the entity.
-	 * 
-	 * @return	The relation of the entity with the provided ID.
+	 * @param mcaID The ID of the entity.
+	 * @return The relation of the entity with the provided ID.
 	 */
 	public EnumRelation getRelationOf(int mcaID)
 	{
@@ -306,9 +298,8 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Gets a person's relation to the owner from the map.
 	 * 
-	 * @param 	entity	The entity whose relationship is being retrieved.
-	 * 
-	 * @return	The relation of the entity provided to the owner of this family tree.
+	 * @param entity The entity whose relationship is being retrieved.
+	 * @return The relation of the entity provided to the owner of this family tree.
 	 */
 	public EnumRelation getMyRelationTo(AbstractEntity entity)
 	{
@@ -326,9 +317,8 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Gets a person's relation to the owner from the map.
 	 * 
-	 * @param 	mcaID	The ID of the entity.
-	 * 
-	 * @return	The relation of the entity with the provided ID.
+	 * @param mcaID The ID of the entity.
+	 * @return The relation of the entity with the provided ID.
 	 */
 	public EnumRelation getMyRelationTo(int mcaID)
 	{
@@ -346,9 +336,8 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Gets the ID of the first entity contained in the family tree that has the specified relation.
 	 * 
-	 * @param	relation	The EnumRelation value that an entity should have.
-	 * 
-	 * @return	The entity's ID who has the specified relation to the owner of the family tree. 0 if one is not found.
+	 * @param relation The EnumRelation value that an entity should have.
+	 * @return The entity's ID who has the specified relation to the owner of the family tree. 0 if one is not found.
 	 */
 	public int getFirstIDWithRelation(EnumRelation relation)
 	{
@@ -366,9 +355,8 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Get a list of all the entities contained in the family tree that have the specified relation.
 	 * 
-	 * @param	relation	The EnumRelation value that an entity should have.
-	 * 
-	 * @return	List containing the IDs of entities who have the specified relation to the owner of the family tree.
+	 * @param relation The EnumRelation value that an entity should have.
+	 * @return List containing the IDs of entities who have the specified relation to the owner of the family tree.
 	 */
 	public List<Integer> getIDsWithRelation(EnumRelation relation)
 	{
@@ -388,13 +376,13 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Writes the entity's family tree to NBT.
 	 * 
-	 * @param	nbt	The NBT object that saves information about the entity.
+	 * @param nbt The NBT object that saves information about the entity.
 	 */
 	public void writeTreeToNBT(NBTTagCompound nbt)
 	{
 		int counter = 0;
 
-		for(final Map.Entry<Integer, EnumRelation> KVP : relationMap.entrySet())
+		for (final Map.Entry<Integer, EnumRelation> KVP : relationMap.entrySet())
 		{
 			nbt.setInteger("familyTreeEntryID" + counter, KVP.getKey());
 			nbt.setString("familyTreeEntryRelation" + counter, KVP.getValue().getValue());
@@ -406,7 +394,7 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Reads the entity's family tree from NBT.
 	 * 
-	 * @param	nbt	The NBT object that reads information about the entity.
+	 * @param nbt The NBT object that reads information about the entity.
 	 */
 	public void readTreeFromNBT(NBTTagCompound nbt)
 	{
@@ -446,11 +434,10 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Gets an instance of the entity whose relation to this entity matches the provided relation.
 	 * 
-	 * @param 	relation	The relation of the entity that should be returned.
-	 * 
-	 * @return	Entity whose relation to this entity matches the provided relation.
+	 * @param relation The relation of the entity that should be returned.
+	 * @return Entity whose relation to this entity matches the provided relation.
 	 */
-	public AbstractEntity getRelativeAsEntity(EnumRelation relation) 
+	public AbstractEntity getRelativeAsEntity(EnumRelation relation)
 	{
 		for (final Map.Entry<Integer, EnumRelation> entrySet : relationMap.entrySet())
 		{
@@ -469,7 +456,7 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Gets a list of all the players related to this entity.
 	 * 
-	 * @return	A list of all the players contained in the relation map.
+	 * @return A list of all the players contained in the relation map.
 	 */
 	public List<Integer> getListOfPlayerIDs()
 	{
@@ -490,13 +477,13 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Sets the relation map of the family tree to the provided map value.
 	 * 
-	 * @param 	map	The map containing relation information.
+	 * @param map The map containing relation information.
 	 */
 	public void setRelationMap(Map<Integer, EnumRelation> map)
 	{
-		this.relationMap = map;
+		relationMap = map;
 	}
-	
+
 	public Map<Integer, EnumRelation> getRelationMap()
 	{
 		return relationMap;
@@ -505,7 +492,7 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Returns a clone of this family tree.
 	 * 
-	 * @return	Value copy of the family tree referenced by this instance of FamilyTree.
+	 * @return Value copy of the family tree referenced by this instance of FamilyTree.
 	 */
 	@Override
 	public FamilyTree clone()

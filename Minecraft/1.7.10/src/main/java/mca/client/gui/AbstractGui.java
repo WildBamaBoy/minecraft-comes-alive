@@ -2,9 +2,7 @@
  * AbstractGui.java
  * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/gpl.html
+ * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
 package mca.client.gui;
@@ -26,26 +24,26 @@ public abstract class AbstractGui extends GuiScreen
 {
 	/** The last GUI screen shown. */
 	protected GuiScreen parentGui;
-	
+
 	/** An instance of the player that opened this GUI. */
 	protected EntityPlayer player;
-	
+
 	/** Should an interaction's success chance be displayed? */
 	protected boolean displaySuccessChance;
-	
+
 	/** Is the user currenty in the interaction select GUI? */
 	protected boolean inInteractionSelectGui;
-	
+
 	/**
 	 * Constructor
 	 * 
-	 * @param 	player	The player who caused this GUI to open.
+	 * @param player The player who caused this GUI to open.
 	 */
 	public AbstractGui(EntityPlayer player)
 	{
 		this.player = player;
-		this.displaySuccessChance = false;
-		this.inInteractionSelectGui = false;
+		displaySuccessChance = false;
+		inInteractionSelectGui = false;
 	}
 
 	/**
@@ -57,13 +55,13 @@ public abstract class AbstractGui extends GuiScreen
 		{
 			Minecraft.getMinecraft().displayGuiScreen(parentGui);
 		}
-		
+
 		else
 		{
 			Minecraft.getMinecraft().displayGuiScreen(null);
 		}
 	}
-	
+
 	/**
 	 * Closes the GUI screen.
 	 */
@@ -79,14 +77,14 @@ public abstract class AbstractGui extends GuiScreen
 		{
 			close();
 		}
-		
+
 		else if ((eventKey == Keyboard.KEY_LCONTROL || eventKey == Keyboard.KEY_RCONTROL) && inInteractionSelectGui)
 		{
 			displaySuccessChance = !displaySuccessChance;
 			drawInteractionGui();
 		}
 	}
-	
+
 	/**
 	 * Draws the interaction GUI for the villager. Override.
 	 */

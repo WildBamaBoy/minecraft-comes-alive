@@ -2,9 +2,7 @@
  * CommandHelp.java
  * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/gpl.html
+ * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
 package mca.command;
@@ -19,24 +17,24 @@ import com.radixshock.radixcore.constant.Font.Color;
 public class CommandHelp extends AbstractCommand
 {
 	@Override
-	public String getCommandUsage(ICommandSender sender) 
+	public String getCommandUsage(ICommandSender sender)
 	{
 		return "/mca.help";
 	}
 
 	@Override
-	public String getCommandName() 
+	public String getCommandName()
 	{
 		return "mca.help";
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] arguments) 
+	public void processCommand(ICommandSender sender, String[] arguments)
 	{
 		final StringBuilder stringBuilder = new StringBuilder(1024);
 
 		stringBuilder.append("-----------------------------------------\n");
-		
+
 		stringBuilder.append("/mca.help\n");
 		stringBuilder.append("/mca.checkupdates <on/off>\n");
 		stringBuilder.append("/mca.set.name <name>\n");
@@ -54,6 +52,6 @@ public class CommandHelp extends AbstractCommand
 
 		stringBuilder.append("-----------------------------------------");
 
-		this.addChatMessage(sender, "multiplayer.command.output.help", Color.GREEN, "\n" + stringBuilder.toString());
+		addChatMessage(sender, "multiplayer.command.output.help", Color.GREEN, "\n" + stringBuilder.toString());
 	}
 }

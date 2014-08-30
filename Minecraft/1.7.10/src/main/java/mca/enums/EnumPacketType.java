@@ -2,9 +2,7 @@
  * EnumPacketType.java
  * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/gpl.html
+ * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
 package mca.enums;
@@ -26,31 +24,31 @@ public enum EnumPacketType
 	//Engagement,
 	//ForceRespawn,
 	//GetTombstoneText,
-//	HaveBaby,
+	//	HaveBaby,
 	//KillEntity,
 	//MountHorse,
 	//NameBaby,
 	//NotifyPlayer,
-//	OpenGui,
-//	PlayerMarriage,
+	//	OpenGui,
+	//	PlayerMarriage,
 	//RemoveBabyRequest,
 	//RemoveItem,
 	//RemoveMarriageRequest,
-//	ReturnInventory,
-//	SayLocalized,
-//	SetChore,
-//	SetFamilyTree,
-//	SetFieldValue,
-//	SetInventory,
-//	SetPosition,
-//	SetTarget,
+	//	ReturnInventory,
+	//	SayLocalized,
+	//	SetChore,
+	//	SetFamilyTree,
+	//	SetFieldValue,
+	//	SetInventory,
+	//	SetPosition,
+	//	SetTarget,
 	//SetTombstoneText,
 	//SetWorldProperties,
-//	StartTrade, 
-//	StopJumping,
-//	SwingArm,
-//	Sync,
-//	SyncEditorSettings,
-//	SyncRequest,
-//	UpdateFurnace;
+	//	StartTrade, 
+	//	StopJumping,
+	//	SwingArm,
+	//	Sync,
+	//	SyncEditorSettings,
+	//	SyncRequest,
+	//	UpdateFurnace;
 }

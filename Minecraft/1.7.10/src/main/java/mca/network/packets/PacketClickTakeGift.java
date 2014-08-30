@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * PacketClickTakeGift.java
+ * Copyright (c) 2014 Radix-Shock Entertainment.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the MCA Minecraft Mod license.
+ ******************************************************************************/
+
 package mca.network.packets;
 
 import io.netty.buffer.ByteBuf;
@@ -26,26 +33,29 @@ public class PacketClickTakeGift extends AbstractPacket implements IMessage, IMe
 	}
 
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		interactingEntityId = byteBuf.readInt();
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(interactingEntityId);
 	}
 
 	@Override
-	public IMessage onMessage(PacketClickTakeGift packet, MessageContext context) 
+	public IMessage onMessage(PacketClickTakeGift packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
 		final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(packet.interactingEntityId);
-		final ItemStack dropStack = LogicExtension.getGiftStackFromRelationship(player, entity);
 
-		entity.entityDropItem(dropStack, 0.2F);
-		
+		if (entity != null)
+		{
+			final ItemStack dropStack = LogicExtension.getGiftStackFromRelationship(player, entity);
+			entity.entityDropItem(dropStack, 0.2F);
+		}
+
 		return null;
 	}
 }

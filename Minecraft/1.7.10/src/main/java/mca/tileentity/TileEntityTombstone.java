@@ -2,9 +2,7 @@
  * TileEntityTombstone.java
  * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/gpl.html
+ * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
 package mca.tileentity;
@@ -27,10 +25,7 @@ public class TileEntityTombstone extends TileEntity
 	public boolean hasSynced;
 
 	/** The text displayed on the tombstone. */
-	public String signText[] =
-		{
-			"Here Lies", "", "", ""
-		};
+	public String signText[] = { "Here Lies", "", "", "" };
 
 	/**
 	 * Constructor
@@ -67,7 +62,7 @@ public class TileEntityTombstone extends TileEntity
 
 		for (int i = 0; i < 4; i++)
 		{
-			signText[i] = nbt.getString((new StringBuilder()).append("Text").append(i + 1).toString());
+			signText[i] = nbt.getString(new StringBuilder().append("Text").append(i + 1).toString());
 
 			if (signText[i].length() > 15)
 			{

@@ -2,9 +2,7 @@
  * AbstractCommand.java
  * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/gpl.html
+ * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
 package mca.command;
@@ -22,7 +20,7 @@ import net.minecraft.world.WorldServer;
  * Base class for all commands used in MCA.
  */
 public abstract class AbstractCommand extends CommandBase
-{	
+{
 	@Override
 	public abstract String getCommandUsage(ICommandSender sender);
 
@@ -43,9 +41,9 @@ public abstract class AbstractCommand extends CommandBase
 	{
 		return 0;
 	}
-	
+
 	@Override
-	public int compareTo(Object arg0) 
+	public int compareTo(Object arg0)
 	{
 		return 0;
 	}
@@ -53,10 +51,10 @@ public abstract class AbstractCommand extends CommandBase
 	/**
 	 * Sends a packet to the player so that the output from the command will be translated into their selected language.
 	 * 
-	 * @param 	sender		The player who is using the command.
-	 * @param 	phraseId	The ID of the phrase to send.
-	 * @param 	prefix		The prefix to add to the translated phrase.
-	 * @param 	suffix		The suffix to add to the translated phrase.
+	 * @param sender The player who is using the command.
+	 * @param phraseId The ID of the phrase to send.
+	 * @param prefix The prefix to add to the translated phrase.
+	 * @param suffix The suffix to add to the translated phrase.
 	 */
 	public void addChatMessage(ICommandSender sender, String phraseId, String prefix, String suffix)
 	{
@@ -71,18 +69,17 @@ public abstract class AbstractCommand extends CommandBase
 			}
 		}
 
-		MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(player, null, phraseId, false, prefix, suffix), (EntityPlayerMP)player);
+		MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(player, null, phraseId, false, prefix, suffix), (EntityPlayerMP) player);
 	}
 
 	/**
-	 * Sends a packet to another player using the provided sender as the player for the parser. This packet translates the provided
-	 * phrase ID into the recipient's chosen language.
+	 * Sends a packet to another player using the provided sender as the player for the parser. This packet translates the provided phrase ID into the recipient's chosen language.
 	 * 
-	 * @param 	sender		The player who sent the command.
-	 * @param 	recipient	The player who should receive the packet.
-	 * @param 	phraseId	The ID of the phrase to send them.
-	 * @param 	prefix		The prefix to add to the translated phrase.
-	 * @param 	suffix		The suffix to add to the translated phrase.
+	 * @param sender The player who sent the command.
+	 * @param recipient The player who should receive the packet.
+	 * @param phraseId The ID of the phrase to send them.
+	 * @param prefix The prefix to add to the translated phrase.
+	 * @param suffix The suffix to add to the translated phrase.
 	 */
 	public void sendChatToOtherPlayer(ICommandSender sender, EntityPlayer recipient, String phraseId, String prefix, String suffix)
 	{
@@ -90,13 +87,13 @@ public abstract class AbstractCommand extends CommandBase
 
 		for (final WorldServer world : MinecraftServer.getServer().worldServers)
 		{
-			if (world.getPlayerEntityByName(sender.getCommandSenderName()) != null)
+			if (world.getPlayerEntityByName(recipient.getCommandSenderName()) != null)
 			{
-				player = world.getPlayerEntityByName(sender.getCommandSenderName());
+				player = world.getPlayerEntityByName(recipient.getCommandSenderName());
 				break;
 			}
 		}
 
-		MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(player, null, phraseId, false, prefix, suffix), (EntityPlayerMP)player);
+		MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized((EntityPlayer) sender, null, phraseId, false, prefix, suffix), (EntityPlayerMP) player);
 	}
 }

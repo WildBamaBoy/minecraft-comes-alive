@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * PacketRegistry.java
+ * Copyright (c) 2014 Radix-Shock Entertainment.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the MCA Minecraft Mod license.
+ ******************************************************************************/
+
 package mca.network;
 
 import mca.network.packets.PacketAddAI;
@@ -6,18 +13,16 @@ import mca.network.packets.PacketBabyInfo;
 import mca.network.packets.PacketClickAid;
 import mca.network.packets.PacketClickMountHorse;
 import mca.network.packets.PacketClickTakeGift;
-import mca.network.packets.PacketClientCommand;
 import mca.network.packets.PacketGetTombstoneText;
+import mca.network.packets.PacketNotifyLocalized;
 import mca.network.packets.PacketNotifyPlayer;
 import mca.network.packets.PacketOnClickTrade;
 import mca.network.packets.PacketOnEngagement;
 import mca.network.packets.PacketOnPlayerMarriage;
-import mca.network.packets.PacketOnPlayerProcreate;
 import mca.network.packets.PacketOnVillagerProcreate;
 import mca.network.packets.PacketOpenGui;
-import mca.network.packets.PacketRemoveBabyRequest;
+import mca.network.packets.PacketPlayerInteraction;
 import mca.network.packets.PacketRemoveItem;
-import mca.network.packets.PacketRemoveMarriageRequest;
 import mca.network.packets.PacketReturnInventory;
 import mca.network.packets.PacketSayLocalized;
 import mca.network.packets.PacketSetChore;
@@ -40,7 +45,7 @@ import com.radixshock.radixcore.network.AbstractPacketHandler;
 
 public class PacketRegistry extends AbstractPacketHandler
 {
-	public PacketRegistry(IEnforcedCore ownerMod) 
+	public PacketRegistry(IEnforcedCore ownerMod)
 	{
 		super(ownerMod);
 	}
@@ -48,39 +53,37 @@ public class PacketRegistry extends AbstractPacketHandler
 	@Override
 	public void registerPackets()
 	{
-		this.registerDoubleSidedPacket(PacketAddAI.class, 0);
-		this.registerDoubleSidedPacket(PacketAddBaby.class, 1);
-		this.registerDoubleSidedPacket(PacketBabyInfo.class, 2);
-		this.registerDoubleSidedPacket(PacketClickAid.class, 3);
-		this.registerDoubleSidedPacket(PacketClickMountHorse.class, 4);
-		this.registerDoubleSidedPacket(PacketClickTakeGift.class, 5);
-		this.registerDoubleSidedPacket(PacketClientCommand.class, 6);
-		this.registerDoubleSidedPacket(PacketGetTombstoneText.class, 7);
-		this.registerDoubleSidedPacket(PacketNotifyPlayer.class, 8);
-		this.registerDoubleSidedPacket(PacketOnClickTrade.class, 9);
-		this.registerDoubleSidedPacket(PacketOnEngagement.class, 10);
-		this.registerDoubleSidedPacket(PacketOnPlayerMarriage.class, 11);
-		this.registerDoubleSidedPacket(PacketOnPlayerProcreate.class, 12);
-		this.registerDoubleSidedPacket(PacketOnVillagerProcreate.class, 13);
-		this.registerDoubleSidedPacket(PacketOpenGui.class, 14);
-		this.registerDoubleSidedPacket(PacketRemoveBabyRequest.class, 15);
-		this.registerDoubleSidedPacket(PacketRemoveItem.class, 16);
-		this.registerDoubleSidedPacket(PacketRemoveMarriageRequest.class, 17);
-		this.registerDoubleSidedPacket(PacketReturnInventory.class, 18);
-		this.registerDoubleSidedPacket(PacketSayLocalized.class, 19);
-		this.registerDoubleSidedPacket(PacketSetChore.class, 20);
-		this.registerDoubleSidedPacket(PacketSetFamilyTree.class, 21);
-		this.registerDoubleSidedPacket(PacketSetFieldValue.class, 22);
-		this.registerDoubleSidedPacket(PacketSetInventory.class, 23);
-		this.registerDoubleSidedPacket(PacketSetPosition.class, 24);
-		this.registerDoubleSidedPacket(PacketSetTarget.class, 25);
-		this.registerDoubleSidedPacket(PacketSetTombstoneText.class, 26);
-		this.registerDoubleSidedPacket(PacketSetWorldProperties.class, 27);
-		this.registerDoubleSidedPacket(PacketStopJumping.class, 28);
-		this.registerDoubleSidedPacket(PacketSwingArm.class, 29);
-		this.registerDoubleSidedPacket(PacketSync.class, 30);
-		this.registerDoubleSidedPacket(PacketSyncEditorSettings.class, 31);
-		this.registerDoubleSidedPacket(PacketSyncRequest.class, 32);
-		this.registerDoubleSidedPacket(PacketUpdateFurnace.class, 33);
+		registerDoubleSidedPacket(PacketAddAI.class, 0);
+		registerDoubleSidedPacket(PacketAddBaby.class, 1);
+		registerDoubleSidedPacket(PacketBabyInfo.class, 2);
+		registerDoubleSidedPacket(PacketClickAid.class, 3);
+		registerDoubleSidedPacket(PacketClickMountHorse.class, 4);
+		registerDoubleSidedPacket(PacketClickTakeGift.class, 5);
+		registerDoubleSidedPacket(PacketGetTombstoneText.class, 7);
+		registerDoubleSidedPacket(PacketNotifyPlayer.class, 8);
+		registerDoubleSidedPacket(PacketOnClickTrade.class, 9);
+		registerDoubleSidedPacket(PacketOnEngagement.class, 10);
+		registerDoubleSidedPacket(PacketOnPlayerMarriage.class, 11);
+		registerDoubleSidedPacket(PacketOnVillagerProcreate.class, 13);
+		registerDoubleSidedPacket(PacketOpenGui.class, 14);
+		registerDoubleSidedPacket(PacketRemoveItem.class, 16);
+		registerDoubleSidedPacket(PacketReturnInventory.class, 18);
+		registerDoubleSidedPacket(PacketSayLocalized.class, 19);
+		registerDoubleSidedPacket(PacketSetChore.class, 20);
+		registerDoubleSidedPacket(PacketSetFamilyTree.class, 21);
+		registerDoubleSidedPacket(PacketSetFieldValue.class, 22);
+		registerDoubleSidedPacket(PacketSetInventory.class, 23);
+		registerDoubleSidedPacket(PacketSetPosition.class, 24);
+		registerDoubleSidedPacket(PacketSetTarget.class, 25);
+		registerDoubleSidedPacket(PacketSetTombstoneText.class, 26);
+		registerDoubleSidedPacket(PacketSetWorldProperties.class, 27);
+		registerDoubleSidedPacket(PacketStopJumping.class, 28);
+		registerDoubleSidedPacket(PacketSwingArm.class, 29);
+		registerDoubleSidedPacket(PacketSync.class, 30);
+		registerDoubleSidedPacket(PacketSyncEditorSettings.class, 31);
+		registerDoubleSidedPacket(PacketSyncRequest.class, 32);
+		registerDoubleSidedPacket(PacketUpdateFurnace.class, 33);
+		registerDoubleSidedPacket(PacketPlayerInteraction.class, 34);
+		registerDoubleSidedPacket(PacketNotifyLocalized.class, 35);
 	}
 }

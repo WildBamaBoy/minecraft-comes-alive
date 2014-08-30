@@ -2,9 +2,7 @@
  * GuiInteractionVillagerAdult.java
  * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/gpl.html
+ * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
 package mca.client.gui;
@@ -65,10 +63,10 @@ import cpw.mods.fml.relauncher.SideOnly;
  * Defines the GUI used to interact with a villager.
  */
 @SideOnly(Side.CLIENT)
-public class GuiInteractionVillagerAdult extends AbstractGui 
+public class GuiInteractionVillagerAdult extends AbstractGui
 {
 	/** An instance of the villager. */
-	private AbstractEntity entityVillager;
+	private final AbstractEntity entityVillager;
 
 	/** Hearts value for the player. */
 	int hearts;
@@ -180,7 +178,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	private boolean inHuntingGui = false;
 	private boolean inHiringGui = false;
 
-	/** The method that should be used when farming. 0 = Create farm. 1 = maintain farm.*/
+	/** The method that should be used when farming. 0 = Create farm. 1 = maintain farm. */
 	private int farmMethod = 0;
 
 	/** The type of seeds that should be planted. */
@@ -189,19 +187,19 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/** The radius of the total area to farm when maintaining a farm. */
 	private int farmRadius = 5;
 
-	/** The index of the type of tree that should be cut.*/
+	/** The index of the type of tree that should be cut. */
 	private int treeTypeIndex = 0;
 
-	/** How mining should be performed. 0 = Passive, 1 = Active*/
+	/** How mining should be performed. 0 = Passive, 1 = Active */
 	private int mineMethod = 0;
 
-	/** The direction mining should go. 0 = Forward, 1 = Backward, 2 = Left, 3 = Right*/
+	/** The direction mining should go. 0 = Forward, 1 = Backward, 2 = Left, 3 = Right */
 	private int mineDirection = 0;
 
-	/** The ore that should be mined. 0 = Coal, 1 = Iron, 2 = Lapis Lazuli, 3 = Gold, 4 = Diamond, 5 = Redstone, 6 = Emerald*/
+	/** The ore that should be mined. 0 = Coal, 1 = Iron, 2 = Lapis Lazuli, 3 = Gold, 4 = Diamond, 5 = Redstone, 6 = Emerald */
 	private int mineOre = 0;
 
-	/** The distance in blocks that mining should go.*/
+	/** The distance in blocks that mining should go. */
 	private int mineDistance = 5;
 
 	/** From a 2D perspective, the X side of the farming area. */
@@ -213,7 +211,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/** How hunting should be performed. 0 = kill. 1 = tame */
 	private int huntMode = 0;
 
-	private FarmableCrop cropEntry = ChoreRegistry.getFarmingCropEntries().get(0);
+	private final FarmableCrop cropEntry = ChoreRegistry.getFarmingCropEntries().get(0);
 	private CuttableLog treeEntry = ChoreRegistry.getWoodcuttingTreeEntries().get(0);
 
 	//Fields used to help draw text and manipulate buttons on the gui.
@@ -224,8 +222,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/**
 	 * Constructor
 	 * 
-	 * @param 	entity	The entity that is being interacted with.
-	 * @param   player	The player interacting with the entity.
+	 * @param entity The entity that is being interacted with.
+	 * @param player The player interacting with the entity.
 	 */
 	public GuiInteractionVillagerAdult(AbstractEntity entity, EntityPlayer player)
 	{
@@ -310,14 +308,30 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			{
 				switch (entityVillager.profession)
 				{
-				case 0: actionPerformedFarmer(button); break;
-				case 1: actionPerformedLibrarian(button); break;
-				case 2: actionPerformedPriest(button); break;
-				case 3: actionPerformedSmith(button); break;
-				case 4: actionPerformedButcher(button); break;
-				case 5: actionPerformedGuard(button); break;
-				case 6: actionPerformedBaker(button); break;
-				case 7: actionPerformedMiner(button); break;
+					case 0:
+						actionPerformedFarmer(button);
+						break;
+					case 1:
+						actionPerformedLibrarian(button);
+						break;
+					case 2:
+						actionPerformedPriest(button);
+						break;
+					case 3:
+						actionPerformedSmith(button);
+						break;
+					case 4:
+						actionPerformedButcher(button);
+						break;
+					case 5:
+						actionPerformedGuard(button);
+						break;
+					case 6:
+						actionPerformedBaker(button);
+						break;
+					case 7:
+						actionPerformedMiner(button);
+						break;
 				}
 			}
 		}
@@ -382,12 +396,12 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			//They're not a peasant or a knight, so check if they're hired by this player and place (Hired) beside their name if they are.
 			else if (entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired)
 			{
-				PlayerMemory memory = entityVillager.playerMemoryMap.get(player.getCommandSenderName());
+				final PlayerMemory memory = entityVillager.playerMemoryMap.get(player.getCommandSenderName());
 				drawCenteredString(fontRendererObj, entityVillager.getTitle(MCA.getInstance().getIdOfPlayer(player), true) + " " + MCA.getInstance().getLanguageLoader().getString("gui.title.special.hired"), width / 2, height / 2 - 80, 0xffffff);
 
 				if (!inSpecialGui)
 				{
-					drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.info.hire.minutesremaining").replace("%x%", Integer.valueOf((memory.hoursHired * 60) - memory.minutesSinceHired).toString()), width / 2, height / 2, 0xffffff);
+					drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.info.hire.minutesremaining").replace("%x%", Integer.valueOf(memory.hoursHired * 60 - memory.minutesSinceHired).toString()), width / 2, height / 2, 0xffffff);
 				}
 			}
 
@@ -397,19 +411,18 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				drawCenteredString(fontRendererObj, entityVillager.getTitle(MCA.getInstance().getIdOfPlayer(player), true), width / 2, height / 2 - 80, 0xffffff);
 			}
 
-
 			/**********************************
 			 * Spousal IF block
 			 **********************************/
 			//Check if they have a spouse...
-			AbstractEntity spouse = entityVillager.familyTree.getRelativeAsEntity(EnumRelation.Spouse);
+			final AbstractEntity spouse = entityVillager.familyTree.getRelativeAsEntity(EnumRelation.Spouse);
 
 			if (spouse != null)
 			{
 				//If they have a villager spouse and the player is related, then draw (Married to %SpouseRelation% %SpouseName%.)
 				if (entityVillager.isMarriedToVillager && spouse.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 				{
-					drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.info.family.spouse", player, entityVillager, false), width / 2 , height / 2 - 60, 0xffffff);
+					drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.info.family.spouse", player, entityVillager, false), width / 2, height / 2 - 60, 0xffffff);
 				}
 
 				//Workaround for grandchildren.
@@ -429,17 +442,17 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			//They're not married at all. Check to see if they have parents and draw their names.
 			else
 			{
-				List<Integer> parents = entityVillager.familyTree.getIDsWithRelation(EnumRelation.Parent);
+				final List<Integer> parents = entityVillager.familyTree.getIDsWithRelation(EnumRelation.Parent);
 
 				if (parents.size() == 2)
 				{
 					int parent1Id = -1;
 					int parent2Id = -1;
 
-					for (Map.Entry<Integer, Integer> entry : MCA.getInstance().idsMap.entrySet())
+					for (final Map.Entry<Integer, Integer> entry : MCA.getInstance().idsMap.entrySet())
 					{
-						int keyInt = entry.getKey();
-						int valueInt = entry.getValue();
+						final int keyInt = entry.getKey();
+						final int valueInt = entry.getValue();
 
 						if (keyInt == parents.get(0))
 						{
@@ -454,11 +467,11 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 					try
 					{
-						AbstractEntity parent1 = (AbstractEntity) entityVillager.worldObj.getEntityByID(parent1Id);
-						AbstractEntity parent2 = (AbstractEntity) entityVillager.worldObj.getEntityByID(parent2Id);
+						final AbstractEntity parent1 = (AbstractEntity) entityVillager.worldObj.getEntityByID(parent1Id);
+						final AbstractEntity parent2 = (AbstractEntity) entityVillager.worldObj.getEntityByID(parent2Id);
 
-						boolean bothParentsAlive = parent1 != null && parent2 != null;
-						boolean neitherParentsAlive = parent1 == null && parent2 == null;
+						final boolean bothParentsAlive = parent1 != null && parent2 != null;
+						final boolean neitherParentsAlive = parent1 == null && parent2 == null;
 
 						if (bothParentsAlive)
 						{
@@ -477,7 +490,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 						}
 					}
 
-					catch (NullPointerException e) {}
+					catch (final NullPointerException e)
+					{
+					}
 				}
 			}
 
@@ -488,7 +503,6 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			{
 				backButton.enabled = true;
 				drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.info.chore.options"), width / 2, 80, 0xffffff);
-
 
 				combatMethodButton.enabled = true;
 				combatAttackPigsButton.enabled = true;
@@ -511,10 +525,10 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				backButton.enabled = true;
 				drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.info.chore.options"), width / 2, 80, 0xffffff);
 
-				mineMethodButton.enabled    = false;
+				mineMethodButton.enabled = false;
 				mineDirectionButton.enabled = mineMethod == 1 ? true : false;
-				mineDistanceButton.enabled  = mineMethod == 1 ? true : false;
-				mineFindButton.enabled      = mineMethod == 0 ? true : false;
+				mineDistanceButton.enabled = mineMethod == 1 ? true : false;
+				mineFindButton.enabled = mineMethod == 0 ? true : false;
 			}
 
 			if (inSpecialGui)
@@ -539,10 +553,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 				boolean hasGold = false;
 
-				for (int index = 0; index < player.inventory.mainInventory.length; index++)
+				for (final ItemStack stack : player.inventory.mainInventory)
 				{
-					ItemStack stack = player.inventory.mainInventory[index];
-
 					if (stack != null)
 					{
 						if (stack.getItem() == Items.gold_ingot)
@@ -570,27 +582,27 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 			if (displaySuccessChance)
 			{
-				PlayerMemory memory = entityVillager.playerMemoryMap.get(player.getCommandSenderName());
-				EnumMood mood = entityVillager.mood;
-				EnumTrait trait = entityVillager.trait;
+				final PlayerMemory memory = entityVillager.playerMemoryMap.get(player.getCommandSenderName());
+				final EnumMood mood = entityVillager.mood;
+				final EnumTrait trait = entityVillager.trait;
 
 				int chatChance = 65 + -(memory.interactionFatigue * 7) + mood.getChanceModifier("chat") + trait.getChanceModifier("chat");
 				int jokeChance = 65 + -(memory.interactionFatigue * 7) + mood.getChanceModifier("joke") + trait.getChanceModifier("joke");
 				int greetChance = 90 + -(memory.interactionFatigue * 20) + mood.getChanceModifier("greeting") + trait.getChanceModifier("greeting");
 				int tellStoryChance = 65 + -(memory.interactionFatigue * 7) + mood.getChanceModifier("story") + trait.getChanceModifier("story");
 
-				int kissModify = memory.hearts > 75 ? 75 : -25;
-				int flirtModify = memory.hearts > 50 ? 35 : 0;
+				final int kissModify = memory.hearts > 75 ? 75 : -25;
+				final int flirtModify = memory.hearts > 50 ? 35 : 0;
 				int kissChance = 10 + kissModify + -(memory.interactionFatigue * 10) + mood.getChanceModifier("kiss") + trait.getChanceModifier("kiss");
 				int flirtChance = 10 + flirtModify + -(memory.interactionFatigue * 7) + mood.getChanceModifier("flirt") + trait.getChanceModifier("flirt");
 
 				//Limit highs to 100 and lows to 0.
-				chatChance 		= chatChance 		< 0 ? 0 : chatChance 		> 100 ? 100 : chatChance;
-				jokeChance 		= jokeChance 		< 0 ? 0 : jokeChance 		> 100 ? 100 : jokeChance;
-				greetChance 	= greetChance 		< 0 ? 0 : greetChance 		> 100 ? 100 : greetChance;
-				tellStoryChance = tellStoryChance 	< 0 ? 0 : tellStoryChance 	> 100 ? 100 : tellStoryChance;
-				kissChance 		= kissChance 		< 0 ? 0 : kissChance		> 100 ? 100 : kissChance;
-				flirtChance 	= flirtChance 		< 0 ? 0 : flirtChance		> 100 ? 100 : flirtChance;
+				chatChance = chatChance < 0 ? 0 : chatChance > 100 ? 100 : chatChance;
+				jokeChance = jokeChance < 0 ? 0 : jokeChance > 100 ? 100 : jokeChance;
+				greetChance = greetChance < 0 ? 0 : greetChance > 100 ? 100 : greetChance;
+				tellStoryChance = tellStoryChance < 0 ? 0 : tellStoryChance > 100 ? 100 : tellStoryChance;
+				kissChance = kissChance < 0 ? 0 : kissChance > 100 ? 100 : kissChance;
+				flirtChance = flirtChance < 0 ? 0 : flirtChance > 100 ? 100 : flirtChance;
 
 				drawCenteredString(fontRendererObj, chatButton.displayString + ": " + chatChance + "%", width / 2 - 70, 95, 0xffffff);
 				drawCenteredString(fontRendererObj, jokeButton.displayString + ": " + jokeChance + "%", width / 2 - 70, 110, 0xffffff);
@@ -625,16 +637,16 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		displaySuccessChance = false;
 
 		buttonList.add(interactButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.interact")));
-		buttonList.add(horseButton = new GuiButton(2, width / 2 - 90, height /2 + 40, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.ridehorse")));
-		buttonList.add(followButton  = new GuiButton(2, width / 2 - 30, height / 2 + 20, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.follow")));
-		buttonList.add(stayButton    = new GuiButton(3, width / 2 - 30, height / 2 + 40, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.stay")));
+		buttonList.add(horseButton = new GuiButton(2, width / 2 - 90, height / 2 + 40, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.ridehorse")));
+		buttonList.add(followButton = new GuiButton(2, width / 2 - 30, height / 2 + 20, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.follow")));
+		buttonList.add(stayButton = new GuiButton(3, width / 2 - 30, height / 2 + 40, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.stay")));
 		buttonList.add(setHomeButton = new GuiButton(4, width / 2 - 30, height / 2 + 60, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.sethome")));
 
 		if (!(entityVillager instanceof EntityPlayerChild))
 		{
 			buttonList.add(specialButton = new GuiButton(5, width / 2 + 30, height / 2 + 20, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special")));
 
-			WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName());
+			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName());
 			if (MCA.getInstance().getWorldProperties(manager).isInLiteMode && entityVillager.profession == 2)
 			{
 				specialButton.enabled = false;
@@ -651,7 +663,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			buttonList.add(takeGiftButton = new GuiButton(8, width / 2 - 60, height / 2 - 20, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.takegift")));
 		}
 
-		final WorldPropertiesList properties = (WorldPropertiesList)MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName()).worldPropertiesInstance;
+		final WorldPropertiesList properties = (WorldPropertiesList) MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName()).worldPropertiesInstance;
 		if (properties.isMonarch)
 		{
 			if (entityVillager.getProfession() != 5)
@@ -669,10 +681,22 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.exit")));
 		backButton.enabled = false;
 
-		if (entityVillager.isFollowing) followButton.displayString = MCA.getInstance().getLanguageLoader().getString("gui.button.interact.followstop");
-		if (entityVillager.isStaying) stayButton.displayString = MCA.getInstance().getLanguageLoader().getString("gui.button.interact.staystop");
-		if (entityVillager.ridingEntity instanceof EntityHorse) horseButton.displayString = MCA.getInstance().getLanguageLoader().getString("gui.button.interact.dismount");
-		if (entityVillager.isEntityAlive() && entityVillager.isTrading()) tradeButton.enabled = false;
+		if (entityVillager.isFollowing)
+		{
+			followButton.displayString = MCA.getInstance().getLanguageLoader().getString("gui.button.interact.followstop");
+		}
+		if (entityVillager.isStaying)
+		{
+			stayButton.displayString = MCA.getInstance().getLanguageLoader().getString("gui.button.interact.staystop");
+		}
+		if (entityVillager.ridingEntity instanceof EntityHorse)
+		{
+			horseButton.displayString = MCA.getInstance().getLanguageLoader().getString("gui.button.interact.dismount");
+		}
+		if (entityVillager.isEntityAlive() && entityVillager.isTrading())
+		{
+			tradeButton.enabled = false;
+		}
 	}
 
 	/**
@@ -692,11 +716,11 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		buttonList.add(greetButton = new GuiButton(4, width / 2 - 30, height / 2 + 20, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.greet")));
 		buttonList.add(tellStoryButton = new GuiButton(5, width / 2 - 30, height / 2 + 40, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.tellstory")));
 
-		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName());
+		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName());
 
 		if (!MCA.getInstance().getWorldProperties(manager).isInLiteMode)
 		{
-			EnumRelation relationToPlayer = entityVillager.familyTree.getMyRelationTo(MCA.getInstance().getIdOfPlayer(player));
+			final EnumRelation relationToPlayer = entityVillager.familyTree.getMyRelationTo(MCA.getInstance().getIdOfPlayer(player));
 
 			if (relationToPlayer == EnumRelation.None || relationToPlayer == EnumRelation.Spouse)
 			{
@@ -704,7 +728,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				buttonList.add(flirtButton = new GuiButton(7, width / 2 + 30, height / 2 + 40, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.flirt")));
 			}
 		}
-		
+
 		greetButton.displayString = entityVillager.playerMemoryMap.get(player.getCommandSenderName()).hearts >= 50 ? MCA.getInstance().getLanguageLoader().getString("gui.button.interact.greet.highfive") : MCA.getInstance().getLanguageLoader().getString("gui.button.interact.greet.handshake");
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.exit")));
@@ -726,6 +750,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.exit")));
 		backButton.enabled = true;
 	}
+
 	/**
 	 * Draws the preist's special Gui.
 	 */
@@ -734,14 +759,14 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		buttonList.clear();
 		inSpecialGui = true;
 
-		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName());
+		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName());
 
 		if (!MCA.getInstance().getWorldProperties(manager).isInLiteMode)
 		{
 			buttonList.add(divorceSpouseButton = new GuiButton(1, width / 2 - 125, height / 2 + 10, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.divorcespouse")));
 			buttonList.add(divorceCoupleButton = new GuiButton(2, width / 2 - 40, height / 2 + 10, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.divorcecouple")));
-			buttonList.add(giveUpBabyButton    = new GuiButton(3, width / 2 + 45, height / 2 + 10, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.giveupbaby")));
-			buttonList.add(adoptBabyButton     = new GuiButton(4, width / 2 - 125, height / 2 + 30, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.adoptbaby")));
+			buttonList.add(giveUpBabyButton = new GuiButton(3, width / 2 + 45, height / 2 + 10, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.giveupbaby")));
+			buttonList.add(adoptBabyButton = new GuiButton(4, width / 2 - 125, height / 2 + 30, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.adoptbaby")));
 			buttonList.add(arrangedMarriageButton = new GuiButton(5, width / 2 - 40, height / 2 + 30, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.arrangedmarriage")));
 
 			divorceSpouseButton.enabled = MCA.getInstance().getWorldProperties(manager).playerSpouseID != 0;
@@ -757,7 +782,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/**
 	 * Draws the miner's special Gui.
 	 */
-	private void drawMinerSpecialGui() 
+	private void drawMinerSpecialGui()
 	{
 		buttonList.clear();
 		inSpecialGui = true;
@@ -767,8 +792,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		inMiningGui = false;
 		inHiringGui = false;
 
-		buttonList.add(hireButton = new GuiButton (1, width / 2 - 90, height / 2 + 20, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.guard.hire")));
-		buttonList.add(dismissButton = new GuiButton (2, width / 2 - 90, height / 2 + 40, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.guard.dismiss")));
+		buttonList.add(hireButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.guard.hire")));
+		buttonList.add(dismissButton = new GuiButton(2, width / 2 - 90, height / 2 + 40, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.guard.dismiss")));
 		buttonList.add(miningButton = new GuiButton(3, width / 2 - 5, height / 2 + 20, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining")));
 
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
@@ -777,9 +802,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		hireButton.enabled = entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired == false;
 		dismissButton.enabled = entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired == true;
-		miningButton.enabled = entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired || (entityVillager.isPeasant && entityVillager.monarchPlayerName.equals(player.getCommandSenderName()));
+		miningButton.enabled = entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired || entityVillager.isPeasant && entityVillager.monarchPlayerName.equals(player.getCommandSenderName());
 
-		if (entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired || (entityVillager.isPeasant && entityVillager.monarchPlayerName.equals(player.getCommandSenderName())))
+		if (entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired || entityVillager.isPeasant && entityVillager.monarchPlayerName.equals(player.getCommandSenderName()))
 		{
 			if (entityVillager.isInChoreMode)
 			{
@@ -795,7 +820,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/**
 	 * Draws the baker's special Gui.
 	 */
-	private void drawBakerSpecialGui() 
+	private void drawBakerSpecialGui()
 	{
 		buttonList.clear();
 		inSpecialGui = true;
@@ -810,7 +835,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/**
 	 * Draws the guard's special Gui.
 	 */
-	private void drawGuardSpecialGui() 
+	private void drawGuardSpecialGui()
 	{
 		buttonList.clear();
 		inSpecialGui = true;
@@ -818,8 +843,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		inHuntingGui = false;
 		inHiringGui = false;
 
-		buttonList.add(hireButton = new GuiButton (1, width / 2 - 90, height / 2 + 20, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.guard.hire")));
-		buttonList.add(dismissButton = new GuiButton (2, width / 2 - 90, height / 2 + 40, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.guard.dismiss")));
+		buttonList.add(hireButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.guard.hire")));
+		buttonList.add(dismissButton = new GuiButton(2, width / 2 - 90, height / 2 + 40, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.guard.dismiss")));
 		buttonList.add(combatButton = new GuiButton(3, width / 2 - 5, height / 2 + 20, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat")));
 		buttonList.add(huntingButton = new GuiButton(4, width / 2 - 5, height / 2 + 40, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.hunting")));
 
@@ -829,10 +854,10 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		hireButton.enabled = entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired == false;
 		dismissButton.enabled = entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired == true;
-		combatButton.enabled = entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired || (entityVillager.isKnight && entityVillager.monarchPlayerName.equals(player.getCommandSenderName()));
-		huntingButton.enabled = entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired || (entityVillager.isKnight && entityVillager.monarchPlayerName.equals(player.getCommandSenderName()));
+		combatButton.enabled = entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired || entityVillager.isKnight && entityVillager.monarchPlayerName.equals(player.getCommandSenderName());
+		huntingButton.enabled = entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired || entityVillager.isKnight && entityVillager.monarchPlayerName.equals(player.getCommandSenderName());
 
-		if (entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired || (entityVillager.isPeasant && entityVillager.monarchPlayerName.equals(player.getCommandSenderName())))
+		if (entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired || entityVillager.isPeasant && entityVillager.monarchPlayerName.equals(player.getCommandSenderName()))
 		{
 			if (entityVillager.isInChoreMode)
 			{
@@ -848,7 +873,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/**
 	 * Draws the butcher's special Gui.
 	 */
-	private void drawButcherSpecialGui() 
+	private void drawButcherSpecialGui()
 	{
 		buttonList.clear();
 		inSpecialGui = true;
@@ -863,7 +888,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/**
 	 * Draws the smith's special Gui.
 	 */
-	private void drawSmithSpecialGui() 
+	private void drawSmithSpecialGui()
 	{
 		buttonList.clear();
 		inSpecialGui = true;
@@ -887,8 +912,8 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		inWoodcuttingGui = false;
 		inHiringGui = false;
 
-		buttonList.add(hireButton = new GuiButton (1, width / 2 - 90, height / 2 + 20, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.guard.hire")));
-		buttonList.add(dismissButton = new GuiButton (2, width / 2 - 90, height / 2 + 40, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.guard.dismiss")));
+		buttonList.add(hireButton = new GuiButton(1, width / 2 - 90, height / 2 + 20, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.guard.hire")));
+		buttonList.add(dismissButton = new GuiButton(2, width / 2 - 90, height / 2 + 40, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.guard.dismiss")));
 		buttonList.add(requestAidButton = new GuiButton(2, width / 2 - 90, height / 2 + 60, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.farmer.aid")));
 
 		buttonList.add(farmingButton = new GuiButton(3, width / 2 - 5, height / 2 + 20, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.farming")));
@@ -901,11 +926,11 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		hireButton.enabled = entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired == false;
 		dismissButton.enabled = entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired == true;
-		farmingButton.enabled = entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired || (entityVillager.isPeasant && entityVillager.monarchPlayerName.equals(player.getCommandSenderName()));
-		fishingButton.enabled = entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired || (entityVillager.isPeasant && entityVillager.monarchPlayerName.equals(player.getCommandSenderName()));
-		woodcuttingButton.enabled = entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired || (entityVillager.isPeasant && entityVillager.monarchPlayerName.equals(player.getCommandSenderName()));
+		farmingButton.enabled = entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired || entityVillager.isPeasant && entityVillager.monarchPlayerName.equals(player.getCommandSenderName());
+		fishingButton.enabled = entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired || entityVillager.isPeasant && entityVillager.monarchPlayerName.equals(player.getCommandSenderName());
+		woodcuttingButton.enabled = entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired || entityVillager.isPeasant && entityVillager.monarchPlayerName.equals(player.getCommandSenderName());
 
-		if (entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired || (entityVillager.isPeasant && entityVillager.monarchPlayerName.equals(player.getCommandSenderName())))
+		if (entityVillager.playerMemoryMap.get(player.getCommandSenderName()).isHired || entityVillager.isPeasant && entityVillager.monarchPlayerName.equals(player.getCommandSenderName()))
 		{
 			if (entityVillager.isInChoreMode)
 			{
@@ -944,7 +969,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		inInteractionSelectGui = false;
 		inFarmingGui = true;
 
-		buttonList.add(choreStartButton   = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.start")));
+		buttonList.add(choreStartButton = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.start")));
 		buttonList.add(farmMethodButton = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.farming.method")));
 		farmMethodButton.enabled = false;
 
@@ -965,7 +990,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		inInteractionSelectGui = false;
 		inFishingGui = true;
 
-		buttonList.add(choreStartButton   = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.start")));
+		buttonList.add(choreStartButton = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.start")));
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.exit")));
 		backButton.enabled = false;
@@ -980,19 +1005,19 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		inInteractionSelectGui = false;
 		inCombatGui = true;
 
-		buttonList.add(combatMethodButton 			= new GuiButton(1,  width / 2 - 190, height / 2 - 20, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.method")));
-		buttonList.add(combatAttackPigsButton		= new GuiButton(2,  width / 2 - 190, height / 2 + 0,  120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.attack.pig")));
-		buttonList.add(combatAttackSheepButton 		= new GuiButton(3,  width / 2 - 190, height / 2 + 20, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.attack.sheep")));
-		buttonList.add(combatAttackCowsButton 		= new GuiButton(4,  width / 2 - 190, height / 2 + 40, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.attack.cow")));
-		buttonList.add(combatAttackChickensButton 	= new GuiButton(5,  width / 2 - 190, height / 2 + 60, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.attack.chicken")));
-		buttonList.add(combatAttackSpidersButton 	= new GuiButton(6,  width / 2 - 60,  height / 2 - 20, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.attack.spider")));
-		buttonList.add(combatAttackZombiesButton 	= new GuiButton(7,  width / 2 - 60,  height / 2 + 0,  120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.attack.zombie")));
-		buttonList.add(combatAttackSkeletonsButton 	= new GuiButton(8,  width / 2 - 60,  height / 2 + 20, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.attack.skeleton")));
-		buttonList.add(combatAttackCreepersButton 	= new GuiButton(9,  width / 2 - 60,  height / 2 + 40, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.attack.creeper")));
-		buttonList.add(combatAttackEndermenButton 	= new GuiButton(10, width / 2 - 60,  height / 2 + 60, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.attack.enderman")));
-		buttonList.add(combatAttackUnknownButton 	= new GuiButton(11, width / 2 + 80,  height / 2 - 20, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.attack.unknown")));
-		buttonList.add(combatSentryButton 			= new GuiButton(12, width / 2 + 80,  height / 2 + 20, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.sentry")));
-		buttonList.add(combatSentryRadiusButton 	= new GuiButton(13, width / 2 + 80,  height / 2 + 40, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.sentry.radius")));
+		buttonList.add(combatMethodButton = new GuiButton(1, width / 2 - 190, height / 2 - 20, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.method")));
+		buttonList.add(combatAttackPigsButton = new GuiButton(2, width / 2 - 190, height / 2 + 0, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.attack.pig")));
+		buttonList.add(combatAttackSheepButton = new GuiButton(3, width / 2 - 190, height / 2 + 20, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.attack.sheep")));
+		buttonList.add(combatAttackCowsButton = new GuiButton(4, width / 2 - 190, height / 2 + 40, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.attack.cow")));
+		buttonList.add(combatAttackChickensButton = new GuiButton(5, width / 2 - 190, height / 2 + 60, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.attack.chicken")));
+		buttonList.add(combatAttackSpidersButton = new GuiButton(6, width / 2 - 60, height / 2 - 20, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.attack.spider")));
+		buttonList.add(combatAttackZombiesButton = new GuiButton(7, width / 2 - 60, height / 2 + 0, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.attack.zombie")));
+		buttonList.add(combatAttackSkeletonsButton = new GuiButton(8, width / 2 - 60, height / 2 + 20, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.attack.skeleton")));
+		buttonList.add(combatAttackCreepersButton = new GuiButton(9, width / 2 - 60, height / 2 + 40, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.attack.creeper")));
+		buttonList.add(combatAttackEndermenButton = new GuiButton(10, width / 2 - 60, height / 2 + 60, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.attack.enderman")));
+		buttonList.add(combatAttackUnknownButton = new GuiButton(11, width / 2 + 80, height / 2 - 20, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.attack.unknown")));
+		buttonList.add(combatSentryButton = new GuiButton(12, width / 2 + 80, height / 2 + 20, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.sentry")));
+		buttonList.add(combatSentryRadiusButton = new GuiButton(13, width / 2 + 80, height / 2 + 40, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.sentry.radius")));
 		buttonList.add(combatSentrySetPositionButton = new GuiButton(14, width / 2 + 80, height / 2 + 60, 120, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.sentry.position.set")));
 
 		if (entityVillager.combatChore.useMelee && entityVillager.combatChore.useRange)
@@ -1015,18 +1040,18 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			combatMethodButton.displayString = combatMethodButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.chore.combat.method.neither");
 		}
 
-		combatAttackPigsButton.displayString      += (entityVillager.combatChore.attackPigs)      ? MCA.getInstance().getLanguageLoader().getString("gui.button.yes") : MCA.getInstance().getLanguageLoader().getString("gui.button.no");
-		combatAttackSheepButton.displayString     += (entityVillager.combatChore.attackSheep)     ? MCA.getInstance().getLanguageLoader().getString("gui.button.yes") : MCA.getInstance().getLanguageLoader().getString("gui.button.no");
-		combatAttackCowsButton.displayString      += (entityVillager.combatChore.attackCows)      ? MCA.getInstance().getLanguageLoader().getString("gui.button.yes") : MCA.getInstance().getLanguageLoader().getString("gui.button.no");
-		combatAttackChickensButton.displayString  += (entityVillager.combatChore.attackChickens)  ? MCA.getInstance().getLanguageLoader().getString("gui.button.yes") : MCA.getInstance().getLanguageLoader().getString("gui.button.no");
-		combatAttackSpidersButton.displayString   += (entityVillager.combatChore.attackSpiders)   ? MCA.getInstance().getLanguageLoader().getString("gui.button.yes") : MCA.getInstance().getLanguageLoader().getString("gui.button.no");
-		combatAttackZombiesButton.displayString   += (entityVillager.combatChore.attackZombies)   ? MCA.getInstance().getLanguageLoader().getString("gui.button.yes") : MCA.getInstance().getLanguageLoader().getString("gui.button.no");
-		combatAttackSkeletonsButton.displayString += (entityVillager.combatChore.attackSkeletons) ? MCA.getInstance().getLanguageLoader().getString("gui.button.yes") : MCA.getInstance().getLanguageLoader().getString("gui.button.no");
-		combatAttackCreepersButton.displayString  += (entityVillager.combatChore.attackCreepers)  ? MCA.getInstance().getLanguageLoader().getString("gui.button.yes") : MCA.getInstance().getLanguageLoader().getString("gui.button.no");
-		combatAttackEndermenButton.displayString  += (entityVillager.combatChore.attackEndermen)  ? MCA.getInstance().getLanguageLoader().getString("gui.button.yes") : MCA.getInstance().getLanguageLoader().getString("gui.button.no");
-		combatAttackUnknownButton.displayString   += (entityVillager.combatChore.attackUnknown)   ? MCA.getInstance().getLanguageLoader().getString("gui.button.yes") : MCA.getInstance().getLanguageLoader().getString("gui.button.no");
-		combatSentryButton.displayString 		  += (entityVillager.combatChore.sentryMode)	   ? MCA.getInstance().getLanguageLoader().getString("gui.button.yes") : MCA.getInstance().getLanguageLoader().getString("gui.button.no");
-		combatSentryRadiusButton.displayString    += entityVillager.combatChore.sentryRadius;
+		combatAttackPigsButton.displayString += entityVillager.combatChore.attackPigs ? MCA.getInstance().getLanguageLoader().getString("gui.button.yes") : MCA.getInstance().getLanguageLoader().getString("gui.button.no");
+		combatAttackSheepButton.displayString += entityVillager.combatChore.attackSheep ? MCA.getInstance().getLanguageLoader().getString("gui.button.yes") : MCA.getInstance().getLanguageLoader().getString("gui.button.no");
+		combatAttackCowsButton.displayString += entityVillager.combatChore.attackCows ? MCA.getInstance().getLanguageLoader().getString("gui.button.yes") : MCA.getInstance().getLanguageLoader().getString("gui.button.no");
+		combatAttackChickensButton.displayString += entityVillager.combatChore.attackChickens ? MCA.getInstance().getLanguageLoader().getString("gui.button.yes") : MCA.getInstance().getLanguageLoader().getString("gui.button.no");
+		combatAttackSpidersButton.displayString += entityVillager.combatChore.attackSpiders ? MCA.getInstance().getLanguageLoader().getString("gui.button.yes") : MCA.getInstance().getLanguageLoader().getString("gui.button.no");
+		combatAttackZombiesButton.displayString += entityVillager.combatChore.attackZombies ? MCA.getInstance().getLanguageLoader().getString("gui.button.yes") : MCA.getInstance().getLanguageLoader().getString("gui.button.no");
+		combatAttackSkeletonsButton.displayString += entityVillager.combatChore.attackSkeletons ? MCA.getInstance().getLanguageLoader().getString("gui.button.yes") : MCA.getInstance().getLanguageLoader().getString("gui.button.no");
+		combatAttackCreepersButton.displayString += entityVillager.combatChore.attackCreepers ? MCA.getInstance().getLanguageLoader().getString("gui.button.yes") : MCA.getInstance().getLanguageLoader().getString("gui.button.no");
+		combatAttackEndermenButton.displayString += entityVillager.combatChore.attackEndermen ? MCA.getInstance().getLanguageLoader().getString("gui.button.yes") : MCA.getInstance().getLanguageLoader().getString("gui.button.no");
+		combatAttackUnknownButton.displayString += entityVillager.combatChore.attackUnknown ? MCA.getInstance().getLanguageLoader().getString("gui.button.yes") : MCA.getInstance().getLanguageLoader().getString("gui.button.no");
+		combatSentryButton.displayString += entityVillager.combatChore.sentryMode ? MCA.getInstance().getLanguageLoader().getString("gui.button.yes") : MCA.getInstance().getLanguageLoader().getString("gui.button.no");
+		combatSentryRadiusButton.displayString += entityVillager.combatChore.sentryRadius;
 
 		combatMethodButton.enabled = false;
 		combatAttackPigsButton.enabled = false;
@@ -1060,13 +1085,10 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		buttonList.add(choreStartButton = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.start")));
 		buttonList.add(woodTreeTypeButton = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.woodcutting.treetype")));
 
-		woodTreeTypeButton.displayString += 
-				MCA.getInstance().getLanguageLoader().isValidString(treeEntry.getTreeName()) ? 
-						MCA.getInstance().getLanguageLoader().getString(treeEntry.getTreeName()) :
-							treeEntry.getTreeName();
+		woodTreeTypeButton.displayString += MCA.getInstance().getLanguageLoader().isValidString(treeEntry.getTreeName()) ? MCA.getInstance().getLanguageLoader().getString(treeEntry.getTreeName()) : treeEntry.getTreeName();
 
-						buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
-						buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.exit")));
+		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
+		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.exit")));
 	}
 
 	/**
@@ -1078,35 +1100,61 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		inInteractionSelectGui = false;
 		inMiningGui = true;
 
-		buttonList.add(choreStartButton    = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.start")));
-		buttonList.add(mineMethodButton    = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.method")));
+		buttonList.add(choreStartButton = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.start")));
+		buttonList.add(mineMethodButton = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.method")));
 		buttonList.add(mineDirectionButton = new GuiButton(3, width / 2 - 70, height / 2 + 10, 135, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.direction")));
-		buttonList.add(mineDistanceButton  = new GuiButton(4, width / 2 - 70, height / 2 + 30, 135, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.distance") +  mineDistance));
-		buttonList.add(mineFindButton      = new GuiButton(5, width / 2 - 70, height / 2 + 50, 135, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.find")));
+		buttonList.add(mineDistanceButton = new GuiButton(4, width / 2 - 70, height / 2 + 30, 135, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.distance") + mineDistance));
+		buttonList.add(mineFindButton = new GuiButton(5, width / 2 - 70, height / 2 + 50, 135, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.find")));
 
 		switch (mineMethod)
 		{
-		case 0: mineMethodButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.method.passive"); break;
-		case 1: mineMethodButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.method.active"); break;
+			case 0:
+				mineMethodButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.method.passive");
+				break;
+			case 1:
+				mineMethodButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.method.active");
+				break;
 		}
 
 		switch (mineDirection)
 		{
-		case 0: mineDirectionButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.direction.forward"); break;
-		case 1: mineDirectionButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.direction.backward"); break;
-		case 2: mineDirectionButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.direction.left"); break;
-		case 3: mineDirectionButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.direction.right"); break;
+			case 0:
+				mineDirectionButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.direction.forward");
+				break;
+			case 1:
+				mineDirectionButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.direction.backward");
+				break;
+			case 2:
+				mineDirectionButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.direction.left");
+				break;
+			case 3:
+				mineDirectionButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.direction.right");
+				break;
 		}
 
 		switch (mineOre)
 		{
-		case 0: mineFindButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.find.coal"); break;
-		case 1: mineFindButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.find.iron"); break;
-		case 2: mineFindButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.find.lapis"); break;
-		case 3: mineFindButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.find.gold"); break;
-		case 4: mineFindButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.find.diamond"); break;
-		case 5: mineFindButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.find.redstone"); break;
-		case 6: mineFindButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.find.emerald"); break;
+			case 0:
+				mineFindButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.find.coal");
+				break;
+			case 1:
+				mineFindButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.find.iron");
+				break;
+			case 2:
+				mineFindButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.find.lapis");
+				break;
+			case 3:
+				mineFindButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.find.gold");
+				break;
+			case 4:
+				mineFindButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.find.diamond");
+				break;
+			case 5:
+				mineFindButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.find.redstone");
+				break;
+			case 6:
+				mineFindButton.displayString += MCA.getInstance().getLanguageLoader().getString("gui.button.chore.mining.find.emerald");
+				break;
 		}
 
 		mineMethodButton.enabled = false;
@@ -1129,7 +1177,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		inHuntingGui = true;
 
 		buttonList.add(choreStartButton = new GuiButton(1, width / 2 - 40, height / 2 + 85, 85, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.start")));
-		buttonList.add(huntModeButton   = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.hunting.mode")));
+		buttonList.add(huntModeButton = new GuiButton(2, width / 2 - 70, height / 2 - 30, 135, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.chore.hunting.mode")));
 
 		if (huntMode == 0)
 		{
@@ -1156,10 +1204,10 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		inSpecialGui = true;
 		inMonarchGui = true;
 
-		buttonList.add(executeButton	 = new GuiButton(1, width / 2 - 60, height / 2 - 20, 120, 20, MCA.getInstance().getLanguageLoader().getString("monarch.gui.button.interact.execute")));
-		buttonList.add(demandGiftButton  = new GuiButton(2, width / 2 - 60, height / 2 - 0, 120, 20, MCA.getInstance().getLanguageLoader().getString("monarch.gui.button.interact.demandgift")));
+		buttonList.add(executeButton = new GuiButton(1, width / 2 - 60, height / 2 - 20, 120, 20, MCA.getInstance().getLanguageLoader().getString("monarch.gui.button.interact.execute")));
+		buttonList.add(demandGiftButton = new GuiButton(2, width / 2 - 60, height / 2 - 0, 120, 20, MCA.getInstance().getLanguageLoader().getString("monarch.gui.button.interact.demandgift")));
 		buttonList.add(makePeasantButton = new GuiButton(3, width / 2 - 60, height / 2 + 20, 120, 20, MCA.getInstance().getLanguageLoader().getString("monarch.gui.button.interact.makepeasant")));
-		buttonList.add(makeKnightButton  = new GuiButton(4, width / 2 - 60, height / 2 + 40, 120, 20, MCA.getInstance().getLanguageLoader().getString("monarch.gui.button.interact.makeknight")));
+		buttonList.add(makeKnightButton = new GuiButton(4, width / 2 - 60, height / 2 + 40, 120, 20, MCA.getInstance().getLanguageLoader().getString("monarch.gui.button.interact.makeknight")));
 
 		demandGiftButton.enabled = MCA.getInstance().getModProperties().server_allowDemandGift;
 
@@ -1191,7 +1239,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/**
 	 * Handles an action performed in the base GUI.
 	 * 
-	 * @param	button	The button that was pressed.
+	 * @param button The button that was pressed.
 	 */
 	private void actionPerformedBase(GuiButton button)
 	{
@@ -1202,9 +1250,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == horseButton)
 		{
-			if (!entityVillager.isMarriedToPlayer || (entityVillager.isMarriedToPlayer && entityVillager.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player))))
+			if (!entityVillager.isMarriedToPlayer || entityVillager.isMarriedToPlayer && entityVillager.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 			{
-				EntityHorse nearestHorse = (EntityHorse)LogicHelper.getNearestEntityOfType(entityVillager, EntityHorse.class, 5);
+				final EntityHorse nearestHorse = (EntityHorse) LogicHelper.getNearestEntityOfType(entityVillager, EntityHorse.class, 5);
 
 				if (nearestHorse != null)
 				{
@@ -1228,7 +1276,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == followButton)
 		{
-			if (!entityVillager.isMarriedToPlayer || (entityVillager.isMarriedToPlayer && entityVillager.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player))))
+			if (!entityVillager.isMarriedToPlayer || entityVillager.isMarriedToPlayer && entityVillager.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 			{
 				if (entityVillager.profession == 5)
 				{
@@ -1236,7 +1284,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 					{
 						if (!entityVillager.monarchPlayerName.equals(player.getCommandSenderName()))
 						{
-							entityVillager.say(MCA.getInstance().getLanguageLoader().getString( "monarch.knight.follow.refuse", player, entityVillager, false));
+							entityVillager.say(MCA.getInstance().getLanguageLoader().getString("monarch.knight.follow.refuse", player, entityVillager, false));
 							close();
 						}
 
@@ -1352,7 +1400,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == stayButton)
 		{
-			if (!entityVillager.isMarriedToPlayer || (entityVillager.isMarriedToPlayer && entityVillager.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player))))
+			if (!entityVillager.isMarriedToPlayer || entityVillager.isMarriedToPlayer && entityVillager.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 			{
 				entityVillager.isStaying = !entityVillager.isStaying;
 				entityVillager.isFollowing = false;
@@ -1373,7 +1421,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == setHomeButton)
 		{
-			if (!entityVillager.isMarriedToPlayer || (entityVillager.isMarriedToPlayer && entityVillager.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player))))
+			if (!entityVillager.isMarriedToPlayer || entityVillager.isMarriedToPlayer && entityVillager.familyTree.idIsARelative(MCA.getInstance().getIdOfPlayer(player)))
 			{
 				entityVillager.homePointX = entityVillager.posX;
 				entityVillager.homePointY = entityVillager.posY;
@@ -1400,24 +1448,40 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			switch (entityVillager.profession)
 			{
-			case 0: drawFarmerSpecialGui(); break;
-			case 1: drawLibrarianSpecialGui(); break;
-			case 2: drawPriestSpecialGui(); break;
-			case 3: drawSmithSpecialGui(); break;
-			case 4: drawButcherSpecialGui(); break;
-			case 5: drawGuardSpecialGui(); break;
-			case 6: drawBakerSpecialGui(); break;
-			case 7: drawMinerSpecialGui(); break;
+				case 0:
+					drawFarmerSpecialGui();
+					break;
+				case 1:
+					drawLibrarianSpecialGui();
+					break;
+				case 2:
+					drawPriestSpecialGui();
+					break;
+				case 3:
+					drawSmithSpecialGui();
+					break;
+				case 4:
+					drawButcherSpecialGui();
+					break;
+				case 5:
+					drawGuardSpecialGui();
+					break;
+				case 6:
+					drawBakerSpecialGui();
+					break;
+				case 7:
+					drawMinerSpecialGui();
+					break;
 			}
 		}
 
 		else if (button == takeGiftButton)
 		{
-			PlayerMemory memory = entityVillager.playerMemoryMap.get(player.getCommandSenderName());
+			final PlayerMemory memory = entityVillager.playerMemoryMap.get(player.getCommandSenderName());
 			memory.hasGift = false;
 			entityVillager.playerMemoryMap.put(player.getCommandSenderName(), memory);
 
-			ItemStack giftStack = LogicExtension.getGiftStackFromRelationship(player, entityVillager);
+			LogicExtension.getGiftStackFromRelationship(player, entityVillager);
 
 			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entityVillager.getEntityId(), "playerMemoryMap", entityVillager.playerMemoryMap));
 			MCA.packetHandler.sendPacketToServer(new PacketClickTakeGift(entityVillager.getEntityId()));
@@ -1442,7 +1506,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/**
 	 * Handles an action performed in the interaction GUI.
 	 * 
-	 * @param 	button	The button that was pressed.
+	 * @param button The button that was pressed.
 	 */
 	private void actionPerformedInteraction(GuiButton button)
 	{
@@ -1506,7 +1570,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			for (int i = 0; i < player.inventory.mainInventory.length; i++)
 			{
-				ItemStack stack = player.inventory.mainInventory[i];
+				final ItemStack stack = player.inventory.mainInventory[i];
 
 				if (stack != null)
 				{
@@ -1524,7 +1588,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			}
 
 			//Set them to "hired".
-			PlayerMemory memory = entityVillager.playerMemoryMap.get(player.getCommandSenderName());
+			final PlayerMemory memory = entityVillager.playerMemoryMap.get(player.getCommandSenderName());
 			memory.isHired = true;
 			memory.hoursHired = hiringHours;
 			memory.minutesSinceHired = 0;
@@ -1573,34 +1637,35 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/**
 	 * Handles an action performed in the priest's special GUI.
 	 * 
-	 * @param	button	The button that was pressed.
+	 * @param button The button that was pressed.
 	 */
 	private void actionPerformedPriest(GuiButton button)
 	{
-		WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName());
+		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(Minecraft.getMinecraft().thePlayer.getCommandSenderName());
 
 		if (button == divorceSpouseButton)
 		{
-			AbstractEntity playerSpouse = LogicExtension.getEntityWithIDWithinDistance(player, MCA.getInstance().getWorldProperties(manager).playerSpouseID, 10);
+			final AbstractEntity playerSpouse = LogicExtension.getEntityWithIDWithinDistance(player, MCA.getInstance().getWorldProperties(manager).playerSpouseID, 10);
 
 			try
 			{
 				if (playerSpouse != null)
-				{	
-					EntityVillagerAdult spouse = (EntityVillagerAdult)playerSpouse;
+				{
+					final EntityVillagerAdult spouse = (EntityVillagerAdult) playerSpouse;
 					spouse.doDivorce = true;
 					MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(spouse.getEntityId(), "doDivorce", spouse.doDivorce));
 				}
 
-				else //The spouse is not nearby.
+				else
+				//The spouse is not nearby.
 				{
 					EntityVillagerAdult spouse = null;
 
-					for (AbstractEntity entity : MCA.getInstance().entitiesMap.values())
+					for (final AbstractEntity entity : MCA.getInstance().entitiesMap.values())
 					{
 						if (entity.mcaID == MCA.getInstance().getWorldProperties(manager).playerSpouseID)
 						{
-							spouse = (EntityVillagerAdult)entity;
+							spouse = (EntityVillagerAdult) entity;
 						}
 					}
 
@@ -1612,7 +1677,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				}
 			}
 
-			catch (Exception e)
+			catch (final Exception e)
 			{
 				//The spouse wasn't found in the entities map for some reason. Just reset the player's spouse ID.
 				MCA.getInstance().getWorldProperties(manager).playerSpouseID = 0;
@@ -1625,7 +1690,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == divorceCoupleButton)
 		{
-			player.openGui(MCA.getInstance(), Constants.ID_GUI_DIVORCE, player.worldObj, (int)player.posX, (int)player.posY, (int)player.posZ);
+			player.openGui(MCA.getInstance(), Constants.ID_GUI_DIVORCE, player.worldObj, (int) player.posX, (int) player.posY, (int) player.posZ);
 		}
 
 		else if (button == giveUpBabyButton)
@@ -1655,7 +1720,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 				MCA.getInstance().getWorldProperties(manager).minutesBabyExisted = 0;
 				MCA.getInstance().getWorldProperties(manager).babyReadyToGrow = false;
 
-				boolean isMale = Utility.getRandomGender();
+				final boolean isMale = Utility.getRandomGender();
 
 				if (isMale)
 				{
@@ -1683,13 +1748,13 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == arrangedMarriageButton)
 		{
-			List<EntityVillagerAdult> nearbyVillagers = (List<EntityVillagerAdult>) LogicHelper.getAllEntitiesOfTypeWithinDistanceOfEntity(entityVillager, EntityVillagerAdult.class, 30);
+			final List<EntityVillagerAdult> nearbyVillagers = (List<EntityVillagerAdult>) LogicHelper.getAllEntitiesOfTypeWithinDistanceOfEntity(entityVillager, EntityVillagerAdult.class, 30);
 
-			String preferredGender = HashGenerator.getMD5Hash("Males").contains(MCA.getInstance().getWorldProperties(manager).genderPreference) ? "Male" : "Female";
+			final String preferredGender = HashGenerator.getMD5Hash("Males").contains(MCA.getInstance().getWorldProperties(manager).genderPreference) ? "Male" : "Female";
 
 			EntityVillagerAdult villagerToMarry = null;
 
-			for (EntityVillagerAdult adult : nearbyVillagers)
+			for (final EntityVillagerAdult adult : nearbyVillagers)
 			{
 				if (adult.getGenderAsString().equals(preferredGender))
 				{
@@ -1741,9 +1806,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/**
 	 * Handles an action performed in the miner's special GUI.
 	 * 
-	 * @param	button	The button that was pressed.
+	 * @param button The button that was pressed.
 	 */
-	private void actionPerformedMiner(GuiButton button) 
+	private void actionPerformedMiner(GuiButton button)
 	{
 		if (button == hireButton)
 		{
@@ -1756,7 +1821,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			entityVillager.isFollowing = false;
 			entityVillager.isStaying = false;
 
-			PlayerMemory memory = entityVillager.playerMemoryMap.get(player.getCommandSenderName());
+			final PlayerMemory memory = entityVillager.playerMemoryMap.get(player.getCommandSenderName());
 			memory.isHired = false;
 			memory.hoursHired = 0;
 			memory.minutesSinceHired = 0;
@@ -1795,11 +1860,11 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/**
 	 * Handles an action performed in the baker's special GUI.
 	 * 
-	 * @param	button	The button that was pressed.
+	 * @param button The button that was pressed.
 	 */
-	private void actionPerformedBaker(GuiButton button) 
+	private void actionPerformedBaker(GuiButton button)
 	{
-		EntityVillagerAdult villager = (EntityVillagerAdult)entityVillager;
+		final EntityVillagerAdult villager = (EntityVillagerAdult) entityVillager;
 
 		if (button == requestAidButton)
 		{
@@ -1832,9 +1897,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/**
 	 * Handles an action performed in the guard's special GUI.
 	 * 
-	 * @param	button	The button that was pressed.
+	 * @param button The button that was pressed.
 	 */
-	private void actionPerformedGuard(GuiButton button) 
+	private void actionPerformedGuard(GuiButton button)
 	{
 		if (button == hireButton)
 		{
@@ -1847,7 +1912,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			entityVillager.isFollowing = false;
 			entityVillager.isStaying = false;
 
-			PlayerMemory memory = entityVillager.playerMemoryMap.get(player.getCommandSenderName());
+			final PlayerMemory memory = entityVillager.playerMemoryMap.get(player.getCommandSenderName());
 			memory.isHired = false;
 			memory.hoursHired = 0;
 			memory.minutesSinceHired = 0;
@@ -1890,11 +1955,11 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/**
 	 * Handles an action performed in the butcher's special GUI.
 	 * 
-	 * @param	button	The button that was pressed.
+	 * @param button The button that was pressed.
 	 */
-	private void actionPerformedButcher(GuiButton button) 
+	private void actionPerformedButcher(GuiButton button)
 	{
-		EntityVillagerAdult villager = (EntityVillagerAdult)entityVillager;
+		final EntityVillagerAdult villager = (EntityVillagerAdult) entityVillager;
 
 		if (button == requestAidButton)
 		{
@@ -1927,12 +1992,10 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/**
 	 * Handles an action performed in the smith's special GUI.
 	 * 
-	 * @param	button	The button that was pressed.
+	 * @param button The button that was pressed.
 	 */
-	private void actionPerformedSmith(GuiButton button) 
+	private void actionPerformedSmith(GuiButton button)
 	{
-		EntityVillagerAdult villager = (EntityVillagerAdult)entityVillager;
-
 		if (button == requestAidButton)
 		{
 			//TODO
@@ -1944,7 +2007,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/**
 	 * Handles an action performed in the farmer's special GUI.
 	 * 
-	 * @param	button	The button that was pressed.
+	 * @param button The button that was pressed.
 	 */
 	private void actionPerformedFarmer(GuiButton button)
 	{
@@ -1959,7 +2022,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			entityVillager.isFollowing = false;
 			entityVillager.isStaying = false;
 
-			PlayerMemory memory = entityVillager.playerMemoryMap.get(player.getCommandSenderName());
+			final PlayerMemory memory = entityVillager.playerMemoryMap.get(player.getCommandSenderName());
 			memory.isHired = false;
 			memory.hoursHired = 0;
 			memory.minutesSinceHired = 0;
@@ -1975,7 +2038,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == requestAidButton)
 		{
-			EntityVillagerAdult villager = (EntityVillagerAdult)entityVillager;
+			final EntityVillagerAdult villager = (EntityVillagerAdult) entityVillager;
 
 			if (villager.aidCooldown != 0)
 			{
@@ -2037,23 +2100,23 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/**
 	 * Handles an action performed in the librarian's special GUI.
 	 * 
-	 * @param	button	The button that was pressed.
+	 * @param button The button that was pressed.
 	 */
 	private void actionPerformedLibrarian(GuiButton button)
 	{
 		if (button == openSetupButton)
 		{
 			mc.displayGuiScreen(null);
-			player.openGui(MCA.getInstance(), Constants.ID_GUI_SETUP, player.worldObj, (int)entityVillager.posX, (int)entityVillager.posY, (int)entityVillager.posZ);
+			player.openGui(MCA.getInstance(), Constants.ID_GUI_SETUP, player.worldObj, (int) entityVillager.posX, (int) entityVillager.posY, (int) entityVillager.posZ);
 		}
 	}
 
 	/**
 	 * Handles an action performed in the farming Gui.
 	 * 
-	 * @param 	button	The button that was pressed.
+	 * @param button The button that was pressed.
 	 */
-	private void actionPerformedFarming(GuiButton button) 
+	private void actionPerformedFarming(GuiButton button)
 	{
 		if (button == backButton)
 		{
@@ -2153,7 +2216,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/**
 	 * Handles an action performed in the fishing Gui.
 	 * 
-	 * @param 	button	The button that was pressed.
+	 * @param button The button that was pressed.
 	 */
 	private void actionPerformedFishing(GuiButton button)
 	{
@@ -2179,9 +2242,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/**
 	 * Handles an action performed in the combat GUI.
 	 * 
-	 * @param 	button	The button that was pressed.
+	 * @param button The button that was pressed.
 	 */
-	private void actionPerformedCombat(GuiButton button) 
+	private void actionPerformedCombat(GuiButton button)
 	{
 		if (button == backButton)
 		{
@@ -2298,9 +2361,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/**
 	 * Handles an action performed in the woodcutting Gui.
 	 * 
-	 * @param 	button	The button that was pressed.
+	 * @param button The button that was pressed.
 	 */
-	private void actionPerformedWoodcutting(GuiButton button) 
+	private void actionPerformedWoodcutting(GuiButton button)
 	{
 		if (button == backButton)
 		{
@@ -2339,9 +2402,9 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/**
 	 * Handles an action performed in the mining Gui.
 	 * 
-	 * @param 	button	The button that was pressed.
+	 * @param button The button that was pressed.
 	 */
-	private void actionPerformedMining(GuiButton button) 
+	private void actionPerformedMining(GuiButton button)
 	{
 		if (button == backButton)
 		{
@@ -2425,7 +2488,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/**
 	 * Handles an action performed in the hunting Gui.
 	 * 
-	 * @param 	button	The button that was pressed.
+	 * @param button The button that was pressed.
 	 */
 	private void actionPerformedHunting(GuiButton button)
 	{
@@ -2465,7 +2528,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 	/**
 	 * Handles an action performed in the Monarch GUI.
 	 * 
-	 * @param 	button	The button that was pressed.
+	 * @param button The button that was pressed.
 	 */
 	private void actionPerformedMonarch(GuiButton button)
 	{
@@ -2478,7 +2541,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 		{
 			boolean hasSword = false;
 
-			for (ItemStack itemStack : player.inventory.mainInventory)
+			for (final ItemStack itemStack : player.inventory.mainInventory)
 			{
 				if (itemStack != null)
 				{
@@ -2519,7 +2582,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 
 		else if (button == demandGiftButton)
 		{
-			PlayerMemory memory = entityVillager.playerMemoryMap.get(player.getCommandSenderName());
+			final PlayerMemory memory = entityVillager.playerMemoryMap.get(player.getCommandSenderName());
 
 			//Increase gifts demanded.
 			memory.giftsDemanded++;
@@ -2564,7 +2627,7 @@ public class GuiInteractionVillagerAdult extends AbstractGui
 			}
 
 			entityVillager.playerMemoryMap.put(player.getCommandSenderName(), memory);
-			ItemStack giftStack = LogicExtension.getGiftStackFromRelationship(player, entityVillager);
+			LogicExtension.getGiftStackFromRelationship(player, entityVillager);
 
 			MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entityVillager.getEntityId(), "playerMemoryMap", entityVillager.playerMemoryMap));
 			MCA.packetHandler.sendPacketToServer(new PacketClickTakeGift(entityVillager.getEntityId()));

@@ -2,9 +2,7 @@
  * CommandDebugMode.java
  * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/gpl.html
+ * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
 package mca.command;
@@ -20,31 +18,31 @@ import net.minecraft.util.ChatComponentText;
 public class CommandDebugMode extends AbstractCommand
 {
 	@Override
-	public String getCommandUsage(ICommandSender sender) 
+	public String getCommandUsage(ICommandSender sender)
 	{
 		return "/mca.debug <on/off>";
 	}
 
 	@Override
-	public boolean canCommandSenderUseCommand(ICommandSender sender) 
+	public boolean canCommandSenderUseCommand(ICommandSender sender)
 	{
 		return true;
 	}
 
 	@Override
-	public int getRequiredPermissionLevel() 
+	public int getRequiredPermissionLevel()
 	{
 		return 4;
 	}
 
 	@Override
-	public String getCommandName() 
+	public String getCommandName()
 	{
 		return "mca.debug";
 	}
 
 	@Override
-	public void processCommand(ICommandSender sender, String[] arguments) 
+	public void processCommand(ICommandSender sender, String[] arguments)
 	{
 		if (arguments.length == 1)
 		{

@@ -2,9 +2,7 @@
  * ModelTombstone.java
  * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/gpl.html
+ * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
 package mca.client.model;
@@ -19,10 +17,10 @@ public class ModelTombstone extends ModelBase
 {
 	/** The base, or bottom of the tombstone. */
 	ModelRenderer base;
-	
+
 	/** The center text area of the timestone. */
 	ModelRenderer textArea;
-	
+
 	/** The topmost curve of the tombstone. */
 	ModelRenderer topCurve;
 
@@ -47,7 +45,7 @@ public class ModelTombstone extends ModelBase
 		topCurve.setRotationPoint(-5F, 14F, -1F);
 		topCurve.setTextureSize(64, 64);
 	}
-	
+
 	/**
 	 * Renders each component of the tombstone.
 	 */

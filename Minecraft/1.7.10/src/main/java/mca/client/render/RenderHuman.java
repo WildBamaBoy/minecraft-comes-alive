@@ -2,9 +2,7 @@
  * RenderHuman.java
  * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/gpl.html
+ * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
 package mca.client.render;
@@ -53,28 +51,28 @@ public class RenderHuman extends RenderBiped
 	{
 		super(new ModelBiped(0.0F), 0.5F);
 
-		modelBipedMain  = (ModelBiped)mainModel;
+		modelBipedMain = (ModelBiped) mainModel;
 		modelArmorPlate = new ModelBiped(1.0F);
-		modelArmor      = new ModelBiped(0.5F);
+		modelArmor = new ModelBiped(0.5F);
 	}
 
 	@Override
 	public void doRender(Entity entity, double posX, double posY, double posZ, float rotationYaw, float rotationPitch)
 	{
-		renderHuman((AbstractEntity)entity, posX, posY, posZ, rotationYaw, rotationPitch);
+		renderHuman((AbstractEntity) entity, posX, posY, posZ, rotationYaw, rotationPitch);
 	}
 
 	@Override
 	public void doRender(EntityLiving entityLiving, double posX, double posY, double posZ, float rotationYaw, float rotationPitch)
 	{
-		renderHuman((AbstractEntity)entityLiving, posX, posY, posZ, rotationYaw, rotationPitch);
+		renderHuman((AbstractEntity) entityLiving, posX, posY, posZ, rotationYaw, rotationPitch);
 	}
 
 	@Override
 	protected void preRenderCallback(EntityLivingBase entityLivingBase, float partialTickTime)
 	{
-		final AbstractEntity entity = (AbstractEntity)entityLivingBase;
-		final float scale = entity.isMale ? Constants.SCALE_M_ADULT: Constants.SCALE_F_ADULT;
+		final AbstractEntity entity = (AbstractEntity) entityLivingBase;
+		final float scale = entity.isMale ? Constants.SCALE_M_ADULT : Constants.SCALE_F_ADULT;
 
 		if (entity.doApplyHeight || entity.doApplyGirth)
 		{
@@ -103,7 +101,7 @@ public class RenderHuman extends RenderBiped
 	@Override
 	protected void passSpecialRender(EntityLivingBase entityLivingBase, double posX, double posY, double posZ)
 	{
-		final AbstractEntity entity = (AbstractEntity)entityLivingBase;
+		final AbstractEntity entity = (AbstractEntity) entityLivingBase;
 
 		if (Minecraft.isGuiEnabled() && !(entity.getInstanceOfCurrentChore() instanceof ChoreHunting))
 		{
@@ -112,9 +110,9 @@ public class RenderHuman extends RenderBiped
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(Entity entity) 
+	protected ResourceLocation getEntityTexture(Entity entity)
 	{
-		final AbstractEntity abstractEntity = (AbstractEntity)entity;
+		final AbstractEntity abstractEntity = (AbstractEntity) entity;
 
 		if (abstractEntity.texture.contains("steve"))
 		{
@@ -135,31 +133,30 @@ public class RenderHuman extends RenderBiped
 	/**
 	 * Checks if a name tag can be rendered above an entity.
 	 * 
-	 * @param 	entityRendering	The entity being rendered.
-	 * 
-	 * @return	True if a name tag can be rendered above the provided entity.
+	 * @param entityRendering The entity being rendered.
+	 * @return True if a name tag can be rendered above the provided entity.
 	 */
 	protected boolean canRenderNameTag(EntityLivingBase entityRendering)
 	{
 		final EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
 		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(entityPlayer.getCommandSenderName());
-		final Vec3 entityLookVector = Vec3.createVectorHelper(entityRendering.posX - entityPlayer.posX, entityRendering.boundingBox.minY + (double)entityRendering.height / 2.0F - entityPlayer.posY + entityPlayer.getEyeHeight(), entityRendering.posZ - entityPlayer.posZ).normalize();
+		final Vec3 entityLookVector = Vec3.createVectorHelper(entityRendering.posX - entityPlayer.posX, entityRendering.boundingBox.minY + (double) entityRendering.height / 2.0F - entityPlayer.posY + entityPlayer.getEyeHeight(), entityRendering.posZ - entityPlayer.posZ).normalize();
 		final double dotProduct = entityPlayer.getLook(1.0F).normalize().dotProduct(entityLookVector);
 		final boolean isPlayerLookingAt = dotProduct > 1.0D - 0.025D / entityLookVector.lengthVector() ? entityPlayer.canEntityBeSeen(entityRendering) : false;
-		final double distance = entityRendering.getDistanceToEntity(this.renderManager.livingPlayer);
+		final double distance = entityRendering.getDistanceToEntity(renderManager.livingPlayer);
 
-		return manager != null && MCA.getInstance().getWorldProperties(manager).showNameTags && distance < 5.0D && isPlayerLookingAt && Minecraft.isGuiEnabled() && !(Minecraft.getMinecraft().currentScreen instanceof GuiVillagerEditor) && entityRendering != this.renderManager.livingPlayer && !entityRendering.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) && entityRendering.riddenByEntity == null;
+		return manager != null && MCA.getInstance().getWorldProperties(manager).showNameTags && distance < 5.0D && isPlayerLookingAt && Minecraft.isGuiEnabled() && !(Minecraft.getMinecraft().currentScreen instanceof GuiVillagerEditor) && entityRendering != renderManager.livingPlayer && !entityRendering.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) && entityRendering.riddenByEntity == null;
 	}
 
 	/**
 	 * Renders the human on the screen.
 	 * 
-	 * @param 	entity			The entity being rendered.
-	 * @param 	posX			The entity's X position.
-	 * @param 	posY			The entity's Y position.
-	 * @param 	posZ			The entity's Z position.
-	 * @param 	rotationYaw		The entity's rotation yaw.
-	 * @param 	rotationPitch	The entity's rotation pitch.
+	 * @param entity The entity being rendered.
+	 * @param posX The entity's X position.
+	 * @param posY The entity's Y position.
+	 * @param posZ The entity's Z position.
+	 * @param rotationYaw The entity's rotation yaw.
+	 * @param rotationPitch The entity's rotation pitch.
 	 */
 	private void renderHuman(AbstractEntity entity, double posX, double posY, double posZ, float rotationYaw, float rotationPitch)
 	{
@@ -215,7 +212,7 @@ public class RenderHuman extends RenderBiped
 
 	protected void renderHumanSleeping(AbstractEntity entity, double partialTickTime)
 	{
-		int meta = entity.worldObj.getBlockMetadata(entity.bedPosX, entity.bedPosY, entity.bedPosZ);
+		final int meta = entity.worldObj.getBlockMetadata(entity.bedPosX, entity.bedPosY, entity.bedPosZ);
 
 		if (meta == 0)
 		{
@@ -248,17 +245,17 @@ public class RenderHuman extends RenderBiped
 			GL11.glTranslated(-0.5D, 0.0D, 0.0D);
 			GL11.glTranslated(0.0D, 0.0D, -1.0D);
 			GL11.glRotated(90, -1, 0, 0);
-			GL11.glTranslated(0.0D, 0.0D, -0.75D);			
+			GL11.glTranslated(0.0D, 0.0D, -0.75D);
 		}
 	}
 
 	/**
 	 * Determines the appropriate label to render over an entity's head.
 	 * 
-	 * @param 	entity	The entity that the labels will be rendered on.
-	 * @param 	posX	The entity's x position.
-	 * @param 	posY	The entity's y position.
-	 * @param 	posZ	The entity's z position.
+	 * @param entity The entity that the labels will be rendered on.
+	 * @param posX The entity's x position.
+	 * @param posY The entity's y position.
+	 * @param posZ The entity's z position.
 	 */
 
 	private void renderLabels(AbstractEntity entity, double posX, double posY, double posZ)
@@ -295,7 +292,7 @@ public class RenderHuman extends RenderBiped
 					else if (entity instanceof EntityVillagerAdult)
 					{
 						final EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-						final EntityVillagerAdult villager = (EntityVillagerAdult)entity;
+						final EntityVillagerAdult villager = (EntityVillagerAdult) entity;
 
 						if (villager.playerMemoryMap.containsKey(player.getCommandSenderName()))
 						{
@@ -311,7 +308,7 @@ public class RenderHuman extends RenderBiped
 			}
 		}
 
-		catch (NullPointerException e)
+		catch (final NullPointerException e)
 		{
 
 		}
@@ -320,23 +317,23 @@ public class RenderHuman extends RenderBiped
 	/**
 	 * Renders a label above an entity's head.
 	 * 
-	 * @param 	abstractEntity	The entity that the label should be rendered on.
-	 * @param 	posX			The entity's x position.
-	 * @param 	posY			The entity's y position.
-	 * @param 	posZ			The entity's z position.
-	 * @param 	labelText		The text that should appear on the label.
+	 * @param abstractEntity The entity that the label should be rendered on.
+	 * @param posX The entity's x position.
+	 * @param posY The entity's y position.
+	 * @param posZ The entity's z position.
+	 * @param labelText The text that should appear on the label.
 	 */
 	private void renderLabel(AbstractEntity abstractEntity, double posX, double posY, double posZ, String labelText)
 	{
 		if (abstractEntity.isSneaking())
 		{
-			final Tessellator  tessellator = Tessellator.instance;
+			final Tessellator tessellator = Tessellator.instance;
 			final FontRenderer fontRendererObj = getFontRendererFromRenderManager();
 			final int stringWidth = fontRendererObj.getStringWidth(labelText) / 2;
 
 			GL11.glPushMatrix();
 
-			GL11.glTranslatef((float)posX + 0.0F, (float)posY + 2.3F, (float)posZ);
+			GL11.glTranslatef((float) posX + 0.0F, (float) posY + 2.3F, (float) posZ);
 			GL11.glNormal3f(0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
 			GL11.glRotatef(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
@@ -378,10 +375,9 @@ public class RenderHuman extends RenderBiped
 	/**
 	 * Changes the entity's posY according to the type of horse being ridden and scale.
 	 * 
-	 * @param 	entity			The entity riding the horse.
-	 * @param 	posYCorrection	The entity's current posYCorrection.
-	 * 
-	 * @return	Modified posYCorrection that will render the entity correctly.
+	 * @param entity The entity riding the horse.
+	 * @param posYCorrection The entity's current posYCorrection.
+	 * @return Modified posYCorrection that will render the entity correctly.
 	 */
 	private double applyHorseCorrection(AbstractEntity entity, double posYCorrection)
 	{
@@ -389,19 +385,26 @@ public class RenderHuman extends RenderBiped
 
 		if (entity.ridingEntity instanceof EntityHorse)
 		{
-			final EntityHorse horse = (EntityHorse)entity.ridingEntity;
+			final EntityHorse horse = (EntityHorse) entity.ridingEntity;
 
 			switch (horse.getHorseType())
 			{
-			case 0: newPosYCorrection -= 0.45D; break;
-			case 1: newPosYCorrection -= 0.70D; break;
-			case 2: newPosYCorrection -= 0.55D; break;
-			default: break;
+				case 0:
+					newPosYCorrection -= 0.45D;
+					break;
+				case 1:
+					newPosYCorrection -= 0.70D;
+					break;
+				case 2:
+					newPosYCorrection -= 0.55D;
+					break;
+				default:
+					break;
 			}
 
 			if (entity instanceof AbstractChild)
 			{
-				final AbstractChild child = (AbstractChild)entity;
+				final AbstractChild child = (AbstractChild) entity;
 
 				if (!child.isAdult)
 				{

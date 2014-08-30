@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * PacketClickMountHorse.java
+ * Copyright (c) 2014 Radix-Shock Entertainment.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the MCA Minecraft Mod license.
+ ******************************************************************************/
+
 package mca.network.packets;
 
 import io.netty.buffer.ByteBuf;
@@ -12,11 +19,11 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
-public class PacketClickMountHorse  extends AbstractPacket implements IMessage, IMessageHandler<PacketClickMountHorse, IMessage>
+public class PacketClickMountHorse extends AbstractPacket implements IMessage, IMessageHandler<PacketClickMountHorse, IMessage>
 {
 	private int interactingEntityId;
 	private int horseEntityId;
-	
+
 	public PacketClickMountHorse()
 	{
 	}
@@ -28,56 +35,67 @@ public class PacketClickMountHorse  extends AbstractPacket implements IMessage, 
 	}
 
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		interactingEntityId = byteBuf.readInt();
 		horseEntityId = byteBuf.readInt();
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(interactingEntityId);
 		byteBuf.writeInt(horseEntityId);
 	}
 
 	@Override
-	public IMessage onMessage(PacketClickMountHorse packet, MessageContext context) 
+	public IMessage onMessage(PacketClickMountHorse packet, MessageContext context)
 	{
-		final EntityPlayer player = getPlayer(context);
-		final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(packet.interactingEntityId);
-		final EntityHorse horse = (EntityHorse) player.worldObj.getEntityByID(packet.horseEntityId);
-
-		if (horse.riddenByEntity != null && horse.riddenByEntity.getEntityId() == entity.getEntityId())
+		try
 		{
-			entity.dismountEntity(horse);
-			entity.ridingEntity = null;
-			horse.riddenByEntity = null;
-			horse.setHorseSaddled(true);
-		}
+			final EntityPlayer player = getPlayer(context);
+			final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(packet.interactingEntityId);
+			final EntityHorse horse = (EntityHorse) player.worldObj.getEntityByID(packet.horseEntityId);
 
-		else
-		{
-			if (horse.isTame() && horse.isAdultHorse() && horse.riddenByEntity == null && horse.isHorseSaddled())
+			if (entity != null)
 			{
-				entity.mountEntity(horse);
-				horse.setHorseSaddled(false);
-			}
+				if (horse != null && horse.riddenByEntity != null && horse.riddenByEntity.getEntityId() == entity.getEntityId())
+				{
+					entity.dismountEntity(horse);
+					entity.ridingEntity = null;
+					horse.riddenByEntity = null;
+					horse.setHorseSaddled(true);
+				}
 
-			else
-			{
+				else
+				{
+					if (horse.isTame() && horse.isAdultHorse() && horse.riddenByEntity == null && horse.isHorseSaddled())
+					{
+						entity.mountEntity(horse);
+						horse.setHorseSaddled(false);
+					}
+
+					else
+					{
+						if (!entity.worldObj.isRemote)
+						{
+							entity.say(MCA.getInstance().getLanguageLoader().getString("notify.horse.invalid", player, entity, false));
+						}
+					}
+				}
+
 				if (!entity.worldObj.isRemote)
 				{
-					entity.say(MCA.getInstance().getLanguageLoader().getString("notify.horse.invalid", player, entity, false));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketClickMountHorse(packet.interactingEntityId, packet.horseEntityId));
 				}
 			}
 		}
 
-		if (!entity.worldObj.isRemote)
+		catch (final NullPointerException e)
 		{
-			MCA.packetHandler.sendPacketToAllPlayers(new PacketClickMountHorse(packet.interactingEntityId, packet.horseEntityId));
+			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 }

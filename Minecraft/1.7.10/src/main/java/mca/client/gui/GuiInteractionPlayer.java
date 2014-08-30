@@ -2,18 +2,13 @@
  * GuiInteractionPlayer.java
  * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/gpl.html
+ * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
 package mca.client.gui;
 
-import java.util.Map;
-
 import mca.core.MCA;
-import mca.core.WorldPropertiesList;
-import mca.network.packets.PacketClientCommand;
+import mca.network.packets.PacketPlayerInteraction;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -26,10 +21,10 @@ import cpw.mods.fml.relauncher.SideOnly;
  * Defines the GUI used to interact with a player.
  */
 @SideOnly(Side.CLIENT)
-public class GuiInteractionPlayer extends AbstractGui 
+public class GuiInteractionPlayer extends AbstractGui
 {
 	/** An instance of the target player. */
-	private EntityPlayer playerTarget;
+	private final EntityPlayer playerTarget;
 
 	//Basic interaction buttons.
 	private GuiButton askToMarryButton;
@@ -50,8 +45,8 @@ public class GuiInteractionPlayer extends AbstractGui
 	/**
 	 * Constructor
 	 * 
-	 * @param 	playerInitiator	The entity that started the interaction.
-	 * @param   playerTarget	The player being interacted with.
+	 * @param playerInitiator The entity that started the interaction.
+	 * @param playerTarget The player being interacted with.
 	 */
 	public GuiInteractionPlayer(EntityPlayer playerInitiator, EntityPlayer playerTarget)
 	{
@@ -64,27 +59,11 @@ public class GuiInteractionPlayer extends AbstractGui
 	{
 		buttonList.clear();
 		
-		final Map<String, String> marriageRequests = MCA.getInstance().marriageRequests;
-		final Map<String, String> babyRequests = MCA.getInstance().babyRequests;
 		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
-		
+
 		if (MCA.getInstance().getWorldProperties(manager).playerSpouseName.equals(playerTarget.getCommandSenderName()))
 		{
 			isMarriedToTarget = true;
-
-			if (MCA.getInstance().babyRequests.size() > 0)
-			{
-				if (MCA.getInstance().babyRequests.get(playerTarget.getCommandSenderName()).equals(player.getCommandSenderName()))
-				{
-					doesTargetWantBaby = true;
-				}
-			}
-		}
-
-		else if (marriageRequests.size() > 0 && marriageRequests.get(playerTarget.getCommandSenderName()).equals(player.getCommandSenderName()) && 
-				MCA.getInstance().getWorldProperties(manager).playerSpouseID == 0)
-		{
-			doesTargetWantToMarry = true;
 		}
 
 		drawBaseGui();
@@ -114,19 +93,7 @@ public class GuiInteractionPlayer extends AbstractGui
 	{
 		drawDefaultBackground();
 		drawCenteredString(fontRendererObj, playerTarget.getCommandSenderName(), width / 2, height / 2 - 80, 0xffffff);
-
-		final WorldPropertiesList properties = MCA.getInstance().getWorldProperties(MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName()).worldPropertiesInstance);
 		
-		if (doesTargetWantToMarry && properties.playerSpouseID == 0)
-		{
-			drawCenteredString(fontRendererObj, playerTarget.getCommandSenderName() + " would like to marry you.", width / 2, height / 2 - 30, 0xffffff);
-		}
-
-		else if (doesTargetWantBaby)
-		{
-			drawCenteredString(fontRendererObj, playerTarget.getCommandSenderName() + " would like to have a baby.", width / 2, height / 2 - 30, 0xffffff);
-		}
-
 		drawBaseGui();
 		super.drawScreen(i, j, f);
 	}
@@ -140,26 +107,13 @@ public class GuiInteractionPlayer extends AbstractGui
 		inInteractionSelectGui = false;
 		displaySuccessChance = false;
 
-		buttonList.add(askToMarryButton 		= new GuiButton(1, width / 2 - 105, height / 2 + 20, 70, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.player.asktomarry")));
-		buttonList.add(haveBabyButton     		= new GuiButton(4, width / 2 - 35,  height / 2 + 20, 70, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.player.havebaby")));
-		buttonList.add(divorceButton  			= new GuiButton(5, width / 2 + 35,  height / 2 + 20, 70, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.divorce")));
+		buttonList.add(askToMarryButton = new GuiButton(1, width / 2 - 105, height / 2 + 20, 70, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.player.asktomarry")));
+		buttonList.add(haveBabyButton = new GuiButton(4, width / 2 - 35, height / 2 + 20, 70, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.player.havebaby")));
+		buttonList.add(divorceButton = new GuiButton(5, width / 2 + 35, height / 2 + 20, 70, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.divorce")));
 
 		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
 		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.exit")));
 		backButton.enabled = false;
-
-		if (doesTargetWantToMarry)
-		{
-			askToMarryButton.enabled = false;
-			buttonList.add(acceptMarriageButton  = new GuiButton(2, width / 2 - 60, height / 2 - 20, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.player.accept")));
-			buttonList.add(declineMarriageButton = new GuiButton(3, width / 2 + 0,  height / 2 - 20, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.player.decline")));
-		}
-
-		else if (doesTargetWantBaby)
-		{
-			haveBabyButton.enabled = false;
-			buttonList.add(acceptBabyButton  = new GuiButton(2, width / 2 - 30, height / 2 - 20, 60, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.interact.player.accept")));
-		}
 
 		if (isMarriedToTarget)
 		{
@@ -176,38 +130,23 @@ public class GuiInteractionPlayer extends AbstractGui
 	/**
 	 * Handles an action performed in the base GUI.
 	 * 
-	 * @param	button	The button that was pressed.
+	 * @param button The button that was pressed.
 	 */
 	private void actionPerformedBase(GuiButton button)
 	{
 		if (button == askToMarryButton)
 		{
-			MCA.packetHandler.sendPacketToServer(new PacketClientCommand("/mca.marry " + playerTarget.getCommandSenderName()));
-		}
-
-		else if (button == acceptMarriageButton)
-		{
-			MCA.packetHandler.sendPacketToServer(new PacketClientCommand("/mca.marry.accept " + playerTarget.getCommandSenderName()));
-		}
-
-		else if (button == declineMarriageButton)
-		{
-			MCA.packetHandler.sendPacketToServer(new PacketClientCommand("/mca.marry.decline " + playerTarget.getCommandSenderName()));
+			MCA.packetHandler.sendPacketToServer(new PacketPlayerInteraction(1, player.getCommandSenderName(), playerTarget.getCommandSenderName()));
 		}
 
 		else if (button == haveBabyButton)
 		{
-			MCA.packetHandler.sendPacketToServer(new PacketClientCommand("/mca.havebaby"));
-		}
-
-		else if (button == acceptBabyButton)
-		{
-			MCA.packetHandler.sendPacketToServer(new PacketClientCommand("/mca.havebaby.accept"));
+			MCA.packetHandler.sendPacketToServer(new PacketPlayerInteraction(4, player.getCommandSenderName(), playerTarget.getCommandSenderName()));
 		}
 
 		else if (button == divorceButton)
 		{
-			MCA.packetHandler.sendPacketToServer(new PacketClientCommand("/mca.divorce"));
+			MCA.packetHandler.sendPacketToServer(new PacketPlayerInteraction(7, player.getCommandSenderName(), playerTarget.getCommandSenderName()));
 		}
 
 		close();

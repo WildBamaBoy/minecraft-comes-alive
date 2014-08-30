@@ -2,9 +2,7 @@
  * GuiInventory.java
  * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/gpl.html
+ * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
 package mca.client.gui;
@@ -29,15 +27,15 @@ import cpw.mods.fml.relauncher.SideOnly;
  */
 @SideOnly(Side.CLIENT)
 public class GuiInventory extends InventoryEffectRenderer
-{	
+{
 	private static final ResourceLocation resourceLocation = new ResourceLocation("mca:textures/gui/container/inventory.png");
 
-	private AbstractEntity owner;
+	private final AbstractEntity owner;
 	private GuiButton backButton;
 	private GuiButton exitButton;
 
 	/** The number of rows in the inventory. */
-	private int inventoryRows;
+	private final int inventoryRows;
 
 	/** Has the inventory been opened from the villager editor? */
 	private boolean fromEditor = false;
@@ -45,10 +43,10 @@ public class GuiInventory extends InventoryEffectRenderer
 	/**
 	 * Constructor
 	 * 
-	 * @param 	entity			The entity who owns the inventory being accessed.
-	 * @param 	playerInventory	The inventory of the player opening this GUI.
-	 * @param 	entityInventory	The inventory of the entity that the player is interacting with.
-	 * @param	fromEditor		Is this GUI being opened from the villager editor?
+	 * @param entity The entity who owns the inventory being accessed.
+	 * @param playerInventory The inventory of the player opening this GUI.
+	 * @param entityInventory The inventory of the entity that the player is interacting with.
+	 * @param fromEditor Is this GUI being opened from the villager editor?
 	 */
 	public GuiInventory(AbstractEntity entity, IInventory playerInventory, IInventory entityInventory, boolean fromEditor)
 	{
@@ -58,8 +56,8 @@ public class GuiInventory extends InventoryEffectRenderer
 		allowUserInput = false;
 		this.fromEditor = fromEditor;
 
-		char c = '\336';
-		int i = c - 108;		
+		final char c = '\336';
+		final int i = c - 108;
 		inventoryRows = entityInventory.getSizeInventory() / 9;
 		xSize = xSize + 24;
 		ySize = i + inventoryRows * 18;
@@ -83,7 +81,7 @@ public class GuiInventory extends InventoryEffectRenderer
 			{
 				if (owner instanceof EntityPlayerChild)
 				{
-					Minecraft.getMinecraft().displayGuiScreen(new GuiInteractionPlayerChild((EntityPlayerChild)owner, owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer)));
+					Minecraft.getMinecraft().displayGuiScreen(new GuiInteractionPlayerChild((EntityPlayerChild) owner, owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer)));
 				}
 
 				else if (owner instanceof EntityVillagerAdult)
@@ -92,7 +90,7 @@ public class GuiInventory extends InventoryEffectRenderer
 					{
 						Minecraft.getMinecraft().displayGuiScreen(new GuiInteractionSpouse(owner, owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer)));
 					}
-					
+
 					else
 					{
 						Minecraft.getMinecraft().displayGuiScreen(new GuiInteractionVillagerAdult(owner, owner.worldObj.getPlayerEntityByName(owner.lastInteractingPlayer)));
@@ -129,19 +127,19 @@ public class GuiInventory extends InventoryEffectRenderer
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float offset, int mouseX, int mouseY)
 	{
-		this.mc.getTextureManager().bindTexture(resourceLocation);
+		mc.getTextureManager().bindTexture(resourceLocation);
 
-		int addX = Minecraft.getMinecraft().thePlayer.getActivePotionEffects().size() > 0 ? 120 : 0;
+		final int addX = Minecraft.getMinecraft().thePlayer.getActivePotionEffects().size() > 0 ? 120 : 0;
 
 		//Draw the two inventories.
-		int x = (width - xSize + addX) / 2;
-		int y = (height - ySize) / 2;
-		drawTexturedModalRect(x, y, 0, 0, xSize + 26, inventoryRows * 18 + 21);			//Top inventory
-		drawTexturedModalRect(x, y + inventoryRows * 18 + 17, 0, 126, xSize + 26, 96);	//Bottom inventory
+		final int x = (width - xSize + addX) / 2;
+		final int y = (height - ySize) / 2;
+		drawTexturedModalRect(x, y, 0, 0, xSize + 26, inventoryRows * 18 + 21); //Top inventory
+		drawTexturedModalRect(x, y + inventoryRows * 18 + 17, 0, 126, xSize + 26, 96); //Bottom inventory
 	}
 
 	@Override
-	public void onGuiClosed() 
+	public void onGuiClosed()
 	{
 		super.onGuiClosed();
 		owner.inventory.closeInventory();

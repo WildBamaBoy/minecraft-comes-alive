@@ -1,3 +1,10 @@
+/*******************************************************************************
+ * PacketSetPosition.java
+ * Copyright (c) 2014 Radix-Shock Entertainment.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the MCA Minecraft Mod license.
+ ******************************************************************************/
+
 package mca.network.packets;
 
 import io.netty.buffer.ByteBuf;
@@ -16,11 +23,11 @@ public class PacketSetPosition extends AbstractPacket implements IMessage, IMess
 	private double posX;
 	private double posY;
 	private double posZ;
-	
+
 	public PacketSetPosition()
 	{
 	}
-	
+
 	public PacketSetPosition(int entityId, double posX, double posY, double posZ)
 	{
 		this.entityId = entityId;
@@ -28,9 +35,9 @@ public class PacketSetPosition extends AbstractPacket implements IMessage, IMess
 		this.posY = posY;
 		this.posZ = posZ;
 	}
-	
+
 	@Override
-	public void fromBytes(ByteBuf byteBuf) 
+	public void fromBytes(ByteBuf byteBuf)
 	{
 		entityId = byteBuf.readInt();
 		posX = byteBuf.readDouble();
@@ -39,7 +46,7 @@ public class PacketSetPosition extends AbstractPacket implements IMessage, IMess
 	}
 
 	@Override
-	public void toBytes(ByteBuf byteBuf) 
+	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(entityId);
 		byteBuf.writeDouble(posX);
@@ -48,11 +55,15 @@ public class PacketSetPosition extends AbstractPacket implements IMessage, IMess
 	}
 
 	@Override
-	public IMessage onMessage(PacketSetPosition packet, MessageContext context) 
+	public IMessage onMessage(PacketSetPosition packet, MessageContext context)
 	{
 		final EntityPlayer player = getPlayer(context);
 		final AbstractEntity entity = (AbstractEntity) player.worldObj.getEntityByID(packet.entityId);
-		entity.setPosition(packet.posX, packet.posY, packet.posZ);
+
+		if (entity != null)
+		{
+			entity.setPosition(packet.posX, packet.posY, packet.posZ);
+		}
 
 		return null;
 	}

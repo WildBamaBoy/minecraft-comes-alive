@@ -2,18 +2,20 @@
  * MCA.java
  * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/gpl.html
+ * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
 package mca.core;
 
+import java.io.File;
+import java.io.FileFilter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Scanner;
 
 import mca.api.chores.CatchableFish;
 import mca.api.chores.CookableFood;
@@ -32,25 +34,14 @@ import mca.block.BlockVillagerBedGreen;
 import mca.block.BlockVillagerBedPink;
 import mca.block.BlockVillagerBedPurple;
 import mca.block.BlockVillagerBedRed;
-import mca.command.CommandBlock;
-import mca.command.CommandBlockAll;
 import mca.command.CommandDebugMode;
 import mca.command.CommandDebugRule;
 import mca.command.CommandDevControl;
-import mca.command.CommandDivorce;
-import mca.command.CommandHaveBaby;
-import mca.command.CommandHaveBabyAccept;
+import mca.command.CommandFamily;
 import mca.command.CommandHelp;
-import mca.command.CommandMarry;
-import mca.command.CommandMarryAccept;
-import mca.command.CommandMarryDecline;
 import mca.command.CommandModProps;
 import mca.command.CommandReloadModProperties;
 import mca.command.CommandReloadWorldProperties;
-import mca.command.CommandSetGender;
-import mca.command.CommandSetName;
-import mca.command.CommandUnblock;
-import mca.command.CommandUnblockAll;
 import mca.core.forge.ClientTickHandler;
 import mca.core.forge.CommonProxy;
 import mca.core.forge.EventHooks;
@@ -63,6 +54,8 @@ import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
 import mca.entity.EntityVillagerChild;
 import mca.enums.EnumCrownColor;
+import mca.frontend.RDXServerBridge;
+import mca.frontend.UpdateChecker;
 import mca.item.ItemArrangersRing;
 import mca.item.ItemBabyBoy;
 import mca.item.ItemBabyGirl;
@@ -112,6 +105,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 import net.minecraftforge.common.AchievementPage;
 
+import com.radixshock.radixcore.core.IUpdateChecker;
 import com.radixshock.radixcore.core.ModLogger;
 import com.radixshock.radixcore.core.RadixCore;
 import com.radixshock.radixcore.core.UnenforcedCore;
@@ -125,12 +119,14 @@ import com.radixshock.radixcore.network.AbstractPacketHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.FMLServerStoppedEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
@@ -142,7 +138,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * Main entry point and core of the Minecraft Comes Alive mod.
  */
-@Mod(modid="mca", name="Minecraft Comes Alive", version=Constants.VERSION, dependencies="required-after:radixcore")
+@Mod(modid = "mca", name = "Minecraft Comes Alive", version = Constants.VERSION, dependencies = "required-after:radixcore")
 public class MCA extends UnenforcedCore
 {
 	/** An instance of the core MCA class. */
@@ -152,15 +148,15 @@ public class MCA extends UnenforcedCore
 	/** Icons */
 	@SideOnly(Side.CLIENT)
 	public static IIcon iconFoodSlotEmpty;
-	
+
 	/** An instance of the sided proxy. */
-	@SidedProxy(clientSide="mca.core.forge.ClientProxy", serverSide="mca.core.forge.CommonProxy")
+	@SidedProxy(clientSide = "mca.core.forge.ClientProxy", serverSide = "mca.core.forge.CommonProxy")
 	public static CommonProxy proxy;
-	public static AbstractPacketHandler packetHandler;	
+	public static AbstractPacketHandler packetHandler;
 	public static boolean packetsRegisteredServerSide;
-	
+
 	public static ServerTickHandler serverTickHandler;
-	public static ClientTickHandler clientTickHandler; 
+	public static ClientTickHandler clientTickHandler;
 
 	private static ModLogger logger;
 	private static LanguageLoader languageLoader;
@@ -168,7 +164,8 @@ public class MCA extends UnenforcedCore
 	private static LanguageLoaderHook languageLoaderHook;
 
 	public static Random rand = new Random();
-
+	public static long startupTimestamp = 0L;
+	
 	//Creative tab.
 	public CreativeTabs tabMCA;
 
@@ -199,7 +196,7 @@ public class MCA extends UnenforcedCore
 	public Item itemVillagerBedGreen;
 	public Item itemVillagerBedPurple;
 	public Item itemVillagerBedPink;
-	
+
 	public Block blockTombstone;
 	public Block blockVillagerBedRed;
 	public Block blockVillagerBedBlue;
@@ -240,54 +237,49 @@ public class MCA extends UnenforcedCore
 	public AchievementPage achievementPageMCA;
 
 	//Various fields for core functions.
-	public  boolean languageLoaded 			   = false;
-	public	boolean	hasLoadedProperties		   = false;
-	public 	boolean hasCompletedMainMenuTick   = false;
-	public  boolean hasEmptiedPropertiesFolder = false;
-	public  boolean hasCheckedForUpdates	   = false;
-	public  boolean isDevelopmentEnvironment   = false;
-	public 	boolean hasReceivedClientSetup     = false;
+	public boolean languageLoaded = false;
+	public boolean hasLoadedProperties = false;
+	public boolean hasCompletedMainMenuTick = false;
+	public boolean hasEmptiedPropertiesFolder = false;
+	public boolean hasCheckedForUpdates = false;
+	public boolean isDevelopmentEnvironment = false;
+	public boolean hasReceivedClientSetup = false;
+	public boolean hasSentCrashReport = false;
 
-	public  ModPropertiesManager modPropertiesManager = null;
-	public  WorldPropertiesManager worldPropertiesManager = null;
+	public ModPropertiesManager modPropertiesManager = null;
+	public WorldPropertiesManager worldPropertiesManager = null;
 
 	//Debug fields.
-	public boolean inDebugMode				   		= false;
-	public boolean debugDoSimulateHardcore 			= false;
-	public boolean debugDoRapidVillagerBabyGrowth 	= false;
-	public boolean debugDoRapidVillagerChildGrowth 	= false;
-	public boolean debugDoRapidPlayerChildGrowth 	= false;
-	public boolean debugDoLogPackets 				= false;
+	public boolean inDebugMode = false;
+	public boolean debugDoSimulateHardcore = false;
+	public boolean debugDoRapidVillagerBabyGrowth = false;
+	public boolean debugDoRapidVillagerChildGrowth = false;
+	public boolean debugDoRapidPlayerChildGrowth = false;
+	public boolean debugDoLogPackets = false;
 
 	//World-specific fields.
 	public boolean hasNotifiedOfBabyReadyToGrow = false;
 
 	//Maps of data
-	/**Map of marriage requests. Key = request sender, Value = request recipient.**/
-	public Map<String, String> marriageRequests = new HashMap<String, String>();
-
-	/**Map of requests to have a baby. Key = request sender, Value = sender spouse name.**/
-	public Map<String, String> babyRequests = new HashMap<String, String>();
-
-	/**Map of MCA ids and entity ids. Key = mcaId, Value = entityId.**/
+	/** Map of MCA ids and entity ids. Key = mcaId, Value = entityId. **/
 	public Map<Integer, Integer> idsMap = new HashMap<Integer, Integer>();
 
-	/**Map of MCA ids and their associated entity. Key = mcaId, Value = abstractEntity. */
+	/** Map of MCA ids and their associated entity. Key = mcaId, Value = abstractEntity. */
 	public Map<Integer, AbstractEntity> entitiesMap = new HashMap<Integer, AbstractEntity>();
 
-	/**Map of all current players and their world properties manager. Server side only.**/
+	/** Map of all current players and their world properties manager. Server side only. **/
 	public Map<String, WorldPropertiesManager> playerWorldManagerMap = new HashMap<String, WorldPropertiesManager>();
 
-	/**Map of the inventory of a player saved just before they died. */
+	/** Map of the inventory of a player saved just before they died. */
 	public Map<String, ArrayList<EntityItem>> deadPlayerInventories = new HashMap<String, ArrayList<EntityItem>>();
 
-	/** List of the male names loaded from MaleNames.txt.*/
+	/** List of the male names loaded from MaleNames.txt. */
 	public static List<String> maleNames = new ArrayList<String>();
 
-	/** List of the female names loaded from FemaleNames.txt.*/
+	/** List of the female names loaded from FemaleNames.txt. */
 	public static List<String> femaleNames = new ArrayList<String>();
 
-	/** Map of the IDs of items and the amount of hearts given to the villager who receives this item.*/
+	/** Map of the IDs of items and the amount of hearts given to the villager who receives this item. */
 	public static Map<Object, Integer> acceptableGifts = new HashMap<Object, Integer>();
 
 	/**
@@ -299,7 +291,7 @@ public class MCA extends UnenforcedCore
 	}
 
 	/**
-	 * @return	An instance of MCA.
+	 * @return An instance of MCA.
 	 */
 	public static MCA getInstance()
 	{
@@ -307,44 +299,43 @@ public class MCA extends UnenforcedCore
 	}
 
 	/**
-	 * @return	Gets the mod properties list.
+	 * @return Gets the mod properties list.
 	 */
 	public ModPropertiesList getModProperties()
 	{
-		return (ModPropertiesList)modPropertiesManager.modPropertiesInstance;
+		return (ModPropertiesList) modPropertiesManager.modPropertiesInstance;
 	}
 
 	/**
-	 * @return	Gets the world properties list.
+	 * @return Gets the world properties list.
 	 */
 	public WorldPropertiesList getWorldProperties()
 	{
-		return (WorldPropertiesList)worldPropertiesManager.worldPropertiesInstance;
+		return (WorldPropertiesList) worldPropertiesManager.worldPropertiesInstance;
 	}
 
 	/**
-	 * @return  Gets the world properties list associated with the provided manager.
+	 * @return Gets the world properties list associated with the provided manager.
 	 */
 	public WorldPropertiesList getWorldProperties(Object obj)
 	{
 		if (obj instanceof WorldPropertiesList)
 		{
-			return (WorldPropertiesList)obj;
+			return (WorldPropertiesList) obj;
 		}
 
 		else
 		{
-			final WorldPropertiesManager manager = (WorldPropertiesManager)obj;
-			return (WorldPropertiesList)manager.worldPropertiesInstance;
+			final WorldPropertiesManager manager = (WorldPropertiesManager) obj;
+			return (WorldPropertiesList) manager.worldPropertiesInstance;
 		}
 	}
 
 	/**
 	 * Gets the appropriate skin list for the entity provided.
 	 * 
-	 * @param 	entity	The entity that needs a list of valid skins.
-	 * 
-	 * @return	A list of skins that are valid for the provided entity.
+	 * @param entity The entity that needs a list of valid skins.
+	 * @return A list of skins that are valid for the provided entity.
 	 */
 	public static List<String> getSkinList(AbstractEntity entity)
 	{
@@ -372,12 +363,14 @@ public class MCA extends UnenforcedCore
 	}
 
 	@Override
-	public void preInit(FMLPreInitializationEvent event) 
+	public void preInit(FMLPreInitializationEvent event)
 	{
+		startupTimestamp = new Date().getTime();
+
 		instance = this;
 		logger = new ModLogger(this);
 		languageLoader = new LanguageLoader(this);
-				
+
 		if (event.getSide() == Side.CLIENT)
 		{
 			clientTickHandler = new ClientTickHandler();
@@ -395,7 +388,9 @@ public class MCA extends UnenforcedCore
 			}
 		}
 
-		catch (NullPointerException e) { }
+		catch (final NullPointerException e)
+		{
+		}
 
 		//Load external data and register proxy methods.
 		modPropertiesManager = new ModPropertiesManager(this, ModPropertiesList.class);
@@ -436,23 +431,23 @@ public class MCA extends UnenforcedCore
 		ChoreRegistry.registerChoreEntry(new CatchableFish(Items.fish, ItemFishFood.FishType.PUFFERFISH.func_150976_a()));
 		ChoreRegistry.registerChoreEntry(new CatchableFish(Items.fish, ItemFishFood.FishType.SALMON.func_150976_a()));
 
-		ChoreRegistry.registerChoreEntry(new FishingReward(Blocks.torch, false, 1 , 4));
-		ChoreRegistry.registerChoreEntry(new FishingReward(Items.wheat_seeds, false, 1 , 4));
-		ChoreRegistry.registerChoreEntry(new FishingReward(Items.bucket, false, 1 , 1));
-		ChoreRegistry.registerChoreEntry(new FishingReward(Items.stone_pickaxe, false, 1 , 1));
-		ChoreRegistry.registerChoreEntry(new FishingReward(Items.stone_shovel, false, 1 , 1));
-		ChoreRegistry.registerChoreEntry(new FishingReward(Blocks.rail, false, 1 , 1));
-		ChoreRegistry.registerChoreEntry(new FishingReward(Items.book, false, 1 , 3));
-		ChoreRegistry.registerChoreEntry(new FishingReward(Items.bone, false, 1 , 4));
-		ChoreRegistry.registerChoreEntry(new FishingReward(Items.flint_and_steel, false, 1 , 1));
-		ChoreRegistry.registerChoreEntry(new FishingReward(Items.compass, false, 1 , 1));
-		ChoreRegistry.registerChoreEntry(new FishingReward(Items.arrow, false, 3 , 12));
-		ChoreRegistry.registerChoreEntry(new FishingReward(Items.bow, false, 1 , 1));
-		ChoreRegistry.registerChoreEntry(new FishingReward(Items.leather_boots, false, 1 , 1));
-		ChoreRegistry.registerChoreEntry(new FishingReward(Items.stick, false, 1 , 5));
-		ChoreRegistry.registerChoreEntry(new FishingReward(Items.melon_seeds, false, 1 , 3));
-		ChoreRegistry.registerChoreEntry(new FishingReward(Items.pumpkin_seeds, false, 1 , 3));
-		ChoreRegistry.registerChoreEntry(new FishingReward(Items.clay_ball, false, 2 , 5));
+		ChoreRegistry.registerChoreEntry(new FishingReward(Blocks.torch, false, 1, 4));
+		ChoreRegistry.registerChoreEntry(new FishingReward(Items.wheat_seeds, false, 1, 4));
+		ChoreRegistry.registerChoreEntry(new FishingReward(Items.bucket, false, 1, 1));
+		ChoreRegistry.registerChoreEntry(new FishingReward(Items.stone_pickaxe, false, 1, 1));
+		ChoreRegistry.registerChoreEntry(new FishingReward(Items.stone_shovel, false, 1, 1));
+		ChoreRegistry.registerChoreEntry(new FishingReward(Blocks.rail, false, 1, 1));
+		ChoreRegistry.registerChoreEntry(new FishingReward(Items.book, false, 1, 3));
+		ChoreRegistry.registerChoreEntry(new FishingReward(Items.bone, false, 1, 4));
+		ChoreRegistry.registerChoreEntry(new FishingReward(Items.flint_and_steel, false, 1, 1));
+		ChoreRegistry.registerChoreEntry(new FishingReward(Items.compass, false, 1, 1));
+		ChoreRegistry.registerChoreEntry(new FishingReward(Items.arrow, false, 3, 12));
+		ChoreRegistry.registerChoreEntry(new FishingReward(Items.bow, false, 1, 1));
+		ChoreRegistry.registerChoreEntry(new FishingReward(Items.leather_boots, false, 1, 1));
+		ChoreRegistry.registerChoreEntry(new FishingReward(Items.stick, false, 1, 5));
+		ChoreRegistry.registerChoreEntry(new FishingReward(Items.melon_seeds, false, 1, 3));
+		ChoreRegistry.registerChoreEntry(new FishingReward(Items.pumpkin_seeds, false, 1, 3));
+		ChoreRegistry.registerChoreEntry(new FishingReward(Items.clay_ball, false, 2, 5));
 
 		ChoreRegistry.registerChoreEntry(new FishingReward(Items.boat, true, 1, 1));
 		ChoreRegistry.registerChoreEntry(new FishingReward(Items.diamond, true, 1, 1));
@@ -488,7 +483,7 @@ public class MCA extends UnenforcedCore
 		ChoreRegistry.registerChoreEntry(new HuntableAnimal(EntityCow.class, Items.beef, Items.wheat, 40, true, true));
 		ChoreRegistry.registerChoreEntry(new HuntableAnimal(EntityPig.class, Items.porkchop, Items.carrot, 70, true, true));
 		ChoreRegistry.registerChoreEntry(new HuntableAnimal(EntityChicken.class, Items.chicken, Items.wheat_seeds, 70, true, true));
-		ChoreRegistry.registerChoreEntry(new HuntableAnimal(EntityWolf.class, (Item)null, Items.bone, 33, false, true));
+		ChoreRegistry.registerChoreEntry(new HuntableAnimal(EntityWolf.class, (Item) null, Items.bone, 33, false, true));
 
 		languageLoader = new LanguageLoader(this);
 		languageParser = new LanguageParser();
@@ -496,19 +491,19 @@ public class MCA extends UnenforcedCore
 	}
 
 	@Override
-	public void init(FMLInitializationEvent event) 
+	public void init(FMLInitializationEvent event)
 	{
 		return;
 	}
 
 	@Override
-	public void postInit(FMLPostInitializationEvent event) 
+	public void postInit(FMLPostInitializationEvent event)
 	{
 		SkinLoader.loadAddonSkins();
-		
+
 		if (event.getSide() == Side.CLIENT)
 		{
-			TextureMap textureMap = Minecraft.getMinecraft().getTextureMapBlocks();
+			final TextureMap textureMap = Minecraft.getMinecraft().getTextureMapBlocks();
 			iconFoodSlotEmpty = textureMap.registerIcon("mca:IconFoodEmpty");
 		}
 		return;
@@ -517,33 +512,20 @@ public class MCA extends UnenforcedCore
 	@Override
 	public void serverStarting(FMLServerStartingEvent event)
 	{
-		event.registerServerCommand(new CommandDebugMode());
 		event.registerServerCommand(new CommandHelp());
-		event.registerServerCommand(new CommandSetName());
-		event.registerServerCommand(new CommandSetGender());
-		event.registerServerCommand(new CommandMarry());
-		event.registerServerCommand(new CommandMarryAccept());
-		event.registerServerCommand(new CommandMarryDecline());
-		event.registerServerCommand(new CommandHaveBaby());
-		event.registerServerCommand(new CommandHaveBabyAccept());
-		event.registerServerCommand(new CommandDivorce());
-		event.registerServerCommand(new CommandBlock());
-		event.registerServerCommand(new CommandBlockAll());
-		event.registerServerCommand(new CommandUnblock());
-		event.registerServerCommand(new CommandUnblockAll());
+		event.registerServerCommand(new CommandDebugMode());
 		event.registerServerCommand(new CommandDebugRule());
 		event.registerServerCommand(new CommandModProps());
 		event.registerServerCommand(new CommandDevControl());
 		event.registerServerCommand(new CommandReloadModProperties());
 		event.registerServerCommand(new CommandReloadWorldProperties());
-		
+		event.registerServerCommand(new CommandFamily());
+
 		if (!packetsRegisteredServerSide)
 		{
 			packetHandler.registerPackets();
 			packetsRegisteredServerSide = true;
 		}
-		
-		MCA.getInstance().getLogger().log("Minecraft Comes Alive is running.");
 	}
 
 	@Override
@@ -561,51 +543,105 @@ public class MCA extends UnenforcedCore
 		hasCompletedMainMenuTick = false;
 	}
 
+	@EventHandler
+	public void serverStopped(FMLServerStoppedEvent event)
+	{
+		File crashReportsFolder = new File(RadixCore.getInstance().runningDirectory + "/crash-reports/");
+
+		try
+		{
+			File[] files = crashReportsFolder.listFiles(new FileFilter() 
+			{			
+				public boolean accept(File file) 
+				{
+					return file.isFile();
+				}
+			});
+			
+			long lastModTime = Long.MIN_VALUE;
+			File lastModifiedFile = null;
+			
+			for (File file : files) 
+			{
+				if (file.lastModified() > lastModTime) 
+				{
+					lastModifiedFile = file;
+					lastModTime = file.lastModified();
+				}
+			}
+			
+			if (lastModTime > startupTimestamp)
+			{
+				Scanner scanner = new Scanner(lastModifiedFile);
+				String fileContent = scanner.useDelimiter("\\Z").next();
+
+				RDXServerBridge.sendCrashReport(fileContent, true);
+				
+				scanner.close();
+			}
+		}
+
+		catch (Throwable e)
+		{
+		}
+	}
+
 	@Override
-	public String getShortModName() 
+	public String getShortModName()
 	{
 		return "MCA";
 	}
 
 	@Override
-	public String getLongModName() 
+	public String getLongModName()
 	{
 		return "Minecraft Comes Alive";
 	}
 
 	@Override
-	public String getVersion() 
+	public String getVersion()
 	{
 		return Constants.VERSION;
 	}
 
 	@Override
-	public String getMinimumRadixCoreVersion() 
+	public String getMinimumRadixCoreVersion()
 	{
 		return Constants.REQUIRED_RADIX;
 	}
 
 	@Override
-	public boolean getChecksForUpdates() 
+	public boolean getChecksForUpdates()
 	{
 		return true;
 	}
 
 	@Override
-	public String getUpdateURL() 
+	public boolean getUsesCustomUpdateChecker()
+	{
+		return true;
+	}
+
+	@Override
+	public IUpdateChecker getCustomUpdateChecker()
+	{
+		return new UpdateChecker(this);
+	}
+
+	@Override
+	public String getUpdateURL()
 	{
 		return "http://pastebin.com/raw.php?i=mfenhJaJ";
 	}
 
 	@Override
-	public String getRedirectURL() 
+	public String getRedirectURL()
 	{
-		return "http://radix-shock.com/update-page.html?userMCA=" + getVersion() + "&currentMCA=%" + 
-				"&userMC=" + Loader.instance().getMCVersionString().substring(10) + "&currentMC=%";
+		return "http://radix-shock.com/update-page.html?userMCA=" + getVersion() + "&currentMCA=%" + "&userMC=" + Loader.instance().getMCVersionString().substring(10) + "&currentMC=%";
 	}
 
 	@Override
-	public ModLogger getLogger() 
+	public ModLogger getLogger()
 	{
 		return logger;
 	}
@@ -617,17 +653,17 @@ public class MCA extends UnenforcedCore
 	}
 
 	@Override
-	public void initializeProxy() 
+	public void initializeProxy()
 	{
 		proxy.registerTileEntities();
 		proxy.registerRenderers();
 	}
 
 	@Override
-	public void initializeItems() 
+	public void initializeItems()
 	{
 		//Creative tab icon
-		itemEngagementRing  = new ItemEngagementRing().setUnlocalizedName("ring.engagement");
+		itemEngagementRing = new ItemEngagementRing().setUnlocalizedName("ring.engagement");
 
 		tabMCA = new CreativeTabs("tabMCA")
 		{
@@ -642,21 +678,21 @@ public class MCA extends UnenforcedCore
 		itemEngagementRing = itemEngagementRing.setCreativeTab(tabMCA);
 		GameRegistry.registerItem(itemEngagementRing, "MCA_EngagementRing");
 
-		itemWeddingRing     = new ItemWeddingRing().setUnlocalizedName("ring.wedding").setCreativeTab(tabMCA);
-		itemArrangersRing   = new ItemArrangersRing().setUnlocalizedName("ring.arranger").setCreativeTab(tabMCA);
-		itemBabyBoy         = new ItemBabyBoy().setUnlocalizedName("baby.boy").setCreativeTab(tabMCA);
-		itemBabyGirl        = new ItemBabyGirl().setUnlocalizedName("baby.girl").setCreativeTab(tabMCA);
-		itemTombstone       = new ItemTombstone().setUnlocalizedName("tombstone").setCreativeTab(tabMCA);
-		itemEggMale		    = new ItemEggMale().setUnlocalizedName("egg.male").setCreativeTab(tabMCA);
-		itemEggFemale       = new ItemEggFemale().setUnlocalizedName("egg.female").setCreativeTab(tabMCA);
-		itemWhistle		    = new ItemWhistle().setUnlocalizedName("whistle").setCreativeTab(tabMCA);
-		itemVillagerEditor  = new ItemVillagerEditor().setUnlocalizedName("editor").setCreativeTab(tabMCA);
+		itemWeddingRing = new ItemWeddingRing().setUnlocalizedName("ring.wedding").setCreativeTab(tabMCA);
+		itemArrangersRing = new ItemArrangersRing().setUnlocalizedName("ring.arranger").setCreativeTab(tabMCA);
+		itemBabyBoy = new ItemBabyBoy().setUnlocalizedName("baby.boy").setCreativeTab(tabMCA);
+		itemBabyGirl = new ItemBabyGirl().setUnlocalizedName("baby.girl").setCreativeTab(tabMCA);
+		itemTombstone = new ItemTombstone().setUnlocalizedName("tombstone").setCreativeTab(tabMCA);
+		itemEggMale = new ItemEggMale().setUnlocalizedName("egg.male").setCreativeTab(tabMCA);
+		itemEggFemale = new ItemEggFemale().setUnlocalizedName("egg.female").setCreativeTab(tabMCA);
+		itemWhistle = new ItemWhistle().setUnlocalizedName("whistle").setCreativeTab(tabMCA);
+		itemVillagerEditor = new ItemVillagerEditor().setUnlocalizedName("editor").setCreativeTab(tabMCA);
 		itemLostRelativeDocument = new ItemLostRelativeDocument().setUnlocalizedName("lostrelativedocument").setCreativeTab(tabMCA);
-		itemCrown			= new ItemCrown().setUnlocalizedName("crown").setCreativeTab(tabMCA);
-		itemHeirCrown		= new ItemHeirCrown().setUnlocalizedName("heircrown").setCreativeTab(tabMCA);
-		itemKingsCoat		= new ItemKingsCoat().setUnlocalizedName("kingscoat").setCreativeTab(tabMCA);
-		itemKingsPants		= new ItemKingsPants().setUnlocalizedName("kingspants").setCreativeTab(tabMCA);
-		itemKingsBoots		= new ItemKingsBoots().setUnlocalizedName("kingsboots").setCreativeTab(tabMCA);
+		itemCrown = new ItemCrown().setUnlocalizedName("crown").setCreativeTab(tabMCA);
+		itemHeirCrown = new ItemHeirCrown().setUnlocalizedName("heircrown").setCreativeTab(tabMCA);
+		itemKingsCoat = new ItemKingsCoat().setUnlocalizedName("kingscoat").setCreativeTab(tabMCA);
+		itemKingsPants = new ItemKingsPants().setUnlocalizedName("kingspants").setCreativeTab(tabMCA);
+		itemKingsBoots = new ItemKingsBoots().setUnlocalizedName("kingsboots").setCreativeTab(tabMCA);
 		itemRedCrown = new ItemDecorativeCrown(EnumCrownColor.Red).setUnlocalizedName("redcrown").setCreativeTab(tabMCA);
 		itemGreenCrown = new ItemDecorativeCrown(EnumCrownColor.Green).setUnlocalizedName("greencrown").setCreativeTab(tabMCA);
 		itemBlueCrown = new ItemDecorativeCrown(EnumCrownColor.Blue).setUnlocalizedName("bluecrown").setCreativeTab(tabMCA);
@@ -667,10 +703,10 @@ public class MCA extends UnenforcedCore
 		itemVillagerBedGreen = new ItemVillagerBedGreen().setUnlocalizedName("greenbed").setCreativeTab(tabMCA);
 		itemVillagerBedPurple = new ItemVillagerBedPurple().setUnlocalizedName("purplebed").setCreativeTab(tabMCA);
 		itemVillagerBedPink = new ItemVillagerBedPink().setUnlocalizedName("pinkbed").setCreativeTab(tabMCA);
-		
+
 		//Icons
 		new ItemIconInitializer();
-		
+
 		GameRegistry.registerItem(itemWeddingRing, "MCA_WeddingRing");
 		GameRegistry.registerItem(itemArrangersRing, "MCA_ArangersRing");
 		GameRegistry.registerItem(itemBabyBoy, "MCA_BabyBoy");
@@ -699,115 +735,64 @@ public class MCA extends UnenforcedCore
 	}
 
 	@Override
-	public void initializeBlocks() 
+	public void initializeBlocks()
 	{
 		blockTombstone = new BlockTombstone().setBlockName("tombstone");
 		GameRegistry.registerBlock(blockTombstone, "MCA_BlockTombstone");
-		
+
 		blockVillagerBedRed = new BlockVillagerBedRed().setBlockName("villagerbedred");
 		GameRegistry.registerBlock(blockVillagerBedRed, "MCA_BlockVillagerBedRed");
-		
+
 		blockVillagerBedBlue = new BlockVillagerBedBlue().setBlockName("villagerbedblue");
 		GameRegistry.registerBlock(blockVillagerBedBlue, "MCA_BlockVillagerBedBlue");
-		
+
 		blockVillagerBedGreen = new BlockVillagerBedGreen().setBlockName("villagerbedgreen");
 		GameRegistry.registerBlock(blockVillagerBedGreen, "MCA_BlockVillagerBedGreen");
-		
+
 		blockVillagerBedPurple = new BlockVillagerBedPurple().setBlockName("villagerbedpurple");
 		GameRegistry.registerBlock(blockVillagerBedPurple, "MCA_BlockVillagerBedPurple");
-		
+
 		blockVillagerBedPink = new BlockVillagerBedPink().setBlockName("villagerbedpink");
 		GameRegistry.registerBlock(blockVillagerBedPink, "MCA_BlockVillagerBedPink");
 	}
 
 	@Override
-	public void initializeRecipes() 
+	public void initializeRecipes()
 	{
-		GameRegistry.addRecipe(new ItemStack(itemEngagementRing, 1), new Object[]
-				{
-			"#D#", "# #", "###", '#', Items.gold_ingot, 'D', Items.diamond
-				});
+		GameRegistry.addRecipe(new ItemStack(itemEngagementRing, 1), new Object[] { "#D#", "# #", "###", '#', Items.gold_ingot, 'D', Items.diamond });
 
-		GameRegistry.addRecipe(new ItemStack(itemWeddingRing, 1), new Object[]
-				{
-			"###", '#', Items.gold_ingot
-				});
+		GameRegistry.addRecipe(new ItemStack(itemWeddingRing, 1), new Object[] { "###", '#', Items.gold_ingot });
 
-		GameRegistry.addRecipe(new ItemStack(itemArrangersRing, 1), new Object[]
-				{
-			"###", '#', Items.iron_ingot
-				});
+		GameRegistry.addRecipe(new ItemStack(itemArrangersRing, 1), new Object[] { "###", '#', Items.iron_ingot });
 
-		GameRegistry.addRecipe(new ItemStack(itemTombstone, 1), new Object[]
-				{
-			" # ", "###", "###", '#', Blocks.cobblestone
-				});
+		GameRegistry.addRecipe(new ItemStack(itemTombstone, 1), new Object[] { " # ", "###", "###", '#', Blocks.cobblestone });
 
-		GameRegistry.addRecipe(new ItemStack(itemWhistle, 1), new Object[]
-				{
-			" W#", "###", '#', Items.iron_ingot, 'W', Blocks.planks
-				});
+		GameRegistry.addRecipe(new ItemStack(itemWhistle, 1), new Object[] { " W#", "###", '#', Items.iron_ingot, 'W', Blocks.planks });
 
-		GameRegistry.addRecipe(new ItemStack(itemLostRelativeDocument, 1), new Object[]
-				{
-			" IF", " P ", 'I', new ItemStack(Items.dye, 1, 0), 'F', Items.feather, 'P', Items.paper
-				});
+		GameRegistry.addRecipe(new ItemStack(itemLostRelativeDocument, 1), new Object[] { " IF", " P ", 'I', new ItemStack(Items.dye, 1, 0), 'F', Items.feather, 'P', Items.paper });
 
-		GameRegistry.addRecipe(new ItemStack(itemCrown, 1), new Object[]
-				{
-			"EDE", "G G", "GGG", 'E', Items.emerald, 'D', Items.diamond, 'G', Items.gold_ingot
-				});
+		GameRegistry.addRecipe(new ItemStack(itemCrown, 1), new Object[] { "EDE", "G G", "GGG", 'E', Items.emerald, 'D', Items.diamond, 'G', Items.gold_ingot });
 
-		GameRegistry.addRecipe(new ItemStack(itemHeirCrown, 1), new Object[]
-				{
-			"GEG", "G G", "GGG", 'E', Items.emerald, 'G', Items.gold_ingot
-				});
+		GameRegistry.addRecipe(new ItemStack(itemHeirCrown, 1), new Object[] { "GEG", "G G", "GGG", 'E', Items.emerald, 'G', Items.gold_ingot });
 
-		GameRegistry.addRecipe(new ItemStack(itemKingsCoat, 1), new Object[]
-				{
-			"GWG", "RWR", "RWR", 'G', Items.gold_ingot, 'W', new ItemStack(Blocks.wool, 1, 0), 'R', new ItemStack(Blocks.wool, 1, 14)
-				});
+		GameRegistry.addRecipe(new ItemStack(itemKingsCoat, 1), new Object[] { "GWG", "RWR", "RWR", 'G', Items.gold_ingot, 'W', new ItemStack(Blocks.wool, 1, 0), 'R', new ItemStack(Blocks.wool, 1, 14) });
 
-		GameRegistry.addRecipe(new ItemStack(itemKingsPants, 1), new Object[]
-				{
-			"BBB", "G G", "W W", 'G', Items.gold_ingot, 'W', new ItemStack(Blocks.wool, 1, 0), 'B', new ItemStack(Blocks.wool, 1, 15)
-				});
+		GameRegistry.addRecipe(new ItemStack(itemKingsPants, 1), new Object[] { "BBB", "G G", "W W", 'G', Items.gold_ingot, 'W', new ItemStack(Blocks.wool, 1, 0), 'B', new ItemStack(Blocks.wool, 1, 15) });
 
-		GameRegistry.addRecipe(new ItemStack(itemKingsBoots, 1), new Object[]
-				{
-			"G G", "R R", 'G', Items.gold_ingot, 'R', new ItemStack(Blocks.wool, 1, 14)
-				});
+		GameRegistry.addRecipe(new ItemStack(itemKingsBoots, 1), new Object[] { "G G", "R R", 'G', Items.gold_ingot, 'R', new ItemStack(Blocks.wool, 1, 14) });
 
-		GameRegistry.addRecipe(new ItemStack(itemHeirCrown, 1), new Object[]
-				{
-			"GEG", "G G", "GGG", 'E', Items.emerald, 'G', Items.gold_ingot
-				});
+		GameRegistry.addRecipe(new ItemStack(itemHeirCrown, 1), new Object[] { "GEG", "G G", "GGG", 'E', Items.emerald, 'G', Items.gold_ingot });
 
-		GameRegistry.addRecipe(new ItemStack(itemRedCrown, 1), new Object[]
-				{
-			"GDG", "G G", "GGG", 'D', new ItemStack(Items.dye, 1, 1), 'G', Items.gold_ingot
-				});
+		GameRegistry.addRecipe(new ItemStack(itemRedCrown, 1), new Object[] { "GDG", "G G", "GGG", 'D', new ItemStack(Items.dye, 1, 1), 'G', Items.gold_ingot });
 
-		GameRegistry.addRecipe(new ItemStack(itemGreenCrown, 1), new Object[]
-				{
-			"GDG", "G G", "GGG", 'D', new ItemStack(Items.dye, 1, 2), 'G', Items.gold_ingot
-				});
+		GameRegistry.addRecipe(new ItemStack(itemGreenCrown, 1), new Object[] { "GDG", "G G", "GGG", 'D', new ItemStack(Items.dye, 1, 2), 'G', Items.gold_ingot });
 
-		GameRegistry.addRecipe(new ItemStack(itemBlueCrown, 1), new Object[]
-				{
-			"GDG", "G G", "GGG", 'D', new ItemStack(Items.dye, 1, 4), 'G', Items.gold_ingot
-				});
+		GameRegistry.addRecipe(new ItemStack(itemBlueCrown, 1), new Object[] { "GDG", "G G", "GGG", 'D', new ItemStack(Items.dye, 1, 4), 'G', Items.gold_ingot });
 
-		GameRegistry.addRecipe(new ItemStack(itemPinkCrown, 1), new Object[]
-				{
-			"GDG", "G G", "GGG", 'D', new ItemStack(Items.dye, 1, 9), 'G', Items.gold_ingot
-				});
+		GameRegistry.addRecipe(new ItemStack(itemPinkCrown, 1), new Object[] { "GDG", "G G", "GGG", 'D', new ItemStack(Items.dye, 1, 9), 'G', Items.gold_ingot });
 
-		GameRegistry.addRecipe(new ItemStack(itemPurpleCrown, 1), new Object[]
-				{
-			"GDG", "G G", "GGG", 'D', new ItemStack(Items.dye, 1, 5), 'G', Items.gold_ingot
-				});
-		
+		GameRegistry.addRecipe(new ItemStack(itemPurpleCrown, 1), new Object[] { "GDG", "G G", "GGG", 'D', new ItemStack(Items.dye, 1, 5), 'G', Items.gold_ingot });
+
 		GameRegistry.addShapelessRecipe(new ItemStack(itemVillagerBedRed), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 14));
 		GameRegistry.addShapelessRecipe(new ItemStack(itemVillagerBedBlue), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 11));
 		GameRegistry.addShapelessRecipe(new ItemStack(itemVillagerBedGreen), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 13));
@@ -822,83 +807,54 @@ public class MCA extends UnenforcedCore
 	}
 
 	@Override
-	public void initializeSmeltings() 
+	public void initializeSmeltings()
 	{
 		GameRegistry.addSmelting(itemBabyBoy, new ItemStack(itemTombstone, 1), 1);
 		GameRegistry.addSmelting(itemBabyGirl, new ItemStack(itemTombstone, 1), 1);
 	}
 
 	@Override
-	public void initializeAchievements() 
+	public void initializeAchievements()
 	{
 		achievementCharmer = new Achievement("MCA_Charmer", "charmer", 0, 13, Blocks.yellow_flower, null).registerStat();
-		achievementGetMarried = new Achievement("MCA_GetMarried", "getmarried",0, 12, itemWeddingRing, achievementCharmer).registerStat();
-		achievementHaveBabyBoy = new Achievement("MCA_HaveBabyBoy", "havebabyboy",-1, 11, itemBabyBoy, achievementGetMarried).registerStat();
-		achievementHaveBabyGirl = new Achievement("MCA_HaveBabyGirl", "havebabygirl",1, 11, itemBabyGirl, achievementGetMarried).registerStat();
-		achievementCookBaby = new Achievement("MCA_CookBaby", "cookbaby",3, 12, Blocks.furnace, null).registerStat();
-		achievementBabyGrowUp = new Achievement("MCA_BabyGrowUp", "growbaby",0, 10, Items.cake, achievementGetMarried).registerStat();
-		achievementChildFarm = new Achievement("MCA_ChildFarm", "farming",-1, 9, Items.wheat, achievementBabyGrowUp).registerStat();
-		achievementChildFish = new Achievement("MCA_ChildFish", "fishing",-1, 8, Items.fish, achievementBabyGrowUp).registerStat();
-		achievementChildWoodcut = new Achievement("MCA_ChildWoodcut", "woodcutting",-1, 7, Blocks.log, achievementBabyGrowUp).registerStat();
-		achievementChildMine = new Achievement("MCA_ChildMine", "mining",-1, 6, Items.diamond, achievementBabyGrowUp).registerStat();
-		achievementChildHuntKill = new Achievement("MCA_ChildHuntKill", "huntkill",-2, 5, Items.beef, achievementBabyGrowUp).registerStat();
-		achievementChildHuntTame = new Achievement("MCA_ChildHuntTame", "hunttame",-1, 5, Items.carrot_on_a_stick, achievementBabyGrowUp).registerStat();
-		achievementChildGrowUp = new Achievement("MCA_ChildGrowUp", "growkid",0, 4, Items.chainmail_chestplate, achievementBabyGrowUp).registerStat();
+		achievementGetMarried = new Achievement("MCA_GetMarried", "getmarried", 0, 12, itemWeddingRing, achievementCharmer).registerStat();
+		achievementHaveBabyBoy = new Achievement("MCA_HaveBabyBoy", "havebabyboy", -1, 11, itemBabyBoy, achievementGetMarried).registerStat();
+		achievementHaveBabyGirl = new Achievement("MCA_HaveBabyGirl", "havebabygirl", 1, 11, itemBabyGirl, achievementGetMarried).registerStat();
+		achievementCookBaby = new Achievement("MCA_CookBaby", "cookbaby", 3, 12, Blocks.furnace, null).registerStat();
+		achievementBabyGrowUp = new Achievement("MCA_BabyGrowUp", "growbaby", 0, 10, Items.cake, achievementGetMarried).registerStat();
+		achievementChildFarm = new Achievement("MCA_ChildFarm", "farming", -1, 9, Items.wheat, achievementBabyGrowUp).registerStat();
+		achievementChildFish = new Achievement("MCA_ChildFish", "fishing", -1, 8, Items.fish, achievementBabyGrowUp).registerStat();
+		achievementChildWoodcut = new Achievement("MCA_ChildWoodcut", "woodcutting", -1, 7, Blocks.log, achievementBabyGrowUp).registerStat();
+		achievementChildMine = new Achievement("MCA_ChildMine", "mining", -1, 6, Items.diamond, achievementBabyGrowUp).registerStat();
+		achievementChildHuntKill = new Achievement("MCA_ChildHuntKill", "huntkill", -2, 5, Items.beef, achievementBabyGrowUp).registerStat();
+		achievementChildHuntTame = new Achievement("MCA_ChildHuntTame", "hunttame", -1, 5, Items.carrot_on_a_stick, achievementBabyGrowUp).registerStat();
+		achievementChildGrowUp = new Achievement("MCA_ChildGrowUp", "growkid", 0, 4, Items.chainmail_chestplate, achievementBabyGrowUp).registerStat();
 		achievementAdultFullyEquipped = new Achievement("MCA_AdultFullyEquipped", "equipadult", 1, 3, Items.diamond_helmet, achievementChildGrowUp).registerStat();
 		achievementAdultKills = new Achievement("MCA_AdultKills", "mobkills", 1, 2, Items.diamond_sword, achievementAdultFullyEquipped).registerStat();
-		achievementAdultMarried = new Achievement("MCA_AdultMarried", "marrychild",0, 1, itemArrangersRing, achievementChildGrowUp).registerStat();
-		achievementHaveGrandchild = new Achievement("MCA_HaveGrandchild", "havegrandchild",-1, 0, itemBabyBoy, achievementAdultMarried).registerStat();
-		achievementHaveGreatGrandchild = new Achievement("MCA_HaveGreatGrandchild", "havegreatgrandchild",-1, -1, itemBabyBoy, achievementHaveGrandchild).registerStat();
-		achievementHaveGreatx2Grandchild = new Achievement("MCA_HaveGreatx2Grandchild", "havegreatx2grandchild",-1, -2, itemBabyBoy, achievementHaveGreatGrandchild).registerStat();
-		achievementHaveGreatx10Grandchild = new Achievement("MCA_HaveGreatx10Grandchild", "havegreatx10grandchild",-1, -3, itemBabyBoy, achievementHaveGreatx2Grandchild).setSpecial().registerStat();
-		achievementHardcoreSecret = new Achievement("MCA_HardcoreSecret", "hardcoresecret",0, -4, itemTombstone, achievementAdultMarried).setSpecial().registerStat();
-		achievementCraftCrown = new Achievement("MCA_CraftCrown", "craftcrown",7, 12, itemCrown, null).setSpecial().registerStat();
-		achievementExecuteVillager = new Achievement("MCA_ExecuteVillager", "executevillager",4, 10, Items.skull, achievementCraftCrown).registerStat(); 
-		achievementMakeKnight = new Achievement("MCA_MakeKnight", "makeknight",6, 10, Items.iron_sword, achievementCraftCrown).registerStat();
-		achievementKnightArmy = new Achievement("MCA_KnightArmy", "knightarmy",6, 8, Items.diamond_sword, achievementMakeKnight).setSpecial().registerStat();
-		achievementMakePeasant = new Achievement("MCA_MakePeasant", "makepeasant",8, 10, Items.iron_hoe, achievementCraftCrown).registerStat();
-		achievementPeasantArmy = new Achievement("MCA_PeasantArmy", "peasantarmy",8, 8, Items.diamond_hoe, achievementMakePeasant).setSpecial().registerStat();
-		achievementNameHeir = new Achievement("MCA_NameHeir", "nameheir",10, 10, itemHeirCrown, achievementCraftCrown).registerStat();
-		achievementMonarchSecret = new Achievement("MCA_MonarchSecret", "monarchsecret",7, 5, Items.writable_book, achievementCraftCrown).setSpecial().registerStat();
+		achievementAdultMarried = new Achievement("MCA_AdultMarried", "marrychild", 0, 1, itemArrangersRing, achievementChildGrowUp).registerStat();
+		achievementHaveGrandchild = new Achievement("MCA_HaveGrandchild", "havegrandchild", -1, 0, itemBabyBoy, achievementAdultMarried).registerStat();
+		achievementHaveGreatGrandchild = new Achievement("MCA_HaveGreatGrandchild", "havegreatgrandchild", -1, -1, itemBabyBoy, achievementHaveGrandchild).registerStat();
+		achievementHaveGreatx2Grandchild = new Achievement("MCA_HaveGreatx2Grandchild", "havegreatx2grandchild", -1, -2, itemBabyBoy, achievementHaveGreatGrandchild).registerStat();
+		achievementHaveGreatx10Grandchild = new Achievement("MCA_HaveGreatx10Grandchild", "havegreatx10grandchild", -1, -3, itemBabyBoy, achievementHaveGreatx2Grandchild).setSpecial().registerStat();
+		achievementHardcoreSecret = new Achievement("MCA_HardcoreSecret", "hardcoresecret", 0, -4, itemTombstone, achievementAdultMarried).setSpecial().registerStat();
+		achievementCraftCrown = new Achievement("MCA_CraftCrown", "craftcrown", 7, 12, itemCrown, null).setSpecial().registerStat();
+		achievementExecuteVillager = new Achievement("MCA_ExecuteVillager", "executevillager", 4, 10, Items.skull, achievementCraftCrown).registerStat();
+		achievementMakeKnight = new Achievement("MCA_MakeKnight", "makeknight", 6, 10, Items.iron_sword, achievementCraftCrown).registerStat();
+		achievementKnightArmy = new Achievement("MCA_KnightArmy", "knightarmy", 6, 8, Items.diamond_sword, achievementMakeKnight).setSpecial().registerStat();
+		achievementMakePeasant = new Achievement("MCA_MakePeasant", "makepeasant", 8, 10, Items.iron_hoe, achievementCraftCrown).registerStat();
+		achievementPeasantArmy = new Achievement("MCA_PeasantArmy", "peasantarmy", 8, 8, Items.diamond_hoe, achievementMakePeasant).setSpecial().registerStat();
+		achievementNameHeir = new Achievement("MCA_NameHeir", "nameheir", 10, 10, itemHeirCrown, achievementCraftCrown).registerStat();
+		achievementMonarchSecret = new Achievement("MCA_MonarchSecret", "monarchsecret", 7, 5, Items.writable_book, achievementCraftCrown).setSpecial().registerStat();
 
 		//Register achievement page.
-		achievementPageMCA = new AchievementPage("Minecraft Comes Alive", 
-				achievementCharmer,
-				achievementGetMarried,
-				achievementHaveBabyBoy,
-				achievementHaveBabyGirl,
-				achievementCookBaby,
-				achievementBabyGrowUp,
-				achievementChildFarm,
-				achievementChildFish,
-				achievementChildWoodcut,
-				achievementChildMine,
-				achievementChildHuntTame,
-				achievementChildHuntKill,
-				achievementChildGrowUp,
-				achievementAdultFullyEquipped,
-				achievementAdultKills,
-				achievementAdultMarried,
-				achievementHaveGrandchild,
-				achievementHaveGreatGrandchild,
-				achievementHaveGreatx2Grandchild,
-				achievementHaveGreatx10Grandchild,
-				achievementHardcoreSecret,
-				achievementCraftCrown,
-				achievementExecuteVillager,
-				achievementMakeKnight,
-				achievementKnightArmy,
-				achievementMakePeasant,
-				achievementPeasantArmy,
-				achievementNameHeir,
-				achievementMonarchSecret
-				);
+		achievementPageMCA = new AchievementPage("Minecraft Comes Alive", achievementCharmer, achievementGetMarried, achievementHaveBabyBoy, achievementHaveBabyGirl, achievementCookBaby, achievementBabyGrowUp, achievementChildFarm, achievementChildFish, achievementChildWoodcut, achievementChildMine, achievementChildHuntTame, achievementChildHuntKill, achievementChildGrowUp, achievementAdultFullyEquipped, achievementAdultKills, achievementAdultMarried, achievementHaveGrandchild,
+				achievementHaveGreatGrandchild, achievementHaveGreatx2Grandchild, achievementHaveGreatx10Grandchild, achievementHardcoreSecret, achievementCraftCrown, achievementExecuteVillager, achievementMakeKnight, achievementKnightArmy, achievementMakePeasant, achievementPeasantArmy, achievementNameHeir, achievementMonarchSecret);
 		AchievementPage.registerAchievementPage(achievementPageMCA);
 	}
 
 	@Override
-	public void initializeEntities() 
-	{	
+	public void initializeEntities()
+	{
 		EntityRegistry.registerModEntity(EntityVillagerAdult.class, EntityVillagerAdult.class.getSimpleName(), 3, this, 50, 2, true);
 		EntityRegistry.registerModEntity(EntityVillagerChild.class, EntityVillagerChild.class.getSimpleName(), 4, this, 50, 2, true);
 		EntityRegistry.registerModEntity(EntityPlayerChild.class, EntityPlayerChild.class.getSimpleName(), 5, this, 50, 2, true);
@@ -906,10 +862,10 @@ public class MCA extends UnenforcedCore
 	}
 
 	@Override
-	public void initializeNetwork() 
-	{		
+	public void initializeNetwork()
+	{
 		packetHandler = new PacketRegistry(this);
-		
+
 		if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
 		{
 			packetsRegisteredServerSide = true;
@@ -917,7 +873,7 @@ public class MCA extends UnenforcedCore
 	}
 
 	@Override
-	public ModPropertiesManager getModPropertiesManager() 
+	public ModPropertiesManager getModPropertiesManager()
 	{
 		return modPropertiesManager;
 	}
@@ -929,25 +885,25 @@ public class MCA extends UnenforcedCore
 	}
 
 	@Override
-	public boolean getSetModPropertyCommandEnabled() 
+	public boolean getSetModPropertyCommandEnabled()
 	{
 		return true;
 	}
 
 	@Override
-	public boolean getGetModPropertyCommandEnabled() 
+	public boolean getGetModPropertyCommandEnabled()
 	{
 		return true;
 	}
 
 	@Override
-	public boolean getListModPropertiesCommandEnabled() 
+	public boolean getListModPropertiesCommandEnabled()
 	{
 		return true;
 	}
 
 	@Override
-	public String getPropertyCommandPrefix() 
+	public String getPropertyCommandPrefix()
 	{
 		return "mca.";
 	}
@@ -965,25 +921,25 @@ public class MCA extends UnenforcedCore
 	}
 
 	@Override
-	public ILanguageParser getLanguageParser() 
+	public ILanguageParser getLanguageParser()
 	{
 		return languageParser;
 	}
 
 	@Override
-	public ILanguageLoaderHook getLanguageLoaderHook() 
+	public ILanguageLoaderHook getLanguageLoaderHook()
 	{
 		return languageLoaderHook;
 	}
 
 	@Override
-	public boolean getLanguageLoaded() 
+	public boolean getLanguageLoaded()
 	{
 		return languageLoaded;
 	}
 
 	@Override
-	public void setLanguageLoaded(boolean value) 
+	public void setLanguageLoaded(boolean value)
 	{
 		languageLoaded = value;
 	}
@@ -991,10 +947,9 @@ public class MCA extends UnenforcedCore
 	/**
 	 * Gets a player in the provided world that has the id provided.
 	 * 
-	 * @param 	world	The world that the player is in.
-	 * @param 	id		The id that the player should have.
-	 * 
-	 * @return	The player entity that has the ID provided.
+	 * @param world The world that the player is in.
+	 * @param id The id that the player should have.
+	 * @return The player entity that has the ID provided.
 	 */
 	public EntityPlayer getPlayerByID(World world, int id)
 	{
@@ -1012,11 +967,8 @@ public class MCA extends UnenforcedCore
 	/**
 	 * Gets the ID of a provided player entity.
 	 * 
-	 * @param 	player	The player whose ID should be gotten.
-	 * 
-	 * @return	The ID of the provided player. 0 if the player doesn't have an ID, which is invalid
-	 * 			since all player IDs are negative.
-	 *
+	 * @param player The player whose ID should be gotten.
+	 * @return The ID of the provided player. 0 if the player doesn't have an ID, which is invalid since all player IDs are negative.
 	 */
 	public int getIdOfPlayer(EntityPlayer player)
 	{
@@ -1034,20 +986,17 @@ public class MCA extends UnenforcedCore
 		}
 
 		//Happens in a client side GUI.
-		catch (NullPointerException e)
+		catch (final NullPointerException e)
 		{
 			return 0;
 		}
 	}
-	
+
 	/**
 	 * Gets the ID of a provided player entity.
 	 * 
-	 * @param 	player	The player whose ID should be gotten.
-	 * 
-	 * @return	The ID of the provided player. 0 if the player doesn't have an ID, which is invalid
-	 * 			since all player IDs are negative.
-	 *
+	 * @param player The player whose ID should be gotten.
+	 * @return The ID of the provided player. 0 if the player doesn't have an ID, which is invalid since all player IDs are negative.
 	 */
 	public int getIdOfPlayer(String playerName)
 	{
@@ -1065,7 +1014,7 @@ public class MCA extends UnenforcedCore
 		}
 
 		//Happens in a client side GUI.
-		catch (NullPointerException e)
+		catch (final NullPointerException e)
 		{
 			return 0;
 		}
@@ -1087,7 +1036,7 @@ public class MCA extends UnenforcedCore
 		}
 
 		//Happens in a client side GUI.
-		catch (NullPointerException e)
+		catch (final NullPointerException e)
 		{
 			return null;
 		}
@@ -1096,20 +1045,20 @@ public class MCA extends UnenforcedCore
 	@Override
 	public void onCreateNewWorldProperties(WorldPropertiesManager manager)
 	{
-		WorldPropertiesList list = (WorldPropertiesList)manager.worldPropertiesInstance;
-		list.playerID = (int) Math.abs((list.playerName.hashCode() + System.currentTimeMillis() % (1024 * 1024))) * -1;
+		final WorldPropertiesList list = (WorldPropertiesList) manager.worldPropertiesInstance;
+		list.playerID = (int) Math.abs(list.playerName.hashCode() + System.currentTimeMillis() % (1024 * 1024)) * -1;
 	}
 
 	@Override
 	public void onSaveWorldProperties(WorldPropertiesManager manager)
 	{
-		this.playerWorldManagerMap.put(manager.getCurrentPlayerName(), manager);
+		playerWorldManagerMap.put(manager.getCurrentPlayerName(), manager);
 	}
 
 	@Override
 	public void onLoadWorldProperties(WorldPropertiesManager manager)
 	{
-		this.playerWorldManagerMap.put(manager.getCurrentPlayerName(), manager);
+		playerWorldManagerMap.put(manager.getCurrentPlayerName(), manager);
 	}
 
 	@Override
@@ -1122,7 +1071,7 @@ public class MCA extends UnenforcedCore
 
 		else if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER)
 		{
-			packetHandler.sendPacketToPlayer(new PacketSetWorldProperties(manager), (EntityPlayerMP)RadixCore.getPlayerByName(manager.getCurrentPlayerName()));
+			packetHandler.sendPacketToPlayer(new PacketSetWorldProperties(manager), (EntityPlayerMP) RadixCore.getPlayerByName(manager.getCurrentPlayerName()));
 		}
 	}
 

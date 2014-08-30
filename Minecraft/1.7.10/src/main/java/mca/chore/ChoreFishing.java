@@ -2,9 +2,7 @@
  * ChoreFishing.java
  * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/gpl.html
+ * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
 package mca.chore;
@@ -41,40 +39,40 @@ import com.radixshock.radixcore.logic.Point3D;
  */
 public class ChoreFishing extends AbstractChore
 {
-	/** An instance of the fish hook entity.*/
+	/** An instance of the fish hook entity. */
 	public transient EntityChoreFishHook fishEntity;
 
-	/** Does the owner have coordinates of water?*/
+	/** Does the owner have coordinates of water? */
 	public boolean hasWaterPoint;
 
-	/** Does the owner have a random water block they should move to?*/
+	/** Does the owner have a random water block they should move to? */
 	public boolean hasFishingTarget;
 
-	/** Is the owner currently fishing?*/
+	/** Is the owner currently fishing? */
 	public boolean isFishing;
 
-	/** The X coordinate of the current water block.*/
+	/** The X coordinate of the current water block. */
 	public int waterCoordinatesX;
 
-	/** The Y coordinate of the current water block.*/
+	/** The Y coordinate of the current water block. */
 	public int waterCoordinatesY;
 
-	/** The Z coordinate of the current water block.*/
+	/** The Z coordinate of the current water block. */
 	public int waterCoordinatesZ;
 
-	/** How many ticks have passed since the fish hook has been thrown.*/
+	/** How many ticks have passed since the fish hook has been thrown. */
 	public int fishingTicks;
 
-	/** The amount of ticks at which the owner will have a chance to catch a fish.*/
+	/** The amount of ticks at which the owner will have a chance to catch a fish. */
 	public int fishCatchCheck;
 
-	/** How many ticks the owner has remained idle, with no fish hook thrown.*/
+	/** How many ticks the owner has remained idle, with no fish hook thrown. */
 	public int idleFishingTime;
 
 	/**
 	 * Constructor
 	 * 
-	 * @param 	entity	The entity that should be performing this chore.
+	 * @param entity The entity that should be performing this chore.
 	 */
 	public ChoreFishing(AbstractEntity entity)
 	{
@@ -102,7 +100,7 @@ public class ChoreFishing extends AbstractChore
 	}
 
 	@Override
-	public void runChoreAI() 
+	public void runChoreAI()
 	{
 		doItemVerification();
 
@@ -141,32 +139,35 @@ public class ChoreFishing extends AbstractChore
 					}
 				}
 
-				else //No fishing target.
+				else
+				//No fishing target.
 				{
 					doSetFishingTarget();
 				}
 			}
 
-			else //Not within 1 block of water.
+			else
+			//Not within 1 block of water.
 			{
 				owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(waterCoordinatesX, waterCoordinatesY, waterCoordinatesZ), Constants.SPEED_WALK);
 			}
 		}
 
-		else //No water coordinates.
+		else
+		//No water coordinates.
 		{
 			trySetWaterCoordinates();
 		}
 	}
 
 	@Override
-	public String getChoreName() 
+	public String getChoreName()
 	{
 		return "Fishing";
 	}
 
 	@Override
-	public void endChore() 
+	public void endChore()
 	{
 		if (fishEntity != null)
 		{
@@ -191,7 +192,7 @@ public class ChoreFishing extends AbstractChore
 	}
 
 	@Override
-	public void writeChoreToNBT(NBTTagCompound nbt) 
+	public void writeChoreToNBT(NBTTagCompound nbt)
 	{
 		//Loop through each field in this class and write to NBT.
 		for (final Field field : this.getClass().getFields())
@@ -202,32 +203,32 @@ public class ChoreFishing extends AbstractChore
 				{
 					if (field.getType().toString().contains("int"))
 					{
-						nbt.setInteger(field.getName(), (Integer)field.get(owner.fishingChore));
+						nbt.setInteger(field.getName(), (Integer) field.get(owner.fishingChore));
 					}
 
 					else if (field.getType().toString().contains("double"))
 					{
-						nbt.setDouble(field.getName(), (Double)field.get(owner.fishingChore));
+						nbt.setDouble(field.getName(), (Double) field.get(owner.fishingChore));
 					}
 
 					else if (field.getType().toString().contains("float"))
 					{
-						nbt.setFloat(field.getName(), (Float)field.get(owner.fishingChore));
+						nbt.setFloat(field.getName(), (Float) field.get(owner.fishingChore));
 					}
 
 					else if (field.getType().toString().contains("String"))
 					{
-						nbt.setString(field.getName(), (String)field.get(owner.fishingChore));
+						nbt.setString(field.getName(), (String) field.get(owner.fishingChore));
 					}
 
 					else if (field.getType().toString().contains("boolean"))
 					{
-						nbt.setBoolean(field.getName(), (Boolean)field.get(owner.fishingChore));
+						nbt.setBoolean(field.getName(), (Boolean) field.get(owner.fishingChore));
 					}
 				}
 			}
 
-			catch (IllegalAccessException e)
+			catch (final IllegalAccessException e)
 			{
 				MCA.getInstance().getLogger().log(e);
 				continue;
@@ -236,7 +237,7 @@ public class ChoreFishing extends AbstractChore
 	}
 
 	@Override
-	public void readChoreFromNBT(NBTTagCompound nbt) 
+	public void readChoreFromNBT(NBTTagCompound nbt)
 	{
 		//Loop through each field in this class and read from NBT.
 		for (final Field field : this.getClass().getFields())
@@ -272,7 +273,7 @@ public class ChoreFishing extends AbstractChore
 				}
 			}
 
-			catch (IllegalAccessException e)
+			catch (final IllegalAccessException e)
 			{
 				MCA.getInstance().getLogger().log(e);
 				continue;
@@ -281,31 +282,31 @@ public class ChoreFishing extends AbstractChore
 	}
 
 	@Override
-	protected int getDelayForToolType(ItemStack toolStack) 
+	protected int getDelayForToolType(ItemStack toolStack)
 	{
 		return 0;
 	}
 
 	@Override
-	protected String getChoreXpName() 
+	protected String getChoreXpName()
 	{
 		return "xpLvlFishing";
 	}
 
 	@Override
-	protected String getBaseLevelUpPhrase() 
+	protected String getBaseLevelUpPhrase()
 	{
 		return "notify.child.chore.levelup.fishing";
 	}
 
 	@Override
-	protected float getChoreXp() 
+	protected float getChoreXp()
 	{
 		return owner.xpLvlFishing;
 	}
 
 	@Override
-	protected void setChoreXp(float setAmount) 
+	protected void setChoreXp(float setAmount)
 	{
 		owner.xpLvlFishing = setAmount;
 	}
@@ -322,7 +323,7 @@ public class ChoreFishing extends AbstractChore
 				owner.say(MCA.getInstance().getLanguageLoader().getString("notify.child.chore.interrupted.fishing.nowater"));
 			}
 
-			endChore();			
+			endChore();
 			return false;
 		}
 
@@ -384,14 +385,14 @@ public class ChoreFishing extends AbstractChore
 	}
 
 	private void doFishCatchAttempt()
-	{	
+	{
 		if (!owner.worldObj.isRemote)
 		{
 			final int catchChance = getFishCatchChance();
 
 			if (Utility.getBooleanWithProbability(catchChance))
 			{
-				incrementChoreXpLevel((float)(0.30 - 0.01 * getChoreXp()));
+				incrementChoreXpLevel((float) (0.30 - 0.01 * getChoreXp()));
 
 				try
 				{
@@ -414,7 +415,7 @@ public class ChoreFishing extends AbstractChore
 					//Increment achievement values and check for achievement.
 					if (owner instanceof EntityPlayerChild)
 					{
-						EntityPlayerChild child = (EntityPlayerChild)owner;
+						final EntityPlayerChild child = (EntityPlayerChild) owner;
 
 						child.fishCaught += amountToAdd;
 
@@ -442,7 +443,7 @@ public class ChoreFishing extends AbstractChore
 					hasFishingTarget = false;
 				}
 
-				catch (Throwable e)
+				catch (final Throwable e)
 				{
 					e.printStackTrace();
 				}
@@ -522,7 +523,7 @@ public class ChoreFishing extends AbstractChore
 
 			while (!isValid)
 			{
-				FishingReward entry = entries.get(LogicHelper.getNumberInRange(0, entries.size() - 1));
+				final FishingReward entry = entries.get(LogicHelper.getNumberInRange(0, entries.size() - 1));
 
 				if (!entry.getIsEnhanced())
 				{
@@ -538,7 +539,7 @@ public class ChoreFishing extends AbstractChore
 
 			while (!isValid)
 			{
-				FishingReward entry = entries.get(LogicHelper.getNumberInRange(0, entries.size() - 1));
+				final FishingReward entry = entries.get(LogicHelper.getNumberInRange(0, entries.size() - 1));
 
 				if (entry.getIsEnhanced())
 				{

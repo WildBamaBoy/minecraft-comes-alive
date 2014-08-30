@@ -1,10 +1,8 @@
 /*******************************************************************************
- * CommandReloadModProperties.java
+ * CommandReloadWorldProperties.java
  * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/gpl.html
+ * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
 package mca.command;
@@ -44,29 +42,29 @@ public class CommandReloadWorldProperties extends AbstractCommand
 		{
 			if (arguments[0].equalsIgnoreCase("all"))
 			{
-				for (WorldPropertiesManager manager : MCA.getInstance().playerWorldManagerMap.values())
+				for (final WorldPropertiesManager manager : MCA.getInstance().playerWorldManagerMap.values())
 				{
 					MCA.getInstance().getLogger().log("Reloading properties for " + manager.getCurrentPlayerName());
 
-					manager.loadWorldProperties();							//Load from file again.
-					MCA.getInstance().onUpdateWorldProperties(manager);		//Send to client.
+					manager.loadWorldProperties(); //Load from file again.
+					MCA.getInstance().onUpdateWorldProperties(manager); //Send to client.
 				}
-				
+
 				super.addChatMessage(sender, "multiplayer.command.output.reloadworldproperties.all", Color.GREEN, null);
 			}
-			
+
 			else
 			{
-				WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(arguments[0]);
-				
+				final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(arguments[0]);
+
 				if (manager != null)
 				{
 					manager.loadWorldProperties();
 					MCA.getInstance().onUpdateWorldProperties(manager);
-					
+
 					super.addChatMessage(sender, "multiplayer.command.output.reloadworldproperties.success", Color.GREEN, arguments[0]);
 				}
-				
+
 				else
 				{
 					super.addChatMessage(sender, "multiplayer.command.output.reloadworldproperties.fail", Color.RED, null);

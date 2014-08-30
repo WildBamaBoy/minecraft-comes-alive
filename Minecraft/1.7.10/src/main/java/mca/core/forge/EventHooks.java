@@ -2,9 +2,7 @@
  * EventHooks.java
  * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/gpl.html
+ * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
 package mca.core.forge;
@@ -22,6 +20,7 @@ import mca.entity.AbstractSerializableEntity;
 import mca.entity.EntityPlayerChild;
 import mca.entity.EntityVillagerAdult;
 import mca.entity.EntityVillagerChild;
+import mca.frontend.RDXServerBridge;
 import mca.item.AbstractBaby;
 import mca.item.ItemCrown;
 import mca.item.ItemTombstone;
@@ -30,6 +29,8 @@ import mca.network.packets.PacketOpenGui;
 import mca.network.packets.PacketSayLocalized;
 import mca.network.packets.PacketSetWorldProperties;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.crash.CrashReport;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -49,6 +50,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBed;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
@@ -59,6 +61,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import com.radixshock.radixcore.core.RadixCore;
 import com.radixshock.radixcore.file.WorldPropertiesManager;
 
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
@@ -70,21 +73,21 @@ import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
 /**
  * Contains methods that perform a function when an event in Minecraft occurs.
  */
-public class EventHooks 
+public class EventHooks
 {
 	/**
 	 * Fired when the player throws an item away.
 	 * 
-	 * @param 	event	An instance of the ItemTossEvent.
+	 * @param event An instance of the ItemTossEvent.
 	 */
 	@SubscribeEvent
 	public void itemTossedEventHandler(ItemTossEvent event)
 	{
-		final WorldPropertiesList properties = (WorldPropertiesList)MCA.getInstance().playerWorldManagerMap.get(event.player.getCommandSenderName()).worldPropertiesInstance;
+		final WorldPropertiesList properties = (WorldPropertiesList) MCA.getInstance().playerWorldManagerMap.get(event.player.getCommandSenderName()).worldPropertiesInstance;
 
 		if (event.entityItem.getEntityItem().getItem() instanceof AbstractBaby && properties.babyExists)
 		{
-			MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(event.player, null, "notify.player.droppedbaby", false, null, null), (EntityPlayerMP)event.player);
+			MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(event.player, null, "notify.player.droppedbaby", false, null, null), (EntityPlayerMP) event.player);
 			event.player.inventory.addItemStackToInventory(event.entityItem.getEntityItem());
 			event.setCanceled(true);
 			event.setResult(Result.DENY);
@@ -94,7 +97,7 @@ public class EventHooks
 	/**
 	 * Fired when an entity joins the world.
 	 * 
-	 * @param 	event	An instance of the EntityJoinWorldEvent.
+	 * @param event An instance of the EntityJoinWorldEvent.
 	 */
 	@SubscribeEvent
 	public void entityJoinedWorldEventHandler(EntityJoinWorldEvent event)
@@ -103,12 +106,12 @@ public class EventHooks
 		{
 			if (event.entity instanceof EntityMob)
 			{
-				doAddMobTasks((EntityMob)event.entity);
+				doAddMobTasks((EntityMob) event.entity);
 			}
 
 			if (event.entity instanceof EntityVillager && !(event.entity instanceof AbstractSerializableEntity))
 			{
-				doOverwriteVillager(event, (EntityVillager)event.entity);
+				doOverwriteVillager(event, (EntityVillager) event.entity);
 			}
 		}
 	}
@@ -116,7 +119,7 @@ public class EventHooks
 	/**
 	 * Fires when the world is saving.
 	 * 
-	 * @param 	event	An instance of the WorldEvent.Unload event.
+	 * @param event An instance of the WorldEvent.Unload event.
 	 */
 	@SubscribeEvent
 	public void worldSaveEventHandler(WorldEvent.Unload event)
@@ -127,13 +130,38 @@ public class EventHooks
 			{
 				manager.saveWorldProperties();
 			}
+
+			if (!MCA.getInstance().hasSentCrashReport)
+			{
+				final MinecraftServer server = MinecraftServer.getServer();
+
+				try
+				{
+					if (server instanceof IntegratedServer)
+					{
+						final Boolean isCrashed = (Boolean) ObfuscationReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), 11);
+						final CrashReport crashReport = (CrashReport) ObfuscationReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), 12);
+
+						if (isCrashed)
+						{
+							RDXServerBridge.sendCrashReport(crashReport.getCompleteReport(), false);
+							MCA.getInstance().hasSentCrashReport = true;
+						}
+					}
+				}
+
+				catch (NoClassDefFoundError e) //Dedicated server.
+				{
+					//TODO
+				}
+			}
 		}
 	}
 
 	/**
 	 * Fires when the world is loading. Loads world properties for every single player into memory server side only.
 	 * 
-	 * @param 	event	An instance of the WorldEvent.Load event.
+	 * @param event An instance of the WorldEvent.Load event.
 	 */
 	@SubscribeEvent
 	public void worldLoadEventHandler(WorldEvent.Load event)
@@ -145,7 +173,7 @@ public class EventHooks
 			final String folderName = server.isDedicatedServer() ? "ServerWorlds" : "Worlds";
 			final File folderPath = new File(RadixCore.getInstance().runningDirectory + "/config/MCA/" + folderName + "/" + worldName);
 
-			MCA.getInstance().getLogger().log("Loading world properties from " + folderPath.getAbsolutePath() +"...");
+			MCA.getInstance().getLogger().log("Loading world properties from " + folderPath.getAbsolutePath() + "...");
 
 			if (!folderPath.exists())
 			{
@@ -165,7 +193,7 @@ public class EventHooks
 	/**
 	 * Fired when the player dies.
 	 * 
-	 * @param 	event	An instance of the PlayerDrops event.
+	 * @param event An instance of the PlayerDrops event.
 	 */
 	@SubscribeEvent
 	public void playerDropsEventHandler(PlayerDropsEvent event)
@@ -176,7 +204,7 @@ public class EventHooks
 	/**
 	 * Fired when the player right-clicks something.
 	 * 
-	 * @param 	event	An instance of the PlayerInteractEvent.
+	 * @param event An instance of the PlayerInteractEvent.
 	 */
 	@SubscribeEvent
 	public void playerInteractEventHandler(PlayerInteractEvent event)
@@ -191,13 +219,9 @@ public class EventHooks
 				{
 					if (obj instanceof AbstractEntity)
 					{
-						final AbstractEntity entity = (AbstractEntity)obj;
+						final AbstractEntity entity = (AbstractEntity) obj;
 
-						if (entity.getInstanceOfCurrentChore() instanceof ChoreCooking && 
-								entity.cookingChore.hasCookableFood &&
-								entity.cookingChore.furnacePosX == event.x &&
-								entity.cookingChore.furnacePosY == event.y &&
-								entity.cookingChore.furnacePosZ == event.z)
+						if (entity.getInstanceOfCurrentChore() instanceof ChoreCooking && entity.cookingChore.hasCookableFood && entity.cookingChore.furnacePosX == event.x && entity.cookingChore.furnacePosY == event.y && entity.cookingChore.furnacePosZ == event.z)
 						{
 							event.setCanceled(true);
 						}
@@ -210,7 +234,7 @@ public class EventHooks
 	/**
 	 * Fired when the player interacts with an entity.
 	 * 
-	 * @param 	event	An instance of the EntityInteractEvent.
+	 * @param event An instance of the EntityInteractEvent.
 	 */
 	@SubscribeEvent
 	public void entityInteractEventHandler(EntityInteractEvent event)
@@ -219,25 +243,25 @@ public class EventHooks
 		//open up that villager's interaction GUI.
 		if (event.target instanceof EntityHorse)
 		{
-			final EntityHorse entityHorse = (EntityHorse)event.target;
+			final EntityHorse entityHorse = (EntityHorse) event.target;
 
 			if (entityHorse.riddenByEntity instanceof AbstractEntity)
 			{
-				final AbstractEntity entity = (AbstractEntity)entityHorse.riddenByEntity;
+				final AbstractEntity entity = (AbstractEntity) entityHorse.riddenByEntity;
 				entity.interact(event.entityPlayer);
 			}
 		}
 
 		else if (event.target instanceof EntityPlayer && canInteractWithPlayer(event.entityPlayer) && !event.entityPlayer.worldObj.isRemote)
 		{
-			MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(event.target.getEntityId(), Constants.ID_GUI_PLAYER), (EntityPlayerMP)event.entityPlayer);
+			MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(event.target.getEntityId(), Constants.ID_GUI_PLAYER), (EntityPlayerMP) event.entityPlayer);
 		}
 	}
 
 	/**
 	 * Ticks the server tick handler.
 	 * 
-	 * @param 	event	The event.
+	 * @param event The event.
 	 */
 	@SubscribeEvent
 	public void serverTickEventHandler(ServerTickEvent event)
@@ -248,7 +272,7 @@ public class EventHooks
 	/**
 	 * Ticks the client tick handler.
 	 * 
-	 * @param 	event	The event.
+	 * @param event The event.
 	 */
 	@SubscribeEvent
 	public void clientTickEventHandler(ClientTickEvent event)
@@ -257,10 +281,9 @@ public class EventHooks
 	}
 
 	/**
-	 * Makes the server create a new world properties manager for the player and
-	 * sends it to them.
+	 * Makes the server create a new world properties manager for the player and sends it to them.
 	 * 
-	 * @param 	event	The event.
+	 * @param event The event.
 	 */
 	@SubscribeEvent
 	public void playerLoggedInEventHandler(PlayerLoggedInEvent event)
@@ -272,14 +295,14 @@ public class EventHooks
 
 		if (MCA.getInstance().getWorldProperties(manager).playerName.equals(""))
 		{
-			MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(event.player.getEntityId(), Constants.ID_GUI_SETUP), (EntityPlayerMP)event.player);
+			MCA.packetHandler.sendPacketToPlayer(new PacketOpenGui(event.player.getEntityId(), Constants.ID_GUI_SETUP), (EntityPlayerMP) event.player);
 		}
 	}
 
 	/**
 	 * Handles crafting of a crown and setting to monarch status.
 	 * 
-	 * @param 	event	The event.
+	 * @param event The event.
 	 */
 	@SubscribeEvent
 	public void itemCraftedEventHandler(ItemCraftedEvent event)
@@ -293,7 +316,7 @@ public class EventHooks
 				MCA.getInstance().getWorldProperties(manager).isMonarch = true;
 				manager.saveWorldProperties();
 
-				MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(event.player, null, "notify.monarch.began", false, null, null), (EntityPlayerMP)event.player);
+				MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(event.player, null, "notify.monarch.began", false, null, null), (EntityPlayerMP) event.player);
 				event.player.triggerAchievement(MCA.getInstance().achievementCraftCrown);
 			}
 		}
@@ -306,7 +329,7 @@ public class EventHooks
 			{
 				for (int i = 0; i < event.craftMatrix.getSizeInventory(); i++)
 				{
-					ItemStack stack = event.craftMatrix.getStackInSlot(i);
+					final ItemStack stack = event.craftMatrix.getStackInSlot(i);
 
 					if (stack != null)
 					{
@@ -338,7 +361,7 @@ public class EventHooks
 				}
 			}
 
-			catch (Throwable e)
+			catch (final Throwable e)
 			{
 				e.printStackTrace();
 			}
@@ -348,7 +371,7 @@ public class EventHooks
 				//Failed to add to inventory
 				if (!event.player.inventory.addItemStackToInventory(returnStack))
 				{
-					EntityItem entityItem = new EntityItem(event.player.worldObj, event.player.posX, event.player.posY, event.player.posZ, returnStack);
+					final EntityItem entityItem = new EntityItem(event.player.worldObj, event.player.posX, event.player.posY, event.player.posZ, returnStack);
 					event.player.worldObj.spawnEntityInWorld(entityItem);
 				}
 			}
@@ -358,7 +381,7 @@ public class EventHooks
 	/**
 	 * Handles the smelting of a baby.
 	 * 
-	 * @param 	event	The event.
+	 * @param event The event.
 	 */
 	@SubscribeEvent
 	public void itemSmeltedEventHandler(ItemSmeltedEvent event)
@@ -376,7 +399,7 @@ public class EventHooks
 
 			manager.saveWorldProperties();
 
-			MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(event.player, null, "notify.baby.cooked", false, null, null), (EntityPlayerMP)event.player);
+			MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(event.player, null, "notify.baby.cooked", false, null, null), (EntityPlayerMP) event.player);
 			event.player.triggerAchievement(MCA.getInstance().achievementCookBaby);
 		}
 	}
@@ -425,8 +448,7 @@ public class EventHooks
 	{
 		//Only run this if the profession of the villager being spawned is one of the six
 		//original professions or one of mod-registered professions
-		if ((villager.getProfession() < 6 && villager.getProfession() > -1)
-				|| VillagerRegistryMCA.getRegisteredVillagersMap().containsKey(villager.getProfession()))
+		if (villager.getProfession() < 6 && villager.getProfession() > -1 || VillagerRegistryMCA.getRegisteredVillagersMap().containsKey(villager.getProfession()))
 		{
 			//Cancel the spawn.
 			event.setCanceled(true);
@@ -436,30 +458,30 @@ public class EventHooks
 			//Factor in MCA's added professions.
 			switch (villager.getProfession())
 			{
-			case 0:
-				if (Utility.getBooleanWithProbability(30))
-				{
-					newProfession = 7;
-				}
+				case 0:
+					if (Utility.getBooleanWithProbability(30))
+					{
+						newProfession = 7;
+					}
 
-				else
-				{
+					else
+					{
+						newProfession = villager.getProfession();
+					}
+
+					break;
+
+				case 4:
+					if (Utility.getBooleanWithProbability(50))
+					{
+						newProfession = 6;
+					}
+
+					break;
+
+				default:
 					newProfession = villager.getProfession();
-				}
-
-				break;
-
-			case 4: 
-				if (Utility.getBooleanWithProbability(50))
-				{
-					newProfession = 6;
-				}
-
-				break;
-
-			default:
-				newProfession = villager.getProfession();
-				break;
+					break;
 			}
 
 			//Create the replacement villager and set its location.

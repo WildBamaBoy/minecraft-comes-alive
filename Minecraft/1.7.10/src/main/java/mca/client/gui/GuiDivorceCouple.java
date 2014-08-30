@@ -2,9 +2,7 @@
  * GuiDivorceCouple.java
  * Copyright (c) 2014 Radix-Shock Entertainment.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v3.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/gpl.html
+ * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
 package mca.client.gui;
@@ -31,16 +29,16 @@ public class GuiDivorceCouple extends AbstractGui
 {
 	/** Map containing all married villagers. */
 	public Map<String, String> marriedVillagers = null;
-	
+
 	/** The current index in the married villagers map. */
 	public int currentIndex = 0;
-	
+
 	/** The max index in the married villagers map. */
 	public int maxIndex = 0;
 
 	/** Button used as a label to show the selected couple. */
 	private GuiButton selectedCoupleButton;
-	
+
 	private GuiButton shiftIndexDownButton;
 	private GuiButton shiftIndexUpButton;
 
@@ -51,7 +49,7 @@ public class GuiDivorceCouple extends AbstractGui
 	/**
 	 * Constructor
 	 * 
-	 * @param 	player	The player that opened this GUI.
+	 * @param player The player that opened this GUI.
 	 */
 	public GuiDivorceCouple(EntityPlayer player)
 	{
@@ -107,7 +105,7 @@ public class GuiDivorceCouple extends AbstractGui
 				mc.displayGuiScreen(null);
 			}
 
-			catch (ArrayIndexOutOfBoundsException e)
+			catch (final ArrayIndexOutOfBoundsException e)
 			{
 
 			}
@@ -152,12 +150,12 @@ public class GuiDivorceCouple extends AbstractGui
 
 		try
 		{
-			String husbandName = (String)marriedVillagers.keySet().toArray()[currentIndex];
-			String wifeName = (String)marriedVillagers.values().toArray()[currentIndex];
+			final String husbandName = (String) marriedVillagers.keySet().toArray()[currentIndex];
+			final String wifeName = (String) marriedVillagers.values().toArray()[currentIndex];
 			buttonList.add(selectedCoupleButton = new GuiButton(4, width / 2 - 95, height / 2 + -16, husbandName + " & " + wifeName));
 		}
 
-		catch (ArrayIndexOutOfBoundsException e)
+		catch (final ArrayIndexOutOfBoundsException e)
 		{
 			buttonList.add(selectedCoupleButton = new GuiButton(4, width / 2 - 95, height / 2 + -16, MCA.getInstance().getLanguageLoader().getString("gui.button.special.priest.divorcecouple.nonefound")));
 		}
@@ -170,29 +168,29 @@ public class GuiDivorceCouple extends AbstractGui
 	/**
 	 * Builds a map containing all entities that are married and their spouse.
 	 * 
-	 * @return	Map<String, String> whose key is the name of an entity and whose value is the name of their spouse.
+	 * @return Map<String, String> whose key is the name of an entity and whose value is the name of their spouse.
 	 */
 	private Map<String, String> buildMarriedVillagerMap()
 	{
 		//Used for storing IDs already gotten that belong to married villagers.
-		Map<Integer, Integer> tempIDMap = new HashMap<Integer, Integer>();
-		Map<String, String> returnMap = new HashMap<String, String>();
+		final Map<Integer, Integer> tempIDMap = new HashMap<Integer, Integer>();
+		final Map<String, String> returnMap = new HashMap<String, String>();
 
 		//Logical to use entity list here.
-		for (Object obj : player.worldObj.loadedEntityList)
+		for (final Object obj : player.worldObj.loadedEntityList)
 		{
-			Entity entity = (Entity)obj;
+			final Entity entity = (Entity) obj;
 
 			if (entity instanceof AbstractEntity)
 			{
-				AbstractEntity abstractEntity = (AbstractEntity)entity;
+				final AbstractEntity abstractEntity = (AbstractEntity) entity;
 
 				if (abstractEntity.isMarriedToVillager)
 				{
 					//Be sure the value isn't already contained in the key set.
 					if (tempIDMap.containsKey(abstractEntity.mcaID) == false && tempIDMap.containsValue(abstractEntity.mcaID) == false)
 					{
-						int spouseId = abstractEntity.familyTree.getFirstIDWithRelation(EnumRelation.Spouse);
+						final int spouseId = abstractEntity.familyTree.getFirstIDWithRelation(EnumRelation.Spouse);
 
 						if (spouseId == -1)
 						{
@@ -206,17 +204,17 @@ public class GuiDivorceCouple extends AbstractGui
 		}
 
 		//Loop through each ID in the tempIDMap, get the entities' name, and put them in the returnMap.
-		for (Map.Entry<Integer, Integer> entry : tempIDMap.entrySet())
+		for (final Map.Entry<Integer, Integer> entry : tempIDMap.entrySet())
 		{
 			String husbandName = "";
 			String wifeName = "";
 
 			//Logical to use entity list here.
-			for (Object obj : Minecraft.getMinecraft().theWorld.loadedEntityList)
+			for (final Object obj : Minecraft.getMinecraft().theWorld.loadedEntityList)
 			{
 				if (obj instanceof AbstractEntity)
 				{
-					AbstractEntity entity = (AbstractEntity)obj;
+					final AbstractEntity entity = (AbstractEntity) obj;
 
 					if (entity.mcaID == entry.getKey())
 					{
@@ -246,18 +244,18 @@ public class GuiDivorceCouple extends AbstractGui
 	 */
 	private void divorceSelectedVillagers()
 	{
-		String spouseEntity1Name = (String)marriedVillagers.keySet().toArray()[currentIndex];
-		String spouseEntity2Name = (String)marriedVillagers.values().toArray()[currentIndex];
+		final String spouseEntity1Name = (String) marriedVillagers.keySet().toArray()[currentIndex];
+		final String spouseEntity2Name = (String) marriedVillagers.values().toArray()[currentIndex];
 
 		AbstractEntity spouseEntity1 = null;
 		AbstractEntity spouseEntity2 = null;
 
 		//Logical to use entity list here.
-		for (Object obj : Minecraft.getMinecraft().theWorld.loadedEntityList)
+		for (final Object obj : Minecraft.getMinecraft().theWorld.loadedEntityList)
 		{
 			if (obj instanceof AbstractEntity)
 			{
-				AbstractEntity abstractEntity = (AbstractEntity)obj;
+				final AbstractEntity abstractEntity = (AbstractEntity) obj;
 
 				if (abstractEntity.isMarriedToVillager)
 				{
