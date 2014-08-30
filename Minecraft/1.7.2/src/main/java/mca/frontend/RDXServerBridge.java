@@ -27,6 +27,7 @@ public final class RDXServerBridge
 			final DataInputStream dataIn = new DataInputStream(connectSocket.getInputStream());
 
 			dataOut.writeByte(1);
+			dataOut.writeUTF("@Validate@");
 			dataOut.writeUTF("MCA");
 			dataOut.writeUTF(Constants.VERSION);
 
@@ -55,6 +56,7 @@ public final class RDXServerBridge
 				new DataInputStream(connectSocket.getInputStream());
 
 				dataOut.writeByte(2);
+				dataOut.writeUTF("@Validate@");
 				dataOut.writeUTF("MCA");
 				dataOut.writeUTF(Constants.VERSION);
 				dataOut.writeBoolean(isServer);
