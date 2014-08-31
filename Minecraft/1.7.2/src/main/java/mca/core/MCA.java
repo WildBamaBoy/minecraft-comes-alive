@@ -138,7 +138,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 /**
  * Main entry point and core of the Minecraft Comes Alive mod.
  */
-@Mod(modid = "mca", name = "Minecraft Comes Alive", version = Constants.VERSION, dependencies = "required-after:radixcore")
+@Mod(modid = "mca", name = "Minecraft Comes Alive", version = Constants.VERSION, dependencies = "required-after:radixcore", 
+acceptedMinecraftVersions="[1.7.2]")
 public class MCA extends UnenforcedCore
 {
 	/** An instance of the core MCA class. */
