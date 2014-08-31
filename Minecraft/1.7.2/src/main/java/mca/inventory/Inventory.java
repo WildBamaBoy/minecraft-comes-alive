@@ -465,32 +465,37 @@ public class Inventory implements IInventory, IInvBasic, Serializable
 	 */
 	public ItemStack getBestItemOfType(Class type)
 	{
-		if (owner.profession == 5)
+		if (owner != null)
 		{
-			return new ItemStack(Items.iron_sword);
-		}
-
-		else
-		{
-			ItemStack stack = null;
-			int highestMaxDamage = 0;
-
-			for (final ItemStack stackInInventory : inventoryItems)
+			if (owner.profession == 5)
 			{
-				if (stackInInventory != null)
-				{
-					final String itemClassName = stackInInventory.getItem().getClass().getName();
-
-					if (itemClassName.equals(type.getName()) && highestMaxDamage < stackInInventory.getMaxDamage())
-					{
-						highestMaxDamage = stackInInventory.getMaxDamage();
-						stack = stackInInventory;
-					}
-				}
+				return new ItemStack(Items.iron_sword);
 			}
 
-			return stack;
+			else
+			{
+				ItemStack stack = null;
+				int highestMaxDamage = 0;
+
+				for (final ItemStack stackInInventory : inventoryItems)
+				{
+					if (stackInInventory != null)
+					{
+						final String itemClassName = stackInInventory.getItem().getClass().getName();
+
+						if (itemClassName.equals(type.getName()) && highestMaxDamage < stackInInventory.getMaxDamage())
+						{
+							highestMaxDamage = stackInInventory.getMaxDamage();
+							stack = stackInInventory;
+						}
+					}
+				}
+
+				return stack;
+			}
 		}
+
+		return null;
 	}
 
 	/**
