@@ -30,6 +30,7 @@ import mca.network.packets.PacketSayLocalized;
 import mca.network.packets.PacketSetWorldProperties;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
@@ -58,8 +59,10 @@ import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
 
+import com.radixshock.radixcore.client.gui.GuiBadRadixVersion;
 import com.radixshock.radixcore.core.RadixCore;
 import com.radixshock.radixcore.file.WorldPropertiesManager;
+import com.radixshock.radixcore.util.object.Version;
 
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.common.eventhandler.Event.Result;
@@ -69,6 +72,8 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * Contains methods that perform a function when an event in Minecraft occurs.
@@ -307,7 +312,7 @@ public class EventHooks
 	@SubscribeEvent
 	public void itemCraftedEventHandler(ItemCraftedEvent event)
 	{
-		if (event.crafting.getItem() instanceof ItemCrown && event.player.worldObj.isRemote)
+		if (event.crafting.getItem() instanceof ItemCrown && !event.player.worldObj.isRemote)
 		{
 			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(event.player.getCommandSenderName());
 
@@ -403,7 +408,7 @@ public class EventHooks
 			event.player.triggerAchievement(MCA.getInstance().achievementCookBaby);
 		}
 	}
-
+	
 	private void doAddMobTasks(EntityMob mob)
 	{
 		if (mob instanceof EntityEnderman)

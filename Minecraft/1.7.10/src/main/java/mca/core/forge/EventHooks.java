@@ -307,7 +307,7 @@ public class EventHooks
 	@SubscribeEvent
 	public void itemCraftedEventHandler(ItemCraftedEvent event)
 	{
-		if (event.crafting.getItem() instanceof ItemCrown && event.player.worldObj.isRemote)
+		if (event.crafting.getItem() instanceof ItemCrown && !event.player.worldObj.isRemote)
 		{
 			final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(event.player.getCommandSenderName());
 
