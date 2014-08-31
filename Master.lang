@@ -403,7 +403,7 @@ name.female81=Robin
 name.female82=Rosa
 name.female83=Rosalie
 name.female84=Sarah
-name.female85=Serinity
+name.female85=Serenity
 name.female86=Sharon
 name.female87=Shayla
 name.female88=Sherry
@@ -831,6 +831,7 @@ gui.overhead.health=Health\:
 notify.player.married=You and %Name% are now joined in marriage.
 notify.player.engaged=You are now engaged to %Name%.
 notify.player.droppedbaby=That is a bad idea.
+notify.player.clickbed=You cannot use that bed.
 
 notify.horse.invalid=I can't ride that horse.
 notify.horse.notfound=Um...what horse do you want me to ride? Bring it to me.
