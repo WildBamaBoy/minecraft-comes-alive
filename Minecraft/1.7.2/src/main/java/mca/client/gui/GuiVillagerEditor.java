@@ -664,6 +664,9 @@ public class GuiVillagerEditor extends AbstractGui
 							}
 						}
 					}
+					
+					entryTextField.setText("Invalid input!");
+					clearFlag = true;
 				}
 
 				catch (NumberFormatException e)
@@ -672,9 +675,6 @@ public class GuiVillagerEditor extends AbstractGui
 					clearFlag = true;						
 				}
 			}
-			
-			entryTextField.setText("Invalid input!");
-			clearFlag = true;
 		}
 
 		else
