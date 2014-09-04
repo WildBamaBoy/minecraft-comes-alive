@@ -22,6 +22,7 @@ import mca.network.packets.PacketOnPlayerMarriage;
 import mca.network.packets.PacketOnVillagerProcreate;
 import mca.network.packets.PacketOpenGui;
 import mca.network.packets.PacketPlayerInteraction;
+import mca.network.packets.PacketProcreate;
 import mca.network.packets.PacketRemoveItem;
 import mca.network.packets.PacketReturnInventory;
 import mca.network.packets.PacketSayLocalized;
@@ -85,5 +86,6 @@ public class PacketRegistry extends AbstractPacketHandler
 		registerDoubleSidedPacket(PacketUpdateFurnace.class, 33);
 		registerDoubleSidedPacket(PacketPlayerInteraction.class, 34);
 		registerDoubleSidedPacket(PacketNotifyLocalized.class, 35);
+		registerDoubleSidedPacket(PacketProcreate.class, 36);
 	}
 }

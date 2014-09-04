@@ -69,7 +69,6 @@ class SlotFood extends Slot
 	@Override
 	public IIcon getBackgroundIconIndex()
 	{
-		System.out.println(MCA.iconFoodSlotEmpty);
 		return MCA.iconFoodSlotEmpty;
 	}
 }

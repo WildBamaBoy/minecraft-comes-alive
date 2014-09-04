@@ -759,26 +759,34 @@ public class Inventory implements IInventory, IInvBasic, Serializable
 	 */
 	public int getDamageVsEntity(EntityLivingBase target)
 	{
-		if (owner.getHeldItem() == null)
+		if (owner != null)
+		{
+			if (owner.getHeldItem() == null)
+			{
+				return 1;
+			}
+
+			//Check for unique names.
+			if (owner.name.equals("Katniss"))
+			{
+				if (owner.getHeldItem().getItem() instanceof ItemBow)
+				{
+					return 15;
+				}
+			}
+
+			else if (owner.name.equals("Altair") || owner.name.equals("Ezio") && owner.getHeldItem().getItem() instanceof ItemSword)
+			{
+				return getDamageByHeldItemType(owner.getHeldItem()) + 3;
+			}
+
+			return getDamageByHeldItemType(owner.getHeldItem());
+		}
+
+		else
 		{
 			return 1;
 		}
-
-		//Check for unique names.
-		if (owner.name.equals("Katniss"))
-		{
-			if (owner.getHeldItem().getItem() instanceof ItemBow)
-			{
-				return 15;
-			}
-		}
-
-		else if (owner.name.equals("Altair") || owner.name.equals("Ezio") && owner.getHeldItem().getItem() instanceof ItemSword)
-		{
-			return getDamageByHeldItemType(owner.getHeldItem()) + 3;
-		}
-
-		return getDamageByHeldItemType(owner.getHeldItem());
 	}
 
 	/**

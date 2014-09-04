@@ -387,20 +387,31 @@ public class EntityChoreFishHook extends EntityFishHook implements IEntityAdditi
 	@Override
 	public void writeSpawnData(ByteBuf data)
 	{
-		data.writeInt(angler.getEntityId());
+		if (angler != null)
+		{
+			data.writeInt(angler.getEntityId());
+		}
 	}
 
 	@Override
 	public void readSpawnData(ByteBuf data)
 	{
-		final int anglerId = data.readInt();
-
-		angler = (AbstractEntity) worldObj.getEntityByID(anglerId);
-
-		if (angler != null)
+		try
 		{
-			angler.fishingChore.fishEntity = this;
-			angler.tasks.taskEntries.clear();
+			final int anglerId = data.readInt();
+
+			angler = (AbstractEntity) worldObj.getEntityByID(anglerId);
+
+			if (angler != null)
+			{
+				angler.fishingChore.fishEntity = this;
+				angler.tasks.taskEntries.clear();
+			}
+		}
+
+		catch (Throwable e) //When angler is null, probably dead.
+		{
+			setDead();
 		}
 	}
 }

@@ -88,14 +88,19 @@ public class EventHooks
 	@SubscribeEvent
 	public void itemTossedEventHandler(ItemTossEvent event)
 	{
-		final WorldPropertiesList properties = (WorldPropertiesList) MCA.getInstance().playerWorldManagerMap.get(event.player.getCommandSenderName()).worldPropertiesInstance;
+		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(event.player.getCommandSenderName());
 
-		if (event.entityItem.getEntityItem().getItem() instanceof AbstractBaby && properties.babyExists)
+		if (manager != null)
 		{
-			MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(event.player, null, "notify.player.droppedbaby", false, null, null), (EntityPlayerMP) event.player);
-			event.player.inventory.addItemStackToInventory(event.entityItem.getEntityItem());
-			event.setCanceled(true);
-			event.setResult(Result.DENY);
+			final WorldPropertiesList properties = (WorldPropertiesList) manager.worldPropertiesInstance;
+
+			if (event.entityItem.getEntityItem().getItem() instanceof AbstractBaby && properties.babyExists)
+			{
+				MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(event.player, null, "notify.player.droppedbaby", false, null, null), (EntityPlayerMP) event.player);
+				event.player.inventory.addItemStackToInventory(event.entityItem.getEntityItem());
+				event.setCanceled(true);
+				event.setResult(Result.DENY);
+			}
 		}
 	}
 
@@ -408,7 +413,7 @@ public class EventHooks
 			event.player.triggerAchievement(MCA.getInstance().achievementCookBaby);
 		}
 	}
-	
+
 	private void doAddMobTasks(EntityMob mob)
 	{
 		if (mob instanceof EntityEnderman)
