@@ -544,127 +544,136 @@ public class GuiVillagerEditor extends AbstractGui
 
 			if (i == Keyboard.KEY_RETURN)
 			{
-				if (!entryTextField.getText().isEmpty())
+				try
 				{
-					final String[] split = entryTextField.getText().split(" ");
-
-					if (split[0].equalsIgnoreCase("add") && split.length == 3)
+					if (!entryTextField.getText().isEmpty())
 					{
-						EntityPlayer playerToAdd = editingVillager.worldObj.getPlayerEntityByName(split[1]);
-						final EnumRelation relationToAdd = EnumRelation.getEnum(split[2]);
+						final String[] split = entryTextField.getText().split(" ");
 
-						if (split[1].equalsIgnoreCase("me"))
+						if (split[0].equalsIgnoreCase("add") && split.length == 3)
 						{
-							playerToAdd = Minecraft.getMinecraft().thePlayer;
-						}
+							EntityPlayer playerToAdd = editingVillager.worldObj.getPlayerEntityByName(split[1]);
+							final EnumRelation relationToAdd = EnumRelation.getEnum(split[2]);
 
-						if (playerToAdd == null)
-						{
-							final Integer playerId = MCA.getInstance().getIdOfPlayer(split[1]);
-
-							if (playerId != null && playerId != 0)
+							if (split[1].equalsIgnoreCase("me"))
 							{
-								if (relationToAdd == null)
+								playerToAdd = Minecraft.getMinecraft().thePlayer;
+							}
+
+							if (playerToAdd == null)
+							{
+								final Integer playerId = MCA.getInstance().getIdOfPlayer(split[1]);
+
+								if (playerId != null && playerId != 0)
 								{
-									entryTextField.setText("Invalid relation!");
+									if (relationToAdd == null)
+									{
+										entryTextField.setText("Invalid relation!");
+										clearFlag = true;
+										return;
+									}
+
+									editingVillager.familyTree.addFamilyTreeEntry(playerId, relationToAdd);
+									MCA.packetHandler.sendPacketToServer(new PacketSetFamilyTree(editingVillager.getEntityId(), editingVillager.familyTree));
+									entryTextField.setText("Added!");
 									clearFlag = true;
 									return;
 								}
 
-								editingVillager.familyTree.addFamilyTreeEntry(playerId, relationToAdd);
-								MCA.packetHandler.sendPacketToServer(new PacketSetFamilyTree(editingVillager.getEntityId(), editingVillager.familyTree));
-								entryTextField.setText("Added!");
+								else if (playerId == 0)
+								{
+									for (final Object obj : editingVillager.worldObj.loadedEntityList)
+									{
+										if (obj instanceof AbstractEntity)
+										{
+											final AbstractEntity entity = (AbstractEntity) obj;
+
+											if (entity.mcaID == Integer.parseInt(split[1]))
+											{
+												editingVillager.familyTree.addFamilyTreeEntry(Integer.parseInt(split[1]), relationToAdd);
+												MCA.packetHandler.sendPacketToServer(new PacketSetFamilyTree(editingVillager.getEntityId(), editingVillager.familyTree));
+												entryTextField.setText("Added!");
+												clearFlag = true;
+												return;
+											}
+										}
+									}
+								}
+
+								entryTextField.setText("No record found!");
 								clearFlag = true;
 								return;
 							}
 
-							else if (playerId == 0)
+							if (relationToAdd == null)
 							{
-								for (final Object obj : editingVillager.worldObj.loadedEntityList)
-								{
-									if (obj instanceof AbstractEntity)
-									{
-										final AbstractEntity entity = (AbstractEntity) obj;
-
-										if (entity.mcaID == Integer.parseInt(split[1]))
-										{
-											editingVillager.familyTree.addFamilyTreeEntry(Integer.parseInt(split[1]), relationToAdd);
-											MCA.packetHandler.sendPacketToServer(new PacketSetFamilyTree(editingVillager.getEntityId(), editingVillager.familyTree));
-											entryTextField.setText("Added!");
-											clearFlag = true;
-											return;
-										}
-									}
-								}
+								entryTextField.setText("Invalid relation!");
+								clearFlag = true;
+								return;
 							}
 
-							entryTextField.setText("No record found!");
-							clearFlag = true;
-							return;
-						}
+							final int playerMCAID = MCA.getInstance().getIdOfPlayer(playerToAdd);
 
-						if (relationToAdd == null)
-						{
-							entryTextField.setText("Invalid relation!");
-							clearFlag = true;
-							return;
-						}
-
-						final int playerMCAID = MCA.getInstance().getIdOfPlayer(playerToAdd);
-
-						editingVillager.familyTree.addFamilyTreeEntry(playerMCAID, relationToAdd);
-						MCA.packetHandler.sendPacketToServer(new PacketSetFamilyTree(editingVillager.getEntityId(), editingVillager.familyTree));
-						entryTextField.setText("Added!");
-						clearFlag = true;
-						return;
-					}
-
-					else if (split[0].equalsIgnoreCase("del") && split.length == 2)
-					{
-						final String toRemove = split[1];
-
-						final EntityPlayer playerToRemove = editingVillager.worldObj.getPlayerEntityByName(toRemove);
-
-						if (playerToRemove != null)
-						{
-							editingVillager.familyTree.removeFamilyTreeEntry(playerToRemove);
+							editingVillager.familyTree.addFamilyTreeEntry(playerMCAID, relationToAdd);
 							MCA.packetHandler.sendPacketToServer(new PacketSetFamilyTree(editingVillager.getEntityId(), editingVillager.familyTree));
-							entryTextField.setText("Removed!");
+							entryTextField.setText("Added!");
 							clearFlag = true;
 							return;
 						}
 
-						else
+						else if (split[0].equalsIgnoreCase("del") && split.length == 2)
 						{
-							try
+							final String toRemove = split[1];
+
+							final EntityPlayer playerToRemove = editingVillager.worldObj.getPlayerEntityByName(toRemove);
+
+							if (playerToRemove != null)
 							{
-								final int idToRemove = Integer.parseInt(toRemove);
-								editingVillager.familyTree.removeFamilyTreeEntry(idToRemove);
+								editingVillager.familyTree.removeFamilyTreeEntry(playerToRemove);
 								MCA.packetHandler.sendPacketToServer(new PacketSetFamilyTree(editingVillager.getEntityId(), editingVillager.familyTree));
 								entryTextField.setText("Removed!");
 								clearFlag = true;
 								return;
 							}
 
-							catch (final NumberFormatException e)
+							else
 							{
-								final Integer idToRemove = MCA.getInstance().getIdOfPlayer(toRemove);
-
-								if (idToRemove != null)
+								try
 								{
+									final int idToRemove = Integer.parseInt(toRemove);
 									editingVillager.familyTree.removeFamilyTreeEntry(idToRemove);
 									MCA.packetHandler.sendPacketToServer(new PacketSetFamilyTree(editingVillager.getEntityId(), editingVillager.familyTree));
 									entryTextField.setText("Removed!");
 									clearFlag = true;
 									return;
 								}
+
+								catch (final NumberFormatException e)
+								{
+									final Integer idToRemove = MCA.getInstance().getIdOfPlayer(toRemove);
+
+									if (idToRemove != null)
+									{
+										editingVillager.familyTree.removeFamilyTreeEntry(idToRemove);
+										MCA.packetHandler.sendPacketToServer(new PacketSetFamilyTree(editingVillager.getEntityId(), editingVillager.familyTree));
+										entryTextField.setText("Removed!");
+										clearFlag = true;
+										return;
+									}
+								}
 							}
 						}
 					}
+					
+					entryTextField.setText("Invalid input!");
+					clearFlag = true;
 				}
 
-				entryTextField.setText("Invalid input!");
-				clearFlag = true;
+				catch (NumberFormatException e)
+				{
+					entryTextField.setText("Invalid input!");
+					clearFlag = true;						
+				}
 			}
 		}
 
@@ -1004,7 +1013,7 @@ public class GuiVillagerEditor extends AbstractGui
 	private void sortTextureList(List<String> listToSort)
 	{
 		Collections.sort(listToSort, new Comparator<String>()
-		{
+				{
 			@Override
 			public int compare(String o1, String o2)
 			{
@@ -1023,6 +1032,6 @@ public class GuiVillagerEditor extends AbstractGui
 
 				return 1;
 			}
-		});
+				});
 	}
 }

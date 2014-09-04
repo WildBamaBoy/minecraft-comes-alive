@@ -161,7 +161,7 @@ public class VillageHelper
 	 */
 	private void updateNumberOfGuards()
 	{
-		final List villagers = world.getEntitiesWithinAABB(EntityVillagerAdult.class,AxisAlignedBB.getBoundingBox(village.getCenter().posX - village.getVillageRadius(), village.getCenter().posY - 4, village.getCenter().posZ - village.getVillageRadius(), village.getCenter().posX + village.getVillageRadius(), village.getCenter().posY + 4, village.getCenter().posZ + village.getVillageRadius()));
+		final List villagers = world.getEntitiesWithinAABB(EntityVillagerAdult.class, AxisAlignedBB.getBoundingBox(village.getCenter().posX - village.getVillageRadius(), village.getCenter().posY - 4, village.getCenter().posZ - village.getVillageRadius(), village.getCenter().posX + village.getVillageRadius(), village.getCenter().posY + 4, village.getCenter().posZ + village.getVillageRadius()));
 		numberOfGuards = 0;
 
 		for (final Object obj : villagers)
@@ -180,7 +180,7 @@ public class VillageHelper
 	 */
 	private void updateNumberOfVillagers()
 	{
-		final List villagers = world.getEntitiesWithinAABB(AbstractEntity.class,AxisAlignedBB.getBoundingBox(village.getCenter().posX - village.getVillageRadius(), village.getCenter().posY - 4, village.getCenter().posZ - village.getVillageRadius(), village.getCenter().posX + village.getVillageRadius(), village.getCenter().posY + 4, village.getCenter().posZ + village.getVillageRadius()));
+		final List villagers = world.getEntitiesWithinAABB(AbstractEntity.class, AxisAlignedBB.getBoundingBox(village.getCenter().posX - village.getVillageRadius(), village.getCenter().posY - 4, village.getCenter().posZ - village.getVillageRadius(), village.getCenter().posX + village.getVillageRadius(), village.getCenter().posY + 4, village.getCenter().posZ + village.getVillageRadius()));
 		numberOfVillagers = villagers.size();
 
 		for (final Object obj : villagers)

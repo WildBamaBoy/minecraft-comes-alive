@@ -28,7 +28,6 @@ public class ItemIconInitializer extends Item
 	@Override
 	public void registerIcons(IIconRegister IIconRegister)
 	{
-		System.out.println("A");
 		MCA.iconFoodSlotEmpty = IIconRegister.registerIcon("mca:IconFoodEmpty");
 	}
 }

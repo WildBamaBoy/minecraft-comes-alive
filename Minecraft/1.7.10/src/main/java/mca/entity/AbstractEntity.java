@@ -47,6 +47,7 @@ import mca.inventory.Inventory;
 import mca.network.packets.PacketNotifyPlayer;
 import mca.network.packets.PacketOnEngagement;
 import mca.network.packets.PacketOnVillagerProcreate;
+import mca.network.packets.PacketProcreate;
 import mca.network.packets.PacketSetChore;
 import mca.network.packets.PacketSetFamilyTree;
 import mca.network.packets.PacketSetFieldValue;
@@ -55,6 +56,7 @@ import mca.network.packets.PacketSetTarget;
 import mca.network.packets.PacketStopJumping;
 import mca.network.packets.PacketSwingArm;
 import mca.network.packets.PacketSyncRequest;
+import mca.network.packets.TypeIDs;
 import mca.tileentity.TileEntityVillagerBed;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -264,7 +266,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	public void onUpdate()
 	{
 		super.onUpdate();
-		
+
 		//Sync with server if data hasn't been assigned.
 		if (worldObj.isRemote && texture.contains("steve") && !sentSyncRequest)
 		{
@@ -298,7 +300,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			updateMonarchs();
 			updateMood();
 			updateWorkTime();
-			updateDebug();
 			updateDivorce();
 			updateProcreationWithPlayer();
 			updateProcreationWithVillager();
@@ -636,15 +637,22 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					}
 				}
 
-				final AbstractEntity spouse = (AbstractEntity) worldObj.getEntityByID(spouseEntityId);
-
-				if (spouse != null)
+				try
 				{
-					spouse.isMarriedToVillager = false;
-					spouse.familyTree.removeFamilyTreeEntry(EnumRelation.Spouse);
+					final AbstractEntity spouse = (AbstractEntity) worldObj.getEntityByID(spouseEntityId);
 
-					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(spouse.getEntityId(), "isMarriedToVillager", spouse.isMarriedToVillager));
-					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFamilyTree(spouse.getEntityId(), spouse.familyTree));
+					if (spouse != null)
+					{
+						spouse.isMarriedToVillager = false;
+						spouse.familyTree.removeFamilyTreeEntry(EnumRelation.Spouse);
+
+						MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(spouse.getEntityId(), "isMarriedToVillager", spouse.isMarriedToVillager));
+						MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFamilyTree(spouse.getEntityId(), spouse.familyTree));
+					}
+				}
+
+				catch (ClassCastException e) //Can occur during death by TNT.
+				{
 				}
 			}
 
@@ -1052,7 +1060,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			}
 
 			else
-			//The entity isn't staying or following the player.
+				//The entity isn't staying or following the player.
 			{
 				if (worldObj.getBlock((int) homePointX, (int) (homePointY + 0), (int) homePointZ) == Blocks.air && worldObj.getBlock((int) homePointX, (int) (homePointY + 1), (int) homePointZ) == Blocks.air)
 				{
@@ -1142,7 +1150,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				}
 
 				else
-				//The test for obstructed home point failed. Notify the related players.
+					//The test for obstructed home point failed. Notify the related players.
 				{
 					for (final int relatedPlayerId : familyTree.getListOfPlayerIDs())
 					{
@@ -1200,7 +1208,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		}
 
 		else
-		//The home point is obstructed, therefore invalid.
+			//The home point is obstructed, therefore invalid.
 		{
 			notifyPlayer(worldObj.getPlayerEntityByName(lastInteractingPlayer), MCA.getInstance().getLanguageLoader().getString("notify.homepoint.invalid"));
 			hasHomePoint = false;
@@ -1701,7 +1709,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		}
 
 		else
-		//The gift wasn't contained in the acceptable gifts map or it's not a giftable item. Remove some hearts points and return.
+			//The gift wasn't contained in the acceptable gifts map or it's not a giftable item. Remove some hearts points and return.
 		{
 			modifyHearts(player, -(worldObj.rand.nextInt(9) + 5));
 			modifyMoodPoints(EnumMoodChangeContext.BadInteraction, 0.5F);
@@ -1942,7 +1950,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				}
 
 				else
-				//The hearts aren't high enough.
+					//The hearts aren't high enough.
 				{
 					say(MCA.getInstance().getLanguageLoader().getString("marriage.refusal.lowhearts", null, this, true));
 					modifyHearts(player, -30);
@@ -1950,7 +1958,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			}
 
 			else
-			//Player is already married
+				//Player is already married
 			{
 				say(MCA.getInstance().getLanguageLoader().getString("marriage.refusal.playermarried", null, this, true));
 			}
@@ -1997,7 +2005,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				}
 
 				else
-				//Acceptance is at 100 hearts or above.
+					//Acceptance is at 100 hearts or above.
 				{
 					Utility.removeItemFromPlayer(itemStack, player);
 					say(MCA.getInstance().getLanguageLoader().getString("marriage.acceptance", null, this, false));
@@ -2046,7 +2054,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			}
 
 			else
-			//Player is already married.
+				//Player is already married.
 			{
 				say(MCA.getInstance().getLanguageLoader().getString("marriage.refusal.playermarried", null, this, false));
 			}
@@ -2076,7 +2084,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			}
 
 			else
-			//nearestVillager is within 5 blocks.
+				//nearestVillager is within 5 blocks.
 			{
 				int cakeCount = 0;
 
@@ -2100,7 +2108,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				}
 
 				else
-				//This couple doesn't have a baby.
+					//This couple doesn't have a baby.
 				{
 					isProcreatingWithVillager = true;
 					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isProcreatingWithVillager", isProcreatingWithVillager));
@@ -2234,7 +2242,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				}
 
 				else
-				//Server-side
+					//Server-side
 				{
 					motionX = 0.0D;
 					motionZ = 0.0D;
@@ -2271,7 +2279,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			}
 
 			else
-			//Prevent a possible crash. Player should start over if this happens.
+				//Prevent a possible crash. Player should start over if this happens.
 			{
 				isProcreatingWithVillager = false;
 			}
@@ -2288,21 +2296,15 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			if (worldObj.isRemote)
 			{
-				if (!isProcreatingWithPlayer)
-				{
-					isJumping = false;
-					return;
-				}
-
-				isJumping = true;
 				final double velX = rand.nextGaussian() * 0.02D;
 				final double velY = rand.nextGaussian() * 0.02D;
 				final double velZ = rand.nextGaussian() * 0.02D;
 				worldObj.spawnParticle("heart", posX + rand.nextFloat() * width * 2.0F - width, posY + 0.5D + rand.nextFloat() * height, posZ + rand.nextFloat() * width * 2.0F - width, velX, velY, velZ);
+
+				rotationYawHead += 35;
 			}
 
-			else
-			//Server-side
+			else //Server-side
 			{
 				final EntityPlayer player = worldObj.getPlayerEntityByName(spousePlayerName);
 
@@ -2310,26 +2312,22 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				{
 					isProcreatingWithPlayer = false;
 					procreateTicks = 0;
-					player.addChatMessage(new ChatComponentText(Color.RED + "You have reached the child limit set by the server administrator: " + MCA.getInstance().getModProperties().server_childLimit));
 
-					MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isProcreatingWithPlayer", isProcreatingWithPlayer));
+					player.addChatMessage(new ChatComponentText(Color.RED + "You have reached the child limit set by the server administrator: " + MCA.getInstance().getModProperties().server_childLimit));
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketProcreate(TypeIDs.Procreation.STOP, getEntityId()));
 				}
 
 				else
 				{
-					player.motionX = 0.0D;
-					player.motionZ = 0.0D;
 					motionX = 0.0D;
 					motionZ = 0.0D;
 
 					if (procreateTicks >= 50)
 					{
-						worldObj.playSoundAtEntity(this, "mob.chickenplop", 1.0F, (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
+						worldObj.playSoundAtEntity(this, "mob.chicken.plop", 1.0F, (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F + 1.0F);
+						MCA.packetHandler.sendPacketToAllPlayers(new PacketProcreate(TypeIDs.Procreation.STOP, getEntityId()));
 						isProcreatingWithPlayer = false;
 						procreateTicks = 0;
-
-						MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "isProcreatingWithPlayer", isProcreatingWithPlayer));
-						MCA.packetHandler.sendPacketToAllPlayers(new PacketStopJumping(getEntityId()));
 
 						final boolean babyIsMale = Utility.getRandomGender();
 						MCA.packetHandler.sendPacketToPlayer(new PacketOnVillagerProcreate(getEntityId(), babyIsMale), (EntityPlayerMP) player);
@@ -2364,7 +2362,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			if (isMarriedToPlayer)
 			{
 				final EntityPlayer player = worldObj.getPlayerEntityByName(spousePlayerName);
-				final WorldPropertiesManager worldManager = MCA.getInstance().playerWorldManagerMap.get(lastInteractingPlayer);
+				final WorldPropertiesManager worldManager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
 				final WorldPropertiesList properties = MCA.getInstance().getWorldProperties(worldManager);
 				properties.playerSpouseID = 0;
 				worldManager.saveWorldProperties();
@@ -2493,23 +2491,34 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 	public void resetBedStatus()
 	{
-		final TileEntityVillagerBed bed = (TileEntityVillagerBed) worldObj.getTileEntity(bedPosX, bedPosY, bedPosZ);
-
-		if (bed != null)
+		try
 		{
-			bed.setIsVillagerSleepingIn(false);
-			bed.setSleepingVillagerId(-1);
+			final TileEntityVillagerBed bed = (TileEntityVillagerBed) worldObj.getTileEntity(bedPosX, bedPosY, bedPosZ);
+
+			if (bed != null)
+			{
+				bed.setIsVillagerSleepingIn(false);
+				bed.setSleepingVillagerId(-1);
+			}
 		}
 
-		hasBed = false;
-		bedPosX = 0;
-		bedPosY = 0;
-		bedPosZ = 0;
+		catch (ClassCastException e)
+		{
+			//When the bed doesn't happen to be a villager bed anymore.
+		}
+		
+		finally
+		{
+			hasBed = false;
+			bedPosX = 0;
+			bedPosY = 0;
+			bedPosZ = 0;
 
-		MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "hasBed", hasBed));
-		MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "bedPosX", bedPosX));
-		MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "bedPosY", bedPosY));
-		MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "bedPosZ", bedPosZ));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "hasBed", hasBed));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "bedPosX", bedPosX));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "bedPosY", bedPosY));
+			MCA.packetHandler.sendPacketToAllPlayers(new PacketSetFieldValue(getEntityId(), "bedPosZ", bedPosZ));
+		}
 	}
 
 	/**
@@ -3065,7 +3074,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		}
 
 		else
-		//Server-side.
+			//Server-side.
 		{
 			if (traitId == 0 || trait == EnumTrait.None)
 			{
@@ -3194,10 +3203,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	private void updateDebug()
 	{
-		if (MCA.getInstance().inDebugMode)
-		{
-			return;
-		}
 	}
 
 	/**

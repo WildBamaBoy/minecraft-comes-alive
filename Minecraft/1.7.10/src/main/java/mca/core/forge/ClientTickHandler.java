@@ -65,7 +65,7 @@ public class ClientTickHandler
 				//Check for random splash text.
 				if (Utility.getBooleanWithProbability(10))
 				{
-					ObfuscationReflectionHelper.setPrivateValue(GuiMainMenu.class, (GuiMainMenu) guiScreen, "Minecraft Comes Alive!", 3);
+					ObfuscationReflectionHelper.setPrivateValue(GuiMainMenu.class, (GuiMainMenu) guiScreen, "Minecraft Comes Alive!", 4);
 				}
 
 				//Reset world specific data.

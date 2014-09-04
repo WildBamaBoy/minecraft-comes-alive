@@ -298,7 +298,7 @@ public class EntityChoreFishHook extends EntityFishHook implements IEntityAdditi
 				{
 					final double boundingBoxMinY = boundingBox.minY + (boundingBox.maxY - boundingBox.minY) * (i + 0) / endByte - 0.125D + 0.125D;
 					final double boundingBoxMaxY = boundingBox.minY + (boundingBox.maxY - boundingBox.minY) * (i + 1) / endByte - 0.125D + 0.125D;
-					final AxisAlignedBB bb =AxisAlignedBB.getBoundingBox(boundingBox.minX, boundingBoxMinY, boundingBox.minZ, boundingBox.maxX, boundingBoxMaxY, boundingBox.maxZ);
+					final AxisAlignedBB bb = AxisAlignedBB.getBoundingBox(boundingBox.minX, boundingBoxMinY, boundingBox.minZ, boundingBox.maxX, boundingBoxMaxY, boundingBox.maxZ);
 
 					if (worldObj.isAABBInMaterial(bb, Material.water))
 					{
@@ -387,20 +387,31 @@ public class EntityChoreFishHook extends EntityFishHook implements IEntityAdditi
 	@Override
 	public void writeSpawnData(ByteBuf data)
 	{
-		data.writeInt(angler.getEntityId());
+		if (angler != null)
+		{
+			data.writeInt(angler.getEntityId());
+		}
 	}
 
 	@Override
 	public void readSpawnData(ByteBuf data)
 	{
-		final int anglerId = data.readInt();
-
-		angler = (AbstractEntity) worldObj.getEntityByID(anglerId);
-
-		if (angler != null)
+		try
 		{
-			angler.fishingChore.fishEntity = this;
-			angler.tasks.taskEntries.clear();
+			final int anglerId = data.readInt();
+
+			angler = (AbstractEntity) worldObj.getEntityByID(anglerId);
+
+			if (angler != null)
+			{
+				angler.fishingChore.fishEntity = this;
+				angler.tasks.taskEntries.clear();
+			}
+		}
+
+		catch (Throwable e) //When angler is null, probably dead.
+		{
+			setDead();
 		}
 	}
 }

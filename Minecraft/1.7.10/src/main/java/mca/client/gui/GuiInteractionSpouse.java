@@ -19,8 +19,10 @@ import mca.enums.EnumMood;
 import mca.enums.EnumTrait;
 import mca.network.packets.PacketClickMountHorse;
 import mca.network.packets.PacketClickTakeGift;
+import mca.network.packets.PacketProcreate;
 import mca.network.packets.PacketSetChore;
 import mca.network.packets.PacketSetFieldValue;
+import mca.network.packets.TypeIDs;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
@@ -564,8 +566,7 @@ public class GuiInteractionSpouse extends AbstractGui
 
 					else
 					{
-						entitySpouse.isProcreatingWithPlayer = true;
-						MCA.packetHandler.sendPacketToServer(new PacketSetFieldValue(entitySpouse.getEntityId(), "isProcreatingWithPlayer", entitySpouse.isProcreatingWithPlayer));
+						MCA.packetHandler.sendPacketToServer(new PacketProcreate(TypeIDs.Procreation.START, entitySpouse.getEntityId()));
 					}
 				}
 

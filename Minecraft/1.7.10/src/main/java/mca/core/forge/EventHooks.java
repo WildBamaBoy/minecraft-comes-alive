@@ -83,14 +83,19 @@ public class EventHooks
 	@SubscribeEvent
 	public void itemTossedEventHandler(ItemTossEvent event)
 	{
-		final WorldPropertiesList properties = (WorldPropertiesList) MCA.getInstance().playerWorldManagerMap.get(event.player.getCommandSenderName()).worldPropertiesInstance;
+		final WorldPropertiesManager manager = MCA.getInstance().playerWorldManagerMap.get(event.player.getCommandSenderName());
 
-		if (event.entityItem.getEntityItem().getItem() instanceof AbstractBaby && properties.babyExists)
+		if (manager != null)
 		{
-			MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(event.player, null, "notify.player.droppedbaby", false, null, null), (EntityPlayerMP) event.player);
-			event.player.inventory.addItemStackToInventory(event.entityItem.getEntityItem());
-			event.setCanceled(true);
-			event.setResult(Result.DENY);
+			final WorldPropertiesList properties = (WorldPropertiesList) manager.worldPropertiesInstance;
+
+			if (event.entityItem.getEntityItem().getItem() instanceof AbstractBaby && properties.babyExists)
+			{
+				MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(event.player, null, "notify.player.droppedbaby", false, null, null), (EntityPlayerMP) event.player);
+				event.player.inventory.addItemStackToInventory(event.entityItem.getEntityItem());
+				event.setCanceled(true);
+				event.setResult(Result.DENY);
+			}
 		}
 	}
 
@@ -139,8 +144,8 @@ public class EventHooks
 				{
 					if (server instanceof IntegratedServer)
 					{
-						final Boolean isCrashed = (Boolean) ObfuscationReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), 12);
-						final CrashReport crashReport = (CrashReport) ObfuscationReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), 13);
+						final Boolean isCrashed = (Boolean) ObfuscationReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), 11);
+						final CrashReport crashReport = (CrashReport) ObfuscationReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), 12);
 
 						if (isCrashed)
 						{
