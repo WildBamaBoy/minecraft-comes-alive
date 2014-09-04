@@ -10,7 +10,6 @@ package mca.network.packets;
 import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
 import mca.entity.AbstractEntity;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
@@ -19,6 +18,8 @@ import com.radixshock.radixcore.network.packets.AbstractPacket;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class PacketProcreate extends AbstractPacket implements IMessage, IMessageHandler<PacketProcreate, IMessage>
 {
@@ -78,10 +79,11 @@ public class PacketProcreate extends AbstractPacket implements IMessage, IMessag
 		MCA.packetHandler.sendPacketToAllPlayers(new PacketProcreate(TypeIDs.Procreation.START_CLIENT, message.mcaEntityId));
 	}
 
+	@SideOnly(Side.CLIENT)
 	private void handleStopProcreation(PacketProcreate message, MessageContext ctx) //Client-side only
 	{
 		EntityPlayer player = getPlayer(ctx);
-		World worldObj = Minecraft.getMinecraft().theWorld;
+		World worldObj = net.minecraft.client.Minecraft.getMinecraft().theWorld;
 		AbstractEntity entity = (AbstractEntity) worldObj.getEntityByID(message.mcaEntityId);
 
 		entity.isSleeping = false;
@@ -96,9 +98,10 @@ public class PacketProcreate extends AbstractPacket implements IMessage, IMessag
 		}
 	}
 
+	@SideOnly(Side.CLIENT)
 	private void handleStartClient(PacketProcreate message, MessageContext ctx)
 	{
-		World worldObj = Minecraft.getMinecraft().theWorld;
+		World worldObj = net.minecraft.client.Minecraft.getMinecraft().theWorld;
 		AbstractEntity entity = (AbstractEntity) worldObj.getEntityByID(message.mcaEntityId);
 
 		entity.isSleeping = false;
