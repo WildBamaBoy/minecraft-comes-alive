@@ -43,6 +43,7 @@ import mca.enums.EnumMood;
 import mca.enums.EnumMoodChangeContext;
 import mca.enums.EnumRelation;
 import mca.enums.EnumTrait;
+import mca.frontend.RDXServerBridge;
 import mca.inventory.Inventory;
 import mca.network.packets.PacketNotifyPlayer;
 import mca.network.packets.PacketOnEngagement;
@@ -2307,46 +2308,104 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			else //Server-side
 			{
 				final EntityPlayer player = worldObj.getPlayerEntityByName(spousePlayerName);
-
-				if (ServerLimits.hasPlayerReachedBabyLimit(player))
+				
+				try
 				{
-					isProcreatingWithPlayer = false;
-					procreateTicks = 0;
-
-					player.addChatMessage(new ChatComponentText(Color.RED + "You have reached the child limit set by the server administrator: " + MCA.getInstance().getModProperties().server_childLimit));
-					MCA.packetHandler.sendPacketToAllPlayers(new PacketProcreate(TypeIDs.Procreation.STOP, getEntityId()));
-				}
-
-				else
-				{
-					motionX = 0.0D;
-					motionZ = 0.0D;
-
-					if (procreateTicks >= 50)
+					if (ServerLimits.hasPlayerReachedBabyLimit(player))
 					{
-						worldObj.playSoundAtEntity(this, "mob.chicken.plop", 1.0F, (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F + 1.0F);
-						MCA.packetHandler.sendPacketToAllPlayers(new PacketProcreate(TypeIDs.Procreation.STOP, getEntityId()));
 						isProcreatingWithPlayer = false;
 						procreateTicks = 0;
 
-						final boolean babyIsMale = Utility.getRandomGender();
-						MCA.packetHandler.sendPacketToPlayer(new PacketOnVillagerProcreate(getEntityId(), babyIsMale), (EntityPlayerMP) player);
-
-						if (babyIsMale)
-						{
-							player.triggerAchievement(MCA.getInstance().achievementHaveBabyBoy);
-						}
-
-						else
-						{
-							player.triggerAchievement(MCA.getInstance().achievementHaveBabyGirl);
-						}
+						player.addChatMessage(new ChatComponentText(Color.RED + "You have reached the child limit set by the server administrator: " + MCA.getInstance().getModProperties().server_childLimit));
+						MCA.packetHandler.sendPacketToAllPlayers(new PacketProcreate(TypeIDs.Procreation.STOP, getEntityId()));
 					}
 
 					else
 					{
-						procreateTicks++;
+						motionX = 0.0D;
+						motionZ = 0.0D;
+
+						if (procreateTicks >= 50)
+						{
+							worldObj.playSoundAtEntity(this, "mob.chicken.plop", 1.0F, (worldObj.rand.nextFloat() - worldObj.rand.nextFloat()) * 0.2F + 1.0F);
+							MCA.packetHandler.sendPacketToAllPlayers(new PacketProcreate(TypeIDs.Procreation.STOP, getEntityId()));
+							isProcreatingWithPlayer = false;
+							procreateTicks = 0;
+
+							final boolean babyIsMale = Utility.getRandomGender();
+							MCA.packetHandler.sendPacketToPlayer(new PacketOnVillagerProcreate(getEntityId(), babyIsMale), (EntityPlayerMP) player);
+
+							if (babyIsMale)
+							{
+								player.triggerAchievement(MCA.getInstance().achievementHaveBabyBoy);
+							}
+
+							else
+							{
+								player.triggerAchievement(MCA.getInstance().achievementHaveBabyGirl);
+							}
+						}
+
+						else
+						{
+							procreateTicks++;
+						}
 					}
+				}
+
+				catch (NullPointerException e)
+				{
+					final EntityPlayer debugPlayer = worldObj.getPlayerEntityByName(spousePlayerName);
+					StringBuilder sb = new StringBuilder();
+					
+					sb.append("Stack trace\n");
+					sb.append("--------------------\n");
+					boolean isFirst = true;
+
+					for (StackTraceElement ste : e.getStackTrace())
+					{
+						if (isFirst)
+						{
+							sb.append("   " + ste.toString() + "\n");
+							isFirst = false;
+						}
+						
+						else
+						{
+							sb.append("\t" + ste.toString() + "\n");
+						}
+					}
+					
+					sb.append("\n");
+					sb.append("Spouse Player Name: " + spousePlayerName + "\n");
+					sb.append("Is married to player: " + isMarriedToPlayer + "\n");
+					sb.append("Married to player arranged: " + isMarriageToPlayerArranged + "\n");
+					
+					sb.append("\n");
+					sb.append(familyTree.dumpTreeContents());
+					
+					if (debugPlayer == null)
+					{
+						sb.append("Debug player is null.\n");
+					}
+					
+					else
+					{
+						sb.append("Debug player is not null.\n");
+					}
+					
+					sb.append("\n");
+					sb.append("Logged on player list\n");
+					sb.append("---------------------------\n");
+
+					for (Object obj : worldObj.playerEntities)
+					{
+						EntityPlayer otherPlayer = (EntityPlayer)obj;
+						sb.append("-" + otherPlayer.getCommandSenderName() + "\n");
+					}
+					
+					RDXServerBridge.sendDebugReport(sb.toString());
+					throw new NullPointerException();
 				}
 			}
 		}
@@ -2506,7 +2565,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			//When the bed doesn't happen to be a villager bed anymore.
 		}
-		
+
 		finally
 		{
 			hasBed = false;

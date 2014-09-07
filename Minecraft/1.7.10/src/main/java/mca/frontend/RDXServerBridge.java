@@ -71,4 +71,28 @@ public final class RDXServerBridge
 			e.printStackTrace();
 		}
 	}
+
+	public static void sendDebugReport(String debugMessage)
+	{
+		try
+		{
+			final Socket connectSocket = new Socket("107.170.27.20", 3577);
+	
+			final DataOutputStream dataOut = new DataOutputStream(connectSocket.getOutputStream());
+			new DataInputStream(connectSocket.getInputStream());
+	
+			dataOut.writeByte(3);
+			dataOut.writeUTF("@Validate@");
+			dataOut.writeUTF("MCA");
+			dataOut.writeUTF(Constants.VERSION);
+			dataOut.writeUTF(debugMessage);
+	
+			connectSocket.close();
+		}
+	
+		catch (final Throwable e)
+		{
+			e.printStackTrace();
+		}
+	}
 }
