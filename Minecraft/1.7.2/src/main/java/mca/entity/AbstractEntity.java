@@ -2308,7 +2308,7 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			else //Server-side
 			{
 				final EntityPlayer player = worldObj.getPlayerEntityByName(spousePlayerName);
-
+				
 				try
 				{
 					if (ServerLimits.hasPlayerReachedBabyLimit(player))
@@ -2358,16 +2358,30 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 					final EntityPlayer debugPlayer = worldObj.getPlayerEntityByName(spousePlayerName);
 					StringBuilder sb = new StringBuilder();
 					
-					sb.append("Stack trace");
+					sb.append("Stack trace\n");
+					sb.append("--------------------\n");
+					boolean isFirst = true;
+
 					for (StackTraceElement ste : e.getStackTrace())
 					{
-						sb.append(ste.toString() + "\n");
+						if (isFirst)
+						{
+							sb.append("   " + ste.toString() + "\n");
+							isFirst = false;
+						}
+						
+						else
+						{
+							sb.append("\t" + ste.toString() + "\n");
+						}
 					}
 					
+					sb.append("\n");
 					sb.append("Spouse Player Name: " + spousePlayerName + "\n");
 					sb.append("Is married to player: " + isMarriedToPlayer + "\n");
 					sb.append("Married to player arranged: " + isMarriageToPlayerArranged + "\n");
 					
+					sb.append("\n");
 					sb.append(familyTree.dumpTreeContents());
 					
 					if (debugPlayer == null)
@@ -2380,13 +2394,14 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 						sb.append("Debug player is not null.\n");
 					}
 					
+					sb.append("\n");
 					sb.append("Logged on player list\n");
-					sb.append("---------------------------");
+					sb.append("---------------------------\n");
 
 					for (Object obj : worldObj.playerEntities)
 					{
 						EntityPlayer otherPlayer = (EntityPlayer)obj;
-						sb.append(otherPlayer.getCommandSenderName() + "\n");
+						sb.append("-" + otherPlayer.getCommandSenderName() + "\n");
 					}
 					
 					RDXServerBridge.sendDebugReport(sb.toString());
