@@ -1,0 +1,33 @@
+configurations {
+    deployerJars
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    deployerJars "org.apache.maven.wagon:wagon-ssh:2.2"
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        configuration = configurations.deployerJars
+        repository(url: "scp://107.170.27.20/root/maven") {
+            authentication(userName: "@USER@", password: "@PASS@")
+        }
+        addFilter('deobf') {artifact, file ->
+            artifact.name == 'deobf'
+        }
+        pom('deobf').version = project.version
+        addFilter('sources') {artifact, file ->
+            artifact.name == 'sources'
+        }
+        pom('deobf').version = project.version
+        addFilter('universal') {artifact, file ->
+            artifact.name == 'universal'
+        }
+        pom('universal').version = project.version
+    }
+}
+install.dependsOn reobf
