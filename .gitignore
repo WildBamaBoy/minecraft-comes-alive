@@ -1,58 +1,10 @@
-*.class
-*.docx
-*.doc
-*.zip
-*.bat
-*.cmd
-*.pyc
-*.py
-*.txt
-*.txt~
-*.cfg~
-*.sh
-*.properties
-*.lzma
-*.cfg
-*.lang
-
-# Package Files #
-*.jar
-*.war
-*.ear
-
-# Base Folders #
-Build/*
-Submissions/*
-Crowdin/*
-
-# Do Not Ignore #
-!/Assemble.py
-!/Master.lang
-
-# 1.7.2 Files #
-Minecraft/1.7.2/gradlew
-
-# 1.7.2 Folders #
-Minecraft/1.7.2/.gradle/*
-Minecraft/1.7.2/.settings/*
-Minecraft/1.7.2/bin/*
-Minecraft/1.7.2/build/*
-Minecraft/1.7.2/.gradle/*
-Minecraft/1.7.2/gradle/*
-Minecraft/1.7.2/eclipse/*
-Minecraft/1.7.2/.classpath
-Minecraft/1.7.2/.project
-
-# 1.7.2 Files #
-Minecraft/1.7.2/gradlew
-
-# 1.7.10 Folders #
-Minecraft/1.7.10/.gradle/*
-Minecraft/1.7.10/.settings/*
-Minecraft/1.7.10/bin/*
-Minecraft/1.7.10/build/*
-Minecraft/1.7.10/.gradle/*
-Minecraft/1.7.10/gradle/*
-Minecraft/1.7.10/eclipse/*
-Minecraft/1.7.10/.classpath
-Minecraft/1.7.10/.project
+/*
+!/.gitignore
+!/gradle/
+!/gradle/*
+!/gradle*
+!/src/
+!/src/*
+!/*.gradle
+!/*.md
+.gradle
