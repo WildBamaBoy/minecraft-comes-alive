@@ -16,7 +16,7 @@ import net.minecraft.init.Items;
  */
 public final class Constants
 {
-	public static final String VERSION = "4.1.2";
+	public static final String VERSION = "@VERSION@";
 	public static final String REQUIRED_RADIX = "1.3.0";
 
 	/** Users that are allowed to use the dev controls. */
