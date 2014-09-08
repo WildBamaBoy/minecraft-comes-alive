@@ -1,0 +1,11 @@
+repositories {
+    mavenLocal()
+    maven {
+        name = "RadixShock"
+        url  = "http://107.170.27.20/root/maven"
+    }
+}
+
+dependencies {
+    compile 'com.radixshock:RadixCore:1.7.10-1.3.1'
+}

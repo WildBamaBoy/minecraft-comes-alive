@@ -1,0 +1,23 @@
+minecraft {
+    version = "1.7.10-10.13.0.1180"
+    runDir =  "eclipse/"
+    replaceIn "mca/core/Constants.java"
+    replace   "@VERSION@", project.version
+}
+
+version = "${project.minecraft.version}-${project.version}"
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
