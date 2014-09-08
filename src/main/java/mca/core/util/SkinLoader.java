@@ -73,7 +73,7 @@ public final class SkinLoader
 		}
 	}
 
-	private static File findModDataFile() throws ZipException, IOException
+	private static File findModDataFile() throws IOException
 	{
 		File modData = findModAsArchive();
 
@@ -96,21 +96,32 @@ public final class SkinLoader
 
 		for (final File fileInMods : modsFolder.listFiles())
 		{
-			if (fileInMods.isFile() && Files.probeContentType(fileInMods.toPath()).equals("application/zip") || Files.probeContentType(fileInMods.toPath()).equals("application/x-java-archive"))
+			if (fileInMods.isFile())
 			{
-				if (fileContainsModData(fileInMods))
+				String filetype = Files.probeContentType(fileInMods.toPath());
+				if (filetype.equals("application/zip") || filetype.equals("application/x-java-archive"))
 				{
-					return fileInMods;
+					{
+						return fileInMods;
+					}
 				}
-			}
-
-			else if (fileInMods.isDirectory())
-			{
-				final File modData = getModFileFromNestedFolder(fileInMods);
-
-				if (modData != null)
+				else if (fileInMods.isDirectory())
 				{
-					return modData;
+					final File modData = getModFileFromNestedFolder(fileInMods);
+
+					if (modData != null)
+					{
+						return modData;
+					}
+				}
+				else if (fileInMods.isDirectory())
+				{
+					final File modData = getModFileFromNestedFolder(fileInMods);
+
+					if (modData != null)
+					{
+						return modData;
+					}
 				}
 			}
 		}
@@ -346,6 +357,7 @@ public final class SkinLoader
 	}
 
 	private static boolean fileContainsAddonData(File fileToTest) throws IOException
+
 	{
 		String filetype = Files.probeContentType(fileToTest.toPath());
 		if (filetype.equals("application/zip") || filetype.equals("application/x-java-archive"))
