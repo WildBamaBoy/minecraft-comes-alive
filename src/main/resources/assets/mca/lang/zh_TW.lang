@@ -1,0 +1,2255 @@
+#X-Generator: crowdin.com
+#X-Generator: crowdin.net
+itemGroup.tabMCA=Minecraft Comes Alive
+
+##########
+# Heir
+#############################
+heir.set.success=%Name% \u6210\u70ba\u4f60\u7684\u7e7c\u627f\u8005\u4e86\u3002
+heir.set.failure.alreadyset=\u4f60\u5df2\u7d93\u6307\u5b9a\u4f60\u7684\u7e7c\u627f\u4eba\u4e86\u3002
+heir.set.failure.sameperson=%Name%\u5df2\u7d93\u662f\u4f60\u7684\u7e7c\u627f\u4eba\u4e86\u3002
+heir.set.failure.alreadyused=%Name% \u5df2\u7d93\u662f\u4f60\u7684\u7e7c\u627f\u4eba\u4e86\u3002\u4f60\u5fc5\u9808\u53e6\u9078\u4ed6\u4eba\u3002
+
+heir.gui.requestcrown=\u8acb\u6c42\u738b\u51a0
+heir.gui.recoverinventory=\u5fa9\u539f\u80cc\u5305\u7269\u54c1
+
+heir.good.returncrown1=\u597d\u5427\uff0c\u9019\u500b\u5f88\u6709\u8da3\u4f46\u662f\u5df2\u7d93\u904e\u6642\u4e86\u3002
+heir.good.returncrown2=\u7576\u7136\uff0c%CallPlayerParent%\uff0c\u9019\u662f\u4f60\u7684\u738b\u51a0\u3002
+heir.good.returncrown3=\u96d6\u7136\u6211\u6f38\u6f38\u611f\u5230\u7121\u804a\uff0c\u4f46\u662f\u6211\u5f88\u6a02\u610f\u3002
+heir.good.returncrown4=\u518d\u7d66\u6211\u4e94\u5206\u9418\u597d\u55ce\uff1f\u597d\u5427\uff0c\u7b97\u4e86\uff01
+heir.good.returncrown5=\u7d42\u65bc\u7d50\u675f\u4e86\u3002\u5176\u4ed6\u4eba\u90fd\u8981\u958b\u59cb\u8a0e\u53ad\u6211\u4e86\uff01
+
+heir.good.founditems1=\u4f60\u56de\u4f86\u4e86\uff01\u6211\u4ee5\u70ba\u4f60\u4e0d\u6703\u518d\u56de\u4f86\u4e86\uff0c\u4f60\u7684\u6771\u897f\u5728\u9019\u3002
+heir.good.founditems2=\u6211\u5011\u53ea\u627e\u5230\u4e86\u4f60\u7684\u6771\u897f\uff0c\u9084\u4ee5\u70ba\u4f60\u4e0d\u6703\u56de\u4f86\u4e86\uff0c\u62ff\u56de\u4f60\u7684\u6771\u897f\u5427\u3002
+heir.good.founditems3=\u6211\u6d3e\u4e86\u5e7e\u500b\u8b77\u885b\u53bb\u627e\u4f60\u4e86\uff0c\u4f46\u4ed6\u5011\u53ea\u5e36\u56de\u4e86\u4f60\u7684\u7269\u54c1\u3002
+heir.good.founditems4=\u6211\u4e0d\u6562\u76f8\u4fe1\u4f60\u56de\u4f86\u4e86\uff01\u6211\u5011\u53ea\u627e\u5230\u4f60\u7684\u7269\u54c1\uff0c\u4f46\u537b\u627e\u4e0d\u5230\u4f60\u3002
+
+##########
+# Information
+#############################
+information.doesnothing=\u6c92\u6709\u52d5\u4f5c\u3002
+
+information.whistle.line1=\u9ede\u64ca\u53f3\u9375\u4ee5\u4f7f\u7528
+information.whistle.line2=\u9818\u4f60\u7684\u914d\u5076\u548c
+information.whistle.line3=\u5b69\u5b50\u5230\u4f60\u9762\u524d\u3002
+
+information.heircrown.line1=\u7d66\u4f60\u5c0f\u5b69\u7684\u79ae\u7269
+information.heircrown.line2=\u4f7f\u4ed6\u5011\u5728\u4f60\u6b7b\u4ea1\u5f8c
+information.heircrown.line3=\u6210\u7232\u570b\u738b/\u738b\u540e\u3002
+
+information.weddingring.line1=\u7d66\u4e00\u540d\u6709\u8d85\u904e
+information.weddingring.line2=100\u9846\u5fc3\u7684\u6751\u6c11
+information.weddingring.line3=\u4f7f\u4ed6\u5011\u6210\u70ba\u4f60\u7684\u914d\u5076
+
+information.villagereditor.line1=\u5c0d\u4e00\u500b\u6751\u6c11\u9ede\u64ca\u53f3\u9375
+information.villagereditor.line2=\u4f86\u9032\u884c\u7de8\u8f2f\u3002
+
+information.tombstone.line1=\u737b\u7d66\u4e00\u540d
+information.tombstone.line2=\u5df2\u901d\u53bb\u7684\u5bb6\u5ead\u6210\u54e1\u3002
+
+information.lostrelativedocument.line1=\u7528\u4f86\u4f7f\u4e00\u540d\u6751\u6c11
+information.lostrelativedocument.line2=\u8b8a\u6210\u4f60\u6240\u9078\u7684\u89aa\u5c6c\u3002
+
+information.engagementring.line1=\u5148\u9001\u7d66\u4e00\u540d\u6751\u6c11\uff0c\u518d\u7d66\u4ed6
+information.engagementring.line2=\u4e00\u679a\u7d50\u5a5a\u6212\u6307\u4ee5
+information.engagementring.line3=\u63a5\u53d7\u4f86\u81ea\u5176\u4ed6\u6751\u6c11\u7684\u79ae\u7269\u3002
+
+information.crown.line1=\u88fd\u4f5c\u4ee5\u6210\u7232\u4e00\u4f4d\u541b\u738b\u3002
+
+information.baby.line1=\u7576\u6642\u6a5f\u6210\u719f\u6642
+information.baby.line2=\u53f3\u9375\u5730\u9762\u4f7f
+information.baby.line3=\u5b30\u5152\u6210\u9577\u505a\u5c0f\u5b69\u3002
+
+information.arrangersring.line1=\u9001\u7d66\u5169\u540d
+information.arrangersring.line2=\u6751\u6c11\u4f86\u4f7f\u4ed6\u5011
+information.arrangersring.line3=\u7d50\u7232\u592b\u5a66\u3002
+
+information.villagerbed.line1=Place this bed on the ground
+information.villagerbed.line2=and a nearby villager will sleep
+information.villagerbed.line3=in it at night.
+
+##########
+# Traits
+#############################
+gui.info.trait=\u7279\u8cea\:\u00a0
+trait.unknown=\u672a\u77e5
+
+trait.none=\u7121
+trait.shy=\u5bb3\u7f9e
+trait.fun=\u6709\u8da3
+trait.serious=\u8a8d\u771f\u7684
+trait.friendly=\u53cb\u5584\u7684
+trait.irritable=\u66b4\u8e81
+trait.emotional=\u60c5\u7dd2\u5316
+trait.outgoing=\u5916\u5411
+
+##########
+# Moods
+#############################
+gui.info.mood=\u5fc3\u60c5
+
+mood.happy.ecstatic=\u6b23\u559c\u82e5\u72c2
+mood.happy.cheerful=\u6109\u6085
+mood.happy.happy=\u958b\u5fc3
+mood.happy.fine=\u9084\u597d
+mood.happy.okay=\u4e00\u822c
+
+mood.neutral.passive=\u6d88\u6975
+
+mood.sadness.blue=\u6182\u9b31
+mood.sadness.unhappy=\u4e0d\u958b\u5fc3
+mood.sadness.sad=\u96e3\u904e
+mood.sadness.cheerless=\u5fc3\u60c5\u4e0d\u592a\u597d
+mood.sadness.depressed=\u9b31\u60b6
+
+mood.anger.annoyed=\u61ca\u60f1
+mood.anger.agitated=\u6fc0\u52d5
+mood.anger.mad=\u751f\u6c23
+mood.anger.seething=\u6012\u706b\u4e2d\u71d2
+mood.anger.infuriated=\u6fc0\u6012
+
+mood.fatigue.tired=\u75b2\u5026
+mood.fatigue.sleepy=\u60f3\u7761
+mood.fatigue.fatigued=\u75b2\u52de
+mood.fatigue.exhausted=\u7b4b\u75b2\u529b\u76e1
+mood.fatigue.comatose=\u660f\u660f\u6b32\u7761
+
+#######
+# Monarch
+#############################
+monarch.gui.button.interact.demandgift=\u60f3\u8981\u79ae\u7269
+monarch.gui.button.interact.execute=\u8655\u6c7a
+monarch.gui.button.interact.makeknight=\u6210\u70ba\u9a0e\u58eb
+monarch.gui.button.interact.makepeasant=\u6210\u70ba\u8fb2\u6c11
+
+monarch.knight.follow.start1=\u8acb\u554f\u6709\u4ec0\u9ebc\u4e8b\uff0c\u6211\u7684%MonarchTitle%
+monarch.knight.follow.start2=\u6211\u5c07\u8ddf\u96a8\u4f60\u5230\u4efb\u4f55\u5730\u65b9\uff0c\u6bbf\u4e0b\u3002
+monarch.knight.follow.start3=\u6e96\u5099\u958b\u6230\uff01
+monarch.knight.follow.start4=\u807d\u4f60\u6307\u63ee\u3002
+monarch.knight.follow.start5=\u5982\u4f60\u6240\u9858\u3002
+
+monarch.knight.follow.stop1=\u96a8\u6642\u807d\u5f9e\u547d\u4ee4\uff0c\u6211\u7684%MonarchTitle%\u3002
+monarch.knight.follow.stop2=\u5982\u4f60\u6240\u9858\uff0c\u6bbf\u4e0b\u3002
+monarch.knight.follow.stop3=\u6211\u6703\u625b\u8d77\u6211\u7684\u8cac\u4efb\u3002
+
+monarch.knight.follow.refuse1=\u6211\u6c38\u9060\u4e0d\u6703\u9055\u6297%MonarchPlayerName%\u7684\u65e8\u610f\uff01
+monarch.knight.follow.refuse2=\u6211\u8a93\u6b7b\u6548\u7d42%MonarchPlayerName%\u3002
+monarch.knight.follow.refuse3=\u6211\u662f%MonarchPlayerName%\u7684\u9a0e\u58eb\u3002
+
+monarch.execute.failure.noweapon=\u4f60\u6c92\u6709\u7528\u4f86\u8655\u6c7a\u500b\u4eba\u7684\u6b66\u5668\u3002
+monarch.execute.failure.playerspouse=\u4f60\u4e0d\u80fd\u8655\u6c7a\u73a9\u5bb6\u7684\u914d\u5076\u3002
+
+monarch.makepeasant.success=\u9019\u500b\u6751\u6c11\u73fe\u5728\u662f\u4f60\u7684\u50d5\u4eba\u4e86.\u4ed6\u5011\u6703\u514d\u8cbb\u5e6b\u4f60\u505a\u5bb6\u52d9.
+monarch.makepeasant.failure.alreadypeasant=\u9019\u500b\u6751\u6c11\u5df2\u7d93\u662f\u5225\u4eba\u7684\u50d5\u4eba\u4e86.
+monarch.makepeasant.failure.playerspouse=\u5176\u4ed6\u73a9\u5bb6\u7684\u914d\u5076\u4e0d\u80fd\u505a\u4f60\u7684\u50d5\u4eba.
+
+monarch.makeknight.success=\u9019\u500b\u8b77\u885b\u73fe\u5728\u5c31\u662f\u4f60\u7684\u9a0e\u58eb\u4e86.
+monarch.makeknight.failure.alreadyknight=\u9019\u500b\u8b77\u885b\u5df2\u7d93\u662f\u5176\u4ed6\u73a9\u5bb6\u7684\u9a0e\u58eb\u4e86.
+monarch.makeknight.failure.playerspouse=\u5176\u4ed6\u73a9\u5bb6\u7684\u914d\u5076\u4e0d\u80fd\u7576\u4f60\u7684\u9a0e\u58eb.
+
+monarch.title.knight.male=\u9a0e\u58eb\uff0c%Name%
+monarch.title.knight.female=\u5973\u9a0e\u58eb\uff0c%Name%
+monarch.title.knight.male.otherplayer=(%MonarchPlayerName% \u7684\u9a0e\u58eb)
+monarch.title.knight.female.otherplayer=(%MonarchPlayerName% \u7684\u5973\u9a0e\u58eb)
+
+monarch.title.peasant.male.owner=(\u7537\u8fb2\u592b)
+monarch.title.peasant.female.owner=(\u5973\u8fb2\u592b)
+monarch.title.peasant.male.otherplayer=(%MonarchPlayerName% \u7684\u7537\u9a91\u58eb)
+monarch.title.peasant.female.otherplayer=(%MonarchPlayerName% \u7684\u5973\u9a0e\u58eb)
+
+monarch.title.monarch=\u541b\u4e3b
+monarch.title.heir=\u7e7c\u627f\u8005
+monarch.title.male.player=\u541b\u738b
+monarch.title.male.heir=\u738b\u5b50
+monarch.title.female.player=\u738b\u540e
+monarch.title.female.heir=\u516c\u4e3b
+
+monarch.demandgift.accept1=\u90a3\u7576\u7136\uff0c\u6211\u7684\u6bbf\u4e0b\uff01
+monarch.demandgift.accept2=\u53ea\u8981\u4f60\u9ad8\u8208\uff0c\u6bbf\u4e0b\u3002
+monarch.demandgift.accept3=\u4efb\u4f55\u6771\u897f\uff01\u6211\u7684\u6bbf\u4e0b %MonarchTitle% \uff01
+monarch.demandgift.accept4=\u662f\u7684\uff0c\u6211\u7684%MonarchTitle%\u3002
+monarch.demandgift.accept5=\u6211\u9858\u610f\u4ee5\u6211\u7684\u8ca1\u5bcc\u69ae\u8000\u4f60\uff0c\u6211\u7684%MonarchTitle%\u3002
+monarch.demandgift.accept6=\u6211\u656c\u611b\u7684 %MonarchTitle% \u503c\u5f97\u6211\u5949\u737b\uff01
+monarch.demandgift.accept7=\u6211\u5f88\u6a02\u610f\uff0c\u6211\u7684\u6bbf\u4e0b\u3002
+
+monarch.demandgift.toomany1=\u6211\u81ea\u5df1\u90fd\u4e0d\u5920\u7528\u4e86\uff01
+monarch.demandgift.toomany2=\u62dc\u8a17\uff0c\u6211\u5df2\u7d93\u7d66\u4f60\u5920\u591a\u4e86...
+monarch.demandgift.toomany3=\u6211\u4ee5\u70ba\u4f60\u662f\u500b\u503c\u5f97\u5c0a\u656c\u7684 %MonarchTitle% \u3002
+monarch.demandgift.toomany4=\u6211\u4e0d\u6703\u9019\u9ebc\u8aaa\uff0c\u4f46\u4eba\u5011\u8a8d\u70ba\u4f60\u662f\u500b\u66b4\u541b\u3002
+monarch.demandgift.toomany5=\u6211\u53ea\u80fd\u7d66\u4f60\u9019\u9ebc\u591a\uff01
+monarch.demandgift.toomany6=\u4f60\u7684\u8981\u6c42\u592a\u591a\u4e86...
+
+monarch.demandgift.dictator1=\u6211\u4e0d\u6703\u518d\u7d66\u4f60\u4efb\u4f55\u6771\u897f\u4e86\uff01
+monarch.demandgift.dictator2=\u6211\u5011\u5c0d\u4f60\u7684\u9700\u6c42\u611f\u5230\u75b2\u5026\u3002
+monarch.demandgift.dictator3=\u5920\u4e86\uff01
+monarch.demandgift.dictator4=\u6211\u5011\u53d7\u5920\u4e86\u4f60\u7684\u8caa\u5a6a\uff01
+monarch.demandgift.dictator5=\u505a\u4f60\u8a72\u505a\u7684\uff0c\u4f46\u6211\u4e0d\u6703\u518d\u7d66\u4f60\u4efb\u4f55\u6771\u897f\u3002
+
+#######
+# Names
+##############################
+name.male1=Aaron
+name.male2=Aceton
+name.male3=Adam
+name.male4=Aidan
+name.male5=Alan
+name.male6=Alex
+name.male7=Allen
+name.male8=Andrew
+name.male9=Anthony
+name.male10=Armando
+name.male11=Arthur
+name.male12=Austin
+name.male13=Ben
+name.male14=Bill
+name.male15=Billy
+name.male16=Bradley
+name.male17=Brady
+name.male18=Braxton
+name.male19=Brayden
+name.male20=Brenden
+name.male21=Brent
+name.male22=Brian
+name.male23=Brice
+name.male24=Brighton
+name.male25=Caleb
+name.male26=Cameron
+name.male27=Christopher
+name.male28=Cleveland
+name.male29=Cody
+name.male30=Colby
+name.male31=Collin
+name.male32=Colton
+name.male33=Corey
+name.male34=Coty
+name.male35=Dale
+name.male36=Damon
+name.male37=Dan
+name.male38=Dane
+name.male39=Danny
+name.male40=David
+name.male41=Derek
+name.male42=Devin
+name.male43=Donnie
+name.male44=Drew
+name.male45=Dylan
+name.male46=Edward
+name.male47=Eric
+name.male48=Ethan
+name.male49=Evan
+name.male50=Fred
+name.male51=Gabe
+name.male52=Garrett
+name.male53=Gary
+name.male54=Gavin
+name.male55=Harris
+name.male56=Harry
+name.male57=Hayden
+name.male58=Hunter
+name.male59=Jackson
+name.male60=Jacob
+name.male61=Jake
+name.male62=James
+name.male63=Jared
+name.male64=Jason
+name.male65=Jay
+name.male66=Jeremy
+name.male67=Jerry
+name.male68=Jim
+name.male69=Joe
+name.male70=John
+name.male71=Jon
+name.male72=Joseph
+name.male73=Josh
+name.male74=Justin
+name.male75=Kaden
+name.male76=Kent
+name.male77=Kevin
+name.male78=Leo
+name.male79=Leon
+name.male80=Lewis
+name.male81=Liam
+name.male82=Lucas
+name.male83=Mac
+name.male84=Marcus
+name.male85=Mark
+name.male86=Martin
+name.male87=Mason
+name.male88=Matt
+name.male89=Matthew
+name.male90=Michael
+name.male91=Mike
+name.male92=Nathan
+name.male93=Nathaniel
+name.male94=Nick
+name.male95=Oliver
+name.male96=Oscar
+name.male97=Owen
+name.male98=Patrick
+name.male99=Peter
+name.male100=Phil
+name.male101=Randy
+name.male102=Rey
+name.male103=Robert
+name.male104=Roger
+name.male105=Roy
+name.male106=Russ
+name.male107=Ryan
+name.male108=Scott
+name.male109=Seth
+name.male110=Shane
+name.male111=Shawn
+name.male112=Simon
+name.male113=Steve
+name.male114=Tanner
+name.male115=Tate
+name.male116=Terrence
+name.male117=Terry
+name.male118=Tim
+name.male119=Toby
+name.male120=Tom
+name.male121=Tommy
+name.male122=Tony
+name.male123=Trent
+name.male124=Tristan
+name.male125=Triston
+name.male126=Tyler
+name.male127=Tyson
+name.male128=Victor
+name.male129=Vincent
+name.male130=Will
+name.male131=William 
+
+name.female1=Addison
+name.female2=Adi
+name.female3=Alexis
+name.female4=Alice
+name.female5=Alicia
+name.female6=Allie
+name.female7=Allison
+name.female8=Allysa
+name.female9=Alma
+name.female10=Amelia
+name.female11=Amnesty
+name.female12=Amy
+name.female13=Andrea
+name.female14=Angie
+name.female15=Anna
+name.female16=Anne
+name.female17=Arieanne
+name.female18=Ashley
+name.female19=Ashlyn
+name.female20=Ashton
+name.female21=Aspen
+name.female22=Aubrey
+name.female23=Aurora
+name.female24=Autumn
+name.female25=Ava
+name.female26=Baylee
+name.female27=Brooke
+name.female28=Camilla
+name.female29=Christina
+name.female30=Christy
+name.female31=Constance
+name.female32=Courtney
+name.female33=Cynthia
+name.female34=Dawn
+name.female35=Destiny
+name.female36=Diana
+name.female37=Donna
+name.female38=Elizabeth
+name.female39=Emery
+name.female40=Emily
+name.female41=Emma
+name.female42=Emmalyn
+name.female43=Erika
+name.female44=Eve
+name.female45=Faye
+name.female46=Gracie
+name.female47=Gwen
+name.female48=Hannah
+name.female49=Hazel
+name.female50=Holly
+name.female51=Jaden
+name.female52=Jennifer
+name.female53=Jessica
+name.female54=Julia
+name.female55=Julie
+name.female56=Kaitlin
+name.female57=Katie
+name.female58=Kaylene
+name.female59=Kiana
+name.female60=Kimberly
+name.female61=Kristen
+name.female62=Kylee
+name.female63=Leslie
+name.female64=Linda
+name.female65=Lindsey
+name.female66=Lola
+name.female67=Lori
+name.female68=Lydia
+name.female69=Madison
+name.female70=Marisa
+name.female71=Megan
+name.female72=Melissa
+name.female73=Melody
+name.female74=Miranda
+name.female75=Molly
+name.female76=Nickie
+name.female77=Nicole
+name.female78=Oaklee
+name.female79=Penny
+name.female80=Rachel
+name.female81=Robin
+name.female82=Rosa
+name.female83=Rosalie
+name.female84=Sarah
+name.female85=Serenity
+name.female86=Sharon
+name.female87=Shayla
+name.female88=Sherry
+name.female89=Sheryl
+name.female90=Skylar
+name.female91=Sofia
+name.female92=Sonya
+name.female93=Stacey
+name.female94=Steph
+name.female95=Stephanie
+name.female96=Sylvia
+name.female97=Trinity
+name.female98=Valerie
+name.female99=Vannessa
+name.female100=Veronica
+name.female101=Whitney
+
+#######
+# Multiplayer
+##############################
+multiplayer.command.error.parameter=\u53c3\u6578\u932f\u8aa4\u3002\u6709\u6548\u7684\u53c3\u6578\u70ba\uff1a
+multiplayer.command.error.unknown=\u51fa\u73fe\u672a\u77e5\u7684\u932f\u8aa4
+multiplayer.command.error.playeroffline=\u8a72\u73a9\u5bb6\u5c1a\u672a\u767b\u5165\u672c\u4f3a\u670d\u5668\u3002
+
+multiplayer.command.output.help=Minecraft Comes Alive - \u6307\u4ee4\u96c6
+multiplayer.command.output.setgender=\u4f60\u76ee\u524d\u7684\u6027\u5225\u662f\uff1a
+multiplayer.command.output.setname=\u4f60\u76ee\u524d\u7684\u540d\u5b57\u662f\uff1a
+
+multiplayer.command.output.marry.noring=\u4f60\u6c92\u6709\u7d50\u5a5a\u6212\u6307\u3002\u4f60\u7121\u6cd5\u8207\u5176\u4ed6\u73a9\u5bb6\u7d50\u5a5a\u3002
+multiplayer.command.output.marry.request=%TruePlayerName% \u60f3\u8981\u8ddf\u4f60\u7d50\u5a5a\u3002
+multiplayer.command.output.marry.accept=\u4f60\u73fe\u5728\u8207 %PlayerSpouseName% \u7d50\u70ba\u9023\u7406\u3002
+multiplayer.command.output.marry.decline=Your marriage request was declined.
+multiplayer.command.output.marry.norequest=\u8a72\u73a9\u5bb6\u6c92\u6709\u5411\u4f60\u6c42\u5a5a\u3002
+multiplayer.command.output.marry.otheralreadymarried=\u8a72\u73a9\u5bb6\u5df2\u7d93\u7d50\u5a5a\u4e86\u3002
+multiplayer.command.output.marry.senderalreadymarried=\u4f60\u5df2\u7d93\u7d50\u5a5a\u4e86\u3002
+
+multiplayer.command.output.divorce.successful=You have been divorced from your current spouse.
+
+multiplayer.command.output.havebaby.request=%PlayerSpouseName% \u60f3\u8981\u4e00\u500b\u5c0f\u5b69\u3002
+multiplayer.command.output.havebaby.decline=Your request to have a baby was declined.
+multiplayer.command.output.havebaby.limitreached=You have reached the child limit set by the server administrator.
+
+multiplayer.command.output.block.failed=\u8a72\u73a9\u5bb6\u5df2\u88ab\u5c01\u9396
+multiplayer.command.output.block.successful=\u73a9\u5bb6\u6210\u529f\u88ab\u5c01\u9396
+
+multiplayer.command.output.blockall.true.successful=\u6240\u6709\u7684\u7d50\u5a5a\u8acb\u6c42\u5c07\u6703\u88ab\u7981\u6b62
+multiplayer.command.output.blockall.false.successful=\u4f60\u5c07\u80fd\u518d\u6b21\u6536\u5230\u7d50\u5a5a\u8acb\u6c42
+
+multiplayer.command.output.unblock.failed=\u8a72\u73a9\u5bb6\u6c92\u6709\u88ab\u5c01\u9396
+multiplayer.command.output.unblock.successful=\u73a9\u5bb6\u6210\u529f\u88ab\u89e3\u9664\u5c01\u9396
+
+multiplayer.command.output.unblockall.successful=\u6240\u6709\u73a9\u5bb6\u73fe\u5df2\u88ab\u89e3\u9664\u5c01\u9396
+
+multiplayer.interaction.reject.spouse=\u4f60\u4e0d\u80fd\u63a7\u5236\u5176\u4ed6\u73a9\u5bb6\u7684\u914d\u5076\u3002
+multiplayer.interaction.reject.child=\u4f60\u4e0d\u80fd\u63a7\u5236\u5176\u4ed6\u73a9\u5bb6\u7684\u5c0f\u5b69\u3002
+
+#######
+# Achievements
+##############################
+achievement.charmer=\u8ff7\u4eba\u7cbe
+achievement.getmarried=\u5927\u559c\u4e4b\u65e5
+achievement.cookbaby=\u79d1\u5b78\u602a\u4eba
+achievement.havebabyboy=\u559c\u7372\u9e9f\u5152
+achievement.havebabygirl=\u559c\u7372\u5343\u91d1
+achievement.growbaby=\ \u4e00\u669d\u5927\u4e00\u540b
+achievement.farming=\u958b\u5fc3\u8fb2\u5834
+achievement.fishing=\u5929\u624d\u5c0f\u91e3\u624b
+achievement.woodcutting=\u4f10\u4f10\u4f10\u4f10\u4f10\u6728\u5de5
+achievement.mining=\u6316\u7926\u9054\u4eba
+achievement.huntkill=\u5929\u751f\u6bba\u624b
+achievement.hunttame=\u5927\u81ea\u7136\u4e4b\u53cb
+achievement.growkid=\u6210\u5e74\u4e4b\u79ae
+achievement.equipadult=\u5168\u526f\u6b66\u88dd
+achievement.mobkills=\u8cbc\u8eab\u8b77\u885b
+achievement.marrychild=\u767e\u5e74\u597d\u5408
+achievement.havegrandchild=\u91d1\u5b6b
+achievement.havegreatgrandchild=\u91d1\u91d1\u5b6b
+achievement.havegreatx2grandchild=\u91d1\u91d1\u91d1\u5b6b
+achievement.havegreatx10grandchild=\u6709\u751a\u9ebc\u79d8\u65b9\u55ce\uff1f
+achievement.hardcoresecret=\u5fa9\u4ec7\u4f7f\u8005
+achievement.craftcrown=\u738b\u8005\u5929\u4e0b
+achievement.executevillager=\u8eab\u9996\u7570\u8655
+achievement.makeknight=\u8056\u5802\u9a0e\u58eb
+achievement.knightarmy=\u9a0e\u58eb\u5718
+achievement.makepeasant=\u4f60\u597d\uff0c\u6211\u7684\u738b
+achievement.peasantarmy=\u8fb2\u838a\u5927\u738b
+achievement.nameheir=\u7687\u5bb6\u8840\u7d71
+achievement.killheir=\u4e00\u5c71\u4e0d\u5bb9\u4e8c\u864e
+achievement.monarchsecret=\u540d\u7559\u9752\u53f2
+
+achievement.charmer.desc=\u8207\u4e00\u500b\u6751\u6c11\u7684\u597d\u611f\u5ea6\u9054\u5230100\u6216\u4ee5\u4e0a\u3002
+achievement.getmarried.desc=\u8207\u4e00\u500b\u6751\u6c11\u7d50\u5a5a\u3002
+achievement.cookbaby.desc=\u79d8\u5bc6\u6210\u5c31
+achievement.havebabyboy.desc=\u751f\u4e00\u500b\u7537\u5b69\u3002
+achievement.havebabygirl.desc=\u751f\u4e00\u500b\u5973\u5b69\u3002
+achievement.growbaby.desc=\u4f60\u7684\u5bf6\u5bf6\u9577\u5927\u6210\u4e86\u5c0f\u5b69\u3002
+achievement.farming.desc=\u8b93\u5b69\u5b50\u8015\u7a2e100\u584a\u571f\u5730\u3002
+achievement.fishing.desc=\u8b93\u5b69\u5b50\u91e3100\u689d\u9b5a\u3002
+achievement.woodcutting.desc=\u8b93\u5b69\u5b50\u6536\u96c6100\u584a\u6728\u6750\u3002
+achievement.mining.desc=\u8b93\u5b69\u5b50\u6316300\u500b\u65b9\u584a\u3002
+achievement.huntkill.desc=\u8b93\u5b69\u5b50\u7375\u6bba100\u96bb\u52d5\u7269\u3002
+achievement.hunttame.desc=\u8b93\u5b69\u5b50\u99b4\u670d100\u96bb\u52d5\u7269\u3002
+achievement.growkid.desc=\u4f60\u7684\u5b69\u5b50\u9577\u5927\u6210\u4eba\u3002
+achievement.equipadult.desc=\u70ba\u4f60\u7684\u5b69\u5b50(\u6210\u4eba)\u88dd\u5099\u4e00\u5957\u5b8c\u6574\u7684\u76d4\u7532\u548c\u6b66\u5668\u3002
+achievement.mobkills.desc=\u8b93\u4f60\u7684\u5b69\u5b50(\u6210\u4eba)\u6bba\u6b7b50\u96bb\u602a\u7269\u3002
+achievement.marrychild.desc=\u8b93\u4f60\u7684\u5b69\u5b50\u7d50\u5a5a\u3002
+achievement.havegrandchild.desc=\u7372\u5f97\u4e00\u500b\u5b6b\u5b50\u3002
+achievement.havegreatgrandchild.desc=\u7372\u5f97\u4e00\u500b\u66fe\u5b6b\u3002
+achievement.havegreatx2grandchild.desc=\u7372\u5f97\u4e00\u500b\u66fe\u66fe\u5b6b\u3002
+achievement.havegreatx10grandchild.desc=\u7372\u5f97\u4e00\u500b\u66fe\uff08x 10\uff09\u5b6b\u3002
+achievement.hardcoresecret.desc=\u627e\u5230\u6975\u9650\u6a21\u5f0f\u7684\u79d8\u5bc6\u3002
+achievement.craftcrown.desc=\u88fd\u4f5c\u4e00\u9802\u738b\u51a0\u4ee5\u6210\u70ba\u4e00\u4f4d\u541b\u738b\u3002
+achievement.executevillager.desc=\u8655\u6c7a\u4e00\u4f4d\u6751\u6c11\u3002
+achievement.makeknight.desc=\u4f7f\u4e00\u500b\u5b88\u885b\u6210\u70ba\u4e00\u540d\u9a0e\u58eb\u3002
+achievement.knightarmy.desc=\u4f7f20\u500b\u5b88\u885b\u6210\u70ba\u9a0e\u58eb\u3002
+achievement.makepeasant.desc=\u4f7f\u4e00\u540d\u6751\u6c11\u6210\u70ba\u8fb2\u6c11\u3002
+achievement.peasantarmy.desc=\u4f7f20\u500b\u6751\u6c11\u6210\u70ba\u8fb2\u592b\u3002
+achievement.nameheir.desc=\u547d\u540d\u4f60\u7684\u738b\u4f4d\u7e7c\u627f\u4eba\u3002
+achievement.killheir.desc=\u4e00\u65e6\u4f60\u7684\u7e7c\u4efb\u8005\u7372\u5f97\u4e86\u738b\u4f4d\uff0c\u6bba\u6b7b\u4ed6\u5011\u3002
+achievement.monarchsecret.desc=\u79d8\u5bc6\u6210\u5c31\u3002
+
+#######
+# Items & Blocks
+##############################
+item.ring.arranger.name=\u7de8\u66f2\u8005\u4e4b\u6212
+item.ring.engagement.name=\u8a02\u5a5a\u6212\u6307
+item.ring.wedding.name=\u7d50\u5a5a\u6212\u6307
+item.baby.boy.name=\u7537\u5b30
+item.baby.girl.name=\u5973\u5b30
+item.egg.male.name=\u751f\u6210\u7537\u6751\u6c11
+item.egg.female.name=\u751f\u6210\u5973\u6751\u6c11
+item.whistle.name=\u54e8\u5b50
+item.editor.name=\u6751\u6c11\u7de8\u8f2f\u66f8
+item.lostrelativedocument.name=\u5931\u6563\u7684\u89aa\u621a\u78ba\u8a8d\u66f8
+item.crown.name=\u738b\u51a0
+item.heircrown.name=\u7e7c\u627f\u8005\u4e4b\u51a0
+item.tombstone.name=\u5893\u7891
+item.kingscoat.name=\u541b\u738b\u5927\u8863
+item.kingspants.name=\u541b\u738b\u4e4b\u8932
+item.kingsboots.name=\u541b\u738b\u4e4b\u978b
+item.redcrown.name=\u7d05\u8272\u738b\u51a0
+item.bluecrown.name=\u85cd\u8272\u738b\u51a0
+item.greencrown.name=\u7da0\u8272\u738b\u51a0
+item.pinkcrown.name=\u7c89\u7d05\u8272\u738b\u51a0
+item.purplecrown.name=\u7d2b\u8272\u738b\u51a0
+item.redbed.name=Red Bed
+item.bluebed.name=Blue Bed
+item.greenbed.name=Green Bed
+item.pinkbed.name=Pink Bed
+item.purplebed.name=Purple Bed
+block.tombstone.name=\u5893\u7891
+
+#######
+# Professions
+##############################
+profession.baker.male=%Name%\u9eb5\u5305\u5e2b
+profession.baker.female=%Name%\u9eb5\u5305\u5e2b
+profession.butcher.male=%Name%\u5c60\u592b
+profession.butcher.female=%Name%\u5c60\u592b
+profession.farmer.male=%Name%\u8fb2\u6c11
+profession.farmer.female=%Name%\u8fb2\u6c11
+profession.guard.male=%Name%\u8b66\u885b
+profession.guard.female=%Name%\u8b66\u885b
+profession.librarian.male=%Name%\u5716\u66f8\u9928\u9928\u9577
+profession.librarian.female=%Name%\u662f\u5716\u66f8\u9928\u9928\u9577
+profession.miner.male=%Name%\u662f\u500b\u7926\u5de5\u3002
+profession.miner.female=%Name%\u7926\u5de5
+profession.priest.male=%Name%\u7267\u5e2b
+profession.priest.female=%Name%\u7267\u5e2b
+profession.smith.male=%Name%\u9435\u5320
+profession.smith.female=%Name%\u9435\u5320
+profession.playerchild.male=%Name%\uff08\u7537\u5b69\uff09
+profession.playerchild.female=%Name%\uff08\u5973\u5b69\uff09
+
+#######
+# Family Member Titles
+##############################
+family.aunt=\u59d1\u5abd
+family.brother=\u54e5\u54e5
+family.cousin.male=\u8868\u5144\u5f1f
+family.cousin.female=\u8868\u59ca\u59b9
+family.daughter=\u5973\u5152
+family.father.formal=\u7238
+family.father.informal=\u7239\u5730
+family.fiance.male=\u672a\u5a5a\u592b
+family.fiance.female=\u672a\u5a5a\u59bb
+family.granddaughter=\u5b6b\u5973
+family.grandson=\u5b6b\u5b50
+family.greatgranddaughter=\u66fe\uff08x%Generation%\uff09\u5b6b\u5973
+family.greatgrandson=\u66fe\uff08x%Generation%\uff09\u5b6b\u5b50
+family.grandfather=\u7956\u7236
+family.greatgrandfather=\u66fe\uff08x%Generation%\uff09\u7956\u7236
+family.grandmother=\u7956\u6bcd
+family.greatgrandmother=\u66fe\uff08x%Generation%\uff09\u7956\u6bcd
+family.husband=\u4e08\u592b
+family.mother.formal=\u5abd
+family.mother.informal=\u5abd\u54aa
+family.nephew=\u4f84\u5b50
+family.niece=\u4f84\u5973
+family.none=None
+family.sister=\u59b9\u59b9
+family.son=\u5152\u5b50
+family.uncle=\u53d4\u53d4
+family.wife=\u59bb\u5b50
+
+#######
+# GUI Elements
+##############################
+
+#Buttons
+gui.button.back=\u8fd4\u56de
+gui.button.exit=\u9000\u51fa
+gui.button.next=\u4e0b\u4e00\u6b65
+gui.button.yes=\u662f
+gui.button.no=\u5426
+gui.button.done=\u5b8c\u6210
+gui.button.ok=Ok
+gui.button.random=\u96a8\u6a5f
+gui.button.trade=\u4ea4\u6613
+
+gui.button.setup.finish=\u5b8c\u6210
+gui.button.setup.gendermale=\u6027\u5225\: \u7537
+gui.button.setup.genderfemale=\u6027\u5225\: \u5973
+gui.button.setup.hidesleepingtag=\u96b1\u85cf\u4f11\u7720\u7684\u6a19\u7c64\uff1a
+gui.button.setup.overwritetestificates=\u8986\u84cb\u5df2\u6709\u6751\u6c11\uff1a
+gui.button.setup.growchildrenautomatically=\u5b69\u7ae5\u81ea\u52d5\u6210\u9577\uff1a
+gui.button.setup.displaymoodparticles=\u986f\u793a\u5fc3\u60c5\u7c92\u5b50\u6548\u679c\:
+gui.button.setup.shownametags=\u986f\u793a\u540d\u5b57\:
+gui.button.setup.preference=\u6027\u5411\:
+
+gui.button.setup.males=\u7537\u4eba
+gui.button.setup.females=\u5973\u4eba
+
+gui.editor.name=\u540d\u5b57
+gui.editor.name.invalid=\u9019\u500b\u540d\u5b57\u542b\u6709\u7121\u6548\u7684\u5b57\u5143\u3002
+gui.button.editor.texture=\u6750\u8cea\uff1a
+gui.button.editor.title=\u540d\u5b57\:
+gui.button.editor.mood=\u5fc3\u60c5\:
+gui.button.editor.trait=\u7279\u9ede\:
+
+gui.button.interact.interact=\u4e92\u52d5
+gui.button.interact.chat=\u804a\u5929
+gui.button.interact.joke=\u7b11\u8a71
+gui.button.interact.gift=\u79ae\u7269
+gui.button.interact.kiss=\u89aa\u543b
+gui.button.interact.flirt=\u8abf\u60c5
+gui.button.interact.tellstory=\u8aaa\u6545\u4e8b
+gui.button.interact.play=\u73a9
+gui.button.interact.greet.handshake=\u63e1\u624b
+gui.button.interact.greet.highfive=\u64ca\u638c
+gui.button.interact.follow=\u8ddf\u8457\u6211
+gui.button.interact.followstop=\u505c\u6b62\u8ddf\u96a8
+gui.button.interact.stay=\u505c\u7559
+gui.button.interact.staystop=\u79fb\u52d5
+gui.button.interact.sethome=\u8a2d\u7f6e\u5bb6\u5ead
+gui.button.interact.takearrangerring=\u62ff\u53d6\u7de8\u66f2\u8005\u4e4b\u6212
+gui.button.interact.takegift=\u53d6\u8d70\u79ae\u7269
+gui.button.interact.ridehorse=\u9a0e\u99ac
+gui.button.interact.dismount=\u53d6\u6d88\u4e58\u5750
+
+gui.button.interact.player.asktomarry=\u7d50\u5a5a\u8acb\u6c42
+gui.button.interact.player.havebaby=\u6709\u5bf6\u5bf6
+gui.button.interact.player.accept=\u63a5\u53d7
+gui.button.interact.player.decline=\u62d2\u7d55
+
+gui.button.special=\u7279\u5225
+gui.button.special.priest.divorcespouse=\u812b\u96e2\u914d\u5076(\u96e2\u5a5a)
+gui.button.special.priest.divorcecouple=\u812b\u96e2\u592b\u59bb(\u96e2\u5a5a)
+gui.button.special.priest.divorcecouple.nonefound=\u672a\u767c\u73fe\u592b\u59bb\u95dc\u4fc2\u3002
+gui.button.special.priest.divorce=\u96e2\u5a5a
+gui.button.special.priest.giveupbaby=\u68c4\u990a\u5bf6\u5bf6
+gui.button.special.priest.adoptbaby=\u9818\u990a\u5bf6\u5bf6
+gui.button.special.priest.adoptchild=\u9818\u990a\u5c0f\u5b69
+gui.button.special.priest.arrangedmarriage=\u5b89\u6392\u5a5a\u59fb
+gui.button.special.guard.hire=\u8058\u50f1\u4fdd\u9463
+gui.button.special.guard.dismiss=\u89e3\u50f1\u4fdd\u9463
+gui.button.special.miner.hire=\u8058\u50f1\u7926\u5de5
+gui.button.special.miner.dismiss=\u89e3\u50f1\u7926\u5de5
+gui.button.special.baker.aid=\u8acb\u6c42\u5354\u52a9
+gui.button.special.butcher.aid=\u8acb\u6c42\u5354\u52a9
+gui.button.special.farmer.aid=\u8acb\u6c42\u5354\u52a9
+gui.button.special.librarian.setup=\u958b\u555f\u8a2d\u5b9a
+
+gui.button.spouse.cookfood=\u716e\u98df\u7269
+gui.button.spouse.stopcooking=\u505c\u6b62\u716e\u98df
+gui.button.spouse.inventory=\u5eab\u5b58
+gui.button.spouse.procreate=\u751f\u80b2
+gui.button.spouse.migrate=\u9077\u79fb
+
+gui.button.child.inventory=\u80cc\u5305
+gui.button.child.chores=\u505a\u5bb6\u52d9
+gui.button.child.stopchore=\u505c\u6b62\u5bb6\u52d9
+gui.button.child.growup=\u9577\u5927
+
+gui.button.chore.farming=\u8fb2\u696d
+gui.button.chore.farming.method=\u65b9\u6cd5\:
+gui.button.chore.farming.method.create=\u5275\u5efa\u8fb2\u5834
+gui.button.chore.farming.method.maintain=\u7dad\u8b77\u8fb2\u5834
+gui.button.chore.farming.plant=\u8fb2\u4f5c\u7269\:
+gui.button.chore.farming.plant.wheat=\u5c0f\u9ea5
+gui.button.chore.farming.plant.melon=\u897f\u74dc
+gui.button.chore.farming.plant.pumpkin=\u5357\u74dc
+gui.button.chore.farming.plant.carrot=\u80e1\u863f\u8514
+gui.button.chore.farming.plant.potato=\u99ac\u9234\u85af
+gui.button.chore.farming.plant.sugarcane=\u7518\u8517
+gui.button.chore.farming.farmsize=\u8fb2\u5834\u5927\u5c0f
+gui.button.chore.farming.radius=\u8015\u7a2e\u7bc4\u570d\:
+gui.button.chore.fishing=\u6355\u9b5a
+gui.button.chore.combat=\u6230\u9b25
+gui.button.chore.combat.sentry=\u54e8\u5175\:
+gui.button.chore.combat.sentry.radius=\u6230\u9b25\u7bc4\u570d\:
+gui.button.chore.combat.sentry.position.set=\u8a2d\u7f6e\u54e8\u5175\u4f4d\u7f6e\uff1a
+gui.button.chore.combat.method=\u65b9\u5f0f\uff1a
+gui.button.chore.combat.method.range=\u53ea\u9060\u653b
+gui.button.chore.combat.method.melee=\u53ea\u8fd1\u6230
+gui.button.chore.combat.method.both=\u9060\u653b\u548c\u8fd1\u6230
+gui.button.chore.combat.method.neither=\u4e0d\u653b\u64ca
+gui.button.chore.combat.attack.pig=\u653b\u64ca\u8c6c\uff1a
+gui.button.chore.combat.attack.sheep=\u653b\u64ca\u7f8a\uff1a
+gui.button.chore.combat.attack.cow=\u653b\u64ca\u725b\uff1a
+gui.button.chore.combat.attack.chicken=\u653b\u64ca\u96de\uff1a
+gui.button.chore.combat.attack.spider=\u653b\u64ca\u8718\u86db\uff1a
+gui.button.chore.combat.attack.zombie=\u653b\u64ca\u6bad\u5c4d\uff1a
+gui.button.chore.combat.attack.skeleton=\u653b\u64ca\u9ab7\u9acf\u5f13\u7bad\u624b\uff1a
+gui.button.chore.combat.attack.creeper=\u653b\u64ca\u82e6\u529b\u6015\uff1a
+gui.button.chore.combat.attack.enderman=\u653b\u64ca\u7d42\u754c\u884c\u8005\uff1a
+gui.button.chore.combat.attack.unknown=\u653b\u64ca\u672a\u77e5\uff1a\u00a0\u00a0
+gui.button.chore.woodcutting=\u4f10\u6728
+gui.button.chore.woodcutting.treetype=\u6a39\u6728\u985e\u578b\uff1a
+gui.button.chore.woodcutting.treetype.all=\u5168\u90e8
+gui.button.chore.woodcutting.treetype.oak=\u6a61\u6728
+gui.button.chore.woodcutting.treetype.spruce=\u6749\u6728
+gui.button.chore.woodcutting.treetype.birch=\u767d\u6a3a\u6728
+gui.button.chore.woodcutting.treetype.jungle=\u53e2\u6797\u6728
+gui.button.chore.mining=\u6316\u6398
+gui.button.chore.mining.method=\u65b9\u5f0f\uff1a
+gui.button.chore.mining.method.passive=\u88ab\u52d5
+gui.button.chore.mining.method.active=\u4e3b\u52d5
+gui.button.chore.mining.direction=\u65b9\u5411\uff1a
+gui.button.chore.mining.direction.forward=\u524d
+gui.button.chore.mining.direction.backward=\u5f8c
+gui.button.chore.mining.direction.left=\u5de6
+gui.button.chore.mining.direction.right=\u53f3
+gui.button.chore.mining.distance=\u8ddd\u96e2\uff1a
+gui.button.chore.mining.find=\u67e5\u627e\uff1a
+gui.button.chore.mining.find.coal=\u7164\u7926
+gui.button.chore.mining.find.iron=\u9435\u7926
+gui.button.chore.mining.find.lapis=\u9752\u91d1\u77f3
+gui.button.chore.mining.find.gold=\u91d1\u7926
+gui.button.chore.mining.find.diamond=\u947d\u77f3
+gui.button.chore.mining.find.redstone=\u7d05\u77f3
+gui.button.chore.mining.find.emerald=\u7da0\u5bf6\u77f3
+gui.button.chore.hunting=\u72e9\u7375
+gui.button.chore.hunting.mode=\u6a21\u5f0f\uff1a
+gui.button.chore.hunting.mode.kill=\u5c60\u5bb0
+gui.button.chore.hunting.mode.tame=\u99b4\u670d
+gui.button.chore.start=\u958b\u59cb
+
+gui.button.hiring.hours=\u96c7\u50ad\u6642\u9593\:
+
+gui.button.lostrelativedocument.generation=\u4e16\u4ee3\uff1a%Generation%
+
+#Titles
+gui.title.setup=Minecraft Comes Alive Setup
+gui.title.setup.name=\u8acb\u8f38\u5165\u60a8\u7684\u540d\u7a31\u3002
+gui.title.setup.gender=\u8acb\u9078\u64c7\u60a8\u7684\u6027\u5225\u3002
+gui.title.setup.options=\u8acb\u914d\u7f6e\u9078\u9805.
+
+gui.title.inventory=%Name%\u7684\u80cc\u5305
+
+gui.title.namebaby=\u547d\u540d\u60a8\u7684\u5b69\u5b50\uff1a
+gui.title.namebaby.male=\u4ed6\u662f\u500b\u7537\u5b69 \uff01
+gui.title.namebaby.female=\u5979\u662f\u4e00\u500b\u5973\u5b69 \uff01
+
+gui.title.priest.divorcecouple=\u9078\u64c7\u60a8\u60f3\u8981\u96e2\u5a5a\u7684\u592b\u59bb\u3002
+
+gui.title.tombstone=\u7de8\u8f2f\u5893\u7891\u7684\u5b57\uff1a
+
+gui.title.special.hired=(\u5df2\u96c7\u7528)
+
+gui.title.lostrelativedocument=\u9078\u64c7%Name%\u8ddf\u4f60\u7684\u95dc\u4fc2
+gui.title.lostrelativedocument.confirm=\u4f60\u662f\u5426\u78ba\u8a8d\u60f3\u8ddf%Name%\u6210\u7232\uff1a
+
+#Information
+gui.info.hearts=\u597d\u611f
+
+gui.info.special.none=\u9019\u500b\u4eba\u6c92\u6709\u4efb\u4f55\u7279\u6b8a\u6280\u80fd\u3002
+
+gui.info.family.parents=(%ChildTitle% of %MotherName% and %FatherName%)
+gui.info.family.parents.deceased=(\u7236\u6bcd\u5df2\u904e\u4e16)
+gui.info.family.parent=(%LivingParent%\u7684%ChildTitle%)
+
+gui.info.family.spouse=(%VillagerSpouseName%\u7684%SpouseRelation%)
+gui.info.family.spouse.unrelated=(\u5ac1\u7d66 %SpouseFullName%)
+
+gui.info.namebaby.invalidcharacters=\u5bf6\u5bf6\u7684\u540d\u7a31\u5305\u542b\u7121\u6548\u5b57\u5143\u3002
+gui.info.namebaby.nametaken=\u60a8\u5df2\u7d93\u6709\u4e00\u500b\u6709\u8a72\u540d\u7a31\u7684\u5b69\u5b50\u3002
+
+gui.info.procreate.confirm1=\u7576\u4f60\u5728\u8a02\u5a5a\u7684\u6642\u4faf,\u7121\u6cd5\u751f\u80b2.
+gui.info.procreate.confirm2=\u4f60\u5fc5\u9808\u9001\u7d66\u9019\u500b\u6751\u6c11\u4e00\u500b\u7d50\u5a5a\u6212\u6307.
+
+gui.info.chore.options=\u9078\u9805\uff1a
+gui.info.chore.options.none=\u9019\u5bb6\u52d9\u6c92\u6709\u81ea\u5b9a\u7fa9\u7684\u9078\u9805\u3002
+gui.info.chore.experience=\u7d93\u9a57\u7d1a\u6578\:
+
+gui.info.hire.price=\u96c7\u50ad\u9019\u500b\u6751\u6c11\u9700\u8981%x%\u91d1\u9320.
+gui.info.hire.hasgold=\u4f60\u6709\u8db3\u5920\u7684\u91d1\u9320\u3002
+gui.info.hire.notenoughgold=\u4f60\u6c92\u6709\u8db3\u5920\u7684\u91d1\u9320\u3002
+gui.info.hire.minutesremaining=\u5269\u4e0b %x% \u5206\u9418\u3002
+
+gui.info.hardcoresecret.prompt=\u5982\u679c\u4f60\u6709\u5c0f\u5b69\uff0c\u4f60\u53ef\u4ee5\u91cd\u751f\u6210\u4f60\u5b69\u5b50\u3002
+gui.info.hardcoresecret.nochildren=\u6c92\u6709\u5b69\u5b50\uff01
+gui.info.hardcoresecret.spawnas=\u91cd\u751f\u6210\uff1a
+gui.info.hardcoresecret.respawn=\u5df2\u91cd\u751f\u6210\u5b69\u5b50
+
+#Overhead
+gui.overhead.hasgift=\u53ef\u7528\u7684\u79ae\u7269
+gui.overhead.hasring=\u6301\u6709\u7de8\u66f2\u8005\u4e4b\u6212
+gui.overhead.sleeping=\u7761\u89ba
+gui.overhead.health=\u751f\u547d\u503c\uff1a
+
+#######
+# Notifications/One Liners
+##############################
+notify.player.married=\u4f60\u548c%Name%\u73fe\u5728\u52a0\u5165\u7d50\u5a5a\u3002
+notify.player.engaged=\u4f60\u73fe\u5728\u548c%Name%\u8a02\u5a5a\u3002
+notify.player.droppedbaby=\u9019\u4e0d\u662f\u500b\u597d\u4e3b\u610f\u3002
+notify.player.clickbed=You cannot use that bed.
+
+notify.horse.invalid=\u6211\u4e0d\u80fd\u9a0e\u99ac\u3002
+notify.horse.notfound=\u5443...\u9019\u88e1\u6c92\u6709\u99ac\u8b93\u6211\u9a0e\u5440\uff01
+
+notify.villager.married=\u9019\u4e9b\u6751\u6c11\u73fe\u5728\u53c3\u52a0\u5a5a\u79ae\u3002
+notify.villager.gifted.cake.notenough=\u6211\u771f\u7684\u5e0c\u671b\u6211\u7684\u914d\u5076\u4e5f\u53ef\u4ee5\u6709\u4e00\u500b\u86cb\u7cd5...
+notify.villager.gifted.cake.withbaby.male=\u6211\u59bb\u5b50\u548c\u6211\u6c7a\u5b9a\u4e0d\u5403\u86cb\u7cd5\uff0c\u76f4\u5230\u6211\u5011\u5b69\u5b50\u7684\u6210\u9577\u3002
+notify.villager.gifted.cake.withbaby.female=\u4e08\u592b\u548c\u6211\u6c7a\u5b9a\u4e0d\u5403\u86cb\u7cd5\uff0c\u76f4\u5230\u6211\u5011\u5b69\u5b50\u7684\u9577\u5927\u3002
+notify.villager.gifted.cake.spousenotnearby.male=\u86cb\u7cd5\u55ce\uff1f\u53bb\u627e\u6211\u7684\u59bb\u5b50\uff0c\u6211\u5c31\u53ef\u4ee5\u5c07\u5b83\u8207\u5979\u5206\u4eab\u3002
+notify.villager.gifted.cake.spousenotnearby.female=\u86cb\u7cd5\u55ce\uff1f\u53bb\u627e\u6211\u7684\u4e08\u592b\uff0c\u8b93\u6211\u80fd\u8ddf\u4ed6\u5206\u4eab
+notify.villager.gifted.arrangerring.othernotnearby=\u751a\u9ebc\uff1f\u9019\u9644\u8fd1\u6c92\u6709\u5176\u4ed6\u4eba\u5440\u3002
+notify.villager.gifted.arrangerring.relative=\u6211\u662f\u4f60\u7684 %RelationToPlayer%.
+notify.villager.gifted.arrangerring.notenoughrings=\u770b\u4f86\u4f60\u6c92\u6709\u8db3\u5920\u7684\u6212\u6307\u3002\u6211\u5011\u9700\u8981\u5169\u500b\u5440\uff01
+notify.villager.gifted.arrangerring.invalidpartner=\u6211\u4e0d\u80fd\u8ddf %Name% \u7d50\u5a5a\uff01
+
+notify.baby.gaveup=\u60a8\u73fe\u5728\u53ef\u4ee5\u64c1\u6709\u591a\u4e00\u500b\u5b69\u5b50.
+notify.baby.exists=\u60a8\u5df2\u7d93\u6709\u4e00\u500b\u5b30\u5152.
+notify.baby.readytogrow=\u60a8\u7684\u5bf6\u5bf6\u5df2\u6e96\u5099\u597d\u9577\u5927\u4e86.
+notify.baby.cooked=\u4f60\u5728\u641e\u4ec0\u9ebc\u98db\u6a5f\u5440\!?
+
+notify.divorce.spousemissing=\u4f60\u7684\u914d\u5076\u4e0d\u5728\u9644\u8fd1\uff0c\u6240\u4ee5\u4f60\u4e0d\u80fd\u5f9e\u4ed6\u5011\u90a3\u88e1\u7372\u53d6\u4efb\u4f55\u7269\u54c1\u3002
+notify.arrangedmarriage.failed=\u73fe\u5728\u9019\u9644\u8fd1\u6c92\u6709\u4eba\u9858\u610f\u8ddf\u4f60\u7d50\u5a5a\u3002
+
+notify.death.male=%Name%\uff0c\u59b3\u7684 %RelationToPlayer%, \u5df2\u7d93\u6b7b\u4e86\u3002
+notify.death.female=%Name%\uff0c\u4f60\u7684 %RelationToPlayer%, \u5df2\u7d93\u6b7b\u4e86\u3002
+
+notify.homepoint.set=\u9019\u500b\u4eba\u665a\u4e0a\u5c07\u6703\u751f\u6210\u5728\u9019\u88f9\u3002
+notify.homepoint.none=%Name% \u662f\u6c92\u6709\u5275\u5efa\u5bb6\u5ead\u3002
+notify.homepoint.invalid=\u9019\u500b\u5bb6\u4e0d\u53ef\u4ee5\u53bb\u3002
+notify.homepoint.obstructed=%Name%\u7684\u5bb6\u5ead\u96c6\u5408\u9ede\u53d7\u963b\u3002
+notify.homepoint.teleport.skip.following=%Name%\u6b63\u5728\u8ddf\u96a8\u8457\u4f60\u3002\u4ed6\u5011\u4eca\u665a\u4e0d\u6703\u81ea\u52d5\u50b3\u9001\u56de\u5bb6\u3002
+notify.homepoint.teleport.skip.staying=%Name%\u505c\u7559\u8457\u3002\u4ed6\u5011\u4eca\u665a\u4e0d\u6703\u81ea\u52d5\u56de\u5bb6\u3002
+
+notify.item.broken.axe=%Name%\u7684\u65a7\u982d\u640d\u58de\u4e86\u3002
+notify.item.broken.boots=%Name%\u7684\u9774\u5b50\u640d\u58de\u3002
+notify.item.broken.chestplate=%Name%\u7684\u80f8\u7532\u640d\u58de\u4e86\u3002
+notify.item.broken.fishingrod=%Name%\u7684\u6f01\u6746\u6253\u65b7\u4e86.
+notify.item.broken.helmet=%Name%\u7684\u982d\u76d4\u6253\u640d\u58de\u4e86.
+notify.item.broken.leggings=%Name%\u7684\u7532\u8b77\u817f\u640d\u58de\u4e86\u3002
+notify.item.broken.pickaxe=%Name%\u7684\u92e4\u982d\u640d\u58de\u4e86\u3002
+notify.item.broken.sword=%Name%\u7684\u528d\u65b7\u4e86\u3002
+notify.item.broken.hoe=%Name%\u7684\u92e4\u982d\u640d\u58de\u4e86\u3002
+notify.item.broken.bow=%Name%\u7684\u5f13\u640d\u58de\u4e86\u3002
+
+notify.child.chore.finished.farming=\u6211\u5df2\u7d93\u5b8c\u6210\u4e86\u8015\u4f5c\u3002
+notify.child.chore.finished.fishing=\u6211\u5df2\u7d93\u5b8c\u6210\u4e86\u6355\u9b5a\u3002
+notify.child.chore.finished.woodcutting=\u6211\u5df2\u7d93\u5b8c\u6210\u4e86\u4f10\u6728\u3002
+notify.child.chore.finished.mining=\u6211\u5df2\u7d93\u5b8c\u6210\u4e86\u6316\u6398\u3002
+notify.child.chore.finished.hunting=\u6211\u5b8c\u6210\u72e9\u7375\u7684\u5de5\u4f5c\u4e86\u3002
+
+notify.child.chore.levelup.farming.5=%Name% \u9054\u5230\u52d9\u8fb2\u7b49\u7d1a5\u3002\u73fe\u5728\u4ed6\u5011\u6536\u7a6b\u5c0f\u9ea5\u6642\u80fd\u5920\u7372\u5f97\u66f4\u591a\u7a2e\u5b50\u3002
+notify.child.chore.levelup.farming.10=%Name% \u9054\u5230\u52d9\u8fb2\u7b49\u7d1a10\u3002\u73fe\u5728\u4ed6\u5011\u5728\u52d9\u8fb2\u6642\u79fb\u52d5\u5730\u66f4\u5feb\u3002
+notify.child.chore.levelup.farming.15=%Name% \u9054\u5230\u52d9\u8fb2\u7b49\u7d1a15\u3002\u4ed6\u5011\u73fe\u5728\u80fd\u5920\u6536\u7a6b\u66f4\u591a\u8fb2\u4f5c\u7269\u3002
+notify.child.chore.levelup.farming.20=%Name% \u9054\u5230\u52d9\u8fb2\u7b49\u7d1a20\u3002\u4ed6\u5011\u73fe\u5728\u6709\u6a5f\u6703\u7372\u5f97\u96d9\u500d\u7684\u8fb2\u4f5c\u7269\u3002
+
+notify.child.chore.levelup.fishing.5=%Name% \u9054\u5230\u91e3\u9b5a\u7b49\u7d1a5\u3002\u4ed6\u5011\u73fe\u5728\u5920\u66f4\u5feb\u7684\u91e3\u5230\u9b5a\u4e14\u6f01\u7372\u91cf\u8f03\u591a\u3002
+notify.child.chore.levelup.fishing.10=%Name% \u9054\u5230\u91e3\u9b5a\u7b49\u7d1a10\u3002\u73fe\u5728\u4ed6\u5011\u53ef\u4ee5\u91e3\u5230\u4e00\u822c\u7684\u7269\u54c1\u3002
+notify.child.chore.levelup.fishing.15=%Name% \u9054\u5230\u91e3\u9b5a\u7b49\u7d1a15\u3002\u4ed6\u5011\u73fe\u5728\u53ef\u4ee5\u66f4\u5feb\u7684\u91e3\u5230\u9b5a\u4e14\u6f01\u7372\u91cf\u66f4\u591a\u3002
+notify.child.chore.levelup.fishing.20=%Name% \u9054\u5230\u91e3\u9b5a\u7b49\u7d1a20\u3002\u4ed6\u5011\u73fe\u5728\u53ef\u4ee5\u91e3\u5230\u7a00\u6709\u7269\u54c1\u3002
+
+notify.child.chore.levelup.hunting.5=%Name% \u9054\u5230\u72e9\u7375\u7b49\u7d1a5\u3002\u4ed6\u5011\u73fe\u5728\u53ef\u4ee5\u7528\u8f03\u5c11\u7684\u8cc7\u6e90\u5e36\u56de\u66f4\u591a\u7684\u52d5\u7269\u3002
+notify.child.chore.levelup.hunting.10=%Name% \u9054\u5230\u72e9\u7375\u7b49\u7d1a10\u3002\u4ed6\u5011\u73fe\u5728\u72e9\u7375\u6642\u4e0d\u6703\u6709\u751f\u547d\u5371\u96aa\u3002
+notify.child.chore.levelup.hunting.15=\ %Name% \u7684\u72e9\u7375\u7b49\u7d1a\u9054\u523015\u3002\u4ed6\u5011\u73fe\u5728\u6703\u5e36\u56de\u66f4\u591a\u7684\u8089\u3002
+notify.child.chore.levelup.hunting.20=%Name% \u9054\u5230\u72e9\u7375\u7b49\u7d1a20\u3002\u4ed6\u5011\u73fe\u5728\u6bcf\u4e00\u5206\u9418\u6703\u56de\u4f86\u4e00\u6b21\u3002
+
+notify.child.chore.levelup.mining.5=%Name% \u9054\u5230\u6316\u7926\u7b49\u7d1a15\u3002\u4ed6\u5011\u73fe\u5728\u53ef\u4ee5\u6316\u5f97\u66f4\u5feb\u4e00\u9ede\u3002
+notify.child.chore.levelup.mining.10=%Name% \u9054\u5230\u6316\u7926\u7b49\u7d1a10\u3002\u88ab\u52d5\u6316\u7926\u6642\u4ed6\u5011\u7684\u93ac\u5b50\u5c07\u5177\u6709\u8f03\u9ad8\u7684\u8010\u4e45\u5ea6\u3002\u00a0
+notify.child.chore.levelup.mining.15=%Name% \u9054\u5230\u6316\u7926\u7b49\u7d1a15\u3002\u4ed6\u5011\u5c07\u5e36\u56de\u96d9\u500d\u7684\u77f3\u584a\u6216\u7926\u7269\u3002
+notify.child.chore.levelup.mining.20=%Name% \u9054\u5230\u6316\u7926\u7b49\u7d1a20\u3002\u88ab\u52d5\u6316\u7926\u6642\u4ed6\u5011\u5c07\u544a\u8a34\u4f60\u7926\u7269\u7684\u7cbe\u78ba\u4f4d\u7f6e\u3002
+
+notify.child.chore.levelup.woodcutting.5=%Name%\u9054\u5230\u780d\u6a39\u7b49\u7d1a15\u3002\u73fe\u5728\u4ed6\u5011\u5728\u780d\u6a39\u6642\u79fb\u52d5\u901f\u5ea6\u8f03\u5feb\u3002
+notify.child.chore.levelup.woodcutting.10=%Name% \u9054\u5230\u780d\u6a39\u7b49\u7d1a10\u3002 \u73fe\u5728\u4ed6\u5011\u7528\u65a7\u982d\u780d\u6a39\u7684\u901f\u5ea6\u8f03\u5feb\u3002
+notify.child.chore.levelup.woodcutting.15=%Name% \u9054\u5230\u780d\u6a39\u7b49\u7d1a15\u3002\u4ed6\u5011\u73fe\u5728\u6bcf\u780d\u4e00\u500b\u6728\u584a\u6709\u6a5f\u6703\u7372\u5f97\u5169\u500b\u6728\u584a\u3002
+notify.child.chore.levelup.woodcutting.20=%Name% \u9054\u5230\u780d\u6a39\u7b49\u7d1a20\u3002\u4ed6\u5011\u73fe\u5728\u6bcf\u780d\u4e00\u500b\u6728\u584a\u5c07\u7372\u5f97\u4e09\u500b\u6728\u584a\u3002
+
+notify.child.chore.interrupted.farming.noseeds=\u6211\u6c92\u6709\u8db3\u5920\u7684\u7a2e\u5b50\uff01
+notify.child.chore.interrupted.farming.noland=\u770b\u4e0d\u5230\u4efb\u4f55\u6ce5\u571f\u6216\u8349 \uff01
+notify.child.chore.interrupted.farming.nofarmland=\u4f60\u8981\u6211\u53bb\u4f7f\u7528\u7684\u8fb2\u5730\uff0c\u5b83\u5728\u54ea\uff1f
+notify.child.chore.interrupted.farming.noroom=\u6211\u6c92\u6709\u8db3\u5920\u7684\u7a7a\u9593\u4f86\u5b8c\u6210\u8015\u4f5c\u3002
+notify.child.chore.interrupted.farming.noselection=\u4f60\u6c92\u6709\u6a19\u8a3b\u500b\u5340\u57df\u7d66\u6211\u8015\u4f5c\u3002
+notify.child.chore.interrupted.farming.nohoe=\u6211\u6c92\u6709\u92e4\u982d\u3002
+notify.child.chore.interrupted.fishing.nowater=\u5728\u5e7e\u82f1\u91cc\u5167\u6211\u770b\u4e0d\u5230\u6709\u4efb\u4f55\u7684\u6c34\!
+notify.child.chore.interrupted.fishing.norod=\u6211\u6c92\u6709\u6f01\u6746\uff01\u6211\u4e0d\u80fd\u7528\u6211\u7684\u96d9\u624b\u6349\u4f4f\u7260\u5011\u3002
+notify.child.chore.interrupted.mining.noblocks=\u6211\u6c92\u6709\u770b\u5230\u4efb\u4f55\u7926\u584a\u3002
+notify.child.chore.interrupted.mining.nopickaxe=\u6211\u6c92\u6709\u4e00\u500b\u93ac \uff01
+notify.child.chore.interrupted.mining.tookdamage=%Name%\u5728\u63a1\u7926\u6642\u53d7\u4e86\u50b7.\u4ed6\u5011\u5df2\u7d93\u8fd4\u56de\u4ed6\u5011\u7684\u958b\u59cb\u9ede\u73fe\u5834\u4e86.
+notify.child.chore.interrupted.woodcutting.notrees=\u6211\u6c92\u6709\u770b\u5230\u4efb\u4f55\u6a39\u6728\u3002
+notify.child.chore.interrupted.hunting.notamematerials=\u6211\u6c92\u6709\u6771\u897f\u53ef\u4ee5\u7528\u4f86\u99b4\u670d\u52d5\u7269
+
+notify.child.chore.failed.hunting.death=%Name%\u5728\u6253\u7375\u6642\u6b7b\u4ea1
+
+notify.child.chore.status.mining.orefound=\u6709\u4e00\u4e9b %OreType% %OreDistance% \u8857\u5340\u4e4b\u5916.
+notify.child.chore.status.mining.orenearby=\u6709\u4e00\u4e9b %OreType%\u5728\u9644\u8fd1...
+notify.child.chore.status.mining.oredistance=\u8ddd\u96e2%OreDistance%\u516c\u5c3a\u8655\u6709\u4e00\u4e9b%OreType%\uff0c\u4f4d\u5728%OreX%, %OreY%, %OreZ%\u3002
+
+notify.child.gifted.arrows=\u597d\u5427\!\u6211\u60f3\u7528\u5f13\u7bad\u53bb\u5c04\u4e00\u4e0b\u90a3\u4e9b\u6771\u897f\!
+notify.child.gifted.axe=\u73fe\u5728\u4f10\u6728\u6642,\u624b\u4e0d\u6703\u6d41\u8840\!
+notify.child.gifted.fishingrod=\u73fe\u5728\u6211\u53ef\u4ee5\u53bb\u91e3\u9b5a\!
+notify.child.gifted.hoe=\u9019\u6703\u4ee4\u7a2e\u690d\u66f4\u5feb \!
+notify.child.gifted.seeds=\u73fe\u5728\u6211\u53ef\u4ee5\u7a2e\u690d\u4e86\!
+notify.child.gifted.sword=\u9019\u6703\u4f7f\u58de\u4eba\u8dd1\u6389 \!
+notify.child.gifted.wheat=\u6211\u53ef\u4ee5\u7528\u9019\u5c0f\u9ea5\u4f86\u99b4\u670d\u52d5\u7269\uff01
+notify.child.gifted.pickaxe=\u73fe\u5728\u6211\u53ef\u4ee5\u6316\u6398\uff01
+notify.child.gifted.carrot=\u6211\u53ef\u4ee5\u7528\u9019\u863f\u8514\u4f86\u99b4\u670d\u5c0f\u8c6c\uff01
+notify.child.gifted.bone=\u6211\u53ef\u4ee5\u7528\u9019\u9aa8\u982d\u4f86\u99b4\u72fc\uff01
+
+notify.child.emptiedinventory=%Name%\u5df2\u7d93\u6e05\u7a7a\u4ed6\u5011\u7684\u5eab\u5b58\u3002
+notify.child.readytogrow=%Name%\u5df2\u6e96\u5099\u597d\u9577\u5927.
+notify.child.growup=%Name%\u9577\u5230\u5927\u4eba\u4e86\uff01
+notify.child.ranaway=%Name%\u5df2\u7d93\u8dd1\u6389\u4e86 .
+
+notify.spouse.gifted.anotherbaby=\u6211\u5df2\u7d93\u62ff\u6211\u5011\u7684\u5bf6\u8c9d\u3002\u4f60\u90a3\u53ea\u662f\u5f9e\u54ea\u5152\u4f86\u7684?
+notify.spouse.chore.interrupted.cooking.nofurnace=\u9019\u9644\u8fd1\u6c92\u6709\u7194\u7210\u3002
+notify.spouse.chore.interrupted.cooking.nofuel=\u6211\u6c92\u6709\u71c3\u6599\u53ef\u4ee5\u70ba\u4f60\u716e\u98df\u7269\u3002
+
+notify.lostrelativedocument.success=%Name%\u73fe\u5728\u662f\u4f60\u7684%RelationToPlayer%
+notify.lostrelativedocument.success.norelation=%Name%\u8207\u4f60\u518d\u7121\u95dc\u4fc2
+
+notify.monarch.began=\u4f60\u73fe\u5728\u88ab\u8ce6\u4e88\u541b\u738b\u7684\u8cac\u4efb\u3002
+notify.monarch.resume=\u4f60\u73fe\u5728\u53c8\u6210\u70ba\u4e86\u541b\u738b\u3002\u4f60\u7684\u524d\u7e7c\u627f\u4eba\u5c07\u4e0d\u518d\u5177\u6709\u4f5c\u7528\u3002
+notify.monarch.ended.noheir=\u4f60\u4e0d\u518d\u662f\u4e00\u500b\u541b\u738b\u3002
+notify.monarch.ended.withheir=\u4f60\u4e0d\u518d\u662f\u4e00\u500b\u541b\u738b\u3002\u4f60\u7684\u7e7c\u627f\u4eba\u5df2\u7d93\u5750\u4e0a\u4f60\u7684\u738b\u4f4d\u3002
+
+notify.hiring.complete=%Name% \u7684\u96c7\u7528\u671f\u9650\u5df2\u7d93\u5230\u671f\u3002
+
+notify.update.turnedon=MCA\u73fe\u5728\u6703\u81ea\u52d5\u6aa2\u67e5\u66f4\u65b0\u3002
+notify.update.turnedoff=MCA\u73fe\u5728\u53ea\u6703\u5728\u6709\u66f4\u65b0\u6642\u9032\u884c\u56de\u5831\u3002
+
+#######
+# Parser Commands
+##############################
+parser.playerchild.adult.callplayerparent.male=\u7238
+parser.playerchild.adult.callplayerparent.female=\u5abd
+parser.playerchild.adult.parentopposite.male=\u5abd
+parser.playerchild.adult.parentopposite.female=\u7238
+
+parser.playerchild.young.callplayerparent.male=\u7239\u5730
+parser.playerchild.young.callplayerparent.female=\u5abd\u54aa
+parser.playerchild.young.parentopposite.male=\u5abd\u54aa
+parser.playerchild.young.parentopposite.female=\u7239\u5730
+
+#####################################################################################################
+#									              DIALOGUE											#
+#####################################################################################################
+
+#######
+# Profession-specific dialogue
+##############################
+guard.follow.refuse1=\u4e0d\uff0c\u6211\u9084\u6709\u5de5\u4f5c\u8981\u505a\u3002
+guard.follow.refuse2=\u6211\u4e0d\u80fd\u5c31\u9019\u6a23\u96e2\u958b\u6211\u7684\u5d17\u4f4d\u3002
+guard.follow.refuse3=\u4f60\u8981\u6211\u7ff9\u96e2\u6211\u7684\u5de5\u4f5c\uff1f\u514d\u8ac7\uff01
+guard.follow.refuse4=\u4e0d\uff0c\u4e0d\uff0c\u9664\u975e\u4f60\u50f1\u7528\u6211\u3002
+guard.follow.refuse5=\u5982\u679c\u6211\u4e00\u8d70\u4e86\u4e4b\uff0c\u6211\u6703\u88ab\u89e3\u50f1\u7684\uff01
+
+guard.stay.refuse1=\u6211\u9084\u5728\u5de1\u908f\u3002\u4e0d\u80fd\u5446\u7ad9\u5728\u90a3\u88e1\u3002
+guard.stay.refuse2=\u4f60\u4e0d\u662f\u6211\u7684\u8001\u95c6\u3002
+guard.stay.refuse3=\u4f60\u4e0d\u77e5\u9053\u6211\u662f\u500b\u8b66\u885b\uff0c\u5c0d\u5427\uff1f
+guard.stay.refuse4=\u6211\u7684\u5de5\u4f5c\u662f\u5de1\u908f\u6751\u838a\uff0c\u4e0d\u662f\u7ad9\u5728\u90a3\u3002
+guard.stay.refuse5=\u6211\u73fe\u5728\u5728\u5de5\u4f5c\u3002\u96d6\u7136\u5982\u6b64\uff0c\u6211\u4e5f\u53ef\u4ee5\u88ab\u96c7\u7528\u3002
+
+smith.aid.prompt1=\u6211\u80fd\u5e6b\u4f60\u8655\u7406\u9435\u9246\u554f\u984c\u3002\u7d66\u6211\u5831\u500b\u50f9\u3002
+smith.aid.prompt2=\u6211\u6709\u500b\u8001\u9435\u9246\uff0c\u6211\u5f88\u6368\u5f97\u2026
+smith.aid.prompt3=\u6211\u8981\u96e2\u958b\u935b\u9020\u7684\u884c\u696d\uff0c\u6240\u4ee5\u8981\u51fa\u552e\u6211\u7684\u9435\u9246\u3002
+smith.aid.prompt4=\u4f60\u9700\u8981\u4e00\u500b\u9435\u9246\uff1f\u6211\u53ef\u4ee5\u7528\u512a\u60e0\u7684\u50f9\u683c\u8ce3\u7d66\u4f60\u3002
+
+smith.aid.outofrange1=\u7576\u4f60\u60f3\u8cb7\u9435\u9246\u7684\u6642\u5019\uff0c\u8acb\u8b93\u6211\u77e5\u9053\u3002
+smith.aid.outofrange2=\u5982\u679c\u4f60\u6709\u610f\u9858\uff0c\u8acb\u56de\u4f86\u8ddf\u6211\u8aaa\u3002
+
+smith.aid.alreadyaccepted1=\u4f60\u5df2\u7d93\u6709\u6211\u7684\u9435\u9246\u3002\u9084\u6709\u4ec0\u9ebc\u4e8b\u6211\u80fd\u70ba\u60a8\u6548\u52de\u55ce\uff1f
+smith.aid.alreadyaccepted2=\u4f60\u5df2\u8cb7\u4e86\u6211\u7684\u9435\u9246\uff0c\u53bb\u505a\u4f60\u7684\u7dad\u4fee\u7684\uff01
+smith.aid.alreadyaccepted3=\u6211\u6c92\u6709\u5176\u4ed6\u7684\u9435\u9246\u80fd\u8ce3\u7d66\u4f60\u4e86\uff0c\u62b1\u6b49\u3002
+
+smith.aid.accept1=\u554a\uff01\u9019\u662f\u500b\u597d\u50f9\u683c\u3002\u62ff\u53bb\u5427\u3002
+smith.aid.accept2=\u597d\u7684\u3002\u5c0f\u5fc3\uff0c\u5b83\u5f88\u91cd\uff01
+smith.aid.accept3=\u8b1d\u8b1d\uff01\u9019\u662f\u4f60\u7684\u9435\u9246\u3002
+smith.aid.accept4=\u5225\u62ff\u9019\u500b\u4e1f\u5230\u4eba\uff0c\u597d\u55ce\uff1f
+
+smith.aid.refuse.rightitem1=\u9019\u5c31\u662f\u6211\u6240\u9700\u8981\u7528\u4f86\u63db\u9435\u9246\u7684\u6771\u897f\u3002\u4f60\u6709\u66f4\u591a\u53ef\u4ee5\u7d66\u6211\u55ce\uff1f
+smith.aid.refuse.rightitem2=\u662f\u7684\uff0c\u9019\u5c31\u662f\u6211\u8981\u7684\uff0c\u4f46\u4f60\u7d66\u7684\u9084\u662f\u4e0d\u5920\u3002
+smith.aid.refuse.rightitem3=\u9019\u6b63\u662f\u6211\u6240\u8981\u7684\uff01\u6211\u7d66\u4f60\u9435\u9246\u4e4b\u524d\u6211\u9084\u9700\u8981\u66f4\u591a\u4e00\u9ede\u3002
+smith.aid.refuse.rightitem4=\u9019\u500b\u518d\u591a\u7d66\u4e00\u4e9b\uff0c\u4f60\u5c31\u80fd\u64c1\u6709\u81ea\u5df1\u7684\u9435\u9246\u3002
+
+smith.aid.refuse.wrongitem1=\u6211\u60f3\u4e0d\u8981\u7528\u9435\u9246\u4ea4\u63db\u9019\u500b\u3002
+smith.aid.refuse.wrongitem2=\u9019\u4e0d\u662f\u6211\u6240\u8981\u7684\u3002\u4f60\u9084\u6709\u5176\u4ed6\u6771\u897f\u55ce\uff1f
+smith.aid.refuse.wrongitem3=\u4e0d\u2026\u6211\u8981\u7684\u662f\u5176\u4ed6\u6771\u897f\uff0c\u5982\u679c\u4f60\u8981\u8cb7\u6211\u7684\u9435\u9246\u3002
+smith.aid.refuse.wrongitem4=\u6211\u9700\u8981\u4e00\u4e9b\u5176\u4ed6\u6771\u897f\u4f86\u8cb7\u9019\u500b\u9435\u9246\u3002
+
+priest.adopt.male1=\u9019\u662f\u4f60\u7684\u65b0\u5bf6\u5bf6\u3002\u4ed6\u7684\u540d\u5b57\u662f %BabyName%\u3002
+priest.adopt.male2=\u4ed6\u5f88\u53ef\u611b\uff0c\u4e0d\u662f\u55ce\uff1f\u4ed6\u7684\u540d\u5b57\u662f %BabyName%.
+priest.adopt.male3=\u6211\u5e0c\u671b %BabyName% \u5728\u672a\u4f86\u7d66\u4f60\u5e36\u4f86\u6b61\u6a02\u3002
+priest.adopt.female1=\u5f88\u7f8e\u5427?\u5979\u7684\u540d\u5b50\u662f%BabyName%.
+priest.adopt.female2=\u8acb\u597d\u597d\u5c0d\u5f85 %BabyName% \u3002\u5979\u5728\u9019\u3002
+priest.adopt.female3=\u6211\u5f88\u50b7\u5fc3%BabyName%\u8d70\u4e86\uff0c\u4ed6\u662f\u90a3\u9ebc\u7684\u751c\u7f8e.
+
+priest.arrangemarriage1=\u6211\u5e0c\u671b\u4f60\u8ddf %Name% \u80fd\u5920\u5feb\u6a02\u7684\u5728\u4e00\u8d77\u3002
+priest.arrangemarriage2=%PlayerName% \u6211\u5e0c\u671b\u4f60\u770b\u770b %Name%\u3002\u4f60\u5011\u73fe\u5728\u662f\u4e00\u5c0d\u592b\u59bb\u3002
+priest.arrangemarriage3=\u5982\u4f60\u6240\u9858\u3002\u4f60\u73fe\u5728\u8207 %Name% \u7d50\u70ba\u9023\u7406\u3002
+
+generic.hire.accept1=\u975e\u5e38\u611f\u8b1d\uff01\u6211\u6703\u70ba\u4f60\u505a\u4efb\u4f55\u4e8b\u3002
+generic.hire.accept2=\u5df2\u7d93\u5920\u4e86\u3002\u6211\u6703\u70ba\u4f60\u5de5\u4f5c\u3002
+generic.hire.accept3=\u6211\u6e96\u5099\u597d\u8981\u4e0a\u5de5\u4e86\uff01
+generic.hire.accept4=\u8b93\u6211\u5011\u958b\u59cb\u5427\u3002\u6211\u8a72\u5148\u505a\u751a\u9ebc\uff1f
+
+guard.hire.accept1=\u8b1d\u8b1d\uff0c\u73fe\u5728\u6211\u662f\u4f60\u7684\u4fdd\u9463.
+guard.hire.accept2=\u73fe\u5728\uff0c\u6211\u70ba\u60a8\u5de5\u4f5c\u3002
+guard.hire.accept3=\u4f60\u73fe\u5728\u662f\u6211\u8001\u95c6\u3002
+guard.hire.accept4=\u6211\u7684\u7b2c\u4e00\u4efd\u5de5\u4f5c\u662f\u4ec0\u9ebc\u5462\uff0c\u8001\u95c6\uff1f
+
+guard.hire.dismiss1=\u6211\u5c0d\u6c92\u6709\u5de5\u4f5c\u611f\u5230\u96e3\u904e\u3002\u6211\u5c07\u56de\u5230\u6211\u4ee5\u524d\u7684\u5de5\u4f5c\u3002
+guard.hire.dismiss2=\u80fd\u8ddf\u8457\u4f60\u5de5\u4f5c\u662f\u6211\u7684\u69ae\u5e78\uff01
+guard.hire.dismiss3=\u6211\u9084\u6703\u898b\u9762\uff0c\u5982\u679c\u6211\u80fd\u56de\u5230\u6211\u6751\u91cc\u7684\u5de5\u4f5c\u3002
+guard.hire.dismiss4=\u5f88\u597d\uff0c\u6211\u53c8\u6c92\u5de5\u4f5c\u4e86\u2026
+
+butcher.aid.accept1=\u7576\u7136\uff01\u6211\u6709\u5920\u591a\u7684\u8089\u53ef\u4ee5\u7d66\u4f60\u3002
+butcher.aid.accept2=\u9019\u88e1\u6709\u4e9b\u6211\u591a\u9918\u7684\u8089\u3002
+butcher.aid.accept3=\u9019\u88e1\u6709\u4e9b\u65b0\u9bae\u7684\u8089\u7d66\u4f60
+
+butcher.aid.refuse1=\u6211\u6c92\u591a\u9918\u7684\u53ef\u4ee5\u9a30\u51fa\uff0c\u62b1\u6b49\u3002
+butcher.aid.refuse2=\u6211\u9700\u8981\u4fdd\u7559\u4e00\u4e9b\u8ce3\u7d66\u9867\u5ba2\u3002
+butcher.aid.refuse3=\u6211\u73fe\u5728\u4e0d\u80fd\u7d66\u4f60\u4efb\u4f55\u6771\u897f\u3002
+
+baker.aid.accept1=\u6211\u525b\u70e4\u597d\u9019\u500b\u3002\u4f60\u53ef\u4ee5\u62ff\u53bb\u3002
+baker.aid.accept2=\u597d\u5427\uff0c\u9019\u500b\u4f60\u53ef\u4ee5\u62ff\u8d70\u3002\u9019\u662f\u65b0\u9bae\u51fa\u7210\u7684\u3002
+baker.aid.accept3=\u6211\u6709\u4e00\u4e9b\u4eca\u5929\u6c92\u6709\u8ce3\u6389\u5269\u9918\u7684\u3002\u4f60\u53ef\u4ee5\u62ff\u53bb\u3002
+
+baker.aid.refuse1=\u6211\u73fe\u5728\u6c92\u6709\u591a\u9918\u7684\u6771\u897f\uff0c\u7a0d\u5f8c\u518d\u4f86\u3002
+baker.aid.refuse2=\u6211\u73fe\u5728\u9084\u5728\u70d8\u70e4\u6771\u897f\u3002\u7a0d\u5f8c\u5b83\u5011\u5c31\u6703\u70e4\u597d\u3002
+baker.aid.refuse3=\u6211\u672c\u4f86\u6709\u6771\u897f\u80fd\u7d66\u4f60\uff0c\u4f46\u56e0\u6545\u71d2\u7126\u4e86\uff0c\u62b1\u6b49\u3002
+
+farmer.aid.accept1=\u6211\u60f3\u6211\u53ef\u4ee5\u63d0\u4f9b\u4e00\u4e9b\u6771\u897f\u3002\u9019\u500b\u3002
+farmer.aid.accept2=\u7576\u7136\u6211\u53ef\u4ee5\u5e6b\u5fd9\u3002\u9019\u500b\u4f60\u62ff\u53bb\u3002
+farmer.aid.accept3=\u6700\u8fd1\u6211\u7684\u6536\u6210\u9084\u4e0d\u932f\u3002\u9019\u662f\u591a\u51fa\u4f86\u7684\u3002
+
+farmer.aid.refuse1=\u6211\u5f88\u62b1\u6b49\uff0c\u6211\u6c92\u6709\u4efb\u4f55\u6771\u897f\u80fd\u5920\u7d66\u4f60\u3002
+farmer.aid.refuse2=\u7a0d\u5f8c\u518d\u4f86\uff0c\u6211\u6c92\u6709\u6771\u897f\u7d66\u4f60\u3002
+farmer.aid.refuse3=\u62b1\u6b49\uff0c\u6211\u6c92\u6709\u4efb\u4f55\u6771\u897f\u80fd\u63d0\u4f9b\u3002
+
+miner.hire.accept1=\u8b1d\u8b1d\uff01\u6211\u80fd\u7acb\u523b\u958b\u59cb\u3002
+miner.hire.accept2=\u6211\u5f88\u9ad8\u8208\u53c3\u8207\u4f60\uff01\u6211\u5c07\u6316\u6398\u54ea\uff1f
+miner.hire.accept3=\u611f\u8b1d\u4f60\u96c7\u7528\u6211\u3002\u6211\u80fd\u99ac\u4e0a\u958b\u59cb\u5de5\u4f5c\u3002
+
+miner.hire.refuse1=5\u500b\u91d1\u9320\u6211\u5c31\u70ba\u4f60\u5de5\u4f5c\u3002\u6211\u5c07\u5e6b\u4f60\u6316\u6398100\u500b\u65b9\u584a\u3002
+miner.hire.refuse2=\u7d66\u62115\u500b\u91d1\u9320\u800c\u6211\u5c07\u6316\u6398100\u500b\u65b9\u584a\u7d66\u4f60\u3002
+miner.hire.refuse3=\u4f60\u6c92\u6709\u8db3\u5920\u7684\u91d1\u9320\u96c7\u7528\u6211\u3002\u6211\u9700\u89815\u500b\u91d1\u9320\u96c7\u7528\u4f86\u6316\u6398100\u500b\u65b9\u584a\u3002
+
+miner.hire.finished1=\u9019\u662f\u5168\u90e8100\u500b\u65b9\u584a\u3002\u6211\u5b8c\u6210\u4efb\u52d9\u4e86\u3002
+miner.hire.finished2=\u9019\u662f100\u500b\u65b9\u584a\u3002\u6211\u7684\u5de5\u4f5c\u5b8c\u6210\u4e86\u3002
+miner.hire.finished3=\u6211\u5df2\u6316\u6398100\u500b\u65b9\u584a\u4e86\u3002\u5f88\u9ad8\u8208\u8207\u4f60\u5171\u4e8b\u3002
+
+miner.hire.dismiss1=\u4f60\u8981\u89e3\u96c7\u6211\u4e86\u55ce\uff1f \u90a3\u597d\u5427\u3002
+miner.hire.dismiss2=\u5982\u679c\u4f60\u63d0\u4f9b\u91d1\u9320\u6211\u5c07\u6703\u518d\u4f86\u6548\u529b\u3002
+miner.hire.dismiss3=\u90a3\u6211\u56de\u6751\u88e1\u53bb\u4e86\u3002
+
+miner.chore.finished1=\u6211\u5df2\u7d93\u5b8c\u6210\u4f60\u4ea4\u4ed8\u6211\u7684\u5de5\u4f5c\u3002
+miner.chore.finished2=\u6211\u6e96\u5099\u597d\u505a\u66f4\u591a\u7684\u5de5\u4f5c\u3002
+miner.chore.finished3=\u6211\u5df2\u7d93\u5b8c\u6210\u9019\u500b\u5de5\u4f5c\u3002
+
+miner.chore.start1=\u6211\u7acb\u523b\u5c31\u8fa6\uff0c\u8001\u95c6\u3002
+miner.chore.start2=\u662f\u7684\uff0c\u8001\u95c6\u3002
+miner.chore.start3=\u6211\u6703\u99ac\u4e0a\u958b\u59cb\u5de5\u4f5c\u3002
+
+miner.dropallitems1=\u9019\u88e1\uff0c\u62ff\u53bb\u5427\u3002
+miner.dropallitems2=\u9019\u662f\u4f60\u8981\u7684\uff0c\u8001\u95c6\u3002
+miner.dropallitems3=\u9019\u662f\u6211\u62ff\u5230\u7684\u3002
+miner.dropallitems4=\u9019\u662f\u6211\u6316\u51fa\u7684\u6240\u6709\u6771\u897f\u3002
+
+#######
+# Villager Dialogue
+##############################
+villager.chat.bad1=\u5f88\u60b6\u554a\uff01
+villager.chat.bad2=*\u6253\u54c8\u6b20*
+villager.chat.bad3=\u4f60\u53ef\u4e0d\u53ef\u4ee5\u8aaa\u591a\u4e00\u908a\uff1f
+villager.chat.bad4=\u4f60\u662f\u4e0d\u662f\u8aaa\u4e86\u4ec0\u9ebc\uff1f
+villager.chat.bad5=\u660e\u767d\u3002
+villager.chat.bad6=\u5c0d\u4e0d\u8d77\uff0c\u6211\u6709\u5176\u4ed6\u4e8b\u60c5\u4f5c\u3002\u6211\u8981\u8d70\u4e86\u3002
+villager.chat.bad7=\u6211\u5fd8\u4e86\u505a\u4e00\u9ede\u4e8b\u60c5\uff0c\u6211\u8981\u53bb\u56fa\u5b9a\u597d\u3002
+villager.chat.bad8=\u6211\u4e0d\u660e\u767d\u4f60\u5728\u8aaa\u4ec0\u9ebc\u3002
+villager.chat.bad9=\u4f60\u662f\u61c9\u932f\u4eba\u55ce\uff1f
+villager.chat.bad10=\u60f3\u4e00\u60f3...\u4e0d\u8981\u3002
+villager.chat.bad11=\u4f60\u70ba\u4ec0\u9ebc\u6703\u8aaa\u9019\u6a23\u7684\u6771\u897f\uff1f\uff01
+villager.chat.bad12=\u90a3\u6642\u6c92\u79ae\u8c8c\u7684\u5462\uff01
+
+villager.chat.good1=\u771f\u662f\u5927\u9ebc\uff1f\u6211\u6c92\u807d\u904e\u3002
+villager.chat.good2=\u4f60\u5f9e\u54ea\u88e1\u807d\u5230\u9019\u500b\uff1f
+villager.chat.good3=\u4f60\u662f\u600e\u9ebc\u505a\u5230\u7684\u5462\uff1f\uff01
+villager.chat.good4=\u5f88\u60b6\u554a\uff01
+villager.chat.good5=\u5f88\u6709\u8da3\u554a\uff01
+villager.chat.good6=\u4f60\u90a3\u88e1\u6709\u4e00\u4e9b\u5f88\u597d\u7684\u6545\u4e8b\u3002\u53ef\u4ee5\u544a\u8a34\u6211\u66f4\u591a\u55ce\uff1f
+villager.chat.good7=\u90a3\u5f88\u597d\u3002\u6240\u4ee5\u4ee5\u5f8c\u7684\u4e8b\u60c5\uff1f
+villager.chat.good8=\u6211\u5b8c\u5168\u540c\u610f \uff01
+villager.chat.good9=\u6211\u807d\u904e\u5225\u4eba\u8aaa\u76f8\u540c\u7684\u8a71\u3002
+villager.chat.good10=\u4f60\u63a1\u7926\u6642\u6709\u898b\u904e\u7da0\u5bf6\u77f3\u55ce?
+
+villager.engagement.accept1=\u4ec0\u9ebc\u6642\u662f\u6211\u5011\u7684\u5a5a\u79ae \uff01
+villager.engagement.accept2=\u6211\u5011\u8981\u6709\u4e00\u500b\u5927\u7684\u6d3e\u5c0d\uff0c\u5c0d\u5427\uff1f
+villager.engagement.accept3=\u6700\u5f8c\uff01\u6211\u6703\u6c38\u9060\u6703\u7b49\uff01\u6211\u611b\u4f60\uff01
+villager.engagement.accept4=\u6211\u9080\u8acb\u6211\u6240\u6709\u7684\u670b\u53cb \uff01
+villager.engagement.accept5=\u8036 \uff01\u6211\u611b\u4f60\uff01
+
+villager.engagement.refusal1=\u554a \u2026 \u2026 \u55ef \u2026 \u2026\u6211\u4e0d\u51c6\u5099\u5b9a\u5c45\u4e0b\u4f86\u3002
+villager.engagement.refusal2=\u54e6 \u2026 \u2026 \u597d..\u9019\u662f\u4ee4\u4eba\u5c37\u5c2c...
+villager.engagement.refusal3=\u54c8\uff1f\u4e0d \uff01\u6211\u751a\u81f3\u4e0d\u8a8d\u8b58\u4f60 \uff01
+villager.engagement.refusal4=\u5f88\u62b1\u6b49\uff0c\u6211\u53ea\u662f\u4e0d\u559c\u6b61\u4f60\u9019\u6a23\u7684\u4eba\u3002
+villager.engagement.refusal5=\u54c7\u7a0d\u7b49\uff0c\u6211\u5011\u5e7e\u4e4e\u4e0d\u4e86\u89e3\u5c0d\u65b9\u3002
+
+villager.follow.start1=\u6211\u5011\u5230\u54ea\u88e1\u53bb\uff1f
+villager.follow.start2=\u6211\u5617\u8a66\u548c\u4f60\u5728\u4e00\u8d77\u3002
+villager.follow.start3=\u597d\u7684\u3002\u6211\u518d\u4f86\u3002
+villager.follow.start4=\u60a8\u6b63\u5728\u79fb\u52d5\u6574\u500b\u6751\u838a\u958b\u59cb\u81ea\u5df1\u7684\u57ce\u5e02\u55ce\uff1f\u6211\u4e0d\u9019\u9ebc\u8a8d\u70ba\u3002
+villager.follow.start5=\u597d\u7684,\u6211\u53ef\u4ee5\u6b65\u884c\u3002
+villager.follow.start6=\u4f60\u5e36\u6211\u53bb\u54ea\u88e1\uff1f
+villager.follow.start7=\u54e6\uff0c\u4f60\u60f3\u53bb\u54ea\u88e1\uff1f
+villager.follow.start8=\u8b93\u6211\u5b8c\u4e86\u4e9b\u4e8b\u5427\u3002
+
+villager.follow.stop1=\u597d\u5427\uff0c\u6211\u6703\u5728\u9019\u88e1\u9644\u8fd1\u3002
+villager.follow.stop2=\u4e0d\u8981\u8d70\u5f97\u592a\u9060\u3002
+villager.follow.stop3=\u6211\u559c\u6b61\u9019\u500b\u5730\u65b9 \uff01
+villager.follow.stop4=\u597d\u5427\uff0c\u56de\u982d\u898b\uff01
+villager.follow.stop5=\u4e0d\u8981\u96e2\u958b\u6211\u8b93\u6211\u7368\u81ea\u4e00\u4eba \uff01
+villager.follow.stop6=\u4fdd\u91cd\u3002
+villager.follow.stop7=\u597d\u5427\uff0c\u6211\u6703\u5446\u5728\u9019\u88e1\u3002
+villager.follow.stop8=\u73fe\u5728\u6211\u505c\u6b62\u8ddf\u96a8\u4f60\u3002
+villager.follow.stop9=\u597d\u5427,\u6211\u7d2f\u4e86 \uff01
+villager.follow.stop10=\u9084\u771f\u662f\u591a\u4e8b \uff01
+
+villager.gift.bad1=\u6211\u4e0d\u662f\u4e00\u500b\u5783\u573e\u6876\u3002
+villager.gift.bad2=\u6211\u4e0d\u60f3\u8981\u4f60\u7684\u5783\u573e \uff01
+villager.gift.bad3=\u6211\u8a8d\u70ba\u9019\u662f\u5783\u573e\u3002
+villager.gift.bad4=\u70ba\u4ec0\u9ebc\u6211\u60f3\u8981\u9019\uff1f
+villager.gift.bad5=\u60a8\u53ef\u4ee5\u4fdd\u7559\u60a8\u7684\u5783\u573e\uff0c\u8b1d\u8b1d\u3002
+villager.gift.bad6=\u6211\u5e0c\u671b\u4f60\u5728\u958b\u73a9\u7b11\uff0c\u9019\u4e0d\u662f\u4e00\u500b\u5f88\u597d\u7684\u79ae\u7269\u3002
+villager.gift.bad7=\u5f88\u62b1\u6b49\uff0c\u4f46\u6211\u4e0d\u50cf\u6703\u63a5\u53d7\u9019\u6a23\u79ae\u7269\u3002
+villager.gift.bad8=\u6211\u4e0d\u80fd\u5f9e\u5916\u4eba\u90a3\u88e1\u63a5\u53d7\u4efb\u4f55\u6771\u897f\uff0c\u62b1\u6b49\u3002
+villager.gift.bad9=\u4f60\u662f\u7b2c\u4e00\u500b\u4eba\u628a\u9019\u6771\u897f\u7d66\u6211\u7684\u4eba\uff01\u4f60\u61c9\u8a72\u96e2\u958b\u3002
+villager.gift.bad10=\u4f60\u70ba\u4f55\u5805\u6301\u7d66\u6211\u5783\u573e\u5462\uff1f
+
+villager.gift.small1=\u54e6\uff0c\u8b1d\u8b1d \uff01
+villager.gift.small2=\u4f60\u5341\u5206\u5468\u5230\uff01
+villager.gift.small3=\u8b1d\u8b1d \uff01
+villager.gift.small4=\u4f60\u6c92\u6709\u5f9e\u6211\u9019\u5f97\u904e\u4efb\u4f55\u6771\u897f \u2026 \u2026 \u8b1d\u8b1d \uff01
+villager.gift.small5=\u5662\uff0c\u6211\u611b\u9019\u4e9b \uff01
+villager.gift.small6=\u8b1d\u8b1d\u4f60\u3002
+villager.gift.small7=\u9019\u662f\u975e\u5e38\u597d\u7684\u79ae\u7269\u3002\u8b1d\u8b1d\u3002
+villager.gift.small8=\u9177\uff01\u8b1d\u8b1d\uff01
+
+villager.gift.regular1=\u9583\u4eae \uff01
+villager.gift.regular2=\u6211\u6703\u627e\u5230\u4e00\u7a2e\u4f7f\u7528\u65b9\u6cd5\u3002\u8b1d\u8b1d \uff01
+villager.gift.regular3=\u5662\uff0c\u54c7\uff01\u8b1d\u8b1d\u4f60\uff01
+villager.gift.regular4=\u53ef\u4ee5\u518d\u7d66\u6211\u4e00\u500b\u55ce\uff1f
+villager.gift.regular5=\u8b1d\u8b1d\u4f60\uff0c\u670b\u53cb\u3002
+villager.gift.regular6=\u554a\uff0c\u8b1d\u8b1d\u4f60\u7684\u79ae\u7269\u3002
+villager.gift.regular7=\u4f60\u771f\u53cb\u5584\uff0c\u8b1d\u8b1d\u4f60\u3002
+villager.gift.regular8=\u5f88\u597d\u7684\u79ae\u7269\uff01\u8b1d\u8b1d, %PlayerName%.
+villager.gift.regular9=%PlayerName%\uff0c\u4f60\u7e3d\u662f\u90a3\u9ebc\u751c\u871c\u3002
+villager.gift.regular10=\u4f60\u975e\u5e38\u7684\u53cb\u5584,%PlayerName%.
+villager.gift.regular11=\u4f60\u9019\u6a23\u7684\u597d\u670b\u53cb \uff01
+
+villager.gift.great1=\u6211 \u2026 \u2026\u6211\u7121\u8a71\u53ef\u8aaa \uff01\u8b1d\u8b1d\uff01
+villager.gift.great2=\u9019\u4e9b\u90fd\u662f\u7121\u50f9\u4e4b\u5bf6 \uff01
+villager.gift.great3=\u7576\u4f60\u770b\u5230\u5b83\u6642\u5c31\u77e5\u9053\u662f\u4e00\u4efd\u8cb4\u91cd\u7684\u79ae\u7269\!
+villager.gift.great4=\u6211\u7e3d\u662f\u60f3\u8981\u4e00\u500b\!
+villager.gift.great5=\u9019\u662f\u4ee4\u4eba\u9a5a\u6b4e \uff01
+villager.gift.great6=\u9019\u662f \u2026 \u2026\u8b1d\u8b1d\uff01\u4f60\u771f\u7684\u4e0d\u61c9\u8a72\u6709 \uff01
+villager.gift.great7=\u5341\u5206\u611f\u8b1d\uff0c\u6211\u6703\u8a18\u5f97\u9019\u3002
+villager.gift.great8=\u54e6\u9019\u592a\u68d2\u4e86\uff0c\u6211\u6703\u5f88\u597d\u5730\u5229\u7528\u3002
+
+villager.greeting.hate1=\u9060\u96e2\u6211\u3002
+villager.greeting.hate2=\u4f60\u6c92\u807d\u898b\u55ce?\u6211\u6700\u5f8c\u4e00\u6b21\u8aaa\u4e86\:\u7acb\u523b\u6efe\u958b\u3002
+villager.greeting.hate3=\u54e6\u3002\u662f\u4f60\u3002
+villager.greeting.hate4=\u4f60\u662f\u4f86\u9019\u88e1\u518d\u6253\u6211\u81c9\u7684\u55ce\uff1f
+villager.greeting.hate5=\u62dc\u8a17,\u4f60\u96e2\u958b\u5427\u3002
+villager.greeting.hate6=\u4f60\u60f3\u8981\u4ec0\u9ebc\uff1f
+villager.greeting.hate7=\u5982\u679c\u4f60\u518d\u53bb\u6253\u64fe\u6211,\u6211\u6703\u627e\u8b66\u885b\u4eba\u54e1\u3002
+villager.greeting.hate8=\u6211\u6709\u6b66\u5668\uff0c\u53ea\u662f\u60f3\u8b93\u4f60\u77e5\u9053\u3002
+villager.greeting.hate9=\u53bb\u6253\u64fe\u5225\u4eba\u5427\u3002
+villager.greeting.hate10=\u5443\u3002\u5225\u7169\u6211\u3002
+villager.greeting.hate11=\u7d66\u6211\u6d88\u5931,\u4f60\u9019\u500b\u6df7\u86cb.
+
+villager.greeting.basic1=\u54e6\uff0c\u4f60\u597d\u3002
+villager.greeting.basic2=\u4f60\u662f\u65b0\u4f86\u9019\u9644\u8fd1\u7684\u55ce\uff1f
+villager.greeting.basic3=\u4f60\u597d\uff0c\u964c\u751f\u4eba\u3002
+villager.greeting.basic4=\u563f\uff0c\u4ec0\u9ebc\u4e8b\uff1f
+villager.greeting.basic5=\u6211\u4e4b\u524d\u6c92\u5728\u9644\u8fd1\u6c92\u898b\u904e\u4f60\u3002
+villager.greeting.basic6=\u60a8\u4e00\u5b9a\u662f\u65b0\u4f86\u5230\u9019\u9644\u8fd1\u3002
+villager.greeting.basic7=\u904e\u5f97\u597d\u55ce,%PlayerName%
+villager.greeting.basic8=\u4f60\u597d
+villager.greeting.basic9=\u6211\u53ef\u4ee5\u600e\u6a23\u5e6b\u4f60?
+villager.greeting.basic10=\u5662\uff0c\u4f60\u597d\u3002%PlayerName%\uff0c\u662f\u5427\uff1f
+
+villager.greeting.friend1=\u55e8\uff0c\u670b\u53cb\uff01
+villager.greeting.friend2=\u563f \uff01\u5f88\u9ad8\u8208\u518d\u6b21\u898b\u5230\u4f60\uff01
+villager.greeting.friend3=\u5927\u5bb6\u770b\u770b\uff01\u9019\u662f\u6211\u6700\u597d\u7684\u8001\u5144\uff01
+villager.greeting.friend4=\u563f\uff0c\u8001\u5144\uff01
+villager.greeting.friend5=\u4f60\u4e00\u76f4\u5728\u5fd9\u4ec0\u9ebc\uff1f\u6211\u4e00\u6bb5\u6642\u9593\u6c92\u770b\u5230\u4f60\u4e86\u3002
+villager.greeting.friend6=\u563f\uff0c\u9019\u662f %PlayerName%\uff0c\u6211\u6700\u597d\u7684\u670b\u53cb \uff01
+villager.greeting.friend7=\u554a \uff01\u770b\u6709\u8ab0\u5728\u9019\u88e1\u3002\u4f60\u597d\uff0c%PlayerName% \uff01
+villager.greeting.friend8=\u5582\u4f60\!\u4f60\u600e\u9ebc\u4e86\uff1f
+villager.greeting.friend9=\u4ec0\u9ebc\u4e8b\u8001\u5144,\u4f60\u5728\u5e79\u4ec0\u9ebc?
+
+villager.greeting.interest.male1=\u54c7 \uff01\u4f60\u4eca\u5929\u770b\u8d77\u4f86\u4e0d\u932f\u5440\uff01
+villager.greeting.interest.male2=%PlayerName%\uff01\u5225\u8d70\uff01\u6211\u60f3\u554f \u2026 \u2026 \u7576\u6211\u6c92\u8aaa\u5427\u3002
+villager.greeting.interest.male3=\uff0a \u5bc6\u8a9e \uff0a \u5979\u7684\u5982\u6b64\u7f8e\u9e97...
+villager.greeting.interest.male4=%PlayerName%\uff0c\u6211\u6562\u6253\u8ced\u4f60\u662f\u4e0d\u77e5\u9053\u6211\u6709\u9322\u3002
+villager.greeting.interest.male5=\uff0a \u5bc6\u8a9e \uff0a \u5979\u7684\u5c0d\u6211\u9019\u9ebc\u597d\uff0c\u6211\u4e0d\u77e5\u9053\u5979\u662f\u5426\u559c\u6b61\u6211\uff1f
+
+villager.greeting.interest.female1=\u563f\uff0c\u4f60\u61c9\u8a72\u9694\u4e00\u6bb5\u6642\u9593\u4fbf\u4f86\u770b\u6211\u3002\uff0a\u7728\u773c\uff0a
+villager.greeting.interest.female2=Hi...%PlayerName%...*\u50bb\u7b11*
+villager.greeting.interest.female3=\u4f60\u770b\u8d77\u4f86\u50cf\u4ee5\u524d\u4e00\u6a23\u5f37\u5927\!
+villager.greeting.interest.female4=\uff0a\u8b8a\u5f97\u84bc\u767d\uff0a
+villager.greeting.interest.female5=\uff0a \u5bc6\u8a9e \uff0a \u4e0d\uff01\u6211\u4e0d\u6703\u554f\u4ed6 \uff01
+
+villager.greeting.wedding1=\u6211\u807d\u8aaa\u4f60\u5373\u5c07\u8209\u884c\u7684\u5a5a\u79ae\u3002\u606d\u559c \uff01
+villager.greeting.wedding2=\u563f\uff0c%PlayerName%\u3001\u795d\u8cc0\u4f60\u8a02\u5a5a\u4e86\uff01
+villager.greeting.wedding3=\u6211\u80af\u5b9a\u4f60\u6703\u6709\u4e00\u500b\u7f8e\u9e97\u7684\u5a5a\u79ae\uff0c\u5c0d\u5427\uff1f
+villager.greeting.wedding4=\u6211\u5f88\u70ba\u9ad8\u8208\u60a8\uff01\u6211\u6703\u7d66\u4f60\u5e36\u4f86\u6709\u53f2\u4ee5\u4f86\u6700\u5927\u7684\u79ae\u7269 \uff01
+villager.greeting.wedding5=\u4f60\u53ea\u6709\u8a02\u5a5a\u7684\u79ae\u7269\uff0c\u4e0d\u662f\u55ce\uff1f
+
+villager.hitbyplayer1=\u5225\u7169\u6211\uff01
+villager.hitbyplayer2=\u6211\u6c92\u6709\u5c0d\u4f60\u505a\u4efb\u4f55\u4e8b\u60c5 \uff01
+villager.hitbyplayer3=\u505c\u4e0b\uff01
+villager.hitbyplayer4=\u54ce\u5537\uff01\u4f60\u70ba\u4ec0\u9ebc\u8981\u6253\u6211\uff1f
+villager.hitbyplayer5=\u505c\u4e0b\u4f86\uff01\u6703\u75db\u7684\uff01
+villager.hitbyplayer6=\u563f \uff01\u5225\u6253\u6211 \uff01
+villager.hitbyplayer7=\u54ce\u5537\uff0c\u505c\uff0c\u505c\uff01
+villager.hitbyplayer8=\u5225\u518d\u78b0\u6211\u4e86 \uff01
+villager.hitbyplayer9=\u885b\u5175 \uff01\u9019\u4eba\u8972\u64ca\u6211 \uff01
+villager.hitbyplayer10=\u6709\u4eba\u4f86\u6551\u6211\u55ce\!
+villager.hitbyplayer12=\u54ce\u5537\uff01%PlayerName%\uff01\u6211\u4ee5\u70ba\u6211\u5011\u662f\u670b\u53cb \uff01
+
+villager.gifted.baby1=\u505a\u4f60\u81ea\u5df1\u7684\u7236\u6bcd\u3002
+villager.gifted.baby2=\u6211\u4e0d\u60f3\u6293\u4f4f\u5b83 \uff01
+villager.gifted.baby3=\u9019\u5f88\u5c0f\!
+villager.gifted.baby4=\u5662\uff0c\u6700\u597d\u4e0d\u8981\u6211\u3002\u6211\u6628\u5929\u5728\u7926\u4e95\u8ff7\u8def\u3002
+villager.gifted.baby5=\u73fe\u5728\u6211\u61c9\u8a72\u544a\u8a34\u4f60\uff0c\u6211\u9119\u8996\u5152\u7ae5\u3002
+villager.gifted.baby6=\u6211\u7167\u9867\u81ea\u5df1\u4e5f\u5f88\u5403\u529b\uff0c\u66f4\u5225\u8aaa\u662f\u4e00\u500b\u5b30\u5152\u3002
+villager.gifted.baby7=\u6211\u60f3\u8981\u5f97\u5230\u5b83\uff0c\u4f46\u6211\u4e0d\u662f\u7167\u9867\u5b83\u3002
+villager.gifted.baby8=\u4f60\u70ba\u4ec0\u9ebc\u4e0d\u628a\u5b83\u4ea4\u7d66\u914d\u5076\uff0c\u800c\u662f\u7d66\u4e00\u500b\u964c\u751f\u4eba?
+
+villager.interact.refusal1=\u9060\u96e2\u6211\u3002
+villager.interact.refusal2=\u6211\u6068\u4f60\u3002
+villager.interact.refusal3=\u505c\u6b62\u5c0d\u6211\u8aaa\u8a71\u3002
+villager.interact.refusal4=\u96e2\u958b \uff01
+villager.interact.refusal5=\u5728\u9019\u88e1\u4f60\u4e0d\u6b61\u8fce\u3002
+villager.interact.refusal6=\u6211\u4e0d\u60f3\u8207\u4f60\u6709\u4efb\u4f55\u95dc\u4fc2\u3002\u5225\u7169\u6211\u3002
+villager.interact.refusal7=\u53bb\u5427\uff0c\u4f60\u5f88\u7169\u6211\u3002
+villager.interact.refusal8=\u6211\u751a\u81f3\u4e0d\u60f3\u548c\u4f60\u8aaa\u8a71\u3002
+villager.interact.refusal9=\u4f60\u7684\u624b\u5225\u5225\u78b0\u6211\u3002
+
+villager.joke.bad1=\u6211\u4e0d\u660e\u767d\uff1f
+villager.joke.bad2=\u6211\u8a72\u751f\u6c23\u3002
+villager.joke.bad3=\u9019\u662f\u5341\u5206\u53ef\u6015 \uff01
+villager.joke.bad4=\u9019\u4e26\u672a\u8b93\u4efb\u4f55\u610f\u7fa9\u3002
+villager.joke.bad5=\u4f60\u6240\u8aaa\u7684\u9019\u662f\u771f\u611a\u8822\u3002
+villager.joke.bad6=\u597d\u5427 \u2026 \u2026
+villager.joke.bad7=\u5443\uff0c\u90a3 \u2026 \u2026 \u662f\u5f88\u4e0d\u932f\u7684\u7b11\u8a71\u3002
+
+villager.joke.good1=\u9019\u662f\u53ea\u662f\u592a\u597d\u73a9\u4e86 \uff01
+villager.joke.good2=\u4f60\u54ea\u88e1\u6703\u807d\u5230\u90a3\u500b\uff1f\u54c8\u54c8 \uff01
+villager.joke.good3=\u9019\u500b\u5f88\u597d\uff01
+villager.joke.good4=\uff0a \u7b11 \uff0a
+villager.joke.good5=\u76f8\u7576\u6ed1\u7a3d\u3002
+villager.joke.good6=\u54e6\u90a3\u662f\u6211\u807d\u904e\u7684\u6700\u597d\u7b11\u7684\u7b11\u8a71\u4e4b\u4e00 \uff01
+villager.joke.good7=\u4f60\u771f\u7684\u77e5\u9053\u4e00\u4e9b\u4e0d\u932f\u7684\u7b11\u8a71\uff01
+villager.joke.good8=\u54c8\uff01\u4f60\u77e5\u9053\u5982\u4f55\u8b93\u5225\u4eba\u7b11\u3002
+villager.joke.good9=\u9019\u53e5\u8a71\u4e00\u8a9e\u96d9\u95dc\uff01
+
+villager.marriage.acceptance1=\u6211\u9858\u610f\u3002
+villager.marriage.acceptance2=\u6211\u4e00\u76f4\u7b49\u5f85\u4f60\u4f86\u554f\u6211 \uff01\u7576\u7136\u6211\u6703 \uff01
+villager.marriage.acceptance3=\u662f\u7684\uff0c\u6211\u9858\u610f\u3002\u6211\u611b\u4f60\uff01
+villager.marriage.acceptance4=\u4f60\u77e5\u9053\uff0c\u6700\u8fd1\u6211\u4e00\u76f4\u5728\u60f3\u4e86\u5f88\u591a\u95dc\u65bc\u4f60\u7684\u4e8b \u2026\u548c\u2026\u5662\u6211\u5728\u8aaa\u4ec0\u9ebc\uff1f\u6211\u9858\u610f\uff01
+villager.marriage.acceptance5=\u6211\u6703\u5f88\u9ad8\u8208\u8207\u4f60\u5171\u5ea6\u751f\u6d3b\uff01
+villager.marriage.acceptance6=\u9019\u662f\u7d50\u5a5a\u6212\u6307... \u5c0d\u6211\u4f86\u8aaa... \uff1f\u6211\u9858\u610f\uff01
+villager.marriage.acceptance7=\u77e5\u9053\u4f60\u611b\u6211\u4ee4\u6211\u5feb\u6a02\uff0c\u548c\u4f60\u5728\u4e00\u8d77\u4f7f\u6211\u611f\u89ba\u50cf\u662f\u4e16\u754c\u4e0a\u6700\u5e78\u798f\u7684\u4eba\u3002
+
+villager.marriage.refusal.lowhearts1=\u4f60\u662f\u600e\u9ebc\uff0c\u760b\u4e86\u55ce\uff1f
+villager.marriage.refusal.lowhearts2=\u4ec0\u9ebc\uff1f\u4f60\u662f\u8ab0\uff1f
+villager.marriage.refusal.lowhearts3=\u6211\u751a\u81f3\u4e0d\u8a8d\u8b58\u4f60\uff01
+villager.marriage.refusal.lowhearts4=\u5443...\u4e0d\u3002\u6211\u5f88\u62b1\u6b49\u3002
+villager.marriage.refusal.lowhearts5=\u6211\u4e0d\u559c\u6b61\u4f60\uff01
+villager.marriage.refusal.lowhearts6=\u4ec0\u9ebc\uff1f\u4e0d\uff01\u6211\u6c92\u8fa6\u6cd5\uff01
+villager.marriage.refusal.lowhearts7=\u4f60\u770b\u5427 \u2026 \u6211\u73fe\u5728\u9084\u6c92\u505a\u597d\u7d50\u5a5a\u7684\u6e96\u5099\u3002
+villager.marriage.refusal.lowhearts8=\u6211\u62d2\u7d55\uff01
+villager.marriage.refusal.lowhearts9=\u6211\u624d\u4e0d\u8981\u5ac1\u7d66\u4f60\uff0c\u6df7\u86cb\uff01
+
+villager.marriage.refusal.playermarried1=\u6211\u8a8d\u70ba\u4f60\u5df2\u7d93\u8207\u5176\u4ed6\u7684\u4eba...
+villager.marriage.refusal.playermarried2=\u73fe\u5728\u4f60\u4e0d\u662f\u7d50\u5a5a\u4e86\u55ce\uff1f
+villager.marriage.refusal.playermarried3=\u6211\u770b\u5230\u90a3\u500b\u6212\u6307\u4e0a\u4f60\u7684\u624b\u6307\u3002\u8d70\u958b\u3002
+villager.marriage.refusal.playermarried4=\u4f60\u600e\u9ebc\u4e0d\u5617\u8a66\u5c0d\u4f60\u7684\u914d\u5076\u505a\u5462?
+villager.marriage.refusal.playermarried5=\u4f60\u662f\u53ef\u6015\u7684\u3002\u5feb\u5411\u4f60\u7684\u914d\u5076\u9053\u6b49\u3002
+villager.marriage.refusal.playermarried6=\u4f60\u77e5\u9053\u4f60\u5728\u505a\u4ec0\u9ebc\u55ce\uff1f\u4f60\u5df2\u7d93\u7d50\u5a5a\u4e86 \uff01
+villager.marriage.refusal.playermarried7=\u4f60\u70ba\u4ec0\u9ebc\u5c0d\u4f60\u7684\u914d\u5076\u505a\u9019\u500b\uff1f\u4f60\u5c31\u662f\u767d\u7661 \uff01
+villager.marriage.refusal.playermarried8=\u6211\u6700\u597d\u53bb\u544a\u8a34\u4f60\u7684\u914d\u5076 \uff01
+villager.marriage.refusal.playermarried9=\u6211\u770b\u5230\u4f60\u7684\u6212\u6307 \u2026 \u2026
+
+villager.marriage.refusal.villagermarried1=\u6211\u7406\u89e3\uff0c\u5c0d\u4e0d\u8d77\u3002
+villager.marriage.refusal.villagermarried2=\u54e6 \u2026 \u2026 \u6211\u5df2\u7d93\u6709\u4eba\u4e86\u3002
+villager.marriage.refusal.villagermarried3=\u6211\u5df2\u7d93\u88ab\u5f97\u5230\u3002\u5f88\u62b1\u6b49\uff0c\u6211\u4ee5\u70ba\u4f60\u77e5\u9053\u3002
+villager.marriage.refusal.villagermarried4=\u6211\u8981\u8aaa\u4e0d\uff0c\u56e0\u70ba\u4f60\u53ef\u4ee5\u770b\u5230\uff0c\u6211\u5df2\u7d93\u7d50\u5a5a\u4e86\u3002
+villager.marriage.refusal.villagermarried5=\u5f88\u62b1\u6b49\uff0c\u6211\u5df2\u7d93\u6709\u4e86\u4e00\u500b\u4eba\u3002
+
+villager.angry1=\u9019\u662f\u6b63\u78ba\u7684 \uff01\u5446\u5728\u56de\u5230\u90a3\u88e1\uff0c\u61e6\u592b \uff01
+villager.angry2=\u4f60\u70ba\u4ec0\u9ebc\u4e0d\u4f86\u50cf\u7537\u4eba\u4e00\u6a23\u6230\u9b25\u5462\uff1f
+villager.angry3=\u6211\u8981\u627e\u8b66\u885b\u4eba\u54e1\u5c0d\u4ed8\u4f60\uff01
+villager.angry4=\u4f60\u6703\u5f97\u5230\u4ec0\u9ebc\u5728\u9019\u4e00\u5929\uff01
+villager.angry5=\u5225\u56de\u4f86 \uff01
+
+villager.scared1=\u4e0d \uff01\u8acb\u4e0d\u8981\u50b7\u5bb3\u6211 \uff01
+villager.scared2=\u6211\u4e0d\u6703\u518d\u72af\uff0c\u6211\u767c\u8a93 \uff01
+villager.scared3=\u8acb\u4f60\uff01\u4e0d\u8981\u6bba\u6211 \uff01
+villager.scared4=\u4e0d \uff01\u653e\u4e0b\u90a3\u6b66\u5668 \uff01
+villager.scared5=\u6709\u4eba\u5e6b\u5fd9\u55ce\u4ed6\u5011\u6703\u6bba\u4e86\u6211\uff01
+
+villager.greeting.handshake.good1=\u6253\u62db\u547c\u8a71\u8a9e\:
+villager.greeting.handshake.good2=\u4f60\u597d.
+villager.greeting.handshake.good3=\u6b61\u8fce.\u70ba\u4ec0\u9ebc\u4e0d\u662f\u6bcf\u500b\u4eba\u90fd\u662f\u9019\u88e1\u7684\u516c\u6c11?
+villager.greeting.handshake.good4=\u4f60\u771f\u662f\u6211\u5011\u80fd\u4f9d\u9760\u7684\u5c0d\u8c61.
+villager.greeting.handshake.good5=\u4f60\u4f86\u5230\u9019\u88e1\u771f\u662f\u592a\u597d\u4e86.
+
+villager.greeting.handshake.bad1=\u54ce\u5440,\u4f60\u5f04\u50b7\u6211\u7684\u624b\u4e86\!
+villager.greeting.handshake.bad2=\u4f60\u63e1\u624b\u592a\u5927\u529b\u4e86.
+villager.greeting.handshake.bad3=\u4e0d\u7528\u4e86,\u8b1d\u8b1d.
+villager.greeting.handshake.bad4=\u984d....\u4e0d\u7528\u4e86.\u4f60\u7684\u624b\u770b\u8d77\u4f86\u975e\u5e38\u9aaf\u9ad2.
+villager.greeting.handshake.bad5=\u4f60\u624b\u4e0a\u7684\u90a3\u6771\u897f\u662f\u4ec0\u9ebc?
+
+villager.greeting.highfive.good1=\u8036\!
+villager.greeting.highfive.good2=%PlayerName%,\u4f60\u592a\u68d2\u4e86\!
+villager.greeting.highfive.good3=\u592a\u597d\u4e86\!
+villager.greeting.highfive.good4=\u9019\u4e0d\u662f\u5f88\u597d\u9ebc?
+villager.greeting.highfive.good5=\u898b\u5230\u4f60\u771f\u597d\!
+
+villager.greeting.highfive.bad1=\u4e0d\u8981\u78b0\u6211\!
+villager.greeting.highfive.bad2=\u6709\u4ec0\u9ebc\u7279\u5225\u7684?
+villager.greeting.highfive.bad3=\u984d....\u4e0d\u7528\u4e86,\u8b1d\u8b1d.
+villager.greeting.highfive.bad4=\u628a\u4f60\u7684\u624b\u62ff\u8d70.
+villager.greeting.highfive.bad5=\u4f60\u5728\u5e79\u4ec0\u9ebc?
+
+villager.kiss.good1=*\u81c9\u7d05* \u4f60\u9084\u662f\u55ae\u8eab\u9ebc?
+villager.kiss.good2=\u4f60\u7684\u63a5\u543b\u6280\u5de7\u771f\u597d....
+villager.kiss.good3=\u4f60\u7684\u5634\u5507\u53c8\u8edf\u53c8\u751c.
+villager.kiss.good4=\u5617\u8d77\u4f86\u50cf\u8702\u871c.
+villager.kiss.good5=*\u5077\u7b11* \u4f60\u771f\u662f\u500b\u53ef\u611b\u7684\u4eba.
+
+villager.kiss.bad1=\u6211\u8a8d\u8b58\u4f60\u9ebc?
+villager.kiss.bad2=*\u4e00\u5df4\u638c*
+villager.kiss.bad3=\u6211\u8981\u53eb\u8b77\u885b\u4e86\!
+villager.kiss.bad4=\u4f60\u5728\u5e79\u4ec0\u9ebc?
+villager.kiss.bad5=\u6211\u7236\u89aa\u4e0d\u6703\u540c\u610f\u7684.
+
+villager.flirt.good1=*\u81c9\u7d05* \u5662,\u6211\u7684\u5929.
+villager.flirt.good2=*\u5077\u7b11* \u4f60\u771f\u53ef\u611b.
+villager.flirt.good3=\u6211\u559c\u6b61\u4f60\u8aaa\u7684\u8a71.
+villager.flirt.good4=\u5982\u679c\u6211\u53ef\u4ee5\u91cd\u65b0\u6392\u5e8f\u5b57\u6bcd\u82f1\u6587\u5b57\u6bcd,\u6211\u6703\u628a\u4f60(U)\u548c\u6211(I)\u6392\u5728\u4e00\u8d77.
+villager.flirt.good5=\u4ee5\u5f8c\u6211\u5011\u61c9\u8a72\u5e38\u898b\u9762.
+
+villager.flirt.bad1=\u5225\u60f3\u4e86\uff0c\u4f60\u6839\u672c\u6c92\u6709\u6a5f\u6703\u3002
+villager.flirt.bad2=\u984d..\u6211\u4e0d\u9019\u9ebc\u8a8d\u70ba.
+villager.flirt.bad3=\u4f60\u4e0d\u662f\u8ddf\u5176\u4ed6\u4eba\u6b63\u5728\u7d04\u6703\u9ebc?
+villager.flirt.bad4=*\u5927\u7b11* \u5c0d\u4e0d\u8d77\u4e86,\u6211\u4e0d\u6703\u90a3\u6a23\u505a.
+villager.flirt.bad5=\u90a3\u771f\u662f\u5920\u53ef\u6190\u7684.
+
+villager.tellstory.good1=*\u5927\u7b11* \u90a3\u96bb\u8c6c\u6bd4\u6211\u5011\u4f86\u53b2\u5bb3\!
+villager.tellstory.good2=\u7576\u6211\u9084\u662f\u5e74\u8f15\u7684\u6642\u5019,\u6211\u4e5f\u80fd\u505a\u90a3\u7a2e\u4e8b\u60c5\u5462.
+villager.tellstory.good3=\u6211\u5011\u4ee5\u5f8c\u6709\u6642\u9593\u4e00\u8d77\u8a66\u8a66\u9019\u500b\u628a.
+villager.tellstory.good4=\u8d77\u78bc\u4f60\u6703\u4fdd\u8b77\u6211\u9060\u96e2\u50f5\u5c4d\u5011\!
+villager.tellstory.good5=*\u5927\u7b11* \u4f60\u771f\u5e7d\u9ed8.%PlayerName%
+
+villager.tellstory.bad1=\u4f60\u61c9\u8a72\u5c0d\u81ea\u5df1\u611f\u5230\u7f9e\u6127\!
+villager.tellstory.bad2=\u4f60\u6d3b\u8a72\!
+villager.tellstory.bad3=\u70ba\u4e86\u9019\u500b,\u4f60\u61c9\u8a72\u8981\u88ab\u50f5\u5c4d\u8972\u64ca\!
+villager.tellstory.bad4=\u96a8\u4fbf\u4e86.
+villager.tellstory.bad5=\u6211\u73fe\u5728\u611f\u5230\u975e\u5e38\u4e0d\u8212\u670d.
+
+#######
+# Grandchild Dialogue
+##############################
+
+grandchild.chat.bad1=\u4f60\u597d\u8001\u3002\u800c\u4e14\u7121\u804a\u3002
+grandchild.chat.bad2=\u6211\u624d\u4e0d\u8981\u807d\u7121\u804a\u7684\u6545\u4e8b\uff01
+grandchild.chat.bad3=\uff0a\u6253\u54c8\u6b20\uff0a
+
+grandchild.chat.good1=\u6211\u6709\u500b\u6709\u53f2\u4ee5\u4f86\u6700\u597d\u7684 %RelationOfPlayer% \uff01
+grandchild.chat.good2=\u54c7\u963f\uff01\u9019\u662f\u771f\u7684\u55ce\uff1f
+grandchild.chat.good3=\u9019\u4e9b\u5168\u90fd\u767c\u751f\u904e\u55ce\uff1f
+grandchild.chat.good4=\u6211\u5f88\u559c\u6b61\u8ddf\u4f60\u804a\u5929\u3002
+
+grandchild.follow.start1=\u6211\u5011\u8981\u53bb\u54ea\uff1f
+grandchild.follow.start2=\u6211\u8981\u4f60\u5e36\u6211\u53bb\u770b\u4f60\u6bba\u6389\u82e6\u529b\u6015\u7684\u5730\u65b9\u3002
+grandchild.follow.start3=\u597d\uff0c\u6211\u5011\u8d70\u5427\uff01
+
+grandchild.follow.stop1=\u6211\u6703\u7b49\u8457\u4f60\uff0c%RelationOfPlayer%\u3002
+grandchild.follow.stop2=\u6211\u6703\u5728\u9019\u7b49\u4f60\uff0c%RelationOfPlayer%\u3002
+grandchild.follow.stop3=\u5225\u8d70\u592a\u9060\uff0c%RelationOfPlayer%\u3002
+
+grandchild.gift.bad1=\u9019\u73a9\u610f\u6709\u591a\u8001\uff1f\u5641\uff01
+grandchild.gift.bad2=\u9019\u770b\u4f86\u50cf\u662f\u5f9e\u77f3\u5668\u6642\u4ee3\u4f86\u7684\u3002
+grandchild.gift.bad3=\u5443 \u2026 \u8b1d\u8b1d\u3002\u6211\u60f3\u3002
+
+grandchild.gift.great1=\u9019\u4e00\u5b9a\u5c0d\u4f60\u5f88\u91cd\u8981\u3002\u8b1d\u8b1d\uff01
+grandchild.gift.great2=\u54c7\uff01\u6211\u80fd\u64c1\u6709\u9019\u500b\uff1f\uff01
+grandchild.gift.great3=\u6211\u5c31\u77e5\u9053\u4f60\u6703\u5e36\u7d66\u6211\u4e00\u4e9b\u597d\u6771\u897f\uff01
+
+grandchild.gift.regular1=\u6211\u5e38\u5e38\u8b93\u5927\u5bb6\u770b%RelationOfPlayer%\u90fd\u5e36\u4e86\u4e9b\u4ec0\u9ebd\u7d66\u6211\uff01
+grandchild.gift.regular2=\u54c7\u5662\uff01\u9019\u771f\u9177\uff01
+grandchild.gift.regular3=\u4f60\u9001\u6211\u6771\u897f\u6642\u6211\u6700\u958b\u5fc3\u4e86\uff0c%RelationOfPlayer%\u3002
+
+grandchild.gift.small1=\u5662\uff0c\u9019\u500b\u771f\u4e0d\u932f\uff01
+grandchild.gift.small2=\u563f\uff0c\u6211\u559c\u6b61\u9019\u500b\uff01
+grandchild.gift.small3=\u8b1d\u8b1d\uff0c%RelationOfPlayer%\uff01
+grandchild.gift.small4=\u9019\u771f\u7684\u5f88\u9177\uff0c%RelationOfPlayer%\u3002
+
+grandchild.greeting.basic1=\u55e8\uff0c%RelationOfPlayer%\u3002
+grandchild.greeting.basic2=\u6211\u6700\u8fd1\u90fd\u6c92\u6709\u770b\u904e\u4f60\u5462%RelationOfPlayer%
+
+grandchild.greeting.friend1=%RelationOfPlayer%\u4f60\u4f86\u4e86\uff01
+grandchild.greeting.friend2=\u5927\u5bb6\u77a7\uff01\u6211%RelationOfPlayer%\u4f86\u4e86\uff01
+
+grandchild.greeting.hate1=\uff0a\u62b1\u6028\uff0a
+grandchild.greeting.hate2=\u5662 \u4e0d\uff0c\u4f60\u5728\u9019\u3002
+grandchild.greeting.hate3=\u4f60\u4e0d\u662f\u6211\u6700\u559c\u6b61\u7684%RelationOfPlayer%
+grandchild.greeting.hate4=\u5abd\u54aa\uff01%RelationOfPlayer% \u5728\u9019\u2026
+
+grandchild.hitbyplayer1=\u554a\uff01\u5f88\u75db\u6b38\uff01
+grandchild.hitbyplayer2=\u505c\u624b\uff01
+grandchild.hitbyplayer3=\u4f60\u592a\u904e\u706b\u4e86\uff01
+grandchild.hitbyplayer4=%RelationOfPlayer%\u4f60\u7232\u4ec0\u9ebd\u8981\u6253\u6211\uff1f
+
+grandchild.gifted.baby1=\u4f60\u5c45\u7136\u9084\u80fd\u751f\u5c0f\u5b69\uff01\uff1f
+grandchild.gifted.baby2=\u9019\u662f...\u4f60\u7684\u55ce\uff1f
+
+grandchild.joke.bad1=\u90a3\u771f\u7684\u4e0d\u592a\u5999...
+grandchild.joke.bad2=\u4ec0\u9ebc\uff1f\uff1f\uff1f
+grandchild.joke.bad3=\u4e5f\u8a31\u7576\u6642\u662f\u633a\u6709\u8da3\u7684\uff0c\u4f46\u73fe\u5728\u5c31...
+grandchild.joke.bad4=\u4f60\u7684\u820a\u6897\u4e0d\u597d\u7b11\u3002
+
+grandchild.joke.good1=\u6211\u5e38\u5e38\u8ddf\u5225\u4eba\u8aaa\u6211\u7684%RelationOfPlayer%\u6709\u591a\u5e7d\u9ed8\uff01
+grandchild.joke.good2=\u4f60\u61c9\u8a72\u544a\u8a34\u6211\u670b\u53cb\u7684\!
+grandchild.joke.good3=\u771f\u597d\u7b11, %RelationOfPlayer%\!
+grandchild.joke.good4=\u6211%RelationOfPlayer%\u7e3d\u662f\u90a3\u9ebd\u6709\u8da3\uff01
+
+grandchild.greeting.handshake.good1=\u6240\u4ee5\u4f60\u662f\u6211\u7684 %RelationOfPlayer% \uff1f
+grandchild.greeting.handshake.good2=\u5f88\u9ad8\u8208\u898b\u5230\u4f60\u3002\u4f60\u662f\u6211\u7684 %RelationOfPlayer% \u5c0d\u5427\uff1f
+grandchild.greeting.handshake.good3=\u55e8\uff0c\u4f60\u77e5\u9053\u6211\u662f\u4f60\u7684 %RelationToPlayer% \u55ce\uff1f
+grandchild.greeting.handshake.good4=\u54c8\u56c9\uff0c%RelationOfPlayer%\u3002
+grandchild.greeting.handshake.good5=\u4f60\u6709\u5e36\u7d66\u6211\u751a\u9ebc\u55ce\uff1f\uff01
+
+grandchild.greeting.handshake.bad1=\u5443...\u63e1\u624b\uff1f
+grandchild.greeting.handshake.bad2=\u4f60\u8ddf\u4f60\u7684\u5b6b\u5b50\u63e1\u624b\uff1f
+grandchild.greeting.handshake.bad3=\u5641\u5fc3\uff01\u4f60\u9019\u7cdf\u8001\u982d\uff01
+grandchild.greeting.handshake.bad4=\u4f60\u7684\u624b\u5145\u6eff\u4e86\u76ba\u7d0b\u3002
+grandchild.greeting.handshake.bad5=\u5662\uff01\u70ba\u4ec0\u9ebc\u4f60\u8981\u63e1\u9019\u9ebc\u7dca\uff1f
+
+grandchild.greeting.highfive.good1=\u518d\u4e00\u6b21\uff01
+grandchild.greeting.highfive.good2=\u518d\u4e00\u6b21\uff01\u518d\u4e00\u6b21\uff01
+grandchild.greeting.highfive.good3=\u518d\u4e00\u6b21\u5566\uff01
+grandchild.greeting.highfive.good4=\u62dc\u8a17\u518d\u4e00\u6b21\uff01
+grandchild.greeting.highfive.good5=\u518d\u4e00\u6b21\uff01
+
+grandchild.greeting.highfive.bad1=\u6211\u7684\u624b\u88ab\u523a\u4e86\u3002
+grandchild.greeting.highfive.bad2=\u6211\u958b\u59cb\u611f\u89ba\u5230\u75db\u4e86\uff01
+grandchild.greeting.highfive.bad3=\u505c\uff01
+grandchild.greeting.highfive.bad4=\u6211\u958b\u59cb\u611f\u5230\u7121\u804a\u4e86\u3002
+grandchild.greeting.highfive.bad5=\u5920\u4e86\uff0c\u6211\u7684\u624b\u958b\u59cb\u75db\u4e86\u3002
+
+grandchild.tellstory.good1=\u6211\u5011\u6709\u5b88\u885b\u771f\u597d\uff01
+grandchild.tellstory.good2=\u54c7\u5594\uff0c\u4f60\u771f\u7684\u9019\u6a23\u505a\uff1f
+grandchild.tellstory.good3=\u4e4b\u5f8c\u90a3\u4e9b\u9ab7\u9acf\u505a\u4e86\u751a\u9ebc\uff1f
+grandchild.tellstory.good4=\u4f60\u662f\u6211\u7684\u82f1\u96c4\uff01
+grandchild.tellstory.good5=\u4f60\u53ef\u4ee5\u5e36\u6211\u4e00\u8d77\u53bb\u6316\u7926\u55ce\uff1f
+
+grandchild.tellstory.bad1=\u6211\u4e0d\u76f8\u4fe1\u4f60\u3002
+grandchild.tellstory.bad2=\u6211\u7236\u6bcd\u544a\u8a34\u6211\u4e0d\u8981\u76f8\u4fe1\u4f60\u7684\u96bb\u8a00\u7247\u8a9e\u3002
+grandchild.tellstory.bad3=\u7576\u7136\u3002
+grandchild.tellstory.bad4=\u6211\u4e0d\u60f3\u8ddf\u4f60\u5728\u4e00\u8d77...
+grandchild.tellstory.bad5=\u6211\u8a72\u56de\u5bb6\u4e86\u3002
+
+grandchild.play.good1=\u9019\u597d\u597d\u73a9\uff01
+grandchild.play.good2=\u6211\u559c\u6b61\u8ddf\u4f60\u5728\u4e00\u8d77\u7684\u6642\u5149\uff01
+grandchild.play.good3=\u4f60\u662f\u6700\u68d2\u7684\uff01
+grandchild.play.good4=\u4e00\u8d77\u73a9\u5427\uff01
+grandchild.play.good5=\u6211\u6703\u6253\u6557\u4f60\uff01
+
+grandchild.play.bad1=\u53c8\u8981\u518d\u4e00\u6b21\uff1f
+grandchild.play.bad2=\u4f60\u592a\u8001\u4e86\u3002
+grandchild.play.bad3=\u4f60\u4e0d\u6703\u73a9\u3002
+grandchild.play.bad4=\u53bb\u8ddf\u4f60\u990a\u7684\u52d5\u7269\u73a9\u5427\u3002
+grandchild.play.bad5=\u6211\u5be7\u9858\u5403\u852c\u83dc\u3002
+
+#######
+# Villager Child Dialogue
+##############################
+
+villagerchild.chat.bad1=\u5c0d\u4e0d\u8d77\uff0c\u6211\u7236\u6bcd\u4e0d\u5141\u8a31\u6211\u548c\u964c\u751f\u4eba\u8aaa\u8a71 \uff01
+villagerchild.chat.bad2=\u4f60\u662f\u8ab0\uff1f\u4f60\u770b\u8d77\u4f86\u7b28\u7b28\u7684\u3002
+villagerchild.chat.bad3=\u6211\u4e0d\u60f3\u8aaa\uff0c\u4f60\u5f88\u5687\u4eba \uff01
+
+villagerchild.chat.good1=\u54c7 \uff01\u4f60\u771f\u9177\uff01
+villagerchild.chat.good2=\u4f60\u50cf\u8d85\u4eba\u4e00\u6a23 \uff01
+villagerchild.chat.good3=\u4f60\u662f\u5192\u96aa\u5bb6\uff1f \uff01\u9019\u662f\u592a\u9177\u4e86 \uff01
+villagerchild.chat.good4=\u6211\u559c\u6b61\u4f60\u7684\u6545\u4e8b\uff0c\u544a\u8a34\u6211\u66f4\u591a\uff0c\u544a\u8a34\u6211\u66f4\u591a \uff01
+
+villagerchild.follow.start1=\u597d\u4e86\uff0c\u4f46\u6211\u4e0d\u60f3\u5f9e\u5bb6\u88e1\u8d70\u5f97\u592a\u9060 \uff01
+villagerchild.follow.start2=Aw...\u6211\u771f\u6b63\u60f3\u8981\u7559\u5728\u9019\u88e1 \u2026 \u2026
+villagerchild.follow.start3=\u6211\u5011\u5230\u54ea\u88e1\u53bb\uff1f\u5192\u96aa\uff1f
+
+villagerchild.follow.stop1=\u597d\u3002\u6211\u53ad\u5026\u4e86\u770b\u4f60\u7684\u5c41\u80a1\uff01
+villagerchild.follow.stop2=\u5176\u4ed6\u4eba\u90fd\u5728\u54ea\u88e1\uff1f
+villagerchild.follow.stop3=\u4e0d\u8981\u96e2\u958b\u6211\u9019\u88e1\u7368\u81ea\u4e00\u4eba \uff01
+
+villagerchild.gift.bad1=\u554a\uff0c\u9019\u662f\u5783\u573e \uff01\u6211\u4e0d\u60f3\u5b83\u3002
+villagerchild.gift.bad2=\u6211\u53ef\u4ee5\u62cb\u6389\u5b83\u55ce\uff1f\u6211\u4e0d\u60f3\u8981\u5b83\u3002
+villagerchild.gift.bad3=\u70ba\u4ec0\u9ebc\u8981\u7d66\u6211\u9019\u500b %PlayerName%\uff1f\u6211\u4e0d\u559c\u6b61\u5b83 \uff01
+
+villagerchild.gift.great1=\u54c7 \uff01\u6211\u53ef\u4ee5\u6709\u9019\u500b\u55ce\uff1f\u5662\uff01\u975e\u5e38\u611f\u8b1d\uff01\u6211\u8981\u53bb\u62ff\u7d66\u6211\u7238\u7238\u770b\uff01
+villagerchild.gift.great2=\u611f\u8b1d\u60a8\u5f88\u597d\u7684\u79ae\u7269 \uff01
+villagerchild.gift.great3=\u9019\u5c31\u662f\u6700\u597d\u7684\u79ae\u7269 \uff01\u8b1d\u8b1d\uff01
+
+villagerchild.gift.regular1=\u8b1d\u8b1d\u4f60\uff01
+villagerchild.gift.regular2=\u9019\u5c31\u662f\u9177 \uff01\u8b1d\u8b1d \uff01
+villagerchild.gift.regular3=\u8b1d\u8b1d\u4f60\u7684\u79ae\u7269 \uff01
+
+villagerchild.gift.small1=\u8b1d\u8b1d \uff01
+villagerchild.gift.small2=\u591a\u8b1d\uff01
+villagerchild.gift.small3=\u6211\u53ef\u4ee5\u5403\u9019\u500b\u55ce\uff1f
+villagerchild.gift.small4=\u70ba\u6211\uff1f\u5662\uff0c\u8b1d\u8b1d\u4f60 \uff01
+
+villagerchild.greeting.basic1=\u4f60\u662f\u8ab0\uff1f
+villagerchild.greeting.basic2=\u4f60\u770b\u8d77\u4f86\u5f88\u6ed1\u7a3d\u3002
+
+villagerchild.greeting.friend1=\u563f \uff01\u4f60\u662f\u6211\u7684\u597d\u53cb \uff01
+villagerchild.greeting.friend2=\u4f60\u60f3\u73a9\u55ce\uff1f
+
+villagerchild.greeting.hate1=\u6211\u4e0d\u559c\u6b61\u4f60\u3002
+villagerchild.greeting.hate2=\u6211\u8a18\u5f97\u4f60 \uff01\u4f60\u50b7\u5bb3\u4e86\u6211 \uff01
+villagerchild.greeting.hate3=\u4e0d \uff01\u9060\u96e2\u6211 \uff01
+villagerchild.greeting.hate4=\u6211\u7238\u7238\u544a\u8a34\u4f60\u96e2\u958b\u3002
+
+villagerchild.hitbyplayer1=\u54ce\u5440\uff01\u5abd\u5abd\!%PlayerName%\u6253\u6211 \uff01
+villagerchild.hitbyplayer2=\u5225\u6253\u6211\uff0c\u75bc \uff01
+villagerchild.hitbyplayer3=\u8acb\u4f60\u4e0d\u8981\u518d\u50b7\u5bb3\u6211\u4e86 \uff01
+villagerchild.hitbyplayer4=\u5abd\u5abd \uff01\u7238\u7238 \uff01\u54ce\u5537 \uff01
+
+villagerchild.gifted.baby1=Aw...\u5b83\u662f\u53ef\u611b\u4f46\u5f88\u81ed \uff01
+villagerchild.gifted.baby2=\u70ba\u4ec0\u9ebc\u9019\u6a23\u81ed\u7684\uff1f
+villagerchild.gifted.baby3=\u6211\u4e0d\u60f3\u6293\u4f4f\u5b83 \uff01
+
+villagerchild.joke.bad1=\u4f60\u662f\u4e00\u500b\u5f88\u50bb\u7684\u4eba\u3002
+villagerchild.joke.bad2=\u4e0d\u597d\u7b11\u3002
+villagerchild.joke.bad3=\u4e00\u9ede\u4e5f\u4e0d\u597d\u7b11 \uff01
+villagerchild.joke.bad4=\u4e0d\u8981\u4fae\u8fb1\u6211 \uff01
+villagerchild.joke.bad5=\u5abd\u5abd \uff01%PlayerName%\u8b1b\u7c97\u53e3 \uff01
+
+villagerchild.joke.good1=\u54c8\u54c8 \uff01\u4f60\u6700\u6709\u8da3 \uff01
+villagerchild.joke.good2=\u6211\u771f\u7684\u5f88\u559c\u6b61\u4f60\u7684\u7b11\u8a71 \uff01
+villagerchild.joke.good3=\u9019\u4e00\u500b\u5f88\u597d \uff01\u6211\u8981\u628a\u5b83\u544a\u8a34\u6211\u7684\u670b\u53cb\u5011 \uff01
+villagerchild.joke.good4=\u4f60\u662f\u600e\u9ebc\u505a\u90a3\u6ed1\u7a3d\u7684\u81c9\uff1f\u518d\u505a\u4e00\u6b21\uff01
+
+villagerchild.play.good1=\u7238\u7238\u5abd\u5abd\u5f9e\u4f86\u6c92\u6642\u9593\u966a\u6211\u73a9\uff01
+villagerchild.play.good2=\u8036\uff01\u4f60\u53ef\u4ee5\u7576\u6211\u7684\u670b\u53cb\u55ce\uff1f
+villagerchild.play.good3=\u53ef\u4ee5\u8b93\u6211\u8d0f\u55ce\uff1f
+villagerchild.play.good4=\u8b93\u6211\u5011\u4e00\u76f4\u73a9\u4e0b\u53bb\uff01
+villagerchild.play.good5=\u8b93\u6211\u5011\u4e00\u8d77\u73a9\u6a02\uff01
+
+villagerchild.play.bad1=\u4f60\u662f\u8ab0\uff1f
+villagerchild.play.bad2=\u5abd\u54aa\u544a\u8a34\u6211\u4e0d\u8981\u8ddf\u964c\u751f\u4eba\u73a9\u3002
+villagerchild.play.bad3=\u7238\u7238\u8aaa\u4f60\u6703\u5e36\u6211\u53bb\u61f8\u5d16\u3002
+villagerchild.play.bad4=\u5594\uff0c\u6c92\u6709\u95dc\u4fc2\u3002
+villagerchild.play.bad5=\u53bb\u8ddf\u4f60\u81ea\u5df1\u7684\u5c0f\u5b69\u73a9\u5427.
+
+villagerchild.tellstory.good1=\u6211\u5e0c\u671b\u6211\u662f\u4f60\u7684\u5b69\u5b50.
+villagerchild.tellstory.good2=\u6211\u53ef\u4ee5\u990a\u96bb\u70cf\u8cca\u9ebc?
+villagerchild.tellstory.good3=\u54c7,\u4f60\u53ef\u4ee5\u5e36\u6211\u53bb\u5730\u7344\u9ebc?
+villagerchild.tellstory.good4=\u70ba\u4ec0\u9ebc\u4f60\u4e0d\u544a\u8a34\u6211\u5582\u4e86\u4ed6\u5011\u4ee5\u5f8c\u767c\u751f\u4ec0\u9ebc\u4e86?
+villagerchild.tellstory.good5=\u6211\u4e5f\u8981\u8ddf\u4f60\u4e00\u6a23\u505a\u4e00\u6a21\u4e00\u6a23\u7684\u4e8b\!
+
+villagerchild.tellstory.bad1=\u4f60\u4e0d\u662f\u4e00\u500b\u597d\u4eba,\u6211\u8aaa\u932f\u4e86\u9ebc?
+villagerchild.tellstory.bad2=\u6211\u597d\u50cf\u807d\u5230\u6211\u5abd\u5abd\u558a\u6211\u5403\u665a\u98ef\u4e86.
+villagerchild.tellstory.bad3=\u6211\u7684\u7236\u6bcd\u5feb\u53bb\u4e16\u4e86?
+villagerchild.tellstory.bad4=\u8d70\u958b.
+villagerchild.tellstory.bad5=\u4f60\u7684\u6545\u4e8b\u5f88\u60b6.
+
+#######
+# Adult Dialogue
+##############################
+
+playerchild.adult.chat.bad1=\u4f60\u6c92\u6709\u5176\u4ed6\u7684\u6545\u4e8b\u80fd\u8b1b\u4e86\u55ce\uff1f
+playerchild.adult.chat.bad2=\u6211\u5f88\u5fd9 \u2026 
+playerchild.adult.chat.bad3=\u6211\u5011\u7a0d\u5f8c\u518d\u804a\u3002
+playerchild.adult.chat.bad4=\u662f\u7684\u3002
+playerchild.adult.chat.bad5=\u554a\u54c8\u3002
+playerchild.adult.chat.bad6=\u597d\u7684\u3002
+playerchild.adult.chat.bad7=\u5f88\u597d\u3002
+playerchild.adult.chat.bad8=\u6240\u4ee5\u5f88\u6709\u610f\u601d \u2026 
+playerchild.adult.chat.bad9=\uff0a\u767d\u773c\uff0a
+playerchild.adult.chat.bad10=%ParentOpposite% \u8ddf\u6211\u8aaa\u4f60\u9019\u662f\u5047\u7684\u3002
+playerchild.adult.chat.bad11=\u6211\u5011\u63db\u500b\u8a71\u984c\uff0c\u597d\u55ce\uff1f
+playerchild.adult.chat.bad12=\u54c7 \u2026 \u9019\u500b \u2026 \u5f88\u6709\u8da3 \u2026 
+playerchild.adult.chat.bad13=\u5443 \u2026 \u7576\u7136 \u2026 
+playerchild.adult.chat.bad14=\u5c31\u9019\u6a23\uff1f
+playerchild.adult.chat.bad15=\u7a0d\u5f8c\u518d\u8aaa\u3002
+playerchild.adult.chat.bad16=\u6211\u73fe\u5728\u4e0d\u80fd\u804a\u5929\u3002
+playerchild.adult.chat.bad17=\u5662 \u6211\u7684\u5929\uff0c\u8acb\u5225\u7169\u6211\uff01
+playerchild.adult.chat.bad18=\u6211\u807d\u5230\u7684\u662f"\u53ed\u5566\uff0c\u53ed\u5566\uff0c\u53ed\u5566"\u3002
+
+playerchild.adult.chat.good1=\uff0a\u4ed4\u7d30\u8046\u807d\uff0a
+playerchild.adult.chat.good2=\u662f\u7684\uff0c\u6211\u5011\u61c9\u8a72\u53bb\u6253\u7375\u3002
+playerchild.adult.chat.good3=\u8b93\u6211\u5011\u53bb\u6536\u96c6\u7528\u54c1\uff0c\u6216\u6316\u7926\uff0c\u6216\u662f\u5176\u4ed6\u4e8b\uff01
+playerchild.adult.chat.good4=\u4e0b\u6b21\u4f60\u8a72\u5e36\u6211\u4e00\u8d77\u53bb\u3002
+playerchild.adult.chat.good5=\u7576\u6211\u5f97\u5230\u81ea\u5df1\u7684\u623f\u5b50\uff1f
+playerchild.adult.chat.good6=\u7e3d\u6709\u4e00\u5929\uff0c\u6211\u8981\u6709\u81ea\u5df1\u7684\u623f\u5b50\u3002
+playerchild.adult.chat.good7=\u6211\u6025\u4e0d\u53ca\u5f85\u60f3\u8981\u81ea\u5df1\u7684\u623f\u5b50\u4e86\uff01
+playerchild.adult.chat.good8=\u4f86\u8015\u4f5c\u4e00\u4e0b\u6216\u662f\u505a\u4e9b\u4ec0\u9ebd\u5427\uff01
+playerchild.adult.chat.good9=\u4f86\u5230\u8655\u901b\u901b\u5427\uff01
+playerchild.adult.chat.good10=\u54c7\! \u771f\u662f\u500b\u597d\u6545\u4e8b\!
+playerchild.adult.chat.good11=\u55ef\uff0c\u6211\u505a\u5f97\u633a\u597d\u7684
+playerchild.adult.chat.good12=\u4f60\u4e0d\u61c9\u8a72\u5230\u8655\u8ddf\u5225\u4eba\u8aaa\uff0c\u4f46\u90a3\u771f\u662f\u4e00\u500b\u597d\u6545\u4e8b
+playerchild.adult.chat.good13=\u90a3\u771f\u662f\u6709\u53f2\u4ee5\u4f86\u6700\u597d\u7684\u4e8b\uff01
+
+playerchild.adult.chore.start.farming1=\u597d\u7684\uff0c%CallPlayerParent%
+playerchild.adult.chore.start.farming2=\u5509\uff0c\u90a3\u597d\u5427\uff0c%CallPlayerParent%
+playerchild.adult.chore.start.farming3=\u6c92\u6709\u554f\u984c\uff0c%CallPlayerParent%
+playerchild.adult.chore.start.farming4=\u8981\u8015\u4f5c\u55ce\uff1f\u6211\u4f86\u505a\u5427
+playerchild.adult.chore.start.farming5=\u5582\uff01\u4f60\u5c0f\u6642\u5019\u4e0d\u7528\u9019\u6a23\u5427\uff01
+playerchild.adult.chore.start.farming6=\u4f60\u80fd\u5e6b\u6211\uff0c%CallPlayerParent%\u55ce\uff1f
+playerchild.adult.chore.start.farming7=\u8ce3\u4e86\u6211\u9020\u7684\u9eb5\u5305\u5f8c\u6211\u80fd\u62ff\u4e00\u534a\u5229\u6f64\u55ce\uff1f
+
+playerchild.adult.chore.start.fishing1=\u6211\u559c\u6b61\u91e3\u9b5a\uff0c\u597d\u7684\u3002
+playerchild.adult.chore.start.fishing2=\u6211\u6253\u8ced\u6211\u4e00\u5b9a\u80fd\u6293\u7684\u6bd4\u4f60\u591a\uff01
+playerchild.adult.chore.start.fishing3=\u9019\u6b21\u6211\u8981\u7834\u81ea\u5df1\u7684\u8a18\u9304
+playerchild.adult.chore.start.fishing4=\u5662\uff0c\u6240\u4ee5\u6211\u8981\u518d\u4e00\u6b21\u628a\u98df\u7269\u653e\u5728\u684c\u5b50\u4e0a
+playerchild.adult.chore.start.fishing5=\u662f\uff0c\u597d\u7684\u3002
+playerchild.adult.chore.start.fishing6=\u9177\uff01\u6211\u611b\u91e3\u9b5a\uff0c%CallPlayerParent%\uff01
+playerchild.adult.chore.start.fishing7=\u6211\u4e00\u5b9a\u6703\u6293\u5230\u5f88\u591a\u9b5a\u7684\uff0c\u4f60\u770b\u8457\uff01
+playerchild.adult.chore.start.fishing8=\u597d\uff01\u6211\u6703\u76e1\u529b\u53bb\u6293\u591a\u4e9b\u9b5a\u7684
+playerchild.adult.chore.start.fishing9=\u6211\u5f88\u5584\u65bc\u6355\u9b5a\u554a\uff01\u4f60\u770b\uff01
+playerchild.adult.chore.start.fishing10=\u4f86\u5427\u9b5a\u9b5a...
+playerchild.adult.chore.start.fishing11=\u5e0c\u671b\u6211\u7684\u65b0\u8863\u670d\u4e0d\u6703\u88ab\u5f04\u6fd5
+
+playerchild.adult.chore.start.mining1=\u7164\u70ad\u7c89\u4e0d\u662f\u6709\u6bd2\u7684\u5427\uff1f
+playerchild.adult.chore.start.mining2=\u5e0c\u671b\u9019\u6b21\u6211\u7684\u93ac\u5b50\u4e0d\u6703\u518d\u7206
+playerchild.adult.chore.start.mining3=\u6211\u6703\u627e\u5230\u6bd4\u4f60\u591a\u947d\u77f3\u7684\uff0c\u770b\u8457\u4f86\uff01
+
+playerchild.adult.chore.start.woodcutting1=\u4f60\u8981\u77e5\u9053\u6211\u9084\u662f\u5f88\u60f3\u8981\u4e00\u9593\u6a39\u5c4b
+playerchild.adult.chore.start.woodcutting2=\u4f60\u6709\u60f3\u904e\u7232\u4ec0\u9ebd\u90a3\u4e9b\u6a39\u6703\u6d6e\u8d77\u4f86\u55ce\uff1f
+playerchild.adult.chore.start.woodcutting3=\u6211\u78e8\u78e8\u65a7\u5b50\u5c31\u53bb
+playerchild.adult.chore.start.woodcutting4=\u4f60\u662f\u8981\u8b93\u6211\u5efa\u81ea\u5df1\u7684\u623f\u5b50\u55ce\uff1f
+
+playerchild.adult.chore.start.hunting1=\u6211\u6703\u5e3610\u982d\u8c6c\u56de\u4f86\uff01
+playerchild.adult.chore.start.hunting2=\u4e00\u5b9a\u5f88\u597d\u73a9
+playerchild.adult.chore.start.hunting3=\u6211\u5f88\u5feb\u56de\u4f86
+playerchild.adult.chore.start.hunting4=\u4f60\u662f\u77e5\u9053\u6211\u662f\u6700\u597d\u7684\u7375\u4eba\u624d\u4f86\u627e\u6211\u7684\u5427\uff1f
+
+playerchild.adult.chore.stop1=\u6211\u9084\u4ee5\u7232\u4f60\u6703\u8b93\u4e00\u76f4\u6211\u505a\u4e0b\u53bb
+playerchild.adult.chore.stop2=\u6211\u597d\u7d2f...
+playerchild.adult.chore.stop3=\u7d42\u4e8e\u5b8c\u4e86\uff01\u6211\u5df2\u7d93\u7121\u804a\u900f\u4e86
+playerchild.adult.chore.stop4=\u7d42\u4e8e\u5b8c\u4e86\uff0c\u6211\u90fd\u7d2f\u900f\u4e86
+playerchild.adult.chore.stop5=\u4e0d\u8981\u8b93\u6211\u518d\u505a\u90a3\u6a23\u7684\u4e8b\u4e86\uff01
+playerchild.adult.chore.stop6=\u5f88\u6a02\u610f\uff01
+playerchild.adult.chore.stop7=\u8b1d\u8b1d\uff0c\u6211\u6700\u8a0e\u53ad\u505a\u90a3\u4e8b\u4e86\uff01
+playerchild.adult.chore.stop8=\u5509\uff0c\u6211\u7d42\u4e8e\u5b8c\u6210\u5de5\u4f5c\u4e86\uff01
+playerchild.adult.chore.stop9=\u6211\u61c9\u8a72\u4f11\u606f\u4e00\u6703\u4e86
+playerchild.adult.chore.stop10=\u90a3\u6211\u5c31\u505c\u6b62\u4e86
+playerchild.adult.chore.stop11=\u771f\u9ad8\u8208\u7d42\u4e8e\u5b8c\u4e86\uff01
+playerchild.adult.chore.stop12=\u6211\u505a\u4e86\u90a3\u4e0d\u8a0e\u597d\u7684\u5de5\u4f5c\uff0c\u73fe\u5728\u6211\u8981\u53bb\u627e\u6a02\u5b50
+
+playerchild.adult.follow.start1=\u597d\u7684\uff0c\u6211\u5011\u8981\u53bb\u54ea\uff1f
+playerchild.adult.follow.start2=%CallPlayerParent%\uff0c\u6211\u5011\u662f\u8981\u4e00\u8d77\u53bb\u72e9\u7375\u602a\u7269\u55ce\uff1f
+playerchild.adult.follow.start3=\u6211\u60f3\u9047\u5230\u82e6\u529b\u6015\uff01
+playerchild.adult.follow.start4=\u6211\u559c\u6b61\u9019\u88e1\uff0c\u771f\u4e0d\u60f3\u52d5
+playerchild.adult.follow.start5=\u7d42\u4e8e\uff01\u6211\u5011\u5feb\u9ede\u96e2\u958b\u5427\uff01
+playerchild.adult.follow.start6=\u6211\u5011\u6703\u56de\u4f86\u7684\u55ce\uff1f
+playerchild.adult.follow.start7=\u5176\u5be6\u6211\u54ea\u90fd\u4e0d\u60f3\u53bb...
+playerchild.adult.follow.start8=\u597d\u7684\uff0c\u8d70\u5427
+playerchild.adult.follow.start9=\u8d70\u4e86\u54af\uff01
+playerchild.adult.follow.start10=\u51fa\u767c\u5566\uff01
+playerchild.adult.follow.start11=\u6211\u60f3\u898b\u8b58\u7684\u6771\u897f\u662f\u6709\u90a3\u9ebd\u7684\u591a\uff01
+playerchild.adult.follow.start12=\u771f\u5e0c\u671b\u80fd\u9047\u5230\u602a\u7269
+playerchild.adult.follow.start13=\u9019\u6700\u597d\u4e0d\u8981\u662f\u4e00\u500b\u9677\u9631...
+playerchild.adult.follow.start14=\u6211\u60f3\u6293\u8718\u86db\uff01
+
+playerchild.adult.follow.stop1=\u6211\u6703\u5728\u9019\u7b49\u8457\uff0c%CallPlayerParent%
+playerchild.adult.follow.stop2=\u6211\u559c\u6b61\u9019\u5730\u65b9\uff0c\u4e0d\u5982\u5728\u9019\u505c\u7559\u4e00\u4e0b\uff1f
+playerchild.adult.follow.stop3=\u6211\u5c31\u5728\u9019
+playerchild.adult.follow.stop4=\u5225\u8d70\u592a\u9060...
+playerchild.adult.follow.stop5=\u6211\u807d\u5230\u4e86\u4e9b\u4ec0\u9ebd\uff0c\u8acb\u5c0f\u5fc3
+playerchild.adult.follow.stop6=\u53ea\u8981\u4f60\u5225\u53d7\u50b7\uff0c%CallPlayerParent%\uff01
+playerchild.adult.follow.stop7=\u5225\u96e2\u958b\u6211\u592a\u4e45\uff01
+playerchild.adult.follow.stop8=\u63d0\u9ad8\u8b66\u89ba\uff01\u7576\u4f60\u7368\u81ea\u4e00\u4eba\u7684\u6642\u5019\u5371\u96aa\u7121\u8655\u4e0d\u5728
+playerchild.adult.follow.stop9=\u5c0f\u5fc3\u82e6\u529b\u6015\uff01
+playerchild.adult.follow.stop10=\u5509\uff0c\u90a3\u771f\u662f\u7169\u4eba
+playerchild.adult.follow.stop11=\u6211\u597d\u6015\u554a%CallPlayerParent%\uff0c\u4e0d\u80fd\u7e7c\u7e8c\u8ddf\u8457\u4f60\u55ce\uff1f
+
+playerchild.adult.gift.bad1=\u54c7\u54e6\uff01%CallPlayerParent%\uff01\u4f60\u77e5\u9053\u6211\u525b\u525b\u767c\u73fe\u4e86\u4e9b\u4ec0\u9ebd\u55ce\uff1f\u6211\u4e5f\u4e0d\u6e05\u695a
+playerchild.adult.gift.bad2=\u9019\u662f\u5783\u573e\u3002
+playerchild.adult.gift.bad3=\u4e0d\uff0c\u8b1d\u8b1d\u3002
+playerchild.adult.gift.bad4=\u81ea\u5df1\u7684\u5783\u573e\u81ea\u5df1\u4e22\uff01
+playerchild.adult.gift.bad5=\u4e0d\u5982\u7a0d\u5fae\u5403\u4e9b\u6771\u897f\u5427\uff1f
+playerchild.adult.gift.bad6=\u7232\u4ec0\u9ebd\u6211\u6703\u60f3\u8981\u9019\u500b\uff1f
+playerchild.adult.gift.bad7=\u9019...\u4e0d\u884c\u3002\u5c31\u662f\u4e0d\u884c
+playerchild.adult.gift.bad8=\u6211\u751a\u81f3\u9023\u4f60\u7232\u4ec0\u9ebd\u6703\u60f3\u628a\u9019\u7d66\u6211\u90fd\u4e0d\u77e5\u9053
+playerchild.adult.gift.bad9=\u4e0d\uff0c\u6211\u4e0d\u6703\u8981\u9019\uff0c\u7d55\u5c0d\u4e0d\u6703
+playerchild.adult.gift.bad10=\u6211\u4e00\u5b9a\u6703\u628a\u5b83\u4e1f\u9032\u5ca9\u6f3f\u88cf
+playerchild.adult.gift.bad11=\u4f60\u77e5\u9053\u54ea\u6709\u5783\u573e\u6876\u55ce\uff1f
+playerchild.adult.gift.bad12=\u4e0d\u662f\u5427\uff1f\u53c8\u4f86\uff1f\u4f60\u600e\u9ebd\u4e0d\u5beb\u4e00\u5f35\u9858\u671b\u55ae\u7d66\u6211\u597d\u4e86\uff1f
+
+playerchild.adult.gift.great1=\u554a\u554a\u6211\u7684\u5929...\u6211...\u6211\u7121\u8a9e\u4e86\uff01
+playerchild.adult.gift.great2=\u5be6\u5728\u662f\u592a\u611f\u8b1d\u60a8\u4e86\uff01
+playerchild.adult.gift.great3=\u9019\u8d85\u5e25\u7684\uff01
+playerchild.adult.gift.great4=\u4f60\u600e\u9ebd\u8cb7\u7684\u8d77\u9019\u500b\uff01\uff1f
+
+playerchild.adult.gift.regular1=\u8b1d\u8b1d\u4f60\u5450\uff01
+playerchild.adult.gift.regular2=\u9019\u592a\u5947\u5999\u4e86\uff01
+playerchild.adult.gift.regular3=\u6211\u60f3\u8b93\u4f60\u77e5\u9053\u6211\u6709\u591a\u9ebd\u611f\u6fc0\uff01
+
+playerchild.adult.gift.small1=\u4f60\u5728\u54ea\u627e\u5230\u9019\u7684\uff1f\u8b1d\u8b1d\u554a\uff01
+playerchild.adult.gift.small2=\u5662\uff0c\u8b1d\u8b1d\u5462%CallPlayerParent%\uff01
+playerchild.adult.gift.small3=\u6211...\u80fd\u5403\u4e86\u5b83\u55ce\uff1f
+playerchild.adult.gift.small4=\u4f60\u53ea\u662f\u60f3\u8b93\u6211\u53bb\u8655\u7406\u6389\u5b83\u5c0d\u5427\uff1f
+playerchild.adult.gift.small5=\u54c7\u54e6\uff0c\u7d66\u6211\u7684\u79ae\u7269\uff01
+playerchild.adult.gift.small6=\u5475\u5475\u771f\u68d2\uff01\u8b1d\u8b1d%CallPlayerParent%
+playerchild.adult.gift.small7=\u9019\u78ba\u5be6\u662f\u633a\u597d\u770b\u7684\uff0c\u800c\u4e14\u4e5f\u61c9\u8a72...\u883b\u597d\u5403\uff1f
+
+playerchild.adult.greeting.basic1=\u55b2\uff0c%CallPlayerParent%\uff01
+playerchild.adult.greeting.basic2=%CallPlayerParent%\u4f60\u56de\u4f86\u4e86
+
+playerchild.adult.greeting.friend1=\u55b2\uff0c%CallPlayerParent%\uff01
+playerchild.adult.greeting.friend2=%CallPlayerParent%\u4f60\u56de\u4f86\u4e86
+
+playerchild.adult.greeting.hate1=\u2026
+playerchild.adult.greeting.hate2=%CallPlayerParent%\u4f60\u5728\u505a\u4ec0\u9ebd\u5450\uff1f
+playerchild.adult.greeting.hate3=\u6211\u53eb\u4e86\u4f60\u5225\u4f86\u7169\u6211\uff01
+playerchild.adult.greeting.hate4=\u4f60\u662f\u4f86\u9053\u6b49\u7684\u55ce\uff1f
+playerchild.adult.greeting.hate5=\u5225\u903c\u6211\u53bb\u53eb\u8b66\u885b
+
+playerchild.adult.hitbyplayer1=\u505c\u624b\uff01
+playerchild.adult.hitbyplayer2=\u6211\u544a\u8a34\u4f60\uff0c\u6211\u53ef\u4ee5\u73fe\u5728\u5c31\u63cd\u4f60\u7684\uff01
+playerchild.adult.hitbyplayer3=\u54ce\u55b2\uff01%CallPlayerParent%\uff01\u5225\u518d\u6253\u6211\uff01
+playerchild.adult.hitbyplayer4=\u75db\u6b7b\u4e86\uff01
+playerchild.adult.hitbyplayer5=\u51b7\u975c\u554a\u5225\u6253\u6211\u4e86\uff01
+playerchild.adult.hitbyplayer6=\u6211\u4e0d\u662f\u51fa\u6c23\u888b\uff01
+playerchild.adult.hitbyplayer7=\u6253\u6211\u4e0d\u80fd\u89e3\u6c7a\u4efb\u4f55\u554f\u984c\u7684\uff01
+playerchild.adult.hitbyplayer8=\u54ce\uff01\u90a3\u662f\u4ed6\u5abd\u7684\u7232\u4e86\u4ec0\u9ebd\uff1f\uff01
+playerchild.adult.hitbyplayer9=\u9019\u4e0d\u6b63\u5e38\uff01
+playerchild.adult.hitbyplayer10=\u51b7\u975c\uff01
+playerchild.adult.hitbyplayer11=\u54ce\u55b2\uff01
+playerchild.adult.hitbyplayer12=\u4f60\u7232\u4ec0\u9ebd\u8981\u9019\u6a23\u505a\uff1f\uff01
+
+playerchild.adult.gifted.baby1=\u6211\u4e0d\u60f3\u62ff\u8457\u4ed6\uff01
+playerchild.adult.gifted.baby2=\u6211\u6068\u5bf6\u5bf6\!
+playerchild.adult.gifted.baby3=\u566b\uff01\u5f88\u81ed\u554a\uff01
+playerchild.adult.gifted.baby4=\u55ef\u55ef\uff0c\u975e\u5e38\u53ef\u611b
+playerchild.adult.gifted.baby5=\u6211\u9084\u6709\u5176\u4ed6\u4e8b\u8981\u505a\uff01
+
+playerchild.adult.joke.bad1=\u90a3\u9084\u771f\u662f\u4e00\u500b\u820a\u6897
+playerchild.adult.joke.bad2=\u90a3\u5f88\u8822
+playerchild.adult.joke.bad3=\u2026\u4ec0\u9ebc\uff1f
+playerchild.adult.joke.bad4=\u4e0d\u51c6\u958b\u90a3\u73a9\u7b11\uff01\u6211\u5c0d\u4ed6\u4ecd\u6709\u7cbe\u795e\u5275\u50b7\u7684\uff01
+playerchild.adult.joke.bad5=\u6211\u4e0d\u660e\u767d\u7b11\u9ede\u5728\u54ea
+playerchild.adult.joke.bad6=\u53c8\u662f\u9019\u500b\u7b11\u8a71
+playerchild.adult.joke.bad7=\u6211\u807d\u904e\u4e0d\u4e0b\u4e8c\u5341\u6b21\u4e86\uff01
+playerchild.adult.joke.bad8=\u54ce\uff0c\u7232\u4ec0\u9ebd\u4f60\u8981\u958b\u90a3\u73a9\u7b11\uff1f\uff01
+playerchild.adult.joke.bad9=\u90a3\u7b11\u8a71\u5f88\u5dee\u52c1
+playerchild.adult.joke.bad10=\u54ce\uff0c\u53c8\u662f\u9019\u500b\u3002\u54c8\u54c8\uff0c\u597d\u7b11\u3002
+playerchild.adult.joke.bad11=%ParentOpposite%\u5728\u53eb\u6211...
+playerchild.adult.joke.bad12=\u54e6\uff0c\u4f46\u6211\u771f\u7684\u8981\u7e7c\u7e8c\u505a\u5bb6\u52d9\u4e86
+
+playerchild.adult.joke.good1=\u6211\u8a18\u5f97\u9019\u500b\u5450\uff01%CallPlayerParent%\uff0c\u5475\u5475\uff01
+playerchild.adult.joke.good2=\u9019\u500b\u771f\u7684\u5f88\u597d\u7b11\uff01
+playerchild.adult.joke.good3=*\u54af\u54af\u7b11*
+playerchild.adult.joke.good4=\u4f60\u7e3d\u662f\u80fd\u8aaa\u4e9b\u8d85\u68d2\u7684\u7b11\u8a71\uff01
+playerchild.adult.joke.good5=\u4e0d\u932f\u5462%CallPlayerParent%\uff01
+playerchild.adult.joke.good6=\u563f\u563f\uff0c\u8d85\u597d\u7b11\u7684\uff01
+playerchild.adult.joke.good7=\u9019\u500b\u5f88\u597d\uff01
+
+playerchild.adult.greeting.handshake.good1=\u563f\uff0c\u6709\u6bb5\u6642\u9593\u6c92\u8ddf\u4f60\u804a\u804a\u4e86\u3002
+playerchild.adult.greeting.handshake.good2=\u563f\uff0c%CallPlayerParent%\uff01
+playerchild.adult.greeting.handshake.good3=\u5f88\u9ad8\u8208\u518d\u898b\u5230\u4f60\uff0c%CallPlayerParent%\uff01
+playerchild.adult.greeting.handshake.good4=\u5662\uff0c%CallPlayerParent%\uff0c\u6211\u6709\u5f88\u591a\u4e8b\u8981\u544a\u8a34\u4f60\u3002
+playerchild.adult.greeting.handshake.good5=\u563f\uff0c\u5f88\u9ad8\u8208\u770b\u5230\u4f60\u56de\u4f86\u3002
+
+playerchild.adult.greeting.handshake.bad1=\u70ba\u4ec0\u9ebc\u4f60\u4e0d\u591a\u62dc\u8a2a\u6211\uff1f
+playerchild.adult.greeting.handshake.bad2=\u6211\u671f\u5f85\u9019\u9ebc\u4e45\u4e86\u4f60\u5c45\u7136\u53ea\u8ddf\u6211\u63e1\u624b\uff1f\uff01
+playerchild.adult.greeting.handshake.bad3=\u6211\u4e0d\u60f3\u8ddf\u4f60\u63e1\u624b\u3002
+playerchild.adult.greeting.handshake.bad4=\u6211\u73fe\u5728\u5f88\u5fd9\u3002
+playerchild.adult.greeting.handshake.bad5=\u5982\u4f60\u6240\u898b\uff0c\u6211\u771f\u7684\u5f88\u5fd9\u3002
+
+playerchild.adult.greeting.highfive.good1=\u592a\u6709\u8da3\u4e86\uff01
+playerchild.adult.greeting.highfive.good2=*\u4e7e\u676f*
+playerchild.adult.greeting.highfive.good3=\u6211\u5011\u771f\u662f\u592a\u68d2\u4e86\uff01
+playerchild.adult.greeting.highfive.good4=\u5662\uff01\u6211\u7576\u7136\u60f3\u5ff5\u3002
+playerchild.adult.greeting.highfive.good5=\u6211\u5011\u662f\u6700\u68d2\u7684\uff01
+
+playerchild.adult.greeting.highfive.bad1=\u6211\u6c92\u6709\u8fa6\u6cd5\u4e00\u76f4\u8ddf\u4f60\u64ca\u638c\u3002
+playerchild.adult.greeting.highfive.bad2=\u62dc\u8a17\uff0c\u4e0d\u8981\u73fe\u5728\u3002
+playerchild.adult.greeting.highfive.bad3=\u6211\u4e0d\u60f3\u8ddf\u4f60\u64ca\u638c\u3002
+playerchild.adult.greeting.highfive.bad4=\u6211\u60f3\u8981\u8aaa\u8a71\uff0c\u800c\u4e0d\u662f\u8ddf\u4f60\u64ca\u638c\u3002
+playerchild.adult.greeting.highfive.bad5=\u70ba\u4ec0\u9ebc\u4f60\u4e0d\u8ddf\u6211\u591a\u8aaa\u4e00\u9ede\u8a71\uff1f
+
+playerchild.adult.tellstory.good1=*\u7b11* \u90a3\u4f7f\u6211\u60f3\u5230\u6211\u5c0f\u6642\u5019\u7684\u6642\u5149\u3002
+playerchild.adult.tellstory.good2=\u4f60\u8ddf %ParentOpposite% \u662f\u771f\u5fc3\u76f8\u611b\u7684\u5c0d\u5427\uff1f
+playerchild.adult.tellstory.good3=\u90a3\u807d\u8d77\u4f86\u5f88\u597d\u73a9\uff01\u6211\u5011\u4e00\u5b9a\u8981\u8a66\u4e00\u6b21\uff01
+playerchild.adult.tellstory.good4=*\u7b11*\u6211\u771f\u9ad8\u8208\u6211\u51fa\u751f\u5728\u9019\u6a23\u7684\u5bb6\u5ead\u88e1\u3002
+playerchild.adult.tellstory.good5=\u4ed6\u5011\u5c0d\u90a3\u4e9b\u96de\u505a\u4e86\u751a\u9ebc\uff1f
+
+playerchild.adult.tellstory.bad1=\u5443\uff0c\u4f60\u6709\u544a\u8a34 %ParentOpposite% \u55ce\uff1f
+playerchild.adult.tellstory.bad2=\u6211\u4e0d\u8a8d\u540c\u3002
+playerchild.adult.tellstory.bad3=\u4f60\u53ef\u80fd\u4e0d\u61c9\u8a72\u544a\u8a34\u5176\u4ed6\u4eba\u3002
+playerchild.adult.tellstory.bad4=\u90a3\u4e0d\u592a\u597d\u3002
+playerchild.adult.tellstory.bad5=\u4f60\u77e5\u9053\u55ce\uff0c\u90a3\u4f7f\u6211\u60f3\u8d77 %RandomName%\uff01
+
+#######
+# Kid Dialogue
+##############################
+playerchild.young.chat.bad1=\u6211\u4e0d\u60f3\u8aac\u8a71\uff0c\u5225\u7169\u6211\uff01
+playerchild.young.chat.bad2=%CallPlayerParent%\uff0c\u6211\u5f88\u5fd9\u7684\uff01
+playerchild.young.chat.bad3=\u5225\u5435\uff01
+playerchild.young.chat.bad4=\u4f60\u597d\u7121\u804a
+playerchild.young.chat.bad5=*\u7121\u8996*
+playerchild.young.chat.bad6=%ParentOpposite% \u8aaa\u90a3\u4e0d\u597d\uff01
+playerchild.young.chat.bad7=\u6211\u5728\u5fd9\uff01
+playerchild.young.chat.bad8=\u4f60\u770b\u4e0d\u51fa\u6211\u5728\u5fd9\u55ce\uff1f\uff01
+playerchild.young.chat.bad9=\u6211...*\u6253\u5475\u6b20* \u8981\u53bb\u7761\u4e86
+
+playerchild.young.chat.good1=\uff0a\u4ed4\u7d30\u8046\u807d\uff0a
+playerchild.young.chat.good2=%CallPlayerParent% \u4f60\u4e0b\u6b21\u6703\u5e36\u8457\u6211\u55ce\uff1f
+playerchild.young.chat.good3=\u6211\u60f3\u53bb\u6253\u7375\uff01
+playerchild.young.chat.good4=\u7232\u4ec0\u9ebd\u6211\u4e0d\u80fd\u8ddf\u8457\u4f60\u53bb\uff1f
+playerchild.young.chat.good5=\u6211\u771f\u7684\u5f88\u60f3\u53bb\u554a\uff0c\u4e0b\u6b21\u4e00\u8d77\uff0c\u53ef\u4ee5\u55ce\uff1f
+playerchild.young.chat.good6=\u90a3\u592a\u68d2\u4e86\uff01%CallPlayerParent%\u4f60\u600e\u9ebd\u505a\u5230\u7684\uff1f
+playerchild.young.chat.good7=\u771f\u7684\u55ce? \u592a\u9177\u4e86\!
+playerchild.young.chat.good8=\u4f60\u662f\u4e16\u754c\u4e0a\u6700\u597d\u7684 %CallPlayerParent% \u4e86\! \u4e0d, \u662f\u5b87\u5b99\u4e0a\u7684\!
+
+playerchild.young.joke.bad1=\u5509\u55b2\uff01%CallPlayerParent%\u4f60\u8aaa\u721b\u53e3\u4e86\uff01
+playerchild.young.joke.bad2=\u90a3\u5f88\u7b28
+playerchild.young.joke.bad3=\u4f60\u9019\u8822\u8ca8\uff0c\u6211\u4e0d\u660e\u767d
+playerchild.young.joke.bad4=\u7232\u4ec0\u9ebd\u8981\u958b\u90a3\u73a9\u7b11\uff1f*\u54ed*
+playerchild.young.joke.bad5=\u5920\u4e86\uff01\u5225\u518d\u958b\u6211\u73a9\u7b11\uff01
+playerchild.young.joke.bad6=%ParentOpposite% \u4e0d\u51c6\u6211\u8aaa\u90a3\u5b57\u7684\uff01
+playerchild.young.joke.bad7=\u6211\u90fd\u807d\u904e\u4e00\u842c\u6b21\u4e86%CallPlayerParent%
+playerchild.young.joke.bad8=\u90a3\u4e0d\u5408\u908f\u8f2f
+
+playerchild.young.joke.good1=%CallPlayerParent%\u4f60\u771f\u5e7d\u9ed8
+playerchild.young.joke.good2=\u54c8\u54c8\uff01\u6211\u77e5\u9053\u4f60\u5728\u8aaa\u4ec0\u9ebd\uff01
+playerchild.young.joke.good3=\u6211\u8981\u8ddf\u6211\u670b\u53cb\u8aaa\u9019\u500b\uff01\u592a\u68d2\u4e86\uff01
+playerchild.young.joke.good4=\u9019\u6bd4\u5176\u4ed6\u7684\u4e8c\u5341\u500b\u6709\u8da3\u591a\u4e86
+playerchild.young.joke.good5=\uff0a\u7b11\uff0a
+playerchild.young.joke.good6=\u90a3\u5f88\u597d\u7b11\uff01
+playerchild.young.joke.good7=\u6211\u4e00\u5b9a\u8981\u8a18\u4f4f\u9019\u500b\uff01
+
+playerchild.young.chore.start.farming1=\u597d\u7684\uff0c%CallPlayerParent%
+playerchild.young.chore.start.farming2=\u8036\uff0c\u6211\u559c\u6b61\u7a2e\u7530
+playerchild.young.chore.start.farming3=\u6211\u73fe\u5728\u5c31\u958b\u59cb
+playerchild.young.chore.start.farming4=\u7d42\u4e8e\u6709\u4e9b\u4ec0\u9ebd\u53ef\u4ee5\u8b93\u6211\u505a\u7684\u4e86
+playerchild.young.chore.start.farming5=\u597d\u5427
+playerchild.young.chore.start.farming6=\u6211\u5c31\u662f\u5728\u5e0c\u671b\u4f60\u6703\u8b93\u6211\u9019\u6a23\u505a\uff01
+playerchild.young.chore.start.farming7=\u6211\u60f3\u628a\u9019\u52a0\u9032\u6211\u7684\u751f\u65e5\u86cb\u7cd5
+
+playerchild.young.chore.start.fishing1=\u6355\u9b5a\u5f88\u60b6\u5443
+playerchild.young.chore.start.fishing2=\u4f46\u91e3\u9b5a\u662f\u90a3\u9ebd\u7684\u8cbb\u6642\uff01
+playerchild.young.chore.start.fishing3=\u6211\u767c\u8a93\u6211\u771f\u7684\u4e0d\u6703\u5f04\uff01
+playerchild.young.chore.start.fishing4=\u4f46\u9b5a\u5f88\u81ed\u554a\uff01
+playerchild.young.chore.start.fishing5=\u4f46\u4ed6\u5011\u6478\u4e0a\u53bb\u7c98\u7c98\u7684...
+playerchild.young.chore.start.fishing6=\u6211\u4e0d\u559c\u6b61\u4e0b\u6c34\uff01
+playerchild.young.chore.start.fishing7=\u6211\u4e0d\u60f3\u6355\u9b5a
+playerchild.young.chore.start.fishing8=\u7232\u4ec0\u9ebd\u7e3d\u662f\u91e3\u9b5a\uff1f
+
+playerchild.young.chore.start.mining1=\u518d\u6559\u6211\u4e00\u6b21\u93ac\u5b50\u662f\u600e\u6a23\u62ff\u7684\u5427
+playerchild.young.chore.start.mining2=\u5982\u679c\u6211\u518d\u6b21\u6389\u9032\u5ca9\u6f3f\u7684\u8a71 \u6211\u5c31\u544a\u8a34%ParentOpposite%
+playerchild.young.chore.start.mining3=\u8036\uff01\u6211\u559c\u6b61\u6316\u7926\uff01
+playerchild.young.chore.start.mining4=\u5e0c\u671b\u9ab7\u9acf\u5225\u518d\u5c04\u6211\n\n\n
+playerchild.young.chore.start.mining5=\u5982\u679c\u6211\u627e\u5230\u4e86\u947d\u77f3\u5b83\u8981\u6b78\u6211\u7684\uff0c\u53ef\u4ee5\u5427
+
+playerchild.young.chore.start.woodcutting1=\u6a39\uff0c\u6a39\uff0c\u6a39\uff0c\u6a39\uff0c\u6a39...
+playerchild.young.chore.start.woodcutting2=\u5e0c\u671b\u6c92\u4eba\u6703\u518d\u6389\u5230\u6211\u8eab\u4e0a\uff01
+playerchild.young.chore.start.woodcutting3=\u6211\u505a\u5b8c\u5f8c\u80fd\u4e00\u8d77\u5f04\u9593\u6a39\u5c4b\u55ce\uff1f
+playerchild.young.chore.start.woodcutting4=\u4f60\u8981\u6728\u6750\u4f86\u5e79\u4ec0\u9ebd\u7684\uff1f
+
+playerchild.young.chore.start.hunting1=\u6c92\u554f\u984c\uff01\u6211\u559c\u6b61\u6253\u7375
+playerchild.young.chore.start.hunting2=\u5e0c\u671b\u6211\u4e0d\u6703\u518d\u88ab\u72fc\u54ac
+playerchild.young.chore.start.hunting3=\u4f46\u6211\u9084\u5c0f\u5443\uff01\u4e0a\u4e00\u6b21\u6211\u7528\u4e00\u500b\u5c0f\u6642\u624d\u626f\u4e86\u96bb\u725b\u56de\u4f86
+
+playerchild.young.chore.stop1=*\u677e\u4e00\u53e3\u6c23*
+playerchild.young.chore.stop2=\u6211\u9084\u4ee5\u7232\u4f60\u6703\u8b93\u4e00\u76f4\u6211\u505a\u4e0b\u53bb
+playerchild.young.chore.stop3=\u6211\u597d\u7d2f...
+playerchild.young.chore.stop4=\u7d42\u4e8e\u5b8c\u4e86\uff01\u6211\u5df2\u7d93\u7121\u804a\u900f\u4e86
+playerchild.young.chore.stop5=\u7d42\u4e8e\u5b8c\u4e86\uff0c\u6211\u90fd\u7d2f\u900f\u4e86
+playerchild.young.chore.stop6=\u4e0d\u8981\u8b93\u6211\u518d\u505a\u90a3\u6a23\u7684\u4e8b\u4e86\uff01
+
+playerchild.young.follow.start1=\u597d\u7684\uff0c\u6211\u5011\u8981\u53bb\u54ea\uff1f
+playerchild.young.follow.start2=\u8036\uff01\u53ef\u4ee5\u8ddf%CallPlayerParent%\u5728\u4e00\u8d77\uff01
+playerchild.young.follow.start3=\u8036\uff01\u6211\u8981\u8ddf\u8457\u4f60
+playerchild.young.follow.start4=\u4f46\u6211\u4e0d\u60f3\u53bb\uff01
+playerchild.young.follow.start5=%ParentOpposite%\u4e5f\u6703\u4f86\u55ce\uff1f
+playerchild.young.follow.start6=\u5982\u679c\u80fd\u770b\u5230\u8c6c\u3001\u6216\u662f\u96bb\u725b\u3001\u6216\u662f\u96bb\u96de\u3001\u6216\u662f\u96bb\u7f8a\uff0c\u5c31\u597d\u4e86\uff01
+playerchild.young.follow.start7=\u6211\u5011\u662f\u8981\u53bb\u53e2\u6797\u55ce\uff1f\u6211\u60f3\u770b\u770b\u5c0f\u8c93\u5450
+playerchild.young.follow.start8=\u5e0c\u671b\u6211\u5011\u4e0d\u6703\u8d70\u592a\u9060...
+playerchild.young.follow.start9=\u6211\u597d\u6015\u82e6\u529b\u6015\u554a\uff0c\u771f\u5e0c\u671b\u4e0d\u6703\u9047\u5230\u5b83\u5011
+
+playerchild.young.follow.stop1=\u597d\u7684\uff0c\u6211\u5728\u9019\u7b49\u4f60
+playerchild.young.follow.stop2=\u4e0d\u8981\u96e2\u958b\u592a\u4e45\u554a
+playerchild.young.follow.stop3=\u4f46\u9019\u88e1\u597d\u6050\u6016...
+playerchild.young.follow.stop4=\u4e0d\u8981\uff01%CallPlayerParent%\u5225\u8d70\uff01
+playerchild.young.follow.stop5=\u4f46\u6211\u597d\u50cf\u807d\u5230\u4e86\u4e9b\u4ec0\u9ebd...
+playerchild.young.follow.stop6=\u597d\u5427\uff0c\u4f46\u5225\u5fd8\u4e86\u6211\u554a%CallPlayerParent%
+playerchild.young.follow.stop7=\u4f46...\u665a\u4e0a\u600e\u8fa6\uff1f
+playerchild.young.follow.stop8=\u4f60\u6703\u5f88\u5feb\u56de\u4f86\u7684\u55ce\uff1f
+playerchild.young.follow.stop9=\u5225\u628a\u6211\u4e1f\u5728\u9019\u88e1\uff01
+
+playerchild.young.gift.bad1=\u6211\u80fd\u62ff\u9019\u5e79\u4ec0\u9ebd\uff1f\uff01
+playerchild.young.gift.bad2=\u9019\u597d\u81ed
+playerchild.young.gift.bad3=\u6211\u4e0d\u559c\u6b61\u9019\u4e9b
+playerchild.young.gift.bad4=%CallPlayerParent%\uff0c\u4f60\u660e\u660e\u77e5\u9053\u6211\u559c\u6b61\u4ec0\u9ebd\u4e0d\u559c\u6b61\u4ec0\u9ebd\u7684
+playerchild.young.gift.bad5=\u7d66\u6211\u4e9b\u597d\u9ede\u7684\u6771\u897f
+playerchild.young.gift.bad6=\u6211\u5df2\u6709\u6210\u5343\u4e0a\u842c\u4e00\u6a23\u7684\u6771\u897f
+playerchild.young.gift.bad7=\u9019\u6c92\u7528\u7684\u5783\u573e\uff01
+playerchild.young.gift.bad8=\u6211\u9084\u5be7\u9858\u4f60\u4e0d\u9001\u6b38\uff01
+playerchild.young.gift.bad9=\u86e4??
+
+playerchild.young.gift.great1=\ %CallPlayerParent%, \u4f60\u5f9e\u54ea\u88e1\u62ff\u4f86\u7684?
+playerchild.young.gift.great2=\u9019\u662f\u6211\u7684\u55ce?
+playerchild.young.gift.great3=\u8036\uff5e\uff5e\uff5e\uff01
+playerchild.young.gift.great4=\u90fd\u662f\u6211\u7684\u55ce?\!
+playerchild.young.gift.great5=%ParentOpposite%\u8aaa\u9019\u4e9b\u662f\u201c\u597d\u6771\u897f\u201d~
+playerchild.young.gift.great6=\u4f60\u662f\u4e16\u754c\u4e0a\u6700\u597d\u7684 %CallPlayerParent% \u4e86\!
+
+playerchild.young.gift.regular1=\u6211\u5e0c\u671b\u6211\u80fd\u62ff\u5230\u66f4\u591a\!
+playerchild.young.gift.regular2=\u9019\u662f\u7d66\u6211\u7684\u55ce?
+playerchild.young.gift.regular3=\u4f60\u7d66\u6211\u5169\u500b, \u5c0d\u4e0d\u5c0d?
+playerchild.young.gift.regular4=\u7d66\u6211\u7684?\!
+
+playerchild.young.gift.small1=\ %CallPlayerParent%, \u4f60\u5f9e\u54ea\u88e1\u62ff\u4f86\u7684?
+playerchild.young.gift.small2=\u5594~ \u4eae\u6676\u6676\u7684\!
+playerchild.young.gift.small3=\u79ae\u7269\! \u6211\u4e00\u76f4\u90fd\u5f88\u559c\u6b61\u79ae\u7269\u7684\!
+playerchild.young.gift.small4=\u6211\u559c\u6b61\u9019\u500b, %CallPlayerParent%\u3002
+playerchild.young.gift.small5=\u8b1d\u4e86, %CallPlayerParent%.
+
+playerchild.young.greeting.basic1=\u55e8,  %CallPlayerParent%.
+playerchild.young.greeting.basic2=\u554a\uff0c%CallPlayerParent%\u4f60\u597d\u81ed\uff0c\u4f60\u5230\u54ea\u53bb\u4e86\uff1f
+playerchild.young.greeting.basic3=\u8036\uff01%CallPlayerParent%\u56de\u4f86\u4e86\uff01
+playerchild.young.greeting.basic4=\u842c\u6b72, %CallPlayerParent%\! \u6709\u7d66\u6211\u4efb\u4f55\u79ae\u7269\u55ce?
+
+playerchild.young.greeting.friend1=\u8036\! %CallPlayerParent% %CallPlayerParent% %CallPlayerParent%\!\!\!
+playerchild.young.greeting.friend2=\u4f60\u7d66\u6211\u5e36\u79ae\u7269\u4e86\u5c0d\u4e0d\u5c0d?
+playerchild.young.greeting.friend3=%CallPlayerParent%, \u6211\u5f88\u60f3\u5ff5\u4f60\u3002
+playerchild.young.greeting.friend4=\u90fd\u544a\u8a34\u6211\u4e9b\u95dc\u65bc\u4f60\u5230\u4e86\u54ea\u7684\u6545\u4e8b\uff01
+playerchild.young.greeting.friend5=\u5582\uff0c%CallPlayerParent%\uff0c\u5225\u518d\u8d70\u4e86\u3002%ParentOpposite%\u6703\u50b7\u5fc3\u7684
+
+playerchild.young.greeting.hate1=%CallPlayerParent%\u8acb\u4f60\u4e0d\u8981\u518d\u50b7\u5bb3\u6211\u4e86
+playerchild.young.greeting.hate2=%CallPlayerParent% \u4f60\u6703\u5f9e\u6b64\u5c0d\u6211\u597d\u9ede\u55ce\uff1f
+playerchild.young.greeting.hate3=\u2026\u55e8\u2026%CallPlayerParent%
+playerchild.young.greeting.hate4=*Cowers in fear*
+playerchild.young.greeting.hate5=I'll be good today, %CallPlayerParent%...don't hit me.
+
+playerchild.young.hitbyplayer1=Ow\! I'll tell %ParentOpposite% on you\!
+playerchild.young.hitbyplayer2=%CallPlayerParent%, stop hitting me\!
+playerchild.young.hitbyplayer3=%CallPlayerParent%, that hurts\!
+playerchild.young.hitbyplayer4=Ow\! What did I do, %CallPlayerParent%?
+playerchild.young.hitbyplayer5=Ow\!
+playerchild.young.hitbyplayer6=Ouch\!
+playerchild.young.hitbyplayer7=I'm telling %ParentOpposite%\!
+
+playerchild.young.gifted.baby1=Ew\! It's stinky\!
+
+playerchild.young.tellstory.good1=\u4f60\u6709\u56e0\u70ba\u90a3\u4ef6\u4e8b\u88ab\u7529\u5df4\u638c\u55ce\uff1f
+playerchild.young.tellstory.good2=\u6211\u4e5f\u60f3\u8981\u505a\u9019\u500b\uff01
+playerchild.young.tellstory.good3=\u807d\u5230\u9019\u500b\u5f8c\u6211\u60f3\u6211\u4e0d\u6703\u518d\u9055\u80cc\u4f60\uff01
+playerchild.young.tellstory.good4=*\u7b11* \u662f %ParentOpposite% \u505a\u7684\uff1f
+playerchild.young.tellstory.good5=\u6211\u4e0d\u6562\u76f8\u4fe1\u4f60\u5c45\u7136\u9019\u9ebc\u505a\uff01
+
+playerchild.young.tellstory.bad1=*\u54ed* \u4f60\u70ba\u4ec0\u9ebc\u8981\u9019\u6a23\u505a\uff1f
+playerchild.young.tellstory.bad2=\u6211\u8981\u544a\u8a34 %RandomName% \u4f60\u8aaa\u4e86\u90a3\u4e9b\u8a71\u3002
+playerchild.young.tellstory.bad3=\u597d\u5566\uff0c\u597d\u5566\uff0c\u96a8\u4fbf\u5566\u3002\u6211\u73fe\u5728\u4e0d\u60f3\u807d\u4f60\u90a3\u4e9b\u6545\u4e8b\u3002
+playerchild.young.tellstory.bad4=\u82e6\u529b\u6015\u6703\u6293\u5230\u6211\u561b\uff1f\uff01
+playerchild.young.tellstory.bad5=*\u54ed* \u6211\u4e0d\u60f3\u8981 %ParentOpposite% \u8b8a\u6210\u6bad\u5c4d\uff01
+
+playerchild.young.play.good1=\u4f60\u6293\u4e0d\u5230\u6211\uff01
+playerchild.young.play.good2=\u6211\u559c\u6b61\u4f60\u8ddf\u6211\u4e00\u8d77\u73a9\uff0c%CallPlayerParent%\u3002
+playerchild.young.play.good3=\u6211\u4e00\u5b9a\u6703\u8d0f\uff01
+playerchild.young.play.good4=\u9019\u4e00\u5b9a\u5f88\u597d\u73a9\uff01
+playerchild.young.play.good5=\u4f60\u6c38\u9060\u7121\u6cd5\u6253\u6557\u6211\uff01
+
+playerchild.young.play.bad1=\u4f60\u90fd\u4e0d\u8b93\u6211\u8d0f\u3002
+playerchild.young.play.bad2=\u4f60\u9700\u8981\u904b\u52d5\uff0c\u4f46\u6211\u4e0d\u9700\u8981\u3002
+playerchild.young.play.bad3=\u6211\u5df2\u7d93\u9577\u5927\u4e86\u3002
+playerchild.young.play.bad4=\u4f60\u600e\u9ebc\u4e0d\u8ddf\u4f60\u6700\u611b\u7684\u5b69\u5b50\u73a9\uff1f
+playerchild.young.play.bad5=\u6211\u53ea\u60f3\u8ddf %RandomName% \u73a9\u3002
+
+playerchild.young.greeting.handshake.good1=\u55e8\uff0c %CallPlayerParent%\u3002
+playerchild.young.greeting.handshake.good2=\u4f60\u4eca\u5929\u53bb\u54ea\u4e86\uff1f
+playerchild.young.greeting.handshake.good3=\u544a\u8a34\u6211\u4f60\u7684\u5192\u96aa\u65c5\u7a0b\u3002
+playerchild.young.greeting.handshake.good4=\u4f60\u56de\u4f86\u4e86\u3002\u4f60\u4e4b\u524d\u90fd\u4e0a\u54ea\u53bb\u4e86\uff1f
+playerchild.young.greeting.handshake.good5=\u8b93\u6211\u5011\u505a\u9ede\u751a\u9ebc\u5427\u3002
+
+playerchild.young.greeting.handshake.bad1=...\u70ba\u4ec0\u9ebc\u4f60\u8981\u63e1\u6211\u7684\u624b\uff1f
+playerchild.young.greeting.handshake.bad2=\u4f60\u7684\u624b\u6fd5\u6fd5\u7684\u597d\u5641\u5fc3\u3002
+playerchild.young.greeting.handshake.bad3=\u5641\uff0c\u4e0d\u8981\u78b0\u6211\uff01
+playerchild.young.greeting.handshake.bad4=\u6211\u4e0d\u60f3\u8981\u63e1\u624b\uff01
+playerchild.young.greeting.handshake.bad5=\u4f60\u53ef\u4ee5\u8ddf\u6211\u8aaa\u8aaa\u8a71\u55ce\uff1f\u4e0d\u8981\u4e00\u76f4\u63e1\u6211\u7684\u624b\u3002
+
+playerchild.young.greeting.highfive.good1=\u4f60\u6703\u518d\u505a\u4e00\u6b21\u55ce\uff1f
+playerchild.young.greeting.highfive.good2=\u592a\u6709\u8da3\u4e86\uff01
+playerchild.young.greeting.highfive.good3=*\u7b11*
+playerchild.young.greeting.highfive.good4=\u518d\u64ca\u638c\u4e00\u6b21\uff01
+playerchild.young.greeting.highfive.good5=\u62dc\u8a17\uff0c\u518d\u4e00\u6b21\u5c31\u597d\u4e86\u3002
+
+playerchild.young.greeting.highfive.bad1=\u6211\u89ba\u5f97\u90a3\u5f88\u7121\u804a\u3002
+playerchild.young.greeting.highfive.bad2=\u4f60\u6709\u5176\u4ed6\u4e8b\u53ef\u4ee5\u505a\u55ce\uff1f
+playerchild.young.greeting.highfive.bad3=\u6211\u78b0\u4e0d\u5230\u4f60\u5566\uff0c\u7693\u5446\uff01
+playerchild.young.greeting.highfive.bad4=\u6211\u4e0d\u60f3\u8981\u64ca\u638c\u4e86\u3002
+playerchild.young.greeting.highfive.bad5=\u4f60\u5f88\u7169\u6b38\u3002
+
+#######
+# Spouse Dialogue
+##############################
+spouse.chat.bad1=\u6211\u807d\u8aaa\u904e\u9019\u500b\u6545\u4e8b\u3002
+spouse.chat.bad2=\u5b83\u8d8a\u4f86\u8d8a\u7121\u804a\u8ac7\u7684\u540c\u4e00\u4ef6\u4e8b\u3002
+spouse.chat.bad3=\u4e0d\u8981\u4f60\u6709\u4ec0\u9ebc\u597d\u8ac7\u55ce\uff1f
+spouse.chat.bad4=\u6211\u4e0d\u60f3\u8ac7\u95dc\u65bc\u9019\u500b\u7684\u4e8b\u3002
+spouse.chat.bad5=\u4e0d\u7ba1\u4f60\u8aaa\u4ec0\u9ebc\u3002
+spouse.chat.bad6=\u4f60\u6709\u4ec0\u9ebc\u8981\u544a\u8a34\u6211\u55ce\uff1f
+
+spouse.chat.good1=\u6211\u611b\u5b83\u7576\u4f60\u544a\u8a34\u6211\u4f60\u7684\u5192\u96aa\u6545\u4e8b\u3002
+spouse.chat.good2=\u4ee4\u4eba\u5370\u8c61\u6df1\u523b \uff01
+spouse.chat.good3=\u662f\u7684,\u9644\u8fd1\u5f88\u597d\u3002
+spouse.chat.good4=\u90a3\u500b\u4eca\u5929\u6211...\u7b97\u4e86\uff0c\u4f60\u4e0d\u6703\u60f3\u807d\u7684\u3002
+spouse.chat.good5=\u70ba\u4e86\u6f2b\u9577\u7684\u4e00\u5929\uff0c\u4e0d\u662f\u55ce\uff1f
+spouse.chat.good6=\u9019\u5c31\u662f\u70ba\u4ec0\u9ebc\u6211\u611b\u4f60\u3002
+spouse.chat.good7=\u597d\u6975\uff0c\u6211\u5f88\u9ad8\u8208\u6211\u5a36\u5230\u4f60\u3002
+spouse.chat.good8=\u4f60\u7684\u6545\u4e8b\u4ee4\u6211\u9a5a\u8a1d \uff01
+spouse.chat.good9=\u597d\u7684\u6545\u4e8b \uff01
+spouse.chat.good10=\uff0a \u72fc\u541e\u864e\u56a5\u5730\u8214\u5634\u5507 \uff0a
+
+spouse.divorce1=\u6211\u662f\u60f3\u8457\u4f60 \uff01
+spouse.divorce2=\u592a\u597d\u4e86 \uff01
+spouse.divorce3=\u6211\u5f9e\u4f86\u6c92\u6709\u60f3\u518d\u6b21\u898b\u5230\u4f60 \uff01
+spouse.divorce4=\u53ea\u662f \u2026 \u2026 \u9060\u96e2\u6211 \uff01
+spouse.divorce5=\u6211\u4e0d\u76f8\u4fe1\u4f60 \uff01\u5225\u7169\u6211\uff01
+spouse.divorce6=\u70ba\u4ec0\u9ebc\u5462\uff1f\u6211\u4e0d\u2026\u4e0d\u5920\u597d\u2026\u55ce\uff1f
+spouse.divorce7=\u6211\u4ee5\u70ba\u4f60\u771f\u7684\u611b\u6211 \uff01
+spouse.divorce8=\u4ec0\u9ebc \uff01\uff1f\u4e0d \uff01\u6211\u4e0d\u80fd\u76f8\u4fe1 \uff01
+spouse.divorce9=\u9060\u96e2\u6211 \uff01\u6c38\u9060 \uff01
+
+spouse.follow.start1=\u54e6\u597d\u7684,\u6211\u5011\u8981\u53bb\u54ea\u88e1\uff1f
+spouse.follow.start2=\u597d\u7684\u6211\u6703\u8a18\u4f4f\u3002
+spouse.follow.start3=\u597d\u4e86\uff0c\u6211\u5011\u53bb\u5427 \uff01
+spouse.follow.start4=\u6211\u5011\u7d42\u65bc\u96e2\u958b\u6b64\u5783\u573e\u5834\u55ce\uff1f
+spouse.follow.start5=\u4f60\u60f3\u67d0\u8655\u6709\u4e00\u5ea7\u65b0\u623f\u5b50\u55ce\uff1f
+spouse.follow.start6=\u597d\u7684\u4f46\u6211\u4e0d\u60f3\u96e2\u958b\u9019\u88e1\u7684\u3002
+spouse.follow.start7=\u6211\u53ef\u4ee5\u548c\u4f60\u4e00\u8d77\u53bb\u5192\u96aa\u55ce\uff1f\u591a\u9ebc\u4ee4\u4eba\u8208\u596e \uff01
+spouse.follow.start8=\u8b93\u6211\u5011\u53bb\u500b\u597d\u5730\u65b9,\u662f\u5427\uff1f
+
+spouse.follow.stop1=\u90a3\u5730\u65b9\u770b\u8d77\u4f86\u771f\u7684\u5f88\u597d \uff01
+spouse.follow.stop2=\u597d\u5427\uff0c\u597d\u5427\uff0c\u4f60\u7e3d\u662f\u6b61\u8fce\u6211\u5e36\u4f60\uff0c\u89aa\u611b\u7684\u3002
+spouse.follow.stop3=\u597d\u5427\uff0c\u5c0f\u5fc3\u5916\u9762 \uff01
+spouse.follow.stop4=\u7576\u4f60\u56de\u4f86\u6642\u6211\u6703\u5728\u9019\u88e1\u3002
+spouse.follow.stop5=\u547c\uff0c\u9019\u662f\u4ee4\u4eba\u53ad\u5026\uff0c\u4f46\u81f3\u5c11\u6211\u8207\u4f60\u4e00\u8d77\u3002
+
+spouse.gift.bad1=\u54e6\u2026\u4e0d\uff0c\u8b1d\u8b1d\u3002\u6211\u5df2\u7d93\u6709\u5176\u4e2d\u4e4b\u4e00\u3002\u5728\u67d0\u8655\u3002
+spouse.gift.bad2=\u6211\u5e0c\u671b\u4f60\u6c92\u6307\u671b\u6211\u559c\u6b61\u9019\u6a23\u3002
+spouse.gift.bad3=\u6211\u61c9\u8a72\u77e5\u9053\u4f60\u4e0d\u6703\u8a18\u5f97\u6211\u7684\u559c\u6b61\u4ec0\u9ebc\u3002
+spouse.gift.bad4=\u4f60\u70ba\u4ec0\u9ebc\u5c0d\u6211\u7d66\u9019\u500b\uff1f
+spouse.gift.bad5=\u9019\u5c31\u662f\u4f60\u6240\u8aaa\u7684\u4e00\u4ef6\u79ae\u7269\u55ce\uff1f
+spouse.gift.bad6=\u6211\u4ee5\u70ba\u4f60\u5f88\u4e86\u89e3\u6211\uff0c\u77e5\u9053\u6211\u559c\u6b61\u4ec0\u9ebc\u3002\u4f3c\u4e4e\u4e0d\u662f\u3002
+spouse.gift.bad7=\u2026 \u2026 \u9019\u5f88\u4e0d\u597d\u3002\u6211\u4e0d\u60f3\u9019\u6a23\u3002
+
+spouse.gift.great1=\u54e6\u6211\u7684\u5929\u5440 \u2026 \u2026 \u9019\u7a2e\u6771\u897f\u503c\u591a\u5c0f\uff1f
+spouse.gift.great2=\u4f60\u662f\u5982\u4f55\u5f97\u5230\u9019 \uff01\uff1f\u8b1d\u8b1d\uff01
+spouse.gift.great3=\u5b83\u61c9\u8a72\u5f88\u96e3\u5f97\u5230\u9019\u500b \uff01
+spouse.gift.great4=\u6211\u771f\u7684\u4e0d\u61c9\u8a72\u62ff\u5b83,\u4f46\u662f\u5982\u6b64\u9583\u4eae \uff01
+spouse.gift.great5=\u6211\u6703\u73cd\u60dc\u9019\u6c38\u9060\u3002
+spouse.gift.great6=\u8b1d\u8b1d\u4f60\u7684\u611b\u4eba\uff0c\u4f60\u771f\u7684\u77e5\u9053\u6211\u611b\u4ec0\u9ebc\u3002
+spouse.gift.great7=\u6211\u6703\u6c38\u9060\u7559\u5728\u8eab\u908a\uff0c\u8b1d\u8b1d\u4f60\u3002
+spouse.gift.great8=\u4f60\u5f88\u6027\u611f\u6211\u5c31\u77e5\u9053\u3002
+
+spouse.gift.regular1=\u9019\u5f88\u597d\uff01\u8b1d\u8b1d\uff01
+spouse.gift.regular2=\u7d66\u6211\u5e36\u4f86\u66f4\u591a\uff01
+spouse.gift.regular3=\u4f60\u6c92\u6709\u9019\u6a23\u505a\u5230...\u611f\u8b1d\u4f60.
+spouse.gift.regular4=\u9019\u662f\u5f88\u597d\u7684\!\u8b1d\u8b1d\!
+spouse.gift.regular5=\u4f60\u77e5\u9053\u6211\u559c\u6b61\u4ec0\u9ebc,\u4e0d\u662f\u55ce?
+spouse.gift.regular6=\u54e6\uff0c\u8b1d\u8b1d\uff0c\u4f60\u771f\u53cb\u5584\u3002
+spouse.gift.regular7=\u90a3\u662f\u5f88\u751c\u871c\u7684\u3002
+
+spouse.gift.small1=\u8b1d\u8b1d \uff01
+spouse.gift.small2=\u6211\u5c0d\u6b64\u8868\u793a\u8b9a\u8cde\u3002
+spouse.gift.small3=\u54e6\u3002\u672c\u4ee5\u5b83\u5f88\u91cd\u8981\uff0c\u96d6\u7136\uff01
+spouse.gift.small4=\u4f60\u771f\u751c\u7f8e\u3002
+spouse.gift.small5=\u8b1d\u8b1d\u3002\u5118\u7ba1\u4f60\u6c92\u6709\u7d66\u6211\u4efb\u4f55\u6771\u897f\u3002
+
+spouse.greeting.basic1=\u55e8\uff0c\u89aa\u611b\u7684\u3002
+spouse.greeting.basic2=\u4eca\u5929\u4f60\u53bb\u54ea\u5152\u4e86\uff1f
+spouse.greeting.basic3=\u55e8\uff0c\u89aa\u611b\u7684\u3002\u4f60\u597d\u55ce\uff1f
+spouse.greeting.basic4=\u4e00\u5207\u90fd\u662f\u597d\u7684\u55ce\uff1f
+spouse.greeting.basic5=\u4f60\u4f3c\u4e4e\u5f9e\u4f60\u7684\u5192\u96aa\u56de\u4f86\u4e86\u3002\u4f60\u6c92\u4e8b\u5427,\u751c\u5fc3\uff1f
+spouse.greeting.basic6=\u6211\u60f3\u4f60\uff01\u4f60\u600e\u9ebc\u4e86\uff0c\u89aa\u611b\u7684\uff1f
+spouse.greeting.basic7=\u6211\u64d4\u5fc3\u4f60\uff0c\u4f60\u4e0d\u767c\u4e00\u8a00\u4fbf\u96e2\u958b\u4e86\u3002\u4e0d\u904e\uff0c\u6211\u5f88\u9ad8\u8208\u4f60\u56de\u4f86\u3002
+spouse.greeting.basic8=\u563f\uff0c\u5b83\u5c07\u5982\u4f55\uff1f
+spouse.greeting.basic9=\u4eca\u5929\u6709\u7f8e\u597d\u7684\u4e00\u5929\u55ce\uff1f
+spouse.greeting.basic10=\u6211\u5f88\u9ad8\u8208\u4f60\u56de\u4f86\u3002
+
+spouse.greeting.friend1=\u55e8\uff0c\u89aa\u611b\u7684\u3002
+spouse.greeting.friend2=\u4eca\u5929\u4f60\u53bb\u54ea\u5152\u4e86\uff1f
+spouse.greeting.friend3=\u55e8\uff0c\u89aa\u611b\u7684\u3002\u4f60\u904e\u5f97\u600e\u6a23\uff1f
+spouse.greeting.friend4=\u4e00\u5207\u90fd\u662f\u597d\u7684\u55ce\uff1f
+spouse.greeting.friend5=\u4f60\u4f3c\u4e4e\u5f9e\u4f60\u7684\u5192\u96aa\u56de\u4f86\u4e86\u3002\u4f60\u600e\u9ebc\u4e86,\u751c\u5fc3\uff1f
+spouse.greeting.friend6=\u6211\u60f3\u4f60\uff01\u4f60\u600e\u9ebc\u4e86\uff0c\u89aa\u611b\u7684\uff1f
+spouse.greeting.friend7=\u6211\u64d4\u5fc3\u4f60\uff0c\u4f60\u4e0d\u767c\u4e00\u8a00\u4fbf\u96e2\u958b\u4e86\u3002\u4e0d\u904e\uff0c\u6211\u5f88\u9ad8\u8208\u4f60\u56de\u4f86\u3002
+spouse.greeting.friend8=\u563f\uff0c\u5b83\u5c07\u5982\u4f55\uff1f
+spouse.greeting.friend9=\u4eca\u5929\u6709\u7f8e\u597d\u7684\u4e00\u5929\u55ce\uff1f
+spouse.greeting.friend10=\u6211\u5f88\u9ad8\u8208\u4f60\u56de\u4f86\u3002
+
+spouse.greeting.hate1=\u6211\u73fe\u5728\u4e0d\u60f3\u548c\u4f60\u8aaa\u8a71\u3002
+spouse.greeting.hate2=\u6211\u548c\u4f60\u5f88\u96e3\u904e\u3002\u8acb\u8b93\u6211\u55ae\u7368\u96e2\u958b\u3002
+spouse.greeting.hate3=%PlayerName%\uff0c\u6211\u8aaa\u904e\u6211\u4e0d\u8ddf\u4f60\u8b1b\u8a71\u3002
+spouse.greeting.hate4=\u6211\u5011\u4e0d\u518d\u8aaa\u8a71\uff0c\u53ea\u662f\u8b93\u4f60\u77e5\u9053\u3002
+spouse.greeting.hate5=\u4f60\u6700\u597d\u632f\u4f5c\u8d77\u4f86\u6216\u8005\u6211\u96e2\u958b\u3002
+
+spouse.hitbyplayer1=\u5662\uff01\u8650\u5f85\uff01
+spouse.hitbyplayer2=\u6211\u5e0c\u671b\u4f60\u4e0d\u662f\u6545\u610f\u9019\u6a23\u505a\u3002
+spouse.hitbyplayer3=\u9019\u771f\u7684\u50b7\u4e86...
+spouse.hitbyplayer4=\u5225\u50b7\u5bb3\u6211 \uff01
+spouse.hitbyplayer5=\u54ce\u5440\uff01\u6df7\u86cb \uff01
+spouse.hitbyplayer6=\u60a8\u70ba\u4ec0\u9ebc\u8981\u6253\u6211 \uff01\uff1f
+spouse.hitbyplayer7=\u5230\u5e95\u662f\u600e\u9ebc\u56de\u4e8b\u5440 \uff01
+
+spouse.gifted.baby1=\u518d\u4f86?Argh.\u6c92\u554f\u984c.
+spouse.gifted.baby2=\u4f60\u771f\u53ef\u611b\uff01\u5c0d\u5440\u662f\u8aaa\u4f60\uff01\u5c0d\u5440\u662f\u8aaa\u4f60\uff01
+spouse.gifted.baby3=\u597d\u5427\uff0c\u6211\u6703\u4fdd\u7559\u5b83\u3002
+spouse.gifted.baby4=\u54e6 \uff01\u6709\u6771\u897f\u5728\u6211\u9019\u88e1\u55ce\uff1f\u54e6\u3002\u5b83\u662f\u5b30\u5152\u3002
+spouse.gifted.baby5=\u597d\u7684.\u9019\u88e1\u7d66\u5b83\u3002
+spouse.gifted.baby6=\u4f60\u770b\uff0c\u5b83\u6709\u81ea\u5df1\u7684\u773c\u775b\uff01
+spouse.gifted.baby7=\u54e6\uff0c\u4e0d\u80fd\u8655\u7406\u5b30\u5152\u55ce\uff1f\u597d\u5427\uff0c\u628a\u5b83\u7d66\u6211\u3002
+
+spouse.joke.bad1=\u55ef \u2026 \u2026\u6211\u8a8d\u70ba\u4f60\u5148\u544a\u8a34\u6211\u90a3\u4e00\u4ef6\u4e8b\u3002
+spouse.joke.bad2=\u9019\u662f\u7d55\u5c0d\u6c92\u6709\u610f\u7fa9\u5462\uff1f
+spouse.joke.bad3=\u6211\u80af\u5b9a\u662f\u975e\u6cd5\u7684\u8b1b\u7b11\u8a71\u7684\u90a3\u9ebc\u7cdf\u7cd5\u3002
+spouse.joke.bad4=\u90a3\u662f \u2026 \u91cd\u8981\u7684\u2026\u89aa\u611b\u7684\u3002
+spouse.joke.bad5=\uff0a \u5c37\u5c2c\u7684\u5fae\u7b11 \uff0a
+spouse.joke.bad6=\uff0a \u5f37\u8feb\u7b11 \uff0a
+spouse.joke.bad7=...\u79fb\u52d5\u4e0a \u2026 \u2026\u3002
+
+spouse.joke.good1=Aw\u3002\u4f60\u544a\u8a34\u6211\u90a3\u662f\u6211\u5011\u7b2c\u4e00\u6b21\u898b\u9762\u3002
+spouse.joke.good2=\u6211\u9084\u8a18\u5f97\u90a3\u500b \uff01\u4ecd\u7136\u6ed1\u7a3d \uff01
+spouse.joke.good3=\u54e6\uff0c\u4f60\u662f\u5982\u6b64\u6709\u8da3 \uff01
+spouse.joke.good4=\u4f60\u5982\u4f55\u505a\u60f3\u51fa\u9019\u4e9b\uff1f\u54c8\u54c8 \uff01
+spouse.joke.good5=\u6211\u771f\u7684\u4e0d\u61c9\u8a72\u5632\u7b11\uff0c\u4f46\u5b83\u53ea\u662f\u592a\u9017 \uff01
+
+spouse.procreate.refuse1=\u6211\u4e0d\u9019\u9ebc\u8a8d\u70ba\u3002
+spouse.procreate.refuse2=\u4f60\u4e00\u5b9a\u662f\u5728\u958b\u73a9\u7b11\uff01
+spouse.procreate.refuse3=\u5728\u4f60\u9019\u6a23\u5c0d\u6211\u4e4b\u5f8c\uff0c\u6211\u5fc5\u9808\u8aaa\u4e0d\u3002
+spouse.procreate.refuse4=\u6211\u6839\u672c\u4e0d\u559c\u6b61\u4f60\u3002\u5225\u518d\u9019\u6a23\u505a\u4e86\u3002
+spouse.procreate.refuse5=\u5594\u662f\u5594\uff0c\u7b49\u4f60\u5c0d\u6211\u597d\u4e00\u9ede\u4e4b\u5f8c\u518d\u8aaa\u5427\u3002
+
+spouse.kiss.good1=\u4f60\u771f\u751c\u3002
+spouse.kiss.good2=\u6211\u4e5f\u611b\u4f60\u3002
+spouse.kiss.good3=\u4f60\u5c0d\u6211\u771f\u662f\u592a\u597d\u4e86\u3002
+spouse.kiss.good4=\u8b1d\u8b1d\u4f60\uff0c\u4f60\u771f\u597d\u3002
+spouse.kiss.good5=\u4f60\u4eba\u771f\u597d\uff01
+
+spouse.kiss.bad1=\u6211\u73fe\u5728\u6c92\u6709\u90a3\u500b\u5fc3\u60c5\u3002
+spouse.kiss.bad2=\u4f60\u600e\u9ebc\u7a81\u7136\u5c0d\u6211\u9019\u9ebc\u597d\u4e86\uff1f
+spouse.kiss.bad3=\u53bb\u89aa\u90a3\u982d\u725b\u5427\u4f60\uff01
+spouse.kiss.bad4=\u6211\u4e0d\u9019\u9ebc\u8a8d\u70ba\u3002
+spouse.kiss.bad5=\u592a\u665a\u4e86\u3002
+spouse.kiss.bad6=\u4f60\u7684\u9f3b\u5b50\u6233\u5230\u6211\u7684\u773c\u775b\u4e86\uff01
+spouse.kiss.bad7=\u5641\uff0c\u597d\u5641\u5fc3\u3002
+spouse.kiss.bad8=\u4f60\u6839\u672c\u5c31\u4e0d\u77e5\u9053\u600e\u9ebc\u63a5\u543b\u3002
+
+spouse.flirt.good1=\u4f60\u771f\u6703\u8aaa\u8a71\u3002
+spouse.flirt.good2=*\u81c9\u7d05* \u4f60\u4e00\u76f4\u90fd\u9019\u9ebc\u8ff7\u4eba\u3002
+spouse.flirt.good3=\u5662\uff01\u5f9e\u7d50\u5a5a\u4ee5\u4f86\u4f60\u4e00\u76f4\u90fd\u6c92\u8b8a\u3002
+spouse.flirt.good4=\u5662\uff01\u4f60\u771f\u751c\u871c\u3002
+spouse.flirt.good5=\u5662\u5929\u554a\uff0c\u6211\u597d\u5c37\u5c2c\u3002
+
+spouse.flirt.bad1=\u6c92\u6709\u4eba\u6709\u6642\u9593\u505a\u9019\u500b\uff01
+spouse.flirt.bad2=\u771f\u6709\u539f\u5275\u6027\u3002
+spouse.flirt.bad3=\u6211\u6562\u6253\u8ced\u4f60\u4e00\u5b9a\u544a\u8a34\u4e86\u6240\u6709\u4eba\u3002
+spouse.flirt.bad4=\u6211\u73fe\u5728\u6c92\u6709\u90a3\u500b\u5fc3\u60c5\u3002
+spouse.flirt.bad5=\u73fe\u5728\u4f60\u60f3\u8981\u8ddf\u6211\u8abf\u60c5\uff1f\u90a3\u6211\u5011\u7d04\u6703\u7684\u6642\u5019\u4f60\u5728\u505a\u751a\u9ebc\uff1f
+
+spouse.tellstory.good1=\u633a\u4e0d\u932f\u7684\u3002
+spouse.tellstory.good2=\u63a5\u4e0b\u4f86Cupquake\u505a\u4e86\u4ec0\u9ebc\uff1f
+spouse.tellstory.good3=\u4f60\u4e5f\u6709\u770bChimneySwift11\u7684"Minecraft Files"\u55ce\uff1f\uff01
+spouse.tellstory.good4=*\u7b11* \u9019\u8b93\u6211\u60f3\u8d77\u6211\u90a3\u6b21\u78b0\u5230\u6211\u6bcd\u89aa\u3002
+spouse.tellstory.good5=\u5662\uff0c\u6211\u4e5f\u60f3\u8981\u90a3\u6a23\u4e00\u500b\u5973\u5152\u3002
+
+spouse.tellstory.bad1=\u70ba\u4ec0\u9ebc\u4f60\u8981\u544a\u8a34\u6211\uff1f
+spouse.tellstory.bad2=\u9019\u8b93\u6211\u60f3\u54ed...
+spouse.tellstory.bad3=*\u7121\u8996*
+spouse.tellstory.bad4=\u70ba\u4ec0\u9ebc\u90a3\u6a23\u7684\u4e8b\u6703\u5e36\u7d66\u4f60\u6a02\u8da3\uff1f
+spouse.tellstory.bad5=\u4f60\u4e0d\u61c9\u8a72\u5632\u5f04 %RandomName%\u3002
+
+spouse.greeting.handshake.good1=\u6211\u559c\u6b61\u4f60\u7684\u624b\u50b3\u4f86\u7684\u611f\u89ba\u3002
+spouse.greeting.handshake.good2=\u4f60\u9019\u500b\u5c0f\u50bb\u86cb\uff01
+spouse.greeting.handshake.good3=\u4eca\u5929\u904e\u7684\u600e\u9ebc\u6a23\uff0c\u751c\u5fc3\uff1f
+spouse.greeting.handshake.good4=\u4f60\u597d\u55ce\uff1f
+spouse.greeting.handshake.good5=\u5662\uff0c\u6211\u7684\u611b\u3002
+
+spouse.greeting.handshake.bad1=\u5641\uff0c\u6211\u77e5\u9053\u4f60\u7684\u624b\u6478\u904e\u751a\u9ebc\u3002
+spouse.greeting.handshake.bad2=\u4f60\u7684\u624b\u6c57\u597d\u53ef\u6015\u3002
+spouse.greeting.handshake.bad3=\u63e1\u624b\uff1f\u5c31\u9019\u6a23\uff1f
+spouse.greeting.handshake.bad4=\u6211\u624d\u4e0d\u8981\uff0c\u4f60\u5728\u7926\u5751\u5f85\u4e86\u4e00\u6574\u5929\u3002
+spouse.greeting.handshake.bad5=\u90a3\u805e\u8d77\u4f86\u50cf...\u725b\uff1f
+
+spouse.greeting.highfive.good1=\u8036\uff01
+spouse.greeting.highfive.good2=\u628a\u624b\u8209\u9ad8\uff01
+spouse.greeting.highfive.good3=\u64ca\u638c\uff01
+spouse.greeting.highfive.good4=\u751a\u9ebc\u4e8b\u5440\uff1f
+spouse.greeting.highfive.good5=\u5594\u8036\uff01
+
+spouse.greeting.highfive.bad1=\u9019\u5c45\u7136\u662f\u6211\u5011\u6709\u904e\u6700\u89aa\u5bc6\u7684\u63a5\u89f8\u3002
+spouse.greeting.highfive.bad2=\u6211\u5df2\u7d93\u4e0d\u662f\u4e94\u6b72\u5c0f\u5b69\u4e86\u3002
+spouse.greeting.highfive.bad3=\u4f60\u592a\u4e0d\u6210\u719f\u4e86\u3002
+spouse.greeting.highfive.bad4=\u5662\uff01\u4f60\u6253\u6211\uff01
+spouse.greeting.highfive.bad5=\u6211\u4e0d\u6562\u78b0\u4f60\u7684\u624b\u3002
+
+spouse.chore.start.cooking1=\u7576\u7136\uff01\u6211\u6703\u70ba\u4f60\u505a\u4efb\u4f55\u98df\u7269\uff01
+spouse.chore.start.cooking2=\u6c92\u554f\u984c\u89aa\u611b\u7684\uff0c\u6211\u6703\u53bb\u505a\u3002
+spouse.chore.start.cooking3=\u7559\u4e00\u9ede\u7d66\u6211\u5537\uff01\u7562\u7adf\u662f\u6211\u716e\u7684\u3002
+spouse.chore.start.cooking4=\u6211\u4e5f\u9913\u4e86\uff01
+spouse.chore.start.cooking5=\u5e0c\u671b\u9019\u6b21\u4e0d\u6703\u71d2\u7126\u3002
+

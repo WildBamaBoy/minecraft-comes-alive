@@ -1,0 +1,2255 @@
+#X-Generator: crowdin.com
+#X-Generator: crowdin.net
+itemGroup.tabMCA=Minecraft be Coming Alive
+
+##########
+# Heir
+#############################
+heir.set.success=%Name% is yer first mate.
+heir.set.failure.alreadyset=Ya already have a first mate, stupid.
+heir.set.failure.sameperson=%Name% is already yer first mate.
+heir.set.failure.alreadyused=%Name% has already be yer heir. Ya must be using someone else.
+
+heir.gui.requestcrown=Arr\! Me Crown\!
+heir.gui.recoverinventory=Take Yer Loot
+
+heir.good.returncrown1=Yarrrr, it was a mighty fine ruckus while it lasted.
+heir.good.returncrown2=Yarr\! Take yer crown, sailor\!
+heir.good.returncrown3=Arr\! Bein' captain is boring, regardless.
+heir.good.returncrown4=Arr\! Fine, matey. Ye can be the captain.
+heir.good.returncrown5=Arr\! I sank many a' ship while ye were away\!
+
+heir.good.founditems1=Yer back\! I thought ye went to Davy Jones' locker. Here's yer loot back.
+heir.good.founditems2=Arr\! Me mates found yer loot an' stole it. I made 'em walk th'plank fer it. Take yer stuff back.
+heir.good.founditems3=I ordered me mates to look fer ya. They found this loot.
+heir.good.founditems4=Where ye been, matey? We found yer loot, but ye were nowhere t'be found\!
+
+##########
+# Information
+#############################
+information.doesnothing=Currently does nothin'.
+
+information.whistle.line1=Starboard click while holdin'
+information.whistle.line2=t'bring yer mate 'n
+information.whistle.line3=younglins t'yer scurvy self.
+
+information.heircrown.line1=Give t'yer younglin
+information.heircrown.line2=t'make 'em yer first mate
+information.heircrown.line3=when ye kill over.
+
+information.weddingring.line1=Give t' a pirate who
+information.weddingring.line2=likes ye a lot t'make
+information.weddingring.line3='em yer spouse.
+
+information.villagereditor.line1=Starboard click a pirate
+information.villagereditor.line2=t' make 'em different.
+
+information.tombstone.line1=Remember yer lost
+information.tombstone.line2=family members wit' this.
+
+information.lostrelativedocument.line1=Starboard click a pirate to make 'em
+information.lostrelativedocument.line2=into th' relative that ye pick.
+
+information.engagementring.line1=Give to yer wench, then give
+information.engagementring.line2='er a ring-o-wenches t'get
+information.engagementring.line3=loot from yer shipmates.
+
+information.crown.line1=Make t'become captain.
+
+information.baby.line1=Starboard click th'ground t'
+information.baby.line2=grow yer babby into a younglin
+information.baby.line3=when it be ready.
+
+information.arrangersring.line1=Gift t' a shipmate, then gift t' another
+information.arrangersring.line2=nearby shipmate t'make em
+information.arrangersring.line3=anchored with each other.
+
+information.villagerbed.line1=Place this bed on the ground
+information.villagerbed.line2=and a nearby villager will sleep
+information.villagerbed.line3=in it at night.
+
+##########
+# Traits
+#############################
+gui.info.trait=Manners\: 
+trait.unknown=Foggy
+
+trait.none=Nothin'
+trait.shy=Don't talk
+trait.fun=A ruckas
+trait.serious=Stick
+trait.friendly=Bucko
+trait.irritable=True Pirate
+trait.emotional=Lots 'o feelin's
+trait.outgoing=Autistic
+
+##########
+# Moods
+#############################
+gui.info.mood=Drunkenness\: 
+
+mood.happy.ecstatic=Drunk
+mood.happy.cheerful=Almost drunk
+mood.happy.happy=Buzzed
+mood.happy.fine=Tipsy
+mood.happy.okay=Thirst quenched
+
+mood.neutral.passive=Wants a drink
+
+mood.sadness.blue=Emptied
+mood.sadness.unhappy=Entering withdrawal
+mood.sadness.sad=Questioning life
+mood.sadness.cheerless=Drinking tears
+mood.sadness.depressed=Blubbering mess
+
+mood.anger.annoyed=Had a bad drink
+mood.anger.agitated=Dropped th' drink
+mood.anger.mad=Tap ran out
+mood.anger.seething=Sober
+mood.anger.infuriated=Violently sober
+
+mood.fatigue.tired=Tired
+mood.fatigue.sleepy=Sleepy
+mood.fatigue.fatigued=Fatigued
+mood.fatigue.exhausted=Exhausted
+mood.fatigue.comatose=Comatose
+
+#######
+# Monarch
+#############################
+monarch.gui.button.interact.demandgift=Demand Loot
+monarch.gui.button.interact.execute=Walk th' plank
+monarch.gui.button.interact.makeknight=Make Metal Man
+monarch.gui.button.interact.makepeasant=Make Shipmate
+
+monarch.knight.follow.start1=Arr\! As ye wish, me captain.
+monarch.knight.follow.start2=Arr\! We follow ye t' Davy Jones' locker if ye ask, captain\!
+monarch.knight.follow.start3=Cannons primed\!
+monarch.knight.follow.start4=Yar\!
+monarch.knight.follow.start5=As ye wish, me captain.
+
+monarch.knight.follow.stop1=I be available any the hour, me %MonarchTitle%.
+monarch.knight.follow.stop2=As ye wish, me captain.
+monarch.knight.follow.stop3=I gunna resume me jobs.
+
+monarch.knight.follow.refuse1=I would never defy th' wishes 'o %MonarchPlayerName%\!
+monarch.knight.follow.refuse2=I gunna forever be wit' %MonarchPlayerName%.
+monarch.knight.follow.refuse3=I be a metal man 'o %MonarchPlayerName%. Arr\!
+
+monarch.execute.failure.noweapon=Ye do not have a weapon to kill 'tis person wit'.
+monarch.execute.failure.playerspouse=What be wrong with ye, matey\! Ye cannot execute a player's lad\!
+
+monarch.makepeasant.success='Tis matey be now a slave under ye rule. They gunna set the sails fer no doubloons if they do their jobs.
+monarch.makepeasant.failure.alreadypeasant=This villager is already a slave for another captain.
+monarch.makepeasant.failure.playerspouse=A player's laddie cannot be made a slave.
+
+monarch.makeknight.success=This scurvy dog is now one o' yer metal men.
+monarch.makeknight.failure.alreadyknight=This scurvy dog is already another captain's metal man.
+monarch.makeknight.failure.playerspouse=Yar\! Ye can't make another pirate's wench yer bodyguard\!
+
+monarch.title.knight.male=%Name% the Metal Man
+monarch.title.knight.female=%Name% the Wench
+monarch.title.knight.male.otherplayer=(Metal Man for %MonarchPlayerName%)
+monarch.title.knight.female.otherplayer=(Wench for %MonarchPlayerName%)
+
+monarch.title.peasant.male.owner=(Shipmate)
+monarch.title.peasant.female.owner=(Shipmate)
+monarch.title.peasant.male.otherplayer=(Shipmate fer Captain %MonarchPlayerName%)
+monarch.title.peasant.female.otherplayer=(Shipmate fer Captain %MonarchPlayerName%)
+
+monarch.title.monarch=Captain
+monarch.title.heir=First Mate
+monarch.title.male.player=Captain
+monarch.title.male.heir=First mate
+monarch.title.female.player=Captienne
+monarch.title.female.heir=Damsel
+
+monarch.demandgift.accept1='o course, me cap'n\!
+monarch.demandgift.accept2=O'course, me captain.
+monarch.demandgift.accept3=Anything for me captain\!
+monarch.demandgift.accept4=Yes, me captain.
+monarch.demandgift.accept5=Ye deserve all the loot in th'world\!
+monarch.demandgift.accept6=Such a great captain deserves all the loot\!
+monarch.demandgift.accept7=O'course\!
+
+monarch.demandgift.toomany1=Yar...where be my share?
+monarch.demandgift.toomany2=Yar\! Ye takin' too much o'me loot.
+monarch.demandgift.toomany3=Ye be a greedy captain.
+monarch.demandgift.toomany4=Yar...there be talk o' uprising.
+monarch.demandgift.toomany5=But...that's all me loot\!
+monarch.demandgift.toomany6=I don't 'ave much loot left, matey.
+
+monarch.demandgift.dictator1=Arr\! I be tired o' yer constant demands\!
+monarch.demandgift.dictator2=No\!
+monarch.demandgift.dictator3=Yar\! Let's get 'em, mateys\! Take our loot back\!
+monarch.demandgift.dictator4=Yar\! This be an uprising\! Ye won't take no more of our loot\!
+monarch.demandgift.dictator5=Never\! I be keepin' me loot this time.
+
+#######
+# Names
+##############################
+name.male1=Aaron
+name.male2=Aceton
+name.male3=Adam
+name.male4=Aidan
+name.male5=Alan
+name.male6=Alex
+name.male7=Allen
+name.male8=Andrew
+name.male9=Anthony
+name.male10=Armando
+name.male11=Arthur
+name.male12=Austin
+name.male13=Ben
+name.male14=Bill
+name.male15=Billy
+name.male16=Bradley
+name.male17=Brady
+name.male18=Braxton
+name.male19=Brayden
+name.male20=Brenden
+name.male21=Brent
+name.male22=Brian
+name.male23=Brice
+name.male24=Brighton
+name.male25=Caleb
+name.male26=Cameron
+name.male27=Christopher
+name.male28=Cleveland
+name.male29=Cody
+name.male30=Colby
+name.male31=Collin
+name.male32=Colton
+name.male33=Corey
+name.male34=Coty
+name.male35=Dale
+name.male36=Damon
+name.male37=Dan
+name.male38=Dane
+name.male39=Danny
+name.male40=David
+name.male41=Derek
+name.male42=Devin
+name.male43=Donnie
+name.male44=Drew
+name.male45=Dylan
+name.male46=Edward
+name.male47=Eric
+name.male48=Ethan
+name.male49=Evan
+name.male50=Fred
+name.male51=Gabe
+name.male52=Garrett
+name.male53=Gary
+name.male54=Gavin
+name.male55=Harris
+name.male56=Harry
+name.male57=Hayden
+name.male58=Hunter
+name.male59=Jackson
+name.male60=Jacob
+name.male61=Jake
+name.male62=James
+name.male63=Jared
+name.male64=Jason
+name.male65=Jay
+name.male66=Jeremy
+name.male67=Jerry
+name.male68=Jim
+name.male69=Joe
+name.male70=John
+name.male71=Jon
+name.male72=Joseph
+name.male73=Josh
+name.male74=Justin
+name.male75=Kaden
+name.male76=Kent
+name.male77=Kevin
+name.male78=Leo
+name.male79=Leon
+name.male80=Lewis
+name.male81=Liam
+name.male82=Lucas
+name.male83=Mac
+name.male84=Marcus
+name.male85=Mark
+name.male86=Martin
+name.male87=Mason
+name.male88=Matt
+name.male89=Matthew
+name.male90=Michael
+name.male91=Mike
+name.male92=Nathan
+name.male93=Nathaniel
+name.male94=Nick
+name.male95=Oliver
+name.male96=Oscar
+name.male97=Owen
+name.male98=Patrick
+name.male99=Peter
+name.male100=Phil
+name.male101=Randy
+name.male102=Rey
+name.male103=Robert
+name.male104=Roger
+name.male105=Roy
+name.male106=Russ
+name.male107=Ryan
+name.male108=Scott
+name.male109=Seth
+name.male110=Shane
+name.male111=Shawn
+name.male112=Simon
+name.male113=Steve
+name.male114=Tanner
+name.male115=Tate
+name.male116=Terrence
+name.male117=Terry
+name.male118=Tim
+name.male119=Toby
+name.male120=Tom
+name.male121=Tommy
+name.male122=Tony
+name.male123=Trent
+name.male124=Tristan
+name.male125=Triston
+name.male126=Tyler
+name.male127=Tyson
+name.male128=Victor
+name.male129=Vincent
+name.male130=Will
+name.male131=William 
+
+name.female1=Addison
+name.female2=Adi
+name.female3=Alexis
+name.female4=Alice
+name.female5=Alicia
+name.female6=Allie
+name.female7=Allison
+name.female8=Allysa
+name.female9=Alma
+name.female10=Amelia
+name.female11=Amnesty
+name.female12=Amy
+name.female13=Andrea
+name.female14=Angie
+name.female15=Anna
+name.female16=Anne
+name.female17=Arieanne
+name.female18=Ashley
+name.female19=Ashlyn
+name.female20=Ashton
+name.female21=Aspen
+name.female22=Aubrey
+name.female23=Aurora
+name.female24=Autumn
+name.female25=Ava
+name.female26=Baylee
+name.female27=Brooke
+name.female28=Camilla
+name.female29=Christina
+name.female30=Christy
+name.female31=Constance
+name.female32=Courtney
+name.female33=Cynthia
+name.female34=Dawn
+name.female35=Destiny
+name.female36=Diana
+name.female37=Donna
+name.female38=Elizabeth
+name.female39=Emery
+name.female40=Emily
+name.female41=Emma
+name.female42=Emmalyn
+name.female43=Erika
+name.female44=Eve
+name.female45=Faye
+name.female46=Gracie
+name.female47=Gwen
+name.female48=Hannah
+name.female49=Hazel
+name.female50=Holly
+name.female51=Jaden
+name.female52=Jennifer
+name.female53=Jessica
+name.female54=Julia
+name.female55=Julie
+name.female56=Kaitlin
+name.female57=Katie
+name.female58=Kaylene
+name.female59=Kiana
+name.female60=Kimberly
+name.female61=Kristen
+name.female62=Kylee
+name.female63=Leslie
+name.female64=Linda
+name.female65=Lindsey
+name.female66=Lola
+name.female67=Lori
+name.female68=Lydia
+name.female69=Madison
+name.female70=Marisa
+name.female71=Megan
+name.female72=Melissa
+name.female73=Melody
+name.female74=Miranda
+name.female75=Molly
+name.female76=Nickie
+name.female77=Nicole
+name.female78=Oaklee
+name.female79=Penny
+name.female80=Rachel
+name.female81=Robin
+name.female82=Rosa
+name.female83=Rosalie
+name.female84=Sarah
+name.female85=Serenity
+name.female86=Sharon
+name.female87=Shayla
+name.female88=Sherry
+name.female89=Sheryl
+name.female90=Skylar
+name.female91=Sofia
+name.female92=Sonya
+name.female93=Stacey
+name.female94=Steph
+name.female95=Stephanie
+name.female96=Sylvia
+name.female97=Trinity
+name.female98=Valerie
+name.female99=Vannessa
+name.female100=Veronica
+name.female101=Whitney
+
+#######
+# Multiplayer
+##############################
+multiplayer.command.error.parameter=Ye typed it wrong\! Do this\: 
+multiplayer.command.error.unknown=There be a problem on deck mate...
+multiplayer.command.error.playeroffline=That Pirate aint on the ship.
+
+multiplayer.command.output.help=Minecraft Comes Alive - Commands
+multiplayer.command.output.setgender=Ye now be a\: 
+multiplayer.command.output.setname=Ye now be called\: 
+
+multiplayer.command.output.marry.noring=Yer no have wedding ring. Shame, no marry.
+multiplayer.command.output.marry.request=%TruePlayerName% wants to be anchored with you.
+multiplayer.command.output.marry.accept=Ye now be anchored to %PlayerSpouseName%.
+multiplayer.command.output.marry.decline=Your marriage request was declined.
+multiplayer.command.output.marry.norequest=Wha? Th'pirate yer talkin about ain't asked ye to be anchored wit'em.
+multiplayer.command.output.marry.otheralreadymarried=That matey be already anchored.
+multiplayer.command.output.marry.senderalreadymarried=Ye already be anchored, matey.
+
+multiplayer.command.output.divorce.successful=You have been divorced from your current spouse.
+
+multiplayer.command.output.havebaby.request=%PlayerSpouseName% wants t'have a younglin\!
+multiplayer.command.output.havebaby.decline=Your request to have a baby was declined.
+multiplayer.command.output.havebaby.limitreached=You have reached the child limit set by the server administrator.
+
+multiplayer.command.output.block.failed=Yarr\! That scurvy dog won't be botherin' ya anymore\!
+multiplayer.command.output.block.successful=Yarr\! Ya blocked that scurvy dog\!
+
+multiplayer.command.output.blockall.true.successful=Ye won't be bothered by no scurvy dogs anymore\!
+multiplayer.command.output.blockall.false.successful=Ya now be bothered by scurvy dogs again\!
+
+multiplayer.command.output.unblock.failed=That scurvy dog isn't blocked, stupid.
+multiplayer.command.output.unblock.successful=Ya unblocked that scurvy dog.
+
+multiplayer.command.output.unblockall.successful=All yer blocked shipmates can bother ya again.
+
+multiplayer.interaction.reject.spouse=Ye can't tell a matey's wench what to do\!
+multiplayer.interaction.reject.child=Ye can't tell a matey's lil' pirate what to do\!
+
+#######
+# Achievements
+##############################
+achievement.charmer=Quite de Charmer
+achievement.getmarried=Gettin' Hitched
+achievement.cookbaby=For Science, Yer Menster.
+achievement.havebabyboy=It Be A Shipmate\!
+achievement.havebabygirl=It be a shiplady\!
+achievement.growbaby=They be growin' fast
+achievement.farming=All the farmland ya need
+achievement.fishing=Sailor
+achievement.woodcutting=Tree Cutter
+achievement.mining=That other minin' game
+achievement.huntkill=Natural Born Pirate
+achievement.hunttame=Tree Hugger
+achievement.growkid=Big Boy (Er Lady)
+achievement.equipadult=There be armed to their food chewers
+achievement.mobkills=Me Guard Protecter
+achievement.marrychild=Marry them off goodbye
+achievement.havegrandchild=Me Grandparent
+achievement.havegreatgrandchild=Elderly Mud
+achievement.havegreatx2grandchild=Older than Mud
+achievement.havegreatx10grandchild=What is yer sekret?
+achievement.hardcoresecret=Ye' Shall Be Avenged
+achievement.craftcrown=I be th'captain\!
+achievement.executevillager=Yer Walkin' the Plank\!
+achievement.makeknight=This Isn't Battleship
+achievement.knightarmy=Twenty Metal Men
+achievement.makepeasant=Arr, Me Captain
+achievement.peasantarmy=Obey My Orders
+achievement.nameheir=First Mate
+achievement.killheir=I Be Th' Captain
+achievement.monarchsecret=Jack Sparrow
+
+achievement.charmer.desc=Me to get 100 Villager Hearts.
+achievement.getmarried.desc=Me Marry a pretty townsfolk.
+achievement.cookbaby.desc='Tis be a secret, matey
+achievement.havebabyboy.desc=Have a boy younglin.
+achievement.havebabygirl.desc=Have a girl younglin.
+achievement.growbaby.desc=Make 'em grow.
+achievement.farming.desc=Make yer younglin farm 5 score blocks o' land.
+achievement.fishing.desc=Make yer younglin catch 5 score kippers.
+achievement.woodcutting.desc=Make yer younglin chop 5 score pieces o' timber.
+achievement.mining.desc=Make yer younglin plunder 15 score blocks.
+achievement.huntkill.desc=Make yer younglin slay 100 landlubbin' animals.
+achievement.hunttame.desc=Make yer younglin befriend 100 landlubbin' animals.
+achievement.growkid.desc=Yer growin' big boy n' big girl.
+achievement.equipadult.desc=Me youngern be armed with weapons.
+achievement.mobkills.desc=Make aye matey kill 50 pirates.
+achievement.marrychild.desc=Aye kids marry.
+achievement.havegrandchild.desc=Have yerself a grand-younglin.
+achievement.havegreatgrandchild.desc=Have yerself a great grand-younglin.
+achievement.havegreatx2grandchild.desc=Have yerself a great x2 grand-younglin.
+achievement.havegreatx10grandchild.desc=Have yerself a great x10 grand-younglin.
+achievement.hardcoresecret.desc=Have yerself the hardcore secret.
+achievement.craftcrown.desc=Makin' a crown and rule the ship.
+achievement.executevillager.desc=Make a scurvy dog walk th' plank.
+achievement.makeknight.desc=Get yer own metal man.
+achievement.knightarmy.desc=Arr\! Build ye an army of twenty metal men.
+achievement.makepeasant.desc=Make a scurvy mutt into yer shipmate.
+achievement.peasantarmy.desc=Arr\! Gather yerself twenty shipmates.
+achievement.nameheir.desc=Name yer first mate.
+achievement.killheir.desc=Murder yer first mate an' take back yer role as cap'n.
+achievement.monarchsecret.desc='Tis be a secret, matey.
+
+#######
+# Items & Blocks
+##############################
+item.ring.arranger.name=Ring o' Arrangin'
+item.ring.engagement.name=Ring o' Engagin'
+item.ring.wedding.name=Ring 'O Wenches
+item.baby.boy.name=Boy Younglin
+item.baby.girl.name=Girl Younglin
+item.egg.male.name=Spawnin' a Matey
+item.egg.female.name=Spawnin' a Wench
+item.whistle.name=Horn
+item.editor.name=Edit yer mates
+item.lostrelativedocument.name=Could've Been A Map
+item.crown.name=Captain's Hat
+item.heircrown.name=First Mate's Hat
+item.tombstone.name=Yer Death Certificate
+item.kingscoat.name=Cap'n Coat
+item.kingspants.name=Cap'n Pants
+item.kingsboots.name=Cap'n Boots
+item.redcrown.name=Red Hat
+item.bluecrown.name=Blue Hat
+item.greencrown.name=Green Hat
+item.pinkcrown.name=Pink Hat
+item.purplecrown.name=Purple Hat
+item.redbed.name=Red Bed
+item.bluebed.name=Blue Bed
+item.greenbed.name=Green Bed
+item.pinkbed.name=Pink Bed
+item.purplebed.name=Purple Bed
+block.tombstone.name=Yer Death Certificate
+
+#######
+# Professions
+##############################
+profession.baker.male=%Name% th' Cook
+profession.baker.female=%Name% th' Wench
+profession.butcher.male=%Name% th' Butcher
+profession.butcher.female=%Name% th' Wench
+profession.farmer.male=%Name% th' Planter
+profession.farmer.female=%Name% th' Wench
+profession.guard.male=%Name% th' Law
+profession.guard.female=%Name% th' Law
+profession.librarian.male=%Name% th' Reader
+profession.librarian.female=%Name% th' Wench
+profession.miner.male=%Name% th' Miner
+profession.miner.female=%Name% th' Wench
+profession.priest.male=%Name% th' Godly Man
+profession.priest.female=%Name% th' Wench
+profession.smith.male=%Name% th' Smith
+profession.smith.female=%Name% th' Wench
+profession.playerchild.male=%Name% th' Lad
+profession.playerchild.female=%Name% th' Lass
+
+#######
+# Family Member Titles
+##############################
+family.aunt=Me Aunt
+family.brother=Me Brother
+family.cousin.male=Cousin
+family.cousin.female=Cousin
+family.daughter=Me Daughter
+family.father.formal=Papps
+family.father.informal=Pa
+family.fiance.male=Husband t'be
+family.fiance.female=Bride t'be
+family.granddaughter=Me Granddaughter
+family.grandson=Me Grandson
+family.greatgranddaughter=Great x%Generation% Grandyounglin
+family.greatgrandson=Great x%Generation% Grandyounglin
+family.grandfather=Grandpa
+family.greatgrandfather=Great x%Generation% Grandpa
+family.grandmother=Grandmommy
+family.greatgrandmother=Great x%Generation% Grandma
+family.husband=Me Man
+family.mother.formal=Ma
+family.mother.informal=Ma
+family.nephew=Me Nephew
+family.niece=Me Niece
+family.none=None
+family.sister=Me 'Sis
+family.son=Me Son
+family.uncle=Me Uncle
+family.wife=Me Wench
+
+#######
+# GUI Elements
+##############################
+
+#Buttons
+gui.button.back=Retreat
+gui.button.exit=Abandon Ship
+gui.button.next=March
+gui.button.yes=Aye
+gui.button.no=Nay
+gui.button.done=Aye
+gui.button.ok=Aye
+gui.button.random='Nother
+gui.button.trade=Swag
+
+gui.button.setup.finish=Set Sail
+gui.button.setup.gendermale=Matey
+gui.button.setup.genderfemale=Wench
+gui.button.setup.hidesleepingtag=Hide the annoying black thing\: 
+gui.button.setup.overwritetestificates=Squidward?\: 
+gui.button.setup.growchildrenautomatically=Young'ns grow fast\:
+gui.button.setup.displaymoodparticles=Show Drunkenness\: 
+gui.button.setup.shownametags=Show Names\: 
+gui.button.setup.preference=Likings\: 
+
+gui.button.setup.males=Shipmates
+gui.button.setup.females=Wenches
+
+gui.editor.name=Name
+gui.editor.name.invalid=Yer name walked the plank.
+gui.button.editor.texture=Looks\: 
+gui.button.editor.title=Job\: 
+gui.button.editor.mood=Drunkenness\: 
+gui.button.editor.trait=Manners\: 
+
+gui.button.interact.interact=Do Something
+gui.button.interact.chat=Jabber
+gui.button.interact.joke=Sing Shanty
+gui.button.interact.gift=Share Booty
+gui.button.interact.kiss=Smooch
+gui.button.interact.flirt=Woo
+gui.button.interact.tellstory=Recall Triumphs
+gui.button.interact.play=Goof Off
+gui.button.interact.greet.handshake=Shake Hook
+gui.button.interact.greet.highfive=High Hook
+gui.button.interact.follow=Foller
+gui.button.interact.followstop=Don't Foller
+gui.button.interact.stay=Drop Anchor
+gui.button.interact.staystop=Raise Anchor
+gui.button.interact.sethome=Set Port
+gui.button.interact.takearrangerring=Loot Ring o' Arrangin'
+gui.button.interact.takegift=Accept Loot
+gui.button.interact.ridehorse=Board Horse
+gui.button.interact.dismount=Get Off
+
+gui.button.interact.player.asktomarry=Get Some Love
+gui.button.interact.player.havebaby=Have Younglin
+gui.button.interact.player.accept=Yup
+gui.button.interact.player.decline=Nah
+
+gui.button.special=Extra
+gui.button.special.priest.divorcespouse=Rid me of me wench
+gui.button.special.priest.divorcecouple=Split lovers
+gui.button.special.priest.divorcecouple.nonefound=No lovers to split.
+gui.button.special.priest.divorce=Split up with yer wench
+gui.button.special.priest.giveupbaby=Give up yer younglin
+gui.button.special.priest.adoptbaby=Adopt younglin
+gui.button.special.priest.adoptchild=Adopt Younglin
+gui.button.special.priest.arrangedmarriage=Get Random Love
+gui.button.special.guard.hire=Make bodyguard
+gui.button.special.guard.dismiss=Fire
+gui.button.special.miner.hire=Mine for me
+gui.button.special.miner.dismiss=Fire
+gui.button.special.baker.aid=Ask Fer Help
+gui.button.special.butcher.aid=Ask Fer Help
+gui.button.special.farmer.aid=Ask Fer Help
+gui.button.special.librarian.setup=Enter options
+
+gui.button.spouse.cookfood=Cook Hardtack
+gui.button.spouse.stopcooking=Stop Cook
+gui.button.spouse.inventory=Swag
+gui.button.spouse.procreate=Do th' nasty
+gui.button.spouse.migrate=Board Ship
+
+gui.button.child.inventory=Swag
+gui.button.child.chores=Labor
+gui.button.child.stopchore=Stop Sailing
+gui.button.child.growup=Get Bigger
+
+gui.button.chore.farming=Plantin'
+gui.button.chore.farming.method=Methods\: 
+gui.button.chore.farming.method.create=Create Farm
+gui.button.chore.farming.method.maintain=Maintain Farm
+gui.button.chore.farming.plant=Sow\: 
+gui.button.chore.farming.plant.wheat=Hops
+gui.button.chore.farming.plant.melon=Watermelon
+gui.button.chore.farming.plant.pumpkin=Jack Sparrow
+gui.button.chore.farming.plant.carrot=Carr't
+gui.button.chore.farming.plant.potato='tater
+gui.button.chore.farming.plant.sugarcane=Sweetstick
+gui.button.chore.farming.farmsize=How Big\: 
+gui.button.chore.farming.radius=How Far\: 
+gui.button.chore.fishing=Catchin'
+gui.button.chore.combat=Fight
+gui.button.chore.combat.sentry=Patrol\: 
+gui.button.chore.combat.sentry.radius=How Far\: 
+gui.button.chore.combat.sentry.position.set=Set Patrol Position
+gui.button.chore.combat.method=Options\:\n\n
+gui.button.chore.combat.method.range=Muskets
+gui.button.chore.combat.method.melee=Cutlasses
+gui.button.chore.combat.method.both=Don't care
+gui.button.chore.combat.method.neither=Like Marty
+gui.button.chore.combat.attack.pig=Slay Swine\: 
+gui.button.chore.combat.attack.sheep=Slay Cloth\: 
+gui.button.chore.combat.attack.cow=Slay Bovines\: 
+gui.button.chore.combat.attack.chicken=Slay Fowls\: 
+gui.button.chore.combat.attack.spider=Slay Night Bugs\: 
+gui.button.chore.combat.attack.zombie=Slay Zombies\: 
+gui.button.chore.combat.attack.skeleton=Slay Bones\: 
+gui.button.chore.combat.attack.creeper=Explode\: 
+gui.button.chore.combat.attack.enderman=Slay Endermen\: 
+gui.button.chore.combat.attack.unknown=Attackin' the Unknown\: 
+gui.button.chore.woodcutting=Choppin'
+gui.button.chore.woodcutting.treetype=Type o' Wood\: 
+gui.button.chore.woodcutting.treetype.all=Everythin'
+gui.button.chore.woodcutting.treetype.oak=Prime
+gui.button.chore.woodcutting.treetype.spruce=Cold
+gui.button.chore.woodcutting.treetype.birch=Useless
+gui.button.chore.woodcutting.treetype.jungle=Huge
+gui.button.chore.mining=Plunderin'
+gui.button.chore.mining.method=Options\: 
+gui.button.chore.mining.method.passive=Lazy
+gui.button.chore.mining.method.active=Tunnelin'
+gui.button.chore.mining.direction=Bearings\: 
+gui.button.chore.mining.direction.forward=Fore
+gui.button.chore.mining.direction.backward=Aft
+gui.button.chore.mining.direction.left=Port
+gui.button.chore.mining.direction.right=Starboard
+gui.button.chore.mining.distance=Miles\: 
+gui.button.chore.mining.find=Lookin' Fer\: 
+gui.button.chore.mining.find.coal=Heater
+gui.button.chore.mining.find.iron=Steel
+gui.button.chore.mining.find.lapis=Blue Stuff
+gui.button.chore.mining.find.gold=Doubloons
+gui.button.chore.mining.find.diamond=Paragon
+gui.button.chore.mining.find.redstone=Magic dust
+gui.button.chore.mining.find.emerald=Piece o'Eight
+gui.button.chore.hunting=Animals
+gui.button.chore.hunting.mode=Ship\: 
+gui.button.chore.hunting.mode.kill=Slay
+gui.button.chore.hunting.mode.tame=Calm
+gui.button.chore.start=Set Sail
+
+gui.button.hiring.hours=Hiezels\: 
+
+gui.button.lostrelativedocument.generation=Generation\: %Generation%
+
+#Titles
+gui.title.setup=Minecraft Comes Alive Setup - Arrr\!
+gui.title.setup.name=What ya be called, matey?
+gui.title.setup.gender=Be ya a man or wench?
+gui.title.setup.options=Set up.
+
+gui.title.inventory=%Name%'s Swag
+
+gui.title.namebaby=What it be called?
+gui.title.namebaby.male=Yarr\!
+gui.title.namebaby.female=Yarr\!
+
+gui.title.priest.divorcecouple=Choose th' lov'rs ya want ta split.
+
+gui.title.tombstone=Writ' yer message\:
+
+gui.title.special.hired=(Shipmate)
+
+gui.title.lostrelativedocument=Selectin' yer desired feelings of %Name% t'yer.
+gui.title.lostrelativedocument.confirm=Are ya sure ye want %Name% t'be yer\: 
+
+#Information
+gui.info.hearts='arts
+
+gui.info.special.none=This landlubber's got no skills worth mentionin'.
+
+gui.info.family.parents=(They be %MotherName% an' %FatherName%'s %ChildTitle%)
+gui.info.family.parents.deceased=(Ancestors gone to Davy Jones' locker)
+gui.info.family.parent=(%ChildTitle% de %LivingParent%)
+
+gui.info.family.spouse=(Vowed de %SpouseRelation% %VillagerSpouseName%)
+gui.info.family.spouse.unrelated=(They be %SpouseFullName%'s wench)
+
+gui.info.namebaby.invalidcharacters=Yer typed it wrong.
+gui.info.namebaby.nametaken=Yer 'ave a kid wit' that name.
+
+gui.info.procreate.confirm1=Yer ain't "DOING IT" whilst not vowed.
+gui.info.procreate.confirm2=Yer gotta gift this matey a vow ring.
+
+gui.info.chore.options=Methods\:
+gui.info.chore.options.none=Tharrr be nothin' t'see here.
+gui.info.chore.experience=Level of Pirate\:
+
+gui.info.hire.price=Hirin' this scurvy landlubber will involve %x% shiny pot o'gol'.
+gui.info.hire.hasgold=Yer got enough shiny pot o'gol'.
+gui.info.hire.notenoughgold=Yer ain't got enough shiny pot o'gold.
+gui.info.hire.minutesremaining=%x% remaining moments.
+
+gui.info.hardcoresecret.prompt=Ye may dock as a wee younglin' of yours if ye had any.
+gui.info.hardcoresecret.nochildren=Yer doomed.
+gui.info.hardcoresecret.spawnas=Become\: 
+gui.info.hardcoresecret.respawn=Awake as yer younglin
+
+#Overhead
+gui.overhead.hasgift=Has Loot
+gui.overhead.hasring=Took Me Ring o' Arrangin'
+gui.overhead.sleeping=Slumbering
+gui.overhead.health=Life
+
+#######
+# Notifications/One Liners
+##############################
+notify.player.married=%Name% is now yer wench.
+notify.player.engaged=Ye now be engaged t'%Name%.
+notify.player.droppedbaby=Don't be doin' that\!
+notify.player.clickbed=You cannot use that bed.
+
+notify.horse.invalid=I can't ride that equestrian landlubber.
+notify.horse.notfound=Um... what equestrian landlubber yer want mer to ride? Bring it to mer.
+
+notify.villager.married=They be lov'rs\!
+notify.villager.gifted.cake.notenough=I'd really like for my love to have ye cake too...
+notify.villager.gifted.cake.withbaby.male=Don't want no duff.
+notify.villager.gifted.cake.withbaby.female=Don't want no duff.
+notify.villager.gifted.cake.spousenotnearby.male=Duff? Fetch me wench\!
+notify.villager.gifted.cake.spousenotnearby.female=Yarr\! Where be my husband?
+notify.villager.gifted.arrangerring.othernotnearby=...Was? There be no one else around.
+notify.villager.gifted.arrangerring.relative=Arr\! I be yer %RelationToPlayer%.
+notify.villager.gifted.arrangerring.notenoughrings=Looks like you ain't got enough rings for euns. We need twins, de ceurze\!
+notify.villager.gifted.arrangerring.invalidpartner=I can't wed %Name%\!
+
+notify.baby.gaveup=Now ye can do th' nasty.
+notify.baby.exists=Ya have a younglin already, matey\!
+notify.baby.readytogrow=The younglin be ready t'grow.
+notify.baby.cooked=Shiver me timbers\!
+
+notify.divorce.spousemissing=Yer spouse was not broadside, so yer not gonna receive yer loot from them.
+notify.arrangedmarriage.failed=Tharrr be no-one close by that be willin' to marry ye. Ya be forever alone.
+
+notify.death.male=Sad news, matey. Yer %RelationToPlayer% died. Poor %Name%.
+notify.death.female=Sad news, matey. Yer %RelationToPlayer% died. Poor %Name%.
+
+notify.homepoint.set=This scurvy dog be dockin' here at sundown.
+notify.homepoint.none=%Name% don't have a port set\!
+notify.homepoint.invalid=Can't drop an anchor there.
+notify.homepoint.obstructed=%Name%'s home port be blocked.
+notify.homepoint.teleport.skip.following=%Name% is follerin' ya. They won't be headin' back t'ship.
+notify.homepoint.teleport.skip.staying=%Name% has been told t'stay. They won't be headin' back t'ship.
+
+notify.item.broken.axe=%Name% broke th'arrr hatchet.
+notify.item.broken.boots=%Name% broke th'arrr pegleg.
+notify.item.broken.chestplate=%Name% broke th'arrr chestplate.
+notify.item.broken.fishingrod=%Name% broke th'arrr rod o' fishin'.
+notify.item.broken.helmet=%Name% broke th'arrr noggin pot.
+notify.item.broken.leggings=%Name% broke th'arrr greaves.
+notify.item.broken.pickaxe=%Name% broke th'arrr pickaxe.
+notify.item.broken.sword=%Name% broke th'arrr cutlass.
+notify.item.broken.hoe=%name%'s dirt tiller is gone.
+notify.item.broken.bow=%Name% lost their crossbow.
+
+notify.child.chore.finished.farming=I be done farmin'.
+notify.child.chore.finished.fishing=I be done fishin'.
+notify.child.chore.finished.woodcutting=I be done choppin'.
+notify.child.chore.finished.mining=I be done plunderin'.
+notify.child.chore.finished.hunting=I'm done huntin' beasts.
+
+notify.child.chore.levelup.farming.5=%Name% has reached level 5 farmin'. They now receive many more seeds when harvestin' wheat.
+notify.child.chore.levelup.farming.10=%Name% has reached level 10 farmin'. They now move faster when maintainin' 'n creatin' farms.
+notify.child.chore.levelup.farming.15=%Name% has reached level 15 farmin'. They now harvest 1-3 more crops 'o any type.
+notify.child.chore.levelup.farming.20=%Name% has reached level 20 farmin'. They now have a chance 'o instantly doublin' th' number 'o crops they harvest. Filthy landlubber.
+
+notify.child.chore.levelup.fishing.5=\n%Name% ha reachin' level 5 fishing. They be catchin' fish faster and twice as often.
+notify.child.chore.levelup.fishing.10=%Name% ha reachin' level 10 fishing. They be catchin' fish faster and twice as often.
+notify.child.chore.levelup.fishing.15=%Name% ha reachin' level 15 fishing. They be catchin' fish faster and twice as often.
+notify.child.chore.levelup.fishing.20=%Name% ha reachin' level 20 fishing. They be catchin' fish faster and twice as often.
+
+notify.child.chore.levelup.hunting.5=%Name% ha reachin' level 5 hunting. They be bringin' more kretures back when tamin', without usin' more resources.
+notify.child.chore.levelup.hunting.10=%Name% ha reachin' level 10 hunting. They be bringin' more kretures back when tamin', without usin' more resources.
+notify.child.chore.levelup.hunting.15=%Name% ha reachin' level 15 hunting. They be bringin' more kretures back when tamin', without usin' more resources.
+notify.child.chore.levelup.hunting.20=%Name% ha reachin' level 20 hunting. They be bringin' more kretures back when tamin', without usin' more resources.
+
+notify.child.chore.levelup.mining.5=%Name% has reached level 5 minin'. They be minin' through blocks more faster.
+notify.child.chore.levelup.mining.10=ye has grabbed booty 10 mining. Ye now dies their pick less when passive mining
+notify.child.chore.levelup.mining.15=asd;slafjk;ldsfja;slfjk;kdsjf;kfja;fj
+notify.child.chore.levelup.mining.20=%Name% has reached level 20 mining. They now tell you the exact position of ores when passively mining.
+
+notify.child.chore.levelup.woodcutting.5=%Name% has reached level 5 woodcutting. They now move faster when woodcutting.
+notify.child.chore.levelup.woodcutting.10=%Name% has reached level 10 woodcutting. They now cut trees faster with any type of axe.
+notify.child.chore.levelup.woodcutting.15=%Name% has reached level 15 woodcutting. They now have a chance of cutting two logs for every log they cut.
+notify.child.chore.levelup.woodcutting.20=%Name% has reached level 20 woodcutting. They now receive three logs for every log they cut.
+
+notify.child.chore.interrupted.farming.noseeds=Are ye dumb? Ye didn't give me any growin' sands\!
+notify.child.chore.interrupted.farming.noland=Arrr\! Thar be no good land\!
+notify.child.chore.interrupted.farming.nofarmland=Cap'n, you wanted I should only use farmland, but I cannae find it.
+notify.child.chore.interrupted.farming.noroom=Arrr\! I didn't 'ave th'space t'finish.
+notify.child.chore.interrupted.farming.noselection=I need an area to plant me farm.
+notify.child.chore.interrupted.farming.nohoe=I don't got a dirt tiller.
+notify.child.chore.interrupted.fishing.nowater=Arrr\! Thar be no water\!
+notify.child.chore.interrupted.fishing.norod=Arr\! I don't have a rod o' fishin'.
+notify.child.chore.interrupted.mining.noblocks=Arrr\! Thar be no blocks to plunder.
+notify.child.chore.interrupted.mining.nopickaxe=Arrr\! I don't 'ave a pickaxe\!
+notify.child.chore.interrupted.mining.tookdamage=%Name% got hurt when plunderin'. They returned t'port.
+notify.child.chore.interrupted.woodcutting.notrees=Where be the timber?
+notify.child.chore.interrupted.hunting.notamematerials=Arr\! Where be me tamin' supplies, matey?
+
+notify.child.chore.failed.hunting.death=Sad news, matey. %Name% kicked the bucket while huntin'.
+
+notify.child.chore.status.mining.orefound=Arrr\! There be some %OreType% %OreDistance% blocks away.
+notify.child.chore.status.mining.orenearby=Arrr\! There be some %OreType% nearby...
+notify.child.chore.status.mining.oredistance=There's some %OreType% %OreDistance% blocks away at %OreX%, %OreY%, %OreZ%.
+
+notify.child.gifted.arrows=Arrr\! I be a fine shooter now\!
+notify.child.gifted.axe=Now me fists won't bleed when I be plunderin' trees\!
+notify.child.gifted.fishingrod=Arrr\! Now I be able t'fish\!
+notify.child.gifted.hoe=Arrr\! Farmin' sticks help farm faster\!
+notify.child.gifted.seeds=Arrr\! Now I be able t'farm\!
+notify.child.gifted.sword=Arrr\! What's a pirate wit' no cutlass?
+notify.child.gifted.wheat=I could use this for tamin' landlubbin' beasts\!
+notify.child.gifted.pickaxe=Time to dig out some treasures\!
+notify.child.gifted.carrot=I could use this for tamin' landlubbin' beasts\!
+notify.child.gifted.bone=I could use this for tamin' landlubbin' beasts\!
+
+notify.child.emptiedinventory=%Name% emptied thar loot.
+notify.child.readytogrow=%Name% be ready t'grow.
+notify.child.growup=%Name% be an adult.
+notify.child.ranaway=%Name% set sail fer new seas.
+
+notify.spouse.gifted.anotherbaby=I already got our little lad/lass. where did ye find that little one?\!
+notify.spouse.chore.interrupted.cooking.nofurnace=I no see a cooker over yonder.
+notify.spouse.chore.interrupted.cooking.nofuel=I no got grub to cook.
+
+notify.lostrelativedocument.success=%Name% now be yer %RelationToPlayer%.
+notify.lostrelativedocument.success.norelation=%Name% don't know ya anymore.
+
+notify.monarch.began=Captain is yer job matey.
+notify.monarch.resume=Yer be the Captain matey. Yer kin are over the plank.
+notify.monarch.ended.noheir=Yer no longer the Captain, matey.
+notify.monarch.ended.withheir=Yer no longer a captain, matey. Yer kin is the captain, and yer walkin' the plank.
+
+notify.hiring.complete=%Name%'s duty has walked the plank.
+
+notify.update.turnedon=MCA will be updatin' yer ship.
+notify.update.turnedoff=MCA will not be reportin' yer crew ships until a new crusade comes.
+
+#######
+# Parser Commands
+##############################
+parser.playerchild.adult.callplayerparent.male=Pa
+parser.playerchild.adult.callplayerparent.female=Ma
+parser.playerchild.adult.parentopposite.male=Mam
+parser.playerchild.adult.parentopposite.female=Paps
+
+parser.playerchild.young.callplayerparent.male=Pa
+parser.playerchild.young.callplayerparent.female=Ma
+parser.playerchild.young.parentopposite.male=Mama
+parser.playerchild.young.parentopposite.female=Papa
+
+#####################################################################################################
+#									              DIALOGUE											#
+#####################################################################################################
+
+#######
+# Profession-specific dialogue
+##############################
+guard.follow.refuse1=The code demands I remain on duty.
+guard.follow.refuse2=I'm on duty, the captain needs me.
+guard.follow.refuse3=I be needin' t'see this job through to the end, I won't walk away.
+guard.follow.refuse4=I'll need coin to follow YOUR orders.
+guard.follow.refuse5=The penalty for desertin' be death\!
+
+guard.stay.refuse1=I be patrollin' this deck.  I can't stay here.
+guard.stay.refuse2=You're not me cap'n.
+guard.stay.refuse3=Ach, the captain has me too busy to sit still.
+guard.stay.refuse4=Me job be to patrol the village, not be standin' here.
+guard.stay.refuse5=I be workin' right now. I will join yer crew however, for the right price.
+
+smith.aid.prompt1=Arr\! Make an offer if ye want me anvil.
+smith.aid.prompt2=Ye can have my old shoddy anvil fer a price.
+smith.aid.prompt3=Me anvil is for sale if ye might want t'buy.
+smith.aid.prompt4=Ye want an anvil? Mine be fer sale.
+
+smith.aid.outofrange1=Arr\! Don't ask again if ye don't got th'gold\!
+smith.aid.outofrange2=Arr\! I be around here if ye 'ave another offer.
+
+smith.aid.alreadyaccepted1=Yarr\! Ye done took me anvil, leave me be\!
+smith.aid.alreadyaccepted2=Arr\! Ye got me anvil, ye can do yer own repairs\!
+smith.aid.alreadyaccepted3=Yarr\! I don't 'ave another anvil fer ye.
+
+smith.aid.accept1=Doubloons\! Yarr\!
+smith.aid.accept2=Arr\! Thank ye, matey.
+smith.aid.accept3=Yarr\! Here be yer anvil, I got me doubloons\!
+smith.aid.accept4=See me ol' matey? Drop it on 'im.
+
+smith.aid.refuse.rightitem1=Yarr\! These be lovely, but I wants more than that.
+smith.aid.refuse.rightitem2=Yarr\! Great find, matey. Few more would do.
+smith.aid.refuse.rightitem3=Yarr\! I be needin' these, but more than that.
+smith.aid.refuse.rightitem4=Yarr\! Bring me a few more o' that an' ye got yer self an anvil.
+
+smith.aid.refuse.wrongitem1=Arr\! Bring me all junk why don't ye? Anvils be expensive\!
+smith.aid.refuse.wrongitem2=Arr...no. Gimme somethin' else, matey.
+smith.aid.refuse.wrongitem3=No...these not be what I lookin' fer, matey.
+smith.aid.refuse.wrongitem4=Arr\! Ye be bringin' me th'wrong item, matey.
+
+priest.adopt.male1='ere be yer new baby. 'is name be %BabyName%.
+priest.adopt.male2=He be cute, eh? 'is name be %BabyName%.
+priest.adopt.male3=I be hopin' %BabyName% gives ye joy for many years.
+priest.adopt.female1=She's a beaut, ain't she? 'er name be %BabyName%.
+priest.adopt.female2=Ye be treatin' %BabyName% well, 'ere she be.
+priest.adopt.female3=%BabyName% be very sweet, I be sad to see 'er go.
+
+priest.arrangemarriage1=I hope yer and %Name% cruise forever.
+priest.arrangemarriage2=%PlayerName%, I'd like yer to meet %Name%. Yer now on a crusade.
+priest.arrangemarriage3=As yer wish. Yer now betrothed to %Name%, matey.
+
+generic.hire.accept1=Danke Matey\! I be doin' what yer want.
+generic.hire.accept2=This is me share. I be workin' for yer matey.
+generic.hire.accept3=I be ready to werk\!
+generic.hire.accept4=Let us cruise the ship, what is our duty?
+
+guard.hire.accept1=Thank ye, I be part of yer crew now.
+guard.hire.accept2=I be part of yer crew now.
+guard.hire.accept3=Aye aye, Captain\!
+guard.hire.accept4=What be me first task, captain?
+
+guard.hire.dismiss1=I be sorry it didn't work out. I'll be returnin' to me last job.
+guard.hire.dismiss2='twas great workin' with ye\!
+guard.hire.dismiss3=Maybe I can get me old job back at the village.
+guard.hire.dismiss4=Arr... I be needin' a new job now...
+
+butcher.aid.accept1=Aye, I 'ave meat aplenty.
+butcher.aid.accept2=Here be some of me extra meat.
+butcher.aid.accept3=Here be fresh meat fer ye.
+
+butcher.aid.refuse1=Not enough for ye.
+butcher.aid.refuse2=Arr\! If ye not gonna pay, leave me be\!
+butcher.aid.refuse3=I don't have anythin' fer ye right now.
+
+baker.aid.accept1=I s'pose ye can have this.
+baker.aid.accept2=Arr, ye can have this.
+baker.aid.accept3='Ere be some leftovers fer ye.
+
+baker.aid.refuse1=I don't 'ave anythin' fer ye right now. Bother me later, matey.
+baker.aid.refuse2=Arr\! I 'ave some hard tack in th'furnace right now.
+baker.aid.refuse3=Arr\! I made ya somethin', but I threw't overboard.
+
+farmer.aid.accept1=O'course, me matey\! Here ya are\!
+farmer.aid.accept2=O'course I can help ya, matey.
+farmer.aid.accept3=Me harvest been bountiful, matey. Here's some loots fer ya.
+
+farmer.aid.refuse1=Sorry, I don't have nothin' to give ya.
+farmer.aid.refuse2=Come back later, I don't have a crusade for yer.
+farmer.aid.refuse3=Scrub off, I ain't got no scum yer landlubber.
+
+miner.hire.accept1=Danke\! I kan cruise as of now.
+miner.hire.accept2=I be glad to join yer crusade. Where the ship be headin'?
+miner.hire.accept3=Thanks for lettin' me on yer ship. I'll get to work right now\!
+
+miner.hire.refuse1=5 payments and 100 blocks be plundered.
+miner.hire.refuse2=Gimme five doubloons and I'm mining one-hundred blocks fer ya.
+miner.hire.refuse3=Yer ain't got no filthy gold. I be needin' 5 bits if yer wanna hire me for yer 100 blocks.
+
+miner.hire.finished1=That was all one-hundred blocks. I'm through.
+miner.hire.finished2=That's one-hundred blocks. My job is done.
+miner.hire.finished3=I've mined one-hundred blocks. It was a pleasure working with you.
+
+miner.hire.dismiss1=Riding me so soon, arrrright, matey.
+miner.hire.dismiss2=More payment.
+miner.hire.dismiss3=I'll head back to the village, then.
+
+miner.chore.finished1=I have finished what you told me to do.
+miner.chore.finished2=I'm ready to do more work.
+miner.chore.finished3=I'm finished with this job.
+
+miner.chore.start1=I'll get to it now, Captain.
+miner.chore.start2=Aye, matey.
+miner.chore.start3=I'll start working right away.
+
+miner.dropallitems1=There ya go.
+miner.dropallitems2=Tharrr's the plundered blocks, cap'n.
+miner.dropallitems3=Here's what I've got.
+miner.dropallitems4=Here is everything I mined.
+
+#######
+# Villager Dialogue
+##############################
+villager.chat.bad1=Me beard is tired.
+villager.chat.bad2=*Belch*
+villager.chat.bad3=What, matey? Wasn't listenin'.
+villager.chat.bad4=Did ya say somethin'?
+villager.chat.bad5=Arrr...
+villager.chat.bad6=Err..I be outta rum. Get outta my way ya scallywag.
+villager.chat.bad7=I forgot my rum...I'll just be leavin' now.
+villager.chat.bad8=What do ya mean by that?
+villager.chat.bad9=Ya better not be talkin' like that at me\!
+villager.chat.bad10=Didn't think so, matey.
+villager.chat.bad11=Arr\! Why would ya say somethin' like so, matey?
+villager.chat.bad12=That was almost worse than insulting my ship , yargh\!
+
+villager.chat.good1=Hadn't heard it, matey.
+villager.chat.good2=From where did ya hear that, matey?
+villager.chat.good3=How'd you capture ol' Cap'n Markus Persson\!?
+villager.chat.good4=Aye, the wenches are busier than us.
+villager.chat.good5=Oh.
+villager.chat.good6=Ya have nice tales, matey. Ya got more?
+villager.chat.good7=Did ye make 'im walk the plank?
+villager.chat.good8=Arrr\!
+villager.chat.good9=Others be singin' th'same shanties, mate.
+villager.chat.good10=Ya been seein' any shiny green rocks when ya be plunderin'?
+
+villager.engagement.accept1=When ya be makin' this official?
+villager.engagement.accept2=There be some beer for me crew, am I right?
+villager.engagement.accept3=Arrr\! 'Bout time\!
+villager.engagement.accept4=All me matey's be comin'\!
+villager.engagement.accept5=Aye\! I'd say yes more than anythin'\!
+
+villager.engagement.refusal1=No\! Ye be ugly\!
+villager.engagement.refusal2=There be a tingling sensation in me beard...
+villager.engagement.refusal3=Sorry, matey. I don't like ya.
+villager.engagement.refusal4=Yar, me heart just don't bleed for ya.
+villager.engagement.refusal5=What, matey? I don't even know yer name.
+
+villager.follow.start1=To which land we be heading for?
+villager.follow.start2=I'll try t'keep up.
+villager.follow.start3=Aye, I'll sail with ye.
+villager.follow.start4=Yer movin' th' village to shape a new sea fer landlubbers? Din' think so.
+villager.follow.start5=Aye, I be comin'.
+villager.follow.start6=Where'd the seas be leadin'?
+villager.follow.start7=Where we be sailin' to, matey?
+villager.follow.start8=Let's stop yer foolishness.
+
+villager.follow.stop1=Alrighty, I'll scout the perimeter around here, matey.
+villager.follow.stop2=Don't sail too much.
+villager.follow.stop3=This be better than ye crew's room\!
+villager.follow.stop4=I be getting some beer now, matey\!
+villager.follow.stop5=Matey, the seas be waitin' for my return\!
+villager.follow.stop6=Good riddance\!
+villager.follow.stop7=Arrr...I be stayin' here.
+villager.follow.stop8=I be waitin' for the gold.
+villager.follow.stop9=I be out of beer\!
+villager.follow.stop10=That be a good plunderin'\!
+
+villager.gift.bad1=I ain't your junk barrel, matey\!
+villager.gift.bad2=I don't want yer useless filth\!
+villager.gift.bad3=This be worthless.
+villager.gift.bad4=This be good or no?
+villager.gift.bad5=Ye can keep yer booty.
+villager.gift.bad6=Yarr, another gift like this and you'll be walkin' the plank.
+villager.gift.bad7=Sorry, matey, but I don't plunder garbage.
+villager.gift.bad8=I don't take things from random vermin\!
+villager.gift.bad9=So you are the one who swiped this from a fellow sailor?\! Get out of me sight\!
+villager.gift.bad10=Why ya insist on giving me filth?
+
+villager.gift.small1=Oh, thank you, sailor\!
+villager.gift.small2=How mindful of yer scurvy self\!
+villager.gift.small3=Most grateful\!
+villager.gift.small4=Thank ya, matey\!
+villager.gift.small5=Yarr, these be amazin' plunder\!
+villager.gift.small6=Thank yer.
+villager.gift.small7=Nice to be raidin' ye\! See yer booty later\!
+villager.gift.small8=That be great\!
+
+villager.gift.regular1=Ah, treasure\!
+villager.gift.regular2=Nice lil' treasure\!
+villager.gift.regular3=A treasure chest\! Thanks matey\!
+villager.gift.regular4=Gimme another. Now\!
+villager.gift.regular5=Good catch, me matey\!
+villager.gift.regular6=Ah, a drink o' fresh beer.
+villager.gift.regular7=How nice 'o ye, hearty thanks.
+villager.gift.regular8=What valuable plunder\! Thank ye, %PlayerName%.
+villager.gift.regular9=%PlayerName%, yer be too sweet.
+villager.gift.regular10=Extra nice 'o ye, %PlayerName%.
+villager.gift.regular11=Yer such a jolly bucko\!
+
+villager.gift.great1=I...I be speechless\! Thank ya\!
+villager.gift.great2=Doubloons\!
+villager.gift.great3=Ye be knowin' a great gift when ye spy wit' ye eye it\!
+villager.gift.great4=Been always wantin' one 'o these\!
+villager.gift.great5=I never seen so much treasure before\!
+villager.gift.great6=Oh, 'tis be.. Thank ye\! ye really shouldn't have\!
+villager.gift.great7=Thank ye so much, I gunna remember 'tis.
+villager.gift.great8=Oh 'tis be just great, I'll put it to jolly use.
+
+villager.greeting.hate1=Back off, matey, or walk the plank.
+villager.greeting.hate2=Didn't ye hear me last warnin... back off\!
+villager.greeting.hate3=Arrr\! It's you.
+villager.greeting.hate4=I suppose you're here to punch me in the face again?
+villager.greeting.hate5=Matey, leave me alone with me beer.
+villager.greeting.hate6=What should YE want?
+villager.greeting.hate7=I'm getting me crew if ye don't back off\!
+villager.greeting.hate8=I have me sword, just letting ye realize.
+villager.greeting.hate9=Sail elsewhere, mate.
+villager.greeting.hate10=Arr, keep pesterin' me and I'll cut yer throat.
+villager.greeting.hate11=Matey, be gone.
+
+villager.greeting.basic1=Ahoy, matey.
+villager.greeting.basic2=Have ye just sailed 'ere?
+villager.greeting.basic3=Yaaar, hallo ye landlubber.
+villager.greeting.basic4=Yarr, how ye be doin' on such a fine day?
+villager.greeting.basic5=Me eyes never seen you, matey.
+villager.greeting.basic6=Ye haven't sailed here before.
+villager.greeting.basic7=What a wonderful sea wind %PlayerName%, eh?
+villager.greeting.basic8=Ahoy.
+villager.greeting.basic9=What do ye want ya scurvy dog?
+villager.greeting.basic10=Ahoy matey. Ye be %PlayerName%, nay?
+
+villager.greeting.friend1=Aye, me matey\!
+villager.greeting.friend2=Why hallo thar, it be good t'see ye're not dead.\n
+villager.greeting.friend3=Arrr\! Everyone\! It's me favorite lad\!
+villager.greeting.friend4=Arr\! It's me matey\!
+villager.greeting.friend5=What have ye been up to? I haven't heard from ye in a while.
+villager.greeting.friend6=%PlayerName%\! Me best man\!
+villager.greeting.friend7=Aye, look who it be, %PlayerName%\!
+villager.greeting.friend8=Ahoy thar\! How be yer life?
+villager.greeting.friend9=Ahoy thar matey\! how ye doin?
+
+villager.greeting.interest.male1=Yar, ye be looking good, matey.
+villager.greeting.interest.male2=%PlayerName%\! Please don't be leavin'\! I be needin' to ask ye... nevermind.
+villager.greeting.interest.male3=Aye, she's a beauty, ain't she?
+villager.greeting.interest.male4=%PlayerName%, I bet ye didn't know that I be rich.
+villager.greeting.interest.male5=*Whispers* She be so nice to me, I wonder if she fancies me?
+
+villager.greeting.interest.female1=Ahoy, ye should come visit me sometime. *Wink*
+villager.greeting.interest.female2=Hi....%Playername%..... *blush*
+villager.greeting.interest.female3=Ye be lookin' big an' strong as usual\!
+villager.greeting.interest.female4=*Turns pale*
+villager.greeting.interest.female5=*Whispers* No\! I will not be askin' 'im\!
+
+villager.greeting.wedding1=Good luck with that sorry wench\! Ha\!
+villager.greeting.wedding2=Ahoy, %PlayerName%, congratulations on yer engagement\!
+villager.greeting.wedding3=I'm sure ye be havin' a beautiful weddin', right?
+villager.greeting.wedding4=I be so happy for ye\! I'll be bringin'ye the biggest gift ever\!
+villager.greeting.wedding5=Ya only got 'er for the payments, eh?
+
+villager.hitbyplayer1=Leave me alone, ya scoundrel\!
+villager.hitbyplayer2=I did nothin' to ya\!
+villager.hitbyplayer3=Quit yer hittin', ye scurvy dog\!
+villager.hitbyplayer4=Ow\! Why'd ya hit me?
+villager.hitbyplayer5=Yarr\! Get off me ya salty landlubber\!
+villager.hitbyplayer6=Hey\! don't ye hit me\!
+villager.hitbyplayer7=Ya better stop, matey\!
+villager.hitbyplayer8=Ye don't touch me again\!
+villager.hitbyplayer9=Guards\! This scallywag be assaultin' me\!
+villager.hitbyplayer10=Someone help me\!
+villager.hitbyplayer12=Ow\! %PlayerName%\! I thought we was friends\!
+
+villager.gifted.baby1=Do yer own parentin'.
+villager.gifted.baby2=Wait, is that poop in tharrrr?
+villager.gifted.baby3=It smells like Davy Jones' locker\!\n
+villager.gifted.baby4=Aye, I c'nt, me little one ran aw'y yesterd'y.
+villager.gifted.baby5=Arrr, I hate them little children. Takin' all me treasures like I was a statue.
+villager.gifted.baby6=Arrr,I'm havin' a hard time takin' care of me self, let alone a tiny livin human.
+villager.gifted.baby7=I wanna hold it, but i assure ye taking care of it ain't what I'm doing.
+villager.gifted.baby8=Give it you yer mate instead of a pirate like me.\n
+
+villager.interact.refusal1=I'm gonner send yer to Davy Jones' Locker if yer don't stay back.
+villager.interact.refusal2=Arrr, I hate ye.
+villager.interact.refusal3=Shut yer mouth.
+villager.interact.refusal4=Get outta here landlubber\!
+villager.interact.refusal5=Yer ain't welcome here.
+villager.interact.refusal6=I ain't havin' anything to do with ye. Leave me alone.
+villager.interact.refusal7=Go away, you're distracting me.
+villager.interact.refusal8=I ain't even talking to yer.
+villager.interact.refusal9=Keep those filthy hands of, landlubber.
+
+villager.joke.bad1=I ain't taking in what yer saying.
+villager.joke.bad2=Yer offending me lad.
+villager.joke.bad3=That be just terrible\!
+villager.joke.bad4=That didn't make no sense.
+villager.joke.bad5=What ye said be just squiffy.
+villager.joke.bad6=Aye, then...
+villager.joke.bad7=That... be a "really nice joke".
+
+villager.joke.good1=That be just too funny\!
+villager.joke.good2=Where'd ye be hearin' that one? Haha\!
+villager.joke.good3=That be a good one\!
+villager.joke.good4=*Luaghtarrrrrrrrrr*
+villager.joke.good5=That be a good tale.
+villager.joke.good6=You say some jokes better than my men\!
+villager.joke.good7=Ye really know some good jokes\!
+villager.joke.good8=Arr\! Ye be knowin' how to make a fellow laugh.
+villager.joke.good9=That means two things\!
+
+villager.marriage.acceptance1=I do.
+villager.marriage.acceptance2=I been waitin' fer ye to ask me\! Of course I do\!
+villager.marriage.acceptance3=Yes, I do. I love ye\!
+villager.marriage.acceptance4=Ye know, I've been thinkin' a lot about ye lately... 'n... Oh what am I natterin' about? I do\!
+villager.marriage.acceptance5=I'd be glad to be spendin' me life wit ye\!
+villager.marriage.acceptance6=This be a weddin' ring... Fer me...? I do\!
+villager.marriage.acceptance7=Knowin' that ye love me makes me happy, bein' with ye makes me feel like the happiest person in th' world.
+
+villager.marriage.refusal.lowhearts1=What are you, crazy?
+villager.marriage.refusal.lowhearts2=What? Who are you\!?
+villager.marriage.refusal.lowhearts3=I don't even know you\!
+villager.marriage.refusal.lowhearts4=Erm...no. I'm sorry.
+villager.marriage.refusal.lowhearts5=I don't like ya, you scurvy dog\!
+villager.marriage.refusal.lowhearts6=What? No\! I can't.
+villager.marriage.refusal.lowhearts7=Well you see... I'm not ready to marry right now.
+villager.marriage.refusal.lowhearts8=I refuse\!
+villager.marriage.refusal.lowhearts9=I don't want to marry yer, jerk\!
+
+villager.marriage.refusal.playermarried1=I think yer already with someone else...
+villager.marriage.refusal.playermarried2=Aren't ya married right now?
+villager.marriage.refusal.playermarried3=I see that ring on yer finger. Walk the plank.
+villager.marriage.refusal.playermarried4=How could ya even try to do this to yer spouse?
+villager.marriage.refusal.playermarried5=Yer terrible\! Go walk th'plank.
+villager.marriage.refusal.playermarried6=Are ye out of yer mind? Yer already married\!
+villager.marriage.refusal.playermarried7=Why are ye doin' this to yer spouse? Yer an idiot\!
+villager.marriage.refusal.playermarried8=I better go tell yer spouse\!
+villager.marriage.refusal.playermarried9=I see yer ring...
+
+villager.marriage.refusal.villagermarried1=I be taken, sorry.
+villager.marriage.refusal.villagermarried2=Oh...no. I already have someone.
+villager.marriage.refusal.villagermarried3=I'm already taken. I'm sorry, I thought ye knew.
+villager.marriage.refusal.villagermarried4=I be needin' to say no, because as ye can see I'm already am married.
+villager.marriage.refusal.villagermarried5=I be sorry, I already have someone.
+
+villager.angry1=That's right\! stay back thar, coward\!
+villager.angry2=Why don't ye come and fight like a man?
+villager.angry3=I be callin' the guards on ye\!
+villager.angry4=Ye be gettin what's comin' to ye one day\!
+villager.angry5=Don't ye come back\!
+
+villager.scared1=No\! Don't hurt me, please\!
+villager.scared2=I won't be doin' it again, I swear\!
+villager.scared3=Please\! Don't kill me\!
+villager.scared4=No\! put yer weapon away\!
+villager.scared5=Someone help\! They're gonna kill me\!
+
+villager.greeting.handshake.good1=Salutations.
+villager.greeting.handshake.good2=Good day.
+villager.greeting.handshake.good3=Why ain't everypirate this civil? Ahoy\!
+villager.greeting.handshake.good4=That's a nice shake yer got der.
+villager.greeting.handshake.good5=It had been nice of yer to come.
+
+villager.greeting.handshake.bad1=Ow\! Yer stab my hand\!
+villager.greeting.handshake.bad2=Yer shake too hard.
+villager.greeting.handshake.bad3=Not Pleasure
+villager.greeting.handshake.bad4=Uh...no. Yer grippers look too muddeh.
+villager.greeting.handshake.bad5=What IS that on yer grippers?\!
+
+villager.greeting.highfive.good1=Slap mer five\!
+villager.greeting.highfive.good2=What's up, %PlayerName%?
+villager.greeting.highfive.good3=Aye, Matey\!
+villager.greeting.highfive.good4=Aye, what be up?
+villager.greeting.highfive.good5=Great to see yer\!
+
+villager.greeting.highfive.bad1=No\! Don't stab mer\!
+villager.greeting.highfive.bad2=Who's the jester?
+villager.greeting.highfive.bad3=Uh...no, blessins.
+villager.greeting.highfive.bad4=Knock it euf.
+villager.greeting.highfive.bad5=...Was 're yer doin'?
+
+villager.kiss.good1=*Blushes* Do you set sail alone?
+villager.kiss.good2=Yer be a great smoocher...
+villager.kiss.good3=Yer Smoochers be soft and sweet.
+villager.kiss.good4=Tastes like honee.
+villager.kiss.good5=*Giggles* Yer be a cutie.
+
+villager.kiss.bad1=Do I even know yer?\!
+villager.kiss.bad2=*Stab*
+villager.kiss.bad3=I be callin' the knights\!
+villager.kiss.bad4=What are yer doin'?\!
+villager.kiss.bad5=Mer father be never approvin'. 
+
+villager.flirt.good1=*Blushes* Oh, my.
+villager.flirt.good2=*Giggles* yer be cute.
+villager.flirt.good3=I love it when yer speak matey.
+villager.flirt.good4=If I had a drink for every time I'd seen a beauty like you...I'd be sober.
+villager.flirt.good5=Hehe, we should do that some time matey.
+
+villager.flirt.bad1=Yer way out of my waters.
+villager.flirt.bad2=Ew, I don't think so matey.
+villager.flirt.bad3=Aren't you smooching a wench?
+villager.flirt.bad4=*Laughs* Sorry, I don't smooch other wenches.
+villager.flirt.bad5=Pathetic, matey.
+
+villager.tellstory.good1=*Laughs* The oinkers be the best of all of us\!
+villager.tellstory.good2=I remember when I be young an' I could do that too.
+villager.tellstory.good3=We be tryin' it together sometimes, matey.
+villager.tellstory.good4=At least you'll be protectin' yer shipmates from the undead\!
+villager.tellstory.good5=*Laughs* Yer be alright, Matey %PlayerName%.
+
+villager.tellstory.bad1=Yer should be ashamed of yerself\!
+villager.tellstory.bad2=Serves yer right.
+villager.tellstory.bad3=Yer should be attacked by an undead for that, matey\!
+villager.tellstory.bad4=Aye, whatever.
+villager.tellstory.bad5=I be quite uncomfortable right now... Aye...
+
+#######
+# Grandchild Dialogue
+##############################
+
+grandchild.chat.bad1=Ye old. An' a bore.
+grandchild.chat.bad2=I don' wanna hear yer folk tales\!
+grandchild.chat.bad3=*Yarrr*
+
+grandchild.chat.good1=I got the best %RelationOfPlayer% Ever\!
+grandchild.chat.good2=Wow\! Ya really did it?
+grandchild.chat.good3=Ye sure that got done?
+grandchild.chat.good4=I always enjoy cruisin' with yer.
+
+grandchild.follow.start1=Where are we going?
+grandchild.follow.start2=Wrehe'd ye kill that scurvy greenhead?
+grandchild.follow.start3=Arr, lets be gone\!
+
+grandchild.follow.stop1=I'll wait for yer, Matey %RelationOfPlayer%.
+grandchild.follow.stop2=I'll wait here for yer, Matey %RelationOfPlayer%.
+grandchild.follow.stop3=Don't go off scallywagger, %RelationOfPlayer%.
+
+grandchild.gift.bad1=This be from Davy Jones' locker\!
+grandchild.gift.bad2=This looks older than pebbles.
+grandchild.gift.bad3=Arr..Thanks, I guess.
+
+grandchild.gift.great1=This be a lot to yer, Pleasures\!
+grandchild.gift.great2=Wow\! I can have zis?\!
+grandchild.gift.great3=I knew you'd bring me good booty\!
+
+grandchild.gift.regular1=I always show everyone what my %RelationOfPlayer% brings me\!
+grandchild.gift.regular2=Arr\!
+grandchild.gift.regular3=I love when you bring me things, %RelationOfPlayer%.
+
+grandchild.gift.small1=Well, this is neat\!
+grandchild.gift.small2=Hey, I like this\!
+grandchild.gift.small3=Thanks, %RelationOfPlayer%\!
+grandchild.gift.small4=This is really cool, %RelationOfPlayer%.
+
+grandchild.greeting.basic1=Hi, %RelationOfPlayer%.
+grandchild.greeting.basic2=I haven't seen you in a while, %RelationOfPlayer%.
+
+grandchild.greeting.friend1=Hey, it's %RelationOfPlayer%\!
+grandchild.greeting.friend2=Look everyone, my %RelationOfPlayer% is here\!
+
+grandchild.greeting.hate1=*Grumble*
+grandchild.greeting.hate2=Oh no. You're here.
+grandchild.greeting.hate3=You are not my favorite %RelationOfPlayer%.
+grandchild.greeting.hate4=Mom\! %RelationOfPlayer% is here...
+
+grandchild.hitbyplayer1=Ow\! That hurt\!
+grandchild.hitbyplayer2=Stop it\!
+grandchild.hitbyplayer3=You're playing too rough\!
+grandchild.hitbyplayer4=Why are you hitting me, %RelationOfPlayer%?
+
+grandchild.gifted.baby1=You can still have babies\!?
+grandchild.gifted.baby2=Is that...yours?
+
+grandchild.joke.bad1=That was really bad...
+grandchild.joke.bad2=Eh???
+grandchild.joke.bad3=Maybe that was funny back then, but now...not so much.
+grandchild.joke.bad4=Your old jokes aren't funny.
+
+grandchild.joke.good1=I always tell everyone how funny my %RelationOfPlayer% is\!
+grandchild.joke.good2=You should tell that one to my friend\!
+grandchild.joke.good3=That was so funny, %RelationOfPlayer%\!
+grandchild.joke.good4=My %RelationOfPlayer% is always so funny\!
+
+grandchild.greeting.handshake.good1=So you're my %RelationOfPlayer%?
+grandchild.greeting.handshake.good2=Nice to meet you. You're my %RelationOfPlayer%, aren't you?
+grandchild.greeting.handshake.good3=Hi, did you know I'm your %RelationToPlayer%? I didn't.
+grandchild.greeting.handshake.good4=Hello, %RelationOfPlayer%.
+grandchild.greeting.handshake.good5=Did you bring me something?\!
+
+grandchild.greeting.handshake.bad1=A...handshake?
+grandchild.greeting.handshake.bad2=You shake hands with your grandchildren?
+grandchild.greeting.handshake.bad3=Gross\! You're old\!
+grandchild.greeting.handshake.bad4=Your hands are wrinkly\!
+grandchild.greeting.handshake.bad5=Ouch\! Why did you squeeze so hard?
+
+grandchild.greeting.highfive.good1=Yay\! Again\!
+grandchild.greeting.highfive.good2=Again, again\!
+grandchild.greeting.highfive.good3=Do it again\!
+grandchild.greeting.highfive.good4=Do it again, pretty please?
+grandchild.greeting.highfive.good5=Again\!
+
+grandchild.greeting.highfive.bad1=My hands sting.
+grandchild.greeting.highfive.bad2=This is starting to hurt\!
+grandchild.greeting.highfive.bad3=Stop\!
+grandchild.greeting.highfive.bad4=This is getting boring.
+grandchild.greeting.highfive.bad5=Okay, my hands are hurting now.
+
+grandchild.tellstory.good1=It's a good thing we have guards\!
+grandchild.tellstory.good2=Wow, did you really do that?
+grandchild.tellstory.good3=Then what did the skeleton do?
+grandchild.tellstory.good4=You're my hero\!
+grandchild.tellstory.good5=Can you take me mining like that?
+
+grandchild.tellstory.bad1=I no believe yer.
+grandchild.tellstory.bad2=My parents told me not to believe a word you say.
+grandchild.tellstory.bad3=Aye.
+grandchild.tellstory.bad4=I don't want to be around you anymore...
+grandchild.tellstory.bad5=I should go home now.
+
+grandchild.play.good1=Yay this is fun\!
+grandchild.play.good2=I love spending time with you\!
+grandchild.play.good3=You're the best\!
+grandchild.play.good4=Let's play\!
+grandchild.play.good5=I'll beat you\!
+
+grandchild.play.bad1=Ancore?
+grandchild.play.bad2=You're too old to do that.
+grandchild.play.bad3=You don't play good.
+grandchild.play.bad4=Just go play with your animals.
+grandchild.play.bad5=I would rather eat vegetables.
+
+#######
+# Villager Child Dialogue
+##############################
+
+villagerchild.chat.bad1=Sorry, me parents don't allow me to talk to strangers\!
+villagerchild.chat.bad2=Who are you? You look silly.
+villagerchild.chat.bad3=I don't want to talk, yer scary\!
+
+villagerchild.chat.good1=Wow \! Yer cool\!
+villagerchild.chat.good2=Yer like a superhero\!
+villagerchild.chat.good3=Sailed all seven seas? Wow\!
+villagerchild.chat.good4=I like yer tales, tell me more, tell me more\!
+
+villagerchild.follow.start1=Okay, but I don't want to be goin' too far from home\!
+villagerchild.follow.start2=Arr... I wanted to be stayin' here...
+villagerchild.follow.start3=Where are we goin' on an adventure?
+
+villagerchild.follow.stop1=Good. I was tired of lookin at your booty\!
+villagerchild.follow.stop2=Where be everyone?
+villagerchild.follow.stop3=Don't leave me here alone\!
+
+villagerchild.gift.bad1=Arr, this is junk. I don't want it.
+villagerchild.gift.bad2=Can I throw this away? I don't be wantin' it.
+villagerchild.gift.bad3=Why are ye givin' me this, %PlayerName%? I don't like it\!
+
+villagerchild.gift.great1=Wow\! I can have this? Oh\! thank ya so much\! I'm going to show this to me pa\!
+villagerchild.gift.great2=Thank ya fer the loot\!
+villagerchild.gift.great3=This be the greatest gift ever\! Thank ya\!
+
+villagerchild.gift.regular1=Thank ya\!
+villagerchild.gift.regular2=This be great\! Thanks\!
+villagerchild.gift.regular3=Thank *hic* ya fer the loot\!
+
+villagerchild.gift.small1=Thank ya\!
+villagerchild.gift.small2=Thanks alot\!
+villagerchild.gift.small3=Can I fill up my gullet w'this?
+villagerchild.gift.small4=Fer me? Oh, thank ya\!
+
+villagerchild.greeting.basic1=Who are ye?
+villagerchild.greeting.basic2=Ya look funny.
+
+villagerchild.greeting.friend1=Ahoy\! Yer me matey\!
+villagerchild.greeting.friend2=Do ye want ta play?
+
+villagerchild.greeting.hate1=I don't like ya.
+villagerchild.greeting.hate2=I remember ya\! Ya hurt me\!
+villagerchild.greeting.hate3=No\! Get away from me\!
+villagerchild.greeting.hate4=Me father told ye to stay away.
+
+villagerchild.hitbyplayer1=Ow\! Ma\! %PlayerName% hit me\!
+villagerchild.hitbyplayer2=Don't hit me. it hurts\!
+villagerchild.hitbyplayer3=No don't hurt me, please\!
+villagerchild.hitbyplayer4=Ma\! Pa\! OW\!
+
+villagerchild.gifted.baby1=Aw... It be cute, but smelly\!
+villagerchild.gifted.baby2=Why does it be stinkin'?
+villagerchild.gifted.baby3=I don' want to be holdin' it\!
+
+villagerchild.joke.bad1=Yer a silly person.
+villagerchild.joke.bad2=Not funny.
+villagerchild.joke.bad3=That ain't funny\!
+villagerchild.joke.bad4=Don't ye insult me\!
+villagerchild.joke.bad5=Ma\! %PlayerName% curses\!
+
+villagerchild.joke.good1=Haha\! Yer the funniest\!
+villagerchild.joke.good2=I be likin' yer jokes\!
+villagerchild.joke.good3=That be a good one\! I`ll be tellin' it to me mates\!
+villagerchild.joke.good4=How do ye do that funny face? Do it again\!
+
+villagerchild.play.good1=Mommy and daddy never have time to do this\!
+villagerchild.play.good2=Yay\! Can you be my friend?
+villagerchild.play.good3=Can I win some?
+villagerchild.play.good4=Let's play forever\!
+villagerchild.play.good5=Let's have some fun\!
+
+villagerchild.play.bad1=Who are you?
+villagerchild.play.bad2=My mommy told me not to play with strangers.
+villagerchild.play.bad3=Papa said you would lead me over a cliff.
+villagerchild.play.bad4=No, that's okay.
+villagerchild.play.bad5=Go play with your own kid.
+
+villagerchild.tellstory.good1=I wish I was your kid...
+villagerchild.tellstory.good2=Can I go pet the squid too?\!
+villagerchild.tellstory.good3=Wow, can you take me to the Nether?\!
+villagerchild.tellstory.good4=Why can't you tell me what happens after you feed them?
+villagerchild.tellstory.good5=I'm going to start my own club like you did\!
+
+villagerchild.tellstory.bad1=You're not a good person are you?
+villagerchild.tellstory.bad2=I think I hear my mommy calling me for dinner.
+villagerchild.tellstory.bad3=My parents are going to die?\!
+villagerchild.tellstory.bad4=Ger lost.
+villagerchild.tellstory.bad5=Yer stories are borin'.
+
+#######
+# Adult Dialogue
+##############################
+
+playerchild.adult.chat.bad1=Don't you have a different story to tell?
+playerchild.adult.chat.bad2=I be busy...
+playerchild.adult.chat.bad3=Let's talk later.
+playerchild.adult.chat.bad4=Aye\n\n
+playerchild.adult.chat.bad5=Uh-huh.
+playerchild.adult.chat.bad6=Okay.
+playerchild.adult.chat.bad7=Alrighty then.
+playerchild.adult.chat.bad8=So very interesting...
+playerchild.adult.chat.bad9=*Rolls Eyes*
+playerchild.adult.chat.bad10=%ParentOpposite% told me that you lied about that.
+playerchild.adult.chat.bad11=Let's change the subject, alright?
+playerchild.adult.chat.bad12=Well.. That's.. Interesting..
+playerchild.adult.chat.bad13=Ehrm... Sure, matey.
+playerchild.adult.chat.bad14=That be all?
+playerchild.adult.chat.bad15=Later.
+playerchild.adult.chat.bad16=Can't be talkin' with ye right now.
+playerchild.adult.chat.bad17=Arr\! Ye gettin' on me nerves\! Leave me alone\!
+playerchild.adult.chat.bad18=All I heard was "ARR\!".
+
+playerchild.adult.chat.good1=*Sings shanty*
+playerchild.adult.chat.good2=Arr, let's go huntin' t'gether.
+playerchild.adult.chat.good3=Arr, I be itchin' for th'sea\!
+playerchild.adult.chat.good4=You should take me with you next time.
+playerchild.adult.chat.good5=When can I be havin' me own ship?
+playerchild.adult.chat.good6=I want a ship t' call me own.
+playerchild.adult.chat.good7=I can't wait to get a house of my own\!
+playerchild.adult.chat.good8=Let's do some farming or something\!
+playerchild.adult.chat.good9=Let's go somewhere\!
+playerchild.adult.chat.good10=Oh\! That's a great story\!
+playerchild.adult.chat.good11=Yes, I'm doing well.
+playerchild.adult.chat.good12=You shouldn't spread that but it is a good story.
+playerchild.adult.chat.good13=That's the best thing since sliced bread\!
+
+playerchild.adult.chore.start.farming1=Yes, %CallPlayerParent%.
+playerchild.adult.chore.start.farming2=Ugh. Fine, %CallPlayerParent%.
+playerchild.adult.chore.start.farming3=Sure. I'll do that, %CallPlayerParent%.
+playerchild.adult.chore.start.farming4=Aye, matey. I be gettin' t'work now.
+playerchild.adult.chore.start.farming5=Arr\! Ye didn't 'ave t'work when ye was a babby\!
+playerchild.adult.chore.start.farming6=Will you help me, %CallPlayerParent%?
+playerchild.adult.chore.start.farming7=If we sell the bread I make, will I get 50% profit?
+
+playerchild.adult.chore.start.fishing1=I like fishing. Okay.
+playerchild.adult.chore.start.fishing2=I bet I'll catch more than you ever can\!
+playerchild.adult.chore.start.fishing3=I'm gonna try to beat my record this time.
+playerchild.adult.chore.start.fishing4=Oh. So once again I have to put food on the table.
+playerchild.adult.chore.start.fishing5=Yeah, okay.
+playerchild.adult.chore.start.fishing6=Cool\! I love going fishing, %CallPlayerParent%\!
+playerchild.adult.chore.start.fishing7=I'll be sure to catch a lot of fish, you just watch\!
+playerchild.adult.chore.start.fishing8=Alright\! I'll try my best to catch as many fish as possible.
+playerchild.adult.chore.start.fishing9=I'm good at fishing\! You'll see.
+playerchild.adult.chore.start.fishing10=Here fishy fishy...
+playerchild.adult.chore.start.fishing11=I hope I don't get my new clothes wet.
+
+playerchild.adult.chore.start.mining1=Coal dust isn't poisonous, is it?
+playerchild.adult.chore.start.mining2=I hope my pickaxe doesn't break this time.
+playerchild.adult.chore.start.mining3=I'll find more diamonds than you, just watch\!
+
+playerchild.adult.chore.start.woodcutting1=I still want that treehouse, you know.
+playerchild.adult.chore.start.woodcutting2=Do you ever wonder why the trees float?
+playerchild.adult.chore.start.woodcutting3=I'll sharpen my axe and get right on it.
+playerchild.adult.chore.start.woodcutting4=Arrrr'e you making me build me own ship?
+
+playerchild.adult.chore.start.hunting1=I'll bring you back ten pigs\!
+playerchild.adult.chore.start.hunting2=This will be fun.
+playerchild.adult.chore.start.hunting3=I'll be back shortly.
+playerchild.adult.chore.start.hunting4=You're sending me because I'm a better hunter, aren't you?
+
+playerchild.adult.chore.stop1=I thought you'd never let me stop.
+playerchild.adult.chore.stop2=I'm so tired...
+playerchild.adult.chore.stop3=Finally. I was getting bored.
+playerchild.adult.chore.stop4=Finally. I was getting tired.
+playerchild.adult.chore.stop5=Don't make me do that again\!
+playerchild.adult.chore.stop6=Gladly\!
+playerchild.adult.chore.stop7=Thank you, I always hate doing that\!
+playerchild.adult.chore.stop8=Ah... Finally my work is done\!
+playerchild.adult.chore.stop9=I'll rest for a bit now I guess.
+playerchild.adult.chore.stop10=I'll stop working then.
+playerchild.adult.chore.stop11=I'm glad that's over\!
+playerchild.adult.chore.stop12=I did your dirty work. I'm doing something fun now.
+
+playerchild.adult.follow.start1=Ok, where are we going?
+playerchild.adult.follow.start2=Are we hunting mobs together, %CallPlayerParent%?
+playerchild.adult.follow.start3=I hope I see a creeper\!
+playerchild.adult.follow.start4=I hope we're not moving. I like it here.
+playerchild.adult.follow.start5=Finally\! Let's get out of here\!
+playerchild.adult.follow.start6=Are we going to come back?
+playerchild.adult.follow.start7=I actually didn't want to go anywhere...
+playerchild.adult.follow.start8=Alright, let's go then.
+playerchild.adult.follow.start9=Off we go\!
+playerchild.adult.follow.start10=Let's head out\!
+playerchild.adult.follow.start11=There are so many things that I'd like to see\!
+playerchild.adult.follow.start12=I hope I see some mobs.
+playerchild.adult.follow.start13=This better not be a trap...
+playerchild.adult.follow.start14=I want to catch a spider\!
+
+playerchild.adult.follow.stop1=I'll wait here, %CallPlayerParent%.
+playerchild.adult.follow.stop2=I like this place. Let's stay here for awhile.
+playerchild.adult.follow.stop3=I'll be right here.
+playerchild.adult.follow.stop4=Don't go too far...
+playerchild.adult.follow.stop5=I hear something. Be careful.
+playerchild.adult.follow.stop6=Just don't get hurt, %CallPlayerParent%\!
+playerchild.adult.follow.stop7=Don't leave me here too long\!
+playerchild.adult.follow.stop8=Be on your guard. Danger is lurking out there when you're alone.
+playerchild.adult.follow.stop9=Watch out for creepers\!
+playerchild.adult.follow.stop10=Whew, that was tiresome.
+playerchild.adult.follow.stop11=Can't I keep going with you? I'm scared, %CallPlayerParent%.
+
+playerchild.adult.gift.bad1=Wow\! %CallPlayerParent%\! Do you know what you just found\!? Me neither.
+playerchild.adult.gift.bad2=This is junk.
+playerchild.adult.gift.bad3=No thanks.
+playerchild.adult.gift.bad4=Throw away your own junk\!
+playerchild.adult.gift.bad5=How about some food every once and awhile?
+playerchild.adult.gift.bad6=Why would I want this?
+playerchild.adult.gift.bad7=This is... No. Just no.
+playerchild.adult.gift.bad8=Why are  you even giving this to me?
+playerchild.adult.gift.bad9=No, I won't keep this, definitely not.
+playerchild.adult.gift.bad10=I'll be sure to throw this in lava.
+playerchild.adult.gift.bad11=Do you see any trashcans around?
+playerchild.adult.gift.bad12=Argh. Again? I'm making sure you get a wishlist next time.
+
+playerchild.adult.gift.great1=Oh my... I'm speechless\!
+playerchild.adult.gift.great2=Thank you so very much\!
+playerchild.adult.gift.great3=This is the coolest\!
+playerchild.adult.gift.great4=How could you afford this\!?
+
+playerchild.adult.gift.regular1=Thank you so much\!
+playerchild.adult.gift.regular2=This is amazing\!
+playerchild.adult.gift.regular3=I want you to know I'm very grateful\!
+
+playerchild.adult.gift.small1=Where did you find this? Thanks\!
+playerchild.adult.gift.small2=Oh, thanks %CallPlayerParent%\!
+playerchild.adult.gift.small3=Can I...eat it?
+playerchild.adult.gift.small4=You didn't just give this to me to get rid of it, did you?
+playerchild.adult.gift.small5=Oh wow, a present for me\!
+playerchild.adult.gift.small6=Sweet\! Thanks, %CallPlayerParent%.
+playerchild.adult.gift.small7=This sure looks good, and... tasty?
+
+playerchild.adult.greeting.basic1=Hey, %CallPlayerParent%\!
+playerchild.adult.greeting.basic2=You're back, %CallPlayerParent%.
+
+playerchild.adult.greeting.friend1=Hey, %CallPlayerParent%\!
+playerchild.adult.greeting.friend2=You're back, %CallPlayerParent%.
+
+playerchild.adult.greeting.hate1=Nich
+playerchild.adult.greeting.hate2=What are you doing here, %CallPlayerParent%?
+playerchild.adult.greeting.hate3=I told you to stay away from me\!
+playerchild.adult.greeting.hate4=Did you come to apologize?
+playerchild.adult.greeting.hate5=Don't make me call the guards.
+
+playerchild.adult.hitbyplayer1=Stop that\!
+playerchild.adult.hitbyplayer2=I can beat you up now, you know\!
+playerchild.adult.hitbyplayer3=Ow\! %CallPlayerParent%\! Stop hitting me\!
+playerchild.adult.hitbyplayer4=That hurts bad\!
+playerchild.adult.hitbyplayer5=Calm down and stop hitting me\!
+playerchild.adult.hitbyplayer6=I'm not a punching bag\!
+playerchild.adult.hitbyplayer7=Hitting me won't solve your problems\!
+playerchild.adult.hitbyplayer8=Ow\! What the heck was that for?\!
+playerchild.adult.hitbyplayer9=This isn't normal\!
+playerchild.adult.hitbyplayer10=Calm down\!
+playerchild.adult.hitbyplayer11=Ouch\!
+playerchild.adult.hitbyplayer12=Yarrrr\! Why you be doing that?
+
+playerchild.adult.gifted.baby1=I don't wanna hold it\! 
+playerchild.adult.gifted.baby2=I hate babies\!
+playerchild.adult.gifted.baby3=Ew\! It stinks\!
+playerchild.adult.gifted.baby4=Yes, yes, it's very cute.
+playerchild.adult.gifted.baby5=I've got other stuff to do\!
+
+playerchild.adult.joke.bad1=That one's getting really old.
+playerchild.adult.joke.bad2=That was just stupid.
+playerchild.adult.joke.bad3=...What?
+playerchild.adult.joke.bad4=Don't joke about that\! I'm STILL traumatized\!
+playerchild.adult.joke.bad5=Still don't get it.
+playerchild.adult.joke.bad6=Not that one again.
+playerchild.adult.joke.bad7=I've heard that one more than twenty times\!
+playerchild.adult.joke.bad8=Ew, why do you joke about that?\!
+playerchild.adult.joke.bad9=That joke is awful.
+playerchild.adult.joke.bad10=Ah, that one again. Funny.
+playerchild.adult.joke.bad11=I think %ParentOpposite% is calling me...
+playerchild.adult.joke.bad12=So, I really need to go do my chores.
+
+playerchild.adult.joke.good1=I still remember that one, %CallPlayerParent%. Haha\!
+playerchild.adult.joke.good2=That one was really funny\!
+playerchild.adult.joke.good3=*Chuckle*
+playerchild.adult.joke.good4=You always have the best jokes\!
+playerchild.adult.joke.good5=Great one, %CallPlayerParent%\!
+playerchild.adult.joke.good6=Haha\! That's so funny\!
+playerchild.adult.joke.good7=That's a good one\!
+
+playerchild.adult.greeting.handshake.good1=Hey, haven't talked to you in a while.
+playerchild.adult.greeting.handshake.good2=Hey, %CallPlayerParent%.
+playerchild.adult.greeting.handshake.good3=Great to see you again, %CallPlayerParent%\!
+playerchild.adult.greeting.handshake.good4=Oh, %CallPlayerParent%, I have so much to tell you about.
+playerchild.adult.greeting.handshake.good5=Hey, great to see that you're back.
+
+playerchild.adult.greeting.handshake.bad1=Why don't you come visit more?
+playerchild.adult.greeting.handshake.bad2=This is the only contact we've had in forever, and you just shake my hand?\!
+playerchild.adult.greeting.handshake.bad3=I don't want to shake your hand.
+playerchild.adult.greeting.handshake.bad4=I'm uh...busy right now.
+playerchild.adult.greeting.handshake.bad5=I'm too busy - like you always seem to be.
+
+playerchild.adult.greeting.highfive.good1=It's still fun\!
+playerchild.adult.greeting.highfive.good2=*Cheers*
+playerchild.adult.greeting.highfive.good3=We are awesome\!
+playerchild.adult.greeting.highfive.good4=Yes\! I've missed this.
+playerchild.adult.greeting.highfive.good5=We're the best\!
+
+playerchild.adult.greeting.highfive.bad1=I'm too old to be high fiving all the time.
+playerchild.adult.greeting.highfive.bad2=Not right now, please.
+playerchild.adult.greeting.highfive.bad3=I don't want to high five with you.
+playerchild.adult.greeting.highfive.bad4=I want to talk, not high five\!
+playerchild.adult.greeting.highfive.bad5=Why won't you actually talk to me anymore?
+
+playerchild.adult.tellstory.good1=*Laughs* That reminds me of when I was a young child.
+playerchild.adult.tellstory.good2=You and %ParentOpposite% really loved each other, didn't you?
+playerchild.adult.tellstory.good3=That sounds fun\! We should try it sometimes\!
+playerchild.adult.tellstory.good4=*Laughs* I'm so glad I'm in this family.
+playerchild.adult.tellstory.good5=They did what to the chickens?
+
+playerchild.adult.tellstory.bad1=Um, have you told that to %ParentOpposite%?
+playerchild.adult.tellstory.bad2=I don't approve.
+playerchild.adult.tellstory.bad3=You...probably shouldn't tell that to anyone else.
+playerchild.adult.tellstory.bad4=That wasn't very nice.
+playerchild.adult.tellstory.bad5=You know, that reminds me of %RandomName%\!
+
+#######
+# Kid Dialogue
+##############################
+playerchild.young.chat.bad1=I don't wanna talk. Leave me alone\!
+playerchild.young.chat.bad2=%CallPlayerParent%, I'm busy\!
+playerchild.young.chat.bad3=Shhhh\!
+playerchild.young.chat.bad4=You're boring.
+playerchild.young.chat.bad5=*Ignores you*
+playerchild.young.chat.bad6=%ParentOpposite% said not to say that\!
+playerchild.young.chat.bad7=I am busy\!
+playerchild.young.chat.bad8=Don't you see that I am busy?\!
+playerchild.young.chat.bad9=I'm...*yawn*, going to take a nap.
+
+playerchild.young.chat.good1=*Listens Closely*
+playerchild.young.chat.good2=Will you take me with you next time, %CallPlayerParent%?
+playerchild.young.chat.good3=I want to go hunting\!
+playerchild.young.chat.good4=Why can't I go with you?
+playerchild.young.chat.good5=I really wanna go next time, please?
+playerchild.young.chat.good6=That's amazing, %CallPlayerParent%\! How did you do that?
+playerchild.young.chat.good7=Really? That is so cool\!
+playerchild.young.chat.good8=You're the best %CallPlayerParent% in the world\! No, the universe\!
+
+playerchild.young.joke.bad1=Uh-oh\! %CallPlayerParent% said a bad word\!
+playerchild.young.joke.bad2=That's dumb.
+playerchild.young.joke.bad3=You're a big dummy. I don't get it.
+playerchild.young.joke.bad4=Why joke about that? *Cries*
+playerchild.young.joke.bad5=Stop making fun of me\!
+playerchild.young.joke.bad6=%ParentOpposite% said not to say that word\!
+playerchild.young.joke.bad7=I've heard that one a million times before, %CallPlayerParent%.
+playerchild.young.joke.bad8=That didn't make sense.
+
+playerchild.young.joke.good1=You're funny, %CallPlayerParent%.
+playerchild.young.joke.good2=Ha ha\! I get it\!
+playerchild.young.joke.good3=I'll tell my friend that one\!
+playerchild.young.joke.good4=That wasn't dumb like the other twenty.
+playerchild.young.joke.good5=*Giggles*
+playerchild.young.joke.good6=That was funny\!
+playerchild.young.joke.good7=I'll have to remember that one\!
+
+playerchild.young.chore.start.farming1=Yes, %CallPlayerParent%.
+playerchild.young.chore.start.farming2=Yay\! I love to farm.
+playerchild.young.chore.start.farming3=I'll start right now.
+playerchild.young.chore.start.farming4=Finally I get to do something.
+playerchild.young.chore.start.farming5=Okay.
+playerchild.young.chore.start.farming6=I was hoping you'd ask me to do this\!
+playerchild.young.chore.start.farming7=I hope this goes to my birthday cake.
+
+playerchild.young.chore.start.fishing1=Fishing is so boring. 
+playerchild.young.chore.start.fishing2=But fishing takes so long\!
+playerchild.young.chore.start.fishing3=I don't know how, I swear\!
+playerchild.young.chore.start.fishing4=But fish are so stinky\!
+playerchild.young.chore.start.fishing5=But they're slimy...
+playerchild.young.chore.start.fishing6=I don't like getting wet\!
+playerchild.young.chore.start.fishing7=I don't want to fish.
+playerchild.young.chore.start.fishing8=Why always fishing?
+
+playerchild.young.chore.start.mining1=Which way do I hold the pickaxe, again?
+playerchild.young.chore.start.mining2=I'm telling %ParentOpposite% if I fall in lava again.
+playerchild.young.chore.start.mining3=Yay\! I love mining\!
+playerchild.young.chore.start.mining4=I hope a skeleton doesn't shoot me again.
+playerchild.young.chore.start.mining5=If I find a diamond, I'm allowed to keep it, okay?
+
+playerchild.young.chore.start.woodcutting1=Trees, trees, trees, trees...
+playerchild.young.chore.start.woodcutting2=I hope one doesn't fall on me again\!
+playerchild.young.chore.start.woodcutting3=Can we build a tree house after I'm done?
+playerchild.young.chore.start.woodcutting4=What are you using the wood for?
+
+playerchild.young.chore.start.hunting1=Alright\! I love hunting.
+playerchild.young.chore.start.hunting2=I hope a wolf doesn't bite me again.
+playerchild.young.chore.start.hunting3=But I'm so small\! Last time it took me hours to drag a cow back.
+
+playerchild.young.chore.stop1=*Sighs with relief*
+playerchild.young.chore.stop2=I thought you'd never let me stop.
+playerchild.young.chore.stop3=I'm so tired...
+playerchild.young.chore.stop4=Finally. I was getting bored.
+playerchild.young.chore.stop5=Finally. I was getting tired.
+playerchild.young.chore.stop6=Don't make me do that again\!
+
+playerchild.young.follow.start1=Ok, where are we going?
+playerchild.young.follow.start2=Yay\! I can stay with %CallPlayerParent%\!
+playerchild.young.follow.start3=Yay\! I will come with you.
+playerchild.young.follow.start4=But I don't wanna go\!
+playerchild.young.follow.start5=Is %ParentOpposite% coming too?
+playerchild.young.follow.start6=I hope we see a pig, or a cow, or a chicken, or a sheep\!
+playerchild.young.follow.start7=Are we going to a jungle? I want to see a kitty cat.
+playerchild.young.follow.start8=I hope we don't get too far away...
+playerchild.young.follow.start9=Creepers scare me, I hope we don't run into one.
+
+playerchild.young.follow.stop1=Ok. I'll wait here.
+playerchild.young.follow.stop2=Don't leave long, okay?
+playerchild.young.follow.stop3=But it's scary here...
+playerchild.young.follow.stop4=No, %CallPlayerParent%, don't go\!
+playerchild.young.follow.stop5=But I hear noises...
+playerchild.young.follow.stop6=Fine, just don't forget about me, %CallPlayerParent%.
+playerchild.young.follow.stop7=But..what if it turns night?
+playerchild.young.follow.stop8=Will you be back shortly?
+playerchild.young.follow.stop9=Don't leave me here\!
+
+playerchild.young.gift.bad1=What could I use this for\!?
+playerchild.young.gift.bad2=This is stinky.
+playerchild.young.gift.bad3=I don't like these.
+playerchild.young.gift.bad4=%CallPlayerParent%, you know what I like and don't like.
+playerchild.young.gift.bad5=Get me something good.
+playerchild.young.gift.bad6=I already have like, ten million of these.
+playerchild.young.gift.bad7=This is useless junk\!
+playerchild.young.gift.bad8=I'd rather get nothing\!
+playerchild.young.gift.bad9=Huh??
+
+playerchild.young.gift.great1=Where did you get this, %CallPlayerParent%?
+playerchild.young.gift.great2=Is this for me?
+playerchild.young.gift.great3=Yaaaaaaaaay\!
+playerchild.young.gift.great4=It's all mine\!?
+playerchild.young.gift.great5=%ParentOpposite% calls these 'sexy'.
+playerchild.young.gift.great6=Ye're th' best %CallPlayerParent% ever\!
+
+playerchild.young.gift.regular1=I hope I'll get more\!
+playerchild.young.gift.regular2=Is this for me?
+playerchild.young.gift.regular3=You got me two, didn't you?
+playerchild.young.gift.regular4=It's for me?\!
+
+playerchild.young.gift.small1=Where did you get this, %CallPlayerParent%?
+playerchild.young.gift.small2=Ooooh, shiny\!
+playerchild.young.gift.small3=Presents\! I always love presents\!
+playerchild.young.gift.small4=I like it, %CallPlayerParent%.
+playerchild.young.gift.small5=Thanks, %CallPlayerParent%.
+
+playerchild.young.greeting.basic1=Hi, %CallPlayerParent%.
+playerchild.young.greeting.basic2=Ew, %CallPlayerParent%, you stink. Where have you been?
+playerchild.young.greeting.basic3=Yay\! %CallPlayerParent% is home\!
+playerchild.young.greeting.basic4=Horray, %CallPlayerParent%\! Did you bring me anything?
+
+playerchild.young.greeting.friend1=Ahoy\! %CallPlayerParent% %CallPlayerParent% %CallPlayerParent%\!\!\!
+playerchild.young.greeting.friend2=You brought me a gift didn't you?
+playerchild.young.greeting.friend3=%CallPlayerParent%, I missed you.
+playerchild.young.greeting.friend4=Tell me stories about where you've been\!
+playerchild.young.greeting.friend5=%CallPlayerParent%, don't leave again. It makes %ParentOpposite% sad.
+
+playerchild.young.greeting.hate1=Please don't hurt me again %CallPlayerParent%.
+playerchild.young.greeting.hate2=%CallPlayerParent%, are you going to be nice to me now?
+playerchild.young.greeting.hate3=H...hi...%CallPlayerParent%
+playerchild.young.greeting.hate4=*Cowers in fear*
+playerchild.young.greeting.hate5=I'll be good today, %CallPlayerParent%...don't hit me.
+
+playerchild.young.hitbyplayer1=Ow\! I'll tell %ParentOpposite% on you\!
+playerchild.young.hitbyplayer2=%CallPlayerParent%, stop hitting me\!
+playerchild.young.hitbyplayer3=%CallPlayerParent%, that hurts\!
+playerchild.young.hitbyplayer4=Ow\! What did I do, %CallPlayerParent%?
+playerchild.young.hitbyplayer5=Ow\!
+playerchild.young.hitbyplayer6=Ouch\!
+playerchild.young.hitbyplayer7=I'm telling %ParentOpposite%\!
+
+playerchild.young.gifted.baby1=Ew\! It's stinky\!
+
+playerchild.young.tellstory.good1=Did you get a spanking for that?
+playerchild.young.tellstory.good2=I want to do that\!
+playerchild.young.tellstory.good3=I'll never disobey you again after hearing that\!
+playerchild.young.tellstory.good4=*Laughs* %ParentOpposite% did that?
+playerchild.young.tellstory.good5=I can't believe you did that\!
+
+playerchild.young.tellstory.bad1=*Cries* Why would you do such a thing?
+playerchild.young.tellstory.bad2=I'm telling %RandomName% you said that.
+playerchild.young.tellstory.bad3=Yeah, yeah, whatever. I don't want to hear any stories right now.
+playerchild.young.tellstory.bad4=The creeper will get me?\!
+playerchild.young.tellstory.bad5=*Cries* I don't want %ParentOpposite% turning into a zombie\!
+
+playerchild.young.play.good1=You can't catch me\!
+playerchild.young.play.good2=I love when you play with me, %CallPlayerParent%.
+playerchild.young.play.good3=I'm going to win\!
+playerchild.young.play.good4=This is gonna be fun\!
+playerchild.young.play.good5=You'll never beat me\!
+
+playerchild.young.play.bad1=You never let me win.
+playerchild.young.play.bad2=Ya need th' excersise, but I don't.
+playerchild.young.play.bad3=I'm too old for this.
+playerchild.young.play.bad4=Why don't you play with your favorite kid?
+playerchild.young.play.bad5=I only want to play with %RandomName%.
+
+playerchild.young.greeting.handshake.good1=Hi, %CallPlayerParent%.
+playerchild.young.greeting.handshake.good2=Where did you go today?
+playerchild.young.greeting.handshake.good3=Tell me about your adventures.
+playerchild.young.greeting.handshake.good4=You're back. What have you been doing?
+playerchild.young.greeting.handshake.good5=Let's do something\!
+
+playerchild.young.greeting.handshake.bad1=...Why are you shaking my hand?
+playerchild.young.greeting.handshake.bad2=Your hands are sweaty and gross.
+playerchild.young.greeting.handshake.bad3=Ew, don't touch me\!
+playerchild.young.greeting.handshake.bad4=I don't want to shake hands\!
+playerchild.young.greeting.handshake.bad5=Why don't you talk to me instead of shaking my hand all the time?
+
+playerchild.young.greeting.highfive.good1=Will you do it again?
+playerchild.young.greeting.highfive.good2=This is fun\!
+playerchild.young.greeting.highfive.good3=*Laughs*
+playerchild.young.greeting.highfive.good4=Do a high five again\!
+playerchild.young.greeting.highfive.good5=Please, just one more time\!
+
+playerchild.young.greeting.highfive.bad1=I'm bored of that now.
+playerchild.young.greeting.highfive.bad2=Do you do anything else?
+playerchild.young.greeting.highfive.bad3=I can't reach you, dummy\!
+playerchild.young.greeting.highfive.bad4=I don't want to high five any more.
+playerchild.young.greeting.highfive.bad5=That's getting annoying.
+
+#######
+# Spouse Dialogue
+##############################
+spouse.chat.bad1=I've heard that story before.
+spouse.chat.bad2=It's getting boring talking about the same thing.
+spouse.chat.bad3=Don't you have something better to talk about?
+spouse.chat.bad4=I don't want to talk about that.
+spouse.chat.bad5=Whatever you say.
+spouse.chat.bad6=Do you have anything else you want to tell me?
+
+spouse.chat.good1=I love it when you tell me your adventuring stories.
+spouse.chat.good2=Impressive\!
+spouse.chat.good3=Yes, things are okay around here.
+spouse.chat.good4=Well today I...oh, you don't want to hear, I'm sure\!
+spouse.chat.good5=Been a long day for you too, huh?
+spouse.chat.good6=That's why I love you.
+spouse.chat.good7=Wonderful that is, I'm glad I'm married to you.
+spouse.chat.good8=Your stories amaze me\!
+spouse.chat.good9=Good story\!
+spouse.chat.good10=I'm hungry. Where's your hard tack?
+
+spouse.divorce1=I'm through with you\!
+spouse.divorce2=Good riddance\!
+spouse.divorce3=I never want to see you again\!
+spouse.divorce4=Just...get away from me\!
+spouse.divorce5=I can't believe you\! Leave me alone\!
+spouse.divorce6=Why? Am I not...good enough...?
+spouse.divorce7=I thought you really loved me\!
+spouse.divorce8=What\!? No\! I can't believe this\!
+spouse.divorce9=Get away from me\! Forever\!
+
+spouse.follow.start1=Oh okay, where are we going?
+spouse.follow.start2=Alright, I'll keep up.
+spouse.follow.start3=Okay, let's go\!
+spouse.follow.start4=Are we finally leaving this dump?
+spouse.follow.start5=Is our new ship somewhere throughout this great land? 
+spouse.follow.start6=Okay but I don't want to move from here.
+spouse.follow.start7=Can I be off adventurin' wit' ye? How excitin'\!
+spouse.follow.start8=Let's go somewhere nice, shall we?
+
+spouse.follow.stop1=That place looks really nice\!
+spouse.follow.stop2=Well, alright, ye're always welcome to brin' me wit' ye, dear.
+spouse.follow.stop3=Alright then, be careful out there\!
+spouse.follow.stop4=I'll be around here when you come back.
+spouse.follow.stop5=Whew, that was tiresome but at least I was with you.
+
+spouse.gift.bad1=Oh...no thanks. I have one of those already. Somewhere.
+spouse.gift.bad2=I hope you didn't expect me to like that.
+spouse.gift.bad3=I should've known you wouldn't remember what I like.
+spouse.gift.bad4=Why are you giving this to me?
+spouse.gift.bad5=This is what you call a gift?
+spouse.gift.bad6=I thought you knew me well enough to know what I like. Apparently not.
+spouse.gift.bad7=This... is bad. I don't want this.
+
+spouse.gift.great1=Oh me...how much doubloons did 'tis cost?
+spouse.gift.great2=How did you get this\!? Thank you\!
+spouse.gift.great3=It must've been very hard to get this\!
+spouse.gift.great4=I really shouldn't take it...but it's so shiny\!
+spouse.gift.great5=I will cherish this forever.
+spouse.gift.great6=Thank you sweetheart, you really know what I love.
+spouse.gift.great7=This is something I'll always hold close to me, thank you.
+spouse.gift.great8=Yer sexy 'n I be knowin' it.
+
+spouse.gift.regular1=This is great\! Thank you\!
+spouse.gift.regular2=Bring me more\!
+spouse.gift.regular3=You didn't have to do this...thank you.
+spouse.gift.regular4=This is great\! Thanks\!
+spouse.gift.regular5=You know just what I like, don't you?
+spouse.gift.regular6=Oh, thanks, this is very nice of you.
+spouse.gift.regular7=That was very sweet.
+
+spouse.gift.small1=Thanks\!
+spouse.gift.small2=I appreciate this.
+spouse.gift.small3=Oh. It's the thought that counts, though\!
+spouse.gift.small4=Yarrr like treasure.
+spouse.gift.small5=Thank you. You didn't have to give me anything, though. 
+
+spouse.greeting.basic1=Hi, honey.
+spouse.greeting.basic2=Where have you been today?
+spouse.greeting.basic3=Hey, honey. How are you doing?
+spouse.greeting.basic4=Is everything alright?
+spouse.greeting.basic5=You're back from your adventure it seems. How are you, sweetheart?
+spouse.greeting.basic6=I missed you\! How have you been, dear?
+spouse.greeting.basic7=I was worried about you, you left without a word. But I'm glad you're back.
+spouse.greeting.basic8=Hey, how is it going?
+spouse.greeting.basic9=Had a nice day today?
+spouse.greeting.basic10=I'm glad you're back.
+
+spouse.greeting.friend1=Hi, honey.
+spouse.greeting.friend2=Where have you been today?
+spouse.greeting.friend3=Hey, honey. How are  you doing?
+spouse.greeting.friend4=Is everything alright?
+spouse.greeting.friend5=You're back from your adventure it seems. How are you, sweetheart?
+spouse.greeting.friend6=I missed you\! How have you been, dear?
+spouse.greeting.friend7=I was worried about you, you left without a word. But I'm glad you're back.
+spouse.greeting.friend8=Hey, how is it going?
+spouse.greeting.friend9=Had a nice day today?
+spouse.greeting.friend10=I'm glad you're back.
+
+spouse.greeting.hate1=I don't want to speak with you right now.
+spouse.greeting.hate2=I'm very upset with you. Leave me alone please.
+spouse.greeting.hate3=%PlayerName%, I said I'm not speaking with you.
+spouse.greeting.hate4=We are no longer on speaking terms, just so you know.
+spouse.greeting.hate5=You'd better shape up or I'm walking.
+
+spouse.hitbyplayer1=Ow\! Abuse\!
+spouse.hitbyplayer2=I hope you didn't mean to do that.
+spouse.hitbyplayer3=That really hurt...
+spouse.hitbyplayer4=Stop hurting me\!
+spouse.hitbyplayer5=Ow\! Scallywag\!
+spouse.hitbyplayer6=Why would you want to hit me\!?
+spouse.hitbyplayer7=What the heck was that for\!?
+
+spouse.gifted.baby1=Again? Argh. Fine.
+spouse.gifted.baby2=You're so cute\! Yes you are\! Yes you are\!
+spouse.gifted.baby3=Okay, I'll hold it.
+spouse.gifted.baby4=Ooo\! Something in here for me? Oh. It's the baby.
+spouse.gifted.baby5=Fine. Give it here.
+spouse.gifted.baby6=Look, it's got my eyes\!
+spouse.gifted.baby7=Oh, can't handle the baby? Alright then, give it to me.
+
+spouse.joke.bad1=Uh...I think you've told that one before.
+spouse.joke.bad2=That made absolutely no sense?
+spouse.joke.bad3=I be pretty sure 'tis illegal to be tellin' jokes that bad.
+spouse.joke.bad4=That was....great...honey.
+spouse.joke.bad5=*Awkward smile*
+spouse.joke.bad6=*Forced chuckle*
+spouse.joke.bad7=...Moving on....
+
+spouse.joke.good1=Aw. You told me that one when we first met.
+spouse.joke.good2=I remember that one\! Still funny\!
+spouse.joke.good3=Oh, you're so funny\!
+spouse.joke.good4=How do you come up with these? Haha\!
+spouse.joke.good5=I really shouldn't laugh at that, but it's just too funny\!
+
+spouse.procreate.refuse1=No, I don't think so.
+spouse.procreate.refuse2=You must be joking\!
+spouse.procreate.refuse3=Not after how you've treated me\!
+spouse.procreate.refuse4=I barely even like you. There's no way I'll do that.
+spouse.procreate.refuse5=Yeah, right\! Treat me a little better and I'll think about it.
+
+spouse.kiss.good1=You're so sweet.
+spouse.kiss.good2=I love you, too.
+spouse.kiss.good3=Ye're too jolly to me, like a real siren.
+spouse.kiss.good4=Thank ye, that was nice n' all.
+spouse.kiss.good5=How nice 'o ye\!
+
+spouse.kiss.bad1=No. I be not in th' mood this day.
+spouse.kiss.bad2=Why be ye suddenly bein' nice to me?
+spouse.kiss.bad3=Be off kissin' a bovine.
+spouse.kiss.bad4=No, me thinks not.
+spouse.kiss.bad5=Th' moon be up too high fer that.
+spouse.kiss.bad6=Yer snotty nose poked me eye\!
+spouse.kiss.bad7=Ew, that was more wet 'n sloppy than all the seven seas\!
+spouse.kiss.bad8=Ye just don't be knowin' how to kiss.
+
+spouse.flirt.good1=Ye're such a smooth talker.
+spouse.flirt.good2=*Blush* Yer always be quite th' charmer.
+spouse.flirt.good3=Arr, ye haven't changed a wee bit since we've gotten married.
+spouse.flirt.good4=Aw\! That was so sweet\!
+spouse.flirt.good5=Oh me, I be embarrassed.
+
+spouse.flirt.bad1=Ain't nobody in all of the world got the hour fer that\!
+spouse.flirt.bad2=How original.
+spouse.flirt.bad3=I bet ye be tellin' all ye mateys that. No, I be deadly serious. I bet ye do.
+spouse.flirt.bad4=I be not in th' mood.
+spouse.flirt.bad5=Now ye want to give a go' romancin' me? What 'bout when we were datin'?
+
+spouse.tellstory.good1=That was a jolly one\!
+spouse.tellstory.good2=What did that scurvy filmmaker Cupquake do next?
+spouse.tellstory.good3=Ye be watching ChimneySwift11's "PirateCraft Files" too?\!
+spouse.tellstory.good4=*Laughs* That reminds me 'o th' the hour me mother walked in on me, except I was mopin' the floor.
+spouse.tellstory.good5=Aw, I be needin' a girly offsprin' like that\!
+
+spouse.tellstory.bad1=Why would ye be tellin' me that?
+spouse.tellstory.bad2=That makes me want to spill the seas outta me eyeballs...
+spouse.tellstory.bad3=*Ignores ya*
+spouse.tellstory.bad4=Why did THAT brin' ye such joy?
+spouse.tellstory.bad5=Ye shouldn't make a ruckas 'o %RandomName%.
+
+spouse.greeting.handshake.good1=I just love th' feelin' 'o yer hook in mine.
+spouse.greeting.handshake.good2=ye're silly\!
+spouse.greeting.handshake.good3=How be ye day goin', sweetheart?
+spouse.greeting.handshake.good4=How ye be doing?
+spouse.greeting.handshake.good5=Ahoy, me lust.
+
+spouse.greeting.handshake.bad1=Ach, yer hook hands be somewhere mucky.
+spouse.greeting.handshake.bad2=Ye hands be sweaty.
+spouse.greeting.handshake.bad3=A handshake? That be it?
+spouse.greeting.handshake.bad4=No, ye've be in th' caves all day.
+spouse.greeting.handshake.bad5=They be smelling like... Bovines?\!
+
+spouse.greeting.highfive.good1=Arrrr ye\!
+spouse.greeting.highfive.good2=In the clouds\!
+spouse.greeting.highfive.good3=Hit me hands\!
+spouse.greeting.highfive.good4=What's up?
+spouse.greeting.highfive.good5=Yes, even in Davy Jones' locker\!
+
+spouse.greeting.highfive.bad1='Tis be th' most touchin' we've done in forever.
+spouse.greeting.highfive.bad2=I be not a wee younglin' no more.
+spouse.greeting.highfive.bad3=You be more immature then a younglin.
+spouse.greeting.highfive.bad4=Ow\! Ya smacked me\!
+spouse.greeting.highfive.bad5=I wouldn't dare touch ye dirty hands.
+
+spouse.chore.start.cooking1='O course\! I'll cook any grub ya gift me.
+spouse.chore.start.cooking2=Aye aye\! I'll get done on that.
+spouse.chore.start.cooking3=Some o' that food be mine too, so keep a bit fer me.
+spouse.chore.start.cooking4=I be famished, too\!
+spouse.chore.start.cooking5=I woe I don't burn like timber 'tis the hour.
+

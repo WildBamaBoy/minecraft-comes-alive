@@ -1,0 +1,2255 @@
+#X-Generator: crowdin.com
+#X-Generator: crowdin.net
+itemGroup.tabMCA=Minecraft bliver levende
+
+##########
+# Heir
+#############################
+heir.set.success=%Name% er nu din arving.
+heir.set.failure.alreadyset=Du har allerede valgt nogen andre som din arving.
+heir.set.failure.sameperson=%Name% er allerede din arving.
+heir.set.failure.alreadyused=%Name% har allerede blevet din arving. Du skal bruge en anden.
+
+heir.gui.requestcrown=Anmod om kronen
+heir.gui.recoverinventory=Genvinder genstande
+
+heir.good.returncrown1=Okay. Det var sjovt s\u00e5 l\u00e6nge det vartet.
+heir.good.returncrown2=Ja selvf\u00f8lgelig, %CallPlayerParent%. Her er din krone.
+heir.good.returncrown3=Det vil jeg gerne. Det var alligevel ved at blive kedeligt.
+heir.good.returncrown4=Bare fem minutter mere? Okay, fint\!
+heir.good.returncrown5=jeg er glad for at det er overst\u00e5et. folk startede virkelig med at hade mig\!
+
+heir.good.founditems1=Du er tilbage\! Jeg troede du var forsvundet for altid. Her er dine ting.
+heir.good.founditems2=Vi fandt dine ting, og troede du var forsvundet \! Her tag dem.
+heir.good.founditems3=Jeg sendte nogle vagter ud for at lede efter dig. De kom tilbage med dine ting.
+heir.good.founditems4=jeg kan ikke tro at du klarede det tilbage\! vi fandt dine ting, men ikke dig.
+
+##########
+# Information
+#############################
+information.doesnothing=Laver intet i \u00f8jeblikket.
+
+information.whistle.line1=H\u00f8jre klik mens udstyret
+information.whistle.line2=for at bringe din \u00e6gtef\u00e6lle og
+information.whistle.line3=b\u00f8rn med dig.
+
+information.heircrown.line1=En gave til dit barn
+information.heircrown.line2=for at g\u00f8re dem til konge/dronning
+information.heircrown.line3=n\u00e5r du d\u00f8r.
+
+information.weddingring.line1=Giv til en landsbyboer hvis
+information.weddingring.line2=hjerter er over 100 for at g\u00f8re
+information.weddingring.line3=din \u00e6gtef\u00e6lle.
+
+information.villagereditor.line1=H\u00f8jre klik en landsbyboer
+information.villagereditor.line2=for at \u00e6ndre p\u00e5 dem.
+
+information.tombstone.line1=Plac\u00e9r som en hyldest til
+information.tombstone.line2=et mistet familie medlem.
+
+information.lostrelativedocument.line1=Brug p\u00e5 en landsbyboer for at g\u00f8re dem
+information.lostrelativedocument.line2=til et bekendtskab af dit valg.
+
+information.engagementring.line1=Giv til en landsbyboer, derefter giv
+information.engagementring.line2=dem en bryllupsring for at f\u00e5
+information.engagementring.line3=gaver fra andre landsbyboere.
+
+information.crown.line1=Lav for at blive til en monark.
+
+information.baby.line1=H\u00f8jre klik jorden for at
+information.baby.line2=vokse babyen til et barn
+information.baby.line3=n\u00e5r det er klart.
+
+information.arrangersring.line1=Giv til en landsbyboer, derefter giv en anden
+information.arrangersring.line2=til en landsbyboer i n\u00e6rheden for at arrangere et
+information.arrangersring.line3=\u00e6gteskab mellem de to.
+
+information.villagerbed.line1=Place this bed on the ground
+information.villagerbed.line2=and a nearby villager will sleep
+information.villagerbed.line3=in it at night.
+
+##########
+# Traits
+#############################
+gui.info.trait=Tr\u00e6k\: 
+trait.unknown=Ukendt
+
+trait.none=Ingen
+trait.shy=Genert
+trait.fun=Sjov
+trait.serious=Seri\u00f8s
+trait.friendly=Venlig
+trait.irritable=Irritabel
+trait.emotional=F\u00f8lelsesladet
+trait.outgoing=Udg\u00e5ende
+
+##########
+# Moods
+#############################
+gui.info.mood=Hum\u00f8r\: 
+
+mood.happy.ecstatic=Henrykt
+mood.happy.cheerful=Munter
+mood.happy.happy=Glad
+mood.happy.fine=Udm\u00e6rket
+mood.happy.okay=Okay
+
+mood.neutral.passive=Passiv
+
+mood.sadness.blue=Bl\u00e5
+mood.sadness.unhappy=Ulykkelig
+mood.sadness.sad=Trist
+mood.sadness.cheerless=Utr\u00f8stelig
+mood.sadness.depressed=Deprimeret
+
+mood.anger.annoyed=Irriteret
+mood.anger.agitated=Ophidset
+mood.anger.mad=Gal
+mood.anger.seething=Sydende
+mood.anger.infuriated=Rasende
+
+mood.fatigue.tired=Tr\u00e6t
+mood.fatigue.sleepy=S\u00f8vnig
+mood.fatigue.fatigued=Tr\u00e6t
+mood.fatigue.exhausted=Udmattet
+mood.fatigue.comatose=I koma
+
+#######
+# Monarch
+#############################
+monarch.gui.button.interact.demandgift=Kr\u00e6v Gave
+monarch.gui.button.interact.execute=Henret
+monarch.gui.button.interact.makeknight=Lav Ridder
+monarch.gui.button.interact.makepeasant=Lav Bonde
+
+monarch.knight.follow.start1=Hvad som helst for dig, min %MonarchTitle%.
+monarch.knight.follow.start2=Jeg vil f\u00f8lge dig hvor som helst, deres h\u00f8jhed.
+monarch.knight.follow.start3=V\u00e5ben klar\!
+monarch.knight.follow.start4=P\u00e5 din ordre.
+monarch.knight.follow.start5=Som du \u00f8nsker.
+
+monarch.knight.follow.stop1=Jeg er ledig til hver en tid, min %MonarchTitle%.
+monarch.knight.follow.stop2=Som du \u00f8nsker, deres h\u00f8jhed.
+monarch.knight.follow.stop3=Jeg vil forts\u00e6tte med mine pligter.
+
+monarch.knight.follow.refuse1=Jeg ville aldrig mods\u00e6tte mig %MonarchPlayerName%s \u00f8nsker\!
+monarch.knight.follow.refuse2=Jeg er edsvoren til %MonarchPlayerName%.
+monarch.knight.follow.refuse3=Jeg er ridder af %MonarchPlayerName%.
+
+monarch.execute.failure.noweapon=Du har ikke et v\u00e5ben til at henrette denne person med.
+monarch.execute.failure.playerspouse=Du kan ikke henrette en spillers \u00e6gtef\u00e6lle.
+
+monarch.makepeasant.success=Denne landsbyboer er nu en bonde under dit herred\u00f8mme. De vil arbejde gratis hvis de fuldf\u00f8rer pligter.
+monarch.makepeasant.failure.alreadypeasant=Denne landsbyboer er allerede en bonde for en anden monark.
+monarch.makepeasant.failure.playerspouse=En spillers \u00e6gtef\u00e6lle kan ikke blive lavet til en bonde.
+
+monarch.makeknight.success=Denne vagt er nu en ridder under dit herred\u00f8mme.
+monarch.makeknight.failure.alreadyknight=Denne vagt er allerede en ridder for en anden monark.
+monarch.makeknight.failure.playerspouse=En spillers \u00e6gtef\u00e6lle kan ikke blive lavet til en ridder.
+
+monarch.title.knight.male=Ridder %Name%
+monarch.title.knight.female=Ridder %Name%
+monarch.title.knight.male.otherplayer=(Ridder for %MonarchPlayerName%)
+monarch.title.knight.female.otherplayer=(Ridder for %MonarchPlayerName%)
+
+monarch.title.peasant.male.owner=(Bonde)
+monarch.title.peasant.female.owner=(Bonde)
+monarch.title.peasant.male.otherplayer=(Bonde for %MonarchPlayerName%)
+monarch.title.peasant.female.otherplayer=(Bonde for %MonarchPlayerName%)
+
+monarch.title.monarch=Hersker
+monarch.title.heir=Arving
+monarch.title.male.player=Konge
+monarch.title.male.heir=Prins
+monarch.title.female.player=Dronning
+monarch.title.female.heir=Prinsesse
+
+monarch.demandgift.accept1=Selvf\u00f8lgelig, deres h\u00f8jhed\!
+monarch.demandgift.accept2=Hvad som helst for at tilfredsstille dig, deres h\u00f8jhed.
+monarch.demandgift.accept3=Hvad som helst for min %MonarchTitle%\!
+monarch.demandgift.accept4=Ja, min %MonarchTitle%.
+monarch.demandgift.accept5=Jeg ville v\u00e6re be\u00e6ret over at bade dem i rigdomme, min %MonarchTitle%.
+monarch.demandgift.accept6=S\u00e5dan en elskv\u00e6rdig %MonarchTitle% fortjener mange gaver\!
+monarch.demandgift.accept7=Det vil jeg med gl\u00e6de, deres h\u00f8jhed.
+
+monarch.demandgift.toomany1=Jeg har knap nok noget til mig selv nu\!
+monarch.demandgift.toomany2=Jeg beder dig, jeg har allerede givet s\u00e5 meget...
+monarch.demandgift.toomany3=Jeg troede du var en omsorgsfuld %MonarchTitle%, ikke en gr\u00e5dig en.
+monarch.demandgift.toomany4=Du h\u00f8rte ikke det her fra mig, men folk begynder at tro du er en tyran.
+monarch.demandgift.toomany5=Jeg kan kun give s\u00e5 meget\!
+monarch.demandgift.toomany6=Jeg kan ikke give dig meget... Du har kr\u00e6vet for meget fra mig.
+
+monarch.demandgift.dictator1=Glem det\! Jeg giver dig ikke noget mere\!
+monarch.demandgift.dictator2=Vi er tr\u00e6tte af dine konstante krav\! Nej\!
+monarch.demandgift.dictator3=Nej\! Det er nok\!
+monarch.demandgift.dictator4=Vi har f\u00e5et nok af din aldrig sluttende gr\u00e5dighed\!
+monarch.demandgift.dictator5=G\u00f8r hvad du vil, men jeg giver dig ikke andet\!
+
+#######
+# Names
+##############################
+name.male1=Aaron
+name.male2=Aceton
+name.male3=Adam
+name.male4=Aidan
+name.male5=Alan
+name.male6=Alex
+name.male7=Allen
+name.male8=Andrew
+name.male9=Anthony
+name.male10=Armando
+name.male11=Arthur
+name.male12=Austin
+name.male13=Ben
+name.male14=Bill
+name.male15=Billy
+name.male16=Bradley
+name.male17=Brady
+name.male18=Braxton
+name.male19=Brayden
+name.male20=Brenden
+name.male21=Brent
+name.male22=Brian
+name.male23=Brice
+name.male24=Brighton
+name.male25=Caleb
+name.male26=Cameron
+name.male27=Christopher
+name.male28=Cleveland
+name.male29=Cody
+name.male30=Colby
+name.male31=Collin
+name.male32=Colton
+name.male33=Corey
+name.male34=Coty
+name.male35=Dale
+name.male36=Damon
+name.male37=Dan
+name.male38=Dane
+name.male39=Danny
+name.male40=David
+name.male41=Derek
+name.male42=Devin
+name.male43=Donnie
+name.male44=Drew
+name.male45=Dylan
+name.male46=Edward
+name.male47=Eric
+name.male48=Ethan
+name.male49=Evan
+name.male50=Fred
+name.male51=Gabe
+name.male52=Garrett
+name.male53=Gary
+name.male54=Gavin
+name.male55=Harris
+name.male56=Harry
+name.male57=Hayden
+name.male58=Hunter
+name.male59=Jackson
+name.male60=Jacob
+name.male61=Jake
+name.male62=James
+name.male63=Jared
+name.male64=Jason
+name.male65=Jay
+name.male66=Jeremy
+name.male67=Jerry
+name.male68=Jim
+name.male69=Joe
+name.male70=John
+name.male71=Jon
+name.male72=Joseph
+name.male73=Josh
+name.male74=Justin
+name.male75=Kaden
+name.male76=Kent
+name.male77=Kevin
+name.male78=Leo
+name.male79=Leon
+name.male80=Lewis
+name.male81=Liam
+name.male82=Lucas
+name.male83=Mac
+name.male84=Marcus
+name.male85=Mark
+name.male86=Martin
+name.male87=Mason
+name.male88=Matt
+name.male89=Matthew
+name.male90=Michael
+name.male91=Mike
+name.male92=Nathan
+name.male93=Nathaniel
+name.male94=Nick
+name.male95=Oliver
+name.male96=Oscar
+name.male97=Owen
+name.male98=Patrick
+name.male99=Peter
+name.male100=Phil
+name.male101=Randy
+name.male102=Rey
+name.male103=Robert
+name.male104=Roger
+name.male105=Roy
+name.male106=Russ
+name.male107=Ryan
+name.male108=Scott
+name.male109=Seth
+name.male110=Shane
+name.male111=Shawn
+name.male112=Simon
+name.male113=Steve
+name.male114=Tanner
+name.male115=Tate
+name.male116=Terrence
+name.male117=Terry
+name.male118=Tim
+name.male119=Toby
+name.male120=Tom
+name.male121=Tommy
+name.male122=Tony
+name.male123=Trent
+name.male124=Tristan
+name.male125=Triston
+name.male126=Tyler
+name.male127=Tyson
+name.male128=Victor
+name.male129=Vincent
+name.male130=Will
+name.male131=William 
+
+name.female1=Addison
+name.female2=Adi
+name.female3=Alexis
+name.female4=Alice
+name.female5=Alicia
+name.female6=Allie
+name.female7=Allison
+name.female8=Allysa
+name.female9=Alma
+name.female10=Amelia
+name.female11=Amnesty
+name.female12=Amy
+name.female13=Andrea
+name.female14=Angie
+name.female15=Anna
+name.female16=Anne
+name.female17=Arieanne
+name.female18=Ashley
+name.female19=Ashlyn
+name.female20=Ashton
+name.female21=Aspen
+name.female22=Aubrey
+name.female23=Aurora
+name.female24=Autumn
+name.female25=Ava
+name.female26=Baylee
+name.female27=Brooke
+name.female28=Camilla
+name.female29=Christina
+name.female30=Christy
+name.female31=Constance
+name.female32=Courtney
+name.female33=Cynthia
+name.female34=Dawn
+name.female35=Destiny
+name.female36=Diana
+name.female37=Donna
+name.female38=Elizabeth
+name.female39=Emery
+name.female40=Emily
+name.female41=Emma
+name.female42=Emmalyn
+name.female43=Erika
+name.female44=Eve
+name.female45=Faye
+name.female46=Gracie
+name.female47=Gwen
+name.female48=Hannah
+name.female49=Hazel
+name.female50=Holly
+name.female51=Jaden
+name.female52=Jennifer
+name.female53=Jessica
+name.female54=Julia
+name.female55=Julie
+name.female56=Kaitlin
+name.female57=Katie
+name.female58=Kaylene
+name.female59=Kiana
+name.female60=Kimberly
+name.female61=Kristen
+name.female62=Kylee
+name.female63=Leslie
+name.female64=Linda
+name.female65=Lindsey
+name.female66=Lola
+name.female67=Lori
+name.female68=Lydia
+name.female69=Madison
+name.female70=Marisa
+name.female71=Megan
+name.female72=Melissa
+name.female73=Melody
+name.female74=Miranda
+name.female75=Molly
+name.female76=Nickie
+name.female77=Nicole
+name.female78=Oaklee
+name.female79=Penny
+name.female80=Rachel
+name.female81=Robin
+name.female82=Rosa
+name.female83=Rosalie
+name.female84=Sarah
+name.female85=Serenity
+name.female86=Sharon
+name.female87=Shayla
+name.female88=Sherry
+name.female89=Sheryl
+name.female90=Skylar
+name.female91=Sofia
+name.female92=Sonya
+name.female93=Stacey
+name.female94=Steph
+name.female95=Stephanie
+name.female96=Sylvia
+name.female97=Trinity
+name.female98=Valerie
+name.female99=Vannessa
+name.female100=Veronica
+name.female101=Whitney
+
+#######
+# Multiplayer
+##############################
+multiplayer.command.error.parameter=Parameter fejl. Usage\:
+multiplayer.command.error.unknown=En ukendt fejl er dukket op.
+multiplayer.command.error.playeroffline=Denne spiller er ikke logget ind p\u00e5 denne server.
+
+multiplayer.command.output.help=Minecraft Comes Alive - Kommandoer
+multiplayer.command.output.setgender=Dit k\u00f8n er nu\: 
+multiplayer.command.output.setname=Dit navn er nu\: 
+
+multiplayer.command.output.marry.noring=Du har ikke en bryllups ring, Du kan ikke gifte en anden spiller 
+multiplayer.command.output.marry.request=%TruePlayerName% Vil gerne giftes med dig.
+multiplayer.command.output.marry.accept=Du er nu gift med %PlayerSpouseName%.
+multiplayer.command.output.marry.decline=Your marriage request was declined.
+multiplayer.command.output.marry.norequest=Den spiller har ikke friet til dig endnu.
+multiplayer.command.output.marry.otheralreadymarried=Den spiller er gift
+multiplayer.command.output.marry.senderalreadymarried=Du er allerede gift.
+
+multiplayer.command.output.divorce.successful=You have been divorced from your current spouse.
+
+multiplayer.command.output.havebaby.request=%PlayerSpouseName% vil gerne have en baby.
+multiplayer.command.output.havebaby.decline=Your request to have a baby was declined.
+multiplayer.command.output.havebaby.limitreached=You have reached the child limit set by the server administrator.
+
+multiplayer.command.output.block.failed=Den spiller er allerede blokeret
+multiplayer.command.output.block.successful=Spiller blev succesfuldt blokeret.
+
+multiplayer.command.output.blockall.true.successful=Alle \u00e6gteskabs eftersp\u00f8rgseler er nu blokeret
+multiplayer.command.output.blockall.false.successful=Du kan nu for \u00e6gteskabs eftersp\u00f8rgsler igen
+
+multiplayer.command.output.unblock.failed=Den spiller er ikke blokeret
+multiplayer.command.output.unblock.successful=Spiller succesfuldt UnBlocked
+
+multiplayer.command.output.unblockall.successful=Alle blokerede spillere er nu unblocked.\n
+
+multiplayer.interaction.reject.spouse=Du kan ikke kontrollere en anden spiller's Kone/mand.
+multiplayer.interaction.reject.child=Du kan ikke kontrollere en andens spillers barn.
+
+#######
+# Achievements
+##############################
+achievement.charmer=En charm\u00f8r
+achievement.getmarried=Bliv gift
+achievement.cookbaby=For videnskaben. Dit Monster.
+achievement.havebabyboy=Det er en dreng\!
+achievement.havebabygirl=Det er en pige\!
+achievement.growbaby=De bliver s\u00e5 hurgtigt store
+achievement.farming=gratis arbejde
+achievement.fishing=Jeg skal fange dem alle
+achievement.woodcutting=Skovhugger
+achievement.mining=uendeligminer
+achievement.huntkill=Naturligt f\u00f8dt dr\u00e6ber
+achievement.hunttame=Gr\u00f8nne fingre
+achievement.growkid=Fuld voksen mand (eller kvinde)
+achievement.equipadult=Beskyttet til t\u00e6nderne
+achievement.mobkills=Personlig vagt
+achievement.marrychild=F\u00e5 dit barn gift
+achievement.havegrandchild=Bedstefor\u00e6ldre
+achievement.havegreatgrandchild=Gammel som jord
+achievement.havegreatx2grandchild=\u00c6ldre end Jord
+achievement.havegreatx10grandchild=Hvad er din hemmelighed?
+achievement.hardcoresecret=jeg vil h\u00e6vne dig
+achievement.craftcrown=Kron Mig\!
+achievement.executevillager=Af Med Dit Hoved\!
+achievement.makeknight=Det Her Er Ikke Skak
+achievement.knightarmy=H\u00e6r p\u00e5 Tyve
+achievement.makepeasant=God Dag, Min Herre
+achievement.peasantarmy=G\u00f8r Mit Bud
+achievement.nameheir=Royale Blodliner
+achievement.killheir=Der Kan Kun V\u00e6re \u00c9n
+achievement.monarchsecret=G\u00e5r Ned I Historie
+
+achievement.charmer.desc=F\u00e5 en bybeboers hjerter op p\u00e5 100 eller over.
+achievement.getmarried.desc=Bliv gift med en bybeboer.
+achievement.cookbaby.desc=Hemmeligt Trof\u00e6
+achievement.havebabyboy.desc=F\u00e5 en drenge baby.
+achievement.havebabygirl.desc=F\u00e5 en pige.
+achievement.growbaby.desc=F\u00e5 din baby til at blive et barn.
+achievement.farming.desc=F\u00e5 et barn til at pl\u00f8je 100 blokke landjord.
+achievement.fishing.desc=F\u00e5 et barn til at fange 100 fisk.
+achievement.woodcutting.desc=F\u00e5 et barn til at f\u00e5 100 blokke tr\u00e6.
+achievement.mining.desc=F\u00e5 et barn til at mine 300 blokke.
+achievement.huntkill.desc=F\u00e5 et barn til at jage og dr\u00e6be 100 dyr.
+achievement.hunttame.desc=F\u00e5 et barn til at t\u00e6mme 100 dyr.
+achievement.growkid.desc=F\u00e5 dit barn til at blive voksen.
+achievement.equipadult.desc=Giv dit voksen barn et fuldt s\u00e6t rustning og et v\u00e5ben.
+achievement.mobkills.desc=F\u00e5 en enkelt voksen til at dr\u00e6be 50 monstre.
+achievement.marrychild.desc=F\u00e5 dit barn gift.
+achievement.havegrandchild.desc=F\u00e5 et barnebarn.
+achievement.havegreatgrandchild.desc=f\u00e5 et Oldebarn.
+achievement.havegreatx2grandchild.desc=F\u00e5 et tip x2 oldebarn.
+achievement.havegreatx10grandchild.desc=F\u00e5 et tip x10 oldebarn.
+achievement.hardcoresecret.desc=Find hardcore modens hemmelighed.
+achievement.craftcrown.desc=Lav en krone og bliv en monark.
+achievement.executevillager.desc=Henret en landsbyboer.
+achievement.makeknight.desc=Lav en vagt om til en ridder.
+achievement.knightarmy.desc=Byg en h\u00e6r af tyve riddere.
+achievement.makepeasant.desc=Lav en landsbyboer om til en bonde.
+achievement.peasantarmy.desc=Lav tyve landsbyboere om til bonder.
+achievement.nameheir.desc=Navngiv din efterf\u00f8lger til tronen.
+achievement.killheir.desc=Dr\u00e6b din efterf\u00f8lger efter at de har opn\u00e5et tronen.
+achievement.monarchsecret.desc=Hemmeligt Trof\u00e6.
+
+#######
+# Items & Blocks
+##############################
+item.ring.arranger.name=Arrans\u00f8rens ring
+item.ring.engagement.name=Forlovelses Ring
+item.ring.wedding.name=Vielsesring
+item.baby.boy.name=Baby Dreng
+item.baby.girl.name=Baby Pige
+item.egg.male.name=Spawn Mande Bybeboer
+item.egg.female.name=Spawn Kvinde Bybeboer
+item.whistle.name=Fl\u00f8jte
+item.editor.name=Rediger landsbyboer
+item.lostrelativedocument.name=Forsvundet Relativ Dokument
+item.crown.name=Krone
+item.heircrown.name=Tronf\u00f8lger Krone
+item.tombstone.name=Gravsten
+item.kingscoat.name=Monark Frakke
+item.kingspants.name=Monark Bukser
+item.kingsboots.name=Monark St\u00f8vler
+item.redcrown.name=R\u00f8d Krone
+item.bluecrown.name=Bl\u00e5 Krone
+item.greencrown.name=Gr\u00f8n Krone
+item.pinkcrown.name=Pink Krone
+item.purplecrown.name=Lilla Krone
+item.redbed.name=Red Bed
+item.bluebed.name=Blue Bed
+item.greenbed.name=Green Bed
+item.pinkbed.name=Pink Bed
+item.purplebed.name=Purple Bed
+block.tombstone.name=Gravsten
+
+#######
+# Professions
+##############################
+profession.baker.male=%Name% Bageren
+profession.baker.female=%Name% Bageren
+profession.butcher.male=%Name% Slagteren
+profession.butcher.female=%Name% Slagteren
+profession.farmer.male=%Name% bonden
+profession.farmer.female=%Name% bonde pigen
+profession.guard.male=%Name% Vagten
+profession.guard.female=%Name% Vagten
+profession.librarian.male=%Name% Biblotikaren
+profession.librarian.female=%Name% bibliotekaren
+profession.miner.male=%Name% minearbejderen
+profession.miner.female=%Name% minearbejderen
+profession.priest.male=%Name% Pr\u00e6sten
+profession.priest.female=%Name% Pr\u00e6sten
+profession.smith.male=%Name% Smeden
+profession.smith.female=%Name% Smeden
+profession.playerchild.male=Barnet %Name%
+profession.playerchild.female=Barnet %Name%
+
+#######
+# Family Member Titles
+##############################
+family.aunt=Tante
+family.brother=Bror
+family.cousin.male=F\u00e6tter
+family.cousin.female=Kusine
+family.daughter=Datter
+family.father.formal=Far
+family.father.informal=Far
+family.fiance.male=Forlovede
+family.fiance.female=Forlovede
+family.granddaughter=Barnebarn
+family.grandson=Barnebarn
+family.greatgranddaughter=Tip x%Generation% Barnebarn
+family.greatgrandson=Tip x%Generation% Barnebarn
+family.grandfather=Morfar/Farfar
+family.greatgrandfather=Tip x%Generation% Oldefar
+family.grandmother=Mormor/Farmor
+family.greatgrandmother=Tip x%Generation% Oldemor
+family.husband=Mand
+family.mother.formal=Mor
+family.mother.informal=Mor\n
+family.nephew=Nev\u00f8
+family.niece=Niece
+family.none=None
+family.sister=S\u00f8ster
+family.son=S\u00f8n
+family.uncle=Onkel
+family.wife=Kone
+
+#######
+# GUI Elements
+##############################
+
+#Buttons
+gui.button.back=Tilbage
+gui.button.exit=Udgang
+gui.button.next=N\u00e6ste
+gui.button.yes=Ja
+gui.button.no=Nej
+gui.button.done=F\u00e6rdig
+gui.button.ok=Ok
+gui.button.random=Tilf\u00e6ldig
+gui.button.trade=Byt
+
+gui.button.setup.finish=F\u00e6rdig
+gui.button.setup.gendermale=K\u00f8n\: Hank\u00f8n
+gui.button.setup.genderfemale=K\u00f8n\: Hunk\u00f8n
+gui.button.setup.hidesleepingtag=Skjul Sove Note.
+gui.button.setup.overwritetestificates=Overskriv Testificates\: 
+gui.button.setup.growchildrenautomatically=B\u00f8rn Gror Automatisk\: 
+gui.button.setup.displaymoodparticles=Vis Hum\u00f8r Partikler\: 
+gui.button.setup.shownametags=Hvis Navn Skilte\: 
+gui.button.setup.preference=Preference\: 
+
+gui.button.setup.males=M\u00e6nd
+gui.button.setup.females=Kvinder
+
+gui.editor.name=Navn
+gui.editor.name.invalid=Navnet indeholder ugyldige tegn.
+gui.button.editor.texture=Texture\: 
+gui.button.editor.title=Titel\: 
+gui.button.editor.mood=Hum\u00f8r\: 
+gui.button.editor.trait=Tr\u00e6k\: 
+
+gui.button.interact.interact=Interact
+gui.button.interact.chat=Chat
+gui.button.interact.joke=Vits
+gui.button.interact.gift=Gave
+gui.button.interact.kiss=Kys
+gui.button.interact.flirt=Flirt
+gui.button.interact.tellstory=fort\u00e6l en historie
+gui.button.interact.play=Spil
+gui.button.interact.greet.handshake=Giv din h\u00e5nd
+gui.button.interact.greet.highfive=High Five
+gui.button.interact.follow=F\u00f8lg mig
+gui.button.interact.followstop=Stop med at f\u00f8lge
+gui.button.interact.stay=Bliv
+gui.button.interact.staystop=Flyt
+gui.button.interact.sethome=S\u00e6t hjem
+gui.button.interact.takearrangerring=Tag arrans\u00f8rens ring
+gui.button.interact.takegift=Tage imod gave
+gui.button.interact.ridehorse=Rid Hest
+gui.button.interact.dismount=Afmonter
+
+gui.button.interact.player.asktomarry=Sp\u00f8rg om at blive gift
+gui.button.interact.player.havebaby=F\u00e5 En Baby
+gui.button.interact.player.accept=Accepter
+gui.button.interact.player.decline=Afsl\u00e5
+
+gui.button.special=Special
+gui.button.special.priest.divorcespouse=Skilsmisse K\u00e6reste
+gui.button.special.priest.divorcecouple=Skilsmisse Par
+gui.button.special.priest.divorcecouple.nonefound=Intet par fundet.
+gui.button.special.priest.divorce=Bliv skilt
+gui.button.special.priest.giveupbaby=Giv Baby Op
+gui.button.special.priest.adoptbaby=Adopter Baby
+gui.button.special.priest.adoptchild=Adopter Barn
+gui.button.special.priest.arrangedmarriage=Arrangeret \u00c6gteskab
+gui.button.special.guard.hire=Hyr
+gui.button.special.guard.dismiss=Gem v\u00e6k
+gui.button.special.miner.hire=Hyr
+gui.button.special.miner.dismiss=Gem v\u00e6k
+gui.button.special.baker.aid=Anmod om Hj\u00e6lp
+gui.button.special.butcher.aid=Anmod om Hj\u00e6lp
+gui.button.special.farmer.aid=Anmod om Hj\u00e6lp
+gui.button.special.librarian.setup=\u00c5bn Setup
+
+gui.button.spouse.cookfood=Lav Mad
+gui.button.spouse.stopcooking=Stop med at lave mad
+gui.button.spouse.inventory=Inventar
+gui.button.spouse.procreate=Lav baby
+gui.button.spouse.migrate=Flyt
+
+gui.button.child.inventory=Inventar
+gui.button.child.chores=Pligter
+gui.button.child.stopchore=Stop pligt
+gui.button.child.growup=Vokser op
+
+gui.button.chore.farming=H\u00f8ster
+gui.button.chore.farming.method=Metode\: 
+gui.button.chore.farming.method.create=Lav farm
+gui.button.chore.farming.method.maintain=ophold farm
+gui.button.chore.farming.plant=Plant\: 
+gui.button.chore.farming.plant.wheat=Hvede
+gui.button.chore.farming.plant.melon=Melon
+gui.button.chore.farming.plant.pumpkin=Gr\u00e6skar
+gui.button.chore.farming.plant.carrot=Gulerod
+gui.button.chore.farming.plant.potato=Kartoffel
+gui.button.chore.farming.plant.sugarcane=Sukkerr\u00f8r
+gui.button.chore.farming.farmsize=G\u00e5rdst\u00f8rrelse\:
+gui.button.chore.farming.radius=Radius\: 
+gui.button.chore.fishing=Fisker
+gui.button.chore.combat=Kamp.
+gui.button.chore.combat.sentry=Sentry\: 
+gui.button.chore.combat.sentry.radius=Radius\: 
+gui.button.chore.combat.sentry.position.set=Placer Sentry position
+gui.button.chore.combat.method=Metode\: 
+gui.button.chore.combat.method.range=Kun Skytte
+gui.button.chore.combat.method.melee=N\u00e6rkamp kun
+gui.button.chore.combat.method.both=Skytte & Kriger.
+gui.button.chore.combat.method.neither=K\u00e6mp Ikke
+gui.button.chore.combat.attack.pig=Dr\u00e6b Grise\: 
+gui.button.chore.combat.attack.sheep=Dr\u00e6b F\u00e5r\: 
+gui.button.chore.combat.attack.cow=Dr\u00e6b K\u00f8er\: 
+gui.button.chore.combat.attack.chicken=Dr\u00e6b Kyllinger\: 
+gui.button.chore.combat.attack.spider=Dr\u00e6b Edderkopper\: 
+gui.button.chore.combat.attack.zombie=Dr\u00e6b Zombier\: 
+gui.button.chore.combat.attack.skeleton=Dr\u00e6b Skeleter\: 
+gui.button.chore.combat.attack.creeper=Dr\u00e6b Creepere\: 
+gui.button.chore.combat.attack.enderman=Angrib Enderm\u00e6nd\: 
+gui.button.chore.combat.attack.unknown=Angrib Ukendt\:  
+gui.button.chore.woodcutting=Tr\u00e6hugning
+gui.button.chore.woodcutting.treetype=Tr\u00e6 Type\: 
+gui.button.chore.woodcutting.treetype.all=Alt
+gui.button.chore.woodcutting.treetype.oak=Eg
+gui.button.chore.woodcutting.treetype.spruce=Gran
+gui.button.chore.woodcutting.treetype.birch=Birk
+gui.button.chore.woodcutting.treetype.jungle=Jungle
+gui.button.chore.mining=Miner
+gui.button.chore.mining.method=Metode\: 
+gui.button.chore.mining.method.passive=Passiv
+gui.button.chore.mining.method.active=Aktiv
+gui.button.chore.mining.direction=Reting\: 
+gui.button.chore.mining.direction.forward=Fremad
+gui.button.chore.mining.direction.backward=Bagl\u00e6ns
+gui.button.chore.mining.direction.left=Venstre
+gui.button.chore.mining.direction.right=H\u00f8jre
+gui.button.chore.mining.distance=Afstand\: 
+gui.button.chore.mining.find=Find\: 
+gui.button.chore.mining.find.coal=K\u00e5l
+gui.button.chore.mining.find.iron=Jern
+gui.button.chore.mining.find.lapis=Lapiz Lazuli
+gui.button.chore.mining.find.gold=Guld
+gui.button.chore.mining.find.diamond=Diamand
+gui.button.chore.mining.find.redstone=R\u00f8dsten
+gui.button.chore.mining.find.emerald=Smaragd
+gui.button.chore.hunting=Jagt
+gui.button.chore.hunting.mode=Tilstand\:
+gui.button.chore.hunting.mode.kill=Dr\u00e6b
+gui.button.chore.hunting.mode.tame=T\u00e6m
+gui.button.chore.start=Start
+
+gui.button.hiring.hours=Timer\: 
+
+gui.button.lostrelativedocument.generation=Generation\: %Generation%
+
+#Titles
+gui.title.setup=Minecraft Comes Alive Ops\u00e6tning
+gui.title.setup.name=Skriv dit navn.
+gui.title.setup.gender=V\u00e6lg dit k\u00f8n.
+gui.title.setup.options=Konfigurerer Indstillinger.
+
+gui.title.inventory=%Name%'s inventar
+
+gui.title.namebaby=Navngiv dit barn\:
+gui.title.namebaby.male=Det er en dreng\!
+gui.title.namebaby.female=Det er en pige\!
+
+gui.title.priest.divorcecouple=v\u00e6lg paret du vil skille.
+
+gui.title.tombstone=Rediger gravsten\:
+
+gui.title.special.hired=(Hyret)
+
+gui.title.lostrelativedocument=V\u00e6lg den \u00f8nskede forholdet mellem %Name% til dig
+gui.title.lostrelativedocument.confirm=Er du sikker p\u00e5 at %Name% skal v\u00e6re\:
+
+#Information
+gui.info.hearts=Hjerter
+
+gui.info.special.none=Ham her kan intet specielt.
+
+gui.info.family.parents=(%ChildTitle% af %MotherName% og %FatherName%)
+gui.info.family.parents.deceased=(Parents Deceased)
+gui.info.family.parent=(%ChildTitle% af %LivingParent%)
+
+gui.info.family.spouse=(gift til %SpouseRelation% %VillagerSpouseName%)
+gui.info.family.spouse.unrelated=(Gift med %SpouseFullName%)
+
+gui.info.namebaby.invalidcharacters=Babyens navn indeholder ugyldige tegn.
+gui.info.namebaby.nametaken=Du har allerede et barn med det navn.
+
+gui.info.procreate.confirm1=Du kan ikke avle mens du er forlovet.
+gui.info.procreate.confirm2=Du skal give denne landsbyboer en bryllupsring.
+
+gui.info.chore.options=Indstillinger\:
+gui.info.chore.options.none=Der er ingen definerbare indstillinger til denne opgave.
+gui.info.chore.experience=Erfaring niveau\:
+
+gui.info.hire.price=At hyre denne landsbyboer vil kr\u00e6ve %x% guldbarre(r).
+gui.info.hire.hasgold=Du har nok guldbarrer.
+gui.info.hire.notenoughgold=Du har ikke nok guldbarrer.
+gui.info.hire.minutesremaining=%x% minutter tilbage.
+
+gui.info.hardcoresecret.prompt=Du m\u00e5 respawne som en af dine b\u00f8rn hvis du har nogen.
+gui.info.hardcoresecret.nochildren=Ingen b\u00f8rn\!
+gui.info.hardcoresecret.spawnas=Spawn as\: 
+gui.info.hardcoresecret.respawn=Respawn As Child
+
+#Overhead
+gui.overhead.hasgift=Gave tilg\u00e6ngelig
+gui.overhead.hasring=Holder vielsesring
+gui.overhead.sleeping=Sovende
+gui.overhead.health=Liv\: 
+
+#######
+# Notifications/One Liners
+##############################
+notify.player.married=Du og %Name% er nu gift.
+notify.player.engaged=Du er nu forlovet med %Name%.
+notify.player.droppedbaby=That is a bad idea.
+notify.player.clickbed=You cannot use that bed.
+
+notify.horse.invalid=Jeg kan ikke ride den hest.
+notify.horse.notfound=\u00d8hhh... Hvilken hest er det lige jeg skal ride p\u00e5? Hent en til mig.
+
+notify.villager.married=Disse mennesker er nu blevet gift.
+notify.villager.gifted.cake.notenough=Jeg ville virkelig \u00f8nske min Mand/Kone ogs\u00e5 kunne f\u00e5 en kage...
+notify.villager.gifted.cake.withbaby.male=Min kone og jeg har besluttet os for ikke at spise kage indtil vores barn er vokset op.
+notify.villager.gifted.cake.withbaby.female=Min mand og jeg har besluttet os for ikke at spise mere kage indtil vores barn er vokset op.
+notify.villager.gifted.cake.spousenotnearby.male=Kage?\! Find min kone s\u00e5 kan jeg dele den med hende.
+notify.villager.gifted.cake.spousenotnearby.female=Cake? Go get my husband so I may share it with him.
+notify.villager.gifted.arrangerring.othernotnearby=...Hvad? der er ikke nogen andre i n\u00e6rheden.
+notify.villager.gifted.arrangerring.relative=jeg er din %RelationToPlayer%.
+notify.villager.gifted.arrangerring.notenoughrings=Det ser ud som om du ikke har nok ringe til os. Vi skal bruge to, selv\u00f8lgelig\!
+notify.villager.gifted.arrangerring.invalidpartner=Jeg kan ikke gifte mig med %Name%\!
+
+notify.baby.gaveup=Du kan nu have et barn mere.
+notify.baby.exists=Du har allerede et barn.
+notify.baby.readytogrow=Din baby er klar til at vokse op.
+notify.baby.cooked=Hvad er der galt med dig\!? Er du syg i hovedet\!?
+
+notify.divorce.spousemissing=Din \u00e6gtef\u00e6lle var ikke i n\u00e6rheden, s\u00e5 du vil ikke modtage dine ting fra dem.
+notify.arrangedmarriage.failed=Der er ingen i n\u00e6rheden der er villig til at gifte sig med dig i \u00f8jeblikket.
+
+notify.death.male=%Name%, dit %RelationToPlayer%, er d\u00f8et ud.
+notify.death.female=%Name%, dit %RelationToPlayer%, er d\u00f8et ud.
+
+notify.homepoint.set=Denne person vil spawne her om natten.
+notify.homepoint.none=%Name% har ikke et hjem.
+notify.homepoint.invalid=Dette hjem er ikke brugbart.
+notify.homepoint.obstructed=%Name%'s hjem er \u00f8delagt.
+notify.homepoint.teleport.skip.following=%Name% f\u00f8lger dig. De vil ikke teleporter hjem om natten.
+notify.homepoint.teleport.skip.staying=%Name% bliver st\u00e5ende. De vil ikke teleportere hjem om natten.
+
+notify.item.broken.axe=%Name%'s \u00f8kse gik i stykker.
+notify.item.broken.boots=%Name%'s st\u00f8vler gik i stykker.
+notify.item.broken.chestplate=%Name%'s brystplade gik i stykker.
+notify.item.broken.fishingrod=%Name%'s fiskestang gik i stykker.
+notify.item.broken.helmet=%Name%'s hjelm gik i stykker.
+notify.item.broken.leggings=%Names%'s bukser gik i stykker.
+notify.item.broken.pickaxe=%Name%'s hakke gik i stykker.
+notify.item.broken.sword=%Name%'s sv\u00e6rd gik i stykker.
+notify.item.broken.hoe=%Name%'s hakkejern gik i stykker.
+notify.item.broken.bow=%Name%'s bue er \u00f8delagt.
+
+notify.child.chore.finished.farming=Jeg er f\u00e6rdig med at h\u00f8ste.
+notify.child.chore.finished.fishing=Jeg er f\u00e6rdig med at fiske.
+notify.child.chore.finished.woodcutting=Jeg er f\u00e6rdig med at hugge tr\u00e6.
+notify.child.chore.finished.mining=Jeg er f\u00e6rdig med at mine.
+notify.child.chore.finished.hunting=Jeg er f\u00e6rdig med at jage\!
+
+notify.child.chore.levelup.farming.5=%Name% Har n\u00e5et niveau 5 i landbrug. De f\u00e5r nu mange flere fr\u00f8 n\u00e5r de h\u00f8ster hvede.
+notify.child.chore.levelup.farming.10=%Name% har n\u00e5et Niveau 10 i landbrug. De er nu hurtigere n\u00e5r de holder styr og laver en farm.
+notify.child.chore.levelup.farming.15=%Name% har n\u00e5et niveau 15 i landbrug. De kan nu h\u00f8ste 1-3 afgr\u00f8der mere af hver type.
+notify.child.chore.levelup.farming.20=%Name% har n\u00e5et niveau 20 i landbrug. De har nu en chance af at \u00f8jeblikketligt fordoble nummeret af afgr\u00f8der de h\u00f8ster.
+
+notify.child.chore.levelup.fishing.5=%Name% har n\u00e5et niveau 5 i fiskning. De fanger nu fisk hurtigerer og dobbelt s\u00e5 ofte.
+notify.child.chore.levelup.fishing.10=%Name% har nu n\u00e5et niveau 10 i fiskning. De kan nu finde almindelig skatte n\u00e5r de fisker.
+notify.child.chore.levelup.fishing.15=%Name% har nu n\u00e5et niveau 15 i fiskning. De kan nu fanger fisk meget hurtigt og tre gange s\u00e5 ofte.
+notify.child.chore.levelup.fishing.20=%Name% Har nu n\u00e5et niveau 20 i fiskning. De kan nu finde sj\u00e6lne s\u00f8 skatter n\u00e5r de fisker.
+
+notify.child.chore.levelup.hunting.5=%Name% Har n\u00e5et niveau 5 i jagt. De kan nu bringe en smule flere dyr tilbage i t\u00e6mning, uden at bruge flere ressourcer.
+notify.child.chore.levelup.hunting.10=%Name% har nu n\u00e5et niveau 10 i jagt. Der er ikke l\u00e6ngerer chance for at d\u00f8 n\u00e5r de jager.
+notify.child.chore.levelup.hunting.15=%Name% har n\u00e5et niveau 15 i jagt. De kan nu bringe meget mere k\u00f8d tilbage n\u00e5r de jager.
+notify.child.chore.levelup.hunting.20=%Name% har n\u00e5et niveau 20 i jagt. De vil nu altid kommer tilbage fra jagt efter 1 minut.
+
+notify.child.chore.levelup.mining.5=%Name% har n\u00e5et niveau 5 i minedrift. De kan nu mine igennem blokke en smule hurtigere.
+notify.child.chore.levelup.mining.10=%Name% har n\u00e5et niveau 10 i minedrift. De g\u00f8r nu mindre skade p\u00e5 deres hakke n\u00e5r de miner. 
+notify.child.chore.levelup.mining.15=%Name% har n\u00e5et niveau 15 i minedrift. De fordobbler nu s\u00e5 mange blokke eller malm de miner.
+notify.child.chore.levelup.mining.20=%Name% har n\u00e5et niveau 20 i minedrift. De fort\u00e6ller nu den pr\u00e6cise position af malm n\u00e5r de miner passivt.
+
+notify.child.chore.levelup.woodcutting.5=%Name% har nu n\u00e5et niveau 5 i Tr\u00e6 huggeri. de bev\u00e6ger sig nu hurtigere n\u00e5r de hugger tr\u00e6er.
+notify.child.chore.levelup.woodcutting.10=%Name% har n\u00e5et niveau 10 i tr\u00e6 huggeri. De kan nu hugge tr\u00e6er hurtigere med hver type hakke.
+notify.child.chore.levelup.woodcutting.15=%Name% har n\u00e5et niveau 15 i tr\u00e6 huggeri. De har nu en chance for at hugge to stykker tr\u00e6 hver gang de hugger et.
+notify.child.chore.levelup.woodcutting.20=%Name% har nu n\u00e5et niveau 20 i tr\u00e6 huggeri. De f\u00e5r nu tre tr\u00e6 for hver tr\u00e6 de hugger.
+
+notify.child.chore.interrupted.farming.noseeds=Jeg har ikke nok fr\u00f8\!
+notify.child.chore.interrupted.farming.noland=Jeg kan ikke se noget jord eller gr\u00e6s\!
+notify.child.chore.interrupted.farming.nofarmland=Du sagde jeg kom skulle bruge landjorg. Hvor er det?
+notify.child.chore.interrupted.farming.noroom=Jeg havde ikke nok plads til at g\u00f8re farmen f\u00e6rdig.
+notify.child.chore.interrupted.farming.noselection=You haven't marked an area for me to farm.
+notify.child.chore.interrupted.farming.nohoe=I don't have a hoe.
+notify.child.chore.interrupted.fishing.nowater=Jeg kan ikke se vand i n\u00e6rheden\!
+notify.child.chore.interrupted.fishing.norod=Jeg har ikke en fiske stang\! jeg kan ikke fange dem med mine h\u00e6nder.
+notify.child.chore.interrupted.mining.noblocks=Jeg kan ikke se noget at mine.
+notify.child.chore.interrupted.mining.nopickaxe=Jeg har ingen hakke\!
+notify.child.chore.interrupted.mining.tookdamage=%Name% tog skade mens hun minede. De er tilbage hvor de startede.
+notify.child.chore.interrupted.woodcutting.notrees=Jeg kan ikke se nogle tr\u00e6er.
+notify.child.chore.interrupted.hunting.notamematerials=Jeg har ikke noget at t\u00e6mme dyr med.
+
+notify.child.chore.failed.hunting.death=%Name% blev dr\u00e6bt imens den var p\u00e5 jagt.
+
+notify.child.chore.status.mining.orefound=Der er nogle %OreType% %OreDistace% blokke herfra.
+notify.child.chore.status.mining.orenearby=Der er nogle %OreType% t\u00e6t p\u00e5...
+notify.child.chore.status.mining.oredistance=Der er nogle %OreType% %OreDistance% blokke v\u00e6k ved %OreX%, %OreY%, %OreZ%.
+
+notify.child.gifted.arrows=Okay\! Jeg vil skyde noget\!
+notify.child.gifted.axe=Nu vil mine h\u00e6nder ikke bl\u00f8de n\u00e5r jeg f\u00e6lder tr\u00e6er\!
+notify.child.gifted.fishingrod=Nu kan jeg fiske\!
+notify.child.gifted.hoe=Det her vil hj\u00e6lpe med at h\u00f8ste hurtigere\!
+notify.child.gifted.seeds=Nu kan jeg lave en farm\!
+notify.child.gifted.sword=Det her vil holde de onde v\u00e6k\!
+notify.child.gifted.wheat=Jeg kan bruge denne til at t\u00e6mme dyr med. Tak\!
+notify.child.gifted.pickaxe=Nu kan jeg mine\!
+notify.child.gifted.carrot=Jeg kan bruge denne til at t\u00e6mme dyr med. Tak\!
+notify.child.gifted.bone=Jeg kan bruge denne til at t\u00e6mme dyr med. Tak\!
+
+notify.child.emptiedinventory=%Name% har t\u00f8mt deres taske.
+notify.child.readytogrow=%Name% er klar til at vokse op.
+notify.child.growup=%Name% er blevet voksen.
+notify.child.ranaway=%Name% er stukket af.
+
+notify.spouse.gifted.anotherbaby=Jeg holder allerede vores baby. Hvor fik du den fra\!?
+notify.spouse.chore.interrupted.cooking.nofurnace=Jeg ser ikke nogen ovn.
+notify.spouse.chore.interrupted.cooking.nofuel=Jeg har ikke noget kul og lave mad med.
+
+notify.lostrelativedocument.success=%Name% er nu din %RelationToPlayer%
+notify.lostrelativedocument.success.norelation=%Name% er ikke l\u00e6ngere relateret til dig.
+
+notify.monarch.began=Ansvaret af en monark er blevet sk\u00e6nket til dig.
+notify.monarch.resume=du er nu Monark igen. din tidligere arving kan ikke l\u00e6ngere blive brugt.
+notify.monarch.ended.noheir=Du er ikke l\u00e6ngere en monark.
+notify.monarch.ended.withheir=Du er ikke l\u00e6ngere en monark. Din arving har taget din plads.
+
+notify.hiring.complete=%Name%'s arbejdsperiode is slut.
+
+notify.update.turnedon=MCA vil nu automatisk lede efter opdateringer.
+notify.update.turnedoff=MCA vil ikke l\u00e6ngere reporterer opdateringer f\u00f8r en ny opdatering er udkommet.
+
+#######
+# Parser Commands
+##############################
+parser.playerchild.adult.callplayerparent.male=Far
+parser.playerchild.adult.callplayerparent.female=Mor
+parser.playerchild.adult.parentopposite.male=Mor
+parser.playerchild.adult.parentopposite.female=Far
+
+parser.playerchild.young.callplayerparent.male=Far
+parser.playerchild.young.callplayerparent.female=Mor
+parser.playerchild.young.parentopposite.male=Mor
+parser.playerchild.young.parentopposite.female=Far
+
+#####################################################################################################
+#									              DIALOGUE											#
+#####################################################################################################
+
+#######
+# Profession-specific dialogue
+##############################
+guard.follow.refuse1=Nej, jeg har et job at g\u00f8re.
+guard.follow.refuse2=jeg kan ikke bare forlade min post.
+guard.follow.refuse3=Vil du have mig til at g\u00e5 fra arbejde? Nej tak\!
+guard.follow.refuse4=Nej, ikke med mindre du hyre mig.
+guard.follow.refuse5=Jeg bliver fyret vis jeg bare g\u00e5r min vej\!
+
+guard.stay.refuse1=jeg patruljere jeg kan ikke blive st\u00e5ende her.
+guard.stay.refuse2=Du er ikke min boss.
+guard.stay.refuse3=du ved jeg er vagt, ikke ogs\u00e5?.
+guard.stay.refuse4=Mit Job er at Patruljerede, ikke at st\u00e5 stille.
+guard.stay.refuse5=Jeg arbejder lige nu. jeg er til lege.
+
+smith.aid.prompt1=I could give you a deal on an anvil. Make me an offer. 
+smith.aid.prompt2=I have an old anvil I'm willing to part with...
+smith.aid.prompt3=Jeg g\u00e5r snart p\u00e5 pension, s\u00e5? min ambold er til salg.
+smith.aid.prompt4=Vil du have en ambold? Jeg kan give dig min, for en pris.
+
+smith.aid.outofrange1=Sig til n\u00e5?r du vil k\u00f8be min ambold.
+smith.aid.outofrange2=Kom tilbage og fort\u00e6l mig hvis du have et tilbud.
+
+smith.aid.alreadyaccepted1=Du har allerede min ambold. der er  ikke mere jeg kan g\u00f8re for dig.
+smith.aid.alreadyaccepted2=Du har k\u00f8rebt mim ambold. reparer dine ting selv\!
+smith.aid.alreadyaccepted3=Jeg har ikke flere ambolde til salg.
+
+smith.aid.accept1=Ah\! That's a good amount. Here you go.
+smith.aid.accept2=That'll do. Be careful, it's heavy\!
+smith.aid.accept3=Thanks\! Here's your anvil.
+smith.aid.accept4=Don't drop this on anyone, okay?
+
+smith.aid.refuse.rightitem1=These are what I want for the anvil. Do you have a few more you could give me?
+smith.aid.refuse.rightitem2=Yes, these are exactly what I want, but you don't have enough.
+smith.aid.refuse.rightitem3=Just what I needed\! I need a few more before I'll give you the anvil.
+smith.aid.refuse.rightitem4=Throw in a few more of these and you've got yourself an anvil.
+
+smith.aid.refuse.wrongitem1=I don't want to exchange those for an anvil.
+smith.aid.refuse.wrongitem2=This isn't exactly what I'm looking for. Do you have anything else?
+smith.aid.refuse.wrongitem3=No...I want something else if you're buying my anvil.
+smith.aid.refuse.wrongitem4=I need something else to pay for the anvil.
+
+priest.adopt.male1=Her er din nye baby. hans navn er %BabyName%.
+priest.adopt.male2=Han er s\u00f8d er han ikke? Hans navn er %BabyName%.
+priest.adopt.male3=Jeg h\u00e5ber at i bliver glade for babyen i mange \u00e5r.
+priest.adopt.female1=Hun er smukt, er hun ikke? Hendes navn er %BabyName%.
+priest.adopt.female2=V\u00e6r s\u00f8d at behandle %BabyName% ordenligt. Her er hun.
+priest.adopt.female3=%BabyName% er s\u00e5 s\u00f8d, jeg er ked af at se hende g\u00e5.
+
+priest.arrangemarriage1=Jeg h\u00e5ber du og %Name% finder megen gl\u00e6de sammen.
+priest.arrangemarriage2=%PlayerName%, sig hej til %Name%. I er nu gift.
+priest.arrangemarriage3=Som du \u00f8nsker. Du er du gift med %Name%.
+
+generic.hire.accept1=Mange tak\! Jeg vil g\u00f8re hvad som helst for dig.
+generic.hire.accept2=Det er nok. Jeg vil arbejde for dig nu.
+generic.hire.accept3=Jeg er klar til at arbejde\!
+generic.hire.accept4=Lad os starte, hvad er min f\u00f8rste opgave?
+
+guard.hire.accept1=Tak\! jeg er nu din bodyguard.
+guard.hire.accept2=jeg arbejder for dig nu.
+guard.hire.accept3=Du er nu min boss.
+guard.hire.accept4=Hvad er mit f\u00f8rste job, boss?
+
+guard.hire.dismiss1=Desv\u00e6rre jeg kan ikke, jeg g\u00e5r tilbage til det gamle Job.
+guard.hire.dismiss2=det var godt at arbejde med dig\!
+guard.hire.dismiss3=jeg vil se om jeg kan f\u00e5 mit job i landsbyen igen.
+guard.hire.dismiss4=Super, jeg er fyret Igen...
+
+butcher.aid.accept1=Jaja, jeg har masser af k\u00f8d til overs.
+butcher.aid.accept2=Her er noget af mit ekstra k\u00f8d.
+butcher.aid.accept3=Her er noget frisk k\u00f8d til dig.
+
+butcher.aid.refuse1=Jeg har ikke s\u00e5 meget til overs, Undskyld.
+butcher.aid.refuse2=Jeg er n\u00f8d til at beholde hvad jeg har fra betalende kunder\!
+butcher.aid.refuse3=jeg kan ikke give dig noget lige nu.
+
+baker.aid.accept1=Jeg har lige bagt det her. du kan f\u00e5 den.
+baker.aid.accept2=Ok, du kan f\u00e5 den her, den er helt ny.
+baker.aid.accept3=Jeg har nogle rester som ikke var k\u00f8bt idag. Du kan f\u00e5 dem.
+
+baker.aid.refuse1=Jeg har ingenting lige nu, kom igen senere.
+baker.aid.refuse2=Jeg bager lige nu. Det er f\u00e6rdigt senere.
+baker.aid.refuse3=Jeg havde noget til dig men det br\u00e6ndte ved et uheld, undskyld.
+
+farmer.aid.accept1=Jeg g\u00e5r ud fra at jeg kunne spare nogen f\u00e5 ting. her.
+farmer.aid.accept2=Selvf\u00f8lgelig kan jeg hj\u00e6lpe. her.
+farmer.aid.accept3=jeg har haft en god h\u00f8st for nylig. Her er nogle f\u00e5 ekstra ting.
+
+farmer.aid.refuse1=undskyld, jeg har intet jeg ville kunne give dig.
+farmer.aid.refuse2=Kom tilbage senere, jeg har ikke noget til dig.
+farmer.aid.refuse3=undskyld, der er intet jeg kan undv\u00e6re.
+
+miner.hire.accept1=Tak\! Jeg vil starte med det samme.
+miner.hire.accept2=Jeg ville v\u00e6re glad for at hj\u00e6lpe\! Hvor skal jeg mine?
+miner.hire.accept3=tak fordi du hyrede mig. jeg kan begynde at arbejde lige nu.
+
+miner.hire.refuse1=jeg vil arbejde for dig, for fem guld. det vil f\u00e5 dig et-hundrede blokke.
+miner.hire.refuse2=giv mig fem guld og jeg vil mine et-hundrede blokkke for dig.
+miner.hire.refuse3=du har ikke nok guld til at hyre mig. jeg har brug for fem guld, for at kunne grave et-hundrede blokke.
+
+miner.hire.finished1=det var alle et-hundrede blokke. jeg er f\u00e6rdig.
+miner.hire.finished2=det er et-hundrede blokke. mit job er f\u00e6rdigt.
+miner.hire.finished3=Jeg har minet et hunrede blokke. det var en forn\u00f8jelse at arbejde med dig.
+
+miner.hire.dismiss1=du afskediger mig allerede? okay.
+miner.hire.dismiss2=jeg er klar til mere arbejde, hvis du har guldet.
+miner.hire.dismiss3=s\u00e5 vil jeg g\u00e5 tilbage til landsbyen.
+
+miner.chore.finished1=jeg er f\u00e6rdig med hvad du sagde jeg skulle.
+miner.chore.finished2=Jeg er klar til at g\u00f8re noget mere arbejde.
+miner.chore.finished3=Jeg er f\u00e6rdig med det her job.
+
+miner.chore.start1=jeg vil begynde med det samme.
+miner.chore.start2=Ja, boss.
+miner.chore.start3=jeg vil starte med at arbejde, med det samme.
+
+miner.dropallitems1=V\u00e6rsgo.
+miner.dropallitems2=her er din del, boss.
+miner.dropallitems3=Her er hvad jeg fik.
+miner.dropallitems4=Her er alt jeg minede.
+
+#######
+# Villager Dialogue
+##############################
+villager.chat.bad1=Keeeedeligt.
+villager.chat.bad2=*Gab*
+villager.chat.bad3=Undskyld hvad? Jeg h\u00f8rte ikke efter.
+villager.chat.bad4=Sagde du noget?
+villager.chat.bad5=Mmhmm.
+villager.chat.bad6=\u00d8hm... Okay... Jeg har andet at se til, hvis du vil have mig undskyldt...
+villager.chat.bad7=\u00c5h ja. Jeg tror jeg har glemt noget... Jeg bliver n\u00f8dt til at g\u00e5.
+villager.chat.bad8=Jeg ved ikke hvad du mener.
+villager.chat.bad9=Jeg tror du snakker med den forkerte.
+villager.chat.bad10=Nej... Det tror jeg ikke.
+villager.chat.bad11=Hvorfor ville du dog sige s\u00e5dan noget?
+villager.chat.bad12=Det var meget uh\u00f8fligt gjort.
+
+villager.chat.good1=Virkelig? Det havde jeg ikke h\u00f8rt.
+villager.chat.good2=Hvor har du h\u00f8rt det henne?
+villager.chat.good3=Hvordan gjorde du det\!?
+villager.chat.good4=Yep, der er virkelig kedeligt her.
+villager.chat.good5=Gud, interessant.
+villager.chat.good6=Du har nogle gode historier. Har du mere at fort\u00e6lle?
+villager.chat.good7=Det er cool. Hvad skete der bagefter?
+villager.chat.good8=Jeg er fuldst\u00e6ndig enig\!
+villager.chat.good9=Jeg har h\u00f8rt andre sige det samme.
+villager.chat.good10=Har du set nogen smaragder imens du minede?
+
+villager.engagement.accept1=Hvorn\u00e5r er vores bryllup\!?
+villager.engagement.accept2=Vi skal have en stor fest, ikke?
+villager.engagement.accept3=Endelig\! Jeg har ventet i evigheder\! Jeg elsker dig\!
+villager.engagement.accept4=jeg invitere alle mine venner\!
+villager.engagement.accept5=JAA\! Jeg elsker dig\!
+
+villager.engagement.refusal1=ah...um...jeg er ikke klar til at sl\u00e5 mig ned.
+villager.engagement.refusal2=oh... vel det her er akavet...
+villager.engagement.refusal3=huh? Nej\! jeg kender dig ikke engang\!
+villager.engagement.refusal4=undskyld, jeg kan ikke lide dig p\u00e5 den m\u00e5de.
+villager.engagement.refusal5=woah vent lidt, vi kender knapt hinanden.
+
+villager.follow.start1=hvor skal vi hen?
+villager.follow.start2=jeg vil pr\u00f8ve at blive sammen med dig.
+villager.follow.start3=okay, jeg tager med.
+villager.follow.start4=flytter du hele byen for at start din egen? det tror jeg ikke.
+villager.follow.start5=Ok, jeg kunne ogs\u00e5 tr\u00e6nge til at g\u00e5 lidt.
+villager.follow.start6=Hvor tager du mig hen?
+villager.follow.start7=Oh, hvor vil du hen?
+villager.follow.start8=lad os f\u00e5 det overst\u00e5et.
+
+villager.follow.stop1=okay, jeg er her omkring.
+villager.follow.stop2=G\u00e5 ikke for langt v\u00e6k.
+villager.follow.stop3=Jeg kan godt lide dette sted\!
+villager.follow.stop4=Okay, ses senere\!
+villager.follow.stop5=Du m\u00e5 ikke efterlade mig her helt alene\!
+villager.follow.stop6=Pas p\u00e5.
+villager.follow.stop7=Okay s\u00e5, jeg bliver her.
+villager.follow.stop8=Jeg lader v\u00e6re med at f\u00f8lge efter dig nu.
+villager.follow.stop9=Godt, jeg er tr\u00e6t\!
+villager.follow.stop10=vel det var eventyr fyldt\!
+
+villager.gift.bad1=Jeg er ikke en skraldespand.
+villager.gift.bad2=Jeg vil ikke have dit skrald\!
+villager.gift.bad3=Jeg tror det her er skrald.
+villager.gift.bad4=Hvorfor tror du jeg vil have det der?
+villager.gift.bad5=Du kan beholde dit skrald tak.
+villager.gift.bad6=Jeg h\u00e5ber du laver gas, det her er ikke en god gave.
+villager.gift.bad7=Undskyld, men s\u00e5dan nogle gaver tager jeg ikke imod.
+villager.gift.bad8=Jeg kan ikke tag imod noget fra fremmede, undskyld.
+villager.gift.bad9=s\u00e5 det er dig der har taget den fra mig\! du burde g\u00e5.
+villager.gift.bad10=hvorfor insistere du p\u00e5 at give mig affald?
+
+villager.gift.small1=\u00c5h, tak\!
+villager.gift.small2=hvor bet\u00e6nksom af dig\!
+villager.gift.small3=Tak\!
+villager.gift.small4=det havede du ikke beh\u00f8vet at give mig noget... tak\!
+villager.gift.small5=\u00c5h, jeg elsker de her\!
+villager.gift.small6=Tak.
+villager.gift.small7=det er enmeget fin gave. tak.
+villager.gift.small8=Cool\! Tak\!
+
+villager.gift.regular1=Skinnende\!
+villager.gift.regular2=jeg finder noget at bruge den til. Tak\!
+villager.gift.regular3=Oh wow\! Tak\!
+villager.gift.regular4=Kan jeg f\u00e5 en til?
+villager.gift.regular5=Tak, ven.
+villager.gift.regular6=Ah, Mange tak for gaven.
+villager.gift.regular7=hvor s\u00f8dt af dig, tak.
+villager.gift.regular8=hvilken fin gave\! tak, %PlayerName%.
+villager.gift.regular9=%playername% du er s\u00e5 s\u00f8d.
+villager.gift.regular10=det er rigtig s\u00f8dt af dig, %PlayerName%.
+villager.gift.regular11=du er s\u00e5dan en god ven\!
+
+villager.gift.great1=je... jeg er mundlam\! tak\!
+villager.gift.great2=De her er prisl\u00f8se\!
+villager.gift.great3=Du kender en god gave n\u00e5r du ser en\!
+villager.gift.great4=Jeg har altid \u00f8nsket mig en af disse\!
+villager.gift.great5=Det her er fantastisk\!
+villager.gift.great6=\u00f8h det er.. tak\! det skulle du virkeligt ikke have gjort\!
+villager.gift.great7=Mange tak, jeg vil huske det.
+villager.gift.great8=oh det er bare sk\u00f8nt, jeg vil bruge den godt.
+
+villager.greeting.hate1=G\u00e5 v\u00e6k fra mig.
+villager.greeting.hate2=H\u00f8rte du mig ikke sidste gang? G\u00e5 v\u00e6k.
+villager.greeting.hate3=oh. det er dig.
+villager.greeting.hate4=jeg regner med at du er kommet for at sl\u00e5 mig i ansigtet igen?
+villager.greeting.hate5=g\u00e5 din vej.
+villager.greeting.hate6=hvad vil DU have?
+villager.greeting.hate7=jeg kalder p\u00e5 vagterne hvis du irritere mig igen.
+villager.greeting.hate8=jeg har et v\u00e5ben, bare s\u00e5 du ved det.
+villager.greeting.hate9=irriter nogle andre.
+villager.greeting.hate10=ugh, lad mig v\u00e6re.
+villager.greeting.hate11=blive v\u00e6k, din idiot.
+
+villager.greeting.basic1=ov, hej.
+villager.greeting.basic2=er du ny her?
+villager.greeting.basic3=Hej Fremmede.
+villager.greeting.basic4=hej, hva\u00b4 s\u00e5?
+villager.greeting.basic5=jeg har ikke set dig, her f\u00f8r.
+villager.greeting.basic6=du m\u00e5 v\u00e6re ny her.
+villager.greeting.basic7=goddag til dig, %playername%.
+villager.greeting.basic8=verhilset.
+villager.greeting.basic9=hvordan kan jeg hj\u00e6lpe dig?
+villager.greeting.basic10=ov, hey. %playname%, var det ikk?
+
+villager.greeting.friend1=hej, ven\!
+villager.greeting.friend2=hey godt at se dig igen\!
+villager.greeting.friend3=se alle sammen\! min bedste ven\!
+villager.greeting.friend4=hey ven\!
+villager.greeting.friend5=hvad har du lavet? jeg har ikke set dig et stykke tid.
+villager.greeting.friend6=Hey, det er %PlayerName%, min beste ven\!
+villager.greeting.friend7=Ah\! se hvem vi har her. Hello, %PlayerName%\!
+villager.greeting.friend8=Hey du\! hvordan har du det?
+villager.greeting.friend9=hva\u00b4 s\u00e5 ven, hvordan g\u00e5r det?
+
+villager.greeting.interest.male1=Wow\! du ser godt ud idag\!
+villager.greeting.interest.male2=%PlayerName%\! v\u00e6r s\u00f8d ikke at g\u00e5\! jeg ville sp\u00f8rge...glem det.
+villager.greeting.interest.male3=*hvisker* hun er s\u00e5 smuk...
+villager.greeting.interest.male4=%PlayerName%, jeg vil v\u00e6dde med at du ikke viste at jeg er rig.
+villager.greeting.interest.male5=*hvisker* hun er s\u00e5 s\u00f8d mod mig, gad vide om hun kan lide mig?
+
+villager.greeting.interest.female1=hey, du skulle tag og bes\u00f8ge mig en gang.*vink*
+villager.greeting.interest.female2=hi... %playername%... *fniser*
+villager.greeting.interest.female3=du ser stor og st\u00e6rk som s\u00e6dvanelig\!
+villager.greeting.interest.female4=*bliver bleg*
+villager.greeting.interest.female5=*hvisker* nej\! jeg spr\u00f8ger ham ikke\!
+
+villager.greeting.wedding1=jeg har h\u00f8rt om jeres kommede vielse. tillykke\!
+villager.greeting.wedding2=Hey, %PlayerName%, tillykke med forlovelsen\!
+villager.greeting.wedding3=jeg er sikker p\u00e5 at vil f\u00e5 et smuk bryllyp, ikk?
+villager.greeting.wedding4=jeg er s\u00e5 glad p\u00e5 dine veje\! jeg giver dig den st\u00f8rste gaver\!
+villager.greeting.wedding5=du blev kun forlovet for gaverne, gjore du ikke?
+
+villager.hitbyplayer1=lad mig v\u00e6re\!
+villager.hitbyplayer2=jeg har ikke gjort dig noget\!
+villager.hitbyplayer3=stop med det\!
+villager.hitbyplayer4=av, hvorfor slog du mig?\!
+villager.hitbyplayer5=stop det\! det g\u00f8r ondt\!
+villager.hitbyplayer6=hey\! lad v\u00e6r med at sl\u00e5 mig\!
+villager.hitbyplayer7=Av, stop det, stop det\!
+villager.hitbyplayer8=du r\u00f8r mig ikke igen\!
+villager.hitbyplayer9=Vagter\! Den her person overfalder mig\!
+villager.hitbyplayer10=hj\u00e6lp mig\! hvem som helst\!
+villager.hitbyplayer12=av\! %PlayerName%\!jeg troede vi var venner\!
+
+villager.gifted.baby1=lav dig egen opdagelse.
+villager.gifted.baby2=jeg vil ikke holde den\!
+villager.gifted.baby3=den lugter\!
+villager.gifted.baby4=oh, jeg b\u00f8r ikke, jeg mistede min ig\u00e5r.
+villager.gifted.baby5=jeg skulle nok fort\u00e6lle dig nu, at jeg hader b\u00f8rn.
+villager.gifted.baby6=jeg havde h\u00e5rdt med at tage af mig selv, efterladt som barn.
+villager.gifted.baby7=jeg vil gerne holde den, men jeg tager mig ikke af den.
+villager.gifted.baby8=hvorfor giver du ikke den til din \u00e6gtef\u00e6lle isted for en fremmed?
+
+villager.interact.refusal1=g\u00e5 v\u00e6k fra mig.
+villager.interact.refusal2=jeg hader dig.
+villager.interact.refusal3=stop med at snakke til mig.
+villager.interact.refusal4=g\u00e5\!
+villager.interact.refusal5=du er ikke velkommen her.
+villager.interact.refusal6=Jeg vil ikke have noget at g\u00f8re med dig. lad mig v\u00e6re i fred.
+villager.interact.refusal7=G\u00e5 v\u00e6k, du forstyre mig.
+villager.interact.refusal8=Jeg vil ikke engang komme til at tale med dig.
+villager.interact.refusal9=hold de h\u00e6nder v\u00e6k.
+
+villager.joke.bad1=jeg forst\u00e5r den ikke.
+villager.joke.bad2=Jeg tar det op som en forn\u00e6rmelse.
+villager.joke.bad3=Det var bare d\u00e5rligt\!
+villager.joke.bad4=den gav ingen mening.
+villager.joke.bad5=det er dumt hvad du siger.
+villager.joke.bad6=okay s\u00e5...
+villager.joke.bad7=det er en virkelig d\u00e5r...god vits.
+
+villager.joke.good1=det er s\u00e5 sjovt\!
+villager.joke.good2=hvor har du h\u00f8rt den henne? HAHA\!
+villager.joke.good3=det var en god \u00e9n\!
+villager.joke.good4=*griner*
+villager.joke.good5=lidt sjovt.
+villager.joke.good6=Oh det er en af de bedste jokes jeg nogesinde har h\u00f8rt\!
+villager.joke.good7=Du kender virkligt nogle gode jokes\!
+villager.joke.good8=Ha\! du ved hvordan man f\u00e5r andre til at grine.
+villager.joke.good9=Det betyder to ting\!
+
+villager.marriage.acceptance1=ja.
+villager.marriage.acceptance2=jeg har ventet p\u00e5 at du ville sp\u00f8rge mig, selvf\u00f8lgelig\!
+villager.marriage.acceptance3=ja, jeg vil\! jeg elsker dig\!
+villager.marriage.acceptance4=Du ved, jeg har t\u00e6nket en masse p\u00e5 dig her p\u00e5 det seneste... Og... Oh hvad har jeg gang i? Jeg g\u00f8r\!
+villager.marriage.acceptance5=Jeg ville blive mere glad af at tilbringe mit liv med dig\!
+villager.marriage.acceptance6=Det her er en bryllups ring... Til mig...? Ja\!
+villager.marriage.acceptance7=At jeg ved du elsker mig g\u00f8r mig glad, at v\u00e6re med dig f\u00e5r mig til at f\u00f8le som den gladeste person i verden.
+
+villager.marriage.refusal.lowhearts1=Er du sk\u00f8r?
+villager.marriage.refusal.lowhearts2=Hvad? Hvem er du?\!
+villager.marriage.refusal.lowhearts3=Jeg kender dig ikke engang\!
+villager.marriage.refusal.lowhearts4=\u00d8hm... Nej. Undskyld.
+villager.marriage.refusal.lowhearts5=Jeg kan ikke lide dig\!
+villager.marriage.refusal.lowhearts6=Hvad? Nej\! Det kan jeg ikke.
+villager.marriage.refusal.lowhearts7=Ser du... Jeg er ikke klar til at blive gift endnu.
+villager.marriage.refusal.lowhearts8=Jeg n\u00e6gter\!
+villager.marriage.refusal.lowhearts9=Jeg vil ikke gifte mig med dig, nar\!
+
+villager.marriage.refusal.playermarried1=Jeg tror du allerede er sammen med en anden...
+villager.marriage.refusal.playermarried2=er du ikke gift?
+villager.marriage.refusal.playermarried3=jeg kan se den ring p\u00e5 din finger. Smut med dig\!
+villager.marriage.refusal.playermarried4=Hvordan kunne du overhovedet pr\u00f8ve at g\u00f8re det her mod din kone?
+villager.marriage.refusal.playermarried5=Du er forf\u00e6rdelig. g\u00e5 hen og undskyld til din \u00e6gtef\u00e6lde.
+villager.marriage.refusal.playermarried6=Er du ude af dit sind? du er allerede gift\!
+villager.marriage.refusal.playermarried7=Hvorfor g\u00f8r du det her mod din \u00e6gtef\u00e6lle? du er en idiot\!
+villager.marriage.refusal.playermarried8=jeg m\u00e5 heller g\u00e5 og fort\u00e6lle din \u00e6gtef\u00e6lde\!
+villager.marriage.refusal.playermarried9=Jeg kan se din ring...
+
+villager.marriage.refusal.villagermarried1=Jeg er gift, undskyld.
+villager.marriage.refusal.villagermarried2=Oh...nej. jeg har allerede en.
+villager.marriage.refusal.villagermarried3=Jeg er allerede gift. undskyld, jeg troede du vidste det.
+villager.marriage.refusal.villagermarried4=Jeg bliver n\u00f8dt til at sige nej, som du kan se er jeg allerede gift.
+villager.marriage.refusal.villagermarried5=Jeg er ked af det, jeg har allerede en anden.
+
+villager.angry1=Det er rigtigt bliv v\u00e6k, kujon\!
+villager.angry2=Hvorfor kommer du ikke og k\u00e6mper som en mand?
+villager.angry3=Jeg vil kalde p\u00e5 vagterne\!
+villager.angry4=du f\u00e5r hvad der kommer til dig en dag\!
+villager.angry5=Ikke komme tilbage\!
+
+villager.scared1=Nej\! V\u00e6r s\u00f8d ikke at sl\u00e5 mig\!
+villager.scared2=Jeg vil ikke g\u00f8re det igen, jeg sv\u00e6rger\!
+villager.scared3=V\u00e6r s\u00f8d\! ikke dr\u00e6b mig\!
+villager.scared4=Nej\! tag det v\u00e5ben v\u00e6k\!
+villager.scared5=Nogle hj\u00e6lp\! de vil dr\u00e6be mig\!
+
+villager.greeting.handshake.good1=hilsner.
+villager.greeting.handshake.good2=Goddag.
+villager.greeting.handshake.good3=hvorfor er ingen s\u00e5 civile? Velkommen.
+villager.greeting.handshake.good4=det er et dejligt og fast greb, du har der.
+villager.greeting.handshake.good5=Det var s\u00f8dt af dig at komme.
+
+villager.greeting.handshake.bad1=Av\! Du skadede min h\u00e5nd\!
+villager.greeting.handshake.bad2=du ryster for stramt.
+villager.greeting.handshake.bad3=Nej tak.
+villager.greeting.handshake.bad4=\u00c5h...nej. Dine h\u00e6nder ser meget beskidte ud.
+villager.greeting.handshake.bad5=hvad ER det der er p\u00e5 dine h\u00e6nder?\!
+
+villager.greeting.highfive.good1=Giv mig fem\!
+villager.greeting.highfive.good2=What's up, %PlayerName%?
+villager.greeting.highfive.good3=Udm\u00e6rket\!
+villager.greeting.highfive.good4=Hey, hvordan sk\u00e6r' den?
+villager.greeting.highfive.good5=Dejligt at se dig\!
+
+villager.greeting.highfive.bad1=Nej\! lad v\u00e6re med at sl\u00e5 mig\!
+villager.greeting.highfive.bad2=hvem er speciel?
+villager.greeting.highfive.bad3=\u00c5h...nej, undskyld.
+villager.greeting.highfive.bad4=Lad det g\u00e5.
+villager.greeting.highfive.bad5=...Hvad laver du?
+
+villager.kiss.good1=*R\u00f8dmen* Er du single?
+villager.kiss.good2=Du er meget god til at kysse...
+villager.kiss.good3=Dine l\u00e6ber er bl\u00f8de og s\u00f8de.
+villager.kiss.good4=Smager som honning.
+villager.kiss.good5=*Fnis* Du er s\u00f8d.
+
+villager.kiss.bad1=Kender jeg dig overhovedet?\!
+villager.kiss.bad2=*sl\u00e5r*
+villager.kiss.bad3=Jeg kalder p\u00e5 vagterne\!
+villager.kiss.bad4=Hvad laver du?\!
+villager.kiss.bad5=Det vil min far aldrig g\u00e5 med til.
+
+villager.flirt.good1=*r\u00f8dmer* uha, da.
+villager.flirt.good2=*fnis* Du er s\u00e5 s\u00f8d.
+villager.flirt.good3=Jeg elsker n\u00e5r du taler s\u00e5dan.
+villager.flirt.good4=OMIT
+villager.flirt.good5=hihi, vi skulle komme sammen p\u00e5 et tidspunkt.
+
+villager.flirt.bad1=jeg m\u00e5 have Fodbold shorts p\u00e5, fordi jeg er ude af din league\!
+villager.flirt.bad2=Ew, Det tror jeg ikke.
+villager.flirt.bad3=Dater du ikke nogen?
+villager.flirt.bad4=*griner* undskyld, jeg ruller ikke p\u00e5 den m\u00e5de.
+villager.flirt.bad5=Det var ynkeligt.
+
+villager.tellstory.good1=*griner* Grisene f\u00e5r det bedste af os alle\!
+villager.tellstory.good2=Jeg kan huske da jeg var yngre, der kunne jeg ogs\u00e5 g\u00f8re det.
+villager.tellstory.good3=Det skulle vi pr\u00f8ve sammen en gang imellem.
+villager.tellstory.good4=I det mindste beskytter du os mod zombierne\!
+villager.tellstory.good5=*Griner* Du er fin nok, %PlayerName%.
+
+villager.tellstory.bad1=Du skulle skamme dig\!
+villager.tellstory.bad2=Hvis du kan lide det...
+villager.tellstory.bad3=Du skulle angribes af en zombie for det der\!
+villager.tellstory.bad4=og hvad s\u00e5?
+villager.tellstory.bad5=Jeg f\u00f8ler mig meget utilpas lige nu...
+
+#######
+# Grandchild Dialogue
+##############################
+
+grandchild.chat.bad1=You're old. And boring.
+grandchild.chat.bad2=Jeg har ikke lyst til at h\u00f8re kedelige lyde\!
+grandchild.chat.bad3=*Gab*
+
+grandchild.chat.good1=Jeg har den beste %RelationOfPlayer% nogensinde\!
+grandchild.chat.good2=Wow\! skete det lige?
+grandchild.chat.good3=Did all that really happen?
+grandchild.chat.good4=Jeg nyder altid at snakke med dig.
+
+grandchild.follow.start1=Hvor skal vi hen?
+grandchild.follow.start2=Jeg vil have du skal vise mig hvor du dr\u00e6bte den creeper.
+grandchild.follow.start3=Okay, lad os g\u00e5\!
+
+grandchild.follow.stop1=Jeg vil vente p\u00e5 dig %RelationOfPlayer%.
+grandchild.follow.stop2=Jeg vil venter her p\u00e5 dig %RelationOfPlayer%.
+grandchild.follow.stop3=Lad nu v\u00e6re med at g\u00e5 for langt v\u00e6k, %RelationOfPlayer%.
+
+grandchild.gift.bad1=Hvor gammel er det her? Ad\!
+grandchild.gift.bad2=Det ser ud som om det her kom fra sten alderen.
+grandchild.gift.bad3=Ah...Tak. Tror jeg.
+
+grandchild.gift.great1=Der her m\u00e5 have betydet meget for dig. tak\!
+grandchild.gift.great2=Wow\! kan jeg f\u00e5 det her?\!
+grandchild.gift.great3=Jeg vidste du ville bringe mig noget godt\!
+
+grandchild.gift.regular1=jeg viser altid hvad min %RelationOfPlayer% giver mig\!
+grandchild.gift.regular2=Wow\! Det her er sejt\!
+grandchild.gift.regular3=Jeg elsker n\u00e5r du giver mig gaver, %RelationOfPlayer%.
+
+grandchild.gift.small1=Vel, det her er p\u00e6nt\!
+grandchild.gift.small2=Hey, jeg kan lide det her\!
+grandchild.gift.small3=Tak, %RelationOfPlayer%\!
+grandchild.gift.small4=Det her er virkelig sejt, %RelationOfPlayer%.
+
+grandchild.greeting.basic1=Hej, %RelationOfPlayer%.
+grandchild.greeting.basic2=Jeg har ikke set dig i et stykke tid, %RelationOfPlayer%.
+
+grandchild.greeting.friend1=Se, det er %RelationOfPlayer%\!
+grandchild.greeting.friend2=Se alle sammen, min %RelationOfPlayer% er her\!
+
+grandchild.greeting.hate1=*Grumble*
+grandchild.greeting.hate2=\u00c5h nej. Du er her.
+grandchild.greeting.hate3=du er ikke min yndlings %RelationOfPlayer%.
+grandchild.greeting.hate4=Mor\! %RelationOfPlayer% er her...
+
+grandchild.hitbyplayer1=Av\! Det g\u00f8r ondt\!
+grandchild.hitbyplayer2=Stop det\!
+grandchild.hitbyplayer3=Du leger alt for vildt\!
+grandchild.hitbyplayer4=Hvorfor sl\u00e5r du mig, %RelationOfPlayer%?
+
+grandchild.gifted.baby1=Du kan stadig f\u00e5 baby'er\!?
+grandchild.gifted.baby2=Er den... din?
+
+grandchild.joke.bad1=Det var rigtig d\u00e5rligt...
+grandchild.joke.bad2=Hvad???
+grandchild.joke.bad3=M\u00e5ske var det sjovt den gang, men nu... ikke s\u00e5 sjovt.
+grandchild.joke.bad4=Your old jokes aren't funny.
+
+grandchild.joke.good1=jeg snakker altid om hvor sjov min %RelationOfPlayer% er\!
+grandchild.joke.good2=Du skulle fort\u00e6lle den til min ven\!
+grandchild.joke.good3=Det var bare s\u00e5 sjovt, %RelationOfPlayer%\!
+grandchild.joke.good4=Min %RelationOfPlayer% er altid s\u00e5 sjov\!
+
+grandchild.greeting.handshake.good1=S\u00e5 du er min %RelationOfPlayer%?
+grandchild.greeting.handshake.good2=Dejligt at m\u00f8de dig. Du er min  %RelationOfPlayer%, ikke?
+grandchild.greeting.handshake.good3=Hej, vidste du at jeg er din  %RelationToPlayer%? det gjorde jeg ikke.
+grandchild.greeting.handshake.good4=Hej, %RelationOfPlayer%.
+grandchild.greeting.handshake.good5=Hentede du noget til mig?\!
+
+grandchild.greeting.handshake.bad1=Et...h\u00e5ndtryk?
+grandchild.greeting.handshake.bad2=Giver du h\u00e5ndtryk til dine b\u00f8rneb\u00f8rn?
+grandchild.greeting.handshake.bad3=Ad\! Du er gammel\!
+grandchild.greeting.handshake.bad4=AAAD\! Dine h\u00e6nder er rynkede\!
+grandchild.greeting.handshake.bad5=Av\! hvorfor presser du s\u00e5 h\u00e5rdt?
+
+grandchild.greeting.highfive.good1=Jaa\! En gang til\!
+grandchild.greeting.highfive.good2=Igen, igen\!
+grandchild.greeting.highfive.good3=G\u00f8r det igen\!
+grandchild.greeting.highfive.good4=G\u00f8r det igen, s\u00e5 er du s\u00f8d?
+grandchild.greeting.highfive.good5=Igen\!
+
+grandchild.greeting.highfive.bad1=Mine h\u00e6nder g\u00f8r ondt nu\!
+grandchild.greeting.highfive.bad2=Det begynder at g\u00f8re ondt\!
+grandchild.greeting.highfive.bad3=Stop\!
+grandchild.greeting.highfive.bad4=Det her er ved at blive kedeligt.
+grandchild.greeting.highfive.bad5=Okay, mine h\u00e6nder g\u00f8r ondt nu.
+
+grandchild.tellstory.good1=Det er godt at vi har vagter\!
+grandchild.tellstory.good2=Woaw, gjorde du virkelig det?
+grandchild.tellstory.good3=hvad gjorde skeletet efter det?
+grandchild.tellstory.good4=Du er min helt\!
+grandchild.tellstory.good5=Kan du tage mig ned og mine lige som det?
+
+grandchild.tellstory.bad1=Jeg tror ikke p\u00e5 dig.
+grandchild.tellstory.bad2=Mine for\u00e6ldre sagde at jeg ikke sulle tro p\u00e5 hvilket som helst ord du siger.
+grandchild.tellstory.bad3=Sikkert...
+grandchild.tellstory.bad4=Jeg har ikke lyst til at v\u00e6re i n\u00e6rheden af dig mere...
+grandchild.tellstory.bad5=Jeg skulle tag og tage hjem nu.
+
+grandchild.play.good1=Yay, det her er sjovt\!
+grandchild.play.good2=Jeg elsker at v\u00e6re sammen med dig\!
+grandchild.play.good3=du er den bedste\!
+grandchild.play.good4=lad os lege\!
+grandchild.play.good5=jeg vil sl\u00e5 dig\!
+
+grandchild.play.bad1=igen??
+grandchild.play.bad2=du er for gammel for det.
+grandchild.play.bad3=Du leger ikke godt.
+grandchild.play.bad4=Bare g\u00e5 og leg med dine dyr.
+grandchild.play.bad5=Jeg ville hellere spise gr\u00f8ntsager.
+
+#######
+# Villager Child Dialogue
+##############################
+
+villagerchild.chat.bad1=Undskyld mine for\u00e6ldre ville ikke lad emig tale til fremmede\!
+villagerchild.chat.bad2=Hvem er du? Du ser m\u00e6rkelig ud.
+villagerchild.chat.bad3=Jeg har ikke lyst til at tale, du er skr\u00e6mmende\!
+
+villagerchild.chat.good1=Wow\! du er sej\!
+villagerchild.chat.good2=du er ligesom en super helt\!
+villagerchild.chat.good3=Er du en Eventyre?\! det er s\u00e5 fedt\!
+villagerchild.chat.good4=Jeg elsker dine historier, fort\u00e6l mig mere, fort\u00e6l mig mere\!
+
+villagerchild.follow.start1=Okay, men jeg hat ikke lyst til at g\u00e5 for lang v\u00e6k fra mit hjem\!
+villagerchild.follow.start2=\u00f8v...jeg ville faktiskt godt bliver her...
+villagerchild.follow.start3=Hvor skal vi hen? P\u00e5 et eventyr?
+
+villagerchild.follow.stop1=Godt. jeg var blevet tr\u00e6t af at kigge p\u00e5 din numse\!
+villagerchild.follow.stop2=hvor er alle sammen?
+villagerchild.follow.stop3=Du m\u00e5 ikke efterlade mig her helt alene\!
+
+villagerchild.gift.bad1=ah, det her er skr\u00e6mmel\! jeg vil ikke have det.
+villagerchild.gift.bad2=Kan jeg smide det her v\u00e6k? Jeg vil ikke have det.
+villagerchild.gift.bad3=hvorfor giver du mig det, %PlayerName%? jeg kan ikke lide den\!
+
+villagerchild.gift.great1=wow\! kan jeg f\u00e5 det? Oh\! Mange tak\! jeg vil vise det her til min far\!
+villagerchild.gift.great2=Tak for den gode gave\!
+villagerchild.gift.great3=Det her er den bedste gave nogensinde\! Tak\!
+
+villagerchild.gift.regular1=tak\!
+villagerchild.gift.regular2=Det her er sejt\! tak\!
+villagerchild.gift.regular3=Tak for gaven\!
+
+villagerchild.gift.small1=Tak\!
+villagerchild.gift.small2=Mange tak\!
+villagerchild.gift.small3=Kan jeg spise det her?
+villagerchild.gift.small4=Til mig? Oh, tak\!
+
+villagerchild.greeting.basic1=Hvem er du?
+villagerchild.greeting.basic2=Du ser sjov ud.
+
+villagerchild.greeting.friend1=Hey\! du er min ven\!
+villagerchild.greeting.friend2=Vil du lege?
+
+villagerchild.greeting.hate1=Jeg kan ikke lide dig.
+villagerchild.greeting.hate2=Jeg kan huske dig\! Du slo mig\!
+villagerchild.greeting.hate3=Nej\! G\u00e5 v\u00e6k fra mig\!
+villagerchild.greeting.hate4=Min far sagde du skulle blive v\u00e6k.
+
+villagerchild.hitbyplayer1=Av\! Mor\! %PlayerName% slo mig\!
+villagerchild.hitbyplayer2=Ikke sl\u00e5 mig, det g\u00f8r ondt\!
+villagerchild.hitbyplayer3=Nej v\u00e6r s\u00f8d ikke at sl\u00e5 mig\!
+villagerchild.hitbyplayer4=Mor\! Far\! Av\!
+
+villagerchild.gifted.baby1=N\u00e5\u00e5\u00e5r... Den er s\u00f8d men stinker\!
+villagerchild.gifted.baby2=Hvorfor stinker den?
+villagerchild.gifted.baby3=Jeg har ikke lyst til at holde den\!
+
+villagerchild.joke.bad1=Du er en m\u00e6rkelig person.
+villagerchild.joke.bad2=ikke sjovt.
+villagerchild.joke.bad3=Det er ikke sjovt\!
+villagerchild.joke.bad4=ikke forn\u00e6rm mig\!
+villagerchild.joke.bad5=Moar\! %PlayerName% siger bandeord\!
+
+villagerchild.joke.good1=Haha\! du er den sjoveste\!
+villagerchild.joke.good2=Jeg kan virkelig lide dine jokes\!
+villagerchild.joke.good3=Den var god\! jeg vil fort\u00e6lle den til mine venner\!
+villagerchild.joke.good4=Hvordan laver du det sjove ansigt? G\u00f8r det igen\!
+
+villagerchild.play.good1=Mor og far har aldrig til til at g\u00f8re det her\!
+villagerchild.play.good2=Yay\! vil du v\u00e6re min ven?
+villagerchild.play.good3=kan jeg vinde noget?
+villagerchild.play.good4=Lad os lege for evigt\!
+villagerchild.play.good5=Lad os have det sjovt\!
+
+villagerchild.play.bad1=hvem er du?
+villagerchild.play.bad2=min mor har sagt jeg ikk m\u00e5 lege med fremmede.
+villagerchild.play.bad3=far du sagde at du ville lede mig over en kl\u00f8ft.
+villagerchild.play.bad4=nej, det er okay.
+villagerchild.play.bad5=leg med dit ejet barn.
+
+villagerchild.tellstory.good1=jeg ville \u00f8nske jeg var dit barn...
+villagerchild.tellstory.good2=M\u00e5 jeg ogs\u00e5 lege med bl\u00e6ksprutten?\!
+villagerchild.tellstory.good3=Wow, kan du tage mig med til Nether?\!
+villagerchild.tellstory.good4=Hvorfor kan du ikke fort\u00e6lle mig hvad der sker efter du fodrer dem?
+villagerchild.tellstory.good5=Jeg vil starte min egen klub ligesom du gjorde\!
+
+villagerchild.tellstory.bad1=Du er ikke en god person er du?
+villagerchild.tellstory.bad2=Jeg tror jeg h\u00f8rer min mor sige der er mad.
+villagerchild.tellstory.bad3=Mine for\u00e6ldre kommer til at d\u00f8?\!
+villagerchild.tellstory.bad4=G\u00e5 v\u00e6k.
+villagerchild.tellstory.bad5=Dine historier er kedelige.
+
+#######
+# Adult Dialogue
+##############################
+
+playerchild.adult.chat.bad1=Har du ikke en anden historie du kan fort\u00e6lle?
+playerchild.adult.chat.bad2=Jeg har travlt...
+playerchild.adult.chat.bad3=Lad os snakke senere.
+playerchild.adult.chat.bad4=yup.
+playerchild.adult.chat.bad5=uh-huh.
+playerchild.adult.chat.bad6=Okay.
+playerchild.adult.chat.bad7=Okay s\u00e5.
+playerchild.adult.chat.bad8=s\u00e5 meget interesant...
+playerchild.adult.chat.bad9=*Ruller \u00d8jne*
+playerchild.adult.chat.bad10=%ParentOpposite% fortalte mig du l\u00f8j om det.
+playerchild.adult.chat.bad11=Lad os skifte emne, okay?
+playerchild.adult.chat.bad12=Vel.. Det er.. Interesant..
+playerchild.adult.chat.bad13=\u00d8hh.. Ok..
+playerchild.adult.chat.bad14=Det er det?
+playerchild.adult.chat.bad15=M\u00e5ske senere.
+playerchild.adult.chat.bad16=Jeg kan ikke tale lige nu.
+playerchild.adult.chat.bad17=Oh min god, V\u00c6R S\u00d8D at lade mig v\u00e6re i fred\!
+playerchild.adult.chat.bad18=Alt jeg h\u00f8rte var 'blah, blah, blah'.
+
+playerchild.adult.chat.good1=*H\u00f8rer godt efter*
+playerchild.adult.chat.good2=Ja, vi burde g\u00e5 ud og jage.
+playerchild.adult.chat.good3=Lad os g\u00e5 ud og samle forsyninger, eller mine, eller noget\!
+playerchild.adult.chat.good4=Du skulle tage mig med n\u00e6ste gang.
+playerchild.adult.chat.good5=Hvorn\u00e5r f\u00e5r jeg mit eget hus?
+playerchild.adult.chat.good6=En dag vil jeg have mit eget hus.
+playerchild.adult.chat.good7=Jeg kan ikke vente til at f\u00e5 mit eget hus\!
+playerchild.adult.chat.good8=Lad os g\u00f8re nogle landbrug eller noget\!
+playerchild.adult.chat.good9=Lad os g\u00e5 et sted hen\!
+playerchild.adult.chat.good10=Oh\! Det er en god historie\!
+playerchild.adult.chat.good11=Ja, jeg har det godt.
+playerchild.adult.chat.good12=Du skulle ik spr\u00e6de det men det er en god historie.
+playerchild.adult.chat.good13=Det er den bedste ting siden sk\u00e5ret br\u00f8d\!
+
+playerchild.adult.chore.start.farming1=Ja, %CallPlayerParent%.
+playerchild.adult.chore.start.farming2=Ugh. Fint, %CallPlayerParent%.
+playerchild.adult.chore.start.farming3=Selvf\u00f8lgelig vil jeg g\u00f8re det, %CallPlayerParent%.
+playerchild.adult.chore.start.farming4=Landbrug? Ok, det skal jeg nok.
+playerchild.adult.chore.start.farming5=Kom nu\! Du beh\u00f8vede ikke da du var et barn\!
+playerchild.adult.chore.start.farming6=Vil du hj\u00e6lpe mig, %CallPlayerParent%?
+playerchild.adult.chore.start.farming7=Hvis vi s\u00e6lger det br\u00f8d jeg laver, kan jeg f\u00e5 50% af profiten?
+
+playerchild.adult.chore.start.fishing1=Jeg elsker at fiske. Okay.
+playerchild.adult.chore.start.fishing2=Jeg er sikker p\u00e5 at jeg fanger flere end dig\!
+playerchild.adult.chore.start.fishing3=Jeg vil pr\u00f8ve at sl\u00e5 min rekord den her gang.
+playerchild.adult.chore.start.fishing4=Oh. Igen skal jeg putte mad p\u00e5 bordet.
+playerchild.adult.chore.start.fishing5=Yeah, okay.
+playerchild.adult.chore.start.fishing6=Cool\! jeg elsker at fiske, %CallPlayerParent%\!
+playerchild.adult.chore.start.fishing7=Jeg vil v\u00e6re sikker p\u00e5 at fange en masse fisk, bare kig\!
+playerchild.adult.chore.start.fishing8=Ok\! Jeg vil g\u00f8re mit bedste for at fange s\u00e5 mange fisk som mugligt.
+playerchild.adult.chore.start.fishing9=Jeg er god til at fiske\! Det f\u00e5r du at se.
+playerchild.adult.chore.start.fishing10=Har fisk fisk...
+playerchild.adult.chore.start.fishing11=Jeg h\u00e5ber at mit nye t\u00f8j ikke bliver v\u00e5t.
+
+playerchild.adult.chore.start.mining1=Kulst\u00f8v er ikke giftigt, vel?
+playerchild.adult.chore.start.mining2=Jeg h\u00e5ber at min hakke ikke g\u00e5r i stykker denne gang.
+playerchild.adult.chore.start.mining3=Jeg finder flere diamander end dig, vent og se\!
+
+playerchild.adult.chore.start.woodcutting1=Jeg vil stadig have det der tr\u00e6hus, du ved.
+playerchild.adult.chore.start.woodcutting2=T\u00e6nker du nogen sinde hvorfor, tr\u00e6erne sv\u00e6ver?
+playerchild.adult.chore.start.woodcutting3=Jeg vil slibe min \u00f8kse og g\u00e5 igang med det samme.
+playerchild.adult.chore.start.woodcutting4=F\u00e5r du mig til at bygge mit eget hus?
+
+playerchild.adult.chore.start.hunting1=Jeg kommer tilbage med 10 grise\!
+playerchild.adult.chore.start.hunting2=Det her bliver sjovt.
+playerchild.adult.chore.start.hunting3=Jeg kommer tilbage om lidt.
+playerchild.adult.chore.start.hunting4=Sender du mig ikke bare fordi jeg er en bedre j\u00e6ger end dig?
+
+playerchild.adult.chore.stop1=Jeg troede at du aldrig ville stoppe mig.
+playerchild.adult.chore.stop2=Jeg er s\u00e5 tr\u00e6t...
+playerchild.adult.chore.stop3=Endelig. Jeg var begyndt at kede mig.
+playerchild.adult.chore.stop4=Endelig. Jeg var begyndt at blive tr\u00e6t.
+playerchild.adult.chore.stop5=F\u00e5 mig ikke til at g\u00f8re det igen\!
+playerchild.adult.chore.stop6=Gladly\!
+playerchild.adult.chore.stop7=Mange tak, jeg hader at g\u00f8re det der\!
+playerchild.adult.chore.stop8=Ah... Endelig er jeg f\u00e6rdig med mit arbejde\!
+playerchild.adult.chore.stop9=Jeg tror jeg slapper lidt af nu.
+playerchild.adult.chore.stop10=S\u00e5 stopper jeg med at arbejde.
+playerchild.adult.chore.stop11=Jeg er glad for at det er slut\!
+playerchild.adult.chore.stop12=Jeg gjorde dit grimme arbejde. Nu laver jeg noget sjovt.
+
+playerchild.adult.follow.start1=Ok, hvor skal vi hen?
+playerchild.adult.follow.start2=Skal vi jage dyr sammen, %CallPlayerParent%?
+playerchild.adult.follow.start3=I hope I see a creeper\!
+playerchild.adult.follow.start4=I hope we're not moving. I like it here.
+playerchild.adult.follow.start5=Finally\! Let's get out of here\!
+playerchild.adult.follow.start6=Are we going to come back?
+playerchild.adult.follow.start7=I actually didn't want to go anywhere...
+playerchild.adult.follow.start8=Alright, let's go then.
+playerchild.adult.follow.start9=Off we go\!
+playerchild.adult.follow.start10=Let's head out\!
+playerchild.adult.follow.start11=There are so many things that I'd like to see\!
+playerchild.adult.follow.start12=I hope I see some mobs.
+playerchild.adult.follow.start13=This better not be a trap...
+playerchild.adult.follow.start14=I want to catch a spider\!
+
+playerchild.adult.follow.stop1=I'll wait here, %CallPlayerParent%.
+playerchild.adult.follow.stop2=I like this place. Let's stay here for awhile.
+playerchild.adult.follow.stop3=I'll be right here.
+playerchild.adult.follow.stop4=Ikke g\u00e5 for langt v\u00e6k...
+playerchild.adult.follow.stop5=Jeg h\u00f8re noget. V\u00e6r forsigtig.
+playerchild.adult.follow.stop6=Bare ikke blive skadet, %CallPlayerParent%\!
+playerchild.adult.follow.stop7=Efterlad mig ikke her i for lang tid\!
+playerchild.adult.follow.stop8=V\u00e6r p\u00e5 vagt. Farer lurer der ude n\u00e5r du er alene.
+playerchild.adult.follow.stop9=Pas p\u00e5 creeperne\!
+playerchild.adult.follow.stop10=Wow, det var tr\u00e6ttene.
+playerchild.adult.follow.stop11=Kan jeg ikke blive ved med at f\u00f8lge dig? Jeg er bange, %CallPlayerParent%.
+
+playerchild.adult.gift.bad1=Wow\! %CallPlayerParent%\! Ved du hvad du lige har fundet\!? Heller ikke mig.
+playerchild.adult.gift.bad2=Det er noget skrald.
+playerchild.adult.gift.bad3=Nej tak.
+playerchild.adult.gift.bad4=Kast dit eget skrald v\u00e6k\!
+playerchild.adult.gift.bad5=Hvad med noget mad engang imellem?
+playerchild.adult.gift.bad6=hvorfor ville jeg have dette?
+playerchild.adult.gift.bad7=Det er... Nej. Bare nej.
+playerchild.adult.gift.bad8=Hvorfor giver ud overhovedet det her til mig?
+playerchild.adult.gift.bad9=Nej, jeg vil bestemt ikke beholde den her.
+playerchild.adult.gift.bad10=Jeg skal nok kaste den her i lava.
+playerchild.adult.gift.bad11=Er der nogen skraldespande her omkring?
+playerchild.adult.gift.bad12=Argh. Igen? Jeg vil v\u00e6re sikker p\u00e5 du f\u00e5r en \u00f8nskeseddel n\u00e6ste gang.
+
+playerchild.adult.gift.great1=Oh min... I'm m\u00e5ll\u00f8s\!
+playerchild.adult.gift.great2=Tusind, tusind, tusind tak\!
+playerchild.adult.gift.great3=Den her er den sejeste\!
+playerchild.adult.gift.great4=Havde du r\u00e5d til den her\!?
+
+playerchild.adult.gift.regular1=Tusind tusind tak\!
+playerchild.adult.gift.regular2=Den er utrolig\!
+playerchild.adult.gift.regular3=Jeg synes at du skal vide at jeg er meget taknemelig\!
+
+playerchild.adult.gift.small1=Hvor fandt du den her? Tak\!
+playerchild.adult.gift.small2=\u00c5h, tak %CallPlayerParent%\!
+playerchild.adult.gift.small3=Kan jeg...spise den?
+playerchild.adult.gift.small4=Du gav mig vel ikke den til mig, bare for at komme af med den, gjorde du?
+playerchild.adult.gift.small5=\u00c5h wow, en gave til mig\!
+playerchild.adult.gift.small6=S\u00f8dt\! Mange tak, %CallPlayerParent%.
+playerchild.adult.gift.small7=Den her ser god ud, og... Smager godt?
+
+playerchild.adult.greeting.basic1=Hej, %CallPlayerParent%\!
+playerchild.adult.greeting.basic2=Du er tilbage, %CallPlayerParent%.
+
+playerchild.adult.greeting.friend1=Hej, %CallPlayerParent%\!
+playerchild.adult.greeting.friend2=Du er tilbage, %CallPlayerParent%.
+
+playerchild.adult.greeting.hate1=...
+playerchild.adult.greeting.hate2=Hvad laver du her, %CallPlayerParent%?
+playerchild.adult.greeting.hate3=Jeg sagde at du skulle blive v\u00e6k\!
+playerchild.adult.greeting.hate4=Kom du for at sige undskyld?
+playerchild.adult.greeting.hate5=F\u00e5 mig ikke til at kalde p\u00e5 vagterne.
+
+playerchild.adult.hitbyplayer1=Stop det\!
+playerchild.adult.hitbyplayer2=Jeg kan t\u00e6ve dig, og du ved det\!
+playerchild.adult.hitbyplayer3=Av\! %CallPlayerParent%\! Lad v\u00e6re med at sl\u00e5 mig\!
+playerchild.adult.hitbyplayer4=Det g\u00f8r rigtig ondt\!
+playerchild.adult.hitbyplayer5=Slap af og stop med at sl\u00e5 mig\!
+playerchild.adult.hitbyplayer6=Jeg er ikke en bokses\u00e6k\!
+playerchild.adult.hitbyplayer7=Det hj\u00e6lper ikke at sl\u00e5 p\u00e5 mig\!
+playerchild.adult.hitbyplayer8=Av\! Hvad fanden gjorde du det for?\!
+playerchild.adult.hitbyplayer9=Det her er ikke normalt\!
+playerchild.adult.hitbyplayer10=Slap af\!
+playerchild.adult.hitbyplayer11=Av\!
+playerchild.adult.hitbyplayer12=Hvorfor g\u00f8r du det?\!
+
+playerchild.adult.gifted.baby1=Den gider jeg ikke holde\! 
+playerchild.adult.gifted.baby2=Jeg hader babier\!
+playerchild.adult.gifted.baby3=Ew\! Den lugter\!
+playerchild.adult.gifted.baby4=Ja, ja, den er meget s\u00f8d.
+playerchild.adult.gifted.baby5=Jeg har alts\u00e5 andet at lave\!
+
+playerchild.adult.joke.bad1=Den der bliver meget gammel.
+playerchild.adult.joke.bad2=Det var bare dumt.
+playerchild.adult.joke.bad3=...Hvad?
+playerchild.adult.joke.bad4=Ikke joke om det\! jeg et STADIG traumatiserede\!
+playerchild.adult.joke.bad5=Forst\u00e5r det stadig ikke.
+playerchild.adult.joke.bad6=Ikke den igen.
+playerchild.adult.joke.bad7=Jeg har h\u00f8rt den over tyve gange f\u00f8r\!
+playerchild.adult.joke.bad8=Ew, hvorfor laver du sjov med den slags?\!
+playerchild.adult.joke.bad9=Den vits er forf\u00e6rdelig.
+playerchild.adult.joke.bad10=Ah, den igen. Sjovt.
+playerchild.adult.joke.bad11=Jeg tror %ParentOpposite% kalder p\u00e5 mig...
+playerchild.adult.joke.bad12=S\u00e5 jeg beh\u00f8ver virkelig at g\u00f8re mine g\u00f8rem\u00e5l.
+
+playerchild.adult.joke.good1=Den kan jeg stadig huske, %CallPlayerParent%. Haha\!
+playerchild.adult.joke.good2=Den var rigtig sjov\!
+playerchild.adult.joke.good3=*Klukle*
+playerchild.adult.joke.good4=Du har altid de bedste vitser\!
+playerchild.adult.joke.good5=God en, %CallPlayerParent%\!
+playerchild.adult.joke.good6=Haha\! Den er s\u00e5 sjov\!
+playerchild.adult.joke.good7=Det var en god \u00e9n\!
+
+playerchild.adult.greeting.handshake.good1=Hey, har ikke talt med dig i et stykke tid.
+playerchild.adult.greeting.handshake.good2=Hey, %CallPlayerParent%.
+playerchild.adult.greeting.handshake.good3=godt at se dig igen, %CallPlayerParent%\!
+playerchild.adult.greeting.handshake.good4=Oh, %CallPlayerParent%, jeg har s\u00e5 meget at fort\u00e6lle om.
+playerchild.adult.greeting.handshake.good5=Hey, godt at se du er tilbage.
+
+playerchild.adult.greeting.handshake.bad1=Hvorfor kommer du ikke og bes\u00f8ger noget mere?
+playerchild.adult.greeting.handshake.bad2=Det her et det eneste kontakt vi har haft i evigheder, og du giver mig bare din h\u00e5nd?\!
+playerchild.adult.greeting.handshake.bad3=Jeg vil ikke give h\u00e5nd.
+playerchild.adult.greeting.handshake.bad4=Jeg er uh... Jeg har det meget travlt lige nu.
+playerchild.adult.greeting.handshake.bad5=Jeg har det travlt - ligesom du altid har.
+
+playerchild.adult.greeting.highfive.good1=Det er stadig sjovt\!
+playerchild.adult.greeting.highfive.good2=*Jubler*
+playerchild.adult.greeting.highfive.good3=Vi er seje\!
+playerchild.adult.greeting.highfive.good4=Ja\! Jeg har savnede det her.
+playerchild.adult.greeting.highfive.good5=Vi er de bedste\!
+
+playerchild.adult.greeting.highfive.bad1=Jeg er for gammel til at high five hele tiden.
+playerchild.adult.greeting.highfive.bad2=Ikke lige nu.
+playerchild.adult.greeting.highfive.bad3=Jeg vil ikke high five med dig.
+playerchild.adult.greeting.highfive.bad4=Jeg har lyst til at snakke, ikke at give en High five\! 
+playerchild.adult.greeting.highfive.bad5=hvorfor vil du ikke rigtig snakke med mig mere?
+
+playerchild.adult.tellstory.good1=*Griner* Det minder mig om da jeg var et ungt barn.
+playerchild.adult.tellstory.good2=Du og %ParentOpposite% Elskede virkelig hindanden, gjorde i ikke?
+playerchild.adult.tellstory.good3=Det lyder sjovt\! Vi skulle pr\u00f8ve det p\u00e5 et tidspunkt\!
+playerchild.adult.tellstory.good4=*Griner* Jeg er s\u00e5 glad jeg er i den her famillie.
+playerchild.adult.tellstory.good5=De gjorde hvad til h\u00f8nerne?
+
+playerchild.adult.tellstory.bad1=\u00d8hm, Har du fortalt det til %ParentOpposite%?
+playerchild.adult.tellstory.bad2=Jeg godkender ikke.
+playerchild.adult.tellstory.bad3=Du... Skulle nok ikke fort\u00e6lle det til nogen andre.
+playerchild.adult.tellstory.bad4=Det var ikke s\u00e6rlig s\u00f8dt.
+playerchild.adult.tellstory.bad5=Du ved, det minder mig om %RandomName%\!
+
+#######
+# Kid Dialogue
+##############################
+playerchild.young.chat.bad1=Jeg gider ikke snakker. Lad mig v\u00e6re\!
+playerchild.young.chat.bad2=%CallPlayerParent%, jeg har travlt\!
+playerchild.young.chat.bad3=Shhhh\!
+playerchild.young.chat.bad4=Du er kedelig.
+playerchild.young.chat.bad5=*ignorere dig*
+playerchild.young.chat.bad6=%ParentOpposite% Sagde Man ikke skulle sige det\!
+playerchild.young.chat.bad7=Jeg har travlt\!
+playerchild.young.chat.bad8=Kan du ikke se at jeg har travlt?\!
+playerchild.young.chat.bad9=Jeg...*gaber*, tager en lille lur.
+
+playerchild.young.chat.good1=*H\u00f8rer godt efter*
+playerchild.young.chat.good2=Vil du tage mig med n\u00e6ste gang, %CallPlayerParent%?
+playerchild.young.chat.good3=Jeg vil ud og jage\!
+playerchild.young.chat.good4=Hvorfor kan jeg ikke komme med?
+playerchild.young.chat.good5=Jeg vil virkelig gerne med n\u00e6ste gang, please?
+playerchild.young.chat.good6=Det er super, %CallPlayerParent%\! Hvordan gjorde du det?
+playerchild.young.chat.good7=Virkelig? Det er s\u00e5 sejt\!
+playerchild.young.chat.good8=Du er den bedste %CallPlayerParent% i verden\! Nej, i universet\!
+
+playerchild.young.joke.bad1=Oh-oh\! %CallPlayerParent% Sagde et d\u00e5rligt ord\!
+playerchild.young.joke.bad2=Det er dumt.
+playerchild.young.joke.bad3=Du er en stor dumpap. Jeg forst\u00e5r det ikke.
+playerchild.young.joke.bad4=Hvorfor lave sjov med det? *Gr\u00e6der*
+playerchild.young.joke.bad5=Lad v\u00e6re med at lav sjov med mig\!
+playerchild.young.joke.bad6=%ParentOpposite% sagde at man ikke m\u00e5tte sige det ord\!
+playerchild.young.joke.bad7=Den har jeg h\u00f8rt en million gange f\u00f8r, %CallPlayerParent%.
+playerchild.young.joke.bad8=Den gav ikke mening.
+
+playerchild.young.joke.good1=Du er sjov, %CallPlayerParent%.
+playerchild.young.joke.good2=Ha ha\! Jeg forst\u00e5r den\!
+playerchild.young.joke.good3=Den fort\u00e6ller jeg til mine venner\!
+playerchild.young.joke.good4=Den var ikke dum, som de andre tyve.
+playerchild.young.joke.good5=*Fniser*
+playerchild.young.joke.good6=Det var sjovt\!
+playerchild.young.joke.good7=Den skal jeg huske\!
+
+playerchild.young.chore.start.farming1=Ja, %CallPlayerParent%.
+playerchild.young.chore.start.farming2=Yay\! Jeg elsker at dyrke.
+playerchild.young.chore.start.farming3=Jeg begynder lige nu.
+playerchild.young.chore.start.farming4=Endelig skal jeg g\u00f8re noget.
+playerchild.young.chore.start.farming5=Okay.
+playerchild.young.chore.start.farming6=Jeg h\u00e5bede du ville sp\u00f8rge mig om at g\u00f8re dette\!
+playerchild.young.chore.start.farming7=Jeg h\u00e5ber det var min f\u00f8dselsdagskage.
+
+playerchild.young.chore.start.fishing1=Det er kedeligt at fiske.
+playerchild.young.chore.start.fishing2=Man, at fiske tager s\u00e5 lang tid\!
+playerchild.young.chore.start.fishing3=Jeg ved ikke hvordan, jeg sv\u00e6rger\!
+playerchild.young.chore.start.fishing4=Men fisk stinker\!
+playerchild.young.chore.start.fishing5=Men de er s\u00e5 slimede...
+playerchild.young.chore.start.fishing6=Jeg kan ikke lide at blive v\u00e5d\!
+playerchild.young.chore.start.fishing7=Jeg vil ikke fiske.
+playerchild.young.chore.start.fishing8=Hvorfor altid fiske?
+
+playerchild.young.chore.start.mining1=Hvordan var det nu jeg holdte hakken?
+playerchild.young.chore.start.mining2=Jeg siger det til %ParentOpposite% hvis jeg falder i lava igen.
+playerchild.young.chore.start.mining3=Yay\! Jeg elsker at mine\!
+playerchild.young.chore.start.mining4=Jeg h\u00e5ber ikke et skelet skyder mig igen.
+playerchild.young.chore.start.mining5=Hvis jeg finder en diamant, m\u00e5 jeg beholde den, okay?
+
+playerchild.young.chore.start.woodcutting1=Tr\u00e6er, tr\u00e6er, tr\u00e6er, tr\u00e6er...
+playerchild.young.chore.start.woodcutting2=Jeg h\u00e5ber at den her ikke falde ned p\u00e5 mig igen\!
+playerchild.young.chore.start.woodcutting3=Kan vi bygge et tr\u00e6hus n\u00e5r jeg er f\u00e6rdig?
+playerchild.young.chore.start.woodcutting4=Hvad skal vi bruge tr\u00e6et til?
+
+playerchild.young.chore.start.hunting1=Okay\! Jeg elsker at jage\!
+playerchild.young.chore.start.hunting2=Jeg h\u00e5ber at ulvene ikke bider mig igen.
+playerchild.young.chore.start.hunting3=Men jeg er vildt lille\! Sidste gang tog det mig flere timer at f\u00e5 bragt en ko tilbage.
+
+playerchild.young.chore.stop1=*Sukker lettede*
+playerchild.young.chore.stop2=Jeg troede aldrig du ville lade mig stoppe.
+playerchild.young.chore.stop3=Jeg er s\u00e5 tr\u00e6t...
+playerchild.young.chore.stop4=Endelig. Jeg var begyndt at kede mig.
+playerchild.young.chore.stop5=Endelig. Jeg var begyndt at blive tr\u00e6t.
+playerchild.young.chore.stop6=F\u00e5 mig ikke til at g\u00f8re det igen\!
+
+playerchild.young.follow.start1=Ok, hvor skal vi hen?
+playerchild.young.follow.start2=Yay\! Jeg kan blive hos %CallPlayerParent%\!
+playerchild.young.follow.start3=Yay\! Jeg kommer med dig.
+playerchild.young.follow.start4=Men jeg har ikke lyst til at g\u00e5\!
+playerchild.young.follow.start5=Kommer %ParentOpposite% ogs\u00e5 med?
+playerchild.young.follow.start6=Jeg h\u00e5ber vi ser en gris, eller en ko, eller en kylling, eller et f\u00e5r\!
+playerchild.young.follow.start7=G\u00e5r vi hen til en jungle? Jeg vil se en missekat.
+playerchild.young.follow.start8=Jeg h\u00e5ber vi ikke kommer for langt v\u00e6k...
+playerchild.young.follow.start9=Creepere skr\u00e6mmer mig, jeg h\u00e5ber ikke vi l\u00f8ber ind i en.
+
+playerchild.young.follow.stop1=Ok. Jeg venter her.
+playerchild.young.follow.stop2=V\u00e6r ikke v\u00e6k for l\u00e6nge, okay?
+playerchild.young.follow.stop3=Men det er skr\u00e6mmende her...
+playerchild.young.follow.stop4=Nej, %CallPlayerParent%, g\u00e5 ikke\!
+playerchild.young.follow.stop5=Men jeg kan h\u00f8re lyde...
+playerchild.young.follow.stop6=Fint, bare ikke glem mig, %CallPlayerParent%.
+playerchild.young.follow.stop7=Men... Hvad hvis det bliver nat?
+playerchild.young.follow.stop8=Kommer du hurtigt hjem igen?
+playerchild.young.follow.stop9=Efterlad mig ikke her\!
+
+playerchild.young.gift.bad1=Hvad kan jeg bruge den til\!?
+playerchild.young.gift.bad2=Den er stinkende.
+playerchild.young.gift.bad3=Jeg kan ikke lide dem her.
+playerchild.young.gift.bad4=%CallPlayerParent%, du ved hvad jeg kan, og kan ikke lide.
+playerchild.young.gift.bad5=Hent mig noget godt.
+playerchild.young.gift.bad6=Jeg har allerede ti millioner af dem her.
+playerchild.young.gift.bad7=Det her er ubrugeligt skr\u00e6mmel\!
+playerchild.young.gift.bad8=Jeg vil hellere ikke have noget\!
+playerchild.young.gift.bad9=Huh??
+
+playerchild.young.gift.great1=Hvor fik du den her, %CallPlayerParent%?
+playerchild.young.gift.great2=Er den til mig?
+playerchild.young.gift.great3=Jaaaaaaaaaa\!
+playerchild.young.gift.great4=Er den kun min\!?
+playerchild.young.gift.great5=%ParentOpposite% synes de her er 'sexede'.
+playerchild.young.gift.great6=Du er den bedste %CallPlayerParent% nogensinde\!
+
+playerchild.young.gift.regular1=Jeg h\u00e5ber jeg f\u00e5r mere\!
+playerchild.young.gift.regular2=Er den til mig?
+playerchild.young.gift.regular3=Du fik to til mig, ikke?
+playerchild.young.gift.regular4=Den er til mig?\!
+
+playerchild.young.gift.small1=Hvor fik du den fra, %CallPlayerParent%?
+playerchild.young.gift.small2=Ooooh, skinnende\!
+playerchild.young.gift.small3=Gaver\! Jeg elsker gave\!
+playerchild.young.gift.small4=Jeg kan lide det, %CallPlayerParent%.
+playerchild.young.gift.small5=Tak, %CallPlayerParent%.
+
+playerchild.young.greeting.basic1=Hej, %CallPlayerParent%.
+playerchild.young.greeting.basic2=Ew, %CallPlayerParent%, du stinker. hvor har du v\u00e6ret?
+playerchild.young.greeting.basic3=Yay1 %CallPLayerParent% er hjemme\!
+playerchild.young.greeting.basic4=Hurra, %CallPlayerParent%\! har du bringet mig noget?
+
+playerchild.young.greeting.friend1=Yay\! %CallPlayerParent% %CallPlayerParent% %CallPlayerParent%\!\!\!
+playerchild.young.greeting.friend2=Du har brunget mig en gave har du ikke?
+playerchild.young.greeting.friend3=%CallPlayerParent%, jeg har savnet dig.
+playerchild.young.greeting.friend4=Fort\u00e6l mig historier om hvor du har v\u00e6ret\!
+playerchild.young.greeting.friend5=%CallPlayerParent%, ikke forlad igen. det g\u00f8r %ParentOpposite% ked af det.
+
+playerchild.young.greeting.hate1=PLease ikke skade mig igen %CallPlayerParent%.
+playerchild.young.greeting.hate2=%CallPlayerParent%, vil du v\u00e6re s\u00f8d mod mig nu?
+playerchild.young.greeting.hate3=H...hej...%CallPlayerParent%
+playerchild.young.greeting.hate4=*Kryber i frygt*
+playerchild.young.greeting.hate5=Jeg vil v\u00e6re god idag, %CallPLayerParent%... ikke sl\u00e5 mig.
+
+playerchild.young.hitbyplayer1=Av\! Jeg fort\u00e6ller %ParentOpposite% hvad du gjorde\!
+playerchild.young.hitbyplayer2=%CallPlayerParent%, stop med at sl\u00e5 mig\!
+playerchild.young.hitbyplayer3=%CallPlayerParent%, det g\u00f8r ondt\!
+playerchild.young.hitbyplayer4=Av\! hvad gjorde jeg, %CallPlayerParent%?
+playerchild.young.hitbyplayer5=Av\!
+playerchild.young.hitbyplayer6=Av\!
+playerchild.young.hitbyplayer7=Jeg fort\u00e6ller %Parentopposite%\!
+
+playerchild.young.gifted.baby1=Ew\! Den er stinkende\!
+
+playerchild.young.tellstory.good1=Blev du sl\u00e5get for det?
+playerchild.young.tellstory.good2=Jeg vil g\u00f8re det\!
+playerchild.young.tellstory.good3=Jeg vil aldrig v\u00e6re ulydelig mere efter at h\u00f8re det\!
+playerchild.young.tellstory.good4=*Griner* %ParentOpposite% gjorde det?
+playerchild.young.tellstory.good5=Jeg kan ikke tro du gjorde det\!
+
+playerchild.young.tellstory.bad1=*gr\u00e6der* Hvorfor ville du g\u00f8re s\u00e5dan noget?
+playerchild.young.tellstory.bad2=Jeg fort\u00e6ller %RandomName% du sagde det.
+playerchild.young.tellstory.bad3=Ja, ja, ligemeget. jeg vil ikke h\u00f8re dine historier lige nu.
+playerchild.young.tellstory.bad4=Creeper'en vil tage mig?\!
+playerchild.young.tellstory.bad5=*Gr\u00e6der* Jeg vil ikke have %ParentOpposite% bliver til en zombie\!
+
+playerchild.young.play.good1=Du kan ikke fange mig\!
+playerchild.young.play.good2=Jeg elsker n\u00e5r du leger mig, %CallPlayerParent%.
+playerchild.young.play.good3=Jeg kommer til at vinde\!
+playerchild.young.play.good4=Det her vil blive sjovt\!
+playerchild.young.play.good5=Du vil aldrig sl\u00e5 mig\!
+
+playerchild.young.play.bad1=Du lader mig aldrig vinde.
+playerchild.young.play.bad2=Du mangler at tr\u00e6ne, men ikke mig.
+playerchild.young.play.bad3=Jeg er for gammel til det her.
+playerchild.young.play.bad4=Hvorfor leger du ikke med din bedste ven?
+playerchild.young.play.bad5=Jeg vil kun lege med %RandomName%.
+
+playerchild.young.greeting.handshake.good1=Hej, %CallPlayerParent%.
+playerchild.young.greeting.handshake.good2=Hvor har du v\u00e6ret idag?
+playerchild.young.greeting.handshake.good3=Fort\u00e6l mig om dine historier.
+playerchild.young.greeting.handshake.good4=Du er tilbage. Hvad har du lavet?
+playerchild.young.greeting.handshake.good5=Lad os g\u00f8re noget\!
+
+playerchild.young.greeting.handshake.bad1=...Hvorfor giver vi h\u00e5nd?
+playerchild.young.greeting.handshake.bad2=Dine h\u00e6nder er s\u00e5 svedige og ul\u00e6kre.
+playerchild.young.greeting.handshake.bad3=Ad, R\u00f8r mig ikke\!
+playerchild.young.greeting.handshake.bad4=Jeg vil ikke give h\u00e5nd\!
+playerchild.young.greeting.handshake.bad5=Hvorfor taler du ikke til mig i stedet for at give h\u00e5nd hele tiden?
+
+playerchild.young.greeting.highfive.good1=vil du g\u00f8re det igen?
+playerchild.young.greeting.highfive.good2=Det her er sjovt\!
+playerchild.young.greeting.highfive.good3=*Griner*
+playerchild.young.greeting.highfive.good4=High five igen\!
+playerchild.young.greeting.highfive.good5=Bare en gang mere, v\u00e6r nu s\u00f8d\!
+
+playerchild.young.greeting.highfive.bad1=Nu er jeg tr\u00e6t af det.
+playerchild.young.greeting.highfive.bad2=Laver du ikke noget andet?
+playerchild.young.greeting.highfive.bad3=Jeg kan ikke n\u00e5 dig, dumme\!
+playerchild.young.greeting.highfive.bad4=Jeg vil ikke high five mere.
+playerchild.young.greeting.highfive.bad5=Det bliver irriterende.
+
+#######
+# Spouse Dialogue
+##############################
+spouse.chat.bad1=Jeg har h\u00f8rt den historie f\u00f8r.
+spouse.chat.bad2=Det er blevet kedeligt at tale om den samme ting.
+spouse.chat.bad3=Har du ikke noget bedre at snakke om?
+spouse.chat.bad4=Jeg har ikke lyst til at tale om det.
+spouse.chat.bad5=Hvad end du siger.
+spouse.chat.bad6=er der ikke noget andet du kan fort\u00e6lle mig?
+
+spouse.chat.good1=Jeg elsker det n\u00e5r du fort\u00e6ller mig om dine eventyrige historier.
+spouse.chat.good2=Imponerende\!
+spouse.chat.good3=Ja, ting er okay her omkring.
+spouse.chat.good4=Tja idag har jeg... oh, du vil ikke h\u00f8re det, det er jeg sikkert p\u00e5\!
+spouse.chat.good5=Har det ogs\u00e5 v\u00e6ret en lang dag for dig?
+spouse.chat.good6=Det er derfor jeg elsker dig.
+spouse.chat.good7=Det er vidunderligt, jeg er glad for at jeg giftede mig med dig.
+spouse.chat.good8=Dine historier overasker mig\!
+spouse.chat.good9=God historie\!
+spouse.chat.good10=*Slikker sig om l\u00e6berne sulten*
+
+spouse.divorce1=Jeg er f\u00e6rdig med dig\!
+spouse.divorce2=god riddance\!
+spouse.divorce3=Jeg vil aldrig nogensinde se dig igen\!
+spouse.divorce4=Bare... g\u00e5 v\u00e6k fra mig\!
+spouse.divorce5=Jeg kan ikke forst\u00e5 dig\! Lad mig v\u00e6re i fred\!
+spouse.divorce6=Hvorfor? Er jeg ikke... god nok...?
+spouse.divorce7=Jeg troede du virkelig elskede mig\!
+spouse.divorce8=Hvad\!? Nej\! Jeg tror ikke p\u00e5 det\!
+spouse.divorce9=Hold dig v\u00e6k fra mig\! Forevigt\!
+
+spouse.follow.start1=Oh okay, hvor skal vi hen?
+spouse.follow.start2=Okay, jeg skal nok f\u00f8lge efter.
+spouse.follow.start3=Okay, lad os g\u00e5\!
+spouse.follow.start4=Skal vi endelig forlade den her skrotplads?
+spouse.follow.start5=Har du et nyt hus et sted?
+spouse.follow.start6=Okay men jeg har ikke lyst til at forlade det her sted.
+spouse.follow.start7=Kan jeg g\u00e5 p\u00e5 eventyr med dig? Hvor sp\u00e6ndene\!
+spouse.follow.start8=Lad os g\u00e5 at godt sted hen, skal vi?
+
+spouse.follow.stop1=Det sted ser godt ud\!
+spouse.follow.stop2=Vel, Okay, du er altid velkommen til at tage mig med dig, s\u00f8de.
+spouse.follow.stop3=Okay s\u00e5, v\u00e6r forsigtig derude\!
+spouse.follow.stop4=Jeg vil blive her omkring n\u00e5r du kommer tilbage.
+spouse.follow.stop5=pew, det var udmattende men i det mindste var jeg med dig.
+
+spouse.gift.bad1=Oh...nej tak. Jeg har allerede en af de her.
+spouse.gift.bad2=Jeg h\u00e5ber ikke du forventer mig p\u00e5 den m\u00e5de.
+spouse.gift.bad3=Jeg skulle have vidst at du havde glemt hvad jeg kan lide.
+spouse.gift.bad4=Hvorfor giver du det her til mig?
+spouse.gift.bad5=Det her er hvad du kalder en gave?
+spouse.gift.bad6=Jeg troede du kendte mig nok til at vide hvad jeg kunne lide. \u00c5benbart ikke.
+spouse.gift.bad7=Den her... er d\u00e5rligt. Jeg vil ikke have den.
+
+spouse.gift.great1=Oh min... Hvor meget kostede den?
+spouse.gift.great2=Hvordan fik du den\!? Tak\!
+spouse.gift.great3=Det m\u00e5 have v\u00e6ret rigtigt h\u00e5rdt at f\u00e5 fat i den\!
+spouse.gift.great4=Jeg burde virkelig ikke tage den... men den er s\u00e5 skinnende\!
+spouse.gift.great5=Jeg vil v\u00e6rne mig om den her forevigt.
+spouse.gift.great6=Tak skat, du ved virkelig hvad jeg kan lide.
+spouse.gift.great7=Det her er noget jeg altid ville holde t\u00e6t ind til mig, tak.
+spouse.gift.great8=Du er sexy og jeg ved det.
+
+spouse.gift.regular1=Det der er godt\! tak\!
+spouse.gift.regular2=Bring mig mere\!
+spouse.gift.regular3=Du beh\u00f8vede ikke at g\u00f8re det her... tak.
+spouse.gift.regular4=Det her er godt\! tak\!
+spouse.gift.regular5=Du ved lige hvad jeg kan lide, g\u00f8r du ikke?
+spouse.gift.regular6=Oh, tak, det er meget s\u00f8dt af dig.
+spouse.gift.regular7=Det var meget s\u00f8dt.
+
+spouse.gift.small1=Tak\!
+spouse.gift.small2=Jeg v\u00e6rds\u00e6tter dette.
+spouse.gift.small3=Oh. selvom det er tanken der t\u00e6ller\!
+spouse.gift.small4=Du er s\u00e5 s\u00f8dt.
+spouse.gift.small5=Tak. selvom du ikke beh\u00f8vede at give mig noget. 
+
+spouse.greeting.basic1=Hej, skat.
+spouse.greeting.basic2=Hvor har du v\u00e6ret idag?
+spouse.greeting.basic3=Hej skat. Hvordan g\u00e5r det?
+spouse.greeting.basic4=Er alt okay?
+spouse.greeting.basic5=Det ser ud til du er hjemme fra dine eventyre. Hvordan har du det, skatter?
+spouse.greeting.basic6=Jeg har savnet dig\! Hvor har du v\u00e6ret, s\u00f8de?
+spouse.greeting.basic7=Jeg var bekymret for dig, du gik uden et ord. Men jeg er glad du er tilbage.
+spouse.greeting.basic8=Hey, hvordan g\u00e5r det?
+spouse.greeting.basic9=Har du haft en god dag idag?
+spouse.greeting.basic10=Jeg er glad at du er tilbage.
+
+spouse.greeting.friend1=Hej, Skat.
+spouse.greeting.friend2=Hvor har du v\u00e6ret idag?
+spouse.greeting.friend3=Hey, skat, Hvordan har du det?
+spouse.greeting.friend4=Er alt okay?
+spouse.greeting.friend5=Det ser ud til du er hjemme fra dine eventyre. Hvordan har du det, skatter?
+spouse.greeting.friend6=Jeg har savnet dig\! Hvor har du v\u00e6ret, s\u00f8de?
+spouse.greeting.friend7=Jeg var bekymret for dig, du gik uden et ord Men jeg er glad du er tilbage.
+spouse.greeting.friend8=Hey, hvordan g\u00e5r det?
+spouse.greeting.friend9=Har du haft en god dag idag?
+spouse.greeting.friend10=Jeg er glad du er tilbage.
+
+spouse.greeting.hate1=Jeg har ikke lyst til at tale med dig lige nu.
+spouse.greeting.hate2=Jeg er meget ked af det. V\u00e6r s\u00f8d at lade mig v\u00e6re i fred.
+spouse.greeting.hate3=%PlayerName%, Jeg sagde jeg taler ik med dig.
+spouse.greeting.hate4=Vi er ikke l\u00e6ngere i tale vilk\u00e5r, bare s\u00e5 du ved det.
+spouse.greeting.hate5=Du skal hellere forme dig op eller jeg g\u00e5r.
+
+spouse.hitbyplayer1=Av\! Misbrug\!
+spouse.hitbyplayer2=Jeg h\u00e5ber du ikke gjorde det med vilge.
+spouse.hitbyplayer3=Det gjorde virkligt ondt...
+spouse.hitbyplayer4=Stop med at skade mig\!
+spouse.hitbyplayer5=Av\! Jerk\!
+spouse.hitbyplayer6=Hvorfor ville du sl\u00e5 mig\!?
+spouse.hitbyplayer7=Hvad d\u00e6len var det til for\!?
+
+spouse.gifted.baby1=Igen? Argh. Fint.
+spouse.gifted.baby2=Du er s\u00e5 s\u00f8d\! Ja du er\! Ja du er\!
+spouse.gifted.baby3=Okay, jeg holder den.
+spouse.gifted.baby4=Ooo\! Noget her inde til mig? Oh. Det er babien.
+spouse.gifted.baby5=Fint. Giv den her.
+spouse.gifted.baby6=Kig, den har mine \u00f8jne\!
+spouse.gifted.baby7=Oh, kan ikke h\u00e5ndtere babyen? Fint s\u00e5, giv den til mig.
+
+spouse.joke.bad1=uh... jeg tror du har sagt den f\u00f8r.
+spouse.joke.bad2=Det gav slet ikke nogen mening?
+spouse.joke.bad3=Jeg er sikker p\u00e5 det er ulovligt at fort\u00e6lle d\u00e5rlige jokes.
+spouse.joke.bad4=Det var....godt...skat.
+spouse.joke.bad5=*Akavet smil*
+spouse.joke.bad6=*Tvunget klukle*
+spouse.joke.bad7=...lev videre....
+
+spouse.joke.good1=Aw. du fortalte mig den f\u00f8rste gang vi m\u00f8dtes.
+spouse.joke.good2=Jeg kan huske den\! stadig sjov\!
+spouse.joke.good3=Oh, du er s\u00e5 sjov\!
+spouse.joke.good4=Hvordan finder du p\u00e5 de her? Haha\!
+spouse.joke.good5=Jeg skulle virkeligt ikke grine af det, men det er s\u00e5 sjovt\!
+
+spouse.procreate.refuse1=Nej, det tror jeg ikke.
+spouse.procreate.refuse2=Du m\u00e5 lave sjov\!
+spouse.procreate.refuse3=Ikke efter hvordan du har behandlet mig\!
+spouse.procreate.refuse4=Jeg kan knap nok lide dig. Det vil jeg p\u00e5 ingen m\u00e5de g\u00f8re.
+spouse.procreate.refuse5=Ja, det kunne du t\u00e6nke dig\! Hvis du behandler mig lidt bedre vil jeg t\u00e6nker over det.
+
+spouse.kiss.good1=Du er s\u00e5 s\u00f8d.
+spouse.kiss.good2=Jeg elsker ogs\u00e5 dig.
+spouse.kiss.good3=Du er for god for mig.
+spouse.kiss.good4=Tak, det var s\u00f8dt.
+spouse.kiss.good5=Hvor s\u00f8dt af dig\!
+
+spouse.kiss.bad1=Nej, jeg er ikke i hum\u00f8ret idag.
+spouse.kiss.bad2=Hvorfor er du lige pludselig s\u00f8d mod mig?
+spouse.kiss.bad3=G\u00e5 og kys en ko.
+spouse.kiss.bad4=Det tror jeg ikke.
+spouse.kiss.bad5=For sent for det.
+spouse.kiss.bad6=Din n\u00e6se ramte mit \u00f8je\!
+spouse.kiss.bad7=Ad, det var s\u00e5 v\u00e5dt og klamt\!
+spouse.kiss.bad8=Du ved bare ikke hvordan man kysser.
+
+spouse.flirt.good1=Du er s\u00e5dan en god taler.
+spouse.flirt.good2=*R\u00f8dmer* Du har altid v\u00e6ret en charm\u00f8r.
+spouse.flirt.good3=Oh\! Du har ikke \u00e6ndret dig en smule siden vi blev gift.
+spouse.flirt.good4=Aw\! Det er s\u00e5 s\u00f8dt\!
+spouse.flirt.good5=Oh, jeg er s\u00e5 pinligt ber\u00f8rt.
+
+spouse.flirt.bad1=Ikke nogen har tid til det\!
+spouse.flirt.bad2=Hvor originalt.
+spouse.flirt.bad3=Jeg v\u00e6dder med du fort\u00e6ller alle. Nej jeg er seri\u00f8s. Jeg er sikker p\u00e5 du g\u00f8r.
+spouse.flirt.bad4=Jeg er ikke i hum\u00f8ret.
+spouse.flirt.bad5=Nu pr\u00f8ver du at romance mig? Hvad med da vi datet?
+
+spouse.tellstory.good1=Det var en god en\!
+spouse.tellstory.good2=Hvad gjorde Cupquake bagefter?
+spouse.tellstory.good3=Ser du ChimneySwift11 "Minecraft filer" ogs\u00e5?\!
+spouse.tellstory.good4=Det minder mig om den gang min more kom hen til mig, men jeg gjorde rent.
+spouse.tellstory.good5=Aw, Jeg vil have min datter s\u00e5dan\!
+
+spouse.tellstory.bad1=Hvorfor ville du sige det til mig?
+spouse.tellstory.bad2=Det for mig til at gr\u00e6de...
+spouse.tellstory.bad3=*Ignorerer dig*
+spouse.tellstory.bad4=Hvorfor gjorder DET dig glad?
+spouse.tellstory.bad5=Du skulle ikke lave sjov af %RandomName%.
+
+spouse.greeting.handshake.good1=Jeg elsker f\u00f8lesen af din h\u00e5nd i min.
+spouse.greeting.handshake.good2=Du er fjollet\!
+spouse.greeting.handshake.good3=Hvordan er din dag skat?
+spouse.greeting.handshake.good4=Hvordan har du det?
+spouse.greeting.handshake.good5=Goddag, min elskede.
+
+spouse.greeting.handshake.bad1=Ad, jeg ved hvor dine h\u00e6nder har v\u00e6ret.
+spouse.greeting.handshake.bad2=Dine h\u00e6nder er svedige.
+spouse.greeting.handshake.bad3=Give h\u00e5nd? Det er det?
+spouse.greeting.handshake.bad4=Nej, du har v\u00e6ret i minerne hele dagen.
+spouse.greeting.handshake.bad5=De lugter af... k\u00f8er?\!
+
+spouse.greeting.highfive.good1=Uh ja\!
+spouse.greeting.highfive.good2=Op H\u00f8jt\!
+spouse.greeting.highfive.good3=Give mig fem\!
+spouse.greeting.highfive.good4=Hvad s\u00e5?
+spouse.greeting.highfive.good5=Hey ja\!
+
+spouse.greeting.highfive.bad1=Det her er det meste kontakt jeg har haft i en evighed.
+spouse.greeting.highfive.bad2=Jeg er ikke fem mere.
+spouse.greeting.highfive.bad3=Du er s\u00e5 umoden.
+spouse.greeting.highfive.bad4=Aw\! Du slog mig\!
+spouse.greeting.highfive.bad5=Jeg ville ikke r\u00f8re dine h\u00e6nder.
+
+spouse.chore.start.cooking1=Selv\u00f8lgelig\! Jeg koger alt det mad du giver mig.
+spouse.chore.start.cooking2=Ja, Skat. Jeg er p\u00e5 sagen.
+spouse.chore.start.cooking3=Gem noget for mig den her gang\! Jeg har lavet det, du ved.
+spouse.chore.start.cooking4=Jeg er ogs\u00e5 sulten\!
+spouse.chore.start.cooking5=Jeg h\u00e5ber det ikke br\u00e6nder p\u00e5 den her gang.
+

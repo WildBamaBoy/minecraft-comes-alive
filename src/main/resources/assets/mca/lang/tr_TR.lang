@@ -1,0 +1,2255 @@
+#X-Generator: crowdin.com
+#X-Generator: crowdin.net
+itemGroup.tabMCA=Minecraft Comes Alive
+
+##########
+# Heir
+#############################
+heir.set.success=%Name% \u015fimdi varisin.
+heir.set.failure.alreadyset=Zaten birini varis olarak \u015fe\u00e7tin.
+heir.set.failure.sameperson=%Name% zaten senin varisin.
+heir.set.failure.alreadyused=%Name% zaten varisindi. Ba\u015fka birini kullanmal\u0131s\u0131n.
+
+heir.gui.requestcrown=Ta\u00e7\u0131 talep et
+heir.gui.recoverinventory=Canta yenilemek
+
+heir.good.returncrown1=Peki.S\u00fcrd\u00fc\u011f\u00fc m\u00fcddet\u00e7e e\u011flenceli oldu.
+heir.good.returncrown2=Tabii ki, %CallPlayerParent%. \u0130\u015fte tac\u0131n.
+heir.good.returncrown3=\u0130yi olurdu. Zaten s\u0131k\u0131l\u0131yordum.
+heir.good.returncrown4=L\u00fctfen, sadece be\u015f dakika daha? Tamam, iyi\!
+heir.good.returncrown5=Bitti\u011fine sevindim.\u0130nsanlar ger\u00e7ekten benden nefret etmeye ba\u015flam\u0131\u015flard\u0131\!
+
+heir.good.founditems1=Geri d\u00f6nd\u00fcn\! Sonsuza kadar gitti\u011fini d\u00fc\u015f\u00fcnm\u00fc\u015ft\u00fcm. \u0130\u015fte e\u015fyalar\u0131n burda.
+heir.good.founditems2=E\u015fyalar\u0131n\u0131 buluk ve gitti\u011fini d\u00fc\u015f\u00fcnd\u00fck\! \u0130\u015fte, al onlar\u0131.
+heir.good.founditems3=Baz\u0131 gardiyanlar\u0131 seni bulmalar\u0131 i\u00e7in g\u00f6ndermi\u015ftim. Onlar e\u015fyalar\u0131n\u0131 geri getirdiler.
+heir.good.founditems4=D\u00f6nebildi\u011fine inanam\u0131yorum\! E\u015fyalar\u0131n\u0131 bulduk, sen yoktun.
+
+##########
+# Information
+#############################
+information.doesnothing=\u015eu anda hi\u00e7bir \u015fey yapmaz.
+
+information.whistle.line1=Sa\u011f t\u0131klay\u0131n.
+information.whistle.line2=kar\u0131n\u0131 almaya ve
+information.whistle.line3=sana \u00e7ocuk.
+
+information.heircrown.line1=\u00c7ocuguna hediye ver
+information.heircrown.line2=onlar\u0131 kral/krali\u00e7e yapmak i\u00e7in
+information.heircrown.line3=sen \u00f6l\u00fcnce.
+
+information.weddingring.line1=Gift to a villager whose
+information.weddingring.line2=yapmak i\u00e7in kalpler 100'\u00fcn \u00fcst\u00fcnde
+information.weddingring.line3=them your spouse.
+
+information.villagereditor.line1=Bir k\u00f6yl\u00fcye sa\u011f t\u0131kla
+information.villagereditor.line2=onlar\u0131 d\u00fczenlemek i\u00e7in.
+
+information.tombstone.line1=Kapora olarak verin
+information.tombstone.line2=Kaybetti\u011fimiz aile ferdi.
+
+information.lostrelativedocument.line1=Yapmak i\u00e7in k\u00f6yl\u00fc \u00fczerinde kullan\u0131n
+information.lostrelativedocument.line2=se\u00e7ti\u011finiz akrabaya
+
+information.engagementring.line1=k\u00f6yl\u00fcye hediye ver ve hediye
+information.engagementring.line2=them a wedding ring to receive
+information.engagementring.line3=di\u011fer k\u00f6yl\u00fclerden hediye.
+
+information.crown.line1=H\u00fck\u00fcmdar olmak i\u00e7in olu\u015ftur.
+
+information.baby.line1=yere sa\u011f t\u0131kla
+information.baby.line2=bebe\u011fini b\u00fcy\u00fct ve \u00e7ocuk yap
+information.baby.line3=Haz\u0131r oldu\u011funda.
+
+information.arrangersring.line1=Bir k\u00f6yl\u00fcye hediye ver, sonra ba\u015fka birine daha
+information.arrangersring.line2=yak\u0131ndaki k\u00f6yl\u00fcye ayarlamas\u0131 i\u00e7in
+information.arrangersring.line3=iki ki\u015fi aras\u0131ndaki evlilik.
+
+information.villagerbed.line1=Place this bed on the ground
+information.villagerbed.line2=and a nearby villager will sleep
+information.villagerbed.line3=in it at night.
+
+##########
+# Traits
+#############################
+gui.info.trait=\u00d6zellik\:
+trait.unknown=Bilinmiyor
+
+trait.none=Yok
+trait.shy=Utanga\u00e7
+trait.fun=E\u011flenceli
+trait.serious=Ciddi
+trait.friendly=Arkada\u015f canl\u0131s\u0131
+trait.irritable=Sinirli
+trait.emotional=Duygusal
+trait.outgoing=Sempatik
+
+##########
+# Moods
+#############################
+gui.info.mood=His\: 
+
+mood.happy.ecstatic=Mest olmu\u015f
+mood.happy.cheerful=Ne\u015feli
+mood.happy.happy=Mutlu
+mood.happy.fine=\u0130yi
+mood.happy.okay=\u0130yi
+
+mood.neutral.passive=Pasif
+
+mood.sadness.blue=Mavi
+mood.sadness.unhappy=Mutsuz
+mood.sadness.sad=\u00dczg\u00fcn
+mood.sadness.cheerless=Ne\u015fesiz
+mood.sadness.depressed=Depresyonda
+
+mood.anger.annoyed=Rahats\u0131z
+mood.anger.agitated=Tedirgin
+mood.anger.mad=\u00c7\u0131lg\u0131n
+mood.anger.seething=\u00c7ok Ne\u015feli
+mood.anger.infuriated=\u00c7ileden \u00e7\u0131km\u0131\u015f
+
+mood.fatigue.tired=Yorgun
+mood.fatigue.sleepy=Uykulu
+mood.fatigue.fatigued=Yorgun
+mood.fatigue.exhausted=Bitkin
+mood.fatigue.comatose=Komada
+
+#######
+# Monarch
+#############################
+monarch.gui.button.interact.demandgift=Hediye Talep Et
+monarch.gui.button.interact.execute=\u0130dam et
+monarch.gui.button.interact.makeknight=\u015eovalye yap
+monarch.gui.button.interact.makepeasant=K\u00f6yl\u00fc yap
+
+monarch.knight.follow.start1=Sizin i\u00e7in her \u015fey, benim %MonarchTitle%.
+monarch.knight.follow.start2=Sizi heryere takip ederim, majesteleri.
+monarch.knight.follow.start3=Silahlar haz\u0131r\!
+monarch.knight.follow.start4=Emrinizdeyim.
+monarch.knight.follow.start5=Nas\u0131l isterseniz.
+
+monarch.knight.follow.stop1=Ne zaman isterseniz m\u00fcsaitim, benim %MonarchTitle%.
+monarch.knight.follow.stop2=Ba\u015f\u00fcst\u00fcne, majesteleri.
+monarch.knight.follow.stop3=\u0130\u015flerime devam edece\u011fim.
+
+monarch.knight.follow.refuse1=Asla %MonarchPlayerName%'in isteklerine kar\u015f\u0131 gelmem\!
+monarch.knight.follow.refuse2=Ben %MonarchPlayerName%'e sa\u011fd\u0131\u011f\u0131m.
+monarch.knight.follow.refuse3=Ben %MonarchPlayerName%'in \u015fovelyesiyim.
+
+monarch.execute.failure.noweapon=Bu ki\u015fiyi idam ettirmek i\u00e7in silah\u0131n\u0131z yok.
+monarch.execute.failure.playerspouse=Ba\u015fkas\u0131n\u0131n e\u015fi ile etkile\u015fime ge\u00e7emezsin.
+
+monarch.makepeasant.success=Bu k\u00f6yl\u00fc art\u0131k sizin emrinizde. E\u011fer ayn\u0131 i\u015fi yapacaklarsa bedavaya \u00e7al\u0131\u015f\u0131rlar.
+monarch.makepeasant.failure.alreadypeasant=Bu k\u00f6yl\u00fc zaten ba\u015fkas\u0131 i\u00e7in k\u00f6yl\u00fcl\u00fck yapmakta.
+monarch.makepeasant.failure.playerspouse=Bir oyuncu e\u015fi  k\u00f6yl\u00fc yap\u0131lamaz.
+
+monarch.makeknight.success=Bu koruma art\u0131k senin emirlerine uyan bir \u015fovalye.
+monarch.makeknight.failure.alreadyknight=Bu koruma zaten ba\u015fkas\u0131n\u0131n emri alt\u0131nda.
+monarch.makeknight.failure.playerspouse=Bir oyuncu e\u015fi \u015f\u00f6valye yap\u0131lamaz.
+
+monarch.title.knight.male=Sovalye %Name%
+monarch.title.knight.female=\u015eovalye %Name%
+monarch.title.knight.male.otherplayer=( %MonarchPlayerName% adl\u0131 oyuncunun \u015f\u00f6valyesi )
+monarch.title.knight.female.otherplayer=( %MonarchPlayerName% adl\u0131 oyuncunun \u015f\u00f6valyesi )
+
+monarch.title.peasant.male.owner=(K\u00f6yl\u00fcs\u00fc)
+monarch.title.peasant.female.owner=(K\u00f6yl\u00fcs\u00fc)
+monarch.title.peasant.male.otherplayer=( %MonarchPlayerName% adl\u0131 oyuncunun k\u00f6yl\u00fcs\u00fc)
+monarch.title.peasant.female.otherplayer=( %MonarchPlayerName% adl\u0131 oyuncunun k\u00f6yl\u00fcs\u00fc)
+
+monarch.title.monarch=H\u00fck\u00fcmdar
+monarch.title.heir=Mirasci
+monarch.title.male.player=Kral
+monarch.title.male.heir=Prens
+monarch.title.female.player=Krali\u00e7e
+monarch.title.female.heir=Prenses
+
+monarch.demandgift.accept1=Evet, elbette majesteleri\!
+monarch.demandgift.accept2=Sizi memnun etmek i\u00e7in her\u015fey, majesteleri.
+monarch.demandgift.accept3=Sizin i\u00e7in herzaman %MonarchTitle%\!
+monarch.demandgift.accept4=Elbette, benim %MonarchTitle%.
+monarch.demandgift.accept5=Zenginlikleriniz ile y\u0131kanmaktan onur duyar\u0131m, benim %MonarchTitle%.
+monarch.demandgift.accept6=Sevgi dolu %MonarchTitle% bir\u00e7ok hediyeyi hak ediyor \!
+monarch.demandgift.accept7=Yapmaktan memnun olurum, majesteleri.
+
+monarch.demandgift.toomany1=Ben kendime zar zor yetiyorum, \u015fimdi\!
+monarch.demandgift.toomany2=L\u00fctfen, zaten \u00e7ok fazla verdim...
+monarch.demandgift.toomany3=%MonarchTitle% '\u0131 \u00f6nemsedi\u011fini sand\u0131m, a\u00e7g\u00f6zl\u00fc birini de\u011fil.
+monarch.demandgift.toomany4=Benden duydu\u011funu kimseye s\u00f6yleme, ama insanlar senin zalim bir h\u00fck\u00fcmdar oldu\u011funu d\u00fc\u015f\u00fcnmeye ba\u015fl\u0131yor.
+monarch.demandgift.toomany5=Sadece \u00e7ok fazla verebilirim\!
+monarch.demandgift.toomany6=Sana daha fazla veremem...Benden \u00e7ok fazla talep ettin.
+
+monarch.demandgift.dictator1=Unut gitsin\! Art\u0131k sana hi\u00e7bir \u015fey vermiyorum\!
+monarch.demandgift.dictator2=Senin bu \u0131srarl\u0131 taleplerinden b\u0131kt\u0131k usand\u0131k\! Hay\u0131r\!\!\!
+monarch.demandgift.dictator3=Hay\u0131r\! Bu yeterli\!
+monarch.demandgift.dictator4=Senin bu a\u00e7g\u00f6zl\u00fcl\u00fc\u011f\u00fcne yeterince g\u00f6rd\u00fck\!
+monarch.demandgift.dictator5=Ne yapman gerekiyorsa yap, ama sana ba\u015fka hi\u00e7bir \u015fey vermeyece\u011fim\!
+
+#######
+# Names
+##############################
+name.male1=Aaron
+name.male2=Aceton
+name.male3=Adam
+name.male4=Aidan
+name.male5=Alan
+name.male6=Alex
+name.male7=Allen\n
+name.male8=Andrew
+name.male9=Anthony
+name.male10=Armando
+name.male11=Arthur
+name.male12=Austin
+name.male13=Recep
+name.male14=Bill
+name.male15=Billy
+name.male16=Bradley
+name.male17=Brady
+name.male18=Braxton
+name.male19=Brayden
+name.male20=Brenden
+name.male21=Brent
+name.male22=Brian
+name.male23=Brice
+name.male24=Brighton
+name.male25=Caleb
+name.male26=Cameron
+name.male27=Christopher
+name.male28=Cleveland
+name.male29=Cody
+name.male30=Colby
+name.male31=Collin
+name.male32=Colton
+name.male33=Corey
+name.male34=Coty
+name.male35=Dale
+name.male36=Damon
+name.male37=Dan
+name.male38=Dane
+name.male39=Danny
+name.male40=David
+name.male41=Derek
+name.male42=Devin
+name.male43=Donnie
+name.male44=Drew
+name.male45=Dylan
+name.male46=Edward
+name.male47=Eric
+name.male48=Ethan
+name.male49=Evan
+name.male50=Fred
+name.male51=Gabe
+name.male52=Garrett
+name.male53=Garry
+name.male54=Gavin
+name.male55=Harris
+name.male56=Harry
+name.male57=Hayden
+name.male58=Hunter
+name.male59=Jackson
+name.male60=Jacob
+name.male61=Jake
+name.male62=James
+name.male63=Jared
+name.male64=Jason
+name.male65=Jay
+name.male66=Jeremy
+name.male67=Jerry
+name.male68=Jim
+name.male69=Joe
+name.male70=John
+name.male71=Jon
+name.male72=Joseph
+name.male73=Josh
+name.male74=Justin
+name.male75=Kaden
+name.male76=Kent
+name.male77=Kevin
+name.male78=Leo
+name.male79=Leon
+name.male80=Lewis
+name.male81=Liam
+name.male82=Lucas
+name.male83=Mac
+name.male84=Marcus
+name.male85=Mark
+name.male86=Martin
+name.male87=Mason
+name.male88=Matt
+name.male89=Matthew
+name.male90=Michael
+name.male91=Mike
+name.male92=Nathan
+name.male93=Nathaniel
+name.male94=Nick
+name.male95=Oliver
+name.male96=Oscar
+name.male97=Owen
+name.male98=Patrick
+name.male99=Peter
+name.male100=Phil
+name.male101=Randy
+name.male102=Rey
+name.male103=Robert
+name.male104=Roger
+name.male105=Roy
+name.male106=Russ
+name.male107=Ryan
+name.male108=Scott
+name.male109=Seth
+name.male110=Shane
+name.male111=Shawn
+name.male112=Simon
+name.male113=Steve
+name.male114=Tanner
+name.male115=Tate
+name.male116=Terrence
+name.male117=Terry
+name.male118=Tim
+name.male119=Toby
+name.male120=Tom
+name.male121=Tommy
+name.male122=Tony
+name.male123=Trent
+name.male124=Tristan
+name.male125=Triston
+name.male126=Tyler
+name.male127=Tyson
+name.male128=Victor
+name.male129=Vincent
+name.male130=Will
+name.male131=William 
+
+name.female1=Addison
+name.female2=Adi
+name.female3=Alexis
+name.female4=Alice
+name.female5=Alicia
+name.female6=Allie
+name.female7=Allison
+name.female8=Allysa
+name.female9=Alma
+name.female10=Amelia
+name.female11=Amnesty
+name.female12=Amy
+name.female13=Andrea
+name.female14=Angie
+name.female15=Anna
+name.female16=Anne
+name.female17=Arieanne
+name.female18=Ashley
+name.female19=Ashlyn
+name.female20=Ashton
+name.female21=Aspen
+name.female22=Aubrey
+name.female23=Aurora
+name.female24=Autumn
+name.female25=Ava
+name.female26=Baylee
+name.female27=Brooke
+name.female28=Camilla
+name.female29=Christina
+name.female30=Christy
+name.female31=Constance
+name.female32=Courtney
+name.female33=Cynthia
+name.female34=Dawn
+name.female35=Destiny
+name.female36=Diana
+name.female37=Donna
+name.female38=Elizabeth
+name.female39=Emery
+name.female40=Emily
+name.female41=Emma
+name.female42=Emmalyn
+name.female43=Erika
+name.female44=Eve
+name.female45=Faye
+name.female46=Gracie
+name.female47=Gwen
+name.female48=Hannah
+name.female49=Hazel
+name.female50=Holly
+name.female51=Jaden
+name.female52=Jennifer
+name.female53=Jessica
+name.female54=Julia
+name.female55=Julie
+name.female56=Kaitlin
+name.female57=Katie
+name.female58=Kaylene
+name.female59=Kiana
+name.female60=Kimberly
+name.female61=Kristen
+name.female62=Kylee
+name.female63=Leslie
+name.female64=Linda
+name.female65=Lindsey
+name.female66=Lola
+name.female67=Lori
+name.female68=Lydia
+name.female69=Madison
+name.female70=Marisa
+name.female71=Megan
+name.female72=Melissa
+name.female73=Melody
+name.female74=Miranda
+name.female75=Molly
+name.female76=Nickie
+name.female77=Nicole
+name.female78=Oaklee
+name.female79=Penny
+name.female80=Rachel
+name.female81=Robin
+name.female82=Rosa
+name.female83=Rosalie
+name.female84=Sarah
+name.female85=Serenity
+name.female86=Sharon
+name.female87=Shayla
+name.female88=Sherry
+name.female89=Sheryl
+name.female90=Skylar
+name.female91=Sofia
+name.female92=Sonya
+name.female93=Stacey
+name.female94=Steph
+name.female95=Stephanie
+name.female96=Sylvia
+name.female97=Trinity
+name.female98=Valerie
+name.female99=Vannessa
+name.female100=Veronica
+name.female101=Whitney
+
+#######
+# Multiplayer
+##############################
+multiplayer.command.error.parameter=Kullan\u0131m \u015fekli yanl\u0131\u015f. Do\u011fru kullan\u0131m\: 
+multiplayer.command.error.unknown=Bilinmeyen bir hata olu\u015ftu.
+multiplayer.command.error.playeroffline=Bu oyuncu sunucuya giris yapmadi.
+
+multiplayer.command.output.help=Minecraft Hayata Geldi - Komutalar
+multiplayer.command.output.setgender=Senin \u015fimdiki cinsiyetin\:
+multiplayer.command.output.setname=Ad\u0131n \u015fimdi\: 
+
+multiplayer.command.output.marry.noring=Bir evlilik y\u00fcz\u00fc\u011f\u00fcn yok. Ba\u015fka bir oyuncuyla evlenemezsin.
+multiplayer.command.output.marry.request=%TruePlayerName% seninle evlenmek istiyor.
+multiplayer.command.output.marry.accept=Art\u0131k %PlayerSpouseName% ile evlisin.
+multiplayer.command.output.marry.decline=Evlilik teklifin reddedildi.
+multiplayer.command.output.marry.norequest=Bu oyuncu sana evlilik teklifi etmedi.
+multiplayer.command.output.marry.otheralreadymarried=Bu oyuncu zaten evli.
+multiplayer.command.output.marry.senderalreadymarried=Zaten evlisin.
+
+multiplayer.command.output.divorce.successful=You have been divorced from your current spouse.
+
+multiplayer.command.output.havebaby.request=%PlayerSpouseName% bebek yapmak istermisin.
+multiplayer.command.output.havebaby.decline=Your request to have a baby was declined.
+multiplayer.command.output.havebaby.limitreached=Y\u00f6netici'nin verdi\u011fi bebek limitine ula\u015f\u0131ld\u0131.
+
+multiplayer.command.output.block.failed=Bu oyuncu zaten bloke edilmis.
+multiplayer.command.output.block.successful=Oyuncu basari ile engellendi.
+
+multiplayer.command.output.blockall.true.successful=Butun evlilik istekleri engellenecektir.
+multiplayer.command.output.blockall.false.successful=Artik evlilik istekleri alabilirsin.
+
+multiplayer.command.output.unblock.failed=Bu oyuncu engellenmemis.
+multiplayer.command.output.unblock.successful=Oyuncunun basariyla engeli kaldirildi.
+
+multiplayer.command.output.unblockall.successful=Butun engelli oyuncularin engeli kaldirildi.
+
+multiplayer.interaction.reject.spouse=Ba\u015fka bir oyuncunun e\u015fini kontrol edemessin.
+multiplayer.interaction.reject.child=Ba\u015fka bir oyuncunun \u00e7ocu\u011funu kontrol edemessin.
+
+#######
+# Achievements
+##############################
+achievement.charmer=Quite The Charmer
+achievement.getmarried=\u00d6l\u00fcm Bizi Ay\u0131rana Kadar
+achievement.cookbaby=Bilim \u0130\u00e7in. Seni Canavar.
+achievement.havebabyboy=Bir Erkek\!
+achievement.havebabygirl=Bir K\u0131z\!
+achievement.growbaby=\u00c7ok H\u0131zl\u0131 yeti\u015fiyorlar
+achievement.farming=\u00dccretsiz \u0130\u015f\u00e7ilik
+achievement.fishing=Hepsini Yakalamal\u0131y\u0131z
+achievement.woodcutting=Oduncu
+achievement.mining=Sonsuz madenci
+achievement.huntkill=Do\u011fu\u015ftan katil
+achievement.hunttame=Do\u011fanin arkadasi
+achievement.growkid=Tamamen yeti\u015fmi\u015f Adam (veya Kad\u0131n)
+achievement.equipadult=Di\u015fine kadar sil\u00e2hl\u0131
+achievement.mobkills=Ki\u015fisel Muhaf\u0131z
+achievement.marrychild=Onlar\u0131 Evlendir
+achievement.havegrandchild=B\u00fcy\u00fck ebeveynler
+achievement.havegreatgrandchild=Toprak kadar eski
+achievement.havegreatx2grandchild=Topraktan daha eski
+achievement.havegreatx10grandchild=S\u0131rr\u0131n ne?
+achievement.hardcoresecret=\u0130ntikam\u0131m\u0131 Alaca\u011f\u0131m
+achievement.craftcrown=Kral\u0131m\!
+achievement.executevillager=Kellesi al\u0131ns\u0131n\!
+achievement.makeknight=Bu santranc degil
+achievement.knightarmy=Yirmilik Ordu
+achievement.makepeasant=\u0130yi g\u00fcnler, Lordum
+achievement.peasantarmy=Emirimi yap
+achievement.nameheir=Kralliyet Kanba\u011f\u0131
+achievement.killheir=Sadece birisi olabilir
+achievement.monarchsecret=Tarihe inme
+
+achievement.charmer.desc=Bir k\u00f6yl\u00fcn\u00fcn kalbini 100'e veya daha y\u00fckse\u011fe getir.
+achievement.getmarried.desc=Bir k\u00f6yl\u00fcyle evlen.
+achievement.cookbaby.desc=Gizli Ba\u015far\u0131
+achievement.havebabyboy.desc=Erkek bebek \u00fcret.
+achievement.havebabygirl.desc=K\u0131z bebek \u00fcret.
+achievement.growbaby.desc=Bebe\u011fini bir \u00e7ocu\u011fa yeti\u015ftir.
+achievement.farming.desc=Bir \u00e7ocu\u011fa 100 blok toprak s\u00fcrd\u00fcr.
+achievement.fishing.desc=Bir \u00e7ocu\u011fa 100 bal\u0131k tuttur.
+achievement.woodcutting.desc=Bir \u00e7ocu\u011fa 100 blok odun toplatt\u0131r.
+achievement.mining.desc=Bir \u00e7ocu\u011fa 300 blok kazd\u0131r.
+achievement.huntkill.desc=Bir \u00e7ocu\u011fun avlanarak 100 hayvan \u00f6ld\u00fcrmesini sa\u011fla.
+achievement.hunttame.desc=Bir \u00e7ocu\u011fun 100 hayvan\u0131 evcille\u015ftirmesini sa\u011fla.
+achievement.growkid.desc=\u00c7ocu\u011funu yeti\u015fkine yeti\u015ftir.
+achievement.equipadult.desc=Yeti\u015fkin \u00e7ocu\u011funu tam z\u0131rh seti ve bir silah ile donat.
+achievement.mobkills.desc=Bir yeti\u015fkine 50 canavar \u00f6ld\u00fcrt.
+achievement.marrychild.desc=\u00c7ocu\u011funu evlendir.
+achievement.havegrandchild.desc=Torun sahibi ol.
+achievement.havegreatgrandchild.desc=\u0130yi bir torunun olsun.
+achievement.havegreatx2grandchild.desc=\u0130yi x2 torunun olsun.
+achievement.havegreatx10grandchild.desc=\u0130yi x10 torunun olsun.
+achievement.hardcoresecret.desc=Zorlay\u0131c\u0131 mod s\u0131rr\u0131n\u0131 bul.
+achievement.craftcrown.desc=Bir ta\u00e7 yap ve h\u00fck\u00fcmdar ol.
+achievement.executevillager.desc=Bir k\u00f6yl\u00fcy\u00fc idam et.
+achievement.makeknight.desc=Bir korumay\u0131 \u015fovalye yap.
+achievement.knightarmy.desc=20 \u015fovalyeden olu\u015fan bir ordu kur.
+achievement.makepeasant.desc=Bir k\u00f6yl\u00fcy\u00fc i\u015f\u00e7i yap.
+achievement.peasantarmy.desc=Yirmi k\u00f6yl\u00fcy\u00fc i\u015f\u00e7i yap.
+achievement.nameheir.desc=Taht i\u00e7in varisini a\u00e7\u0131kla.
+achievement.killheir.desc=Varisini tahta \u00e7\u0131kmadan \u00f6nce \u00f6ld\u00fcr.
+achievement.monarchsecret.desc=Gizli Ba\u015far\u0131.
+
+#######
+# Items & Blocks
+##############################
+item.ring.arranger.name=D\u00fczenleyenin Y\u00fcz\u00fc\u011f\u00fc
+item.ring.engagement.name=Ni\u015fan Y\u00fcz\u00fc\u011f\u00fc
+item.ring.wedding.name=Evlilik Y\u00fcz\u00fc\u011f\u00fc
+item.baby.boy.name=Erkek bebek
+item.baby.girl.name=K\u0131z bebek
+item.egg.male.name=Erkek K\u00f6yl\u00fc Meydana Getir
+item.egg.female.name=Kad\u0131n K\u00f6yl\u00fc Meydana Getir
+item.whistle.name=Isl\u0131k
+item.editor.name=K\u00f6yl\u00fc De\u011fi\u015ftirici
+item.lostrelativedocument.name=Kay\u0131p G\u00f6receli Belge
+item.crown.name=Ta\u00e7
+item.heircrown.name=Ta\u00e7 Varisi
+item.tombstone.name=Mezar Ta\u015f\u0131
+item.kingscoat.name=H\u00fck\u00fcmdar Ceketi
+item.kingspants.name=H\u00fck\u00fcmdar Pantolonu
+item.kingsboots.name=H\u00fck\u00fcmdar Ayakkab\u0131lar\u0131
+item.redcrown.name=K\u0131rm\u0131z\u0131 Ta\u00e7
+item.bluecrown.name=Mavi Ta\u00e7
+item.greencrown.name=Ye\u015fil Ta\u00e7
+item.pinkcrown.name=Pembe Ta\u00e7
+item.purplecrown.name=Mor Ta\u00e7
+item.redbed.name=K\u0131rm\u0131z\u0131 Yatak
+item.bluebed.name=Mavi Yatak
+item.greenbed.name=Ye\u015fil Yatak
+item.pinkbed.name=Pembe Yatak
+item.purplebed.name=Mor Yatak
+block.tombstone.name=Mezar Ta\u015f\u0131
+
+#######
+# Professions
+##############################
+profession.baker.male=F\u0131r\u0131nc\u0131 %Name%
+profession.baker.female=F\u0131r\u0131nc\u0131 %Name%
+profession.butcher.male=Kasap %Name%
+profession.butcher.female=Kasap %Name%
+profession.farmer.male=\u00c7ift\u00e7i %Name%
+profession.farmer.female=\u00c7ift\u00e7i %Name%
+profession.guard.male=Muhaf\u0131z %Name%
+profession.guard.female=Muhaf\u0131z %Name%
+profession.librarian.male=K\u00fct\u00fcphaneci %Name%
+profession.librarian.female=K\u00fct\u00fcphaneci %Name%
+profession.miner.male=Madenci %Name%
+profession.miner.female=Madenci %Name%
+profession.priest.male=Rahip %Name%
+profession.priest.female=Rahip %Name%
+profession.smith.male=Demirci %Name%
+profession.smith.female=Demirci %Name%
+profession.playerchild.male=%\u0130sim% \u00e7ocu\u011fun
+profession.playerchild.female=%\u0130sim% \u00c7ocu\u011fun
+
+#######
+# Family Member Titles
+##############################
+family.aunt=Teyze
+family.brother=Erkek Karde\u015f
+family.cousin.male=Kuzen
+family.cousin.female=Kuzen
+family.daughter=K\u0131z Evlat
+family.father.formal=Baba
+family.father.informal=Baba
+family.fiance.male=Ni\u015fanl\u0131
+family.fiance.female=Ni\u015fanl\u0131
+family.granddaughter=Torun
+family.grandson=Torun
+family.greatgranddaughter=Buyuk x%Generation% Torun
+family.greatgrandson=Buyuk x%Generation% Torun
+family.grandfather=Dede
+family.greatgrandfather=Buyuk x%Generation% Dede
+family.grandmother=Nine
+family.greatgrandmother=Buyuk x%Generation% Babanne
+family.husband=Koca
+family.mother.formal=Anne
+family.mother.informal=Anne
+family.nephew=Ye\u011fen
+family.niece=Ye\u011fen
+family.none=Hi\u00e7biri
+family.sister=K\u0131z Karde\u015f
+family.son=O\u011flu
+family.uncle=Amca
+family.wife=Kar\u0131
+
+#######
+# GUI Elements
+##############################
+
+#Buttons
+gui.button.back=Geri
+gui.button.exit=\u00c7\u0131k\u0131\u015f
+gui.button.next=\u0130leri
+gui.button.yes=Evet
+gui.button.no=Hay\u0131r
+gui.button.done=Bitti
+gui.button.ok=Tamam
+gui.button.random=Rastgele
+gui.button.trade=ticaret
+
+gui.button.setup.finish=Biti\u015f
+gui.button.setup.gendermale=Cinsiyet\: Erkek
+gui.button.setup.genderfemale=Cinsiyet\: Kad\u0131n
+gui.button.setup.hidesleepingtag=Uyku i\u015faretini gizle\:
+gui.button.setup.overwritetestificates=K\u00f6yl\u00fclerin \u00fczerine kaydet \:
+gui.button.setup.growchildrenautomatically=\u00c7ocuklar otomatik olarak b\u00fcy\u00fcr\:
+gui.button.setup.displaymoodparticles=Ruh hali par\u00e7alar\u0131n\u0131 g\u00f6ster\: 
+gui.button.setup.shownametags=\u0130sim Etiketlerini G\u00f6ster\: 
+gui.button.setup.preference=Tercih\: 
+
+gui.button.setup.males=Baylar
+gui.button.setup.females=Bayanlar
+
+gui.editor.name=\u0130sim
+gui.editor.name.invalid=Bu isim uygun olmayan karakterler i\u00e7eriyor.
+gui.button.editor.texture=Doku\:
+gui.button.editor.title=Ba\u015fl\u0131k\:
+gui.button.editor.mood=Ruh Hali\: 
+gui.button.editor.trait=\u00d6zellik\:
+
+gui.button.interact.interact=Etkile\u015fim
+gui.button.interact.chat=Konu\u015f
+gui.button.interact.joke=\u015eaka
+gui.button.interact.gift=Hediye
+gui.button.interact.kiss=\u00d6p\u00fcc\u00fck
+gui.button.interact.flirt=Fl\u00f6rt
+gui.button.interact.tellstory=Hikaye Anlat
+gui.button.interact.play=Oyna
+gui.button.interact.greet.handshake=Tokala\u015f
+gui.button.interact.greet.highfive=Be\u015flik \u00c7ak
+gui.button.interact.follow=Takip Et
+gui.button.interact.followstop=Takip Etme
+gui.button.interact.stay=Dur
+gui.button.interact.staystop=Hareket Et
+gui.button.interact.sethome=Ev Belirle
+gui.button.interact.takearrangerring=D\u00fczenleyen Y\u00fcz\u00fc\u011f\u00fcn\u00fc Al
+gui.button.interact.takegift=Hediyeyi Al
+gui.button.interact.ridehorse=At S\u00fcr
+gui.button.interact.dismount=\u0130n
+
+gui.button.interact.player.asktomarry=Evlenme Teklifi Et
+gui.button.interact.player.havebaby=Bebek \u00fcret
+gui.button.interact.player.accept=Kabul et
+gui.button.interact.player.decline=Reddet
+
+gui.button.special=\u00d6zel
+gui.button.special.priest.divorcespouse=Kar\u0131n\u0131 Bo\u015fa
+gui.button.special.priest.divorcecouple=Sevgilileri Ay\u0131r
+gui.button.special.priest.divorcecouple.nonefound=Sevgililer bulunamad\u0131.
+gui.button.special.priest.divorce=Bo\u015fan
+gui.button.special.priest.giveupbaby=Bebe\u011fi B\u0131rak
+gui.button.special.priest.adoptbaby=Bebek Evlet Edin
+gui.button.special.priest.adoptchild=Evlat Edin
+gui.button.special.priest.arrangedmarriage=G\u00f6r\u00fcc\u00fc Usul\u00fc Evlilik
+gui.button.special.guard.hire=\u0130\u015fe Al
+gui.button.special.guard.dismiss=Yok Say
+gui.button.special.miner.hire=\u0130\u015fe Al
+gui.button.special.miner.dismiss=Yok Say
+gui.button.special.baker.aid=Yard\u0131m \u0130ste
+gui.button.special.butcher.aid=Yard\u0131m Iste
+gui.button.special.farmer.aid=Yard\u0131m Iste
+gui.button.special.librarian.setup=Kurulumu'nu a\u00e7mak
+
+gui.button.spouse.cookfood=Yemek Pi\u015fir
+gui.button.spouse.stopcooking=Pi\u015firmeyi B\u0131rak
+gui.button.spouse.inventory=Envanter
+gui.button.spouse.procreate=Bebek yap
+gui.button.spouse.migrate=G\u00f6\u00e7
+
+gui.button.child.inventory=Envanter
+gui.button.child.chores=\u0130\u015fler
+gui.button.child.stopchore=\u0130\u015fi Durdur
+gui.button.child.growup=B\u00fcy\u00fct
+
+gui.button.chore.farming=\u00c7ift\u00e7ilik
+gui.button.chore.farming.method=Y\u00f6ntem\: 
+gui.button.chore.farming.method.create=Tarla olu\u015ftur
+gui.button.chore.farming.method.maintain=Tarlay\u0131 i\u015fle
+gui.button.chore.farming.plant=Bitki\: 
+gui.button.chore.farming.plant.wheat=Bu\u011fday
+gui.button.chore.farming.plant.melon=Karpuz
+gui.button.chore.farming.plant.pumpkin=Balkaba\u011f\u0131
+gui.button.chore.farming.plant.carrot=Havu\u00e7
+gui.button.chore.farming.plant.potato=Patates
+gui.button.chore.farming.plant.sugarcane=\u015eeker kam\u0131\u015f\u0131
+gui.button.chore.farming.farmsize=\u00c7iftlik Boyutu\: 
+gui.button.chore.farming.radius=Yar\u0131\u00e7ap\: 
+gui.button.chore.fishing=Bal\u0131k\u00e7\u0131l\u0131k
+gui.button.chore.combat=Sava\u015f
+gui.button.chore.combat.sentry=N\u00f6bet\u00e7i\:\u00a0
+gui.button.chore.combat.sentry.radius=Yar\u0131\u00e7ap\: 
+gui.button.chore.combat.sentry.position.set=Korumay\u0131 yerine yerle\u015ftir
+gui.button.chore.combat.method=Y\u00f6ntem\: 
+gui.button.chore.combat.method.range=Sadece uzak sald\u0131r\u0131
+gui.button.chore.combat.method.melee=Sadece yak\u0131n sald\u0131r\u0131
+gui.button.chore.combat.method.both=Mesafeli & Yak\u0131n
+gui.button.chore.combat.method.neither=Kavga etmeyiniz
+gui.button.chore.combat.attack.pig=Domuzlara sald\u0131r\u0131n\:
+gui.button.chore.combat.attack.sheep=Kuzulara sald\u0131r\u0131n\:
+gui.button.chore.combat.attack.cow=\u0130neklere sald\u0131r\u0131n\:
+gui.button.chore.combat.attack.chicken=Tavuklara sald\u0131r\u0131n\:
+gui.button.chore.combat.attack.spider=\u00d6r\u00fcmceklere sald\u0131r\u0131n\:
+gui.button.chore.combat.attack.zombie=Zombilere sald\u0131r\u0131n\:
+gui.button.chore.combat.attack.skeleton=\u0130skeletlere sald\u0131r\u0131n\:
+gui.button.chore.combat.attack.creeper=Creeperlere sald\u0131r\u0131n\:
+gui.button.chore.combat.attack.enderman=Endermanlara sald\u0131r\u0131n\:
+gui.button.chore.combat.attack.unknown=Sald\u0131r Bilinmeyen\:  
+gui.button.chore.woodcutting=Odunculuk
+gui.button.chore.woodcutting.treetype=A\u011fa\u00e7 tipi\:
+gui.button.chore.woodcutting.treetype.all=Hepsi
+gui.button.chore.woodcutting.treetype.oak=Me\u015fe
+gui.button.chore.woodcutting.treetype.spruce=\u00c7am
+gui.button.chore.woodcutting.treetype.birch=Hu\u015f
+gui.button.chore.woodcutting.treetype.jungle=Ya\u011fmur orman\u0131
+gui.button.chore.mining=Madencilik
+gui.button.chore.mining.method=Y\u00f6ntem\:
+gui.button.chore.mining.method.passive=Pasif
+gui.button.chore.mining.method.active=Aktif
+gui.button.chore.mining.direction=Y\u00f6n\:
+gui.button.chore.mining.direction.forward=\u0130leri
+gui.button.chore.mining.direction.backward=Geri
+gui.button.chore.mining.direction.left=Sol
+gui.button.chore.mining.direction.right=Sa\u011f
+gui.button.chore.mining.distance=Uzakl\u0131k\: 
+gui.button.chore.mining.find=Bul\: 
+gui.button.chore.mining.find.coal=K\u00f6m\u00fcr
+gui.button.chore.mining.find.iron=Demir
+gui.button.chore.mining.find.lapis=Lacivertta\u015f\u0131
+gui.button.chore.mining.find.gold=Alt\u0131n
+gui.button.chore.mining.find.diamond=Elmas
+gui.button.chore.mining.find.redstone=K\u0131rm\u0131z\u0131 Ta\u015f
+gui.button.chore.mining.find.emerald=Z\u00fcmr\u00fct
+gui.button.chore.hunting=Avlanma
+gui.button.chore.hunting.mode=\ Mod\:
+gui.button.chore.hunting.mode.kill=Avlan
+gui.button.chore.hunting.mode.tame=Evcillestir
+gui.button.chore.start=Ba\u015flat
+
+gui.button.hiring.hours=Saatler\: 
+
+gui.button.lostrelativedocument.generation=Nesil\: %Generation%
+
+#Titles
+gui.title.setup=Minecraft Comes Alive Kurulum
+gui.title.setup.name=\u0130sminizi girin.
+gui.title.setup.gender=Cinsiyetinizi se\u00e7in.
+gui.title.setup.options=Ayarlar\u0131 de\u011fi\u015ftirin.
+
+gui.title.inventory=Envanter (%Name%)
+
+gui.title.namebaby=\u00c7ocu\u011funuza isim verin\:
+gui.title.namebaby.male=Bir Erkek\!
+gui.title.namebaby.female=Bir k\u0131z\!
+
+gui.title.priest.divorcecouple=Bo\u015famak istedi\u011finiz \u00e7ifti se\u00e7in.
+
+gui.title.tombstone=Mezarta\u015f\u0131 mesaj\u0131n\u0131 d\u00fczenleyin\:
+
+gui.title.special.hired=(Kiraland\u0131)
+
+gui.title.lostrelativedocument=%Name% 'nin sizinle olamasini istediginiz iliskiyi seciniz.
+gui.title.lostrelativedocument.confirm=%Name%'in boyle olmasindan eminmisiniz\:
+
+#Information
+gui.info.hearts=Kalpler
+
+gui.info.special.none=Bu ki\u015finin herhangi bir \u00f6zel g\u00fcc\u00fc yok.
+
+gui.info.family.parents=(%MotherName% ve %FatherName%'in %ChildTitle%)
+gui.info.family.parents.deceased=(Ebeveynler geberdi)
+gui.info.family.parent=(%LivingParent% 'n\u0131n %ChildTitle%)
+
+gui.info.family.spouse=( %VillagerSpouseName% %SpouseRelation% ile evli)
+gui.info.family.spouse.unrelated=(%SpouseFullName% ile evli)
+
+gui.info.namebaby.invalidcharacters=Bebe\u011fin ismi ge\u00e7ersiz karakter i\u00e7eriyor.
+gui.info.namebaby.nametaken=O isimle zaten bir \u00e7ocu\u011fun var.
+
+gui.info.procreate.confirm1=Me\u015fgulken bir \u015fey \u00fcretemezsin.
+gui.info.procreate.confirm2=Bu k\u00f6yl\u00fcye evlilik y\u00fcz\u00fc\u011f\u00fc hediye etmelisin.
+
+gui.info.chore.options=Ayarlar\:
+gui.info.chore.options.none=Bu i\u015f i\u00e7in ayarlan\u0131labilir \u00f6zellik yok.
+gui.info.chore.experience=Tecr\u00fcbe Seviyesi\:
+
+gui.info.hire.price=Bu k\u00f6yl\u00fcy\u00fc kiralaman %x% alt\u0131n k\u00fcl\u00e7e gerektirir.
+gui.info.hire.hasgold=Yeteri kadar alt\u0131n k\u00fcl\u00e7en var.
+gui.info.hire.notenoughgold=Yeteri kadar alt\u0131n k\u00fcl\u00e7en yok.
+gui.info.hire.minutesremaining=%x% dakika kald\u0131.
+
+gui.info.hardcoresecret.prompt=E\u011fer \u00e7ocu\u011funuz varsa onun yerine do\u011fabilirsiniz.
+gui.info.hardcoresecret.nochildren=\u00c7ocuk yok\!
+gui.info.hardcoresecret.spawnas=Do\u011f\:
+gui.info.hardcoresecret.respawn=\u00c7ocuk olarak do\u011f
+
+#Overhead
+gui.overhead.hasgift=Hediye Mevcut
+gui.overhead.hasring=D\u00fczenleyen Y\u00fcz\u00fc\u011f\u00fc tutuyor
+gui.overhead.sleeping=Uyuyor
+gui.overhead.health=Can\: 
+
+#######
+# Notifications/One Liners
+##############################
+notify.player.married=Sen ve %Name% art\u0131k evlisiniz.
+notify.player.engaged=Art\u0131k %Name% ile ni\u015fanl\u0131s\u0131n.
+notify.player.droppedbaby=Bu k\u00f6t\u00fc bir fikir.
+notify.player.clickbed=Bu yata\u011f\u0131 kullanamazs\u0131n.
+
+notify.horse.invalid=Bu ata binemem.
+notify.horse.notfound=Um... Hangi ata binmemi istiyorsun? Onu bana getir.
+
+notify.villager.married=Bu k\u00f6yl\u00fcler art\u0131k evliler.
+notify.villager.gifted.cake.notenough=E\u015fimin de bir keki olmas\u0131n\u0131 isterdim...
+notify.villager.gifted.cake.withbaby.male=Kar\u0131m ve ben \u00e7ocu\u011fumuz b\u00fcy\u00fcyene kadar pasta yememeye karar verdik.
+notify.villager.gifted.cake.withbaby.female=Kocam ve ben \u00e7ocu\u011fumuz b\u00fcy\u00fcyene kadar pasta yememeye karar verdik.
+notify.villager.gifted.cake.spousenotnearby.male=Pasta? Kar\u0131m\u0131 getirde onunla payla\u015fay\u0131m.
+notify.villager.gifted.cake.spousenotnearby.female=Kek? Git kocam\u0131 getir b\u00f6ylece onunla payla\u015fabilirim.
+notify.villager.gifted.arrangerring.othernotnearby=...Ne? Etrafta ba\u015fka kimse yok.
+notify.villager.gifted.arrangerring.relative=Ben senin %RelationToPlayer% Oluyorum.
+notify.villager.gifted.arrangerring.notenoughrings=\u0130kimiz i\u00e7in yeterli y\u00fcz\u00fc\u011f\u00fcn yok gibi g\u00f6r\u00fcn\u00fcyor. \u0130ki tane y\u00fcz\u00fc\u011fe ihtiyac\u0131m\u0131z var\!
+notify.villager.gifted.arrangerring.invalidpartner=%Name% ile evlenemem\!
+
+notify.baby.gaveup=Art\u0131k ba\u015fka bir bebe\u011fin olabilir.
+notify.baby.exists=Zaten bir bebe\u011fin var.
+notify.baby.readytogrow=Bebe\u011fin b\u00fcy\u00fcmeye haz\u0131r.
+notify.baby.cooked=Senin sorunun ne\!?
+
+notify.divorce.spousemissing=Kar\u0131n\u0131z yak\u0131n\u0131n\u0131zda de\u011fil, bu y\u00fczden ondan e\u015fya alam\u0131yacaks\u0131n\u0131z.
+notify.arrangedmarriage.failed=\u015euan seninle evlenmeye g\u00f6n\u00fcll\u00fc kimse yok.
+
+notify.death.male=\u0130smi %Name%, senin %RelationToPlayer%, vefat etti.
+notify.death.female=\u0130smi %Name%, senin %RelationToPlayer%, vefat etti.
+
+notify.homepoint.set=Bu ki\u015fi geceleri burada duracak.
+notify.homepoint.none=%Name% bir ev noktas\u0131na sahip de\u011fil.
+notify.homepoint.invalid=Bu ev noktas\u0131 ge\u00e7ersiz.
+notify.homepoint.obstructed=Ev noktas\u0131 engellendi\u011fi i\u00e7in %Name% eve gidemiyor.
+notify.homepoint.teleport.skip.following=%Name% seni takip ediyor. Bu gece eve \u0131\u015f\u0131nlanmayacaklar.
+notify.homepoint.teleport.skip.staying=%Name% duruyor. Bu gece eve \u0131\u015f\u0131nlanmayacaklar.
+
+notify.item.broken.axe=%Name% baltas\u0131n\u0131 k\u0131rd\u0131.
+notify.item.broken.boots=%Name% botlar\u0131n\u0131 k\u0131rd\u0131.
+notify.item.broken.chestplate=%Name% z\u0131rh\u0131n\u0131 k\u0131rd\u0131.
+notify.item.broken.fishingrod=%Name% oltas\u0131n\u0131 k\u0131rd\u0131.
+notify.item.broken.helmet=%Name% kask\u0131n\u0131 k\u0131rd\u0131.
+notify.item.broken.leggings=%Name% pantolonunu k\u0131rd\u0131.
+notify.item.broken.pickaxe=%Name% kazmas\u0131n\u0131 k\u0131rd\u0131.
+notify.item.broken.sword=%Name% k\u0131l\u0131c\u0131n\u0131 k\u0131rd\u0131.
+notify.item.broken.hoe=%Name%'nin \u00e7apas\u0131 k\u0131r\u0131k.
+notify.item.broken.bow=%Name% 'in yay\u0131 k\u0131r\u0131ld\u0131.
+
+notify.child.chore.finished.farming=\u00c7ift\u00e7ili\u011fi bitirdim.
+notify.child.chore.finished.fishing=Bal\u0131k tutmay\u0131 bitirdim.
+notify.child.chore.finished.woodcutting=A\u011fa\u00e7 kesmeyi bitirdim.
+notify.child.chore.finished.mining=Kaz\u0131 yapmay\u0131 bitirdim.
+notify.child.chore.finished.hunting=Avlanmayi bitirdim.
+
+notify.child.chore.levelup.farming.5=%Name% \u00e7ift\u00e7ilikte 5. seviyeye ula\u015ft\u0131. Art\u0131k bu\u011fday hasat ederken daha fazla tohum alacaks\u0131n\u0131z.
+notify.child.chore.levelup.farming.10=%Name% \u00e7ift\u00e7ilikte 10. seviyeye ula\u015ft\u0131. Art\u0131k daha h\u0131zl\u0131 tarlalar\u0131 bi\u00e7ip, yaratabilecek.
+notify.child.chore.levelup.farming.15=%Name% \u00e7ift\u00e7ilikte 15. seviyeye ula\u015ft\u0131. Art\u0131k herhangi t\u00fcrden ekini 1-3 daha fazla hasat edebilir.
+notify.child.chore.levelup.farming.20=%Name% \u00e7ift\u00e7ilikte 20. seviyeye ula\u015ft\u0131. Art\u0131k tohumlar\u0131n say\u0131lar\u0131n\u0131 haz\u0131r olarak ikiye katlama \u015fans\u0131 var.
+
+notify.child.chore.levelup.fishing.5=%Name% bal\u0131k\u00e7\u0131l\u0131kta 5. seviyeye ula\u015ft\u0131. \u015eimdi daha h\u0131zl\u0131 ve iki kat\u0131 bal\u0131k tutabilir.
+notify.child.chore.levelup.fishing.10=%Name% bal\u0131k\u00e7\u0131l\u0131kta 10. seviyeye ula\u015ft\u0131. Art\u0131k \u00e7ok bulunan hazineleri bal\u0131k tutarken bulabilir.
+notify.child.chore.levelup.fishing.15=%Name% bal\u0131k\u00e7\u0131l\u0131kta 15. seviyeye ula\u015ft\u0131. Art\u0131k 3 kat daha s\u0131k ve \u00e7ok daha h\u0131zl\u0131 bal\u0131k yakalayabilir.
+notify.child.chore.levelup.fishing.20=%Name% bal\u0131k\u00e7\u0131l\u0131kta 20. seviyeye ula\u015ft\u0131. Art\u0131k nadir bulunan hazineleri de bal\u0131k tutarken bulabilir.
+
+notify.child.chore.levelup.hunting.5=%Name% avc\u0131l\u0131kta 5. seviyeye ula\u015ft\u0131. Art\u0131k bir hayvan\u0131 evcille\u015ftirirken, daha az kaynak kullanarak, birka\u00e7 hayvan evcille\u015ftirebiliyor.
+notify.child.chore.levelup.hunting.10=%Name% avc\u0131l\u0131kta 10. seviyeye ula\u015ft\u0131. Art\u0131k avlan\u0131rken \u00f6lme tehlikeleri yok.
+notify.child.chore.levelup.hunting.15=%Name% avc\u0131l\u0131kta 15. seviyeye ula\u015ft\u0131. Art\u0131k avlan\u0131rken daha fazla et al\u0131yorlar.
+notify.child.chore.levelup.hunting.20=%Name% avc\u0131l\u0131kta seviye 20'ye ula\u015ft\u0131. Art\u0131k ava \u00e7\u0131kt\u0131ktan 1 dakika sonra geri d\u00f6n\u00fcyorlar.
+
+notify.child.chore.levelup.mining.5=%Name% has reached level 5 mining. They can now mine through blocks slightly faster.
+notify.child.chore.levelup.mining.10=%Name% has reached level 10 mining. They now damage their pick less when passively mining. 
+notify.child.chore.levelup.mining.15=%Name% has reached level 15 mining. They now double the amount of blocks or ores they mine.
+notify.child.chore.levelup.mining.20=%Name% has reached level 20 mining. They now tell you the exact position of ores when passively mining.
+
+notify.child.chore.levelup.woodcutting.5=%Name% has reached level 5 woodcutting. They now move faster when woodcutting.
+notify.child.chore.levelup.woodcutting.10=%Name% has reached level 10 woodcutting. They now cut trees faster with any type of axe.
+notify.child.chore.levelup.woodcutting.15=%Name% has reached level 15 woodcutting. They now have a chance of cutting two logs for every log they cut.
+notify.child.chore.levelup.woodcutting.20=%Name% has reached level 20 woodcutting. They now receive three logs for every log they cut.
+
+notify.child.chore.interrupted.farming.noseeds=Benim yeterince tohumum yok\!
+notify.child.chore.interrupted.farming.noland=Hi\u00e7 toprak veya \u00e7im g\u00f6rm\u00fcyorum\!
+notify.child.chore.interrupted.farming.nofarmland=Sen bana sadece s\u00fcr\u00fclm\u00fc\u015f araziyi kullanmam\u0131 s\u00f6yledin. O nerede?
+notify.child.chore.interrupted.farming.noroom=\u00c7ift\u00e7ili\u011fi bitirmek i\u00e7in yeterli alan\u0131m yoktu.
+notify.child.chore.interrupted.farming.noselection=Sen benim \u00e7iftlik yapmam i\u00e7in bir alan i\u015faretlemedin.
+notify.child.chore.interrupted.farming.nohoe=\u00c7apam yok.
+notify.child.chore.interrupted.fishing.nowater=Kilometrelerce hi\u00e7 su g\u00f6rm\u00fcyorum\!
+notify.child.chore.interrupted.fishing.norod=Oltam yok\! Bal\u0131klar\u0131 ellerimle yakal\u0131yamam.
+notify.child.chore.interrupted.mining.noblocks=Kaz\u0131cak herhangi bir blok g\u00f6rm\u00fcyorum.
+notify.child.chore.interrupted.mining.nopickaxe=Bir kazmam yok\!
+notify.child.chore.interrupted.mining.tookdamage=%Name& kaz\u0131 yaparken zarar ald\u0131. Ba\u015flad\u0131\u011f\u0131 yere geri d\u00f6nd\u00fcr\u00fcld\u00fc.
+notify.child.chore.interrupted.woodcutting.notrees=Hi\u00e7 a\u011fa\u00e7 g\u00f6rm\u00fcyorum.
+notify.child.chore.interrupted.hunting.notamematerials=Hayvanlari evcillestirmek icin kullanacagim malzemem yok.
+
+notify.child.chore.failed.hunting.death=%Name% avlan\u0131rken \u00f6ld\u00fc.
+
+notify.child.chore.status.mining.orefound=%OreDistance% blok uzak biraz %OreType% var.
+notify.child.chore.status.mining.orenearby=Yak\u0131nda biraz %OreType% var...
+notify.child.chore.status.mining.oredistance=%OreDistance% blok ileride %OreType% var. Koordinatlar\u0131 ise %OreX% %OreY% %OreZ%.
+
+notify.child.gifted.arrows=Tamam\! Bir \u015fey vurmak istiyorum\!
+notify.child.gifted.axe=Art\u0131k a\u011fa\u00e7 kesti\u011fimde elim kanam\u0131cak\!
+notify.child.gifted.fishingrod=Art\u0131k bal\u0131\u011fa gidebilirim\!
+notify.child.gifted.hoe=Bu \u00e7ift\u00e7ili\u011fi h\u0131zland\u0131racak\!
+notify.child.gifted.seeds=Art\u0131k \u00e7ift\u00e7ilik yapabilirim\!
+notify.child.gifted.sword=Bu k\u00f6t\u00fc adamlar\u0131 uzak tutacak\!
+notify.child.gifted.wheat=Bunu evcillestirmek icin kullanabilirim\!
+notify.child.gifted.pickaxe=\u015eimdi madencilik yapabilirim \!
+notify.child.gifted.carrot=Bunu evcillestirmek icin kullanabilirim\!
+notify.child.gifted.bone=Bunu evcillestirmek icin kullanabilirim\!
+
+notify.child.emptiedinventory=%Name% envanterini bo\u015faltm\u0131\u015ft\u0131r.
+notify.child.readytogrow=%Name% b\u00fcy\u00fcmeye haz\u0131r.
+notify.child.growup=%Name% bir yeti\u015fkine b\u00fcy\u00fcm\u00fc\u015ft\u00fcr.
+notify.child.ranaway=%Name% ka\u00e7t\u0131.
+
+notify.spouse.gifted.anotherbaby=Ben zaten bebe\u011fimizi tutuyorum. Sen onu nerden buldun\!?
+notify.spouse.chore.interrupted.cooking.nofurnace=Hi\u00e7bir yerde f\u0131r\u0131n g\u00f6remiyorum.
+notify.spouse.chore.interrupted.cooking.nofuel=Pi\u015firmek i\u00e7in yeterli yak\u0131t\u0131m yok.
+
+notify.lostrelativedocument.success=%Name% artik senin %RelationToPlayer%.
+notify.lostrelativedocument.success.norelation=%Name% artik senle ilgili degil.
+
+notify.monarch.began=H\u00fck\u00fcmdar\u0131n sana bah\u015fetti\u011fi sorumluluk.
+notify.monarch.resume=Tekrardan h\u00fcd\u00fcmdar sensin. \u00d6nceki varisin art\u0131k ge\u00e7erli de\u011fil.
+notify.monarch.ended.noheir=Art\u0131k h\u00fck\u00fcmdar de\u011filsin.
+notify.monarch.ended.withheir=Art\u0131k h\u00fck\u00fcmdar de\u011filsin. Varisin senin yerini ald\u0131.
+
+notify.hiring.complete=%Name%'nin i\u015fe alma s\u00fcresi bitti.
+
+notify.update.turnedon=MCA otomatik olarak g\u00fcncellemeleri kontrol edecek.
+notify.update.turnedoff=MCA art\u0131k yeni bir g\u00fcncelleme \u00e7\u0131kmad\u0131\u011f\u0131 m\u00fcddet\u00e7e, g\u00fcncelleme uyar\u0131s\u0131 vermiyecek.
+
+#######
+# Parser Commands
+##############################
+parser.playerchild.adult.callplayerparent.male=Baba
+parser.playerchild.adult.callplayerparent.female=Anne
+parser.playerchild.adult.parentopposite.male=Anne
+parser.playerchild.adult.parentopposite.female=Baba
+
+parser.playerchild.young.callplayerparent.male=Babac\u0131m
+parser.playerchild.young.callplayerparent.female=Annecim
+parser.playerchild.young.parentopposite.male=Annecim
+parser.playerchild.young.parentopposite.female=Babac\u0131m
+
+#####################################################################################################
+#									              DIALOGUE											#
+#####################################################################################################
+
+#######
+# Profession-specific dialogue
+##############################
+guard.follow.refuse1=Hay\u0131r, yapacak i\u015flerim var.
+guard.follow.refuse2=Ben buray\u0131 terkedemiyorum.
+guard.follow.refuse3=\u0130\u015fimden vazgemmemi mi istiyorsun? Hay\u0131r\!
+guard.follow.refuse4=Hay\u0131r,beni kiralamad\u0131k\u00e7a olmaz.
+guard.follow.refuse5=E\u011fer seninle gidersem kovulurum\!
+
+guard.stay.refuse1=Devriyedeyim. Burada bekliyemem.
+guard.stay.refuse2=Benim patronum de\u011filsin.
+guard.stay.refuse3=Benim bir muhaf\u0131z oldu\u011fumun fark\u0131nda m\u0131s\u0131n?..
+guard.stay.refuse4=\u0130\u015fim \u015fehirde devriye yapmak,etrafda dola\u015fmak de\u011fil.
+guard.stay.refuse5=Ben \u015fu anda \u00e7al\u0131\u015f\u0131yorum. Tabi i\u015fe de alabilirsin beni.
+
+smith.aid.prompt1=Ben sana \u00f6rs i\u00e7in bir anla\u015fma yapabilirim. Bir teklif sun.
+smith.aid.prompt2=Paylasmak istedigim eski bir Ors'um var...
+smith.aid.prompt3=Ben demircilik i\u015fini b\u0131rak\u0131yorum, yani benim \u00f6rs\u00fcm sat\u0131l\u0131k.
+smith.aid.prompt4=\u00d6rsm\u00fc istiyorsun? Bir \u00fccret kar\u015f\u0131l\u0131\u011f\u0131 sana benimkini verebilirim.
+
+smith.aid.outofrange1=\u00d6rs\u00fc alaca\u011f\u0131n zaman bana haber ver.
+smith.aid.outofrange2=Geri gel ve s\u00f6ylemek beni e\u011fer sen-si olmak bir teklif.
+
+smith.aid.alreadyaccepted1=\u00d6rs\u00fcm zaten sende. Senin i\u00e7in daha fazla \u015fey yapamam.
+smith.aid.alreadyaccepted2=Benim \u00f6rs\u00fcm\u00fc sat\u0131n ald\u0131n. Tamirini kendin yap\!
+smith.aid.alreadyaccepted3=Benim sana satacak \u00f6rs\u00fcm kalmad\u0131, \u00f6z\u00fcr dilerim.
+
+smith.aid.accept1=Ah\! Bu iyi bir miktar. Al senin olsun.
+smith.aid.accept2=Bu yeterli. Dikkatli ol, a\u011f\u0131rd\u0131r\!
+smith.aid.accept3=Te\u015fekk\u00fcrler\!\u0130\u015fte senin \u00f6rs\u00fcn.
+smith.aid.accept4=Bunu kimseye d\u00fc\u015f\u00fcrme, tamamm\u0131?
+
+smith.aid.refuse.rightitem1=Ben \u00f6rs i\u00e7in bunlar\u0131 istiyorum. Biraz daha varm\u0131 sende?
+smith.aid.refuse.rightitem2=Evet, bunlar tam istediklerim, ama yeterli miktarda de\u011filler.
+smith.aid.refuse.rightitem3=Tam da gerekli olan \u015fey\! Bana birka\u00e7 tane daha verirsen sana \u00f6rs\u00fc veririm.
+smith.aid.refuse.rightitem4=Bunlardan birka\u00e7 tane daha yolla ve \u00f6rs senindir.
+
+smith.aid.refuse.wrongitem1=Ben \u00f6rs\u00fcm ile bunlar\u0131 takas etmek istemiyorum.
+smith.aid.refuse.wrongitem2=Bu benim istedi\u011fim \u015fey de\u011fil. Ba\u015fka \u015feyler varm\u0131?
+smith.aid.refuse.wrongitem3=Hay\u0131r... E\u011fer \u00f6rs\u00fcm\u00fc istiyorsan daha de\u011fi\u015fik \u015feyler laz\u0131m.
+smith.aid.refuse.wrongitem4=Benim \u00f6rs i\u00e7in verecek \u015feylere ihtiyac\u0131m var.
+
+priest.adopt.male1=\u0130\u015fte yeni bebe\u011fin.Ad\u0131 %BabyName%.
+priest.adopt.male2=O \u015firin, de\u011fil mi? Onun ismi %BabyName%.
+priest.adopt.male3=Umar\u0131m %BabyName% sana y\u0131llar boyu mutluluk verir.
+priest.adopt.female1=O \u00e7ok g\u00fczel, de\u011filmi? Onun ismi %BabyName%.
+priest.adopt.female2=L\u00fctfen %BabyName%'ye iyi bak. \u0130\u015fte art\u0131k senin.
+priest.adopt.female3=%BabyName% \u00e7ok tatl\u0131yd\u0131,gitti\u011fini g\u00f6rd\u00fc\u011f\u00fcme \u00fcz\u00fcl\u00fcyorum.
+
+priest.arrangemarriage1=Umar\u0131m sen ve %Name% mutlulu\u011fu bulursunuz.
+priest.arrangemarriage2=%PlayerName%, %Name% ile tan\u0131\u015fmak istiyorum. \u015euan evlisin.
+priest.arrangemarriage3=\u0130stedi\u011finiz gibi olsun. %Name% ile \u015fuan evlisiniz.
+
+generic.hire.accept1=\u00c7ok te\u015fekk\u00fcr ederim\! \u0130stedi\u011finiz b\u00fct\u00fcn i\u015fleri yapar\u0131m.
+generic.hire.accept2=Bu kadar yeter. Art\u0131k senin i\u00e7in \u00e7al\u0131\u015f\u0131yorum.
+generic.hire.accept3=\u00c7al\u0131\u015fmaya haz\u0131r\u0131m\! 
+generic.hire.accept4=Hadi ba\u015flayal\u0131m, ilk i\u015fim nedir ?
+
+guard.hire.accept1=Te\u015fekk\u00fcrler\! Art\u0131k senin koruman\u0131m.
+guard.hire.accept2=Senin i\u00e7in \u00e7al\u0131\u015faca\u011f\u0131m.
+guard.hire.accept3=Artik patronumsun.
+guard.hire.accept4=\u0130lk i\u015fim nedir,patron?
+
+guard.hire.dismiss1=\u00d6z\u00fcr dilerim i\u015fler iyi gitmedi, ben eski i\u015fime d\u00f6n\u00fcyorum.
+guard.hire.dismiss2=Seninle \u00e7al\u0131\u015fmak harikayd\u0131\!
+guard.hire.dismiss3=K\u00f6ydeki i\u015fimi geri almay\u0131 deneyece\u011fim.
+guard.hire.dismiss4=\u00c7ok g\u00fczel, bir i\u015ften daha at\u0131ld\u0131m...
+
+butcher.aid.accept1=Elbette\! Sana da verecek bol bol etim var.
+butcher.aid.accept2=Bunlarda fazla etlerim.
+butcher.aid.accept3=Burda senin i\u00e7in biraz taze et var.
+
+butcher.aid.refuse1=Verecek yeterince etim yok,\u00fczg\u00fcn\u00fcm.
+butcher.aid.refuse2=Para kazanmak icin sattiklarimi elimde tutmaliyim\!
+butcher.aid.refuse3=Sana \u015fu an hi\u00e7bir \u015fey veremem.
+
+baker.aid.accept1=Bunu demin pi\u015firdim. Alabilirsin.
+baker.aid.accept2=Tamam, bunu alabilirsin. O \u00e7al\u0131\u015fma masamdan taze \u00e7\u0131kt\u0131.
+baker.aid.accept3=Bugun satin alinmayan artanlar var. Onlari alabilirsin.
+
+baker.aid.refuse1=\u015eu anda bir \u015fey yok. Daha sonra gel.
+baker.aid.refuse2=Bir ka\u00e7 \u015fey pi\u015firiyorum. Biraz sonra haz\u0131r olur.
+baker.aid.refuse3=Ben de senin i\u00e7in bir \u015fey vard\u0131, fakat onu kazayla yakt\u0131m. \u00d6z\u00fcr dilerim.
+
+farmer.aid.accept1=San\u0131r\u0131m ben birka\u00e7 \u015fey yedek olabilir. Burada.
+farmer.aid.accept2=Tabii ki yard\u0131m edebilirim. Al bakal\u0131m.
+farmer.aid.accept3=Hasat zaman\u0131m g\u00fczel ge\u00e7ti. Buyur bi ka\u00e7 ekstra \u015fey.
+
+farmer.aid.refuse1=\u00d6z\u00fcr dilerim, sana verece\u011fim bir\u015fey yok.
+farmer.aid.refuse2=Sonra gel, yapabilice\u011fim bir\u015fey yok.
+farmer.aid.refuse3=\u00d6z\u00fcr dilerim, sana verebilce\u011fim bir\u015fey yok.
+
+miner.hire.accept1=Te\u015fekk\u00fcrler\! Hemen ba\u015flayabilirim.
+miner.hire.accept2=Mutlulukla sana kat\u0131l\u0131r\u0131m\! Nerede madencilik yapac\u0131\u011f\u0131m?
+miner.hire.accept3=Beni i\u015fe ald\u0131\u011f\u0131n i\u00e7in te\u015fekk\u00fcrler. \u015eimdi \u00e7al\u0131\u015fmaya ba\u015flayabilirim.
+
+miner.hire.refuse1=Be\u015f alt\u0131n i\u00e7in \u00e7al\u0131\u015f\u0131r\u0131m. Y\u00fcz tane blok getirir sana.
+miner.hire.refuse2=Be\u015f alt\u0131n ver bende sana y\u00fcz tane blok kazar\u0131m.
+miner.hire.refuse3=Beni i\u015fe al\u0131cak kadar alt\u0131n\u0131n yok. Be\u015f tane alt\u0131n y\u00fcz tane blok kadar beni i\u015fe al\u0131r.
+
+miner.hire.finished1=Y\u00fcz tane blok etti. Ben bittim ayol.
+miner.hire.finished2=Y\u00fcz tane blok oldu art\u0131k. Benim i\u015fim bitti.
+miner.hire.finished3=Y\u00fcz tane blok kazd\u0131m. Seninle \u00e7al\u0131\u015fmak ho\u015fuma gitti.
+
+miner.hire.dismiss1=Beni i\u015ften m\u0131 al\u0131yosun? Neyse art\u0131k.
+miner.hire.dismiss2=\u00c7al\u0131\u015fmaya haz\u0131r\u0131m, alt\u0131n\u0131n varsa tabii.
+miner.hire.dismiss3=Ben k\u00f6ye geri don\u00fcyorum ozaman.
+
+miner.chore.finished1=Bana s\u00f6yledi\u011fin \u015feyi bitirdim.
+miner.chore.finished2=Daha fazla i\u015f yapmaya haz\u0131r\u0131m.
+miner.chore.finished3=Ben bu i\u015fi bitirdim.
+
+miner.chore.start1=Hemen bakar\u0131m, patron.
+miner.chore.start2=Evet patron.
+miner.chore.start3=Hemen i\u015fe ba\u015flar\u0131m.
+
+miner.dropallitems1=Al bakal\u0131m.
+miner.dropallitems2=Al buda senin pay\u0131n, patron.
+miner.dropallitems3=Al bende bu var.
+miner.dropallitems4=Maden etti\u011fim her\u015fey burda.
+
+#######
+# Villager Dialogue
+##############################
+villager.chat.bad1=S\u0131k\u0131c\u0131\u0131\u0131\u0131\u0131\u0131.
+villager.chat.bad2=*Esner*
+villager.chat.bad3=\u00dczg\u00fcn\u00fcm, ne? Dinlemiyordum.
+villager.chat.bad4=Bir \u015fey mi s\u00f6yledin?
+villager.chat.bad5=Mhmhm.
+villager.chat.bad6=Ehm...Tamam... Ba\u015fka bir\u015fey yapmam gerekiyor, bana izin verirsen...
+villager.chat.bad7=Oh evet. San\u0131r\u0131m bir\u015fey yapmay\u0131 unuttum.. O y\u00fczden gitmeliyim.
+villager.chat.bad8=Ne demek istedin anlayamad\u0131m.
+villager.chat.bad9=Bence yanl\u0131\u015f ki\u015fiyle konu\u015fuyorsun.
+villager.chat.bad10=Hay\u0131r...Pek sanm\u0131yorum.
+villager.chat.bad11=Neden bir \u015fey \u00f6yle diyorsun?
+villager.chat.bad12=Bu \u00e7ok kabayd\u0131.
+
+villager.chat.good1=Ger\u00e7ekten mi? Ben duymam\u0131\u015ft\u0131m.
+villager.chat.good2=Bunu nerden duydun?
+villager.chat.good3=Bunu yapmay\u0131 nas\u0131l becerdin\!?
+villager.chat.good4=Evet, buras\u0131 ger\u00e7ekten s\u0131k\u0131c\u0131.
+villager.chat.good5=Oh, ilgin\u00e7.
+villager.chat.good6=G\u00fczel hikayelerin var. Anlat\u0131lcak daha var m\u0131?
+villager.chat.good7=\u00c7ok ho\u015f. Peki sonra ne oldu?
+villager.chat.good8=Tamamen kat\u0131l\u0131yorum\!
+villager.chat.good9=Di\u011ferlerinin ayn\u0131s\u0131n\u0131 s\u00f6yledi\u011fini duydum.
+villager.chat.good10=Kaz\u0131 yaparken hi\u00e7 z\u00fcmr\u00fct g\u00f6rd\u00fcn m\u00fc?
+
+villager.engagement.accept1=D\u00fc\u011f\u00fcn\u00fcm\u00fcz ne zaman\!?
+villager.engagement.accept2=B\u00fcy\u00fck bir parti yapaca\u011f\u0131z, de\u011fil mi?
+villager.engagement.accept3=Sonunda\! Sonsuz zamand\u0131r bekliyordum\! Seni seviyorum\!
+villager.engagement.accept4=B\u00fct\u00fcn arkada\u015flar\u0131m\u0131 \u00e7a\u011f\u0131r\u0131yorum\!
+villager.engagement.accept5=Oley\! Seni seviyorum\!
+
+villager.engagement.refusal1=Ah..um...Yerle\u015fmeye haz\u0131r de\u011filim.
+villager.engagement.refusal2=\u0130lgin\u00e7 bir duruma d\u00fc\u015ft\u00fck...
+villager.engagement.refusal3=Huh? Hay\u0131r\! Senin tan\u0131m\u0131yorum bile\!
+villager.engagement.refusal4=\u00dczg\u00fcn\u00fcm, seni o \u015fekilde sevmiyorum.
+villager.engagement.refusal5=Woah bi dur, birbirimizi nerdeyse hi\u00e7 tan\u0131m\u0131yoruz.
+
+villager.follow.start1=Nereye gidiyoruz?
+villager.follow.start2=Senin kalmaya \u00e7al\u0131\u015f\u0131r\u0131m.
+villager.follow.start3=Tamam. Seninle gelirim.
+villager.follow.start4=Kendi \u015fehrini kurmak i\u00e7in b\u00fct\u00fcn k\u00f6y\u00fcm\u00fc ta\u015f\u0131yorsun? Sanm\u0131yorum.
+villager.follow.start5=Tamam, bir y\u00fcr\u00fcy\u00fc\u015f i\u015fime yarar.
+villager.follow.start6=Beni nereye g\u00f6t\u00fcr\u00fcyorsun?
+villager.follow.start7=Tamam, nereye gitmek istersin?
+villager.follow.start8=Bunun da \u00fcstesinden gelelim.
+
+villager.follow.stop1=Tamam, buralarda olaca\u011f\u0131m.
+villager.follow.stop2=\u00c7ok uza\u011fa gitme.
+villager.follow.stop3=Buray\u0131 sevdim\!
+villager.follow.stop4=Tamam, sonra g\u00f6r\u00fc\u015f\u00fcr\u00fcz\!
+villager.follow.stop5=Beni burda yaln\u0131z b\u0131rakma\!
+villager.follow.stop6=Kendine iyi bak.
+villager.follow.stop7=Tamam o zaman, burada kalaca\u011f\u0131m.
+villager.follow.stop8=\u015eimdi seni takip etmeyi b\u0131rak\u0131yorum.
+villager.follow.stop9=\u0130yi, yoruldum\!
+villager.follow.stop10=Macera dolu\!
+
+villager.gift.bad1=Ben \u00e7\u00f6p tenekesi de\u011filim.
+villager.gift.bad2=Senin \u00e7\u00f6p\u00fcn\u00fc istemiyorum\!
+villager.gift.bad3=Bence bu \u00e7\u00f6p.
+villager.gift.bad4=ONU niye isteyeyim?
+villager.gift.bad5=\u00c7\u00f6p\u00fcn\u00fc tutabilirsin, te\u015fekk\u00fcrler.
+villager.gift.bad6=Umar\u0131m \u015faka yap\u0131yorsundur, bu iyi bir hediye de\u011fil.
+villager.gift.bad7=\u00dczg\u00fcn\u00fcm, ama bunun gibi hediyeleri kabul etmiyorum.
+villager.gift.bad8=Yabanc\u0131lardan hi\u00e7bir \u015fey alm\u0131yorum, \u00fczg\u00fcn\u00fcm.
+villager.gift.bad9=Yani bunu benden alan sensin\! Gitmelisin.
+villager.gift.bad10=Neden o \u00e7\u00f6p\u00fc bana vermek i\u00e7in \u0131srar ediyorsun?
+
+villager.gift.small1=Oh, te\u015fekk\u00fcrler\!
+villager.gift.small2=Ne kadar da d\u00fc\u015f\u00fcncelisin\!
+villager.gift.small3=Te\u015fekk\u00fcrler\!
+villager.gift.small4=Bana bir\u015fey vermen gerekmiyordu... sa\u011fol\!
+villager.gift.small5=Oh, bunlar\u0131 seviyorum\!
+villager.gift.small6=Te\u015fekk\u00fcrler.
+villager.gift.small7=Bu \u00e7ok g\u00fczel bir hediye. Te\u015fekk\u00fcrler.
+villager.gift.small8=\u00c7ok g\u00fczel\! Sa\u011fol\!
+
+villager.gift.regular1=Parlak\!
+villager.gift.regular2=Bunu bir\u015fey i\u00e7in kullanabilirim. Sa\u011fol\!
+villager.gift.regular3=Vay\! Te\u015fekk\u00fcrler\!
+villager.gift.regular4=Bir tane daha alabilir miyim?
+villager.gift.regular5=Thanks, %PlayerName%.
+villager.gift.regular6=Ah, hediye i\u00e7in te\u015fekk\u00fcr ederim.
+villager.gift.regular7=\u00c7ok naziksin, te\u015fekk\u00fcrler.
+villager.gift.regular8=Ne g\u00fczel bir hediye\! Te\u015fekk\u00fcrler, %PlayerName%.
+villager.gift.regular9=%PlayerName%, \u00e7ok tatl\u0131s\u0131n.
+villager.gift.regular10=\u00c7ok kibars\u0131n\u0131z %PlayerName%.
+villager.gift.regular11=\u00c7ok iyi bir arkada\u015fs\u0131n\!
+
+villager.gift.great1=Di...Dilin tutuldu\! Te\u015fekk\u00fcrler\!
+villager.gift.great2=Bunlar paha bi\u00e7ilmez\!
+villager.gift.great3=Harika hediyeyi g\u00f6r\u00fcnce anlars\u0131n\!
+villager.gift.great4=Bunlardan hep istemi\u015ftim\!
+villager.gift.great5=Bu harika\!
+villager.gift.great6=Oh, bu bir.. Te\u015fekk\u00fcrler\! Ger\u00e7ekten gerek yoktu\!
+villager.gift.great7=\u00c7ok te\u015fekk\u00fcr ederim, bunu hat\u0131rlayaca\u011f\u0131m.
+villager.gift.great8=Oh bu sadece harika, iyi kullanca\u011f\u0131ma emin ol.
+
+villager.greeting.hate1=Benden uzak dur.
+villager.greeting.hate2=Beni daha \u00f6nce duymad\u0131n m\u0131? Sana uzak dur dedim.
+villager.greeting.hate3=Ah. Sensin.
+villager.greeting.hate4=Herhalde buraya beni yumruklamaya geldin \u00f6yle mi?
+villager.greeting.hate5=L\u00fctfen, git ba\u015f\u0131mdan.
+villager.greeting.hate6=NE istiyorsun?
+villager.greeting.hate7=Beni bir daha rahats\u0131z edersen muhaf\u0131zlar\u0131 \u00e7a\u011f\u0131r\u0131yorum.
+villager.greeting.hate8=Silah\u0131m var, sadece s\u00f6yl\u00fcyorum.
+villager.greeting.hate9=Git ba\u015fk\u0131s\u0131n\u0131 rahats\u0131z et.
+villager.greeting.hate10=Ugh. Git ba\u015f\u0131mdan.
+villager.greeting.hate11=Kaybol, seni pislik.
+
+villager.greeting.basic1=Oh, merhaba.
+villager.greeting.basic2=Buralarda yeni misin?
+villager.greeting.basic3=Merhaba, yabanc\u0131.
+villager.greeting.basic4=Hey, naber?
+villager.greeting.basic5=Seni daha \u00f6nce buralarda g\u00f6rmedim.
+villager.greeting.basic6=Buralarda yeni olmal\u0131s\u0131n.
+villager.greeting.basic7=\u0130yi g\u00fcnler, %PlayerName%.
+villager.greeting.basic8=Selamlar.
+villager.greeting.basic9=Nas\u0131l yard\u0131mc\u0131 olabilirim?
+villager.greeting.basic10=Oh, merhaba. %PlayerName%, demi?
+
+villager.greeting.friend1=Selam, %PlayerName%\!
+villager.greeting.friend2=Hey\! Seni yeniden g\u00f6rmek \u00e7ok g\u00fczel\!
+villager.greeting.friend3=Bak\u0131n millet\! En iyi dostum\!
+villager.greeting.friend4=Selam, dostum\!
+villager.greeting.friend5=Neler yap\u0131yordun? Sen bir s\u00fcredir g\u00f6rmedim.
+villager.greeting.friend6=Hey, %PlayerName%, en iyi arkada\u015f\u0131m\!
+villager.greeting.friend7=Ah\! Bak burda kimler varm\u0131\u015f. Merhaba, %PlayerName%\!
+villager.greeting.friend8=Hey sen\! Nas\u0131ls\u0131n?
+villager.greeting.friend9=N'aber dostum, nas\u0131l gidiyor?
+
+villager.greeting.interest.male1=Vay\! Bug\u00fcn harika g\u00f6r\u00fcn\u00fcyorsun\!
+villager.greeting.interest.male2=%PlayerName%\! L\u00fctfen gitme\! Bir\u015fey sormak istiyorum...bo\u015fver.
+villager.greeting.interest.male3=*F\u0131s\u0131ldar* O \u00e7ok g\u00fczel...
+villager.greeting.interest.male4=%PlayerName%, eminim zengin oldu\u011fumu bilmiyordun.
+villager.greeting.interest.male5=*F\u0131s\u0131ldar* Bana \u00e7ok nazik, acaba beni be\u011feniyor mu?
+
+villager.greeting.interest.female1=Hey, bir g\u00fcn gelip ziyaret etmelisin. *G\u00f6z K\u0131rpar*
+villager.greeting.interest.female2=Selam... %Playerame%... *K\u0131k\u0131rdar*
+villager.greeting.interest.female3=Her zamanki gibi g\u00fc\u00e7l\u00fc ve b\u00fcy\u00fck g\u00f6z\u00fck\u00fcyorsun\!
+villager.greeting.interest.female4=*Solar* 
+villager.greeting.interest.female5=*F\u0131s\u0131ldar* Hay\u0131r\! Ona sormuyorum\!
+
+villager.greeting.wedding1=Gelecek d\u00fc\u011f\u00fcn\u00fcn hakk\u0131nda duydum. Tebrikler\!
+villager.greeting.wedding2=Hey, %PlayerName%, ni\u015fanland\u0131\u011f\u0131n i\u00e7in tebrikler\!
+villager.greeting.wedding3=Eminim g\u00fczel bir d\u00fc\u011f\u00fcn\u00fcn olacak, de\u011fil mi?
+villager.greeting.wedding4=Sizin i\u00e7in \u00e7ok mutluyum\! Size en b\u00fcy\u00fck hediyeyi getirece\u011fim\!
+villager.greeting.wedding5=Sadece hediyeler i\u00e7in ni\u015fanland\u0131n, de\u011fil mi?
+
+villager.hitbyplayer1=Beni rahat b\u0131rak\!
+villager.hitbyplayer2=Ben sana hi\u00e7bir \u015fey yapmad\u0131m\!
+villager.hitbyplayer3=Kes \u015funu\!
+villager.hitbyplayer4=Ah\! Bana neden vurdun?
+villager.hitbyplayer5=Kes \u015funu\! Ac\u0131yor\!
+villager.hitbyplayer6=Hey\! Bana vurma\!
+villager.hitbyplayer7=Ah, yapma, yapma\!
+villager.hitbyplayer8=Bana tekrar dokunma\!
+villager.hitbyplayer9=Muhaf\u0131zlar\! Bu ki\u015fi bana sald\u0131r\u0131yor\!
+villager.hitbyplayer10=Birisi yard\u0131m etsin\!
+villager.hitbyplayer12=Ah\! %PlayerName%\! Arkada\u015f oldu\u011fumuzu sanm\u0131\u015ft\u0131m\!
+
+villager.gifted.baby1=Kendi ebeveynli\u011fini kendin yap.
+villager.gifted.baby2=Ben tutmak istemiyorum\!
+villager.gifted.baby3=Kokuyor\!
+villager.gifted.baby4=Oh, ben vermezdin. D\u00fcn kendiminkini kaybettim.
+villager.gifted.baby5=Sana \u015fimdiden s\u00f6ylemeliyim, ben \u00e7ocuklar\u0131 sevmem.
+villager.gifted.baby6=Ben kendime bakam\u0131yorum, bebe\u011fe hi\u00e7 bakamam.
+villager.gifted.baby7=Tutmak istiyorum, ama icab\u0131na bakmak.
+villager.gifted.baby8=Bir yabanc\u0131 yerine neden e\u015fine vermiyorsun?
+
+villager.interact.refusal1=Benden uzak dur. 
+villager.interact.refusal2=Senden nefret ediyorum.
+villager.interact.refusal3=Benle konu\u015fmay\u0131 b\u0131rak.
+villager.interact.refusal4=Git\!
+villager.interact.refusal5=Sen burda istenmezsin.
+villager.interact.refusal6=Seninle hi\u00e7 bir \u015fey yapmak istemiyorum. Beni rahat b\u0131rak.
+villager.interact.refusal7=Git ba\u015f\u0131mdan, beni rahats\u0131z ediyorsun.
+villager.interact.refusal8=Ben senle konu\u015fmuyorum.
+villager.interact.refusal9=Ellerini benden uzak tut.
+
+villager.joke.bad1=Anlamad\u0131m?
+villager.joke.bad2=Ben bu dar\u0131lmak.
+villager.joke.bad3=Bu sadece korkun\u00e7\!
+villager.joke.bad4=Hi\u00e7 mant\u0131kl\u0131 de\u011fildi.
+villager.joke.bad5=S\u00f6yledi\u011fin sadece aptalcayd\u0131.
+villager.joke.bad6=Tamam o zaman...
+villager.joke.bad7=Uh... iyi bir \u015fakayd\u0131.
+
+villager.joke.good1=Sadece \u00e7ok komik\!
+villager.joke.good2=Bunu nerden duydun? Haha\!
+villager.joke.good3=\u0130yi bir tane\!
+villager.joke.good4=*G\u00fcler*
+villager.joke.good5=Biraz komik.
+villager.joke.good6=Bu duydu\u011fum en iyi \u015fakalardand\u0131\!
+villager.joke.good7=Ger\u00e7ektende baz\u0131 iyi \u015fakalar biliyorsun\!
+villager.joke.good8=Ha\! Birini g\u00fcld\u00fcrmeyi biliyorsun.
+villager.joke.good9=O iki \u015fey kasteder\!
+
+villager.marriage.acceptance1=Kabul ediyorum.
+villager.marriage.acceptance2=Bana sorman\u0131 bekliyordum\! Tabi ki kabul ediyorum\!
+villager.marriage.acceptance3=Evet, kabul ediyorum. Seni seviyorum\!
+villager.marriage.acceptance4=Biliyorsun, son zamanlarda senin hakk\u0131nda d\u00fc\u015f\u00fcn\u00fcyordum... Ve.. Oh ben ne diyorum? Evet\!
+villager.marriage.acceptance5=Hayat\u0131m\u0131 senin ge\u00e7irken beni \u00e7ok mutlu eder\!
+villager.marriage.acceptance6=Bu bir evlilik y\u00fcz\u00fc\u011f\u00fc... Bana m\u0131..? Evet\!
+villager.marriage.acceptance7=Beni sevdi\u011fini bilmek beni mutlu ediyor, seninle oldu\u011fumda d\u00fcnyadaki en iyi insan gibi hissediyorum.
+
+villager.marriage.refusal.lowhearts1=Nesin sen , gerizekal\u0131 falan m\u0131 ?
+villager.marriage.refusal.lowhearts2=Ne? Sen kimsin\!?
+villager.marriage.refusal.lowhearts3=Ben seni bilmiyorum bile\!
+villager.marriage.refusal.lowhearts4=Eee.. Hay\u0131r ya. Kusura bakma.
+villager.marriage.refusal.lowhearts5=Seni sevmiyorum\!
+villager.marriage.refusal.lowhearts6=Ne? Hay\u0131r\! Yapamam.
+villager.marriage.refusal.lowhearts7=Bak\u0131n...ben evlenmeye haz\u0131r de\u011filim.
+villager.marriage.refusal.lowhearts8=Reddetiyorum\!
+villager.marriage.refusal.lowhearts9=Senle evlenmek istemiyorum, pislik\!
+
+villager.marriage.refusal.playermarried1=Bence sen ba\u015fka biriylesin...
+villager.marriage.refusal.playermarried2=Sen zaten evli de\u011fil misin?
+villager.marriage.refusal.playermarried3=Parma\u011f\u0131nda ki y\u00fcz\u00fc\u011f\u00fc g\u00f6r\u00fcyorum. Yok ol.
+villager.marriage.refusal.playermarried4=E\u015fine bunu yapmay\u0131 nas\u0131l denersin?
+villager.marriage.refusal.playermarried5=Korkun\u00e7sun. Git e\u015finden \u00f6z\u00fcr dile.
+villager.marriage.refusal.playermarried6=Sen akl\u0131n\u0131m\u0131 ka\u00e7\u0131rd\u0131n? Zaten evlisin\!
+villager.marriage.refusal.playermarried7=Bunu e\u015fine neden yap\u0131yorsun? Sen bir aptals\u0131n\!
+villager.marriage.refusal.playermarried8=En iyisi bunu e\u015fine s\u00f6yleyeyim\!
+villager.marriage.refusal.playermarried9=Y\u00fcz\u00fc\u011f\u00fcn\u00fc g\u00f6r\u00fcyorum...
+
+villager.marriage.refusal.villagermarried1=\u00dczg\u00fcn\u00fcm, ama ben evliyim.
+villager.marriage.refusal.villagermarried2=Oh.. Benim zaten birim var.
+villager.marriage.refusal.villagermarried3=Ben zaten al\u0131nd\u0131m. \u00dczg\u00fcn\u00fcm, bildi\u011fini san\u0131yordum.
+villager.marriage.refusal.villagermarried4=Hay\u0131r demeliyim, \u00e7\u00fcnk\u00fc g\u00f6rd\u00fc\u011f\u00fcn gibi, ben zaten evliyim.
+villager.marriage.refusal.villagermarried5=\u00dczg\u00fcn\u00fcm. Zaten birisi var.
+
+villager.angry1=Evet\! Geride dur, korkak\!
+villager.angry2=Neden gelip adam gibi d\u00f6v\u00fc\u015fm\u00fcyorsun?
+villager.angry3=Muhaf\u0131zlar\u0131 \u00e7a\u011f\u0131r\u0131yorum\!
+villager.angry4=Bir g\u00fcn b\u00fct\u00fcn bunlar\u0131n cezas\u0131n\u0131 \u00e7ekeceksin\!
+villager.angry5=Geri gelme\!
+
+villager.scared1=Hay\u0131r\!Can\u0131m\u0131 ac\u0131tma,l\u00fctfen\!
+villager.scared2=Yeniden yapm\u0131cam, yemin ederim\!
+villager.scared3=L\u00fctfen\!Beni \u00d6ld\u00fcr Me\!
+villager.scared4=Hay\u0131r\! O silah\u0131 bir yere koy\!
+villager.scared5=Birisi yard\u0131m etsin\! Beni \u00f6ld\u00fcrecekler\!
+
+villager.greeting.handshake.good1=Selam.
+villager.greeting.handshake.good2=\u0130yi g\u00fcnler.
+villager.greeting.handshake.good3=Neden kimse sivil de\u011fil? Ho\u015fgeldiniz.
+villager.greeting.handshake.good4=Orda iyi bir i\u015f tutturmu\u015fsun.
+villager.greeting.handshake.good5=Gelmen \u00e7ok ho\u015f.
+
+villager.greeting.handshake.bad1=Ow\! Elimi ac\u0131tt\u0131n\!
+villager.greeting.handshake.bad2=Elimi \u00e7ok s\u0131kt\u0131n.
+villager.greeting.handshake.bad3=Hay\u0131r te\u015fekk\u00fcrler.
+villager.greeting.handshake.bad4=Ah...hay\u0131r. Ellerin \u00e7ok kirli g\u00f6r\u00fcn\u00fcyor.
+villager.greeting.handshake.bad5=Ellerindeki \u015eEY de ne?\!
+
+villager.greeting.highfive.good1=\u00c7ek bi' be\u015flik\!
+villager.greeting.highfive.good2=Naber, %PlayerName%?
+villager.greeting.highfive.good3=Peki\!
+villager.greeting.highfive.good4=Hey, naber ?
+villager.greeting.highfive.good5=Seni g\u00f6rmek g\u00fczeldi\!
+
+villager.greeting.highfive.bad1=Hay\u0131r\! Bana vurma\!
+villager.greeting.highfive.bad2=Kimi \u00f6zel buluyosun ?
+villager.greeting.highfive.bad3=Oh...hay\u0131r, \u00fczg\u00fcn\u00fcm.
+villager.greeting.highfive.bad4=Bitir i\u015fini.
+villager.greeting.highfive.bad5=... Ne yap\u0131yosun?
+
+villager.kiss.good1=*Y\u00fcz k\u0131zar\u0131r* Bekarm\u0131s\u0131n?
+villager.kiss.good2=\u00c7ok iyi \u00f6p\u00fc\u015f\u00fcyorsun...
+villager.kiss.good3=Dudaklar\u0131n yumu\u015fak ve tatl\u0131.
+villager.kiss.good4=Bal gibi tad\u0131 var.
+villager.kiss.good5=*K\u0131k\u0131rdama* \u00c7ok tatl\u0131s\u0131n.
+
+villager.kiss.bad1=Ben bile seni tan\u0131yorumuyum?\!
+villager.kiss.bad2=*Tokat*
+villager.kiss.bad3=Muhaf\u0131zlar\u0131 \u00e7a\u011f\u0131r\u0131yorum\!
+villager.kiss.bad4=Ne yapt\u0131\u011f\u0131n\u0131 san\u0131yorsun?\!
+villager.kiss.bad5=Babam bunu asla onaylamaz.
+
+villager.flirt.good1=*Y\u00fcz k\u0131zar\u0131r* Aman.
+villager.flirt.good2=*K\u0131k\u0131rdama* \u00c7ok \u015firinsin.
+villager.flirt.good3=B\u00f6yle konu\u015funca seni seviyorum.
+villager.flirt.good4=E\u011fer alfabeyi yeniden d\u00fczenleyebilseydim, seni ve beni yan yana koyard\u0131m.
+villager.flirt.good5=Hehe, we should get together some time.
+
+villager.flirt.bad1=I must be wearing baseball shorts, because I'm out of your league\!
+villager.flirt.bad2=\u0130y, \u00f6yle d\u00fc\u015f\u00fcnm\u00fcyorum.
+villager.flirt.bad3=Zaten biriyle \u00e7\u0131km\u0131yor musun?
+villager.flirt.bad4=*Laughs* Sorry, I don't roll that way.
+villager.flirt.bad5=Bu ac\u0131kl\u0131yd\u0131.
+
+villager.tellstory.good1=*Laughs* The pigs get the best of all of us\!
+villager.tellstory.good2=I remember when I was younger I could do that too.
+villager.tellstory.good3=We should try that together sometimes.
+villager.tellstory.good4=En az\u0131ndan sen bizi zombilerden koruyacaks\u0131n\!
+villager.tellstory.good5=*Laughs* You're alright, %PlayerName%.
+
+villager.tellstory.bad1=You should be ashamed of yourself\!
+villager.tellstory.bad2=Serves you right.
+villager.tellstory.bad3=You should be attacked by a zombie for that\!
+villager.tellstory.bad4=Her neyse.
+villager.tellstory.bad5=I feel very uncomfortable right now...
+
+#######
+# Grandchild Dialogue
+##############################
+
+grandchild.chat.bad1=Sen ya\u015fl\u0131s\u0131n. Ve s\u0131k\u0131c\u0131.
+grandchild.chat.bad2=Ben s\u0131k\u0131c\u0131 hikayeler duymak istemiyorum\!
+grandchild.chat.bad3=*Esnemek*
+
+grandchild.chat.good1=Ben en iyi %RelationOfPlayer% (y)a sahibim\!
+grandchild.chat.good2=Vay\! O ger\u00e7ekten oldumu?
+grandchild.chat.good3=Onlar\u0131n hepsi ger\u00e7ekten oldumu?
+grandchild.chat.good4=Seninle muhabbet etmek her zaman keyiflidir.
+
+grandchild.follow.start1=Nereye gidiyoruz?
+grandchild.follow.start2=Bana o creeperi \u00f6ld\u00fcrd\u00fc\u011f\u00fcn yeri g\u00f6stermeni istiyorum.
+grandchild.follow.start3=Tamam, gidelim\!
+
+grandchild.follow.stop1=Senin i\u00e7in beklerim, %RelationOfPlayer%.
+grandchild.follow.stop2=Senin i\u00e7in burada beklerim, %RelationOfPlayer%.
+grandchild.follow.stop3=Fazla uza\u011fa gitme, %RelationOfPlayer%.
+
+grandchild.gift.bad1=Bu \u015fey ne kadar eski acaba? Iyk\!
+grandchild.gift.bad2=Ta\u015f devrinden mi geldi bu?
+grandchild.gift.bad3=Ah... te\u015fekk\u00fcrler, san\u0131r\u0131m.
+
+grandchild.gift.great1=Bunun anlam\u0131 senin i\u00e7in b\u00fcy\u00fck olmal\u0131. Te\u015fekk\u00fcrler\!
+grandchild.gift.great2=Enee\! Ben bunu alabilir miyim ? Nolur nolur\!
+grandchild.gift.great3=Biliyordum, Bana g\u00fczel bir \u015feyler getirece\u011fini biliyordum\!
+
+grandchild.gift.regular1=Art\u0131k her zaman  %RelationOfPlayer% '\u0131n bana ne getirdi\u011fini g\u00f6sterece\u011fim\!
+grandchild.gift.regular2=Vay be\! Bu hariks\!
+grandchild.gift.regular3=Bana bir \u015feyler getirmene bay\u0131l\u0131yorum, %RelationOfPlayer%.
+
+grandchild.gift.small1=Hmm, bu harika\!
+grandchild.gift.small2=Bunu sevdim \!
+grandchild.gift.small3=Te\u015fekk\u00fcr ederim, %RelationOfPlayer%\!
+grandchild.gift.small4=Bu \u00e7ok haval\u0131 lan, %RelationOfPlayer%.
+
+grandchild.greeting.basic1=Merhaba, %RelationOfPlayer%.
+grandchild.greeting.basic2=Seni uzun zamand\u0131r g\u00f6rmedim, %RelationOfPlayer%.
+
+grandchild.greeting.friend1=Hey, bu %RelationOfPlayer%\!
+grandchild.greeting.friend2=Hey millet, benim %RelationOfPlayer% gelmi\u015f\!
+
+grandchild.greeting.hate1=*Homurdanma*
+grandchild.greeting.hate2=Ay yine mi sen.
+grandchild.greeting.hate3=Sen benim favorim de\u011filsin , %RelationOfPlayer%.
+grandchild.greeting.hate4=Anne\! %RelationOfPlayer% geldi...
+
+grandchild.hitbyplayer1=Ah\! Ac\u0131d\u0131 piskopat\!
+grandchild.hitbyplayer2=Durdur \u015funu\!
+grandchild.hitbyplayer3=\u00c7ok sert oynuyorsun\!
+grandchild.hitbyplayer4=Neden bana vuruyorsun, %RelationOfPlayer% ?
+
+grandchild.gifted.baby1=Hala bebek yapabiliyomusun\!?
+grandchild.gifted.baby2=O...Senin mi?
+
+grandchild.joke.bad1=Bu ger\u00e7ekten k\u00f6t\u00fcyd\u00fc...
+grandchild.joke.bad2=Ne???
+grandchild.joke.bad3=Belki bu \u00f6nceden komikti, Ama \u015fu an hi\u00e7 de \u00f6yle de\u011fil.
+grandchild.joke.bad4=Eski \u015fakalar\u0131n zevkli de\u011fil.
+
+grandchild.joke.good1=Her zaman , herkese benim %RelationOfPlayer% 'n\u0131n nas\u0131l e\u011flenceli oldu\u011funu anlatt\u0131m\!
+grandchild.joke.good2=Sen bir de bunu benim arkada\u015f\u0131ma s\u00f6ylemelisin\!
+grandchild.joke.good3=Bu ger\u00e7ekten komikti, %RelationOfPlayer%\!
+grandchild.joke.good4=Benim %RelationOfPlayer% her zaman \u00e7ok komik\!
+
+grandchild.greeting.handshake.good1=So you're my %RelationOfPlayer%?
+grandchild.greeting.handshake.good2=Tan\u0131\u015ft\u0131\u011f\u0131ma memnun oldum. Sen benim %RelationOfPlayer%'sin, de\u011fil mi?
+grandchild.greeting.handshake.good3=Selam, benim %RelationToPlayer%'im oldu\u011funu biliyor muydun? Ben bilmiyordum.
+grandchild.greeting.handshake.good4=Selam, %RelationOfPlayer%.
+grandchild.greeting.handshake.good5=Bana bir \u015fey mi getirdin?\!
+
+grandchild.greeting.handshake.bad1=...Tokala\u015fma?
+grandchild.greeting.handshake.bad2=Torunlar\u0131nlar\u0131nla toka\u015fal\u0131yor musun?
+grandchild.greeting.handshake.bad3=\u0130yk\! Sen ya\u015fl\u0131s\u0131n\!
+grandchild.greeting.handshake.bad4=Ellerin k\u0131r\u0131\u015f\u0131k\!
+grandchild.greeting.handshake.bad5=Ouch\! Why did you squeeze so hard?
+
+grandchild.greeting.highfive.good1=Evet\! Bir daha\!
+grandchild.greeting.highfive.good2=Bir daha, bir daha\!
+grandchild.greeting.highfive.good3=Bir daha yap\!
+grandchild.greeting.highfive.good4=Bir daha yapar m\u0131s\u0131n?
+grandchild.greeting.highfive.good5=Bir daha\!
+
+grandchild.greeting.highfive.bad1=Ellerim ac\u0131yor.
+grandchild.greeting.highfive.bad2=Ac\u0131tmaya ba\u015flad\u0131\!
+grandchild.greeting.highfive.bad3=Dur\!
+grandchild.greeting.highfive.bad4=S\u0131k\u0131c\u0131 olmaya ba\u015flad\u0131.
+grandchild.greeting.highfive.bad5=Tamam, \u015fimdi ellerim ac\u0131yor.
+
+grandchild.tellstory.good1=\u0130yi ki gardiyanlar\u0131m\u0131z var\!
+grandchild.tellstory.good2=Vov, bunu ger\u00e7ekten yapt\u0131n m\u0131?
+grandchild.tellstory.good3=Sonra iskelet ne yapt\u0131?
+grandchild.tellstory.good4=Sen benim kahraman\u0131ms\u0131n\!
+grandchild.tellstory.good5=Can you take me mining like that?
+
+grandchild.tellstory.bad1=Sana inanm\u0131yorum.
+grandchild.tellstory.bad2=Ailem s\u00f6ylenen her s\u00f6ze inanmamam\u0131 s\u00f6yledi.
+grandchild.tellstory.bad3=Elbette.
+grandchild.tellstory.bad4=Art\u0131k senin etraf\u0131nda olmak istemiyorum...
+grandchild.tellstory.bad5=\u015eimdi eve gitsem iyi olacak.
+
+grandchild.play.good1=Oleeeyy bu \u00e7ok e\u011flenceli\!
+grandchild.play.good2=Seninle vakit ge\u00e7irmeyi seviyorum\!
+grandchild.play.good3=En iyisi sensin\!
+grandchild.play.good4=Hadi oynayal\u0131m\!
+grandchild.play.good5=Seni mahvedece\u011fim\!
+
+grandchild.play.bad1=Tekrar?
+grandchild.play.bad2=Bunu yapmak i\u00e7in \u00e7ok ya\u015fl\u0131s\u0131n.
+grandchild.play.bad3=\u0130yi oynam\u0131yorsun.
+grandchild.play.bad4=Sadece git sen hayvanlar\u0131nla oyna.
+grandchild.play.bad5=Sebze yemeyi tercih ederim.
+
+#######
+# Villager Child Dialogue
+##############################
+
+villagerchild.chat.bad1=\u00dczg\u00fcn\u00fcm, annem yabanc\u0131larla konu\u015fmama izin vermiyor\!
+villagerchild.chat.bad2=Kimsin? Sen aptal bakmak.
+villagerchild.chat.bad3=Sen ile konu\u015fmak istemiyorum. Sen Korkutucusun\!
+
+villagerchild.chat.good1=Wow\!Sen Harikas\u0131n\!
+villagerchild.chat.good2=Sen S\u00fcper Kahramana Benziyorsun\!
+villagerchild.chat.good3=Sen Macerac\u0131m\u0131s\u0131n? Bu \u00c7ok Haval\u0131\!
+villagerchild.chat.good4=Senin Hikayelerini Be\u011fendim,Bana Anlat,Bana Anlat\!
+
+villagerchild.follow.start1=Tamam, ama evden \u00e7ok uzakla\u015fmak istemiyorum\!
+villagerchild.follow.start2=Aww.. Burda kalmak istiyordum...
+villagerchild.follow.start3=Nereye gidiyoruz? Maceraya m\u0131?
+
+villagerchild.follow.stop1=G\u00fczel. K\u0131\u00e7\u0131na bakmaktan yorulmu\u015ftum\!
+villagerchild.follow.stop2=Herkes nerede?
+villagerchild.follow.stop3=Beni burda yaln\u0131z b\u0131rakma\!
+
+villagerchild.gift.bad1=Ahi bu \u00e7\u00f6p\! \u0130stemiyorum.
+villagerchild.gift.bad2=Bunu atabilir miyim? \u0130stemiyorum.
+villagerchild.gift.bad3=Bana bunu niye veriyorsun, %PlayerName%? Hi\u00e7 sevmedim\!
+
+villagerchild.gift.great1=Voov\! Bunu bana verir misin? O\! \u00c7ok te\u015fekk\u00fcr ederim bunu babama g\u00f6sterece\u011fim\!
+villagerchild.gift.great2=Bu g\u00fczel hediye i\u00e7in te\u015fekk\u00fcr ederim\!
+villagerchild.gift.great3=Bu t\u00fcm zamanlar\u0131n en iyi hediyesi\! Te\u015fekk\u00fcr ederim\!
+
+villagerchild.gift.regular1=Te\u015fekk\u00fcr ederim\!
+villagerchild.gift.regular2=Vooo \u00e7ok g\u00fczel\! Te\u015fekk\u00fcrler\!
+villagerchild.gift.regular3=Hediye i\u00e7in te\u015fekk\u00fcr ederim\!
+
+villagerchild.gift.small1=Te\u015fekk\u00fcrler\!
+villagerchild.gift.small2=\u00c7ok te\u015fekk\u00fcr ederim\!
+villagerchild.gift.small3=Bunu yiyebilir miyim?
+villagerchild.gift.small4=Benim i\u00e7in mi?Oh,te\u015fekk\u00fcr ederim\!
+
+villagerchild.greeting.basic1=Sen kimsin?
+villagerchild.greeting.basic2=Komik g\u00f6z\u00fck\u00fcyorsun.
+
+villagerchild.greeting.friend1=Hey\!Sen dostumsun\!
+villagerchild.greeting.friend2=Oynamak ister misin?
+
+villagerchild.greeting.hate1=Seni sevmiyorum.
+villagerchild.greeting.hate2=Seni hat\u0131rl\u0131yorum\! Bana vurdun\!
+villagerchild.greeting.hate3=Hay\u0131r\! Benden uzak dur\!
+villagerchild.greeting.hate4=Babam sana uzak durman\u0131 s\u00f6yledi.
+
+villagerchild.hitbyplayer1=Ow\! Anne\! %PlayerName% bana vuruyor\!
+villagerchild.hitbyplayer2=Bana vurma, ac\u0131t\u0131yorsun\!
+villagerchild.hitbyplayer3=Hay\u0131r, can\u0131m\u0131 ac\u0131tma\! L\u00fctfen\!
+villagerchild.hitbyplayer4=Anne\! Baba\! Ah\!
+
+villagerchild.gifted.baby1=Aw... \u00c7ok \u015feker ama kokuyor\!
+villagerchild.gifted.baby2=Neden bu kokuyor?
+villagerchild.gifted.baby3=Bunu ta\u015f\u0131mak istemiyorum\!
+
+villagerchild.joke.bad1=Sersem birisin.
+villagerchild.joke.bad2=Komik de\u011fil.
+villagerchild.joke.bad3=Hi\u00e7 komik de\u011fil\!
+villagerchild.joke.bad4=Bana hakaret etme\!
+villagerchild.joke.bad5=Anne\! %PlayerName% k\u00f6t\u00fc kelimeler kullan\u0131yor\!
+
+villagerchild.joke.good1=Haha\! \u00c7ok komiksin\!
+villagerchild.joke.good2=\u015eakalar\u0131n\u0131 \u00e7ok seviyorum\!
+villagerchild.joke.good3=Bu \u00e7ok iyiydi\! Bunu arkada\u015flar\u0131ma s\u00f6yleyece\u011fim\!
+villagerchild.joke.good4=Bu komik surat\u0131 nas\u0131 yapt\u0131n? Yeniden yapar m\u0131s\u0131n\!
+
+villagerchild.play.good1=Anne ve Baba bunu yapabilmek i\u00e7in asla zaman\u0131 olmaz\!
+villagerchild.play.good2=Oley\! Arkada\u015f\u0131m olurmusun?
+villagerchild.play.good3=Biraz yenebilirmiyim?
+villagerchild.play.good4=Sonsuza kadar oynayal\u0131m\!
+villagerchild.play.good5=Hadi biraz e\u011flenelim\!
+
+villagerchild.play.bad1=Sen kimsin?
+villagerchild.play.bad2=Annem bana yabanc\u0131larla oynama dedi.
+villagerchild.play.bad3=Babam bana tepeyi ge\u00e7er\u00e7en yard\u0131m edice\u011fini s\u00f6yledi.
+villagerchild.play.bad4=Hay\u0131r, Sorun de\u011fil.
+villagerchild.play.bad5=Git kendi \u00e7ocu\u011funla oyna.
+
+villagerchild.tellstory.good1=Senin \u00e7ocu\u011fun olmay\u0131 isterdim...
+villagerchild.tellstory.good2=Can I go pet the squid too?\!
+villagerchild.tellstory.good3=Wow, can you take me to the Nether?\!
+villagerchild.tellstory.good4=Why can't you tell me what happens after you feed them?
+villagerchild.tellstory.good5=I'm going to start my own club like you did\!
+
+villagerchild.tellstory.bad1=You're not a good person are you?
+villagerchild.tellstory.bad2=I think I hear my mommy calling me for dinner.
+villagerchild.tellstory.bad3=Anne ve babam \u00f6lecek mi?\!
+villagerchild.tellstory.bad4=Git burdan.
+villagerchild.tellstory.bad5=Hikayelerin s\u0131k\u0131c\u0131.
+
+#######
+# Adult Dialogue
+##############################
+
+playerchild.adult.chat.bad1=Anlat\u0131cak farkl\u0131 bi hikayen yok mu ?
+playerchild.adult.chat.bad2=Me\u015fgul\u00fcm...
+playerchild.adult.chat.bad3=Sonra konu\u015fsak olmaz m\u0131?
+playerchild.adult.chat.bad4=Evet.
+playerchild.adult.chat.bad5=H\u0131h\u0131 evet.
+playerchild.adult.chat.bad6=Tamam.
+playerchild.adult.chat.bad7=Tamam oz aman.
+playerchild.adult.chat.bad8=\u00c7ok ilgin\u00e7...
+playerchild.adult.chat.bad9=*G\u00f6zlerini \u00e7evirir*
+playerchild.adult.chat.bad10=%ParentOpposite% bana onun hakkinda yalan soyledigini soyledi.
+playerchild.adult.chat.bad11=Konuyu de\u011fi\u015ftirelim, tamam'm\u0131?
+playerchild.adult.chat.bad12=Peki.. Bu.. Tuhaf..
+playerchild.adult.chat.bad13=Emmm.. Tabiki..
+playerchild.adult.chat.bad14=Bu kadar mi?
+playerchild.adult.chat.bad15=Belki sonra.
+playerchild.adult.chat.bad16=Suan konusamam.
+playerchild.adult.chat.bad17=Aman tanr\u0131m,L\u00fctfen beni yanl\u0131z b\u0131rak\!
+playerchild.adult.chat.bad18=Tek duydu\u011fum \u015fey "blah,blah,blah".
+
+playerchild.adult.chat.good1=*Dikkatlice dinler*
+playerchild.adult.chat.good2=Evet, avlanmaya gitmeliyiz.
+playerchild.adult.chat.good3=Hadi biraz malzeme toplayalim, veya kazalim, yada baska birsey\! 
+playerchild.adult.chat.good4=Birdahaki sefere benide goturmelisin.
+playerchild.adult.chat.good5=Ne zaman kendi evim olucak ?
+playerchild.adult.chat.good6=Birg\u00fcn, kendi evim olucak.
+playerchild.adult.chat.good7=Kendi evimi almak i\u00e7in sab\u0131rs\u0131zlan\u0131yorum\!
+playerchild.adult.chat.good8=Hadi biraz tarla ekelim yada bir\u015feyler yapal\u0131m\!
+playerchild.adult.chat.good9=Haydi bir yerlere gidelim\!
+playerchild.adult.chat.good10=Ah\! Bu guzel bir hikaye\!
+playerchild.adult.chat.good11=Evet, Iyiyim.
+playerchild.adult.chat.good12=Bunu yaymamalisin ama guzel bir hikaye.
+playerchild.adult.chat.good13=Bolunmus ekmekten sonraki en iyi sey bu\!
+
+playerchild.adult.chore.start.farming1=Evet,%CallPlayerParent%.
+playerchild.adult.chore.start.farming2=Ugh. Tamam, %CallPlayerParent%.
+playerchild.adult.chore.start.farming3=Tabiki. Bunu yapabilirim, %CallPlayerParent%.
+playerchild.adult.chore.start.farming4=Tar\u0131m m\u0131? Tamam, yapaca\u011f\u0131m.
+playerchild.adult.chore.start.farming5=Hadi ama\! Cocuk iken yapmak zorunda degildin\!
+playerchild.adult.chore.start.farming6=Bana yard\u0131m edermisin, %CallPlayerParent%?
+playerchild.adult.chore.start.farming7=Eger yaptigim ekmegi satarsak, 50% sini alacak miyim?
+
+playerchild.adult.chore.start.fishing1=Bal\u0131k\u00e7\u0131l\u0131k seviyorum. Tamam.
+playerchild.adult.chore.start.fishing2=Senden daha fazla yakalayicagima iddaya girerim\!
+playerchild.adult.chore.start.fishing3=Rekorumu kirmaya calisacagim bu sefer.
+playerchild.adult.chore.start.fishing4=Oh. Bir kere daha benim masaya yemek koymam lazim.
+playerchild.adult.chore.start.fishing5=Evet, Tamam.
+playerchild.adult.chore.start.fishing6=Guzel\! Baliga gitmeye bayilirim, %CallPlayerParent%\!
+playerchild.adult.chore.start.fishing7=Bolca balik yakalayacagimdan eminim, sadece izle\!
+playerchild.adult.chore.start.fishing8=Tamamdir\! Elimden geldigi kadar balik yakaliyacagim.
+playerchild.adult.chore.start.fishing9=\u0130yi bal\u0131k tutar\u0131m\! G\u00f6r\u00fcceksin.
+playerchild.adult.chore.start.fishing10=Gel buraya balikcik...
+playerchild.adult.chore.start.fishing11=Umarim yeni kiyafetlerimi islatmam.
+
+playerchild.adult.chore.start.mining1=K\u00f6m\u00fcr tozu zehirli de\u011fil, yada \u00f6ylemi?
+playerchild.adult.chore.start.mining2=Umarim  bu sefer kazmam kirilmaz.
+playerchild.adult.chore.start.mining3=Senen daha fazla elmas bulaca\u011f\u0131m, sadece izle\!
+
+playerchild.adult.chore.start.woodcutting1=Hala su agac evini istiyorum, bildigin gibi.
+playerchild.adult.chore.start.woodcutting2=Hic agaclarin neden havada durdugunu merak ettin mi?
+playerchild.adult.chore.start.woodcutting3=Baltami sivrilestirip hemen baslarim.
+playerchild.adult.chore.start.woodcutting4=Kendi evimi mi yaptiriyorsun bana?
+
+playerchild.adult.chore.start.hunting1=Sana on domuz ile geri d\u00f6nece\u011fim\!
+playerchild.adult.chore.start.hunting2=Bu e\u011flenceli olucak.
+playerchild.adult.chore.start.hunting3=Yak\u0131nda d\u00f6nece\u011fim.
+playerchild.adult.chore.start.hunting4=Beni g\u00f6nderme nedenin, senden daha iyi bir avc\u0131 olmam, de\u011fil mi?
+
+playerchild.adult.chore.stop1=Hi\u00e7bir zaman durmama izin vermeyece\u011fini d\u00fc\u015f\u00fcnm\u00fc\u015ft\u00fcm.
+playerchild.adult.chore.stop2=\u00c7ok yoruldum...
+playerchild.adult.chore.stop3=Sonunda. S\u0131k\u0131lmaya ba\u015flam\u0131\u015ft\u0131m.
+playerchild.adult.chore.stop4=Sonunda. Yorulmaya ba\u015flam\u0131\u015ft\u0131m.
+playerchild.adult.chore.stop5=Beni birdaha bunu yapmaya zorlama\!
+playerchild.adult.chore.stop6=\u015eeref duyar\u0131m\!
+playerchild.adult.chore.stop7=Tesekkur ederim, onu yapmaktan hep nefret etmisimdir\!
+playerchild.adult.chore.stop8=Ah... Sonunda isim bitti\!
+playerchild.adult.chore.stop9=Sanirim biraz dinlenecegim.
+playerchild.adult.chore.stop10=\u00c7al\u0131\u015fmay\u0131 bitiririm o zaman.
+playerchild.adult.chore.stop11=Bitti\u011fine sevindim\!
+playerchild.adult.chore.stop12=Senin kirli isini yaptim. Simdi eglenceli birsey yapiyorum.
+
+playerchild.adult.follow.start1=Tamam, nereye gidiyoruz?
+playerchild.adult.follow.start2=Bu yaratiklari birlikte mi avliyoruz, %CallPlayerParent%?
+playerchild.adult.follow.start3=Umar\u0131m bir creeper g\u00f6r\u00fcyorum\!
+playerchild.adult.follow.start4=Umarim tasinmiyoruz. Burayi sevdim.
+playerchild.adult.follow.start5=Sonunda\! Buradan \u00e7\u0131kal\u0131m\!
+playerchild.adult.follow.start6=Geri gelecek miyiz?
+playerchild.adult.follow.start7=Ben bir yerlere gitmek istmemi\u015ftim...
+playerchild.adult.follow.start8=Tamam o zaman ,hadi gidelim.
+playerchild.adult.follow.start9=Haydi gidelim\!
+playerchild.adult.follow.start10=Haydin gidik\!
+playerchild.adult.follow.start11=G\u00f6rmek istedi\u011fim o kadar \u00e7ok \u015fey var ki\!
+playerchild.adult.follow.start12=Umar\u0131m bi ka\u00e7 yarat\u0131k g\u00f6r\u00fcr\u00fcm.
+playerchild.adult.follow.start13=Umuar\u0131m bu bir tuzak de\u011fildir...
+playerchild.adult.follow.start14=\u00d6r\u00fcmcek yakalamak istiyorum\!
+
+playerchild.adult.follow.stop1=Burda bekleyece\u011fim, %CallPlayerParent%.
+playerchild.adult.follow.stop2=Buray\u0131 sevdim. Bir s\u00fcre burada dural\u0131m.
+playerchild.adult.follow.stop3=Buralardayim.
+playerchild.adult.follow.stop4=\u00c7ok uza\u011fa gitme...
+playerchild.adult.follow.stop5=Bir\u015fey duyuyorum. Dikkatli ol.
+playerchild.adult.follow.stop6=Kendine Dikkat et, %CallPlayerParent%\!
+playerchild.adult.follow.stop7=Beni burda \u00e7ok bekletme\!
+playerchild.adult.follow.stop8=Elin silah\u0131nda olsun. Tek ba\u015f\u0131nayken tehlike kol geziyor.
+playerchild.adult.follow.stop9=Creeperlara bak\!
+playerchild.adult.follow.stop10=Bu \u00e7ok can s\u0131k\u0131c\u0131.
+playerchild.adult.follow.stop11=Seninle birlikte gelemem mi? Korkuyorum.
+
+playerchild.adult.gift.bad1=Vov\! %CallPlayerParent%\! Az \u00f6nce ne buldu\u011funu biliyo musun? Ben de bilmiyorum.
+playerchild.adult.gift.bad2=Bu \u00f6nemsiz oldu\u011funu.
+playerchild.adult.gift.bad3=Hay\u0131r, te\u015fekk\u00fcrler.
+playerchild.adult.gift.bad4=Kendi pisli\u011fini uza\u011fa at\!
+playerchild.adult.gift.bad5=Ara sira yemek yemege ne dersin?
+playerchild.adult.gift.bad6=Ni\u00e7in-cekti \u0131 istemek bu?
+playerchild.adult.gift.bad7=Bu... Hay\u0131r. Sadece HAYIR\!
+playerchild.adult.gift.bad8=Bunu bana neden veriyorsun ki?
+playerchild.adult.gift.bad9=Bunu saklamam, kesinlikle hay\u0131r.
+playerchild.adult.gift.bad10=Bunu lava atmaya emin olurum.
+playerchild.adult.gift.bad11=Disarida cop kutusu goruyor musun?
+playerchild.adult.gift.bad12=Ahhh. Yine mi? Bidahaki sefere istek listesi alacagindan emin olacagim.
+
+playerchild.adult.gift.great1=Ah... ben suskun\!
+playerchild.adult.gift.great2=\u00e7ok \u00e7ok te\u015fekk\u00fcr ederim\!
+playerchild.adult.gift.great3=Bu haval\u0131 oldu\u011funu\!
+playerchild.adult.gift.great4=Bunu nas\u0131l kar\u015f\u0131l\u0131yacaks\u0131n\!?
+
+playerchild.adult.gift.regular1=\u00c7ok te\u015fekk\u00fcr ederim\!
+playerchild.adult.gift.regular2=Bu muhte\u015fem\!
+playerchild.adult.gift.regular3=Cok minnettar oldugumu bilmeni isterim\!
+
+playerchild.adult.gift.small1=Bunu nereden buldun? Tesekkurler\!
+playerchild.adult.gift.small2=Ah, tesekkurler %CallPlayerParent%\!
+playerchild.adult.gift.small3=Onu...Yiyebilirmiyim?
+playerchild.adult.gift.small4=Bundan kurtulmak icin bana vermedin, degil mi?
+playerchild.adult.gift.small5=Vay be, benim icin bir hediye\!
+playerchild.adult.gift.small6=Guzel\! Tesekkurler, %CallPlayerParent%.
+playerchild.adult.gift.small7=Guzel gorunuyor, ve... lezzetli?
+
+playerchild.adult.greeting.basic1=Hey, %CallPlayerParent%\!
+playerchild.adult.greeting.basic2=Geri d\u00f6nd\u00fcn,%CallPlayerParent%.
+
+playerchild.adult.greeting.friend1=Hey, %CallPlayerParent%\!
+playerchild.adult.greeting.friend2=Geri d\u00f6nd\u00fcn,%CallPlayerParent%.
+
+playerchild.adult.greeting.hate1=...
+playerchild.adult.greeting.hate2=Burada ne isin var, %CallPlayerParent%?
+playerchild.adult.greeting.hate3=Sana benden uzak durmani soylemistim\!
+playerchild.adult.greeting.hate4=\u00d6z\u00fcr dilemeye mi geldin?
+playerchild.adult.greeting.hate5=Beni gardiyanlar\u0131 \u00e7a\u011f\u0131rmaya zorlama.
+
+playerchild.adult.hitbyplayer1=Durdur \u015funu\!
+playerchild.adult.hitbyplayer2=Suan seni pataklaya bilirim\!
+playerchild.adult.hitbyplayer3=Ahh\! %CallPlayerParent%\! Bana vurmayi kes\!
+playerchild.adult.hitbyplayer4=Bu kotu acitiyor\!
+playerchild.adult.hitbyplayer5=Sakinle\u015f ve bana vurmay\u0131 b\u0131rak\!
+playerchild.adult.hitbyplayer6=Ben yumruk torbas\u0131 de\u011filim\!
+playerchild.adult.hitbyplayer7=Bana vurman problemlerini cozmez\!
+playerchild.adult.hitbyplayer8=Ah\! Bu ne icindi?\!
+playerchild.adult.hitbyplayer9=Bu normal de\u011fil\!
+playerchild.adult.hitbyplayer10=Sakin ol\!
+playerchild.adult.hitbyplayer11=Ouch\!
+playerchild.adult.hitbyplayer12=Bunu niye yapt\u0131n?\!
+
+playerchild.adult.gifted.baby1=Onu ta\u015f\u0131mak istemiyorum\! 
+playerchild.adult.gifted.baby2=Bebeklerden nefret ediyorum\!
+playerchild.adult.gifted.baby3=Ew\! Kokuyor\!
+playerchild.adult.gifted.baby4=Evet,evet,bu \u00e7ok tatl\u0131.
+playerchild.adult.gifted.baby5=Yapacak ba\u015fka i\u015flerim var\!
+
+playerchild.adult.joke.bad1=Bu gercekten yaslaniyor.
+playerchild.adult.joke.bad2=Bu sadece sa\u00e7mayd\u0131.
+playerchild.adult.joke.bad3=...Ne?
+playerchild.adult.joke.bad4=Onun hakkinda saka yapma\! HALA tranvadayim\!
+playerchild.adult.joke.bad5=Hala anliyamiyorum.
+playerchild.adult.joke.bad6=Hadi ama. Yine o degil.
+playerchild.adult.joke.bad7=Bunu yirmiden fazla duymusumdur\!
+playerchild.adult.joke.bad8=Ew, neden bunun hakkinda sakalasiyorsun?\!
+playerchild.adult.joke.bad9=Bu saka berbatti.
+playerchild.adult.joke.bad10=Ah, yeniden o. Komik.
+playerchild.adult.joke.bad11=Heralde %ParentOpposite% beni cagiriyor...
+playerchild.adult.joke.bad12=Yani, gercekten gidip ev isileri yapmaliyim.
+
+playerchild.adult.joke.good1=Onu hala hatirliyorum, %CallPlayerParent%. Haha\!
+playerchild.adult.joke.good2=O gercekten komikti\!
+playerchild.adult.joke.good3=*Kikirdama*
+playerchild.adult.joke.good4=\u015eakalar\u0131n her zaman iyi\!
+playerchild.adult.joke.good5=Iyi bir tane, %CallPlayerParent%\!
+playerchild.adult.joke.good6=Haha\! Bu cok komik\!
+playerchild.adult.joke.good7=Bu iyi bir tane\!
+
+playerchild.adult.greeting.handshake.good1=Hey, ne zamand\u0131r konu\u015fmuyorduk.
+playerchild.adult.greeting.handshake.good2=Hey, %CallPlayerParent%.
+playerchild.adult.greeting.handshake.good3=Seni yeniden g\u00f6rmek g\u00fczel, %CallPlayerParent%\!
+playerchild.adult.greeting.handshake.good4=Ah, %CallPlayerParent% sana anlatacak \u00e7ok \u015feyim var.
+playerchild.adult.greeting.handshake.good5=Hey, seni tekrar g\u00f6rmek \u00e7ok g\u00fczel.
+
+playerchild.adult.greeting.handshake.bad1=Neden bizi daha s\u0131k ziyaret etmiyorsun?
+playerchild.adult.greeting.handshake.bad2=This is the only contact we've had in forever, and you just shake my hand?\!
+playerchild.adult.greeting.handshake.bad3=Tokala\u015fmak istemiyorum.
+playerchild.adult.greeting.handshake.bad4=Ben \u015fey...me\u015fgul\u00fcm.
+playerchild.adult.greeting.handshake.bad5=\u00c7ok me\u015fgul\u00fcm - senin her zaman oldu\u011fun gibi.
+
+playerchild.adult.greeting.highfive.good1=Hala e\u011flenceli\!
+playerchild.adult.greeting.highfive.good2=*\u015eerefe*
+playerchild.adult.greeting.highfive.good3=Biz m\u00fcthi\u015fiz\!
+playerchild.adult.greeting.highfive.good4=Evet\! Bunu \u00f6zlemi\u015fim.
+playerchild.adult.greeting.highfive.good5=Biz en iyisiyiz\!
+
+playerchild.adult.greeting.highfive.bad1=Be\u015flik \u00e7akmak i\u00e7in \u00e7ok ya\u015fl\u0131y\u0131m.
+playerchild.adult.greeting.highfive.bad2=\u015eimdi de\u011fil, l\u00fctfen.
+playerchild.adult.greeting.highfive.bad3=Senle be\u015flik \u00e7akmak istemiyorum.
+playerchild.adult.greeting.highfive.bad4=Konu\u015fmak istiyorum, be\u015flik \u00e7akmak de\u011fil\!
+playerchild.adult.greeting.highfive.bad5=Neden benle art\u0131k konu\u015fm\u0131yorsun?
+
+playerchild.adult.tellstory.good1=*G\u00fcler* Bana k\u00fc\u00e7\u00fckl\u00fc\u011f\u00fcm\u00fc hat\u0131rlatt\u0131.
+playerchild.adult.tellstory.good2=Sen ve %ParentOpposite% birbirinizi \u00e7ok seviyordunuz, de\u011fil mi?
+playerchild.adult.tellstory.good3=E\u011flenceli g\u00f6r\u00fcn\u00fcyor\! Arada s\u0131rada denemeliyiz\!
+playerchild.adult.tellstory.good4=*G\u00fcler* Bu ailenin i\u00e7inde oldu\u011fum i\u00e7in \u00e7ok memnunum.
+playerchild.adult.tellstory.good5=Tavuklara ne yapt\u0131lar?
+
+playerchild.adult.tellstory.bad1=Um, bunu %ParentOpposite%'a/e s\u00f6yledin mi?
+playerchild.adult.tellstory.bad2=Onaylam\u0131yorum.
+playerchild.adult.tellstory.bad3=Bunu... hi\u00e7kimseye s\u00f6ylememelisin.
+playerchild.adult.tellstory.bad4=Bu hi\u00e7 de ho\u015f de\u011fildi.
+playerchild.adult.tellstory.bad5=Biliyorsun, bu bana %RandomName%'i hat\u0131rlat\u0131yor\!
+
+#######
+# Kid Dialogue
+##############################
+playerchild.young.chat.bad1=Konusmak istemiyorum. Beni yalniz birak\!
+playerchild.young.chat.bad2=%CallPlayerParent%, Mesgulum\!
+playerchild.young.chat.bad3=Shhhh\!
+playerchild.young.chat.bad4=S\u0131k\u0131c\u0131s\u0131n.
+playerchild.young.chat.bad5=*G\u00f6rmezden gelir*
+playerchild.young.chat.bad6=%ParentOpposite% bunu soylememeni temkinlemistim\!
+playerchild.young.chat.bad7=Me\u015fgulum\!
+playerchild.young.chat.bad8=Mesgul oldugumu gormuyor musun?\!
+playerchild.young.chat.bad9=Ben...*esneme*, kestirecegim.
+
+playerchild.young.chat.good1=*Dikkatlice dinler*
+playerchild.young.chat.good2=Bir dahaki sefere benide yaninda goturur musun, %CallPlayerParent%?
+playerchild.young.chat.good3=Ava gitmek istiyorum\!
+playerchild.young.chat.good4=Neden seninle gelemiyorum?
+playerchild.young.chat.good5=Birdahaki sefere gercekten gitmeyi istiyorum, lutfen?
+playerchild.young.chat.good6=Bu muthis, %CallPlayerParent%\! Bunu nasil yaptin?
+playerchild.young.chat.good7=Gercekten mi? Bu cok havali\!
+playerchild.young.chat.good8=Sen Dunya'nin en iyisisin %CallPlayerParent%\! Hayir, tum Evren'in\!
+
+playerchild.young.joke.bad1=A-aaa\! %CallPlayerParent% kotu bir kelime soyledi\!
+playerchild.young.joke.bad2=Bu aptalca.
+playerchild.young.joke.bad3=Sen buyuk bir budalasin. Anlamadim.
+playerchild.young.joke.bad4=Neden bunun hakkinda saka yapiyorsun? *Aglama*
+playerchild.young.joke.bad5=Benimle dalga gecmeyi birak\!
+playerchild.young.joke.bad6=%ParentOpposite% o kelimeyi kullanmamani soylemistim\!
+playerchild.young.joke.bad7=Bunu milyonlarca defa duymustum onceden, %CallPlayerParent%.
+playerchild.young.joke.bad8=Bu mantikli degil.
+
+playerchild.young.joke.good1=Sen komiksin, %CallPlayerParent%.
+playerchild.young.joke.good2=Ha ha\! Anladim\!
+playerchild.young.joke.good3=Bunu bir arkadasima soylecegim\!
+playerchild.young.joke.good4=Bu obur yirmisi gibi aptal degildi.
+playerchild.young.joke.good5=*kikirdar*
+playerchild.young.joke.good6=Bu komikti\!
+playerchild.young.joke.good7=Bunu hatirlamam lazim\!
+
+playerchild.young.chore.start.farming1=Evet,%CallPlayerParent%.
+playerchild.young.chore.start.farming2=Yasasin\! Ciftcilik yapmaya bayilirim.
+playerchild.young.chore.start.farming3=Hemen basliyorum.
+playerchild.young.chore.start.farming4=Sonunda bana bir is dustu.
+playerchild.young.chore.start.farming5=Tamam.\n
+playerchild.young.chore.start.farming6=Benden bunu yapmam\u0131 istemeni bekliyordum\!
+playerchild.young.chore.start.farming7=Umarim bu dogum gunu pastama gider.
+
+playerchild.young.chore.start.fishing1=Balik tutmak cok sikici.
+playerchild.young.chore.start.fishing2=Ama balik tutmak cok uzun suruyor\!
+playerchild.young.chore.start.fishing3=Nasil oldugunu bilmiyorum, Gercekten\!
+playerchild.young.chore.start.fishing4=Ama baliklar cok kotu kokuyor\!
+playerchild.young.chore.start.fishing5=Ama onlar zayif gibiler...
+playerchild.young.chore.start.fishing6=Islanmayi sevmem\!
+playerchild.young.chore.start.fishing7=Balik tutmak istemiyorum.\n
+playerchild.young.chore.start.fishing8=Neden hep balik tutuyoruz?
+
+playerchild.young.chore.start.mining1=Ne tarafa dogru kazmayi tutuyorduk?
+playerchild.young.chore.start.mining2=Eger bir daha lava dusersem %ParentOpposite% 'e soylegecegim.
+playerchild.young.chore.start.mining3=Yasasin\! Kazmaya bayilirim\!
+playerchild.young.chore.start.mining4=Umarim birkez daha bir iskelet beni vurmaz.
+playerchild.young.chore.start.mining5=Eger elmas bulursam, kendime saklayabilirim, tamam mi?
+
+playerchild.young.chore.start.woodcutting1=Agaclar, Agaclar, Agaclar, Agaclar...
+playerchild.young.chore.start.woodcutting2=Umar\u0131m biri daha \u00fcst\u00fcme d\u00fc\u015fmez\!
+playerchild.young.chore.start.woodcutting3=i\u015fimi bitirdikten sonra, bir a\u011fa\u00e7 ev yapabilir miyiz?
+playerchild.young.chore.start.woodcutting4=Odunu ne yapmak i\u00e7in kullan\u0131yorsun?
+
+playerchild.young.chore.start.hunting1=Pekala\! Avlanmay\u0131 seviyorum.
+playerchild.young.chore.start.hunting2=Umar\u0131m bir kurt beni tekrar \u0131s\u0131rmaz.
+playerchild.young.chore.start.hunting3=Ama ben \u00e7ok k\u00fc\u00e7\u00fc\u011f\u00fcm\! Ge\u00e7en sefer bir ine\u011fi geri getirmem saatlerimi alm\u0131\u015ft\u0131.
+
+playerchild.young.chore.stop1=*Bir rahatlama ile i\u00e7 \u00e7ekti*
+playerchild.young.chore.stop2=Asla durmama izin vermeyece\u011fini sanm\u0131\u015ft\u0131m.
+playerchild.young.chore.stop3=\u00c7ok yoruldum...
+playerchild.young.chore.stop4=Sonunda. S\u0131k\u0131lmaya ba\u015flam\u0131\u015ft\u0131m.
+playerchild.young.chore.stop5=Sonunda. Yorulmaya ba\u015flam\u0131\u015ft\u0131m.
+playerchild.young.chore.stop6=Beni birdaha bunu yapmaya zorlama\!
+
+playerchild.young.follow.start1=Tamam, nereye gidiyoruz?
+playerchild.young.follow.start2=Ya\u015fas\u0131n\! %CallPlayerParent% ile birlikte kalabilece\u011fim\!
+playerchild.young.follow.start3=Ya\u015fas\u0131n\! Seninle gelece\u011fim.
+playerchild.young.follow.start4=Ama gitmek istemiyorum\!
+playerchild.young.follow.start5=%ParentOpposite%' te geliyor mu?
+playerchild.young.follow.start6=Umar\u0131m bir domuz, veya bir inek, veya bir tavuk, veya bir koyun g\u00f6r\u00fcr\u00fcz\!
+playerchild.young.follow.start7=Ormana m\u0131 gidece\u011fiz? Ben yavru bir kedi g\u00f6rmek istiyorum.
+playerchild.young.follow.start8=Umar\u0131m \u00e7ok uzakla\u015fmay\u0131z...
+playerchild.young.follow.start9=Creeperlar beni korkutuyor, umar\u0131m hi\u00e7biri ile kar\u015f\u0131la\u015fmay\u0131z.
+
+playerchild.young.follow.stop1=Tamam. Burda bekleyece\u011fim.
+playerchild.young.follow.stop2=Beni \u00e7ok bekletme, tamam m\u0131?
+playerchild.young.follow.stop3=Ama buras\u0131 korkutucu...
+playerchild.young.follow.stop4=Hay\u0131r gitme %CallPlayerParent% \!
+playerchild.young.follow.stop5=Ama sesler duyuyorum...
+playerchild.young.follow.stop6=Peki, %CallPlayerParent%, sadece beni unutma.
+playerchild.young.follow.stop7=Ama... ya gece olursa?
+playerchild.young.follow.stop8=Yak\u0131nda d\u00f6necek misin?
+playerchild.young.follow.stop9=Beni burda b\u0131rakma\!
+
+playerchild.young.gift.bad1=Bunu ne i\u00e7in kullanabilirim\!?
+playerchild.young.gift.bad2=Bu koku\u015fmu\u015f.
+playerchild.young.gift.bad3=Bunlar\u0131 sevmedim.
+playerchild.young.gift.bad4=%CallPlayerParent%, neyi sevip, neyi sevmedi\u011fimi biliyorsun.
+playerchild.young.gift.bad5=Bana iyi bir \u015feyler getir.
+playerchild.young.gift.bad6=Bende bunlardan on milyon kadar var.
+playerchild.young.gift.bad7=Bu i\u015fe yaramaz bir \u00e7\u00f6p\!
+playerchild.young.gift.bad8=Hi\u00e7bir \u015fey almasam daha iyi\!
+playerchild.young.gift.bad9=ne??
+
+playerchild.young.gift.great1=Bunu nereden aldin, %CallPlayerParent%?
+playerchild.young.gift.great2=Bu benim icin mi?
+playerchild.young.gift.great3=Yasasinnnnnnnnnnnnnnnnnn\!
+playerchild.young.gift.great4=Hepsi benim mi\!?
+playerchild.young.gift.great5=%ParentOpposite% bunlara 'seksi' diyor.
+playerchild.young.gift.great6=%CallPlayerParent% sen en iyisisin\!
+
+playerchild.young.gift.regular1=Umarim daha fazla alirim\!
+playerchild.young.gift.regular2=Bu benim icin mi?
+playerchild.young.gift.regular3=Bana iki tane aldin, degil mi?
+playerchild.young.gift.regular4=Benim icin mi?\!
+
+playerchild.young.gift.small1=Bunu nereden aldin, %CallPlayerParent%?
+playerchild.young.gift.small2=Ooooh, parlak\!
+playerchild.young.gift.small3=Hediyeler\!Ben her zaman hediyeleri severim\!
+playerchild.young.gift.small4=Ho\u015fuma gitti, %CallPlayerParent%.
+playerchild.young.gift.small5=Te\u015fekk\u00fcrler, %CallPlayerParent%.
+
+playerchild.young.greeting.basic1=Merhaba, %CallPlayerParent%.
+playerchild.young.greeting.basic2=Ew, %CallPlayerParent%, kokuyorsun. Neredeydin?
+playerchild.young.greeting.basic3=Yasasin\! %CallPlayerParent% evde\!
+playerchild.young.greeting.basic4=Yasasin, %CallPlayerParent%\! Bana herhangi birsey getirdin mi?
+
+playerchild.young.greeting.friend1=Yay\! %CallPlayerParent% %CallPlayerParent% %CallPlayerParent%\!\!\!
+playerchild.young.greeting.friend2=Sen bana bir hediye getirdin, de\u011fil mi?
+playerchild.young.greeting.friend3=%CallPlayerParent%, Seni \u00f6zledim.
+playerchild.young.greeting.friend4=Bana nerede kald\u0131\u011f\u0131n\u0131 ilgili hikayeler anlat\!
+playerchild.young.greeting.friend5=%CallPlayerParent%, bir daha gitme. %ParentOpposite% 'i uzuyor.
+
+playerchild.young.greeting.hate1=Lutfen bir daha beni incitme %CallPlayerParent%.
+playerchild.young.greeting.hate2=%CallPlayerParent%, bundan sonra bana daha iyi davranicak misin?
+playerchild.young.greeting.hate3=Se...selam...%CallPlayerParent%
+playerchild.young.greeting.hate4=*Korkuya kap\u0131l\u0131r*
+playerchild.young.greeting.hate5=Bugun iyi olurum, %CallPlayerParent%...vurma bana.
+
+playerchild.young.hitbyplayer1=Ah\! Seni %ParentOpposite% 'e sikayet ederim\!
+playerchild.young.hitbyplayer2=%CallPlayerParent%, bana vurmayi kes\!
+playerchild.young.hitbyplayer3=%CallPlayerParent%, bu acitti\!
+playerchild.young.hitbyplayer4=Ah\! Sna ne yaptim, %CallPlayerParent%?
+playerchild.young.hitbyplayer5=Ahh\!
+playerchild.young.hitbyplayer6=Ouch\!
+playerchild.young.hitbyplayer7=Seni %ParentOpposite% 'e sikayet edicegim\!
+
+playerchild.young.gifted.baby1=Ew\! Bu kokusmus\!
+
+playerchild.young.tellstory.good1=Bunun i\u00e7in bir tokat m\u0131 yedin?
+playerchild.young.tellstory.good2=Bunu yapmak istiyorum\!
+playerchild.young.tellstory.good3=Bunu duyduktan sonra sana asla itaat etmeyece\u011fim\!
+playerchild.young.tellstory.good4=*G\u00fcler* Bunu %ParentOpposite% mi/m\u0131/mu yapt\u0131?
+playerchild.young.tellstory.good5=Bunu yapt\u0131\u011f\u0131na inanam\u0131yorum\!
+
+playerchild.young.tellstory.bad1=*A\u011flar* Neden b\u00f6yle bir \u015fey yapars\u0131n?
+playerchild.young.tellstory.bad2=I'm telling %RandomName% you said that.
+playerchild.young.tellstory.bad3=Yeah, yeah, whatever. I don't want to hear any stories right now.
+playerchild.young.tellstory.bad4=Creeper beni de alacak m\u0131?\!
+playerchild.young.tellstory.bad5=*a\u011flar* %ParentOpposite%'in/\u0131n zombiye d\u00f6n\u00fc\u015fmesini istemiyorum\!
+
+playerchild.young.play.good1=Beni yakalayamazs\u0131n\!
+playerchild.young.play.good2=Benimle oynaman\u0131 seviyorum, %CallPlayerParent%.
+playerchild.young.play.good3=Kazanaca\u011f\u0131m\!
+playerchild.young.play.good4=E\u011flenceli olacak\!
+playerchild.young.play.good5=Beni asla yenemezsin\!
+
+playerchild.young.play.bad1=Hi\u00e7 kazanmama izin vermiyorsun.
+playerchild.young.play.bad2=Senin \u00e7al\u0131\u015fmaya ihtiyac\u0131n var ama benim yok.
+playerchild.young.play.bad3=Bunun i\u00e7in \u00e7ok ya\u015fl\u0131y\u0131m.
+playerchild.young.play.bad4=Neden favori \u00e7ocu\u011funla oynam\u0131yorsun?
+playerchild.young.play.bad5=Sadece %RandomName% ile oynamak istiyorum.
+
+playerchild.young.greeting.handshake.good1=Merhaba, %CallPlayerParent%.
+playerchild.young.greeting.handshake.good2=Bug\u00fcn nereye gittin?
+playerchild.young.greeting.handshake.good3=Bana maceralar\u0131ndan bahset.
+playerchild.young.greeting.handshake.good4=Geri d\u00f6nd\u00fcn. Ne yap\u0131yordun?
+playerchild.young.greeting.handshake.good5=Hadi bir \u015feyler yapal\u0131m\!
+
+playerchild.young.greeting.handshake.bad1=...Neden tokala\u015f\u0131yoruz?
+playerchild.young.greeting.handshake.bad2=Ellerin terli ve i\u011fren\u00e7.
+playerchild.young.greeting.handshake.bad3=\u0130yk, bana dokunma\!
+playerchild.young.greeting.handshake.bad4=Tokala\u015fmak istemiyorum\!
+playerchild.young.greeting.handshake.bad5=Neden elimi s\u0131k\u0131p duruyorsun da, niye benimle konu\u015fmuyorsun?
+
+playerchild.young.greeting.highfive.good1=Yine yapacak m\u0131s\u0131n?
+playerchild.young.greeting.highfive.good2=Bu e\u011flenceli\!
+playerchild.young.greeting.highfive.good3=*G\u00fcler*
+playerchild.young.greeting.highfive.good4=Bir daha \u00e7ak\!
+playerchild.young.greeting.highfive.good5=L\u00fctfen, bir kez daha\!
+
+playerchild.young.greeting.highfive.bad1=Bundan s\u0131k\u0131ld\u0131m.
+playerchild.young.greeting.highfive.bad2=Ba\u015fka bir \u015fey yapabiliyor musun?
+playerchild.young.greeting.highfive.bad3=Sana yeti\u015femiyorum, enayi\!
+playerchild.young.greeting.highfive.bad4=Art\u0131k \u00e7akmak istemiyorum.
+playerchild.young.greeting.highfive.bad5=Bu rahats\u0131z edici olmaya ba\u015flad\u0131.
+
+#######
+# Spouse Dialogue
+##############################
+spouse.chat.bad1=Bu hikayeyi daha once duymustum.
+spouse.chat.bad2=Ayni sey hakkinda konusmaktan sikildim.
+spouse.chat.bad3=Konu\u015fcak daha iyi bir\u015feyin yok mu?
+spouse.chat.bad4=Bunun hakkinda konusmak istemiyorum.
+spouse.chat.bad5=Ne dersen o.
+spouse.chat.bad6=Bana soylemek istedigin baska birsey var mi?
+
+spouse.chat.good1=Bana maceralarini anlatmana bayiliyorum.
+spouse.chat.good2=Etkiliyici\!
+spouse.chat.good3=Evet, hersey yolunda.
+spouse.chat.good4=Bug\u00fcn ben... ah, eminim ki duymak istemezsin\!
+spouse.chat.good5=Senin icin de yorucu bir gundu, degil mi?
+spouse.chat.good6=Bu yuzden seni seviyorum.
+spouse.chat.good7=Guzel olan suki, seninle evlendigime cok mumnunum.
+spouse.chat.good8=Hikayelerin beni sasirtiyor\!
+spouse.chat.good9=Guzel hikaye\!
+spouse.chat.good10=*Ac bir sekilde dudaklarini yalar*
+
+spouse.divorce1=Seninle isim bitti\!
+spouse.divorce2=Oh be, kurtulduk\!
+spouse.divorce3=Seni bir daha gormek istemiyorum\!
+spouse.divorce4=Sadece...benden uzak dur\!
+spouse.divorce5=Sana inanam\u0131yorum\! Beni yaln\u0131z b\u0131rak\!
+spouse.divorce6=Neden? Yeteri kadar iyi de\u011fil miyim...?
+spouse.divorce7=Beni ger\u00e7ekten sevdi\u011fini sanm\u0131\u015ft\u0131m\!
+spouse.divorce8=Ne? Hay\u0131r\! Buna inanamam\!
+spouse.divorce9=Benden uzak dur\! Sonsuza kadar\!
+
+spouse.follow.start1=Peki \u00f6yleyse, nereye gidiyoruz?
+spouse.follow.start2=Peki, devam edece\u011fim.
+spouse.follow.start3=Tamam, gidelim\!
+spouse.follow.start4=Sonunda bu hurdadan kurtuluyor muyuz?
+spouse.follow.start5=Buralarda yeni bir evin var m\u0131?
+spouse.follow.start6=Tamam ama buradan ayr\u0131lmak istemiyorum.
+spouse.follow.start7=Seninle macera ya\u015famaya gelebilir miyim? Ne kadar e\u011flenceli\!
+spouse.follow.start8=Hadi iyi bir yere gidelim, dimi?
+
+spouse.follow.stop1=Buras\u0131 ger\u00e7ekten g\u00fczel g\u00f6r\u00fcn\u00fcyor\!
+spouse.follow.stop2=Peki, tamam, her zaman sevgili, beni getirmek i\u00e7in buyrun.
+spouse.follow.stop3=Pekala, d\u0131\u015far\u0131da dikkatli ol\!
+spouse.follow.stop4=D\u00f6nd\u00fc\u011f\u00fcnde buralarda olaca\u011f\u0131m.
+spouse.follow.stop5=Heh, bu yorucuydu ama en az\u0131ndan seninleydim.
+
+spouse.gift.bad1=Oh...Hay\u0131r te\u015fekk\u00fcrler. Buralarda bir yerde bunlardan bir tane vard\u0131.
+spouse.gift.bad2=Umar\u0131m bunu sevmemi beklemiyorsundur.
+spouse.gift.bad3=Nas\u0131l g\u00f6r\u00fcnd\u00fc\u011f\u00fcm\u00fc hat\u0131rlamayaca\u011f\u0131n\u0131 bilmeliydim.
+spouse.gift.bad4=Bunu bana neden veriyorsun?
+spouse.gift.bad5=Sen buna hediye mi diyorsun?
+spouse.gift.bad6=Beni, neyi sevip sevmedi\u011fimi bilecek kadar tan\u0131d\u0131\u011f\u0131n\u0131 san\u0131yordum. San\u0131r\u0131m yan\u0131lm\u0131\u015f\u0131m.
+spouse.gift.bad7=Bu... k\u00f6t\u00fc. Bunu istemiyorum.
+
+spouse.gift.great1=Aman tanr\u0131m bu ne kadar tuttu?
+spouse.gift.great2=Bunu nas\u0131l ald\u0131n\!? Te\u015fekk\u00fcr ederim\!
+spouse.gift.great3=Bunu almak \u00e7ok zor olmal\u0131\!
+spouse.gift.great4=Bunu ger\u00e7ekten almamal\u0131y\u0131m... ama bu \u00e7ok parlak\!
+spouse.gift.great5=Bunu sonsuza kadar besleyece\u011fim.
+spouse.gift.great6=Te\u015fekk\u00fcrler tatl\u0131m, sen ger\u00e7ekten neyi sevdi\u011fimi biliyorsun.
+spouse.gift.great7=Bunu her zaman yan\u0131mda ta\u015f\u0131yaca\u011f\u0131m, te\u015fekk\u00fcrler.
+spouse.gift.great8=You're sexy and I know it.
+
+spouse.gift.regular1=Bu \u00e7ok iyi\! Te\u015fekk\u00fcrler\!
+spouse.gift.regular2=Bana daha fazla getir\!
+spouse.gift.regular3=Bunu yapman gerekmiyordu... te\u015fekk\u00fcrler.
+spouse.gift.regular4=Bu \u00e7ok iyi\! Saol\!
+spouse.gift.regular5=Neyi sevdi\u011fimi ger\u00e7ekten biliyorsun, de\u011fil mi?
+spouse.gift.regular6=Oh, te\u015fekk\u00fcrler, ger\u00e7ekten \u00e7ok naziksin.
+spouse.gift.regular7=Bu ger\u00e7ekten \u00e7ok tatl\u0131\!
+
+spouse.gift.small1=Te\u015fekk\u00fcrler\!
+spouse.gift.small2=Ben bu takdir ediyorum.
+spouse.gift.small3=Oh. Yine de, iyi bir d\u00fc\u015f\u00fcnce\!
+spouse.gift.small4=\u00c7ok naziksin.
+spouse.gift.small5=Te\u015fekk\u00fcrler. Ama bana bir\u015fey vermen gerekmiyordu. 
+
+spouse.greeting.basic1=Merhaba, tatl\u0131m.
+spouse.greeting.basic2=Bug\u00fcn nerdeydin?
+spouse.greeting.basic3=Hey, Can\u0131m. Nas\u0131ls\u0131n?
+spouse.greeting.basic4=Her\u015fey iyi mi?
+spouse.greeting.basic5=G\u00f6r\u00fcn\u00fcyor ki macerandan d\u00f6nm\u00fc\u015fs\u00fcn. Nas\u0131ls\u0131n, can\u0131m?
+spouse.greeting.basic6=Seni \u00f6zledim\! Nas\u0131ls\u0131n, tatl\u0131m?
+spouse.greeting.basic7=Senin i\u00e7in endi\u015felenmi\u015ftim, hi\u00e7 bir\u015fey demeden gittin. Ama d\u00f6nd\u00fc\u011f\u00fcne sevindim.
+spouse.greeting.basic8=Selam, nas\u0131l gidiyor?
+spouse.greeting.basic9=G\u00fcn\u00fcn g\u00fczel ge\u00e7ti mi?
+spouse.greeting.basic10=D\u00f6nd\u00fc\u011f\u00fcne mutluyum.
+
+spouse.greeting.friend1=Selam, tatl\u0131m.
+spouse.greeting.friend2=Bug\u00fcn nerdeydin?
+spouse.greeting.friend3=Selam, tatl\u0131m. Nas\u0131ls\u0131n?
+spouse.greeting.friend4=Her\u015fey iyi mi?
+spouse.greeting.friend5=G\u00f6r\u00fcn\u00fcyor ki macerandan d\u00f6nm\u00fc\u015fs\u00fcn. Nas\u0131ls\u0131n, can\u0131m?
+spouse.greeting.friend6=Seni \u00f6zledim\! Nas\u0131ls\u0131n, tatl\u0131m?
+spouse.greeting.friend7=Senin i\u00e7in endi\u015felenmi\u015ftim, hi\u00e7 bir\u015fey demeden gittin. Ama d\u00f6nd\u00fc\u011f\u00fcne sevindim.
+spouse.greeting.friend8=Selam, nas\u0131l gidiyor?
+spouse.greeting.friend9=G\u00fcn\u00fcn g\u00fczel ge\u00e7ti mi?
+spouse.greeting.friend10=D\u00f6nd\u00fc\u011f\u00fcne mutluyum.
+
+spouse.greeting.hate1=\u015eu anda senin konu\u015fmak istemiyorum.
+spouse.greeting.hate2=Sana k\u0131zg\u0131n\u0131m. L\u00fctfen beni rahat b\u0131rak.
+spouse.greeting.hate3=Sana seninle konu\u015fmad\u0131\u011f\u0131m\u0131 s\u00f6yledim %PlayerName%.
+spouse.greeting.hate4=Biz art\u0131k senle konu\u015fmuyoruz ,sadece bilmeni istedim.
+spouse.greeting.hate5=Kendine gelmelisin yoksa giderim.
+
+spouse.hitbyplayer1=Ow\!Tacizci\!
+spouse.hitbyplayer2=Umar\u0131m bunu yapmak istemedin.
+spouse.hitbyplayer3=Ger\u00e7ekten de ac\u0131tt\u0131n...
+spouse.hitbyplayer4=Bana vurmay\u0131 b\u0131rak\!
+spouse.hitbyplayer5=Aw\! Pislik\!
+spouse.hitbyplayer6=Neden beni vurmak isteyesin\!?
+spouse.hitbyplayer7=Bunu niye yapt\u0131n\!?
+
+spouse.gifted.baby1=Tekrar m\u0131? Ugh, Tamam.
+spouse.gifted.baby2=\u00c7ok tatl\u0131s\u0131n\! Evet \u00f6ylesin\! Evet \u00f6ylesin\!
+spouse.gifted.baby3=Tamam, tutar\u0131m.
+spouse.gifted.baby4=Ooo\! Burda benim i\u00e7in bir\u015fey mi var? Oh. Bebek.
+spouse.gifted.baby5=\u0130yi. Bana ver.
+spouse.gifted.baby6=Bak, g\u00f6zleri bana \u00e7ekmi\u015f\!
+spouse.gifted.baby7=Oh, bebe\u011fin \u00fcstesinden gelemiyor musun? Peki o zaman, bana ver.
+
+spouse.joke.bad1=Uh... San\u0131r\u0131m ayn\u0131s\u0131n\u0131 \u00f6nceden de anlatt\u0131n.
+spouse.joke.bad2=Hi\u00e7bir \u015fey anlamad\u0131m..
+spouse.joke.bad3=\u00d6yle k\u00f6t\u00fc \u015fakalar yapman\u0131n yasa d\u0131\u015f\u0131 oldu\u011fundan eminim.
+spouse.joke.bad4=G\u00fczeldi... tatl\u0131m.
+spouse.joke.bad5=*Garip g\u00fcl\u00fcmseme*
+spouse.joke.bad6=*Sahtece K\u0131k\u0131rdar*
+spouse.joke.bad7=...Peki...
+
+spouse.joke.good1=Aw. O \u015fakay\u0131 ilk tan\u0131\u015ft\u0131\u011f\u0131m\u0131zda anlatm\u0131\u015ft\u0131n.
+spouse.joke.good2=Bunu hat\u0131rl\u0131yorum\! Hala komik\!
+spouse.joke.good3=\u00c7ok komiksin\!
+spouse.joke.good4=Bunlar nerden akl\u0131na geliyor? Haha\!
+spouse.joke.good5=Buna ger\u00e7ekten g\u00fclmemeliyim, ama \u00e7ok komik\!
+
+spouse.procreate.refuse1=Hay\u0131r, sana kat\u0131lm\u0131yorum.
+spouse.procreate.refuse2=\u015eaka yap\u0131yor olmal\u0131s\u0131n\!
+spouse.procreate.refuse3=Beni aldatt\u0131ktan sonra olmaz\!
+spouse.procreate.refuse4=I barely even like you. There's no way I'll do that.
+spouse.procreate.refuse5=Evet\! Bana biraz daha b\u00f6yle davran ve ben de bunun hakk\u0131nda d\u00fc\u015f\u00fcneyim.
+
+spouse.kiss.good1=\u00c7ok naziksin.
+spouse.kiss.good2=Ben de seni seviyorum.
+spouse.kiss.good3=Benim i\u00e7in fazla iyisin.
+spouse.kiss.good4=Sa\u011fol, bu iyiydi.
+spouse.kiss.good5=How nice of you\!
+
+spouse.kiss.bad1=Hay\u0131r. Bug\u00fcn modumda de\u011filim.
+spouse.kiss.bad2=Neden birden bana iyi davranmaya ba\u015flad\u0131n?
+spouse.kiss.bad3=Git ine\u011fi \u00f6p.
+spouse.kiss.bad4=\u00d6yle d\u00fc\u015f\u00fcnm\u00fcyorum.
+spouse.kiss.bad5=Bunun i\u00e7in \u00e7ok ge\u00e7.
+spouse.kiss.bad6=Your nose poked me in the eye\!
+spouse.kiss.bad7=Iyy, bu \u0131slak ve c\u0131v\u0131kt\u0131\!
+spouse.kiss.bad8=Nas\u0131l \u00f6p\u00fc\u015f\u00fclece\u011fini bilmiyorsun.
+
+spouse.flirt.good1=\u00c7ok ak\u0131c\u0131 konu\u015fuyorsun.
+spouse.flirt.good2=*Blush* You've always been quite the charmer.
+spouse.flirt.good3=Ah\! Evlendi\u011fimizden beri bir toz kadar de\u011fi\u015fmedin.
+spouse.flirt.good4=Av\! Bu \u00e7ok tatl\u0131yd\u0131\!
+spouse.flirt.good5=Aman, mah\u00e7up oldum.
+
+spouse.flirt.bad1=Bunun i\u00e7in kimsenin vakti yok\!
+spouse.flirt.bad2=Ne orjinal ama.
+spouse.flirt.bad3=Herkese bunu anlatt\u0131\u011f\u0131na dair iddiaya girerim. Hay\u0131r, ciddiyim. \u0130ddia ediyorum.
+spouse.flirt.bad4=Modumda de\u011filim.
+spouse.flirt.bad5=Now you want to try romancing me? What about when we were dating?
+
+spouse.tellstory.good1=Bu iyiydi\!
+spouse.tellstory.good2=Cupquake sonra ne yapt\u0131?
+spouse.tellstory.good3=ChimneySwift11'in "Minecraft Files"'\u0131n\u0131 da m\u0131 izliyorsun?\!
+spouse.tellstory.good4=*Laughs* That reminds me of the time my mother walked in on me, except I was cleaning.
+spouse.tellstory.good5=Oh, ben de b\u00f6yle bir k\u0131z istiyorum\!
+
+spouse.tellstory.bad1=Sen bana neden bunu anlat\u0131yorsun?
+spouse.tellstory.bad2=Bu benim a\u011flamam\u0131 sa\u011fl\u0131yor...
+spouse.tellstory.bad3=*G\u00f6rmezden gelir*
+spouse.tellstory.bad4=Neden BU seni zevklendirdi?
+spouse.tellstory.bad5=%RandomName%'le/la dalga ge\u00e7memelisin.
+
+spouse.greeting.handshake.good1=Elinin bendeki hissini sevdim.
+spouse.greeting.handshake.good2=Aptals\u0131n\!
+spouse.greeting.handshake.good3=G\u00fcn\u00fcn nas\u0131l ge\u00e7iyor, can\u0131m?
+spouse.greeting.handshake.good4=Nas\u0131ls\u0131n?
+spouse.greeting.handshake.good5=Selamlar, a\u015fk\u0131m benim.
+
+spouse.greeting.handshake.bad1=Iyy, Ellerinin nerede oldu\u011funu biliyorum.
+spouse.greeting.handshake.bad2=Ellerin terli.
+spouse.greeting.handshake.bad3=Bir el s\u0131k\u0131\u015fmas\u0131? Bu kadar?
+spouse.greeting.handshake.bad4=Hay\u0131r, g\u00fcnlerdir ma\u011fralardayd\u0131n.
+spouse.greeting.handshake.bad5=Ellerin...inek gibi mi kokuyor?\!
+
+spouse.greeting.highfive.good1=Evvet\!
+spouse.greeting.highfive.good2=Daha yukar\u0131\!
+spouse.greeting.highfive.good3=\u00c7ek bi' be\u015flik\!
+spouse.greeting.highfive.good4=Naber?
+spouse.greeting.highfive.good5=Evet\!
+
+spouse.greeting.highfive.bad1=This is the most contact we've had in forever.
+spouse.greeting.highfive.bad2=Art\u0131k be\u015flik \u00e7akm\u0131yorum.
+spouse.greeting.highfive.bad3=Sen \u00e7ok hams\u0131n.
+spouse.greeting.highfive.bad4=Ov\! Bana vurdun\!
+spouse.greeting.highfive.bad5=I wouldn't dare touch your hands.
+
+spouse.chore.start.cooking1=Of course\! I'll cook any food you give me.
+spouse.chore.start.cooking2=Yes, dear. I'll get right on that.
+spouse.chore.start.cooking3=Bana da biraz saklay\u0131n\! Biliyorsunuz, ben pi\u015firdim.
+spouse.chore.start.cooking4=Bende a\u00e7im\!
+spouse.chore.start.cooking5=Umar\u0131m bu sefer yakmam...
+

@@ -1,0 +1,2255 @@
+#X-Generator: crowdin.com
+#X-Generator: crowdin.net
+itemGroup.tabMCA=Minecraft Her\u00e4\u00e4 Henkiin
+
+##########
+# Heir
+#############################
+heir.set.success=%Name% on nyt perillisesi.
+heir.set.failure.alreadyset=Olet jo tehnyt jostakin toisesta perillisesi.
+heir.set.failure.sameperson=%Name% on jo perillisesi.
+heir.set.failure.alreadyused=%Name% on jo ollut perillisesi. Sinun t\u00e4ytyy k\u00e4ytt\u00e4\u00e4 jotakuta toista.
+
+heir.gui.requestcrown=Pyyd\u00e4 kruunua
+heir.gui.recoverinventory=Palauta tavaraluettelo
+
+heir.good.returncrown1=Olkoon sitten. Se oli hauskaa niin kauan kuin se kesti.
+heir.good.returncrown2=Tietenkin, %CallPlayerParent%. T\u00e4ss\u00e4 on kruunusi.
+heir.good.returncrown3=Ilomielin. Se alkoi jo muutenkin olla tyls\u00e4\u00e4.
+heir.good.returncrown4=Vain viisi minuuttia viel\u00e4? \u00c4\u00e4h, ei sitten\!
+heir.good.returncrown5=Olen iloinen, ett\u00e4 se on ohi. Ihmiset alkoivat vihata minua\!
+
+heir.good.founditems1=Olet t\u00e4\u00e4ll\u00e4 taas\! Luulin ett\u00e4 olit kadonnut ikuisiksi ajoiksi. T\u00e4ss\u00e4 ovat esineesi.
+heir.good.founditems2=L\u00f6ysimme esineesi ja ajattelimme, ett\u00e4 olit kuollut\! T\u00e4ss\u00e4, ota ne.
+heir.good.founditems3=L\u00e4hetin muutaman vartijan sinun per\u00e4\u00e4si. He toivat takaisin esineesi.
+heir.good.founditems4=En voi uskoa, ett\u00e4 olet t\u00e4\u00e4ll\u00e4 taas\! L\u00f6ysimme esineesi, mutta emme sinua.
+
+##########
+# Information
+#############################
+information.doesnothing=Ei tee juuri nyt mit\u00e4\u00e4n.
+
+information.whistle.line1=Klikkaa oikeaa n\u00e4pp\u00e4int\u00e4, kun k\u00e4yt\u00e4t
+information.whistle.line2=tuodaksesi puolisosi ja
+information.whistle.line3=lapsesi luoksesi.
+
+information.heircrown.line1=Anna lapsellesi
+information.heircrown.line2=tehd\u00e4ksesi heist\u00e4 kuninkaita/kuningattaria
+information.heircrown.line3=kun kuolet.
+
+information.weddingring.line1=Lahja kyl\u00e4l\u00e4isille, joidenka
+information.weddingring.line2=syd\u00e4mmet ovat yli 100 tehd\u00e4ksesi
+information.weddingring.line3=niit\u00e4 sinun puolisoksesi.
+
+information.villagereditor.line1=Klikkaa oikealla n\u00e4pp\u00e4imell\u00e4 kyl\u00e4l\u00e4ist\u00e4
+information.villagereditor.line2=muokatakseen niit\u00e4.
+
+information.tombstone.line1=Laita kunnianosoitus
+information.tombstone.line2=kuolleelle perheenj\u00e4senelle.
+
+information.lostrelativedocument.line1=K\u00e4yt\u00e4 kyl\u00e4l\u00e4iseen tehd\u00e4ksesi
+information.lostrelativedocument.line2=heist\u00e4 sukulaisiasi.
+
+information.engagementring.line1=Anna kyl\u00e4l\u00e4iselle, sitten anna
+information.engagementring.line2=heille vihkisormus saadaksesi
+information.engagementring.line3=lahjoja muilta kyl\u00e4l\u00e4isilt\u00e4.
+
+information.crown.line1=Tee tullaksesi monarkiksi.
+
+information.baby.line1=Klikkaa oikealla n\u00e4pp\u00e4imell\u00e4 maata
+information.baby.line2=kasvattaaksesi vauvan lapseksi
+information.baby.line3=kun se on valmis.
+
+information.arrangersring.line1=Anna kyl\u00e4l\u00e4iselle, sitten anna toinen samanlainen
+information.arrangersring.line2=toiselle l\u00e4hell\u00e4 olevalle kyl\u00e4l\u00e4iselle j\u00e4rjest\u00e4\u00e4ksesi
+information.arrangersring.line3=avioliiton n\u00e4iden kahden v\u00e4lille.
+
+information.villagerbed.line1=Laita t\u00e4m\u00e4 s\u00e4nky maahan
+information.villagerbed.line2=ja l\u00e4hist\u00f6ll\u00e4 oleva kyl\u00e4l\u00e4inen menee nukkumaan
+information.villagerbed.line3=siihen y\u00f6ll\u00e4.
+
+##########
+# Traits
+#############################
+gui.info.trait=Luonteenpiirre\: 
+trait.unknown=Tuntematon
+
+trait.none=Ei mit\u00e4\u00e4n
+trait.shy=Ujo
+trait.fun=Hauska
+trait.serious=Vakava
+trait.friendly=Yst\u00e4v\u00e4llinen
+trait.irritable=\u00c4rtyis\u00e4
+trait.emotional=Tunteellinen
+trait.outgoing=Seurallinen
+
+##########
+# Moods
+#############################
+gui.info.mood=Mieliala\: 
+
+mood.happy.ecstatic=Haltioitunut
+mood.happy.cheerful=Hyv\u00e4ntuulinen
+mood.happy.happy=Iloinen
+mood.happy.fine=Hyv\u00e4
+mood.happy.okay=Okei
+
+mood.neutral.passive=Passiivinen
+
+mood.sadness.blue=Alakuloinen
+mood.sadness.unhappy=Onneton
+mood.sadness.sad=Surullinen
+mood.sadness.cheerless=Lohduton
+mood.sadness.depressed=Masentunut
+
+mood.anger.annoyed=\u00c4rtynyt
+mood.anger.agitated=Levoton
+mood.anger.mad=Vihainen
+mood.anger.seething=Kihisee kiukusta
+mood.anger.infuriated=Raivostunut
+
+mood.fatigue.tired=V\u00e4synyt
+mood.fatigue.sleepy=Uninen
+mood.fatigue.fatigued=Rasittunut
+mood.fatigue.exhausted=Uupunut
+mood.fatigue.comatose=Tajuton
+
+#######
+# Monarch
+#############################
+monarch.gui.button.interact.demandgift=Vaadi Lahja
+monarch.gui.button.interact.execute=Teloita
+monarch.gui.button.interact.makeknight=Tee Ritari
+monarch.gui.button.interact.makepeasant=Tee Talonpoika
+
+monarch.knight.follow.start1=Mit\u00e4 vaan sinulle, minun %MonarchTitle%.
+monarch.knight.follow.start2=Kuljen kanssanne kaikkialle, teid\u00e4n korkeutenne.
+monarch.knight.follow.start3=Aseet valmiina\!
+monarch.knight.follow.start4=K\u00e4skyst\u00e4.
+monarch.knight.follow.start5=Kuten haluat.
+
+monarch.knight.follow.stop1=Olen vapaa koska tahansa, minun %MonarchTitle%.
+monarch.knight.follow.stop2=Kuten haluatte, teid\u00e4n korkeutenne.
+monarch.knight.follow.stop3=Jatkan teht\u00e4vi\u00e4ni.
+
+monarch.knight.follow.refuse1=En koskaan uhmaisi %MonarchPlayerName% toiveita\!
+monarch.knight.follow.refuse2=Olen vannoutunut palvelemaan %MonarchPlayerName%.
+monarch.knight.follow.refuse3=Olen %MonarchPlayerName% ritari.
+
+monarch.execute.failure.noweapon=Sinulla ei ole asetta jolla teloittaisit t\u00e4m\u00e4n henkil\u00f6n.
+monarch.execute.failure.playerspouse=Et voi teloittaa pelaajan puolisoa.
+
+monarch.makepeasant.success=T\u00e4m\u00e4 kyl\u00e4l\u00e4inen on nyt sinun valtasi alla oleva talonpoika. He ty\u00f6skentelev\u00e4t ilmaiseksi, jos he suorittavat askareita.
+monarch.makepeasant.failure.alreadypeasant=T\u00e4m\u00e4 maanviljelil\u00e4 on toisen hallitsijan alaisuudessa.
+monarch.makepeasant.failure.playerspouse=Pelaajan puolisosta ei voi tehd\u00e4 talonpoikaa.
+
+monarch.makeknight.success=T\u00e4m\u00e4 vartija on nyt ritari alaisuudessasi.
+monarch.makeknight.failure.alreadyknight=T\u00e4m\u00e4 vartija on jo toisen monarkin ritari.
+monarch.makeknight.failure.playerspouse=Pelaajan puolisosta ei voi tehd\u00e4 ritaria.
+
+monarch.title.knight.male=Ritari %Name%
+monarch.title.knight.female=Ritari %Name%
+monarch.title.knight.male.otherplayer=(%MonarchPlayerName%n Ritari)
+monarch.title.knight.female.otherplayer=(%MonarchPlayerName%n Ritari)
+
+monarch.title.peasant.male.owner=(Talonpoika)
+monarch.title.peasant.female.owner=(Talonpoika)
+monarch.title.peasant.male.otherplayer=(%MonarchPlayerName%n Talonpoika)
+monarch.title.peasant.female.otherplayer=(%MonarchPlayerName%n Talonpoika)
+
+monarch.title.monarch=Monarkki
+monarch.title.heir=Perillinen
+monarch.title.male.player=Kuningas
+monarch.title.male.heir=Prinssi
+monarch.title.female.player=Kuningatar
+monarch.title.female.heir=Prinsessa
+
+monarch.demandgift.accept1=Tietenkin, teid\u00e4n korkeutenne\!
+monarch.demandgift.accept2=Mit\u00e4 tahansa jotta olisitte tyytyv\u00e4inen, teid\u00e4n korkeutenne.
+monarch.demandgift.accept3=Mit\u00e4 tahansa minun %MonarchTitle%\!
+monarch.demandgift.accept4=Kyll\u00e4, minun %MonarchTitle%.
+monarch.demandgift.accept5=Olisi kunnia hukuttaa sinut rikkauksiin, minun %MonarchTitle%.
+monarch.demandgift.accept6=Noin ihana %MonarchTitle% ansaitsee paljon lahjoja\!
+monarch.demandgift.accept7=Ilomielin, teid\u00e4n korkeutenne.
+
+monarch.demandgift.toomany1=Minulla on juuri ja juuri nyt tarpeeksi itselleni\!
+monarch.demandgift.toomany2=Pyyd\u00e4n, olen jo antanut niin paljon...
+monarch.demandgift.toomany3=Luulin ett\u00e4 olit huolellinen %MonarchTitle% etk\u00e4 ahne.
+monarch.demandgift.toomany4=Et kuullut t\u00e4t\u00e4 minulta, mutta ihmiset alkavat ajatella ett\u00e4 olet hirmuvaltias.
+monarch.demandgift.toomany5=Voin vain antaa niin paljon\!
+monarch.demandgift.toomany6=En voi antaa paljoa... Olette vaatineet minulta liian paljon.
+
+monarch.demandgift.dictator1=Unohda\! En aio antaa teille en\u00e4\u00e4 mit\u00e4\u00e4n\!
+monarch.demandgift.dictator2=Olemme v\u00e4syneit\u00e4 jatkuviin m\u00e4\u00e4r\u00e4yksiisi\! Ei\!
+monarch.demandgift.dictator3=Ei\! Tuo riitt\u00e4\u00e4\!
+monarch.demandgift.dictator4=Olemme saaneet tarpeeksemme loputtomasta ahneudestasi\!
+monarch.demandgift.dictator5=Tee mit\u00e4 sinun pit\u00e4\u00e4, mutta min\u00e4 en anna sinulle mit\u00e4\u00e4n muuta\!
+
+#######
+# Names
+##############################
+name.male1=Aaro
+name.male2=Asetoni
+name.male3=Aatami
+name.male4=Aidan
+name.male5=Alan
+name.male6=Aleksi
+name.male7=Allen
+name.male8=Andrew
+name.male9=Anttoni
+name.male10=Armando
+name.male11=Artturi
+name.male12=Austin
+name.male13=Ben
+name.male14=Bill
+name.male15=Billy
+name.male16=Bradley
+name.male17=Brady
+name.male18=Braxton
+name.male19=Brayden
+name.male20=Brenden
+name.male21=Brent
+name.male22=Brian
+name.male23=Brice
+name.male24=Brighton
+name.male25=Kaaleppi
+name.male26=Cameron
+name.male27=Kristofer
+name.male28=Cleveland
+name.male29=Cody
+name.male30=Colby
+name.male31=Collin
+name.male32=Colton
+name.male33=Corey
+name.male34=Coty
+name.male35=Dale
+name.male36=Damon
+name.male37=Dan
+name.male38=Dane
+name.male39=Danny
+name.male40=Daavid
+name.male41=Derek
+name.male42=Devin
+name.male43=Donnie
+name.male44=Drew
+name.male45=Dylan
+name.male46=Edward
+name.male47=Erkki
+name.male48=Ethan
+name.male49=Evan
+name.male50=Fred
+name.male51=Gabe
+name.male52=Garrett
+name.male53=Kari
+name.male54=Gavin
+name.male55=Harris
+name.male56=Harri
+name.male57=Hayden
+name.male58=Hunter
+name.male59=Jackson
+name.male60=Jaakoppi
+name.male61=Jake
+name.male62=James
+name.male63=Jared
+name.male64=Jason
+name.male65=Jay
+name.male66=Jeremy
+name.male67=Jerry
+name.male68=Jim
+name.male69=Joe
+name.male70=John
+name.male71=Joni
+name.male72=Joseph
+name.male73=Josh
+name.male74=Justin
+name.male75=Kaden
+name.male76=Kent
+name.male77=Kevin
+name.male78=Leo
+name.male79=Leon
+name.male80=Lewis
+name.male81=Liam
+name.male82=Luukas
+name.male83=Mac
+name.male84=Markus
+name.male85=Mark
+name.male86=Martti
+name.male87=Mason
+name.male88=Matti
+name.male89=Matteus
+name.male90=Mikael
+name.male91=Mike
+name.male92=Nathan
+name.male93=Nathaniel
+name.male94=Niko
+name.male95=Oliver
+name.male96=Oskari
+name.male97=Owen
+name.male98=Patrick
+name.male99=Peter
+name.male100=Phil
+name.male101=Randy
+name.male102=Rey
+name.male103=Robert
+name.male104=Roger
+name.male105=Roy
+name.male106=Russ
+name.male107=Ryan
+name.male108=Scott
+name.male109=Seth
+name.male110=Shane
+name.male111=Shawn
+name.male112=Simon
+name.male113=Steve
+name.male114=Tanner
+name.male115=Tate
+name.male116=Terrence
+name.male117=Terry
+name.male118=Tim
+name.male119=Toby
+name.male120=Tom
+name.male121=Tomi
+name.male122=Toni
+name.male123=Trent
+name.male124=Tristan
+name.male125=Triston
+name.male126=Tyler
+name.male127=Tyson
+name.male128=Victor
+name.male129=Vincent
+name.male130=Will
+name.male131=William 
+
+name.female1=Addison
+name.female2=Adi
+name.female3=Alexis
+name.female4=Liisa
+name.female5=Alicia
+name.female6=Allie
+name.female7=Allison
+name.female8=Aliisa
+name.female9=Alma
+name.female10=Amelia
+name.female11=Amnesty
+name.female12=Amy
+name.female13=Andrea
+name.female14=Angie
+name.female15=Anna
+name.female16=Anne
+name.female17=Arieanne
+name.female18=Ashley
+name.female19=Ashlyn
+name.female20=Ashton
+name.female21=Aspen
+name.female22=Aubrey
+name.female23=Aurora
+name.female24=Autumn
+name.female25=Ava
+name.female26=Baylee
+name.female27=Brooke
+name.female28=Kamilla
+name.female29=Christina
+name.female30=Christy
+name.female31=Constance
+name.female32=Courtney
+name.female33=Cynthia
+name.female34=Dawn
+name.female35=Destiny
+name.female36=Diana
+name.female37=Donna
+name.female38=Elisabeth
+name.female39=Emery
+name.female40=Emilia
+name.female41=Emma
+name.female42=Emmalyn
+name.female43=Eerika
+name.female44=Eve
+name.female45=Faye
+name.female46=Gracie
+name.female47=Gwen
+name.female48=Hanna
+name.female49=Hazel
+name.female50=Holly
+name.female51=Jaden
+name.female52=Jennifer
+name.female53=Jessika
+name.female54=Julia
+name.female55=Julie
+name.female56=Kaitlin
+name.female57=Katie
+name.female58=Kaylene
+name.female59=Kiana
+name.female60=Kimberly
+name.female61=Kristen
+name.female62=Kylee
+name.female63=Leslie
+name.female64=Linda
+name.female65=Lindsey
+name.female66=Lola
+name.female67=Lori
+name.female68=Lydia
+name.female69=Madison
+name.female70=Marisa
+name.female71=Megan
+name.female72=Melissa
+name.female73=Melody
+name.female74=Miranda
+name.female75=Molly
+name.female76=Nickie
+name.female77=Nicole
+name.female78=Oaklee
+name.female79=Penny
+name.female80=Rachel
+name.female81=Robin
+name.female82=Roosa
+name.female83=Rosalie
+name.female84=Sarah
+name.female85=Serenity
+name.female86=Sharon
+name.female87=Shayla
+name.female88=Sherry
+name.female89=Sheryl
+name.female90=Skylar
+name.female91=Sofia
+name.female92=Sonja
+name.female93=Stacey
+name.female94=Steph
+name.female95=Stephanie
+name.female96=Silvia
+name.female97=Trinity
+name.female98=Valerie
+name.female99=Vannessa
+name.female100=Veronica
+name.female101=Whitney
+
+#######
+# Multiplayer
+##############################
+multiplayer.command.error.parameter=Parametri vahinko. K\u00e4ytt\u00f6\: 
+multiplayer.command.error.unknown=Tunnistamaton virhe on tapahtunut.
+multiplayer.command.error.playeroffline=T\u00e4m\u00e4 pelaaja ei ole kirjautunut t\u00e4lle palvelimelle.
+
+multiplayer.command.output.help=Minecraft Her\u00e4\u00e4 Henkiin - Komennot
+multiplayer.command.output.setgender=Sinun sukupuolesi on nyt\: 
+multiplayer.command.output.setname=Sinun nimesi on nyt\: 
+
+multiplayer.command.output.marry.noring=Sinulla ei ole h\u00e4\u00e4 sormusta. Sin\u00e4 et voi menn\u00e4 naimisiin toisen pelaajan kanssa.
+multiplayer.command.output.marry.request=%TruePlayerName% haluaisi menn\u00e4 kanssasi naimisiin.
+multiplayer.command.output.marry.accept=Olet nyt naimisissa %PlayerSpouseName%n kanssa.
+multiplayer.command.output.marry.decline=Avioliittopyynt\u00f6si on ev\u00e4tty.
+multiplayer.command.output.marry.norequest=Tuo pelaaja ei ole pyyt\u00e4nyt sinua tulemaan naimisiin kanssasi.
+multiplayer.command.output.marry.otheralreadymarried=Tuo pelaaja on jo naimisissa.
+multiplayer.command.output.marry.senderalreadymarried=Olet jo naimisissa.
+
+multiplayer.command.output.divorce.successful=Olet eronnut nykyisest\u00e4 puolisostasi.
+
+multiplayer.command.output.havebaby.request=%PlayerSpouseName% haluaisi lapsen.
+multiplayer.command.output.havebaby.decline=Pyynt\u00f6si saada lapsi on ev\u00e4tty.
+multiplayer.command.output.havebaby.limitreached=Olet saavuttanut palvelimen yll\u00e4pit\u00e4j\u00e4n asettaman lapsirajan.
+
+multiplayer.command.output.block.failed=Pelaaja on jo estetty.
+multiplayer.command.output.block.successful=Pelaaja estetty.
+
+multiplayer.command.output.blockall.true.successful=Kaikki avioliittopyynn\u00f6t estet\u00e4\u00e4n.
+multiplayer.command.output.blockall.false.successful=Voit j\u00e4lleen vastaanottaa avioliittopyynt\u00f6j\u00e4.
+
+multiplayer.command.output.unblock.failed=Pelaajaa ei ole estetty.
+multiplayer.command.output.unblock.successful=Pelaaja poistettu torjunnasta onnistuneesti.
+
+multiplayer.command.output.unblockall.successful=Kaikki torjutut pelaajat on nyt poistettu torjunnasta.
+
+multiplayer.interaction.reject.spouse=Et voi hallita toisen pelaajan puolisoa.
+multiplayer.interaction.reject.child=Et voi kontrolloida toisen pelaajan lasta.
+
+#######
+# Achievements
+##############################
+achievement.charmer=Hurmuri
+achievement.getmarried=Menossa Naimisiin
+achievement.cookbaby=Tieteen Nimiss\u00e4. Sin\u00e4 Hirvi\u00f6.
+achievement.havebabyboy=Se on poika\!
+achievement.havebabygirl=Se on tytt\u00f6\!
+achievement.growbaby=He kasvavat niin nopeasti
+achievement.farming=Ilmainen Ty\u00f6voima
+achievement.fishing=Kaikki napataan
+achievement.woodcutting=Metsuri
+achievement.mining=Ikimainari
+achievement.huntkill=Syntynyt tappamaan
+achievement.hunttame=Luonnon yst\u00e4v\u00e4
+achievement.growkid=T\u00e4ysin kasvanut mies (Tai nainen)
+achievement.equipadult=Aseistettu hampaisiin asti
+achievement.mobkills=Yksityinen Henkivartija
+achievement.marrychild=Nai lapsesi
+achievement.havegrandchild=Isovanhempi
+achievement.havegreatgrandchild=Todella Vanha
+achievement.havegreatx2grandchild=Vanhempi Kuin Taivas
+achievement.havegreatx10grandchild=Mik\u00e4 on salaisuutesi?
+achievement.hardcoresecret=Kostan Puolestasi
+achievement.craftcrown=En voi odottaa, ett\u00e4 olen kuningas\!
+achievement.executevillager=P\u00e4\u00e4 poikki\!
+achievement.makeknight=T\u00e4m\u00e4 ei ole shakkia
+achievement.knightarmy=Kahdenkymmenen miehen armeija
+achievement.makepeasant=Hyv\u00e4\u00e4 p\u00e4iv\u00e4\u00e4, herrani
+achievement.peasantarmy=Tee kuten k\u00e4sken
+achievement.nameheir=Kuninkaaliset sukuhaarat
+achievement.killheir=Voi olla vain yksi
+achievement.monarchsecret=J\u00e4\u00e4m\u00e4ss\u00e4 historiankirjoihin
+
+achievement.charmer.desc=Saa kyl\u00e4l\u00e4isen syd\u00e4met sataan tai yli.
+achievement.getmarried.desc=Mene naimisiin kyl\u00e4l\u00e4isen kanssa.
+achievement.cookbaby.desc=Salainen saavutus
+achievement.havebabyboy.desc=Saa poikavauva.
+achievement.havebabygirl.desc=Saa tytt\u00f6vauva.
+achievement.growbaby.desc=Kasvata vauva lapseksi.
+achievement.farming.desc=Laita lapsi kynt\u00e4m\u00e4\u00e4n 100 palikkaa aluetta.
+achievement.fishing.desc=Laita lapsi ker\u00e4\u00e4m\u00e4\u00e4n 100 kalaa.
+achievement.woodcutting.desc=Laita lapsi ker\u00e4\u00e4m\u00e4\u00e4n 100 palikkaa puuta.
+achievement.mining.desc=Laita lapsi kaivamaan 300 palikkaa.
+achievement.huntkill.desc=Opasta lasta tappamaan 100 el\u00e4int\u00e4 mets\u00e4st\u00e4m\u00e4ll\u00e4.
+achievement.hunttame.desc=Opasta lapsi kesytt\u00e4m\u00e4\u00e4n 100 el\u00e4int\u00e4.
+achievement.growkid.desc=Kasvata lapsesi aikuiseksi.
+achievement.equipadult.desc=Anna aikuiselle lapsellesi t\u00e4ydet panssarit ja ase.
+achievement.mobkills.desc=Laita yksi aikuinen tappamaan 50 hirvi\u00f6t\u00e4.
+achievement.marrychild.desc=Naita lapsesi.
+achievement.havegrandchild.desc=Hanki lapsenlapsi.
+achievement.havegreatgrandchild.desc=Hanki lapsenlapsenlapsi.
+achievement.havegreatx2grandchild.desc=Hanki lapsenlapsenlapsenlapsi.
+achievement.havegreatx10grandchild.desc=Saa 10 kertaa lapsenlapsia.
+achievement.hardcoresecret.desc=L\u00f6yd\u00e4 Kovanaama-muodon salaisuus.
+achievement.craftcrown.desc=Tee kruunu ja tule monarkiksi.
+achievement.executevillager.desc=Teloita kyl\u00e4l\u00e4inen.
+achievement.makeknight.desc=Tee vartijasta ritari.
+achievement.knightarmy.desc=Tee kahdenkymmenen ritarin armeija.
+achievement.makepeasant.desc=Tee kyl\u00e4l\u00e4isest\u00e4 talonpoika.
+achievement.peasantarmy.desc=Tee kaksikymment\u00e4 kyl\u00e4l\u00e4ist\u00e4 talonpojiksi.
+achievement.nameheir.desc=Nime\u00e4 valtaistuimen perij\u00e4si.
+achievement.killheir.desc=Tapa perij\u00e4si, kun h\u00e4n p\u00e4\u00e4see valtaistuimelle.
+achievement.monarchsecret.desc=Salainen saavutus.
+
+#######
+# Items & Blocks
+##############################
+item.ring.arranger.name=Sovittajan sormus
+item.ring.engagement.name=Kihlasormus
+item.ring.wedding.name=Vihkisormus
+item.baby.boy.name=Poikavauva
+item.baby.girl.name=Tytt\u00f6vauva
+item.egg.male.name=Luo mieskyl\u00e4l\u00e4inen
+item.egg.female.name=Luo naiskyl\u00e4l\u00e4inen
+item.whistle.name=Pilli
+item.editor.name=Kyl\u00e4l\u00e4isen Muokkaus
+item.lostrelativedocument.name=Kadotettu sukulaisdokumentti
+item.crown.name=Kruunu
+item.heircrown.name=Perij\u00e4n kruunu
+item.tombstone.name=Hautakivi
+item.kingscoat.name=Monarkin takki
+item.kingspants.name=Monarkin housut
+item.kingsboots.name=Monarkin keng\u00e4t
+item.redcrown.name=Punainen kruunu
+item.bluecrown.name=Sininen kruunu
+item.greencrown.name=Vihre\u00e4 kruunu
+item.pinkcrown.name=Pinkki kruunu
+item.purplecrown.name=Violetti kruunu
+item.redbed.name=Punainen S\u00e4nky
+item.bluebed.name=Sininen S\u00e4nky
+item.greenbed.name=Vihre\u00e4 S\u00e4nky
+item.pinkbed.name=Pinkki S\u00e4nky
+item.purplebed.name=Purppura S\u00e4nky
+block.tombstone.name=Hautakivi
+
+#######
+# Professions
+##############################
+profession.baker.male=%Name% Leipuri
+profession.baker.female=%Name% Leipuri
+profession.butcher.male=%Name% Lihakauppias
+profession.butcher.female=%Name% Lihakauppias
+profession.farmer.male=%Name% Viljelij\u00e4
+profession.farmer.female=%Name% Viljelij\u00e4
+profession.guard.male=%Name% Vartija
+profession.guard.female=%Name% Vartija
+profession.librarian.male=%Name% Kirjastovirkailija
+profession.librarian.female=%Name% Kirjastovirkailijatar
+profession.miner.male=%Name% Kaivaja
+profession.miner.female=%Name% Kaivaja
+profession.priest.male=%Name% Pappi
+profession.priest.female=%Name% Nunna
+profession.smith.male=%Name% sepp\u00e4
+profession.smith.female=%Name% Sepp\u00e4
+profession.playerchild.male=%Name% Lapsi
+profession.playerchild.female=%Name% Lapsi
+
+#######
+# Family Member Titles
+##############################
+family.aunt=T\u00e4ti
+family.brother=Veli
+family.cousin.male=Serkku
+family.cousin.female=Serkku
+family.daughter=Tyt\u00e4r
+family.father.formal=Is\u00e4
+family.father.informal=Isi
+family.fiance.male=Sulhanen
+family.fiance.female=Morsian
+family.granddaughter=Tytt\u00e4rentyt\u00e4r
+family.grandson=Pojanpoika
+family.greatgranddaughter=Hienoa x%Generation% Lapsenlapsi
+family.greatgrandson=Hienoa x%Generation% Lapsenlapsi
+family.grandfather=Isois\u00e4
+family.greatgrandfather=Hienoa x%Generation% Isois\u00e4
+family.grandmother=Iso\u00e4iti
+family.greatgrandmother=Hienoa x%Generation% Iso\u00e4iti
+family.husband=Mies
+family.mother.formal=\u00c4iti
+family.mother.informal=Mutsi
+family.nephew=Veljenpoika
+family.niece=Veljentyt\u00e4r
+family.none=None
+family.sister=Sisko
+family.son=Poika
+family.uncle=Set\u00e4
+family.wife=Vaimo
+
+#######
+# GUI Elements
+##############################
+
+#Buttons
+gui.button.back=Takaisin
+gui.button.exit=Pois
+gui.button.next=Seuraava
+gui.button.yes=Kyll\u00e4
+gui.button.no=Ei
+gui.button.done=Valmis
+gui.button.ok=Ok
+gui.button.random=Satunnainen
+gui.button.trade=Kaupitella
+
+gui.button.setup.finish=Valmis
+gui.button.setup.gendermale=Sukupuoli\: Mies
+gui.button.setup.genderfemale=Sukupuoli\: Nainen
+gui.button.setup.hidesleepingtag=Piilota nukkumismerkint\u00e4\: 
+gui.button.setup.overwritetestificates=Korvaa testifikaatit\: 
+gui.button.setup.growchildrenautomatically=Lapset Kasvavat Automaattisesti\: 
+gui.button.setup.displaymoodparticles=N\u00e4yt\u00e4 mielialapartikkelit\: 
+gui.button.setup.shownametags=N\u00e4yt\u00e4 Nimimerkit\: 
+gui.button.setup.preference=Mieltymys\: 
+
+gui.button.setup.males=Miehet
+gui.button.setup.females=Naiset
+
+gui.editor.name=Nimi
+gui.editor.name.invalid=T\u00e4m\u00e4 nimi sis\u00e4lt\u00e4\u00e4 v\u00e4\u00e4ri\u00e4 kirjaimia.
+gui.button.editor.texture=Tekstuuri\: 
+gui.button.editor.title=Arvonimi\: 
+gui.button.editor.mood=Mieliala\: 
+gui.button.editor.trait=Luonteenpiirre\: 
+
+gui.button.interact.interact=K\u00e4yt\u00e4
+gui.button.interact.chat=Puhu
+gui.button.interact.joke=Kerro Vitsi
+gui.button.interact.gift=Anna Lahja
+gui.button.interact.kiss=Pussaa
+gui.button.interact.flirt=Flirttaa
+gui.button.interact.tellstory=Kerro Tarina
+gui.button.interact.play=Leiki
+gui.button.interact.greet.handshake=K\u00e4ttele
+gui.button.interact.greet.highfive=Yl\u00e4vitonen
+gui.button.interact.follow=Seuraa Minua
+gui.button.interact.followstop=Lopeta seuraaminen
+gui.button.interact.stay=Paikka
+gui.button.interact.staystop=Liiku
+gui.button.interact.sethome=Aseta Koti
+gui.button.interact.takearrangerring=Ota Sovittajan Sormus
+gui.button.interact.takegift=Ota Lahja
+gui.button.interact.ridehorse=Ratsasta Hevosella
+gui.button.interact.dismount=Laskeudu
+
+gui.button.interact.player.asktomarry=Kosi
+gui.button.interact.player.havebaby=Hanki vauva
+gui.button.interact.player.accept=Hyv\u00e4ksy
+gui.button.interact.player.decline=Hylk\u00e4\u00e4
+
+gui.button.special=Erityinen
+gui.button.special.priest.divorcespouse=Erota puoliso
+gui.button.special.priest.divorcecouple=Erota pari
+gui.button.special.priest.divorcecouple.nonefound=Ei l\u00f6ytynyt pareja\!
+gui.button.special.priest.divorce=Avioero
+gui.button.special.priest.giveupbaby=Anna Vauva
+gui.button.special.priest.adoptbaby=Adoptoi vauva
+gui.button.special.priest.adoptchild=Adoptoi lapsi
+gui.button.special.priest.arrangedmarriage=J\u00e4rjestetty avioliitto
+gui.button.special.guard.hire=Palkkaa
+gui.button.special.guard.dismiss=Hylk\u00e4\u00e4
+gui.button.special.miner.hire=Palkkaa
+gui.button.special.miner.dismiss=Hylk\u00e4\u00e4
+gui.button.special.baker.aid=Pyyd\u00e4 apua
+gui.button.special.butcher.aid=Pyyd\u00e4 apua
+gui.button.special.farmer.aid=Pyyd\u00e4 apua
+gui.button.special.librarian.setup=Avaa Asetukset
+
+gui.button.spouse.cookfood=Kokkaa ruokaa
+gui.button.spouse.stopcooking=Lopeta kokkaaminen
+gui.button.spouse.inventory=Tavaraluettelo
+gui.button.spouse.procreate=Tee Lapsi
+gui.button.spouse.migrate=Muuta
+
+gui.button.child.inventory=Tavaraluettelo
+gui.button.child.chores=Teht\u00e4vi\u00e4
+gui.button.child.stopchore=Lopeta Ty\u00f6
+gui.button.child.growup=Kasva
+
+gui.button.chore.farming=Maanviljely
+gui.button.chore.farming.method=Metodi\: 
+gui.button.chore.farming.method.create=Luo Farmi
+gui.button.chore.farming.method.maintain=Yll\u00e4pid\u00e4 Farmia
+gui.button.chore.farming.plant=Kasvi\: 
+gui.button.chore.farming.plant.wheat=Vehn\u00e4
+gui.button.chore.farming.plant.melon=Meloni
+gui.button.chore.farming.plant.pumpkin=Kurpitsa
+gui.button.chore.farming.plant.carrot=Porkkana
+gui.button.chore.farming.plant.potato=Peruna
+gui.button.chore.farming.plant.sugarcane=Sokeriruoko
+gui.button.chore.farming.farmsize=Farmin koko\: 
+gui.button.chore.farming.radius=Alue\: 
+gui.button.chore.fishing=Kalastaminen
+gui.button.chore.combat=Taistelu
+gui.button.chore.combat.sentry=Vartija\: 
+gui.button.chore.combat.sentry.radius=Alue\: 
+gui.button.chore.combat.sentry.position.set=Aseta Vartijan Paikka
+gui.button.chore.combat.method=Menetelm\u00e4\: 
+gui.button.chore.combat.method.range=Vain et\u00e4hy\u00f6kk\u00e4ykset
+gui.button.chore.combat.method.melee=Vain l\u00e4hitaistelu
+gui.button.chore.combat.method.both=Et\u00e4 & L\u00e4hitaistelu
+gui.button.chore.combat.method.neither=\u00c4l\u00e4 taistele
+gui.button.chore.combat.attack.pig=Hy\u00f6kk\u00e4\u00e4 possuja\: 
+gui.button.chore.combat.attack.sheep=Hy\u00f6kk\u00e4\u00e4 lampaita\: 
+gui.button.chore.combat.attack.cow=Hy\u00f6kk\u00e4\u00e4 lehmi\u00e4\: 
+gui.button.chore.combat.attack.chicken=Hy\u00f6kk\u00e4\u00e4 kanoja\: 
+gui.button.chore.combat.attack.spider=Hy\u00f6kk\u00e4\u00e4 h\u00e4m\u00e4h\u00e4kkej\u00e4\: 
+gui.button.chore.combat.attack.zombie=Hy\u00f6kk\u00e4\u00e4 zombeja\: 
+gui.button.chore.combat.attack.skeleton=Hy\u00f6kk\u00e4\u00e4 luurankoja\: 
+gui.button.chore.combat.attack.creeper=Hy\u00f6kk\u00e4\u00e4 Creeppereit\u00e4\: 
+gui.button.chore.combat.attack.enderman=Hy\u00f6kk\u00e4\u00e4 \u00e4\u00e4rel\u00e4isi\u00e4\: 
+gui.button.chore.combat.attack.unknown=Tuntematon Isku\:  
+gui.button.chore.woodcutting=Puunhakkuu
+gui.button.chore.woodcutting.treetype=Puulaji\: 
+gui.button.chore.woodcutting.treetype.all=Kaikki
+gui.button.chore.woodcutting.treetype.oak=Tammi
+gui.button.chore.woodcutting.treetype.spruce=Kuusi
+gui.button.chore.woodcutting.treetype.birch=Koivu
+gui.button.chore.woodcutting.treetype.jungle=Viidakko
+gui.button.chore.mining=Kaivaminen
+gui.button.chore.mining.method=Menetelm\u00e4\: 
+gui.button.chore.mining.method.passive=Passiivinen
+gui.button.chore.mining.method.active=Aktiivinen
+gui.button.chore.mining.direction=Suunta\: 
+gui.button.chore.mining.direction.forward=Eteenp\u00e4in
+gui.button.chore.mining.direction.backward=Taaksep\u00e4in
+gui.button.chore.mining.direction.left=Vasemmalle
+gui.button.chore.mining.direction.right=Oikealle
+gui.button.chore.mining.distance=Et\u00e4isyys\: 
+gui.button.chore.mining.find=Etsi\: 
+gui.button.chore.mining.find.coal=Hiili
+gui.button.chore.mining.find.iron=Rauta
+gui.button.chore.mining.find.lapis=Lasuriitti
+gui.button.chore.mining.find.gold=Kulta
+gui.button.chore.mining.find.diamond=Timantti
+gui.button.chore.mining.find.redstone=Punakivi
+gui.button.chore.mining.find.emerald=Smaragdi
+gui.button.chore.hunting=Mets\u00e4stys
+gui.button.chore.hunting.mode=Muoto\: 
+gui.button.chore.hunting.mode.kill=Tapa
+gui.button.chore.hunting.mode.tame=Kesyt\u00e4
+gui.button.chore.start=Aloita
+
+gui.button.hiring.hours=Tunnit\: 
+
+gui.button.lostrelativedocument.generation=Sukupolvi\: %Generation%
+
+#Titles
+gui.title.setup=Minecraft Comes Alive Lataus
+gui.title.setup.name=Kirjoita nimesi.
+gui.title.setup.gender=Valitse sukupuolesi.
+gui.title.setup.options=M\u00e4\u00e4rit\u00e4 asetuksia.
+
+gui.title.inventory=%Name%n Tavaraluettelo
+
+gui.title.namebaby=Nime\u00e4 lapsesi\:
+gui.title.namebaby.male=Se on poika\!
+gui.title.namebaby.female=Se on tytt\u00f6\!
+
+gui.title.priest.divorcecouple=Valitse pari jonka haluat erottaa.
+
+gui.title.tombstone=Muuta hautakiven teksti\u00e4\:
+
+gui.title.special.hired=(palkattu)
+
+gui.title.lostrelativedocument=Valitse %Name%n haluttu suhde sinulle.
+gui.title.lostrelativedocument.confirm=Oletko varma ett\u00e4 haluat %Name%\:n tulevan\: 
+
+#Information
+gui.info.hearts=Syd\u00e4met
+
+gui.info.special.none=T\u00e4ll\u00e4 henkil\u00f6ll\u00e4 ei ole erityistaitoja.
+
+gui.info.family.parents=(%MotherName%n ja %FatherName%n %ChildTitle%)
+gui.info.family.parents.deceased=(Vanhemmat Kuolleet)
+gui.info.family.parent=(%LivingParent%n %ChildTitle%)
+
+gui.info.family.spouse=(Naimisissa %SpouseRelation% %VillagerSpouseName%n kanssa)
+gui.info.family.spouse.unrelated=(Naimissa %SpouseFullName%n kanssa)
+
+gui.info.namebaby.invalidcharacters=Vauvan nimess\u00e4 on kiellettyj\u00e4 kirjaimia.
+gui.info.namebaby.nametaken=Sinulla on jo lapsi tuolla nimell\u00e4.
+
+gui.info.procreate.confirm1=Et voi lis\u00e4\u00e4nty\u00e4, kun olet kihloissa.
+gui.info.procreate.confirm2=Sinun t\u00e4ytyy antaa t\u00e4lle kyl\u00e4l\u00e4iselle vihkisormus.
+
+gui.info.chore.options=Asetukset\:
+gui.info.chore.options.none=Ei ole muokattavaa vaihtoehtoa t\u00e4h\u00e4n ty\u00f6h\u00f6n.
+gui.info.chore.experience=Kehitystaso\:
+
+gui.info.hire.price=T\u00e4m\u00e4n kyl\u00e4l\u00e4isen palkkaaminen maksaa %x% kultaharkkoa.
+gui.info.hire.hasgold=Sinulla on tarpeeksi kultaharkkoja.
+gui.info.hire.notenoughgold=Sinulla ei ole tarpeeksi kultaharkkoja.
+gui.info.hire.minutesremaining=%x% minuuttia j\u00e4ljell\u00e4.
+
+gui.info.hardcoresecret.prompt=Voit synty\u00e4 uudelleen lapsenasi jos sinulla on sellainen.
+gui.info.hardcoresecret.nochildren=Ei lapsia\!
+gui.info.hardcoresecret.spawnas=Olet\:
+gui.info.hardcoresecret.respawn=Synny lapsena
+
+#Overhead
+gui.overhead.hasgift=Lahja saatavana
+gui.overhead.hasring=K\u00e4dess\u00e4 Sovittajan Sormus
+gui.overhead.sleeping=Nukkuu
+gui.overhead.health=Kunto\:
+
+#######
+# Notifications/One Liners
+##############################
+notify.player.married=Sin\u00e4 ja %Name% olette nyt naimisissa.
+notify.player.engaged=Olet nyt kihloissa %Name%n kanssa.
+notify.player.droppedbaby=Tuo on huono idea.
+notify.player.clickbed=Et voi k\u00e4ytt\u00e4\u00e4 tuota s\u00e4nky\u00e4.
+
+notify.horse.invalid=En voi ratsastaa tuolla hevosella.
+notify.horse.notfound=Hmm...mill\u00e4 hevosella haluat minun ratsastavan? Tuo se t\u00e4nne.
+
+notify.villager.married=Kyl\u00e4l\u00e4iset ovat nyt naimisissa.
+notify.villager.gifted.cake.notenough=Haluaisin todella, ett\u00e4 minun puolisollani olisi my\u00f6s kakkua...
+notify.villager.gifted.cake.withbaby.male=Min\u00e4 ja vaimoni p\u00e4\u00e4timme olla sy\u00f6m\u00e4tt\u00e4 kakkua ennen kuin lapsemme kasvaa.
+notify.villager.gifted.cake.withbaby.female=Min\u00e4 ja sulhaseni p\u00e4\u00e4timme olla sy\u00f6m\u00e4tt\u00e4 kakkua ennen kuin lapsi kasvaa.
+notify.villager.gifted.cake.spousenotnearby.male=Kakkua? Hae minun vaimoni niin voin jakaa sen h\u00e4nen kanssaan.
+notify.villager.gifted.cake.spousenotnearby.female=Kakkua? Hae mieheni niin voin jakaa sen h\u00e4nen kanssaan.
+notify.villager.gifted.arrangerring.othernotnearby=...Mit\u00e4? T\u00e4\u00e4ll\u00e4 ei ole ket\u00e4\u00e4n muuta.
+notify.villager.gifted.arrangerring.relative=Min\u00e4 olen sinun %RelationToPlayer%.
+notify.villager.gifted.arrangerring.notenoughrings=N\u00e4ytt\u00e4\u00e4 silt\u00e4 ett\u00e4 sinulla ei ole meille tarpeeksi monta sormusta. Me tarvitsemme kaksi, tietenkin\!
+notify.villager.gifted.arrangerring.invalidpartner=Et voi menn\u00e4 %Name% kanssa naimisiin\!
+
+notify.baby.gaveup=Sin\u00e4 voit nyt saada uuden vauvan.
+notify.baby.exists=Sinulla on jo lapsi.
+notify.baby.readytogrow=Vauvasi on valmis kasvamaan.
+notify.baby.cooked=Mik\u00e4 sinua vaivaa\!?
+
+notify.divorce.spousemissing=Puolisosi ei ollut l\u00e4hell\u00e4, joten et saa esineit\u00e4si heilt\u00e4.
+notify.arrangedmarriage.failed=L\u00e4hell\u00e4 ei ole ket\u00e4\u00e4n, joka haluaisi menn\u00e4 kanssasi naimisiin nyt.
+
+notify.death.male=%Name%, sinun %RelationToPlayer%, on kuollut.
+notify.death.female=%Name%, sinun %RelationToPlayer%, on kuollut.
+
+notify.homepoint.set=T\u00e4m\u00e4 henkil\u00f6 spawnaa t\u00e4\u00e4ll\u00e4 illalla.
+notify.homepoint.none=%Name% ei ole kotia merkittyn\u00e4.
+notify.homepoint.invalid=Tuo kotikohta on v\u00e4\u00e4r\u00e4.
+notify.homepoint.obstructed=%Name%n koti paikka on tukossa.
+notify.homepoint.teleport.skip.following=%Name% seuraa sinua. He eiv\u00e4t teleporttaa kotiin t\u00e4n\u00e4 y\u00f6n\u00e4.
+notify.homepoint.teleport.skip.staying=%Name% pysyy. H\u00e4n ei teleporttaa kotting t\u00e4n\u00e4 y\u00f6n\u00e4.
+
+notify.item.broken.axe=%Name%n kirves hajosi.
+notify.item.broken.boots=%Name%n saappaat hajosivat.
+notify.item.broken.chestplate=%Name%n rintapanssari hajosi.
+notify.item.broken.fishingrod=%Name%n onki hajosi.
+notify.item.broken.helmet=%Name%n kyp\u00e4r\u00e4 hajosi.
+notify.item.broken.leggings=%Name%n housut rikkoituivat.
+notify.item.broken.pickaxe=%Name%n hakku meni rikki.
+notify.item.broken.sword=%Name%n miekka hajosi.
+notify.item.broken.hoe=%Name%n kuokka on rikki.
+notify.item.broken.bow=%Name%n jousipyssy hajosi.
+
+notify.child.chore.finished.farming=Olen farmannut tarpeeksi.
+notify.child.chore.finished.fishing=Olen onkinut tarpeeksi kalaa.
+notify.child.chore.finished.woodcutting=Olen hakannut tarpeeksi puuta.
+notify.child.chore.finished.mining=Olen kaivanut tarpeeksi.
+notify.child.chore.finished.hunting=Olen suorittanut mets\u00e4styksen.
+
+notify.child.chore.levelup.farming.5=%Name% on saavuttanut 5-tason maatilanhoidon. He l\u00f6yt\u00e4v\u00e4t t\u00e4st\u00e4 eteenp\u00e4in enemm\u00e4n siemeni\u00e4 viljaa niitt\u00e4ess\u00e4\u00e4n.
+notify.child.chore.levelup.farming.10=%Name% on saavuttanut 10-tason maatilanhoidon. He vipelt\u00e4v\u00e4t nyt sukkelaan pitkin peltoja.
+notify.child.chore.levelup.farming.15=%Name% on saavuttanut 15-tason maatilanhoidon. He voivat nyt niitt\u00e4\u00e4 1-3 enemm\u00e4n tietty\u00e4 kasvilajiketta.
+notify.child.chore.levelup.farming.20=%Name% on saavuttanut 20-tason maatilanhoidon. Vilja kasvaa vaikka v\u00e4kisin.
+
+notify.child.chore.levelup.fishing.5=%Name% on saavuttanut 5-tason kalastuksen. He narraavat kalaa nopeammin ja kahta useammin.
+notify.child.chore.levelup.fishing.10=%Name% on saavuttanut 10-tason kalastuksen. He l\u00f6yt\u00e4v\u00e4t nyt useammin aarteita kaloista.
+notify.child.chore.levelup.fishing.15=%Name% on saavuttanut 15-tason kalastuksen. He narraavat kalaa kolme kertaa useammin ja paljon nopeampaa.
+notify.child.chore.levelup.fishing.20=%Name% on saavuttanut 20-tason kalastuksen. He l\u00f6yt\u00e4v\u00e4t nyt harvinaisempia aarteita kaloista.
+
+notify.child.chore.levelup.hunting.5=%Name% on saavuttanut 5-tason mets\u00e4styksen. He tuovat nyt enemm\u00e4n kesytettyj\u00e4 elikoita mukanaan, ilman kovempaa resurssin k\u00e4ytt\u00f6tarvetta.
+notify.child.chore.levelup.hunting.10=%Name% on saavuttanut 10-tason mets\u00e4styksen. He eiv\u00e4t en\u00e4\u00e4 kuole mets\u00e4stysmatkoillaan.
+notify.child.chore.levelup.hunting.15=%Name% on saavuttanut 15-tason mets\u00e4styksen. He tuovat nyt enemm\u00e4n lihaa mukanaan.
+notify.child.chore.levelup.hunting.20=%Name% on saavuttanut 20-tason mets\u00e4styksen. T\u00e4st\u00e4 l\u00e4htien he tulevat aina yhden minuutin p\u00e4\u00e4st\u00e4 takaisin.
+
+notify.child.chore.levelup.mining.5=%Name% on saavuttanut 5-tason kivenhakkuun. He silppuavat kalliota nopeampaa.
+notify.child.chore.levelup.mining.10=%Name% on saavuttanut 10-tason kivenhakkuun. Hakku ei en\u00e4\u00e4 osu omaan kinttuun heid\u00e4n k\u00e4siss\u00e4\u00e4n. 
+notify.child.chore.levelup.mining.15=%Name% on saavuttanut 15-tason kivenhakkuun. Kultaa l\u00f6ytyy nyt joka nurkasta.
+notify.child.chore.levelup.mining.20=%Name% on saavuttanut 20-tason kaivoskyvyt. Kuin k\u00e4\u00e4pi\u00f6t ik\u00e4\u00e4n, he voivat haistaa kullan tarkasti kallion sis\u00e4lt\u00e4.
+
+notify.child.chore.levelup.woodcutting.5=%Name% on saavuttanut 5-tason puunhakkuu-taidon, ja juoksevat mets\u00e4n halki kuin hihhulit.
+notify.child.chore.levelup.woodcutting.10=%Name% on saavuttanut 10-tason puunhakkuun. Puu kaatuu nyt nopeasti vaikka paljain kynsin.
+notify.child.chore.levelup.woodcutting.15=%Name% on saavuttanut 10-tason puunhakkuun. Puuta l\u00f6ytyy nyt joka nurkasta.
+notify.child.chore.levelup.woodcutting.20=%Name% on saavuttanut 20-tason puunhakkuu-taidon. Maagisin voimin joka halosta l\u00f6ytyy lopulta kolme halkoa.
+
+notify.child.chore.interrupted.farming.noseeds=Minulla ei ole tarpeeksi siemeni\u00e4\!
+notify.child.chore.interrupted.farming.noland=En n\u00e4e yht\u00e4\u00e4n multaa tai ruohoa\!
+notify.child.chore.interrupted.farming.nofarmland=K\u00e4skit minun k\u00e4ytt\u00e4\u00e4 vain viljelysmaata. Miss\u00e4 se on?
+notify.child.chore.interrupted.farming.noroom=Minulla ei ollut tarpeeksi tilaa valmistaa farmi.
+notify.child.chore.interrupted.farming.noselection=Et ole merkannut minulle aluetta miss\u00e4 viljell\u00e4.
+notify.child.chore.interrupted.farming.nohoe=Minulla ei ole kuokkaa.
+notify.child.chore.interrupted.fishing.nowater=En n\u00e4e yht\u00e4\u00e4n vett\u00e4 kilometreihin\!
+notify.child.chore.interrupted.fishing.norod=Minulla ei ole onkea\! Voin ottaa ne kiinni k\u00e4sill\u00e4ni.
+notify.child.chore.interrupted.mining.noblocks=En n\u00e4e yht\u00e4\u00e4n palikoita joita voi kaivaa.
+notify.child.chore.interrupted.mining.nopickaxe=Minulla ei ole hakkua\!
+notify.child.chore.interrupted.mining.tookdamage=%Name% otti vahinkoa kaivaessa. H\u00e4n on palannut paikalle mist\u00e4 h\u00e4n aloitti.
+notify.child.chore.interrupted.woodcutting.notrees=En n\u00e4\u00e4 yht\u00e4k\u00e4\u00e4n puuta.
+notify.child.chore.interrupted.hunting.notamematerials=Minulla ei ole mit\u00e4\u00e4n mill\u00e4 voisin kesytt\u00e4\u00e4 el\u00e4imi\u00e4.
+
+notify.child.chore.failed.hunting.death=%Name% kuoli mets\u00e4st\u00e4ess\u00e4\u00e4n.
+
+notify.child.chore.status.mining.orefound=T\u00e4\u00e4ll\u00e4 on %OreType% %OreDistance% Palikkaa kaukana.
+notify.child.chore.status.mining.orenearby=T\u00e4\u00e4ll\u00e4 on %OreType% l\u00e4hell\u00e4...
+notify.child.chore.status.mining.oredistance=Tuolla on %OreType% %OreDistance% palikkaa kaukana, tarkalleen %OreX% %OreY% %OreZ%.
+
+notify.child.gifted.arrows=Hyv\u00e4 on\! Haluan ampua jotain\!
+notify.child.gifted.axe=Nyt nyrkkini ei vuoda verta, kun hakkaan puita\!
+notify.child.gifted.fishingrod=Nyt voin menn\u00e4 kalastamaan\!
+notify.child.gifted.hoe=T\u00e4m\u00e4 auttaa viljelem\u00e4\u00e4n nopeammin\!
+notify.child.gifted.seeds=Nyt voin farmata\!
+notify.child.gifted.sword=T\u00e4m\u00e4 pit\u00e4\u00e4 pahikset poissa\!
+notify.child.gifted.wheat=Voin k\u00e4ytt\u00e4\u00e4 t\u00e4t\u00e4 kesytt\u00e4miseen\!
+notify.child.gifted.pickaxe=Nyt voin louhia\!
+notify.child.gifted.carrot=Voin k\u00e4ytt\u00e4\u00e4 t\u00e4t\u00e4 kesytt\u00e4miseen\!
+notify.child.gifted.bone=Voisin k\u00e4ytt\u00e4\u00e4 t\u00e4t\u00e4 kesytt\u00e4miseen\!
+
+notify.child.emptiedinventory=%Name% on tyhjent\u00e4nyt inventarionsa.
+notify.child.readytogrow=%Name% On jo kasvanut isoksi.
+notify.child.growup=%Name% on jo kasvanut aikuiseksi.
+notify.child.ranaway=%Name% on juossut pois.
+
+notify.spouse.gifted.anotherbaby=Minulla on jo meid\u00e4n vauva. Mist\u00e4 sait tuon\!?
+notify.spouse.chore.interrupted.cooking.nofurnace=En n\u00e4e uunia miss\u00e4\u00e4n.
+notify.spouse.chore.interrupted.cooking.nofuel=Ei polttoainetta.
+
+notify.lostrelativedocument.success=%Name% on nyt sinun %RelationToPlayer%.
+notify.lostrelativedocument.success.norelation=%Name% ei ole en\u00e4\u00e4 sukua sinulle.
+
+notify.monarch.began=Monarkin velvollisuus on suotu sinulle.
+notify.monarch.resume=Sin\u00e4 olet taas hallitsija. Sinun aikaisempaa perillist\u00e4 ei voi en\u00e4\u00e4 k\u00e4ytt\u00e4\u00e4.
+notify.monarch.ended.noheir=Et ole en\u00e4\u00e4n monarkki.
+notify.monarch.ended.withheir=Et ole en\u00e4\u00e4n monarkki. Perillisesi on ottanut paikkasi.
+
+notify.hiring.complete=%Name%n palkkamisaika on umpeutunut.
+
+notify.update.turnedon=MCA tarkistaa nyt automaattisesti p\u00e4ivityksi\u00e4.
+notify.update.turnedoff=MCA ei en\u00e4\u00e4 ilmoita p\u00e4ivityksist\u00e4 ennenkuin seuraava p\u00e4ivitys on julkaistu.
+
+#######
+# Parser Commands
+##############################
+parser.playerchild.adult.callplayerparent.male=Is\u00e4
+parser.playerchild.adult.callplayerparent.female=\u00c4iti
+parser.playerchild.adult.parentopposite.male=\u00c4iti
+parser.playerchild.adult.parentopposite.female=Is\u00e4
+
+parser.playerchild.young.callplayerparent.male=Faija
+parser.playerchild.young.callplayerparent.female=Mutsi
+parser.playerchild.young.parentopposite.male=Mutsi
+parser.playerchild.young.parentopposite.female=Faija
+
+#####################################################################################################
+#									              DIALOGUE											#
+#####################################################################################################
+
+#######
+# Profession-specific dialogue
+##############################
+guard.follow.refuse1=Ei, minulla on t\u00f6it\u00e4 teht\u00e4v\u00e4n\u00e4.
+guard.follow.refuse2=En vain voi l\u00e4hte\u00e4 vahdista.
+guard.follow.refuse3=Haluat minun k\u00e4velev\u00e4n pois t\u00f6ist\u00e4? Ei\!
+guard.follow.refuse4=Ei, ellet palkkaa minua.
+guard.follow.refuse5=Saan potkut jos vain k\u00e4velen pois\!
+
+guard.stay.refuse1=Olen vahdissa. En voi pysy\u00e4 siin\u00e4.
+guard.stay.refuse2=Et ole minun pomoni.
+guard.stay.refuse3=Tajuatko ett\u00e4 olen vartija?
+guard.stay.refuse4=Ty\u00f6ni on vahtia kyl\u00e4\u00e4, ei seisoskella ymp\u00e4riins\u00e4.
+guard.stay.refuse5=Olen t\u00f6iss\u00e4 juuri nyt. Voit kuitenkin palkata minut.
+
+smith.aid.prompt1=Voisin myyd\u00e4 alasimen. Tee tarjouksesi.
+smith.aid.prompt2=Minulla on vanha alasin jonka haluaisin vaihtaa...
+smith.aid.prompt3=Min\u00e4 irtisanon itseni t\u00e4st\u00e4 hommasta, joten minun alasin on myyt\u00e4v\u00e4n\u00e4.
+smith.aid.prompt4=Haluatko alasimen? Voisin antaa omani, rahasta.
+
+smith.aid.outofrange1=Kerro minulle kun haluat ostaa alasimen.
+smith.aid.outofrange2=Tule takaisin ja kerro jos sinulla on tarjous.
+
+smith.aid.alreadyaccepted1=Sinulla on jo minun alasimeni. Minulla ei ole muuta sinulle.
+smith.aid.alreadyaccepted2=Sin\u00e4 ostit alasimeni. Tee omat korjauksesi\!
+smith.aid.alreadyaccepted3=Minulla ei ole alasinta myyt\u00e4v\u00e4n\u00e4, anteeksi.
+
+smith.aid.accept1=Ah\! T\u00e4m\u00e4 on tarpeeksi. T\u00e4ss\u00e4 on.
+smith.aid.accept2=T\u00e4m\u00e4 on tarpeeksi. Ole varovainen, se on painava\!
+smith.aid.accept3=Kiitos\! T\u00e4ss\u00e4 on alasimesi.
+smith.aid.accept4=\u00c4l\u00e4 pudota t\u00e4t\u00e4 kenenk\u00e4\u00e4n p\u00e4\u00e4lle, okei?
+
+smith.aid.refuse.rightitem1=T\u00e4ss\u00e4 ovat mit\u00e4 haluan alasimesta. Olisiko sinulla muutamaa lis\u00e4\u00e4 n\u00e4it\u00e4?
+smith.aid.refuse.rightitem2=Kyll\u00e4, n\u00e4m\u00e4 ovat juuri mit\u00e4 tarvitsen, mutta sinulla ei ole tarpeeksi.
+smith.aid.refuse.rightitem3=Juuri mit\u00e4 tarvitsen\! Tarvitsen vain muutaman lis\u00e4\u00e4 jotta annan alasimeni sinulle.
+smith.aid.refuse.rightitem4=Annat minulle muutaman n\u00e4it\u00e4 lis\u00e4\u00e4 niin sitten saat alasimen.
+
+smith.aid.refuse.wrongitem1=En halua vaihtaa noita alasimeen.
+smith.aid.refuse.wrongitem2=T\u00e4m\u00e4 ei ole ihan sit\u00e4 mit\u00e4 min\u00e4 halusin, onko sinulla jotain muuta?
+smith.aid.refuse.wrongitem3=Ei... Haluaisin jotain muuta jos olet ostamassa alasintani.
+smith.aid.refuse.wrongitem4=Tarvitsen jotain muuta maksaakseni alasimen.
+
+priest.adopt.male1=T\u00e4ss\u00e4 on uusi vauvanne. H\u00e4nen nimens\u00e4 on %BabyName%.
+priest.adopt.male2=H\u00e4n on s\u00f6p\u00f6, eik\u00f6 olekin? H\u00e4nen nimens\u00e4 on %BabyName%.
+priest.adopt.male3=Toivon ett\u00e4 %BabyName% antaa sinulle iloa vuosien ajan.
+priest.adopt.female1=H\u00e4n on ihana, eik\u00f6 olekin? H\u00e4nen nimens\u00e4 on %BabyName%.
+priest.adopt.female2=Ole kiltti ja hoida %BabyName%a hyvin. T\u00e4ss\u00e4 h\u00e4n on.
+priest.adopt.female3=%BabyName% on niin ihana, on surullista n\u00e4hd\u00e4 h\u00e4nen menev\u00e4n...
+
+priest.arrangemarriage1=Toivon, ett\u00e4 sin\u00e4 ja %Name% l\u00f6yd\u00e4tt\u00e4 paljon iloa yhdess\u00e4.
+priest.arrangemarriage2=%PlayerName%, Haluaisin, ett\u00e4 tapaat henkil\u00f6n %Name%. Olette nyt naimissa.
+priest.arrangemarriage3=Kuten haluat. Olet nyt naimisissa henkil\u00f6n %Name% kanssa.
+
+generic.hire.accept1=Kitooksia paljon\! Teen kaikki teht\u00e4v\u00e4t mit\u00e4 haluat minun tekev\u00e4n.
+generic.hire.accept2=T\u00e4m\u00e4 on tarpeeksi. Ty\u00f6skentelen sinulle nyt.
+generic.hire.accept3=Olen valmis ty\u00f6h\u00f6n\! 
+generic.hire.accept4=Aloitetaan\! Mik\u00e4 on minun ensimm\u00e4inen ty\u00f6ni?
+
+guard.hire.accept1=Kiitos\! Olen henkivartijasi.
+guard.hire.accept2=Teen t\u00f6it\u00e4 sinulle.
+guard.hire.accept3=Olet pomoni.
+guard.hire.accept4=Mik\u00e4 on ensimm\u00e4inen hommani, pomo?
+
+guard.hire.dismiss1=Olen pahoillani ettei se toiminut. Menen takaisin entiselle ty\u00f6paikalleni.
+guard.hire.dismiss2=Oli mukavaa tehd\u00e4 t\u00f6it\u00e4 kanssasi\!
+guard.hire.dismiss3=Katson jos saan vanhan ty\u00f6ni takaisin.
+guard.hire.dismiss4=Hienoa. Minulle ei ole en\u00e4\u00e4 ty\u00f6t\u00e4...
+
+butcher.aid.accept1=Kiinni veti\! Minulla on paljon lihaa jakaa.
+butcher.aid.accept2=T\u00e4ss\u00e4 sinulle v\u00e4h\u00e4n minun extra lihaa.
+butcher.aid.accept3=T\u00e4ss\u00e4 sinulle tuoretta lihaa.
+
+butcher.aid.refuse1=Minulle ei ole tarpeeksi antaa sinulle, olen pahoillani.
+butcher.aid.refuse2=Minun pit\u00e4\u00e4 s\u00e4\u00e4st\u00e4\u00e4 maksavien asiakkaiden tavarat\!
+butcher.aid.refuse3=En voi antaa sinulle mit\u00e4\u00e4n juuri nyt.
+
+baker.aid.accept1=Leivoin juuri t\u00e4m\u00e4n. Voit pit\u00e4\u00e4 sen.
+baker.aid.accept2=Okei, voit ottaa t\u00e4m\u00e4n. Se on suoraan ty\u00f6st\u00f6penkist\u00e4.
+baker.aid.accept3=Minulla on hieman tavaroita jota ei ostettu t\u00e4n\u00e4\u00e4n. Voit saada ne.
+
+baker.aid.refuse1=Minulla ei ole mit\u00e4\u00e4n juuri nyt, tule takaisin my\u00f6hemmin.
+baker.aid.refuse2=Min\u00e4 leivon juuri nyt. Ne ovat valmiita my\u00f6hemmin.
+baker.aid.refuse3=Minulla oli jotain sinulle, mutta poltin ne vahingossa, sori.
+
+farmer.aid.accept1=Luulen ett\u00e4 voin antaa jotain. T\u00e4ss\u00e4.
+farmer.aid.accept2=Totta kai voin auttaa. Ole hyv\u00e4.
+farmer.aid.accept3=Minulla oli \u00e4skett\u00e4in hyv\u00e4 viljelm\u00e4. T\u00e4ss\u00e4 on hieman ekstraa.
+
+farmer.aid.refuse1=Valitan, minulla ei ole mit\u00e4\u00e4n annettavaa.
+farmer.aid.refuse2=Tule takaisin my\u00f6hemmin, minulla ei ole mit\u00e4\u00e4n sinulle.
+farmer.aid.refuse3=Sori, minulla ei ole mit\u00e4\u00e4n annettavaa.
+
+miner.hire.accept1=Kiitos\! Voin aloittaa heti.
+miner.hire.accept2=Olen iloinen ollakseni avuksi. Miss\u00e4 louhimme?
+miner.hire.accept3=Kiitos palkkaamisesta. Voin aloittaa heti.
+
+miner.hire.refuse1=Teen t\u00f6it\u00e4 viidest\u00e4 kullasta. Siit\u00e4 saat sata kuutiota.
+miner.hire.refuse2=Anna minulle viisi kultaa ja kaivan sata palikkaa puolestasi.
+miner.hire.refuse3=Sinulla ei ole tarpeeksi kultaa palkataksesi minut. Tarvitsen viisi kultaa jotta voin kaivaa sata kuutiota.
+
+miner.hire.finished1=Siin\u00e4 oli sata kuutiota. Olen valmis.
+miner.hire.finished2=Siin\u00e4 oli sata kuutiota. Ty\u00f6ni on valmis.
+miner.hire.finished3=Olen kaivanut sata kuutiota. Oli ilo ty\u00f6skennell\u00e4 kanssasi.
+
+miner.hire.dismiss1=J\u00e4t\u00e4t minut jo? Hyv\u00e4 on.
+miner.hire.dismiss2=Olen valmis enemp\u00e4\u00e4n ty\u00f6h\u00f6n jos sinulla on kultaa.
+miner.hire.dismiss3=Palaan sitten kyl\u00e4lle.
+
+miner.chore.finished1=Olen valmis.
+miner.chore.finished2=Olen valmis tekem\u00e4\u00e4n enemm\u00e4n t\u00f6it\u00e4.
+miner.chore.finished3=Olen valmis t\u00e4m\u00e4n ty\u00f6n kanssa.
+
+miner.chore.start1=Teen sen heti, pomo.
+miner.chore.start2=Selv\u00e4 on pomo.
+miner.chore.start3=Aloitan heti.
+
+miner.dropallitems1=Ole hyv\u00e4.
+miner.dropallitems2=T\u00e4ss\u00e4 osasi, pomo.
+miner.dropallitems3=T\u00e4ss\u00e4 kaikki mit\u00e4 sain.
+miner.dropallitems4=T\u00e4ss\u00e4 on kaikki mit\u00e4 kaivoin.
+
+#######
+# Villager Dialogue
+##############################
+villager.chat.bad1=Tyls\u00e4\u00e4\u00e4.
+villager.chat.bad2=*Haukotus*
+villager.chat.bad3=Anteeksi, mit\u00e4? En kuunnellut.
+villager.chat.bad4=Sanoitko sin\u00e4 jotain?
+villager.chat.bad5=Mhm.
+villager.chat.bad6=\u00d6\u00f6... Hyv\u00e4 on... Minun pit\u00e4\u00e4 tehd\u00e4 jotain muuta, jos nyt voisit antaa minun...
+villager.chat.bad7=Aivan niin. Taisin unohtaa tehd\u00e4 jotain... Joten minun t\u00e4ytyy nyt menn\u00e4.
+villager.chat.bad8=En tied\u00e4, mit\u00e4 tarkoitit tuolla.
+villager.chat.bad9=Mielest\u00e4ni puhut v\u00e4\u00e4r\u00e4lle henkil\u00f6lle.
+villager.chat.bad10=Ei... Ei minun mielest\u00e4ni.
+villager.chat.bad11=Miksi sanot jotain tuollaista?
+villager.chat.bad12=Tuo oli hyvin ilke\u00e4\u00e4 sinulta.
+
+villager.chat.good1=Niink\u00f6? En ole kuullutkaan.
+villager.chat.good2=Sin\u00e4 kuulit t\u00e4m\u00e4n mist\u00e4?
+villager.chat.good3=Miten sin\u00e4 tuon teit\!?
+villager.chat.good4=Jep, t\u00e4\u00e4ll\u00e4 on todella tyls\u00e4\u00e4.
+villager.chat.good5=Oi, mielenkiintoista.
+villager.chat.good6=Sinulla on hyvi\u00e4 tarinoita. Voitko kertoa lis\u00e4\u00e4?
+villager.chat.good7=Se oli hienoa. Joten mit\u00e4 tapahtui j\u00e4lkeenp\u00e4in?
+villager.chat.good8=Min\u00e4 tahdon t\u00e4ysin\!
+villager.chat.good9=Olen kuullut toisten sanovan samaa.
+villager.chat.good10=Oletko n\u00e4hnyt smaragdeja kun olet kaivanut?
+
+villager.engagement.accept1=Milloin on h\u00e4\u00e4mme\!?
+villager.engagement.accept2=Meill\u00e4 tulee olemaan isot juhlat, eik\u00f6 niin?
+villager.engagement.accept3=Vihdoinkin\! Min\u00e4 odotin ikuisuuden\! Min\u00e4 rakastan sinua\!
+villager.engagement.accept4=Min\u00e4 kutsun kaikki yst\u00e4v\u00e4ni\!
+villager.engagement.accept5=Jee\! Min\u00e4 rakastan sinua\!
+
+villager.engagement.refusal1=\u00d6h... en ole viel\u00e4 valmis menem\u00e4\u00e4n naimisiin.
+villager.engagement.refusal2=Ai...t\u00e4m\u00e4 on tosi noloa...
+villager.engagement.refusal3=Mit\u00e4? Ei\! En edes tunne sinua\!
+villager.engagement.refusal4=Olen pahoillani. Min\u00e4 en vain pid\u00e4 sinusta tuollaisena.
+villager.engagement.refusal5=Hidastappas nyt. Me tuskin tunnemme toisiamme.
+
+villager.follow.start1=Minne me menemme?
+villager.follow.start2=Yrit\u00e4n pysy\u00e4 sinun kanssa.
+villager.follow.start3=Okei. Tulen per\u00e4ss\u00e4.
+villager.follow.start4=Aiotko siirt\u00e4 koko kyl\u00e4n jotta voit aloittaa oman kaupungin? Tuskinpa.
+villager.follow.start5=Ok, Voisin hieman k\u00e4vell\u00e4.
+villager.follow.start6=Mihin sin\u00e4 viet minut?
+villager.follow.start7=Ok, Minne haluat menn\u00e4?
+villager.follow.start8=Menn\u00e4\u00e4n t\u00e4m\u00e4n yli sitten.
+
+villager.follow.stop1=Okei, min\u00e4 olen t\u00e4\u00e4ll\u00e4.
+villager.follow.stop2=\u00c4l\u00e4 mene liian kauas.
+villager.follow.stop3=Min\u00e4 tykk\u00e4\u00e4n t\u00e4st\u00e4 paikasta\!
+villager.follow.stop4=Okei, N\u00e4hd\u00e4\u00e4n my\u00f6hemmin\!
+villager.follow.stop5=\u00e4l\u00e4 j\u00e4t\u00e4 minua t\u00e4nne yksin\!
+villager.follow.stop6=Pid\u00e4 huolta itsest\u00e4si.
+villager.follow.stop7=Hyv\u00e4 on sitten, min\u00e4 pysyn t\u00e4ss\u00e4.
+villager.follow.stop8=Min\u00e4 lopetan sinun seuraamisen nyt.
+villager.follow.stop9=Hyv\u00e4, Olen v\u00e4synyt\!
+villager.follow.stop10=No tuo oli vaihtelua\!
+
+villager.gift.bad1=En ole roskap\u00f6ntt\u00f6.
+villager.gift.bad2=En halua sinun roskaasi\!
+villager.gift.bad3=Luulen ett\u00e4 t\u00e4m\u00e4 on turhaa.
+villager.gift.bad4=Miksi min\u00e4 haluaisin TUON?
+villager.gift.bad5=Sin\u00e4 voit pit\u00e4\u00e4 roskasi, kiitos.
+villager.gift.bad6=Toivon ett\u00e4 pilailet, t\u00e4m\u00e4 ei ole hyv\u00e4 lahja.
+villager.gift.bad7=Anteeksi, mutta en hyv\u00e4ksy tuollaisia lahjoja.
+villager.gift.bad8=En voi ottaa mit\u00e4\u00e4n tuntemattomilta, anteeksi.
+villager.gift.bad9=Sin\u00e4 olit se joka otit t\u00e4m\u00e4n minulta\! Sinun pit\u00e4isi l\u00e4hte\u00e4.
+villager.gift.bad10=Miksi sin\u00e4 vaadit antaa minulle tuota roskaa?
+
+villager.gift.small1=Vau, kiitos\!
+villager.gift.small2=Miten ajattelevaista sinulta\!
+villager.gift.small3=Kiitos\!
+villager.gift.small4=Sinun ei olisi pit\u00e4nyt hankkia minulle mit\u00e4\u00e4n...kiitos\!
+villager.gift.small5=Vau, Min\u00e4 rakastan n\u00e4it\u00e4\!
+villager.gift.small6=Kiitos.
+villager.gift.small7=T\u00e4m\u00e4 on tosi hieno lahja. Kiitos.
+villager.gift.small8=Siisti\u00e4\! Kiitos\!
+
+villager.gift.regular1=Kiilt\u00e4v\u00e4\!
+villager.gift.regular2=Min\u00e4 l\u00f6yd\u00e4n t\u00e4lle k\u00e4ytt\u00f6\u00e4. Kiitos\!
+villager.gift.regular3=Vau\! Kiitos\!
+villager.gift.regular4=Saisinko toisen?
+villager.gift.regular5=kiitos, yst\u00e4v\u00e4.
+villager.gift.regular6=Aa, kiitos sinulle lahjasta.
+villager.gift.regular7=Miten kiltti\u00e4 sinulta, kiitos.
+villager.gift.regular8=Miten hieno lahja\!Kiitos, \u2030PlayerName%.
+villager.gift.regular9=%PlayerName%, olet niin ihana.
+villager.gift.regular10=T\u00e4m\u00e4 on yst\u00e4v\u00e4llist\u00e4 sinulta, %PlayerName%.
+villager.gift.regular11=Olet todella hyv\u00e4 yst\u00e4v\u00e4\!
+
+villager.gift.great1=Min\u00e4...Min\u00e4 olen sanaton\! Kiitos\!
+villager.gift.great2=N\u00e4m\u00e4 ovat korvaamattomia\!
+villager.gift.great3=Tied\u00e4t hyv\u00e4n lahjan kun n\u00e4et sen\!
+villager.gift.great4=Olen aina halunnut yhden t\u00e4ll\u00e4isen\!
+villager.gift.great5=T\u00e4m\u00e4 on mahtava\!
+villager.gift.great6=Voi, t\u00e4m\u00e4 on.. Kiitos\! Ei sinun olisi tarvinnut\!
+villager.gift.great7=Kiitos todella paljon, muistan t\u00e4m\u00e4n.
+villager.gift.great8=Voi, t\u00e4m\u00e4 on mahtavaa, laitan sen hyv\u00e4\u00e4n k\u00e4ytt\u00f6\u00f6n.
+
+villager.greeting.hate1=Pysy kaukana minusta.
+villager.greeting.hate2=Kuulitko mit\u00e4 sanoin viime kerralla? Sanoin h\u00e4ivy.
+villager.greeting.hate3=Ai. Se olet sin\u00e4.
+villager.greeting.hate4=Olen varma ett\u00e4 tulit takaisin ly\u00f6m\u00e4\u00e4n minua naamaan.
+villager.greeting.hate5=Ole hyv\u00e4 ja h\u00e4ivy.
+villager.greeting.hate6=Mit\u00e4 SIN\u00c4 oikein haluat?
+villager.greeting.hate7=Kerron vartijoille jos h\u00e4iritset minua viel\u00e4.
+villager.greeting.hate8=Minulla on ase, ett\u00e4s tied\u00e4t.
+villager.greeting.hate9=Mene h\u00e4iritsem\u00e4\u00e4n jotakuta toista.
+villager.greeting.hate10=\u00c4h. J\u00e4t\u00e4 minut rauhaan.
+villager.greeting.hate11=Painu muualle, \u00e4\u00e4li\u00f6.
+
+villager.greeting.basic1=Ai, p\u00e4iv\u00e4\u00e4.
+villager.greeting.basic2=Oletko uusi t\u00e4\u00e4ll\u00e4?
+villager.greeting.basic3=Hei, muukalainen.
+villager.greeting.basic4=Hei, miten menee?
+villager.greeting.basic5=En ole n\u00e4hnyt sinua t\u00e4\u00e4ll\u00e4 ennen.
+villager.greeting.basic6=Sin\u00e4 olet varmasti uusi t\u00e4\u00e4ll\u00e4.
+villager.greeting.basic7=Hyv\u00e4\u00e4 p\u00e4iv\u00e4\u00e4, %PlayerName%.
+villager.greeting.basic8=Tervehdys.
+villager.greeting.basic9=Kuinka voin auttaa sinua?
+villager.greeting.basic10=Ah, p\u00e4iv\u00e4\u00e4. %PlayerName%, vai mit\u00e4?
+
+villager.greeting.friend1=Hei, yst\u00e4v\u00e4\!
+villager.greeting.friend2=Hei\! Mukava n\u00e4hd\u00e4 sinut j\u00e4lleen\!
+villager.greeting.friend3=Katsokaa kaikki\! Se on minun paras kaverini\!
+villager.greeting.friend4=Hei, kaveri\!
+villager.greeting.friend5=Miss\u00e4 olet ollut? En ole n\u00e4hnyt sinua aikoihin.
+villager.greeting.friend6=Hei, se on %PlayerName%, paras kaverini\!
+villager.greeting.friend7=Ah\! Katsokaa kuka meill\u00e4 on t\u00e4\u00e4ll\u00e4\! P\u00e4iv\u00e4\u00e4, %PlayerName%\!
+villager.greeting.friend8=Hei, miss\u00e4 olet ollut?
+villager.greeting.friend9=Hei kamu, miten menee?
+
+villager.greeting.interest.male1=Vau\! N\u00e4yt\u00e4t mahtavalta t\u00e4n\u00e4\u00e4n\!
+villager.greeting.interest.male2=%PlayerName%\! Ole kiltti ja \u00e4l\u00e4 l\u00e4hde\! Haluan kysy\u00e4...unohda.
+villager.greeting.interest.male3=*Kuiskaa* H\u00e4n on niin kaunis...
+villager.greeting.interest.male4=%PlayerName%, luulen ett\u00e4 et tiennyt olevani rikas.
+villager.greeting.interest.male5=*kuiskaa* H\u00e4n on niin kiltti minulle, mietin jos h\u00e4n tykk\u00e4\u00e4 minusta?
+
+villager.greeting.interest.female1=Hei, sinun pit\u00e4isi tulla joskus k\u00e4ym\u00e4\u00e4n. *vink*
+villager.greeting.interest.female2=Hei...%PlayerName%...*Kikattaa*
+villager.greeting.interest.female3=N\u00e4yt\u00e4t isolta ja vahvalta kuten yleens\u00e4\!
+villager.greeting.interest.female4=*muuttuu kalpeaksi* 
+villager.greeting.interest.female5=*kuiskaa* Ei\! En kysy h\u00e4nelt\u00e4\!
+
+villager.greeting.wedding1=Kuulin tulevista h\u00e4ist\u00e4nne. Onniteluni\!
+villager.greeting.wedding2=Hei, %PlayerName%, onnittelut kihloistasi\!
+villager.greeting.wedding3=Olen varma ett\u00e4 sinulla on ihanat h\u00e4\u00e4t, vai mit\u00e4?
+villager.greeting.wedding4=Olen niin iloinen puolestasi\! Tuon sinulle isoimman lahjan ikin\u00e4\!
+villager.greeting.wedding5=Menit kihloihin vain lahjojen takia, vai mit\u00e4?
+
+villager.hitbyplayer1=J\u00e4t\u00e4 minut rauhaan\!
+villager.hitbyplayer2=En tehnyt mit\u00e4\u00e4n sinulle\!
+villager.hitbyplayer3=Lopeta tuo\!
+villager.hitbyplayer4=Auts\! Miksi sin\u00e4 l\u00f6it minua?
+villager.hitbyplayer5=Lopeta\! Tuo sattuu\!
+villager.hitbyplayer6=Hei\! \u00c4l\u00e4 ly\u00f6 minua\!
+villager.hitbyplayer7=Au, lopeta se, lopeta se\!
+villager.hitbyplayer8=\u00c4l\u00e4 koske minuun uudestaan\!
+villager.hitbyplayer9=Vartijat\! T\u00e4m\u00e4 henkil\u00f6 hy\u00f6kk\u00e4si minua kohtaan\!
+villager.hitbyplayer10=Joku auttakaa minua\!
+villager.hitbyplayer12=Ai\! %PlayerName% Luulin ett\u00e4 olimme yst\u00e4vi\u00e4\!
+
+villager.gifted.baby1=Tee itse vauvanhoitosi.
+villager.gifted.baby2=En halua kantaa sit\u00e4\!
+villager.gifted.baby3=Se haisee\!
+villager.gifted.baby4=Oi, parempi ett\u00e4 ei. Menetin omani eilen.
+villager.gifted.baby5=Minun pit\u00e4isi kertoa jo, en pid\u00e4 lapsista.
+villager.gifted.baby6=Minulla on jo tarpeeksi raskasta hoitaa itse\u00e4ni.
+villager.gifted.baby7=Haluan pidell\u00e4 sit\u00e4, mutta en hoida sit\u00e4.
+villager.gifted.baby8=Anna se vaimollesi, \u00e4l\u00e4 tuntemattomille.
+
+villager.interact.refusal1=Pysy erossa minusta.
+villager.interact.refusal2=Vihaan sinua.
+villager.interact.refusal3=\u00c4l\u00e4 puhu minulle.
+villager.interact.refusal4=H\u00e4ivy\!
+villager.interact.refusal5=Et ole tervetullut t\u00e4nne.
+villager.interact.refusal6=En halua olla miss\u00e4\u00e4n tekemisiss\u00e4 kanssasi. J\u00e4t\u00e4 minut rauhaan.
+villager.interact.refusal7=Mene pois, sin\u00e4 h\u00e4iritset minua.
+villager.interact.refusal8=Min\u00e4 en edes aio puhua sinule.
+villager.interact.refusal9=Pid\u00e4 k\u00e4tesi erossa minusta.
+
+villager.joke.bad1=En ymm\u00e4rr\u00e4?
+villager.joke.bad2=Otan tuon loukkauksena.
+villager.joke.bad3=Tuo oli kamala\!
+villager.joke.bad4=Siin\u00e4 ei ollut mit\u00e4\u00e4n j\u00e4rke\u00e4.
+villager.joke.bad5=Tuo oli vain tyhm\u00e4\u00e4.
+villager.joke.bad6=Aivan niin...
+villager.joke.bad7=Tuo oli, huh, hyv\u00e4 vitsi.
+
+villager.joke.good1=Tuo on aivan liian hauskaa\!
+villager.joke.good2=Mist\u00e4 kuulit tuon? Hah\!
+villager.joke.good3=Tuo oli hyv\u00e4\!
+villager.joke.good4=*Nauraa*
+villager.joke.good5=Ihan hauska.
+villager.joke.good6=Tuo on paras vitsi jonka olen ikin\u00e4 kuullut\!
+villager.joke.good7=Sin\u00e4 todella tied\u00e4t vitsej\u00e4\!
+villager.joke.good8=Heh\! Sin\u00e4 tied\u00e4t kuinka saada jonkun nauramaan.
+villager.joke.good9=T\u00e4m\u00e4 tarkoittaa kahta asiaa\!
+
+villager.marriage.acceptance1=Tahdon.
+villager.marriage.acceptance2=Olen odottanut ett\u00e4 kysyt\! Totta kai haluan\!
+villager.marriage.acceptance3=Kyll\u00e4, Min\u00e4 tahdon. Rakastan sinua\!
+villager.marriage.acceptance4=Tied\u00e4th\u00e4n, olen ajatellut sinua a paljon... ja... Mit\u00e4 min\u00e4 oikein h\u00f6pisen? Kyll\u00e4 tahdon\! 
+villager.marriage.acceptance5=Olen enemm\u00e4n kuin onnelinen ollakseni el\u00e4m\u00e4ni kanssasi\!
+villager.marriage.acceptance6=T\u00e4m\u00e4 on vihkisormus... Minulle...? Tahdon\!
+villager.marriage.acceptance7=Rakkautesi tiet\u00e4minen saa minut iloiseksi, kanssasi oleminen saa minut tuntemaan itseni maailman iloisimmaksi ihmiseksi\!
+
+villager.marriage.refusal.lowhearts1=Mik\u00e4 sin\u00e4 olet, hullu?
+villager.marriage.refusal.lowhearts2=Mit\u00e4? Kuka sin\u00e4 olet\!?
+villager.marriage.refusal.lowhearts3=En edes tunne sinua\!
+villager.marriage.refusal.lowhearts4=\u00d6h...ei. Olen pahoillani.
+villager.marriage.refusal.lowhearts5=Min\u00e4 en pid\u00e4 sinusta\!
+villager.marriage.refusal.lowhearts6=Mit\u00e4? Ei\! En voi.
+villager.marriage.refusal.lowhearts7=N\u00e4etk\u00f6s... En ole valmis avioitumaan kanssasi.
+villager.marriage.refusal.lowhearts8=En Tahdo\!
+villager.marriage.refusal.lowhearts9=En halua sinua, m\u00e4ntti\!
+
+villager.marriage.refusal.playermarried1=Luulen ett\u00e4 olet jo jonkun muun kanssa ...
+villager.marriage.refusal.playermarried2=Etk\u00f6 sin\u00e4 ole naimisissa juuri nyt?
+villager.marriage.refusal.playermarried3=N\u00e4en tuon sormuksen. Mene pois.
+villager.marriage.refusal.playermarried4=Miten even uskallat tehd\u00e4 noin vaimollesi?\!
+villager.marriage.refusal.playermarried5=Olet kamala. Mene pyyt\u00e4m\u00e4\u00e4n anteeksi vaimoltasi.
+villager.marriage.refusal.playermarried6=Oletko aivan seonnut? Olen jo naimisissa\!
+villager.marriage.refusal.playermarried7=Miksi teet t\u00e4m\u00e4n vaimollesi? Olet idiootti\!
+villager.marriage.refusal.playermarried8=Minun on parasta menn\u00e4 kertomaan vaimollesi\!
+villager.marriage.refusal.playermarried9=N\u00e4en sormuksesi...
+
+villager.marriage.refusal.villagermarried1=Olen jo varattu.
+villager.marriage.refusal.villagermarried2=Voi...ei. Minulla on jo joku.
+villager.marriage.refusal.villagermarried3=Olen jo varattu. Anteeksi, luulin ett\u00e4 tiesit.
+villager.marriage.refusal.villagermarried4=Minun pit\u00e4\u00e4 sanoa ei, koska kuten n\u00e4et, olen jo naimisissa.
+villager.marriage.refusal.villagermarried5=Olen pahoillani, minulla on jo joku.
+
+villager.angry1=Aivan oikein\! Pysy siell\u00e4, pelkuri\!
+villager.angry2=Miksi et tule ja taistele kuin mies?
+villager.angry3=Kutsun vartijat\!
+villager.angry4=Saat mit\u00e4 tilaat joku p\u00e4iv\u00e4\!
+villager.angry5=\u00c4l\u00e4 tule takaisin\!
+
+villager.scared1=Ei\! \u00c4l\u00e4 satuta minua, pyyd\u00e4n\!
+villager.scared2=En tee sit\u00e4 uudelleen, lupaan\!
+villager.scared3=Pyyd\u00e4n\! \u00c4l\u00e4 tapa minua\!
+villager.scared4=Ei\! Laita tuo ase pois\!
+villager.scared5=Auttakaa\! He aikovat tappaa minut\!
+
+villager.greeting.handshake.good1=Tervehdykset.
+villager.greeting.handshake.good2=Hyv\u00e4\u00e4 p\u00e4iv\u00e4\u00e4.
+villager.greeting.handshake.good3=Miksi kukaan muu ei ole n\u00e4in kohtelias? Tervetuloa.
+villager.greeting.handshake.good4=Sinulla on hyv\u00e4 ja varma ote.
+villager.greeting.handshake.good5=Oli mukavaa kun p\u00e4\u00e4sit k\u00e4ym\u00e4\u00e4n.
+
+villager.greeting.handshake.bad1=Auts\! Satutit k\u00e4tt\u00e4ni\!
+villager.greeting.handshake.bad2=Sin\u00e4 heilutat liian tiukasti.
+villager.greeting.handshake.bad3=Ei kiitos.
+villager.greeting.handshake.bad4=Tuota...ei. K\u00e4tesi n\u00e4ytt\u00e4v\u00e4t likaisilta.
+villager.greeting.handshake.bad5=Mit\u00e4 TUO sinun k\u00e4dess\u00e4si on?\!
+
+villager.greeting.highfive.good1=Yl\u00e4vitonen\!
+villager.greeting.highfive.good2=Mit\u00e4s kuuluu, %PlayerName%?
+villager.greeting.highfive.good3=Selv\u00e4\!
+villager.greeting.highfive.good4=Hei, mit\u00e4s kuuluu?
+villager.greeting.highfive.good5=Mahtavaa n\u00e4hd\u00e4 sinua\!
+
+villager.greeting.highfive.bad1=Ei\! \u00c4l\u00e4 ly\u00f6 minua\!
+villager.greeting.highfive.bad2=Kuka on erityinen?
+villager.greeting.highfive.bad3=Tuota...ei kiitos.
+villager.greeting.highfive.bad4=Lopeta.
+villager.greeting.highfive.bad5=...Mit\u00e4 olet tekem\u00e4ss\u00e4?
+
+villager.kiss.good1=*Punastuu* Oletko sinkku?
+villager.kiss.good2=Olet eritt\u00e4in hyv\u00e4 pussaaja...
+villager.kiss.good3=Huulesi ovat pehme\u00e4t ja suloiset.
+villager.kiss.good4=Maistuu hunajalta.
+villager.kiss.good5=*kikattaa* Olet s\u00f6p\u00f6.
+
+villager.kiss.bad1=Tunnenko min\u00e4 edes sinua?\!
+villager.kiss.bad2=*L\u00e4ps\u00e4ytt\u00e4\u00e4*
+villager.kiss.bad3=Kutsun vartijat\!
+villager.kiss.bad4=Mit\u00e4 olet tekem\u00e4ss\u00e4?\!
+villager.kiss.bad5=Is\u00e4ni ei koskaan hyv\u00e4ksyisi. 
+
+villager.flirt.good1=*Punastuu* Voi minua.
+villager.flirt.good2=*Kikattaa* Olet niin s\u00f6p\u00f6.
+villager.flirt.good3=Rakastan sit\u00e4 kun puhut tuilla tavalla.
+villager.flirt.good4=Jos voisin uudelleenj\u00e4rjest\u00e4\u00e4 aakkoset laittaisin sinut ja minut yhteen.
+villager.flirt.good5=Hehe, meid\u00e4n tulisi tavata useammin.
+
+villager.flirt.bad1=Taidan pit\u00e4\u00e4 pes\u00e4palloshortsejani, koska olen ulkona liigastasi\!
+villager.flirt.bad2=Y\u00f6k, emp\u00e4 usko.
+villager.flirt.bad3=Etk\u00f6 sin\u00e4 jo seurustele jonkun kanssa?
+villager.flirt.bad4=*Nauraa* Sori, en rullaa sill\u00e4 tavalla.
+villager.flirt.bad5=Se oli s\u00e4\u00e4litt\u00e4v\u00e4\u00e4.
+
+villager.tellstory.good1=*Nauraa* Possut p\u00e4ihitt\u00e4v\u00e4t meid\u00e4t kaikki\!
+villager.tellstory.good2=Muistan kun olin nuorempi, niin pystyin itsekin tekem\u00e4\u00e4n tuota.
+villager.tellstory.good3=Meid\u00e4n tulisi kokeille sit\u00e4 joskus yhdess\u00e4.
+villager.tellstory.good4=Ainakin sin\u00e4 suojelet meit\u00e4 zombeilta\!
+villager.tellstory.good5=*Nauraa* Olet ok tyyppi %PlayerName%.
+
+villager.tellstory.bad1=Sinun pit\u00e4isi h\u00e4vet\u00e4 itse\u00e4si\!
+villager.tellstory.bad2=Oikein sinulle.
+villager.tellstory.bad3=Sinun pit\u00e4isi joutua zombi hy\u00f6kk\u00e4yksen kohteeksi tuosta hyv\u00e4st\u00e4\!
+villager.tellstory.bad4=Miten vaan.
+villager.tellstory.bad5=Tunne oloni eritt\u00e4in ep\u00e4miellytt\u00e4v\u00e4ksi juuri nyt...
+
+#######
+# Grandchild Dialogue
+##############################
+
+grandchild.chat.bad1=Olet vanha.Ja tyls\u00e4.
+grandchild.chat.bad2=En halua kuulla tylsi\u00e4 tarinoita\!
+grandchild.chat.bad3=*Haukoitus*
+
+grandchild.chat.good1=Minulla on paras %RelationOfPlayer% ikin\u00e4\!
+grandchild.chat.good2=Mit\u00e4? Tapahtuiko t\u00e4m\u00e4 oikeasti?
+grandchild.chat.good3=Tapahtuiko tuo kaikki oikeasti?
+grandchild.chat.good4=Pid\u00e4n aina kanssasi juttelusta.
+
+grandchild.follow.start1=Mihin menemme?
+grandchild.follow.start2=Min\u00e4 haluan n\u00e4hd\u00e4 miss\u00e4 tapoit t\u00e4m\u00e4n hiipij\u00e4n.
+grandchild.follow.start3=Okei, menn\u00e4\u00e4n\!
+
+grandchild.follow.stop1=Odotan sinua, %RelationOfPlayer%.
+grandchild.follow.stop2=Odotan t\u00e4ss\u00e4 sinua, %RelationOfPlayer%.
+grandchild.follow.stop3=\u00c4l\u00e4 mene liian kauas, %RelationOfPlayer%.
+
+grandchild.gift.bad1=Kuinka vanha t\u00e4m\u00e4 on? Yh\!
+grandchild.gift.bad2=N\u00e4m\u00e4 n\u00e4ytt\u00e4\u00e4 kivikautiselta.
+grandchild.gift.bad3=Ah...kiitos. Luulisin.
+
+grandchild.gift.great1=T\u00e4m\u00e4 tarkoittaa paljoa sinulle. Kiitos\!
+grandchild.gift.great2=Vau\! Saanko t\u00e4m\u00e4n?\!
+grandchild.gift.great3=Tiesin ett\u00e4 toisit minulle jotain mukavaa\!
+
+grandchild.gift.regular1=Min\u00e4 aina n\u00e4yt\u00e4n kaiken mit\u00e4 %RelationOfPlayer% tuo minulle\!
+grandchild.gift.regular2=Vau\! T\u00e4m\u00e4 on siisti\!
+grandchild.gift.regular3=Rakastan kun tuot minulle asioita, %RelationOfPlayer%.
+
+grandchild.gift.small1=T\u00e4m\u00e4h\u00e4n on hieno\!
+grandchild.gift.small2=Hei,min\u00e4 pid\u00e4n t\u00e4st\u00e4\!
+grandchild.gift.small3=Kiitos, %RelationOfPlayer%\!
+grandchild.gift.small4=T\u00e4m\u00e4 on todella siisti\u00e4, %RelationOfPlayer%.
+
+grandchild.greeting.basic1=Moi, %RelationOfPlayer%.
+grandchild.greeting.basic2=En ole n\u00e4hnyt sinua v\u00e4h\u00e4\u00e4n aikaan, %RelationOfPlayer%.
+
+grandchild.greeting.friend1=Hei, se on %RelationOfPlayer%\!
+grandchild.greeting.friend2=Katsokaa kaikki,minun %RelationOfPlayer% on t\u00e4\u00e4ll\u00e4\!
+
+grandchild.greeting.hate1=*nurinaa*
+grandchild.greeting.hate2=Voi ei. Olet t\u00e4\u00e4ll\u00e4.
+grandchild.greeting.hate3=Sin\u00e4 et ole minun lempi %RelationOfPlayer%.
+grandchild.greeting.hate4=\u00c4iti\! %RelationOfPlayer is here...
+
+grandchild.hitbyplayer1=Au\! Tuo sattui\!
+grandchild.hitbyplayer2=Lopeta\!
+grandchild.hitbyplayer3=Leikit liian lujaa\!
+grandchild.hitbyplayer4=Miksi sin\u00e4 ly\u00f6t minua, %RelationOfPlayer%?
+
+grandchild.gifted.baby1=Sin\u00e4 voit saada yh\u00e4 lapsia\!?
+grandchild.gifted.baby2=Onko tuo...sinun?
+
+grandchild.joke.bad1=T\u00e4m\u00e4 ei ollut hauskaa...
+grandchild.joke.bad2=Mit\u00e4?
+grandchild.joke.bad3=Ehk\u00e4 se oli ennen hauskaa, mutta ei en\u00e4\u00e4n.
+grandchild.joke.bad4=Sinun vanhat vitsit eiv\u00e4t ole hauskoja.
+
+grandchild.joke.good1=Min\u00e4 aina kerron kuinka hauska minun %RelationOfPlayer% on\!
+grandchild.joke.good2=Sinun pit\u00e4isi kertoa tuo minun yst\u00e4v\u00e4lleni\!
+grandchild.joke.good3=Tuo oli todella hauskaa, %RelationOfPlayer%\!
+grandchild.joke.good4=Minun %RelationOfPlayer% on aina niin hauska\!
+
+grandchild.greeting.handshake.good1=Joten sin\u00e4 olet minun %RelationOfPlayer%?
+grandchild.greeting.handshake.good2=Mukava tavata sinut. Sin\u00e4 olet minun %RelationOfPlayer%, etk\u00f6 olekin?
+grandchild.greeting.handshake.good3=Hei tiesitk\u00f6, ett\u00e4 olen sinun %RelationToPlayer%? Min\u00e4 en tiennyt.
+grandchild.greeting.handshake.good4=Hei, %RelationOfPlayer%.
+grandchild.greeting.handshake.good5=Toitko minulle jotain?\!
+
+grandchild.greeting.handshake.bad1=K\u00e4denpuristus?
+grandchild.greeting.handshake.bad2=K\u00e4tteletk\u00f6 lapsenlapsiesi kanssa?
+grandchild.greeting.handshake.bad3=Y\u00f6k\! Olet vanha\!
+grandchild.greeting.handshake.bad4=K\u00e4tesi ovat ryppyiset\!
+grandchild.greeting.handshake.bad5=Auts\! Miksi puristit noin lujaa?
+
+grandchild.greeting.highfive.good1=Jee\! Uudestaan\!
+grandchild.greeting.highfive.good2=Uudestaan, uudestaan\!
+grandchild.greeting.highfive.good3=Tee se uudestaan\!
+grandchild.greeting.highfive.good4=Tee se uudestaan, pliis?
+grandchild.greeting.highfive.good5=Uudestaan\!
+
+grandchild.greeting.highfive.bad1=K\u00e4sis\u00e4ni pistelee.
+grandchild.greeting.highfive.bad2=T\u00e4m\u00e4 alkaa jo sattmumaan\!
+grandchild.greeting.highfive.bad3=Lopeta\!
+grandchild.greeting.highfive.bad4=T\u00e4m\u00e4 alkaa k\u00e4yd\u00e4 jo tyls\u00e4ksi.
+grandchild.greeting.highfive.bad5=Okei, nyt k\u00e4siani alkaa jo sattua.
+
+grandchild.tellstory.good1=Hyv\u00e4, ett\u00e4 meill\u00e4 on vartijoita\!
+grandchild.tellstory.good2=Vau, teitk\u00f6 sin\u00e4 muka tuon?
+grandchild.tellstory.good3=Mit\u00e4 luuranko sitten teki?
+grandchild.tellstory.good4=Olet minun sankarini\!
+grandchild.tellstory.good5=Voitko vied\u00e4 minut kaivamaan sill\u00e4 tavalla?
+
+grandchild.tellstory.bad1=En usko sinua.
+grandchild.tellstory.bad2=Vanhempani sanoivat, ett\u00e4 en saa uskoa mit\u00e4\u00e4n mit\u00e4 sanot.
+grandchild.tellstory.bad3=Ok.
+grandchild.tellstory.bad4=En tahdo olla en\u00e4\u00e4 sinun kanssasi...
+grandchild.tellstory.bad5=Minun pit\u00e4isi menn\u00e4 jo kotiin.
+
+grandchild.play.good1=Jee t\u00e4m\u00e4 on kivaa\!
+grandchild.play.good2=Rakastan viett\u00e4\u00e4 aikaani sinun kanssasi\!
+grandchild.play.good3=Olet paras\!
+grandchild.play.good4=Leikit\u00e4\u00e4n\!
+grandchild.play.good5=Min\u00e4 p\u00e4ihit\u00e4n sinut\!
+
+grandchild.play.bad1=Uudestaan?
+grandchild.play.bad2=Olet liian vanha siihen.
+grandchild.play.bad3=Sin\u00e4t et leiki hyvin.
+grandchild.play.bad4=Mene leikkim\u00e4\u00e4n el\u00e4imiesi kanssa.
+grandchild.play.bad5=S\u00f6isin mielummin kasviksia.
+
+#######
+# Villager Child Dialogue
+##############################
+
+villagerchild.chat.bad1=Anteeksi, Vanhempani eiv\u00e4t anna minun jutella muukalaisille\!
+villagerchild.chat.bad2=Kuka sin\u00e4 olet\! N\u00e4yt\u00e4t h\u00f6ps\u00f6lt\u00e4.
+villagerchild.chat.bad3=En halua puhua, Olet pelottava\!
+
+villagerchild.chat.good1=Vau\! Olet siisti\!
+villagerchild.chat.good2=Olet kuin supersankari\!
+villagerchild.chat.good3=Oletko sin\u00e4 seikkailija?\! Todella siisti\u00e4\!
+villagerchild.chat.good4=Tykk\u00e4\u00e4n tarinoistasi, kerro lis\u00e4\u00e4, kerro lis\u00e4\u00e4\!
+
+villagerchild.follow.start1=Selv\u00e4, mutta en halua menn\u00e4 liian kauas kotoa\!
+villagerchild.follow.start2=Aw...Halusin pysy\u00e4 t\u00e4\u00e4ll\u00e4...
+villagerchild.follow.start3=Minne me olemme menossa? Seikkailemaan?
+
+villagerchild.follow.stop1=Hyv\u00e4. Olin tylsistynyt katsomaan takapuoltasi\!
+villagerchild.follow.stop2=Miss\u00e4 kaikki ovat?
+villagerchild.follow.stop3=\u00c4l\u00e4 j\u00e4t\u00e4 minua t\u00e4nne yksin\!
+
+villagerchild.gift.bad1=\u00d6h, t\u00e4m\u00e4 on kr\u00e4\u00e4s\u00e4\u00e4\! En tahdo sit\u00e4.
+villagerchild.gift.bad2=Voinko heitt\u00e4\u00e4 t\u00e4m\u00e4n menem\u00e4\u00e4n? En halua sit\u00e4.
+villagerchild.gift.bad3=Miksi sin\u00e4 annat minulle t\u00e4m\u00e4n, %PlayerName%? En tykk\u00e4\u00e4 siit\u00e4\!
+
+villagerchild.gift.great1=Vau\! Saan pit\u00e4\u00e4 t\u00e4m\u00e4n? Oi\! Kiitos todella paljon\! Aion n\u00e4ytt\u00e4\u00e4 t\u00e4m\u00e4n is\u00e4lleni\!
+villagerchild.gift.great2=Kiitos mahtavasta lahjasta\!
+villagerchild.gift.great3=T\u00e4m\u00e4 on paras lahja ikin\u00e4\! Kiitos\!
+
+villagerchild.gift.regular1=Kiitos\!
+villagerchild.gift.regular2=T\u00e4m\u00e4 on siisti\! Kiitos\!
+villagerchild.gift.regular3=Kiitos lahjasta\!
+
+villagerchild.gift.small1=Kiitos\!
+villagerchild.gift.small2=Kiitos todella paljon\!
+villagerchild.gift.small3=Voinko sy\u00f6d\u00e4 t\u00e4m\u00e4n?
+villagerchild.gift.small4=Minulleko? Oi, kiitos\!
+
+villagerchild.greeting.basic1=Kuka sin\u00e4 olet?
+villagerchild.greeting.basic2=N\u00e4yt\u00e4t hassulta.
+
+villagerchild.greeting.friend1=Hei\! Olet minun kaverini\!
+villagerchild.greeting.friend2=Haluatko leikki\u00e4?
+
+villagerchild.greeting.hate1=En tykk\u00e4\u00e4 sinusta.
+villagerchild.greeting.hate2=Min\u00e4 muistan sinut\! Sin\u00e4 satutit minua\!
+villagerchild.greeting.hate3=Ei\! Pysy erossa minusta\!
+villagerchild.greeting.hate4=Is\u00e4ni k\u00e4ski pysy\u00e4 kaukana.
+
+villagerchild.hitbyplayer1=Ai\! \u00c4iti\! %PlayerName% l\u00f6i minua\!
+villagerchild.hitbyplayer2=\u00c4l\u00e4 ly\u00f6 minua, se sattuu\!
+villagerchild.hitbyplayer3=Ei \u00e4l\u00e4 satuta minua, pyyd\u00e4n\!
+villagerchild.hitbyplayer4=\u00c4iti\! Is\u00e4\! Auts\!
+
+villagerchild.gifted.baby1=Oi... Se on s\u00f6p\u00f6 mutta haiseva\!
+villagerchild.gifted.baby2=Miksi se haisee?
+villagerchild.gifted.baby3=En halua kantaa sit\u00e4\!
+
+villagerchild.joke.bad1=Sin\u00e4 olet p\u00f6hk\u00f6 henkil\u00f6.
+villagerchild.joke.bad2=Ei ole hauskaa.
+villagerchild.joke.bad3=Tuo ei ole hauskaa\!
+villagerchild.joke.bad4=\u00c4l\u00e4 loukkaa minua\!
+villagerchild.joke.bad5=\u00c4iti\! %PlayerName% sanoo tuhmia sanoja\!
+
+villagerchild.joke.good1=Heheh\! Olet hauskin\!
+villagerchild.joke.good2=Tykk\u00e4\u00e4n todella sinun vitseist\u00e4si\!
+villagerchild.joke.good3=Tuo oli hyv\u00e4\! Aion kertoa sen kavereilleni\!
+villagerchild.joke.good4=Miten teet tuon hauskan naaman? Tee se uudestaan\!
+
+villagerchild.play.good1=\u00c4idill\u00e4 ja isill\u00e4 ei ole koskaan aikaa tehd\u00e4 t\u00e4t\u00e4\!
+villagerchild.play.good2=Jee\! Voitko olla yst\u00e4v\u00e4ni?
+villagerchild.play.good3=Voinko voittaa jotain?
+villagerchild.play.good4=Leik\u00e4t\u00e4\u00e4n lopuutomiin\!
+villagerchild.play.good5=Pidet\u00e4\u00e4n hauskaa\!
+
+villagerchild.play.bad1=Kuka olet?
+villagerchild.play.bad2=\u00c4iti kielsi leikkim\u00e4st\u00e4 tuntemattomien kanssa.
+villagerchild.play.bad3=Isi sanoi, ett\u00e4 johdattaisit minut kielekkeelt\u00e4 alas.
+villagerchild.play.bad4=Ei, se on okei.
+villagerchild.play.bad5=Mene leikkim\u00e4\u00e4n oman lapsesi kanssa.
+
+villagerchild.tellstory.good1=Toivoisin, ett\u00e4 olisin sinun lapsesi...
+villagerchild.tellstory.good2=Voinko min\u00e4kin menn\u00e4 silitt\u00e4m\u00e4\u00e4n kalmaria?\!
+villagerchild.tellstory.good3=Vau, aiotko vied\u00e4 minut Hornaan?\!
+villagerchild.tellstory.good4=Miksi et voi kertoa, mit\u00e4 tapahtuu sen j\u00e4lkeen kun niit\u00e4 sy\u00f6tt\u00e4\u00e4?
+villagerchild.tellstory.good5=Aion aloittaa oman klubin juuri niinkuin sin\u00e4kin\!
+
+villagerchild.tellstory.bad1=Sin\u00e4 et taida olla hyv\u00e4 ihminen?
+villagerchild.tellstory.bad2=\u00c4iti kutsuu minua sy\u00f6m\u00e4\u00e4n.
+villagerchild.tellstory.bad3=Vanhempani ovat kuolemassa?\!
+villagerchild.tellstory.bad4=Mene pois.
+villagerchild.tellstory.bad5=Sinun tarinasi ovat tylsi\u00e4.
+
+#######
+# Adult Dialogue
+##############################
+
+playerchild.adult.chat.bad1=Eik\u00f6 sinulla ole eri tarinaa kerrottavana?
+playerchild.adult.chat.bad2=Olen Kiireinen...
+playerchild.adult.chat.bad3=Jutellaan my\u00f6hemmin.
+playerchild.adult.chat.bad4=Jep.
+playerchild.adult.chat.bad5=Aa-ha.
+playerchild.adult.chat.bad6=Okei.
+playerchild.adult.chat.bad7=Niinp\u00e4 niin.
+playerchild.adult.chat.bad8=Miten kiinnostavaa...
+playerchild.adult.chat.bad9=*Py\u00f6rittelee Silmi\u00e4*
+playerchild.adult.chat.bad10=%ParentOpposite% sanoi minulle ett\u00e4 valehtelit tuosta.
+playerchild.adult.chat.bad11=Vaihdetaan aihetta, okei?
+playerchild.adult.chat.bad12=No.. Tuo.. On kiinostavaa..
+playerchild.adult.chat.bad13=\u00d6h.. Okei..
+playerchild.adult.chat.bad14=Siin\u00e4k\u00f6 kaikki?
+playerchild.adult.chat.bad15=Ehk\u00e4 my\u00f6hemmin.
+playerchild.adult.chat.bad16=En voi puhua juuri nyt.
+playerchild.adult.chat.bad17=Voi jumala, J\u00c4T\u00c4 minut rauhaan\!
+playerchild.adult.chat.bad18=Kuulin wain "blah blah blah".
+
+playerchild.adult.chat.good1=*Kuuntelee tarkasti*
+playerchild.adult.chat.good2=Kyll\u00e4,meid\u00e4n pit\u00e4isi menn\u00e4 mets\u00e4st\u00e4m\u00e4\u00e4n.
+playerchild.adult.chat.good3=Menn\u00e4\u00e4n ker\u00e4\u00e4m\u00e4\u00e4n tavaroita, tai kaivamaan, tai jotain\!
+playerchild.adult.chat.good4=Sinun pit\u00e4isi ottaa minut seuraavalla kerralla.
+playerchild.adult.chat.good5=Milloin saan oman kotini?
+playerchild.adult.chat.good6=Jonain p\u00e4iv\u00e4n\u00e4,haluan oman kotini.
+playerchild.adult.chat.good7=Min\u00e4 en malta odottaa saada omaa taloa\!
+playerchild.adult.chat.good8=Menn\u00e4\u00e4n viljelem\u00e4\u00e4n tai jotain\!
+playerchild.adult.chat.good9=Menn\u00e4\u00e4n jonnekkin\!
+playerchild.adult.chat.good10=Vau\! Hieno tarina\!
+playerchild.adult.chat.good11=Kyll\u00e4, minulla menee hyvin.
+playerchild.adult.chat.good12=Sinun ei pit\u00e4isi kertoa tuota mutta se oli hyv\u00e4 tarina.
+playerchild.adult.chat.good13=Tuo on paras juttu sitten leikatun leiv\u00e4n\!
+
+playerchild.adult.chore.start.farming1=Kyll\u00e4, %CallPlayerParent%.
+playerchild.adult.chore.start.farming2=\u00c4h. Hyv\u00e4 on, %CallPlayerParent%.
+playerchild.adult.chore.start.farming3=Okei. Min\u00e4 teen tuon, %CallPlayerParent%.
+playerchild.adult.chore.start.farming4=Viljely\u00e4? Okei, min\u00e4 teen sen.
+playerchild.adult.chore.start.farming5=\u00c4l\u00e4 nyt\! Ei sinunkaan tarvinnut kun olit lapsi\!
+playerchild.adult.chore.start.farming6=Autatko minua, %CallPlayerParent?
+playerchild.adult.chore.start.farming7=Jos me myymme leiv\u00e4t, saanko puolet tuotoista?
+
+playerchild.adult.chore.start.fishing1=Pid\u00e4n kalastamisesta.
+playerchild.adult.chore.start.fishing2=Ly\u00f6n vetoa ett\u00e4 min\u00e4 nappaan enemm\u00e4n kuin sin\u00e4 ikin\u00e4 tulet nappaamaan\!
+playerchild.adult.chore.start.fishing3=Min\u00e4 yrit\u00e4n rikkoa enn\u00e4tykseni t\u00e4ll\u00e4 kerralla.
+playerchild.adult.chore.start.fishing4=Ai. Joten taas minun pit\u00e4\u00e4 tuoda ruoka p\u00f6yt\u00e4\u00e4n.
+playerchild.adult.chore.start.fishing5=Joo, okei.
+playerchild.adult.chore.start.fishing6=Siisti\u00e4\! Min\u00e4 tykk\u00e4\u00e4n menn\u00e4 kalaan,%CallPlayerParent%\!
+playerchild.adult.chore.start.fishing7=Min\u00e4 aion napata todella paljon kalaa, katsoppas vain\!
+playerchild.adult.chore.start.fishing8=Hyv\u00e4 on\! Yrit\u00e4n kaikkeni saadakseni todella monta kalaa.
+playerchild.adult.chore.start.fishing9=Olen hyv\u00e4 kalastamaan. Katsoppas vain.
+playerchild.adult.chore.start.fishing10=T\u00e4nne kala kala...
+playerchild.adult.chore.start.fishing11=Toivon etteiv\u00e4t uudet vaatteeni kastu.
+
+playerchild.adult.chore.start.mining1=Hiili jauhe ei ole myrkyllist\u00e4, eih\u00e4n?
+playerchild.adult.chore.start.mining2=Toivon ett\u00e4 hakkuni ei hajoa t\u00e4ll\u00e4 kerralla.
+playerchild.adult.chore.start.mining3=Min\u00e4 l\u00f6yd\u00e4n enemm\u00e4n timantteja kuin sin\u00e4. Katsoppas vain\!
+
+playerchild.adult.chore.start.woodcutting1=Min\u00e4 viel\u00e4kin haluan sen puumajan, tied\u00e4tk\u00f6s.
+playerchild.adult.chore.start.woodcutting2=Ihmetteletk\u00f6 ikin\u00e4 miksi puut lent\u00e4v\u00e4t?
+playerchild.adult.chore.start.woodcutting3=Min\u00e4 teroitan kirveeni ja alan hommiin.
+playerchild.adult.chore.start.woodcutting4=Aiotko sin\u00e4 laittaa minut rakentamaan oman taloni?
+
+playerchild.adult.chore.start.hunting1=Tuon sinulle kymmenen possua\!
+playerchild.adult.chore.start.hunting2=T\u00e4st\u00e4 tulee hauskaa.
+playerchild.adult.chore.start.hunting3=Tulen pian takaisin.
+playerchild.adult.chore.start.hunting4=L\u00e4het\u00e4t minut koska olen sinua parempi mets\u00e4st\u00e4j\u00e4, vai?
+
+playerchild.adult.chore.stop1=Olin varma ettet ikin\u00e4 laittaisi minua lopettamaan.
+playerchild.adult.chore.stop2=Uuh, olen niin v\u00e4synyt...
+playerchild.adult.chore.stop3=Vihdoinkin\! Olin tylsistym\u00e4ss\u00e4 jo.
+playerchild.adult.chore.stop4=Vihdoinkin\! Olin v\u00e4sym\u00e4ss\u00e4 jo.
+playerchild.adult.chore.stop5=\u00c4l\u00e4 pane minua tekem\u00e4\u00e4n tuota en\u00e4\u00e4\!
+playerchild.adult.chore.stop6=Onneksi\!
+playerchild.adult.chore.stop7=Kiitos, vihaan t\u00e4t\u00e4 ty\u00f6t\u00e4\!
+playerchild.adult.chore.stop8=Aah... Vihdoinkin ty\u00f6ni on tehty\!
+playerchild.adult.chore.stop9=Min\u00e4 taidan lev\u00e4t\u00e4 hetkisen, arvatenkin.
+playerchild.adult.chore.stop10=Min\u00e4 lopetan t\u00e4m\u00e4n ty\u00f6n sitten.
+playerchild.adult.chore.stop11=Olen todella iloinen ett\u00e4 se on ohi\!
+playerchild.adult.chore.stop12=Min\u00e4 tein likaiset ty\u00f6si \u00e4sken. Min\u00e4 menen tekem\u00e4\u00e4n nyt jotain kivaa.
+
+playerchild.adult.follow.start1=Ok, minne me menemme nyt?
+playerchild.adult.follow.start2=Tapetaanko hirvi\u00f6it\u00e4 yhdess\u00e4, %CallPlayerParent%?
+playerchild.adult.follow.start3=Toivon ett\u00e4 l\u00f6yd\u00e4n hiipij\u00e4n\!
+playerchild.adult.follow.start4=Toivottavasti emme muuta. Min\u00e4 tykk\u00e4\u00e4n olla t\u00e4\u00e4ll\u00e4\!
+playerchild.adult.follow.start5=Vihdoin\! Menn\u00e4\u00e4n pois t\u00e4\u00e4lt\u00e4\!
+playerchild.adult.follow.start6=Menemmek\u00f6 takaisin?
+playerchild.adult.follow.start7=En halunnut menn\u00e4 minnekk\u00e4\u00e4n...
+playerchild.adult.follow.start8=Selv\u00e4, menn\u00e4\u00e4n sitten.
+playerchild.adult.follow.start9=Nyt menn\u00e4\u00e4n\!
+playerchild.adult.follow.start10=Menn\u00e4\u00e4n muualle\!
+playerchild.adult.follow.start11=On niin paljon asioita joita tahtoisin n\u00e4hd\u00e4\!
+playerchild.adult.follow.start12=Toivotaan ett\u00e4 n\u00e4emme hirvi\u00f6it\u00e4.
+playerchild.adult.follow.start13=T\u00e4m\u00e4n ei ole parasta olla ansa...
+playerchild.adult.follow.start14=Min\u00e4 haluan ottaa kiinni h\u00e4m\u00e4h\u00e4kin\!
+
+playerchild.adult.follow.stop1=Min\u00e4 odotan t\u00e4\u00e4ll\u00e4, %CallPlayerParent%.
+playerchild.adult.follow.stop2=Tykk\u00e4\u00e4n t\u00e4st\u00e4 paikasta. Pysyt\u00e4\u00e4n t\u00e4\u00e4ll\u00e4 jonkin aikaa.
+playerchild.adult.follow.stop3=Min\u00e4 odotan t\u00e4\u00e4ll\u00e4.
+playerchild.adult.follow.stop4=\u00c4l\u00e4 mene liian kauas...
+playerchild.adult.follow.stop5=Kuulin jotain, ole varovainen.
+playerchild.adult.follow.stop6=\u00c4l\u00e4 satuta itse\u00e4si, %CallPlayerParent%\!
+playerchild.adult.follow.stop7=\u00c4l\u00e4 j\u00e4t\u00e4 minua t\u00e4nne pitk\u00e4ksi aikaa\!
+playerchild.adult.follow.stop8=Olkaa varuillanne. Vaara vaanii kun olet yksin.
+playerchild.adult.follow.stop9=Varo hiipij\u00f6it\u00e4\!
+playerchild.adult.follow.stop10=Huh, tuo oli v\u00e4sytt\u00e4v\u00e4\u00e4.
+playerchild.adult.follow.stop11=En voi jatkaa sinun kanssasi, minua pelottaa liikaa %CallPlayerParent%.
+
+playerchild.adult.gift.bad1=Vau\! Tied\u00e4tk\u00f6 mit\u00e4 olet l\u00f6yt\u00e4nyt %CallPlayerParent%? En min\u00e4k\u00e4\u00e4n.
+playerchild.adult.gift.bad2=T\u00e4m\u00e4 on roskaa.
+playerchild.adult.gift.bad3=Ei Kiitos.
+playerchild.adult.gift.bad4=Heit\u00e4 muualle roskasi\!
+playerchild.adult.gift.bad5=Ent\u00e4 onko sinulla mit\u00e4\u00e4n ruokaa?
+playerchild.adult.gift.bad6=Miksi min\u00e4 t\u00e4t\u00e4 tahtoisin?
+playerchild.adult.gift.bad7=T\u00e4m\u00e4... Ei. En halua t\u00e4t\u00e4.
+playerchild.adult.gift.bad8=Miksi edes annat t\u00e4t\u00e4 minulle?
+playerchild.adult.gift.bad9=Ei. En pid\u00e4 t\u00e4t\u00e4, ei ikin\u00e4.
+playerchild.adult.gift.bad10=Heit\u00e4n t\u00e4m\u00e4n laavaan jos annat tuon minulle.
+playerchild.adult.gift.bad11=N\u00e4etk\u00f6 roskap\u00f6ntt\u00f6j\u00e4 t\u00e4\u00e4ll\u00e4?
+playerchild.adult.gift.bad12=\u00c4h. Taas? Seuraavalla kerralla annan sinulle toivelistani.
+
+playerchild.adult.gift.great1=Mit\u00e4? Onko t\u00e4m\u00e4... Olen sanaton\!
+playerchild.adult.gift.great2=Kiitos todella paljon\!
+playerchild.adult.gift.great3=T\u00e4m\u00e4 on tosi siisti\!
+playerchild.adult.gift.great4=Miten sinulla on varaa t\u00e4h\u00e4n\!?
+
+playerchild.adult.gift.regular1=Kiitos paljon\!
+playerchild.adult.gift.regular2=T\u00e4m\u00e4 on mahtavaa\!
+playerchild.adult.gift.regular3=Haluan sinun tiet\u00e4v\u00e4n ett\u00e4 olen tosi kiitollinen\!
+
+playerchild.adult.gift.small1=Mist\u00e4 sin\u00e4 l\u00f6ysit t\u00e4m\u00e4n? Kiitos\!
+playerchild.adult.gift.small2=Ai, kiitos %CallPlayerParent%\!
+playerchild.adult.gift.small3=Voinko min\u00e4...sy\u00f6d\u00e4 sen?
+playerchild.adult.gift.small4=Eth\u00e4n sin\u00e4 antanut t\u00e4t\u00e4 vain p\u00e4\u00e4st\u00e4ksesi eroon siit\u00e4, eth\u00e4n?
+playerchild.adult.gift.small5=Vau,lahja minulle\!
+playerchild.adult.gift.small6=Kultaseni\! Kiitos, %CallPlayerParent%.
+playerchild.adult.gift.small7=T\u00e4m\u00e4 kyll\u00e4 n\u00e4ytt\u00e4\u00e4 hyv\u00e4lt\u00e4 ja... maukkaalta?
+
+playerchild.adult.greeting.basic1=Hei, %CallPlayerParent%\!
+playerchild.adult.greeting.basic2=Tulit takaisin, %CallPlayerParent%.
+
+playerchild.adult.greeting.friend1=Hei, %CallPlayerParent%\!
+playerchild.adult.greeting.friend2=Tulit takaisin, %CallPlayerParent%.
+
+playerchild.adult.greeting.hate1=...
+playerchild.adult.greeting.hate2=Mit\u00e4 sin\u00e4 t\u00e4\u00e4ll\u00e4 teet, %CallPlayerParent%?
+playerchild.adult.greeting.hate3=Min\u00e4 sanoin ett\u00e4 pysy kaukana minusta\!
+playerchild.adult.greeting.hate4=Tulitko pyyt\u00e4m\u00e4\u00e4n anteeksi?
+playerchild.adult.greeting.hate5=\u00c4l\u00e4 pakota minua huutamaan vartijoita.
+
+playerchild.adult.hitbyplayer1=Lopeta tuo\!
+playerchild.adult.hitbyplayer2=Min\u00e4 voin hakata sinut, tied\u00e4tk\u00f6s\!
+playerchild.adult.hitbyplayer3=Auts\! %CallPlayerParent%\! \u00c4l\u00e4 ly\u00f6 minua\!
+playerchild.adult.hitbyplayer4=Tuo sattuu\!
+playerchild.adult.hitbyplayer5=Rauhoitu ja lopeta ly\u00f6minen\!
+playerchild.adult.hitbyplayer6=En ole nyrkkeilys\u00e4kki\!
+playerchild.adult.hitbyplayer7=Minun ly\u00f6miseni ei ratkaise ongelmiasi\!
+playerchild.adult.hitbyplayer8=Auts\! Mist\u00e4 tuo oli?\!
+playerchild.adult.hitbyplayer9=T\u00e4m\u00e4 ei ole normaalia\!
+playerchild.adult.hitbyplayer10=Rauhoitu\!
+playerchild.adult.hitbyplayer11=Auts\!
+playerchild.adult.hitbyplayer12=Miksi teet tuota?\!
+
+playerchild.adult.gifted.baby1=Min\u00e4 en halua pit\u00e4\u00e4 h\u00e4nt\u00e4\! 
+playerchild.adult.gifted.baby2=Vihaan vauvoja\!
+playerchild.adult.gifted.baby3=Y\u00f6k\! se haisee\!
+playerchild.adult.gifted.baby4=Kyll\u00e4, se on eritt\u00e4in s\u00f6\u00f6tti.
+playerchild.adult.gifted.baby5=Minulla on muuta tekemist\u00e4\!
+
+playerchild.adult.joke.bad1=Tuo on vanha vitsi.
+playerchild.adult.joke.bad2=Tuo oli tosi tyhm\u00e4.
+playerchild.adult.joke.bad3=...Mit\u00e4?
+playerchild.adult.joke.bad4=\u00c4l\u00e4 vitsaile siit\u00e4\! Olen VIEL\u00c4KIN traumatisoitunut\!
+playerchild.adult.joke.bad5=En viel\u00e4k\u00e4\u00e4n tajua sit\u00e4.
+playerchild.adult.joke.bad6=Ei taas tuota.
+playerchild.adult.joke.bad7=Olen kuullut tuon enemm\u00e4n kuin kaksikymment\u00e4 kertaa\!
+playerchild.adult.joke.bad8=Hyi, miksi sin\u00e4 vitsailet tuosta?\!
+playerchild.adult.joke.bad9=Tuo vitsi on kamala.
+playerchild.adult.joke.bad10=Ai, taas tuo. Hauskaa.
+playerchild.adult.joke.bad11=%ParentOpposite% Taitaa kutsua minua...
+playerchild.adult.joke.bad12=Joten, minun pit\u00e4\u00e4 tehd\u00e4 kotity\u00f6ni.
+
+playerchild.adult.joke.good1=Min\u00e4 viel\u00e4kin muistan tuon, %CallPlayerParent%. Haha\!
+playerchild.adult.joke.good2=Tuo oli todella hauska\!
+playerchild.adult.joke.good3=*Kikattaa*
+playerchild.adult.joke.good4=Sinulla aina on parhaat vitsit\!
+playerchild.adult.joke.good5=Hyv\u00e4 juttu, %CallPlayerParent%\!
+playerchild.adult.joke.good6=Haha\! Tuo on niin hauska\!
+playerchild.adult.joke.good7=Tuo oli hyv\u00e4\!
+
+playerchild.adult.greeting.handshake.good1=Hei, emme olekaan puhuneet v\u00e4h\u00e4\u00e4n aikaan.
+playerchild.adult.greeting.handshake.good2=Hei, %CallPlayerParent%.
+playerchild.adult.greeting.handshake.good3=Mukava n\u00e4hd\u00e4 sinua taas, %CallPlayerParent%\!
+playerchild.adult.greeting.handshake.good4=Minulla on paljon kerrottavaa  sinulle %CallPlayerParent%.
+playerchild.adult.greeting.handshake.good5=Hei, mukava n\u00e4hd\u00e4 ett\u00e4 olet palannut.
+
+playerchild.adult.greeting.handshake.bad1=Miksi et tule k\u00e4ym\u00e4\u00e4n useammin?
+playerchild.adult.greeting.handshake.bad2=T\u00e4m\u00e4 on ainoa tapaaminen mik\u00e4 meill\u00e4 on pitk\u00e4\u00e4n aikaan ollut ja sin\u00e4 vain k\u00e4ttelet?\!
+playerchild.adult.greeting.handshake.bad3=En tahdo k\u00e4tell\u00e4 sinua.
+playerchild.adult.greeting.handshake.bad4=Olen tuota...kiireellinen juuri nyt.
+playerchild.adult.greeting.handshake.bad5=Olen liian kiirellinen - kuten sin\u00e4kin aina vaikutat olevan.
+
+playerchild.adult.greeting.highfive.good1=Se on viell\u00e4kin hauskaa\!
+playerchild.adult.greeting.highfive.good2=*Kippis*
+playerchild.adult.greeting.highfive.good3=Me olemme mahtavia\!
+playerchild.adult.greeting.highfive.good4=Jee\! Olen kaivannut t\u00e4t\u00e4.
+playerchild.adult.greeting.highfive.good5=Olemme parhaita\!
+
+playerchild.adult.greeting.highfive.bad1=Olen liian vanha jatkuvasti antamaan yl\u00e4vitosia.
+playerchild.adult.greeting.highfive.bad2=Ei nyt kiitos.
+playerchild.adult.greeting.highfive.bad3=En tahdo antaa yl\u00e4vitosta sinulle.
+playerchild.adult.greeting.highfive.bad4=Haluan puhua enk\u00e4 antaa yl\u00e4vitosia\!
+playerchild.adult.greeting.highfive.bad5=Miksi et en\u00e4\u00e4 puhu minun kanssani?
+
+playerchild.adult.tellstory.good1=*Nauraa* Se muistuttaa siit\u00e4 kun itse olin nuori lapsi.
+playerchild.adult.tellstory.good2=Sin\u00e4 ja %ParentOpposite% todella rakastitte toisianne?
+playerchild.adult.tellstory.good3=Kuulostaa hauskalta\! Meid\u00e4 tulisi kokeilla sit\u00e4 joskus\!
+playerchild.adult.tellstory.good4=*Nauraa* Olen iloinen, ett\u00e4 kuulun t\u00e4h\u00e4n perheeseen.
+playerchild.adult.tellstory.good5=Ne tekiv\u00e4t mit\u00e4 kanoille?
+
+playerchild.adult.tellstory.bad1=Tuota...Oletko kertonut tuon %ParentOpposite%lle?
+playerchild.adult.tellstory.bad2=En hyv\u00e4ksi.
+playerchild.adult.tellstory.bad3=Sinun...ei luultavasti kannata kertoa tuota muille.
+playerchild.adult.tellstory.bad4=Tuo ei ollut kovin mukavaa.
+playerchild.adult.tellstory.bad5=Tied\u00e4tk\u00f6 mit\u00e4? Tuo muistuttaa minua %RandomName%\:st\u00e4\!
+
+#######
+# Kid Dialogue
+##############################
+playerchild.young.chat.bad1=En halua jutella. J\u00e4t\u00e4 minut rauhaan\!
+playerchild.young.chat.bad2=%CallPlayerParent%, Olen kiireinen\!
+playerchild.young.chat.bad3=Hysss
+playerchild.young.chat.bad4=Olet tyls\u00e4.
+playerchild.young.chat.bad5=*Ei v\u00e4lit\u00e4 sinusta*
+playerchild.young.chat.bad6=%ParentOpposite% sanoi olla sanomatta tuota\!
+playerchild.young.chat.bad7=Olen kiireinen
+playerchild.young.chat.bad8=Etk\u00f6 n\u00e4e, ett\u00e4 olen kiireinen?\!
+playerchild.young.chat.bad9=Taidan...*Haukotus*, menn\u00e4 p\u00e4iv\u00e4unille.
+
+playerchild.young.chat.good1=*Kuuntelee tarkasti*
+playerchild.young.chat.good2=Otatko minut mukaasi seuraavalla kerralla %CallPlayerParent%?
+playerchild.young.chat.good3=Haluen menn\u00e4 mets\u00e4st\u00e4m\u00e4\u00e4n
+playerchild.young.chat.good4=Miksi en saa tulla mukaasi?
+playerchild.young.chat.good5=Haluan mukaan seuraavalla kerralla, jookos?
+playerchild.young.chat.good6=Tuo on mahtavaa %CallPlayerParent%\! Miten teit tuon?
+playerchild.young.chat.good7=Todellako? Tuo on siisti\u00e4\!
+playerchild.young.chat.good8=Sin\u00e4 olet paras %CallPlayerParent% koko maailmassa\! Ei, universumissa\!
+
+playerchild.young.joke.bad1=O-ou\! %CallPlayerParent% sanoi pahan sanan\!
+playerchild.young.joke.bad2=Tuo on tyhm\u00e4\u00e4.
+playerchild.young.joke.bad3=Sin\u00e4 olet idiootti. En tajua sit\u00e4.
+playerchild.young.joke.bad4=Miksi vitsailit siit\u00e4? *Itkee*
+playerchild.young.joke.bad5=Lopeta minun pilkkaaminen\!
+playerchild.young.joke.bad6=%ParentOpposite% sanoi ettei tuota sanaa saa sanoa\!
+playerchild.young.joke.bad7=Olen kuullut tuon ainakin miljoona kertaa, %CallPlayerParent%.
+playerchild.young.joke.bad8=Tuossa ei ole mit\u00e4\u00e4n j\u00e4rke\u00e4.
+
+playerchild.young.joke.good1=Olet hauska, %CallPlayerParent%.
+playerchild.young.joke.good2=ha ha\! Min\u00e4 tajusin\!
+playerchild.young.joke.good3=Kerron tuon kavereilleni\!
+playerchild.young.joke.good4=Tuo ei ollut tyhm\u00e4 toisinkuin ne kaksikymment\u00e4 muuta.
+playerchild.young.joke.good5=*Hihitt\u00e4\u00e4*
+playerchild.young.joke.good6=Tuo oli hauskaa\!
+playerchild.young.joke.good7=Pit\u00e4\u00e4kin muistaa tuo\!
+
+playerchild.young.chore.start.farming1=Kyll\u00e4, %CallPlayerParent%.
+playerchild.young.chore.start.farming2=Jee\! Rakastan maanviljely\u00e4.
+playerchild.young.chore.start.farming3=Min\u00e4 samantien.
+playerchild.young.chore.start.farming4=Vihdoinkin jotain tekemist\u00e4.
+playerchild.young.chore.start.farming5=Okei.
+playerchild.young.chore.start.farming6=Toivoinkin ett\u00e4 pyyt\u00e4isit minut tekem\u00e4\u00e4n t\u00e4m\u00e4n\!
+playerchild.young.chore.start.farming7=Toivon ett\u00e4 t\u00e4m\u00e4 menee minun syntym\u00e4p\u00e4iv\u00e4 kakkuun.
+
+playerchild.young.chore.start.fishing1=Kalastaminen on niin tyls\u00e4\u00e4. 
+playerchild.young.chore.start.fishing2=Mutta kalastaminen kest\u00e4\u00e4 niin kauan\!
+playerchild.young.chore.start.fishing3=En tied\u00e4 miten, min\u00e4 lupaan\!
+playerchild.young.chore.start.fishing4=Mutta kalat haisevat\!
+playerchild.young.chore.start.fishing5=Mutta ne ovat limaisia...
+playerchild.young.chore.start.fishing6=En tykk\u00e4\u00e4 kastumisesta\!
+playerchild.young.chore.start.fishing7=En halua kalastaa.
+playerchild.young.chore.start.fishing8=Miksi aina kalastamaan?
+
+playerchild.young.chore.start.mining1=Miten minun pitik\u00e4\u00e4n pit\u00e4\u00e4 t\u00e4t\u00e4 hakkua?
+playerchild.young.chore.start.mining2=Kerron %ParentOpposite% jos putoan laavaan uudelleen
+playerchild.young.chore.start.mining3=Jee\! Rakastan kaivamista\!
+playerchild.young.chore.start.mining4=Toivon, ett\u00e4 luuranko ei ammu minua taas.
+playerchild.young.chore.start.mining5=Jos l\u00f6yd\u00e4n timantin saanko pit\u00e4\u00e4 sen?
+
+playerchild.young.chore.start.woodcutting1=Puita, puita, puita, puita...
+playerchild.young.chore.start.woodcutting2=Toivottavasti sellainen ei putoa p\u00e4\u00e4lleni taas\!
+playerchild.young.chore.start.woodcutting3=Voimmeko rakentaa puumajan kun olen valmis?
+playerchild.young.chore.start.woodcutting4=Mihin sin\u00e4 k\u00e4yt\u00e4t t\u00e4t\u00e4 puuta?
+
+playerchild.young.chore.start.hunting1=Selv\u00e4\! Min\u00e4 rakastan mets\u00e4st\u00e4mist\u00e4.
+playerchild.young.chore.start.hunting2=Toivon ett\u00e4 susi ei pure minua en\u00e4\u00e4n.
+playerchild.young.chore.start.hunting3=Mutta kun olen niin pieni\! Viime kerralla minulta meni tunteja vet\u00e4\u00e4 lehm\u00e4 takaisin.
+
+playerchild.young.chore.stop1=*Huokaisee helpotuksesta*
+playerchild.young.chore.stop2=Luulin ettet ikin\u00e4 laittaisi minua lopettamaan.
+playerchild.young.chore.stop3=Olen todella v\u00e4synyt...
+playerchild.young.chore.stop4=Vihdoinkin\! Olin tylsistym\u00e4ss\u00e4 jo.
+playerchild.young.chore.stop5=Vihdoinkin\! Olin v\u00e4sym\u00e4ss\u00e4 jo.
+playerchild.young.chore.stop6=\u00c4l\u00e4 laita minua tekem\u00e4\u00e4n tuota en\u00e4\u00e4\!
+
+playerchild.young.follow.start1=Ok, minne me menemme nyt?
+playerchild.young.follow.start2=Jee\! Voin j\u00e4\u00e4d\u00e4 %CallPlayerParent% Luokse\!
+playerchild.young.follow.start3=Jee\! Voin tulla mukaasi.
+playerchild.young.follow.start4=Mutta en halua l\u00e4hte\u00e4\!
+playerchild.young.follow.start5=Onko %ParentOpposite% tulossa my\u00f6s?
+playerchild.young.follow.start6=Toivon ett\u00e4 n\u00e4emme Possun,Kanan tai Lampaan\!
+playerchild.young.follow.start7=Menemmek\u00f6 me viidakkoon? Haluan n\u00e4hd\u00e4 Pikku Kissan.
+playerchild.young.follow.start8=Toivon ett\u00e4 emme mene liian kauas...
+playerchild.young.follow.start9=Creeperit pelottavat minua,toivon ett\u00e4 emme t\u00f6rm\u00e4\u00e4 semmoiseen.
+
+playerchild.young.follow.stop1=Ok. Min\u00e4 odotan t\u00e4ss\u00e4.
+playerchild.young.follow.stop2=\u00c4l\u00e4 L\u00e4hde pitk\u00e4ksi aikaa. k\u00e4yk\u00f6?
+playerchild.young.follow.stop3=Mutta t\u00e4\u00e4ll\u00e4 on pelottavaa...
+playerchild.young.follow.stop4=Ei,%CallplayerParent% \u00e4l\u00e4 l\u00e4hde\!
+playerchild.young.follow.stop5=Mutta kuulen \u00e4\u00e4ni\u00e4...
+playerchild.young.follow.stop6=Selv\u00e4,mutta \u00e4l\u00e4 vain unohda minua,%CallPlayerParent%.
+playerchild.young.follow.stop7=Mutta..mit\u00e4 jos tulee y\u00f6?
+playerchild.young.follow.stop8=Tuletko kohta takaisin?
+playerchild.young.follow.stop9=\u00c4l\u00e4 j\u00e4t\u00e4 minua t\u00e4nne\!
+
+playerchild.young.gift.bad1=Mihin voisin k\u00e4ytt\u00e4\u00e4 t\u00e4t\u00e4\!?
+playerchild.young.gift.bad2=T\u00e4m\u00e4 haisee.
+playerchild.young.gift.bad3=Min\u00e4 en tykk\u00e4\u00e4 n\u00e4ist\u00e4.
+playerchild.young.gift.bad4=%CallPlayerParent%, tied\u00e4t mist\u00e4 pid\u00e4n ja en pid\u00e4.
+playerchild.young.gift.bad5=Anna minulle jotain kivaa.
+playerchild.young.gift.bad6=Minulla on jo aivan liian paljon n\u00e4it\u00e4.
+playerchild.young.gift.bad7=T\u00e4m\u00e4 on K\u00e4ytt\u00e4m\u00e4t\u00f6nt\u00e4 Roskaa\!
+playerchild.young.gift.bad8=Mielummin min\u00e4 en ottaisi mit\u00e4\u00e4n\!
+playerchild.young.gift.bad9=Mit\u00e4??
+
+playerchild.young.gift.great1=Mist\u00e4 sait t\u00e4m\u00e4n,%CallPlayerParent%?
+playerchild.young.gift.great2=Onko t\u00e4m\u00e4 minulle?
+playerchild.young.gift.great3=Jeeeeeee\!
+playerchild.young.gift.great4=Onko kaikki minun\!?
+playerchild.young.gift.great5=%ParentOpposit% Kutsuu n\u00e4it\u00e4 Seksikk\u00e4iksi.
+playerchild.young.gift.great6=Sin\u00e4 olet paras %CallPlayerParent% ikin\u00e4\!
+
+playerchild.young.gift.regular1=Toivottavasti saan lis\u00e4\u00e4\!
+playerchild.young.gift.regular2=Onko t\u00e4m\u00e4 minulle?
+playerchild.young.gift.regular3=Otit minulle kaksi, vai mit\u00e4?
+playerchild.young.gift.regular4=Onko se minulle?\!
+
+playerchild.young.gift.small1=Mist\u00e4 sait t\u00e4m\u00e4n,%CallPlayerParent%?
+playerchild.young.gift.small2=Ooooh, kiilt\u00e4v\u00e4\u00e4\!
+playerchild.young.gift.small3=Lahjoja\! min\u00e4 tykk\u00e4\u00e4n aina lahjoista\!
+playerchild.young.gift.small4=Pid\u00e4n siit\u00e4, %CallPlayerParent%.
+playerchild.young.gift.small5=Kiitos, %CallPlayerParent%.
+
+playerchild.young.greeting.basic1=Hei, %CallPlayerParent%.
+playerchild.young.greeting.basic2=Y\u00f6k, %CallPlayerParent%, sin\u00e4 haiset. miss\u00e4 olet ollut?
+playerchild.young.greeting.basic3=Jee\!%CallPlayerParent% on kotona\!
+playerchild.young.greeting.basic4=Hurraa,%CallPlayerParent%\! Toitko minulle mit\u00e4\u00e4n?
+
+playerchild.young.greeting.friend1=Jee\!%CallPlayerParent%%CallPlayerParent%%CallPlayerParent%\!\!\!
+playerchild.young.greeting.friend2=Toit minulle lahjan vai mit\u00e4?
+playerchild.young.greeting.friend3=%CallPlayerParent%, Minulla oli ik\u00e4v\u00e4 sinua.
+playerchild.young.greeting.friend4=Kerro minulle tarinoita siit\u00e4 miss\u00e4 olet ollut\!
+playerchild.young.greeting.friend5=%CallPlayerParent%, \u00e4l\u00e4 l\u00e4hde taas. Se tekee %ParentOpposite% surulliseksi.
+
+playerchild.young.greeting.hate1=\u00c4l\u00e4 satuta minua %CallPlayerParent%
+playerchild.young.greeting.hate2=%CallPlayerParent%, aiotko olla nyt kiltti minulle?
+playerchild.young.greeting.hate3=M...moi...%CallPlayerParent%
+playerchild.young.greeting.hate4=*Piiloutuu peloissaan*
+playerchild.young.greeting.hate5=Olen kiltisti t\u00e4n\u00e4\u00e4n %CallPlayerParent%..... \u00c4l\u00e4 ly\u00f6 minua.
+
+playerchild.young.hitbyplayer1=Auts\! Kerron %ParentOppostie% sinusta
+playerchild.young.hitbyplayer2=%CallPlayerParent%, \u00c4l\u00e4 ly\u00f6 minua\!
+playerchild.young.hitbyplayer3=%CallPlayerParent%, tuo sattui\!
+playerchild.young.hitbyplayer4=Ai\! Mit\u00e4 min\u00e4 tein %CallPlayerParent%?
+playerchild.young.hitbyplayer5=Au\!
+playerchild.young.hitbyplayer6=Auts\!
+playerchild.young.hitbyplayer7=Menen kertomaan %ParentOpposite%\!
+
+playerchild.young.gifted.baby1=Y\u00f6k\! Se haisee\!
+
+playerchild.young.tellstory.good1=Saitko piiskaa siit\u00e4 hyv\u00e4st\u00e4?
+playerchild.young.tellstory.good2=Min\u00e4 haluan tehd\u00e4 sit\u00e4\!
+playerchild.young.tellstory.good3=En en\u00e4\u00e4 koskaan ole tottelematta sinua sen j\u00e4lkeen kun kuulin tuon\!
+playerchild.young.tellstory.good4=*Nauraa* %ParentOpposite% teki sen?
+playerchild.young.tellstory.good5=En voi uskoa, ett\u00e4 sin\u00e4 teit sen\!
+
+playerchild.young.tellstory.bad1=*Itkee* Miten voit tehd\u00e4 jotain sellaista?
+playerchild.young.tellstory.bad2=Kerron %RandomName%\:lle, ett\u00e4 sin\u00e4 sanoit sen.
+playerchild.young.tellstory.bad3=Joo joo miten vaan. En halua kuulla tarinoita juuri nyt.
+playerchild.young.tellstory.bad4=Creeper saa minut?\!
+playerchild.young.tellstory.bad5=*Itkee* En tahdo %ParentOpposite% muuttuvan zombiksi\!
+
+playerchild.young.play.good1=Et saa minua kiinni\!
+playerchild.young.play.good2=Rakastan sit\u00e4 kun leikit kanssani %CallPlayerParent%.
+playerchild.young.play.good3=Aion voittaa\!
+playerchild.young.play.good4=T\u00e4m\u00e4 tulee olemaan hauskaa\!
+playerchild.young.play.good5=Et koskaan p\u00e4ihit\u00e4 minua\!
+
+playerchild.young.play.bad1=Et koskaan anna minun voittaa.
+playerchild.young.play.bad2=Sinun tarvitsee treenata, mutta minun ei.
+playerchild.young.play.bad3=Olen liian vanha t\u00e4h\u00e4n.
+playerchild.young.play.bad4=Miksi et leiki lempilapsesi kanssa?
+playerchild.young.play.bad5=Haluan leikki\u00e4 vain %RandomName% kanssa.
+
+playerchild.young.greeting.handshake.good1=Hei %CallPlayerParent%.
+playerchild.young.greeting.handshake.good2=Mihin menit t\u00e4n\u00e4\u00e4n?
+playerchild.young.greeting.handshake.good3=Kerro minulle seikkailuistasi.
+playerchild.young.greeting.handshake.good4=Olet palannut. Mit\u00e4s olet tehnyt?
+playerchild.young.greeting.handshake.good5=Tehd\u00e4\u00e4n jotain\!
+
+playerchild.young.greeting.handshake.bad1=...Miksi k\u00e4ttelet minua?
+playerchild.young.greeting.handshake.bad2=K\u00e4tesi ovat hikiset ja inhottavat.
+playerchild.young.greeting.handshake.bad3=Y\u00f6k, \u00e4l\u00e4 koske minuun\!
+playerchild.young.greeting.handshake.bad4=En tahdo k\u00e4tell\u00e4\!
+playerchild.young.greeting.handshake.bad5=Miksi et puhu minulle vaan k\u00e4ttelet kokoajan?
+
+playerchild.young.greeting.highfive.good1=Teetk\u00f6 sen uudestaan?
+playerchild.young.greeting.highfive.good2=T\u00e4m\u00e4 on kivaa\!
+playerchild.young.greeting.highfive.good3=*Nauraa*
+playerchild.young.greeting.highfive.good4=Tee yl\u00e4vitonen uudestaan\!
+playerchild.young.greeting.highfive.good5=pliis, kerran viel\u00e4\!
+
+playerchild.young.greeting.highfive.bad1=Olen kyll\u00e4stynyt tuohon jo.
+playerchild.young.greeting.highfive.bad2=Onko sinulla mit\u00e4\u00e4n muuta?
+playerchild.young.greeting.highfive.bad3=En ylety sinne tyhm\u00e4\!
+playerchild.young.greeting.highfive.bad4=En tahdo antaa yl\u00e4vitosta en\u00e4\u00e4.
+playerchild.young.greeting.highfive.bad5=Tuo on jo k\u00e4ym\u00e4ss\u00e4 \u00e4rsytt\u00e4v\u00e4ksi.
+
+#######
+# Spouse Dialogue
+##############################
+spouse.chat.bad1=Olen kuullut tuon tarinan aiemminkin.
+spouse.chat.bad2=On tyls\u00e4\u00e4 puhua samoista asioista.
+spouse.chat.bad3=Eik\u00f6 sinulla ole mit\u00e4\u00e4n parempaa puhumista?
+spouse.chat.bad4=En halua puhua tuosta.
+spouse.chat.bad5=Mit\u00e4 vaan sanot.
+spouse.chat.bad6=Onko mit\u00e4\u00e4n muuta mit\u00e4 haluat kertoa minulle?
+
+spouse.chat.good1=Rakastan sit\u00e4 kun kerrot sinun seikkailuistasi.
+spouse.chat.good2=Vaikuttavaa\!
+spouse.chat.good3=Kyll\u00e4, juttu on hyv\u00e4 t\u00e4\u00e4ll\u00e4p\u00e4in.
+spouse.chat.good4=Tuota t\u00e4n\u00e4\u00e4n min\u00e4...tai olen varma, ett\u00e4 et sin\u00e4 halua sit\u00e4 kuulla\!
+spouse.chat.good5=Ollut pitk\u00e4 p\u00e4iv\u00e4 sinnullakin?
+spouse.chat.good6=Juuri t\u00e4m\u00e4n takia rakastan sinua.
+spouse.chat.good7=Mahtavaa, olen iloinen ett\u00e4 nain sinut.
+spouse.chat.good8=Tarinasi h\u00e4mm\u00e4stytt\u00e4v\u00e4t minut\!
+spouse.chat.good9=Hyv\u00e4 tarina\!
+spouse.chat.good10=*Nuolee huuliaan n\u00e4lk\u00e4isen\u00e4*
+
+spouse.divorce1=Olen puhki kanssasi\!
+spouse.divorce2=Tervemenoa\!
+spouse.divorce3=En halua n\u00e4hd\u00e4 sinua en\u00e4 koskaan\!
+spouse.divorce4=H\u00e4ivy luotani\!
+spouse.divorce5=En usko sinua\! J\u00e4t\u00e4 minut rauhaan\!
+spouse.divorce6=Miksi? enko ole...tarpeeksi hyv\u00e4...?
+spouse.divorce7=Luulin ett\u00e4 rakastat minua\!
+spouse.divorce8=Mit\u00e4\!? Ei\! En voi uskoa\!
+spouse.divorce9=H\u00e4ivy luotani\! Lopullisesti\!
+
+spouse.follow.start1=Ai ok, minne me ollaan menossa?
+spouse.follow.start2=Okei, pysyn mukana.
+spouse.follow.start3=Okei, menn\u00e4\u00e4n\!
+spouse.follow.start4=L\u00e4hdemmek\u00f6 viimmeinkin t\u00e4lt\u00e4 kaatopaikalta?
+spouse.follow.start5=Onko sinulla uusi talo jossain?
+spouse.follow.start6=Okei, mutta en halua liikkua t\u00e4\u00e4lt\u00e4.
+spouse.follow.start7=Voinko seikkailla kanssasi? Kuinka mielenkiintoista\!
+spouse.follow.start8=Menn\u00e4\u00e4n jonnekkin mukavaan paikkaan, eik\u00f6?
+
+spouse.follow.stop1=T\u00e4m\u00e4 paikka n\u00e4ytt\u00e4\u00e4 todella mukavalta\!
+spouse.follow.stop2=Hmm, hyv\u00e4 on, voit aina tuoda minut kanssasi, kulta.
+spouse.follow.stop3=Hyv\u00e4 on, ole varovainen\!
+spouse.follow.stop4=Olen t\u00e4\u00e4ll\u00e4p\u00e4in kun tulet takaisin.
+spouse.follow.stop5=Huh, olipa rasittavaa, mutta ainakin olin kanssasi.
+
+spouse.gift.bad1=\u00d6m...ei kiitos. Minulla on jo tuommoinen.Jossakin.
+spouse.gift.bad2=Toivottavasti et luullut minun pit\u00e4v\u00e4n tuosta.
+spouse.gift.bad3=Etk\u00f6 tied\u00e4 yht\u00e4\u00e4n mist\u00e4 min\u00e4 pid\u00e4n.
+spouse.gift.bad4=Miksi annat tuon minulle?
+spouse.gift.bad5=T\u00e4t\u00e4k\u00f6 sanot lahjaksi?
+spouse.gift.bad6=Luulin ett\u00e4 tunnet minut niin hyvin ett\u00e4 tiet\u00e4isit mist\u00e4 min\u00e4 pid\u00e4n.N\u00e4k\u00f6j\u00e4\u00e4n et.
+spouse.gift.bad7=T\u00e4m\u00e4... on huono. En halua sit\u00e4.
+
+spouse.gift.great1=Oi...paljonko t\u00e4m\u00e4 maksoi?
+spouse.gift.great2=Miten sait t\u00e4m\u00e4n\!? Kiitos\!
+spouse.gift.great3=Oli varmaan vaikeaa hankkia t\u00e4m\u00e4\!
+spouse.gift.great4=Minun ei pit\u00e4isi ottaa t\u00e4t\u00e4...mutta se on niin loistava\!
+spouse.gift.great5=Vaalin t\u00e4t\u00e4 ikuisesti.
+spouse.gift.great6=Kiitos kultaseni, sin\u00e4 todella tied\u00e4t mit\u00e4 rakastan.
+spouse.gift.great7=Pid\u00e4n t\u00e4m\u00e4n aina l\u00e4hell\u00e4ni, kiitos.
+spouse.gift.great8=Olet seksik\u00e4s ja tied\u00e4n sen.
+
+spouse.gift.regular1=T\u00e4m\u00e4 on mahtava\! Kiitos\!
+spouse.gift.regular2=Tuo minulle lis\u00e4\u00e4\!
+spouse.gift.regular3=Ei sinun olisi tarvinnut...kiitos.
+spouse.gift.regular4=T\u00e4m\u00e4 on mahtava\!Kiitti\!
+spouse.gift.regular5=Tied\u00e4t mist\u00e4 pid\u00e4n, eik\u00f6 niin?
+spouse.gift.regular6=Oi, kiitti ,t\u00e4m\u00e4 on todella kiltti\u00e4 sinulta.
+spouse.gift.regular7=T\u00e4m\u00e4 on todella siisti.
+
+spouse.gift.small1=Kiitti\!
+spouse.gift.small2=Arvostan t\u00e4t\u00e4.
+spouse.gift.small3=Oi. Se on ajatus mik\u00e4 laskee, ajatteleppas\!
+spouse.gift.small4=Olet niin kultainen.
+spouse.gift.small5=Kiitos. Ei sinun olisi tarvinnut antaa minulle mit\u00e4\u00e4n.
+
+spouse.greeting.basic1=Hei, kulta.
+spouse.greeting.basic2=Miss\u00e4 olet ollut t\u00e4n\u00e4\u00e4n?
+spouse.greeting.basic3=Moi, kulta. Miten menee?
+spouse.greeting.basic4=Onko kaikki hyvin?
+spouse.greeting.basic5=Olet n\u00e4k\u00f6j\u00e4\u00e4n palannut seikkailuiltasi. Miten voit, kultaseni?
+spouse.greeting.basic6=Olen kaivannut sinua\! Miten voit, kulta?
+spouse.greeting.basic7=Olin huolissani sinusta, l\u00e4hdit ilman miekkaa. Mutta olen iloinen, ett\u00e4 tulit takaisin.
+spouse.greeting.basic8=Hei, miten menee?
+spouse.greeting.basic9=Oliko p\u00e4iv\u00e4si mukava?
+spouse.greeting.basic10=Olen iloinen ett\u00e4 palasit.
+
+spouse.greeting.friend1=Hei, kulta.
+spouse.greeting.friend2=Miss\u00e4 olet ollut t\u00e4n\u00e4\u00e4n?
+spouse.greeting.friend3=Hei, kulta. Mit\u00e4 kuuluu?
+spouse.greeting.friend4=Onko kaikki hyvin?
+spouse.greeting.friend5=Olet n\u00e4k\u00f6j\u00e4\u00e4n palannut seikkailultasi. Kuinka voit, kultaseni?
+spouse.greeting.friend6=Olen kaivannut sinua\! Miten voit, kulta?
+spouse.greeting.friend7=Olin huolissani sinusta, l\u00e4hdit ilman miekkaa Mutta olen iloinen, ett\u00e4 tulit takaisin.
+spouse.greeting.friend8=Hei, miten menee?
+spouse.greeting.friend9=Oliko p\u00e4iv\u00e4si mukava?
+spouse.greeting.friend10=Olen iloinen ett\u00e4 palasit.
+
+spouse.greeting.hate1=En halua puhua kanssasi juuri nyt.
+spouse.greeting.hate2=Olen hyvin surullinen. J\u00e4t\u00e4 minut rauhaan.
+spouse.greeting.hate3=%PlayerName%, sanoin etten puhu kanssasi.
+spouse.greeting.hate4=Emme ole juuri nyt puhev\u00e4leiss\u00e4, jos et tiennyt.
+spouse.greeting.hate5=Sinun kannattaa ryhdist\u00e4yty\u00e4 tai l\u00e4hden.
+
+spouse.hitbyplayer1=Au\! Pahoinpitely\!
+spouse.hitbyplayer2=Toivon ettet tarkoittanut tehd\u00e4 sit\u00e4.
+spouse.hitbyplayer3=Tuo sattui...
+spouse.hitbyplayer4=Lopeta minun satuttaminen\!
+spouse.hitbyplayer5=Au\! \u00c4\u00e4li\u00f6\!
+spouse.hitbyplayer6=Miksi haluisit ly\u00f6d\u00e4 minua\!?
+spouse.hitbyplayer7=Mist\u00e4 hitosta tuo tuli\!?
+
+spouse.gifted.baby1=Uudestaan? Argh. Hyv\u00e4 on.
+spouse.gifted.baby2=Olet niin suloinen\!Niin olet\!Niin olet\!
+spouse.gifted.baby3=Okei,pid\u00e4n sit\u00e4.
+spouse.gifted.baby4=Ooo\! Jotakin minulle? Oo. Se on vauva.
+spouse.gifted.baby5=Okei. Anna se t\u00e4nne.
+spouse.gifted.baby6=Katso, sill\u00e4 on minun silm\u00e4t\!
+spouse.gifted.baby7=Ai, et osaa pidell\u00e4 vauvaa? Ok,anna se minulle.
+
+spouse.joke.bad1=\u00d6\u00f6...Luulen ett\u00e4 olet kertonut jo kertonut tuon.
+spouse.joke.bad2=Ei tuossa ollut mit\u00e4\u00e4n j\u00e4rke\u00e4?
+spouse.joke.bad3=On varmaan laitonta kertoa noin huonoja vitsej\u00e4.
+spouse.joke.bad4=Tuo oli...hyv\u00e4...kulta.
+spouse.joke.bad5=*Kiusallinen hymy*
+spouse.joke.bad6=*Teenn\u00e4inen hykerrys*
+spouse.joke.bad7=..Seuraava....
+
+spouse.joke.good1=Oi. Kerroit tuon kun tapasimme ensimm\u00e4isen kerran.
+spouse.joke.good2=Muistan tuon\! Viel\u00e4kin hauska\!
+spouse.joke.good3=Olet hauska\!
+spouse.joke.good4=Mist\u00e4 keksit n\u00e4it\u00e4? Haha\!
+spouse.joke.good5=En saisi nauraa tuolle,mutta se on vaan liian hauska\!
+
+spouse.procreate.refuse1=Ei, en uskoisi niin.
+spouse.procreate.refuse2=T\u00e4m\u00e4n on pakko olla pilaa\!
+spouse.procreate.refuse3=Ei sen j\u00e4lkeen, miten olet kohdellut minua\!
+spouse.procreate.refuse4=Min\u00e4 juuri ja juuri edes pid\u00e4n sinusta. Ei ole tapaa, jolla saisit minut tekem\u00e4\u00e4n noin.
+spouse.procreate.refuse5=Joo, ihan varmasti\! Kohtele minua v\u00e4h\u00e4n paremmin, niin voin edes ajatella sit\u00e4.
+
+spouse.kiss.good1=Olet niin ihana.
+spouse.kiss.good2=Min\u00e4kin rakastan sinua.
+spouse.kiss.good3=Olet liian hyv\u00e4 minulle.
+spouse.kiss.good4=Kiitos, tuo oli ihanaa.
+spouse.kiss.good5=Kuinka mukavaa sinulta\!
+
+spouse.kiss.bad1=Ei en ole sill\u00e4 tuulella t\u00e4n\u00e4\u00e4n.
+spouse.kiss.bad2=Miksi olet yht\u00e4kki\u00e4 mukava minulle?
+spouse.kiss.bad3=Mene pussamaan lehm\u00e4\u00e4.
+spouse.kiss.bad4=Emp\u00e4 usko.
+spouse.kiss.bad5=Liian my\u00f6h\u00e4ist\u00e4 sille.
+spouse.kiss.bad6=Nen\u00e4si t\u00f6kk\u00e4si silm\u00e4\u00e4ni\!
+spouse.kiss.bad7=Y\u00f6k, se oli vetinen ja huolimaton\!
+spouse.kiss.bad8=Et vain osaa pussata.
+
+spouse.flirt.good1=Olet niin sulava puhuja.
+spouse.flirt.good2=*punastuu* Olet aina ollut aika hurmuri.
+spouse.flirt.good3=Aah\! Et ole muuttunut yht\u00e4\u00e4n siit\u00e4 kun menimme naimisiin.
+spouse.flirt.good4=Aw\! Se ole herttaista\!
+spouse.flirt.good5=Voi, olen ihan nolona.
+
+spouse.flirt.bad1=Ei kenell\u00e4k\u00e4\u00e4n ole aikaa tuohon\!
+spouse.flirt.bad2=Kuinka omaper\u00e4ist\u00e4.
+spouse.flirt.bad3=Ly\u00f6n vetoa, ett\u00e4 kerrot saman kaikille. Ei, olen t\u00e4ysin tosissani. Veikkaan ett\u00e4 teet niin oikeasti.
+spouse.flirt.bad4=En ole sill\u00e4 tuulella.
+spouse.flirt.bad5=Nyt yrit\u00e4t olla romanttinen minua kohtaan? Miksi ei silloin kuin tapailimme?
+
+spouse.tellstory.good1=Tuo oli hyv\u00e4\!
+spouse.tellstory.good2=Mit\u00e4 Cupquake teki sen j\u00e4lkeen?
+spouse.tellstory.good3=Katsotko sin\u00e4kin ChimneySwift11\:n "Minecraft Files" sarjaa?\!
+spouse.tellstory.good4=*Nauraa* Se muistuttaa minua siit\u00e4 kun \u00e4itini k\u00e4veli huoneeeseeni ainostaan, ett\u00e4 olin siivoamassa.
+spouse.tellstory.good5=Aw, min\u00e4kin tahdon samanlaisen tytt\u00e4ren\!
+
+spouse.tellstory.bad1=Miksi kerrot minulle tuollaista?
+spouse.tellstory.bad2=Tuo saa minut itkem\u00e4\u00e4n...
+spouse.tellstory.bad3=*Ei v\u00e4lit\u00e4 sinusta*
+spouse.tellstory.bad4=Miksi SE toi niin paljon iloa?
+spouse.tellstory.bad5=Sinun ei kannaisi pilkata %RandomName%.
+
+spouse.greeting.handshake.good1=Rakastan tunnnetta kun k\u00e4tesi on minun k\u00e4dess\u00e4.
+spouse.greeting.handshake.good2=Olet h\u00f6lm\u00f6\!
+spouse.greeting.handshake.good3=Mites sinun p\u00e4iv\u00e4si sujuu kultaseni?
+spouse.greeting.handshake.good4=Miten sinulla menee?
+spouse.greeting.handshake.good5=Tervehdys rakkaani.
+
+spouse.greeting.handshake.bad1=Y\u00f6k, tied\u00e4n miss\u00e4 k\u00e4tesi on ollut.
+spouse.greeting.handshake.bad2=K\u00e4tesi ovat hikiset.
+spouse.greeting.handshake.bad3=K\u00e4ttely? Sek\u00f6 pelk\u00e4st\u00e4\u00e4n?
+spouse.greeting.handshake.bad4=Ei kiitos\! Olet ollut koko p\u00e4iv\u00e4n luolasssa.
+spouse.greeting.handshake.bad5=Ne haisevat...lehm\u00e4lt\u00e4?\!
+
+spouse.greeting.highfive.good1=Oh jeah\!
+spouse.greeting.highfive.good2=Korkealle\!
+spouse.greeting.highfive.good3=Yl\u00e4vitonen\!
+spouse.greeting.highfive.good4=Mit\u00e4s kuuluu?
+spouse.greeting.highfive.good5=hell jeah\!
+
+spouse.greeting.highfive.bad1=T\u00e4m\u00e4 suurin kontaktimme sitten ikuisuuksiin.
+spouse.greeting.highfive.bad2=En ole en\u00e4\u00e4 viisivuotias.
+spouse.greeting.highfive.bad3=Olet niin lapsellinen.
+spouse.greeting.highfive.bad4=Auts\! Sin\u00e4 l\u00f6it minua\!
+spouse.greeting.highfive.bad5=En uskaltaisi koskea sinun k\u00e4teesi.
+
+spouse.chore.start.cooking1=Totta kai\! Kokkaan mit\u00e4 tahansa ruokaa, jonka annat minulle.
+spouse.chore.start.cooking2=Kyll\u00e4, kultanen. Tulen heti.
+spouse.chore.start.cooking3=J\u00e4t\u00e4 minullekkin jotain t\u00e4ll\u00e4 kertaa\! Min\u00e4 sent\u00e4\u00e4n valmistin sen.
+spouse.chore.start.cooking4=Min\u00e4 olen my\u00f6s n\u00e4lk\u00e4inen\!
+spouse.chore.start.cooking5=Toivottavasti en polta sit\u00e4 t\u00e4ll\u00e4 kertaa.
+

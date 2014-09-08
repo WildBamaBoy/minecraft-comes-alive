@@ -1,0 +1,2255 @@
+#X-Generator: crowdin.com
+#X-Generator: crowdin.net
+itemGroup.tabMCA=Minecraft Comes Alive
+
+##########
+# Heir
+#############################
+heir.set.success=%Name% nuo \u0161iol yra tavo \u012fp\u0117dinis.
+heir.set.failure.alreadyset=Tu jau pasirinkai savo \u012fp\u0117din\u012f.
+heir.set.failure.sameperson=%Name% jau yra tavo \u012fp\u0117dinis.
+heir.set.failure.alreadyused=%Name% jau buvo tavo \u012fp\u0117dinis. Tu turi pasirinkti k\u0105 nors kit\u0105.
+
+heir.gui.requestcrown=Pra\u0161yti Kar\u016bnos
+heir.gui.recoverinventory=Atgauti Inventori\u0173
+
+heir.good.returncrown1=Puiku. Buvo smagu.
+heir.good.returncrown2=\u017dinoma, %CallPlayerParent%. \u0160tai tavo kar\u016bna.
+heir.good.returncrown3=B\u016bt\u0173 gerai. Vistiek buvo prad\u0117ja pabosti.
+heir.good.returncrown4=Nu dar penkiom minut\u0117m, pra\u0161au. Gerai jau gerai\!
+heir.good.returncrown5=D\u017eiaugiuosi, kad pagaliau viskas beig\u0117s. \u017dmon\u0117s jau buvo prad\u0117j\u0119 man\u0119s nek\u0119sti\!
+
+heir.good.founditems1=Tu gr\u012f\u017eai\! Galvojau kad pradingai am\u017eiams. \u0160tai tavo daiktai.
+heir.good.founditems2=Mes radome tavo daiktus, bet galvojome, kad tu dingai\! \u0160tai, imk juos.
+heir.good.founditems3=A\u0161 nusiun\u010diau kelis sargybinius, kad paie\u0161kot\u0173 tav\u0119s. Jie rado tavo daiktus.
+heir.good.founditems4=Negaliu patik\u0117ti, kad tu gr\u012f\u017eai\! Mes radom tavo daiktus, bet tav\u0119s ne.
+
+##########
+# Information
+#############################
+information.doesnothing=\u0160iuo metu nieko nedaro.
+
+information.whistle.line1=Kol laikai, paspausk de\u0161in\u012f pel\u0117s mygtuk\u0105,
+information.whistle.line2=kad atkeltum savo sutuoktin\u012f(-\u0119) ir
+information.whistle.line3=vaikus prie sav\u0119s.
+
+information.heircrown.line1=Padovanok savo vaikui,
+information.heircrown.line2=kad padarytum j\u012f/j\u0105 karaliumi/karaliene
+information.heircrown.line3=kai tu mirsi.
+
+information.weddingring.line1=Padovanok gyventojui, kuris(-i)
+information.weddingring.line2=turi daugiau nei 100 \u0161ird\u017ei\u0173, kad
+information.weddingring.line3=susituoktum\u0117te.
+
+information.villagereditor.line1=Paspausk de\u0161in\u012f pel\u0117s mygtuk\u0105 ant gyventojo,
+information.villagereditor.line2=kad redaguotum j\u012f/j\u0105.
+
+information.tombstone.line1=Pastatyk tai kaip pagerbim\u0105
+information.tombstone.line2=\u017euvusiam \u0161eimos nariui.
+
+information.lostrelativedocument.line1=Naudok ant gyventoj\u0173, kad paverstum juos
+information.lostrelativedocument.line2=\u012f savo pasirinkt\u0105 giminait\u012f.
+
+information.engagementring.line1=Padovanok tai gyventojui(-ai), tada padovanok
+information.engagementring.line2=jam/jai vestuvi\u0173 \u017eied\u0105, kad gautum
+information.engagementring.line3=dovan\u0173 nuo gyventoj\u0173.
+
+information.crown.line1=Pagamink tai, kad taptum monarchu.
+
+information.baby.line1=De\u0161iniu pel\u0117s mygtuku paspausk \u017eem\u0119, kad
+information.baby.line2=u\u017eaugintum k\u016bdik\u012f \u012f vaik\u0105,
+information.baby.line3=kai jis yra pasiruo\u0161\u0119s.
+
+information.arrangersring.line1=Padovanok tai vienam gyventojui, paskui kitam
+information.arrangersring.line2=netoli esan\u010diam, kad surengtum
+information.arrangersring.line3=j\u0173 vedybas.
+
+information.villagerbed.line1=Pad\u0117kite \u0161ia lov\u0105 ant \u017eem\u0117s
+information.villagerbed.line2=ir \u0161alia esantis kaimietis miegos
+information.villagerbed.line3=joje nakt\u012f.
+
+##########
+# Traits
+#############################
+gui.info.trait=Bruo\u017eas\: 
+trait.unknown=Ne\u017einomas
+
+trait.none=Jokio
+trait.shy=Drovus
+trait.fun=Linksmas
+trait.serious=Rimtas
+trait.friendly=Draugi\u0161kas
+trait.irritable=Irzlus
+trait.emotional=Jausmingas
+trait.outgoing=Bendraujantis
+
+##########
+# Moods
+#############################
+gui.info.mood=Nuotaika\: 
+
+mood.happy.ecstatic=Tryk\u0161tanti d\u017eiauksmu
+mood.happy.cheerful=Linksma
+mood.happy.happy=Laiminga
+mood.happy.fine=Puiki
+mood.happy.okay=Gera
+
+mood.neutral.passive=Neutrali
+
+mood.sadness.blue=Be nuotaikos
+mood.sadness.unhappy=Nelaiminga
+mood.sadness.sad=Li\u016bdna
+mood.sadness.cheerless=Ni\u016bri
+mood.sadness.depressed=Prisl\u0117gta
+
+mood.anger.annoyed=Suerzinta
+mood.anger.agitated=Sunervuota
+mood.anger.mad=Pikta
+mood.anger.seething=\u012enir\u0161i
+mood.anger.infuriated=\u012esiutus
+
+mood.fatigue.tired=Pavargus
+mood.fatigue.sleepy=Mieguista
+mood.fatigue.fatigued=Nuvargus
+mood.fatigue.exhausted=I\u0161sekus
+mood.fatigue.comatose=Komin\u0117
+
+#######
+# Monarch
+#############################
+monarch.gui.button.interact.demandgift=Reikalauti Dovanos
+monarch.gui.button.interact.execute=Pasmerkti Mir\u010diai
+monarch.gui.button.interact.makeknight=\u012e\u0161ventinti \u012f Riterius
+monarch.gui.button.interact.makepeasant=Padaryti Valstie\u010diu
+
+monarch.knight.follow.start1=Bet k\u0105 d\u0117l j\u016bs\u0173, mano %MonarchTitle%.
+monarch.knight.follow.start2=A\u0161 jus lyd\u0117siu bet kur, mano didenybe.
+monarch.knight.follow.start3=Ginklai paruo\u0161ti\!
+monarch.knight.follow.start4=J\u016bs\u0173 \u012fsakymu.
+monarch.knight.follow.start5=Kaip panor\u0117site.
+
+monarch.knight.follow.stop1=Galiu bet kada, mano %MonarchTitle%.
+monarch.knight.follow.stop2=Kaip panor\u0117site, mano didenybe.
+monarch.knight.follow.stop3=Na, tada gr\u012f\u0161iu prie pareig\u0173.
+
+monarch.knight.follow.refuse1=A\u0161 niekad nepaisy\u010diau %MonarchPlayerName% nor\u0173\!
+monarch.knight.follow.refuse2=A\u0161 esu prisiek\u0119s savo %MonarchPlayerName%.
+monarch.knight.follow.refuse3=A\u0161 %MonarchPlayerName% riteris.
+
+monarch.execute.failure.noweapon=Tu neturi ginklo su kuriuo gal\u0117tum pasmerkti mir\u010diai \u0161\u012f \u017emog\u0173.
+monarch.execute.failure.playerspouse=Tu negali pasmerkti mir\u010diai \u017eaid\u0117jo sutuoktinio.
+
+monarch.makepeasant.success=\u0160is gyventojas dabar yra valstietis pakl\u016bstantis tau. Jie atliks darbus nemokamai.
+monarch.makepeasant.failure.alreadypeasant=\u0160is gyventojas jau yra kito monarcho valstietis.
+monarch.makepeasant.failure.playerspouse=\u017daid\u0117jo sutuoktinis negali b\u016bti paverstas \u012f valstiet\u012f.
+
+monarch.makeknight.success=\u0160is sargybinis dabar yra riteris, pakl\u016bstantis tavo \u012fsakymams.
+monarch.makeknight.failure.alreadyknight=\u0160is sargybinis jau yra kito monarcho riteris.
+monarch.makeknight.failure.playerspouse=\u017daid\u0117jo sutuoktinis negali b\u016bti paverstas \u012f riter\u012f.
+
+monarch.title.knight.male=Riteris %Name%
+monarch.title.knight.female=Riter\u0117 %Name%
+monarch.title.knight.male.otherplayer=(%MonarchPlayerName% Riteris)
+monarch.title.knight.female.otherplayer=(%MonarchPlayerName% Riter\u0117)
+
+monarch.title.peasant.male.owner=(Valstietis)
+monarch.title.peasant.female.owner=(Valstiet\u0117)
+monarch.title.peasant.male.otherplayer=(%MonarchPlayerName% Valstietis)
+monarch.title.peasant.female.otherplayer=(%MonarchPlayerName% Valstiet\u0117)
+
+monarch.title.monarch=Monarchas
+monarch.title.heir=\u012ep\u0117dinis
+monarch.title.male.player=Karalius
+monarch.title.male.heir=Princas
+monarch.title.female.player=Karalien\u0117
+monarch.title.female.heir=Princes\u0117
+
+monarch.demandgift.accept1=Tai \u017einoma, mano didenybe\!
+monarch.demandgift.accept2=Bet k\u0105 kas jus pamalonintu, mano didenybe.
+monarch.demandgift.accept3=Bet k\u0105 d\u0117l mano %MonarchTitle%\!
+monarch.demandgift.accept4=Taip, mano %MonarchTitle%.
+monarch.demandgift.accept5=A\u0161 b\u016b\u010diau pagerbtas apipylti jus turtais, mano %MonarchTitle%.
+monarch.demandgift.accept6=Toks besir\u016bpinantis %MonarchTitle% nusipelno daugyb\u0117s dovan\u0173\!
+monarch.demandgift.accept7=Su visu malonumu, mano didenybe.
+
+monarch.demandgift.toomany1=A\u0161 vos pakankamai turiu sau\!
+monarch.demandgift.toomany2=Pra\u0161au, a\u0161 jau ir taip daug daviau...
+monarch.demandgift.toomany3=A\u0161 galvojau. kad j\u016bs esat besir\u016bpinantis %MonarchTitle%, o ne gob\u0161us.
+monarch.demandgift.toomany4=J\u016bs i\u0161 man\u0119s \u0161ito dar negird\u0117jot, bet \u017emon\u0117s pradeda manyti, kad j\u016bs tironas.
+monarch.demandgift.toomany5=Kiek gal\u0117jau tiek daviau\!
+monarch.demandgift.toomany6=A\u0161 jums negaliu duoti daugiau...J\u016bs manim naudojat\u0117s.
+
+monarch.demandgift.dictator1=Pamir\u0161k tai\! A\u0161 daugiau jums nieko nesiruo\u0161iu duoti\!
+monarch.demandgift.dictator2=Ne\! Mes jau pavargom nuo j\u016bs\u0173 nuolatini\u0173 reikalavim\u0173\!
+monarch.demandgift.dictator3=Ne\! Pakaks\!
+monarch.demandgift.dictator4=Mums jau nusibodo j\u016bs\u0173 nepaliaujamas godumas\!
+monarch.demandgift.dictator5=Darykite k\u0105 norite, bet a\u0161 jums daugiau nieko neduosiu\!
+
+#######
+# Names
+##############################
+name.male1=Aaron
+name.male2=Aceton
+name.male3=Adam
+name.male4=Aidan
+name.male5=Alan
+name.male6=Alex
+name.male7=Allen
+name.male8=Andrew
+name.male9=Anthony
+name.male10=Armando
+name.male11=Arthur
+name.male12=Austin
+name.male13=Ben
+name.male14=Bill
+name.male15=Billy
+name.male16=Bradley
+name.male17=Brady
+name.male18=Braxton
+name.male19=Brayden
+name.male20=Brenden
+name.male21=Brent
+name.male22=Brian
+name.male23=Brice
+name.male24=Brighton
+name.male25=Caleb
+name.male26=Cameron
+name.male27=Christopher
+name.male28=Cleveland
+name.male29=Cody
+name.male30=Colby
+name.male31=Collin
+name.male32=Colton
+name.male33=Corey
+name.male34=Coty
+name.male35=Dale
+name.male36=Damon
+name.male37=Dan
+name.male38=Dane
+name.male39=Danny
+name.male40=David
+name.male41=Derek
+name.male42=Devin
+name.male43=Donnie
+name.male44=Drew
+name.male45=Dylan
+name.male46=Edward
+name.male47=Eric
+name.male48=Ethan
+name.male49=Evan
+name.male50=Fred
+name.male51=Gabe
+name.male52=Garrett
+name.male53=Gary
+name.male54=Gavin
+name.male55=Harris
+name.male56=Harry
+name.male57=Hayden
+name.male58=Hunter
+name.male59=Jackson
+name.male60=Jacob
+name.male61=Jake
+name.male62=James
+name.male63=Jared
+name.male64=Jason
+name.male65=Jay
+name.male66=Jeremy
+name.male67=Jerry
+name.male68=Jim
+name.male69=Joe
+name.male70=John
+name.male71=Jon
+name.male72=Joseph
+name.male73=Josh
+name.male74=Justin
+name.male75=Kaden
+name.male76=Kent
+name.male77=Kevin
+name.male78=Leo
+name.male79=Leon
+name.male80=Lewis
+name.male81=Liam
+name.male82=Lucas
+name.male83=Mac
+name.male84=Marcus
+name.male85=Mark
+name.male86=Martin
+name.male87=Mason
+name.male88=Matt
+name.male89=Matthew
+name.male90=Michael
+name.male91=Mike
+name.male92=Nathan
+name.male93=Nathaniel
+name.male94=Nick
+name.male95=Oliver
+name.male96=Oscar
+name.male97=Owen
+name.male98=Patrick
+name.male99=Peter
+name.male100=Phil
+name.male101=Randy
+name.male102=Rey
+name.male103=Robert
+name.male104=Roger
+name.male105=Roy
+name.male106=Russ
+name.male107=Ryan
+name.male108=Scott
+name.male109=Seth
+name.male110=Shane
+name.male111=Shawn
+name.male112=Simon
+name.male113=Steve
+name.male114=Tanner
+name.male115=Tate
+name.male116=Terrence
+name.male117=Terry
+name.male118=Tim
+name.male119=Toby
+name.male120=Tom
+name.male121=Tommy
+name.male122=Tony
+name.male123=Trent
+name.male124=Tristan
+name.male125=Triston
+name.male126=Tyler
+name.male127=Tyson
+name.male128=Victor
+name.male129=Vincent
+name.male130=Will
+name.male131=William 
+
+name.female1=Addison
+name.female2=Adi
+name.female3=Alexis
+name.female4=Alice
+name.female5=Alicia
+name.female6=Allie
+name.female7=Allison
+name.female8=Allysa
+name.female9=Alma
+name.female10=Amelia
+name.female11=Amnesty
+name.female12=Amy
+name.female13=Andrea
+name.female14=Angie
+name.female15=Anna
+name.female16=Anne
+name.female17=Arieanne
+name.female18=Ashley
+name.female19=Ashlyn
+name.female20=Ashton
+name.female21=Aspen
+name.female22=Aubrey
+name.female23=Aurora
+name.female24=Autumn
+name.female25=Ava
+name.female26=Baylee
+name.female27=Brooke
+name.female28=Camilla
+name.female29=Christina
+name.female30=Christy
+name.female31=Constance
+name.female32=Courtney
+name.female33=Cynthia
+name.female34=Dawn
+name.female35=Destiny
+name.female36=Diana
+name.female37=Donna
+name.female38=Elizabeth
+name.female39=Emery
+name.female40=Emily
+name.female41=Emma
+name.female42=Emmalyn
+name.female43=Erika
+name.female44=Eve
+name.female45=Faye
+name.female46=Gracie
+name.female47=Gwen
+name.female48=Hannah
+name.female49=Hazel
+name.female50=Holly
+name.female51=Jaden
+name.female52=Jennifer
+name.female53=Jessica
+name.female54=Julia
+name.female55=Julie
+name.female56=Kaitlin
+name.female57=Katie
+name.female58=Kaylene
+name.female59=Kiana
+name.female60=Kimberly
+name.female61=Kristen
+name.female62=Kylee
+name.female63=Leslie
+name.female64=Linda
+name.female65=Lindsey
+name.female66=Lola
+name.female67=Lori
+name.female68=Lydia
+name.female69=Madison
+name.female70=Marisa
+name.female71=Megan
+name.female72=Melissa
+name.female73=Melody
+name.female74=Miranda
+name.female75=Molly
+name.female76=Nickie
+name.female77=Nicole
+name.female78=Oaklee
+name.female79=Penny
+name.female80=Rachel
+name.female81=Robin
+name.female82=Rosa
+name.female83=Rosalie
+name.female84=Sarah
+name.female85=Serenity
+name.female86=Sharon
+name.female87=Shayla
+name.female88=Sherry
+name.female89=Sheryl
+name.female90=Skylar
+name.female91=Sofia
+name.female92=Sonya
+name.female93=Stacey
+name.female94=Steph
+name.female95=Stephanie
+name.female96=Sylvia
+name.female97=Trinity
+name.female98=Valerie
+name.female99=Vannessa
+name.female100=Veronica
+name.female101=Whitney
+
+#######
+# Multiplayer
+##############################
+multiplayer.command.error.parameter=Perimetro klaida. Naudojimas\:
+multiplayer.command.error.unknown=\u012evyko neatpa\u017einta klaida.
+multiplayer.command.error.playeroffline=\u0160itas \u017eaid\u0117jas n\u0117ra prisijung\u0119s prie \u0161io serverio.
+
+multiplayer.command.output.help=Minecraft Comes Alive - Komandos
+multiplayer.command.output.setgender=Tavo lytis dabar yra\: 
+multiplayer.command.output.setname=Tavo vardas dabar yra\: 
+
+multiplayer.command.output.marry.noring=Tu neturi vestuvinio \u017eiedo. Tu negali tuoktis su kitu \u017eaid\u0117ju.
+multiplayer.command.output.marry.request=%TruePlayerName% nor\u0117t\u0173 vesti jus.
+multiplayer.command.output.marry.accept=Tu susituokiai su %PlayerSpouseName%.
+multiplayer.command.output.marry.decline=J\u016bs\u0173 santuokos pra\u0161ymas buvo atmestas.
+multiplayer.command.output.marry.norequest=\u0160is \u017eaid\u0117jas nebuvo papra\u0161es j\u016bs\u0173 vesti jo.
+multiplayer.command.output.marry.otheralreadymarried=\u0160is \u017eaid\u0117jas jau yra ved\u0119s.
+multiplayer.command.output.marry.senderalreadymarried=Jau esate susituok\u0119s.
+
+multiplayer.command.output.divorce.successful=J\u016bs i\u0161siskyr\u0117te su savo esamu sutuoktiniu.
+
+multiplayer.command.output.havebaby.request=%PlayerSpouseName% nor\u0117tu tur\u0117ti k\u016bdik\u012f.
+multiplayer.command.output.havebaby.decline=J\u016bs\u0173 pra\u0161ymas tur\u0117ti k\u016bdik\u012f buvo atmestas.
+multiplayer.command.output.havebaby.limitreached=J\u016bs pasiek\u0117te vaik\u0173 limit\u0105 nustatyt\u0105 serverio administratoriaus.
+
+multiplayer.command.output.block.failed=\u0160is \u017eaid\u0117jas jau yra u\u017eblokuotas.
+multiplayer.command.output.block.successful=\u017daid\u0117jas s\u0117kmingai u\u017eblokuotas.
+
+multiplayer.command.output.blockall.true.successful=Visi santuokos pra\u0161ymai dabar bus u\u017eblokuoti.
+multiplayer.command.output.blockall.false.successful=Dabar j\u016bs v\u0117l gausite santuokos pra\u0161ymus.
+
+multiplayer.command.output.unblock.failed=\u0160is \u017eaid\u0117jas n\u0117ra u\u017eblokuotas.
+multiplayer.command.output.unblock.successful=\u017daid\u0117jas s\u0117kmingai atblokuotas.
+
+multiplayer.command.output.unblockall.successful=Visi u\u017eblokuoti \u017eaid\u0117jai dabar atblokuoti.
+
+multiplayer.interaction.reject.spouse=Tu negali kontroliuoti kito \u017eaid\u0117jo \u017emonos.
+multiplayer.interaction.reject.child=Tu negali kontroliuoti kito \u017eaid\u0117jo vaiko.
+
+#######
+# Achievements
+##############################
+achievement.charmer=Meilikautojas
+achievement.getmarried=Ved\u0119s Ir Turi Vaik\u0173
+achievement.cookbaby=Mokslo Labui. Tu Pabaisa.
+achievement.havebabyboy=Tai Berniukas\!
+achievement.havebabygirl=Tai Mergait\u0117\!
+achievement.growbaby=Jie U\u017eauga Taip Greit
+achievement.farming=Laisva Darbo J\u0117ga
+achievement.fishing=Vienam Gale Kablys
+achievement.woodcutting=Medkirtys
+achievement.mining=Beribekasys
+achievement.huntkill=Nat\u016bralaus Gymio \u017dudikas
+achievement.hunttame=Gamtos Draugas
+achievement.growkid=Pilnai U\u017eaug\u0119s Vyras (Arba Moteris)
+achievement.equipadult=Apsiginklav\u0119s Iki Dant\u0173
+achievement.mobkills=Asmeninis Sargybinis
+achievement.marrychild=I\u0161tekinti Vaikus
+achievement.havegrandchild=Seneliai
+achievement.havegreatgrandchild=Senas Kaip \u017dem\u0117
+achievement.havegreatx2grandchild=Senesnis U\u017e \u017dem\u0119
+achievement.havegreatx10grandchild=Kokia Tavo Paslaptis?
+achievement.hardcoresecret=Atker\u0161ysiu U\u017e Tave
+achievement.craftcrown=\u0160lov\u0117 Karaliui\!
+achievement.executevillager=Kartu Su Tavo Galva\!
+achievement.makeknight=\u010cia Ne \u0160achmatai
+achievement.knightarmy=Dvide\u0161imt Tai Jau Armija
+achievement.makepeasant=Laba Diena, Mano Lorde
+achievement.peasantarmy=Daryk K\u0105 Liepemas
+achievement.nameheir=Karali\u0161kas Kraujas
+achievement.killheir=Gali B\u016bti Tik Vienas
+achievement.monarchsecret=Dalis Istorijos
+
+achievement.charmer.desc=Pasiekti 100 Gyventojo \u0160irdeli\u0173 Ar Daugiau.
+achievement.getmarried.desc=I\u0161tek\u0117ti u\u017e gyventojo.
+achievement.cookbaby.desc=Slaptas Pasiekimas
+achievement.havebabyboy.desc=Tur\u0117ti k\u016bdik\u012f berniuk\u0105.
+achievement.havebabygirl.desc=Tur\u0117ti k\u016bdik\u012f mergait\u0119.
+achievement.growbaby.desc=U\u017eauginti k\u016bdik\u012f \u012f vaik\u0105.
+achievement.farming.desc=Liepti vaikui i\u0161arti 100 blok\u0173 \u017eem\u0117s.
+achievement.fishing.desc=Liepti vaikui su\u017evejoti 100 \u017euv\u0173.
+achievement.woodcutting.desc=Liepti vaikui surinkti 100 medienos.
+achievement.mining.desc=Liepti vaikui i\u0161kapoti 300 blok\u0173.
+achievement.huntkill.desc=Liepti vaikui nu\u017eudyti 100 gyv\u016bn\u0173 med\u017eiokl\u0117je.
+achievement.hunttame.desc=Liepti vaikui priaukinti 100 gyv\u016bn\u0173.
+achievement.growkid.desc=U\u017eauginti vaik\u0105.
+achievement.equipadult.desc=Apginkluoti savo vaik\u0105 pilnais \u0161arvais ir ginklu.
+achievement.mobkills.desc=Liepti vienam suaugusiui nu\u017eudyti 50 monstr\u0173.
+achievement.marrychild.desc=Ap\u017eenyti savo vaik\u0105.
+achievement.havegrandchild.desc=Tur\u0117ti vaikait\u012f.
+achievement.havegreatgrandchild.desc=Tur\u0117ti provaikait\u012f.
+achievement.havegreatx2grandchild.desc=Tur\u0117ti pro x2 vaikait\u012f.
+achievement.havegreatx10grandchild.desc=Tur\u0117ti pro x10 vaikait\u012f.
+achievement.hardcoresecret.desc=Surask Negail\u0117stingojo re\u017eimo paslapt\u012f.
+achievement.craftcrown.desc=Pagamink kar\u016bn\u0105 ir tapk monarchu.
+achievement.executevillager.desc=Pasmerkti mir\u010diai gyventoj\u0105.
+achievement.makeknight.desc=Padaryti sargybin\u012f \u012f riteri.
+achievement.knightarmy.desc=Pasidaryti dvide\u0161imties riteri\u0173 armij\u0105.
+achievement.makepeasant.desc=Padaryti gyventoj\u0105 \u012f valstiet\u012f.
+achievement.peasantarmy.desc=Padaryti dvide\u0161imt gyventoj\u0173 \u012f valstie\u010dius.
+achievement.nameheir.desc=Padaryti savo \u012fp\u0117din\u012f sosto paveld\u0117toju.
+achievement.killheir.desc=Nu\u017eudyti savo \u012fp\u0117din\u012f kai jiem priklausys sostas.
+achievement.monarchsecret.desc=Slaptas pasiekimas.
+
+#######
+# Items & Blocks
+##############################
+item.ring.arranger.name=Sutuoktuvi\u0173 \u017eiedas
+item.ring.engagement.name=Pir\u0161lyb\u0173 \u017eiedas
+item.ring.wedding.name=Vestuvi\u0173 \u017eiedas
+item.baby.boy.name=K\u016bdikis berniukas
+item.baby.girl.name=K\u016bdikis mergait\u0117
+item.egg.male.name=Kiau\u0161inis\: vyras
+item.egg.female.name=Kiau\u0161inis\: moteris
+item.whistle.name=\u0160vilpukas
+item.editor.name=Gyventoj\u0173 redaguotojas
+item.lostrelativedocument.name=Prarastasis Gimin\u0117s Dokumentas
+item.crown.name=Kar\u016bna
+item.heircrown.name=\u012ep\u0117dinio kar\u016bna
+item.tombstone.name=Paminklas
+item.kingscoat.name=Monarcho apsiaustas
+item.kingspants.name=Monarcho keln\u0117s
+item.kingsboots.name=Monarcho batai
+item.redcrown.name=Raudona Kar\u016bna
+item.bluecrown.name=M\u0117lina Kar\u016bna
+item.greencrown.name=\u017dalia Kar\u016bna
+item.pinkcrown.name=Rausva Kar\u016bna
+item.purplecrown.name=Purpurin\u0117 Kar\u016bna
+item.redbed.name=Raudona Lova
+item.bluebed.name=M\u0117lyna Lova
+item.greenbed.name=\u017dalia Lova
+item.pinkbed.name=Ro\u017ein\u0117 Lova
+item.purplebed.name=Purpurin\u0117 Lova
+block.tombstone.name=Paminklas
+
+#######
+# Professions
+##############################
+profession.baker.male=Kep\u0117jas %Name% 
+profession.baker.female=Kep\u0117ja %Name%
+profession.butcher.male=M\u0117sininkas %Name%
+profession.butcher.female=M\u0117sinink\u0117 %Name%
+profession.farmer.male=\u016akininkas %Name%
+profession.farmer.female=\u016akinink\u0117 %Name%
+profession.guard.male=Sargybinis %Name%
+profession.guard.female=Sargybin\u0117 %Name%
+profession.librarian.male=Bibliotekininkas %Name%
+profession.librarian.female=Bibliotekinink\u0117 %Name%
+profession.miner.male=Kas\u0117jas %Name%
+profession.miner.female=Kas\u0117ja %Name%
+profession.priest.male=Kunigas %Name%
+profession.priest.female=Kunig\u0117 %Name%
+profession.smith.male=Kalvis %Name%
+profession.smith.female=Kalv\u0117 %Name%
+profession.playerchild.male=Berniukas %Name%
+profession.playerchild.female=Mergait\u0117 %Name%
+
+#######
+# Family Member Titles
+##############################
+family.aunt=Teta
+family.brother=Brolis
+family.cousin.male=Pusbrolis
+family.cousin.female=Pusseser\u0117
+family.daughter=Dukra
+family.father.formal=T\u0117vas
+family.father.informal=T\u0117tis
+family.fiance.male=Su\u017ead\u0117tinis
+family.fiance.female=Su\u017ead\u0117tin\u0117
+family.granddaughter=An\u016bk\u0117
+family.grandson=An\u016bkas
+family.greatgranddaughter=x%Generation% produkrait\u0117
+family.greatgrandson=x%Generation% Pros\u016bnaitis
+family.grandfather=Prekiauti
+family.greatgrandfather=Prosenelis
+family.grandmother=Prosenel\u0117
+family.greatgrandmother=x%Generation% Prosenel\u0117
+family.husband=Vyras
+family.mother.formal=Motina
+family.mother.informal=Mama
+family.nephew=S\u016bn\u0117nas
+family.niece=Dukter\u0117\u010dia
+family.none=None
+family.sister=Sesuo
+family.son=S\u016bnus
+family.uncle=D\u0117d\u0117
+family.wife=\u017dmona
+
+#######
+# GUI Elements
+##############################
+
+#Buttons
+gui.button.back=Atgal
+gui.button.exit=I\u0161eiti
+gui.button.next=Pirmyn
+gui.button.yes=Taip
+gui.button.no=Ne
+gui.button.done=Atlikta
+gui.button.ok=Gerai
+gui.button.random=Atsitiktinis
+gui.button.trade=Mainytis
+
+gui.button.setup.finish=Baigti
+gui.button.setup.gendermale=Lytis\: Vyras
+gui.button.setup.genderfemale=Lytis\: Moteris
+gui.button.setup.hidesleepingtag=Pasl\u0117pti "Miega" U\u017era\u0161\u0105\: 
+gui.button.setup.overwritetestificates=Perra\u0161yti Testificate'us\: 
+gui.button.setup.growchildrenautomatically=Vaikai Auga Automati\u0161kai\: 
+gui.button.setup.displaymoodparticles=Rodyti Nuotaik\u0105 Vizualiai\: 
+gui.button.setup.shownametags=Rodyti Vard\u0105 Vir\u0161 Galvos\: 
+gui.button.setup.preference=Pom\u0117giai\: 
+
+gui.button.setup.males=Vyrai
+gui.button.setup.females=Moterys
+
+gui.editor.name=Vardas
+gui.editor.name.invalid=\u0160iame varde yra neleid\u017eiam\u0173 simboli\u0173.
+gui.button.editor.texture=I\u0161vaizda\:
+gui.button.editor.title=Titulas\: 
+gui.button.editor.mood=Nuotaika\: 
+gui.button.editor.trait=Bruo\u017eas\: 
+
+gui.button.interact.interact=Bendrauti
+gui.button.interact.chat=Kalb\u0117tis
+gui.button.interact.joke=Pajuokauti
+gui.button.interact.gift=Dovanoti
+gui.button.interact.kiss=Pabu\u010diuoti
+gui.button.interact.flirt=Flirtuoti
+gui.button.interact.tellstory=Pasipasakoti
+gui.button.interact.play=\u017daisti
+gui.button.interact.greet.handshake=Spausti Rank\u0105
+gui.button.interact.greet.highfive=Duoti Penkis
+gui.button.interact.follow=Sek Mane
+gui.button.interact.followstop=Nustok Sekti
+gui.button.interact.stay=Pasilik
+gui.button.interact.staystop=Jud\u0117k
+gui.button.interact.sethome=Nustatyti Namus
+gui.button.interact.takearrangerring=Priimti sutuoktuvi\u0173 \u017eied\u0105
+gui.button.interact.takegift=Priimti dovan\u0105
+gui.button.interact.ridehorse=Joti Arkliu
+gui.button.interact.dismount=Nulipti
+
+gui.button.interact.player.asktomarry=Papra\u0161yti Tuoktis
+gui.button.interact.player.havebaby=Tur\u0117ti K\u016bdik\u012f
+gui.button.interact.player.accept=Priimti
+gui.button.interact.player.decline=Atmesti
+
+gui.button.special=Daugiau...
+gui.button.special.priest.divorcespouse=I\u0161skirti Sutuoktin\u012f
+gui.button.special.priest.divorcecouple=I\u0161skirti Por\u0105
+gui.button.special.priest.divorcecouple.nonefound=Por\u0173 nerasta.
+gui.button.special.priest.divorce=I\u0161skirti
+gui.button.special.priest.giveupbaby=Atsisakyti K\u016bdikio
+gui.button.special.priest.adoptbaby=\u012evaikinti K\u016bdik\u012f
+gui.button.special.priest.adoptchild=\u012esivaikinti
+gui.button.special.priest.arrangedmarriage=Paskirti Santuok\u0105
+gui.button.special.guard.hire=Pasamdyti
+gui.button.special.guard.dismiss=Atleisti
+gui.button.special.miner.hire=Pasamdyti
+gui.button.special.miner.dismiss=Atleisti
+gui.button.special.baker.aid=Pra\u0161yti Paramos
+gui.button.special.butcher.aid=Pra\u0161yti Paramos
+gui.button.special.farmer.aid=Pra\u0161yti Paramos
+gui.button.special.librarian.setup=Atidaryti Nustatymus
+
+gui.button.spouse.cookfood=I\u0161kepk Maisto
+gui.button.spouse.stopcooking=U\u017eteks Kepti
+gui.button.spouse.inventory=Inventorius
+gui.button.spouse.procreate=Gimdyti
+gui.button.spouse.migrate=Migruoti
+
+gui.button.child.inventory=Inventorius
+gui.button.child.chores=Darbai
+gui.button.child.stopchore=Nutraukti darb\u0105
+gui.button.child.growup=U\u017eaugti
+
+gui.button.chore.farming=\u016akininkyst\u0117
+gui.button.chore.farming.method=Nuotoliu ir i\u0161 arti
+gui.button.chore.farming.method.create=Suk\u016brti Ferm\u0105
+gui.button.chore.farming.method.maintain=R\u016bpintis Ferma
+gui.button.chore.farming.plant=Sodinti\: 
+gui.button.chore.farming.plant.wheat=Kvie\u010dius
+gui.button.chore.farming.plant.melon=Arb\u016bzus
+gui.button.chore.farming.plant.pumpkin=Moli\u016bgus
+gui.button.chore.farming.plant.carrot=Morkas
+gui.button.chore.farming.plant.potato=Bulves
+gui.button.chore.farming.plant.sugarcane=Cukranendres
+gui.button.chore.farming.farmsize=Fermos Dydis\: 
+gui.button.chore.farming.radius=Plotas\: 
+gui.button.chore.fishing=\u017dvejyba
+gui.button.chore.combat=Kovosena
+gui.button.chore.combat.sentry=Sargybinis\: 
+gui.button.chore.combat.sentry.radius=Plotas\: 
+gui.button.chore.combat.sentry.position.set=Nustatyti Sargybinio Pozicija
+gui.button.chore.combat.method=Metodas\: 
+gui.button.chore.combat.method.range=Tik i\u0161 toli
+gui.button.chore.combat.method.melee=Tik i\u0161 arti
+gui.button.chore.combat.method.both=I\u0161 toli ir arti
+gui.button.chore.combat.method.neither=Nesikauti
+gui.button.chore.combat.attack.pig=Pulti Kiaules\: 
+gui.button.chore.combat.attack.sheep=Pulti Avis\: 
+gui.button.chore.combat.attack.cow=Pulti Karves\: 
+gui.button.chore.combat.attack.chicken=Pulti Vi\u0161\u010diukus\: 
+gui.button.chore.combat.attack.spider=Pulti Vorus\: 
+gui.button.chore.combat.attack.zombie=Pulti Zombius\: 
+gui.button.chore.combat.attack.skeleton=Pulti Skeleton'us\: 
+gui.button.chore.combat.attack.creeper=Pulti Creeper'ius\: 
+gui.button.chore.combat.attack.enderman=Pulti Endermen'us\: 
+gui.button.chore.combat.attack.unknown=\u017dudyti ne\u017einomus\:  
+gui.button.chore.woodcutting=Medkirtyst\u0117
+gui.button.chore.woodcutting.treetype=Med\u017eio R\u016b\u0161is\: 
+gui.button.chore.woodcutting.treetype.all=Visi
+gui.button.chore.woodcutting.treetype.oak=\u0104\u017euolas
+gui.button.chore.woodcutting.treetype.spruce=Melsvoji egl\u0117
+gui.button.chore.woodcutting.treetype.birch=Ber\u017eas
+gui.button.chore.woodcutting.treetype.jungle=D\u017eiungli\u0173
+gui.button.chore.mining=Kasyba
+gui.button.chore.mining.method=Metodas\: 
+gui.button.chore.mining.method.passive=Pasyvus
+gui.button.chore.mining.method.active=Aktyvus
+gui.button.chore.mining.direction=Kryptis\: 
+gui.button.chore.mining.direction.forward=Pirmyn
+gui.button.chore.mining.direction.backward=Atgal
+gui.button.chore.mining.direction.left=Kair\u0117n
+gui.button.chore.mining.direction.right=De\u0161in\u0117n
+gui.button.chore.mining.distance=Atstumas\: 
+gui.button.chore.mining.find=Ie\u0161koti\: 
+gui.button.chore.mining.find.coal=Anglis
+gui.button.chore.mining.find.iron=Gele\u017eis
+gui.button.chore.mining.find.lapis=Lazuritas
+gui.button.chore.mining.find.gold=Auksas
+gui.button.chore.mining.find.diamond=Deimantas
+gui.button.chore.mining.find.redstone=Raudonakmenis
+gui.button.chore.mining.find.emerald=Smaragdas
+gui.button.chore.hunting=Med\u017eiokl\u0117
+gui.button.chore.hunting.mode=Re\u017eimas\: 
+gui.button.chore.hunting.mode.kill=\u017dudyti
+gui.button.chore.hunting.mode.tame=Prijaukinti
+gui.button.chore.start=Prad\u0117ti
+
+gui.button.hiring.hours=Valandos\: 
+
+gui.button.lostrelativedocument.generation=Karta\: %Generation%
+
+#Titles
+gui.title.setup=Minecraft Comes Alive Nustatymai
+gui.title.setup.name=\u012era\u0161yk savo norim\u0105 vard\u0105.
+gui.title.setup.gender=Pasirink savo lyti.
+gui.title.setup.options=Konfig\u016bruoti nustatymus.
+
+gui.title.inventory=%Name% Inventorius
+
+gui.title.namebaby=I\u0161rink vard\u0105 savo vaikui\:
+gui.title.namebaby.male=Tai berniukas\!
+gui.title.namebaby.female=Tai mergait\u0117\!
+
+gui.title.priest.divorcecouple=Pasirink por\u0105 kuri\u0105 nori i\u0161skirti.
+
+gui.title.tombstone=Redaguoti paminklo prane\u0161im\u0105\:
+
+gui.title.special.hired=(Pasamdytas)
+
+gui.title.lostrelativedocument=Pasirinkite norimus santykius su %Name%
+gui.title.lostrelativedocument.confirm=Ar tu tikrai nori, kad %Name% taptu\: 
+
+#Information
+gui.info.hearts=\u0160irdys
+
+gui.info.special.none=\u0160is asmuo neturi joki\u0173 speciali\u0173 geb\u0117jim\u0173.
+
+gui.info.family.parents=(%ChildTitle% priklauso %MotherName% ir %FatherName%)
+gui.info.family.parents.deceased=(T\u0117vai numir\u0117)
+gui.info.family.parent=(%ChildTitle% priklausantis %LivingParent%)
+
+gui.info.family.spouse=(I\u0161tek\u0117j\u0119s u\u017e %SpouseRelation% %VillagerSpouseName%)
+gui.info.family.spouse.unrelated=(I\u0161tek\u0117ta u\u017e %SpouseFullName%)
+
+gui.info.namebaby.invalidcharacters=K\u016bdikio varde yra neleistin\u0173 simboli\u0173.
+gui.info.namebaby.nametaken=Tu jau turi vaik\u0105 su tokiu vardu.
+
+gui.info.procreate.confirm1=Tu negali daugintis kol susi\u017ead\u0117j\u0119s.
+gui.info.procreate.confirm2=Tu turi padovanoti gyventojui sutuoktuvi\u0173 \u017eied\u0105.
+
+gui.info.chore.options=Pasirinktys\:
+gui.info.chore.options.none=N\u0117ra jokiu galim\u0173 nustatym\u0173 \u0161itam darbui.
+gui.info.chore.experience=Patirties Lygis\:
+
+gui.info.hire.price=\u0160io gyventojo samdymui tau prireiks %x% aukso.
+gui.info.hire.hasgold=Tu turi pakankamai aukso.
+gui.info.hire.notenoughgold=Tu neturi pakankamai aukso.
+gui.info.hire.minutesremaining=%x% minut\u0117s liko.
+
+gui.info.hardcoresecret.prompt=Tu gali atsirasti kaip vienas i\u0161 tavo vaik\u0173, jeigu tu j\u0173 turi.
+gui.info.hardcoresecret.nochildren=N\u0117ra vaik\u0173\!
+gui.info.hardcoresecret.spawnas=Atsirasti kaip\: 
+gui.info.hardcoresecret.respawn=Atsirasti Vietoj Vaiko
+
+#Overhead
+gui.overhead.hasgift=Galima dovana
+gui.overhead.hasring=Laiko sutuoktuvi\u0173 \u017eied\u0105
+gui.overhead.sleeping=Miega
+gui.overhead.health=Sveikata\: 
+
+#######
+# Notifications/One Liners
+##############################
+notify.player.married=Tu ir %Name% buvot susieti santuokos saitais.
+notify.player.engaged=Tu dabar esi susi\u017ead\u0117j\u0119s(-us) su %Name%.
+notify.player.droppedbaby=Tai bloga mintis.
+notify.player.clickbed=J\u016bs negalite naudoti \u0161ios lovos.
+
+notify.horse.invalid=Negaliu joti ant \u0161io arklio.
+notify.horse.notfound=Am...ant kurio arklio nori, kad jociau? Atvesk man j\u012f.
+
+notify.villager.married=\u0160ie \u017emon\u0117s buvo susieti santuokos saitais.
+notify.villager.gifted.cake.notenough=Tikrai nor\u0117\u010diau, kad dar ir \u017emona tok\u012f tort\u0105 gautu...
+notify.villager.gifted.cake.withbaby.male=Mano \u017emona ir a\u0161, nusprend\u0117m nevalgyti torto iki kol m\u016bs\u0173 vaikas u\u017eaugs.
+notify.villager.gifted.cake.withbaby.female=Mano vyras ir a\u0161, nusprend\u0117m nevalgyti torto iki kol m\u016bs\u0173 vaikas u\u017eaugs.
+notify.villager.gifted.cake.spousenotnearby.male=Tortas? Eik atvesk mano \u017emon\u0105, kad a\u0161 gal\u0117\u010diau pasidalint juo su ja.
+notify.villager.gifted.cake.spousenotnearby.female=Tortas? Atvesk \u010dia mano vyr\u0105, kad gal\u0117\u010diau su juo pasidalinti.
+notify.villager.gifted.arrangerring.othernotnearby=...K\u0105? Bet gi nieko aplinkui n\u0117ra.
+notify.villager.gifted.arrangerring.relative=A\u0161 esu tavo %RelationToPlayer%.
+notify.villager.gifted.arrangerring.notenoughrings=Manau, kad vieno tam neu\u017eteks. Mum gi reikia dviej\u0173\!
+notify.villager.gifted.arrangerring.invalidpartner=Negaliu i\u0161tek\u0117ti u\u017e %Name%\!
+
+notify.baby.gaveup=Tu dabar gali tur\u0117ti kit\u0105 k\u016bdik\u012f.
+notify.baby.exists=Tu jau turi k\u016bdik\u012f.
+notify.baby.readytogrow=Tavo k\u016bdikis pasiruo\u0161\u0119s u\u017eaugti.
+notify.baby.cooked=Kas ne taip su tavimi\!?
+
+notify.divorce.spousemissing=Tavo sutuoktinis nebuvo \u0161ale, tod\u0117l tu neatgausi savo daikt\u0173.
+notify.arrangedmarriage.failed=Nieko n\u0117ra \u0161alia tav\u0119s kas nor\u0117tu tave vesti \u0161iuo metu.
+
+notify.death.male=%Name%, tavo %RelationToPlayer%, numir\u0117.
+notify.death.female=%Name%, tavo %RelationToPlayer%, numir\u0117.
+
+notify.homepoint.set=\u0160is \u017emogus nuo \u0161iol \u010dia atsirandin\u0117s naktimis.
+notify.homepoint.none=%Name% neturi nustatytos nam\u0173 vietos.
+notify.homepoint.invalid=\u0160i nam\u0173 vieta negalima.
+notify.homepoint.obstructed=%Name% nam\u0173 vieta yra u\u017estatyta.
+notify.homepoint.teleport.skip.following=%Name% seka paskui tave. Jie nenusikels \u012f namus \u0161i\u0105nakt.
+notify.homepoint.teleport.skip.staying=%Name% pasilieka. Jie nenusikels namo \u0161i\u0105nakt.
+
+notify.item.broken.axe=%Name% kirvis l\u016b\u017eo.
+notify.item.broken.boots=%Name% batai l\u016b\u017eo.
+notify.item.broken.chestplate=%Name% k\u016bno \u0161arvai l\u016b\u017eo.
+notify.item.broken.fishingrod=%Name% me\u0161ker\u0117 l\u016b\u017eo.
+notify.item.broken.helmet=%Name% \u0161almas l\u016b\u017eo.
+notify.item.broken.leggings=%Name% koj\u0173 \u0161arvai l\u016b\u017eo.
+notify.item.broken.pickaxe=%Name% kirtiklis l\u016b\u017eo.
+notify.item.broken.sword=%Name% kardas l\u016b\u017eo.
+notify.item.broken.hoe=%Name%'s kauptukas l\u016b\u017eo.
+notify.item.broken.bow=%Name%, lankas l\u016b\u017eo.
+
+notify.child.chore.finished.farming=Baigiau \u016bkininkauti.
+notify.child.chore.finished.fishing=Baigiau \u017evejoti.
+notify.child.chore.finished.woodcutting=Baigiau kapoti med\u017eius.
+notify.child.chore.finished.mining=Baigiau kasin\u0117ti.
+notify.child.chore.finished.hunting=Baigiau med\u017eiokl\u0119.
+
+notify.child.chore.levelup.farming.5=%Name% pasiek\u0117 5 lyg\u012f ukininkyst\u0117je. Jie dabar gauna daug daugiau s\u0117kl\u0173 kai pjauna rugius.
+notify.child.chore.levelup.farming.10=%Name% pasiek\u0117 10 lyg\u012f ukininkyst\u0117je. Jie juda grei\u010diau kai pri\u017ei\u016bri ir daro fermas.
+notify.child.chore.levelup.farming.15=%Name% pasiek\u0117 15 lyg\u012f ukininkyst\u0117je. Jie surenka 1-3 daugiau betkokio tipo augalo.
+notify.child.chore.levelup.farming.20=%Name% pasiek\u0117 20 lyg\u012f ukininkyst\u0117je. Jie dabar turi \u0161ans\u0105 i\u0161karto padvigubinti surinkt\u0105 derli\u0173.
+
+notify.child.chore.levelup.fishing.5=%Name% pasiek\u0117 5 lyg\u012f \u017evejyboje. Jie dabar sugauna \u017euv\u012f grei\u010diau ir du kart da\u017eniau.
+notify.child.chore.levelup.fishing.10=%Name% pasiek\u0117 10 lyg\u012f \u017evejyboje. Jie dabar gali rasti menkus lobius kol \u017evejoja.
+notify.child.chore.levelup.fishing.15=%Name% pasiek\u0117 15 lyg\u012f \u017evejyboje. Jie dabar sugauna \u017euv\u012f grei\u010diau ir tris kart da\u017eniau.
+notify.child.chore.levelup.fishing.20=%Name% pasiek\u0117 20 lyg\u012f \u017evejyboje. Jie dabar gali rasti retus lobius kol \u017evejoja.
+
+notify.child.chore.levelup.hunting.5=%Name% pasiek\u0117 5 lyg\u012f med\u017eiojime. Jie dabar parsiveda keliais gyv\u016bnais daugiau juos aukinantis, nesunaudodami daugiau resurs\u0173.
+notify.child.chore.levelup.hunting.10=%Name% pasiek\u0117 10 lyg\u012f med\u017eiojime. Jie neb\u0117ra pavojuje, kad gali mirti med\u017eiojant.
+notify.child.chore.levelup.hunting.15=%Name% pasiek\u0117 15 lyg\u012f med\u017eiojime. Jie dabar parne\u0161a daug daugiau m\u0117sos i\u0161 med\u017eiokl\u0117s.
+notify.child.chore.levelup.hunting.20=%Name% pasiek\u0117 20 lyg\u012f med\u017eiojime. Jie nuo \u0161iol i\u0161 med\u017eiokl\u0117s gry\u0161 lygiai po 1 minut\u0117s.
+
+notify.child.chore.levelup.mining.5=%Name% pasiek\u0117 5 lyg\u012f kasininkyst\u0117je. Jie dabar gali kastis per blokus \u0161iek tiek grei\u010diau.
+notify.child.chore.levelup.mining.10=%Name% pasiek\u0117 10 lyg\u012f kasininkyst\u0117je. Jie dabar ma\u017eiau apgadina kirtikl\u012f kol kasin\u0117ja pasyviai. 
+notify.child.chore.levelup.mining.15=%Name% pasiek\u0117 15 lyg\u012f kasininkyst\u0117je. Jie dabar padvigubina i\u0161kast\u0173 blok\u0173 arba rud\u0173 kiek\u012f.
+notify.child.chore.levelup.mining.20=%Name% pasiek\u0117 20 lyg\u012f kasininkyst\u0117je. Jie dabar pasako tiksl\u0119 viet\u0105 kur yra rudos kai pasyviai kasin\u0117ja.
+
+notify.child.chore.levelup.woodcutting.5=%Name% pasiek\u0117 5 lyg\u012f medkirtyst\u0117je. Jie dabar juda grei\u010diau kai kerta med\u017eius.
+notify.child.chore.levelup.woodcutting.10=%Name% pasiek\u0117 10 lyg\u012f medkirtyst\u0117je. Jie dabar kerta med\u017eius grei\u010diau su betkokio tipo kirviu.
+notify.child.chore.levelup.woodcutting.15=%Name% pasiek\u0117 15 lyg\u012f medkirtyst\u0117je. Jie dabar turi \u0161ans\u0105 nukirsti dvi medienos u\u017e kiekvien\u0105 nukirst\u0105.
+notify.child.chore.levelup.woodcutting.20=%Name% pasiek\u0117 20 lyg\u012f medkirtyst\u0117je. Jie dabar gauna tris medienos u\u017e kiekvien\u0105 nukirst\u0105.
+
+notify.child.chore.interrupted.farming.noseeds=A\u0161 neturiu pakankamai s\u0117kl\u0173\!
+notify.child.chore.interrupted.farming.noland=Nematau jokios \u017eem\u0117s, ar \u017eol\u0117s\!
+notify.child.chore.interrupted.farming.nofarmland=To man sakei naudoti tik \u016bkio \u017eem\u0119. Kur jinai?
+notify.child.chore.interrupted.farming.noroom=Neu\u017eteko vietos pabaigti \u016bk\u012f.
+notify.child.chore.interrupted.farming.noselection=Tu nepa\u017eym\u0117jai vietos \u016bkininkavimui.
+notify.child.chore.interrupted.farming.nohoe=A\u0161 neturiu kauptuko.
+notify.child.chore.interrupted.fishing.nowater=Nematau nei la\u0161o vandens\!
+notify.child.chore.interrupted.fishing.norod=A\u0161 neturiu me\u0161ker\u0117s\! A\u0161 negaliu j\u0173 pagauti su rankom.
+notify.child.chore.interrupted.mining.noblocks=Nematau joki\u0173 blok\u0173 kuriuos gal\u0117\u010diau kasti.
+notify.child.chore.interrupted.mining.nopickaxe=A\u0161 neturiu kirtiklio\!
+notify.child.chore.interrupted.mining.tookdamage=%Name% susi\u017eeid\u0117 kol kas\u0117. Jie gr\u012f\u017eo \u012f viet\u0105 kur prad\u0117jo.
+notify.child.chore.interrupted.woodcutting.notrees=Nematau joki\u0173 med\u017ei\u0173.
+notify.child.chore.interrupted.hunting.notamematerials=A\u0161 neturiu nieko su kuo gal\u0117\u010diau prisiaukinti gyv\u016bnus.
+
+notify.child.chore.failed.hunting.death=%Name% numir\u0117 kol med\u017eiojo.
+
+notify.child.chore.status.mining.orefound=Ten yra \u0161iek tiek %OreType% %OreDistance% blokais(-\u0173) toliau.
+notify.child.chore.status.mining.orenearby=Ten yra \u0161iek tiek %OreType% netoliese...
+notify.child.chore.status.mining.oredistance=\u010cia yra %OreType% %OreDistance% bloku atstumu %OreX%, %OreY%, %OreZ%.
+
+notify.child.gifted.arrows=Nuostabu\! Dabar a\u0161 noriu nu\u0161auti k\u0105 nors\!
+notify.child.gifted.axe=Dabar mano kum\u0161\u010diai nebekraujuos kai kirsiu med\u017eius\!
+notify.child.gifted.fishingrod=Dabar a\u0161 gal\u0117siu eiti \u017evejoti\!
+notify.child.gifted.hoe=Tai pad\u0117s \u016bkininkauti grei\u010diau\!
+notify.child.gifted.seeds=Dabar a\u0161 galiu \u016bkininkauti\!
+notify.child.gifted.sword=\u0160is palaikys blogie\u010dius atokiau\!
+notify.child.gifted.wheat=Pravers jaukinantis gyv\u016bnus\!
+notify.child.gifted.pickaxe=Dabar a\u0161 galiu kasin\u0117ti\!
+notify.child.gifted.carrot=Pravers jaukinantis gyv\u016bnus\!
+notify.child.gifted.bone=Pravers jaukinantis gyv\u016bnus\!
+
+notify.child.emptiedinventory=%Name% i\u0161tu\u0161tino savo inventori\u0173.
+notify.child.readytogrow=%Name% pasiruo\u0161\u0119s u\u017eaugti.
+notify.child.growup=%Name% u\u017eaugo \u012f pilnamet\u012f.
+notify.child.ranaway=%Name% pab\u0117go.
+
+notify.spouse.gifted.anotherbaby=A\u0161 jau laikau m\u016bs\u0173 k\u016bdik\u012f. Kur tu gavai dar vien\u0105\!?
+notify.spouse.chore.interrupted.cooking.nofurnace=Nematau aplink jokios krosnies.
+notify.spouse.chore.interrupted.cooking.nofuel=Neturiu joki\u0173 prakur\u0173, kad kepti.
+
+notify.lostrelativedocument.success=%Name% yra tavo %RelationToPlayer%.
+notify.lostrelativedocument.success.norelation=%Name% neb\u0117ra susij\u0119s su tavimi.
+
+notify.monarch.began=Su monarcho galia ateina didel\u0117 atsakomyb\u0117.
+notify.monarch.resume=J\u016bs v\u0117l tapote monarchu. Pastarasis \u012fp\u0117dinis nebegali b\u016bti naudojamas.
+notify.monarch.ended.noheir=Tu nebeesi monarchas.
+notify.monarch.ended.withheir=J\u016bs nebe monarchas. J\u016bs\u0173 \u012fp\u0117dinis perim\u0117 j\u016bs\u0173 viet\u0105.
+
+notify.hiring.complete=%Name% samdymo laikas pasibaig\u0117.
+
+notify.update.turnedon=MCA dabar automati\u0161kai ie\u0161kos atnaujinimu.
+notify.update.turnedoff=MCA nebeprane\u0161in\u0117s apie atnaujinimus iki kito atnaujinimo.
+
+#######
+# Parser Commands
+##############################
+parser.playerchild.adult.callplayerparent.male=T\u0117tis
+parser.playerchild.adult.callplayerparent.female=Mama
+parser.playerchild.adult.parentopposite.male=Motina
+parser.playerchild.adult.parentopposite.female=T\u0117tis
+
+parser.playerchild.young.callplayerparent.male=T\u0117velis
+parser.playerchild.young.callplayerparent.female=Mamyt\u0117
+parser.playerchild.young.parentopposite.male=Mamyt\u0117
+parser.playerchild.young.parentopposite.female=T\u0117velis
+
+#####################################################################################################
+#									              DIALOGUE											#
+#####################################################################################################
+
+#######
+# Profession-specific dialogue
+##############################
+guard.follow.refuse1=Ne, turiu darbo.
+guard.follow.refuse2=A\u0161 negaliu tiesiog taip palikti savo posto.
+guard.follow.refuse3=Tu nori, kad ka\u017ekur ei\u010diau su tavim kol dirbu? Ne\!
+guard.follow.refuse4=Ne, nebent pasamdytum\u0117t mane.
+guard.follow.refuse5=Mane atleis i\u0161 darbo jeigu a\u0161 tiesiog nueisiu\!
+
+guard.stay.refuse1=A\u0161 patruliuoju. Negaliu \u010dia stov\u0117ti.
+guard.stay.refuse2=Tu man ne bosas.
+guard.stay.refuse3=Tu supranti, kad a\u0161 sargybinis, taip?
+guard.stay.refuse4=Mano darbas yra patruliuoti kaimelyje, ne stoviniuoti.
+guard.stay.refuse5=A\u0161 dabar dirbu. Nors, vis d\u0117l to gali ir \u012fdarbinti. 
+
+smith.aid.prompt1=Gal\u0117\u010diau tau padaryti nuolaida ant priekalo. Si\u016blyk kiek nori.
+smith.aid.prompt2=Turiu sen\u0105 priekal\u0105 kur\u012f gal\u0117\u010diau atiduoti...
+smith.aid.prompt3=Baigiu kalvyst\u0117s amat\u0105, tad mano priekalas parduodamas.
+smith.aid.prompt4=Nor\u0117tum priekalo? Gal\u0117\u010diau tau atiduoti savaj\u012f, u\u017e tam tikr\u0105 kain\u0105.
+
+smith.aid.outofrange1=Prane\u0161k man kai nor\u0117si pirkti priekal\u0105.
+smith.aid.outofrange2=Jei tur\u0117si pasi\u016blyma u\u017esuk kada ir prane\u0161k.
+
+smith.aid.alreadyaccepted1=Tu jau turi mano priekal\u0105. N\u0117ra nieko daugiau k\u0105 a\u0161 tau gal\u0117\u010diau pad\u0117ti.
+smith.aid.alreadyaccepted2=Pats nusipirkai mano priekal\u0105. Na tai dabar pats ir taisyk daiktus\!
+smith.aid.alreadyaccepted3=Na kito priekalo kur\u012f gal\u0117\u010diau parduoti neturiu, atsipra\u0161au.
+
+smith.aid.accept1=Ah\! Gundanti suma. \u0160tai tur\u0117kis.
+smith.aid.accept2=Bus gerai. Atsargiau, jis sunkus\!
+smith.aid.accept3=D\u0117kui\! \u0160tai tavo priekalas.
+smith.aid.accept4=Tik \u017eiur\u0117k, kad ant ko nors neu\u017emestum, gerai?
+
+smith.aid.refuse.rightitem1=\u0160tai ko nor\u0117\u010diau u\u017e priekal\u0105. Gal turi keleta daugiau kuriuos gal\u0117tum duoti?
+smith.aid.refuse.rightitem2=Taip, \u0161tai ko nor\u0117jau tik, kad tu neturi pakankamai.
+smith.aid.refuse.rightitem3=Na \u0161it\u0173 i priekal\u0105 tikrai nekeisiu.
+smith.aid.refuse.rightitem4=\u012emesk dar kelis \u0161itus ir tur\u0117si sau priekal\u0105.
+
+smith.aid.refuse.wrongitem1=Na \u0161it\u0173 \u012f priekal\u0105 tikrai nekeisiu.
+smith.aid.refuse.wrongitem2=Tai n\u0117ra tiksliai ko a\u0161 ie\u0161kau. Gal turi dar k\u0105 nors?
+smith.aid.refuse.wrongitem3=Ne...a\u0161 nor\u0117\u010diau ka\u017eko kito jeigu tu perki mano priekal\u0105.
+smith.aid.refuse.wrongitem4=Man reiktu ka\u017eko kito, kad atsvert priekalo kain\u0105.
+
+priest.adopt.male1=\u0160tai tavo naujas vaikelis. Jo vardas yra %BabyName%.
+priest.adopt.male2=Jis toks fainas, ane? Jo vardas yra %BabyName%.
+priest.adopt.male3=Tikiuosi %BabyName% d\u017eiugins tave dar ilgus metus.
+priest.adopt.female1=Ji gra\u017ei ar ne? Jos vardas %BabyName%.
+priest.adopt.female2=Pra\u0161au elkis su %BabyName% gerai. \u0160tai ji.
+priest.adopt.female3=%BabyName% yra tokia miela, man tikrai li\u016bdna, kad tenka j\u0105 atiduoti.
+
+priest.arrangemarriage1=Tikiuosi tu ir %Name% patirsite daug gra\u017ei\u0173 akimirk\u0173 kartu.
+priest.arrangemarriage2=%PlayerName%, susipa\u017einkite su %Name%, j\u016bs\u0173 oficalia antaja puse.
+priest.arrangemarriage3=Kaip norit. Dabar j\u016bs esate i\u0161tek\u0117j\u0119s u\u017e %Name%.
+
+generic.hire.accept1=\u0160irdingai d\u0117koju\! Padarysiu bet kokia paskirt\u0105 u\u017eduot\u012f.
+generic.hire.accept2=Pakaks. A\u0161 jums nuo \u0161iol dirbsiu.
+generic.hire.accept3=Pasiruo\u0161\u0119s darbui\! 
+generic.hire.accept4=Na, tai prad\u0117kime, koks mano pirmasis darbas?
+
+guard.hire.accept1=D\u0117kui\! Dabar a\u0161 b\u016bsiu tavo sargybinis.
+guard.hire.accept2=Dabar a\u0161 dirbu tau.
+guard.hire.accept3=Tu dabar mano naujas bosas.
+guard.hire.accept4=Koks mano pirmas darbas, bose?
+
+guard.hire.dismiss1=Atsipra\u0161au, bet tai nei\u0161deg\u0117. Gr\u012f\u0161iu prie savo darbo. 
+guard.hire.dismiss2=Buvo \u0161aunu su tavim dirbti\!
+guard.hire.dismiss3=\u017diur\u0117siu ar v\u0117l i\u0161eis atgauti savo darb\u0105 kaime.
+guard.hire.dismiss4=Puiku.. A\u0161 v\u0117l likau be darbo.
+
+butcher.aid.accept1=\u017dinoma, a\u0161 turiu daug m\u0117sos, kuria gal\u0117\u010diau su tavim pasidalinti.
+butcher.aid.accept2=\u0160tai dar truputis m\u0117sos.
+butcher.aid.accept3=Duosiu tau \u0161iek tiek \u0161vie\u017eios m\u0117sos.
+
+butcher.aid.refuse1=Atsipra\u0161au, bet neturiu k\u0105 gal\u0117\u010diau atiduoti.
+butcher.aid.refuse2=Man reikia pasilikti k\u0105 turiu, kad tur\u0117\u010diau k\u0105 duoti mokantiems klientams\!
+butcher.aid.refuse3=Negaliu tau nieko duoti \u0161iuo metu.
+
+baker.aid.accept1=Katik i\u0161kepiau. Gali tur\u0117tis.
+baker.aid.accept2=Gerai, gali tur\u0117tis \u0161itai. \u0160vie\u017eiai nuo darbastalio.
+baker.aid.accept3=Turiu \u0161iek tiek liku\u010di\u0173 kuri\u0173 nieks nenupirko \u0161iandien. Gali tur\u0117tis.
+
+baker.aid.refuse1=Dabar nieko neturiu, u\u017esuk v\u0117liau.
+baker.aid.refuse2=Kaip tik dabar kepu. Bus baigta v\u0117liau.
+baker.aid.refuse3=Tur\u0117jau tau kai k\u0105, bet nety\u010dia sudeginau per atsitiktinum\u0105, atsipra\u0161au.
+
+farmer.aid.accept1=Manau gal\u0117\u010diau skirti kelet\u0105 dalyk\u0117liu. \u0160ia.
+farmer.aid.accept2=\u017dinoma galiu pad\u0117ti. Pra\u0161om.
+farmer.aid.accept3=Pastaruoju metu buvo geras derlius. \u0160tai keletas papildom\u0173 dalyk\u0173.
+
+farmer.aid.refuse1=Atsipra\u0161au, Neturiu nieko k\u0105 gal\u0117\u010diau tau duoti.
+farmer.aid.refuse2=Ateik v\u0117liau, dabar nieko neturiu.
+farmer.aid.refuse3=Atsipra\u0161au, neturiu nieko k\u0105 gal\u0117\u010diau tau duoti.
+
+miner.hire.accept1=A\u010di\u016b\! Galiu prad\u0117ti nedelsiant.
+miner.hire.accept2=Malonu prisijungti\! Kur tur\u0117siu kasin\u0117ti?
+miner.hire.accept3=A\u010di\u016b, kad mane pasamdei. Galiu prad\u0117ti dirbti tu\u010dtuojau.
+
+miner.hire.refuse1=A\u0161 tau galiu dirbti u\u017e penkis aukso. Tai tau duos \u0161imt\u0105 blok\u0173.
+miner.hire.refuse2=Duok man penkis aukso ir tau i\u0161kasiu \u0161imt\u0105 blok\u0173.
+miner.hire.refuse3=Tu neturi pakankamai aukso, kad mane pasamdytum. Man reikia penki\u0173 aukso, kad mane pasamdytum \u0161imtui blok\u0173.
+
+miner.hire.finished1=Tai buvo visi \u0161imtas blok\u0173. Kaip ir baigiau.
+miner.hire.finished2=Tai \u0161imtas blok\u0173. Mano darbas baigtas.
+miner.hire.finished3=I\u0161kasiau \u0161imt\u0105 blok\u0173. Buvo malonu dirbti su tavim.
+
+miner.hire.dismiss1=Tu mane atleidi taip greit? Na kagi.
+miner.hire.dismiss2=Jei turi aukso, bet kuriuo metu galiu v\u0117l padirb\u0117ti.
+miner.hire.dismiss3=Na tada eisiu atgal \u012f kaim\u0105.
+
+miner.chore.finished1=Baigiau daryti k\u0105 man liepei.
+miner.chore.finished2=A\u0161 pasiruo\u0161\u0119s atlikti daugiau darbo.
+miner.chore.finished3=Baigiau su \u0161ituo darbu.
+
+miner.chore.start1=Prad\u0117siu tu\u010dtuojau, bose.
+miner.chore.start2=Taip, bose.
+miner.chore.start3=Prad\u0117siu darb\u0105 nedelsiant.
+
+miner.dropallitems1=\u0160tai, pra\u0161om.
+miner.dropallitems2=\u0160tai tavo med\u017eiagos, bose.
+miner.dropallitems3=\u0160tai k\u0105 turiu.
+miner.dropallitems4=\u010cia viskas k\u0105 sugeb\u0117jau i\u0161kasti.
+
+#######
+# Villager Dialogue
+##############################
+villager.chat.bad1=Nuoboooooodu.
+villager.chat.bad2=*\u017diovauja*
+villager.chat.bad3=Atsipra\u0161au, k\u0105? Nesiklausiau.
+villager.chat.bad4=Ka\u017ek\u0105 sakei?
+villager.chat.bad5=Aaha.
+villager.chat.bad6=Amm... Gerai... A\u0161 turiu eiti daryti kai k\u0105 kito, o dabar atsipra\u0161au...
+villager.chat.bad7=O tiksliai. A\u0161 manau, kad pamir\u0161au ka\u017ek\u0105 padaryti... Tai gal a\u0161 jau eisiu.
+villager.chat.bad8=A\u0161 ne\u012fsivaizduoju k\u0105 tu tur\u0117jai omen\u012f.
+villager.chat.bad9=Manau tu kalbi nesu tuo \u017emogum.
+villager.chat.bad10=Ne... A\u0161 taip nemanau.
+villager.chat.bad11=Kaip tu gali ka\u017ek\u0105 tokio pasakyti?
+villager.chat.bad12=Tai buvo tikrai grubu.
+
+villager.chat.good1=Tikrai? \u0160ito dar negird\u0117jau.
+villager.chat.good2=I\u0161 kur tai i\u0161girdai?
+villager.chat.good3=Kaip tau tai pavyko padaryti\!?
+villager.chat.good4=Taip, \u010dia tiktai nuobodu.
+villager.chat.good5=Hmm, \u012fdomu.
+villager.chat.good6=Tu \u017einai ger\u0173 istorij\u0173. Gal turi dar k\u0105 nors pasakyti?
+villager.chat.good7=Gra\u017eu. O tai kas atsitiko po to?
+villager.chat.good8=Visi\u0161kai sutinku\!
+villager.chat.good9=A\u0161 gird\u0117jau, kad kiti kalba t\u0105 pat\u012f.
+villager.chat.good10=Ar matei kokiu smaragd\u0173 kol kasin\u0117jai?
+
+villager.engagement.accept1=Kada tavo vestuv\u0117s\!?
+villager.engagement.accept2=Mes i\u0161kelsime didel\u012f vakar\u0117l\u012f, ane?
+villager.engagement.accept3=Pagaliau\! A\u0161 \u0161ito laukiau vis\u0105 am\u017einybe\! A\u0161 tave myliu\!
+villager.engagement.accept4=A\u0161 pakviesiu visus savo draugus\!
+villager.engagement.accept5=Valio\! Kaip a\u0161 tave myliu\!
+
+villager.engagement.refusal1=Aaa...amm..A\u0161 dar nepasirengiau \u012fsikurti.
+villager.engagement.refusal2=Ah...kaip tai keblu...
+villager.engagement.refusal3=Aa? Ne\! A\u0161 tav\u0119s net nepa\u017e\u012fstu\!
+villager.engagement.refusal4=Atsipra\u0161au, bet a\u0161 tav\u0119s dar tiek nepa\u017e\u012fstu.
+villager.engagement.refusal5=Vou palauk, mes tik vos pa\u017e\u012fstami.
+
+villager.follow.start1=Kur mes einame?
+villager.follow.start2=A\u0161 pam\u0117ginsiu laikytis ar\u010diau tav\u0119s.
+villager.follow.start3=Gerai. A\u0161 eisiu kartu.
+villager.follow.start4=Ar tu perkeli visa kaimel\u012f, kad sukurtum savo? Man taip neatrodo.
+villager.follow.start5=Gerai, man praverstu pasivaik\u0161\u010dioti.
+villager.follow.start6=Kur tu mane vediesi?
+villager.follow.start7=O, kur tu nori eiti?
+villager.follow.start8=Tada paskub\u0117kime.
+
+villager.follow.stop1=Gerai, a\u0161 b\u016bsiu netoliese.
+villager.follow.stop2=Nenueik per toli.
+villager.follow.stop3=Man patinka \u0161ita vieta\!
+villager.follow.stop4=Gerai, pasimatysim v\u0117liau\!
+villager.follow.stop5=Nepalik man\u0119s \u010dia vieno(-s)\!
+villager.follow.stop6=Iki.
+villager.follow.stop7=Gerai tada, a\u0161 \u010dia pab\u016bsiu.
+villager.follow.stop8=Nustosiu sekti tave.
+villager.follow.stop9=Gerai, pavargau\!
+villager.follow.stop10=Na ir \u012fvyki\u0173 buvo\!
+
+villager.gift.bad1=A\u0161 ne \u0161iuk\u0161liad\u0117\u017e\u0117.
+villager.gift.bad2=A\u0161 nenori tavo \u0161lam\u0161to\!
+villager.gift.bad3=A\u0161 manau tai yra \u0161lam\u0161tas, tad neki\u0161k man \u010dia jo.
+villager.gift.bad4=Kod\u0117l a\u0161 tur\u0117\u010diau nor\u0117ti \u0160ITO?
+villager.gift.bad5=Gali pasilaikyti savo \u0161iuk\u0161les sau, a\u010di\u016b ne.
+villager.gift.bad6=A\u0161 tikiuosi tu juokauji, nes nemanau, kad \u010dia gera dovana.
+villager.gift.bad7=Atsipra\u0161au, bet a\u0161 nepriimin\u0117ju toki\u0173 dovan\u0173.
+villager.gift.bad8=A\u0161 negaliu nieko imti i\u0161 nepa\u017e\u012fstam\u0173, atsipra\u0161au.
+villager.gift.bad9=Tai tu tas kas paim\u0117 \u0161itai i\u0161 man\u0119s\! Ver\u010diau jau eik.
+villager.gift.bad10=Kod\u0117l tu i\u0161 man\u0119s reikalauji, kad paim\u010diau \u0161it\u0105 \u0161iuk\u0161l\u0119?
+
+villager.gift.small1=O, a\u010di\u016b\!
+villager.gift.small2=Kaip apgalvotai\!
+villager.gift.small3=A\u010di\u016b\!
+villager.gift.small4=Tau nereik\u0117jo man nieko ne\u0161ti...a\u010di\u016b\!
+villager.gift.small5=O, a\u0161 myliu \u0161ituos\!
+villager.gift.small6=A\u010di\u016b tau.
+villager.gift.small7=Tai tikrai maloni dovana. A\u010di\u016b.
+villager.gift.small8=Geras\! A\u010di\u016b\!
+
+villager.gift.regular1=Blizga\!
+villager.gift.regular2=Manau rasiu kur panaudoti. A\u010di\u016b\!
+villager.gift.regular3=O vau. A\u010di\u016b\!
+villager.gift.regular4=Gal gal\u0117\u010diau gaut dar viena?
+villager.gift.regular5=A\u010di\u016b, drauge.
+villager.gift.regular6=Ak, a\u010di\u016b tau u\u017e dovan\u0105.
+villager.gift.regular7=Koks tu malonus, a\u010di\u016b.
+villager.gift.regular8=Kokia nuostabi dovana\! A\u010di\u016b, %PlayerName%.
+villager.gift.regular9=%PlayerName%, tu toks mielas.
+villager.gift.regular10=Tai labai malonu i\u0161 tavo pus\u0117s, %PlayerName%.
+villager.gift.regular11=Tu toks geras draugas\!
+
+villager.gift.great1=A...A\u0161 be \u017eod\u017ei\u0173\! A\u010di\u016b\!
+villager.gift.great2=\u0160ie yra ne\u012fkainojami\!
+villager.gift.great3=Ger\u0105 dovan\u0105 i\u0161 anksto atskiri\!
+villager.gift.great4=A\u0161 vis\u0105 laik\u0105 nor\u0117jau vieno i\u0161 \u0161it\u0173\!
+villager.gift.great5=Tai nuostabu\!
+villager.gift.great6=O, \u010dia gi... A\u010di\u016b\! Tau tikrai nereik\u0117jo\!
+villager.gift.great7=D\u0117koju i\u0161 \u0161irdies, a\u0161 \u0161itai tikrai atsiminsiu.
+villager.gift.great8=O, tai tiesiog nuostabu, jau \u017einau kur panaudosiu.
+
+villager.greeting.hate1=Atstok nuo man\u0119s.
+villager.greeting.hate2=Ar tu nei\u0161girdai k\u0105 prie\u0161 tai sakiau? Atstok.
+villager.greeting.hate3=O. Ir v\u0117l tu.
+villager.greeting.hate4=Tikriausiai at\u0117jei, kad man v\u0117l trenktum?
+villager.greeting.hate5=Pra\u0161au, eik kur nors kitur.
+villager.greeting.hate6=Ko TU nori?
+villager.greeting.hate7=A\u0161 kvie\u010diu sargybinius jei dar mane trukdysi.
+villager.greeting.hate8=A\u0161 turiu ginkl\u0105, leid\u017eiu tau \u017einot.
+villager.greeting.hate9=Eik lysk \u012f ak\u012f kam kitam.
+villager.greeting.hate10=Ah. Palik mane ramyb\u0117je.
+villager.greeting.hate11=Atstok, tu i\u0161tvirk\u0117li.
+
+villager.greeting.basic1=O, Sveiki.
+villager.greeting.basic2=Ar tu \u010dia naujas?
+villager.greeting.basic3=Sveiki, svetim\u0161ali.
+villager.greeting.basic4=Ei, kaip sekas?
+villager.greeting.basic5=A\u0161 tav\u0119s nesu ank\u0161\u010diau mat\u0119s.
+villager.greeting.basic6=Tu turb\u016bt naujas \u0161iose apylink\u0117se.
+villager.greeting.basic7=Gera diena, %PlayerName%.
+villager.greeting.basic8=Sveikinimai.
+villager.greeting.basic9=Kuom a\u0161 gal\u0117\u010diau tau pad\u0117ti?
+villager.greeting.basic10=O, sveiki. %PlayerName%, jei gerai prisimenu?
+
+villager.greeting.friend1=Labas, %PlayerName%\!
+villager.greeting.friend2=Labas\! Gera tave v\u0117l matyti\!
+villager.greeting.friend3=\u017di\u016br\u0117kit visi\! \u010cia mano geriausias bi\u010diulis\!
+villager.greeting.friend4=Ei, bi\u010diuli\!
+villager.greeting.friend5=Kuo u\u017esi\u0117m\u0119s pastaruoju metu? Jau kur\u012f laik\u0105 nema\u010diau tav\u0119s.
+villager.greeting.friend6=Ei, \u010dia %PlayerName%, mano geriausias draugas\!
+villager.greeting.friend7=Ak\! K\u0105 gi mes \u010dia turim. Sveiki, %PlayerName%\!
+villager.greeting.friend8=\u010cia tu\! Kaip sekas?
+villager.greeting.friend9=Kas naujo bi\u010diuli, kaip tu laikais?
+
+villager.greeting.interest.male1=Vau\! Tu \u0161iandien atrodai nuostabiai\!
+villager.greeting.interest.male2=%PlayerName%\! Pra\u0161au nei\u0161eik\! Noriu kai ko paklaust...tiek to.
+villager.greeting.interest.male3=*\u0160nib\u017eda* Ji tokia gra\u017ei...
+villager.greeting.interest.male4=%PlayerName%, la\u017einuosi, kad ne\u017einojai kad a\u0161 turtingas.
+villager.greeting.interest.male5=*\u0160nab\u017eda* Ji tokia man gera, \u012fdomu ar a\u0161 jei patinku?
+
+villager.greeting.interest.female1=Tu tur\u0117tum pas mane kada apsilankyti. *Mirkteli*
+villager.greeting.interest.female2=Labukas... %PlayerName%... *Kikena*
+villager.greeting.interest.female3=Tu atrodai didelis ir stiprus kaip ir visada\!
+villager.greeting.interest.female4=*Parausta* 
+villager.greeting.interest.female5=*\u0160nab\u017eda* Ne\! A\u0161 jo neisiu klaust\!
+
+villager.greeting.wedding1=Gird\u0117jau apie art\u0117jan\u010dias vestuves. Sveikinu\!
+villager.greeting.wedding2=Labas, %PlayerName%, sveikinu susi\u017eiedavus\!
+villager.greeting.wedding3=A\u0161 tikiuosi tavo vestuves bus nuostabios, tiesa?
+villager.greeting.wedding4=A\u0161 taip d\u0117l tav\u0119s d\u017eiaugiuosi\! Atne\u0161iu pa\u010di\u0105 did\u017eiausi\u0105 dovan\u0105\!
+villager.greeting.wedding5=Tu susi\u017eiedavai tik d\u0117l dovan\u0173, negi ne?
+
+villager.hitbyplayer1=Palik mane ramyb\u0117je\!
+villager.hitbyplayer2=A\u0161 tau nieko nepadariau\!
+villager.hitbyplayer3=Nustok\!
+villager.hitbyplayer4=Au\! Kod\u0117l tu man trenkei?
+villager.hitbyplayer5=Liaukis\! Skauda\!
+villager.hitbyplayer6=Ei\! Nedau\u017eyk man\u0119s\!
+villager.hitbyplayer7=Au, baik, baik\!
+villager.hitbyplayer8=Nem\u0117gink man\u0119s paliesti dar kart\u0105\!
+villager.hitbyplayer9=Sargybiniai\! \u0160is \u017emogus mane puola\!
+villager.hitbyplayer10=Kas nors pad\u0117kit\!
+villager.hitbyplayer12=Ei\! %PlayerName%\! A\u0161 maniau mes draugai\!
+
+villager.gifted.baby1=Pats u\u017esiimk savu vaik\u0173 aukl\u0117jimu.
+villager.gifted.baby2=A\u0161 nenoriu jo laikyti\!
+villager.gifted.baby3=Smirdi\!
+villager.gifted.baby4=Am, geriau gal ne. Vakar pame\u010diau savo.
+villager.gifted.baby5=A\u0161 tur\u0117\u010diau tau tai dabar pasakyti, a\u0161 neken\u010diu vaik\u0173.
+villager.gifted.baby6=Man savim sunku r\u016bpintis, tai k\u0105 ir be kalb\u0117ti apie k\u016bdik\u012f.
+villager.gifted.baby7=A\u0161 ji noriu palaikyti, bet a\u0161 juo nesir\u016bpinsiu.
+villager.gifted.baby8=Kodel neduoti to savo sutuoktiniui vietoje nepazistamojo?
+
+villager.interact.refusal1=Atstok nuo man\u0119s. 
+villager.interact.refusal2=A\u0161 tav\u0119s neken\u010diu.
+villager.interact.refusal3=Nustok su manim kalb\u0117ti.
+villager.interact.refusal4=At\u0161ok\!
+villager.interact.refusal5=Nieks tav\u0119s \u010dia nelaukia.
+villager.interact.refusal6=A\u0161 nenoriu tur\u0117t su tavimi nieko bendro. Palik mane ramyb\u0117je.
+villager.interact.refusal7=Atstok, tu man trugdai.
+villager.interact.refusal8=A\u0161 net nesiruo\u0161iu kalb\u0117ti su tavim.
+villager.interact.refusal9=Patrauk nuo man\u0119s savo rankas.
+
+villager.joke.bad1=Nepagaunu.
+villager.joke.bad2=Tai mane \u017eeid\u017eia.
+villager.joke.bad3=Tai tiesiog baisu\!
+villager.joke.bad4=Tai net nelogi\u0161ka.
+villager.joke.bad5=Tai tiesiog kvaila k\u0105 tu pasakei.
+villager.joke.bad6=Gerai tada...
+villager.joke.bad7=Tai...tikrai geras pok\u0161tas.
+
+villager.joke.good1=Tai tiesiog per daug juokinga\!
+villager.joke.good2=Kur tu \u0161it\u0105 i\u0161girdai? Chaha\!
+villager.joke.good3=\u0160itas geras\!
+villager.joke.good4=*Juokiasi*
+villager.joke.good5=I\u0161 dalies juokinga.
+villager.joke.good6=Cha. Geriausias mano gird\u0117t\u0173 anekdot\u0173\!
+villager.joke.good7=Tu tikrai \u017einai ger\u0173 anekdot\u0173\!
+villager.joke.good8=Cha\! Tu tikrai \u017einai kaip k\u0105 nors prajuokinti.
+villager.joke.good9=Tai gali reik\u0161ti tik du dalykus\!
+
+villager.marriage.acceptance1=Sutinku.
+villager.marriage.acceptance2=A\u0161 jau laukiau kada paklausi\! Ai\u0161ku sutinku\!
+villager.marriage.acceptance3=Ai\u0161ku sutinku. Myliu tave\!
+villager.marriage.acceptance4=\u017dinai, a\u0161 apie tave daug galvojau pastaruoju metu... Ir... Apie k\u0105 a\u0161 galvoju? Ai\u0161ku sutinku\!
+villager.marriage.acceptance5=A\u0161 bu\u010diau daugiau negu laimingas(-a) praleisti su tavim savo gyvenim\u0105\!
+villager.marriage.acceptance6=\u010cia vestuvi\u0173 \u017eiedas... Man...? Sutinku\!
+villager.marriage.acceptance7=\u017dinant, kad mane myli padaro mane laiminga, o b\u016bnant su tavim mane padaro laimingiausiu \u017emogumi pasaulyje.
+
+villager.marriage.refusal.lowhearts1=Kas tu atsitiko, i\u0161prot\u0117jai?
+villager.marriage.refusal.lowhearts2=K\u0105? Kas tu toks\!?
+villager.marriage.refusal.lowhearts3=A\u0161 tav\u0119s net nepa\u017eystu\!
+villager.marriage.refusal.lowhearts4=Amm...ne. Atsipra\u0161au.
+villager.marriage.refusal.lowhearts5=Tu man nepatinki\!
+villager.marriage.refusal.lowhearts6=K\u0105? Ne\! A\u0161 negaliu.
+villager.marriage.refusal.lowhearts7=Na matai... A\u0161 dar nepasiruo\u0161us dabar tek\u0117ti.
+villager.marriage.refusal.lowhearts8=Nesutinku\!
+villager.marriage.refusal.lowhearts9=A\u0161 nenoriu u\u017e tav\u0119s tek\u0117ti, mulki\!
+
+villager.marriage.refusal.playermarried1=A\u0161 manau tu jau su ka\u017ekuo...
+villager.marriage.refusal.playermarried2=O tu kartais jau nei\u0161tek\u0117jai?
+villager.marriage.refusal.playermarried3=A\u0161 matau \u017eied\u0105 tau ant pir\u0161to. Dink i\u0161 aki\u0173.
+villager.marriage.refusal.playermarried4=Kaip tu taip gali elktis su savo antr\u0105ja puse?
+villager.marriage.refusal.playermarried5=Tu siaubingas \u017emogus. Eik atsipra\u0161yti savo antrosios pus\u0117s.
+villager.marriage.refusal.playermarried6=Tu i\u0161sikraustei i\u0161 proto? Tu jau po vedyb\u0173\!
+villager.marriage.refusal.playermarried7=Kod\u0117l tu taip darai su savo antr\u0105ja puse? Kvailesnio \u017emogaus dar nema\u010diau\!
+villager.marriage.refusal.playermarried8=A\u0161 geriau einu pakviesiu tavo antr\u0105ja puse\!
+villager.marriage.refusal.playermarried9=A\u0161 matau tavo \u017eied\u0105...
+
+villager.marriage.refusal.villagermarried1=A\u0161 jau turiu savo \u017emog\u0173, atsipra\u0161au.
+villager.marriage.refusal.villagermarried2=Ah...ne. A\u0161 jau turiu savo.
+villager.marriage.refusal.villagermarried3=A\u0161 jau turiu savo \u017emog\u0173. Atsipra\u0161au, galvojau jau \u017einai.
+villager.marriage.refusal.villagermarried4=D\u0117ja tur\u0117siu atsisakyti, nes kaip matai a\u0161 jau turiu antr\u0105 pus\u0119.
+villager.marriage.refusal.villagermarried5=Atsipra\u0161au, bet a\u0161 jau draugauju su kaikuo.
+
+villager.angry1=Teisyngai, teisyngai\! Atsitrauk bail\u012f\!
+villager.angry2=Kod\u0117l neateini ir nesikauni kaip vyras?
+villager.angry3=\u0160aukiu sargyb\u0105\!
+villager.angry4=Tu dar atsiimsi\!
+villager.angry5=Ir nesugalvok sugr\u012f\u017eti\!
+
+villager.scared1=Neskriausk man\u0119s, pra\u0161au\!
+villager.scared2=Daugiau taip nebedarysiu, prisiekiu\!
+villager.scared3=Pra\u0161au, ne\u017eudyk man\u0119s\!
+villager.scared4=Ne\! Patrauk t\u0105 ginkl\u0105 \u0161alin\!
+villager.scared5=Pad\u0117kite kas nors\! Jie mane ruo\u0161iasi nu\u017eudyti\!
+
+villager.greeting.handshake.good1=Sveikinimai.
+villager.greeting.handshake.good2=Laba diena.
+villager.greeting.handshake.good3=Kod\u0117l ne visi tokie civilizuoti? Sveiki.
+villager.greeting.handshake.good4=Matau tvirtai spaud\u017eiat rank\u0105.
+villager.greeting.handshake.good5=Malonu, kad at\u0117jote.
+
+villager.greeting.handshake.bad1=Au\u010d\! Man skauda rank\u0105 nuo j\u016bs\u0173\!
+villager.greeting.handshake.bad2=Sveikinat\u0117s per stipriai.
+villager.greeting.handshake.bad3=Ne a\u010di\u016b.
+villager.greeting.handshake.bad4=Amm...ne. Tavo rankos purvinos.
+villager.greeting.handshake.bad5=Kas TEN tau ant rankos?\!
+
+villager.greeting.highfive.good1=Duok\u0161 penkis\!
+villager.greeting.highfive.good2=Kas geresnio, %PlayerName%?
+villager.greeting.highfive.good3=Gerai\!
+villager.greeting.highfive.good4=Ei, kas geresnio?
+villager.greeting.highfive.good5=Malonu tave matyti\!
+
+villager.greeting.highfive.bad1=Ne\! Netrenk man\!
+villager.greeting.highfive.bad2=Jautiesi svarbus?
+villager.greeting.highfive.bad3=Amm...atsipra\u0161au, bet ne.
+villager.greeting.highfive.bad4=Neprisigalvok nesamoni\u0173.
+villager.greeting.highfive.bad5=...K\u0105 tu \u010dia dabar darai?
+
+villager.kiss.good1=*I\u0161rausta* Tu vieni\u0161as?
+villager.kiss.good2=Tu labai geras bu\u010diuotojas...
+villager.kiss.good3=Tavo l\u016bpos tokios mink\u0161tos ir sald\u017eios.
+villager.kiss.good4=Saldus kaip medus.
+villager.kiss.good5=*Sukikena* Tu \u017eavus.
+
+villager.kiss.bad1=A\u0161 tave bent jau pa\u017eystu?\!
+villager.kiss.bad2=*Pliucha*
+villager.kiss.bad3=Kvie\u010diu sargybinius\!
+villager.kiss.bad4=K\u0105 \u010dia dabar darai?\!
+villager.kiss.bad5=Mano t\u0117vas niekada tam nepritartu. 
+
+villager.flirt.good1=*I\u0161rausta* Oi, tu.
+villager.flirt.good2=*Sukikena* Tu toks mielas.
+villager.flirt.good3=Mane jaudina kai tu taip kalbi.
+villager.flirt.good4=A\u0161 ir Tu, \u0161ie \u017eod\u017eiai puikiai dera su Visada Kartu.
+villager.flirt.good5=Cha cha, mums manau reiktu kada labiau suart\u0117ti.
+
+villager.flirt.bad1=Nekabink tu man \u010dia makaron\u0173\!
+villager.flirt.bad2=Fui, a\u0161 taip nemanau.
+villager.flirt.bad3=O tu kartais su ka\u017ekuom jau nesusitikin\u0117ji?
+villager.flirt.bad4=*Nusijuokia* Atsipra\u0161au, man tai tiesiog pasirod\u0117 kvaila.
+villager.flirt.bad5=Tiesiog apgail\u0117tina.
+
+villager.tellstory.good1=*Nusijuokia* Na kiauli\u0173 d\u0117ka mes atrodom geresni\!
+villager.tellstory.good2=Atsimenu prie\u0161 keleta met\u0173 ir a\u0161 taip gal\u0117jau daryti.
+villager.tellstory.good3=Manau mums reiktu tai kada nors i\u0161m\u0117ginti kartu.
+villager.tellstory.good4=Na bent jau \u017einom, kad mus apsaugosi nuo vaik\u0161tan\u010di\u016bj\u0173\!
+villager.tellstory.good5=*Nusijuokia* Nu j\u016bs ir kietas, %PlayerName%.
+
+villager.tellstory.bad1=Tu tur\u0117tum g\u0117dytis, o nesigirti\!
+villager.tellstory.bad2=Kaip tau tai gal ir tinka.
+villager.tellstory.bad3=Duok dieve, kad tave u\u017epultu vaik\u0161tantieji u\u017e tai\!
+villager.tellstory.bad4=Koks skirtumas.
+villager.tellstory.bad5=Labai nepatogiai jau\u010diuosi po to kai tai pasakei...
+
+#######
+# Grandchild Dialogue
+##############################
+
+grandchild.chat.bad1=Tu senas. Ir nuobodus.
+grandchild.chat.bad2=A\u0161 nenoriu klausytis tavo nuobod\u017eiu pasak\u0173\!
+grandchild.chat.bad3=*\u017diovauja*
+
+grandchild.chat.good1=A\u0161 turiu geriausia %RelationOfPlayer%\!
+grandchild.chat.good2=Vau\! Tai tikrai \u012fvyko?
+grandchild.chat.good3=Visa tai tikrai \u012fvyko?
+grandchild.chat.good4=A\u0161 visada m\u0117gstu su tavim pasi\u0161nek\u0117ti.
+
+grandchild.follow.start1=Kur mes einame?
+grandchild.follow.start2=A\u0161 noriu, kad tu man parodytum kur nu\u017eudei t\u0105 creeper'i.
+grandchild.follow.start3=Gerai, einam\!
+
+grandchild.follow.stop1=Lauksiu tav\u0119s, %RelationOfPlayer%.
+grandchild.follow.stop2=A\u0161 lauksiu tav\u0119s \u010dia, %RelationOfPlayer%.
+grandchild.follow.stop3=Neik per toli, %RelationOfPlayer%.
+
+grandchild.gift.bad1=Kokio senumo yra \u0161itas daiktas? Fui\!
+grandchild.gift.bad2=Jis atrodo kaip i\u0161 akmens am\u017eiaus.
+grandchild.gift.bad3=Ah...a\u010di\u016b. Gal.
+
+grandchild.gift.great1=Tai tau turb\u016bt rei\u0161k\u0117 daug k\u0105. A\u010di\u016b\!
+grandchild.gift.great2=Vau\! Galiu tai pasiimti?\!
+grandchild.gift.great3=A\u0161 \u017einojau, kad tu atn\u0117\u0161i man ka\u017ek\u0105 gra\u017eaus\!
+
+grandchild.gift.regular1=A\u0161 visada parodau visiems k\u0105 mano %RelationOfPlayer% man atne\u0161a\!
+grandchild.gift.regular2=Vau\! Va \u010dia tai \u0161aunu\!
+grandchild.gift.regular3=A\u0161 tiesiog dievinu kai man atne\u0161i k\u0105 nors atne\u0161i, %RelationOfPlayer%.
+
+grandchild.gift.small1=Na, visai kietai\!
+grandchild.gift.small2=Ei, man tai patinka\!
+grandchild.gift.small3=A\u010di\u016b, %RelationOfPlayer%\!
+grandchild.gift.small4=Nu \u010dia tai tikrai \u0161aunu, %RelationOfPlayer%.
+
+grandchild.greeting.basic1=Labas, %RelationOfPlayer%.
+grandchild.greeting.basic2=Kur\u012f laik\u0105 a\u0161 tav\u0119s nema\u010diau, %RelationOfPlayer%.
+
+grandchild.greeting.friend1=Ei, \u010dia gi %RelationOfPlayer%\!
+grandchild.greeting.friend2=Visi pa\u017eiur\u0117kit, \u010dia mano %RelationOfPlayer%\!
+
+grandchild.greeting.hate1=*Bamba*
+grandchild.greeting.hate2=Oo ne. Tu, \u010dia.
+grandchild.greeting.hate3=Tu ne mano m\u0117gstamiausias %RelationOfPlayer%.
+grandchild.greeting.hate4=Mama\! %RelationOfPlayer% at\u0117jo...
+
+grandchild.hitbyplayer1=Au\u010d\! Skaud\u0117jo\!
+grandchild.hitbyplayer2=Baik\!
+grandchild.hitbyplayer3=Tu \u017eaidi per daug \u0161iurk\u0161\u010diai\!
+grandchild.hitbyplayer4=Kod\u0117l tu mane trankai, %RelationOfPlayer%?
+
+grandchild.gifted.baby1=Tu vis dar gali tur\u0117ti vaik\u0173\!?
+grandchild.gifted.baby2=Tai...tavo?
+
+grandchild.joke.bad1=\u0160itas buvo tikrai nekoks...
+grandchild.joke.bad2=K\u0105???
+grandchild.joke.bad3=Gal tai buvo juokina anks\u010diau, bet dabar...nelabai.
+grandchild.joke.bad4=Tavo seni juokai nebejuokingi.
+
+grandchild.joke.good1=A\u0161 visada visiems giriuos koks juokingas mano %RelationOfPlayer%\!
+grandchild.joke.good2=Tu tur\u0117tum tai pasakyti mano draugui\!
+grandchild.joke.good3=\u0160itas buvo geras, %RelationOfPlayer%\!
+grandchild.joke.good4=Mano %RelationOfPlayer% visada juokingas\!
+
+grandchild.greeting.handshake.good1=Tai tu mano %RelationOfPlayer%?
+grandchild.greeting.handshake.good2=Malonu susipa\u017einti. J\u016bs mano %RelationOfPlayer%, ane?
+grandchild.greeting.handshake.good3=Labas, o tu \u017einojai, kad a\u0161 tavo %RelationToPlayer%? A\u0161 ne.
+grandchild.greeting.handshake.good4=Sveiki, %RelationOfPlayer%.
+grandchild.greeting.handshake.good5=K\u0105 nors man atne\u0161iai?\!
+
+grandchild.greeting.handshake.bad1=Amm...rankos paspaudimas?
+grandchild.greeting.handshake.bad2=Tu spaudi ranka savo proanukiam?
+grandchild.greeting.handshake.bad3=\u0160lik\u0161tu\! Tu senas\!
+grandchild.greeting.handshake.bad4=Tavo rankos rauk\u0161l\u0117tos\!
+grandchild.greeting.handshake.bad5=Au\u010d\! Kod\u0117l taip smarkiai suspaudiai?
+
+grandchild.greeting.highfive.good1=Valio\! Dar kart\u0105\!
+grandchild.greeting.highfive.good2=Dar, dar kart\u0105\!
+grandchild.greeting.highfive.good3=Padarom dar kart\u0105\!
+grandchild.greeting.highfive.good4=Padaryk dar kart\u0105, labai pra\u0161au?
+grandchild.greeting.highfive.good5=Dar\!
+
+grandchild.greeting.highfive.bad1=Susid\u016briau rank\u0105.
+grandchild.greeting.highfive.bad2=Jau pradeda skaud\u0117ti\!
+grandchild.greeting.highfive.bad3=Baik\!
+grandchild.greeting.highfive.bad4=Jau pradeda nusibosti.
+grandchild.greeting.highfive.bad5=Gerai, man rankas jau pradeda skaud\u0117ti.
+
+grandchild.tellstory.good1=Labai gerai, kad turime sargybinius\!
+grandchild.tellstory.good2=Vau, tu tikrai tai padariai?
+grandchild.tellstory.good3=O tai k\u0105 tada dar\u0117 skeletas?
+grandchild.tellstory.good4=Tu mano didvyris\!
+grandchild.tellstory.good5=Gal mane \u0161itaip gal\u0117tum pasiimti kasin\u0117ti?
+
+grandchild.tellstory.bad1=Visi\u0161kai netikiu.
+grandchild.tellstory.bad2=Man t\u0117veliai sak\u0117 netik\u0117ti nei vienu tavo \u017eod\u017eiu.
+grandchild.tellstory.bad3=\u017dinoma.
+grandchild.tellstory.bad4=A\u0161 nebenoriu prie tav\u0119s b\u016bti...
+grandchild.tellstory.bad5=Tur\u0117\u010diau jau eiti namo.
+
+grandchild.play.good1=Valio, kaip smagu\!
+grandchild.play.good2=Man patinka su tavim leisti laik\u0105\!
+grandchild.play.good3=Tu geriausias\!
+grandchild.play.good4=Pa\u017eaiskime\!
+grandchild.play.good5=A\u0161 laim\u0117siu\!
+
+grandchild.play.bad1=V\u0117l?
+grandchild.play.bad2=Tu jau persenas tai daryti.
+grandchild.play.bad3=Tu nemoki gerai \u017eaisti.
+grandchild.play.bad4=Tiesiog eik pa\u017eaist su savo gyv\u016bnais.
+grandchild.play.bad5=A\u0161 geriau jau valgy\u010diau dar\u017eoves.
+
+#######
+# Villager Child Dialogue
+##############################
+
+villagerchild.chat.bad1=Atleisk, bet mano t\u0117vai man neleid\u017eia kalb\u0117tis su nepa\u017e\u012fstamaisiais\!
+villagerchild.chat.bad2=Kas tu? Atrodai kvailai.
+villagerchild.chat.bad3=Nenoriu a\u0161 su tavim kalb\u0117tis, tu mane baugini\!
+
+villagerchild.chat.good1=Oho\! Tu \u0161aunus \u017emogus\!
+villagerchild.chat.good2=Tu kaip super herojus\!
+villagerchild.chat.good3=Tu nuotiki\u0173 ie\u0161kotojas?\! Tai taip \u0161aunu\!
+villagerchild.chat.good4=Man patynka tavo istorijos, papasakok dar, papasakok dar\!
+
+villagerchild.follow.start1=Gerai, bet a\u0161 nenoriu nuklysti toli nuo nam\u0173\!
+villagerchild.follow.start2=Aaa...A\u0161 nor\u0117jau \u010dia pasilikti...
+villagerchild.follow.start3=Kur mes einame? Ie\u0161koti nuotiki\u0173?
+
+villagerchild.follow.stop1=Pagaliau, atsibodo jau \u017eiur\u0117ti tau \u012f subin\u0119.
+villagerchild.follow.stop2=Kur visi?
+villagerchild.follow.stop3=Nepalik man\u0119s \u010dia vieno\!
+
+villagerchild.gift.bad1=\u010cia \u0161i\u016bk\u0161l\u0117s\! Man j\u0173 nereikia.
+villagerchild.gift.bad2=Gal galiu jau i\u0161mesti? Visai \u0161ito nenoriu.
+villagerchild.gift.bad3=Kam tu man tai duodi, %PlayerName%? Man visai tai nepatinka\!
+
+villagerchild.gift.great1=Vau\! Galiu tai pasilikti? O, a\u010di\u016b tau\! Parodysiu savo t\u0117\u010diui, manau jam patiks.
+villagerchild.gift.great2=D\u0117kui, nuostabi dovana\!
+villagerchild.gift.great3=Tai \u0161auniausia dovana kokia gavau per vis\u0105 gyvenim\u0105\! A\u010di\u016b\!
+
+villagerchild.gift.regular1=D\u0117kui\!
+villagerchild.gift.regular2=Tai taip \u0161aunu\! A\u010di\u016b\!
+villagerchild.gift.regular3=A\u010di\u016b u\u017e dovan\u0105\!
+
+villagerchild.gift.small1=D\u0117koju\!
+villagerchild.gift.small2=Labai d\u0117koju\!
+villagerchild.gift.small3=Galiu tai suvalgyti?
+villagerchild.gift.small4=Cia man? Oo, a\u010di\u016b tau\!
+
+villagerchild.greeting.basic1=Kas tu?
+villagerchild.greeting.basic2=Atrodai juokingai.
+
+villagerchild.greeting.friend1=Ei, tu gi mano draugelis\!
+villagerchild.greeting.friend2=Nori pa\u017eaisti?
+
+villagerchild.greeting.hate1=Nepatinki man...
+villagerchild.greeting.hate2=Atsimenu tave\! Juk tu mane su\u017eeidei\!
+villagerchild.greeting.hate3=Ne, palik mane ramyb\u0117je\!
+villagerchild.greeting.hate4=Mano t\u0117tukas sak\u0117 tau nesiartinti.
+
+villagerchild.hitbyplayer1=Au\! Mama\! %PlayerName% man trenk\u0117\!
+villagerchild.hitbyplayer2=Nesimu\u0161k\! Man gi skauda\!
+villagerchild.hitbyplayer3=Neskriausk manes, prasau\!
+villagerchild.hitbyplayer4=Mama\! T\u0117ti\! Au\!
+
+villagerchild.gifted.baby1=Ooo...kaip miela... Tik \u0161iek tiek smirdi\!
+villagerchild.gifted.baby2=Kod\u0117l jis taip smirda?
+villagerchild.gifted.baby3=A\u0161 nenoriu jo laikyti\!
+
+villagerchild.joke.bad1=Tu kvailas asmuo.
+villagerchild.joke.bad2=Nejuokinga.
+villagerchild.joke.bad3=Visai nejuokinga\!
+villagerchild.joke.bad4=Neskaudink man\u0119s\!
+villagerchild.joke.bad5=Mama\! %PlayerName% kalb\u0117jo blogus \u017eod\u017eius\!
+
+villagerchild.joke.good1=Chaha\! Tu juokingiausia(-s)\!
+villagerchild.joke.good2=Man tikrai patinka tavo pok\u0161tai\!
+villagerchild.joke.good3=\u0160itas buvo geras\! A\u0161 j\u012f pasakysiu savo draugams\!
+villagerchild.joke.good4=Kaip tu padarai t\u0105 juoking\u0105 veid\u0105? Padaryt dar kart\u0105\!
+
+villagerchild.play.good1=Mamyt\u0117 ir t\u0117velis niekada tam neturi laiko\!
+villagerchild.play.good2=Valio\! Gal gali b\u016bti mano draugas?
+villagerchild.play.good3=Gal galiu laim\u0117ti?
+villagerchild.play.good4=\u017daiskim am\u017einai\!
+villagerchild.play.good5=Pasilinksminkim\!
+
+villagerchild.play.bad1=Kas tu toks?
+villagerchild.play.bad2=Man mamyt\u0117 sak\u0117 ne\u017eaisti su nepa\u017eystamais.
+villagerchild.play.bad3=T\u0117velis sak\u0117, kad mane nuvesi ir numesi nuo skard\u017eio.
+villagerchild.play.bad4=Ne, tiek to. Viskas gerai.
+villagerchild.play.bad5=Eik pa\u017eaist geriau su savo vaikais.
+
+villagerchild.tellstory.good1=Nor\u0117\u010diau, kad a\u0161 b\u016b\u010diau tavo vaikas...
+villagerchild.tellstory.good2=O tai a\u0161 irgi galiu eiti paglostyt kalmar\u0105?\!
+villagerchild.tellstory.good3=Geras, gal\u0117tum ir mane passimti \u012f Nether'\u012f?\!
+villagerchild.tellstory.good4=Kod\u0117l negali pasakyti kas atsitinka kai juos pamaitini?
+villagerchild.tellstory.good5=A\u0161 ir eisiu savo gyvenim\u0105 tokiu keliu\!
+
+villagerchild.tellstory.bad1=Tu nelabai geras \u017emogus, ane?
+villagerchild.tellstory.bad2=Manau, kad mane jau mama kvie\u010dia vakarien\u0117s.
+villagerchild.tellstory.bad3=Mano t\u0117veliai mirs?\!
+villagerchild.tellstory.bad4=Eik i\u0161 \u010dia.
+villagerchild.tellstory.bad5=Tavo pasakojimai nuobod\u016bs.
+
+#######
+# Adult Dialogue
+##############################
+
+playerchild.adult.chat.bad1=Neturi papasakoti kitokios istorijos?
+playerchild.adult.chat.bad2=A\u0161 u\u017esi\u0117m\u0119s...
+playerchild.adult.chat.bad3=Pasikalb\u0117kim v\u0117liau.
+playerchild.adult.chat.bad4=Mhm.
+playerchild.adult.chat.bad5=Umm...joo...
+playerchild.adult.chat.bad6=Gerai.
+playerchild.adult.chat.bad7=Tai gerai.
+playerchild.adult.chat.bad8=Labai \u012fdomu...
+playerchild.adult.chat.bad9=*Varto akis*
+playerchild.adult.chat.bad10=%ParentOpposite% sak\u0117, kad tu apie tai melavai.
+playerchild.adult.chat.bad11=Kei\u010diam tema, gerai?
+playerchild.adult.chat.bad12=Na.. Tai tikrai... Idomu..
+playerchild.adult.chat.bad13=Amm... Gerai..
+playerchild.adult.chat.bad14=Tik tiek?
+playerchild.adult.chat.bad15=Galb\u016bt v\u0117liau.
+playerchild.adult.chat.bad16=Negaliu \u0161nek\u0117ti dabar.
+playerchild.adult.chat.bad17=O dieve, PRA\u0160AU palik mane ramyb\u0117je\!
+playerchild.adult.chat.bad18=Viskas k\u0105 gird\u0117jau buvo "bla, bla, bla".
+
+playerchild.adult.chat.good1=*Atid\u017eiai klausosi*
+playerchild.adult.chat.good2=Taip, mes tur\u0117tum\u0117m eiti med\u017eioti.
+playerchild.adult.chat.good3=Eime ie\u0161koti i\u0161tekli\u0173, arba kasti, arba bet k\u0105\!
+playerchild.adult.chat.good4=Tur\u0117tum pasiimti mane su savimi sekant\u012f kart\u0105.
+playerchild.adult.chat.good5=Kada gausiu savo nuosav\u0105 nam\u0105?
+playerchild.adult.chat.good6=Vien\u0105 dien\u0105, nor\u0117\u010diau tur\u0117ti savo nam\u0105.
+playerchild.adult.chat.good7=Negaliu sulaukti, kol gausiu savo paties nam\u0105\!
+playerchild.adult.chat.good8=Eime pa\u016bkininkauti ar dar ka\u017ek\u0105\!
+playerchild.adult.chat.good9=Eime kur nors\!
+playerchild.adult.chat.good10=Oho\! Tai puiki istorija\!
+playerchild.adult.chat.good11=Taip, a\u0161 jau\u010diuosi puikiai.
+playerchild.adult.chat.good12=Netur\u0117tum to pasakoti visiems, bet tai gera istorija.
+playerchild.adult.chat.good13=Tai geriausias dalykas po pjaustytos duonos\!
+
+playerchild.adult.chore.start.farming1=Taip, %CallPlayerParent%.
+playerchild.adult.chore.start.farming2=Erm. Gerai, %CallPlayerParent%.
+playerchild.adult.chore.start.farming3=Ai\u0161ku. A\u0161 tai padarysiu, %CallPlayerParent%.
+playerchild.adult.chore.start.farming4=\u016akininkavimas? Puiku, a\u0161 sutinku.
+playerchild.adult.chore.start.farming5=Nagi\! Tau nereik\u0117jo kai buvai vaikas\!
+playerchild.adult.chore.start.farming6=Ar man pad\u0117si, %CallPlayerParent%?
+playerchild.adult.chore.start.farming7=Jeigu parduosime duon\u0105 kuri\u0105 a\u0161 pagaminu, ar a\u0161 gausiu 50% u\u017edarbio?
+
+playerchild.adult.chore.start.fishing1=\u0160aunu. M\u0117gstu \u017evejoti.
+playerchild.adult.chore.start.fishing2=La\u017einuos, kad pagausiu daugiau negu tu gali\!
+playerchild.adult.chore.start.fishing3=\u0160\u012f kart\u0105 pabandysiu pagerinti savo rekord\u0105.
+playerchild.adult.chore.start.fishing4=Oo. Tai ir v\u0117l, a\u0161 turiu pad\u0117ti maist\u0105 ant stalo.
+playerchild.adult.chore.start.fishing5=Taip, gerai.
+playerchild.adult.chore.start.fishing6=Nuostabu\! A\u0161 dievinu \u017evejyba, %CallPlayerParent%\!
+playerchild.adult.chore.start.fishing7=Tu pamatysi kiek pagiausiu \u017euv\u0173, steb\u0117k\!
+playerchild.adult.chore.start.fishing8=\u0160aunu\! Stengsiuos i\u0161 vis\u0173 j\u0117g\u0173 pagauti kuo daugiau \u017euvies.
+playerchild.adult.chore.start.fishing9=A\u0161 gerai \u017evejoju\! Pamatysi.
+playerchild.adult.chore.start.fishing10=Nagi nagi \u017euvyt\u0117s...
+playerchild.adult.chore.start.fishing11=Tikiuosi nesu\u0161lapsiu savo nauj\u0173 drabu\u017ei\u0173.
+
+playerchild.adult.chore.start.mining1=Anglies dulk\u0117s n\u0117ra nuodingos, ar ne?
+playerchild.adult.chore.start.mining2=Manau, kad \u0161\u012f kart\u0105 mano kirtiklis nesul\u016b\u0161.
+playerchild.adult.chore.start.mining3=A\u0161 rasiu daugiau deimant\u0173 nei tu, tiesiog \u017ei\u016br\u0117k\!
+
+playerchild.adult.chore.start.woodcutting1=\u017dinai a\u0161 vis dar noriu to namelio medyje.
+playerchild.adult.chore.start.woodcutting2=Bent kadanors susimastiai kod\u0117l med\u017eiai sklando?
+playerchild.adult.chore.start.woodcutting3=Tuoj tik pasia\u0161trinu kirv\u012f ir kimbu \u012f darb\u0105.
+playerchild.adult.chore.start.woodcutting4=Tu nori, kad pasistaty\u010diau sau nama?
+
+playerchild.adult.chore.start.hunting1=Parvesiu tau de\u0161imt kiauli\u0173\!
+playerchild.adult.chore.start.hunting2=Bus linksma.
+playerchild.adult.chore.start.hunting3=Tuoj gry\u0161iu.
+playerchild.adult.chore.start.hunting4=Tu mane siunti nes a\u0161 esu geresnis med\u017eiotojas, ane?
+
+playerchild.adult.chore.stop1=Maniau, kad niekada neleisi man sustoti.
+playerchild.adult.chore.stop2=A\u0161 pavargau...
+playerchild.adult.chore.stop3=Pagaliau. A\u0161 nuobod\u017eiavau.
+playerchild.adult.chore.stop4=Pagaliau. A\u0161 nuobod\u017eiavau.
+playerchild.adult.chore.stop5=Neversk man\u0119s v\u0117l tai daryti\!
+playerchild.adult.chore.stop6=Pagaliau\!
+playerchild.adult.chore.stop7=A\u010di\u016b, visados neken\u010diau tai daryti\!
+playerchild.adult.chore.stop8=Ah... Pagaliau mano darbas baigtas\!
+playerchild.adult.chore.stop9=Manau tada truput\u012f pails\u0117siu.
+playerchild.adult.chore.stop10=Na tada nustosiu dirbti.
+playerchild.adult.chore.stop11=D\u017eiaugiuosi, kad pagaliau galiu baigti\!
+playerchild.adult.chore.stop12=Baigiau tavo ne\u0161var\u0173 darb\u0105. O dabar einu nuveikti ka\u017ek\u0105 linksmesnio.
+
+playerchild.adult.follow.start1=Gerai, kur mes einam?
+playerchild.adult.follow.start2=Mes kartu med\u017eiojame monstrus, %CallPlayerParent%?
+playerchild.adult.follow.start3=Tikiuosi pamatyti creeper'i\!
+playerchild.adult.follow.start4=Tikiuosi mes nesikraustisim. man patinka b\u016bti ir \u010dia.
+playerchild.adult.follow.start5=Pagaliau\! Varom i\u0161 \u010dia\!
+playerchild.adult.follow.start6=Mes dar grysim?
+playerchild.adult.follow.start7=A\u0161 nenoriu niekur eiti...
+playerchild.adult.follow.start8=Gerai, einam tada.
+playerchild.adult.follow.start9=\u0160tai ir einam\!
+playerchild.adult.follow.start10=Judam\!
+playerchild.adult.follow.start11=Yra tiek daug dalyk\u0173 kuriuos nor\u0117\u010diau pamatyti\!
+playerchild.adult.follow.start12=Tikiuosi pamatysiu monstr\u0173.
+playerchild.adult.follow.start13=Tikiuos \u010dia ne spastai...
+playerchild.adult.follow.start14=Noriu sugauti vor\u0105\!
+
+playerchild.adult.follow.stop1=Palauksiu \u010dia, %CallPlayerParent%.
+playerchild.adult.follow.stop2=Man patinka \u0161i vieta.Pab\u016bkim \u010dia truputi.
+playerchild.adult.follow.stop3=B\u016bsiu \u010dia.
+playerchild.adult.follow.stop4=Neik labai toli...
+playerchild.adult.follow.stop5=A\u0161 gird\u017eiu ka\u017ek\u0105. B\u016bk atsargus.
+playerchild.adult.follow.stop6=Tik nesusi\u017eeisk, %CallPlayerParent%\!
+playerchild.adult.follow.stop7=Tik nepalik man\u0119s \u010dia ilgam\!
+playerchild.adult.follow.stop8=Nenuleisk aki\u0173. Pavojus tyko visur, kai esi vienas.
+playerchild.adult.follow.stop9=Saugokis creeper'iu\!
+playerchild.adult.follow.stop10=Ahh, nu ir nuvargau.
+playerchild.adult.follow.stop11=Ar galiu eiti su tavim? A\u0161 bijau, %CallPlayerParent%.
+
+playerchild.adult.gift.bad1=Vau\! %CallPlayerParent%\! Tu \u017einai k\u0105 tu radai\!? A\u0161 taip pat.
+playerchild.adult.gift.bad2=Grynas \u0161lam\u0161tas.
+playerchild.adult.gift.bad3=Ne, a\u010di\u016b.
+playerchild.adult.gift.bad4=Pats i\u0161mesk savo \u0161lam\u0161t\u0105\!
+playerchild.adult.gift.bad5=K\u0105 manai apie maist\u0105 karts nuo karto?
+playerchild.adult.gift.bad6=Kod\u0117l a\u0161 tur\u0117\u010diau \u0161ito nor\u0117ti?
+playerchild.adult.gift.bad7=Tai... Ne. Tiesiog ne.
+playerchild.adult.gift.bad8=Kod\u0117l tu man tai apsoliu\u010diai duodi?
+playerchild.adult.gift.bad9=Ne, tikrai \u0161ito nesilaikysiu sau, tikrai ne.
+playerchild.adult.gift.bad10=A\u0161 butinai tai i\u0161mesiu \u012f lav\u0105.
+playerchild.adult.gift.bad11=Gal kartais matai koki\u0173 \u0161iuk\u0161led\u0117\u017eiu aplinkui?
+playerchild.adult.gift.bad12=Ah.. V\u0117l? A\u0161 isitikin\u0119s, kad tau reikia paruo\u0161ti nor\u0173 sara\u0161\u0105 kitam kartui.
+
+playerchild.adult.gift.great1=O dieve... Likau be\u017eado\!
+playerchild.adult.gift.great2=Labai tau a\u010di\u016b\!
+playerchild.adult.gift.great3=\u010cia geriausias\!
+playerchild.adult.gift.great4=Kaip \u012fstengiai tai gauti\!?
+
+playerchild.adult.gift.regular1=Labai tau d\u0117koju\!
+playerchild.adult.gift.regular2=Tai teisiog nuostabu\!
+playerchild.adult.gift.regular3=A\u0161 nor\u0117\u010diau, kad tu \u017einotum, kad lieku tau labai d\u0117kingas\!
+
+playerchild.adult.gift.small1=Kur tai radai? D\u0117kui\!
+playerchild.adult.gift.small2=Oi, a\u010di\u016b %CallPlayerParent%\!
+playerchild.adult.gift.small3=Ar galiu... tai suvalgyti?
+playerchild.adult.gift.small4=Tikiuosi to nedaviai tik d\u0117l to, kad juo atsikratyti, ar ne?
+playerchild.adult.gift.small5=Vau, dovana man\!
+playerchild.adult.gift.small6=Nuostabu\! A\u010di\u016b, %CallPlayerParent%.
+playerchild.adult.gift.small7=Tikrai atrodo gerai, bei... skaniai?
+
+playerchild.adult.greeting.basic1=Ei, %CallPlayerParent%\!
+playerchild.adult.greeting.basic2=Tu gry\u017eai, %CallPlayerParent%.
+
+playerchild.adult.greeting.friend1=Ei, %CallPlayerParent%\!
+playerchild.adult.greeting.friend2=Tu gry\u017eai, %CallPlayerParent%.
+
+playerchild.adult.greeting.hate1=...
+playerchild.adult.greeting.hate2=K\u0105 \u010dia veiki, %CallPlayerParent%?
+playerchild.adult.greeting.hate3=Sakiau tau, kad laikytumeis nuo man\u0119s atokiau\!
+playerchild.adult.greeting.hate4=At\u0117jai atsipra\u0161yti?
+playerchild.adult.greeting.hate5=Neversk man\u0119s i\u0161kviesti apsauga.
+
+playerchild.adult.hitbyplayer1=Nustok\!
+playerchild.adult.hitbyplayer2=\u017dinai a\u0161 tave dabar gal\u0117\u010diau prikulti\!
+playerchild.adult.hitbyplayer3=Oi\! %CallPlayerParent%\! Baik mane trankyti\!
+playerchild.adult.hitbyplayer4=Tai tikrai skaud\u0117jo\!
+playerchild.adult.hitbyplayer5=Nusiraink ir baik mane dau\u017eyti\!
+playerchild.adult.hitbyplayer6=A\u0161 ne dau\u017eymo mai\u0161as\!
+playerchild.adult.hitbyplayer7=Trenkimas man nei\u0161spres tavo problem\u0173\!
+playerchild.adult.hitbyplayer8=Oi\! U\u017e k\u0105 \u010dia dabar?\!
+playerchild.adult.hitbyplayer9=Tai tiesiog n\u0117ra normalu\!
+playerchild.adult.hitbyplayer10=Nusiramink\!
+playerchild.adult.hitbyplayer11=Au\u010d\!
+playerchild.adult.hitbyplayer12=Kod\u0117l tu tai padariai?\!
+
+playerchild.adult.gifted.baby1=A\u0161 nenoriu jo laikyti\! 
+playerchild.adult.gifted.baby2=A\u0161 neken\u010diu k\u016bdiki\u0173\!
+playerchild.adult.gifted.baby3=Eu\! Jis dvokia\!
+playerchild.adult.gifted.baby4=Taip, taip, labai miela.
+playerchild.adult.gifted.baby5=Man reikia nuveikti kai k\u0105 kito\!
+
+playerchild.adult.joke.bad1=\u0160itas jau po bi\u0161k\u012f sensta.
+playerchild.adult.joke.bad2=Tai buvo tiesiog kvaila.
+playerchild.adult.joke.bad3=...K\u0105?
+playerchild.adult.joke.bad4=Nejuokauk apie tai\! A\u0161 VIS DAR su trauma nuo to\!
+playerchild.adult.joke.bad5=Vis tiek nesuprantu.
+playerchild.adult.joke.bad6=Tik ne v\u0117l tas.
+playerchild.adult.joke.bad7=A\u0161 gird\u0117jau, ta daugiau nei dvide\u0161imt kart\u0173\!
+playerchild.adult.joke.bad8=Fui, kod\u0117l tu juokauji apie tai?\!
+playerchild.adult.joke.bad9=\u0160is pok\u0161tas tiesiog baigsus.
+playerchild.adult.joke.bad10=Ah, v\u0117l tas. Tikrai juokinga.
+playerchild.adult.joke.bad11=Manau %ParentOpposite% mane kvie\u010dia...
+playerchild.adult.joke.bad12=Na, man jau tikrai reiktu kaip ir eiti prie darb\u0173.
+
+playerchild.adult.joke.good1=A\u0161 vis dar prisimenu \u0161it\u0105, %CallPlayerParent%. Chacha\!
+playerchild.adult.joke.good2=Tas tikrai buvo geras\!
+playerchild.adult.joke.good3=*Sukikena*
+playerchild.adult.joke.good4=Tu visada \u017einai geriausius anekdotus\!
+playerchild.adult.joke.good5=Geras, %CallPlayerParent%\!
+playerchild.adult.joke.good6=Haha\! Tai taip juokinga\!
+playerchild.adult.joke.good7=\u0160itas geras\!
+
+playerchild.adult.greeting.handshake.good1=Ei, su tavim nekalb\u0117jau jau kur\u012f laik\u0105.
+playerchild.adult.greeting.handshake.good2=Ei, %CallPlayerParent%.
+playerchild.adult.greeting.handshake.good3=Malonu tave v\u0117l matyti, %CallPlayerParent%\!
+playerchild.adult.greeting.handshake.good4=Oi, %CallPlayerParent%, a\u0161 turiu tiek daug k\u0105 tau papasakoti.
+playerchild.adult.greeting.handshake.good5=Ei, smagu tave v\u0117l matyti gry\u017eus.
+
+playerchild.adult.greeting.handshake.bad1=Kod\u0117l tu nesilankai da\u017eniau?
+playerchild.adult.greeting.handshake.bad2=\u010cia vienintelis susidurimas kur\u012f mes apdur\u0117jome per tiek laiko ir tu tiesiog paspaudi rank\u0105?\!
+playerchild.adult.greeting.handshake.bad3=A\u0161 nenoriu spausti tau rankos.
+playerchild.adult.greeting.handshake.bad4=A\u0161 amm...dabar u\u017esi\u0117m\u0119s.
+playerchild.adult.greeting.handshake.bad5=I'm per daug u\u017esi\u0117m\u0119s - kaip tu matos da\u017enai b\u016bni.
+
+playerchild.adult.greeting.highfive.good1=Vistiek smagu\!
+playerchild.adult.greeting.highfive.good2=*Nud\u017eiunga*
+playerchild.adult.greeting.highfive.good3=M\u0119s nuostab\u016bs\!
+playerchild.adult.greeting.highfive.good4=Taip\! Jau pasiilgau \u0161ito.
+playerchild.adult.greeting.highfive.good5=M\u0119s geriausi\!
+
+playerchild.adult.greeting.highfive.bad1=A\u0161 jau per s\u0119nas tai daryti i\u0161tisai.
+playerchild.adult.greeting.highfive.bad2=Pra\u0161au, ne dabar.
+playerchild.adult.greeting.highfive.bad3=A\u0161 nenoriu tau duoti penki\u0173.
+playerchild.adult.greeting.highfive.bad4=A\u0161 noriu kalb\u0117ti, o ne duot penkis\!
+playerchild.adult.greeting.highfive.bad5=Kod\u0117l tu su manim i\u0161tikr\u016bj\u0173 nekalbi?
+
+playerchild.adult.tellstory.good1=*Nusijuokia* Tai man primena kai a\u0161 buvau ma\u017eas vaikas.
+playerchild.adult.tellstory.good2=Tu ir %ParentOpposite% tikrai myl\u0117jot vienas kit\u0105, ane?
+playerchild.adult.tellstory.good3=Skamba smagiai\! Mums reiktu kada tai pam\u0117ginti\!
+playerchild.adult.tellstory.good4=*Nusijuokia* A\u0161 taip d\u017eiaugiuosi, kad a\u0161 \u0161itoj \u0161eimoj.
+playerchild.adult.tellstory.good5=Jie k\u0105 padar\u0117 vi\u0161toms?
+
+playerchild.adult.tellstory.bad1=Am, tu tai pasakojai %ParentOpposite%?
+playerchild.adult.tellstory.bad2=Nepritariu tam.
+playerchild.adult.tellstory.bad3=Tu...netur\u0117tum to niekam pasakoti.
+playerchild.adult.tellstory.bad4=Na, tai nebuvo labai gra\u017eu.
+playerchild.adult.tellstory.bad5=\u017dinai, tai man primena %RandomName%\!
+
+#######
+# Kid Dialogue
+##############################
+playerchild.young.chat.bad1=Nenoriu kalb\u0117t. Palik man\u0119 vien\u0105\!
+playerchild.young.chat.bad2=%CallPlayerParent%, a\u0161 u\u017eimtas\!
+playerchild.young.chat.bad3=\u0160\u0161\u0161\u0161\!
+playerchild.young.chat.bad4=Tu nuobodus.
+playerchild.young.chat.bad5=*Ignoruoja tave*
+playerchild.young.chat.bad6=%ParentOpposite% sak\u0117 to nesakyti\!
+playerchild.young.chat.bad7=A\u0161 u\u017esi\u0117m\u0119s\!
+playerchild.young.chat.bad8=Nematai, kad a\u0161 u\u017esi\u0117m\u0119s?\!
+playerchild.young.chat.bad9=A\u0161...*nusi\u017eiovauja* einu pasnausti.
+
+playerchild.young.chat.good1=*Ai\u0161kiai klausosi*
+playerchild.young.chat.good2=Ar tu mane kit\u0105 kart\u0105 pasiimsi kartu, %CallPlayerParent%?
+playerchild.young.chat.good3=A\u0161 noriu eiti \u012f med\u017eiokl\u0119\!
+playerchild.young.chat.good4=Kod\u0117l a\u0161 negaliu eiti su tavimi?
+playerchild.young.chat.good5=A\u0161 labai noriu eiti kit\u0105 kart\u0105 kartu, labai pra\u0161au.
+playerchild.young.chat.good6=Tai nuostabu, %CallPlayerParent%\! Kaip tu tai padarei?
+playerchild.young.chat.good7=Tikrai? Tai taip kieta\!
+playerchild.young.chat.good8=Tu geriausias %CallPlayerParent% pasaulyje\! Ne, visatoje\!
+
+playerchild.young.joke.bad1=Um-o\! %CallPlayerParent% pasak\u0117 blog\u0105 \u017eod\u012f\!
+playerchild.young.joke.bad2=Tai kvaila.
+playerchild.young.joke.bad3=Tu esi didelis kvailelis. Nepagaunu \u0161ito.
+playerchild.young.joke.bad4=Kod\u0117l tu juokautum apie tai? *Pradeda verkti*
+playerchild.young.joke.bad5=Baik i\u0161 ty\u010diotis i\u0161 man\u0119s\!
+playerchild.young.joke.bad6=%ParentOpposite% sak\u0117 nesakyti to \u017eod\u017eio\!
+playerchild.young.joke.bad7=A\u0161 \u0161it\u0105 milijon\u0173 kart\u0173 ank\u0161\u010diau, %CallPlayerParent%.
+playerchild.young.joke.bad8=Tai visi\u0161kai neturi logikos.
+
+playerchild.young.joke.good1=Tu juokingas, %CallPlayerParent%.
+playerchild.young.joke.good2=Ha ha\! Pagaunu juokel\u012f\!
+playerchild.young.joke.good3=A\u0161 \u0161it\u0105 papasakosiu draugui\!
+playerchild.young.joke.good4=Tai nebuvo taip kvaila, kaip kiti dvide\u0161imt.
+playerchild.young.joke.good5=*Kikena*
+playerchild.young.joke.good6=\u0160itas buvo juokingas\!
+playerchild.young.joke.good7=Reikia \u0161it\u0105 atsiminti\!
+
+playerchild.young.chore.start.farming1=Taip, %CallPlayerParent%.
+playerchild.young.chore.start.farming2=Valio\! A\u0161 myliu \u016bkininkyst\u0119.
+playerchild.young.chore.start.farming3=Prad\u0117siu tu\u010d tuojau.
+playerchild.young.chore.start.farming4=Pagaliau galiu k\u0105 nors nuveikti.
+playerchild.young.chore.start.farming5=Gerai.
+playerchild.young.chore.start.farming6=Jau tik\u0117jausi, kad paklaustum tai padaryti\!
+playerchild.young.chore.start.farming7=Tikiuosi \u0161itai \u012feis \u012f mano gimtadienio tort\u0105.
+
+playerchild.young.chore.start.fishing1=\u017dvejyba yra tokia nuobodi. 
+playerchild.young.chore.start.fishing2=Bet \u017evejyba gi u\u017etrunka taip ilgai\!
+playerchild.young.chore.start.fishing3=A\u0161 ne\u017einau kaip, prisiekiu\!
+playerchild.young.chore.start.fishing4=Bet \u017euvys taip smirda\!
+playerchild.young.chore.start.fishing5=Betgi jos gleiv\u0117tos...
+playerchild.young.chore.start.fishing6=A\u0161 nem\u0117gstu su\u0161lapti\!
+playerchild.young.chore.start.fishing7=A\u0161 nenoriu \u017evejoti.
+playerchild.young.chore.start.fishing8=Kod\u0117l visalaik\u0105 \u017evejyba?
+
+playerchild.young.chore.start.mining1=Kuriuo galu tiriu laikyti kirtikl\u012f?
+playerchild.young.chore.start.mining2=A\u0161 pasakysiu %ParentOpposite% jeigu v\u0117l \u012fkrisiu \u012f lav\u0105.
+playerchild.young.chore.start.mining3=Valio\! A\u0161 myliu kasin\u0117jim\u0105\!
+playerchild.young.chore.start.mining4=Tikiuosi man\u0119s skeletas v\u0117l nenu\u0161aus.
+playerchild.young.chore.start.mining5=Jeigu rasiu deimant\u0105, a\u0161 galiu j\u012f pasilikti, gerai?
+
+playerchild.young.chore.start.woodcutting1=Med\u017eiai, med\u017eiai, med\u017eiai, med\u017eiai...
+playerchild.young.chore.start.woodcutting2=Tikiuosi koks neu\u017ekris ant man\u0119s\!
+playerchild.young.chore.start.woodcutting3=Gal\u0117sime pastatyti nameli medyje kai baigsiu?
+playerchild.young.chore.start.woodcutting4=Kam tu naudoji medien\u0105?
+
+playerchild.young.chore.start.hunting1=\u0160aunu\! A\u0161 myliu med\u017eiojim\u0105.
+playerchild.young.chore.start.hunting2=Tikiuosi vilkas man v\u0117l ne\u012fk\u0105s.
+playerchild.young.chore.start.hunting3=Bet a\u0161 toks ma\u017eas\! Ankstesn\u012f kart\u0105 tempiau karv\u0119 valand\u0173 valandas.
+
+playerchild.young.chore.stop1=*Atsid\u016bsta su palengv\u0117jimu*
+playerchild.young.chore.stop2=Maniau, kad niekada neleisi man sustoti.
+playerchild.young.chore.stop3=Pavargau...
+playerchild.young.chore.stop4=Pagaliau. Jau prad\u0117jo nusibosti.
+playerchild.young.chore.stop5=Pagaliau. Prad\u0117jau pavargti.
+playerchild.young.chore.stop6=Neversk man\u0119s tai v\u0117l daryti\!
+
+playerchild.young.follow.start1=Gerai, kur keliaujam?
+playerchild.young.follow.start2=Valio\! Galiu pasilikti su %CallPlayerParent%\!
+playerchild.young.follow.start3=Valio\! Eisiu su tavimi.
+playerchild.young.follow.start4=Bet a\u0161 nenoriu eiti\!
+playerchild.young.follow.start5=%ParentOpposite% eis taip pat?
+playerchild.young.follow.start6=Tikiuosi pamatysim kiaul\u0119, arba karv\u0119, arba vi\u0161t\u0105, arba av\u012f\!
+playerchild.young.follow.start7=Ar mes keliaujam \u012f d\u017eiungles? A\u0161 noriu pamatyti ka\u010diuk\u0105.
+playerchild.young.follow.start8=Tikiuos per toli nenueisim...
+playerchild.young.follow.start9=Baisuokliai mane g\u0105sdina, tikiuosi nei vieno nesutiksim.
+
+playerchild.young.follow.stop1=Gerai. A\u0161 lauksiu \u010dia.
+playerchild.young.follow.stop2=Nepalik man\u0119s \u010dia ilgam, gerai?
+playerchild.young.follow.stop3=Bet \u010dia baisu...
+playerchild.young.follow.stop4=Ne, %CallPlayerParent%, neeik\!
+playerchild.young.follow.stop5=Bet a\u0161 gird\u017eiu garsus...
+playerchild.young.follow.stop6=Gerai, bet tik nepamir\u0161k man\u0119s, %CallPlayerParent%.
+playerchild.young.follow.stop7=Bet kas jei... prasid\u0117s naktis?
+playerchild.young.follow.stop8=Ar tu greitai gr\u012f\u0161i?
+playerchild.young.follow.stop9=Nepalik man\u0119s \u010dia\!
+
+playerchild.young.gift.bad1=Kam a\u0161 j\u012f gal\u0117\u010diau panaudoti\!?
+playerchild.young.gift.bad2=Tai taip smirda.
+playerchild.young.gift.bad3=Man \u0161itie nepatinka.
+playerchild.young.gift.bad4=%CallPlayerParent%, tu \u017einai kas man patinka ir kas nepatinka.
+playerchild.young.gift.bad5=Parne\u0161k man k\u0105 nors gero.
+playerchild.young.gift.bad6=A\u0161 jau turiu ma\u017edaug de\u0161imt milijon\u0173 toki\u0173.
+playerchild.young.gift.bad7=Tai bevertis \u0161lam\u0161tas\!
+playerchild.young.gift.bad8=A\u0161 geriau nieko negau\u010diau\!
+playerchild.young.gift.bad9=K\u0105??
+
+playerchild.young.gift.great1=Kur tu tai gavai, %CallPlayerParent%?
+playerchild.young.gift.great2=Ar tai man?
+playerchild.young.gift.great3=Valiooooo\!
+playerchild.young.gift.great4=Viskas man\!?
+playerchild.young.gift.great5=%ParentOpposite% vadina \u0161ituos \u201eSeksualiais\u201c.
+playerchild.young.gift.great6=Tu geriausias, %CallPlayerParent%\!
+
+playerchild.young.gift.regular1=Tikiuosi, kad gausiu daugiau\!
+playerchild.young.gift.regular2=Ar tai man?
+playerchild.young.gift.regular3=Tu parne\u0161ei man du, tiesa?
+playerchild.young.gift.regular4=Ar tai man?\!
+
+playerchild.young.gift.small1=Kur tu \u0161it\u0105 gavai, %CallPlayerParent%?
+playerchild.young.gift.small2=Uuu, blizga\!
+playerchild.young.gift.small3=Dovanos\! A\u0161 visados m\u0117gstu dovanas\!
+playerchild.young.gift.small4=Man patinka, %CallPlayerParent%.
+playerchild.young.gift.small5=A\u010di\u016b, %CallPlayerParent%.
+
+playerchild.young.greeting.basic1=Labas, %CallPlayerParent%.
+playerchild.young.greeting.basic2=Fui, %CallPlayerParent%, tu smirdi. Kur tu buvai?
+playerchild.young.greeting.basic3=Valio\! %CallPlayerParent% namie\!
+playerchild.young.greeting.basic4=Valio, %CallPlayerParent%\! Ar k\u0105 nors man parne\u0161ei?
+
+playerchild.young.greeting.friend1=Valio\! %CallPlayerParent% %CallPlayerParent% %CallPlayerParent%\!\!\!
+playerchild.young.greeting.friend2=Tu man parne\u0161ei dovan\u0105, tiesa?
+playerchild.young.greeting.friend3=%CallPlayerParent%, a\u0161 pasiilgau tav\u0119s.
+playerchild.young.greeting.friend4=Papasakok istorij\u0173 apie tai kur buvai\!
+playerchild.young.greeting.friend5=%CallPlayerParent%, nei\u0161eik daugiau. Tai nuli\u016bdina %ParentOpposite%.
+
+playerchild.young.greeting.hate1=Pra\u0161au nemu\u0161k man\u0119s daugiau %CallPlayerParent%.
+playerchild.young.greeting.hate2=%CallPlayerParent%, ar dabar tu man b\u016bsi geras?
+playerchild.young.greeting.hate3=La...labas...%CallPlayerParent%
+playerchild.young.greeting.hate4=*Pasidengia baime*
+playerchild.young.greeting.hate5=A\u0161 \u0161iandien b\u016bsiu geras, %CallPlayerParent%... nemu\u0161k man\u0119s.
+
+playerchild.young.hitbyplayer1=Au\! A\u0161 pasakysiu %ParentOpposite% apie tai\!
+playerchild.young.hitbyplayer2=%CallPlayerParent%, baik mu\u0161ti mane\!
+playerchild.young.hitbyplayer3=%CallPlayerParent%, skauda\!
+playerchild.young.hitbyplayer4=Au\! K\u0105 a\u0161 tau padariau, %CallPlayerParent%?
+playerchild.young.hitbyplayer5=Au\!
+playerchild.young.hitbyplayer6=Au\u010d\!
+playerchild.young.hitbyplayer7=A\u0161 pasakysiu %ParentOpposite%\!
+
+playerchild.young.gifted.baby1=Kaip nemaloniai smirda\!
+
+playerchild.young.tellstory.good1=Buvai nubaustas u\u017e tai?
+playerchild.young.tellstory.good2=A\u0161 ir taip noriu padaryt\!
+playerchild.young.tellstory.good3=Nuo \u0161iol visada tave gerbsiu po to k\u0105 man \u010dia papasakojai\!
+playerchild.young.tellstory.good4=*Nusijuokia* %ParentOpposite% tai padar\u0117?
+playerchild.young.tellstory.good5=Negaliu patik\u0117ti, kad tai padariai\!
+
+playerchild.young.tellstory.bad1=*Apsiverkia* Kod\u0117l tu taip padarei?
+playerchild.young.tellstory.bad2=A\u0161 visk\u0105 pasakysiu %RandomName%, kad tu tai sakiai.
+playerchild.young.tellstory.bad3=Taip, taip, koks skirtumas. A\u0161 nenoriu i\u0161 tav\u0119s gird\u0117ti joki\u0173 istorij\u0173.
+playerchild.young.tellstory.bad4=Kryperis mane pa\u010diups?\!
+playerchild.young.tellstory.bad5=*Apsiverkia* A\u0161 nenoriu, kad %ParentOpposite% pavirstu \u012f vaiks\u010diotoj\u0105\!
+
+playerchild.young.play.good1=Tu man\u0119s nepagausi\!
+playerchild.young.play.good2=Man patinka kai su manim \u017eaidi, %CallPlayerParent%.
+playerchild.young.play.good3=A\u0161 laim\u0117siu\!
+playerchild.young.play.good4=Bus smagu\!
+playerchild.young.play.good5=Tu niekad man\u0119s ne\u012fveiksi\!
+
+playerchild.young.play.bad1=Tu niekad man neleidi laim\u0117ti.
+playerchild.young.play.bad2=Tai dar reikia ap\u0161ilti, o man ne.
+playerchild.young.play.bad3=A\u0161 tam jau per senas.
+playerchild.young.play.bad4=Kod\u0117l tu geriau nepa\u017eaidi su savo m\u0117gstamiausiu vaiku?
+playerchild.young.play.bad5=A\u0161 noriu \u017eaisti tik su %RandomName%.
+
+playerchild.young.greeting.handshake.good1=Labas, %CallPlayerParent%.
+playerchild.young.greeting.handshake.good2=Kur \u0161iandien buvai?
+playerchild.young.greeting.handshake.good3=Papasakok man apie savo nuotikius.
+playerchild.young.greeting.handshake.good4=Tu gry\u017eai. K\u0105 veikei?
+playerchild.young.greeting.handshake.good5=Nuveikim k\u0105 nors\!
+
+playerchild.young.greeting.handshake.bad1=...Kod\u0117l tu spaudi man rank\u0105?
+playerchild.young.greeting.handshake.bad2=Tavo rankos prakaituotos ir baisios.
+playerchild.young.greeting.handshake.bad3=Fui, neliesk man\u0119s\!
+playerchild.young.greeting.handshake.bad4=A\u0161 nenoriu spausti rank\u0173\!
+playerchild.young.greeting.handshake.bad5=Kod\u0117l tu geriau nepakalbi su manim vienoj spaud\u017eiant man rank\u0105?
+
+playerchild.young.greeting.highfive.good1=Padarysi dar kart\u0105?
+playerchild.young.greeting.highfive.good2=Tai smagu\!
+playerchild.young.greeting.highfive.good3=*Nusijuokia*
+playerchild.young.greeting.highfive.good4=Duok penkis dar kart\u0105\!
+playerchild.young.greeting.highfive.good5=Pra\u0161au dar kartel\u012f\!
+
+playerchild.young.greeting.highfive.bad1=Man tai jau nusibodo.
+playerchild.young.greeting.highfive.bad2=O tu dar k\u0105 nors be to veiki?
+playerchild.young.greeting.highfive.bad3=A\u0161 gi negaliu tav\u0119s pasiekti, protuoli\!
+playerchild.young.greeting.highfive.bad4=Nebenoriu tau duot penki\u0173.
+playerchild.young.greeting.highfive.bad5=Jau pradeda nervinti.
+
+#######
+# Spouse Dialogue
+##############################
+spouse.chat.bad1=\u0160it\u0105 istorij\u0105 jau gird\u0117jau.
+spouse.chat.bad2=Jau po truputi nusibosta kalb\u0117ti vis apie t\u0105 pat\u012f.
+spouse.chat.bad3=Negi tu neturi nieko geresnio apie k\u0105 kalb\u0117ti?
+spouse.chat.bad4=A\u0161 nenoriu apie tai kalb\u0117ti.
+spouse.chat.bad5=Kad ir k\u0105 tu besakytum.
+spouse.chat.bad6=Gal turi dar ka\u017ek\u0105 k\u0105 nor\u0117tum man pasakyti?
+
+spouse.chat.good1=Man \u017eiauriai patinka kai pasakoji savo nuotyki\u0173 istorijas.
+spouse.chat.good2=\u012esp\u016bdinga\!
+spouse.chat.good3=Taip, \u010dia viskas ramu kaip ir visada.
+spouse.chat.good4=Na \u0161iandien a\u0161...ai, manau nelabai nori gird\u0117ti, suprantama\!
+spouse.chat.good5=Tai ir tau buvo ilga diena, a?
+spouse.chat.good6=\u0160tai kod\u0117l a\u0161 tave myliu.
+spouse.chat.good7=Tai nuostabu, \u0161tai d\u0117l ko a\u0161 i\u0161tek\u0117jau u\u017e tav\u0119s.
+spouse.chat.good8=Tavo istorijos \u017eavina mane\!
+spouse.chat.good9=Gera istorija\!
+spouse.chat.good10=*God\u017eiai apsilai\u017eo l\u016bpas*
+
+spouse.divorce1=Man jau tav\u0119s gana\!
+spouse.divorce2=Tavo atsikratymas pavyko\!
+spouse.divorce3=A\u0161 daugiau nenoriu tav\u0119s matyti\!
+spouse.divorce4=Tiesiog...atstok nuo man\u0119s\!
+spouse.divorce5=A\u0161 negaliu tuo patik\u0117ti\! Palieki mane vien\u0105\!
+spouse.divorce6=Kod\u0117l? A\u0161 tau ne...nepakankamai gera antra pus\u0117...?
+spouse.divorce7=A\u0161 maniau tu mane tikrai myli\!
+spouse.divorce8=K\u0105\!? Ne\! Negaliu tuo patik\u0117ti\!
+spouse.divorce9=Atstok nuo man\u0119s\! Am\u017eiams\!
+
+spouse.follow.start1=Am gerai, kur mes einam?
+spouse.follow.start2=Gerai, stengsiuos laikytis \u0161alia.
+spouse.follow.start3=Gerai, eime\!
+spouse.follow.start4=Ar mes jau pagaliau i\u0161einam i\u0161 \u0161ito \u0161iuk\u0161lyno?
+spouse.follow.start5=Gal turi nauja nam\u0105 kur nors?
+spouse.follow.start6=Gerai, bet a\u0161 nenoriu i\u0161 \u010dia i\u0161eiti.
+spouse.follow.start7=Galiu eiti su tavim ie\u0161koti nuotyki\u0173? Kaip \u012fdomu\!
+spouse.follow.start8=Eikim kur nors kur gra\u017eu, k\u0105 apie tai manai?
+
+spouse.follow.stop1=Ta vieta atrodo tikrai gra\u017eiai\!
+spouse.follow.stop2=Na, gerai, tu bet kada gali mane kur nori vestis, myliu tave.
+spouse.follow.stop3=Na gerai, tik tu atsargiau tenais\!
+spouse.follow.stop4=Kai gry\u0161i b\u016bsiu nepertoliausiai nuo \u010dia.
+spouse.follow.stop5=Fju, tai buvo varginama, bet bent jau a\u0161 su tavimi.
+
+spouse.gift.bad1=Aaa...ne a\u010di\u016b. A\u0161 jau turiu tok\u012f. Ka\u017ekur.
+spouse.gift.bad2=Tikiuosi tu nemanei, kad man tai patiks.
+spouse.gift.bad3=A\u0161 tur\u0117jau jau \u017einoti, kad tu neatsiminsi kas man patinka.
+spouse.gift.bad4=Kod\u0117l tu tai man duodi?
+spouse.gift.bad5=Tai tu \u0161itai vadini dovana?
+spouse.gift.bad6=A\u0161 maniau tu mane jau pakankamai pa\u017e\u012fsti, kad \u017einotum k\u0105 a\u0161 m\u0117gstu. Pasirodo ne.
+spouse.gift.bad7=Tai...blogai. A\u0161 \u0161ito nenoriu.
+
+spouse.gift.great1=O dieve...kiek tai kainavo?
+spouse.gift.great2=Kaip tu j\u012f gavai\!? D\u0117koju i\u0161 \u0161irdies\!
+spouse.gift.great3=Tur\u0117jo b\u016bt sunku \u0161itai gauti\!
+spouse.gift.great4=A\u0161 tikrai netur\u0117\u010diau jo imti...bet jis toks blizgus\!
+spouse.gift.great5=A\u0161 tai branginsiu am\u017einai.
+spouse.gift.great6=A\u010diukas, tu tikrai \u017einai k\u0105 a\u0161 m\u0117gstu.
+spouse.gift.great7=Tai toks daiktas kur\u012f a\u0161 visada laikysiu \u0161alia sav\u0119s, a\u010di\u016b.
+spouse.gift.great8=\u017dinai, You're sexy and I know it.
+
+spouse.gift.regular1=Tai \u0161aunu\! D\u0117kui\!
+spouse.gift.regular2=Atne\u0161k man dar\!
+spouse.gift.regular3=Tau nereik\u0117jo to daryti...d\u0117kui.
+spouse.gift.regular4=Tai nuostabu\! A\u010di\u016b\!
+spouse.gift.regular5=Tu tiesiog \u017einai k\u0105 a\u0161 m\u0117gstu, negi ne?
+spouse.gift.regular6=Oi, a\u010di\u016b, tai buvo tikrai gra\u017eu i\u0161 tavo pus\u0117s.
+spouse.gift.regular7=Tai buvo tikrai nuostabu.
+
+spouse.gift.small1=A\u010di\u016b\!
+spouse.gift.small2=A\u0161 tai tikrai vertinu.
+spouse.gift.small3=Ne kokia, bet \u012fskai\u010diuosiu\!
+spouse.gift.small4=Tu toks mielas.
+spouse.gift.small5=A\u010di\u016b. Tau nebuvo b\u016btina man k\u0105 nors duoti. 
+
+spouse.greeting.basic1=Labas mano meile.
+spouse.greeting.basic2=Kur \u0161iandien buvai?
+spouse.greeting.basic3=Sveikas mielasis. Kaip tau sekasi?
+spouse.greeting.basic4=Viskas gerai?
+spouse.greeting.basic5=Atrodo tu gr\u012f\u017eai i\u0161 savo nuotyki\u0173. Kaip laikais mano meile?
+spouse.greeting.basic6=Pasiilgau tav\u0119s\! Kaip sek\u0117si, aukseli?
+spouse.greeting.basic7=A\u0161 jaudinausi d\u0117l tav\u0119s, tu i\u0161\u0117jai netar\u0119s \u017eod\u017eio. Bet a\u0161 d\u017eiaugiuosi, kad gr\u012f\u017eai.
+spouse.greeting.basic8=Labukas, kaip sekasi?
+spouse.greeting.basic9=Gera diena \u0161iandien, ane?
+spouse.greeting.basic10=D\u017eiaugiuosi, kad gr\u012f\u017eai.
+
+spouse.greeting.friend1=Labas bra\u0161ke.
+spouse.greeting.friend2=Kur \u0161iandien buvai?
+spouse.greeting.friend3=Labas bra\u0161ke. Kaip laikaisi?
+spouse.greeting.friend4=Viskas gerai ma\u017eiuk?
+spouse.greeting.friend5=Tu gr\u012f\u017eai i\u0161 savo nuotyki\u0173 matos. Kaip tau?
+spouse.greeting.friend6=Kaip tav\u0119s pasiilgau\! Kaip sek\u0117si?
+spouse.greeting.friend7=A\u0161 jaudinausi d\u0117l tav\u0119s, tu i\u0161\u0117jai netar\u0119s \u017eod\u017eio Bet a\u0161 d\u017eiaugiuosi, kad gr\u012f\u017eai.
+spouse.greeting.friend8=Labukas, kaip sekasi?
+spouse.greeting.friend9=Gera diena \u0161iandien, ane?
+spouse.greeting.friend10=D\u017eiaugiuosi, kad gr\u012f\u017eai.
+
+spouse.greeting.hate1=A\u0161 nenoriu su tavim kalb\u0117ti dabar.
+spouse.greeting.hate2=A\u0161 tavim labai nusivyliau. Palik mane vien\u0105 pra\u0161y\u010diau.
+spouse.greeting.hate3=%PlayerName%, a\u0161 tau sakiau, kad su tavim nekalb\u0117siu.
+spouse.greeting.hate4=Mes daugiau nebesikalbam, sakau tik kad tu \u017einotum.
+spouse.greeting.hate5=Tu geriau pasitaisyk arba a\u0161 einu toliau.
+
+spouse.hitbyplayer1=Au\! Neu\u017egauliok\!
+spouse.hitbyplayer2=Tikiuosi tu nenor\u0117jai taip padaryti.
+spouse.hitbyplayer3=Tai tikrai skauda...
+spouse.hitbyplayer4=Nustok mane \u017ealoti\!
+spouse.hitbyplayer5=Au\! Asile\!
+spouse.hitbyplayer6=Kod\u0117l tu nor\u0117tum man trenkti\!?
+spouse.hitbyplayer7=U\u017e k\u0105 man \u010dia\!?
+
+spouse.gifted.baby1=V\u0117l? Ah. Gerai.
+spouse.gifted.baby2=Tu toks mielas\! Taip tu esi\! Taip tu esi\!
+spouse.gifted.baby3=Gerai, palaikysiu.
+spouse.gifted.baby4=Ooo\! Ka\u017ekas \u010dia viduje man? Aa. Tai k\u016bdikis.
+spouse.gifted.baby5=Gerai. Duok j\u012f man.
+spouse.gifted.baby6=\u017diur\u0117k, jis turi mano akis\!
+spouse.gifted.baby7=O, negali laikyti k\u016bdikio? Gerai, tada duok man.
+
+spouse.joke.bad1=Um... Manau tu jau \u0161it\u0105 sakiai.
+spouse.joke.bad2=Ka\u017ek\u0105 pasakei visai be ry\u0161io.
+spouse.joke.bad3=Manau, kad tai nelegalu sakyti tokius juokelius.
+spouse.joke.bad4=Tai buvo...nuostabu...bra\u0161ke.
+spouse.joke.bad5=*Keistai nusi\u0161ypso*
+spouse.joke.bad6=*Priverstinis kikenimas*
+spouse.joke.bad7=...be ry\u0161io...
+
+spouse.joke.good1=O. Tu man \u0161ita sakei kai mes pirm\u0105 kart\u0105 susitikom.
+spouse.joke.good2=A\u0161 darvis atsimenu \u0161it\u0105\! Dar vis juokingas\!
+spouse.joke.good3=Ah, tu toks juokingas\!
+spouse.joke.good4=I\u0161 kur tu tokius trauki? Cha cha\!
+spouse.joke.good5=A\u0161 tikrai netur\u0117\u010diau i\u0161 \u0161ito juoktis, bet jis per daug juokingas\!
+
+spouse.procreate.refuse1=Ne, a\u0161 taip nemanau.
+spouse.procreate.refuse2=Tu turb\u016bt juokauji\!
+spouse.procreate.refuse3=Ne poto kai taip su manim pasielgei\!
+spouse.procreate.refuse4=Tu man vos patinki. A\u0161 nesiruo\u0161iu to daryti.
+spouse.procreate.refuse5=Taip, \u017einoma\! Elkis su manim bent kiek gra\u017eiau ir gal pagalvosiu.
+
+spouse.kiss.good1=Tu toks meilus.
+spouse.kiss.good2=A\u0161 tave irgi myliu.
+spouse.kiss.good3=Tu man per geras.
+spouse.kiss.good4=D\u0117kui, tai buvo nuostabu.
+spouse.kiss.good5=Kaip faina to sulaukti i\u0161 tav\u0119s\!
+
+spouse.kiss.bad1=Ne. A\u0161 tam \u0161iandien neturiu nuotaikos.
+spouse.kiss.bad2=Kod\u0117l tu nei i\u0161 \u0161io nei i\u0161 to man patapai geras?
+spouse.kiss.bad3=Eik bu\u010diuot karves.
+spouse.kiss.bad4=A\u0161 taip nemanau.
+spouse.kiss.bad5=Jau perv\u0117lu tam.
+spouse.kiss.bad6=Tavo nosis id\u016br\u0117 man \u012f ak\u012f\!
+spouse.kiss.bad7=Fui, buvo \u0161lapias ir nemalonus\!
+spouse.kiss.bad8=Tu tiesiog ne\u017einai kaip bu\u010diuotis.
+
+spouse.flirt.good1=Tu toks saldus pa\u0161nekovas.
+spouse.flirt.good2=*I\u0161rausta* Tu visa buvai \u0161ioks toks \u017eav\u0117tojas.
+spouse.flirt.good3=Oi\! Tu visai nepasikeitei su savo romantika nuo tos dienos kai susituok\u0117m.
+spouse.flirt.good4=Oo\! Tai taip miela i\u0161 tavo pus\u0117s\!
+spouse.flirt.good5=O dieve, jau\u010diuos \u0161iek tiek sug\u0117dinta.
+
+spouse.flirt.bad1=Niekas neturi tam laiko\!
+spouse.flirt.bad2=Kaip originalu.
+spouse.flirt.bad3=Galiu la\u017eintis, kad visiem tia sakai. Ne, a\u0161 rimtai. Galiu la\u017eintis.
+spouse.flirt.bad4=Neturiu tam nuotaikos.
+spouse.flirt.bad5=Tai dabar jau m\u0117gini su manim romanti\u0161kai? O tai kod\u0117l ne tada kai susitikin\u0117davom?
+
+spouse.tellstory.good1=Buvo geras\!
+spouse.tellstory.good2=Ir k\u0105 Cupquake dar\u0117 toliau?
+spouse.tellstory.good3=Tu irgi \u017ei\u016bri ChimneySwift11 "Minecraft Files"?\!
+spouse.tellstory.good4=*Nusjuokia* Tai primena man kai mama prisli\u016bkino prie man\u0119s, tik tada a\u0161 tvarkiaus.
+spouse.tellstory.good5=Oo, a\u0161 irgi noriu tokios dukros\!
+
+spouse.tellstory.bad1=Kod\u0117l tu man tai pasakoji?
+spouse.tellstory.bad2=Tiesiog noris apsiverkti...
+spouse.tellstory.bad3=*Ignoruoja tave*
+spouse.tellstory.bad4=Kod\u0117l tau TAI atrodo taip linksma?
+spouse.tellstory.bad5=Tu netur\u0117tum juoktis i\u0161 %RandomName%.
+
+spouse.greeting.handshake.good1=Man patinka tas jausmas kai m\u016bs\u0173 rankos susilie\u010dia.
+spouse.greeting.handshake.good2=Koks kvailiukas\!
+spouse.greeting.handshake.good3=Kaip tau \u0161iandien sekas, mielasis?
+spouse.greeting.handshake.good4=Kaip tau sekasi?
+spouse.greeting.handshake.good5=Sveika, mano meile.
+
+spouse.greeting.handshake.bad1=Fui, a\u0161 \u017einau kur tavo rankos buvo.
+spouse.greeting.handshake.bad2=Tavo rankos prakaituotos.
+spouse.greeting.handshake.bad3=Tiesiog rankos paspaudimas?
+spouse.greeting.handshake.bad4=Ne, tu vis\u0105 dien\u0105 buvai urvuose.
+spouse.greeting.handshake.bad5=Kvepia kaip...karv\u0117s?\!
+
+spouse.greeting.highfive.good1=B\u016bm \u0161akalaka\!
+spouse.greeting.highfive.good2=Auk\u0161tyn rankas\!
+spouse.greeting.highfive.good3=Duok\u0161 penkis\!
+spouse.greeting.highfive.good4=Kas gero?
+spouse.greeting.highfive.good5=Ooo taip\!
+
+spouse.greeting.highfive.bad1=\u010cia turb\u016bt did\u017eiausias kontaktas kok\u012f su tavim tur\u0117jau per vis\u0105 laik\u0105.
+spouse.greeting.highfive.bad2=Neturiu a\u0161 tau joki\u0173  penki\u0173.
+spouse.greeting.highfive.bad3=Tu toks vaiki\u0161kas.
+spouse.greeting.highfive.bad4=Au\! Tu man trenkei\!
+spouse.greeting.highfive.bad5=A\u0161 nesiruo\u0161iu liesti tavo rank\u0173.
+
+spouse.chore.start.cooking1=\u017dinoma\! I\u0161kepsiu bet k\u0105 k\u0105 paduosi.
+spouse.chore.start.cooking2=Taip, brangusis. Tuoj apssimsiu.
+spouse.chore.start.cooking3=Palik ir man \u0161iek tiek\! Visgi a\u0161 kepiau.
+spouse.chore.start.cooking4=A\u0161 irgi alkana\!
+spouse.chore.start.cooking5=Tikiuosi \u0161\u012f kart\u0105 nesudeginsiu...
+

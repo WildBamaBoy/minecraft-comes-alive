@@ -1,0 +1,2255 @@
+#X-Generator: crowdin.com
+#X-Generator: crowdin.net
+itemGroup.tabMCA=Minecraft Tuleb Ellu
+
+##########
+# Heir
+#############################
+heir.set.success=%Name& on n\u00fc\u00fcd sinu p\u00e4rija.
+heir.set.failure.alreadyset=Sa oled juba m\u00e4\u00e4ranud kellegi enda p\u00e4rijaks.
+heir.set.failure.sameperson=%Name% on juba sinu p\u00e4rija.
+heir.set.failure.alreadyused=%Name% on olnud juba sinu p\u00e4rija. Pead valima kellegi teise.
+
+heir.gui.requestcrown=Palu Krooni
+heir.gui.recoverinventory=Taasta varud
+
+heir.good.returncrown1=Olgu. See oli l\u00f5bus.
+heir.good.returncrown2=Muidugi, %CallPlayerParent%. Siin on sinu kroon.
+heir.good.returncrown3=R\u00f5\u00f5muga\! Oligi juba igavaks minemas.
+heir.good.returncrown4=Ainult viis minutit veel, palun? Hea k\u00fcll\!
+heir.good.returncrown5=Ma olen r\u00f5\u00f5mus, et see l\u00e4bi sai. Inimesed hakkasid mind juba vihkama\!
+
+heir.good.founditems1=Sa oled tagasi\! Ma arvasin et oled igaveseks l\u00e4inud. Siin on sinu asjad.
+heir.good.founditems2=Me leidsime sinu asjad ning arvasime et oled l\u00e4inud\! Siin, v\u00f5ta.
+heir.good.founditems3=Ma saatsin m\u00f5ned valvurid sind otsima. Nad t\u00f5id su asjad tagasi.
+heir.good.founditems4=Ma ei suuda uskuda et sa tagasi oled\! Me leidsime su asjad, Kuid mitte sind.
+
+##########
+# Information
+#############################
+information.doesnothing=Parajasti ei tee midagi.
+
+information.whistle.line1=Paremat hiireklahvi hoides
+information.whistle.line2=, et tuua su abikaasa ja
+information.whistle.line3=lapsi sulle.
+
+information.heircrown.line1=Kingitus sinu lapsele
+information.heircrown.line2=, et teha nad kuningaks/kuningannaks
+information.heircrown.line3=kui sa sured.
+
+information.weddingring.line1=Kink k\u00fclaelanikule, kelle
+information.weddingring.line2=s\u00fcdameid on vaja \u00fcle 100, et teha
+information.weddingring.line3=nemad su abikaasa.
+
+information.villagereditor.line1=Parema hiirekl\u00f5psuga vajuta k\u00fclaelaniku peal
+information.villagereditor.line2=, et muuta neid.
+
+information.tombstone.line1=Teha austusavalduseks
+information.tombstone.line2=surnud perekonna liikmele.
+
+information.lostrelativedocument.line1=Kasuta k\u00fclaelaniku peal, et teha neid
+information.lostrelativedocument.line2=sinu valitud suhtesse.
+
+information.engagementring.line1=Kingi k\u00fclaelanikule, siis kingi
+information.engagementring.line2=neile abielu s\u00f5rmus, et saada
+information.engagementring.line3=kinke teistelt k\u00fclaelanikelt.
+
+information.crown.line1=Valmista, et saada ainuvalitsejaks.
+
+information.baby.line1=Parema hiirekl\u00f5psuga vajuta maha, et
+information.baby.line2=kasvatada beebi lapseks
+information.baby.line3=, kui ta on valmis.
+
+information.arrangersring.line1=Kingi k\u00fclaelanikule, siis kingi j\u00e4rgmine
+information.arrangersring.line2=l\u00e4hedal olevale k\u00fclaelanikule, et korraldada
+information.arrangersring.line3=abielu nende vahel.
+
+information.villagerbed.line1=Aseta see voodi maha
+information.villagerbed.line2=ja l\u00e4hedal olev k\u00fclaelanik magab
+information.villagerbed.line3=selles \u00f6\u00f6sel.
+
+##########
+# Traits
+#############################
+gui.info.trait=Iseloom\: 
+trait.unknown=Tundmatu
+
+trait.none=Mitte\u00fchtegi
+trait.shy=H\u00e4belik
+trait.fun=L\u00f5bus
+trait.serious=T\u00f5sine
+trait.friendly=S\u00f5bralik
+trait.irritable=\u00c4rritatud
+trait.emotional=Emotsonaalne
+trait.outgoing=V\u00e4ljaminev
+
+##########
+# Moods
+#############################
+gui.info.mood=Tuju\: 
+
+mood.happy.ecstatic=Ekstaatiline
+mood.happy.cheerful=R\u00f5\u00f5mus
+mood.happy.happy=\u00d5nnelik
+mood.happy.fine=Korras
+mood.happy.okay=Olgu
+
+mood.neutral.passive=Passiivne
+
+mood.sadness.blue=Sinine
+mood.sadness.unhappy=Kurb
+mood.sadness.sad=Kurb
+mood.sadness.cheerless=R\u00f5\u00f5mutu
+mood.sadness.depressed=Masendunud
+
+mood.anger.annoyed=T\u00fc\u00fcdatud
+mood.anger.agitated=Erutatud
+mood.anger.mad=Kuri
+mood.anger.seething=Pulbitsev
+mood.anger.infuriated=Raevunud
+
+mood.fatigue.tired=V\u00e4sinud
+mood.fatigue.sleepy=Unine
+mood.fatigue.fatigued=V\u00e4sinud
+mood.fatigue.exhausted=V\u00e4sinud
+mood.fatigue.comatose=Koomas
+
+#######
+# Monarch
+#############################
+monarch.gui.button.interact.demandgift=N\u00f5ua kingitust
+monarch.gui.button.interact.execute=Hukkama
+monarch.gui.button.interact.makeknight=Tee r\u00fc\u00fctliks
+monarch.gui.button.interact.makepeasant=Tee talunikuks
+
+monarch.knight.follow.start1=\u00dcksk\u00f5ik mida sulle, mu %MonarchTitle%.
+monarch.knight.follow.start2=Ma pakun teile seltsi igal pool, teie k\u00f5rgeausus.
+monarch.knight.follow.start3=Relvad valmis\!
+monarch.knight.follow.start4=Sinu k\u00e4su peale.
+monarch.knight.follow.start5=Kuidas soovid.
+
+monarch.knight.follow.stop1=Ma olen olemas igal ajal, minu %MonarchTitle%.
+monarch.knight.follow.stop2=Kuidas sa soovid, sinu k\u00f5rgus.
+monarch.knight.follow.stop3=Ma j\u00e4tkan oma kohustustega.
+
+monarch.knight.follow.refuse1=Ma ei teeks midagi halba %MonarchPlayerName%ile\!
+monarch.knight.follow.refuse2=Ma olen vande andnud %MonarchPlayerName%ile.
+monarch.knight.follow.refuse3=Ma olen %MonarchPlayerName% r\u00fc\u00fctel.
+
+monarch.execute.failure.noweapon=Sul ei ole relva, millega seda inimest hukata.
+monarch.execute.failure.playerspouse=Sa ei saa hukkata m\u00e4ngija abikaasa.
+
+monarch.makepeasant.success=See inimene on n\u00fc\u00fcd talunik, kes kuulub sulle. Ta teeb sinu jaoks t\u00f6id tasuta.
+monarch.makepeasant.failure.alreadypeasant=See inimene on m\u00f5nele teisele monarhile kuuluv talunik.
+monarch.makepeasant.failure.playerspouse=M\u00e4ngija abikaasa ei saa teha talunaiseks.
+
+monarch.makeknight.success=See valvur on n\u00fc\u00fcd r\u00fc\u00fctel sinu alluvuses.
+monarch.makeknight.failure.alreadyknight=See valvur on juba r\u00fc\u00fctel teisel ainuvalitsejal.
+monarch.makeknight.failure.playerspouse=M\u00e4ngija abikaasat ei saa teha r\u00fc\u00fctliks.
+
+monarch.title.knight.male=R\u00fc\u00fctel %Name%
+monarch.title.knight.female=R\u00fc\u00fctel %Name%
+monarch.title.knight.male.otherplayer=(%MonarchPlayerName% r\u00fc\u00fctel)
+monarch.title.knight.female.otherplayer=(%MonarchPlayerName% r\u00fc\u00fctel)
+
+monarch.title.peasant.male.owner=(Talupoeg)
+monarch.title.peasant.female.owner=(Talupoeg)
+monarch.title.peasant.male.otherplayer=(%MonarchPlayerName% talupoeg)
+monarch.title.peasant.female.otherplayer=(%MonarchPlayerName% talupoeg)
+
+monarch.title.monarch=Ainuvalitseja
+monarch.title.heir=P\u00e4rija
+monarch.title.male.player=Kuningas
+monarch.title.male.heir=Prints
+monarch.title.female.player=Kuninganna
+monarch.title.female.heir=Printsess
+
+monarch.demandgift.accept1=Muidugi, sinu k\u00f5rgus\!
+monarch.demandgift.accept2=\u00dcksk\u00f5ik mida teile, teie K\u00f5rgeausus.
+monarch.demandgift.accept3=Midaiganes sulle, mu %MonarchTitle%\!
+monarch.demandgift.accept4=Jah, mu %MonarchTitle%.
+monarch.demandgift.accept5=See oleks minu au Kullata sind \u00fcle rikkustega, minu %MonarchTitle%.
+monarch.demandgift.accept6=Selline kena %MonarchTitle% v\u00e4\u00e4rib palju kinke\!
+monarch.demandgift.accept7=Ma teen seda hea meelega, teie K\u00f5rgeausus.
+
+monarch.demandgift.toomany1=Mul ei ole endagi jaoks piisavalt\!
+monarch.demandgift.toomany2=Palun, ma olen juba nii palju andnud...
+monarch.demandgift.toomany3=Ma arvasin, et sa oled hooliv %MonarchTitle%, mitte kitsi.
+monarch.demandgift.toomany4=Sa ei kuulnud seda minult, inimesed m\u00f5tlevad sinust, kui t\u00fcrannist.
+monarch.demandgift.toomany5=Ma saan sulle anda vaid nii palju.
+monarch.demandgift.toomany6=Ma ei saa sulle palju anda... Sa oled mult liiga palju n\u00f5udnud.
+
+monarch.demandgift.dictator1=Unusta \u00e4ra\! Ma ei anna sulle enam mitte midagi\!
+monarch.demandgift.dictator2=Me oleme v\u00e4sinud sinu pidevatest k\u00e4skudest\! Ei\!
+monarch.demandgift.dictator3=Ei\! Aitab\!
+monarch.demandgift.dictator4=Meil on k\u00fcllalt sinu mitte kunagi l\u00f5ppevast ahnusest\!
+monarch.demandgift.dictator5=Tee mida tahad, aga ma ei anna sulle midagi muud\!
+
+#######
+# Names
+##############################
+name.male1=OMIT
+name.male2=OMIT
+name.male3=Adam
+name.male4=OMIT
+name.male5=Alan
+name.male6=Aleks
+name.male7=Allen
+name.male8=Andreas
+name.male9=Antoonio
+name.male10=Armando
+name.male11=Artur
+name.male12=Austin
+name.male13=Ben
+name.male14=Bill
+name.male15=Billy
+name.male16=Bradley
+name.male17=Brady
+name.male18=OMIT
+name.male19=OMIT
+name.male20=Brenden
+name.male21=Brent
+name.male22=Brian
+name.male23=Brice
+name.male24=OMIT
+name.male25=Caleb
+name.male26=Cameron
+name.male27=Kristopher
+name.male28=Cleveland
+name.male29=Cody
+name.male30=Colby
+name.male31=Collin
+name.male32=Colton
+name.male33=Corey
+name.male34=Coty
+name.male35=Dale
+name.male36=Damon
+name.male37=Dan
+name.male38=Dane
+name.male39=Danny
+name.male40=David
+name.male41=Derek
+name.male42=Devin
+name.male43=Donnie
+name.male44=Drew
+name.male45=Dylan
+name.male46=Edward
+name.male47=Eerik
+name.male48=Ethan
+name.male49=Evan
+name.male50=Fred
+name.male51=Gabe
+name.male52=Garrett
+name.male53=Gary
+name.male54=Kevin
+name.male55=Harris
+name.male56=Harry
+name.male57=Hayden
+name.male58=OMIT
+name.male59=Jackson
+name.male60=Jakob
+name.male61=Jake
+name.male62=James
+name.male63=OMIT
+name.male64=Jason
+name.male65=Jay
+name.male66=Jeremy
+name.male67=Jerry
+name.male68=Jim
+name.male69=Joe
+name.male70=John
+name.male71=Jon
+name.male72=Joosep
+name.male73=Josh
+name.male74=Justin
+name.male75=Kaden
+name.male76=Kent
+name.male77=Kevin
+name.male78=Leo
+name.male79=OMIT
+name.male80=Lewis
+name.male81=Liam
+name.male82=Lucas
+name.male83=Mac
+name.male84=Marcus
+name.male85=Mark
+name.male86=Martin
+name.male87=Mason
+name.male88=Matt
+name.male89=Matthew
+name.male90=Michael
+name.male91=Mike
+name.male92=Nathan
+name.male93=Nathaniel
+name.male94=Nick
+name.male95=Oliver
+name.male96=Oskar
+name.male97=Owen
+name.male98=Patrick
+name.male99=Peeter
+name.male100=Phil
+name.male101=Randy
+name.male102=Rey
+name.male103=Robert
+name.male104=Roger
+name.male105=Roy
+name.male106=Russ
+name.male107=Ryan
+name.male108=Scott
+name.male109=Seth
+name.male110=Shane
+name.male111=Shawn
+name.male112=Simon
+name.male113=Steve
+name.male114=OMIT
+name.male115=Tate
+name.male116=OMIT
+name.male117=Terry
+name.male118=Tim
+name.male119=Toby
+name.male120=Tom
+name.male121=Tommy
+name.male122=Tony
+name.male123=Trent
+name.male124=Tristan
+name.male125=Triston
+name.male126=Tyler
+name.male127=Tyson
+name.male128=Victor
+name.male129=Vincent
+name.male130=Will
+name.male131=William 
+
+name.female1=Addison
+name.female2=OMIT
+name.female3=Alexis
+name.female4=Alice
+name.female5=Alicia
+name.female6=Allie
+name.female7=Allison
+name.female8=Alis
+name.female9=Alma
+name.female10=Amelia
+name.female11=OMIT
+name.female12=Amy
+name.female13=Andrea
+name.female14=Angie
+name.female15=Anna
+name.female16=Anne
+name.female17=Arieanne
+name.female18=Ashley
+name.female19=OMIT
+name.female20=Ashton
+name.female21=Aspen
+name.female22=Aubrey
+name.female23=Aurora
+name.female24=OMIT
+name.female25=OMIT
+name.female26=Baylee
+name.female27=Brooke
+name.female28=Camilla
+name.female29=Kristiina
+name.female30=Kristi
+name.female31=Constance
+name.female32=Courtney
+name.female33=Cynthia
+name.female34=Dawn
+name.female35=OMIT
+name.female36=Diana
+name.female37=Donna
+name.female38=Elizabeth
+name.female39=Emery
+name.female40=Emily
+name.female41=Emma
+name.female42=OMIT
+name.female43=Erika
+name.female44=Eve
+name.female45=OMIT
+name.female46=Gracie
+name.female47=Gwen
+name.female48=Hanna
+name.female49=Hazel
+name.female50=Holly
+name.female51=Jaden
+name.female52=Jennifer
+name.female53=Jessica
+name.female54=Julia
+name.female55=Julie
+name.female56=Kaitlin
+name.female57=Katie
+name.female58=Kaylene
+name.female59=Kiana
+name.female60=Kimberly
+name.female61=Kristen
+name.female62=OMIT
+name.female63=Leslie
+name.female64=Linda
+name.female65=Lindsey
+name.female66=Lola
+name.female67=Lori
+name.female68=Lydia
+name.female69=Madison
+name.female70=Marisa
+name.female71=Megan
+name.female72=Melissa
+name.female73=Melody
+name.female74=Miranda
+name.female75=Molly
+name.female76=Nickie
+name.female77=Nicole
+name.female78=OMIT
+name.female79=Penny
+name.female80=Rachel
+name.female81=Robin
+name.female82=Rosa
+name.female83=Rosalie
+name.female84=Sarah
+name.female85=Serenity
+name.female86=Sharon
+name.female87=Shayla
+name.female88=Sherry
+name.female89=Sheryl
+name.female90=Skylar
+name.female91=Sofia
+name.female92=Sonya
+name.female93=Stacey
+name.female94=Steph
+name.female95=Stephanie
+name.female96=Sylvia
+name.female97=OMIT
+name.female98=Valerie
+name.female99=Vannessa
+name.female100=Veronica
+name.female101=Whitney
+
+#######
+# Multiplayer
+##############################
+multiplayer.command.error.parameter=Parameetri viga. Kasutus\: 
+multiplayer.command.error.unknown=Tundmatu viga ilmnes.
+multiplayer.command.error.playeroffline=See m\u00e4ngija ei ole sellesse serverisse sisse logitud.
+
+multiplayer.command.output.help=Minecraft Elustub - K\u00e4sud
+multiplayer.command.output.setgender=Su sugu on n\u00fc\u00fcd\:
+multiplayer.command.output.setname=Su nimi on n\u00fc\u00fcd\:
+
+multiplayer.command.output.marry.noring=Sul ei ole abielu s\u00f5rmust. Sa ei saa abielluda teise m\u00e4ngijaga.
+multiplayer.command.output.marry.request=%TruePlayerName% tahab sinuga abielluda.
+multiplayer.command.output.marry.accept=Sa oled n\u00fc\u00fcd abielus %PlayerSpouseName%ga.
+multiplayer.command.output.marry.decline=Sinu abieluettepanek l\u00fckkati tagasi.
+multiplayer.command.output.marry.norequest=See m\u00e4ngija pole tahtnud abielluda sinuga.
+multiplayer.command.output.marry.otheralreadymarried=See m\u00e4ngija on juba abiellunud.
+multiplayer.command.output.marry.senderalreadymarried=Sa oled juba abiellunud.
+
+multiplayer.command.output.divorce.successful=Sa lahutasid oma praegusest abikaasast.
+
+multiplayer.command.output.havebaby.request=%PlayerSpouseName% sooviks saada last.
+multiplayer.command.output.havebaby.decline=Sinu soov saada last oli tagasi l\u00fckkatud.
+multiplayer.command.output.havebaby.limitreached=Sa oled j\u00f5udnud lapse limiidile mis on serveri administraatori poolt paika pandud.
+
+multiplayer.command.output.block.failed=See m\u00e4ngija on juba blokeeritud.
+multiplayer.command.output.block.successful=M\u00e4ngija \u00f5nnestunult blokeeritud.
+
+multiplayer.command.output.blockall.true.successful=K\u00f5ik abielu ettepanekud on n\u00fc\u00fcd blokeeritud.
+multiplayer.command.output.blockall.false.successful=Sa saad abielu ettepanekui uuesti.
+
+multiplayer.command.output.unblock.failed=See m\u00e4ngija pole blokeeritud.
+multiplayer.command.output.unblock.successful=M\u00e4ngija \u00f5neestunult blokerritud.
+
+multiplayer.command.output.unblockall.successful=K\u00f5ik blokeeritud m\u00e4ngijad on n\u00fc\u00fcd mitte blokeeritud.
+
+multiplayer.interaction.reject.spouse=Sa ei saa kontrollida teise m\u00e4ngija abikaasat.
+multiplayer.interaction.reject.child=Sa ei saa kontrollida teise m\u00e4ngija last.
+
+#######
+# Achievements
+##############################
+achievement.charmer=\u00dcsna See V\u00f5lur
+achievement.getmarried=Kinniseotuks Saamine
+achievement.cookbaby=Teaduse Jaoks. Sa Koletis.
+achievement.havebabyboy=See on poiss\!
+achievement.havebabygirl=See on t\u00fcdruk\!
+achievement.growbaby=Nad kasvavad \u00fcles nii kiiresti
+achievement.farming=Tasuta T\u00f6\u00f6j\u00f5ud
+achievement.fishing=Peab P\u00fc\u00fcdma Need K\u00f5ik
+achievement.woodcutting=Puuraidur
+achievement.mining=Infiniminer
+achievement.huntkill=Naturaalselt S\u00fcndinud Tapja
+achievement.hunttame=Looduse S\u00f5ber
+achievement.growkid=T\u00e4iskasvanud Mees (V\u00f5i Naine)
+achievement.equipadult=Hambani Kaitsetud
+achievement.mobkills=Isiklik Ihukaitsja
+achievement.marrychild=Nendele Abiellumine
+achievement.havegrandchild=Vanavanem
+achievement.havegreatgrandchild=Mulla  vanune
+achievement.havegreatx2grandchild=Vanem kui muld
+achievement.havegreatx10grandchild=Mis on su saladus?
+achievement.hardcoresecret=Ma maksan su eest k\u00e4tte
+achievement.craftcrown=Tee Mind Kuningaks\!
+achievement.executevillager=Pea maha\!
+achievement.makeknight=See Ei Ole Male
+achievement.knightarmy=Kahek\u00fcmne Armee
+achievement.makepeasant=Head P\u00e4eva, Mu Isand
+achievement.peasantarmy=T\u00e4ida Mu K\u00e4sud
+achievement.nameheir=Kuninglikud Sugupuud
+achievement.killheir=Saab Olla Ainult \u00dcks
+achievement.monarchsecret=Ajalukku Minemas
+
+achievement.charmer.desc=Saa k\u00fclaelaniku s\u00fcdame sajaks v\u00f5i suuremaks.
+achievement.getmarried.desc=Abiellu k\u00fclaelanikuga.
+achievement.cookbaby.desc=Salajane Saavutus
+achievement.havebabyboy.desc=S\u00fcnnita \u00fcks beebipoiss.
+achievement.havebabygirl.desc=S\u00fcnnita \u00fcks beebit\u00fcdruk.
+achievement.growbaby.desc=Kasvata enda beebi lapseks.
+achievement.farming.desc=Pane lapse k\u00fcndima 100 plokki maad.
+achievement.fishing.desc=Pane lapse p\u00fc\u00fcdma 100 kala.
+achievement.woodcutting.desc=Pane lapse koguma 100 plokki puitu.
+achievement.mining.desc=Lase lapsel kaevandada 300 plokki.
+achievement.huntkill.desc=Pane lapse tapma 100 looma k\u00fcttimisega.
+achievement.hunttame.desc=Lase lapsel taltsutada 100 looma.
+achievement.growkid.desc=Kasvata enda lapse t\u00e4iskasvanuks.
+achievement.equipadult.desc=Anna enda t\u00e4iskasvanud lapsele t\u00e4is komplekti r\u00fc\u00fcd ja relva.
+achievement.mobkills.desc=Pane \u00fche t\u00e4iskasvanu tapma 50 koletist.
+achievement.marrychild.desc=Aita enda lapsel abielluda.
+achievement.havegrandchild.desc=Saa \u00fcks lapselaps.
+achievement.havegreatgrandchild.desc=Saa \u00fcks lapselapselaps.
+achievement.havegreatx2grandchild.desc=Saa \u00fcks lapselapselaps.
+achievement.havegreatx10grandchild.desc=Saa \u00fcks lapselapselapselapselapselapselapselapselapselaps.
+achievement.hardcoresecret.desc=Leia hardcore moodi saladuse.
+achievement.craftcrown.desc=Valmista \u00fcks kroon ja saa ainuvalitsejaks.
+achievement.executevillager.desc=Hukka \u00fcks k\u00fclaelanik.
+achievement.makeknight.desc=Tee valvurist r\u00fc\u00fctel.
+achievement.knightarmy.desc=Tee kahek\u00fcmneline r\u00fc\u00fctlite armee.
+achievement.makepeasant.desc=Tee \u00fchest k\u00fclaelanikust talupoeg.
+achievement.peasantarmy.desc=Tee kahek\u00fcmnest k\u00fclaelanikust talupojad.
+achievement.nameheir.desc=Pane sinu j\u00e4reltulija troonile.
+achievement.killheir.desc=Tappa enda j\u00e4reltulija, kui ta saab troonile.
+achievement.monarchsecret.desc=Salajane saavutus.
+
+#######
+# Items & Blocks
+##############################
+item.ring.arranger.name=Korraldaja S\u00f5rmus
+item.ring.engagement.name=Kihlamiss\u00f5rmus
+item.ring.wedding.name=Abielus\u00f5rmus
+item.baby.boy.name=Beebipoiss
+item.baby.girl.name=Beebit\u00fcdruk
+item.egg.male.name=Kudu \u00dcks Meessoost K\u00fclaelanik
+item.egg.female.name=Kudu \u00dcks Naissoost K\u00fclaelanik
+item.whistle.name=Vile
+item.editor.name=K\u00fclaelaniku Muutja
+item.lostrelativedocument.name=Kadunud Suhteline Raamat
+item.crown.name=Kroon
+item.heircrown.name=P\u00e4rija Kroon
+item.tombstone.name=Hauakivi
+item.kingscoat.name=Ainuvalitseja Mantel
+item.kingspants.name=Ainuvalitseja P\u00fcksid
+item.kingsboots.name=Ainuvalitseja Saapad
+item.redcrown.name=Punane Kroon
+item.bluecrown.name=Sinine Kroon
+item.greencrown.name=Roheline Kroon
+item.pinkcrown.name=Roosa Kroon
+item.purplecrown.name=Lilla Kroon
+item.redbed.name=Punane Voodi
+item.bluebed.name=Sinine Voodi
+item.greenbed.name=Roheline Voodi
+item.pinkbed.name=Roosa Voodi
+item.purplebed.name=Lilla Voodi
+block.tombstone.name=Hauakivi
+
+#######
+# Professions
+##############################
+profession.baker.male=Pagar %Name%
+profession.baker.female=Pagar %Name%
+profession.butcher.male=Lihunik %Name%
+profession.butcher.female=Lihunik %Name%
+profession.farmer.male=Farmer %Name%
+profession.farmer.female=Farmer %Name%
+profession.guard.male=Valvur %Name%
+profession.guard.female=Valvur %Name%
+profession.librarian.male=Raamatukoguhoidja %Name%
+profession.librarian.female=Raamatukoguhoidja %Name%
+profession.miner.male=Kaevur %Name%
+profession.miner.female=Kaevur %Name%
+profession.priest.male=Kiriku\u00f5petaja %Name%\n
+profession.priest.female=Kiriku\u00f5petaja %Name%
+profession.smith.male=Sepp %Name%
+profession.smith.female=Sepp %Name%
+profession.playerchild.male=%Name% Lapse nimi
+profession.playerchild.female=%Name% Lapse nimi
+
+#######
+# Family Member Titles
+##############################
+family.aunt=T\u00e4di
+family.brother=Vend
+family.cousin.male=N\u00f5bu
+family.cousin.female=N\u00f5bu
+family.daughter=T\u00fctar
+family.father.formal=Isa
+family.father.informal=Issi
+family.fiance.male=Peigmees
+family.fiance.female=Pruut
+family.granddaughter=Lapselaps
+family.grandson=pojapoeg
+family.greatgranddaughter=Vana x%Generation% Vanat\u00fctar
+family.greatgrandson=Vana x%Generation% Vanapoeg
+family.grandfather=Vanaisa
+family.greatgrandfather=Vana x%Generation% Vanaisa
+family.grandmother=Vanaema
+family.greatgrandmother=Vana x%Generation% Vanaema
+family.husband=Abikaasa
+family.mother.formal=Ema
+family.mother.informal=Emme
+family.nephew=\u00f5e/vennapoeg
+family.niece=\u00f5et\u00fctar
+family.none=None
+family.sister=\u00d5de
+family.son=Poeg
+family.uncle=Onu
+family.wife=Naine
+
+#######
+# GUI Elements
+##############################
+
+#Buttons
+gui.button.back=Tagasi
+gui.button.exit=V\u00e4lju
+gui.button.next=Edasi
+gui.button.yes=Jah
+gui.button.no=Ei
+gui.button.done=Valmis
+gui.button.ok=Olgu
+gui.button.random=Suvaline
+gui.button.trade=Kauplemine
+
+gui.button.setup.finish=L\u00f5peta
+gui.button.setup.gendermale=Sugu\: Mees
+gui.button.setup.genderfemale=Sugu\: Naine
+gui.button.setup.hidesleepingtag=Peida Magamise Tag\:
+gui.button.setup.overwritetestificates=\u00dclekirjutamise Tunnistus\: 
+gui.button.setup.growchildrenautomatically=Lapsed Kasvavad Automaatselt\: 
+gui.button.setup.displaymoodparticles=Kuva tuju osakesi\: 
+gui.button.setup.shownametags=N\u00e4ita nime silte\: 
+gui.button.setup.preference=Eelistus\: 
+
+gui.button.setup.males=Mehed
+gui.button.setup.females=Naised
+
+gui.editor.name=Nimi
+gui.editor.name.invalid=See nimi koosneb mittekehtivatest t\u00e4htedest.
+gui.button.editor.texture=Tekstuur\:
+gui.button.editor.title=Tiitel\:\u00a0
+gui.button.editor.mood=Tuju\:
+gui.button.editor.trait=Iseloom\: 
+
+gui.button.interact.interact=M\u00f5juta
+gui.button.interact.chat=Vestle
+gui.button.interact.joke=Tee nalja
+gui.button.interact.gift=Kingitus
+gui.button.interact.kiss=Suudle
+gui.button.interact.flirt=Flirdi
+gui.button.interact.tellstory=R\u00e4\u00e4gi lugu
+gui.button.interact.play=M\u00e4ngi
+gui.button.interact.greet.handshake=Suru K\u00e4tt
+gui.button.interact.greet.highfive=Viska viis
+gui.button.interact.follow=J\u00e4rgne mulle
+gui.button.interact.followstop=L\u00f5peta j\u00e4rgnemine
+gui.button.interact.stay=J\u00e4\u00e4 paigale
+gui.button.interact.staystop=Liigu
+gui.button.interact.sethome=M\u00e4\u00e4ra koduks
+gui.button.interact.takearrangerring=V\u00f5ta korraldaja s\u00f5rmus
+gui.button.interact.takegift=V\u00f5ta kingitus
+gui.button.interact.ridehorse=S\u00f5ida hobusega
+gui.button.interact.dismount=Jalastu
+
+gui.button.interact.player.asktomarry=K\u00fcsi Kihlamist
+gui.button.interact.player.havebaby=S\u00fcnnita
+gui.button.interact.player.accept=N\u00f5utu
+gui.button.interact.player.decline=Keeldu
+
+gui.button.special=Eriline
+gui.button.special.priest.divorcespouse=Lahuta abikaasast
+gui.button.special.priest.divorcecouple=Lahuta paar
+gui.button.special.priest.divorcecouple.nonefound=Paare pole leitud.
+gui.button.special.priest.divorce=Lahuta
+gui.button.special.priest.giveupbaby=Loobu beebist
+gui.button.special.priest.adoptbaby=Adopteeri beebi
+gui.button.special.priest.adoptchild=Lapsenda laps
+gui.button.special.priest.arrangedmarriage=Korralda abielu
+gui.button.special.guard.hire=Palka
+gui.button.special.guard.dismiss=Vallanda
+gui.button.special.miner.hire=Palka
+gui.button.special.miner.dismiss=Vallanda
+gui.button.special.baker.aid=N\u00f5ua abi
+gui.button.special.butcher.aid=N\u00f5ua abi
+gui.button.special.farmer.aid=N\u00f5ua abi
+gui.button.special.librarian.setup=Ava Setup
+
+gui.button.spouse.cookfood=K\u00fcpseta Toitu
+gui.button.spouse.stopcooking=L\u00f5peta K\u00fcpsetamine
+gui.button.spouse.inventory=Inventuur
+gui.button.spouse.procreate=Tee laps
+gui.button.spouse.migrate=Migreeru
+
+gui.button.child.inventory=Inventoor
+gui.button.child.chores=T\u00f6\u00f6d
+gui.button.child.stopchore=L\u00f5peta t\u00f6\u00f6
+gui.button.child.growup=Kasva suureks
+
+gui.button.chore.farming=P\u00f5lluharimine
+gui.button.chore.farming.method=Meetod\: 
+gui.button.chore.farming.method.create=Tee Farm
+gui.button.chore.farming.method.maintain=Hoolda Farmi
+gui.button.chore.farming.plant=Istuta\: 
+gui.button.chore.farming.plant.wheat=Nisu\t
+gui.button.chore.farming.plant.melon=Melon
+gui.button.chore.farming.plant.pumpkin=K\u00f5rvits
+gui.button.chore.farming.plant.carrot=Porgand
+gui.button.chore.farming.plant.potato=Kartul
+gui.button.chore.farming.plant.sugarcane=Suhkruroog
+gui.button.chore.farming.farmsize=Farmi suurus\: 
+gui.button.chore.farming.radius=Raadius\: 
+gui.button.chore.fishing=kalastamine
+gui.button.chore.combat=V\u00f5itlus
+gui.button.chore.combat.sentry=Tunnimees\: 
+gui.button.chore.combat.sentry.radius=Raadius\: 
+gui.button.chore.combat.sentry.position.set=Sea tunnimehe asukoht
+gui.button.chore.combat.method=Meetod\:
+gui.button.chore.combat.method.range=Kaugrelvastus ainult
+gui.button.chore.combat.method.melee=L\u00e4hirelvastus ainult
+gui.button.chore.combat.method.both=Vibu & M\u00f6\u00f6k
+gui.button.chore.combat.method.neither=\u00c4ra v\u00f5itle
+gui.button.chore.combat.attack.pig=R\u00fcnda Siga\:
+gui.button.chore.combat.attack.sheep=R\u00fcnda lammast\:
+gui.button.chore.combat.attack.cow=R\u00fcnda Lehmi\: 
+gui.button.chore.combat.attack.chicken=R\u00fcnda Kanasi\:
+gui.button.chore.combat.attack.spider=R\u00fcnda \u00c4mblikuid\:
+gui.button.chore.combat.attack.zombie=R\u00fcnda Zombisi\:
+gui.button.chore.combat.attack.skeleton=R\u00fcnda Skeletone\:
+gui.button.chore.combat.attack.creeper=R\u00fcnda Creepereid\:
+gui.button.chore.combat.attack.enderman=R\u00fcnda L\u00f5pumeest\:
+gui.button.chore.combat.attack.unknown=R\u00fcnda Tundmatu\:
+gui.button.chore.woodcutting=Puuraidumine
+gui.button.chore.woodcutting.treetype=Puut\u00fc\u00fcp\: 
+gui.button.chore.woodcutting.treetype.all=K\u00f5ik
+gui.button.chore.woodcutting.treetype.oak=Tamm
+gui.button.chore.woodcutting.treetype.spruce=Kuusk
+gui.button.chore.woodcutting.treetype.birch=Kask
+gui.button.chore.woodcutting.treetype.jungle=D\u017eunglipuu
+gui.button.chore.mining=Kaevandamine
+gui.button.chore.mining.method=Meetod\: 
+gui.button.chore.mining.method.passive=Passiivne
+gui.button.chore.mining.method.active=Aktiivne
+gui.button.chore.mining.direction=Suund\: 
+gui.button.chore.mining.direction.forward=Ette
+gui.button.chore.mining.direction.backward=Taha
+gui.button.chore.mining.direction.left=Vasakule
+gui.button.chore.mining.direction.right=Paremale
+gui.button.chore.mining.distance=kaugus\: 
+gui.button.chore.mining.find=Otsi\: 
+gui.button.chore.mining.find.coal=S\u00fcsi
+gui.button.chore.mining.find.iron=Raud
+gui.button.chore.mining.find.lapis=Lasuriit
+gui.button.chore.mining.find.gold=Kuld
+gui.button.chore.mining.find.diamond=Teemand
+gui.button.chore.mining.find.redstone=Punakivi
+gui.button.chore.mining.find.emerald=Smaragd
+gui.button.chore.hunting=K\u00fcttimine
+gui.button.chore.hunting.mode=\  Mood\:
+gui.button.chore.hunting.mode.kill=Tappa
+gui.button.chore.hunting.mode.tame=Taltsuta
+gui.button.chore.start=Alusta
+
+gui.button.hiring.hours=Tunde\: 
+
+gui.button.lostrelativedocument.generation=Generatsioon\: %Generation%
+
+#Titles
+gui.title.setup=Minecraft \u00e4rkab ellu situatsioon
+gui.title.setup.name=Sisesta oma nimi.
+gui.title.setup.gender=Vali oma sugu.
+gui.title.setup.options=Seadistuste valikud.
+
+gui.title.inventory=%Name% inventuur\n
+
+gui.title.namebaby=Nimi sinu lapsele\:
+gui.title.namebaby.male=See on poiss\!
+gui.title.namebaby.female=See on t\u00fcdruk\!
+
+gui.title.priest.divorcecouple=Vali paar keda sa tahad lahutada.
+
+gui.title.tombstone=Muuda hauakivi s\u00f5numit\:
+
+gui.title.special.hired=(Palgatud)
+
+gui.title.lostrelativedocument=Vali soovitud suhe %Name% endale.
+gui.title.lostrelativedocument.confirm=\  Kas sa oled kindel et sa tahad %Name% saaks\:
+
+#Information
+gui.info.hearts=S\u00fcdamed
+
+gui.info.special.none=Sellel kuttil ei ole midagi spetsiaalset.
+
+gui.info.family.parents=(%ChildTitle% %MotherName% ja %FatherName%)
+gui.info.family.parents.deceased=(Vanemad Surnud)
+gui.info.family.parent=(%ChildTitle% on %LivingParent% laps)
+
+gui.info.family.spouse=(Abielus %SpouseRelation% %VillagerSpouseName%ga)
+gui.info.family.spouse.unrelated=(Abielus %SpouseFullName% iga)\n
+
+gui.info.namebaby.invalidcharacters=Beebi nimi koosneb vigastest m\u00e4rkidest.
+gui.info.namebaby.nametaken=Sul on juba laps sellise nimega.
+
+gui.info.procreate.confirm1=Sa ei saa lapsi teha, kui oled kihlatud.
+gui.info.procreate.confirm2=Sa pead kinkima abielus\u00f5rmuse sellele k\u00fclaelanikule.
+
+gui.info.chore.options=Seaded\:
+gui.info.chore.options.none=seal ei ole kohandatavaid seadeid selle t\u00f6\u00f6 jaoks.
+gui.info.chore.experience=Kogemuse Tase\:
+
+gui.info.hire.price=Selle k\u00fclaelaniku palkamine maksab %x% kulda.
+gui.info.hire.hasgold=Sul on piisavalt kulda.
+gui.info.hire.notenoughgold=Sul ei ole piisavalt kulda.
+gui.info.hire.minutesremaining=%x% minutit j\u00e4rel.
+
+gui.info.hardcoresecret.prompt=Sa v\u00f5id taass\u00fcndida m\u00f5ne oma lapsena kui sul on m\u00f5ni.
+gui.info.hardcoresecret.nochildren=Pole lapsi\!
+gui.info.hardcoresecret.spawnas=Taass\u00fcnni\:
+gui.info.hardcoresecret.respawn=Taass\u00fcnni lapsena
+
+#Overhead
+gui.overhead.hasgift=Kingitus saadaval
+gui.overhead.hasring=Hoiab korraldaja s\u00f5rmust
+gui.overhead.sleeping=Magab
+gui.overhead.health=Tervis\: 
+
+#######
+# Notifications/One Liners
+##############################
+notify.player.married=Sina ja %Name% olete n\u00fc\u00fcd abielus.
+notify.player.engaged=Sa oled n\u00fc\u00fcd kihlatud %Name% ga.
+notify.player.droppedbaby=See on paha idee.
+notify.player.clickbed=Sa ei saa seda voodit kasutada.
+
+notify.horse.invalid=Ma ei saa selle hobusega s\u00f5ita.
+notify.horse.notfound=Eh...mis hobust sa tahad et ma s\u00f5idaksin? Too see mulle.
+
+notify.villager.married=Need k\u00fclaelanikud on n\u00fc\u00fcd abielus.
+notify.villager.gifted.cake.notenough=Mulle t\u00f5siselt meeldiks, kui mu abikaasal oleks kook ka...
+notify.villager.gifted.cake.withbaby.male=Minu naine ja mina otsustasime mitte s\u00fc\u00fca kooki enne kui meie laps kasvab.
+notify.villager.gifted.cake.withbaby.female=Minu abikaasa ja mina otsustasime mitte s\u00fc\u00fca kooki enne kui meie laps kasvab.
+notify.villager.gifted.cake.spousenotnearby.male=Kook? Too mu naine siia siis ma saan temaga seda jagada.
+notify.villager.gifted.cake.spousenotnearby.female=Kook? Mine kutsu mu abikaasa et ma saaks seda temage jagada.
+notify.villager.gifted.arrangerring.othernotnearby=...Mida? Siin ei ole kedagi.
+notify.villager.gifted.arrangerring.relative=Ma olen sinu %RelationToPlayer%.
+notify.villager.gifted.arrangerring.notenoughrings=Tundub, et sul ei ole piisavalt s\u00f5rmuseid  meie jaoks. Meil on vaja kahte, loomulikult\!
+notify.villager.gifted.arrangerring.invalidpartner=Ma ei saa abielluda %Name%\!
+
+notify.baby.gaveup=Sa v\u00f5id n\u00fc\u00fcd saada uue lapse.
+notify.baby.exists=Sul juba on laps.
+notify.baby.readytogrow=Su laps on valmis \u00fcles kasvama.
+notify.baby.cooked=Mis sul viga on\!?
+
+notify.divorce.spousemissing=Su abikaasa ei olnud l\u00e4heduses, siis ei saa sa oma asju talt.
+notify.arrangedmarriage.failed=L\u00e4heduses ei ole kedagi, kes oleks n\u00f5us sinuga abielluma.
+
+notify.death.male=%Name%, sinu %RelationToPlayer%, suri.
+notify.death.female=%Name%, sinu %RelationToPlayer%, suri.
+
+notify.homepoint.set=See inimene s\u00fcnnib n\u00fc\u00fcd \u00f6\u00f6sel siia.
+notify.homepoint.none=%Name% 'l pole s\u00fcnnikohta veel seatud.
+notify.homepoint.invalid=See s\u00fcnnikoht on vale.
+notify.homepoint.obstructed=%Name% kodu on takistatud.
+notify.homepoint.teleport.skip.following=%Name% j\u00e4litab sind. Nad ei teleporteeru t\u00e4na koju.
+notify.homepoint.teleport.skip.staying=%Name% seisab.Ta ei telepordi koju.
+
+notify.item.broken.axe=%Name% kirves purunes.
+notify.item.broken.boots=%Name% saapad purunesid.
+notify.item.broken.chestplate=%Name% rinnaplaat purunes.
+notify.item.broken.fishingrod=%Name%'i \u00f5ng l\u00e4ks katki.
+notify.item.broken.helmet=%Name%'i kiiver purunes.
+notify.item.broken.leggings=%Name% s\u00e4\u00e4rised purunesid.
+notify.item.broken.pickaxe=%Name% Kirka purunes.
+notify.item.broken.sword=%Name% m\u00f5\u00f5k purunes\n\n
+notify.item.broken.hoe=%Name% vikat purunes.
+notify.item.broken.bow=%Name% vibu purunes.
+
+notify.child.chore.finished.farming=Ma olen l\u00f5ppetanud maaharimise.
+notify.child.chore.finished.fishing=Ma olen l\u00f5ppetanud kalastamise.
+notify.child.chore.finished.woodcutting=Ma olen l\u00f5ppetanud puidu raiumise.
+notify.child.chore.finished.mining=Ma olen l\u00f5ppetanud kaevandamise.
+notify.child.chore.finished.hunting=Ma l\u00f5petasin k\u00fcttimise.
+
+notify.child.chore.levelup.farming.5=%Name% on j\u00f5udnud 5. tasemini farmimises. Ta n\u00fc\u00fcd saab palju rohkem seemneid, kui ta kogub nisu.
+notify.child.chore.levelup.farming.10=%Name% on j\u00f5udnud 10. tasemini farmimises. Ta n\u00fc\u00fcd liigub kiiremini, kui ta s\u00e4litab ja teeb farme.
+notify.child.chore.levelup.farming.15=%Name% on j\u00f5udnud 15. tasemini farmimises. Ta n\u00fc\u00fcd kogub 1-3 v\u00f5rra rohkem vilja igast t\u00fc\u00fcbist.
+notify.child.chore.levelup.farming.20=%Name% on j\u00f5udnud 20. tasemini farmimises. Tal on n\u00fc\u00fcd v\u00f5imalus, et ta hetkeliselt kahekordistab enda saagi.
+
+notify.child.chore.levelup.fishing.5=%Name% on j\u00f5udnud 5. tasemini kalap\u00fc\u00fcgis. Ta n\u00fc\u00fcd saab p\u00fc\u00fcda kala kiiremini ja kaks korda tihti.
+notify.child.chore.levelup.fishing.10=%Name% on j\u00f5udnud 10. tasemini kalap\u00fc\u00fcgis. Ta n\u00fc\u00fcd leiab tavalisi aareid kala p\u00fc\u00fcdmise ajal.
+notify.child.chore.levelup.fishing.15=%Name% on j\u00f5udnud 10. tasemini kalap\u00fc\u00fcgis. Ta n\u00fc\u00fcd saab p\u00fc\u00fcda kala palju kiiremini kolm korda rohkem tihti.
+notify.child.chore.levelup.fishing.20=%Name% on j\u00f5udnud 10. tasemini kalap\u00fc\u00fcgis. Ta n\u00fc\u00fcd leiad harva leitavaid aareid kalap\u00fc\u00fcgil.
+
+notify.child.chore.levelup.hunting.5=%Name% on j\u00f5udnud level 5 k\u00fcttimises. N\u00fc\u00fcd nad saavad tuua tagasi rohkem loomi kui nad taltsutavad, ilma ressurse kasutamata.
+notify.child.chore.levelup.hunting.10=%Name% on j\u00f5udnud level 10 k\u00fcttimises. Nad ei ole enam ohus, et surra k\u00fcttimise ajal.
+notify.child.chore.levelup.hunting.15=%Name% on j\u00f5udnud level 15 k\u00fcttimises. Nad toovad n\u00fc\u00fcd palju rohkem liha tagasi k\u00fcttimiselt.
+notify.child.chore.levelup.hunting.20=%Name%  on j\u00f5udnud 20 tasemele jahipidamises. Nad tulevad n\u00fc\u00fcd alati tagasi p\u00e4rast 1 minutit k\u00fcttimist.
+
+notify.child.chore.levelup.mining.5=%Name% on n\u00fc\u00fcd kaevandamisel tase 5. Nad kaevavad n\u00fc\u00fcd plokke kiiremini.
+notify.child.chore.levelup.mining.10=%Name% on n\u00fc\u00fcd kaevandamisel tase 10. Nad kaevavad n\u00fc\u00fcd plokke kiiremini. 
+notify.child.chore.levelup.mining.15=%Name% on n\u00fc\u00fcd kaevandamisel tase 15. Nad kaevavad n\u00fc\u00fcd plokke kiiremini.
+notify.child.chore.levelup.mining.20=%Name% on n\u00fc\u00fcd kaevandamisel tase 20. Nad kaevavad n\u00fc\u00fcd plokke kiiremini.
+
+notify.child.chore.levelup.woodcutting.5=%Name% on j\u00f5udnud tasemele 5 puude langetamises. Ta liigub n\u00fc\u00fcd langetades kiiremini.
+notify.child.chore.levelup.woodcutting.10=%Name% on j\u00f5udnud tasemele 10 puude langetamises. Ta langetab n\u00fc\u00fcd puid kiiremini iga kirvega.
+notify.child.chore.levelup.woodcutting.15=%Name% on j\u00f5udnud tasemele 15 puude langetamises. Tal on n\u00fc\u00fcd v\u00f5imalus saada 2 palku iga l\u00f5igatud palgi kohta.
+notify.child.chore.levelup.woodcutting.20=%Name% on j\u00f5udnud tasemele 20 puude langetamises. Ta saab n\u00fc\u00fcd 3 palki iga l\u00f5igatud palgi kohta.
+
+notify.child.chore.interrupted.farming.noseeds=Mul pole piisavalt seemneid\!
+notify.child.chore.interrupted.farming.noland=Ma ei n\u00e4e mulda v\u00f5i muru\!
+notify.child.chore.interrupted.farming.nofarmland=Sa tahtsid et ma ainult kastutan p\u00f6llumaad.Kus see asub?
+notify.child.chore.interrupted.farming.noroom=Mul ei olnud piisavalt ruumi, et p\u00f5lluharimist l\u00f5ppetada.
+notify.child.chore.interrupted.farming.noselection=Sa pole m\u00e4rkistand mulle ala harida.
+notify.child.chore.interrupted.farming.nohoe=Mul pole k\u00f5blast.
+notify.child.chore.interrupted.fishing.nowater=Ma ei n\u00e4e l\u00e4hedal \u00fcldse vett\!
+notify.child.chore.interrupted.fishing.norod=Mul ei ole \u00f5nge\!Ma ei saa neid p\u00fc\u00fcda k\u00e4tega.
+notify.child.chore.interrupted.mining.noblocks=Ma ei n\u00e4e \u00fchtegi plokki mida kaevandada.
+notify.child.chore.interrupted.mining.nopickaxe=Mul ei ole kirkat\!
+notify.child.chore.interrupted.mining.tookdamage=%Name% sai kaevandades haiget. Ta on naasnenud tagasi kohta ,kus ta kaevandamist alustas.
+notify.child.chore.interrupted.woodcutting.notrees=Ma ei n\u00e4e puid.
+notify.child.chore.interrupted.hunting.notamematerials=Mul ei ole midagi millega loomi taltsutada.
+
+notify.child.chore.failed.hunting.death=%Name% suri jahtides.
+
+notify.child.chore.status.mining.orefound=M\u00f5ned %OreType%'id on%OreDistance% kasti kaugusel\!
+notify.child.chore.status.mining.orenearby=M\u00f5ned %OreType%'id on l\u00e4heduses...
+notify.child.chore.status.mining.oredistance=%OreDistance% meetri kaugusel, koordinaatidel %OreX%, %OreY%, %OreZ% on natuke %OreType%.
+
+notify.child.gifted.arrows=Oh, lahe\! Ma tahan midagi lasta\!
+notify.child.gifted.axe=N\u00fc\u00fcd mu rusikad ei valuta, kui ma puid raiun\!
+notify.child.gifted.fishingrod=N\u00fc\u00fcd ma saan kalale minna\!
+notify.child.gifted.hoe=See aitab mul p\u00f5llundada kiiremini\!
+notify.child.gifted.seeds=N\u00fc\u00fcd ma saan p\u00f5llundada\!
+notify.child.gifted.sword=See hoiab halvad eemal\!
+notify.child.gifted.wheat=Ma saaksin seda kasutada taltsutamiseks\!
+notify.child.gifted.pickaxe=N\u00fc\u00fcd ma saan kaevandada\!
+notify.child.gifted.carrot=Ma saaksin seda kasutada taltsutamiseks\!
+notify.child.gifted.bone=Ma saaksin seda kasutada taltsutamiseks\!
+
+notify.child.emptiedinventory=%Name% t\u00fchjendas oma inventuuri.
+notify.child.readytogrow=%Name% on valmis suureks kasvama.
+notify.child.growup=%Name% kasvas t\u00e4iskasvanuks.
+notify.child.ranaway=%Name% jooksis \u00e4ra.
+
+notify.spouse.gifted.anotherbaby=Ma juba hoian meie beebit.Kus sa selle  said\!?
+notify.spouse.chore.interrupted.cooking.nofurnace=Ma ei n\u00e4e ahju kuskil.
+notify.spouse.chore.interrupted.cooking.nofuel=Mul ei ole \u00fcldse k\u00fctust, et k\u00fcpsetada.
+
+notify.lostrelativedocument.success=%Name% on n\u00fc\u00fcd sinu %RelationToPlayer%.
+notify.lostrelativedocument.success.norelation=%Name% ei ole seotud sinuga enam.
+
+notify.monarch.began=Monarhi vastutused on n\u00fc\u00fcd sinu \u00f5lgadel.
+notify.monarch.resume=Sa oled taas monarh. Sinu eelmist p\u00e4rijat ei saa enam kasutada.
+notify.monarch.ended.noheir=Sa ei ole enam ainuvalitseja.
+notify.monarch.ended.withheir=Sa ei ole enam ainuvalitseja. Sinu p\u00e4rija v\u00f5ttis su koha.
+
+notify.hiring.complete=%Name%i palkamisperiood on l\u00f5ppenud.
+
+notify.update.turnedon=MCA n\u00fc\u00fcd otsib automaatselt uuendust.
+notify.update.turnedoff=MCA ei soovita uuendusi seni kuni ei ole v\u00e4ljastatud uut uuendust.
+
+#######
+# Parser Commands
+##############################
+parser.playerchild.adult.callplayerparent.male=Isa
+parser.playerchild.adult.callplayerparent.female=Ema
+parser.playerchild.adult.parentopposite.male=Ema
+parser.playerchild.adult.parentopposite.female=Isa
+
+parser.playerchild.young.callplayerparent.male=Issi
+parser.playerchild.young.callplayerparent.female=Emme
+parser.playerchild.young.parentopposite.male=Emme
+parser.playerchild.young.parentopposite.female=Issi
+
+#####################################################################################################
+#									              DIALOGUE											#
+#####################################################################################################
+
+#######
+# Profession-specific dialogue
+##############################
+guard.follow.refuse1=Ei,Mul on t\u00f6\u00f6d teha.
+guard.follow.refuse2=Ma ei saa lihstalt enda postist minna.
+guard.follow.refuse3=Sa tahad et ma k\u00f6nnin t\u00f6\u00f6lt \u00e4ra? Ei\!
+guard.follow.refuse4=Ei,juhul kui sa ei palka mind.
+guard.follow.refuse5=Ma olen vallandatud kui ma k\u00f5nnin minema\!
+
+guard.stay.refuse1=Ma olen patriollis.Ma ei saa seal seista.
+guard.stay.refuse2=Sa pole minu Boss.
+guard.stay.refuse3=Kas sa saad aru,et ma olen valvur
+guard.stay.refuse4=Minu t\u00f6\u00f6 on patrullida k\u00fcla,mitte seista lihtsalt.
+guard.stay.refuse5=Ma t\u00f6\u00f6tan pr\u00e4egu.Mind saab palgata muidu.
+
+smith.aid.prompt1=Ma saaks sinuga teha diili \u00fchel alasil. Tee mulle \u00fcks pakkumine. 
+smith.aid.prompt2=Mul on \u00fcks vana alas. Ma olen valmis osa loovutama...
+smith.aid.prompt3=Ma hakkan sepa t\u00f6\u00f6st \u00e4ra v\u00e4sima, nii et  mu alas on m\u00fc\u00fcgil.
+smith.aid.prompt4=Kas sa tahad \u00fchte alasit? Ma saaksin sulle enda oma anda, hinna eest.
+
+smith.aid.outofrange1=Anna teada kui sa tahad seda alasit osta.
+smith.aid.outofrange2=Tule tagasi ja \u00fctle kui sul on mulle pakkumine.
+
+smith.aid.alreadyaccepted1=Mul juba on mu alas. Seal pole midagi muud mis ma sulle teha saan.
+smith.aid.alreadyaccepted2=Sa ostsid mu alase. Tee enda parandamisi\!
+smith.aid.alreadyaccepted3=Mul pole teist alasid sulle m\u00fc\u00fca, vabandust.
+
+smith.aid.accept1=Ah\! See on hea summa. N\u00e4e v\u00f5tta.
+smith.aid.accept2=See sobib. Ole ettevaatlik, see on raske\!
+smith.aid.accept3=T\u00e4nan\! Siin on sinu alasi.
+smith.aid.accept4=\u00c4ra viska seda kellegi peale, sobib?
+
+smith.aid.refuse.rightitem1=Need on asjad mida ma tahaksin alasi jaoks. Kas on v\u00e4hekese veel asje mida saa saaksid mulle anda?
+smith.aid.refuse.rightitem2=Jah, need on t\u00e4pselt need mida ma vajan, aga sul pole neid piisavalt.
+smith.aid.refuse.rightitem3=Just mida mul vaja on\! Mul on veel m\u00f5nda vaja enne kui ma sulle anvili annan.
+smith.aid.refuse.rightitem4=Viska paar asja veel ja sa saad omale alase.
+
+smith.aid.refuse.wrongitem1=Ma ei taha seda vahetada alasega.
+smith.aid.refuse.wrongitem2=See pole t\u00e4pselt see mida ma otsisin. Kas sul on midagi teist?
+smith.aid.refuse.wrongitem3=EI... Ma tahan midagi teist kui sa ostad mu alase.
+smith.aid.refuse.wrongitem4=Ma pean saama midagi teist et maksta alase eest.
+
+priest.adopt.male1=Siin on sinu uus beebi. Ta nimi on %BabyName%.
+priest.adopt.male2=Ta on ilus, onju? Ta nimi on %BabyName%.
+priest.adopt.male3=Ma loodan et %BabyName% annab sulle l\u00f6bu tulevatel aastatel.
+priest.adopt.female1=Ta on ilus, on ta? Ta nimi on %BabyName%.
+priest.adopt.female2=Palun k\u00e4itu %BabyName% h\u00e4sti.Siin ta on.
+priest.adopt.female3=%BabyName% on nii armas, Nii kurb on teda minemas n\u00e4ha.
+
+priest.arrangemarriage1=Ma loodan, et sina ja %Name% leiate palju r\u00f5\u00f5mu koos.
+priest.arrangemarriage2=%PlayerName%, ma tahaksin, et sa kohtuksid %Name%'iga. Sa oled n\u00fc\u00fcd abielus.
+priest.arrangemarriage3=Kuidas soovid. Sa oled n\u00fc\u00fcd abielus %Name%'ga.
+
+generic.hire.accept1=Palju tanusid\! Ma teen mida iganes sa soovid.
+generic.hire.accept2=See on piisavalt. Ma t\u00f6\u00f6tan n\u00fc\u00fcd sinu heaks.
+generic.hire.accept3=Ma olen valmis t\u00f6\u00f6tama\! 
+generic.hire.accept4=Hakkame pihta\! Mis on minu esimene t\u00f6\u00f6?
+
+guard.hire.accept1=T\u00e4nan\!Ma olen n\u00fc\u00fcd su ihukaitsija.
+guard.hire.accept2=Ma t\u00f6\u00f6tan n\u00fc\u00fcd sinu jaoks.
+guard.hire.accept3=Sa oled n\u00fc\u00fcd mu Boss.
+guard.hire.accept4=Mis on minu esimene t\u00f6\u00f6,Boss?
+
+guard.hire.dismiss1=Vabandust et see ei l\u00e4inud plaanile. Ma l\u00e4hen tagasi mu eelmisele t\u00f5\u00f5le.
+guard.hire.dismiss2=Oli tore koos t\u00f6\u00f6tada sinuga
+guard.hire.dismiss3=Ma vaatan kas ma saan oma t\u00f5\u00f5d tagasi k\u00fclas.
+guard.hire.dismiss4=Tore,Ma olen j\u00e4lle t\u00f6\u00f6ta...
+
+butcher.aid.accept1=Muidugi\!Mul on piisavat liha,et jagada.
+butcher.aid.accept2=Siin on minu ekstra liha.
+butcher.aid.accept3=Siin on sulle v\u00e4rsket liha.
+
+butcher.aid.refuse1=Mul pole piisavalt et jagada,vabandust.
+butcher.aid.refuse2=Ma pean j\u00e4tma mis mul on nendele kes ostavad\!
+butcher.aid.refuse3=Ma ei saa sulle midagi anda praegu.
+
+baker.aid.accept1=Ma just k\u00fcpsetasin selle.Sa v\u00f5id selle saada.
+baker.aid.accept2=Ok, sa v\u00f5id v\u00f5tta selle. See on v\u00e4rskelt ehitatud.
+baker.aid.accept3=Mul on \u00fclej\u00e4\u00e4gid mis ei ostetud eile. Sa v\u00f5id \u00e4ra v\u00f5tta.
+
+baker.aid.refuse1=Mul pole midagi praegult, tule tagasi hiljem.
+baker.aid.refuse2=Ma k\u00fcpsetan asje praegult. Nas saavad valmis hiljem.
+baker.aid.refuse3=Mul oli sulle midagi aga ma kogematta p\u00f5letasin selle, vabandust.
+
+farmer.aid.accept1=Ma arvan,et ma saan laenutada m\u00f5ned asjad.V\u00f5tta.
+farmer.aid.accept2=Muidugi ma saan aidata.N\u00e4e v\u00f5tta.
+farmer.aid.accept3=Mul oli hea saak eile. V\u00f5ta ekstra asje.
+
+farmer.aid.refuse1=Vabandust, mul pole midagi mida ma saaksin sulle anda.
+farmer.aid.refuse2=Tule p\u00e4rast tagasi.Mul pole sulle praegu midagi.
+farmer.aid.refuse3=Vabandust.Mul pole midagi mida ma saan laenutada.
+
+miner.hire.accept1=T\u00e4nan\!Ma saan alustada kohe.
+miner.hire.accept2=Ma olen r\u00f5\u00f5mus ei sain sinuga liituda\! Kus hakkan mina kaevama?
+miner.hire.accept3=\u00c4itah et minu palkasid. Ma v\u00f5in alustada t\u00f6\u00f6d kohe.
+
+miner.hire.refuse1=Ma t\u00f5\u00f5tan viie kulla eest. Siis sa saad oma sada plokki.
+miner.hire.refuse2=Anna mulle viis kulda siis ma kaevandan sulle sada plokki.
+miner.hire.refuse3=Sul pole piisavalt kulda et mind palgata. Mul on vaja viis kulda et saaksid mu palkada saja plokki eest.
+
+miner.hire.finished1=See oli k\u00f5ik sada plokki. Mul k\u00f5ik.
+miner.hire.finished2=See oli sada plokki. Mu t\u00f6\u00f6 on tehtud.
+miner.hire.finished3=Ma kaevandasin sada plokki. Oli hea sinuga t\u00f6\u00f6tada.
+
+miner.hire.dismiss1=Sa saadad mu minema juba? Okei siis.
+miner.hire.dismiss2=Ma olen saadaval t\u00f6\u00f6 jaoks kui sul on kulda.
+miner.hire.dismiss3=Ma l\u00e4hen siis tagasi k\u00fclasse.
+
+miner.chore.finished1=Ma l\u00f5petasin selle mida sa \u00fctlesid mulle.
+miner.chore.finished2=Ma olen valmis et rohkem t\u00f6\u00f6d teha.
+miner.chore.finished3=Ma olen l\u00f5petanud selle t\u00f6\u00f6ga.
+
+miner.chore.start1=Ma l\u00e4hen teen seda kohe, boss.
+miner.chore.start2=Jah,Boss.
+miner.chore.start3=Ma hakkan t\u00f6\u00f6d tegema kohe.
+
+miner.dropallitems1=N\u00e4e v\u00f5tta.
+miner.dropallitems2=Siin on sinu jagu, boss.
+miner.dropallitems3=Siin on mis mul on.
+miner.dropallitems4=Siin on k\u00f5ik mis ma kaevandasin.
+
+#######
+# Villager Dialogue
+##############################
+villager.chat.bad1=Iiiigav.
+villager.chat.bad2=*Haigutab*
+villager.chat.bad3=Vabanda, mida? Ma ei kuuland.
+villager.chat.bad4=Kas sa \u00fctlesid midagi?
+villager.chat.bad5=Mhm.
+villager.chat.bad6=Ee...Okei..Ma pean n\u00fc\u00fcd minema...
+villager.chat.bad7=Aa jah..Ma unustasin midagi teha..Ma pean minema.
+villager.chat.bad8=Ma ei tea mida sa sellega m\u00f5tlesid.
+villager.chat.bad9=Ma arvan ,et sa r\u00e4\u00e4gid vale inimesega.
+villager.chat.bad10=Ei...Mina nii ei arva.
+villager.chat.bad11=Miks sa midagi sellist \u00fctleksid?
+villager.chat.bad12=See oli sinust inetu.
+
+villager.chat.good1=T\u00f5esti? Ma polegi sellest kuulnud.
+villager.chat.good2=Kust sa seda kuulsid?
+villager.chat.good3=Kuidas sa veel seda suutsid teha\!?
+villager.chat.good4=Siin on v\u00e4ga igav.
+villager.chat.good5=Oi , huvitav.
+villager.chat.good6=Sul on h\u00e4id lugusid.On sul veel m\u00f5ndadest r\u00e4\u00e4kida?
+villager.chat.good7=See on kena.Siis mis juhtus p\u00e4rast?
+villager.chat.good8=ma n\u00f5ustun l\u00f5plikult\!
+villager.chat.good9=Ma kuulsin et teised \u00fctlevad seda sama.
+villager.chat.good10=Kas sa oled n\u00e4inud smaragde kui oled kaevandanud?
+
+villager.engagement.accept1=Kuna on meie pulmad\!?\n
+villager.engagement.accept2=Me teeme suure peo,eks?\n
+villager.engagement.accept3=L\u00f5puks\! Ma ootasin pidevalt\! Ma armastan sind\!
+villager.engagement.accept4=Ma kutsun k\u00f5ik mu s\u00f5brad\!
+villager.engagement.accept5=Jee\! Ma armastan sind\!
+
+villager.engagement.refusal1=Ah...um...Ma ei ole veel valmis abielluma.
+villager.engagement.refusal2=Oh...see on piinlik...
+villager.engagement.refusal3=ah?Ei\!Ma isegi ei tea sind\!
+villager.engagement.refusal4=Mul on kahju , Sa lihtsalt ei meeldi mulle sellisena.
+villager.engagement.refusal5=oh oota, me vaevalt teame teineteist.
+
+villager.follow.start1=Kuhu sa l\u00e4hed?
+villager.follow.start2=Ma \u00fcritan sinuga olla.
+villager.follow.start3=Olgu. Ma tulen kaasa.
+villager.follow.start4=Kas sa kolid \u00e4ra k\u00fclast et alustada oma enda linn?Ma ei arva nii.
+villager.follow.start5=Olgu, Ma k\u00f5nnin.
+villager.follow.start6=Kuhu sa mind viid?
+villager.follow.start7=Oh,kuhu sa minna tahad?
+villager.follow.start8=Olgu l\u00e4hme siis.
+
+villager.follow.stop1=Olgu,Ma olen siin l\u00e4heduses.
+villager.follow.stop2=\u00c4ra mine liiga kaugele.
+villager.follow.stop3=Mulle meeldib see koht\!
+villager.follow.stop4=Olgu,n\u00e4eme hiljem\!
+villager.follow.stop5=\u00c4ra j\u00e4ta mind siia \u00fcksi\!
+villager.follow.stop6=Vaata ette.
+villager.follow.stop7=Olgu pealegi siis,Ma j\u00e4\u00e4n siia.
+villager.follow.stop8=Ma l\u00f5petan sinule j\u00e4rgnemise praegu.
+villager.follow.stop9=Hea\! Ma olen v\u00e4sinud\!
+villager.follow.stop10=see oli s\u00fcndmusrikas\!
+
+villager.gift.bad1=Ma pole pr\u00fcgikast.
+villager.gift.bad2=Ma ei taha su r\u00e4mpsu\!
+villager.gift.bad3=Ma arvan et see on r\u00e4mps.
+villager.gift.bad4=Miks ma peaks SEDA tahtma?
+villager.gift.bad5=Sa v\u00f5id oma pr\u00fcgi endale j\u00e4tta , T\u00e4nan.
+villager.gift.bad6=Ma loodan et sa teed nalja, see ei ole hea kingitus.
+villager.gift.bad7=Vabandust, aga ma ei n\u00f5ustu selliste kingitustega.
+villager.gift.bad8=Ma ei saa v\u00f5tta midagi v\u00f5\u00f5ratelt , Vabandust.
+villager.gift.bad9=Nii et sina oled \u00fcks kes minult selle v\u00f5ttis\!Sa peaksid lahkuma.
+villager.gift.bad10=Miks sa annad mulle pr\u00fcgi?
+
+villager.gift.small1=Oh,T\u00e4nan\!
+villager.gift.small2=kui hoolitsev sinust\!
+villager.gift.small3=T\u00e4nan\!
+villager.gift.small4=sa ei pea mulle midagi sellist hankima...t\u00e4nan\!
+villager.gift.small5=Ma armastan neid\!
+villager.gift.small6=T\u00e4nan.
+villager.gift.small7=See on v\u00e4ga meeldiv kink.T\u00e4nan sind.
+villager.gift.small8=Lahe\!T\u00e4nan\!
+
+villager.gift.regular1=S\u00e4rav\!
+villager.gift.regular2=Oh ma saan seda kasutada.T\u00e4nan\!
+villager.gift.regular3=Oh vau\!T\u00e4nan sind\!
+villager.gift.regular4=Kas ma saaksin veel?
+villager.gift.regular5=T\u00e4nan, s\u00f5ber.
+villager.gift.regular6=Ah,T\u00e4nan sind kingituse eest.
+villager.gift.regular7=Kui kena sinust,t\u00e4nan.
+villager.gift.regular8=Mida kenat kingitust\!T\u00e4nan sind, %M\u00e4ngijaNimi%.
+villager.gift.regular9=%M\u00e4ngijaNimi%, sa oled nii armas.
+villager.gift.regular10=See on sinust v\u00e4ga kena,%M\u00e4ngijaNimi%.
+villager.gift.regular11=Sa oled selline hea s\u00f5ber\!
+
+villager.gift.great1=M...Ma olen s\u00f5natu\!T\u00e4nan sind\!
+villager.gift.great2=Need on hindamatud\!
+villager.gift.great3=Sa tead head kingitust kui seda n\u00e4ed\!
+villager.gift.great4=Ma olen alati \u00fchte sellist tahtnud\!
+villager.gift.great5=See on suurep\u00e4rane\!
+villager.gift.great6=Oh,see on...T\u00e4nan sind\!Sa ei oleks pidanud\!
+villager.gift.great7=T\u00e4nan sind nii v\u00e4ga, ma j\u00e4\u00e4n seda m\u00e4letama.
+villager.gift.great8=Oh see on lihtsalt suurep\u00e4rane , seda on hea kasutada.
+
+villager.greeting.hate1=Hoia minust eemale.
+villager.greeting.hate2=Kas sa ei kuulnud mind eelmine kord? Ma \u00fctlesin et kao minema.
+villager.greeting.hate3=Oh. See oled sina.
+villager.greeting.hate4=Ma arvan et sa oled siin et mind n\u00e4kku j\u00e4lle l\u00fc\u00fca?
+villager.greeting.hate5=Palun,mine \u00e4ra.
+villager.greeting.hate6=Mida SA tahad?
+villager.greeting.hate7=Ma kutsun valvurid kui sa veel mind t\u00fc\u00fctad.
+villager.greeting.hate8=Mul on relv, ma lihtsalt annan sulle sellest teada.
+villager.greeting.hate9=Mine t\u00fc\u00fcta kedagi teist.
+villager.greeting.hate10=Ugh.J\u00e4ta mind rahule.
+villager.greeting.hate11=Kao \u00e4ra, sa tossike.
+
+villager.greeting.basic1=Oh,tere seal.
+villager.greeting.basic2=Kas sa oled siin uus?
+villager.greeting.basic3=tere,v\u00f5\u00f5ras.
+villager.greeting.basic4=Hei,mis teoksil?
+villager.greeting.basic5=Ma pole sind siin ennem n\u00e4inud.
+villager.greeting.basic6=Sa pead olema uus siin kohas.
+villager.greeting.basic7=head p\u00e4eva sull %M\u00e4ngijaNimi%.
+villager.greeting.basic8=Tervitused.
+villager.greeting.basic9=Kuidas saan sind aidata?
+villager.greeting.basic10=Oh, tere. %M\u00e4ngijaNimi%, oli see?
+
+villager.greeting.friend1=Tere, s\u00f5ber\!
+villager.greeting.friend2=Hei\! hea sind n\u00e4ha j\u00e4lle\!
+villager.greeting.friend3=Iga\u00fcks vaadake\! See on mu parim semu\!
+villager.greeting.friend4=Hei, semu\!
+villager.greeting.friend5=millega sa oled tegelenud?Ma pole sin n\u00e4inud m\u00f5nda aega.
+villager.greeting.friend6=Hei,see on %M\u00e4ngijaNimi%, minu parim s\u00f5ber\!
+villager.greeting.friend7=Ah\!Vaata kes meil siin on.Tere , %M\u00e4ngijaNimi%\!
+villager.greeting.friend8=Hei sina\! kuidas sul l\u00e4inud on?
+villager.greeting.friend9=Mis teoksil vennas, Kuidas sul l\u00e4heb?
+
+villager.greeting.interest.male1=Vau\! Sa n\u00e4ed t\u00e4na hea v\u00e4lja\!
+villager.greeting.interest.male2=%M\u00e4ngijaNimi%\! Palun \u00e4ra mine\! Ma tahan k\u00fcsida... pole viga.
+villager.greeting.interest.male3=*Sosistab*Ta on nii ilus...
+villager.greeting.interest.male4=%M\u00e4ngijaNimi* ma vean kihla et sa ei teadnud seda et ma olen rikkas.
+villager.greeting.interest.male5=*sosistab*Ta on minu vastu nii kena , ma ei tea kas ma meeldin talle?
+
+villager.greeting.interest.female1=Hei,sa peaksid mind vahepeal k\u00fclastama vahepeal. *silmapilk*
+villager.greeting.interest.female2=Tere...%PlayerName%...*Itsitab*
+villager.greeting.interest.female3=Sa n\u00e4ed v\u00e4lja suur ja tugev nagu tavaliselt\!
+villager.greeting.interest.female4=*Muutub kahvatuks*
+villager.greeting.interest.female5=*Sosistab*Ei\!Ma ei k\u00fcsi temalt\!
+
+villager.greeting.wedding1=Ma kuulsin sinu abiellumisest.Palju \u00f5nne\!
+villager.greeting.wedding2=Hei, %PlayerName% Palju \u00f5nne kihlumise puhul\!
+villager.greeting.wedding3=Ma olen kindel et sul saavad olema ilusad pulmad, eks?
+villager.greeting.wedding4=Ma olen sinu \u00fcle nii \u00fcnnelik\! Ma toon sulle k\u00f5ige suurema kingi iial\!
+villager.greeting.wedding5=Sa kihlusid ainult kingituste p\u00e4rast ?eks?
+
+villager.hitbyplayer1=J\u00e4ta mind rahule\!
+villager.hitbyplayer2=Ma ei ole sulle midagi teinud\!
+villager.hitbyplayer3=L\u00f5peta see\!
+villager.hitbyplayer4=Ou\!Miks sa mind l\u00f5id?
+villager.hitbyplayer5=L\u00f5peta see\!See teeb haiget\!
+villager.hitbyplayer6=Hei\!\u00c4ra l\u00f6\u00f6 mind\!
+villager.hitbyplayer7=Ouch, l\u00f5peta see, l\u00f5peta see\!
+villager.hitbyplayer8=\u00c4ra puutu mind uuesti\!
+villager.hitbyplayer9=Valvurid\! See inimene r\u00fcndab mind\!
+villager.hitbyplayer10=Aidake mind keegi\!
+villager.hitbyplayer12=Ou\! %PlayerName%\! Ma m\u00f5tlesin et me oleme s\u00f5brad\!
+
+villager.gifted.baby1=tegele oma lapsekasvatusega.
+villager.gifted.baby2=Ma ei taha seda hoida\!
+villager.gifted.baby3=See haiseb\!
+villager.gifted.baby4=Oh, Ma pigem mitte.Ma kaotasin enda ma eile.
+villager.gifted.baby5=Ma peaks sulle \u00fctlema,ma vihkan lapsi.
+villager.gifted.baby6=Mul on rasked ajad hoolitsedes endaeest,j\u00e4ta beebi rahule.
+villager.gifted.baby7=Ma tahan seda hoida aga ma ei vastuta selle eest.
+villager.gifted.baby8=Miks sa ei anna seda oma abikaasale vaid v\u00f5\u00f5rale?
+
+villager.interact.refusal1=Hoia minust eemale.
+villager.interact.refusal2=Ma vihkan sind.
+villager.interact.refusal3=L\u00f5peta minuga r\u00e4\u00e4kimine.
+villager.interact.refusal4=Leave\!
+villager.interact.refusal5=Sa ei ole siia teretulnud.
+villager.interact.refusal6=Ma ei taha mitte midagi sinuga teha.J\u00e4ta mind rahule.
+villager.interact.refusal7=Kao minema,sa t\u00fc\u00fctad mind.
+villager.interact.refusal8=Ma ei r\u00e4\u00e4gi sinuga enam.
+villager.interact.refusal9=Hoia oma k\u00e4ed minust eemal.
+
+villager.joke.bad1=ma ei saa seda?
+villager.joke.bad2=Ma v\u00f5tan seda kui solvangut.
+villager.joke.bad3=See on lihtsalt kohutav\!
+villager.joke.bad4=Sellel ei ole mingit m\u00f5tet.
+villager.joke.bad5=See on rumal mis sa \u00fctlesid.
+villager.joke.bad6=Olgu pealegi siis...
+villager.joke.bad7=See on uh... v\u00e4ga hea nali.
+
+villager.joke.good1=See on lihtsalt nii naljakas\!
+villager.joke.good2=Kus seda kuulsid?haha\!
+villager.joke.good3=See on \u00fcks hea\!
+villager.joke.good4=*Naerab*
+villager.joke.good5=V\u00e4ga naljakas.
+villager.joke.good6=Oh see on \u00fcks parimaid nalju mis ma \u00fcltse kunagi kuulnud olen\!
+villager.joke.good7=Sa t\u00f5esti tead m\u00f5ndasid h\u00e4id nalju\!
+villager.joke.good8=Ha\!sa tead kuidas m\u00f5nda naerma ajada.
+villager.joke.good9=See t\u00e4hendab kaks asja\!
+
+villager.marriage.acceptance1=Jah.
+villager.marriage.acceptance2=Ma olen oodanud seda et sa k\u00fcsiksid seda minult\!Muidugi ma tahan\!
+villager.marriage.acceptance3=Yes , Ma tahan. Ma armastan sind\!
+villager.marriage.acceptance4=sa tead , ma olen sinust palju m\u00f5elnud viimasel ajal...ja...Oh millest ma r\u00e4\u00e4gin?Jaa\!
+villager.marriage.acceptance5=Ma oleksin rohkem kui \u00f5nnelik kui saaksin veeta oma elu koos sinuga\!
+villager.marriage.acceptance6=See on abielu s\u00f5rmus...minule..?ja ma tahan\!
+villager.marriage.acceptance7=Teadmine et sa armastad mind teeb mu \u00f5nnelikuks,sinuga olemine teeb mind k\u00f5ige \u00f5nnelikumaks inimeseks maailmas.
+
+villager.marriage.refusal.lowhearts1=Mis sa oled hull?
+villager.marriage.refusal.lowhearts2=Mida? Kes sa oled\!?
+villager.marriage.refusal.lowhearts3=Ma isegi ei tea sind\!
+villager.marriage.refusal.lowhearts4=Emm...Ei. Ma vabandan.
+villager.marriage.refusal.lowhearts5=Sa ei meeldi mulle\!
+villager.marriage.refusal.lowhearts6=Mida? Ei\! Ma ei saa.
+villager.marriage.refusal.lowhearts7=Vaata... Ma pole valmis abielu jaoks juba.
+villager.marriage.refusal.lowhearts8=Ma keeldun\!
+villager.marriage.refusal.lowhearts9=Ma ei taha sinuga abielluda, tolvan\!
+
+villager.marriage.refusal.playermarried1=Ma arvan et sa oled juba kellegi teisega...
+villager.marriage.refusal.playermarried2=Kas sa pole mitte abielus praegu?
+villager.marriage.refusal.playermarried3=Ma n\u00e4en seda s\u00f5rmust su s\u00f5rmes.Kao \u00e4ra.
+villager.marriage.refusal.playermarried4=Kuidas sa isegi \u00fcritad seda oma abikaasale teha?
+villager.marriage.refusal.playermarried5=Sa oled kohutab.Mine vabanda oma abikaasale sellest.
+villager.marriage.refusal.playermarried6=Kas sa oled peast segi l\u00e4inud?Sa oled juba abielus\!
+villager.marriage.refusal.playermarried7=Miks sa teed nii ome abikaasale?Sa oled idioot\!
+villager.marriage.refusal.playermarried8=Ma pigem l\u00e4hen \u00fctlen sellest su abikaasale\!
+villager.marriage.refusal.playermarried9=Ma n\u00e4en su s\u00f5rmust...
+
+villager.marriage.refusal.villagermarried1=mind on juba v\u00f5etud, vabandust.
+villager.marriage.refusal.villagermarried2=oh...ei.Mul on juba keegi teine.
+villager.marriage.refusal.villagermarried3=Mind on juba v\u00f5etud.Mul on kahju,Ma arvasin et sa tead.
+villager.marriage.refusal.villagermarried4=Ma pean \u00fctlema ei , sest nagu sa n\u00e4ed,ma olen juba abielus.
+villager.marriage.refusal.villagermarried5=Mul on kahju, mul juba on keegi.
+
+villager.angry1=see on \u00f5ige\!ole seal,argp\u00fcks\!
+villager.angry2=Miks sa ei v\u00f5itle nagu mees?
+villager.angry3=Ma r\u00e4\u00e4gin sinust valvuritele\!
+villager.angry4=Sa saad mis on tulekul \u00fchel p\u00e4eval\!
+villager.angry5=\u00c4ra tagasi tule\!
+
+villager.scared1=Ei\!Palun \u00e4ra tee mulle haiget,palun\!
+villager.scared2=Ma ei tee seda uuesti,ma vannun\!
+villager.scared3=Palun\!\u00e4ra tapa mind\!
+villager.scared4=Ei\!Pane relv \u00e4ra\!
+villager.scared5=Keegi aidaku mind\!Nad tulevad mind tapma\!
+
+villager.greeting.handshake.good1=Tervitus\!
+villager.greeting.handshake.good2=Head p\u00e4eva.
+villager.greeting.handshake.good3=Miks ei ole k\u00f5ik nii vastutulelikud? Tere tulemast\!
+villager.greeting.handshake.good4=Sul on hea kindel haare.
+villager.greeting.handshake.good5=See oli sinust tore et sa tulid.
+
+villager.greeting.handshake.bad1=Ai\! Sa tegid mu k\u00e4ele haiget\!
+villager.greeting.handshake.bad2=Sa raputad liiga tugevalt.
+villager.greeting.handshake.bad3=Ei ait\u00e4h.
+villager.greeting.handshake.bad4=Oh...ei.Sinu k\u00e4ed n\u00e4evad v\u00e4ga mustad.
+villager.greeting.handshake.bad5=Mis SEE on sinu k\u00e4tel?\!
+
+villager.greeting.highfive.good1=Viska viis\!
+villager.greeting.highfive.good2=Mis teoksil %PlayerName%?
+villager.greeting.highfive.good3=Olgu\!
+villager.greeting.highfive.good4=Tere, mis teed?
+villager.greeting.highfive.good5=Hea sind n\u00e4ha\!
+
+villager.greeting.highfive.bad1=Ei\! \u00c4ra l\u00f6\u00f6 mind\!
+villager.greeting.highfive.bad2=Kes on eriline?
+villager.greeting.highfive.bad3=Uh...Ei, vabandust.
+villager.greeting.highfive.bad4=L\u00f5peta\!
+villager.greeting.highfive.bad5=...Mida sa teed?
+
+villager.kiss.good1=*Punastab* Oled sa vallaline?
+villager.kiss.good2=Sa oled v\u00e4ga hea suudleja...
+villager.kiss.good3=Su huuled on nii pehmed ja magusad.
+villager.kiss.good4=See maitseb nagu mesi.
+villager.kiss.good5=*Itsitus* Sa oled nunnu.
+
+villager.kiss.bad1=Kas ma tean sind?\!
+villager.kiss.bad2=*Laks*
+villager.kiss.bad3=Ma kutsun valvurid\!
+villager.kiss.bad4=Mida sa teed?\!
+villager.kiss.bad5=Mu isa ei kiidaks seda heaks. 
+
+villager.flirt.good1=*Punastab* Oh.
+villager.flirt.good2=*Itsitab* Sa oled nii nunnu.
+villager.flirt.good3=Ma armastan seda,kui sa nii r\u00e4\u00e4gid.
+villager.flirt.good4=Kui ma saaksin t\u00e4hestikku \u00fcmber korraldada, paneksin ma meid k\u00f5rvuti.
+villager.flirt.good5=Hehe, me v\u00f5iks m\u00f5nikord kokku saada.
+
+villager.flirt.bad1=Ma vist kannan pesapalli p\u00fckse, sest ma olen sinu klassist v\u00e4ljas\!
+villager.flirt.bad2=Iu, ma ei arva nii.
+villager.flirt.bad3=Kas sa ei kohta kellegagi?
+villager.flirt.bad4=*Naerab* Vabandust. Ma ei nii ei tee.
+villager.flirt.bad5=See oli hale.
+
+villager.tellstory.good1=*Naerab* Sead saavab meist k\u00f5igist parima\!
+villager.tellstory.good2=Ma m\u00e4letan, et nooramana saim ma sama teha.
+villager.tellstory.good3=Me peaks seda m\u00f5nikord koos proovima.
+villager.tellstory.good4=V\u00e4hemalt kaitsed sa meid elavate surnute eest\!
+villager.tellstory.good5=*Naerab* Sa oled t\u00e4itsamees, %PlayerName%\!
+
+villager.tellstory.bad1=Ma peaks h\u00e4benema\!
+villager.tellstory.bad2=Serves you right.
+villager.tellstory.bad3=Sa peaksid selle eest surnult r\u00fcnnata saama\!
+villager.tellstory.bad4=Mida iganes.
+villager.tellstory.bad5=Ma tunnen end v\u00e4ga ebamugavalt praegu...
+
+#######
+# Grandchild Dialogue
+##############################
+
+grandchild.chat.bad1=Sa oled vana. Ja igav.
+grandchild.chat.bad2=Ma ei taha kuulata igavaid jutte\!
+grandchild.chat.bad3=*Haigutus*
+
+grandchild.chat.good1=Mul on k\u00f5ige parem %RelationOfPlayer%\!
+grandchild.chat.good2=Wow\! Kas see t\u00f5esti juhtus?
+grandchild.chat.good3=Kas see k\u00f5ik p\u00e4riselt juhtus?
+grandchild.chat.good4=Mulle alati meeldib sinuga r\u00e4\u00e4kida.
+
+grandchild.follow.start1=Kuhu me l\u00e4hme?
+grandchild.follow.start2=Ma tahan et sa n\u00e4itad mulle kus sa selle hiilija tapsid.
+grandchild.follow.start3=Ok l\u00e4hme\!
+
+grandchild.follow.stop1=Ma ootan sind, %RelationOfPlayer%.
+grandchild.follow.stop2=Ma ootan sind siin, %RelationOfPlayer%.
+grandchild.follow.stop3=\u00c4ra mine liiga kaugele, %RelationOfPlayer%.
+
+grandchild.gift.bad1=Kui vana on see asi? Ew\!
+grandchild.gift.bad2=See n\u00e4eb v\u00e4lja nagu see tuli kivi ajast.
+grandchild.gift.bad3=Oh okei siis.
+
+grandchild.gift.great1=See pidi sulle palju t\u00e4hendama. \u00c4itah\!
+grandchild.gift.great2=Wow\! Kas ma saan selle endale?\!
+grandchild.gift.great3=Ma teadsin et sa tood mulle midagi ilusat\!
+
+grandchild.gift.regular1=Ma alati n\u00e4itan k\u00f5igile mida mu %RelationOfPlayer% toob mulle\!
+grandchild.gift.regular2=Wow\! See on \u00e4ge\!
+grandchild.gift.regular3=Ma armastan kui sa mulle asje tood, %RelationOfPlayer%.
+
+grandchild.gift.small1=Nonii, see on juhuslik\!
+grandchild.gift.small2=Hei, mulle meeldib see\!
+grandchild.gift.small3=\u00c4itah, %RelationOfPlayer%\!
+grandchild.gift.small4=See on v\u00e4ga \u00e4ge, %RelationOfPlayer%.
+
+grandchild.greeting.basic1=Tere, %RelationOfPlayer%.
+grandchild.greeting.basic2=Ma pole sind ammu n\u00e4inud, %RelationOfPlayer%.
+
+grandchild.greeting.friend1=Hei, see oled sina %RelationOfPlayer%\!
+grandchild.greeting.friend2=Vaadake k\u00f5ik, mu %RelationOfPlayer% on siin\!
+
+grandchild.greeting.hate1=*Joriseb*
+grandchild.greeting.hate2=Oi ei. Sa oled siin.
+grandchild.greeting.hate3=Sa pole mu lemmik %RelationOfPlayer%.
+grandchild.greeting.hate4=Emme\! %RelationOfPlayer% on siin...
+
+grandchild.hitbyplayer1=Aia\! See oli valus\!
+grandchild.hitbyplayer2=L\u00f5peta\!
+grandchild.hitbyplayer3=Sa m\u00e4ngid liiga karmilt\!
+grandchild.hitbyplayer4=Miks sa l\u00f6\u00f6d mind, %RelationOfPlayer%?
+
+grandchild.gifted.baby1=Sa saad ikka lapsi\!?
+grandchild.gifted.baby2=On see ... sinu?
+
+grandchild.joke.bad1=See oli v\u00e4ga halb...
+grandchild.joke.bad2=Mida???
+grandchild.joke.bad3=V\u00f5ibolla see oli siis naljakas, aga n\u00fc\u00fcd...mitte nii palju.
+grandchild.joke.bad4=Su vanad naljad pole naljakad.
+
+grandchild.joke.good1=Ma alati r\u00e4\u00e4gin k\u00f5ikidele kui naljakas mu %RelationOfPlayer% on\!
+grandchild.joke.good2=Sa peaksid seda \u00fctlema minu s\u00f5brale\!
+grandchild.joke.good3=See oli nii naljakas, %RelationOfPlayer%\!
+grandchild.joke.good4=Mu %RelationOfPlayer% on alati nii naljakas\!
+
+grandchild.greeting.handshake.good1=Nii, et sina oled minu %RelationOfPlayer%?
+grandchild.greeting.handshake.good2=Hea kohtuda sinuga. Sa oled mu %RelationOfPlayer%, ega ju?
+grandchild.greeting.handshake.good3=Tere, kas sa teadsid seda, et ma olen su %RelationToPlayer%? Mina k\u00fcll ei teadnud.
+grandchild.greeting.handshake.good4=Tere, %RelationOfPlayer%.
+grandchild.greeting.handshake.good5=Kas sa t\u00f5id mulle midagi?\!
+
+grandchild.greeting.handshake.bad1=\u00dcks...k\u00e4esurumine?
+grandchild.greeting.handshake.bad2=Sa surud k\u00e4si enda lapselapstega?
+grandchild.greeting.handshake.bad3=R\u00f5ve\! Sa oled vana\!
+grandchild.greeting.handshake.bad4=Su k\u00e4ed on kortsus\!
+grandchild.greeting.handshake.bad5=Aia\! Miks sa pigistasid nii k\u00f5vasti?
+
+grandchild.greeting.highfive.good1=Jee\! J\u00e4lle\!
+grandchild.greeting.highfive.good2=Uuesti, uuesti\!
+grandchild.greeting.highfive.good3=Tee seda uuesti\!
+grandchild.greeting.highfive.good4=Tee seda uuesti, palun?
+grandchild.greeting.highfive.good5=Uuesti\!
+
+grandchild.greeting.highfive.bad1=Mu k\u00e4ed k\u00f5rvetavad.
+grandchild.greeting.highfive.bad2=See hakkab valutama\!
+grandchild.greeting.highfive.bad3=Stopp\!
+grandchild.greeting.highfive.bad4=See hakkab igavaks minema.
+grandchild.greeting.highfive.bad5=Olgu, mu k\u00e4ed valutavad n\u00fc\u00fcd.
+
+grandchild.tellstory.good1=See on hea et meil on valvurid\!
+grandchild.tellstory.good2=Wow, kas sa t\u00f5esti tegid seda?
+grandchild.tellstory.good3=Siis mida see luukere tegi?
+grandchild.tellstory.good4=Sa oled mu kangelane\!
+grandchild.tellstory.good5=Kas sa saad viia mind kaevandama niimoodi?
+
+grandchild.tellstory.bad1=Ma ei usu sind.
+grandchild.tellstory.bad2=Mu vanemad \u00fctlesid, et ma ei usuks s\u00f5nagi mis sa r\u00e4\u00e4gid.
+grandchild.tellstory.bad3=Muidugi.
+grandchild.tellstory.bad4=Ma ei taha su juures enam olla...
+grandchild.tellstory.bad5=Ma peaksin minema n\u00fc\u00fcd koju.
+
+grandchild.play.good1=Jee, see on l\u00f5bus\!
+grandchild.play.good2=Mulle meeldib v\u00e4ga sinuga koos olla\!
+grandchild.play.good3=Sa oled parim\!
+grandchild.play.good4=M\u00e4ngime\!
+grandchild.play.good5=Ma v\u00f5idan sulle\!
+
+grandchild.play.bad1=J\u00e4lle?
+grandchild.play.bad2=Sa oled liiga vana,et seda teha.
+grandchild.play.bad3=Sa ei m\u00e4ngi h\u00e4sti.
+grandchild.play.bad4=Lihtsalt m\u00e4ngi enda loomadega.
+grandchild.play.bad5=Ma pigem s\u00f6\u00f6ksin k\u00f6\u00f6givilju.
+
+#######
+# Villager Child Dialogue
+##############################
+
+villagerchild.chat.bad1=Vabandust,minu vanemad ei luba mul r\u00e4\u00e4kida v\u00f5\u00f5rastega\!
+villagerchild.chat.bad2=Kes sa oled? Sa n\u00e4ed tobe v\u00e4lja.
+villagerchild.chat.bad3=Ma ei taha sinuga r\u00e4\u00e4kida,sa oled hirmus\!
+
+villagerchild.chat.good1=Vau\!Sa oled lahe\!
+villagerchild.chat.good2=Sa oled nagu superkangelane\!
+villagerchild.chat.good3=Kas sa oled seikleja?\!See on nii lahe\!
+villagerchild.chat.good4=Mulle meeldivad sinu jutud,r\u00e4\u00e4gi mulle veel,r\u00e4\u00e4gi mulle veel\!
+
+villagerchild.follow.start1=Olgu,aga ma ei taha liiga kaugele kodust minna\!
+villagerchild.follow.start2=Aw...Ma tegelikult tahtsin siin olla...
+villagerchild.follow.start3=Kus me l\u00e4heme?Seiklusele?
+
+villagerchild.follow.stop1=Hea.Ma olin juba v\u00e4sinud sinu tagumiku vaatamisest\!
+villagerchild.follow.stop2=Kus k\u00f5ik on?
+villagerchild.follow.stop3=\u00c4ra j\u00e4ta mind siia \u00fcksi\!
+
+villagerchild.gift.bad1=Ah,see on r\u00e4mps\!Ma ei taha seda.
+villagerchild.gift.bad2=Kas ma viskan selle minema?Ma ei taha seda.
+villagerchild.gift.bad3=Miks sa mulle seda, %PlayerName%? Mulle ei meeldi see\!
+
+villagerchild.gift.great1=Vau\!Kas ma saaksin selle?Oh\!T\u00e4nan sind v\u00e4ga\!Ma l\u00e4hen n\u00e4itan seda oma isale\!
+villagerchild.gift.great2=T\u00e4nan sind kena kingi eest\!
+villagerchild.gift.great3=See on parim kink iial\!T\u00e4nan sind\!
+
+villagerchild.gift.regular1=T\u00e4nan sind\!
+villagerchild.gift.regular2=See on lahe\!T\u00e4nan\!
+villagerchild.gift.regular3=T\u00e4nan sind kingi eest\!
+
+villagerchild.gift.small1=T\u00e4nan\!
+villagerchild.gift.small2=T\u00e4nan v\u00e4ga\!
+villagerchild.gift.small3=Kas ma v\u00f5in seda s\u00fc\u00fca?
+villagerchild.gift.small4=Mulle?Oh,T\u00e4nan sind\!
+
+villagerchild.greeting.basic1=Kes sa oled?
+villagerchild.greeting.basic2=Sa oled naljakas.
+
+villagerchild.greeting.friend1=Hei\!Sa oled minu semu\!
+villagerchild.greeting.friend2=Kas sa tahaksid m\u00e4ngida?
+
+villagerchild.greeting.hate1=Sa ei meeldi mulle.
+villagerchild.greeting.hate2=Ma m\u00e4letan sind\!Sa tegid mulle haiget\!
+villagerchild.greeting.hate3=Ei\!Hoia minust eemale\!
+villagerchild.greeting.hate4=Minu issi \u00fctles et sa hoiaksid eemale.
+
+villagerchild.hitbyplayer1=Ai\! Ema\! %PlayerName% l\u00f5i mind\!
+villagerchild.hitbyplayer2=\u00c4ra l\u00f6\u00f6 mind,see teeb haiget\!
+villagerchild.hitbyplayer3=Ei \u00e4ra tee mulle haiget,palun\!
+villagerchild.hitbyplayer4=Emme\!Issi\!Aii\!
+
+villagerchild.gifted.baby1=Aw...See on armas aga haisev\!
+villagerchild.gifted.baby2=Miks see haiseb?
+villagerchild.gifted.baby3=Ma ei taha seda hoida\!
+
+villagerchild.joke.bad1=Sa oled rumal inimene.
+villagerchild.joke.bad2=Pole naljakas.
+villagerchild.joke.bad3=See pole naljakas\!
+villagerchild.joke.bad4=\u00c4ra solva mind\!
+villagerchild.joke.bad5=Emme\! %PlayerName% \u00fctleb halbu s\u00f5nu\!
+
+villagerchild.joke.good1=Haha\!Sa oled naljakaim\!
+villagerchild.joke.good2=Mulle v\u00e4ga meeldivad sinu naljad\!
+villagerchild.joke.good3=See oli hea\!Ma l\u00e4hen r\u00e4\u00e4gin sellest oma s\u00f5pradele\!
+villagerchild.joke.good4=Kuidas sa teed seda naljakat n\u00e4gu?Tee seda uuesti\!
+
+villagerchild.play.good1=Emal ja isal ei ole kunagi aega, et seda teha\!
+villagerchild.play.good2=Jee\! Kas ma saaksin olla su s\u00f5ber?
+villagerchild.play.good3=Kas ma saan v\u00f5ita midagi?
+villagerchild.play.good4=M\u00e4ngime igavesti\!
+villagerchild.play.good5=Saame veidi l\u00f5bu\!
+
+villagerchild.play.bad1=Kes sa oled?
+villagerchild.play.bad2=Minu emal \u00fctles,et ma ei peaks v\u00f5\u00f5rastega m\u00e4ngima.
+villagerchild.play.bad3=Isa \u00fctles, et sa viid mu kalju juurde.
+villagerchild.play.bad4=Ei, see on okei.
+villagerchild.play.bad5=Mine m\u00e4ngi oma lapsega.
+
+villagerchild.tellstory.good1=Ma soovin, et sa oleks mu laps...
+villagerchild.tellstory.good2=Kas ma saan taltsutada kalmaari ka?\!
+villagerchild.tellstory.good3=Kas sa saad mind viia P\u00f5rgusse ka?\!
+villagerchild.tellstory.good4=Miks sa ei saa r\u00e4\u00e4kida mulle mis juhtub, kui sa toidad neid?
+villagerchild.tellstory.good5=Ma alustan enda oma klubi nagu sina\!
+
+villagerchild.tellstory.bad1=Sa ei ole hea inimene, ega ju?
+villagerchild.tellstory.bad2=Ma arvan, et ma vist kuulsin enda ema kutsumas mind s\u00f6\u00f6gile.
+villagerchild.tellstory.bad3=Mu vanemad varsti surevad?\!
+villagerchild.tellstory.bad4=Mine \u00e4ra.
+villagerchild.tellstory.bad5=Su lood on igavad.
+
+#######
+# Adult Dialogue
+##############################
+
+playerchild.adult.chat.bad1=Kas sul pole teist lugu r\u00e4\u00e4kida?
+playerchild.adult.chat.bad2=Ma olen h\u00f5ivatud...
+playerchild.adult.chat.bad3=R\u00e4\u00e4gime hiljem.
+playerchild.adult.chat.bad4=Jap.
+playerchild.adult.chat.bad5=Mhm.
+playerchild.adult.chat.bad6=Okei.
+playerchild.adult.chat.bad7=Okei siis.
+playerchild.adult.chat.bad8=Nii huvitav...
+playerchild.adult.chat.bad9=*Keerutab silmi*
+playerchild.adult.chat.bad10=%ParentOpposite% \u00fctles mulle et sa valetasid selle kohta.
+playerchild.adult.chat.bad11=Vahetame teemat,olgu?
+playerchild.adult.chat.bad12=Olgu.. See on.. Huvitav..
+playerchild.adult.chat.bad13=Ehrm..Olgu..
+playerchild.adult.chat.bad14=Ja see on k\u00f5ik?
+playerchild.adult.chat.bad15=V\u00f5ibolla hiljem.
+playerchild.adult.chat.bad16=Ma ei saa hetkel r\u00e4\u00e4kida.
+playerchild.adult.chat.bad17=Appikene,PALUN j\u00e4ta mind rahule\!
+playerchild.adult.chat.bad18=K\u00f5ik mida ma kuulsin oli ''bla,bla,bla''
+
+playerchild.adult.chat.good1=*Kuulab t\u00e4helepanelikult*
+playerchild.adult.chat.good2=Jah,me peaksime minema k\u00fcttima.
+playerchild.adult.chat.good3=L\u00e4hme kogume varusid v\u00f5i kaevandame v\u00f5i midagigi\!
+playerchild.adult.chat.good4=Sa peaksid mind kaasa v\u00f5tma j\u00e4rgmine kord.
+playerchild.adult.chat.good5=Kuna ma saan endale oma maja?
+playerchild.adult.chat.good6=\u00dcks p\u00e4ev tahan ma endale oma maja.
+playerchild.adult.chat.good7=Ma ei suuda ootada oma maja saada\!
+playerchild.adult.chat.good8=Teeme farmimist v\u00f5i midagi\!
+playerchild.adult.chat.good9=L\u00e4hme kuhugi mujale\!
+playerchild.adult.chat.good10=Oh\! See on hea lugu\!
+playerchild.adult.chat.good11=Jah, mul l\u00e4heb h\u00e4sti.
+playerchild.adult.chat.good12=Sa ei tohiks seda levitada, aga see on hea lugu.
+playerchild.adult.chat.good13=See on k\u00f5ige parem asi peale  viilutatud leiva\!
+
+playerchild.adult.chore.start.farming1=Jah, %CallPlayerParent%.
+playerchild.adult.chore.start.farming2=Uhhhh. Okei, %CallPlayerParent%.
+playerchild.adult.chore.start.farming3=Muidugi. Ma teen seda, %CallPlayerParent%.
+playerchild.adult.chore.start.farming4=Farmimine? Okei, ma teen seda.
+playerchild.adult.chore.start.farming5=Ole n\u00fc\u00fcd\! Sina ei pidanud, kui sa laps olid\!
+playerchild.adult.chore.start.farming6=Kas sa aitad mind, %CallPlayerParent%?
+playerchild.adult.chore.start.farming7=Kui me m\u00fc\u00fcme leiba, kas ma saan 50% kasumit?
+
+playerchild.adult.chore.start.fishing1=Mulle meeldib kalastamine. Okey.
+playerchild.adult.chore.start.fishing2=Ma pakun, et ma p\u00fc\u00fcan rohkem kui sina kunagi saad\!
+playerchild.adult.chore.start.fishing3=Ma proovin teha uut rekordit see kord.
+playerchild.adult.chore.start.fishing4=Oh. J\u00e4lle pean mina panema toidu lauale.
+playerchild.adult.chore.start.fishing5=Jah, okei.
+playerchild.adult.chore.start.fishing6=Lahe\! Mulle meeldib minna kalastama, %CallPlayerParent%\!
+playerchild.adult.chore.start.fishing7=Ma kindlasti saan palju kalu, lihtsalt vaata\!
+playerchild.adult.chore.start.fishing8=Okei\! Ma p\u00fc\u00fcan enda parimat, et p\u00fc\u00fcda nii palju kula kui v\u00f5imalik.
+playerchild.adult.chore.start.fishing9=Ma olen hea kalastamises\! K\u00fcll sa n\u00e4ed.
+playerchild.adult.chore.start.fishing10=Siia kala kala...
+playerchild.adult.chore.start.fishing11=Ma loodan, et ma ei saa enda uusi riideid m\u00e4rjaks.
+
+playerchild.adult.chore.start.mining1=S\u00fcsi tolm ei ole m\u00fcrgine, on ju?
+playerchild.adult.chore.start.mining2=Ma loodan, et minu kirka ei l\u00e4he katki seekord.
+playerchild.adult.chore.start.mining3=Ma leian rohkem teemante kui sinu, lihtsalt vaata\!
+
+playerchild.adult.chore.start.woodcutting1=Ma ikka tahan seda puumaja, tead.
+playerchild.adult.chore.start.woodcutting2=Ka sa kunagi m\u00f5tled, miks puud lendavad?
+playerchild.adult.chore.start.woodcutting3=Ma teritan oma kirvest ja alustan sellega.
+playerchild.adult.chore.start.woodcutting4=Kas sa paned mind ehitama oma enda maja?
+
+playerchild.adult.chore.start.hunting1=Ma toon sulle tagasi k\u00fcmme siga\!
+playerchild.adult.chore.start.hunting2=See saab olema l\u00f5bus.
+playerchild.adult.chore.start.hunting3=Ma olen varsti tagasi.
+playerchild.adult.chore.start.hunting4=Sa saada mind, sest ma olen parem k\u00fctt kui sina, eks?
+
+playerchild.adult.chore.stop1=Ma arvasin, et sa ei luba mul kunagi l\u00f5petada.
+playerchild.adult.chore.stop2=Ma olen nii v\u00e4sind...
+playerchild.adult.chore.stop3=L\u00f5puks. Mul hakkas juba igav.
+playerchild.adult.chore.stop4=L\u00f5puks. Mul hakkas juba igav.
+playerchild.adult.chore.stop5=\u00c4ra pane mind seda tegema j\u00e4lle\!
+playerchild.adult.chore.stop6=Loomulikult\!
+playerchild.adult.chore.stop7=\u00c4itah, Ma alati vihkan selle tegemist\!
+playerchild.adult.chore.stop8=Ah... L\u00f5puks mu t\u00f6\u00f6 on tehtud\!
+playerchild.adult.chore.stop9=Ma puhkan v\u00e4hekese siis.
+playerchild.adult.chore.stop10=Ma l\u00f5petan t\u00f6\u00f6tamise siis.
+playerchild.adult.chore.stop11=Hea et see sai l\u00e4bi\!
+playerchild.adult.chore.stop12=Ma tegin sinu t\u00f6\u00f6d. Ma teen midagi l\u00f5busat n\u00fc\u00fcd.
+
+playerchild.adult.follow.start1=Ok, kuhu me l\u00e4hme?
+playerchild.adult.follow.start2=Kas me jahtime kahekesi,%CallPlayerParent%?
+playerchild.adult.follow.start3=Ma loodan et ma n\u00e4en hiilijat\!
+playerchild.adult.follow.start4=Ma loodan et me ei liigu.Mulle meeldib siin.
+playerchild.adult.follow.start5=L\u00f5puks\! L\u00e4hme \u00e4ra siit\!
+playerchild.adult.follow.start6=Kas me l\u00e4hme tagasi?
+playerchild.adult.follow.start7=Ma tegelikult ei tahtnud kuhugi minna...
+playerchild.adult.follow.start8=Ok, l\u00e4hme siis.
+playerchild.adult.follow.start9=L\u00e4ki\!
+playerchild.adult.follow.start10=L\u00e4hme siis\!
+playerchild.adult.follow.start11=Nii palju asje on mida ma tahaksin n\u00e4ha\!
+playerchild.adult.follow.start12=Ma loodan et ma n\u00e4en koletisi.
+playerchild.adult.follow.start13=See parem ei tohi olla l\u00f5ks...
+playerchild.adult.follow.start14=Ma tahan \u00e4mblikut p\u00fc\u00fcda\!
+
+playerchild.adult.follow.stop1=Ma ootan siin, %CallPlayerParent%.
+playerchild.adult.follow.stop2=Mulle meeldib see koht. J\u00e4\u00e4me siia v\u00e4hekeseks ajaks.
+playerchild.adult.follow.stop3=Ma j\u00e4\u00e4n siia.
+playerchild.adult.follow.stop4=\u00c4ra mine liiga kaugele...
+playerchild.adult.follow.stop5=Ma kuulen midagi. Ole ettevaatlik.
+playerchild.adult.follow.stop6=\u00c4ra saa haiget, %CallPlayerParent%\!
+playerchild.adult.follow.stop7=\u00c4ra j\u00e4tta mind siia kauaks\!
+playerchild.adult.follow.stop8=Ole oma valvel. Oht on ligidal kui sa \u00fcksi oled.
+playerchild.adult.follow.stop9=Vaata hiilijate eest\!
+playerchild.adult.follow.stop10=Whew, see oli v\u00e4sitav.
+playerchild.adult.follow.stop11=Kas ma ei saa sinuga edasi tulla? Ma kardan, %CallPlayerParent%.
+
+playerchild.adult.gift.bad1=Wow\! %CallPlayerParent%\! Kas sa teadsid mida sa just leidsid\!? Ma ka mitte.
+playerchild.adult.gift.bad2=See on pr\u00fcgi.
+playerchild.adult.gift.bad3=Ei \u00e4itah.
+playerchild.adult.gift.bad4=Viska \u00e4ra oma pr\u00fcgi\!
+playerchild.adult.gift.bad5=\u00c4kki saaksin s\u00fc\u00fca vahepeal?
+playerchild.adult.gift.bad6=Miks ma tahaksin seda?
+playerchild.adult.gift.bad7=See on... Ei. Lihtsalt ei.
+playerchild.adult.gift.bad8=Miks sa isegi annad selle mulle?
+playerchild.adult.gift.bad9=Ei, ma ei j\u00e4tta endale seda alles. Kindlasti.
+playerchild.adult.gift.bad10=Pean meeles et seda laavase visata.
+playerchild.adult.gift.bad11=Kas sa n\u00e4ed k\u00fcskil pr\u00fcgikaste?
+playerchild.adult.gift.bad12=Argh. J\u00e4lle? Pean meeles et anda sulle soovilist.
+
+playerchild.adult.gift.great1=Oh ma... Olen s\u00f5natu\!
+playerchild.adult.gift.great2=\u00c4itah nii palju\!
+playerchild.adult.gift.great3=See on k\u00f5ige \u00e4gedam\!
+playerchild.adult.gift.great4=Kuidas sa seda said osta\!?
+
+playerchild.adult.gift.regular1=T\u00e4nan sind v\u00e4ga\!
+playerchild.adult.gift.regular2=See on h\u00e4mmastav\!
+playerchild.adult.gift.regular3=Ma tahan, et sa teaks, et ma olen v\u00e4ga t\u00e4nulik\!
+
+playerchild.adult.gift.small1=Kust sa selle leidsid? Ait\u00e4h\!
+playerchild.adult.gift.small2=Oh, t\u00e4nan %CallPlayerParent%\!
+playerchild.adult.gift.small3=Kas seda saab...s\u00fc\u00fca?
+playerchild.adult.gift.small4=Sa ei andud seda mulle, et saada minust lahti, onju?
+playerchild.adult.gift.small5=Oh vau, kingitus mulle\!
+playerchild.adult.gift.small6=Oh lahe\! T\u00e4nan, %CallPlayerParent%.
+playerchild.adult.gift.small7=See n\u00e4eb v\u00e4lja hea, ja... maitsev?
+
+playerchild.adult.greeting.basic1=Hei, %CallPlayerParent%\!
+playerchild.adult.greeting.basic2=Sa oled tagasi, %CallPlayerParent%.
+
+playerchild.adult.greeting.friend1=Tsau, %CallPlayerParent%\!
+playerchild.adult.greeting.friend2=Sa oled tagasi, %CallPlayerParent%.
+
+playerchild.adult.greeting.hate1=...
+playerchild.adult.greeting.hate2=Mida sa siin teed, %CallPlayerParent%?
+playerchild.adult.greeting.hate3=Ma \u00fctlesin, et sa hoiaks minust eemale\!
+playerchild.adult.greeting.hate4=Kas sa tulid vabandama?
+playerchild.adult.greeting.hate5=\u00c4ra tee nii, et ma kutsuks valvurid.
+
+playerchild.adult.hitbyplayer1=L\u00f5peta\!
+playerchild.adult.hitbyplayer2=Ma suudan sulle kera peale anda n\u00fc\u00fcd, tea seda\!
+playerchild.adult.hitbyplayer3=Ai\! %CallPlayerParent%\! L\u00f5peta minu l\u00f6\u00f6mine\!
+playerchild.adult.hitbyplayer4=See valutab k\u00f5vasti\!
+playerchild.adult.hitbyplayer5=Rahune maha ja \u00e4ra l\u00f6\u00f6 mind\!
+playerchild.adult.hitbyplayer6=Ma ei ole peksukott\!
+playerchild.adult.hitbyplayer7=Minu l\u00f6\u00f6mine ei lahenda sinu probleeme\!
+playerchild.adult.hitbyplayer8=Ai\! Mille eest see veel oli?\!
+playerchild.adult.hitbyplayer9=See ei ole normaalne\!
+playerchild.adult.hitbyplayer10=Rahune maha\!
+playerchild.adult.hitbyplayer11=Aia\!
+playerchild.adult.hitbyplayer12=Miks sa seda teeksid?\!
+
+playerchild.adult.gifted.baby1=Ma ei taha seda hoida\! 
+playerchild.adult.gifted.baby2=Ma vihkan beebisid\!
+playerchild.adult.gifted.baby3=Ewww\! See haiseb\!
+playerchild.adult.gifted.baby4=Jah, jah, see on v\u00e4ga nunnu.
+playerchild.adult.gifted.baby5=Mul on teisi asju teha\!
+
+playerchild.adult.joke.bad1=See hakkab juba vanaks j\u00e4\u00e4ma.
+playerchild.adult.joke.bad2=See oli lihtsalt loll.
+playerchild.adult.joke.bad3=...Mida?
+playerchild.adult.joke.bad4=\u00c4ra naljata sellest\! Ma olen VEEL traumeeritud\!
+playerchild.adult.joke.bad5=Ikka ei saa aru sellest.
+playerchild.adult.joke.bad6=Mitte see j\u00e4lle.
+playerchild.adult.joke.bad7=Ma olen seda kuulnud rohkem kui kaksk\u00fcmmend korda\!
+playerchild.adult.joke.bad8=Eww, miks sa teed nalja sellest?\!
+playerchild.adult.joke.bad9=See nali on kohutav.
+playerchild.adult.joke.bad10=Ah, j\u00e4lle see. Naljakas.
+playerchild.adult.joke.bad11=Ma arvan, et %ParentOpposite% kutsub mind...
+playerchild.adult.joke.bad12=Nii, ma pean t\u00f5esti tegema enda majapidamist\u00f6id.
+
+playerchild.adult.joke.good1=Ma ikka m\u00e4letan seda, %CallPlayerParent%. Haha\!
+playerchild.adult.joke.good2=See oli v\u00e4ga naljakas\!
+playerchild.adult.joke.good3=*Itsitamine*
+playerchild.adult.joke.good4=Sul on alati k\u00f5ige paremad naljad\!
+playerchild.adult.joke.good5=Hea nali, %CallPlayerParent%\!
+playerchild.adult.joke.good6=Haha\! See oli nii naljakas\!
+playerchild.adult.joke.good7=See oli hea nali\!
+
+playerchild.adult.greeting.handshake.good1=Hei, pole sinuga ammu r\u00e4\u00e4kinud.
+playerchild.adult.greeting.handshake.good2=Hei, %CallPlayerParent%.
+playerchild.adult.greeting.handshake.good3=Hea sind n\u00e4ha j\u00e4lle, %CallPlayerParent%\!
+playerchild.adult.greeting.handshake.good4=Tere, %CallPlayerParent% mul on nii palju, millest r\u00e4\u00e4kida.
+playerchild.adult.greeting.handshake.good5=Tere, hea on n\u00e4ha sind siin tagasi.
+
+playerchild.adult.greeting.handshake.bad1=Miks sa ei tule mulle rohkem k\u00fclla?
+playerchild.adult.greeting.handshake.bad2=See on ainus kohtumine kaua aega, aga sa lihtsalt surud my k\u00e4tt?\!
+playerchild.adult.greeting.handshake.bad3=Ma ei taha pigistada su k\u00e4tt.
+playerchild.adult.greeting.handshake.bad4=Ma olen... liiga h\u00f5ivatud praegu.
+playerchild.adult.greeting.handshake.bad5=Ma olen liiga h\u00f5ivatud - nagu sa alati oled.
+
+playerchild.adult.greeting.highfive.good1=See on ikka l\u00f5bus\!
+playerchild.adult.greeting.highfive.good2=*\u00d5nnitlused*
+playerchild.adult.greeting.highfive.good3=Me oleme lahedad\!
+playerchild.adult.greeting.highfive.good4=Jah\! Ma olen igatsenud seda.
+playerchild.adult.greeting.highfive.good5=Me oleme parimad\!
+
+playerchild.adult.greeting.highfive.bad1=Ma olen liiga vana, et visata viisi kogu aeg.
+playerchild.adult.greeting.highfive.bad2=Mitte praegu palun.
+playerchild.adult.greeting.highfive.bad3=Ma ei taha visata viisi kogu aeg.
+playerchild.adult.greeting.highfive.bad4=Ma tahan r\u00e4\u00e4kida, mitte visata viisi\!
+playerchild.adult.greeting.highfive.bad5=Miks sa \u00fcltse enam minuga ei r\u00e4\u00e4gi?
+
+playerchild.adult.tellstory.good1=*Naerab* See tuletab mulle meelde aega, kui ma olein v\u00e4ike laps.
+playerchild.adult.tellstory.good2=Sina ja %ParentOpposite% t\u00f5siselt armastasid teineteist, ega ju?
+playerchild.adult.tellstory.good3=See k\u00f5lab t\u00f5siselt l\u00f5busalt\! Me v\u00f5iksime proovida seda m\u00f5nikord\!
+playerchild.adult.tellstory.good4=*Naerab* Ma olen r\u00f5\u00f5mus, et kuulun sellesse perekonda.
+playerchild.adult.tellstory.good5=Nad tegid kanadele mida?
+
+playerchild.adult.tellstory.bad1=Kas sa oled sellest r\u00e4\u00e4kinud %ParentOpposite%?
+playerchild.adult.tellstory.bad2=Ma ei kiida heaks.
+playerchild.adult.tellstory.bad3=Sina... ilmselt ei peaks seda kellegile r\u00e4\u00e4kima.
+playerchild.adult.tellstory.bad4=See ei olnud v\u00e4ga ilus.
+playerchild.adult.tellstory.bad5=Sa tead, see meenutab minule %RandomName%\!
+
+#######
+# Kid Dialogue
+##############################
+playerchild.young.chat.bad1=Ma ei taha enam r\u00e4\u00e4kida. J\u00e4ta mind rahule\!
+playerchild.young.chat.bad2=%CallPlayerParent%, Ma teen midagi\!
+playerchild.young.chat.bad3=Tasa\!
+playerchild.young.chat.bad4=Sa oled igav.
+playerchild.young.chat.bad5=*Ignoreerib sind*
+playerchild.young.chat.bad6=%ParentOpposite% \u00fctles seda mitte \u00f5elda\!
+playerchild.young.chat.bad7=Ma teen midagi\!
+playerchild.young.chat.bad8=Kas sa ei n\u00e4e et ma teen midagi?\!
+playerchild.young.chat.bad9=Ma *haigutus*, l\u00e4hen teen uinaku.
+
+playerchild.young.chat.good1=*Kuulab t\u00e4helepanelikult*
+playerchild.young.chat.good2=Kas sa v\u00f5tad mind endaga kaasa j\u00e4rgmine kord, %CallPlayerParent%?
+playerchild.young.chat.good3=Ma tahan minna jahtima\!
+playerchild.young.chat.good4=Miks ma ei saa sinuga tulla?
+playerchild.young.chat.good5=Ma tahan t\u00f5esti minna j\u00e4rgmine kord, palun?
+playerchild.young.chat.good6=See oli h\u00e4mastav, %CallPlayerParent%\! Kuidas sa tegid seda?
+playerchild.young.chat.good7=T\u00f5siselt? See on nii \u00e4ge\!
+playerchild.young.chat.good8=Sa oled k\u00f5ige parem %CallPlayerParent% maailmas\! Ei, universumis\!
+
+playerchild.young.joke.bad1=Oi-ei\! %CallPlayerParent% \u00fctles paha s\u00f5na\!
+playerchild.young.joke.bad2=See on loll.
+playerchild.young.joke.bad3=Sa oled suur loll. Ma ei saa aru.
+playerchild.young.joke.bad4=Miks teeksid sellest nalja? *Nutab*
+playerchild.young.joke.bad5=L\u00f5peta minust nalja tegemine\!
+playerchild.young.joke.bad6=%ParentOpposite% \u00fctles mitte seda s\u00f5na \u00f5elda\!
+playerchild.young.joke.bad7=Ma olen seda enne million korda kuulnud, %CallPlayerParent%.
+playerchild.young.joke.bad8=Sellest ei saanud arugi.
+
+playerchild.young.joke.good1=Sa oled naljakas %CallPlayerParent%.
+playerchild.young.joke.good2=Ha ha\! Ma sain aru\!
+playerchild.young.joke.good3=Ma \u00fctlen seda oma s\u00f5brale kaa\!
+playerchild.young.joke.good4=See oli m\u00f5ttetu. Nagu eelmised kaksk\u00fcmend.
+playerchild.young.joke.good5=*Naerab*
+playerchild.young.joke.good6=See oli nii naljakas\!
+playerchild.young.joke.good7=Ma pean seda meeles peadma\!
+
+playerchild.young.chore.start.farming1=Jah, %CallPlayerParent%.
+playerchild.young.chore.start.farming2=Jes\! Ma armastan s\u00f5tkumist.
+playerchild.young.chore.start.farming3=Ma alustan kohe.
+playerchild.young.chore.start.farming4=L\u00f5puks saan ma midagi teha.
+playerchild.young.chore.start.farming5=Okei.
+playerchild.young.chore.start.farming6=Ma lootsin et sa \u00fctled, et seda teha\!\n
+playerchild.young.chore.start.farming7=Ma loodan et see l\u00e4heb mu s\u00fcnnip\u00e4eva koogile.
+
+playerchild.young.chore.start.fishing1=\ Kala p\u00fc\u00fcdmine on nii igav.
+playerchild.young.chore.start.fishing2=Aga kala p\u00fc\u00fcdmine v\u00f5tab nii kaua aega\!
+playerchild.young.chore.start.fishing3=Ma ei tea kuidas, Ma vannun\!
+playerchild.young.chore.start.fishing4=Aga kalad nii haisevad\!
+playerchild.young.chore.start.fishing5=Aga nad on limased...
+playerchild.young.chore.start.fishing6=Mulle ei meeldi m\u00e4rjaks saada\!
+playerchild.young.chore.start.fishing7=Ma ei taha kala p\u00fc\u00fcda.
+playerchild.young.chore.start.fishing8=Miks alasti kalastamine?
+
+playerchild.young.chore.start.mining1=Mis suunas ma hoian enda kirkat, uuesti?
+playerchild.young.chore.start.mining2=Ma \u00fctlen %ParentOpposite%'le kui ma j\u00e4lle laavasse kukun.
+playerchild.young.chore.start.mining3=Yee\! Mulle meeldib kaevandamine\!
+playerchild.young.chore.start.mining4=Ma loodan, et luukere ei lase mind j\u00e4lle.
+playerchild.young.chore.start.mining5=Kui ma leian teemanti, ma v\u00f5in selle endale j\u00e4tta, okei?
+
+playerchild.young.chore.start.woodcutting1=Puud, puud, puud, puud...
+playerchild.young.chore.start.woodcutting2=Ma loodan, et j\u00e4lle \u00fcks mulle peale ei kuku\!
+playerchild.young.chore.start.woodcutting3=Kas me ehitame puumaja p\u00e4rast seda kui ma olen valmis?
+playerchild.young.chore.start.woodcutting4=Milleks sa puitu kasutad?
+
+playerchild.young.chore.start.hunting1=Olgu\! Ma armastan jahtimist.
+playerchild.young.chore.start.hunting2=Ma loodan, et hunt mind j\u00e4lle ei hammusta.
+playerchild.young.chore.start.hunting3=Aga ma  olen nii v\u00e4ike\! Eelmine kord mul v\u00f5ttis tunde, et lehma tagasi vedada.
+
+playerchild.young.chore.stop1=*Ohkab kergendusega*
+playerchild.young.chore.stop2=Ma arvasin, et sa ei luba mul kunagi l\u00f5petada.
+playerchild.young.chore.stop3=Ma olen nii v\u00e4sinud...
+playerchild.young.chore.stop4=L\u00f5puks. Mul hakkas juba igav.
+playerchild.young.chore.stop5=L\u00f5puks. Ma hakkasin v\u00e4sima.
+playerchild.young.chore.stop6=\u00c4ra pane mind seda uuesti tegema\!
+
+playerchild.young.follow.start1=Okei, kuhu me l\u00e4hme?
+playerchild.young.follow.start2=Yey\! Ma v\u00f5in j\u00e4\u00e4da %CallPlayerParent%'iga\!
+playerchild.young.follow.start3=Yey\! Ma tulen sinuga.
+playerchild.young.follow.start4=Aga ma ei taha minna\!
+playerchild.young.follow.start5=Kas %ParentOpposite% tuleb ka?
+playerchild.young.follow.start6=Ma loodan, et mee n\u00e4eme siga v\u00f5i lehma v\u00f5i kana v\u00f5i lammast\!
+playerchild.young.follow.start7=Kas me l\u00e4heme d\u017eunglisse? Ma tahan n\u00e4ha kiisusid.
+playerchild.young.follow.start8=Ma loodan, et me ei l\u00e4he liiga kaugele...
+playerchild.young.follow.start9=Hiilijad hirmutavad mind, ma loodan et me ei leia \u00fchtegi.
+
+playerchild.young.follow.stop1=Ok. Ma ootan siin.
+playerchild.young.follow.stop2=\u00c4ra ole kaua \u00e4ra, okei?
+playerchild.young.follow.stop3=Aga see on hirmutav siin...
+playerchild.young.follow.stop4=Ei, %CallPlayerParent%, \u00e4ra mine\!
+playerchild.young.follow.stop5=Aga ma kuulen h\u00e4\u00e4li...
+playerchild.young.follow.stop6=Ohh okei, lihtsalt \u00e4ra unusta mind, %CallPlayerParent%.
+playerchild.young.follow.stop7=Aga..mis siis kui \u00f6\u00f6 tuleb?
+playerchild.young.follow.stop8=Kas sa oled varsti tagasi?
+playerchild.young.follow.stop9=\u00c4ra j\u00e4ta mind siia\!
+
+playerchild.young.gift.bad1=Milleks ma seda veel peaks kasutama\!?
+playerchild.young.gift.bad2=See on haisev.
+playerchild.young.gift.bad3=Mulle ei meeldi need.
+playerchild.young.gift.bad4=%CallPlayerParent%, sa tead mis mulle meeldib ja mis mitte.
+playerchild.young.gift.bad5=Too mulle midagi head.
+playerchild.young.gift.bad6=Mul on juba nagu k\u00fcmme millionit neid.
+playerchild.young.gift.bad7=See on kasutu r\u00e4mps\!
+playerchild.young.gift.bad8=Ma parem ei saaks midagi\!
+playerchild.young.gift.bad9=Huh??
+
+playerchild.young.gift.great1=Kust sa said selle, %CallPlayerParent%?
+playerchild.young.gift.great2=Kas see on minule?
+playerchild.young.gift.great3=Jeeeeeeeee\!
+playerchild.young.gift.great4=See on k\u00f5ik minu\!?
+playerchild.young.gift.great5=%ParentOpposite% kutsub neid 'seksikaks'.
+playerchild.young.gift.great6=Sa oled k\u00f5ige parem %CallPlayerParent%\!
+
+playerchild.young.gift.regular1=Ma loodan et ma saan veel\!
+playerchild.young.gift.regular2=Kas see on minule?
+playerchild.young.gift.regular3=Sa said minule kaks onju?
+playerchild.young.gift.regular4=Kas see on minule?\!
+
+playerchild.young.gift.small1=Kust sa said selle, %CallPlayerParent%?
+playerchild.young.gift.small2=Oooo, S\u00e4rav\!
+playerchild.young.gift.small3=Kingitused\! Mulle alati meeldivad kingitused\!
+playerchild.young.gift.small4=Mulle meeldib see, %CallPlayerParent%.
+playerchild.young.gift.small5=\u00c4itah, %CallPlayerParent%.
+
+playerchild.young.greeting.basic1=Hei, %CallPlayerParent%.
+playerchild.young.greeting.basic2=Ew, %CallPlayerParent%, sa haised. Kus sa oled olnud?
+playerchild.young.greeting.basic3=Jes\! %CallPlayerParent% on kodus\!
+playerchild.young.greeting.basic4=Huraa, %CallPlayerParent%\! Kas sa toid mulle midagi?
+
+playerchild.young.greeting.friend1=Jes\! %CallPlayerParent% %CallPlayerParent% %CallPlayerParent%\!\!\!
+playerchild.young.greeting.friend2=Sa toid minule kingituse onju?
+playerchild.young.greeting.friend3=%CallPlayerParent%, Ma igatsesin sind.
+playerchild.young.greeting.friend4=R\u00e4\u00e4gi mulle lugusi kus sa oled olnud\!
+playerchild.young.greeting.friend5=%CallPlayerParent%, \u00e4ra mine j\u00e4lle. See teeb %ParentOpposite% kurvaks.\n
+
+playerchild.young.greeting.hate1=Palun \u00e4ra tee mulle j\u00e4lle haiget %CallPlayerParent%.
+playerchild.young.greeting.hate2=%CallPlayerParent%, kas sa oled mulle hea n\u00fc\u00fcd?
+playerchild.young.greeting.hate3=T...Tere...%CallPlayerParent%
+playerchild.young.greeting.hate4=*Peidab kartes*
+playerchild.young.greeting.hate5=Ma olen hea t\u00e4na, %CallPlayerParent%...\u00e4ra l\u00f6\u00f6 mind.
+
+playerchild.young.hitbyplayer1=Aia\! Ma \u00fctlen %ParentOpposite% sinu p\u00e4rast\!
+playerchild.young.hitbyplayer2=%CallPlayerParent%, l\u00f5peta mu l\u00f6\u00f6mine\!
+playerchild.young.hitbyplayer3=%CallPlayerParent%, see valutab\!
+playerchild.young.hitbyplayer4=Aia\! Mida ma tegin %CallPlayerParent%?
+playerchild.young.hitbyplayer5=Aia\!
+playerchild.young.hitbyplayer6=Aia\!
+playerchild.young.hitbyplayer7=Ma \u00fctlen %ParentOpposite%'ile\!
+
+playerchild.young.gifted.baby1=Ew\! See haiseb\!
+
+playerchild.young.tellstory.good1=Kas sa said selle eest kere peale?
+playerchild.young.tellstory.good2=Ma tahan seda teha\!
+playerchild.young.tellstory.good3=P\u00e4rast selle kuulmist ma alati kuulan sinu s\u00f5na\!
+playerchild.young.tellstory.good4=*Naerab* %ParentOpposite% tegi seda?
+playerchild.young.tellstory.good5=Ma ei suuda uskuda, et seda tegid\!
+
+playerchild.young.tellstory.bad1=*Nutab* Miks sa teed seda?
+playerchild.young.tellstory.bad2=Ma \u00fctlen %RandomName%, et sa seda tegid\!
+playerchild.young.tellstory.bad3=Jah, jah, mida iganes. Ma ei taha praegu kuulda \u00fchtegi lugu .
+playerchild.young.tellstory.bad4=Creeper saab mu k\u00e4tte?\!
+playerchild.young.tellstory.bad5=*Nutab* Ma ei taha, et %ParentOpposite% elavaks surnuks muutuks\!
+
+playerchild.young.play.good1=Sa ei saa mind k\u00e4tte\!
+playerchild.young.play.good2=Ma armastan, kui sa minuga m\u00e4ngid, %CallPlayerParent%.
+playerchild.young.play.good3=Ma v\u00f5idan\!
+playerchild.young.play.good4=See saab l\u00f5bus olema\!
+playerchild.young.play.good5=Sa ei v\u00f5ida mind kunagi\!
+
+playerchild.young.play.bad1=Sa ei lase mul kunagi v\u00f5ita.
+playerchild.young.play.bad2=Sina pead treenima, aga mina mitte.
+playerchild.young.play.bad3=Ma olen selleks liiga vana.
+playerchild.young.play.bad4=Kas sa ei m\u00e4ngiks oma lemmik lapsega?
+playerchild.young.play.bad5=Ma tahan ainult m\u00e4ngida %RandomName%-ga.
+
+playerchild.young.greeting.handshake.good1=Hei, %CallPlayerParent%.
+playerchild.young.greeting.handshake.good2=Kus sa t\u00e4na k\u00e4isid?
+playerchild.young.greeting.handshake.good3=R\u00e4\u00e4gi mulle oma seiklustest.
+playerchild.young.greeting.handshake.good4=Sa oled tagasi. Millega sa tegelenud oled?
+playerchild.young.greeting.handshake.good5=Teeme midagi\!
+
+playerchild.young.greeting.handshake.bad1=...Miks sa mu k\u00e4tt raputad?
+playerchild.young.greeting.handshake.bad2=Su k\u00e4ed on higised ja r\u00f5vedad.
+playerchild.young.greeting.handshake.bad3=Iuu. \u00c4ra puudu mind\!
+playerchild.young.greeting.handshake.bad4=Ma ei taha k\u00e4tt suruda\!
+playerchild.young.greeting.handshake.bad5=Why don't you talk to me instead of shaking my hand all the time?
+
+playerchild.young.greeting.highfive.good1=Will you do it again?
+playerchild.young.greeting.highfive.good2=See on l\u00f5bus\!
+playerchild.young.greeting.highfive.good3=*Naerab*
+playerchild.young.greeting.highfive.good4=Do a high five again\!
+playerchild.young.greeting.highfive.good5=Please, just one more time\!
+
+playerchild.young.greeting.highfive.bad1=Ma olen t\u00fcdinud praegu sellest.
+playerchild.young.greeting.highfive.bad2=Kas sa teed midagi muud?
+playerchild.young.greeting.highfive.bad3=I can't reach you, dummy\!
+playerchild.young.greeting.highfive.bad4=I don't want to high five any more.
+playerchild.young.greeting.highfive.bad5=That's getting annoying.
+
+#######
+# Spouse Dialogue
+##############################
+spouse.chat.bad1=Ma olen seda kuulnud juba ennem.
+spouse.chat.bad2=See muutub juba igavaks kui sa r\u00e4\u00e4gid ainult samast asjast.
+spouse.chat.bad3=Kas sul ei ole midagi paremat millest r\u00e4\u00e4kida?
+spouse.chat.bad4=Ma ei taha sellest r\u00e4\u00e4kida.
+spouse.chat.bad5=Mida iganes sa \u00fctled.
+spouse.chat.bad6=Kas sul on midagi muud ka \u00f6elda mulle?
+
+spouse.chat.good1=Ma armastan kui sa r\u00e4\u00e4gid mulle enda seiklustest.
+spouse.chat.good2=Muljetavaldav\!
+spouse.chat.good3=Jah,k\u00f5ik on siin korras.
+spouse.chat.good4=Well today I...oh, you don't want to hear, I'm sure\!
+spouse.chat.good5=Sul oli t\u00e4na ka pikk p\u00e4ev,jah?
+spouse.chat.good6=Sellep\u00e4rast ma sind armastangi.
+spouse.chat.good7=Uskumatu see on,Ma olen r\u00f5\u00f5mus sest abiellusin sinuga.
+spouse.chat.good8=Sinu jutud alati panevad mind imestama\!
+spouse.chat.good9=Hea lugu\!
+spouse.chat.good10=*Limpsab huuli n\u00e4ljaselt*
+
+spouse.divorce1=Me ei ole enam koos\!
+spouse.divorce2=head lahtisaamist\!
+spouse.divorce3=Ma ei taha sind enam iial n\u00e4ha\!
+spouse.divorce4=Lihtsalt...hoia minust eemale\!
+spouse.divorce5=Ma ei suuda sind uskuda\!J\u00e4ta mind rahule\!
+spouse.divorce6=Miks?Ma ei...ole liiga hea...?
+spouse.divorce7=Ma m\u00f5tlesin et sa t\u00f5esti armastad mind\!
+spouse.divorce8=Mida\!?Ei\!Ma ei suuda seda uskuda\!
+spouse.divorce9=Hoia minust igaveseks eemale\!
+
+spouse.follow.start1=Oh olgu,kuhu me l\u00e4heme?
+spouse.follow.start2=Olgu pealegi,ma olen kaasas.
+spouse.follow.start3=Olgu,l\u00e4hme\!
+spouse.follow.start4=Me l\u00f5puks lahkume sellest pr\u00fcgilast?
+spouse.follow.start5=Kas sul on uus maja kusagil?
+spouse.follow.start6=Olgu aga ma ei taha siit \u00e4ra kolida.
+spouse.follow.start7=Kas ma saan sinuga koos seigelda?Kui p\u00f5nev\!
+spouse.follow.start8=L\u00e4hme kuhugile ilusasse kohta,l\u00e4hme?
+
+spouse.follow.stop1=See koht on v\u00e4ga ilus\!
+spouse.follow.stop2=Olgu,pealegi, sa oled alati teretulnud et mind kaasa v\u00f5tta,kullake.
+spouse.follow.stop3=Olgu pealegi siis,ole ettevaatlik seal\!
+spouse.follow.stop4=Ma olen kusagil siin kui sina tagasi tuled.
+spouse.follow.stop5=Oeh,see oli v\u00e4sitav aga v\u00e4hemalt ma olin koos sinuga.
+
+spouse.gift.bad1=Oh...t\u00e4nan ei.Mul on juba \u00fcks selline.Kusagil.
+spouse.gift.bad2=Ma loodan et sa ei oodanud minult seda.
+spouse.gift.bad3=Ma arvan et tean seda et sa ei m\u00e4leta mis mulle meeldib.
+spouse.gift.bad4=Miks sa seda mulle annad?
+spouse.gift.bad5=See ongi see mida sa kingiks nimetad?
+spouse.gift.bad6=Ma arvasin et sa tead mind nii palju et tead mis mulle meeldib.Ilmselt mitte.
+spouse.gift.bad7=See on...halb.Ma ei taha seda.
+
+spouse.gift.great1=Oi minu...kui palju see maksis?
+spouse.gift.great2=Kuidas sa selle said\!?T\u00e4nan sind\!
+spouse.gift.great3=See oli vist raske et seda saada\!
+spouse.gift.great4=Ma ei peaks seda vastu v\u00f5tma...aga see on nii s\u00e4rav\!
+spouse.gift.great5=Ma hellitan seda igavesti.
+spouse.gift.great6=T\u00e4nan sind kullake,sa t\u00f5esti tead mis mulle meeldib.
+spouse.gift.great7=See on midagi Ma hoian seda endaga kaasas,T\u00e4nan sind.
+spouse.gift.great8=Sa oled seksikas ja ma tean seda.
+
+spouse.gift.regular1=See on suurep\u00e4rane\!T\u00e4nan sind\!
+spouse.gift.regular2=Too mulle veel\!
+spouse.gift.regular3=Sa ei oleks pidanud...T\u00e4nan sind.
+spouse.gift.regular4=See on suurep\u00e4rane\!T\u00e4nan\!
+spouse.gift.regular5=Sa lihtsalt tead mis mulle meeldib,eks?
+spouse.gift.regular6=Oh,T\u00e4nan see on sinust v\u00e4ga lahke.
+spouse.gift.regular7=See oli v\u00e4ga armas.
+
+spouse.gift.small1=T\u00e4nan\!
+spouse.gift.small2=Ma hindan seda.
+spouse.gift.small3=Oh.Arvasin et see loeb,kuigi\!
+spouse.gift.small4=Sa oled nii armas.
+spouse.gift.small5=T\u00e4nan sind.Kuigi sa ei oleks pidanud mulle midagi andma. 
+
+spouse.greeting.basic1=Tere,Kallis.
+spouse.greeting.basic2=Kuidas sul t\u00e4na l\u00e4inud on?
+spouse.greeting.basic3=Tere kallis. Kuidas sul l\u00e4heb?
+spouse.greeting.basic4=Kas k\u00f5ik on korras?
+spouse.greeting.basic5=Paistab et sa oled oma seikluselt tagasi.Kuidas sul l\u00e4ks,kullake?
+spouse.greeting.basic6=Ma igatsesin sind\!Kuidas sul l\u00e4ks,kallis?
+spouse.greeting.basic7=Ma olin sinu p\u00e4rast mures,sa lahkusid ilma s\u00f5nata.Aga ma olen r\u00f5\u00f5mus sest oled tagasi.
+spouse.greeting.basic8=Hei,Kuidas l\u00e4heb?
+spouse.greeting.basic9=Kas sul l\u00e4ks t\u00e4na h\u00e4sti?
+spouse.greeting.basic10=Ma olen r\u00f5\u00f5mus et oled tagasi.
+
+spouse.greeting.friend1=Tere,kallis.
+spouse.greeting.friend2=Kus sa t\u00e4na olnud oled?
+spouse.greeting.friend3=Hei,kallis.Kuidas sul l\u00e4heb?
+spouse.greeting.friend4=Kas k\u00f5ik on korras?
+spouse.greeting.friend5=Paistab et sa oled oma seikluselt tagasi.Kuidas sul l\u00e4ks,kullake?
+spouse.greeting.friend6=Ma igatsesin sind\!Kuidas sul l\u00e4ks,kullake?
+spouse.greeting.friend7=Ma olin sinu p\u00e4rast mures,sa lahkusid ilma s\u00f5nata.Aga ma olen r\u00f5\u00f5mus sest oled tagasi.
+spouse.greeting.friend8=Hei,kuidas l\u00e4heb?
+spouse.greeting.friend9=Sul l\u00e4ks t\u00e4na h\u00e4sti?
+spouse.greeting.friend10=Ma olen r\u00f5\u00f5mus sest oled tagasi.
+
+spouse.greeting.hate1=Ma ei taha sinuga praegu r\u00e4\u00e4kida.
+spouse.greeting.hate2=Ma olen v\u00e4ga h\u00e4iritud sinust.J\u00e4ta mind palun rahule.
+spouse.greeting.hate3=%PlayerName%, Ma \u00fctlesin et ei r\u00e4\u00e4gi sinuga.
+spouse.greeting.hate4=Me enam ei suhtle,lihtsalt et n\u00fc\u00fcd sa teaksid.
+spouse.greeting.hate5=Sa parem ole vait v\u00f5i ma k\u00f5nnin.
+
+spouse.hitbyplayer1=Ai\!Kuritegu\!
+spouse.hitbyplayer2=Ma loodan et sa ei tahtnud seda teha.
+spouse.hitbyplayer3=See tegi v\u00e4ga haiget...
+spouse.hitbyplayer4=L\u00f5peta minu l\u00f6\u00f6mine\!
+spouse.hitbyplayer5=Ai\!Tossike\!
+spouse.hitbyplayer6=Miks sa tahad mind l\u00fc\u00fca\!?
+spouse.hitbyplayer7=Mille kuradi p\u00e4rast see oli\!?
+
+spouse.gifted.baby1=J\u00e4lle?Argh.Olgu.
+spouse.gifted.baby2=Sa oled nii armas\!Jah sa oled\!Jah sa oled\!
+spouse.gifted.baby3=Olgu,Ma hoian seda.
+spouse.gifted.baby4=Ooo\!Midagi siin on mulle?Oh.See on beebi.
+spouse.gifted.baby5=Olgu.Anna see siia.
+spouse.gifted.baby6=Vaata,tal on minu silmad\!
+spouse.gifted.baby7=Oh,ei saa hoida beebit?Olgu pealegi,Anna ta mulle.
+
+spouse.joke.bad1=Uh...Ma arvan et sa oled seda ennem r\u00e4\u00e4kinud.
+spouse.joke.bad2=Sellel ei ole mingit m\u00f5tet?
+spouse.joke.bad3=Ma olen kindel et on ebaseduslik teha nalja mis teeb halba.
+spouse.joke.bad4=See oli...suurep\u00e4rane...kallis.
+spouse.joke.bad5=*Naerab piinlikult*
+spouse.joke.bad6=*Sunniviisiliselt itsitab*
+spouse.joke.bad7=...liigub pealegi....
+
+spouse.joke.good1=Aw.Sa \u00fctlesid seda siis kui me kohtusime.
+spouse.joke.good2=Ma ikka seda \u00fchte m\u00e4letan\!Ikka naljakas\!
+spouse.joke.good3=Oh,sa oled nii naljakas\!
+spouse.joke.good4=Kuidas sa said tulla?Haha\!
+spouse.joke.good5=Ma ei oleks pidanud selle peale naerma,aga see on ikka nii naljakas\!
+
+spouse.procreate.refuse1=Ei, ma ei arva nimodi.
+spouse.procreate.refuse2=Sa teed nalja\!
+spouse.procreate.refuse3=Mitte siis kuidas sa oled mind kohelnud\!
+spouse.procreate.refuse4=Ma vaevalt ainult meeldin sulle. Ei ole mingit v\u00f5imalust, et ma teen seda.
+spouse.procreate.refuse5=Jah, \u00f5ige\! Kohtle mind natuke paremini ja ma m\u00f5tlen selle peale.
+
+spouse.kiss.good1=You're so sweet.
+spouse.kiss.good2=Ma armastan sind ka.
+spouse.kiss.good3=You're too good to me.
+spouse.kiss.good4=Thank you, that was sweet.
+spouse.kiss.good5=How nice of you\!
+
+spouse.kiss.bad1=No. I'm not in the mood today.
+spouse.kiss.bad2=Why are you suddenly being nice to me?
+spouse.kiss.bad3=Mine suudle lehma.
+spouse.kiss.bad4=Ma ei arva nii.
+spouse.kiss.bad5=Liiga hilja selleks.
+spouse.kiss.bad6=Your nose poked me in the eye\!
+spouse.kiss.bad7=Ew, that was wet and sloppy\!
+spouse.kiss.bad8=You just don't know how to kiss.
+
+spouse.flirt.good1=You're such a smooth talker.
+spouse.flirt.good2=*Blush* You've always been quite the charmer.
+spouse.flirt.good3=Oh\! You haven't changed a bit since we've gotten married.
+spouse.flirt.good4=Aw\! That was so sweet\!
+spouse.flirt.good5=Oh my, I'm embarrassed.
+
+spouse.flirt.bad1=Kellegil pole selleks aega\!
+spouse.flirt.bad2=Kui originaalne.
+spouse.flirt.bad3=I bet you tell everyone that. No, I'm serious. I bet you do.
+spouse.flirt.bad4=Ma ei ole heas tujus.
+spouse.flirt.bad5=Now you want to try romancing me? What about when we were dating?
+
+spouse.tellstory.good1=That was a good one\!
+spouse.tellstory.good2=What did Cupquake do next?
+spouse.tellstory.good3=Sa vaatad ChimneySwift11i "Minecraft Files" ka?\!
+spouse.tellstory.good4=*Laughs* That reminds me of the time my mother walked in on me, except I was cleaning.
+spouse.tellstory.good5=Aw, I want a daughter like that\!
+
+spouse.tellstory.bad1=Why would you tell me that?
+spouse.tellstory.bad2=That makes me want to cry...
+spouse.tellstory.bad3=*Ignoreerib sind*
+spouse.tellstory.bad4=Why did THAT bring you such joy?
+spouse.tellstory.bad5=You shouldn't make fun of %RandomName%.
+
+spouse.greeting.handshake.good1=I love the feeling of your hand in mine.
+spouse.greeting.handshake.good2=You're silly\!
+spouse.greeting.handshake.good3=How is your day going, sweetheart?
+spouse.greeting.handshake.good4=Kuidas sul l\u00e4heb?
+spouse.greeting.handshake.good5=Tervitused, mu arm.
+
+spouse.greeting.handshake.bad1=Ew, I know where your hands have been.
+spouse.greeting.handshake.bad2=Su k\u00e4ed on higised.
+spouse.greeting.handshake.bad3=A handshake? That's it?
+spouse.greeting.handshake.bad4=No, you've been in the caves all day.
+spouse.greeting.handshake.bad5=Nad haisevad nagu...lehmad?\!
+
+spouse.greeting.highfive.good1=Ho yeah\!
+spouse.greeting.highfive.good2=Up high\!
+spouse.greeting.highfive.good3=Viska viis\!
+spouse.greeting.highfive.good4=What's up?
+spouse.greeting.highfive.good5=Heck yeah\!
+
+spouse.greeting.highfive.bad1=This is the most contact we've had in forever.
+spouse.greeting.highfive.bad2=Ma ei ole viie aastane enam.
+spouse.greeting.highfive.bad3=Sa oled nii lapslik.
+spouse.greeting.highfive.bad4=Ai\! Sa l\u00f5id mind\!
+spouse.greeting.highfive.bad5=Ma ei julge sinu k\u00e4si katsuda.
+
+spouse.chore.start.cooking1=Loomulikult\! Ma k\u00fcpsetan iga toidu, mille sa mulle annad.
+spouse.chore.start.cooking2=Jah, kallis. Ma kohe hakkan seda tegema.
+spouse.chore.start.cooking3=Hoia minule ka veidi see kord\! Ma k\u00fcpsetasin selle, sa tead.
+spouse.chore.start.cooking4=Mina olen ka n\u00e4ljane ka\!
+spouse.chore.start.cooking5=Ma loodan ma ei p\u00f5leta seda see kord.
+

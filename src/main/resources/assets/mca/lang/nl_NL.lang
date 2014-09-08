@@ -1,0 +1,2255 @@
+#X-Generator: crowdin.com
+#X-Generator: crowdin.net
+itemGroup.tabMCA=Minecraft komt tot leven
+
+##########
+# Heir
+#############################
+heir.set.success=%Name% is nu uw erfgenaam.
+heir.set.failure.alreadyset=Je hebt al iemand anders aangeduid als erfgenaam.
+heir.set.failure.sameperson=%Name% is al je erfgenaam.
+heir.set.failure.alreadyused=%Name% is al eens je erfgenaam geweest. Je moet iemand anders gebruiken.
+
+heir.gui.requestcrown=Kroon vragen
+heir.gui.recoverinventory=Herstel Inventaris
+
+heir.good.returncrown1=Ok\u00e9 dan. Het was leuk zolang het duurde.
+heir.good.returncrown2=Natuurlijk, %CallPlayerParent%. Hier is je kroon.
+heir.good.returncrown3=Graag, het werd toch saai.
+heir.good.returncrown4=Nog vijf minuutjes, alsjeblieft? Ah, ok\u00e9 dan\!
+heir.good.returncrown5=Ik ben blij dat dat voorbij is. Ze begonnen mij echt te haten\!
+
+heir.good.founditems1=Je bent terug\! Ik dacht dat je voor altijd weg was. Hier zijn je items.
+heir.good.founditems2=We vonden je spullen en dachten dat je weg was\! Hier, neem ze.
+heir.good.founditems3=Ik stuurde een aantal bewakers om je te zoeken. Ze brachten je items mee terug.
+heir.good.founditems4=Ik kan niet geloven dat je teruggeraakt bent\! We hebben je items gevonden, maar jou niet.
+
+##########
+# Information
+#############################
+information.doesnothing=Doet op het moment niks.
+
+information.whistle.line1=Rechtermuisknop terwijl je vasthoudt
+information.whistle.line2=om je echtgenoot en
+information.whistle.line3=kinderen naar jou te brengen.
+
+information.heircrown.line1=Geef dit aan je kind
+information.heircrown.line2=om het koning/koningin te maken
+information.heircrown.line3=wanneer je doodgaat.
+
+information.weddingring.line1=Geef aan een dorpeling wiens
+information.weddingring.line2=hartjes boven de 100 zijn om
+information.weddingring.line3=ze je echtgenoot te maken.
+
+information.villagereditor.line1=Druk met de rechtermuisknop op een dorpeling
+information.villagereditor.line2=om hem te bewerken.
+
+information.tombstone.line1=Plaats als een eerbetoon aan
+information.tombstone.line2=een verloren familielid.
+
+information.lostrelativedocument.line1=Gebruik het op een dorpeling om ze te maken
+information.lostrelativedocument.line2=naar de familielid die je hebt gekozen.
+
+information.engagementring.line1=geef aan een dorpeling, geef dan
+information.engagementring.line2=hen een trouwring om te krijgen
+information.engagementring.line3=Geschenk van andere dorpelingen.
+
+information.crown.line1=craft om konig the worden.
+
+information.baby.line1=Rechter Klik op de grond om
+information.baby.line2=Groei de baby op in een kind
+information.baby.line3=Als het klaar is.
+
+information.arrangersring.line1=Geef een cadeau aan een dropenling, dan geef er nog een
+information.arrangersring.line2=aan een villager om een te regelen
+information.arrangersring.line3=huwelijk tussen de twee.
+
+information.villagerbed.line1=Plaats dit bed op de grond
+information.villagerbed.line2=en een nabije dorpeling zal slapen
+information.villagerbed.line3=er in 's nachts.
+
+##########
+# Traits
+#############################
+gui.info.trait=Kenmerk\: 
+trait.unknown=Onbekend
+
+trait.none=Geen
+trait.shy=Schuw
+trait.fun=Leuk
+trait.serious=Serieus
+trait.friendly=Vriendelijk
+trait.irritable=Lichtgeraakt
+trait.emotional=Emotioneel
+trait.outgoing=Uitgaand
+
+##########
+# Moods
+#############################
+gui.info.mood=Stemming\: 
+
+mood.happy.ecstatic=Verrukt
+mood.happy.cheerful=Vrolijk
+mood.happy.happy=Blij
+mood.happy.fine=Goed
+mood.happy.okay=Ok\u00e9
+
+mood.neutral.passive=Passief
+
+mood.sadness.blue=Blauw
+mood.sadness.unhappy=Ongelukkig
+mood.sadness.sad=Verdrietig
+mood.sadness.cheerless=Somber
+mood.sadness.depressed=Depressief
+
+mood.anger.annoyed=Verveeld
+mood.anger.agitated=Geagiteerd
+mood.anger.mad=Boos
+mood.anger.seething=Ziedend
+mood.anger.infuriated=Kwaad
+
+mood.fatigue.tired=Moe
+mood.fatigue.sleepy=Slaperig
+mood.fatigue.fatigued=Vermoeid
+mood.fatigue.exhausted=Uitgeput
+mood.fatigue.comatose=Slaapzuchtig
+
+#######
+# Monarch
+#############################
+monarch.gui.button.interact.demandgift=Eis Geschenk
+monarch.gui.button.interact.execute=Executeren
+monarch.gui.button.interact.makeknight=Maak Ridder
+monarch.gui.button.interact.makepeasant=Maak Dorpeling
+
+monarch.knight.follow.start1=Alles voor jou, mijn %MonarchTitle%.
+monarch.knight.follow.start2=Ik zal je over naartoe vergezellen, uwe hoogheid.
+monarch.knight.follow.start3=Wapens in de hand\!
+monarch.knight.follow.start4=Op uw bevel.
+monarch.knight.follow.start5=Zoals u wenst.
+
+monarch.knight.follow.stop1=Ik ben altijd beschikbaar, mijn %MonarchTitle%.
+monarch.knight.follow.stop2=Zoals u wenst, uwe hoogheid.
+monarch.knight.follow.stop3=Ik zal doorgaan met mijn plichten.
+
+monarch.knight.follow.refuse1=Ik zou de wensen van %MonarchPlayerName% nooit tarten\!
+monarch.knight.follow.refuse2=Ik ben gezworen aan %MonarchPlayerName%.
+monarch.knight.follow.refuse3=Ik ben een ridder van %MonarchPlayerName%.
+
+monarch.execute.failure.noweapon=Je hebt geen wapen om dit persoon mee te executeren.
+monarch.execute.failure.playerspouse=Je kan een speler's echtgenoot niet executeren.
+
+monarch.makepeasant.success=Deze dorpeling is nu een boer onder jouw heerschappij. Ze zullen gratis werken als ze klusjes doen.
+monarch.makepeasant.failure.alreadypeasant=Deze dorpeling is al een boer voor een andere monarch.
+monarch.makepeasant.failure.playerspouse=Een spelers echtgenoot kan niet een boer worden gemaakt.
+
+monarch.makeknight.success=Deze bewaker is nu een ridder onder jouw heerschappij.
+monarch.makeknight.failure.alreadyknight=Deze bewaker is al een ridder voor een andere Monarch.
+monarch.makeknight.failure.playerspouse=Een spelers echtgenoot kan niet een ridder gemaakt worden.
+
+monarch.title.knight.male=%Name% de ridder
+monarch.title.knight.female=%Name% de Ridder
+monarch.title.knight.male.otherplayer=(Ridder voor %MonarchPlayerName%)
+monarch.title.knight.female.otherplayer=(Ridder voor %MonarchPlayerName%)
+
+monarch.title.peasant.male.owner=(Dorpeling)
+monarch.title.peasant.female.owner=(Dorpeling)
+monarch.title.peasant.male.otherplayer=(Dorpeling voor %MonarchPlayerName%)
+monarch.title.peasant.female.otherplayer=(Dorpeling voor %MonarchPlayerName%)
+
+monarch.title.monarch=Koning
+monarch.title.heir=Erfgenaam
+monarch.title.male.player=Koning
+monarch.title.male.heir=Prins
+monarch.title.female.player=Koningin
+monarch.title.female.heir=Prinses
+
+monarch.demandgift.accept1=Natuurlijk, uwe hoogheid\!
+monarch.demandgift.accept2=Alles om u te gelieven, uwe hoogheid.
+monarch.demandgift.accept3=Alles voor mijn %MonarchTitle%\!
+monarch.demandgift.accept4=Ja, mijn %MonarchTitle%.
+monarch.demandgift.accept5=Het zou me een eer zijn om te douchen met rijken, mijn %MonarchTitle%.
+monarch.demandgift.accept6=Zo'n liefdevolle %MonarchTitle% verdient veel geschenken\!
+monarch.demandgift.accept7=Het is me een eer uwe hoogheid.
+
+monarch.demandgift.toomany1=Ik heb nu nauwelijks genoeg voor mezelf\!
+monarch.demandgift.toomany2=Alsjeblieft, ik heb al zoveel gegeven...
+monarch.demandgift.toomany3=Ik dacht dat je een zorgzame %MonarchTitle% was, niet een hebberige.
+monarch.demandgift.toomany4=Je hebt dit niet van mij gehoord, maar mensen beginnen te denken dat je een tiran bent.
+monarch.demandgift.toomany5=Ik kan je zoveel geven\!
+monarch.demandgift.toomany6=Ik kan je niet veel geven... Je hebt te veel van me ge\u00ebist.
+
+monarch.demandgift.dictator1=Vergeet het maar\! Ik ga je niks meer geven\!
+monarch.demandgift.dictator2=We zijn er moe van dat je ons altijd commandeert\! Nee\! 
+monarch.demandgift.dictator3=Nee\! Dat is genoeg\!
+monarch.demandgift.dictator4=We hebben genoeg gehad van je nooit eindigende hebzucht\!
+monarch.demandgift.dictator5=Doe wat je moet, maar ik geef je verder niks meer\!
+
+#######
+# Names
+##############################
+name.male1=Aaron
+name.male2=Aceton
+name.male3=Adam
+name.male4=Aidan
+name.male5=Alan
+name.male6=Alex
+name.male7=Allen
+name.male8=Andrew
+name.male9=Anthonius
+name.male10=Armando
+name.male11=Arthur
+name.male12=Austin
+name.male13=Ben
+name.male14=Bill
+name.male15=Billy
+name.male16=Bradley
+name.male17=Brady
+name.male18=Braxton
+name.male19=Brayden
+name.male20=Brenden
+name.male21=Brent
+name.male22=Brian
+name.male23=Brice
+name.male24=Brighton
+name.male25=Caleb
+name.male26=Cameron
+name.male27=Christopher
+name.male28=Cleveland
+name.male29=Cody
+name.male30=Colby
+name.male31=Collin
+name.male32=Colton
+name.male33=Corey
+name.male34=Coty
+name.male35=Dale
+name.male36=Damon
+name.male37=Dan
+name.male38=Dane
+name.male39=Danny
+name.male40=David
+name.male41=Derek
+name.male42=Devin
+name.male43=Donnie
+name.male44=Drew
+name.male45=Dylan
+name.male46=Edward
+name.male47=Eric
+name.male48=Ethan
+name.male49=Evan
+name.male50=Fred
+name.male51=Gabe
+name.male52=Garret
+name.male53=Gary
+name.male54=Gavin
+name.male55=Harris
+name.male56=Harry
+name.male57=Hayden
+name.male58=Hunter
+name.male59=Jackson
+name.male60=Jacob
+name.male61=Jake
+name.male62=James
+name.male63=Jared
+name.male64=Jason
+name.male65=Jay
+name.male66=Jeremy
+name.male67=Jerry
+name.male68=Jim
+name.male69=Joe
+name.male70=John
+name.male71=Jon
+name.male72=Josef
+name.male73=Josh
+name.male74=Justin
+name.male75=Kaden
+name.male76=Kent
+name.male77=Kevin
+name.male78=Leo
+name.male79=Leon
+name.male80=Lewis
+name.male81=Liam
+name.male82=Lukas
+name.male83=Mac
+name.male84=Markus
+name.male85=Mark
+name.male86=Martin
+name.male87=Mason
+name.male88=Matt
+name.male89=Mattheo
+name.male90=Michel
+name.male91=Mike
+name.male92=Nathan
+name.male93=Nathaniel
+name.male94=Nick
+name.male95=Olivier
+name.male96=Oscar
+name.male97=Owen
+name.male98=Patrick
+name.male99=Peter
+name.male100=Phil
+name.male101=Randy
+name.male102=Rey
+name.male103=Robert
+name.male104=Roger
+name.male105=Roy
+name.male106=Russ
+name.male107=Ryan
+name.male108=Scott
+name.male109=Seth McFarlane
+name.male110=Shane
+name.male111=Shawn
+name.male112=Simon
+name.male113=Steven
+name.male114=Tanner
+name.male115=Tate
+name.male116=Terrence
+name.male117=Terry
+name.male118=Tim
+name.male119=Toby
+name.male120=Tom
+name.male121=Tommie
+name.male122=Tony
+name.male123=Trent
+name.male124=Tristan
+name.male125=Triston
+name.male126=Tyler
+name.male127=Tyson
+name.male128=Viktor
+name.male129=Vincent
+name.male130=Will
+name.male131=William 
+
+name.female1=Addison
+name.female2=Adi
+name.female3=Alexis
+name.female4=Alice
+name.female5=Alicia
+name.female6=Allie
+name.female7=Allison
+name.female8=Allysa
+name.female9=Alma
+name.female10=Amelia
+name.female11=Amnesty
+name.female12=Amy
+name.female13=Andrea
+name.female14=Angie
+name.female15=Anna
+name.female16=Anne
+name.female17=Arieanne
+name.female18=Ashley
+name.female19=Ashlyn
+name.female20=Ashton
+name.female21=Aspen
+name.female22=Aubrey
+name.female23=Aurora
+name.female24=Autumn
+name.female25=Ava
+name.female26=Baylee
+name.female27=Brooke
+name.female28=Camilla
+name.female29=Christien
+name.female30=Christy
+name.female31=Constance
+name.female32=Courtney
+name.female33=Cynthia
+name.female34=Dawn
+name.female35=Destiny
+name.female36=Diana
+name.female37=Donna
+name.female38=Elizabeth
+name.female39=Emery
+name.female40=Emily
+name.female41=Emma
+name.female42=Emmalyn
+name.female43=Erika
+name.female44=Eve
+name.female45=Faye
+name.female46=Gracie
+name.female47=Gwen
+name.female48=Hannah
+name.female49=Hazel
+name.female50=Holly
+name.female51=Jaden
+name.female52=Jennifer
+name.female53=Jessica
+name.female54=Julia
+name.female55=Julie
+name.female56=Kaitlin
+name.female57=Katie
+name.female58=Kaylene
+name.female59=Kiana
+name.female60=Kimberly
+name.female61=Kristen
+name.female62=Kylee
+name.female63=Leslie
+name.female64=Linda
+name.female65=Lindsey
+name.female66=Lola
+name.female67=Lori
+name.female68=Lydia
+name.female69=Madison
+name.female70=Marissa
+name.female71=Megan
+name.female72=Melissa
+name.female73=Melody
+name.female74=Miranda
+name.female75=Mollie
+name.female76=Nicky
+name.female77=Nicole
+name.female78=Oaklee
+name.female79=Penny
+name.female80=Rachel
+name.female81=Robin
+name.female82=Rosa
+name.female83=Rosalie
+name.female84=Sarah
+name.female85=Serenity
+name.female86=Sharon
+name.female87=Shayla
+name.female88=Sherry
+name.female89=Sheryl
+name.female90=Skylar
+name.female91=Sofia
+name.female92=Sonja
+name.female93=Stacey
+name.female94=Steph
+name.female95=Stephanie
+name.female96=Sylvia
+name.female97=Trinity
+name.female98=Valerie
+name.female99=Vannessa
+name.female100=Veronica
+name.female101=Whitney
+
+#######
+# Multiplayer
+##############################
+multiplayer.command.error.parameter=Parameter fout. Gebruik\:
+multiplayer.command.error.unknown=Een onbekende fout heeft zich voorgedaan.
+multiplayer.command.error.playeroffline=Die speler is niet op deze server ingelogd.
+
+multiplayer.command.output.help=minecraft komt tot leven- Commando's
+multiplayer.command.output.setgender=Jouw geslacht is nu\: 
+multiplayer.command.output.setname=Jouw naam is nu\: 
+
+multiplayer.command.output.marry.noring=Je hebt geen trouwring. Je kan niet met een andere speler trouwen.
+multiplayer.command.output.marry.request=%TruePlayerName% wil met je trouwen.
+multiplayer.command.output.marry.accept=Je bent nu getrouwd met %PlayerSpouseName%.
+multiplayer.command.output.marry.decline=Je huwelijksaanzoek is afgeslagen.
+multiplayer.command.output.marry.norequest=Die speler heeft niet gevraagd of je met hem/haar wil trouwen.
+multiplayer.command.output.marry.otheralreadymarried=Die speler is al getrouwd.
+multiplayer.command.output.marry.senderalreadymarried=Je bent al getrouwd.
+
+multiplayer.command.output.divorce.successful=Je bent nu gescheiden van je huidige echtgenoot.
+
+multiplayer.command.output.havebaby.request=Wil je een baby.
+multiplayer.command.output.havebaby.decline=Je verzoek om een baby te krijgen is afgeslagen.
+multiplayer.command.output.havebaby.limitreached=Je hebt het limiet van kinderen dat is ingesteld door de server administrator bereikt.
+
+multiplayer.command.output.block.failed=Die speler is al geblokkeerd.
+multiplayer.command.output.block.successful=Speler succesvol geblokkeerd.
+
+multiplayer.command.output.blockall.true.successful=Alle huwelijksaanboden zullen nu geblokkeerd worden.
+multiplayer.command.output.blockall.false.successful=Je zal nu weer huwelijksaanboden krijgen.
+
+multiplayer.command.output.unblock.failed=Die speler is niet geblokkeerd.
+multiplayer.command.output.unblock.successful=Speler succesvol gedeblokkeerd.
+
+multiplayer.command.output.unblockall.successful=Alle geblokkeerde spelers zijn nu gedeblokkeerd.
+
+multiplayer.interaction.reject.spouse=Je kunt geen andere spelers zijn echtgenoot besturen.
+multiplayer.interaction.reject.child=Je kunt niet een andre speler's kind besturen.
+
+#######
+# Achievements
+##############################
+achievement.charmer=Nogal de verleider
+achievement.getmarried=Onder de plak
+achievement.cookbaby=Voor de wetenschap, jij monster.
+achievement.havebabyboy=Het is een jongen\!
+achievement.havebabygirl=Het is een meisje\!
+achievement.growbaby=Ze groeien zo snel
+achievement.farming=Gratis Werk
+achievement.fishing=Ik moet ze allemaal vangen
+achievement.woodcutting=Houthakker
+achievement.mining=oneindigheidsmijnwerker
+achievement.huntkill=Een geboren moordenaar
+achievement.hunttame=vriend van de natuur
+achievement.growkid=Volwassen geworden man (of vrouw)
+achievement.equipadult=tot op de tand bewapend
+achievement.mobkills=persoonlijke lijfwacht
+achievement.marrychild=Laat ze trouwen
+achievement.havegrandchild=Grootouder
+achievement.havegreatgrandchild=oud als vuil
+achievement.havegreatx2grandchild=ouder dan modder
+achievement.havegreatx10grandchild=Wat is je geheim?
+achievement.hardcoresecret=ik zal je wreken
+achievement.craftcrown=maak mij koning\!
+achievement.executevillager=weg met je hoofd\!
+achievement.makeknight=Dit is schaken niet
+achievement.knightarmy=leger van twintig
+achievement.makepeasant=Goedendag, mijn heer
+achievement.peasantarmy=Volg mijn bevelen
+achievement.nameheir=koninklijk bloed
+achievement.killheir=er kan er maar een zijn
+achievement.monarchsecret=teruggaan in de geschiedenis
+
+achievement.charmer.desc=behaal 100 harten of meer bij een dorpeling.
+achievement.getmarried.desc=trouw met een dorpeling.
+achievement.cookbaby.desc=geheime prestatie
+achievement.havebabyboy.desc=krijg een baby jongen.
+achievement.havebabygirl.desc=krijg  een baby meisje.
+achievement.growbaby.desc=groei je baby op tot een kind.
+achievement.farming.desc=laat je kind 100 blokken land ploegen.
+achievement.fishing.desc=laat je kind 100 vissen verzamelen.
+achievement.woodcutting.desc=laat een kind 100 houtblokken verzamelen.
+achievement.mining.desc=laat een kind 300 blokken mijnen.
+achievement.huntkill.desc=laat een kind 100 dieren doden door te jagen.
+achievement.hunttame.desc=laat een kind 100 dieren temmen.
+achievement.growkid.desc=groei je kind op tot een volwassene.
+achievement.equipadult.desc=rust je volwassen zoon uit met een volledige harnas en een wapen.
+achievement.mobkills.desc=laat \u00e9\u00e9n volwassene 50 beesten doden.
+achievement.marrychild.desc=laat je kind trouwen.
+achievement.havegrandchild.desc=heb een kleinkind.
+achievement.havegreatgrandchild.desc=neem een achterkleinkind.
+achievement.havegreatx2grandchild.desc=neem een achterachterkleinkind.
+achievement.havegreatx10grandchild.desc=neem een achterachterachterachterachterachterachterachterachterachterkleinkind.
+achievement.hardcoresecret.desc=vind het geheim van de hardcore modus.
+achievement.craftcrown.desc=maak een kroon en word een koning.
+achievement.executevillager.desc=executeer een dorpeling.
+achievement.makeknight.desc=maak van een wachter een ridder.
+achievement.knightarmy.desc=Cre\u00eber een leger van twintig ridders.
+achievement.makepeasant.desc=Maak van een dorpeling een boer.
+achievement.peasantarmy.desc=Verander twintig dorpelingen in boeren.
+achievement.nameheir.desc=noem je opvolger voor de troon.
+achievement.killheir.desc=Vermoord je opvolger zodra ze op de troon zitten.
+achievement.monarchsecret.desc=Geheime prestatie.
+
+#######
+# Items & Blocks
+##############################
+item.ring.arranger.name=uithuwelijkingsring
+item.ring.engagement.name=verlovingsring
+item.ring.wedding.name=Trouwring
+item.baby.boy.name=Baby Jongen
+item.baby.girl.name=Baby Meisje
+item.egg.male.name=Broed mannelijke dorpeling
+item.egg.female.name=Broed vrouwelijke dorpeling
+item.whistle.name=Fluitje
+item.editor.name=Dorpeling bewerker
+item.lostrelativedocument.name=Verloren familie document
+item.crown.name=Kroon
+item.heircrown.name=Kroon van de Erfgenaam
+item.tombstone.name=Grafsteen
+item.kingscoat.name=Mantel van de Monarch
+item.kingspants.name=Broek van de Monarch
+item.kingsboots.name=Schoenen van de Monarch
+item.redcrown.name=Rode Kroon
+item.bluecrown.name=Blauwe Kroon
+item.greencrown.name=Groene Kroon
+item.pinkcrown.name=Roze Kroon
+item.purplecrown.name=Paarse Kroon
+item.redbed.name=Rood bed
+item.bluebed.name=Blauw bed
+item.greenbed.name=Groen bed
+item.pinkbed.name=Roze bed
+item.purplebed.name=Paars bed
+block.tombstone.name=Grafsteen
+
+#######
+# Professions
+##############################
+profession.baker.male=%Name% de Bakker
+profession.baker.female=%Name% de Bakker
+profession.butcher.male=%Name% de Slager
+profession.butcher.female=%Name% de Slager
+profession.farmer.male=%Name% de Boer
+profession.farmer.female=%Name% de Boerin
+profession.guard.male=%Name% de Wachter
+profession.guard.female=%Name% de Wachter
+profession.librarian.male=%Name% de Bibliothecaris
+profession.librarian.female=%Name% de Bibliothecaris
+profession.miner.male=%Name% de Mijnwerker
+profession.miner.female=%Name% de Mijnwerker
+profession.priest.male=%Name% de Priester
+profession.priest.female=%Name% de Priester
+profession.smith.male=%Name% de Smid
+profession.smith.female=%Name% de Smid
+profession.playerchild.male=%Name% het Kind
+profession.playerchild.female=%Naam% het Kind
+
+#######
+# Family Member Titles
+##############################
+family.aunt=Oom
+family.brother=Broer
+family.cousin.male=Neef
+family.cousin.female=Nicht
+family.daughter=Dochter
+family.father.formal=Vader
+family.father.informal=Pap
+family.fiance.male=Verloofde
+family.fiance.female=Verloofde
+family.granddaughter=Kleindochter
+family.grandson=Kleinzoon
+family.greatgranddaughter=Achter x%Generation% Kleindochter
+family.greatgrandson=Achter x%Generation% Kleinzoon
+family.grandfather=Opa
+family.greatgrandfather=Over x%Generation% Grootvader
+family.grandmother=Oma
+family.greatgrandmother=Over x%Generation% Grootmoeder
+family.husband=Man
+family.mother.formal=Moeder
+family.mother.informal=Mam
+family.nephew=Neef
+family.niece=Nicht
+family.none=None
+family.sister=Zus
+family.son=ZOon
+family.uncle=Oom
+family.wife=Vrouw
+
+#######
+# GUI Elements
+##############################
+
+#Buttons
+gui.button.back=Terug
+gui.button.exit=Stop
+gui.button.next=Volgende
+gui.button.yes=Ja
+gui.button.no=Nee
+gui.button.done=Klaar
+gui.button.ok=Ok
+gui.button.random=Willekeurig
+gui.button.trade=Ruil
+
+gui.button.setup.finish=Klaar
+gui.button.setup.gendermale=Geslacht\: Man
+gui.button.setup.genderfemale=Geslacht\: Vrouw
+gui.button.setup.hidesleepingtag=Verberg Slaap Tag\:
+gui.button.setup.overwritetestificates=Overschrijf Testificates\:
+gui.button.setup.growchildrenautomatically=Kinderen groeien vanzelf\: 
+gui.button.setup.displaymoodparticles=laat stemming particles zien\: 
+gui.button.setup.shownametags=Toon Naamplaten\: 
+gui.button.setup.preference=Voorkeur\: 
+
+gui.button.setup.males=Mannetjes
+gui.button.setup.females=Vrouwtjes
+
+gui.editor.name=Naam
+gui.editor.name.invalid=Die naam bevat ongeldige tekens.
+gui.button.editor.texture=Textuur\: 
+gui.button.editor.title=Titel\: 
+gui.button.editor.mood=Stemming\: 
+gui.button.editor.trait=eigenschap\: 
+
+gui.button.interact.interact=communiceer
+gui.button.interact.chat=Chat
+gui.button.interact.joke=Grap
+gui.button.interact.gift=Geschenk
+gui.button.interact.kiss=Kussen
+gui.button.interact.flirt=Flirten
+gui.button.interact.tellstory=Verhaaltje vertellen
+gui.button.interact.play=Spelen
+gui.button.interact.greet.handshake=Hand schudden
+gui.button.interact.greet.highfive=High Five
+gui.button.interact.follow=Volg me
+gui.button.interact.followstop=Stoppen met volgen
+gui.button.interact.stay=Verblijf
+gui.button.interact.staystop=Stel in als huis
+gui.button.interact.sethome=Stel in als huis
+gui.button.interact.takearrangerring=Neem de arrangeur Ring
+gui.button.interact.takegift=Neem Geschenk
+gui.button.interact.ridehorse=Rij Paard
+gui.button.interact.dismount=Afstappen
+
+gui.button.interact.player.asktomarry=Vraag ten huwelijk
+gui.button.interact.player.havebaby=Krijg een kind
+gui.button.interact.player.accept=Accepteren
+gui.button.interact.player.decline=Weigeren
+
+gui.button.special=Speciaal
+gui.button.special.priest.divorcespouse=Echtscheiding echtgenoot
+gui.button.special.priest.divorcecouple=Echtscheiding paar
+gui.button.special.priest.divorcecouple.nonefound=Geen paren gevonden.
+gui.button.special.priest.divorce=Scheiding
+gui.button.special.priest.giveupbaby=Doe de baby weg
+gui.button.special.priest.adoptbaby=Adopteer Baby
+gui.button.special.priest.adoptchild=Adopteer Kind
+gui.button.special.priest.arrangedmarriage=geregeld huwelijk
+gui.button.special.guard.hire=Huren
+gui.button.special.guard.dismiss=ontslaan
+gui.button.special.miner.hire=Huur
+gui.button.special.miner.dismiss=Afdoen
+gui.button.special.baker.aid=Vraag om Hulp
+gui.button.special.butcher.aid=Vraag om Hulp
+gui.button.special.farmer.aid=Vraag om Hulp
+gui.button.special.librarian.setup=open setup
+
+gui.button.spouse.cookfood=Kook Voedsel
+gui.button.spouse.stopcooking=Stop met Koken
+gui.button.spouse.inventory=Inventaris
+gui.button.spouse.procreate=Zich voort planten
+gui.button.spouse.migrate=Migreren
+
+gui.button.child.inventory=Inventaris
+gui.button.child.chores=Klusjes
+gui.button.child.stopchore=Stop klusje
+gui.button.child.growup=Word volwassen
+
+gui.button.chore.farming=Landbouw
+gui.button.chore.farming.method=Methode\: 
+gui.button.chore.farming.method.create=Boerderij maken
+gui.button.chore.farming.method.maintain=Boerderij onderhouden
+gui.button.chore.farming.plant=Planten\: 
+gui.button.chore.farming.plant.wheat=Graan
+gui.button.chore.farming.plant.melon=Meloen
+gui.button.chore.farming.plant.pumpkin=Pompoen
+gui.button.chore.farming.plant.carrot=Wortel
+gui.button.chore.farming.plant.potato=Aardappel
+gui.button.chore.farming.plant.sugarcane=Suikerriet
+gui.button.chore.farming.farmsize=Grootte boerderij\: 
+gui.button.chore.farming.radius=Diameter\: 
+gui.button.chore.fishing=Vissen
+gui.button.chore.combat=gevecht
+gui.button.chore.combat.sentry=Schildwacht\: 
+gui.button.chore.combat.sentry.radius=Diameter\: 
+gui.button.chore.combat.sentry.position.set=schildwacht positie
+gui.button.chore.combat.method=Methode\:
+gui.button.chore.combat.method.range=alleen afstand
+gui.button.chore.combat.method.melee=Alleen Melee
+gui.button.chore.combat.method.both=afstand&slag
+gui.button.chore.combat.method.neither=Vecht niet
+gui.button.chore.combat.attack.pig=Varkens aanvallen\:
+gui.button.chore.combat.attack.sheep=Schapen aanvallen\:
+gui.button.chore.combat.attack.cow=Koeien aanvallen\:
+gui.button.chore.combat.attack.chicken=Val Kippen aan\:
+gui.button.chore.combat.attack.spider=Val Spinnen aan\:
+gui.button.chore.combat.attack.zombie=Zombies aanvallen\:
+gui.button.chore.combat.attack.skeleton=Skeletons aanvallen\:
+gui.button.chore.combat.attack.creeper=Creepers aanvallen\:
+gui.button.chore.combat.attack.enderman=Endermen aanvallen\:
+gui.button.chore.combat.attack.unknown=Onbekende Aanval\:  
+gui.button.chore.woodcutting=Houthakken
+gui.button.chore.woodcutting.treetype=Type Boom\: 
+gui.button.chore.woodcutting.treetype.all=Alle
+gui.button.chore.woodcutting.treetype.oak=Eik
+gui.button.chore.woodcutting.treetype.spruce=Dennenboom
+gui.button.chore.woodcutting.treetype.birch=Berk
+gui.button.chore.woodcutting.treetype.jungle=Jungle
+gui.button.chore.mining=Mijnbouw
+gui.button.chore.mining.method=Methode\: 
+gui.button.chore.mining.method.passive=Passief
+gui.button.chore.mining.method.active=Actief
+gui.button.chore.mining.direction=Richting\: 
+gui.button.chore.mining.direction.forward=Vooruit
+gui.button.chore.mining.direction.backward=Achteruit
+gui.button.chore.mining.direction.left=Links
+gui.button.chore.mining.direction.right=Rechts
+gui.button.chore.mining.distance=Afstand\:\n
+gui.button.chore.mining.find=Vind\:
+gui.button.chore.mining.find.coal=Kool
+gui.button.chore.mining.find.iron=Ijzer
+gui.button.chore.mining.find.lapis=Lapis Lazuli
+gui.button.chore.mining.find.gold=Goud
+gui.button.chore.mining.find.diamond=Diamant
+gui.button.chore.mining.find.redstone=Redstone
+gui.button.chore.mining.find.emerald=Smaragd
+gui.button.chore.hunting=Jagen
+gui.button.chore.hunting.mode=Mode\:
+gui.button.chore.hunting.mode.kill=Dood
+gui.button.chore.hunting.mode.tame=Tem
+gui.button.chore.start=Start
+
+gui.button.hiring.hours=Uur\: 
+
+gui.button.lostrelativedocument.generation=Generatie\: %Generation%
+
+#Titles
+gui.title.setup=Minecraft Comes Alive Setup
+gui.title.setup.name=Kies jouw naam.
+gui.title.setup.gender=Kies jouw geslacht.
+gui.title.setup.options=Opties configureren.
+
+gui.title.inventory=%Name%'s tas
+
+gui.title.namebaby=Noem je kind\:
+gui.title.namebaby.male=Het is een jongen\!
+gui.title.namebaby.female=Het is een meisje\!
+
+gui.title.priest.divorcecouple=Kies de paar die je wilt scheiden.
+
+gui.title.tombstone=Bewerk grafsteen bericht\:
+
+gui.title.special.hired=(Gehuurd)
+
+gui.title.lostrelativedocument=Kies de gewenste relatie van %Name% en jou.
+gui.title.lostrelativedocument.confirm=Weet je zeker dat je wilt dat %Name% wordt\: 
+
+#Information
+gui.info.hearts=Harten
+
+gui.info.special.none=Deze persoon heeft geen speciale vaardigheden.
+
+gui.info.family.parents=(%ChildTitle% van %MotherName% en %FatherName%)
+gui.info.family.parents.deceased=(Gestorven Ouders)
+gui.info.family.parent=youp
+
+gui.info.family.spouse=getrouwd met
+gui.info.family.spouse.unrelated=(Getrouwt met %SpouseFullName%)
+
+gui.info.namebaby.invalidcharacters=De naam van de baby bevat ongeldige tekens.
+gui.info.namebaby.nametaken=Je hebt al een kind met die naam.
+
+gui.info.procreate.confirm1=je kan niet voortplanten wanneer je verloof bent.
+gui.info.procreate.confirm2=Je moet deze dorpeling een Trouwring cadeau doen.
+
+gui.info.chore.options=Opties\:
+gui.info.chore.options.none=Er zijn geen opties voor deze klus.
+gui.info.chore.experience=Ervaringsniveau\:
+
+gui.info.hire.price=Deze villager in dienst nemen zal %x% goudstaaf(/ven) kosten.
+gui.info.hire.hasgold=Je hebt genoeg goudstaven.
+gui.info.hire.notenoughgold=Je hebt niet genoeg goudstaven.
+gui.info.hire.minutesremaining=%x% minuten over.
+
+gui.info.hardcoresecret.prompt=Je kan herverschijnen als een van je kinderen als je kinderen hebt.
+gui.info.hardcoresecret.nochildren=Geen kinderen\!
+gui.info.hardcoresecret.spawnas=Verschijn als\: 
+gui.info.hardcoresecret.respawn=Herverschijn als kind
+
+#Overhead
+gui.overhead.hasgift=Cadeau Beschikbaar
+gui.overhead.hasring=Heeft Arrangeur Ring
+gui.overhead.sleeping=Aan het slapen
+gui.overhead.health=Gezondheid\:
+
+#######
+# Notifications/One Liners
+##############################
+notify.player.married=Jij en %Name% zijn nu getrouwt.
+notify.player.engaged=Je bent nu verloofd met %Naam%.
+notify.player.droppedbaby=Dat is een slecht idee.
+notify.player.clickbed=Je kunt dat bed niet gebruiken.
+
+notify.horse.invalid=Ik kan niet op dat paard rijden.
+notify.horse.notfound=Um... Op welk paard wil je dat ik rijd? Breng het naar me.
+
+notify.villager.married=Deze dorpelingen zijn nu getrouwt.
+notify.villager.gifted.cake.notenough=Ik zou het leuk vinden als mijn echtgenoot die taart ook zou hebben...
+notify.villager.gifted.cake.withbaby.male=Mijn vrouw en ik heb besloten om geen taart te eten tot onze kind volgroeid is.
+notify.villager.gifted.cake.withbaby.female=Mijn man en ik hebben besloten geen cake meer te eten tot ons kind is volgroeid.
+notify.villager.gifted.cake.spousenotnearby.male=Taart? Haal mijn vrouw, zodat ik het met haar kan delen.
+notify.villager.gifted.cake.spousenotnearby.female=Taart? Ga mijn echtgenoot halen zodat ik het met hem kan delen.
+notify.villager.gifted.arrangerring.othernotnearby=...Wat? Er is niemand anders in de buurt.
+notify.villager.gifted.arrangerring.relative=Ik ben jouw %RelationToPlayer%.
+notify.villager.gifted.arrangerring.notenoughrings=Het lijkt erop dat je niet genoeg ringen voor ons hebt. We hebben er twee nodig, natuurlijk\!
+notify.villager.gifted.arrangerring.invalidpartner=Ik kan niet trouwen met %Name%\!
+
+notify.baby.gaveup=Je kan nu een ander kind hebben.\n
+notify.baby.exists=Je hebt al een kind.
+notify.baby.readytogrow=Je baby is klaar om te groeien.
+notify.baby.cooked=Wat is er mis met je\!?
+
+notify.divorce.spousemissing=Je echtgenoot was niet dichtbij, dus je zult je voorwerpen niet van hen krijgen.
+notify.arrangedmarriage.failed=Er is niemand dichtbij die met je zou willen trouwen op dit moment.
+
+notify.death.male=%Name%, jouw %RelationToPlayer%, is gestorven.
+notify.death.female=%Name%, jouw %RelationToPlayer%, is gestorven.
+
+notify.homepoint.set=Deze persoon zal nu s'nachts gaan verschijnen.
+notify.homepoint.none=%Name% heeft nog geen thuispunt bepaald.
+notify.homepoint.invalid=Dit thuis punt is incorrect.
+notify.homepoint.obstructed=%Name%'s thuis punt is kapot.
+notify.homepoint.teleport.skip.following=%Name% volgt je en gaatniet naar huis vanacht.
+notify.homepoint.teleport.skip.staying=%Name% blijft stil staan en teleporteert niet thuis vanavond.
+
+notify.item.broken.axe=%Name%'s bijl brak.
+notify.item.broken.boots=%Name%'s laarzen zijn kapot gegaan.\n
+notify.item.broken.chestplate=%Name%'s borstplaat is gebroken.
+notify.item.broken.fishingrod=%Name%'s vis hengel is kapot.
+notify.item.broken.helmet=%Name%'s helm is kapot gegaan.
+notify.item.broken.leggings=%Name%'s beenkappen zijn gebroken.
+notify.item.broken.pickaxe=%Name%'s houweel brak.
+notify.item.broken.sword=%Name%'s zwaar is kapot gegaan.
+notify.item.broken.hoe=%Name%'s schoffel is kapot gegaan.
+notify.item.broken.bow=De boog van %Name% brak.
+
+notify.child.chore.finished.farming=Ik ben klaar met de landbouw.
+notify.child.chore.finished.fishing=Ik ben klaar met vissen.
+notify.child.chore.finished.woodcutting=Ik ben klaar met bomen omhakken.
+notify.child.chore.finished.mining=Ik ben klaar met het mijnen.
+notify.child.chore.finished.hunting=Ik ben klaar met jagen.
+
+notify.child.chore.levelup.farming.5=%Name% heeft level 5 in landbouw bereikt. Ze kunnen nu meer zaden krijgen wanneer ze tarwe oogsten.
+notify.child.chore.levelup.farming.10=%Name% heeft level 10 in landbouw bereikt. Ze kunnen nu sneller bewegen terwijl ze boerderijen onderhouden en maken.
+notify.child.chore.levelup.farming.15=%Name% heeft level 15 in landbouw bereikt. Ze kunnen nu 1-3 meer gewassen oogsten van elk type.
+notify.child.chore.levelup.farming.20=%Name% heeft level 20 in landbouw bereikt. Ze hebben nu een kans om meteen het nummer van gewassen te verdubbelen als ze oogsten.
+
+notify.child.chore.levelup.fishing.5=%Name% heeft level 5 in vissen bereikt. Ze kunnen nu sneller en twee keer zo vaak vis vangen.
+notify.child.chore.levelup.fishing.10=%Name% heeft level 10 in vissen gehaald. Ze zullen nu gewone schatten vinden tijdens het vissen.
+notify.child.chore.levelup.fishing.15=%Name% heeft level 15 in vissen bereikt. Ze kunnen nu sneller vis vangen en drie keer zo vaak.
+notify.child.chore.levelup.fishing.20=%Name% heeft level 20 in vissen gehaald. Ze zullen nu zeldzame schatten vinden tijdens het vissen.
+
+notify.child.chore.levelup.hunting.5=%Name% heeft level 5 in jagen gehaald. Ze zullen nu meer dieren mee nemen tijdens het temmen, zonder meer resources te gebruiken.
+notify.child.chore.levelup.hunting.10=%Name% heeft level 10 in jagen gehaald. Ze zijn niet langer in gevaar om te sterven tijdens het jagen.
+notify.child.chore.levelup.hunting.15=%Name% heeft level 15 in jagen gehaald. Ze zullen nu veel meer vlees terugbrengen van het jagen.
+notify.child.chore.levelup.hunting.20=%Name% heeft level 20 in jagen gehaald. Ze zullen nu altijd terug komen van het jagen na 1 minuut.
+
+notify.child.chore.levelup.mining.5=%Name% heeft level 5 in mijnen bereikt. Ze kunnen nu iets sneller door blokken mijnen.
+notify.child.chore.levelup.mining.10=%Name% heeft level 10 in mijnen gehaald. De pickaxe zal nu minder beschadigt raken tijdens het "Passieve" mijnen. 
+notify.child.chore.levelup.mining.15=%Name% heeft level 15 in mijnen gehaald. Ze zal nu het aantal blocks en ores verdubbelen die ze mijnen.
+notify.child.chore.levelup.mining.20=%Name% heeft level 20 in mijnen gehaald. Ze zal nu de exacte positie van ores vertellen tijdens het "passive" mijnen.
+
+notify.child.chore.levelup.woodcutting.5=%Name% heeft level 5 in houthakken bereikt. Ze zullen nu sneller bewegen tijdens het houthakken.
+notify.child.chore.levelup.woodcutting.10=%Name% heeft level 10 in houthakken gehaald. Ze zullen nu bomen sneller hakken met elke typen bijl.
+notify.child.chore.levelup.woodcutting.15=%Name% heeft level 15 in houthakken gehaald. Ze hebben nu een grotere kans om twee logs te krijgen voor elke log die ze hakken.
+notify.child.chore.levelup.woodcutting.20=%Name% heeft level 20 in houthakken bereikt. Ze zullen nu drie houtblokken krijgen voor elk houtblok dat ze hakken.
+
+notify.child.chore.interrupted.farming.noseeds=Ik heb niet genoeg zaden\!
+notify.child.chore.interrupted.farming.noland=Ik zie geen aarde of gras\!
+notify.child.chore.interrupted.farming.nofarmland=Je zei me dat ik alleen gebruik mocht maken van landbouwgrond. Waar is dat?
+notify.child.chore.interrupted.farming.noroom=Ik heb niet genoeg plek voor landbouw.
+notify.child.chore.interrupted.farming.noselection=Je hebt geen gebied aangegeven wat ik kan oogsten.
+notify.child.chore.interrupted.farming.nohoe=Ik heb geen schoffel.
+notify.child.chore.interrupted.fishing.nowater=Ik zie geen water in de buurt\!
+notify.child.chore.interrupted.fishing.norod=Ik heb geen vishengel\! Ik kan ze niet vangen met m'n blote handen.
+notify.child.chore.interrupted.mining.noblocks=Ik zie geen blokjes om te mijnen.
+notify.child.chore.interrupted.mining.nopickaxe=Ik heb geen houweel\!
+notify.child.chore.interrupted.mining.tookdamage=%Name% is schade opgelopen tijdens het mijnen. Ze zijn terug waar ze begonnen zijn.
+notify.child.chore.interrupted.woodcutting.notrees=Ik zie geen bomen.
+notify.child.chore.interrupted.hunting.notamematerials=Ik heb niks om dieren mee te temmen.
+
+notify.child.chore.failed.hunting.death=%Name% is gestorven tijdens 't jaagen.
+
+notify.child.chore.status.mining.orefound=Er zijn %OreType% %OreDistance% blocks away.
+notify.child.chore.status.mining.orenearby=Er is wat %OreType% dichtbij...
+notify.child.chore.status.mining.oredistance=Er zijn een paar %OreType%, %OreDistance% blokken bij %OreX%, %OreY%, %OreZ%.
+
+notify.child.gifted.arrows=Ok\! Ik wil iets beschieten\!
+notify.child.gifted.axe=Nu zullen mijn handen niet meer bloeden als ik bomen omhak\!
+notify.child.gifted.fishingrod=Nu kan ik gaan vissen\!
+notify.child.gifted.hoe=Met dit kan ik sneller op het land werken\!
+notify.child.gifted.seeds=Nu kan ik werken in de landbouw\!
+notify.child.gifted.sword=Dit maakt de monsters wel bang\!
+notify.child.gifted.wheat=Dit kan ik gebruiken om te temmen\!
+notify.child.gifted.pickaxe=Nu kan ik mijnen\!
+notify.child.gifted.carrot=Dit kan ik gebruiken om te temmen\!
+notify.child.gifted.bone=Dit kan ik gebruiken om te temmen\!
+
+notify.child.emptiedinventory=%Name% heeft zijn inventaris geleegt.
+notify.child.readytogrow=%Name% is klaar om te groeien.
+notify.child.growup=%Name% is gegroeit tot een volwassenen.
+notify.child.ranaway=%Name% is weggelopen.
+
+notify.spouse.gifted.anotherbaby=Ik houd ons kind al vast. Waar heb je die gekregen\!?
+notify.spouse.chore.interrupted.cooking.nofurnace=Ik zie nergens een oven.
+notify.spouse.chore.interrupted.cooking.nofuel=Ik heb geen brandstof om mee te koken.
+
+notify.lostrelativedocument.success=%Name% is nu jouw %RelationToPlayer%.
+notify.lostrelativedocument.success.norelation=%Name% is niet meer met je verwant.
+
+notify.monarch.began=de verantwoordelijkheid van een koning is geschonken aan jouw.
+notify.monarch.resume=Je bent nu terug koning. Je vorige opvolger kan niet meer worden gebruikt.
+notify.monarch.ended.noheir=Je bent niet langer een Monarch.
+notify.monarch.ended.withheir=Je bent niet langer een Monarch. Je erfgenaam heeft je plaats ingenomen.
+
+notify.hiring.complete=%Name%'s huur periode is afgelopen.
+
+notify.update.turnedon=MCA zal automatisch naar updates zoeken.
+notify.update.turnedoff=MCA zal geen updates meer melden totdat er een nieuwe update uitgekomen is.
+
+#######
+# Parser Commands
+##############################
+parser.playerchild.adult.callplayerparent.male=Vader
+parser.playerchild.adult.callplayerparent.female=Mam
+parser.playerchild.adult.parentopposite.male=Moeder
+parser.playerchild.adult.parentopposite.female=Vader
+
+parser.playerchild.young.callplayerparent.male=Papa
+parser.playerchild.young.callplayerparent.female=Mama
+parser.playerchild.young.parentopposite.male=Mama
+parser.playerchild.young.parentopposite.female=Papa
+
+#####################################################################################################
+#									              DIALOGUE											#
+#####################################################################################################
+
+#######
+# Profession-specific dialogue
+##############################
+guard.follow.refuse1=Nee, ik heb werk te doen.
+guard.follow.refuse2=Ik kan mijn positie niet zomaar verlaten.
+guard.follow.refuse3=Je wilt dat ik weg loop terwijl ik werk? Nee\!
+guard.follow.refuse4=Nee, niet als je me niet huurt.
+guard.follow.refuse5=Ik word ontslagen als ik gewoon weg loop\!
+
+guard.stay.refuse1=Ik ben aan het patrouilleren. Ik kan hier niet blijven.
+guard.stay.refuse2=Je bent niet mijn baas.
+guard.stay.refuse3=Je beseft je toch wel dat ik een wachter ben, toch?
+guard.stay.refuse4=Mijn werk is om in het dorp te patrouilleren, niet om te blijven staan.
+guard.stay.refuse5=Ik ben aan het werk nu. Maar ik ben wel te huren.
+
+smith.aid.prompt1=Ik kan een deal met je maken voor een aambeeld. Doe een bod. 
+smith.aid.prompt2=Ik ben bereid een oud aambeeld weg te geven...
+smith.aid.prompt3=Ik stop met werken als smit, dus ik verkoop mijn aambeeld.
+smith.aid.prompt4=Wil je een aambeeld hebben? Ik kan je het mijne geven, voor een prijs.
+
+smith.aid.outofrange1=Laat me weten wanneer je het aambeeld wilt kopen.
+smith.aid.outofrange2=Kom terug als je een bod hebt.
+
+smith.aid.alreadyaccepted1=Je hebt mijn aambeeld al. Er is verder niks dat ik voor je kan doen.
+smith.aid.alreadyaccepted2=Je hebt mijn aambeeld gekocht. Regel je eigen reparaties\!
+smith.aid.alreadyaccepted3=Ik heb geen ander aambeeld om te verkopen, sorry.
+
+smith.aid.accept1=Ah\! Dat is een goed aantal. Alsjeblieft.
+smith.aid.accept2=Dat werkt. Wees voorzichtig, het is zwaar\!
+smith.aid.accept3=Bedankt\! Hier is je aambeeld.
+smith.aid.accept4=Laat dit niet op iemand vallen, ok\u00e9?
+
+smith.aid.refuse.rightitem1=Dit is wat ik wil voor het aambeeld. Heb je er wat meer die je me kan geven?
+smith.aid.refuse.rightitem2=Ja, dit is precies wat ik wil, maar je hebt niet genoeg.
+smith.aid.refuse.rightitem3=Precies wat ik nodig had\! Ik heb iets meer nodig voordat ik je het aambeeld geef.
+smith.aid.refuse.rightitem4=Gooi er wat meer van deze bij en je hebt een aambeeld te pakken.
+
+smith.aid.refuse.wrongitem1=Ik wil die niet ruilen voor een aambeeld.
+smith.aid.refuse.wrongitem2=Dit is niet precies wat ik zoek. Heb je iets anders?
+smith.aid.refuse.wrongitem3=Nee... Ik wil iets anders als je mijn aambeeld koopt.
+smith.aid.refuse.wrongitem4=Ik heb iets anders nodig om voor het aambeeld te betalen.
+
+priest.adopt.male1=Hier is je baby. Zijn naam is %BabyName%.
+priest.adopt.male2=Hij is schattig, niet? Zijn naam is %BabyName%.
+priest.adopt.male3=Ik hoop dat %BabyName% je nog jaren plezier gaat geven.
+priest.adopt.female1=Ze is mooi, niet? Haar naam is %BabyName%.
+priest.adopt.female2=Verzorg %BabyName% goed, hier heb je haar.
+priest.adopt.female3=%BabyName% is zo lief, ik ben verdriet om haar te zien gaan.
+
+priest.arrangemarriage1=Ik hoop dat jij en %Name% samen veel plezier sullen vinden.
+priest.arrangemarriage2=%PlayerName%, ik zou het leuk vinden om %Name% te ontmoeten, nu jullie getrouwd zijn.
+priest.arrangemarriage3=Zoals je wenst. Je bent nu getrouwd met %Name%.
+
+generic.hire.accept1=Hartelijk bedankt\! ik zal alles doen wat je wilt.
+generic.hire.accept2=Dit is genoeg. Ik werk nu voor jou.
+generic.hire.accept3=Ik ben klaar om te werken\!
+generic.hire.accept4=Laten we beginnen, wat is mijn eerste taak?
+
+guard.hire.accept1=Bedankt\! Ik ben nu je bodyguard.
+guard.hire.accept2=Ik werk nu voor jou.
+guard.hire.accept3=Jij ben nu mijn baas.
+guard.hire.accept4=Wat is mijn eerste klus, baas?
+
+guard.hire.dismiss1=Het spijt me dat het niet werkte. Ik ga nu terug naar mijn vorige klus.
+guard.hire.dismiss2=Het was fijn om met u te werken\!
+guard.hire.dismiss3=Ik kijk wel of ik mijn baan in het dorp kan terug krijgen.
+guard.hire.dismiss4=Geweldig, ik heb weer geen baan...
+
+butcher.aid.accept1=Zeker\! Ik heb genoeg vlees over.
+butcher.aid.accept2=Hier heb je wat van mijn extra vlees.
+butcher.aid.accept3=Hier heb je wat vers vlees.
+
+butcher.aid.refuse1=Ik heb er niet genoeg van, Sorry.
+butcher.aid.refuse2=ik moet de rest houden voor het betalen van klanten\!
+butcher.aid.refuse3=Ik kan je nu even niets geven.
+
+baker.aid.accept1=Ik heb deze net gebakken. Hier, je mag hem hebben.
+baker.aid.accept2=Goed dan, je mag dit hebben. Het is vers van de werktafel.
+baker.aid.accept3=ik heb nog wat restjes die niet waren gekocht vandaag. jij mag ze houden.
+
+baker.aid.refuse1=ik heb op dit moment niks, kom later terug.
+baker.aid.refuse2=op dit moment ben ik aan het bakken. ze zijn pas later klaar.
+baker.aid.refuse3=ik had iets voor je maar ik heb het perongeluk verbrand, het spijt me.
+
+farmer.aid.accept1=ik denk dat ik een paar dingen kan sparen. hier.
+farmer.aid.accept2=Natuurlijk kan ik je helpen. Hier.
+farmer.aid.accept3=ik had onlangs een goeie oogst. hier, wat extra spullen. 
+
+farmer.aid.refuse1=het spijt me, ik beb niks dat ik kan je niks geven.
+farmer.aid.refuse2=kom later terug, ik heb niks voor je.
+farmer.aid.refuse3=sorry, ik heb niks dat ik kan missen.
+
+miner.hire.accept1=Bedankt\! Ik zal meteen beginnen.
+miner.hire.accept2=ik ben blij dat ik met jou mag meedoen\! waar moet ik mijnen?
+miner.hire.accept3=Bedankt dat je me hebt gehuurd. Ik kan nu beginnen met werken.\n\n
+
+miner.hire.refuse1=ik werk voor je voor vijf goudstukken. dan krijg je honderd blokken.
+miner.hire.refuse2=geef me vijf goudstukken en ik mijn honderd blokken voor jou.
+miner.hire.refuse3=je hebt niet genoeg geld om mij aan te nemen. ik heb vijf goudstukken nodig om aangenomen te worden.
+
+miner.hire.finished1=dat waren honderd blokken. ik ben klaar.
+miner.hire.finished2=dat waren honderd blokken. mijn werk is klaar.
+miner.hire.finished3=ik heb honderd blokken gemijnd. het was mijn genoegen om met je te werken.
+
+miner.hire.dismiss1=stop ik nu al? oh goed.
+miner.hire.dismiss2=ik ben beschikbaar voor meer werk als je het goud hebt.
+miner.hire.dismiss3=ik ga terug naar het dorp, dan.
+
+miner.chore.finished1=ik ben klaar met wat je me opgaf te doen.
+miner.chore.finished2=ik ben klaar voor meer werk.
+miner.chore.finished3=ik ben klaar met dit werk.
+
+miner.chore.start1=ik begin er meteen mee, baas.
+miner.chore.start2=ja, baas.
+miner.chore.start3=Ik zal meteen beginnen met werken.
+
+miner.dropallitems1=Alsjeblieft.
+miner.dropallitems2=Hier is uw deel, baas.
+miner.dropallitems3=Dit is wat ik heb.
+miner.dropallitems4=Dit is alles wat ik heb gemijnd.
+
+#######
+# Villager Dialogue
+##############################
+villager.chat.bad1=Saaaaaaaai.
+villager.chat.bad2=*Gaap*
+villager.chat.bad3=Het spijt me, wat zei je? Ik lette niet op.
+villager.chat.bad4=Zei je iets?
+villager.chat.bad5=Mmhm.
+villager.chat.bad6=Eumh...Ok\u00e9...Ik moet iets anders doen, excuseer me even...
+villager.chat.bad7=Oh ja, Ik denk dat ik iets ben vergeten... Dus ik moet gaan
+villager.chat.bad8=Ik weet niet wat je daarmee bedoelt.
+villager.chat.bad9=Ik denk dat je tegen de verkeerde persoon praat.
+villager.chat.bad10=Nee... ik denk het niet.
+villager.chat.bad11=Waarom zou je zoiets zeggen?
+villager.chat.bad12=Dat was erg onbeleefd van je.
+
+villager.chat.good1=Echt? Ik heb dat niet gehoord.
+villager.chat.good2=Van waar heb je dit gehoort?
+villager.chat.good3=Hoe deed je dat\!?
+villager.chat.good4=Ja, het is echt saai hier.
+villager.chat.good5=Oh, interessant.
+villager.chat.good6=Je vertelt mooie verhalen. Ken je meer?
+villager.chat.good7=Dat is aardig. Zo wat gebeurde er daarna?
+villager.chat.good8=Ik ben het volledig eens\!
+villager.chat.good9=Ik heb gehoord dat anderen hetzelfde zeggen.
+villager.chat.good10=Heb je smaragden gezien toen je ging minen?\n
+
+villager.engagement.accept1=Wanneer is onze bruiloft\!?
+villager.engagement.accept2=We gaan dan een groot feest houden, toch?
+villager.engagement.accept3=Eindelijk\! Ik wachtte voor altijd\! Ik hou van jou\!
+villager.engagement.accept4=Ik nodig al mn vrienden uit\!
+villager.engagement.accept5=Yay\! Ik hou van jou\!
+
+villager.engagement.refusal1=Ah... um...Ik ben niet klaar om me te vestigen.
+villager.engagement.refusal2=Oh...dit is genant...
+villager.engagement.refusal3=Huh? Nee\! Ik ken je niet eens\!
+villager.engagement.refusal4=Sorry, Maar ik vind jou niet leuk op die manier.
+villager.engagement.refusal5=Woah wacht eens, We kennen elkaar nauwelijks.
+
+villager.follow.start1=Waar gaan we naartoe?
+villager.follow.start2=Ik probeer bij je te blijven.
+villager.follow.start3=Okay. Ik kom mee.
+villager.follow.start4=Ga je het hele dorp verhuizen om je eigen stad te beginnen? Ik dacht van niet.
+villager.follow.start5=Okay, Ik kan wel een wandeling gebruiken.
+villager.follow.start6=Waar breng je me naartoe?
+villager.follow.start7=Oh, Waar wil je naartoe?
+villager.follow.start8=Laten we het snel afhandelen.
+
+villager.follow.stop1=Oke, Ik blijf hier in de buurt.
+villager.follow.stop2=Niet te ver weg gaan.
+villager.follow.stop3=Ik mag deze plaats wel\!
+villager.follow.stop4=Oke, zie je later\!
+villager.follow.stop5=Laat me hier niet achter\!
+villager.follow.stop6=Wees voorzichtig.
+villager.follow.stop7=Oke dan, Ik blijf hier.
+villager.follow.stop8=Ik stop je te volgen nu.
+villager.follow.stop9=Goed, Ik ben moe\!
+villager.follow.stop10=Dat was best druk\!
+
+villager.gift.bad1=Ik ben geen prullenbak.
+villager.gift.bad2=IK wil je rommel niet\!
+villager.gift.bad3=Ik denk dat dit rommel is.
+villager.gift.bad4=Waarom zou ik DAT willen?
+villager.gift.bad5=Je mag je rommel houden, bedankt.
+villager.gift.bad6=Ik hoop dat je een grapje maakt, dit is geen goed cadeau.
+villager.gift.bad7=Sorry, Maar ik accepteer zulke geschenken niet.
+villager.gift.bad8=Ik mag niks aannemen van vreemden, sorry.
+villager.gift.bad9=Dus jij bent degene wie dit van mij heeft gepakt\! Verlaat de huis.
+villager.gift.bad10=Waarom sta je erop dat ik rommel aanneem?
+
+villager.gift.small1=Oh, bedankt\!
+villager.gift.small2=Wat attent van je\!
+villager.gift.small3=Bedankt\!
+villager.gift.small4=Dit had niet gehoeven...bedankt\!
+villager.gift.small5=Oh,Ik houd van deze\!
+villager.gift.small6=Dankje.
+villager.gift.small7=Dit is een mooi cadeau. Bedankt.
+villager.gift.small8=Gaaf\! Bedankt\!
+
+villager.gift.regular1=Glimmend\!
+villager.gift.regular2=Dit is handig. Bedankt\!
+villager.gift.regular3=Oh wauw\! Bedankt\!
+villager.gift.regular4=Mag ik nog een?
+villager.gift.regular5=Bedankt, vriend.
+villager.gift.regular6=Ah, bedankt voor het geschenk.
+villager.gift.regular7=Ah, bedankt voor het geschenk.
+villager.gift.regular8=Wat een mooi cadeau\! Dankje, %PlayerName%.
+villager.gift.regular9=%PlayerName%, je bent zo aardig.
+villager.gift.regular10=Dit is erg aardig van je, %PlayerName%.
+villager.gift.regular11=Je bent echt een goeie vriend\!
+
+villager.gift.great1=I...Ik heb er geen woorden voor\! Bedankt\!
+villager.gift.great2=Deze zijn onbetaalbaar\!
+villager.gift.great3=Je weet wat een mooi cadeau is als je het ziet\!
+villager.gift.great4=Ik heb er altijd al zo eentje willen hebben\!
+villager.gift.great5=Dit is geweldig\!
+villager.gift.great6=Oh, Dit is.. Dank je\! Je hoefde dat echt niet te doen\!
+villager.gift.great7=Hartelijk dank, ik zal dit onthouden.
+villager.gift.great8=Oh dit is geweldig, Ik zal dit zeker goed gebruiken.
+
+villager.greeting.hate1=Ga weg.
+villager.greeting.hate2=Hoorde je me niet? Ik zij ga weg.
+villager.greeting.hate3=Oh. Jij bent het.
+villager.greeting.hate4=Ik vermoed dat je hier bent om me weer te slaan?
+villager.greeting.hate5=Alsjeblieft, Ga weg.
+villager.greeting.hate6=Wat wil JIJ?
+villager.greeting.hate7=Ik roep de wachters als je me weer lastig valt.
+villager.greeting.hate8=Ik heb een wapen, dat je het weet.
+villager.greeting.hate9=Ga iemand anders vervelen.
+villager.greeting.hate10=Ugh. Laat me met rust.
+villager.greeting.hate11=Ga weg, Klootzak.
+
+villager.greeting.basic1=Oh, Hallo daar.
+villager.greeting.basic2=Ben je nieuw hier?
+villager.greeting.basic3=Hallo, vreemdeling.
+villager.greeting.basic4=Hey, Alles goed?
+villager.greeting.basic5=Ik heb je niet eerder gezien hier.
+villager.greeting.basic6=Jij moet nieuw zijn hier.
+villager.greeting.basic7=Een goededag,  %PlayerName%.
+villager.greeting.basic8=Gegroet.
+villager.greeting.basic9=Hoe kan ik u helpen?
+villager.greeting.basic10=Oh, hallo. %PlayerName%, was de naam?
+
+villager.greeting.friend1=Hallo vriend\!
+villager.greeting.friend2=Hey\! Goed je weer te zien\!
+villager.greeting.friend3=Kijk iedereen\! Het is mijn beste maatje\!
+villager.greeting.friend4=Hey, maatje\!
+villager.greeting.friend5=Wat heb je zoal uitgehaald? Ik heb je al een tijdje niet meer gezien.
+villager.greeting.friend6=Hey, is het %PlayerName%, mijn beste vriend\!
+villager.greeting.friend7=Ah\! Kijk die we hier hebben. Hallo, PlayerName %\!
+villager.greeting.friend8=Hey jij\! Hoe gaat het?
+villager.greeting.friend9=Wat is er vriend, hoe gaat het met je?
+
+villager.greeting.interest.male1=Wow\! Je ziet er geweldig uit vandaag\!
+villager.greeting.interest.male2=%PlayerName%\! Ga alsjeblieft niet weg\! Ik wilde je wat.... Laat maar zitten.
+villager.greeting.interest.male3=*Fluistert* Zij is zo prachtig...
+villager.greeting.interest.male4=%PlayerName%, ik durf te wedden dat je niet weet dat ik rijk ben.
+villager.greeting.interest.male5=*Fluistert* Ze is zo aardig voor me, ik vraag me af of ze me leuk vind?
+
+villager.greeting.interest.female1=Hey, je zou een keer bij me langs moeten komen. *Knipoog*
+villager.greeting.interest.female2=Hi...%PlayerName%...*Giegelt*
+villager.greeting.interest.female3=Je ziet er groot en sterk uit zoals altijd\!
+villager.greeting.interest.female4=*Wordt bleek*
+villager.greeting.interest.female5=*Fluistert* Nee\! Ik vraag hem niet\!
+
+villager.greeting.wedding1=Ik hoorde over uw aanstaande bruiloft. Gefeliciteerd\!
+villager.greeting.wedding2=Hey, %playername%, Gefeliciteerd dat je gaat trouwen\!
+villager.greeting.wedding3=Ik weet zeker dat je een mooie bruiloft krijgt, Toch?
+villager.greeting.wedding4=ik ben zo blij voor je\! Ik breng jouw het grootste cadeau ooit\!
+villager.greeting.wedding5=Je gaat alleen maar trouwen voor de cadeaus, of niet soms?
+
+villager.hitbyplayer1=Laat me met rust\!
+villager.hitbyplayer2=Ik heb niks misdaan\!\n
+villager.hitbyplayer3=Hou daarmee op\!
+villager.hitbyplayer4=Ow\! Waarom sloeg je me?
+villager.hitbyplayer5=Hou op\! Het doet pijn\!
+villager.hitbyplayer6=Hey\! Sla me niet\!
+villager.hitbyplayer7=Ouch, stop ermee, stop ermee\!
+villager.hitbyplayer8=Raak me niet weer aan\!
+villager.hitbyplayer9=Wachters\! Deze persoon valt me aan\!
+villager.hitbyplayer10=Iemand help me\!
+villager.hitbyplayer12=Ow\! %PlayerName%\! Ik dacht dat we vrienden waren\!
+
+villager.gifted.baby1=Doe je eigen ouderschap.
+villager.gifted.baby2=Ik wil hem niet\!
+villager.gifted.baby3=Het stinkt\!
+villager.gifted.baby4=Oh, beter van niet. Ik verloor mijne gister.
+villager.gifted.baby5=Ik moet het nu vertelen, Ik haat kinderen.
+villager.gifted.baby6=Ik heb het moeilijk met mezelf te verzorgen, Laat staan een baby.
+villager.gifted.baby7=Ik wil het vasthouden, Maar ik ga er niet voor zorgen.
+villager.gifted.baby8=Waarom geef je het niet aan je vrouw in plaats van een vreemde?
+
+villager.interact.refusal1=Blijf weg van me.
+villager.interact.refusal2=Ik haat je.
+villager.interact.refusal3=Praat niet meer met me.
+villager.interact.refusal4=Ga Weg\!
+villager.interact.refusal5=Je bent hier niet welkom.
+villager.interact.refusal6=Ik wil niks met je te maken hebben. Ga weg.
+villager.interact.refusal7=Ga weg, je stoort me.
+villager.interact.refusal8=Ik ga niet eens met je praten.\n
+villager.interact.refusal9=Hou je handen thuis.
+
+villager.joke.bad1=Ik begrijp hem niet.
+villager.joke.bad2=Dat vat ik verkeert op.
+villager.joke.bad3=Dat is gewoon verschrikkelijk\!
+villager.joke.bad4=Dat slaat nergens op.
+villager.joke.bad5=Wat je net zij is erg dom.
+villager.joke.bad6=Ok dan...
+villager.joke.bad7=Dat is... een leuke grap.
+
+villager.joke.good1=Dat is gewoon te grappig\!
+villager.joke.good2=Van waar heb je die? Haha\!
+villager.joke.good3=Dat was een goeie\!
+villager.joke.good4=*Lacht*
+villager.joke.good5=Soort van grappig.
+villager.joke.good6=Dat is de beste grap die ik oiit heb gehoort\!
+villager.joke.good7=Je kent een paar goeie grappen\!
+villager.joke.good8=Ha\!Je weet hoe je mensen moet laten lachen.
+villager.joke.good9=Dat betekent twee dingen\!
+
+villager.marriage.acceptance1=Ik wil.
+villager.marriage.acceptance2=Je hebt me lang genoeg laten wachten\! Natuurlijk wil ik\!
+villager.marriage.acceptance3=Ja,Ik wil. Ik hou van je\!
+villager.marriage.acceptance4=Weetje ik denk laatste tijd veel aan je...En... Waar bazel ik nou over? Ik wil\!
+villager.marriage.acceptance5=Ik wil mijn leven met je delen\!
+villager.marriage.acceptance6=Een trouwring...Voor mij...? Ik wil\!
+villager.marriage.acceptance7=Wete dat je van me houd makt me gelukkig, met jouw zijn maakt me degelukigste persoon op aarde.
+
+villager.marriage.refusal.lowhearts1=Ben je gek?
+villager.marriage.refusal.lowhearts2=Wat? Wie ben jij\!?
+villager.marriage.refusal.lowhearts3=Ik ken je niet eens\!
+villager.marriage.refusal.lowhearts4=Eh, nee. Het spijt me.
+villager.marriage.refusal.lowhearts5=Ik hou niet van jou\!
+villager.marriage.refusal.lowhearts6=Wat? Nee\! Dat kan ik niet.
+villager.marriage.refusal.lowhearts7=Wel, eigenlijk... Ik ben niet klaar om nu al te trouwen.
+villager.marriage.refusal.lowhearts8=Ik weiger\!
+villager.marriage.refusal.lowhearts9=Ik wil niet met je trouwen, klootzak\!
+
+villager.marriage.refusal.playermarried1=Ik denk dat je al met iemand anders bent...
+villager.marriage.refusal.playermarried2=Ben je niet getrouwd?
+villager.marriage.refusal.playermarried3=Ik zie die ing op je vinger. Krijg de klere.
+villager.marriage.refusal.playermarried4=Hoe kan je dit je echtgenoot zelfs aan doen?
+villager.marriage.refusal.playermarried5=Je bent verschrikkelijk. Ga je verontschldigen bij je echtgenoot.
+villager.marriage.refusal.playermarried6=Ben je gek? Je bent al getrouwd\!
+villager.marriage.refusal.playermarried7=waarom doe je dit je echtgenoot aan? Jebent een idioot\!
+villager.marriage.refusal.playermarried8=Ik kan het beter je echtgenoot vertellen\!
+villager.marriage.refusal.playermarried9=ik zie je ring...
+
+villager.marriage.refusal.villagermarried1=ik ben al getrouwd, sorry.
+villager.marriage.refusal.villagermarried2=o nee...ik heb al iemand.
+villager.marriage.refusal.villagermarried3=ik heb al iemand.sorry, ik dacht dat je dat wist.
+villager.marriage.refusal.villagermarried4=ik moet nee zegen, want zie je, ik ben al getrouwd.
+villager.marriage.refusal.villagermarried5=het spijt me, ik heb al iemand.
+
+villager.angry1=Inderdaad\! Blijf daar, lafaard\!
+villager.angry2=Kom hier en vecht als een man\!
+villager.angry3=Ik roep de wacht als je niet ophoudt\!
+villager.angry4=Op een dag zal je het krijgen\!
+villager.angry5=kom niet terug\!
+
+villager.scared1=nee\! doe me geen pijn,alsjeblieft\!
+villager.scared2=ik zal het niet meer doen, ik zweer het\!
+villager.scared3=alsjeblieft\! Vermoordt Me Niet\!
+villager.scared4=Nee\! Doe dat wapen weg\!
+villager.scared5=Iemand Help\! Ze gaan me vermoorden\!
+
+villager.greeting.handshake.good1=Gegroet.
+villager.greeting.handshake.good2=Goede dag.
+villager.greeting.handshake.good3=Waarom is niet iedereen zo beschaafd? Welkom.
+villager.greeting.handshake.good4=je hebt een goeie houvast.
+villager.greeting.handshake.good5=Het was leuk van je om te komen.
+
+villager.greeting.handshake.bad1=Au\! je deed mijn hand pijn\!
+villager.greeting.handshake.bad2=Je schud te strak.
+villager.greeting.handshake.bad3=Nee dank je.
+villager.greeting.handshake.bad4=Uh...nee. Je handen zien er vies uit.
+villager.greeting.handshake.bad5=Wat is dat op je handen?\!
+
+villager.greeting.highfive.good1=High five\!
+villager.greeting.highfive.good2=Hoe gaat het, %PlayerName%?
+villager.greeting.highfive.good3=Ok\u00e9\!
+villager.greeting.highfive.good4=Hey, hoe gaat het?
+villager.greeting.highfive.good5=Goed om je te zien\!
+
+villager.greeting.highfive.bad1=Nee, sla me niet\!
+villager.greeting.highfive.bad2=Wie is speciaal?
+villager.greeting.highfive.bad3=Uh...nee, sorry.
+villager.greeting.highfive.bad4=Hou er mee op.
+villager.greeting.highfive.bad5=...Wat doe je?
+
+villager.kiss.good1=*bloost* Ben je single?
+villager.kiss.good2=Je bent een goede kusser...
+villager.kiss.good3=Je lippen zijn zo zacht en zoet.
+villager.kiss.good4=Smaakt naar honing.
+villager.kiss.good5=*giechelt* Jij bent schattig.
+
+villager.kiss.bad1=Ken ik jou?\!
+villager.kiss.bad2=*slaat*
+villager.kiss.bad3=Ik roep de bewakers\!
+villager.kiss.bad4=Wat doe je?\!
+villager.kiss.bad5=Dit zou m'n vader nooit goed keuren.
+
+villager.flirt.good1=*bloost* Oh, mijn.
+villager.flirt.good2=*giechelt* Je bent zo schattig.
+villager.flirt.good3=Ik hou ervan als je zo spreekt.
+villager.flirt.good4=je ziet er goed uit.
+villager.flirt.good5=Hehe, we moeten eens wat samen doen.
+
+villager.flirt.bad1=Ben ik van goud gemaakt? Want jij kan me niet krijgen\!
+villager.flirt.bad2=Eik, ik denk het niet.
+villager.flirt.bad3=Heb jij niet al een partner?
+villager.flirt.bad4=*lacht* Sorry, dat is niet waarin ik ge\u00efnteresseerd ben.
+villager.flirt.bad5=Dat was zielig.
+
+villager.tellstory.good1=*lacht* De varkens krijgen het beste van ons allemaal\!
+villager.tellstory.good2=Ik weet nog hoe ik dat ook kon doen toen ik jonger was.
+villager.tellstory.good3=We moeten dat samen eens proberen.
+villager.tellstory.good4=Jij zult ons tenminste beschermen tegen de zombies\!
+villager.tellstory.good5=*lacht* Jij valt best wel mee, %PlayerName%.
+
+villager.tellstory.bad1=Je zou je moeten schamen\!
+villager.tellstory.bad2=Dat heb je verdiend.
+villager.tellstory.bad3=Daarvoor zou een zombie je moeten aanvallen\!
+villager.tellstory.bad4=Whatever.
+villager.tellstory.bad5=Nu voel ik me heel ongemakkelijk...
+
+#######
+# Grandchild Dialogue
+##############################
+
+grandchild.chat.bad1=Je bent oud. En saai.
+grandchild.chat.bad2=Ik wil geen saaie verhalen horen\!
+grandchild.chat.bad3=*Gaap*
+
+grandchild.chat.good1=Ik heb de beste %RelationOfPlayer% ooit\!
+grandchild.chat.good2=Wow\! Gebeurde dat echt?
+grandchild.chat.good3=Gebeurde al die dingen echt?
+grandchild.chat.good4=Ik vind het altijd fijn om met jou te praten.
+
+grandchild.follow.start1=Waar gaan we naartoe?
+grandchild.follow.start2=Ik wil dat je me laat zien waar je die creeper hebt gedood.
+grandchild.follow.start3=Ok\u00e9, laten we gaan\!
+
+grandchild.follow.stop1=Ik zal op je wachten, %RelationOfPlayer%.
+grandchild.follow.stop2=Ik zal hier op je wachten, %RelationOfPlayer%.
+grandchild.follow.stop3=Ga niet te ver weg, %RelationOfPlayer%.
+
+grandchild.gift.bad1=How oud is dit ding? Ieuw\!
+grandchild.gift.bad2=Dit ziet eruit alsof het uit de steentijd komt.
+grandchild.gift.bad3=Ah... bedankt. Denk ik.
+
+grandchild.gift.great1=Dit moet veel voor je betekent hebben. Bedankt\!
+grandchild.gift.great2=Wow\! Mag ik dit hebben?\!
+grandchild.gift.great3=Ik wist wel dat je me iets leuks zou brengen\!
+
+grandchild.gift.regular1=Ik toon altijd iedereen wat mijn %RelationOfPlayer% aan mij geeft\!
+grandchild.gift.regular2=Wow\! Dit is cool\!
+grandchild.gift.regular3=Ik vind het leuk als je mij cadeautjes brengt, %RelationOfPlayer%.
+
+grandchild.gift.small1=Nou, dit is keurig\!
+grandchild.gift.small2=H\u00e9, ik vind dit leuk\!
+grandchild.gift.small3=Bedankt, %RelationOfPlayer%\!
+grandchild.gift.small4=Dit is echt cool, %RelationOfPlayer%.
+
+grandchild.greeting.basic1=Hallo, %RelationOfPlayer%.
+grandchild.greeting.basic2=Ik had je al een tijd niet gezien, %RelationOfPlayer%.
+
+grandchild.greeting.friend1=H\u00e9, het is %RelationOfPlayer%\!
+grandchild.greeting.friend2=Kijk iedereen, mijn %RelationOfPlayer% is er\!
+
+grandchild.greeting.hate1=*Mopperen*
+grandchild.greeting.hate2=Oh nee. Je bent hier.
+grandchild.greeting.hate3=Je bent niet mijn favoriete %RelationOfPlayer%.
+grandchild.greeting.hate4=Mama\! %RelationOfPlayer% is er...
+
+grandchild.hitbyplayer1=Auw\! Dat deed pijn\!
+grandchild.hitbyplayer2=Stop ermee\!
+grandchild.hitbyplayer3=Je speelt het te ruig\!
+grandchild.hitbyplayer4=Waarom sla je mij, %RelationOfPlayer%?
+
+grandchild.gifted.baby1=Je kan nog steeds babies krijgen\!?
+grandchild.gifted.baby2=Is dat... van jou?
+
+grandchild.joke.bad1=Dat was echt heel slecht...
+grandchild.joke.bad2=Wat???
+grandchild.joke.bad3=Misschien was dat toen grappig, maar nu... niet echt meer.
+grandchild.joke.bad4=Je oude grappen zijn niet grappig.
+
+grandchild.joke.good1=Ik vertel altijd iedereen hoe grappig mijn %RelationOfPlayer% is\!
+grandchild.joke.good2=Je zou die aan mijn vriend moeten vertellen\!
+grandchild.joke.good3=Dat was zo grappig, %RelationOfPlayer%\!
+grandchild.joke.good4=Mijn %RelationOfPlayer% is altijd zo grappig\!
+
+grandchild.greeting.handshake.good1=Dus jij ben mijn %RelationOfPlayer%?
+grandchild.greeting.handshake.good2=Aangename kennismaking. Jij bent mijn %RelationOfPlayer%, of niet soms?
+grandchild.greeting.handshake.good3=H\u00e9, wist jij dat ik jouw %RelationToPlayer% ben? Ik niet.
+grandchild.greeting.handshake.good4=Hey, %RelationOfPlayer%.
+grandchild.greeting.handshake.good5=Heb je wat voor me meegebracht?\!
+
+grandchild.greeting.handshake.bad1=Een... handdruk?
+grandchild.greeting.handshake.bad2=Je schudt de hand van je kleinkinderen?
+grandchild.greeting.handshake.bad3=Eik\! Jij bent oud\!
+grandchild.greeting.handshake.bad4=Je handen zijn verrimpeld\!
+grandchild.greeting.handshake.bad5=Auw\! Waarom kneep je zo hard?
+
+grandchild.greeting.highfive.good1=Joepie\! Nog een keer\!
+grandchild.greeting.highfive.good2=Nog eens, nog eens\!
+grandchild.greeting.highfive.good3=Doe het nog eens\!
+grandchild.greeting.highfive.good4=Doe het nog eens, alsjeblieft?
+grandchild.greeting.highfive.good5=Nog eens\!
+
+grandchild.greeting.highfive.bad1=Mijn handen doen pijn.
+grandchild.greeting.highfive.bad2=Dit begint pijn te doen\!
+grandchild.greeting.highfive.bad3=Stop\!
+grandchild.greeting.highfive.bad4=Dit wordt saai.
+grandchild.greeting.highfive.bad5=Ok\u00e9, nu doen mijn handen pijn.
+
+grandchild.tellstory.good1=Wat een geluk dat we een schildwacht hebben\!
+grandchild.tellstory.good2=Wauw, heb jij dat echt gedaan?
+grandchild.tellstory.good3=Wat deed het skelet toen?
+grandchild.tellstory.good4=Jij bent mijn held\!
+grandchild.tellstory.good5=Mag ik eens mee gaan mijnen?
+
+grandchild.tellstory.bad1=Ik geloof je niet.
+grandchild.tellstory.bad2=Mijn ouders zeiden dat ik geen woord moet geloven van wat jij zegt.
+grandchild.tellstory.bad3=Tuurlijk.
+grandchild.tellstory.bad4=Ik wil niet meer in jouw buurt zijn...
+grandchild.tellstory.bad5=Ik zou beter naar huis gaan.
+
+grandchild.play.good1=Joepie, dit is leuk\!
+grandchild.play.good2=ik breng graag tijd met je door\!
+grandchild.play.good3=jij bent de beste\!
+grandchild.play.good4=laten we spelen\!
+grandchild.play.good5=Ik zal je verslaan\!
+
+grandchild.play.bad1=alweer?
+grandchild.play.bad2=je bent te oud om dat te doen.
+grandchild.play.bad3=Je speelt vals.
+grandchild.play.bad4=speel gewoon met je dieren.
+grandchild.play.bad5=ik eet liever groente.
+
+#######
+# Villager Child Dialogue
+##############################
+
+villagerchild.chat.bad1=Sorry, m'n ouders staan me niet toe om met vreemde te praten\!
+villagerchild.chat.bad2=Wie ben jij? Je ziet er raar uit.
+villagerchild.chat.bad3=Ik wil niet praten, Je bent eng\!
+
+villagerchild.chat.good1=Wow\! jij bent cool\!
+villagerchild.chat.good2=jij bent als een superheld\!
+villagerchild.chat.good3=ben jij een avonturier\!? Dat is zo cool\!
+villagerchild.chat.good4=Ik vind je verhalen leuk, vertel me meer, vertel me meer\!
+
+villagerchild.follow.start1=ok, maar ik wil niet te ver van huis gaan\!
+villagerchild.follow.start2=Aw... Ik wouw eigenlijk hier blijven....
+villagerchild.follow.start3=waar gaan we heen? op avontuur?
+
+villagerchild.follow.stop1=Goed.Ik werd moe met het kijken naar je kont\!
+villagerchild.follow.stop2=waar is iedereen?
+villagerchild.follow.stop3=laat me niet hier achter\!
+
+villagerchild.gift.bad1=ah, dit is troep\! Ik wil het niet.
+villagerchild.gift.bad2=kan ik dit weg gooien? Ik wil het niet.
+villagerchild.gift.bad3=waarom geef je me dit %PlayerName%? Ik vint het niks\!
+
+villagerchild.gift.great1=Wow\! mag ik dit hebben? Dank je zo veel\! Ik ga dit aan m'n vader laten zien\!
+villagerchild.gift.great2=Dank je voor het mooie kado\!
+villagerchild.gift.great3=Dit is het beste kado ooit\! Dank je\!
+
+villagerchild.gift.regular1=Dank je\!
+villagerchild.gift.regular2=Dit is cool\! Dank je\!
+villagerchild.gift.regular3=Dank je voor 't cado\!
+
+villagerchild.gift.small1=Bedankt\!
+villagerchild.gift.small2=Heel erg bedankt\!
+villagerchild.gift.small3=Kan ik dit eten?
+villagerchild.gift.small4=Voor mij? oh, Bedankt\!
+
+villagerchild.greeting.basic1=Wie ben jij?
+villagerchild.greeting.basic2=Jij ziet er grappig uit.
+
+villagerchild.greeting.friend1=Jij bent mijn vriend\!
+villagerchild.greeting.friend2=Wil je spelen?
+
+villagerchild.greeting.hate1=Ik vind je niet leuk.
+villagerchild.greeting.hate2=h\u00e9 ik herken jouw\! Jij Deed mij pijn\!
+villagerchild.greeting.hate3=Nee\! Ga Weg\!
+villagerchild.greeting.hate4=Mijn vader zij dat je weg moest blijven.
+
+villagerchild.hitbyplayer1=Au\!Mam\!%PlayerName% sloeg me\!
+villagerchild.hitbyplayer2=Sla me niet, Het Doet zeer\!          (Tl note translation sounds odd \:P)
+villagerchild.hitbyplayer3=Nee doe me geen pijn, alsjeblieft\!
+villagerchild.hitbyplayer4=Mama\! Papa\! Au\!
+
+villagerchild.gifted.baby1=Ach.. De baby is schattig maar stinkt wel.
+villagerchild.gifted.baby2=Waarom stinkt het?
+villagerchild.gifted.baby3=Ik wil het niet houden\!
+
+villagerchild.joke.bad1=Je bent nogal dom.
+villagerchild.joke.bad2=Dat is niet grappig.
+villagerchild.joke.bad3=Dat is niet grappig\!
+villagerchild.joke.bad4=Beledig mij niet\!
+villagerchild.joke.bad5=Mamma\! %PlayerName% zegt een lelijk woord\!
+
+villagerchild.joke.good1=Haha\! Jij bent de grappigste\!
+villagerchild.joke.good2=Ik vind jouw grappen erg leuk\!
+villagerchild.joke.good3=Die was goed\! Die vertel ik straks aan mijn vrienden\!
+villagerchild.joke.good4=Hoe deed je dat gekke gezicht ook al weer?
+
+villagerchild.play.good1=mijn ouders hebben nooit tijd om dit te doen\!
+villagerchild.play.good2=joepie\! zullen we vrienden worden?
+villagerchild.play.good3=kan ik wat winnen?
+villagerchild.play.good4=laten we voor eeuwig spelen\!
+villagerchild.play.good5=laten we lol maken\!
+
+villagerchild.play.bad1=wie ben jij?
+villagerchild.play.bad2=mijn moeder zei dat ik niet met vreemdelingen mocht spelen.
+villagerchild.play.bad3=mijn vader zei dat je me in een ravijn zou gooien.
+villagerchild.play.bad4=nee, geen probleem.
+villagerchild.play.bad5=speel met je eigen kind.
+
+villagerchild.tellstory.good1=Ik zou willen dat ik jouw kind was...
+villagerchild.tellstory.good2=Mag ik ook de inktvis gaan aaien?\!
+villagerchild.tellstory.good3=Wow, kan je me meenemen naar de Nether?\!
+villagerchild.tellstory.good4=Waarom kan je me niet vertellen wat er zou gebeuren als je ze eten geeft?
+villagerchild.tellstory.good5=Ik ga mijn eigen club beginnen net zoals jij hebt gedaan\!
+
+villagerchild.tellstory.bad1=Jij bent geen goed persoon of wel soms?
+villagerchild.tellstory.bad2=Ik denk dat ik mijn moeder hoor roepen voor het avondeten.
+villagerchild.tellstory.bad3=Mijn ouders gaan sterven?\!
+villagerchild.tellstory.bad4=Ga weg.
+villagerchild.tellstory.bad5=Je verhalen zijn saai.
+
+#######
+# Adult Dialogue
+##############################
+
+playerchild.adult.chat.bad1=Heb je niet een ander verhaal te vertellen?
+playerchild.adult.chat.bad2=Ik ben bezig...
+playerchild.adult.chat.bad3=Kunnen we later verder spreken?
+playerchild.adult.chat.bad4=Yep.
+playerchild.adult.chat.bad5=Uh-huh.
+playerchild.adult.chat.bad6=Ok\u00e9.
+playerchild.adult.chat.bad7=Ok dan.
+playerchild.adult.chat.bad8=Dat is interessant...
+playerchild.adult.chat.bad9=*Rolt met Ogen*
+playerchild.adult.chat.bad10=vertelde mij dat je daarover gelogen hebt.
+playerchild.adult.chat.bad11=Laten we het over iets anders hebben, goed?
+playerchild.adult.chat.bad12=Nou.. Dat is.. Interessant..
+playerchild.adult.chat.bad13=Ehrm.. Natuurlijk..
+playerchild.adult.chat.bad14=Verder nog iets?
+playerchild.adult.chat.bad15=Misschien later.
+playerchild.adult.chat.bad16=Ik kan nu niet praten.
+playerchild.adult.chat.bad17=Oh mijn god, ALSJEBLIEFT laat me alleen\!
+playerchild.adult.chat.bad18=Alles wat ik heb gehoord was "bla, bla, bla".
+
+playerchild.adult.chat.good1=*Luisterd goed*
+playerchild.adult.chat.good2=Ja, we zullen moeten jagen.
+playerchild.adult.chat.good3=laten we dingen verzamelen, of mijnen, of iets\!
+playerchild.adult.chat.good4=Je zou me mee moeten nemen de volgende keer.
+playerchild.adult.chat.good5=Wanneer krijg ik mijn eigen huis?
+playerchild.adult.chat.good6=Op een dag, wil ik een eigen huis.
+playerchild.adult.chat.good7=ik kan niet wachten tot ik een huis voor mezelf heb\!
+playerchild.adult.chat.good8=laten we wat tuinieren doen of iets\!
+playerchild.adult.chat.good9=Laten we ergens heen gaan\!
+playerchild.adult.chat.good10=Oh\! Wat een goed verhaal\!
+playerchild.adult.chat.good11=Ja hoor. Het gaat goed met mij.
+playerchild.adult.chat.good12=je moet het niet verspreiden maar het is een goed verhaal.
+playerchild.adult.chat.good13=dat is het beste sinds brood\!
+
+playerchild.adult.chore.start.farming1=ja, %CallPlayerParent%.
+playerchild.adult.chore.start.farming2=oke dan. %CallPlayerParent%.
+playerchild.adult.chore.start.farming3=is goed. zal ik doen, %CallPlayerParent%.
+playerchild.adult.chore.start.farming4=tuinieren? oke, zal ik doen.
+playerchild.adult.chore.start.farming5=kom op\! jij hoefde dat niet te doen toen jij een kind was\!
+playerchild.adult.chore.start.farming6=wil je me helpen, %CallPlayerParent@?
+playerchild.adult.chore.start.farming7=Als we het brood dat ik gemaakt heb verkopen, krijg ik dan 50 van de winst?
+
+playerchild.adult.chore.start.fishing1=Ik hou van vissen. Ok\u00e9.
+playerchild.adult.chore.start.fishing2=Ik wed dat ik meer vang dan jij ooit zult vangen\!
+playerchild.adult.chore.start.fishing3=Ik ga proberen mijn record te verbreken deze keer.
+playerchild.adult.chore.start.fishing4=Oh. Dus ik moet weer voor het eten zorgen.
+playerchild.adult.chore.start.fishing5=Yeah, oke.
+playerchild.adult.chore.start.fishing6=Tof\! Ik hou van vissen, %CallPlayerParent%\!
+playerchild.adult.chore.start.fishing7=Ik zal heel veel vis vangen, je zal het zien\!
+playerchild.adult.chore.start.fishing8=Goed\! Ik ga proberen zo veel mogelijk vis te vangen.
+playerchild.adult.chore.start.fishing9=Ik kan goed vissen\! Je zult het zien.
+playerchild.adult.chore.start.fishing10=Hier visje...
+playerchild.adult.chore.start.fishing11=Ik hoop dat mijn nieuwe kleren niet nat worden.
+
+playerchild.adult.chore.start.mining1=Koolstof is niet giftig, toch?
+playerchild.adult.chore.start.mining2=Ik hoop dat mijn houweel dit keer niet breekt.
+playerchild.adult.chore.start.mining3=Ik zal meer diamanten dan jou vinden, je zal zien\!
+
+playerchild.adult.chore.start.woodcutting1=Ik wil nog steeds die boomhut, weet je.
+playerchild.adult.chore.start.woodcutting2=Vraag jij je ooit af waarom bomen zweven?
+playerchild.adult.chore.start.woodcutting3=Ik scherp mijn bijl even aan en dan begin ik meteen.
+playerchild.adult.chore.start.woodcutting4=Laat je me mijn eigen huis bouwen?
+
+playerchild.adult.chore.start.hunting1=Ik breng jou tien varkens terug\!
+playerchild.adult.chore.start.hunting2=Dit word leuk.
+playerchild.adult.chore.start.hunting3=Ik ben snel terug.
+playerchild.adult.chore.start.hunting4=Je zend mij omdat ik een betere jager ben, toch?
+
+playerchild.adult.chore.stop1=Ik dacht dat je me nooit zou laten ophouden.
+playerchild.adult.chore.stop2=Ik ben zo moe...
+playerchild.adult.chore.stop3=Endelijk. Ik begon moe te worden.
+playerchild.adult.chore.stop4=Endelijk. Ik begon moe te worden.
+playerchild.adult.chore.stop5=Dwing me niet dat nog een keer te doen\!
+playerchild.adult.chore.stop6=Graag\!
+playerchild.adult.chore.stop7=Dankjewel, ik haat het altijd dat te doen\!
+playerchild.adult.chore.stop8=Ah... Eindelijk is mijn werk gedaan\!
+playerchild.adult.chore.stop9=Ik ga nu even rusten, denk ik.
+playerchild.adult.chore.stop10=Ik stop er dan mee.
+playerchild.adult.chore.stop11=Ik ben blij dat dat voorbij is\!
+playerchild.adult.chore.stop12=Ik heb je vuile werk gedaan. Nu ga ik iets leuks doen.
+
+playerchild.adult.follow.start1=Goed, waar gaan we heen?
+playerchild.adult.follow.start2=Jagen we samen op monsters, %CallPlayerParent%?
+playerchild.adult.follow.start3=Ik hoop dat ik een creeper tegen kom\!
+playerchild.adult.follow.start4=Ik hoop dat we niet weggaan, ik vind het hier wel leuk.
+playerchild.adult.follow.start5=Eindelijk\! Laten we hier weg gaan\!
+playerchild.adult.follow.start6=Komen we nog terug?
+playerchild.adult.follow.start7=Eigenlijk wilde ik nergens heen gaan...
+playerchild.adult.follow.start8=Goed, laten we gaan.
+playerchild.adult.follow.start9=daar gaan we\!
+playerchild.adult.follow.start10=Laten we gaan\!
+playerchild.adult.follow.start11=Er zijn zo veel dingen die ik graag wil zien\!
+playerchild.adult.follow.start12=Ik hoop dat we wat wezens zien.
+playerchild.adult.follow.start13=Hopelijk is dit geen val...
+playerchild.adult.follow.start14=Ik wil een spin vangen\!
+
+playerchild.adult.follow.stop1=Ik zal hier wachten, %CallPlayerParent%.
+playerchild.adult.follow.stop2=Deze plaats bevalt me. Laten we hier een tijdje blijven.
+playerchild.adult.follow.stop3=Ik ben er zo.
+playerchild.adult.follow.stop4=Ga niet te ver...
+playerchild.adult.follow.stop5=Ik hoor iets. Wees voorzichtig.
+playerchild.adult.follow.stop6=Raak gewoon niet gewond,%CallPlayerParent%\!
+playerchild.adult.follow.stop7=Laat me hier niet te lang\!
+playerchild.adult.follow.stop8=Wees op je hoede. Gevaar ligt daarbuiten op de loer als je alleen bent.
+playerchild.adult.follow.stop9=Pas op voor creepers\!
+playerchild.adult.follow.stop10=Pfoe, dat was vermoeiend.
+playerchild.adult.follow.stop11=Mag ik niet met je voortgaan? Ik ben bang, %CallPlayerParent%.
+
+playerchild.adult.gift.bad1=Wauw\! %CallPlayerParent%\! Weet je wat je net gevonden hebt\!? Ik ook niet.
+playerchild.adult.gift.bad2=Dit is rommel.
+playerchild.adult.gift.bad3=Nee bedankt.
+playerchild.adult.gift.bad4=Gooi je eigen romeel weg\!
+playerchild.adult.gift.bad5=Wat dacht je van wat eten zo nu en dan?
+playerchild.adult.gift.bad6=Waarom zou ik dit willen?
+playerchild.adult.gift.bad7=Dit is... Nee. Gewoon nee.
+playerchild.adult.gift.bad8=waarom geef je dit eigenlijk aan me?
+playerchild.adult.gift.bad9=nee, ik zal dit niet houden, zeker niet.
+playerchild.adult.gift.bad10=ik ben zeker dat ik dit in het lava gooi.
+playerchild.adult.gift.bad11=zie jij ergens vuilbakken?
+playerchild.adult.gift.bad12=Argh. opnieuw? Ik ben voor dat u een verlanglijst volgende keer.
+
+playerchild.adult.gift.great1=Oh mijn ... Ik ben sprakeloos\!
+playerchild.adult.gift.great2=Heel erg bedankt\!
+playerchild.adult.gift.great3=Dit is het coolste\!
+playerchild.adult.gift.great4=Hoe kon je je dit veroorloven\!?
+
+playerchild.adult.gift.regular1=Heel erg bedankt\!
+playerchild.adult.gift.regular2=Dit is geweldig\!
+playerchild.adult.gift.regular3=Ik wil dat je weet dat ik erg dankbaar ben\!
+
+playerchild.adult.gift.small1=Waar heb je dit gevonden? Dankje\!
+playerchild.adult.gift.small2=Oh, bedankt% CallPlayerParent%\!
+playerchild.adult.gift.small3=Kan ik... het eten?
+playerchild.adult.gift.small4=je hebt dit juist niet aan mij gegeven om er van af te komen,of wel?
+playerchild.adult.gift.small5=oh wow,een cadeau voor mij\!
+playerchild.adult.gift.small6=Sweet\! Bedankt,% CallPlayerParent%.
+playerchild.adult.gift.small7=Dit ziet er zeker goed uit en ... lekker?
+
+playerchild.adult.greeting.basic1=Hey,% CallPlayerParent%\!
+playerchild.adult.greeting.basic2=je bent terug,%CallPlayerParent%.
+
+playerchild.adult.greeting.friend1=Hey, %CallPlayerParent%\!
+playerchild.adult.greeting.friend2=je bent terug,%CallPlayerParent%.
+
+playerchild.adult.greeting.hate1=...
+playerchild.adult.greeting.hate2=wat doe jij hier,%CallPlayerParent%?
+playerchild.adult.greeting.hate3=ik zei blijf uit mijn buurt\!
+playerchild.adult.greeting.hate4=Kom je je verontschuldigen?
+playerchild.adult.greeting.hate5=Zorg dat ik niet de bewakers moet bellen.
+
+playerchild.adult.hitbyplayer1=STOP DAARMEE\!
+playerchild.adult.hitbyplayer2=IK KAN JE NU IN ELKAAR SLAAN, WEET JE\!
+playerchild.adult.hitbyplayer3=OW\! %CallPlayerParent%\! Stop met me te slaan\!
+playerchild.adult.hitbyplayer4=dat doet pijn\!
+playerchild.adult.hitbyplayer5=doe rustig en stop met mij te slaan\!
+playerchild.adult.hitbyplayer6=ik ben geen boksbal\!
+playerchild.adult.hitbyplayer7=mij te slaan lost je problemen\!
+playerchild.adult.hitbyplayer8=ow\! waar was dat in hemelsnaam voor?\!
+playerchild.adult.hitbyplayer9=Dit is niet normaal meer\!
+playerchild.adult.hitbyplayer10=Rustig\!
+playerchild.adult.hitbyplayer11=Au\!
+playerchild.adult.hitbyplayer12=Waarom zou je dat doen?\!
+
+playerchild.adult.gifted.baby1=ik wil het niet vasthouden\!
+playerchild.adult.gifted.baby2=ik haat baby's\!
+playerchild.adult.gifted.baby3=ew\!het stinkt\!
+playerchild.adult.gifted.baby4=ja,ja,het is erg schatig.
+playerchild.adult.gifted.baby5=ik heb andere dingen te doen\!
+
+playerchild.adult.joke.bad1=die wordt echt oud.
+playerchild.adult.joke.bad2=Dat was zo dom.
+playerchild.adult.joke.bad3=...wat?
+playerchild.adult.joke.bad4=maak daar geen grapen over\!ik ben nog steeds getraumatiseerd\!
+playerchild.adult.joke.bad5=Ik begrijp het nog niet.
+playerchild.adult.joke.bad6=Niet dat opnieuw.
+playerchild.adult.joke.bad7=Ik heb die al meer dan twintig keer gehoord\!
+playerchild.adult.joke.bad8=Ew, waarom lach je daarover?\!
+playerchild.adult.joke.bad9=Die grap is slecht.
+playerchild.adult.joke.bad10=Ah, die ene opnieuw. Grappig.
+playerchild.adult.joke.bad11=ik denk dat %ParentOpposite% roept me...
+playerchild.adult.joke.bad12=dus,ikmoet echt mijn klusjes doen.
+
+playerchild.adult.joke.good1=die heriner ik me nog steeds,%CallPlayerParent%.haha\!
+playerchild.adult.joke.good2=Die ene was heel grappig\!
+playerchild.adult.joke.good3=*onderdrukte lach*
+playerchild.adult.joke.good4=jij hebt altijd de beste grapjes\!
+playerchild.adult.joke.good5=dat is een goeie,%CallPlayerParent%\!
+playerchild.adult.joke.good6=Haha\! Dat is zo grappig\!
+playerchild.adult.joke.good7=Dat is een goede\!
+
+playerchild.adult.greeting.handshake.good1=Hey, lang niet gesproken.
+playerchild.adult.greeting.handshake.good2=Hoi, %CallPlayerParent%.
+playerchild.adult.greeting.handshake.good3=Leuk je weer te zien, %CallPlayerParent%\!
+playerchild.adult.greeting.handshake.good4=Oh, %CallPlayerParent%, ik heb je zoveel te vertellen.
+playerchild.adult.greeting.handshake.good5=Hey, leuk dat je terug bent.
+
+playerchild.adult.greeting.handshake.bad1=Waarom kom je niet vaker op bezoek?
+playerchild.adult.greeting.handshake.bad2=Dit is voor het eerst in eeuwigheid dat wij weer contact hebben, en jij schud alleen maar mijn hand?\!
+playerchild.adult.greeting.handshake.bad3=Ik wil je hand niet schudden.
+playerchild.adult.greeting.handshake.bad4=Ik uh... ben bezig op dit moment.
+playerchild.adult.greeting.handshake.bad5=Ik heb het te druk - zoals jij ook altijd blijkt te zijn.
+
+playerchild.adult.greeting.highfive.good1=Het is nog steeds leuk\!
+playerchild.adult.greeting.highfive.good2=*Proost*
+playerchild.adult.greeting.highfive.good3=Wij zijn geweldig\!
+playerchild.adult.greeting.highfive.good4=Yes\! Ik heb het gemist.
+playerchild.adult.greeting.highfive.good5=We zijn de beste\!
+
+playerchild.adult.greeting.highfive.bad1=Ik ben te oud om de hele tijd high fives te geven.
+playerchild.adult.greeting.highfive.bad2=Niet nu meteen, alsjeblieft.
+playerchild.adult.greeting.highfive.bad3=Ik wil geen high five van jou.
+playerchild.adult.greeting.highfive.bad4=Ik wil praten, geen high five\!
+playerchild.adult.greeting.highfive.bad5=Waarom praat je niet meer met me?
+
+playerchild.adult.tellstory.good1=*lacht* Dat herinnert me aan wanneer ik een kind was.
+playerchild.adult.tellstory.good2=jij en %ParentOpposite% hielden echt van elkaar, toch?
+playerchild.adult.tellstory.good3=Dat klinkt grappig\! Dat zouden we eens een keer moeten doen\!
+playerchild.adult.tellstory.good4=*lacht* Ik ben zo blij dat ik in deze familie ben.
+playerchild.adult.tellstory.good5=Ze deden wat met de kippen?
+
+playerchild.adult.tellstory.bad1=Um, heb je dat tegen %ParentOpposite% gezegd?
+playerchild.adult.tellstory.bad2=Dat keur ik niet geod.
+playerchild.adult.tellstory.bad3=Dat moet je misschien niet doorvertellen aan anderen.
+playerchild.adult.tellstory.bad4=Dat was niet zo aardig.
+playerchild.adult.tellstory.bad5=Weetje, dat doet me denken aan %RandomName%\!
+
+#######
+# Kid Dialogue
+##############################
+playerchild.young.chat.bad1=Ik wil niet praten. Laat me gerust\!
+playerchild.young.chat.bad2=%CallPlayerParent%,ik ben druk\!
+playerchild.young.chat.bad3=Shhhh\!
+playerchild.young.chat.bad4=Jij bent saai.
+playerchild.young.chat.bad5=*Negeert je*
+playerchild.young.chat.bad6=%ParentOpposite% zei nee daartegen\!
+playerchild.young.chat.bad7=Ik ben bezig\!
+playerchild.young.chat.bad8=Zie je niet dat ik bezig ben?\!
+playerchild.young.chat.bad9=Ik... *Geeuw*, ga een dutje nemen.
+
+playerchild.young.chat.good1=luisterd aandachtig
+playerchild.young.chat.good2=neem je me de volgende keer mee,%CallPlayerParent%?
+playerchild.young.chat.good3=Ik wil gaan jagen\!
+playerchild.young.chat.good4=Waarom mag ik niet met je meegaan?
+playerchild.young.chat.good5=Ik heel graag volgende keer gaan, alsjeblieft?
+playerchild.young.chat.good6=Dat is verbazingwekkend,% CallPlayerParent%\! Hoe heb je dat gedaan?
+playerchild.young.chat.good7=Echt? Dat is zo gaaf\!
+playerchild.young.chat.good8=Je bent de beste% CallPlayerParent% in de wereld\! Nee, het universum\!
+
+playerchild.young.joke.bad1=Uh-oh\! % CallPlayerParent% zei een slecht woord\!
+playerchild.young.joke.bad2=Dat is dom.
+playerchild.young.joke.bad3=Je bent een grote dummy. Ik snap het niet.
+playerchild.young.joke.bad4=Waarom lieg je om dat? *huilt*
+playerchild.young.joke.bad5=stop met me in de maling te nemen\!
+playerchild.young.joke.bad6=% ParentOpposite% zei niet dat woord te zeggen\!
+playerchild.young.joke.bad7=ik heb dat al een miljoen keer gehoord,%CallPlayerParent%.
+playerchild.young.joke.bad8=Dat is niet logisch.
+
+playerchild.young.joke.good1=je bent grappig,%CallPlayerParent%.
+playerchild.young.joke.good2=haha\! ik snap het\!
+playerchild.young.joke.good3=ik zal die aan mijn vriend vertellen\!
+playerchild.young.joke.good4=dat was niet dom zoals de andere twintig.
+playerchild.young.joke.good5=*giechelt*
+playerchild.young.joke.good6=dat was leuk\!
+playerchild.young.joke.good7=Ik moet die ene herinneren\!
+
+playerchild.young.chore.start.farming1=ja,%CallPlayerParent%.
+playerchild.young.chore.start.farming2=yay\! ik hou van landbouw.
+playerchild.young.chore.start.farming3=ik zal direct starten.
+playerchild.young.chore.start.farming4=eindelijk ik mag iets doen.
+playerchild.young.chore.start.farming5=Ok\u00e9.
+playerchild.young.chore.start.farming6=Ik hoopte dat je me zou vragen om dit te doen\!
+playerchild.young.chore.start.farming7=ik hoop dat dit naar mijn verjaardag's taart gaat.
+
+playerchild.young.chore.start.fishing1=vissen is zo saai.
+playerchild.young.chore.start.fishing2=maar vissen duurt zo lang\!
+playerchild.young.chore.start.fishing3=ik weet het niet,ik zweer het\!
+playerchild.young.chore.start.fishing4=maat vissen stinken zo veel\!
+playerchild.young.chore.start.fishing5=maar ze zijn slijmerig...
+playerchild.young.chore.start.fishing6=ik hou niet van nat te worden\!
+playerchild.young.chore.start.fishing7=ik wil niet vissen.
+playerchild.young.chore.start.fishing8=Waarom altijd vissen?
+
+playerchild.young.chore.start.mining1=aan welke kant hou ik weer een pickaxe?
+playerchild.young.chore.start.mining2=ik vertel%ParentOpposite% als ik opnieuw in het lava val.
+playerchild.young.chore.start.mining3=Yay\!ik hou van mijnen\!\n 
+playerchild.young.chore.start.mining4=ik hoop dat een skelet me niet meer raakt.
+playerchild.young.chore.start.mining5=als ik diamant vind ,mag ik ze houden,ok\u00e9?
+
+playerchild.young.chore.start.woodcutting1=Bomen, bomen, beomen, bomen...
+playerchild.young.chore.start.woodcutting2=ik hoop dat er geene meer op me vallen\!
+playerchild.young.chore.start.woodcutting3=Kunnen we een boomhut bouwen als ik klaar ben?
+playerchild.young.chore.start.woodcutting4=Waar gebruik je hout voor?
+
+playerchild.young.chore.start.hunting1=Yes\! Ik hou van jagen.
+playerchild.young.chore.start.hunting2=Ik hoop dat een wolf me niet weer bijt.
+playerchild.young.chore.start.hunting3=Maar ik ben zo klein\! laatst duurde het uren voordat ik een koe terugbracht.
+
+playerchild.young.chore.stop1=*Zucht van opluchting*
+playerchild.young.chore.stop2=ik dacht dat je me nooit liet stoppen.
+playerchild.young.chore.stop3=Ik ben zo moe...
+playerchild.young.chore.stop4=Eindelijk. Ik begon me te vervelen.
+playerchild.young.chore.stop5=eindelijk ik begon moe te komen.\n
+playerchild.young.chore.stop6=Laat me dat niet nog eens doen\!
+
+playerchild.young.follow.start1=Ok\u00e9, waar gaan we heen?
+playerchild.young.follow.start2=Yay\!ik mag bij%CallPlayerParent% blijven\!
+playerchild.young.follow.start3=Yay\! ik kom met je mee.
+playerchild.young.follow.start4=Maar ik wil niet gaan\!
+playerchild.young.follow.start5=komt%ParentOpposite% ook?
+playerchild.young.follow.start6=ik hoop dat we een varken,of een koe, of een kip,of een schaap zien\!
+playerchild.young.follow.start7=Gaan we naar een jungle? Ik wil een poesje zien.
+playerchild.young.follow.start8=Ik hoop dat we niet te ver weg gaan...
+playerchild.young.follow.start9=Creepers maken me bang, ik hoop dat we er geen tegenkomen.
+
+playerchild.young.follow.stop1=Ok. Ik zal hier wachten.
+playerchild.young.follow.stop2=Ga niet lang weg, ok?
+playerchild.young.follow.stop3=Maar het is hier eng...
+playerchild.young.follow.stop4=Nee, %CallPlayerParent%, ga niet weg\!
+playerchild.young.follow.stop5=Maar ik hoor geluiden...
+playerchild.young.follow.stop6=Goed, maar vergeet me niet &CallPlayerParent%.
+playerchild.young.follow.stop7=Maar... Wat nou als het donker wordt?
+playerchild.young.follow.stop8=Kom je gauw terug?
+playerchild.young.follow.stop9=Laat me hier niet alleen\!
+
+playerchild.young.gift.bad1=Waar zou ik dit nou voor kunnen gebruiken\!?
+playerchild.young.gift.bad2=Dit stinkt.
+playerchild.young.gift.bad3=Ik hou niet van deze.
+playerchild.young.gift.bad4=%CallPlayerParent%, je weet wel waar ik wel en niet van hou.
+playerchild.young.gift.bad5=Geef me iets goeds.
+playerchild.young.gift.bad6=Ik heb al tien miljoen van deze.
+playerchild.young.gift.bad7=Dit is waardeloze troep\!
+playerchild.young.gift.bad8=Ik zou liever niets krijgen\!
+playerchild.young.gift.bad9=Huh??
+
+playerchild.young.gift.great1=Waar heb je dit vandaan %CallPlayerParent%?
+playerchild.young.gift.great2=Is dit voor mij?
+playerchild.young.gift.great3=Yaaaaaaaaay\!
+playerchild.young.gift.great4=Het is helemaal voor mij\!?
+playerchild.young.gift.great5=%ParentOpposite% vindt deze 'sexy'.
+playerchild.young.gift.great6=Je bent de beste %CallPlayerParent% ooit\!
+
+playerchild.young.gift.regular1=Ik hoop dat ik meer krijg\!
+playerchild.young.gift.regular2=Is dit voor mij?
+playerchild.young.gift.regular3=Je hebt er twee voor mij gehaald, he?
+playerchild.young.gift.regular4=Is dat voor?\!
+
+playerchild.young.gift.small1=Waar heb je dit vandaan %CallPlayerParent%?
+playerchild.young.gift.small2=Ooooh, glimmend\!
+playerchild.young.gift.small3=cadeautjes\! Ik houd van cadeautjes\!
+playerchild.young.gift.small4=Ik vindt het leuk, %CallPLayerParent%.
+playerchild.young.gift.small5=Dankje %CallPlayerParent%.
+
+playerchild.young.greeting.basic1=Hoi %CallPlayerParent%.
+playerchild.young.greeting.basic2=Ew, %CallPlayerParent% je stinkt. Waar ben je geweest?
+playerchild.young.greeting.basic3=Yay\! %CallPlayerParent% is thuis\!
+playerchild.young.greeting.basic4=hoera,%CallPlayerParent%\!heb je iets voor me mee?
+
+playerchild.young.greeting.friend1=Hoera\! %CallPlayerParent% %CallPlayerParent% %CallPlayerParent%\!\!\!
+playerchild.young.greeting.friend2=je nam een cadeau mee niet?
+playerchild.young.greeting.friend3=%CallPlayerParent%,ik mistte je .
+playerchild.young.greeting.friend4=vertel me verhalen waar je bent geweest\!
+playerchild.young.greeting.friend5=%CallPlayerParent%,verlaat me niet opnieuw.Het maakt %ParentOpposite% sip.
+
+playerchild.young.greeting.hate1=alsjeblieft doe me geen pijn meer %CallPlayerParent%.
+playerchild.young.greeting.hate2=%CallPlayerParent%,ga je nu vriendelijk tegen me zijn?
+playerchild.young.greeting.hate3=H...hi...%CallPlayerParent%
+playerchild.young.greeting.hate4=*cowers in angst*
+playerchild.young.greeting.hate5=ik zal goed zijn vandaag,%CallPlayerParent%... sla me niet.
+
+playerchild.young.hitbyplayer1=Ow\! Ik zal je vertellen% ParentOpposite% op je\!
+playerchild.young.hitbyplayer2=%CallPlayerParent%,sla me niet meer\!
+playerchild.young.hitbyplayer3=%CallPlayerParent%,dat doet pijn\!
+playerchild.young.hitbyplayer4=Ow\! wat deed ik nu,%CallPlayerParent%?
+playerchild.young.hitbyplayer5=Ow\!
+playerchild.young.hitbyplayer6=Ouch\!
+playerchild.young.hitbyplayer7=ik vertel het aan%ParentOpposite%\!
+
+playerchild.young.gifted.baby1=Ew\! het stinkt\!
+
+playerchild.young.tellstory.good1=Heb je daarvoor een pak slaag gekregen?
+playerchild.young.tellstory.good2=Ik wil dat doen\!
+playerchild.young.tellstory.good3=Ik zal altijd naar je luisteren nu ik dat heb gehoord\!
+playerchild.young.tellstory.good4=*Lacht* %ParentOpposite% heeft dat gedaan?
+playerchild.young.tellstory.good5=Ik kan niet geloven dat jij dat gedaan hebt\!
+
+playerchild.young.tellstory.bad1=*Huilt* Waarom zou je zoiets doen?
+playerchild.young.tellstory.bad2=Ik ga %RandomName% vertellen dat jij dat gezegt hebt.
+playerchild.young.tellstory.bad3=Jaja, zalwel. Ik wil geen verhalen meer horen.
+playerchild.young.tellstory.bad4=De creeper komt achter mij aan?\!
+playerchild.young.tellstory.bad5=*Huilt* Ik wil niet dat %ParentOpposite% in een zombie verandert\!
+
+playerchild.young.play.good1=Je kan me toch niet vangen\!
+playerchild.young.play.good2=Ik vind het zo leuk dat je met me speelt, %CallPlayerParent%.
+playerchild.young.play.good3=Ik ga winnen\!
+playerchild.young.play.good4=Dit gaat zo leuk worden\!
+playerchild.young.play.good5=Je kan mij nooit verslaan\!
+
+playerchild.young.play.bad1=Je laat mij nooit winnen.
+playerchild.young.play.bad2=Jij moet nog oefenen, maar ik niet.
+playerchild.young.play.bad3=Ik ben te oud voor dit.
+playerchild.young.play.bad4=Waarom ga je niet spelen met je favoriete kind?
+playerchild.young.play.bad5=Ik wil alleen met %RandomName% spelen.
+
+playerchild.young.greeting.handshake.good1=Hoi, %CallPlayerParent%.
+playerchild.young.greeting.handshake.good2=Waar ben je geweest vandaag?
+playerchild.young.greeting.handshake.good3=Vertel me over je avonturen.
+playerchild.young.greeting.handshake.good4=Je bent terug. Wat heb je allemaal gedaan?
+playerchild.young.greeting.handshake.good5=Laten we iets doen\!
+
+playerchild.young.greeting.handshake.bad1=...Waarom schud je mijn hand?
+playerchild.young.greeting.handshake.bad2=Je handen zijn bezweten en vies.
+playerchild.young.greeting.handshake.bad3=Ew, raak me niet aan\!
+playerchild.young.greeting.handshake.bad4=Ik wil je handen niet schudden\!
+playerchild.young.greeting.handshake.bad5=Waarom praat je niet tegen mij in plaats van het schudden van mijn hand de hele tijd?
+
+playerchild.young.greeting.highfive.good1=Zou je het nog een keer doen?
+playerchild.young.greeting.highfive.good2=Dit is leuk\!
+playerchild.young.greeting.highfive.good3=*lacht*
+playerchild.young.greeting.highfive.good4=Nog een keer een high five\!
+playerchild.young.greeting.highfive.good5=Alsjeblieft, nog een keer. Eentje maar\!
+
+playerchild.young.greeting.highfive.bad1=Dat verveeld me.
+playerchild.young.greeting.highfive.bad2=Doe je nog iets anders?
+playerchild.young.greeting.highfive.bad3=Ik kom er niet bij\!
+playerchild.young.greeting.highfive.bad4=Ik wil geen high-fives meer geven.
+playerchild.young.greeting.highfive.bad5=Dat begint vervelend te worden.
+
+#######
+# Spouse Dialogue
+##############################
+spouse.chat.bad1=Ik heb dat verhaaltje al wel eens gehoord.
+spouse.chat.bad2=Het verveelt om steeds over hetzelfde onderwerp te praten.
+spouse.chat.bad3=Heb je niet iets anders om over te praten?
+spouse.chat.bad4=Ik wil daar niet over praten.
+spouse.chat.bad5=Wat je ook zegt.
+spouse.chat.bad6=Heb je nog iets anders wat je me wilde vertellen?
+
+spouse.chat.good1=Ik vind het zo leuk wanneer je me je avonturen vertelt.
+spouse.chat.good2=Indrukwekkend\!
+spouse.chat.good3=Ja, alles is hier wel oke.
+spouse.chat.good4=Nou, vandaag... oh, dat wil je niet horen, dat weet ik zeker\!
+spouse.chat.good5=Het was een lange dag voor je, he?
+spouse.chat.good6=Daarom houd ik van je.
+spouse.chat.good7=Dat is geweldig, ik ben blij dat ik met je getrouwd ben.
+spouse.chat.good8=Jouw verhalen verbazen me\!
+spouse.chat.good9=Goed verhaal\!
+spouse.chat.good10=*likt lippen hongerig*
+
+spouse.divorce1=Ik heb het gehad met jou\!
+spouse.divorce2=Eindelijk verlossing\!
+spouse.divorce3=Ik wil je nooit meer zien\!
+spouse.divorce4=Ga... gewoon weg van me\!
+spouse.divorce5=Niet te geloven\! Laat me alleen\!
+spouse.divorce6=Waarom? Ben ik niet... goed genoeg...?
+spouse.divorce7=Ik dacht dat je echt van me hield\!
+spouse.divorce8=Wat\!? Nee\! Dit kan ik niet geloven\!
+spouse.divorce9=Ga weg van me\! Voor altijd\!
+
+spouse.follow.start1=Oh oke, waar gaan we heen?
+spouse.follow.start2=Oke dan, ik volg je wel.
+spouse.follow.start3=Oke, laten we gaan\!
+spouse.follow.start4=Gaan we eindelijk weg van deze plek?
+spouse.follow.start5=Heb je een nieuw huis ergens anders?
+spouse.follow.start6=Oke maar ik wil niet verhuizen van deze plek.
+spouse.follow.start7=Mag ik mee op een van je avonturen? Super\!
+spouse.follow.start8=Laten we naar een leuke plek gaan, oke?
+
+spouse.follow.stop1=Die plek lijkt me geweldig\!
+spouse.follow.stop2=Nou, oke dan, je mag me altijd meenemen, liefje.
+spouse.follow.stop3=Oke dan, wees voorzichtig\!
+spouse.follow.stop4=Ik zal in de buurt blijven voor als je terug komt.
+spouse.follow.stop5=Phew, Dat was vermoeiend maar ik was tenminste wel met jou.
+
+spouse.gift.bad1=Oh... nee bedankt. Ik heb er al zo een. ergens...
+spouse.gift.bad2=Ik hoop dat je niet verwachtte dat ik dat leuk zou vinden.
+spouse.gift.bad3=Ik had moeten weten dat je niet zou onthouden wat ik leuk vind.
+spouse.gift.bad4=waarom geef je dit aan mij?
+spouse.gift.bad5=Is dit wat je een cadeau noemt?
+spouse.gift.bad6=Ik dacht dat je me goed genoeg kende om te weten wat ik leuk vond. blijkbaar niet.
+spouse.gift.bad7=Dit... is slecht. Ik wil dit niet.
+
+spouse.gift.great1=O mijn god... Hoeveel kostte dit?
+spouse.gift.great2=Hoe heb je dit gekregen\!? dank je\!
+spouse.gift.great3=Het was vast moeilijk om dit te krijgen\!
+spouse.gift.great4=Ik zou het eigenlijk niet moeten aannemen... maar het is zo glimmend\!
+spouse.gift.great5=Ik zal dit voor altijd koesteren.
+spouse.gift.great6=Dank je liefje, je weet echt wat ik leuk vind.
+spouse.gift.great7=Dit is iets wat ik altijd bij me zal dragen, dank je.
+spouse.gift.great8=Je bent sexy en ik weet het.
+
+spouse.gift.regular1=Dit is geweldig\! Bedankt\!
+spouse.gift.regular2=Breng me meer\!
+spouse.gift.regular3=Dat had je niet hoeven te doen... bedankt.
+spouse.gift.regular4=Dit is geweldig\! Bedankt\!
+spouse.gift.regular5=Je weet precies wat ik leuk vind, niet?
+spouse.gift.regular6=Oh, bedankt, dat is erg aardig van je.
+spouse.gift.regular7=Dat was aardig.
+
+spouse.gift.small1=Bedankt\!
+spouse.gift.small2=Ik waardeer dit.
+spouse.gift.small3=Oh. 't Is de gedachte er achter die telt\!
+spouse.gift.small4=Je bent zo aardig.
+spouse.gift.small5=Bedankt. Het had echt niet gehoeven.
+
+spouse.greeting.basic1=Hoi, schatje.
+spouse.greeting.basic2=Waar was je vandaag?
+spouse.greeting.basic3=Hey schatje. Hoe gaat het hier?
+spouse.greeting.basic4=Is alles ok\u00e9?
+spouse.greeting.basic5=Het blijkt dat je terug van je avonturen bent. Hoe gaat het met je, schatje?
+spouse.greeting.basic6=Ik heb je gemist\! Hoe gaat het met je?
+spouse.greeting.basic7=Ik maakte me zorgen om de, je ging weg zonder wat te zeggen. Maar ik ben blij dat je terug bent.
+spouse.greeting.basic8=H\u00e9, hoe gaat het?
+spouse.greeting.basic9=Heb je een goede dag gehad?
+spouse.greeting.basic10=ik ben blij dat je terug bent.
+
+spouse.greeting.friend1=Hoi, schatje.
+spouse.greeting.friend2=Waar was je?
+spouse.greeting.friend3=H\u00e9, schat. Hoe gaat het met je?
+spouse.greeting.friend4=Is alles ok\u00e9?
+spouse.greeting.friend5=het lijkt er op dat je terug bent van je avontuur. hoe gaat het, schat?
+spouse.greeting.friend6=Ik heb je gemist\! Hoe ging het met je vandaag?
+spouse.greeting.friend7=ik was bezorgd over je, je ging weg zonder iets te zeggen. maar ik ben blij dat je terug bent.
+spouse.greeting.friend8=Hey, hoe gaat het?
+spouse.greeting.friend9=Heb je een leuke dag gehad?
+spouse.greeting.friend10=ik ben blij dat je terug bent.
+
+spouse.greeting.hate1=ik wil nu niet met je praten.
+spouse.greeting.hate2=ik ben erg overstuur. laat me met rust.
+spouse.greeting.hate3=%PlayerName%,ik zei dat ik niet met je wil praten.
+spouse.greeting.hate4=we praten niet meer, even dat je het weet.
+spouse.greeting.hate5=Je kunt je beter gedragen of ik ben weg.
+
+spouse.hitbyplayer1=auw\! mishandeling\!
+spouse.hitbyplayer2=ik hoop dat het perongeluk ging.
+spouse.hitbyplayer3=Dat deed echt pijn...
+spouse.hitbyplayer4=Stop mij te pijnigen\!
+spouse.hitbyplayer5=Auw\! Stommerik\!
+spouse.hitbyplayer6=Waarom zou je me willen slaan\!?
+spouse.hitbyplayer7=waar was dat in godsnaam voor\!?
+
+spouse.gifted.baby1=Opnieuw? Zucht. Goed.
+spouse.gifted.baby2=jij bent zo schattig\! ja dat ben je\! ja dat ben je\!
+spouse.gifted.baby3=oke,ik hou het vast.
+spouse.gifted.baby4=Ooo\! zit er iets in voor me? oh. het is een baby.
+spouse.gifted.baby5=Goed. Geeft het.
+spouse.gifted.baby6=Kijk, het heeft mijn ogen\!
+spouse.gifted.baby7=Oh, kan je de baby niet aan? oke dan, geef het aan mij.
+
+spouse.joke.bad1=Uh... Ik denk dat je die al een keer eerder hebt verteld.
+spouse.joke.bad2=Dat sloeg echt nergens op.
+spouse.joke.bad3=Ik weet zeker dat het illegaal is om zulke slechte moppen te vertellen.
+spouse.joke.bad4=Dat was... goed... liefje.
+spouse.joke.bad5=*G\u00eanante glimlach*
+spouse.joke.bad6=*Geforceerde grinnik*
+spouse.joke.bad7=... volgend onderwerp...
+
+spouse.joke.good1=Aw. Dat vertelde je me toen we elkaar net ontmoet hadden.
+spouse.joke.good2=Ik weet die nog\! nog steeds grappig\!
+spouse.joke.good3=Oh, je bent zo grappig\!
+spouse.joke.good4=Hoe verzin je die? haha\!
+spouse.joke.good5=Ik zou hier echt niet om mogen lachen, maar het is gewoon te grappig\!
+
+spouse.procreate.refuse1=Nee, ik denk het niet.
+spouse.procreate.refuse2=Je maakt een grap\!
+spouse.procreate.refuse3=Niet na hoe je me behandelt hebt\!
+spouse.procreate.refuse4=ik mag je amper, dat ga ik echt niet doen.
+spouse.procreate.refuse5=Ja, tuurlijk\! Behandel me wat beter en ik zal erover nadenken.
+
+spouse.kiss.good1=Jij bent zo aardig.
+spouse.kiss.good2=Ik houd ook van jou.
+spouse.kiss.good3=Je bent te goed voor mij.
+spouse.kiss.good4=Dank je, dat was aardig.
+spouse.kiss.good5=Wat aardig van je\!
+
+spouse.kiss.bad1=Nee. Ik heb er geen zin in vandaag.
+spouse.kiss.bad2=Waarom doe je ineens zo aardig tegen me?
+spouse.kiss.bad3=Ga 'n koe kussen.
+spouse.kiss.bad4=Dat denk ik niet.
+spouse.kiss.bad5=Daar is het te laat voor.
+spouse.kiss.bad6=Je neus kwam in mijn oog\!
+spouse.kiss.bad7=Iew, dat was nat en soppig\!
+spouse.kiss.bad8=Je weet gewoon niet hoe je moet zoenen.
+
+spouse.flirt.good1=Je bent zo'n goede prater.
+spouse.flirt.good2=*Bloost* Je bent altijd al een charmeur geweest.
+spouse.flirt.good3=Oh\! Je bent geen spat veranderd sinds we trouwden.
+spouse.flirt.good4=Ach\! Dat was zo lief\!
+spouse.flirt.good5=Lieve help, ik schaam me.
+
+spouse.flirt.bad1=Niemand heeft daar tijd voor\!
+spouse.flirt.bad2=Hoe origineel.
+spouse.flirt.bad3=I wet dat je dat aan iedereen verteld. Nee, echt. Ik wet van wel.
+spouse.flirt.bad4=Ik heb er geen zin in.
+spouse.flirt.bad5=Nu wil je een romance met me? En toen we daten dan?
+
+spouse.tellstory.good1=Dat was een goeie\!
+spouse.tellstory.good2=Wat deed Cupquake daarna?
+spouse.tellstory.good3=Kijk jij ook naar ChimneySwift11's "Minecraft Files"?\!
+spouse.tellstory.good4=*Lacht* Dat herinner mij aan die tijd dat mijn moeder mij betrapt, maar ik was aan het schoonmaken.
+spouse.tellstory.good5=Ach, zo'n dochter wil ik ook\!
+
+spouse.tellstory.bad1=Waarom zou je me dat vertellen?
+spouse.tellstory.bad2=Daardoor wil ik huilen...
+spouse.tellstory.bad3=*Negeert je*
+spouse.tellstory.bad4=Waarom gaf DAT je zoveel plezier?
+spouse.tellstory.bad5=Je moet geen grappen maken over %RandomName%.
+
+spouse.greeting.handshake.good1=Ik houd van het gevoel van jouw hand in de mijne.
+spouse.greeting.handshake.good2=Je bent dom\!
+spouse.greeting.handshake.good3=Hoe gaat het vandaag, schatje?
+spouse.greeting.handshake.good4=Hoe gaat het met je?
+spouse.greeting.handshake.good5=Gegroet, mijn schat.
+
+spouse.greeting.handshake.bad1=Iew, ik weet waar jij met je handen gezeten hebt.
+spouse.greeting.handshake.bad2=Je handen sweeten.
+spouse.greeting.handshake.bad3=Een schud? Dat is het?
+spouse.greeting.handshake.bad4=Nee, je bent de hele dag in grotten geweest.
+spouse.greeting.handshake.bad5=Ze ruiken naar...koeien?\!
+
+spouse.greeting.highfive.good1=Oh ja\!
+spouse.greeting.highfive.good2=Hoog\!
+spouse.greeting.highfive.good3=High five\!
+spouse.greeting.highfive.good4=Hoe gaat 't?
+spouse.greeting.highfive.good5=Jazeker\!
+
+spouse.greeting.highfive.bad1=Dit is de meeste contact in eeuwigheid.
+spouse.greeting.highfive.bad2=Ik ben niet meer 5.
+spouse.greeting.highfive.bad3=Je bent zo onvolwassen.
+spouse.greeting.highfive.bad4=Ow\! Je hebt me geraakt\!
+spouse.greeting.highfive.bad5=Ik zou ja handen niet durven aan te raken.
+
+spouse.chore.start.cooking1=Natuurlijk\! Ik zal al het eten klaar maken dat je mij geeft.
+spouse.chore.start.cooking2=Ja, liefje. Ik zal het gelijk doen.
+spouse.chore.start.cooking3=Bewaar ook iets voor mij deze keer\! ik heb het klaar gemaakt, weet je.
+spouse.chore.start.cooking4=Ik ben ook hongerig\!
+spouse.chore.start.cooking5=Ik hoop dat ik het niet deze keer verbrand....
+

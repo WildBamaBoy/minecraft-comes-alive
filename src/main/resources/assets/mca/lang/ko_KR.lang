@@ -1,0 +1,2255 @@
+#X-Generator: crowdin.com
+#X-Generator: crowdin.net
+itemGroup.tabMCA=Minecraft Comes Alive
+
+##########
+# Heir
+#############################
+heir.set.success=%Name%\uc774 \uc774\uc81c \ub2f9\uc2e0\uc758 \uacc4\uc2b9\uc790\uc785\ub2c8\ub2e4.
+heir.set.failure.alreadyset=\ub2f9\uc2e0\uc740 \uc774\ubbf8 \ub2e4\ub978 \uc774\ub97c \uc790\uc2e0\uc758 \uacc4\uc2b9\uc790\ub85c \uc9c0\uc815\ud588\uc2b5\ub2c8\ub2e4.
+heir.set.failure.sameperson=%Name%\uc740 \uc774\ubbf8 \ub2f9\uc2e0\uc758 \uacc4\uc2b9\uc790\uc785\ub2c8\ub2e4.
+heir.set.failure.alreadyused=%Name%\uc740 \uc774\ubbf8 \ub2f9\uc2e0\uc758 \uacc4\uc2b9\uc790\uc785\ub2c8\ub2e4. \ub2e4\ub978 \uc774\ub97c \uc9c0\uc815\ud574\uc8fc\uc138\uc694.
+
+heir.gui.requestcrown=\uc655\uc704 \uc694\uad6c
+heir.gui.recoverinventory=\uc18c\uc9c0\ud488 \ubcf5\uad6c
+
+heir.good.returncrown1=\uc88b\uc544\uc694, \uc801\uc5b4\ub3c4 \uadf8\ub3d9\uc548 \uc990\uac70\uc6e0\uc5b4\uc694.
+heir.good.returncrown2=\uc88b\uc18c, %CallPlayerParent%. \ub2f9\uc2e0\uc758 \uc655\uad00\uc774 \uc5ec\uae30 \uc788\uc18c.
+heir.good.returncrown3=\uae30\uc058\uad70, \uc810\uc810 \uc9c0\ub8e8\ud574\uc9c0\ub358 \ucc38\uc774\uc5c8\uc18c.
+heir.good.returncrown4=\ub531 5\ubd84\ub9cc \ub354, \uc548\ub418\ub098? \uc54c\uc558\uc5b4, \uc54c\uc558\ub2e4\uace0\!
+heir.good.returncrown5=\uae30\uaebc\uc774 \uadf8\ub7ec\uc9c0. \uc0ac\ub78c\ub4e4\uc774 \uc810\uc810 \ub0a0 \uc2eb\uc5b4\ud558\ub358 \uc911\uc774\uc5c8\uc5b4\!
+
+heir.good.founditems1=\ub3cc\uc544\uc624\uc168\uad70\uc694\! \uc601\uc6d0\ud788 \ub3cc\uc544\uc624\uc9c0 \uc54a\uc73c\uc2e4 \uc904 \uc54c\uc558\uc5b4\uc694. \uc790, \ub2f9\uc2e0\uc774 \ub9e1\uae34 \ubb3c\uac74\ub4e4\uc774\uc5d0\uc694.
+heir.good.founditems2=\ub2f9\uc2e0 \ubb3c\uac74\ub4e4\uc744 \ucc3e\uc544\ub0c8\ub294\ub370 \ub2f9\uc2e0\uc774 \ub3cc\uc544\uc624\uc9c8 \uc54a\uc544 \uac71\uc815\ud558\ub358 \uc911\uc774\uc5c8\uc5b4\uc694. \uc790, \ubc1b\uc73c\uc138\uc694.
+heir.good.founditems3=\uc790\ub124\ub97c \ucc3e\uc73c\ub77c\uace0 \uacbd\ube44\ubcd1\uc744 \ubcf4\ub0c8\ub2e4\ub124. \uadf8\ub4e4\uc774 \uc790\ub124 \ubb3c\uac74\ub4e4\uc744 \uac00\uc838\uc654\uc9c0.
+heir.good.founditems4=\ub3cc\uc544\uc624\uc2dc\uc9c0 \ubabb\ud560 \uc904 \uc54c\uc558\uc5b4\uc694\! \ub2f9\uc2e0 \ubb3c\uac74\ub4e4\uc744 \ucc3e\uc544\ub0c8\ub294\ub370 \ub2f9\uc2e0\uc740 \uac70\uae30 \uc5c6\ub354\uad70\uc694.
+
+##########
+# Information
+#############################
+information.doesnothing=\ud604\uc7ac \ud558\ub294 \uc77c\uc774 \uc5c6\uc74c.
+
+information.whistle.line1=\ub4e4\uace0 \uc788\ub294 \ub3d9\uc548 \uc6b0\ud074\ub9ad\uc744 \ud558\uc5ec
+information.whistle.line2=\ub2f9\uc2e0\uc758 \uc544\ub0b4\uc640 \uc790\uc2dd\ub4e4\uc774
+information.whistle.line3=\ub2f9\uc2e0\uc5d0\uac8c \uc624\ub3c4\ub85d \ud558\uc2ed\uc2dc\uc624.
+
+information.heircrown.line1=\ub2f9\uc2e0\uc758 \uc544\uc774\uc5d0\uac8c \uc120\ubb3c\ud558\uc5ec
+information.heircrown.line2=\ub2f9\uc2e0\uc774 \uc8fd\uc5c8\uc744\ub54c \uc655\uc704\ub97c \uacc4\uc2b9\ud558\ub3c4\ub85d
+information.heircrown.line3=\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4.
+
+information.weddingring.line1=\ud558\ud2b8\uac00 100\uc774 \ub118\ub294
+information.weddingring.line2=\uc8fc\ubbfc\uc5d0\uac8c \uc120\ubb3c\ud558\uba74 \uadf8\ub97c
+information.weddingring.line3=\ubc30\uc6b0\uc790\ub85c \ub9de\uc744 \uc218 \uc788\uc2b5\ub2c8\ub2e4.
+
+information.villagereditor.line1=\uc8fc\ubbfc\uc744 \uc624\ub978\ud074\ub9ad\ud558\uc5ec
+information.villagereditor.line2=\ud3b8\uc9d1 \ubaa8\ub4dc\ub85c \ub4e4\uc5b4\uac00\uc138\uc694.
+
+information.tombstone.line1=\uc8fd\uc740 \uac00\uc871\uc744 \uae30\ub9ac\ub294 \uae30\ub150\ubb3c\ub85c\uc11c
+information.tombstone.line2=\ubc30\uce58\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4.
+
+information.lostrelativedocument.line1=\uc8fc\ubbfc\uc5d0\uac8c \uc0ac\uc6a9\ud558\uc5ec \uadf8\ub97c \ub2f9\uc2e0\uc774
+information.lostrelativedocument.line2=\uc6d0\ud558\ub294 \uce5c\ucc99\uc73c\ub85c \ub9cc\ub4e4 \uc218 \uc788\uc2b5\ub2c8\ub2e4.
+
+information.engagementring.line1=\uc8fc\ubbfc\uc5d0\uac8c \uc120\ubb3c \ud6c4 \uacb0\ud63c\ubc18\uc9c0\ub97c
+information.engagementring.line2=\uc120\ubb3c\ud558\uc5ec \ucd95\ud558 \uc120\ubb3c\uc744
+information.engagementring.line3=\ubc1b\uc744 \uc218 \uc788\uc2b5\ub2c8\ub2e4.
+
+information.crown.line1=\uad70\uc8fc\uac00 \ub418\uae30 \uc704\ud574 \uc870\ud569\ud558\uc2ed\uc2dc\uc624.
+
+information.baby.line1=\uc544\uae30\uac00 \uc131\uc7a5\uc900\ube44\uac00 \ub418\uc5c8\uc744 \ub54c \ubc14\ub2e5\uc744
+information.baby.line2=\uc624\ub978\ud074\ub9ad\ud558\uc5ec \uadf8 \uc544\uae30\ub97c \uc5b4\ub9b0\uc774\ub85c
+information.baby.line3=\uc131\uc7a5\uc2dc\ud0a4\uc138\uc694.
+
+information.arrangersring.line1=\ud558\ub098\ub97c \uc8fc\ubbfc\uc5d0\uac8c \uc120\ubb3c \ud6c4 \ub2e4\ub978 \uc8fc\ubbfc\uc5d0\uac8c
+information.arrangersring.line2=\ub610 \ud558\ub098\ub97c \uc120\ubb3c\ud558\uc5ec \ub458 \uac04\uc758 \uacb0\ud63c\uc744
+information.arrangersring.line3=\uc911\ub9e4\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4.
+
+information.villagerbed.line1=Place this bed on the ground
+information.villagerbed.line2=and a nearby villager will sleep
+information.villagerbed.line3=in it at night.
+
+##########
+# Traits
+#############################
+gui.info.trait=\ud2b9\uc131\: 
+trait.unknown=\uc54c \uc218 \uc5c6\ub294
+
+trait.none=\uc5c6\uc74c
+trait.shy=\uc218\uc90d\uc740
+trait.fun=\uc7ac\ubbf8\uc788\ub294
+trait.serious=\uc9c4\uc9c0\ud55c
+trait.friendly=\uce5c\uadfc\ud55c
+trait.irritable=\ubbfc\uac10\ud55c
+trait.emotional=\uac10\uc815\uc801\uc778
+trait.outgoing=\uc678\ud5a5\uc801\uc778
+
+##########
+# Moods
+#############################
+gui.info.mood=\uae30\ubd84\: 
+
+mood.happy.ecstatic=\ud669\ud640\ud55c
+mood.happy.cheerful=\ucf8c\ud65c\ud55c
+mood.happy.happy=\ud589\ubcf5\ud55c
+mood.happy.fine=\uae30\ubd84\uc88b\uc740
+mood.happy.okay=\uad1c\ucc2e\uc740
+
+mood.neutral.passive=\ud65c\uae30\uac00 \uc5c6\ub294
+
+mood.sadness.blue=\uc6b0\uc6b8\ud55c
+mood.sadness.unhappy=\ubd88\ud589\ud55c
+mood.sadness.sad=\uc2ac\ud508
+mood.sadness.cheerless=\uc7ac\ubbf8\uc5c6\ub294
+mood.sadness.depressed=\uc758\uae30 \uc18c\uce68\ud55c
+
+mood.anger.annoyed=\uc9dc\uc99d\ub09c
+mood.anger.agitated=\ud765\ubd84\ud55c
+mood.anger.mad=\ud654\ub09c
+mood.anger.seething=\uc18d\uc774 \ub053\ub294
+mood.anger.infuriated=\uaca9\ub178\ud55c
+
+mood.fatigue.tired=\ud53c\uace4\ud55c
+mood.fatigue.sleepy=\uc878\ub9b0
+mood.fatigue.fatigued=\ub9ce\uc774 \ud53c\ub85c\ud55c
+mood.fatigue.exhausted=\ud30c\uae40\uce58\uac00 \ub41c
+mood.fatigue.comatose=\ud63c\uc218\uc0c1\ud0dc
+
+#######
+# Monarch
+#############################
+monarch.gui.button.interact.demandgift=\uc120\ubb3c \uc694\uad6c
+monarch.gui.button.interact.execute=\ucc98\ud615
+monarch.gui.button.interact.makeknight=\uae30\uc0ac\ub85c \ub9cc\ub4e4\uae30
+monarch.gui.button.interact.makepeasant=\ub18d\ubd80\ub85c \ub9cc\ub4e4\uae30
+
+monarch.knight.follow.start1=\uc800\uc758 %MonarchTitle%\uc774\uc5ec, \ub2f9\uc2e0\uc744 \uc704\ud574\uc11c\ub77c\uba74 \ubb34\uc5c7\uc774\ub4e0\uc9c0.
+monarch.knight.follow.start2=\uc800\ub294 \ub2f9\uc2e0\uc774 \uac00\ub294 \uacf3\uc774\ub77c\uba74 \uc5b4\ub514\ub77c\ub3c4 \ub530\ub974\uaca0\uc2b5\ub2c8\ub2e4, \ud3d0\ud558.
+monarch.knight.follow.start3=\uc804\ud22c \uc900\ube44\!
+monarch.knight.follow.start4=\uba85\ub839\ub9cc \ub0b4\ub9ac\uc2ed\uc2dc\uc624.
+monarch.knight.follow.start5=\uba85\ud558\uc2dc\ub294 \ub300\ub85c.
+
+monarch.knight.follow.stop1=\uc800\ub294 \uc5b8\uc81c\ub098 \ub2f9\uc2e0\uc758 \uc885\uc785\ub2c8\ub2e4. \uc800\uc758 %MonarchTitle%\ub2d8.
+monarch.knight.follow.stop2=\ubd84\ubd80\ud558\uc2dc\ub294 \ub300\ub85c, \ud3d0\ud558.
+monarch.knight.follow.stop3=\uc81c \uc784\ubb34\ub85c \ub2e4\uc2dc \ub3cc\uc544\uac00\uaca0\uc2b5\ub2c8\ub2e4.
+
+monarch.knight.follow.refuse1=\ub098\ub294 %MonarchPlayerName%\ub2d8\uc758 \ub73b\uc744 \uacb0\ucf54 \uac70\uc2a4\ub974\uc9c0 \uc54a\uc744 \uac83\uc774\uc624\!
+monarch.knight.follow.refuse2=\ub098\ub294 %MonarchPlayerName%\ub2d8\uc5d0\uac8c \ub9f9\uc138\ud569\ub2c8\ub2e4.
+monarch.knight.follow.refuse3=\ub098\ub294 %MonarchPlayerName%\ub2d8\uc758 \uae30\uc0ac\uc785\ub2c8\ub2e4.
+
+monarch.execute.failure.noweapon=\ub2f9\uc2e0\uc740 \uc0ac\ub78c\uc744 \uc0ac\ud615\uc2dc\ud0ac \ubb34\uae30\ub97c \uac00\uc9c0\uace0 \uc788\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.
+monarch.execute.failure.playerspouse=\ub2f9\uc2e0\uc740 \ud50c\ub808\uc774\uc5b4\uc758 \ubc30\uc6b0\uc790\ub97c \ucc98\ud615\ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.
+
+monarch.makepeasant.success=\uc774 \uc8fc\ubbfc\uc740 \uc9c0\uae08 \ub2f9\uc2e0\uc758 \uaddc\uce59\uc5d0 \ub530\ub77c \ub18d\ubbfc\uc785\ub2c8\ub2e4. \uadf8\ub4e4\uc740 \uc9d1\uc548\uc77c\uc744 \uc218\ud589\ud558\ub294 \uacbd\uc6b0 \uadf8\ub4e4\uc740 \ubb34\ub8cc\ub85c \uc791\ub3d9\ud569\ub2c8\ub2e4.
+monarch.makepeasant.failure.alreadypeasant=\uc774 \uc8fc\ubbfc\uc740 \uc774\ubbf8 \ub2e4\ub978 \uad70\uc8fc\uc758 \ub18d\ubbfc\uc774\ub2e4.
+monarch.makepeasant.failure.playerspouse=\ud50c\ub808\uc774\uc5b4\uc758 \ubc30\uc6b0\uc790\ub294 \ub18d\ubbfc\uc744 \ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.
+
+monarch.makeknight.success=\uc774  \uacbd\ube44\uc6d0\uc740 \uc774\uc81c \uaddc\uce59\uc5d0 \ub530\ub77c \uae30\uc0ac\uc785\ub2c8\ub2e4.
+monarch.makeknight.failure.alreadyknight=\uc774 \uacbd\ube44\uc6d0\uc740 \uc774\ubbf8 \ub2e4\ub978 \uad70\uc8fc\uc758 \uae30\uc0ac\uc785\ub2c8\ub2e4.
+monarch.makeknight.failure.playerspouse=\ud50c\ub808\uc774\uc5b4\uc758 \ubc30\uc6b0\uc790\ub294 \uae30\uc0ac\ub85c \ub9cc\ub4e4 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.
+
+monarch.title.knight.male=\uae30\uc0ac %Name%
+monarch.title.knight.female=\uae30\uc0ac %Name%
+monarch.title.knight.male.otherplayer=(%MonarchPlayerName%\uc758 \uae30\uc0ac)
+monarch.title.knight.female.otherplayer=(%MonarchPlayerName%\uc758 \uae30\uc0ac)
+
+monarch.title.peasant.male.owner=(\ub18d\ubd80)
+monarch.title.peasant.female.owner=(\ub18d\ubd80)
+monarch.title.peasant.male.otherplayer=(%MonarchPlayerName%\uc758 \ub18d\ubd80)
+monarch.title.peasant.female.otherplayer=(%MonarchPlayerName%\uc758 \ub18d\ubd80)
+
+monarch.title.monarch=\uad70\uc8fc
+monarch.title.heir=\ud6c4\uacc4\uc790
+monarch.title.male.player=\uc655
+monarch.title.male.heir=\uc655\uc790
+monarch.title.female.player=\uc5ec\uc655
+monarch.title.female.heir=\uacf5\uc8fc
+
+monarch.demandgift.accept1=\ubb3c\ub860\uc774\uc8e0, \uc804\ud558\!
+monarch.demandgift.accept2=\uc804\ud558, \uc740\ud61c\uc5d0 \uac10\uc0ac\ub4dc\ub9ac\uc635\ub2c8\ub2e4.
+monarch.demandgift.accept3=\ubaa8\ub4e0\uac83\uc774 \ub098\uc758 \uad70\uc8fc\ub97c \uc704\ud574
+monarch.demandgift.accept4=\ub124, \uc800\uc758 %MonarchTitle%.
+monarch.demandgift.accept5=\ubd80\uc5d0 \uacb0\ubd80\ub418\uc5b4\uc11c\ub294 \ubc18\ub4dc\uc2dc \uc815\uc9c1\ud55c \ubaa8\uc2b5\uc744 \ubcf4\uc5ec\ub4dc\ub9ac\uaca0\uc2b5\ub2c8\ub2e4, \uc800\uc758 %MonarchTitle% \ub2d8.
+monarch.demandgift.accept6=\uc81c\uac00 \uc874\uacbd\ud558\ub294 %MonarchTitle% \ub2d8\uc740 \uc774\ub7ec\ud55c \ub9ce\uc740 \uc120\ubb3c\ub4e4\uc744 \ubc1b\uc544 \ub204\ub9b4 \uc790\uaca9\uc774 \ucda9\ubd84\ud788 \uc788\uc73c\uc2ed\ub2c8\ub2e4\!
+monarch.demandgift.accept7=\uc804\ud558, \uac10\uc0ac\ub4dc\ub9ac\uc635\ub2c8\ub2e4.
+
+monarch.demandgift.toomany1=I barely have enough for myself, now\!
+monarch.demandgift.toomany2=\uc81c\ubc1c, \uc804 \ub2f9\uc2e0\uc5d0\uac8c \ub9ce\uc774 \uc92c\uc796\uc544\uc694...
+monarch.demandgift.toomany3=\uc6b0\ub9ac \uc0dd\uac01\uc5d0\ub294 \ub2f9\uc2e0\uc774 %MonarchTitle%\ub97c(\uc744) \ub3c4\uc6b0\ub294 \uc904 \uc54c\uc558\ub294\ub370, \uc695\uc2ec \ub9ce\uc740 \uc0ac\ub78c\uc740 \ube7c\uace0\uc694.
+monarch.demandgift.toomany4=You didn't hear this from me, but people are starting to think you're a tyrant.
+monarch.demandgift.toomany5=I can only give so much\!
+monarch.demandgift.toomany6=\uc804 \ub2f9\uc2e0\uc5d0\uac8c \ub9ce\uc774 \ub4dc\ub9b4\uc218 \uc5c6\uc5b4\uc694... \ub2f9\uc2e0\uc740 \uc800\uc5d0\uac8c \ub108\ubb34 \ub9ce\uc740\uac78 \ubc14\ub77c\uace0 \uc788\uc5b4\uc694.
+
+monarch.demandgift.dictator1=\uc78a\uc73c\uc2e0\uac81\ub2c8\uae4c?\! \uc800\ub294 \ub2e4\uc2dc\ub294 \ub2f9\uc2e0\uc5d0\uac8c \uc544\ubb34\uac83\ub3c4 \ub4dc\ub9ac\uc9c0 \uc54a\uc744\uac81\ub2c8\ub2e4\!
+monarch.demandgift.dictator2=\uc548\ub3fc\uc694\! \uc6b0\ub9ac\ub294 \uc774\ubbf8 \ub2f9\uc2e0\uc758 \uc9c0\uc18d\uc801\uc778 \uc694\uad6c\uc5d0 \uc9c0\ucce4\uc5b4\uc694\!
+monarch.demandgift.dictator3=\uc544\ub2c8\uc624\! \uadf8 \uc815\ub3c4\uba74 \uad1c\ucc2e\uc544\uc694\!
+monarch.demandgift.dictator4=\uc6b0\ub9b0 \ucda9\ubd84\ud788 \ub2f9\uc2e0\uc758 \ub05d\uc5c6\ub294 \ud0d0\uc695\uc5d0 \ub9de\ucdb0\ub4dc\ub838\ub2e4\uad6c\uc694\!
+monarch.demandgift.dictator5=\uc804\ud558\uaed8\uc11c \ud558\uc2dc\ub294 \ub300\ub85c \ubb50\ub4e0 \ud574\ub4dc\ub9ac\uaca0\uc2b5\ub2c8\ub2e4\ub9cc, \uc800\ub294 \uc9c0\uae08 \ub2f9\uc2e0\uaed8 \uc544\ubb34\uac83\ub3c4 \ub4dc\ub9ac\uc9c0 \ubabb\ud569\ub2c8\ub2e4..
+
+#######
+# Names
+##############################
+name.male1=Aaron
+name.male2=Aceton
+name.male3=Adam
+name.male4=Aidan
+name.male5=Alan
+name.male6=Alex
+name.male7=Allen
+name.male8=Andrew
+name.male9=Anthony
+name.male10=Armando
+name.male11=Arthur
+name.male12=Austin
+name.male13=Ben
+name.male14=Bill
+name.male15=Billy
+name.male16=Bradley
+name.male17=Brady
+name.male18=Braxton
+name.male19=Brayden
+name.male20=Brenden
+name.male21=Brent
+name.male22=Brian
+name.male23=Brice
+name.male24=Brighton
+name.male25=Caleb
+name.male26=Cameron
+name.male27=Christopher
+name.male28=Cleveland
+name.male29=Cody
+name.male30=Colby
+name.male31=Collin
+name.male32=Colton
+name.male33=Corey
+name.male34=Coty
+name.male35=Dale
+name.male36=Damon
+name.male37=Dan
+name.male38=Dane
+name.male39=Danny
+name.male40=David
+name.male41=Derek
+name.male42=Devin
+name.male43=Donnie
+name.male44=Drew
+name.male45=Dylan
+name.male46=Edward
+name.male47=Eric
+name.male48=Ethan
+name.male49=Evan
+name.male50=Fred
+name.male51=Gabe
+name.male52=Garrett
+name.male53=Gary
+name.male54=Gavin
+name.male55=Harris
+name.male56=Harry
+name.male57=Hayden
+name.male58=Hunter
+name.male59=Jackson
+name.male60=Jacob
+name.male61=Jake
+name.male62=James
+name.male63=Jared
+name.male64=Jason
+name.male65=Jay
+name.male66=Jeremy
+name.male67=Jerry
+name.male68=Jim
+name.male69=Joe
+name.male70=John
+name.male71=Jon
+name.male72=Joseph
+name.male73=Josh
+name.male74=Justin
+name.male75=Kaden
+name.male76=Kent
+name.male77=Kevin
+name.male78=Leo
+name.male79=Leon
+name.male80=Lewis
+name.male81=Liam
+name.male82=Lucas
+name.male83=Mac
+name.male84=Marcus
+name.male85=Mark
+name.male86=Martin
+name.male87=Mason
+name.male88=Matt
+name.male89=Matthew
+name.male90=Michael
+name.male91=Mike
+name.male92=Nathan
+name.male93=Nathaniel
+name.male94=Nick
+name.male95=Oliver
+name.male96=Oscar
+name.male97=Owen
+name.male98=Patrick
+name.male99=Peter
+name.male100=Phil
+name.male101=Randy
+name.male102=Rey
+name.male103=Robert
+name.male104=Roger
+name.male105=Roy
+name.male106=Russ
+name.male107=Ryan
+name.male108=Scott
+name.male109=Seth
+name.male110=Shane
+name.male111=Shawn
+name.male112=Simon
+name.male113=Steve
+name.male114=Tanner
+name.male115=Tate
+name.male116=Terrence
+name.male117=Terry
+name.male118=Tim
+name.male119=Toby
+name.male120=Tom
+name.male121=Tommy
+name.male122=Tony
+name.male123=Trent
+name.male124=Tristan
+name.male125=Triston
+name.male126=Tyler
+name.male127=Tyson
+name.male128=Victor
+name.male129=Vincent
+name.male130=Will
+name.male131=William 
+
+name.female1=Addison
+name.female2=Adi
+name.female3=Alexis
+name.female4=Alice
+name.female5=Alicia
+name.female6=Allie
+name.female7=Allison
+name.female8=Allysa
+name.female9=Alma
+name.female10=Amelia
+name.female11=Amnesty
+name.female12=Amy
+name.female13=Andrea
+name.female14=Angie
+name.female15=Anna
+name.female16=Anne
+name.female17=Arieanne
+name.female18=Ashley
+name.female19=Ashlyn
+name.female20=Ashton
+name.female21=Aspen
+name.female22=Aubrey
+name.female23=Aurora
+name.female24=Autumn
+name.female25=Ava
+name.female26=Baylee
+name.female27=Brooke
+name.female28=Camilla
+name.female29=Christina
+name.female30=Christy
+name.female31=Constance
+name.female32=Courtney
+name.female33=Cynthia
+name.female34=Dawn
+name.female35=Destiny
+name.female36=Diana
+name.female37=Donna
+name.female38=Elizabeth
+name.female39=Emery
+name.female40=Emily
+name.female41=Emma
+name.female42=Emmalyn
+name.female43=Erika
+name.female44=Eve
+name.female45=Faye
+name.female46=Gracie
+name.female47=Gwen
+name.female48=Hannah
+name.female49=Hazel
+name.female50=Holly
+name.female51=Jaden
+name.female52=Jennifer
+name.female53=Jessica
+name.female54=Julia
+name.female55=Julie
+name.female56=Kaitlin
+name.female57=Katie
+name.female58=Kaylene
+name.female59=Kiana
+name.female60=Kimberly
+name.female61=Kristen
+name.female62=Kylee
+name.female63=Leslie
+name.female64=Linda
+name.female65=Lindsey
+name.female66=Lola
+name.female67=Lori
+name.female68=Lydia
+name.female69=Madison
+name.female70=Marisa
+name.female71=Megan
+name.female72=Melissa
+name.female73=Melody
+name.female74=Miranda
+name.female75=Molly
+name.female76=Nickie
+name.female77=Nicole
+name.female78=Oaklee
+name.female79=Penny
+name.female80=Rachel
+name.female81=Robin
+name.female82=Rosa
+name.female83=Rosalie
+name.female84=Sarah
+name.female85=Serenity
+name.female86=Sharon
+name.female87=Shayla
+name.female88=Sherry
+name.female89=Sheryl
+name.female90=Skylar
+name.female91=Sofia
+name.female92=Sonya
+name.female93=Stacey
+name.female94=Steph
+name.female95=Stephanie
+name.female96=Sylvia
+name.female97=Trinity
+name.female98=Valerie
+name.female99=Vannessa
+name.female100=Veronica
+name.female101=Whitney
+
+#######
+# Multiplayer
+##############################
+multiplayer.command.error.parameter=\ud30c\ub77c\ubbf8\ud130 \uc624\ub958\uac00 \ubc1c\uc0dd\ud558\uc600\uc2b5\ub2c8\ub2e4. \uc0ac\uc6a9\ubc95\:
+multiplayer.command.error.unknown=\uc54c\uc218\uc5c6\ub294 \uc624\ub958\uac00 \ubc1c\uc0dd\ud558\uc600\uc2b5\ub2c8\ub2e4.
+multiplayer.command.error.playeroffline=\uadf8 \ud50c\ub808\uc774\uc5b4\ub294 \uc774 \uc11c\ubc84\uc5d0 \ub85c\uadf8\uc778\ud558\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4.
+
+multiplayer.command.output.help=Minecraft Comes Alive - \uba85\ub839\uc5b4
+multiplayer.command.output.setgender=\ud604\uc7ac \uc131\ubcc4\:
+multiplayer.command.output.setname=\ud604\uc7ac \uc774\ub984\:
+
+multiplayer.command.output.marry.noring=\ub2f9\uc2e0\uc740 \uacb0\ud63c\ubc18\uc9c0\uac00 \uc5c6\uc2b5\ub2c8\ub2e4. \ub2e4\ub978 \ud50c\ub808\uc774\uc5b4\uc640 \uacb0\ud63c\ud560\uc218\uc5c6\uc2b5\ub2c8\ub2e4.
+multiplayer.command.output.marry.request=%TruePlayerName% \uac00 \ub2f9\uc2e0\uc5d0\uac8c \uccad\ud63c\uc2e0\uccad\uc744 \ud588\uc2b5\ub2c8\ub2e4.
+multiplayer.command.output.marry.accept=\ub2f9\uc2e0\uc740 \uc9c0\uae08 %PlayerSpouseName% \uacfc(\uc640) \uacb0\ud63c\ud588\uc2b5\ub2c8\ub2e4\!
+multiplayer.command.output.marry.decline=Your marriage request was declined.
+multiplayer.command.output.marry.norequest=\uadf8 \ud50c\ub808\uc774\uc5b4\ub294 \uadf8\ub4e4\uacfc \uacb0\ud63c\ud558\ub3c4\ub85d \uc694\uccad\ud558\uc9c0 \uc54a\uc558\uc2b5\ub2c8\ub2e4.
+multiplayer.command.output.marry.otheralreadymarried=\uadf8 \ud50c\ub808\uc774\uc5b4\ub294 \uc774\ubbf8 \uacb0\ud63c\ud558\uc600\uc2b5\ub2c8\ub2e4.
+multiplayer.command.output.marry.senderalreadymarried=\ub2f9\uc2e0\uc740 \uc774\ubbf8 \uacb0\ud63c\ud558\uc600\uc2b5\ub2c8\ub2e4.
+
+multiplayer.command.output.divorce.successful=You have been divorced from your current spouse.
+
+multiplayer.command.output.havebaby.request=%PlayerSpouseName%\ub2d8\uc774 \uc544\uae30\ub97c \uac00\uc9c0\uace0 \uc2f6\uc5b4 \ud569\ub2c8\ub2e4.
+multiplayer.command.output.havebaby.decline=Your request to have a baby was declined.
+multiplayer.command.output.havebaby.limitreached=You have reached the child limit set by the server administrator.
+
+multiplayer.command.output.block.failed=\uadf8 \ud50c\ub808\uc774\uc5b4\ub294 \uc774\ubbf8 \ucc28\ub2e8\ub418\uc5b4 \uc788\uc2b5\ub2c8\ub2e4.
+multiplayer.command.output.block.successful=\uadf8 \ud50c\ub808\uc774\uc5b4\ub97c \ucc28\ub2e8 \ud558\uc600\uc2b5\ub2c8\ub2e4.
+
+multiplayer.command.output.blockall.true.successful=\ubaa8\ub4e0 \uccad\ud63c\uc774 \ucc28\ub2e8\ub429\ub2c8\ub2e4.
+multiplayer.command.output.blockall.false.successful=\ubaa8\ub4e0 \uccad\ud63c\uc758 \ucc28\ub2e8\uc774 \ud574\uc81c \ub418\uc5c8\uc2b5\ub2c8\ub2e4.
+
+multiplayer.command.output.unblock.failed=\uadf8 \ud50c\ub808\uc774\uc5b4\ub294 \ucc28\ub2e8 \ub418\uc5b4\uc788\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.
+multiplayer.command.output.unblock.successful=\uadf8 \ud50c\ub808\uc774\uc5b4\uc758 \ucc28\ub2e8\uc774 \ud574\uc81c\ub418\uc5c8\uc2b5\ub2c8\ub2e4.
+
+multiplayer.command.output.unblockall.successful=\ubaa8\ub4e0 \ud50c\ub808\uc774\uc5b4\uc758 \ucc28\ub2e8\uc774 \ud574\uc81c\ub418\uc5c8\uc2b5\ub2c8\ub2e4.
+
+multiplayer.interaction.reject.spouse=\ub2f9\uc2e0\uc740 \ub2e4\ub978 \ud50c\ub808\uc774\uc5b4\uc758 \ubd80\uc778\uc744 \uc870\uc885\ud560\uc218\uc5c6\uc2b5\ub2c8\ub2e4.
+multiplayer.interaction.reject.child=\ub2f9\uc2e0\uc740 \ub2e4\ub978 \ud50c\ub808\uc774\uc5b4\uc758 \uadc0\ud55c \uc544\uc774\ub97c \uc870\uc885\ud560\uc218\uc5c6\uc2b5\ub2c8\ub2e4.
+
+#######
+# Achievements
+##############################
+achievement.charmer=\uaf64 \ub9e4\ub825\uc801\uc778 \ubd84
+achievement.getmarried=\uacb0\ud63c \uc131\uacf5\!
+achievement.cookbaby=\uacfc\ud559\uc744 \uc704\ud574\uc11c, \uc774 \uad34\ubb3c\uc544. (\ud3ec\ud0c82 \uba85\ub300\uc0ac by \uae00\ub77c\ub3c4\uc2a4 OS)
+achievement.havebabyboy=\ub0a8\uc790\uc544\uc774\ub2e4\!
+achievement.havebabygirl=\uc5ec\uc790\uc544\uc774\ub2e4\!
+achievement.growbaby=\uc560\ub4e4\uc774 \uc815\ub9d0 \ube68\ub9ac \ud06c\uc8e0
+achievement.farming=\ubb34\uc0c1\ub178\ub3d9
+achievement.fishing=\ubaa8\ub450 \uc7a1\uc544\uc57c\uaca0\uad70
+achievement.woodcutting=\ubc8c\ubaa9\uafbc
+achievement.mining=\ubb34\ud55c\uc758 \uad11\uc9c8
+achievement.huntkill=\ud0c0\uace0\ub09c \uc0ac\ub0e5\uafbc
+achievement.hunttame=\uc790\uc5f0\uc758 \uce5c\uad6c
+achievement.growkid=\uc131\uc778 \ub0a8\uc131(\ud639\uc740 \uc5ec\uc131)
+achievement.equipadult=\ucca0\uc800\ud558\uac8c \ubb34\uc7a5\ud55c
+achievement.mobkills=\uac1c\uc778 \ubcf4\ub514\uac00\ub4dc
+achievement.marrychild=\uc2dc\uc9d1(\uc7a5\uac00) \ubcf4\ub0b4\uae30
+achievement.havegrandchild=\uc870\ubd80\ubaa8
+achievement.havegreatgrandchild=\ud759\ub9cc\ud07c \uc624\ub798\ub41c
+achievement.havegreatx2grandchild=\ud759\ubcf4\ub2e4 \uc624\ub798\ub41c
+achievement.havegreatx10grandchild=\ub108\uc758 \ube44\ubc00\uc774 \ubb50\uc57c?
+achievement.hardcoresecret=\ubcf5\uc218\ud560\uac70\uc57c
+achievement.craftcrown=\ub0b4\uac00 \uc655\uc774\ub85c\uc18c\uc774\ub2e4\!
+achievement.executevillager=\ub2c8 \uba38\ub9ac\uc640 \ubab8\ud1b5\uc744 \ubd84\ub9ac\ud574\uc8fc\ub9c8\!
+achievement.makeknight=\uc774\uac74 \uccb4\uc2a4\uac00 \uc544\ub2d9\ub2c8\ub2e4
+achievement.knightarmy=20\uba85\uc758 \uad70\ub300
+achievement.makepeasant=\uc88b\uc740\ub0a0\uc785\ub2c8\ub2e4.\uc800\uc758 \uad70\uc8fc\uc2dc\uc5ec
+achievement.peasantarmy=\uae4c\ub77c\uba74 \uae4c
+achievement.nameheir=\uc131\uc2a4\ub7f0 \ud608\ud1b5
+achievement.killheir=\uc544\ub4e4\ub538 \uad6c\ubcc4\ub9d0\uace0 \ud558\ub098\ub9cc \ub0b3\uc544 \uc798 \uae30\ub974\uc790
+achievement.monarchsecret=\uc5ed\uc0ac\uc758 \ub4a4\uc548\uae38\ub85c \uc0ac\ub77c\uc9c0\ub2e4
+
+achievement.charmer.desc=\ud638\uac10\ub3c4 100\uc774\uc0c1\uc744 \uc313\uc73c\uc138\uc694
+achievement.getmarried.desc=\ub9c8\uc744 \uc8fc\ubbfc\uacfc \uacb0\ud63c\ud558\ub2e4
+achievement.cookbaby.desc=\uc228\uaca8\uc9c4 \uc5c5\uc801.
+achievement.havebabyboy.desc=\uc544\ub4e4 \ud558\ub098 \uc788\uc5b4\uc694.
+achievement.havebabygirl.desc=\uc5ec\uc790\uc544\uc774\ub97c \uac00\uc9c0\uc790.
+achievement.growbaby.desc=\uc544\uae30\ub97c \uc544\uc774\ub85c \uc131\uc7a5\uc2dc\ud0a8\ub2e4.
+achievement.farming.desc=100 \uce78\uc758 \ub545\uc744 \uad2d\uc774\uc9c8\ud558\uac8c \uc544\uc774\ub97c \uba85\ub839\ud558\uc790.
+achievement.fishing.desc=100 \uac1c\uc758 \ubb3c\uace0\uae30\ub97c \uc7a1\ub3c4\ub85d \uc544\uc774\uc5d0\uac8c \uba85\ub839\ud558\uc790.
+achievement.woodcutting.desc=100 \uac1c\uc758 \ub098\ubb34\ub97c \uce90\ub3c4\ub85d \uc544\uc774\uc5d0\uac8c \uba85\ub839\ud558\uc790.
+achievement.mining.desc=300 \uce78\uc758 \uad11\ubb3c\uc744 \ucc44\uad74\ud558\ub3c4\ub85d \uc544\uc774\uc5d0\uac8c \uba85\ub839\ud558\uc790.
+achievement.huntkill.desc=\uc544\uc774\uac00 \uc0ac\ub0e5\uc73c\ub85c \ub3d9\ubb3c\uc744 100\ub9c8\ub9ac \uc774\uc0c1 \uc7a1\ub3c4\ub85d\ud558\uc138\uc694.
+achievement.hunttame.desc=\uc544\uc774\uac00 \ub3d9\ubb3c\ub4e4\uc744 100\ub9c8\ub9ac \uc774\uc0c1 \uae38\ub4e4\uc774\uac8c \ud558\uc138\uc694
+achievement.growkid.desc=\uc544\uc774\ub97c \uc5b4\ub978\uc73c\ub85c \uc131\uc7a5\uc2dc\ud0a8\ub2e4.
+achievement.equipadult.desc=\uc544\uc774\ub97c \ubb34\uae30\uc640 \uac11\uc637\uc73c\ub85c \ubb34\uc7a5\uc2dc\ud0a8\ub2e4.
+achievement.mobkills.desc=\ubbf8\ud63c \uc131\uc778\uc5d0\uac8c 50\ub9c8\ub9ac\uc758 \ubaac\uc2a4\ud130\ub4e4\uc744 \uc7a1\ub3c4\ub85d \uc2dc\ud0a8\ub2e4.
+achievement.marrychild.desc=\uc544\uc774\ub97c \uacb0\ud63c \uc2dc\ud0a8\ub2e4.
+achievement.havegrandchild.desc=\uc190\uc8fc\uac00 \ud55c\uba85 \uc788\ub2e4.
+achievement.havegreatgrandchild.desc=Have a great grandchild.
+achievement.havegreatx2grandchild.desc=Have a great x2 grandchild.
+achievement.havegreatx10grandchild.desc=Have a great x10 grandchild.
+achievement.hardcoresecret.desc=Find the hardcore mode secret.
+achievement.craftcrown.desc=Craft a crown and become a monarch.
+achievement.executevillager.desc=Execute a villager.
+achievement.makeknight.desc=Make a guard into a knight.
+achievement.knightarmy.desc=Build an army of twenty knights.
+achievement.makepeasant.desc=Make a villager into a peasant.
+achievement.peasantarmy.desc=Make twenty villagers into peasants.
+achievement.nameheir.desc=Name your successor to the throne.
+achievement.killheir.desc=Kill your successor once they acquire the throne.
+achievement.monarchsecret.desc=Secret achievement.
+
+#######
+# Items & Blocks
+##############################
+item.ring.arranger.name=Arranger's Ring
+item.ring.engagement.name=Engagement Ring
+item.ring.wedding.name=Wedding Ring
+item.baby.boy.name=\ub0a8\uc790 \uc544\uae30
+item.baby.girl.name=\uc5ec\uc790 \uc544\uae30
+item.egg.male.name=\ub0a8\uc790 \uc8fc\ubbfc \uc2a4\ud3f0\ud558\uae30
+item.egg.female.name=\uc5ec\uc790 \uc8fc\ubbfc \uc18c\ud658
+item.whistle.name=\ud638\ub8e8\ub77c\uae30
+item.editor.name=Villager Editor
+item.lostrelativedocument.name=Lost Relative Document
+item.crown.name=Crown
+item.heircrown.name=Heir Crown
+item.tombstone.name=Tombstone
+item.kingscoat.name=Monarch Coat
+item.kingspants.name=Monarch Pants
+item.kingsboots.name=Monarch Boots
+item.redcrown.name=Red Crown
+item.bluecrown.name=Blue Crown
+item.greencrown.name=Green Crown
+item.pinkcrown.name=Pink Crown
+item.purplecrown.name=Purple Crown
+item.redbed.name=Red Bed
+item.bluebed.name=Blue Bed
+item.greenbed.name=Green Bed
+item.pinkbed.name=Pink Bed
+item.purplebed.name=Purple Bed
+block.tombstone.name=Tombstone
+
+#######
+# Professions
+##############################
+profession.baker.male=%Name% \uc81c\uacfc\uc0ac
+profession.baker.female=%Name% \uc81c\uacfc\uc0ac
+profession.butcher.male=%Name% \ub3c4\ucd95\uc790
+profession.butcher.female=%Name% \ub3c4\ucd95\uc790
+profession.farmer.male=%Name% \ub18d\ubd80
+profession.farmer.female=%Name% \ub18d\ubd80
+profession.guard.male=%Name% \uacbd\ube44\ubcd1
+profession.guard.female=%Name% \uacbd\ube44\ubcd1
+profession.librarian.male=%Name% \uc0ac\uc11c
+profession.librarian.female=%Name% \uc0ac\uc11c
+profession.miner.male=%Name% \uad11\ubd80
+profession.miner.female=%Name% \uad11\ubd80
+profession.priest.male=%Name% \uc2b9\ub824
+profession.priest.female=%Name% \uc2b9\ub824
+profession.smith.male=%Name% \uc7a5\uc778
+profession.smith.female=%Name% \uc7a5\uc778
+profession.playerchild.male=%Name% \uc544\uc774
+profession.playerchild.female=%Name% \uc5ec\uc790\uc544\uc774
+
+#######
+# Family Member Titles
+##############################
+family.aunt=\uc774\ubaa8
+family.brother=\ub0a8\uc790\ud615\uc81c
+family.cousin.male=\uc0ac\ucd0c
+family.cousin.female=\uc0ac\ucd0c
+family.daughter=\ub538
+family.father.formal=\uc544\ubc84\uc9c0
+family.father.informal=\uc544\ube60
+family.fiance.male=\uc57d\ud63c\uc790
+family.fiance.female=\uc57d\ud63c\uc790
+family.granddaughter=\uc190\ub140
+family.grandson=\uc190\uc790
+family.greatgranddaughter=%Generation%\ub300 \uc190\ub140
+family.greatgrandson=%Generation%\ub300 \uc190\uc790
+family.grandfather=\ud560\uc544\ubc84\uc9c0
+family.greatgrandfather=%Generation%\ub300 \ud560\uc544\ubc84\uc9c0
+family.grandmother=\ud560\uba38\ub2c8
+family.greatgrandmother=%Generation%\ub300 \ud560\uba38\ub2c8
+family.husband=\ub0a8\ud3b8
+family.mother.formal=\uc5b4\uba38\ub2c8
+family.mother.informal=\uc5c4\ub9c8
+family.nephew=\uc870\uce74
+family.niece=\uc870\uce74\ub538
+family.none=None
+family.sister=\uc5b8\ub2c8(\ub204\ub098; \uc5ec\ub3d9\uc0dd)
+family.son=\uc544\ub4e4
+family.uncle=\uc0bc\ucd0c
+family.wife=\uc544\ub0b4
+
+#######
+# GUI Elements
+##############################
+
+#Buttons
+gui.button.back=\ub418\ub3cc\uc544\uac00\uae30
+gui.button.exit=\ub05d\ub0b4\uae30
+gui.button.next=\ub2e4\uc74c
+gui.button.yes=\uc608\uc2a4
+gui.button.no=\ub178
+gui.button.done=\uc644\ub8cc
+gui.button.ok=OK
+gui.button.random=\ub79c\ub364
+gui.button.trade=\uac70\ub798
+
+gui.button.setup.finish=\ub05d\ub0b4\uae30
+gui.button.setup.gendermale=\uc131\ubcc4\: \ub0a8\uc131
+gui.button.setup.genderfemale=\uc131\ubcc4\: \uc5ec\uc131
+gui.button.setup.hidesleepingtag=\ub9c8\uc744 \uc8fc\ubbfc \uc704\uc758 \uc7a0\uc790\ub294 \uc911 \ud45c\uc2dc\ub97c \uc81c\uac70\ud55c\ub2e4\:
+gui.button.setup.overwritetestificates=\uc218\uc815\uc0ac\ud56d\uc744 \ub367\uc50c\uc6b4\ub2e4\:
+gui.button.setup.growchildrenautomatically=\uc544\uc774\uac00 \uc790\ub3d9 \uc131\uc7a5\ud558\uac8c \ud55c\ub2e4 \:
+gui.button.setup.displaymoodparticles=\uac10\uc815 \ud30c\ud2f0\ud074\uc744 \ubcf4\uc5ec\uc900\ub2e4\: 
+gui.button.setup.shownametags=\uc774\ub984\ud45c \ubcf4\uc774\uae30\:
+gui.button.setup.preference=\ucde8\ud5a5\: 
+
+gui.button.setup.males=\ub0a8\uc131
+gui.button.setup.females=\uc5ec\uc131
+
+gui.editor.name=\uc131\uba85
+gui.editor.name.invalid=\uadf8 \uc774\ub984\uc5d0 \uc720\ud6a8\ud558\uc9c0 \uc54a\uc740 \ubb38\uc790\uc5f4\uc774 \uc788\uc2b5\ub2c8\ub2e4.
+gui.button.editor.texture=\ud14d\uc2a4\uccd0\:
+gui.button.editor.title=\uce6d\ud638\: 
+gui.button.editor.mood=\uac10\uc815\: 
+gui.button.editor.trait=\uc7ac\ub2a5\: 
+
+gui.button.interact.interact=\uc0c1\ud638\uc791\uc6a9
+gui.button.interact.chat=\ub300\ud654\ud558\uae30
+gui.button.interact.joke=\ub18d\ub2f4\ud558\uae30
+gui.button.interact.gift=\uc120\ubb3c\ud558\uae30
+gui.button.interact.kiss=\ud0a4\uc2a4
+gui.button.interact.flirt=\uc5f0\uc560\ud558\uae30
+gui.button.interact.tellstory=\uc774\uc57c\uae30\ud558\uae30
+gui.button.interact.play=\ub180\uae30
+gui.button.interact.greet.handshake=\uc545\uc218\ud558\uae30
+gui.button.interact.greet.highfive=\ud558\uc774\ud30c\uc774\ube0c
+gui.button.interact.follow=\ub530\ub77c\uc624\uac8c \ud558\uae30
+gui.button.interact.followstop=\uadf8\ub9cc \ub530\ub77c\uc624\uac8c \ud558\uae30
+gui.button.interact.stay=\uc5ec\uae30 \uba38\ubb3c\ub974\uac8c \ud558\uae30
+gui.button.interact.staystop=\uc6c0\uc9c1\uc774\uae30
+gui.button.interact.sethome=\uc9d1(\uc2a4\ud3f0 \ud3ec\uc778\ud2b8) \uc124\uc815\ud558\uae30
+gui.button.interact.takearrangerring=\uc911\ub9e4 \ubc18\uc9c0 \ubc1b\uae30
+gui.button.interact.takegift=\uc120\ubb3c \ubc1b\uae30
+gui.button.interact.ridehorse=\ub9d0\uc5d0 \ud0c0\uae30
+gui.button.interact.dismount=\ub9d0\uc5d0\uc11c \ub0b4\ub9ac\uae30
+
+gui.button.interact.player.asktomarry=\uacb0\ud63c \uc758\uc0ac\ubb3b\uae30
+gui.button.interact.player.havebaby=\uc0ac\ub791\ub098\ub204\uae30
+gui.button.interact.player.accept=\uc2b9\ub099\ud558\uae30
+gui.button.interact.player.decline=\uac70\uc808\ud558\uae30
+
+gui.button.special=\ud2b9\uc218
+gui.button.special.priest.divorcespouse=\ubd80\ubd80 \uc774\ud63c\uc2dc\ud0a4\uae30
+gui.button.special.priest.divorcecouple=\ucee4\ud50c \uae68\ud2b8\ub9ac\uae30
+gui.button.special.priest.divorcecouple.nonefound=\ucee4\ud50c \uc5c6\uc74c.
+gui.button.special.priest.divorce=\uc774\ud63c\ud558\uae30
+gui.button.special.priest.giveupbaby=\uc560\ub97c \uc720\uae30\uc2dc\ud0a4\uae30
+gui.button.special.priest.adoptbaby=\uc544\uc774 \uc785\uc591\ud558\uae30
+gui.button.special.priest.adoptchild=\uc5b4\ub9b0\uc774 \uc785\uc591
+gui.button.special.priest.arrangedmarriage=\uc911\ub9e4 \uacb0\ud63c
+gui.button.special.guard.hire=\uace0\uc6a9\ud558\uae30
+gui.button.special.guard.dismiss=\ud574\uace0\ud558\uae30
+gui.button.special.miner.hire=\uace0\uc6a9\ud558\uae30
+gui.button.special.miner.dismiss=\ud574\uace0\ud558\uae30
+gui.button.special.baker.aid=\ub3c4\uc6c0 \ubd80\ud0c1
+gui.button.special.butcher.aid=\ub3c4\uc6c0 \ubd80\ud0c1
+gui.button.special.farmer.aid=\ub3c4\uc6c0 \ubd80\ud0c1
+gui.button.special.librarian.setup=\uc124\uc815\ucc3d \uc5f4\uae30
+
+gui.button.spouse.cookfood=\uc694\ub9ac\ud558\uae30
+gui.button.spouse.stopcooking=\uc694\ub9ac \uba48\ucd94\uae30
+gui.button.spouse.inventory=\uc544\uc774\ud15c \ucc3d
+gui.button.spouse.procreate=\uc544\uc774 \ub0b3\uae30(\u3145\u3145\ud558\uae30)
+gui.button.spouse.migrate=\uc774\uc8fc\ud558\uae30
+
+gui.button.child.inventory=\uc544\uc774\ud15c \ucc3d
+gui.button.child.chores=\uc2ec\ubd80\ub984 \uc2dc\ud0a4\uae30
+gui.button.child.stopchore=\uc2ec\ubd80\ub984 \uadf8\ub9cc\uc2dc\ud0a4\uae30
+gui.button.child.growup=\uc131\uc7a5\uc2dc\ud0a4\uae30
+
+gui.button.chore.farming=\ub18d\uc0ac\uc9d3\uae30
+gui.button.chore.farming.method=\ubc29\ubc95\: 
+gui.button.chore.farming.method.create=\ub18d\uc7a5 \uac74\uc124
+gui.button.chore.farming.method.maintain=\ub18d\uc7a5 \uc6b4\uc601
+gui.button.chore.farming.plant=\uc2ec\uae30\: 
+gui.button.chore.farming.plant.wheat=\ubc00
+gui.button.chore.farming.plant.melon=\uba5c\ub860
+gui.button.chore.farming.plant.pumpkin=\ud638\ubc15
+gui.button.chore.farming.plant.carrot=\ub2f9\uadfc
+gui.button.chore.farming.plant.potato=\uac10\uc790
+gui.button.chore.farming.plant.sugarcane=\uc0ac\ud0d5\uc218\uc218
+gui.button.chore.farming.farmsize=\ub18d\uc7a5 \ud06c\uae30\: 
+gui.button.chore.farming.radius=\ubc18\uacbd\: 
+gui.button.chore.fishing=\ub09a\uc2dc
+gui.button.chore.combat=\uc804\ud22c
+gui.button.chore.combat.sentry=\ubcf4\ucd08\:
+gui.button.chore.combat.sentry.radius=\ubc18\uacbd\:
+gui.button.chore.combat.sentry.position.set=\uac10\uc2dc \uc704\uce58 \uc124\uc815
+gui.button.chore.combat.method=\ubc29\ubc95\: 
+gui.button.chore.combat.method.range=\uc6d0\uac70\ub9ac\ub9cc
+gui.button.chore.combat.method.melee=\uadfc\uc811\ub9cc
+gui.button.chore.combat.method.both=\uc6d0\uac70\ub9ac&\uadfc\uc811
+gui.button.chore.combat.method.neither=\uc2f8\uc6b0\uc9c0 \uc54a\uac8c
+gui.button.chore.combat.attack.pig=\ub3fc\uc9c0 \uacf5\uaca9\: 
+gui.button.chore.combat.attack.sheep=\uc591 \uacf5\uaca9\: 
+gui.button.chore.combat.attack.cow=\uc18c \uacf5\uaca9\: 
+gui.button.chore.combat.attack.chicken=\ub2ed \uacf5\uaca9\: 
+gui.button.chore.combat.attack.spider=\uac70\ubbf8 \uacf5\uaca9\: 
+gui.button.chore.combat.attack.zombie=\uc880\ube44 \uacf5\uaca9\: 
+gui.button.chore.combat.attack.skeleton=\uc2a4\ucf08\ub808\ud1a4 \uacf5\uaca9\: 
+gui.button.chore.combat.attack.creeper=\ud06c\ub9ac\ud37c \uacf5\uaca9\: 
+gui.button.chore.combat.attack.enderman=\uc5d4\ub354\ub9e8 \uacf5\uaca9\: 
+gui.button.chore.combat.attack.unknown=\uc54c \uc218 \uc5c6\ub294 \uc0ac\ub78c \uacf5\uaca9\:\u00a0 
+gui.button.chore.woodcutting=\ub098\ubb34\uce90\uae30
+gui.button.chore.woodcutting.treetype=\ub098\ubb34 \uc885\ub958\:
+gui.button.chore.woodcutting.treetype.all=\ubaa8\ub450
+gui.button.chore.woodcutting.treetype.oak=\ub5a1\uac08\ub098\ubb34
+gui.button.chore.woodcutting.treetype.spruce=\uac00\ubb38\ube44\ub098\ubb34
+gui.button.chore.woodcutting.treetype.birch=\uc790\uc791\ub098\ubb34
+gui.button.chore.woodcutting.treetype.jungle=\uc815\uae00\ub098\ubb34
+gui.button.chore.mining=\ucc44\uad74
+gui.button.chore.mining.method=\ubc29\ubc95\: 
+gui.button.chore.mining.method.passive=\uc218\ub3d9
+gui.button.chore.mining.method.active=\uc790\ub3d9
+gui.button.chore.mining.direction=\ubc29\ud5a5\: 
+gui.button.chore.mining.direction.forward=\uc55e
+gui.button.chore.mining.direction.backward=\ub4a4
+gui.button.chore.mining.direction.left=\uc67c\ucabd
+gui.button.chore.mining.direction.right=\uc624\ub978\ucabd
+gui.button.chore.mining.distance=\uac70\ub9ac\: 
+gui.button.chore.mining.find=\ucc3e\uae30\: 
+gui.button.chore.mining.find.coal=\uc11d\ud0c4
+gui.button.chore.mining.find.iron=\ucca0
+gui.button.chore.mining.find.lapis=\uccad\uae08\uc11d
+gui.button.chore.mining.find.gold=\uae08
+gui.button.chore.mining.find.diamond=\ub2e4\uc774\uc544\ubaac\ub4dc
+gui.button.chore.mining.find.redstone=\ub808\ub4dc\uc2a4\ud1a4
+gui.button.chore.mining.find.emerald=\uc5d0\uba54\ub784\ub4dc
+gui.button.chore.hunting=\uc0ac\ub0e5
+gui.button.chore.hunting.mode=\ubaa8\ub4dc\:
+gui.button.chore.hunting.mode.kill=\uc0b4\uc778
+gui.button.chore.hunting.mode.tame=\uc0ac\uc721
+gui.button.chore.start=\uc2dc\uc791
+
+gui.button.hiring.hours=\uace0\uc6a9\uc2dc\uac04\:
+
+gui.button.lostrelativedocument.generation=\uc138\ub300\: %Generation%
+
+#Titles
+gui.title.setup=Minecraft Comes Alive \ubaa8\ub4dc \uc124\uc815
+gui.title.setup.name=\uc131\uba85 \uc785\ub825\ud558\uc138\uc694.
+gui.title.setup.gender=\uc131\ubcc4 \uc120\ud0dd\ud558\uc138\uc694.
+gui.title.setup.options=\uc635\uc158\uc744 \uc124\uc815\ud558\uc138\uc694.
+
+gui.title.inventory=%Name%\uc758 \uc544\uc774\ud15c \ucc3d
+
+gui.title.namebaby=\uc544\uc774 \uc774\ub984 \uc9d3\uae30\: 
+gui.title.namebaby.male=\uc544\ub4dc\ub2d8\uc774\uc138\uc694\!
+gui.title.namebaby.female=\ub530\ub2d8\uc774\uc138\uc694\!
+
+gui.title.priest.divorcecouple=\uc5b4\ub5a4 \ucee4\ud50c\uc774 \uac08\ub77c\uc9c0\uac8c \ud560\uc9c0 \uc120\ud0dd.
+
+gui.title.tombstone=\ubb18\uc11d\uc758 \ucd94\ubaa8\uae00 \uc124\uc815\: 
+
+gui.title.special.hired=(\uace0\uc6a9\ub428)
+
+gui.title.lostrelativedocument=\ub2f9\uc2e0\uacfc %Name% \uc758 \uad00\uacc4\ub97c \uc120\ud0dd\ud569\ub2c8\ub2e4.
+gui.title.lostrelativedocument.confirm=\ub2f9\uc2e0\uc740 \uc815\ub9d0\ub85c  %Name%\uacfc \uc774\ub807\uac8c \uc9c0\ub0b4\uace0 \uc2f6\uc2b5\ub2c8\uae4c\:
+
+#Information
+gui.info.hearts=\ud638\uac10\ub3c4
+
+gui.info.special.none=\uc544 \uc0ac\ub78c\uc740 \uc544\ubb34 \ud2b9\uc218 \ub2a5\ub825\uc774 \uc5c6\ub2e4.
+
+gui.info.family.parents=(%\uc544\uc774\uc758\uc81c\ubaa9%\uc758%\uc5c4\ub9c8\uc758\uc774\ub984%\uadf8\ub9ac\uace0%\uc544\ube60\uc758\uc774\ub984%)
+gui.info.family.parents.deceased=(\ubd80\ubaa8\uac00 \uc8fd\ub2e4)
+gui.info.family.parent=(%LivingParent%\uc758 %ChildTitle%)
+
+gui.info.family.spouse=(%SpouseRelation% %VillagerSpouseName%\ub791 \uacb0\ud63c\ud588\uc74c)
+gui.info.family.spouse.unrelated=(%SpouseFullName% \uacfc(\uc640) \uacb0\ud63c\ud569\ub2c8\ub2e4)
+
+gui.info.namebaby.invalidcharacters=\uc544\uae30\uc758 \uc774\ub984\uc5d0 \uc54c\uc218\uc5c6\ub294 \ubb38\uc790\uac00 \ud3ec\ud568\ub418\uc5b4\uc788\uc2b5\ub2c8\ub2e4.
+gui.info.namebaby.nametaken=\uadf8 \uc774\ub984\uc744 \uac00\uc9c4 \uc544\uc774\uac00 \uc774\ubbf8 \uc788\uc2b5\ub2c8\ub2e4.
+
+gui.info.procreate.confirm1=\ub2f9\uc2e0\uc740 \uc57d\ud63c\uc778 \uc0c1\ud0dc\uc5d0\uc11c \uc544\uc774\ub97c \ub0b3\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.
+gui.info.procreate.confirm2=\ub2f9\uc2e0\uc740 \uc8fc\ubbfc\uc5d0\uac8c \uacb0\ud63c\ubc18\uc9c0\ub97c \uc120\ubb3c\ud574\uc57c \ud569\ub2c8\ub2e4.
+
+gui.info.chore.options=\uc635\uc158\: 
+gui.info.chore.options.none=\uc774 \uc2ec\ubd80\ub984 \uba85\ub839\uc5d0\ub294 \uc635\uc158\uc774 \uc5c6\uc2a4\ub2c8\ub2e4.
+gui.info.chore.experience=\uc219\ub828\ub3c4\:
+
+gui.info.hire.price=\uc774 \uc8fc\ubbfc\uc744 \uace0\uc6a9\ud560\ub54c, %x%\uac1c\uc758 \uae08\uad34\uac00 \ud544\uc694\ud569\ub2c8\ub2e4.
+gui.info.hire.hasgold=\ub2f9\uc2e0\uc740 \ucda9\ubd84\ud55c \uae08\uad34\uac00 \uc788\uc2b5\ub2c8\ub2e4.
+gui.info.hire.notenoughgold=\uae08\uad34\ub97c \ubcc4\ub85c \uac00\uc9c0\uace0 \uc788\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.
+gui.info.hire.minutesremaining=%x%\ubd84 \ub0a8\uc558\uc2b5\ub2c8\ub2e4.
+
+gui.info.hardcoresecret.prompt=\uc8fd\uace0\ub098\uc11c \ub9ac\uc2a4\ud3f0\uc744 \ub2f9\uc2e0\uc758 \uc790\ub140\uc911 \ud558\ub098\ub85c \ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4.
+gui.info.hardcoresecret.nochildren=\uc544\uc774\uac00 \uc5c6\ub2c8 \uc73c\ud56b\ucc28\!
+gui.info.hardcoresecret.spawnas=\ub204\uad6c\ub85c \uc18c\ud658\ud560\uae4c\: 
+gui.info.hardcoresecret.respawn=\uc544\uc774\ub85c \ub9ac\uc2a4\ud3f0\ud55c\ub2e4
+
+#Overhead
+gui.overhead.hasgift=\uc120\ubb3c \ubc1b\uc73c\uc2e4 \uc218 \uc788\uc5b4\uc694
+gui.overhead.hasring=\uc911\ub9e4 \ubc18\uc9c0\ub97c \uac16\uace0 \uc788\ub2e4
+gui.overhead.sleeping=\uc790\ub294 \uc911
+gui.overhead.health=\uccb4\ub825\: 
+
+#######
+# Notifications/One Liners
+##############################
+notify.player.married=\ub2f9\uc2e0\uacfc %Name%\ub294 \uc774\uc81c \uacb0\ud63c\ud588\uc2b5\ub2c8\ub2e4.
+notify.player.engaged=\uc774\uc81c \ub2f9\uc2e0\uc740 %Name% \uc640 \uc57d\ud63c\ud588\uc2b5\ub2c8\ub2e4.
+notify.player.droppedbaby=\ub098\uc05c \uc0dd\uac01\uc774\uc5d0\uc694.
+notify.player.clickbed=You cannot use that bed.
+
+notify.horse.invalid=\ub098\ub294 \ub108\uac00 \ub370\ub824\ub2e4\uc900 \ub9d0\uc5d0 \ud0c8 \uc218 \uc5c6\uc5b4.
+notify.horse.notfound=\uc74c...\ub108\ub294 \ub0b4\uac00 \uc5b4\ub290\ub9d0\uc5d0 \ud0c0\uae38 \uc6d0\ud574? \uadf8 \ub9d0\uc744 \ub370\ub824\uc640 \uc904\ub798?
+
+notify.villager.married=\uc774 \uc8fc\ubbfc\ub4e4\uc740 \uc774\uc81c \uc57d\ud63c \ub418\uc5c8\uc2b5\ub2c8\ub2e4.
+notify.villager.gifted.cake.notenough=\ub098\ub294 \ub0b4 \ubc30\uc6b0\uc790\uc640 \ud568\uaed8 \ucf00\uc774\ud06c\ub97c \uba39\uae38 \uc6d0\ud574...
+notify.villager.gifted.cake.withbaby.male=\ub098\uc758 \uc544\ub0b4\uc640 \ub098\ub294 \uc6b0\ub9ac \uc544\uc774\uac00 \uc790\ub77c\uae30 \uc804\uc5d4 \ucf00\uc78c\uc744 \uc548\uba39\uae30\ub85c \ud588\uc2b5\ub2c8\ub2e4.
+notify.villager.gifted.cake.withbaby.female=\uc800\uc758 \ub0a8\ud3b8\uacfc \uc800\ub294 \uc544\uc774\ub97c \ub0b3\uc744\ub54c\uae4c\uc9c0 \ucf00\uc774\ud06c\ub97c \uba39\uc9c0\uc54a\uae30\ub85c \uacb0\uc815\ud588\uc5b4\uc694.
+notify.villager.gifted.cake.spousenotnearby.male=\ucf00\uc774\ud06c? \ub098\uc758 \uc544\ub0b4\uc640 \ud568\uaed8\uac00\uc11c \uc8fc\uc9c0\uc54a\uaca0\uc5b4?
+notify.villager.gifted.cake.spousenotnearby.female=\ucf00\uc78c? \ub0a8\ud3b8\uc744 \ubd88\ub7ec\uc640 \uac19\uc774 \uba39\uc744\uc218 \uc788\uac8c.
+notify.villager.gifted.arrangerring.othernotnearby=...\ubb50? \uc544\ubb34\ub3c4 \uc5c6\ub294\ub370?
+notify.villager.gifted.arrangerring.relative=\ub098\ub294 \ub108\uc758 %RelationToPlayer% \uc57c.
+notify.villager.gifted.arrangerring.notenoughrings=\ub450\uac1c\uac00 \ud544\uc694\ud560 \uac83 \uac19\uc740\ub370...
+notify.villager.gifted.arrangerring.invalidpartner=\ub098\ub294 \uacb0\ud63c\ud560\uc218 \uc5c6\uc5b4 %Name%\!
+
+notify.baby.gaveup=\ub2f9\uc2e0\uc740 \uc774\uc81c \ub610 \ub2e4\ub978 \uc544\uc774\ub97c \ub0b3\uc744\uc218\uc788\uc5b4\uc694.
+notify.baby.exists=\ub2f9\uc2e0\uc740 \uc774\ubbf8 \uc544\uc774\ub97c \uac00\uc9c0\uace0 \uc788\uc5b4\uc694.
+notify.baby.readytogrow=\ub2f9\uc2e0\uc758 \uc544\uc774\uac00 \uc790\ub77c\uace0 \uc788\uc5b4\uc694.
+notify.baby.cooked=\ub300\uccb4 \uc65c\!?
+
+notify.divorce.spousemissing=\ub2f9\uc2e0\uc758 \ubd80\uc778\uc740 \uc8fc\ubcc0\uc5d0 \uc5c6\uc2b5\ub2c8\ub2e4, \uadf8\ub798\uc11c \ub2f9\uc2e0\uc740 \uadf8\ub4e4\uc5d0\uac8c \uc544\uc774\ud15c\uc744 \ubc1b\uc744 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.
+notify.arrangedmarriage.failed=There is no-one close by that is willing to marry you at this time.
+
+notify.death.male=\ub2f9\uc2e0\uc758 %RelationToPlayer% \uc778 %Name% \uc740(\ub294) \uc8fd\uc5c8\uc2b5\ub2c8\ub2e4.
+notify.death.female=\ub2f9\uc2e0\uc758 %RelationToPlayer% \uc778 %Name% \uc740(\ub294) \uc8fd\uc5c8\uc2b5\ub2c8\ub2e4.
+
+notify.homepoint.set=\uc774 \uc0ac\ub78c\uc740 \uc774\uc81c \ubc24\uc5d0 \uc774\uacf3\uc5d0\uc11c \uc2a4\ud3f0\ub429\ub2c8\ub2e4.
+notify.homepoint.none=%Name% \uc740 \ud648\ud3ec\uc778\ud2b8\ub97c \uac00\uc9c0\uace0 \uc788\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.
+notify.homepoint.invalid=\uc62c\ubc14\ub974\uc9c0\uc54a\uc740 \ud648\ud3ec\uc778\ud2b8 \uc785\ub2c8\ub2e4.
+notify.homepoint.obstructed=%Name% \uc758 \ud648\ud3ec\uc778\ud2b8\uc5d0 \uc7a5\uc560\ubb3c\uc774 \uc788\uc2b5\ub2c8\ub2e4.
+notify.homepoint.teleport.skip.following=%Name% \uc740 \ub2f9\uc2e0\uc744 \ub530\ub77c \ub2e4\ub2d9\ub2c8\ub2e4. \uadf8\ub4e4\uc740 \ubc24\uc5d0 \uc9d1\uc73c\ub85c \uac00\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.
+notify.homepoint.teleport.skip.staying=%Name% \ub294 \uac00\ub9cc\ud788 \uc788\uc2b5\ub2c8\ub2e4. \uadf8\ub4e4\uc740 \ubc24\uc5d0 \uc9d1\uc73c\ub85c \uac00\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.
+
+notify.item.broken.axe=%Name% \uc758 \ub3c4\ub07c\uac00 \ubd80\uc11c\uc84c\uc2b5\ub2c8\ub2e4.
+notify.item.broken.boots=%Name% \uc758 \ubd80\uce20\uac00 \ubd80\uc11c\uc84c\uc2b5\ub2c8\ub2e4.
+notify.item.broken.chestplate=%Name% \uc758 \uac11\uc637\uc774 \ubd80\uc11c\uc84c\uc2b5\ub2c8\ub2e4.
+notify.item.broken.fishingrod=%Name% \uc758 \ub09a\uc2ef\ub300\uac00 \ubd80\uc11c\uc84c\uc2b5\ub2c8\ub2e4.
+notify.item.broken.helmet=%Name% \uc758 \ud5ec\uba67\uc774 \ubd80\uc11c\uc84c\uc2b5\ub2c8\ub2e4.
+notify.item.broken.leggings=%Name% \uc758 \ubc14\uc9c0\uac00 \ubd80\uc11c\uc84c\uc2b5\ub2c8\ub2e4.
+notify.item.broken.pickaxe=%Name% \uc758 \uace1\uad2d\uc774\uac00 \ubd80\uc11c\uc84c\uc2b5\ub2c8\ub2e4.
+notify.item.broken.sword=%Name% \uc758 \uac80\uc774 \ubd80\uc11c\uc84c\uc2b5\ub2c8\ub2e4.
+notify.item.broken.hoe=%Name% \uc758 \uad2d\uc774\uac00 \ubd80\uc11c\uc84c\uc2b5\ub2c8\ub2e4.
+notify.item.broken.bow=%Name% \uc758 \ud65c\uc774 \ubd80\uc11c\uc84c\uc2b5\ub2c8\ub2e4.
+
+notify.child.chore.finished.farming=\uc800 \ub18d\uc0ac \ub2e4\ud588\uc5b4\uc694.
+notify.child.chore.finished.fishing=\uc800 \ub09a\uc2dc \ub2e4\ud588\uc5b4\uc694.
+notify.child.chore.finished.woodcutting=\uc800 \ubc8c\ubaa9 \ub2e4\ud588\uc5b4\uc694.
+notify.child.chore.finished.mining=\uc800 \ucc44\uad11 \ub2e4\ud588\uc5b4\uc694.
+notify.child.chore.finished.hunting=\uc800 \uc0ac\ub0e5 \ub2e4\ud588\uc5b4\uc694.
+
+notify.child.chore.levelup.farming.5=%Name% \uc740(\ub294) \ub18d\uc0ac\uc758 \uc219\ub828\ub3c4\uac00 5\ub85c \uc62c\ub77c\uac14\uc2b5\ub2c8\ub2e4. \uc544\ub9c8\ub3c4 \ubc00\uc744 \uc7ac\ubc30\ud560\ub54c \ub354 \ub9ce\uc740 \uc528\uc557\ub4e4\uc744 \uc5bb\uc744 \uc218 \uc788\uc744\uac83\uac19\uc2b5\ub2c8\ub2e4.
+notify.child.chore.levelup.farming.10=%Name% \uc740(\ub294) \ub18d\uc0ac\uc758 \uc219\ub828\ub3c4\uac00 10\uc73c\ub85c \uc62c\ub77c\uac14\uc2b5\ub2c8\ub2e4. \uc544\ub9c8\ub3c4 \ubcf4\uc218\ub97c \ud558\uac70\ub098 \ub18d\uc7a5\uc744 \uc9c0\uc744\ub54c \ub354 \ube68\ub9ac \ud574\ub0bc \uc218 \uc788\uc744\uac83\uac19\uc2b5\ub2c8\ub2e4.
+notify.child.chore.levelup.farming.15=%Name% \uc740(\ub294) \ub18d\uc0ac\uc758 \uc219\ub828\ub3c4\uac00 15\ub85c \uc62c\ub77c\uac14\uc2b5\ub2c8\ub2e4. \uc544\ub9c8\ub3c4 \uc5b4\ub5a4 \uc885\uc758 \uc791\ubb3c\uc774\ub4e0 \uc7ac\ubc30\ub97c \ud560\ub54c 1-3\uac1c\uc758 \uc218\ud655\ubb3c\uc744 \ub354 \uc5bb\uc744 \uc218 \uc788\uc744\uac83\uac19\uc2b5\ub2c8\ub2e4.
+notify.child.chore.levelup.farming.20=%Name% \uc740(\ub294) \ub18d\uc0ac\uc758 \uc219\ub828\ub3c4\uac00 20\uc73c\ub85c \uc62c\ub77c\uac14\uc2b5\ub2c8\ub2e4. \uc544\ub9c8\ub3c4 \uc7ac\ubc30\ub97c \ud560\ub54c \uc989\uc2dc \uc218\ud655\ubb3c\uc758 \uc591\uc744 \ub450\ubc30\ub85c \uc218\ud655\ud574\ub0bc \uc218 \uc788\uc744\uac83\uac19\uc2b5\ub2c8\ub2e4.
+
+notify.child.chore.levelup.fishing.5=%Name% \uc740(\ub294) \ub09a\uc2dc\uc758 \uc219\ub828\ub3c4\uac00 5\ub85c \uc62c\ub77c\uac14\uc2b5\ub2c8\ub2e4. \uc544\ub9c8\ub3c4 \ubb3c\uace0\uae30\ub97c \ub354 \ube68\ub9ac \uc7a1\uac70\ub098 \ub450\ub9c8\ub9ac\ub97c \ub3d9\uc2dc\uc5d0 \uc7a1\uc744 \uc218 \uc788\uc744\uac83\uac19\uc2b5\ub2c8\ub2e4.
+notify.child.chore.levelup.fishing.10=%Name% \uc740(\ub294) \ub09a\uc2dc\uc758 \uc219\ub828\ub3c4\uac00 10\uc73c\ub85c \uc62c\ub77c\uac14\uc2b5\ub2c8\ub2e4. \uc544\ub9c8\ub3c4 \ub09a\uc2dc\ub97c \ud558\ub358 \ub3c4\uc911 \uc885\uc885 \uc77c\ubc18\ub4f1\uae09\uc758 \ubcf4\ubb3c\ub4e4\uc744 \uc5bb\uc744\uc9c0\ub3c4 \ubaa8\ub985\ub2c8\ub2e4.
+notify.child.chore.levelup.fishing.15=%Name% \uc740(\ub294) \ub09a\uc2dc\uc758 \uc219\ub828\ub3c4\uac00 15\ub85c \uc62c\ub77c\uac14\uc2b5\ub2c8\ub2e4. \uc544\ub9c8\ub3c4 \ubb3c\uace0\uae30\ub97c \ud6e8\uc52c \ube68\ub9ac \uc7a1\uac70\ub098 \uc885\uc885 \uc138\ub9c8\ub9ac\ub97c \ub3d9\uc2dc\uc5d0 \uc7a1\uc744 \uc218\ub3c4 \uc788\uc744\uac83\uac19\uc2b5\ub2c8\ub2e4.
+notify.child.chore.levelup.fishing.20=%Name% \uc740(\ub294) \ub09a\uc2dc\uc758 \uc219\ub828\ub3c4\uac00 10\uc73c\ub85c \uc62c\ub77c\uac14\uc2b5\ub2c8\ub2e4. \uc544\ub9c8\ub3c4 \ub09a\uc2dc\ub97c \ud558\ub358 \ub3c4\uc911 \uc885\uc885 \uc77c\ubc18\ub4f1\uae09\uc758 \ubcf4\ubb3c\ub4e4\uc744 \uc5bb\uc744\uc9c0\ub3c4 \ubaa8\ub985\ub2c8\ub2e4.
+
+notify.child.chore.levelup.hunting.5=%Name% \uc740(\ub294) \uc0ac\ub0e5\uc758 \uc219\ub828\ub3c4\uac00 5\ub85c \uc62c\ub77c\uac14\uc2b5\ub2c8\ub2e4. \uc544\ub9c8\ub3c4 \uae38\ub4e4\uc77c\ub54c \uc870\uae08 \ub354 \ub9ce\uc740 \uc218\uc758 \ub3d9\ubb3c\ub4e4\uc744 \ub370\ub824\uc62c\uac83 \uac19\uc2b5\ub2c8\ub2e4. \ubb3c\ub860, \uc7ac\ub8cc\ub97c \ucd94\uac00\ub85c \ub354 \uc4f0\uc9c0 \uc54a\uace0\uc694.
+notify.child.chore.levelup.hunting.10=%Name% \uc740(\ub294) \uc0ac\ub0e5\uc758 \uc219\ub828\ub3c4\uac00 10\uc73c\ub85c \uc62c\ub77c\uac14\uc2b5\ub2c8\ub2e4. \uc544\ub9c8\ub3c4 \uc0ac\ub0e5\uc911\uc5d0 \uc8fd\uc744 \uc704\ud5d8\uc740 \uc0dd\uae30\uc9c0 \uc54a\uc744\ub4ef \ud569\ub2c8\ub2e4.
+notify.child.chore.levelup.hunting.15=%Name% \uc740(\ub294) \uc0ac\ub0e5\uc758 \uc219\ub828\ub3c4\uac00 15\ub85c \uc62c\ub77c\uac14\uc2b5\ub2c8\ub2e4. \uc544\ub9c8\ub3c4 \uc0ac\ub0e5\ud6c4\uc5d0 \ub354\uc6b1 \ub9ce\uc740 \uace0\uae30\ub4e4\uc744 \uac00\uc838\uc62c\uac83 \uac19\uc2b5\ub2c8\ub2e4.
+notify.child.chore.levelup.hunting.20=%Name% \uc740(\ub294) \uc0ac\ub0e5\uc758 \uc219\ub828\ub3c4\uac00 20\uc73c\ub85c \uc62c\ub77c\uac14\uc2b5\ub2c8\ub2e4. \uc544\ub9c8\ub3c4 1\ubd84\ub9cc\uc5d0 \uc0ac\ub0e5\uc744 \ub9c8\uce58\uace0 \ub3cc\uc544\uc62c\uac83 \uac19\uc2b5\ub2c8\ub2e4.
+
+notify.child.chore.levelup.mining.5=%Name% \uc740(\ub294) \ucc44\uad11\uc758 \uc219\ub828\ub3c4\uac00 5\ub85c \uc62c\ub77c\uac14\uc2b5\ub2c8\ub2e4. \uc544\ub9c8\ub3c4 \uad11\ubb3c\uc744 \uc870\uae08 \ub354 \ube60\ub974\uac8c \uce90\ub0bc \uc218 \uc788\uc744\uac83\uac19\uc2b5\ub2c8\ub2e4.
+notify.child.chore.levelup.mining.10=%Name% \uc740(\ub294) \ucc44\uad11\uc758 \uc219\ub828\ub3c4\uac00 10\uc73c\ub85c \uc62c\ub77c\uac14\uc2b5\ub2c8\ub2e4. \uc544\ub9c8\ub3c4 \ucc44\uad11\uc911, \uace1\uad2d\uc774\uc758 \ub0b4\uad6c\ub3c4\uc5d0 \ub35c \uc190\uc0c1\uc744 \uc785\ud790\uac83\uac19\uc2b5\ub2c8\ub2e4.
+notify.child.chore.levelup.mining.15=%Name% \uc740(\ub294) \ub18d\uc0ac\uc758 \uc219\ub828\ub3c4\uac00 15\ub85c \uc62c\ub77c\uac14\uc2b5\ub2c8\ub2e4. \uc544\ub9c8\ub3c4 \uad11\ubb3c\ub4e4\uc744 \ub450\ubc30\ub85c \uc5bb\uc5b4\ub0bc \uc218 \uc788\uc744\uac83\uac19\uc2b5\ub2c8\ub2e4.
+notify.child.chore.levelup.mining.20=%Name% \uc740(\ub294) \ub18d\uc0ac\uc758 \uc219\ub828\ub3c4\uac00 20\uc73c\ub85c \uc62c\ub77c\uac14\uc2b5\ub2c8\ub2e4. \uc544\ub9c8\ub3c4 \ub2f9\uc2e0\uc5d0\uac8c \uad11\ubb3c\ub4e4\uc758 \uc7a5\ud655\ud55c \uc88c\ud45c\ub97c \uc54c\ub824\uc904\uac83\uc785\ub2c8\ub2e4.
+
+notify.child.chore.levelup.woodcutting.5=%Name% \uc740(\ub294) \ubc8c\ubaa9\uc758 \uc219\ub828\ub3c4\uac00 5\ub85c \uc62c\ub77c\uac14\uc2b5\ub2c8\ub2e4. \uc544\ub9c8\ub3c4 \ubc8c\ubaa9\uc744 \ud560\ub54c \ub354 \ube60\ub974\uac8c \uc6c0\uc9c1\uc77c \uc218 \uc788\uc744\uac83\uac19\uc2b5\ub2c8\ub2e4.
+notify.child.chore.levelup.woodcutting.10=%Name% \uc740(\ub294) \ubc8c\ubaa9\uc758 \uc219\ub828\ub3c4\uac00 10\uc73c\ub85c \uc62c\ub77c\uac14\uc2b5\ub2c8\ub2e4. \uc544\ub9c8\ub3c4 \uc5b4\ub5a4 \uc885\ub958\uc758 \ub3c4\ub07c\ub97c \ub4e4\uace0\uc788\ub358\uac04\uc5d0 \ube60\ub974\uac8c \ub098\ubb34\ub97c \ubca0\uc5b4\ub0bc \uc218 \uc788\uc744\uac83\uac19\uc2b5\ub2c8\ub2e4.
+notify.child.chore.levelup.woodcutting.15=%Name% \uc740(\ub294) \ubc8c\ubaa9\uc758 \uc219\ub828\ub3c4\uac00 15\ub85c \uc62c\ub77c\uac14\uc2b5\ub2c8\ub2e4. \uc544\ub9c8\ub3c4 \ub098\ubb34\ub97c \ubca0\uc5b4\ub0bc\ub54c\ub9c8\ub2e4 2\uac1c\uc758 \ud1b5\ub098\ubb34\ub97c \ud55c\ubc88\uc5d0 \uc5bb\uc744 \uc218 \uc788\ub294 \ud655\ub960\uc774 \uc0dd\uae38\uac83\uac19\uc2b5\ub2c8\ub2e4.
+notify.child.chore.levelup.woodcutting.20=%Name% \uc740(\ub294) \ubc8c\ubaa9\uc758 \uc219\ub828\ub3c4\uac00 20\uc73c\ub85c \uc62c\ub77c\uac14\uc2b5\ub2c8\ub2e4. \uc544\ub9c8\ub3c4 \ub098\ubb34\ub97c \ubca0\uc5b4\ub0bc\ub54c\ub9c8\ub2e4 3\uac1c\uc758 \ud1b5\ub098\ubb34\ub97c \uc5bb\uc744 \uc218 \uc788\uc744\uac83\uac19\uc2b5\ub2c8\ub2e4.
+
+notify.child.chore.interrupted.farming.noseeds=\uc528\uc557\uc774 \ubd80\uc871\ud574\uc694\!
+notify.child.chore.interrupted.farming.noland=\ud759\uc774 \ubcf4\uc774\uc9c0 \uc54a\uc544\uc694\!
+notify.child.chore.interrupted.farming.nofarmland=\uc624\uc9c1 \ub18d\ud1a0\ub9cc \uc0ac\uc6a9\ud558\ub77c\uace0 \ub9d0\ud588\uc5b4. \uc5b4\ub514\uc788\uc9c0?
+notify.child.chore.interrupted.farming.noroom=\ub18d\uc0ac \ud560 \uacf5\uac04\uc774 \ubd80\uc871\ud574.
+notify.child.chore.interrupted.farming.noselection=\uc81c\uac00 \ub18d\uc0ac\ud560 \uad6c\uc5ed\uc744 \uc815\ud574\uc8fc\uc9c0 \uc54a\uc557\uc5b4\uc694.
+notify.child.chore.interrupted.farming.nohoe=\uad2d\uc774\uac00 \uc5c6\uc5b4\uc694.
+notify.child.chore.interrupted.fishing.nowater=\ubb3c\uc774 \uc548\ubcf4\uc5ec\uc694\!
+notify.child.chore.interrupted.fishing.norod=\ub09a\uc2ef\ub300\uac00 \uc5c6\uc5b4\uc694\! \ubb3c\uace0\uae30\ub97c \uc190\uc73c\ub85c \uc5b4\ub5bb\uac8c \uc7a1\uc9c0?
+notify.child.chore.interrupted.mining.noblocks=\ucc44\uad74\ud560\uac8c \uc5c6\ub294\ub370\uc694.
+notify.child.chore.interrupted.mining.nopickaxe=\uace1\uad2d\uc774\uac00 \uc5c6\uc5b4\uc694\!
+notify.child.chore.interrupted.mining.tookdamage=%Name% \uc740 \ucc44\uad11\uc744 \ud558\ub358\uc911 \ub370\ubbf8\uc9c0\ub97c \uc785\uc5c8\uc2b5\ub2c8\ub2e4. \uc2dc\uc791\uc9c0\uc810\uc73c\ub85c \ub418\ub3cc\uc544\uac11\ub2c8\ub2e4.
+notify.child.chore.interrupted.woodcutting.notrees=\ub098\ubb34\uac00 \uc548\ubcf4\uc5ec\uc694.
+notify.child.chore.interrupted.hunting.notamematerials=\ub3d9\ubb3c\uc5d0\uac8c \uc904 \uba39\uc774\uac00 \uc5c6\ub294\ub370\uc694.
+
+notify.child.chore.failed.hunting.death=%Name%\uc740 \uc0ac\ub0e5\ud558\ub2e4\uac00 \uc8fd\uc5c8\uc2b5\ub2c8\ub2e4.
+
+notify.child.chore.status.mining.orefound=%OreType% \uc774(\uac00) %OreDistance% \ube14\ub85d \ucbe4\uc5d0 \uc788\ub294\uac83\uac19\uc544\uc694.
+notify.child.chore.status.mining.orenearby=%OreType% \uc774(\uac00) \uc8fc\ubcc0\uc5d0 \uc788\uc5b4\uc694...
+notify.child.chore.status.mining.oredistance=There's some %OreType% %OreDistance% blocks away at %OreX%, %OreY%, %OreZ%.
+
+notify.child.gifted.arrows=\uc88b\uc558\uc5b4\! \uc9c0\uae08 \uc774\uac78 \uc3f4\ubcf4\uace0\uc2f6\uc5b4\!
+notify.child.gifted.axe=\uc774\uc81c \ub098\ubb34\ub97c \uce90\uae30\uc704\ud574 \ud53c\ub97c \uc548\ud758\ub824\ub3c4 \ub418\uad6c\ub098\!
+notify.child.gifted.fishingrod=\ub09a\uc2dc\ud558\ub7ec \uac00\uc57c\uc9c0\!
+notify.child.gifted.hoe=\uc81c\uac00 \ub3c4\uc6b0\ub2c8 \ub18d\uc7a5\uc740 \ube60\ub974\uac8c \ud074\uac70\uc5d0\uc694\!
+notify.child.gifted.seeds=\uc774\uc81c \ub18d\uc791\ubb3c\uc744 \uae30\ub97c\uc218 \uc788\uc5b4\!
+notify.child.gifted.sword=\ub098\uc05c\ub188\ub4e4\uc740 \uc800\ub9ac\uac00\!
+notify.child.gifted.wheat=\uc774\uac78\ub85c \ub3d9\ubb3c\uc744 \uae38\ub4e4\uc5ec\uc57c\uc9c0\!
+notify.child.gifted.pickaxe=\uad11\ubb3c\uc744 \uce90\ub7ec\uac00\uc790\!
+notify.child.gifted.carrot=\uc774\uac78\ub85c \ub3d9\ubb3c\uc744 \uae38\ub4e4\uc5ec\uc57c\uc9c0\!
+notify.child.gifted.bone=\uc774\uac78\ub85c \ub3d9\ubb3c\uc744 \uae38\ub4e4\uc5ec\uc57c\uc9c0\!
+
+notify.child.emptiedinventory=%Name% \uc758 \uc778\ubca4\ud1a0\ub9ac\uac00 \ube44\uc5c8\uc2b5\ub2c8\ub2e4.
+notify.child.readytogrow=%Name% \uc774 \uc790\ub784 \uc900\ube44\ub97c \ud569\ub2c8\ub2e4.
+notify.child.growup=%Name% \uac00 \uc131\uc778\uc73c\ub85c \uc131\uc7a5\ud588\uc2b5\ub2c8\ub2e4.
+notify.child.ranaway=%Name% \uac00 \ub3c4\ub9dd\ucce4\uc2b5\ub2c8\ub2e4.
+
+notify.spouse.gifted.anotherbaby=\ub098\ub294 \uc774\ubbf8 \ub0b4 \uc544\uc774\ub97c \uac00\uc9c0\uace0\uc788\uc5b4\uc694. \uadf8 \uc544\uc774\ub294 \uc5b4\ub514 \uc790\uc2dd\uc774\uc8e0\!?
+notify.spouse.chore.interrupted.cooking.nofurnace=\uc5b4\ub514\uc5d0\uc11c\ub4e0 \ud654\ub85c\uac00 \uc548\ubcf4\uc774\ub294\ub370...?
+notify.spouse.chore.interrupted.cooking.nofuel=\uc694\ub9ac\ud560\ub54c \ud544\uc694\ud55c \uc5f0\ub8cc\uac00 \ubd80\uc871\ud574...
+
+notify.lostrelativedocument.success=%Name% \uc740 \uc774\uc81c %RelationToPlayer% \uac83 \uc785\ub2c8\ub2e4.
+notify.lostrelativedocument.success.norelation=%Name% \ub294 \uc774\uc81c \ub2f9\uc2e0\uacfc \uc804\ud600 \uad00\uacc4\uc5c6\ub294 \uc0ac\ub78c\uc785\ub2c8\ub2e4.
+
+notify.monarch.began=The responsibility of a monarch has been bestowed to you.
+notify.monarch.resume=You are now a monarch again. Your previous heir can no longer be used.
+notify.monarch.ended.noheir=\ub2f9\uc2e0\uc740 \ub354\uc774\uc0c1 \uad70\uc8fc\uac00 \uc544\ub2d9\ub2c8\ub2e4.
+notify.monarch.ended.withheir=\ub2f9\uc2e0\uc740 \ub354\uc774\uc0c1 \uad70\uc8fc\uac00 \uc544\ub2d9\ub2c8\ub2e4. \ub2f9\uc2e0\uc758 \ud6c4\uacc4\uc790\uac00 \uc655\uc704\ub97c \uc774\uc5c8\uc5b4\uc694.
+
+notify.hiring.complete=%Name%\uc758 \uace0\uc6a9 \uc2dc\uac04 \uae30\ud55c\uc774 \ub05d\ub0ac\uc2b5\ub2c8\ub2e4.
+
+notify.update.turnedon=MCA\ub294 \uc9c0\uae08\ubd80\ud130 \uc790\ub3d9\uc73c\ub85c \uc5c5\ub370\uc774\ud2b8\ub97c \ud655\uc778\ud560 \uac83\uc785\ub2c8\ub2e4.
+notify.update.turnedoff=MCA\ub294 \uc9c0\uae08\ubd80\ud130 \uc5c5\ub370\uc774\ud2b8\uac00 \uc788\uc5b4\ub3c4 \uc54c\ub9bc\uc744 \ud558\uc9c0 \uc54a\uc744 \uac83\uc785\ub2c8\ub2e4.
+
+#######
+# Parser Commands
+##############################
+parser.playerchild.adult.callplayerparent.male=\uc544\ube60
+parser.playerchild.adult.callplayerparent.female=\uc5c4\ub9c8
+parser.playerchild.adult.parentopposite.male=\uc5c4\ub9c8
+parser.playerchild.adult.parentopposite.female=\uc544\ube60
+
+parser.playerchild.young.callplayerparent.male=\uc544\ube60
+parser.playerchild.young.callplayerparent.female=\uc5c4\ub9c8
+parser.playerchild.young.parentopposite.male=\uc5c4\ub9c8
+parser.playerchild.young.parentopposite.female=\uc544\ube60
+
+#####################################################################################################
+#									              DIALOGUE											#
+#####################################################################################################
+
+#######
+# Profession-specific dialogue
+##############################
+guard.follow.refuse1=\uc548\ub3fc, \ub09c \ud574\uc57c \ud560 \uc77c\uc774 \uc788\uc5b4.
+guard.follow.refuse2=\ub09c \ub098\uc758 \uc784\ubb34\ub97c \ubc97\uc5b4\ub0a0\uc218\uc5c6\uc5b4.
+guard.follow.refuse3=\uc2eb\uc740\ub370?
+guard.follow.refuse4=\uc548\ub3fc, \ub0a0 \uace0\uc6a9\ud558\uba74 \ud574\uc904\uc9c0\ub3c4?
+guard.follow.refuse5=\ub0b4\uac00 \uadf8\ub0e5 \uac00\uba74 \ud574\uace0 \ub420\uac70\uc57c\!
+
+guard.stay.refuse1=\uc815\ucc30\uc911\uc785\ub2c8\ub2e4. \uc774\uacf3\uc5d0 \uacc4\uc18d \uc788\uc744\uc218 \uc5c6\uc2b5\ub2c8\ub2e4.
+guard.stay.refuse2=\ub10c \ub098\uc758 \ubcf4\uc2a4\uac00 \uc544\ub2c8\uc57c.
+guard.stay.refuse3=\ub098\ub294 \uacbd\ube44\uc785\ub2c8\ub2e4. \uc54c\uc8e0?
+guard.stay.refuse4=\ub098\uc758 \uc77c\uc740 \ub9c8\uc744\uc744 \uc815\ucc30\ud558\ub294\uac70\uc57c. \uc774 \uacf3\uc5d0 \uacc4\uc18d\uc788\uc744\uc218 \uc5c6\uc5b4.
+guard.stay.refuse5=\uc9c0\uae08 \uc77c\ud558\ub294\uc911\uc774\uc57c. \ubb50 \uace0\uc6a9\ud560\uaebc\uba74 \ud558\uaca0\uc9c0\ub9cc.
+
+smith.aid.prompt1=\ub0b4\uac00 \uc564\ube4c\uc5d0\uad00\ud55c \ub51c\uc744 \ud560\uc218\uc788\ub294\ub370. \ud55c\ubc88 \ub098\uc5d0\uac8c \ubb50\ub97c\uc918\ubc14. 
+smith.aid.prompt2=\ub09c \uc544\uc8fc\uc624\ub798\ub41c \uc564\ube4c\uc744 \uac00\uc9c0\uace0\uc788\ub294\ub370... \ubc84\ub9b4\uc0dd\uac01\ud558\uace0\uc788\uc5b4
+smith.aid.prompt3=\ub098\uc774 \ub300\uc7a5\uc7a5\uc774 \uc77c\ub584\ub824\uce60\uaebc\uc57c. \uadf8\ub7ec\ub2c8 \ub0b4\uc564\ube4c\uc744 \ud310\ub9e4\ud560\uaebc\uc9c0.
+smith.aid.prompt4=\ud639\uc2dc \uc564\ube4c\uc744 \ud544\uc694\ud574? \ub0b4\uaebc\ub97c \ud314\uc0dd\uac01\uc740\uc788\ub294\ub370. 
+
+smith.aid.outofrange1=\uc564\ube4c\uc744 \uc0b4\uc0dd\uac01\ub098\uba74 \ub098\ud55c\ud14c \ub9d0\ud574\uc918
+smith.aid.outofrange2=\ub9cc\uc57d \uc904\uac83\uc774\uc788\ub2e4\uba74 \ub098\uc911\uc5d0 \ub3cc\uc544\uc640\uc11c \uc804\ud574\uc918.
+
+smith.aid.alreadyaccepted1=\uc774\ubbf8 \ub098\uc758 \uc564\ube4c\uc744 \uac00\uc9c0\uace0\uc788\ub294\ub370? \ub09c \ub108\uc5d0\uac8c\ub354\uc774\uc0c1 \ud574\uc904\uac83\uc774\uc5c6\uc5b4.
+smith.aid.alreadyaccepted2=\ub2c8\uac00 \ub0b4\uc564\ube4c\uc744 \uad6c\ub9e4\ud588\uc73c\ub2c8, \uc218\ub9ac\ud560\uac83\uc740 \ub2c8\uac00\uc218\ub9ac\ud574.
+smith.aid.alreadyaccepted3=\ub108\uc5d0\uac8c \ud314\uc564\ube4c\uc740 \ub354\uc774\uc0c1\uc5c6\uc5b4. \ubbf8\uc548 \u3147\u3145\u3147
+
+smith.aid.accept1=\uc624 \uc88b\uc740 \uc591\uc778\ub370? \uc5ec\uae30\!
+smith.aid.accept2=\u3147\u3147 \ub42c\uc5b4. \uc870\uc2ec\ud574 \uaf64\ubb34\uac70\uc6cc.
+smith.aid.accept3=\uace0\ub9c8\uc6cc\uc694\! \uc5ec\uae30 \ub2f9\uc2e0\uc758 \ubaa8\ub8e8\uac00 \uc788\uc2b5\ub2c8\ub2e4.
+smith.aid.accept4=\uc774\uac78 \ub2e4\ub780 \uc0ac\ub78c \uc704\ub85c \ub538\uc5b4\ub728\ub9ac\uc9c4 \ub9c8\uc138\uc694, \uc54c\uaca0\ub098\uc694?
+
+smith.aid.refuse.rightitem1=\uc774\uac83\uc740 \ubaa8\ub8e8\uc5d0 \ub300\ud574 \ub0b4\uac00 \uc6d0\ud558\ub294 \uac83\uc785\ub2c8\ub2e4. \ub2f9\uc2e0\uc774 \uc81c\uac8c \uc904 \uc218 \uc788\ub294\uac83\uc740 \ubb34\uc5c7\uc774 \uc788\uc2b5\ub2c8\uae4c?
+smith.aid.refuse.rightitem2=\uadf8\ub798\uc694 \uadf8\uac83\uc740 \uc815\ud655\ud788 \uc81c\uac00 \uc6d0\ud558\ub294 \uac83\uc774\uc5d0\uc694. \ud558\uc9c0\ub9cc \ub2f9\uc2e0\uc740 \uadf8\uac83\uc744 \ucda9\ubd84\ud788 \uac00\uc9c0\uace0 \uc788\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.
+smith.aid.refuse.rightitem3=\uc774\uac74 \uadf8\ud1a0\ub85d \ub0b4\uac00 \uc6d0\ud588\ub358 \uac70\uc57c\! \uc57d\uac04\ub9cc \ub354 \uc8fc\uba74 \ubaa8\ub8e8\ub97c \uc904 \uc218 \uc788\uc5b4.
+smith.aid.refuse.rightitem4=\uc774\uac83\uc740 \uc57d\uac04\ub9cc \ub354 \uc81c\uac8c \uac74\ub0b4 \uc8fc\uba74 \ub2f9\uc2e0\uc740 \ubaa8\ub8e8\ub97c \uc5bb\uc744 \uac83\uc774\uc5d0\uc694.
+
+smith.aid.refuse.wrongitem1=\uc800\ub294 \ubaa8\ub8e8\ub97c \uc704\ud574 \uc774\uac83\uc744 \uad50\ud658\ud558\uc9c0 \uc54a\uc744 \uac83\uc774\uc5d0\uc694.
+smith.aid.refuse.wrongitem2=\uc774\uac74 \uc81c\uac00 \uc6d0\ud558\ub294 \uac8c \uc544\ub2cc\ub370, \ub2e4\ub978\uac74 \uc5c6\ub098\uc694?
+smith.aid.refuse.wrongitem3=\uc548\ub3fc\uc694, \uc81c \ubaa8\ub8e8\ub97c \uc6d0\ud55c\ub2e4\uba74 \ubb54\uac00 \ub2e4\ub978\uac78 \ub0b4 \ub193\uc544 \ubcf4\uc138\uc694.
+smith.aid.refuse.wrongitem4=\uc81c \ubaa8\ub8e8\uc758 \uac12\uc744 \uce58\ub974\ub824\uba74 \ubb54\uac00 \ub2e4\ub978\uac78 \uc81c\uc2dc\ud574\ubcf4\uc138\uc694.
+
+priest.adopt.male1=\uc5ec\uae30 \ub2f9\uc2e0\uc758 \uc0c8 \uc544\uae30\uac00 \uc788\uc5b4\uc694. \uc544\uae30 \uc774\ub984\uc740 %BabyName%\uc785\ub2c8\ub2e4.
+priest.adopt.male2=\uadf8\ub294 \uadc0\uc5ec\uc6cc\uc694,\uadf8\ub807\uc9c0 \uc54a\ub098\uc694?\uadf8\uc758 \uc774\ub984\uc740%BabyName%.
+priest.adopt.male3=\ub098\ub294 %BabyName%\uc774 \ub0b4\ub144\uc5d0 \uc990\uac70\uc6c0\uc744 \uc904 \uac70\ub77c\uace0 \ubbff\uc5b4.
+priest.adopt.female1=\uadf8\ub140\ub294 \uc544\ub984\ub2e4\uc6cc\uc694,\uadf8\ub807\uc9c0 \uc54a\ub098\uc694? \uadf8\ub140\uc758 \uc774\ub984\uc740%BabyName%.
+priest.adopt.female2=%BabyName%\uc744 \uc798 \ub3cc\ubd10\uc918. \uadf8\ub140\ub294 \uc5ec\uae30 \uc788\uc5b4.
+priest.adopt.female3=%BabyName%\ucc38 \uadc0\uc5ec\uc6cc\uc694,\ub09c \uadf8\ub140\ub97c \ubcf4\uba74 \uc6b8\uac83\uac19\uc544\uc694.
+
+priest.arrangemarriage1=\uc800\ub294 \ub2f9\uc2e0\uacfc %Name%\ub791 \uac19\uc774 \uc798 \uc9c0\ub0c8\uc73c\uba74 \uc88b\uaca0\uc2b5\ub2c8\ub2e4.
+priest.arrangemarriage2=%PlayerName%\ub2d8, \uc800\ub294 %Name%\ub2d8\uc744 \ub9cc\ub098\uace0 \uc2f6\uc2b5\ub2c8\ub2e4. \ub2f9\uc2e0\uc740 \uacb0\ud63c\ud558\uc600\uc2b5\ub2c8\ub2e4.
+priest.arrangemarriage3=\ub2f9\uc2e0\uc774 \uc6d0\ud558\ub294 \ub300\ub85c\uc694. %Name%\ub791 \uacb0\ud63c\ud558\uc600\uc2b5\ub2c8\ub2e4.
+
+generic.hire.accept1=Many thanks\! I'll do whatever task you want.
+generic.hire.accept2=\uc774\uc815\ub3c4\uba74 \ucda9\ubd84\ud574. \ub098\ub294 \uc55e\uc73c\ub85c \ub108\ub97c \uc704\ud574 \uc77c\ud560\uaebc\uc57c.
+generic.hire.accept3=\ub098\ub294 \uc77c\ud560 \uc900\ube44\uac00 \ub418\uc5c8\uc5b4\!
+generic.hire.accept4=\uc88b\uc544\! \uc2dc\uc791\ud574\ubcf4\uc790\uad6c, \ub098\uc758 \uccab\ubc88\uc9f8 \ud560\uc77c\uc740 \ubb50\uc57c??
+
+guard.hire.accept1=\uace0\ub9c8\uc6cc\! \ub098\ub294 \ud604\uc7ac \ub108\uc758 \uacbd\ud638\uc6d0\uc774\uc57c.
+guard.hire.accept2=\uc774\uc81c, \ub2f9\uc2e0\uc744 \uc704\ud574 \uc77c\ud558\uaca0\uc2b5\ub2c8\ub2e4.
+guard.hire.accept3=\ub2f9\uc2e0\uc740 \ud604\uc7ac \ub098\uc758 \uc0c1\uc0ac\uc774\uc2ed\ub2c8\ub2e4.
+guard.hire.accept4=\ubcf4\uc2a4, \uc81c\uac00 \uba3c\uc800 \ud574\uc57c\ud560 \uc77c\uc740 \ubb34\uc5c8\uc778\uac00\uc694?
+
+guard.hire.dismiss1=\ubbf8\uc548\ud558\uc9c0\ub9cc, \ub098\ub294 \uc804\uc5d0 \ub0b4\uac00 \ud558\ub358 \uc9c1\uc5c5\uc73c\ub85c \ub3cc\uc544\uac08\uaebc\uc57c...
+guard.hire.dismiss2=\ub108\uc640 \ud568\uaed8 \uc77c\uc744 \ud560 \uc218 \uc788\uac8c\ub418\uc5b4\uc11c \ub108\ubb34 \uae30\ubed0\!
+guard.hire.dismiss3=I'll see if I can get my job back with the village.
+guard.hire.dismiss4=\uc88b\uc544, \ub098\ub294 \ub2e4\uc2dc \uc9c1\uc5c5\uc744 \ubc14\uafd4\uc57c\ud558\ub294\uad6c\ub098...
+
+butcher.aid.accept1=\ubb3c\ub860\! \ub098\ub294 \ub9ce\uc740 \uc591\uc758 \ub0a8\ub294 \uace0\uae30\ub4e4\uc744 \uac00\uc9c0\uace0 \uc788\uc5b4.
+butcher.aid.accept2=\uc774\uac83\ub4e4\uc740 \ub098\uc758 \uc5ec\ubd84\uc758 \uace0\uae30\ub4e4\uc774\uc57c.
+butcher.aid.accept3=\ub108\ub97c \uc704\ud574 \uc900\ube44\ud574\ub454 \uc2e0\uc120\ud55c \uace0\uae30\uac00 \uc788\uc5b4.
+
+butcher.aid.refuse1=\ubbf8\uc548, \ub098\ub294 \ub0a8\uc544\uc11c \uc904\ub9cc\ud07c\uc758 \uc591\uc774 \uc5c6\uc5b4.
+butcher.aid.refuse2=\ub098\ub294 \uc544\uc9c1 \uc190\ub2d8\ub4e4\uc5d0\uac8c \uace0\uae30\ub4e4\uc744 \ud314\uc544\uc57c\ud55c\ub2e4\uace0\!
+butcher.aid.refuse3=\ub098\ub294 \ub108\ud55c\ud14c \uc904 \uac83\uc774 \uc5c6\uc5b4.
+
+baker.aid.accept1=\ub0b4\uac00 \uc774\uac83\uc744 \uad6c\uc6e0\uc5b4. \ub108\uac00 \uac00\uc838\ub3c4 \ub3fc.
+baker.aid.accept2=\uc88b\uc544, \ub108\uac00 \uc774\uac83\uc744 \uac00\uc838\ub3c4 \ub3fc. \ubc29\uae08 \uc804\uc5d0 \uc791\uc5c5\ub300\ub85c \ub9cc\ub4e0 \uac70\uc57c.
+baker.aid.accept3=\ub098\ub294 \ud604\uc7ac \uc0ac\ub78c\ub4e4\uc774 \uc0ac\uace0 \ub0a8\uc740 \uac83\ub4e4\uc774 \uc788\uc5b4. \ub2e4 \uac00\uc838\ub3c4 \ub3fc.
+
+baker.aid.refuse1=\ub098\ub294 \uac00\uc9c0\uace0 \uc788\ub294\uac8c \uc5c6\uc5b4, \ub098\uc911\uc5d0 \ub2e4\uc2dc \uc640.
+baker.aid.refuse2=\ub098\ub294 \uc774\uac83\ub4e4\uc744 \uad7d\uace0 \uc788\uc5b4. \uc870\uae08 \uc788\uc73c\uba74 \ub2e4 \ub3fc.
+baker.aid.refuse3=\ub0b4\uac00 \ubb34\uc5c7\uc744 \uc904 \uac83\uc774 \uc788\ub294\ub370 \ub0b4\uac00 \uc2e4\uc218\ub85c \ud0dc\uc6e0\uc5b4, \ubbf8\uc548\ud574.
+
+farmer.aid.accept1=\ub098\ub294 \uc5ec\uc720\uac00 \uc788\uc5b4.
+farmer.aid.accept2=\ub2f9\uc5f0\ud788 \ub3c4\uc6b8\uc218\uc788\uc9c0. \uac00\uc790.
+farmer.aid.accept3=\ub09c \ucd5c\uadfc\uc5d0 \uc88b\uc740 \uc218\ud655\uc744 \uac70\ub450\uc5c8\uc5b4. \uc5ec\uc720\uac00 \uc788\uc73c\ub2c8 \uac00\uc790.
+
+farmer.aid.refuse1=\ubbf8\uc548\ud574. \ub09c \ub108\uc5d0\uac8c \uc544\ubb34\uac83\ub3c4 \uc904\uc218\uc5c6\uc5b4.
+farmer.aid.refuse2=\ub2e4\uc74c\uc5d0 \uc640, \uc9c0\uae08\uc740 \uc544\ubb34\uac83\ub3c4 \uc904\uc218\uc5c6\uc5b4.
+farmer.aid.refuse3=\uc8c4\uc1a1\ud569\ub2c8\ub2e4. \uc81c\uac00 \ub9c8\ub828\ud560\uc218\uc788\ub294\uac8c \uc5c6\ub124\uc694.
+
+miner.hire.accept1=\uace0\ub9c8\uc6cc\! \ubc14\ub85c \uc2dc\uc791\ud558\uc790.
+miner.hire.accept2=\ub2f9\uc2e0\uc5d0\uac8c \uace0\uc6a9\ub418\uc11c \uae30\ubed0\! \uc5b4\ub514\uc11c \uce90\uba74\ub418\uc9c0?
+miner.hire.accept3=\uace0\uc6a9\ud574\uc918\uc11c \uace0\ub9c8\uc6cc. \uc9c0\uae08 \ubc14\ub85c \uc77c\ud560\uc218\uc788\uc5b4.
+
+miner.hire.refuse1=\ub098\ub294 \uae08 5\uac1c\ub97c \uc704\ud574 \uc77c\ud560\uac83\uc785\ub2c8\ub2e4. \uadf8\ub807\uac8c \ud558\uba74 \ub2f9\uc2e0\uc740 100\uac1c\uc758 \ube14\ub85d\uc744 \uc5bb\uc744\uc218 \uc788\uc744\uac70\uc5d0\uc694.
+miner.hire.refuse2=\uae08 5\uac1c\ub97c \uc8fc\uba74 100 \ube14\ub7ed\uc744 \uce90\uc11c \ub108\uc5d0\uac8c \uc8fc\ub3c4\ub85d\ud558\uc9c0.
+miner.hire.refuse3=\ub108\ub294 \ub098\ub97c \uace0\uc6a9\ud560 \uae08\uc774 \ubd80\uc871\ud574. \ub098\ub294 \uace0\uc6a9\ud558\uae30 \uc704\ud574 5\uac1c\uc758 \uae08\uc774 \ud544\uc694\ud574.
+
+miner.hire.finished1=\uc138\uc5b4\ubcf4\uba74 100\uac1c \uc77c\uac70\uc57c. \ub09c \uc774\ub9cc \uac08\uac8c.
+miner.hire.finished2=\uadf8\uac74 \ube14\ub85d 100\uac1c\uc57c. \ub0b4 \uc77c\uc740 \ub05d\ub0ac\uc5b4.
+miner.hire.finished3=\uc800\ub294 100\uac1c\uc758 \ube14\ub85d\uc744 \ucea4\uc2b5\ub2c8\ub2e4. \ub2f9\uc2e0\uacfc \ud568\uaed8 \uc77c\ud574 \uc990\uac70\uc6e0\uc5b4\uc694.
+
+miner.hire.dismiss1=\ub2f9\uc2e0\uc740 \uc774\ubbf8 \uc800\ub97c \uc790\ub974\uc168\ub098\uc694? \ud560\uc218\uc5c6\uc8e0.
+miner.hire.dismiss2=\ub2f9\uc2e0\uc774 \uae08\uc744 \uac00\uc9c0\uace0\uc788\uc73c\uba74 \uc800\ub294 \ub354 \uc77c\ud560 \uc218 \uc788\uc5b4\uc694.
+miner.hire.dismiss3=\uadf8\ub7fc, \ub9c8\uc744\ub85c \ub3cc\uc544\uac11\uc2dc\ub2e4.
+
+miner.chore.finished1=\ubb34\uc5c7\uc744 \ud574\uc57c\ud560\uc9c0 \ub9d0\ud574\uc918.
+miner.chore.finished2=\ub354 \ub9ce\uc740 \uc77c\uc744 \ud560 \uc900\ube44\uac00 \ub42c\uc5b4.
+miner.chore.finished3=\ub098\ub294 \uc774 \uc77c\uc744 \ub05d\ub0c8\uc5b4.
+
+miner.chore.start1=\ub2f9\uc7a5 \ud558\uaca0\uc2b5\ub2c8\ub2e4, \ubcf4\uc2a4.
+miner.chore.start2=\ub124, \ubcf4\uc2a4.
+miner.chore.start3=\uc9c0\uae08 \ub2f9\uc7a5 \uc77c\uc744 \uc2dc\uc791\ud560\uac70\uc57c.
+
+miner.dropallitems1=\uc5ec\uae30 \uc788\uc5b4.
+miner.dropallitems2=\uc5ec\uae30 \uc788\uc2b5\ub2c8\ub2e4, \ubcf4\uc2a4.
+miner.dropallitems3=\uc81c\uac00 \ucc3e\uc740\uac83\ub4e4\uc785\ub2c8\ub2e4.
+miner.dropallitems4=\uc81c\uac00 \ucc44\uad74\ud55c \uac83 \ub4e4\uc785\ub2c8\ub2e4.
+
+#######
+# Villager Dialogue
+##############################
+villager.chat.bad1=\uc9c0\ub8e8\ud574\u3161
+villager.chat.bad2=\ud558\uc554..
+villager.chat.bad3=\ubb50\ub77c\uad6c\uc694? \ubabb\ub4e4\uc5c8\uc5b4\uc694.
+villager.chat.bad4=\uc800\uc5d0\uac8c \ubb58 \ub9d0\ud558\uc168\ub098\uc694?
+villager.chat.bad5=\uc73c\ud760.
+villager.chat.bad6=\uc74c...\uc88b\uc544.. \ub098\ub294 \ub2e4\ub978 \ud560\uc77c\uc774 \uc788\uc5b4, \ub124\uac00 \ub098\ub97c \ube44\ucf1c \uc900\ub2e4\uba74...
+villager.chat.bad7=\uc544 \ub9de\ub2e4. \ub0b4\uac00 \ud560\uc77c\uc744 \uae4c\uba39\uc740 \uac83 \uac19\uc544... \uadf8\ub798\uc11c \ub098\ub294 \uac00\uc57c\ub3fc.
+villager.chat.bad8=\ub098\ub294 \uadf8\uac83\uc774 \ubb34\uc2a8 \ub73b\uc778\uc9c0 \ubab0\ub77c.
+villager.chat.bad9=\ub0b4 \uc0dd\uac01\uc5d0\ub294 \uc798\ubabb\ub41c \uc0ac\ub78c\uc774\ub791 \ub9d0\ud558\ub294 \uac83 \uac19\uc544.
+villager.chat.bad10=\uc544\ub2c8...\ub098\ub294 \uadf8\ub807\uac8c \uc0dd\uac01\ud558\uc9c0 \uc54a\uc544.
+villager.chat.bad11=\ub108\uac00 \uc65c \uc774\ub7f0 \ub9d0\uc744 \ud574?
+villager.chat.bad12=\uadf8\uac83\uc740 \uc9c4\uc9dc \ub098\uc05c \ub9d0\uc774\uc5c8\uc5b4.
+
+villager.chat.good1=\uc9c4\uc9dc\uc694? \ub4e4\uc5b4\ubcf8 \uc801\uc774 \uc5c6\uc5b4\uc694.
+villager.chat.good2=\ub108 \uc774\uac70 \uc5b4\ub514\uc11c \ub4e4\uc5c8\uc5b4?
+villager.chat.good3=\uc5b4\ub5bb\uac8c \uadf8\ub7f0 \uc77c\uc744 \ud574\ub0b4\uc2e4 \uc218 \uc788\uc5c8\uc5b4\uc694\!?
+villager.chat.good4=\ub124, \uc5ec\uae34 \ubb34\ucc99 \uc9c0\ub8e8\ud574\uc694.
+villager.chat.good5=\ub124, \ud765\ubbf8\ub86d\uad70\uc694.
+villager.chat.good6=\ub108\ub294 \uc7ac\ubc0c\ub294 \uc774\uc57c\uae30\ub4e4\uc744 \ub9ce\uc774 \uc54c\uace0\uc788\uad6c\ub098. \ub354 \ub9d0\ud574 \uc904 \uc218 \uc788\uaca0\ub2c8?
+villager.chat.good7=\ud6cc\ub96d\ud574. \uadf8\ub798\uc11c \ub098\uc911\uc5d4 \uc5b4\ub5a1\ud574 \ub418\ub294\uac70\uc57c?
+villager.chat.good8=\ub098\ub294 \ub108\uc5d0\uac8c \uc9c4\uc9dc\ub85c \ub3d9\uc758\ud574\!
+villager.chat.good9=\uc774\ubbf8 \ub2e4\ub978\uc0ac\ub78c\ud55c\ud14c \uadf8 \uc598\uae30\ub4e4\uc5c8\uc5b4...
+villager.chat.good10=\uad11\uc9c8\ud558\uba74\uc11c \uc5d0\uba54\ub784\ub4dc\ub97c \ud558\ub098\ub77c\ub3c4 \ubcf8 \uc801 \uc788\ub2c8?
+
+villager.engagement.accept1=\uc6b0\ub9ac \uacb0\ud63c\uc740 \uc5b8\uc81c\uc57c\!?
+villager.engagement.accept2=\uc6b0\ub9ac\ub294 \ud070 \ud30c\ud2f0\ub97c \uc5f4 \uac83\uc774\uc57c, \ub9de\uc9c0?
+villager.engagement.accept3=\ub4dc\ub514\uc5b4\! \ub0b4\uac00 \uc885\uc77c \uae30\ub2e4\ub824\uc628\uac83\uc744\! \ub09c \ub108\uac00 \uc88b\uc544\!
+villager.engagement.accept4=\ub098\ub294 \ub098\uc758 \ubaa8\ub4e0 \uce5c\uad6c\ub97c \ucd08\ub300\ud560 \uac70\uc57c\!
+villager.engagement.accept5=\ub9cc\uc138\! \ub09c \ub108\uac00 \uc88b\uc544\!
+
+villager.engagement.refusal1=\uc544... \uc74c... \uc544\uc9c1 \uc800\ub294 \uc815\uc791\ud560 \uc900\ube44\uac00 \uc548 \ub42c\uc5b4\uc694.
+villager.engagement.refusal2=\uc544... \uadf8\ub7ec\uba74 \uc774\uac74 \uc880 \uc774\uc0c1\ud574...
+villager.engagement.refusal3=\uc74c? \uc544\ub2c8\! \ub098\ub294 \ub108\ub97c \uc54c\uc9c0\ub3c4 \ubabb\ud574\!
+villager.engagement.refusal4=\ubbf8\uc548\ud558\uc9c0\ub9cc \ub098\ub294 \ub2f9\uc2e0\uc744 \uadf8\ub807\uac8c \uc88b\uc544\ud558\uc9c0 \uc54a\uc544\uc694.
+villager.engagement.refusal5=\uc640 \uae30\ub2e4\ub824 \ubd10, \uc6b0\ub9ac\ub294 \uac70\uc758 \uc11c\ub85c\ub97c  \uc54c\uace0 \uc788\uc5b4.
+
+villager.follow.start1=\uc774\uc81c \uc6b0\ub9ac\ub294 \ubb58 \ud560\uac70\ub2c8?
+villager.follow.start2=\ub098\ub294 \ub108\uc640 \uac19\uc774 \uc788\uace0 \uc2f6\uc5b4.
+villager.follow.start3=\uc54c\uaca0\uc5b4. \uac19\uc774 \uc788\uc5b4 \uc904\uac8c.
+villager.follow.start4=\ub108\ub9cc\uc758 \ub3c4\uc2dc\ub97c \uc704\ud574 \ub9c8\uc744 \uc804\uccb4\ub97c \uc62e\uae30\ub294\uac70\uc57c? \ub098\ub294 \ubcc4\ub85c...
+villager.follow.start5=\uc54c\uaca0\uc5b4, \ub098\ub294 \ub110 \ub530\ub77c \ub2e4\ub2d0\uaed8.
+villager.follow.start6=\ub108\uac00 \ub098\ub97c \uc5b4\ub514 \ub370\ub824\ub2e4 \uc8fc\ub294 \uac70\uc57c?
+villager.follow.start7=\uc544, \ub108\uac00 \uac00\uace0 \uc2f6\uc740 \uacf3\uc774 \uc5b4\ub514\uc57c?
+villager.follow.start8=Let's get this overwith then.
+
+villager.follow.stop1=\uadf8\ub798, \uc774 \uadfc\ucc98\uc5d0 \uc788\uc744\uac8c.
+villager.follow.stop2=\ub108\ubb34 \uba40\ub9ac \uac00\ubc84\ub9ac\uc9c0 \ub9c8\uc138\uc694.
+villager.follow.stop3=\ub098\ub294 \uc774 \uacf3\uc774 \uc88b\uc544\!
+villager.follow.stop4=\uc54c\uaca0\uc5b4, \ub098\uc911\uc5d0 \ubd10\!
+villager.follow.stop5=\ub0a0 \uc5ec\uae30\uc5d0 \ub193\uace0 \uac00\uc9c0 \ub9c8\!
+villager.follow.stop6=\uc798 \ub3cc\ubd10\uc918.
+villager.follow.stop7=\uc54c\uaca0\uc5b4, \uadf8\ub7ec\uba74 \ub098\ub294 \uc5ec\uae30 \uc788\uc744\uaed8.
+villager.follow.stop8="\uc54c\uc558\uc5b4 \uc774\uc81c \uadf8\ub9cc \ub530\ub77c\uc62c\uac8c."
+villager.follow.stop9=\uc88b\uc544, \ub098\ub294 \ud798\ub4e4\uc5b4\!
+villager.follow.stop10=\ud30c\ub780\ub9cc\uc7a5\ud55c \ubaa8\ud5d8\uc774\uc600\uc5b4\!
+
+villager.gift.bad1=\ub098\ub294 \uc4f0\ub808\uae30\ud1b5\uc774 \uc544\ub2c8\uc57c.
+villager.gift.bad2=\ub098\ub294 \ub108\uc758 \uc4f0\ub808\uae30\uac00 \ud544\uc694 \uc5c6\uc5b4\!
+villager.gift.bad3=\ub0b4 \uc0dd\uac01\uc5d0\ub294 \uc774\uac83\uc740 \uc4f0\ub808\uae30\uac19\uc544.
+villager.gift.bad4=\ub0b4\uac00 \uc65c \uc774\uac83\uc744 \uc6d0\ud574?
+villager.gift.bad5=\uace0\ub9c8\uc6cc, \uadfc\ub370 \uadf8 \uc4f0\ub808\uae30\ub294 \ub108\uac00 \uac00\uc9c0\uace0 \uc788\uc5b4\uc904\ub798?
+villager.gift.bad6=\ub108\uac00 \ub18d\ub2f4\ud55c\uac70\uc774\uae38 \ube4c\uc5b4, \ub108\uac00 \uc900\uac74 \uc120\ubb3c\ub85c\ub294 \uc801\ub2f9\ud558\uc9c0 \uc54a\uc544.
+villager.gift.bad7=\ubbf8\uc548\ud574, \ub098\ub294 \uc774 \uc120\ubb3c\ub4e4\uc744 \uc548 \ubc1b\uc544.
+villager.gift.bad8=\ubbf8\uc548\ud574,  \ub09c \ub0af\uc120\uc0ac\ub78c\uc774 \uc900\uac74 \ubc1b\uc9c0\uc54a\uc544.
+villager.gift.bad9=So you're the one who took this from me\! You should leave.
+villager.gift.bad10=\uc65c \ub108\ub294 \ub098\uc5d0\uac8c \uc4f0\ub808\uae30\ub97c \uc8fc\ub294\uac78 \uace0\uc9d1\ud558\ub294\uac70\uc57c?
+
+villager.gift.small1=\uc624, \uace0\ub9c8\uc6cc\!
+villager.gift.small2=\uc0ac\ub824\uac00 \uae4a\uad6c\ub098\!
+villager.gift.small3=\uace0\ub9c8\uc6cc\!
+villager.gift.small4=\ub108\ub294 \ub098\uc5d0\uac8c \ubb34\uc5c7\uc778\uac00\ub97c \uc904 \ud544\uc694\uc5c6\ub294\ub370... \uace0\ub9c8\uc6cc\!
+villager.gift.small5=\uc544, \ub098 \uc774\uac83\ub4e4 \uc5c4\uccad \uc88b\uc544\ud558\ub294\ub370\!
+villager.gift.small6=\uace0\ub9c8\uc6cc.
+villager.gift.small7=\uace0\ub9c8\uc6cc, \uba4b\uc9c4 \uc120\ubb3c\uc774\ub124\u314e\u314e
+villager.gift.small8=\ub300\ub2e8\ud574\! \uace0\ub9c8\uc6cc\!
+
+villager.gift.regular1=\ub208\ubd80\uc154\!
+villager.gift.regular2=\uace0\ub9c8\uc6cc\! \ub108\uac00 \uc900\uac83\ub4e4\uc744 \uc0ac\uc6a9\ud560 \uc218 \uc788\ub294 \uacf3\uc744 \ucc3e\uc544\ubcfc\uac8c.
+villager.gift.regular3=\uc640\! \uace0\ub9c8\uc6cc\!
+villager.gift.regular4=\ub610 \uac00\uc838\ub3c4 \ub3fc?
+villager.gift.regular5=\uace0\ub9c8\uc6cc, \uce5c\uad6c.
+villager.gift.regular6=\uc544, \uc774 \uc120\ubb3c \uace0\ub9c8\uc6cc.
+villager.gift.regular7=\ub108 \uc815\ub9d0 \uce5c\uc808\ud558\uad6c\ub098\! \uace0\ub9c8\uc6cc.
+villager.gift.regular8=\uba4b\uc9c4 \uc120\ubb3c\uc774\uc57c\! \uace0\ub9c8\uc6cc, %PlayerName%.
+villager.gift.regular9=\uc815\ub9d0 \uce5c\uc808\ud558\ub124\uc694, %PlayerName%.
+villager.gift.regular10=\uc815\ub9d0 \uace0\ub9c8\uc6cc, %PlayerName%.
+villager.gift.regular11=\ub108\ub294 \uc815\ub9d0 \uc88b\uc740 \uce5c\uad6c\uc57c\!
+
+villager.gift.great1=\u3134...\ub098\ub294 \ubb50\ub77c \ud574\uc57c \ub418\ub294\uc9c0 \ubab0\ub77c\! \uace0\ub9c8\uc6cc\!
+villager.gift.great2=\uc774\uac83\ub4e4 \uac00\uaca9\uc774 \uc815\ub9d0 \uc2f8\!
+villager.gift.great3=You know a great gift when you see it\!
+villager.gift.great4=I've always wanted one of these\!
+villager.gift.great5=This is amazing\!
+villager.gift.great6=Oh, this is.. Thank you\! You really shouldn't have\!
+villager.gift.great7=Thank you so much, I will remember this.
+villager.gift.great8=Oh this is just great, I'll put it to good use.
+
+villager.greeting.hate1=\ub098\ud55c\ud14c\ubd80\ud130 \uc800\ub9ac \uac00.
+villager.greeting.hate2=\ub108 \ubc29\uae08 \uc804\uc5d0 \ub0b4\ub9d0 \ubabb \ub4e4\uc5c8\uc5b4? \uc800\ub9ac \uac00\ub77c\uace0.
+villager.greeting.hate3=\uc624. \ub108\uad6c\ub098.
+villager.greeting.hate4=I suppose you're here to punch me in the face again?
+villager.greeting.hate5=\uc81c\ubc1c, \uc800\ub9ac \uac00.
+villager.greeting.hate6=\ub108\ub294 \ubb34\uc5c7\uc744 \uc6d0\ud574?
+villager.greeting.hate7=\ub108 \ub098\ub97c \ud55c\ubc88 \ub354 \ubd80\ub978\ub2e4\uba74 \uacbd\ucc30 \ubd80\ub97c \uac70\uc57c.
+villager.greeting.hate8=\ub098\ub294 \ubb34\uae30\ub97c \uac16\uace0 \uc788\uc5b4, \uadf8\uac78 \ub108\uac00 \uc54c\uace0 \uc788\uc5b4\uc57c \ud574.
+villager.greeting.hate9=Go bother someone else.
+villager.greeting.hate10=\uc73d. \ub098\ub97c \ub194 \ub46c.
+villager.greeting.hate11=\uc800\ub9ac \uac00, \uc774 \ubc14\ubcf4\uc57c.
+
+villager.greeting.basic1=\uc624, \uc548\ub155.
+villager.greeting.basic2=\ub2f9\uc2e0\uc740 \uc774\uc8fc\ubcc0\uc774 \ucc98\uc74c\uc778\uac00\uc694?
+villager.greeting.basic3=\uc74c...\ubc18\uac00\uc6cc
+villager.greeting.basic4=\uc774\ubd10,\ubb34\uc2a8\uc77c\uc774\uc57c?
+villager.greeting.basic5=\ub098\ub294 \uc804\uc5d0 \ub108\ub97c \uadfc\ucc98\uc5d0\uc11c \ubcf8\uc801\uc774 \uc5c6\ub294\ub370?
+villager.greeting.basic6=\uc0c8\ub85c\uc628 \uc0ac\ub78c\uc778\uac00...?
+villager.greeting.basic7=\uc88b\uc740\ub0a0\uc774\uc57c,%PlayerName%.
+villager.greeting.basic8=\uc548\ub155.
+villager.greeting.basic9=\ub3c4\uc640\uc904\uae4c?
+villager.greeting.basic10=\uc544,\ubc18\uac00\uc6cc. %PlayerName%, \ub9de\uc9c0?
+
+villager.greeting.friend1=\uc548\ub155, \uce5c\uad6c\!
+villager.greeting.friend2=\ub2e4\uc2dc \ub9cc\ub098\uc11c \ubc18\uac00\uc6cc\!
+villager.greeting.friend3=\ubaa8\ub450 \ubcf4\uc138\uc694\! \uc800\uc758 \ubca0\uc2a4\ud2b8\ud504\ub80c\ub4dc\ub78d\ub2c8\ub2e4\!
+villager.greeting.friend4=\ud5e4\uc774, \uce5c\uad6c\!
+villager.greeting.friend5=\uc5b4\ub514\uc5d0\uc11c \ubb58\ud558\uace0 \uc788\uc5c8\ub358 \uac70\uc57c? \ub108\ub97c \ud55c\ub3d9\uc548 \ubabb\ubd24\uc5b4.
+villager.greeting.friend6=\ub098\uc758 \uc808\uce5c, %PlayerName%\!
+villager.greeting.friend7=Ah\! Look who we have here. Hello, %PlayerName%\!
+villager.greeting.friend8=\uc774\ubd10, \ub108\! \ubb58 \ud558\uace0 \uc788\uc5c8\ub358\uac70\uc57c?
+villager.greeting.friend9=\ubb34\uc2a8\uc77c\uc774\uc57c? \uc5b4\ub5bb\ud574 \uc9c0\ub0b4?
+
+villager.greeting.interest.male1=\uc6b0\uc640\! \ub108 \uc624\ub298 \uba4b\uc838 \ubcf4\uc5ec\!
+villager.greeting.interest.male2=%PlayerName%\! \uac00\uc9c0\ub9c8\! \ub108\ud55c\ud14c \ubb3c\uc5b4\ubcf4\uace0 \uc2f6\uc740\uac8c \uc788.... \uc544\ub0d0, \uc2e0\uacbd\uc4f0\uc9c0\ub9c8.
+villager.greeting.interest.male3=(\uc18d\uc0ad\uc774\uba70) \uadf8\ub140\ub294 \ub108\ubb34 \uc544\ub984\ub2e4\uc6cc...
+villager.greeting.interest.male4=%PlayerName%, \ub108\ub294 \ub0b4\uac00 \ubd80\uc790\ub77c\ub294\uac83\uc744 \ubaa8\ub978\ub2e4\ub294 \uac70\uc5d0 \ub3c8\uc744 \uac78\uac8c.
+villager.greeting.interest.male5=(\uc18d\uc0ad\uc774\uba70) \uadf8\ub140\ub294 \ub0b4\uac8c \ub108\ubb34 \uc798\ud574\uc8fc\ub294\uac83\uac19\uc544, \uadf8\ub140\ub3c4 \ub098\ub9cc\ud07c \ub098\ub97c \uc88b\uc544\ud558\ub294\uc9c0 \uad81\uae08\ud574...
+
+villager.greeting.interest.female1=\uc800\uae30\uc694~ \uc5b8\uc81c\ub4e0\uc9c0 \uc800\ud55c\ud14c \ucc3e\uc544\uc624\uc138\uc694. (>\u25bd<)\u2665
+villager.greeting.interest.female2=\uc548\ub155....%PlayerName%...*\ud53c\uc2dd\uc6c3\ub2e4*
+villager.greeting.interest.female3=\ub2f9\uc2e0\uc740 \ub298 \uadf8\ub7ac\ub4ef \ubbff\uc74c\uc9c1\uc2a4\ub7ec\uc6cc\uc694\!
+villager.greeting.interest.female4=\ucc3d\ubc31\ud574\uc9c0\ub2e4
+villager.greeting.interest.female5=*\uc18d\uc0ad\uc774\ub2e4*\uc544\ub2c8\! \ub09c \uadf8\uc5d0\uac8c \ubb3b\uace0\uc788\uc9c0\uc54a\uc544\!
+
+villager.greeting.wedding1=\ub108\uac00 \uace7 \uacb0\ud63c\uc2dd\uc744 \uce58\ub978\ub2e4\ub294 \uac83\uc744 \ub4e4\uc5c8\uc5b4. \ucd95\ud558\ud574~\!\!
+villager.greeting.wedding2=\uc5b4\uc774, %PlayerName%, \uacb0\ud63c \ucd95\ud558\ud574\!
+villager.greeting.wedding3=\ub098\ub294 \ub108\uac00 \uba4b\uc9c4 \uacb0\ud63c\uc2dd\uc744 \uc62c\ub824\ub0bc\uaebc\ub77c \ud655\uc2e0\ud558\uace0\uc788\uc5b4, \ub9de\uc9c0?
+villager.greeting.wedding4=\ucd95\ud558\ud574~\! \ub0b4\uac00 \ub110 \uc704\ud574 \uac00\uc7a5 \ud070 \uc120\ubb3c\uc744 \uc900\ube44\ud574 \uac08\uac8c\!
+villager.greeting.wedding5=\ub108\ub294 \uc120\ubb3c\ubc1b\uc744\ub824\uace0 \uacb0\ud63c\ud55c\uac70\uc9c0, \uc548\uadf8\ub798?
+
+villager.hitbyplayer1=\ub0a0 \ud63c\uc790\ub450\uace0 \uac00\uc9c0\ub9c8\!
+villager.hitbyplayer2=\ub09c \ub108\uc5d0\uac8c \uc544\ubb34\uc9d3\ub3c4 \uc548\ud588\uc5b4\!
+villager.hitbyplayer3=\uba48\ucdb0\!
+villager.hitbyplayer4=\uc73c\uc545\! \uc65c \ub0a0 \ub54c\ub9ac\ub294\uac70\uc57c?\!
+villager.hitbyplayer5=\uadf8\ub9cc\ud574\! \uc544\ud30c\!
+villager.hitbyplayer6=\uc57c\! \ub0a0 \ub54c\ub9ac\uc9c0\ub9c8\!
+villager.hitbyplayer7=\uc544\uc58f\! \uba48\ucdb0\! \uba48\ucdb0\!
+villager.hitbyplayer8=\ub0a0 \ub2e4\uc2dc\ub294 \uac74\ub4e4\uc9c0 \ub9c8\!
+villager.hitbyplayer9=\uacbd\ube44\ubcd1\! \uc774 \uc0ac\ub78c\uc774 \uc790\uafb8 \uc808 \uacf5\uaca9\ud574\uc694\!
+villager.hitbyplayer10=\ub204\uad70\uac00 \ub0a0 \ub3c4\uc640\uc918\!
+villager.hitbyplayer12=\uc557\!%PlayerName%\ub09c \ub2c8\uac70 \ub0b4\uce5c\uad6c\uc600\ub2e4\uace0 \uc0dd\uac01\ud588\uc5c8\uc5b4\!
+
+villager.gifted.baby1=\ub108\uac00 \ub3cc\ubd10\uc918.
+villager.gifted.baby2=\ub09c \uc774\uac83\uc744 \uc7a1\uace0\uc2f6\uc9c0 \uc54a\uc544\!
+villager.gifted.baby3=\uc774\uac83\uc740 \ub0c4\uc138\ub098\!
+villager.gifted.baby4=\uc544, \ub098\ub294 \ud558\uc9c0 \uc54a\uc744\uaebc\uc57c. \ub098\ub294 \uc5b4\uc81c\ub3c4 \uc2dc\uac04\uc744 \ub2e4 \ube90\uacbc\uc5c8\uc5b4.
+villager.gifted.baby5=\ub108\uc5d0\uac8c \uc9c0\uae08 \ub9d0\ud574\uc57c\uaca0\uc5b4, \ub098\ub294 \uc544\uc774\ub4e4\uc744 \ud610\uc624\ud574.
+villager.gifted.baby6=I have a hard time taking care of myself, let alone a baby.
+villager.gifted.baby7=I want to hold it, but I'm not going to take care of it.
+villager.gifted.baby8=Why don't you give it to your spouse instead of a stranger?
+
+villager.interact.refusal1=\ub098\uc5d0\uac8c\uc11c \ub3c4\ub9dd\uccd0.
+villager.interact.refusal2=\ub09c\ub2c8\uac00 \uc2eb\uc5b4
+villager.interact.refusal3=Stop talking to me.
+villager.interact.refusal4=\ub5a0\ub098\!
+villager.interact.refusal5=\ub10c \uc5ec\uae30\uc11c \ud658\uc601\ubc1b\uc9c0\ubabb\ud574.
+villager.interact.refusal6=I don't want to have anything to do with you. Leave me alone.
+villager.interact.refusal7=Go away, you're bothering me.
+villager.interact.refusal8=I'm not even going to talk to you.
+villager.interact.refusal9=Keep your hands off of me.
+
+villager.joke.bad1=I don't get it?
+villager.joke.bad2=I take offence to that.
+villager.joke.bad3=That's just terrible\!
+villager.joke.bad4=That didn't make any sense.
+villager.joke.bad5=That's just stupid what you said.
+villager.joke.bad6=Alright then...
+villager.joke.bad7=That's uh...a really nice joke.
+
+villager.joke.good1=That's just too funny\!
+villager.joke.good2=Where'd you hear that one? Haha\!
+villager.joke.good3=That's a good one\!
+villager.joke.good4=*Laughs*
+villager.joke.good5=Kinda funny.
+villager.joke.good6=Oh that's one of the best jokes I've ever heard\!
+villager.joke.good7=You really know some good jokes\!
+villager.joke.good8=Ha\! You know how to make someone laugh.
+villager.joke.good9=That means two things\!
+
+villager.marriage.acceptance1=I do.
+villager.marriage.acceptance2=I've been waiting for you to ask me\! Of course I do\!
+villager.marriage.acceptance3=Yes, I do. I love you\!
+villager.marriage.acceptance4=You know, I've been thinking a lot about you lately... And... Oh what am I talking about? I do\!
+villager.marriage.acceptance5=I'd be more than glad to spend my life with you\!
+villager.marriage.acceptance6=This is a wedding ring... For me...? I do\!
+villager.marriage.acceptance7=Knowing that you love me makes me happy, being with you makes me feel like the happiest person in the world.
+
+villager.marriage.refusal.lowhearts1=What are you, crazy?
+villager.marriage.refusal.lowhearts2=What? Who are you\!?
+villager.marriage.refusal.lowhearts3=I don't even know you\!
+villager.marriage.refusal.lowhearts4=Erm...no. I'm sorry.
+villager.marriage.refusal.lowhearts5=I don't like you\!
+villager.marriage.refusal.lowhearts6=What? No\! I can't.
+villager.marriage.refusal.lowhearts7=Well you see... I'm not ready to marry right now.
+villager.marriage.refusal.lowhearts8=I refuse\!
+villager.marriage.refusal.lowhearts9=I do not want to marry you, jerk\!
+
+villager.marriage.refusal.playermarried1=I think you're already with someone else...
+villager.marriage.refusal.playermarried2=Aren't you married right now?
+villager.marriage.refusal.playermarried3=I see that ring on your finger. Get lost.
+villager.marriage.refusal.playermarried4=How could you even try to do this to your spouse?
+villager.marriage.refusal.playermarried5=You're terrible. Go apologize to your spouse.
+villager.marriage.refusal.playermarried6=Are you out of your mind? You're already married\!
+villager.marriage.refusal.playermarried7=Why are you doing this to your spouse? You're an idiot\!
+villager.marriage.refusal.playermarried8=I better go tell your spouse\!
+villager.marriage.refusal.playermarried9=I see your ring...
+
+villager.marriage.refusal.villagermarried1=I'm taken, sorry.
+villager.marriage.refusal.villagermarried2=Oh...no. I already have someone.
+villager.marriage.refusal.villagermarried3=I'm already taken. I'm sorry, I thought you knew.
+villager.marriage.refusal.villagermarried4=I have to say no, because as you can see, I'm already married.
+villager.marriage.refusal.villagermarried5=I'm sorry, I already have someone.
+
+villager.angry1=That's right\! Stay back there, coward\!
+villager.angry2=Why don't you come and fight like a man?
+villager.angry3=I'm calling the guards on you\!
+villager.angry4=You'll get what's coming to you one day\!
+villager.angry5=Don't come back\!
+
+villager.scared1=No\! Don't hurt me, please\!
+villager.scared2=I won't do it again, I swear\!
+villager.scared3=Please\! Don't kill me\!
+villager.scared4=No\! Put that weapon away\!
+villager.scared5=Someone help\! They're going to kill me\!
+
+villager.greeting.handshake.good1=Salutations.
+villager.greeting.handshake.good2=Good day.
+villager.greeting.handshake.good3=Why isn't everyone this civil? Welcome.
+villager.greeting.handshake.good4=That's a nice firm grip you've got there.
+villager.greeting.handshake.good5=It was nice of you to come.
+
+villager.greeting.handshake.bad1=Ow\! You hurt my hand\!
+villager.greeting.handshake.bad2=You shake too tightly.
+villager.greeting.handshake.bad3=No thank you.
+villager.greeting.handshake.bad4=Uh...no. Your hands look very dirty.
+villager.greeting.handshake.bad5=What IS that on your hands?\!
+
+villager.greeting.highfive.good1=High five\!
+villager.greeting.highfive.good2=What's up, %PlayerName%?
+villager.greeting.highfive.good3=Alright\!
+villager.greeting.highfive.good4=Hey, what's up?
+villager.greeting.highfive.good5=Great to see you\!
+
+villager.greeting.highfive.bad1=No\! Don't hit me\!
+villager.greeting.highfive.bad2=Who's special?
+villager.greeting.highfive.bad3=Uh...no, sorry.
+villager.greeting.highfive.bad4=Knock it off.
+villager.greeting.highfive.bad5=...What are you doing?
+
+villager.kiss.good1=*Blushes* Are you single?
+villager.kiss.good2=You're a very good kisser...
+villager.kiss.good3=Your lips are soft and sweet.
+villager.kiss.good4=Tastes like honey.
+villager.kiss.good5=*Giggles* You're a cutie.
+
+villager.kiss.bad1=Do I even know you?\!
+villager.kiss.bad2=*Slap*
+villager.kiss.bad3=I'm calling the guards\!
+villager.kiss.bad4=What are you doing?\!
+villager.kiss.bad5=My father would never approve. 
+
+villager.flirt.good1=*Blushes* Oh, my.
+villager.flirt.good2=*Giggles* You're so cute.
+villager.flirt.good3=I love it when you speak that way.
+villager.flirt.good4=If I could rearrange the alphabet, I'd put you and I together.
+villager.flirt.good5=Hehe, we should get together some time.
+
+villager.flirt.bad1=I must be wearing baseball shorts, because I'm out of your league\!
+villager.flirt.bad2=Ew, I don't think so.
+villager.flirt.bad3=Aren't you dating someone?
+villager.flirt.bad4=*Laughs* Sorry, I don't roll that way.
+villager.flirt.bad5=That was pathetic.
+
+villager.tellstory.good1=*Laughs* The pigs get the best of all of us\!
+villager.tellstory.good2=I remember when I was younger I could do that too.
+villager.tellstory.good3=We should try that together sometimes.
+villager.tellstory.good4=At least you'll protect us from the zombies\!
+villager.tellstory.good5=*Laughs* You're alright, %PlayerName%.
+
+villager.tellstory.bad1=You should be ashamed of yourself\!
+villager.tellstory.bad2=Serves you right.
+villager.tellstory.bad3=You should be attacked by a zombie for that\!
+villager.tellstory.bad4=Whatever.
+villager.tellstory.bad5=I feel very uncomfortable right now...
+
+#######
+# Grandchild Dialogue
+##############################
+
+grandchild.chat.bad1=You're old. And boring.
+grandchild.chat.bad2=I don't want to hear boring stories\!
+grandchild.chat.bad3=*Yawn*
+
+grandchild.chat.good1=I have the best %RelationOfPlayer% ever\!
+grandchild.chat.good2=Wow\! Did that really happen?
+grandchild.chat.good3=Did all that really happen?
+grandchild.chat.good4=I always enjoy chatting with you.
+
+grandchild.follow.start1=Where are we going?
+grandchild.follow.start2=I want you to show me where you killed that creeper.
+grandchild.follow.start3=Okay, let's go\!
+
+grandchild.follow.stop1=I'll wait on you, %RelationOfPlayer%.
+grandchild.follow.stop2=I'll wait here for you, %RelationOfPlayer%.
+grandchild.follow.stop3=Don't go too far away, %RelationOfPlayer%.
+
+grandchild.gift.bad1=How old is this thing? Ew\!
+grandchild.gift.bad2=This looks like it came from the stone age.
+grandchild.gift.bad3=Ah...thanks. I guess.
+
+grandchild.gift.great1=This must've meant a lot to you. Thanks\!
+grandchild.gift.great2=Wow\! I can have this?\!
+grandchild.gift.great3=I knew you'd bring me something nice\!
+
+grandchild.gift.regular1=I always show everyone what my %RelationOfPlayer% brings me\!
+grandchild.gift.regular2=Wow\! This is cool\!
+grandchild.gift.regular3=I love when you bring me things, %RelationOfPlayer%.
+
+grandchild.gift.small1=Well, this is neat\!
+grandchild.gift.small2=Hey, I like this\!
+grandchild.gift.small3=Thanks, %RelationOfPlayer%\!
+grandchild.gift.small4=This is really cool, %RelationOfPlayer%.
+
+grandchild.greeting.basic1=Hi, %RelationOfPlayer%.
+grandchild.greeting.basic2=I haven't seen you in a while, %RelationOfPlayer%.
+
+grandchild.greeting.friend1=Hey, it's %RelationOfPlayer%\!
+grandchild.greeting.friend2=Look everyone, my %RelationOfPlayer% is here\!
+
+grandchild.greeting.hate1=*Grumble*
+grandchild.greeting.hate2=Oh no. You're here.
+grandchild.greeting.hate3=You are not my favorite %RelationOfPlayer%.
+grandchild.greeting.hate4=Mom\! %RelationOfPlayer% is here...
+
+grandchild.hitbyplayer1=Ow\! That hurt\!
+grandchild.hitbyplayer2=Stop it\!
+grandchild.hitbyplayer3=You're playing too rough\!
+grandchild.hitbyplayer4=Why are you hitting me, %RelationOfPlayer%?
+
+grandchild.gifted.baby1=You can still have babies\!?
+grandchild.gifted.baby2=Is that...yours?
+
+grandchild.joke.bad1=That was really bad...
+grandchild.joke.bad2=What???
+grandchild.joke.bad3=Maybe that was funny back then, but now...not so much.
+grandchild.joke.bad4=Your old jokes aren't funny.
+
+grandchild.joke.good1=I always tell everyone how funny my %RelationOfPlayer% is\!
+grandchild.joke.good2=You should tell that one to my friend\!
+grandchild.joke.good3=That was so funny, %RelationOfPlayer%\!
+grandchild.joke.good4=My %RelationOfPlayer% is always so funny\!
+
+grandchild.greeting.handshake.good1=So you're my %RelationOfPlayer%?
+grandchild.greeting.handshake.good2=Nice to meet you. You're my %RelationOfPlayer%, aren't you?
+grandchild.greeting.handshake.good3=Hi, did you know I'm your %RelationToPlayer%? I didn't.
+grandchild.greeting.handshake.good4=Hello, %RelationOfPlayer%.
+grandchild.greeting.handshake.good5=Did you bring me something?\!
+
+grandchild.greeting.handshake.bad1=A...handshake?
+grandchild.greeting.handshake.bad2=You shake hands with your grandchildren?
+grandchild.greeting.handshake.bad3=Gross\! You're old\!
+grandchild.greeting.handshake.bad4=Your hands are wrinkly\!
+grandchild.greeting.handshake.bad5=Ouch\! Why did you squeeze so hard?
+
+grandchild.greeting.highfive.good1=Yay\! Again\!
+grandchild.greeting.highfive.good2=Again, again\!
+grandchild.greeting.highfive.good3=Do it again\!
+grandchild.greeting.highfive.good4=Do it again, pretty please?
+grandchild.greeting.highfive.good5=Again\!
+
+grandchild.greeting.highfive.bad1=My hands sting.
+grandchild.greeting.highfive.bad2=This is starting to hurt\!
+grandchild.greeting.highfive.bad3=Stop\!
+grandchild.greeting.highfive.bad4=This is getting boring.
+grandchild.greeting.highfive.bad5=Okay, my hands are hurting now.
+
+grandchild.tellstory.good1=It's a good thing we have guards\!
+grandchild.tellstory.good2=Wow, did you really do that?
+grandchild.tellstory.good3=Then what did the skeleton do?
+grandchild.tellstory.good4=You're my hero\!
+grandchild.tellstory.good5=Can you take me mining like that?
+
+grandchild.tellstory.bad1=I don't believe you.
+grandchild.tellstory.bad2=My parents told me not to believe a word you say.
+grandchild.tellstory.bad3=Sure.
+grandchild.tellstory.bad4=I don't want to be around you anymore...
+grandchild.tellstory.bad5=I should go home now.
+
+grandchild.play.good1=Yay this is fun\!
+grandchild.play.good2=I love spending time with you\!
+grandchild.play.good3=You're the best\!
+grandchild.play.good4=Let's play\!
+grandchild.play.good5=I'll beat you\!
+
+grandchild.play.bad1=Again?
+grandchild.play.bad2=You're too old to do that.
+grandchild.play.bad3=You don't play good.
+grandchild.play.bad4=Just go play with your animals.
+grandchild.play.bad5=I would rather eat vegetables.
+
+#######
+# Villager Child Dialogue
+##############################
+
+villagerchild.chat.bad1=Sorry, my parents don't allow me to talk to strangers\!
+villagerchild.chat.bad2=Who are you? You look silly.
+villagerchild.chat.bad3=I don't want to talk, you're scary\!
+
+villagerchild.chat.good1=Wow\! You're cool\!
+villagerchild.chat.good2=You're like a superhero\!
+villagerchild.chat.good3=Are you an adventurer?\! That is so cool\!
+villagerchild.chat.good4=I like your stories, tell me more, tell me more\!
+
+villagerchild.follow.start1=Okay, but I don't want to go too far from home\!
+villagerchild.follow.start2=Aw...I actually wanted to stay here...
+villagerchild.follow.start3=Where are we going? On an adventure?
+
+villagerchild.follow.stop1=Good. I was tired of looking at your butt\!
+villagerchild.follow.stop2=Where is everyone?
+villagerchild.follow.stop3=Don't leave me here alone\!
+
+villagerchild.gift.bad1=Ah, this is junk\! I don't want it.
+villagerchild.gift.bad2=Can I throw this away? I don't want it.
+villagerchild.gift.bad3=Why are you giving me this, %PlayerName%? I don't like it\!
+
+villagerchild.gift.great1=Wow\! I can have this? Oh\! Thank you so much\! I'm going to show this to my dad\!
+villagerchild.gift.great2=Thank you for the nice gift\!
+villagerchild.gift.great3=This is the greatest gift ever\! Thank you\!
+
+villagerchild.gift.regular1=Thank you\!
+villagerchild.gift.regular2=This is cool\! Thanks\!
+villagerchild.gift.regular3=Thank you for the present\!
+
+villagerchild.gift.small1=Thanks\!
+villagerchild.gift.small2=Thanks a lot\!
+villagerchild.gift.small3=Can I eat this?
+villagerchild.gift.small4=For me? Oh, thank you\!
+
+villagerchild.greeting.basic1=Who are you?
+villagerchild.greeting.basic2=You look funny.
+
+villagerchild.greeting.friend1=Hey\! You're my buddy\!
+villagerchild.greeting.friend2=Do you wanna play?
+
+villagerchild.greeting.hate1=I don't like you.
+villagerchild.greeting.hate2=I remember you\! You hurt me\!
+villagerchild.greeting.hate3=No\! Get away from me\!
+villagerchild.greeting.hate4=My daddy told you to stay away.
+
+villagerchild.hitbyplayer1=Ow\! Mom\! %PlayerName% hit me\!
+villagerchild.hitbyplayer2=Don't hit me, it hurts\!
+villagerchild.hitbyplayer3=No don't hurt me, please\!
+villagerchild.hitbyplayer4=Mommy\! Daddy\! Ouch\!
+
+villagerchild.gifted.baby1=Aw... It's cute but smelly\!
+villagerchild.gifted.baby2=Why does it stink?
+villagerchild.gifted.baby3=I don't want to hold it\!
+
+villagerchild.joke.bad1=You're a silly person.
+villagerchild.joke.bad2=Not funny.
+villagerchild.joke.bad3=That's not funny\!
+villagerchild.joke.bad4=Don't insult me\!
+villagerchild.joke.bad5=Mommy\! %PlayerName% says bad words\!
+
+villagerchild.joke.good1=Haha\! You're the funniest\!
+villagerchild.joke.good2=I really like your jokes\!
+villagerchild.joke.good3=That one was good\! I'm going to tell it to my friends\!
+villagerchild.joke.good4=How do you do that funny face? Do it again\!
+
+villagerchild.play.good1=Mommy and daddy never have time to do this\!
+villagerchild.play.good2=Yay\! Can you be my friend?
+villagerchild.play.good3=Can I win some?
+villagerchild.play.good4=Let's play forever\!
+villagerchild.play.good5=Let's have some fun\!
+
+villagerchild.play.bad1=Who are you?
+villagerchild.play.bad2=My mommy told me not to play with strangers.
+villagerchild.play.bad3=Papa said you would lead me over a cliff.
+villagerchild.play.bad4=No, that's okay.
+villagerchild.play.bad5=Go play with your own kid.
+
+villagerchild.tellstory.good1=I wish I was your kid...
+villagerchild.tellstory.good2=Can I go pet the squid too?\!
+villagerchild.tellstory.good3=Wow, can you take me to the Nether?\!
+villagerchild.tellstory.good4=Why can't you tell me what happens after you feed them?
+villagerchild.tellstory.good5=I'm going to start my own club like you did\!
+
+villagerchild.tellstory.bad1=You're not a good person are you?
+villagerchild.tellstory.bad2=I think I hear my mommy calling me for dinner.
+villagerchild.tellstory.bad3=My parents are going to die?\!
+villagerchild.tellstory.bad4=Go away.
+villagerchild.tellstory.bad5=Your stories are boring.
+
+#######
+# Adult Dialogue
+##############################
+
+playerchild.adult.chat.bad1=Don't you have a different story to tell?
+playerchild.adult.chat.bad2=I'm busy...
+playerchild.adult.chat.bad3=Let's talk later.
+playerchild.adult.chat.bad4=Yup.
+playerchild.adult.chat.bad5=Uh-huh.
+playerchild.adult.chat.bad6=Okay.
+playerchild.adult.chat.bad7=Alrighty then.
+playerchild.adult.chat.bad8=So very interesting...
+playerchild.adult.chat.bad9=*Rolls Eyes*
+playerchild.adult.chat.bad10=%ParentOpposite% told me that you lied about that.
+playerchild.adult.chat.bad11=Let's change the subject, alright?
+playerchild.adult.chat.bad12=Well.. That's.. Interesting..
+playerchild.adult.chat.bad13=Ehrm.. Sure..
+playerchild.adult.chat.bad14=That's it?
+playerchild.adult.chat.bad15=Maybe later.
+playerchild.adult.chat.bad16=I cannot talk right now.
+playerchild.adult.chat.bad17=Oh my gosh, PLEASE leave me alone\!
+playerchild.adult.chat.bad18=All I heard was "blah, blah, blah".
+
+playerchild.adult.chat.good1=*Listens closely*
+playerchild.adult.chat.good2=Yes, we should go hunting.
+playerchild.adult.chat.good3=Let's go gather supplies, or mine, or something\!
+playerchild.adult.chat.good4=You should take me with you next time.
+playerchild.adult.chat.good5=When am I getting my own house?
+playerchild.adult.chat.good6=One day, I want my own house.
+playerchild.adult.chat.good7=I can't wait to get a house of my own\!
+playerchild.adult.chat.good8=Let's do some farming or something\!
+playerchild.adult.chat.good9=Let's go somewhere\!
+playerchild.adult.chat.good10=Oh\! That's a great story\!
+playerchild.adult.chat.good11=Yes, I'm doing well.
+playerchild.adult.chat.good12=You shouldn't spread that but it is a good story.
+playerchild.adult.chat.good13=That's the best thing since sliced bread\!
+
+playerchild.adult.chore.start.farming1=Yes, %CallPlayerParent%.
+playerchild.adult.chore.start.farming2=Ugh. Fine, %CallPlayerParent%.
+playerchild.adult.chore.start.farming3=Sure. I'll do that, %CallPlayerParent%.
+playerchild.adult.chore.start.farming4=Farming? Alright, I'll do it.
+playerchild.adult.chore.start.farming5=Come on\! You didn't have to when you were a kid\!
+playerchild.adult.chore.start.farming6=Will you help me, %CallPlayerParent%?
+playerchild.adult.chore.start.farming7=If we sell the bread I make, will I get 50% profit?
+
+playerchild.adult.chore.start.fishing1=I like fishing. Okay.
+playerchild.adult.chore.start.fishing2=I bet I'll catch more than you ever can\!
+playerchild.adult.chore.start.fishing3=I'm gonna try to beat my record this time.
+playerchild.adult.chore.start.fishing4=Oh. So once again I have to put food on the table.
+playerchild.adult.chore.start.fishing5=Yeah, okay.
+playerchild.adult.chore.start.fishing6=Cool\! I love going fishing, %CallPlayerParent%\!
+playerchild.adult.chore.start.fishing7=I'll be sure to catch a lot of fish, you just watch\!
+playerchild.adult.chore.start.fishing8=Alright\! I'll try my best to catch as many fish as possible.
+playerchild.adult.chore.start.fishing9=I'm good at fishing\! You'll see.
+playerchild.adult.chore.start.fishing10=Here fishy fishy...
+playerchild.adult.chore.start.fishing11=I hope I don't get my new clothes wet.
+
+playerchild.adult.chore.start.mining1=Coal dust isn't poisonous, is it?
+playerchild.adult.chore.start.mining2=I hope my pickaxe doesn't break this time.
+playerchild.adult.chore.start.mining3=I'll find more diamonds than you, just watch\!
+
+playerchild.adult.chore.start.woodcutting1=I still want that treehouse, you know.
+playerchild.adult.chore.start.woodcutting2=Do you ever wonder why the trees float?
+playerchild.adult.chore.start.woodcutting3=I'll sharpen my axe and get right on it.
+playerchild.adult.chore.start.woodcutting4=Are you making me build my own house?
+
+playerchild.adult.chore.start.hunting1=I'll bring you back ten pigs\!
+playerchild.adult.chore.start.hunting2=This will be fun.
+playerchild.adult.chore.start.hunting3=I'll be back shortly.
+playerchild.adult.chore.start.hunting4=You're sending me because I'm a better hunter, aren't you?
+
+playerchild.adult.chore.stop1=I thought you'd never let me stop.
+playerchild.adult.chore.stop2=I'm so tired...
+playerchild.adult.chore.stop3=Finally. I was getting bored.
+playerchild.adult.chore.stop4=Finally. I was getting tired.
+playerchild.adult.chore.stop5=Don't make me do that again\!
+playerchild.adult.chore.stop6=Gladly\!
+playerchild.adult.chore.stop7=Thank you, I always hate doing that\!
+playerchild.adult.chore.stop8=Ah... Finally my work is done\!
+playerchild.adult.chore.stop9=I'll rest for a bit now I guess.
+playerchild.adult.chore.stop10=I'll stop working then.
+playerchild.adult.chore.stop11=I'm glad that's over\!
+playerchild.adult.chore.stop12=I did your dirty work. I'm doing something fun now.
+
+playerchild.adult.follow.start1=Ok, where are we going?
+playerchild.adult.follow.start2=Are we hunting mobs together, %CallPlayerParent%?
+playerchild.adult.follow.start3=I hope I see a creeper\!
+playerchild.adult.follow.start4=I hope we're not moving. I like it here.
+playerchild.adult.follow.start5=Finally\! Let's get out of here\!
+playerchild.adult.follow.start6=Are we going to come back?
+playerchild.adult.follow.start7=I actually didn't want to go anywhere...
+playerchild.adult.follow.start8=Alright, let's go then.
+playerchild.adult.follow.start9=Off we go\!
+playerchild.adult.follow.start10=Let's head out\!
+playerchild.adult.follow.start11=There are so many things that I'd like to see\!
+playerchild.adult.follow.start12=I hope I see some mobs.
+playerchild.adult.follow.start13=This better not be a trap...
+playerchild.adult.follow.start14=I want to catch a spider\!
+
+playerchild.adult.follow.stop1=I'll wait here, %CallPlayerParent%.
+playerchild.adult.follow.stop2=I like this place. Let's stay here for awhile.
+playerchild.adult.follow.stop3=I'll be right here.
+playerchild.adult.follow.stop4=Don't go too far...
+playerchild.adult.follow.stop5=I hear something. Be careful.
+playerchild.adult.follow.stop6=Just don't get hurt, %CallPlayerParent%\!
+playerchild.adult.follow.stop7=Don't leave me here too long\!
+playerchild.adult.follow.stop8=Be on your guard. Danger is lurking out there when you're alone.
+playerchild.adult.follow.stop9=Watch out for creepers\!
+playerchild.adult.follow.stop10=Whew, that was tiresome.
+playerchild.adult.follow.stop11=Can't I keep going with you? I'm scared, %CallPlayerParent%.
+
+playerchild.adult.gift.bad1=Wow\! %CallPlayerParent%\! Do you know what you just found\!? Me neither.
+playerchild.adult.gift.bad2=\uc774\ub530\uc704 \uc4f0\ub808\uae30\ub97c \uc8fc\ub2e4\ub2c8.
+playerchild.adult.gift.bad3=\ud544\uc694\uc5c6\uc5b4\uc694.
+playerchild.adult.gift.bad4=\ub124 \uc4f0\ub808\uae30 \ub530\uc708 \ub358\uc838\ubc84\ub824\!
+playerchild.adult.gift.bad5=How about some food every once and awhile?
+playerchild.adult.gift.bad6=Why would I want this?
+playerchild.adult.gift.bad7=This is... No. Just no.
+playerchild.adult.gift.bad8=Why are  you even giving this to me?
+playerchild.adult.gift.bad9=No, I won't keep this, definitely not.
+playerchild.adult.gift.bad10=I'll be sure to throw this in lava.
+playerchild.adult.gift.bad11=Do you see any trashcans around?
+playerchild.adult.gift.bad12=Argh. Again? I'm making sure you get a wishlist next time.
+
+playerchild.adult.gift.great1=Oh my... I'm speechless\!
+playerchild.adult.gift.great2=Thank you so very much\!
+playerchild.adult.gift.great3=This is the coolest\!
+playerchild.adult.gift.great4=How could you afford this\!?
+
+playerchild.adult.gift.regular1=Thank you so much\!
+playerchild.adult.gift.regular2=This is amazing\!
+playerchild.adult.gift.regular3=I want you to know I'm very grateful\!
+
+playerchild.adult.gift.small1=Where did you find this? Thanks\!
+playerchild.adult.gift.small2=Oh, thanks %CallPlayerParent%\!
+playerchild.adult.gift.small3=Can I...eat it?
+playerchild.adult.gift.small4=You didn't just give this to me to get rid of it, did you?
+playerchild.adult.gift.small5=Oh wow, a present for me\!
+playerchild.adult.gift.small6=Sweet\! Thanks, %CallPlayerParent%.
+playerchild.adult.gift.small7=This sure looks good, and... tasty?
+
+playerchild.adult.greeting.basic1=Hey, %CallPlayerParent%\!
+playerchild.adult.greeting.basic2=You're back, %CallPlayerParent%.
+
+playerchild.adult.greeting.friend1=Hey, %CallPlayerParent%\!
+playerchild.adult.greeting.friend2=You're back, %CallPlayerParent%.
+
+playerchild.adult.greeting.hate1=...
+playerchild.adult.greeting.hate2=\uc5ec\uae30\uc11c \ubb50\ud558\uc154\uc694, %CallPlayerParent%?
+playerchild.adult.greeting.hate3=\uaebc\uc9c0\ub77c\uace0\uc694\!
+playerchild.adult.greeting.hate4=\uc0ac\uacfc\ud558\ub7ec \ube4c\ub7ec\uc624\uc168\ub098\uc694?
+playerchild.adult.greeting.hate5=\uacbd\ube44\uc6d0 \uc544\uc800\uc528\ud55c\ud14c \ubd88\ub7ec\uc11c \uc77c\ub97c\uc9c0\ub3c4 \ubab0\ub77c\uc694.
+
+playerchild.adult.hitbyplayer1=Stop that\!
+playerchild.adult.hitbyplayer2=I can beat you up now, you know\!
+playerchild.adult.hitbyplayer3=Ow\! %CallPlayerParent%\! Stop hitting me\!
+playerchild.adult.hitbyplayer4=That hurts bad\!
+playerchild.adult.hitbyplayer5=Calm down and stop hitting me\!
+playerchild.adult.hitbyplayer6=I'm not a punching bag\!
+playerchild.adult.hitbyplayer7=Hitting me won't solve your problems\!
+playerchild.adult.hitbyplayer8=Ow\! What the heck was that for?\!
+playerchild.adult.hitbyplayer9=This isn't normal\!
+playerchild.adult.hitbyplayer10=Calm down\!
+playerchild.adult.hitbyplayer11=\uc544\uc57c\!
+playerchild.adult.hitbyplayer12=Why would you do that?\!
+
+playerchild.adult.gifted.baby1=I don't wanna hold it\! 
+playerchild.adult.gifted.baby2=I hate babies\!
+playerchild.adult.gifted.baby3=Ew\! It stinks\!
+playerchild.adult.gifted.baby4=Yes, yes, it's very cute.
+playerchild.adult.gifted.baby5=I've got other stuff to do\!
+
+playerchild.adult.joke.bad1=That one's getting really old.
+playerchild.adult.joke.bad2=That was just stupid.
+playerchild.adult.joke.bad3=...What?
+playerchild.adult.joke.bad4=Don't joke about that\! I'm STILL traumatized\!
+playerchild.adult.joke.bad5=Still don't get it.
+playerchild.adult.joke.bad6=Not that one again.
+playerchild.adult.joke.bad7=I've heard that one more than twenty times\!
+playerchild.adult.joke.bad8=Ew, why do you joke about that?\!
+playerchild.adult.joke.bad9=That joke is awful.
+playerchild.adult.joke.bad10=Ah, that one again. Funny.
+playerchild.adult.joke.bad11=I think %ParentOpposite% is calling me...
+playerchild.adult.joke.bad12=So, I really need to go do my chores.
+
+playerchild.adult.joke.good1=I still remember that one, %CallPlayerParent%. Haha\!
+playerchild.adult.joke.good2=That one was really funny\!
+playerchild.adult.joke.good3=*Chuckle*
+playerchild.adult.joke.good4=You always have the best jokes\!
+playerchild.adult.joke.good5=Great one, %CallPlayerParent%\!
+playerchild.adult.joke.good6=Haha\! That's so funny\!
+playerchild.adult.joke.good7=That's a good one\!
+
+playerchild.adult.greeting.handshake.good1=Hey, haven't talked to you in a while.
+playerchild.adult.greeting.handshake.good2=Hey, %CallPlayerParent%.
+playerchild.adult.greeting.handshake.good3=Great to see you again, %CallPlayerParent%\!
+playerchild.adult.greeting.handshake.good4=Oh, %CallPlayerParent%, I have so much to tell you about.
+playerchild.adult.greeting.handshake.good5=Hey, great to see that you're back.
+
+playerchild.adult.greeting.handshake.bad1=Why don't you come visit more?
+playerchild.adult.greeting.handshake.bad2=This is the only contact we've had in forever, and you just shake my hand?\!
+playerchild.adult.greeting.handshake.bad3=I don't want to shake your hand.
+playerchild.adult.greeting.handshake.bad4=I'm uh...busy right now.
+playerchild.adult.greeting.handshake.bad5=I'm too busy - like you always seem to be.
+
+playerchild.adult.greeting.highfive.good1=It's still fun\!
+playerchild.adult.greeting.highfive.good2=*Cheers*
+playerchild.adult.greeting.highfive.good3=We are awesome\!
+playerchild.adult.greeting.highfive.good4=Yes\! I've missed this.
+playerchild.adult.greeting.highfive.good5=We're the best\!
+
+playerchild.adult.greeting.highfive.bad1=I'm too old to be high fiving all the time.
+playerchild.adult.greeting.highfive.bad2=Not right now, please.
+playerchild.adult.greeting.highfive.bad3=I don't want to high five with you.
+playerchild.adult.greeting.highfive.bad4=I want to talk, not high five\!
+playerchild.adult.greeting.highfive.bad5=Why won't you actually talk to me anymore?
+
+playerchild.adult.tellstory.good1=*Laughs* That reminds me of when I was a young child.
+playerchild.adult.tellstory.good2=You and %ParentOpposite% really loved each other, didn't you?
+playerchild.adult.tellstory.good3=That sounds fun\! We should try it sometimes\!
+playerchild.adult.tellstory.good4=*Laughs* I'm so glad I'm in this family.
+playerchild.adult.tellstory.good5=They did what to the chickens?
+
+playerchild.adult.tellstory.bad1=Um, have you told that to %ParentOpposite%?
+playerchild.adult.tellstory.bad2=I don't approve.
+playerchild.adult.tellstory.bad3=You...probably shouldn't tell that to anyone else.
+playerchild.adult.tellstory.bad4=That wasn't very nice.
+playerchild.adult.tellstory.bad5=You know, that reminds me of %RandomName%\!
+
+#######
+# Kid Dialogue
+##############################
+playerchild.young.chat.bad1=I don't wanna talk. Leave me alone\!
+playerchild.young.chat.bad2=%CallPlayerParent%, I'm busy\!
+playerchild.young.chat.bad3=Shhhh\!
+playerchild.young.chat.bad4=You're boring.
+playerchild.young.chat.bad5=*Ignores you*
+playerchild.young.chat.bad6=%ParentOpposite% said not to say that\!
+playerchild.young.chat.bad7=I am busy\!
+playerchild.young.chat.bad8=Don't you see that I am busy?\!
+playerchild.young.chat.bad9=I'm...*yawn*, going to take a nap.
+
+playerchild.young.chat.good1=*Listens Closely*
+playerchild.young.chat.good2=Will you take me with you next time, %CallPlayerParent%?
+playerchild.young.chat.good3=I want to go hunting\!
+playerchild.young.chat.good4=Why can't I go with you?
+playerchild.young.chat.good5=I really wanna go next time, please?
+playerchild.young.chat.good6=That's amazing, %CallPlayerParent%\! How did you do that?
+playerchild.young.chat.good7=Really? That is so cool\!
+playerchild.young.chat.good8=You're the best %CallPlayerParent% in the world\! No, the universe\!
+
+playerchild.young.joke.bad1=%CallPlayerParent%\uac00 \uc695\uc744 \ud588\ub370\uc694\!
+playerchild.young.joke.bad2=\uba4d\uccad\ud55c \ub18d\ub2f4\uc774\uad70\uc694.
+playerchild.young.joke.bad3=You're a big dummy. I don't get it.
+playerchild.young.joke.bad4=\uc65c \uadf8\ub7f0\uac78\ub85c \ub180\ub824\uc694? *\uc73c\uc559*
+playerchild.young.joke.bad5=\ub098 \ub180\ub9ac\uc9c0 \ub9d0\ub798\ub3c4\uc694\!
+playerchild.young.joke.bad6=%ParentOpposite% said not to say that word\!
+playerchild.young.joke.bad7=I've heard that one a million times before, %CallPlayerParent%.
+playerchild.young.joke.bad8=That didn't make sense.
+
+playerchild.young.joke.good1=You're funny, %CallPlayerParent%.
+playerchild.young.joke.good2=Ha ha\! I get it\!
+playerchild.young.joke.good3=\uadf8 \ub18d\ub2f4 \uce5c\uad6c\ub4e4\ud55c\ud14c \uc368\uba39\uc5b4\uc57c\uc9c0\!
+playerchild.young.joke.good4=That wasn't dumb like the other twenty.
+playerchild.young.joke.good5=*\ub084\ub084\ub084*
+playerchild.young.joke.good6=That was funny\!
+playerchild.young.joke.good7=I'll have to remember that one\!
+
+playerchild.young.chore.start.farming1=Yes, %CallPlayerParent%.
+playerchild.young.chore.start.farming2=Yay\! I love to farm.
+playerchild.young.chore.start.farming3=I'll start right now.
+playerchild.young.chore.start.farming4=Finally I get to do something.
+playerchild.young.chore.start.farming5=Okay.
+playerchild.young.chore.start.farming6=I was hoping you'd ask me to do this\!
+playerchild.young.chore.start.farming7=I hope this goes to my birthday cake.
+
+playerchild.young.chore.start.fishing1=Fishing is so boring. 
+playerchild.young.chore.start.fishing2=But fishing takes so long\!
+playerchild.young.chore.start.fishing3=I don't know how, I swear\!
+playerchild.young.chore.start.fishing4=But fish are so stinky\!
+playerchild.young.chore.start.fishing5=But they're slimy...
+playerchild.young.chore.start.fishing6=\uc544. \ubb3c\uc5d0 \uc816\uae30 \uc2eb\uc740\ub370
+playerchild.young.chore.start.fishing7=I don't want to fish.
+playerchild.young.chore.start.fishing8=Why always fishing?
+
+playerchild.young.chore.start.mining1=Which way do I hold the pickaxe, again?
+playerchild.young.chore.start.mining2=I'm telling %ParentOpposite% if I fall in lava again.
+playerchild.young.chore.start.mining3=\uc544\uc790\! \ub178\uc608\ucc98\ub7fc \uad11\uc0b0 \uce90\uae30\ub2e4\! \uc640 \uc2e0\ub09c\ub2e4\!
+playerchild.young.chore.start.mining4=I hope a skeleton doesn't shoot me again.
+playerchild.young.chore.start.mining5=If I find a diamond, I'm allowed to keep it, okay?
+
+playerchild.young.chore.start.woodcutting1=Trees, trees, trees, trees...
+playerchild.young.chore.start.woodcutting2=I hope one doesn't fall on me again\!
+playerchild.young.chore.start.woodcutting3=Can we build a tree house after I'm done?
+playerchild.young.chore.start.woodcutting4=What are you using the wood for?
+
+playerchild.young.chore.start.hunting1=Alright\! I love hunting.
+playerchild.young.chore.start.hunting2=I hope a wolf doesn't bite me again.
+playerchild.young.chore.start.hunting3=But I'm so small\! Last time it took me hours to drag a cow back.
+
+playerchild.young.chore.stop1=*\ub2e4\ud589\uc774\ub77c\uace0 \uc0dd\uac01\ud558\uba70 \ud55c\uc228\uc744 \uc270\ub2e4*
+playerchild.young.chore.stop2=\ub178\uc608\ub85c \ubd80\ub824\uba39\ub294 \uac83\uc744 \uadf8\ub9cc \ub450\uc2dc\uc904 \ubab0\ub790\uc5b4\uc694.
+playerchild.young.chore.stop3=\uc544 \ud798\ub4e4\uc5b4\uc694... \u3160
+playerchild.young.chore.stop4=Finally. I was getting bored.
+playerchild.young.chore.stop5=Finally. I was getting tired.
+playerchild.young.chore.stop6=Don't make me do that again\!
+
+playerchild.young.follow.start1=Ok, where are we going?
+playerchild.young.follow.start2=Yay\! I can stay with %CallPlayerParent%\!
+playerchild.young.follow.start3=Yay\! I will come with you.
+playerchild.young.follow.start4=But I don't wanna go\!
+playerchild.young.follow.start5=Is %ParentOpposite% coming too?
+playerchild.young.follow.start6=I hope we see a pig, or a cow, or a chicken, or a sheep\!
+playerchild.young.follow.start7=Are we going to a jungle? I want to see a kitty cat.
+playerchild.young.follow.start8=I hope we don't get too far away...
+playerchild.young.follow.start9=Creepers scare me, I hope we don't run into one.
+
+playerchild.young.follow.stop1=Ok. I'll wait here.
+playerchild.young.follow.stop2=Don't leave long, okay?
+playerchild.young.follow.stop3=But it's scary here...
+playerchild.young.follow.stop4=No, %CallPlayerParent%, don't go\!
+playerchild.young.follow.stop5=But I hear noises...
+playerchild.young.follow.stop6=Fine, just don't forget about me, %CallPlayerParent%.
+playerchild.young.follow.stop7=But..what if it turns night?
+playerchild.young.follow.stop8=Will you be back shortly?
+playerchild.young.follow.stop9=Don't leave me here\!
+
+playerchild.young.gift.bad1=What could I use this for\!?
+playerchild.young.gift.bad2=This is stinky.
+playerchild.young.gift.bad3=I don't like these.
+playerchild.young.gift.bad4=%CallPlayerParent%, you know what I like and don't like.
+playerchild.young.gift.bad5=Get me something good.
+playerchild.young.gift.bad6=I already have like, ten million of these.
+playerchild.young.gift.bad7=This is useless junk\!
+playerchild.young.gift.bad8=I'd rather get nothing\!
+playerchild.young.gift.bad9=Huh??
+
+playerchild.young.gift.great1=Where did you get this, %CallPlayerParent%?
+playerchild.young.gift.great2=Is this for me?
+playerchild.young.gift.great3=Yaaaaaaaaay\!
+playerchild.young.gift.great4=It's all mine\!?
+playerchild.young.gift.great5=%ParentOpposite% calls these 'sexy'.
+playerchild.young.gift.great6=You're the best %CallPlayerParent% ever\!
+
+playerchild.young.gift.regular1=I hope I'll get more\!
+playerchild.young.gift.regular2=Is this for me?
+playerchild.young.gift.regular3=You got me two, didn't you?
+playerchild.young.gift.regular4=It's for me?\!
+
+playerchild.young.gift.small1=Where did you get this, %CallPlayerParent%?
+playerchild.young.gift.small2=Ooooh, shiny\!
+playerchild.young.gift.small3=Presents\! I always love presents\!
+playerchild.young.gift.small4=I like it, %CallPlayerParent%.
+playerchild.young.gift.small5=Thanks, %CallPlayerParent%.
+
+playerchild.young.greeting.basic1=Hi, %CallPlayerParent%.
+playerchild.young.greeting.basic2=Ew, %CallPlayerParent%, you stink. Where have you been?
+playerchild.young.greeting.basic3=Yay\! %CallPlayerParent% is home\!
+playerchild.young.greeting.basic4=Horray, %CallPlayerParent%\! Did you bring me anything?
+
+playerchild.young.greeting.friend1=Yay\! %CallPlayerParent% %CallPlayerParent% %CallPlayerParent%\!\!\!
+playerchild.young.greeting.friend2=You brought me a gift didn't you?
+playerchild.young.greeting.friend3=%CallPlayerParent%, I missed you.
+playerchild.young.greeting.friend4=Tell me stories about where you've been\!
+playerchild.young.greeting.friend5=%CallPlayerParent%, don't leave again. It makes %ParentOpposite% sad.
+
+playerchild.young.greeting.hate1=Please don't hurt me again %CallPlayerParent%.
+playerchild.young.greeting.hate2=%CallPlayerParent%, are you going to be nice to me now?
+playerchild.young.greeting.hate3=H...hi...%CallPlayerParent%
+playerchild.young.greeting.hate4=*Cowers in fear*
+playerchild.young.greeting.hate5=I'll be good today, %CallPlayerParent%...don't hit me.
+
+playerchild.young.hitbyplayer1=%ParentOpposite%\ud55c\ud14c \uc774\ub97c\uac70\uc57c\!
+playerchild.young.hitbyplayer2=%CallPlayerParent%, \uadf8\ub9cc \ub54c\ub824\uc694\!
+playerchild.young.hitbyplayer3=%CallPlayerParent%, \uc544\ud30c\uc694\!
+playerchild.young.hitbyplayer4=Ow\! What did I do, %CallPlayerParent%?
+playerchild.young.hitbyplayer5=Ow\!
+playerchild.young.hitbyplayer6=Ouch\!
+playerchild.young.hitbyplayer7=I'm telling %ParentOpposite%\!
+
+playerchild.young.gifted.baby1=\uc73c\uc5d1, \uad6c\uc5ed\uc9c8\ub098\uc694\!
+
+playerchild.young.tellstory.good1=Did you get a spanking for that?
+playerchild.young.tellstory.good2=I want to do that\!
+playerchild.young.tellstory.good3=I'll never disobey you again after hearing that\!
+playerchild.young.tellstory.good4=*Laughs* %ParentOpposite% did that?
+playerchild.young.tellstory.good5=I can't believe you did that\!
+
+playerchild.young.tellstory.bad1=*Cries* Why would you do such a thing?
+playerchild.young.tellstory.bad2=I'm telling %RandomName% you said that.
+playerchild.young.tellstory.bad3=Yeah, yeah, whatever. I don't want to hear any stories right now.
+playerchild.young.tellstory.bad4=The creeper will get me?\!
+playerchild.young.tellstory.bad5=*Cries* I don't want %ParentOpposite% turning into a zombie\!
+
+playerchild.young.play.good1=You can't catch me\!
+playerchild.young.play.good2=I love when you play with me, %CallPlayerParent%.
+playerchild.young.play.good3=I'm going to win\!
+playerchild.young.play.good4=This is gonna be fun\!
+playerchild.young.play.good5=You'll never beat me\!
+
+playerchild.young.play.bad1=You never let me win.
+playerchild.young.play.bad2=You need the excersise, but I don't.
+playerchild.young.play.bad3=I'm too old for this.
+playerchild.young.play.bad4=Why don't you play with your favorite kid?
+playerchild.young.play.bad5=I only want to play with %RandomName%.
+
+playerchild.young.greeting.handshake.good1=Hi, %CallPlayerParent%.
+playerchild.young.greeting.handshake.good2=Where did you go today?
+playerchild.young.greeting.handshake.good3=Tell me about your adventures.
+playerchild.young.greeting.handshake.good4=You're back. What have you been doing?
+playerchild.young.greeting.handshake.good5=Let's do something\!
+
+playerchild.young.greeting.handshake.bad1=...Why are you shaking my hand?
+playerchild.young.greeting.handshake.bad2=Your hands are sweaty and gross.
+playerchild.young.greeting.handshake.bad3=Ew, don't touch me\!
+playerchild.young.greeting.handshake.bad4=I don't want to shake hands\!
+playerchild.young.greeting.handshake.bad5=Why don't you talk to me instead of shaking my hand all the time?
+
+playerchild.young.greeting.highfive.good1=Will you do it again?
+playerchild.young.greeting.highfive.good2=This is fun\!
+playerchild.young.greeting.highfive.good3=*Laughs*
+playerchild.young.greeting.highfive.good4=Do a high five again\!
+playerchild.young.greeting.highfive.good5=Please, just one more time\!
+
+playerchild.young.greeting.highfive.bad1=I'm bored of that now.
+playerchild.young.greeting.highfive.bad2=Do you do anything else?
+playerchild.young.greeting.highfive.bad3=I can't reach you, dummy\!
+playerchild.young.greeting.highfive.bad4=I don't want to high five any more.
+playerchild.young.greeting.highfive.bad5=That's getting annoying.
+
+#######
+# Spouse Dialogue
+##############################
+spouse.chat.bad1=\uadf8 \uc598\uae30 \uc774\ubbf8 \ub4e3\uace0 \ub610 \ub4e4\uc5c8\ub370\ub3c4\uc694.
+spouse.chat.bad2=\uc9c0\ub8e8\ud558\ub124\uc694 \ub610 \ub611\uac19\uc740 \uc598\uae30 \ud558\uace0 \ub610 \ud558\uace0.... \ub610 \ud558\uace0...
+spouse.chat.bad3=\ub354 \ub098\uc740 \uc598\uae43\uac70\ub9ac\ub77c\ub3c4 \uc5c6\ub098\uc694?
+spouse.chat.bad4=\uadf8 \uc598\uae30 \ud558\uae30 \uc2eb\ub124\uc694.
+spouse.chat.bad5=\ub9c8\uc74c\ub300\ub85c \ub9d0\ud558\uc2dc\ub358\uc9c0\uc694.
+spouse.chat.bad6=... \ub2e4\ub978 \uc598\uae30\ub85c \ud558\uba74 \uc548\ub418\ub098\uc694.
+
+spouse.chat.good1=I love it when you tell me your adventuring stories.
+spouse.chat.good2=Impressive\!
+spouse.chat.good3=Yes, things are okay around here.
+spouse.chat.good4=Well today I...oh, you don't want to hear, I'm sure\!
+spouse.chat.good5=Been a long day for you too, huh?
+spouse.chat.good6=That's why I love you.
+spouse.chat.good7=Wonderful that is, I'm glad I'm married to you.
+spouse.chat.good8=Your stories amaze me\!
+spouse.chat.good9=Good story\!
+spouse.chat.good10=*Licks lips hungrily*
+
+spouse.divorce1=I'm through with you\!
+spouse.divorce2=Good riddance\!
+spouse.divorce3=I never want to see you again\!
+spouse.divorce4=Just...get away from me\!
+spouse.divorce5=I can't believe you\! Leave me alone\!
+spouse.divorce6=Why? Am I not...good enough...?
+spouse.divorce7=I thought you really loved me\!
+spouse.divorce8=What\!? No\! I can't believe this\!
+spouse.divorce9=Get away from me\! Forever\!
+
+spouse.follow.start1=Oh okay, where are we going?
+spouse.follow.start2=Alright, I'll keep up.
+spouse.follow.start3=Okay, let's go\!
+spouse.follow.start4=Are we finally leaving this dump?
+spouse.follow.start5=Do you have a new house somewhere?
+spouse.follow.start6=Okay but I don't want to move from here.
+spouse.follow.start7=Can I go adventuring with you? How exciting\!
+spouse.follow.start8=Let's go somewhere nice, shall we?
+
+spouse.follow.stop1=That place looks really nice\!
+spouse.follow.stop2=Well, alright, you're always welcome to bring me with you, dear.
+spouse.follow.stop3=Alright then, be careful out there\!
+spouse.follow.stop4=I'll be around here when you come back.
+spouse.follow.stop5=Whew, that was tiresome but at least I was with you.
+
+spouse.gift.bad1=Oh...no thanks. I have one of those already. Somewhere.
+spouse.gift.bad2=I hope you didn't expect me to like that.
+spouse.gift.bad3=I should've known you wouldn't remember what I like.
+spouse.gift.bad4=Why are you giving this to me?
+spouse.gift.bad5=This is what you call a gift?
+spouse.gift.bad6=I thought you knew me well enough to know what I like. Apparently not.
+spouse.gift.bad7=This... is bad. I don't want this.
+
+spouse.gift.great1=Oh my...how much did this cost?
+spouse.gift.great2=How did you get this\!? Thank you\!
+spouse.gift.great3=It must've been very hard to get this\!
+spouse.gift.great4=I really shouldn't take it...but it's so shiny\!
+spouse.gift.great5=I will cherish this forever.
+spouse.gift.great6=Thank you sweetheart, you really know what I love.
+spouse.gift.great7=This is something I'll always hold close to me, thank you.
+spouse.gift.great8=You're sexy and I know it.
+
+spouse.gift.regular1=This is great\! Thank you\!
+spouse.gift.regular2=Bring me more\!
+spouse.gift.regular3=You didn't have to do this...thank you.
+spouse.gift.regular4=This is great\! Thanks\!
+spouse.gift.regular5=You know just what I like, don't you?
+spouse.gift.regular6=Oh, thanks, this is very nice of you.
+spouse.gift.regular7=\uace0\ub9d9\ub124\uc694 \u2661
+
+spouse.gift.small1=\uac10\uc0ac\ud574\uc694.
+spouse.gift.small2=\uace0\ub9d9\uac8c \uc0dd\uac01\ud574\uc694.
+spouse.gift.small3=\ud638\uc758\ub85c\uc11c \ubc1b\uc8e0.
+spouse.gift.small4=\ub2f9\uc2e0\uc740 \ucc38 \uce5c\uc808\ud574\uc694 \u2661
+spouse.gift.small5=\uace0\ub9c8\uc6cc\uc694. \uc774\ub807\uac8c\uae4c\uc9c0 \uc8fc\uc9c0 \uc54a\uc73c\uc154\ub3c4 \ub418\ub294\ub370.
+
+spouse.greeting.basic1=\uc548\ub155, \uc790\uae30\uc57c~
+spouse.greeting.basic2=\uc624\ub298 \uc5b4\ub514 \uac14\uc5c8\uc5b4\uc694?
+spouse.greeting.basic3=Hey, honey. How are you doing?
+spouse.greeting.basic4=\uad1c\ucc2e\uc740\uac00\uc694?
+spouse.greeting.basic5=\ubaa8\ud5d8\uc5d0\uc11c \ub3cc\uc544\uc654\uad70\uc694? \uc5b4\ub54c\uc694 \uc790\uae30?
+spouse.greeting.basic6=\uadf8\ub300\ub97c \uadf8\ub9ac\uc6cc\ud588\uc5b4\uc694\! \uc790\uae30 \uc5b4\ub514 \uac14\uc5c8\uc5b4\uc694? \u3160\u3160
+spouse.greeting.basic7=\ub2f9\uc2e0\ub54c\ubb38\uc5d0 \uac71\uc815 \ub42c\uc796\uc544\uc694. \ub9d0\ub3c4 \uc5c6\uc774 \ub5a0\ub098\uace0\uc694. \uadf8\ub7f0\ub370 \ub3cc\uc544\uc654\uc73c\ub2c8 \uae30\ubed0\uc694. *^^*
+spouse.greeting.basic8=\uc624\ub298 \uc5b4\ub54c\uc694?
+spouse.greeting.basic9=\uc624\ub298 \ud558\ub8e8 \uc990\uac70\uc6b4 \ud558\ub8e8 \ub418\uc168\ub098\uc694?
+spouse.greeting.basic10=\ub3cc\uc544\uc624\ub2c8 \ubc18\uac11\ub124\uc694.
+
+spouse.greeting.friend1=\uc548\ub155, \uc790\uae30\uc57c~
+spouse.greeting.friend2=\uc624\ub298 \uc5b4\ub514 \uac14\uc5c8\uc5b4\uc694?
+spouse.greeting.friend3=\uc790\uae30\uc57c~\u2661 \ubb50\ud574?
+spouse.greeting.friend4=\uad1c\ucc2e\uc740\uac00\uc694?
+spouse.greeting.friend5=\ubaa8\ud5d8\uc5d0\uc11c \ub3cc\uc544\uc654\uad70\uc694? \uc5b4\ub54c\uc694 \uc790\uae30?
+spouse.greeting.friend6=\uadf8\ub300\ub97c \uadf8\ub9ac\uc6cc\ud588\uc5b4\uc694\! \uc790\uae30 \uc5b4\ub514 \uac14\uc5c8\uc5b4\uc694? \u3160\u3160
+spouse.greeting.friend7=\ub2f9\uc2e0\ub54c\ubb38\uc5d0 \uac71\uc815 \ub42c\uc796\uc544\uc694. \ub9d0\ub3c4 \uc5c6\uc774 \ub5a0\ub098\uace0\uc694. \uadf8\ub7f0\ub370 \ub3cc\uc544\uc654\uc73c\ub2c8 \uae30\ubed0\uc694. *^^*
+spouse.greeting.friend8=\uc624\ub298 \uc5b4\ub54c\uc694?
+spouse.greeting.friend9=\uc624\ub298 \ud558\ub8e8 \uc990\uac70\uc6b4 \ud558\ub8e8 \ub418\uc168\ub098\uc694?
+spouse.greeting.friend10=\ub3cc\uc544\uc624\ub2c8 \ubc18\uac11\ub124\uc694.
+
+spouse.greeting.hate1=\uc9c0\uae08 \ub2f9\uc2e0\uacfc \ub300\ud654\ud560 \uae30\ubd84\uc774 \uc544\ub2c8\ub124\uc694.
+spouse.greeting.hate2=\ub2f9\uc2e0\uc5d0\uac8c \uc2e4\ub9dd\ud588\uc5b4\uc694. \uc800 \uc880 \ub0c5\ub450\uc138\uc694.
+spouse.greeting.hate3=%PlayerName%, \ub2f9\uc2e0\uacfc \uc598\uae30\uc548\ud55c\ub370\ub3c4\uc694.
+spouse.greeting.hate4=\ub354 \uc774\uc0c1 \ub300\ud654\ud560 \uc0ac\uc774\uac00 \uc544\ub2c8\uc5d0\uc694.
+spouse.greeting.hate5=You'd better shape up or I'm walking.
+
+spouse.hitbyplayer1=Ow\! Abuse\!
+spouse.hitbyplayer2=I hope you didn't mean to do that.
+spouse.hitbyplayer3=That really hurt...
+spouse.hitbyplayer4=Stop hurting me\!
+spouse.hitbyplayer5=Ow\! Jerk\!
+spouse.hitbyplayer6=Why would you want to hit me\!?
+spouse.hitbyplayer7=What the heck was that for\!?
+
+spouse.gifted.baby1=Again? Argh. Fine.
+spouse.gifted.baby2=You're so cute\! Yes you are\! Yes you are\!
+spouse.gifted.baby3=Okay, I'll hold it.
+spouse.gifted.baby4=Ooo\! Something in here for me? Oh. It's the baby.
+spouse.gifted.baby5=Fine. Give it here.
+spouse.gifted.baby6=\ubcf4\uc138\uc694. \uc81c \ub208\uc744 \uc3d9 \ube7c \ub2ee\uc558\uc8e0?
+spouse.gifted.baby7=Oh, can't handle the baby? Alright then, give it to me.
+
+spouse.joke.bad1=\uadf8\uac70 \uc804\uc5d0 \ub9d0\ud588\uc796\uc544\uc694.
+spouse.joke.bad2=\uc758\ubbf8\uc5c6\ub294 \ub18d\ub2f4\uc77c\ubfd0\uc774\ub124\uc694.
+spouse.joke.bad3=\uadf8\ub7f0 \uc7ac\ubbf8\uc5c6\ub294 \ub18d\ub2f4\uc744 \ud558\uc2dc\ub2e4\ub2c8.
+spouse.joke.bad4=\uadf8\uac74...\uc815\ub9d0 \uad49\uc7a5\ud574\uc694...\uc790\uae30.
+spouse.joke.bad5=*\uc5b4\uc0c9\ud55c \uc6c3\uc74c*
+spouse.joke.bad6=*\uc5b5\uc9c0\ub85c \uc6c3\uc74c*
+spouse.joke.bad7=...\uac00\uace0 \uc788\uc5b4...
+
+spouse.joke.good1=\uc5d0\uc774, \uc6b0\ub9ac \ucc98\uc74c \ub9cc\ub0ac\uc744\ub54c \uadf8 \uc598\uae30 \ud588\uc796\uc544.
+spouse.joke.good2=\uadf8\uac70 \uae30\uc5b5\ud574\! \uc544\uc9c1\ub3c4 \uc7ac\ubc0c\ub124\!
+spouse.joke.good3=\uc624, \ucc38 \uc7ac\ubc0c\uc73c\uc154\uc694\!
+spouse.joke.good4=\ubb34\uc2a8 \uc57d\uc744 \ud588\uae38\ub798 \uadf8\ub7f0 \uc0dd\uac01\ud588\uc5b4\uc694? \ub084\ub084\ub084\!
+spouse.joke.good5=\uadf8\ub807\uac8c \uc6c3\uc73c\uba74 \uc548\ub418\ub294\ub370, \ud489, \uadfc\ub370 \ub108\ubb34 \uc7ac\ubc0c\uc5b4\uc694\!
+
+spouse.procreate.refuse1=No, I don't think so.
+spouse.procreate.refuse2=You must be joking\!
+spouse.procreate.refuse3=Not after how you've treated me\!
+spouse.procreate.refuse4=I barely even like you. There's no way I'll do that.
+spouse.procreate.refuse5=Yeah, right\! Treat me a little better and I'll think about it.
+
+spouse.kiss.good1=You're so sweet.
+spouse.kiss.good2=\ub098\ub3c4 \ub110 \uc0ac\ub791\ud574.
+spouse.kiss.good3=\ub10c \ub098\uc5d0\uac8c \ub108\ubb34 \uce5c\uc808\ud574
+spouse.kiss.good4=Thank you, that was sweet.
+spouse.kiss.good5=How nice of you\!
+
+spouse.kiss.bad1=No. I'm not in the mood today.
+spouse.kiss.bad2=Why are you suddenly being nice to me?
+spouse.kiss.bad3=Go kiss a cow.
+spouse.kiss.bad4=\ub09c\uadf8\ub807\uac8c\uc0dd\uac01\uc548\ud574.
+spouse.kiss.bad5=Too late for that.
+spouse.kiss.bad6=Your nose poked me in the eye\!
+spouse.kiss.bad7=Ew, that was wet and sloppy\!
+spouse.kiss.bad8=You just don't know how to kiss.
+
+spouse.flirt.good1=You're such a smooth talker.
+spouse.flirt.good2=*Blush* You've always been quite the charmer.
+spouse.flirt.good3=Oh\! You haven't changed a bit since we've gotten married.
+spouse.flirt.good4=Aw\! That was so sweet\!
+spouse.flirt.good5=Oh my, I'm embarrassed.
+
+spouse.flirt.bad1=Ain't nobody got time for that\!
+spouse.flirt.bad2=How original.
+spouse.flirt.bad3=I bet you tell everyone that. No, I'm serious. I bet you do.
+spouse.flirt.bad4=I'm not in the mood.
+spouse.flirt.bad5=Now you want to try romancing me? What about when we were dating?
+
+spouse.tellstory.good1=That was a good one\!
+spouse.tellstory.good2=What did Cupquake do next?
+spouse.tellstory.good3=You watch ChimneySwift11's "Minecraft Files" too?\!
+spouse.tellstory.good4=*Laughs* That reminds me of the time my mother walked in on me, except I was cleaning.
+spouse.tellstory.good5=Aw, I want a daughter like that\!
+
+spouse.tellstory.bad1=Why would you tell me that?
+spouse.tellstory.bad2=That makes me want to cry...
+spouse.tellstory.bad3=*Ignores you*
+spouse.tellstory.bad4=Why did THAT bring you such joy?
+spouse.tellstory.bad5=You shouldn't make fun of %RandomName%.
+
+spouse.greeting.handshake.good1=I love the feeling of your hand in mine.
+spouse.greeting.handshake.good2=You're silly\!
+spouse.greeting.handshake.good3=How is your day going, sweetheart?
+spouse.greeting.handshake.good4=How are you doing?
+spouse.greeting.handshake.good5=Greetings, my love.
+
+spouse.greeting.handshake.bad1=Ew, I know where your hands have been.
+spouse.greeting.handshake.bad2=Your hands are sweaty.
+spouse.greeting.handshake.bad3=A handshake? That's it?
+spouse.greeting.handshake.bad4=No, you've been in the caves all day.
+spouse.greeting.handshake.bad5=They smell like...cows?\!
+
+spouse.greeting.highfive.good1=Ho yeah\!
+spouse.greeting.highfive.good2=Up high\!
+spouse.greeting.highfive.good3=High five\!
+spouse.greeting.highfive.good4=What's up?
+spouse.greeting.highfive.good5=\uadf8\ub798,\uc9c0\uc625\!
+
+spouse.greeting.highfive.bad1=This is the most contact we've had in forever.
+spouse.greeting.highfive.bad2=I'm not five anymore.
+spouse.greeting.highfive.bad3=\ub2f9\uc2e0\uc740 \ub108\ubb34 \ubbf8\uc219\ud574.
+spouse.greeting.highfive.bad4=\uc544\uc58f\! \ub10c \ub0a0\ucce4\uc5b4\!
+spouse.greeting.highfive.bad5=\ub09c \uac10\ud788 \ub2f9\uc2e0\uc758 \uc190\uc744 \uac74\ub4e4\uc9c0 \uc54a\uc744\uac70\uc57c.
+
+spouse.chore.start.cooking1=\ub2f9\uc5f0\ud558\uc9c0\!\ub09c \ub108\uc5d0\uac8c\uc904 \uc544\ubb34\uc74c\uc2dd\uc744 \uc694\ub9ac\ud560\uac70\uc57c
+spouse.chore.start.cooking2=Yes, dear. I'll get right on that.
+spouse.chore.start.cooking3=\ub098\uc758 \uc774\uc2dc\uac04\uc744 \uc704\ud574 \ubb54\uac00\ub97c \uad6c\ud574\! \ub09c \uc694\ub9ac\ud588\uc5b4.\ub10c \uc54c\uc796\uc544.
+spouse.chore.start.cooking4=\ub098\ub3c4 \ubc30\uace0\ud30c\!
+spouse.chore.start.cooking5=\ub09c \uc6d0\ud574. \ub0b4\uac00 \uadf8\uc2dc\uac04\uc5d0 \ud0dc\uc6b0\uc9c0\uc54a\uae30\ub97c
+

@@ -1,0 +1,2255 @@
+#X-Generator: crowdin.com
+#X-Generator: crowdin.net
+itemGroup.tabMCA=Minecraft \u00c9letre Kel
+
+##########
+# Heir
+#############################
+heir.set.success=%Name% most az \u00f6r\u00f6k\u00f6se.
+heir.set.failure.alreadyset=Te m\u00e1r valakinek az \u00f6r\u00f6k\u00f6se vagy.
+heir.set.failure.sameperson=%Name% m\u00e1r az \u00f6r\u00f6k\u00f6se.
+heir.set.failure.alreadyused=%Name% m\u00e1r \u00f6r\u00f6k\u00f6se valakinek. Keress valaki m\u00e1st.
+
+heir.gui.requestcrown=Korona k\u00e9r\u00e9se
+heir.gui.recoverinventory=Inventory helyre\u00e1ll\u00edt\u00e1sa
+
+heir.good.returncrown1=Rendben. J\u00f3 m\u00f3ka volt, am\u00edg tartott.
+heir.good.returncrown2=Term\u00e9szetesen,  %CallPlayerParent%. N\u00e1la van a korona.
+heir.good.returncrown3=\u00c9n \u00f6r\u00fcl\u00f6k. M\u00e1r kezdett unalmass\u00e1 v\u00e1lni.
+heir.good.returncrown4=M\u00e9g 5 perc \u00e9s k\u00e9sz, ok\u00e9? Rendben, rendben\!
+heir.good.returncrown5=\u00d6r\u00fcl\u00f6k hogy rajta van. Az emberek kezdtek ut\u00e1lni miatta\!
+
+heir.good.founditems1=Visszat\u00e9rt\u00e9l\! Azt hittem \u00f6r\u00f6kre elt\u0171nt\u00e9l. Itt vannak a cuccaid.
+heir.good.founditems2=Megtal\u00e1ltuk a cuccaidat, de azt hitt\u00fck elt\u0171nt\u00e9l \u00f6r\u00f6kre\! Itt vannak, tess\u00e9k.
+heir.good.founditems3=Kik\u00fcldtem n\u00e9h\u00e1ny \u0151rt a cuccaid\u00e9rt. \u0150k vissza is hozt\u00e1k neked.
+heir.good.founditems4=Nem hitt\u00fck volna hogy visszat\u00e9rsz\! Megtal\u00e1ltuk a t\u00e1rgyaidat, de t\u00e9ged nem.
+
+##########
+# Information
+#############################
+information.doesnothing=Jelenleg semmit sem csin\u00e1l.
+
+information.whistle.line1=Jobb klikk mik\u00f6zben tartod
+information.whistle.line2=hogy a h\u00e1zast\u00e1rsad \u00e9s a
+information.whistle.line3=gyerekeid.
+
+information.heircrown.line1=Aj\u00e1nd\u00e9k a gyerekeidnek
+information.heircrown.line2=,hogy kir\u00e1lyt/kir\u00e1lyn\u0151t csin\u00e1lj bel\u0151l\u00fck
+information.heircrown.line3=amikor meghalsz.
+
+information.weddingring.line1=Aj\u00e1nd\u00e9k egy falusinak aki
+information.weddingring.line2=megbecs\u00fcl\u00e9s t\u00f6bb mint 100, hogy
+information.weddingring.line3=h\u00e1zast\u00e1rsad lehessen.
+
+information.villagereditor.line1=Jobb Klikk a Falusira
+information.villagereditor.line2=hogy megszerkeszthesd.
+
+information.tombstone.line1=Elhelyez\u00e9s a tisztelet\u00e9re
+information.tombstone.line2=egy elvesztett csal\u00e1dtag.
+
+information.lostrelativedocument.line1=Haszn\u00e1ld a falusin, hogy megcsin\u00e1lja
+information.lostrelativedocument.line2=bele abba amit v\u00e1lasztott\u00e1l.
+
+information.engagementring.line1=Aj\u00e1nd\u00e9k a falusinak, az aj\u00e1nd\u00e9k
+information.engagementring.line2=legyen egy eljegyz\u00e9si gy\u0171r\u0171, hogy kapjanak
+information.engagementring.line3=aj\u00e1nd\u00e9kot m\u00e1sik falusiakt\u00f3l is.
+
+information.crown.line1=Craftolj hogy legy\u00e9l uralkod\u00f3.
+
+information.baby.line1=Jobb klikk a f\u00f6ld\u00f6n ahhoz
+information.baby.line2=hogy a csecsem\u0151t gyermekk\u00e9 neveld
+information.baby.line3=amikor k\u00e9sz van.
+
+information.arrangersring.line1=Aj\u00e1nd\u00e9k ad\u00e1sa egy falusinak, majd aj\u00e1nd\u00e9k egy m\u00e1siknak
+information.arrangersring.line2=egy k\u00f6zeli falusinak hogy elkezdjen
+information.arrangersring.line3=m\u00e1zass\u00e1got k\u00f6tni egym\u00e1ssal.
+
+information.villagerbed.line1=Place this bed on the ground
+information.villagerbed.line2=and a nearby villager will sleep
+information.villagerbed.line3=in it at night.
+
+##########
+# Traits
+#############################
+gui.info.trait=Tulajdons\u00e1g\: 
+trait.unknown=Nemismert
+
+trait.none=Semmi
+trait.shy=F\u00e9l\u00e9nk
+trait.fun=\u00c9rdekes
+trait.serious=Komoly
+trait.friendly=Bar\u00e1ts\u00e1gos
+trait.irritable=Ingerl\u00e9keny
+trait.emotional=\u00c9rz\u00e9keny
+trait.outgoing=kimen\u0151
+
+##########
+# Moods
+#############################
+gui.info.mood=Hangulat\: 
+
+mood.happy.ecstatic=M\u00e1mor\u00edt\u00f3
+mood.happy.cheerful=Vid\u00e1m
+mood.happy.happy=J\u00f3kedv\u0171
+mood.happy.fine=Megvan
+mood.happy.okay=Ok
+
+mood.neutral.passive=Passz\u00edv
+
+mood.sadness.blue=B\u00fas
+mood.sadness.unhappy=Boldogtalan
+mood.sadness.sad=Szomor\u00fa
+mood.sadness.cheerless=Mogorva
+mood.sadness.depressed=Depresszi\u00f3s
+
+mood.anger.annoyed=Ideges\u00edtett
+mood.anger.agitated=Felizgatott
+mood.anger.mad=M\u00e9rges
+mood.anger.seething=Forrong\u00f3
+mood.anger.infuriated=Felbosszantott
+
+mood.fatigue.tired=F\u00e1radt
+mood.fatigue.sleepy=\u00c1lmos
+mood.fatigue.fatigued=Lef\u00e1rasztott
+mood.fatigue.exhausted=Kimer\u00fclt
+mood.fatigue.comatose=K\u00e1bult
+
+#######
+# Monarch
+#############################
+monarch.gui.button.interact.demandgift=Szereti az aj\u00e1nd\u00e9kokat
+monarch.gui.button.interact.execute=Gyilkod meg
+monarch.gui.button.interact.makeknight=Lovag k\u00e9sz\u00edt\u00e9se
+monarch.gui.button.interact.makepeasant=K\u00e9sz\u00edts parasztot
+
+monarch.knight.follow.start1=Neked b\u00e1rmit %MonarchTitle%.
+monarch.knight.follow.start2=Elk\u00eds\u00e9rem \u00f6nt b\u00e1rhov\u00e1, fels\u00e9g.
+monarch.knight.follow.start3=A fegyverek k\u00e9szen\!
+monarch.knight.follow.start4=Parancs\u00e1ra.
+monarch.knight.follow.start5=Ahogy te mondod.
+
+monarch.knight.follow.stop1=B\u00e1rmikor r\u00e1\u00e9rek %MonarchTitle%.
+monarch.knight.follow.stop2=Ahogy te \u00f3halytod.
+monarch.knight.follow.stop3=Folytatom a feladatom.
+
+monarch.knight.follow.refuse1=Soha nem sz\u00e1lln\u00e9k szembe a parancs\u00e1val %MonarchPlayerName%\!
+monarch.knight.follow.refuse2=\u00c9n felesk\u00fcdtem a %MonarchPlayerName%.
+monarch.knight.follow.refuse3=\u00c9n a lovagja vagyok %MonarchPlayerName%-nek.
+
+monarch.execute.failure.noweapon=Nincsen fegyvered amivel meg gyilkolhatod ezt az embert.
+monarch.execute.failure.playerspouse=Te nem tudod meg\u00f6lni a j\u00e1t\u00e9kos \u00e9lett\u00e1rs\u00e1t.
+
+monarch.makepeasant.success=Ez a falusi a te szolg\u00e1d. Ingyen fog dolgozni neked.
+monarch.makepeasant.failure.alreadypeasant=Ez a falusi valaki m\u00e1snak a szolg\u00e1ja.
+monarch.makepeasant.failure.playerspouse=A j\u00e1t\u00e9kos h\u00e1zast\u00e1rsa nem lehet alattval\u00f3.
+
+monarch.makeknight.success=Ez az \u0151r mostant\u00f3l egy lovag, az ir\u00e1ny\u00edt\u00e1sod alatt.
+monarch.makeknight.failure.alreadyknight=Ez az \u0151r m\u00e1r lovag, valaki m\u00e1s ir\u00e1ny\u00edt\u00e1sa alatt.
+monarch.makeknight.failure.playerspouse=A j\u00e1t\u00e9kos h\u00e1ztast\u00e1rs\u00e1b\u00f3l nem lehet lovag.
+
+monarch.title.knight.male=%Name% a lovag
+monarch.title.knight.female=%Name% a lovag
+monarch.title.knight.male.otherplayer=(Lovagja %MonarchPlayerName%-nak)
+monarch.title.knight.female.otherplayer=(Lovagja %MonarchPlayerName%-nak)
+
+monarch.title.peasant.male.owner=(Alattval\u00f3)
+monarch.title.peasant.female.owner=(Alattval\u00f3)
+monarch.title.peasant.male.otherplayer=(Alattval\u00f3ja %MonarchPlayerName%-nak)
+monarch.title.peasant.female.otherplayer=(Alattval\u00f3ja %MonarchPlayerName%-nak)
+
+monarch.title.monarch=Uralkod\u00f3
+monarch.title.heir=\u00d6r\u00f6k\u00f6s
+monarch.title.male.player=Kir\u00e1ly
+monarch.title.male.heir=Herceg
+monarch.title.female.player=Kir\u00e1lyn\u0151
+monarch.title.female.heir=Hercegn\u0151
+
+monarch.demandgift.accept1=Term\u00e9szetesen, fels\u00e9g\!
+monarch.demandgift.accept2=B\u00e1rmit amit k\u00e9r, fels\u00e9g.
+monarch.demandgift.accept3=B\u00e1rmit, \u00e9n %MonarchTitle%\!
+monarch.demandgift.accept4=Igen, \u00e9n %MonarchTitle%.
+monarch.demandgift.accept5=Megtisztelve \u00e9rzem magam, hogy megmutathatom neked a gazdas\u00e1got, \u00e9n %MonarchTitle%.
+monarch.demandgift.accept6=Az ilyen szeret\u0151 %MonarchTitle%, meg\u00e9rdemel sok aj\u00e1nd\u00e9kot\!
+monarch.demandgift.accept7=\u00d6r\u00fcln\u00e9k neki, fels\u00e9g.
+
+monarch.demandgift.toomany1=Alig elegend\u0151 magamnak, most\!
+monarch.demandgift.toomany2=K\u00e9rlek, \u00e9n m\u00e1r adtam rengeteget...
+monarch.demandgift.toomany3=Azt hittem hogy gondoskod\u00f3 %MonarchTitle%, nem pedig kapzsi ember.
+monarch.demandgift.toomany4=Nem t\u0151lem hallottad, de az emberek kezdik azt hinni r\u00f3lad, hogy zsarnok vagy.
+monarch.demandgift.toomany5=\u00c9n sokat adtam m\u00e1r\!
+monarch.demandgift.toomany6=Nem adhatok t\u00fal sokat... M\u00e1r k\u00e9rt\u00e9l t\u0151lem rengeteget.
+
+monarch.demandgift.dictator1=Felejtsd el\! Nem adok t\u00f6bb\u00e9 semmit neked\!
+monarch.demandgift.dictator2=F\u00e1radtak vagyunk a sok ig\u00e9nyeid teljes\u00edt\u00e9s\u00e9t\u0151l\! NEM\!
+monarch.demandgift.dictator3=NEM\! Ennyi legyen el\u00e9g\!
+monarch.demandgift.dictator4=Nek\u00fcnk eleg\u00fcnk van a soha v\u00e9get nem \u00e9r\u0151 k\u00e9r\u00e9seidb\u0151l\!
+monarch.demandgift.dictator5=Tegy\u00e9l amit akarsz, \u00e9n akkor se adok t\u00f6bbet neked semmit\!
+
+#######
+# Names
+##############################
+name.male1=Aaron
+name.male2=Aceton
+name.male3=Adam
+name.male4=Aidan
+name.male5=Alan
+name.male6=Alex
+name.male7=Allen
+name.male8=Andrew
+name.male9=Anthony
+name.male10=Armando
+name.male11=Arthur
+name.male12=Austin
+name.male13=Ben
+name.male14=Bill
+name.male15=Billy
+name.male16=Bradley
+name.male17=Brady
+name.male18=Braxton
+name.male19=Brayden
+name.male20=Brenden
+name.male21=Brent
+name.male22=Brian
+name.male23=Brice
+name.male24=Brighton
+name.male25=Caleb
+name.male26=Cameron
+name.male27=Christopher
+name.male28=Cleveland
+name.male29=Cody
+name.male30=Colby
+name.male31=Collin
+name.male32=Colton
+name.male33=Corey
+name.male34=Coty
+name.male35=Dale
+name.male36=Damon
+name.male37=Dan
+name.male38=Dane
+name.male39=Danny
+name.male40=David
+name.male41=Derek
+name.male42=Devin
+name.male43=Donnie
+name.male44=Drew
+name.male45=Dylan
+name.male46=Edward
+name.male47=Eric
+name.male48=Ethan
+name.male49=Evan
+name.male50=Fred
+name.male51=Gabe
+name.male52=Garrett
+name.male53=Gary
+name.male54=Gavin
+name.male55=Harris
+name.male56=Harry
+name.male57=Hayden
+name.male58=Hunter
+name.male59=Jackson
+name.male60=Jacob
+name.male61=Jake
+name.male62=James
+name.male63=Jared
+name.male64=Jason
+name.male65=Jay
+name.male66=Jeremy
+name.male67=Jerry
+name.male68=Jim
+name.male69=Joe
+name.male70=John
+name.male71=Jon
+name.male72=Joseph
+name.male73=Josh
+name.male74=Justin
+name.male75=Kaden
+name.male76=Kent
+name.male77=Kevin
+name.male78=Leo
+name.male79=Leon
+name.male80=Lewis
+name.male81=Liam
+name.male82=Lucas
+name.male83=Mac
+name.male84=Marcus
+name.male85=Mark
+name.male86=Martin
+name.male87=Mason
+name.male88=Matt
+name.male89=Matthew
+name.male90=Michael
+name.male91=Mike
+name.male92=Nathan
+name.male93=Nathaniel
+name.male94=Nick
+name.male95=Oliver
+name.male96=Oscar
+name.male97=Owen
+name.male98=Patrick
+name.male99=Peter
+name.male100=Phil
+name.male101=Randy
+name.male102=Rey
+name.male103=Robert
+name.male104=Roger
+name.male105=Roy
+name.male106=Russ
+name.male107=Ryan
+name.male108=Scott
+name.male109=Seth
+name.male110=Shane
+name.male111=Shawn
+name.male112=Simon
+name.male113=Steve
+name.male114=Tanner
+name.male115=Tate
+name.male116=Terrence
+name.male117=Terry
+name.male118=Tim
+name.male119=Toby
+name.male120=Tom
+name.male121=Tommy
+name.male122=Tony
+name.male123=Trent
+name.male124=Tristan
+name.male125=Triston
+name.male126=Tyler
+name.male127=Tyson
+name.male128=Victor
+name.male129=Vincent
+name.male130=Will
+name.male131=William 
+
+name.female1=Addison
+name.female2=Adi
+name.female3=Alexis
+name.female4=Alice
+name.female5=Alicia
+name.female6=Allie
+name.female7=Allison
+name.female8=Allysa
+name.female9=Alma
+name.female10=Amelia
+name.female11=Amnesty
+name.female12=Amy
+name.female13=Andrea
+name.female14=Angie
+name.female15=Anna
+name.female16=Anne
+name.female17=Arieanne
+name.female18=Ashley
+name.female19=Ashlyn
+name.female20=Ashton
+name.female21=Aspen
+name.female22=Aubrey
+name.female23=Aurora
+name.female24=Autumn
+name.female25=Ava
+name.female26=Baylee
+name.female27=Brooke
+name.female28=Camilla
+name.female29=Christina
+name.female30=Christy
+name.female31=Constance
+name.female32=Courtney
+name.female33=Cynthia
+name.female34=Dawn
+name.female35=Destiny
+name.female36=Diana
+name.female37=Donna
+name.female38=Elizabeth
+name.female39=Emery
+name.female40=Emily
+name.female41=Emma
+name.female42=Emmalyn
+name.female43=Erika
+name.female44=Eve
+name.female45=Faye
+name.female46=Gracie
+name.female47=Gwen
+name.female48=Hannah
+name.female49=Hazel
+name.female50=Holly
+name.female51=Jaden
+name.female52=Jennifer
+name.female53=Jessica
+name.female54=Julia
+name.female55=Julie
+name.female56=Kaitlin
+name.female57=Katie
+name.female58=Kaylene
+name.female59=Kiana
+name.female60=Kimberly
+name.female61=Kristen
+name.female62=Kylee
+name.female63=Leslie
+name.female64=Linda
+name.female65=Lindsey
+name.female66=Lola
+name.female67=Lori
+name.female68=Lydia
+name.female69=Madison
+name.female70=Marisa
+name.female71=Megan
+name.female72=Melissa
+name.female73=Melody
+name.female74=Miranda
+name.female75=Molly
+name.female76=Nickie
+name.female77=Nicole
+name.female78=Oaklee
+name.female79=Penny
+name.female80=Rachel
+name.female81=Robin
+name.female82=Rosa
+name.female83=Rosalie
+name.female84=Sarah
+name.female85=Serenity
+name.female86=Sharon
+name.female87=Shayla
+name.female88=Sherry
+name.female89=Sheryl
+name.female90=Skylar
+name.female91=Sofia
+name.female92=Sonya
+name.female93=Stacey
+name.female94=Steph
+name.female95=Stephanie
+name.female96=Sylvia
+name.female97=Trinity
+name.female98=Valerie
+name.female99=Vannessa
+name.female100=Veronica
+name.female101=Whitney
+
+#######
+# Multiplayer
+##############################
+multiplayer.command.error.parameter=Param\u00e9ter hiba. Haszn\u00e1lat\: 
+multiplayer.command.error.unknown=Ismeretlen hiba t\u00f6rt\u00e9nt.
+multiplayer.command.error.playeroffline=Ez a j\u00e1t\u00e9kos nem jelentkezett be erre a szerverre.
+
+multiplayer.command.output.help=Minecraft Comes Alive - Parancsok
+multiplayer.command.output.setgender=A nemed mostant\u00f3l\: 
+multiplayer.command.output.setname=A neved mostant\u00f3l\: 
+
+multiplayer.command.output.marry.noring=Nincs esk\u00fcv\u0151i gy\u0171r\u0171d. Nem tudsz elvenni egy m\u00e1sik j\u00e1t\u00e9kost.
+multiplayer.command.output.marry.request=%TruePlayerName% feles\u00e9g\u00fcl szeretn\u00e9d venni.
+multiplayer.command.output.marry.accept=Te mostant\u00f3l \u00f6sszeh\u00e1zasodt\u00e1l %PlayerSpouseName%-al.
+multiplayer.command.output.marry.decline=Your marriage request was declined.
+multiplayer.command.output.marry.norequest=Ez a j\u00e1t\u00e9kos nem k\u00e9rte hogy h\u00e1zasodj \u00f6ssze vele.
+multiplayer.command.output.marry.otheralreadymarried=Ez a j\u00e1t\u00e9kos m\u00e1r h\u00e1zas.
+multiplayer.command.output.marry.senderalreadymarried=Te m\u00e1r h\u00e1zas vagy.
+
+multiplayer.command.output.divorce.successful=You have been divorced from your current spouse.
+
+multiplayer.command.output.havebaby.request=%PlayerSpouseName% szeretn\u00e9 hogy legyen bab\u00e1ja.
+multiplayer.command.output.havebaby.decline=Your request to have a baby was declined.
+multiplayer.command.output.havebaby.limitreached=You have reached the child limit set by the server administrator.
+
+multiplayer.command.output.block.failed=Ez a j\u00e1t\u00e9kos blokkolva van.
+multiplayer.command.output.block.successful=J\u00e1t\u00e9kos sikeresen blokkolva.
+
+multiplayer.command.output.blockall.true.successful=Minden h\u00e1zass\u00e1gk\u00e9r\u00e9s most blokkolva van.
+multiplayer.command.output.blockall.false.successful=Mostant\u00f3l enged\u00e9lyezve van a h\u00e1zass\u00e1gk\u00e9r\u00e9s.
+
+multiplayer.command.output.unblock.failed=Ez a j\u00e1t\u00e9kos nincs blokkolva.
+multiplayer.command.output.unblock.successful=A j\u00e1t\u00e9kos blokkol\u00e1sa feloldva.
+
+multiplayer.command.output.unblockall.successful=Az \u00f6sszes j\u00e1t\u00e9kos blokkol\u00e1sa feloldva.
+
+multiplayer.interaction.reject.spouse=Nem ir\u00e1ny\u00edthatod m\u00e1s j\u00e1t\u00e9kos hitves\u00e9t.
+multiplayer.interaction.reject.child=Nem ir\u00e1ny\u00edthatod m\u00e1s j\u00e1t\u00e9kos gyerek\u00e9t.
+
+#######
+# Achievements
+##############################
+achievement.charmer=Kicsit elb\u0171v\u00f6l\u0151
+achievement.getmarried=M\u00edg A Hal\u00e1l EL Nem V\u00e1laszt
+achievement.cookbaby=A tudom\u00e1ny\u00e9rt. Te sz\u00f6rnyeteg.
+achievement.havebabyboy=Fi\u00fa lett\!
+achievement.havebabygirl=L\u00e1ny lett\!
+achievement.growbaby=T\u00fal Gyorsan Feln\u0151nek
+achievement.farming=Szabad munkaer\u0151
+achievement.fishing=El Kell Kapni Mindet
+achievement.woodcutting=Fav\u00e1g\u00f3
+achievement.mining=V\u00e9gtelenb\u00e1ny\u00e1sz
+achievement.huntkill=Term\u00e9szetes Sz\u00fcletett Gy\u00edlkos
+achievement.hunttame=A term\u00e9szet bar\u00e1tja
+achievement.growkid=Feln\u0151tt F\u00e9rfi (Vagy N\u0151)
+achievement.equipadult=\u00c1llig felfegyverkezve
+achievement.mobkills=Szem\u00e9lyi Test\u0151r
+achievement.marrychild=Feles\u00e9g\u00fcl veszi
+achievement.havegrandchild=Nagysz\u00fcl\u0151
+achievement.havegreatgrandchild=Id\u0151s, mint a F\u00f6ld
+achievement.havegreatx2grandchild=Id\u0151sebb a F\u00f6ldn\u00e9l
+achievement.havegreatx10grandchild=Mi a Titkod?
+achievement.hardcoresecret=Megbosszullak
+achievement.craftcrown=Kir\u00e1lyom\!
+achievement.executevillager=Leveszem a fejedet\!
+achievement.makeknight=Ez nem sakk j\u00e1tszma
+achievement.knightarmy=A huszak serege
+achievement.makepeasant=J\u00f3 napot, \u00e9n uram
+achievement.peasantarmy=a parancsaimat
+achievement.nameheir=Kir\u00e1lyi V\u00e9rvonalak
+achievement.killheir=Ez eggyetlen
+achievement.monarchsecret=Lefel\u00e9 Halad\u00f3 T\u00f6rt\u00e9nelem
+
+achievement.charmer.desc=Vidd fel egy falusi sz\u00edveit 100-ra vagy feljebb.
+achievement.getmarried.desc=H\u00e1zasodj \u00f6ssze egy falusival.
+achievement.cookbaby.desc=Titkos M\u00e9rf\u00f6ldk\u0151
+achievement.havebabyboy.desc=Legyen egy fi\u00fa bab\u00e1d.
+achievement.havebabygirl.desc=Legyen egy l\u00e1ny bab\u00e1d.
+achievement.growbaby.desc=Neveld fel a bab\u00e1dat egy gyerekk\u00e9.
+achievement.farming.desc=M\u0171veljen meg egy gyereked 100 kocka f\u00f6ldet.
+achievement.fishing.desc=Fogjon egy gyereked 100 halat.
+achievement.woodcutting.desc=Szerezzen egy gyereked 100 kocka f\u00e1t.
+achievement.mining.desc=B\u00e1ny\u00e1sszon ki egy gyereked 300 blokkot.
+achievement.huntkill.desc=A gyereked \u00f6lj\u00f6n meg 100 \u00e1llatot.
+achievement.hunttame.desc=A gyereked szel\u00edd\u00edtsen meg 100 \u00e1llatot.
+achievement.growkid.desc=Neveld a gyerekedet feln\u0151tt\u00e9.
+achievement.equipadult.desc=Szereld fel egy feln\u0151tt gyerekedet teljes p\u00e1nc\u00e9lzattal \u00e9s fegyverrel.
+achievement.mobkills.desc=\u00d6lj\u00f6n meg egy feln\u0151tt 50 \u00e9l\u0151l\u00e9nyt.
+achievement.marrychild.desc=H\u00e1zas\u00edtsd meg a gyereked.
+achievement.havegrandchild.desc=Van unok\u00e1ja.
+achievement.havegreatgrandchild.desc=D\u00e9dunok\u00e1d van.
+achievement.havegreatx2grandchild.desc=Mostm\u00e1r 2 unok\u00e1ja is van.
+achievement.havegreatx10grandchild.desc=Mostm\u00e1r 10 unok\u00e1ja is van.
+achievement.hardcoresecret.desc=Fedd fel a hardcore m\u00f3dbeli titkot.
+achievement.craftcrown.desc=Craft-olj egy koron\u00e1t, \u00e9s te leszel az uralkod\u00f3.
+achievement.executevillager.desc=Falusi kiv\u00e9gz\u00e9se.
+achievement.makeknight.desc=Legyen a lovagb\u00f3l, \u0151r.
+achievement.knightarmy.desc=Legyen sereg a huszak lovagjaib\u00f3l.
+achievement.makepeasant.desc=Legyen az alattval\u00f3b\u00f3l, falusi.
+achievement.peasantarmy.desc=Legyen a huszak falusiaib\u00f3l, alattval\u00f3.
+achievement.nameheir.desc=Nevezd meg az ut\u00f3dodat a tr\u00f3non.
+achievement.killheir.desc=\u00d6lj\u00e9k meg az ut\u00f3dj\u00e1t amikor tr\u00f3nra l\u00e9p.
+achievement.monarchsecret.desc=Titkos M\u00e9rf\u00f6ldk\u0151.
+
+#######
+# Items & Blocks
+##############################
+item.ring.arranger.name=M\u00e1s eljegyz\u00e9si Gy\u0171r\u0171je
+item.ring.engagement.name=Eljegyz\u00e9si Gy\u0171r\u0171
+item.ring.wedding.name=H\u00e1zass\u00e1gi gy\u0171r\u0171
+item.baby.boy.name=Fi\u00fa Baba
+item.baby.girl.name=L\u00e1ny Baba
+item.egg.male.name=Id\u00e9z\u00e9s\: F\u00e9rfi Falusi
+item.egg.female.name=Id\u00e9z\u00e9s\: N\u0151i Falusi
+item.whistle.name=S\u00edp
+item.editor.name=Falusi szerkeszt\u00f6
+item.lostrelativedocument.name=Elveszett Relat\u00edv Documentum
+item.crown.name=Korona
+item.heircrown.name=Az \u0151 koron\u00e1ja
+item.tombstone.name=S\u00edrk\u0151
+item.kingscoat.name=Uralkod\u00f3i kab\u00e1t
+item.kingspants.name=Uralkod\u00f3i nadr\u00e1g
+item.kingsboots.name=Uralakod\u00f3i cip\u0151
+item.redcrown.name=Piros Korona
+item.bluecrown.name=K\u00e9k Korona
+item.greencrown.name=Z\u00f6ld Korona
+item.pinkcrown.name=R\u00f3zsasz\u00edn Korona
+item.purplecrown.name=Lila Korona
+item.redbed.name=Red Bed
+item.bluebed.name=Blue Bed
+item.greenbed.name=Green Bed
+item.pinkbed.name=Pink Bed
+item.purplebed.name=Purple Bed
+block.tombstone.name=S\u00edrk\u0151
+
+#######
+# Professions
+##############################
+profession.baker.male=%Name% a P\u00e9k
+profession.baker.female=%Name% a P\u00e9k
+profession.butcher.male=%Name% a M\u00e9sz\u00e1ros
+profession.butcher.female=%Name% a M\u00e9sz\u00e1ros
+profession.farmer.male=%Name% a Gazda
+profession.farmer.female=%Name% a Gazdaasszony
+profession.guard.male=%Name% az \u0150rz\u0151
+profession.guard.female=%Name% az \u0150r
+profession.librarian.male=%Name% a K\u00f6nyvt\u00e1ros
+profession.librarian.female=%Name% a K\u00f6nyvt\u00e1ros
+profession.miner.male=%Name% a B\u00e1ny\u00e1sz
+profession.miner.female=%Name% a B\u00e1ny\u00e1sz
+profession.priest.male=%Name% a Pap
+profession.priest.female=%Name% a Pap
+profession.smith.male=%Name% a Kov\u00e1cs
+profession.smith.female=%Name% a Kov\u00e1cs
+profession.playerchild.male=%Name% a gyerek
+profession.playerchild.female=%Name% a gyerek
+
+#######
+# Family Member Titles
+##############################
+family.aunt=Nagyn\u00e9ni
+family.brother=Fiv\u00e9r
+family.cousin.male=Unokatestv\u00e9r
+family.cousin.female=Unokatestv\u00e9r
+family.daughter=L\u00e1nya
+family.father.formal=Apa
+family.father.informal=Papa
+family.fiance.male=V\u0151leg\u00e9ny
+family.fiance.female=Menyasszony
+family.granddaughter=L\u00e1nyunoka
+family.grandson=Fi\u00faunoka
+family.greatgranddaughter=J\u00f3  x%Generation% L\u00e1ny unoka
+family.greatgrandson=J\u00f3 x%Generation% fi\u00fa unoka
+family.grandfather=Nagyapa
+family.greatgrandfather=J\u00f3 x%Generation% Nagyapa
+family.grandmother=Nagyanya
+family.greatgrandmother=J\u00f3 x%Generation% Nagymama
+family.husband=F\u00e9rj
+family.mother.formal=Anya
+family.mother.informal=Mama
+family.nephew=Unoka\u00f6cs
+family.niece=Unokah\u00fag
+family.none=None
+family.sister=N\u0151v\u00e9r
+family.son=Fia
+family.uncle=Nagyb\u00e1csi
+family.wife=Feles\u00e9g
+
+#######
+# GUI Elements
+##############################
+
+#Buttons
+gui.button.back=Vissza
+gui.button.exit=Kil\u00e9p\u00e9s
+gui.button.next=K\u00f6vetkez\u0151
+gui.button.yes=Igen
+gui.button.no=Nem
+gui.button.done=K\u00e9sz
+gui.button.ok=Ok
+gui.button.random=V\u00e9letlenszer\u0171
+gui.button.trade=Keresked\u00e9s
+
+gui.button.setup.finish=Befejez\u00e9s
+gui.button.setup.gendermale=Nem\: F\u00e9rfi
+gui.button.setup.genderfemale=Nem\: N\u0151
+gui.button.setup.hidesleepingtag=Alv\u00e1s cimke elrejt\u00e9se\: 
+gui.button.setup.overwritetestificates=Bizony\u00edt\u00e1s fel\u00fcl\u00edr\u00e1s\: 
+gui.button.setup.growchildrenautomatically=A Gyerekek Magukt\u00f3l N\u0151nek\: 
+gui.button.setup.displaymoodparticles=Kijelzi a hangulat r\u00e9szleteit\: 
+gui.button.setup.shownametags=Mutassa a n\u00e9vt\u00e1bl\u00e1t\: 
+gui.button.setup.preference=El\u0151ny\u00f6k\: 
+
+gui.button.setup.males=F\u00e9rfiak
+gui.button.setup.females=N\u0151k
+
+gui.editor.name=N\u00e9v
+gui.editor.name.invalid=A neved rossz karaktereket tartalmaz.
+gui.button.editor.texture=Text\u00fara\: 
+gui.button.editor.title=C\u00edm\: 
+gui.button.editor.mood=Hangulat\: 
+gui.button.editor.trait=Tulajdons\u00e1g\: 
+
+gui.button.interact.interact=K\u00f6lcs\u00f6nhat\u00e1s
+gui.button.interact.chat=Besz\u00e9lget\u00e9s
+gui.button.interact.joke=Megviccel\u00e9s
+gui.button.interact.gift=Megaj\u00e1nd\u00e9kozni
+gui.button.interact.kiss=Cs\u00f3k
+gui.button.interact.flirt=Fl\u00f6rt
+gui.button.interact.tellstory=T\u00f6rt\u00e9netet mes\u00e9lni
+gui.button.interact.play=J\u00e1tszani
+gui.button.interact.greet.handshake=Kezet fogni
+gui.button.interact.greet.highfive=Adj egy \u00f6t\u00f6st
+gui.button.interact.follow=K\u00f6vess
+gui.button.interact.followstop=Ne K\u00f6vess
+gui.button.interact.stay=\u00c1llj
+gui.button.interact.staystop=Menj
+gui.button.interact.sethome=Otthon Be\u00e1ll\u00edt\u00e1sa
+gui.button.interact.takearrangerring=Eljegyz\u00e9si gy\u0171r\u0171 odaad\u00e1sa
+gui.button.interact.takegift=Megkapni az Aj\u00e1nd\u00e9kot
+gui.button.interact.ridehorse=Lovagl\u00e1s
+gui.button.interact.dismount=Lesz\u00e1ll\u00e1s
+
+gui.button.interact.player.asktomarry=H\u00e1zass\u00e1gr\u00f3l k\u00e9rdezni
+gui.button.interact.player.havebaby=Van baba
+gui.button.interact.player.accept=Elfogad
+gui.button.interact.player.decline=Visszautas\u00edt
+
+gui.button.special=K\u00fcl\u00f6nleges
+gui.button.special.priest.divorcespouse=V\u00e1l\u00e1s a h\u00e1zast\u00e1rt\u00f3l
+gui.button.special.priest.divorcecouple=P\u00e1r Sz\u00e9tv\u00e1laszt\u00e1sa
+gui.button.special.priest.divorcecouple.nonefound=Nem tal\u00e1ltam egy p\u00e1rt sem.
+gui.button.special.priest.divorce=V\u00e1l\u00e1s
+gui.button.special.priest.giveupbaby=Odaadni a csecsem\u0151t
+gui.button.special.priest.adoptbaby=Fogadj \u00d6r\u00f6kbe Egy Bab\u00e1t
+gui.button.special.priest.adoptchild=Gyerek \u00f6r\u00f6kbefogad\u00e1sa
+gui.button.special.priest.arrangedmarriage=Abbahagyott h\u00e1zass\u00e1g
+gui.button.special.guard.hire=B\u00e9rel
+gui.button.special.guard.dismiss=Elutas\u00edt
+gui.button.special.miner.hire=B\u00e9rel
+gui.button.special.miner.dismiss=Elbocs\u00e1t
+gui.button.special.baker.aid=T\u00e1mogat\u00e1s k\u00e9r\u00e9se
+gui.button.special.butcher.aid=T\u00e1mogat\u00e1s k\u00e9r\u00e9se
+gui.button.special.farmer.aid=T\u00e1mogat\u00e1s k\u00e9r\u00e9se
+gui.button.special.librarian.setup=Be\u00e1ll\u00edt\u00e1s megnyit\u00e1sa
+
+gui.button.spouse.cookfood=\u00c9telt s\u00fctni
+gui.button.spouse.stopcooking=S\u00fct\u00e9st abbahagyni
+gui.button.spouse.inventory=Eszk\u00f6zt\u00e1r
+gui.button.spouse.procreate=Nemzeni gyereket
+gui.button.spouse.migrate=Elk\u00f6lt\u00f6zni
+
+gui.button.child.inventory=Eszk\u00f6zt\u00e1r
+gui.button.child.chores=H\u00e1zi feladatok
+gui.button.child.stopchore=H\u00e1zimunka \u00e1llj
+gui.button.child.growup=Feln\u0151ni
+
+gui.button.chore.farming=mez\u0151gazdas\u00e1gi
+gui.button.chore.farming.method=M\u00f3dszer\: 
+gui.button.chore.farming.method.create=Farm csin\u00e1l\u00e1sa
+gui.button.chore.farming.method.maintain=Farm haszn\u00e1lata
+gui.button.chore.farming.plant=N\u00f6v\u00e9nyek\: 
+gui.button.chore.farming.plant.wheat=B\u00faza
+gui.button.chore.farming.plant.melon=Dinnye
+gui.button.chore.farming.plant.pumpkin=T\u00f6k
+gui.button.chore.farming.plant.carrot=R\u00e9pa
+gui.button.chore.farming.plant.potato=Burgonya
+gui.button.chore.farming.plant.sugarcane=Cukorn\u00e1d
+gui.button.chore.farming.farmsize=Farm m\u00e9rete\: 
+gui.button.chore.farming.radius=\u00c1tm\u00e9r\u0151je\: 
+gui.button.chore.fishing=Horg\u00e1szat
+gui.button.chore.combat=Harc
+gui.button.chore.combat.sentry=\u0150r hely\: 
+gui.button.chore.combat.sentry.radius=\u00c1tm\u00e9r\u0151je\: 
+gui.button.chore.combat.sentry.position.set=\u0151rhely be\u00e1ll\u00edt\u00e1sa
+gui.button.chore.combat.method=M\u00f3dszer\: 
+gui.button.chore.combat.method.range=T\u00e1vols\u00e1gi fegyver
+gui.button.chore.combat.method.melee=K\u00f6zelharci fegyver
+gui.button.chore.combat.method.both=T\u00e1vols\u00e1gi \u00e9s k\u00f6zelharci
+gui.button.chore.combat.method.neither=Ne harcolj
+gui.button.chore.combat.attack.pig=Diszn\u00f3 t\u00e1mad\u00e1sa\: 
+gui.button.chore.combat.attack.sheep=B\u00e1r\u00e1ny megt\u00e1mad\u00e1sa\: 
+gui.button.chore.combat.attack.cow=Teh\u00e9n t\u00e1mad\u00e1sa\: 
+gui.button.chore.combat.attack.chicken=Csirke t\u00e1mad\u00e1sa\: 
+gui.button.chore.combat.attack.spider=P\u00f3k t\u00e1mad\u00e1sa\: 
+gui.button.chore.combat.attack.zombie=Zombi t\u00e1mad\u00e1sa\: 
+gui.button.chore.combat.attack.skeleton=Csontv\u00e1z megt\u00e1mad\u00e1sa\: 
+gui.button.chore.combat.attack.creeper=Creeperek megt\u00e1mad\u00e1sa\: 
+gui.button.chore.combat.attack.enderman=Endermen megt\u00e1mad\u00e1sa\: 
+gui.button.chore.combat.attack.unknown=Ismeretlen T\u00e1mad\u00e1sa\:
+gui.button.chore.woodcutting=Fav\u00e1g\u00e1s
+gui.button.chore.woodcutting.treetype=Fa t\u00edpusa\: 
+gui.button.chore.woodcutting.treetype.all=\u00d6sszes
+gui.button.chore.woodcutting.treetype.oak=T\u00f6lgy
+gui.button.chore.woodcutting.treetype.spruce=Luc feny\u0151
+gui.button.chore.woodcutting.treetype.birch=Ny\u00edrfa
+gui.button.chore.woodcutting.treetype.jungle=Dzsungel
+gui.button.chore.mining=B\u00e1ny\u00e1sz\u00e1s
+gui.button.chore.mining.method=M\u00f3dszer\: 
+gui.button.chore.mining.method.passive=Passz\u00edv
+gui.button.chore.mining.method.active=Akt\u00edv
+gui.button.chore.mining.direction=Utas\u00edt\u00e1s\: 
+gui.button.chore.mining.direction.forward=El\u0151re
+gui.button.chore.mining.direction.backward=H\u00e1tra
+gui.button.chore.mining.direction.left=Balra
+gui.button.chore.mining.direction.right=Jobbra
+gui.button.chore.mining.distance=T\u00e1vols\u00e1g\: 
+gui.button.chore.mining.find=Tal\u00e1lj\: 
+gui.button.chore.mining.find.coal=Sz\u00e9n
+gui.button.chore.mining.find.iron=Vas
+gui.button.chore.mining.find.lapis=Lazurit
+gui.button.chore.mining.find.gold=Arany
+gui.button.chore.mining.find.diamond=Gy\u00e9m\u00e1nt
+gui.button.chore.mining.find.redstone=V\u00f6r\u00f6sk\u0151
+gui.button.chore.mining.find.emerald=Smaragd
+gui.button.chore.hunting=Vad\u00e1szat
+gui.button.chore.hunting.mode=M\u00f3d\: 
+gui.button.chore.hunting.mode.kill=Gyilkol\u00e1s
+gui.button.chore.hunting.mode.tame=Szel\u00edd\u00edt\u00e9s
+gui.button.chore.start=Kezdd
+
+gui.button.hiring.hours=\u00d3r\u00e1k\: 
+
+gui.button.lostrelativedocument.generation=Nemzed\u00e9k\:  %Generation%
+
+#Titles
+gui.title.setup=Minecraft Comes Alive Be\u00e1ll\u00edt\u00e1s
+gui.title.setup.name=\u00cdrd be a neved.
+gui.title.setup.gender=V\u00e1laszd ki a nemed.
+gui.title.setup.options=Be\u00e1ll\u00edt\u00e1sok \u00e1ll\u00edt\u00e1sa.
+
+gui.title.inventory=%Name% eszk\u00f6zt\u00e1ra
+
+gui.title.namebaby=Nevezd el a gyerekedet\:
+gui.title.namebaby.male=Fi\u00fa lett\!
+gui.title.namebaby.female=L\u00e1ny lett\!
+
+gui.title.priest.divorcecouple=V\u00e1laszd ki a p\u00e1rt, amit sz\u00e9t akarsz szak\u00edtani.
+
+gui.title.tombstone=Szerkeszd a s\u00edrk\u0151 \u00fczenet\u00e9t\:
+
+gui.title.special.hired=(Felb\u00e9relve)
+
+gui.title.lostrelativedocument=V\u00e1laszd ki hogy %Name% mennyire becs\u00fclj\u00f6n meg t\u00e9ged.
+gui.title.lostrelativedocument.confirm=Biztos hogy %Name% lesz\: 
+
+#Information
+gui.info.hearts=\u00c9let
+
+gui.info.special.none=Ennek az embernek nincs k\u00fcl\u00f6nleges k\u00e9pess\u00e9ge.
+
+gui.info.family.parents=(%ChildTitle% aki %MotherName% \u00e9s %FatherName%)
+gui.info.family.parents.deceased=(Sz\u00fcl\u00f6k elhunytak)
+gui.info.family.parent=(%ChildTitle% a %LivingParent%-nek)
+
+gui.info.family.spouse=(\u00d6sszeh\u00e1zasodott a %SpouseRelation% %VillagerSpouseName%)
+gui.info.family.spouse.unrelated=(\u00d6sszeh\u00e1zasodva %SpouseFullName%-el)
+
+gui.info.namebaby.invalidcharacters=A baba neve helytelen karaktereket tartalmaz.
+gui.info.namebaby.nametaken=M\u00e1r van ilyen nev\u0171 gyereked.
+
+gui.info.procreate.confirm1=Nem lehet nemzeni am\u00edg m\u00e1sik folyamatban van.
+gui.info.procreate.confirm2=Te adj egy h\u00e1zass\u00e1gi gy\u0171r\u0171t aj\u00e1nd\u00e9kba ennek a falusinak.
+
+gui.info.chore.options=Be\u00e1ll\u00edt\u00e1sok\:
+gui.info.chore.options.none=Nincsenek be\u00e1ll\u00edt\u00e1sok ehhez a h\u00e1zi feladathoz.
+gui.info.chore.experience=Tapasztalati szint\:
+
+gui.info.hire.price=Kib\u00e9relni ez a falusit %x% arany r\u00fad(ak)ba ker\u00fcl.
+gui.info.hire.hasgold=Van el\u00e9g aranyrudad.
+gui.info.hire.notenoughgold=Nincs el\u00e9g aranyrudad.
+gui.info.hire.minutesremaining=%x% perc van m\u00e9g h\u00e1tra.
+
+gui.info.hardcoresecret.prompt=\u00dajj\u00e1sz\u00fclethetsz valamelyik gyerekedk\u00e9nt, hogyha van egy gyereked is.
+gui.info.hardcoresecret.nochildren=Nincs gyerek\!
+gui.info.hardcoresecret.spawnas=\u00dajj\u00e1sz\u00fcletni, mint\: 
+gui.info.hardcoresecret.respawn=\u00dajj\u00e1sz\u00fcletni Gyerekk\u00e9nt
+
+#Overhead
+gui.overhead.hasgift=Aj\u00e1nd\u00e9k El\u00e9rhet\u0151
+gui.overhead.hasring=Eljegyz\u00e9si gy\u0171r\u0171 tart\u00e1sa
+gui.overhead.sleeping=Alv\u00e1s
+gui.overhead.health=\u00c9leter\u00f6\: 
+
+#######
+# Notifications/One Liners
+##############################
+notify.player.married=Te \u00e9s %Name% mostant\u00f3l h\u00e1zasok vagytok.
+notify.player.engaged=Eljegyezted %Name%-et.
+notify.player.droppedbaby=Ez egy rossz \u00f6tlet.
+notify.player.clickbed=You cannot use that bed.
+
+notify.horse.invalid=\u00c9n nem tudom meglovagolni ez a lovat.
+notify.horse.notfound=Um...azt akarod hogy lovagoljak? Akkor hozz egyet nekem.
+
+notify.villager.married=Ezek a falusiak mostant\u00f3l h\u00e1zasok.
+notify.villager.gifted.cake.notenough=Nagyon szeretn\u00e9k a feles\u00e9gemnek egy tort\u00e1t...
+notify.villager.gifted.cake.withbaby.male=A feles\u00e9gem \u00e9s \u00e9n eld\u00f6nt\u00f6tt\u00fck, hogy nem esz\u00fcnk tort\u00e1t addig, am\u00edg a gyerek\u00fcnk fel nem n\u0151.
+notify.villager.gifted.cake.withbaby.female=A f\u00e9rjem \u00e9s \u00e9n \u00fagy d\u00f6nt\u00f6tt\u00fcnk, hogy nem esz\u00fcnk addig tort\u00e1t, am\u00edg a gyerek\u00fcnk fel nem n\u0151.
+notify.villager.gifted.cake.spousenotnearby.male=Torta? Hozd ide a f\u00e9rjemet \u00e9s akkor megosztom vele.
+notify.villager.gifted.cake.spousenotnearby.female=S\u00fcti? Menj a f\u00e9rjemhez, \u00e9s \u0151 ad neked.
+notify.villager.gifted.arrangerring.othernotnearby=... Mi az? Nincs senki m\u00e1s itt.
+notify.villager.gifted.arrangerring.relative=\u00c9n vagyok a te %RelationToPlayer%.
+notify.villager.gifted.arrangerring.notenoughrings=\u00dagy t\u0171nik, hogy nincs el\u00e9g gy\u0171r\u0171 sz\u00e1munkra. Meg kell kett\u0151, \u200b\u200bterm\u00e9szetesen\!
+notify.villager.gifted.arrangerring.invalidpartner=Nem akarok megh\u00e1zasodni %Name%\!
+
+notify.baby.gaveup=Most m\u00e1r lehet \u00fajabb bab\u00e1d.
+notify.baby.exists=M\u00e1r van bab\u00e1d.
+notify.baby.readytogrow=A bab\u00e1d k\u00e9pes m\u00e1r feln\u0151ni.
+notify.baby.cooked=Mi baj van veled\!?
+
+notify.divorce.spousemissing=A jegyesed nem volt a k\u00f6zelben, ez\u00e9rt nem kapod meg t\u0151le a cuccaid.
+notify.arrangedmarriage.failed=Nincs senki a k\u00f6zelbe, aki \u00f6sszeh\u00e1zasodna veled ebben a id\u0151ben.
+
+notify.death.male=%Name%, a te %RelationToPlayer%, meghalt.
+notify.death.female=%Name%, a te %RelationToPlayer%, meghalt.
+
+notify.homepoint.set=Ez az ember itt fog megjelenni este.
+notify.homepoint.none=%Name%-nek nincsen otthon be\u00e1llitva.
+notify.homepoint.invalid=Ez a otthon beallitas rosz.
+notify.homepoint.obstructed=%Name% otthona el van torlaszolva.
+notify.homepoint.teleport.skip.following=%Name% \u00e9ppen k\u00f6vet. Nem fog hazateleport\u00e1lni ma este.
+notify.homepoint.teleport.skip.staying=%Name% \u00e1ll. Nem fog hazateleport\u00e1lni ma este.
+
+notify.item.broken.axe=%Name% balt\u00e1ja t\u00f6nkrement.
+notify.item.broken.boots=%Name% csizm\u00e1ja t\u00f6nkrement.
+notify.item.broken.chestplate=%Name% mellv\u00e9rtje t\u00f6nkrement.
+notify.item.broken.fishingrod=%Name% horg\u00e1szbotja elt\u00f6r\u00f6tt.
+notify.item.broken.helmet=%Name% sisakja t\u00f6nkrement.
+notify.item.broken.leggings=%Name% l\u00e1bsz\u00e1rv\u00e9d\u0151je t\u00f6nkrement.
+notify.item.broken.pickaxe=%Name% cs\u00e1k\u00e1nya t\u00f6nkrement.
+notify.item.broken.sword=%Name% kardja t\u00f6nkrement.
+notify.item.broken.hoe=%Name% kap\u00e1ja elt\u00f6r\u00f6tt.
+notify.item.broken.bow=%Name% \u00edjja elt\u00f6rt.
+
+notify.child.chore.finished.farming=Befejeztem a farmb\u00e9li teend\u0151imet.
+notify.child.chore.finished.fishing=Befejeztem a horg\u00e1szatot.
+notify.child.chore.finished.woodcutting=Befejeztem a fav\u00e1g\u00e1st.
+notify.child.chore.finished.mining=Befejeztem a b\u00e1ny\u00e1szatot.
+notify.child.chore.finished.hunting=Befejeztem a vad\u00e1szatot.
+
+notify.child.chore.levelup.farming.5=%Name% el\u00e9rte a gazd\u00e1lkod\u00e1sb\u00f3l az 5-\u00f6s szintet. Mostant\u00f3l sokkal t\u00f6bb magb\u00f3l sokkal t\u00f6bb b\u00faz\u00e1t tud betakar\u00edtani.
+notify.child.chore.levelup.farming.10=%Name% el\u00e9rte a gazd\u00e1lkod\u00e1sb\u00f3l az 10-\u00f6s szintet. Mostant\u00f3l gyorsabban tudja fenntartani, \u00e9s l\u00e9trehozni a farmot.
+notify.child.chore.levelup.farming.15=%Name% el\u00e9rte a gazd\u00e1lkod\u00e1sb\u00f3l az 15-\u00f6s szintet. Mostant\u00f3l 1-3 maggal t\u00f6bbet tud betakar\u00edtani minden fajta n\u00f6v\u00e9nyb\u0151l.
+notify.child.chore.levelup.farming.20=%Name% el\u00e9rte a gazd\u00e1lkod\u00e1sb\u00f3l az 20-\u00f6s szintet. Mostant\u00f3l dupla akkora es\u00e9llyel takar\u00edt be dolgokat.
+
+notify.child.chore.levelup.fishing.5=%Name% el\u00e9rte a hal\u00e1szatb\u00f3l az 5-\u00f6s szintet. Gyorsabban \u00e9s k\u00e9tszer olyan gyakran fog halat mostant\u00f3l.
+notify.child.chore.levelup.fishing.10=%Name% el\u00e9rte a hal\u00e1szatb\u00f3l az 10-\u00f6s szintet. Mostant\u00f3l egy\u00e9b dolgokat is tal\u00e1lhat hal\u00e1szat sor\u00e1n.
+notify.child.chore.levelup.fishing.15=%Name% el\u00e9rte a hal\u00e1szatb\u00f3l az 15\u00f6s szintet. Mostant\u00f3l m\u00e9g gyorsabban hal\u00e1szik, \u00e9s h\u00e1romszor olyan gyakran fog halat.
+notify.child.chore.levelup.fishing.20=%Name% el\u00e9rte a hal\u00e1szatb\u00f3l az 20-\u00f6s szintet. Ritka dolgokat is tal\u00e1lhat mostant\u00f3l horg\u00e1szat sor\u00e1n.
+
+notify.child.chore.levelup.hunting.5=%Name% el\u00e9rte a vad\u00e1szatb\u00f3l az 5-\u00f6s szintet. T\u00f6bb \u00e1llatot tud megszel\u00edd\u00edteni ugyanannyi anyagb\u00f3l.
+notify.child.chore.levelup.hunting.10=%Name% el\u00e9rte a vad\u00e1szatb\u00f3l az 10-\u00f6s szintet.  Mostant\u00f3l nem hal meg olyan k\u00f6nnyen mikor vad\u00e1szik.
+notify.child.chore.levelup.hunting.15=%Name% el\u00e9rte a vad\u00e1szatb\u00f3l az 15-\u00f6s szintet. T\u00f6bb h\u00fast hoz haza vad\u00e1szat sor\u00e1n.
+notify.child.chore.levelup.hunting.20=%Name% el\u00e9rte a vad\u00e1szatb\u00f3l az 20-\u00f6s szintet. Mostant\u00f3l vad\u00e1sazat v\u00e9g\u00e9n 1 perc m\u00falva visszat\u00e9r.
+
+notify.child.chore.levelup.mining.5=%Name% el\u00e9rte a b\u00e1ny\u00e1szatb\u00f3l az 5-\u00f6s szintet. A blokkokat gyorsabban \u00fcti ki mostant\u00f3l.
+notify.child.chore.levelup.mining.10=%Name% el\u00e9rte a b\u00e1ny\u00e1szatb\u00f3l az 10-\u00f6s szintet. Nem romlik olyan hamar a cs\u00e1k\u00e1nya b\u00e1ny\u00e1szat sor\u00e1n. 
+notify.child.chore.levelup.mining.15=%Name% el\u00e9rte a b\u00e1ny\u00e1szatb\u00f3l az 15-\u00f6s szintet. Dupla annyi \u00e9rcet b\u00e1ny\u00e1szik egy blokkb\u00f3l mostant\u00f3l.
+notify.child.chore.levelup.mining.20=%Name% el\u00e9rte a b\u00e1ny\u00e1szatb\u00f3l az 20-\u00f6s szintet. Elmondja merre vannak az \u00e9rcek Passz\u00edv b\u00e1ny\u00e1sz\u00e1skor.
+
+notify.child.chore.levelup.woodcutting.5=%Name% el\u00e9rte a fav\u00e1g\u00e1sb\u00f3l az 5-\u00f6s szintet. Gyorsabban v\u00e1gja a f\u00e1t mostant\u00f3l.
+notify.child.chore.levelup.woodcutting.10=%Name% el\u00e9rte a fav\u00e1g\u00e1sb\u00f3l az 10-\u00f6s szintet. Gyorsabban v\u00e1gja a f\u00e1t, b\u00e1rmilyen balt\u00e1val.
+notify.child.chore.levelup.woodcutting.15=%Name% el\u00e9rte a fav\u00e1g\u00e1sb\u00f3l az 15-\u00f6s szintet. Mostant\u00f3l es\u00e9ly van r\u00e1, hogy kett\u0151 f\u00e1t kap egy blokk kiv\u00e1g\u00e1s\u00e1b\u00f3l.
+notify.child.chore.levelup.woodcutting.20=%Name% el\u00e9rte a fav\u00e1g\u00e1sb\u00f3l az 20-\u00f6s szintet. Mostant\u00f3l H\u00c1ROM f\u00e1t kap minden fa blokk kiv\u00e1g\u00e1sa ut\u00e1n.
+
+notify.child.chore.interrupted.farming.noseeds=Nincs el\u00e9g magom\!
+notify.child.chore.interrupted.farming.noland=Nem l\u00e1tok semennyi f\u00f6ldet\!
+notify.child.chore.interrupted.farming.nofarmland=Te mondtad, hogy csak term\u0151talajt haszn\u00e1ljak. Hol van?
+notify.child.chore.interrupted.farming.noroom=Nincs el\u00e9g helyem, hogy befejezzem a gazd\u00e1lkod\u00e1st.
+notify.child.chore.interrupted.farming.noselection=Nem jel\u00f6lted meg a ter\u00fcletet, ahol megm\u0171veljem a f\u00f6ldet.
+notify.child.chore.interrupted.farming.nohoe=Nincs n\u00e1lam kapa.
+notify.child.chore.interrupted.fishing.nowater=Nem l\u00e1tok semmif\u00e9le vizet m\u00e9rf\u00f6ldekig\!
+notify.child.chore.interrupted.fishing.norod=Nincs n\u00e1lam horg\u00e1szbot\! Nem tudok halat fogni a kezemmel.
+notify.child.chore.interrupted.mining.noblocks=Nem l\u00e1tok olyan blokkot a k\u00f6zelben, amit \u00e9rdemes lenne kib\u00e1ny\u00e1szni.
+notify.child.chore.interrupted.mining.nopickaxe=Nincs cs\u00e1k\u00e1nyom\!
+notify.child.chore.interrupted.mining.tookdamage=%Name% megsebes\u00fclt b\u00e1ny\u00e1sy\u00e1s k\u00f6zben. \u0150 most viszaker\u0171l uda, ahol elkezte.
+notify.child.chore.interrupted.woodcutting.notrees=Nem l\u00e1tom egy f\u00e1t sem.
+notify.child.chore.interrupted.hunting.notamematerials=Nincs egy \u00e1llat sem, akit megszel\u00edd\u00edthetn\u00e9k.
+
+notify.child.chore.failed.hunting.death=%Name% meghalt vad\u00e1szat k\u00f6zben.
+
+notify.child.chore.status.mining.orefound=Itt van n\u00e9h\u00e1ny %OreType% %OreDistance% blokk-ra innen.
+notify.child.chore.status.mining.orenearby=Itt van n\u00e9h\u00e1ny %OreType% a k\u00f6zelben...
+notify.child.chore.status.mining.oredistance=Itt van n\u00e9h\u00e1ny %OreType% %OreDistance% \u00e9rc ezen %OreX%, %OreY%, %OreZ% helyen.
+
+notify.child.gifted.arrows=Ok\! Valamit l\u0151ni akarok\!
+notify.child.gifted.axe=Mostm\u00e1r nem v\u00e9rzik az ujjam ha v\u00e1gok f\u00e1t\!
+notify.child.gifted.fishingrod=Mostm\u00e1r mehetek pec\u00e1zni\!
+notify.child.gifted.hoe=Ezzel mostm\u00e1r tudok gyorsabban f\u00f6ldet m\u0171velni\!
+notify.child.gifted.seeds=Mostm\u00e1r tudok f\u00f6ldet m\u0171velni\!
+notify.child.gifted.sword=Ez majd megv\u00e9d engem\!
+notify.child.gifted.wheat=Ezt tudom haszn\u00e1lni a szel\u00edd\u00edt\u00e9sre\!
+notify.child.gifted.pickaxe=Most b\u00e1ny\u00e1sznom kell\!
+notify.child.gifted.carrot=Ezt tudom haszn\u00e1lni a szel\u00edd\u00edt\u00e9sre\!
+notify.child.gifted.bone=Ezt tudom haszn\u00e1lni a szel\u00edd\u00edt\u00e9sre\!
+
+notify.child.emptiedinventory=%Name% ki\u00fcr\u00edtette a k\u00e9szlet\u00e9t.
+notify.child.readytogrow=%Nev% k\u00e9szvan a feln\u00f6v\u00e9sre.
+notify.child.growup=%N\u00e9v% mostm\u00e1r feln\u0151tt.
+notify.child.ranaway=%Name% elfutott.
+
+notify.spouse.gifted.anotherbaby=M\u00e1r n\u00e1lam van a bab\u00e1nk. Honnan szerezted a m\u00e1sikat\!?
+notify.spouse.chore.interrupted.cooking.nofurnace=Nem l\u00e1tok kemenc\u00e9t a sehol.
+notify.spouse.chore.interrupted.cooking.nofuel=Nincs anyagom ki\u00e9getni ezt.
+
+notify.lostrelativedocument.success=%Name% mostant\u00f3l te %RelationToPlayer% vagy.
+notify.lostrelativedocument.success.norelation=%Name% t\u00f6bb\u00e9 m\u00e1r nem k\u00f6t\u0151dik hozz\u00e1d.
+
+notify.monarch.began=A felel\u0151ss\u00e9get is kaptad az uralkod\u00e1s mell\u00e9.
+notify.monarch.resume=Uralkod\u00f3 vagy \u00fajra. Az el\u0151z\u0151 \u00f6r\u00f6k\u00f6se nem lehet t\u00f6bb\u00e9 uralkod\u00f3.
+notify.monarch.ended.noheir=M\u00e1r nem vagy uralkod\u00f3.
+notify.monarch.ended.withheir=M\u00e1r nem vagy uralkod\u00f3. Az \u00f6r\u00f6k\u00f6s vette \u00e1t a helyedet.
+
+notify.hiring.complete=%Name% felb\u00e9rl\u00e9si ideje lej\u00e1rt.
+
+notify.update.turnedon=MCA mostant\u00f3l automat\u00e1n keresi a friss\u00edt\u00e9seket.
+notify.update.turnedoff=MCA nem tal\u00e1lt friss\u00edt\u00e9st, mi\u00f3ta utolj\u00e1ra friss\u00edtett.
+
+#######
+# Parser Commands
+##############################
+parser.playerchild.adult.callplayerparent.male=Apa
+parser.playerchild.adult.callplayerparent.female=Anya
+parser.playerchild.adult.parentopposite.male=Anya
+parser.playerchild.adult.parentopposite.female=Apa
+
+parser.playerchild.young.callplayerparent.male=Apa
+parser.playerchild.young.callplayerparent.female=Anyuci
+parser.playerchild.young.parentopposite.male=Anyuci
+parser.playerchild.young.parentopposite.female=Apuci
+
+#####################################################################################################
+#									              DIALOGUE											#
+#####################################################################################################
+
+#######
+# Profession-specific dialogue
+##############################
+guard.follow.refuse1=Nem, van egy kis dolgom 
+guard.follow.refuse2=Nem hagyhatom egyszer\u0171en itt az \u0151rhelyemet.
+guard.follow.refuse3=Azt akarod, hogy csak sim\u00e1n els\u00e9t\u00e1ljak munka k\u00f6zben? Nem\!
+guard.follow.refuse4=Nem, hacsak fel nem b\u00e9relsz engem.
+guard.follow.refuse5=Kileszek r\u00fagva, ha \u00e9n csak s\u00e9t\u00e1lgatok itt\!
+
+guard.stay.refuse1=J\u00e1r\u0151r vagyok. Nem \u00e1lldog\u00e1lhatok itt.
+guard.stay.refuse2=Nem vagy a f\u0151n\u00f6k\u00f6m.
+guard.stay.refuse3=Ugye tudod hogy \u00e9n egy \u00f6r vagyok?
+guard.stay.refuse4=Az \u00e9n dolgom j\u00e1r\u00f6r\u00f6zni a faluban, k\u00f6rbe-k\u00f6rbe.
+guard.stay.refuse5=\u00c9n dolgozom most. \u00c9n felb\u00e9relhet\u0151 vagyok, nem most.
+
+smith.aid.prompt1=Adok neked egy munk\u00e1t, csin\u00e1lj nekem egy \u00fcll\u00f6-t. 
+smith.aid.prompt2=Van egy r\u00e9gi \u00fcll\u0151m, alkatr\u00e9sz k\u00e9ne hozz\u00e1...
+smith.aid.prompt3=\u00c9n abbahagytam a kov\u00e1cs mesters\u00e9get, az \u00fcll\u0151m is elad\u00f3.
+smith.aid.prompt4=Akarsz egy \u00fcll\u0151? Adhatok egyet, csak fiszesd ki az \u00e1r\u00e1t.
+
+smith.aid.outofrange1=Sz\u00f3lj, ha meg szeretn\u00e9 v\u00e1s\u00e1rolni az \u00fcll\u0151-t.
+smith.aid.outofrange2=Gyere vissza, \u00e9s mond meg mi az aj\u00e1nlatod.
+
+smith.aid.alreadyaccepted1=M\u00e1r neked adtam az \u00fcll\u00f6met. Nem tudok neked seg\u00edteni.
+smith.aid.alreadyaccepted2=Megvetted az \u00fcll\u00f6met. Te is tudsz jav\u00edtani\!
+smith.aid.alreadyaccepted3=Nem tudok m\u00e9g egy \u00fcll\u00f6-t eladni neked, bocs.
+
+smith.aid.accept1=\u00d3\! Ez egy j\u00f3 \u00f6sszeg. Tess\u00e9k.
+smith.aid.accept2=Ez j\u00f3 lesz. L\u00e9gy \u00f3vatos, mert ez neh\u00e9z lesz\!
+smith.aid.accept3=K\u00f6szi\! Itt van az \u00fcll\u00f6d.
+smith.aid.accept4=Ne dobd oda senkinek, OK?
+
+smith.aid.refuse.rightitem1=\u00dcll\u00f6-re volna sz\u00fcks\u00e9gem. Tudn\u00e1l adni neked egy p\u00e1rat?
+smith.aid.refuse.rightitem2=Igen, ez az amik akarok, de ennyi kev\u00e9s lesz.
+smith.aid.refuse.rightitem3=Csak amire sz\u00fcks\u00e9gem van\! Kell m\u00e9g p\u00e1r cucc ahhoz hogy neked adjam az \u00fcll\u0151met.
+smith.aid.refuse.rightitem4=Adj m\u00e9g p\u00e1r ilyet ezekb\u00f6l, \u00e9s adnak neked egy \u00fcll\u00f6t.
+
+smith.aid.refuse.wrongitem1=Azokat nem akarom elcser\u00e9lni egy \u00fcll\u00f6re.
+smith.aid.refuse.wrongitem2=Ez nem teljesen az amit keresek. Van valami m\u00e1sod is?
+smith.aid.refuse.wrongitem3=Nem...Szeretn\u00e9k valami m\u00e1st ami\u00e9rt megveheted az \u00fcll\u00f6met.
+smith.aid.refuse.wrongitem4=M\u00e1st kell adnom az \u00fcll\u00f6\u00e9rt.
+
+priest.adopt.male1=Itt van az \u00faj bab\u00e1d. A neve %BabyName%.
+priest.adopt.male2=\u00d6 aranyos, nem? A neve %BabyName%.
+priest.adopt.male3=Rem\u00e9lem %BabyName% sok boldogs\u00e1got fog adni az elk\u00f6vetkezend\u00f6 \u00e9vekben.
+priest.adopt.female1=Nem-e sz\u00e9p? A neve %BabyName%.
+priest.adopt.female2=K\u00e9rem b\u00e1njanak j\u00f3l %BabyName%-al. Itt is van.
+priest.adopt.female3=%BabyName% nagyon aranyos, sajn\u00e1lom hogy elmegy.
+
+priest.arrangemarriage1=Rem\u00e9lem te \u00e9s %Name% megtal\u00e1lj\u00e1tok a boldogs\u00e1got egy\u00fctt.
+priest.arrangemarriage2=%PlayerName%, \u00f6r\u00fcl\u00f6k hogy tal\u00e1lkozt\u00e1l %Name%-al. Ti most m\u00e1r \u00f6sszeh\u00e1zasodhattok.
+priest.arrangemarriage3=Ahogy akarod. Te mostant\u00f3l h\u00e1zast\u00e1rsa vagy %Name%-nak.
+
+generic.hire.accept1=Sok k\u00f6sz\u00f6net\! Megteszem amit meg kell tennem.
+generic.hire.accept2=Ebb\u0151l el\u00e9g. Mostant\u00f3l neked dolgozom.
+generic.hire.accept3=K\u00e9sz vagyok a munk\u00e1ra\! 
+generic.hire.accept4=Akkor kezdj\u00fck is el, mi az els\u0151 munk\u00e1d sz\u00e1momra?
+
+guard.hire.accept1=K\u00f6sz\u00f6n\u00f6m\! Mostant\u00f3l a test\u00f6re vagyok.
+guard.hire.accept2=Neked dolgozom most.
+guard.hire.accept3=Mostant\u00f3l te vagy a f\u00f6n\u00f6k\u00f6m.
+guard.hire.accept4=Mi az els\u00f6 munk\u00e1m, f\u00f6n\u00f6k?
+
+guard.hire.dismiss1=Sajn\u00e1lom hogy nem j\u00f6tt \u00f6ssze. Visszat\u00e9rek az el\u00f6z\u00f6 munk\u00e1mhoz.
+guard.hire.dismiss2=J\u00f3 volt veled dolgozni\!
+guard.hire.dismiss3=Majd megl\u00e1tjuk ha visszat\u00e9rek a munk\u00e1mhoz a faluban.
+guard.hire.dismiss4=Nagyszer\u0171, Megint befejeztem a munk\u00e1m...
+
+butcher.aid.accept1=Persze\! Nekem sok h\u00fasom van tartal\u00e9kban.
+butcher.aid.accept2=Itt van egy kis extra h\u00fas.
+butcher.aid.accept3=Tess\u00e9k, itt van n\u00e9mi friss h\u00fas.
+
+butcher.aid.refuse1=Nekem nincs el\u00e9g tartal\u00e9kom, sajn\u00e1lom.
+butcher.aid.refuse2=Meg kell tartsam a fizet\u00f6 \u00fcgyfeleknek\!
+butcher.aid.refuse3=Nem tudok adni semmit most.
+
+baker.aid.accept1=Ha kis\u00fct\u00f6m ezt. Ilyet kapok bel\u00f6le.
+baker.aid.accept2=Tess\u00e9k itt van. Frissen a bark\u00e1csasztalb\u00f3l.
+baker.aid.accept3=Megmaradt n\u00e9h\u00e1ny darab. V\u00e1s\u00e1rolhatsz bel\u00f6le.
+
+baker.aid.refuse1=Semmim sincs most. Gyere vissza k\u00e9s\u00f6bb.
+baker.aid.refuse2=Most s\u00fct\u00f6k bel\u00f6le p\u00e1r darabot. N\u00e9zz vissza k\u00e9s\u0151bb.
+baker.aid.refuse3=Volt neked p\u00e1r darab, de v\u00e9letlen\u00fcl oda\u00e9gettem. Bocs.
+
+farmer.aid.accept1=Azthiszem tudok adni p\u00e1r darabot. Tess\u00e9k.
+farmer.aid.accept2=Term\u00e9szetesen tudok seg\u00edteni. Tess\u00e9k.
+farmer.aid.accept3=J\u00f3 term\u00e9s volt az ut\u00f3bbi id\u0151be. Van p\u00e1r extra cuccom.
+
+farmer.aid.refuse1=Sajn\u00e1lom, semmim sincs amit adni tudn\u00e9k neked.
+farmer.aid.refuse2=Gyere vissza k\u00e9s\u0151bb, most semmim sincs.
+farmer.aid.refuse3=Bocs\u00e1nat, de semmim sincs amit tudn\u00e9k adni neked.
+
+miner.hire.accept1=K\u00f6sz\u00f6n\u00f6m\! Azonnal el is kezdem.
+miner.hire.accept2=K\u00f6sz\u00f6n\u00f6m hogy csatlakozhattam hozz\u00e1d\! Hol fogunk b\u00e1ny\u00e1szni?
+miner.hire.accept3=K\u00f6sz\u00f6n\u00f6m hogy b\u00e9rbeadt\u00e1l. Mostm\u00e1r elkezdhetek dolgozni.
+
+miner.hire.refuse1=5 arany\u00e9rt dolgozok neked. Akkor kiszedek neked 100 blokkot.
+miner.hire.refuse2=Adj nekem 5 aranyat, \u00e9s b\u00e1ny\u00e1szok neked 100 blokkot.
+miner.hire.refuse3=Nincs el\u00e9g aranyad hogy felb\u00e9relj engem. Kell 5 arany, hogy kiszedjek 100 blokkot.
+
+miner.hire.finished1=Ennyi volt a 100 blokk. K\u00e9sz vagyok.
+miner.hire.finished2=Ez volt a 100 blokk. A munk\u00e1m k\u00e9szen van.
+miner.hire.finished3=B\u00e1ny\u00e1sztam 100 blokkot. \u00d6r\u00f6m volt veled dolgozni.
+
+miner.hire.dismiss1=Te elbocs\u00e1jtott\u00e1l engem? Rendben.
+miner.hire.dismiss2=K\u00e9szen \u00e1llok a k\u00f6vetkez\u00f6 munk\u00e1ra, ha adsz nekem aranyat.
+miner.hire.dismiss3=Ut\u00e1nna visszat\u00e9rek a faluba.
+
+miner.chore.finished1=Befejeztem, amit mondt\u00e1l nekem.
+miner.chore.finished2=K\u00e9szen \u00e1llok, hogy t\u00f6bb munk\u00e1t csin\u00e1ljak.
+miner.chore.finished3=Befejeztem a munk\u00e1mat.
+
+miner.chore.start1=Rajta vagyok a t\u00e9m\u00e1n f\u0151n\u00f6k.
+miner.chore.start2=Igen, f\u00f6n\u00f6k.
+miner.chore.start3=Azonnal elkezdek dolgozni.
+
+miner.dropallitems1=Tess\u00e9k.
+miner.dropallitems2=Tess\u00e9k itt van, f\u00f6n\u00f6k.
+miner.dropallitems3=Itt van amit kaptam.
+miner.dropallitems4=Ennyi amit b\u00e1ny\u00e1sztam.
+
+#######
+# Villager Dialogue
+##############################
+villager.chat.bad1=Unaaaalmas.
+villager.chat.bad2=*\u00c1s\u00edt*
+villager.chat.bad3=Eln\u00e9z\u00e9st, tessek? Nem figyeltem.
+villager.chat.bad4=Valamit mondtal?
+villager.chat.bad5=Hmmmm.
+villager.chat.bad6=Eh..Ok.. Most valami m\u00e1st kell csin\u00e1lnom, ha megengeded...
+villager.chat.bad7=Oh ahha. Szerintem el felejtettem valamit... Mennem kell.
+villager.chat.bad8=Nem \u00e9rtem mit mondasz.
+villager.chat.bad9=Szerintem a rosz emberhez besz\u00e9lsz.
+villager.chat.bad10=Nem...Nem hiszem.
+villager.chat.bad11=Mi\u00e9rt mondan\u00e1l ilyet?
+villager.chat.bad12=Ez nagyon rosz volt t\u0151led.
+
+villager.chat.good1=Val\u00f3ban? M\u00e9g nem hallottam.
+villager.chat.good2=Ezt honnan hallottad?
+villager.chat.good3=Ezt hogy csinaltad\!?
+villager.chat.good4=Ahha, Itt nagyon unalmas.
+villager.chat.good5=\u00d3, \u00e9rdekes.
+villager.chat.good6=Van egy p\u00e1r j\u00f3 t\u00f6rt\u00e9neted. Van m\u00e9g olyan, amit el tudn\u00e1l mes\u00e9lni?
+villager.chat.good7=Ez j\u00f3. Mi t\u00f6rt\u00e9nt ut\u00e1na?
+villager.chat.good8=Teljesen egyet\u00e9rtek\!
+villager.chat.good9=Azt hallottam, hogy m\u00e1sok is ezt mondj\u00e1k.
+villager.chat.good10=L\u00e1tt\u00e1l smaragdot b\u00e1ny\u00e1sz\u00e1s k\u00f6zben?
+
+villager.engagement.accept1=Mikor van az esk\u00fcv\u0151nk\!?
+villager.engagement.accept2=Nagy bulit fogunk tartani, nemde?
+villager.engagement.accept3=V\u00e9gre\! M\u00e1r mennyi ideje v\u00e1rtalak\! Szeretlek\!
+villager.engagement.accept4=Megh\u00edvom az \u00f6sszes bar\u00e1tomat\!
+villager.engagement.accept5=Igen\! Szeretlek\!
+
+villager.engagement.refusal1=Ah...\u00f6m...nem \u00e1llok m\u00e9g k\u00e9szen a leteleped\u00e9sre.
+villager.engagement.refusal2=Oh ... nos ez k\u00ednos ...
+villager.engagement.refusal3=Ha? Nem\! Nem is ismerlek\!
+villager.engagement.refusal4=Sajn\u00e1lom, de \u00e9n nem \u00edgy gondolom.
+villager.engagement.refusal5=V\u00e1rj, alig ismerj\u00fck egym\u00e1st.
+
+villager.follow.start1=Hova megy\u00fcnk?
+villager.follow.start2=Megpr\u00f3b\u00e1lok k\u00f6zel maradni hozz\u00e1d.
+villager.follow.start3=Ok\u00e9. Megyek.
+villager.follow.start4=Az eg\u00e9sz falut elviszed, hogy saj\u00e1t v\u00e1rost alap\u00edts? Nem hiszem.
+villager.follow.start5=Ok\u00e9, j\u00f3 lesz egyet s\u00e9t\u00e1lni.
+villager.follow.start6=Hova viszel?
+villager.follow.start7=\u00d3, hova akarsz menni?
+villager.follow.start8=Akkor ess\u00fcnk t\u00fal rajta.
+
+villager.follow.stop1=Ok\u00e9, a k\u00f6zelben leszek.
+villager.follow.stop2=Ne menj t\u00fal messze.
+villager.follow.stop3=Szeretem ezt a helyet\!
+villager.follow.stop4=Ok\u00e9, majd k\u00e9s\u0151bb tal\u00e1lkozunk\!
+villager.follow.stop5=Ne hagyj itt egyed\u00fcl\!
+villager.follow.stop6=Vigy\u00e1zz magadra.
+villager.follow.stop7=Rendben, itt maradok.
+villager.follow.stop8=Most m\u00e1r nem k\u00f6vetlek.
+villager.follow.stop9=J\u00f3, \u00fagyis elf\u00e1radtam\!
+villager.follow.stop10=Ez egy esem\u00e9nyd\u00fas s\u00e9ta volt\!
+
+villager.gift.bad1=Nem vagyok egy szemetes.
+villager.gift.bad2=Nem akarom a szemeted\!
+villager.gift.bad3=Azt hiszem, ez szem\u00e9t.
+villager.gift.bad4=Mi\u00e9rt akarn\u00e1m \u00e9n EZT?
+villager.gift.bad5=Tartsd meg magadnak a szemeted, k\u00f6szi.
+villager.gift.bad6=Rem\u00e9lem viccelsz, ez nem egy j\u00f3 aj\u00e1nd\u00e9k.
+villager.gift.bad7=Sajn\u00e1lom, de nem fogadok el ilyen aj\u00e1nd\u00e9kokat.
+villager.gift.bad8=Nem fogadok el semmit idegenekt\u0151l, sajn\u00e1lom.
+villager.gift.bad9=Vagyis te volt\u00e1l az, aki elvitte ezt t\u0151lem\! El kellene menned.
+villager.gift.bad10=Mi\u00e9rt ragaszkodsz ahhoz, hogy szemetet adj nekem?
+
+villager.gift.small1=\u00d3, k\u00f6szi\!
+villager.gift.small2=Milyen figyelmes t\u0151led\!
+villager.gift.small3=K\u00f6szi\!
+villager.gift.small4=Nem volt okod r\u00e1, hogy b\u00e1rmit is adj...k\u00f6szi\!
+villager.gift.small5=\u00d3, szeretem ezeket\!
+villager.gift.small6=K\u00f6sz\u00f6n\u00f6m.
+villager.gift.small7=Ez egy nagyon sz\u00e9p aj\u00e1nd\u00e9k. K\u00f6sz\u00f6n\u00f6m.
+villager.gift.small8=\u00c1llati\! K\u00f6szi\!
+
+villager.gift.regular1=F\u00e9nyes\!
+villager.gift.regular2=Ennek haszn\u00e1t tudom majd venni. K\u00f6szi\!
+villager.gift.regular3=\u00d3, azta\! K\u00f6sz\u00f6n\u00f6m\!
+villager.gift.regular4=Kaphatok m\u00e9g egyet?
+villager.gift.regular5=K\u00f6sz\u00f6n\u00f6m, bar\u00e1tom.
+villager.gift.regular6=Ah, k\u00f6sz\u00f6n\u00f6m az aj\u00e1nd\u00e9kot.
+villager.gift.regular7=Milyen kedves t\u0151led, k\u00f6szi.
+villager.gift.regular8=Milyen sz\u00e9p aj\u00e1nd\u00e9k\! K\u00f6sz\u00f6n\u00f6m, %PlayerName%.
+villager.gift.regular9=%PlayerName% te olyan \u00e9des vagy.
+villager.gift.regular10=Ez nagyon kedves t\u0151led, %PlayerName%.
+villager.gift.regular11=Te j\u00f3 bar\u00e1t vagy\!
+
+villager.gift.great1=Sz...Sz\u00f3hoz sem jutok\! K\u00f6sz\u00f6n\u00f6m\!
+villager.gift.great2=Ezek felbecs\u00fclhetetlenek\!
+villager.gift.great3=Felismered a j\u00f3 aj\u00e1nd\u00e9kot, amikor megl\u00e1tod\!
+villager.gift.great4=Mindig is ilyet szerettem volna\!
+villager.gift.great5=Ez b\u00e1mulatos\!
+villager.gift.great6=\u00d3, h\u00e1t ez... K\u00f6sz\u00f6n\u00f6m\! Nem kellett volna\!
+villager.gift.great7=Nagyon k\u00f6sz\u00f6n\u00f6m, eml\u00e9kezni fogok erre.
+villager.gift.great8=\u00d3, ez egyszer\u0171en remek, j\u00f3 haszn\u00e1t veszem majd.
+
+villager.greeting.hate1=Menj innen.
+villager.greeting.hate2=Nem hallott\u00e1l legut\u00f3bb? Azt mondtam, menj innen.
+villager.greeting.hate3=\u00d3. Ez te vagy.
+villager.greeting.hate4=Gondolom az\u00e9rt vagy itt \u00fajra, hogy az arcomba csapj?
+villager.greeting.hate5=K\u00e9rlek, menj el.
+villager.greeting.hate6=Mit akarsz TE?
+villager.greeting.hate7=Ha hozz\u00e1m\u00e9rsz, h\u00edvom az \u0151r\u00f6ket\!
+villager.greeting.hate8=Van \u00e1m egy fegyverem, csakhogy tudd.
+villager.greeting.hate9=Menj, zavarj m\u00e1st.
+villager.greeting.hate10=Uh. Hagyj egyed\u00fcl.
+villager.greeting.hate11=T\u0171nj innen, te barom.
+
+villager.greeting.basic1=\u00d3, hell\u00f3.
+villager.greeting.basic2=\u00daj vagy itt?
+villager.greeting.basic3=Hell\u00f3 idegen.
+villager.greeting.basic4=H\u00e9, mi \u00fajs\u00e1g?
+villager.greeting.basic5=Nem l\u00e1ttalak itt ezel\u0151tt.
+villager.greeting.basic6=Biztos \u00faj vagy itt.
+villager.greeting.basic7=J\u00f3 napot neked, %PlayerName%.
+villager.greeting.basic8=\u00dcdv\u00f6zlet.
+villager.greeting.basic9=Miben seg\u00edthetek?
+villager.greeting.basic10=\u00d3, hell\u00f3. %PlayerName%, vagy nem \u00fagy h\u00edvnak?
+
+villager.greeting.friend1=Hell\u00f3 %PlayerName%\!
+villager.greeting.friend2=H\u00e9\! \u00d6r\u00fcl\u00f6k, hogy \u00fajra itt vagy\!
+villager.greeting.friend3=Mindenki, n\u00e9zzen ide\! Itt a legjobb bar\u00e1tom\!
+villager.greeting.friend4=Hell\u00f3 haver\!
+villager.greeting.friend5=Mi t\u00f6rt\u00e9nt veled az ut\u00f3bbi id\u0151ben? Nem l\u00e1ttalak m\u00e1r egy j\u00f3 ideje.
+villager.greeting.friend6=H\u00e9, te %PlayerName% vagy, a legjobb bar\u00e1tom\!
+villager.greeting.friend7=\u00c1\! Na ki van itt? Hell\u00f3, %PlayerName%\!
+villager.greeting.friend8=H\u00e9 te\! Hogy vagy?
+villager.greeting.friend9=Mi \u00fajs\u00e1g haver, hogy vagy?
+
+villager.greeting.interest.male1=V\u00e1\u00f3\! J\u00f3l n\u00e9zel ki ma\!
+villager.greeting.interest.male2=%PlayerName% K\u00e9rlek ne menj el\! El akarom mondani, hogy...\u00e1, semmi.
+villager.greeting.interest.male3=*Suttog* \u0150 olyan gy\u00f6ny\u00f6r\u0171...
+villager.greeting.interest.male4=%PlayerName%, le mern\u00e9m fogadni, hogy nem tudod, hogy gazdag vagyok.
+villager.greeting.interest.male5=*Suttog* \u0150 olyan kedves hozz\u00e1m, tal\u00e1n kedvel?
+
+villager.greeting.interest.female1=H\u00e9, megl\u00e1togathatn\u00e1l valamikor. *Kacsint*
+villager.greeting.interest.female2=Szia... %PlayerName%... *F\u00e9l\u00e9nken nevet*
+villager.greeting.interest.female3=Nagy \u00e9s er\u0151s vagy, mint mindig\!
+villager.greeting.interest.female4=*Pirulni kezd* 
+villager.greeting.interest.female5=*Suttog* Nem\! Nem fogom megk\u00e9rni\!
+
+villager.greeting.wedding1=Hallom, hogy nemsok\u00e1ra esk\u00fcv\u0151d lesz. Gratul\u00e1lok hozz\u00e1\!
+villager.greeting.wedding2=H\u00e9, %PlayerName%, gratul\u00e1lok az eljegyz\u00e9sedhez\!
+villager.greeting.wedding3=Biztos vagyok benne, hogy gy\u00f6ny\u00f6r\u0171 esk\u00fcv\u0151d lesz, nem igaz?
+villager.greeting.wedding4=Nagyon \u00f6r\u00fcl\u00f6k a h\u00edrnek\! A legnagyobb aj\u00e1nd\u00e9kot adom majd neked\!
+villager.greeting.wedding5=Csak az aj\u00e1nd\u00e9kok miatt jegyezted el az \u00e9lett\u00e1rsad, nem igaz?
+
+villager.hitbyplayer1=Hagyj magamra\!
+villager.hitbyplayer2=\u00c9n semmit nem okoztam neked\!
+villager.hitbyplayer3=Hagyd ezt abba\!
+villager.hitbyplayer4=\u00c1u\! Mi\u00e9rt \u00fct\u00f6tt\u00e9l meg?
+villager.hitbyplayer5=Hagyd abba\! F\u00e1j\!
+villager.hitbyplayer6=H\u00e9\! Ne \u00fct\u00f6gess\!
+villager.hitbyplayer7=A\u00da. Hagyd abba, \u00c1LLJ LE\!
+villager.hitbyplayer8=Ne \u00e9rj hozz\u00e1m m\u00e9g egyszer\!
+villager.hitbyplayer9=\u0150r\u00f6k\! Ez az ember b\u00e1ntalmaz engem\!
+villager.hitbyplayer10=Valaki seg\u00edtsen\!
+villager.hitbyplayer12=\u00c1u\! %PlayerName%\! Azt hittem, mi bar\u00e1tok vagyunk\!
+
+villager.gifted.baby1=Gondozd te.
+villager.gifted.baby2=Nem akarom tartani\!
+villager.gifted.baby3=B\u0171zlik\!
+villager.gifted.baby4=\u00d3, jobb ha nem. Elvesztettem az eny\u00e9met tegnap.
+villager.gifted.baby5=Most m\u00e1r el kell mondanom, lebecs\u00fcl\u00f6m a gyerekeket.
+villager.gifted.baby6=Neh\u00e9z nekem \u00f6nmagamat is eltartani, egyed\u00fcl hagyn\u00e1m a bab\u00e1t.
+villager.gifted.baby7=Foghatom, de nem fogom gondj\u00e1t viselni.
+villager.gifted.baby8=Mi\u00e9rt nem adod ink\u00e1bb az \u00e9lett\u00e1rsadnak, mintsem egy idegennek?
+
+villager.interact.refusal1=Menj innen. 
+villager.interact.refusal2=Ut\u00e1llak.
+villager.interact.refusal3=Ne besz\u00e9lj velem.
+villager.interact.refusal4=Menj el\!
+villager.interact.refusal5=Nem l\u00e1tunk itt sz\u00edvesen.
+villager.interact.refusal6=Nem akarok semmit se csin\u00e1lni veled. Hagyj magamra.
+villager.interact.refusal7=Menj el, zavarsz.
+villager.interact.refusal8=M\u00e9g besz\u00e9lni sem fogok veled.
+villager.interact.refusal9=Nem \u00e9rj hozz\u00e1m.
+
+villager.joke.bad1=Nem \u00e9rtem a viccet.
+villager.joke.bad2=Ezt rossznak veszem.
+villager.joke.bad3=EZ egyszer\u0171en sz\u00f6rny\u0171\!
+villager.joke.bad4=Ennek semmi \u00e9rtelme sincsen.
+villager.joke.bad5=Amit mondt\u00e1l, az egyszer\u0171en h\u00fclyes\u00e9g.
+villager.joke.bad6=Rendben, akkor...
+villager.joke.bad7=Ez uh... egy nagyon j\u00f3 vicc.
+
+villager.joke.good1=Ez egyszer\u0171en t\u00fal vicces\!
+villager.joke.good2=Hol hallottad ezt? Haha\!
+villager.joke.good3=Ez egy j\u00f3 vicc\!
+villager.joke.good4=*Nevet*
+villager.joke.good5=El\u00e9g vicces.
+villager.joke.good6=\u00d3, ez az egyik legjobb vicc, amit valaha hallottam\!
+villager.joke.good7=Te t\u00e9nyleg tudsz p\u00e1r j\u00f3 viccet\!
+villager.joke.good8=Ha\! Tudod, hogyan kell megnevettetni valakit.
+villager.joke.good9=Ez k\u00e9t dolgot jelenthet\!
+
+villager.marriage.acceptance1=Megcsin\u00e1lom.
+villager.marriage.acceptance2=Arra v\u00e1rtam, hogy megk\u00e9rj\! Term\u00e9szetesen igen\!
+villager.marriage.acceptance3=Igen, megteszem. Szeretlek\!
+villager.marriage.acceptance4=Tudod, rengeteget gondoltam r\u00e1d az elm\u00falt id\u0151ben... \u00c9s... \u00d3, mir\u0151l is besz\u00e9lek\! Igen\!
+villager.marriage.acceptance5=T\u00f6bb, mint boldog lenn\u00e9k, ha veled t\u00f6lthetn\u00e9m az \u00e9letemet\!
+villager.marriage.acceptance6=Ez egy jegygy\u0171r\u0171... Nekem...? Igen\!
+villager.marriage.acceptance7=Tudni, hogy szeretsz boldogg\u00e1 tesz, ha veled vagyok, \u00fagy \u00e9rzem magam, mint a vil\u00e1g legboldogabb embere.
+
+villager.marriage.refusal.lowhearts1=Mi vagy te, \u0151r\u00fclt?
+villager.marriage.refusal.lowhearts2=Mi? Ki vagy te\!?
+villager.marriage.refusal.lowhearts3=Nem is ismerlek\!
+villager.marriage.refusal.lowhearts4=\u00d6hm...nem. Sajn\u00e1lom.
+villager.marriage.refusal.lowhearts5=Nem szeretlek t\u00e9ged\!
+villager.marriage.refusal.lowhearts6=Mit? NEM, nem \u00e9n tettem.
+villager.marriage.refusal.lowhearts7=Tudod... Nem \u00e1llok m\u00e9g k\u00e9szen a h\u00e1zass\u00e1gra.
+villager.marriage.refusal.lowhearts8=Elutas\u00edtom\!
+villager.marriage.refusal.lowhearts9=Nem akarok hozz\u00e1d menni, idi\u00f3ta\!
+
+villager.marriage.refusal.playermarried1=Azt hiszem, te m\u00e1r vagy valakivel...
+villager.marriage.refusal.playermarried2=Nem vagy te \u00e9ppen h\u00e1zas?
+villager.marriage.refusal.playermarried3=L\u00e1tom a gy\u0171r\u0171t az ujjadon. T\u0171nj el.
+villager.marriage.refusal.playermarried4=Hogy pr\u00f3b\u00e1lhattad meg ezt tenni az \u00e9lett\u00e1rsaddal?
+villager.marriage.refusal.playermarried5=Sz\u00f6rny\u0171 vagy. Menj \u00e9s k\u00e9rj bocs\u00e1natot az hitvesedt\u0151l.
+villager.marriage.refusal.playermarried6=Nem vagy eszedn\u00e9l? M\u00e1r h\u00e1zas vagy\!
+villager.marriage.refusal.playermarried7=Mi\u00e9rt teszed ezt a hitveseddel? Te egy idi\u00f3ta vagy\!
+villager.marriage.refusal.playermarried8=Azt hiszem, elmegyek \u00e9s elmondom ezt a hitvesednek\!
+villager.marriage.refusal.playermarried9=L\u00e1tom a gy\u0171r\u0171det...
+
+villager.marriage.refusal.villagermarried1=Elvettek m\u00e1r, sajn\u00e1lom.
+villager.marriage.refusal.villagermarried2=\u00d3...nem. M\u00e1r vagyok valakivel.
+villager.marriage.refusal.villagermarried3=Elvettek m\u00e1r. Sajn\u00e1lom, azt hittem tudod.
+villager.marriage.refusal.villagermarried4=Nemet kell mondanom, mert ahogy l\u00e1tod, m\u00e1r h\u00e1zas vagyok.
+villager.marriage.refusal.villagermarried5=Sajn\u00e1lom, m\u00e1r van valakim.
+
+villager.angry1=\u00cdgy van\! Maradj csak h\u00e1tul, gy\u00e1va\!
+villager.angry2=Mi\u00e9rt nem j\u00f6ssz \u00e9s k\u00fczdesz f\u00e9rfik\u00e9nt?
+villager.angry3=R\u00e1d h\u00edvom az \u0151r\u00f6ket\!
+villager.angry4=Megkapod, amit \u00e9rdemelsz egy nap\!
+villager.angry5=Ne gyere vissza\!
+
+villager.scared1=Ne-ne b\u00e1nts\! K\u00e9rlek\!
+villager.scared2=Nem fogom \u00fajra megtenni, \u00edg\u00e9rem\!
+villager.scared3=K\u00e9rlek\! Ne \u00f6lj meg\!
+villager.scared4=Ne\! Tedd el a fegyvered\!
+villager.scared5=Valaki seg\u00edtsen\! Megpr\u00f3b\u00e1lnak meg\u00f6lni\!
+
+villager.greeting.handshake.good1=K\u00f6sz\u00f6nt\u00e9s.
+villager.greeting.handshake.good2=J\u00f3 napot.
+villager.greeting.handshake.good3=Mi\u00e9rt nem k\u00f6sz\u00f6nti mindenki ez a polg\u00e1rt? Isten hozott.
+villager.greeting.handshake.good4=Ez egy f\u00e9rfias k\u00e9zfog\u00e1s volt.
+villager.greeting.handshake.good5=J\u00f3 volt hogy elj\u00f6tt\u00e9l.
+
+villager.greeting.handshake.bad1=A\u00da\! Megf\u00e1jdult a kezem\!
+villager.greeting.handshake.bad2=Te nagyon er\u0151sen fogsz kezet.
+villager.greeting.handshake.bad3=Nem k\u00f6sz\u00f6n\u00f6m.
+villager.greeting.handshake.bad4=Uh... nem. A te kezed nagyon piszkos.
+villager.greeting.handshake.bad5=Mi az ott a kezedben?\!
+
+villager.greeting.highfive.good1=Adj egy \u00f6t\u00f6st\!
+villager.greeting.highfive.good2=Mi a helyzet, %PlayerName%?
+villager.greeting.highfive.good3=Rendben\!
+villager.greeting.highfive.good4=H\u00e9, mi \u00fajs\u00e1g?
+villager.greeting.highfive.good5=\u00d6r\u00fcl\u00f6k hogy l\u00e1tlak\!
+
+villager.greeting.highfive.bad1=Ne\! Ne \u00fcss meg\!
+villager.greeting.highfive.bad2=Mi a specialit\u00e1sod?
+villager.greeting.highfive.bad3=Uh... nem, bocs.
+villager.greeting.highfive.bad4=Sz\u00e1llj le r\u00f3lam.
+villager.greeting.highfive.bad5=...Mit csin\u00e1lsz itt?
+
+villager.kiss.good1=*PIRUL* Te egyed\u00fcl \u00e1ll\u00f3 vagy?
+villager.kiss.good2=Te nagyon j\u00f3l cs\u00f3kolsz...
+villager.kiss.good3=A te ajkad olyan puha \u00e9s \u00e9des.
+villager.kiss.good4=Olyan mint a m\u00e9z.
+villager.kiss.good5=*KUNCOG* Te aranyos vagy.
+
+villager.kiss.bad1=Nem is tudtam hogy \u00e9n?\!
+villager.kiss.bad2=*TAPS*
+villager.kiss.bad3=\u00c9n h\u00edvom az \u0151r\u00f6ket\!
+villager.kiss.bad4=Mit csin\u00e1lsz?\!
+villager.kiss.bad5=Az \u00e9n ap\u00e1m soha nem fog beleegyezni. 
+
+villager.flirt.good1=*PIRUL* Oh, \u00e9n.
+villager.flirt.good2=*KUNCOG* Te \u00e9des vagy.
+villager.flirt.good3=Im\u00e1dom amikor \u00edgy besz\u00e9lsz.
+villager.flirt.good4=Ha \u00e1ttudn\u00e1m rendezni az ABC-t, akkor te \u00e9s \u00e9n egy helyen lenne.
+villager.flirt.good5=Hehe, tal\u00e1lkozni k\u00e9ne m\u00e1skor is.
+
+villager.flirt.bad1=Elkellett viselnem a baseball nadr\u00e1got, mert kidobtak a lig\u00e1b\u00f3l\!
+villager.flirt.bad2=Ew, nem hiszem.
+villager.flirt.bad3=Nem keresel t\u00e1rsat?
+villager.flirt.bad4=*NEVET\u00c9S* Bocs, \u00e9n nem hajlok erre.
+villager.flirt.bad5=Ez sz\u00e1nalmas volt.
+
+villager.tellstory.good1=*NEVET\u00c9S* A diszn\u00f3k j\u00f3k mindannyiunknak\!
+villager.tellstory.good2=Eml\u00e9kszem, fiatalabb koromban ezt is megtudtam csin\u00e1lni.
+villager.tellstory.good3=Mi pr\u00f3b\u00e1ljuk meg egym\u00e1ssal m\u00e1skor.
+villager.tellstory.good4=Legal\u00e1bb megfogsz v\u00e9deni minket a zombikt\u00f3l\!
+villager.tellstory.good5=*NEVET\u00c9S* Rendben vagy, %PlayerName%.
+
+villager.tellstory.bad1=Te sz\u00e9gyelld magad\!
+villager.tellstory.bad2=Szolg\u00e1llak ha jobb leszel.
+villager.tellstory.bad3=Te megt\u00e1madsz egy zombit ha kell\!
+villager.tellstory.bad4=Mindegy.
+villager.tellstory.bad5=\u00dagy \u00e9rzem nagyon k\u00e9nyelmetlen most...
+
+#######
+# Grandchild Dialogue
+##############################
+
+grandchild.chat.bad1=\u00d6reg vagy. \u00c9s unalmas.
+grandchild.chat.bad2=Nem akarom hallani ezt az uncsi t\u00f6rt\u00e9netet\!
+grandchild.chat.bad3=*\u00c1s\u00edt*
+
+grandchild.chat.good1=Te vagy a legjobb %RelationOfPlayer% \u00f6r\u00f6kk\u00e9\!
+grandchild.chat.good2=W\u00e1o\! Ez t\u00e9nyleg megt\u00f6rt\u00e9nhet?
+grandchild.chat.good3=Vajon mindez t\u00e9nyleg megt\u00f6rt\u00e9nt?
+grandchild.chat.good4=Mindig szeretek besz\u00e9lgetni veled.
+
+grandchild.follow.start1=Hov\u00e1 megy\u00fcnk?
+grandchild.follow.start2=Azt szeretn\u00e9m hogy mutasd meg hol \u00f6lted meg azt a creeper-t.
+grandchild.follow.start3=Rendben, gyer\u00fcnk\!
+
+grandchild.follow.stop1=V\u00e1rok r\u00e1d, %RelationOfPlayer%.
+grandchild.follow.stop2=Itt v\u00e1rok r\u00e1d, %RelationOfPlayer%.
+grandchild.follow.stop3=Ne menj t\u00fal messzire, %RelationOfPlayer%.
+
+grandchild.gift.bad1=H\u00e1ny \u00e9ves ez a cucc? Ew\!
+grandchild.gift.bad2=Ez \u00fagy n\u00e9z ki, mintha a k\u0151korszakban k\u00e9sz\u00fclt volna.
+grandchild.gift.bad3=\u00d3h...K\u00f6szi. Azt hiszem.
+
+grandchild.gift.great1=Ez biztosan sokat jelentett neked. K\u00f6sz\u00f6nj\u00fck\!
+grandchild.gift.great2=Wow\! \u00c9n ezt is tudom?\!
+grandchild.gift.great3=Tudtam, hogy adsz nekem valami sz\u00e9pet\!
+
+grandchild.gift.regular1=\u00c9n mindig megmutatom mindenkinek, amit az \u00e9n %RelationOfPlayer% ad nekem\!
+grandchild.gift.regular2=WOW\! Ez szuper\!
+grandchild.gift.regular3=Szeretem ha hozol nekem cuccokat, %RelationOfPlayer%.
+
+grandchild.gift.small1=Nos, ez sz\u00e9p\!
+grandchild.gift.small2=H\u00e9, ez tetszik\!
+grandchild.gift.small3=K\u00f6sz\u00f6n\u00f6m, %RelationOfPlayer%\!
+grandchild.gift.small4=Ez nagyon kir\u00e1ly, %RelationOfPlayer%.
+
+grandchild.greeting.basic1=Szia, %RelationOfPlayer%.
+grandchild.greeting.basic2=Nem l\u00e1ttalak egy ideje, %RelationOfPlayer%.
+
+grandchild.greeting.friend1=H\u00e9, itt van a %RelationOfPlayer%\!
+grandchild.greeting.friend2=Mindenki figyeljen, itt van az \u00e9n %RelationOfPlayer%\!
+
+grandchild.greeting.hate1=*morog*
+grandchild.greeting.hate2=\u00d3 ne. Te itt vagy.
+grandchild.greeting.hate3=Te nem vagy a kedvencem %RelationOfPlayer%.
+grandchild.greeting.hate4=Any\u00e1m\! %RelationOfPlayer% itt van...
+
+grandchild.hitbyplayer1=\u00c1\u00fa\! Ez f\u00e1jt\!
+grandchild.hitbyplayer2=\u00c1llj le\!
+grandchild.hitbyplayer3=Te durv\u00e1n j\u00e1tszol\!
+grandchild.hitbyplayer4=Mi\u00e9rt \u00fct\u00f6tt\u00e9l meg engem, %RelationOfPlayer%?
+
+grandchild.gifted.baby1=Tudod hogy m\u00e9g vannak bab\u00e1k\!?
+grandchild.gifted.baby2=Ez ott... te?
+
+grandchild.joke.bad1=Ez nagyon rossz...
+grandchild.joke.bad2=Micsoda???
+grandchild.joke.bad3=Lehet, hogy vicces volt akkoriban, de most ... nem annyira.
+grandchild.joke.bad4=Ez egy szak\u00e1llas vicc, \u00e9s nem vicces.
+
+grandchild.joke.good1=\u00c1lland\u00f3an mes\u00e9lem mindenkinek, hogy mennyire vicces az \u00e9n %RelationOfPlayer%\!
+grandchild.joke.good2=Meg kell mondjam te vagy az egyik bar\u00e1tom\!
+grandchild.joke.good3=Ez vicces volt, %RelationOfPlayer%\!
+grandchild.joke.good4=Az \u00e9n %RelationOfPlayer% mindig vicces\!
+
+grandchild.greeting.handshake.good1=Sz\u00f3val az \u00e9n %RelationOfPlayer%?
+grandchild.greeting.handshake.good2=\u00d6r\u00fcl\u00f6k hogy megismerhettelek. Te vagy az \u00e9n %RelationOfPlayer%, nemde?
+grandchild.greeting.handshake.good3=Szia, nem tudod hogy \u00e9n vagyok neked a %RelationToPlayer%? Nem eml\u00e9kszem.
+grandchild.greeting.handshake.good4=Szia, %RelationOfPlayer%.
+grandchild.greeting.handshake.good5=Hozt\u00e1l nekem valamit?\!
+
+grandchild.greeting.handshake.bad1=\u00d6... k\u00e9zfog\u00e1s?
+grandchild.greeting.handshake.bad2=Te kezet fogsz a te unok\u00e1ddal?
+grandchild.greeting.handshake.bad3=Gross\! Te \u00f6reg vagy\!
+grandchild.greeting.handshake.bad4=A kezeid r\u00e1ncosak\!
+grandchild.greeting.handshake.bad5=A\u00fa\u00fa\! Mi\u00e9rt szor\u00edtod meg a kezem ennyire?
+
+grandchild.greeting.highfive.good1=Jaj\! Megint\!
+grandchild.greeting.highfive.good2=\u00dajra, \u00fajra\!
+grandchild.greeting.highfive.good3=Csin\u00e1ld \u00fajra\!
+grandchild.greeting.highfive.good4=Megcsin\u00e1lod m\u00e9g egyszer, ha sz\u00e9pen k\u00e9rem?
+grandchild.greeting.highfive.good5=\u00daJRA\!
+
+grandchild.greeting.highfive.bad1=A kezeim cs\u00edpnek.
+grandchild.greeting.highfive.bad2=Ez kezd f\u00e1jni\!
+grandchild.greeting.highfive.bad3=\u00c1LJ\!
+grandchild.greeting.highfive.bad4=Kezd unalmass\u00e1 v\u00e1lni.
+grandchild.greeting.highfive.bad5=Ok\u00e9, a kezem most m\u00e1r f\u00e1j.
+
+grandchild.tellstory.good1=Ez j\u00f3 \u00f6tlet mert mi \u0151r\u00f6k vagyunk\!
+grandchild.tellstory.good2=W\u00e1\u00f3, t\u00e9nyleg megtetted?
+grandchild.tellstory.good3=Ut\u00e1na mit csin\u00e1lt\u00e1l a csontv\u00e1zzal?
+grandchild.tellstory.good4=Te vagy az \u00e9n h\u0151s\u00f6m\!
+grandchild.tellstory.good5=Elmehetek veled b\u00e1ny\u00e1szni ha szeretn\u00e9d?
+
+grandchild.tellstory.bad1=\u00c9n nem hiszem el.
+grandchild.tellstory.bad2=A sz\u00fcleim azt mondt\u00e1k, hogy egy szavadat se higgyem el.
+grandchild.tellstory.bad3=Rendben.
+grandchild.tellstory.bad4=Nem akarok a k\u00f6zeledben lenni t\u00f6bb\u00e9...
+grandchild.tellstory.bad5=Nekem most haza kellene mennem.
+
+grandchild.play.good1=J\u00e9 ez nagyon szuper\!
+grandchild.play.good2=Szeretem az id\u0151met veled t\u00f6lteni\!
+grandchild.play.good3=Te vagy a legjobb\!
+grandchild.play.good4=Gyer\u00fcnk j\u00e1tszani\!
+grandchild.play.good5=Legy\u0151ztelek\!
+
+grandchild.play.bad1=M\u00e9gegyszer?
+grandchild.play.bad2=Te t\u00fal \u00f6reg vagy hogy megtudd csin\u00e1lni.
+grandchild.play.bad3=Nem j\u00e1tszol valami t\u00fal j\u00f3l.
+grandchild.play.bad4=Menj\u00e9l j\u00e1tszani az \u00e1llataiddal.
+grandchild.play.bad5=Ink\u00e1bb egyenek z\u00f6lds\u00e9geket.
+
+#######
+# Villager Child Dialogue
+##############################
+
+villagerchild.chat.bad1=Bocs\u00e1nat, de a sz\u00fcleim nem engedik, hogy idegenekkel besz\u00e9ljek\!
+villagerchild.chat.bad2=Ki vagy te? But\u00e1nak l\u00e1tszol.
+villagerchild.chat.bad3=Nem akarok besz\u00e9lni veled, ijeszt\u0151 vagy\!
+
+villagerchild.chat.good1=Wow\! Kir\u00e1ly vagy\!
+villagerchild.chat.good2=Te vagy a szuperh\u00f6s\!
+villagerchild.chat.good3=Kalandor vagy?\! Ez kir\u00e1ly\!
+villagerchild.chat.good4=Szeretem a t\u00f6rt\u00e9neteidet, mes\u00e9lj m\u00e9g, mes\u00e9lj m\u00e9g\!
+
+villagerchild.follow.start1=Ok\u00e9, de nem akarok messze menni otthonr\u00f3l\!
+villagerchild.follow.start2=Itt akartam maradni...
+villagerchild.follow.start3=Hova megy\u00fcnk? Egy kalandra?
+
+villagerchild.follow.stop1=J\u00f3. Elf\u00e1radok ahogy a segged n\u00e9zem\!
+villagerchild.follow.stop2=Hol van mindenki?
+villagerchild.follow.stop3=Ne hagyj minket egyed\u00fcl\!
+
+villagerchild.gift.bad1=Ez szem\u00e9t\! Nem szeretn\u00e9m.
+villagerchild.gift.bad2=Nem dobhatom el? Nem szeretn\u00e9m.
+villagerchild.gift.bad3=Mi\u00e9rt adod nekem ezt? Nem tetszik.
+
+villagerchild.gift.great1=H\u0171ha\! Megtarthatom? \u00d3\! Nagyon k\u00f6sz\u00f6n\u00f6m\! Megyek megmutatom az ap\u00e1mnak\!
+villagerchild.gift.great2=K\u00f6sz\u00f6n\u00f6m, ezt a sz\u00e9p aj\u00e1nd\u00e9kot\!
+villagerchild.gift.great3=Ez a legnagyszer\u0171bb aj\u00e1nd\u00e9k az \u00e9letemben\! K\u00f6sz\u00f6n\u00f6m\!
+
+villagerchild.gift.regular1=K\u00f6sz\u00f6n\u00f6m\!
+villagerchild.gift.regular2=Ez nagyszer\u0171\! K\u00f6sz\u00f6n\u00f6m\!
+villagerchild.gift.regular3=K\u00f6sz\u00f6n\u00f6m hogy itt vagy\!
+
+villagerchild.gift.small1=K\u00f6sz\u00f6n\u00f6m\!
+villagerchild.gift.small2=Nagyon k\u00f6sz\u00f6n\u00f6m\!
+villagerchild.gift.small3=Megehetem ezt?
+villagerchild.gift.small4=Nekem adod? \u00d3, nagyon k\u00f6sz\u00f6n\u00f6m\!
+
+villagerchild.greeting.basic1=Hogy vagy?
+villagerchild.greeting.basic2=\u00c9desnek l\u00e1tszol.
+
+villagerchild.greeting.friend1=H\u00e9\! Te vagy a bar\u00e1tom\!
+villagerchild.greeting.friend2=Akarsz j\u00e1tszani?
+
+villagerchild.greeting.hate1=\u00c9n nem kedvellek.
+villagerchild.greeting.hate2=Eml\u00e9kszem r\u00e1d\! Te b\u00e1ntott\u00e1l engem\!
+villagerchild.greeting.hate3=Nem\! Hagyj b\u00e9k\u00e9n\!
+villagerchild.greeting.hate4=Apu mondta, tartsam magam t\u00e1vol t\u00f6led.
+
+villagerchild.hitbyplayer1=A\u00fa\u00fa\! ANYU\! %PlayerName% meg\u00fct\u00f6tt engem\!
+villagerchild.hitbyplayer2=Ne \u00fcss meg, ez f\u00e1j\!
+villagerchild.hitbyplayer3=Ne-ne b\u00e1nts\! K\u00e9rlek\!
+villagerchild.hitbyplayer4=Anyu\! Apu\! A\u00fa\u00fa\u00fa\!
+
+villagerchild.gifted.baby1=Pf... Ez aranyos, de kicsit b\u00fczlik\!
+villagerchild.gifted.baby2=Mi\u00e9rt b\u00fczlesz ennyire?
+villagerchild.gifted.baby3=Nem akarom hogy tartsd\!
+
+villagerchild.joke.bad1=Te egy buta ember vagy.
+villagerchild.joke.bad2=Nem vicces.
+villagerchild.joke.bad3=Ez nem vicces\!
+villagerchild.joke.bad4=Ne inzult\u00e1lj\!
+villagerchild.joke.bad5=Anya\! %PlayerName% cs\u00fanya szavakat mond\!
+
+villagerchild.joke.good1=Haha\! Te vagy a legviccesebb\!
+villagerchild.joke.good2=Nagyon szeretem a vicceidet\!
+villagerchild.joke.good3=Ez az egy j\u00f3 volt\! Ez el fogom mondani a bar\u00e1taimnak\!
+villagerchild.joke.good4=Hogyan csin\u00e1lod ezt a vicces arcot? Csin\u00e1ld m\u00e9gegyszer\!
+
+villagerchild.play.good1=Anyunak \u00e9s apunak soha nem volt ideje ilyeneket tenni\!
+villagerchild.play.good2=Jajdej\u00f3\! Leszel a bar\u00e1tom?
+villagerchild.play.good3=Nyerhetek \u00e9n is?
+villagerchild.play.good4=J\u00e1tszunk ilyet mindig\!
+villagerchild.play.good5=Gyer\u00fcnk csin\u00e1ljunk valami szupi dolgot\!
+
+villagerchild.play.bad1=Hogy vagy?
+villagerchild.play.bad2=Anyuk\u00e1m azt mondta ne j\u00e1tszak idegenekkel.
+villagerchild.play.bad3=Ap\u00e1m azt mondta hogy ledobna egy szikl\u00e1r\u00f3l.
+villagerchild.play.bad4=Nem, nincs semmi rendben.
+villagerchild.play.bad5=Menj \u00e9s j\u00e1tsz a saj\u00e1t gyerekeiddel.
+
+villagerchild.tellstory.good1=B\u00e1rcsak a gyereked lehetn\u00e9k...
+villagerchild.tellstory.good2=A tintahalakat meglehet szel\u00edd\u00edteni?\!
+villagerchild.tellstory.good3=W\u00c1\u00d3, elviszel engem is a Netherbe?\!
+villagerchild.tellstory.good4=Mi\u00e9rt nem mondtad el nekem, hogy mivel kell etetni \u0151ket?
+villagerchild.tellstory.good5=Megyek csin\u00e1lok egy saj\u00e1t klubbot, olyat mint te\!
+
+villagerchild.tellstory.bad1=Te nem vagy t\u00fal j\u00f3 ember, igaz?
+villagerchild.tellstory.bad2=Ha j\u00f3l hallom az any\u00e1m h\u00edv haza eb\u00e9delni.
+villagerchild.tellstory.bad3=A sz\u00fcleim MEGHALTAK?\!
+villagerchild.tellstory.bad4=Menj el.
+villagerchild.tellstory.bad5=A t\u00f6rt\u00e9neted untat.
+
+#######
+# Adult Dialogue
+##############################
+
+playerchild.adult.chat.bad1=Nem g\u00e1z, hogy elt\u00e9r\u0151 sztorit adsz el\u0151?
+playerchild.adult.chat.bad2=Elfoglalt vagyok ...
+playerchild.adult.chat.bad3=K\u00e9s\u00f6bb m\u00e9g besz\u00e9l\u00fcnk.
+playerchild.adult.chat.bad4=Yup.
+playerchild.adult.chat.bad5=Uh-huh.
+playerchild.adult.chat.bad6=Rendben.
+playerchild.adult.chat.bad7=Akkor rendben.
+playerchild.adult.chat.bad8=Ez nagyon \u00e9rdekes...
+playerchild.adult.chat.bad9=*Szemforgat\u00e1s*
+playerchild.adult.chat.bad10=%ParentOpposite% azt mondta, hogy hazudt\u00e1l err\u00f6l.
+playerchild.adult.chat.bad11=V\u00e1ltsunk t\u00e9m\u00e1t, rendben?
+playerchild.adult.chat.bad12=Nos .. Ez .. \u00c9rdekes ..
+playerchild.adult.chat.bad13=Ehrm .. Persze ..
+playerchild.adult.chat.bad14=Ennyi?
+playerchild.adult.chat.bad15=K\u00e9s\u00f6bb lehets\u00e9ges.
+playerchild.adult.chat.bad16=Nem tudok most besz\u00e9lgetni veled.
+playerchild.adult.chat.bad17=Oh, istenem, k\u00e9rlek, hagyj b\u00e9k\u00e9n\!
+playerchild.adult.chat.bad18=Csak annyit hallottam, hogy "bla, bla, bla.".
+
+playerchild.adult.chat.good1=*K\u00f6zelr\u00f6l hallgatja*
+playerchild.adult.chat.good2=Igen, elk\u00e9ne menni vad\u00e1szni.
+playerchild.adult.chat.good3=Menj\u00fcnk gy\u00fcjteni nyersanyagokat, vagy b\u00e1ny\u00e1szni, vagy ak\u00e1rmi\!
+playerchild.adult.chat.good4=Vigy\u00e9l magaddal legk\u00f6zelebb engem is.
+playerchild.adult.chat.good5=Mikor kapok saj\u00e1t h\u00e1zat?
+playerchild.adult.chat.good6=Egy napon, azt akarom, legyen saj\u00e1t h\u00e1zam.
+playerchild.adult.chat.good7=Alig v\u00e1rom, hogy saj\u00e1t h\u00e1zam legyen\!
+playerchild.adult.chat.good8=Menj\u00fcnk kert\u00e9szkedj\u00fcnk, vagy csin\u00e1ljunk valamit\!
+playerchild.adult.chat.good9=Menj\u00fcnk el valahova\!
+playerchild.adult.chat.good10=\u00d3\u00d3\! Ez egy \u00e9rdekes t\u00f6rt\u00e9net\!
+playerchild.adult.chat.good11=Igen, j\u00f3l csin\u00e1lom.
+playerchild.adult.chat.good12=Nem k\u00e9ne h\u00edresztelni, de am\u00fagy j\u00f3 sztori.
+playerchild.adult.chat.good13=Ez a legjobb dolog a szeletelt keny\u00e9r \u00f3ta\!
+
+playerchild.adult.chore.start.farming1=Hallod, %CallPlayerParent%.
+playerchild.adult.chore.start.farming2=Uh. Ez Sz\u00e9p, %CallPlayerParent%.
+playerchild.adult.chore.start.farming3=Persze. Megteszem neked, %CallPlayerParent%.
+playerchild.adult.chore.start.farming4=Gazd\u00e1lkodni? Rendben megteszem.
+playerchild.adult.chore.start.farming5=Gyer\u00fcnk\! Ha m\u00e1r gyerekk\u00e9nt nem tetted meg\!
+playerchild.adult.chore.start.farming6=Seg\u00edten\u00e9l nekem, %CallPlayerParent%?
+playerchild.adult.chore.start.farming7=Ha mi eladjunk a kenyeret amit k\u00e9sz\u00edt\u00fcnk, kapunk 50%-os profitot?
+
+playerchild.adult.chore.start.fishing1=Rendben. Szeretek horg\u00e1szni.
+playerchild.adult.chore.start.fishing2=Fogadok hogy t\u00f6bbet fogunk tal\u00e1lkozni, mint eddig\!
+playerchild.adult.chore.start.fishing3=Most megpr\u00f3b\u00e1lom a rekordomat megd\u00f6nteni.
+playerchild.adult.chore.start.fishing4=Sz\u00f3val, \u00fajra tennem kell \u00e9telt az asztalra.
+playerchild.adult.chore.start.fishing5=Yeee, rendben.
+playerchild.adult.chore.start.fishing6=Kir\u00e1ly\! Szeretek horg\u00e1szni j\u00e1rni, %CallPlayerParent%\!
+playerchild.adult.chore.start.fishing7=Rendben, elkapok egy csom\u00f3 halat, csak figyelj\!
+playerchild.adult.chore.start.fishing8=Rendben, megteszem a t\u0151lem telhet\u0151 legt\u00f6bbet, hogy kifogjak sok halacsk\u00e1t.
+playerchild.adult.chore.start.fishing9=J\u00f3 vagyok a horg\u00e1sz\u00e1sban, csak figyelj.
+playerchild.adult.chore.start.fishing10=Itt van a halcska...
+playerchild.adult.chore.start.fishing11=Rem\u00e9lem az \u00faj ruh\u00e1m nem lesz vizes.
+
+playerchild.adult.chore.start.mining1=A sz\u00e9n por ugye nem m\u00e9rgez\u0151?
+playerchild.adult.chore.start.mining2=Rem\u00e9lem a cs\u00e1k\u00e1nyom nem most t\u00f6rik el.
+playerchild.adult.chore.start.mining3=Megyek keresek t\u00f6bb gy\u00e9m\u00e1ntot neked, csak figyeld\!
+
+playerchild.adult.chore.start.woodcutting1=Tudod, m\u00e9g mindig akarok egy fah\u00e1zat.
+playerchild.adult.chore.start.woodcutting2=L\u00e1tt\u00e1l m\u00e1r csod\u00e1z, pl. lebeg\u0151 f\u00e1kat?
+playerchild.adult.chore.start.woodcutting3=Meg\u00e9les\u00edtem a fejsz\u00e9met \u00e9s k\u00e9sz is leszek.
+playerchild.adult.chore.start.woodcutting4=Seg\u00edtesz nekem fel\u00e9p\u00edteni a saj\u00e1t h\u00e1zamat?
+
+playerchild.adult.chore.start.hunting1=Viszahozok neked t\u00edz malacot\!
+playerchild.adult.chore.start.hunting2=Ez \u00e9rdekes lesz.
+playerchild.adult.chore.start.hunting3=Mingy\u00e1rt visszat\u00e9rek.
+playerchild.adult.chore.start.hunting4=Az\u00e9rt k\u00fcldesz \u00e9ngem, mert jobb vad\u00e1sz vagyok mint te?
+
+playerchild.adult.chore.stop1=Azt hittem soha nem fejezem be.
+playerchild.adult.chore.stop2=Olyan f\u00e1radt vagyok...
+playerchild.adult.chore.stop3=Befejeztem. El is f\u00e1radtam.
+playerchild.adult.chore.stop4=Befejeztem. El is f\u00e1radtam a v\u00e9g\u00e9re.
+playerchild.adult.chore.stop5=Ne akard hogy ezt csin\u00e1ljam m\u00e9g egyszer\!
+playerchild.adult.chore.stop6=Boldogan\!
+playerchild.adult.chore.stop7=K\u00f6szi, \u00e9n ut\u00e1lom ha ezt csin\u00e1lja\!
+playerchild.adult.chore.stop8=Na... Befejeztem a munk\u00e1mat\!
+playerchild.adult.chore.stop9=Most m\u00e1r pihennem kell egy kicsit.
+playerchild.adult.chore.stop10=\u00c9n most abbahagyom a munk\u00e1t.
+playerchild.adult.chore.stop11=\u00d6r\u00fcl\u00f6k, hogy v\u00e9ge\!
+playerchild.adult.chore.stop12=Megcsin\u00e1ltam a piszok mel\u00f3mat. Most m\u00e1r megyek sz\u00f3rakozni kicsit.
+
+playerchild.adult.follow.start1=Ok, hov\u00e1 megy\u00fcnk?
+playerchild.adult.follow.start2=Megy\u00fcnk egy\u00fctt l\u00e9nyeket vad\u00e1szni, %CallPlayerParent%?
+playerchild.adult.follow.start3=Szerintem l\u00e1tok egy CREEPER-t\!
+playerchild.adult.follow.start4=Rem\u00e9lem nem kell mozogni. Szeretek itt lenni.
+playerchild.adult.follow.start5=Befejezve\! Menj\u00fcnk innen\!
+playerchild.adult.follow.start6=Az\u00e9rt megy\u00fcnk el innen hogy visszaj\u00f6jj\u00fcnk?
+playerchild.adult.follow.start7=Igaz\u00e1b\u00f3l nem akartam menni sehova ...
+playerchild.adult.follow.start8=Rendben, akkor menj\u00fcnk.
+playerchild.adult.follow.start9=Ki vagyunk\!
+playerchild.adult.follow.start10=Menj\u00fcnk ki\!
+playerchild.adult.follow.start11=Olyan sok dolog van ott, szeretn\u00e9m l\u00e1tni\!
+playerchild.adult.follow.start12=Szerinte l\u00e1tok p\u00e1r l\u00e9nyt arra.
+playerchild.adult.follow.start13=Ez j\u00f3, csak ne legyen csapda...
+playerchild.adult.follow.start14=Elakarok kapni egy p\u00f3kot\!
+
+playerchild.adult.follow.stop1=Itt v\u00e1rok r\u00e1d, %CallPlayerParent%.
+playerchild.adult.follow.stop2=Szeretem ezt a helyet. Maradjunk itt egy kicsit.
+playerchild.adult.follow.stop3=Mindj\u00e1rt itt vagyok.
+playerchild.adult.follow.stop4=Ne menj t\u00fal messzire ...
+playerchild.adult.follow.stop5=Hallottam \u00e9rdekes dolgokat. L\u00e9gy \u00f3vatos.
+playerchild.adult.follow.stop6=Csak ne f\u00e1jjon, %CallPlayerParent%\!
+playerchild.adult.follow.stop7=Ne hagyj magamra t\u00fal hossz\u00fa ideig\!
+playerchild.adult.follow.stop8=Legyetek \u00f3vatosak. Vesz\u00e9ly leselkedik r\u00e1d, ha egyed\u00fcl vagy.
+playerchild.adult.follow.stop9=Vigy\u00e1zz a creeperekkel\!
+playerchild.adult.follow.stop10=H\u0171ha, ez f\u00e1raszt\u00f3.
+playerchild.adult.follow.stop11=Nem tudok tov\u00e1bb menni veled? \u00c9n f\u00e9lek, %CallPlayerParent%.
+
+playerchild.adult.gift.bad1=Wow\! %CallPlayerParent%\! Tudod mit tal\u00e1lt\u00e1l?\! \u00c9n nem tudom.
+playerchild.adult.gift.bad2=Ez egy szem\u00e9t.
+playerchild.adult.gift.bad3=Nem k\u00f6szi.
+playerchild.adult.gift.bad4=Dob\u00e1ld el a szemeteidet\!
+playerchild.adult.gift.bad5=Mit sz\u00f3ln\u00e1l hozz\u00e1 ha enn\u00e9nk n\u00e9ha egy kicsit?
+playerchild.adult.gift.bad6=Mi\u00e9rt akarn\u00e1m ezt?
+playerchild.adult.gift.bad7=Ez ... Nem, most nem.
+playerchild.adult.gift.bad8=Mi\u00e9rt azt is, hogy ezt velem?
+playerchild.adult.gift.bad9=Nem, ezt nem b\u00edrom tov\u00e1bb, biztosan nem.
+playerchild.adult.gift.bad10=Biztos hogy beledobom ezt a l\u00e1v\u00e1ba.
+playerchild.adult.gift.bad11=L\u00e1tsz valamif\u00e9le szemetest erre fel\u00e9?
+playerchild.adult.gift.bad12=Argh. Megint? Biztos hogy kapsz egy list\u00e1t legk\u00f6zelebb is.
+
+playerchild.adult.gift.great1=\u00d3 \u00e9n... Sz\u00f3tlan vagyok\!
+playerchild.adult.gift.great2=Nagyon k\u00f6sz\u00f6n\u00f6m sz\u00e9pen\!
+playerchild.adult.gift.great3=Ez sokkal jobb\!
+playerchild.adult.gift.great4=Hogy engedheted meg magadnak ezt\!?
+
+playerchild.adult.gift.regular1=K\u00f6sz\u00f6n\u00f6m sz\u00e9pen\!
+playerchild.adult.gift.regular2=Ez csod\u00e1latos\!
+playerchild.adult.gift.regular3=Azt akarom hogy tudd, nagyon h\u00e1l\u00e1s vagyok\!
+
+playerchild.adult.gift.small1=Hol tal\u00e1ltad ezt? K\u00f6sz\u00f6n\u00f6m\!
+playerchild.adult.gift.small2=\u00d3, k\u00f6szi %CallPlayerParent%\!
+playerchild.adult.gift.small3=Tal\u00e1n... megehetem ezt?
+playerchild.adult.gift.small4=Az\u00e9rt adod ezt nekem, hogy megszabadulj t\u00f6le?
+playerchild.adult.gift.small5=\u00d3 wow, aj\u00e1nd\u00e9k nekem\!
+playerchild.adult.gift.small6=\u00c9des\! K\u00f6szi, %CallPlayerParent%.
+playerchild.adult.gift.small7=Ez nagyon j\u00f3l n\u00e9z ki, \u00e9s.. finom is?
+
+playerchild.adult.greeting.basic1=Hallod, %CallPlayerParent%\!
+playerchild.adult.greeting.basic2=Visszat\u00e9rt\u00e9l, %CallPlayerParent%.
+
+playerchild.adult.greeting.friend1=Hallod, %CallPlayerParent%\!
+playerchild.adult.greeting.friend2=Visszat\u00e9rt\u00e9l, %CallPlayerParent%.
+
+playerchild.adult.greeting.hate1=...
+playerchild.adult.greeting.hate2=Mit csin\u00e1lsz itt, %CallPlayerParent%?
+playerchild.adult.greeting.hate3=Mondtam, hogy maradj t\u00e1vol t\u0151lem\!
+playerchild.adult.greeting.hate4=Az\u00e9rt j\u00f6tt\u00e9l, hogy bocs\u00e1natot k\u00e9rj?
+playerchild.adult.greeting.hate5=Ne akard, hogy h\u00edvjam az \u00f6r\u00f6ket.
+
+playerchild.adult.hitbyplayer1=\u00c1llj le\!
+playerchild.adult.hitbyplayer2=Eltudlak verni, tudjad\!
+playerchild.adult.hitbyplayer3=A\u00fa\! %CallPlayerParent%\! Ne verj\u00e9l tov\u00e1bb\!
+playerchild.adult.hitbyplayer4=Ez f\u00e1j\!
+playerchild.adult.hitbyplayer5=Nyugodj meg, \u00e9s ne \u00fcss engem\!
+playerchild.adult.hitbyplayer6=Nem vagyok boxzs\u00e1k\!
+playerchild.adult.hitbyplayer7=Azzal hogy megversz, nem oldod meg a probl\u00e9m\u00e1t\!
+playerchild.adult.hitbyplayer8=\u00c1\u00da\! Mi a fene volt ez?\!
+playerchild.adult.hitbyplayer9=Ez nem norm\u00e1lis\!
+playerchild.adult.hitbyplayer10=Nyugodj meg\!
+playerchild.adult.hitbyplayer11=A\u00fa\!
+playerchild.adult.hitbyplayer12=Mi\u00e9rt tenn\u00e9d ezt?\!
+
+playerchild.adult.gifted.baby1=Nem akarom ezt tartani\! 
+playerchild.adult.gifted.baby2=Ut\u00e1lom a bab\u00e1kat\!
+playerchild.adult.gifted.baby3=F\u00fa\! Ez b\u00fcd\u00f6s\!
+playerchild.adult.gifted.baby4=Igen, igen, \u0151 nagyon \u00e9des.
+playerchild.adult.gifted.baby5=Nekem m\u00e1s dolgom van\!
+
+playerchild.adult.joke.bad1=Ez a cucc nagyon r\u00e9gi.
+playerchild.adult.joke.bad2=Ez h\u00fclyes\u00e9g.
+playerchild.adult.joke.bad3=...mit?
+playerchild.adult.joke.bad4=Ezzel ne viccelj\! M\u00e9g mindig traum\u00e1ban vagyok miatta\!
+playerchild.adult.joke.bad5=M\u00e9g mindig nem \u00e9rtem.
+playerchild.adult.joke.bad6=Ne csin\u00e1ld m\u00e9g egyszer.
+playerchild.adult.joke.bad7=Azt hallottam, t\u00f6bb mint 20 alkalommal\!
+playerchild.adult.joke.bad8=Ew, mi\u00e9rt mosolyogsz ezen?\!
+playerchild.adult.joke.bad9=Ez a vicc sz\u00f6rny\u0171.
+playerchild.adult.joke.bad10=\u00d3, ezt m\u00e9g egyszer. Vicces.
+playerchild.adult.joke.bad11=Azt hiszem %ParentOpposite% h\u00edv engem...
+playerchild.adult.joke.bad12=Sz\u00f3val, t\u00e9nyleg mennem kell megcsin\u00e1lni a h\u00e1zimunk\u00e1t.
+
+playerchild.adult.joke.good1=Eml\u00e9kszem, hogy az egyik, %CallPlayerParent%. Haha\!
+playerchild.adult.joke.good2=Ez pont az ami nagyon vicces volt\!
+playerchild.adult.joke.good3=*Kuncog*
+playerchild.adult.joke.good4=Te mindig a legjobb vicceket mes\u00e9led\!
+playerchild.adult.joke.good5=Nagy vagy, %CallPlayerParent%\!
+playerchild.adult.joke.good6=Haha\! Ez annyira vicces\!
+playerchild.adult.joke.good7=Ez egy j\u00f3 vicc\!
+
+playerchild.adult.greeting.handshake.good1=H\u00e9, nem besz\u00e9lek veled egy darabig.
+playerchild.adult.greeting.handshake.good2=Hallod, %CallPlayerParent%.
+playerchild.adult.greeting.handshake.good3=\u00d6r\u00fcl\u00f6k hogy \u00fajra l\u00e1tlak, %CallPlayerParent%\!
+playerchild.adult.greeting.handshake.good4=\u00d3, %CallPlayerParent%, nagyon sok dologr\u00f3l kell neked mes\u00e9lnem.
+playerchild.adult.greeting.handshake.good5=Szia, \u00f6r\u00fcl\u00f6k hogy \u00fajra l\u00e1tlak.
+
+playerchild.adult.greeting.handshake.bad1=Mi\u00e9rt nem l\u00e1togatsz meg t\u00f6bbsz\u00f6r?
+playerchild.adult.greeting.handshake.bad2=Csak egyszer l\u00e1ttalak, akkor meg mi\u00e9rt akarsz velem kezet fogni?\!
+playerchild.adult.greeting.handshake.bad3=Nem akarok veled kezet fogni.
+playerchild.adult.greeting.handshake.bad4=\u00c9n, h\u00e1t... nem \u00e9rek r\u00e1 most.
+playerchild.adult.greeting.handshake.bad5=Nagyon elfoglalt vagyok - szeretn\u00e9m ha \u00e9szrevenn\u00e9d.
+
+playerchild.adult.greeting.highfive.good1=M\u00e9g mindig j\u00f3\!
+playerchild.adult.greeting.highfive.good2=*T\u00dcSSZENT*
+playerchild.adult.greeting.highfive.good3=Megvagyunk d\u00f6bbenve\!
+playerchild.adult.greeting.highfive.good4=IGEN\! Ezt kerest\u00fck.
+playerchild.adult.greeting.highfive.good5=Mi vagyunk a legjobbak\!
+
+playerchild.adult.greeting.highfive.bad1=Nagyon \u00f6reg vagyok \u00e9n m\u00e1r ennyi \u00f6t\u00f6s adogat\u00e1s\u00e1hoz.
+playerchild.adult.greeting.highfive.bad2=Nem vagyok m\u00e9g k\u00e9sz, bocs.
+playerchild.adult.greeting.highfive.bad3=Nem adok neked \u00f6t\u00f6st.
+playerchild.adult.greeting.highfive.bad4=Besz\u00e9lni szeretn\u00e9k veled, nem \u00f6t\u00f6st adni\!
+playerchild.adult.greeting.highfive.bad5=Mi\u00e9rt nem akarsz velem t\u00f6bb\u00e9 besz\u00e9lni?
+
+playerchild.adult.tellstory.good1=*NEVET\u00c9S* Ez arra eml\u00e9keztet, amikor m\u00e9g kis gyerek voltam.
+playerchild.adult.tellstory.good2=Te \u00e9s a %ParentOpposite% nagyon szeretitek egym\u00e1st, nem igaz?
+playerchild.adult.tellstory.good3=Ez szupi volt\! Mi csin\u00e1ljuk majd m\u00e1skor is\!
+playerchild.adult.tellstory.good4=*NEVET\u00c9S* Annyira boldog vagyok ebbe a csal\u00e1dban.
+playerchild.adult.tellstory.good5=\u00dagy csin\u00e1lsz mint a csirk\u00e9k?
+
+playerchild.adult.tellstory.bad1=Hm..., mit mondott neked %ParentOpposite%?
+playerchild.adult.tellstory.bad2=Nem helyeslem.
+playerchild.adult.tellstory.bad3=Te... val\u00f3sz\u00edn\u0171leg nem mondod el senki m\u00e1snak.
+playerchild.adult.tellstory.bad4=Ez nem volt valami sz\u00e9p.
+playerchild.adult.tellstory.bad5=Tudod ez %RandomName%-re eml\u00e9keztet\!
+
+#######
+# Kid Dialogue
+##############################
+playerchild.young.chat.bad1=Nem akarok besz\u00e9lgetni. Hagyj b\u00e9k\u00e9n\!
+playerchild.young.chat.bad2=%CallPlayerParent%, elfoglalt vagyok\!
+playerchild.young.chat.bad3=Csitt\!
+playerchild.young.chat.bad4=Te unalmas vagy.
+playerchild.young.chat.bad5=*Nem figyel r\u00e1d*
+playerchild.young.chat.bad6=%ParentOpposite% mondta, ne mond ilyet t\u00f6bbet\!
+playerchild.young.chat.bad7=Elfoglalt vagyok\!
+playerchild.young.chat.bad8=Nem l\u00e1tod, hogy elfoglalt vagyok?\!
+playerchild.young.chat.bad9=\u00c9n... *\u00e1s\u00edt*, megyek haza.
+
+playerchild.young.chat.good1=*K\u00f6zelr\u0151l hallgatja*
+playerchild.young.chat.good2=Legk\u00f6zelebb magaddal viszel, %CallPlayerParent%?
+playerchild.young.chat.good3=Elakarok menni vad\u00e1szni\!
+playerchild.young.chat.good4=Mi\u00e9rt nem mehetek veled?
+playerchild.young.chat.good5=T\u00e9nyleg veled akarok menni legk\u00f6zelebb, lehet?
+playerchild.young.chat.good6=Ez csod\u00e1latos,  %CallPlayerParent%\! Hogyan csin\u00e1ltad?
+playerchild.young.chat.good7=Val\u00f3ban? Ez nagyon kir\u00e1ly\!
+playerchild.young.chat.good8=Te vagy a legjobb %CallPlayerParent% a f\u00f6ld\u00f6n\! Nemis, ink\u00e1bb az univerzumban\!
+
+playerchild.young.joke.bad1=Uh-\u00f3\! %CallPlayerParent% cs\u00fanya szavat mondott\!
+playerchild.young.joke.bad2=Ez h\u00fclye.
+playerchild.young.joke.bad3=Te egy nagy b\u00e1bu vagy. Nem \u00e9rtem.
+playerchild.young.joke.bad4=Mi\u00e9rt viccelsz ezzel? *Sikit\u00e1s*
+playerchild.young.joke.bad5=Ne g\u00fanyol\u00f3dj velem\!
+playerchild.young.joke.bad6=%ParentOpposite% mondta, hogy ne sz\u00f3szerint \u00e9rtsd\!
+playerchild.young.joke.bad7=Azt hallottam milli\u00f3szor megt\u00f6rt\u00e9nt, miel\u00f6tt sz\u00f3lt, %CallPlayerParent%-nek.
+playerchild.young.joke.bad8=Ennek semmi \u00e9rtelme nem volt.
+
+playerchild.young.joke.good1=Te vicces vagy, %CallPlayerParent%.
+playerchild.young.joke.good2=Ha ha ha\! \u00c9rtem\!
+playerchild.young.joke.good3=Az egyik bar\u00e1tom vagy\!
+playerchild.young.joke.good4=Nem volt nagyobb butas\u00e1g mint az el\u00f6z\u00f6 20.
+playerchild.young.joke.good5=*Kuncog\u00e1s*
+playerchild.young.joke.good6=Ez vicces volt\!
+playerchild.young.joke.good7=Erre eml\u00e9kezni fogok\!
+
+playerchild.young.chore.start.farming1=Igen, %CallPlayerParent%.
+playerchild.young.chore.start.farming2=JAJ\! Szeretem a kerteket.
+playerchild.young.chore.start.farming3=Azonnal el is kezdem.
+playerchild.young.chore.start.farming4=V\u00e9geztem, mondj valamit amit tehetn\u00e9k.
+playerchild.young.chore.start.farming5=Rendben.
+playerchild.young.chore.start.farming6=Rem\u00e9ltem megk\u00e9rdezed hogy csin\u00e1ltam ezt\!
+playerchild.young.chore.start.farming7=Rem\u00e9lem ez megy a sz\u00fclinapi tort\u00e1mhoz.
+
+playerchild.young.chore.start.fishing1=A Horg\u00e1szat annyira unalmas. 
+playerchild.young.chore.start.fishing2=A hal\u00e1szat sok\u00e1ig tart\!
+playerchild.young.chore.start.fishing3=\u00c9n nem tudom, esk\u00fcsz\u00f6m\!
+playerchild.young.chore.start.fishing4=De a hal olyan b\u00fcd\u00f6s\!
+playerchild.young.chore.start.fishing5=De \u0151k ny\u00e1lk\u00e1s ...
+playerchild.young.chore.start.fishing6=Nem szeretem a vizes dolgokat\!
+playerchild.young.chore.start.fishing7=Nincs sz\u00fcks\u00e9gem halra.
+playerchild.young.chore.start.fishing8=Mi\u00e9rt kell mindig hal\u00e1szni?
+
+playerchild.young.chore.start.mining1=Mikor tudom megint a cs\u00e1k\u00e1nyt fogni?
+playerchild.young.chore.start.mining2=Mondtam  %ParentOpposite% hogy megint beleesett a l\u00e1v\u00e1ba.
+playerchild.young.chore.start.mining3=JAJ\! Szeretek b\u00e1ny\u00e1szni\!
+playerchild.young.chore.start.mining4=Rem\u00e9lem, a csontv\u00e1z nem l\u0151 megint.
+playerchild.young.chore.start.mining5=Ha tal\u00e1lok egy gy\u00e9m\u00e1ntot, megtartom. OK?
+
+playerchild.young.chore.start.woodcutting1=F\u00e1k, f\u00e1k, f\u00e1k, f\u00e1k...
+playerchild.young.chore.start.woodcutting2=Rem\u00e9lem nem zuhanok le megint\!
+playerchild.young.chore.start.woodcutting3=\u00c9p\u00edthetek egy fah\u00e1zat, ha v\u00e9gezt\u00fcnk?
+playerchild.young.chore.start.woodcutting4=Mire haszn\u00e1lhatom a f\u00e1t?
+
+playerchild.young.chore.start.hunting1=Rendben\! Szeretek vad\u00e1szni.
+playerchild.young.chore.start.hunting2=Rem\u00e9lem hogy a farkas nem harap meg \u00fajra.
+playerchild.young.chore.start.hunting3=De \u00e9n m\u00e9g olyan kicsi vagyok\! Utolj\u00e1ra is \u00f3r\u00e1kig tartott, hogy vissza hozzak egy tehenet.
+
+playerchild.young.chore.stop1=*Megk\u00f6nyebb\u00fclt s\u00f3haj*
+playerchild.young.chore.stop2=Azt hittem soha nem fejezem be.
+playerchild.young.chore.stop3=Olyan f\u00e1radt vagyok ...
+playerchild.young.chore.stop4=V\u00e9gre. Kezdtem unatkozni.
+playerchild.young.chore.stop5=V\u00e9gre. Kezdtem f\u00e1radni.
+playerchild.young.chore.stop6=Ne akard hogy ezt csin\u00e1ljam m\u00e9g egyszer\!
+
+playerchild.young.follow.start1=Ok, hov\u00e1 megy\u00fcnk?
+playerchild.young.follow.start2=Jaj\! \u00c9n maradok a %CallPlayerParent%-al\!
+playerchild.young.follow.start3=Jaj\! Ink\u00e1bb megyek veled.
+playerchild.young.follow.start4=De \u00e9n nem akarok menni\!
+playerchild.young.follow.start5=Vajon %ParentOpposite% is j\u00f6n vel\u00fcnk?
+playerchild.young.follow.start6=Rem\u00e9lem l\u00e1tunk majd egy diszn\u00f3t, vagy tehenet, vagy csirk\u00e9t, vagy egy b\u00e1r\u00e1nyt\!
+playerchild.young.follow.start7=Mi a dzsungelbe megy\u00fcnk? Rem\u00e9lem l\u00e1tunk kis macsk\u00e1kat.
+playerchild.young.follow.start8=Rem\u00e9lem nem megy\u00fcnk messzire...
+playerchild.young.follow.start9=A Creeper megijeszt engem, rem\u00e9lem nem szalad ut\u00e1nam egyse.
+
+playerchild.young.follow.stop1=Ok. Itt v\u00e1rok r\u00e1d.
+playerchild.young.follow.stop2=Ne hagyj itt sok\u00e1ig, rendben?
+playerchild.young.follow.stop3=De ijeszt\u0151 itt lenni...
+playerchild.young.follow.stop4=Ne,  %CallPlayerParent%, ne menj el\!
+playerchild.young.follow.stop5=De \u00e9n zajokat hallottam...
+playerchild.young.follow.stop6=Rendben, csak ne felejts el engem, %CallPlayerParent%.
+playerchild.young.follow.stop7=De... mi lesz ha este lesz?
+playerchild.young.follow.stop8=Lehet hogy hamarosan visszaj\u00f6ssz?
+playerchild.young.follow.stop9=Ne hagyj itt engem\!
+
+playerchild.young.gift.bad1=Mire tudn\u00e1m haszn\u00e1lni ezt\!?
+playerchild.young.gift.bad2=Ez a b\u00fcd\u00f6s.
+playerchild.young.gift.bad3=Nem szeretem ezeket.
+playerchild.young.gift.bad4=%CallPlayerParent%, te tudod mit szeretek, \u00e9s mit nem.
+playerchild.young.gift.bad5=Hozz nekem valami j\u00f3t.
+playerchild.young.gift.bad6=M\u00e1r van ilyenb\u0151l nekem vagy 10 milli\u00f3.
+playerchild.young.gift.bad7=Ez haszn\u00e1lhatatlan szem\u00e9t\!
+playerchild.young.gift.bad8=Ink\u00e1bb ne adj semmit\!
+playerchild.young.gift.bad9=Hm??
+
+playerchild.young.gift.great1=Hol szerezted ezt, %CallPlayerParent%?
+playerchild.young.gift.great2=Ezt nekem hoztad?
+playerchild.young.gift.great3=Jaaaaaaaj\!
+playerchild.young.gift.great4=Ez mind az eny\u00e9m\!?
+playerchild.young.gift.great5=%ParentOpposite% szexy-nek h\u00edvja.
+playerchild.young.gift.great6=Te vagy a legjobb %CallPlayerParent% \u00f6r\u00f6kre\!
+
+playerchild.young.gift.regular1=Rem\u00e9lem lesz m\u00e9g\!
+playerchild.young.gift.regular2=Ezt nekem hoztad?
+playerchild.young.gift.regular3=Tudsz m\u00e9g 2 ilyet, nem?
+playerchild.young.gift.regular4=Ez az eny\u00e9m?\!
+
+playerchild.young.gift.small1=Hol szerezted ezt, %CallPlayerParent%?
+playerchild.young.gift.small2=\u00d3ooo, f\u00e9nyes\!
+playerchild.young.gift.small3=Aj\u00e1nd\u00e9kok\! Szeretem az aj\u00e1nd\u00e9kokat\!
+playerchild.young.gift.small4=Tetszik, %CallPlayerParent%.
+playerchild.young.gift.small5=K\u00f6szi, %CallPlayerParent%.
+
+playerchild.young.greeting.basic1=Hallod, %CallPlayerParent%.
+playerchild.young.greeting.basic2=F\u00faj, %CallPlayerParent%, b\u00fcd\u00f6s vagy. Hol j\u00e1rt\u00e1l?
+playerchild.young.greeting.basic3=Jee\!  %CallPlayerParent% itthon van\!
+playerchild.young.greeting.basic4=Hurr\u00e1, %CallPlayerParent%\! Hozt\u00e1l nekem valamit?
+
+playerchild.young.greeting.friend1=Jee\! %CallPlayerParent% %CallPlayerParent% %CallPlayerParent%\!\!\!
+playerchild.young.greeting.friend2=Hozt\u00e1l nekem aj\u00e1nd\u00e9kot nem?
+playerchild.young.greeting.friend3=%CallPlayerParent%, hi\u00e1nyozt\u00e1l.
+playerchild.young.greeting.friend4=Mes\u00e9ld el nekem, merre j\u00e1rt\u00e1l\!
+playerchild.young.greeting.friend5=%CallPlayerParent%, ne hagyj el \u00fajra. Mert %ParentOpposite% szomor\u00fa.
+
+playerchild.young.greeting.hate1=K\u00e9rlek ne b\u00e1nts t\u00f6bbet %CallPlayerParent%.
+playerchild.young.greeting.hate2=%CallPlayerParent%, kedves leszel hozz\u00e1m?
+playerchild.young.greeting.hate3=Sz...Szi... %CallPlayerParent%
+playerchild.young.greeting.hate4=*f\u00e9lve \u00f6sszeh\u00fazza mag\u00e1t*
+playerchild.young.greeting.hate5=J\u00f3 leszek ma, %CallPlayerParent%... ne verj meg.
+
+playerchild.young.hitbyplayer1=\u00d3\! Besz\u00e9ltem %ParentOpposite% r\u00f3lad\!
+playerchild.young.hitbyplayer2=%CallPlayerParent%, ne \u00fcss t\u00f6bbet\!
+playerchild.young.hitbyplayer3=%CallPlayerParent%, ez f\u00e1j\!
+playerchild.young.hitbyplayer4=A\u00fa\! Mit tettem, %CallPlayerParent%?
+playerchild.young.hitbyplayer5=Oh\!
+playerchild.young.hitbyplayer6=A\u00fa\u00fa\!
+playerchild.young.hitbyplayer7=Megmondalak %ParentOpposite%\!
+
+playerchild.young.gifted.baby1=F\u00faj\! Ez b\u00fcd\u00f6s\!
+
+playerchild.young.tellstory.good1=Kapt\u00e1l egy klassz dolgot nem?
+playerchild.young.tellstory.good2=Nem tudom megcsin\u00e1lni\!
+playerchild.young.tellstory.good3=Te soha sem engedelmeskedsz pedig mindig elmagyar\u00e1zom a dolgokat\!
+playerchild.young.tellstory.good4=*NEVET\u00c9S* %ParentOpposite% tette?
+playerchild.young.tellstory.good5=Nem gondoltam volna hogy megteszed\!
+
+playerchild.young.tellstory.bad1=*S\u00cdR* Te mi\u00e9rt csin\u00e1ln\u00e1l ilyet?
+playerchild.young.tellstory.bad2=Besz\u00e9ltem %RandomName%-el ahogy mondtad.
+playerchild.young.tellstory.bad3=Igen, igen, mindegy. Nem akarom most a t\u00f6rt\u00e9neteket hallgatni.
+playerchild.young.tellstory.bad4=A creeper-ek elkapnak engem?\!
+playerchild.young.tellstory.bad5=*S\u00cdR* Nem akarom hogy %ParentOpposite% elmenjen a zombik ellen harcolni\!
+
+playerchild.young.play.good1=\u00dagyse kapsz el\!
+playerchild.young.play.good2=Nagyon szeretem mikor velem j\u00e1tszol, %CallPlayerParent%.
+playerchild.young.play.good3=\u00c9n fogok nyerni\!
+playerchild.young.play.good4=Ez j\u00f3 m\u00f3ka lesz\!
+playerchild.young.play.good5=Soha ne verj meg\!
+
+playerchild.young.play.bad1=Te soha nem hagysz nyerni engem.
+playerchild.young.play.bad2=Neked sz\u00fcks\u00e9ged van a tanul\u00e1sra, de nem tanulsz.
+playerchild.young.play.bad3=Te t\u00fal \u00f6reg vagy m\u00e1r ehhez.
+playerchild.young.play.bad4=Mi\u00e9rt nem j\u00e1tszol a kedvenc gyerekeddel?
+playerchild.young.play.bad5=\u00c9n csak %RandomName%-al akarok j\u00e1tszani.
+
+playerchild.young.greeting.handshake.good1=Hallod, %CallPlayerParent%.
+playerchild.young.greeting.handshake.good2=Hol volt\u00e1l ma?
+playerchild.young.greeting.handshake.good3=Mes\u00e9lj a kalandjaidr\u00f3l.
+playerchild.young.greeting.handshake.good4=Visszaj\u00f6tt\u00e9l. Mit csin\u00e1lt\u00e1l?
+playerchild.young.greeting.handshake.good5=Gyer\u00fcnk csin\u00e1ljunk valamit\!
+
+playerchild.young.greeting.handshake.bad1=...mi\u00e9rt fogt\u00e1l velem kezet?
+playerchild.young.greeting.handshake.bad2=A kezed izzadt \u00e9s undor\u00edt\u00f3.
+playerchild.young.greeting.handshake.bad3=F\u00faj, ne \u00e9rj hozz\u00e1m\!
+playerchild.young.greeting.handshake.bad4=Nem akartam veled kezet fogni\!
+playerchild.young.greeting.handshake.bad5=Mi\u00e9rt nem besz\u00e9lget\u00fcnk soha, pedig mindig kezet fogunk egym\u00e1ssal?
+
+playerchild.young.greeting.highfive.good1=Csin\u00e1lni fogod m\u00e1skor is?
+playerchild.young.greeting.highfive.good2=Ez szupi volt\!
+playerchild.young.greeting.highfive.good3=*Nevet*
+playerchild.young.greeting.highfive.good4=Adj egy NAGY \u00f6t\u00f6st m\u00e9g egyszer\!
+playerchild.young.greeting.highfive.good5=K\u00e9rlek, csak m\u00e9g egyszer\!
+
+playerchild.young.greeting.highfive.bad1=F\u00e1radt vagyok most ehhez.
+playerchild.young.greeting.highfive.bad2=Csin\u00e1lunk valami m\u00e1st?
+playerchild.young.greeting.highfive.bad3=Nem tudlak elkapni, b\u00e9n\u00e1zok\!
+playerchild.young.greeting.highfive.bad4=Nem adok t\u00f6bb \u00f6t\u00f6st soha t\u00f6bb\u00e9.
+playerchild.young.greeting.highfive.bad5=Ez felbosszantott.
+
+#######
+# Spouse Dialogue
+##############################
+spouse.chat.bad1=M\u00e1r hallottam ezt a t\u00f6rt\u00e9netet kor\u00e1bban.
+spouse.chat.bad2=Kezd unalmas lenni hogy mindig err\u0151l besz\u00e9lsz.
+spouse.chat.bad3=Nem k\u00e9ne valami m\u00e1sr\u00f3l is besz\u00e9lgetn\u00fcnk?
+spouse.chat.bad4=Nem akarok besz\u00e9lni r\u00f3la.
+spouse.chat.bad5=B\u00e1rmit mondasz.
+spouse.chat.bad6=Van valami m\u00e1s is amit mondani akarsz nekem?
+
+spouse.chat.good1=Im\u00e1dom mikor ilyen kalandos t\u00f6rt\u00e9neteket mes\u00e9lsz nekem.
+spouse.chat.good2=Leny\u0171g\u00f6z\u0151\!
+spouse.chat.good3=Igen, minden rendben van itt.
+spouse.chat.good4=Nos \u00e9n ma... h\u00e1t, nem is akarod tudni, tudom\!
+spouse.chat.good5=Hossz\u00fa volt ez a nap, neked is?
+spouse.chat.good6=Ez az ami\u00e9rt szeretlek t\u00e9ged.
+spouse.chat.good7=Csod\u00e1latos ez a dolog, \u00f6r\u00fcl\u00f6k hogy a h\u00e1zast\u00e1rsad lehetek.
+spouse.chat.good8=A t\u00f6rt\u00e9neted megh\u00f6kkent engem\!
+spouse.chat.good9=J\u00f3 sztori\!
+spouse.chat.good10=*\u00e9hesen megnyalja a sz\u00e1j\u00e1t*
+
+spouse.divorce1=V\u00e9geztem veled\!
+spouse.divorce2=J\u00f3 megszabadulunk t\u0151le\!
+spouse.divorce3=Soha nem akarlak t\u00f6bbet l\u00e1tni\!
+spouse.divorce4=Csak... ezt kapod t\u0151lem\!
+spouse.divorce5=Nem hiszek neked\! Hagyj b\u00e9k\u00e9n\!
+spouse.divorce6=Mi\u00e9rt? Nem vagyok... el\u00e9g j\u00f3...?
+spouse.divorce7=Azt hittem, hogy t\u00e9nyleg szeret engem\!
+spouse.divorce8=Micsoda\!? Nem\! Ezt nem hiszem el\!
+spouse.divorce9=Hagyj b\u00e9k\u00e9n\! \u00d6r\u00f6kre\!
+
+spouse.follow.start1=Oh ok\u00e9, hov\u00e1 megy\u00fcnk?
+spouse.follow.start2=Rendben, tartani fogom.
+spouse.follow.start3=Ok\u00e9, menj\u00fcnk\!
+spouse.follow.start4=Mi v\u00e9gre elhagyjuk ezt a szem\u00e9tdombot?
+spouse.follow.start5=Van egy \u00faj h\u00e1zad valahol?
+spouse.follow.start6=Ok\u00e9, de \u00e9n nem akarok elmenni innen.
+spouse.follow.start7=Mehetek kalandozni veled? Mennyire izgi lesz\!
+spouse.follow.start8=Menj\u00fcnk el valahova, rendben?
+
+spouse.follow.stop1=Ez a hely nagyon sz\u00e9pen n\u00e9z ki\!
+spouse.follow.stop2=Rendben, te mindig sz\u00edvesen l\u00e1tsz engem, dr\u00e1g\u00e1m.
+spouse.follow.stop3=Rendben, akkor, l\u00e9gy \u00f3vatos odakint\!
+spouse.follow.stop4=Itt leszek mikor visszaj\u00f6ssz.
+spouse.follow.stop5=H\u0171ha, ez f\u00e1raszt\u00f3 volt, de legal\u00e1bb veled voltam.
+
+spouse.gift.bad1=\u00d3... nem k\u00f6szi. Nekem m\u00e1r van ilyen, valahol.
+spouse.gift.bad2=Rem\u00e9lem nem gondolod hogy ez tetszik nekem.
+spouse.gift.bad3=Gondolhattam volna, hogy nem eml\u00e9kszel hogy miket szeretek.
+spouse.gift.bad4=Mi\u00e9rt adod ezt nekem?
+spouse.gift.bad5=Ez az amit te aj\u00e1nd\u00e9knak h\u00edvsz?
+spouse.gift.bad6=Azt hittem tudod miket szeretek. Nyilv\u00e1nval\u00f3an nem tudod.
+spouse.gift.bad7=Ez... rossz. Nem akarom ezt.
+
+spouse.gift.great1=\u00d3 \u00e9n... mennyibe ker\u00fclt ez?
+spouse.gift.great2=Honnan szerezted ezt?? K\u00f6sz\u00f6n\u00f6m\!
+spouse.gift.great3=Biztos nagyon neh\u00e9z volt ezt beszerezni\!
+spouse.gift.great4=Ezt t\u00e9nyleg nem fogadhatom el... ez nagyon csillog\u00f3s\!
+spouse.gift.great5=\u00c9n mindig vigy\u00e1zni fogok erre.
+spouse.gift.great6=K\u00f6sz\u00f6n\u00f6m \u00e9desem, t\u00e9nyleg tudod, mit szeretek.
+spouse.gift.great7=Ez az\! Ezt mindig k\u00f6zel fogom tartani magamhoz.
+spouse.gift.great8=Te sexy vagy, \u00e9s \u00e9n is \u00e9szrevettem.
+
+spouse.gift.regular1=Ez j\u00f3\! K\u00f6szi\!
+spouse.gift.regular2=Hozz m\u00e9g\!
+spouse.gift.regular3=Nem kellett volna ezt nekem adnod... k\u00f6szi.
+spouse.gift.regular4=Ez szuper\! K\u00f6szi\!
+spouse.gift.regular5=Tudod, mit szeretek, nem igaz?
+spouse.gift.regular6=\u00d3, k\u00f6sz\u00f6n\u00f6m, ez nagyon kedves t\u0151led.
+spouse.gift.regular7=Ez nagyon \u00e9des.
+
+spouse.gift.small1=K\u00f6sz\u00f6n\u00f6m\!
+spouse.gift.small2=Nagyra \u00e9rt\u00e9kelem ezt.
+spouse.gift.small3=\u00d3h. Meghat, hogy gondolt\u00e1l r\u00e1m\!
+spouse.gift.small4=\u00d3h, te nagyon \u00e9des vagy.
+spouse.gift.small5=K\u00f6szi. Nem kellett volna semmit adnod, m\u00e9gis adt\u00e1l. 
+
+spouse.greeting.basic1=Szia, \u00e9des.
+spouse.greeting.basic2=Hol volt\u00e1l ma?
+spouse.greeting.basic3=Szia, dr\u00e1g\u00e1m. Hogy vagy?
+spouse.greeting.basic4=Minden rendben van?
+spouse.greeting.basic5=Haza\u00e9rt\u00e9l a kalandodr\u00f3l? Hogy vagy \u00e9desem?
+spouse.greeting.basic6=\u00dagy hi\u00e1nyozt\u00e1l\! Hogy vagy, dr\u00e1g\u00e1m?
+spouse.greeting.basic7=Agg\u00f3dtam, sz\u00f3 n\u00e9lk\u00fcl elment\u00e9l. De \u00f6r\u00fcl\u00f6k, hogy visszaj\u00f6tt\u00e9l.
+spouse.greeting.basic8=H\u00e9, mi a helyzet?
+spouse.greeting.basic9=Ez a nap sz\u00e9p volt nem?
+spouse.greeting.basic10=\u00d6r\u00fcl\u00f6k, hogy visszaj\u00f6tt\u00e9l.
+
+spouse.greeting.friend1=Szia, \u00e9des.
+spouse.greeting.friend2=Hol volt\u00e1l ma?
+spouse.greeting.friend3=Szia, dr\u00e1g\u00e1m. Hogy vagy?
+spouse.greeting.friend4=Minden rendben van?
+spouse.greeting.friend5=Haza\u00e9rt\u00e9l a kalandodr\u00f3l? Hogy vagy \u00e9desem?
+spouse.greeting.friend6=\u00dagy hi\u00e1nyozt\u00e1l\! Hogy vagy, dr\u00e1g\u00e1m?
+spouse.greeting.friend7=Agg\u00f3dtam, sz\u00f3 n\u00e9lk\u00fcl elment\u00e9l. De \u00f6r\u00fcl\u00f6k, hogy visszaj\u00f6tt\u00e9l.
+spouse.greeting.friend8=H\u00e9, mi a helyzet?
+spouse.greeting.friend9=Ez a nap sz\u00e9p volt nem?
+spouse.greeting.friend10=\u00d6r\u00fcl\u00f6k, hogy visszaj\u00f6tt\u00e9l.
+
+spouse.greeting.hate1=Nem akarok besz\u00e9lni veled most.
+spouse.greeting.hate2=Nagyon ideges vagyok r\u00e1d. Hagyj b\u00e9k\u00e9n.
+spouse.greeting.hate3=%PlayerName%, megmondtam hogy nem akarok veled besz\u00e9lni.
+spouse.greeting.hate4=T\u00f6bb\u00e9 m\u00e1r nem vagyunk besz\u00e9l\u0151 viszonyban, csak hogy tudd.
+spouse.greeting.hate5=Jobban tenn\u00e9d ha v\u00e1ltoztatn\u00e1l magadon, mert elmegyek innen.
+
+spouse.hitbyplayer1=F\u00faj\! Ez s\u00e9rt\u0151\!
+spouse.hitbyplayer2=Rem\u00e9lem nem akarod hogy ezt tegy\u00fck.
+spouse.hitbyplayer3=Ez t\u00e9nyleg f\u00e1jt ...
+spouse.hitbyplayer4=Ne ez f\u00e1j\!
+spouse.hitbyplayer5=A\u00fa\! Barom vagy\!
+spouse.hitbyplayer6=Mi\u00e9rt akarsz meg\u00fctni engem\!?
+spouse.hitbyplayer7=Mi a fene volt ez\!?
+
+spouse.gifted.baby1=Megint? A\u00facs. Sz\u00e9\u00e9p.
+spouse.gifted.baby2=Olyan aranyos\! Igen TE\! Igen TE\!
+spouse.gifted.baby3=Ok, tartsd.
+spouse.gifted.baby4=Ooo\! Valami van itt nekem? \u00d3\u00d3. Ez egy baba.
+spouse.gifted.baby5=Sz\u00e9p. Add csak ide.
+spouse.gifted.baby6=N\u00e9zem, de nem hiszek a szememnek\!
+spouse.gifted.baby7=\u00d3, nem tudsz a gyerekkel b\u00e1nni? Rendben akkor add nekem.
+
+spouse.joke.bad1=Uh... \u00fagy eml\u00e9kszem ez el\u0151tt besz\u00e9lt\u00e9l r\u00f3la.
+spouse.joke.bad2=Azt gondolod ennek van \u00e9rtelme?
+spouse.joke.bad3=Azt gondolom illeg\u00e1lis hogy ilyen vicceket mes\u00e9lsz nekem.
+spouse.joke.bad4=Ez volt... nagyon... \u00e9des.
+spouse.joke.bad5=*k\u00ednos mosoly*
+spouse.joke.bad6=*er\u0151ltetett kuncog\u00e1s*
+spouse.joke.bad7=...l\u00e9pj\u00fcnk tov\u00e1bb....
+
+spouse.joke.good1=\u00d3. Err\u0151l m\u00e1r mes\u00e9lt\u00e9l mikor el\u0151sz\u00f6r tal\u00e1lkoztunk.
+spouse.joke.good2=Erre eml\u00e9kszem\! Most is vicces\!
+spouse.joke.good3=\u00d3, te nagyon vicces vagy\!
+spouse.joke.good4=Hogyan tal\u00e1ltad ezt ki? HAHA\!
+spouse.joke.good5=Nem musz\u00e1j nevetni rajta, de att\u00f3l m\u00e9g vicces\!
+
+spouse.procreate.refuse1=Nem, nem \u00edgy gondolom.
+spouse.procreate.refuse2=Te csak viccelsz\!
+spouse.procreate.refuse3=NEM, azok ut\u00e1n ahogy viselkedt\u00e9l velem\!
+spouse.procreate.refuse4=Nem nagyon kedvellek. Nem teszem meg neked.
+spouse.procreate.refuse5=Persze mitnem\! Kedveskedj nekem t\u00f6bbet, akkor meggondolom.
+
+spouse.kiss.good1=\u00d3h, te nagyon \u00e9des vagy.
+spouse.kiss.good2=Szerelmes vagyok bel\u00e9d.
+spouse.kiss.good3=Te t\u00fal j\u00f3 vagy hozz\u00e1m.
+spouse.kiss.good4=K\u00f6szi, ez nagyon \u00e9des t\u0151led.
+spouse.kiss.good5=Milyen kedves t\u0151led\!
+
+spouse.kiss.bad1=Nem, nincs hangulatom ma hozz\u00e1.
+spouse.kiss.bad2=Mi\u00e9rt lett\u00e9l hirtelen ennyire kedves hozz\u00e1m?
+spouse.kiss.bad3=Menj \u00e9s cs\u00f3kold meg a tehenet.
+spouse.kiss.bad4=Nem hiszem.
+spouse.kiss.bad5=T\u00fal k\u00e9s\u0151.
+spouse.kiss.bad6=Az orrod kib\u00f6kte a szemem\!
+spouse.kiss.bad7=F\u00faj, ez t\u00fal ny\u00e1las volt, \u00e9s hanyag\!
+spouse.kiss.bad8=Te nem tudod hogyan kell cs\u00f3kol\u00f3zni.
+
+spouse.flirt.good1=Te egy rossz besz\u00e9lget\u0151 vagy.
+spouse.flirt.good2=*PIRUL* Te mindig elb\u0171v\u00f6l\u0151 vagy.
+spouse.flirt.good3=\u00d3, te semmit sem v\u00e1ltozt\u00e1l mi\u00f3ta h\u00e1zas ember lett\u00e9l.
+spouse.flirt.good4=\u00d3h\! Ez nagyon \u00e9des\!
+spouse.flirt.good5=\u00d3, zavarba j\u00f6ttem.
+
+spouse.flirt.bad1=Erre senkinek sincs ideje\!
+spouse.flirt.bad2=Milyen eredeti.
+spouse.flirt.bad3=Fogadni merek hogy elmondod mindenkinek. Fogadni merek.
+spouse.flirt.bad4=Nem vagyok abban a hangulatban.
+spouse.flirt.bad5=Most akarsz kapcsolatot velem? Mi volt veled akkor, amikor f\u00fcggetlenek voltunk?
+
+spouse.tellstory.good1=Ez j\u00f3 volt\!
+spouse.tellstory.good2=Mi a k\u00f6vetkez\u0151 egetrenget\u0151 l\u00e9p\u00e9s?
+spouse.tellstory.good3=Megn\u00e9zted, himneySwift11-nek a Minecraft f\u00e1jljait?\!
+spouse.tellstory.good4=*NEVET\u00c9S* Ez arra eml\u00e9keztet engem amikor any\u00e1m r\u00e1m nyitott. Csak takar\u00edtottam.
+spouse.tellstory.good5=\u00d3, \u00e9n szeretn\u00e9m ha l\u00e1nyom lenne\!
+
+spouse.tellstory.bad1=Mi\u00e9rt mondod nekem ezt?
+spouse.tellstory.bad2=Ez arra k\u00e9nyszer\u00edt engem hogy s\u00edrva fakadjak...
+spouse.tellstory.bad3=*Nem figyel r\u00e1d*
+spouse.tellstory.bad4=Mi\u00e9rt adn\u00e9k neked olyat ami \u00f6r\u00f6m\u00f6t okoz?
+spouse.tellstory.bad5=Nem szabad g\u00fanyol\u00f3dni %RandomName%-al.
+
+spouse.greeting.handshake.good1=Im\u00e1dom azt amikor a kezed a kezemhez \u00e9r.
+spouse.greeting.handshake.good2=Te butus vagy\!
+spouse.greeting.handshake.good3=Milyen volt a napod, dr\u00e1g\u00e1m?
+spouse.greeting.handshake.good4=Hogy vagy?
+spouse.greeting.handshake.good5=\u00dcdv, szerelmem.
+
+spouse.greeting.handshake.bad1=\u00d3, \u00e9n tudom hova tetted a kezed.
+spouse.greeting.handshake.bad2=A te kezed selymesen puha.
+spouse.greeting.handshake.bad3=K\u00e9zfog\u00e1s? Ennyi?
+spouse.greeting.handshake.bad4=Ne, te eg\u00e9sz nap a b\u00e1ny\u00e1ban volt\u00e1l.
+spouse.greeting.handshake.bad5=\u0150k szeretik szagolni a ... teheneket?\!
+
+spouse.greeting.highfive.good1=\u00d3 jeee\!
+spouse.greeting.highfive.good2=Feljebb\!
+spouse.greeting.highfive.good3=Adj egy \u00f6t\u00f6st\!
+spouse.greeting.highfive.good4=Mi a szitu?
+spouse.greeting.highfive.good5=Francba jeee\!
+
+spouse.greeting.highfive.bad1=Ennyi volt a legt\u00f6bb kapcsolat vel\u00fck mindig.
+spouse.greeting.highfive.bad2=Nem adok senkinek t\u00f6bb \u00f6t\u00f6st.
+spouse.greeting.highfive.bad3=Olyan gyerekes vagy.
+spouse.greeting.highfive.bad4=Jaj\! Ne \u00fcss meg\!
+spouse.greeting.highfive.bad5=Nem merek veled kezet fogni.
+
+spouse.chore.start.cooking1=Term\u00e9szetesen\! Megs\u00fct\u00f6k neked b\u00e1rmilyen kaj\u00e1t amit adsz nekem.
+spouse.chore.start.cooking2=Igen, kedvesem. Igazad van benne.
+spouse.chore.start.cooking3=Ne zavarj most\! Tudod, most f\u0151z\u00f6k.
+spouse.chore.start.cooking4=\u00c9hes vagyok, NAGYON\!
+spouse.chore.start.cooking5=Rem\u00e9lem, nem \u00e9gnek el ez alatt.
+

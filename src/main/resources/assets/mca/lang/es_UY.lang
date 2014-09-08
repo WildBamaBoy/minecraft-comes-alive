@@ -1,0 +1,2255 @@
+#X-Generator: crowdin.com
+#X-Generator: crowdin.net
+itemGroup.tabMCA=Minecraft Comes Alive
+
+##########
+# Heir
+#############################
+heir.set.success=%Name% es ahora tu heredero.
+heir.set.failure.alreadyset=Ya has elegido a alguien m\u00e1s como tu heredero.
+heir.set.failure.sameperson=%Name% ya es tu heredero.
+heir.set.failure.alreadyused=%Name% ya ha sido tu heredero. Debes elegir otra persona.
+
+heir.gui.requestcrown=Pedir la Corona
+heir.gui.recoverinventory=Recuperar inventario
+
+heir.good.returncrown1=Bien. Fue divertido mientras dur\u00f3.
+heir.good.returncrown2=Por supuesto, %CallPlayerParent%. Aqu\u00ed la tienes.
+heir.good.returncrown3=Te lo agradezco. Toma, ya se me estaba haciendo aburrido.
+heir.good.returncrown4=Cinco minutos m\u00e1s, por favor. \u00a1Hale, ya est\u00e1\!
+heir.good.returncrown5=Por fin acabo con esto. \u00a1La gente ya empezaba a odiarme\!
+
+heir.good.founditems1=\u00a1Has vuelto\! Cre\u00ed que te hab\u00edas ido para siempre. Aqu\u00ed tienes tus objetos.
+heir.good.founditems2=\u00a1Vimos tus objetos y pensamos que no volver\u00edas\! Pero los guardamos, aqu\u00ed tienes.
+heir.good.founditems3=Mand\u00e9 a unos guardias a buscarte. Ellos traer\u00e1n tus objetos de vuelta.
+heir.good.founditems4=\u00a1No puedo creer que hayas vuelto\! Nos encontramos tus objetos, pero no te vimos a ti.
+
+##########
+# Information
+#############################
+information.doesnothing=No hace nada actualmente.
+
+information.whistle.line1=Haz clic derecho mientras para
+information.whistle.line2=traer a tu esposa y a tus
+information.whistle.line3=ni\u00f1os contigo.
+
+information.heircrown.line1=Reg\u00e1lasela a tu hijo/a
+information.heircrown.line2=para hacerlo rey/reina
+information.heircrown.line3=cuando mueras.
+
+information.weddingring.line1=Reg\u00e1laselo a un aldenano/a
+information.weddingring.line2=con m\u00e1s de 100 corazones para
+information.weddingring.line3=que se convierta en tu pareja.
+
+information.villagereditor.line1=Haz clic derecho a un aldeano
+information.villagereditor.line2=para editarlo.
+
+information.tombstone.line1=Col\u00f3calo como tributo a
+information.tombstone.line2=un familiar fallecido.
+
+information.lostrelativedocument.line1=Util\u00edzalo en un aldeano para convertirlos
+information.lostrelativedocument.line2=en lo relativo a lo que t\u00fa elijas.
+
+information.engagementring.line1=Reg\u00e1laselo a un aldeano/a, despu\u00e9s
+information.engagementring.line2=reg\u00e1lales un anillo de boda para
+information.engagementring.line3=recibir regalos de otros aldeanos.
+
+information.crown.line1=Fabr\u00edcala para convertirte en monarca.
+
+information.baby.line1=Haz clic derecho en el suelo
+information.baby.line2=para convertir al beb\u00e9 en un ni\u00f1o
+information.baby.line3=cuando est\u00e9 listo.
+
+information.arrangersring.line1=Reg\u00e1laselo a un aldeano/a, despu\u00e9s a
+information.arrangersring.line2=otro/a que est\u00e9 cerca para
+information.arrangersring.line3=hacer que se ambos se casen.
+
+information.villagerbed.line1=Place this bed on the ground
+information.villagerbed.line2=and a nearby villager will sleep
+information.villagerbed.line3=in it at night.
+
+##########
+# Traits
+#############################
+gui.info.trait=Rasgo\: 
+trait.unknown=Desconocido
+
+trait.none=Nada
+trait.shy=T\u00edmido
+trait.fun=Diversi\u00f3n
+trait.serious=Serio
+trait.friendly=Amistoso
+trait.irritable=Irritable
+trait.emotional=Emocional
+trait.outgoing=Extrovertido
+
+##########
+# Moods
+#############################
+gui.info.mood=Estado de \u00e1nimo\: 
+
+mood.happy.ecstatic=Tranquilo
+mood.happy.cheerful=Alegre
+mood.happy.happy=Feliz
+mood.happy.fine=Buen humor
+mood.happy.okay=Bien
+
+mood.neutral.passive=Pasivo
+
+mood.sadness.blue=Triste
+mood.sadness.unhappy=Infeliz
+mood.sadness.sad=Apenado
+mood.sadness.cheerless=Desanimado
+mood.sadness.depressed=Deprimido
+
+mood.anger.annoyed=Irritado
+mood.anger.agitated=Cabreado
+mood.anger.mad=Rabioso
+mood.anger.seething=Furioso
+mood.anger.infuriated=Muy enfurecido
+
+mood.fatigue.tired=Tired
+mood.fatigue.sleepy=Sleepy
+mood.fatigue.fatigued=Fatigued
+mood.fatigue.exhausted=Exhausted
+mood.fatigue.comatose=Comatose
+
+#######
+# Monarch
+#############################
+monarch.gui.button.interact.demandgift=Solicitar regalo
+monarch.gui.button.interact.execute=Ejecutar
+monarch.gui.button.interact.makeknight=Nombrar caballero
+monarch.gui.button.interact.makepeasant=Nombrar campesino
+
+monarch.knight.follow.start1=Para ti lo que sea, mi %MonarchTitle%.
+monarch.knight.follow.start2=Te acompa\u00f1ar\u00e9 a donde sea, su alteza.
+monarch.knight.follow.start3=\u00a1Armas listas\!
+monarch.knight.follow.start4=A sus \u00f3rdenes.
+monarch.knight.follow.start5=Como desees.
+
+monarch.knight.follow.stop1=A su servicio cuando desee, mi %MonarchTitle%.
+monarch.knight.follow.stop2=Como desee, su majestad.
+monarch.knight.follow.stop3=Continuar\u00e9 con mis obligaciones.
+
+monarch.knight.follow.refuse1=\u00a1Nunca me opondr\u00e9 a los deseos de mi %MonarchPlayerName%\!
+monarch.knight.follow.refuse2=He jurado lealtad a %MonarchPlayerName%.
+monarch.knight.follow.refuse3=Soy caballero de %MonarchPlayerName%.
+
+monarch.execute.failure.noweapon=No tienes un arma con la que ejecutar a este individuo.
+monarch.execute.failure.playerspouse=No puedes ejecutar a la esposa de un jugador.
+
+monarch.makepeasant.success=Has nombrado campesino a este aldeano y est\u00e1 a tus \u00f3rdenes. Har\u00e1n sus jornadas de trabajo de forma gratuita.
+monarch.makepeasant.failure.alreadypeasant=Este aldeano ya es campesino de otro monarca.
+monarch.makepeasant.failure.playerspouse=No puedes nombrar campesina a la esposa de un jugador.
+
+monarch.makeknight.success=Has nombrado caballero a este guardia y est\u00e1 a tus \u00f3rdenes.
+monarch.makeknight.failure.alreadyknight=Este guardia ya es un caballero de otro monarca.
+monarch.makeknight.failure.playerspouse=No puedes nombrar caballera a la esposa de un jugador.
+
+monarch.title.knight.male=%Name% el caballero
+monarch.title.knight.female=%Name% la caballera
+monarch.title.knight.male.otherplayer=(Caballero de %MonarchPlayerName%)
+monarch.title.knight.female.otherplayer=(Caballera de %MonarchPlayerName%)
+
+monarch.title.peasant.male.owner=(Campesino)
+monarch.title.peasant.female.owner=(Campesina)
+monarch.title.peasant.male.otherplayer=(Campesino de %MonarchPlayerName%)
+monarch.title.peasant.female.otherplayer=(Campesina de %MonarchPlayerName%)
+
+monarch.title.monarch=Monarca
+monarch.title.heir=Heredero
+monarch.title.male.player=Rey
+monarch.title.male.heir=Pr\u00edncipe
+monarch.title.female.player=Reina
+monarch.title.female.heir=Princesa
+
+monarch.demandgift.accept1=\u00a1Por supuesto, su alteza\!
+monarch.demandgift.accept2=Lo que sea por usted, su alteza.
+monarch.demandgift.accept3=\u00a1Lo que sea por mi %MonarchTitle%\!
+monarch.demandgift.accept4=S\u00ed, mi %MonarchTitle%.
+monarch.demandgift.accept5=Me encantar\u00eda traerle montones de oro, mi %MonarchTitle%.
+monarch.demandgift.accept6=\u00a1Mi %MonarchTitle%, la gente como t\u00fa merece muchos regalos\!
+monarch.demandgift.accept7=Sin dudarlo, su alteza.
+
+monarch.demandgift.toomany1=\u00a1Apenas tengo para mi en estos momentos\!
+monarch.demandgift.toomany2=Por favor, ya he hecho demasiado...
+monarch.demandgift.toomany3=Pensaba que eras un %MonarchTitle% honrado, no un codicioso.
+monarch.demandgift.toomany4=Yo no le he dicho nada, pero se est\u00e1 empezando a decir por ah\u00ed que es usted un tirano.
+monarch.demandgift.toomany5=\u00a1No puedo darle mucho\!
+monarch.demandgift.toomany6=No puedo darle mucho... Me pide demasiado.
+
+monarch.demandgift.dictator1=\u00a1Olv\u00eddalo\! \u00a1No te voy a dar nada nunca m\u00e1s\!
+monarch.demandgift.dictator2=\u00a1Estamos hartos de que nos pidas cosas\! \u00a1No\!
+monarch.demandgift.dictator3=\u00a1No\! \u00a1Ya basta\!
+monarch.demandgift.dictator4=\u00a1Ya ha sido suficiente\! \u00a1Estamos hartos de tu insaciable codicia\!
+monarch.demandgift.dictator5=Haga lo que deba hacer, \u00a1pero no pienso darle nada m\u00e1s\!
+
+#######
+# Names
+##############################
+name.male1=Aaron
+name.male2=Aceton
+name.male3=Adam
+name.male4=Aidan
+name.male5=Alan
+name.male6=Alex
+name.male7=Allen
+name.male8=Andrew
+name.male9=Anthony
+name.male10=Armando
+name.male11=Arthur
+name.male12=Austin
+name.male13=Ben
+name.male14=Bill
+name.male15=Billy
+name.male16=Bradley
+name.male17=Brady
+name.male18=Braxton
+name.male19=Brayden
+name.male20=Brenden
+name.male21=Brent
+name.male22=Brian
+name.male23=Brice
+name.male24=Brighton
+name.male25=Caleb
+name.male26=Cameron
+name.male27=Christopher
+name.male28=Cleveland
+name.male29=Cody
+name.male30=Colby
+name.male31=Collin
+name.male32=Colton
+name.male33=Corey
+name.male34=Coty
+name.male35=Dale
+name.male36=Damon
+name.male37=Dan
+name.male38=Dane
+name.male39=Danny
+name.male40=David
+name.male41=Derek
+name.male42=Devin
+name.male43=Donnie
+name.male44=Drew
+name.male45=Dylan
+name.male46=Edward
+name.male47=Eric
+name.male48=Ethan
+name.male49=Evan
+name.male50=Fred
+name.male51=Gabe
+name.male52=Garrett
+name.male53=Gary
+name.male54=Gavin
+name.male55=Harris
+name.male56=Harry
+name.male57=Hayden
+name.male58=Hunter
+name.male59=Jackson
+name.male60=Jacob
+name.male61=Jake
+name.male62=James
+name.male63=Jared
+name.male64=Jason
+name.male65=Jay
+name.male66=Jeremy
+name.male67=Jerry
+name.male68=Jim
+name.male69=Joe
+name.male70=John
+name.male71=Jon
+name.male72=Joseph
+name.male73=Josh
+name.male74=Justin
+name.male75=Kaden
+name.male76=Kent
+name.male77=Kevin
+name.male78=Leo
+name.male79=Leon
+name.male80=Lewis
+name.male81=Liam
+name.male82=Lucas
+name.male83=Mac
+name.male84=Marcus
+name.male85=Mark
+name.male86=Martin
+name.male87=Mason
+name.male88=Matt
+name.male89=Matthew
+name.male90=Michael
+name.male91=Mike
+name.male92=Nathan
+name.male93=Nathaniel
+name.male94=Nick
+name.male95=Oliver
+name.male96=Oscar
+name.male97=Owen
+name.male98=Patrick
+name.male99=Peter
+name.male100=Phil
+name.male101=Randy
+name.male102=Rey
+name.male103=Robert
+name.male104=Roger
+name.male105=Roy
+name.male106=Russ
+name.male107=Ryan
+name.male108=Scott
+name.male109=Seth
+name.male110=Shane
+name.male111=Shawn
+name.male112=Simon
+name.male113=Steve
+name.male114=Tanner
+name.male115=Tate
+name.male116=Terrence
+name.male117=Terry
+name.male118=Tim
+name.male119=Toby
+name.male120=Tom
+name.male121=Tommy
+name.male122=Tony
+name.male123=Trent
+name.male124=Tristan
+name.male125=Triston
+name.male126=Tyler
+name.male127=Tyson
+name.male128=Victor
+name.male129=Vincent
+name.male130=Will
+name.male131=William 
+
+name.female1=Addison
+name.female2=Adi
+name.female3=Alexis
+name.female4=Alice
+name.female5=Alicia
+name.female6=Allie
+name.female7=Allison
+name.female8=Allysa
+name.female9=Alma
+name.female10=Amelia
+name.female11=Amnesty
+name.female12=Amy
+name.female13=Andrea
+name.female14=Angie
+name.female15=Anna
+name.female16=Anne
+name.female17=Arieanne
+name.female18=Ashley
+name.female19=Ashlyn
+name.female20=Ashton
+name.female21=Aspen
+name.female22=Aubrey
+name.female23=Aurora
+name.female24=Autumn
+name.female25=Ava
+name.female26=Baylee
+name.female27=Brooke
+name.female28=Camilla
+name.female29=Christina
+name.female30=Christy
+name.female31=Constance
+name.female32=Courtney
+name.female33=Cynthia
+name.female34=Dawn
+name.female35=Destiny
+name.female36=Diana
+name.female37=Donna
+name.female38=Elizabeth
+name.female39=Emery
+name.female40=Emily
+name.female41=Emma
+name.female42=Emmalyn
+name.female43=Erika
+name.female44=Eve
+name.female45=Faye
+name.female46=Gracie
+name.female47=Gwen
+name.female48=Hannah
+name.female49=Hazel
+name.female50=Holly
+name.female51=Jaden
+name.female52=Jennifer
+name.female53=Jessica
+name.female54=Julia
+name.female55=Julie
+name.female56=Kaitlin
+name.female57=Katie
+name.female58=Kaylene
+name.female59=Kiana
+name.female60=Kimberly
+name.female61=Kristen
+name.female62=Kylee
+name.female63=Leslie
+name.female64=Linda
+name.female65=Lindsey
+name.female66=Lola
+name.female67=Lori
+name.female68=Lydia
+name.female69=Madison
+name.female70=Marisa
+name.female71=Megan
+name.female72=Melissa
+name.female73=Melody
+name.female74=Miranda
+name.female75=Molly
+name.female76=Nickie
+name.female77=Nicole
+name.female78=Oaklee
+name.female79=Penny
+name.female80=Rachel
+name.female81=Robin
+name.female82=Rosa
+name.female83=Rosalie
+name.female84=Sarah
+name.female85=Serenity
+name.female86=Sharon
+name.female87=Shayla
+name.female88=Sherry
+name.female89=Sheryl
+name.female90=Skylar
+name.female91=Sofia
+name.female92=Sonya
+name.female93=Stacey
+name.female94=Steph
+name.female95=Stephanie
+name.female96=Sylvia
+name.female97=Trinity
+name.female98=Valerie
+name.female99=Vannessa
+name.female100=Veronica
+name.female101=Whitney
+
+#######
+# Multiplayer
+##############################
+multiplayer.command.error.parameter=Error de par\u00e1metro. Raz\u00f3n\:
+multiplayer.command.error.unknown=Un error desconocido ha ocurrido.
+multiplayer.command.error.playeroffline=Ese jugador no est\u00e1 conectado a este servidor.
+
+multiplayer.command.output.help=Minecraft Comes Alive - Comandos
+multiplayer.command.output.setgender=Su g\u00e9nero ahora es\: 
+multiplayer.command.output.setname=Su nombre actual\: 
+
+multiplayer.command.output.marry.noring=Usted no tiene un anillo de bodas. No puedes casarte con otro jugador.
+multiplayer.command.output.marry.request=%TruePlayerName% quisiera casarme contigo.
+multiplayer.command.output.marry.accept=Ahora est\u00e1s unido en santo matrimonio con %PlayerSpouseName%.
+multiplayer.command.output.marry.decline=Your marriage request was declined.
+multiplayer.command.output.marry.norequest=Ese jugador no le ha pedido que se casen.
+multiplayer.command.output.marry.otheralreadymarried=Ese jugador ya est\u00e1 casado.
+multiplayer.command.output.marry.senderalreadymarried=Usted ya est\u00e1 casado.
+
+multiplayer.command.output.divorce.successful=You have been divorced from your current spouse.
+
+multiplayer.command.output.havebaby.request=A %PlayerSpouseName% le hace ilusi\u00f3n tener un beb\u00e9.
+multiplayer.command.output.havebaby.decline=Your request to have a baby was declined.
+multiplayer.command.output.havebaby.limitreached=You have reached the child limit set by the server administrator.
+
+multiplayer.command.output.block.failed=Ese jugador ya se encuentra bloqueado.
+multiplayer.command.output.block.successful=Has desbloqueado al jugador.
+
+multiplayer.command.output.blockall.true.successful=Todas las solicitudes de matrimonio ahora ser\u00e1n bloqueados.
+multiplayer.command.output.blockall.false.successful=No volver\u00e1s a recibir m\u00e1s peticiones de matrimonio.
+
+multiplayer.command.output.unblock.failed=Ese jugador no est\u00e1 bloqueado.
+multiplayer.command.output.unblock.successful=Has desbloqueado al jugador.
+
+multiplayer.command.output.unblockall.successful=Has desbloqueado a todos los jugadores bloqueados.
+
+multiplayer.interaction.reject.spouse=No puedes controlar la pareja de otro jugador.
+multiplayer.interaction.reject.child=No puedes controlar el ni\u00f1o de otro jugador.
+
+#######
+# Achievements
+##############################
+achievement.charmer=Qu\u00e9 encanto de hombre
+achievement.getmarried=Matrimonio
+achievement.cookbaby=Para Sciencia, Monstruo.
+achievement.havebabyboy=\u00a1Es un ni\u00f1o\!
+achievement.havebabygirl=\u00a1Es una ni\u00f1a\!
+achievement.growbaby=Crecen tan r\u00e1pido
+achievement.farming=Trabajo gratis
+achievement.fishing=Hazte con todos
+achievement.woodcutting=Le\u00f1ador
+achievement.mining=Minero legendario
+achievement.huntkill=Cazador nato
+achievement.hunttame=Amigo naturaleza
+achievement.growkid=Hombre (o mujer) completamente maduro/a
+achievement.equipadult=Armado hasta los dientes
+achievement.mobkills=Guardaespaldas personal
+achievement.marrychild=De bodas
+achievement.havegrandchild=Abuelos
+achievement.havegreatgrandchild=Viejo como la tierra
+achievement.havegreatx2grandchild=M\u00e1s viejo que la tierra
+achievement.havegreatx10grandchild=\u00bfCu\u00e1l es tu secreto?
+achievement.hardcoresecret=Te vengar\u00e9
+achievement.craftcrown=\u00a1R\u00e9iname\!
+achievement.executevillager=\u00a1Que le corten la cabeza\!
+achievement.makeknight=Esto no es el ajedrez
+achievement.knightarmy=Ej\u00e9rcito de veinte
+achievement.makepeasant=Buenos d\u00edas, mi se\u00f1or
+achievement.peasantarmy=\u00c1rame los terrenos
+achievement.nameheir=Sangre real
+achievement.killheir=Donde cabe uno no caben dos
+achievement.monarchsecret=Pasar a la historia
+
+achievement.charmer.desc=Consigue 100 corazones o m\u00e1s de un aldeano.
+achievement.getmarried.desc=C\u00e1sate con un aldeano o aldeana.
+achievement.cookbaby.desc=Logro secreto
+achievement.havebabyboy.desc=Ten un ni\u00f1o.
+achievement.havebabygirl.desc=Ten una ni\u00f1a.
+achievement.growbaby.desc=Haz que tu beb\u00e9 crezca y se convierta en un ni\u00f1o.
+achievement.farming.desc=Haz a un hijo arar 100 bloques de tierra.
+achievement.fishing.desc=Haz a un hijo pescar 100 peces.
+achievement.woodcutting.desc=Haz a un hijo recoger 100 bloques de madera.
+achievement.mining.desc=Haz a un hijo picar 300 bloques.
+achievement.huntkill.desc=Haz que tu hijo mate a 100 animales canz\u00e1ndolos.
+achievement.hunttame.desc=Haz que tu hijo adiestre a 100 animales dom\u00e1ndolos.
+achievement.growkid.desc=Haz que tu hijo crezca y se convierta en un adulto.
+achievement.equipadult.desc=Equipa a tu hijo adulto con un set completo de armadura y un arma.
+achievement.mobkills.desc=Haz que un \u00fanico adulto acabe con 50 monstruos.
+achievement.marrychild.desc=Haz que tu hijo se case.
+achievement.havegrandchild.desc=Ten un nieto.
+achievement.havegreatgrandchild.desc=Ten un bisnieto.
+achievement.havegreatx2grandchild.desc=Ten un tataratataranieto (2 nietos).
+achievement.havegreatx10grandchild.desc=Ten un tataratataranieto (10 nietos).
+achievement.hardcoresecret.desc=Encuentra el secreto de modo extremo.
+achievement.craftcrown.desc=Fabrica una corona y convi\u00e9rtete en monarca.
+achievement.executevillager.desc=Ejecuta a un aldeano.
+achievement.makeknight.desc=Nombra caballero a un guardia.
+achievement.knightarmy.desc=Forma un ej\u00e9rcito de veinte caballeros.
+achievement.makepeasant.desc=Nombra campesino a un aldeano.
+achievement.peasantarmy.desc=Nombra campesinos a veinte aldeanos.
+achievement.nameheir.desc=Nombra a tu sucesor al trono.
+achievement.killheir.desc=Mata a tu sucesor una vez haya adquirido el trono.
+achievement.monarchsecret.desc=Logro secreto.
+
+#######
+# Items & Blocks
+##############################
+item.ring.arranger.name=Anillo de compromiso
+item.ring.engagement.name=Anillo de compromiso
+item.ring.wedding.name=Anillo de boda
+item.baby.boy.name=Beb\u00e9 Ni\u00f1o
+item.baby.girl.name=Beb\u00e9 Ni\u00f1a
+item.egg.male.name=Genera un aldeano macho
+item.egg.female.name=Generar un aldeano hembra
+item.whistle.name=Silbato
+item.editor.name=Editor de aldeano
+item.lostrelativedocument.name=Documento de familiar perdido
+item.crown.name=Corona
+item.heircrown.name=Corona del heredero
+item.tombstone.name=L\u00e1pida
+item.kingscoat.name=Capa de monarca
+item.kingspants.name=Pantalones de monarca
+item.kingsboots.name=Botas de monarca
+item.redcrown.name=Corona roja
+item.bluecrown.name=Corona azul
+item.greencrown.name=Corona verde
+item.pinkcrown.name=Corona rosa
+item.purplecrown.name=Corona morada
+item.redbed.name=Red Bed
+item.bluebed.name=Blue Bed
+item.greenbed.name=Green Bed
+item.pinkbed.name=Pink Bed
+item.purplebed.name=Purple Bed
+block.tombstone.name=L\u00e1pida
+
+#######
+# Professions
+##############################
+profession.baker.male=%Name% el Panadero
+profession.baker.female=%Name% la Panadera
+profession.butcher.male=%Name% el Carnicero
+profession.butcher.female=%Name% la Carnicera
+profession.farmer.male=%Name% el Agricultor
+profession.farmer.female=%Name% el Agricultor
+profession.guard.male=%Name% la Guardia
+profession.guard.female=%Name% el Guardia
+profession.librarian.male=%Name% el Bibliotecario
+profession.librarian.female=%Name% la Bibliotecaria
+profession.miner.male=%Name% el Minero
+profession.miner.female=%Name% la Minera
+profession.priest.male=%Name% el Sacerdote
+profession.priest.female=%Name% la Sacerdota
+profession.smith.male=%Name% el Herrero
+profession.smith.female=%Name% la Herrera
+profession.playerchild.male=%Name% el ni\u00f1o
+profession.playerchild.female=%Name% the Chila
+
+#######
+# Family Member Titles
+##############################
+family.aunt=T\u00eda
+family.brother=Hermano
+family.cousin.male=Primo
+family.cousin.female=Prima
+family.daughter=Hija
+family.father.formal=Padre
+family.father.informal=Pap\u00e1
+family.fiance.male=Novio
+family.fiance.female=Novia
+family.granddaughter=Nieta
+family.grandson=Nieto
+family.greatgranddaughter=Bisnieta x%Generation%
+family.greatgrandson=Bisnieto x%Generation%
+family.grandfather=abuelo
+family.greatgrandfather=Bisabuelo x%Generation%
+family.grandmother=Abuela
+family.greatgrandmother=Bisabuela x%Generation%
+family.husband=Marido
+family.mother.formal=Madre
+family.mother.informal=Mam\u00e1
+family.nephew=Sobrino
+family.niece=Sobrina
+family.none=None
+family.sister=Hermana
+family.son=Hijo
+family.uncle=T\u00edo
+family.wife=Esposa
+
+#######
+# GUI Elements
+##############################
+
+#Buttons
+gui.button.back=Atr\u00e1s
+gui.button.exit=Salir
+gui.button.next=Siguiente
+gui.button.yes=S\u00ed
+gui.button.no=No
+gui.button.done=Hecho
+gui.button.ok=Vale
+gui.button.random=Aleatorio
+gui.button.trade=Intercambiar
+
+gui.button.setup.finish=Finalizar
+gui.button.setup.gendermale=G\u00e9nero\: masculino
+gui.button.setup.genderfemale=G\u00e9nero\: femenina
+gui.button.setup.hidesleepingtag=Ocultar etiqueta "Dormir"\: 
+gui.button.setup.overwritetestificates=Sobrescribir datos\: 
+gui.button.setup.growchildrenautomatically=Los ni\u00f1os crecen autom\u00e1ticamente\: 
+gui.button.setup.displaymoodparticles=Mostrar part\u00edculas de \u00e1nimo\:\u00a0\: 
+gui.button.setup.shownametags=Mostrar etiquetas de nombre\:\u00a0\: 
+gui.button.setup.preference=Preferencia\:\u00a0\: 
+
+gui.button.setup.males=Chicos
+gui.button.setup.females=Chicas
+
+gui.editor.name=Nombre
+gui.editor.name.invalid=El nombre contiene caracteres no v\u00e1lidos.
+gui.button.editor.texture=Textura\: 
+gui.button.editor.title=T\u00edtulo\:\u00a0\: 
+gui.button.editor.mood=Estado de \u00e1nimo\: 
+gui.button.editor.trait=Rasgo\: 
+
+gui.button.interact.interact=Interactuar
+gui.button.interact.chat=Chat
+gui.button.interact.joke=Broma
+gui.button.interact.gift=Regalo
+gui.button.interact.kiss=Besar
+gui.button.interact.flirt=Flirtear
+gui.button.interact.tellstory=Contar cuento
+gui.button.interact.play=Jugar
+gui.button.interact.greet.handshake=Estrechar mano
+gui.button.interact.greet.highfive=Chocar las cinco
+gui.button.interact.follow=S\u00edgueme
+gui.button.interact.followstop=Detener seguimiento
+gui.button.interact.stay=Esperar
+gui.button.interact.staystop=Mover
+gui.button.interact.sethome=Seleccionar Casa
+gui.button.interact.takearrangerring=Coger anillo del Arreglista
+gui.button.interact.takegift=Tomar regalo
+gui.button.interact.ridehorse=Montar a caballo
+gui.button.interact.dismount=Bajarse
+
+gui.button.interact.player.asktomarry=Pedir matrimonio
+gui.button.interact.player.havebaby=Tener un beb\u00e9
+gui.button.interact.player.accept=Aceptar
+gui.button.interact.player.decline=Rechazar
+
+gui.button.special=Especial
+gui.button.special.priest.divorcespouse=Divorcio
+gui.button.special.priest.divorcecouple=Divorcio de pareja
+gui.button.special.priest.divorcecouple.nonefound=No se han encontrado parejas.
+gui.button.special.priest.divorce=Divorciarse
+gui.button.special.priest.giveupbaby=Tener un beb\u00e9
+gui.button.special.priest.adoptbaby=Adoptar un beb\u00e9
+gui.button.special.priest.adoptchild=Adoptar ni\u00f1o
+gui.button.special.priest.arrangedmarriage=Organizar boda
+gui.button.special.guard.hire=Contratar
+gui.button.special.guard.dismiss=Despedir
+gui.button.special.miner.hire=Contratar
+gui.button.special.miner.dismiss=Despedir
+gui.button.special.baker.aid=Pedir ayuda
+gui.button.special.butcher.aid=Pedir ayuda
+gui.button.special.farmer.aid=Pedir ayuda
+gui.button.special.librarian.setup=Abrir configuraci\u00f3m
+
+gui.button.spouse.cookfood=Cocinar
+gui.button.spouse.stopcooking=Dejar de cocinar
+gui.button.spouse.inventory=Inventario
+gui.button.spouse.procreate=Procrear
+gui.button.spouse.migrate=Migrar
+
+gui.button.child.inventory=Inventario
+gui.button.child.chores=Tareas dom\u00e9sticas
+gui.button.child.stopchore=Parar la tarea
+gui.button.child.growup=Madura
+
+gui.button.chore.farming=Agricultura
+gui.button.chore.farming.method=M\u00e9todo\: 
+gui.button.chore.farming.method.create=Crear granja
+gui.button.chore.farming.method.maintain=Mantener granja
+gui.button.chore.farming.plant=Planta\:\u00a0\: 
+gui.button.chore.farming.plant.wheat=Trigo
+gui.button.chore.farming.plant.melon=Mel\u00f3n
+gui.button.chore.farming.plant.pumpkin=Calabaza
+gui.button.chore.farming.plant.carrot=Zanahoria
+gui.button.chore.farming.plant.potato=Patata
+gui.button.chore.farming.plant.sugarcane=Ca\u00f1a de az\u00facar
+gui.button.chore.farming.farmsize=Tama\u00f1o de granja\: 
+gui.button.chore.farming.radius=Radio\: 
+gui.button.chore.fishing=Pesca
+gui.button.chore.combat=Combatir
+gui.button.chore.combat.sentry=Centinela\: 
+gui.button.chore.combat.sentry.radius=Radio\: 
+gui.button.chore.combat.sentry.position.set=Ubicaci\u00f3n de centinela
+gui.button.chore.combat.method=M\u00e9todo\: 
+gui.button.chore.combat.method.range=Solo a distancia
+gui.button.chore.combat.method.melee=Solo cuerpo a cuerpo
+gui.button.chore.combat.method.both=Armas a distancia y cuerpo a cuerpo
+gui.button.chore.combat.method.neither=Prohibido pelear
+gui.button.chore.combat.attack.pig=Ataca a los cerdos\: 
+gui.button.chore.combat.attack.sheep=Ataca a las ovejas\: 
+gui.button.chore.combat.attack.cow=Ataca a las vacas\: 
+gui.button.chore.combat.attack.chicken=Ataca a las gallinas\: 
+gui.button.chore.combat.attack.spider=Ataca a las ara\u00f1as\: 
+gui.button.chore.combat.attack.zombie=Ataca a los zombis\: 
+gui.button.chore.combat.attack.skeleton=Ataca a los esqueletos\: 
+gui.button.chore.combat.attack.creeper=Ataca a los creepers\: 
+gui.button.chore.combat.attack.enderman=Ataca a los enderman\: 
+gui.button.chore.combat.attack.unknown=Atacar Desconocido\: 
+gui.button.chore.woodcutting=Talar
+gui.button.chore.woodcutting.treetype=Tipo de \u00e1rbol\: 
+gui.button.chore.woodcutting.treetype.all=Todos
+gui.button.chore.woodcutting.treetype.oak=Roble
+gui.button.chore.woodcutting.treetype.spruce=Picea
+gui.button.chore.woodcutting.treetype.birch=Abedul
+gui.button.chore.woodcutting.treetype.jungle=Jungla
+gui.button.chore.mining=Miner\u00eda
+gui.button.chore.mining.method=M\u00e9todo\: 
+gui.button.chore.mining.method.passive=Pasivo
+gui.button.chore.mining.method.active=Activo
+gui.button.chore.mining.direction=Direcci\u00f3n\: 
+gui.button.chore.mining.direction.forward=Hacia delante
+gui.button.chore.mining.direction.backward=Hacia atr\u00e1s
+gui.button.chore.mining.direction.left=Izquierda
+gui.button.chore.mining.direction.right=Derecha
+gui.button.chore.mining.distance=Distancia\: 
+gui.button.chore.mining.find=Buscar\: 
+gui.button.chore.mining.find.coal=Carb\u00f3n
+gui.button.chore.mining.find.iron=Hierro
+gui.button.chore.mining.find.lapis=Lapisl\u00e1zuli
+gui.button.chore.mining.find.gold=Oro
+gui.button.chore.mining.find.diamond=Diamante
+gui.button.chore.mining.find.redstone=Redstone
+gui.button.chore.mining.find.emerald=Esmeralda
+gui.button.chore.hunting=Caza
+gui.button.chore.hunting.mode=Modo\: 
+gui.button.chore.hunting.mode.kill=Matar
+gui.button.chore.hunting.mode.tame=Domar
+gui.button.chore.start=Inicio
+
+gui.button.hiring.hours=Horas\:\u00a0\: 
+
+gui.button.lostrelativedocument.generation=Generaci\u00f3n\: %Generation%
+
+#Titles
+gui.title.setup=Instalacion de Minecraft Cobra Vida
+gui.title.setup.name=Introduzca su nombre.
+gui.title.setup.gender=Seleccione su g\u00e9nero.
+gui.title.setup.options=Configurar opciones.
+
+gui.title.inventory=Inventario de %Name%
+
+gui.title.namebaby=Nombre a su hijo\:
+gui.title.namebaby.male=\u00a1Es un ni\u00f1o\!
+gui.title.namebaby.female=\u00a1Es una ni\u00f1a\!
+
+gui.title.priest.divorcecouple=Elija la pareja con la que desea divorciarse.
+
+gui.title.tombstone=Editar mensaje de desecho\:
+
+gui.title.special.hired=(Contratado)
+
+gui.title.lostrelativedocument=Elige la pareja te gustar\u00eda para %Name%.
+gui.title.lostrelativedocument.confirm=Entonces te gustar\u00eda %Name% para ser\: 
+
+#Information
+gui.info.hearts=Corazones
+
+gui.info.special.none=Esta persona no tiene ninguna habilidad especial.
+
+gui.info.family.parents=(%ChildTitle% de %MotherName% y %FatherName%)
+gui.info.family.parents.deceased=(Padres fallecidos)
+gui.info.family.parent=(%ChildTitle% de %LivingParent%)
+
+gui.info.family.spouse=(En matrimonio con %SpouseRelation% %VillagerSpouseName%)
+gui.info.family.spouse.unrelated=(Casado con %SpouseFullName%)
+
+gui.info.namebaby.invalidcharacters=El nombre del bebe contiene caracteres invalidos.
+gui.info.namebaby.nametaken=Ya tienes un hijo/a con ese nombre.
+
+gui.info.procreate.confirm1=No puedes procrear mientras est\u00e1s prometido.
+gui.info.procreate.confirm2=Debes regalar un anillo de boda a este aldeano/a.
+
+gui.info.chore.options=Opciones\:
+gui.info.chore.options.none=No existen opciones personalizables para esta tarea.
+gui.info.chore.experience=Nivel de experiencia\:
+
+gui.info.hire.price=Para contratar este aldeano debes pagarle %x% lingote(s) de oro.
+gui.info.hire.hasgold=Tienes suficientes lingotes.
+gui.info.hire.notenoughgold=No tienes suficientes lingotes.
+gui.info.hire.minutesremaining=Quedan %x% minutos.
+
+gui.info.hardcoresecret.prompt=Puedes reaparecer como uno de tus ni\u00f1os si tienes alguno.
+gui.info.hardcoresecret.nochildren=\u00a1No hay ni\u00f1os\!
+gui.info.hardcoresecret.spawnas=Reaparecer como\: 
+gui.info.hardcoresecret.respawn=Reaparecer como un ni\u00f1o
+
+#Overhead
+gui.overhead.hasgift=Regalo disponible
+gui.overhead.hasring=Agarrando el anillo del organizador
+gui.overhead.sleeping=Dormido
+gui.overhead.health=Salud\: 
+
+#######
+# Notifications/One Liners
+##############################
+notify.player.married=Tu y %Name% ahora estais casados.
+notify.player.engaged=Ahora est\u00e1s comprometido con %Name%.
+notify.player.droppedbaby=Esa es una mala idea.
+notify.player.clickbed=You cannot use that bed.
+
+notify.horse.invalid=No puedo montar este caballo.
+notify.horse.notfound=Mmm... \u00bfqu\u00e9 caballo quieres montar? Tr\u00e1emelo.
+
+notify.villager.married=Estos aldeanos ahora est\u00e1n casados.
+notify.villager.gifted.cake.notenough=Me encantar\u00eda tener una tarta para mi mujer...
+notify.villager.gifted.cake.withbaby.male=Mi mujer y yo hemos decidido que no comeremos tarta hasta que nuestros hijos.
+notify.villager.gifted.cake.withbaby.female=Mi marido y yo hemos decidido no comer tarta hasta que nuestro hijo crezca.
+notify.villager.gifted.cake.spousenotnearby.male=\u00bfPastel? Ves a buscar a mi esposa para que pueda compartirlo con ella.
+notify.villager.gifted.cake.spousenotnearby.female=\u00bfPastel? Ves a buscar a mi esposo para que pueda compartirlo con \u00e9l.
+notify.villager.gifted.arrangerring.othernotnearby=...\u00bfC\u00f3mo? Si no hay nadie m\u00e1s.
+notify.villager.gifted.arrangerring.relative=Soy tu %RelationToPlayer%.
+notify.villager.gifted.arrangerring.notenoughrings=Parece que no tienes anillos para nosotros. \u00a1Vamos a necesitar dos\!
+notify.villager.gifted.arrangerring.invalidpartner=\u00a1No puedo casar a %Name%\!
+
+notify.baby.gaveup=Ahora puede tener otro beb\u00e9.
+notify.baby.exists=Ya tienes un beb\u00e9.
+notify.baby.readytogrow=Tu beb\u00e9 est\u00e1 listo para crecer.
+notify.baby.cooked=\u00bf\u00a1Qu\u00e9 pasa contigo\!?
+
+notify.divorce.spousemissing=Tu esposa no estaba cerca, por lo que no recibir\u00e1s objetos de ella.
+notify.arrangedmarriage.failed=No hay cerca nadie que pueda casarte en este momento.
+
+notify.death.male=%Name%, tu %RelationToPlayer% ha fallecido.
+notify.death.female=%Name%, tu %RelationToPlayer% ha fallecido.
+
+notify.homepoint.set=Esta persona aparecer\u00e1 aqu\u00ed por la noche.
+notify.homepoint.none=%Name% no tiene un punto de inicio establecido.
+notify.homepoint.invalid=Ese punto de inicio no es v\u00e1lido.
+notify.homepoint.obstructed=La puerta de la casa de %Name% esta obstruida.
+notify.homepoint.teleport.skip.following=%Name% le sigue. No se teleportar\u00e1n a casa esta noche.
+notify.homepoint.teleport.skip.staying=%Name% se espera. Esta noche no se teleportaran a casa.
+
+notify.item.broken.axe=Hacha de %Name% se rompi\u00f3.
+notify.item.broken.boots=Botas de %Name% se rompi\u00f3.
+notify.item.broken.chestplate=Chestplate de %Name% se rompi\u00f3.
+notify.item.broken.fishingrod=Ca\u00f1a de pescar de %Name% se rompi\u00f3.
+notify.item.broken.helmet=Rompi\u00f3 el casco de %Name%.
+notify.item.broken.leggings=Polainas de %Name% se rompieron.
+notify.item.broken.pickaxe=Pico de %Name% se rompi\u00f3.
+notify.item.broken.sword=Rompi\u00f3 la espada de %Name%.
+notify.item.broken.hoe=%Name% la azada se rompi\u00f3.
+notify.item.broken.bow=El arco de %Name% se ha roto.
+
+notify.child.chore.finished.farming=He terminado de cultivar.
+notify.child.chore.finished.fishing=He terminado de pescar.
+notify.child.chore.finished.woodcutting=He terminado de talar.
+notify.child.chore.finished.mining=He terminado de excavar.
+notify.child.chore.finished.hunting=He terminado de cazar.
+
+notify.child.chore.levelup.farming.5=%Name% ha alcanzado el nivel 5 de agricultura. Ahora recibir\u00e1 m\u00e1s semillas al recoger trigo.
+notify.child.chore.levelup.farming.10=%Name% ha alcanzado el nivel 10 de agricultura. Ahora se mover\u00e1 m\u00e1s r\u00e1pido al arar tierras.
+notify.child.chore.levelup.farming.15=%Name% ha alcanzado el nivel 15 de agricultura. Ahora cosechar\u00e1 de 1 a 3 semillas m\u00e1s de cualquier tipo.
+notify.child.chore.levelup.farming.20=%Name% ha alcanzado el nivel 20 de agricultura. Ahora tendr\u00e1 la posibilidad de duplicar instant\u00e1neamente el n\u00famero de semillas cosechadas.
+
+notify.child.chore.levelup.fishing.5=%Name% ha alcanzado el nivel 5 de pesca. Ahora puede pescar m\u00e1s r\u00e1pido y, algunas veces, el doble.
+notify.child.chore.levelup.fishing.10=%Name% ha alcanzado el nivel 10 de pesca. Ahora puede encontrar tesoros comunes pescando.
+notify.child.chore.levelup.fishing.15=%Name% ha alcanzado el nivel 15 de pesca. Ahora puede pescar mucho m\u00e1s r\u00e1pido y, algunas veces, el triple.
+notify.child.chore.levelup.fishing.20=%Name% ha alcanzado el nivel 20 de pesca. Ahora puede encontrar tesoros raros pescando.
+
+notify.child.chore.levelup.hunting.5=%Name% ha alcanzado el nivel 5 de caza. Ahora puede adiestrar unos cuantos animales m\u00e1s, sin utilizar m\u00e1s recursos.
+notify.child.chore.levelup.hunting.10=%Name% ha alcanzado el nivel 10 de caza. Ya no tiene peligro de muerte mientras caza.
+notify.child.chore.levelup.hunting.15=%Name% ha alcanzado el nivel 15 de caza. Ahora puede traer bastante carne m\u00e1s.
+notify.child.chore.levelup.hunting.20=%Name% ha alcanzado el nivel 20 de caza. Ahora siempre vuelve de cazar tras 1 minuto.
+
+notify.child.chore.levelup.mining.5=%Name% ha alcanzado el nivel 5 de miner\u00eda. Ahora puede picar bloques m\u00e1s r\u00e1pido.
+notify.child.chore.levelup.mining.10=%Name% ha alcanzado el nivel 10 de caza. Ahora se da\u00f1a menos el pico al picar de forma pasiva.\u00a0. 
+notify.child.chore.levelup.mining.15=%Name% ha alcanzado el nivel 15 de caza. Ahora dobla el n\u00famero de bloques y menas que pica.
+notify.child.chore.levelup.mining.20=%Name% ha alcanzado el nivel 20 de caza. Ahora se le muestra la posici\u00f3n exacta de las menas mientras pica de forma pasiva.
+
+notify.child.chore.levelup.woodcutting.5=%Name% ha alcanzado el nivel 5 de tala. Ahora se mover\u00e1 m\u00e1s r\u00e1pido al talar \u00e1rboles.
+notify.child.chore.levelup.woodcutting.10=%Name% ha alcanzado el nivel 10 de tala. Ahora corta \u00e1rboles m\u00e1s r\u00e1pido con todo tipo de hachas.
+notify.child.chore.levelup.woodcutting.15=%Name% ha alcanzado el nivel 15 de tala. Ahora tiene la posibilidad de recibir dos troncos por cada uno que corta.
+notify.child.chore.levelup.woodcutting.20=%Name% ha alcanzado el nivel 20 de tala. Ahora recibe tres troncos por cada uno que corta.
+
+notify.child.chore.interrupted.farming.noseeds=No tengo suficientes semillas\!
+notify.child.chore.interrupted.farming.noland=\u00a1No veo nada de suciedad o hierba\!
+notify.child.chore.interrupted.farming.nofarmland=Me dijiste que usara s\u00f3lo las tierras de cultivo. \u00bfD\u00f3nde voy entonces?
+notify.child.chore.interrupted.farming.noroom=No ten\u00eda espacio suficiente para terminar de cultivar.
+notify.child.chore.interrupted.farming.noselection=No me has especificado una zona de cultivo.
+notify.child.chore.interrupted.farming.nohoe=No tengo azada.
+notify.child.chore.interrupted.fishing.nowater=No veo agua cerca\!
+notify.child.chore.interrupted.fishing.norod=No tengo una ca\u00f1a de pescar\! No puedo agarrarlos de mis manos.
+notify.child.chore.interrupted.mining.noblocks=No se ve ning\u00fan bloque para excavar.
+notify.child.chore.interrupted.mining.nopickaxe=No tengo un pico\!
+notify.child.chore.interrupted.mining.tookdamage=%Name% tuvo da\u00f1os mientras la excavaba. Han regresado al lugar donde comenzaron a.
+notify.child.chore.interrupted.woodcutting.notrees=No veo ning\u00fan \u00e1rbol.
+notify.child.chore.interrupted.hunting.notamematerials=No tengo nada con lo que domar animales.
+
+notify.child.chore.failed.hunting.death=%Name% ha morido mientras que cazaba.
+
+notify.child.chore.status.mining.orefound=Hay algunos %OreType% %OreDistance% bloques all\u00ed.
+notify.child.chore.status.mining.orenearby=Hay algunos %OreType% cerca...
+notify.child.chore.status.mining.oredistance=Hay algo de %OreType% a %OreDistance% bloques, en %OreX%, %OreY%, %OreZ%.
+
+notify.child.gifted.arrows=\u00a1Bieen\! Voy a disparar cosas\!
+notify.child.gifted.axe=\u00a1Ahora mis pu\u00f1os no sangrar\u00e1n cuando tale \u00e1rboles\!
+notify.child.gifted.fishingrod=\u00a1Ahora puedo ir a pescar\!
+notify.child.gifted.hoe=Esto ayudar\u00e1 a cultivar m\u00e1s r\u00e1pido\!
+notify.child.gifted.seeds=Ahora puedo cultivar\!
+notify.child.gifted.sword=Esto mantendr\u00e1 a los chicos malos lejos\!
+notify.child.gifted.wheat=\u00a1Con esto podr\u00eda domarlos\!
+notify.child.gifted.pickaxe=Ahora puedo cavar\!
+notify.child.gifted.carrot=\u00a1Con esto podr\u00eda domarlos\!
+notify.child.gifted.bone=\u00a1Con esto podr\u00eda domarlos\!
+
+notify.child.emptiedinventory=%Name% ha vaciado su inventario.
+notify.child.readytogrow=%Name% est\u00e1 listo para crecer.
+notify.child.growup=%Name% ha crecido y ya es adulto.
+notify.child.ranaway=%Name% se escap\u00f3.
+
+notify.spouse.gifted.anotherbaby=Ya estoy sosteniendo nuestro beb\u00e9. \u00bfDe d\u00f3nde sacaste ese\!?
+notify.spouse.chore.interrupted.cooking.nofurnace=No veo ning\u00fan horno por aqu\u00ed.
+notify.spouse.chore.interrupted.cooking.nofuel=No tengo nada con lo que cocinar.
+
+notify.lostrelativedocument.success=%Name% es ahora tu %RelationToPlayer%.
+notify.lostrelativedocument.success.norelation=%Name% ya no tiene relaci\u00f3n contigo.
+
+notify.monarch.began=Se te han conferido las responsabilidades del monarca.
+notify.monarch.resume=Eres el monarca de nuevo. No podr\u00e1s nombrar heredero a la persona anterior.
+notify.monarch.ended.noheir=Ya no eres monarca.
+notify.monarch.ended.withheir=Ya no eres monarca. Tu heredero ha tomado tu puesto.
+
+notify.hiring.complete=El contrato de %Name% ha finalizado.
+
+notify.update.turnedon=Ahora MCA buscar\u00e1 actualizaciones autom\u00e1ticamente.
+notify.update.turnedoff=Ahora MCA no informa de actualizaciones hasta que salga otra versi\u00f3n.
+
+#######
+# Parser Commands
+##############################
+parser.playerchild.adult.callplayerparent.male=Pap\u00e1
+parser.playerchild.adult.callplayerparent.female=Madre
+parser.playerchild.adult.parentopposite.male=Madre
+parser.playerchild.adult.parentopposite.female=Pap\u00e1
+
+parser.playerchild.young.callplayerparent.male=Papi
+parser.playerchild.young.callplayerparent.female=Mami
+parser.playerchild.young.parentopposite.male=Mami
+parser.playerchild.young.parentopposite.female=Papi
+
+#####################################################################################################
+#									              DIALOGUE											#
+#####################################################################################################
+
+#######
+# Profession-specific dialogue
+##############################
+guard.follow.refuse1=No, tengo trabajo que hacer.
+guard.follow.refuse2=No puedo dejar mi puesto.
+guard.follow.refuse3=\u00bfEsperas que me marche de aqu\u00ed? \u00a1No\!
+guard.follow.refuse4=No, no hasta que me contrates.
+guard.follow.refuse5=\u00a1Me cansar\u00e9 si voy andando\!
+
+guard.stay.refuse1=Estoy de vigilancia. No puedo ir.
+guard.stay.refuse2=T\u00fa no eres mi jefe.
+guard.stay.refuse3=Te das cuenta de que soy un guardia, \u00bfverdad?
+guard.stay.refuse4=Mi trabajo consiste en vigilar el pueblo, no las afueras.
+guard.stay.refuse5=Estoy trabajando en estos momentos. Sin embargo, puedo ir m\u00e1s tarde.
+
+smith.aid.prompt1=Podr\u00eda darte mi yunque a cambio de algo. \u00bfQu\u00e9 ofreces. 
+smith.aid.prompt2=Tengo un yunque viejo y estoy dispuesto a desprenderme de \u00e9l...
+smith.aid.prompt3=Me estoy dejando el trabajo de herrero, as\u00ed que mi yunque est\u00e1 en venta.
+smith.aid.prompt4=\u00bfQuieres un yunque? Yo te podr\u00eda dar el m\u00edo, a cambio algo, claro.
+
+smith.aid.outofrange1=H\u00e1zmelo saber cuando quieras comprar el yunque.
+smith.aid.outofrange2=Vuelve y av\u00edsame si tienes una oferta.
+
+smith.aid.alreadyaccepted1=Aqu\u00ed tienes el yunque. No hay nada m\u00e1s que pueda hacer por ti.
+smith.aid.alreadyaccepted2=Pues ya est\u00e1. \u00a1Repara t\u00fa mismo cuando lo necesites\!
+smith.aid.alreadyaccepted3=No tengo m\u00e1s yunques para vender, lo siento.
+
+smith.aid.accept1=\u00a1Oh\! Eso podr\u00eda estar bien. Aqu\u00ed tienes.
+smith.aid.accept2=As\u00ed sea. \u00a1Ten cuidado, qu\u00e9 pesa\!
+smith.aid.accept3=\u00a1Gracias\! Aqu\u00ed tienes tu yunque.
+smith.aid.accept4=No se lo tires a nadie, \u00bfva?
+
+smith.aid.refuse.rightitem1=Esto es lo que quiero por el yunque. \u00bfTienes algo m\u00e1s para mi?
+smith.aid.refuse.rightitem2=S\u00ed, esto es lo que quiero exactamente, pero no tienes suficientes.
+smith.aid.refuse.rightitem3=\u00a1Es eso lo que quiero\! Pero necesito m\u00e1s para poder darte el yunque.
+smith.aid.refuse.rightitem4=Dame un poco m\u00e1s de eso y el yunque es tuyo.
+
+smith.aid.refuse.wrongitem1=No quiero eso por mi yunque.
+smith.aid.refuse.wrongitem2=No es eso lo que estoy buscando exactamente. \u00bfTienes otra cosa?
+smith.aid.refuse.wrongitem3=No... har\u00e1 falta algo m\u00e1s por mi yunque.
+smith.aid.refuse.wrongitem4=Necesito que me des algo m\u00e1s a cambio del yunque.
+
+priest.adopt.male1=Aqu\u00ed est\u00e1 tu nuevo beb\u00e9. Su nombre es %BabyName%.
+priest.adopt.male2=Que mono, \u00bfno crees? Su nombre es %BabyName%.
+priest.adopt.male3=Espero que %BabyName% y t\u00fa se lleveis muy bien.
+priest.adopt.female1=Es preciosa, \u00bfno crees? Su nombre es %BabyName%.
+priest.adopt.female2=Aqu\u00ed est\u00e1 %BabyName%. Por favor, tr\u00e1tala bien.
+priest.adopt.female3=%BabyName% es tan dulce, que lastima que tenga que irse.
+
+priest.arrangemarriage1=Os deseo a ti y a %Name% que encontr\u00e9is la felicidad.
+priest.arrangemarriage2=%PlayerName%, me gusta que hayas conocido a %Name%. Ahora est\u00e1s casado.
+priest.arrangemarriage3=Como desees. Ahora est\u00e1s en casado con %Name%.
+
+generic.hire.accept1=\u00a1Muchas gracias\! Har\u00e9 lo que me pidas.
+generic.hire.accept2=Ya es suficiente. Ahora trabajar\u00e9 para ti.
+generic.hire.accept3=\u00a1Estoy listo para trabajar\!\u00a0\! 
+generic.hire.accept4=Empecemos, \u00bfqu\u00e9 debo hacer?
+
+guard.hire.accept1=\u00a1Gracias\! Ahora soy tu guardaespaldas.
+guard.hire.accept2=Trabajar\u00e9 para usted.
+guard.hire.accept3=Ahora eres mi jefe.
+guard.hire.accept4=\u00bfCu\u00e1l es mi primer trabajo, jefe?
+
+guard.hire.dismiss1=Siento no poder trabajar aqu\u00ed. Volver\u00e9 a mi antiguo trabajo.
+guard.hire.dismiss2=\u00a1Ha sido un placer trabajar contigo\!
+guard.hire.dismiss3=Voy a ver si puedo recuperar mi puesto en el pueblo.
+guard.hire.dismiss4=Genial, otra vez en paro...
+
+butcher.aid.accept1=\u00a1Claro\! Tengo mucha de carne de sobra.
+butcher.aid.accept2=Toma, aqu\u00ed tienes algo m\u00e1s de carne.
+butcher.aid.accept3=Toma, aqu\u00ed tienes carne fresca.
+
+butcher.aid.refuse1=Lo siento, pero no tengo suficiente.
+butcher.aid.refuse2=\u00a1Necesito lo que tengo para devolver a los clientes\!
+butcher.aid.refuse3=No puedo darte nada ahora.
+
+baker.aid.accept1=Acabo de hornearlo. Puedes cogerlo.
+baker.aid.accept2=Muy bien, puedes cogerlo. Acaba de salir de la mesa de trabajo.
+baker.aid.accept3=Tengo cosas que no he podido vender. Puedes cogerlas.
+
+baker.aid.refuse1=Ahora mismo no tengo nada, vuelve m\u00e1s tarde.
+baker.aid.refuse2=Estoy horneando. Aguantate un momento.
+baker.aid.refuse3=Lo siento. Ten\u00eda algo para ti pero se me quem\u00f3 por accidente.
+
+farmer.aid.accept1=Creo que podr\u00eda guardar algunas cosas aqu\u00ed.
+farmer.aid.accept2=Por supuesto que puedes ayudarme. Aqu\u00ed tienes.
+farmer.aid.accept3=Acabo de recoger una buena cosecha. Aqu\u00ed hay m\u00e1s cosas.
+
+farmer.aid.refuse1=Lo siento, no tengo nada para darte.
+farmer.aid.refuse2=Vuelve m\u00e1s tarde, no tengo nada para ti.
+farmer.aid.refuse3=Lo siento, no tengo nada ahorrado.
+
+miner.hire.accept1=\u00a1Gracias\! Ya puedo empezar.
+miner.hire.accept2=\u00a1Estoy encantado de trabajar contigo\! \u00bfPor d\u00f3nde empiezo a picar?
+miner.hire.accept3=Gracias por contratarme. Empezar\u00e9 a trabajar ya.
+
+miner.hire.refuse1=Trabajar\u00e9 para ti por cinco monedas de oro. Con eso tendr\u00e1s para unos 100 bloques.
+miner.hire.refuse2=Dame cinco monedas de oro y picar\u00e9 100 bloques por ti.
+miner.hire.refuse3=No tienes dinero suficiente para contratarme. Necesitar\u00e9 cinco monedas de oro para picar 100 bloques.
+
+miner.hire.finished1=Esos eran todos los bloques. Estoy harto.
+miner.hire.finished2=Con eso hacen 100 bloques. Ya he terminado.
+miner.hire.finished3=Ya he picado 100 bloques. Ha sido un placer trabajar para usted.
+
+miner.hire.dismiss1=\u00bfMe est\u00e1s despidiendo? Muy bien, vale.
+miner.hire.dismiss2=Trabajar\u00e9 m\u00e1s si tienes el dinero.
+miner.hire.dismiss3=Entonces regresar\u00e9 al pueblo.
+
+miner.chore.finished1=Ya he terminado lo que me dijiste.
+miner.chore.finished2=Estoy listo para trabajar m\u00e1s.
+miner.chore.finished3=Ya he acabado este trabajo.
+
+miner.chore.start1=Lo har\u00e9 bien, jefe.
+miner.chore.start2=Si, jefe.
+miner.chore.start3=Voy a empezar a trabajar ya.
+
+miner.dropallitems1=Aqu\u00ed tienes.
+miner.dropallitems2=Aqu\u00ed tiene su parte, jefe.
+miner.dropallitems3=Esto es lo que tengo.
+miner.dropallitems4=Esto es todo lo que he extraido.
+
+#######
+# Villager Dialogue
+##############################
+villager.chat.bad1=Me abuuuurroooo.
+villager.chat.bad2=*bostezo*
+villager.chat.bad3=Lo siento, \u00bfqu\u00e9? No te estaba escuchando.
+villager.chat.bad4=\u00bfDec\u00edas algo?
+villager.chat.bad5=Mmhm.
+villager.chat.bad6=Emmm... Vale.. Tengo cosas que hacer, si me disculpas...
+villager.chat.bad7=Oh si. Creo que me olvid\u00e9 de hacer algo... As\u00ed que tengo que irme.
+villager.chat.bad8=No s\u00e9 de lo que quiere decir con eso.
+villager.chat.bad9=Creo que est\u00e1s hablando con la persona equivocada.
+villager.chat.bad10=No... No creo.
+villager.chat.bad11=\u00bfPor qu\u00e9 dir\u00eda algo as\u00ed?
+villager.chat.bad12=Eso ha sido muy grosero por tu parte.
+
+villager.chat.good1=\u00bfEn serio? No lo sab\u00eda.
+villager.chat.good2=\u00bfDe donde has oido eso?
+villager.chat.good3=\u00bf\u00a1C\u00f3mo logran hacer eso\!?
+villager.chat.good4=S\u00ed, esto es realmente aburrido.
+villager.chat.good5=oh que interesante.
+villager.chat.good6=Ah\u00ed tienes algunas historias agradables. \u00bfTengo que contarte m\u00e1s?
+villager.chat.good7=Qu\u00e9 bueno. \u00bfAs\u00ed que qu\u00e9 sucedi\u00f3 despu\u00e9s?
+villager.chat.good8=Estoy completamente de acuerdo\!
+villager.chat.good9=he o\u00eddo decir lo mismo.
+villager.chat.good10=\u00bfHas visto alguna Esmeraldas mientras cavabas?
+
+villager.engagement.accept1=\u00bf\u00a1Cuando es nuestra boda\!?
+villager.engagement.accept2=\u00bfVamos a tener una gran fiesta, verdad?
+villager.engagement.accept3=\u00a1 Por fin\! Te estuve esperando siempre\! \u00a1Te quiero\!
+villager.engagement.accept4=Invito a todos mis amigos\!
+villager.engagement.accept5=Si\! \u00a1Te quiero\!
+
+villager.engagement.refusal1=Este...uhm...Todabia no estoy lista para esto.
+villager.engagement.refusal2=Oh...Esto es incomodo...
+villager.engagement.refusal3=Que? No\! Ni siquiera te conozco\!
+villager.engagement.refusal4=Lo lamento, solo que no te quiero de ese modo.
+villager.engagement.refusal5=Woah frena all\u00ed, que a\u00fan no nos conocemos.
+
+villager.follow.start1=\u00bfA d\u00f3nde vamos?
+villager.follow.start2=Voy a intentar quedarme contigo.
+villager.follow.start3=Vale. Ir\u00e9.
+villager.follow.start4=Vas a irte de la  aldea para crearte el tuyo propio? Lo dudaba.
+villager.follow.start5=Vale, no me vendr\u00eda mal un paseo.
+villager.follow.start6=\u00bfA donde me llevas?
+villager.follow.start7=Ah, \u00bfd\u00f3nde deseas ir?
+villager.follow.start8=Pues vamos a ponernos a ello.
+
+villager.follow.stop1=Vale, estar\u00e9 por aqu\u00ed.
+villager.follow.stop2=No vayas demasiado lejos.
+villager.follow.stop3=Me gusta este lugar\!
+villager.follow.stop4=Vale, nos vemos m\u00e1s tarde\!
+villager.follow.stop5=\u00a1No me dejes aqu\u00ed solo/a\!
+villager.follow.stop6=Cu\u00eddate.
+villager.follow.stop7=Entonces, yo me quedar\u00e9 aqu\u00ed.
+villager.follow.stop8=Ahora dejar\u00e9 de seguirte.
+villager.follow.stop9=Bueno, ya estoy cansado\!
+villager.follow.stop10=\u00a1Bueno, eso fue agitado\!
+
+villager.gift.bad1=No soy un cubo de basura.
+villager.gift.bad2=No quiero tu basura\!
+villager.gift.bad3=Creo que esto es basura.
+villager.gift.bad4=\u00bfPor qu\u00e9 querr\u00eda yo eso?
+villager.gift.bad5=Puedes guardarte tu basura, gracias.
+villager.gift.bad6=Espero que est\u00e9s de broma, esto no es un buen regalo.
+villager.gift.bad7=Lo siento, pero no acepto ese tipo de regalos.
+villager.gift.bad8=No puedo aceptar nada de extra\u00f1os, perd\u00f3neme.
+villager.gift.bad9=\u00a1As\u00ed que t\u00fa eres el que rob\u00f3 esto\! Deber\u00edas irte.
+villager.gift.bad10=\u00bfPor qu\u00e9 insistes en darme basura?
+
+villager.gift.small1=\u00a1 Oh, gracias\!
+villager.gift.small2=\u00a1Gracias por pensar en mi\!
+villager.gift.small3=\u00a1Gracias\!
+villager.gift.small4=No ten\u00edas porque traerme nada...\u00a1Gracias\!
+villager.gift.small5=Oh,\u00a1me encanta\!
+villager.gift.small6=Gracias.
+villager.gift.small7=Este es un regalo precioso. Gracias.
+villager.gift.small8=\u00a1Guay\!\u00a1Gracias\!
+
+villager.gift.regular1=\u00a1Radiante\!
+villager.gift.regular2=Podr\u00eda encontrarle alg\u00fan uso. \u00a1Gracias\!
+villager.gift.regular3=Oh,\u00a1wow\!\u00a1Gracias\!
+villager.gift.regular4=\u00bfMe podr\u00edas dar otro?
+villager.gift.regular5=Gracias, amigo.
+villager.gift.regular6=Ah, gracias por el regalo.
+villager.gift.regular7=Que amable por tu parte, gracias.
+villager.gift.regular8=\u00a1Que regalo m\u00e1s bonito\! Gracias, %PlayerName%.
+villager.gift.regular9=%PlayerName%, eres tan majo.
+villager.gift.regular10=Que amable por tu parte, %PlayerName%.
+villager.gift.regular11=\u00a1Eres un gran amigo\!
+
+villager.gift.great1=Me... \u00a1me he quedado sin palabras\! \u00a1Gracias\!
+villager.gift.great2=\u00a1Esto no tiene precio\!
+villager.gift.great3=\u00a1Reconoces un gran regalo nada m\u00e1s verlo\!
+villager.gift.great4=\u00a1Siempre quise uno de estos\!
+villager.gift.great5=Esto es grandioso\!
+villager.gift.great6=Oh, esto es... \u00a1Gracias\! \u00a1No ten\u00edas por qu\u00e9 hacerlo\!
+villager.gift.great7=Muchas gracias, no se me olvidar\u00e1 tan f\u00e1cilmente.
+villager.gift.great8=Oh esto es genial, har\u00e9 buen uso de ello.
+
+villager.greeting.hate1=Al\u00e9jate de mi.
+villager.greeting.hate2=\u00bfAcaso no me escuchaste antes? Dije que te fueras.
+villager.greeting.hate3=AH. Eres tu.
+villager.greeting.hate4=\u00bfEstas aqu\u00ed para darme otro pu\u00f1etazo en la cara?
+villager.greeting.hate5=Por favor, vete.
+villager.greeting.hate6=\u00bfQu\u00e9 quieres?
+villager.greeting.hate7=Llamar\u00e9 a los guardias si me vuelves a molestar.
+villager.greeting.hate8=Tengo un arma, solo te aviso.
+villager.greeting.hate9=Vete a molestar a otro.
+villager.greeting.hate10=Ugh. D\u00e9jame en paz.
+villager.greeting.hate11=Pi\u00e9rdete, idiota.
+
+villager.greeting.basic1=Oh, hola.
+villager.greeting.basic2=\u00bfEstas por all\u00ed?
+villager.greeting.basic3=Hola, extra\u00f1o.
+villager.greeting.basic4=Hey, \u00bfqu\u00e9 hay?
+villager.greeting.basic5=No te hab\u00eda visto por aqu\u00ed antes.
+villager.greeting.basic6=Debes ser nuevo por aqu\u00ed.
+villager.greeting.basic7=Buenos d\u00edas, %PlayerName%.
+villager.greeting.basic8=Saludos.
+villager.greeting.basic9=\u00bfComo puedo ayudarte?
+villager.greeting.basic10=Oh, hola. %PlayerName%,\u00bfverdad?
+
+villager.greeting.friend1=\u00a1Hola, amigo\!
+villager.greeting.friend2=\u00a1Ey\!\u00a1Me alegro de volver a verte\!
+villager.greeting.friend3=\u00a1Mirad todos\!\u00a1Es mi mejor amigo\!
+villager.greeting.friend4=Ey,\u00a1amigo\!
+villager.greeting.friend5=\u00bfQu\u00e9 has estado haciendo? Hace tiempo que no te veo.
+villager.greeting.friend6=Ey,\u00a1es %PlayerName%, mi mejor amigo\!
+villager.greeting.friend7=\u00a1Ah\! Mirad a quien tenemos aqu\u00ed. Hola,\u00a1%PlayerName%\!
+villager.greeting.friend8=\u00a1Ey t\u00fa\!\u00bfQu\u00e9 tal te ha ido?
+villager.greeting.friend9=Que tal t\u00edo,\u00bfcomo te va?
+
+villager.greeting.interest.male1=\u00a1Guau\! \u00a1Te veo genial hoy\!
+villager.greeting.interest.male2=\u00a1%PlayerName%\!\u00a1Por favor no te vayas\! Quer\u00eda preguntarte algo... Da igual.
+villager.greeting.interest.male3=*Susurra* Es tan guapa...
+villager.greeting.interest.male4=%PlayerName%, apuesto a que no sab\u00edas que fuera rico.
+villager.greeting.interest.male5=*Susurra* Es tan maja conmigo,\u00bfme pregunto si la gusto?
+
+villager.greeting.interest.female1=Hey, ven a visitarme en alg\u00fan momento. * Wink*
+villager.greeting.interest.female2=Hola... %PlayerName%... *Risitas*
+villager.greeting.interest.female3=\u00a1Pareces grande y fuerte, como de costumbre\!
+villager.greeting.interest.female4=*Se vuelve p\u00e1lida* 
+villager.greeting.interest.female5=*Susurros*\u00a1No\!\u00a1No se lo voy a preguntar\!
+
+villager.greeting.wedding1=Me he enterado de que os casais.\u00a1Os congratulo\!
+villager.greeting.wedding2=Ey, %PlayerName%,\u00a1felicidades vuestro casamiento\!
+villager.greeting.wedding3=Estoy seguro de que sera una boda preciosa,\u00bfverdad?
+villager.greeting.wedding4=\u00a1Me alegro mucho por ti\! \u00a1Te traer\u00e9 el regalo m\u00e1s grande que exista\!
+villager.greeting.wedding5=Solo te casaste por los regalos,\u00bfverdad?
+
+villager.hitbyplayer1=\u00a1D\u00e9jame en solo\!
+villager.hitbyplayer2=\u00a1No te he hecho nada malo\!
+villager.hitbyplayer3=\u00a1Para ya\!
+villager.hitbyplayer4=\u00a1Aw\!\u00bfPor qu\u00e9 me pegas?
+villager.hitbyplayer5=\u00a1Basta\! Eso duele\!
+villager.hitbyplayer6=\u00a1Ey\!\u00a1No me pegues\!
+villager.hitbyplayer7=Ay, para, para\!
+villager.hitbyplayer8=\u00a1No me vuelvas a tocar\!
+villager.hitbyplayer9=\u00a1Guardias\!\u00a1Esta persona me esta atacando\!
+villager.hitbyplayer10=\u00a1Que alguien me ayude\!
+villager.hitbyplayer12=\u00a1Aw\! %PlayerName% \u00a1Pens\u00e9 que eramos amigos\!
+
+villager.gifted.baby1=Cr\u00eda a tus propios hijos.
+villager.gifted.baby2=\u00a1No quiero agarrarlo\!
+villager.gifted.baby3=\u00a1Huele mal\!
+villager.gifted.baby4=Oh, ser\u00e1 mejor que no. Yo perd\u00ed el mio ayer.
+villager.gifted.baby5=Deber\u00eda dec\u00edrtelo, desprecio los ni\u00f1os.
+villager.gifted.baby6=Ya me cuesta cuidar de mi mismo, mucho menos un beb\u00e9.
+villager.gifted.baby7=Quiero agarrarle, pero no me har\u00e9 cargo de \u00e9l.
+villager.gifted.baby8=\u00bfPor qu\u00e9 no se lo das a tu esposa en vez de un extra\u00f1o?
+
+villager.interact.refusal1=Al\u00e9jate de mi. 
+villager.interact.refusal2=Te odio.
+villager.interact.refusal3=Deja de hablarme.
+villager.interact.refusal4=\u00a1 Deja\!
+villager.interact.refusal5=No est\u00e1s bienvenido.
+villager.interact.refusal6=No tengo nada que ver contigo. D\u00e9jame en paz.
+villager.interact.refusal7=Vete, me estas molestando.
+villager.interact.refusal8=Ni siquiera voy a hablarte.
+villager.interact.refusal9=No me toques.
+
+villager.joke.bad1=\u00bfNo lo entiendo?
+villager.joke.bad2=Eso me ofende.
+villager.joke.bad3=\u00a1Eso es terrible\!
+villager.joke.bad4=Eso no a tenido ning\u00fan sentido.
+villager.joke.bad5=Lo que dices es una estupidez.
+villager.joke.bad6=Bien, entonces...
+villager.joke.bad7=Eso es eh..., una broma muy graciosa.
+
+villager.joke.good1=\u00a1Es muy gracioso\!
+villager.joke.good2=\u00bfDonde escuchaste esa broma? \u00a1Jaja\!
+villager.joke.good3=\u00a1Qu\u00e9 buena\!
+villager.joke.good4=*risas*
+villager.joke.good5=Un tanto gracioso.
+villager.joke.good6=\u00a1Oh, esa es de las mejores bromas que he oido jam\u00e1s\!
+villager.joke.good7=\u00a1Conoces chistes muy buenos\!
+villager.joke.good8=\u00a1Ja\! Tu sabes como hacer de reir a la gente.
+villager.joke.good9=\u00a1Eso significa dos cosas\!
+
+villager.marriage.acceptance1=S\u00ed quiero.
+villager.marriage.acceptance2=\u00a1Estaba esperando a que me lo preguntar\u00e1s\!\u00a1Por supuesto que s\u00ed\!
+villager.marriage.acceptance3=S\u00ed quiero. \u00a1Te amo\!
+villager.marriage.acceptance4=Sabes, he estado pensando mucho sobre \u00faltimamente ... y ... Uf, \u00bfSobre qu\u00e9 estoy hablando? S\u00ed, quiero\!
+villager.marriage.acceptance5=Me estar\u00eda m\u00e1s que contento a pasar mi vida contigo\!
+villager.marriage.acceptance6=Este es un anillo de casarse... \u00bfPara m\u00ed? S\u00ed, Quiero\!
+villager.marriage.acceptance7=Saber que me amas me hace feliz, estando con t\u00fa hace que siente como el m\u00e1s feliz persona del mundo.
+
+villager.marriage.refusal.lowhearts1=\u00bfQu\u00e9 dices loco?
+villager.marriage.refusal.lowhearts2=\u00bfC\u00f3mo? \u00bf\u00a1Qui\u00e9n eres\!?
+villager.marriage.refusal.lowhearts3=\u00a1Ni siquiera te conozco\!
+villager.marriage.refusal.lowhearts4=Erm... no. Lo siento.
+villager.marriage.refusal.lowhearts5=\u00a1No me gustas\!
+villager.marriage.refusal.lowhearts6=\u00bfC\u00f3mo? \u00a1No\! No puedo.
+villager.marriage.refusal.lowhearts7=Bueno, ver\u00e1s... Es que no creo que se el momento de casarme a\u00fan.
+villager.marriage.refusal.lowhearts8=\u00a1No quiero\!
+villager.marriage.refusal.lowhearts9=\u00a1No me quiero casar contigo, memo\!
+
+villager.marriage.refusal.playermarried1=Pienso que eres con una otra persona...
+villager.marriage.refusal.playermarried2=\u00bfNo eres se cas\u00f3 ahora?
+villager.marriage.refusal.playermarried3=Veo ese anillo en tu dedo. Pierdase.
+villager.marriage.refusal.playermarried4=\u00bfComo podr\u00edas siquiera intentar hacerle eso a tu esposa?
+villager.marriage.refusal.playermarried5=Eres terrible. Ves a disculparte a tu esposa.
+villager.marriage.refusal.playermarried6=\u00bfEstas loco o que?\u00a1Ya est\u00e1s casado\!
+villager.marriage.refusal.playermarried7=\u00bfPor qu\u00e9 le haces eso a tu esposa?\u00a1Eres un idiota\!
+villager.marriage.refusal.playermarried8=\u00a1Ser\u00e1 mejor que se lo diga a tu esposa\!
+villager.marriage.refusal.playermarried9=Se que est\u00e1s casado... tienes un anillo...
+
+villager.marriage.refusal.villagermarried1=Estoy fuera del mercado, lo siento.
+villager.marriage.refusal.villagermarried2=Oh...,no. Ya tengo a alguien.
+villager.marriage.refusal.villagermarried3=Estoy fuera del mercado. Lo siento, pens\u00e9 que ya lo sab\u00edas.
+villager.marriage.refusal.villagermarried4=Tengo que decir que no, porque como puedes ver, ya estoy casado.
+villager.marriage.refusal.villagermarried5=Lo siento, ya estoy con alguien.
+
+villager.angry1=\u00a1As\u00ed \u00e9s\!\u00a1Ser\u00e1 mejor que te mantengas alejado, cobarde\!
+villager.angry2=\u00bfPor qu\u00e9 no vienes y luchas como un hombre?
+villager.angry3=\u00a1Voy a llamar a los guardias a que vengan a por ti\!
+villager.angry4=\u00a1Alg\u00fan d\u00eda recibir\u00e1s lo que te mereces\!
+villager.angry5=No vuelvas\!
+
+villager.scared1=\u00a1No\! No me hagas da\u00f1o, por favor\!
+villager.scared2=No lo volver\u00e9 a hacer,\u00a1lo prometo\!
+villager.scared3=\u00a1Porfavor\!\u00a1No me mate\!
+villager.scared4=\u00a1No\!\u00a1Deje el arma\!
+villager.scared5=\u00a1Que alguien me ayude\!\u00a1Me van a matar\!
+
+villager.greeting.handshake.good1=Saludos.
+villager.greeting.handshake.good2=Buenos d\u00edas.
+villager.greeting.handshake.good3=\u00bfPor qu\u00e9 no son todos as\u00ed de educados? Bienvenido.
+villager.greeting.handshake.good4=As\u00ed es como se estrechan la mano los hombres.
+villager.greeting.handshake.good5=Se agradece tu llegada.
+
+villager.greeting.handshake.bad1=\u00a1Oye, me haces da\u00f1o en la mano\!
+villager.greeting.handshake.bad2=Pero no aprietes tanto.
+villager.greeting.handshake.bad3=No, gracias.
+villager.greeting.handshake.bad4=Emm... t\u00edo, tienes las manos sucias.
+villager.greeting.handshake.bad5=\u00a1\u00bfDe qu\u00e9 tienes manchadas las manos?\!
+
+villager.greeting.highfive.good1=\u00a1Choca esos cinco\!
+villager.greeting.highfive.good2=\u00bfQu\u00e9 te cuentas, %PlayerName%?
+villager.greeting.highfive.good3=\u00a1Al pelo\!
+villager.greeting.highfive.good4=Hey, \u00bfqu\u00e9 hay?
+villager.greeting.highfive.good5=\u00a1Me alegro de verte\!
+
+villager.greeting.highfive.bad1=\u00a1No toques\!, \u00bfpor qu\u00e9 tocas\!
+villager.greeting.highfive.bad2=\u00bfTe pasa algo?
+villager.greeting.highfive.bad3=Ehm... ni lo intentes.
+villager.greeting.highfive.bad4=Ya basta, t\u00edo.
+villager.greeting.highfive.bad5=...\u00bfpero qu\u00e9 haces?
+
+villager.kiss.good1=*sonrojado* \u00bfEst\u00e1s soltero?
+villager.kiss.good2=Besas muy bien...
+villager.kiss.good3=Tus labios son suaves y dulces.
+villager.kiss.good4=Sabes a miel.
+villager.kiss.good5=*sonriendo* Eres un amor.
+
+villager.kiss.bad1=\u00a1\u00bfAcaso te conozco?\!
+villager.kiss.bad2=*guantazo*
+villager.kiss.bad3=\u00a1Seguridad\! \u00a1Llev\u00e1oslo\!
+villager.kiss.bad4=\u00a1\u00bfPero qu\u00e9 haces?\!
+villager.kiss.bad5=Mi padre nunca lo permitir\u00eda.\u00a0. 
+
+villager.flirt.good1=*sonrojado* Oh, Dios.
+villager.flirt.good2=*sonriendo* Eres un amor.
+villager.flirt.good3=Me encantas cuando hablas as\u00ed.
+villager.flirt.good4=Si pudiera reordenar el alfabeto, t\u00fa y yo estar\u00edamos juntos.
+villager.flirt.good5=Jeje, tenemos que quedar juntos alg\u00fan d\u00eda de estos.
+
+villager.flirt.bad1=Debo de ir con pantalones de b\u00e9isbol, \u00a1porque estoy fuera de tu liga\!
+villager.flirt.bad2=Ehm, me da a mi que no.
+villager.flirt.bad3=\u00bfMe est\u00e1s tirando los trastos?
+villager.flirt.bad4=*risas* Lo siento, no eres de mi estilo.
+villager.flirt.bad5=Eso ha sido pat\u00e9tico.
+
+villager.tellstory.good1=*risas* \u00a1Los cerdos tienen lo mejor de nosotros\!
+villager.tellstory.good2=Me acuerdo de cuando era joven y pod\u00eda hacer eso tambi\u00e9n.
+villager.tellstory.good3=De vez en cuando deber\u00edamos intentarlo juntos tambi\u00e9n.
+villager.tellstory.good4=\u00a1Al menos debes protegernos de los zombis\!
+villager.tellstory.good5=*risas* Est\u00e1 bien, %PlayerName%.
+
+villager.tellstory.bad1=\u00a1Das verg\u00fcenza ajena\!
+villager.tellstory.bad2=Te lo mereces.
+villager.tellstory.bad3=\u00a1Ojal\u00e1 te ataque un zombi por eso que has contado\!
+villager.tellstory.bad4=Pues vaya.
+villager.tellstory.bad5=No estoy para nada agusto ahora mismo...
+
+#######
+# Grandchild Dialogue
+##############################
+
+grandchild.chat.bad1=Eres mayor. Y aburrido.
+grandchild.chat.bad2=\u00a1No quiero escuchar m\u00e1s batallitas\!
+grandchild.chat.bad3=*bostezo*
+
+grandchild.chat.good1=\u00a1Eres el/la mejor %RelationOfPlayer% que he tenido nunca\!
+grandchild.chat.good2=\u00a1Guau\! \u00bfHa pasado eso de verdad?
+grandchild.chat.good3=\u00bfHa pasado todo eso de verdad?
+grandchild.chat.good4=Siempre disfruto hablando contigo.
+
+grandchild.follow.start1=\u00bfA d\u00f3nde vamos?
+grandchild.follow.start2=Quiero que me ense\u00f1es donde mataste a ese Creeper.
+grandchild.follow.start3=De acuerdo, \u00a1vamos\!
+
+grandchild.follow.stop1=Te esperar\u00e9, %RelationOfPlayer%.
+grandchild.follow.stop2=Te esperar\u00e9 aqu\u00ed, %RelationOfPlayer%.
+grandchild.follow.stop3=No te vayas muy lejos, %RelationOfPlayer%.
+
+grandchild.gift.bad1=\u00a1Emm\! \u00bfCuantos a\u00f1os tiene esto\!
+grandchild.gift.bad2=Parece que viene de la edad de la piedra.
+grandchild.gift.bad3=Ah... gracias. Supongo.
+
+grandchild.gift.great1=Esto tiene que significar mucho para ti. \u00a1Gracias\!
+grandchild.gift.great2=\u00a1Guau\! \u00a1\u00bfEn serio es para mi?\!
+grandchild.gift.great3=\u00a1Sab\u00eda que me sorprender\u00edas\!
+
+grandchild.gift.regular1=\u00a1Siempre le ense\u00f1o a todos lo que me trae mi %RelationOfPlayer%\!
+grandchild.gift.regular2=\u00a1Guau\! \u00a1Mola\!
+grandchild.gift.regular3=Me encanta que me traigas cosas, %RelationOfPlayer%.
+
+grandchild.gift.small1=\u00a1Es fant\u00e1stico\!
+grandchild.gift.small2=\u00a1Me gusta\!
+grandchild.gift.small3=\u00a1Gracias, %RelationOfPlayer%\!
+grandchild.gift.small4=Esto mola un huevo, %RelationOfPlayer%.
+
+grandchild.greeting.basic1=Hola, %RelationOfPlayer%.
+grandchild.greeting.basic2=Hace mucho que no te ve\u00eda, %RelationOfPlayer%.
+
+grandchild.greeting.friend1=\u00a1Hey, pero si es %RelationOfPlayer%\!
+grandchild.greeting.friend2=Mirad todos, \u00a1mi %RelationOfPlayer% est\u00e1 aqu\u00ed\!
+
+grandchild.greeting.hate1=*refunfu\u00f1a*
+grandchild.greeting.hate2=Oh, no. Est\u00e1s aqu\u00ed.
+grandchild.greeting.hate3=No eres mi %RelationOfPlayer% favorito/a.
+grandchild.greeting.hate4=\u00a1Mam\u00e1\! %RelationOfPlayer% est\u00e1 aqu\u00ed...
+
+grandchild.hitbyplayer1=\u00a1Au\! \u00a1Eso duele\!
+grandchild.hitbyplayer2=\u00a1Para ya\!
+grandchild.hitbyplayer3=\u00a1Te est\u00e1s pasando\!
+grandchild.hitbyplayer4=\u00bfPor qu\u00e9 me pegas, %RelationOfPlayer%?
+
+grandchild.gifted.baby1=\u00bf\u00a1A\u00fan puedes tener beb\u00e9s\!?
+grandchild.gifted.baby2=Esto es... \u00bftuyo?
+
+grandchild.joke.bad1=Eso ha estado muy mal...
+grandchild.joke.bad2=\u00bf\u00bf\u00bfQu\u00e9???
+grandchild.joke.bad3=Antes, quiz\u00e1, hac\u00eda gracia, pero ahora... no mucho.
+grandchild.joke.bad4=Tus antiguas bromas no eran graciosas.
+
+grandchild.joke.good1=\u00a1Siempre le digo a todo el mundo lo guay que es mi %RelationOfPlayer%\!
+grandchild.joke.good2=\u00a1Podr\u00edas cont\u00e1rselo a mi amigo\!
+grandchild.joke.good3=\u00a1Qu\u00e9 bueno, %RelationOfPlayer%\!
+grandchild.joke.good4=\u00a1Mi %RelationOfPlayer% tiene mucha chispa siempre\!
+
+grandchild.greeting.handshake.good1=\u00bfEntonces, eres mi %RelationOfPlayer%?
+grandchild.greeting.handshake.good2=Encantado de conocerte. Eres mi %RelationOfPlayer%, \u00bfno?
+grandchild.greeting.handshake.good3=Hola, \u00bfsab\u00edas que era %RelationToPlayer%? Yo no.
+grandchild.greeting.handshake.good4=Hola %RelationOfPlayer%.
+grandchild.greeting.handshake.good5=\u00a1\u00bfMe das algo?\!
+
+grandchild.greeting.handshake.bad1=\u00bfUn... apret\u00f3n de manos?
+grandchild.greeting.handshake.bad2=\u00bfLe das la mano a tu nieto?
+grandchild.greeting.handshake.bad3=\u00a1Bruto\! \u00a1T\u00fa eres mayor\!
+grandchild.greeting.handshake.bad4=\u00a1Tus manos est\u00e1n arrugadas\!
+grandchild.greeting.handshake.bad5=\u00a1Ay\! \u00bfPor qu\u00e9 aprietas tanto?
+
+grandchild.greeting.highfive.good1=\u00a1AY\! \u00a1Otra vez\!
+grandchild.greeting.highfive.good2=\u00a1Otra vez, otra vez\!
+grandchild.greeting.highfive.good3=\u00a1Va, otra vez\!
+grandchild.greeting.highfive.good4=\u00bfEso es toda la fuerza que tienes? \u00a1Otra vez?
+grandchild.greeting.highfive.good5=\u00a1Otra\!
+
+grandchild.greeting.highfive.bad1=Me duele la mano.
+grandchild.greeting.highfive.bad2=\u00a1Esto empieza a doler\!
+grandchild.greeting.highfive.bad3=\u00a1Para\!
+grandchild.greeting.highfive.bad4=Me estoy aburriendo ya.
+grandchild.greeting.highfive.bad5=Ya est\u00e1, me duele la mano.
+
+grandchild.tellstory.good1=\u00a1No est\u00e1 mal que tengamos guardias\!
+grandchild.tellstory.good2=Hala, \u00bfen serio hiciste eso?
+grandchild.tellstory.good3=\u00bfY qu\u00e9 hizo el esqueleto?
+grandchild.tellstory.good4=\u00a1Eres mi h\u00e9roe\!
+grandchild.tellstory.good5=\u00bfPuedes llevarme a mi a una de esas aventuras?
+
+grandchild.tellstory.bad1=No te creo.
+grandchild.tellstory.bad2=Mis padres me dijeron que no te creyese.
+grandchild.tellstory.bad3=Claaaro.
+grandchild.tellstory.bad4=No quiero o\u00edrte m\u00e1s...
+grandchild.tellstory.bad5=Me tengo que ir a casa.
+
+grandchild.play.good1=Yuju, \u00a1esto mola\!
+grandchild.play.good2=\u00a1Me encanta pasar el rato contigo\!
+grandchild.play.good3=\u00a1Eres el mejor\!
+grandchild.play.good4=\u00a1Vamos a jugar\!
+grandchild.play.good5=\u00a1Te voy a ganar\!
+
+grandchild.play.bad1=\u00bfOtra vez?
+grandchild.play.bad2=Eres demasiado mayor para eso.
+grandchild.play.bad3=No juegas bien.
+grandchild.play.bad4=Vete a jugar con tus animales.
+grandchild.play.bad5=Prefiero comer verduras.
+
+#######
+# Villager Child Dialogue
+##############################
+
+villagerchild.chat.bad1=Perdoneme,\u00a1pero mi padres no me dejan hablar con extra\u00f1os\!
+villagerchild.chat.bad2=\u00bfQui\u00e9n eres? Pareces tonto.
+villagerchild.chat.bad3=No quiero hablarte,\u00a1das miedo\!
+
+villagerchild.chat.good1=\u00a1Wow\!\u00a1Eres guay\!
+villagerchild.chat.good2=\u00a1Eres como un superh\u00e9roe\!
+villagerchild.chat.good3=\u00bf\u00a1Eres un aventurero\!?\u00a1Que guay\!
+villagerchild.chat.good4=Me gustan tus historias,\u00a1cuentame m\u00e1s, cuentame m\u00e1s\!
+
+villagerchild.follow.start1=Vale,\u00a1pero no quiero alejarme mucho de casa\!
+villagerchild.follow.start2=Emm... Me gustaria mas quedarme aqu\u00ed...
+villagerchild.follow.start3=\u00bfA donde vamos?\u00bfA una aventura?
+
+villagerchild.follow.stop1=Bien.\u00a1Ya estaba cansado de veret el culo\!
+villagerchild.follow.stop2=\u00bfD\u00f3nde est\u00e1 todo el mundo?
+villagerchild.follow.stop3=\u00a1No me dejes aqu\u00ed solo/a\!
+
+villagerchild.gift.bad1=Ah,\u00a1esto es basura\! No la quiero.
+villagerchild.gift.bad2=\u00bfPuedo tirarlo? No lo quiero.
+villagerchild.gift.bad3=\u00bfPorque me das esto, %PlayerName%?\u00a1No me gusta\!
+
+villagerchild.gift.great1=\u00a1Guau\! \u00bfPuedo quedarmelo? \u00a1Muchas gracias\! \u00a1Voy a ense\u00f1\u00e1rselo a pap\u00e1\!
+villagerchild.gift.great2=\u00a1Gracias por el regalo\!
+villagerchild.gift.great3=\u00a1Este es el mejor regalo del mundo\! \u00a1Gracias\!
+
+villagerchild.gift.regular1=\u00a1Gracias\!
+villagerchild.gift.regular2=\u00a1Est\u00e1 chul\u00edsimo\!\u00a1Gracias\!
+villagerchild.gift.regular3=\u00a1Gracias por el regalo\!
+
+villagerchild.gift.small1=\u00a1Gracias\!
+villagerchild.gift.small2=\u00a1Muchas gracias\!
+villagerchild.gift.small3=\u00bfSe puede comer?
+villagerchild.gift.small4=\u00bfPara mi? Oh,\u00a1muchas gracias\!
+
+villagerchild.greeting.basic1=\u00bfQui\u00e9n eres?
+villagerchild.greeting.basic2=Pareces gracioso.
+
+villagerchild.greeting.friend1=\u00a1Ey\!\u00a1T\u00fa eres mi amigo\!
+villagerchild.greeting.friend2=\u00bfQuieres jugar a algo?
+
+villagerchild.greeting.hate1=No me gustas.
+villagerchild.greeting.hate2=\u00a1Me acuerdo de ti\!\u00a1Me hiciste da\u00f1o\!
+villagerchild.greeting.hate3=\u00a1No\!\u00a1Alejat\u00e9 de mi\!
+villagerchild.greeting.hate4=Mi papa te dijo que te alejaras.
+
+villagerchild.hitbyplayer1=\u00a1Aw\!\u00a1Mama\!\u00a1%PlayerName% me ha pegado\!
+villagerchild.hitbyplayer2=No me pegues,\u00a1duele\!
+villagerchild.hitbyplayer3=\u00a1Porfavor, no me hagas da\u00f1o\!
+villagerchild.hitbyplayer4=Mami\! Pap\u00e1\! Ay\!
+
+villagerchild.gifted.baby1=Aw... Es bonito,\u00a1pero huele\!
+villagerchild.gifted.baby2=\u00bfPor qu\u00e9 huele mal?
+villagerchild.gifted.baby3=\u00a1No quiero agarrarlo\!
+
+villagerchild.joke.bad1=Eres tonto.
+villagerchild.joke.bad2=No es gracioso.
+villagerchild.joke.bad3=\u00a1Eso no es gracioso\!
+villagerchild.joke.bad4=\u00a1No me insultes\!
+villagerchild.joke.bad5=\u00a1Mamy\!\u00a1%PlayerName% dice palabrotas\!
+
+villagerchild.joke.good1=\u00a1Jaja\!\u00a1Eres gracios\u00edsimo\!
+villagerchild.joke.good2=\u00a1Me encantas tus chistes\!
+villagerchild.joke.good3=\u00a1Ese es muy bueno\!\u00a1Se lo contar\u00e9 a mis amigos\!
+villagerchild.joke.good4=\u00bfComo se ase esa esa cara chistosa? Haslo de nuevo\!
+
+villagerchild.play.good1=\u00a1Mam\u00e1 y pap\u00e1 nunca tienen tiempo para hacer esto\!
+villagerchild.play.good2=\u00a1Yupi\! \u00bfPuedes ser mi amigo?
+villagerchild.play.good3=\u00bfPuedo ganar algo?
+villagerchild.play.good4=\u00a1Vamos a jugar para siempre\!
+villagerchild.play.good5=\u00a1Vamos a hacer algo diver\!
+
+villagerchild.play.bad1=\u00bfQui\u00e9n eres?
+villagerchild.play.bad2=Mi madre me dice que no juegue con desconocidos.
+villagerchild.play.bad3=Pap\u00e1 me dijo que me ibas a tirar por un barranco.
+villagerchild.play.bad4=No, est\u00e1 bien.
+villagerchild.play.bad5=Vete a jugar con tu hijo.
+
+villagerchild.tellstory.good1=Ojal\u00e1 fuese tu hijo...
+villagerchild.tellstory.good2=\u00a1\u00bfPuedo tener un calamar como mascota tambi\u00e9n?\!
+villagerchild.tellstory.good3=\u00a1\u00bfGuau, puedes llevarme al Inframundo?\!
+villagerchild.tellstory.good4=\u00bfPor qu\u00e9 no me puedes decir qu\u00e9 pasa despu\u00e9s de alimentarlos?
+villagerchild.tellstory.good5=\u00a1Voy a crear mi propio club como has hecho t\u00fa\!
+
+villagerchild.tellstory.bad1=No eres un buen t\u00edo, \u00bfsabes?
+villagerchild.tellstory.bad2=Creo que mi madre me est\u00e1 llamando para que me vaya ya.
+villagerchild.tellstory.bad3=\u00a1\u00bfMis padres van a morir?\!
+villagerchild.tellstory.bad4=Vete.
+villagerchild.tellstory.bad5=Tus historias cansan.
+
+#######
+# Adult Dialogue
+##############################
+
+playerchild.adult.chat.bad1=\u00bfNo tienes otra historia que contar?
+playerchild.adult.chat.bad2=Ahora no puedo...
+playerchild.adult.chat.bad3=Luego hablamos.
+playerchild.adult.chat.bad4=Ah\u00e1.
+playerchild.adult.chat.bad5=\u00bfAh\u00e1.
+playerchild.adult.chat.bad6=Va.
+playerchild.adult.chat.bad7=De acuerdo.
+playerchild.adult.chat.bad8=Interesante...
+playerchild.adult.chat.bad9=*Moviendo los ojos*
+playerchild.adult.chat.bad10=%ParentOpposite% me dijo que mentiste sobre eso.
+playerchild.adult.chat.bad11=Cambiemos el sujeto, \u00bfvale?
+playerchild.adult.chat.bad12=Bien... Eso es... Interesante..
+playerchild.adult.chat.bad13=Emm... Claro..
+playerchild.adult.chat.bad14=\u00bfEso es todo?
+playerchild.adult.chat.bad15=Quiz\u00e1 luego.
+playerchild.adult.chat.bad16=No puedo hablar ahora.
+playerchild.adult.chat.bad17=Dioooos, \u00a1VETE, por favor\!
+playerchild.adult.chat.bad18=Habla chucho, que no te escucho.
+
+playerchild.adult.chat.good1=*Escucha con atenci\u00f3n*
+playerchild.adult.chat.good2=S\u00ed, hay que ir de caza.
+playerchild.adult.chat.good3=Vamos a por v\u00edveres, o a por minerales, \u00a1lo que sea\!
+playerchild.adult.chat.good4=Deber\u00edas llevarme contigo la pr\u00f3xima vez.
+playerchild.adult.chat.good5=\u00bfCu\u00e1ndo tendr\u00e9 mi propia casa?
+playerchild.adult.chat.good6=Un d\u00eda, querr\u00e9 mi propia casa.
+playerchild.adult.chat.good7=\u00a1No puedo esperar m\u00e1s a tener mi propia casa\!
+playerchild.adult.chat.good8=\u00a1Vamos a cultivar algo\!
+playerchild.adult.chat.good9=\u00a1Vamos a alg\u00fan sitio\!
+playerchild.adult.chat.good10=\u00a1Oh\! \u00a1Esa es una gran historia\!
+playerchild.adult.chat.good11=S\u00ed, lo estoy haciendo bien.
+playerchild.adult.chat.good12=No lo vayas diciendo por ah\u00ed, pero es una buena historia.
+playerchild.adult.chat.good13=\u00a1Es lo mejor que he visto despu\u00e9s de las rebanadas de pan\!
+
+playerchild.adult.chore.start.farming1=S\u00ed, %CallPlayerParent%.
+playerchild.adult.chore.start.farming2=Ugh. Vale, %CallPlayerParent%.
+playerchild.adult.chore.start.farming3=Claro. Lo har\u00e9, %CallPlayerParent%.
+playerchild.adult.chore.start.farming4=\u00bfCultivar? Vale, lo har\u00e9.
+playerchild.adult.chore.start.farming5=\u00a1Vamos\! \u00a1Cuando eras un ni\u00f1o no hac\u00edas esto\!
+playerchild.adult.chore.start.farming6=\u00bfMe ayudar\u00e1s, %CallPlayerParent%?
+playerchild.adult.chore.start.farming7=Si vendemos el pan que haga, \u00bfpuedo llevarme un 50% del beneficio?
+
+playerchild.adult.chore.start.fishing1=Vale. Me gusta pescar.
+playerchild.adult.chore.start.fishing2=\u00a1Apuesto a que voy a pescar m\u00e1s de lo que tu has pescado en tu vida\!
+playerchild.adult.chore.start.fishing3=Voy a intentar superarme esta vez.
+playerchild.adult.chore.start.fishing4=Ah. Asi que otra vez tengo que poner la comida en la meza.
+playerchild.adult.chore.start.fishing5=S\u00ed, vale.
+playerchild.adult.chore.start.fishing6=\u00a1Bien\! \u00a1Me encanta ir a pescar, %CallPlayerParent%\!
+playerchild.adult.chore.start.fishing7=Estoy seguro/a que pescare muchos peces, solo mira\!
+playerchild.adult.chore.start.fishing8=\u00a1De acuerdo\! Intentar\u00e9 pescar todos los peces que pueda.
+playerchild.adult.chore.start.fishing9=\u00a1Yo soy bueno pescando\! Ya ver\u00e1s.
+playerchild.adult.chore.start.fishing10=Aqu\u00ed, pescadoso sospechoso...
+playerchild.adult.chore.start.fishing11=Espero no mojarme mi nueva ropa.
+
+playerchild.adult.chore.start.mining1=El carb\u00f3n no es venenoso, \u00bfno?
+playerchild.adult.chore.start.mining2=Espero que no se me rompa el pico.
+playerchild.adult.chore.start.mining3=\u00a1Encontrar\u00e9 m\u00e1s diamantes que t\u00fa, ya lo ver\u00e1s\!
+
+playerchild.adult.chore.start.woodcutting1=A\u00fan quiero una casa en un \u00e1rbol, me molan.
+playerchild.adult.chore.start.woodcutting2=\u00bfAlguna vez te has preguntado por qu\u00e9 flotan los \u00e1rboles?
+playerchild.adult.chore.start.woodcutting3=Afilar\u00e9 mi hacha para cortar \u00e1rboles.
+playerchild.adult.chore.start.woodcutting4=\u00bfMe est\u00e1s haciendo construir mi propia casa?
+
+playerchild.adult.chore.start.hunting1=\u00a1Te traer\u00e9 de vuelta diez cerdos\!
+playerchild.adult.chore.start.hunting2=Esto va a molar.
+playerchild.adult.chore.start.hunting3=Volver\u00e9 en nada.
+playerchild.adult.chore.start.hunting4=Me env\u00edas a mi a esto porque soy mejor cazador, \u00bfverdad?
+
+playerchild.adult.chore.stop1=Pens\u00e9 que nunca me ibas a dejar parar.
+playerchild.adult.chore.stop2=Estoy muy cansado...
+playerchild.adult.chore.stop3=Al final me he acabado aburriendo.
+playerchild.adult.chore.stop4=Al final me he acabado cansando.
+playerchild.adult.chore.stop5=\u00a1No me hagas hacer eso de nuevo\!
+playerchild.adult.chore.stop6=\u00a1\u00c1nimo\!
+playerchild.adult.chore.stop7=Gracias, \u00a1siempre odio hacer esto\!
+playerchild.adult.chore.stop8=Ah... \u00a1por fin est\u00e1 hecho mi trabajo\!
+playerchild.adult.chore.stop9=Creo que voy a descansar un ratillo.
+playerchild.adult.chore.stop10=Dejar\u00e9 de trabajar, entonces.
+playerchild.adult.chore.stop11=\u00a1Esto satisfecho de haber acabado esto\!
+playerchild.adult.chore.stop12=Ya he hecho el trabajo sucio. Estoy divirti\u00e9ndome un rato.
+
+playerchild.adult.follow.start1=Vale, \u00bfa d\u00f3nde estamos yendo?
+playerchild.adult.follow.start2=\u00bfVamos a cazar monstruos juntos, %CallPlayerParent%?
+playerchild.adult.follow.start3=\u00a1Espero ver un Creeper\!
+playerchild.adult.follow.start4=Espero que no nos vallamos a mudar. Me gusta este lugar.
+playerchild.adult.follow.start5=Finalmente\! Salgamos de aqui\!
+playerchild.adult.follow.start6=Regresaremos?
+playerchild.adult.follow.start7=No tengo ganas de ir a ning\u00fan lado ahora mismo...
+playerchild.adult.follow.start8=Vale, vamos pues.
+playerchild.adult.follow.start9=Vamonos\!
+playerchild.adult.follow.start10=Salgamos\!
+playerchild.adult.follow.start11=Hay tantas cosas que me gustaria ver\!
+playerchild.adult.follow.start12=Espero ver monstruos.
+playerchild.adult.follow.start13=Mas vale que esto no sea una trampa...
+playerchild.adult.follow.start14=\u00a1Quiero cazar una ara\u00f1a\!
+
+playerchild.adult.follow.stop1=Esperar\u00e9 aqu\u00ed, %CallPlayerParent%.
+playerchild.adult.follow.stop2=Me gusta este sitio. Vamos a quedarnos aqu\u00ed un rato.
+playerchild.adult.follow.stop3=Estar\u00e9 bien aqu\u00ed.
+playerchild.adult.follow.stop4=No te vayas muy lejos...
+playerchild.adult.follow.stop5=He o\u00eddo algo. Ten cuidado.
+playerchild.adult.follow.stop6=\u00a1No te hagas da\u00f1o, %CallPlayerParent%\!
+playerchild.adult.follow.stop7=\u00a1No me dej\u00e9s aqu\u00ed mucho tiempo\!
+playerchild.adult.follow.stop8=Mantente en guardia. Hay peligro halla afuera cuando vas solo.
+playerchild.adult.follow.stop9=\u00a1Vamos a buscar Creepers\!
+playerchild.adult.follow.stop10=Whew, eso fue cansado.
+playerchild.adult.follow.stop11=No puedo seguire con tigo? Tengo miedo %CallPlayerParent%.
+
+playerchild.adult.gift.bad1=Wow\! %CallPlayerParent%\! Sabes que acabas de encontrar? Yo tampoco.
+playerchild.adult.gift.bad2=Esto es basura.
+playerchild.adult.gift.bad3=No gracias.
+playerchild.adult.gift.bad4=Tira tu propia basura\!
+playerchild.adult.gift.bad5=Que tal algo de comida de vez en cuando?
+playerchild.adult.gift.bad6=Por que querria esto?
+playerchild.adult.gift.bad7=Esto es... No. Solamente no.
+playerchild.adult.gift.bad8=Porque me estas dando esto?
+playerchild.adult.gift.bad9=No, no me dejare esto, definitivamente no.
+playerchild.adult.gift.bad10=Te aseguro que lanzar\u00e9 esto a la lava.
+playerchild.adult.gift.bad11=Vez algun basurero por aqui?
+playerchild.adult.gift.bad12=Argh. \u00bfOtra vez? La pr\u00f3xima te vas a cagar.
+
+playerchild.adult.gift.great1=Oh, Dios m\u00edo... \u00a1Estoy sin palabras\!
+playerchild.adult.gift.great2=\u00a1Much\u00edsimas gracias\!
+playerchild.adult.gift.great3=\u00a1C\u00f3mo mola esto\!
+playerchild.adult.gift.great4=\u00bf\u00a1C\u00f3mo puedes permitirte esto\!?
+
+playerchild.adult.gift.regular1=Muchas gracias\!
+playerchild.adult.gift.regular2=Esto es grandioso\!
+playerchild.adult.gift.regular3=Quiero que sepas que estoy muy agradecido\!
+
+playerchild.adult.gift.small1=Donde encontraste esto? Gracias\!
+playerchild.adult.gift.small2=O, gracias %CallPlayerParent%\!
+playerchild.adult.gift.small3=\u00bfPuedo com\u00e9rmelo?
+playerchild.adult.gift.small4=No me distes esto solamente para desacerte de el, o si?
+playerchild.adult.gift.small5=\u00a1Guau, un regalo para mi\!
+playerchild.adult.gift.small6=Genial\! Gracias, %CallPlayerParent%.
+playerchild.adult.gift.small7=Esto se mira bueno, y... sabroso?
+
+playerchild.adult.greeting.basic1=Hey, %CallPlayerParent%\!
+playerchild.adult.greeting.basic2=Regresaste, %CallPlayerParent%.
+
+playerchild.adult.greeting.friend1=Hey, %CallPlayerParent%\!
+playerchild.adult.greeting.friend2=Regresaste, %CallPlayerParent%.
+
+playerchild.adult.greeting.hate1=......
+playerchild.adult.greeting.hate2=\u00bfQu\u00e9 haces, %CallPlayerParent%?
+playerchild.adult.greeting.hate3=\u00a1Te dije que te alejaras de mi\!
+playerchild.adult.greeting.hate4=\u00bfHas venido a disculparte?
+playerchild.adult.greeting.hate5=No me hagas llamar a los guardias.
+
+playerchild.adult.hitbyplayer1=\u00a1Para ya\!
+playerchild.adult.hitbyplayer2=Puedo meterte ahora mismo, \u00bfsabes\!
+playerchild.adult.hitbyplayer3=\u00a1Au\! \u00a1%CallPlayerParent%\! \u00a1Deja de pegarme\!
+playerchild.adult.hitbyplayer4=\u00a1Esto duele\!
+playerchild.adult.hitbyplayer5=\u00a1C\u00e1lmate y deja de pegarme\!
+playerchild.adult.hitbyplayer6=\u00a1No soy un saco de boxeo\!
+playerchild.adult.hitbyplayer7=\u00a1Pegarme no solucionar\u00e1 tus problemas\!
+playerchild.adult.hitbyplayer8=\u00a1Au\! \u00a1\u00bfPero por qu\u00e9 lo haces?\!
+playerchild.adult.hitbyplayer9=\u00a1Esto no es normal\!
+playerchild.adult.hitbyplayer10=\u00a1C\u00e1lmate\!
+playerchild.adult.hitbyplayer11=\u00a1Auch\!
+playerchild.adult.hitbyplayer12=\u00a1\u00bfPor qu\u00e9 lo haces?\!
+
+playerchild.adult.gifted.baby1=\u00a1No quiero mantenerlo\! 
+playerchild.adult.gifted.baby2=\u00a1Odio los beb\u00e9s\!
+playerchild.adult.gifted.baby3=\u00a1Ou\! \u00a1Como apesta\!
+playerchild.adult.gifted.baby4=S\u00ed, s\u00ed, es muy mono.
+playerchild.adult.gifted.baby5=\u00a1Tengo otra cosa que hacer\!
+
+playerchild.adult.joke.bad1=Se est\u00e1 haciendo muy mayor.
+playerchild.adult.joke.bad2=Qu\u00e9 estupidez.
+playerchild.adult.joke.bad3=...\u00bfQu\u00e9?
+playerchild.adult.joke.bad4=\u00a1No bromees con eso\! \u00a1A\u00daN est\u00e1 traumatizado\!
+playerchild.adult.joke.bad5=No lo pillo.
+playerchild.adult.joke.bad6=No lo hagas otra vez.
+playerchild.adult.joke.bad7=\u00a1He o\u00eddo eso m\u00e1s de veinte veces\!
+playerchild.adult.joke.bad8=Emm, \u00a1\u00bfpor qu\u00e9 bromeas sobre eso?\!
+playerchild.adult.joke.bad9=Es broma es horrorosa.
+playerchild.adult.joke.bad10=Ah, esa broma otra vez.
+playerchild.adult.joke.bad11=Creo que %ParentOpposite% me est\u00e1 llamando...
+playerchild.adult.joke.bad12=Pueees, me tengo que ir a hacer cosas.
+
+playerchild.adult.joke.good1=Todav\u00eda me acuerdo de eso, %CallPlayerParent%. \u00a1Jaja\!
+playerchild.adult.joke.good2=\u00a1Esa ha sido muy buena\!
+playerchild.adult.joke.good3=*jijiji*
+playerchild.adult.joke.good4=\u00a1Siempre haces las mejores bromas\!
+playerchild.adult.joke.good5=\u00a1Qu\u00e9 buena, %CallPlayerParent%\!
+playerchild.adult.joke.good6=\u00a1Jaja\! \u00a1Me parto\!
+playerchild.adult.joke.good7=\u00a1Qu\u00e9 buena\!
+
+playerchild.adult.greeting.handshake.good1=Hey, hace la tira que no hablamos.
+playerchild.adult.greeting.handshake.good2=Hey, %CallPlayerParent%.
+playerchild.adult.greeting.handshake.good3=\u00a1Me alegro de verte de nuevo, %CallPlayerParent%\!
+playerchild.adult.greeting.handshake.good4=Oye, %CallPlayerParent%, tengo muchas cosas que contarte.
+playerchild.adult.greeting.handshake.good5=Hombre, me alegro de verte aqu\u00ed otra vez.
+
+playerchild.adult.greeting.handshake.bad1=\u00bfPor qu\u00e9 no vienes de visita m\u00e1s?
+playerchild.adult.greeting.handshake.bad2=Nunca hemos tenido confianza... \u00a1\u00bfy me das la mano nada m\u00e1s verme?\!
+playerchild.adult.greeting.handshake.bad3=No quiero darte la mano.
+playerchild.adult.greeting.handshake.bad4=Estoy... ehm, tengo cosas que hacer.
+playerchild.adult.greeting.handshake.bad5=Estoy muy ocupado, como siempre que vienes.
+
+playerchild.adult.greeting.highfive.good1=\u00a1Mola\!
+playerchild.adult.greeting.highfive.good2=*aplausos*
+playerchild.adult.greeting.highfive.good3=\u00a1Somos la pera\!
+playerchild.adult.greeting.highfive.good4=\u00a1S\u00ed\! He fallado.
+playerchild.adult.greeting.highfive.good5=\u00a1Somos lo mejor\!
+
+playerchild.adult.greeting.highfive.bad1=Soy demasiado mayor como para estar todo el rato chocando las cinco.
+playerchild.adult.greeting.highfive.bad2=Ahora no, en serio.
+playerchild.adult.greeting.highfive.bad3=No quiero chocarla contigo.
+playerchild.adult.greeting.highfive.bad4=\u00a1Quiero hablar, no chocar\!
+playerchild.adult.greeting.highfive.bad5=\u00bfPor qu\u00e9 ya no me hablas?
+
+playerchild.adult.tellstory.good1=*risas* Eso me recuerda a cuando yo era un cr\u00edo.
+playerchild.adult.tellstory.good2=Tu y %ParentOpposite% os quer\u00e9is de verdad, \u00bfa que s\u00ed?
+playerchild.adult.tellstory.good3=\u00a1Suena bien\! \u00a1Tenemos que probarlo\!
+playerchild.adult.tellstory.good4=*risas* Estoy encantado de estar en esta familia.
+playerchild.adult.tellstory.good5=\u00bfQue hicieron qu\u00e9?
+
+playerchild.adult.tellstory.bad1=Mmm... \u00bfse lo has contado a %ParentOpposite%?
+playerchild.adult.tellstory.bad2=No me convence.
+playerchild.adult.tellstory.bad3=No le cuentes eso a nadie m\u00e1s.
+playerchild.adult.tellstory.bad4=Eso no mola nada.
+playerchild.adult.tellstory.bad5=Ya sabes, eso me recuerda a %RandomName%\!
+
+#######
+# Kid Dialogue
+##############################
+playerchild.young.chat.bad1=No quiero hablar. \u00a1Vete\!
+playerchild.young.chat.bad2=\u00a1%CallPlayerParent%, estoy ocupado\!
+playerchild.young.chat.bad3=\u00a1Chssss\!
+playerchild.young.chat.bad4=Eres aburrido.
+playerchild.young.chat.bad5=*te ignora*
+playerchild.young.chat.bad6=\u00a1%ParentOpposite% dijo que no dijera eso\!
+playerchild.young.chat.bad7=\u00a1Estoy ocupado\!
+playerchild.young.chat.bad8=\u00a1\u00bfNo ves que estoy ocupado?\!
+playerchild.young.chat.bad9=Estoy... *bostezo* cansado, voy a echarme una siesta.
+
+playerchild.young.chat.good1=*Escucha con atenci\u00f3n*
+playerchild.young.chat.good2=\u00bfMe llevar\u00e1s contigo la pr\u00f3xima vez, %CallPlayerParent%?
+playerchild.young.chat.good3=\u00a1Quiero ir de caza\!
+playerchild.young.chat.good4=\u00bfPor qu\u00e9 no puedo ir contigo?
+playerchild.young.chat.good5=\u00bfPodr\u00eda ir contigo la pr\u00f3xima vez, porfa?
+playerchild.young.chat.good6=\u00a1Qu\u00e9 flipe, %CallPlayerParent%\! \u00bfC\u00f3mo lo has hecho?
+playerchild.young.chat.good7=\u00bfEn serio? \u00a1Eso mola\!
+playerchild.young.chat.good8=\u00a1Eres el mejor %CallPlayerParent% del mundo\! \u00a1No, del universo\!
+
+playerchild.young.joke.bad1=\u00a1Uyuyuy\! \u00a1%CallPlayerParent% ha dicho una palabrota\!
+playerchild.young.joke.bad2=Por Dios.
+playerchild.young.joke.bad3=Eres un completo idiota. No lo pillo.
+playerchild.young.joke.bad4=\u00bfPor qu\u00e9 bromeas sobre eso? *llanto*
+playerchild.young.joke.bad5=\u00a1Deja de intentar hacerme reir\!
+playerchild.young.joke.bad6=\u00a1%ParentOpposite% dijo que no dijera esa palabra\!
+playerchild.young.joke.bad7=He o\u00eddo eso un mill\u00f3n de veces antes, %CallPlayerParent%.
+playerchild.young.joke.bad8=Eso no tiene sentido.
+
+playerchild.young.joke.good1=Eres divertido, %CallPlayerParent%.
+playerchild.young.joke.good2=\u00a1Jaja\! \u00a1Ya lo pillo\!
+playerchild.young.joke.good3=\u00a1Se lo contar\u00e9 a mis amigos\!
+playerchild.young.joke.good4=Esa no ha sido tan mala como las otras veinte.
+playerchild.young.joke.good5=*carcajada*
+playerchild.young.joke.good6=\u00a1Qu\u00e9 bueno\!
+playerchild.young.joke.good7=\u00a1Te recordar\u00e9 esa\!
+
+playerchild.young.chore.start.farming1=S\u00ed, %CallPlayerParent%.
+playerchild.young.chore.start.farming2=\u00a1Yay\! Me encanta cultivar.
+playerchild.young.chore.start.farming3=Empezar\u00e9 ya mismo.
+playerchild.young.chore.start.farming4=Finalmente tengo algo que hacer.
+playerchild.young.chore.start.farming5=Va.
+playerchild.young.chore.start.farming6=\u00a1Estaba esperando que me preguntaras esto\!
+playerchild.young.chore.start.farming7=Espero que esto sea para mi tarta de cumplea\u00f1os.
+
+playerchild.young.chore.start.fishing1=Pescar es aburrido. 
+playerchild.young.chore.start.fishing2=\u00a1Pero pescar lleva mucho tiempo\!
+playerchild.young.chore.start.fishing3=\u00a1Te juro que no s\u00e9\!
+playerchild.young.chore.start.fishing4=\u00a1Pero los peces son la peste\!
+playerchild.young.chore.start.fishing5=Pero babosean...
+playerchild.young.chore.start.fishing6=\u00a1No quiero mojarme\!
+playerchild.young.chore.start.fishing7=No quiero pescar.
+playerchild.young.chore.start.fishing8=\u00bfPor qu\u00e9 siempre pescamos?
+
+playerchild.young.chore.start.mining1=\u00bfHacia donde empiezo a picar?
+playerchild.young.chore.start.mining2=Estoy dici\u00e9ndole a %ParentOpposite% si me caigo en la lava otra vez.
+playerchild.young.chore.start.mining3=\u00a1Yay\! \u00a1Me encanta picar\!
+playerchild.young.chore.start.mining4=Espero que no me vuelvan a disparar los esqueletos.
+playerchild.young.chore.start.mining5=Si encuentro un diamante, \u00bfme lo puedo quedar?
+
+playerchild.young.chore.start.woodcutting1=\u00c1rboles, \u00e1rboles, \u00e1rboles, \u00e1rboles...
+playerchild.young.chore.start.woodcutting2=\u00a1Espero que no me caiga encima otra vez\!
+playerchild.young.chore.start.woodcutting3=\u00bfPodemos hacer una casa del \u00e1rbol cuando acabemos?
+playerchild.young.chore.start.woodcutting4=\u00bfPara que vamos a usar la madera?
+
+playerchild.young.chore.start.hunting1=\u00a1De acuerdo\! Me encanta cazar.
+playerchild.young.chore.start.hunting2=Espero que no me vuelva a morder un lobo.
+playerchild.young.chore.start.hunting3=\u00a1Pero soy muy peque\u00f1o\! La \u00faltima vez me tir\u00e9 horas intentando cazar una vaca.
+
+playerchild.young.chore.stop1=*suspira con alivio*
+playerchild.young.chore.stop2=Pens\u00e9 que nunca me ibas a dejar parar.
+playerchild.young.chore.stop3=Estoy muy cansado...
+playerchild.young.chore.stop4=Al final me he acabado aburriendo.
+playerchild.young.chore.stop5=Al final me he acabado cansando.
+playerchild.young.chore.stop6=\u00a1No me hagas hacer eso de nuevo\!
+
+playerchild.young.follow.start1=Vale, \u00bfa d\u00f3nde estamos yendo?
+playerchild.young.follow.start2=\u00a1Yay\! \u00a1Pued estar con mi %CallPlayerParent%\!
+playerchild.young.follow.start3=\u00a1Yay\! Ir\u00e9 contigo.
+playerchild.young.follow.start4=\u00a1Pero no quiero ir\!
+playerchild.young.follow.start5=\u00bfTambi\u00e9n viene %ParentOpposite%?
+playerchild.young.follow.start6=\u00a1Espero que veamos un cerdo, o una vaca, o un pollo, o una oveja\!
+playerchild.young.follow.start7=\u00bfEstamos yendo a la jungla? Quiero ver un gatito.
+playerchild.young.follow.start8=Espero que no vayamos muy lejos...
+playerchild.young.follow.start9=Los Creepers me dan miedo, espero que no encontremos ninguno.
+
+playerchild.young.follow.stop1=Esta bien. Esperare aqui.
+playerchild.young.follow.stop2=No te tardes, ok?
+playerchild.young.follow.stop3=Pero esta espantoso aqui...
+playerchild.young.follow.stop4=No, %CallPlayerParent%, no te vallas\!
+playerchild.young.follow.stop5=Pero escucho ruidos...
+playerchild.young.follow.stop6=Esta bien, solamente no te olvides de mi,%CallPlayerParent%.
+playerchild.young.follow.stop7=Pero.. que pasa si se vuelve noche?
+playerchild.young.follow.stop8=Regresaras pronto?
+playerchild.young.follow.stop9=No me dejes aqui\!
+
+playerchild.young.gift.bad1=Para que usaria esto\!?
+playerchild.young.gift.bad2=Esto apesta.
+playerchild.young.gift.bad3=No me gustan estos.
+playerchild.young.gift.bad4=%CallPlayerParent%, tu sabes lo que me gusta y lo que no me gusta.
+playerchild.young.gift.bad5=Dame algo bueno.
+playerchild.young.gift.bad6=Ya tengo como dies mil de estos.
+playerchild.young.gift.bad7=Esto es basura inutil\!
+playerchild.young.gift.bad8=Prefiero no obtener nada\!
+playerchild.young.gift.bad9=\u00bf\u00bfHuh??
+
+playerchild.young.gift.great1=De donde agaraste esto, %CallPlayerParent%?
+playerchild.young.gift.great2=\u00bfEs para mi?
+playerchild.young.gift.great3=\u00a1Yaaaaaaaaay\!
+playerchild.young.gift.great4=\u00bf\u00a1Es para mi\!?
+playerchild.young.gift.great5=%ParentOpposite% dice que son 'sexy'.
+playerchild.young.gift.great6=\u00a1%CallPlayerParent%, eres insuperable\!
+
+playerchild.young.gift.regular1=Espero obtener mas\!
+playerchild.young.gift.regular2=\u00bfEs para mi?
+playerchild.young.gift.regular3=Me diste dos, \u00bfno?
+playerchild.young.gift.regular4=\u00a1\u00bfEs para mi?\!
+
+playerchild.young.gift.small1=De donde agaraste esto, %CallPlayerParent%?
+playerchild.young.gift.small2=Ooooh, brilloso\!
+playerchild.young.gift.small3=\u00a1Regalos\! \u00a1Me encantan los regalos\!
+playerchild.young.gift.small4=Me gusta, %CallPlayerParent%.
+playerchild.young.gift.small5=Gracias, %CallPlayerParent%.
+
+playerchild.young.greeting.basic1=Hola, %CallPlayerParent%.
+playerchild.young.greeting.basic2=Ew, %CallPlayerParent%, apestas. Donde has estado?
+playerchild.young.greeting.basic3=Si\! %CallPlayerParent% esta aqui\!
+playerchild.young.greeting.basic4=\u00a1Hurra, %CallPlayerParent%\! \u00bfMe trajiste algo?
+
+playerchild.young.greeting.friend1=\u00a1Yay\! \u00a1\u00a1\u00a1%CallPlayerParent%, %CallPlayerParent%, %CallPlayerParent%\!\!\!
+playerchild.young.greeting.friend2=Me trajiste un regalo, no es asi?
+playerchild.young.greeting.friend3=%CallPlayerParent%, te he echado de menos.
+playerchild.young.greeting.friend4=Dime cuentos de donde has estado\!
+playerchild.young.greeting.friend5=%CallPlayerParent%, no te vallas de nuevo. Hace que %ParentOpposite% se entristesca.
+
+playerchild.young.greeting.hate1=Por favor, no me pegues otra vez %CallPlayerParent%.
+playerchild.young.greeting.hate2=%CallPlayerParent%, seras buena jente con migo haora?
+playerchild.young.greeting.hate3=H... hola... %CallPlayerParent%
+playerchild.young.greeting.hate4=*Se esconde en temor*
+playerchild.young.greeting.hate5=Sere bueno/a hoy, %CallPlayerParent%... no me golpes.
+
+playerchild.young.hitbyplayer1=Ow\! Te acusare con %ParentOpposite%\!
+playerchild.young.hitbyplayer2=\u00a1%CallPlayerParent%, deja de pegarme\!
+playerchild.young.hitbyplayer3=\u00a1%CallPlayerParent%, eso duele\!
+playerchild.young.hitbyplayer4=\u00a1Au\! \u00bfQu\u00e9 he hecho, %CallPlayerParent%?
+playerchild.young.hitbyplayer5=\u00a1Au\!
+playerchild.young.hitbyplayer6=\u00a1Auch\!
+playerchild.young.hitbyplayer7=\u00a1Esto diciendo %ParentOpposite%\!
+
+playerchild.young.gifted.baby1=\u00a1Au\! \u00a1Apesta\!
+
+playerchild.young.tellstory.good1=\u00bfTe atizaron por eso?
+playerchild.young.tellstory.good2=\u00a1Yo quiero hacerlo\!
+playerchild.young.tellstory.good3=\u00a1Ahora que he o\u00eddo eso no te desobedecer\u00e9 nunca\!
+playerchild.young.tellstory.good4=*risas* \u00bf%ParentOpposite% hizo eso?
+playerchild.young.tellstory.good5=\u00a1No puedo creer que lo hicieras\!
+
+playerchild.young.tellstory.bad1=*lorrando* \u00bfPor qu\u00e9 hiciste eso?
+playerchild.young.tellstory.bad2=Le estoy diciendo a %RandomName% que has dicho eso.
+playerchild.young.tellstory.bad3=S\u00ed, s\u00ed, me da igual. No quiero o\u00edr m\u00e1s pirulas ahora mismo.
+playerchild.young.tellstory.bad4=\u00a1\u00bfMe va a pillar un Creeper?\!
+playerchild.young.tellstory.bad5=*llorando* \u00a1Yo no quiero que %ParentOpposite% se convierta en zombi\!
+
+playerchild.young.play.good1=\u00a1No me pillas\!
+playerchild.young.play.good2=Me encanta que juegues conmigo, %CallPlayerParent%.
+playerchild.young.play.good3=\u00a1Voy a ganar\!
+playerchild.young.play.good4=\u00a1Esto va a molar\!
+playerchild.young.play.good5=\u00a1Nunca me ganar\u00e1s\!
+
+playerchild.young.play.bad1=Nunca me dejas ganar.
+playerchild.young.play.bad2=Tu necesitas ejercicio, pero yo no.
+playerchild.young.play.bad3=Estoy mayor para esto.
+playerchild.young.play.bad4=\u00bfPor qu\u00e9 no juegas con tu ni\u00f1o favorito?
+playerchild.young.play.bad5=Yo solo quiero jugar con %RandomName%.
+
+playerchild.young.greeting.handshake.good1=Hola, %CallPlayerParent%.
+playerchild.young.greeting.handshake.good2=\u00bfA d\u00f3nde vas a ir hoy?
+playerchild.young.greeting.handshake.good3=Cu\u00e9ntame alguna aventura.
+playerchild.young.greeting.handshake.good4=Has vuelto. \u00bfC\u00f3mo te ha ido?
+playerchild.young.greeting.handshake.good5=\u00a1Vamos a hacer algo\!
+
+playerchild.young.greeting.handshake.bad1=...\u00bfpor qu\u00e9 me das la mano?
+playerchild.young.greeting.handshake.bad2=Tus manos est\u00e1n sudadas, \u00a1qu\u00e9 asco.
+playerchild.young.greeting.handshake.bad3=Puaj, \u00a1no me toques\!
+playerchild.young.greeting.handshake.bad4=\u00a1No quiero un estrech\u00f3n de manos\!
+playerchild.young.greeting.handshake.bad5=\u00bfPor qu\u00e9 no hablas conmigo y ya est\u00e1 en vez de darme la mano todo el rato?
+
+playerchild.young.greeting.highfive.good1=\u00bfVas a hacerlo otra vez?
+playerchild.young.greeting.highfive.good2=\u00a1Esto mola\!
+playerchild.young.greeting.highfive.good3=*risas*
+playerchild.young.greeting.highfive.good4=\u00a1Choca otra vez\!
+playerchild.young.greeting.highfive.good5=\u00a1Porfa, una vez m\u00e1s\!
+
+playerchild.young.greeting.highfive.bad1=Eso ya me cansa.
+playerchild.young.greeting.highfive.bad2=\u00bfHacemos otra cosa?
+playerchild.young.greeting.highfive.bad3=\u00a1No te sigo, in\u00fatil\!
+playerchild.young.greeting.highfive.bad4=No quiero chocarla m\u00e1s.
+playerchild.young.greeting.highfive.bad5=Esto empieza a ser un espect\u00e1culo.
+
+#######
+# Spouse Dialogue
+##############################
+spouse.chat.bad1=He o\u00eddo esa historia antes.
+spouse.chat.bad2=Se est\u00e1 poniendo aburrido hablando de la misma cosa.
+spouse.chat.bad3=\u00bfNo tienes algo mejor que hablar?
+spouse.chat.bad4=No quiero hablar de eso.
+spouse.chat.bad5=Lo que usted diga.
+spouse.chat.bad6=\u00bfTiene algo m\u00e1s que quieras decirme?
+
+spouse.chat.good1=Me encanta cuando me dicen sus historias de aventuras.
+spouse.chat.good2=Impresionante\!
+spouse.chat.good3=S\u00ed, las cosas est\u00e1n bien aqu\u00ed.
+spouse.chat.good4=Pues hoy... huy, \u00a1lo siento, no quiero darte la brasa\!
+spouse.chat.good5=Ha sido un largo d\u00eda para ti tambi\u00e9n, \u00bfeh?
+spouse.chat.good6=Ese porque te amo.
+spouse.chat.good7=Maravilloso, es decir, me alegro de que estoy casada contigo.
+spouse.chat.good8=iSus historias me sorprenden\!
+spouse.chat.good9=iBuena historia\!
+spouse.chat.good10=*Lame los labios con avidez*
+
+spouse.divorce1=Estoy harto de ti\!
+spouse.divorce2=\u00a1Que se vayan\!
+spouse.divorce3=Nunca quiero volver a verte de nuevo\!
+spouse.divorce4=S\u00f3lo ... al\u00e9jate de m\u00ed\!
+spouse.divorce5=iNo te puedo creer\! \u00a1D\u00e9jame en paz\!
+spouse.divorce6=\u00bfPor qu\u00e9? \u00bfNo soy yo ... lo suficientemente bueno ...?
+spouse.divorce7=Pens\u00e9 que realmente me amaba\!
+spouse.divorce8=\u00bfQu\u00e9? \u00a1No\! No puedo creer esto\!
+spouse.divorce9=\u00a1Al\u00e9jate de m\u00ed\! Siempre\!
+
+spouse.follow.start1=Oh bien, \u00bfa d\u00f3nde vamos?
+spouse.follow.start2=Muy bien, voy a seguir para arriba.
+spouse.follow.start3=De acuerdo, \u00a1vamos\!
+spouse.follow.start4=\u00bfEstamos finalmente salir de esta pocilga?
+spouse.follow.start5=Tiene una casa nueva en alguna parte?
+spouse.follow.start6=Bien, pero no me quiero mover de aqu\u00ed.
+spouse.follow.start7=Puedo ir de aventuras con ustedes? \u00a1Qu\u00e9 emocionante\!
+spouse.follow.start8=Vamos a un lugar agradable, \u00bfde acuerdo?
+
+spouse.follow.stop1=Ese lugar se ve muy bien\!
+spouse.follow.stop2=Bueno, est\u00e1 bien, est\u00e1s siempre bienvenido para traerme con usted, querida.
+spouse.follow.stop3=Bien entonces, tenga cuidado ah\u00ed fuera\!
+spouse.follow.stop4=Voy a estar por aqu\u00ed cuando vuelvas.
+spouse.follow.stop5=\u00a1Menos mal, que era aburrida, pero al menos yo estaba con vosotros.
+
+spouse.gift.bad1=Oh ... no, gracias. Yo tengo uno de esos. En alg\u00fan lugar.
+spouse.gift.bad2=Espero que no te esperas que me gusta.
+spouse.gift.bad3=Deber\u00eda haber sabido que no te recuerde lo que me gusta.
+spouse.gift.bad4=\u00bfPor qu\u00e9 lo das a m\u00ed?
+spouse.gift.bad5=Esto es lo que se llama un regalo?
+spouse.gift.bad6=Pens\u00e9 que sab\u00eda lo suficientemente bien como para saber lo que me gusta. Al parecer no.
+spouse.gift.bad7=Esto ... es malo. Yo no quiero esto.
+
+spouse.gift.great1=Dios... \u00bfcu\u00e1nto te ha costado esto?
+spouse.gift.great2=\u00bf\u00a1Qu\u00e9 has hecho para conseguir esto\!? \u00a1Muchas gracias\!
+spouse.gift.great3=\u00a1No ha debido ser nada f\u00e1cil conseguir esto\!
+spouse.gift.great4=No deber\u00eda de cogerlo... \u00a1pero es tan brillante\!
+spouse.gift.great5=Nunca me olvidar\u00e9 de esto.
+spouse.gift.great6=Gracias coraz\u00f3n m\u00edo, t\u00fa s\u00ed que sabes qu\u00e9 es lo que me gusta.
+spouse.gift.great7=Me encanta, siempre lo llevar\u00e9 conmigo, muchas gracias.
+spouse.gift.great8=Eres sexy y sabo es.
+
+spouse.gift.regular1=\u00a1Esto es genial\! \u00a1Muchas gracias\!
+spouse.gift.regular2=Tr\u00e1eme m\u00e1s\!
+spouse.gift.regular3=T\u00fa no tienes que hacer esto ... gracias.
+spouse.gift.regular4=\u00a1Esto es genial\! \u00a1Gracias\!
+spouse.gift.regular5=Sabes exactamente lo que me gusta, \u00bfno?
+spouse.gift.regular6=Oh, gracias, esto es muy amable de tu parte.
+spouse.gift.regular7=Eso fue muy dulce.
+
+spouse.gift.small1=\u00a1Gracias\!
+spouse.gift.small2=Aprecio esto.
+spouse.gift.small3=Oh. La intenci\u00f3n es lo que cuenta, sin embargo\!
+spouse.gift.small4=Eres un amor.
+spouse.gift.small5=Gracias. T\u00fa no tienes que darme nada, sin embargo. 
+
+spouse.greeting.basic1=Hola, cari\u00f1o.
+spouse.greeting.basic2=\u00bfD\u00f3nde has estado hoy?
+spouse.greeting.basic3=Hey, cari. \u00bfQu\u00e9 est\u00e1s haciendo?
+spouse.greeting.basic4=\u00bfEst\u00e1 todo bien?
+spouse.greeting.basic5=Parece que has vuelto de tus aventuras. \u00bfC\u00f3mo est\u00e1s, amorcito?
+spouse.greeting.basic6=Yo tambi\u00e9n te extra\u00f1\u00e9\! \u00bfC\u00f3mo has estado, querida?
+spouse.greeting.basic7=Yo estaba preocupado por ti, te fuiste sin decir una palabra. Pero me alegro de que est\u00e9s de vuelta.
+spouse.greeting.basic8=Oye, \u00bfc\u00f3mo te va?
+spouse.greeting.basic9=\u00bfTuvo un buen d\u00eda hoy?
+spouse.greeting.basic10=Me alegro de que hayas vuelto.
+
+spouse.greeting.friend1=Hola, cari\u00f1o.
+spouse.greeting.friend2=\u00bfD\u00f3nde has estado hoy?
+spouse.greeting.friend3=Hey, cari. \u00bfQu\u00e9 est\u00e1s haciendo?
+spouse.greeting.friend4=\u00bfEst\u00e1 todo bien?
+spouse.greeting.friend5=Parece que has vuelto de tus aventuras. \u00bfC\u00f3mo est\u00e1s, amorcito?
+spouse.greeting.friend6=Yo tambi\u00e9n te extra\u00f1\u00e9\! \u00bfC\u00f3mo has estado, querida?
+spouse.greeting.friend7=Yo estaba preocupado por ti, te fuiste sin decir una palabra. Pero me alegro de que est\u00e9s de vuelta.
+spouse.greeting.friend8=Oye, \u00bfc\u00f3mo te va?
+spouse.greeting.friend9=\u00bfTuvo un buen d\u00eda hoy?
+spouse.greeting.friend10=Me alegro de que hayas vuelto.
+
+spouse.greeting.hate1=No quiero hablar contigo ahora mismo.
+spouse.greeting.hate2=Estoy muy molesto con usted. D\u00e9jame en paz por favor.
+spouse.greeting.hate3=%PlayerName%, me dije que no hablara con usted.
+spouse.greeting.hate4=Ya no estamos hablando en t\u00e9rminos para que lo sepas.
+spouse.greeting.hate5=Es mejor que ponerse en forma o yo estoy caminando.
+
+spouse.hitbyplayer1=Ow\! Abuso\!
+spouse.hitbyplayer2=Espero que usted no pensara hacer esto.
+spouse.hitbyplayer3=Realmente duele...
+spouse.hitbyplayer4=Dejar de lastimarme\!
+spouse.hitbyplayer5=\u00a1Ay\! Jerk\!
+spouse.hitbyplayer6=\u00bfPor qu\u00e9 quieres pegarme\!?
+spouse.hitbyplayer7=\u00bfQu\u00e9 diablos fue eso\!?
+
+spouse.gifted.baby1=\u00bfOtra vez? Argh. Muy bien.
+spouse.gifted.baby2=Eres tan lindo\! S\u00ed que lo eres\! S\u00ed que lo eres\!
+spouse.gifted.baby3=Bueno, voy a mantenerlo.
+spouse.gifted.baby4=Ooo\! Es algo para m\u00ed? Oh. Es el beb\u00e9.
+spouse.gifted.baby5=Muy bien. dame.
+spouse.gifted.baby6=Mira, \u00a1tiene mis ojos\!
+spouse.gifted.baby7=Oh, no puede manejar al beb\u00e9? Bien entonces, d\u00e1rmelo.
+
+spouse.joke.bad1=Uh... creo que he dicho eso antes.
+spouse.joke.bad2=Eso no tiene ning\u00fan sentido?
+spouse.joke.bad3=Estoy seguro que es ilegal decir chistes tan malo.
+spouse.joke.bad4=Eso fue.... genial... cari\u00f1o.
+spouse.joke.bad5=*sonrisa inc\u00f3moda*
+spouse.joke.bad6=*Sonrisa forzada*
+spouse.joke.bad7=...Mu\u00e9vete....
+
+spouse.joke.good1=Aw. Usted me lo dijo cuando nos encontramos por primera vez.
+spouse.joke.good2=Yo recuerdo a uno\! Sigue siendo divertido\!
+spouse.joke.good3=Oh, eres tan gracioso\!
+spouse.joke.good4=\u00bfC\u00f3mo se te ocurri\u00f3 eso? jaja\!
+spouse.joke.good5=Realmente no deber\u00eda re\u00edrme de eso, pero es demasiado divertido\!
+
+spouse.procreate.refuse1=No, no pienso as\u00ed.
+spouse.procreate.refuse2=\u00a1Estar\u00e1s de broma\!
+spouse.procreate.refuse3=\u00bfDespu\u00e9s de haberme tratado as\u00ed? \u00a1Ni hablar\!
+spouse.procreate.refuse4=Es que ni siquiera me gustas. No lo har\u00e9 de ning\u00fan modo.
+spouse.procreate.refuse5=\u00a1Claaaro\! Tr\u00e1tame un poquito mejor y quiz\u00e1 me lo piense.
+
+spouse.kiss.good1=Eres un amor.
+spouse.kiss.good2=Yo tambi\u00e9n te quiero.
+spouse.kiss.good3=Eres muy buena persona conmigo.
+spouse.kiss.good4=Gracias, eso ha sido maravilloso.
+spouse.kiss.good5=\u00a1Qu\u00e9 amable eres\!
+
+spouse.kiss.bad1=No. Hoy no estoy de humor.
+spouse.kiss.bad2=\u00bfPor qu\u00e9 eres tan amable conmigo as\u00ed de repente?
+spouse.kiss.bad3=Tira a besar una vaca.
+spouse.kiss.bad4=No pienso igual.
+spouse.kiss.bad5=Demasiado tarde para eso.
+spouse.kiss.bad6=\u00a1Me has dado en el ojo con la nariz\!
+spouse.kiss.bad7=\u00a1Brr, tienes la boca mojada\!
+spouse.kiss.bad8=\u00a1No sabes besar.
+
+spouse.flirt.good1=Me encanta como hablas.
+spouse.flirt.good2=*sonrojado* Eres encantador.
+spouse.flirt.good3=\u00a1Oh\! No has cambiado nada desde que nos casamos.
+spouse.flirt.good4=\u00a1Oins\! \u00a1Qu\u00e9 monada\!
+spouse.flirt.good5=Oh, Dios, que verg\u00fc.
+
+spouse.flirt.bad1=\u00a1No hay tiempo para eso\!
+spouse.flirt.bad2=Qu\u00e9 original.
+spouse.flirt.bad3=Apuesto a que se lo vas a decir a todos. No, en serio. Lo apuesto.
+spouse.flirt.bad4=No estoy de humor.
+spouse.flirt.bad5=\u00bfAhora quieres tener algo conmigo? \u00bfY qu\u00e9 hay de cuando qued\u00e1bamos?
+
+spouse.tellstory.good1=\u00a1Esa ha sido buena\!
+spouse.tellstory.good2=\u00bfQu\u00e9 fue lo siguiente que hizo Cupquake?
+spouse.tellstory.good3=\u00a1\u00bfT\u00fa tambi\u00e9n conoces los "Minecraft Files" de ChimneySwift11?\!
+spouse.tellstory.good4=*risas* Eso me recuerda al d\u00eda en el que mi madre siempre entraba en mi habitaci\u00f3n, menos cuando limpiaba.
+spouse.tellstory.good5=Oins, \u00a1yo quiero una hija as\u00ed\!
+
+spouse.tellstory.bad1=\u00bfPor qu\u00e9 dices eso?
+spouse.tellstory.bad2=Eso me hace llorar...
+spouse.tellstory.bad3=*te ignora*
+spouse.tellstory.bad4=\u00bfPor qu\u00e9 os gusta TANTO que hiciera eso?
+spouse.tellstory.bad5=No le har\u00edas gracia a %RandomName%.
+
+spouse.greeting.handshake.good1=Me gusta sentir tu mano junto a la m\u00eda.
+spouse.greeting.handshake.good2=\u00a1Eres tonto\!
+spouse.greeting.handshake.good3=\u00bfQu\u00e9 hace tu padre, cari\u00f1o?
+spouse.greeting.handshake.good4=\u00bfC\u00f3mo lo est\u00e1s haciendo?
+spouse.greeting.handshake.good5=Saludos, amor m\u00edo.
+
+spouse.greeting.handshake.bad1=Reconozco cuando son tus manos.
+spouse.greeting.handshake.bad2=Tus manos est\u00e1n sudadas.
+spouse.greeting.handshake.bad3=\u00bfUn estrech\u00f3n de manos? \u00bfEso es lo que quieres?
+spouse.greeting.handshake.bad4=No, llevas todo el d\u00eda por las cuevas.
+spouse.greeting.handshake.bad5=Tus manos huelen a... \u00a1\u00bfvaca?\!
+
+spouse.greeting.highfive.good1=\u00a1Ouh yeah\!
+spouse.greeting.highfive.good2=\u00a1Choca\!
+spouse.greeting.highfive.good3=\u00a1Choca esos cinco\!
+spouse.greeting.highfive.good4=\u00bfQu\u00e9 pasa?
+spouse.greeting.highfive.good5=\u00a1Eso es\!
+
+spouse.greeting.highfive.bad1=Este es el mayor contacto que hemos tenido en nuestras vidas.
+spouse.greeting.highfive.bad2=No voy a chocar m\u00e1s.
+spouse.greeting.highfive.bad3=Eres muy infantil.
+spouse.greeting.highfive.bad4=\u00a1Acho\! \u00a1Me has dado\!
+spouse.greeting.highfive.bad5=No me atrevo a tocarte las manos.
+
+spouse.chore.start.cooking1=\u00a1Est\u00e1 claro\! Cocinar\u00e9 lo que me traigas.
+spouse.chore.start.cooking2=Claro, cari\u00f1o. As\u00ed ser\u00e1.
+spouse.chore.start.cooking3=\u00a1Gu\u00e1rdame algo para mi esta vez\! Ya sabes que cocino.
+spouse.chore.start.cooking4=\u00a1Tengo mucha hambre\!
+spouse.chore.start.cooking5=Espero que no se me queme esta vez.
+
