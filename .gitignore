@@ -8,3 +8,5 @@
 !/*.gradle
 !/*.md
 .gradle
+gitlog-to-changelog
+CHANGELOG
