@@ -144,6 +144,8 @@ public class EventHooks
 				{
 					if (server instanceof IntegratedServer)
 					{
+						//1.7.2:  11 and 12
+						//1.7.10: 12 and 13
 						final Boolean isCrashed = (Boolean) ObfuscationReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), 12);
 						final CrashReport crashReport = (CrashReport) ObfuscationReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), 13);
 

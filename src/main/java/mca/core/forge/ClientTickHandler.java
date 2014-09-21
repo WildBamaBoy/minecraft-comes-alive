@@ -63,6 +63,8 @@ public class ClientTickHandler
 			if (!MCA.getInstance().hasCompletedMainMenuTick)
 			{
 				//Check for random splash text.
+				//1.7.2:   2
+				//1.7.10:  3
 				if (Utility.getBooleanWithProbability(10))
 				{
 					ObfuscationReflectionHelper.setPrivateValue(GuiMainMenu.class, (GuiMainMenu) guiScreen, "Minecraft Comes Alive!", 3);

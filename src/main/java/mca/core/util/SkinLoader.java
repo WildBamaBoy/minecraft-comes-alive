@@ -26,7 +26,7 @@ import com.radixshock.radixcore.core.RadixCore;
 public final class SkinLoader
 {
 	/**
-	 * Atempts to find and load skins from MCA's archive.
+	 * Attempts to find and load skins from MCA's archive.
 	 */
 	public static void loadMainSkins()
 	{
@@ -95,7 +95,7 @@ public final class SkinLoader
 
 		for (final File fileInMods : modsFolder.listFiles())
 		{
-			if (fileInMods.isFile() && fileInMods.getName().contains(".zip"))
+			if (fileInMods.isFile() && fileInMods.getName().contains(".zip") || fileInMods.getName().contains(".jar"))
 			{
 				if (fileContainsModData(fileInMods))
 				{
@@ -311,7 +311,7 @@ public final class SkinLoader
 
 	private static boolean fileContainsModData(File fileToTest) throws IOException
 	{
-		if (fileToTest.getName().contains(".zip"))
+		if (fileToTest.getName().contains(".zip") || fileToTest.getName().contains(".jar"))
 		{
 			try
 			{
