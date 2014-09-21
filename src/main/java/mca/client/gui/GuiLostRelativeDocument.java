@@ -468,9 +468,6 @@ public class GuiLostRelativeDocument extends AbstractGui
 	 */
 	private void drawConfirmationGui()
 	{
-		temporaryFamilyTree.dumpTreeContents();
-		originalFamilyTree.dumpTreeContents();
-
 		recipient.familyTree = temporaryFamilyTree;
 
 		inConfirmationGui = true;

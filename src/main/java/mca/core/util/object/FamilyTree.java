@@ -429,14 +429,18 @@ public class FamilyTree implements Serializable, Cloneable
 	/**
 	 * Writes all information about this family tree to the console.
 	 */
-	public void dumpTreeContents()
+	public String dumpTreeContents()
 	{
-		MCA.getInstance().getLogger().log("Family tree of " + owner.name + ". MCA ID: " + owner.mcaID);
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("Family tree of " + owner.name + ". MCA ID: " + owner.mcaID + "\n");
 
 		for (final Map.Entry<Integer, EnumRelation> entry : relationMap.entrySet())
 		{
-			MCA.getInstance().getLogger().log(entry.getKey() + " : " + entry.getValue().getValue());
+			sb.append(entry.getKey() + " : " + entry.getValue().getValue() + "\n");
 		}
+		
+		return sb.toString();
 	}
 
 	/**

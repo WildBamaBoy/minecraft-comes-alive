@@ -289,20 +289,28 @@ public class ChoreCooking extends AbstractChore
 		{
 			if (stack != null)
 			{
-				final boolean isFuel = TileEntityFurnace.isItemFuel(stack);
-				int fuelValue = TileEntityFurnace.getItemBurnTime(stack) == 0 ? GameRegistry.getFuelValue(stack) : TileEntityFurnace.getItemBurnTime(stack);
-				fuelValue = fuelValue / Time.SECOND / 10;
-
-				if (fuelValue == 0 && isFuel)
+				try
 				{
-					fuelValue = 1;
+					final boolean isFuel = TileEntityFurnace.isItemFuel(stack);
+					int fuelValue = TileEntityFurnace.getItemBurnTime(stack) == 0 ? GameRegistry.getFuelValue(stack) : TileEntityFurnace.getItemBurnTime(stack);
+					fuelValue = fuelValue / Time.SECOND / 10;
+
+					if (fuelValue == 0 && isFuel)
+					{
+						fuelValue = 1;
+					}
+
+					if (fuelValue > 0)
+					{
+						hasFuel = true;
+						fuelUsesRemaining = fuelValue;
+						owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(stack.getItem()), 1);
+					}
 				}
 
-				if (fuelValue > 0)
+				catch (ClassCastException e) //Fixes issues with Explodables.
 				{
-					hasFuel = true;
-					fuelUsesRemaining = fuelValue;
-					owner.inventory.decrStackSize(owner.inventory.getFirstSlotContainingItem(stack.getItem()), 1);
+					continue;
 				}
 			}
 		}
