@@ -14,7 +14,15 @@ import mca.core.MCA;
  */
 public enum EnumTrait
 {
-	None("trait.none", 0), Shy("trait.shy", 1), Fun("trait.fun", 2), Serious("trait.serious", 3), Friendly("trait.friendly", 4), Irritable("trait.irritable", 5), Emotional("trait.emotional", 6), Outgoing("trait.outgoing", 7), Greedy("trait.greedy", 8);
+	None("trait.none", 0), 
+	Shy("trait.shy", 1), 
+	Fun("trait.fun", 2), 
+	Serious("trait.serious", 3), 
+	Friendly("trait.friendly", 4), 
+	Irritable("trait.irritable", 5), 
+	Emotional("trait.emotional", 6), 
+	Outgoing("trait.outgoing", 7), 
+	Greedy("trait.greedy", 8);
 
 	private String value;
 	private int traitId;
@@ -44,7 +52,15 @@ public enum EnumTrait
 		{
 			if (trait.getId() == randomId)
 			{
-				return trait;
+				if (trait == Greedy) //TODO Enable greedy trait.
+				{
+					return getRandomTrait();
+				}
+				
+				else
+				{
+					return trait;
+				}
 			}
 		}
 
