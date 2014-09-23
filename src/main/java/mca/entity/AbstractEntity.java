@@ -709,7 +709,17 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	@Override
 	public boolean canEntityBeSeen(Entity entity)
 	{
-		return entity == null ? false : super.canEntityBeSeen(entity);
+		try
+		{
+			return entity == null ? false : super.canEntityBeSeen(entity);
+		}
+		
+		catch (ClassCastException e)
+		{
+			//Odd issue with tile entities occurs here.
+		}
+		
+		return false;
 	}
 
 	@Override
