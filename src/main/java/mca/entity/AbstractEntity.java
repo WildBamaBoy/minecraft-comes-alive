@@ -855,20 +855,20 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 				switch (itemAsArmor.armorType)
 				{
-					case 0:
-						notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("notify.item.broken.helmet", null, this, false));
-						break;
-					case 1:
-						notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("notify.item.broken.chestplate", null, this, false));
-						break;
-					case 2:
-						notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("notify.item.broken.leggings", null, this, false));
-						break;
-					case 3:
-						notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("notify.item.broken.boots", null, this, false));
-						break;
-					default:
-						break;
+				case 0:
+					notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("notify.item.broken.helmet", null, this, false));
+					break;
+				case 1:
+					notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("notify.item.broken.chestplate", null, this, false));
+					break;
+				case 2:
+					notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("notify.item.broken.leggings", null, this, false));
+					break;
+				case 3:
+					notifyPlayer(player, MCA.getInstance().getLanguageLoader().getString("notify.item.broken.boots", null, this, false));
+					break;
+				default:
+					break;
 				}
 			}
 
@@ -1386,17 +1386,17 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 		{
 			switch (moodIndex)
 			{
-				case 0:
-					mood = EnumMood.getMoodByPointValue("happy", highestValue);
-					break;
-				case 1:
-					mood = EnumMood.getMoodByPointValue("sadness", highestValue);
-					break;
-				case 2:
-					mood = EnumMood.getMoodByPointValue("anger", highestValue);
-					break;
-				default:
-					return;
+			case 0:
+				mood = EnumMood.getMoodByPointValue("happy", highestValue);
+				break;
+			case 1:
+				mood = EnumMood.getMoodByPointValue("sadness", highestValue);
+				break;
+			case 2:
+				mood = EnumMood.getMoodByPointValue("anger", highestValue);
+				break;
+			default:
+				return;
 			}
 		}
 
@@ -1431,37 +1431,37 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 
 			switch (trait)
 			{
-				case Emotional:
-					chanceOfHappy = 33;
-					chanceOfSad = 33;
-					chanceOfMad = 33;
-					break;
-				case Friendly:
-					chanceOfHappy = 75;
-					chanceOfMad = 25;
-					break;
-				case Fun:
-					chanceOfHappy = 80;
-					chanceOfMad = 20;
-					break;
-				case Irritable:
-					chanceOfHappy = 40;
-					chanceOfMad = 60;
-					break;
-				case None:
-					break;
-				case Outgoing:
-					chanceOfHappy = 60;
-					break;
-				case Serious:
-					chanceOfHappy = 30;
-					break;
-				case Shy:
-					chanceOfSad = 20;
-					chanceOfHappy = 30;
-					break;
-				default:
-					break;
+			case Emotional:
+				chanceOfHappy = 33;
+				chanceOfSad = 33;
+				chanceOfMad = 33;
+				break;
+			case Friendly:
+				chanceOfHappy = 75;
+				chanceOfMad = 25;
+				break;
+			case Fun:
+				chanceOfHappy = 80;
+				chanceOfMad = 20;
+				break;
+			case Irritable:
+				chanceOfHappy = 40;
+				chanceOfMad = 60;
+				break;
+			case None:
+				break;
+			case Outgoing:
+				chanceOfHappy = 60;
+				break;
+			case Serious:
+				chanceOfHappy = 30;
+				break;
+			case Shy:
+				chanceOfSad = 20;
+				chanceOfHappy = 30;
+				break;
+			default:
+				break;
 			}
 
 			final int moodLevel = worldObj.rand.nextInt(4) + 1;
@@ -1639,37 +1639,37 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	{
 		switch (context)
 		{
-			case HitByPlayer:
-				if (traitId == EnumTrait.Emotional.getId() || traitId == EnumTrait.Shy.getId())
-				{
-					moodPointsSad = moodPointsSad > 5.0F ? moodPointsSad = 5.0F : moodPointsSad + value;
-				}
-
-				else
-				{
-					moodPointsAnger = moodPointsAnger > 5.0F ? moodPointsAnger = 5.0F : moodPointsAnger + value;
-				}
-
-				moodPointsHappy = moodPointsHappy < 0.0F ? moodPointsHappy = 0.0F : moodPointsHappy - value;
-				break;
-			case BadInteraction:
-				moodPointsAnger = moodPointsAnger > 5.0F ? moodPointsAnger = 5.0F : moodPointsAnger + value;
-				moodPointsHappy = moodPointsHappy < 0.0F ? moodPointsHappy = 0.0F : moodPointsHappy - value;
-				break;
-			case GoodInteraction:
-				moodPointsHappy = moodPointsHappy > 5.0F ? moodPointsHappy = 5.0F : moodPointsHappy + value;
-				moodPointsAnger = moodPointsAnger < 0.0F ? moodPointsAnger = 0.0F : moodPointsAnger - value;
-				break;
-			case SleepInterrupted:
-				moodPointsAnger = moodPointsAnger > 5.0F ? moodPointsAnger = 5.0F : moodPointsAnger + value;
-				moodPointsHappy = moodPointsHappy < 0.0F ? moodPointsHappy = 0.0F : moodPointsHappy - value;
-				break;
-			case MoodCycle:
-				doMoodCycle();
-				break;
-			case WitnessDeath:
+		case HitByPlayer:
+			if (traitId == EnumTrait.Emotional.getId() || traitId == EnumTrait.Shy.getId())
+			{
 				moodPointsSad = moodPointsSad > 5.0F ? moodPointsSad = 5.0F : moodPointsSad + value;
-				break;
+			}
+
+			else
+			{
+				moodPointsAnger = moodPointsAnger > 5.0F ? moodPointsAnger = 5.0F : moodPointsAnger + value;
+			}
+
+			moodPointsHappy = moodPointsHappy < 0.0F ? moodPointsHappy = 0.0F : moodPointsHappy - value;
+			break;
+		case BadInteraction:
+			moodPointsAnger = moodPointsAnger > 5.0F ? moodPointsAnger = 5.0F : moodPointsAnger + value;
+			moodPointsHappy = moodPointsHappy < 0.0F ? moodPointsHappy = 0.0F : moodPointsHappy - value;
+			break;
+		case GoodInteraction:
+			moodPointsHappy = moodPointsHappy > 5.0F ? moodPointsHappy = 5.0F : moodPointsHappy + value;
+			moodPointsAnger = moodPointsAnger < 0.0F ? moodPointsAnger = 0.0F : moodPointsAnger - value;
+			break;
+		case SleepInterrupted:
+			moodPointsAnger = moodPointsAnger > 5.0F ? moodPointsAnger = 5.0F : moodPointsAnger + value;
+			moodPointsHappy = moodPointsHappy < 0.0F ? moodPointsHappy = 0.0F : moodPointsHappy - value;
+			break;
+		case MoodCycle:
+			doMoodCycle();
+			break;
+		case WitnessDeath:
+			moodPointsSad = moodPointsSad > 5.0F ? moodPointsSad = 5.0F : moodPointsSad + value;
+			break;
 		}
 
 		setMoodByMoodPoints(true);
@@ -2203,20 +2203,20 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			{
 				switch (child.generation)
 				{
-					case 0:
-						player.triggerAchievement(MCA.getInstance().achievementHaveGrandchild);
-						break;
-					case 1:
-						player.triggerAchievement(MCA.getInstance().achievementHaveGreatGrandchild);
-						break;
-					case 2:
-						player.triggerAchievement(MCA.getInstance().achievementHaveGreatx2Grandchild);
-						break;
-					case 10:
-						player.triggerAchievement(MCA.getInstance().achievementHaveGreatx10Grandchild);
-						break;
-					default:
-						break;
+				case 0:
+					player.triggerAchievement(MCA.getInstance().achievementHaveGrandchild);
+					break;
+				case 1:
+					player.triggerAchievement(MCA.getInstance().achievementHaveGreatGrandchild);
+					break;
+				case 2:
+					player.triggerAchievement(MCA.getInstance().achievementHaveGreatx2Grandchild);
+					break;
+				case 10:
+					player.triggerAchievement(MCA.getInstance().achievementHaveGreatx10Grandchild);
+					break;
+				default:
+					break;
 				}
 			}
 		}
@@ -2292,7 +2292,6 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 	 */
 	protected void updateProcreationWithPlayer()
 	{
-		//Note: updateProcreationWithVillager can sometimes bleed into this method, but only client-side to cause jumping to stop.
 		if (isProcreatingWithPlayer)
 		{
 			if (worldObj.isRemote)
@@ -2308,8 +2307,8 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			else //Server-side
 			{
 				final EntityPlayer player = worldObj.getPlayerEntityByName(spousePlayerName);
-				
-				try
+
+				if (player != null)
 				{
 					if (ServerLimits.hasPlayerReachedBabyLimit(player))
 					{
@@ -2352,60 +2351,12 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 						}
 					}
 				}
-
-				catch (NullPointerException e)
+				
+				else //Player is no longer logged on.
 				{
-					final EntityPlayer debugPlayer = worldObj.getPlayerEntityByName(spousePlayerName);
-					StringBuilder sb = new StringBuilder();
-					
-					sb.append("Stack trace\n");
-					sb.append("--------------------\n");
-					boolean isFirst = true;
-
-					for (StackTraceElement ste : e.getStackTrace())
-					{
-						if (isFirst)
-						{
-							sb.append("   " + ste.toString() + "\n");
-							isFirst = false;
-						}
-						
-						else
-						{
-							sb.append("\t" + ste.toString() + "\n");
-						}
-					}
-					
-					sb.append("\n");
-					sb.append("Spouse Player Name: " + spousePlayerName + "\n");
-					sb.append("Is married to player: " + isMarriedToPlayer + "\n");
-					sb.append("Married to player arranged: " + isMarriageToPlayerArranged + "\n");
-					
-					sb.append("\n");
-					sb.append(familyTree.dumpTreeContents());
-					
-					if (debugPlayer == null)
-					{
-						sb.append("Debug player is null.\n");
-					}
-					
-					else
-					{
-						sb.append("Debug player is not null.\n");
-					}
-					
-					sb.append("\n");
-					sb.append("Logged on player list\n");
-					sb.append("---------------------------\n");
-
-					for (Object obj : worldObj.playerEntities)
-					{
-						EntityPlayer otherPlayer = (EntityPlayer)obj;
-						sb.append("-" + otherPlayer.getCommandSenderName() + "\n");
-					}
-					
-					RDXServerBridge.sendDebugReport(sb.toString());
-					throw new NullPointerException();
+					MCA.packetHandler.sendPacketToAllPlayers(new PacketProcreate(TypeIDs.Procreation.STOP, getEntityId()));
+					isProcreatingWithPlayer = false;
+					procreateTicks = 0;
 				}
 			}
 		}
@@ -3057,30 +3008,30 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				{
 					switch (moodLevel)
 					{
-						case 1:
-							particleName = "smoke";
-							particleInterval = 15;
-							break;
-						case 2:
-							particleName = "smoke";
-							particleInterval = 10;
-							break;
-						case 3:
-							particleName = "angryVillager";
-							particleInterval = 7;
-							break;
-						case 4:
-							particleName = "angryVillager";
-							particleInterval = 4;
-							break;
-						case 5:
-							particleName = "flame";
-							particleInterval = 0;
-							break;
-						default:
-							particleName = "flame";
-							particleInterval = 0;
-							break;
+					case 1:
+						particleName = "smoke";
+						particleInterval = 15;
+						break;
+					case 2:
+						particleName = "smoke";
+						particleInterval = 10;
+						break;
+					case 3:
+						particleName = "angryVillager";
+						particleInterval = 7;
+						break;
+					case 4:
+						particleName = "angryVillager";
+						particleInterval = 4;
+						break;
+					case 5:
+						particleName = "flame";
+						particleInterval = 0;
+						break;
+					default:
+						particleName = "flame";
+						particleInterval = 0;
+						break;
 					}
 				}
 
@@ -3088,30 +3039,30 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 				{
 					switch (moodLevel)
 					{
-						case 1:
-							particleName = "splash";
-							particleInterval = 15;
-							break;
-						case 2:
-							particleName = "splash";
-							particleInterval = 10;
-							break;
-						case 3:
-							particleName = "splash";
-							particleInterval = 7;
-							break;
-						case 4:
-							particleName = "tilecrack_9_0";
-							particleInterval = 4;
-							break;
-						case 5:
-							particleName = "tilecrack_9_0";
-							particleInterval = 0;
-							break;
-						default:
-							particleName = "tilecrack_9_0";
-							particleInterval = 0;
-							break;
+					case 1:
+						particleName = "splash";
+						particleInterval = 15;
+						break;
+					case 2:
+						particleName = "splash";
+						particleInterval = 10;
+						break;
+					case 3:
+						particleName = "splash";
+						particleInterval = 7;
+						break;
+					case 4:
+						particleName = "tilecrack_9_0";
+						particleInterval = 4;
+						break;
+					case 5:
+						particleName = "tilecrack_9_0";
+						particleInterval = 0;
+						break;
+					default:
+						particleName = "tilecrack_9_0";
+						particleInterval = 0;
+						break;
 					}
 				}
 
