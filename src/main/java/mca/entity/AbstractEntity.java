@@ -43,7 +43,6 @@ import mca.enums.EnumMood;
 import mca.enums.EnumMoodChangeContext;
 import mca.enums.EnumRelation;
 import mca.enums.EnumTrait;
-import mca.frontend.RDXServerBridge;
 import mca.inventory.Inventory;
 import mca.network.packets.PacketNotifyPlayer;
 import mca.network.packets.PacketOnEngagement;
