@@ -718,6 +718,11 @@ public abstract class AbstractEntity extends AbstractSerializableEntity implemen
 			//Odd issue with tile entities occurs here.
 		}
 		
+		catch (NullPointerException e)
+		{
+			//Crashes caused by other mods. No idea what's going on there.
+		}
+		
 		return false;
 	}
 
