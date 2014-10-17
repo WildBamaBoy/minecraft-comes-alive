@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Interactions.java
- * Copyright (c) 2014 Radix-Shock Entertainment.
+ * Copyright (c) 2014 WildBamaBoy.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
@@ -22,7 +22,7 @@ public final class Interactions
 	/**
 	 * Calculate if a chat should be good or bad and say the appropriate response.
 	 * 
-	 * @param entity The entity this interaction is beign performed on.
+	 * @param entity The entity this interaction is being performed on.
 	 * @param player The player that started this interaction.
 	 */
 	public static void doChat(AbstractEntity entity, EntityPlayer player)

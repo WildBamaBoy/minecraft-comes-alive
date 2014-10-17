@@ -1,6 +1,6 @@
 /*******************************************************************************
  * RDXServerBridge.java
- * Copyright (c) 2014 Radix-Shock Entertainment.
+ * Copyright (c) 2014 WildBamaBoy.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
@@ -21,8 +21,7 @@ public final class RDXServerBridge
 
 		try
 		{
-			final Socket connectSocket = new Socket("107.170.27.20", 3577);
-
+			final Socket connectSocket = new Socket("vps.radix-shock.com", 3577);
 			final DataOutputStream dataOut = new DataOutputStream(connectSocket.getOutputStream());
 			final DataInputStream dataIn = new DataInputStream(connectSocket.getInputStream());
 
@@ -50,7 +49,7 @@ public final class RDXServerBridge
 		{
 			if (completeReport.contains("at mca."))
 			{
-				final Socket connectSocket = new Socket("107.170.27.20", 3577);
+				final Socket connectSocket = new Socket("vps.radix-shock.com", 3577);
 
 				final DataOutputStream dataOut = new DataOutputStream(connectSocket.getOutputStream());
 				new DataInputStream(connectSocket.getInputStream());
@@ -76,7 +75,7 @@ public final class RDXServerBridge
 	{
 		try
 		{
-			final Socket connectSocket = new Socket("107.170.27.20", 3577);
+			final Socket connectSocket = new Socket("vps.radix-shock.com", 3577);
 	
 			final DataOutputStream dataOut = new DataOutputStream(connectSocket.getOutputStream());
 			new DataInputStream(connectSocket.getInputStream());

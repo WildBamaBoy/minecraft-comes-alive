@@ -1,4 +1,3 @@
-#X-Generator: crowdin.net
 itemGroup.tabMCA=Minecraft Comes Alive
 
 ##########
@@ -81,6 +80,7 @@ trait.friendly=Friendly
 trait.irritable=Irritable
 trait.emotional=Emotional
 trait.outgoing=Outgoing
+trait.greedy=Greedy
 
 ##########
 # Moods
@@ -106,12 +106,6 @@ mood.anger.agitated=Agitated
 mood.anger.mad=Mad
 mood.anger.seething=Seething
 mood.anger.infuriated=Infuriated
-
-mood.fatigue.tired=Tired
-mood.fatigue.sleepy=Sleepy
-mood.fatigue.fatigued=Fatigued
-mood.fatigue.exhausted=Exhausted
-mood.fatigue.comatose=Comatose
 
 #######
 # Monarch
@@ -317,7 +311,8 @@ name.male127=Tyson
 name.male128=Victor
 name.male129=Vincent
 name.male130=Will
-name.male131=William 
+name.male131=William
+name.male132=Eli
 
 name.female1=Addison
 name.female2=Adi
