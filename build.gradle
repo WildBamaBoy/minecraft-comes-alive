@@ -19,7 +19,7 @@ apply plugin: 'forge'
 
 fileTree('gradle').include('*.gradle').collect().sort().each { apply from: it }
 
-version = "4.1.4"
+version = "4.1.5"
 group= "com.radixshock"
 archivesBaseName = "MCA"
 
@@ -31,25 +31,3 @@ minecraft {
 }
 
 version = "${project.minecraft.version}-${project.version}"
-
-dependencies {
-    //compile "some.group:artifact:version:classifier"
-    //compile "some.group:artifact:version"
-      
-    //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
-    //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
-}
-
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-	
-    from(sourceSets.main.resources.srcDirs)	{
-        exclude 'mcmod.info'
-    }
-}

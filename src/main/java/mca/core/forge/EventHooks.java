@@ -89,12 +89,20 @@ public class EventHooks
 		{
 			final WorldPropertiesList properties = (WorldPropertiesList) manager.worldPropertiesInstance;
 
-			if (event.entityItem.getEntityItem().getItem() instanceof AbstractBaby && properties.babyExists)
+			if (event.entityItem.getEntityItem().getItem() instanceof AbstractBaby && properties.babyExists && !event.player.worldObj.isRemote)
 			{
-				MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(event.player, null, "notify.player.droppedbaby", false, null, null), (EntityPlayerMP) event.player);
-				event.player.inventory.addItemStackToInventory(event.entityItem.getEntityItem());
-				event.setCanceled(true);
-				event.setResult(Result.DENY);
+				try
+				{
+					MCA.packetHandler.sendPacketToPlayer(new PacketSayLocalized(event.player, null, "notify.player.droppedbaby", false, null, null), (EntityPlayerMP) event.player);
+					event.player.inventory.addItemStackToInventory(event.entityItem.getEntityItem());
+					event.setCanceled(true);
+					event.setResult(Result.DENY);
+				}
+				
+				catch (ClassCastException e)
+				{
+					//No idea why this happens randomly. Maybe was previously firing client-side? Protect against.
+				}
 			}
 		}
 	}
