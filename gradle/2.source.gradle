@@ -1,7 +1,6 @@
-//This is probably the simplest of all, though it is useful in debugging
 task sourceJar(type: Jar) {
     from sourceSets.main.allSource
-    classifier = 'sources' //maven standards, can be changed though
+    classifier = 'sources'
 }
 
 artifacts {
