@@ -148,14 +148,14 @@ monarch.makeknight.failure.alreadyknight=Esse guarda j\u00e1 \u00e9 um cavaleiro
 monarch.makeknight.failure.playerspouse=A esposa de um jogador n\u00e3o pode ser feita uma cavaleira.
 
 monarch.title.knight.male=%Name% o Cavaleiro
-monarch.title.knight.female=%Name% o Cavaleiro
+monarch.title.knight.female=%Name% a Cavaleira
 monarch.title.knight.male.otherplayer=(Cavaleiro para %MonarchPlayerName%)
-monarch.title.knight.female.otherplayer=(Cavaleiro para %MonarchPlayerName%)
+monarch.title.knight.female.otherplayer=(Cavaleira para %MonarchPlayerName%)
 
 monarch.title.peasant.male.owner=(Camp\u00f4nes)
-monarch.title.peasant.female.owner=(Camp\u00f4nes)
+monarch.title.peasant.female.owner=(Camp\u00f4nesa)
 monarch.title.peasant.male.otherplayer=(Camp\u00f4nes para %MonarchPlayerName%)
-monarch.title.peasant.female.otherplayer=(Camp\u00f4nes para %MonarchPlayerName%)
+monarch.title.peasant.female.otherplayer=(Camp\u00f4nesa para %MonarchPlayerName%)
 
 monarch.title.monarch=Monarquia
 monarch.title.heir=Herdeiro
@@ -560,20 +560,20 @@ block.tombstone.name=L\u00e1pide
 #######
 # Professions
 ##############################
-profession.baker.male=%Name% o padeiro
-profession.baker.female=%Name% a padeira
-profession.butcher.male=%Name% o a\u00e7ougueiro
-profession.butcher.female=%Name% a a\u00e7ougueira
-profession.farmer.male=%Name% a fazendeira
-profession.farmer.female=%Name% o Fazendeiro
-profession.guard.male=%Name% a guarda
-profession.guard.female=%Name% o Guarda
-profession.librarian.male=%Name% a bibliotec\u00e1ria
-profession.librarian.female=%Name% o bibliotec\u00e1rio
-profession.miner.male=%Name% o mineiro
-profession.miner.female=%Name% o mineiro
-profession.priest.male=%Name% o sacerdote
-profession.priest.female=%Name% a sacerdotista
+profession.baker.male=%Name% o Padeiro
+profession.baker.female=%Name% a Padeira
+profession.butcher.male=%Name% o A\u00e7ougueiro
+profession.butcher.female=%Name% a A\u00e7ougueira
+profession.farmer.male=%Name% a Fazendeira
+profession.farmer.female=%Name% a Fazendeira
+profession.guard.male=%Name% a Guarda
+profession.guard.female=%Name% a Guarda
+profession.librarian.male=%Name% o Bibliotec\u00e1rio
+profession.librarian.female=%Name% a Bibliotec\u00e1ria
+profession.miner.male=%Name% o Mineiro
+profession.miner.female=%Name% a Mineira
+profession.priest.male=%Name% o Sacerdote
+profession.priest.female=%Name% a Sacerdotista
 profession.smith.male=%Name% o Ferreiro
 profession.smith.female=%Name% a Ferreira
 profession.playerchild.male=%Name% a Crian\u00e7a
@@ -1236,7 +1236,7 @@ villager.greeting.interest.male1=Wow\! Voc\u00ea pare\u00e7e \u00f3timo hoje\!
 villager.greeting.interest.male2=%PlayerName%\! Por favor, n\u00e3o v\u00e1\! Eu quero perguntar... deixe pra l\u00e1.
 villager.greeting.interest.male3=*Sussurra* Ela \u00e9 t\u00e3o bonita...
 villager.greeting.interest.male4=%PlayerName%, aposto que voc\u00ea n\u00e3o sabia que eu sou rico.
-villager.greeting.interest.male5=*Sussurra* Ela \u00e9 t\u00e3o legal comigo, Eu penso se ela gosta de min?
+villager.greeting.interest.male5=*Sussurra* Ela \u00e9 t\u00e3o legal comigo, eu penso se ela gosta de min?
 
 villager.greeting.interest.female1=Ei, voc\u00ea deveria me visitar uma vez. *Pisca*
 villager.greeting.interest.female2=Oi...%PlayerName%...*risadas*
