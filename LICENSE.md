@@ -1,6 +1,6 @@
 MCA MINECRAFT MOD LICENSE
 last revised: 1/31/2015
-version: 1.1
+version: 1.1.1
 
 [Section 0. Terminology]
 	Minecraft: A copy of the Minecraft video game.
@@ -25,7 +25,7 @@ version: 1.1
 [Section 4. Modpacks]
 	This mod may be bundled with other mods and provided to the public in a compilation, known commonly as a modpack, without the consent of the author. 
 	The modpack must provide credit to the mod author and link to an information site owned or maintained by the mod author.
-	The modpack must be strictly not-for-profit, and may not generate revenue of any kind, including sales, website advertising, URL shortener advertising, donations, etc.
+	The modpack must be strictly not-for-profit, and may not generate revenue of any kind, including sales, website advertising, URL shortener advertising, donations, etc. The sales of services that create a modpack containing this mod are considered legal.
 	A modpack utilizing this mod must not make any modifications to the mod’s code, file structure, binaries, or assets, or bundle a modified version of this mod within the modpack.
 	All troubleshooting for this mod within a modpack is solely the responsibility of the modpack creator.
 
