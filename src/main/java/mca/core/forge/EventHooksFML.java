@@ -107,9 +107,9 @@ public class EventHooksFML
 					Point3D blockPoint = entry.getKey();
 					
 					//Align the player with the center of the room.
-					int x = blockPoint.iPosX + MCA.destinyCenterPoint.iPosX - 5;
-					int y = blockPoint.iPosY + MCA.destinyCenterPoint.iPosY - 3;
-					int z = blockPoint.iPosZ + MCA.destinyCenterPoint.iPosZ - 6;
+					int x = blockPoint.iPosX + MCA.destinyCenterPoint.iPosX;
+					int y = blockPoint.iPosY + MCA.destinyCenterPoint.iPosY;
+					int z = blockPoint.iPosZ + MCA.destinyCenterPoint.iPosZ;
 
 					//Set the new blocks.
 					world.setBlock(x, y, z, entry.getValue().getBlock(), entry.getValue().getMeta(), 2);

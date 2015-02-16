@@ -14,6 +14,9 @@ public final class SchematicReader
 {
 	public static Map<Point3D, BlockWithMeta> readSchematic(String location) throws IOException
 	{
+		Point3D origin = null;
+		Point3D offset = null;
+
 		Map<Point3D, BlockWithMeta> map = new HashMap<Point3D, BlockWithMeta>();
 		NBTTagCompound nbtdata = CompressedStreamTools.readCompressed(SchematicReader.class.getResourceAsStream(location));
 
@@ -29,6 +32,26 @@ public final class SchematicReader
 		if (nbtdata.hasKey("AddBlocks")) 
 		{
 			addIds = nbtdata.getByteArray("AddBlocks");
+		}
+
+		try 
+		{
+			int originX = nbtdata.getInteger("WEOriginX");
+			int originY = nbtdata.getInteger("WEOriginY");
+			int originZ = nbtdata.getInteger("WEOriginZ");
+			Point3D min = new Point3D(originX, originY, originZ);
+
+			int offsetX = nbtdata.getInteger("WEOffsetX");
+			int offsetY = nbtdata.getInteger("WEOffsetY");
+			int offsetZ = nbtdata.getInteger("WEOffsetZ");
+			offset = new Point3D(offsetX, offsetY, offsetZ);
+			
+			origin = new Point3D(min.iPosX - offset.iPosX, min.iPosY - offset.iPosY, min.iPosZ - offset.iPosZ);
+		} 
+		
+		catch (Exception ignored) 
+		{
+			origin = new Point3D(0, 0, 0);
 		}
 
 		for (int index = 0; index < blockIds.length; index++) 
@@ -59,9 +82,9 @@ public final class SchematicReader
 				for (int z = 0; z < length; ++z) 
 				{
 					int index = y * width * length + z * width + x;
-					Point3D point = new Point3D(x, y, z);
+					Point3D point = new Point3D(x + offset.iPosX, y + offset.iPosY - 1, z + offset.iPosZ);
 					BlockWithMeta block = new BlockWithMeta(Block.getBlockById(blocks[index]), data[index]);
-					
+
 					map.put(point, block);
 				}
 			}
