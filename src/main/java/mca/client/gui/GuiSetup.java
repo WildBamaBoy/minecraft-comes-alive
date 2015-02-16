@@ -1,7 +1,5 @@
 package mca.client.gui;
 
-import java.util.Map;
-
 import mca.core.MCA;
 import mca.data.PlayerData;
 import mca.enums.EnumDestinyChoice;
@@ -18,9 +16,7 @@ import org.lwjgl.opengl.GL11;
 
 import radixcore.client.render.RenderHelper;
 import radixcore.constant.Font.Color;
-import radixcore.data.BlockWithMeta;
 import radixcore.data.DataWatcherEx;
-import radixcore.math.Point3D;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -206,6 +202,10 @@ public class GuiSetup extends GuiScreen
 			buttonList.add(new GuiButton(8, width / 2 - 46, height / 2 - 20, 95, 20, "I live alone."));
 			buttonList.add(new GuiButton(9, width / 2 - 46, height / 2 + 0, 95, 20, "I live in a village."));
 			buttonList.add(new GuiButton(10, width / 2 - 46, height / 2 + 20, 95, 20, "None of these."));
+			
+			((GuiButton)buttonList.get(0)).enabled = false;
+			((GuiButton)buttonList.get(1)).enabled = false;
+			((GuiButton)buttonList.get(2)).enabled = false;
 		}
 	}
 	
