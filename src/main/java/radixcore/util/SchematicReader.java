@@ -1,6 +1,5 @@
 package radixcore.util;
 
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,18 +21,48 @@ public final class SchematicReader
 		short height = nbtdata.getShort("Height");
 		short length = nbtdata.getShort("Length");
 
-		byte[] blocks = nbtdata.getByteArray("Blocks");
+		byte[] blockIds = nbtdata.getByteArray("Blocks");
 		byte[] data	= nbtdata.getByteArray("Data");
+		byte[] addIds = new byte[0];
+		short[] blocks = new short[blockIds.length];
 
-		for (int z = 0; z < height; ++z)
+		if (nbtdata.hasKey("AddBlocks")) 
 		{
-			for (int y = 0; y < width; ++y)
+			addIds = nbtdata.getByteArray("AddBlocks");
+		}
+
+		for (int index = 0; index < blockIds.length; index++) 
+		{
+			if ((index >> 1) >= addIds.length) 
 			{
-				for (int x = 0; x < length; ++x)
+				blocks[index] = (short) (blockIds[index] & 0xFF);
+			} 
+
+			else 
+			{
+				if ((index & 1) == 0) 
 				{
-					int addr = (y * length + z) * width + x;
+					blocks[index] = (short) (((addIds[index >> 1] & 0x0F) << 8) + (blockIds[index] & 0xFF));
+				} 
+
+				else 
+				{
+					blocks[index] = (short) (((addIds[index >> 1] & 0xF0) << 4) + (blockIds[index] & 0xFF));
+				}
+			}
+		}
+
+		for (int x = 0; x < width; ++x) 
+		{
+			for (int y = 0; y < height; ++y) 
+			{
+				for (int z = 0; z < length; ++z) 
+				{
+					int index = y * width * length + z * width + x;
+					Point3D point = new Point3D(x, y, z);
+					BlockWithMeta block = new BlockWithMeta(Block.getBlockById(blocks[index]), data[index]);
 					
-					map.put(new Point3D(x, y, z), new BlockWithMeta(Block.getBlockById(blocks[addr]), data[addr]));
+					map.put(point, block);
 				}
 			}
 		}
