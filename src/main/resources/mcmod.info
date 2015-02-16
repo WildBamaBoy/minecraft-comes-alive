@@ -1,15 +1,15 @@
 [
 {
-  "modid": "mca",
+  "modid": "MCA",
   "name": "Minecraft Comes Alive",
-  "description": "No more testificates! Communicate with humans, have children, and make them do chores!",
+  "description": "No more boring and useless testificates. Marry human villagers and raise a family!",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
-  "updateUrl": "",
-  "authors": ["WildBamaBoy", "SheWolfDeadly"],
-  "credits": "mezzodrinker, The_Nanobots, ntzrmtthihu777, many others.",
-  "logoFile": "/mca.png",
+  "url": "http://www.radix-shock.com/mca--download.html",
+  "updateUrl": "asp.radix-shock.com",
+  "authorList": ["WildBamaBoy", "SheWolfDeadly"],
+  "credits": "Mezzodrinker, The_Nanobots, numerous others.",
+  "logoFile": "mca.png",
   "screenshots": [],
   "dependencies": []
 }

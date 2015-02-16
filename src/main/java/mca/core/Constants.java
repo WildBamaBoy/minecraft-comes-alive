@@ -1,46 +1,27 @@
-/*******************************************************************************
- * Constants.java
- * Copyright (c) 2014 WildBamaBoy.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the MCA Minecraft Mod license.
- ******************************************************************************/
-
 package mca.core;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 
-/**
- * Defines constants used by MCA.
- */
-public final class Constants
+public final class Constants 
 {
-	public static final String VERSION = "@VERSION@";
-	public static final String REQUIRED_RADIX = "1.3.3";
+	public static final int GUI_ID_NAMEBABY = 1;
+	
+	public static final float SPEED_SNEAK = 0.4F;
+	public static final float SPEED_WALK = 0.6F;
+	public static final float SPEED_RUN = 0.7F;
+	public static final float SPEED_SPRINT = 0.8F;
+	public static final float SPEED_HORSE_RUN = 2.1F;
 
-	/** Users that are allowed to use the dev controls. */
-	public static final String[] PRIVELAGED_USERS = { "WildBamaBoy", "LuvTrumpetStyle", "TheSheWolfDeadly" };
-
-	/**
-	 * Array of blocks that cannot be mined by the mining chore.
-	 */
-	public static final Block[] UNMINEABLE_BLOCKS = 
-		{ 
-		Blocks.bedrock, 
-		Blocks.water, 
-		Blocks.lava, 
-		Blocks.fire, 
-		Blocks.mob_spawner, 
-		Blocks.redstone_wire, 
-		Blocks.wheat, 
-		Blocks.farmland, 
-		Blocks.reeds, 
-		};
-
-	/**
-	 * Array of blocks that are ignored when verifying the homepoint.
-	 */
+	public static final float SCALE_M_ADULT = 0.9375F;
+	public static final float SCALE_F_ADULT = 0.915F;
+	public static final float SCALE_MAX = 1.1F;
+	public static final float SCALE_MIN = 0.85F;
+	
 	public static final Block[] VALID_HOMEPOINT_BLOCKS = 
 		{ 
 		Blocks.air, 
@@ -95,263 +76,142 @@ public final class Constants
 		Blocks.nether_brick_fence, 
 		Blocks.cobblestone_wall 
 	};
-
-	/**
-	 * 2D array containing the item IDs of wedding gifts considered junk gifts. Index zero of each array is the item/block ID. Index one is the minimum amount that can be given to the player. Index two is the maximum amount that can be given to the player.
-	 */
-	public static Object[][] weddingJunkGiftIDs = 
-		{ 
-			{ Blocks.dirt, 1, 6 }, 
-			{ Blocks.deadbush, 1, 1 }, 
-			{ Blocks.cactus, 1, 3 }, 
-			{ Items.stick, 1, 4 }, 
-			{ Items.rotten_flesh, 1, 4 }
-		};
-
-	/**
-	 * 2D array containing the item IDs of wedding gifts considered small gifts. Index zero of each array is the item/block ID. Index one is the minimum amount that can be given to the player. Index two is the maximum amount that can be given to the player.
-	 */
-	public static Object[][] weddingSmallGiftIDs = 
-		{ 
-			{ Items.clay_ball, 4, 16 }, 
-			{ Items.stone_axe, 1, 1 }, 
-			{ Items.stone_sword, 1, 1 }, 
-			{ Items.stone_shovel, 1, 1 },
-			{ Items.apple, 1, 4 }, 
-			{ Items.arrow, 8, 16 }, 
-			{ Items.stone_pickaxe, 1, 1 }, 
-			{ Items.book, 1, 2 },
-			{ Items.redstone, 8, 32 }, 
-			{ Items.cooked_porkchop, 3, 6 }, 
-			{ Items.cooked_beef, 3, 6 }, 
-			{ Items.cooked_chicken, 3, 6 }, 
-			{ Items.bread, 1, 3 }, 
-			{ Blocks.planks, 2, 16 }, 
-			{ Blocks.log, 2, 16 }, 
-			{ Blocks.cobblestone, 2, 16 },
-			{ Items.coal, 2, 8 } 
-		};
-	/**
-	 * 2D array containing the item IDs of wedding gifts considered regular gifts. Index zero of each array is the item/block ID. Index one is the minimum amount that can be given to the player. Index two is the maximum amount that can be given to the player.
-	 */
-	public static Object[][] weddingRegularGiftIDs = 
-		{ 
-			{ Items.clay_ball, 16, 32 }, 
-			{ Items.iron_axe, 1, 1 }, 
-			{ Items.iron_sword, 1, 1 }, 
-			{ Items.iron_shovel, 1, 1 }, 
-			{ Items.arrow, 16, 32 }, 
-			{ Items.iron_pickaxe, 1, 1 }, 
-			{ Items.redstone, 8, 32 }, 
-			{ Items.cooked_porkchop, 6, 8 }, 
-			{ Items.cooked_beef, 6, 8 }, 
-			{ Items.cooked_chicken, 6, 8 }, 
-			{ Blocks.planks, 16, 32 }, 
-			{ Blocks.log, 16, 32 }, 
-			{ Blocks.cobblestone, 16, 32 }, 
-			{ Items.coal, 10, 16 }, 
-			{ Items.iron_helmet, 1, 1 },
-			{ Items.iron_chestplate, 1, 1 }, 
-			{ Items.iron_boots, 1, 1 }, 
-			{ Items.iron_leggings, 1, 1 }, 
-			{ Items.melon, 4, 8 }, 
-			{ Blocks.bookshelf, 2, 4 }, 
-			{ Items.iron_ingot, 8, 16 } 
-		};
-
-	/**
-	 * 2D array containing the item IDs of wedding gifts considered great gifts. Index zero of each array is the item/block ID. Index one is the minimum amount that can be given to the player. Index two is the maximum amount that can be given to the player.
-	 */
-	public static Object[][] weddingGreatGiftIDs = 
-		{ 
-			{ Blocks.brick_block, 32, 32 }, 
-			{ Items.diamond_axe, 1, 1 }, 
-			{ Items.diamond_sword, 1, 1 }, 
-			{ Items.diamond_shovel, 1, 1 }, 
-			{ Items.arrow, 64, 64 }, 
-			{ Items.diamond_pickaxe, 1, 1 }, 
-			{ Blocks.planks, 32, 64 }, 
-			{ Blocks.log, 32, 64 }, 
-			{ Blocks.cobblestone, 32, 64 }, 
-			{ Items.coal, 32, 64 }, 
-			{ Items.diamond_leggings, 1, 1 }, 
-			{ Items.diamond_helmet, 1, 1 }, 
-			{ Items.diamond_boots, 1, 1 }, 
-			{ Items.diamond_chestplate, 1, 1 },
-			{ Items.ender_eye, 4, 8 }, 
-			{ Blocks.enchanting_table, 1, 1 }, 
-			{ Blocks.mossy_cobblestone, 32, 64 }, 
-			{ Items.diamond, 8, 16 }, 
-			{ Blocks.jukebox, 1, 1 }, 
-			{ Blocks.diamond_block, 1, 2 }, 
-			{ Blocks.gold_block, 1, 4 }, 
-			{ Blocks.iron_block, 1, 8 },
-			{ Blocks.obsidian, 4, 8 }, 
-			{ Items.emerald, 4, 6 } 
-		};
-
-	/**
-	 * 2D array containing the item IDs of items that a farmer may give to the player. Index zero of each array is the item/block ID. Index one is the minimum amount that can be given to the player. Index two is the maximum amount that can be given to the player.
-	 */
-	public static Object[][] farmerAidIDs = 
-		{ 
-			{ Items.wheat, 1, 4 }, 
-			{ Items.apple, 1, 3 }, 
-			{ Items.wheat_seeds, 3, 12 }, 
-			{ Items.reeds, 3, 6 }, 
-			{ Items.carrot, 3, 6 }, 
-			{ Items.potato, 2, 4 }
-		};
-
-	/**
-	 * 2D array containing the item IDs of items that a butcher may give to the player. Index zero of each array is the item/block ID. Index one is the minimum amount that can be given to the player. Index two is the maximum amount that can be given to the player.
-	 */
-	public static Object[][] butcherAidIDs = 
-		{ 
-			{ Items.beef, 1, 3 }, 
-			{ Items.porkchop, 1, 3 }, 
-			{ Items.chicken, 1, 3 }, 
-			{ Items.leather, 2, 6 }, 
-			{ Items.feather, 6, 12 }
-		};
-
-	/**
-	 * 2D array containing the item IDs of items that a baker may give to the player. Index zero of each array is the item/block ID. Index one is the minimum amount that can be given to the player. Index two is the maximum amount that can be given to the player.
-	 */
-	public static Object[][] bakerAidIDs = 
-		{ 
-			{ Items.bread, 1, 4 }, 
-			{ Items.cake, 1, 1 }, 
-		};
-
-	public static char[] normalFarmFiveByFive = 
-		{ 
-			'S', 'S', 'S', 'S', 'S', 
-			'S', 'S', 'S', 'S', 'S', 
-			'S', 'S', 'W', 'S', 'S', 
-			'S', 'S', 'S', 'S', 'S', 
-			'S', 'S', 'S', 'S', 'S'
-		};
-
-	public static char[] sugarcaneFarmFiveByFive = 
-		{ 
-			'W', 'W', 'W', 'W', 'W', 
-			'S', 'S', 'S', 'S', 'S', 
-			'W', 'W', 'W', 'W', 'W', 
-			'S', 'S', 'S', 'S', 'S', 
-			'W', 'W', 'W', 'W', 'W' 
-		};
-
-	public static char[] blockFarmFiveByFive = 
-		{ 
-			'W', 'P', 'P', 'P', 'W', 
-			'P', 'S', 'S', 'S', 'P', 
-			'P', 'S', 'W', 'S', 'P', 
-			'P', 'S', 'S', 'S', 'P', 
-			'W', 'P', 'P', 'P', 'W', 
-		};
-
-	public static char[] normalFarmTenByTen = 
-		{ 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-			'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S', 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-			'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S', 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S',
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S' 
-		};
-
-	public static char[] sugarcaneFarmTenByTen = 
-		{ 
-			'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-			'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-			'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-			'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W' 
-		};
-
-	public static char[] normalFarmFifteenByFifteen = 
-		{ 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-			'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S', 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-			'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S', 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-			'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S', 'S', 'S', 'W', 'S', 'S', 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-			'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-		};
-
-	public static char[] sugarcaneFarmFifteenByFifteen = 
-		{ 
-		  'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 
-		  'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-		  'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-		  'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 
-		  'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-		  'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-		  'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 
-		  'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-		  'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-		  'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 
-		  'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-		  'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-		  'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 
-		  'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 
-		  'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 
-		};
-
-	//Gui IDs
-	public static final byte ID_GUI_INVENTORY = 0;
-	public static final byte ID_GUI_GAMEOVER = 1;
-	public static final byte ID_GUI_PCHILD = 2;
-	public static final byte ID_GUI_SPOUSE = 3;
-	public static final byte ID_GUI_ADULT = 4;
-	public static final byte ID_GUI_VCHILD = 5;
-	public static final byte ID_GUI_NAMECHILD = 7;
-	public static final byte ID_GUI_SETUP = 8;
-	public static final byte ID_GUI_DIVORCE = 9;
-	public static final byte ID_GUI_TOMBSTONE = 10;
-	public static final byte ID_GUI_EDITOR = 11;
-	public static final byte ID_GUI_LRD = 12;
-	public static final byte ID_GUI_PLAYER = 13;
-	public static final byte ID_GUI_MARRYREQUEST = 14;
-	public static final byte ID_GUI_BABYREQUEST = 15;
-
-	//Movement speeds.
-	public static final float SPEED_SNEAK = 0.4F;
-	public static final float SPEED_WALK = 0.6F;
-	public static final float SPEED_RUN = 0.7F;
-	public static final float SPEED_SPRINT = 0.8F;
-	public static final float SPEED_HORSE_RUN = 2.1F;
-
-	//Hitbox sizes.
-	public static final float HEIGHT_ADULT = 1.8F;
-	public static final float WIDTH_ADULT = 0.6F;
-
-	//Model sizes.
-	public static final float SCALE_M_ADULT = 0.9375F;
-	public static final float SCALE_F_ADULT = 0.915F;
-	public static final float SCALE_MAX = 1.1F;
-	public static final float SCALE_MIN = 0.85F;
-
+	
+	public static final Map<Object, Integer> GIFT_MAP = new HashMap<Object, Integer>();
+	
 	private Constants()
 	{
+	}
+	
+	static
+	{
+		GIFT_MAP.put(Items.wooden_sword, 3);
+		GIFT_MAP.put(Items.wooden_axe, 3);
+		GIFT_MAP.put(Items.wooden_hoe, 3);
+		GIFT_MAP.put(Items.wooden_shovel, 3);
+		GIFT_MAP.put(Items.stone_sword, 5);
+		GIFT_MAP.put(Items.stone_axe, 5);
+		GIFT_MAP.put(Items.stone_hoe, 5);
+		GIFT_MAP.put(Items.stone_shovel, 5);
+		GIFT_MAP.put(Items.wooden_pickaxe, 3);
+		GIFT_MAP.put(Items.beef, 2);
+		GIFT_MAP.put(Items.chicken, 2);
+		GIFT_MAP.put(Items.porkchop, 2);
+		GIFT_MAP.put(Items.leather, 2);
+		GIFT_MAP.put(Items.leather_chestplate, 5);
+		GIFT_MAP.put(Items.leather_helmet, 5);
+		GIFT_MAP.put(Items.leather_leggings, 5);
+		GIFT_MAP.put(Items.leather_boots, 5);
+		GIFT_MAP.put(Items.reeds, 2);
+		GIFT_MAP.put(Items.wheat_seeds, 2);
+		GIFT_MAP.put(Items.wheat, 3);
+		GIFT_MAP.put(Items.bread, 6);
+		GIFT_MAP.put(Items.coal, 5);
+		GIFT_MAP.put(Items.sugar, 5);
+		GIFT_MAP.put(Items.clay_ball, 2);
+		GIFT_MAP.put(Items.dye, 1);
+
+		GIFT_MAP.put(Items.cooked_beef, 7);
+		GIFT_MAP.put(Items.cooked_chicken, 7);
+		GIFT_MAP.put(Items.cooked_porkchop, 7);
+		GIFT_MAP.put(Items.cookie, 10);
+		GIFT_MAP.put(Items.melon, 10);
+		GIFT_MAP.put(Items.melon_seeds, 5);
+		GIFT_MAP.put(Items.iron_helmet, 10);
+		GIFT_MAP.put(Items.iron_chestplate, 10);
+		GIFT_MAP.put(Items.iron_leggings, 10);
+		GIFT_MAP.put(Items.iron_boots, 10);
+		GIFT_MAP.put(Items.cake, 12);
+		GIFT_MAP.put(Items.iron_sword, 10);
+		GIFT_MAP.put(Items.iron_axe, 10);
+		GIFT_MAP.put(Items.iron_hoe, 10);
+		GIFT_MAP.put(Items.iron_pickaxe, 10);
+		GIFT_MAP.put(Items.iron_shovel, 10);
+		GIFT_MAP.put(Items.fishing_rod, 3);
+		GIFT_MAP.put(Items.bow, 5);
+		GIFT_MAP.put(Items.book, 5);
+		GIFT_MAP.put(Items.bucket, 3);
+		GIFT_MAP.put(Items.milk_bucket, 5);
+		GIFT_MAP.put(Items.water_bucket, 2);
+		GIFT_MAP.put(Items.lava_bucket, 2);
+		GIFT_MAP.put(Items.mushroom_stew, 5);
+		GIFT_MAP.put(Items.pumpkin_seeds, 8);
+		GIFT_MAP.put(Items.flint_and_steel, 4);
+		GIFT_MAP.put(Items.redstone, 5);
+		GIFT_MAP.put(Items.boat, 4);
+		GIFT_MAP.put(Items.wooden_door, 4);
+		GIFT_MAP.put(Items.iron_door, 6);
+		GIFT_MAP.put(Items.minecart, 7);
+		GIFT_MAP.put(Items.flint, 2);
+		GIFT_MAP.put(Items.gold_nugget, 4);
+		GIFT_MAP.put(Items.gold_ingot, 20);
+		GIFT_MAP.put(Items.iron_ingot, 10);
+
+		GIFT_MAP.put(Items.diamond, 30);
+		GIFT_MAP.put(Items.map, 10);
+		GIFT_MAP.put(Items.clock, 5);
+		GIFT_MAP.put(Items.compass, 5);
+		GIFT_MAP.put(Items.blaze_rod, 10);
+		GIFT_MAP.put(Items.blaze_powder, 5);
+		GIFT_MAP.put(Items.diamond_sword, 15);
+		GIFT_MAP.put(Items.diamond_axe, 15);
+		GIFT_MAP.put(Items.diamond_shovel, 15);
+		GIFT_MAP.put(Items.diamond_hoe, 15);
+		GIFT_MAP.put(Items.diamond_leggings, 15);
+		GIFT_MAP.put(Items.diamond_helmet, 15);
+		GIFT_MAP.put(Items.diamond_chestplate, 15);
+		GIFT_MAP.put(Items.diamond_leggings, 15);
+		GIFT_MAP.put(Items.diamond_boots, 15);
+		GIFT_MAP.put(Items.painting, 6);
+		GIFT_MAP.put(Items.ender_pearl, 5);
+		GIFT_MAP.put(Items.ender_eye, 10);
+		GIFT_MAP.put(Items.potionitem, 3);
+		GIFT_MAP.put(Items.slime_ball, 3);
+		GIFT_MAP.put(Items.saddle, 5);
+		GIFT_MAP.put(Items.gunpowder, 7);
+		GIFT_MAP.put(Items.golden_apple, 25);
+		GIFT_MAP.put(Items.record_11, 15);
+		GIFT_MAP.put(Items.record_13, 15);
+		GIFT_MAP.put(Items.record_wait, 15);
+		GIFT_MAP.put(Items.record_cat, 15);
+		GIFT_MAP.put(Items.record_chirp, 15);
+		GIFT_MAP.put(Items.record_far, 15);
+		GIFT_MAP.put(Items.record_mall, 15);
+		GIFT_MAP.put(Items.record_mellohi, 15);
+		GIFT_MAP.put(Items.record_stal, 15);
+		GIFT_MAP.put(Items.record_strad, 15);
+		GIFT_MAP.put(Items.record_ward, 15);
+		GIFT_MAP.put(Items.emerald, 25);
+
+		GIFT_MAP.put(Blocks.red_flower, 5);
+		GIFT_MAP.put(Blocks.yellow_flower, 5);
+		GIFT_MAP.put(Blocks.planks, 5);
+		GIFT_MAP.put(Blocks.log, 3);
+
+		GIFT_MAP.put(Blocks.pumpkin, 3);
+		GIFT_MAP.put(Blocks.chest, 5);
+		GIFT_MAP.put(Blocks.wool, 2);
+		GIFT_MAP.put(Blocks.iron_ore, 4);
+		GIFT_MAP.put(Blocks.gold_ore, 7);
+		GIFT_MAP.put(Blocks.redstone_ore, 3);
+		GIFT_MAP.put(Blocks.rail, 3);
+		GIFT_MAP.put(Blocks.detector_rail, 5);
+		GIFT_MAP.put(Blocks.activator_rail, 5);
+		GIFT_MAP.put(Blocks.furnace, 5);
+		GIFT_MAP.put(Blocks.crafting_table, 5);
+		GIFT_MAP.put(Blocks.lapis_block, 15);
+
+		GIFT_MAP.put(Blocks.bookshelf, 7);
+		GIFT_MAP.put(Blocks.gold_block, 50);
+		GIFT_MAP.put(Blocks.iron_block, 25);
+		GIFT_MAP.put(Blocks.diamond_block, 100);
+		GIFT_MAP.put(Blocks.brewing_stand, 12);
+		GIFT_MAP.put(Blocks.enchanting_table, 25);
+		GIFT_MAP.put(Blocks.brick_block, 15);
+		GIFT_MAP.put(Blocks.obsidian, 15);
+		GIFT_MAP.put(Blocks.piston, 10);
+		GIFT_MAP.put(Blocks.glowstone, 10);
+
+		GIFT_MAP.put(Blocks.emerald_block, 100);
 	}
 }

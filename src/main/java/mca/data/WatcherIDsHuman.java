@@ -1,0 +1,51 @@
+package mca.data;
+
+public class WatcherIDsHuman 
+{
+	public static final int NAME = 1;
+	public static final int PROFESSION = 2;
+	public static final int SKIN = 3;
+	public static final int IS_SLEEPING = 4;
+	public static final int IS_MALE = 5;
+	public static final int PERMANENT_ID = 6;
+	public static final int IS_MARRIED = 7;
+	public static final int SPOUSE_ID = 8;
+	public static final int BABY_STATE = 9;
+	public static final int MOVEMENT_STATE = 10;
+	public static final int IS_CHILD = 11;
+	public static final int AGE = 12;
+	public static final int PARENT_NAMES = 13;
+	public static final int PARENT_IDS = 14;
+	public static final int SPOUSE_NAME = 15;
+	public static final int IS_IN_BED = 16;
+	public static final int BED_META = 17;
+	public static final int HAS_BED = 18;
+	public static final int BED_POS_X = 19;
+	public static final int BED_POS_Y = 20;
+	public static final int BED_POS_Z = 21;
+	public static final int MOOD_VALUE = 22;
+	public static final int UNUSED_23 = 23;
+	public static final int UNUSED_24 = 24;
+	public static final int UNUSED_25 = 25;
+	public static final int UNUSED_26 = 26;
+	public static final int IS_INTERACTING = 27;
+	public static final int PERSONALITY_ID = 28;
+	public static final int HEIGHT = 29;
+	public static final int GIRTH = 30;
+	public static final int TIME_UNTIL_TICK_UPDATE = 31;
+	public static final int PLAYER_FOLLOWING_NAME = 32;
+	public static final int CONVERSATION_ID = 33;
+	public static final int CONVERSATION_PROGRESS = 34;
+	public static final int CONVERSATION_TARGET = 35;
+	public static final int IS_CONVERSATION_ACTIVE = 36;
+	public static final int IS_ENGAGED = 37;
+	public static final int DO_DISPLAY = 38;
+	public static final int IS_PROCREATING = 39;
+	public static final int UNUSED_40 = 40;
+	public static final int UNUSED_41 = 41;
+	public static final int UNUSED_42 = 42;
+	public static final int UNUSED_43 = 43;
+	public static final int UNUSED_44 = 44;
+	public static final int UNUSED_45 = 45;
+	public static final int UNUSED_46 = 46;
+}

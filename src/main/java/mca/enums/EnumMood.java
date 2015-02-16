@@ -1,681 +1,107 @@
-/*******************************************************************************
- * EnumMood.java
- * Copyright (c) 2014 WildBamaBoy.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the MCA Minecraft Mod license.
- ******************************************************************************/
-
 package mca.enums;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import mca.core.MCA;
 
-/**
- * Applied to villagers to modify chance of interaction success and bonus points applied.
- */
-public enum EnumMood
+public enum EnumMood 
 {
-	Ecstatic("mood.happy.ecstatic"), Cheerful("mood.happy.cheerful"), Happy("mood.happy.happy"), Fine("mood.happy.fine"), Okay("mood.happy.okay"), Passive("mood.neutral.passive"), Blue("mood.sadness.blue"), Unhappy("mood.sadness.unhappy"), Sad("mood.sadness.sad"), Cheerless("mood.sadness.cheerless"), Depressed("mood.sadness.depressed"), Annoyed("mood.anger.annoyed"), Agitated("mood.anger.agitated"), Mad("mood.anger.mad"), Seething("mood.anger.seething"), Infuriated("mood.anger.infuriated");
+	DEPRESSED(-3, EnumMoodGroup.GENERAL),
+	SAD(-2, EnumMoodGroup.GENERAL),
+	UNHAPPY(-1, EnumMoodGroup.GENERAL),
+	PASSIVE(0, EnumMoodGroup.ALL),
+	FINE(1, EnumMoodGroup.GENERAL),
+	HAPPY(2, EnumMoodGroup.GENERAL),
+	OVERJOYED(3, EnumMoodGroup.GENERAL),
+	
+	BORED_TO_TEARS(-3, EnumMoodGroup.PLAYFUL),
+	BORED(-2, EnumMoodGroup.PLAYFUL),
+	UNINTERESTED(-1, EnumMoodGroup.PLAYFUL),
+	SILLY(1, EnumMoodGroup.PLAYFUL),
+	GIGGLY(2, EnumMoodGroup.PLAYFUL),
+	ENTERTAINED(3, EnumMoodGroup.PLAYFUL),
+	
+	INFURIATED(-3, EnumMoodGroup.SERIOUS),
+	ANGRY(-2, EnumMoodGroup.SERIOUS),
+	ANNOYED(-1, EnumMoodGroup.SERIOUS),
+	INTERESTED(1, EnumMoodGroup.SERIOUS),
+	TALKATIVE(2, EnumMoodGroup.SERIOUS),
+	PLEASED(3, EnumMoodGroup.SERIOUS);
 
-	private String value;
-
-	/**
-	 * Constructor
-	 * 
-	 * @param value The mood's ID within language files.
-	 */
-	private EnumMood(String value)
+	private int level;
+	private EnumMoodGroup moodGroup;
+	
+	private EnumMood(int level, EnumMoodGroup moodGroup)
 	{
-		this.value = value;
+		this.level = level;
+		this.moodGroup = moodGroup;
+	}
+	
+	public EnumMoodGroup getMoodGroup()
+	{
+		return this.moodGroup;
 	}
 
-	/**
-	 * Gets the appropriate mood for a villager based on the mood type.
-	 * 
-	 * @param moodType The type of mood the villager should be in: happy, sadness, anger, or neutral.
-	 * @param moodValue The mood level that should be applied.
-	 * @return EnumMood of the appropriate type based on provided type and value.
-	 */
-	public static EnumMood getMoodByPointValue(String moodType, float moodValue)
+	public int getLevel()
 	{
-		if (moodType.equals("happy"))
-		{
-			if (moodValue < 1.0F)
-			{
-				return Okay;
-			}
-
-			else if (moodValue >= 1.0F && moodValue < 2.0F)
-			{
-				return Okay;
-			}
-
-			else if (moodValue >= 2.0F && moodValue < 3.0F)
-			{
-				return Fine;
-			}
-
-			else if (moodValue >= 3.0F && moodValue < 4.0F)
-			{
-				return Happy;
-			}
-
-			else if (moodValue >= 4.0F && moodValue < 5.0F)
-			{
-				return Cheerful;
-			}
-
-			else
-			{
-				return Ecstatic;
-			}
-		}
-
-		else if (moodType.equals("neutral"))
-		{
-			return Passive;
-		}
-
-		else if (moodType.equals("sadness"))
-		{
-			if (moodValue < 1.0F)
-			{
-				return Blue;
-			}
-
-			else if (moodValue >= 1.0F && moodValue < 2.0F)
-			{
-				return Blue;
-			}
-
-			else if (moodValue >= 2.0F && moodValue < 3.0F)
-			{
-				return Unhappy;
-			}
-
-			else if (moodValue >= 3.0F && moodValue < 4.0F)
-			{
-				return Sad;
-			}
-
-			else if (moodValue >= 4.0F && moodValue < 5.0F)
-			{
-				return Cheerless;
-			}
-
-			else
-			{
-				return Depressed;
-			}
-		}
-
-		else if (moodType.equals("anger"))
-		{
-			if (moodValue < 1.0F)
-			{
-				return Annoyed;
-			}
-
-			else if (moodValue >= 1.0F && moodValue < 2.0F)
-			{
-				return Annoyed;
-			}
-
-			else if (moodValue >= 2.0F && moodValue < 3.0F)
-			{
-				return Agitated;
-			}
-
-			else if (moodValue >= 3.0F && moodValue < 4.0F)
-			{
-				return Mad;
-			}
-
-			else if (moodValue >= 4.0F && moodValue < 5.0F)
-			{
-				return Seething;
-			}
-
-			else
-			{
-				return Infuriated;
-			}
-		}
-
-		else
-		{
-			return null;
-		}
+		return this.level;
 	}
 
-	/**
-	 * Gets all possible moods as a list.
-	 * 
-	 * @return ArrayList containing each possible EnumMood.
-	 */
-	public static List<EnumMood> getMoodsAsCyclableList()
+	public String getFriendlyName() 
 	{
-		final List<EnumMood> moods = new ArrayList<EnumMood>();
-
-		moods.add(Ecstatic);
-		moods.add(Cheerful);
-		moods.add(Happy);
-		moods.add(Fine);
-		moods.add(Okay);
-
-		moods.add(Passive);
-
-		moods.add(Depressed);
-		moods.add(Cheerless);
-		moods.add(Sad);
-		moods.add(Unhappy);
-		moods.add(Blue);
-
-		moods.add(Infuriated);
-		moods.add(Seething);
-		moods.add(Mad);
-		moods.add(Agitated);
-		moods.add(Annoyed);
-
-		return moods;
+		String name = "mood." + this.name().toLowerCase();
+		return MCA.getLanguageManager().getString(name);
 	}
 
-	/**
-	 * Returns the mood's ID within the language files.
-	 * 
-	 * @return mood.[mood type].[mood name]
-	 */
-	public String getValue()
+	public int getSuccessModifierForInteraction(EnumInteraction interaction) 
 	{
-		return value;
+		int base = 0;
+		
+		switch (interaction)
+		{
+		case CHAT: 
+			base = moodGroup == EnumMoodGroup.GENERAL ? 5 : moodGroup == EnumMoodGroup.PLAYFUL ? 0 : moodGroup == EnumMoodGroup.SERIOUS ? 2 : 0; break;
+		case JOKE: 
+			base = moodGroup == EnumMoodGroup.GENERAL ? 0 : moodGroup == EnumMoodGroup.PLAYFUL ? 5 : moodGroup == EnumMoodGroup.SERIOUS ? -3 : 0; break;
+		case SHAKE_HAND: 
+			base = moodGroup == EnumMoodGroup.GENERAL ? 0 : moodGroup == EnumMoodGroup.PLAYFUL ? 0 : moodGroup == EnumMoodGroup.SERIOUS ? 5 : 0; break;
+		case TELL_STORY: 
+			base = moodGroup == EnumMoodGroup.GENERAL ? 3 : moodGroup == EnumMoodGroup.PLAYFUL ? 0 : moodGroup == EnumMoodGroup.SERIOUS ? 3 : 0; break;
+		case FLIRT: 
+			base = moodGroup == EnumMoodGroup.GENERAL ? 0 : moodGroup == EnumMoodGroup.PLAYFUL ? 3 : moodGroup == EnumMoodGroup.SERIOUS ? -2 : 0; break;
+		case HUG: 
+			base = moodGroup == EnumMoodGroup.GENERAL ? 0 : moodGroup == EnumMoodGroup.PLAYFUL ? 3 : moodGroup == EnumMoodGroup.SERIOUS ? -2 : 0; break;
+		case KISS: 
+			base = moodGroup == EnumMoodGroup.GENERAL ? 0 : moodGroup == EnumMoodGroup.PLAYFUL ? 3 : moodGroup == EnumMoodGroup.SERIOUS ? -2 : 0; break;
+		default:
+			break;
+		}
+		
+		return base * level;
 	}
 
-	/**
-	 * Queries the language helper to get the translated name of this mood.
-	 * 
-	 * @return Localized name of the mood.
-	 */
-	public String getLocalizedValue()
+	public int getPointsModifierForInteraction(EnumInteraction interaction) 
 	{
-		return MCA.getInstance().getLanguageLoader().getString(value);
-	}
-
-	/**
-	 * Is the mood one of the anger moods?
-	 * 
-	 * @return True or false.
-	 */
-	public boolean isAnger()
-	{
-		return getValue().contains("anger");
-	}
-
-	/**
-	 * Is the mood one of the sadness moods?
-	 * 
-	 * @return True or false.
-	 */
-	public boolean isSadness()
-	{
-		return getValue().contains("sadness");
-	}
-
-	/**
-	 * Is the mood neutral?
-	 * 
-	 * @return True or false.
-	 */
-	public boolean isNeutral()
-	{
-		return getValue().contains("neutral");
-	}
-
-	/**
-	 * Is the mood one of the happy moods?
-	 * 
-	 * @return True or false.
-	 */
-	public boolean isHappy()
-	{
-		return getValue().contains("happy");
-	}
-
-	/**
-	 * Returns the base mood level of this mood. Used for hearts and chance bonuses.
-	 * 
-	 * @return 1 - 5 depending on mood level.
-	 */
-	public int getMoodLevel()
-	{
-		switch (this)
+		int base = 0;
+		
+		switch (interaction)
 		{
-			case Agitated:
-				return 2;
-			case Annoyed:
-				return 1;
-			case Blue:
-				return 1;
-			case Cheerful:
-				return 4;
-			case Cheerless:
-				return 4;
-			case Depressed:
-				return 5;
-			case Ecstatic:
-				return 5;
-			case Fine:
-				return 2;
-			case Happy:
-				return 3;
-			case Infuriated:
-				return 5;
-			case Mad:
-				return 3;
-			case Okay:
-				return 1;
-			case Passive:
-				return 1;
-			case Sad:
-				return 3;
-			case Seething:
-				return 4;
-			case Unhappy:
-				return 2;
-			default:
-				return 0;
+		case CHAT: 
+			base = moodGroup == EnumMoodGroup.GENERAL ? 3 : moodGroup == EnumMoodGroup.PLAYFUL ? 0 : moodGroup == EnumMoodGroup.SERIOUS ? 1 : 0; break;
+		case JOKE: 
+			base = moodGroup == EnumMoodGroup.GENERAL ? 0 : moodGroup == EnumMoodGroup.PLAYFUL ? 3 : moodGroup == EnumMoodGroup.SERIOUS ? -2 : 0; break;
+		case SHAKE_HAND: 
+			base = moodGroup == EnumMoodGroup.GENERAL ? 0 : moodGroup == EnumMoodGroup.PLAYFUL ? 0 : moodGroup == EnumMoodGroup.SERIOUS ? 3 : 0; break;
+		case TELL_STORY: 
+			base = moodGroup == EnumMoodGroup.GENERAL ? 2 : moodGroup == EnumMoodGroup.PLAYFUL ? 0 : moodGroup == EnumMoodGroup.SERIOUS ? 2 : 0; break;
+		case FLIRT: 
+			base = moodGroup == EnumMoodGroup.GENERAL ? 0 : moodGroup == EnumMoodGroup.PLAYFUL ? 2 : moodGroup == EnumMoodGroup.SERIOUS ? -1 : 0; break;
+		case HUG: 
+			base = moodGroup == EnumMoodGroup.GENERAL ? 0 : moodGroup == EnumMoodGroup.PLAYFUL ? 2 : moodGroup == EnumMoodGroup.SERIOUS ? -1 : 0; break;
+		case KISS: 
+			base = moodGroup == EnumMoodGroup.GENERAL ? 0 : moodGroup == EnumMoodGroup.PLAYFUL ? 2 : moodGroup == EnumMoodGroup.SERIOUS ? -1 : 0; break;
+		default:
+			break;
 		}
-	}
-
-	/**
-	 * Gets the amount to be applied to chance of interaction success. Gift is used to calculate chance of refusal.
-	 * 
-	 * @param interactionType "chat", "joke", or "gift" depending on the interaction being performed.
-	 * @return Hearts modifier based on mood and mood level. Amount is checked for validity by interaction before being applied.
-	 */
-	public int getChanceModifier(String interactionType)
-	{
-		if (interactionType.equals("chat"))
-		{
-			if (isAnger())
-			{
-				return -(20 * getMoodLevel());
-			}
-
-			else if (isHappy())
-			{
-				return 5 * getMoodLevel();
-			}
-
-			else if (isNeutral())
-			{
-				return 0;
-			}
-
-			else if (isSadness())
-			{
-				return -(20 * getMoodLevel());
-			}
-		}
-
-		else if (interactionType.equals("joke"))
-		{
-			if (isAnger())
-			{
-				return -(20 * getMoodLevel());
-			}
-
-			else if (isHappy())
-			{
-				return 5 * getMoodLevel();
-			}
-
-			else if (isNeutral())
-			{
-				return 0;
-			}
-
-			else if (isSadness())
-			{
-				return -(20 * getMoodLevel());
-			}
-		}
-
-		//This is only for chance of gift refusal.
-		else if (interactionType.equals("gift"))
-		{
-			if (isAnger())
-			{
-				return 20 * getMoodLevel();
-			}
-
-			else if (isHappy())
-			{
-				return 0;
-			}
-
-			else if (isNeutral())
-			{
-				return 0;
-			}
-
-			else if (isSadness())
-			{
-				return 0;
-			}
-		}
-
-		else if (interactionType.equals("greeting"))
-		{
-			if (isAnger())
-			{
-				return -(20 * getMoodLevel());
-			}
-
-			else if (isHappy())
-			{
-				return 5 * getMoodLevel();
-			}
-
-			else if (isNeutral())
-			{
-				return 0;
-			}
-
-			else if (isSadness())
-			{
-				return 0;
-			}
-		}
-
-		else if (interactionType.equals("story"))
-		{
-			if (isAnger())
-			{
-				return -(20 * getMoodLevel());
-			}
-
-			else if (isHappy())
-			{
-				return 5 * getMoodLevel();
-			}
-
-			else if (isNeutral())
-			{
-				return 0;
-			}
-
-			else if (isSadness())
-			{
-				return 0;
-			}
-		}
-
-		else if (interactionType.equals("kiss"))
-		{
-			if (isAnger())
-			{
-				return -(20 * getMoodLevel());
-			}
-
-			else if (isHappy())
-			{
-				return 5 * getMoodLevel();
-			}
-
-			else if (isNeutral())
-			{
-				return 0;
-			}
-
-			else if (isSadness())
-			{
-				return 5 * getMoodLevel();
-			}
-		}
-
-		else if (interactionType.equals("flirt"))
-		{
-			if (isAnger())
-			{
-				return -(20 * getMoodLevel());
-			}
-
-			else if (isHappy())
-			{
-				return 3 * getMoodLevel();
-			}
-
-			else if (isNeutral())
-			{
-				return 0;
-			}
-
-			else if (isSadness())
-			{
-				return 3 * getMoodLevel();
-			}
-		}
-
-		else if (interactionType.equals("play"))
-		{
-			if (isAnger())
-			{
-				return -(5 * getMoodLevel());
-			}
-
-			else if (isHappy())
-			{
-				return 3 * getMoodLevel();
-			}
-
-			else if (isNeutral())
-			{
-				return 0;
-			}
-
-			else if (isSadness())
-			{
-				return 3 * getMoodLevel();
-			}
-		}
-
-		return 0;
-	}
-
-	/**
-	 * Gets the amount to add to hearts based on mood.
-	 * 
-	 * @param interactionType "chat", "joke", or "gift" depending on the interaction being performed.
-	 * @return Hearts modifier based on mood and mood level. Amount is checked for validity by interaction before being applied.
-	 */
-	public int getHeartsModifier(String interactionType)
-	{
-		if (interactionType.equals("chat"))
-		{
-			if (isAnger())
-			{
-				return -(3 * getMoodLevel());
-			}
-
-			else if (isHappy())
-			{
-				return 3 * getMoodLevel();
-			}
-
-			else if (isNeutral())
-			{
-				return 0;
-			}
-
-			else if (isSadness())
-			{
-				return -(6 * getMoodLevel());
-			}
-		}
-
-		else if (interactionType.equals("joke"))
-		{
-			if (isAnger())
-			{
-				return -(6 * getMoodLevel());
-			}
-
-			else if (isHappy())
-			{
-				return 3 * getMoodLevel();
-			}
-
-			else if (isNeutral())
-			{
-				return 0;
-			}
-
-			else if (isSadness())
-			{
-				return -(6 * getMoodLevel());
-			}
-		}
-
-		else if (interactionType.equals("gift"))
-		{
-			if (isAnger())
-			{
-				return -(6 * getMoodLevel());
-			}
-
-			else if (isHappy())
-			{
-				return 3 * getMoodLevel();
-			}
-
-			else if (isNeutral())
-			{
-				return 0;
-			}
-
-			else if (isSadness())
-			{
-				return 6 * getMoodLevel();
-			}
-		}
-
-		else if (interactionType.equals("greeting"))
-		{
-			if (isAnger())
-			{
-				return 0;
-			}
-
-			else if (isHappy())
-			{
-				return 3 * getMoodLevel();
-			}
-
-			else if (isNeutral())
-			{
-				return 0;
-			}
-
-			else if (isSadness())
-			{
-				return 0;
-			}
-		}
-
-		else if (interactionType.equals("story"))
-		{
-			if (isAnger())
-			{
-				return -(3 * getMoodLevel());
-			}
-
-			else if (isHappy())
-			{
-				return 3 * getMoodLevel();
-			}
-
-			else if (isNeutral())
-			{
-				return 0;
-			}
-
-			else if (isSadness())
-			{
-				return 3 * getMoodLevel();
-			}
-		}
-
-		else if (interactionType.equals("kiss"))
-		{
-			if (isAnger())
-			{
-				return -(3 * getMoodLevel());
-			}
-
-			else if (isHappy())
-			{
-				return 3 * getMoodLevel();
-			}
-
-			else if (isNeutral())
-			{
-				return 0;
-			}
-
-			else if (isSadness())
-			{
-				return 3 * getMoodLevel();
-			}
-		}
-
-		else if (interactionType.equals("flirt"))
-		{
-			if (isAnger())
-			{
-				return -(2 * getMoodLevel());
-			}
-
-			else if (isHappy())
-			{
-				return 2 * getMoodLevel();
-			}
-
-			else if (isNeutral())
-			{
-				return 0;
-			}
-
-			else if (isSadness())
-			{
-				return 2 * getMoodLevel();
-			}
-		}
-
-		else if (interactionType.equals("play"))
-		{
-			if (isAnger())
-			{
-				return -(1 * getMoodLevel());
-			}
-
-			else if (isHappy())
-			{
-				return 2 * getMoodLevel();
-			}
-
-			else if (isNeutral())
-			{
-				return 0;
-			}
-
-			else if (isSadness())
-			{
-				return 2 * getMoodLevel();
-			}
-		}
-
-		return 0;
+		
+		return base * level;
 	}
 }
