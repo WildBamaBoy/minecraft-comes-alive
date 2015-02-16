@@ -131,38 +131,38 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 		if (human.getIsChild() || !human.allowIntimateInteractions(player))
 		{
-			human.say("I can't use that.", player); //TODO
+			human.say("I can't use that.", player); 
 		}
 		
 		else if (data.spousePermanentId.getInt() == human.getPermanentId() && (!human.getIsEngaged() || human.getIsMarried()))
 		{
-			human.say("I am married to you.", player); //TODO
+			human.say("I am married to you.", player); 
 		}
 
 		else if (human.getIsMarried())
 		{
-			human.say("I am already married.", player); //TODO
+			human.say("I am already married.", player); 
 		}
 
 		else if (human.getIsEngaged() && human.getSpouseId() != data.permanentId.getInt())
 		{
-			human.say("I am engaged.", player); //TODO
+			human.say("I am engaged.", player); 
 		}
 		
 		else if (data.spousePermanentId.getInt() != 0 && !data.isEngaged.getBoolean())
 		{
-			human.say("You are already married.", player); //TODO
+			human.say("You are already married.", player); 
 		}
 
 		else if (memory.getHearts() < 95)
 		{
-			human.say("I don't like you.", player); //TODO
+			human.say("I don't like you.", player); 
 			TutorialManager.sendMessageToPlayer(player, "You must have 5 golden hearts with", "a villager before marrying them.");
 		}
 
 		else
 		{
-			human.say("We are now married!", player); //TODO
+			human.say("We are now married!", player); 
 
 			memory.setDialogueType(EnumDialogueType.SPOUSE);
 			data.spousePermanentId.setValue(human.getPermanentId());
@@ -183,22 +183,22 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 		
 		if (human.getIsChild())
 		{
-			human.say("I can't use that.", player); //TODO
+			human.say("I can't use that.", player); 
 		}
 		
 		else if (human.getIsMarried())
 		{
-			human.say("I am already married.", player); //TODO
+			human.say("I am already married.", player); 
 		}
 		
 		else if (human.getIsEngaged())
 		{
-			human.say("I am engaged.", player); //TODO
+			human.say("I am engaged.", player); 
 		}
 		
 		else if (stack.stackSize < 2)
 		{
-			human.say("You need two of those.", player); //TODO
+			human.say("You need two of those.", player); 
 			TutorialManager.sendMessageToPlayer(player, "You must have two matchmaker's rings", "in a stack to arrange a marriage.");
 		}
 		
@@ -206,7 +206,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 		{	
 			if (partner == null)
 			{
-				human.say("There was no-one nearby.", player); //TODO
+				human.say("There was no-one nearby.", player); 
 				TutorialManager.sendMessageToPlayer(player, "To arrange a marriage, have two rings in a stack and ", "make sure another marriable villager is nearby.");
 			}
 			
@@ -214,13 +214,13 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 					(partner.getFatherId() != -1 && partner.getFatherId() == human.getFatherId()) || 
 					(partner.getMotherId() != -1 && partner.getMotherId() == human.getMotherId()))
 			{
-				human.say("I can't marry " + partner.getName() + ".", player); //TODO
+				human.say("I can't marry " + partner.getName() + ".", player); 
 				TutorialManager.sendMessageToPlayer(player, "A married villager, relative, or child was too close to this", "villager. Move this villager away from anyone not marriable.");
 			}
 			
 			else
 			{
-				human.say("I will marry " + partner.getName() + ".", player); //TODO
+				human.say("I will marry " + partner.getName() + ".", player); 
 				human.setIsMarried(true, partner);
 				partner.setIsMarried(true, human);
 				
@@ -242,38 +242,38 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 		if (human.getIsChild() || !human.allowIntimateInteractions(player))
 		{
-			human.say("I can't use that.", player); //TODO
+			human.say("I can't use that.", player); 
 		}
 		
 		else if (data.spousePermanentId.getInt() == human.getPermanentId())
 		{
-			human.say("I am married to you.", player); //TODO
+			human.say("I am married to you.", player); 
 		}
 
 		else if (human.getIsMarried())
 		{
-			human.say("I am already married.", player); //TODO
+			human.say("I am already married.", player); 
 		}
 
 		else if (human.getIsEngaged())
 		{
-			human.say("I am already engaged.", player); //TODO
+			human.say("I am already engaged.", player); 
 		}
 		
 		else if (data.spousePermanentId.getInt() != 0)
 		{
-			human.say("You are already married.", player); //TODO
+			human.say("You are already married.", player); 
 		}
 
 		else if (memory.getHearts() < 95)
 		{
-			human.say("I don't like you.", player); //TODO
+			human.say("I don't like you.", player); 
 			TutorialManager.sendMessageToPlayer(player, "You must have 5 golden hearts with", "a villager before proposing.");
 		}
 
 		else
 		{
-			human.say("We are now engaged!", player); //TODO
+			human.say("We are now engaged!", player); 
 
 			memory.setDialogueType(EnumDialogueType.SPOUSE);
 			data.spousePermanentId.setValue(human.getPermanentId());
@@ -296,17 +296,17 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 		if (human.getIsChild())
 		{
-			human.say("I can't use that.", player); //TODO
+			human.say("I can't use that.", player); 
 		}
 		
 		else if (!human.getIsMarried())
 		{
-			human.say("I am not married.", player); //TODO
+			human.say("I am not married.", player); 
 		}
 		
 		else if (human.isMarriedToAPlayer() && data.spousePermanentId.getInt() != human.getPermanentId())
 		{
-			human.say("I am not married to you.", player); //TODO
+			human.say("I am not married to you.", player); 
 		}
 
 		else
@@ -315,7 +315,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			{
 				memory.setHearts(-100);
 				
-				human.say("We are no longer married.", player); //TODO
+				human.say("We are no longer married.", player); 
 
 				memory.setDialogueType(EnumDialogueType.ADULT);
 				human.setIsMarried(false, (EntityHuman) null);
@@ -329,7 +329,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			
 			else
 			{
-				human.say("I am no longer married to my spouse.", player); //TODO
+				human.say("I am no longer married to my spouse.", player); 
 				
 				final EntityHuman partner = human.getVillagerSpouse();
 				

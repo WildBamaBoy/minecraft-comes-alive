@@ -73,13 +73,13 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 			{
 				if (villager.getAI(AISleep.class).setHomePointWithVerify(new Point3D(villager.posX, villager.posY, villager.posZ)))
 				{
-					villager.say("This location is now my home point.", player); //TODO
+					villager.say("This location is now my home point.", player);
 					TutorialManager.sendMessageToPlayer(player, "Villagers go to their home points at night, and then go to sleep.", "If their home point becomes blocked, they will automatically find a new one.");
 				}
 
 				else
 				{
-					villager.say("This location can't be my home point.", player); //TODO
+					villager.say("This location can't be my home point.", player);
 					TutorialManager.sendMessageToPlayer(player, "Move villagers away from the edges of walls", "and other blocks before setting their home.");
 				}
 			}

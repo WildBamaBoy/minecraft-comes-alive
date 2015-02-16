@@ -189,7 +189,7 @@ public class GuiInteraction extends GuiScreen
 	{		
 		int marriageIconU = villager.getIsMarried() ? 0 : villager.getIsEngaged() ? 64 : 16;
 		int parentsIconU = 32;
-		int giftIconU = 48; //TODO
+		int giftIconU = 48;
 
 		GL11.glPushMatrix();
 		{

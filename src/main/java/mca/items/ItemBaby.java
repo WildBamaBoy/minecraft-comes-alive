@@ -57,7 +57,7 @@ public class ItemBaby extends Item
 
 				if (player.capabilities.isCreativeMode)
 				{
-					TutorialManager.sendMessageToPlayer(player, "You can name a baby retrieved from", "creative mode by right-clicking the air."); //TODO
+					TutorialManager.sendMessageToPlayer(player, "You can name a baby retrieved from", "creative mode by right-clicking the air.");
 				}
 			}
 

@@ -17,14 +17,14 @@ public class CrashWatcher extends ModCrashWatcher
 			String fileContent = scanner.useDelimiter("\\Z").next();
 
 			MCA.getLog().fatal("Crash detected!");
-			//RDXServerBridge.sendCrashReport(fileContent, true);
+			//RDXServerBridge.sendCrashReport(fileContent, true); //TODO
 			
 			scanner.close();
 		}
 
 		catch (Exception e)
 		{
-			//TODO
+			MCA.getLog().fatal("MCA detected a crash and attempted to report it, but failed to do so! " + e.getMessage());
 		}
 	}
 }
