@@ -2,12 +2,12 @@ package radixcore.data;
 
 import net.minecraft.block.Block;
 
-public class BlockWithMeta
+public class BlockObj
 {
 	private Block block;
 	private int meta;
 	
-	public BlockWithMeta(Block block, int meta)
+	public BlockObj(Block block, int meta)
 	{
 		this.block = block;
 		this.meta = meta;
@@ -17,6 +17,7 @@ public class BlockWithMeta
 	{
 		return block;
 	}
+	
 	public int getMeta()
 	{
 		return meta;

@@ -28,7 +28,7 @@ import org.apache.logging.log4j.Logger;
 import radixcore.ModMetadataEx;
 import radixcore.RadixCore;
 import radixcore.data.AbstractPlayerData;
-import radixcore.data.BlockWithMeta;
+import radixcore.data.BlockObj;
 import radixcore.data.DataContainer;
 import radixcore.helpers.StartupHelper;
 import radixcore.lang.LanguageManager;

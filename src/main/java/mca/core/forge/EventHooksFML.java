@@ -10,11 +10,11 @@ import mca.data.PlayerData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
-import radixcore.data.BlockWithMeta;
+import radixcore.data.BlockObj;
 import radixcore.helpers.ExceptHelper;
 import radixcore.math.Point3D;
 import radixcore.packets.PacketDataContainer;
-import radixcore.util.SchematicReader;
+import radixcore.util.SchematicHandler;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -68,14 +68,14 @@ public class EventHooksFML
 
 				if (!data.hasChosenDestiny.getBoolean() && MCA.destinyCenterPoint == null)
 				{
-					MCA.destinyCenterPoint = new Point3D(player.posX, player.posY, player.posZ);
+					MCA.destinyCenterPoint = new Point3D(player.posX - 1, player.posY, player.posZ);
 					player.setPositionAndRotation(Math.floor(player.posX) - 0.5F, player.posY, Math.floor(player.posZ), 180.0F, 0.0F);
 					TutorialManager.setTutorialMessage(new TutorialMessage("Right-click the enchantment table to begin.", ""));
 				}
 
-				if (!data.hasChosenDestiny.getBoolean())
+				if (!data.hasChosenDestiny.getBoolean() && player != null && MCA.destinyCenterPoint != null)
 				{
-					buildDestinyRoom();
+					SchematicHandler.spawnStructureRelativeToPoint("/assets/mca/schematic/destiny-test.schematic", MCA.destinyCenterPoint, player.worldObj);
 				}
 			}
 
@@ -83,42 +83,6 @@ public class EventHooksFML
 			{
 				MCA.destinyCenterPoint = null;
 				MCA.playerDataContainer = null;
-			}
-		}
-	}
-
-	@SideOnly(Side.CLIENT)
-	private void buildDestinyRoom()
-	{
-		EntityPlayer player = net.minecraft.client.Minecraft.getMinecraft().thePlayer;
-
-		if (player != null)
-		{
-			World world = player.worldObj;
-
-			Map<Point3D, BlockWithMeta> schemBlocks;
-
-			try 
-			{
-				schemBlocks = SchematicReader.readSchematic("/assets/mca/schematic/destiny-test.schematic"); 
-
-				for (Map.Entry<Point3D, BlockWithMeta> entry : schemBlocks.entrySet())
-				{
-					Point3D blockPoint = entry.getKey();
-					
-					//Align the player with the center of the room.
-					int x = blockPoint.iPosX + MCA.destinyCenterPoint.iPosX;
-					int y = blockPoint.iPosY + MCA.destinyCenterPoint.iPosY;
-					int z = blockPoint.iPosZ + MCA.destinyCenterPoint.iPosZ;
-
-					//Set the new blocks.
-					world.setBlock(x, y, z, entry.getValue().getBlock(), entry.getValue().getMeta(), 2);
-				}
-			}
-
-			catch (IOException e) 
-			{
-				ExceptHelper.logFatalCatch(e, "Unexpected exception while spawning destiny room.");
 			}
 		}
 	}
