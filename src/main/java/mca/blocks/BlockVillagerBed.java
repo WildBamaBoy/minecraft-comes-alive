@@ -16,6 +16,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
@@ -52,7 +53,7 @@ public class BlockVillagerBed extends BlockDirectional implements ITileEntityPro
 	{
 		if (worldObj.isRemote)
 		{
-			//TODO Say to player, "you cannot sleep in a villager's bed."
+			entityPlayer.addChatMessage(new ChatComponentText("You cannot sleep in a villager's bed."));
 		}
 
 		return true;
