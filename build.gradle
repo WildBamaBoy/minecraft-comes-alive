@@ -24,7 +24,7 @@ group= "com.radixshock"
 archivesBaseName = "MCA"
 
 minecraft {
-    version = "1.7.10-10.13.0.1180"
+    version = "1.7.10-10.13.2.1291"
     runDir =  "eclipse/"
     replaceIn "mca/core/Constants.java"
     replace   "@VERSION@", project.version
