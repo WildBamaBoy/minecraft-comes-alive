@@ -90,7 +90,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				removeCount = 2;
 			}
 
-			else if (item == Items.engagementRing || item == Items.roseGoldEngagementRing)
+			else if (item == Items.engagementRing || item == Items.roseGoldEngagementRing || item == Items.coloredRoseGoldEngagementRing || item == Items.coloredEngagementRing)
 			{
 				removeItem = handleEngagementRing(player, human);
 			}

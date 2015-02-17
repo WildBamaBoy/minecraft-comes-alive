@@ -3,6 +3,9 @@ package mca.core.minecraft;
 import mca.core.MCA;
 import mca.enums.EnumBedColor;
 import mca.items.ItemBaby;
+import mca.items.ItemColoredDiamond;
+import mca.items.ItemColoredEngagementRing;
+import mca.items.ItemColoredRoseGoldEngagementRing;
 import mca.items.ItemCrystalBall;
 import mca.items.ItemSpawnEgg;
 import mca.items.ItemVillagerBed;
@@ -29,6 +32,9 @@ public final class Items
 	public static ItemVillagerBed bedPink;
 	public static ItemCrystalBall crystalBall;
 	public static Item roseGoldIngot;
+	public static ItemColoredDiamond coloredDiamond;
+	public static ItemColoredEngagementRing coloredEngagementRing;
+	public static ItemColoredRoseGoldEngagementRing coloredRoseGoldEngagementRing;
 	
 	/*	public static final Item tombstone;
 	
@@ -62,5 +68,8 @@ public final class Items
 		bedPurple = new ItemVillagerBed(EnumBedColor.PURPLE);
 		bedPink = new ItemVillagerBed(EnumBedColor.PINK);
 		crystalBall = new ItemCrystalBall();
+		coloredDiamond = new ItemColoredDiamond();
+		coloredEngagementRing = new ItemColoredEngagementRing();
+		coloredRoseGoldEngagementRing = new ItemColoredRoseGoldEngagementRing();
 	}
 }

@@ -90,6 +90,7 @@ public class MCA
     	languageManager = new LanguageManager(ID, new LanguageParser());
     	packetHandler = new MCAPacketHandler(ID);
     	proxy.registerRenderers();
+    	proxy.registerEventHandlers();
     	playerDataMap = new HashMap<String, AbstractPlayerData>();
     	
     	ModMetadataEx exData = ModMetadataEx.getFromModMetadata(metadata);
@@ -134,6 +135,20 @@ public class MCA
     	GameRegistry.addRecipe(new ItemStack(Items.matchmakersRing),
     			"III", "I I", "III", 'I', net.minecraft.init.Items.iron_ingot);
     	
+		for (int i = 0; i < 16; ++i)
+		{
+			ItemStack diamond =  new ItemStack(Items.coloredDiamond, 1, i);
+			ItemStack engagementRing = new ItemStack(Items.coloredEngagementRing, 1, i);
+			ItemStack engagementRingRG = new ItemStack(Items.coloredRoseGoldEngagementRing, 1, i);
+			ItemStack dye = new ItemStack(net.minecraft.init.Items.dye, 1, i);
+			GameRegistry.addShapelessRecipe(diamond, dye, new ItemStack(net.minecraft.init.Items.diamond));
+
+	    	GameRegistry.addRecipe(engagementRing, 
+	    			"GDG", "G G", "GGG", 'D', diamond, 'G', net.minecraft.init.Items.gold_ingot);
+	    	GameRegistry.addRecipe(engagementRingRG, 
+	    			"GDG", "G G", "GGG", 'D', diamond, 'G', Items.roseGoldIngot);
+		}
+		
     	//Smeltings
     	GameRegistry.addSmelting(Blocks.roseGoldOre, new ItemStack(Items.roseGoldIngot), 5);
     }
