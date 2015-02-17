@@ -1,17 +1,19 @@
 package mca.packets;
 
 import io.netty.buffer.ByteBuf;
+import mca.core.MCA;
+import mca.data.PlayerData;
+import mca.data.PlayerMemory;
+import mca.entity.EntityHuman;
 import mca.enums.EnumDestinyChoice;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.management.PlayerManager;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.biome.BiomeGenOcean;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
-import radixcore.helpers.LogicHelper;
-import radixcore.helpers.MathHelper;
-import radixcore.math.Point3D;
 import radixcore.packets.AbstractPacket;
+import radixcore.util.SchematicHandler;
+
+import com.radixshock.radixcore.logic.LogicHelper;
+
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -44,8 +46,9 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 	@Override
 	public IMessage onMessage(PacketDestinyChoice packet, MessageContext context)
 	{
-		final EntityPlayerMP senderPlayer = (EntityPlayerMP)this.getPlayer(context);
-		final WorldServer world = (WorldServer)senderPlayer.worldObj;
+		final EntityPlayerMP player = (EntityPlayerMP)this.getPlayer(context);
+		final PlayerData data = MCA.getPlayerData(player);
+		final WorldServer world = (WorldServer)player.worldObj;
 		
 		if (packet.choice == EnumDestinyChoice.NONE)
 		{
@@ -58,7 +61,7 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 				{
 					for (int y = -5; y < 10; y++)
 					{
-						manager.markBlockForUpdate((int)senderPlayer.posX + x, (int)senderPlayer.posY + y, (int)senderPlayer.posZ + z);						
+						manager.markBlockForUpdate((int)player.posX + x, (int)player.posY + y, (int)player.posZ + z);						
 					}
 				}
 			}
@@ -66,23 +69,60 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 
 		else
 		{
-			Chunk newSpawnChunk = null;
-			int x, y, z = 0;
-
-			do
+			if (packet.choice == EnumDestinyChoice.FAMILY)
 			{
-				x = (int) (MathHelper.getNumberInRange(-4096, 4096) + (senderPlayer.posX / 2));
-				z = (int) (MathHelper.getNumberInRange(-4096, 4096) + (senderPlayer.posZ / 2));
-				y = LogicHelper.getSpawnSafeTopLevel(senderPlayer.worldObj, x, z);
+				SchematicHandler.spawnStructureRelativeToPlayer("/assets/mca/schematic/family.schematic", player);
+				
+				boolean isSpouseMale = data.genderPreference.getInt() == 0 ? true : data.genderPreference.getInt() == 2 ? false : world.rand.nextBoolean();
+				EntityHuman spouse = new EntityHuman(world, isSpouseMale);
+				spouse.setPosition(player.posX - 2, player.posY, player.posZ);
+				world.spawnEntityInWorld(spouse);
+				
+				PlayerMemory spouseMemory = spouse.getPlayerMemory(player);
+				spouse.setIsMarried(true, player);
+				spouseMemory.setHearts(100);
+				
+				int numChildren = LogicHelper.getNumberInRange(0, 2);
+				
+				while (numChildren > 0)
+				{
+					boolean isPlayerMale = data.isMale.getBoolean();
 
-				newSpawnChunk = senderPlayer.worldObj.getChunkFromChunkCoords(x >> 4, z >> 4);
+					String motherName = "N/A";
+					int motherId = 0;
+					String fatherName = "N/A";
+					int fatherId = 0;
+
+					if (isPlayerMale)
+					{
+						fatherName = player.getCommandSenderName();
+						fatherId = data.permanentId.getInt();
+						motherName = spouse.getName();
+						motherId = spouse.getPermanentId();
+					}
+
+					else
+					{
+						motherName = player.getCommandSenderName();
+						motherId = data.permanentId.getInt();
+						fatherName = spouse.getName();
+						fatherId = spouse.getPermanentId();
+					}
+
+					final EntityHuman child = new EntityHuman(world, LogicHelper.getBooleanWithProbability(50), true, motherName, fatherName, motherId, fatherId, true);
+					child.setPosition(player.posX + LogicHelper.getNumberInRange(1, 3), player.posY, player.posZ);
+					world.spawnEntityInWorld(child);
+					
+					PlayerMemory childMemory = child.getPlayerMemory(player);
+					childMemory.setHearts(100);
+					numChildren--;
+				}
 			}
-			while (newSpawnChunk.getBiomeGenForWorldCoords(x & 15, z & 13, senderPlayer.worldObj.getWorldChunkManager()) instanceof BiomeGenOcean);
-
-			final Point3D oldPoint = new Point3D(senderPlayer.posX, senderPlayer.posY, senderPlayer.posZ);
-			senderPlayer.setPositionAndUpdate(x, y, z);
 			
-			//TODO Build village/generate required elements for destiny choice.
+			else if (packet.choice == EnumDestinyChoice.ALONE)
+			{
+				SchematicHandler.spawnStructureRelativeToPlayer("/assets/mca/schematic/bachelor.schematic", player);				
+			}
 		}
 
 		return null;

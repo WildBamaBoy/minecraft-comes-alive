@@ -1,20 +1,13 @@
 package mca.core.forge;
 
-import java.io.IOException;
-import java.util.Map;
-
 import mca.core.MCA;
-import mca.core.TutorialManager;
-import mca.core.TutorialMessage;
+import mca.core.minecraft.Items;
 import mca.data.PlayerData;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.world.World;
-import radixcore.data.BlockObj;
-import radixcore.helpers.ExceptHelper;
-import radixcore.math.Point3D;
+import net.minecraft.item.ItemStack;
 import radixcore.packets.PacketDataContainer;
-import radixcore.util.SchematicHandler;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -24,6 +17,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class EventHooksFML 
 {
+	public static boolean playPortalAnimation;
+
 	@SubscribeEvent
 	public void onConfigChanges(ConfigChangedEvent.OnConfigChangedEvent eventArgs)
 	{
@@ -37,7 +32,8 @@ public class EventHooksFML
 	@SubscribeEvent
 	public void playerLoggedInEventHandler(PlayerLoggedInEvent event)
 	{
-		PlayerData data = new PlayerData(event.player);
+		EntityPlayer player = event.player;
+		PlayerData data = new PlayerData(player);
 
 		if (data.dataExists())
 		{
@@ -51,38 +47,36 @@ public class EventHooksFML
 
 		MCA.playerDataMap.put(event.player.getUniqueID().toString(), data);
 		MCA.getPacketHandler().sendPacketToPlayer(new PacketDataContainer(MCA.ID, data), (EntityPlayerMP)event.player);
+
+		if (!data.hasChosenDestiny.getBoolean() && !player.inventory.hasItem(Items.crystalBall))
+		{
+			player.inventory.addItemStackToInventory(new ItemStack(Items.crystalBall));
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void clientTickEventHandler(ClientTickEvent event)
-	{
+	{	
 		net.minecraft.client.Minecraft mc = net.minecraft.client.Minecraft.getMinecraft();
-		
-		if (mc.isIntegratedServerRunning())
+		net.minecraft.client.gui.GuiScreen currentScreen = mc.currentScreen;
+
+		if (currentScreen instanceof net.minecraft.client.gui.GuiMainMenu && MCA.playerDataContainer != null)
 		{
-			if (MCA.playerDataContainer != null)
+			playPortalAnimation = false;
+			MCA.destinyCenterPoint = null;
+			MCA.playerDataContainer = null;
+		}
+
+		if (playPortalAnimation)
+		{
+			EntityPlayerSP player = (EntityPlayerSP)mc.thePlayer;
+			player.prevTimeInPortal = player.timeInPortal;
+			player.timeInPortal -= 0.0125F;
+
+			if (player.timeInPortal <= 0.0F)
 			{
-				EntityPlayer player = mc.thePlayer;
-				PlayerData data = MCA.playerDataContainer.getPlayerData(PlayerData.class);
-
-				if (!data.hasChosenDestiny.getBoolean() && MCA.destinyCenterPoint == null)
-				{
-					MCA.destinyCenterPoint = new Point3D(player.posX - 1, player.posY, player.posZ);
-					player.setPositionAndRotation(Math.floor(player.posX) - 0.5F, player.posY, Math.floor(player.posZ), 180.0F, 0.0F);
-					TutorialManager.setTutorialMessage(new TutorialMessage("Right-click the enchantment table to begin.", ""));
-				}
-
-				if (!data.hasChosenDestiny.getBoolean() && player != null && MCA.destinyCenterPoint != null)
-				{
-					SchematicHandler.spawnStructureRelativeToPoint("/assets/mca/schematic/destiny-test.schematic", MCA.destinyCenterPoint, player.worldObj);
-				}
-			}
-
-			if (mc.currentScreen instanceof net.minecraft.client.gui.GuiMainMenu)
-			{
-				MCA.destinyCenterPoint = null;
-				MCA.playerDataContainer = null;
+				playPortalAnimation = false;
 			}
 		}
 	}

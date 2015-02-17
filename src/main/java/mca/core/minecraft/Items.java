@@ -3,6 +3,7 @@ package mca.core.minecraft;
 import mca.core.MCA;
 import mca.enums.EnumBedColor;
 import mca.items.ItemBaby;
+import mca.items.ItemCrystalBall;
 import mca.items.ItemSpawnEgg;
 import mca.items.ItemVillagerBed;
 import net.minecraft.item.Item;
@@ -26,6 +27,7 @@ public final class Items
 	public static ItemVillagerBed bedGreen;
 	public static ItemVillagerBed bedPurple;
 	public static ItemVillagerBed bedPink;
+	public static ItemCrystalBall crystalBall;
 	public static Item roseGoldIngot;
 	
 	/*	public static final Item tombstone;
@@ -59,5 +61,6 @@ public final class Items
 		bedGreen = new ItemVillagerBed(EnumBedColor.GREEN);
 		bedPurple = new ItemVillagerBed(EnumBedColor.PURPLE);
 		bedPink =new ItemVillagerBed(EnumBedColor.PINK);
+		crystalBall = new ItemCrystalBall();
 	}
 }
