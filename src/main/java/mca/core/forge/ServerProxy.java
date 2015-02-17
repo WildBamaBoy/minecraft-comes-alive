@@ -10,6 +10,11 @@ public class ServerProxy
 		//Server-side, no rendering.
 	}
 
+	public void registerEventHandlers()
+	{
+		
+	}
+	
 	public MCAPacketHandler registerPackets() 
 	{
     	MCAPacketHandler handler = new MCAPacketHandler(MCA.ID);
