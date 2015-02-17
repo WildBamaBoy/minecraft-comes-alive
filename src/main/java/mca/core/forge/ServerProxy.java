@@ -13,9 +13,6 @@ public class ServerProxy
 	public MCAPacketHandler registerPackets() 
 	{
     	MCAPacketHandler handler = new MCAPacketHandler(MCA.ID);
-    	
-    	
-    	
     	return handler;
 	}
 }

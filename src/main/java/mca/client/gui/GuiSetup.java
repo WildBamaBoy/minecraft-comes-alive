@@ -9,6 +9,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
@@ -50,7 +51,7 @@ public class GuiSetup extends GuiScreen
 	public void updateScreen()
 	{
 		super.updateScreen();
-		
+
 		if (page == 3 && nameTextField != null)
 		{
 			nameTextField.updateCursorCounter();
@@ -73,18 +74,18 @@ public class GuiSetup extends GuiScreen
 		{
 			drawCenteredString(fontRendererObj, "Are you a male, or a female?", width / 2, 120, 0xffffff);
 		}
-		
+
 		else if (page == 2)
 		{
 			drawCenteredString(fontRendererObj, "Which do you prefer?", width / 2, 120, 0xffffff);
 		}
-		
+
 		else if (page == 3 && nameTextField != null)
 		{
 			drawCenteredString(fontRendererObj, "What is your name?", width / 2, 100, 0xffffff);
 			nameTextField.drawTextBox();
 		}
-		
+
 		else if (page == 4)
 		{
 			drawCenteredString(fontRendererObj, "Choose your destiny...", width / 2, 70, 0xffffff);
@@ -107,7 +108,7 @@ public class GuiSetup extends GuiScreen
 		{
 			Minecraft.getMinecraft().displayGuiScreen(null);
 		}
-		
+
 		else
 		{
 			if (page == 3)
@@ -121,7 +122,7 @@ public class GuiSetup extends GuiScreen
 	protected void mouseClicked(int clickX, int clickY, int clicked)
 	{
 		super.mouseClicked(clickX, clickY, clicked);
-		
+
 		if (page == 3 && nameTextField != null)
 		{
 			nameTextField.mouseClicked(clickX, clickY, clicked);
@@ -144,7 +145,7 @@ public class GuiSetup extends GuiScreen
 		default:
 			page = 1;
 		}
-		
+
 		switch (button.id)
 		{
 		case 1: data.isMale.setValue(true); break;
@@ -152,7 +153,18 @@ public class GuiSetup extends GuiScreen
 		case 3: data.genderPreference.setValue(0); break;
 		case 4: data.genderPreference.setValue(1); break;
 		case 5: data.genderPreference.setValue(2); break;
-		case 6: data.mcaName.setValue(nameTextField.getText()); break;
+		case 6: 
+			data.mcaName.setValue(nameTextField.getText());
+
+			if (!Minecraft.getMinecraft().isIntegratedServerRunning()) 
+			{
+				setDestinyComplete();
+				mc.displayGuiScreen(null);
+				MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.NONE));
+			}
+			
+			break;
+			
 		case 7: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.FAMILY)); break;
 		case 8: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.ALONE)); break;
 		case 9: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.VILLAGE)); break;
@@ -182,7 +194,7 @@ public class GuiSetup extends GuiScreen
 			buttonList.add(new GuiButton(4, width / 2 - 32, height / 2 + 10, 65, 20, Color.GREEN + "Either"));
 			buttonList.add(new GuiButton(5, width / 2 + 33, height / 2 + 10, 65, 20, Color.LIGHTPURPLE + "Females"));
 		}
-		
+
 		else if (page == 3)
 		{
 			if (nameTextField == null)
@@ -190,23 +202,23 @@ public class GuiSetup extends GuiScreen
 				nameTextField = new GuiTextField(fontRendererObj, width / 2 - 100, height / 2 - 5, 200, 20);
 				nameTextField.setText(player.getCommandSenderName());
 			}
-			
+
 			GuiButton doneButton = new GuiButton(6, width / 2 - 32, height / 2 + 30, 65, 20, "Done");
 			doneButton.enabled = !nameTextField.getText().trim().isEmpty();
 			buttonList.add(doneButton);
 		}
-		
+
 		else if (page == 4)
 		{
 			buttonList.add(new GuiButton(7, width / 2 - 46, height / 2 - 40, 95, 20, "I have a family."));
 			buttonList.add(new GuiButton(8, width / 2 - 46, height / 2 - 20, 95, 20, "I live alone."));
 			buttonList.add(new GuiButton(9, width / 2 - 46, height / 2 + 0, 95, 20, "I live in a village."));
 			buttonList.add(new GuiButton(10, width / 2 - 46, height / 2 + 20, 95, 20, "None of these."));
-			
+
 			((GuiButton)buttonList.get(2)).enabled = false;
 		}
 	}
-	
+
 	private void setDestinyComplete()
 	{
 		PlayerData data = MCA.playerDataContainer.getPlayerData(PlayerData.class);

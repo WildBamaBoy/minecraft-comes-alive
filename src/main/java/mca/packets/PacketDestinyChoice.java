@@ -9,11 +9,10 @@ import mca.enums.EnumDestinyChoice;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.management.PlayerManager;
 import net.minecraft.world.WorldServer;
+import radixcore.helpers.LogicHelper;
+import radixcore.helpers.MathHelper;
 import radixcore.packets.AbstractPacket;
 import radixcore.util.SchematicHandler;
-
-import com.radixshock.radixcore.logic.LogicHelper;
-
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -82,7 +81,7 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 				spouse.setIsMarried(true, player);
 				spouseMemory.setHearts(100);
 				
-				int numChildren = LogicHelper.getNumberInRange(0, 2);
+				int numChildren = MathHelper.getNumberInRange(0, 2);
 				
 				while (numChildren > 0)
 				{
@@ -110,7 +109,7 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 					}
 
 					final EntityHuman child = new EntityHuman(world, LogicHelper.getBooleanWithProbability(50), true, motherName, fatherName, motherId, fatherId, true);
-					child.setPosition(player.posX + LogicHelper.getNumberInRange(1, 3), player.posY, player.posZ);
+					child.setPosition(player.posX + MathHelper.getNumberInRange(1, 3), player.posY, player.posZ);
 					world.spawnEntityInWorld(child);
 					
 					PlayerMemory childMemory = child.getPlayerMemory(player);

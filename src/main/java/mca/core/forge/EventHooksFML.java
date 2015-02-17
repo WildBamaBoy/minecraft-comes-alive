@@ -11,6 +11,7 @@ import radixcore.packets.PacketDataContainer;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -44,7 +45,7 @@ public class EventHooksFML
 		{
 			data.initializeNewData(event.player);
 		}
-
+		
 		MCA.playerDataMap.put(event.player.getUniqueID().toString(), data);
 		MCA.getPacketHandler().sendPacketToPlayer(new PacketDataContainer(MCA.ID, data), (EntityPlayerMP)event.player);
 
@@ -54,6 +55,17 @@ public class EventHooksFML
 		}
 	}
 
+	@SubscribeEvent
+	public void playerLoggedOutEventHandler(PlayerLoggedOutEvent event)
+	{
+		PlayerData data = MCA.getPlayerData(event.player);
+		
+		if (data != null)
+		{
+			data.saveDataToFile();
+		}
+	}
+	
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void clientTickEventHandler(ClientTickEvent event)

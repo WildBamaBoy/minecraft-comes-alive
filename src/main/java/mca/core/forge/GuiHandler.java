@@ -1,6 +1,7 @@
 package mca.core.forge;
 
 import mca.client.gui.GuiNameBaby;
+import mca.client.gui.GuiSetup;
 import mca.core.Constants;
 import mca.entity.EntityHuman;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,7 +28,8 @@ public class GuiHandler implements IGuiHandler
 		{
 		case Constants.GUI_ID_NAMEBABY:
 			return new GuiNameBaby(player, false);
-		
+		case Constants.GUI_ID_SETUP:
+			return new GuiSetup(player);
 		default: return null;
 		}
 	}

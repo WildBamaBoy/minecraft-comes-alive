@@ -47,35 +47,7 @@ public class EventHooksForge
 	{
 		TutorialManager.onUpdate();
 	}
-	
-	@SubscribeEvent
-	public void playerInteractEventHandler(PlayerInteractEvent event)
-	{
-		if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
-		{
-			if (event.entityPlayer.riddenByEntity instanceof EntityHuman)
-			{
-				event.entityPlayer.riddenByEntity.mountEntity(null);
-			}
-			
-			else if (event.entityPlayer.worldObj.isRemote)
-			{
-				Block block = event.entityPlayer.worldObj.getBlock(event.x, event.y, event.z);
-				
-				if (block instanceof BlockEnchantmentTable)
-				{
-					PlayerData data = MCA.getPlayerData(event.entityPlayer);
-					
-					if (!data.hasChosenDestiny.getBoolean())
-					{
-						event.setCanceled(true);
-						Minecraft.getMinecraft().displayGuiScreen(new GuiSetup(event.entityPlayer));
-					}
-				}
-			}
-		}
-	}
-	
+
 	private void doAddMobTasks(EntityMob mob)
 	{
 		if (mob instanceof EntityEnderman)

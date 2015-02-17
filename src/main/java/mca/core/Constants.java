@@ -10,6 +10,7 @@ import net.minecraft.init.Items;
 public final class Constants 
 {
 	public static final int GUI_ID_NAMEBABY = 1;
+	public static final int GUI_ID_SETUP = 2;
 	
 	public static final float SPEED_SNEAK = 0.4F;
 	public static final float SPEED_WALK = 0.6F;

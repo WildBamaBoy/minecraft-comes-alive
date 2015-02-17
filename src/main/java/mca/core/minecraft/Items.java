@@ -60,7 +60,7 @@ public final class Items
 		bedBlue = new ItemVillagerBed(EnumBedColor.BLUE);
 		bedGreen = new ItemVillagerBed(EnumBedColor.GREEN);
 		bedPurple = new ItemVillagerBed(EnumBedColor.PURPLE);
-		bedPink =new ItemVillagerBed(EnumBedColor.PINK);
+		bedPink = new ItemVillagerBed(EnumBedColor.PINK);
 		crystalBall = new ItemCrystalBall();
 	}
 }

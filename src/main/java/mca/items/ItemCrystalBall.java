@@ -1,5 +1,6 @@
 package mca.items;
 
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.TutorialManager;
 import mca.core.TutorialMessage;
@@ -8,6 +9,7 @@ import mca.data.PlayerData;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import radixcore.data.DataWatcherEx;
 import radixcore.item.ItemSingle;
@@ -47,11 +49,19 @@ public class ItemCrystalBall extends ItemSingle
 			{
 				spawnDestinyRoom(player);
 			}
+			
+			else if (!mc.isIntegratedServerRunning())
+			{
+				player.openGui(MCA.getInstance(), Constants.GUI_ID_SETUP, world, (int)player.posX, (int)player.posY, (int)player.posZ);
+			}
 		}
 		
 		else
 		{
-			world.playSoundAtEntity(player, "portal.travel", 0.8F, 1.0F);
+			if (!MinecraftServer.getServer().isDedicatedServer())
+			{
+				world.playSoundAtEntity(player, "portal.travel", 0.8F, 1.0F);
+			}
 		}
 		
 		player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
