@@ -1,6 +1,10 @@
 package radixcore.packets;
 
 import io.netty.buffer.ByteBuf;
+import mca.core.MCA;
+import mca.data.PlayerData;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import radixcore.ModMetadataEx;
 import radixcore.RadixCore;
 import radixcore.data.AbstractPlayerData;
@@ -62,6 +66,7 @@ public class PacketWatchedUpdateS extends AbstractPacket implements IMessage, IM
 	{
 		try
 		{
+			EntityPlayer player = this.getPlayer(context);
 			IWatchable watchable = null;
 
 			if (packet.modId != null)
@@ -78,14 +83,22 @@ public class PacketWatchedUpdateS extends AbstractPacket implements IMessage, IM
 
 				if (modData != null)
 				{
-					DataContainer container = ReflectHelper.getStaticObjectOfTypeFromClass(DataContainer.class, modData.classContainingClientDataContainer);
-					watchable = container.getPlayerData(AbstractPlayerData.class);
+					if (!MinecraftServer.getServer().isDedicatedServer())
+					{
+						DataContainer container = ReflectHelper.getStaticObjectOfTypeFromClass(DataContainer.class, modData.classContainingClientDataContainer);
+						watchable = container.getPlayerData(AbstractPlayerData.class);
+					}
+
+					else
+					{
+						watchable = MCA.getPlayerData(player);
+					}
 				}
 			}
 
 			else
 			{
-				watchable = (IWatchable)this.getPlayer(context).worldObj.getEntityByID(packet.entityId);
+				watchable = (IWatchable)player.worldObj.getEntityByID(packet.entityId);
 			}
 
 			if (watchable != null)
