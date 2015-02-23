@@ -25,8 +25,8 @@ public final class Blocks
 		bedPink = new BlockVillagerBed(EnumBedColor.PINK);
 		bedPurple = new BlockVillagerBed(EnumBedColor.PURPLE);
 		
-		roseGoldBlock = new BlockOre().setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockName("roseGoldBlock").setBlockTextureName("mca:roseGoldBlock").setCreativeTab(MCA.getCreativeTab());
-		roseGoldOre = new BlockOre().setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockName("roseGoldOre").setBlockTextureName("mca:RoseGoldOre").setCreativeTab(MCA.getCreativeTab());
+		roseGoldBlock = new BlockOre().setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockName("roseGoldBlock").setBlockTextureName("mca:roseGoldBlock").setCreativeTab(MCA.getCreativeTabMain());
+		roseGoldOre = new BlockOre().setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockName("roseGoldOre").setBlockTextureName("mca:RoseGoldOre").setCreativeTab(MCA.getCreativeTabMain());
 
 		GameRegistry.registerBlock(roseGoldBlock, roseGoldBlock.getUnlocalizedName());
 		GameRegistry.registerBlock(roseGoldOre, roseGoldOre.getUnlocalizedName());
