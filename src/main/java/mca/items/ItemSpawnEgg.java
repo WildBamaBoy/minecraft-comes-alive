@@ -20,7 +20,7 @@ public class ItemSpawnEgg extends Item
 		final String itemName = isMale ? "EggMale" : "EggFemale";
 
 		this.isMale = isMale;
-		this.setCreativeTab(MCA.getCreativeTab());
+		this.setCreativeTab(MCA.getCreativeTabMain());
 		this.setMaxStackSize(1);
 		this.setUnlocalizedName(itemName);
 		this.setTextureName("mca:" + itemName);

@@ -79,7 +79,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			boolean removeItem = false;
 			int removeCount = 1;
 
-			if (item == Items.weddingRing || item == Items.roseGoldWeddingRing)
+			if (item == Items.weddingRing || item == Items.weddingRingRG)
 			{
 				removeItem = handleWeddingRing(player, human);
 			}
@@ -90,7 +90,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				removeCount = 2;
 			}
 
-			else if (item == Items.engagementRing || item == Items.roseGoldEngagementRing || item == Items.coloredRoseGoldEngagementRing || item == Items.coloredEngagementRing)
+			else if (item == Items.engagementRing || item == Items.weddingRingRG || item == Items.coloredEngagementRingRG || item == Items.coloredEngagementRing)
 			{
 				removeItem = handleEngagementRing(player, human);
 			}

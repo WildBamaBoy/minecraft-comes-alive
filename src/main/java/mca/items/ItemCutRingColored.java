@@ -1,29 +1,25 @@
 package mca.items;
 
-import java.util.List;
-
 import mca.core.MCA;
+import mca.enums.EnumCut;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
-import radixcore.constant.Color16;
 import radixcore.item.ItemColorable;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemColoredEngagementRing extends ItemColorable
+public class ItemCutRingColored extends ItemColorable
 {
+	private EnumCut cut;
 	private boolean isRoseGold;
-	private IIcon[] icons = new IIcon[2];
-
-	public ItemColoredEngagementRing(boolean isRoseGold)
+	private IIcon[] icons = new IIcon[3];
+	
+	public ItemCutRingColored(EnumCut cut, boolean isRoseGold)
 	{
-		final String name = isRoseGold ? "ColoredEngagementRingRG" : "ColoredEngagementRing";
+		String name = "Ring" + cut.toString() + "Colored";
+		name += isRoseGold ? "RG" : "";
 		
+		this.cut = cut;
 		this.isRoseGold = isRoseGold;
 		this.setHasSubtypes(true);
 		this.setMaxDamage(0);
@@ -50,15 +46,24 @@ public class ItemColoredEngagementRing extends ItemColorable
 	@Override
 	public IIcon getIconFromDamageForRenderPass(int damage, int pass) 
 	{
-		return icons[pass];
+		if (pass == 1)
+		{
+			return icons[isRoseGold ? 2 : 1];
+		}
+		
+		else
+		{
+			return icons[0];
+		}
 	}
 
 	@Override
 	public void registerIcons(IIconRegister iconRegister) 
 	{
-		final String name = isRoseGold ? "ColoredEngagementRingRG" : "ColoredEngagementRing";
+		String name = "Ring" + cut.toString() + "Colored";
 		
 		icons[0] = iconRegister.registerIcon("mca:" + name);
-		icons[1] = iconRegister.registerIcon(isRoseGold ? "mca:RingBottomRG" : "mca:RingBottom");
+		icons[1] = iconRegister.registerIcon("mca:RingCutBottom");
+		icons[2] = iconRegister.registerIcon("mca:RingCutBottomRG");
 	}
 }

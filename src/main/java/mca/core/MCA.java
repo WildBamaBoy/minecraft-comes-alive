@@ -63,7 +63,8 @@ public class MCA
 	private static Items items;
 	private static Blocks blocks;
 	private static Achievements achievements;
-	private static CreativeTabs creativeTab;
+	private static CreativeTabs creativeTabMain;
+	private static CreativeTabs creativeTabGemCutting;
 	private static Config config;
 	private static LanguageManager languageManager;
 	private static MCAPacketHandler packetHandler;
@@ -108,7 +109,8 @@ public class MCA
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-    	creativeTab = StartupHelper.registerCreativeTab(Items.class, "engagementRing", metadata);
+    	creativeTabMain = StartupHelper.registerCreativeTab(Items.class, "engagementRing", metadata);
+    	creativeTabGemCutting = StartupHelper.registerCreativeTab(Items.class, "diamondHeart", metadata);
     	items = new Items();
     	blocks = new Blocks();
     	achievements = new Achievements();
@@ -124,11 +126,11 @@ public class MCA
     	//Recipes
     	GameRegistry.addRecipe(new ItemStack(Items.engagementRing), 
     			"GDG", "G G", "GGG", 'D', net.minecraft.init.Items.diamond, 'G', net.minecraft.init.Items.gold_ingot);
-    	GameRegistry.addRecipe(new ItemStack(Items.roseGoldEngagementRing), 
+    	GameRegistry.addRecipe(new ItemStack(Items.engagementRingRG), 
     			"GDG", "G G", "GGG", 'D', net.minecraft.init.Items.diamond, 'G', Items.roseGoldIngot);
     	GameRegistry.addRecipe(new ItemStack(Items.weddingRing),
     			"GGG", "G G", "GGG", 'G', net.minecraft.init.Items.gold_ingot);
-    	GameRegistry.addRecipe(new ItemStack(Items.roseGoldWeddingRing),
+    	GameRegistry.addRecipe(new ItemStack(Items.weddingRingRG),
     			"GGG", "G G", "GGG", 'G', Items.roseGoldIngot);
     	GameRegistry.addRecipe(new ItemStack(Blocks.roseGoldBlock),
     			"GGG", "GGG", "GGG", 'G', Items.roseGoldIngot);
@@ -139,8 +141,9 @@ public class MCA
 		{
 			ItemStack diamond =  new ItemStack(Items.coloredDiamond, 1, i);
 			ItemStack engagementRing = new ItemStack(Items.coloredEngagementRing, 1, i);
-			ItemStack engagementRingRG = new ItemStack(Items.coloredRoseGoldEngagementRing, 1, i);
+			ItemStack engagementRingRG = new ItemStack(Items.coloredEngagementRingRG, 1, i);
 			ItemStack dye = new ItemStack(net.minecraft.init.Items.dye, 1, i);
+			
 			GameRegistry.addShapelessRecipe(diamond, dye, new ItemStack(net.minecraft.init.Items.diamond));
 
 	    	GameRegistry.addRecipe(engagementRing, 
@@ -184,9 +187,14 @@ public class MCA
 		return metadata;
 	}
 	
-	public static CreativeTabs getCreativeTab()
+	public static CreativeTabs getCreativeTabMain()
 	{
-		return creativeTab;
+		return creativeTabMain;
+	}
+	
+	public static CreativeTabs getCreativeTabGemCutting()
+	{
+		return creativeTabGemCutting;
 	}
 	
 	public static LanguageManager getLanguageManager()

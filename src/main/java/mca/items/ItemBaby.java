@@ -30,7 +30,7 @@ public class ItemBaby extends Item
 		final String itemName = isBoy ? "BabyBoy" : "BabyGirl";
 
 		this.isBoy = isBoy;
-		this.setCreativeTab(MCA.getCreativeTab());
+		this.setCreativeTab(MCA.getCreativeTabMain());
 		this.setMaxStackSize(1);
 		this.setUnlocalizedName(itemName);
 		this.setTextureName("mca:" + itemName);

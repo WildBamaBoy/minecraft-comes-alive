@@ -25,7 +25,7 @@ public class ItemVillagerBed extends Item
 		final String itemName = "ItemVillagerBed" + color.toString();
 		
 		this.color = color;
-		this.setCreativeTab(MCA.getCreativeTab());
+		this.setCreativeTab(MCA.getCreativeTabMain());
 		this.setMaxStackSize(1);
 		this.setUnlocalizedName(itemName);
 		this.setTextureName("mca:" + itemName);
