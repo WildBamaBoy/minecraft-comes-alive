@@ -265,9 +265,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			if (!isInteracting.getBoolean())
 			{
-				getAI(AIBuild.class).startBuilding("/assets/mca/schematic/family.schematic");
-				//MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId()), (EntityPlayerMP) player);
-				//isInteracting.setValue(true);
+				MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId()), (EntityPlayerMP) player);
+				isInteracting.setValue(true);
 			}
 
 			else
