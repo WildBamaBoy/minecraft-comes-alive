@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mca.ai.AIBlink;
+import mca.ai.AIBuild;
 import mca.ai.AIConverse;
 import mca.ai.AIEat;
 import mca.ai.AIFollow;
@@ -145,6 +146,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		aiManager.addAI(new AIMood(this));
 		aiManager.addAI(new AIConverse(this));
 		aiManager.addAI(new AIBlink(this));
+		aiManager.addAI(new AIBuild(this));
 
 		addAI();
 
@@ -263,8 +265,9 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			if (!isInteracting.getBoolean())
 			{
-				MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId()), (EntityPlayerMP) player);
-				isInteracting.setValue(true);
+				getAI(AIBuild.class).startBuilding("/assets/mca/schematic/family.schematic");
+				//MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId()), (EntityPlayerMP) player);
+				//isInteracting.setValue(true);
 			}
 
 			else
