@@ -14,6 +14,7 @@ import mca.ai.AIGreet;
 import mca.ai.AIGrow;
 import mca.ai.AIIdle;
 import mca.ai.AIManager;
+import mca.ai.AIMining;
 import mca.ai.AIMood;
 import mca.ai.AIPatrol;
 import mca.ai.AIProcreate;
@@ -52,6 +53,7 @@ import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
@@ -94,13 +96,13 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	private final WatchedFloat scaleHeight;
 	private final WatchedFloat scaleGirth;
 	private final WatchedBoolean doDisplay;
+	private final WatchedBoolean isSwinging;
 
 	@SideOnly(Side.CLIENT)
 	public boolean displayNameForPlayer;
 
-	//Server-side only
 	protected int ticksAlive;
-
+	protected int swingProgressTicks;
 	protected AIManager aiManager;
 	protected Map<String, PlayerMemory> playerMemories;
 	protected DataWatcherEx dataWatcherEx;
@@ -130,6 +132,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		scaleHeight = new WatchedFloat(MathHelper.getNumberInRange(-0.03F, 0.18F), WatcherIDsHuman.HEIGHT, dataWatcherEx);
 		scaleGirth = new WatchedFloat(MathHelper.getNumberInRange(-0.01F, 0.5F), WatcherIDsHuman.GIRTH, dataWatcherEx);
 		doDisplay = new WatchedBoolean(false, WatcherIDsHuman.DO_DISPLAY, dataWatcherEx);
+		isSwinging = new WatchedBoolean(false, WatcherIDsHuman.IS_SWINGING, dataWatcherEx);
 
 		aiManager = new AIManager(this);
 		aiManager.addAI(new AIIdle(this));
@@ -147,7 +150,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		aiManager.addAI(new AIConverse(this));
 		aiManager.addAI(new AIBlink(this));
 		aiManager.addAI(new AIBuild(this));
-
+		aiManager.addAI(new AIMining(this));
+		
 		addAI();
 
 		if (!worldObj.isRemote)
@@ -256,6 +260,35 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 				}
 			}
 		}
+		
+		else
+		{
+			updateSwinging();
+		}
+	}
+
+	private void updateSwinging()
+	{
+		if (isSwinging.getBoolean())
+		{
+			swingProgressTicks++;
+
+			if (swingProgressTicks >= 8)
+			{
+				swingProgressTicks = 0;
+				
+				DataWatcherEx.allowClientSideModification = true;
+				isSwinging.setValue(false);
+				DataWatcherEx.allowClientSideModification = false;
+			}
+		}
+
+		else
+		{
+			swingProgressTicks = 0;
+		}
+
+		swingProgress = (float) swingProgressTicks / (float) 8;
 	}
 
 	@Override
@@ -349,6 +382,16 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	}
 
 	@Override
+	public void swingItem()
+	{
+		if (!isSwinging.getBoolean() || swingProgressTicks >= 8 / 2 || swingProgressTicks < 0)
+		{
+			swingProgressTicks = -1;
+			isSwinging.setValue(true);
+		}
+	}
+
+	@Override
 	protected String getLivingSound()
 	{
 		return null;
@@ -373,7 +416,9 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		if (!worldObj.isRemote)
 		{
+			aiManager.disableAllToggleAIs();
 			getAI(AISleep.class).transitionSkinState(true);
+			
 			if (isMarriedToAPlayer())
 			{
 				EntityPlayer playerPartner = getPlayerSpouse();
