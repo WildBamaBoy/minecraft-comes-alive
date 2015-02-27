@@ -4,30 +4,36 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
 import mca.enums.EnumMovementState;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.data.BlockObj;
+import radixcore.data.WatchedBoolean;
 import radixcore.helpers.LogicHelper;
 import radixcore.math.Point3D;
 import radixcore.util.SchematicHandler;
 
-public class AIBuild extends AbstractAI
+public class AIBuild extends AbstractToggleAI
 {
 	private Map<Point3D, BlockObj> schematicMap;
 	private List<Point3D> blockPoints;
 	private List<Point3D> torchPoints;
 	private Point3D origin;
-
+	private WatchedBoolean isAIActive;
+	
 	private String schematicName = "none";
 	private int interval = 20;
 	private int index = -1;
-
+	private Block groundBlock;
+	
 	public AIBuild(EntityHuman owner) 
 	{
 		super(owner);
 		origin = new Point3D(0, 0, 0);
+		isAIActive = new WatchedBoolean(false, WatcherIDsHuman.IS_BUILDING_ACTIVE, owner.getDataWatcherEx());
 	}
 
 	@Override
@@ -49,8 +55,9 @@ public class AIBuild extends AbstractAI
 
 			if (interval <= 0)
 			{
-				interval = 1;
-
+				interval = 20;
+				owner.swingItem();
+				
 				for (int i = 0; i < 10; i++)
 				{
 					//Building the main schematic is complete once index is too high. Now place the torches and finish.
@@ -73,7 +80,16 @@ public class AIBuild extends AbstractAI
 						final BlockObj blockObj = schematicMap.get(point);
 
 						index++;
-						owner.worldObj.setBlock(origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, blockObj.getBlock(), blockObj.getMeta(), 2);
+						
+						if (blockObj.getBlock() == Blocks.grass && groundBlock != null)
+						{
+							owner.worldObj.setBlock(origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, groundBlock, 0, 2);							
+						}
+						
+						else
+						{
+							owner.worldObj.setBlock(origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, blockObj.getBlock(), blockObj.getMeta(), 2);
+						}
 					}
 				}
 			}
@@ -83,10 +99,12 @@ public class AIBuild extends AbstractAI
 	@Override
 	public void reset() 
 	{
+		setIsActive(false);
 		schematicMap = null;
 		origin = new Point3D(0, 0, 0);
 		blockPoints.clear();
 		torchPoints.clear();
+		groundBlock = null;
 
 		schematicName = "none";
 		index = -1; //-1 index indicates building is not taking place.
@@ -125,12 +143,12 @@ public class AIBuild extends AbstractAI
 	 * Begins building the specified schematic if possible for this area.
 	 * 
 	 * @param 	schematicLocation	The location of the schematic to place in the world.
+	 * @param	doTopDown			Whether or not the schematic should be built from the top down.
 	 * 
 	 * @return	True if the building can begin. False if otherwise.
 	 */
-	public boolean startBuilding(String schematicLocation)
+	public boolean startBuilding(String schematicLocation, boolean doTopDown)
 	{
-		//Check that we are not underground, and no planks are nearby as a method for checking for houses.
 		if (LogicHelper.getNearbyBlocks(owner, Blocks.planks, 10).size() != 0)
 		{
 			return false;
@@ -138,15 +156,22 @@ public class AIBuild extends AbstractAI
 
 		else
 		{
+			this.origin = new Point3D(owner.posX, owner.posY + 1, owner.posZ);
+			this.owner.setMovementState(EnumMovementState.STAY);
+			
 			primeSchematic(schematicLocation);
 
-			origin = new Point3D(owner.posX, owner.posY + 1, owner.posZ);
-			owner.setMovementState(EnumMovementState.STAY);
-
+			setIsActive(true);
 			return true;
 		}
 	}
 
+	public boolean startBuilding(String schematicLocation, boolean doTopDown, Block groundBlock)
+	{
+		this.groundBlock = groundBlock;
+		return startBuilding(schematicLocation, doTopDown);
+	}
+	
 	private void primeSchematic(String schematicLocation)
 	{
 		schematicName = schematicLocation;
@@ -164,6 +189,7 @@ public class AIBuild extends AbstractAI
 			
 			while (compareY < 25)
 			{
+				
 				if (schematicMap.get(point).getBlock() == Blocks.torch)
 				{
 					torchPoints.add(point);
@@ -177,5 +203,17 @@ public class AIBuild extends AbstractAI
 				compareY++;
 			}
 		}
+	}
+
+	@Override
+	public void setIsActive(boolean value) 
+	{
+		isAIActive.setValue(value);
+	}
+
+	@Override
+	public boolean getIsActive() 
+	{
+		return isAIActive.getBoolean();
 	}
 }

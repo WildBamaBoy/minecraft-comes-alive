@@ -27,16 +27,21 @@ public class AIManager
 	{
 		for (final AbstractAI AI : AIList)
 		{
-			AI.onUpdateCommon();
-			
-			if (owner.worldObj.isRemote)
+			boolean doRun = AI instanceof AbstractToggleAI ? ((AbstractToggleAI)AI).getIsActive() : true;
+
+			if (doRun)
 			{
-				AI.onUpdateClient();
-			}
-			
-			else
-			{
-				AI.onUpdateServer();
+				AI.onUpdateCommon();
+
+				if (owner.worldObj.isRemote)
+				{
+					AI.onUpdateClient();
+				}
+
+				else
+				{
+					AI.onUpdateServer();
+				}
 			}
 		}
 	}
@@ -48,7 +53,7 @@ public class AIManager
 			AI.writeToNBT(nbt);
 		}
 	}
-	
+
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		for (final AbstractAI AI : AIList)
@@ -56,7 +61,7 @@ public class AIManager
 			AI.readFromNBT(nbt);
 		}
 	}
-	
+
 	public <T extends AbstractAI> T getAI(Class<T> clazz)
 	{
 		for (final AbstractAI AI : AIList)
@@ -68,5 +73,17 @@ public class AIManager
 		}
 
 		return null;
+	}
+	
+	public void disableAllToggleAIs()
+	{
+		for (final AbstractAI AI : AIList)
+		{
+			if (AI instanceof AbstractToggleAI)
+			{
+				AbstractToggleAI TAI = (AbstractToggleAI) AI;
+				TAI.setIsActive(false);
+			}
+		}
 	}
 }
