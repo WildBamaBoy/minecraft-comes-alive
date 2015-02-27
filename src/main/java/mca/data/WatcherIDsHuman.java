@@ -41,11 +41,11 @@ public class WatcherIDsHuman
 	public static final int IS_ENGAGED = 37;
 	public static final int DO_DISPLAY = 38;
 	public static final int IS_PROCREATING = 39;
-	public static final int UNUSED_40 = 40;
-	public static final int UNUSED_41 = 41;
-	public static final int UNUSED_42 = 42;
-	public static final int UNUSED_43 = 43;
-	public static final int UNUSED_44 = 44;
-	public static final int UNUSED_45 = 45;
+	public static final int IS_MINING_ACTIVE = 40;
+	public static final int IS_BUILDING_ACTIVE = 41;
+	public static final int IS_FARMING_ACTIVE = 42;
+	public static final int IS_FISHING_ACTIVE = 43;
+	public static final int IS_WOODCUTTING_ACTIVE = 44;
+	public static final int IS_SWINGING = 45;
 	public static final int UNUSED_46 = 46;
 }

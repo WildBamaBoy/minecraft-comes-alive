@@ -395,6 +395,13 @@ conversation2.progress3=Well, that was rude!
 conversation2.progress4=*Somebody* woke up on the wrong side of the bed today.
 
 #################
+# AI Messages
+################################
+mining.search.none=There's no %a1% nearby.
+mining.search.nearby=There's some %a1% nearby...
+mining.search.value=There's some %a1% %a2% blocks away.
+
+#################
 # GUI
 ################################
 gui.button.done=Done

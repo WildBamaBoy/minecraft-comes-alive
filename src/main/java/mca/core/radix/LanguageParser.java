@@ -49,6 +49,16 @@ public class LanguageParser extends AbstractLanguageParser
 				{
 					unparsedPhrase = unparsedPhrase.replace("%PlayerName%", memory.getPlayerName());					
 				}
+				
+				else if (unparsedPhrase.contains("%a1%"))
+				{
+					unparsedPhrase = unparsedPhrase.replace("%a1%", arguments[0].toString());
+				}
+				
+				else if (unparsedPhrase.contains("%a2%"))
+				{
+					unparsedPhrase = unparsedPhrase.replace("%a2%", arguments[1].toString());					
+				}
 			}
 
 			catch (Exception e)
