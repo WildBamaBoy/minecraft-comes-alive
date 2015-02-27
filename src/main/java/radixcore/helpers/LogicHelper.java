@@ -257,6 +257,22 @@ public final class LogicHelper
 		return null;
 	}
 
+	public static List<Point3D> getNearbyBlocksWithMetadata(Entity entity, Block block, int meta, int maxDistanceAway)
+	{
+		List<Point3D> nearbyBlocks = getNearbyBlocks(entity, block, maxDistanceAway);
+		List<Point3D> returnList = new ArrayList<Point3D>();
+		
+		for (Point3D point : nearbyBlocks)
+		{
+			if (entity.worldObj.getBlockMetadata(point.iPosX, point.iPosY, point.iPosZ) == meta)
+			{
+				returnList.add(point);
+			}
+		}
+		
+		return returnList;
+	}
+	
 	public static List<Point3D> getNearbyBlocks(Entity entity, Block block, int maxDistanceAway)
 	{
 		final int x = (int) entity.posX;
@@ -381,6 +397,21 @@ public final class LogicHelper
 		}
 		
 		return returnList;
+	}
+	
+	public static EntityPlayer getPlayerByUUID(String uuid, World world)
+	{
+		for (Object obj : world.playerEntities)
+		{
+			EntityPlayer player = (EntityPlayer)obj;
+			
+			if (player.getPersistentID().toString().equals(uuid))
+			{
+				return player;
+			}
+		}
+		
+		return null;
 	}
 	
 	private LogicHelper()
