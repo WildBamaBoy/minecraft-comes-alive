@@ -9,6 +9,7 @@ package radixcore.math;
 
 import java.util.List;
 
+import net.minecraft.nbt.NBTTagCompound;
 import radixcore.enums.EnumAxis;
 import radixcore.helpers.MathHelper;
 
@@ -179,6 +180,23 @@ public final class Point3D
 			return new Point3D(0, 0, 0);
 		}
 	}
+	
+	public void writeToNBT(String name, NBTTagCompound nbt)
+	{
+		nbt.setDouble(name + "dPosX", dPosX);
+		nbt.setDouble(name + "dPosY", dPosY);
+		nbt.setDouble(name + "dPosZ", dPosZ);
+	}
+	
+	public static Point3D readFromNBT(String name, NBTTagCompound nbt)
+	{
+		double x = nbt.getDouble(name + "dPosX");
+		double y = nbt.getDouble(name + "dPosY");
+		double z = nbt.getDouble(name + "dPosZ");
+		
+		return new Point3D(x, y, z);
+	}
+	
 	/**
 	 * Gets string representation of the Coordinates object.
 	 * 
