@@ -2,7 +2,7 @@ package mca.ai;
 
 import java.util.List;
 
-import mca.api.APICoreMCA;
+import mca.api.ChoreRegistry;
 import mca.core.MCA;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
@@ -35,7 +35,6 @@ public class AIMining extends AbstractToggleAI
 	private int activityInterval;
 	private boolean isGathering;
 	private boolean isBuildingMine;
-	private String assigningPlayer = "none";
 
 	public AIMining(EntityHuman owner) 
 	{
@@ -103,7 +102,7 @@ public class AIMining extends AbstractToggleAI
 			{
 				activityInterval = SEARCH_INTERVAL;
 
-				final Block notifyBlock = APICoreMCA.getNotifyBlockById(idOfNotifyBlock);
+				final Block notifyBlock = ChoreRegistry.getNotifyBlockById(idOfNotifyBlock);
 				final Point3D ownerPos = new Point3D(owner.posX, owner.posY, owner.posZ);
 				int distanceToBlock = -1;
 
@@ -200,7 +199,7 @@ public class AIMining extends AbstractToggleAI
 	public void startSearching(EntityPlayer assigningPlayer, Block searchBlock)
 	{
 		this.assigningPlayer = assigningPlayer.getPersistentID().toString();
-		this.idOfNotifyBlock = APICoreMCA.getIdOfNotifyBlock(searchBlock);
+		this.idOfNotifyBlock = ChoreRegistry.getIdOfNotifyBlock(searchBlock);
 		this.isGathering = false;
 		this.isAIActive.setValue(true);
 		this.activityInterval = SEARCH_INTERVAL;

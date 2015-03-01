@@ -2,7 +2,7 @@ package mca.packets;
 
 import io.netty.buffer.ByteBuf;
 import mca.ai.AIMood;
-import mca.api.APICoreMCA;
+import mca.api.ChoreRegistry;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.TutorialManager;
@@ -352,7 +352,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 	{
 		final PlayerMemory memory = human.getPlayerMemory(player);
 		final Object queryObject = stack.getItem() instanceof ItemBlock ? Block.getBlockFromItem(stack.getItem()) : stack.getItem();
-		final int giftValue = APICoreMCA.getGiftMap().containsKey(queryObject) ? APICoreMCA.getGiftMap().get(queryObject) : -5;
+		final int giftValue = ChoreRegistry.getGiftMap().containsKey(queryObject) ? ChoreRegistry.getGiftMap().get(queryObject) : -5;
 
 		final int heartsModify = MathHelper.clamp(giftValue - (memory.getInteractionFatigue() * 4), -5, Integer.MAX_VALUE);
 		final String giftType = heartsModify <= 0 ? "bad" : heartsModify <= 5 ? "good" : heartsModify <= 10 ? "better" : "best";
