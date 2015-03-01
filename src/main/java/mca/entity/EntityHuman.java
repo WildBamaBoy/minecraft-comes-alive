@@ -22,6 +22,7 @@ import mca.ai.AIProgressStory;
 import mca.ai.AIRegenerate;
 import mca.ai.AIRespondToAttack;
 import mca.ai.AISleep;
+import mca.ai.AIWoodcutting;
 import mca.ai.AbstractAI;
 import mca.core.MCA;
 import mca.core.minecraft.Items;
@@ -53,7 +54,6 @@ import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChatComponentText;
@@ -151,6 +151,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		aiManager.addAI(new AIBlink(this));
 		aiManager.addAI(new AIBuild(this));
 		aiManager.addAI(new AIMining(this));
+		aiManager.addAI(new AIWoodcutting(this));
 		
 		addAI();
 
