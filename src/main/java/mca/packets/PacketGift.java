@@ -3,7 +3,6 @@ package mca.packets;
 import io.netty.buffer.ByteBuf;
 import mca.ai.AIMood;
 import mca.api.ChoreRegistry;
-import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.TutorialManager;
 import mca.core.VersionBridge;

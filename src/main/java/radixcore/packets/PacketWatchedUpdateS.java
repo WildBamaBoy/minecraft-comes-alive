@@ -2,7 +2,6 @@ package radixcore.packets;
 
 import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
-import mca.data.PlayerData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import radixcore.ModMetadataEx;
