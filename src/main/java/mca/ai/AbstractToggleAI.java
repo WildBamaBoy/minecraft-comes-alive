@@ -1,11 +1,14 @@
 package mca.ai;
 
-import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
-import radixcore.data.WatchedBoolean;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentText;
+import radixcore.helpers.LogicHelper;
 
 public abstract class AbstractToggleAI extends AbstractAI
 {	
+	protected String assigningPlayer = "none";
+	
 	public AbstractToggleAI(EntityHuman owner)
 	{
 		super(owner);
@@ -14,4 +17,19 @@ public abstract class AbstractToggleAI extends AbstractAI
 	public abstract void setIsActive(boolean value);
 	
 	public abstract boolean getIsActive();
+	
+	public EntityPlayer getAssigningPlayer()
+	{
+		return LogicHelper.getPlayerByUUID(assigningPlayer, owner.worldObj);
+	}
+	
+	public void notifyAssigningPlayer(String message)
+	{
+		final EntityPlayer player = getAssigningPlayer();
+		
+		if (player != null)
+		{
+			player.addChatMessage(new ChatComponentText(message));
+		}
+	}
 }
