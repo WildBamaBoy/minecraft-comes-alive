@@ -257,6 +257,35 @@ public final class LogicHelper
 		return null;
 	}
 
+	public static Point3D getNearestBlockPosWithMetadata(Entity entity, Block block, int meta, int maxDistanceAway)
+	{
+		List<Point3D> points = getNearbyBlocksWithMetadata(entity, block, meta, maxDistanceAway);
+		Point3D returnPoint = null;
+		int distance = -1;
+		
+		for (Point3D point : points)
+		{
+			int calculatedDistance = (int) MathHelper.getDistanceToXYZ(entity.posX, entity.posY, entity.posZ, point.dPosX, point.dPosY, point.dPosZ);
+			
+			if (distance == -1)
+			{
+				distance = calculatedDistance;
+				returnPoint = point;
+			}
+			
+			else
+			{
+				if (calculatedDistance < distance)
+				{
+					distance = calculatedDistance;
+					returnPoint = point;
+				}
+			}
+		}
+		
+		return returnPoint;
+	}
+	
 	public static List<Point3D> getNearbyBlocksWithMetadata(Entity entity, Block block, int meta, int maxDistanceAway)
 	{
 		List<Point3D> nearbyBlocks = getNearbyBlocks(entity, block, maxDistanceAway);
