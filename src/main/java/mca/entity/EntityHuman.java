@@ -54,8 +54,10 @@ import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
@@ -70,6 +72,7 @@ import radixcore.data.WatchedInt;
 import radixcore.data.WatchedString;
 import radixcore.helpers.LogicHelper;
 import radixcore.helpers.MathHelper;
+import radixcore.inventory.Inventory;
 import radixcore.network.ByteBufIO;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import cpw.mods.fml.relauncher.Side;
@@ -97,6 +100,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	private final WatchedFloat scaleGirth;
 	private final WatchedBoolean doDisplay;
 	private final WatchedBoolean isSwinging;
+
+	private final Inventory inventory;
 
 	@SideOnly(Side.CLIENT)
 	public boolean displayNameForPlayer;
@@ -152,13 +157,15 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		aiManager.addAI(new AIBuild(this));
 		aiManager.addAI(new AIMining(this));
 		aiManager.addAI(new AIWoodcutting(this));
-		
+
 		addAI();
 
 		if (!worldObj.isRemote)
 		{
 			doDisplay.setValue(true);
 		}
+
+		inventory = new Inventory("Villager Inventory", false, 41);
 	}
 
 	public EntityHuman(World world, boolean isMale)
@@ -261,7 +268,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 				}
 			}
 		}
-		
+
 		else
 		{
 			updateSwinging();
@@ -277,7 +284,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			if (swingProgressTicks >= 8)
 			{
 				swingProgressTicks = 0;
-				
+
 				DataWatcherEx.allowClientSideModification = true;
 				isSwinging.setValue(false);
 				DataWatcherEx.allowClientSideModification = false;
@@ -341,6 +348,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		PlayerMemoryHandler.writePlayerMemoryToNBT(playerMemories, nbt);
 		dataWatcherEx.writeDataWatcherToNBT(nbt);
+
+		nbt.setTag("inventory", inventory.saveInventoryToNBT());
 	}
 
 	@Override
@@ -374,6 +383,9 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		dataWatcherEx.readDataWatcherFromNBT(nbt);
 		doDisplay.setValue(true);
 		addAI();
+
+		final NBTTagList tagList = nbt.getTagList("inventory", 10);
+		inventory.loadInventoryFromNBT(tagList);
 	}
 
 	@Override
@@ -419,7 +431,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			aiManager.disableAllToggleAIs();
 			getAI(AISleep.class).transitionSkinState(true);
-			
+
 			if (isMarriedToAPlayer())
 			{
 				EntityPlayer playerPartner = getPlayerSpouse();
@@ -989,6 +1001,11 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		return true;
 	}
 
+	public void openInventory(EntityPlayer player)
+	{
+		player.displayGUIChest(inventory);
+	}
+	
 	private boolean isChildOfAVillager() 
 	{
 		return getMotherId() >= 0 && getFatherId() >= 0;
