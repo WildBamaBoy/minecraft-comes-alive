@@ -137,24 +137,30 @@ public class MCA
     			"GGG", "GGG", "GGG", 'G', Items.roseGoldIngot);
     	GameRegistry.addRecipe(new ItemStack(Items.matchmakersRing),
     			"III", "I I", "III", 'I', net.minecraft.init.Items.iron_ingot);
-    	
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.diamondDust), net.minecraft.init.Items.diamond);
+		
+    	//Colored diamond recipes.
 		for (int i = 0; i < 16; ++i)
 		{
-			ItemStack diamond =  new ItemStack(Items.coloredDiamond, 1, i);
+			ItemStack coloredDiamond =  new ItemStack(Items.coloredDiamond, 1, i);
+			ItemStack coloredDiamondDust = new ItemStack(Items.coloredDiamondDust, 1, i);
 			ItemStack engagementRing = new ItemStack(Items.coloredEngagementRing, 1, i);
 			ItemStack engagementRingRG = new ItemStack(Items.coloredEngagementRingRG, 1, i);
 			ItemStack dye = new ItemStack(net.minecraft.init.Items.dye, 1, i);
 			
-			GameRegistry.addShapelessRecipe(diamond, dye, new ItemStack(net.minecraft.init.Items.diamond));
+			GameRegistry.addShapelessRecipe(coloredDiamondDust, dye, new ItemStack(Items.diamondDust));
 
 	    	GameRegistry.addRecipe(engagementRing, 
-	    			"GDG", "G G", "GGG", 'D', diamond, 'G', net.minecraft.init.Items.gold_ingot);
+	    			"GDG", "G G", "GGG", 'D', coloredDiamond, 'G', net.minecraft.init.Items.gold_ingot);
 	    	GameRegistry.addRecipe(engagementRingRG, 
-	    			"GDG", "G G", "GGG", 'D', diamond, 'G', Items.roseGoldIngot);
+	    			"GDG", "G G", "GGG", 'D', coloredDiamond, 'G', Items.roseGoldIngot);
+	    	
+	    	GameRegistry.addSmelting(coloredDiamondDust, coloredDiamond, 5.0F);
 		}
 		
     	//Smeltings
-    	GameRegistry.addSmelting(Blocks.roseGoldOre, new ItemStack(Items.roseGoldIngot), 5);
+    	GameRegistry.addSmelting(Blocks.roseGoldOre, new ItemStack(Items.roseGoldIngot), 5.0F);
+    	GameRegistry.addSmelting(Items.diamondDust, new ItemStack(net.minecraft.init.Items.diamond), 5.0F);
     }
     
     @EventHandler

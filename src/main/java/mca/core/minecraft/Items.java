@@ -5,6 +5,7 @@ import mca.enums.EnumBedColor;
 import mca.enums.EnumCut;
 import mca.items.ItemBaby;
 import mca.items.ItemColoredDiamond;
+import mca.items.ItemColoredDiamondDust;
 import mca.items.ItemColoredEngagementRing;
 import mca.items.ItemCrystalBall;
 import mca.items.ItemCutRingColored;
@@ -12,6 +13,7 @@ import mca.items.ItemSpawnEgg;
 import mca.items.ItemVillagerBed;
 import net.minecraft.item.Item;
 import radixcore.helpers.StartupHelper;
+import radixcore.item.ItemColorable;
 import radixcore.item.ItemSingle;
 
 public final class Items
@@ -36,12 +38,12 @@ public final class Items
 	public static Item roseGoldIngot;
 	
 	//Second tab
-	public static ItemSingle diamondHeart;
-	public static ItemSingle diamondTiny;
-	public static ItemSingle diamondOval;
-	public static ItemSingle diamondSquare;
-	public static ItemSingle diamondTriangle;
-	public static ItemSingle diamondStar;
+	public static Item diamondHeart;
+	public static Item diamondTiny;
+	public static Item diamondOval;
+	public static Item diamondSquare;
+	public static Item diamondTriangle;
+	public static Item diamondStar;
 	
 	public static ItemColoredDiamond coloredDiamond;
 	public static ItemColoredDiamond coloredDiamondHeart;
@@ -50,6 +52,9 @@ public final class Items
 	public static ItemColoredDiamond coloredDiamondSquare;
 	public static ItemColoredDiamond coloredDiamondTriangle;
 	public static ItemColoredDiamond coloredDiamondStar;
+	
+	public static Item diamondDust;
+	public static ItemColorable coloredDiamondDust;
 	
 	public static ItemSingle engagementRingHeart;
 	public static ItemSingle engagementRingHeartRG;
@@ -130,6 +135,9 @@ public final class Items
 		bedPurple = new ItemVillagerBed(EnumBedColor.PURPLE);
 		bedPink = new ItemVillagerBed(EnumBedColor.PINK);
 		crystalBall = new ItemCrystalBall();
+
+		diamondDust.setCreativeTab(MCA.getCreativeTabGemCutting());
+		coloredDiamondDust = new ItemColoredDiamondDust();	
 		
 		coloredDiamond = new ItemColoredDiamond(EnumCut.NONE);
 		coloredDiamondHeart = new ItemColoredDiamond(EnumCut.HEART);
