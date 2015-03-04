@@ -24,7 +24,7 @@ public class WatcherIDsHuman
 	public static final int BED_POS_Y = 20;
 	public static final int BED_POS_Z = 21;
 	public static final int MOOD_VALUE = 22;
-	public static final int UNUSED_23 = 23;
+	public static final int HELD_ITEM = 23;
 	public static final int UNUSED_24 = 24;
 	public static final int UNUSED_25 = 25;
 	public static final int UNUSED_26 = 26;

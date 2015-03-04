@@ -24,6 +24,7 @@ import mca.ai.AIRespondToAttack;
 import mca.ai.AISleep;
 import mca.ai.AIWoodcutting;
 import mca.ai.AbstractAI;
+import mca.api.ChoreRegistry;
 import mca.core.MCA;
 import mca.core.minecraft.Items;
 import mca.data.PlayerData;
@@ -37,7 +38,6 @@ import mca.enums.EnumProfession;
 import mca.enums.EnumProfessionGroup;
 import mca.enums.EnumProgressionStep;
 import mca.enums.EnumSleepingState;
-import mca.packets.PacketOpenGUIOnEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
@@ -53,8 +53,7 @@ import net.minecraft.entity.ai.EntityAIWatchClosest2;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.InventoryBasic;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -100,6 +99,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	private final WatchedFloat scaleGirth;
 	private final WatchedBoolean doDisplay;
 	private final WatchedBoolean isSwinging;
+	private final WatchedInt heldItem;
 
 	private final Inventory inventory;
 
@@ -138,7 +138,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		scaleGirth = new WatchedFloat(MathHelper.getNumberInRange(-0.01F, 0.5F), WatcherIDsHuman.GIRTH, dataWatcherEx);
 		doDisplay = new WatchedBoolean(false, WatcherIDsHuman.DO_DISPLAY, dataWatcherEx);
 		isSwinging = new WatchedBoolean(false, WatcherIDsHuman.IS_SWINGING, dataWatcherEx);
-
+		heldItem = new WatchedInt(-1, WatcherIDsHuman.HELD_ITEM, dataWatcherEx);
+		
 		aiManager = new AIManager(this);
 		aiManager.addAI(new AIIdle(this));
 		aiManager.addAI(new AIRegenerate(this));
@@ -306,8 +307,11 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			if (!isInteracting.getBoolean())
 			{
-				MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId()), (EntityPlayerMP) player);
-				isInteracting.setValue(true);
+				aiManager.getAI(AIWoodcutting.class).startWoodcutting(player, ChoreRegistry.getWoodcuttingBlockById(1), false);
+				
+				openInventory(player);
+				//MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId()), (EntityPlayerMP) player);
+				//isInteracting.setValue(true);
 			}
 
 			else
@@ -808,9 +812,27 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			return new ItemStack(net.minecraft.init.Items.iron_sword);
 		}
 
+		else if (heldItem.getInt() != -1 && aiManager.isToggleAIActive())
+		{
+			return new ItemStack(Item.getItemById(heldItem.getInt()));
+		}
+		
 		return null;
 	}
 
+	public void setHeldItem(Item item)
+	{
+		if (item != null)
+		{
+			heldItem.setValue(Item.getIdFromItem(item));
+		}
+		
+		else
+		{
+			heldItem.setValue(-1);
+		}
+	}
+	
 	public void setBabyState(EnumBabyState state) 
 	{
 		babyState.setValue(state.getId());
@@ -1009,5 +1031,10 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	private boolean isChildOfAVillager() 
 	{
 		return getMotherId() >= 0 && getFatherId() >= 0;
+	}
+
+	public Inventory getInventory() 
+	{
+		return inventory;
 	}
 }
