@@ -75,6 +75,24 @@ public class AIManager
 		return null;
 	}
 	
+	public boolean isToggleAIActive()
+	{
+		for (final AbstractAI AI : AIList)
+		{
+			if (AI instanceof AbstractToggleAI)
+			{
+				AbstractToggleAI TAI = (AbstractToggleAI) AI;
+				
+				if (TAI.getIsActive())
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
 	public void disableAllToggleAIs()
 	{
 		for (final AbstractAI AI : AIList)
