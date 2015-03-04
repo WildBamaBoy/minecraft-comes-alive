@@ -1,5 +1,7 @@
 package radixcore.inventory;
 
+import java.util.Random;
+
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.Item;
@@ -12,6 +14,62 @@ public class Inventory extends InventoryBasic
 	public Inventory(String name, boolean displayCustomName, int size)
 	{
 		super(name, displayCustomName, size);
+	}
+
+	private int getFirstEmptyStack()
+	{
+		for (int i = 0; i < getSizeInventory(); i++)
+		{
+			if (getStackInSlot(i) == null)
+			{
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	public boolean addItemStackToInventory(ItemStack itemStack)
+	{
+		int slotId;
+		
+		if (itemStack.stackSize > 0)
+		{
+			if (itemStack.isItemDamaged())
+			{
+				slotId = getFirstEmptyStack();
+				if (slotId >= 0)
+				{
+					setInventorySlotContents(slotId, ItemStack.copyItemStack(itemStack));
+					//					inventoryContents[slotId].animationsToGo = 5;
+					itemStack.stackSize = 0;
+					combinePartialStacks();
+//					onInventoryChanged(this);
+					return true;
+				}
+				else
+				{
+					combinePartialStacks();
+//					onInventoryChanged(this);
+					return false;
+				}
+			}
+			else
+			{
+				do
+				{
+					slotId = itemStack.stackSize;
+					itemStack.stackSize = storePartialItemStack(itemStack);
+				}
+				while (itemStack.stackSize > 0 && itemStack.stackSize < slotId);
+				combinePartialStacks();
+//				onInventoryChanged(this);
+				return itemStack.stackSize < slotId;
+			}
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	public boolean contains(Class clazz)
@@ -81,5 +139,192 @@ public class Inventory extends InventoryBasic
 		}
 
 		return tagList;
+	}
+
+	/**
+	 * Gets the best quality (max damage) item of the specified type that is in the inventory.
+	 *
+	 * @param type The class of item that will be returned.
+	 * @return The item stack containing the item of the specified type with the highest max damage.
+	 */
+	public ItemStack getBestItemOfType(Class type)
+	{
+		return getStackInSlot(getBestItemOfTypeSlot(type));
+	}
+
+	public int getBestItemOfTypeSlot(Class type)
+	{
+		int highestMaxDamage = 0;
+
+		for (int i = 0; i < this.getSizeInventory(); ++i)
+		{
+			ItemStack stackInInventory = this.getStackInSlot(i);
+			
+			if (stackInInventory != null)
+			{
+				final String itemClassName = stackInInventory.getItem().getClass().getName();
+
+				if (itemClassName.equals(type.getName()) && highestMaxDamage < stackInInventory.getMaxDamage())
+				{
+					highestMaxDamage = stackInInventory.getMaxDamage();					
+					return i;
+				}
+			}
+		}
+
+		return -1;
+	}
+	
+	/**
+	 * Damages item in the provided slot for the specified amount.
+	 * 
+	 * @return True if the item was destroyed.
+	 */
+	public boolean damageItem(int slotId, int amount)
+	{
+		ItemStack stack = getStackInSlot(slotId);
+		
+		if (stack != null)
+		{
+			stack.attemptDamageItem(amount, new Random());
+			
+			if (stack.getItemDamage() >= stack.getMaxDamage())
+			{
+				stack.stackSize = 0;
+				setInventorySlotContents(slotId, null);
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private void combinePartialStacks()
+	{
+		for (int i = 0; i < getSizeInventory(); i++)
+		{
+			final ItemStack currentStack = getStackInSlot(i);
+			if (currentStack != null)
+			{
+				if (currentStack.stackSize != currentStack.getMaxStackSize())
+				{
+					for (int i2 = 0; i2 < getSizeInventory(); i2++)
+					{
+						final ItemStack searchingStack = getStackInSlot(i2);
+						if (searchingStack != null)
+						{
+							if (currentStack.getItem() == searchingStack.getItem() && i != i2)
+							{
+								if (currentStack.getItemDamage() == searchingStack.getItemDamage())
+								{
+									while (searchingStack.stackSize < searchingStack.getMaxStackSize())
+									{
+										currentStack.stackSize++;
+										searchingStack.stackSize--;
+										if (searchingStack.stackSize == 0)
+										{
+											setInventorySlotContents(i2, null);
+											break;
+										}
+									}
+								}
+							}
+							else
+							{
+								continue;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private int storePartialItemStack(ItemStack itemStack)
+	{
+		int stackSize = itemStack.stackSize;
+		if (itemStack.getMaxStackSize() == 1)
+		{
+			final int slotId = getFirstEmptyStack();
+			if (slotId < 0)
+			{
+				return stackSize;
+			}
+
+			if (getStackInSlot(slotId) == null)
+			{
+				setInventorySlotContents(slotId, ItemStack.copyItemStack(itemStack));
+			}
+
+			return 0;
+		}
+
+		int slotId = storeItemStack(itemStack);
+
+		if (slotId < 0)
+		{
+			slotId = getFirstEmptyStack();
+		}
+
+		if (slotId < 0)
+		{
+			return stackSize;
+		}
+
+		if (getStackInSlot(slotId) == null)
+		{
+			setInventorySlotContents(slotId, new ItemStack(itemStack.getItem(), 0, itemStack.getItemDamage()));
+			
+			if (itemStack.hasTagCompound())
+			{
+				final ItemStack stack = getStackInSlot(slotId);
+				stack.setTagCompound((NBTTagCompound) itemStack.getTagCompound().copy());
+				setInventorySlotContents(slotId, stack);
+			}
+		}
+
+		int itemStackSize = stackSize;
+
+		if (itemStackSize > getStackInSlot(slotId).getMaxStackSize() - getStackInSlot(slotId).stackSize)
+		{
+			itemStackSize = getStackInSlot(slotId).getMaxStackSize() - getStackInSlot(slotId).stackSize;
+		}
+
+		if (itemStackSize > getInventoryStackLimit() - getStackInSlot(slotId).stackSize)
+		{
+			itemStackSize = getInventoryStackLimit() - getStackInSlot(slotId).stackSize;
+		}
+
+		if (itemStackSize == 0)
+		{
+			return stackSize;
+		}
+
+		else
+		{
+			stackSize -= itemStackSize;
+			
+			ItemStack oldStack = getStackInSlot(slotId);
+			oldStack.stackSize += itemStackSize;
+			oldStack.animationsToGo = 5;
+			setInventorySlotContents(slotId, oldStack);
+			
+			return stackSize;
+		}
+	}
+
+	private int storeItemStack(ItemStack itemStack)
+	{
+		for (int i = 0; i < this.getSizeInventory(); ++i)
+		{
+			ItemStack stack = getStackInSlot(i);
+			
+			if (stack != null && stack == itemStack && stack.isStackable() && stack.stackSize < stack.getMaxStackSize() && stack.stackSize < getInventoryStackLimit() && (!stack.getHasSubtypes() || stack.getItemDamage() == itemStack.getItemDamage()) && ItemStack.areItemStacksEqual(stack, itemStack))
+			{
+				return i;
+			}
+		}
+		
+		return -1;
 	}
 }
