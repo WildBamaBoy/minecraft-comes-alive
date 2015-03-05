@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mca.api.ChoreRegistry;
+import mca.api.WoodcuttingEntry;
 import mca.command.CommandMCA;
 import mca.core.forge.EventHooksFML;
 import mca.core.forge.EventHooksForge;
@@ -298,12 +299,12 @@ public class MCA
 		ChoreRegistry.addBlockToMiningAI(7, net.minecraft.init.Blocks.quartz_ore);
 		ChoreRegistry.addBlockToMiningAI(8, Blocks.roseGoldOre);
 		
-		ChoreRegistry.addBlockToWoodcuttingAI(1, net.minecraft.init.Blocks.log, 0);
-		ChoreRegistry.addBlockToWoodcuttingAI(2, net.minecraft.init.Blocks.log, 1);
-		ChoreRegistry.addBlockToWoodcuttingAI(3, net.minecraft.init.Blocks.log, 2);
-		ChoreRegistry.addBlockToWoodcuttingAI(4, net.minecraft.init.Blocks.log, 3);
-		ChoreRegistry.addBlockToWoodcuttingAI(5, net.minecraft.init.Blocks.log2, 0);
-		ChoreRegistry.addBlockToWoodcuttingAI(6, net.minecraft.init.Blocks.log2, 1);
+		ChoreRegistry.addBlockToWoodcuttingAI(1, new WoodcuttingEntry(net.minecraft.init.Blocks.log, 0, net.minecraft.init.Blocks.sapling, 0));
+		ChoreRegistry.addBlockToWoodcuttingAI(2, new WoodcuttingEntry(net.minecraft.init.Blocks.log, 1, net.minecraft.init.Blocks.sapling, 1));
+		ChoreRegistry.addBlockToWoodcuttingAI(3, new WoodcuttingEntry(net.minecraft.init.Blocks.log, 2, net.minecraft.init.Blocks.sapling, 2));
+		ChoreRegistry.addBlockToWoodcuttingAI(4, new WoodcuttingEntry(net.minecraft.init.Blocks.log, 3, net.minecraft.init.Blocks.sapling, 3));
+		ChoreRegistry.addBlockToWoodcuttingAI(5, new WoodcuttingEntry(net.minecraft.init.Blocks.log2, 0, net.minecraft.init.Blocks.sapling, 4));
+		ChoreRegistry.addBlockToWoodcuttingAI(6, new WoodcuttingEntry(net.minecraft.init.Blocks.log2, 1, net.minecraft.init.Blocks.sapling, 5));
     }
     
     @EventHandler
