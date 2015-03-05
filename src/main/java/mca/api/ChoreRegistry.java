@@ -3,6 +3,7 @@ package mca.api;
 import java.util.HashMap;
 import java.util.Map;
 
+import mca.api.exception.MappingNotFoundException;
 import net.minecraft.block.Block;
 import radixcore.data.BlockObj;
 
@@ -10,36 +11,41 @@ public final class ChoreRegistry
 {
 	private static final Map<Object, Integer> giftMap = new HashMap<Object, Integer>();
 	private static final Map<Integer, Block> notifyBlockMap = new HashMap<Integer, Block>();
-	private static final Map<Integer, BlockObj> woodcuttingBlockMap = new HashMap<Integer, BlockObj>();
+	private static final Map<Integer, WoodcuttingEntry> woodcuttingBlockMap = new HashMap<Integer, WoodcuttingEntry>();
 	
 	public static Integer getIdOfNotifyBlock(Block block)
 	{
 		return reverseLookupKey(notifyBlockMap, block);
 	}
 	
-	public static Integer getIdOfWoodcuttingBlock(BlockObj block)
+	public static Block getNotifyBlockById(int id) throws MappingNotFoundException
 	{
-		for (Map.Entry<Integer, BlockObj> entry : woodcuttingBlockMap.entrySet())
+		Block block = notifyBlockMap.get(id);
+		
+		if (block != null)
 		{
-			BlockObj value = entry.getValue();
-			
-			if (value.getBlock() == block.getBlock() && value.getMeta() == block.getMeta())
-			{
-				return entry.getKey();
-			}
+			return block;
 		}
 		
-		return 0;
-	}
-	
-	public static Block getNotifyBlockById(int id)
-	{
-		return notifyBlockMap.get(id);
+		else
+		{
+			throw new MappingNotFoundException();
+		}
 	}
 
-	public static BlockObj getWoodcuttingBlockById(int id)
+	public static WoodcuttingEntry getWoodcuttingEntryById(int id) throws MappingNotFoundException
 	{
-		return woodcuttingBlockMap.get(id);
+		WoodcuttingEntry entry = woodcuttingBlockMap.get(id);
+		
+		if (entry != null)
+		{
+			return entry;
+		}
+		
+		else
+		{
+			throw new MappingNotFoundException();
+		}
 	}
 	
 	public static void addObjectAsGift(Object blockOrItem, int giftValue)
@@ -52,9 +58,9 @@ public final class ChoreRegistry
 		putIfNotDuplicate(notifyBlockMap, id, block);
 	}
 
-	public static void addBlockToWoodcuttingAI(int id, Block block, int meta)
+	public static void addBlockToWoodcuttingAI(int id, WoodcuttingEntry entry)
 	{
-		putIfNotDuplicate(woodcuttingBlockMap, id, new BlockObj(block, meta));
+		putIfNotDuplicate(woodcuttingBlockMap, id, entry);
 	}
 	
 	public static Map<Object, Integer> getGiftMap()
