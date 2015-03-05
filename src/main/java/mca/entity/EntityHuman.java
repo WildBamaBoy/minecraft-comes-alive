@@ -24,7 +24,6 @@ import mca.ai.AIRespondToAttack;
 import mca.ai.AISleep;
 import mca.ai.AIWoodcutting;
 import mca.ai.AbstractAI;
-import mca.api.ChoreRegistry;
 import mca.core.MCA;
 import mca.core.minecraft.Items;
 import mca.data.PlayerData;
@@ -38,6 +37,7 @@ import mca.enums.EnumProfession;
 import mca.enums.EnumProfessionGroup;
 import mca.enums.EnumProgressionStep;
 import mca.enums.EnumSleepingState;
+import mca.packets.PacketOpenGUIOnEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
@@ -53,6 +53,7 @@ import net.minecraft.entity.ai.EntityAIWatchClosest2;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -307,11 +308,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			if (!isInteracting.getBoolean())
 			{
-				aiManager.getAI(AIWoodcutting.class).startWoodcutting(player, ChoreRegistry.getWoodcuttingBlockById(1), false);
-				
-				openInventory(player);
-				//MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId()), (EntityPlayerMP) player);
-				//isInteracting.setValue(true);
+				MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId()), (EntityPlayerMP) player);
+				isInteracting.setValue(true);
 			}
 
 			else
