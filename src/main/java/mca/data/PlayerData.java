@@ -25,6 +25,7 @@ public class PlayerData extends AbstractPlayerData
 	public WatchedBoolean hasChosenDestiny;
 	public WatchedString mcaName;
 	public WatchedString uuid;
+	public WatchedBoolean isSuperUser;
 
 	public PlayerData(EntityPlayer player)
 	{
@@ -52,6 +53,7 @@ public class PlayerData extends AbstractPlayerData
 		mcaName = new WatchedString("none", WatcherIDsPlayerData.MCA_NAME, dataWatcher);
 		hasChosenDestiny = new WatchedBoolean(false, WatcherIDsPlayerData.HAS_CHOSEN_DESTINY, dataWatcher);
 		uuid = new WatchedString("none", WatcherIDsPlayerData.UUID, dataWatcher);
+		isSuperUser = new WatchedBoolean(false, WatcherIDsPlayerData.IS_SUPER_USER, dataWatcher);
 	}
 	
 	@Override

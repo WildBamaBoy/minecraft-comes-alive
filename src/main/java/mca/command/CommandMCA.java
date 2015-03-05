@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import radixcore.constant.Font.Color;
+import radixcore.constant.Font.Format;
 import radixcore.constant.Time;
 import scala.actors.threadpool.Arrays;
 
@@ -44,6 +45,63 @@ public class CommandMCA extends CommandBase
 				displayHelp(commandSender);
 			}
 
+			else if (subcommand.equalsIgnoreCase("sudo"))
+			{
+				String playerName = "";
+				boolean doGet = false;
+
+				if (arguments[0].equals("?"))
+				{
+					playerName = arguments[1];
+					doGet = true;
+				}
+
+				else
+				{
+					playerName = arguments[0];
+				}
+
+				final EntityPlayer targetPlayer = player.worldObj.getPlayerEntityByName(playerName);
+
+				if (targetPlayer != null)
+				{
+					final PlayerData data = MCA.getPlayerData(targetPlayer);
+
+					if (data.isSuperUser.getBoolean())
+					{
+						if (doGet)
+						{
+							addChatMessage(commandSender, Color.GREEN + playerName + " is a superuser.");		
+						}
+
+						else
+						{
+							addChatMessage(commandSender, Color.GREEN + playerName + " is no longer a superuser.");						
+							data.isSuperUser.setValue(false);
+						}
+					}
+
+					else
+					{
+						if (doGet)
+						{
+							addChatMessage(commandSender, Color.GREEN + playerName + " is not a superuser.");	
+						}
+
+						else
+						{
+							addChatMessage(commandSender, Color.GREEN + playerName + " is now a superuser.");
+							data.isSuperUser.setValue(true);
+						}
+					}
+				}
+
+				else
+				{
+					addChatMessage(commandSender, Color.RED + playerName + " was not found on the server.");
+				}
+			}
+
 			else if (subcommand.equalsIgnoreCase("ffh"))
 			{
 				for (Object obj : player.worldObj.loadedEntityList)
@@ -56,7 +114,7 @@ public class CommandMCA extends CommandBase
 					}
 				}
 
-				commandSender.addChatMessage(new ChatComponentText(Color.GOLD + "Forced full hearts on all loaded villagers."));
+				addChatMessage(commandSender, Color.GOLD + "Forced full hearts on all loaded villagers.");
 			}
 
 			else if (subcommand.equalsIgnoreCase("fbg"))
@@ -64,7 +122,7 @@ public class CommandMCA extends CommandBase
 				for (Object obj : player.worldObj.playerEntities)
 				{
 					EntityPlayer playerOnServer = (EntityPlayer)obj;
-					
+
 					for (ItemStack stack : playerOnServer.inventory.mainInventory)
 					{
 						if (stack != null && stack.getItem() instanceof ItemBaby)
@@ -74,7 +132,7 @@ public class CommandMCA extends CommandBase
 					}
 				}
 
-				commandSender.addChatMessage(new ChatComponentText(Color.GOLD + "Forced all players' babies to be ready to grow."));
+				addChatMessage(commandSender, Color.GOLD + "Forced all players' babies to be ready to grow.");
 			}
 
 			else if (subcommand.equalsIgnoreCase("fcg"))
@@ -89,14 +147,14 @@ public class CommandMCA extends CommandBase
 						{
 							human.setAge(0);
 							human.setIsChild(false);
-							
+
 							float newHeight = 0.69F + (human.getAge() * (1.8F - 0.69F) / MCA.getConfig().childGrowUpTime);
 							human.setSizeOverride(human.width, newHeight);
 						}
 					}
 				}
 
-				commandSender.addChatMessage(new ChatComponentText(Color.GOLD + "Forced all children to grow."));
+				addChatMessage(commandSender, Color.GOLD + "Forced all children to grow.");
 			}
 
 			else if (subcommand.equalsIgnoreCase("fsp"))
@@ -113,7 +171,7 @@ public class CommandMCA extends CommandBase
 					}
 				}
 
-				commandSender.addChatMessage(new ChatComponentText(Color.GOLD + "Forced story progression on all loaded villagers."));
+				addChatMessage(commandSender, Color.GOLD + "Forced story progression on all loaded villagers.");
 			}
 
 			else if (subcommand.equalsIgnoreCase("cli"))
@@ -127,7 +185,7 @@ public class CommandMCA extends CommandBase
 					}
 				}
 
-				commandSender.addChatMessage(new ChatComponentText(Color.GOLD + "Cleared interaction flag on all villagers."));
+				addChatMessage(commandSender, Color.GOLD + "Cleared interaction flag on all villagers.");
 			}
 
 			else if (subcommand.equalsIgnoreCase("clv"))
@@ -144,7 +202,7 @@ public class CommandMCA extends CommandBase
 					}
 				}
 
-				commandSender.addChatMessage(new ChatComponentText(Color.GOLD + "Removed " + num + " loaded villagers from the world."));				
+				addChatMessage(commandSender, Color.GOLD + "Removed " + num + " loaded villagers from the world.");				
 			}
 
 			else if (subcommand.equalsIgnoreCase("mh+"))
@@ -159,7 +217,7 @@ public class CommandMCA extends CommandBase
 					}
 				}
 
-				commandSender.addChatMessage(new ChatComponentText(Color.GOLD + "Increased hearts of all villagers by 10."));
+				addChatMessage(commandSender, Color.GOLD + "Increased hearts of all villagers by 10.");
 			}
 
 			else if (subcommand.equalsIgnoreCase("mh-"))
@@ -174,7 +232,7 @@ public class CommandMCA extends CommandBase
 					}
 				}
 
-				commandSender.addChatMessage(new ChatComponentText(Color.GOLD + "Decreased hearts of all villagers by 10."));
+				addChatMessage(commandSender, Color.GOLD + "Decreased hearts of all villagers by 10.");
 			}
 
 			else if (subcommand.equalsIgnoreCase("rm"))
@@ -187,12 +245,12 @@ public class CommandMCA extends CommandBase
 					PlayerData data = MCA.getPlayerData(targetPlayer);
 					data.spousePermanentId.setValue(0);
 
-					commandSender.addChatMessage(new ChatComponentText(Color.GOLD + playerName + "'s marriage has been reset."));	
+					addChatMessage(commandSender, Color.GOLD + playerName + "'s marriage has been reset.");	
 				}
 
 				else
 				{
-					commandSender.addChatMessage(new ChatComponentText(Color.RED + playerName + " was not found on the server."));					
+					addChatMessage(commandSender, Color.RED + playerName + " was not found on the server.");					
 				}
 			}
 
@@ -206,12 +264,12 @@ public class CommandMCA extends CommandBase
 					PlayerData data = MCA.getPlayerData(targetPlayer);
 					data.shouldHaveBaby.setValue(false);
 
-					commandSender.addChatMessage(new ChatComponentText(Color.GOLD + playerName + "'s baby status has been reset."));	
+					addChatMessage(commandSender, Color.GOLD + playerName + "'s baby status has been reset.");	
 				}
 
 				else
 				{
-					commandSender.addChatMessage(new ChatComponentText(Color.RED + playerName + " was not found on the server."));					
+					addChatMessage(commandSender, Color.RED + playerName + " was not found on the server.");					
 				}
 			}
 
@@ -232,35 +290,20 @@ public class CommandMCA extends CommandBase
 						}
 					}
 
-					commandSender.addChatMessage(new ChatComponentText(Color.GOLD + playerName + "'s hearts for all loaded villagers were reset."));
+					addChatMessage(commandSender, Color.GOLD + playerName + "'s hearts for all loaded villagers were reset.");
 
 					if (targetPlayer != commandSender)
 					{
-						targetPlayer.addChatMessage(new ChatComponentText(Color.RED + "Your hearts were reset by an administrator."));
+						addChatMessage(targetPlayer, Color.RED + "Your hearts were reset by an administrator.");
 					}
 				}
 
 				else
 				{
-					commandSender.addChatMessage(new ChatComponentText(Color.RED + playerName + " was not found on the server."));					
+					addChatMessage(commandSender, Color.RED + playerName + " was not found on the server.");					
 				}
 			}
 
-			else if (subcommand.equalsIgnoreCase("rr"))
-			{
-				
-			}
-			
-			else if (subcommand.equalsIgnoreCase("rd"))
-			{
-				PlayerData data = MCA.getPlayerData(player);
-				data.hasChosenDestiny.setValue(false);
-
-				MCA.destinyCenterPoint = null;
-				
-				player.addChatMessage(new ChatComponentText(Color.GOLD + "Destiny reset."));
-			}
-			
 			else
 			{
 				throw new WrongUsageException("");
@@ -284,26 +327,46 @@ public class CommandMCA extends CommandBase
 		return 0;
 	}
 
+	private void addChatMessage(ICommandSender commandSender, String message)
+	{
+		commandSender.addChatMessage(new ChatComponentText(Color.GOLD + "[MCA] " + Format.RESET + message));
+	}
+
+	private void addChatMessage(ICommandSender commandSender, String message, boolean noPrefix)
+	{
+		if (noPrefix)
+		{
+			commandSender.addChatMessage(new ChatComponentText(message));			
+		}
+
+		else
+		{
+			addChatMessage(commandSender, message);
+		}
+	}
+
 	private void displayHelp(ICommandSender commandSender)
 	{
-		commandSender.addChatMessage(new ChatComponentText(Color.DARKRED + "--- " + Color.GOLD + "DEBUG COMMANDS" + Color.DARKRED + " ---"));
+		addChatMessage(commandSender, Color.DARKRED + "--- " + Color.GOLD + "DEBUG COMMANDS" + Color.DARKRED + " ---", true);
 
-		commandSender.addChatMessage(new ChatComponentText(Color.WHITE + " /mca ffh " + Color.GOLD + " - Force all hearts on all villagers."));
-		commandSender.addChatMessage(new ChatComponentText(Color.WHITE + " /mca fbg " + Color.GOLD + " - Force your baby to grow up."));
-		commandSender.addChatMessage(new ChatComponentText(Color.WHITE + " /mca fcg " + Color.GOLD + " - Force nearby children to grow."));
-		commandSender.addChatMessage(new ChatComponentText(Color.WHITE + " /mca fsp " + Color.GOLD + " - Force story progression to continue."));
-		commandSender.addChatMessage(new ChatComponentText(Color.WHITE + " /mca cli " + Color.GOLD + " - Clear interaction flag on all villagers."));
-		commandSender.addChatMessage(new ChatComponentText(Color.WHITE + " /mca clv " + Color.GOLD + " - Clear all loaded villagers. " + Color.RED + "(IRREVERSABLE)"));
-		commandSender.addChatMessage(new ChatComponentText(Color.WHITE + " /mca mh+ " + Color.GOLD + " - Increase hearts by 10 (1 heart)."));
-		commandSender.addChatMessage(new ChatComponentText(Color.WHITE + " /mca mh- " + Color.GOLD + " - Decrease hearts by 10 (1 heart)."));
+		addChatMessage(commandSender, Color.WHITE + " /mca ffh " + Color.GOLD + " - Force all hearts on all villagers.", true);
+		addChatMessage(commandSender, Color.WHITE + " /mca fbg " + Color.GOLD + " - Force your baby to grow up.", true);
+		addChatMessage(commandSender, Color.WHITE + " /mca fcg " + Color.GOLD + " - Force nearby children to grow.", true);
+		addChatMessage(commandSender, Color.WHITE + " /mca fsp " + Color.GOLD + " - Force story progression to continue.", true);
+		addChatMessage(commandSender, Color.WHITE + " /mca cli " + Color.GOLD + " - Clear interaction flag on all villagers.", true);
+		addChatMessage(commandSender, Color.WHITE + " /mca clv " + Color.GOLD + " - Clear all loaded villagers. " + Color.RED + "(IRREVERSABLE)", true);
+		addChatMessage(commandSender, Color.WHITE + " /mca mh+ " + Color.GOLD + " - Increase hearts by 1.", true);
+		addChatMessage(commandSender, Color.WHITE + " /mca mh- " + Color.GOLD + " - Decrease hearts by 1.", true);
 
-		commandSender.addChatMessage(new ChatComponentText(Color.DARKRED + "--- " + Color.GOLD + "OP COMMANDS" + Color.DARKRED + " ---"));
-		commandSender.addChatMessage(new ChatComponentText(Color.WHITE + " /mca rm <username> " + Color.GOLD + " - Reset <username>'s marriage."));
-		commandSender.addChatMessage(new ChatComponentText(Color.WHITE + " /mca rb <username> " + Color.GOLD + " - Reset <username>'s baby."));
-		commandSender.addChatMessage(new ChatComponentText(Color.WHITE + " /mca rh <username> " + Color.GOLD + " - Reset <username>'s hearts."));
-		commandSender.addChatMessage(new ChatComponentText(Color.WHITE + " /mca rr <username> " + Color.GOLD + " - Completely reset <username>."));
+		addChatMessage(commandSender, Color.DARKRED + "--- " + Color.GOLD + "OP COMMANDS" + Color.DARKRED + " ---", true);
+		addChatMessage(commandSender, Color.WHITE + " /mca rm <username> " + Color.GOLD + " - Reset <username>'s marriage.", true);
+		addChatMessage(commandSender, Color.WHITE + " /mca rb <username> " + Color.GOLD + " - Reset <username>'s baby.", true);
+		addChatMessage(commandSender, Color.WHITE + " /mca rh <username> " + Color.GOLD + " - Reset <username>'s hearts.", true);
+		addChatMessage(commandSender, Color.WHITE + " /mca rr <username> " + Color.GOLD + " - Completely reset <username>.", true);
+		addChatMessage(commandSender, Color.WHITE + " /mca sudo <username> " + Color.GOLD + " - Toggle <username> as a superuser.", true);
+		addChatMessage(commandSender, Color.WHITE + " /mca sudo ? <username> " + Color.GOLD + " - Get if <username> is a superuser.", true);
 
-		commandSender.addChatMessage(new ChatComponentText(Color.DARKRED + "--- " + Color.GOLD + "GLOBAL COMMANDS" + Color.DARKRED + " ---"));
-		commandSender.addChatMessage(new ChatComponentText(Color.WHITE + " /mca help " + Color.GOLD + " - Shows this list of commands."));
+		addChatMessage(commandSender, Color.DARKRED + "--- " + Color.GOLD + "GLOBAL COMMANDS" + Color.DARKRED + " ---", true);
+		addChatMessage(commandSender, Color.WHITE + " /mca help " + Color.GOLD + " - Shows this list of commands.", true);
 	}
 }
