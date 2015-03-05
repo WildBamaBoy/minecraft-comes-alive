@@ -1,5 +1,9 @@
 package mca.api.exception;
 
+/**
+ * Exception that is thrown when a mapping for data concerning a particular chore is not found.
+ * Used to stop an active chore if a mod that adds something to the chore is removed.
+ */
 public final class MappingNotFoundException extends Exception
 {
 	public MappingNotFoundException()
