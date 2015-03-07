@@ -185,7 +185,7 @@ public class AIMining extends AbstractToggleAI
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) 
 	{
-		nbt.setBoolean("isAIActive", isAIActive.getBoolean());
+		nbt.setBoolean("isMiningActive", isAIActive.getBoolean());
 		nbt.setInteger("idOfNotifyBlock", idOfNotifyBlock);
 		nbt.setInteger("activityInterval", activityInterval);
 		nbt.setString("assigningPlayer", assigningPlayer);
@@ -195,7 +195,7 @@ public class AIMining extends AbstractToggleAI
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) 
 	{
-		isAIActive.setValue(nbt.getBoolean("isAIActive"));
+		isAIActive.setValue(nbt.getBoolean("isMiningActive"));
 		idOfNotifyBlock = nbt.getInteger("idOfNotifyBlock");
 		activityInterval = nbt.getInteger("activityInterval");
 		assigningPlayer = nbt.getString("assigningPlayer");

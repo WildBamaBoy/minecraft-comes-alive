@@ -194,7 +194,7 @@ public class AIWoodcutting extends AbstractToggleAI
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) 
 	{
-		nbt.setBoolean("isAIActive", isAIActive.getBoolean());
+		nbt.setBoolean("isWoodcuttingActive", isAIActive.getBoolean());
 
 		treeBasePoint.writeToNBT("treeBasePoint", nbt);
 		nbt.setInteger("apiId", apiId);
@@ -207,7 +207,7 @@ public class AIWoodcutting extends AbstractToggleAI
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) 
 	{
-		isAIActive.setValue(nbt.getBoolean("isAIActive"));
+		isAIActive.setValue(nbt.getBoolean("isWoodcuttingActive"));
 
 		treeBasePoint = Point3D.readFromNBT("treeBasePoint", nbt);
 		apiId = nbt.getInteger("apiId");
