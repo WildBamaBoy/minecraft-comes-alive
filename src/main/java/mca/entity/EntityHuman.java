@@ -995,7 +995,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	{
 		final PlayerData data = MCA.getPlayerData(player);
 
-		if (isMarriedToAPlayer() && getSpouseId() != data.permanentId.getInt())
+		if (data.isSuperUser.getBoolean())
+		{
+			return true;
+		}
+		
+		else if (isMarriedToAPlayer() && getSpouseId() != data.permanentId.getInt())
 		{
 			return false;
 		}

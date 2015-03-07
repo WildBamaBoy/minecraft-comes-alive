@@ -45,7 +45,8 @@ public class GuiInteraction extends GuiScreen
 {
 	private final EntityHuman villager;
 	private final EntityPlayer player;
-
+	private final PlayerData playerData;
+	
 	//	private GuiButton monarchButton;
 	//
 	//	//Buttons appearing at the top of the screen.
@@ -137,6 +138,7 @@ public class GuiInteraction extends GuiScreen
 		super();
 		this.villager = villager;
 		this.player = player;
+		this.playerData = MCA.getPlayerData(player);
 	}
 
 	@Override
@@ -210,6 +212,11 @@ public class GuiInteraction extends GuiScreen
 		}
 		GL11.glPopMatrix();
 
+		if (playerData.isSuperUser.getBoolean())
+		{
+			RenderHelper.drawTextPopup(Color.WHITE + "You are a superuser.", 10, height - 16);
+		}
+		
 		if (displayMarriageInfo)
 		{
 			String text = villager.getIsMarried() ? "Married to " + villager.getSpouseName() : villager.getIsEngaged() ? "Engaged to " + villager.getSpouseName() : "Not married";
@@ -410,6 +417,11 @@ public class GuiInteraction extends GuiScreen
 		{
 			buttonList.add(new GuiButton(EnumInteraction.PICK_UP.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, "Pick Up")); yLoc -= yInt;
 		}
+		
+		if (villager.allowControllingInteractions(player))
+		{
+			buttonList.add(new GuiButton(EnumInteraction.WORK.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, "Work")); yLoc -= yInt;
+		}
 
 		drawFlowControlButtons();
 	}
@@ -473,9 +485,7 @@ public class GuiInteraction extends GuiScreen
 			case RIDE_HORSE: MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId())); close(); break;
 			case SPECIAL: drawSpecialButtonMenu(); break;
 			case PROCREATE:
-				PlayerData data = MCA.getPlayerData(player);
-
-				if (data.shouldHaveBaby.getBoolean())
+				if (playerData.shouldHaveBaby.getBoolean())
 				{
 					player.addChatMessage(new ChatComponentText(Color.RED + "You already have a baby."));
 				}
