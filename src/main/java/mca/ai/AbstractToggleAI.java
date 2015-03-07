@@ -18,12 +18,12 @@ public abstract class AbstractToggleAI extends AbstractAI
 	
 	public abstract boolean getIsActive();
 	
-	public EntityPlayer getAssigningPlayer()
+	public final EntityPlayer getAssigningPlayer()
 	{
 		return LogicHelper.getPlayerByUUID(assigningPlayer, owner.worldObj);
 	}
 	
-	public void notifyAssigningPlayer(String message)
+	public final void notifyAssigningPlayer(String message)
 	{
 		final EntityPlayer player = getAssigningPlayer();
 		
