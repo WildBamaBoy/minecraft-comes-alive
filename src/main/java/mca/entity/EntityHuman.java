@@ -1047,4 +1047,9 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	{
 		return inventory;
 	}
+
+	public AIManager getAIManager() 
+	{
+		return aiManager;
+	}
 }

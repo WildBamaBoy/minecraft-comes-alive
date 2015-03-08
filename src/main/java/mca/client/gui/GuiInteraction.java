@@ -13,6 +13,9 @@ import java.util.List;
 import mca.ai.AIFollow;
 import mca.ai.AIMood;
 import mca.ai.AIProcreate;
+import mca.api.ChoreRegistry;
+import mca.api.WoodcuttingEntry;
+import mca.api.exception.MappingNotFoundException;
 import mca.core.MCA;
 import mca.data.PlayerData;
 import mca.entity.EntityHuman;
@@ -20,12 +23,15 @@ import mca.enums.EnumInteraction;
 import mca.enums.EnumMovementState;
 import mca.packets.PacketGift;
 import mca.packets.PacketInteract;
+import mca.packets.PacketToggleAI;
 import mca.util.TutorialManager;
 import mca.util.TutorialMessage;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
@@ -37,6 +43,7 @@ import org.lwjgl.opengl.GL11;
 import radixcore.client.render.RenderHelper;
 import radixcore.constant.Font.Color;
 import radixcore.data.DataWatcherEx;
+import radixcore.util.NumberCycleList;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -46,7 +53,7 @@ public class GuiInteraction extends GuiScreen
 	private final EntityHuman villager;
 	private final EntityPlayer player;
 	private final PlayerData playerData;
-	
+
 	//	private GuiButton monarchButton;
 	//
 	//	//Buttons appearing at the top of the screen.
@@ -133,12 +140,26 @@ public class GuiInteraction extends GuiScreen
 	private boolean displayGiftInfo;
 	private boolean inGiftMode;
 
+	/*
+	 * Fields used for AI controls.
+	 */
+	private int currentPage;
+	
+	private NumberCycleList woodcuttingMappings;
+	private NumberCycleList miningMappings;
+	private boolean farmingModeFlag;
+	private boolean miningModeFlag;
+	private boolean huntingModeFlag;
+	private boolean woodcuttingReplantFlag;
+
 	public GuiInteraction(EntityHuman villager, EntityPlayer player)
 	{
 		super();
 		this.villager = villager;
 		this.player = player;
 		this.playerData = MCA.getPlayerData(player);
+		this.woodcuttingMappings = NumberCycleList.fromList(ChoreRegistry.getWoodcuttingBlockIDs());
+		this.miningMappings = NumberCycleList.fromList(ChoreRegistry.getMiningBlockIDs());
 	}
 
 	@Override
@@ -170,6 +191,7 @@ public class GuiInteraction extends GuiScreen
 		{
 			villager.displayNameForPlayer = false;
 
+			DataWatcherEx.allowClientSideModification = true;
 			villager.setIsInteracting(false);
 			DataWatcherEx.allowClientSideModification = false;
 		}
@@ -216,7 +238,7 @@ public class GuiInteraction extends GuiScreen
 		{
 			RenderHelper.drawTextPopup(Color.WHITE + "You are a superuser.", 10, height - 16);
 		}
-		
+
 		if (displayMarriageInfo)
 		{
 			String text = villager.getIsMarried() ? "Married to " + villager.getSpouseName() : villager.getIsEngaged() ? "Engaged to " + villager.getSpouseName() : "Not married";
@@ -243,7 +265,7 @@ public class GuiInteraction extends GuiScreen
 			List<String> displayList = new ArrayList<String>();
 			displayList.add("Gift Available");
 			displayList.add("(Click to take)");
-			
+
 			RenderHelper.drawTextPopup(displayList, 49, 129);
 		}
 
@@ -371,6 +393,151 @@ public class GuiInteraction extends GuiScreen
 	{
 	}
 
+	protected void actionPerformed(GuiButton button)
+	{
+		EnumInteraction interaction = EnumInteraction.fromId(button.id);
+	
+		if (interaction != null)
+		{
+			switch (interaction)
+			{
+			/*
+			 * Basic interaction buttons.
+			 */
+			case INTERACT: drawInteractButtonMenu(); break;
+			case FOLLOW:
+				villager.setMovementState(EnumMovementState.FOLLOW); 
+				villager.getAI(AIFollow.class).setPlayerFollowingName(player.getCommandSenderName());
+				close();
+				break;
+			case STAY: villager.setMovementState(EnumMovementState.STAY);   close(); break;
+			case MOVE: villager.setMovementState(EnumMovementState.MOVE);   close(); break;
+			case WORK: drawWorkButtonMenu(); break;
+			
+			/*
+			 * Buttons related to AI and their controls.
+			 */			
+			case FARMING: drawFarmingControlMenu(); break;
+			case FARMING_MODE: farmingModeFlag = !farmingModeFlag; drawFarmingControlMenu(); break;
+			case FARMING_TARGET: drawFarmingControlMenu(); break; //TODO
+			case FARMING_RADIUS: drawFarmingControlMenu(); break; //TODO
+	
+			case HUNTING: drawHuntingControlMenu(); break;
+			case HUNTING_MODE: huntingModeFlag = !huntingModeFlag; drawHuntingControlMenu(); break;
+	
+			case WOODCUTTING: drawWoodcuttingControlMenu(); break;
+			case WOODCUTTING_TREE: woodcuttingMappings.next(); drawWoodcuttingControlMenu(); break; 
+			case WOODCUTTING_REPLANT: woodcuttingReplantFlag = !woodcuttingReplantFlag; drawWoodcuttingControlMenu(); break;
+	
+			case MINING: drawMiningControlMenu(); break;
+			case MINING_MODE: miningModeFlag = !miningModeFlag; drawMiningControlMenu(); break;
+			case MINING_TARGET: miningMappings.next(); drawMiningControlMenu(); break;
+				
+			case COOKING: drawCookingControlMenu(); break;
+	
+			/*
+			 * Buttons available in special cases.
+			 */
+			case SPECIAL: drawSpecialButtonMenu(); break;
+			case PROCREATE:
+				if (playerData.shouldHaveBaby.getBoolean())
+				{
+					player.addChatMessage(new ChatComponentText(Color.RED + "You already have a baby."));
+				}
+	
+				else
+				{
+					villager.getAI(AIProcreate.class).setIsProcreating(true);
+				}
+	
+				close();
+				break;
+			case PICK_UP:
+				TutorialManager.setTutorialMessage(new TutorialMessage("You can drop your child by right-clicking the ground.", ""));
+				villager.mountEntity(player);
+				MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId()));
+				close(); 
+				break;
+	
+				/*
+				 * Buttons on the interaction menu.
+				 */
+
+			case GIFT: 
+				if (inGiftMode)
+				{
+					inGiftMode = false;
+	
+					for (Object obj : this.buttonList)
+					{
+						GuiButton displayedButton = (GuiButton)obj;
+						displayedButton.enabled = true;
+					}
+	
+					TutorialManager.forceState(2);
+				}
+	
+				else
+				{
+					inGiftMode = true;
+	
+					for (Object obj : this.buttonList)
+					{
+						GuiButton displayedButton = (GuiButton)obj;
+						displayedButton.enabled = displayedButton.id == 13;
+					}
+	
+					TutorialManager.setTutorialMessage(new TutorialMessage("Give a gift by right-clicking while it's selected.", "Press Esc or Gift to cancel."));
+				}
+	
+				break;
+
+			/*
+			 * These just send a packet with the interaction ID to the server for processing. Nothing special involved.
+			 */
+			case CHAT:
+			case JOKE:
+			case SHAKE_HAND: 
+			case TELL_STORY: 
+			case FLIRT: 
+			case HUG: 
+			case KISS: 
+			case TRADE: 
+			case SET_HOME: 
+			case RIDE_HORSE: 
+			case INVENTORY:
+			case STOP: MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId())); close(); break;
+
+			case START: 
+				switch (EnumInteraction.fromId(currentPage))
+				{
+				case FARMING: break; //MCA.getPacketHandler().sendPacketToServer(new PacketToggleAI(EnumInteraction.FARMING));
+				case MINING: MCA.getPacketHandler().sendPacketToServer(new PacketToggleAI(villager, EnumInteraction.MINING, miningModeFlag, miningMappings.get())); break;
+				case WOODCUTTING: MCA.getPacketHandler().sendPacketToServer(new PacketToggleAI(villager, EnumInteraction.WOODCUTTING, woodcuttingReplantFlag, woodcuttingMappings.get())); break;
+				case HUNTING: MCA.getPacketHandler().sendPacketToServer(new PacketToggleAI(villager, EnumInteraction.HUNTING, huntingModeFlag)); break;
+				case COOKING: MCA.getPacketHandler().sendPacketToServer(new PacketToggleAI(villager, EnumInteraction.COOKING)); break;
+				}
+				
+				close();
+				break;
+			
+			case BACK:
+				switch (EnumInteraction.fromId(currentPage))
+				{
+				case FARMING:
+				case MINING:
+				case WOODCUTTING:
+				case HUNTING:
+				case COOKING: drawWorkButtonMenu(); break;
+				
+				case SPECIAL:
+				case WORK:
+				case INTERACT: drawMainButtonMenu(); break;
+				}
+			}
+		}
+	}
+
 	private void drawMainButtonMenu()
 	{
 		buttonList.clear();
@@ -417,24 +584,25 @@ public class GuiInteraction extends GuiScreen
 		{
 			buttonList.add(new GuiButton(EnumInteraction.PICK_UP.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, "Pick Up")); yLoc -= yInt;
 		}
-		
+
 		if (villager.allowControllingInteractions(player))
 		{
 			buttonList.add(new GuiButton(EnumInteraction.WORK.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, "Work")); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.INVENTORY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, "Inventory")); yLoc -= yInt;
 		}
-
-		drawFlowControlButtons();
 	}
 
 	private void drawInteractButtonMenu()
 	{
 		buttonList.clear();
-
+		currentPage = EnumInteraction.INTERACT.getId();
+		
 		int xLoc = width == 480 ? 170 : 145; 
 		int yLoc = height == 240 ? 115 : height == 255 ? 125 : 132;
 		int yInt = 22;
 
-		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.GREEN + "Interact")); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + "Interact")); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.CHAT.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, "Chat")); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.JOKE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, "Joke")); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.GIFT.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, "Gift")); yLoc -= yInt;
@@ -447,101 +615,162 @@ public class GuiInteraction extends GuiScreen
 			buttonList.add(new GuiButton(EnumInteraction.HUG.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, "Hug")); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.KISS.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, "Kiss")); yLoc -= yInt;
 		}
+	}
 
-		drawFlowControlButtons();
+	private void drawWorkButtonMenu()
+	{
+		currentPage = EnumInteraction.WORK.getId();
+		buttonList.clear();
+
+		int xLoc = width == 480 ? 170 : 145; 
+		int yLoc = height == 240 ? 115 : height == 255 ? 125 : 132;
+		int yInt = 22;
+
+		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + "Work")); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.FARMING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, "Farming")); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.WOODCUTTING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, "Woodcutting")); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.MINING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, "Mining")); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.HUNTING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, "Hunting")); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.COOKING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, "Cooking")); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.STOP.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.DARKRED + "Stop")); yLoc -= yInt;
+		
+		if (villager.getAIManager().isToggleAIActive())
+		{
+			for (Object obj : buttonList)
+			{
+				GuiButton button = (GuiButton)obj;
+				
+				if (button.id == -1)
+				{
+					continue;
+				}
+				
+				switch (EnumInteraction.fromId(button.id))
+				{
+				case BACK: break;
+				case STOP: break;
+				default: button.enabled = false;
+				}
+			}
+		}
 	}
 
 	private void drawSpecialButtonMenu()
 	{
 		buttonList.clear();
-
-		drawFlowControlButtons();
+		currentPage = EnumInteraction.SPECIAL.getId();
 	}
 
-	private void drawFlowControlButtons()
+	private void drawFarmingControlMenu() 
 	{
-		//buttonList.add(new GuiButton(101, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getLanguageManager().getString("gui.button.back")));
-		//buttonList.add(new GuiButton(102, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getLanguageManager().getString("gui.button.exit")));
+		buttonList.clear();
+		currentPage = EnumInteraction.FARMING.getId();
+
+		int xLoc = width == 480 ? 170 : 145; 
+		int yLoc = height == 240 ? 115 : height == 255 ? 125 : 132;
+		int yInt = 22;
+
+		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + "Farming")); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.FARMING_MODE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, "Mode: ")); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.FARMING_RADIUS.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, "Radius: ")); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.FARMING_TARGET.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, "Plant: ")); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + "Start")); yLoc -= yInt;
 	}
 
-	protected void actionPerformed(GuiButton button)
+	private void drawMiningControlMenu() 
 	{
-		EnumInteraction interaction = EnumInteraction.fromId(button.id);
+		buttonList.clear();
+		currentPage = EnumInteraction.MINING.getId();		
 
-		if (interaction != null)
+		int xLoc = width == 480 ? 170 : 145; 
+		int yLoc = height == 240 ? 115 : height == 255 ? 125 : 132;
+		int yInt = 22;
+
+		Block block = null;
+
+		try
 		{
-			switch (interaction)
-			{
-			case INTERACT: drawInteractButtonMenu(); break;
-			case FOLLOW:
-				villager.setMovementState(EnumMovementState.FOLLOW); 
-				villager.getAI(AIFollow.class).setPlayerFollowingName(player.getCommandSenderName());
-				close();
-				break;
-			case STAY: villager.setMovementState(EnumMovementState.STAY);   close(); break;
-			case MOVE: villager.setMovementState(EnumMovementState.MOVE);   close(); break;
-			case TRADE: MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId())); close(); break;
-			case SET_HOME: MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId())); close(); break;
-			case RIDE_HORSE: MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId())); close(); break;
-			case SPECIAL: drawSpecialButtonMenu(); break;
-			case PROCREATE:
-				if (playerData.shouldHaveBaby.getBoolean())
-				{
-					player.addChatMessage(new ChatComponentText(Color.RED + "You already have a baby."));
-				}
-
-				else
-				{
-					villager.getAI(AIProcreate.class).setIsProcreating(true);
-				}
-
-				close();
-				break;
-			case PICK_UP:
-				TutorialManager.setTutorialMessage(new TutorialMessage("You can drop your child by right-clicking the ground.", ""));
-				villager.mountEntity(player);
-				MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId()));
-				close(); 
-				break;
-
-			case CHAT: MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId())); close(); break;
-			case JOKE: MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId())); close(); break;
-			case GIFT: 
-				if (inGiftMode)
-				{
-					inGiftMode = false;
-
-					for (Object obj : this.buttonList)
-					{
-						GuiButton displayedButton = (GuiButton)obj;
-						displayedButton.enabled = true;
-					}
-
-					TutorialManager.forceState(2);
-				}
-
-				else
-				{
-					inGiftMode = true;
-
-					for (Object obj : this.buttonList)
-					{
-						GuiButton displayedButton = (GuiButton)obj;
-						displayedButton.enabled = displayedButton.id == 13;
-					}
-
-					TutorialManager.setTutorialMessage(new TutorialMessage("Give a gift by right-clicking while it's selected.", "Press Esc or Gift to cancel."));
-				}
-
-				break;
-
-			case SHAKE_HAND: MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId())); close(); break;
-			case TELL_STORY: MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId())); close(); break;
-			case FLIRT: MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId())); close(); break;
-			case HUG: MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId())); close(); break;
-			case KISS: MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId())); close(); break;
-			}
+			block = ChoreRegistry.getNotifyBlockById(miningMappings.get());
 		}
+		
+		catch (MappingNotFoundException e)
+		{
+			block = Blocks.coal_ore;
+		}
+		
+		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + "Mining")); yLoc -= yInt;
+
+		String modeText = "Mode: " + (miningModeFlag ? "Create Mine" : "Search");
+		String targetText = "Target: " + block.getLocalizedName();
+		
+		buttonList.add(new GuiButton(EnumInteraction.MINING_MODE.getId(),  width / 2 + xLoc - 40, height / 2 - yLoc, 105, 20, modeText)); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.MINING_TARGET.getId(),  width / 2 + xLoc - 80, height / 2 - yLoc, 145, 20, targetText)); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + "Start")); yLoc -= yInt;
+	}
+
+	private void drawWoodcuttingControlMenu() 
+	{
+		buttonList.clear();
+		currentPage = EnumInteraction.WOODCUTTING.getId();
+
+		int xLoc = width == 480 ? 170 : 145; 
+		int yLoc = height == 240 ? 115 : height == 255 ? 125 : 132;
+		int yInt = 22;
+		
+		WoodcuttingEntry entry = null;
+
+		try
+		{
+			entry = ChoreRegistry.getWoodcuttingEntryById(woodcuttingMappings.get());
+		}
+		
+		catch (MappingNotFoundException e)
+		{
+			entry = ChoreRegistry.getDefaultWoodcuttingEntry();
+		}
+		
+		String treeText = "Log Type: " + new ItemStack(entry.getLogBlock(), 1, entry.getLogMeta()).getDisplayName();
+		String replantText = "Replant: " + (woodcuttingReplantFlag ? "Yes" : "No");
+
+		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + "Woodcutting")); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.WOODCUTTING_TREE.getId(),  width / 2 + xLoc - 66, height / 2 - yLoc,  130, 20, treeText)); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.WOODCUTTING_REPLANT.getId(),  width / 2 + xLoc - 10, height / 2 - yLoc,  75, 20, replantText)); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + "Start")); yLoc -= yInt;
+	}
+
+	private void drawHuntingControlMenu() 
+	{
+		buttonList.clear();
+		currentPage = EnumInteraction.HUNTING.getId();
+
+		int xLoc = width == 480 ? 170 : 145; 
+		int yLoc = height == 240 ? 115 : height == 255 ? 125 : 132;
+		int yInt = 22;
+
+		String modeText = "Mode: " + (huntingModeFlag ? "Kill" : "Tame");
+
+		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + "Hunting")); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.HUNTING_MODE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, modeText)); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + "Start")); yLoc -= yInt;
+	}
+
+	private void drawCookingControlMenu() 
+	{
+		buttonList.clear();
+		currentPage = EnumInteraction.COOKING.getId();
+
+		int xLoc = width == 480 ? 170 : 145; 
+		int yLoc = height == 240 ? 115 : height == 255 ? 125 : 132;
+		int yInt = 22;
+
+		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + "Cooking")); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + "Start")); yLoc -= yInt;
 	}
 
 	private void close()

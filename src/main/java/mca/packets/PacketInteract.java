@@ -146,6 +146,16 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 				villager.say(successChance + " | " + pointsModification, player);
 				//TODO vigorous testing
 			}
+			
+			else if (interaction == EnumInteraction.STOP)
+			{
+				villager.getAIManager().disableAllToggleAIs();
+			}
+			
+			else if (interaction == EnumInteraction.INVENTORY)
+			{
+				villager.openInventory(player);
+			}
 		}
 		
 		return null;

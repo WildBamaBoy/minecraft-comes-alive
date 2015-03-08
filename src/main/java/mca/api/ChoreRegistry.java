@@ -53,6 +53,11 @@ public final class ChoreRegistry
 		}
 	}
 	
+	public static WoodcuttingEntry getDefaultWoodcuttingEntry()
+	{
+		return woodcuttingBlockMap.get(1);
+	}
+	
 	/**
 	 * Adds an entity that will appear during the hunting AI. <p>
 	 * 
@@ -132,6 +137,30 @@ public final class ChoreRegistry
 	public static List<CookableFood> getCookableFoodList()
 	{
 		return cookableFood;
+	}
+	
+	public static List<Integer> getWoodcuttingBlockIDs()
+	{
+		List<Integer> returnList = new ArrayList<Integer>();
+		
+		for (Map.Entry<Integer, WoodcuttingEntry> entry : woodcuttingBlockMap.entrySet())
+		{
+			returnList.add(entry.getKey());
+		}
+		
+		return returnList;
+	}
+	
+	public static List<Integer> getMiningBlockIDs()
+	{
+		List<Integer> returnList = new ArrayList<Integer>();
+		
+		for (Map.Entry<Integer, Block> entry : notifyBlockMap.entrySet())
+		{
+			returnList.add(entry.getKey());
+		}
+		
+		return returnList;
 	}
 	
 	private ChoreRegistry()

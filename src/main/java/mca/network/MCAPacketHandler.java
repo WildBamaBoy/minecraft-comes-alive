@@ -8,6 +8,7 @@ import mca.packets.PacketOpenBabyNameGUI;
 import mca.packets.PacketOpenGUIOnEntity;
 import mca.packets.PacketSetTutorialMessage;
 import mca.packets.PacketSyncPlayerMemory;
+import mca.packets.PacketToggleAI;
 import radixcore.network.AbstractPacketHandler;
 import radixcore.packets.PacketDataContainer;
 import cpw.mods.fml.relauncher.Side;
@@ -31,5 +32,6 @@ public class MCAPacketHandler extends AbstractPacketHandler
 		this.registerPacket(PacketBabyName.class, Side.SERVER);
 		this.registerPacket(PacketOpenBabyNameGUI.class, Side.CLIENT);
 		this.registerPacket(PacketDestinyChoice.class, Side.SERVER);
+		this.registerPacket(PacketToggleAI.class, Side.SERVER);
 	}
 }

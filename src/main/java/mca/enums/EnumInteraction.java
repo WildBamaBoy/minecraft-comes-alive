@@ -15,6 +15,7 @@ public enum EnumInteraction
 	TAKE_GIFT(11, "takegift"),
 	WORK(12, "work"),
 	ADMIN(13, "admin"),
+	INVENTORY(14, "inventory"),
 	
 	CHAT(101, "chat", 1, 60, 5),
 	JOKE(102, "joke", 1, 60, 5),
@@ -26,11 +27,28 @@ public enum EnumInteraction
 	KISS(108, "kiss", 3, 15, 10),
 	
 	FARMING(201, "farming"),
-	FISHING(202, "fishing"),
-	HUNTING(203, "hunting"),
-	WOODCUTTING(204, "woodcutting"),
-	MINING(205, "mining"),
-	COOKING(206, "cooking");
+	FARMING_MODE(202, "farmingmode"),
+	FARMING_TARGET(203, "farmingtarget"),
+	FARMING_RADIUS(204, "farmingradius"),
+	
+//	FISHING(202, "fishing"),
+	
+	HUNTING(301, "hunting"),
+	HUNTING_MODE(302, "huntingmode"),
+	
+	WOODCUTTING(401, "woodcutting"),
+	WOODCUTTING_TREE(402, "woodcuttingtree"),
+	WOODCUTTING_REPLANT(403, "woodcuttingreplant"),
+	
+	MINING(501, "mining"),
+	MINING_MODE(502, "miningmode"),
+	MINING_TARGET(503, "miningtarget"),
+	
+	COOKING(601, "cooking"),
+	
+	START(997, "start"),
+	STOP(998, "stop"),
+	BACK(999, "back");
 	
 	private int id;
 	private String name;
