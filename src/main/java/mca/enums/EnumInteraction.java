@@ -13,6 +13,8 @@ public enum EnumInteraction
 	PROCREATE(9, "procreate"),
 	PICK_UP(10, "pickup"),
 	TAKE_GIFT(11, "takegift"),
+	WORK(12, "work"),
+	ADMIN(13, "admin"),
 	
 	CHAT(101, "chat", 1, 60, 5),
 	JOKE(102, "joke", 1, 60, 5),
@@ -21,7 +23,14 @@ public enum EnumInteraction
 	TELL_STORY(105, "tellstory", 1, 50, 7),
 	FLIRT(106, "flirt", 2, 50, 8),
 	HUG(107, "hug", 3, 30, 9),
-	KISS(108, "kiss", 3, 15, 10);
+	KISS(108, "kiss", 3, 15, 10),
+	
+	FARMING(201, "farming"),
+	FISHING(202, "fishing"),
+	HUNTING(203, "hunting"),
+	WOODCUTTING(204, "woodcutting"),
+	MINING(205, "mining"),
+	COOKING(206, "cooking");
 	
 	private int id;
 	private String name;
