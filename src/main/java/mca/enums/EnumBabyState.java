@@ -1,6 +1,6 @@
 package mca.enums;
 
-import radixcore.helpers.LogicHelper;
+import radixcore.util.RadixLogic;
 
 public enum EnumBabyState 
 {
@@ -22,7 +22,7 @@ public enum EnumBabyState
 	
 	public static EnumBabyState getRandomGender()
 	{
-		return LogicHelper.getBooleanWithProbability(50) ? MALE : FEMALE;
+		return RadixLogic.getBooleanWithProbability(50) ? MALE : FEMALE;
 	}
 
 	public static EnumBabyState fromId(int id)

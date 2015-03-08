@@ -7,8 +7,8 @@ import java.util.Map;
 import radixcore.data.DataWatcherEx;
 import radixcore.data.IWatchable;
 import radixcore.data.WatchedObjectEx;
-import radixcore.helpers.ExceptHelper;
 import radixcore.network.ByteBufIO;
+import radixcore.util.RadixExcept;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -62,7 +62,7 @@ public class PacketDataSync extends AbstractPacket implements IMessage, IMessage
 		
 		catch (Throwable e)
 		{
-			ExceptHelper.logErrorCatch(e, "Unexpected error while processing received sync data.");
+			RadixExcept.logErrorCatch(e, "Unexpected error while processing received sync data.");
 		}
 		
 		return null;

@@ -14,10 +14,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
 import radixcore.data.WatchedBoolean;
 import radixcore.data.WatchedInt;
-import radixcore.helpers.ExceptHelper;
-import radixcore.helpers.LogicHelper;
-import radixcore.helpers.MathHelper;
 import radixcore.math.Point3D;
+import radixcore.util.RadixExcept;
+import radixcore.util.RadixLogic;
+import radixcore.util.RadixMath;
 
 public class AISleep extends AbstractAI
 {
@@ -181,7 +181,7 @@ public class AISleep extends AbstractAI
 
 					catch (ClassCastException e) //Common issue when using with other mods with tile entities nearby. Not sure why this happens.
 					{
-						ExceptHelper.logErrorCatch(e, "Catching non-fatal ClassCastException when villager bed was expected. Investigate mod compatibility issues.");
+						RadixExcept.logErrorCatch(e, "Catching non-fatal ClassCastException when villager bed was expected. Investigate mod compatibility issues.");
 						hasBed.setValue(false);
 					}
 
@@ -199,7 +199,7 @@ public class AISleep extends AbstractAI
 
 			else //Search for a bed.
 			{
-				List<Point3D> bedsNearby = LogicHelper.getNearbyBlocks(owner, BlockVillagerBed.class, 8);
+				List<Point3D> bedsNearby = RadixLogic.getNearbyBlocks(owner, BlockVillagerBed.class, 8);
 				List<Point3D> bedHeadsNearby = new ArrayList<Point3D>();
 
 				for (final Point3D point : bedsNearby)
@@ -242,7 +242,7 @@ public class AISleep extends AbstractAI
 
 	private double getDistanceToHomePoint()
 	{
-		return MathHelper.getDistanceToXYZ(homePosX, homePosY, homePosZ, owner.posX, owner.posY, owner.posZ);
+		return RadixMath.getDistanceToXYZ(homePosX, homePosY, homePosZ, owner.posX, owner.posY, owner.posZ);
 	}
 
 	private boolean isHomePointValid()

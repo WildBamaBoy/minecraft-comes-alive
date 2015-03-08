@@ -1,8 +1,8 @@
-package radixcore.helpers;
+package radixcore.util;
 
 import radixcore.RadixCore;
 
-public final class ExceptHelper 
+public final class RadixExcept 
 {
 	public static void logErrorCatch(Throwable t, String description)
 	{
@@ -17,7 +17,7 @@ public final class ExceptHelper
 		throw new RuntimeException("Caught fatal exception and stopped the game. Please review your logs for crash details.");
 	}
 	
-	private ExceptHelper()
+	private RadixExcept()
 	{
 		
 	}

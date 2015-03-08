@@ -21,7 +21,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import radixcore.helpers.LogicHelper;
+import radixcore.util.RadixLogic;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -201,7 +201,7 @@ public class BlockVillagerBed extends BlockDirectional implements ITileEntityPro
 				{
 					try
 					{
-						final EntityHuman entity = (EntityHuman) LogicHelper.getEntityByPermanentId(world, villagerBed.getSleepingVillagerId());
+						final EntityHuman entity = (EntityHuman) RadixLogic.getEntityByPermanentId(world, villagerBed.getSleepingVillagerId());
 						
 						if (entity != null)
 						{

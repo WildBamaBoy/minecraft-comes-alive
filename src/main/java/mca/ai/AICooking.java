@@ -13,9 +13,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
 import radixcore.constant.Time;
 import radixcore.data.WatchedBoolean;
-import radixcore.helpers.LogicHelper;
-import radixcore.helpers.MathHelper;
 import radixcore.math.Point3D;
+import radixcore.util.RadixLogic;
+import radixcore.util.RadixMath;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class AICooking extends AbstractToggleAI
@@ -165,7 +165,7 @@ public class AICooking extends AbstractToggleAI
 
 	private boolean isFurnaceNearby()
 	{
-		final Point3D nearbyFurnace = LogicHelper.getFirstNearestBlock(owner, Blocks.furnace, 10);
+		final Point3D nearbyFurnace = RadixLogic.getFirstNearestBlock(owner, Blocks.furnace, 10);
 		hasFurnace = nearbyFurnace != null;
 		furnacePos = hasFurnace ? nearbyFurnace : furnacePos;
 
@@ -217,7 +217,7 @@ public class AICooking extends AbstractToggleAI
 
 	private void setPathToFurnace()
 	{
-		final double distanceToFurnace = MathHelper.getDistanceToXYZ(owner, furnacePos);
+		final double distanceToFurnace = RadixMath.getDistanceToXYZ(owner, furnacePos);
 
 		if (owner.getNavigator().noPath() && distanceToFurnace >= 2.5D)
 		{
@@ -234,7 +234,7 @@ public class AICooking extends AbstractToggleAI
 
 	private void doCookFood()
 	{
-		final double distanceToFurnace = MathHelper.getDistanceToXYZ(owner, furnacePos);
+		final double distanceToFurnace = RadixMath.getDistanceToXYZ(owner, furnacePos);
 		
 		if (distanceToFurnace <= 2.5D)
 		{

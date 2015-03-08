@@ -10,9 +10,9 @@ import radixcore.data.AbstractPlayerData;
 import radixcore.data.DataContainer;
 import radixcore.data.DataWatcherEx;
 import radixcore.data.IWatchable;
-import radixcore.helpers.ExceptHelper;
-import radixcore.helpers.ReflectHelper;
 import radixcore.network.ByteBufIO;
+import radixcore.util.RadixExcept;
+import radixcore.util.RadixReflect;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -84,7 +84,7 @@ public class PacketWatchedUpdateS extends AbstractPacket implements IMessage, IM
 				{
 					if (!MinecraftServer.getServer().isDedicatedServer())
 					{
-						DataContainer container = ReflectHelper.getStaticObjectOfTypeFromClass(DataContainer.class, modData.classContainingClientDataContainer);
+						DataContainer container = RadixReflect.getStaticObjectOfTypeFromClass(DataContainer.class, modData.classContainingClientDataContainer);
 						watchable = container.getPlayerData(AbstractPlayerData.class);
 					}
 
@@ -109,7 +109,7 @@ public class PacketWatchedUpdateS extends AbstractPacket implements IMessage, IM
 
 		catch (Throwable e)
 		{
-			ExceptHelper.logErrorCatch(e, "Non-fatal error caught while updating watched object server-side.");
+			RadixExcept.logErrorCatch(e, "Non-fatal error caught while updating watched object server-side.");
 		}
 
 		return null;

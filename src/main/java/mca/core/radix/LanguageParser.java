@@ -3,8 +3,8 @@ package mca.core.radix;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import net.minecraft.entity.player.EntityPlayer;
-import radixcore.helpers.ExceptHelper;
 import radixcore.lang.AbstractLanguageParser;
+import radixcore.util.RadixExcept;
 
 public class LanguageParser extends AbstractLanguageParser
 {
@@ -63,7 +63,7 @@ public class LanguageParser extends AbstractLanguageParser
 
 			catch (Exception e)
 			{
-				ExceptHelper.logErrorCatch(e, "Exception while parsing phrase.");
+				RadixExcept.logErrorCatch(e, "Exception while parsing phrase.");
 			}
 
 			finally
@@ -73,7 +73,7 @@ public class LanguageParser extends AbstractLanguageParser
 				if (passes >= 10)
 				{
 					Throwable t = new Throwable();
-					ExceptHelper.logErrorCatch(t, "Too many passes through parser! Some text isn't displaying correctly.");
+					RadixExcept.logErrorCatch(t, "Too many passes through parser! Some text isn't displaying correctly.");
 					break;
 				}
 			}

@@ -8,7 +8,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import radixcore.data.WatchedString;
-import radixcore.helpers.MathHelper;
+import radixcore.util.RadixMath;
 
 public class AIFollow extends AbstractAI
 {
@@ -56,7 +56,7 @@ public class AIFollow extends AbstractAI
 			
 			if (entityPlayer != null)
 			{
-				final double distanceToPlayer = MathHelper.getDistanceToEntity(owner, entityPlayer);
+				final double distanceToPlayer = RadixMath.getDistanceToEntity(owner, entityPlayer);
 				
 				if (distanceToPlayer >= 10.0D)
 				{

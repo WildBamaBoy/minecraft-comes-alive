@@ -12,9 +12,9 @@ import mca.items.ItemCutRingColored;
 import mca.items.ItemSpawnEgg;
 import mca.items.ItemVillagerBed;
 import net.minecraft.item.Item;
-import radixcore.helpers.StartupHelper;
 import radixcore.item.ItemColorable;
 import radixcore.item.ItemSingle;
+import radixcore.util.RadixStartup;
 
 public final class ModItems
 {
@@ -103,7 +103,7 @@ public final class ModItems
 
 	public ModItems()
 	{
-		StartupHelper.initBaseItems(ModItems.class, MCA.getCreativeTabMain(), MCA.getMetadata());
+		RadixStartup.initBaseItems(ModItems.class, MCA.getCreativeTabMain(), MCA.getMetadata());
 		matchmakersRing.setMaxStackSize(2);
 		engagementRingHeart.setCreativeTab(MCA.getCreativeTabGemCutting());
 		engagementRingHeartRG.setCreativeTab(MCA.getCreativeTabGemCutting());

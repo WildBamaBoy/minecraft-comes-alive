@@ -73,10 +73,10 @@ import radixcore.data.WatchedBoolean;
 import radixcore.data.WatchedFloat;
 import radixcore.data.WatchedInt;
 import radixcore.data.WatchedString;
-import radixcore.helpers.LogicHelper;
-import radixcore.helpers.MathHelper;
 import radixcore.inventory.Inventory;
 import radixcore.network.ByteBufIO;
+import radixcore.util.RadixLogic;
+import radixcore.util.RadixMath;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -122,11 +122,11 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		dataWatcherEx = new DataWatcherEx(this, MCA.ID);
 		playerMemories = new HashMap<String, PlayerMemory>();
 
-		isMale = new WatchedBoolean(LogicHelper.getBooleanWithProbability(50), WatcherIDsHuman.IS_MALE, dataWatcherEx);
+		isMale = new WatchedBoolean(RadixLogic.getBooleanWithProbability(50), WatcherIDsHuman.IS_MALE, dataWatcherEx);
 		name = new WatchedString(getRandomName(), WatcherIDsHuman.NAME, dataWatcherEx);
 		professionId = new WatchedInt(EnumProfession.getAtRandom().getId(), WatcherIDsHuman.PROFESSION, dataWatcherEx);
 		personalityId = new WatchedInt(EnumPersonality.getAtRandom().getId(), WatcherIDsHuman.PERSONALITY_ID, dataWatcherEx);
-		permanentId = new WatchedInt(LogicHelper.generatePermanentEntityId(this), WatcherIDsHuman.PERMANENT_ID, dataWatcherEx);
+		permanentId = new WatchedInt(RadixLogic.generatePermanentEntityId(this), WatcherIDsHuman.PERMANENT_ID, dataWatcherEx);
 		skin = new WatchedString(getRandomSkin(), WatcherIDsHuman.SKIN, dataWatcherEx);
 		isEngaged = new WatchedBoolean(false, WatcherIDsHuman.IS_ENGAGED, dataWatcherEx);
 		spouseId = new WatchedInt(0, WatcherIDsHuman.SPOUSE_ID, dataWatcherEx);
@@ -138,8 +138,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		parentNames = new WatchedString("null", WatcherIDsHuman.PARENT_NAMES, dataWatcherEx);
 		parentIDs = new WatchedString("null", WatcherIDsHuman.PARENT_IDS, dataWatcherEx);
 		isInteracting = new WatchedBoolean(false, WatcherIDsHuman.IS_INTERACTING, dataWatcherEx);
-		scaleHeight = new WatchedFloat(MathHelper.getNumberInRange(-0.03F, 0.18F), WatcherIDsHuman.HEIGHT, dataWatcherEx);
-		scaleGirth = new WatchedFloat(MathHelper.getNumberInRange(-0.01F, 0.5F), WatcherIDsHuman.GIRTH, dataWatcherEx);
+		scaleHeight = new WatchedFloat(RadixMath.getNumberInRange(-0.03F, 0.18F), WatcherIDsHuman.HEIGHT, dataWatcherEx);
+		scaleGirth = new WatchedFloat(RadixMath.getNumberInRange(-0.01F, 0.5F), WatcherIDsHuman.GIRTH, dataWatcherEx);
 		doDisplay = new WatchedBoolean(false, WatcherIDsHuman.DO_DISPLAY, dataWatcherEx);
 		isSwinging = new WatchedBoolean(false, WatcherIDsHuman.IS_SWINGING, dataWatcherEx);
 		heldItem = new WatchedInt(-1, WatcherIDsHuman.HELD_ITEM, dataWatcherEx);
@@ -677,7 +677,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			if (isEngaged.getBoolean())
 			{
-				for (Entity entity : LogicHelper.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, this, 50))
+				for (Entity entity : RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, this, 50))
 				{
 					if (entity != this)
 					{

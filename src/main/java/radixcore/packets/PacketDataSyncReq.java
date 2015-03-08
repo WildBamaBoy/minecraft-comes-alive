@@ -3,7 +3,7 @@ package radixcore.packets;
 import io.netty.buffer.ByteBuf;
 import radixcore.data.DataWatcherEx;
 import radixcore.data.IWatchable;
-import radixcore.helpers.ExceptHelper;
+import radixcore.util.RadixExcept;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -46,7 +46,7 @@ public class PacketDataSyncReq extends AbstractPacket implements IMessage, IMess
 		
 		catch (Throwable e)
 		{
-			ExceptHelper.logErrorCatch(e, "Error sending sync data to client.");
+			RadixExcept.logErrorCatch(e, "Error sending sync data to client.");
 		}
 		
 		return null;

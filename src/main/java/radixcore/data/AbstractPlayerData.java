@@ -11,7 +11,7 @@ import java.io.Serializable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
-import radixcore.helpers.ExceptHelper;
+import radixcore.util.RadixExcept;
 import cpw.mods.fml.common.ModMetadata;
 
 public abstract class AbstractPlayerData implements Serializable, IWatchable
@@ -79,7 +79,7 @@ public abstract class AbstractPlayerData implements Serializable, IWatchable
 
 		catch (IOException e)
 		{
-			ExceptHelper.logErrorCatch(e, "IOException while saving player data to file! Data may be lost or corrupted.");
+			RadixExcept.logErrorCatch(e, "IOException while saving player data to file! Data may be lost or corrupted.");
 		}
 	}
 
@@ -99,12 +99,12 @@ public abstract class AbstractPlayerData implements Serializable, IWatchable
 
 		catch (IOException e)
 		{
-			ExceptHelper.logErrorCatch(e, "IOException while saving player data to file! Data may be lost or corrupted.");
+			RadixExcept.logErrorCatch(e, "IOException while saving player data to file! Data may be lost or corrupted.");
 		} 
 		
 		catch (ClassNotFoundException e) 
 		{
-			ExceptHelper.logErrorCatch(e, "ClassNotFoundException while saving player data to file!");
+			RadixExcept.logErrorCatch(e, "ClassNotFoundException while saving player data to file!");
 		}
 
 		return returnData;

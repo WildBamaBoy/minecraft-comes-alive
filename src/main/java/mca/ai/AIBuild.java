@@ -12,8 +12,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.data.BlockObj;
 import radixcore.data.WatchedBoolean;
-import radixcore.helpers.LogicHelper;
 import radixcore.math.Point3D;
+import radixcore.util.RadixLogic;
 import radixcore.util.SchematicHandler;
 
 public class AIBuild extends AbstractToggleAI
@@ -149,7 +149,7 @@ public class AIBuild extends AbstractToggleAI
 	 */
 	public boolean startBuilding(String schematicLocation, boolean doTopDown)
 	{
-		if (LogicHelper.getNearbyBlocks(owner, Blocks.planks, 10).size() != 0)
+		if (RadixLogic.getNearbyBlocks(owner, Blocks.planks, 10).size() != 0)
 		{
 			return false;
 		}

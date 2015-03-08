@@ -11,10 +11,10 @@ import mca.enums.EnumInteraction;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
-import radixcore.helpers.LogicHelper;
-import radixcore.helpers.MathHelper;
 import radixcore.math.Point3D;
 import radixcore.packets.AbstractPacket;
+import radixcore.util.RadixLogic;
+import radixcore.util.RadixMath;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -119,19 +119,19 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 						+ villager.getPersonality().getHeartsModifierForInteraction(interaction) 
 						+ mood.getMood(villager.getPersonality()).getPointsModifierForInteraction(interaction);
 				
-				boolean wasGood = LogicHelper.getBooleanWithProbability(successChance);
+				boolean wasGood = RadixLogic.getBooleanWithProbability(successChance);
 				
 				if (wasGood)
 				{
-					pointsModification = MathHelper.clamp(pointsModification, 1, 100);
-					mood.modifyMoodLevel(MathHelper.getNumberInRange(0.2F, 1.0F));
+					pointsModification = RadixMath.clamp(pointsModification, 1, 100);
+					mood.modifyMoodLevel(RadixMath.getNumberInRange(0.2F, 1.0F));
 					villager.say(MCA.getLanguageManager().getString(memory.getDialogueType().toString() + "." + interaction.getName() + ".good", player), player);
 				}
 				
 				else
 				{
-					pointsModification = MathHelper.clamp(pointsModification * -1, -100, -1);
-					mood.modifyMoodLevel(MathHelper.getNumberInRange(0.2F, 1.0F) * -1);
+					pointsModification = RadixMath.clamp(pointsModification * -1, -100, -1);
+					mood.modifyMoodLevel(RadixMath.getNumberInRange(0.2F, 1.0F) * -1);
 					villager.say(MCA.getLanguageManager().getString(memory.getDialogueType().toString() + "." + interaction.getName() + ".bad", player), player);
 				}
 				

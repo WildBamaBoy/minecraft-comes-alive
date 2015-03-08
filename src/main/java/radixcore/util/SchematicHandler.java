@@ -10,7 +10,6 @@ import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import radixcore.data.BlockObj;
-import radixcore.helpers.ExceptHelper;
 import radixcore.math.Point3D;
 
 public final class SchematicHandler 
@@ -99,7 +98,7 @@ public final class SchematicHandler
 		
 		catch (IOException e)
 		{
-			ExceptHelper.logFatalCatch(e, "Encountered a fatal error while reading a schematic.");
+			RadixExcept.logFatalCatch(e, "Encountered a fatal error while reading a schematic.");
 		}
 		
 		return map;

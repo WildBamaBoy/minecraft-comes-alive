@@ -17,7 +17,7 @@ import java.util.zip.ZipFile;
 
 import mca.enums.EnumProfessionGroup;
 import radixcore.RadixCore;
-import radixcore.helpers.ExceptHelper;
+import radixcore.util.RadixExcept;
 
 /**
  * Handles loading of MCA's skins skins.
@@ -43,12 +43,12 @@ public final class SkinLoader
 
 		catch (final IOException e)
 		{
-			ExceptHelper.logFatalCatch(e, "Unexpected exception while loading skins.");
+			RadixExcept.logFatalCatch(e, "Unexpected exception while loading skins.");
 		}
 		
 		catch (final NullPointerException e)
 		{
-			ExceptHelper.logFatalCatch(e, "Unexpected exception while loading skins.");
+			RadixExcept.logFatalCatch(e, "Unexpected exception while loading skins.");
 		}
 	}
 
@@ -62,7 +62,7 @@ public final class SkinLoader
 
 			if (modData == null)
 			{
-				ExceptHelper.logFatalCatch(new FileNotFoundException("Unable to locate MCA assets! This may be due to an issue with your launcher (if made by a third party), or your MCA installation. Try reinstalling the mod, or try a different launcher."), 
+				RadixExcept.logFatalCatch(new FileNotFoundException("Unable to locate MCA assets! This may be due to an issue with your launcher (if made by a third party), or your MCA installation. Try reinstalling the mod, or try a different launcher."), 
 						"Unable to find file or folder containing MCA assets.");
 			}
 		}

@@ -40,10 +40,10 @@ import radixcore.ModMetadataEx;
 import radixcore.RadixCore;
 import radixcore.data.AbstractPlayerData;
 import radixcore.data.DataContainer;
-import radixcore.helpers.StartupHelper;
 import radixcore.lang.LanguageManager;
 import radixcore.math.Point3D;
 import radixcore.update.RDXUpdateProtocol;
+import radixcore.util.RadixStartup;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -120,8 +120,8 @@ public class MCA
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-    	creativeTabMain = StartupHelper.registerCreativeTab(ModItems.class, "engagementRing", metadata);
-    	creativeTabGemCutting = StartupHelper.registerCreativeTab(ModItems.class, "diamondHeart", metadata);
+    	creativeTabMain = RadixStartup.registerCreativeTab(ModItems.class, "engagementRing", metadata);
+    	creativeTabGemCutting = RadixStartup.registerCreativeTab(ModItems.class, "diamondHeart", metadata);
     	items = new ModItems();
     	blocks = new ModBlocks();
     	achievements = new ModAchievements();

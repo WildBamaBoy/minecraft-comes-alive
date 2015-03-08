@@ -13,9 +13,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.ModMetadataEx;
 import radixcore.RadixCore;
-import radixcore.helpers.ExceptHelper;
 import radixcore.packets.PacketWatchedUpdateC;
 import radixcore.packets.PacketWatchedUpdateS;
+import radixcore.util.RadixExcept;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 
@@ -109,7 +109,7 @@ public final class DataWatcherEx implements Serializable
 
 		catch (Throwable throwable)
 		{
-			ExceptHelper.logFatalCatch(throwable, "Error getting watched object data.");
+			RadixExcept.logFatalCatch(throwable, "Error getting watched object data.");
 		}
 
 		this.lock.readLock().unlock();
@@ -186,7 +186,7 @@ public final class DataWatcherEx implements Serializable
 
 			else
 			{
-				ExceptHelper.logErrorCatch(new Throwable(), "Attempted to modify watched value client-side without qualifying that this was intended!");
+				RadixExcept.logErrorCatch(new Throwable(), "Attempted to modify watched value client-side without qualifying that this was intended!");
 			}
 		}
 	}
@@ -217,7 +217,7 @@ public final class DataWatcherEx implements Serializable
 					nbt.setString("dataWatcherExObject" + watchableObject.getDataValueId(), (String)watchableObject.getObject());
 					break;
 				default:
-					ExceptHelper.logErrorCatch(new Throwable(), "Error writing watched object " + watchableObject.getDataValueId() + " to NBT. Invalid data type.");
+					RadixExcept.logErrorCatch(new Throwable(), "Error writing watched object " + watchableObject.getDataValueId() + " to NBT. Invalid data type.");
 					continue;
 				}
 			}
@@ -225,7 +225,7 @@ public final class DataWatcherEx implements Serializable
 
 		catch (Exception e)
 		{
-			ExceptHelper.logErrorCatch(e, "Error saving data watcher to NBT.");
+			RadixExcept.logErrorCatch(e, "Error saving data watcher to NBT.");
 		}
 	}
 
@@ -255,7 +255,7 @@ public final class DataWatcherEx implements Serializable
 					watchableObject.setObject(nbt.getString("dataWatcherExObject" + watchableObject.getDataValueId()));
 					break;
 				default:
-					ExceptHelper.logErrorCatch(new Throwable(), "Error reading watched object " + watchableObject.getDataValueId() + " from NBT. Invalid data type.");
+					RadixExcept.logErrorCatch(new Throwable(), "Error reading watched object " + watchableObject.getDataValueId() + " from NBT. Invalid data type.");
 					continue;
 				}
 			}
@@ -263,7 +263,7 @@ public final class DataWatcherEx implements Serializable
 
 		catch (Exception e)
 		{
-			ExceptHelper.logErrorCatch(e, "Error saving data watcher to NBT.");
+			RadixExcept.logErrorCatch(e, "Error saving data watcher to NBT.");
 		}
 	}
 

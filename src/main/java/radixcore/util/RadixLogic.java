@@ -1,4 +1,4 @@
-package radixcore.helpers;
+package radixcore.util;
 
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
@@ -16,7 +16,7 @@ import radixcore.RadixCore;
 import radixcore.data.IPermanent;
 import radixcore.math.Point3D;
 
-public final class LogicHelper 
+public final class RadixLogic 
 {
 	public static Entity getEntityByPermanentId(World world, int desiredId)
 	{
@@ -110,8 +110,8 @@ public final class LogicHelper
 				{
 					final Entity otherEntity = (Entity) obj;
 
-					final double nearestEntityDistance = MathHelper.getDistanceToXYZ(nearestEntity.posX, nearestEntity.posY, nearestEntity.posZ, x, y, z);
-					final double nearestCandidateDistance =  MathHelper.getDistanceToXYZ(otherEntity.posX, otherEntity.posY, otherEntity.posZ, x, y, z);
+					final double nearestEntityDistance = RadixMath.getDistanceToXYZ(nearestEntity.posX, nearestEntity.posY, nearestEntity.posZ, x, y, z);
+					final double nearestCandidateDistance =  RadixMath.getDistanceToXYZ(otherEntity.posX, otherEntity.posY, otherEntity.posZ, x, y, z);
 
 					// In the very rare occurrence that either distance is
 					// exactly 1.0, that entity is perfectly
@@ -171,7 +171,7 @@ public final class LogicHelper
 
 			for (int i = 0; i < validEntities.size(); i++)
 			{
-				double distance = MathHelper.getDistanceToEntity(entityOrigin, validEntities.get(i));
+				double distance = RadixMath.getDistanceToEntity(entityOrigin, validEntities.get(i));
 
 				if (distance < lastMinDistance)
 				{
@@ -310,7 +310,7 @@ public final class LogicHelper
 		
 		for (Point3D point : points)
 		{
-			int calculatedDistance = (int) MathHelper.getDistanceToXYZ(entity.posX, entity.posY, entity.posZ, point.dPosX, point.dPosY, point.dPosZ);
+			int calculatedDistance = (int) RadixMath.getDistanceToXYZ(entity.posX, entity.posY, entity.posZ, point.dPosX, point.dPosY, point.dPosZ);
 			
 			if (distance == -1)
 			{
@@ -488,7 +488,7 @@ public final class LogicHelper
 		return null;
 	}
 	
-	private LogicHelper()
+	private RadixLogic()
 	{
 	}
 

@@ -3,7 +3,7 @@ package mca.ai;
 import mca.entity.EntityHuman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;
-import radixcore.helpers.LogicHelper;
+import radixcore.util.RadixLogic;
 
 public abstract class AbstractToggleAI extends AbstractAI
 {	
@@ -20,7 +20,7 @@ public abstract class AbstractToggleAI extends AbstractAI
 	
 	public final EntityPlayer getAssigningPlayer()
 	{
-		return LogicHelper.getPlayerByUUID(assigningPlayer, owner.worldObj);
+		return RadixLogic.getPlayerByUUID(assigningPlayer, owner.worldObj);
 	}
 	
 	public final void notifyAssigningPlayer(String message)

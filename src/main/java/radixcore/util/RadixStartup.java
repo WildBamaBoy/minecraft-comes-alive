@@ -1,4 +1,4 @@
-package radixcore.helpers;
+package radixcore.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -10,14 +10,14 @@ import radixcore.item.ItemSingle;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public final class StartupHelper 
+public final class RadixStartup 
 {
 	public static CreativeTabs registerCreativeTab(Class itemClass, String itemFieldName, ModMetadata metadata)
 	{
 		try
 		{
 			final Field itemRefField = itemClass.getField(itemFieldName);
-			String upperName = StringHelper.upperFirstLetter(itemRefField.getName());
+			String upperName = RadixString.upperFirstLetter(itemRefField.getName());
 
 			Item item = new Item();
 			item.setUnlocalizedName(upperName);
@@ -35,7 +35,7 @@ public final class StartupHelper
 					
 					catch (Exception e) 
 					{
-						ExceptHelper.logFatalCatch(e, "registering tab icon item");
+						RadixExcept.logFatalCatch(e, "registering tab icon item");
 					}
 					
 					return null; //Fall-through from exception.
@@ -48,7 +48,7 @@ public final class StartupHelper
 
 		catch (Exception e)
 		{
-			ExceptHelper.logFatalCatch(e, "registering creative tab");
+			RadixExcept.logFatalCatch(e, "registering creative tab");
 		}
 		
 		return null; //Fall-through from exception.
@@ -97,7 +97,7 @@ public final class StartupHelper
 						(f.getType() == Item.class || f.getType() == ItemEffect.class || f.getType() == ItemSingle.class))
 				{
 					Item item = f.getType() == Item.class ? new Item() : f.getType() == ItemEffect.class ? new ItemEffect() : new ItemSingle();
-					String upperName = StringHelper.upperFirstLetter(f.getName());
+					String upperName = RadixString.upperFirstLetter(f.getName());
 
 					item.setUnlocalizedName(upperName);
 					item.setTextureName(metadata.modId + ":" + upperName);
@@ -111,12 +111,12 @@ public final class StartupHelper
 
 			catch (Exception e)
 			{
-				ExceptHelper.logFatalCatch(e, "registering item " + f.getName());
+				RadixExcept.logFatalCatch(e, "registering item " + f.getName());
 			}
 		}
 	}
 
-	private StartupHelper()
+	private RadixStartup()
 	{
 
 	}

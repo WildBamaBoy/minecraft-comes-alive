@@ -7,8 +7,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
 import radixcore.data.WatchedBoolean;
 import radixcore.data.WatchedInt;
-import radixcore.helpers.LogicHelper;
-import radixcore.helpers.MathHelper;
+import radixcore.util.RadixLogic;
+import radixcore.util.RadixMath;
 
 public class AIConverse extends AbstractAI 
 {
@@ -57,10 +57,10 @@ public class AIConverse extends AbstractAI
 		{
 			if (timeUntilAdvance <= 0)
 			{
-				EntityHuman target = (EntityHuman) LogicHelper.getEntityByPermanentId(owner.worldObj, conversationTarget.getInt());
+				EntityHuman target = (EntityHuman) RadixLogic.getEntityByPermanentId(owner.worldObj, conversationTarget.getInt());
 
 				//Target may be null when checking distance.
-				if (target != null && MathHelper.getDistanceToEntity(owner, target) >= 4.0F)
+				if (target != null && RadixMath.getDistanceToEntity(owner, target) >= 4.0F)
 				{
 					target = null;
 				}
@@ -97,12 +97,12 @@ public class AIConverse extends AbstractAI
 		{
 			if (timeUntilAdvance <= 0)
 			{
-				EntityHuman target = (EntityHuman) LogicHelper.getNearestEntityOfTypeWithinDistance(EntityHuman.class, owner, 4);
+				EntityHuman target = (EntityHuman) RadixLogic.getNearestEntityOfTypeWithinDistance(EntityHuman.class, owner, 4);
 				
 				if (target != null && !target.getAI(AIConverse.class).getConversationActive())
 				{
 					AIConverse conversation = target.getAI(AIConverse.class);
-					int conversationId = MathHelper.getNumberInRange(1, NUMBER_OF_CONVERSATIONS);
+					int conversationId = RadixMath.getNumberInRange(1, NUMBER_OF_CONVERSATIONS);
 					
 					isConversationActive.setValue(true);
 					conversationTarget.setValue(target.getPermanentId());
@@ -136,7 +136,7 @@ public class AIConverse extends AbstractAI
 	@Override
 	public void reset() 
 	{
-		final EntityHuman target = (EntityHuman) LogicHelper.getEntityByPermanentId(owner.worldObj, conversationTarget.getInt());
+		final EntityHuman target = (EntityHuman) RadixLogic.getEntityByPermanentId(owner.worldObj, conversationTarget.getInt());
 
 		if (target != null)
 		{

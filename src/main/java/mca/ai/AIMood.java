@@ -11,7 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Particle;
 import radixcore.constant.Time;
 import radixcore.data.WatchedFloat;
-import radixcore.helpers.MathHelper;
+import radixcore.util.RadixMath;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -121,7 +121,7 @@ public class AIMood extends AbstractAI
 
 	public void modifyMoodLevel(float amount)
 	{
-		moodValue.setValue(MathHelper.clamp(moodValue.getFloat() + amount, 0.0F, 10.0F));
+		moodValue.setValue(RadixMath.clamp(moodValue.getFloat() + amount, 0.0F, 10.0F));
 	}
 	
 	public EnumMood getMood(EnumPersonality personality)

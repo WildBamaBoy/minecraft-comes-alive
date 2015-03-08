@@ -19,7 +19,7 @@ import java.util.zip.Inflater;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
 
-import radixcore.helpers.ExceptHelper;
+import radixcore.util.RadixExcept;
 
 public final class ByteBufIO
 {
@@ -133,7 +133,7 @@ public final class ByteBufIO
 
 		catch (final IOException e)
 		{
-			ExceptHelper.logFatalCatch(e, "Error compressing byte array.");
+			RadixExcept.logFatalCatch(e, "Error compressing byte array.");
 			return null;
 		}
 	}
@@ -165,13 +165,13 @@ public final class ByteBufIO
 
 		catch (final DataFormatException e)
 		{
-			ExceptHelper.logFatalCatch(e, "Error decompressing byte array.");
+			RadixExcept.logFatalCatch(e, "Error decompressing byte array.");
 			return null;
 		}
 
 		catch (final IOException e)
 		{
-			ExceptHelper.logFatalCatch(e, "Error decompressing byte array.");
+			RadixExcept.logFatalCatch(e, "Error decompressing byte array.");
 			return null;
 		}
 	}

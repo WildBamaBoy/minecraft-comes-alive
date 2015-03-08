@@ -8,8 +8,8 @@ import radixcore.ModMetadataEx;
 import radixcore.RadixCore;
 import radixcore.data.AbstractPlayerData;
 import radixcore.data.DataContainer;
-import radixcore.helpers.ExceptHelper;
 import radixcore.network.ByteBufIO;
+import radixcore.util.RadixExcept;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -66,7 +66,7 @@ public class PacketDataContainer extends AbstractPacket implements IMessage, IMe
 					
 					if (!found)
 					{
-						ExceptHelper.logFatalCatch(new NullPointerException(), "Unable to find static reference to client data container class in " + mod.classContainingClientDataContainer.toString());
+						RadixExcept.logFatalCatch(new NullPointerException(), "Unable to find static reference to client data container class in " + mod.classContainingClientDataContainer.toString());
 					}
 				}
 			}
@@ -74,12 +74,12 @@ public class PacketDataContainer extends AbstractPacket implements IMessage, IMe
 		
 		catch (IllegalArgumentException e) 
 		{
-			ExceptHelper.logFatalCatch(e, "IllegalArgumentException while creating client data container for " + packet.ownerModId);
+			RadixExcept.logFatalCatch(e, "IllegalArgumentException while creating client data container for " + packet.ownerModId);
 		} 
 		
 		catch (IllegalAccessException e) 
 		{
-			ExceptHelper.logFatalCatch(e, "IllegalAccessException while creating client data container for " + packet.ownerModId + ". Make sure client container field is public and static!");
+			RadixExcept.logFatalCatch(e, "IllegalAccessException while creating client data container for " + packet.ownerModId + ". Make sure client container field is public and static!");
 		}
 		
 		return null;

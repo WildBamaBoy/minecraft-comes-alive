@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
-import radixcore.helpers.MathHelper;
+import radixcore.util.RadixMath;
 
 public class AIRespondToAttack extends AbstractAI
 {
@@ -44,7 +44,7 @@ public class AIRespondToAttack extends AbstractAI
 				
 				if (targetPlayer != null)
 				{
-					double distanceToPlayer = MathHelper.getDistanceToEntity(owner, targetPlayer);
+					double distanceToPlayer = RadixMath.getDistanceToEntity(owner, targetPlayer);
 
 					if (distanceToPlayer >= 10.0D)
 					{
@@ -86,7 +86,7 @@ public class AIRespondToAttack extends AbstractAI
 			
 			else if (target != null)
 			{
-				double distanceToTarget = MathHelper.getDistanceToEntity(owner, target);
+				double distanceToTarget = RadixMath.getDistanceToEntity(owner, target);
 				
 				if (distanceToTarget >= 10.0D)
 				{

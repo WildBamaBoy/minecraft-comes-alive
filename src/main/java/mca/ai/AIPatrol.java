@@ -9,9 +9,9 @@ import net.minecraft.block.BlockDoor;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
-import radixcore.helpers.LogicHelper;
-import radixcore.helpers.MathHelper;
 import radixcore.math.Point3D;
+import radixcore.util.RadixLogic;
+import radixcore.util.RadixMath;
 
 public class AIPatrol extends AbstractAI
 {
@@ -42,11 +42,11 @@ public class AIPatrol extends AbstractAI
 		{
 			if (!hasDoor)
 			{
-				List<Point3D> nearbyDoors = LogicHelper.getNearbyBlocks(owner, Blocks.wooden_door, 15);
+				List<Point3D> nearbyDoors = RadixLogic.getNearbyBlocks(owner, Blocks.wooden_door, 15);
 	
 				if (!nearbyDoors.isEmpty())
 				{
-					Point3D doorPoint = nearbyDoors.get(MathHelper.getNumberInRange(0, nearbyDoors.size() - 1));
+					Point3D doorPoint = nearbyDoors.get(RadixMath.getNumberInRange(0, nearbyDoors.size() - 1));
 	
 					//Only use the top of the door.
 					if (owner.worldObj.getBlock(doorPoint.iPosX, doorPoint.iPosY - 1, doorPoint.iPosZ) != Blocks.wooden_door)
@@ -59,8 +59,8 @@ public class AIPatrol extends AbstractAI
 	
 					BlockDoor door = (BlockDoor)owner.worldObj.getBlock(doorPoint.iPosX, doorPoint.iPosY, doorPoint.iPosZ);
 					int doorState = door.func_150012_g(owner.worldObj, doorPoint.iPosX, doorPoint.iPosY, doorPoint.iPosZ);
-					boolean isPositive = LogicHelper.getBooleanWithProbability(50);
-					int offset = isPositive ? MathHelper.getNumberInRange(1, 3) : MathHelper.getNumberInRange(1, 3) * -1;
+					boolean isPositive = RadixLogic.getBooleanWithProbability(50);
+					int offset = isPositive ? RadixMath.getNumberInRange(1, 3) : RadixMath.getNumberInRange(1, 3) * -1;
 					boolean isValid = false;
 					//func_150012_g: returns i1 & 7 | (flag ? 8 : 0) | (flag1 ? 16 : 0);
 	
@@ -94,7 +94,7 @@ public class AIPatrol extends AbstractAI
 								owner.worldObj.getBlock(movePoint.iPosX, movePoint.iPosY, movePoint.iPosZ) == Blocks.air)
 						{
 							//Random chance of skipping a valid first pass so that they aren't always right against the door.
-							if (i == 1 && LogicHelper.getBooleanWithProbability(50))
+							if (i == 1 && RadixLogic.getBooleanWithProbability(50))
 							{
 								continue;
 							}
@@ -131,7 +131,7 @@ public class AIPatrol extends AbstractAI
 				{
 					owner.getNavigator().clearPathEntity();
 					isWaitingAtDoor = true;
-					timeUntilMoveReset = Time.SECOND * MathHelper.getNumberInRange(5, 15);
+					timeUntilMoveReset = Time.SECOND * RadixMath.getNumberInRange(5, 15);
 				}
 	
 				if (isWaitingAtDoor)

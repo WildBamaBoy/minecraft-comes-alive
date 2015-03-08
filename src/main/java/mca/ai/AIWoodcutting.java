@@ -15,9 +15,9 @@ import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.data.WatchedBoolean;
-import radixcore.helpers.LogicHelper;
-import radixcore.helpers.MathHelper;
 import radixcore.math.Point3D;
+import radixcore.util.RadixLogic;
+import radixcore.util.RadixMath;
 
 public class AIWoodcutting extends AbstractToggleAI
 {
@@ -73,7 +73,7 @@ public class AIWoodcutting extends AbstractToggleAI
 					return;
 				}
 
-				final Point3D point = LogicHelper.getNearestBlockPosWithMetadata(owner, apiEntry.getLogBlock(), apiEntry.getLogMeta(), 15);
+				final Point3D point = RadixLogic.getNearestBlockPosWithMetadata(owner, apiEntry.getLogBlock(), apiEntry.getLogMeta(), 15);
 
 				if (point != null)
 				{
@@ -111,7 +111,7 @@ public class AIWoodcutting extends AbstractToggleAI
 				}
 			}
 
-			else if (MathHelper.getDistanceToXYZ(treeBasePoint.dPosX, treeBasePoint.dPosY, treeBasePoint.dPosZ, owner.posX, owner.posY, owner.posZ) <= 2.5D || yLevel > 0)
+			else if (RadixMath.getDistanceToXYZ(treeBasePoint.dPosX, treeBasePoint.dPosY, treeBasePoint.dPosZ, owner.posX, owner.posY, owner.posZ) <= 2.5D || yLevel > 0)
 			{
 				cutTimeLeft--;
 				owner.swingItem();
@@ -162,12 +162,12 @@ public class AIWoodcutting extends AbstractToggleAI
 
 			else
 			{
-				for (Point3D point : LogicHelper.getNearbyBlocks(owner, Blocks.leaves, 1))
+				for (Point3D point : RadixLogic.getNearbyBlocks(owner, Blocks.leaves, 1))
 				{
 					owner.worldObj.setBlock(point.iPosX, point.iPosY, point.iPosZ, Blocks.air);
 				}
 
-				for (Point3D point : LogicHelper.getNearbyBlocks(owner, Blocks.leaves2, 1))
+				for (Point3D point : RadixLogic.getNearbyBlocks(owner, Blocks.leaves2, 1))
 				{
 					owner.worldObj.setBlock(point.iPosX, point.iPosY, point.iPosZ, Blocks.air);				
 				}

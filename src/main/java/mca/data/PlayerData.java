@@ -6,7 +6,7 @@ import radixcore.data.AbstractPlayerData;
 import radixcore.data.WatchedBoolean;
 import radixcore.data.WatchedInt;
 import radixcore.data.WatchedString;
-import radixcore.helpers.LogicHelper;
+import radixcore.util.RadixLogic;
 import cpw.mods.fml.common.ModMetadata;
 
 public class PlayerData extends AbstractPlayerData
@@ -59,7 +59,7 @@ public class PlayerData extends AbstractPlayerData
 	@Override
 	public void initializeNewData(EntityPlayer player) 
 	{
-		permanentId.setValue(LogicHelper.generatePermanentEntityId(player));
+		permanentId.setValue(RadixLogic.generatePermanentEntityId(player));
 		uuid.setValue(player.getUniqueID().toString());
 	}
 

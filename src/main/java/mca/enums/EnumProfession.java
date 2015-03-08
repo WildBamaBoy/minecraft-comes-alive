@@ -1,7 +1,7 @@
 package mca.enums;
 
 import mca.core.MCA;
-import radixcore.helpers.MathHelper;
+import radixcore.util.RadixMath;
 
 public enum EnumProfession 
 {
@@ -54,7 +54,7 @@ public enum EnumProfession
 	public static EnumProfession getAtRandom()
 	{
 		EnumProfession[] values = EnumProfession.values();
-		int returnIndex = MathHelper.getNumberInRange(0, EnumProfession.values().length - 1);
+		int returnIndex = RadixMath.getNumberInRange(0, EnumProfession.values().length - 1);
 		return values[returnIndex];
 	}
 

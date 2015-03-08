@@ -19,9 +19,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
 import radixcore.constant.Particle;
-import radixcore.helpers.LogicHelper;
-import radixcore.helpers.MathHelper;
 import radixcore.packets.AbstractPacket;
+import radixcore.util.RadixLogic;
+import radixcore.util.RadixMath;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -179,7 +179,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 	private boolean handleMatchmakersRing(EntityPlayer player, EntityHuman human, ItemStack stack)
 	{
-		EntityHuman partner = (EntityHuman) LogicHelper.getNearestEntityOfTypeWithinDistance(EntityHuman.class, human, 5);
+		EntityHuman partner = (EntityHuman) RadixLogic.getNearestEntityOfTypeWithinDistance(EntityHuman.class, human, 5);
 		
 		if (human.getIsChild())
 		{
@@ -353,7 +353,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 		final Object queryObject = stack.getItem() instanceof ItemBlock ? Block.getBlockFromItem(stack.getItem()) : stack.getItem();
 		final int giftValue = ChoreRegistry.getGiftMap().containsKey(queryObject) ? ChoreRegistry.getGiftMap().get(queryObject) : -5;
 
-		final int heartsModify = MathHelper.clamp(giftValue - (memory.getInteractionFatigue() * 4), -5, Integer.MAX_VALUE);
+		final int heartsModify = RadixMath.clamp(giftValue - (memory.getInteractionFatigue() * 4), -5, Integer.MAX_VALUE);
 		final String giftType = heartsModify <= 0 ? "bad" : heartsModify <= 5 ? "good" : heartsModify <= 10 ? "better" : "best";
 
 		memory.setHearts(memory.getHearts() + heartsModify);

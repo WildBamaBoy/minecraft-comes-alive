@@ -7,7 +7,7 @@ import mca.entity.EntityHuman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
-import radixcore.helpers.LogicHelper;
+import radixcore.util.RadixLogic;
 
 public class AIGreet extends AbstractAI
 {
@@ -78,7 +78,7 @@ public class AIGreet extends AbstractAI
 				PlayerMemory memory = owner.getPlayerMemory(closestPlayer);
 				AISleep AISleep = owner.getAI(AISleep.class);
 
-				if (memory.getTimeUntilGreeting() <= 0 && LogicHelper.getBooleanWithProbability(CHANCE_TO_GREET) && owner.canEntityBeSeen(closestPlayer) && !AISleep.getIsSleeping())
+				if (memory.getTimeUntilGreeting() <= 0 && RadixLogic.getBooleanWithProbability(CHANCE_TO_GREET) && owner.canEntityBeSeen(closestPlayer) && !AISleep.getIsSleeping())
 				{
 					//TODO
 					owner.say("Hello.", closestPlayer);

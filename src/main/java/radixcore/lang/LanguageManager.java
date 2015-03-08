@@ -11,8 +11,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import radixcore.RadixCore;
-import radixcore.helpers.ExceptHelper;
-import radixcore.helpers.MathHelper;
+import radixcore.util.RadixExcept;
+import radixcore.util.RadixMath;
 import cpw.mods.fml.common.FMLCommonHandler;
 
 public class LanguageManager 
@@ -48,7 +48,7 @@ public class LanguageManager
 				
 				catch (Exception e2)
 				{
-					ExceptHelper.logFatalCatch(e2, "Error loading language " + languageId + " for mod " + modId + ".");
+					RadixExcept.logFatalCatch(e2, "Error loading language " + languageId + " for mod " + modId + ".");
 				}
 			}
 		}
@@ -62,7 +62,7 @@ public class LanguageManager
 			
 			catch (Exception e)
 			{
-				ExceptHelper.logFatalCatch(e, "Error loading language server-side. Loading cannot continue.");
+				RadixExcept.logFatalCatch(e, "Error loading language server-side. Loading cannot continue.");
 			}
 		}
 		
@@ -165,7 +165,7 @@ public class LanguageManager
 			//Return a random potentially valid key if some were found.
 			if (containingKeys.size() > 0)
 			{
-				String key = containingKeys.get(MathHelper.getNumberInRange(0, containingKeys.size() - 1));
+				String key = containingKeys.get(RadixMath.getNumberInRange(0, containingKeys.size() - 1));
 				
 				if (parser != null)
 				{
@@ -182,7 +182,7 @@ public class LanguageManager
 			{
 				RadixCore.getLogger().error("[" + modId + "] No mapping found for requested phrase ID: " + id);
 				Throwable trace = new Throwable();
-				ExceptHelper.logErrorCatch(trace, "Stacktrace for non-fatal error.");
+				RadixExcept.logErrorCatch(trace, "Stacktrace for non-fatal error.");
 				return id;
 			}
 		}

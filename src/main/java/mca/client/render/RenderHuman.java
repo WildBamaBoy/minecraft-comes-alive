@@ -34,7 +34,7 @@ import net.minecraft.util.Vec3;
 import org.lwjgl.opengl.GL11;
 
 import radixcore.client.render.RenderHelper;
-import radixcore.helpers.MathHelper;
+import radixcore.util.RadixMath;
 
 /**
  * Determines how a Human is rendered.
@@ -98,7 +98,7 @@ public class RenderHuman extends RenderBiped
 		final AIConverse converseAI = human.getAI(AIConverse.class);
 		final int currentHealth = (int) human.getHealth();
 		final int maxHealth = (int) human.getMaxHealth();
-		final double distanceFromPlayer = MathHelper.getDistanceToEntity(human, Minecraft.getMinecraft().thePlayer);
+		final double distanceFromPlayer = RadixMath.getDistanceToEntity(human, Minecraft.getMinecraft().thePlayer);
 
 		if (canRenderNameTag(entityLivingBase) && MCA.getConfig().showNameTagOnHover)
 		{
@@ -153,7 +153,7 @@ public class RenderHuman extends RenderBiped
 		}
 
 		//TODO && hasQuest
-		if (MathHelper.getDistanceToEntity(entity, Minecraft.getMinecraft().thePlayer) <= 5.0F && !canRenderNameTag(entity) && !entity.getAI(AISleep.class).getIsSleeping() && !entity.displayNameForPlayer)
+		if (RadixMath.getDistanceToEntity(entity, Minecraft.getMinecraft().thePlayer) <= 5.0F && !canRenderNameTag(entity) && !entity.getAI(AISleep.class).getIsSleeping() && !entity.displayNameForPlayer)
 		{
 			GL11.glPushMatrix();
 			{
@@ -254,7 +254,7 @@ public class RenderHuman extends RenderBiped
 		try
 		{
 			//Clamp to 10 first to calculate gold hearts.
-			int clampedHearts = MathHelper.clamp(((Math.abs(heartsLevel) + 5) / 10), 0, 10);
+			int clampedHearts = RadixMath.clamp(((Math.abs(heartsLevel) + 5) / 10), 0, 10);
 			final boolean isNegative = heartsLevel < 0;
 			int goldHearts = isNegative ? 0 : clampedHearts - 5;
 
@@ -263,7 +263,7 @@ public class RenderHuman extends RenderBiped
 			final int negHeartU = 21;
 
 			//Clamp down to 5 hearts since processing has completed, needed to generate the list properly.
-			clampedHearts = MathHelper.clamp(clampedHearts, 0, 5);
+			clampedHearts = RadixMath.clamp(clampedHearts, 0, 5);
 			final List<Integer> heartsToDraw = new ArrayList<Integer>();
 
 			//Add the needed gold hearts.

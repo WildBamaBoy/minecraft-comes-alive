@@ -1,8 +1,8 @@
-package radixcore.helpers;
+package radixcore.util;
 
 import java.lang.reflect.Field;
 
-public final class ReflectHelper 
+public final class RadixReflect 
 {
 	public static <T> T getInstanceObjectOfTypeFromClass (Class<T> type, Class containingClass, Object containingClassInstance)
 	{
@@ -72,7 +72,7 @@ public final class ReflectHelper
 		return null;
 	}
 
-	private ReflectHelper()
+	private RadixReflect()
 	{
 	}
 }

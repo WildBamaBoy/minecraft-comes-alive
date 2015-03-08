@@ -7,8 +7,8 @@ import mca.enums.EnumBabyState;
 import mca.enums.EnumProgressionStep;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
-import radixcore.helpers.LogicHelper;
-import radixcore.helpers.MathHelper;
+import radixcore.util.RadixLogic;
+import radixcore.util.RadixMath;
 
 public class AIProgressStory extends AbstractAI
 {
@@ -47,7 +47,7 @@ public class AIProgressStory extends AbstractAI
 			{
 				ticksUntilNextProgress = MCA.getConfig().storyProgressionRate * Time.MINUTE;
 
-				if (LogicHelper.getBooleanWithProbability(75))
+				if (RadixLogic.getBooleanWithProbability(75))
 				{
 					switch (progressionStep)
 					{
@@ -108,7 +108,7 @@ public class AIProgressStory extends AbstractAI
 
 	private void doPartnerSearch()
 	{
-		EntityHuman partner = (EntityHuman) LogicHelper.getNearestEntityOfTypeWithinDistance(EntityHuman.class, owner, 15);
+		EntityHuman partner = (EntityHuman) RadixLogic.getNearestEntityOfTypeWithinDistance(EntityHuman.class, owner, 15);
 
 		if (partner != null && partner.getIsMale() != owner.getIsMale() 
 				&& !partner.getIsMarried() && !partner.getIsEngaged() && !partner.getIsChild() 
@@ -142,7 +142,7 @@ public class AIProgressStory extends AbstractAI
 	{
 		final EntityHuman mate = owner.getVillagerSpouse();
 
-		if (LogicHelper.getBooleanWithProbability(50) && mate != null && MathHelper.getDistanceToEntity(owner, mate) <= 8.5D)
+		if (RadixLogic.getBooleanWithProbability(50) && mate != null && RadixMath.getDistanceToEntity(owner, mate) <= 8.5D)
 		{
 			AIProgressStory mateAI = getMateAI(owner.getVillagerSpouse());
 			progressionStep = EnumProgressionStep.HAD_BABY;
@@ -191,7 +191,7 @@ public class AIProgressStory extends AbstractAI
 			}
 
 			//Generate chance of trying for another baby, if mate is found.
-			if (numChildren < 4 && LogicHelper.getBooleanWithProbability(50) && mate != null)
+			if (numChildren < 4 && RadixLogic.getBooleanWithProbability(50) && mate != null)
 			{
 				AIProgressStory mateAI = getMateAI(mate);
 				mateAI.progressionStep = EnumProgressionStep.TRY_FOR_BABY;

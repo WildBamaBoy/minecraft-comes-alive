@@ -1,6 +1,6 @@
-package radixcore.helpers;
+package radixcore.util;
 
-public final class StringHelper
+public final class RadixString
 {
 	/**
 	 * @param 	string	The string to be modified.
@@ -11,7 +11,7 @@ public final class StringHelper
 		return string.substring(0, 1).toUpperCase() + string.subSequence(1, string.length());
 	}
 	
-	private StringHelper()
+	private RadixString()
 	{
 	}
 }

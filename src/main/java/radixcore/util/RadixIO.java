@@ -1,4 +1,4 @@
-package radixcore.helpers;
+package radixcore.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public final class IOHelper 
+public final class RadixIO 
 {
 	public static void serializeToFile(File fileLocation, Object objectToSerialize)
 	{
@@ -26,7 +26,7 @@ public final class IOHelper
 
 		catch (IOException e)
 		{
-			ExceptHelper.logErrorCatch(e, "Failed to write object of type " + objectToSerialize.getClass().getSimpleName() + " to file!");
+			RadixExcept.logErrorCatch(e, "Failed to write object of type " + objectToSerialize.getClass().getSimpleName() + " to file!");
 		}
 	}
 
@@ -49,18 +49,18 @@ public final class IOHelper
 
 		catch (IOException e)
 		{
-			ExceptHelper.logErrorCatch(e, "Failed to read object from file located at " + fileLocation.getPath() + "!");
+			RadixExcept.logErrorCatch(e, "Failed to read object from file located at " + fileLocation.getPath() + "!");
 		} 
 		
 		catch (ClassNotFoundException e) 
 		{
-			ExceptHelper.logFatalCatch(e, "ClassNotFound when reading object from file located at " + fileLocation.getPath() + "! Are all libraries present and up to date?");
+			RadixExcept.logFatalCatch(e, "ClassNotFound when reading object from file located at " + fileLocation.getPath() + "! Are all libraries present and up to date?");
 		}
 		
 		return null;
 	}
 
-	private IOHelper()
+	private RadixIO()
 	{
 	}
 }

@@ -18,10 +18,10 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import radixcore.constant.Time;
 import radixcore.data.WatchedBoolean;
-import radixcore.helpers.ExceptHelper;
-import radixcore.helpers.LogicHelper;
-import radixcore.helpers.MathHelper;
 import radixcore.math.Point3D;
+import radixcore.util.RadixExcept;
+import radixcore.util.RadixLogic;
+import radixcore.util.RadixMath;
 
 public class AIHunting extends AbstractToggleAI
 {
@@ -68,7 +68,7 @@ public class AIHunting extends AbstractToggleAI
 		if (standPoint.iPosX == 0 && standPoint.iPosY == 0 && standPoint.iPosZ == 0)
 		{
 			//Find a point to stand at and hunt.
-			Point3D furthestGrass = LogicHelper.getFirstFurthestBlock(owner, Blocks.grass, 10);
+			Point3D furthestGrass = RadixLogic.getFirstFurthestBlock(owner, Blocks.grass, 10);
 
 			if (furthestGrass != null)
 			{
@@ -83,7 +83,7 @@ public class AIHunting extends AbstractToggleAI
 			return;
 		}
 
-		if (MathHelper.getDistanceToXYZ(owner, standPoint) >= 5.0F && owner.getNavigator().noPath())
+		if (RadixMath.getDistanceToXYZ(owner, standPoint) >= 5.0F && owner.getNavigator().noPath())
 		{
 			boolean successful = owner.getNavigator().tryMoveToXYZ(standPoint.dPosX, standPoint.dPosY, standPoint.dPosZ, Constants.SPEED_WALK);
 
@@ -93,7 +93,7 @@ public class AIHunting extends AbstractToggleAI
 			}
 		}
 
-		else if (MathHelper.getDistanceToXYZ(owner, standPoint) < 5.0F)
+		else if (RadixMath.getDistanceToXYZ(owner, standPoint) < 5.0F)
 		{
 			ticksActive++;
 
@@ -107,7 +107,7 @@ public class AIHunting extends AbstractToggleAI
 					{
 						final Class entityClass = ChoreRegistry.getRandomHuntingEntity(isTaming);
 						final EntityLiving entity = (EntityLiving)entityClass.getDeclaredConstructor(World.class).newInstance(owner.worldObj);
-						final List<Point3D> nearbyGrass = LogicHelper.getNearbyBlocks(owner, Blocks.grass, 3);
+						final List<Point3D> nearbyGrass = RadixLogic.getNearbyBlocks(owner, Blocks.grass, 3);
 						final Point3D spawnPoint = nearbyGrass.get(owner.worldObj.rand.nextInt(nearbyGrass.size()));
 
 						if (spawnPoint != null)
@@ -126,11 +126,11 @@ public class AIHunting extends AbstractToggleAI
 
 					catch (Exception e)
 					{
-						ExceptHelper.logErrorCatch(e, "There was an error spawning an entity for the hunting AI. If you are using a mod that expands MCA's hunting AI, it is likely the problem!");
+						RadixExcept.logErrorCatch(e, "There was an error spawning an entity for the hunting AI. If you are using a mod that expands MCA's hunting AI, it is likely the problem!");
 					}
 				}
 
-				List<Entity> nearbyItems = LogicHelper.getAllEntitiesOfTypeWithinDistance(EntityItem.class, owner, 5);
+				List<Entity> nearbyItems = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityItem.class, owner, 5);
 				
 				if (nearbyItems.size() != 0)
 				{

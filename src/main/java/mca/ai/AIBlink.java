@@ -4,7 +4,7 @@ import mca.core.MCA;
 import mca.entity.EntityHuman;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
-import radixcore.helpers.MathHelper;
+import radixcore.util.RadixMath;
 
 public class AIBlink extends AbstractAI
 {
@@ -44,7 +44,7 @@ public class AIBlink extends AbstractAI
 					timeHeldBlink = 0;
 					holdingBlink = false;
 					timeSinceLastBlink = 0;
-					nextBlink = MathHelper.getNumberInRange(Time.SECOND * 2, Time.SECOND * 8);
+					nextBlink = RadixMath.getNumberInRange(Time.SECOND * 2, Time.SECOND * 8);
 					owner.getAI(AISleep.class).transitionSkinState(false);
 				}
 			}

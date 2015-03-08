@@ -11,7 +11,7 @@ import java.util.List;
 
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.enums.EnumAxis;
-import radixcore.helpers.MathHelper;
+import radixcore.util.RadixMath;
 
 /**
  * Used to store a group of 3D coordinates and easily move them around.
@@ -137,7 +137,7 @@ public final class Point3D
 		
 		for (Point3D point : pointList)
 		{
-			double distanceTo = MathHelper.getDistanceToXYZ(refPoint.iPosX, refPoint.iPosY, refPoint.iPosZ, point.iPosX, point.iPosY, point.iPosZ);
+			double distanceTo = RadixMath.getDistanceToXYZ(refPoint.iPosX, refPoint.iPosY, refPoint.iPosZ, point.iPosX, point.iPosY, point.iPosZ);
 			
 			if (distanceTo < lastDistance)
 			{

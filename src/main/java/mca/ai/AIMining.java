@@ -15,9 +15,9 @@ import net.minecraft.item.ItemPickaxe;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
 import radixcore.data.WatchedBoolean;
-import radixcore.helpers.LogicHelper;
-import radixcore.helpers.MathHelper;
 import radixcore.math.Point3D;
+import radixcore.util.RadixLogic;
+import radixcore.util.RadixMath;
 
 public class AIMining extends AbstractToggleAI
 {
@@ -58,9 +58,9 @@ public class AIMining extends AbstractToggleAI
 				activityInterval = MINE_INTERVAL;
 
 				//If we're not already building and a stone block with a meta of 11 isn't found, begin building the mine.
-				if (!isBuildingMine && LogicHelper.getNearbyBlocksWithMetadata(owner, Blocks.stone, 11, 10).size() == 0)
+				if (!isBuildingMine && RadixLogic.getNearbyBlocksWithMetadata(owner, Blocks.stone, 11, 10).size() == 0)
 				{
-					final int y = LogicHelper.getSpawnSafeTopLevel(owner.worldObj, (int) owner.posX, (int) owner.posZ);
+					final int y = RadixLogic.getSpawnSafeTopLevel(owner.worldObj, (int) owner.posX, (int) owner.posZ);
 					final Block groundBlock = owner.worldObj.getBlock((int)owner.posX, y - 1, (int)owner.posZ);
 					owner.getAI(AIBuild.class).startBuilding("/assets/mca/schematic/mine1.schematic", true, groundBlock);
 
@@ -74,8 +74,8 @@ public class AIMining extends AbstractToggleAI
 					{
 						//When the chore is not running, pick a random stone block nearby and set its meta to 11.
 						//This identifies this area as a mine.
-						List<Point3D> nearbyStone = LogicHelper.getNearbyBlocks(owner, Blocks.stone, 4);
-						Point3D point = nearbyStone.get(MathHelper.getNumberInRange(0, nearbyStone.size()));
+						List<Point3D> nearbyStone = RadixLogic.getNearbyBlocks(owner, Blocks.stone, 4);
+						Point3D point = nearbyStone.get(RadixMath.getNumberInRange(0, nearbyStone.size()));
 
 						owner.worldObj.setBlockMetadataWithNotify(point.iPosX, point.iPosY, point.iPosZ, 11, 2);
 						isBuildingMine = false;
@@ -113,16 +113,16 @@ public class AIMining extends AbstractToggleAI
 					}
 
 					//Find the nearest block we can notify about.
-					for (final Point3D point : LogicHelper.getNearbyBlocks(owner, notifyBlock, 20))
+					for (final Point3D point : RadixLogic.getNearbyBlocks(owner, notifyBlock, 20))
 					{
 						if (distanceToBlock == -1)
 						{
-							distanceToBlock = (int) MathHelper.getDistanceToXYZ(point.iPosX, point.iPosY, point.iPosZ, ownerPos.iPosX, ownerPos.iPosY, ownerPos.iPosZ);
+							distanceToBlock = (int) RadixMath.getDistanceToXYZ(point.iPosX, point.iPosY, point.iPosZ, ownerPos.iPosX, ownerPos.iPosY, ownerPos.iPosZ);
 						}
 
 						else
 						{
-							double distanceToPoint = MathHelper.getDistanceToXYZ(point.iPosX, point.iPosY, point.iPosZ, ownerPos.iPosX, ownerPos.iPosY, ownerPos.iPosZ);
+							double distanceToPoint = RadixMath.getDistanceToXYZ(point.iPosX, point.iPosY, point.iPosZ, ownerPos.iPosX, ownerPos.iPosY, ownerPos.iPosZ);
 
 							if (distanceToPoint < distanceToBlock)
 							{
@@ -158,7 +158,7 @@ public class AIMining extends AbstractToggleAI
 					}
 
 					//Notify the player if they're on the server.
-					final EntityPlayer player = LogicHelper.getPlayerByUUID(assigningPlayer, owner.worldObj);
+					final EntityPlayer player = RadixLogic.getPlayerByUUID(assigningPlayer, owner.worldObj);
 
 					if (player != null)
 					{

@@ -1,11 +1,11 @@
-package radixcore.helpers;
+package radixcore.util;
 
 import java.util.Random;
 
 import net.minecraft.entity.Entity;
 import radixcore.math.Point3D;
 
-public final class MathHelper
+public final class RadixMath
 {
 	private static final Random rand = new Random();
 	
@@ -118,7 +118,7 @@ public final class MathHelper
 		return input < min ? min : input > max ? max : input;
 	}
 	
-	private MathHelper()
+	private RadixMath()
 	{
 	}
 }

@@ -1,6 +1,6 @@
 package mca.enums;
 
-import radixcore.helpers.StringHelper;
+import radixcore.util.RadixString;
 
 public enum EnumCut 
 {
@@ -15,6 +15,6 @@ public enum EnumCut
 	@Override
 	public String toString()
 	{
-		return this == NONE ? "" : StringHelper.upperFirstLetter(name().toLowerCase());
+		return this == NONE ? "" : RadixString.upperFirstLetter(name().toLowerCase());
 	}
 }

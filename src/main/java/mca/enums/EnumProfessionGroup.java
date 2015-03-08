@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mca.core.MCA;
-import radixcore.helpers.ExceptHelper;
-import radixcore.helpers.MathHelper;
+import radixcore.util.RadixExcept;
+import radixcore.util.RadixMath;
 
 public enum EnumProfessionGroup 
 {
@@ -63,12 +63,12 @@ public enum EnumProfessionGroup
 		{
 			try
 			{
-				return skinList.get(MathHelper.getNumberInRange(0, skinList.size() - 1));
+				return skinList.get(RadixMath.getNumberInRange(0, skinList.size() - 1));
 			}
 
 			catch (Exception e)
 			{
-				ExceptHelper.logErrorCatch(e, "Unable to generate random skin for skin group <" + this.toString() + ">" + "!");
+				RadixExcept.logErrorCatch(e, "Unable to generate random skin for skin group <" + this.toString() + ">" + "!");
 				return "";
 			}
 		}
@@ -91,7 +91,7 @@ public enum EnumProfessionGroup
 
 		do
 		{
-			int index = MathHelper.getNumberInRange(0, EnumProfessionGroup.values().length - 1);
+			int index = RadixMath.getNumberInRange(0, EnumProfessionGroup.values().length - 1);
 			generatedGroup = EnumProfessionGroup.values()[index];
 
 			if (generatedGroup != Any && generatedGroup != AnyExceptChild)
