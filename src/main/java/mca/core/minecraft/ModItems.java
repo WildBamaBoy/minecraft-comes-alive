@@ -16,7 +16,7 @@ import radixcore.helpers.StartupHelper;
 import radixcore.item.ItemColorable;
 import radixcore.item.ItemSingle;
 
-public final class Items
+public final class ModItems
 {
 	//First tab
 	public static ItemSingle weddingRing;
@@ -101,9 +101,9 @@ public final class Items
 	public static final Item purpleCrown;
 */
 
-	public Items()
+	public ModItems()
 	{
-		StartupHelper.initBaseItems(Items.class, MCA.getCreativeTabMain(), MCA.getMetadata());
+		StartupHelper.initBaseItems(ModItems.class, MCA.getCreativeTabMain(), MCA.getMetadata());
 		matchmakersRing.setMaxStackSize(2);
 		engagementRingHeart.setCreativeTab(MCA.getCreativeTabGemCutting());
 		engagementRingHeartRG.setCreativeTab(MCA.getCreativeTabGemCutting());

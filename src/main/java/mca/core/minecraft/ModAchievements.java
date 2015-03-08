@@ -1,7 +1,7 @@
 package mca.core.minecraft;
 
 
-public final class Achievements 
+public final class ModAchievements 
 {
 /*	public static final Achievement achievementCharmer;
 	public static final Achievement achievementGetMarried;
@@ -34,7 +34,7 @@ public final class Achievements
 	public static final Achievement achievementMonarchSecret;
 	public static final AchievementPage achievementPageMCA; */
 	
-	public Achievements()
+	public ModAchievements()
 	{
 		
 	}

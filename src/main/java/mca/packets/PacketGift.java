@@ -6,7 +6,7 @@ import mca.api.ChoreRegistry;
 import mca.core.MCA;
 import mca.core.TutorialManager;
 import mca.core.VersionBridge;
-import mca.core.minecraft.Items;
+import mca.core.minecraft.ModItems;
 import mca.data.PlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
@@ -79,23 +79,23 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			boolean removeItem = false;
 			int removeCount = 1;
 
-			if (item == Items.weddingRing || item == Items.weddingRingRG)
+			if (item == ModItems.weddingRing || item == ModItems.weddingRingRG)
 			{
 				removeItem = handleWeddingRing(player, human);
 			}
 
-			else if (item == Items.matchmakersRing)
+			else if (item == ModItems.matchmakersRing)
 			{
 				removeItem = handleMatchmakersRing(player, human, stack);
 				removeCount = 2;
 			}
 
-			else if (item == Items.engagementRing || item == Items.weddingRingRG || item == Items.coloredEngagementRingRG || item == Items.coloredEngagementRing)
+			else if (item == ModItems.engagementRing || item == ModItems.weddingRingRG || item == ModItems.coloredEngagementRingRG || item == ModItems.coloredEngagementRing)
 			{
 				removeItem = handleEngagementRing(player, human);
 			}
 
-			else if (item == Items.divorcePapers)
+			else if (item == ModItems.divorcePapers)
 			{
 				removeItem = handleDivorcePapers(player, human);
 			}

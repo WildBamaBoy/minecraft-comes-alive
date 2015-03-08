@@ -4,7 +4,7 @@ import java.util.Random;
 
 import mca.core.MCA;
 import mca.core.VersionBridge;
-import mca.core.minecraft.Items;
+import mca.core.minecraft.ModItems;
 import mca.data.PlayerData;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
@@ -65,7 +65,7 @@ public class AIProcreate extends AbstractAI
 					data.shouldHaveBaby.setValue(true);
 					
 					boolean isMale = new Random().nextBoolean();
-					ItemStack stack = new ItemStack(isMale ? Items.babyBoy : Items.babyGirl);
+					ItemStack stack = new ItemStack(isMale ? ModItems.babyBoy : ModItems.babyGirl);
 					
 					if (!playerSpouse.inventory.addItemStackToInventory(stack))
 					{

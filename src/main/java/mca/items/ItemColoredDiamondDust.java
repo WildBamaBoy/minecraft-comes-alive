@@ -1,8 +1,8 @@
 package mca.items;
 
 import mca.core.MCA;
-import cpw.mods.fml.common.registry.GameRegistry;
 import radixcore.item.ItemColorable;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ItemColoredDiamondDust extends ItemColorable
 {

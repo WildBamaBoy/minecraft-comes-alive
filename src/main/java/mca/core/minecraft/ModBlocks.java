@@ -7,7 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockOre;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public final class Blocks
+public final class ModBlocks
 {
 	public static BlockVillagerBed bedRed;
 	public static BlockVillagerBed bedBlue;
@@ -17,7 +17,7 @@ public final class Blocks
 	public static Block roseGoldBlock;
 	public static Block roseGoldOre;
 
-	public Blocks()
+	public ModBlocks()
 	{
 		bedRed = new BlockVillagerBed(EnumBedColor.RED);
 		bedBlue = new BlockVillagerBed(EnumBedColor.BLUE);

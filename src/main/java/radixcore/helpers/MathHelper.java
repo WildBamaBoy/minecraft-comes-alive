@@ -2,8 +2,8 @@ package radixcore.helpers;
 
 import java.util.Random;
 
-import radixcore.math.Point3D;
 import net.minecraft.entity.Entity;
+import radixcore.math.Point3D;
 
 public final class MathHelper
 {

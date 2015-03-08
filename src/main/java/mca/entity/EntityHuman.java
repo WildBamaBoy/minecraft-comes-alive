@@ -27,7 +27,7 @@ import mca.ai.AISleep;
 import mca.ai.AIWoodcutting;
 import mca.ai.AbstractAI;
 import mca.core.MCA;
-import mca.core.minecraft.Items;
+import mca.core.minecraft.ModItems;
 import mca.data.PlayerData;
 import mca.data.PlayerMemory;
 import mca.data.PlayerMemoryHandler;
@@ -56,6 +56,7 @@ import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -806,14 +807,14 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			switch (babyState.getInt())
 			{
-			case 1: return new ItemStack(Items.babyBoy);
-			case 2: return new ItemStack(Items.babyGirl);
+			case 1: return new ItemStack(ModItems.babyBoy);
+			case 2: return new ItemStack(ModItems.babyGirl);
 			}
 		}
 
 		else if (getProfessionEnum() == EnumProfession.Guard)
 		{
-			return new ItemStack(net.minecraft.init.Items.iron_sword);
+			return new ItemStack(Items.iron_sword);
 		}
 
 		else if (heldItem.getInt() != -1 && aiManager.isToggleAIActive())

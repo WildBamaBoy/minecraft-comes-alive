@@ -1,7 +1,7 @@
 package mca.core.forge;
 
 import mca.core.MCA;
-import mca.core.minecraft.Items;
+import mca.core.minecraft.ModItems;
 import mca.data.PlayerData;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
@@ -49,9 +49,9 @@ public class EventHooksFML
 		MCA.playerDataMap.put(event.player.getUniqueID().toString(), data);
 		MCA.getPacketHandler().sendPacketToPlayer(new PacketDataContainer(MCA.ID, data), (EntityPlayerMP)event.player);
 
-		if (!data.hasChosenDestiny.getBoolean() && !player.inventory.hasItem(Items.crystalBall))
+		if (!data.hasChosenDestiny.getBoolean() && !player.inventory.hasItem(ModItems.crystalBall))
 		{
-			player.inventory.addItemStackToInventory(new ItemStack(Items.crystalBall));
+			player.inventory.addItemStackToInventory(new ItemStack(ModItems.crystalBall));
 		}
 	}
 

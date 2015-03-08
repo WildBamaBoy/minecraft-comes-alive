@@ -4,7 +4,7 @@ import java.util.List;
 
 import mca.blocks.BlockVillagerBed;
 import mca.core.MCA;
-import mca.core.minecraft.Blocks;
+import mca.core.minecraft.ModBlocks;
 import mca.enums.EnumBedColor;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,15 +38,15 @@ public class ItemVillagerBed extends Item
 		switch (color)
 		{
 		case BLUE:
-			return Blocks.bedBlue;
+			return ModBlocks.bedBlue;
 		case GREEN:
-			return Blocks.bedGreen;
+			return ModBlocks.bedGreen;
 		case PINK:
-			return Blocks.bedPink;
+			return ModBlocks.bedPink;
 		case PURPLE:
-			return Blocks.bedPurple;
+			return ModBlocks.bedPurple;
 		case RED:
-			return Blocks.bedRed;
+			return ModBlocks.bedRed;
 		default:
 			return null;
 		}

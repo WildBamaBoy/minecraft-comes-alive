@@ -11,9 +11,9 @@ import mca.core.forge.EventHooksFML;
 import mca.core.forge.EventHooksForge;
 import mca.core.forge.GuiHandler;
 import mca.core.forge.ServerProxy;
-import mca.core.minecraft.Achievements;
-import mca.core.minecraft.Blocks;
-import mca.core.minecraft.Items;
+import mca.core.minecraft.ModAchievements;
+import mca.core.minecraft.ModBlocks;
+import mca.core.minecraft.ModItems;
 import mca.core.radix.LanguageParser;
 import mca.data.PlayerData;
 import mca.entity.EntityHuman;
@@ -27,6 +27,8 @@ import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
@@ -69,9 +71,9 @@ public class MCA
 	@Instance(ID)
 	private static MCA instance;
 	private static ModMetadata metadata;
-	private static Items items;
-	private static Blocks blocks;
-	private static Achievements achievements;
+	private static ModItems items;
+	private static ModBlocks blocks;
+	private static ModAchievements achievements;
 	private static CreativeTabs creativeTabMain;
 	private static CreativeTabs creativeTabGemCutting;
 	private static Config config;
@@ -118,11 +120,11 @@ public class MCA
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-    	creativeTabMain = StartupHelper.registerCreativeTab(Items.class, "engagementRing", metadata);
-    	creativeTabGemCutting = StartupHelper.registerCreativeTab(Items.class, "diamondHeart", metadata);
-    	items = new Items();
-    	blocks = new Blocks();
-    	achievements = new Achievements();
+    	creativeTabMain = StartupHelper.registerCreativeTab(ModItems.class, "engagementRing", metadata);
+    	creativeTabGemCutting = StartupHelper.registerCreativeTab(ModItems.class, "diamondHeart", metadata);
+    	items = new ModItems();
+    	blocks = new ModBlocks();
+    	achievements = new ModAchievements();
     	
     	SkinLoader.loadSkins();
 
@@ -133,185 +135,185 @@ public class MCA
     	GameRegistry.registerTileEntity(TileVillagerBed.class, TileVillagerBed.class.getSimpleName());
     	
     	//Recipes
-    	GameRegistry.addRecipe(new ItemStack(Items.engagementRing), 
-    			"GDG", "G G", "GGG", 'D', net.minecraft.init.Items.diamond, 'G', net.minecraft.init.Items.gold_ingot);
-    	GameRegistry.addRecipe(new ItemStack(Items.engagementRingRG), 
-    			"GDG", "G G", "GGG", 'D', net.minecraft.init.Items.diamond, 'G', Items.roseGoldIngot);
-    	GameRegistry.addRecipe(new ItemStack(Items.weddingRing),
-    			"GGG", "G G", "GGG", 'G', net.minecraft.init.Items.gold_ingot);
-    	GameRegistry.addRecipe(new ItemStack(Items.weddingRingRG),
-    			"GGG", "G G", "GGG", 'G', Items.roseGoldIngot);
-    	GameRegistry.addRecipe(new ItemStack(Blocks.roseGoldBlock),
-    			"GGG", "GGG", "GGG", 'G', Items.roseGoldIngot);
-    	GameRegistry.addRecipe(new ItemStack(Items.matchmakersRing),
-    			"III", "I I", "III", 'I', net.minecraft.init.Items.iron_ingot);
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.diamondDust), net.minecraft.init.Items.diamond);
+    	GameRegistry.addRecipe(new ItemStack(ModItems.engagementRing), 
+    			"GDG", "G G", "GGG", 'D', Items.diamond, 'G', Items.gold_ingot);
+    	GameRegistry.addRecipe(new ItemStack(ModItems.engagementRingRG), 
+    			"GDG", "G G", "GGG", 'D', Items.diamond, 'G', ModItems.roseGoldIngot);
+    	GameRegistry.addRecipe(new ItemStack(ModItems.weddingRing),
+    			"GGG", "G G", "GGG", 'G', Items.gold_ingot);
+    	GameRegistry.addRecipe(new ItemStack(ModItems.weddingRingRG),
+    			"GGG", "G G", "GGG", 'G', ModItems.roseGoldIngot);
+    	GameRegistry.addRecipe(new ItemStack(ModBlocks.roseGoldBlock),
+    			"GGG", "GGG", "GGG", 'G', ModItems.roseGoldIngot);
+    	GameRegistry.addRecipe(new ItemStack(ModItems.matchmakersRing),
+    			"III", "I I", "III", 'I', Items.iron_ingot);
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondDust), Items.diamond);
 		
     	//Colored diamond recipes.
 		for (int i = 0; i < 16; ++i)
 		{
-			ItemStack coloredDiamond =  new ItemStack(Items.coloredDiamond, 1, i);
-			ItemStack coloredDiamondDust = new ItemStack(Items.coloredDiamondDust, 1, i);
-			ItemStack engagementRing = new ItemStack(Items.coloredEngagementRing, 1, i);
-			ItemStack engagementRingRG = new ItemStack(Items.coloredEngagementRingRG, 1, i);
-			ItemStack dye = new ItemStack(net.minecraft.init.Items.dye, 1, i);
+			ItemStack coloredDiamond =  new ItemStack(ModItems.coloredDiamond, 1, i);
+			ItemStack coloredDiamondDust = new ItemStack(ModItems.coloredDiamondDust, 1, i);
+			ItemStack engagementRing = new ItemStack(ModItems.coloredEngagementRing, 1, i);
+			ItemStack engagementRingRG = new ItemStack(ModItems.coloredEngagementRingRG, 1, i);
+			ItemStack dye = new ItemStack(Items.dye, 1, i);
 			
-			GameRegistry.addShapelessRecipe(coloredDiamondDust, dye, new ItemStack(Items.diamondDust));
+			GameRegistry.addShapelessRecipe(coloredDiamondDust, dye, new ItemStack(ModItems.diamondDust));
 
 	    	GameRegistry.addRecipe(engagementRing, 
-	    			"GDG", "G G", "GGG", 'D', coloredDiamond, 'G', net.minecraft.init.Items.gold_ingot);
+	    			"GDG", "G G", "GGG", 'D', coloredDiamond, 'G', Items.gold_ingot);
 	    	GameRegistry.addRecipe(engagementRingRG, 
-	    			"GDG", "G G", "GGG", 'D', coloredDiamond, 'G', Items.roseGoldIngot);
+	    			"GDG", "G G", "GGG", 'D', coloredDiamond, 'G', ModItems.roseGoldIngot);
 	    	
 	    	GameRegistry.addSmelting(coloredDiamondDust, coloredDiamond, 5.0F);
 		}
 		
     	//Smeltings
-    	GameRegistry.addSmelting(Blocks.roseGoldOre, new ItemStack(Items.roseGoldIngot), 5.0F);
-    	GameRegistry.addSmelting(Items.diamondDust, new ItemStack(net.minecraft.init.Items.diamond), 5.0F);
+    	GameRegistry.addSmelting(ModBlocks.roseGoldOre, new ItemStack(ModItems.roseGoldIngot), 5.0F);
+    	GameRegistry.addSmelting(ModItems.diamondDust, new ItemStack(Items.diamond), 5.0F);
     }
     
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-    	ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.wooden_sword, 3);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.wooden_axe, 3);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.wooden_hoe, 3);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.wooden_shovel, 3);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.stone_sword, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.stone_axe, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.stone_hoe, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.stone_shovel, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.wooden_pickaxe, 3);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.beef, 2);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.chicken, 2);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.porkchop, 2);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.leather, 2);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.leather_chestplate, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.leather_helmet, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.leather_leggings, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.leather_boots, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.reeds, 2);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.wheat_seeds, 2);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.wheat, 3);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.bread, 6);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.coal, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.sugar, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.clay_ball, 2);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.dye, 1);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.cooked_beef, 7);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.cooked_chicken, 7);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.cooked_porkchop, 7);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.cookie, 10);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.melon, 10);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.melon_seeds, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.iron_helmet, 10);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.iron_chestplate, 10);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.iron_leggings, 10);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.iron_boots, 10);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.cake, 12);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.iron_sword, 10);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.iron_axe, 10);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.iron_hoe, 10);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.iron_pickaxe, 10);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.iron_shovel, 10);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.fishing_rod, 3);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.bow, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.book, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.bucket, 3);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.milk_bucket, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.water_bucket, 2);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.lava_bucket, 2);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.mushroom_stew, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.pumpkin_seeds, 8);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.flint_and_steel, 4);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.redstone, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.boat, 4);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.wooden_door, 4);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.iron_door, 6);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.minecart, 7);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.flint, 2);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.gold_nugget, 4);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.gold_ingot, 20);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.iron_ingot, 10);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.diamond, 30);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.map, 10);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.clock, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.compass, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.blaze_rod, 10);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.blaze_powder, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.diamond_sword, 15);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.diamond_axe, 15);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.diamond_shovel, 15);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.diamond_hoe, 15);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.diamond_leggings, 15);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.diamond_helmet, 15);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.diamond_chestplate, 15);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.diamond_leggings, 15);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.diamond_boots, 15);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.painting, 6);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.ender_pearl, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.ender_eye, 10);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.potionitem, 3);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.slime_ball, 3);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.saddle, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.gunpowder, 7);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.golden_apple, 25);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.record_11, 15);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.record_13, 15);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.record_wait, 15);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.record_cat, 15);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.record_chirp, 15);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.record_far, 15);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.record_mall, 15);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.record_mellohi, 15);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.record_stal, 15);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.record_strad, 15);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.record_ward, 15);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Items.emerald, 25);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.red_flower, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.yellow_flower, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.planks, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.log, 3);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.pumpkin, 3);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.chest, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.wool, 2);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.iron_ore, 4);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.gold_ore, 7);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.redstone_ore, 3);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.rail, 3);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.detector_rail, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.activator_rail, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.furnace, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.crafting_table, 5);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.lapis_block, 15);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.bookshelf, 7);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.gold_block, 50);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.iron_block, 25);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.diamond_block, 100);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.brewing_stand, 12);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.enchanting_table, 25);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.brick_block, 15);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.obsidian, 15);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.piston, 10);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.glowstone, 10);
-		ChoreRegistry.addObjectAsGift(net.minecraft.init.Blocks.emerald_block, 100);
+    	ChoreRegistry.addObjectAsGift(Items.wooden_sword, 3);
+		ChoreRegistry.addObjectAsGift(Items.wooden_axe, 3);
+		ChoreRegistry.addObjectAsGift(Items.wooden_hoe, 3);
+		ChoreRegistry.addObjectAsGift(Items.wooden_shovel, 3);
+		ChoreRegistry.addObjectAsGift(Items.stone_sword, 5);
+		ChoreRegistry.addObjectAsGift(Items.stone_axe, 5);
+		ChoreRegistry.addObjectAsGift(Items.stone_hoe, 5);
+		ChoreRegistry.addObjectAsGift(Items.stone_shovel, 5);
+		ChoreRegistry.addObjectAsGift(Items.wooden_pickaxe, 3);
+		ChoreRegistry.addObjectAsGift(Items.beef, 2);
+		ChoreRegistry.addObjectAsGift(Items.chicken, 2);
+		ChoreRegistry.addObjectAsGift(Items.porkchop, 2);
+		ChoreRegistry.addObjectAsGift(Items.leather, 2);
+		ChoreRegistry.addObjectAsGift(Items.leather_chestplate, 5);
+		ChoreRegistry.addObjectAsGift(Items.leather_helmet, 5);
+		ChoreRegistry.addObjectAsGift(Items.leather_leggings, 5);
+		ChoreRegistry.addObjectAsGift(Items.leather_boots, 5);
+		ChoreRegistry.addObjectAsGift(Items.reeds, 2);
+		ChoreRegistry.addObjectAsGift(Items.wheat_seeds, 2);
+		ChoreRegistry.addObjectAsGift(Items.wheat, 3);
+		ChoreRegistry.addObjectAsGift(Items.bread, 6);
+		ChoreRegistry.addObjectAsGift(Items.coal, 5);
+		ChoreRegistry.addObjectAsGift(Items.sugar, 5);
+		ChoreRegistry.addObjectAsGift(Items.clay_ball, 2);
+		ChoreRegistry.addObjectAsGift(Items.dye, 1);
+		ChoreRegistry.addObjectAsGift(Items.cooked_beef, 7);
+		ChoreRegistry.addObjectAsGift(Items.cooked_chicken, 7);
+		ChoreRegistry.addObjectAsGift(Items.cooked_porkchop, 7);
+		ChoreRegistry.addObjectAsGift(Items.cookie, 10);
+		ChoreRegistry.addObjectAsGift(Items.melon, 10);
+		ChoreRegistry.addObjectAsGift(Items.melon_seeds, 5);
+		ChoreRegistry.addObjectAsGift(Items.iron_helmet, 10);
+		ChoreRegistry.addObjectAsGift(Items.iron_chestplate, 10);
+		ChoreRegistry.addObjectAsGift(Items.iron_leggings, 10);
+		ChoreRegistry.addObjectAsGift(Items.iron_boots, 10);
+		ChoreRegistry.addObjectAsGift(Items.cake, 12);
+		ChoreRegistry.addObjectAsGift(Items.iron_sword, 10);
+		ChoreRegistry.addObjectAsGift(Items.iron_axe, 10);
+		ChoreRegistry.addObjectAsGift(Items.iron_hoe, 10);
+		ChoreRegistry.addObjectAsGift(Items.iron_pickaxe, 10);
+		ChoreRegistry.addObjectAsGift(Items.iron_shovel, 10);
+		ChoreRegistry.addObjectAsGift(Items.fishing_rod, 3);
+		ChoreRegistry.addObjectAsGift(Items.bow, 5);
+		ChoreRegistry.addObjectAsGift(Items.book, 5);
+		ChoreRegistry.addObjectAsGift(Items.bucket, 3);
+		ChoreRegistry.addObjectAsGift(Items.milk_bucket, 5);
+		ChoreRegistry.addObjectAsGift(Items.water_bucket, 2);
+		ChoreRegistry.addObjectAsGift(Items.lava_bucket, 2);
+		ChoreRegistry.addObjectAsGift(Items.mushroom_stew, 5);
+		ChoreRegistry.addObjectAsGift(Items.pumpkin_seeds, 8);
+		ChoreRegistry.addObjectAsGift(Items.flint_and_steel, 4);
+		ChoreRegistry.addObjectAsGift(Items.redstone, 5);
+		ChoreRegistry.addObjectAsGift(Items.boat, 4);
+		ChoreRegistry.addObjectAsGift(Items.wooden_door, 4);
+		ChoreRegistry.addObjectAsGift(Items.iron_door, 6);
+		ChoreRegistry.addObjectAsGift(Items.minecart, 7);
+		ChoreRegistry.addObjectAsGift(Items.flint, 2);
+		ChoreRegistry.addObjectAsGift(Items.gold_nugget, 4);
+		ChoreRegistry.addObjectAsGift(Items.gold_ingot, 20);
+		ChoreRegistry.addObjectAsGift(Items.iron_ingot, 10);
+		ChoreRegistry.addObjectAsGift(Items.diamond, 30);
+		ChoreRegistry.addObjectAsGift(Items.map, 10);
+		ChoreRegistry.addObjectAsGift(Items.clock, 5);
+		ChoreRegistry.addObjectAsGift(Items.compass, 5);
+		ChoreRegistry.addObjectAsGift(Items.blaze_rod, 10);
+		ChoreRegistry.addObjectAsGift(Items.blaze_powder, 5);
+		ChoreRegistry.addObjectAsGift(Items.diamond_sword, 15);
+		ChoreRegistry.addObjectAsGift(Items.diamond_axe, 15);
+		ChoreRegistry.addObjectAsGift(Items.diamond_shovel, 15);
+		ChoreRegistry.addObjectAsGift(Items.diamond_hoe, 15);
+		ChoreRegistry.addObjectAsGift(Items.diamond_leggings, 15);
+		ChoreRegistry.addObjectAsGift(Items.diamond_helmet, 15);
+		ChoreRegistry.addObjectAsGift(Items.diamond_chestplate, 15);
+		ChoreRegistry.addObjectAsGift(Items.diamond_leggings, 15);
+		ChoreRegistry.addObjectAsGift(Items.diamond_boots, 15);
+		ChoreRegistry.addObjectAsGift(Items.painting, 6);
+		ChoreRegistry.addObjectAsGift(Items.ender_pearl, 5);
+		ChoreRegistry.addObjectAsGift(Items.ender_eye, 10);
+		ChoreRegistry.addObjectAsGift(Items.potionitem, 3);
+		ChoreRegistry.addObjectAsGift(Items.slime_ball, 3);
+		ChoreRegistry.addObjectAsGift(Items.saddle, 5);
+		ChoreRegistry.addObjectAsGift(Items.gunpowder, 7);
+		ChoreRegistry.addObjectAsGift(Items.golden_apple, 25);
+		ChoreRegistry.addObjectAsGift(Items.record_11, 15);
+		ChoreRegistry.addObjectAsGift(Items.record_13, 15);
+		ChoreRegistry.addObjectAsGift(Items.record_wait, 15);
+		ChoreRegistry.addObjectAsGift(Items.record_cat, 15);
+		ChoreRegistry.addObjectAsGift(Items.record_chirp, 15);
+		ChoreRegistry.addObjectAsGift(Items.record_far, 15);
+		ChoreRegistry.addObjectAsGift(Items.record_mall, 15);
+		ChoreRegistry.addObjectAsGift(Items.record_mellohi, 15);
+		ChoreRegistry.addObjectAsGift(Items.record_stal, 15);
+		ChoreRegistry.addObjectAsGift(Items.record_strad, 15);
+		ChoreRegistry.addObjectAsGift(Items.record_ward, 15);
+		ChoreRegistry.addObjectAsGift(Items.emerald, 25);
+		ChoreRegistry.addObjectAsGift(Blocks.red_flower, 5);
+		ChoreRegistry.addObjectAsGift(Blocks.yellow_flower, 5);
+		ChoreRegistry.addObjectAsGift(Blocks.planks, 5);
+		ChoreRegistry.addObjectAsGift(Blocks.log, 3);
+		ChoreRegistry.addObjectAsGift(Blocks.pumpkin, 3);
+		ChoreRegistry.addObjectAsGift(Blocks.chest, 5);
+		ChoreRegistry.addObjectAsGift(Blocks.wool, 2);
+		ChoreRegistry.addObjectAsGift(Blocks.iron_ore, 4);
+		ChoreRegistry.addObjectAsGift(Blocks.gold_ore, 7);
+		ChoreRegistry.addObjectAsGift(Blocks.redstone_ore, 3);
+		ChoreRegistry.addObjectAsGift(Blocks.rail, 3);
+		ChoreRegistry.addObjectAsGift(Blocks.detector_rail, 5);
+		ChoreRegistry.addObjectAsGift(Blocks.activator_rail, 5);
+		ChoreRegistry.addObjectAsGift(Blocks.furnace, 5);
+		ChoreRegistry.addObjectAsGift(Blocks.crafting_table, 5);
+		ChoreRegistry.addObjectAsGift(Blocks.lapis_block, 15);
+		ChoreRegistry.addObjectAsGift(Blocks.bookshelf, 7);
+		ChoreRegistry.addObjectAsGift(Blocks.gold_block, 50);
+		ChoreRegistry.addObjectAsGift(Blocks.iron_block, 25);
+		ChoreRegistry.addObjectAsGift(Blocks.diamond_block, 100);
+		ChoreRegistry.addObjectAsGift(Blocks.brewing_stand, 12);
+		ChoreRegistry.addObjectAsGift(Blocks.enchanting_table, 25);
+		ChoreRegistry.addObjectAsGift(Blocks.brick_block, 15);
+		ChoreRegistry.addObjectAsGift(Blocks.obsidian, 15);
+		ChoreRegistry.addObjectAsGift(Blocks.piston, 10);
+		ChoreRegistry.addObjectAsGift(Blocks.glowstone, 10);
+		ChoreRegistry.addObjectAsGift(Blocks.emerald_block, 100);
 		
-		ChoreRegistry.addBlockToMiningAI(1, net.minecraft.init.Blocks.coal_ore);
-		ChoreRegistry.addBlockToMiningAI(2, net.minecraft.init.Blocks.iron_ore);
-		ChoreRegistry.addBlockToMiningAI(3, net.minecraft.init.Blocks.lapis_ore);
-		ChoreRegistry.addBlockToMiningAI(4, net.minecraft.init.Blocks.gold_ore);
-		ChoreRegistry.addBlockToMiningAI(5, net.minecraft.init.Blocks.diamond_ore);
-		ChoreRegistry.addBlockToMiningAI(6, net.minecraft.init.Blocks.emerald_ore);
-		ChoreRegistry.addBlockToMiningAI(7, net.minecraft.init.Blocks.quartz_ore);
-		ChoreRegistry.addBlockToMiningAI(8, Blocks.roseGoldOre);
+		ChoreRegistry.addBlockToMiningAI(1, Blocks.coal_ore);
+		ChoreRegistry.addBlockToMiningAI(2, Blocks.iron_ore);
+		ChoreRegistry.addBlockToMiningAI(3, Blocks.lapis_ore);
+		ChoreRegistry.addBlockToMiningAI(4, Blocks.gold_ore);
+		ChoreRegistry.addBlockToMiningAI(5, Blocks.diamond_ore);
+		ChoreRegistry.addBlockToMiningAI(6, Blocks.emerald_ore);
+		ChoreRegistry.addBlockToMiningAI(7, Blocks.quartz_ore);
+		ChoreRegistry.addBlockToMiningAI(8, ModBlocks.roseGoldOre);
 		
-		ChoreRegistry.addBlockToWoodcuttingAI(1, new WoodcuttingEntry(net.minecraft.init.Blocks.log, 0, net.minecraft.init.Blocks.sapling, 0));
-		ChoreRegistry.addBlockToWoodcuttingAI(2, new WoodcuttingEntry(net.minecraft.init.Blocks.log, 1, net.minecraft.init.Blocks.sapling, 1));
-		ChoreRegistry.addBlockToWoodcuttingAI(3, new WoodcuttingEntry(net.minecraft.init.Blocks.log, 2, net.minecraft.init.Blocks.sapling, 2));
-		ChoreRegistry.addBlockToWoodcuttingAI(4, new WoodcuttingEntry(net.minecraft.init.Blocks.log, 3, net.minecraft.init.Blocks.sapling, 3));
-		ChoreRegistry.addBlockToWoodcuttingAI(5, new WoodcuttingEntry(net.minecraft.init.Blocks.log2, 0, net.minecraft.init.Blocks.sapling, 4));
-		ChoreRegistry.addBlockToWoodcuttingAI(6, new WoodcuttingEntry(net.minecraft.init.Blocks.log2, 1, net.minecraft.init.Blocks.sapling, 5));
+		ChoreRegistry.addBlockToWoodcuttingAI(1, new WoodcuttingEntry(Blocks.log, 0, Blocks.sapling, 0));
+		ChoreRegistry.addBlockToWoodcuttingAI(2, new WoodcuttingEntry(Blocks.log, 1, Blocks.sapling, 1));
+		ChoreRegistry.addBlockToWoodcuttingAI(3, new WoodcuttingEntry(Blocks.log, 2, Blocks.sapling, 2));
+		ChoreRegistry.addBlockToWoodcuttingAI(4, new WoodcuttingEntry(Blocks.log, 3, Blocks.sapling, 3));
+		ChoreRegistry.addBlockToWoodcuttingAI(5, new WoodcuttingEntry(Blocks.log2, 0, Blocks.sapling, 4));
+		ChoreRegistry.addBlockToWoodcuttingAI(6, new WoodcuttingEntry(Blocks.log2, 1, Blocks.sapling, 5));
 		
 		ChoreRegistry.addEntityToHuntingAI(EntitySheep.class);
 		ChoreRegistry.addEntityToHuntingAI(EntityCow.class);
@@ -320,11 +322,11 @@ public class MCA
 		ChoreRegistry.addEntityToHuntingAI(EntityOcelot.class, false);
 		ChoreRegistry.addEntityToHuntingAI(EntityWolf.class, false);
 		
-		ChoreRegistry.addFoodToCookingAI(new CookableFood(net.minecraft.init.Items.porkchop, net.minecraft.init.Items.cooked_porkchop));
-		ChoreRegistry.addFoodToCookingAI(new CookableFood(net.minecraft.init.Items.beef, net.minecraft.init.Items.cooked_beef));
-		ChoreRegistry.addFoodToCookingAI(new CookableFood(net.minecraft.init.Items.chicken, net.minecraft.init.Items.cooked_chicken));
-		ChoreRegistry.addFoodToCookingAI(new CookableFood(net.minecraft.init.Items.fish, net.minecraft.init.Items.cooked_fished));
-		ChoreRegistry.addFoodToCookingAI(new CookableFood(net.minecraft.init.Items.potato, net.minecraft.init.Items.baked_potato));
+		ChoreRegistry.addFoodToCookingAI(new CookableFood(Items.porkchop, Items.cooked_porkchop));
+		ChoreRegistry.addFoodToCookingAI(new CookableFood(Items.beef, Items.cooked_beef));
+		ChoreRegistry.addFoodToCookingAI(new CookableFood(Items.chicken, Items.cooked_chicken));
+		ChoreRegistry.addFoodToCookingAI(new CookableFood(Items.fish, Items.cooked_fished));
+		ChoreRegistry.addFoodToCookingAI(new CookableFood(Items.potato, Items.baked_potato));
     }
     
     @EventHandler
