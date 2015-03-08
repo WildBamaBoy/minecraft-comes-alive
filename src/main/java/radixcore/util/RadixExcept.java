@@ -1,6 +1,6 @@
 package radixcore.util;
 
-import radixcore.RadixCore;
+import radixcore.core.RadixCore;
 
 public final class RadixExcept 
 {

@@ -37,8 +37,8 @@ import net.minecraftforge.common.MinecraftForge;
 
 import org.apache.logging.log4j.Logger;
 
-import radixcore.ModMetadataEx;
-import radixcore.RadixCore;
+import radixcore.core.ModMetadataEx;
+import radixcore.core.RadixCore;
 import radixcore.data.AbstractPlayerData;
 import radixcore.data.DataContainer;
 import radixcore.lang.LanguageManager;

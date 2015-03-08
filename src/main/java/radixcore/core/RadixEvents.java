@@ -5,7 +5,7 @@
  * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
-package radixcore;
+package radixcore.core;
 
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.world.WorldEvent;

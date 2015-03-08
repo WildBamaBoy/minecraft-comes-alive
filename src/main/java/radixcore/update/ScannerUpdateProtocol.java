@@ -3,8 +3,8 @@ package radixcore.update;
 import java.net.URL;
 import java.util.Scanner;
 
-import radixcore.ModMetadataEx;
-import radixcore.RadixCore;
+import radixcore.core.ModMetadataEx;
+import radixcore.core.RadixCore;
 
 public class ScannerUpdateProtocol implements IUpdateProtocol
 {

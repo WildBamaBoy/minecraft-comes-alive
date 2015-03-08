@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import radixcore.RadixCore;
+import radixcore.core.RadixCore;
 import radixcore.util.RadixExcept;
 import radixcore.util.RadixMath;
 import cpw.mods.fml.common.FMLCommonHandler;

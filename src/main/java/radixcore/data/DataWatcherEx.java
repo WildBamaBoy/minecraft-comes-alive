@@ -11,8 +11,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
-import radixcore.ModMetadataEx;
-import radixcore.RadixCore;
+import radixcore.core.ModMetadataEx;
+import radixcore.core.RadixCore;
 import radixcore.packets.PacketWatchedUpdateC;
 import radixcore.packets.PacketWatchedUpdateS;
 import radixcore.util.RadixExcept;

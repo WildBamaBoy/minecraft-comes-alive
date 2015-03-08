@@ -1,4 +1,4 @@
-package radixcore;
+package radixcore.core;
 
 import java.io.File;
 import java.io.FileFilter;

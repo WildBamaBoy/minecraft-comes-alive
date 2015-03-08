@@ -1,6 +1,6 @@
 package radixcore.update;
 
-import radixcore.ModMetadataEx;
+import radixcore.core.ModMetadataEx;
 
 public interface IUpdateProtocol 
 {

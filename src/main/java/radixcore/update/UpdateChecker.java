@@ -4,9 +4,9 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
-import radixcore.ModMetadataEx;
-import radixcore.RadixCore;
 import radixcore.constant.Font;
+import radixcore.core.ModMetadataEx;
+import radixcore.core.RadixCore;
 
 
 public final class UpdateChecker implements Runnable

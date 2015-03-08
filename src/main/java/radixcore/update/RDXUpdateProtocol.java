@@ -5,8 +5,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import radixcore.ModMetadataEx;
-import radixcore.RadixCore;
+import radixcore.core.ModMetadataEx;
+import radixcore.core.RadixCore;
 
 public class RDXUpdateProtocol implements IUpdateProtocol
 {

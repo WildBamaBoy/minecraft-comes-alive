@@ -16,7 +16,7 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 import mca.enums.EnumProfessionGroup;
-import radixcore.RadixCore;
+import radixcore.core.RadixCore;
 import radixcore.util.RadixExcept;
 
 /**

@@ -1,8 +1,8 @@
 package radixcore.packets;
 
 import io.netty.buffer.ByteBuf;
-import radixcore.ModMetadataEx;
-import radixcore.RadixCore;
+import radixcore.core.ModMetadataEx;
+import radixcore.core.RadixCore;
 import radixcore.data.AbstractPlayerData;
 import radixcore.data.DataContainer;
 import radixcore.data.DataWatcherEx;

@@ -12,7 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-import radixcore.RadixCore;
+import radixcore.core.RadixCore;
 import radixcore.data.IPermanent;
 import radixcore.math.Point3D;
 

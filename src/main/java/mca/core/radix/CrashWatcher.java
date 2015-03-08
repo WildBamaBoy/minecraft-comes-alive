@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Scanner;
 
 import mca.core.MCA;
-import radixcore.ModCrashWatcher;
+import radixcore.core.ModCrashWatcher;
 
 public class CrashWatcher extends ModCrashWatcher
 {
