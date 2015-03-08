@@ -10,6 +10,7 @@ import mca.enums.EnumMovementState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -173,8 +174,10 @@ public class AIHunting extends AbstractToggleAI
 		ticksActive = nbt.getInteger("ticksActive");
 	}
 
-	public void startTaming()
+	public void startTaming(EntityPlayer player)
 	{
+		assigningPlayer = player.getUniqueID().toString();
+		
 		standPoint = new Point3D(0, 0, 0);
 		isTaming = true;
 
@@ -182,8 +185,10 @@ public class AIHunting extends AbstractToggleAI
 		owner.setMovementState(EnumMovementState.MOVE);
 	}
 
-	public void startKilling()
+	public void startKilling(EntityPlayer player)
 	{
+		assigningPlayer = player.getUniqueID().toString();
+		
 		standPoint = new Point3D(0, 0, 0);
 		isTaming = false;
 
