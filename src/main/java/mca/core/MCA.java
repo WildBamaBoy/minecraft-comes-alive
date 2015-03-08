@@ -19,6 +19,12 @@ import mca.entity.EntityHuman;
 import mca.network.MCAPacketHandler;
 import mca.tile.TileVillagerBed;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.passive.EntityCow;
+import net.minecraft.entity.passive.EntityOcelot;
+import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.passive.EntitySheep;
+import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -305,6 +311,14 @@ public class MCA
 		ChoreRegistry.addBlockToWoodcuttingAI(4, new WoodcuttingEntry(net.minecraft.init.Blocks.log, 3, net.minecraft.init.Blocks.sapling, 3));
 		ChoreRegistry.addBlockToWoodcuttingAI(5, new WoodcuttingEntry(net.minecraft.init.Blocks.log2, 0, net.minecraft.init.Blocks.sapling, 4));
 		ChoreRegistry.addBlockToWoodcuttingAI(6, new WoodcuttingEntry(net.minecraft.init.Blocks.log2, 1, net.minecraft.init.Blocks.sapling, 5));
+		
+		ChoreRegistry.addEntityToHuntingAI(EntitySheep.class);
+		ChoreRegistry.addEntityToHuntingAI(EntityCow.class);
+		ChoreRegistry.addEntityToHuntingAI(EntityPig.class);
+		ChoreRegistry.addEntityToHuntingAI(EntityChicken.class);
+		
+		ChoreRegistry.addEntityToHuntingAI(EntityOcelot.class, false);
+		ChoreRegistry.addEntityToHuntingAI(EntityWolf.class, false);
     }
     
     @EventHandler

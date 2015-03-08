@@ -1,17 +1,21 @@
 package mca.api;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import mca.api.exception.MappingNotFoundException;
 import net.minecraft.block.Block;
-import radixcore.data.BlockObj;
 
 public final class ChoreRegistry 
 {
 	private static final Map<Object, Integer> giftMap = new HashMap<Object, Integer>();
 	private static final Map<Integer, Block> notifyBlockMap = new HashMap<Integer, Block>();
 	private static final Map<Integer, WoodcuttingEntry> woodcuttingBlockMap = new HashMap<Integer, WoodcuttingEntry>();
+	private static final List<Class> huntingKillableEntities = new ArrayList<Class>();
+	private static final List<Class> huntingTameableEntities = new ArrayList<Class>();
 	
 	public static Integer getIdOfNotifyBlock(Block block)
 	{
@@ -45,6 +49,57 @@ public final class ChoreRegistry
 		else
 		{
 			throw new MappingNotFoundException();
+		}
+	}
+	
+	/**
+	 * Adds an entity that will appear during the hunting AI. <p>
+	 * 
+	 * This will require a <b>fully functional constructor that accepts only a World object as its argument</b>. <p>
+	 * 
+	 * This adds the entity to <b>BOTH</b> the killable and tameable list.
+	 * 
+	 * @param 	clazz	The class of the entity to add to the hunting AI.
+	 */
+	public static void addEntityToHuntingAI(Class clazz)
+	{
+		addEntityToHuntingAI(clazz, true);
+		addEntityToHuntingAI(clazz, false);
+	}
+
+	/**
+	 * Adds an entity that will appear during the hunting AI. <p>
+	 * 
+	 * This will require a <b>fully functional constructor that accepts only a World object as its argument</b>.
+	 * 
+	 * @param 	clazz		The class of the entity to add to the hunting AI.
+	 * @param	isKillable	Whether or not this entity is killable. False will mean this entity will only appear during taming.
+	 */
+	public static void addEntityToHuntingAI(Class clazz, boolean isKillable)
+	{
+		if (isKillable)
+		{
+			huntingKillableEntities.add(clazz);
+		}
+		
+		else
+		{
+			huntingTameableEntities.add(clazz);
+		}
+	}
+	
+	public static Class getRandomHuntingEntity(boolean shouldBeTameable)
+	{
+		if (shouldBeTameable)
+		{
+			int index = new Random().nextInt(huntingTameableEntities.size());
+			return huntingTameableEntities.get(index);
+		}
+		
+		else
+		{
+			int index = new Random().nextInt(huntingKillableEntities.size());
+			return huntingKillableEntities.get(index);
 		}
 	}
 	
