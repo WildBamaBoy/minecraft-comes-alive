@@ -1,4 +1,4 @@
-package mca.core;
+package mca.util;
 
 import java.io.Serializable;
 import java.util.ArrayList;

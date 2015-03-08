@@ -2,10 +2,10 @@ package mca.items;
 
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.TutorialManager;
-import mca.core.TutorialMessage;
 import mca.core.forge.EventHooksFML;
 import mca.data.PlayerData;
+import mca.util.TutorialManager;
+import mca.util.TutorialMessage;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

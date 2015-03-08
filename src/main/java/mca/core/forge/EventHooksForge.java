@@ -1,7 +1,7 @@
 package mca.core.forge;
 
-import mca.core.TutorialManager;
 import mca.entity.EntityHuman;
+import mca.util.TutorialManager;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;

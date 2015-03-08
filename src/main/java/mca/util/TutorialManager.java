@@ -1,5 +1,6 @@
-package mca.core;
+package mca.util;
 
+import mca.core.MCA;
 import mca.packets.PacketSetTutorialMessage;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;

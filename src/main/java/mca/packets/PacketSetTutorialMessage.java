@@ -1,8 +1,8 @@
 package mca.packets;
 
 import io.netty.buffer.ByteBuf;
-import mca.core.TutorialManager;
-import mca.core.TutorialMessage;
+import mca.util.TutorialManager;
+import mca.util.TutorialMessage;
 import radixcore.network.ByteBufIO;
 import radixcore.packets.AbstractPacket;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;

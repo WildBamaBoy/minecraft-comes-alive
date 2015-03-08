@@ -4,10 +4,10 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import mca.core.MCA;
-import mca.core.TutorialManager;
 import mca.data.PlayerData;
 import mca.entity.EntityHuman;
 import mca.packets.PacketOpenBabyNameGUI;
+import mca.util.TutorialManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;

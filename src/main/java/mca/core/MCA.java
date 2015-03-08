@@ -19,6 +19,7 @@ import mca.data.PlayerData;
 import mca.entity.EntityHuman;
 import mca.network.MCAPacketHandler;
 import mca.tile.TileVillagerBed;
+import mca.util.SkinLoader;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;

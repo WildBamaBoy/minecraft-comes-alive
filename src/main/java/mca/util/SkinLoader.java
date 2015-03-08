@@ -5,7 +5,7 @@
  * are made available under the terms of the MCA Minecraft Mod license.
  ******************************************************************************/
 
-package mca.core;
+package mca.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
