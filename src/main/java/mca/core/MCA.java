@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mca.api.ChoreRegistry;
+import mca.api.CookableFood;
 import mca.api.WoodcuttingEntry;
 import mca.command.CommandMCA;
 import mca.core.forge.EventHooksFML;
@@ -316,9 +317,14 @@ public class MCA
 		ChoreRegistry.addEntityToHuntingAI(EntityCow.class);
 		ChoreRegistry.addEntityToHuntingAI(EntityPig.class);
 		ChoreRegistry.addEntityToHuntingAI(EntityChicken.class);
-		
 		ChoreRegistry.addEntityToHuntingAI(EntityOcelot.class, false);
 		ChoreRegistry.addEntityToHuntingAI(EntityWolf.class, false);
+		
+		ChoreRegistry.addFoodToCookingAI(new CookableFood(net.minecraft.init.Items.porkchop, net.minecraft.init.Items.cooked_porkchop));
+		ChoreRegistry.addFoodToCookingAI(new CookableFood(net.minecraft.init.Items.beef, net.minecraft.init.Items.cooked_beef));
+		ChoreRegistry.addFoodToCookingAI(new CookableFood(net.minecraft.init.Items.chicken, net.minecraft.init.Items.cooked_chicken));
+		ChoreRegistry.addFoodToCookingAI(new CookableFood(net.minecraft.init.Items.fish, net.minecraft.init.Items.cooked_fished));
+		ChoreRegistry.addFoodToCookingAI(new CookableFood(net.minecraft.init.Items.potato, net.minecraft.init.Items.baked_potato));
     }
     
     @EventHandler

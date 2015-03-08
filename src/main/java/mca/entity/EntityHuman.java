@@ -8,6 +8,7 @@ import java.util.Map;
 import mca.ai.AIBlink;
 import mca.ai.AIBuild;
 import mca.ai.AIConverse;
+import mca.ai.AICooking;
 import mca.ai.AIEat;
 import mca.ai.AIFollow;
 import mca.ai.AIGreet;
@@ -161,7 +162,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		aiManager.addAI(new AIMining(this));
 		aiManager.addAI(new AIWoodcutting(this));
 		aiManager.addAI(new AIHunting(this));
-
+		aiManager.addAI(new AICooking(this));
+		
 		addAI();
 
 		if (!worldObj.isRemote)
@@ -310,6 +312,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			if (!isInteracting.getBoolean())
 			{
+				//aiManager.getAI(AICooking.class).startCooking(player);
+				//openInventory(player);
 				MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId()), (EntityPlayerMP) player);
 				isInteracting.setValue(true);
 			}

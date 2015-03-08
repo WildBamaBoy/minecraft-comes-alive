@@ -26,7 +26,7 @@ public class WatcherIDsHuman
 	public static final int MOOD_VALUE = 22;
 	public static final int HELD_ITEM = 23;
 	public static final int IS_HUNTING_ACTIVE = 24;
-	public static final int UNUSED_25 = 25;
+	public static final int IS_COOKING_ACTIVE = 25;
 	public static final int UNUSED_26 = 26;
 	public static final int IS_INTERACTING = 27;
 	public static final int PERSONALITY_ID = 28;

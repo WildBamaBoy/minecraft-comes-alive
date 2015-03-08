@@ -16,6 +16,7 @@ public final class ChoreRegistry
 	private static final Map<Integer, WoodcuttingEntry> woodcuttingBlockMap = new HashMap<Integer, WoodcuttingEntry>();
 	private static final List<Class> huntingKillableEntities = new ArrayList<Class>();
 	private static final List<Class> huntingTameableEntities = new ArrayList<Class>();
+	private static final List<CookableFood> cookableFood = new ArrayList<CookableFood>();
 	
 	public static Integer getIdOfNotifyBlock(Block block)
 	{
@@ -118,9 +119,19 @@ public final class ChoreRegistry
 		putIfNotDuplicate(woodcuttingBlockMap, id, entry);
 	}
 	
+	public static void addFoodToCookingAI(CookableFood foodObj)
+	{
+		cookableFood.add(foodObj);
+	}
+	
 	public static Map<Object, Integer> getGiftMap()
 	{
 		return giftMap;
+	}
+	
+	public static List<CookableFood> getCookableFoodList()
+	{
+		return cookableFood;
 	}
 	
 	private ChoreRegistry()

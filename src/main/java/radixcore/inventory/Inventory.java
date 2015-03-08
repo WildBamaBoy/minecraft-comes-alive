@@ -31,7 +31,7 @@ public class Inventory extends InventoryBasic
 	public boolean addItemStackToInventory(ItemStack itemStack)
 	{
 		int slotId;
-		
+
 		if (itemStack.stackSize > 0)
 		{
 			if (itemStack.isItemDamaged())
@@ -43,13 +43,13 @@ public class Inventory extends InventoryBasic
 					//					inventoryContents[slotId].animationsToGo = 5;
 					itemStack.stackSize = 0;
 					combinePartialStacks();
-//					onInventoryChanged(this);
+					//					onInventoryChanged(this);
 					return true;
 				}
 				else
 				{
 					combinePartialStacks();
-//					onInventoryChanged(this);
+					//					onInventoryChanged(this);
 					return false;
 				}
 			}
@@ -62,7 +62,7 @@ public class Inventory extends InventoryBasic
 				}
 				while (itemStack.stackSize > 0 && itemStack.stackSize < slotId);
 				combinePartialStacks();
-//				onInventoryChanged(this);
+				//				onInventoryChanged(this);
 				return itemStack.stackSize < slotId;
 			}
 		}
@@ -159,7 +159,7 @@ public class Inventory extends InventoryBasic
 		for (int i = 0; i < this.getSizeInventory(); ++i)
 		{
 			ItemStack stackInInventory = this.getStackInSlot(i);
-			
+
 			if (stackInInventory != null)
 			{
 				final String itemClassName = stackInInventory.getItem().getClass().getName();
@@ -174,7 +174,7 @@ public class Inventory extends InventoryBasic
 
 		return -1;
 	}
-	
+
 	/**
 	 * Damages item in the provided slot for the specified amount.
 	 * 
@@ -183,11 +183,11 @@ public class Inventory extends InventoryBasic
 	public boolean damageItem(int slotId, int amount)
 	{
 		ItemStack stack = getStackInSlot(slotId);
-		
+
 		if (stack != null)
 		{
 			stack.attemptDamageItem(amount, new Random());
-			
+
 			if (stack.getItemDamage() >= stack.getMaxDamage())
 			{
 				stack.stackSize = 0;
@@ -195,10 +195,10 @@ public class Inventory extends InventoryBasic
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	private void combinePartialStacks()
 	{
 		for (int i = 0; i < getSizeInventory(); i++)
@@ -274,7 +274,7 @@ public class Inventory extends InventoryBasic
 		if (getStackInSlot(slotId) == null)
 		{
 			setInventorySlotContents(slotId, new ItemStack(itemStack.getItem(), 0, itemStack.getItemDamage()));
-			
+
 			if (itemStack.hasTagCompound())
 			{
 				final ItemStack stack = getStackInSlot(slotId);
@@ -303,12 +303,12 @@ public class Inventory extends InventoryBasic
 		else
 		{
 			stackSize -= itemStackSize;
-			
+
 			ItemStack oldStack = getStackInSlot(slotId);
 			oldStack.stackSize += itemStackSize;
 			oldStack.animationsToGo = 5;
 			setInventorySlotContents(slotId, oldStack);
-			
+
 			return stackSize;
 		}
 	}
@@ -318,11 +318,30 @@ public class Inventory extends InventoryBasic
 		for (int i = 0; i < this.getSizeInventory(); ++i)
 		{
 			ItemStack stack = getStackInSlot(i);
-			
+
 			if (stack != null && stack == itemStack && stack.isStackable() && stack.stackSize < stack.getMaxStackSize() && stack.stackSize < getInventoryStackLimit() && (!stack.getHasSubtypes() || stack.getItemDamage() == itemStack.getItemDamage()) && ItemStack.areItemStacksEqual(stack, itemStack))
 			{
 				return i;
 			}
+		}
+
+		return -1;
+	}
+
+	public int getFirstSlotContainingItem(Item item)
+	{
+		int slot = 0;
+
+		for (int i = 0; i < getSizeInventory(); i++)
+		{
+			final ItemStack stack = getStackInSlot(i);
+			
+			if (stack != null && stack.getItem() == item)
+			{
+				return slot;
+			}
+			
+			slot++;
 		}
 		
 		return -1;
