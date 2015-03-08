@@ -256,6 +256,51 @@ public final class LogicHelper
 
 		return null;
 	}
+	
+	public static Point3D getFirstFurthestBlock(Entity entity, Block block, int minDistanceAway)
+	{
+		final int x = (int) entity.posX;
+		final int y = (int) entity.posY;
+		final int z = (int) entity.posZ;
+
+		int xMov = 0 + minDistanceAway;
+		int yMov = 3;
+		int zMov = 0 + minDistanceAway;
+
+		while (true)
+		{
+			final Block currentBlock = entity.worldObj.getBlock(x + xMov, y + yMov, z + zMov);
+
+			if (currentBlock == block)
+			{
+				return new Point3D(x + xMov, y + yMov, z + zMov);
+			}
+
+			if (zMov == minDistanceAway && xMov == minDistanceAway && yMov == -3)
+			{
+				break;
+			}
+
+			if (zMov == minDistanceAway && xMov == minDistanceAway)
+			{
+				yMov--;
+				xMov = 0 + minDistanceAway;
+				zMov = 0 + minDistanceAway;
+				continue;
+			}
+
+			if (xMov == minDistanceAway)
+			{
+				zMov--;
+				xMov = 0 + minDistanceAway;
+				continue;
+			}
+
+			xMov--;
+		}
+
+		return null;
+	}
 
 	public static Point3D getNearestBlockPosWithMetadata(Entity entity, Block block, int meta, int maxDistanceAway)
 	{

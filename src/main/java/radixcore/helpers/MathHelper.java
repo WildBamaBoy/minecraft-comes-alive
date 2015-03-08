@@ -2,6 +2,7 @@ package radixcore.helpers;
 
 import java.util.Random;
 
+import radixcore.math.Point3D;
 import net.minecraft.entity.Entity;
 
 public final class MathHelper
@@ -40,6 +41,11 @@ public final class MathHelper
 		final double deltaZ = z2 - z1;
 
 		return Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+	}
+	
+	public static double getDistanceToXYZ(Entity entity, Point3D point)
+	{
+		return getDistanceToXYZ(entity.posX, entity.posY, entity.posZ, point.dPosX, point.dPosY, point.dPosZ);
 	}
 
 	public static float getHighestNumber(float... numbers) 
