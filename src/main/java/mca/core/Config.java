@@ -23,6 +23,8 @@ public final class Config
 	public int storyProgressionThreshold;
 	public int storyProgressionRate;
 
+	public int roseGoldSpawnWeight;
+	
 	public int babyGrowUpTime;
 	public int childGrowUpTime;
 	public boolean isAgingEnabled;
@@ -76,6 +78,9 @@ public final class Config
 				"How often story progression tries to make changes. Changes may not always be made. This value is in MINUTES. Default is 20 minutes.").getInt();
 		inTutorialMode = config.get("General", "Tutorial mode", true,
 				"Displays various tips while you play. ").getBoolean();
+		
+		config.setCategoryComment("World Generation", "All settings related to MCA's world generation.");
+		roseGoldSpawnWeight = config.get("World Generation", "Rose gold spawn weight", 1, "Sets the spawn weight for rose gold. Higher numbers = less common.").getInt();
 		
 		config.setCategoryComment("Aging", "All aging-related settings of villagers and children in-game.");
 		babyGrowUpTime = config.get("Aging", "Time until babies grow up (in minutes)", 10).getInt();

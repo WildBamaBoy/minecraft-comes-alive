@@ -41,6 +41,7 @@ import radixcore.core.ModMetadataEx;
 import radixcore.core.RadixCore;
 import radixcore.data.AbstractPlayerData;
 import radixcore.data.DataContainer;
+import radixcore.forge.gen.SimpleOreGenerator;
 import radixcore.lang.LanguageManager;
 import radixcore.math.Point3D;
 import radixcore.update.RDXUpdateProtocol;
@@ -172,6 +173,8 @@ public class MCA
     	//Smeltings
     	GameRegistry.addSmelting(ModBlocks.roseGoldOre, new ItemStack(ModItems.roseGoldIngot), 5.0F);
     	GameRegistry.addSmelting(ModItems.diamondDust, new ItemStack(Items.diamond), 5.0F);
+
+    	SimpleOreGenerator.register(new SimpleOreGenerator(ModBlocks.roseGoldOre, 6, 12, 40, true, false), MCA.config.roseGoldSpawnWeight);
     }
     
     @EventHandler
