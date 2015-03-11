@@ -487,7 +487,7 @@ public class GuiInteraction extends GuiScreen
 						displayedButton.enabled = displayedButton.id == 13;
 					}
 	
-					TutorialManager.setTutorialMessage(new TutorialMessage("Give a gift by right-clicking while it's selected.", "Press Esc or Gift to cancel."));
+					TutorialManager.setTutorialMessage(new TutorialMessage("Give a gift by right-clicking while it's selected.", "Press Esc to cancel."));
 				}
 	
 				break;

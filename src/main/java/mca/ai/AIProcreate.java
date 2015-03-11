@@ -20,6 +20,8 @@ import radixcore.data.WatchedBoolean;
 public class AIProcreate extends AbstractAI
 {
 	private WatchedBoolean isProcreating;
+	
+	private boolean hasHadTwins;
 	private int procreateTicks;
 	
 	public AIProcreate(EntityHuman owner) 
@@ -87,17 +89,31 @@ public class AIProcreate extends AbstractAI
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) 
 	{
-		
+		nbt.setBoolean("isProcreating", isProcreating.getBoolean());
+		nbt.setBoolean("hasHadTwins", hasHadTwins);
+		nbt.setInteger("procreateTicks", procreateTicks);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) 
 	{
-		
+		isProcreating.setValue(nbt.getBoolean("isProcreating"));
+		hasHadTwins = nbt.getBoolean("hasHadTwins");
+		procreateTicks = nbt.getInteger("procreateTicks");
 	}
 
 	public void setIsProcreating(boolean value)
 	{
 		this.isProcreating.setValue(true);
+	}
+	
+	public boolean getHasHadTwins()
+	{
+		return hasHadTwins;
+	}
+	
+	public void setHasHadTwins(boolean value)
+	{
+		hasHadTwins = value;
 	}
 }

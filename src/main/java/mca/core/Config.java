@@ -17,6 +17,7 @@ public final class Config
 	public int baseEntityId;
 	
 	public int guardSpawnRate;
+	public int chanceToHaveTwins;
 	public int villagerMaxHealth;
 	public int guardMaxHealth;
 	public boolean storyProgression;
@@ -62,6 +63,7 @@ public final class Config
 
 		config.setCategoryComment("General", "General mod settings.");
 
+		chanceToHaveTwins = config.get("General", "Chance to have twins", 2, "Your percent chance of having twins.").getInt();
 		guardSpawnRate = config.get("General", "Guard spawn rate", 3, 
 				"One guard per this many villagers. Set to zero or a negative number to disable guards.").getInt();
 

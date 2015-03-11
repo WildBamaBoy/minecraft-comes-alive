@@ -1,12 +1,19 @@
 package mca.packets;
 
 import io.netty.buffer.ByteBuf;
+import mca.ai.AIProcreate;
+import mca.core.MCA;
+import mca.data.PlayerData;
+import mca.entity.EntityHuman;
 import mca.items.ItemBaby;
+import mca.util.TutorialManager;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.network.ByteBufIO;
 import radixcore.packets.AbstractPacket;
+import radixcore.util.RadixLogic;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -50,6 +57,24 @@ public class PacketBabyName extends AbstractPacket implements IMessage, IMessage
 		{
 			NBTTagCompound nbt = stack.getTagCompound();
 			nbt.setString("name", packet.babyName);
+		}
+		
+		if (RadixLogic.getBooleanWithProbability(MCA.getConfig().chanceToHaveTwins))
+		{
+			final PlayerData data = MCA.getPlayerData(senderPlayer);
+			final EntityHuman playerSpouse = MCA.getHumanByPermanentId(data.spousePermanentId.getInt());
+			
+			if (playerSpouse != null)
+			{
+				final AIProcreate procreateAI = playerSpouse.getAI(AIProcreate.class);
+				
+				if (!procreateAI.getHasHadTwins())
+				{
+					playerSpouse.getAI(AIProcreate.class).setIsProcreating(true);
+					procreateAI.setHasHadTwins(true);
+					TutorialManager.sendMessageToPlayer(senderPlayer, "Congratulations! You've just had twins!", "Your spouse can only have twins once.");
+				}
+			}
 		}
 		
 		return null;
