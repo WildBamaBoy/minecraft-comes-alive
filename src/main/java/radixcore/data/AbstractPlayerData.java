@@ -13,9 +13,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import radixcore.core.RadixCore;
 import radixcore.util.RadixExcept;
-
-import com.google.common.base.Optional;
-
 import cpw.mods.fml.common.ModMetadata;
 
 public abstract class AbstractPlayerData implements Serializable, IWatchable
