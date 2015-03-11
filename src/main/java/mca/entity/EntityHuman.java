@@ -450,10 +450,22 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 					PlayerData data = MCA.getPlayerData(playerPartner);
 					playerPartner.addChatMessage(new ChatComponentText(Color.RED + name.getString() + " has died."));
 					data.spousePermanentId.setValue(0);
-					data.isEngaged.setValue(0);
+					data.isEngaged.setValue(false);
 				}
 
-				//TODO load playerdata into memory at startup so that players can still be set as not married when not online.
+				else
+				{
+					for (PlayerMemory memory : playerMemories.values())
+					{
+						if (memory.getPermanentId() == this.spouseId.getInt())
+						{
+							PlayerData data = MCA.getPlayerData(memory.getUUID());
+							data.spousePermanentId.setValue(0);
+							data.isEngaged.setValue(false);
+							break;
+						}
+					}
+				}
 			}
 
 			else if (isMarriedToAVillager())

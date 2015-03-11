@@ -34,19 +34,32 @@ public class EventHooksFML
 	public void playerLoggedInEventHandler(PlayerLoggedInEvent event)
 	{
 		EntityPlayer player = event.player;
-		PlayerData data = new PlayerData(player);
-
-		if (data.dataExists())
+		PlayerData data = null;
+		
+		if (!MCA.playerDataMap.containsKey(player.getUniqueID().toString()))
 		{
-			data = data.readDataFromFile(event.player, PlayerData.class);
-		}
+			data = new PlayerData(player);
 
-		else
-		{
-			data.initializeNewData(event.player);
+			if (data.dataExists())
+			{
+				data = data.readDataFromFile(event.player, PlayerData.class, null);
+			}
+
+			else
+			{
+				data.initializeNewData(event.player);
+			}
+
+			MCA.playerDataMap.put(event.player.getUniqueID().toString(), data);
 		}
 		
-		MCA.playerDataMap.put(event.player.getUniqueID().toString(), data);
+		else
+		{
+			data = MCA.getPlayerData(player);
+			data = data.readDataFromFile(event.player, PlayerData.class, null);
+			data.dumpToConsole();
+		}
+		
 		MCA.getPacketHandler().sendPacketToPlayer(new PacketDataContainer(MCA.ID, data), (EntityPlayerMP)event.player);
 
 		if (!data.hasChosenDestiny.getBoolean() && !player.inventory.hasItem(ModItems.crystalBall))
@@ -59,13 +72,13 @@ public class EventHooksFML
 	public void playerLoggedOutEventHandler(PlayerLoggedOutEvent event)
 	{
 		PlayerData data = MCA.getPlayerData(event.player);
-		
+
 		if (data != null)
 		{
 			data.saveDataToFile();
 		}
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void clientTickEventHandler(ClientTickEvent event)

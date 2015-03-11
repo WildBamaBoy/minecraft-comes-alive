@@ -11,7 +11,11 @@ import java.io.Serializable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
+import radixcore.core.RadixCore;
 import radixcore.util.RadixExcept;
+
+import com.google.common.base.Optional;
+
 import cpw.mods.fml.common.ModMetadata;
 
 public abstract class AbstractPlayerData implements Serializable, IWatchable
@@ -44,6 +48,18 @@ public abstract class AbstractPlayerData implements Serializable, IWatchable
 		dataFolder.mkdirs();
 	}
 
+	public AbstractPlayerData(String ownerIdentifier, String modId, World world)
+	{
+		this.ownerIdentifier = ownerIdentifier;
+		dataWatcher = new DataWatcherEx(this, modId);
+		
+		instantiateData();
+		
+		final File dataFolder = new File(playerDataPath
+				.replace("%WorldDir%", world.getSaveHandler().getWorldDirectory().getAbsolutePath())
+				.replace("%ModID%", getModMetadata().modId.toLowerCase()));
+	}
+	
 	public abstract void instantiateData();
 	
 	public abstract void initializeNewData(EntityPlayer player);
@@ -59,11 +75,12 @@ public abstract class AbstractPlayerData implements Serializable, IWatchable
 	public String getDataFile()
 	{
 		World baseWorld = MinecraftServer.getServer().worldServerForDimension(0);
+		String fileName = owner != null ? owner.getUniqueID().toString() : ownerIdentifier + ".dat";
 		
 		return playerDataPath
 				.replace("%WorldDir%", baseWorld.getSaveHandler().getWorldDirectory().getAbsolutePath())
 				.replace("%ModID%", getModMetadata().modId.toLowerCase())
-				+ owner.getUniqueID().toString() + ".dat";
+				+ fileName;
 	}
 	
 	public void saveDataToFile()
@@ -83,13 +100,13 @@ public abstract class AbstractPlayerData implements Serializable, IWatchable
 		}
 	}
 
-	public <generic extends AbstractPlayerData> generic readDataFromFile(EntityPlayer player, Class<generic> type)
+	public <generic extends AbstractPlayerData> generic readDataFromFile(EntityPlayer player, Class<generic> type, File file)
 	{
 		generic returnData = null;
 		
 		try
 		{
-			FileInputStream fileIn = new FileInputStream(getDataFile());
+			FileInputStream fileIn = new FileInputStream(file != null ? file.getAbsolutePath() : getDataFile());
 			ObjectInputStream objIn = new ObjectInputStream(fileIn);
 			returnData = (generic) objIn.readObject();
 			returnData.owner = player;
@@ -110,9 +127,17 @@ public abstract class AbstractPlayerData implements Serializable, IWatchable
 		return returnData;
 	}
 
+	
 	public boolean dataExists()
 	{
 		File dataFile = new File(getDataFile());
 		return dataFile.exists();
+	}
+	
+	public static String getPlayerDataPath(World world, String modID)
+	{
+		return playerDataPath
+				.replace("%WorldDir%", world.getSaveHandler().getWorldDirectory().getAbsolutePath())
+				.replace("%ModID%", RadixCore.getModMetadataByID(modID).modId.toLowerCase());
 	}
 }

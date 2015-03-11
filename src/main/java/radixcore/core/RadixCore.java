@@ -101,4 +101,17 @@ public class RadixCore
     {
     	return registeredMods;
     }
+    
+    public static ModMetadataEx getModMetadataByID(String modID)
+    {
+    	for (ModMetadataEx data : registeredMods)
+    	{
+    		if (data.modId.equals(modID))
+    		{
+    			return data;
+    		}
+    	}
+    	
+    	return null;
+    }
 }

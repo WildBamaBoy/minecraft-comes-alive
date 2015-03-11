@@ -392,6 +392,11 @@ public class MCA
 		}
 	}
 
+	public static PlayerData getPlayerData(String uuid)
+	{
+		return (PlayerData) playerDataMap.get(uuid);
+	}
+	
 	public static EntityHuman getHumanByPermanentId(int id) 
 	{
 		for (WorldServer world : MinecraftServer.getServer().worldServers)

@@ -2,6 +2,7 @@ package mca.data;
 
 import mca.core.MCA;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
 import radixcore.data.AbstractPlayerData;
 import radixcore.data.WatchedBoolean;
 import radixcore.data.WatchedInt;
@@ -27,6 +28,11 @@ public class PlayerData extends AbstractPlayerData
 	public WatchedString uuid;
 	public WatchedBoolean isSuperUser;
 
+	public PlayerData(String playerUUID, World world)
+	{
+		super(playerUUID, MCA.ID, world);
+	}
+	
 	public PlayerData(EntityPlayer player)
 	{
 		super(player, MCA.ID);
@@ -65,15 +71,16 @@ public class PlayerData extends AbstractPlayerData
 
 	public void dumpToConsole()
 	{
-		System.out.println(permanentId.getInt());
-		System.out.println(spousePermanentId.getInt());
-		System.out.println(heirPermanentId.getInt());
-		System.out.println(isMale.getBoolean());
-		System.out.println(shouldHaveBaby.getBoolean());
-		System.out.println(isEngaged.getBoolean());
-		System.out.println(isInLiteMode.getBoolean());
-		System.out.println(isMonarch.getBoolean());
-		System.out.println(mcaName.getString());
-		System.out.println(uuid.getString());
+		MCA.getLog().info("--------PLAYER DATA DUMP--------");
+		MCA.getLog().info("Permanent ID: " + permanentId.getInt());
+		MCA.getLog().info("Spouse Permanent ID: " + spousePermanentId.getInt());
+		MCA.getLog().info("Heir Permanent ID: " + heirPermanentId.getInt());
+		MCA.getLog().info("Is Male: " + isMale.getBoolean());
+		MCA.getLog().info("Should Have Baby: " + shouldHaveBaby.getBoolean());
+		MCA.getLog().info("Is Engaged: " + isEngaged.getBoolean());
+		MCA.getLog().info("Is In Lite Mode: " + isInLiteMode.getBoolean());
+		MCA.getLog().info("Is Monarch: " + isMonarch.getBoolean());
+		MCA.getLog().info("MCA Name: " + mcaName.getString());
+		MCA.getLog().info("UUID: " + uuid.getString());
 	}
 }
