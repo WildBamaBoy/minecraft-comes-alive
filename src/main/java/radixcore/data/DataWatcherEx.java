@@ -159,7 +159,16 @@ public final class DataWatcherEx implements Serializable
 					if (metadata.modId.equals(initializingModId))
 					{
 						AbstractPlayerData data = (AbstractPlayerData) objectOwner;
-						metadata.playerDataMap.put(data.owner.getUniqueID().toString(), data);
+						
+						if (data.owner == null)
+						{
+							metadata.playerDataMap.put(data.ownerIdentifier, data);
+						}
+						
+						else
+						{
+							metadata.playerDataMap.put(data.owner.getUniqueID().toString(), data);
+						}
 					}
 				}
 			}

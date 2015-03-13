@@ -72,7 +72,7 @@ public abstract class AbstractPlayerData implements Serializable, IWatchable
 	public String getDataFile()
 	{
 		World baseWorld = MinecraftServer.getServer().worldServerForDimension(0);
-		String fileName = owner != null ? owner.getUniqueID().toString() : ownerIdentifier + ".dat";
+		String fileName = owner != null ? owner.getUniqueID().toString() + ".dat" : ownerIdentifier + ".dat";
 		
 		return playerDataPath
 				.replace("%WorldDir%", baseWorld.getSaveHandler().getWorldDirectory().getAbsolutePath())
