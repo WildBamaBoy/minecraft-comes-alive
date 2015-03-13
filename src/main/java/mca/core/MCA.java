@@ -1,5 +1,6 @@
 package mca.core;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +57,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -337,6 +339,29 @@ public class MCA
     public void serverStarting(FMLServerStartingEvent event)
     {
     	event.registerServerCommand(new CommandMCA());
+    	    	
+    	File playerDataPath = new File(AbstractPlayerData.getPlayerDataPath(event.getServer().getEntityWorld(), MCA.ID));
+    	playerDataPath.mkdirs();
+    	
+    	for (File f : playerDataPath.listFiles())
+    	{
+    		String uuid = f.getName().replace(".dat", "");
+    		PlayerData data = new PlayerData(uuid, event.getServer().getEntityWorld());
+    		data = data.readDataFromFile(null, PlayerData.class, f);
+    		
+    		MCA.playerDataMap.put(uuid, data);
+    	}
+    }
+    
+    @EventHandler
+    public void serverStopping(FMLServerStoppingEvent event)
+    {
+    	for (AbstractPlayerData data : playerDataMap.values())
+    	{
+   			data.saveDataToFile();
+       	}
+    	
+    	MCA.playerDataMap.clear();
     }
     
 	public static MCA getInstance()

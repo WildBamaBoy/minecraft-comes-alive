@@ -55,7 +55,7 @@ public class PlayerMemory implements Serializable
 		String nbtPrefix = "playerMemoryValue" + playerName;
 
 		nbt.setString(nbtPrefix + "playerName", playerName);
-		nbt.setString(nbtPrefix + "uuid", playerName);
+		nbt.setString(nbtPrefix + "uuid", uuid);
 		nbt.setInteger(nbtPrefix + "permanentId", permanentId);
 		nbt.setInteger(nbtPrefix + "hearts", hearts);
 		nbt.setInteger(nbtPrefix + "timeUntilGreeting", timeUntilGreeting);

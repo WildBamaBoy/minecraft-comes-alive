@@ -58,7 +58,6 @@ public class PlayerData extends AbstractPlayerData
 		isMonarch = new WatchedBoolean(false, WatcherIDsPlayerData.IS_MONARCH, dataWatcher);
 		mcaName = new WatchedString("none", WatcherIDsPlayerData.MCA_NAME, dataWatcher);
 		hasChosenDestiny = new WatchedBoolean(false, WatcherIDsPlayerData.HAS_CHOSEN_DESTINY, dataWatcher);
-		uuid = new WatchedString("none", WatcherIDsPlayerData.UUID, dataWatcher);
 		isSuperUser = new WatchedBoolean(false, WatcherIDsPlayerData.IS_SUPER_USER, dataWatcher);
 	}
 	
@@ -66,12 +65,13 @@ public class PlayerData extends AbstractPlayerData
 	public void initializeNewData(EntityPlayer player) 
 	{
 		permanentId.setValue(RadixLogic.generatePermanentEntityId(player));
-		uuid.setValue(player.getUniqueID().toString());
 	}
 
 	public void dumpToConsole()
 	{
 		MCA.getLog().info("--------PLAYER DATA DUMP--------");
+		MCA.getLog().info("Owner: " + owner);
+		MCA.getLog().info("Owner's Identity: " + ownerIdentifier);
 		MCA.getLog().info("Permanent ID: " + permanentId.getInt());
 		MCA.getLog().info("Spouse Permanent ID: " + spousePermanentId.getInt());
 		MCA.getLog().info("Heir Permanent ID: " + heirPermanentId.getInt());
@@ -81,6 +81,5 @@ public class PlayerData extends AbstractPlayerData
 		MCA.getLog().info("Is In Lite Mode: " + isInLiteMode.getBoolean());
 		MCA.getLog().info("Is Monarch: " + isMonarch.getBoolean());
 		MCA.getLog().info("MCA Name: " + mcaName.getString());
-		MCA.getLog().info("UUID: " + uuid.getString());
 	}
 }

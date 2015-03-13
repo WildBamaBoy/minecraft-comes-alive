@@ -15,6 +15,7 @@ import net.minecraft.util.ChatComponentText;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Font.Format;
 import radixcore.constant.Time;
+import radixcore.data.AbstractPlayerData;
 import scala.actors.threadpool.Arrays;
 
 public class CommandMCA extends CommandBase
@@ -99,6 +100,40 @@ public class CommandMCA extends CommandBase
 				else
 				{
 					addChatMessage(commandSender, Color.RED + playerName + " was not found on the server.");
+				}
+			}
+
+			else if (subcommand.equalsIgnoreCase("dpd"))
+			{
+				final String arg0 = arguments[0];
+
+				if (arg0.equalsIgnoreCase("all"))
+				{
+					for (AbstractPlayerData data : MCA.playerDataMap.values())
+					{
+						PlayerData pData = (PlayerData)data;
+						pData.dumpToConsole();
+					}
+					
+					addChatMessage(commandSender, Color.GREEN + "All player data has been logged to the console.");
+				}
+
+				else
+				{
+					final EntityPlayer targetPlayer = player.worldObj.getPlayerEntityByName(arg0);
+
+					if (targetPlayer != null)
+					{
+						PlayerData data = MCA.getPlayerData(targetPlayer);
+						data.dumpToConsole();
+
+						addChatMessage(commandSender, Color.GREEN + arg0 + "'s player data has been logged to the console.");
+					}
+
+					else
+					{
+						addChatMessage(commandSender, Color.RED + arg0 + " was not found on the server.");
+					}
 				}
 			}
 

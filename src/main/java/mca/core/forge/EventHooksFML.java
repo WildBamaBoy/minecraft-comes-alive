@@ -60,8 +60,8 @@ public class EventHooksFML
 		else
 		{
 			data = MCA.getPlayerData(player);
-			data = data.readDataFromFile(event.player, PlayerData.class, null);
-			data.dumpToConsole();
+			data = data.readDataFromFile(event.player, PlayerData.class, null);  //Read from the file again to assign owner.
+			MCA.playerDataMap.put(event.player.getUniqueID().toString(), data);  //Put updated data back into the map.
 		}
 		
 		MCA.getPacketHandler().sendPacketToPlayer(new PacketDataContainer(MCA.ID, data), (EntityPlayerMP)event.player);
