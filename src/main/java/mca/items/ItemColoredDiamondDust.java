@@ -1,5 +1,6 @@
 package mca.items;
 
+import net.minecraft.item.ItemStack;
 import mca.core.MCA;
 import radixcore.item.ItemColorable;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -17,5 +18,11 @@ public class ItemColoredDiamondDust extends ItemColorable
 		this.setCreativeTab(MCA.getCreativeTabGemCutting());
 
 		GameRegistry.registerItem(this, "ColoredDiamondDust");
+	}
+	
+	@Override
+	public String getUnlocalizedName(ItemStack stack) 
+	{
+		return "item.DiamondDust";
 	}
 }

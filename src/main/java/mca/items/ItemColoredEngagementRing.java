@@ -1,6 +1,7 @@
 package mca.items;
 
 import mca.core.MCA;
+import mca.enums.EnumCut;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
@@ -52,5 +53,11 @@ public class ItemColoredEngagementRing extends ItemColorable
 		
 		icons[0] = iconRegister.registerIcon("mca:" + name);
 		icons[1] = iconRegister.registerIcon(isRoseGold ? "mca:RingBottomRG" : "mca:RingBottom");
+	}
+	
+	@Override
+	public String getUnlocalizedName(ItemStack stack) 
+	{
+		return "item.EngagementRing" + (isRoseGold ? "RG" : "");
 	}
 }

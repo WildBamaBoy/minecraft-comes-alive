@@ -1,5 +1,7 @@
 package mca.core.minecraft;
 
+import java.lang.reflect.Field;
+
 import mca.core.MCA;
 import mca.enums.EnumBedColor;
 import mca.enums.EnumCut;
@@ -161,5 +163,19 @@ public final class ModItems
 		ringTriangleColoredRG = new ItemCutRingColored(EnumCut.TRIANGLE, true);
 		ringStarColored = new ItemCutRingColored(EnumCut.STAR, false);
 		ringStarColoredRG = new ItemCutRingColored(EnumCut.STAR, true);
+		
+		for (Field f : this.getClass().getFields())
+		{
+			try
+			{
+				Item value = (Item) f.get(null);
+				System.out.println(value.getUnlocalizedName() + ".name=");
+			}
+			
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
 	}
 }

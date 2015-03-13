@@ -48,7 +48,7 @@ public class AIRespondToAttack extends AbstractAI
 
 					if (distanceToPlayer >= 10.0D)
 					{
-						owner.say(MCA.getLanguageManager().getString("behavior.retaliate.distanced"), targetPlayer);
+						owner.say("behavior.retaliate.distanced", targetPlayer);
 						reset();
 					}
 

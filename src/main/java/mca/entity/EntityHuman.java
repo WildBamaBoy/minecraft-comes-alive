@@ -536,7 +536,29 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		}
 	}
 
-	public void say(String text, EntityPlayer target)
+	public void sayRaw(String text, EntityPlayer target)
+	{
+		final StringBuilder sb = new StringBuilder();
+
+		if (MCA.getConfig().villagerChatPrefix != null && !MCA.getConfig().villagerChatPrefix.equals("null"))
+		{
+			sb.append(MCA.getConfig().villagerChatPrefix);
+		}
+
+		sb.append(getTitle(target));
+		sb.append(": ");
+		sb.append(text);
+
+		if (target != null)
+		{
+			target.addChatMessage(new ChatComponentText(sb.toString()));
+		}
+
+		aiManager.getAI(AIIdle.class).reset();		
+		
+	}
+	
+	public void say(String phraseId, EntityPlayer target, Object... arguments)
 	{
 		final StringBuilder sb = new StringBuilder();
 
@@ -549,7 +571,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		//Add title and text.
 		sb.append(getTitle(target));
 		sb.append(": ");
-		sb.append(text);
+		sb.append(MCA.getLanguageManager().getString(phraseId, arguments));
 
 		//Just in case the target is no longer present, somehow.
 		if (target != null)
@@ -557,7 +579,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			target.addChatMessage(new ChatComponentText(sb.toString()));
 		}
 
-		aiManager.getAI(AIIdle.class).reset();
+		aiManager.getAI(AIIdle.class).reset();		
+	}
+	
+	public void say(String phraseId, EntityPlayer target)
+	{
+		say(phraseId, target, target);
 	}
 
 	/**

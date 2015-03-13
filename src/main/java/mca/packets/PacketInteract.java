@@ -74,13 +74,13 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 			{
 				if (villager.getAI(AISleep.class).setHomePointWithVerify(new Point3D(villager.posX, villager.posY, villager.posZ)))
 				{
-					villager.say("This location is now my home point.", player);
+					villager.say("interaction.sethome.success", player);
 					TutorialManager.sendMessageToPlayer(player, "Villagers go to their home points at night, and then go to sleep.", "If their home point becomes blocked, they will automatically find a new one.");
 				}
 
 				else
 				{
-					villager.say("This location can't be my home point.", player);
+					villager.say("interaction.sethome.fail", player);
 					TutorialManager.sendMessageToPlayer(player, "Move villagers away from the edges of walls", "and other blocks before setting their home.");
 				}
 			}
@@ -126,14 +126,14 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 				{
 					pointsModification = RadixMath.clamp(pointsModification, 1, 100);
 					mood.modifyMoodLevel(RadixMath.getNumberInRange(0.2F, 1.0F));
-					villager.say(MCA.getLanguageManager().getString(memory.getDialogueType().toString() + "." + interaction.getName() + ".good", player), player);
+					villager.say(memory.getDialogueType().toString() + "." + interaction.getName() + ".good", player);
 				}
 				
 				else
 				{
 					pointsModification = RadixMath.clamp(pointsModification * -1, -100, -1);
 					mood.modifyMoodLevel(RadixMath.getNumberInRange(0.2F, 1.0F) * -1);
-					villager.say(MCA.getLanguageManager().getString(memory.getDialogueType().toString() + "." + interaction.getName() + ".bad", player), player);
+					villager.say(memory.getDialogueType().toString() + "." + interaction.getName() + ".bad", player);
 				}
 				
 				memory.setHearts(memory.getHearts() + pointsModification);
@@ -149,7 +149,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 					TutorialManager.sendMessageToPlayer(player, "Vilagers tire of conversation after a few tries.", "Talk to them later for better success chances.");
 				}
 				
-				villager.say(successChance + " | " + pointsModification, player);
+//				villager.say(successChance + " | " + pointsModification, player);
 				//TODO vigorous testing
 			}
 			

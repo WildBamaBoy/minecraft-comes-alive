@@ -12,7 +12,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class RadixStartup 
 {
-	public static CreativeTabs registerCreativeTab(Class itemClass, String itemFieldName, ModMetadata metadata)
+	public static CreativeTabs registerCreativeTab(Class itemClass, String itemFieldName, ModMetadata metadata, String name)
 	{
 		try
 		{
@@ -23,7 +23,7 @@ public final class RadixStartup
 			item.setUnlocalizedName(upperName);
 			item.setTextureName(metadata.modId + ":" + upperName);
 			
-			CreativeTabs returnTab = new CreativeTabs("tab" + metadata.modId)
+			CreativeTabs returnTab = new CreativeTabs("tab" + metadata.modId + (name != null ? "." + name : ""))
 			{
 				@Override
 				public Item getTabIconItem()
@@ -35,7 +35,7 @@ public final class RadixStartup
 					
 					catch (Exception e) 
 					{
-						RadixExcept.logFatalCatch(e, "registering tab icon item");
+						RadixExcept.logFatalCatch(e, "Registering tab icon item");
 					}
 					
 					return null; //Fall-through from exception.

@@ -1,10 +1,13 @@
 itemGroup.tabMCA=Minecraft Comes Alive
+itemGroup.tabMCA.gemCutting=MCA - Gem Cutting
 
 #######
 # Items & Blocks
 ##############################
 item.WeddingRing.name=Wedding Ring
+item.WeddingRingRG.name=Rose Gold Wedding Ring
 item.EngagementRing.name=Engagement Ring
+item.EngagementRingRG.name=Rose Gold Engagement Ring
 item.MatchmakersRing.name=Matchmaker's Ring
 item.BabyBoy.name=Baby Boy
 item.BabyGirl.name=Baby Girl
@@ -17,9 +20,26 @@ item.ItemVillagerBedPink.name=Pink Villager Bed
 item.ItemVillagerBedPurple.name=Purple Villager Bed
 item.DivorcePapers.name=Divorce Papers
 item.RoseGoldIngot.name=Rose Gold Ingot
-item.RoseGoldEngagementRing.name=Rose Gold Engagement Ring
-item.RoseGoldWeddingRing.name=Rose Gold Wedding Ring
-
+item.CrystalBall.name=Crystal Ball
+item.DiamondHeart.name=Diamond Heart
+item.DiamondTiny.name=Tiny Diamond
+item.DiamondOval.name=Diamond Oval
+item.DiamondSquare.name=Diamond Square
+item.DiamondTriangle.name=Diamond Triangle
+item.DiamondStar.name=Diamond Star
+item.DiamondDust.name=Diamond Dust
+item.EngagementRingHeart.name=Heart Engagement Ring
+item.EngagementRingHeartRG.name=Rose Gold Heart Engagement Ring
+item.EngagementRingTiny.name=Tiny Engagement Ring
+item.EngagementRingTinyRG.name=Rose Gold Tiny Engagement Ring
+item.EngagementRingOval.name=Oval Engagement Ring
+item.EngagementRingOvalRG.name=Oval Rose Gold Engagement Ring
+item.EngagementRingSquare.name=Square Engagement Ring
+item.EngagementRingSquareRG.name=Rose Gold Square Engagement Ring
+item.EngagementRingTriangle.name=Triangle Engagement Ring
+item.EngagementRingTriangleRG.name=Rose Gold Triangle Engagement Ring
+item.EngagementRingStar.name=Star Engagement Ring
+item.EngagementRingStarRG.name=Rose Gold Start Engagement Ring
 tile.roseGoldOre.name=Rose Gold Ore
 tile.roseGoldBlock.name=Rose Gold Block
 
@@ -404,14 +424,142 @@ mining.search.value=There's some %a1% %a2% blocks away.
 #################
 # GUI
 ################################
+gui.button.yes=Yes
+gui.button.no=No
 gui.button.done=Done
 gui.button.random=Random
 gui.button.back=Back
 gui.button.exit=Exit
+gui.button.interact=Interact
+gui.button.follow=Follow Me
+gui.button.stay=Stay Here
+gui.button.move=Move Freely
+gui.button.trade=Trade
+gui.button.sethome=Set Home
+gui.button.ridehorse=Ride Horse
+gui.button.special=Special
+gui.button.procreate=Procreate
+gui.button.pickup=Pick Up
+gui.button.work=Work
+gui.button.inventory=Inventory
+gui.button.chat=Chat
+gui.button.joke=Joke
+gui.button.gift=Gift
+gui.button.shakehand=Shake Hand
+gui.button.tellstory=Tell Story
+gui.button.flirt=Flirt
+gui.button.hug=Hug
+gui.button.kiss=Kiss
+gui.button.farming=Farming
+gui.button.farming.radius=Radius: %a1%
+gui.button.farming.plant=Plant: %a1%
+gui.button.woodcutting=Woodcutting
+gui.button.woodcutting.logtype=Log Type: %a1%
+gui.button.woodcutting.replant=Replant: %a1%
+gui.button.mining=Mining
+gui.button.hunting=Hunting
+gui.button.kill=Kill
+gui.button.tame=Tame
+gui.button.cooking=Cooking
+gui.button.mode=Mode: %a1%
+gui.button.start=Start
+gui.button.stop=Stop
 
 gui.title.namebaby.male=It's a boy!
 gui.title.namebaby.female=It's a girl!
 gui.title.namebaby=Name your baby:
+gui.info.family.married=Married to %a1%.
+gui.info.family.engaged=Engaged to %a1%.
+gui.info.family.marriedtoplayer=Married to you.
+gui.info.family.notmarried=Not married.
+gui.info.family.mother=Mother: %a1%
+gui.info.family.father=Father: %a1%
+gui.info.family.mother.you=Mother: You
+gui.info.family.father.you=Father: You
+
+gui.info.gift.line1=Gift Available
+gui.info.gift.line2=(Click to take)
+
+gui.info.mood=Mood: %a1%
+gui.info.personality=Personality: %a1%
+
+interaction.give.invalid1=I can't use that.
+interaction.give.invalid2=What is this? I can't do anything with it.
+interaction.give.invalid3=I don't know what you want me to do with that.
+interaction.give.invalid4=Why are you giving me this?
+interaction.give.invalid5=Huh? What is this thing?
+
+interaction.divorce.notmarried1=I am not married to anyone.
+interaction.divorce.notmarried2=What do I need divorce papers for? I am not married.
+interaction.divorce.notmarried3=I'm not married. Why are you giving these to me?
+
+interaction.divorce.fail.notmarriedtoplayer1=What?! You want me to leave my spouse? You're awful!
+interaction.divorce.fail.notmarriedtoplayer2=No! I won't do that to my spouse! I am happily married!
+interaction.divorce.fail.notmarriedtoplayer3=What do you think you're doing? I'm not going to use that!
+
+interaction.divorce.success1=I thought you loved me! Get out!
+interaction.divorce.success2=It was fun while it lasted. Goodbye, and good luck.
+interaction.divorce.success3=I can't believe you're doing this! Leave, now!
+interaction.divorce.success4=Why would you do this to me? I never want to see you again!
+
+interaction.marry.fail.marriedtogiver1=It's a pretty ring, but I am already married to you, silly.
+interaction.marry.fail.marriedtogiver2=We are already married. Did you forget?
+
+interaction.marry.fail.marriedtoother1=I'm sorry, no...I'm already married.
+interaction.marry.fail.marriedtoother2=Oh, I thought you knew...I'm already married to someone.
+interaction.marry.fail.marriedtoother3=What?! I'm already married!
+
+interaction.marry.fail.playermarried1=Uh...I see that ring on your finger. You're already married!
+interaction.marry.fail.playermarried2=Just what are you trying to do? You're already married!
+interaction.marry.fail.playermarried3=What? Really? I think you're married to someone else, aren't you?
+interaction.marry.fail.playermarried4=I'm appalled! You already have a spouse.
+
+interaction.marry.fail.lowhearts1=What? No! I don't like you!
+interaction.marry.fail.lowhearts2=Oh, pretty ring! Oh wait...it's for me? Um...no.
+interaction.marry.fail.lowhearts3=Is that for me? Sorry, I just don't know you enough.
+interaction.marry.fail.lowhearts4=I'm flattered, but I don't really know you.
+
+interaction.engage.success1=Yes! I will marry you! I love you!
+interaction.engage.success2=Of course I'll marry you!
+interaction.engage.success3=About time...just kidding! Love you!
+interaction.engage.success4=Is...is this real? I mean, this moment, not the ring. But the ring is real, right?
+
+interaction.marry.success1=It's a dream come true! I'll love you forever!
+interaction.marry.success2=We're finally married! Now what?
+interaction.marry.success3=I'm happy to be married to you, %PlayerName%.
+interaction.marry.success4=I can't wait to start our life together!
+
+interaction.matchmaker.fail.married1=I am already married to someone.
+interaction.matchmaker.fail.married2=I'm happily married, I do not want another spouse.
+interaction.matchmaker.fail.married3=I don't want that - I'm already married.
+
+interaction.matchmaker.fail.engaged1=I am engaged to someone already, I can't take that ring.
+interaction.matchmaker.fail.engaged2=I've promised to marry someone else.
+interaction.matchmaker.fail.engaged3=Oh, thanks but I think I'm okay. I'm already engaged to someone.
+
+interaction.matchmaker.fail.needtwo1=Don't you need two rings to arrange a marriage?
+interaction.matchmaker.fail.needtwo2=Oh, okay! But you need two rings first.
+interaction.matchmaker.fail.needtwo3=My spouse and I will both need a ring, but you only have one.
+
+interaction.matchmaker.fail.novillagers1=I don't see anyone close by. Who did you want me to marry?
+interaction.matchmaker.fail.novillagers2=I just don't know...move me closer to the one you think is right for me.
+interaction.matchmaker.fail.novillagers3=Oh, but there doesn't seem to be anyone close by. Who should I marry?
+
+interaction.matchmaker.fail.invalid1=But I can't marry %Name%.
+interaction.matchmaker.fail.invalid2=The only villager close by is %Name%, and I can't marry them.
+interaction.matchmaker.fail.invalid3=I don't think that I can marry %Name%. That might be a little strange.
+
+interaction.sethome.success1=Okay, this will be my new home point.
+interaction.sethome.success2=I understand, I'll be sleeping here at night.
+interaction.sethome.success3=Sure thing, %PlayerName%.
+
+interaction.sethome.fail1=This doesn't look like a safe home point for me.
+interaction.sethome.fail2=This place doesn't seem safe. Is there another place nearby?
+interaction.sethome.fail3=I'm not too sure about this place. I can't have my home point here.
+
+interaction.mining.fail.toolow1=We're too low for me to create a mine.
+interaction.mining.fail.toolow2=We need to be on higher ground.
+interaction.mining.fail.toolow3=I don't think it's a good idea to create a mine here. We need to be higher.
 
 ###################
 # Typed Dialogue

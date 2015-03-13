@@ -162,7 +162,7 @@ public class AIMining extends AbstractToggleAI
 
 					if (player != null)
 					{
-						owner.say(MCA.getLanguageManager().getString(phraseId, arguments), player);
+						owner.say(phraseId, player, arguments);
 					}
 				}
 
@@ -215,7 +215,7 @@ public class AIMining extends AbstractToggleAI
 	{
 		if (owner.posY <= 12)
 		{
-			owner.say("I can't create a mine here. We're too low!", player);
+			owner.say("interaction.mining.fail.toolow", player);
 			return;
 		}
 

@@ -32,6 +32,12 @@ public class ItemCutRingColored extends ItemColorable
 	}
 
 	@Override
+	public String getUnlocalizedName(ItemStack stack) 
+	{
+		return "item.EngagementRing" + (isRoseGold ? "RG" : "");
+	}
+
+	@Override
 	public boolean requiresMultipleRenderPasses() 
 	{
 		return true;

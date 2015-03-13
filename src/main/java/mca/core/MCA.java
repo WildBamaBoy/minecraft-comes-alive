@@ -124,8 +124,8 @@ public class MCA
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-    	creativeTabMain = RadixStartup.registerCreativeTab(ModItems.class, "engagementRing", metadata);
-    	creativeTabGemCutting = RadixStartup.registerCreativeTab(ModItems.class, "diamondHeart", metadata);
+    	creativeTabMain = RadixStartup.registerCreativeTab(ModItems.class, "engagementRing", metadata, null);
+    	creativeTabGemCutting = RadixStartup.registerCreativeTab(ModItems.class, "diamondHeart", metadata, "gemCutting");
     	items = new ModItems();
     	blocks = new ModBlocks();
     	achievements = new ModAchievements();

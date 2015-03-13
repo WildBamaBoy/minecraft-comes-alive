@@ -1,5 +1,7 @@
 package mca.items;
 
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import mca.core.MCA;
 import mca.enums.EnumCut;
 import radixcore.item.ItemColorable;
@@ -21,5 +23,19 @@ public class ItemColoredDiamond extends ItemColorable
 		this.setCreativeTab(MCA.getCreativeTabGemCutting());
 
 		GameRegistry.registerItem(this, name);
+	}
+	
+	@Override
+	public String getUnlocalizedName(ItemStack stack) 
+	{
+		if (cut != EnumCut.NONE)
+		{
+			return "item.Diamond" + cut.toString();			
+		}
+
+		else
+		{
+			return "item.diamond";
+		}
 	}
 }
