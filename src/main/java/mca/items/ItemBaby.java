@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import mca.core.MCA;
+import mca.core.minecraft.ModAchievements;
 import mca.data.PlayerData;
 import mca.entity.EntityHuman;
 import mca.packets.PacketOpenBabyNameGUI;
@@ -117,6 +118,8 @@ public class ItemBaby extends Item
 			worldObj.spawnEntityInWorld(child);
 
 			player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+			
+			player.triggerAchievement(ModAchievements.babyToChild);
 		}
 
 		return true;

@@ -11,6 +11,7 @@ import mca.ai.AIMining;
 import mca.ai.AIWoodcutting;
 import mca.api.ChoreRegistry;
 import mca.api.exception.MappingNotFoundException;
+import mca.core.minecraft.ModAchievements;
 import mca.entity.EntityHuman;
 import mca.enums.EnumInteraction;
 import net.minecraft.entity.player.EntityPlayer;
@@ -105,9 +106,12 @@ public class PacketToggleAI extends AbstractPacket implements IMessage, IMessage
 		switch(EnumInteraction.fromId(packet.interactionId))
 		{
 		case FARMING: 
+			player.triggerAchievement(ModAchievements.farming);
 			break; //TODO
 			
 		case MINING: 
+			player.triggerAchievement(ModAchievements.mining);
+			
 			if (packet.booleans.get(0))
 			{
 				human.getAI(AIMining.class).startGathering(player);
@@ -128,6 +132,7 @@ public class PacketToggleAI extends AbstractPacket implements IMessage, IMessage
 			break;
 			
 		case WOODCUTTING: 
+			player.triggerAchievement(ModAchievements.woodcutting);
 			boolean doReplant = packet.booleans.get(0);
 			int mappingId = packet.integers.get(0);
 			
@@ -135,6 +140,7 @@ public class PacketToggleAI extends AbstractPacket implements IMessage, IMessage
 			break;
 			
 		case HUNTING: 
+			player.triggerAchievement(ModAchievements.hunting);
 			boolean flag = packet.booleans.get(0);
 			
 			if (flag)

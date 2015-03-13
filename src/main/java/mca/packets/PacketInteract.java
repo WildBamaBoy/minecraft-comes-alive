@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import mca.ai.AIMood;
 import mca.ai.AISleep;
 import mca.core.MCA;
+import mca.core.minecraft.ModAchievements;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.enums.EnumInteraction;
@@ -137,6 +138,11 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 				
 				memory.setHearts(memory.getHearts() + pointsModification);
 				memory.increaseInteractionFatigue();
+				
+				if (memory.getHearts() >= 100)
+				{
+					player.triggerAchievement(ModAchievements.fullGoldHearts);
+				}
 				
 				if (memory.getInteractionFatigue() == 4)
 				{

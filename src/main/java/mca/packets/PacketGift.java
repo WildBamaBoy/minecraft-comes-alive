@@ -5,6 +5,7 @@ import mca.ai.AIMood;
 import mca.api.ChoreRegistry;
 import mca.core.MCA;
 import mca.core.VersionBridge;
+import mca.core.minecraft.ModAchievements;
 import mca.core.minecraft.ModItems;
 import mca.data.PlayerData;
 import mca.data.PlayerMemory;
@@ -162,6 +163,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 		else
 		{
+			player.triggerAchievement(ModAchievements.marriage);
 			human.say("We are now married!", player); 
 
 			memory.setDialogueType(EnumDialogueType.SPOUSE);
@@ -227,6 +229,16 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				VersionBridge.spawnParticlesAroundEntityS(Particle.HEART, human, 16);
 				VersionBridge.spawnParticlesAroundEntityS(Particle.HEART, partner, 16);
 				
+				for (Object obj : human.worldObj.playerEntities)
+				{
+					EntityPlayer onlinePlayer = (EntityPlayer)obj;
+					
+					if (human.isPlayerAParent(onlinePlayer) || partner.isPlayerAParent(onlinePlayer))
+					{
+						onlinePlayer.triggerAchievement(ModAchievements.childMarried);	
+					}
+				}
+				
 				TutorialManager.sendMessageToPlayer(player, "These villagers are now married.", "They will have children in the near future.");
 				return true;
 			}
@@ -273,6 +285,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 		else
 		{
+			player.triggerAchievement(ModAchievements.engagement);
 			human.say("We are now engaged!", player); 
 
 			memory.setDialogueType(EnumDialogueType.SPOUSE);

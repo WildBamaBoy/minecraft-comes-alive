@@ -2,9 +2,11 @@ package mca.ai;
 
 import mca.core.MCA;
 import mca.core.VersionBridge;
+import mca.core.minecraft.ModAchievements;
 import mca.entity.EntityHuman;
 import mca.enums.EnumBabyState;
 import mca.enums.EnumProgressionStep;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
 import radixcore.util.RadixLogic;
@@ -161,6 +163,17 @@ public class AIProgressStory extends AbstractAI
 			//Increase number of children.
 			numChildren++;
 			mateAI.numChildren++;
+			
+			//Notify parent players of achievement.
+			for (Object obj : owner.worldObj.playerEntities)
+			{
+				EntityPlayer onlinePlayer = (EntityPlayer)obj;
+				
+				if (owner.isPlayerAParent(onlinePlayer) || mate.isPlayerAParent(onlinePlayer))
+				{
+					onlinePlayer.triggerAchievement(ModAchievements.childHasChildren);	
+				}
+			}
 		}
 	}
 

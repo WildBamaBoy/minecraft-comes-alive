@@ -1,7 +1,9 @@
 package mca.ai;
 
 import mca.core.MCA;
+import mca.core.minecraft.ModAchievements;
 import mca.entity.EntityHuman;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
 
@@ -28,6 +30,16 @@ public class AIGrow extends AbstractAI
 				if (owner.getAge() >= MCA.getConfig().childGrowUpTime && !owner.worldObj.isRemote)
 				{
 					owner.setIsChild(false);
+					
+					for (Object obj : owner.worldObj.playerEntities)
+					{
+						EntityPlayer player = (EntityPlayer)obj;
+						
+						if (owner.isPlayerAParent(player))
+						{
+							player.triggerAchievement(ModAchievements.childToAdult);
+						}
+					}
 				}
 	
 				else

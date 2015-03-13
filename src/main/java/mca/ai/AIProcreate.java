@@ -4,6 +4,7 @@ import java.util.Random;
 
 import mca.core.MCA;
 import mca.core.VersionBridge;
+import mca.core.minecraft.ModAchievements;
 import mca.core.minecraft.ModItems;
 import mca.data.PlayerData;
 import mca.data.WatcherIDsHuman;
@@ -13,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.stats.Achievement;
 import radixcore.constant.Particle;
 import radixcore.constant.Time;
 import radixcore.data.WatchedBoolean;
@@ -71,8 +73,11 @@ public class AIProcreate extends AbstractAI
 					
 					if (!playerSpouse.inventory.addItemStackToInventory(stack))
 					{
-						//TODO add to spouse inventory						
+						playerSpouse.inventory.addItemStackToInventory(stack);				
 					}
+					
+					Achievement achievement = isMale ? ModAchievements.babyBoy : ModAchievements.babyGirl;
+					playerSpouse.triggerAchievement(achievement);
 					
 					MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenBabyNameGUI(isMale), (EntityPlayerMP) playerSpouse);
 				}
