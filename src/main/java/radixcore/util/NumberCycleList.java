@@ -1,6 +1,7 @@
 package radixcore.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -10,6 +11,11 @@ import java.util.List;
 public final class NumberCycleList extends ArrayList<Integer>
 {
 	private int index;
+	
+	public static NumberCycleList fromIntegers(Integer... integers)
+	{
+		return fromList(Arrays.asList(integers));
+	}
 	
 	public static NumberCycleList fromList(List<Integer> list)
 	{
