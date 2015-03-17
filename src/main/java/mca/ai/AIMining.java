@@ -105,12 +105,6 @@ public class AIMining extends AbstractToggleAI
 					final Point3D ownerPos = new Point3D(owner.posX, owner.posY, owner.posZ);
 					int distanceToBlock = -1;
 
-					if (notifyBlock == null) //Error-proofing just in case the current ID no longer exists.
-					{
-						reset();
-						return;
-					}
-
 					//Find the nearest block we can notify about.
 					for (final Point3D point : RadixLogic.getNearbyBlocks(owner, notifyBlock, 20))
 					{
