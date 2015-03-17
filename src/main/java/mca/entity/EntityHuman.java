@@ -10,6 +10,7 @@ import mca.ai.AIBuild;
 import mca.ai.AIConverse;
 import mca.ai.AICooking;
 import mca.ai.AIEat;
+import mca.ai.AIFarming;
 import mca.ai.AIFollow;
 import mca.ai.AIGreet;
 import mca.ai.AIGrow;
@@ -164,6 +165,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		aiManager.addAI(new AIWoodcutting(this));
 		aiManager.addAI(new AIHunting(this));
 		aiManager.addAI(new AICooking(this));
+		aiManager.addAI(new AIFarming(this));
 		
 		addAI();
 

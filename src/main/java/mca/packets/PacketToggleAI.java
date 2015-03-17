@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mca.ai.AICooking;
+import mca.ai.AIFarming;
 import mca.ai.AIHunting;
 import mca.ai.AIMining;
 import mca.ai.AIWoodcutting;
@@ -107,7 +108,8 @@ public class PacketToggleAI extends AbstractPacket implements IMessage, IMessage
 		{
 		case FARMING: 
 			player.triggerAchievement(ModAchievements.farming);
-			break; //TODO
+			human.getAI(AIFarming.class).startFarming(player, packet.integers.get(0), packet.integers.get(1), packet.booleans.get(0));
+			break;
 			
 		case MINING: 
 			player.triggerAchievement(ModAchievements.mining);

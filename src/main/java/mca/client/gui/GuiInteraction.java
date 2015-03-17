@@ -14,6 +14,7 @@ import mca.ai.AIFollow;
 import mca.ai.AIMood;
 import mca.ai.AIProcreate;
 import mca.api.ChoreRegistry;
+import mca.api.CropEntry;
 import mca.api.WoodcuttingEntry;
 import mca.api.exception.MappingNotFoundException;
 import mca.core.MCA;
@@ -63,6 +64,8 @@ public class GuiInteraction extends GuiScreen
 	 * Fields used for AI controls.
 	 */
 	private int currentPage;
+	private NumberCycleList radiusMappings;
+	private NumberCycleList farmingMappings;
 	private NumberCycleList woodcuttingMappings;
 	private NumberCycleList miningMappings;
 	private boolean farmingModeFlag;
@@ -76,6 +79,8 @@ public class GuiInteraction extends GuiScreen
 		this.villager = villager;
 		this.player = player;
 		this.playerData = MCA.getPlayerData(player);
+		this.radiusMappings = NumberCycleList.fromIntegers(5, 10, 15, 20, 25);
+		this.farmingMappings = NumberCycleList.fromList(ChoreRegistry.getCropEntryIDs());
 		this.woodcuttingMappings = NumberCycleList.fromList(ChoreRegistry.getWoodcuttingBlockIDs());
 		this.miningMappings = NumberCycleList.fromList(ChoreRegistry.getMiningBlockIDs());
 	}
@@ -355,8 +360,8 @@ public class GuiInteraction extends GuiScreen
 			 */			
 			case FARMING: drawFarmingControlMenu(); break;
 			case FARMING_MODE: farmingModeFlag = !farmingModeFlag; drawFarmingControlMenu(); break;
-			case FARMING_TARGET: drawFarmingControlMenu(); break; //TODO
-			case FARMING_RADIUS: drawFarmingControlMenu(); break; //TODO
+			case FARMING_TARGET: farmingMappings.next(); drawFarmingControlMenu(); break;
+			case FARMING_RADIUS: radiusMappings.next(); drawFarmingControlMenu(); break;
 	
 			case HUNTING: drawHuntingControlMenu(); break;
 			case HUNTING_MODE: huntingModeFlag = !huntingModeFlag; drawHuntingControlMenu(); break;
@@ -447,7 +452,7 @@ public class GuiInteraction extends GuiScreen
 			case START: 
 				switch (EnumInteraction.fromId(currentPage))
 				{
-				case FARMING: break; //MCA.getPacketHandler().sendPacketToServer(new PacketToggleAI(EnumInteraction.FARMING));
+				case FARMING: MCA.getPacketHandler().sendPacketToServer(new PacketToggleAI(villager, EnumInteraction.FARMING, farmingModeFlag, farmingMappings.get(), radiusMappings.get())); break;
 				case MINING: MCA.getPacketHandler().sendPacketToServer(new PacketToggleAI(villager, EnumInteraction.MINING, miningModeFlag, miningMappings.get())); break;
 				case WOODCUTTING: MCA.getPacketHandler().sendPacketToServer(new PacketToggleAI(villager, EnumInteraction.WOODCUTTING, woodcuttingReplantFlag, woodcuttingMappings.get())); break;
 				case HUNTING: MCA.getPacketHandler().sendPacketToServer(new PacketToggleAI(villager, EnumInteraction.HUNTING, huntingModeFlag)); break;
@@ -607,12 +612,25 @@ public class GuiInteraction extends GuiScreen
 		int yLoc = height == 240 ? 115 : height == 255 ? 125 : 132;
 		int yInt = 22;
 
-		//TODO
+		String modeText = "Mode: " + (farmingModeFlag ? "Create Farm" : "Harvest");
+		
+		CropEntry entry = null;
+		
+		try
+		{
+			entry = ChoreRegistry.getCropEntryById(farmingMappings.get());
+		}
+		
+		catch (MappingNotFoundException e)
+		{
+			entry = ChoreRegistry.getDefaultCropEntry();
+		}
+		
 		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
 		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString("gui.button.farming"))); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.FARMING_MODE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, "Mode: ")); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.FARMING_RADIUS.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, "Radius: ")); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.FARMING_TARGET.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, "Plant: ")); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.FARMING_MODE.getId(),  width / 2 + xLoc - 40, height / 2 - yLoc, 105, 20, modeText)); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.FARMING_RADIUS.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, "Radius: " + radiusMappings.get())); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.FARMING_TARGET.getId(),  width / 2 + xLoc - 40, height / 2 - yLoc, 105, 20, "Plant: " + entry.getCropName())); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + MCA.getLanguageManager().getString("gui.button.start"))); yLoc -= yInt;
 	}
 

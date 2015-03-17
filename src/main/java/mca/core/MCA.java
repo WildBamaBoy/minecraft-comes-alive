@@ -6,7 +6,9 @@ import java.util.Map;
 
 import mca.api.ChoreRegistry;
 import mca.api.CookableFood;
+import mca.api.CropEntry;
 import mca.api.WoodcuttingEntry;
+import mca.api.enums.EnumCropCategory;
 import mca.command.CommandMCA;
 import mca.core.forge.EventHooksFML;
 import mca.core.forge.EventHooksForge;
@@ -333,6 +335,13 @@ public class MCA
 		ChoreRegistry.addFoodToCookingAI(new CookableFood(Items.chicken, Items.cooked_chicken));
 		ChoreRegistry.addFoodToCookingAI(new CookableFood(Items.fish, Items.cooked_fished));
 		ChoreRegistry.addFoodToCookingAI(new CookableFood(Items.potato, Items.baked_potato));
+		
+		ChoreRegistry.addCropToFarmingAI(1, new CropEntry(EnumCropCategory.WHEAT, Blocks.wheat, Items.wheat_seeds, Blocks.wheat, 7, Items.wheat, 1, 4));
+		ChoreRegistry.addCropToFarmingAI(2, new CropEntry(EnumCropCategory.WHEAT, Blocks.potatoes, Items.potato, Blocks.potatoes, 7, Items.potato, 1, 4));
+		ChoreRegistry.addCropToFarmingAI(3, new CropEntry(EnumCropCategory.WHEAT, Blocks.carrots, Items.carrot, Blocks.carrots, 7, Items.carrot, 1, 4));
+		ChoreRegistry.addCropToFarmingAI(4, new CropEntry(EnumCropCategory.MELON, Blocks.melon_stem, Items.melon_seeds, Blocks.melon_block, 0, Items.melon, 2, 6));
+		ChoreRegistry.addCropToFarmingAI(5, new CropEntry(EnumCropCategory.MELON, Blocks.pumpkin_stem, Items.pumpkin_seeds, Blocks.pumpkin, 0, null, 1, 1));
+		ChoreRegistry.addCropToFarmingAI(6, new CropEntry(EnumCropCategory.SUGARCANE, Blocks.reeds, Items.reeds, Blocks.reeds, 0, Items.reeds, 1, 1));
     }
     
     @EventHandler
