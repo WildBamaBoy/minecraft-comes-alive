@@ -3,7 +3,6 @@ package mca.packets;
 import io.netty.buffer.ByteBuf;
 import mca.ai.AIMood;
 import mca.ai.AISleep;
-import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;

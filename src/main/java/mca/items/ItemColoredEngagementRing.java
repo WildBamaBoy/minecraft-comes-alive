@@ -1,7 +1,6 @@
 package mca.items;
 
 import mca.core.MCA;
-import mca.enums.EnumCut;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;

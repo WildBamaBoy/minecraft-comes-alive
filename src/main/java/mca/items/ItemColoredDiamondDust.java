@@ -1,7 +1,7 @@
 package mca.items;
 
-import net.minecraft.item.ItemStack;
 import mca.core.MCA;
+import net.minecraft.item.ItemStack;
 import radixcore.item.ItemColorable;
 import cpw.mods.fml.common.registry.GameRegistry;
 
