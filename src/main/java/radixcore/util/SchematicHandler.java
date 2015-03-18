@@ -1,8 +1,9 @@
 package radixcore.util;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,12 +15,40 @@ import radixcore.math.Point3D;
 
 public final class SchematicHandler 
 {
-	public static Map<Point3D, BlockObj> readSchematic(String location)
+	public static Point3D getPoint3DWithValue(Map<Point3D, BlockObj> schematicData, Point3D point)
+	{
+		for (Map.Entry<Point3D, BlockObj> entry : schematicData.entrySet())
+		{
+			if (entry.getKey().equals(point))
+			{
+				return entry.getKey();
+			}
+		}
+		
+		return null;
+	}
+	
+	public static int countOccurencesOfBlockObj(Map<Point3D, BlockObj> schematicData, BlockObj searchBlock)
+	{
+		int count = 0;
+		
+		for (BlockObj block : schematicData.values())
+		{
+			if (block.equals(searchBlock))
+			{
+				count++;
+			}
+		}
+		
+		return count;
+	}
+	
+	public static SortedMap<Point3D, BlockObj> readSchematic(String location)
 	{
 		Point3D origin = null;
 		Point3D offset = null;
 
-		Map<Point3D, BlockObj> map = new HashMap<Point3D, BlockObj>();
+		SortedMap<Point3D, BlockObj> map = new TreeMap<Point3D, BlockObj>();
 
 		try
 		{
@@ -56,7 +85,7 @@ public final class SchematicHandler
 
 			catch (Exception ignore) 
 			{
-				origin = new Point3D(0, 0, 0);
+				origin = Point3D.ZERO;
 			}
 
 			for (int index = 0; index < blockIds.length; index++) 
