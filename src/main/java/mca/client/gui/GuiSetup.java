@@ -1,5 +1,8 @@
 package mca.client.gui;
 
+import java.awt.Desktop;
+import java.net.URI;
+
 import mca.core.MCA;
 import mca.data.PlayerData;
 import mca.enums.EnumDestinyChoice;
@@ -12,6 +15,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import radixcore.client.render.RenderHelper;
@@ -29,6 +33,7 @@ public class GuiSetup extends GuiScreen
 	private GuiTextField nameTextField;
 
 	private int page;
+	private boolean patreonSelected;
 
 	public GuiSetup(EntityPlayer player)
 	{
@@ -58,6 +63,25 @@ public class GuiSetup extends GuiScreen
 	}
 
 	@Override
+	public void handleMouseInput() 
+	{
+		super.handleMouseInput();
+
+		int x = Mouse.getEventX() * width / mc.displayWidth;
+		int y = height - Mouse.getEventY() * height / mc.displayHeight - 1;
+
+		if (x >= 17 && x <= 155 && y >= 200 && y <= 234)
+		{
+			patreonSelected = true;
+		}
+		
+		else
+		{
+			patreonSelected = false;
+		}
+	}
+	
+	@Override
 	public void drawScreen(int sizeX, int sizeY, float offset)
 	{
 		drawDefaultBackground();
@@ -66,6 +90,11 @@ public class GuiSetup extends GuiScreen
 		{
 			GL11.glScaled(0.55D, 0.25D, 1.0D);
 			RenderHelper.drawTexturedRectangle(new ResourceLocation("mca:textures/setup.png"), width / 2 + 62, height / 2 - 160, 0, 0, 250, 230);
+			
+			GL11.glScaled(0.90D, 0.50D, 1.0D);
+			
+			String patreonTexture = patreonSelected ? "mca:textures/patreon-selected.png" : "mca:textures/patreon.png";
+			RenderHelper.drawTexturedRectangle(new ResourceLocation(patreonTexture), width / 2 - 180, height / 2 + 1500, 0, 0, 255, 250);
 		}
 		GL11.glPopMatrix();
 
@@ -125,6 +154,19 @@ public class GuiSetup extends GuiScreen
 		if (page == 3 && nameTextField != null)
 		{
 			nameTextField.mouseClicked(clickX, clickY, clicked);
+		}
+		
+		if (patreonSelected)
+		{
+			try
+			{
+				Desktop.getDesktop().browse(new URI("https://www.patreon.com/wildbamaboy"));
+			}
+			
+			catch (Exception e)
+			{
+				return;
+			}
 		}
 	}
 
