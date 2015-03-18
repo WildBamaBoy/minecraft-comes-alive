@@ -36,7 +36,7 @@ public class AICooking extends AbstractToggleAI
 	{
 		super(owner);
 		isAIActive = new WatchedBoolean(false, WatcherIDsHuman.IS_COOKING_ACTIVE, owner.getDataWatcherEx());
-		furnacePos = new Point3D(0, 0, 0);
+		furnacePos = Point3D.ZERO;
 	}
 
 	@Override
@@ -121,7 +121,7 @@ public class AICooking extends AbstractToggleAI
 		assigningPlayer = player.getUniqueID().toString();
 		
 		setIsActive(true);
-		furnacePos = new Point3D(0, 0, 0);
+		furnacePos = Point3D.ZERO;
 		cookingInterval = Time.SECOND * 10;
 	}
 	

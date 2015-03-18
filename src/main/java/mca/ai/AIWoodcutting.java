@@ -33,7 +33,7 @@ public class AIWoodcutting extends AbstractToggleAI
 	{
 		super(owner);
 		isAIActive = new WatchedBoolean(false, WatcherIDsHuman.IS_WOODCUTTING_ACTIVE, owner.getDataWatcherEx());
-		treeBasePoint = new Point3D(0, 0, 0);
+		treeBasePoint = Point3D.ZERO;
 	}
 
 	@Override
@@ -155,7 +155,7 @@ public class AIWoodcutting extends AbstractToggleAI
 						}
 						
 						yLevel = 0;
-						treeBasePoint = new Point3D(0, 0, 0);
+						treeBasePoint = Point3D.ZERO;
 					}
 				}
 			}

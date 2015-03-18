@@ -16,8 +16,10 @@ import radixcore.util.RadixMath;
 /**
  * Used to store a group of 3D coordinates and easily move them around.
  */
-public final class Point3D
+public final class Point3D implements Comparable
 {
+	public static final Point3D ZERO = new Point3D(0, 0, 0);
+	
 	public short sPosX;
 	public short sPosY;
 	public short sPosZ;
@@ -177,7 +179,7 @@ public final class Point3D
 		
 		else
 		{
-			return new Point3D(0, 0, 0);
+			return Point3D.ZERO;
 		}
 	}
 	
@@ -206,5 +208,64 @@ public final class Point3D
 	public String toString()
 	{
 		return dPosX + ", " + dPosY + ", " + dPosZ;
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj instanceof Point3D)
+		{
+			final Point3D point = (Point3D)obj;
+			return point.dPosX == this.dPosX && point.dPosY == this.dPosY && point.dPosZ == this.dPosZ;
+		}
+		
+		return false;
+	}
+
+	@Override
+	public int compareTo(Object obj) 
+	{
+		Point3D point = (Point3D)obj;
+		
+		if (this.iPosY > point.iPosY)
+		{
+			return 1;
+		}
+		
+		else if (this.iPosY == point.iPosY)
+		{
+			if (this.iPosX > point.iPosX)
+			{
+				return 1;
+			}
+			
+			else if (this.iPosX == point.iPosX)
+			{
+				if (this.iPosZ > point.iPosZ)
+				{
+					return 1;
+				}
+				
+				else if (this.iPosZ == point.iPosZ)
+				{
+					return 0;
+				}
+				
+				else
+				{
+					return -1;
+				}
+			}
+			
+			else
+			{
+				return -1;
+			}
+		}
+		
+		else
+		{
+			return -1;
+		}
 	}
 }

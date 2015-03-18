@@ -35,7 +35,7 @@ public class AIHunting extends AbstractToggleAI
 	{
 		super(owner);
 		isAIActive = new WatchedBoolean(false, WatcherIDsHuman.IS_HUNTING_ACTIVE, owner.getDataWatcherEx());
-		standPoint = new Point3D(0, 0, 0);
+		standPoint = Point3D.ZERO;
 	}
 
 	@Override
@@ -178,7 +178,7 @@ public class AIHunting extends AbstractToggleAI
 	{
 		assigningPlayer = player.getUniqueID().toString();
 		
-		standPoint = new Point3D(0, 0, 0);
+		standPoint = Point3D.ZERO;
 		isTaming = true;
 
 		setIsActive(true);
@@ -189,7 +189,7 @@ public class AIHunting extends AbstractToggleAI
 	{
 		assigningPlayer = player.getUniqueID().toString();
 		
-		standPoint = new Point3D(0, 0, 0);
+		standPoint = Point3D.ZERO;
 		isTaming = false;
 
 		setIsActive(true);

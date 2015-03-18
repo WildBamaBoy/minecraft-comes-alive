@@ -1,9 +1,13 @@
 package mca.ai;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
+import mca.api.CropEntry;
+import mca.api.enums.EnumCropCategory;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
 import mca.enums.EnumMovementState;
@@ -19,20 +23,22 @@ import radixcore.util.SchematicHandler;
 public class AIBuild extends AbstractToggleAI
 {
 	private Map<Point3D, BlockObj> schematicMap;
+	private CropEntry cropEntry;
+
 	private List<Point3D> blockPoints;
 	private List<Point3D> torchPoints;
 	private Point3D origin;
 	private WatchedBoolean isAIActive;
-	
+
 	private String schematicName = "none";
 	private int interval = 20;
 	private int index = -1;
 	private Block groundBlock;
-	
+
 	public AIBuild(EntityHuman owner) 
 	{
 		super(owner);
-		origin = new Point3D(0, 0, 0);
+		origin = Point3D.ZERO;
 		isAIActive = new WatchedBoolean(false, WatcherIDsHuman.IS_BUILDING_ACTIVE, owner.getDataWatcherEx());
 	}
 
@@ -57,7 +63,7 @@ public class AIBuild extends AbstractToggleAI
 			{
 				interval = 20;
 				owner.swingItem();
-				
+
 				for (int i = 0; i < 10; i++)
 				{
 					//Building the main schematic is complete once index is too high. Now place the torches and finish.
@@ -80,12 +86,12 @@ public class AIBuild extends AbstractToggleAI
 						final BlockObj blockObj = schematicMap.get(point);
 
 						index++;
-						
+
 						if (blockObj.getBlock() == Blocks.grass && groundBlock != null)
 						{
 							owner.worldObj.setBlock(origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, groundBlock, 0, 2);							
 						}
-						
+
 						else
 						{
 							owner.worldObj.setBlock(origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, blockObj.getBlock(), blockObj.getMeta(), 2);
@@ -101,10 +107,11 @@ public class AIBuild extends AbstractToggleAI
 	{
 		setIsActive(false);
 		schematicMap = null;
-		origin = new Point3D(0, 0, 0);
+		origin = Point3D.ZERO;
 		blockPoints.clear();
 		torchPoints.clear();
 		groundBlock = null;
+		cropEntry = null;
 
 		schematicName = "none";
 		index = -1; //-1 index indicates building is not taking place.
@@ -158,7 +165,7 @@ public class AIBuild extends AbstractToggleAI
 		{
 			this.origin = new Point3D(owner.posX, owner.posY + 1, owner.posZ);
 			this.owner.setMovementState(EnumMovementState.STAY);
-			
+
 			primeSchematic(schematicLocation);
 
 			setIsActive(true);
@@ -171,7 +178,13 @@ public class AIBuild extends AbstractToggleAI
 		this.groundBlock = groundBlock;
 		return startBuilding(schematicLocation, doTopDown);
 	}
-	
+
+	public boolean startBuilding(String schematicLocation, boolean doTopDown, Block groundBlock, CropEntry cropEntry)
+	{
+		this.cropEntry = cropEntry;
+		return startBuilding(schematicLocation, doTopDown, groundBlock);
+	}
+
 	private void primeSchematic(String schematicLocation)
 	{
 		schematicName = schematicLocation;
@@ -186,10 +199,9 @@ public class AIBuild extends AbstractToggleAI
 		{
 			final Point3D point = entry.getKey();
 			compareY = -25;
-			
+
 			while (compareY < 25)
 			{
-				
 				if (schematicMap.get(point).getBlock() == Blocks.torch)
 				{
 					torchPoints.add(point);
@@ -201,6 +213,44 @@ public class AIBuild extends AbstractToggleAI
 				}
 
 				compareY++;
+			}
+		}
+
+		//Modify the schematic as needed if a crop entry is provided.
+		if (cropEntry != null)
+		{
+			final BlockObj searchRefBlock = new BlockObj(Blocks.wool, cropEntry.getCategory().getReferenceMeta());
+			final BlockObj waterRefBlock = new BlockObj(Blocks.wool, 11);
+			final BlockObj farmland = new BlockObj(Blocks.farmland, 0);
+			final BlockObj cropBlock = new BlockObj(cropEntry.getCropBlock(), 0);
+			final BlockObj waterBlock = new BlockObj(Blocks.water, 0);
+
+			final Map<Point3D, BlockObj> changes = new HashMap<Point3D, BlockObj>();
+
+			for (final Map.Entry<Point3D, BlockObj> entry : schematicMap.entrySet())
+			{
+				if (entry.getValue().equals(searchRefBlock))
+				{
+					final Point3D key = entry.getKey();
+					final Point3D belowKey = SchematicHandler.getPoint3DWithValue(schematicMap, new Point3D(key.iPosX, key.iPosY - 1, key.iPosZ));
+
+					if (belowKey != null && cropEntry.getCategory() != EnumCropCategory.SUGARCANE) 
+					{
+						changes.put(belowKey, farmland);
+					}
+					
+					changes.put(entry.getKey(), cropBlock);
+				}
+
+				else if (entry.getValue().equals(waterRefBlock))
+				{
+					changes.put(entry.getKey(), waterBlock);
+				}
+			}
+
+			for (final Map.Entry<Point3D, BlockObj> entry : changes.entrySet())
+			{
+				schematicMap.put(entry.getKey(), entry.getValue());
 			}
 		}
 	}
