@@ -22,23 +22,28 @@ public enum EnumCropCategory
 	 */
 	SUGARCANE(13);
 	
-	private int woolMeta;
+	private int referenceMeta;
 	
 	EnumCropCategory(int woolMeta)
 	{
-		this.woolMeta = woolMeta;
+		this.referenceMeta = woolMeta;
 	}
 	
 	public static EnumCropCategory getByWoolMeta(int meta)
 	{
 		for (EnumCropCategory type : EnumCropCategory.values())
 		{
-			if (type.woolMeta == meta)
+			if (type.referenceMeta == meta)
 			{
 				return type;
 			}
 		}
 		
 		return null;
+	}
+	
+	public int getReferenceMeta()
+	{
+		return referenceMeta;
 	}
 }

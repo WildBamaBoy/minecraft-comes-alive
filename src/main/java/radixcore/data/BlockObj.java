@@ -22,4 +22,20 @@ public class BlockObj
 	{
 		return meta;
 	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj instanceof BlockObj)
+		{
+			final BlockObj block = (BlockObj)obj;
+			
+			if (block.block == this.block && block.meta == this.meta)
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
 }

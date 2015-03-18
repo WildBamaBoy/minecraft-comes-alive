@@ -64,19 +64,19 @@ public final class CropEntry
 		
 		if (altHarvestItem != null)
 		{
-			returnArray[0] = new ItemStack(altHarvestItem, 0, cropAmount);
+			returnArray[0] = new ItemStack(altHarvestItem, cropAmount, 0);
 			
 			//Crops whose harvested item is the same as the seed will not get a seed return.
 			if (itemSeed != altHarvestItem)
 			{
-				returnArray[1] = new ItemStack(itemSeed, 0, seedAmount);
+				returnArray[1] = new ItemStack(itemSeed, seedAmount, 0);
 			}
 		}
 		
 		else
 		{
-			returnArray[0] = new ItemStack(harvestBlock, harvestBlockMeta, cropAmount);
-			returnArray[1] = new ItemStack(itemSeed, 0, seedAmount);
+			returnArray[0] = new ItemStack(harvestBlock, cropAmount, harvestBlockMeta);
+			returnArray[1] = new ItemStack(itemSeed, seedAmount, 0);
 		}
 		
 		return returnArray;
@@ -85,5 +85,30 @@ public final class CropEntry
 	public String getCropName()
 	{
 		return I18n.format(itemSeed.getUnlocalizedName() + ".name");
+	}
+	
+	public EnumCropCategory getCategory()
+	{
+		return category;
+	}
+	
+	public Item getSeedItem()
+	{
+		return itemSeed;
+	}
+	
+	public Block getCropBlock()
+	{
+		return blockCrop;
+	}
+	
+	public Block getHarvestBlock()
+	{
+		return harvestBlock;
+	}
+	
+	public int getHarvestBlockMeta()
+	{
+		return harvestBlockMeta;
 	}
 }

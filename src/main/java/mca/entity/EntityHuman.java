@@ -581,7 +581,9 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			target.addChatMessage(new ChatComponentText(sb.toString()));
 		}
 
-		aiManager.getAI(AIIdle.class).reset();		
+		aiManager.getAI(AIIdle.class).reset();
+		aiManager.getAI(AISleep.class).setIsSleeping(false);
+		aiManager.getAI(AISleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
 	}
 	
 	public void say(String phraseId, EntityPlayer target)

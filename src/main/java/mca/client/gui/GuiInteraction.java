@@ -166,9 +166,9 @@ public class GuiInteraction extends GuiScreen
 		{
 			String phraseId = 
 					villager.getSpouseName().equals(player.getCommandSenderName()) ? "gui.info.family.marriedtoplayer" :
-					villager.getIsMarried() ? "gui.info.family.married" : 
-					villager.getIsEngaged() ? "gui.info.family.engaged" : 
-					"gui.info.family.notmarried";
+						villager.getIsMarried() ? "gui.info.family.married" : 
+							villager.getIsEngaged() ? "gui.info.family.engaged" : 
+								"gui.info.family.notmarried";
 
 			//Always include the villager's spouse name in case %a1% will be provided.
 			RenderHelper.drawTextPopup(MCA.getLanguageManager().getString(phraseId, villager.getSpouseName()), 49, 73);
@@ -177,7 +177,7 @@ public class GuiInteraction extends GuiScreen
 		if (displayParentsInfo)
 		{
 			List<String> displayList = new ArrayList<String>();
-			
+
 			String fatherString = "gui.info.family.father";
 			String motherString = "gui.info.family.mother";
 
@@ -185,12 +185,12 @@ public class GuiInteraction extends GuiScreen
 			{
 				fatherString += ".you";
 			}
-			
+
 			else if (villager.getMotherName().equals(player.getCommandSenderName()))
 			{
 				motherString += ".you";
 			}
-			
+
 			displayList.add(MCA.getLanguageManager().getString(fatherString, villager.getFatherName()));
 			displayList.add(MCA.getLanguageManager().getString(motherString, villager.getMotherName()));
 
@@ -208,10 +208,10 @@ public class GuiInteraction extends GuiScreen
 
 		String moodString = MCA.getLanguageManager().getString("gui.info.mood", villager.getAI(AIMood.class).getMood(villager.getPersonality()).getFriendlyName());
 		String personalityString = MCA.getLanguageManager().getString("gui.info.personality", villager.getPersonality().getFriendlyName());
-		
+
 		RenderHelper.drawTextPopup(moodString, 18, 29);
 		RenderHelper.drawTextPopup(personalityString, 18, 46);
-		
+
 		super.drawScreen(i, j, f);
 	}
 
@@ -337,7 +337,7 @@ public class GuiInteraction extends GuiScreen
 	protected void actionPerformed(GuiButton button)
 	{
 		EnumInteraction interaction = EnumInteraction.fromId(button.id);
-	
+
 		if (interaction != null)
 		{
 			switch (interaction)
@@ -354,7 +354,7 @@ public class GuiInteraction extends GuiScreen
 			case STAY: villager.setMovementState(EnumMovementState.STAY);   close(); break;
 			case MOVE: villager.setMovementState(EnumMovementState.MOVE);   close(); break;
 			case WORK: drawWorkButtonMenu(); break;
-			
+
 			/*
 			 * Buttons related to AI and their controls.
 			 */			
@@ -362,20 +362,20 @@ public class GuiInteraction extends GuiScreen
 			case FARMING_MODE: farmingModeFlag = !farmingModeFlag; drawFarmingControlMenu(); break;
 			case FARMING_TARGET: farmingMappings.next(); drawFarmingControlMenu(); break;
 			case FARMING_RADIUS: radiusMappings.next(); drawFarmingControlMenu(); break;
-	
+
 			case HUNTING: drawHuntingControlMenu(); break;
 			case HUNTING_MODE: huntingModeFlag = !huntingModeFlag; drawHuntingControlMenu(); break;
-	
+
 			case WOODCUTTING: drawWoodcuttingControlMenu(); break;
 			case WOODCUTTING_TREE: woodcuttingMappings.next(); drawWoodcuttingControlMenu(); break; 
 			case WOODCUTTING_REPLANT: woodcuttingReplantFlag = !woodcuttingReplantFlag; drawWoodcuttingControlMenu(); break;
-	
+
 			case MINING: drawMiningControlMenu(); break;
 			case MINING_MODE: miningModeFlag = !miningModeFlag; drawMiningControlMenu(); break;
 			case MINING_TARGET: miningMappings.next(); drawMiningControlMenu(); break;
-				
+
 			case COOKING: drawCookingControlMenu(); break;
-	
+
 			/*
 			 * Buttons available in special cases.
 			 */
@@ -385,12 +385,12 @@ public class GuiInteraction extends GuiScreen
 				{
 					player.addChatMessage(new ChatComponentText(Color.RED + "You already have a baby."));
 				}
-	
+
 				else
 				{
 					villager.getAI(AIProcreate.class).setIsProcreating(true);
 				}
-	
+
 				close();
 				break;
 			case PICK_UP:
@@ -399,7 +399,7 @@ public class GuiInteraction extends GuiScreen
 				MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId()));
 				close(); 
 				break;
-	
+
 				/*
 				 * Buttons on the interaction menu.
 				 */
@@ -408,34 +408,34 @@ public class GuiInteraction extends GuiScreen
 				if (inGiftMode)
 				{
 					inGiftMode = false;
-	
+
 					for (Object obj : this.buttonList)
 					{
 						GuiButton displayedButton = (GuiButton)obj;
 						displayedButton.enabled = true;
 					}
-	
+
 					TutorialManager.forceState(2);
 				}
-	
+
 				else
 				{
 					inGiftMode = true;
-	
+
 					for (Object obj : this.buttonList)
 					{
 						GuiButton displayedButton = (GuiButton)obj;
 						displayedButton.enabled = displayedButton.id == 13;
 					}
-	
+
 					TutorialManager.setTutorialMessage(new TutorialMessage("Give a gift by right-clicking while it's selected.", "Press Esc to cancel."));
 				}
-	
+
 				break;
 
-			/*
-			 * These just send a packet with the interaction ID to the server for processing. Nothing special involved.
-			 */
+				/*
+				 * These just send a packet with the interaction ID to the server for processing. Nothing special involved.
+				 */
 			case CHAT:
 			case JOKE:
 			case SHAKE_HAND: 
@@ -458,10 +458,10 @@ public class GuiInteraction extends GuiScreen
 				case HUNTING: MCA.getPacketHandler().sendPacketToServer(new PacketToggleAI(villager, EnumInteraction.HUNTING, huntingModeFlag)); break;
 				case COOKING: MCA.getPacketHandler().sendPacketToServer(new PacketToggleAI(villager, EnumInteraction.COOKING)); break;
 				}
-				
+
 				close();
 				break;
-			
+
 			case BACK:
 				switch (EnumInteraction.fromId(currentPage))
 				{
@@ -470,7 +470,7 @@ public class GuiInteraction extends GuiScreen
 				case WOODCUTTING:
 				case HUNTING:
 				case COOKING: drawWorkButtonMenu(); break;
-				
+
 				case SPECIAL:
 				case WORK:
 				case INTERACT: drawMainButtonMenu(); break;
@@ -537,7 +537,7 @@ public class GuiInteraction extends GuiScreen
 	{
 		buttonList.clear();
 		currentPage = EnumInteraction.INTERACT.getId();
-		
+
 		int xLoc = width == 480 ? 170 : 145; 
 		int yLoc = height == 240 ? 115 : height == 255 ? 125 : 132;
 		int yInt = 22;
@@ -575,18 +575,18 @@ public class GuiInteraction extends GuiScreen
 		buttonList.add(new GuiButton(EnumInteraction.HUNTING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.hunting"))); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.COOKING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.cooking"))); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.STOP.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.DARKRED + MCA.getLanguageManager().getString("gui.button.stop"))); yLoc -= yInt;
-		
+
 		if (villager.getAIManager().isToggleAIActive())
 		{
 			for (Object obj : buttonList)
 			{
 				GuiButton button = (GuiButton)obj;
-				
+
 				if (button.id == -1)
 				{
 					continue;
 				}
-				
+
 				switch (EnumInteraction.fromId(button.id))
 				{
 				case BACK: break;
@@ -613,25 +613,37 @@ public class GuiInteraction extends GuiScreen
 		int yInt = 22;
 
 		String modeText = "Mode: " + (farmingModeFlag ? "Create Farm" : "Harvest");
-		
+
 		CropEntry entry = null;
-		
+
 		try
 		{
 			entry = ChoreRegistry.getCropEntryById(farmingMappings.get());
 		}
-		
+
 		catch (MappingNotFoundException e)
 		{
 			entry = ChoreRegistry.getDefaultCropEntry();
 		}
-		
+
 		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
 		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString("gui.button.farming"))); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.FARMING_MODE.getId(),  width / 2 + xLoc - 40, height / 2 - yLoc, 105, 20, modeText)); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.FARMING_RADIUS.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, "Radius: " + radiusMappings.get())); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.FARMING_TARGET.getId(),  width / 2 + xLoc - 40, height / 2 - yLoc, 105, 20, "Plant: " + entry.getCropName())); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + MCA.getLanguageManager().getString("gui.button.start"))); yLoc -= yInt;
+
+		for (Object obj : buttonList)
+		{
+			GuiButton button = (GuiButton)obj;
+			int searchId = farmingModeFlag ? EnumInteraction.FARMING_RADIUS.getId() : EnumInteraction.FARMING_TARGET.getId();
+
+			if (button.id == searchId)
+			{
+				button.enabled = false;
+				break;
+			}
+		}
 	}
 
 	private void drawMiningControlMenu() 
@@ -649,18 +661,18 @@ public class GuiInteraction extends GuiScreen
 		{
 			block = ChoreRegistry.getNotifyBlockById(miningMappings.get());
 		}
-		
+
 		catch (MappingNotFoundException e)
 		{
 			block = Blocks.coal_ore;
 		}
-		
+
 		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
 		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + "Mining")); yLoc -= yInt;
 
 		String modeText = "Mode: " + (miningModeFlag ? "Create Mine" : "Search");
 		String targetText = "Target: " + block.getLocalizedName();
-		
+
 		buttonList.add(new GuiButton(EnumInteraction.MINING_MODE.getId(),  width / 2 + xLoc - 40, height / 2 - yLoc, 105, 20, modeText)); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.MINING_TARGET.getId(),  width / 2 + xLoc - 80, height / 2 - yLoc, 145, 20, targetText)); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + MCA.getLanguageManager().getString("gui.button.start"))); yLoc -= yInt;
@@ -674,19 +686,19 @@ public class GuiInteraction extends GuiScreen
 		int xLoc = width == 480 ? 170 : 145; 
 		int yLoc = height == 240 ? 115 : height == 255 ? 125 : 132;
 		int yInt = 22;
-		
+
 		WoodcuttingEntry entry = null;
 
 		try
 		{
 			entry = ChoreRegistry.getWoodcuttingEntryById(woodcuttingMappings.get());
 		}
-		
+
 		catch (MappingNotFoundException e)
 		{
 			entry = ChoreRegistry.getDefaultWoodcuttingEntry();
 		}
-		
+
 		String treeText = MCA.getLanguageManager().getString("gui.button.woodcutting.logtype", new ItemStack(entry.getLogBlock(), 1, entry.getLogMeta()).getDisplayName());
 		String replantText = MCA.getLanguageManager().getString("gui.button.woodcutting.replant", MCA.getLanguageManager().getString(woodcuttingReplantFlag ? "gui.button.yes" : "gui.button.no"));
 

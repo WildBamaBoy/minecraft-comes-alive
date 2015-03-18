@@ -102,6 +102,28 @@ public class Inventory extends InventoryBasic
 		return contains(block.getClass());
 	}
 
+	public boolean containsCountOf(Item item, int threshold)
+	{
+		int totalCount = 0;
+		
+		for (int i = 0; i < this.getSizeInventory(); ++i)
+		{
+			final ItemStack stack = this.getStackInSlot(i);
+
+			if (stack != null)
+			{
+				final Item stackItem = stack.getItem();
+
+				if (stackItem.getClass() == item.getClass())
+				{
+					totalCount += stack.stackSize;
+				}
+			}
+		}
+
+		return totalCount >= threshold;
+	}
+	
 	public void loadInventoryFromNBT(NBTTagList tagList)
 	{
 		for (int i = 0; i < this.getSizeInventory(); ++i)
