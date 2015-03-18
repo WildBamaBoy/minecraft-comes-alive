@@ -1,6 +1,9 @@
 package mca.core.forge;
 
+import radixcore.util.RadixLogic;
+import mca.core.MCA;
 import mca.entity.EntityHuman;
+import mca.enums.EnumProfession;
 import mca.util.TutorialManager;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
@@ -28,11 +31,52 @@ public class EventHooksForge
 				doAddMobTasks((EntityMob) event.entity);
 			}
 
-			if (event.entity instanceof EntityVillager && !(event.entity instanceof EntityHuman))
+			if (event.entity instanceof EntityVillager && !(event.entity instanceof EntityHuman) && MCA.getConfig().overwriteOriginalVillagers)
 			{
-				//doOverwriteVillager(event, (EntityVillager) event.entity); TODO
+				doOverwriteVillager(event, (EntityVillager) event.entity);
 			}
 		}
+	}
+
+	private void doOverwriteVillager(EntityJoinWorldEvent event, EntityVillager entity) 
+	{
+		entity.setDead();
+		
+		boolean hasFamily = RadixLogic.getBooleanWithProbability(20);
+		boolean isMale = RadixLogic.getBooleanWithProbability(50);
+		
+		final EntityHuman human = new EntityHuman(event.world, isMale, entity.getProfession());
+		human.setPosition(entity.posX, entity.posY, entity.posZ);
+		
+		if (hasFamily)
+		{
+			final EntityHuman spouse = new EntityHuman(event.world, !isMale, EnumProfession.getAtRandom().getId());
+			spouse.setPosition(human.posX, human.posY, human.posZ);
+			event.world.spawnEntityInWorld(spouse);
+			
+			human.setIsMarried(true, spouse);
+			spouse.setIsMarried(true, human);
+			
+			String motherName = !isMale ? human.getName() : spouse.getName();
+			String fatherName = isMale ? human.getName() : spouse.getName();
+			int motherID = !isMale ? human.getPermanentId() : spouse.getPermanentId();
+			int fatherID = isMale ? human.getPermanentId() : spouse.getPermanentId();
+			
+			//Children
+			for (int i = 0; i < 2; i++)
+			{
+				if (RadixLogic.getBooleanWithProbability(66))
+				{
+					continue;
+				}
+				
+				final EntityHuman child = new EntityHuman(event.world, RadixLogic.getBooleanWithProbability(50), true, motherName, fatherName, motherID, fatherID, false);
+				child.setPosition(entity.posX, entity.posY, entity.posZ);
+				event.world.spawnEntityInWorld(child);
+			}
+		}
+		
+		event.world.spawnEntityInWorld(human);
 	}
 
 	@SubscribeEvent
