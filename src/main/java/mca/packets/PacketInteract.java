@@ -7,6 +7,7 @@ import mca.core.minecraft.ModAchievements;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.enums.EnumInteraction;
+import mca.enums.EnumPersonality;
 import mca.util.TutorialManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
@@ -133,6 +134,11 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 					pointsModification = RadixMath.clamp(pointsModification * -1, -100, -1);
 					mood.modifyMoodLevel(RadixMath.getNumberInRange(0.2F, 1.0F) * -1);
 					villager.say(memory.getDialogueType().toString() + "." + interaction.getName() + ".bad", player);
+				}
+				
+				if (villager.getPersonality() == EnumPersonality.FRIENDLY)
+				{
+					pointsModification += pointsModification * 0.15D;
 				}
 				
 				memory.setHearts(memory.getHearts() + pointsModification);
