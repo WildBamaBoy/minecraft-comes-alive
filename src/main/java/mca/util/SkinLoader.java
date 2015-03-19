@@ -37,7 +37,7 @@ public final class SkinLoader
 
 			else
 			{
-				loadSkinsFromFolder(modFile);
+				RadixExcept.logFatalCatch(new FileNotFoundException("Unable to locate MCA assets!"), "Unable to find MCA JAR file in mods folder. If using a third party launcher, check that it is set up properly. Ensure that MCA is a .JAR file, not a .ZIP file or folder.");
 			}
 		}
 
@@ -58,13 +58,8 @@ public final class SkinLoader
 
 		if (modData == null)
 		{
-			modData = findModAsFolder();
-
-			if (modData == null)
-			{
 				RadixExcept.logFatalCatch(new FileNotFoundException("Unable to locate MCA assets! This may be due to an issue with your launcher (if made by a third party), or your MCA installation. Try reinstalling the mod, or try a different launcher."), 
-						"Unable to find file or folder containing MCA assets.");
-			}
+						"Unable to find file containing MCA assets.");
 		}
 
 		return modData;
@@ -98,34 +93,6 @@ public final class SkinLoader
 		return null;
 	}
 
-	private static File findModAsFolder() throws IOException
-	{
-		final File modsFolder = new File(RadixCore.getRunningDirectory() + "/mods");
-
-		for (final File fileInMods : modsFolder.listFiles())
-		{
-			if (fileInMods.isDirectory())
-			{
-				if (folderContainsModData(fileInMods))
-				{
-					return fileInMods;
-				}
-
-				else
-				{
-					final File modData = getModFolderFromNestedFolder(fileInMods);
-
-					if (modData != null)
-					{
-						return modData;
-					}
-				}
-			}
-		}
-
-		return null;
-	}
-
 	private static void loadSkinsFromFile(File modDataFile) throws ZipException, IOException
 	{
 		final ZipFile modArchive = new ZipFile(modDataFile);
@@ -152,11 +119,6 @@ public final class SkinLoader
 		modArchive.close();
 	}
 
-	private static void loadSkinsFromFolder(File modFolder)
-	{
-		//TODO Load
-	}
-
 	private static File getModFileFromNestedFolder(File nestedFolder) throws IOException
 	{
 		final File[] nestedFiles = nestedFolder.listFiles();
@@ -173,29 +135,6 @@ public final class SkinLoader
 				if (fileContainsModData(file))
 				{
 					return file;
-				}
-			}
-		}
-
-		return null;
-	}
-
-	private static File getModFolderFromNestedFolder(File nestedFolder) throws IOException
-	{
-		final File[] nestedFiles = nestedFolder.listFiles();
-
-		for (final File file : nestedFiles)
-		{
-			if (file.isDirectory())
-			{
-				if (folderContainsModData(file))
-				{
-					return file;
-				}
-
-				else
-				{
-					getModFolderFromNestedFolder(file);
 				}
 			}
 		}
@@ -235,21 +174,5 @@ public final class SkinLoader
 		}
 
 		return false;
-	}
-
-	private static boolean folderContainsModData(File folderToTest) throws IOException
-	{
-		final File testFile1 = new File(folderToTest.getAbsolutePath() + "/mca/core/MCA.class");
-		final File testFile2 = new File(folderToTest.getAbsolutePath() + "/assets/mca/textures/skins/EE1.png");
-
-		if (testFile1.exists() || testFile2.exists())
-		{
-			return true;
-		}
-
-		else
-		{
-			return false;
-		}
 	}
 }
