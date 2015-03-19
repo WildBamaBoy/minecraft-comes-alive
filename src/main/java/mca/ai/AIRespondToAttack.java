@@ -56,7 +56,6 @@ public class AIRespondToAttack extends AbstractAI
 					{
 						if (playerHasWeapon(targetPlayer)) //Stop chasing if the player draws a weapon.
 						{
-							//TODO Drop valuables.
 							handlePlayerWithWeapon();
 						}
 
