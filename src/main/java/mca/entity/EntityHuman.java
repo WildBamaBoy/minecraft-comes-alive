@@ -44,6 +44,7 @@ import mca.enums.EnumSleepingState;
 import mca.packets.PacketOpenGUIOnEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAIMoveIndoors;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
@@ -176,6 +177,26 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		}
 
 		inventory = new Inventory("Villager Inventory", false, 41);
+		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(getBaseAttackDamage());
+	}
+
+	public double getBaseAttackDamage() 
+	{
+		switch (getPersonality())
+		{
+		case STRONG: return 2.0D;
+		case CONFIDENT: return 1.0D;
+		default: 
+			if (getProfessionGroup() == EnumProfessionGroup.Guard)
+			{
+				return 5.0D;
+			}
+			
+			else
+			{
+				return 0.5D;
+			}
+		}
 	}
 
 	public EntityHuman(World world, boolean isMale)
@@ -863,7 +884,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			}
 		}
 
-		else if (getProfessionEnum() == EnumProfession.Guard)
+		else if (getProfessionGroup() == EnumProfessionGroup.Guard)
 		{
 			return new ItemStack(Items.iron_sword);
 		}
@@ -1103,7 +1124,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	{
 		return aiManager;
 	}
-	
+
 	public float getSpeed()
 	{
 		return getPersonality() == EnumPersonality.ATHLETIC ? Constants.SPEED_RUN : Constants.SPEED_WALK;

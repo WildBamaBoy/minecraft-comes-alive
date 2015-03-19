@@ -13,8 +13,8 @@ public enum EnumPersonality
 
 	//Positive
 	ATHLETIC(1, EnumMoodGroup.PLAYFUL),  	//Runs 15% faster
-	CONFIDENT(2, EnumMoodGroup.SERIOUS),	//Deals more attack damage TODO
-	STRONG(3, EnumMoodGroup.SERIOUS),		//Deals double attack damage TODO
+	CONFIDENT(2, EnumMoodGroup.SERIOUS),	//Deals more attack damage
+	STRONG(3, EnumMoodGroup.SERIOUS),		//Deals double attack damage
 	FRIENDLY(4, EnumMoodGroup.GENERAL),   	//Bonus to all interactions TODO
 
 	//Neutral
