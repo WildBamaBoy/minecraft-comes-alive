@@ -305,47 +305,21 @@ public final class RadixLogic
 	
 	public static Point3D getFirstFurthestBlock(Entity entity, Block block, int minDistanceAway)
 	{
-		final int x = (int) entity.posX;
-		final int y = (int) entity.posY;
-		final int z = (int) entity.posZ;
-
-		int xMov = 0 + minDistanceAway;
-		int yMov = 3;
-		int zMov = 0 + minDistanceAway;
-
-		while (true)
+		Point3D returnPoint = Point3D.ZERO;
+		double delta = 0.0D;
+		
+		for (Point3D point : getNearbyBlocks(entity, block, 20))
 		{
-			final Block currentBlock = entity.worldObj.getBlock(x + xMov, y + yMov, z + zMov);
-
-			if (currentBlock == block)
+			double distance = RadixMath.getDistanceToXYZ(entity, point);
+			
+			if (distance > minDistanceAway && delta < distance)
 			{
-				return new Point3D(x + xMov, y + yMov, z + zMov);
+				delta = distance;
+				returnPoint = point;
 			}
-
-			if (zMov == minDistanceAway && xMov == minDistanceAway && yMov == -3)
-			{
-				break;
-			}
-
-			if (zMov == minDistanceAway && xMov == minDistanceAway)
-			{
-				yMov--;
-				xMov = 0 + minDistanceAway;
-				zMov = 0 + minDistanceAway;
-				continue;
-			}
-
-			if (xMov == minDistanceAway)
-			{
-				zMov--;
-				xMov = 0 + minDistanceAway;
-				continue;
-			}
-
-			xMov--;
 		}
-
-		return null;
+		
+		return returnPoint;
 	}
 
 	public static Point3D getNearestBlockPosWithMetadata(Entity entity, Block block, int meta, int maxDistanceAway)
