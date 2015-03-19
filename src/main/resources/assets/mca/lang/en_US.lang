@@ -424,6 +424,8 @@ mining.search.value=There's some %a1% %a2% blocks away.
 farming.noseeds=I don't have enough %a1%. I will need at least %a2% to create a farm.
 farming.nohoe=I'll need to have a hoe in order to farm.
 
+sleep.nohome=I don't have a home point!
+
 #################
 # GUI
 ################################

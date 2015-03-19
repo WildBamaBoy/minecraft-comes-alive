@@ -9,7 +9,9 @@ import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
 import mca.enums.EnumSleepingState;
 import mca.tile.TileVillagerBed;
+import mca.util.TutorialManager;
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
 import radixcore.data.WatchedBoolean;
@@ -130,13 +132,15 @@ public class AISleep extends AbstractAI
 
 	private void doNoHomeUpdate() 
 	{
-		//TODO 	Only assign new home if not related to any player.
-		Point3D homePoint = new Point3D(owner.posX, owner.posY, owner.posZ);
-		homePosX = homePoint.iPosX;
-		homePosY = homePoint.iPosY;
-		homePosZ = homePoint.iPosZ;
+		if (!owner.getIsChild())
+		{
+			Point3D homePoint = new Point3D(owner.posX, owner.posY, owner.posZ);
+			homePosX = homePoint.iPosX;
+			homePosY = homePoint.iPosY;
+			homePosZ = homePoint.iPosZ;
 
-		setSleepingState(EnumSleepingState.AWAKE);
+			setSleepingState(EnumSleepingState.AWAKE);
+		}
 	}
 
 	private void teleportToHomePoint() 
@@ -312,6 +316,20 @@ public class AISleep extends AbstractAI
 	public void setSleepingState(EnumSleepingState state)
 	{
 		this.sleepingState = state;
+		
+		if (state == EnumSleepingState.NO_HOME)
+		{
+			for (Object obj : owner.worldObj.playerEntities)
+			{
+				EntityPlayer player = (EntityPlayer)obj;
+				
+				if (owner.isPlayerAParent(player) && owner.getIsChild())
+				{
+					TutorialManager.sendMessageToPlayer(player, "Your child does not have a home point.", "Use 'Set Home' on them to remove this warning.");
+					owner.say("sleep.nohome", player);
+				}
+			}
+		}
 	}
 
 	public void setIsSleeping(boolean value)
@@ -359,19 +377,19 @@ public class AISleep extends AbstractAI
 	{
 		Point3D prevPoint = getHomePoint();
 		setHomePoint(newPoint);
-		
+
 		if (isHomePointValid())
 		{
 			return true;
 		}
-		
+
 		else
 		{
 			setHomePoint(prevPoint);
 			return false;
 		}
 	}
-	
+
 	public Point3D getHomePoint()
 	{
 		return new Point3D(homePosX, homePosY, homePosZ);
@@ -411,7 +429,7 @@ public class AISleep extends AbstractAI
 	{
 		return hasBed.getBoolean();
 	}
-	
+
 	private void lockSleepingPosition()
 	{
 		//Make villagers be still in a bed and always keep them at the right spot.
