@@ -26,6 +26,7 @@ public class PlayerMemory implements Serializable
 	private int permanentId;
 	private int hearts;
 	private boolean hasGift;
+	private boolean hasQuest;
 	private EnumDialogueType dialogueType;
 
 	private transient int timeUntilGreeting;
@@ -62,6 +63,7 @@ public class PlayerMemory implements Serializable
 		nbt.setInteger(nbtPrefix + "distanceTraveledFrom", distanceTravelledFrom);
 		nbt.setBoolean(nbtPrefix + "hasGift", hasGift);
 		nbt.setInteger(nbtPrefix + "interactionFatigue", interactionFatigue);
+		nbt.setBoolean(nbtPrefix + "hasQuest", hasQuest);
 		nbt.setInteger(nbtPrefix + "dialogueType", dialogueType.getId());
 	}
 
@@ -78,6 +80,7 @@ public class PlayerMemory implements Serializable
 		hasGift = nbt.getBoolean(nbtPrefix + "hasGift");
 		interactionFatigue = nbt.getInteger(nbtPrefix + "interactionFatigue");
 		dialogueType = EnumDialogueType.getById(nbt.getInteger(nbtPrefix + "dialogueType"));
+		hasQuest = nbt.getBoolean(nbtPrefix + "hasQuest");
 	}
 
 	public int getHearts()
@@ -116,6 +119,12 @@ public class PlayerMemory implements Serializable
 		onNonTransientValueChanged();
 	}
 
+	public void setHasQuest(boolean value)
+	{
+		this.hasQuest = value;
+		onNonTransientValueChanged();
+	}
+	
 	public void setHasGift(boolean value)
 	{
 		this.hasGift = value;
@@ -166,5 +175,10 @@ public class PlayerMemory implements Serializable
 	public String getUUID()
 	{
 		return uuid;
+	}
+	
+	public boolean getHasQuest()
+	{
+		return hasQuest;
 	}
 }

@@ -16,6 +16,7 @@ import mca.client.gui.GuiInteraction;
 import mca.client.model.ModelHuman;
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -26,8 +27,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 
@@ -147,13 +146,17 @@ public class RenderHuman extends RenderBiped
 
 	private void renderHuman(EntityHuman entity, double posX, double posY, double posZ, float rotationYaw, float rotationPitch)
 	{
+		final EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		final PlayerMemory memory = entity.getPlayerMemory(player);
+		
 		if (!entity.getDoDisplay())
 		{
 			return;
 		}
 
-		//TODO && hasQuest
-		if (RadixMath.getDistanceToEntity(entity, Minecraft.getMinecraft().thePlayer) <= 5.0F && !canRenderNameTag(entity) && !entity.getAI(AISleep.class).getIsSleeping() && !entity.displayNameForPlayer)
+		if (RadixMath.getDistanceToEntity(entity, player) <= 5.0F
+				&& !canRenderNameTag(entity) && !entity.getAI(AISleep.class).getIsSleeping()
+				&& !entity.displayNameForPlayer && memory.getHasQuest())
 		{
 			GL11.glPushMatrix();
 			{
