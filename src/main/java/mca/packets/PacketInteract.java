@@ -122,6 +122,23 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 				
 				boolean wasGood = RadixLogic.getBooleanWithProbability(successChance);
 				
+				
+				if (villager.getPersonality() == EnumPersonality.FRIENDLY)
+				{
+					pointsModification += pointsModification * 0.15D;
+				}
+				
+				else if (villager.getPersonality() == EnumPersonality.FLIRTY)
+				{
+					pointsModification += pointsModification * 0.25D;
+				}
+				
+				else if (villager.getPersonality() == EnumPersonality.SENSITIVE)
+				{
+					pointsModification = -35;
+					wasGood = false;
+				}
+				
 				if (wasGood)
 				{
 					pointsModification = RadixMath.clamp(pointsModification, 1, 100);
@@ -134,11 +151,6 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 					pointsModification = RadixMath.clamp(pointsModification * -1, -100, -1);
 					mood.modifyMoodLevel(RadixMath.getNumberInRange(0.2F, 1.0F) * -1);
 					villager.say(memory.getDialogueType().toString() + "." + interaction.getName() + ".bad", player);
-				}
-				
-				if (villager.getPersonality() == EnumPersonality.FRIENDLY)
-				{
-					pointsModification += pointsModification * 0.15D;
 				}
 				
 				memory.setHearts(memory.getHearts() + pointsModification);

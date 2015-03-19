@@ -19,8 +19,8 @@ public enum EnumPersonality
 
 	//Neutral
 	CURIOUS(21, EnumMoodGroup.SERIOUS), 	//Finds more on chores 	TODO
-	PEACEFUL(22, EnumMoodGroup.GENERAL),   	//Combat chore disabled TODO
-	FLIRTY(23, EnumMoodGroup.PLAYFUL),		//TODO
+	PEACEFUL(22, EnumMoodGroup.GENERAL),   	//Will not fight.
+	FLIRTY(23, EnumMoodGroup.PLAYFUL),		//Bonus 25% points to all interactions
 	WITTY(24, EnumMoodGroup.PLAYFUL),		//TODO
 
 	//Negative

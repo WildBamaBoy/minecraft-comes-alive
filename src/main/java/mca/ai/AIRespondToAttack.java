@@ -3,6 +3,7 @@ package mca.ai;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.entity.EntityHuman;
+import mca.enums.EnumPersonality;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBow;
@@ -131,6 +132,11 @@ public class AIRespondToAttack extends AbstractAI
 
 	public void startResponse(Entity entity)
 	{
+		if (owner.getPersonality() == EnumPersonality.PEACEFUL)
+		{
+			return;
+		}
+		
 		if (entity instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer)entity;
