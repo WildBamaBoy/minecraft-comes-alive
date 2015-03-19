@@ -133,10 +133,15 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 					pointsModification += pointsModification * 0.25D;
 				}
 				
-				else if (villager.getPersonality() == EnumPersonality.SENSITIVE)
+				else if (villager.getPersonality() == EnumPersonality.SENSITIVE && RadixLogic.getBooleanWithProbability(5))
 				{
 					pointsModification = -35;
 					wasGood = false;
+				}
+				
+				else if (villager.getPersonality() == EnumPersonality.STUBBORN)
+				{
+					pointsModification -= pointsModification * 0.15D;
 				}
 				
 				if (wasGood)

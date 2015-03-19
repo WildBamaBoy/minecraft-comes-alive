@@ -21,13 +21,13 @@ public enum EnumPersonality
 	CURIOUS(21, EnumMoodGroup.SERIOUS), 	//Finds more on chores 
 	PEACEFUL(22, EnumMoodGroup.GENERAL),   	//Will not fight.
 	FLIRTY(23, EnumMoodGroup.PLAYFUL),		//Bonus 25% points to all interactions
-	WITTY(24, EnumMoodGroup.PLAYFUL),		//TODO
+	WITTY(24, EnumMoodGroup.PLAYFUL),		//None.
 
 	//Negative
 	SENSITIVE(41, EnumMoodGroup.GENERAL),  	//Chance of having feelings hurt and drastically dropping hearts.
 	GREEDY(42, EnumMoodGroup.SERIOUS),		//Finds less on chores
-	STUBBORN(43, EnumMoodGroup.SERIOUS),  	//10% chance of not following or staying  TODO
-	ODD(44, EnumMoodGroup.PLAYFUL);			//TODO
+	STUBBORN(43, EnumMoodGroup.SERIOUS),  	//15% more difficult to interact with.
+	ODD(44, EnumMoodGroup.PLAYFUL);			//None.
 
 	private int id;
 	private EnumMoodGroup moodGroup;
