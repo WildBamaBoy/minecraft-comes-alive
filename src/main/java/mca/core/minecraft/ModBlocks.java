@@ -1,5 +1,6 @@
 package mca.core.minecraft;
 
+import mca.blocks.BlockTombstone;
 import mca.blocks.BlockVillagerBed;
 import mca.core.MCA;
 import mca.enums.EnumBedColor;
@@ -16,7 +17,8 @@ public final class ModBlocks
 	public static BlockVillagerBed bedPurple;
 	public static Block roseGoldBlock;
 	public static Block roseGoldOre;
-
+	public static BlockTombstone tombstone;
+	
 	public ModBlocks()
 	{
 		bedRed = new BlockVillagerBed(EnumBedColor.RED);
@@ -28,7 +30,10 @@ public final class ModBlocks
 		roseGoldBlock = new BlockOre().setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockName("roseGoldBlock").setBlockTextureName("mca:roseGoldBlock").setCreativeTab(MCA.getCreativeTabMain());
 		roseGoldOre = new BlockOre().setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockName("roseGoldOre").setBlockTextureName("mca:RoseGoldOre").setCreativeTab(MCA.getCreativeTabMain());
 
+		tombstone = new BlockTombstone();
+		
 		GameRegistry.registerBlock(roseGoldBlock, roseGoldBlock.getUnlocalizedName());
 		GameRegistry.registerBlock(roseGoldOre, roseGoldOre.getUnlocalizedName());
+		GameRegistry.registerBlock(tombstone, tombstone.getUnlocalizedName());
 	}
 }

@@ -21,6 +21,7 @@ import mca.core.radix.LanguageParser;
 import mca.data.PlayerData;
 import mca.entity.EntityHuman;
 import mca.network.MCAPacketHandler;
+import mca.tile.TileTombstone;
 import mca.tile.TileVillagerBed;
 import mca.util.SkinLoader;
 import net.minecraft.creativetab.CreativeTabs;
@@ -139,6 +140,7 @@ public class MCA
 
     	//Tile registry
     	GameRegistry.registerTileEntity(TileVillagerBed.class, TileVillagerBed.class.getSimpleName());
+    	GameRegistry.registerTileEntity(TileTombstone.class, TileTombstone.class.getSimpleName());
     	
     	//Recipes
     	GameRegistry.addRecipe(new ItemStack(ModItems.engagementRing), 

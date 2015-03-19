@@ -1,7 +1,5 @@
 package mca.core.minecraft;
 
-import java.lang.reflect.Field;
-
 import mca.core.MCA;
 import mca.enums.EnumBedColor;
 import mca.enums.EnumCut;
@@ -12,6 +10,7 @@ import mca.items.ItemColoredEngagementRing;
 import mca.items.ItemCrystalBall;
 import mca.items.ItemCutRingColored;
 import mca.items.ItemSpawnEgg;
+import mca.items.ItemTombstone;
 import mca.items.ItemVillagerBed;
 import net.minecraft.item.Item;
 import radixcore.item.ItemColorable;
@@ -86,11 +85,13 @@ public final class ModItems
 	public static ItemCutRingColored ringStarColored;
 	public static ItemCutRingColored ringStarColoredRG;
 	
-	/*	public static final Item tombstone;
-	
+	public static ItemTombstone tombstone;
+	/*
 	public static final Item whistle;
 	public static final Item villagerEditor;
 	public static final Item lostRelativeDocument;
+	
+	/*
 	public static final Item crown;
 	public static final Item heirCrown;
 	public static final Item monarchCoat;
@@ -164,18 +165,6 @@ public final class ModItems
 		ringStarColored = new ItemCutRingColored(EnumCut.STAR, false);
 		ringStarColoredRG = new ItemCutRingColored(EnumCut.STAR, true);
 		
-		for (Field f : this.getClass().getFields())
-		{
-			try
-			{
-				Item value = (Item) f.get(null);
-				System.out.println(value.getUnlocalizedName() + ".name=");
-			}
-			
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
+		tombstone = new ItemTombstone();
 	}
 }

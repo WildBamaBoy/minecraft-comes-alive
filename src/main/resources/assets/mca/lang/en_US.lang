@@ -40,6 +40,7 @@ item.EngagementRingTriangle.name=Triangle Engagement Ring
 item.EngagementRingTriangleRG.name=Rose Gold Triangle Engagement Ring
 item.EngagementRingStar.name=Star Engagement Ring
 item.EngagementRingStarRG.name=Rose Gold Start Engagement Ring
+item.tombstone.name=Tombstone
 tile.roseGoldOre.name=Rose Gold Ore
 tile.roseGoldBlock.name=Rose Gold Block
 
@@ -431,6 +432,7 @@ sleep.nohome=I don't have a home point!
 ################################
 gui.button.yes=Yes
 gui.button.no=No
+gui.button.ok=Ok
 gui.button.done=Done
 gui.button.random=Random
 gui.button.back=Back
@@ -473,6 +475,8 @@ gui.button.stop=Stop
 gui.title.namebaby.male=It's a boy!
 gui.title.namebaby.female=It's a girl!
 gui.title.namebaby=Name your baby:
+gui.title.tombstone=Enter tombstone text:
+
 gui.info.family.married=Married to %a1%.
 gui.info.family.engaged=Engaged to %a1%.
 gui.info.family.marriedtoplayer=Married to you.

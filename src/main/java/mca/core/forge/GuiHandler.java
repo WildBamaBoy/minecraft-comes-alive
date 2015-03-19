@@ -2,8 +2,10 @@ package mca.core.forge;
 
 import mca.client.gui.GuiNameBaby;
 import mca.client.gui.GuiSetup;
+import mca.client.gui.GuiTombstone;
 import mca.core.Constants;
 import mca.entity.EntityHuman;
+import mca.tile.TileTombstone;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
@@ -30,6 +32,8 @@ public class GuiHandler implements IGuiHandler
 			return new GuiNameBaby(player, false);
 		case Constants.GUI_ID_SETUP:
 			return new GuiSetup(player);
+		case Constants.GUI_ID_TOMBSTONE:
+			return new GuiTombstone((TileTombstone) world.getTileEntity(posX, posY, posZ));
 		default: return null;
 		}
 	}
