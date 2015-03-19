@@ -1,32 +1,34 @@
 package mca.enums;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import mca.core.MCA;
 import radixcore.util.RadixMath;
 
 public enum EnumProfession 
 {
-	Farmer(1, EnumProfessionGroup.Farmer),
-	Fisherman(2, EnumProfessionGroup.Farmer),
-	Shepherd(3, EnumProfessionGroup.Farmer),
-	Fletcher(4, EnumProfessionGroup.Farmer),
-	Librarian(5, EnumProfessionGroup.Librarian),
-	Cleric(6, EnumProfessionGroup.Priest),
-	Armorer(7, EnumProfessionGroup.Smith),
-	WeaponSmith(8, EnumProfessionGroup.Smith),
-	ToolSmith(9, EnumProfessionGroup.Smith),
-	Butcher(10, EnumProfessionGroup.Butcher),
-	Baker(11, EnumProfessionGroup.Baker),
-	Leatherworker(12, EnumProfessionGroup.Butcher),
-	Guard(13, EnumProfessionGroup.Guard),
-	Archer(14, EnumProfessionGroup.Guard),
-	Miner(15, EnumProfessionGroup.Miner),
-	Spouse(16, EnumProfessionGroup.Farmer),
-	Mason(17, EnumProfessionGroup.Miner),
-	Child(18, EnumProfessionGroup.Child);
+	Farmer(0, EnumProfessionGroup.Farmer),
+	Fisherman(1, EnumProfessionGroup.Farmer),
+	Shepherd(2, EnumProfessionGroup.Farmer),
+	Fletcher(3, EnumProfessionGroup.Farmer),
+	Librarian(4, EnumProfessionGroup.Librarian),
+	Cleric(5, EnumProfessionGroup.Priest),
+	Armorer(6, EnumProfessionGroup.Smith),
+	WeaponSmith(7, EnumProfessionGroup.Smith),
+	ToolSmith(8, EnumProfessionGroup.Smith),
+	Butcher(9, EnumProfessionGroup.Butcher),
+	Baker(10, EnumProfessionGroup.Baker),
+	Leatherworker(11, EnumProfessionGroup.Butcher),
+	Guard(12, EnumProfessionGroup.Guard),
+	Archer(13, EnumProfessionGroup.Guard),
+	Miner(14, EnumProfessionGroup.Miner),
+	Mason(15, EnumProfessionGroup.Miner),
+	Child(16, EnumProfessionGroup.Child);
 
 	private int id;
 	private EnumProfessionGroup skinGroup;
-	
+
 	private EnumProfession(int id, EnumProfessionGroup skinGroup)
 	{
 		this.id = id;
@@ -36,6 +38,38 @@ public enum EnumProfession
 	public int getId()
 	{
 		return id;
+	}
+
+	public static EnumProfession getNewProfessionFromVanilla(int id)
+	{
+		switch (id)
+		{
+		case 0: return getRandomByGroup(EnumProfessionGroup.Farmer, EnumProfessionGroup.Miner);
+		case 1: return getRandomByGroup(EnumProfessionGroup.Librarian);
+		case 2: return getRandomByGroup(EnumProfessionGroup.Priest);
+		case 3: return getRandomByGroup(EnumProfessionGroup.Smith);
+		case 4: return getRandomByGroup(EnumProfessionGroup.Butcher, EnumProfessionGroup.Baker);
+		default:
+			return getRandomByGroup(EnumProfessionGroup.Farmer);
+		}
+	}
+
+	public static EnumProfession getRandomByGroup(EnumProfessionGroup... groups)
+	{
+		List<EnumProfession> groupProfessions = new ArrayList<EnumProfession>();
+
+		for (EnumProfession profession : EnumProfession.values())
+		{
+			for (EnumProfessionGroup group : groups)
+			{
+				if (profession.skinGroup == group)
+				{
+					groupProfessions.add(profession);
+				}
+			}
+		}
+
+		return groupProfessions.get(RadixMath.getNumberInRange(0, groupProfessions.size() - 1));
 	}
 
 	public static EnumProfession getProfessionById(int id)
@@ -62,7 +96,7 @@ public enum EnumProfession
 	{
 		return MCA.getLanguageManager().getString(getLocalizationId());
 	}
-	
+
 	private String getLocalizationId()
 	{
 		switch (this)
@@ -83,8 +117,6 @@ public enum EnumProfession
 			return "profession.fletcher";
 		case Guard:
 			return "profession.guard";
-		case Spouse:
-			return "profession.househusband";
 		case Leatherworker:
 			return "profession.leatherworker";
 		case Librarian:
@@ -104,10 +136,10 @@ public enum EnumProfession
 		case Child:
 			return "profession.child";
 		}
-		
+
 		return "";
 	}
-	
+
 	public EnumProfessionGroup getSkinGroup()
 	{
 		return skinGroup;

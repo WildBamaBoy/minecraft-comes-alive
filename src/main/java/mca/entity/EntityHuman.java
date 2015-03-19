@@ -144,7 +144,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		doDisplay = new WatchedBoolean(false, WatcherIDsHuman.DO_DISPLAY, dataWatcherEx);
 		isSwinging = new WatchedBoolean(false, WatcherIDsHuman.IS_SWINGING, dataWatcherEx);
 		heldItem = new WatchedInt(-1, WatcherIDsHuman.HELD_ITEM, dataWatcherEx);
-		
+
 		aiManager = new AIManager(this);
 		aiManager.addAI(new AIIdle(this));
 		aiManager.addAI(new AIRegenerate(this));
@@ -166,7 +166,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		aiManager.addAI(new AIHunting(this));
 		aiManager.addAI(new AICooking(this));
 		aiManager.addAI(new AIFarming(this));
-		
+
 		addAI();
 
 		if (!worldObj.isRemote)
@@ -184,6 +184,18 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		this.isMale.setValue(isMale);
 		this.name.setValue(getRandomName());
 		this.skin.setValue(getRandomSkin());
+	}
+
+	public EntityHuman(World world, boolean isMale, int profession, boolean isOverwrite)
+	{
+		this(world, isMale);
+
+		if (isOverwrite)
+		{
+			this.professionId.setValue(EnumProfession.getNewProfessionFromVanilla(profession).getId());
+		}
+
+		this.skin.setValue(this.getRandomSkin());
 	}
 
 	private EntityHuman(World world, boolean isMale, boolean isChild)
@@ -223,7 +235,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		if (getProfessionGroup() != EnumProfessionGroup.Guard)
 		{
-			this.tasks.addTask(2, new EntityAIMoveIndoors(this));
+			//this.tasks.addTask(2, new EntityAIMoveIndoors(this));
 		}
 	}
 
@@ -557,9 +569,9 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		}
 
 		aiManager.getAI(AIIdle.class).reset();		
-		
+
 	}
-	
+
 	public void say(String phraseId, EntityPlayer target, Object... arguments)
 	{
 		final StringBuilder sb = new StringBuilder();
@@ -585,7 +597,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		aiManager.getAI(AISleep.class).setIsSleeping(false);
 		aiManager.getAI(AISleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
 	}
-	
+
 	public void say(String phraseId, EntityPlayer target)
 	{
 		say(phraseId, target, target);
@@ -864,7 +876,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			return new ItemStack(Item.getItemById(heldItem.getInt()));
 		}
-		
+
 		return null;
 	}
 
@@ -874,13 +886,13 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			heldItem.setValue(Item.getIdFromItem(item));
 		}
-		
+
 		else
 		{
 			heldItem.setValue(-1);
 		}
 	}
-	
+
 	public void setBabyState(EnumBabyState state) 
 	{
 		babyState.setValue(state.getId());
@@ -1049,7 +1061,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			return true;
 		}
-		
+
 		else if (isMarriedToAPlayer() && getSpouseId() != data.permanentId.getInt())
 		{
 			return false;
@@ -1080,7 +1092,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	{
 		player.displayGUIChest(inventory);
 	}
-	
+
 	private boolean isChildOfAVillager() 
 	{
 		return getMotherId() >= 0 && getFatherId() >= 0;

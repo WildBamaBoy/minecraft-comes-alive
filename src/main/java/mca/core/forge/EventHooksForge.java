@@ -45,12 +45,12 @@ public class EventHooksForge
 		boolean hasFamily = RadixLogic.getBooleanWithProbability(20);
 		boolean isMale = RadixLogic.getBooleanWithProbability(50);
 		
-		final EntityHuman human = new EntityHuman(event.world, isMale, entity.getProfession());
+		final EntityHuman human = new EntityHuman(event.world, isMale, entity.getProfession(), true);
 		human.setPosition(entity.posX, entity.posY, entity.posZ);
 		
 		if (hasFamily)
 		{
-			final EntityHuman spouse = new EntityHuman(event.world, !isMale, EnumProfession.getAtRandom().getId());
+			final EntityHuman spouse = new EntityHuman(event.world, !isMale, EnumProfession.getAtRandom().getId(), false);
 			spouse.setPosition(human.posX, human.posY, human.posZ);
 			event.world.spawnEntityInWorld(spouse);
 			
