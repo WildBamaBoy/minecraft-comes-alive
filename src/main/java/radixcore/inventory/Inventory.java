@@ -368,4 +368,31 @@ public class Inventory extends InventoryBasic
 		
 		return -1;
 	}
+
+	public void removeCountOfItem(Item item, int qtyToRemove) 
+	{
+		for (int i = 0; i < getSizeInventory(); i++)
+		{
+			final ItemStack stack = getStackInSlot(i);
+			
+			if (stack != null && stack.getItem() == item)
+			{
+				while (stack.stackSize != 0)
+				{
+					stack.stackSize--;
+					qtyToRemove--;
+					
+					if (stack.stackSize == 0)
+					{
+						setInventorySlotContents(i, null);
+					}
+					
+					if (qtyToRemove == 0)
+					{
+						break;
+					}
+				}
+			}
+		}
+	}
 }

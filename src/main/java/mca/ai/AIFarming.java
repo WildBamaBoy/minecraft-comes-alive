@@ -233,7 +233,10 @@ public class AIFarming extends AbstractToggleAI
 			this.isBuildingFarm = false;
 			this.isAIActive.setValue(true);
 
-			//TODO Remove seeds.
+			if (seedsRequired > 0)
+			{
+				owner.getInventory().removeCountOfItem(entry.getSeedItem(), seedsRequired);
+			}
 		}
 
 		catch (MappingNotFoundException e)
