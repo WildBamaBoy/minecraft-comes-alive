@@ -196,7 +196,15 @@ public final class Point3D implements Comparable
 		double y = nbt.getDouble(name + "dPosY");
 		double z = nbt.getDouble(name + "dPosZ");
 		
-		return new Point3D(x, y, z);
+		if (x == 0 && y == 0 && z == 0)
+		{
+			return ZERO;
+		}
+		
+		else
+		{
+			return new Point3D(x, y, z);
+		}
 	}
 	
 	/**
