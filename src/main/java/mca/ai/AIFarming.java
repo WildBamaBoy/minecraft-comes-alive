@@ -109,7 +109,7 @@ public class AIFarming extends AbstractToggleAI
 						{
 							final CropEntry entry = ChoreRegistry.getCropEntryById(id);
 							harvestTargetPoint = RadixLogic.getFirstNearestBlockWithMeta(owner, entry.getHarvestBlock(), entry.getHarvestBlockMeta(), radius);
-
+							
 							if (harvestTargetPoint == null)
 							{
 								harvestTargetPoint = Point3D.ZERO;
@@ -216,14 +216,14 @@ public class AIFarming extends AbstractToggleAI
 				return;
 			}
 
-			else if (!owner.getInventory().contains(ItemHoe.class))
+			else if (player != null && !owner.getInventory().contains(ItemHoe.class))
 			{
 				owner.say("farming.nohoe", player);
 				return;
 			}
 
 			//Assign arguments.
-			this.assigningPlayer = player.getUniqueID().toString();
+			this.assigningPlayer = player != null ? player.getUniqueID().toString() : "none";
 			this.apiId = apiId;
 			this.radius = radius;
 			this.doCreate = doCreate;
