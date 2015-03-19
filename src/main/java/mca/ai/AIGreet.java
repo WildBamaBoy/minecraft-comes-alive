@@ -80,9 +80,7 @@ public class AIGreet extends AbstractAI
 
 				if (memory.getTimeUntilGreeting() <= 0 && RadixLogic.getBooleanWithProbability(CHANCE_TO_GREET) && owner.canEntityBeSeen(closestPlayer) && !AISleep.getIsSleeping())
 				{
-					//TODO
-					owner.say("Hello.", closestPlayer);
-
+					owner.say(memory.getDialogueType() + ".greeting", closestPlayer);
 					memory.setTimeUntilGreeting(GREETING_INTERVAL);
 					memory.setDistanceTraveledFrom(0);
 				}
