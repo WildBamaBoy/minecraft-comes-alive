@@ -127,7 +127,7 @@
 //
 //			if (target != Point3D.ZERO)
 //			{
-//				owner.getNavigator().tryMoveToXYZ(target.dPosX, target.dPosY, target.dPosZ, Constants.SPEED_WALK);
+//				owner.getNavigator().tryMoveToXYZ(target.dPosX, target.dPosY, target.dPosZ, owner.getSpeed());
 //				double delta = RadixMath.getDistanceToXYZ(owner, target);
 //
 //				if (delta <= 3.0D)
@@ -154,7 +154,7 @@
 //			{
 //				if (!owner.getNavigator().noPath())
 //				{
-//					owner.getNavigator().tryMoveToXYZ(target.dPosX, target.dPosY, target.dPosZ, Constants.SPEED_WALK);
+//					owner.getNavigator().tryMoveToXYZ(target.dPosX, target.dPosY, target.dPosZ, owner.getSpeed());
 //				}
 //				
 //				double delta = RadixMath.getDistanceToXYZ(owner, target);
@@ -176,7 +176,7 @@
 //
 //			if (vec != null)
 //			{
-//				owner.getNavigator().tryMoveToXYZ(vec.xCoord, vec.yCoord, vec.zCoord, Constants.SPEED_WALK);
+//				owner.getNavigator().tryMoveToXYZ(vec.xCoord, vec.yCoord, vec.zCoord, owner.getSpeed());
 //				eventTimer = Time.SECOND * RadixMath.getNumberInRange(5, 15);
 //			}
 //		}

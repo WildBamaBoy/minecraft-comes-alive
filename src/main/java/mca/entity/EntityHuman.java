@@ -27,6 +27,7 @@ import mca.ai.AIRespondToAttack;
 import mca.ai.AISleep;
 import mca.ai.AIWoodcutting;
 import mca.ai.AbstractAI;
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.ModItems;
 import mca.data.PlayerData;
@@ -227,16 +228,11 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		this.tasks.addTask(1, new EntityAITradePlayer(this));
 		this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
 		this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
-		this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.6D));
+		this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, getSpeed()));
 		this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
 		this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityHuman.class, 5.0F, 0.02F));
-		this.tasks.addTask(9, new EntityAIWander(this, 0.6F));
+		this.tasks.addTask(9, new EntityAIWander(this, getSpeed()));
 		this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));
-
-		if (getProfessionGroup() != EnumProfessionGroup.Guard)
-		{
-			//this.tasks.addTask(2, new EntityAIMoveIndoors(this));
-		}
 	}
 
 	private String getRandomSkin()
@@ -1106,5 +1102,10 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public AIManager getAIManager() 
 	{
 		return aiManager;
+	}
+	
+	public float getSpeed()
+	{
+		return getPersonality() == EnumPersonality.ATHLETIC ? Constants.SPEED_RUN : Constants.SPEED_WALK;
 	}
 }

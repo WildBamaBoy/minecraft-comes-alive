@@ -79,7 +79,7 @@ public class AIFollow extends AbstractAI
 				
 				else if (distanceToPlayer >= 4.5D && owner.getNavigator().noPath())
 				{
-					owner.getNavigator().tryMoveToEntityLiving(entityPlayer, entityPlayer.isSprinting() ? Constants.SPEED_SPRINT : Constants.SPEED_WALK);
+					owner.getNavigator().tryMoveToEntityLiving(entityPlayer, entityPlayer.isSprinting() ? Constants.SPEED_SPRINT : owner.getSpeed());
 				}
 				
 				else if (distanceToPlayer <= 2.0D) //To avoid crowding the player.

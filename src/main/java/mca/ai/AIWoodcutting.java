@@ -174,7 +174,7 @@ public class AIWoodcutting extends AbstractToggleAI
 
 				if (owner.getNavigator().noPath())
 				{
-					owner.getNavigator().tryMoveToXYZ(treeBasePoint.dPosX, treeBasePoint.dPosY, treeBasePoint.dPosZ, Constants.SPEED_WALK);
+					owner.getNavigator().tryMoveToXYZ(treeBasePoint.dPosX, treeBasePoint.dPosY, treeBasePoint.dPosZ, owner.getSpeed());
 				}
 			}
 		}

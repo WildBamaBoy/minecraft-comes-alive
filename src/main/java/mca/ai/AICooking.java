@@ -221,7 +221,7 @@ public class AICooking extends AbstractToggleAI
 
 		if (owner.getNavigator().noPath() && distanceToFurnace >= 2.5D)
 		{
-			owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ), Constants.SPEED_WALK);
+			owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ), owner.getSpeed());
 		}
 	}
 

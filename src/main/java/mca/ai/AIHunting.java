@@ -85,7 +85,7 @@ public class AIHunting extends AbstractToggleAI
 
 		if (RadixMath.getDistanceToXYZ(owner, standPoint) >= 5.0F && owner.getNavigator().noPath())
 		{
-			boolean successful = owner.getNavigator().tryMoveToXYZ(standPoint.dPosX, standPoint.dPosY, standPoint.dPosZ, Constants.SPEED_WALK);
+			boolean successful = owner.getNavigator().tryMoveToXYZ(standPoint.dPosX, standPoint.dPosY, standPoint.dPosZ, owner.getSpeed());
 
 			if (!successful)
 			{

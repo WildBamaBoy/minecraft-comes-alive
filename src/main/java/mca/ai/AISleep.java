@@ -109,7 +109,7 @@ public class AISleep extends AbstractAI
 
 			if (owner.getNavigator().noPath())
 			{
-				owner.getNavigator().tryMoveToXYZ(homePosX, homePosY, homePosZ, Constants.SPEED_WALK);
+				owner.getNavigator().tryMoveToXYZ(homePosX, homePosY, homePosZ, owner.getSpeed());
 			}
 
 			if (getDistanceToHomePoint() <= 3.0D)

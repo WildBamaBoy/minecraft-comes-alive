@@ -126,7 +126,7 @@ public class AIFarming extends AbstractToggleAI
 
 					if (delta >= 2.0D && owner.getNavigator().noPath())
 					{
-						owner.getNavigator().tryMoveToXYZ(harvestTargetPoint.dPosX, harvestTargetPoint.dPosY, harvestTargetPoint.dPosZ, Constants.SPEED_WALK);
+						owner.getNavigator().tryMoveToXYZ(harvestTargetPoint.dPosX, harvestTargetPoint.dPosY, harvestTargetPoint.dPosZ, owner.getSpeed());
 					}
 
 					if (delta < 2.5D)
