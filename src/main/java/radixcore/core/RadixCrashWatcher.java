@@ -7,6 +7,5 @@ public class RadixCrashWatcher extends ModCrashWatcher
 	@Override
 	protected void onCrash(File crashFile) 
 	{
-		//TODO
 	}
 }

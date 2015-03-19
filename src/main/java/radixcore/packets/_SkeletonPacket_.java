@@ -14,7 +14,7 @@ public class _SkeletonPacket_ extends AbstractPacket implements IMessage, IMessa
 
 	public _SkeletonPacket_()
 	{
-		//Required.
+		//Required
 	}
 
 	public _SkeletonPacket_(int int1, short short1, String string1)
@@ -43,7 +43,6 @@ public class _SkeletonPacket_ extends AbstractPacket implements IMessage, IMessa
 	@Override
 	public IMessage onMessage(_SkeletonPacket_ packet, MessageContext context)
 	{
-		//TODO
 		//Qualify all variable access with packet.<field name>.
 		return null;
 	}
