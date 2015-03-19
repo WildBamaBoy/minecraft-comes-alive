@@ -147,9 +147,6 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 				{
 					TutorialManager.sendMessageToPlayer(player, "Vilagers tire of conversation after a few tries.", "Talk to them later for better success chances.");
 				}
-				
-//				villager.say(successChance + " | " + pointsModification, player);
-				//TODO vigorous testing
 			}
 			
 			else if (interaction == EnumInteraction.STOP)
