@@ -114,7 +114,7 @@ public class AIProgressStory extends AbstractAI
 
 		if (partner != null && partner.getIsMale() != owner.getIsMale() 
 				&& !partner.getIsMarried() && !partner.getIsEngaged() && !partner.getIsChild() 
-				&& (partner.getFatherId() != owner.getFatherId() || partner.getMotherId() != owner.getMotherId())) //TODO Test this
+				&& (partner.getFatherId() != owner.getFatherId() || partner.getMotherId() != owner.getMotherId()))
 		{
 			//Set the other human's story progression appropriately.
 			AIProgressStory mateAI = getMateAI(partner);

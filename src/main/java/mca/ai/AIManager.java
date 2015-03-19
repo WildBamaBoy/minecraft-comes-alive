@@ -19,7 +19,6 @@ public class AIManager
 
 	public void addAI(AbstractAI AI)
 	{
-		//TODO check for existing
 		AIList.add(AI);
 	}
 
