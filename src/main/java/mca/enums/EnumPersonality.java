@@ -18,14 +18,14 @@ public enum EnumPersonality
 	FRIENDLY(4, EnumMoodGroup.GENERAL),   	//Bonus 15% points to all interactions
 
 	//Neutral
-	CURIOUS(21, EnumMoodGroup.SERIOUS), 	//Finds more on chores 	TODO
+	CURIOUS(21, EnumMoodGroup.SERIOUS), 	//Finds more on chores 
 	PEACEFUL(22, EnumMoodGroup.GENERAL),   	//Will not fight.
 	FLIRTY(23, EnumMoodGroup.PLAYFUL),		//Bonus 25% points to all interactions
 	WITTY(24, EnumMoodGroup.PLAYFUL),		//TODO
 
 	//Negative
-	SENSITIVE(41, EnumMoodGroup.GENERAL),  	//Chance of having feelings hurt and drastically dropping hearts. TODO
-	GREEDY(42, EnumMoodGroup.SERIOUS),		//Finds less on chores TODO
+	SENSITIVE(41, EnumMoodGroup.GENERAL),  	//Chance of having feelings hurt and drastically dropping hearts.
+	GREEDY(42, EnumMoodGroup.SERIOUS),		//Finds less on chores
 	STUBBORN(43, EnumMoodGroup.SERIOUS),  	//10% chance of not following or staying  TODO
 	ODD(44, EnumMoodGroup.PLAYFUL);			//TODO
 

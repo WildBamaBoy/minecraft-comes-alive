@@ -257,7 +257,7 @@ public class AICooking extends AbstractToggleAI
 					if (owner.getInventory().contains(foodObj.getFoodRaw()))
 					{
 						owner.getInventory().decrStackSize(owner.getInventory().getFirstSlotContainingItem(foodObj.getFoodRaw()), 1);
-						owner.getInventory().addItemStackToInventory(new ItemStack(foodObj.getFoodCooked(), 1, 0));
+						addItemStackToInventory(new ItemStack(foodObj.getFoodCooked(), 1, 0));
 					}
 
 					isCooking = false;

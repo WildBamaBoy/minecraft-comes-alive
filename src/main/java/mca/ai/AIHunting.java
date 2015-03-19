@@ -139,7 +139,7 @@ public class AIHunting extends AbstractToggleAI
 						EntityItem item = (EntityItem)entity;
 						ItemStack stack = item.getEntityItem();
 						
-						owner.getInventory().addItemStackToInventory(stack);
+						addItemStackToInventory(stack);
 						item.setDead();
 					}
 				}

@@ -6,6 +6,7 @@ import mca.api.exception.MappingNotFoundException;
 import mca.core.Constants;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
+import mca.enums.EnumPersonality;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -123,10 +124,15 @@ public class AIWoodcutting extends AbstractToggleAI
 					final WoodcuttingEntry apiEntry = ChoreRegistry.getWoodcuttingEntryById(apiId);
 					final Block block = apiEntry.getLogBlock();
 					owner.worldObj.setBlock(treeBasePoint.iPosX, treeBasePoint.iPosY + yLevel, treeBasePoint.iPosZ, Blocks.air);
-					boolean addedToInventory = owner.getInventory().addItemStackToInventory(new ItemStack(block, 1, apiEntry.getLogMeta()));
+					boolean addedToInventory = addItemStackToInventory(new ItemStack(block, 1, apiEntry.getLogMeta()));
 					boolean toolBroken = owner.getInventory().damageItem(owner.getInventory().getBestItemOfTypeSlot(ItemAxe.class), 1);
 
-					if (!addedToInventory)
+					if (!addedToInventory && owner.getPersonality() == EnumPersonality.GREEDY)
+					{
+						//pass on greedy
+					}
+					
+					else if (!addedToInventory)
 					{
 						notifyAssigningPlayer("My inventory is full.");
 						isAIActive.setValue(false);

@@ -37,22 +37,22 @@ public class Inventory extends InventoryBasic
 			if (itemStack.isItemDamaged())
 			{
 				slotId = getFirstEmptyStack();
+				
 				if (slotId >= 0)
 				{
 					setInventorySlotContents(slotId, ItemStack.copyItemStack(itemStack));
-					//					inventoryContents[slotId].animationsToGo = 5;
 					itemStack.stackSize = 0;
 					combinePartialStacks();
-					//					onInventoryChanged(this);
 					return true;
 				}
+				
 				else
 				{
 					combinePartialStacks();
-					//					onInventoryChanged(this);
 					return false;
 				}
 			}
+			
 			else
 			{
 				do
@@ -62,10 +62,10 @@ public class Inventory extends InventoryBasic
 				}
 				while (itemStack.stackSize > 0 && itemStack.stackSize < slotId);
 				combinePartialStacks();
-				//				onInventoryChanged(this);
 				return itemStack.stackSize < slotId;
 			}
 		}
+		
 		else
 		{
 			return false;

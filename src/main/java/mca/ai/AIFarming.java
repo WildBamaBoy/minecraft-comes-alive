@@ -8,6 +8,7 @@ import mca.api.exception.MappingNotFoundException;
 import mca.core.Constants;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
+import mca.enums.EnumPersonality;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -141,7 +142,7 @@ public class AIFarming extends AbstractToggleAI
 						{
 							if (stack != null)
 							{
-								owner.getInventory().addItemStackToInventory(stack);
+								addItemStackToInventory(stack);
 							}
 						}
 
