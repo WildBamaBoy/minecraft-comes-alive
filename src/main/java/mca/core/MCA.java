@@ -155,6 +155,8 @@ public class MCA
     			"GGG", "GGG", "GGG", 'G', ModItems.roseGoldIngot);
     	GameRegistry.addRecipe(new ItemStack(ModItems.matchmakersRing),
     			"III", "I I", "III", 'I', Items.iron_ingot);
+    	GameRegistry.addRecipe(new ItemStack(ModItems.tombstone),
+    			" S ", "SIS", "SSS", 'S', Blocks.stone, 'I', Items.sign);
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondDust), Items.diamond);
 		
     	//Colored diamond recipes.
