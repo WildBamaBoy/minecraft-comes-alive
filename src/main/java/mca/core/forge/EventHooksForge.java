@@ -1,9 +1,9 @@
 package mca.core.forge;
 
-import radixcore.util.RadixLogic;
 import mca.core.MCA;
 import mca.entity.EntityHuman;
 import mca.enums.EnumProfession;
+import mca.packets.PacketInteractWithPlayerC;
 import mca.util.TutorialManager;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
@@ -14,9 +14,14 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.player.EntityInteractEvent;
+import radixcore.util.RadixLogic;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class EventHooksForge 
@@ -41,27 +46,27 @@ public class EventHooksForge
 	private void doOverwriteVillager(EntityJoinWorldEvent event, EntityVillager entity) 
 	{
 		entity.setDead();
-		
+
 		boolean hasFamily = RadixLogic.getBooleanWithProbability(20);
 		boolean isMale = RadixLogic.getBooleanWithProbability(50);
-		
+
 		final EntityHuman human = new EntityHuman(event.world, isMale, entity.getProfession(), true);
 		human.setPosition(entity.posX, entity.posY, entity.posZ);
-		
+
 		if (hasFamily)
 		{
 			final EntityHuman spouse = new EntityHuman(event.world, !isMale, EnumProfession.getAtRandom().getId(), false);
 			spouse.setPosition(human.posX, human.posY, human.posZ);
 			event.world.spawnEntityInWorld(spouse);
-			
+
 			human.setIsMarried(true, spouse);
 			spouse.setIsMarried(true, human);
-			
+
 			String motherName = !isMale ? human.getName() : spouse.getName();
 			String fatherName = isMale ? human.getName() : spouse.getName();
 			int motherID = !isMale ? human.getPermanentId() : spouse.getPermanentId();
 			int fatherID = isMale ? human.getPermanentId() : spouse.getPermanentId();
-			
+
 			//Children
 			for (int i = 0; i < 2; i++)
 			{
@@ -69,13 +74,13 @@ public class EventHooksForge
 				{
 					continue;
 				}
-				
+
 				final EntityHuman child = new EntityHuman(event.world, RadixLogic.getBooleanWithProbability(50), true, motherName, fatherName, motherID, fatherID, false);
 				child.setPosition(entity.posX, entity.posY, entity.posZ);
 				event.world.spawnEntityInWorld(child);
 			}
 		}
-		
+
 		event.world.spawnEntityInWorld(human);
 	}
 
@@ -118,6 +123,25 @@ public class EventHooksForge
 
 			mob.tasks.addTask(2, new EntityAIAttackOnCollide(mob, EntityHuman.class, moveSpeed, false));
 			mob.targetTasks.addTask(2, new EntityAINearestAttackableTarget(mob, EntityHuman.class, 16, false));
+		}
+	}
+
+	@SubscribeEvent
+	public void entityInteractEventHandler(EntityInteractEvent event)
+	{
+		if (event.target instanceof EntityHorse)
+		{
+			final EntityHorse entityHorse = (EntityHorse) event.target;
+			if (entityHorse.riddenByEntity instanceof EntityHuman)
+			{
+				final EntityHuman entity = (EntityHuman) entityHorse.riddenByEntity;
+				entity.interact(event.entityPlayer);
+			}
+		}
+		
+		else if (event.target instanceof EntityPlayer && !event.entityPlayer.worldObj.isRemote)
+		{
+			MCA.getPacketHandler().sendPacketToPlayer(new PacketInteractWithPlayerC(event.entityPlayer, (EntityPlayer)event.target), (EntityPlayerMP) event.entityPlayer);
 		}
 	}
 }

@@ -3,7 +3,6 @@ package mca.ai;
 import java.util.List;
 
 import mca.api.ChoreRegistry;
-import mca.core.Constants;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
 import mca.enums.EnumMovementState;

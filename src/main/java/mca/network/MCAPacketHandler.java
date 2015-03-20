@@ -4,8 +4,11 @@ import mca.packets.PacketBabyName;
 import mca.packets.PacketDestinyChoice;
 import mca.packets.PacketGift;
 import mca.packets.PacketInteract;
+import mca.packets.PacketInteractWithPlayerC;
+import mca.packets.PacketInteractWithPlayerS;
 import mca.packets.PacketOpenBabyNameGUI;
 import mca.packets.PacketOpenGUIOnEntity;
+import mca.packets.PacketOpenPrompt;
 import mca.packets.PacketSetTutorialMessage;
 import mca.packets.PacketSyncPlayerMemory;
 import mca.packets.PacketToggleAI;
@@ -38,5 +41,8 @@ public class MCAPacketHandler extends AbstractPacketHandler
 		this.registerPacket(PacketTombstoneUpdateSet.class, Side.SERVER);
 		this.registerPacket(PacketTombstoneUpdateSet.class, Side.CLIENT);
 		this.registerPacket(PacketTombstoneUpdateGet.class, Side.SERVER);
+		this.registerPacket(PacketInteractWithPlayerC.class, Side.CLIENT);
+		this.registerPacket(PacketInteractWithPlayerS.class, Side.SERVER);
+		this.registerPacket(PacketOpenPrompt.class, Side.CLIENT);
 	}
 }

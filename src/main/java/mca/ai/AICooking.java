@@ -2,7 +2,6 @@ package mca.ai;
 
 import mca.api.ChoreRegistry;
 import mca.api.CookableFood;
-import mca.core.Constants;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
 import net.minecraft.block.BlockFurnace;

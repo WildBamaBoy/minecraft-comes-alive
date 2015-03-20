@@ -15,4 +15,5 @@ public class WatcherIDsPlayerData
 	public static final int HAS_CHOSEN_DESTINY = 11;
 	public static final int GENDER_PREFERENCE = 12;
 	public static final int IS_SUPER_USER = 13;
+	public static final int SPOUSE_NAME = 14;
 }

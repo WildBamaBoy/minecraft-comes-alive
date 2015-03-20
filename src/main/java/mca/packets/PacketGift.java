@@ -167,7 +167,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			human.say("interaction.marry.success", player); 
 
 			memory.setDialogueType(EnumDialogueType.SPOUSE);
-			data.spousePermanentId.setValue(human.getPermanentId());
+			data.setMarried(human);
 			human.setIsMarried(true, player);
 
 			human.getAI(AIMood.class).modifyMoodLevel(3.0F);
@@ -332,8 +332,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				memory.setDialogueType(EnumDialogueType.ADULT);
 				human.setIsMarried(false, (EntityHuman) null);
 				human.setIsEngaged(false, (EntityPlayer) null);
-				data.spousePermanentId.setValue(0);
-				data.isEngaged.setValue(false);
+				data.setNotMarried();
 
 				human.getAI(AIMood.class).modifyMoodLevel(-10.0F);
 				VersionBridge.spawnParticlesAroundEntityS(Particle.ANGRY, human, 16);

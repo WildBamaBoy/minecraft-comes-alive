@@ -278,7 +278,7 @@ public class CommandMCA extends CommandBase
 				if (targetPlayer != null)
 				{
 					PlayerData data = MCA.getPlayerData(targetPlayer);
-					data.spousePermanentId.setValue(0);
+					data.setNotMarried();
 
 					addChatMessage(commandSender, Color.GOLD + playerName + "'s marriage has been reset.");	
 				}

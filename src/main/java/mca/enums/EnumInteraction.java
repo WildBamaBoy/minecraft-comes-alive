@@ -48,7 +48,13 @@ public enum EnumInteraction
 	
 	START(997, "start"),
 	STOP(998, "stop"),
-	BACK(999, "back");
+	BACK(999, "back"),
+	
+	ASKTOMARRY(1000, "asktomarry"),
+	DIVORCE(1001, "divorce"),
+	HAVEBABY(1002, "havebaby"),
+	ASKTOMARRY_ACCEPT(1003, "asktomarryaccept"),
+	HAVEBABY_ACCEPT(1004, "havebabyaccept");
 	
 	private int id;
 	private String name;

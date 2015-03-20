@@ -471,6 +471,9 @@ gui.button.cooking=Cooking
 gui.button.mode=Mode: %a1%
 gui.button.start=Start
 gui.button.stop=Stop
+gui.button.havebaby=Have Baby
+gui.button.divorce=Divorce
+gui.button.asktomarry=Ask to Marry
 
 gui.title.namebaby.male=It's a boy!
 gui.title.namebaby.female=It's a girl!
@@ -569,6 +572,19 @@ interaction.sethome.fail3=I'm not too sure about this place. I can't have my hom
 interaction.mining.fail.toolow1=We're too low for me to create a mine.
 interaction.mining.fail.toolow2=We need to be on higher ground.
 interaction.mining.fail.toolow3=I don't think it's a good idea to create a mine here. We need to be higher.
+
+pinteraction.marry.sent=You have asked %a1% to marry you.
+pinteraction.marry.success=You are now married to %a1%.
+pinteraction.marry.fail.alreadymarried=You are already married or engaged.
+pinteraction.marry.fail.targetalreadymarried=%a1% is already married.
+pinteraction.marry.fail.noweddingring=You do not have a wedding ring.
+pinteraction.marry.prompt=%a1% would like to marry you.
+
+pinteraction.havebaby.sent=You have asked %a1% to have a baby.
+pinteraction.havebaby.prompt=%a1% would like to have a baby.
+pinteraction.havebaby.fail.alreadyexists=You should already have a baby.
+
+pinteraction.divorce.notify=You are no longer married to %a1%.
 
 ###################
 # Typed Dialogue

@@ -1,17 +1,16 @@
 package mca.items;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.ModBlocks;
 import mca.tile.TileTombstone;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ItemTombstone extends Item
 {

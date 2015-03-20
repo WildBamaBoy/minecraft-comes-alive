@@ -1,6 +1,7 @@
 package mca.data;
 
 import mca.core.MCA;
+import mca.entity.EntityHuman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import radixcore.data.AbstractPlayerData;
@@ -25,7 +26,7 @@ public class PlayerData extends AbstractPlayerData
 	public WatchedBoolean isMonarch;
 	public WatchedBoolean hasChosenDestiny;
 	public WatchedString mcaName;
-	public WatchedString uuid;
+	public WatchedString spouseName;
 	public WatchedBoolean isSuperUser;
 
 	public PlayerData(String playerUUID, World world)
@@ -59,6 +60,7 @@ public class PlayerData extends AbstractPlayerData
 		mcaName = new WatchedString("none", WatcherIDsPlayerData.MCA_NAME, dataWatcher);
 		hasChosenDestiny = new WatchedBoolean(false, WatcherIDsPlayerData.HAS_CHOSEN_DESTINY, dataWatcher);
 		isSuperUser = new WatchedBoolean(false, WatcherIDsPlayerData.IS_SUPER_USER, dataWatcher);
+		spouseName = new WatchedString("none", WatcherIDsPlayerData.SPOUSE_NAME, dataWatcher);
 	}
 	
 	@Override
@@ -81,5 +83,28 @@ public class PlayerData extends AbstractPlayerData
 		MCA.getLog().info("Is In Lite Mode: " + isInLiteMode.getBoolean());
 		MCA.getLog().info("Is Monarch: " + isMonarch.getBoolean());
 		MCA.getLog().info("MCA Name: " + mcaName.getString());
+	}
+	
+	public void setMarried(EntityPlayer player)
+	{
+		PlayerData data = MCA.getPlayerData(player);
+		
+		spousePermanentId.setValue(data.permanentId.getInt());
+		spouseName.setValue(player.getCommandSenderName());
+		isEngaged.setValue(false);
+	}
+	
+	public void setMarried(EntityHuman human)
+	{
+		spousePermanentId.setValue(human.getPermanentId());
+		spouseName.setValue(human.getName());
+		isEngaged.setValue(false);
+	}
+	
+	public void setNotMarried()
+	{
+		spousePermanentId.setValue(0);
+		spouseName.setValue("none");
+		isEngaged.setValue(false);
 	}
 }

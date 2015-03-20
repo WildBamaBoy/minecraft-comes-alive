@@ -85,32 +85,48 @@ public class ItemBaby extends Item
 			String fatherName = "N/A";
 			int fatherId = 0;
 
-			if (playerSpouse != null) //Spouse could be dead.
-			{
-				if (isPlayerMale)
-				{
-					motherName = playerSpouse.getName();
-					motherId = playerSpouse.getPermanentId();
-				}
-
-				else
-				{
-					fatherName = playerSpouse.getName();
-					fatherId = playerSpouse.getPermanentId();
-				}
-			}
-
 			if (isPlayerMale)
 			{
+				motherName = data.spouseName.getString();
+				motherId = data.spousePermanentId.getInt();
 				fatherName = player.getCommandSenderName();
 				fatherId = data.permanentId.getInt();
 			}
-
+			
 			else
 			{
+				fatherName = data.spouseName.getString();
+				fatherId = data.spousePermanentId.getInt();
 				motherName = player.getCommandSenderName();
-				motherId = data.permanentId.getInt();
+				motherId = data.permanentId.getInt();				
 			}
+			
+//			if (playerSpouse != null) //Spouse could be dead.
+//			{
+//				if (isPlayerMale)
+//				{
+//					motherName = playerSpouse.getName();
+//					motherId = playerSpouse.getPermanentId();
+//				}
+//
+//				else
+//				{
+//					fatherName = playerSpouse.getName();
+//					fatherId = playerSpouse.getPermanentId();
+//				}
+//			}
+//
+//			if (isPlayerMale)
+//			{
+//				fatherName = player.getCommandSenderName();
+//				fatherId = data.permanentId.getInt();
+//			}
+//
+//			else
+//			{
+//				motherName = player.getCommandSenderName();
+//				motherId = data.permanentId.getInt();
+//			}
 
 			final EntityHuman child = new EntityHuman(worldObj, baby.isBoy, true, motherName, fatherName, motherId, fatherId, true);
 			child.setPosition(posX, posY + 1, posZ);

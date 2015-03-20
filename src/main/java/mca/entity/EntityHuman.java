@@ -44,9 +44,7 @@ import mca.enums.EnumSleepingState;
 import mca.packets.PacketOpenGUIOnEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
-import net.minecraft.entity.ai.EntityAIMoveIndoors;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAIOpenDoor;
 import net.minecraft.entity.ai.EntityAIRestrictOpenDoor;
@@ -479,8 +477,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 				{
 					PlayerData data = MCA.getPlayerData(playerPartner);
 					playerPartner.addChatMessage(new ChatComponentText(Color.RED + name.getString() + " has died."));
-					data.spousePermanentId.setValue(0);
-					data.isEngaged.setValue(false);
+					data.setNotMarried();
 				}
 
 				else
@@ -490,8 +487,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 						if (memory.getPermanentId() == this.spouseId.getInt())
 						{
 							PlayerData data = MCA.getPlayerData(memory.getUUID());
-							data.spousePermanentId.setValue(0);
-							data.isEngaged.setValue(false);
+							data.setNotMarried();
 							break;
 						}
 					}

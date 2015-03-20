@@ -3,7 +3,6 @@ package mca.ai;
 import mca.api.ChoreRegistry;
 import mca.api.WoodcuttingEntry;
 import mca.api.exception.MappingNotFoundException;
-import mca.core.Constants;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
 import mca.enums.EnumPersonality;
