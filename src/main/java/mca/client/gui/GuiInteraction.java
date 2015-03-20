@@ -19,9 +19,11 @@ import mca.api.WoodcuttingEntry;
 import mca.api.exception.MappingNotFoundException;
 import mca.core.MCA;
 import mca.data.PlayerData;
+import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.enums.EnumInteraction;
 import mca.enums.EnumMovementState;
+import mca.enums.EnumProfessionGroup;
 import mca.packets.PacketGift;
 import mca.packets.PacketInteract;
 import mca.packets.PacketToggleAI;
@@ -33,6 +35,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
@@ -68,6 +71,7 @@ public class GuiInteraction extends GuiScreen
 	private NumberCycleList farmingMappings;
 	private NumberCycleList woodcuttingMappings;
 	private NumberCycleList miningMappings;
+	private NumberCycleList hireLengths;
 	private boolean farmingModeFlag;
 	private boolean miningModeFlag;
 	private boolean huntingModeFlag;
@@ -83,6 +87,7 @@ public class GuiInteraction extends GuiScreen
 		this.farmingMappings = NumberCycleList.fromList(ChoreRegistry.getCropEntryIDs());
 		this.woodcuttingMappings = NumberCycleList.fromList(ChoreRegistry.getWoodcuttingBlockIDs());
 		this.miningMappings = NumberCycleList.fromList(ChoreRegistry.getMiningBlockIDs());
+		this.hireLengths = NumberCycleList.fromIntegers(3);
 	}
 
 	@Override
@@ -380,6 +385,41 @@ public class GuiInteraction extends GuiScreen
 			 * Buttons available in special cases.
 			 */
 			case SPECIAL: drawSpecialButtonMenu(); break;
+
+			case ACCEPT: 
+				boolean hasGold = false;
+
+				for (int i = 0; i < player.inventory.getSizeInventory(); i++)
+				{
+					ItemStack stack = player.inventory.getStackInSlot(i);
+					
+					if (stack != null && stack.getItem() == Items.gold_ingot)
+					{
+						if (stack.stackSize >= hireLengths.get())
+						{
+							hasGold = true;
+							break;
+						}
+					}
+				}
+				
+				if (!hasGold)
+				{
+					player.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString("interaction.hire.fail.notenoughgold", hireLengths.get())));
+				}
+				
+				else
+				{
+					villager.say("interaction.hire.success", player);
+					MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId()));
+				}
+				
+				Minecraft.getMinecraft().displayGuiScreen(null);
+				break;
+				
+			case LENGTH: hireLengths.next();
+			case HIRE: drawHireButtonMenu(); break;
+			
 			case PROCREATE:
 				if (playerData.shouldHaveBaby.getBoolean())
 				{
@@ -474,6 +514,8 @@ public class GuiInteraction extends GuiScreen
 				case SPECIAL:
 				case WORK:
 				case INTERACT: drawMainButtonMenu(); break;
+				
+				case HIRE: drawSpecialButtonMenu(); break;
 				}
 			}
 		}
@@ -487,7 +529,7 @@ public class GuiInteraction extends GuiScreen
 		int yLoc = height == 240 ? 115 : height == 255 ? 125 : 132;
 		int yInt = 22;
 
-		buttonList.add(new GuiButton(EnumInteraction.INTERACT.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.YELLOW + MCA.getLanguageManager().getString("gui.button.interact"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.INTERACT.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.interact"))); yLoc -= yInt;
 
 		if (villager.allowControllingInteractions(player))
 		{
@@ -514,8 +556,11 @@ public class GuiInteraction extends GuiScreen
 			buttonList.add(new GuiButton(EnumInteraction.RIDE_HORSE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.RED + MCA.getLanguageManager().getString("gui.button.ridehorse"))); yLoc -= yInt;
 		}
 
-		buttonList.add(new GuiButton(EnumInteraction.SPECIAL.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.RED + MCA.getLanguageManager().getString("gui.button.special"))); yLoc -= yInt;
-
+		if (!villager.getIsChild())
+		{
+			buttonList.add(new GuiButton(EnumInteraction.SPECIAL.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.special"))); yLoc -= yInt;
+		}
+		
 		if (villager.getPlayerSpouse() == player)
 		{
 			buttonList.add(new GuiButton(EnumInteraction.PROCREATE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.procreate"))); yLoc -= yInt;
@@ -526,7 +571,7 @@ public class GuiInteraction extends GuiScreen
 			buttonList.add(new GuiButton(EnumInteraction.PICK_UP.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.pickup"))); yLoc -= yInt;
 		}
 
-		if (villager.allowControllingInteractions(player))
+		if (villager.allowWorkInteractions(player))
 		{
 			buttonList.add(new GuiButton(EnumInteraction.WORK.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.work"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.INVENTORY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.inventory"))); yLoc -= yInt;
@@ -560,6 +605,8 @@ public class GuiInteraction extends GuiScreen
 
 	private void drawWorkButtonMenu()
 	{
+		PlayerMemory memory = villager.getPlayerMemory(player);
+		
 		currentPage = EnumInteraction.WORK.getId();
 		buttonList.clear();
 
@@ -595,14 +642,80 @@ public class GuiInteraction extends GuiScreen
 				}
 			}
 		}
+		
+		if (memory.getIsHiredBy())
+		{
+			EnumProfessionGroup profession = villager.getProfessionGroup();
+			EnumInteraction validChore = null;
+			
+			switch (profession)
+			{
+			case Farmer: validChore = EnumInteraction.FARMING; break;
+			case Miner: validChore = EnumInteraction.MINING; break;
+			case Guard: validChore = EnumInteraction.COMBAT; break;
+			}
+			
+			if (validChore != null)
+			{
+				for (Object obj : buttonList)
+				{
+					GuiButton button = (GuiButton)obj;
+
+					if (button.id == -1 || button.id == EnumInteraction.BACK.getId() || button.id == EnumInteraction.STOP.getId())
+					{
+						continue;
+					}
+					
+					else if (button.id != validChore.getId())
+					{
+						button.enabled = false;
+					}
+				}
+			}
+		}
 	}
 
 	private void drawSpecialButtonMenu()
 	{
 		buttonList.clear();
 		currentPage = EnumInteraction.SPECIAL.getId();
+		
+		int xLoc = width == 480 ? 170 : 145; 
+		int yLoc = height == 240 ? 115 : height == 255 ? 125 : 132;
+		int yInt = 22;
+		
+		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString("gui.button.special"))); yLoc -= yInt;
+		
+		if (villager.getCanBeHired())
+		{
+			boolean isHired = villager.getPlayerMemory(player).getIsHiredBy();
+			String hireButtonText = isHired ? "gui.button.hired" : "gui.button.hire";
+			
+			buttonList.add(new GuiButton(EnumInteraction.HIRE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString(hireButtonText))); yLoc -= yInt;
+			
+			if (isHired)
+			{
+				((GuiButton)buttonList.get(2)).enabled = false;
+			}
+		}
 	}
 
+	private void drawHireButtonMenu()
+	{
+		buttonList.clear();
+		currentPage = EnumInteraction.HIRE.getId();
+		
+		int xLoc = width == 480 ? 170 : 145; 
+		int yLoc = height == 240 ? 115 : height == 255 ? 125 : 132;
+		int yInt = 22;
+		
+		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString("gui.button.hire"))); yLoc -= yInt;
+//		buttonList.add(new GuiButton(EnumInteraction.LENGTH.getId(),  width / 2 + xLoc - 35, height / 2 - yLoc, 100, 20, MCA.getLanguageManager().getString("gui.button.length", hireLengths.get()))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.ACCEPT.getId(),  width / 2 + xLoc - 25, height / 2 - yLoc, 90, 20, MCA.getLanguageManager().getString("gui.button.accept"))); yLoc -= yInt;
+	}
+	
 	private void drawFarmingControlMenu() 
 	{
 		buttonList.clear();

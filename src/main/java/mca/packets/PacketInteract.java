@@ -10,6 +10,7 @@ import mca.enums.EnumInteraction;
 import mca.enums.EnumPersonality;
 import mca.util.TutorialManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
 import radixcore.math.Point3D;
@@ -180,6 +181,17 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 			else if (interaction == EnumInteraction.INVENTORY)
 			{
 				villager.openInventory(player);
+			}
+			
+			else if (interaction == EnumInteraction.ACCEPT)
+			{
+				PlayerMemory memory = villager.getPlayerMemory(player);
+				memory.setIsHiredBy(true, 3);
+				
+				for (int i = 0; i < 3; i++)
+				{
+					player.inventory.consumeInventoryItem(Items.gold_ingot);
+				}
 			}
 		}
 		

@@ -24,6 +24,8 @@ public class AIMood extends AbstractAI
 	@SideOnly(Side.CLIENT)
 	private int particleSpawnCounter;
 
+	private int counter;
+	
 	public AIMood(EntityHuman entityHuman) 
 	{
 		super(entityHuman);
@@ -88,7 +90,7 @@ public class AIMood extends AbstractAI
 	@Override
 	public void onUpdateServer() 
 	{
-		if (owner.getTicksAlive() % Time.SECOND * 45 == 0)
+		if (counter <= 0)
 		{
 			if (getMoodLevel() > 0)
 			{
@@ -99,7 +101,11 @@ public class AIMood extends AbstractAI
 			{
 				modifyMoodLevel(1.0F);
 			}
+			
+			counter = Time.SECOND * 45;
 		}
+		
+		counter--;
 	}
 
 	@Override

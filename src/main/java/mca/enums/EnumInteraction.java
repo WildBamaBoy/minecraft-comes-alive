@@ -46,6 +46,14 @@ public enum EnumInteraction
 	
 	COOKING(601, "cooking"),
 	
+	COMBAT(701, "combat"),
+	ATTACK_ANIMALS(702, "attackanimals"),
+	ATTACK_MOBS(703, "attackmobs"),
+	
+	HIRE(801, "hire"),
+	LENGTH(802, "length"),
+	ACCEPT(803, "accept"),
+	
 	START(997, "start"),
 	STOP(998, "stop"),
 	BACK(999, "back"),

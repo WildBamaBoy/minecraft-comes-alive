@@ -474,6 +474,10 @@ gui.button.stop=Stop
 gui.button.havebaby=Have Baby
 gui.button.divorce=Divorce
 gui.button.asktomarry=Ask to Marry
+gui.button.hire=Hire
+gui.button.hired=Hired
+gui.button.length=Length: %a1% hour(s)
+gui.button.accept=Accept
 
 gui.title.namebaby.male=It's a boy!
 gui.title.namebaby.female=It's a girl!
@@ -572,6 +576,11 @@ interaction.sethome.fail3=I'm not too sure about this place. I can't have my hom
 interaction.mining.fail.toolow1=We're too low for me to create a mine.
 interaction.mining.fail.toolow2=We need to be on higher ground.
 interaction.mining.fail.toolow3=I don't think it's a good idea to create a mine here. We need to be higher.
+
+interaction.hire.fail.notenoughgold=You need a stack of %a1% gold ingots to hire this villager.
+interaction.hire.success1=Glad to be on board! What's my first job?
+interaction.hire.success2=Everything is in order. What would you like me to do?
+interaction.hire.success3=Ready to start working at any time, boss!
 
 pinteraction.marry.sent=You have asked %a1% to marry you.
 pinteraction.marry.success=You are now married to %a1%.

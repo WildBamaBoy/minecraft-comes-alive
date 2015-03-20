@@ -66,7 +66,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import radixcore.constant.Font.Color;
-import radixcore.constant.Time;
 import radixcore.data.DataWatcherEx;
 import radixcore.data.IPermanent;
 import radixcore.data.IWatchable;
@@ -188,7 +187,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			{
 				return 5.0D;
 			}
-			
+
 			else
 			{
 				return 0.5D;
@@ -294,13 +293,9 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 				}
 			}
 
-			//Reset interaction fatigue every minute.
-			if (ticksAlive % Time.MINUTE == 0)
+			for (PlayerMemory memory : this.playerMemories.values())
 			{
-				for (PlayerMemory memory : this.playerMemories.values())
-				{
-					memory.resetInteractionFatigue();
-				}
+				memory.doTick();
 			}
 		}
 
@@ -612,7 +607,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 	public void say(String phraseId, EntityPlayer target)
 	{
-		say(phraseId, target, target);
+		say(phraseId, target, this, target);
 	}
 
 	/**
@@ -1100,6 +1095,29 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		return true;
 	}
 
+	public boolean allowWorkInteractions(EntityPlayer player)
+	{
+		final PlayerData data = MCA.getPlayerData(player);
+		final PlayerMemory memory = getPlayerMemory(player);
+
+		if (data.isSuperUser.getBoolean())
+		{
+			return true;
+		}
+
+		else if (memory.getIsHiredBy())
+		{
+			return true;
+		}
+
+		else if (isPlayerAParent(player))
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 	public void openInventory(EntityPlayer player)
 	{
 		player.displayGUIChest(inventory);
@@ -1123,5 +1141,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public float getSpeed()
 	{
 		return getPersonality() == EnumPersonality.ATHLETIC ? Constants.SPEED_RUN : Constants.SPEED_WALK;
+	}
+
+	public boolean getCanBeHired() 
+	{
+		return getProfessionGroup() == EnumProfessionGroup.Farmer || 
+				getProfessionGroup() == EnumProfessionGroup.Miner || 
+				getProfessionGroup() == EnumProfessionGroup.Guard;
 	}
 }

@@ -16,6 +16,7 @@ import mca.packets.PacketSyncPlayerMemory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import radixcore.constant.Time;
 
 public class PlayerMemory implements Serializable
 {
@@ -25,13 +26,17 @@ public class PlayerMemory implements Serializable
 	private String uuid;
 	private int permanentId;
 	private int hearts;
+	private int hireTimeLeft;
 	private boolean hasGift;
 	private boolean hasQuest;
+	private boolean isHiredBy;
 	private EnumDialogueType dialogueType;
 
 	private transient int timeUntilGreeting;
 	private transient int distanceTravelledFrom;
 	private transient int interactionFatigue;
+
+	private int counter;
 
 	public PlayerMemory(EntityHuman owner, EntityPlayer player)
 	{
@@ -50,7 +55,7 @@ public class PlayerMemory implements Serializable
 		this.owner = owner;
 		this.playerName = username;
 	}
-	
+
 	public void writePlayerMemoryToNBT(NBTTagCompound nbt)
 	{
 		String nbtPrefix = "playerMemoryValue" + playerName;
@@ -61,10 +66,12 @@ public class PlayerMemory implements Serializable
 		nbt.setInteger(nbtPrefix + "hearts", hearts);
 		nbt.setInteger(nbtPrefix + "timeUntilGreeting", timeUntilGreeting);
 		nbt.setInteger(nbtPrefix + "distanceTraveledFrom", distanceTravelledFrom);
+		nbt.setInteger(nbtPrefix + "hireTimeLeft", hireTimeLeft);
 		nbt.setBoolean(nbtPrefix + "hasGift", hasGift);
 		nbt.setInteger(nbtPrefix + "interactionFatigue", interactionFatigue);
 		nbt.setBoolean(nbtPrefix + "hasQuest", hasQuest);
 		nbt.setInteger(nbtPrefix + "dialogueType", dialogueType.getId());
+		nbt.setBoolean(nbtPrefix + "isHiredBy", isHiredBy);
 	}
 
 	public void readPlayerMemoryFromNBT(NBTTagCompound nbt)
@@ -77,10 +84,35 @@ public class PlayerMemory implements Serializable
 		hearts = nbt.getInteger(nbtPrefix + "hearts");
 		timeUntilGreeting = nbt.getInteger(nbtPrefix + "timeUntilGreeting");
 		distanceTravelledFrom = nbt.getInteger(nbtPrefix + "distanceTraveledFrom");
+		hireTimeLeft = nbt.getInteger(nbtPrefix + "hireTimeLeft");
 		hasGift = nbt.getBoolean(nbtPrefix + "hasGift");
 		interactionFatigue = nbt.getInteger(nbtPrefix + "interactionFatigue");
 		dialogueType = EnumDialogueType.getById(nbt.getInteger(nbtPrefix + "dialogueType"));
 		hasQuest = nbt.getBoolean(nbtPrefix + "hasQuest");
+		isHiredBy = nbt.getBoolean(nbtPrefix + "isHiredBy");
+	}
+
+	public void doTick()
+	{
+		if (counter <= 0)
+		{
+			resetInteractionFatigue();
+
+			if (hireTimeLeft > 0)
+			{
+				hireTimeLeft--;
+
+				if (hireTimeLeft <= 0)
+				{
+					setIsHiredBy(false, 0);
+					owner.getAIManager().disableAllToggleAIs();
+				}
+			}
+			
+			counter = Time.MINUTE;
+		}
+
+		counter--;
 	}
 
 	public int getHearts()
@@ -92,7 +124,7 @@ public class PlayerMemory implements Serializable
 	{
 		return hasGift;
 	}
-	
+
 	public int getTimeUntilGreeting()
 	{
 		return timeUntilGreeting;
@@ -124,7 +156,7 @@ public class PlayerMemory implements Serializable
 		this.hasQuest = value;
 		onNonTransientValueChanged();
 	}
-	
+
 	public void setHasGift(boolean value)
 	{
 		this.hasGift = value;
@@ -135,12 +167,12 @@ public class PlayerMemory implements Serializable
 		this.dialogueType = value;
 		onNonTransientValueChanged();
 	}
-	
+
 	public EnumDialogueType getDialogueType()
 	{
 		return dialogueType;
 	}
-	
+
 	private void onNonTransientValueChanged()
 	{
 		final EntityPlayerMP player = (EntityPlayerMP) owner.worldObj.getPlayerEntityByName(playerName);
@@ -161,7 +193,7 @@ public class PlayerMemory implements Serializable
 	{
 		interactionFatigue++;
 	}
-	
+
 	public void resetInteractionFatigue()
 	{
 		interactionFatigue = 0;
@@ -171,14 +203,26 @@ public class PlayerMemory implements Serializable
 	{
 		return permanentId;
 	}
-	
+
 	public String getUUID()
 	{
 		return uuid;
 	}
-	
+
 	public boolean getHasQuest()
 	{
 		return hasQuest;
+	}
+
+	public boolean getIsHiredBy()
+	{
+		return isHiredBy;
+	}
+
+	public void setIsHiredBy(boolean value, int length)
+	{
+		isHiredBy = value;
+		hireTimeLeft = length * 60; //Measured in hours
+		onNonTransientValueChanged();
 	}
 }
