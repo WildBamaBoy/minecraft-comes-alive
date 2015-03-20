@@ -177,7 +177,6 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		}
 
 		inventory = new Inventory("Villager Inventory", false, 41);
-		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(getBaseAttackDamage());
 	}
 
 	public double getBaseAttackDamage() 
