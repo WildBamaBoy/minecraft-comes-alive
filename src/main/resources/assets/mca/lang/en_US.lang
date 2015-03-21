@@ -55,238 +55,447 @@ information.villagerbed.line3=sleep in bed at night.
 # Names
 ##############################
 name.male1=Aaron
-name.male2=Aceton
-name.male3=Adam
-name.male4=Aidan
-name.male5=Alan
-name.male6=Alex
-name.male7=Allen
-name.male8=Andrew
-name.male9=Anthony
-name.male10=Armando
-name.male11=Arthur
-name.male12=Austin
-name.male13=Ben
-name.male14=Bill
-name.male15=Billy
-name.male16=Bradley
-name.male17=Brady
-name.male18=Braxton
-name.male19=Brayden
-name.male20=Brenden
-name.male21=Brent
-name.male22=Brian
-name.male23=Brice
-name.male24=Brighton
-name.male25=Caleb
-name.male26=Cameron
-name.male27=Christopher
-name.male28=Cleveland
-name.male29=Cody
-name.male30=Colby
-name.male31=Collin
-name.male32=Colton
-name.male33=Corey
-name.male34=Coty
-name.male35=Dale
-name.male36=Damon
-name.male37=Dan
-name.male38=Dane
-name.male39=Danny
-name.male40=David
-name.male41=Derek
-name.male42=Devin
-name.male43=Donnie
-name.male44=Drew
-name.male45=Dylan
-name.male46=Edward
-name.male47=Eric
-name.male48=Ethan
-name.male49=Evan
-name.male50=Fred
-name.male51=Gabe
-name.male52=Garrett
-name.male53=Gary
-name.male54=Gavin
-name.male55=Harris
-name.male56=Harry
-name.male57=Hayden
-name.male58=Hunter
-name.male59=Jackson
-name.male60=Jacob
-name.male61=Jake
-name.male62=James
-name.male63=Jared
-name.male64=Jason
-name.male65=Jay
-name.male66=Jeremy
-name.male67=Jerry
-name.male68=Jim
-name.male69=Joe
-name.male70=John
-name.male71=Jon
-name.male72=Joseph
-name.male73=Josh
-name.male74=Justin
-name.male75=Kaden
-name.male76=Kent
-name.male77=Kevin
-name.male78=Leo
-name.male79=Leon
-name.male80=Lewis
-name.male81=Liam
-name.male82=Lucas
-name.male83=Mac
-name.male84=Marcus
-name.male85=Mark
-name.male86=Martin
-name.male87=Mason
-name.male88=Matt
-name.male89=Matthew
-name.male90=Michael
-name.male91=Mike
-name.male92=Nathan
-name.male93=Nathaniel
-name.male94=Nick
-name.male95=Oliver
-name.male96=Oscar
-name.male97=Owen
-name.male98=Patrick
-name.male99=Peter
-name.male100=Phil
-name.male101=Randy
-name.male102=Rey
-name.male103=Robert
-name.male104=Roger
-name.male105=Roy
-name.male106=Russ
-name.male107=Ryan
-name.male108=Scott
-name.male109=Seth
-name.male110=Shane
-name.male111=Shawn
-name.male112=Simon
-name.male113=Steve
-name.male114=Tanner
-name.male115=Tate
-name.male116=Terrence
-name.male117=Terry
-name.male118=Tim
-name.male119=Toby
-name.male120=Tom
-name.male121=Tommy
-name.male122=Tony
-name.male123=Trent
-name.male124=Tristan
-name.male125=Triston
-name.male126=Tyler
-name.male127=Tyson
-name.male128=Victor
-name.male129=Vincent
-name.male130=Will
-name.male131=William 
+name.male2=Abe
+name.male3=Abel
+name.male4=Ace
+name.male5=Adam
+name.male6=Adan Ade
+name.male7=Adriel
+name.male8=Aidan
+name.male9=Ajay
+name.male10=Al
+name.male11=Alan
+name.male12=Alex
+name.male13=Alec
+name.male14=Alden
+name.male15=Amir
+name.male16=Andre
+name.male17=Andy
+name.male18=Ash
+name.male19=Arran
+name.male20=Asher
+name.male21=Ashton
+name.male22=Aven
+name.male23=Avery
+name.male24=Bailey
+name.male25=Barrett
+name.male26=Brett
+name.male27=Bobby
+name.male28=Bev
+name.male29=Billy
+name.male30=Cain
+name.male31=Brogan
+name.male32=Brenton
+name.male33=Blue
+name.male34=Blaze
+name.male35=Brady
+name.male36=Bear
+name.male37=Casey
+name.male38=Caiden
+name.male39=Cam
+name.male40=Cedric
+name.male41=Clayton
+name.male42=Chad
+name.male43=Casper
+name.male44=Chance
+name.male45=Cliff
+name.male46=Clyde
+name.male47=Coby
+name.male48=Cody
+name.maleCoty
+name.male49=Drake
+name.male50=Devon
+name.male51=Dirk
+name.male52=Dion
+name.male53=Drake
+name.male54=Drew
+name.male55=Cyrcus
+name.male56=Cole
+name.male57=Daire
+name.male58=Dakota
+name.male59=Dale
+name.male60=Damian
+name.male61=Dash
+name.male62=Dario
+name.male63=Coby
+name.male64=Curt
+name.male65=Darius
+name.male66=Dan
+name.male67=Davin
+name.male68=Eli
+name.male69=Eliot
+name.male70=Elijah
+name.male71=Enzo
+name.male72=Finn
+name.male73=Fabio
+name.male74=Ezio
+name.male75=Exra
+name.male76=Forest
+name.male77=Hunter
+name.male78=Archer
+name.male79=Heath
+name.male80=Han
+name.male81=Isaac
+name.male82=Irvin
+name.male83=Jai
+name.male84=Jaiden
+name.male85=Jaime
+name.male86=Jake
+name.male87=Jakob
+name.male88=Jalen
+name.male89=Hendrix
+name.male90=Giles
+name.male91=Erik
+name.male92=Evan
+name.male93=Eliot
+name.male94=Diego
+name.male95=Don
+name.male96=Deon
+name.male97=Leon
+name.male98=Ira
+name.male99=Joel
+name.male100=Joey
+name.male101=Tristan
+name.male102=Jock
+name.male103=Kaden
+name.male104=Kai
+name.male105=Layne
+name.male106=Levi
+name.male107=Leven
+name.male108=Lev
+name.male109=Leighton
+name.male110=Lucas
+name.male111=Marshall
+name.male112=Marcus
+name.male113=Marik
+name.male114=Michael
+name.male115=Mitchel 
+name.male116=Nik
+name.male117=Niall
+name.male118=Ollie
+name.male119=Ned
+name.male120=Paolo
+name.male121=Paul
+name.male122=Pearce
+name.male123=Rafael
+name.male124=Owen
+name.male125=Phil
+name.male126=Scott
+name.male127=Stiles
+name.male128=Sid
+name.male129=Silas
+name.male130=Toby
+name.maleTray
+name.male131=Ty
+name.male132=Turner
+name.male133=Taylor
+name.male134=Storm
+name.male135=Sage
+name.male136=Jade
+name.male137=Rick
+name.male138=Ren
+name.male139=Nash
+name.male140=Mylo
+name.male141=Niko
+name.male142=Nicholas
+name.male143=Nick
+name.male144=Nico
+name.male145=Norman
+name.male146=Soren
+name.male147=Tate
+name.male148=Terry
+name.male149=Tim
+name.male150=Zain
+name.male151=Zaiden
+name.male152=Zeph
+name.male153=Zeke
+name.male154=Zayne
+name.male155=Zed
+name.male156=Zac
+name.male157=Wilson
+name.male158=Wayne
+name.male159=Vishal
+name.male160=Vlad
+name.male161=Wade
+name.male162=Walker
+name.male163=Troy
+name.male164=Trey
+name.male165=Trevon
+name.male166=Trenton
+name.male167=Trent
+name.male168=Ted
+name.male169=Ryan
+name.male170=Ryder
+name.male171=Reilly
+name.male172=Reid
+name.male173=Quentin
+name.male174=Princeton
+name.male175=Preston
+name.male176=Piers
+name.male177=Romeo
+name.male178=Red
+name.male179=Sean
+name.male180=Shawn
+name.male181=Ross
+name.male182=Robby
+name.male183=Chandler
 
-name.female1=Addison
-name.female2=Adi
-name.female3=Alexis
-name.female4=Alice
-name.female5=Alicia
-name.female6=Allie
-name.female7=Allison
-name.female8=Allysa
-name.female9=Alma
-name.female10=Amelia
-name.female11=Amnesty
-name.female12=Amy
-name.female13=Andrea
-name.female14=Angie
-name.female15=Anna
-name.female16=Anne
-name.female17=Arieanne
-name.female18=Ashley
-name.female19=Ashlyn
-name.female20=Ashton
-name.female21=Aspen
-name.female22=Aubrey
-name.female23=Aurora
-name.female24=Autumn
-name.female25=Ava
-name.female26=Baylee
-name.female27=Brooke
-name.female28=Camilla
-name.female29=Christina
-name.female30=Christy
-name.female31=Constance
-name.female32=Courtney
-name.female33=Cynthia
-name.female34=Dawn
-name.female35=Destiny
-name.female36=Diana
-name.female37=Donna
-name.female38=Elizabeth
-name.female39=Emery
-name.female40=Emily
-name.female41=Emma
-name.female42=Emmalyn
-name.female43=Erika
-name.female44=Eve
-name.female45=Faye
-name.female46=Gracie
-name.female47=Gwen
-name.female48=Hannah
-name.female49=Hazel
-name.female50=Holly
-name.female51=Jaden
-name.female52=Jennifer
-name.female53=Jessica
-name.female54=Julia
-name.female55=Julie
-name.female56=Kaitlin
-name.female57=Katie
-name.female58=Kaylene
-name.female59=Kiana
-name.female60=Kimberly
-name.female61=Kristen
-name.female62=Kylee
-name.female63=Leslie
-name.female64=Linda
-name.female65=Lindsey
-name.female66=Lola
-name.female67=Lori
-name.female68=Lydia
-name.female69=Madison
-name.female70=Marisa
-name.female71=Megan
-name.female72=Melissa
-name.female73=Melody
-name.female74=Miranda
-name.female75=Molly
-name.female76=Nickie
-name.female77=Nicole
-name.female78=Oaklee
-name.female79=Penny
-name.female80=Rachel
-name.female81=Robin
-name.female82=Rosa
-name.female83=Rosalie
-name.female84=Sarah
-name.female85=Serinity
-name.female86=Sharon
-name.female87=Shayla
-name.female88=Sherry
-name.female89=Sheryl
-name.female90=Skylar
-name.female91=Sofia
-name.female92=Sonya
-name.female93=Stacey
-name.female94=Steph
-name.female95=Stephanie
-name.female96=Sylvia
-name.female97=Trinity
-name.female98=Valerie
-name.female99=Vannessa
-name.female100=Veronica
-name.female101=Whitney
+name.female1=Aaliyah
+name.female2=Ada
+name.female3=Alka
+name.female4=Ali
+name.female5=Alisa
+name.female6=Ally
+name.female7=Alicia
+name.female8=Alana
+name.female9=Abbi
+name.female10=Abby
+name.female11=Abrielle
+name.female12=Aby
+name.female13=Acacia
+name.female14=Aisha
+name.female15=Aleah
+name.female16=Amity
+name.female17=Alina
+name.female18=Alisa
+name.female19=Alivia
+name.female20=Ashlie
+name.female21=Ashley
+name.female22=Ashlee
+name.female23=Ayla
+name.female24=Ava
+name.female25=Avril
+name.female26=Blake
+name.female27=Bess
+name.female28=Beth
+name.female29=Becca 
+name.female30=Beccy
+name.female31=Becky
+name.female32=Bella 
+name.female33=Belle
+name.female34=Beryl
+name.female35=Britney
+name.female36=Britt
+name.female37=Brie
+name.female38=Bielle
+name.female39=Brigid
+name.female40=Briley
+name.female41=Brisa
+name.female42=Brynn
+name.female43=Cadence
+name.female44=Cailin
+name.female45=Cecelia
+name.female46=Chasity
+name.female47=Chloe
+name.female48=Celeste
+name.female49=Cayla
+name.female50=Ceri
+name.female51=Cassia
+name.female52=Catrina
+name.female53=Callie
+name.female54=Cameron
+name.female55=Cami
+name.female56=Camila
+name.female57=Camryn 
+name.female58=Candace
+name.female59=Cali
+name.female60=Carly
+name.female61=Carlin
+name.female62=Cleo
+name.female63=Cori
+name.female64=Carla
+name.female65=Carol
+name.female66=Clover
+name.female67=Clarice
+name.female68=Claris
+name.female69=Clare
+name.female70=Corina
+name.female71=Cece
+name.female72=Daina
+name.female73=Darby
+name.female74=Dena
+name.female75=Denny
+name.female76=Dixie
+name.female77=Dolly
+name.female78=Delany
+name.female79=Delia
+name.female80=Delilah 
+name.female81=Delina
+name.female82=Diane
+name.female83=Dasia
+name.female84=Della
+name.female85=Daysha
+name.female86=Dara
+name.female87=Demi
+name.female88=Deena
+name.female89=Dina
+name.female90=Destiny
+name.female91=Delaney
+name.female92=Deidre
+name.female93=Dinah
+name.female94=Ebony
+name.female95=Echo
+name.female96=Eden
+name.female97=Edith
+name.female98=Edna
+name.female99=Elisa
+name.female100=Elisabeth
+name.female101=Elise
+name.female102=Eliza
+name.female103=Ella
+name.female104=Elle
+name.female105=Ellen
+name.female106=Elly
+name.female107=Esme
+name.female108=Elina
+name.female109=Elicia
+name.female110=Ellis
+name.female111=Emmy
+name.female112=Enya
+name.female113=Erica
+name.female114=Erin
+name.female115=Fawn
+name.female116=Fran
+name.female117=Farah
+name.female118=Faye
+name.female119=Felicity
+name.female120=Fern
+name.female121=Gail
+name.female122=Gina
+name.female123=Ginger
+name.female124=Grace
+name.female125=Gracelyn
+name.female126=Bracie
+name.female127=Harley
+name.female128=Hannah
+name.female129=Heaven
+name.female130=Heather
+name.female131=Holly
+name.female132=Honor
+name.female133=Honey
+name.female134=Hope
+name.female135=Hayley
+name.female136=Hazel
+name.female137=Ivy
+name.female138=Iris
+name.female139=Ivana
+name.female140=Jade
+name.female141=Ira
+name.female142=Iliana
+name.female143=Jadyn
+name.female144=Jade
+name.female145=Jane
+name.female146=Jessica
+name.female147=Juliet
+name.female148=Itzel
+name.female149=Iris
+name.female150=Jaida
+name.female151=Jamie
+name.female152=Jess
+name.female153=Jessa
+name.female154=Jocelyn
+name.female155=Jordan
+name.female156=Joni
+name.female157=Joyce
+name.female158=Kailyn
+name.female159=Kaitlin
+name.female160=Karen
+name.female161=Kaidence
+name.female162=Kara
+name.female163=Kassie
+name.female164=Katelyn
+name.female165=Katerine
+name.female166=Katherine
+name.female167=Keeley
+name.female168=Kelli
+name.female169=Lily 
+name.female170=Liz
+name.female171=Liza
+name.female172=Leslie
+name.female173=Laila
+name.female174=Lea
+name.female175=Leah
+name.female176=Lena
+name.female177=Lexie
+name.female178=Petrie 
+name.female179=Luna
+name.female180=Loran
+name.female181=Lyra
+name.female182=Lyric
+name.female183=Luci
+name.female184=Mara
+name.female185=Mavis
+name.female186=Millie
+name.female187=Michelle
+name.female188=Mika
+name.female189=Marisa
+name.female190=Mavis
+name.female191=Masie
+name.female192=Mona
+name.female193=Monica
+name.female194=Spencer
+name.female195=Monique
+name.female196=Montana
+name.female197=Mitzi
+name.female198=Molly
+name.female199=Nicki
+name.female200=Naya
+name.female201=Noelle
+name.female202=Moemi
+name.female203=Nola
+name.female204=Nora
+name.female205=Nikita
+name.female206=Nikki
+name.female207=Raquel
+name.female208=Raven
+name.female209=Remi
+name.female210=Rayna
+name.female211=Renae
+name.female212=Rose
+name.female213=Riley
+name.female214=Sage
+name.female215=Rydel
+name.female216=Rayna
+name.female217=Rayne
+name.female218=Rain
+name.female219=Ruby
+name.female220=Sade
+name.female221=Sable
+name.female222=Sara
+name.female223=Shyla
+name.female224=Stacey
+name.female225=Sky
+name.female226=Snow
+name.female227=Sally
+name.female228=Saige
+name.female229=Ryleigh
+name.female230=Rita
+name.female231=Rosalie
+name.female232=Summer 
+name.female233=Star 
+name.female234=Tala
+name.female235=Talia
+name.female236=Talitha
+name.female237=Tami
+name.female238=Judith
+name.female239=Tess
+name.female240=Zoey
+name.female241=Zoe
+name.female242=Ziva
+name.female243=Zina
+name.female244=Zora
+name.female245=Cula
+name.female246=Zelina
+name.female247=Yvette
+name.female248=Xena
+name.female249=Xandra
+name.female250=Winter
+name.female251=Vera
+name.female252=Teri
+name.female253=Tiana
+name.female254=Tiara
+name.female255=Tasha
+name.female256=Saira
 
 ##############
 # Professions
@@ -630,3 +839,480 @@ adult.gift.best2=How did you...nevermind, this is amazing!
 adult.gift.best3=Oh wow, I've always wanted one of these!
 adult.gift.best4=This is fantastic! I'll put it to good use.
 adult.gift.best5=Thank you so much. I will remember this forever.
+
+# 5 good chats when talking to an adult:
+adult.chat.good1= Man, cookies and milk does sound delicious right now.
+adult.chat.good2= Yes, I suppose the weather is nice today.
+adult.chat.good3= I'm doing just fine! Hit my toe when I woke up, though.
+adult.chat.good4= An apple a day keeps the zombies away!
+adult.chat.good5= My dream is to build my own village, but I'm so lazy.
+
+# 5 bad chats when talking to an adult:
+adult.chat.bad1= Did you seriously just say that?
+adult.chat.bad2= I don’t believe it exploded on its own.
+adult.chat.bad3= You know, you’re not that cool.
+adult.chat.bad4= Show off.
+adult.chat.bad5= You should be thrown in a dungeon! 
+
+# 5 good jokes when talking to an adult:
+adult.joke.good1= Haha! Serves that Skelly right!
+adult.joke.good2= *Laughs* That’s hilarious!
+adult.joke.good3= That’s funny! Did you hear the one about the cows?
+adult.joke.good4= Unfortunate for the sheep to lose its wool, but funny!
+adult.joke.good5= That’s the best I have ever heard!
+
+# 5 bad jokes when talking to an adult:
+adult.joke.bad1= Don’t speak about my pig like that!
+adult.joke.bad2= Ha.
+adult.joke.bad3= Ah, you’re not the funniest in town.
+adult.joke.bad4= That’s low.
+adult.joke.bad5= You shouldn’t joke about that.
+
+# 5 good handshakes when talking to an adult:
+adult.handshake.good1= You have a nice grip!
+adult.handshake.good2= Your grip shows me you have great power!
+adult.handshake.good3= Wow, you’re so polite!
+adult.handshake.good4= Good day!
+adult.handshake.good5= Why, hello there!
+
+# 5 bad handshakes when talking to an adult:
+adult.handshake.bad1= Seriously? After you slaughtered the cow?
+adult.handshake.bad2= Um, no that’s okay.
+adult.handshake.bad3= I’m not a stranger, you don’t have to be so polite.
+adult.handshake.bad4= Wow really? This isn’t like you.
+adult.handshake.bad5= Go away.
+
+# 5 good stories when talking to an adult:
+adult.tellstory.good1= 
+adult.tellstory.good2=I wish I was brave enough to take on a creeper.
+adult.tellstory.good3=
+adult.tellstory.good4=
+adult.tellstory.good5=
+
+# 5 bad stories when talking to an adult:
+adult.tellstory.bad1= *Ahem* That’s my mother you’re talking about.
+adult.tellstory.bad2= This is why the village talks about you.
+adult.tellstory.bad3= I don’t get it…
+adult.tellstory.bad4= You’re terrible! Creepers have feelings too!
+adult.tellstory.bad5= How could you kill a poor sheep?!
+
+# 5 good flirts when talking to an adult:
+adult.flirt.good1= You’re sooo brave!
+adult.flirt.good1=Oh, you! Stop being so cute!
+adult.flirt.good1=*Blushes* Do you mean it?
+adult.flirt.good1=Oh, my…
+adult.flirt.good1=That was so adorable! You had me at “hello”! 
+
+# 5 bad flirts when talking to an adult:
+adult.flirt.bad1=If you mean that, then prove it.
+adult.flirt.bad1=Aw…. Wait, you told the baker the same thing!
+adult.flirt.bad1=Not in a million years.
+adult.flirt.bad1=Pathetic much?
+adult.flirt.bad1=A zombie has a better chance than you.
+
+
+# 5 good hugs when talking to an adult:
+adult.hug.good1=Long time no see!
+adult.hug.good1=Thank you, I needed that.
+adult.hug.good1=At least one thing made my day today.
+adult.hug.good1=You’re as snuggly as a sheep!
+adult.hug.good1=
+
+# 5 bad hugs when talking to an adult:
+adult.hug.bad1=You’re covered in soot and mud! 
+adult.hug.bad1=No thanks.
+adult.hug.bad1=Uh, why?
+adult.hug.bad1=After you called me a dinosaur last week? No.
+adult.hug.bad1=Quite frankly, you don’t deserve a hug after you did that.
+
+# 5 good kisses when talking to an adult:
+adult.kiss.good1=I wish this moment would last forever.
+adult.kiss.good1=I think I love you…
+adult.kiss.good1=Mmm, tastes like pumpkin pie!
+adult.kiss.good1=
+adult.kiss.good1=
+
+# 5 bad kisses when talking to an adult:
+adult.kiss.bad1=Not if someone can see.
+adult.kiss.bad1=You call that a kiss?
+adult.kiss.bad1=Ash kisses better than you.
+adult.kiss.bad1=Two words… breath mints!
+adult.kiss.bad1=Thank you?
+
+##############################################################################################
+
+# 5 good chats when talking to a parent:
+parent.chat.good1=I’m fine, and how are you, dear?
+parent.chat.good1=Have I ever told you how much you look like your lost great uncle?
+parent.chat.good1=You make me so proud!
+parent.chat.good1=How sweet! What happened to you, you’re never kind! *Laughs*
+parent.chat.good1=That reminds me of when you were a lil’ tot! 
+
+# 5 bad chats when talking to a parent:
+parent.chat.bad1=You’re never too old for spankings, smarty pants.
+parent.chat.bad1=Watch your mouth. That’s not the way I raised you.
+parent.chat.bad1=This is why your sister was my favorite.
+parent.chat.bad1=Why are you not a doctor, yet?
+parent.chat.bad1=I had a diamond sword for you but now you’re not getting it!
+
+
+# 5 good jokes when talking to a parent:
+parent.joke.good1=You get your humor from me!*Laughs*
+parent.joke.good1=You fill my day with laughter and joy!
+parent.joke.good1=I needed that laugh!
+parent.joke.good1=When did you become a comedian? That’s hilarious!
+parent.joke.good1=Great Aunt Berry would had loved to hear that one!
+
+# 5 bad jokes when talking to a parent:
+parent.joke.bad1=Ha…
+parent.joke.bad1=You’re my kid so I have to laugh… but it isn’t funny.
+parent.joke.bad1=You’re as dull as my first date.
+parent.joke.bad1=No offense, but that was bad.
+parent.joke.bad1=No one ever told us you were the funny one, that’s for sure.
+
+# 5 good handshakes when talking to a parent:
+parent.handshake.good1=It’s good to see that we raised a polite child!
+parent.handshake.good1=
+parent.handshake.good1=
+parent.handshake.good1=
+parent.handshake.good1=
+
+# 5 bad handshakes when talking to a parent:
+parent.handshake.bad1=If only you were this polite at family reunions.
+parent.handshake.bad1=What’s with the formality? 
+parent.handshake.bad1=You’ll shake my hand but not hug me?
+parent.handshake.bad1=Are you embarrassed to be seen with me, or something?
+parent.handshake.bad1=I never realized how weak you were.
+
+# 5 good stories when talking to a parent:
+parent.tellstory.good1=After that you took off your diaper and threw it on the priest!
+parent.tellstory.good1=Did you end up getting a date?
+parent.tellstory.good1=They sound lovely! So when are you going to make me a grandparent?
+parent.tellstory.good1=Yes, I remember that! Your cousin Bert ate way too many cookies.
+parent.tellstory.good1=Is the house done, yet?
+
+# 5 bad stories when talking to a parent:
+parent.tellstory.bad1=I wish you were little again, this story depresses me.
+parent.tellstory.bad1=Don’t you do that again! Wolves are nothing to play with!
+parent.tellstory.bad1=You stole my earrings?! 
+parent.tellstory.bad1=We all know you can’t be a successful miner.
+parent.tellstory.bad1=You’re not the brightest lightbulb in the room…
+
+# 5 good hugs when talking to a parent:
+parent.hug.good1=You’ve grown so much!
+parent.hug.good1=I remember hugging you each night before bed.
+parent.hug.good1=Sweet child of mine! 
+parent.hug.good1=You never let me down! 
+parent.hug.good1=You’re the best child a parent could ask for!
+
+# 5 bad hugs when talking to a parent:
+parent.hug.bad1= I’m not mad, I’m disappointed. 
+parent.hug.bad1=Sucking up? Get your own cake mix!
+parent.hug.bad1= Why don’t we hug like this more often? Are you embarrassed? 
+parent.hug.bad1=Not until you wash off.
+parent.hug.bad1=After you told me that? No way.
+
+
+##############################################################################################
+
+# 5 good chats when talking to a relative:
+relative.chat.good1=You act just like your momma did as a kid!
+relative.chat.good1=I’m glad you came to see me!
+relative.chat.good1=We should get a family reunion together.
+relative.chat.good1=You’re the sweetest of the family!
+relative.chat.good1=Don’t tell anyone, but you’re my favorite!
+
+# 5 bad chats when talking to a relative:
+relative.chat.bad1=Excuse me? Do you know who you are talking to?
+relative.chat.bad1=That’s no excuse to speak to me like that!
+relative.chat.bad1=Go home. You’re no longer welcome around me.
+relative.chat.bad1=If you don’t leave I’ll put a restraining order on you.
+relative.chat.bad1=You’re so rude.
+
+# 5 good jokes when talking to a relative:
+relative.joke.good1=Grandpa told you that one, didn’t he?!
+relative.joke.good1=That joke goes way back in the family!
+relative.joke.good1=Then the cow jumped over the ravine! *Laughs*
+relative.joke.good1=
+relative.joke.good1=
+
+# 5 bad jokes when talking to a relative:
+relative.joke.bad1=You shouldn’t speak about family that way.
+relative.joke.bad1=Leave the humor to uncle.
+relative.joke.bad1=
+relative.joke.bad1=
+relative.joke.bad1=
+
+# 5 good handshakes when talking to a relative:
+relative.handshake.good1=Put it there!
+relative.handshake.good1=*Pulls hand away* Gotchya!
+relative.handshake.good1=Next time I expect diamonds! *Laughs*
+relative.handshake.good1=
+relative.handshake.good1=
+
+# 5 bad handshakes when talking to a relative:
+relative.handshake.bad1=Come on, we’re family. Informality is fine.
+relative.handshake.bad1=Shawn warned me about this…
+relative.handshake.bad1=Is this some sort of joke?
+relative.handshake.bad1=
+relative.handshake.bad1=
+
+# 5 good stories when talking to a relative:
+relative.tellstory.good1=Let me just tell you, your mom was such a thief as a child!
+relative.tellstory.good1=Sounds like Grandad Jay! He used to throw people in the lake!
+relative.tellstory.good1=Grandma used to sew the chicken feathers, too.
+relative.tellstory.good1=Mmm… Your mom’s cow stew was amazing back then.
+relative.tellstory.good1=We should get together like that more often!
+
+# 5 bad stories when talking to a relative:
+relative.tellstory.bad1=That’s when the family fell apart…
+relative.tellstory.bad1=Oh, that’s right… you’re the snobby one…
+relative.tellstory.bad1=Quit trying to show off.
+relative.tellstory.bad1=Your parents raised you better than that!
+relative.tellstory.bad1=You have officially been disowned.
+
+# 5 good hugs when talking to a relative:
+relative.hug.good1=It’s good to see you!
+relative.hug.good1=You should make time to see Uncle Jimmy, next!
+relative.hug.good1=I wish I had more to give you other than this hug!
+relative.hug.good1=Don’t wait too long to see me again!
+relative.hug.good1=I always look forward to your hugs!
+
+
+# 5 bad hugs when talking to a relative:
+relative.hug.bad1=Let me guess, this will be the last time I see you for a year?
+relative.hug.bad1=I guess you’re leaving me again.
+relative.hug.bad1=*Sighs* Does this mean goodbye?
+relative.hug.bad1=Please stay a little longer…
+relative.hug.bad1=Ew, that’s okay. You sweat too much.
+
+##############################################################################################
+
+# 5 good chats when talking to a child:
+child.chat.good1=I heard stories about you! Are you a hero?
+child.chat.good1=Hi. I was going to go try and climb to the roof.
+child.chat.good1=Do you wanna go burn stuff with me?
+child.chat.good1=I’m going to be a hunter like you and kill many things!
+child.chat.good1=Hi! What are you doing today? I’m going swimmin’!
+
+# 5 bad chats when talking to a child:
+child.chat.bad1=If you don’t give me cookies I’ll hold my breath.
+child.chat.bad1=My parents said not to talk to you, that you’re bad.
+child.chat.bad1=*Laughs* You look smelly!
+child.chat.bad1=Oh yeah? Well I’m gonna egg your house!
+child.chat.bad1=Lalala, I’m not listening! Lalala.
+
+# 5 good jokes when talking to a child:
+child.joke.good1=You’re funnier than daddy!
+child.joke.good1=Tell me another one!
+child.joke.good1=You’re the funniest person alive!
+child.joke.good1=I’m tellin’ my momma that one! *Laughs*
+child.joke.good1=It should eat a leaf!
+
+# 5 bad jokes when talking to a child:
+child.joke.bad1=I don’t get it.
+child.joke.bad1=You’re not funny. Really.
+child.joke.bad1=You need to stop…
+child.joke.bad1=But, who’s apple?
+child.joke.bad1=Don’t be mean!
+
+# 5 good handshakes when talking to a child:
+child.handshake.good1=Hiya! Someone I know likes you…
+child.handshake.good1=Dad said this is a very nice thing to do.
+child.handshake.good1=Now high five! Down low… too slow!
+child.handshake.good1=Hi stranger!
+child.handshake.good1=*Giggles* I just cleaned a cow with this hand.
+
+# 5 bad handshakes when talking to a child:
+child.handshake.bad1=Stranger danger…
+child.handshake.bad1=Mom, dad! This person is trying to kidnap me!
+child.handshake.bad1=Don’t touch me I’m famous!
+child.handshake.bad1=Ew, your hand has black stuff on it.
+child.handshake.bad1=I’ll only shake your hand if you give me a diamond.
+
+# 5 good stories when talking to a child:
+child.tellstory.good1= Wow! You’re a beast!
+child.tellstory.good1=I want to be just like you when I grow up. Shh, don’t tell dad.
+child.tellstory.good1=Can you adopt me?! You’re awesome!
+child.tellstory.good1=I went fishing and almost drowned.
+child.tellstory.good1=Does this mean I can take whatever I want? I mean, “borrow?”
+
+# 5 bad stories when talking to a child:
+child.tellstory.bad1=You’re a meanie!
+child.tellstory.bad1=I’m telling my mom what you said about her…
+child.tellstory.bad1=I believe you’re speaking about my grandpa…
+child.tellstory.bad1=You’re nothing but a scaredycat like dad said!
+child.tellstory.bad1=How could you kill a poor chicken?
+
+
+##############################################################################################
+
+# 5 good chats when talking to a child WHO IS YOUR OWN:
+pchild.chat.good1=Oh, I was just going to go explorin’ later.
+pchild.chat.good1=Can we go camping? Please?!
+pchild.chat.good1=Hi, can you make me a cake?
+pchild.chat.good1=Can I have my own room away from our house? That would be cool!
+pchild.chat.good1=Let’s move into a cave! That sounds so fun!
+
+# 5 bad chats when talking to an pchild:
+pchild.chat.bad1=%ParentOpposite% talks about them a lot…
+pchild.chat.bad1=I don’t think %ParentOpposite% would like that very much.
+pchild.chat.bad1=Is that why %ParentOpposite% talked about this thing called “divorce?”
+pchild.chat.bad1=I want a new daddy.
+pchild.chat.bad1=I don’t want a baby sister.
+
+# 5 good jokes when talking to an pchild:
+pchild.joke.good1=*Laughs* Tell that one again!
+pchild.joke.good1=I’ve got to tell my friend that one!
+pchild.joke.good1=How did the creeper explode?!
+pchild.joke.good1=*Laughs*Why is there no longer 3 of them?
+pchild.joke.good1=*Laughs* … *Laughs*… *Laughs*
+
+# 5 bad jokes when talking to an pchild:
+pchild.joke.bad1=%ParentOpposite% said you were funny, though…
+pchild.joke.bad1=I like knock knock jokes better.
+pchild.joke.bad1=I don’t get it, that was dumb.
+pchild.joke.bad1=*Yawn* My friend’s dad is cooler and funnier than you.
+pchild.joke.bad1=I’d rather have cake.
+
+# 5 good handshakes when talking to an pchild:
+pchild.handshake.good1=Why do I need to learn this stuff? 
+pchild.handshake.good1=%ParentOpposite% said that this is a polite thing to do.
+pchild.handshake.good1=I’m gonna be just like you when I grow up!
+pchild.handshake.good1=Can I have cake now?
+pchild.handshake.good1=I don’t get it, but okay! 
+
+# 5 bad handshakes when talking to an pchild:
+pchild.handshake.bad1=I spit on my hand.
+pchild.handshake.bad1=You’re such an old person.
+pchild.handshake.bad1=Only losers shake hands.
+pchild.handshake.bad1=I’ll shake your hand if you give me cake.
+pchild.handshake.bad1=No, you’ll slip and hit me.
+
+# 5 good stories when talking to an pchild:
+pchild.tellstory.good1=%ParentOpposite% really did that?! What happened to their clothes?
+pchild.tellstory.good1=I want to explore a cave, too! Let’s go!
+pchild.tellstory.good1=One day I’ll kill more creepers than you!
+pchild.tellstory.good1=Oh, oh, oh! Can we climb a tree, too?!
+pchild.tellstory.good1=Did the lava hurt? 
+
+# 5 bad stories when talking to an pchild:
+pchild.tellstory.bad1=I don’t want to hear about grandma.
+pchild.tellstory.bad1=You always say that. I just want a pet.
+pchild.tellstory.bad1=%ParentOpposite% has been lying to you, too.
+pchild.tellstory.bad1=You said you didn’t eat the cake and cookies…
+pchild.tellstory.bad1=Someone said you were a bad person, and I believe them!
+
+# 5 good hugs when talking to an pchild:
+pchild.hug.good1=*Kisses* You’re the best ever!
+pchild.hug.good1=I’m going to be as strong as you are one day!
+pchild.hug.good1=Why doesn’t %ParentOpposite% hug anymore?
+pchild.hug.good1=I love hugs! You’re soft and warm!
+pchild.hug.good1=You should hug %ParentOpposite% too!
+
+# 5 bad hugs when talking to an pchild:
+pchild.hug.bad1=I’m too old for hugs!
+pchild.hug.bad1=Stop it! I don’t want people to see!
+pchild.hug.bad1=Go away, you’re so annoying!
+pchild.hug.bad1=Just leave me alone or give me some cookies!
+pchild.hug.bad1=I’d rather hug a skeleton. 
+
+##############################################################################################
+
+# 5 good chats when talking to an spouse:
+spouse.chat.good1=I cleaned the entire house. How was your day?
+spouse.chat.good1=Honey, let’s go camping sometime. Doesn’t that sound like fun?
+spouse.chat.good1=So today I saw a spider. It was huge so I ran away.
+spouse.chat.good1=We should build a new house together!
+spouse.chat.good1=I almost walked into a lava pit the other day. That wouldn’t have been good!
+
+# 5 bad chats when talking to an spouse:
+spouse.chat.bad1=I know we’re not the poorest family, but…
+spouse.chat.bad1=I love being around you but I need some space.
+spouse.chat.bad1=Sometimes I wish I had my own “cave” to escape from you and everyone.
+spouse.chat.bad1=Go away, I’m not in the mood.
+spouse.chat.bad1=Where have you been? Are you seeing someone behind my back?
+
+# 5 good jokes when talking to an spouse:
+spouse.joke.good1=*Laughs* I married you for your humor!
+spouse.joke.good1=You should throw an egg at him next time!
+spouse.joke.good1=Then the wolf fell in love with the sheep.
+spouse.joke.good1=That never gets old!
+spouse.joke.good1=Here’s one for you… How many chickens does a creeper blow up?
+
+# 5 bad jokes when talking to an spouse:
+spouse.joke.bad1=Lame…
+spouse.joke.bad1=Sweetheart, you’re not funny.
+spouse.joke.bad1=Ha...Ha…Ha…
+spouse.joke.bad1=You need to erase that from your mind.
+spouse.joke.bad1=Okayy…
+
+# 5 good handshakes when talking to an spouse:
+spouse.handshake.good1=Your hand is so soft!
+spouse.handshake.good1=Our hands fit perfectly together.
+spouse.handshake.good1=One day people will forget to shake hands.
+spouse.handshake.good1=Our children will need to be this polite.
+spouse.handshake.good1=*Continues to shake hand* Tell me when to stop!
+
+# 5 bad handshakes when talking to an spouse:
+spouse.handshake.bad1= Handshake? How about a kiss, instead?
+spouse.handshake.bad1=*Squeezes hand hard*
+spouse.handshake.bad1=Your hand is nasty, no way.
+spouse.handshake.bad1=They have germs on them.
+spouse.handshake.bad1=Why don’t you get a decent job instead of shaking my hand?
+
+# 5 good stories when talking to an spouse:
+spouse.tellstory.good1= Let’s not tell our children that one…
+spouse.tellstory.good1=You were so rebellious! I love it!
+spouse.tellstory.good1=Did you ever tell your parents about losing their rings?
+spouse.tellstory.good1=It was that moment when I fell in love with you!
+spouse.tellstory.good1=Wow, you’re the best hunter ever!
+
+# 5 bad stories when talking to an spouse:
+spouse.tellstory.bad1=Talk to me when you kill something other than a harmless cow.
+spouse.tellstory.bad1=Don’t do something that reckless!
+spouse.tellstory.bad1=You have a family to think about!
+spouse.tellstory.bad1=…If you liked them why didn’t you marry them, instead?
+spouse.tellstory.bad1=Why did you wear the pink fluffy underwear? Whose were they?
+
+# 5 good flirts when talking to an spouse:
+spouse.flirt.good1=*Blushes* Well, how about we do something like that, then!
+spouse.flirt.good1=Aw, you said that when we first met.
+spouse.flirt.good1=Baby, you’re so cute!
+spouse.flirt.good1=You bet I am!
+spouse.flirt.good1=*Winks* You still got it!
+
+# 5 bad flirts when talking to an spouse:
+spouse.flirt.bad1=*Sighs*
+spouse.flirt.bad1=This one is getting old… like you.
+spouse.flirt.bad1=We’re married, we don’t have to do this anymore.
+spouse.flirt.bad1=Talk to the tree, it cares more.
+spouse.flirt.bad1=Yeah, yeah… What was it you were saying?
+
+# 5 good hugs when talking to an spouse:
+spouse.hug.good1=I love being entangled in your arms!
+spouse.hug.good1=Wait, don’t leave… you’re warm.
+spouse.hug.good1=Would you rather only being able to hug or kiss?
+spouse.hug.good1=*Kisses* 
+spouse.hug.good1=Let’s stay like this forever!
+
+# 5 bad hugs when talking to an spouse:
+spouse.hug.bad1=Why don’t you go hug your ex?
+spouse.hug.bad1=No thanks.
+spouse.hug.bad1=Man, you stink.
+spouse.hug.bad1=What do you want?
+spouse.hug.bad1=Huge someone else.
+
+# 5 good kisses when talking to an spouse:
+spouse.kiss.good1=I fall in love all over again when our lips meet!
+spouse.kiss.good1=Time stops ticking when I’m with you.
+spouse.kiss.good1=Sweet as cake!
+spouse.kiss.good1=I love you, baby!
+spouse.kiss.good1=I wouldn’t trade you for anyone in the world! 
+
+# 5 bad kisses when talking to an spouse:
+spouse.kiss.bad1=Not where someone can see us…
+spouse.kiss.bad1=We don’t have to if you don’t want to.
+spouse.kiss.bad1=Your breath smells like wolf kibble.
+spouse.kiss.bad1=Go take a drink from the lake.
+spouse.kiss.bad1=Now that we’re married I can tell you how lousy you are at kissing.
