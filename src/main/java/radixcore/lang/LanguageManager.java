@@ -4,12 +4,15 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import mca.core.MCA;
+import net.minecraft.util.StringTranslate;
 import radixcore.core.RadixCore;
 import radixcore.util.RadixExcept;
 import radixcore.util.RadixMath;
@@ -21,9 +24,9 @@ public class LanguageManager
 	private AbstractLanguageParser parser;
 	private Map<String, String> translationsMap;
 
-	public LanguageManager(String modId)
+	public LanguageManager(String providedModId)
 	{
-		this.modId = modId;
+		this.modId = providedModId.toLowerCase();
 		this.translationsMap = new HashMap<String, String>();
 		
 		Properties properties = new Properties();
@@ -34,7 +37,7 @@ public class LanguageManager
 			
 			try
 			{
-				properties.load(ClassLoader.class.getResourceAsStream("/assets/" + modId + "/lang/" + languageId + ".lang"));
+				properties.load(StringTranslate.class.getResourceAsStream("/assets/" + modId + "/lang/" + languageId + ".lang"));
 			}
 
 			catch (Exception e)
@@ -43,7 +46,7 @@ public class LanguageManager
 				
 				try
 				{
-					properties.load(ClassLoader.class.getResourceAsStream("/assets/" + modId + "/lang/" + "en_US.lang"));
+					properties.load(StringTranslate.class.getResourceAsStream("/assets/" + modId + "/lang/" + "en_US.lang"));
 				}
 				
 				catch (Exception e2)
@@ -57,7 +60,7 @@ public class LanguageManager
 		{
 			try
 			{
-				properties.load(ClassLoader.class.getResourceAsStream("/assets/" + modId + "/lang/" + "en_US.lang"));
+				properties.load(StringTranslate.class.getResourceAsStream("/assets/" + modId + "/lang/" + "en_US.lang"));
 			}
 			
 			catch (Exception e)
