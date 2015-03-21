@@ -78,6 +78,7 @@ public class ItemTombstone extends Item
 				if (meta == 1)
 				{
 					final int newMeta = MathHelper.floor_double((player.rotationYaw + 180F) * 16F / 360F + 0.5D) & 15;
+					System.out.println(newMeta);
 					world.setBlock(posX, posY, posZ, ModBlocks.tombstone, newMeta, 2);
 				}
 
@@ -88,7 +89,6 @@ public class ItemTombstone extends Item
 
 				--itemStack.stackSize;
 				final TileTombstone tombstone = (TileTombstone) world.getTileEntity(posX, posY, posZ);
-
 				if (tombstone != null)
 				{
 					player.openGui(MCA.getInstance(), Constants.GUI_ID_TOMBSTONE, world, tombstone.xCoord, tombstone.yCoord, tombstone.zCoord);

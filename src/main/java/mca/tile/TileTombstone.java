@@ -53,7 +53,5 @@ public class TileTombstone extends TileEntity
 				signText[i] = signText[i].substring(0, 15);
 			}
 		}
-		
-		System.out.println(signText[1]);
 	}
 }

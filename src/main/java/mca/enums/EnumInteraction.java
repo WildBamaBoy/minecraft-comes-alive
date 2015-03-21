@@ -20,7 +20,7 @@ public enum EnumInteraction
 	CHAT(101, "chat", 1, 60, 5),
 	JOKE(102, "joke", 1, 60, 5),
 	GIFT(103, "gift"),
-	SHAKE_HAND(104, "shakehand", 1, 80, 3),
+	SHAKE_HAND(104, "handshake", 1, 80, 3),
 	TELL_STORY(105, "tellstory", 1, 50, 7),
 	FLIRT(106, "flirt", 2, 50, 8),
 	HUG(107, "hug", 3, 30, 9),
