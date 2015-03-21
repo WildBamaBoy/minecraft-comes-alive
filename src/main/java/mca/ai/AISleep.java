@@ -7,6 +7,7 @@ import mca.blocks.BlockVillagerBed;
 import mca.core.Constants;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
+import mca.enums.EnumProfessionGroup;
 import mca.enums.EnumSleepingState;
 import mca.tile.TileVillagerBed;
 import mca.util.TutorialManager;
@@ -66,6 +67,11 @@ public class AISleep extends AbstractAI
 	@Override
 	public void onUpdateServer() 
 	{
+		if (owner.getProfessionGroup() == EnumProfessionGroup.Guard)
+		{
+			return;
+		}
+		
 		switch (sleepingState)
 		{
 		case AWAKE: 		doSleepingUpdate(); 	break;

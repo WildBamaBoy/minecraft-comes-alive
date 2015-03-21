@@ -44,8 +44,10 @@ import mca.enums.EnumSleepingState;
 import mca.packets.PacketOpenGUIOnEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIOpenDoor;
 import net.minecraft.entity.ai.EntityAIRestrictOpenDoor;
 import net.minecraft.entity.ai.EntityAISwimming;
@@ -53,6 +55,8 @@ import net.minecraft.entity.ai.EntityAITradePlayer;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.EntityAIWatchClosest2;
+import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -241,7 +245,6 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		this.tasks.taskEntries.clear();
 
 		this.tasks.addTask(0, new EntityAISwimming(this));
-		this.tasks.addTask(1, new EntityAIAvoidEntity(this, EntityZombie.class, 8.0F, 0.6D, 0.6D));
 		this.tasks.addTask(1, new EntityAITradePlayer(this));
 		this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
 		this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
@@ -336,8 +339,6 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			if (!isInteracting.getBoolean())
 			{
-				//aiManager.getAI(AICooking.class).startCooking(player);
-				//openInventory(player);
 				MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId()), (EntityPlayerMP) player);
 				isInteracting.setValue(true);
 			}
