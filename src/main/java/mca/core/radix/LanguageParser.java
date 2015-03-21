@@ -1,5 +1,7 @@
 package mca.core.radix;
 
+import mca.core.MCA;
+import mca.data.PlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import net.minecraft.entity.player.EntityPlayer;
@@ -47,7 +49,23 @@ public class LanguageParser extends AbstractLanguageParser
 				
 				else if (unparsedPhrase.contains("%PlayerName%"))
 				{
-					unparsedPhrase = unparsedPhrase.replace("%PlayerName%", memory.getPlayerName());					
+					PlayerData data = MCA.getPlayerData(playerTarget);
+					unparsedPhrase = unparsedPhrase.replace("%PlayerName%", data.mcaName.getString());
+				}
+				
+				else if (unparsedPhrase.contains("%ParentOpposite%"))
+				{
+					boolean isPlayerMale = MCA.getPlayerData(playerTarget).isMale.getBoolean();
+					
+					if (isPlayerMale)
+					{
+						unparsedPhrase = unparsedPhrase.replace("%ParentOpposite%", MCA.getLanguageManager().getString("parser.mom"));
+					}
+					
+					else
+					{
+						unparsedPhrase = unparsedPhrase.replace("%ParentOpposite%", MCA.getLanguageManager().getString("parser.dad"));						
+					}
 				}
 				
 				else if (unparsedPhrase.contains("%a1%"))

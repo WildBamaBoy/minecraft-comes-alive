@@ -67,7 +67,7 @@ public class AIHunting extends AbstractToggleAI
 		if (standPoint.iPosX == 0 && standPoint.iPosY == 0 && standPoint.iPosZ == 0)
 		{
 			//Find a point to stand at and hunt.
-			Point3D furthestGrass = RadixLogic.getFirstFurthestBlock(owner, Blocks.grass, 10);
+			Point3D furthestGrass = RadixLogic.getFirstFurthestBlock(owner, Blocks.grass, 3);
 
 			if (furthestGrass != null)
 			{
@@ -76,7 +76,8 @@ public class AIHunting extends AbstractToggleAI
 
 			else
 			{
-				notifyAssigningPlayer("I can't find a good hunting spot.");
+				owner.say("hunting.badspot", getAssigningPlayer());
+				reset();
 			}
 
 			return;
@@ -88,7 +89,8 @@ public class AIHunting extends AbstractToggleAI
 
 			if (!successful)
 			{
-				notifyAssigningPlayer("I can't find a good hunting spot.");					
+				owner.say("hunting.badspot", getAssigningPlayer());
+				reset();
 			}
 		}
 

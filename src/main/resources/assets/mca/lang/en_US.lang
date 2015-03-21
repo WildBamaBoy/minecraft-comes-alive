@@ -2,6 +2,48 @@ itemGroup.tabMCA=Minecraft Comes Alive
 itemGroup.tabMCA.gemCutting=MCA - Gem Cutting
 
 #######
+# Achievements
+##############################
+achievement.fullGoldHearts=Getting Somewhere
+achievement.fullGoldHearts.desc=Get 5 gold hearts with a villager.
+achievement.engagement=Happily Taken!
+achievement.engagement.desc=Get engaged to a villager.
+achievement.marriage=We're Married!
+achievement.marriage.desc=Get married to a villager.
+achievement.babyBoy=It's a Boy!
+achievement.babyBoy.desc=Have a baby boy.
+achievement.babyGirl=It's a Girl!
+achievement.babyGirl.desc=Have a baby girl.
+achievement.twins=Twins!
+achievement.twins.desc=Have twins.
+achievement.babyToChild=They Grow Up So Fast
+achievement.babyToChild.desc=Grow your baby into a child.
+achievement.hunting=Bullseye!
+achievement.hunting.desc=Make your child go hunting.
+achievement.mining=Infiniminer
+achievement.mining.desc=Make your child mine for you.
+achievement.woodcutting=Lumberjack
+achievement.woodcutting.desc=Make your child cut trees.
+achievement.farming=Free Labor
+achievement.farming.desc=Make your child farm.
+achievement.childToAdult=Fully Grown!
+achievement.childToAdult.desc=Grow your child into an adult.
+achievement.childMarried=Leaving the Nest
+achievement.childMarried.desc=Have your child get married.
+achievement.childHasChildren=Grandparent
+achievement.childHasChildren.desc=Meet your grandchildren.
+achievement.craftDiamondDust=Don't Breathe This!
+achievement.craftDiamondDust.desc=Crush a diamond into dust.
+achievement.craftColoredDiamondDust=Adding Some Color
+achievement.craftColoredDiamondDust.desc=Add dye to a pile of diamond dust.
+achievement.smeltColoredDiamond=Diamonds With Style
+achievement.smeltColoredDiamond.desc=Smelt a colored diamond.
+achievement.craftShapedDiamond=Diamond Cutter
+achievement.craftShapedDiamond.desc=Shape a diamond.
+achievement.craftShapedRing=A Finished Product
+achievement.craftShapedRing.desc=Craft a shaped diamond ring.
+
+#######
 # Items & Blocks
 ##############################
 item.WeddingRing.name=Wedding Ring
@@ -39,7 +81,7 @@ item.EngagementRingSquareRG.name=Rose Gold Square Engagement Ring
 item.EngagementRingTriangle.name=Triangle Engagement Ring
 item.EngagementRingTriangleRG.name=Rose Gold Triangle Engagement Ring
 item.EngagementRingStar.name=Star Engagement Ring
-item.EngagementRingStarRG.name=Rose Gold Start Engagement Ring
+item.EngagementRingStarRG.name=Rose Gold Star Engagement Ring
 item.tombstone.name=Tombstone
 tile.roseGoldOre.name=Rose Gold Ore
 tile.roseGoldBlock.name=Rose Gold Block
@@ -129,7 +171,7 @@ name.male71=Enzo
 name.male72=Finn
 name.male73=Fabio
 name.male74=Ezio
-name.male75=Exra
+name.male75=Ezra
 name.male76=Forest
 name.male77=Hunter
 name.male78=Archer
@@ -633,7 +675,14 @@ mining.search.value=There's some %a1% %a2% blocks away.
 farming.noseeds=I don't have enough %a1%. I will need at least %a2% to create a farm.
 farming.nohoe=I'll need to have a hoe in order to farm.
 
+hunting.badspot=I can't find a good hunting spot.
 sleep.nohome=I don't have a home point!
+
+#################
+# Parser
+################################
+parser.mom=Mom
+parser.dad=Dad
 
 #################
 # GUI
@@ -695,6 +744,7 @@ gui.title.tombstone=Enter tombstone text:
 gui.info.family.married=Married to %a1%.
 gui.info.family.engaged=Engaged to %a1%.
 gui.info.family.marriedtoplayer=Married to you.
+gui.info.family.engagedtoplayer=Engaged to you.
 gui.info.family.notmarried=Not married.
 gui.info.family.mother=Mother: %a1%
 gui.info.family.father=Father: %a1%
@@ -840,63 +890,63 @@ adult.gift.best4=This is fantastic! I'll put it to good use.
 adult.gift.best5=Thank you so much. I will remember this forever.
 
 # 5 good chats when talking to an adult:
-adult.chat.good1= Man, cookies and milk does sound delicious right now.
-adult.chat.good2= Yes, I suppose the weather is nice today.
-adult.chat.good3= I'm doing just fine! Hit my toe when I woke up, though.
-adult.chat.good4= An apple a day keeps the zombies away!
-adult.chat.good5= My dream is to build my own village, but I'm so lazy.
+adult.chat.good1=Man, cookies and milk does sound delicious right now.
+adult.chat.good2=Yes, I suppose the weather is nice today.
+adult.chat.good3=I'm doing just fine! Hit my toe when I woke up, though.
+adult.chat.good4=An apple a day keeps the zombies away!
+adult.chat.good5=My dream is to build my own village, but I'm so lazy.
 
 # 5 bad chats when talking to an adult:
-adult.chat.bad1= Did you seriously just say that?
-adult.chat.bad2= I don't believe it exploded on its own.
-adult.chat.bad3= You know, you're not that cool.
-adult.chat.bad4= Show off.
-adult.chat.bad5= You should be thrown in a dungeon! 
+adult.chat.bad1=Did you seriously just say that?
+adult.chat.bad2=I don't believe it exploded on its own.
+adult.chat.bad3=You know, you're not that cool.
+adult.chat.bad4=Show off.
+adult.chat.bad5=You should be thrown in a dungeon! 
 
 # 5 good jokes when talking to an adult:
-adult.joke.good1= Haha! Serves that Skelly right!
-adult.joke.good2= *Laughs* That's hilarious!
-adult.joke.good3= That's funny! Did you hear the one about the cows?
-adult.joke.good4= Unfortunate for the sheep to lose its wool, but funny!
-adult.joke.good5= That's the best I have ever heard!
+adult.joke.good1=Haha! Serves that Skelly right!
+adult.joke.good2=*Laughs* That's hilarious!
+adult.joke.good3=That's funny! Did you hear the one about the cows?
+adult.joke.good4=Unfortunate for the sheep to lose its wool, but funny!
+adult.joke.good5=That's the best I have ever heard!
 
 # 5 bad jokes when talking to an adult:
-adult.joke.bad1= Don't speak about my pig like that!
-adult.joke.bad2= Ha.
-adult.joke.bad3= Ah, you're not the funniest in town.
-adult.joke.bad4= That's low.
-adult.joke.bad5= You shouldn't joke about that.
+adult.joke.bad1=Don't speak about my pig like that!
+adult.joke.bad2=Ha.
+adult.joke.bad3=Ah, you're not the funniest in town.
+adult.joke.bad4=That's low.
+adult.joke.bad5=You shouldn't joke about that.
 
 # 5 good handshakes when talking to an adult:
-adult.handshake.good1= You have a nice grip!
-adult.handshake.good2= Your grip shows me you have great power!
-adult.handshake.good3= Wow, you're so polite!
-adult.handshake.good4= Good day!
-adult.handshake.good5= Why, hello there!
+adult.handshake.good1=You have a nice grip!
+adult.handshake.good2=Your grip shows me you have great power!
+adult.handshake.good3=Wow, you're so polite!
+adult.handshake.good4=Good day!
+adult.handshake.good5=Why, hello there!
 
 # 5 bad handshakes when talking to an adult:
-adult.handshake.bad1= Seriously? After you slaughtered the cow?
-adult.handshake.bad2= Um, no that's okay.
-adult.handshake.bad3= I'm not a stranger, you don't have to be so polite.
-adult.handshake.bad4= Wow really? This isn't like you.
-adult.handshake.bad5= Go away.
+adult.handshake.bad1=Seriously? After you slaughtered the cow?
+adult.handshake.bad2=Um, no that's okay.
+adult.handshake.bad3=I'm not a stranger, you don't have to be so polite.
+adult.handshake.bad4=Wow really? This isn't like you.
+adult.handshake.bad5=Go away.
 
 # 5 good stories when talking to an adult:
-adult.tellstory.good1= 
+adult.tellstory.good1=
 adult.tellstory.good2=I wish I was brave enough to take on a creeper.
 adult.tellstory.good3=
 adult.tellstory.good4=
 adult.tellstory.good5=
 
 # 5 bad stories when talking to an adult:
-adult.tellstory.bad1= *Ahem* That's my mother you're talking about.
-adult.tellstory.bad2= This is why the village talks about you.
-adult.tellstory.bad3= I don't get it...
-adult.tellstory.bad4= You're terrible! Creepers have feelings too!
-adult.tellstory.bad5= How could you kill a poor sheep?!
+adult.tellstory.bad1=*Ahem* That's my mother you're talking about.
+adult.tellstory.bad2=This is why the village talks about you.
+adult.tellstory.bad3=I don't get it...
+adult.tellstory.bad4=You're terrible! Creepers have feelings too!
+adult.tellstory.bad5=How could you kill a poor sheep?!
 
 # 5 good flirts when talking to an adult:
-adult.flirt.good1= You're sooo brave!
+adult.flirt.good1=You're sooo brave!
 adult.flirt.good2=Oh, you! Stop being so cute!
 adult.flirt.good3=*Blushes* Do you mean it?
 adult.flirt.good4=Oh, my...
@@ -927,8 +977,6 @@ adult.hug.bad5=Quite frankly, you don't deserve a hug after you did that.
 adult.kiss.good1=I wish this moment would last forever.
 adult.kiss.good2=I think I love you...
 adult.kiss.good3=Mmm, tastes like pumpkin pie!
-adult.kiss.good4=
-adult.kiss.good5=
 
 # 5 bad kisses when talking to an adult:
 adult.kiss.bad1=Not if someone can see.
@@ -1010,9 +1058,9 @@ parent.hug.good4=You never let me down!
 parent.hug.good5=You're the best child a parent could ask for!
 
 # 5 bad hugs when talking to a parent:
-parent.hug.bad1= I'm not mad, I'm disappointed. 
+parent.hug.bad1=I'm not mad, I'm disappointed. 
 parent.hug.bad2=Sucking up? Get your own cake mix!
-parent.hug.bad3= Why don't we hug like this more often? Are you embarrassed? 
+parent.hug.bad3=Why don't we hug like this more often? Are you embarrassed? 
 parent.hug.bad4=Not until you wash off.
 parent.hug.bad5=After you told me that? No way.
 
@@ -1126,7 +1174,7 @@ child.handshake.bad4=Ew, your hand has black stuff on it.
 child.handshake.bad5=I'll only shake your hand if you give me a diamond.
 
 # 5 good stories when talking to a child:
-child.tellstory.good1= Wow! You're a beast!
+child.tellstory.good1=Wow! You're a beast!
 child.tellstory.good2=I want to be just like you when I grow up. Shh, don't tell dad.
 child.tellstory.good3=Can you adopt me?! You're awesome!
 child.tellstory.good4=I went fishing and almost drowned.
@@ -1258,14 +1306,14 @@ spouse.handshake.good4=Our children will need to be this polite.
 spouse.handshake.good5=*Continues to shake hand* Tell me when to stop!
 
 # 5 bad handshakes when talking to an spouse:
-spouse.handshake.bad1= Handshake? How about a kiss, instead?
+spouse.handshake.bad1=Handshake? How about a kiss, instead?
 spouse.handshake.bad2=*Squeezes hand hard*
 spouse.handshake.bad3=Your hand is nasty, no way.
 spouse.handshake.bad4=They have germs on them.
 spouse.handshake.bad5=Why don't you get a decent job instead of shaking my hand?
 
 # 5 good stories when talking to an spouse:
-spouse.tellstory.good1= Let's not tell our children that one...
+spouse.tellstory.good1=Let's not tell our children that one...
 spouse.tellstory.good2=You were so rebellious! I love it!
 spouse.tellstory.good3=Did you ever tell your parents about losing their rings?
 spouse.tellstory.good4=It was that moment when I fell in love with you!
@@ -1319,3 +1367,9 @@ spouse.kiss.bad2=We don't have to if you don't want to.
 spouse.kiss.bad3=Your breath smells like wolf kibble.
 spouse.kiss.bad4=Go take a drink from the lake.
 spouse.kiss.bad5=Now that we're married I can tell you how lousy you are at kissing.
+
+spouse.greeting1=Hi honey, where have you been?
+spouse.greeting2=Hello dear, how is your day going?
+spouse.greeting3=Oh, %PlayerName%! You look tired.
+spouse.greeting4=Hey %PlayerName%! You look hungry. Would you like me to cook something?
+spouse.greeting5=%PlayerName%, you're back! I missed you.

@@ -1,6 +1,7 @@
 package mca.packets;
 
 import io.netty.buffer.ByteBuf;
+import mca.ai.AIGrow;
 import mca.ai.AIMood;
 import mca.api.ChoreRegistry;
 import mca.core.MCA;
@@ -14,6 +15,7 @@ import mca.enums.EnumDialogueType;
 import mca.util.TutorialManager;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -91,7 +93,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				removeCount = 2;
 			}
 
-			else if (item == ModItems.engagementRing || item == ModItems.weddingRingRG || item == ModItems.coloredEngagementRingRG || item == ModItems.coloredEngagementRing)
+			else if (item == ModItems.engagementRing || item == ModItems.weddingRingRG || item == ModItems.coloredEngagementRingRG || item == ModItems.coloredEngagementRing || item == ModItems.engagementRingRG)
 			{
 				removeItem = handleEngagementRing(player, human);
 			}
@@ -101,6 +103,22 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				removeItem = handleDivorcePapers(player, human);
 			}
 
+			else if (item == Items.golden_apple && human.getIsChild() && human.isPlayerAParent(player))
+			{
+				removeItem = true;
+				removeCount = 1;
+				
+				human.getAI(AIGrow.class).accelerate();
+			}
+			
+			else if ((item == ModItems.babyBoy || item == ModItems.babyGirl) && human.getPlayerSpouse() == player)
+			{
+				removeItem = true;
+				removeCount = 1;
+				
+				human.getInventory().addItemStackToInventory(stack);
+			}
+			
 			else
 			{
 				removeItem = handleStandardGift(player, human, packet.slot, stack);
@@ -253,7 +271,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 		if (human.getIsChild() || !human.allowIntimateInteractions(player))
 		{
-			human.say("interaction.invalid", player); 
+			human.say("interaction.give.invalid", player); 
 		}
 		
 		else if (data.spousePermanentId.getInt() == human.getPermanentId())
@@ -368,7 +386,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 		memory.setHearts(memory.getHearts() + heartsModify);
 		memory.increaseInteractionFatigue();
 
-		human.say(MCA.getLanguageManager().getString(memory.getDialogueType().toString() + ".gift." + giftType, human, player), player);
+		human.say(memory.getDialogueType().toString() + ".gift." + giftType, player);
 
 		if (giftValue > 0 && heartsModify <= 0)
 		{

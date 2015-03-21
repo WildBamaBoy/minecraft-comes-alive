@@ -101,11 +101,16 @@ public class RenderHuman extends RenderBiped
 		final int maxHealth = (int) human.getMaxHealth();
 		final double distanceFromPlayer = RadixMath.getDistanceToEntity(human, Minecraft.getMinecraft().thePlayer);
 
-		if (canRenderNameTag(entityLivingBase) && MCA.getConfig().showNameTagOnHover)
+		if (currentHealth < maxHealth)
+		{
+			renderLabel(human, posX, posY, posZ, MCA.getLanguageManager().getString("label.health") + currentHealth + "/" + maxHealth);
+		}
+		
+		else if (canRenderNameTag(entityLivingBase) && MCA.getConfig().showNameTagOnHover)
 		{
 			renderLabel(human, posX, posY, posZ, human.getTitle(Minecraft.getMinecraft().thePlayer));
 		}
-
+		
 		else if (human.displayNameForPlayer)
 		{
 			renderLabel(human, posX, posY + (distanceFromPlayer / 15.0D)  + (human.getHeight() * 1.15D), posZ, human.getTitle(Minecraft.getMinecraft().thePlayer));
@@ -122,11 +127,6 @@ public class RenderHuman extends RenderBiped
 			{
 				renderLabel(human, posX, posY, posZ, MCA.getLanguageManager().getString(conversationString));
 			}
-		}
-
-		else if (currentHealth < maxHealth)
-		{
-			renderLabel(human, posX, posY, posZ, MCA.getLanguageManager().getString("label.health") + currentHealth + "/" + maxHealth);
 		}
 	}
 

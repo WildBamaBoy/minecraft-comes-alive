@@ -470,7 +470,7 @@ public class MCA
 		if (hasFamily)
 		{
 			final EntityHuman spouse = new EntityHuman(world, !isMale, EnumProfession.getAtRandom().getId(), false);
-			spouse.setPosition(human.posX, human.posY, human.posZ);
+			spouse.setPosition(human.posX, human.posY, human.posZ - 1);
 			world.spawnEntityInWorld(spouse);
 
 			human.setIsMarried(true, spouse);
@@ -490,7 +490,7 @@ public class MCA
 				}
 
 				final EntityHuman child = new EntityHuman(world, RadixLogic.getBooleanWithProbability(50), true, motherName, fatherName, motherID, fatherID, false);
-				child.setPosition(pointOfSpawn.iPosX, pointOfSpawn.iPosY, pointOfSpawn.iPosZ);
+				child.setPosition(pointOfSpawn.iPosX, pointOfSpawn.iPosY, pointOfSpawn.iPosZ + 1);
 				world.spawnEntityInWorld(child);
 			}
 		}

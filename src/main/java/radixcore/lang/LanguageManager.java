@@ -4,14 +4,12 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import mca.core.MCA;
 import net.minecraft.util.StringTranslate;
 import radixcore.core.RadixCore;
 import radixcore.util.RadixExcept;

@@ -134,8 +134,9 @@ public class ItemBaby extends Item
 			worldObj.spawnEntityInWorld(child);
 
 			player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
-			
 			player.triggerAchievement(ModAchievements.babyToChild);
+			
+			data.shouldHaveBaby.setValue(false);
 		}
 
 		return true;
@@ -182,7 +183,7 @@ public class ItemBaby extends Item
 
 			infoList.add(textColor + "Name: " + Format.RESET + itemStack.stackTagCompound.getString("name"));
 			infoList.add(textColor + "Age: "  + Format.RESET + nearestTenth.format(ageInMinutes) + " minutes.");
-			infoList.add(textColor + "Owner: " + Format.RESET + ownerName);
+			infoList.add(textColor + "Parent: " + Format.RESET + ownerName);
 
 			if (isReadyToGrowUp(itemStack))
 			{

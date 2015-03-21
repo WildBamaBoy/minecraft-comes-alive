@@ -170,6 +170,7 @@ public class GuiInteraction extends GuiScreen
 		if (displayMarriageInfo)
 		{
 			String phraseId = 
+					villager.getSpouseName().equals(player.getCommandSenderName()) && villager.getIsEngaged() ? "gui.info.family.engagedtoplayer" :
 					villager.getSpouseName().equals(player.getCommandSenderName()) ? "gui.info.family.marriedtoplayer" :
 						villager.getIsMarried() ? "gui.info.family.married" : 
 							villager.getIsEngaged() ? "gui.info.family.engaged" : 
@@ -564,9 +565,10 @@ public class GuiInteraction extends GuiScreen
 		if (villager.getPlayerSpouse() == player)
 		{
 			buttonList.add(new GuiButton(EnumInteraction.PROCREATE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.procreate"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.INVENTORY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.inventory"))); yLoc -= yInt;
 		}
 
-		if (villager.allowControllingInteractions(player) && villager.getIsChild())
+		if (villager.isPlayerAParent(player))
 		{
 			buttonList.add(new GuiButton(EnumInteraction.PICK_UP.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.pickup"))); yLoc -= yInt;
 		}
@@ -643,6 +645,11 @@ public class GuiInteraction extends GuiScreen
 			}
 		}
 		
+		else
+		{
+			((GuiButton)buttonList.get(7)).enabled = false; //Stop button
+		}
+		
 		if (memory.getIsHiredBy())
 		{
 			EnumProfessionGroup profession = villager.getProfessionGroup();
@@ -673,6 +680,11 @@ public class GuiInteraction extends GuiScreen
 				}
 			}
 		}
+		
+		if (villager.getIsChild())
+		{
+			((GuiButton)buttonList.get(6)).enabled = false;
+		}
 	}
 
 	private void drawSpecialButtonMenu()
@@ -687,7 +699,7 @@ public class GuiInteraction extends GuiScreen
 		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
 		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString("gui.button.special"))); yLoc -= yInt;
 		
-		if (villager.getCanBeHired())
+		if (villager.getCanBeHired(player))
 		{
 			boolean isHired = villager.getPlayerMemory(player).getIsHiredBy();
 			String hireButtonText = isHired ? "gui.button.hired" : "gui.button.hire";

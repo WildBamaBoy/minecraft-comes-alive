@@ -53,6 +53,11 @@ public class AIConverse extends AbstractAI
 	@Override
 	public void onUpdateServer() 
 	{
+		if (owner.getAI(AISleep.class).getIsSleeping() && isConversationActive.getBoolean())
+		{
+			reset();
+		}
+		
 		if (conversationTarget.getInt() != 0 && !owner.getAI(AISleep.class).getIsSleeping())
 		{
 			if (timeUntilAdvance <= 0)

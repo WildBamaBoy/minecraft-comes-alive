@@ -73,11 +73,19 @@ public class AIMining extends AbstractToggleAI
 					{
 						//When the chore is not running, pick a random stone block nearby and set its meta to 11.
 						//This identifies this area as a mine.
-						List<Point3D> nearbyStone = RadixLogic.getNearbyBlocks(owner, Blocks.stone, 4);
-						Point3D point = nearbyStone.get(RadixMath.getNumberInRange(0, nearbyStone.size()));
+						List<Point3D> nearbyStone = RadixLogic.getNearbyBlocks(owner, Blocks.stone, 6);
 
-						owner.worldObj.setBlockMetadataWithNotify(point.iPosX, point.iPosY, point.iPosZ, 11, 2);
-						isBuildingMine = false;
+						if (!nearbyStone.isEmpty())
+						{
+							Point3D point = nearbyStone.get(RadixMath.getNumberInRange(0, nearbyStone.size()));
+							owner.worldObj.setBlockMetadataWithNotify(point.iPosX, point.iPosY, point.iPosZ, 11, 2);
+							isBuildingMine = false;
+						}
+						
+						else
+						{
+							reset();
+						}
 					}
 				}
 
@@ -85,7 +93,7 @@ public class AIMining extends AbstractToggleAI
 				{
 					owner.setMovementState(EnumMovementState.STAY);
 					owner.swingItem();
-					
+
 					//TODO Finish the logic for mining.
 				}
 			}
@@ -161,7 +169,7 @@ public class AIMining extends AbstractToggleAI
 
 				activityInterval--;
 			}
-			
+
 			catch (MappingNotFoundException e)
 			{
 				reset();

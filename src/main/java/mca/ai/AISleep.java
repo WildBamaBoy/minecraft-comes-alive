@@ -71,7 +71,7 @@ public class AISleep extends AbstractAI
 		{
 			return;
 		}
-		
+
 		switch (sleepingState)
 		{
 		case AWAKE: 		doSleepingUpdate(); 	break;
@@ -87,16 +87,24 @@ public class AISleep extends AbstractAI
 		//Going to sleep at night
 		if (!isSleeping.getBoolean() && !owner.worldObj.isDaytime() && sleepingState != EnumSleepingState.INTERRUPTED)
 		{
-			if (getDistanceToHomePoint() <= 15.0D)
+			if (owner.getAIManager().isToggleAIActive())
 			{
-				setSleepingState(EnumSleepingState.WALKING_HOME);
-				timeUntilForceTeleport = Time.SECOND * 15;
+				setSleepingState(EnumSleepingState.INTERRUPTED);
 			}
 
 			else
 			{
-				teleportToHomePoint();
-				setIsSleeping(true);
+				if (getDistanceToHomePoint() <= 15.0D)
+				{
+					setSleepingState(EnumSleepingState.WALKING_HOME);
+					timeUntilForceTeleport = Time.SECOND * 15;
+				}
+
+				else
+				{
+					teleportToHomePoint();
+					setIsSleeping(true);
+				}
 			}
 		}
 
@@ -322,13 +330,13 @@ public class AISleep extends AbstractAI
 	public void setSleepingState(EnumSleepingState state)
 	{
 		this.sleepingState = state;
-		
+
 		if (state == EnumSleepingState.NO_HOME)
 		{
 			for (Object obj : owner.worldObj.playerEntities)
 			{
 				EntityPlayer player = (EntityPlayer)obj;
-				
+
 				if (owner.isPlayerAParent(player) && owner.getIsChild())
 				{
 					TutorialManager.sendMessageToPlayer(player, "Your child does not have a home point.", "Use 'Set Home' on them to remove this warning.");

@@ -44,10 +44,7 @@ import mca.enums.EnumSleepingState;
 import mca.packets.PacketOpenGUIOnEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIOpenDoor;
 import net.minecraft.entity.ai.EntityAIRestrictOpenDoor;
 import net.minecraft.entity.ai.EntityAISwimming;
@@ -55,9 +52,6 @@ import net.minecraft.entity.ai.EntityAITradePlayer;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.EntityAIWatchClosest2;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntitySpider;
-import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -68,6 +62,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
+import net.minecraft.village.MerchantRecipe;
+import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
 import radixcore.constant.Font.Color;
 import radixcore.data.DataWatcherEx;
@@ -81,6 +77,7 @@ import radixcore.inventory.Inventory;
 import radixcore.network.ByteBufIO;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -884,6 +881,17 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			return new ItemStack(Item.getItemById(heldItem.getInt()));
 		}
+		
+		else if (inventory.contains(ModItems.babyBoy) || inventory.contains(ModItems.babyGirl))
+		{
+			int slot = inventory.getFirstSlotContainingItem(ModItems.babyBoy);
+			slot = slot == -1 ? inventory.getFirstSlotContainingItem(ModItems.babyGirl) : slot;
+			
+			if (slot != -1)
+			{
+				return inventory.getStackInSlot(slot);
+			}
+		}
 
 		return null;
 	}
@@ -955,6 +963,41 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		return scaleGirth.getFloat();
 	}
 
+	@Override
+    public void useRecipe(MerchantRecipe recipe)
+    {
+		//To stop trading sounds.
+		MerchantRecipeList buyingList = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 5);
+		EntityPlayer buyingPlayer = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 4);
+		
+        recipe.incrementToolUses();
+        this.livingSoundTime = -this.getTalkInterval();
+
+        if (recipe.hasSameIDsAs((MerchantRecipe)buyingList.get(buyingList.size() - 1)))
+        {
+        	ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, 40, 6);
+        	ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, true, 7);
+
+            if (buyingPlayer != null)
+            {
+            	ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, buyingPlayer.getCommandSenderName(), 9);
+            }
+            
+            else
+            {
+            	ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, null, 9);
+            }
+        }
+
+        if (recipe.getItemToBuy().getItem() == Items.emerald)
+        {
+        	Integer wealth = (Integer) ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 9);
+        	Integer newValue = wealth + recipe.getItemToBuy().stackSize;
+        	
+        	ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, newValue, 8);
+        }
+    }
+    
 	@Override
 	public void writeSpawnData(ByteBuf buffer) 
 	{
@@ -1124,7 +1167,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		player.displayGUIChest(inventory);
 	}
 
-	private boolean isChildOfAVillager() 
+	public boolean isChildOfAVillager() 
 	{
 		return getMotherId() >= 0 && getFatherId() >= 0;
 	}
@@ -1144,10 +1187,10 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		return getPersonality() == EnumPersonality.ATHLETIC ? Constants.SPEED_RUN : Constants.SPEED_WALK;
 	}
 
-	public boolean getCanBeHired() 
+	public boolean getCanBeHired(EntityPlayer player) 
 	{
-		return getProfessionGroup() == EnumProfessionGroup.Farmer || 
+		return getPlayerSpouse() != player && (getProfessionGroup() == EnumProfessionGroup.Farmer || 
 				getProfessionGroup() == EnumProfessionGroup.Miner || 
-				getProfessionGroup() == EnumProfessionGroup.Guard;
+				getProfessionGroup() == EnumProfessionGroup.Guard);
 	}
 }

@@ -27,9 +27,12 @@ public final class ModBlocks
 		bedPink = new BlockVillagerBed(EnumBedColor.PINK);
 		bedPurple = new BlockVillagerBed(EnumBedColor.PURPLE);
 		
-		roseGoldBlock = new BlockOre().setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockName("roseGoldBlock").setBlockTextureName("mca:roseGoldBlock").setCreativeTab(MCA.getCreativeTabMain());
+		roseGoldBlock = new BlockOre().setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockName("roseGoldBlock").setBlockTextureName("mca:RoseGoldBlock").setCreativeTab(MCA.getCreativeTabMain());
 		roseGoldOre = new BlockOre().setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockName("roseGoldOre").setBlockTextureName("mca:RoseGoldOre").setCreativeTab(MCA.getCreativeTabMain());
 
+		roseGoldBlock.setHarvestLevel("pickaxe", 2);
+		roseGoldOre.setHarvestLevel("pickaxe", 2);
+		
 		tombstone = new BlockTombstone();
 		
 		GameRegistry.registerBlock(roseGoldBlock, roseGoldBlock.getUnlocalizedName());

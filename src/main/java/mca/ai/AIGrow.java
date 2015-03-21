@@ -6,11 +6,13 @@ import mca.entity.EntityHuman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
+import radixcore.util.RadixMath;
 
 public class AIGrow extends AbstractAI
 {
 	private int timeUntilTickUpdate;
-
+	private int freeTickUpdates;
+	
 	public AIGrow(EntityHuman entityHuman) 
 	{
 		super(entityHuman);
@@ -25,7 +27,7 @@ public class AIGrow extends AbstractAI
 		
 		if (owner.getIsChild())
 		{
-			if (timeUntilTickUpdate <= 0)
+			if (timeUntilTickUpdate <= 0 || freeTickUpdates != 0)
 			{
 				if (owner.getAge() >= MCA.getConfig().childGrowUpTime && !owner.worldObj.isRemote)
 				{
@@ -54,6 +56,11 @@ public class AIGrow extends AbstractAI
 				}
 				
 				timeUntilTickUpdate = Time.MINUTE;
+				
+				if (freeTickUpdates > 0)
+				{
+					freeTickUpdates--;
+				}
 			}
 			
 			else
@@ -88,5 +95,10 @@ public class AIGrow extends AbstractAI
 	public void readFromNBT(NBTTagCompound nbt) 
 	{	
 		timeUntilTickUpdate = nbt.getInteger("timeUntilTickUpdate");
+	}
+
+	public void accelerate() 
+	{
+		freeTickUpdates = RadixMath.getNumberInRange(30, 60);
 	}
 }

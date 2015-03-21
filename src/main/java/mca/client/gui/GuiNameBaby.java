@@ -123,6 +123,15 @@ public class GuiNameBaby extends GuiScreen
 
 		else if (guibutton == randomButton)
 		{
+			if (isMale)
+			{
+				babyNameTextField.setText(MCA.getLanguageManager().getString("name.male"));
+			}
+			
+			else
+			{
+				babyNameTextField.setText(MCA.getLanguageManager().getString("name.female"));
+			}
 		}
 	}
 
