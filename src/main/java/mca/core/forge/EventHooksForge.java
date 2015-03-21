@@ -2,7 +2,6 @@ package mca.core.forge;
 
 import mca.core.MCA;
 import mca.entity.EntityHuman;
-import mca.enums.EnumProfession;
 import mca.packets.PacketInteractWithPlayerC;
 import mca.util.TutorialManager;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
@@ -21,7 +20,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
-import radixcore.util.RadixLogic;
+import radixcore.math.Point3D;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class EventHooksForge 
@@ -46,42 +45,7 @@ public class EventHooksForge
 	private void doOverwriteVillager(EntityJoinWorldEvent event, EntityVillager entity) 
 	{
 		entity.setDead();
-
-		boolean hasFamily = RadixLogic.getBooleanWithProbability(20);
-		boolean isMale = RadixLogic.getBooleanWithProbability(50);
-
-		final EntityHuman human = new EntityHuman(event.world, isMale, entity.getProfession(), true);
-		human.setPosition(entity.posX, entity.posY, entity.posZ);
-
-		if (hasFamily)
-		{
-			final EntityHuman spouse = new EntityHuman(event.world, !isMale, EnumProfession.getAtRandom().getId(), false);
-			spouse.setPosition(human.posX, human.posY, human.posZ);
-			event.world.spawnEntityInWorld(spouse);
-
-			human.setIsMarried(true, spouse);
-			spouse.setIsMarried(true, human);
-
-			String motherName = !isMale ? human.getName() : spouse.getName();
-			String fatherName = isMale ? human.getName() : spouse.getName();
-			int motherID = !isMale ? human.getPermanentId() : spouse.getPermanentId();
-			int fatherID = isMale ? human.getPermanentId() : spouse.getPermanentId();
-
-			//Children
-			for (int i = 0; i < 2; i++)
-			{
-				if (RadixLogic.getBooleanWithProbability(66))
-				{
-					continue;
-				}
-
-				final EntityHuman child = new EntityHuman(event.world, RadixLogic.getBooleanWithProbability(50), true, motherName, fatherName, motherID, fatherID, false);
-				child.setPosition(entity.posX, entity.posY, entity.posZ);
-				event.world.spawnEntityInWorld(child);
-			}
-		}
-
-		event.world.spawnEntityInWorld(human);
+		MCA.naturallySpawnVillagers(new Point3D(entity.posX, entity.posY, entity.posZ), event.world, entity.getProfession());
 	}
 
 	@SubscribeEvent

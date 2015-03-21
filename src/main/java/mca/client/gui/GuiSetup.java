@@ -255,8 +255,6 @@ public class GuiSetup extends GuiScreen
 			buttonList.add(new GuiButton(8, width / 2 - 46, height / 2 - 20, 95, 20, "I live alone."));
 			buttonList.add(new GuiButton(9, width / 2 - 46, height / 2 + 0, 95, 20, "I live in a village."));
 			buttonList.add(new GuiButton(10, width / 2 - 46, height / 2 + 20, 95, 20, "None of these."));
-
-			((GuiButton)buttonList.get(2)).enabled = false;
 		}
 	}
 

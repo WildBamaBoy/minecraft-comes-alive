@@ -20,6 +20,7 @@ import mca.core.minecraft.ModItems;
 import mca.core.radix.LanguageParser;
 import mca.data.PlayerData;
 import mca.entity.EntityHuman;
+import mca.enums.EnumProfession;
 import mca.network.MCAPacketHandler;
 import mca.tile.TileTombstone;
 import mca.tile.TileVillagerBed;
@@ -36,6 +37,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
 
@@ -49,6 +51,7 @@ import radixcore.forge.gen.SimpleOreGenerator;
 import radixcore.lang.LanguageManager;
 import radixcore.math.Point3D;
 import radixcore.update.RDXUpdateProtocol;
+import radixcore.util.RadixLogic;
 import radixcore.util.RadixStartup;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -454,5 +457,44 @@ public class MCA
 		}
 		
 		return null;
+	}
+	
+	public static void naturallySpawnVillagers(Point3D pointOfSpawn, World world, int originalProfession)
+	{
+		boolean hasFamily = RadixLogic.getBooleanWithProbability(20);
+		boolean isMale = RadixLogic.getBooleanWithProbability(50);
+
+		final EntityHuman human = new EntityHuman(world, isMale, originalProfession != -1 ? originalProfession : EnumProfession.getAtRandom().getId(), true);
+		human.setPosition(pointOfSpawn.iPosX, pointOfSpawn.iPosY, pointOfSpawn.iPosZ);
+
+		if (hasFamily)
+		{
+			final EntityHuman spouse = new EntityHuman(world, !isMale, EnumProfession.getAtRandom().getId(), false);
+			spouse.setPosition(human.posX, human.posY, human.posZ);
+			world.spawnEntityInWorld(spouse);
+
+			human.setIsMarried(true, spouse);
+			spouse.setIsMarried(true, human);
+
+			String motherName = !isMale ? human.getName() : spouse.getName();
+			String fatherName = isMale ? human.getName() : spouse.getName();
+			int motherID = !isMale ? human.getPermanentId() : spouse.getPermanentId();
+			int fatherID = isMale ? human.getPermanentId() : spouse.getPermanentId();
+
+			//Children
+			for (int i = 0; i < 2; i++)
+			{
+				if (RadixLogic.getBooleanWithProbability(66))
+				{
+					continue;
+				}
+
+				final EntityHuman child = new EntityHuman(world, RadixLogic.getBooleanWithProbability(50), true, motherName, fatherName, motherID, fatherID, false);
+				child.setPosition(pointOfSpawn.iPosX, pointOfSpawn.iPosY, pointOfSpawn.iPosZ);
+				world.spawnEntityInWorld(child);
+			}
+		}
+
+		world.spawnEntityInWorld(human);
 	}
 }
