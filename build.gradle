@@ -23,11 +23,4 @@ version = "5.0.0-triage"
 group= "com.radixshock"
 archivesBaseName = "MCA"
 
-minecraft {
-    version = "1.7.10-10.13.2.1291"
-    runDir =  "eclipse/"
-    replaceIn "mca/core/Constants.java"
-    replace   "@VERSION@", project.version
-}
-
 version = "${project.minecraft.version}-${project.version}"
