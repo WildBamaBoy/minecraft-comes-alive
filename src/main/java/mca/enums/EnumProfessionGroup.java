@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mca.core.MCA;
+import radixcore.util.NumberCycleList;
 import radixcore.util.RadixExcept;
 import radixcore.util.RadixMath;
 
@@ -74,6 +75,25 @@ public enum EnumProfessionGroup
 		}
 	}
 
+	public List<String> getSkinList(boolean isMale)
+	{
+		return isMale ? maleSkinList : femaleSkinList;
+	}
+	
+	public NumberCycleList getListOfSkinIDs(boolean isMale)
+	{
+		List<String> textureList = getSkinList(isMale);
+		List<Integer> ids = new ArrayList<Integer>();
+		
+		for (String texture : textureList)
+		{
+			int id = Integer.parseInt(texture.replaceAll("[^\\d]", ""));
+			ids.add(id);
+		}
+		
+		return NumberCycleList.fromList(ids);
+	}
+	
 	public String getMaleSkin()
 	{
 		return getSkin(true);

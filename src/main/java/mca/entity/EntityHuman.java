@@ -257,7 +257,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));
 	}
 
-	private String getRandomSkin()
+	public String getRandomSkin()
 	{
 		final EnumProfessionGroup professionGroup = EnumProfession.getProfessionById(professionId.getInt()).getSkinGroup();
 		return isMale.getBoolean() ? professionGroup.getMaleSkin() : professionGroup.getFemaleSkin();
@@ -350,7 +350,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 				player.addChatMessage(new ChatComponentText("That villager is being interacted with."));
 			}
 		}
-
+		
 		return true;
 	}
 
@@ -1248,5 +1248,31 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		return getPlayerSpouse() != player && (getProfessionGroup() == EnumProfessionGroup.Farmer || 
 				getProfessionGroup() == EnumProfessionGroup.Miner || 
 				getProfessionGroup() == EnumProfessionGroup.Guard);
+	}
+
+	public void setIsMale(boolean value) 
+	{
+		this.isMale.setValue(value);
+		this.setSkin(this.getRandomSkin());
+	}
+
+	public void setHeight(float f) 
+	{
+		this.scaleHeight.setValue(f);
+	}
+
+	public void setGirth(float f) 
+	{
+		this.scaleGirth.setValue(f);
+	}
+	
+	public void setProfessionId(int profession)
+	{
+		this.professionId.setValue(profession);
+	}
+
+	public void setPersonality(int personalityId) 
+	{
+		this.personalityId.setValue(personalityId);
 	}
 }

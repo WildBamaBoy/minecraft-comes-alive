@@ -1,6 +1,6 @@
 package mca.ai;
 
-import mca.api.ChoreRegistry;
+import mca.api.RegistryMCA;
 import mca.api.WoodcuttingEntry;
 import mca.api.exception.MappingNotFoundException;
 import mca.data.WatcherIDsHuman;
@@ -65,7 +65,7 @@ public class AIWoodcutting extends AbstractToggleAI
 		{
 			if (treeBasePoint.iPosX == 0 && treeBasePoint.iPosY == 0 && treeBasePoint.iPosZ == 0)
 			{
-				final WoodcuttingEntry apiEntry = ChoreRegistry.getWoodcuttingEntryById(apiId);
+				final WoodcuttingEntry apiEntry = RegistryMCA.getWoodcuttingEntryById(apiId);
 				
 				if (apiEntry.getLogBlock() == null) //Protect against possible NPE.
 				{
@@ -120,7 +120,7 @@ public class AIWoodcutting extends AbstractToggleAI
 				{
 					cutTimeLeft = cutInterval;
 
-					final WoodcuttingEntry apiEntry = ChoreRegistry.getWoodcuttingEntryById(apiId);
+					final WoodcuttingEntry apiEntry = RegistryMCA.getWoodcuttingEntryById(apiId);
 					final Block block = apiEntry.getLogBlock();
 					owner.worldObj.setBlock(treeBasePoint.iPosX, treeBasePoint.iPosY + yLevel, treeBasePoint.iPosZ, Blocks.air);
 					boolean addedToInventory = addItemStackToInventory(new ItemStack(block, 1, apiEntry.getLogMeta()));

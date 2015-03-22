@@ -13,6 +13,7 @@ import java.util.List;
 import mca.ai.AIConverse;
 import mca.ai.AISleep;
 import mca.client.gui.GuiInteraction;
+import mca.client.gui.GuiVillagerEditor;
 import mca.client.model.ModelHuman;
 import mca.core.Constants;
 import mca.core.MCA;
@@ -101,7 +102,12 @@ public class RenderHuman extends RenderBiped
 		final int maxHealth = (int) human.getMaxHealth();
 		final double distanceFromPlayer = RadixMath.getDistanceToEntity(human, Minecraft.getMinecraft().thePlayer);
 
-		if (currentHealth < maxHealth)
+		if (Minecraft.getMinecraft().currentScreen instanceof GuiVillagerEditor)
+		{
+			return;
+		}
+			
+		else if (currentHealth < maxHealth)
 		{
 			renderLabel(human, posX, posY, posZ, MCA.getLanguageManager().getString("label.health") + currentHealth + "/" + maxHealth);
 		}

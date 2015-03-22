@@ -2,8 +2,8 @@ package mca.ai;
 
 import java.util.Map;
 
-import mca.api.ChoreRegistry;
 import mca.api.CropEntry;
+import mca.api.RegistryMCA;
 import mca.api.enums.EnumCropCategory;
 import mca.api.exception.MappingNotFoundException;
 import mca.data.WatcherIDsHuman;
@@ -82,7 +82,7 @@ public class AIFarming extends AbstractToggleAI
 				{
 					if (!isBuildingFarm)
 					{
-						final CropEntry entry = ChoreRegistry.getCropEntryById(apiId);
+						final CropEntry entry = RegistryMCA.getCropEntryById(apiId);
 						final int y = RadixLogic.getSpawnSafeTopLevel(owner.worldObj, (int) owner.posX, (int) owner.posZ);
 						Block groundBlock = owner.worldObj.getBlock((int)owner.posX, y - 1, (int)owner.posZ);
 
@@ -131,9 +131,9 @@ public class AIFarming extends AbstractToggleAI
 
 					if (harvestTargetPoint.iPosX == 0 && harvestTargetPoint.iPosY == 0 && harvestTargetPoint.iPosZ == 0)
 					{
-						for (int id : ChoreRegistry.getCropEntryIDs())
+						for (int id : RegistryMCA.getCropEntryIDs())
 						{
-							final CropEntry entry = ChoreRegistry.getCropEntryById(id);
+							final CropEntry entry = RegistryMCA.getCropEntryById(id);
 
 							if (entry.getCategory() == EnumCropCategory.SUGARCANE)
 							{
@@ -207,7 +207,7 @@ public class AIFarming extends AbstractToggleAI
 
 					if (delta < 2.5D)
 					{
-						final CropEntry entry = ChoreRegistry.getCropEntryById(apiId);
+						final CropEntry entry = RegistryMCA.getCropEntryById(apiId);
 
 						owner.swingItem();
 						owner.damageHeldItem(2);
@@ -285,7 +285,7 @@ public class AIFarming extends AbstractToggleAI
 	{
 		try
 		{
-			final CropEntry entry = ChoreRegistry.getCropEntryById(apiId);
+			final CropEntry entry = RegistryMCA.getCropEntryById(apiId);
 
 			switch (entry.getCategory())
 			{

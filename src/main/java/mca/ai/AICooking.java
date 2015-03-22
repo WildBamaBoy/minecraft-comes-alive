@@ -1,7 +1,7 @@
 package mca.ai;
 
-import mca.api.ChoreRegistry;
 import mca.api.CookableFood;
+import mca.api.RegistryMCA;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
 import net.minecraft.block.BlockFurnace;
@@ -203,11 +203,11 @@ public class AICooking extends AbstractToggleAI
 		{
 			ItemStack stack = owner.getInventory().getStackInSlot(i);
 
-			for (final CookableFood entry : ChoreRegistry.getCookableFoodList())
+			for (final CookableFood entry : RegistryMCA.getCookableFoodList())
 			{
 				if (stack != null && stack.getItem() == entry.getFoodRaw())
 				{
-					indexOfCookingFood = ChoreRegistry.getCookableFoodList().indexOf(entry);
+					indexOfCookingFood = RegistryMCA.getCookableFoodList().indexOf(entry);
 					hasCookableFood = true;
 				}
 			}
@@ -251,7 +251,7 @@ public class AICooking extends AbstractToggleAI
 
 				else
 				{
-					CookableFood foodObj = ChoreRegistry.getCookableFoodList().get(indexOfCookingFood);
+					CookableFood foodObj = RegistryMCA.getCookableFoodList().get(indexOfCookingFood);
 					
 					if (owner.getInventory().contains(foodObj.getFoodRaw()))
 					{

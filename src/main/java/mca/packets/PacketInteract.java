@@ -3,6 +3,7 @@ package mca.packets;
 import io.netty.buffer.ByteBuf;
 import mca.ai.AIMood;
 import mca.ai.AISleep;
+import mca.api.RegistryMCA;
 import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
 import mca.core.minecraft.ModItems;
@@ -108,8 +109,9 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 			{
 				PlayerMemory memory = villager.getPlayerMemory(player);
 				memory.setHasGift(false);
-
-				//TODO Drop gift
+				
+				ItemStack stack = RegistryMCA.getGiftStackFromRelationship(memory.getHearts());
+				villager.dropItem(stack.getItem(), stack.stackSize);
 			}
 
 			else if (interaction == EnumInteraction.CHAT || interaction == EnumInteraction.JOKE || interaction == EnumInteraction.SHAKE_HAND ||

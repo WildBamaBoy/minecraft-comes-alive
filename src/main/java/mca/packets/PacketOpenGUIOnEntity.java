@@ -2,7 +2,9 @@ package mca.packets;
 
 import io.netty.buffer.ByteBuf;
 import mca.client.gui.GuiInteraction;
+import mca.client.gui.GuiVillagerEditor;
 import mca.entity.EntityHuman;
+import mca.items.ItemVillagerEditor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import radixcore.packets.AbstractPacket;
@@ -44,7 +46,16 @@ public class PacketOpenGUIOnEntity extends AbstractPacket implements IMessage, I
 		final EntityPlayer player = this.getPlayer(context);
 		final EntityHuman entity = (EntityHuman) player.worldObj.getEntityByID(packet.entityId);
 		
-		Minecraft.getMinecraft().displayGuiScreen(new GuiInteraction(entity, player));
+		if (player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem() instanceof ItemVillagerEditor)
+		{
+			Minecraft.getMinecraft().displayGuiScreen(new GuiVillagerEditor(entity, player));
+		}
+		
+		else
+		{
+			Minecraft.getMinecraft().displayGuiScreen(new GuiInteraction(entity, player));			
+		}
+		
 		return null;
 	}
 }

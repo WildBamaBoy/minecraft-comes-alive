@@ -9,9 +9,11 @@ import mca.items.ItemColoredDiamondDust;
 import mca.items.ItemColoredEngagementRing;
 import mca.items.ItemCrystalBall;
 import mca.items.ItemCutRingColored;
+import mca.items.ItemGemCutter;
 import mca.items.ItemSpawnEgg;
 import mca.items.ItemTombstone;
 import mca.items.ItemVillagerBed;
+import mca.items.ItemVillagerEditor;
 import mca.items.ItemWhistle;
 import net.minecraft.item.Item;
 import radixcore.item.ItemColorable;
@@ -40,12 +42,20 @@ public final class ModItems
 	public static Item roseGoldIngot;
 	
 	//Second tab
+	public static ItemGemCutter gemCutter;
 	public static Item diamondHeart;
 	public static Item diamondTiny;
 	public static Item diamondOval;
 	public static Item diamondSquare;
 	public static Item diamondTriangle;
 	public static Item diamondStar;
+	
+	public static ItemSingle heartMold;
+	public static ItemSingle tinyMold;
+	public static ItemSingle ovalMold;
+	public static ItemSingle squareMold;
+	public static ItemSingle triangleMold;
+	public static ItemSingle starMold;
 	
 	public static ItemColoredDiamond coloredDiamond;
 	public static ItemColoredDiamond coloredDiamondHeart;
@@ -87,9 +97,9 @@ public final class ModItems
 	public static ItemCutRingColored ringStarColoredRG;
 	
 	public static ItemTombstone tombstone;
-	
 	public static ItemWhistle whistle;
-//	public static final Item villagerEditor;
+	public static ItemVillagerEditor villagerEditor;
+	
 //	public static final Item lostRelativeDocument;
 	
 	/*
@@ -121,6 +131,14 @@ public final class ModItems
 		engagementRingTriangleRG.setCreativeTab(MCA.getCreativeTabGemCutting());
 		engagementRingStar.setCreativeTab(MCA.getCreativeTabGemCutting());
 		engagementRingStarRG.setCreativeTab(MCA.getCreativeTabGemCutting());
+		
+		gemCutter = new ItemGemCutter();
+		heartMold.setCreativeTab(MCA.getCreativeTabGemCutting());
+		tinyMold.setCreativeTab(MCA.getCreativeTabGemCutting());
+		ovalMold.setCreativeTab(MCA.getCreativeTabGemCutting());
+		squareMold.setCreativeTab(MCA.getCreativeTabGemCutting());
+		triangleMold.setCreativeTab(MCA.getCreativeTabGemCutting());
+		starMold.setCreativeTab(MCA.getCreativeTabGemCutting());
 		
 		diamondHeart.setCreativeTab(MCA.getCreativeTabGemCutting());
 		diamondTiny.setCreativeTab(MCA.getCreativeTabGemCutting());
@@ -169,5 +187,6 @@ public final class ModItems
 		ringStarColoredRG = new ItemCutRingColored(EnumCut.STAR, true);
 		
 		tombstone = new ItemTombstone();
+		villagerEditor = new ItemVillagerEditor();
 	}
 }

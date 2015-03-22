@@ -13,9 +13,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import mca.api.enums.EnumGiftCategory;
 import mca.api.exception.MappingNotFoundException;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 /**
  * <p>The main registry used by MCA to manage what items will be used 
@@ -27,7 +29,7 @@ import net.minecraft.item.Item;
  * <p>All methods prefixed with <code>get</code> will return 
  * unmodifiable lists containing the objects already registered with a particular chore.
  */
-public final class ChoreRegistry 
+public final class RegistryMCA 
 {
 	public static final Random rand = new Random();
 	
@@ -38,7 +40,11 @@ public final class ChoreRegistry
 	private static final List<Class> huntingKillableEntities = new ArrayList<Class>();
 	private static final List<Class> huntingTameableEntities = new ArrayList<Class>();
 	private static final List<CookableFood> cookableFood = new ArrayList<CookableFood>();
-
+	private static final List<WeddingGift> villagerGiftsBad = new ArrayList<WeddingGift>();
+	private static final List<WeddingGift> villagerGiftsGood = new ArrayList<WeddingGift>();
+	private static final List<WeddingGift> villagerGiftsBetter = new ArrayList<WeddingGift>();
+	private static final List<WeddingGift> villagerGiftsBest = new ArrayList<WeddingGift>();
+	
 	/**
 	 * Adds the provided object to the map of gifts and gift values.
 	 * 
@@ -122,7 +128,7 @@ public final class ChoreRegistry
 	}
 
 	/**
-	 * @see 	ChoreRegistry#addEntityToHuntingAI(Class)
+	 * @see 	RegistryMCA#addEntityToHuntingAI(Class)
 	 * 
 	 * @param	isKillable	Whether or not this entity is killable. 
 	 * 						False will mean this entity will only appear 
@@ -273,6 +279,48 @@ public final class ChoreRegistry
 		return returnList;
 	}
 
+	public static void addWeddingGift(WeddingGift gift, EnumGiftCategory category)
+	{
+		switch (category)
+		{
+		case BAD: villagerGiftsBad.add(gift); break;
+		case BEST: villagerGiftsBest.add(gift); break;
+		case BETTER: villagerGiftsBetter.add(gift); break;
+		case GOOD: villagerGiftsGood.add(gift); break;
+		default:
+			break;
+		}
+	}
+	
+	public static ItemStack getGiftStackFromRelationship(int heartsLevel)
+	{
+		List<WeddingGift> giftList = null;
+		
+		if (heartsLevel < 0)
+		{
+			giftList = villagerGiftsBad;
+		}
+		
+		else if (heartsLevel >= 0 && heartsLevel <= 25)
+		{
+			giftList = villagerGiftsGood;
+		}
+		
+		else if (heartsLevel > 25 && heartsLevel <= 50)
+		{
+			giftList = villagerGiftsBetter;
+		}
+		
+		else
+		{
+			giftList = villagerGiftsBest;
+		}
+		
+		Random rand = new Random();
+		WeddingGift giftEntry = giftList.get(rand.nextInt(giftList.size()));
+		return new ItemStack(giftEntry.getItem(), rand.nextInt(giftEntry.getMaximum() - giftEntry.getMinimum() + 1) + giftEntry.getMinimum());
+	}
+	
 	private static <K, V> void putIfNotDuplicate(Map<K, V> map, K key, V value)
 	{
 		if (map.containsKey(key))
@@ -304,7 +352,7 @@ public final class ChoreRegistry
 		return null;
 	}
 
-	private ChoreRegistry()
+	private RegistryMCA()
 	{
 	}
 }

@@ -4,11 +4,13 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import mca.api.ChoreRegistry;
 import mca.api.CookableFood;
 import mca.api.CropEntry;
+import mca.api.RegistryMCA;
+import mca.api.WeddingGift;
 import mca.api.WoodcuttingEntry;
 import mca.api.enums.EnumCropCategory;
+import mca.api.enums.EnumGiftCategory;
 import mca.command.CommandMCA;
 import mca.core.forge.EventHooksFML;
 import mca.core.forge.EventHooksForge;
@@ -20,6 +22,7 @@ import mca.core.minecraft.ModItems;
 import mca.core.radix.LanguageParser;
 import mca.data.PlayerData;
 import mca.entity.EntityHuman;
+import mca.enums.EnumCut;
 import mca.enums.EnumProfession;
 import mca.network.MCAPacketHandler;
 import mca.tile.TileTombstone;
@@ -35,11 +38,13 @@ import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.oredict.OreDictionary;
 
 import org.apache.logging.log4j.Logger;
 
@@ -163,6 +168,21 @@ public class MCA
     			"III", "I I", "III", 'I', Items.iron_ingot);
     	GameRegistry.addRecipe(new ItemStack(ModItems.tombstone),
     			" S ", "SIS", "SSS", 'S', Blocks.stone, 'I', Items.sign);
+    	GameRegistry.addRecipe(new ItemStack(ModItems.gemCutter),
+    			"  G", "IG ", "DI ", 'G', Items.gold_ingot, 'I', Items.iron_ingot, 'D', Items.diamond);
+    	GameRegistry.addRecipe(new ItemStack(ModItems.heartMold),
+    			"CCC", "C C", " C ", 'C', Items.clay_ball);
+    	GameRegistry.addRecipe(new ItemStack(ModItems.tinyMold),
+    			" C ", "C C", " C ", 'C', Items.clay_ball);
+    	GameRegistry.addRecipe(new ItemStack(ModItems.ovalMold),
+    			"CCC", "   ", "CCC", 'C', Items.clay_ball);    	
+    	GameRegistry.addRecipe(new ItemStack(ModItems.squareMold),
+    			"CCC", "C C", "CCC", 'C', Items.clay_ball);    	
+    	GameRegistry.addRecipe(new ItemStack(ModItems.triangleMold),
+    			" C ", "C C", "CCC", 'C', Items.clay_ball);    	
+    	GameRegistry.addRecipe(new ItemStack(ModItems.starMold),
+    			" C ", "CCC", " C ", 'C', Items.clay_ball);
+    	
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondDust), Items.diamond);
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedRed), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 14));
@@ -193,8 +213,70 @@ public class MCA
 	    			"GDG", "G G", "GGG", 'D', coloredDiamond, 'G', ModItems.roseGoldIngot);
 	    	
 	    	GameRegistry.addSmelting(coloredDiamondDust, coloredDiamond, 5.0F);
+	    	
+			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.coloredDiamondHeart, 1, i), new ItemStack(ModItems.heartMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), coloredDiamond);
+			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.coloredDiamondOval, 1, i), new ItemStack(ModItems.ovalMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), coloredDiamond);
+			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.coloredDiamondSquare, 1, i), new ItemStack(ModItems.squareMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), coloredDiamond);
+			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.coloredDiamondTriangle, 1, i), new ItemStack(ModItems.triangleMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), coloredDiamond);
+			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.coloredDiamondStar, 1, i), new ItemStack(ModItems.starMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), coloredDiamond);
+			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.coloredDiamondTiny, 1, i), new ItemStack(ModItems.tinyMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), coloredDiamond);
 		}
 		
+		//Cut diamond recipes
+		for (EnumCut cut : EnumCut.values())
+		{
+			Item cutItem = null;
+			Item ringItem = null;
+			Item ringRGItem = null;
+			
+			switch (cut)
+			{
+			case HEART: 
+				cutItem = ModItems.coloredDiamondHeart; 
+				ringItem = ModItems.ringHeartColored;
+				ringRGItem = ModItems.ringHeartColoredRG;
+				break;
+			case OVAL: 
+				cutItem = ModItems.coloredDiamondOval; 
+				ringItem = ModItems.ringOvalColored;
+				ringRGItem = ModItems.ringOvalColoredRG;
+				break;
+			case SQUARE: 
+				cutItem = ModItems.coloredDiamondSquare; 
+				ringItem = ModItems.ringSquareColored;
+				ringRGItem = ModItems.ringSquareColoredRG;
+				break;
+			case STAR: 
+				cutItem = ModItems.coloredDiamondStar; 
+				ringItem = ModItems.ringStarColored;
+				ringRGItem = ModItems.ringStarColoredRG;
+				break;
+			case TINY: 
+				cutItem = ModItems.coloredDiamondTiny; 
+				ringItem = ModItems.ringTinyColored;
+				ringRGItem = ModItems.ringTinyColoredRG;
+				break;
+			case TRIANGLE: 
+				cutItem = ModItems.coloredDiamondTriangle; 
+				ringItem = ModItems.ringTriangleColored;
+				ringRGItem = ModItems.ringTriangleColoredRG;
+				break;
+			default:
+				continue;
+			}
+			
+			//All colors
+			for (int i = 0; i < 16; ++i)
+			{
+				ItemStack stack = new ItemStack(cutItem, 1, i);
+				
+		    	GameRegistry.addRecipe(new ItemStack(ringItem, 1, i), 
+		    			"GDG", "G G", "GGG", 'D', stack, 'G', Items.gold_ingot);
+		    	GameRegistry.addRecipe(new ItemStack(ringRGItem, 1, i), 
+		    			"GDG", "G G", "GGG", 'D', stack, 'G', ModItems.roseGoldIngot);
+			}
+		}
+			
     	//Smeltings
     	GameRegistry.addSmelting(ModBlocks.roseGoldOre, new ItemStack(ModItems.roseGoldIngot), 5.0F);
     	GameRegistry.addSmelting(ModItems.diamondDust, new ItemStack(Items.diamond), 5.0F);
@@ -205,164 +287,235 @@ public class MCA
     @EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-    	ChoreRegistry.addObjectAsGift(Items.wooden_sword, 3);
-		ChoreRegistry.addObjectAsGift(Items.wooden_axe, 3);
-		ChoreRegistry.addObjectAsGift(Items.wooden_hoe, 3);
-		ChoreRegistry.addObjectAsGift(Items.wooden_shovel, 3);
-		ChoreRegistry.addObjectAsGift(Items.stone_sword, 5);
-		ChoreRegistry.addObjectAsGift(Items.stone_axe, 5);
-		ChoreRegistry.addObjectAsGift(Items.stone_hoe, 5);
-		ChoreRegistry.addObjectAsGift(Items.stone_shovel, 5);
-		ChoreRegistry.addObjectAsGift(Items.wooden_pickaxe, 3);
-		ChoreRegistry.addObjectAsGift(Items.beef, 2);
-		ChoreRegistry.addObjectAsGift(Items.chicken, 2);
-		ChoreRegistry.addObjectAsGift(Items.porkchop, 2);
-		ChoreRegistry.addObjectAsGift(Items.leather, 2);
-		ChoreRegistry.addObjectAsGift(Items.leather_chestplate, 5);
-		ChoreRegistry.addObjectAsGift(Items.leather_helmet, 5);
-		ChoreRegistry.addObjectAsGift(Items.leather_leggings, 5);
-		ChoreRegistry.addObjectAsGift(Items.leather_boots, 5);
-		ChoreRegistry.addObjectAsGift(Items.reeds, 2);
-		ChoreRegistry.addObjectAsGift(Items.wheat_seeds, 2);
-		ChoreRegistry.addObjectAsGift(Items.wheat, 3);
-		ChoreRegistry.addObjectAsGift(Items.bread, 6);
-		ChoreRegistry.addObjectAsGift(Items.coal, 5);
-		ChoreRegistry.addObjectAsGift(Items.sugar, 5);
-		ChoreRegistry.addObjectAsGift(Items.clay_ball, 2);
-		ChoreRegistry.addObjectAsGift(Items.dye, 1);
-		ChoreRegistry.addObjectAsGift(Items.cooked_beef, 7);
-		ChoreRegistry.addObjectAsGift(Items.cooked_chicken, 7);
-		ChoreRegistry.addObjectAsGift(Items.cooked_porkchop, 7);
-		ChoreRegistry.addObjectAsGift(Items.cookie, 10);
-		ChoreRegistry.addObjectAsGift(Items.melon, 10);
-		ChoreRegistry.addObjectAsGift(Items.melon_seeds, 5);
-		ChoreRegistry.addObjectAsGift(Items.iron_helmet, 10);
-		ChoreRegistry.addObjectAsGift(Items.iron_chestplate, 10);
-		ChoreRegistry.addObjectAsGift(Items.iron_leggings, 10);
-		ChoreRegistry.addObjectAsGift(Items.iron_boots, 10);
-		ChoreRegistry.addObjectAsGift(Items.cake, 12);
-		ChoreRegistry.addObjectAsGift(Items.iron_sword, 10);
-		ChoreRegistry.addObjectAsGift(Items.iron_axe, 10);
-		ChoreRegistry.addObjectAsGift(Items.iron_hoe, 10);
-		ChoreRegistry.addObjectAsGift(Items.iron_pickaxe, 10);
-		ChoreRegistry.addObjectAsGift(Items.iron_shovel, 10);
-		ChoreRegistry.addObjectAsGift(Items.fishing_rod, 3);
-		ChoreRegistry.addObjectAsGift(Items.bow, 5);
-		ChoreRegistry.addObjectAsGift(Items.book, 5);
-		ChoreRegistry.addObjectAsGift(Items.bucket, 3);
-		ChoreRegistry.addObjectAsGift(Items.milk_bucket, 5);
-		ChoreRegistry.addObjectAsGift(Items.water_bucket, 2);
-		ChoreRegistry.addObjectAsGift(Items.lava_bucket, 2);
-		ChoreRegistry.addObjectAsGift(Items.mushroom_stew, 5);
-		ChoreRegistry.addObjectAsGift(Items.pumpkin_seeds, 8);
-		ChoreRegistry.addObjectAsGift(Items.flint_and_steel, 4);
-		ChoreRegistry.addObjectAsGift(Items.redstone, 5);
-		ChoreRegistry.addObjectAsGift(Items.boat, 4);
-		ChoreRegistry.addObjectAsGift(Items.wooden_door, 4);
-		ChoreRegistry.addObjectAsGift(Items.iron_door, 6);
-		ChoreRegistry.addObjectAsGift(Items.minecart, 7);
-		ChoreRegistry.addObjectAsGift(Items.flint, 2);
-		ChoreRegistry.addObjectAsGift(Items.gold_nugget, 4);
-		ChoreRegistry.addObjectAsGift(Items.gold_ingot, 20);
-		ChoreRegistry.addObjectAsGift(Items.iron_ingot, 10);
-		ChoreRegistry.addObjectAsGift(Items.diamond, 30);
-		ChoreRegistry.addObjectAsGift(Items.map, 10);
-		ChoreRegistry.addObjectAsGift(Items.clock, 5);
-		ChoreRegistry.addObjectAsGift(Items.compass, 5);
-		ChoreRegistry.addObjectAsGift(Items.blaze_rod, 10);
-		ChoreRegistry.addObjectAsGift(Items.blaze_powder, 5);
-		ChoreRegistry.addObjectAsGift(Items.diamond_sword, 15);
-		ChoreRegistry.addObjectAsGift(Items.diamond_axe, 15);
-		ChoreRegistry.addObjectAsGift(Items.diamond_shovel, 15);
-		ChoreRegistry.addObjectAsGift(Items.diamond_hoe, 15);
-		ChoreRegistry.addObjectAsGift(Items.diamond_leggings, 15);
-		ChoreRegistry.addObjectAsGift(Items.diamond_helmet, 15);
-		ChoreRegistry.addObjectAsGift(Items.diamond_chestplate, 15);
-		ChoreRegistry.addObjectAsGift(Items.diamond_leggings, 15);
-		ChoreRegistry.addObjectAsGift(Items.diamond_boots, 15);
-		ChoreRegistry.addObjectAsGift(Items.painting, 6);
-		ChoreRegistry.addObjectAsGift(Items.ender_pearl, 5);
-		ChoreRegistry.addObjectAsGift(Items.ender_eye, 10);
-		ChoreRegistry.addObjectAsGift(Items.potionitem, 3);
-		ChoreRegistry.addObjectAsGift(Items.slime_ball, 3);
-		ChoreRegistry.addObjectAsGift(Items.saddle, 5);
-		ChoreRegistry.addObjectAsGift(Items.gunpowder, 7);
-		ChoreRegistry.addObjectAsGift(Items.golden_apple, 25);
-		ChoreRegistry.addObjectAsGift(Items.record_11, 15);
-		ChoreRegistry.addObjectAsGift(Items.record_13, 15);
-		ChoreRegistry.addObjectAsGift(Items.record_wait, 15);
-		ChoreRegistry.addObjectAsGift(Items.record_cat, 15);
-		ChoreRegistry.addObjectAsGift(Items.record_chirp, 15);
-		ChoreRegistry.addObjectAsGift(Items.record_far, 15);
-		ChoreRegistry.addObjectAsGift(Items.record_mall, 15);
-		ChoreRegistry.addObjectAsGift(Items.record_mellohi, 15);
-		ChoreRegistry.addObjectAsGift(Items.record_stal, 15);
-		ChoreRegistry.addObjectAsGift(Items.record_strad, 15);
-		ChoreRegistry.addObjectAsGift(Items.record_ward, 15);
-		ChoreRegistry.addObjectAsGift(Items.emerald, 25);
-		ChoreRegistry.addObjectAsGift(Blocks.red_flower, 5);
-		ChoreRegistry.addObjectAsGift(Blocks.yellow_flower, 5);
-		ChoreRegistry.addObjectAsGift(Blocks.planks, 5);
-		ChoreRegistry.addObjectAsGift(Blocks.log, 3);
-		ChoreRegistry.addObjectAsGift(Blocks.pumpkin, 3);
-		ChoreRegistry.addObjectAsGift(Blocks.chest, 5);
-		ChoreRegistry.addObjectAsGift(Blocks.wool, 2);
-		ChoreRegistry.addObjectAsGift(Blocks.iron_ore, 4);
-		ChoreRegistry.addObjectAsGift(Blocks.gold_ore, 7);
-		ChoreRegistry.addObjectAsGift(Blocks.redstone_ore, 3);
-		ChoreRegistry.addObjectAsGift(Blocks.rail, 3);
-		ChoreRegistry.addObjectAsGift(Blocks.detector_rail, 5);
-		ChoreRegistry.addObjectAsGift(Blocks.activator_rail, 5);
-		ChoreRegistry.addObjectAsGift(Blocks.furnace, 5);
-		ChoreRegistry.addObjectAsGift(Blocks.crafting_table, 5);
-		ChoreRegistry.addObjectAsGift(Blocks.lapis_block, 15);
-		ChoreRegistry.addObjectAsGift(Blocks.bookshelf, 7);
-		ChoreRegistry.addObjectAsGift(Blocks.gold_block, 50);
-		ChoreRegistry.addObjectAsGift(Blocks.iron_block, 25);
-		ChoreRegistry.addObjectAsGift(Blocks.diamond_block, 100);
-		ChoreRegistry.addObjectAsGift(Blocks.brewing_stand, 12);
-		ChoreRegistry.addObjectAsGift(Blocks.enchanting_table, 25);
-		ChoreRegistry.addObjectAsGift(Blocks.brick_block, 15);
-		ChoreRegistry.addObjectAsGift(Blocks.obsidian, 15);
-		ChoreRegistry.addObjectAsGift(Blocks.piston, 10);
-		ChoreRegistry.addObjectAsGift(Blocks.glowstone, 10);
-		ChoreRegistry.addObjectAsGift(Blocks.emerald_block, 100);
+    	RegistryMCA.addObjectAsGift(Items.wooden_sword, 3);
+		RegistryMCA.addObjectAsGift(Items.wooden_axe, 3);
+		RegistryMCA.addObjectAsGift(Items.wooden_hoe, 3);
+		RegistryMCA.addObjectAsGift(Items.wooden_shovel, 3);
+		RegistryMCA.addObjectAsGift(Items.stone_sword, 5);
+		RegistryMCA.addObjectAsGift(Items.stone_axe, 5);
+		RegistryMCA.addObjectAsGift(Items.stone_hoe, 5);
+		RegistryMCA.addObjectAsGift(Items.stone_shovel, 5);
+		RegistryMCA.addObjectAsGift(Items.wooden_pickaxe, 3);
+		RegistryMCA.addObjectAsGift(Items.beef, 2);
+		RegistryMCA.addObjectAsGift(Items.chicken, 2);
+		RegistryMCA.addObjectAsGift(Items.porkchop, 2);
+		RegistryMCA.addObjectAsGift(Items.leather, 2);
+		RegistryMCA.addObjectAsGift(Items.leather_chestplate, 5);
+		RegistryMCA.addObjectAsGift(Items.leather_helmet, 5);
+		RegistryMCA.addObjectAsGift(Items.leather_leggings, 5);
+		RegistryMCA.addObjectAsGift(Items.leather_boots, 5);
+		RegistryMCA.addObjectAsGift(Items.reeds, 2);
+		RegistryMCA.addObjectAsGift(Items.wheat_seeds, 2);
+		RegistryMCA.addObjectAsGift(Items.wheat, 3);
+		RegistryMCA.addObjectAsGift(Items.bread, 6);
+		RegistryMCA.addObjectAsGift(Items.coal, 5);
+		RegistryMCA.addObjectAsGift(Items.sugar, 5);
+		RegistryMCA.addObjectAsGift(Items.clay_ball, 2);
+		RegistryMCA.addObjectAsGift(Items.dye, 1);
+		RegistryMCA.addObjectAsGift(Items.cooked_beef, 7);
+		RegistryMCA.addObjectAsGift(Items.cooked_chicken, 7);
+		RegistryMCA.addObjectAsGift(Items.cooked_porkchop, 7);
+		RegistryMCA.addObjectAsGift(Items.cookie, 10);
+		RegistryMCA.addObjectAsGift(Items.melon, 10);
+		RegistryMCA.addObjectAsGift(Items.melon_seeds, 5);
+		RegistryMCA.addObjectAsGift(Items.iron_helmet, 10);
+		RegistryMCA.addObjectAsGift(Items.iron_chestplate, 10);
+		RegistryMCA.addObjectAsGift(Items.iron_leggings, 10);
+		RegistryMCA.addObjectAsGift(Items.iron_boots, 10);
+		RegistryMCA.addObjectAsGift(Items.cake, 12);
+		RegistryMCA.addObjectAsGift(Items.iron_sword, 10);
+		RegistryMCA.addObjectAsGift(Items.iron_axe, 10);
+		RegistryMCA.addObjectAsGift(Items.iron_hoe, 10);
+		RegistryMCA.addObjectAsGift(Items.iron_pickaxe, 10);
+		RegistryMCA.addObjectAsGift(Items.iron_shovel, 10);
+		RegistryMCA.addObjectAsGift(Items.fishing_rod, 3);
+		RegistryMCA.addObjectAsGift(Items.bow, 5);
+		RegistryMCA.addObjectAsGift(Items.book, 5);
+		RegistryMCA.addObjectAsGift(Items.bucket, 3);
+		RegistryMCA.addObjectAsGift(Items.milk_bucket, 5);
+		RegistryMCA.addObjectAsGift(Items.water_bucket, 2);
+		RegistryMCA.addObjectAsGift(Items.lava_bucket, 2);
+		RegistryMCA.addObjectAsGift(Items.mushroom_stew, 5);
+		RegistryMCA.addObjectAsGift(Items.pumpkin_seeds, 8);
+		RegistryMCA.addObjectAsGift(Items.flint_and_steel, 4);
+		RegistryMCA.addObjectAsGift(Items.redstone, 5);
+		RegistryMCA.addObjectAsGift(Items.boat, 4);
+		RegistryMCA.addObjectAsGift(Items.wooden_door, 4);
+		RegistryMCA.addObjectAsGift(Items.iron_door, 6);
+		RegistryMCA.addObjectAsGift(Items.minecart, 7);
+		RegistryMCA.addObjectAsGift(Items.flint, 2);
+		RegistryMCA.addObjectAsGift(Items.gold_nugget, 4);
+		RegistryMCA.addObjectAsGift(Items.gold_ingot, 20);
+		RegistryMCA.addObjectAsGift(Items.iron_ingot, 10);
+		RegistryMCA.addObjectAsGift(Items.diamond, 30);
+		RegistryMCA.addObjectAsGift(Items.map, 10);
+		RegistryMCA.addObjectAsGift(Items.clock, 5);
+		RegistryMCA.addObjectAsGift(Items.compass, 5);
+		RegistryMCA.addObjectAsGift(Items.blaze_rod, 10);
+		RegistryMCA.addObjectAsGift(Items.blaze_powder, 5);
+		RegistryMCA.addObjectAsGift(Items.diamond_sword, 15);
+		RegistryMCA.addObjectAsGift(Items.diamond_axe, 15);
+		RegistryMCA.addObjectAsGift(Items.diamond_shovel, 15);
+		RegistryMCA.addObjectAsGift(Items.diamond_hoe, 15);
+		RegistryMCA.addObjectAsGift(Items.diamond_leggings, 15);
+		RegistryMCA.addObjectAsGift(Items.diamond_helmet, 15);
+		RegistryMCA.addObjectAsGift(Items.diamond_chestplate, 15);
+		RegistryMCA.addObjectAsGift(Items.diamond_leggings, 15);
+		RegistryMCA.addObjectAsGift(Items.diamond_boots, 15);
+		RegistryMCA.addObjectAsGift(Items.painting, 6);
+		RegistryMCA.addObjectAsGift(Items.ender_pearl, 5);
+		RegistryMCA.addObjectAsGift(Items.ender_eye, 10);
+		RegistryMCA.addObjectAsGift(Items.potionitem, 3);
+		RegistryMCA.addObjectAsGift(Items.slime_ball, 3);
+		RegistryMCA.addObjectAsGift(Items.saddle, 5);
+		RegistryMCA.addObjectAsGift(Items.gunpowder, 7);
+		RegistryMCA.addObjectAsGift(Items.golden_apple, 25);
+		RegistryMCA.addObjectAsGift(Items.record_11, 15);
+		RegistryMCA.addObjectAsGift(Items.record_13, 15);
+		RegistryMCA.addObjectAsGift(Items.record_wait, 15);
+		RegistryMCA.addObjectAsGift(Items.record_cat, 15);
+		RegistryMCA.addObjectAsGift(Items.record_chirp, 15);
+		RegistryMCA.addObjectAsGift(Items.record_far, 15);
+		RegistryMCA.addObjectAsGift(Items.record_mall, 15);
+		RegistryMCA.addObjectAsGift(Items.record_mellohi, 15);
+		RegistryMCA.addObjectAsGift(Items.record_stal, 15);
+		RegistryMCA.addObjectAsGift(Items.record_strad, 15);
+		RegistryMCA.addObjectAsGift(Items.record_ward, 15);
+		RegistryMCA.addObjectAsGift(Items.emerald, 25);
+		RegistryMCA.addObjectAsGift(Blocks.red_flower, 5);
+		RegistryMCA.addObjectAsGift(Blocks.yellow_flower, 5);
+		RegistryMCA.addObjectAsGift(Blocks.planks, 5);
+		RegistryMCA.addObjectAsGift(Blocks.log, 3);
+		RegistryMCA.addObjectAsGift(Blocks.pumpkin, 3);
+		RegistryMCA.addObjectAsGift(Blocks.chest, 5);
+		RegistryMCA.addObjectAsGift(Blocks.wool, 2);
+		RegistryMCA.addObjectAsGift(Blocks.iron_ore, 4);
+		RegistryMCA.addObjectAsGift(Blocks.gold_ore, 7);
+		RegistryMCA.addObjectAsGift(Blocks.redstone_ore, 3);
+		RegistryMCA.addObjectAsGift(Blocks.rail, 3);
+		RegistryMCA.addObjectAsGift(Blocks.detector_rail, 5);
+		RegistryMCA.addObjectAsGift(Blocks.activator_rail, 5);
+		RegistryMCA.addObjectAsGift(Blocks.furnace, 5);
+		RegistryMCA.addObjectAsGift(Blocks.crafting_table, 5);
+		RegistryMCA.addObjectAsGift(Blocks.lapis_block, 15);
+		RegistryMCA.addObjectAsGift(Blocks.bookshelf, 7);
+		RegistryMCA.addObjectAsGift(Blocks.gold_block, 50);
+		RegistryMCA.addObjectAsGift(Blocks.iron_block, 25);
+		RegistryMCA.addObjectAsGift(Blocks.diamond_block, 100);
+		RegistryMCA.addObjectAsGift(Blocks.brewing_stand, 12);
+		RegistryMCA.addObjectAsGift(Blocks.enchanting_table, 25);
+		RegistryMCA.addObjectAsGift(Blocks.brick_block, 15);
+		RegistryMCA.addObjectAsGift(Blocks.obsidian, 15);
+		RegistryMCA.addObjectAsGift(Blocks.piston, 10);
+		RegistryMCA.addObjectAsGift(Blocks.glowstone, 10);
+		RegistryMCA.addObjectAsGift(Blocks.emerald_block, 100);
 		
-		ChoreRegistry.addBlockToMiningAI(1, Blocks.coal_ore);
-		ChoreRegistry.addBlockToMiningAI(2, Blocks.iron_ore);
-		ChoreRegistry.addBlockToMiningAI(3, Blocks.lapis_ore);
-		ChoreRegistry.addBlockToMiningAI(4, Blocks.gold_ore);
-		ChoreRegistry.addBlockToMiningAI(5, Blocks.diamond_ore);
-		ChoreRegistry.addBlockToMiningAI(6, Blocks.emerald_ore);
-		ChoreRegistry.addBlockToMiningAI(7, Blocks.quartz_ore);
-		ChoreRegistry.addBlockToMiningAI(8, ModBlocks.roseGoldOre);
+		RegistryMCA.addBlockToMiningAI(1, Blocks.coal_ore);
+		RegistryMCA.addBlockToMiningAI(2, Blocks.iron_ore);
+		RegistryMCA.addBlockToMiningAI(3, Blocks.lapis_ore);
+		RegistryMCA.addBlockToMiningAI(4, Blocks.gold_ore);
+		RegistryMCA.addBlockToMiningAI(5, Blocks.diamond_ore);
+		RegistryMCA.addBlockToMiningAI(6, Blocks.emerald_ore);
+		RegistryMCA.addBlockToMiningAI(7, Blocks.quartz_ore);
+		RegistryMCA.addBlockToMiningAI(8, ModBlocks.roseGoldOre);
 		
-		ChoreRegistry.addBlockToWoodcuttingAI(1, new WoodcuttingEntry(Blocks.log, 0, Blocks.sapling, 0));
-		ChoreRegistry.addBlockToWoodcuttingAI(2, new WoodcuttingEntry(Blocks.log, 1, Blocks.sapling, 1));
-		ChoreRegistry.addBlockToWoodcuttingAI(3, new WoodcuttingEntry(Blocks.log, 2, Blocks.sapling, 2));
-		ChoreRegistry.addBlockToWoodcuttingAI(4, new WoodcuttingEntry(Blocks.log, 3, Blocks.sapling, 3));
-		ChoreRegistry.addBlockToWoodcuttingAI(5, new WoodcuttingEntry(Blocks.log2, 0, Blocks.sapling, 4));
-		ChoreRegistry.addBlockToWoodcuttingAI(6, new WoodcuttingEntry(Blocks.log2, 1, Blocks.sapling, 5));
+		RegistryMCA.addBlockToWoodcuttingAI(1, new WoodcuttingEntry(Blocks.log, 0, Blocks.sapling, 0));
+		RegistryMCA.addBlockToWoodcuttingAI(2, new WoodcuttingEntry(Blocks.log, 1, Blocks.sapling, 1));
+		RegistryMCA.addBlockToWoodcuttingAI(3, new WoodcuttingEntry(Blocks.log, 2, Blocks.sapling, 2));
+		RegistryMCA.addBlockToWoodcuttingAI(4, new WoodcuttingEntry(Blocks.log, 3, Blocks.sapling, 3));
+		RegistryMCA.addBlockToWoodcuttingAI(5, new WoodcuttingEntry(Blocks.log2, 0, Blocks.sapling, 4));
+		RegistryMCA.addBlockToWoodcuttingAI(6, new WoodcuttingEntry(Blocks.log2, 1, Blocks.sapling, 5));
 		
-		ChoreRegistry.addEntityToHuntingAI(EntitySheep.class);
-		ChoreRegistry.addEntityToHuntingAI(EntityCow.class);
-		ChoreRegistry.addEntityToHuntingAI(EntityPig.class);
-		ChoreRegistry.addEntityToHuntingAI(EntityChicken.class);
-		ChoreRegistry.addEntityToHuntingAI(EntityOcelot.class, false);
-		ChoreRegistry.addEntityToHuntingAI(EntityWolf.class, false);
+		RegistryMCA.addEntityToHuntingAI(EntitySheep.class);
+		RegistryMCA.addEntityToHuntingAI(EntityCow.class);
+		RegistryMCA.addEntityToHuntingAI(EntityPig.class);
+		RegistryMCA.addEntityToHuntingAI(EntityChicken.class);
+		RegistryMCA.addEntityToHuntingAI(EntityOcelot.class, false);
+		RegistryMCA.addEntityToHuntingAI(EntityWolf.class, false);
 		
-		ChoreRegistry.addFoodToCookingAI(new CookableFood(Items.porkchop, Items.cooked_porkchop));
-		ChoreRegistry.addFoodToCookingAI(new CookableFood(Items.beef, Items.cooked_beef));
-		ChoreRegistry.addFoodToCookingAI(new CookableFood(Items.chicken, Items.cooked_chicken));
-		ChoreRegistry.addFoodToCookingAI(new CookableFood(Items.fish, Items.cooked_fished));
-		ChoreRegistry.addFoodToCookingAI(new CookableFood(Items.potato, Items.baked_potato));
+		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.porkchop, Items.cooked_porkchop));
+		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.beef, Items.cooked_beef));
+		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.chicken, Items.cooked_chicken));
+		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.fish, Items.cooked_fished));
+		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.potato, Items.baked_potato));
 		
-		ChoreRegistry.addCropToFarmingAI(1, new CropEntry(EnumCropCategory.WHEAT, Blocks.wheat, Items.wheat_seeds, Blocks.wheat, 7, Items.wheat, 1, 4));
-		ChoreRegistry.addCropToFarmingAI(2, new CropEntry(EnumCropCategory.WHEAT, Blocks.potatoes, Items.potato, Blocks.potatoes, 7, Items.potato, 1, 4));
-		ChoreRegistry.addCropToFarmingAI(3, new CropEntry(EnumCropCategory.WHEAT, Blocks.carrots, Items.carrot, Blocks.carrots, 7, Items.carrot, 1, 4));
-		ChoreRegistry.addCropToFarmingAI(4, new CropEntry(EnumCropCategory.MELON, Blocks.melon_stem, Items.melon_seeds, Blocks.melon_block, 0, Items.melon, 2, 6));
-		ChoreRegistry.addCropToFarmingAI(5, new CropEntry(EnumCropCategory.MELON, Blocks.pumpkin_stem, Items.pumpkin_seeds, Blocks.pumpkin, 0, null, 1, 1));
-		ChoreRegistry.addCropToFarmingAI(6, new CropEntry(EnumCropCategory.SUGARCANE, Blocks.reeds, Items.reeds, Blocks.reeds, 0, Items.reeds, 1, 1));
+		RegistryMCA.addCropToFarmingAI(1, new CropEntry(EnumCropCategory.WHEAT, Blocks.wheat, Items.wheat_seeds, Blocks.wheat, 7, Items.wheat, 1, 4));
+		RegistryMCA.addCropToFarmingAI(2, new CropEntry(EnumCropCategory.WHEAT, Blocks.potatoes, Items.potato, Blocks.potatoes, 7, Items.potato, 1, 4));
+		RegistryMCA.addCropToFarmingAI(3, new CropEntry(EnumCropCategory.WHEAT, Blocks.carrots, Items.carrot, Blocks.carrots, 7, Items.carrot, 1, 4));
+		RegistryMCA.addCropToFarmingAI(4, new CropEntry(EnumCropCategory.MELON, Blocks.melon_stem, Items.melon_seeds, Blocks.melon_block, 0, Items.melon, 2, 6));
+		RegistryMCA.addCropToFarmingAI(5, new CropEntry(EnumCropCategory.MELON, Blocks.pumpkin_stem, Items.pumpkin_seeds, Blocks.pumpkin, 0, null, 1, 1));
+		RegistryMCA.addCropToFarmingAI(6, new CropEntry(EnumCropCategory.SUGARCANE, Blocks.reeds, Items.reeds, Blocks.reeds, 0, Items.reeds, 1, 1));
+		
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.dirt, 1, 6), EnumGiftCategory.BAD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.deadbush, 1, 1), EnumGiftCategory.BAD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.cactus, 1, 3), EnumGiftCategory.BAD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.stick, 1, 4), EnumGiftCategory.BAD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.rotten_flesh, 1, 4), EnumGiftCategory.BAD);
+		
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.clay_ball, 4, 16), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.stone_axe, 1, 1), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.stone_sword, 1, 1), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.stone_shovel, 1, 1), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.apple, 1, 4), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.arrow, 8, 16), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.stone_pickaxe, 1, 1), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.book, 1, 2), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.redstone, 8, 32), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.cooked_porkchop, 3, 6), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.cooked_beef, 3, 6), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.cooked_chicken, 3, 6), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.bread, 1, 3), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.planks, 2, 16), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.log, 2, 16), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.cobblestone, 2, 16), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.coal, 2, 8), EnumGiftCategory.GOOD);
+		
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.clay_ball, 16, 32), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.iron_axe, 1, 1), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.iron_sword, 1, 1), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.iron_shovel, 1, 1), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.arrow, 16, 32), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.iron_pickaxe, 1, 1), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.redstone, 8, 32), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.cooked_porkchop, 6, 8), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.cooked_beef, 6, 8), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.cooked_chicken, 6, 8), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.planks, 16, 32), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.log, 16, 32), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.cobblestone, 16, 32), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.coal, 10, 16), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.iron_helmet, 1, 1), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.iron_chestplate, 1, 1), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.iron_boots, 1, 1), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.iron_leggings, 1, 1), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.melon, 4, 8), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.bookshelf, 2, 4), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.iron_ingot, 8, 16), EnumGiftCategory.BETTER);
+		
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.brick_block, 32, 32), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.diamond_axe, 1, 1), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.diamond_sword, 1, 1), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.diamond_shovel, 1, 1), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.arrow, 64, 64), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.diamond_pickaxe, 1, 1), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.planks, 32, 64), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.log, 32, 64), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.cobblestone, 32, 64), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.coal, 32, 64), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.diamond_leggings, 1, 1), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.diamond_helmet, 1, 1), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.diamond_boots, 1, 1), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.diamond_chestplate, 1, 1), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.ender_eye, 4, 8), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.enchanting_table, 1, 1), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.mossy_cobblestone, 32, 64), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.diamond, 8, 16), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.jukebox, 1, 1), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.diamond_block, 1, 2), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.gold_block, 1, 4), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.iron_block, 1, 8), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.obsidian, 4, 8), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.emerald, 4, 6), EnumGiftCategory.BEST);
     }
     
     @EventHandler

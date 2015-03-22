@@ -59,8 +59,8 @@ public final class CropEntry
 	public ItemStack[] getStacksOnHarvest()
 	{
 		ItemStack[] returnArray = new ItemStack[2];
-		int seedAmount = ChoreRegistry.rand.nextInt(2) + 1;
-		int cropAmount = ChoreRegistry.rand.nextInt(maxYield) + minYield;
+		int seedAmount = RegistryMCA.rand.nextInt(2) + 1;
+		int cropAmount = RegistryMCA.rand.nextInt(maxYield) + minYield;
 		
 		if (altHarvestItem != null)
 		{

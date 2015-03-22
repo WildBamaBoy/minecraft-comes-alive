@@ -15,8 +15,8 @@ import mca.ai.AIIdle;
 import mca.ai.AIMood;
 import mca.ai.AIProcreate;
 import mca.ai.AISleep;
-import mca.api.ChoreRegistry;
 import mca.api.CropEntry;
+import mca.api.RegistryMCA;
 import mca.api.WoodcuttingEntry;
 import mca.api.exception.MappingNotFoundException;
 import mca.core.MCA;
@@ -87,9 +87,9 @@ public class GuiInteraction extends GuiScreen
 		this.player = player;
 		this.playerData = MCA.getPlayerData(player);
 		this.radiusMappings = NumberCycleList.fromIntegers(5, 10, 15, 20, 25);
-		this.farmingMappings = NumberCycleList.fromList(ChoreRegistry.getCropEntryIDs());
-		this.woodcuttingMappings = NumberCycleList.fromList(ChoreRegistry.getWoodcuttingBlockIDs());
-		this.miningMappings = NumberCycleList.fromList(ChoreRegistry.getMiningBlockIDs());
+		this.farmingMappings = NumberCycleList.fromList(RegistryMCA.getCropEntryIDs());
+		this.woodcuttingMappings = NumberCycleList.fromList(RegistryMCA.getWoodcuttingBlockIDs());
+		this.miningMappings = NumberCycleList.fromList(RegistryMCA.getMiningBlockIDs());
 		this.hireLengths = NumberCycleList.fromIntegers(3);
 	}
 
@@ -774,12 +774,12 @@ public class GuiInteraction extends GuiScreen
 
 		try
 		{
-			entry = ChoreRegistry.getCropEntryById(farmingMappings.get());
+			entry = RegistryMCA.getCropEntryById(farmingMappings.get());
 		}
 
 		catch (MappingNotFoundException e)
 		{
-			entry = ChoreRegistry.getDefaultCropEntry();
+			entry = RegistryMCA.getDefaultCropEntry();
 		}
 
 		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
@@ -815,7 +815,7 @@ public class GuiInteraction extends GuiScreen
 
 		try
 		{
-			block = ChoreRegistry.getNotifyBlockById(miningMappings.get());
+			block = RegistryMCA.getNotifyBlockById(miningMappings.get());
 		}
 
 		catch (MappingNotFoundException e)
@@ -847,12 +847,12 @@ public class GuiInteraction extends GuiScreen
 
 		try
 		{
-			entry = ChoreRegistry.getWoodcuttingEntryById(woodcuttingMappings.get());
+			entry = RegistryMCA.getWoodcuttingEntryById(woodcuttingMappings.get());
 		}
 
 		catch (MappingNotFoundException e)
 		{
-			entry = ChoreRegistry.getDefaultWoodcuttingEntry();
+			entry = RegistryMCA.getDefaultWoodcuttingEntry();
 		}
 
 		String treeText = MCA.getLanguageManager().getString("gui.button.woodcutting.logtype", new ItemStack(entry.getLogBlock(), 1, entry.getLogMeta()).getDisplayName());

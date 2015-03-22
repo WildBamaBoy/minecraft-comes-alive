@@ -86,6 +86,14 @@ item.tombstone.name=Tombstone
 tile.roseGoldOre.name=Rose Gold Ore
 tile.roseGoldBlock.name=Rose Gold Block
 item.whistle.name=Whistle
+item.villagereditor.name=Villager Editor
+item.GemCutter.name=Gem Cutter
+item.HeartMold.name=Heart Mold
+item.TinyMold.name=Tiny Mold
+item.OvalMold.name=Oval Mold
+item.SquareMold.name=Square Mold
+item.TriangleMold.name=Triangle Mold
+item.StarMold.name=Star Mold
 
 #######
 # Item Information
@@ -615,6 +623,7 @@ gift.cake3=Finally, something that will help my marriage...
 gui.button.exit=Exit
 gui.button.back=Back
 gui.button.adoptbaby=Adopt Baby
+gui.button.next=Next
 
 ################
 # Dialogue
@@ -747,11 +756,14 @@ gui.button.length=Length: %a1% hour(s)
 gui.button.accept=Accept
 gui.button.divorcespouse=Divorce Spouse
 gui.button.resetbaby=Reset Baby
+gui.button.setup.gender.false=Gender: Female
+gui.button.setup.gender.true=Gender: Male
 
 gui.title.namebaby.male=It's a boy!
 gui.title.namebaby.female=It's a girl!
 gui.title.namebaby=Name your baby:
 gui.title.tombstone=Enter tombstone text:
+gui.title.editor=Villager Editor
 
 gui.info.family.married=Married to %a1%.
 gui.info.family.engaged=Engaged to %a1%.

@@ -97,6 +97,23 @@ public enum EnumProfession
 		return MCA.getLanguageManager().getString(getLocalizationId());
 	}
 
+	public EnumProfessionGroup getSkinGroup()
+	{
+		return skinGroup;
+	}
+
+	public static List<Integer> getListOfIds()
+	{
+		List<Integer> returnList = new ArrayList<Integer>();
+		
+		for (EnumProfession profession : EnumProfession.values())
+		{
+			returnList.add(profession.id);
+		}
+		
+		return returnList;
+	}
+	
 	private String getLocalizationId()
 	{
 		switch (this)
@@ -138,10 +155,5 @@ public enum EnumProfession
 		}
 
 		return "";
-	}
-
-	public EnumProfessionGroup getSkinGroup()
-	{
-		return skinGroup;
 	}
 }

@@ -4,7 +4,7 @@ import io.netty.buffer.ByteBuf;
 import mca.ai.AIGrow;
 import mca.ai.AIMood;
 import mca.ai.AIProgressStory;
-import mca.api.ChoreRegistry;
+import mca.api.RegistryMCA;
 import mca.core.MCA;
 import mca.core.VersionBridge;
 import mca.core.minecraft.ModAchievements;
@@ -397,7 +397,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 	{
 		final PlayerMemory memory = human.getPlayerMemory(player);
 		final Object queryObject = stack.getItem() instanceof ItemBlock ? Block.getBlockFromItem(stack.getItem()) : stack.getItem();
-		final int giftValue = ChoreRegistry.getGiftMap().containsKey(queryObject) ? ChoreRegistry.getGiftMap().get(queryObject) : -5;
+		final int giftValue = RegistryMCA.getGiftMap().containsKey(queryObject) ? RegistryMCA.getGiftMap().get(queryObject) : -5;
 
 		final int heartsModify = RadixMath.clamp(giftValue - (memory.getInteractionFatigue() * 4), -5, Integer.MAX_VALUE);
 		final String giftType = heartsModify <= 0 ? "bad" : heartsModify <= 5 ? "good" : heartsModify <= 10 ? "better" : "best";

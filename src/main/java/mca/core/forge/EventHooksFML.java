@@ -10,6 +10,7 @@ import mca.data.PlayerData;
 import mca.entity.EntityHuman;
 import mca.enums.EnumProfession;
 import mca.enums.EnumProfessionGroup;
+import mca.items.ItemGemCutter;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -203,6 +204,23 @@ public class EventHooksFML
 				|| craftedItem == ModItems.coloredDiamondStar || craftedItem == ModItems.coloredDiamondTiny || craftedItem == ModItems.coloredDiamondTriangle)
 		{
 			player.triggerAchievement(ModAchievements.craftShapedDiamond);
+			
+			for (int i = 0; i < event.craftMatrix.getSizeInventory(); i++)
+			{
+				ItemStack stack = event.craftMatrix.getStackInSlot(i);
+				
+				if (stack != null && stack.getItem() instanceof ItemGemCutter)
+				{
+					stack.attemptDamageItem(1, event.player.getRNG());
+					
+					if (stack.getItemDamage() < stack.getMaxDamage())
+					{
+						event.player.inventory.addItemStackToInventory(stack);
+					}
+					
+					break;
+				}
+			}
 		}
 
 		else if (craftedItem == ModItems.engagementRingHeart || craftedItem == ModItems.engagementRingOval || craftedItem == ModItems.engagementRingSquare

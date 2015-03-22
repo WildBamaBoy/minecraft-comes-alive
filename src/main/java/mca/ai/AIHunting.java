@@ -2,7 +2,7 @@ package mca.ai;
 
 import java.util.List;
 
-import mca.api.ChoreRegistry;
+import mca.api.RegistryMCA;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
 import mca.enums.EnumMovementState;
@@ -106,7 +106,7 @@ public class AIHunting extends AbstractToggleAI
 				{
 					try
 					{
-						final Class entityClass = ChoreRegistry.getRandomHuntingEntity(isTaming);
+						final Class entityClass = RegistryMCA.getRandomHuntingEntity(isTaming);
 						final EntityLiving entity = (EntityLiving)entityClass.getDeclaredConstructor(World.class).newInstance(owner.worldObj);
 						final List<Point3D> nearbyGrass = RadixLogic.getNearbyBlocks(owner, Blocks.grass, 3);
 						final Point3D spawnPoint = nearbyGrass.get(owner.worldObj.rand.nextInt(nearbyGrass.size()));

@@ -2,7 +2,7 @@ package mca.ai;
 
 import java.util.List;
 
-import mca.api.ChoreRegistry;
+import mca.api.RegistryMCA;
 import mca.api.exception.MappingNotFoundException;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
@@ -104,12 +104,12 @@ public class AIMining extends AbstractToggleAI
 
 						if (getSpecialOre)
 						{
-							List<Integer> miningBlockIDs = ChoreRegistry.getMiningBlockIDs();
+							List<Integer> miningBlockIDs = RegistryMCA.getMiningBlockIDs();
 							int id = miningBlockIDs.get(RadixMath.getNumberInRange(0, miningBlockIDs.size()));
 
 							try
 							{
-								Block block = ChoreRegistry.getNotifyBlockById(id);
+								Block block = RegistryMCA.getNotifyBlockById(id);
 								addStack = new ItemStack(block);
 							}
 
@@ -141,7 +141,7 @@ public class AIMining extends AbstractToggleAI
 				{
 					activityInterval = SEARCH_INTERVAL;
 
-					final Block notifyBlock = ChoreRegistry.getNotifyBlockById(idOfNotifyBlock);
+					final Block notifyBlock = RegistryMCA.getNotifyBlockById(idOfNotifyBlock);
 					final Point3D ownerPos = new Point3D(owner.posX, owner.posY, owner.posZ);
 					int distanceToBlock = -1;
 
@@ -238,7 +238,7 @@ public class AIMining extends AbstractToggleAI
 	public void startSearching(EntityPlayer assigningPlayer, Block searchBlock)
 	{
 		this.assigningPlayer = assigningPlayer.getPersistentID().toString();
-		this.idOfNotifyBlock = ChoreRegistry.getIdOfNotifyBlock(searchBlock);
+		this.idOfNotifyBlock = RegistryMCA.getIdOfNotifyBlock(searchBlock);
 		this.isGathering = false;
 		this.isAIActive.setValue(true);
 		this.activityInterval = SEARCH_INTERVAL;

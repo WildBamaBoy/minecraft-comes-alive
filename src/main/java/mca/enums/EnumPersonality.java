@@ -76,6 +76,18 @@ public enum EnumPersonality
 		return validList.get(new Random().nextInt(validList.size()));
 	}
 
+	public static List<Integer> getListOfIds()
+	{
+		List<Integer> returnList = new ArrayList<Integer>();
+		
+		for (EnumPersonality personality : EnumPersonality.values())
+		{
+			returnList.add(personality.id);
+		}
+		
+		return returnList;
+	}
+	
 	public String getFriendlyName()
 	{
 		String name = "personality." + this.name().toLowerCase();
