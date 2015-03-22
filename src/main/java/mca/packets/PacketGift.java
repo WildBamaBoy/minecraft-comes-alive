@@ -96,7 +96,17 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				removeCount = 2;
 			}
 
-			else if (item == ModItems.engagementRing || item == ModItems.weddingRingRG || item == ModItems.coloredEngagementRingRG || item == ModItems.coloredEngagementRing || item == ModItems.engagementRingRG)
+			else if (item == ModItems.engagementRing || 
+					item == ModItems.weddingRingRG 
+					|| item == ModItems.coloredEngagementRingRG || item == ModItems.coloredEngagementRing || item == ModItems.engagementRingRG 
+					|| item == ModItems.engagementRingHeart || item == ModItems.engagementRingOval 
+					|| item == ModItems.engagementRingSquare || item == ModItems.engagementRingStar || item == ModItems.engagementRingTiny || item == ModItems.engagementRingTriangle
+					|| item == ModItems.ringHeartColored || item == ModItems.ringOvalColored || item == ModItems.ringSquareColored
+					|| item == ModItems.ringStarColored || item == ModItems.ringTinyColored || item == ModItems.ringTriangleColored
+					|| item == ModItems.engagementRingHeartRG || item == ModItems.engagementRingOvalRG || item == ModItems.engagementRingSquareRG
+					|| item == ModItems.engagementRingStarRG || item == ModItems.engagementRingTinyRG || item == ModItems.engagementRingTriangleRG
+					|| item == ModItems.ringHeartColoredRG || item == ModItems.ringOvalColoredRG || item == ModItems.ringSquareColoredRG
+					|| item == ModItems.ringStarColoredRG || item == ModItems.ringTinyColoredRG || item == ModItems.ringTriangleColoredRG)
 			{
 				removeItem = handleEngagementRing(player, human);
 			}
