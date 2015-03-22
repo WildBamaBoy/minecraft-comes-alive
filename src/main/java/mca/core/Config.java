@@ -43,7 +43,7 @@ public final class Config
 
 	public boolean showMoodParticles;
 	public boolean showNameTagOnHover;
-	public boolean showVillagerConversations;
+	public boolean showVillagerConversations = false; //TODO
 	public boolean modifyFemaleBody;
 	public boolean allowBlinking;
 	
@@ -94,7 +94,7 @@ public final class Config
 		config.setCategoryComment("Graphics", "All graphics-related settings are located here.");
 		showMoodParticles = config.get("Graphics", "Show mood particles", true, "True if you want for particles to appear around villagers if they are in a certain mood").getBoolean();
 		showNameTagOnHover = config.get("Graphics", "Show name tag on hover", true, "True if you want a villager's name to appear above their head when you hover over them.").getBoolean();
-		showVillagerConversations = config.get("Graphics", "Show villager conversations", true, "True if you want to see any conversations a villager may have with another villager.").getBoolean();
+		//showVillagerConversations = config.get("Graphics", "Show villager conversations", true, "True if you want to see any conversations a villager may have with another villager.").getBoolean();
 		modifyFemaleBody = config.get("Graphics", "Modify female body", true, "True if you want a female villager to render with breasts, curves, etc.").getBoolean();
 		allowBlinking = config.get("Graphics", "Allow blinking", true, "True if you want to see villagers blink their eyes at random.").getBoolean();
 		
