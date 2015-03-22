@@ -19,7 +19,7 @@ apply plugin: 'forge'
 
 fileTree('gradle').include('*.gradle').collect().sort().each { apply from: it }
 
-version = "5.0.0-triage"
+version = "5.0.0-beta"
 group= "com.radixshock"
 archivesBaseName = "MCA"
 
