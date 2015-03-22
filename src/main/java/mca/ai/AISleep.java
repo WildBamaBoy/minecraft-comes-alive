@@ -7,6 +7,7 @@ import mca.blocks.BlockVillagerBed;
 import mca.core.Constants;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
+import mca.enums.EnumMovementState;
 import mca.enums.EnumProfessionGroup;
 import mca.enums.EnumSleepingState;
 import mca.tile.TileVillagerBed;
@@ -87,7 +88,7 @@ public class AISleep extends AbstractAI
 		//Going to sleep at night
 		if (!isSleeping.getBoolean() && !owner.worldObj.isDaytime() && sleepingState != EnumSleepingState.INTERRUPTED)
 		{
-			if (owner.getAIManager().isToggleAIActive())
+			if (owner.getAIManager().isToggleAIActive() || owner.getMovementState() == EnumMovementState.FOLLOW || owner.ridingEntity != null)
 			{
 				setSleepingState(EnumSleepingState.INTERRUPTED);
 			}

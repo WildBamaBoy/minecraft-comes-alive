@@ -62,7 +62,10 @@ public enum EnumInteraction
 	DIVORCE(1001, "divorce"),
 	HAVEBABY(1002, "havebaby"),
 	ASKTOMARRY_ACCEPT(1003, "asktomarryaccept"),
-	HAVEBABY_ACCEPT(1004, "havebabyaccept");
+	HAVEBABY_ACCEPT(1004, "havebabyaccept"), 
+	
+	RESETBABY(1101, "resetbaby"),
+	ADOPTBABY(1102, "adoptbaby");
 	
 	private int id;
 	private String name;

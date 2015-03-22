@@ -50,7 +50,7 @@ public class AIMood extends AbstractAI
 			switch (owner.getPersonality().getMoodGroup())
 			{
 			case GENERAL:
-				particles = moodLevel > 0 ? Particle.HAPPY : Particle.DRIPPING_WATER; break;
+				particles = moodLevel > 0 ? Particle.HAPPY : Particle.SPLASH; break;
 			case PLAYFUL:
 				particles = moodLevel > 0 ? Particle.HAPPY : Particle.POTION_EFFECT; break;
 			case SERIOUS:

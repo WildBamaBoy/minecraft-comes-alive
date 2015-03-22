@@ -4,6 +4,7 @@ import java.util.Map;
 
 import mca.api.ChoreRegistry;
 import mca.api.CropEntry;
+import mca.api.enums.EnumCropCategory;
 import mca.api.exception.MappingNotFoundException;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
@@ -30,6 +31,7 @@ public class AIFarming extends AbstractToggleAI
 	private Point3D harvestTargetPoint;
 	private int apiId;
 	private int radius;
+	private int seedsRequired;
 	private int activityInterval;
 	private boolean doCreate;
 	private boolean isBuildingFarm;
@@ -82,8 +84,32 @@ public class AIFarming extends AbstractToggleAI
 					{
 						final CropEntry entry = ChoreRegistry.getCropEntryById(apiId);
 						final int y = RadixLogic.getSpawnSafeTopLevel(owner.worldObj, (int) owner.posX, (int) owner.posZ);
-						final Block groundBlock = owner.worldObj.getBlock((int)owner.posX, y - 1, (int)owner.posZ);
-						owner.getAI(AIBuild.class).startBuilding(schematic, true, groundBlock, entry);
+						Block groundBlock = owner.worldObj.getBlock((int)owner.posX, y - 1, (int)owner.posZ);
+
+						if (groundBlock != Blocks.grass || groundBlock != Blocks.sand || groundBlock != Blocks.dirt)
+						{
+							groundBlock = Blocks.grass;
+						}
+
+						boolean canStart = owner.getAI(AIBuild.class).startBuilding(schematic, true, groundBlock, entry);
+
+						if (canStart)
+						{
+							owner.getInventory().removeCountOfItem(entry.getSeedItem(), seedsRequired);
+						}
+
+						else
+						{
+							EntityPlayer assigningPlayer = this.getAssigningPlayer();
+
+							if (assigningPlayer != null)
+							{
+								owner.say("build.fail.tooclose", assigningPlayer);
+							}
+
+							reset();
+							return;
+						}
 
 						isBuildingFarm = true;
 					}
@@ -92,6 +118,7 @@ public class AIFarming extends AbstractToggleAI
 					{
 						if (!owner.getAI(AIBuild.class).getIsActive())
 						{
+							owner.damageHeldItem(30);
 							isBuildingFarm = false;
 							reset();
 						}
@@ -107,18 +134,68 @@ public class AIFarming extends AbstractToggleAI
 						for (int id : ChoreRegistry.getCropEntryIDs())
 						{
 							final CropEntry entry = ChoreRegistry.getCropEntryById(id);
-							harvestTargetPoint = RadixLogic.getFirstNearestBlockWithMeta(owner, entry.getHarvestBlock(), entry.getHarvestBlockMeta(), radius);
-							
-							if (harvestTargetPoint == null)
+
+							if (entry.getCategory() == EnumCropCategory.SUGARCANE)
 							{
-								harvestTargetPoint = Point3D.ZERO;
-								continue;
+								Point3D nearestHarvest = RadixLogic.getFirstNearestBlockWithMeta(owner, entry.getHarvestBlock(), entry.getHarvestBlockMeta(), radius);
+
+								if (nearestHarvest == null)
+								{
+									harvestTargetPoint = Point3D.ZERO;
+									continue;
+								}
+
+								else
+								{
+									int yMod = 0;
+
+									//Move y down until ground is found.
+									while (owner.worldObj.getBlock(nearestHarvest.iPosX, nearestHarvest.iPosY + yMod, nearestHarvest.iPosZ) != Blocks.grass 
+											&& owner.worldObj.getBlock(nearestHarvest.iPosX, nearestHarvest.iPosY + yMod, nearestHarvest.iPosZ) != Blocks.dirt)
+									{
+										yMod--;
+
+										if (yMod < -10) //Avoid any potential of an infinite loop.
+										{
+											reset();
+											break;
+										}
+									}
+
+									//Bump up the harvest point by two, since the harvestable crop should be two above the ground block.
+									Point3D modHarvestPoint = new Point3D(nearestHarvest.iPosX, nearestHarvest.iPosY + yMod + 2, nearestHarvest.iPosZ);
+									
+									//Make sure the harvest block is there, then assign the harvest point.
+									if (owner.worldObj.getBlock(modHarvestPoint.iPosX, modHarvestPoint.iPosY, modHarvestPoint.iPosZ) == entry.getHarvestBlock())
+									{
+										harvestTargetPoint = modHarvestPoint;
+										apiId = id;
+										break;
+									}
+									
+									else
+									{
+										harvestTargetPoint = Point3D.ZERO;
+										continue;
+									}
+								}
 							}
 
 							else
 							{
-								apiId = id;
-								break;
+								harvestTargetPoint = RadixLogic.getFirstNearestBlockWithMeta(owner, entry.getHarvestBlock(), entry.getHarvestBlockMeta(), radius);
+
+								if (harvestTargetPoint == null)
+								{
+									harvestTargetPoint = Point3D.ZERO;
+									continue;
+								}
+
+								else
+								{
+									apiId = id;
+									break;
+								}
 							}
 						}
 					}
@@ -131,11 +208,21 @@ public class AIFarming extends AbstractToggleAI
 					if (delta < 2.5D)
 					{
 						final CropEntry entry = ChoreRegistry.getCropEntryById(apiId);
-						
-						owner.swingItem();
-						owner.worldObj.setBlock(harvestTargetPoint.iPosX, harvestTargetPoint.iPosY - 1, harvestTargetPoint.iPosZ, Blocks.farmland);
-						owner.worldObj.setBlock(harvestTargetPoint.iPosX, harvestTargetPoint.iPosY, harvestTargetPoint.iPosZ, entry.getCropBlock());
 
+						owner.swingItem();
+						owner.damageHeldItem(2);
+						
+						if (entry.getCategory() != EnumCropCategory.SUGARCANE)
+						{
+							owner.worldObj.setBlock(harvestTargetPoint.iPosX, harvestTargetPoint.iPosY - 1, harvestTargetPoint.iPosZ, Blocks.farmland);
+							owner.worldObj.setBlock(harvestTargetPoint.iPosX, harvestTargetPoint.iPosY, harvestTargetPoint.iPosZ, entry.getCropBlock());
+						}
+						
+						else
+						{
+							owner.worldObj.setBlock(harvestTargetPoint.iPosX, harvestTargetPoint.iPosY, harvestTargetPoint.iPosZ, Blocks.air);
+						}
+						
 						for (ItemStack stack : entry.getStacksOnHarvest())
 						{
 							if (stack != null)
@@ -163,6 +250,7 @@ public class AIFarming extends AbstractToggleAI
 	public void reset() 
 	{
 		isAIActive.setValue(false);
+		seedsRequired = 0;
 	}
 
 	@Override
@@ -207,7 +295,7 @@ public class AIFarming extends AbstractToggleAI
 			}
 
 			Map<Point3D, BlockObj> schematicData = SchematicHandler.readSchematic(schematic);
-			int seedsRequired = SchematicHandler.countOccurencesOfBlockObj(schematicData, new BlockObj(Blocks.wool, entry.getCategory().getReferenceMeta()));
+			seedsRequired = SchematicHandler.countOccurencesOfBlockObj(schematicData, new BlockObj(Blocks.wool, entry.getCategory().getReferenceMeta()));
 
 			if (doCreate && !owner.getInventory().containsCountOf(entry.getSeedItem(), seedsRequired))
 			{
@@ -223,6 +311,7 @@ public class AIFarming extends AbstractToggleAI
 
 			//Assign arguments.
 			this.assigningPlayer = player != null ? player.getUniqueID().toString() : "none";
+			this.activityInterval = 0;
 			this.apiId = apiId;
 			this.radius = radius;
 			this.doCreate = doCreate;
@@ -231,11 +320,8 @@ public class AIFarming extends AbstractToggleAI
 			this.farmCreatedFlag = false;
 			this.isBuildingFarm = false;
 			this.isAIActive.setValue(true);
-
-			if (seedsRequired > 0)
-			{
-				owner.getInventory().removeCountOfItem(entry.getSeedItem(), seedsRequired);
-			}
+			
+			owner.setHeldItem(owner.getInventory().getBestItemOfType(ItemHoe.class).getItem());
 		}
 
 		catch (MappingNotFoundException e)

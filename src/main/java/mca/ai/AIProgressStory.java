@@ -20,13 +20,15 @@ public class AIProgressStory extends AbstractAI
 	private boolean isDominant;
 	private EnumProgressionStep progressionStep;
 
+	private boolean forceNextProgress;
+	
 	public AIProgressStory(EntityHuman entityHuman) 
 	{
 		super(entityHuman);
 
 		isDominant = true;
 		ticksUntilNextProgress = MCA.getConfig().storyProgressionRate;
-		progressionStep = EnumProgressionStep.SEARCH_FOR_PARTNER;
+		setProgressionStep(EnumProgressionStep.SEARCH_FOR_PARTNER);
 	}
 
 	@Override
@@ -45,7 +47,7 @@ public class AIProgressStory extends AbstractAI
 		//This AI starts working once the story progression threshold defined in the configuration file has been met.
 		if (owner.getTicksAlive() >= MCA.getConfig().storyProgressionThreshold * Time.MINUTE && isDominant && !owner.getIsChild())
 		{
-			if (ticksUntilNextProgress <= 0)
+			if (ticksUntilNextProgress <= 0 || forceNextProgress)
 			{
 				ticksUntilNextProgress = MCA.getConfig().storyProgressionRate * Time.MINUTE;
 
@@ -84,7 +86,7 @@ public class AIProgressStory extends AbstractAI
 	{
 		owner.setTicksAlive(0);
 		ticksUntilNextProgress = MCA.getConfig().storyProgressionRate;
-		progressionStep = EnumProgressionStep.SEARCH_FOR_PARTNER;
+		setProgressionStep(EnumProgressionStep.SEARCH_FOR_PARTNER);
 		isDominant = true;
 	}
 
@@ -105,21 +107,27 @@ public class AIProgressStory extends AbstractAI
 		babyAge = nbt.getInteger("babyAge");
 		isDominant = nbt.getBoolean("isDominant");
 		numChildren = nbt.getInteger("numChildren");
-		progressionStep = EnumProgressionStep.getFromId(nbt.getInteger("progressionStep"));
+		setProgressionStep(EnumProgressionStep.getFromId(nbt.getInteger("progressionStep")));
 	}
 
 	private void doPartnerSearch()
 	{
 		EntityHuman partner = (EntityHuman) RadixLogic.getNearestEntityOfTypeWithinDistance(EntityHuman.class, owner, 15);
 
-		if (partner != null && partner.getIsMale() != owner.getIsMale() 
-				&& !partner.getIsMarried() && !partner.getIsEngaged() && !partner.getIsChild() 
-				&& (partner.getFatherId() != owner.getFatherId() || partner.getMotherId() != owner.getMotherId()))
+		boolean partnerIsValid = partner != null 
+				&& partner.getIsMale() != owner.getIsMale() 
+				&& !partner.getIsMarried() 
+				&& !partner.getIsEngaged() 
+				&& !partner.getIsChild() 
+				&& (partner.getFatherId() == -1 || partner.getFatherId() != owner.getFatherId()) 
+				&& (partner.getMotherId() == -1 || partner.getMotherId() != owner.getMotherId());
+		
+		if (partnerIsValid)
 		{
 			//Set the other human's story progression appropriately.
 			AIProgressStory mateAI = getMateAI(partner);
-			progressionStep = EnumProgressionStep.TRY_FOR_BABY;
-			mateAI.progressionStep = EnumProgressionStep.TRY_FOR_BABY;
+			setProgressionStep(EnumProgressionStep.TRY_FOR_BABY);
+			mateAI.setProgressionStep(EnumProgressionStep.TRY_FOR_BABY);
 
 			//Set the dominant story progressor.
 			if (owner.getIsMale())
@@ -147,8 +155,8 @@ public class AIProgressStory extends AbstractAI
 		if (RadixLogic.getBooleanWithProbability(50) && mate != null && RadixMath.getDistanceToEntity(owner, mate) <= 8.5D)
 		{
 			AIProgressStory mateAI = getMateAI(owner.getVillagerSpouse());
-			progressionStep = EnumProgressionStep.HAD_BABY;
-			mateAI.progressionStep = EnumProgressionStep.HAD_BABY;
+			setProgressionStep(EnumProgressionStep.HAD_BABY);
+			mateAI.setProgressionStep(EnumProgressionStep.HAD_BABY);
 
 			VersionBridge.spawnParticlesAroundEntityS("heart", owner, 16);
 			VersionBridge.spawnParticlesAroundEntityS("heart", mate, 16);
@@ -195,23 +203,23 @@ public class AIProgressStory extends AbstractAI
 			//Reset self and mate status
 			owner.setBabyState(EnumBabyState.NONE);
 			babyAge = 0;
-			progressionStep = EnumProgressionStep.FINISHED;
+			setProgressionStep(EnumProgressionStep.FINISHED);
 
 			if (mate != null)
 			{
 				AIProgressStory mateAI = getMateAI(mate);
-				mateAI.progressionStep = EnumProgressionStep.FINISHED;
+				mateAI.setProgressionStep(EnumProgressionStep.FINISHED);
 			}
 
 			//Generate chance of trying for another baby, if mate is found.
 			if (numChildren < 4 && RadixLogic.getBooleanWithProbability(50) && mate != null)
 			{
 				AIProgressStory mateAI = getMateAI(mate);
-				mateAI.progressionStep = EnumProgressionStep.TRY_FOR_BABY;
+				mateAI.setProgressionStep(EnumProgressionStep.TRY_FOR_BABY);
 				mateAI.isDominant = true;
 
 				isDominant = false;
-				progressionStep = EnumProgressionStep.TRY_FOR_BABY;
+				setProgressionStep(EnumProgressionStep.TRY_FOR_BABY);
 			}
 		}
 	}
@@ -229,10 +237,21 @@ public class AIProgressStory extends AbstractAI
 	public void setProgressionStep(EnumProgressionStep step)
 	{
 		this.progressionStep = step;
+		this.forceNextProgress = false;
+	}
+	
+	public EnumProgressionStep getProgressionStep()
+	{
+		return this.progressionStep;
 	}
 	
 	public void setDominant(boolean value)
 	{
 		this.isDominant = value;
+	}
+	
+	public void setForceNextProgress(boolean value)
+	{
+		this.forceNextProgress = value;
 	}
 }

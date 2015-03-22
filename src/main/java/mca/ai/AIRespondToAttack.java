@@ -1,7 +1,6 @@
 package mca.ai;
 
 import mca.core.Constants;
-import mca.core.MCA;
 import mca.entity.EntityHuman;
 import mca.enums.EnumPersonality;
 import net.minecraft.entity.Entity;
@@ -149,7 +148,7 @@ public class AIRespondToAttack extends AbstractAI
 
 			else
 			{
-				owner.say(MCA.getLanguageManager().getString("behavior.retaliate.begin"), player);
+				owner.say("behavior.retaliate.begin", player);
 
 				isRetaliating = true;
 				targetPlayerName = player.getCommandSenderName();
@@ -177,7 +176,7 @@ public class AIRespondToAttack extends AbstractAI
 
 	private void handlePlayerWithWeapon()
 	{
-		owner.say(MCA.getLanguageManager().getString("behavior.retaliate.weapondrawn"), (EntityPlayer)target);
+		owner.say("behavior.retaliate.weapondrawn", (EntityPlayer)target);
 		reset();
 	}
 

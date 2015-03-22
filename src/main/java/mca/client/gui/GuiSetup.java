@@ -70,7 +70,7 @@ public class GuiSetup extends GuiScreen
 		int x = Mouse.getEventX() * width / mc.displayWidth;
 		int y = height - Mouse.getEventY() * height / mc.displayHeight - 1;
 
-		if (x >= 17 && x <= 155 && y >= 200 && y <= 234)
+		if (x >= 312 && x <= 437 && y >= 200 && y <= 234)
 		{
 			patreonSelected = true;
 		}
@@ -94,7 +94,7 @@ public class GuiSetup extends GuiScreen
 			GL11.glScaled(0.90D, 0.50D, 1.0D);
 			
 			String patreonTexture = patreonSelected ? "mca:textures/patreon-selected.png" : "mca:textures/patreon.png";
-			RenderHelper.drawTexturedRectangle(new ResourceLocation(patreonTexture), width / 2 - 180, height / 2 + 1500, 0, 0, 255, 250);
+			RenderHelper.drawTexturedRectangle(new ResourceLocation(patreonTexture), width / 2 + 390, height / 2 + 1500, 0, 0, 255, 250);
 		}
 		GL11.glPopMatrix();
 
@@ -175,6 +175,7 @@ public class GuiSetup extends GuiScreen
 	{
 		switch (button.id)
 		{
+		case 0: page--; break;
 		case 1: case 2: 					page = 2; break;
 		case 3: case 4: case 5: 			page = 3; break;
 		case 6: 							page = 4; break;
@@ -223,6 +224,11 @@ public class GuiSetup extends GuiScreen
 	{
 		buttonList.clear();
 
+		if (page > 1)
+		{
+			buttonList.add(new GuiButton(0, width / 2 - 200, height / 2 + 90, 65, 20, "Back"));
+		}
+		
 		if (page == 1)
 		{
 			buttonList.add(new GuiButton(1, width / 2 - 65, height / 2 + 10, 65, 20, Color.AQUA + "Male"));
@@ -244,7 +250,7 @@ public class GuiSetup extends GuiScreen
 				nameTextField.setText(player.getCommandSenderName());
 			}
 
-			GuiButton doneButton = new GuiButton(6, width / 2 - 32, height / 2 + 30, 65, 20, "Done");
+			GuiButton doneButton = new GuiButton(6, width / 2 - 32, height / 2 + 30, 65, 20, "Continue");
 			doneButton.enabled = !nameTextField.getText().trim().isEmpty();
 			buttonList.add(doneButton);
 		}

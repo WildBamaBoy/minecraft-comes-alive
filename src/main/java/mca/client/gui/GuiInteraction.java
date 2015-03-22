@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mca.ai.AIFollow;
+import mca.ai.AIIdle;
 import mca.ai.AIMood;
 import mca.ai.AIProcreate;
+import mca.ai.AISleep;
 import mca.api.ChoreRegistry;
 import mca.api.CropEntry;
 import mca.api.WoodcuttingEntry;
@@ -24,6 +26,7 @@ import mca.entity.EntityHuman;
 import mca.enums.EnumInteraction;
 import mca.enums.EnumMovementState;
 import mca.enums.EnumProfessionGroup;
+import mca.enums.EnumSleepingState;
 import mca.packets.PacketGift;
 import mca.packets.PacketInteract;
 import mca.packets.PacketToggleAI;
@@ -343,7 +346,8 @@ public class GuiInteraction extends GuiScreen
 	protected void actionPerformed(GuiButton button)
 	{
 		EnumInteraction interaction = EnumInteraction.fromId(button.id);
-
+		villager.getAI(AIIdle.class).reset();
+		
 		if (interaction != null)
 		{
 			switch (interaction)
@@ -355,6 +359,8 @@ public class GuiInteraction extends GuiScreen
 			case FOLLOW:
 				villager.setMovementState(EnumMovementState.FOLLOW); 
 				villager.getAI(AIFollow.class).setPlayerFollowingName(player.getCommandSenderName());
+				villager.getAI(AISleep.class).setIsSleeping(false);
+				villager.getAI(AISleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
 				close();
 				break;
 			case STAY: villager.setMovementState(EnumMovementState.STAY);   close(); break;
@@ -488,6 +494,9 @@ public class GuiInteraction extends GuiScreen
 			case SET_HOME: 
 			case RIDE_HORSE: 
 			case INVENTORY:
+			case RESETBABY:
+			case DIVORCE:
+			case ADOPTBABY:
 			case STOP: MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId())); close(); break;
 
 			case START: 
@@ -554,7 +563,7 @@ public class GuiInteraction extends GuiScreen
 		if (villager.allowControllingInteractions(player))
 		{
 			buttonList.add(new GuiButton(EnumInteraction.SET_HOME.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.sethome"))); yLoc -= yInt;
-			buttonList.add(new GuiButton(EnumInteraction.RIDE_HORSE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.RED + MCA.getLanguageManager().getString("gui.button.ridehorse"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.RIDE_HORSE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.ridehorse"))); yLoc -= yInt;
 		}
 
 		if (!villager.getIsChild())
@@ -568,7 +577,7 @@ public class GuiInteraction extends GuiScreen
 			buttonList.add(new GuiButton(EnumInteraction.INVENTORY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.inventory"))); yLoc -= yInt;
 		}
 
-		if (villager.isPlayerAParent(player))
+		if (villager.isPlayerAParent(player) && villager.getIsChild())
 		{
 			buttonList.add(new GuiButton(EnumInteraction.PICK_UP.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.pickup"))); yLoc -= yInt;
 		}
@@ -577,6 +586,21 @@ public class GuiInteraction extends GuiScreen
 		{
 			buttonList.add(new GuiButton(EnumInteraction.WORK.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.work"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.INVENTORY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.inventory"))); yLoc -= yInt;
+			
+			//Disable work button for adult children.
+			if (villager.isPlayerAParent(player) && !villager.getIsChild())
+			{
+				for (Object obj : this.buttonList)
+				{
+					GuiButton button = (GuiButton)obj;
+					
+					if (button.id == EnumInteraction.WORK.getId())
+					{
+						button.enabled = false;
+						break;
+					}
+				}
+			}
 		}
 	}
 
@@ -710,6 +734,13 @@ public class GuiInteraction extends GuiScreen
 			{
 				((GuiButton)buttonList.get(2)).enabled = false;
 			}
+		}
+		
+		else if (villager.getProfessionGroup() == EnumProfessionGroup.Priest)
+		{
+			buttonList.add(new GuiButton(EnumInteraction.DIVORCE.getId(),  width / 2 + xLoc - 20, height / 2 - yLoc,  85, 20, MCA.getLanguageManager().getString("gui.button.divorcespouse"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.ADOPTBABY.getId(),  width / 2 + xLoc - 20, height / 2 - yLoc,  85, 20, MCA.getLanguageManager().getString("gui.button.adoptbaby"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.RESETBABY.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.resetbaby"))); yLoc -= yInt;
 		}
 	}
 

@@ -213,6 +213,11 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			this.professionId.setValue(EnumProfession.getNewProfessionFromVanilla(profession).getId());
 		}
+		
+		else
+		{
+			this.professionId.setValue(profession);
+		}
 
 		this.skin.setValue(this.getRandomSkin());
 	}
@@ -459,6 +464,11 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		if (!worldObj.isRemote)
 		{
+			EntityPlayer killingPlayer = damageSource.getSourceOfDamage() instanceof EntityPlayer ? (EntityPlayer)damageSource.getSourceOfDamage() : null;
+			String source = killingPlayer != null ? killingPlayer.getCommandSenderName() : damageSource.getDamageType();
+
+			MCA.getLog().info("Villager '" + name.getString() + "(" + getProfessionEnum().toString() + ")' was killed by " + source + ". ");
+			
 			aiManager.disableAllToggleAIs();
 			getAI(AISleep.class).transitionSkinState(true);
 
@@ -495,6 +505,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 				{
 					partner.setIsMarried(false, (EntityHuman)null);
 				}
+			}
+			
+			for (Entity entity : RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, this, 20))
+			{
+				EntityHuman human = (EntityHuman)entity;
+				human.getAI(AIMood.class).modifyMoodLevel(-2.0F);
 			}
 		}
 	}
@@ -752,11 +768,14 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			spouseId.setValue(data.permanentId.getInt());
 			spouseName.setValue(partner.getCommandSenderName());
 			isEngaged.setValue(false);
+			
+			getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.FINISHED);
 		}
 
 		else
 		{
 			setIsMarried(value, (EntityHuman)null);
+			getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.SEARCH_FOR_PARTNER);
 		}
 	}	
 
@@ -909,6 +928,43 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		}
 	}
 
+	public boolean damageHeldItem(int amount)
+	{
+		try
+		{
+			ItemStack heldItem = getHeldItem();
+			
+			if (heldItem != null)
+			{
+				Item item = heldItem.getItem();
+				int slot = inventory.getFirstSlotContainingItem(item);
+				
+				ItemStack itemInSlot = inventory.getStackInSlot(slot);
+				itemInSlot.damageItem(amount, this);
+				
+				if (itemInSlot.stackSize == 0)
+				{
+					aiManager.disableAllToggleAIs();
+					inventory.setInventorySlotContents(slot, null);
+					return true;
+				}
+				
+				else
+				{
+					inventory.setInventorySlotContents(slot, itemInSlot);
+					return false;
+				}
+			}
+		}
+		
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
 	public void setBabyState(EnumBabyState state) 
 	{
 		babyState.setValue(state.getId());

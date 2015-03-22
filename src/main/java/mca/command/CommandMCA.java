@@ -1,5 +1,7 @@
 package mca.command;
 
+import java.util.Arrays;
+
 import mca.ai.AIProgressStory;
 import mca.core.MCA;
 import mca.data.PlayerData;
@@ -16,7 +18,6 @@ import radixcore.constant.Font.Color;
 import radixcore.constant.Font.Format;
 import radixcore.constant.Time;
 import radixcore.data.AbstractPlayerData;
-import scala.actors.threadpool.Arrays;
 
 public class CommandMCA extends CommandBase
 {

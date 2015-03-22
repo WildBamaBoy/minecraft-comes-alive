@@ -36,53 +36,56 @@ public class AIGreet extends AbstractAI
 	@Override
 	public void onUpdateServer() 
 	{
-		//Update ticks until actual update. This AI runs once per second for performance.
-		ticksUntilUpdate = ticksUntilUpdate <= 0 ? Time.SECOND : ticksUntilUpdate - 1;
-
-		//Update greeting ticks if necessary. This part of the AI runs every tick.
-		for (PlayerMemory memory : playerMemories.values())
+		if (!owner.getAI(AISleep.class).getIsSleeping())
 		{
-			int timeUntilGreeting = memory.getTimeUntilGreeting();
+			//Update ticks until actual update. This AI runs once per second for performance.
+			ticksUntilUpdate = ticksUntilUpdate <= 0 ? Time.SECOND : ticksUntilUpdate - 1;
 
-			if (timeUntilGreeting > 0)
+			//Update greeting ticks if necessary. This part of the AI runs every tick.
+			for (PlayerMemory memory : playerMemories.values())
 			{
-				memory.setTimeUntilGreeting(timeUntilGreeting - 1);
-			}
-		}
+				int timeUntilGreeting = memory.getTimeUntilGreeting();
 
-		//Perform the greeting attempt if time for the update.
-		if (ticksUntilUpdate <= 0)
-		{
-			//Update the distance that each known player has traveled from this entity.
-			for (Object obj : owner.worldObj.playerEntities)
-			{
-				EntityPlayer player = (EntityPlayer)obj;
-
-				if (owner.hasMemoryOfPlayer(player))
+				if (timeUntilGreeting > 0)
 				{
-					PlayerMemory memory = owner.getPlayerMemory(player);
-					float distanceToPlayer = owner.getDistanceToEntity(player);
-
-					if (distanceToPlayer > memory.getDistanceTraveledFrom())
-					{
-						memory.setDistanceTraveledFrom(Math.round(distanceToPlayer));
-					}
+					memory.setTimeUntilGreeting(timeUntilGreeting - 1);
 				}
 			}
 
-			//Get the closest player and try to greet them.
-			EntityPlayer closestPlayer = owner.worldObj.getClosestPlayerToEntity(owner, 4);
-
-			if (closestPlayer != null)
+			//Perform the greeting attempt if time for the update.
+			if (ticksUntilUpdate <= 0)
 			{
-				PlayerMemory memory = owner.getPlayerMemory(closestPlayer);
-				AISleep AISleep = owner.getAI(AISleep.class);
-
-				if (memory.getTimeUntilGreeting() <= 0 && RadixLogic.getBooleanWithProbability(CHANCE_TO_GREET) && owner.canEntityBeSeen(closestPlayer) && !AISleep.getIsSleeping())
+				//Update the distance that each known player has traveled from this entity.
+				for (Object obj : owner.worldObj.playerEntities)
 				{
-					owner.say(memory.getDialogueType() + ".greeting", closestPlayer);
-					memory.setTimeUntilGreeting(GREETING_INTERVAL);
-					memory.setDistanceTraveledFrom(0);
+					EntityPlayer player = (EntityPlayer)obj;
+
+					if (owner.hasMemoryOfPlayer(player))
+					{
+						PlayerMemory memory = owner.getPlayerMemory(player);
+						float distanceToPlayer = owner.getDistanceToEntity(player);
+
+						if (distanceToPlayer > memory.getDistanceTraveledFrom())
+						{
+							memory.setDistanceTraveledFrom(Math.round(distanceToPlayer));
+						}
+					}
+				}
+
+				//Get the closest player and try to greet them.
+				EntityPlayer closestPlayer = owner.worldObj.getClosestPlayerToEntity(owner, 4);
+
+				if (closestPlayer != null)
+				{
+					PlayerMemory memory = owner.getPlayerMemory(closestPlayer);
+					AISleep AISleep = owner.getAI(AISleep.class);
+
+					if (memory.getTimeUntilGreeting() <= 0 && RadixLogic.getBooleanWithProbability(CHANCE_TO_GREET) && owner.canEntityBeSeen(closestPlayer) && !AISleep.getIsSleeping())
+					{
+						owner.say(memory.getDialogueType() + ".greeting", closestPlayer);
+						memory.setTimeUntilGreeting(GREETING_INTERVAL);
+						memory.setDistanceTraveledFrom(0);
+					}
 				}
 			}
 		}

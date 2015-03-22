@@ -25,11 +25,11 @@ public class GuiPrompt extends GuiScreen
 		switch (interaction)
 		{
 		case HAVEBABY:
-			prompt = MCA.getLanguageManager().getString("pinteraction.havebaby.prompt", sender.getCommandSenderName());
+			prompt = MCA.getLanguageManager().getString("interactionp.havebaby.prompt", sender.getCommandSenderName());
 			returnInteraction = EnumInteraction.HAVEBABY_ACCEPT;
 			break;
 		case ASKTOMARRY:
-			prompt = MCA.getLanguageManager().getString("pinteraction.marry.prompt", sender.getCommandSenderName());
+			prompt = MCA.getLanguageManager().getString("interactionp.marry.prompt", sender.getCommandSenderName());
 			returnInteraction = EnumInteraction.ASKTOMARRY_ACCEPT;
 			break;
 		}

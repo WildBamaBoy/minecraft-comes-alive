@@ -3,6 +3,7 @@ package mca.packets;
 import io.netty.buffer.ByteBuf;
 import mca.ai.AIGrow;
 import mca.ai.AIMood;
+import mca.ai.AIProgressStory;
 import mca.api.ChoreRegistry;
 import mca.core.MCA;
 import mca.core.VersionBridge;
@@ -12,9 +13,11 @@ import mca.data.PlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.enums.EnumDialogueType;
+import mca.enums.EnumProgressionStep;
 import mca.util.TutorialManager;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -117,6 +120,17 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				removeCount = 1;
 				
 				human.getInventory().addItemStackToInventory(stack);
+			}
+			
+			else if ((item == Items.cake || Block.getBlockFromItem(item) == Blocks.cake) && human.getAI(AIProgressStory.class).getProgressionStep() == EnumProgressionStep.TRY_FOR_BABY)
+			{
+				human.say("gift.cake", player);
+				human.getAI(AIProgressStory.class).setTicksUntilNextProgress(0);
+				human.getAI(AIProgressStory.class).setForceNextProgress(true);
+				removeItem = true;
+				removeCount = 1;
+				
+				TutorialManager.sendMessageToPlayer(player, "Cake can influence villagers to have children.", "However they can only have a few before they will stop.");
 			}
 			
 			else
@@ -224,15 +238,20 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 		
 		else
 		{	
+			boolean partnerIsValid = partner != null 
+					&& !partner.getIsMarried() 
+					&& !partner.getIsEngaged() 
+					&& !partner.getIsChild() 
+					&& (partner.getFatherId() == -1 || partner.getFatherId() != human.getFatherId()) 
+					&& (partner.getMotherId() == -1 || partner.getMotherId() != human.getMotherId());
+					
 			if (partner == null)
 			{
 				human.say("interaction.matchmaker.fail.novillagers", player); 
 				TutorialManager.sendMessageToPlayer(player, "To arrange a marriage, have two rings in a stack and ", "make sure another marriable villager is nearby.");
 			}
 			
-			else if (partner.getIsEngaged() || partner.getIsChild() || partner.getIsMarried()    || 
-					(partner.getFatherId() != -1 && partner.getFatherId() == human.getFatherId()) || 
-					(partner.getMotherId() != -1 && partner.getMotherId() == human.getMotherId()))
+			else if (!partnerIsValid)
 			{
 				human.say("interaction.matchmaker.fail.invalid", player, partner); 
 				TutorialManager.sendMessageToPlayer(player, "A married villager, relative, or child was too close to this", "villager. Move this villager away from anyone not marriable.");

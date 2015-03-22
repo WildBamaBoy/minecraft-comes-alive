@@ -12,6 +12,7 @@ import mca.items.ItemCutRingColored;
 import mca.items.ItemSpawnEgg;
 import mca.items.ItemTombstone;
 import mca.items.ItemVillagerBed;
+import mca.items.ItemWhistle;
 import net.minecraft.item.Item;
 import radixcore.item.ItemColorable;
 import radixcore.item.ItemSingle;
@@ -86,10 +87,10 @@ public final class ModItems
 	public static ItemCutRingColored ringStarColoredRG;
 	
 	public static ItemTombstone tombstone;
-	/*
-	public static final Item whistle;
-	public static final Item villagerEditor;
-	public static final Item lostRelativeDocument;
+	
+	public static ItemWhistle whistle;
+//	public static final Item villagerEditor;
+//	public static final Item lostRelativeDocument;
 	
 	/*
 	public static final Item crown;
@@ -132,6 +133,8 @@ public final class ModItems
 		babyGirl = new ItemBaby(false);
 		eggMale = new ItemSpawnEgg(true);
 		eggFemale = new ItemSpawnEgg(false);
+		whistle = new ItemWhistle();
+		
 		bedRed = new ItemVillagerBed(EnumBedColor.RED);
 		bedBlue = new ItemVillagerBed(EnumBedColor.BLUE);
 		bedGreen = new ItemVillagerBed(EnumBedColor.GREEN);

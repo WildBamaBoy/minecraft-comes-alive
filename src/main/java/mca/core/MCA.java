@@ -146,6 +146,9 @@ public class MCA
     	GameRegistry.registerTileEntity(TileTombstone.class, TileTombstone.class.getSimpleName());
     	
     	//Recipes
+    	GameRegistry.addRecipe(new ItemStack(ModItems.whistle), 
+    			" W#", "###", '#', Items.iron_ingot, 'W', Blocks.planks);
+
     	GameRegistry.addRecipe(new ItemStack(ModItems.engagementRing), 
     			"GDG", "G G", "GGG", 'D', Items.diamond, 'G', Items.gold_ingot);
     	GameRegistry.addRecipe(new ItemStack(ModItems.engagementRingRG), 
@@ -161,6 +164,17 @@ public class MCA
     	GameRegistry.addRecipe(new ItemStack(ModItems.tombstone),
     			" S ", "SIS", "SSS", 'S', Blocks.stone, 'I', Items.sign);
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondDust), Items.diamond);
+		
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedRed), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 14));
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedBlue), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 11));
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedGreen), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 13));
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedPurple), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 10));
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedPink), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 6));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(ModItems.bedRed));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(ModItems.bedBlue));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(ModItems.bedGreen));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(ModItems.bedPurple));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(ModItems.bedPink));
 		
     	//Colored diamond recipes.
 		for (int i = 0; i < 16; ++i)

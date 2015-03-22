@@ -7,7 +7,8 @@ public enum EnumDialogueType
 	RELATIVE (1),
 	ADULT (2),
 	CHILD (3),
-	SPOUSE (4);
+	SPOUSE (4),
+	PLAYERCHILD (5);
 	
 	private int id;
 	

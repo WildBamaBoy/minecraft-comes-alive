@@ -85,6 +85,7 @@ item.EngagementRingStarRG.name=Rose Gold Star Engagement Ring
 item.tombstone.name=Tombstone
 tile.roseGoldOre.name=Rose Gold Ore
 tile.roseGoldBlock.name=Rose Gold Block
+item.whistle.name=Whistle
 
 #######
 # Item Information
@@ -601,12 +602,19 @@ mood.interested=Interested
 mood.talkative=Talkative
 mood.pleased=Pleased
 
+################
+# Gift Responses
+################################
+gift.cake1=What's this? A cake? Oh...oh my. I...need to find my spouse.
+gift.cake2=A cake! How thoughtful! I...wait, what's this odd feeling?
+gift.cake3=Finally, something that will help my marriage...
 
 ################
 # GUIs
 ################################
 gui.button.exit=Exit
 gui.button.back=Back
+gui.button.adoptbaby=Adopt Baby
 
 ################
 # Dialogue
@@ -643,6 +651,8 @@ behavior.retaliate.weapondrawn4=They're going to kill me! Someone help!
 behavior.retaliate.weapondrawn5=You can take whatever you want, just please don't hurt me!
 behavior.retaliate.weapondrawn6=I don't want to die! Stay away!
 behavior.retaliate.weapondrawn7=Mother Notch, please help me!
+
+behavior.build.fail.tooclose=Don't you think we're too close to other buildings?
 
 ##################
 # Conversations between villagers
@@ -735,6 +745,8 @@ gui.button.hire=Hire
 gui.button.hired=Hired
 gui.button.length=Length: %a1% hour(s)
 gui.button.accept=Accept
+gui.button.divorcespouse=Divorce Spouse
+gui.button.resetbaby=Reset Baby
 
 gui.title.namebaby.male=It's a boy!
 gui.title.namebaby.female=It's a girl!
@@ -763,6 +775,11 @@ interaction.give.invalid3=I don't know what you want me to do with that.
 interaction.give.invalid4=Why are you giving me this?
 interaction.give.invalid5=Huh? What is this thing?
 
+interaction.divorce.priest.success1=Very well. You are hereby no longer married.
+interaction.divorce.priest.success2=As you wish. May you find love elsewhere.
+
+interaction.divorce.priest.fail1=
+interaction.divorce.priest.fail2=
 interaction.divorce.notmarried1=I am not married to anyone.
 interaction.divorce.notmarried2=What do I need divorce papers for? I am not married.
 interaction.divorce.notmarried3=I'm not married. Why are you giving these to me?
@@ -834,24 +851,33 @@ interaction.sethome.fail3=I'm not too sure about this place. I can't have my hom
 interaction.mining.fail.toolow1=We're too low for me to create a mine.
 interaction.mining.fail.toolow2=We need to be on higher ground.
 interaction.mining.fail.toolow3=I don't think it's a good idea to create a mine here. We need to be higher.
+interaction.mining.fail.nopickaxe=I don't have a pickaxe. How am I supposed to mine without one?
 
 interaction.hire.fail.notenoughgold=You need a stack of %a1% gold ingots to hire this villager.
 interaction.hire.success1=Glad to be on board! What's my first job?
 interaction.hire.success2=Everything is in order. What would you like me to do?
 interaction.hire.success3=Ready to start working at any time, boss!
 
-pinteraction.marry.sent=You have asked %a1% to marry you.
-pinteraction.marry.success=You are now married to %a1%.
-pinteraction.marry.fail.alreadymarried=You are already married or engaged.
-pinteraction.marry.fail.targetalreadymarried=%a1% is already married.
-pinteraction.marry.fail.noweddingring=You do not have a wedding ring.
-pinteraction.marry.prompt=%a1% would like to marry you.
+interaction.ridehorse.fail.notnearby=I don't see any horses nearby.
+interaction.ridehorse.fail.notrideable=I can't ride that horse.
 
-pinteraction.havebaby.sent=You have asked %a1% to have a baby.
-pinteraction.havebaby.prompt=%a1% would like to have a baby.
-pinteraction.havebaby.fail.alreadyexists=You should already have a baby.
+interaction.resetbaby.success=Very well, you may now have another child. Be more careful next time!
+interaction.resetbaby.fail=You do not have a baby.
 
-pinteraction.divorce.notify=You are no longer married to %a1%.
+interactionp.marry.sent=You have asked %a1% to marry you.
+interactionp.marry.success=You are now married to %a1%.
+interactionp.marry.fail.alreadymarried=You are already married or engaged.
+interactionp.marry.fail.targetalreadymarried=%a1% is already married.
+interactionp.marry.fail.noweddingring=You do not have a wedding ring.
+interactionp.marry.prompt=%a1% would like to marry you.
+
+interactionp.havebaby.sent=You have asked %a1% to have a baby.
+interactionp.havebaby.prompt=%a1% would like to have a baby.
+interactionp.havebaby.fail.alreadyexists=You should already have a baby.
+
+interactionp.divorce.notify=You are no longer married to %a1%.
+
+interaction.adoptbaby.success=Wonderful! I'd like you to meet %a1%, your new baby! Treat them well.
 
 ###################
 # Typed Dialogue
@@ -950,7 +976,7 @@ adult.flirt.good1=You're sooo brave!
 adult.flirt.good2=Oh, you! Stop being so cute!
 adult.flirt.good3=*Blushes* Do you mean it?
 adult.flirt.good4=Oh, my...
-adult.flirt.good5=That was so adorable! You had me at “hello”! 
+adult.flirt.good5=That was so adorable! You had me at "hello"! 
 
 # 5 bad flirts when talking to an adult:
 adult.flirt.bad1=If you mean that, then prove it.
@@ -1178,7 +1204,7 @@ child.tellstory.good1=Wow! You're a beast!
 child.tellstory.good2=I want to be just like you when I grow up. Shh, don't tell dad.
 child.tellstory.good3=Can you adopt me?! You're awesome!
 child.tellstory.good4=I went fishing and almost drowned.
-child.tellstory.good5=Does this mean I can take whatever I want? I mean, “borrow?”
+child.tellstory.good5=Does this mean I can take whatever I want? I mean, "borrow?"
 
 # 5 bad stories when talking to a child:
 child.tellstory.bad1=You're a meanie!
@@ -1194,79 +1220,79 @@ child.greeting3=Eek! You look scary!
 ##############################################################################################
 
 # 5 good chats when talking to a child WHO IS YOUR OWN:
-pchild.chat.good1=Oh, I was just going to go explorin' later.
-pchild.chat.good2=Can we go camping? Please?!
-pchild.chat.good3=Hi, can you make me a cake?
-pchild.chat.good4=Can I have my own room away from our house? That would be cool!
-pchild.chat.good5=Let's move into a cave! That sounds so fun!
+playerchild.chat.good1=Oh, I was just going to go explorin' later.
+playerchild.chat.good2=Can we go camping? Please?!
+playerchild.chat.good3=Hi, can you make me a cake?
+playerchild.chat.good4=Can I have my own room away from our house? That would be cool!
+playerchild.chat.good5=Let's move into a cave! That sounds so fun!
 
-# 5 bad chats when talking to an pchild:
-pchild.chat.bad1=%ParentOpposite% talks about them a lot...
-pchild.chat.bad2=I don't think %ParentOpposite% would like that very much.
-pchild.chat.bad3=Is that why %ParentOpposite% talked about this thing called “divorce?”
-pchild.chat.bad4=I want a new daddy.
-pchild.chat.bad5=I don't want a baby sister.
+# 5 bad chats when talking to an playerchild:
+playerchild.chat.bad1=%ParentOpposite% talks about them a lot...
+playerchild.chat.bad2=I don't think %ParentOpposite% would like that very much.
+playerchild.chat.bad3=Is that why %ParentOpposite% talked about this thing called "divorce?"
+playerchild.chat.bad4=I want a new daddy.
+playerchild.chat.bad5=I don't want a baby sister.
 
-# 5 good jokes when talking to an pchild:
-pchild.joke.good1=*Laughs* Tell that one again!
-pchild.joke.good2=I've got to tell my friend that one!
-pchild.joke.good3=How did the creeper explode?!
-pchild.joke.good4=*Laughs*Why is there no longer 3 of them?
-pchild.joke.good5=*Laughs* ... *Laughs*... *Laughs*
+# 5 good jokes when talking to an playerchild:
+playerchild.joke.good1=*Laughs* Tell that one again!
+playerchild.joke.good2=I've got to tell my friend that one!
+playerchild.joke.good3=How did the creeper explode?!
+playerchild.joke.good4=*Laughs*Why is there no longer 3 of them?
+playerchild.joke.good5=*Laughs* ... *Laughs*... *Laughs*
 
-# 5 bad jokes when talking to an pchild:
-pchild.joke.bad1=%ParentOpposite% said you were funny, though...
-pchild.joke.bad2=I like knock knock jokes better.
-pchild.joke.bad3=I don't get it, that was dumb.
-pchild.joke.bad4=*Yawn* My friend's dad is cooler and funnier than you.
-pchild.joke.bad5=I'd rather have cake.
+# 5 bad jokes when talking to an playerchild:
+playerchild.joke.bad1=%ParentOpposite% said you were funny, though...
+playerchild.joke.bad2=I like knock knock jokes better.
+playerchild.joke.bad3=I don't get it, that was dumb.
+playerchild.joke.bad4=*Yawn* My friend's dad is cooler and funnier than you.
+playerchild.joke.bad5=I'd rather have cake.
 
-# 5 good handshakes when talking to an pchild:
-pchild.handshake.good1=Why do I need to learn this stuff? 
-pchild.handshake.good2=%ParentOpposite% said that this is a polite thing to do.
-pchild.handshake.good3=I'm gonna be just like you when I grow up!
-pchild.handshake.good4=Can I have cake now?
-pchild.handshake.good5=I don't get it, but okay! 
+# 5 good handshakes when talking to an playerchild:
+playerchild.handshake.good1=Why do I need to learn this stuff? 
+playerchild.handshake.good2=%ParentOpposite% said that this is a polite thing to do.
+playerchild.handshake.good3=I'm gonna be just like you when I grow up!
+playerchild.handshake.good4=Can I have cake now?
+playerchild.handshake.good5=I don't get it, but okay! 
 
-# 5 bad handshakes when talking to an pchild:
-pchild.handshake.bad1=I spit on my hand.
-pchild.handshake.bad2=You're such an old person.
-pchild.handshake.bad3=Only losers shake hands.
-pchild.handshake.bad4=I'll shake your hand if you give me cake.
-pchild.handshake.bad5=No, you'll slip and hit me.
+# 5 bad handshakes when talking to an playerchild:
+playerchild.handshake.bad1=I spit on my hand.
+playerchild.handshake.bad2=You're such an old person.
+playerchild.handshake.bad3=Only losers shake hands.
+playerchild.handshake.bad4=I'll shake your hand if you give me cake.
+playerchild.handshake.bad5=No, you'll slip and hit me.
 
-# 5 good stories when talking to an pchild:
-pchild.tellstory.good1=%ParentOpposite% really did that?! What happened to their clothes?
-pchild.tellstory.good2=I want to explore a cave, too! Let's go!
-pchild.tellstory.good3=One day I'll kill more creepers than you!
-pchild.tellstory.good4=Oh, oh, oh! Can we climb a tree, too?!
-pchild.tellstory.good5=Did the lava hurt? 
+# 5 good stories when talking to an playerchild:
+playerchild.tellstory.good1=%ParentOpposite% really did that?! What happened to their clothes?
+playerchild.tellstory.good2=I want to explore a cave, too! Let's go!
+playerchild.tellstory.good3=One day I'll kill more creepers than you!
+playerchild.tellstory.good4=Oh, oh, oh! Can we climb a tree, too?!
+playerchild.tellstory.good5=Did the lava hurt? 
 
-# 5 bad stories when talking to an pchild:
-pchild.tellstory.bad1=I don't want to hear about grandma.
-pchild.tellstory.bad2=You always say that. I just want a pet.
-pchild.tellstory.bad3=%ParentOpposite% has been lying to you, too.
-pchild.tellstory.bad4=You said you didn't eat the cake and cookies...
-pchild.tellstory.bad5=Someone said you were a bad person, and I believe them!
+# 5 bad stories when talking to an playerchild:
+playerchild.tellstory.bad1=I don't want to hear about grandma.
+playerchild.tellstory.bad2=You always say that. I just want a pet.
+playerchild.tellstory.bad3=%ParentOpposite% has been lying to you, too.
+playerchild.tellstory.bad4=You said you didn't eat the cake and cookies...
+playerchild.tellstory.bad5=Someone said you were a bad person, and I believe them!
 
-# 5 good hugs when talking to an pchild:
-pchild.hug.good1=*Kisses* You're the best ever!
-pchild.hug.good2=I'm going to be as strong as you are one day!
-pchild.hug.good3=Why doesn't %ParentOpposite% hug anymore?
-pchild.hug.good4=I love hugs! You're soft and warm!
-pchild.hug.good5=You should hug %ParentOpposite% too!
+# 5 good hugs when talking to an playerchild:
+playerchild.hug.good1=*Kisses* You're the best ever!
+playerchild.hug.good2=I'm going to be as strong as you are one day!
+playerchild.hug.good3=Why doesn't %ParentOpposite% hug anymore?
+playerchild.hug.good4=I love hugs! You're soft and warm!
+playerchild.hug.good5=You should hug %ParentOpposite% too!
 
-# 5 bad hugs when talking to an pchild:
-pchild.hug.bad1=I'm too old for hugs!
-pchild.hug.bad2=Stop it! I don't want people to see!
-pchild.hug.bad3=Go away, you're so annoying!
-pchild.hug.bad4=Just leave me alone or give me some cookies!
-pchild.hug.bad5=I'd rather hug a skeleton. 
+# 5 bad hugs when talking to an playerchild:
+playerchild.hug.bad1=I'm too old for hugs!
+playerchild.hug.bad2=Stop it! I don't want people to see!
+playerchild.hug.bad3=Go away, you're so annoying!
+playerchild.hug.bad4=Just leave me alone or give me some cookies!
+playerchild.hug.bad5=I'd rather hug a skeleton. 
 
-pchild.greeting1=Hey there!
-pchild.greeting2=Hey, what's going on?
-pchild.greeting3=What are you doing?
-pchild.greeting4=Where are you going?
+playerchild.greeting1=Hey there!
+playerchild.greeting2=Hey, what's going on?
+playerchild.greeting3=What are you doing?
+playerchild.greeting4=Where are you going?
 
 ##############################################################################################
 
@@ -1280,7 +1306,7 @@ spouse.chat.good5=I almost walked into a lava pit the other day. That wouldn't h
 # 5 bad chats when talking to an spouse:
 spouse.chat.bad1=I know we're not the poorest family, but...
 spouse.chat.bad2=I love being around you but I need some space.
-spouse.chat.bad3=Sometimes I wish I had my own “cave” to escape from you and everyone.
+spouse.chat.bad3=Sometimes I wish I had my own "cave" to escape from you and everyone.
 spouse.chat.bad4=Go away, I'm not in the mood.
 spouse.chat.bad5=Where have you been? Are you seeing someone behind my back?
 

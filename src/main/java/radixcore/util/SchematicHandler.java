@@ -1,12 +1,14 @@
 package radixcore.util;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -24,14 +26,14 @@ public final class SchematicHandler
 				return entry.getKey();
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	public static int countOccurencesOfBlockObj(Map<Point3D, BlockObj> schematicData, BlockObj searchBlock)
 	{
 		int count = 0;
-		
+
 		for (BlockObj block : schematicData.values())
 		{
 			if (block.equals(searchBlock))
@@ -39,10 +41,10 @@ public final class SchematicHandler
 				count++;
 			}
 		}
-		
+
 		return count;
 	}
-	
+
 	public static SortedMap<Point3D, BlockObj> readSchematic(String location)
 	{
 		Point3D origin = null;
@@ -124,12 +126,12 @@ public final class SchematicHandler
 				}
 			}
 		}
-		
+
 		catch (IOException e)
 		{
 			RadixExcept.logFatalCatch(e, "Encountered a fatal error while reading a schematic.");
 		}
-		
+
 		return map;
 	}
 
@@ -141,8 +143,28 @@ public final class SchematicHandler
 	public static void spawnStructureRelativeToPoint(String location, Point3D point, World world)
 	{
 		Map<Point3D, BlockObj> schemBlocks = readSchematic(location);
+		Map<Point3D, BlockObj> torchMap = new HashMap<Point3D, BlockObj>();
 
 		for (Map.Entry<Point3D, BlockObj> entry : schemBlocks.entrySet())
+		{
+			if (entry.getValue().getBlock() == Blocks.torch)
+			{
+				torchMap.put(entry.getKey(), entry.getValue());
+			}
+
+			else
+			{
+				Point3D blockPoint = entry.getKey();
+
+				int x = blockPoint.iPosX + point.iPosX;
+				int y = blockPoint.iPosY + point.iPosY;
+				int z = blockPoint.iPosZ + point.iPosZ;
+
+				world.setBlock(x, y, z, entry.getValue().getBlock(), entry.getValue().getMeta(), 2);
+			}
+		}
+
+		for (Map.Entry<Point3D, BlockObj> entry : torchMap.entrySet())
 		{
 			Point3D blockPoint = entry.getKey();
 

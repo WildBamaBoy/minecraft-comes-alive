@@ -86,7 +86,7 @@ public class RenderHuman extends RenderBiped
 
 		else if (entityLivingBase.ridingEntity != null)
 		{
-			GL11.glTranslated(0.0D, 2.3D, 0.1D);
+			GL11.glTranslated(0.0D, 0.55D, 0.1D);
 		}
 	}
 

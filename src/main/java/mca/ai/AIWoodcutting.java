@@ -124,7 +124,7 @@ public class AIWoodcutting extends AbstractToggleAI
 					final Block block = apiEntry.getLogBlock();
 					owner.worldObj.setBlock(treeBasePoint.iPosX, treeBasePoint.iPosY + yLevel, treeBasePoint.iPosZ, Blocks.air);
 					boolean addedToInventory = addItemStackToInventory(new ItemStack(block, 1, apiEntry.getLogMeta()));
-					boolean toolBroken = owner.getInventory().damageItem(owner.getInventory().getBestItemOfTypeSlot(ItemAxe.class), 1);
+					boolean toolBroken = owner.damageHeldItem(2);
 
 					if (!addedToInventory && owner.getPersonality() == EnumPersonality.GREEDY)
 					{

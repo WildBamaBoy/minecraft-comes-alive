@@ -11,6 +11,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemPickaxe;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
 import radixcore.data.WatchedBoolean;
@@ -81,7 +82,7 @@ public class AIMining extends AbstractToggleAI
 							owner.worldObj.setBlockMetadataWithNotify(point.iPosX, point.iPosY, point.iPosZ, 11, 2);
 							isBuildingMine = false;
 						}
-						
+
 						else
 						{
 							reset();
@@ -94,7 +95,38 @@ public class AIMining extends AbstractToggleAI
 					owner.setMovementState(EnumMovementState.STAY);
 					owner.swingItem();
 
-					//TODO Finish the logic for mining.
+					boolean acquireOre = RadixLogic.getBooleanWithProbability(25);
+
+					if (acquireOre)
+					{
+						ItemStack addStack = null;
+						boolean getSpecialOre = RadixLogic.getBooleanWithProbability(15);
+
+						if (getSpecialOre)
+						{
+							List<Integer> miningBlockIDs = ChoreRegistry.getMiningBlockIDs();
+							int id = miningBlockIDs.get(RadixMath.getNumberInRange(0, miningBlockIDs.size()));
+
+							try
+							{
+								Block block = ChoreRegistry.getNotifyBlockById(id);
+								addStack = new ItemStack(block);
+							}
+
+							catch (MappingNotFoundException e)
+							{
+								addStack = new ItemStack(Blocks.cobblestone);
+							}
+						}
+
+						else
+						{
+							addStack = new ItemStack(Blocks.cobblestone);
+						}
+
+						owner.getInventory().addItemStackToInventory(addStack);
+						owner.damageHeldItem(2);
+					}
 				}
 			}
 
@@ -133,7 +165,7 @@ public class AIMining extends AbstractToggleAI
 					}
 
 					//Damage the pick.
-					owner.getInventory().damageItem(owner.getInventory().getBestItemOfTypeSlot(ItemPickaxe.class), 5);
+					owner.damageHeldItem(5);
 
 					//Determine which message we're going to use and the arguments.
 					final String phraseId;
@@ -210,6 +242,19 @@ public class AIMining extends AbstractToggleAI
 		this.isGathering = false;
 		this.isAIActive.setValue(true);
 		this.activityInterval = SEARCH_INTERVAL;
+		
+		ItemStack pickaxe = owner.getInventory().getBestItemOfType(ItemPickaxe.class);
+		
+		if (pickaxe != null)
+		{
+			owner.setHeldItem(pickaxe.getItem());
+		}
+		
+		else
+		{
+			owner.say("interaction.mining.fail.nopickaxe", assigningPlayer);
+			reset();
+		}
 	}
 
 	public void startGathering(EntityPlayer player) 
@@ -224,6 +269,19 @@ public class AIMining extends AbstractToggleAI
 		this.isGathering = true;
 		this.isAIActive.setValue(true);
 		this.activityInterval = 0;
+		
+		ItemStack pickaxe = owner.getInventory().getBestItemOfType(ItemPickaxe.class);
+		
+		if (pickaxe != null)
+		{
+			owner.setHeldItem(pickaxe.getItem());
+		}
+		
+		else
+		{
+			owner.say("interaction.mining.fail.nopickaxe", player);
+			reset();
+		}
 	}
 
 	@Override

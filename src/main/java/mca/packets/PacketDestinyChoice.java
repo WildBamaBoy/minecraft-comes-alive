@@ -7,6 +7,7 @@ import mca.data.PlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.enums.EnumDestinyChoice;
+import mca.enums.EnumDialogueType;
 import mca.tile.TileTombstone;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -118,6 +119,7 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 
 					PlayerMemory childMemory = child.getPlayerMemory(player);
 					childMemory.setHearts(100);
+					childMemory.setDialogueType(EnumDialogueType.PLAYERCHILD);
 					numChildren--;
 				}
 			}
@@ -146,7 +148,7 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 					if (tile != null)
 					{
 						tile.signText[1] = RadixLogic.getBooleanWithProbability(50) ? MCA.getLanguageManager().getString("name.male") : MCA.getLanguageManager().getString("name.female");
-						tile.signText[2] = MCA.getLanguageManager().getString("RIP");
+						tile.signText[2] = "RIP";
 					}
 				}
 			}

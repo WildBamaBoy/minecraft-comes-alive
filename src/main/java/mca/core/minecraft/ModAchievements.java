@@ -1,7 +1,5 @@
 package mca.core.minecraft;
 
-import java.lang.reflect.Field;
-
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
