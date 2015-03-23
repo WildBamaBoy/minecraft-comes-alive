@@ -2,6 +2,7 @@ package mca.entity;
 
 import io.netty.buffer.ByteBuf;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,6 +43,9 @@ import mca.enums.EnumProfessionGroup;
 import mca.enums.EnumProgressionStep;
 import mca.enums.EnumSleepingState;
 import mca.packets.PacketOpenGUIOnEntity;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentData;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
@@ -55,6 +59,7 @@ import net.minecraft.entity.ai.EntityAIWatchClosest2;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -62,6 +67,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
@@ -79,6 +85,7 @@ import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
+import cpw.mods.fml.common.registry.VillagerRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -213,7 +220,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			this.professionId.setValue(EnumProfession.getNewProfessionFromVanilla(profession).getId());
 		}
-		
+
 		else
 		{
 			this.professionId.setValue(profession);
@@ -350,7 +357,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 				player.addChatMessage(new ChatComponentText("That villager is being interacted with."));
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -468,7 +475,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			String source = killingPlayer != null ? killingPlayer.getCommandSenderName() : damageSource.getDamageType();
 
 			MCA.getLog().info("Villager '" + name.getString() + "(" + getProfessionEnum().toString() + ")' was killed by " + source + ". ");
-			
+
 			aiManager.disableAllToggleAIs();
 			getAI(AISleep.class).transitionSkinState(true);
 
@@ -506,11 +513,14 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 					partner.setIsMarried(false, (EntityHuman)null);
 				}
 			}
-			
+
 			for (Entity entity : RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, this, 20))
 			{
-				EntityHuman human = (EntityHuman)entity;
-				human.getAI(AIMood.class).modifyMoodLevel(-2.0F);
+				if (entity instanceof EntityHuman)
+				{
+					EntityHuman human = (EntityHuman)entity;
+					human.getAI(AIMood.class).modifyMoodLevel(-2.0F);
+				}
 			}
 		}
 	}
@@ -518,11 +528,6 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	private boolean isMarriedToAVillager() 
 	{
 		return spouseId.getInt() > 0;
-	}
-
-	public int getProfession()
-	{
-		return professionId.getInt();
 	}
 
 	@Override
@@ -768,7 +773,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			spouseId.setValue(data.permanentId.getInt());
 			spouseName.setValue(partner.getCommandSenderName());
 			isEngaged.setValue(false);
-			
+
 			getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.FINISHED);
 		}
 
@@ -900,12 +905,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			return new ItemStack(Item.getItemById(heldItem.getInt()));
 		}
-		
+
 		else if (inventory.contains(ModItems.babyBoy) || inventory.contains(ModItems.babyGirl))
 		{
 			int slot = inventory.getFirstSlotContainingItem(ModItems.babyBoy);
 			slot = slot == -1 ? inventory.getFirstSlotContainingItem(ModItems.babyGirl) : slot;
-			
+
 			if (slot != -1)
 			{
 				return inventory.getStackInSlot(slot);
@@ -933,22 +938,22 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		try
 		{
 			ItemStack heldItem = getHeldItem();
-			
+
 			if (heldItem != null)
 			{
 				Item item = heldItem.getItem();
 				int slot = inventory.getFirstSlotContainingItem(item);
-				
+
 				ItemStack itemInSlot = inventory.getStackInSlot(slot);
 				itemInSlot.damageItem(amount, this);
-				
+
 				if (itemInSlot.stackSize == 0)
 				{
 					aiManager.disableAllToggleAIs();
 					inventory.setInventorySlotContents(slot, null);
 					return true;
 				}
-				
+
 				else
 				{
 					inventory.setInventorySlotContents(slot, itemInSlot);
@@ -956,15 +961,15 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 				}
 			}
 		}
-		
+
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		
+
 		return false;
 	}
-	
+
 	public void setBabyState(EnumBabyState state) 
 	{
 		babyState.setValue(state.getId());
@@ -1020,40 +1025,43 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	}
 
 	@Override
-    public void useRecipe(MerchantRecipe recipe)
-    {
-		//To stop trading sounds.
-		MerchantRecipeList buyingList = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 5);
-		EntityPlayer buyingPlayer = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 4);
-		
-        recipe.incrementToolUses();
-        this.livingSoundTime = -this.getTalkInterval();
+	public void useRecipe(MerchantRecipe merchantRecipe)
+	{
+		//Representation of EntityVillager's useRecipe without playing sounds.
+		merchantRecipe.incrementToolUses();
+		livingSoundTime = -getTalkInterval();
 
-        if (recipe.hasSameIDsAs((MerchantRecipe)buyingList.get(buyingList.size() - 1)))
-        {
-        	ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, 40, 6);
-        	ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, true, 7);
+		final MerchantRecipeList buyingList = getBuyingList();
 
-            if (buyingPlayer != null)
-            {
-            	ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, buyingPlayer.getCommandSenderName(), 9);
-            }
-            
-            else
-            {
-            	ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, null, 9);
-            }
-        }
+		for (Object obj : buyingList)
+		{
+			MerchantRecipe recipe = (MerchantRecipe)obj;
+		}
 
-        if (recipe.getItemToBuy().getItem() == Items.emerald)
-        {
-        	Integer wealth = (Integer) ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 9);
-        	Integer newValue = wealth + recipe.getItemToBuy().stackSize;
-        	
-        	ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, newValue, 8);
-        }
-    }
-    
+		if (merchantRecipe.hasSameIDsAs((MerchantRecipe) buyingList.get(buyingList.size() - 1)))
+		{
+			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, Integer.valueOf(40), 6);
+			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, true, 7);
+			final EntityPlayer buyingPlayer = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 4);
+
+			if (buyingPlayer == null)
+			{
+				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, null, 9);
+			}
+
+			else
+			{
+				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, buyingPlayer.getCommandSenderName(), 9);
+			}
+		}
+
+		if (merchantRecipe.getItemToBuy().getItem() == Items.emerald)
+		{
+			final int wealth = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 8);
+			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, Integer.valueOf(wealth + merchantRecipe.getItemToBuy().stackSize), 8);
+		}
+	}
+
 	@Override
 	public void writeSpawnData(ByteBuf buffer) 
 	{
@@ -1265,7 +1273,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	{
 		this.scaleGirth.setValue(f);
 	}
-	
+
 	public void setProfessionId(int profession)
 	{
 		this.professionId.setValue(profession);
@@ -1274,5 +1282,16 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public void setPersonality(int personalityId) 
 	{
 		this.personalityId.setValue(personalityId);
+	}
+
+	@Override
+	public int getProfession()
+	{
+		return getProfessionGroup().getVanillaProfessionId();
+	}
+
+	private MerchantRecipeList getBuyingList()
+	{
+		return (MerchantRecipeList) ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 5);
 	}
 }
