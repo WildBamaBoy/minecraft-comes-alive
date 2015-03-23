@@ -19,6 +19,7 @@ import mca.core.forge.ServerProxy;
 import mca.core.minecraft.ModAchievements;
 import mca.core.minecraft.ModBlocks;
 import mca.core.minecraft.ModItems;
+import mca.core.radix.CrashWatcher;
 import mca.core.radix.LanguageParser;
 import mca.data.PlayerData;
 import mca.entity.EntityHuman;
@@ -94,6 +95,7 @@ public class MCA
 	private static Config config;
 	private static LanguageManager languageManager;
 	private static MCAPacketHandler packetHandler;
+	private static CrashWatcher crashWatcher;
 	
 	private static Logger logger;
 	
@@ -115,6 +117,7 @@ public class MCA
     	logger = event.getModLog();
     	config = new Config(event);
     	languageManager = new LanguageManager(ID, new LanguageParser());
+    	crashWatcher = new CrashWatcher();
     	packetHandler = new MCAPacketHandler(ID);
     	proxy.registerRenderers();
     	proxy.registerEventHandlers();
@@ -663,5 +666,10 @@ public class MCA
 		}
 
 		world.spawnEntityInWorld(human);
+	}
+
+	public static CrashWatcher getCrashWatcher() 
+	{
+		return crashWatcher;
 	}
 }

@@ -22,15 +22,18 @@ public class CrashWatcher extends ModCrashWatcher
 			
 			if (report.contains("at mca."))
 			{
-				final Socket connectSocket = new Socket("vps.radix-shock.com", 3577);
+				final Socket connectSocket = new Socket("asp.radix-shock.com", 3577);
 				final DataOutputStream dataOut = new DataOutputStream(connectSocket.getOutputStream());
 				new DataInputStream(connectSocket.getInputStream());
 				dataOut.writeByte(2);
+				dataOut.writeUTF("@Validate@");
 				dataOut.writeUTF("MCA");
 				dataOut.writeUTF(MCA.VERSION);
 				dataOut.writeBoolean(isServer);
 				dataOut.writeUTF(report);
 				connectSocket.close();
+				
+				MCA.getLog().fatal("Sent crash report to mod authors for review. Sorry about that!");
 			}
 		}
 
