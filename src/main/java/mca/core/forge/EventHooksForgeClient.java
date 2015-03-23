@@ -17,12 +17,7 @@ public class EventHooksForgeClient
 	{
 		if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
 		{
-			if (event.entityPlayer.riddenByEntity instanceof EntityHuman)
-			{
-				event.entityPlayer.riddenByEntity.mountEntity(null);
-			}
-			
-			else if (event.entityPlayer.worldObj.isRemote && Minecraft.getMinecraft().isIntegratedServerRunning())
+			if (event.entityPlayer.worldObj.isRemote && Minecraft.getMinecraft().isIntegratedServerRunning())
 			{
 				Block block = event.entityPlayer.worldObj.getBlock(event.x, event.y, event.z);
 				

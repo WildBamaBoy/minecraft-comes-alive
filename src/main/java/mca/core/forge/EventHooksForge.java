@@ -20,6 +20,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import radixcore.math.Point3D;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -116,6 +117,18 @@ public class EventHooksForge
 		if (!event.world.isRemote && event.world.provider.dimensionId == 0)
 		{
 			MCA.getCrashWatcher().checkForCrashReports();
+		}
+	}
+	
+	@SubscribeEvent
+	public void playerInteractEventHandler(PlayerInteractEvent event)
+	{
+		if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
+		{
+			if (event.entityPlayer.riddenByEntity instanceof EntityHuman)
+			{
+				event.entityPlayer.riddenByEntity.mountEntity(null);
+			}
 		}
 	}
 }
