@@ -108,7 +108,7 @@ public final class SkinLoader
 			{
 				for (EnumProfessionGroup skinGroup : EnumProfessionGroup.values())
 				{
-					if (skinGroup != EnumProfessionGroup.Any && skinGroup != EnumProfessionGroup.AnyExceptChild && file.getName().contains(skinGroup.toString()))
+					if (file.getName().contains(skinGroup.toString()))
 					{
 						skinGroup.addSkin(archiveFilePath);
 					}

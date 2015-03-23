@@ -10,27 +10,27 @@ import radixcore.util.RadixMath;
 
 public enum EnumProfessionGroup 
 {
-	Farmer,
-	Baker,
-	Butcher,
-	Guard,
-	Child,
-	Librarian,
-	Miner,
-	Priest,
-	Smith,
-	AnyExceptChild,
-	Any;
+	Farmer(0),
+	Baker(0),
+	Butcher(4),
+	Guard(3),
+	Child(0),
+	Librarian(1),
+	Miner(3),
+	Priest(2),
+	Smith(3);
 
 	private List<String> completeSkinList;
 	private List<String> maleSkinList;
 	private List<String> femaleSkinList;
+	private int vanillaId;
 
-	private EnumProfessionGroup()
+	private EnumProfessionGroup(int vanillaId)
 	{
-		completeSkinList = new ArrayList<String>();
-		maleSkinList = new ArrayList<String>();
-		femaleSkinList = new ArrayList<String>();
+		this.completeSkinList = new ArrayList<String>();
+		this.maleSkinList = new ArrayList<String>();
+		this.femaleSkinList = new ArrayList<String>();
+		this.vanillaId = vanillaId;
 	}
 
 	public void addSkin(String locationInJAR)
@@ -55,23 +55,15 @@ public enum EnumProfessionGroup
 	{
 		List<String> skinList = isMale ? maleSkinList : femaleSkinList;
 
-		if (this == AnyExceptChild || this ==  Any)
+		try
 		{
-			return isMale ? getRandomGroup(this == AnyExceptChild).getMaleSkin() : getRandomGroup(this == AnyExceptChild).getFemaleSkin();
+			return skinList.get(RadixMath.getNumberInRange(0, skinList.size() - 1));
 		}
 
-		else
+		catch (Exception e)
 		{
-			try
-			{
-				return skinList.get(RadixMath.getNumberInRange(0, skinList.size() - 1));
-			}
-
-			catch (Exception e)
-			{
-				RadixExcept.logErrorCatch(e, "Unable to generate random skin for skin group <" + this.toString() + ">" + "!");
-				return "";
-			}
+			RadixExcept.logErrorCatch(e, "Unable to generate random skin for skin group <" + this.toString() + ">" + "!");
+			return "";
 		}
 	}
 
@@ -79,21 +71,21 @@ public enum EnumProfessionGroup
 	{
 		return isMale ? maleSkinList : femaleSkinList;
 	}
-	
+
 	public NumberCycleList getListOfSkinIDs(boolean isMale)
 	{
 		List<String> textureList = getSkinList(isMale);
 		List<Integer> ids = new ArrayList<Integer>();
-		
+
 		for (String texture : textureList)
 		{
 			int id = Integer.parseInt(texture.replaceAll("[^\\d]", ""));
 			ids.add(id);
 		}
-		
+
 		return NumberCycleList.fromList(ids);
 	}
-	
+
 	public String getMaleSkin()
 	{
 		return getSkin(true);
@@ -114,18 +106,14 @@ public enum EnumProfessionGroup
 			int index = RadixMath.getNumberInRange(0, EnumProfessionGroup.values().length - 1);
 			generatedGroup = EnumProfessionGroup.values()[index];
 
-			if (generatedGroup != Any && generatedGroup != AnyExceptChild)
+			if (excludeChild && generatedGroup == Child)
 			{
-				//Possibly valid values if not Any or AnyExceptChild.
-				if (excludeChild && generatedGroup == Child)
-				{
-					continue;
-				}
+				continue;
+			}
 
-				else
-				{
-					isValid = true;
-				}
+			else
+			{
+				isValid = true;
 			}
 		}
 		while(!isValid);
@@ -141,5 +129,10 @@ public enum EnumProfessionGroup
 		{
 			MCA.getLog().info("Group <" + group.toString() + "> has " + group.completeSkinList.size() + " skins. " + group.maleSkinList.size() + " male and " + group.femaleSkinList.size() + " female.");
 		}
+	}
+
+	public int getVanillaProfessionId() 
+	{
+		return vanillaId;
 	}
 }
