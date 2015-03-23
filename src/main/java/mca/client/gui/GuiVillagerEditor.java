@@ -279,6 +279,7 @@ public class GuiVillagerEditor extends GuiScreen
 		{
 			nameTextField.textboxKeyTyped(c, i);
 			final String text = nameTextField.getText().trim();
+			villager.setName(text);
 			drawEditorGuiPage1();
 		}
 
