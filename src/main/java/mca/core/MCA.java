@@ -126,6 +126,7 @@ public class MCA
     	ModMetadataEx exData = ModMetadataEx.getFromModMetadata(metadata);
     	exData.updateProtocolClass = RDXUpdateProtocol.class;
     	exData.classContainingClientDataContainer = MCA.class;
+    	exData.classContainingGetPlayerDataMethod = MCA.class;
     	exData.playerDataMap = playerDataMap;
     	
     	RadixCore.registerMod(exData);
