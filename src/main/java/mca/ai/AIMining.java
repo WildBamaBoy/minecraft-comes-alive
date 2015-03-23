@@ -105,7 +105,7 @@ public class AIMining extends AbstractToggleAI
 						if (getSpecialOre)
 						{
 							List<Integer> miningBlockIDs = RegistryMCA.getMiningBlockIDs();
-							int id = miningBlockIDs.get(RadixMath.getNumberInRange(0, miningBlockIDs.size()));
+							int id = miningBlockIDs.get(RadixMath.getNumberInRange(0, miningBlockIDs.size() - 1));
 
 							try
 							{
