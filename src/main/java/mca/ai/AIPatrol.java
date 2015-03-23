@@ -57,7 +57,20 @@ public class AIPatrol extends AbstractAI
 					movePoint = new Point3D(doorPoint.iPosX, doorPoint.iPosY, doorPoint.iPosZ);
 					hasDoor = true;
 	
-					BlockDoor door = (BlockDoor)owner.worldObj.getBlock(doorPoint.iPosX, doorPoint.iPosY, doorPoint.iPosZ);
+					Block block = (Block)owner.worldObj.getBlock(doorPoint.iPosX, doorPoint.iPosY, doorPoint.iPosZ);
+					BlockDoor door = null;
+					
+					if (block == Blocks.wooden_door) //Account for ClassCastException per issue #259.
+					{
+						door = (BlockDoor)block;
+					}
+					
+					else
+					{
+						hasDoor = false;
+						return;
+					}
+					
 					int doorState = door.func_150012_g(owner.worldObj, doorPoint.iPosX, doorPoint.iPosY, doorPoint.iPosZ);
 					boolean isPositive = RadixLogic.getBooleanWithProbability(50);
 					int offset = isPositive ? RadixMath.getNumberInRange(1, 3) : RadixMath.getNumberInRange(1, 3) * -1;
