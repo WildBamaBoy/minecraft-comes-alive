@@ -23,6 +23,7 @@ import radixcore.constant.Time;
 import radixcore.packets.PacketDataContainer;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
+import radixcore.util.SchematicHandler;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
@@ -37,6 +38,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class EventHooksFML 
 {
 	public static boolean playPortalAnimation;
+	private int clientTickCounter;
 	private int serverTickCounter;
 
 	@SubscribeEvent
@@ -109,6 +111,7 @@ public class EventHooksFML
 		{
 			playPortalAnimation = false;
 			MCA.destinyCenterPoint = null;
+			MCA.destinySpawnFlag = false;
 			MCA.playerDataContainer = null;
 		}
 
@@ -122,6 +125,21 @@ public class EventHooksFML
 			{
 				playPortalAnimation = false;
 			}
+		}
+		
+		if (clientTickCounter <= 0)
+		{
+			clientTickCounter = Time.SECOND / 2;
+			
+			if (MCA.destinySpawnFlag)
+			{
+				SchematicHandler.spawnStructureRelativeToPoint("/assets/mca/schematic/destiny-test.schematic", MCA.destinyCenterPoint, mc.theWorld);
+			}
+		}
+		
+		else
+		{
+			clientTickCounter--;
 		}
 	}
 

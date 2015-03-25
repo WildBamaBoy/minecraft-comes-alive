@@ -108,6 +108,8 @@ public class MCA
 	public static DataContainer playerDataContainer;
 	@SideOnly(Side.CLIENT)
 	public static Point3D destinyCenterPoint;
+	@SideOnly(Side.CLIENT)
+	public static boolean destinySpawnFlag;
 	
 	@EventHandler
     public void preInit(FMLPreInitializationEvent event)

@@ -127,6 +127,7 @@ public class GuiSetup extends GuiScreen
 	public void onGuiClosed()
 	{
 		DataWatcherEx.allowClientSideModification = false;
+		MCA.destinySpawnFlag = false;
 	}
 
 	@Override
