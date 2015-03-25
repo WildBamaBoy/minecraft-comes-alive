@@ -1,5 +1,6 @@
 package mca.items;
 
+import mca.api.IGiftableItem;
 import mca.core.MCA;
 import mca.enums.EnumCut;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -8,7 +9,7 @@ import net.minecraft.util.IIcon;
 import radixcore.item.ItemColorable;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ItemCutRingColored extends ItemColorable
+public class ItemCutRingColored extends ItemColorable implements IGiftableItem
 {
 	private EnumCut cut;
 	private boolean isRoseGold;
@@ -71,5 +72,11 @@ public class ItemCutRingColored extends ItemColorable
 		icons[0] = iconRegister.registerIcon("mca:" + name);
 		icons[1] = iconRegister.registerIcon("mca:RingCutBottom");
 		icons[2] = iconRegister.registerIcon("mca:RingCutBottomRG");
+	}
+	
+	@Override
+	public int getGiftValue() 
+	{
+		return 75;
 	}
 }

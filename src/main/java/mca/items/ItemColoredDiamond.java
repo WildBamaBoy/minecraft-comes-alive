@@ -1,12 +1,13 @@
 package mca.items;
 
+import mca.api.IGiftableItem;
 import mca.core.MCA;
 import mca.enums.EnumCut;
 import net.minecraft.item.ItemStack;
 import radixcore.item.ItemColorable;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ItemColoredDiamond extends ItemColorable
+public class ItemColoredDiamond extends ItemColorable implements IGiftableItem
 {
 	private EnumCut cut;
 	
@@ -36,5 +37,11 @@ public class ItemColoredDiamond extends ItemColorable
 		{
 			return "item.diamond";
 		}
+	}
+
+	@Override
+	public int getGiftValue() 
+	{
+		return 20;
 	}
 }

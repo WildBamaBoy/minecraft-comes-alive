@@ -1,5 +1,6 @@
 package mca.items;
 
+import mca.api.IGiftableItem;
 import mca.core.MCA;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
@@ -7,7 +8,7 @@ import net.minecraft.util.IIcon;
 import radixcore.item.ItemColorable;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-public class ItemColoredEngagementRing extends ItemColorable
+public class ItemColoredEngagementRing extends ItemColorable implements IGiftableItem
 {
 	private boolean isRoseGold;
 	private IIcon[] icons = new IIcon[2];
@@ -58,5 +59,11 @@ public class ItemColoredEngagementRing extends ItemColorable
 	public String getUnlocalizedName(ItemStack stack) 
 	{
 		return "item.EngagementRing" + (isRoseGold ? "RG" : "");
+	}
+	
+	@Override
+	public int getGiftValue() 
+	{
+		return 50;
 	}
 }
