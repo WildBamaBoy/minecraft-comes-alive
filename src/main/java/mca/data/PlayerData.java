@@ -57,7 +57,7 @@ public class PlayerData extends AbstractPlayerData
 		isEngaged = new WatchedBoolean(false, WatcherIDsPlayerData.IS_ENGAGED, dataWatcher);
 		isInLiteMode = new WatchedBoolean(false, WatcherIDsPlayerData.IS_IN_LITE_MODE, dataWatcher);
 		isMonarch = new WatchedBoolean(false, WatcherIDsPlayerData.IS_MONARCH, dataWatcher);
-		mcaName = new WatchedString("none", WatcherIDsPlayerData.MCA_NAME, dataWatcher);
+		mcaName = new WatchedString(owner.getCommandSenderName(), WatcherIDsPlayerData.MCA_NAME, dataWatcher);
 		hasChosenDestiny = new WatchedBoolean(false, WatcherIDsPlayerData.HAS_CHOSEN_DESTINY, dataWatcher);
 		isSuperUser = new WatchedBoolean(false, WatcherIDsPlayerData.IS_SUPER_USER, dataWatcher);
 		spouseName = new WatchedString("none", WatcherIDsPlayerData.SPOUSE_NAME, dataWatcher);
