@@ -3,6 +3,7 @@ package mca.blocks;
 import java.util.Random;
 
 import mca.ai.AISleep;
+import mca.core.minecraft.ModItems;
 import mca.entity.EntityHuman;
 import mca.enums.EnumBedColor;
 import mca.tile.TileVillagerBed;
@@ -15,10 +16,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIcon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import radixcore.util.RadixLogic;
@@ -57,6 +60,12 @@ public class BlockVillagerBed extends BlockDirectional implements ITileEntityPro
 		}
 
 		return true;
+	}
+
+	@Override
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) 
+	{
+		return new ItemStack(getItemDropped(0, player.getRNG(), 0));
 	}
 
 	@Override
@@ -127,9 +136,18 @@ public class BlockVillagerBed extends BlockDirectional implements ITileEntityPro
 	}
 
 	@Override
-	public Item getItemDropped(int p_149650_1_, Random p_149650_2_, int p_149650_3_)
+	public Item getItemDropped(int id, Random rand, int meta)
 	{
-		return Item.getItemById(0);
+		switch (bedColor)
+		{
+		case BLUE: return ModItems.bedBlue;
+		case GREEN: return ModItems.bedGreen;
+		case PINK: return ModItems.bedPink;
+		case PURPLE: return ModItems.bedPurple;
+		case RED: return ModItems.bedRed;
+		default:
+			return null;
+		}
 	}
 
 	private void setBlockBounds()
@@ -154,11 +172,11 @@ public class BlockVillagerBed extends BlockDirectional implements ITileEntityPro
 	}
 
 	@Override
-	public void dropBlockAsItemWithChance(World p_149690_1_, int p_149690_2_, int p_149690_3_, int p_149690_4_, int p_149690_5_, float p_149690_6_, int p_149690_7_)
+	public void dropBlockAsItemWithChance(World world, int posX, int posY, int posZ, int meta, float unknownF, int unknownI)
 	{
-		if (!isBlockHeadOfBed(p_149690_5_))
+		if (!isBlockHeadOfBed(meta))
 		{
-			super.dropBlockAsItemWithChance(p_149690_1_, p_149690_2_, p_149690_3_, p_149690_4_, p_149690_5_, p_149690_6_, 0);
+			super.dropBlockAsItemWithChance(world, posX, posY, posZ, meta, unknownF, 0);
 		}
 	}
 
@@ -212,6 +230,7 @@ public class BlockVillagerBed extends BlockDirectional implements ITileEntityPro
 
 					catch (final NullPointerException e)
 					{
+						//Ignore.
 					}
 				}
 			}

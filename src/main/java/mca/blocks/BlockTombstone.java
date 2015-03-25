@@ -10,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class BlockTombstone extends BlockContainer
@@ -108,6 +109,12 @@ public class BlockTombstone extends BlockContainer
 		return world.getBlock(posX, posY - 1, posZ).isAir(world, posX, posY, posZ) && super.canPlaceBlockAt(world, posX, posY, posZ);
 	}
 
+	@Override
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) 
+	{
+		return new ItemStack(ModItems.tombstone);
+	}
+	
 	@Override
 	public boolean hasTileEntity(int metadata)
 	{
