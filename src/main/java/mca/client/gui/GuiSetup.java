@@ -140,7 +140,7 @@ public class GuiSetup extends GuiScreen
 
 		else
 		{
-			if (page == 3)
+			if (page == 3 && nameTextField != null)
 			{
 				nameTextField.textboxKeyTyped(c, i);
 			}
