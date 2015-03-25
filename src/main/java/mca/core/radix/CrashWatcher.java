@@ -19,21 +19,31 @@ public class CrashWatcher extends ModCrashWatcher
 		{
 			String report = new Scanner(crashFile).useDelimiter("\\Z").next();
 			boolean isServer = FMLCommonHandler.instance().getEffectiveSide().isServer();
-			
+
 			if (report.contains("at mca."))
 			{
-				final Socket connectSocket = new Socket("asp.radix-shock.com", 3577);
-				final DataOutputStream dataOut = new DataOutputStream(connectSocket.getOutputStream());
-				new DataInputStream(connectSocket.getInputStream());
-				dataOut.writeByte(2);
-				dataOut.writeUTF("@Validate@");
-				dataOut.writeUTF("MCA");
-				dataOut.writeUTF(MCA.VERSION);
-				dataOut.writeBoolean(isServer);
-				dataOut.writeUTF(report);
-				connectSocket.close();
-				
-				MCA.getLog().fatal("Sent crash report to mod authors for review. Sorry about that!");
+				if (MCA.getConfig().allowCrashReporting)
+				{
+					final Socket connectSocket = new Socket("asp.radix-shock.com", 3577);
+					final DataOutputStream dataOut = new DataOutputStream(connectSocket.getOutputStream());
+					new DataInputStream(connectSocket.getInputStream());
+					dataOut.writeByte(2);
+					dataOut.writeUTF("@Validate@");
+					dataOut.writeUTF("MCA");
+					dataOut.writeUTF(MCA.VERSION);
+					dataOut.writeBoolean(isServer);
+					dataOut.writeUTF(report);
+					connectSocket.close();
+
+					MCA.getLog().fatal("Sent crash report to mod authors for review. Sorry about that!");
+				}
+
+				else
+				{
+					Thread.sleep(1000); //Give the crash report time to be displayed to the console so this message appears after the fact.
+					MCA.getLog().fatal("Detected a crash involving MCA, but crash reporting has been disabled! :(");
+					MCA.getLog().fatal("Please consider enabling crash reporting. It will help us find and stop crashes such as this!");
+				}
 			}
 		}
 

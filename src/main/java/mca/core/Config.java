@@ -49,6 +49,8 @@ public final class Config
 	
 	public boolean inTutorialMode;
 	
+	public boolean allowCrashReporting;
+	
 	public Config(FMLPreInitializationEvent event)
 	{
 		config = new Configuration(event.getSuggestedConfigurationFile());
@@ -62,6 +64,9 @@ public final class Config
 		baseBlockId = config.get("Init", "Base Block ID", 3344, "The base ID to use for blocks in MCA. Only applicable in 1.6.4.").getInt();
 		baseEntityId = config.get("Init", "Base Entity ID", 227, "The base ID to use for entities in MCA. Only change if you know what you are doing!").getInt();
 
+		config.setCategoryComment("Privacy", "Setting pertaining to your privacy while using MCA.");
+		allowCrashReporting = config.get("Privacy", "Allow crash reporting", true, "True if MCA can send crash reports to the mod authors. Crash reports may include your Minecraft username, OS version, Java version, and PC username.").getBoolean();
+		
 		config.setCategoryComment("General", "General mod settings.");
 
 		overwriteOriginalVillagers = config.get("General", "Overwrite original villagers", true).getBoolean();
