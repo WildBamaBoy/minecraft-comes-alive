@@ -50,12 +50,12 @@ public final class ModItems
 	public static Item diamondTriangle;
 	public static Item diamondStar;
 	
-	public static ItemSingle heartMold;
-	public static ItemSingle tinyMold;
-	public static ItemSingle ovalMold;
-	public static ItemSingle squareMold;
-	public static ItemSingle triangleMold;
-	public static ItemSingle starMold;
+	public static Item heartMold;
+	public static Item tinyMold;
+	public static Item ovalMold;
+	public static Item squareMold;
+	public static Item triangleMold;
+	public static Item starMold;
 	
 	public static ItemColoredDiamond coloredDiamond;
 	public static ItemColoredDiamond coloredDiamondHeart;
