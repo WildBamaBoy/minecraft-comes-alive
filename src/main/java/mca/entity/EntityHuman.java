@@ -1057,7 +1057,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		if (merchantRecipe.getItemToBuy().getItem() == Items.emerald)
 		{
-			final int wealth = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 8);
+			final int wealth = (Integer)ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 8);
 			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, Integer.valueOf(wealth + merchantRecipe.getItemToBuy().stackSize), 8);
 		}
 	}
