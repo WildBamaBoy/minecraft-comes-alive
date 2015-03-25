@@ -41,7 +41,7 @@ public class AIRespondToAttack extends AbstractAI
 			if (target instanceof EntityPlayer)
 			{
 				final EntityPlayer targetPlayer = (EntityPlayer)target;
-				
+
 				if (targetPlayer != null)
 				{
 					double distanceToPlayer = RadixMath.getDistanceToEntity(owner, targetPlayer);
@@ -82,23 +82,23 @@ public class AIRespondToAttack extends AbstractAI
 					}
 				}
 			}
-			
+
 			else if (target != null)
 			{
 				double distanceToTarget = RadixMath.getDistanceToEntity(owner, target);
-				
+
 				if (distanceToTarget >= 10.0D)
 				{
 					reset();
 				}
-				
+
 				else
 				{
 					if (owner.getNavigator().noPath())
 					{
 						owner.getNavigator().tryMoveToEntityLiving(target, Constants.SPEED_RUN);
 					}
-					
+
 					else if (distanceToTarget <= 1.8D)
 					{
 						target.attackEntityFrom(DamageSource.generic, 1.0F);
@@ -135,12 +135,12 @@ public class AIRespondToAttack extends AbstractAI
 		{
 			return;
 		}
-		
+
 		if (entity instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer)entity;
 			target = player;
-			
+
 			if (playerHasWeapon(player))
 			{
 				handlePlayerWithWeapon();
@@ -176,7 +176,17 @@ public class AIRespondToAttack extends AbstractAI
 
 	private void handlePlayerWithWeapon()
 	{
-		owner.say("behavior.retaliate.weapondrawn", (EntityPlayer)target);
+		try
+		{
+			owner.say("behavior.retaliate.weapondrawn", (EntityPlayer)target);
+		}
+		
+		catch (NullPointerException e)
+		{
+			//NPE caused by the TileKiller in ProgressiveAutomation, which uses a fake player to attack an entity.
+			//The PlayerMemory object cannot be created in this case, causing an NPE. Simply throw this exception away.
+		}
+
 		reset();
 	}
 
