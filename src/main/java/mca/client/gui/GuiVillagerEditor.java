@@ -275,7 +275,7 @@ public class GuiVillagerEditor extends GuiScreen
 			Minecraft.getMinecraft().displayGuiScreen(null);
 		}
 
-		if (currentPage == 1)
+		else if (currentPage == 1)
 		{
 			nameTextField.textboxKeyTyped(c, i);
 			final String text = nameTextField.getText().trim();

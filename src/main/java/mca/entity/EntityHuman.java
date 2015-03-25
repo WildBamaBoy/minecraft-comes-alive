@@ -327,9 +327,17 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			{
 				swingProgressTicks = 0;
 
-				DataWatcherEx.allowClientSideModification = true;
-				isSwinging.setValue(false);
-				DataWatcherEx.allowClientSideModification = false;
+				if (!DataWatcherEx.allowClientSideModification)
+				{
+					DataWatcherEx.allowClientSideModification = true;
+					isSwinging.setValue(false);
+					DataWatcherEx.allowClientSideModification = false;
+				}
+				
+				else
+				{
+					isSwinging.setValue(false);					
+				}
 			}
 		}
 
