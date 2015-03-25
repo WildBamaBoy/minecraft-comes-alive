@@ -183,8 +183,9 @@ public class AIRespondToAttack extends AbstractAI
 		
 		catch (NullPointerException e)
 		{
-			//NPE caused by the TileKiller in ProgressiveAutomation, which uses a fake player to attack an entity.
-			//The PlayerMemory object cannot be created in this case, causing an NPE. Simply throw this exception away.
+			//NPE caused by anything that extends EntityPlayer and attacks the villager.
+			//The PlayerMemory object cannot be created in this case since no player data will exist
+			//for the "fake" player. This causes an NPE. Exception will simply be thrown away.
 		}
 
 		reset();
