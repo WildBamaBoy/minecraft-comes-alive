@@ -10,6 +10,7 @@ import mca.core.minecraft.ModItems;
 import mca.data.PlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
+import mca.enums.EnumDialogueType;
 import mca.enums.EnumInteraction;
 import mca.enums.EnumPersonality;
 import mca.items.ItemBaby;
@@ -235,10 +236,13 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 					
 					if (spouse != null)
 					{
+						PlayerMemory memory = spouse.getPlayerMemory(player);
+						
 						spouse.setIsMarried(false, (EntityHuman)null);
 						spouse.setIsEngaged(false, (EntityPlayer)null);
-						spouse.getPlayerMemory(player).setHearts(-100);
 						spouse.getAI(AIMood.class).modifyMoodLevel(-5.0F);
+						memory.setHearts(-100);
+						memory.setDialogueType(EnumDialogueType.ADULT);
 					}
 					
 					data.setNotMarried();
