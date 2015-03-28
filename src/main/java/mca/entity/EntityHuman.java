@@ -2,12 +2,12 @@ package mca.entity;
 
 import io.netty.buffer.ByteBuf;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import mca.ai.AIBlink;
 import mca.ai.AIBuild;
+import mca.ai.AIDefend;
 import mca.ai.AIConverse;
 import mca.ai.AICooking;
 import mca.ai.AIEat;
@@ -43,9 +43,6 @@ import mca.enums.EnumProfessionGroup;
 import mca.enums.EnumProgressionStep;
 import mca.enums.EnumSleepingState;
 import mca.packets.PacketOpenGUIOnEntity;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentData;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
@@ -59,7 +56,6 @@ import net.minecraft.entity.ai.EntityAIWatchClosest2;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -67,7 +63,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.MathHelper;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
@@ -85,7 +80,6 @@ import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
-import cpw.mods.fml.common.registry.VillagerRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -173,7 +167,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		aiManager.addAI(new AIHunting(this));
 		aiManager.addAI(new AICooking(this));
 		aiManager.addAI(new AIFarming(this));
-
+		aiManager.addAI(new AIDefend(this));
+		
 		addAI();
 
 		if (!worldObj.isRemote)
@@ -904,9 +899,14 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			}
 		}
 
-		else if (getProfessionGroup() == EnumProfessionGroup.Guard)
+		else if (getProfessionEnum() == EnumProfession.Guard)
 		{
 			return new ItemStack(Items.iron_sword);
+		}
+		
+		else if (getProfessionEnum() == EnumProfession.Archer)
+		{
+			return new ItemStack(Items.bow);
 		}
 
 		else if (heldItem.getInt() != -1 && aiManager.isToggleAIActive())
