@@ -46,8 +46,11 @@ public class EventHooksForge
 
 	private void doOverwriteVillager(EntityJoinWorldEvent event, EntityVillager entity) 
 	{
-		entity.setDead();
-		MCA.naturallySpawnVillagers(new Point3D(entity.posX, entity.posY, entity.posZ), event.world, entity.getProfession());
+		if (entity.getProfession() >= 0 && entity.getProfession() <= 4)
+		{
+			entity.setDead();
+			MCA.naturallySpawnVillagers(new Point3D(entity.posX, entity.posY, entity.posZ), event.world, entity.getProfession());
+		}
 	}
 
 	@SubscribeEvent
@@ -104,13 +107,13 @@ public class EventHooksForge
 				entity.interact(event.entityPlayer);
 			}
 		}
-		
+
 		else if (event.target instanceof EntityPlayer && !event.entityPlayer.worldObj.isRemote)
 		{
 			MCA.getPacketHandler().sendPacketToPlayer(new PacketInteractWithPlayerC(event.entityPlayer, (EntityPlayer)event.target), (EntityPlayerMP) event.entityPlayer);
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void worldSaveEventHandler(WorldEvent.Unload event)
 	{
@@ -119,7 +122,7 @@ public class EventHooksForge
 			MCA.getCrashWatcher().checkForCrashReports();
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void playerInteractEventHandler(PlayerInteractEvent event)
 	{
