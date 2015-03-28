@@ -66,6 +66,7 @@ public class AIRespondToAttack extends AbstractAI
 
 						else if (distanceToPlayer <= 1.8D)
 						{
+							owner.swingItem();
 							targetPlayer.attackEntityFrom(DamageSource.generic, 1.0F);
 							reset();
 						}
@@ -101,6 +102,7 @@ public class AIRespondToAttack extends AbstractAI
 
 					else if (distanceToTarget <= 1.8D)
 					{
+						owner.swingItem();
 						target.attackEntityFrom(DamageSource.generic, 1.0F);
 						reset();
 					}
