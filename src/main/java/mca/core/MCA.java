@@ -157,6 +157,9 @@ public class MCA
     	GameRegistry.registerTileEntity(TileTombstone.class, TileTombstone.class.getSimpleName());
     	
     	//Recipes
+    	GameRegistry.addRecipe(new ItemStack(ModItems.divorcePapers, 1), 
+    			new Object[] { " IF", " P ", 'I', new ItemStack(Items.dye, 1, 0), 'F', Items.feather, 'P', Items.paper });
+
     	GameRegistry.addRecipe(new ItemStack(ModItems.whistle), 
     			" W#", "###", '#', Items.iron_ingot, 'W', Blocks.planks);
 
