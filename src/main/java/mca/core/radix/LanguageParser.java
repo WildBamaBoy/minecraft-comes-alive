@@ -68,6 +68,21 @@ public class LanguageParser extends AbstractLanguageParser
 					}
 				}
 				
+				else if (unparsedPhrase.contains("%ParentTitle%"))
+				{
+					boolean isPlayerMale = MCA.getPlayerData(playerTarget).isMale.getBoolean();
+					
+					if (!isPlayerMale)
+					{
+						unparsedPhrase = unparsedPhrase.replace("%ParentTitle%", MCA.getLanguageManager().getString("parser.mom"));
+					}
+					
+					else
+					{
+						unparsedPhrase = unparsedPhrase.replace("%ParentTitle%", MCA.getLanguageManager().getString("parser.dad"));						
+					}					
+				}
+				
 				else if (unparsedPhrase.contains("%a1%"))
 				{
 					unparsedPhrase = unparsedPhrase.replace("%a1%", arguments[0].toString());

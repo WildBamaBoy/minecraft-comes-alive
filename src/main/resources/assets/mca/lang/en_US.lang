@@ -970,11 +970,11 @@ adult.handshake.bad4=Wow really? This isn't like you.
 adult.handshake.bad5=Go away.
 
 # 5 good stories when talking to an adult:
-adult.tellstory.good1=
+adult.tellstory.good1=Really? I can't believe that all happened!
 adult.tellstory.good2=I wish I was brave enough to take on a creeper.
-adult.tellstory.good3=
-adult.tellstory.good4=
-adult.tellstory.good5=
+adult.tellstory.good3=That was a really good story! Is it original?
+adult.tellstory.good4=All of that happened yesterday? No way!
+adult.tellstory.good5=I was near there yesterday, I can't believe I didn't hear this already.
 
 # 5 bad stories when talking to an adult:
 adult.tellstory.bad1=*Ahem* That's my mother you're talking about.
@@ -1062,10 +1062,10 @@ parent.joke.bad5=No one ever told us you were the funny one, that's for sure.
 
 # 5 good handshakes when talking to a parent:
 parent.handshake.good1=It's good to see that we raised a polite child!
-parent.handshake.good2=
-parent.handshake.good3=
-parent.handshake.good4=
-parent.handshake.good5=
+parent.handshake.good2=How civil! We've tought you well.
+parent.handshake.good3=Good to see you again!
+parent.handshake.good4=How have you been?
+parent.handshake.good5=That's a nice, firm handshake you've got there.
 
 # 5 bad handshakes when talking to a parent:
 parent.handshake.bad1=If only you were this polite at family reunions.
@@ -1411,3 +1411,106 @@ spouse.greeting2=Hello dear, how is your day going?
 spouse.greeting3=Oh, %PlayerName%! You look tired.
 spouse.greeting4=Hey %PlayerName%! You look hungry. Would you like me to cook something?
 spouse.greeting5=%PlayerName%, you're back! I missed you.
+
+relative.gift.bad1=You shouldn't have... literally.
+relative.gift.bad2=Eh, you keep it.
+relative.gift.bad3=Ew, where did you find this? In a mine?
+relative.gift.bad4=I'm not touching that.
+ 
+relative.gift.good1=Oh thank you.
+relative.gift.good2=Thank you for thinking of me, %PlayerName%.
+relative.gift.good3=How thoughtful of you.
+relative.gift.good4=How'd you know I liked these?
+relative.gift.good5=You’re too kind.
+ 
+relative.gift.better1=I have the perfect spot for this.
+relative.gift.better2=Thank you very much, %PlayerName%.
+relative.gift.better3=This is lovely.
+relative.gift.better4=I appreciate you thinking about me.
+relative.gift.better5=I’ll take good care of it.
+ 
+relative.gift.best1=I’ve always wanted one of these!
+relative.gift.best2=This is the best gift I've ever received, %PlayerName%!
+relative.gift.best3=You give the best gifts, %PlayerName%!
+relative.gift.best4=I can't believe this, you're too sweet, thank you!
+relative.gift.best5=You know me like the back of your hand!
+
+parent.gift.bad1=Oh, uh, thanks but no thanks.
+parent.gift.bad2=I appreciate the thought, but you can keep it.
+parent.gift.bad3=Why can't you bring me something other than junk?
+parent.gift.bad4=I don't mean to hurt your feelings, but I don't want that.
+
+parent.gift.good1=Oh, how thoughtful!
+parent.gift.good2=Thank you very much!
+parent.gift.good3=You always were my favorite.
+
+parent.gift.better1=Hey, where did you get this? It's great!
+parent.gift.better2=You didn't have to get this for me, thanks!
+parent.gift.better3=You never have to give me anything, but thank you so much!
+
+parent.gift.best1=I always knew that one day I'd find this again. Thank you so much!
+parent.gift.best2=I lost this years ago, thanks!
+parent.gift.best3=This was yours when you were a child, I can't believe you found it!
+
+child.gift.bad1=Ew, I don't like this!
+child.gift.bad2=Yuck! I don't want this.
+child.gift.bad3=Why did you bring me this? It's dumb!
+child.gift.bad4=I don't even know what this is!
+
+child.gift.good1=Is it...is it all mine?
+child.gift.good2=Is this really for me?
+child.gift.good3=This is cool!
+
+child.gift.better1=Awesome! I'm going to show this to all my friends.
+child.gift.better2=You found it! I lost this a few minutes ago.
+child.gift.better3=My friend stole one of these from me. Did you beat him up for me?
+
+child.gift.best1=%PlayerName%, you give the best presents!
+child.gift.best2=Finally! My friend will stop bragging now.
+child.gift.best3=Wow! Where did you get this thing?
+child.gift.best4=My Dad has one of these. Now I have one too!
+
+spouse.gift.bad1=Oh honey...this is just terrible.
+spouse.gift.bad2=Um, is this supposed to be a gift for me?
+spouse.gift.bad3=Throw away your own junk! Oh, this was a gift?...sorry.
+spouse.gift.bad4=I thought you knew me better than that. I hate these.
+
+spouse.gift.good1=%PlayerName%, you're so sweet.
+spouse.gift.good2=Ah! You're too good to me.
+spouse.gift.good3=This is unexpected, thank you, dear!
+spouse.gift.good4=Aw, how sweet of you.
+spouse.gift.good5=Thanks, hun!
+
+spouse.gift.better1=Oh wow, this is actually really nice!
+spouse.gift.better2=I love it! Thank you!
+spouse.gift.better3=This is amazing, dear!
+spouse.gift.better4=You got this for me? How sweet!
+spouse.gift.better5=Oh, thank you %PlayerName%!
+
+spouse.gift.best1=Oh %PlayerName%, I love you!
+spouse.gift.best2=You are *way* too good to me!
+spouse.gift.best3=This must have been extremely expensive! Thank you!
+spouse.gift.best4=I...can't believe you'd get me something so thoughtful!
+
+playerchild.gift.bad1=%ParentTitle%, this is a really bad gift.
+playerchild.gift.bad2=Ew, %ParentOpposite% gives better gifts!
+playerchild.gift.bad3=Didn't you give me this like, last year?
+playerchild.gift.bad4=I could get this easily, no thanks, %ParentTitle%.
+
+playerchild.gift.good1=Oh, cool! Thank you %ParentTitle%.
+playerchild.gift.good2=%ParentOpposite% says these are 'sexy'. What does that mean?
+playerchild.gift.good3=This is much better than the last gift I got!
+playerchild.gift.good4=Woo hoo! It's mine, all mine!
+playerchild.gift.good5=Can I...can I eat it?
+
+playerchild.gift.better1=For me? For free?!
+playerchild.gift.better2=Ooh! Shiny!
+playerchild.gift.better3=I really like this, %ParentTitle%!
+playerchild.gift.better4=All of my friends will be jealous now!
+playerchild.gift.better5=This is great, %ParentTitle%!
+
+playerchild.gift.best1=This must have cost a fortune!
+playerchild.gift.best2=%ParentTitle%, I knew you would get me one of these. I just knew it!
+playerchild.gift.best3=Yay! I have the best %ParentTitle% in the world!
+playerchild.gift.best4=This is so amazing! I can't believe this is all mine!
+playerchild.gift.best5=Thank you so much, %ParentTitle%! You're the best ever!
