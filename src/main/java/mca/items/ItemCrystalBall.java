@@ -60,7 +60,8 @@ public class ItemCrystalBall extends ItemSingle
 		{
 			if (!MinecraftServer.getServer().isDedicatedServer())
 			{
-				world.playSoundAtEntity(player, "portal.travel", 0.8F, 1.0F);
+				world.playSoundAtEntity(player, "fireworks.largeBlast_far", 0.5F, 1.0F);
+				world.playSoundAtEntity(player, "portal.travel", 0.5F, 2.0F);
 			}
 		}
 		

@@ -154,6 +154,7 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 			}
 		}
 
+		player.worldObj.playSoundAtEntity(player, "portal.travel", 0.5F, 2.0F);
 		return null;
 	}
 }

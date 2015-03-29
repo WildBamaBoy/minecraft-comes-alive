@@ -2,16 +2,20 @@ package mca.client.gui;
 
 import java.awt.Desktop;
 import java.net.URI;
+import java.util.Map;
 
 import mca.core.MCA;
+import mca.core.forge.EventHooksFML;
 import mca.data.PlayerData;
 import mca.enums.EnumDestinyChoice;
 import mca.packets.PacketDestinyChoice;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
@@ -20,7 +24,10 @@ import org.lwjgl.opengl.GL11;
 
 import radixcore.client.render.RenderHelper;
 import radixcore.constant.Font.Color;
+import radixcore.data.BlockObj;
 import radixcore.data.DataWatcherEx;
+import radixcore.math.Point3D;
+import radixcore.util.SchematicHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -28,7 +35,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class GuiSetup extends GuiScreen
 {
 	private static ResourceLocation setupLogo = new ResourceLocation("mca:textures/setup.png");
-	
+
 	private EntityPlayer player;
 	private PlayerData data;
 
@@ -70,7 +77,7 @@ public class GuiSetup extends GuiScreen
 		int x = Mouse.getEventX() * width / mc.displayWidth;
 		int y = height - Mouse.getEventY() * height / mc.displayHeight - 1;
 	}
-	
+
 	@Override
 	public void drawScreen(int sizeX, int sizeY, float offset)
 	{
@@ -83,7 +90,7 @@ public class GuiSetup extends GuiScreen
 		}
 		GL11.glPopMatrix();
 
-		
+
 		if (page == 1)
 		{
 			drawCenteredString(fontRendererObj, "Are you a male, or a female?", width / 2, 120, 0xffffff);
@@ -112,6 +119,27 @@ public class GuiSetup extends GuiScreen
 	@Override
 	public void onGuiClosed()
 	{
+		Map<Point3D, BlockObj> destinySchematic = SchematicHandler.readSchematic("/assets/mca/schematic/destiny-test.schematic");
+
+		//Purge the old schematic.
+		for (Map.Entry<Point3D, BlockObj> entry : destinySchematic.entrySet())
+		{
+			int y = MCA.destinyCenterPoint.iPosY + entry.getKey().iPosY;
+
+			if (y > (int)player.posY - 2)
+			{
+				player.worldObj.setBlock(
+						MCA.destinyCenterPoint.iPosX + entry.getKey().iPosX, 
+						y, 
+						MCA.destinyCenterPoint.iPosZ + entry.getKey().iPosZ, Blocks.air);
+			}
+		}
+
+		EntityPlayerSP playerSP = (EntityPlayerSP)player;
+		EventHooksFML.playPortalAnimation = true;
+		playerSP.timeInPortal = 6.0F;
+		playerSP.prevTimeInPortal = 0.0F;
+
 		DataWatcherEx.allowClientSideModification = false;
 		MCA.destinySpawnFlag = false;
 	}
@@ -119,17 +147,9 @@ public class GuiSetup extends GuiScreen
 	@Override
 	protected void keyTyped(char c, int i)
 	{
-		if (i == Keyboard.KEY_ESCAPE)
+		if (page == 3 && nameTextField != null)
 		{
-			Minecraft.getMinecraft().displayGuiScreen(null);
-		}
-
-		else
-		{
-			if (page == 3 && nameTextField != null)
-			{
-				nameTextField.textboxKeyTyped(c, i);
-			}
+			nameTextField.textboxKeyTyped(c, i);
 		}
 	}
 
@@ -153,13 +173,13 @@ public class GuiSetup extends GuiScreen
 			{
 				Desktop.getDesktop().browse(new URI("https://www.patreon.com/wildbamaboy"));
 			}
-			
+
 			catch (Exception e)
 			{
 				return;
 			}
 		}
-		
+
 		switch (button.id)
 		{
 		case 0: page--; break;
@@ -191,9 +211,9 @@ public class GuiSetup extends GuiScreen
 				mc.displayGuiScreen(null);
 				MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.NONE));
 			}
-			
+
 			break;
-			
+
 		case 7: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.FAMILY)); break;
 		case 8: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.ALONE)); break;
 		case 9: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.VILLAGE)); break;
@@ -211,12 +231,12 @@ public class GuiSetup extends GuiScreen
 	{
 		buttonList.clear();
 		buttonList.add(new GuiButtonPatreon(-1, width / 2 + 90, height / 2 + 80));
-		
+
 		if (page > 1)
 		{
 			buttonList.add(new GuiButton(0, width / 2 - 200, height / 2 + 90, 65, 20, "Back"));
 		}
-		
+
 		if (page == 1)
 		{
 			buttonList.add(new GuiButton(1, width / 2 - 65, height / 2 + 10, 65, 20, Color.AQUA + "Male"));
