@@ -7,9 +7,9 @@ import java.util.Map;
 
 import mca.ai.AIBlink;
 import mca.ai.AIBuild;
-import mca.ai.AIDefend;
 import mca.ai.AIConverse;
 import mca.ai.AICooking;
+import mca.ai.AIDefend;
 import mca.ai.AIEat;
 import mca.ai.AIFarming;
 import mca.ai.AIFollow;
@@ -45,6 +45,7 @@ import mca.enums.EnumSleepingState;
 import mca.packets.PacketOpenGUIOnEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAIOpenDoor;
 import net.minecraft.entity.ai.EntityAIRestrictOpenDoor;
@@ -257,6 +258,14 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityHuman.class, 5.0F, 0.02F));
 		this.tasks.addTask(9, new EntityAIWander(this, getSpeed()));
 		this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));
+		
+		int maxHealth = this.getProfessionGroup() == EnumProfessionGroup.Guard ? MCA.getConfig().guardMaxHealth : MCA.getConfig().villagerMaxHealth;
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealth);
+		
+		if (this.getHealth() > maxHealth || this.getProfessionGroup() == EnumProfessionGroup.Guard)
+		{
+			this.setHealth(maxHealth);
+		}
 	}
 
 	public String getRandomSkin()
