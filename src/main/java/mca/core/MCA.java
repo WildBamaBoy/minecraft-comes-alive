@@ -237,52 +237,82 @@ public class MCA
 			Item cutItem = null;
 			Item ringItem = null;
 			Item ringRGItem = null;
+
+			Item cutItemC = null;
+			Item ringItemC = null;
+			Item ringRGItemC = null;
 			
 			switch (cut)
 			{
-			case HEART: 
-				cutItem = ModItems.coloredDiamondHeart; 
-				ringItem = ModItems.ringHeartColored;
-				ringRGItem = ModItems.ringHeartColoredRG;
+			case HEART:
+				cutItem = ModItems.diamondHeart;
+				ringItem = ModItems.engagementRingHeart;
+				ringRGItem = ModItems.engagementRingHeartRG;
+				cutItemC = ModItems.coloredDiamondHeart; 
+				ringItemC = ModItems.ringHeartColored;
+				ringRGItemC = ModItems.ringHeartColoredRG;
 				break;
 			case OVAL: 
-				cutItem = ModItems.coloredDiamondOval; 
-				ringItem = ModItems.ringOvalColored;
-				ringRGItem = ModItems.ringOvalColoredRG;
+				cutItem = ModItems.diamondOval;
+				ringItem = ModItems.engagementRingOval;
+				ringRGItem = ModItems.engagementRingOvalRG;
+				cutItemC = ModItems.coloredDiamondOval; 
+				ringItemC = ModItems.ringOvalColored;
+				ringRGItemC = ModItems.ringOvalColoredRG;
 				break;
 			case SQUARE: 
-				cutItem = ModItems.coloredDiamondSquare; 
-				ringItem = ModItems.ringSquareColored;
-				ringRGItem = ModItems.ringSquareColoredRG;
+				cutItem = ModItems.diamondSquare;
+				ringItem = ModItems.engagementRingSquare;
+				ringRGItem = ModItems.engagementRingSquareRG;
+				cutItemC = ModItems.coloredDiamondSquare; 
+				ringItemC = ModItems.ringSquareColored;
+				ringRGItemC = ModItems.ringSquareColoredRG;
 				break;
 			case STAR: 
-				cutItem = ModItems.coloredDiamondStar; 
-				ringItem = ModItems.ringStarColored;
-				ringRGItem = ModItems.ringStarColoredRG;
+				cutItem = ModItems.diamondStar;
+				ringItem = ModItems.engagementRingStar;
+				ringRGItem = ModItems.engagementRingStarRG;
+				cutItemC = ModItems.coloredDiamondStar; 
+				ringItemC = ModItems.ringStarColored;
+				ringRGItemC = ModItems.ringStarColoredRG;
 				break;
 			case TINY: 
-				cutItem = ModItems.coloredDiamondTiny; 
-				ringItem = ModItems.ringTinyColored;
-				ringRGItem = ModItems.ringTinyColoredRG;
+				cutItem = ModItems.diamondTiny;
+				ringItem = ModItems.engagementRingTiny;
+				ringRGItem = ModItems.engagementRingTinyRG;
+				cutItemC = ModItems.coloredDiamondTiny; 
+				ringItemC = ModItems.ringTinyColored;
+				ringRGItemC = ModItems.ringTinyColoredRG;
 				break;
 			case TRIANGLE: 
-				cutItem = ModItems.coloredDiamondTriangle; 
-				ringItem = ModItems.ringTriangleColored;
-				ringRGItem = ModItems.ringTriangleColoredRG;
+				cutItem = ModItems.diamondTriangle;
+				ringItem = ModItems.engagementRingTriangle;
+				ringRGItem = ModItems.engagementRingTriangleRG;
+				cutItemC = ModItems.coloredDiamondTriangle; 
+				ringItemC = ModItems.ringTriangleColored;
+				ringRGItemC = ModItems.ringTriangleColoredRG;
 				break;
 			default:
 				continue;
 			}
 			
+			//Base recipes
+			ItemStack baseStack = new ItemStack(cutItem, 1);
+			
+	    	GameRegistry.addRecipe(new ItemStack(ringItem, 1), 
+	    			"GDG", "G G", "GGG", 'D', baseStack, 'G', Items.gold_ingot);
+	    	GameRegistry.addRecipe(new ItemStack(ringRGItem, 1), 
+	    			"GDG", "G G", "GGG", 'D', baseStack, 'G', ModItems.roseGoldIngot);
+	    	
 			//All colors
 			for (int i = 0; i < 16; ++i)
 			{
-				ItemStack stack = new ItemStack(cutItem, 1, i);
+				ItemStack coloredStack = new ItemStack(cutItemC, 1, i);
 				
-		    	GameRegistry.addRecipe(new ItemStack(ringItem, 1, i), 
-		    			"GDG", "G G", "GGG", 'D', stack, 'G', Items.gold_ingot);
-		    	GameRegistry.addRecipe(new ItemStack(ringRGItem, 1, i), 
-		    			"GDG", "G G", "GGG", 'D', stack, 'G', ModItems.roseGoldIngot);
+		    	GameRegistry.addRecipe(new ItemStack(ringItemC, 1, i), 
+		    			"GDG", "G G", "GGG", 'D', coloredStack, 'G', Items.gold_ingot);
+		    	GameRegistry.addRecipe(new ItemStack(ringRGItemC, 1, i), 
+		    			"GDG", "G G", "GGG", 'D', coloredStack, 'G', ModItems.roseGoldIngot);
 			}
 		}
 			
