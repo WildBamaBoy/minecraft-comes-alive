@@ -119,20 +119,28 @@ public class GuiSetup extends GuiScreen
 	@Override
 	public void onGuiClosed()
 	{
-		Map<Point3D, BlockObj> destinySchematic = SchematicHandler.readSchematic("/assets/mca/schematic/destiny-test.schematic");
-
-		//Purge the old schematic.
-		for (Map.Entry<Point3D, BlockObj> entry : destinySchematic.entrySet())
+		try
 		{
-			int y = MCA.destinyCenterPoint.iPosY + entry.getKey().iPosY;
+			Map<Point3D, BlockObj> destinySchematic = SchematicHandler.readSchematic("/assets/mca/schematic/destiny-test.schematic");
 
-			if (y > (int)player.posY - 2)
+			//Purge the old schematic.
+			for (Map.Entry<Point3D, BlockObj> entry : destinySchematic.entrySet())
 			{
-				player.worldObj.setBlock(
-						MCA.destinyCenterPoint.iPosX + entry.getKey().iPosX, 
-						y, 
-						MCA.destinyCenterPoint.iPosZ + entry.getKey().iPosZ, Blocks.air);
+				int y = MCA.destinyCenterPoint.iPosY + entry.getKey().iPosY;
+
+				if (y > (int)player.posY - 2)
+				{
+					player.worldObj.setBlock(
+							MCA.destinyCenterPoint.iPosX + entry.getKey().iPosX, 
+							y, 
+							MCA.destinyCenterPoint.iPosZ + entry.getKey().iPosZ, Blocks.air);
+				}
 			}
+		}
+
+		catch (NullPointerException e)
+		{
+			//Ignore NPE here due to using on LAN or dedicated server.
 		}
 
 		EntityPlayerSP playerSP = (EntityPlayerSP)player;
