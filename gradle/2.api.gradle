@@ -1,0 +1,6 @@
+task apiJar(type: Jar) {
+    from (sourceSets.main.allSource) {
+        include "mca/api/**"
+    }
+    classifier = project.minecraft.version + '-api'
+}
