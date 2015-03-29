@@ -277,4 +277,10 @@ public class AIWoodcutting extends AbstractToggleAI
 
 		return returnAmount;
 	}
+	
+	@Override
+	protected String getName() 
+	{
+		return "Woodcutting";
+	}
 }

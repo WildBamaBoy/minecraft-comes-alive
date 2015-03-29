@@ -20,6 +20,8 @@ public abstract class AbstractToggleAI extends AbstractAI
 	
 	public abstract boolean getIsActive();
 	
+	protected abstract String getName();
+	
 	public final EntityPlayer getAssigningPlayer()
 	{
 		return RadixLogic.getPlayerByUUID(assigningPlayer, owner.worldObj);

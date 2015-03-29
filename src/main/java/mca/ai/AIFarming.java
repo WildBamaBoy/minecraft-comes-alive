@@ -329,4 +329,10 @@ public class AIFarming extends AbstractToggleAI
 			reset();
 		}
 	}
+	
+	@Override
+	protected String getName() 
+	{
+		return "Farming";
+	}
 }

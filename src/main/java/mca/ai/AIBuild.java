@@ -272,4 +272,10 @@ public class AIBuild extends AbstractToggleAI
 	{
 		return isAIActive.getBoolean();
 	}
+
+	@Override
+	protected String getName() 
+	{
+		return "Building";
+	}
 }

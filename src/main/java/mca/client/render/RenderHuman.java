@@ -106,7 +106,7 @@ public class RenderHuman extends RenderBiped
 		{
 			return;
 		}
-			
+		
 		else if (currentHealth < maxHealth)
 		{
 			renderLabel(human, posX, posY, posZ, MCA.getLanguageManager().getString("label.health") + currentHealth + "/" + maxHealth);
@@ -123,6 +123,11 @@ public class RenderHuman extends RenderBiped
 			renderHearts(human, posX, posY + (distanceFromPlayer / 15.0D) + (human.getHeight() * 1.15D), posZ, human.getPlayerMemory(Minecraft.getMinecraft().thePlayer).getHearts());
 		}
 
+		else if (human.getAIManager().isToggleAIActive())
+		{
+			renderLabel(human, posX, posY + (distanceFromPlayer / 15.0D)  + (human.getHeight() * 1.15D), posZ, human.getAIManager().getNameOfActiveAI());
+		}
+		
 		else if (converseAI.getConversationActive() && distanceFromPlayer <= 6.0D && MCA.getConfig().showVillagerConversations)
 		{
 			String conversationString = "conversation" + converseAI.getConversationID() + ".progress" + converseAI.getConversationProgress();

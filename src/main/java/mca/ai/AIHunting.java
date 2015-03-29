@@ -67,11 +67,11 @@ public class AIHunting extends AbstractToggleAI
 		if (standPoint.iPosX == 0 && standPoint.iPosY == 0 && standPoint.iPosZ == 0)
 		{
 			//Find a point to stand at and hunt.
-			Point3D furthestGrass = RadixLogic.getFirstFurthestBlock(owner, Blocks.grass, 3);
+			List<Point3D> grassBlocks = RadixLogic.getNearbyBlocks(owner, Blocks.grass, 15);
 
-			if (furthestGrass != null)
+			if (grassBlocks.size() > 0)
 			{
-				standPoint = furthestGrass;
+				standPoint = grassBlocks.get(RadixMath.getNumberInRange(0, grassBlocks.size() - 1));
 			}
 
 			else
@@ -195,5 +195,11 @@ public class AIHunting extends AbstractToggleAI
 
 		setIsActive(true);
 		owner.setMovementState(EnumMovementState.MOVE);
+	}
+	
+	@Override
+	protected String getName() 
+	{
+		return "Hunting";
 	}
 }

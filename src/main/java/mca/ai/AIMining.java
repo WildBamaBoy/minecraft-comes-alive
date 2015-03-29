@@ -295,4 +295,10 @@ public class AIMining extends AbstractToggleAI
 	{
 		return isAIActive.getBoolean();
 	}
+	
+	@Override
+	protected String getName() 
+	{
+		return "Mining";
+	}
 }

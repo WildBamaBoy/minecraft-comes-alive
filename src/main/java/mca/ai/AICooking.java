@@ -278,4 +278,10 @@ public class AICooking extends AbstractToggleAI
 			}
 		}
 	}
+
+	@Override
+	protected String getName() 
+	{
+		return "Cooking";
+	}
 }
