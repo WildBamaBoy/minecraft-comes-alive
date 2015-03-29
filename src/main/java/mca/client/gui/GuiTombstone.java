@@ -1,16 +1,10 @@
-/*******************************************************************************
- * GuiTombstone.java
- * Copyright (c) 2014 WildBamaBoy.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the MCA Minecraft Mod license.
- ******************************************************************************/
-
 package mca.client.gui;
 
 import mca.core.MCA;
-import mca.network.packets.PacketSetTombstoneText;
-import mca.tileentity.TileEntityTombstone;
+import mca.packets.PacketTombstoneUpdateSet;
+import mca.tile.TileTombstone;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.network.play.client.C12PacketUpdateSign;
@@ -22,33 +16,18 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-/**
- * Defines the GUI shown when placing a tombstone and writing on it.
- */
 @SideOnly(Side.CLIENT)
-public class GuiTombstone extends AbstractGui
+public class GuiTombstone extends GuiScreen
 {
-	/** The characters allowed to be on the sign. */
 	private static final String allowedCharacters = new String(ChatAllowedCharacters.allowedCharacters);
 
-	/** An instance of the tombstone being edited. */
-	private final TileEntityTombstone entityTombstone;
-
-	/** How many ticks have passed since this GUI has been opened. */
+	private final TileTombstone entityTombstone;
 	private int updateCounter;
-
-	/** The current line being edited. */
 	private int editLine;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param tileEntityTombstone The tile entity being changed by this GUI.
-	 */
-	public GuiTombstone(TileEntityTombstone tileEntityTombstone)
+	public GuiTombstone(TileTombstone tileEntityTombstone)
 	{
-		super(null);
-
+		super();
 		entityTombstone = tileEntityTombstone;
 		editLine = 0;
 	}
@@ -58,7 +37,7 @@ public class GuiTombstone extends AbstractGui
 	{
 		buttonList.clear();
 		Keyboard.enableRepeatEvents(true);
-		buttonList.add(new GuiButton(0, width / 2 - 100, height / 2 + 70, MCA.getInstance().getLanguageLoader().getString("gui.button.ok")));
+		buttonList.add(new GuiButton(0, width / 2 - 100, height / 2 + 70, MCA.getLanguageManager().getString("gui.button.ok")));
 		entityTombstone.guiOpen = true;
 	}
 
@@ -73,7 +52,7 @@ public class GuiTombstone extends AbstractGui
 			nethandlerplayclient.addToSendQueue(new C12PacketUpdateSign(entityTombstone.xCoord, entityTombstone.yCoord, entityTombstone.zCoord, entityTombstone.signText));
 		}
 
-		MCA.packetHandler.sendPacketToServer(new PacketSetTombstoneText(entityTombstone.xCoord, entityTombstone.yCoord, entityTombstone.zCoord, entityTombstone.signText[0], entityTombstone.signText[1], entityTombstone.signText[2], entityTombstone.signText[3]));
+		MCA.getPacketHandler().sendPacketToServer(new PacketTombstoneUpdateSet(entityTombstone));
 		entityTombstone.hasSynced = true;
 		entityTombstone.guiOpen = false;
 	}
@@ -132,17 +111,15 @@ public class GuiTombstone extends AbstractGui
 	public void drawScreen(int sizeX, int sizeY, float offset)
 	{
 		drawDefaultBackground();
-		drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.title.tombstone"), width / 2, 40, 0xffffff);
+		drawCenteredString(fontRendererObj, MCA.getLanguageManager().getString("gui.title.tombstone"), width / 2, 40, 0xffffff);
 
 		GL11.glPushMatrix();
 
-		//Prepare to render the tile entity by placing it in the center of the screen.
 		GL11.glTranslatef(width / 2, -50.0F, 50F);
 		GL11.glScalef(-150.00F, -150.00F, -150.00F);
 		GL11.glTranslatef(0, -0.8F, 0);
 		GL11.glRotatef(180F, 0.0F, 1.0F, 0.0F);
 
-		//Then rotate according to orientation.
 		final float rotationAngle = entityTombstone.getBlockMetadata() * 360 / 16F;
 		GL11.glRotatef(rotationAngle, 0.0F, 1.0F, 0.0F);
 
@@ -151,7 +128,6 @@ public class GuiTombstone extends AbstractGui
 			entityTombstone.lineBeingEdited = editLine;
 		}
 
-		//Render.
 		TileEntityRendererDispatcher.instance.renderTileEntityAt(entityTombstone, -0.5D, -0.75D, -0.5D, 0.0F);
 		entityTombstone.lineBeingEdited = -1;
 

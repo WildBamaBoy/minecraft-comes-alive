@@ -17,17 +17,8 @@ buildscript {
 
 apply plugin: 'forge'
 
-fileTree('gradle').include('*.gradle').collect().sort().each { apply from: it }
-
-version = "4.1.5"
+version = "5.0.0"
 group= "com.radixshock"
 archivesBaseName = "MCA"
 
-minecraft {
-    version = "1.7.10-10.13.0.1180"
-    runDir =  "eclipse/"
-    replaceIn "mca/core/Constants.java"
-    replace   "@VERSION@", project.version
-}
-
-version = "${project.minecraft.version}-${project.version}"
+fileTree('gradle').include('*.gradle').collect().sort().each { apply from: it }

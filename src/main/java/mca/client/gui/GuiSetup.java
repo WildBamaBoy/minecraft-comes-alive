@@ -1,114 +1,61 @@
-/*******************************************************************************
- * GuiSetup.java
- * Copyright (c) 2014 WildBamaBoy.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the MCA Minecraft Mod license.
- ******************************************************************************/
-
 package mca.client.gui;
 
-import java.util.Random;
+import java.awt.Desktop;
+import java.net.URI;
+import java.util.Map;
 
 import mca.core.MCA;
+import mca.core.forge.EventHooksFML;
+import mca.data.PlayerData;
+import mca.enums.EnumDestinyChoice;
+import mca.packets.PacketDestinyChoice;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 
-import com.radixshock.radixcore.crypto.HashGenerator;
-import com.radixshock.radixcore.file.WorldPropertiesManager;
-
+import radixcore.client.render.RenderHelper;
+import radixcore.constant.Font.Color;
+import radixcore.data.BlockObj;
+import radixcore.data.DataWatcherEx;
+import radixcore.math.Point3D;
+import radixcore.util.SchematicHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-/**
- * Defines the GUI shown to set up a new world with MCA.
- */
 @SideOnly(Side.CLIENT)
-public class GuiSetup extends AbstractGui
+public class GuiSetup extends GuiScreen
 {
-	private GuiButton genderButton;
+	private static ResourceLocation setupLogo = new ResourceLocation("mca:textures/setup.png");
+
+	private EntityPlayer player;
+	private PlayerData data;
 
 	private GuiTextField nameTextField;
-	private GuiButton liteModeButton;
-	private GuiButton hideTagsButton;
-	private GuiButton autoGrowChildrenButton;
-	private GuiButton displayMoodParticlesButton;
-	private GuiButton showNameTagsButton;
-	private GuiButton preferenceButton;
-	private GuiButton finishButton;
 
-	private GuiButton backButton;
-	private GuiButton nextButton;
-
-	private boolean prefersMales = false;
-
-	private boolean inNameSelectGui = false;
-	private boolean inGenderSelectGui = false;
-	private boolean inOptionsGui = false;
-
-	/** Has this GUI been opened from a librarian? */
-	private boolean viewedFromLibrarian = false;
-
-	/** An instance of the player's world properties manager. */
-	private final WorldPropertiesManager manager;
-
-	/**
-	 * Constructor
-	 * 
-	 * @param player The player that opened the GUI.
-	 * @param viewedFromLibrarian Was the GUI opened from a Librarian?
-	 */
-	public GuiSetup(EntityPlayer player, boolean viewedFromLibrarian)
+	private int page;
+	public GuiSetup(EntityPlayer player)
 	{
-		super(player);
-		this.viewedFromLibrarian = viewedFromLibrarian;
-		manager = MCA.getInstance().playerWorldManagerMap.get(player.getCommandSenderName());
+		super();
+		this.player = player;
+		this.data = MCA.getPlayerData(player);
 	}
 
 	@Override
 	public void initGui()
 	{
-		buttonList.clear();
-
-		if (MCA.getInstance().getWorldProperties(manager).playerGender.equals(""))
-		{
-			MCA.getInstance().getWorldProperties(manager).playerGender = "Male";
-		}
-
-		if (MCA.getInstance().getWorldProperties(manager).playerName.equals(""))
-		{
-			MCA.getInstance().getWorldProperties(manager).playerName = player.getCommandSenderName();
-		}
-
-		drawGenderSelectGui();
-	}
-
-	@Override
-	protected void actionPerformed(GuiButton button)
-	{
-		if (button == liteModeButton)
-		{
-			MCA.getInstance().getWorldProperties(manager).isInLiteMode = !MCA.getInstance().getWorldProperties(manager).isInLiteMode;
-			drawLiteModeButton(true);
-		}
-
-		else if (inNameSelectGui)
-		{
-			actionPerformedNameSelect(button);
-		}
-
-		else if (inGenderSelectGui)
-		{
-			actionPerformedGenderSelect(button);
-		}
-
-		else if (inOptionsGui)
-		{
-			actionPerformedOptions(button);
-		}
+		DataWatcherEx.allowClientSideModification = true;
+		Keyboard.enableRepeatEvents(true);
+		page = 1;		
+		drawControls();
 	}
 
 	@Override
@@ -116,82 +63,101 @@ public class GuiSetup extends AbstractGui
 	{
 		super.updateScreen();
 
-		if (inNameSelectGui)
+		if (page == 3 && nameTextField != null)
 		{
 			nameTextField.updateCursorCounter();
 		}
 	}
 
 	@Override
+	public void handleMouseInput() 
+	{
+		super.handleMouseInput();
+
+		int x = Mouse.getEventX() * width / mc.displayWidth;
+		int y = height - Mouse.getEventY() * height / mc.displayHeight - 1;
+	}
+
+	@Override
 	public void drawScreen(int sizeX, int sizeY, float offset)
 	{
 		drawDefaultBackground();
-		drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.title.setup"), width / 2, 20, 0xffffff);
 
-		if (inGenderSelectGui)
+		GL11.glPushMatrix();
 		{
-			drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.title.setup.gender"), width / 2, height / 2 - 80, 0xffffff);
-			backButton.enabled = false;
+			GL11.glScaled(0.55D, 0.25D, 1.0D);
+			RenderHelper.drawTexturedRectangle(setupLogo, width / 2 + 62, height / 2 - 160, 0, 0, 250, 230);
+		}
+		GL11.glPopMatrix();
+
+
+		if (page == 1)
+		{
+			drawCenteredString(fontRendererObj, "Are you a male, or a female?", width / 2, 120, 0xffffff);
 		}
 
-		else if (inNameSelectGui)
+		else if (page == 2)
 		{
-			drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.title.setup.name"), width / 2, height / 2 - 80, 0xffffff);
+			drawCenteredString(fontRendererObj, "Which do you prefer?", width / 2, 120, 0xffffff);
+		}
+
+		else if (page == 3 && nameTextField != null)
+		{
+			drawCenteredString(fontRendererObj, "What is your name?", width / 2, 100, 0xffffff);
 			nameTextField.drawTextBox();
-			backButton.enabled = true;
 		}
 
-		else if (inOptionsGui)
+		else if (page == 4)
 		{
-			drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageLoader().getString("gui.title.setup.options"), width / 2, height / 2 - 80, 0xffffff);
-			finishButton.enabled = true;
+			drawCenteredString(fontRendererObj, "Choose your destiny...", width / 2, 70, 0xffffff);
 		}
 
 		super.drawScreen(sizeX, sizeY, offset);
+		drawControls();
 	}
 
 	@Override
 	public void onGuiClosed()
 	{
-		Keyboard.enableRepeatEvents(false);
-
-		final String input = prefersMales == true ? "Males" : "Females";
-
 		try
 		{
-			final String hashedPreference = HashGenerator.getMD5Hash(input);
-			final int beginIndex = new Random().nextInt(5);
-			int endIndex = beginIndex + new Random().nextInt(hashedPreference.length() - beginIndex);
+			Map<Point3D, BlockObj> destinySchematic = SchematicHandler.readSchematic("/assets/mca/schematic/destiny-test.schematic");
 
-			if (endIndex <= beginIndex || Math.abs(beginIndex - endIndex) < 5)
+			//Purge the old schematic.
+			for (Map.Entry<Point3D, BlockObj> entry : destinySchematic.entrySet())
 			{
-				endIndex += 7;
-			}
+				int y = MCA.destinyCenterPoint.iPosY + entry.getKey().iPosY;
 
-			final String preferenceSection = hashedPreference.substring(beginIndex, endIndex);
-
-			if (!MCA.getInstance().getWorldProperties(manager).genderPreference.contains(preferenceSection))
-			{
-				MCA.getInstance().getWorldProperties(manager).genderPreference = preferenceSection;
+				if (y > (int)player.posY - 2)
+				{
+					player.worldObj.setBlock(
+							MCA.destinyCenterPoint.iPosX + entry.getKey().iPosX, 
+							y, 
+							MCA.destinyCenterPoint.iPosZ + entry.getKey().iPosZ, Blocks.air);
+				}
 			}
 		}
 
-		catch (final Exception e)
+		catch (NullPointerException e)
 		{
-			MCA.getInstance().getLogger().log(e);
+			//Ignore NPE here due to using on LAN or dedicated server.
 		}
 
-		manager.saveWorldProperties();
+		EntityPlayerSP playerSP = (EntityPlayerSP)player;
+		EventHooksFML.playPortalAnimation = true;
+		playerSP.timeInPortal = 6.0F;
+		playerSP.prevTimeInPortal = 0.0F;
+
+		DataWatcherEx.allowClientSideModification = false;
+		MCA.destinySpawnFlag = false;
 	}
 
 	@Override
 	protected void keyTyped(char c, int i)
 	{
-		if (inNameSelectGui)
+		if (page == 3 && nameTextField != null)
 		{
 			nameTextField.textboxKeyTyped(c, i);
-			final String text = nameTextField.getText().trim();
-			MCA.getInstance().getWorldProperties(manager).playerName = text;
 		}
 	}
 
@@ -200,252 +166,126 @@ public class GuiSetup extends AbstractGui
 	{
 		super.mouseClicked(clickX, clickY, clicked);
 
-		if (inNameSelectGui)
+		if (page == 3 && nameTextField != null)
 		{
 			nameTextField.mouseClicked(clickX, clickY, clicked);
 		}
 	}
 
-	/**
-	 * Draws the "MCA Lite: " button.
-	 */
-	private void drawLiteModeButton(boolean redrawCurrentGui)
+	@Override
+	protected void actionPerformed(GuiButton button)
 	{
-		buttonList.add(liteModeButton = new GuiButton(1, width / 2 + 120, height / 2 - 100, 85, 20, "MCA Lite: " + (MCA.getInstance().getWorldProperties(manager).isInLiteMode ? "Yes" : "No")));
-
-		if (redrawCurrentGui)
+		if (button.id == -1) //Patreon
 		{
-			buttonList.clear();
-
-			if (inNameSelectGui)
+			try
 			{
-				drawNameSelectGui();
+				Desktop.getDesktop().browse(new URI("https://www.patreon.com/wildbamaboy"));
 			}
 
-			else if (inGenderSelectGui)
+			catch (Exception e)
 			{
-				drawGenderSelectGui();
+				return;
+			}
+		}
+
+		switch (button.id)
+		{
+		case 0: page--; break;
+		case 1: case 2: 					page = 2; break;
+		case 3: case 4: case 5: 			page = 3; break;
+		case 6: 							page = 4; break;
+		case 7: case 8: case 9: case 10: 	
+			data.hasChosenDestiny.setValue(true);
+			setDestinyComplete();
+			mc.displayGuiScreen(null);
+			break;
+		default:
+			page = 1;
+		}
+
+		switch (button.id)
+		{
+		case 1: data.isMale.setValue(true); break;
+		case 2: data.isMale.setValue(false); break;
+		case 3: data.genderPreference.setValue(0); break;
+		case 4: data.genderPreference.setValue(1); break;
+		case 5: data.genderPreference.setValue(2); break;
+		case 6: 
+			data.mcaName.setValue(nameTextField.getText());
+
+			if (!Minecraft.getMinecraft().isIntegratedServerRunning()) 
+			{
+				setDestinyComplete();
+				mc.displayGuiScreen(null);
+				MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.NONE));
 			}
 
-			else if (inOptionsGui)
-			{
-				drawOptionsGui();
-			}
+			break;
+
+		case 7: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.FAMILY)); break;
+		case 8: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.ALONE)); break;
+		case 9: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.VILLAGE)); break;
+		case 10: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.NONE)); break;
 		}
 	}
 
-	/**
-	 * Draws the gender selection GUI.
-	 */
-	private void drawGenderSelectGui()
+	@Override
+	public boolean doesGuiPauseGame() 
 	{
-		inNameSelectGui = false;
-		inGenderSelectGui = true;
-		inOptionsGui = false;
+		return false;
+	}
 
+	private void drawControls()
+	{
 		buttonList.clear();
+		buttonList.add(new GuiButtonPatreon(-1, width / 2 + 90, height / 2 + 80));
 
-		buttonList.add(genderButton = new GuiButton(1, width / 2 - 70, height / 2 - 10, 140, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.setup.gender" + MCA.getInstance().getWorldProperties(manager).playerGender.toLowerCase())));
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
-		buttonList.add(nextButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.next")));
-		drawLiteModeButton(false);
-
-		genderButton.enabled = !viewedFromLibrarian;
-		backButton.enabled = false;
-	}
-
-	/**
-	 * Draws the name selection GUI.
-	 */
-	private void drawNameSelectGui()
-	{
-		Keyboard.enableRepeatEvents(true);
-
-		inNameSelectGui = true;
-		inGenderSelectGui = false;
-		inOptionsGui = false;
-
-		buttonList.clear();
-
-		nameTextField = new GuiTextField(fontRendererObj, width / 2 - 100, height / 2 - 10, 200, 20);
-		nameTextField.setText(MCA.getInstance().getWorldProperties(manager).playerName);
-
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
-		buttonList.add(nextButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.next")));
-		drawLiteModeButton(false);
-
-		backButton.enabled = false;
-
-		nameTextField.setMaxStringLength(32);
-	}
-
-	/**
-	 * Draws the options GUI.
-	 */
-	private void drawOptionsGui()
-	{
-		inNameSelectGui = false;
-		inGenderSelectGui = false;
-		inOptionsGui = true;
-
-		buttonList.clear();
-
-		buttonList.add(hideTagsButton = new GuiButton(1, width / 2 - 80, height / 2 - 30, 170, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.setup.hidesleepingtag")));
-		buttonList.add(autoGrowChildrenButton = new GuiButton(2, width / 2 - 80, height / 2 - 10, 170, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.setup.growchildrenautomatically")));
-		buttonList.add(displayMoodParticlesButton = new GuiButton(3, width / 2 - 80, height / 2 + 10, 170, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.setup.displaymoodparticles")));
-		buttonList.add(showNameTagsButton = new GuiButton(4, width / 2 - 80, height / 2 + 30, 170, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.setup.shownametags")));
-		buttonList.add(preferenceButton = new GuiButton(5, width / 2 - 80, height / 2 + 50, 170, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.setup.preference")));
-
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.back")));
-		buttonList.add(finishButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageLoader().getString("gui.button.setup.finish")));
-		drawLiteModeButton(false);
-
-		if (MCA.getInstance().getWorldProperties(manager).hideSleepingTag)
+		if (page > 1)
 		{
-			hideTagsButton.displayString = hideTagsButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.yes");
-		}
-		else
-		{
-			hideTagsButton.displayString = hideTagsButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.no");
+			buttonList.add(new GuiButton(0, width / 2 - 200, height / 2 + 90, 65, 20, "Back"));
 		}
 
-		if (MCA.getInstance().getWorldProperties(manager).childrenGrowAutomatically)
+		if (page == 1)
 		{
-			autoGrowChildrenButton.displayString = autoGrowChildrenButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.yes");
-		}
-		else
-		{
-			autoGrowChildrenButton.displayString = autoGrowChildrenButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.no");
+			buttonList.add(new GuiButton(1, width / 2 - 65, height / 2 + 10, 65, 20, Color.AQUA + "Male"));
+			buttonList.add(new GuiButton(2, width / 2 + 2, height / 2 + 10, 65, 20, Color.LIGHTPURPLE + "Female"));
 		}
 
-		if (prefersMales)
+		else if (page == 2)
 		{
-			preferenceButton.displayString = preferenceButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.setup.males");
-		}
-		else
-		{
-			preferenceButton.displayString = preferenceButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.setup.females");
+			buttonList.add(new GuiButton(3, width / 2 - 97, height / 2 + 10, 65, 20, Color.AQUA + "Males"));
+			buttonList.add(new GuiButton(4, width / 2 - 32, height / 2 + 10, 65, 20, Color.GREEN + "Either"));
+			buttonList.add(new GuiButton(5, width / 2 + 33, height / 2 + 10, 65, 20, Color.LIGHTPURPLE + "Females"));
 		}
 
-		if (MCA.getInstance().getWorldProperties(manager).displayMoodParticles)
+		else if (page == 3)
 		{
-			displayMoodParticlesButton.displayString = displayMoodParticlesButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.yes");
-		}
-		else
-		{
-			displayMoodParticlesButton.displayString = displayMoodParticlesButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.no");
-		}
-
-		if (MCA.getInstance().getWorldProperties(manager).showNameTags)
-		{
-			showNameTagsButton.displayString = showNameTagsButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.yes");
-		}
-		else
-		{
-			showNameTagsButton.displayString = showNameTagsButton.displayString + MCA.getInstance().getLanguageLoader().getString("gui.button.no");
-		}
-
-		finishButton.enabled = false;
-	}
-
-	/**
-	 * Handles an action performed on the Gender Select GUI.
-	 * 
-	 * @param button The button that was pressed.
-	 */
-	private void actionPerformedGenderSelect(GuiButton button)
-	{
-		if (button == genderButton)
-		{
-			if (MCA.getInstance().getWorldProperties(manager).playerGender.equals("Male"))
+			if (nameTextField == null)
 			{
-				MCA.getInstance().getWorldProperties(manager).playerGender = "Female";
-				prefersMales = true;
+				nameTextField = new GuiTextField(fontRendererObj, width / 2 - 100, height / 2 - 5, 200, 20);
+				nameTextField.setText(player.getCommandSenderName());
 			}
 
-			else
-			{
-				MCA.getInstance().getWorldProperties(manager).playerGender = "Male";
-				prefersMales = false;
-			}
-
-			drawGenderSelectGui();
+			GuiButton doneButton = new GuiButton(6, width / 2 - 32, height / 2 + 30, 65, 20, "Continue");
+			doneButton.enabled = !nameTextField.getText().trim().isEmpty();
+			buttonList.add(doneButton);
 		}
 
-		else if (button == backButton)
+		else if (page == 4)
 		{
-			return;
-		}
-
-		else if (button == nextButton)
-		{
-			drawNameSelectGui();
+			buttonList.add(new GuiButton(7, width / 2 - 46, height / 2 - 40, 95, 20, "I have a family."));
+			buttonList.add(new GuiButton(8, width / 2 - 46, height / 2 - 20, 95, 20, "I live alone."));
+			buttonList.add(new GuiButton(9, width / 2 - 46, height / 2 + 0, 95, 20, "I live in a village."));
+			buttonList.add(new GuiButton(10, width / 2 - 46, height / 2 + 20, 95, 20, "None of these."));
 		}
 	}
 
-	/**
-	 * Handles an action performed on the Name Select GUI.
-	 * 
-	 * @param button The button that was pressed.
-	 */
-	private void actionPerformedNameSelect(GuiButton button)
+	private void setDestinyComplete()
 	{
-		if (button == backButton)
-		{
-			drawGenderSelectGui();
-		}
+		PlayerData data = MCA.playerDataContainer.getPlayerData(PlayerData.class);
 
-		else if (button == nextButton)
-		{
-			drawOptionsGui();
-		}
-	}
-
-	/**
-	 * Handles an action performed on the Options GUI.
-	 * 
-	 * @param button The button that was pressed.
-	 */
-	private void actionPerformedOptions(GuiButton button)
-	{
-		if (button == backButton)
-		{
-			drawNameSelectGui();
-		}
-
-		else if (button == finishButton)
-		{
-			Minecraft.getMinecraft().displayGuiScreen(null);
-		}
-
-		else if (button == hideTagsButton)
-		{
-			MCA.getInstance().getWorldProperties(manager).hideSleepingTag = !MCA.getInstance().getWorldProperties(manager).hideSleepingTag;
-			drawOptionsGui();
-		}
-
-		else if (button == autoGrowChildrenButton)
-		{
-			MCA.getInstance().getWorldProperties(manager).childrenGrowAutomatically = !MCA.getInstance().getWorldProperties(manager).childrenGrowAutomatically;
-			drawOptionsGui();
-		}
-
-		else if (button == preferenceButton)
-		{
-			prefersMales = !prefersMales;
-			drawOptionsGui();
-		}
-
-		else if (button == displayMoodParticlesButton)
-		{
-			MCA.getInstance().getWorldProperties(manager).displayMoodParticles = !MCA.getInstance().getWorldProperties(manager).displayMoodParticles;
-			drawOptionsGui();
-		}
-
-		else if (button == showNameTagsButton)
-		{
-			MCA.getInstance().getWorldProperties(manager).showNameTags = !MCA.getInstance().getWorldProperties(manager).showNameTags;
-			drawOptionsGui();
-		}
+		DataWatcherEx.allowClientSideModification = true;
+		data.hasChosenDestiny.setValue(true);
+		DataWatcherEx.allowClientSideModification = false;
 	}
 }

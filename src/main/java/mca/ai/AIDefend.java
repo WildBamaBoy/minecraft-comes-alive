@@ -1,0 +1,148 @@
+package mca.ai;
+
+import java.util.List;
+
+import mca.core.Constants;
+import mca.entity.EntityHuman;
+import mca.enums.EnumProfession;
+import mca.enums.EnumProfessionGroup;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
+import radixcore.constant.Time;
+import radixcore.util.RadixLogic;
+import radixcore.util.RadixMath;
+
+public class AIDefend extends AbstractAI
+{
+	private static final int TARGET_SEARCH_INTERVAL = Time.SECOND * 1;
+
+	private EntityLiving target;
+	private int timeUntilTargetSearch;
+	private int rangedAttackTime;
+
+	public AIDefend(EntityHuman owner) 
+	{
+		super(owner);
+	}
+
+	@Override
+	public void onUpdateCommon() 
+	{
+
+	}
+
+	@Override
+	public void onUpdateClient() 
+	{
+
+	}
+
+	@Override
+	public void onUpdateServer() 
+	{
+		if (owner.getProfessionGroup() == EnumProfessionGroup.Guard)
+		{
+			if (target == null)
+			{
+				if (timeUntilTargetSearch <= 0)
+				{
+					tryAssignTarget();
+					timeUntilTargetSearch = TARGET_SEARCH_INTERVAL;
+				}
+
+				else
+				{
+					timeUntilTargetSearch--;
+				}
+			}
+
+			else if (target != null)
+			{
+				if (target.isDead)
+				{
+					reset();
+					return;
+				}
+
+				if (owner.getProfessionEnum() == EnumProfession.Archer)
+				{
+					if (rangedAttackTime <= 0)
+					{
+						owner.worldObj.spawnEntityInWorld(new EntityArrow(owner.worldObj, owner, target, 1.6F, 12F));
+						owner.worldObj.playSoundAtEntity(owner, "random.bow", 1.0F, 1.0F / (owner.getRNG().nextFloat() * 0.4F + 0.8F));
+						rangedAttackTime = 60;
+					}
+
+					else
+					{
+						rangedAttackTime--;
+					}
+				}
+
+				else
+				{
+					double distanceToTarget = RadixMath.getDistanceToEntity(owner, target);
+
+					if (distanceToTarget <= 2.0F)
+					{
+						owner.swingItem();
+
+						if (owner.onGround)
+						{
+							owner.motionY += 0.45F;
+						}
+
+						target.attackEntityFrom(DamageSource.generic, 6.0F);
+					}
+
+					else if (distanceToTarget > 2.0F && owner.getNavigator().noPath())
+					{
+						owner.getNavigator().tryMoveToEntityLiving(target, Constants.SPEED_RUN);
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	public void reset() 
+	{
+		target = null;
+		rangedAttackTime = 0;
+	}
+
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) 
+	{
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) 
+	{	
+	}
+
+	private void tryAssignTarget()
+	{
+		List<Entity> possibleTargets = RadixLogic.getAllEntitiesWithinDistanceOfCoordinates(owner.worldObj, owner.posX, owner.posY, owner.posZ, 15);
+		double closestDistance = 100.0D;
+
+		for (Entity entity : possibleTargets)
+		{
+			if (entity instanceof EntityMob && !(entity instanceof EntityCreeper) && owner.canEntityBeSeen(entity))
+			{
+				double distance = RadixMath.getDistanceToEntity(owner, entity);
+
+				if (distance < closestDistance)
+				{
+					closestDistance = distance;
+					target = (EntityLiving) entity;
+				}
+			}
+		}
+	}
+}

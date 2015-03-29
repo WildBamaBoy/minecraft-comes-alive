@@ -8,7 +8,7 @@
 package mca.client.render;
 
 import mca.client.model.ModelTombstone;
-import mca.tileentity.TileEntityTombstone;
+import mca.tile.TileTombstone;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -17,32 +17,17 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-/**
- * Determines how the Tombstone is rendered.
- */
 public class RenderTombstone extends TileEntitySpecialRenderer
 {
 	private static final ResourceLocation TEXTURE = new ResourceLocation("mca:textures/blocks/Tombstone.png");
 	private final ModelTombstone tombstoneModel;
 
-	/**
-	 * Constructor
-	 */
 	public RenderTombstone()
 	{
 		tombstoneModel = new ModelTombstone();
 	}
 
-	/**
-	 * Renders the tombstone at the provided location.
-	 * 
-	 * @param tombstoneEntity The tombstone being rendered.
-	 * @param posX The tombstone's x position.
-	 * @param posY The tombstone's y position.
-	 * @param posZ The tombstone's z position.
-	 * @param partialTickTime The amount of time since the last in-game tick.
-	 */
-	public void renderTileEntityTombstoneAt(TileEntityTombstone tombstoneEntity, double posX, double posY, double posZ, float partialTickTime)
+	public void renderTombstoneAt(TileTombstone tombstoneEntity, double posX, double posY, double posZ, float partialTickTime)
 	{
 		final StringBuilder stringBuilder = new StringBuilder();
 		final FontRenderer fontRendererObj = func_147498_b();
@@ -91,7 +76,7 @@ public class RenderTombstone extends TileEntitySpecialRenderer
 	@Override
 	public void renderTileEntityAt(TileEntity tombstoneEntity, double posX, double posY, double posZ, float partialTickTime)
 	{
-		renderTileEntityTombstoneAt((TileEntityTombstone) tombstoneEntity, posX, posY, posZ, partialTickTime);
+		renderTombstoneAt((TileTombstone) tombstoneEntity, posX, posY, posZ, partialTickTime);
 	}
 
 	/**

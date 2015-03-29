@@ -1,13 +1,6 @@
-/*******************************************************************************
- * ModelHorseExtension.java
- * Copyright (c) 2014 WildBamaBoy.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the MCA Minecraft Mod license.
- ******************************************************************************/
-
 package mca.client.model;
 
-import mca.entity.AbstractEntity;
+import mca.entity.EntityHuman;
 import net.minecraft.client.model.ModelHorse;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
@@ -98,7 +91,7 @@ public class ModelHorseExtension extends ModelHorse
 		super.render(entity, posX, posY, posZ, rotationYaw, rotationPitch, yOffset);
 		final EntityHorse entityHorse = (EntityHorse) entity;
 
-		if (entityHorse.riddenByEntity instanceof AbstractEntity)
+		if (entityHorse.riddenByEntity instanceof EntityHuman)
 		{
 			headpiece.render(yOffset);
 			seatCenter.render(yOffset);
@@ -146,7 +139,7 @@ public class ModelHorseExtension extends ModelHorse
 
 		final EntityHorse entityHorse = (EntityHorse) entityLiving;
 
-		if (entityHorse.riddenByEntity instanceof AbstractEntity)
+		if (entityHorse.riddenByEntity instanceof EntityHuman)
 		{
 			final float yawOffset = adjuestRotations(entityLiving.prevRenderYawOffset, entityLiving.renderYawOffset, partialTickTime);
 			final float rotationYawHead = adjuestRotations(entityLiving.prevRotationYawHead, entityLiving.rotationYawHead, partialTickTime);
