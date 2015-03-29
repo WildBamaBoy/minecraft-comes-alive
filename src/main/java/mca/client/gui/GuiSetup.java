@@ -27,14 +27,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiSetup extends GuiScreen
 {
+	private static ResourceLocation setupLogo = new ResourceLocation("mca:textures/setup.png");
+	
 	private EntityPlayer player;
 	private PlayerData data;
 
 	private GuiTextField nameTextField;
 
 	private int page;
-	private boolean patreonSelected;
-
 	public GuiSetup(EntityPlayer player)
 	{
 		super();
@@ -69,16 +69,6 @@ public class GuiSetup extends GuiScreen
 
 		int x = Mouse.getEventX() * width / mc.displayWidth;
 		int y = height - Mouse.getEventY() * height / mc.displayHeight - 1;
-
-		if (x >= 312 && x <= 437 && y >= 200 && y <= 234)
-		{
-			patreonSelected = true;
-		}
-		
-		else
-		{
-			patreonSelected = false;
-		}
 	}
 	
 	@Override
@@ -89,15 +79,11 @@ public class GuiSetup extends GuiScreen
 		GL11.glPushMatrix();
 		{
 			GL11.glScaled(0.55D, 0.25D, 1.0D);
-			RenderHelper.drawTexturedRectangle(new ResourceLocation("mca:textures/setup.png"), width / 2 + 62, height / 2 - 160, 0, 0, 250, 230);
-			
-			GL11.glScaled(0.90D, 0.50D, 1.0D);
-			
-			String patreonTexture = patreonSelected ? "mca:textures/patreon-selected.png" : "mca:textures/patreon.png";
-			RenderHelper.drawTexturedRectangle(new ResourceLocation(patreonTexture), width / 2 + 390, height / 2 + 1500, 0, 0, 255, 250);
+			RenderHelper.drawTexturedRectangle(setupLogo, width / 2 + 62, height / 2 - 160, 0, 0, 250, 230);
 		}
 		GL11.glPopMatrix();
 
+		
 		if (page == 1)
 		{
 			drawCenteredString(fontRendererObj, "Are you a male, or a female?", width / 2, 120, 0xffffff);
@@ -156,8 +142,12 @@ public class GuiSetup extends GuiScreen
 		{
 			nameTextField.mouseClicked(clickX, clickY, clicked);
 		}
-		
-		if (patreonSelected)
+	}
+
+	@Override
+	protected void actionPerformed(GuiButton button)
+	{
+		if (button.id == -1) //Patreon
 		{
 			try
 			{
@@ -169,11 +159,7 @@ public class GuiSetup extends GuiScreen
 				return;
 			}
 		}
-	}
-
-	@Override
-	protected void actionPerformed(GuiButton button)
-	{
+		
 		switch (button.id)
 		{
 		case 0: page--; break;
@@ -224,7 +210,8 @@ public class GuiSetup extends GuiScreen
 	private void drawControls()
 	{
 		buttonList.clear();
-
+		buttonList.add(new GuiButtonPatreon(-1, width / 2 + 90, height / 2 + 80));
+		
 		if (page > 1)
 		{
 			buttonList.add(new GuiButton(0, width / 2 - 200, height / 2 + 90, 65, 20, "Back"));
