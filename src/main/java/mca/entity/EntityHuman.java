@@ -893,7 +893,15 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			if (memory.getPermanentId() == this.spouseId.getInt())
 			{
-				return worldObj.getPlayerEntityByName(memory.getPlayerName());
+				for (Object obj : worldObj.playerEntities)
+				{
+					final EntityPlayer player = (EntityPlayer)obj;
+					
+					if (player.getUniqueID().toString().equals(memory.getUUID()))
+					{
+						return player;
+					}
+				}
 			}
 		}
 
