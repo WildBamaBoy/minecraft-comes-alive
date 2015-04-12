@@ -42,6 +42,7 @@ import mca.enums.EnumProfession;
 import mca.enums.EnumProfessionGroup;
 import mca.enums.EnumProgressionStep;
 import mca.enums.EnumSleepingState;
+import mca.items.ItemBaby;
 import mca.packets.PacketOpenGUIOnEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -309,10 +310,23 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 				}
 			}
 
+			//Tick player memories
 			for (PlayerMemory memory : this.playerMemories.values())
 			{
 				memory.doTick();
 			}
+			
+			//Tick babies in inventory.
+			for (int i = 0; i < inventory.getSizeInventory(); i++)
+	        {
+	            ItemStack stack = inventory.getStackInSlot(i);
+
+	            if (stack != null && stack.getItem() instanceof ItemBaby)
+	            {
+	                ItemBaby item = (ItemBaby)stack.getItem();
+	                item.onUpdate(stack, worldObj, this, 1, false);
+	            }
+	        }
 		}
 
 		else
