@@ -71,6 +71,8 @@ public class AIDefend extends AbstractAI
 
 				if (owner.getProfessionEnum() == EnumProfession.Archer)
 				{
+					owner.getLookHelper().setLookPosition(target.posX, target.posY + (double)target.getEyeHeight(), target.posZ, 10.0F, owner.getVerticalFaceSpeed());
+					
 					if (rangedAttackTime <= 0)
 					{
 						owner.worldObj.spawnEntityInWorld(new EntityArrow(owner.worldObj, owner, target, 1.6F, 12F));
