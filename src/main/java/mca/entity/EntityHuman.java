@@ -1329,6 +1329,13 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		return getProfessionGroup().getVanillaProfessionId();
 	}
 
+	
+	@Override
+	public String getCommandSenderName() 
+	{
+		return name.getString() + " the " + getProfessionEnum().getUserFriendlyForm();
+	}
+
 	private MerchantRecipeList getBuyingList()
 	{
 		return (MerchantRecipeList) ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 5);
