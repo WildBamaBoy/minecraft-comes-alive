@@ -97,7 +97,15 @@ public class AIDefend extends AbstractAI
 							owner.motionY += 0.45F;
 						}
 
-						target.attackEntityFrom(DamageSource.generic, 6.0F);
+						try
+						{
+							target.attackEntityFrom(DamageSource.generic, 6.0F);
+						}
+						
+						catch (NullPointerException e) //Noticing a crash with the human mob mod.
+						{
+							reset();
+						}
 					}
 
 					else if (distanceToTarget > 2.0F && owner.getNavigator().noPath())

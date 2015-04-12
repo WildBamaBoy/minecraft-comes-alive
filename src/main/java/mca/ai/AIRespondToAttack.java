@@ -5,6 +5,7 @@ import mca.entity.EntityHuman;
 import mca.enums.EnumPersonality;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -138,7 +139,7 @@ public class AIRespondToAttack extends AbstractAI
 			return;
 		}
 
-		if (entity instanceof EntityPlayer)
+		if (entity instanceof EntityPlayerMP)
 		{
 			EntityPlayer player = (EntityPlayer)entity;
 			target = player;
