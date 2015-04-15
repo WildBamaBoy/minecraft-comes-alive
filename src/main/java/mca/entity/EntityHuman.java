@@ -485,8 +485,18 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			EntityPlayer killingPlayer = damageSource.getSourceOfDamage() instanceof EntityPlayer ? (EntityPlayer)damageSource.getSourceOfDamage() : null;
 			String source = killingPlayer != null ? killingPlayer.getCommandSenderName() : damageSource.getDamageType();
-
-			MCA.getLog().info("Villager '" + name.getString() + "(" + getProfessionEnum().toString() + ")' was killed by " + source + ". ");
+			
+			if (killingPlayer != null)
+			{
+				final PlayerData killerData = MCA.getPlayerData(killingPlayer);
+				boolean related = isPlayerAParent(killingPlayer) || getSpouseId() == killerData.permanentId.getInt();
+				MCA.getLog().info("Villager '" + name.getString() + "(" + getProfessionEnum().toString() + ")' was killed by player " + source + ". Relation check: " + related);
+			}
+			
+			else
+			{
+				MCA.getLog().info("Villager '" + name.getString() + "(" + getProfessionEnum().toString() + ")' was killed by " + source + ". ");
+			}
 
 			aiManager.disableAllToggleAIs();
 			getAI(AISleep.class).transitionSkinState(true);
