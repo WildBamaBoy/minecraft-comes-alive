@@ -2,6 +2,7 @@ package mca.ai;
 
 import mca.core.MCA;
 import mca.entity.EntityHuman;
+import mca.enums.EnumProfessionGroup;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
 
@@ -30,7 +31,8 @@ public class AIRegenerate extends AbstractAI
 	{
 		if (timeUntilNextRegen <= 0)
 		{
-			if (owner.getHealth() < MCA.getConfig().villagerMaxHealth && owner.getHealth() > 0.0F)
+			int maxHealth = owner.getProfessionGroup() == EnumProfessionGroup.Guard ? MCA.getConfig().guardMaxHealth : MCA.getConfig().villagerMaxHealth;
+			if (owner.getHealth() < maxHealth && owner.getHealth() > 0.0F)
 			{
 				owner.setHealth(owner.getHealth() + 1);
 			}
