@@ -1231,79 +1231,79 @@ child.greeting3=Eek! You look scary!
 ##############################################################################################
 
 # 5 good chats when talking to a child WHO IS YOUR OWN:
-playerchild.chat.good1=Oh, I was just going to go explorin' later.
-playerchild.chat.good2=Can we go camping? Please?!
-playerchild.chat.good3=Hi, can you make me a cake?
-playerchild.chat.good4=Can I have my own room away from our house? That would be cool!
-playerchild.chat.good5=Let's move into a cave! That sounds so fun!
+childp.chat.good1=Oh, I was just going to go explorin' later.
+childp.chat.good2=Can we go camping? Please?!
+childp.chat.good3=Hi, can you make me a cake?
+childp.chat.good4=Can I have my own room away from our house? That would be cool!
+childp.chat.good5=Let's move into a cave! That sounds so fun!
 
 # 5 bad chats when talking to an playerchild:
-playerchild.chat.bad1=%ParentOpposite% talks about them a lot...
-playerchild.chat.bad2=I don't think %ParentOpposite% would like that very much.
-playerchild.chat.bad3=Is that why %ParentOpposite% talked about this thing called "divorce?"
-playerchild.chat.bad4=I want a new daddy.
-playerchild.chat.bad5=I don't want a baby sister.
+childp.chat.bad1=%ParentOpposite% talks about them a lot...
+childp.chat.bad2=I don't think %ParentOpposite% would like that very much.
+childp.chat.bad3=Is that why %ParentOpposite% talked about this thing called "divorce?"
+childp.chat.bad4=I want a new daddy.
+childp.chat.bad5=I don't want a baby sister.
 
 # 5 good jokes when talking to an playerchild:
-playerchild.joke.good1=*Laughs* Tell that one again!
-playerchild.joke.good2=I've got to tell my friend that one!
-playerchild.joke.good3=How did the creeper explode?!
-playerchild.joke.good4=*Laughs*Why is there no longer 3 of them?
-playerchild.joke.good5=*Laughs* ... *Laughs*... *Laughs*
+childp.joke.good1=*Laughs* Tell that one again!
+childp.joke.good2=I've got to tell my friend that one!
+childp.joke.good3=How did the creeper explode?!
+childp.joke.good4=*Laughs*Why is there no longer 3 of them?
+childp.joke.good5=*Laughs* ... *Laughs*... *Laughs*
 
 # 5 bad jokes when talking to an playerchild:
-playerchild.joke.bad1=%ParentOpposite% said you were funny, though...
-playerchild.joke.bad2=I like knock knock jokes better.
-playerchild.joke.bad3=I don't get it, that was dumb.
-playerchild.joke.bad4=*Yawn* My friend's dad is cooler and funnier than you.
-playerchild.joke.bad5=I'd rather have cake.
+childp.joke.bad1=%ParentOpposite% said you were funny, though...
+childp.joke.bad2=I like knock knock jokes better.
+childp.joke.bad3=I don't get it, that was dumb.
+childp.joke.bad4=*Yawn* My friend's dad is cooler and funnier than you.
+childp.joke.bad5=I'd rather have cake.
 
 # 5 good handshakes when talking to an playerchild:
-playerchild.handshake.good1=Why do I need to learn this stuff? 
-playerchild.handshake.good2=%ParentOpposite% said that this is a polite thing to do.
-playerchild.handshake.good3=I'm gonna be just like you when I grow up!
-playerchild.handshake.good4=Can I have cake now?
-playerchild.handshake.good5=I don't get it, but okay! 
+childp.handshake.good1=Why do I need to learn this stuff? 
+childp.handshake.good2=%ParentOpposite% said that this is a polite thing to do.
+childp.handshake.good3=I'm gonna be just like you when I grow up!
+childp.handshake.good4=Can I have cake now?
+childp.handshake.good5=I don't get it, but okay! 
 
 # 5 bad handshakes when talking to an playerchild:
-playerchild.handshake.bad1=I spit on my hand.
-playerchild.handshake.bad2=You're such an old person.
-playerchild.handshake.bad3=Only losers shake hands.
-playerchild.handshake.bad4=I'll shake your hand if you give me cake.
-playerchild.handshake.bad5=No, you'll slip and hit me.
+childp.handshake.bad1=I spit on my hand.
+childp.handshake.bad2=You're such an old person.
+childp.handshake.bad3=Only losers shake hands.
+childp.handshake.bad4=I'll shake your hand if you give me cake.
+childp.handshake.bad5=No, you'll slip and hit me.
 
 # 5 good stories when talking to an playerchild:
-playerchild.tellstory.good1=%ParentOpposite% really did that?! What happened to their clothes?
-playerchild.tellstory.good2=I want to explore a cave, too! Let's go!
-playerchild.tellstory.good3=One day I'll kill more creepers than you!
-playerchild.tellstory.good4=Oh, oh, oh! Can we climb a tree, too?!
-playerchild.tellstory.good5=Did the lava hurt? 
+childp.tellstory.good1=%ParentOpposite% really did that?! What happened to their clothes?
+childp.tellstory.good2=I want to explore a cave, too! Let's go!
+childp.tellstory.good3=One day I'll kill more creepers than you!
+childp.tellstory.good4=Oh, oh, oh! Can we climb a tree, too?!
+childp.tellstory.good5=Did the lava hurt? 
 
 # 5 bad stories when talking to an playerchild:
-playerchild.tellstory.bad1=I don't want to hear about grandma.
-playerchild.tellstory.bad2=You always say that. I just want a pet.
-playerchild.tellstory.bad3=%ParentOpposite% has been lying to you, too.
-playerchild.tellstory.bad4=You said you didn't eat the cake and cookies...
-playerchild.tellstory.bad5=Someone said you were a bad person, and I believe them!
+childp.tellstory.bad1=I don't want to hear about grandma.
+childp.tellstory.bad2=You always say that. I just want a pet.
+childp.tellstory.bad3=%ParentOpposite% has been lying to you, too.
+childp.tellstory.bad4=You said you didn't eat the cake and cookies...
+childp.tellstory.bad5=Someone said you were a bad person, and I believe them!
 
 # 5 good hugs when talking to an playerchild:
-playerchild.hug.good1=*Kisses* You're the best ever!
-playerchild.hug.good2=I'm going to be as strong as you are one day!
-playerchild.hug.good3=Why doesn't %ParentOpposite% hug anymore?
-playerchild.hug.good4=I love hugs! You're soft and warm!
-playerchild.hug.good5=You should hug %ParentOpposite% too!
+childp.hug.good1=*Kisses* You're the best ever!
+childp.hug.good2=I'm going to be as strong as you are one day!
+childp.hug.good3=Why doesn't %ParentOpposite% hug anymore?
+childp.hug.good4=I love hugs! You're soft and warm!
+childp.hug.good5=You should hug %ParentOpposite% too!
 
 # 5 bad hugs when talking to an playerchild:
-playerchild.hug.bad1=I'm too old for hugs!
-playerchild.hug.bad2=Stop it! I don't want people to see!
-playerchild.hug.bad3=Go away, you're so annoying!
-playerchild.hug.bad4=Just leave me alone or give me some cookies!
-playerchild.hug.bad5=I'd rather hug a skeleton. 
+childp.hug.bad1=I'm too old for hugs!
+childp.hug.bad2=Stop it! I don't want people to see!
+childp.hug.bad3=Go away, you're so annoying!
+childp.hug.bad4=Just leave me alone or give me some cookies!
+childp.hug.bad5=I'd rather hug a skeleton. 
 
-playerchild.greeting1=Hey there!
-playerchild.greeting2=Hey, what's going on?
-playerchild.greeting3=What are you doing?
-playerchild.greeting4=Where are you going?
+childp.greeting1=Hey there!
+childp.greeting2=Hey, what's going on?
+childp.greeting3=What are you doing?
+childp.greeting4=Where are you going?
 
 ##############################################################################################
 
@@ -1491,25 +1491,25 @@ spouse.gift.best2=You are *way* too good to me!
 spouse.gift.best3=This must have been extremely expensive! Thank you!
 spouse.gift.best4=I...can't believe you'd get me something so thoughtful!
 
-playerchild.gift.bad1=%ParentTitle%, this is a really bad gift.
-playerchild.gift.bad2=Ew, %ParentOpposite% gives better gifts!
-playerchild.gift.bad3=Didn't you give me this like, last year?
-playerchild.gift.bad4=I could get this easily, no thanks, %ParentTitle%.
+childp.gift.bad1=%ParentTitle%, this is a really bad gift.
+childp.gift.bad2=Ew, %ParentOpposite% gives better gifts!
+childp.gift.bad3=Didn't you give me this like, last year?
+childp.gift.bad4=I could get this easily, no thanks, %ParentTitle%.
 
-playerchild.gift.good1=Oh, cool! Thank you %ParentTitle%.
-playerchild.gift.good2=%ParentOpposite% says these are 'sexy'. What does that mean?
-playerchild.gift.good3=This is much better than the last gift I got!
-playerchild.gift.good4=Woo hoo! It's mine, all mine!
-playerchild.gift.good5=Can I...can I eat it?
+childp.gift.good1=Oh, cool! Thank you %ParentTitle%.
+childp.gift.good2=%ParentOpposite% says these are 'sexy'. What does that mean?
+childp.gift.good3=This is much better than the last gift I got!
+childp.gift.good4=Woo hoo! It's mine, all mine!
+childp.gift.good5=Can I...can I eat it?
 
-playerchild.gift.better1=For me? For free?!
-playerchild.gift.better2=Ooh! Shiny!
-playerchild.gift.better3=I really like this, %ParentTitle%!
-playerchild.gift.better4=All of my friends will be jealous now!
-playerchild.gift.better5=This is great, %ParentTitle%!
+childp.gift.better1=For me? For free?!
+childp.gift.better2=Ooh! Shiny!
+childp.gift.better3=I really like this, %ParentTitle%!
+childp.gift.better4=All of my friends will be jealous now!
+childp.gift.better5=This is great, %ParentTitle%!
 
-playerchild.gift.best1=This must have cost a fortune!
-playerchild.gift.best2=%ParentTitle%, I knew you would get me one of these. I just knew it!
-playerchild.gift.best3=Yay! I have the best %ParentTitle% in the world!
-playerchild.gift.best4=This is so amazing! I can't believe this is all mine!
-playerchild.gift.best5=Thank you so much, %ParentTitle%! You're the best ever!
+childp.gift.best1=This must have cost a fortune!
+childp.gift.best2=%ParentTitle%, I knew you would get me one of these. I just knew it!
+childp.gift.best3=Yay! I have the best %ParentTitle% in the world!
+childp.gift.best4=This is so amazing! I can't believe this is all mine!
+childp.gift.best5=Thank you so much, %ParentTitle%! You're the best ever!

@@ -137,7 +137,7 @@ public class ItemBaby extends Item
 			
 			PlayerMemory childMemory = child.getPlayerMemory(player);
 			childMemory.setHearts(100);
-			childMemory.setDialogueType(EnumDialogueType.PLAYERCHILD);
+			childMemory.setDialogueType(EnumDialogueType.CHILDP);
 
 			player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
 			player.triggerAchievement(ModAchievements.babyToChild);
