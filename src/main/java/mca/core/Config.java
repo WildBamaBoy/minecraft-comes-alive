@@ -81,10 +81,10 @@ public final class Config
 				"Villagers automatically get married, have children, etc.").getBoolean();
 
 		storyProgressionThreshold = config.get("General", "Story progression threshold", 120, 
-				"Amount of time a villager has to be alive before story progression begins to affect them. This value is in MINUTES. Default is 120 minutes (2 hours).").getInt();
+				"Amount of time a villager has to be alive before story progression begins to affect them. This value is in MINUTES, default is 120. Range (1 and above)").getInt();
 
 		storyProgressionRate = config.get("General", "Story progression rate", 20, 
-				"How often story progression tries to make changes. Changes may not always be made. This value is in MINUTES. Default is 20 minutes.").getInt();
+				"How often story progression tries to make changes. Changes may not always be made. This value is in MINUTES, default is 20. Range (1 and above)").getInt();
 		inTutorialMode = config.get("General", "Tutorial mode", true,
 				"Displays various tips while you play. ").getBoolean();
 		

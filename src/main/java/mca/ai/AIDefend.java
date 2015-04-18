@@ -71,6 +71,8 @@ public class AIDefend extends AbstractAI
 
 				if (owner.getProfessionEnum() == EnumProfession.Archer)
 				{
+					owner.getLookHelper().setLookPosition(target.posX, target.posY + (double)target.getEyeHeight(), target.posZ, 10.0F, owner.getVerticalFaceSpeed());
+					
 					if (rangedAttackTime <= 0)
 					{
 						owner.worldObj.spawnEntityInWorld(new EntityArrow(owner.worldObj, owner, target, 1.6F, 12F));
@@ -97,7 +99,15 @@ public class AIDefend extends AbstractAI
 							owner.motionY += 0.45F;
 						}
 
-						target.attackEntityFrom(DamageSource.generic, 6.0F);
+						try
+						{
+							target.attackEntityFrom(DamageSource.generic, 6.0F);
+						}
+						
+						catch (NullPointerException e) //Noticing a crash with the human mob mod.
+						{
+							reset();
+						}
 					}
 
 					else if (distanceToTarget > 2.0F && owner.getNavigator().noPath())

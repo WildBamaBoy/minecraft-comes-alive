@@ -320,6 +320,19 @@ public class GuiInteraction extends GuiScreen
 			}
 		}
 
+		else if (keyCode == Keyboard.KEY_G)
+		{
+			if (inGiftMode)
+			{
+				ItemStack heldItem = player.inventory.getCurrentItem();
+
+				if (heldItem != null)
+				{
+					MCA.getPacketHandler().sendPacketToServer(new PacketGift(villager, player.inventory.currentItem));
+				}
+			}
+		}
+		
 		else
 		{
 			try
@@ -475,7 +488,7 @@ public class GuiInteraction extends GuiScreen
 						displayedButton.enabled = displayedButton.id == 13;
 					}
 
-					TutorialManager.setTutorialMessage(new TutorialMessage("Give a gift by right-clicking while it's selected.", "Press Esc to cancel."));
+					TutorialManager.setTutorialMessage(new TutorialMessage("Give a gift by right-clicking while it's selected,", "or press 'G'. Press Esc to exit gift mode."));
 				}
 
 				break;

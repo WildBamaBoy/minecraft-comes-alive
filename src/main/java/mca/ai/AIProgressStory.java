@@ -45,7 +45,7 @@ public class AIProgressStory extends AbstractAI
 	public void onUpdateServer() 
 	{
 		//This AI starts working once the story progression threshold defined in the configuration file has been met.
-		if (owner.getTicksAlive() >= MCA.getConfig().storyProgressionThreshold * Time.MINUTE && isDominant && !owner.getIsChild())
+		if (MCA.getConfig().storyProgression && owner.getTicksAlive() >= MCA.getConfig().storyProgressionThreshold * Time.MINUTE && isDominant && !owner.getIsChild())
 		{
 			if (ticksUntilNextProgress <= 0 || forceNextProgress)
 			{

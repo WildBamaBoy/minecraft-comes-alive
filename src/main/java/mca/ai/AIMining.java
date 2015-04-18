@@ -78,7 +78,7 @@ public class AIMining extends AbstractToggleAI
 
 						if (!nearbyStone.isEmpty())
 						{
-							Point3D point = nearbyStone.get(RadixMath.getNumberInRange(0, nearbyStone.size()));
+							Point3D point = nearbyStone.get(RadixMath.getNumberInRange(0, nearbyStone.size() - 1));
 							owner.worldObj.setBlockMetadataWithNotify(point.iPosX, point.iPosY, point.iPosZ, 11, 2);
 							isBuildingMine = false;
 						}

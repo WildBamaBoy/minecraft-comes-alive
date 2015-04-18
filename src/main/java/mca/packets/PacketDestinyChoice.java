@@ -119,7 +119,7 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 
 					PlayerMemory childMemory = child.getPlayerMemory(player);
 					childMemory.setHearts(100);
-					childMemory.setDialogueType(EnumDialogueType.PLAYERCHILD);
+					childMemory.setDialogueType(EnumDialogueType.CHILDP);
 					numChildren--;
 				}
 			}
