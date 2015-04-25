@@ -89,7 +89,7 @@ public final class Config
 				"Displays various tips while you play. ").getBoolean();
 		
 		config.setCategoryComment("World Generation", "All settings related to MCA's world generation.");
-		roseGoldSpawnWeight = config.get("World Generation", "Rose gold spawn weight", 1, "Sets the spawn weight for rose gold. Higher numbers = less common.").getInt();
+		roseGoldSpawnWeight = config.get("World Generation", "Rose gold spawn weight", 1, "Sets the spawn weight for rose gold. Higher numbers = less common. Set to zero to disable.").getInt();
 		
 		config.setCategoryComment("Aging", "All aging-related settings of villagers and children in-game.");
 		babyGrowUpTime = config.get("Aging", "Time until babies grow up (in minutes)", 10).getInt();
