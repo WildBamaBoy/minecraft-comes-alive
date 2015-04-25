@@ -268,21 +268,8 @@ public class AISleep extends AbstractAI
 	{
 		final Block blockStanding = owner.worldObj.getBlock(homePosX, homePosY + 0, homePosZ);
 		final Block blockAbove = owner.worldObj.getBlock(homePosX, homePosY + 1, homePosZ);
-		boolean blockStandingIsValid = false;
-		boolean blockAboveIsValid = false;
-
-		for (final Block validBlock : Constants.VALID_HOMEPOINT_BLOCKS)
-		{
-			if (blockStanding == validBlock)
-			{
-				blockStandingIsValid = true;
-			}
-
-			if (blockAbove == validBlock)
-			{
-				blockAboveIsValid = true;
-			}
-		}
+		boolean blockStandingIsValid = !blockAbove.getMaterial().isSolid();
+		boolean blockAboveIsValid = !blockAbove.getMaterial().isSolid();
 
 		return blockStandingIsValid && blockAboveIsValid;
 	}
