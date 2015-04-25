@@ -320,7 +320,10 @@ public class MCA
     	GameRegistry.addSmelting(ModBlocks.roseGoldOre, new ItemStack(ModItems.roseGoldIngot), 5.0F);
     	GameRegistry.addSmelting(ModItems.diamondDust, new ItemStack(Items.diamond), 5.0F);
 
-    	SimpleOreGenerator.register(new SimpleOreGenerator(ModBlocks.roseGoldOre, 6, 12, 40, true, false), MCA.config.roseGoldSpawnWeight);
+    	if (MCA.config.roseGoldSpawnWeight > 0)
+    	{
+    		SimpleOreGenerator.register(new SimpleOreGenerator(ModBlocks.roseGoldOre, 6, 12, 40, true, false), MCA.config.roseGoldSpawnWeight);
+    	}
     }
     
     @EventHandler
