@@ -497,10 +497,10 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		if (!worldObj.isRemote)
 		{
-			EntityPlayer killingPlayer = damageSource.getSourceOfDamage() instanceof EntityPlayer ? (EntityPlayer)damageSource.getSourceOfDamage() : null;
+			EntityPlayerMP killingPlayer = damageSource.getSourceOfDamage() instanceof EntityPlayerMP ? (EntityPlayerMP)damageSource.getSourceOfDamage() : null;
 			String source = killingPlayer != null ? killingPlayer.getCommandSenderName() : damageSource.getDamageType();
 			
-			if (killingPlayer != null)
+			if (killingPlayer != null && !killingPlayer.getCommandSenderName().contains("[CoFH]"))
 			{
 				final PlayerData killerData = MCA.getPlayerData(killingPlayer);
 				boolean related = isPlayerAParent(killingPlayer) || getSpouseId() == killerData.permanentId.getInt();
