@@ -53,89 +53,90 @@ public class AIConverse extends AbstractAI
 	@Override
 	public void onUpdateServer() 
 	{
-		if (owner.getAI(AISleep.class).getIsSleeping() && isConversationActive.getBoolean())
-		{
-			reset();
-		}
-		
-		if (conversationTarget.getInt() != 0 && !owner.getAI(AISleep.class).getIsSleeping())
-		{
-			if (timeUntilAdvance <= 0)
-			{
-				EntityHuman target = (EntityHuman) RadixLogic.getEntityByPermanentId(owner.worldObj, conversationTarget.getInt());
-
-				//Target may be null when checking distance.
-				if (target != null && RadixMath.getDistanceToEntity(owner, target) >= 4.0F)
-				{
-					target = null;
-				}
-
-				if (target != null)
-				{
-					owner.faceEntity(target, 1.0F, 1.0F);
-					conversationProgress.setValue(conversationProgress.getInt() + 2);
-
-					if (conversationProgress.getInt() > conversationSize)
-					{
-						reset();
-					}
-					
-					else
-					{
-						timeUntilAdvance = PROGRESS_INTERVAL;
-					}
-				}
-
-				else
-				{
-					reset();
-				}
-			}
-
-			else
-			{
-				timeUntilAdvance--;
-			}
-		}
-
-		else
-		{
-			if (timeUntilAdvance <= 0)
-			{
-				EntityHuman target = (EntityHuman) RadixLogic.getNearestEntityOfTypeWithinDistance(EntityHuman.class, owner, 4);
-				
-				if (target != null && !target.getAI(AIConverse.class).getConversationActive())
-				{
-					AIConverse conversation = target.getAI(AIConverse.class);
-					int conversationId = RadixMath.getNumberInRange(1, NUMBER_OF_CONVERSATIONS);
-					
-					isConversationActive.setValue(true);
-					conversationTarget.setValue(target.getPermanentId());
-					conversationID.setValue(conversationId);
-					conversationProgress.setValue(1);
-					conversationSize = MCA.getLanguageManager().getNumberOfPhrasesMatchingID("conversation" + conversationId);
-					
-					conversation.setConversationActive(true);
-					conversation.setConversationTarget(owner.getPermanentId());
-					conversation.setConversationID(conversationId);
-					conversation.setConversationProgress(0);
-					conversation.setConversationSize(conversationSize);
-					
-					timeUntilAdvance = PROGRESS_INTERVAL;
-					conversation.setConversationAdvanceTime(timeUntilAdvance / 2);
-				}
-
-				else
-				{
-					timeUntilAdvance = START_INTERVAL;
-				}
-			}
-
-			else
-			{
-				timeUntilAdvance--;
-			}
-		}
+		//TODO
+//		if (owner.getAI(AISleep.class).getIsSleeping() && isConversationActive.getBoolean())
+//		{
+//			reset();
+//		}
+//		
+//		if (conversationTarget.getInt() != 0 && !owner.getAI(AISleep.class).getIsSleeping())
+//		{
+//			if (timeUntilAdvance <= 0)
+//			{
+//				EntityHuman target = (EntityHuman) RadixLogic.getEntityByPermanentId(owner.worldObj, conversationTarget.getInt());
+//
+//				//Target may be null when checking distance.
+//				if (target != null && RadixMath.getDistanceToEntity(owner, target) >= 4.0F)
+//				{
+//					target = null;
+//				}
+//
+//				if (target != null)
+//				{
+//					owner.faceEntity(target, 1.0F, 1.0F);
+//					conversationProgress.setValue(conversationProgress.getInt() + 2);
+//
+//					if (conversationProgress.getInt() > conversationSize)
+//					{
+//						reset();
+//					}
+//					
+//					else
+//					{
+//						timeUntilAdvance = PROGRESS_INTERVAL;
+//					}
+//				}
+//
+//				else
+//				{
+//					reset();
+//				}
+//			}
+//
+//			else
+//			{
+//				timeUntilAdvance--;
+//			}
+//		}
+//
+//		else
+//		{
+//			if (timeUntilAdvance <= 0)
+//			{
+//				EntityHuman target = (EntityHuman) RadixLogic.getNearestEntityOfTypeWithinDistance(EntityHuman.class, owner, 4);
+//				
+//				if (target != null && !target.getAI(AIConverse.class).getConversationActive())
+//				{
+//					AIConverse conversation = target.getAI(AIConverse.class);
+//					int conversationId = RadixMath.getNumberInRange(1, NUMBER_OF_CONVERSATIONS);
+//					
+//					isConversationActive.setValue(true);
+//					conversationTarget.setValue(target.getPermanentId());
+//					conversationID.setValue(conversationId);
+//					conversationProgress.setValue(1);
+//					conversationSize = MCA.getLanguageManager().getNumberOfPhrasesMatchingID("conversation" + conversationId);
+//					
+//					conversation.setConversationActive(true);
+//					conversation.setConversationTarget(owner.getPermanentId());
+//					conversation.setConversationID(conversationId);
+//					conversation.setConversationProgress(0);
+//					conversation.setConversationSize(conversationSize);
+//					
+//					timeUntilAdvance = PROGRESS_INTERVAL;
+//					conversation.setConversationAdvanceTime(timeUntilAdvance / 2);
+//				}
+//
+//				else
+//				{
+//					timeUntilAdvance = START_INTERVAL;
+//				}
+//			}
+//
+//			else
+//			{
+//				timeUntilAdvance--;
+//			}
+//		}
 	}
 
 	@Override
