@@ -97,7 +97,7 @@ public class EventHooksForge
 
 	@SubscribeEvent
 	public void entityInteractEventHandler(EntityInteractEvent event)
-	{
+	{	
 		if (event.target instanceof EntityHorse)
 		{
 			final EntityHorse entityHorse = (EntityHorse) event.target;
@@ -108,7 +108,7 @@ public class EventHooksForge
 			}
 		}
 
-		else if (event.target instanceof EntityPlayerMP && !event.entityPlayer.worldObj.isRemote)
+		else if (event.target instanceof EntityPlayerMP && !event.entityPlayer.worldObj.isRemote && !event.target.getCommandSenderName().contains("[CoFH]"))
 		{
 			MCA.getPacketHandler().sendPacketToPlayer(new PacketInteractWithPlayerC(event.entityPlayer, (EntityPlayer)event.target), (EntityPlayerMP) event.entityPlayer);
 		}
