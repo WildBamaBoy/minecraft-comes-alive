@@ -940,12 +940,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			}
 		}
 
-		else if (getProfessionEnum() == EnumProfession.Guard)
+		else if (getProfessionEnum() == EnumProfession.Guard && !getIsMarried())
 		{
 			return new ItemStack(Items.iron_sword);
 		}
 		
-		else if (getProfessionEnum() == EnumProfession.Archer)
+		else if (getProfessionEnum() == EnumProfession.Archer && !getIsMarried())
 		{
 			return new ItemStack(Items.bow);
 		}
