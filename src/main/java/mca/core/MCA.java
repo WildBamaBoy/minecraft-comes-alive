@@ -82,7 +82,7 @@ public class MCA
 {
 	public static final String ID = "MCA";
 	public static final String NAME = "Minecraft Comes Alive";
-	public static final String VERSION = "5.0.2";
+	public static final String VERSION = "5.0.3";
 
 	@Instance(ID)
 	private static MCA instance;
