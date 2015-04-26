@@ -108,7 +108,7 @@ public class EventHooksForge
 			}
 		}
 
-		else if (event.target instanceof EntityPlayerMP && !event.entityPlayer.worldObj.isRemote && !event.target.getCommandSenderName().contains("[CoFH]"))
+		else if (event.target instanceof EntityPlayerMP && !event.entityPlayer.worldObj.isRemote && !event.entityPlayer.getCommandSenderName().contains("[CoFH]"))
 		{
 			MCA.getPacketHandler().sendPacketToPlayer(new PacketInteractWithPlayerC(event.entityPlayer, (EntityPlayer)event.target), (EntityPlayerMP) event.entityPlayer);
 		}
