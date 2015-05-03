@@ -34,6 +34,8 @@ public final class ModBlocks
 		roseGoldOre.setHarvestLevel("pickaxe", 2);
 		
 		tombstone = new BlockTombstone();
+		tombstone.setHarvestLevel("pickaxe", 1);
+		tombstone.setHardness(3.0F);
 		
 		GameRegistry.registerBlock(roseGoldBlock, roseGoldBlock.getUnlocalizedName());
 		GameRegistry.registerBlock(roseGoldOre, roseGoldOre.getUnlocalizedName());
