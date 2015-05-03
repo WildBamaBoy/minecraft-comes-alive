@@ -135,7 +135,7 @@ public class MCA
     	
     	if (exData.updateProtocolClass == null)
     	{
-    		logger.fatal("Update checking is turned off. You will not be notified of any available updates for MCA.");
+    		logger.fatal("Config: Update checking is turned off. You will not be notified of any available updates for MCA.");
     	}
     	
     	FMLCommonHandler.instance().bus().register(new EventHooksFML());
@@ -172,8 +172,6 @@ public class MCA
     			"GDG", "G G", "GGG", 'D', Items.diamond, 'G', Items.gold_ingot);
     	GameRegistry.addRecipe(new ItemStack(ModItems.engagementRingRG), 
     			"GDG", "G G", "GGG", 'D', Items.diamond, 'G', ModItems.roseGoldIngot);
-    	GameRegistry.addRecipe(new ItemStack(ModItems.weddingRing),
-    			"GGG", "G G", "GGG", 'G', Items.gold_ingot);
     	GameRegistry.addRecipe(new ItemStack(ModItems.weddingRingRG),
     			"GGG", "G G", "GGG", 'G', ModItems.roseGoldIngot);
     	GameRegistry.addRecipe(new ItemStack(ModBlocks.roseGoldBlock),
@@ -196,6 +194,18 @@ public class MCA
     			" C ", "C C", "CCC", 'C', Items.clay_ball);    	
     	GameRegistry.addRecipe(new ItemStack(ModItems.starMold),
     			" C ", "CCC", " C ", 'C', Items.clay_ball);
+    	
+    	//Variable recipes
+    	if (!config.disableWeddingRingRecipe)
+    	{
+        	GameRegistry.addRecipe(new ItemStack(ModItems.weddingRing),
+        			"GGG", "G G", "GGG", 'G', Items.gold_ingot);
+    	}
+    	
+    	else
+    	{
+    		logger.fatal("Config: MCA's default wedding ring recipe is currently disabled. You can change this in the config. You must use Rose Gold to craft wedding rings!");
+    	}
     	
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondDust), Items.diamond);
 		
