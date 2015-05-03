@@ -126,12 +126,17 @@ public class MCA
     	playerDataMap = new HashMap<String, AbstractPlayerData>();
     	
     	ModMetadataEx exData = ModMetadataEx.getFromModMetadata(metadata);
-    	exData.updateProtocolClass = RDXUpdateProtocol.class;
+    	exData.updateProtocolClass = config.allowUpdateChecking ? RDXUpdateProtocol.class : null;
     	exData.classContainingClientDataContainer = MCA.class;
     	exData.classContainingGetPlayerDataMethod = MCA.class;
     	exData.playerDataMap = playerDataMap;
     	
     	RadixCore.registerMod(exData);
+    	
+    	if (exData.updateProtocolClass == null)
+    	{
+    		logger.fatal("Update checking is turned off. You will not be notified of any available updates for MCA.");
+    	}
     	
     	FMLCommonHandler.instance().bus().register(new EventHooksFML());
     	MinecraftForge.EVENT_BUS.register(new EventHooksForge());

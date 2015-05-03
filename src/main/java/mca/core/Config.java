@@ -50,6 +50,7 @@ public final class Config
 	public boolean inTutorialMode;
 	
 	public boolean allowCrashReporting;
+	public boolean allowUpdateChecking;
 	
 	public Config(FMLPreInitializationEvent event)
 	{
@@ -66,6 +67,7 @@ public final class Config
 
 		config.setCategoryComment("Privacy", "Setting pertaining to your privacy while using MCA.");
 		allowCrashReporting = config.get("Privacy", "Allow crash reporting", true, "True if MCA can send crash reports to the mod authors. Crash reports may include your Minecraft username, OS version, Java version, and PC username.").getBoolean();
+		allowUpdateChecking = config.get("Privacy", "Allow update checking", true, "True if MCA can check for updates. This setting requires a restart in order to take effect.").getBoolean();
 		
 		config.setCategoryComment("General", "General mod settings.");
 
