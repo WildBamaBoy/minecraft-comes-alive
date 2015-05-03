@@ -170,7 +170,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		aiManager.addAI(new AICooking(this));
 		aiManager.addAI(new AIFarming(this));
 		aiManager.addAI(new AIDefend(this));
-		
+
 		addAI();
 
 		if (!worldObj.isRemote)
@@ -259,10 +259,10 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityHuman.class, 5.0F, 0.02F));
 		this.tasks.addTask(9, new EntityAIWander(this, getSpeed()));
 		this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));
-		
+
 		int maxHealth = this.getProfessionGroup() == EnumProfessionGroup.Guard ? MCA.getConfig().guardMaxHealth : MCA.getConfig().villagerMaxHealth;
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealth);
-		
+
 		if (this.getHealth() > maxHealth || this.getProfessionGroup() == EnumProfessionGroup.Guard)
 		{
 			this.setHealth(maxHealth);
@@ -315,18 +315,18 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			{
 				memory.doTick();
 			}
-			
+
 			//Tick babies in inventory.
 			for (int i = 0; i < inventory.getSizeInventory(); i++)
-	        {
-	            ItemStack stack = inventory.getStackInSlot(i);
+			{
+				ItemStack stack = inventory.getStackInSlot(i);
 
-	            if (stack != null && stack.getItem() instanceof ItemBaby)
-	            {
-	                ItemBaby item = (ItemBaby)stack.getItem();
-	                item.onUpdate(stack, worldObj, this, 1, false);
-	            }
-	        }
+				if (stack != null && stack.getItem() instanceof ItemBaby)
+				{
+					ItemBaby item = (ItemBaby)stack.getItem();
+					item.onUpdate(stack, worldObj, this, 1, false);
+				}
+			}
 		}
 
 		else
@@ -351,7 +351,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 					isSwinging.setValue(false);
 					DataWatcherEx.allowClientSideModification = false;
 				}
-				
+
 				else
 				{
 					isSwinging.setValue(false);					
@@ -499,14 +499,14 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			EntityPlayerMP killingPlayer = damageSource.getSourceOfDamage() instanceof EntityPlayerMP ? (EntityPlayerMP)damageSource.getSourceOfDamage() : null;
 			String source = killingPlayer != null ? killingPlayer.getCommandSenderName() : damageSource.getDamageType();
-			
+
 			if (killingPlayer != null && !killingPlayer.getCommandSenderName().contains("[CoFH]"))
 			{
 				final PlayerData killerData = MCA.getPlayerData(killingPlayer);
 				boolean related = isPlayerAParent(killingPlayer) || getSpouseId() == killerData.permanentId.getInt();
 				MCA.getLog().info("Villager '" + name.getString() + "(" + getProfessionEnum().toString() + ")' was killed by player " + source + ". Relation check: " + related);
 			}
-			
+
 			else
 			{
 				MCA.getLog().info("Villager '" + name.getString() + "(" + getProfessionEnum().toString() + ")' was killed by " + source + ". ");
@@ -906,7 +906,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 				for (Object obj : worldObj.playerEntities)
 				{
 					final EntityPlayer player = (EntityPlayer)obj;
-					
+
 					if (player.getUniqueID().toString().equals(memory.getUUID()))
 					{
 						return player;
@@ -944,7 +944,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			return new ItemStack(Items.iron_sword);
 		}
-		
+
 		else if (getProfessionEnum() == EnumProfession.Archer && !getIsMarried())
 		{
 			return new ItemStack(Items.bow);
@@ -994,19 +994,23 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 				int slot = inventory.getFirstSlotContainingItem(item);
 
 				ItemStack itemInSlot = inventory.getStackInSlot(slot);
-				itemInSlot.damageItem(amount, this);
 
-				if (itemInSlot.stackSize == 0)
+				if (itemInSlot != null)
 				{
-					aiManager.disableAllToggleAIs();
-					inventory.setInventorySlotContents(slot, null);
-					return true;
-				}
+					itemInSlot.damageItem(amount, this);
 
-				else
-				{
-					inventory.setInventorySlotContents(slot, itemInSlot);
-					return false;
+					if (itemInSlot.stackSize == 0)
+					{
+						aiManager.disableAllToggleAIs();
+						inventory.setInventorySlotContents(slot, null);
+						return true;
+					}
+
+					else
+					{
+						inventory.setInventorySlotContents(slot, itemInSlot);
+						return false;
+					}
 				}
 			}
 		}
@@ -1339,7 +1343,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		return getProfessionGroup().getVanillaProfessionId();
 	}
 
-	
+
 	@Override
 	public String getCommandSenderName() 
 	{
