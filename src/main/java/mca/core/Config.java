@@ -18,6 +18,7 @@ public final class Config
 	public boolean disableWeddingRingRecipe;
 	
 	public boolean overwriteOriginalVillagers;
+	public boolean allowMobAttacks;
 	public int guardSpawnRate;
 	public int chanceToHaveTwins;
 	public int villagerMaxHealth;
@@ -25,7 +26,7 @@ public final class Config
 	public boolean storyProgression;
 	public int storyProgressionThreshold;
 	public int storyProgressionRate;
-
+	
 	public int roseGoldSpawnWeight;
 	
 	public int babyGrowUpTime;
@@ -33,6 +34,7 @@ public final class Config
 	public boolean isAgingEnabled;
 
 	public int childLimit;
+	public int villagerSpawnerCap;
 	public boolean allowFarmingChore;
 	public boolean allowFishingChore;
 	public boolean allowWoodcuttingChore;
@@ -91,6 +93,7 @@ public final class Config
 				"How often story progression tries to make changes. Changes may not always be made. This value is in MINUTES, default is 20. Range (1 and above)").getInt();
 		inTutorialMode = config.get("General", "Tutorial mode", true,
 				"Displays various tips while you play. ").getBoolean();
+		allowMobAttacks = config.get("General", "Allow mob attacks", true, "True if regular Minecraft mobs can attack villagers. False to prevent mobs from attacking any villager.").getBoolean();
 		
 		config.setCategoryComment("World Generation", "All settings related to MCA's world generation.");
 		roseGoldSpawnWeight = config.get("World Generation", "Rose gold spawn weight", 1, "Sets the spawn weight for rose gold. Higher numbers = less common. Set to zero to disable.").getInt();
@@ -109,6 +112,7 @@ public final class Config
 		
 		config.setCategoryComment("Server", "All settings that server administrators may want to configure.");
 		childLimit = config.get("Server", "Child limit", -1).getInt();
+		villagerSpawnerCap = config.get("Server", "Villager spawner cap", 16, "How many villagers maximum that can be within a 32 block radius of any villager spawner block.").getInt();
 		allowFarmingChore = config.get("Server", "Allow farming chore", true).getBoolean();
 		allowFishingChore = config.get("Server", "Allow fishing chore", true).getBoolean();
 		allowWoodcuttingChore = config.get("Server", "Allow woodcutting chore", true).getBoolean();

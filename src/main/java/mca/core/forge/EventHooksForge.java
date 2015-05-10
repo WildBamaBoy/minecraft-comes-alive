@@ -61,37 +61,40 @@ public class EventHooksForge
 
 	private void doAddMobTasks(EntityMob mob)
 	{
-		if (mob instanceof EntityEnderman)
+		if (MCA.getConfig().allowMobAttacks)
 		{
-			return;
-		}
-
-		else if (mob instanceof EntityCreeper)
-		{
-			mob.tasks.addTask(0, new EntityAIAvoidEntity(mob, EntityVillager.class, 16F, 1.35F, 1.35F));
-		}
-
-		else
-		{
-			float moveSpeed = 0.7F;
-
-			if (mob instanceof EntitySpider)
+			if (mob instanceof EntityEnderman)
 			{
-				moveSpeed = 1.2F;
+				return;
 			}
 
-			else if (mob instanceof EntitySkeleton)
+			else if (mob instanceof EntityCreeper)
 			{
-				moveSpeed = 1.1F;
+				mob.tasks.addTask(0, new EntityAIAvoidEntity(mob, EntityVillager.class, 16F, 1.35F, 1.35F));
 			}
 
-			else if (mob instanceof EntityZombie)
+			else
 			{
-				moveSpeed = 0.9F;
-			}
+				float moveSpeed = 0.7F;
 
-			mob.tasks.addTask(2, new EntityAIAttackOnCollide(mob, EntityHuman.class, moveSpeed, false));
-			mob.targetTasks.addTask(2, new EntityAINearestAttackableTarget(mob, EntityHuman.class, 16, false));
+				if (mob instanceof EntitySpider)
+				{
+					moveSpeed = 1.2F;
+				}
+
+				else if (mob instanceof EntitySkeleton)
+				{
+					moveSpeed = 1.1F;
+				}
+
+				else if (mob instanceof EntityZombie)
+				{
+					moveSpeed = 0.9F;
+				}
+
+				mob.tasks.addTask(2, new EntityAIAttackOnCollide(mob, EntityHuman.class, moveSpeed, false));
+				mob.targetTasks.addTask(2, new EntityAINearestAttackableTarget(mob, EntityHuman.class, 16, false));
+			}
 		}
 	}
 

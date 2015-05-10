@@ -2,6 +2,7 @@ package mca.core.minecraft;
 
 import mca.blocks.BlockTombstone;
 import mca.blocks.BlockVillagerBed;
+import mca.blocks.BlockVillagerSpawner;
 import mca.core.MCA;
 import mca.enums.EnumBedColor;
 import net.minecraft.block.Block;
@@ -18,6 +19,7 @@ public final class ModBlocks
 	public static Block roseGoldBlock;
 	public static Block roseGoldOre;
 	public static BlockTombstone tombstone;
+	public static BlockVillagerSpawner spawner;
 	
 	public ModBlocks()
 	{
@@ -27,6 +29,7 @@ public final class ModBlocks
 		bedPink = new BlockVillagerBed(EnumBedColor.PINK);
 		bedPurple = new BlockVillagerBed(EnumBedColor.PURPLE);
 		
+		spawner = new BlockVillagerSpawner();
 		roseGoldBlock = new BlockOre().setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockName("roseGoldBlock").setBlockTextureName("mca:RoseGoldBlock").setCreativeTab(MCA.getCreativeTabMain());
 		roseGoldOre = new BlockOre().setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockName("roseGoldOre").setBlockTextureName("mca:RoseGoldOre").setCreativeTab(MCA.getCreativeTabMain());
 
