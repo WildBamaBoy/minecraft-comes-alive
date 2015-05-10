@@ -504,7 +504,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			{
 				final PlayerData killerData = MCA.getPlayerData(killingPlayer);
 				boolean related = isPlayerAParent(killingPlayer) || getSpouseId() == killerData.permanentId.getInt();
-				MCA.getLog().info("Villager '" + name.getString() + "(" + getProfessionEnum().toString() + ")' was killed by player " + source + ". Relation check: " + related);
+				MCA.getLog().info("Villager '" + name.getString() + "(" + getProfessionEnum().toString() + ")' was killed by player " + source + ". Relation check: " + related + ". Mother: " + this.getMotherName() + ". Father: " + this.getFatherName() + "." + " Spouse: " + this.getSpouseName());
 			}
 
 			else
