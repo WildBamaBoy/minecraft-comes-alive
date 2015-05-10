@@ -73,7 +73,7 @@ public class AIProcreate extends AbstractAI
 					
 					if (!playerSpouse.inventory.addItemStackToInventory(stack))
 					{
-						playerSpouse.inventory.addItemStackToInventory(stack);				
+						owner.getInventory().addItemStackToInventory(stack);
 					}
 					
 					Achievement achievement = isMale ? ModAchievements.babyBoy : ModAchievements.babyGirl;
