@@ -94,7 +94,7 @@ item.OvalMold.name=Oval Mold
 item.SquareMold.name=Square Mold
 item.TriangleMold.name=Triangle Mold
 item.StarMold.name=Star Mold
-tile.villagerspawner.name=Villager Spawner
+tile.VillagerSpawner.name=Villager Spawner
 
 #######
 # Item Information
