@@ -501,16 +501,26 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			EntityPlayerMP killingPlayer = damageSource.getSourceOfDamage() instanceof EntityPlayerMP ? (EntityPlayerMP)damageSource.getSourceOfDamage() : null;
 			String source = killingPlayer != null ? killingPlayer.getCommandSenderName() : damageSource.getDamageType();
 
-			if (killingPlayer != null && !killingPlayer.getCommandSenderName().contains("[CoFH]"))
+			if (MCA.getConfig().logVillagerDeaths)
 			{
-				final PlayerData killerData = MCA.getPlayerData(killingPlayer);
-				boolean related = isPlayerAParent(killingPlayer) || getSpouseId() == killerData.permanentId.getInt();
-				MCA.getLog().info("Villager '" + name.getString() + "(" + getProfessionEnum().toString() + ")' was killed by player " + source + ". Relation check: " + related + ". Mother: " + this.getMotherName() + ". Father: " + this.getFatherName() + "." + " Spouse: " + this.getSpouseName());
-			}
+				if (killingPlayer != null && !killingPlayer.getCommandSenderName().contains("[CoFH]"))
+				{
+					final PlayerData killerData = MCA.getPlayerData(killingPlayer);
+					boolean related = isPlayerAParent(killingPlayer) || getSpouseId() == killerData.permanentId.getInt();
+					MCA.getLog().info("Villager '" + name.getString() + "(" + getProfessionEnum().toString() + ")' was killed by player " + source + "." + 
+							" R:" + related + 
+							" M:" + this.getMotherName() + 
+							" F:" + this.getFatherName() + 
+							" S:" + this.getSpouseName());
+				}
 
-			else
-			{
-				MCA.getLog().info("Villager '" + name.getString() + "(" + getProfessionEnum().toString() + ")' was killed by " + source + ". ");
+				else
+				{
+					EntityPlayer nearestPlayer = worldObj.getClosestPlayerToEntity(this, 25.0D);
+					String nearestPlayerString = nearestPlayer != null ? nearestPlayer.getCommandSenderName() : "None";
+					
+					MCA.getLog().info("Villager '" + name.getString() + "(" + getProfessionEnum().toString() + ")' was killed by " + source + ". Nearest player: " + nearestPlayerString);
+				}
 			}
 
 			aiManager.disableAllToggleAIs();
@@ -1032,7 +1042,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public void setIsChild(boolean value) 
 	{
 		this.isChild.setValue(value);
-		
+
 		if (!value)
 		{
 			for (PlayerMemory memory : playerMemories.values())

@@ -42,6 +42,7 @@ public final class Config
 	public boolean allowHuntingChore;
 	public boolean allowGiftDemands;
 	public boolean allowTrading;
+	public boolean logVillagerDeaths;
 	public String villagerChatPrefix;
 
 	public boolean showMoodParticles;
@@ -120,7 +121,7 @@ public final class Config
 		allowHuntingChore = config.get("Server", "Allow hunting chore", true).getBoolean();
 		allowGiftDemands = config.get("Server", "Allow gift demands", true).getBoolean();
 		allowTrading = config.get("Server", "Allow trading", true).getBoolean();
-		
+		logVillagerDeaths = config.get("Server", "Log villager deaths", false, "True if you want villager deaths to be logged to the console/server logs. Shows 'RMFS' values in console, R = related, M = mother, F = father, S = spouse. Can be a bit spammy!").getBoolean();
 		villagerChatPrefix = config.get("Server", "Villager chat prefix", "").getDefault();
 		
 		config.save();
