@@ -36,6 +36,7 @@ import mca.data.PlayerMemory;
 import mca.data.PlayerMemoryHandler;
 import mca.data.WatcherIDsHuman;
 import mca.enums.EnumBabyState;
+import mca.enums.EnumDialogueType;
 import mca.enums.EnumMovementState;
 import mca.enums.EnumPersonality;
 import mca.enums.EnumProfession;
@@ -1031,6 +1032,17 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public void setIsChild(boolean value) 
 	{
 		this.isChild.setValue(value);
+		
+		if (!value)
+		{
+			for (PlayerMemory memory : playerMemories.values())
+			{
+				if (memory.getDialogueType() == EnumDialogueType.CHILD)
+				{
+					memory.setDialogueType(EnumDialogueType.ADULT);
+				}
+			}
+		}
 	}
 
 	public String getName() 
