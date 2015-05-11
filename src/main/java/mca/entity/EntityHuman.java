@@ -533,7 +533,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 				if (playerPartner != null)
 				{
 					PlayerData data = MCA.getPlayerData(playerPartner);
-					playerPartner.addChatMessage(new ChatComponentText(Color.RED + name.getString() + " has died."));
+					playerPartner.addChatMessage(new ChatComponentText(Color.RED + name.getString() + " has died from " + damageSource.damageType));
 					data.setNotMarried();
 				}
 
