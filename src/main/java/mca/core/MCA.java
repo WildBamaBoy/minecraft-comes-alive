@@ -208,6 +208,7 @@ public class MCA
     	}
     	
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondDust), Items.diamond);
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.roseGoldIngot, 9), ModBlocks.roseGoldBlock);
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedRed), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 14));
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedBlue), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 11));
