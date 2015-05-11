@@ -1,5 +1,7 @@
 package mca.core.forge;
 
+import java.lang.reflect.Field;
+
 import mca.core.MCA;
 import mca.entity.EntityHuman;
 import mca.packets.PacketInteractWithPlayerC;
@@ -7,6 +9,7 @@ import mca.util.TutorialManager;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntityMob;
@@ -94,6 +97,45 @@ public class EventHooksForge
 
 				mob.tasks.addTask(2, new EntityAIAttackOnCollide(mob, EntityHuman.class, moveSpeed, false));
 				mob.targetTasks.addTask(2, new EntityAINearestAttackableTarget(mob, EntityHuman.class, 16, false));
+			}
+		}
+
+		else
+		{
+			if (mob.tasks != null && mob.targetTasks.taskEntries != null)
+			{
+				for (int i = 0; i < mob.targetTasks.taskEntries.size(); i++)
+				{
+					try
+					{
+						EntityAITaskEntry task = (EntityAITaskEntry)mob.targetTasks.taskEntries.get(i);
+						
+						if (task.action instanceof EntityAINearestAttackableTarget)
+						{
+							EntityAINearestAttackableTarget nat = (EntityAINearestAttackableTarget)task.action;
+							
+							for (Field f : nat.getClass().getDeclaredFields())
+							{	
+								if (f.getType().equals(Class.class))
+								{
+									f.setAccessible(true);
+									Class targetClass = (Class) f.get(nat);
+									f.setAccessible(false);
+									
+									if (targetClass.isAssignableFrom(EntityVillager.class))
+									{
+										mob.targetTasks.removeTask(nat);
+									}
+								}
+							}
+						}
+					}
+					
+					catch (Exception e)
+					{
+						continue;
+					}
+				}
 			}
 		}
 	}
