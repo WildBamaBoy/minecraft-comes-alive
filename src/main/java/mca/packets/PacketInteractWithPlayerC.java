@@ -1,5 +1,7 @@
 package mca.packets;
 
+import org.lwjgl.input.Keyboard;
+
 import io.netty.buffer.ByteBuf;
 import mca.client.gui.GuiPlayerMenu;
 import mca.core.MCA;
@@ -86,6 +88,11 @@ public class PacketInteractWithPlayerC extends AbstractPacket implements IMessag
 		
 		if (target != null)
 		{
+			if (MCA.getConfig().shiftClickForPlayerMarriage && !Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+			{
+				return null;
+			}
+			
 			Minecraft.getMinecraft().displayGuiScreen(new GuiPlayerMenu(recipient, target, packet.targetIsMarried, packet.targetIsEngaged, packet.isMarriedToInitiator, packet.targetSpouseName));
 		}
 		

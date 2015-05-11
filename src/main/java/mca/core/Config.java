@@ -19,6 +19,7 @@ public final class Config
 	
 	public boolean overwriteOriginalVillagers;
 	public boolean allowMobAttacks;
+	public boolean shiftClickForPlayerMarriage;
 	public int guardSpawnRate;
 	public int chanceToHaveTwins;
 	public int villagerMaxHealth;
@@ -77,6 +78,7 @@ public final class Config
 		config.setCategoryComment("General", "General mod settings.");
 
 		overwriteOriginalVillagers = config.get("General", "Overwrite original villagers", true).getBoolean();
+		shiftClickForPlayerMarriage = config.get("General", "Shift-click for player marriage menu", false, "True if you must hold shift then right click a player to open the marriage menu. Useful on PvP servers.").getBoolean();
 		chanceToHaveTwins = config.get("General", "Chance to have twins", 2, "Your percent chance of having twins.").getInt();
 		guardSpawnRate = config.get("General", "Guard spawn rate", 3, 
 				"One guard per this many villagers. Set to zero or a negative number to disable guards.").getInt();
