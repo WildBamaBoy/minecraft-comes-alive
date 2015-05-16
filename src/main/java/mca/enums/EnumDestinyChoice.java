@@ -3,6 +3,7 @@ package mca.enums;
 
 public enum EnumDestinyChoice 
 {
+	CANCEL(0),
 	FAMILY(1),
 	ALONE(2),
 	VILLAGE(3),

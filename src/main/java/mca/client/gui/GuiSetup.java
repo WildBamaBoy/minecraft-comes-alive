@@ -111,6 +111,12 @@ public class GuiSetup extends GuiScreen
 		{
 			drawCenteredString(fontRendererObj, "Choose your destiny...", width / 2, 70, 0xffffff);
 		}
+		
+		else if (page == 5)
+		{
+			drawCenteredString(fontRendererObj, "WARNING: This destiny can potentially be destructive to your world.", width / 2, 70, 0xffffff);
+			drawCenteredString(fontRendererObj, "This option works best on flat land with no other structures nearby. Continue?", width / 2, 85, 0xffffff);
+		}
 
 		super.drawScreen(sizeX, sizeY, offset);
 		drawControls();
@@ -194,7 +200,7 @@ public class GuiSetup extends GuiScreen
 		case 1: case 2: 					page = 2; break;
 		case 3: case 4: case 5: 			page = 3; break;
 		case 6: 							page = 4; break;
-		case 7: case 8: case 9: case 10: 	
+		case 7: case 8: case 10: case 11: 	//TODO Skip on cases that the warning message will be displayed.
 			data.hasChosenDestiny.setValue(true);
 			setDestinyComplete();
 			mc.displayGuiScreen(null);
@@ -224,8 +230,13 @@ public class GuiSetup extends GuiScreen
 
 		case 7: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.FAMILY)); break;
 		case 8: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.ALONE)); break;
-		case 9: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.VILLAGE)); break;
+		case 9: page = 5; break;
 		case 10: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.NONE)); break;
+		
+		case 11: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.VILLAGE)); break; //TODO Store destiny choice and use it at this instance.
+		case 12: page = 4; break;
+		case 13: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.CANCEL));
+				mc.displayGuiScreen(null); break;
 		}
 	}
 
@@ -277,6 +288,13 @@ public class GuiSetup extends GuiScreen
 			buttonList.add(new GuiButton(8, width / 2 - 46, height / 2 - 20, 95, 20, "I live alone."));
 			buttonList.add(new GuiButton(9, width / 2 - 46, height / 2 + 0, 95, 20, "I live in a village."));
 			buttonList.add(new GuiButton(10, width / 2 - 46, height / 2 + 20, 95, 20, "None of these."));
+		}
+		
+		else if (page == 5)
+		{
+			buttonList.add(new GuiButton(11, width / 2 - 46, height / 2 - 20, 95, 20, "Yes"));
+			buttonList.add(new GuiButton(12, width / 2 - 46, height / 2 - 0, 95, 20, "No"));
+			buttonList.add(new GuiButton(13, width / 2 - 46, height / 2 + 20, 95, 20, "Cancel"));
 		}
 	}
 

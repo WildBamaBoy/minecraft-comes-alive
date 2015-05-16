@@ -3,6 +3,7 @@ package mca.packets;
 import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
 import mca.core.minecraft.ModBlocks;
+import mca.core.minecraft.ModItems;
 import mca.data.PlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
@@ -11,6 +12,7 @@ import mca.enums.EnumDialogueType;
 import mca.tile.TileTombstone;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.management.PlayerManager;
 import net.minecraft.world.WorldServer;
 import radixcore.math.Point3D;
@@ -54,7 +56,7 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 		final PlayerData data = MCA.getPlayerData(player);
 		final WorldServer world = (WorldServer)player.worldObj;
 
-		if (packet.choice == EnumDestinyChoice.NONE)
+		if (packet.choice == EnumDestinyChoice.NONE || packet.choice == EnumDestinyChoice.CANCEL)
 		{
 			//Update the region around the player so that the destiny room disappears.
 			final PlayerManager manager = world.getPlayerManager();
@@ -68,6 +70,11 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 						manager.markBlockForUpdate((int)player.posX + x, (int)player.posY + y, (int)player.posZ + z);						
 					}
 				}
+			}
+
+			if (packet.choice == EnumDestinyChoice.CANCEL)
+			{
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.crystalBall));
 			}
 		}
 
