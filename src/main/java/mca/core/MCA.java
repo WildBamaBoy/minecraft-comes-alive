@@ -167,7 +167,10 @@ public class MCA
 
     	GameRegistry.addRecipe(new ItemStack(ModItems.whistle), 
     			" W#", "###", '#', Items.iron_ingot, 'W', Blocks.planks);
-
+    	GameRegistry.addRecipe(new ItemStack(Items.gold_ingot), 
+    			"GGG", "GGG", "GGG", 'G', ModItems.goldDust);
+    	GameRegistry.addRecipe(new ItemStack(ModItems.roseGoldIngot, 9), 
+    			"GGG", "GGG", "GGG", 'G', ModItems.roseGoldDust);
     	GameRegistry.addRecipe(new ItemStack(ModItems.engagementRing), 
     			"GDG", "G G", "GGG", 'D', Items.diamond, 'G', Items.gold_ingot);
     	GameRegistry.addRecipe(new ItemStack(ModItems.engagementRingRG), 
@@ -194,7 +197,7 @@ public class MCA
     			" C ", "C C", "CCC", 'C', Items.clay_ball);    	
     	GameRegistry.addRecipe(new ItemStack(ModItems.starMold),
     			" C ", "CCC", " C ", 'C', Items.clay_ball);
-    	
+
     	//Variable recipes
     	if (!config.disableWeddingRingRecipe)
     	{
@@ -208,8 +211,9 @@ public class MCA
     	}
     	
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondDust), Items.diamond);
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.roseGoldIngot, 9), ModBlocks.roseGoldBlock);
-		
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.roseGoldDust), ModItems.roseGoldIngot);
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.goldDust, 6), Items.water_bucket, new ItemStack(ModItems.roseGoldDust));
+
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedRed), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 14));
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedBlue), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 11));
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedGreen), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 13));

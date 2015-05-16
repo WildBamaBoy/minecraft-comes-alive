@@ -40,6 +40,8 @@ public final class ModItems
 	public static ItemVillagerBed bedPink;
 	public static ItemCrystalBall crystalBall;
 	public static Item roseGoldIngot;
+	public static Item roseGoldDust;
+	public static Item goldDust;
 	
 	//Second tab
 	public static ItemGemCutter gemCutter;
