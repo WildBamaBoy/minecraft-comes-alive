@@ -31,6 +31,7 @@ public class AIGrow extends AbstractAI
 			{
 				if (owner.getAge() >= MCA.getConfig().childGrowUpTime && !owner.worldObj.isRemote)
 				{
+					owner.getAIManager().disableAllToggleAIs();
 					owner.setIsChild(false);
 					
 					for (Object obj : owner.worldObj.playerEntities)
