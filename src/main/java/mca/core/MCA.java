@@ -208,8 +208,6 @@ public class MCA
     	}
     	
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondDust), Items.diamond);
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.gold_ingot, 4), ModItems.roseGoldIngot, Items.gold_ingot, Items.gold_ingot, Items.gold_ingot);
-		GameRegistry.addShapelessRecipe(new ItemStack(Blocks.gold_block, 4), ModBlocks.roseGoldBlock, Blocks.gold_block, Blocks.gold_block, Blocks.gold_block);
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.roseGoldIngot, 9), ModBlocks.roseGoldBlock);
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedRed), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 14));
