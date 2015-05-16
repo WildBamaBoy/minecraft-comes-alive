@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import mca.ai.AIProcreate;
 import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
+import mca.core.minecraft.ModItems;
 import mca.data.PlayerData;
 import mca.entity.EntityHuman;
 import mca.items.ItemBaby;
@@ -51,19 +52,35 @@ public class PacketBabyName extends AbstractPacket implements IMessage, IMessage
 	public IMessage onMessage(PacketBabyName packet, MessageContext context)
 	{
 		EntityPlayer senderPlayer = this.getPlayer(context);
-		ItemStack stack = senderPlayer.inventory.getStackInSlot(packet.slot);
+		ItemStack stack = packet.slot == -1 ? null : senderPlayer.inventory.getStackInSlot(packet.slot); //To avoid index out of bounds.
+		PlayerData data = MCA.getPlayerData(senderPlayer);
+		EntityHuman playerSpouse = MCA.getHumanByPermanentId(data.spousePermanentId.getInt());
 		
+		//Player has the baby.
 		if (stack != null && stack.getItem() instanceof ItemBaby)
 		{
 			NBTTagCompound nbt = stack.getTagCompound();
 			nbt.setString("name", packet.babyName);
 		}
 		
+		//Player's spouse will have the baby if stack is null.
+		else if (stack == null)
+		{
+			if (playerSpouse != null)
+			{
+				int babySlot = playerSpouse.getInventory().getFirstSlotContainingItem(ModItems.babyBoy);
+				babySlot = babySlot == -1 ? playerSpouse.getInventory().getFirstSlotContainingItem(ModItems.babyGirl) : babySlot;
+				
+				if (babySlot != -1)
+				{
+					playerSpouse.getInventory().getStackInSlot(babySlot).getTagCompound().setString("name", packet.babyName);
+				}
+			}
+		}
+		
+		//Random chance for twins.
 		if (RadixLogic.getBooleanWithProbability(MCA.getConfig().chanceToHaveTwins))
 		{
-			final PlayerData data = MCA.getPlayerData(senderPlayer);
-			final EntityHuman playerSpouse = MCA.getHumanByPermanentId(data.spousePermanentId.getInt());
-			
 			if (playerSpouse != null)
 			{
 				final AIProcreate procreateAI = playerSpouse.getAI(AIProcreate.class);

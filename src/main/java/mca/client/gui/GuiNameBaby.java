@@ -113,11 +113,7 @@ public class GuiNameBaby extends GuiScreen
 				}
 			}
 
-			if (slot != -1)
-			{
-				MCA.getPacketHandler().sendPacketToServer(new PacketBabyName(babyNameTextField.getText().trim(), slot));
-			}
-			
+			MCA.getPacketHandler().sendPacketToServer(new PacketBabyName(babyNameTextField.getText().trim(), slot));
 			mc.displayGuiScreen(null);
 		}
 

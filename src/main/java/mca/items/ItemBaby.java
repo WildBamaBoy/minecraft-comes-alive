@@ -51,16 +51,21 @@ public class ItemBaby extends Item
 		{
 			if (!itemStack.hasTagCompound())
 			{
-				EntityPlayer player = (EntityPlayer) entity;
+				String ownerName = entity instanceof EntityPlayer ? entity.getCommandSenderName() : entity instanceof EntityHuman ? ((EntityHuman)entity).getSpouseName() : "Unknown";
 
 				itemStack.stackTagCompound = new NBTTagCompound();
 				itemStack.stackTagCompound.setString("name", "Unnamed");
 				itemStack.stackTagCompound.setInteger("age", 0);
-				itemStack.stackTagCompound.setString("owner", player.getCommandSenderName());
+				itemStack.stackTagCompound.setString("owner", ownerName);
 
-				if (player.capabilities.isCreativeMode)
+				if (entity instanceof EntityPlayer)
 				{
-					TutorialManager.sendMessageToPlayer(player, "You can name a baby retrieved from", "creative mode by right-clicking the air.");
+					EntityPlayer player = (EntityPlayer)entity;
+					
+					if (player.capabilities.isCreativeMode)
+					{
+						TutorialManager.sendMessageToPlayer(player, "You can name a baby retrieved from", "creative mode by right-clicking the air.");
+					}
 				}
 			}
 
@@ -94,7 +99,7 @@ public class ItemBaby extends Item
 				fatherName = player.getCommandSenderName();
 				fatherId = data.permanentId.getInt();
 			}
-			
+
 			else
 			{
 				fatherName = data.spouseName.getString();
@@ -102,46 +107,46 @@ public class ItemBaby extends Item
 				motherName = player.getCommandSenderName();
 				motherId = data.permanentId.getInt();				
 			}
-			
-//			if (playerSpouse != null) //Spouse could be dead.
-//			{
-//				if (isPlayerMale)
-//				{
-//					motherName = playerSpouse.getName();
-//					motherId = playerSpouse.getPermanentId();
-//				}
-//
-//				else
-//				{
-//					fatherName = playerSpouse.getName();
-//					fatherId = playerSpouse.getPermanentId();
-//				}
-//			}
-//
-//			if (isPlayerMale)
-//			{
-//				fatherName = player.getCommandSenderName();
-//				fatherId = data.permanentId.getInt();
-//			}
-//
-//			else
-//			{
-//				motherName = player.getCommandSenderName();
-//				motherId = data.permanentId.getInt();
-//			}
+
+			//			if (playerSpouse != null) //Spouse could be dead.
+			//			{
+			//				if (isPlayerMale)
+			//				{
+			//					motherName = playerSpouse.getName();
+			//					motherId = playerSpouse.getPermanentId();
+			//				}
+			//
+			//				else
+			//				{
+			//					fatherName = playerSpouse.getName();
+			//					fatherId = playerSpouse.getPermanentId();
+			//				}
+			//			}
+			//
+			//			if (isPlayerMale)
+			//			{
+			//				fatherName = player.getCommandSenderName();
+			//				fatherId = data.permanentId.getInt();
+			//			}
+			//
+			//			else
+			//			{
+			//				motherName = player.getCommandSenderName();
+			//				motherId = data.permanentId.getInt();
+			//			}
 
 			final EntityHuman child = new EntityHuman(worldObj, baby.isBoy, true, motherName, fatherName, motherId, fatherId, true);
 			child.setPosition(posX, posY + 1, posZ);
 			child.setName(stack.stackTagCompound.getString("name"));
 			worldObj.spawnEntityInWorld(child);
-			
+
 			PlayerMemory childMemory = child.getPlayerMemory(player);
 			childMemory.setHearts(100);
 			childMemory.setDialogueType(EnumDialogueType.CHILDP);
 
 			player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
 			player.triggerAchievement(ModAchievements.babyToChild);
-			
+
 			data.shouldHaveBaby.setValue(false);
 		}
 

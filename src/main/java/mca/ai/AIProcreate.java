@@ -71,9 +71,16 @@ public class AIProcreate extends AbstractAI
 					boolean isMale = new Random().nextBoolean();
 					ItemStack stack = new ItemStack(isMale ? ModItems.babyBoy : ModItems.babyGirl);
 					
-					if (!playerSpouse.inventory.addItemStackToInventory(stack))
+					boolean isPlayerInventoryFull = playerSpouse.inventory.getFirstEmptyStack() == -1;
+					
+					if (isPlayerInventoryFull)
 					{
 						owner.getInventory().addItemStackToInventory(stack);
+					}
+					
+					else
+					{
+						playerSpouse.inventory.addItemStackToInventory(stack);
 					}
 					
 					Achievement achievement = isMale ? ModAchievements.babyBoy : ModAchievements.babyGirl;
