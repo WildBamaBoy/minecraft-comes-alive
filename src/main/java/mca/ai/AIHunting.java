@@ -3,6 +3,7 @@ package mca.ai;
 import java.util.List;
 
 import mca.api.RegistryMCA;
+import mca.core.MCA;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
 import mca.enums.EnumMovementState;
@@ -16,6 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import radixcore.constant.Time;
+import radixcore.constant.Font.Color;
 import radixcore.data.WatchedBoolean;
 import radixcore.math.Point3D;
 import radixcore.util.RadixExcept;
@@ -64,6 +66,13 @@ public class AIHunting extends AbstractToggleAI
 	@Override
 	public void onUpdateServer() 
 	{
+		if (!MCA.getConfig().allowHuntingChore)
+		{
+			this.notifyAssigningPlayer(Color.RED + "This chore is disabled.");
+			reset();
+			return;
+		}
+		
 		if (standPoint.iPosX == 0 && standPoint.iPosY == 0 && standPoint.iPosZ == 0)
 		{
 			//Find a point to stand at and hunt.

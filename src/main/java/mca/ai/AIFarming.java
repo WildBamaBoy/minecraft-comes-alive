@@ -6,6 +6,7 @@ import mca.api.CropEntry;
 import mca.api.RegistryMCA;
 import mca.api.enums.EnumCropCategory;
 import mca.api.exception.MappingNotFoundException;
+import mca.core.MCA;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
 import net.minecraft.block.Block;
@@ -15,6 +16,7 @@ import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
+import radixcore.constant.Font.Color;
 import radixcore.data.BlockObj;
 import radixcore.data.WatchedBoolean;
 import radixcore.math.Point3D;
@@ -74,6 +76,13 @@ public class AIFarming extends AbstractToggleAI
 	{
 		try
 		{
+			if (!MCA.getConfig().allowFarmingChore)
+			{
+				this.notifyAssigningPlayer(Color.RED + "This chore is disabled.");
+				reset();
+				return;
+			}
+			
 			if (activityInterval <= 0)
 			{
 				activityInterval = FARM_INTERVAL;

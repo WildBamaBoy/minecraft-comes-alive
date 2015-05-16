@@ -4,6 +4,7 @@ import java.util.List;
 
 import mca.api.RegistryMCA;
 import mca.api.exception.MappingNotFoundException;
+import mca.core.MCA;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
 import mca.enums.EnumMovementState;
@@ -14,6 +15,7 @@ import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
+import radixcore.constant.Font.Color;
 import radixcore.data.WatchedBoolean;
 import radixcore.math.Point3D;
 import radixcore.util.RadixLogic;
@@ -51,6 +53,13 @@ public class AIMining extends AbstractToggleAI
 	@Override
 	public void onUpdateServer() 
 	{
+		if (!MCA.getConfig().allowMiningChore)
+		{
+			this.notifyAssigningPlayer(Color.RED + "This chore is disabled.");
+			reset();
+			return;
+		}
+		
 		if (isGathering)
 		{
 			if (activityInterval <= 0)

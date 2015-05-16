@@ -3,6 +3,7 @@ package mca.ai;
 import mca.api.RegistryMCA;
 import mca.api.WoodcuttingEntry;
 import mca.api.exception.MappingNotFoundException;
+import mca.core.MCA;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
 import mca.enums.EnumPersonality;
@@ -14,6 +15,7 @@ import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import radixcore.constant.Font.Color;
 import radixcore.data.WatchedBoolean;
 import radixcore.math.Point3D;
 import radixcore.util.RadixLogic;
@@ -63,6 +65,13 @@ public class AIWoodcutting extends AbstractToggleAI
 	{
 		try
 		{
+			if (!MCA.getConfig().allowWoodcuttingChore)
+			{
+				this.notifyAssigningPlayer(Color.RED + "This chore is disabled.");
+				reset();
+				return;
+			}
+			
 			if (treeBasePoint.iPosX == 0 && treeBasePoint.iPosY == 0 && treeBasePoint.iPosZ == 0)
 			{
 				final WoodcuttingEntry apiEntry = RegistryMCA.getWoodcuttingEntryById(apiId);
