@@ -744,32 +744,18 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		playerMemories.put(player.getCommandSenderName(), memory);
 	}
 
-	public PlayerMemory getPlayerMemory(String playerName, String uuid, boolean doCreate)
+	public PlayerMemory getPlayerMemory(EntityPlayer player)
 	{
+		String playerName = player.getCommandSenderName();
 		PlayerMemory returnMemory = playerMemories.get(playerName);
 
-		if (returnMemory == null && doCreate)
+		if (returnMemory == null)
 		{
-			returnMemory = new PlayerMemory(this, playerName, uuid);
+			returnMemory = new PlayerMemory(this, player);
 			playerMemories.put(playerName, returnMemory);
 		}
 
-		return returnMemory;	
-	}
-	
-	public PlayerMemory getPlayerMemory(String playerName, String uuid)
-	{
-		return getPlayerMemory(playerName, uuid, true);
-	}
-	
-	public PlayerMemory getPlayerMemory(EntityPlayer player, boolean doCreate)
-	{
-		return getPlayerMemory(player.getCommandSenderName(), player.getUniqueID().toString(), doCreate);		
-	}
-	
-	public PlayerMemory getPlayerMemory(EntityPlayer player)
-	{
-		return getPlayerMemory(player.getCommandSenderName(), player.getUniqueID().toString());
+		return returnMemory;
 	}
 
 	public boolean hasMemoryOfPlayer(EntityPlayer player)

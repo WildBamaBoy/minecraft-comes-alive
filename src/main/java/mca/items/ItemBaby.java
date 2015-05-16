@@ -84,7 +84,7 @@ public class ItemBaby extends Item
 		{
 			ItemBaby baby = (ItemBaby)stack.getItem();
 			PlayerData data = MCA.getPlayerData(player);
-			PlayerData spouseData = MCA.getPlayerData(data.spouseUUID.getString());
+			EntityHuman playerSpouse = MCA.getHumanByPermanentId(data.spousePermanentId.getInt());
 			boolean isPlayerMale = data.isMale.getBoolean();
 
 			String motherName = "N/A";
@@ -144,14 +144,6 @@ public class ItemBaby extends Item
 			childMemory.setHearts(100);
 			childMemory.setDialogueType(EnumDialogueType.CHILDP);
 
-			if (spouseData != null)
-			{
-				PlayerMemory childMemoryOfSpouse = child.getPlayerMemory(data.spouseName.getString(), data.spouseUUID.getString());
-				childMemoryOfSpouse.setHearts(100);
-				childMemoryOfSpouse.setDialogueType(EnumDialogueType.CHILDP);
-				spouseData.shouldHaveBaby.setValue(false);
-			}
-			
 			player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
 			player.triggerAchievement(ModAchievements.babyToChild);
 
