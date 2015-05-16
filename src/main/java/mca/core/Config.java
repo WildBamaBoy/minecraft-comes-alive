@@ -36,6 +36,7 @@ public final class Config
 
 	public int childLimit;
 	public int villagerSpawnerCap;
+	public int storyProgressionCap;
 	public boolean allowFarmingChore;
 	public boolean allowFishingChore;
 	public boolean allowWoodcuttingChore;
@@ -94,6 +95,8 @@ public final class Config
 
 		storyProgressionRate = config.get("General", "Story progression rate", 20, 
 				"How often story progression tries to make changes. Changes may not always be made. This value is in MINUTES, default is 20. Range (1 and above)").getInt();
+		storyProgressionCap = config.get("General", "Story progression spawn cap", -1, 
+				"Determines whether or not story progression will occur based on this number of villagers within a 32 block radius. Set to -1 to disable. 16 is recommended.").getInt();
 		inTutorialMode = config.get("General", "Tutorial mode", true,
 				"Displays various tips while you play. ").getBoolean();
 		allowMobAttacks = config.get("General", "Allow mob attacks", true, "True if regular Minecraft mobs can attack villagers. False to prevent mobs from attacking any villager.").getBoolean();

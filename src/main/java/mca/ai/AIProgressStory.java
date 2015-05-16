@@ -151,7 +151,13 @@ public class AIProgressStory extends AbstractAI
 	private void doTryForBaby()
 	{
 		final EntityHuman mate = owner.getVillagerSpouse();
-
+		final int villagersInArea = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, owner, 32).size();
+		
+		if (villagersInArea >= MCA.getConfig().storyProgressionCap && MCA.getConfig().storyProgressionCap != -1 && !forceNextProgress)
+		{
+			return;
+		}
+		
 		if (RadixLogic.getBooleanWithProbability(50) && mate != null && RadixMath.getDistanceToEntity(owner, mate) <= 8.5D)
 		{
 			AIProgressStory mateAI = getMateAI(owner.getVillagerSpouse());
