@@ -27,6 +27,7 @@ public class PlayerData extends AbstractPlayerData
 	public WatchedBoolean hasChosenDestiny;
 	public WatchedString mcaName;
 	public WatchedString spouseName;
+	public WatchedString spouseUUID;
 	public WatchedBoolean isSuperUser;
 
 	public PlayerData(String playerUUID, World world)
@@ -59,6 +60,7 @@ public class PlayerData extends AbstractPlayerData
 		isMonarch = new WatchedBoolean(false, WatcherIDsPlayerData.IS_MONARCH, dataWatcher);
 		mcaName = new WatchedString(owner != null ? owner.getCommandSenderName() : "none", WatcherIDsPlayerData.MCA_NAME, dataWatcher);
 		hasChosenDestiny = new WatchedBoolean(false, WatcherIDsPlayerData.HAS_CHOSEN_DESTINY, dataWatcher);
+		spouseUUID = new WatchedString("none", WatcherIDsPlayerData.SPOUSE_UUID, dataWatcher);
 		isSuperUser = new WatchedBoolean(false, WatcherIDsPlayerData.IS_SUPER_USER, dataWatcher);
 		spouseName = new WatchedString("none", WatcherIDsPlayerData.SPOUSE_NAME, dataWatcher);
 	}
@@ -91,6 +93,7 @@ public class PlayerData extends AbstractPlayerData
 		
 		spousePermanentId.setValue(data.permanentId.getInt());
 		spouseName.setValue(player.getCommandSenderName());
+		spouseUUID.setValue(data.ownerIdentifier);
 		isEngaged.setValue(false);
 	}
 	
@@ -105,6 +108,7 @@ public class PlayerData extends AbstractPlayerData
 	{
 		spousePermanentId.setValue(0);
 		spouseName.setValue("none");
+		spouseUUID.setValue("none");
 		isEngaged.setValue(false);
 	}
 }

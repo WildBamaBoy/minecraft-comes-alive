@@ -160,14 +160,14 @@ public class RenderHuman extends RenderBiped
 	private void renderHuman(EntityHuman entity, double posX, double posY, double posZ, float rotationYaw, float rotationPitch)
 	{
 		final EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-		final PlayerMemory memory = entity.getPlayerMemory(player);
+		final PlayerMemory memory = entity.getPlayerMemory(player, false);
 		
 		if (!entity.getDoDisplay())
 		{
 			return;
 		}
 
-		if (RadixMath.getDistanceToEntity(entity, player) <= 5.0F
+		if (RadixMath.getDistanceToEntity(entity, player) <= 5.0F && memory != null
 				&& !canRenderNameTag(entity) && !entity.getAI(AISleep.class).getIsSleeping()
 				&& !entity.displayNameForPlayer && memory.getHasQuest())
 		{

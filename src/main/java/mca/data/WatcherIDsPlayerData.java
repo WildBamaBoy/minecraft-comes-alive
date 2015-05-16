@@ -11,7 +11,7 @@ public class WatcherIDsPlayerData
 	public static final int IS_IN_LITE_MODE = 7;
 	public static final int IS_MONARCH = 8;
 	public static final int MCA_NAME = 9;
-	public static final int UNUSED_10 = 10;
+	public static final int SPOUSE_UUID = 10;
 	public static final int HAS_CHOSEN_DESTINY = 11;
 	public static final int GENDER_PREFERENCE = 12;
 	public static final int IS_SUPER_USER = 13;

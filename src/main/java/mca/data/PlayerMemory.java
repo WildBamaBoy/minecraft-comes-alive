@@ -38,13 +38,18 @@ public class PlayerMemory implements Serializable
 
 	private int counter;
 
+	public PlayerMemory(EntityHuman owner, String playerName, String playerUUID)
+	{
+		this.owner = owner;	
+		this.playerName = playerName;
+		this.uuid = playerUUID;
+		this.permanentId = MCA.getPlayerData(playerUUID).permanentId.getInt();
+		this.dialogueType = owner.getIsChild() ? EnumDialogueType.CHILD : EnumDialogueType.ADULT;
+	}
+	
 	public PlayerMemory(EntityHuman owner, EntityPlayer player)
 	{
-		this.owner = owner;
-		this.playerName = player.getCommandSenderName();
-		this.uuid = player.getUniqueID().toString();
-		this.permanentId = MCA.getPlayerData(player).permanentId.getInt();
-		this.dialogueType = owner.getIsChild() ? EnumDialogueType.CHILD : EnumDialogueType.ADULT;
+		this(owner, player.getCommandSenderName(), player.getUniqueID().toString());
 	}
 
 	/**
