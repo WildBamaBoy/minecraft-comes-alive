@@ -27,6 +27,7 @@ public class PlayerMemory implements Serializable
 	private int permanentId;
 	private int hearts;
 	private int hireTimeLeft;
+	private int interactionFatigue;
 	private boolean hasGift;
 	private boolean hasQuest;
 	private boolean isHiredBy;
@@ -34,7 +35,6 @@ public class PlayerMemory implements Serializable
 
 	private transient int timeUntilGreeting;
 	private transient int distanceTravelledFrom;
-	private transient int interactionFatigue;
 
 	private int counter;
 
@@ -192,11 +192,13 @@ public class PlayerMemory implements Serializable
 	public void increaseInteractionFatigue() 
 	{
 		interactionFatigue++;
+		onNonTransientValueChanged();
 	}
 
 	public void resetInteractionFatigue()
 	{
 		interactionFatigue = 0;
+		onNonTransientValueChanged();
 	}
 
 	public int getPermanentId() 

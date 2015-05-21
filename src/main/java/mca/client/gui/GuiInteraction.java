@@ -256,8 +256,9 @@ public class GuiInteraction extends GuiScreen
 					EnumInteraction interaction = EnumInteraction.fromId(button.id);
 					
 					int successChance = interaction.getSuccessChance(villager, memory);
+					successChance = successChance < 0 ? 0 : successChance;
 					
-					if (successChance != 0)
+					if (interaction.getBaseChance() != 0)
 					{
 						RenderHelper.drawTextPopup(successChance + "%", button.xPosition - 30, button.yPosition + 6);
 					}
