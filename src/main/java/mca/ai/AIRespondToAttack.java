@@ -1,8 +1,10 @@
 package mca.ai;
 
 import mca.core.Constants;
+import mca.core.MCA;
 import mca.entity.EntityHuman;
 import mca.enums.EnumPersonality;
+import mca.enums.EnumProfessionGroup;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -103,8 +105,9 @@ public class AIRespondToAttack extends AbstractAI
 
 					else if (distanceToTarget <= 1.8D)
 					{
+						float attackDamage = owner.getProfessionGroup() == EnumProfessionGroup.Guard ? MCA.getConfig().guardAttackDamage : MCA.getConfig().villagerAttackDamage;
 						owner.swingItem();
-						target.attackEntityFrom(DamageSource.generic, 1.0F);
+						target.attackEntityFrom(DamageSource.generic, attackDamage);
 						reset();
 					}
 				}

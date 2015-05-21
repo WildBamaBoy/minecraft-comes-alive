@@ -24,7 +24,9 @@ public final class Config
 	public int guardSpawnRate;
 	public int chanceToHaveTwins;
 	public int villagerMaxHealth;
+	public int villagerAttackDamage;
 	public int guardMaxHealth;
+	public int guardAttackDamage;
 	public boolean storyProgression;
 	public int storyProgressionThreshold;
 	public int storyProgressionRate;
@@ -87,8 +89,9 @@ public final class Config
 				"One guard per this many villagers. Set to zero or a negative number to disable guards.").getInt();
 
 		villagerMaxHealth = config.get("General", "Villager max health", 20).getInt();
+		villagerAttackDamage = config.get("General", "Villager attack damage", 2, "How many half-hearts of damage a villager can deal without a weapon. Does not affect players.").getInt();
 		guardMaxHealth = config.get("General", "Guard max health", 40).getInt();
-
+		guardAttackDamage = config.get("General", "Guard attack damage", 8, "How many half-hearts of damage a guard can deal. Does not affect players.").getInt();
 		storyProgression = config.get("General", "Story progression", true, 
 				"Villagers automatically get married, have children, etc.").getBoolean();
 

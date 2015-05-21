@@ -3,6 +3,7 @@ package mca.ai;
 import java.util.List;
 
 import mca.core.Constants;
+import mca.core.MCA;
 import mca.entity.EntityHuman;
 import mca.enums.EnumProfession;
 import mca.enums.EnumProfessionGroup;
@@ -101,7 +102,7 @@ public class AIDefend extends AbstractAI
 
 						try
 						{
-							target.attackEntityFrom(DamageSource.generic, 6.0F);
+							target.attackEntityFrom(DamageSource.generic, MCA.getConfig().guardAttackDamage);
 						}
 						
 						catch (NullPointerException e) //Noticing a crash with the human mob mod.
