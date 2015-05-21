@@ -20,6 +20,7 @@ import radixcore.constant.Font.Color;
 import radixcore.data.BlockObj;
 import radixcore.data.WatchedBoolean;
 import radixcore.math.Point3D;
+import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
 import radixcore.util.SchematicHandler;
@@ -93,7 +94,7 @@ public class AIFarming extends AbstractToggleAI
 					{
 						final CropEntry entry = RegistryMCA.getCropEntryById(apiId);
 						final int y = RadixLogic.getSpawnSafeTopLevel(owner.worldObj, (int) owner.posX, (int) owner.posZ);
-						Block groundBlock = owner.worldObj.getBlock((int)owner.posX, y - 1, (int)owner.posZ);
+						Block groundBlock = BlockHelper.getBlock(owner.worldObj, (int)owner.posX, y - 1, (int)owner.posZ);
 
 						if (groundBlock != Blocks.grass || groundBlock != Blocks.sand || groundBlock != Blocks.dirt)
 						{
@@ -159,8 +160,8 @@ public class AIFarming extends AbstractToggleAI
 									int yMod = 0;
 
 									//Move y down until ground is found.
-									while (owner.worldObj.getBlock(nearestHarvest.iPosX, nearestHarvest.iPosY + yMod, nearestHarvest.iPosZ) != Blocks.grass 
-											&& owner.worldObj.getBlock(nearestHarvest.iPosX, nearestHarvest.iPosY + yMod, nearestHarvest.iPosZ) != Blocks.dirt)
+									while (BlockHelper.getBlock(owner.worldObj, nearestHarvest.iPosX, nearestHarvest.iPosY + yMod, nearestHarvest.iPosZ) != Blocks.grass 
+											&& BlockHelper.getBlock(owner.worldObj, nearestHarvest.iPosX, nearestHarvest.iPosY + yMod, nearestHarvest.iPosZ) != Blocks.dirt)
 									{
 										yMod--;
 
@@ -175,7 +176,7 @@ public class AIFarming extends AbstractToggleAI
 									Point3D modHarvestPoint = new Point3D(nearestHarvest.iPosX, nearestHarvest.iPosY + yMod + 2, nearestHarvest.iPosZ);
 									
 									//Make sure the harvest block is there, then assign the harvest point.
-									if (owner.worldObj.getBlock(modHarvestPoint.iPosX, modHarvestPoint.iPosY, modHarvestPoint.iPosZ) == entry.getHarvestBlock())
+									if (BlockHelper.getBlock(owner.worldObj, modHarvestPoint.iPosX, modHarvestPoint.iPosY, modHarvestPoint.iPosZ) == entry.getHarvestBlock())
 									{
 										harvestTargetPoint = modHarvestPoint;
 										apiId = id;
@@ -223,13 +224,13 @@ public class AIFarming extends AbstractToggleAI
 						
 						if (entry.getCategory() != EnumCropCategory.SUGARCANE)
 						{
-							owner.worldObj.setBlock(harvestTargetPoint.iPosX, harvestTargetPoint.iPosY - 1, harvestTargetPoint.iPosZ, Blocks.farmland);
-							owner.worldObj.setBlock(harvestTargetPoint.iPosX, harvestTargetPoint.iPosY, harvestTargetPoint.iPosZ, entry.getCropBlock());
+							BlockHelper.setBlock(owner.worldObj, harvestTargetPoint.iPosX, harvestTargetPoint.iPosY - 1, harvestTargetPoint.iPosZ, Blocks.farmland);
+							BlockHelper.setBlock(owner.worldObj, harvestTargetPoint.iPosX, harvestTargetPoint.iPosY, harvestTargetPoint.iPosZ, entry.getCropBlock());
 						}
 						
 						else
 						{
-							owner.worldObj.setBlock(harvestTargetPoint.iPosX, harvestTargetPoint.iPosY, harvestTargetPoint.iPosZ, Blocks.air);
+							BlockHelper.setBlock(owner.worldObj, harvestTargetPoint.iPosX, harvestTargetPoint.iPosY, harvestTargetPoint.iPosZ, Blocks.air);
 						}
 						
 						for (ItemStack stack : entry.getStacksOnHarvest())

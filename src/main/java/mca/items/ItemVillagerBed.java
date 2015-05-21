@@ -12,6 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import radixcore.util.BlockHelper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -97,13 +98,13 @@ public class ItemVillagerBed extends Item
 
 			if (entityPlayer.canPlayerEdit(posX, posY, posZ, meta, itemStack) && entityPlayer.canPlayerEdit(posX + movX, posY, posZ + movZ, meta, itemStack))
 			{
-				if (world.isAirBlock(posX, posY, posZ) && world.isAirBlock(posX + movX, posY, posZ + movZ) && World.doesBlockHaveSolidTopSurface(world, posX, posY - 1, posZ) && World.doesBlockHaveSolidTopSurface(world, posX + movX, posY - 1, posZ + movZ))
+				if (world.isAirBlock(posX, posY, posZ) && world.isAirBlock(posX + movX, posY, posZ + movZ) && BlockHelper.doesBlockHaveSolidTopSurface(world, posX, posY - 1, posZ) && BlockHelper.doesBlockHaveSolidTopSurface(world, posX + movX, posY - 1, posZ + movZ))
 				{
-					world.setBlock(posX, posY, posZ, blockVillagerBed, metaCalc, 3);
+					BlockHelper.setBlock(world, posX, posY, posZ, blockVillagerBed, metaCalc);
 
-					if (world.getBlock(posX, posY, posZ) == blockVillagerBed)
+					if (BlockHelper.getBlock(world, posX, posY, posZ) == blockVillagerBed)
 					{
-						world.setBlock(posX + movX, posY, posZ + movZ, blockVillagerBed, metaCalc + 8, 3);
+						BlockHelper.setBlock(world, posX + movX, posY, posZ + movZ, blockVillagerBed, metaCalc + 8);
 					}
 
 					--itemStack.stackSize;

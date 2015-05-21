@@ -24,6 +24,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -113,20 +114,20 @@ public class BlockVillagerBed extends BlockDirectional implements ITileEntityPro
 	@Override
 	public void onNeighborBlockChange(World worldObj, int posX, int posY, int posZ, Block block)
 	{
-		final int l = worldObj.getBlockMetadata(posX, posY, posZ);
+		final int l = BlockHelper.getBlockMetadata(worldObj, posX, posY, posZ);
 		final int i1 = getDirection(l);
 
 		if (isBlockHeadOfBed(l))
 		{
-			if (worldObj.getBlock(posX - blockMap[i1][0], posY, posZ - blockMap[i1][1]) != this)
+			if (BlockHelper.getBlock(worldObj, posX - blockMap[i1][0], posY, posZ - blockMap[i1][1]) != this)
 			{
-				worldObj.setBlockToAir(posX, posY, posZ);
+				BlockHelper.setBlock(worldObj, posX, posY, posZ, Blocks.air);
 			}
 		}
 		
-		else if (worldObj.getBlock(posX + blockMap[i1][0], posY, posZ + blockMap[i1][1]) != this)
+		else if (BlockHelper.getBlock(worldObj, posX + blockMap[i1][0], posY, posZ + blockMap[i1][1]) != this)
 		{
-			worldObj.setBlockToAir(posX, posY, posZ);
+			BlockHelper.setBlock(worldObj, posX, posY, posZ, Blocks.air);
 
 			if (!worldObj.isRemote)
 			{
@@ -195,9 +196,9 @@ public class BlockVillagerBed extends BlockDirectional implements ITileEntityPro
 			posX -= blockMap[direction][0];
 			posZ -= blockMap[direction][1];
 
-			if (world.getBlock(posX, posY, posZ) == this)
+			if (BlockHelper.getBlock(world, posX, posY, posZ) == this)
 			{
-				world.setBlockToAir(posX, posY, posZ);
+				BlockHelper.setBlock(world, posX, posY, posZ, Blocks.air);
 			}
 		}
 	}
@@ -209,7 +210,7 @@ public class BlockVillagerBed extends BlockDirectional implements ITileEntityPro
 
 		if (!world.isRemote)
 		{
-			final TileEntity tileEntity = world.getTileEntity(posX, posY, posZ);
+			final TileEntity tileEntity = BlockHelper.getTileEntity(world, posX, posY, posZ);
 
 			if (tileEntity instanceof TileVillagerBed)
 			{

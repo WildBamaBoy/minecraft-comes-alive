@@ -1,5 +1,6 @@
 package mca.items;
 
+import radixcore.util.BlockHelper;
 import mca.core.MCA;
 import mca.entity.EntityHuman;
 import net.minecraft.block.Block;
@@ -33,7 +34,7 @@ public class ItemSpawnEgg extends Item
 	{
 		if (!world.isRemote)
 		{
-			final Block block = world.getBlock(posX, posY, posZ);
+			final Block block = BlockHelper.getBlock(world, posX, posY, posZ);
 			double verticalOffset = 0.0D;
 
 			posX += Facing.offsetsXForSide[meta];

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mca.blocks.BlockVillagerBed;
-import mca.core.Constants;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
 import mca.enums.EnumMovementState;
@@ -19,6 +18,7 @@ import radixcore.constant.Time;
 import radixcore.data.WatchedBoolean;
 import radixcore.data.WatchedInt;
 import radixcore.math.Point3D;
+import radixcore.util.BlockHelper;
 import radixcore.util.RadixExcept;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
@@ -179,13 +179,13 @@ public class AISleep extends AbstractAI
 			if (hasBed.getBoolean())
 			{
 				//Check if the bed still exists.
-				final Block blockAtBed = owner.worldObj.getBlock(bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt());
+				final Block blockAtBed = BlockHelper.getBlock(owner.worldObj, bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt());
 
 				if (blockAtBed instanceof BlockVillagerBed)
 				{
 					try
 					{
-						final TileVillagerBed villagerBed = (TileVillagerBed) owner.worldObj.getTileEntity(bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt());
+						final TileVillagerBed villagerBed = (TileVillagerBed) BlockHelper.getTileEntity(owner.worldObj, bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt());
 
 						if (!villagerBed.getIsVillagerSleepingIn())
 						{
@@ -223,7 +223,7 @@ public class AISleep extends AbstractAI
 
 				for (final Point3D point : bedsNearby)
 				{
-					if (BlockVillagerBed.isBlockHeadOfBed(owner.worldObj.getBlockMetadata(point.iPosX, point.iPosY, point.iPosZ)))
+					if (BlockVillagerBed.isBlockHeadOfBed(BlockHelper.getBlockMetadata(owner.worldObj, point.iPosX, point.iPosY, point.iPosZ)))
 					{
 						bedHeadsNearby.add(point);
 					}
@@ -232,7 +232,7 @@ public class AISleep extends AbstractAI
 				if (bedHeadsNearby.size() > 0)
 				{
 					final Point3D nearestBed = Point3D.getNearestPointInList(new Point3D(owner.posX, owner.posY, owner.posZ), bedHeadsNearby);
-					final TileVillagerBed villagerBed = (TileVillagerBed) owner.worldObj.getTileEntity(nearestBed.iPosX, nearestBed.iPosY, nearestBed.iPosZ);
+					final TileVillagerBed villagerBed = (TileVillagerBed) BlockHelper.getTileEntity(owner.worldObj, nearestBed.iPosX, nearestBed.iPosY, nearestBed.iPosZ);
 
 					if (!villagerBed.getIsVillagerSleepingIn())
 					{
@@ -242,7 +242,7 @@ public class AISleep extends AbstractAI
 						bedPosX.setValue(nearestBed.iPosX);
 						bedPosY.setValue(nearestBed.iPosY);
 						bedPosZ.setValue(nearestBed.iPosZ);
-						bedMeta.setValue(owner.worldObj.getBlockMetadata(bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt()));
+						bedMeta.setValue(BlockHelper.getBlockMetadata(owner.worldObj, bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt()));
 						hasBed.setValue(true);
 
 						isInBed.setValue(true);
@@ -266,8 +266,8 @@ public class AISleep extends AbstractAI
 
 	private boolean isHomePointValid()
 	{
-		final Block blockStanding = owner.worldObj.getBlock(homePosX, homePosY + 0, homePosZ);
-		final Block blockAbove = owner.worldObj.getBlock(homePosX, homePosY + 1, homePosZ);
+		final Block blockStanding = BlockHelper.getBlock(owner.worldObj, homePosX, homePosY + 0, homePosZ);
+		final Block blockAbove = BlockHelper.getBlock(owner.worldObj, homePosX, homePosY + 1, homePosZ);
 		boolean blockStandingIsValid = !blockAbove.getMaterial().isSolid();
 		boolean blockAboveIsValid = !blockAbove.getMaterial().isSolid();
 
@@ -351,7 +351,7 @@ public class AISleep extends AbstractAI
 
 			try
 			{
-				final TileVillagerBed villagerBed = (TileVillagerBed) owner.worldObj.getTileEntity(bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt());
+				final TileVillagerBed villagerBed = (TileVillagerBed) BlockHelper.getTileEntity(owner.worldObj, bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt());
 				villagerBed.setSleepingVillagerId(-1);
 				villagerBed.setIsVillagerSleepingIn(false);
 			}
@@ -439,7 +439,7 @@ public class AISleep extends AbstractAI
 		{
 			final Point3D bedPoint = getBedPoint();
 			owner.setPosition(bedPoint.dPosX, bedPoint.dPosY, bedPoint.dPosZ);
-			final int meta = owner.worldObj.getBlockMetadata(bedPoint.iPosX, bedPoint.iPosY, bedPoint.iPosZ);
+			final int meta = BlockHelper.getBlockMetadata(owner.worldObj, bedPoint.iPosX, bedPoint.iPosY, bedPoint.iPosZ);
 
 			if (meta == 0)
 			{

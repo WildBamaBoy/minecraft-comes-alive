@@ -10,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import radixcore.data.WatchedString;
+import radixcore.util.BlockHelper;
 import radixcore.util.RadixMath;
 
 public class AIFollow extends AbstractAI
@@ -73,7 +74,7 @@ public class AIFollow extends AbstractAI
 					{
 						for (int i2 = 0; i2 <= 4; ++i2)
 						{
-							if ((i < 1 || i2 < 1 || i > 3 || i2 > 3) && World.doesBlockHaveSolidTopSurface(owner.worldObj, playerX + i, playerY - 1, playerZ + i2) && !owner.worldObj.getBlock(playerX + i, playerY, playerZ + i2).isNormalCube() && !owner.worldObj.getBlock(playerX + i, playerY + 1, playerZ + i2).isNormalCube())
+							if ((i < 1 || i2 < 1 || i > 3 || i2 > 3) && BlockHelper.doesBlockHaveSolidTopSurface(owner.worldObj, playerX + i, playerY - 1, playerZ + i2) && !BlockHelper.getBlock(owner.worldObj, playerX + i, playerY, playerZ + i2).isNormalCube() && !BlockHelper.getBlock(owner.worldObj, playerX + i, playerY + 1, playerZ + i2).isNormalCube())
 							{
 								entityPathController.setLocationAndAngles(playerX + i + 0.5F, playerY, playerZ + i2 + 0.5F, entityPlayer.rotationYaw, entityPlayer.rotationPitch);
 								entityPathController.getNavigator().clearPathEntity();

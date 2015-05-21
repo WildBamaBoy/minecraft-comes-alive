@@ -7,11 +7,13 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import radixcore.util.BlockHelper;
 
 public class BlockTombstone extends BlockContainer
 {
@@ -61,10 +63,10 @@ public class BlockTombstone extends BlockContainer
 	@Override
 	public void onNeighborBlockChange(World world, int posX, int posY, int posZ, Block blockNeighbor)
 	{
-		if (!world.getBlock(posX, posY - 1, posZ).getMaterial().isSolid())
+		if (!BlockHelper.getBlock(world, posX, posY - 1, posZ).getMaterial().isSolid())
 		{
 			dropBlockAsItem(world, posX, posY, posZ, new ItemStack(ModItems.tombstone, 1));
-			world.setBlockToAir(posX, posY, posZ);
+			BlockHelper.setBlock(world, posX, posY, posZ, Blocks.air);
 		}
 
 		super.onNeighborBlockChange(world, posX, posY, posZ, blockNeighbor);
@@ -77,7 +79,7 @@ public class BlockTombstone extends BlockContainer
 		{
 			dropBlockAsItem(world, posX, posY, posZ, new ItemStack(ModItems.tombstone, 1));
 			
-			TileTombstone tombstone = (TileTombstone) world.getTileEntity(posX, posY, posZ);
+			TileTombstone tombstone = (TileTombstone) BlockHelper.getTileEntity(world, posX, posY, posZ);
 			
 			try
 			{
@@ -106,7 +108,7 @@ public class BlockTombstone extends BlockContainer
 	@Override
 	public boolean canPlaceBlockAt(World world, int posX, int posY, int posZ)
 	{
-		return world.getBlock(posX, posY - 1, posZ).isAir(world, posX, posY, posZ) && super.canPlaceBlockAt(world, posX, posY, posZ);
+		return BlockHelper.getBlock(world, posX, posY - 1, posZ).isAir(world, posX, posY, posZ) && super.canPlaceBlockAt(world, posX, posY, posZ);
 	}
 
 	@Override

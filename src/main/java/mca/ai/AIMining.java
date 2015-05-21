@@ -18,6 +18,7 @@ import radixcore.constant.Time;
 import radixcore.constant.Font.Color;
 import radixcore.data.WatchedBoolean;
 import radixcore.math.Point3D;
+import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
 
@@ -70,7 +71,7 @@ public class AIMining extends AbstractToggleAI
 				if (!isBuildingMine && RadixLogic.getNearbyBlocksWithMetadata(owner, Blocks.stone, 11, 10).size() == 0)
 				{
 					final int y = RadixLogic.getSpawnSafeTopLevel(owner.worldObj, (int) owner.posX, (int) owner.posZ);
-					final Block groundBlock = owner.worldObj.getBlock((int)owner.posX, y - 1, (int)owner.posZ);
+					final Block groundBlock = BlockHelper.getBlock(owner.worldObj, (int)owner.posX, y - 1, (int)owner.posZ);
 					owner.getAI(AIBuild.class).startBuilding("/assets/mca/schematic/mine1.schematic", true, groundBlock);
 
 					isBuildingMine = true;
@@ -88,7 +89,7 @@ public class AIMining extends AbstractToggleAI
 						if (!nearbyStone.isEmpty())
 						{
 							Point3D point = nearbyStone.get(RadixMath.getNumberInRange(0, nearbyStone.size() - 1));
-							owner.worldObj.setBlockMetadataWithNotify(point.iPosX, point.iPosY, point.iPosZ, 11, 2);
+							BlockHelper.setBlockMetadataWithNotify(owner.worldObj, point.iPosX, point.iPosY, point.iPosZ, 11, 2);
 							isBuildingMine = false;
 						}
 

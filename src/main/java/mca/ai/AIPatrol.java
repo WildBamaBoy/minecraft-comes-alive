@@ -10,6 +10,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
 import radixcore.math.Point3D;
+import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
 
@@ -49,7 +50,7 @@ public class AIPatrol extends AbstractAI
 					Point3D doorPoint = nearbyDoors.get(RadixMath.getNumberInRange(0, nearbyDoors.size() - 1));
 	
 					//Only use the top of the door.
-					if (owner.worldObj.getBlock(doorPoint.iPosX, doorPoint.iPosY - 1, doorPoint.iPosZ) != Blocks.wooden_door)
+					if (BlockHelper.getBlock(owner.worldObj, doorPoint.iPosX, doorPoint.iPosY - 1, doorPoint.iPosZ) != Blocks.wooden_door)
 					{
 						doorPoint = doorPoint.setPoint(doorPoint.iPosX, doorPoint.iPosY + 1, doorPoint.iPosZ);
 					}
@@ -57,7 +58,7 @@ public class AIPatrol extends AbstractAI
 					movePoint = new Point3D(doorPoint.iPosX, doorPoint.iPosY, doorPoint.iPosZ);
 					hasDoor = true;
 	
-					Block block = (Block)owner.worldObj.getBlock(doorPoint.iPosX, doorPoint.iPosY, doorPoint.iPosZ);
+					Block block = (Block)BlockHelper.getBlock(owner.worldObj, doorPoint.iPosX, doorPoint.iPosY, doorPoint.iPosZ);
 					BlockDoor door = null;
 					
 					if (block == Blocks.wooden_door) //Account for ClassCastException per issue #259.
@@ -104,7 +105,7 @@ public class AIPatrol extends AbstractAI
 						}
 	
 						if (owner.worldObj.canBlockSeeTheSky(movePoint.iPosX, movePoint.iPosY, movePoint.iPosZ) && 
-								owner.worldObj.getBlock(movePoint.iPosX, movePoint.iPosY, movePoint.iPosZ) == Blocks.air)
+								BlockHelper.getBlock(owner.worldObj, movePoint.iPosX, movePoint.iPosY, movePoint.iPosZ) == Blocks.air)
 						{
 							//Random chance of skipping a valid first pass so that they aren't always right against the door.
 							if (i == 1 && RadixLogic.getBooleanWithProbability(50))
@@ -181,7 +182,7 @@ public class AIPatrol extends AbstractAI
 	private Point3D movePointToGround(Point3D point)
 	{
 		Point3D returnPoint = new Point3D(point.iPosX, point.iPosY, point.iPosZ);
-		Block block = owner.worldObj.getBlock(returnPoint.iPosX, returnPoint.iPosY, returnPoint.iPosZ);
+		Block block = BlockHelper.getBlock(owner.worldObj, returnPoint.iPosX, returnPoint.iPosY, returnPoint.iPosZ);
 		boolean lastBlockWasAir = false;
 
 		while (returnPoint.iPosY > 0)
@@ -190,7 +191,7 @@ public class AIPatrol extends AbstractAI
 			{
 				lastBlockWasAir = true;
 				returnPoint.iPosY--;
-				block = owner.worldObj.getBlock(returnPoint.iPosX, returnPoint.iPosY, returnPoint.iPosZ);
+				block = BlockHelper.getBlock(owner.worldObj, returnPoint.iPosX, returnPoint.iPosY, returnPoint.iPosZ);
 			}
 
 			else if (block != Blocks.air && lastBlockWasAir)

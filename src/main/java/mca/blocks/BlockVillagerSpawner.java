@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import radixcore.constant.Time;
+import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -57,8 +58,8 @@ public class BlockVillagerSpawner extends Block
 
 			while (spawnY < 256)
 			{
-				Block block = world.getBlock(x, spawnY, z);
-				Block blockAbove = world.getBlock(x, spawnY + 1, z);
+				Block block = BlockHelper.getBlock(world, x, spawnY, z);
+				Block blockAbove = BlockHelper.getBlock(world, x, spawnY + 1, z);
 
 				if (block == Blocks.air && blockAbove == Blocks.air)
 				{

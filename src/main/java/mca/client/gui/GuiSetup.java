@@ -27,6 +27,7 @@ import radixcore.constant.Font.Color;
 import radixcore.data.BlockObj;
 import radixcore.data.DataWatcherEx;
 import radixcore.math.Point3D;
+import radixcore.util.BlockHelper;
 import radixcore.util.SchematicHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -136,7 +137,7 @@ public class GuiSetup extends GuiScreen
 
 				if (y > (int)player.posY - 2)
 				{
-					player.worldObj.setBlock(
+					BlockHelper.setBlock(player.worldObj,
 							MCA.destinyCenterPoint.iPosX + entry.getKey().iPosX, 
 							y, 
 							MCA.destinyCenterPoint.iPosZ + entry.getKey().iPosZ, Blocks.air);

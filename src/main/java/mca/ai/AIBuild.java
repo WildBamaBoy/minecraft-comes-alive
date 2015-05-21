@@ -16,6 +16,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import radixcore.data.BlockObj;
 import radixcore.data.WatchedBoolean;
 import radixcore.math.Point3D;
+import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
 import radixcore.util.SchematicHandler;
 
@@ -71,7 +72,7 @@ public class AIBuild extends AbstractToggleAI
 						for (Point3D point : torchPoints)
 						{
 							final BlockObj blockObj = schematicMap.get(point);
-							owner.worldObj.setBlock(origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, blockObj.getBlock(), blockObj.getMeta(), 2);
+							BlockHelper.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, blockObj.getBlock(), blockObj.getMeta());
 						}
 
 						owner.setMovementState(EnumMovementState.MOVE);
@@ -88,12 +89,12 @@ public class AIBuild extends AbstractToggleAI
 
 						if (blockObj.getBlock() == Blocks.grass && groundBlock != null)
 						{
-							owner.worldObj.setBlock(origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, groundBlock, 0, 2);							
+							BlockHelper.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, groundBlock, 0);							
 						}
 
 						else
 						{
-							owner.worldObj.setBlock(origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, blockObj.getBlock(), blockObj.getMeta(), 2);
+							BlockHelper.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, blockObj.getBlock(), blockObj.getMeta());
 						}
 					}
 				}
@@ -197,11 +198,11 @@ public class AIBuild extends AbstractToggleAI
 		for (final Map.Entry<Point3D, BlockObj> entry: schematicMap.entrySet())
 		{
 			final Point3D point = entry.getKey();
-			Block blockAtPoint = owner.worldObj.getBlock(origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ);
+			Block blockAtPoint = BlockHelper.getBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ);
 			
 			if (blockAtPoint == Blocks.tallgrass || blockAtPoint == Blocks.red_flower || blockAtPoint == Blocks.double_plant || blockAtPoint == Blocks.yellow_flower)
 			{
-				owner.worldObj.setBlock(origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, Blocks.air);
+				BlockHelper.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, Blocks.air);
 			}
 			
 			compareY = -25;

@@ -1,5 +1,6 @@
 package mca.items;
 
+import radixcore.util.BlockHelper;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.ModBlocks;
@@ -31,7 +32,7 @@ public class ItemTombstone extends Item
 			return false;
 		}
 
-		else if (!world.getBlock(posX, posY, posZ).getMaterial().isSolid())
+		else if (!BlockHelper.getBlock(world, posX, posY, posZ).getMaterial().isSolid())
 		{
 			return false;
 		}
@@ -78,17 +79,16 @@ public class ItemTombstone extends Item
 				if (meta == 1)
 				{
 					final int newMeta = MathHelper.floor_double((player.rotationYaw + 180F) * 16F / 360F + 0.5D) & 15;
-					System.out.println(newMeta);
-					world.setBlock(posX, posY, posZ, ModBlocks.tombstone, newMeta, 2);
+					BlockHelper.setBlock(world, posX, posY, posZ, ModBlocks.tombstone, newMeta);
 				}
 
 				else
 				{
-					world.setBlock(posX, posY, posZ, ModBlocks.tombstone, meta, 2);
+					BlockHelper.setBlock(world, posX, posY, posZ, ModBlocks.tombstone, meta);
 				}
 
 				--itemStack.stackSize;
-				final TileTombstone tombstone = (TileTombstone) world.getTileEntity(posX, posY, posZ);
+				final TileTombstone tombstone = (TileTombstone) BlockHelper.getTileEntity(world, posX, posY, posZ);
 				if (tombstone != null)
 				{
 					player.openGui(MCA.getInstance(), Constants.GUI_ID_TOMBSTONE, world, tombstone.xCoord, tombstone.yCoord, tombstone.zCoord);

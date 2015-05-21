@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import radixcore.network.ByteBufIO;
 import radixcore.packets.AbstractPacket;
+import radixcore.util.BlockHelper;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
@@ -75,7 +76,7 @@ public class PacketTombstoneUpdateSet extends AbstractPacket implements IMessage
 		
 		try
 		{
-			final TileTombstone tombstone = (TileTombstone)world.getTileEntity(packet.x, packet.y, packet.z);
+			final TileTombstone tombstone = (TileTombstone)BlockHelper.getTileEntity(world, packet.x, packet.y, packet.z);
 			
 			if (tombstone != null)
 			{

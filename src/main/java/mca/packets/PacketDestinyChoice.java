@@ -17,6 +17,7 @@ import net.minecraft.server.management.PlayerManager;
 import net.minecraft.world.WorldServer;
 import radixcore.math.Point3D;
 import radixcore.packets.AbstractPacket;
+import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
 import radixcore.util.SchematicHandler;
@@ -142,15 +143,15 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 
 				for (Point3D point : RadixLogic.getNearbyBlocks(player, Blocks.mob_spawner, 70))
 				{
-					player.worldObj.setBlock(point.iPosX, point.iPosY, point.iPosZ, Blocks.air);
+					BlockHelper.setBlock(player.worldObj, point.iPosX, point.iPosY, point.iPosZ, Blocks.air);
 					MCA.naturallySpawnVillagers(new Point3D(point.iPosX, point.iPosY, point.iPosZ), world, -1);
 				}
 
 				for (Point3D point : RadixLogic.getNearbyBlocks(player, Blocks.bedrock, 70))
 				{
-					player.worldObj.setBlock(point.iPosX, point.iPosY, point.iPosZ, ModBlocks.tombstone, 4, 2);
+					BlockHelper.setBlock(player.worldObj, point.iPosX, point.iPosY, point.iPosZ, ModBlocks.tombstone, 4);
 
-					final TileTombstone tile = (TileTombstone) player.worldObj.getTileEntity(point.iPosX, point.iPosY, point.iPosZ);
+					final TileTombstone tile = (TileTombstone) BlockHelper.getTileEntity(player.worldObj, point.iPosX, point.iPosY, point.iPosZ);
 
 					if (tile != null)
 					{

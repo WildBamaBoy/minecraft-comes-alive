@@ -1,5 +1,6 @@
 package mca.core.forge;
 
+import radixcore.util.BlockHelper;
 import mca.client.gui.GuiNameBaby;
 import mca.client.gui.GuiSetup;
 import mca.client.gui.GuiTombstone;
@@ -33,7 +34,7 @@ public class GuiHandler implements IGuiHandler
 		case Constants.GUI_ID_SETUP:
 			return new GuiSetup(player);
 		case Constants.GUI_ID_TOMBSTONE:
-			return new GuiTombstone((TileTombstone) world.getTileEntity(posX, posY, posZ));
+			return new GuiTombstone((TileTombstone)BlockHelper.getTileEntity(world, posX, posY, posZ));
 		default: return null;
 		}
 	}

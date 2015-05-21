@@ -13,6 +13,7 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import radixcore.constant.Time;
 import radixcore.data.WatchedBoolean;
 import radixcore.math.Point3D;
+import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -226,8 +227,8 @@ public class AICooking extends AbstractToggleAI
 
 	private boolean isFurnaceStillPresent()
 	{
-		return owner.worldObj.getBlock(furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ) == Blocks.furnace || 
-				owner.worldObj.getBlock(furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ) == Blocks.lit_furnace;
+		return BlockHelper.getBlock(owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ) == Blocks.furnace || 
+				BlockHelper.getBlock(owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ) == Blocks.lit_furnace;
 	}
 
 
@@ -241,9 +242,9 @@ public class AICooking extends AbstractToggleAI
 			{
 				if (cookingTicks <= cookingInterval)
 				{
-					if (owner.worldObj.getBlock(furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ) != Blocks.lit_furnace)
+					if (BlockHelper.getBlock(owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ) != Blocks.lit_furnace)
 					{
-						BlockFurnace.updateFurnaceBlockState(true, owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ);
+						BlockHelper.updateFurnaceState(true, owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ);
 					}
 					
 					cookingTicks++;
@@ -263,7 +264,7 @@ public class AICooking extends AbstractToggleAI
 					hasCookableFood = false;
 					cookingTicks = 0;
 					fuelUsesRemaining--;
-					BlockFurnace.updateFurnaceBlockState(false, owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ);
+					BlockHelper.updateFurnaceState(false, owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ);
 					
 					if (fuelUsesRemaining <= 0)
 					{
