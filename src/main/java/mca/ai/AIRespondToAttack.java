@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraftforge.common.util.FakePlayer;
 import radixcore.util.RadixMath;
 
 public class AIRespondToAttack extends AbstractAI
@@ -142,7 +143,7 @@ public class AIRespondToAttack extends AbstractAI
 			return;
 		}
 
-		if (entity instanceof EntityPlayerMP && !entity.getCommandSenderName().equals("[CoFH]"))
+		if (entity instanceof EntityPlayerMP && !entity.getCommandSenderName().equals("[CoFH]") && !(entity instanceof FakePlayer))
 		{
 			EntityPlayer player = (EntityPlayer)entity;
 			target = player;
