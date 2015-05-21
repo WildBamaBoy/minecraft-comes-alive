@@ -9,6 +9,7 @@
 !/gfx
 !/*.gradle
 !/*.md
+!setupws.bat
 .gradle
 gitlog-to-changelog
 CHANGELOG
