@@ -122,11 +122,8 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 				AIMood mood = villager.getAI(AIMood.class);
 				PlayerMemory memory = villager.getPlayerMemory(player);
 
-				int successChance = interaction.getBaseChance() - memory.getInteractionFatigue() * 6
-						+ villager.getPersonality().getSuccessModifierForInteraction(interaction) 
-						+ mood.getMood(villager.getPersonality()).getSuccessModifierForInteraction(interaction)
-						+ interaction.getBonusChanceForCurrentPoints(memory.getHearts());
-
+				int successChance = interaction.getSuccessChance(villager, memory);
+				
 				int pointsModification = interaction.getBasePoints()
 						+ villager.getPersonality().getHeartsModifierForInteraction(interaction) 
 						+ mood.getMood(villager.getPersonality()).getPointsModifierForInteraction(interaction);

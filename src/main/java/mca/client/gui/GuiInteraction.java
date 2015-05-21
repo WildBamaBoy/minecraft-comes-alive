@@ -60,11 +60,13 @@ public class GuiInteraction extends GuiScreen
 {
 	private final EntityHuman villager;
 	private final EntityPlayer player;
+	private final PlayerMemory memory;
 	private final PlayerData playerData;
 
 	private boolean displayMarriageInfo;
 	private boolean displayParentsInfo;
 	private boolean displayGiftInfo;
+	private boolean displaySuccessChance;
 	private boolean inGiftMode;
 
 	/*
@@ -87,6 +89,7 @@ public class GuiInteraction extends GuiScreen
 		this.villager = villager;
 		this.player = player;
 		this.playerData = MCA.getPlayerData(player);
+		this.memory = villager.getPlayerMemory(player);
 		this.radiusMappings = NumberCycleList.fromIntegers(5, 10, 15, 20, 25);
 		this.farmingMappings = NumberCycleList.fromList(RegistryMCA.getCropEntryIDs());
 		this.woodcuttingMappings = NumberCycleList.fromList(RegistryMCA.getWoodcuttingBlockIDs());
@@ -243,6 +246,30 @@ public class GuiInteraction extends GuiScreen
 			}
 		}
 
+		if (displaySuccessChance)
+		{
+			for (Object obj : buttonList)
+			{
+				try
+				{
+					GuiButton button = (GuiButton)obj;
+					EnumInteraction interaction = EnumInteraction.fromId(button.id);
+					
+					int successChance = interaction.getSuccessChance(villager, memory);
+					
+					if (successChance != 0)
+					{
+						RenderHelper.drawTextPopup(successChance + "%", button.xPosition - 30, button.yPosition + 6);
+					}
+				}
+				
+				catch (Exception e)
+				{
+					continue;
+				}
+			}
+		}
+		
 		super.drawScreen(i, j, f);
 	}
 
@@ -355,6 +382,11 @@ public class GuiInteraction extends GuiScreen
 			}
 		}
 
+		else if (keyCode == Keyboard.KEY_LCONTROL)
+		{
+			displaySuccessChance = !displaySuccessChance;
+		}
+		
 		else
 		{
 			try
