@@ -20,6 +20,7 @@ public final class Config
 	public boolean overwriteOriginalVillagers;
 	public boolean allowMobAttacks;
 	public boolean shiftClickForPlayerMarriage;
+	public boolean giveCrystalBall;
 	public int guardSpawnRate;
 	public int chanceToHaveTwins;
 	public int villagerMaxHealth;
@@ -78,6 +79,7 @@ public final class Config
 		
 		config.setCategoryComment("General", "General mod settings.");
 
+		giveCrystalBall = config.get("General", "Give crystal ball", true, "Toggles giving the crystal ball to new players on join. WARNING: If this is false, you must spawn the crystal ball in later manually!").getBoolean();
 		overwriteOriginalVillagers = config.get("General", "Overwrite original villagers", true).getBoolean();
 		shiftClickForPlayerMarriage = config.get("General", "Shift-click for player marriage menu", false, "True if you must hold shift then right click a player to open the marriage menu. Useful on PvP servers.").getBoolean();
 		chanceToHaveTwins = config.get("General", "Chance to have twins", 2, "Your percent chance of having twins.").getInt();

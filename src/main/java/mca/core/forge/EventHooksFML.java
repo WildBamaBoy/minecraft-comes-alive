@@ -83,7 +83,7 @@ public class EventHooksFML
 
 		MCA.getPacketHandler().sendPacketToPlayer(new PacketDataContainer(MCA.ID, data), (EntityPlayerMP)event.player);
 
-		if (!data.hasChosenDestiny.getBoolean() && !player.inventory.hasItem(ModItems.crystalBall))
+		if (!data.hasChosenDestiny.getBoolean() && !player.inventory.hasItem(ModItems.crystalBall) && MCA.getConfig().giveCrystalBall)
 		{
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.crystalBall));
 		}
