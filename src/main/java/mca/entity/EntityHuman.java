@@ -518,7 +518,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 				{
 					EntityPlayer nearestPlayer = worldObj.getClosestPlayerToEntity(this, 25.0D);
 					String nearestPlayerString = nearestPlayer != null ? nearestPlayer.getCommandSenderName() : "None";
-					
+
 					MCA.getLog().info("Villager '" + name.getString() + "(" + getProfessionEnum().toString() + ")' was killed by " + source + ". Nearest player: " + nearestPlayerString);
 				}
 			}
@@ -807,11 +807,19 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			{
 				for (Entity entity : RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, this, 50))
 				{
-					if (entity != this)
+					try
 					{
-						EntityHuman human = (EntityHuman)entity;
-						PlayerMemory memory = human.getPlayerMemory(partner);
-						memory.setHasGift(true);
+						if (entity != this)
+						{
+							EntityHuman human = (EntityHuman)entity;
+							PlayerMemory memory = human.getPlayerMemory(partner);
+							memory.setHasGift(true);
+						}
+					}
+
+					catch (ClassCastException e) //Something odd with Thaumcraft? Unable to reproduce.
+					{
+						continue;
 					}
 				}
 			}
