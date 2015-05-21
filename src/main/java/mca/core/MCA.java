@@ -76,13 +76,13 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore@[2.0.0,)", acceptedMinecraftVersions = "[1.7.10]",
+@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore@[2.1.0,)", acceptedMinecraftVersions = "[1.7.10]",
 		guiFactory = "mca.core.forge.client.MCAGuiFactory")
 public class MCA
 {
 	public static final String ID = "MCA";
 	public static final String NAME = "Minecraft Comes Alive";
-	public static final String VERSION = "5.0.5_1";
+	public static final String VERSION = "5.0.6";
 
 	@Instance(ID)
 	private static MCA instance;
