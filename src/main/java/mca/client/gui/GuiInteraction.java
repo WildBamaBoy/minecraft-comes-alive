@@ -640,7 +640,7 @@ public class GuiInteraction extends GuiScreen
 			buttonList.add(new GuiButton(EnumInteraction.SPECIAL.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.special"))); yLoc -= yInt;
 		}
 
-		if (villager.getPlayerSpouse() == player)
+		if (villager.getSpouseName().equals(player.getCommandSenderName()) || villager.getPlayerSpouse() == player)
 		{
 			buttonList.add(new GuiButton(EnumInteraction.PROCREATE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.procreate"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.INVENTORY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.inventory"))); yLoc -= yInt;
