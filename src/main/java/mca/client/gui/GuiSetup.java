@@ -1,7 +1,12 @@
 package mca.client.gui;
 
 import java.awt.Desktop;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.URI;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import mca.core.MCA;
@@ -36,7 +41,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class GuiSetup extends GuiScreen
 {
 	private static ResourceLocation setupLogo = new ResourceLocation("mca:textures/setup.png");
-
+	private static String supportersURL = "http://pastebin.com/raw.php?i=VF4pMfZQ";
+	private static List<String> supportersList = new ArrayList<String>();
+	
 	private EntityPlayer player;
 	private PlayerData data;
 
@@ -55,8 +62,39 @@ public class GuiSetup extends GuiScreen
 	{
 		DataWatcherEx.allowClientSideModification = true;
 		Keyboard.enableRepeatEvents(true);
-		page = 1;		
+		page = 1;
 		drawControls();
+		
+		if (supportersList.isEmpty())
+		{
+			MCA.getLog().info("Downloading supporters list...");
+			
+			new Thread(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					try
+					{
+						URL url = new URL(supportersURL);
+						BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+						String input;
+						
+						while ((input = in.readLine()) != null)
+						{
+							supportersList.add(input);
+						}
+						
+						MCA.getLog().info("Successfully downloaded supporters list.");
+					}
+					
+					catch (Exception e)
+					{
+						supportersList.add("Failed to download supporters list!");
+					}
+				}
+			}).start();
+		}
 	}
 
 	@Override
@@ -82,12 +120,20 @@ public class GuiSetup extends GuiScreen
 	@Override
 	public void drawScreen(int sizeX, int sizeY, float offset)
 	{
-		drawDefaultBackground();
+		if (page == 6)
+		{
+			drawBackground(0);
+		}
+		
+		else
+		{
+			drawDefaultBackground();
+		}
 
 		GL11.glPushMatrix();
 		{
 			GL11.glScaled(0.55D, 0.25D, 1.0D);
-			RenderHelper.drawTexturedRectangle(setupLogo, width / 2 + 62, height / 2 - 160, 0, 0, 250, 230);
+			RenderHelper.drawTexturedRectangle(setupLogo, width / 2 + 62, height / 2 - 120, 0, 0, 256, 256);
 		}
 		GL11.glPopMatrix();
 
@@ -117,6 +163,18 @@ public class GuiSetup extends GuiScreen
 		{
 			drawCenteredString(fontRendererObj, "WARNING: This destiny can potentially be destructive to your world.", width / 2, 70, 0xffffff);
 			drawCenteredString(fontRendererObj, "This option works best on flat land with no other structures nearby. Continue?", width / 2, 85, 0xffffff);
+		}
+		
+		else if (page == 6)
+		{
+			drawCenteredString(fontRendererObj, "Thank you to my amazing Patreon supporters!", width / 2, 70, 0xffffff);
+			
+			int i = 85;
+			for (String s : supportersList)
+			{
+				drawCenteredString(fontRendererObj, Color.GREEN + s, width / 2, i, 0xffffff); 
+				i += 15;
+			}
 		}
 
 		super.drawScreen(sizeX, sizeY, offset);
@@ -197,7 +255,8 @@ public class GuiSetup extends GuiScreen
 
 		switch (button.id)
 		{
-		case 0: page--; break;
+		case -2: page = 6; break;
+		case 0: page = page == 6 ? 1 : page - 1; break;
 		case 1: case 2: 					page = 2; break;
 		case 3: case 4: case 5: 			page = 3; break;
 		case 6: 							page = 4; break;
@@ -250,8 +309,12 @@ public class GuiSetup extends GuiScreen
 	private void drawControls()
 	{
 		buttonList.clear();
-		buttonList.add(new GuiButtonPatreon(-1, width / 2 + 90, height / 2 + 80));
-
+		
+		if (!MCA.getConfig().disablePatreonButton)
+		{
+			buttonList.add(new GuiButtonPatreon(-1, width / 2 + 90, height / 2 + 80));
+		}
+		
 		if (page > 1)
 		{
 			buttonList.add(new GuiButton(0, width / 2 - 200, height / 2 + 90, 65, 20, "Back"));
@@ -259,6 +322,7 @@ public class GuiSetup extends GuiScreen
 
 		if (page == 1)
 		{
+			buttonList.add(new GuiButton(-2, width / 2 - 200, height / 2 + 90, 80, 20, Color.GREEN + "Supporters"));
 			buttonList.add(new GuiButton(1, width / 2 - 65, height / 2 + 10, 65, 20, Color.AQUA + "Male"));
 			buttonList.add(new GuiButton(2, width / 2 + 2, height / 2 + 10, 65, 20, Color.LIGHTPURPLE + "Female"));
 		}
