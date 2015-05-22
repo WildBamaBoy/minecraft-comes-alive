@@ -6,6 +6,9 @@ import java.util.List;
 import mca.entity.EntityHuman;
 import net.minecraft.nbt.NBTTagCompound;
 
+/**
+ * Manages the execution of AI objects attached to an actor.
+ */
 public class AIManager 
 {
 	private EntityHuman owner;

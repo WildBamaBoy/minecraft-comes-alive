@@ -3,6 +3,11 @@ package mca.api;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 
+/**
+ * Defines an item that can be given to a player if
+ * they successfully complete the engagement->marriage
+ * process.
+ */
 public final class WeddingGift 
 {
 	private final Item item;

@@ -2,6 +2,9 @@ package mca.api;
 
 import net.minecraft.block.Block;
 
+/**
+ * Defines a tree type that can be cut by villagers.
+ */
 public final class WoodcuttingEntry 
 {
 	private final Block logBlock;
