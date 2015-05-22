@@ -45,6 +45,7 @@ import mca.enums.EnumProgressionStep;
 import mca.enums.EnumSleepingState;
 import mca.items.ItemBaby;
 import mca.packets.PacketOpenGUIOnEntity;
+import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -755,6 +756,13 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			playerMemories.put(playerName, returnMemory);
 		}
 
+		return returnMemory;
+	}
+
+	public PlayerMemory getPlayerMemoryWithoutCreating(EntityPlayer player) 
+	{
+		String playerName = player.getCommandSenderName();
+		PlayerMemory returnMemory = playerMemories.get(playerName);
 		return returnMemory;
 	}
 

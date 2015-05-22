@@ -32,7 +32,9 @@ public class PlayerMemory implements Serializable
 	private boolean hasQuest;
 	private boolean isHiredBy;
 	private EnumDialogueType dialogueType;
-
+	private int feedbackDisplayTime;
+	private boolean lastInteractionSuccess;
+	
 	private transient int timeUntilGreeting;
 	private transient int distanceTravelledFrom;
 
@@ -84,6 +86,8 @@ public class PlayerMemory implements Serializable
 		nbt.setBoolean(nbtPrefix + "hasQuest", hasQuest);
 		nbt.setInteger(nbtPrefix + "dialogueType", dialogueType.getId());
 		nbt.setBoolean(nbtPrefix + "isHiredBy", isHiredBy);
+		nbt.setInteger(nbtPrefix + "feedbackDisplayTime", feedbackDisplayTime);
+		nbt.setBoolean(nbtPrefix + "lastInteractionSuccess", lastInteractionSuccess);
 	}
 
 	public void readPlayerMemoryFromNBT(NBTTagCompound nbt)
@@ -102,6 +106,8 @@ public class PlayerMemory implements Serializable
 		dialogueType = EnumDialogueType.getById(nbt.getInteger(nbtPrefix + "dialogueType"));
 		hasQuest = nbt.getBoolean(nbtPrefix + "hasQuest");
 		isHiredBy = nbt.getBoolean(nbtPrefix + "isHiredBy");
+		feedbackDisplayTime = nbt.getInteger(nbtPrefix + "feedbackDisplayTime");
+		lastInteractionSuccess = nbt.getBoolean(nbtPrefix + "lastInteractionSuccess");
 	}
 
 	public void doTick()
@@ -125,6 +131,17 @@ public class PlayerMemory implements Serializable
 		}
 
 		counter--;
+		
+		if (feedbackDisplayTime > 0)
+		{
+			feedbackDisplayTime--;
+			
+			if (feedbackDisplayTime <= 0)
+			{
+				//Send an update to turn feedback display off.
+				onNonTransientValueChanged();
+			}
+		}
 	}
 
 	public int getHearts()
@@ -160,6 +177,7 @@ public class PlayerMemory implements Serializable
 	public void setHearts(int value)
 	{
 		this.hearts = value;
+		setLastInteractionSuccess(value >= 0);
 		onNonTransientValueChanged();
 	}
 
@@ -174,6 +192,14 @@ public class PlayerMemory implements Serializable
 		this.hasGift = value;
 		onNonTransientValueChanged();
 	}
+	
+	public void setLastInteractionSuccess(boolean value)
+	{
+		this.lastInteractionSuccess = value;
+		this.feedbackDisplayTime = Time.SECOND * 2;
+		onNonTransientValueChanged();
+	}
+	
 	public void setDialogueType(EnumDialogueType value) 
 	{
 		this.dialogueType = value;
@@ -185,6 +211,16 @@ public class PlayerMemory implements Serializable
 		return dialogueType;
 	}
 
+	public boolean doDisplayFeedback()
+	{
+		return feedbackDisplayTime > 0;
+	}
+	
+	public boolean getLastInteractionSuccess()
+	{
+		return lastInteractionSuccess;
+	}
+	
 	private void onNonTransientValueChanged()
 	{
 		final EntityPlayerMP player = (EntityPlayerMP) owner.worldObj.getPlayerEntityByName(playerName);

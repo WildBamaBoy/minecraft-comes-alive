@@ -15,6 +15,7 @@ import mca.ai.AISleep;
 import mca.client.gui.GuiInteraction;
 import mca.client.gui.GuiVillagerEditor;
 import mca.client.model.ModelHuman;
+import mca.client.model.UVPoint;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.data.PlayerMemory;
@@ -44,6 +45,9 @@ import radixcore.util.RadixMath;
 public class RenderHuman extends RenderBiped
 {
 	private static final ResourceLocation gui = new ResourceLocation("mca:textures/gui.png");
+	private static final UVPoint exMark = new UVPoint(55, 18, 3, 13);
+	private static final UVPoint minus = new UVPoint(69, 23, 7, 3);
+	private static final UVPoint plus = new UVPoint(85, 21, 7, 7);
 	private static final float LABEL_SCALE = 0.027F;
 	private final ModelBiped modelArmorPlate;
 	private final ModelBiped modelArmor;
@@ -106,17 +110,17 @@ public class RenderHuman extends RenderBiped
 		{
 			return;
 		}
-		
+
 		else if (currentHealth < maxHealth)
 		{
 			renderLabel(human, posX, posY, posZ, MCA.getLanguageManager().getString("label.health") + currentHealth + "/" + maxHealth);
 		}
-		
+
 		else if (canRenderNameTag(entityLivingBase) && MCA.getConfig().showNameTagOnHover)
 		{
 			renderLabel(human, posX, posY, posZ, human.getTitle(Minecraft.getMinecraft().thePlayer));
 		}
-		
+
 		else if (human.displayNameForPlayer)
 		{
 			renderLabel(human, posX, posY + (distanceFromPlayer / 15.0D)  + (human.getHeight() * 1.15D), posZ, human.getTitle(Minecraft.getMinecraft().thePlayer));
@@ -127,7 +131,7 @@ public class RenderHuman extends RenderBiped
 		{
 			renderLabel(human, posX, posY + (distanceFromPlayer / 15.0D)  + (human.getHeight() * 1.15D), posZ, human.getAIManager().getNameOfActiveAI());
 		}
-		
+
 		else if (converseAI.getConversationActive() && distanceFromPlayer <= 6.0D && MCA.getConfig().showVillagerConversations)
 		{
 			String conversationString = "conversation" + converseAI.getConversationID() + ".progress" + converseAI.getConversationProgress();
@@ -160,33 +164,39 @@ public class RenderHuman extends RenderBiped
 	private void renderHuman(EntityHuman entity, double posX, double posY, double posZ, float rotationYaw, float rotationPitch)
 	{
 		final EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-		final PlayerMemory memory = entity.getPlayerMemory(player);
-		
+		final PlayerMemory memory = entity.getPlayerMemoryWithoutCreating(player);
+
 		if (!entity.getDoDisplay())
 		{
 			return;
 		}
 
+		//Pass special renders according to player memory here.
 		if (RadixMath.getDistanceToEntity(entity, player) <= 5.0F
-				&& !canRenderNameTag(entity) && !entity.getAI(AISleep.class).getIsSleeping()
-				&& !entity.displayNameForPlayer && memory.getHasQuest())
+				&& !entity.getAI(AISleep.class).getIsSleeping()
+				&& !entity.displayNameForPlayer && memory != null)
 		{
-			GL11.glPushMatrix();
-			{
-				GL11.glTranslatef((float) posX, (float) posY + entity.height + 0.25F + 0.5F, (float) posZ);
-				GL11.glRotatef(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-				GL11.glRotatef(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-				GL11.glScalef(-LABEL_SCALE, -LABEL_SCALE, LABEL_SCALE);
-				GL11.glDisable(GL11.GL_LIGHTING);
-				GL11.glTranslatef(0.0F, 0.25F / LABEL_SCALE, 0.0F);
-				RenderHelper.drawTexturedRectangle(gui, (int) posX, (int) posY - 8, 55, 18, 3, 13);
-			}
-			GL11.glPopMatrix();
+			UVPoint uvp = memory.doDisplayFeedback() ? (memory.getLastInteractionSuccess() ? plus : minus) : memory.getHasQuest() ? exMark : null;
 
-			GL11.glDepthMask(true);
-			GL11.glEnable(GL11.GL_LIGHTING);
+			if (uvp != null)
+			{
+				GL11.glPushMatrix();
+				{
+					GL11.glTranslatef((float) posX, (float) posY + entity.height + 0.25F + 0.5F, (float) posZ);
+					GL11.glRotatef(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+					GL11.glRotatef(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+					GL11.glScalef(-LABEL_SCALE, -LABEL_SCALE, LABEL_SCALE);
+					GL11.glDisable(GL11.GL_LIGHTING);
+					GL11.glTranslatef(0.0F, 0.25F / LABEL_SCALE, 0.0F);
+					RenderHelper.drawTexturedRectangle(gui, (int) posX, (int) posY + 12, uvp.getU(), uvp.getV(), uvp.getWidth(), uvp.getHeight());
+				}
+				GL11.glPopMatrix();
+
+				GL11.glDepthMask(true);
+				GL11.glEnable(GL11.GL_LIGHTING);
+			}
 		}
-		
+
 		double posYCorrection = posY - entity.yOffset;
 		shadowOpaque = 1.0F;
 
