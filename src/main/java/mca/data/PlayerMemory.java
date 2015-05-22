@@ -176,8 +176,9 @@ public class PlayerMemory implements Serializable
 
 	public void setHearts(int value)
 	{
+		int delta = (hearts - value) * -1;
 		this.hearts = value;
-		setLastInteractionSuccess(value >= 0);
+		setLastInteractionSuccess(delta >= 0);
 		onNonTransientValueChanged();
 	}
 
