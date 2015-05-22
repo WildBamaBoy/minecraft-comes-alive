@@ -42,7 +42,7 @@ public class AIRespondToAttack extends AbstractAI
 	{
 		if (!owner.getIsChild() && isRetaliating && owner.getHealth() > 0.0F)
 		{
-			if (target instanceof EntityPlayerMP && !target.getCommandSenderName().equals("[CoFH]"))
+			if (target instanceof EntityPlayerMP && !target.getCommandSenderName().equals("[CoFH]") && !(target instanceof FakePlayer))
 			{
 				final EntityPlayer targetPlayer = (EntityPlayer)target;
 
