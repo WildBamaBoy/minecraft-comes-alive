@@ -84,7 +84,6 @@ public class ItemBaby extends Item
 		{
 			ItemBaby baby = (ItemBaby)stack.getItem();
 			PlayerData data = MCA.getPlayerData(player);
-			EntityHuman playerSpouse = MCA.getHumanByPermanentId(data.spousePermanentId.getInt());
 			boolean isPlayerMale = data.isMale.getBoolean();
 
 			String motherName = "N/A";
@@ -107,33 +106,6 @@ public class ItemBaby extends Item
 				motherName = player.getCommandSenderName();
 				motherId = data.permanentId.getInt();				
 			}
-
-			//			if (playerSpouse != null) //Spouse could be dead.
-			//			{
-			//				if (isPlayerMale)
-			//				{
-			//					motherName = playerSpouse.getName();
-			//					motherId = playerSpouse.getPermanentId();
-			//				}
-			//
-			//				else
-			//				{
-			//					fatherName = playerSpouse.getName();
-			//					fatherId = playerSpouse.getPermanentId();
-			//				}
-			//			}
-			//
-			//			if (isPlayerMale)
-			//			{
-			//				fatherName = player.getCommandSenderName();
-			//				fatherId = data.permanentId.getInt();
-			//			}
-			//
-			//			else
-			//			{
-			//				motherName = player.getCommandSenderName();
-			//				motherId = data.permanentId.getInt();
-			//			}
 
 			final EntityHuman child = new EntityHuman(worldObj, baby.isBoy, true, motherName, fatherName, motherId, fatherId, true);
 			child.setPosition(posX, posY + 1, posZ);

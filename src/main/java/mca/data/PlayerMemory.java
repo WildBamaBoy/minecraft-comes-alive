@@ -45,6 +45,18 @@ public class PlayerMemory implements Serializable
 		this.uuid = player.getUniqueID().toString();
 		this.permanentId = MCA.getPlayerData(player).permanentId.getInt();
 		this.dialogueType = owner.getIsChild() ? EnumDialogueType.CHILD : EnumDialogueType.ADULT;
+		
+		//If both parents are players, player memory will not properly be set up for the player who
+		//did not place the baby down. Account for this here when the memory is created for the first time.
+		if (owner.getMotherName().equals(playerName) || owner.getFatherName().equals(playerName))
+		{
+			dialogueType = EnumDialogueType.CHILDP;
+			hearts = 100;
+			
+			//Also set this player as not having a baby, since it won't be set at all as the player may be offline.
+			PlayerData data = MCA.getPlayerData(player);
+			data.shouldHaveBaby.setValue(false);
+		}
 	}
 
 	/**
