@@ -58,6 +58,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiInteraction extends GuiScreen
 {
+	private static boolean displaySuccessChance;
+	
 	private final EntityHuman villager;
 	private final EntityPlayer player;
 	private final PlayerMemory memory;
@@ -66,7 +68,6 @@ public class GuiInteraction extends GuiScreen
 	private boolean displayMarriageInfo;
 	private boolean displayParentsInfo;
 	private boolean displayGiftInfo;
-	private boolean displaySuccessChance;
 	private boolean inGiftMode;
 
 	/*
