@@ -2,6 +2,7 @@ package mca.ai;
 
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.enums.EnumPersonality;
 import mca.enums.EnumProfessionGroup;
@@ -159,6 +160,9 @@ public class AIRespondToAttack extends AbstractAI
 
 				isRetaliating = true;
 				targetPlayerName = player.getCommandSenderName();
+				
+				PlayerMemory memory = owner.getPlayerMemory(player);
+				memory.setHearts(memory.getHearts() - 5);
 			}
 		}
 
