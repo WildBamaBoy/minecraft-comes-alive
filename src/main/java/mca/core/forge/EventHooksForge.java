@@ -40,7 +40,7 @@ public class EventHooksForge
 				doAddMobTasks((EntityMob) event.entity);
 			}
 
-			if (event.entity instanceof EntityVillager && !(event.entity instanceof EntityHuman) && MCA.getConfig().overwriteOriginalVillagers)
+			if (event.entity.getClass() == EntityVillager.class && MCA.getConfig().overwriteOriginalVillagers)
 			{
 				doOverwriteVillager(event, (EntityVillager) event.entity);
 			}
