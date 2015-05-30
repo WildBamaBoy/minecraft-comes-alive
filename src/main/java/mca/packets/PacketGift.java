@@ -24,14 +24,15 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import radixcore.constant.Particle;
 import radixcore.packets.AbstractPacket;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketGift extends AbstractPacket implements IMessage, IMessageHandler<PacketGift, IMessage>
 {
@@ -130,7 +131,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				removeItem = true;
 				removeCount = 1;
 				
-				human.getInventory().addItemStackToInventory(stack);
+				human.getVillagerInventory().addItemStackToInventory(stack);
 			}
 			
 			else if ((item == Items.cake || Block.getBlockFromItem(item) == Blocks.cake) && human.getAI(AIProgressStory.class).getProgressionStep() == EnumProgressionStep.TRY_FOR_BABY)
@@ -214,7 +215,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			human.setIsMarried(true, player);
 
 			human.getAI(AIMood.class).modifyMoodLevel(3.0F);
-			VersionBridge.spawnParticlesAroundEntityS(Particle.HEART, human, 16);
+			VersionBridge.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, human, 16);
 			TutorialManager.sendMessageToPlayer(player, "You are now married. You can have", "children by using the 'Procreate' button.");
 			return true;
 		}
@@ -273,8 +274,8 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				human.setIsMarried(true, partner);
 				partner.setIsMarried(true, human);
 				
-				VersionBridge.spawnParticlesAroundEntityS(Particle.HEART, human, 16);
-				VersionBridge.spawnParticlesAroundEntityS(Particle.HEART, partner, 16);
+				VersionBridge.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, human, 16);
+				VersionBridge.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, partner, 16);
 				
 				for (Object obj : human.worldObj.playerEntities)
 				{
@@ -341,7 +342,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			human.setIsEngaged(true, player);
 
 			human.getAI(AIMood.class).modifyMoodLevel(3.0F);
-			VersionBridge.spawnParticlesAroundEntityS(Particle.HEART, human, 16);
+			VersionBridge.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, human, 16);
 			TutorialManager.sendMessageToPlayer(player, "You are now engaged. Now gift a wedding ring", "to get gifts from other villagers.");
 			return true;
 		}
@@ -383,7 +384,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				data.setNotMarried();
 
 				human.getAI(AIMood.class).modifyMoodLevel(-10.0F);
-				VersionBridge.spawnParticlesAroundEntityS(Particle.ANGRY, human, 16);
+				VersionBridge.spawnParticlesAroundEntityS(EnumParticleTypes.VILLAGER_ANGRY, human, 16);
 			}
 			
 			else

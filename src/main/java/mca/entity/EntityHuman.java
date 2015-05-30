@@ -45,7 +45,6 @@ import mca.enums.EnumProgressionStep;
 import mca.enums.EnumSleepingState;
 import mca.items.ItemBaby;
 import mca.packets.PacketOpenGUIOnEntity;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -70,6 +69,10 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.constant.Font.Color;
 import radixcore.data.DataWatcherEx;
 import radixcore.data.IPermanent;
@@ -82,10 +85,6 @@ import radixcore.inventory.Inventory;
 import radixcore.network.ByteBufIO;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
-import cpw.mods.fml.common.ObfuscationReflectionHelper;
-import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityHuman extends EntityVillager implements IWatchable, IPermanent, IEntityAdditionalSpawnData
 {
@@ -459,7 +458,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	}
 
 	@Override
-	public void func_110297_a_(ItemStack itemStack)
+	public void verifySellingItem(ItemStack itemStack)
 	{
 		//Disables trading villager sounds.
 	}
@@ -500,11 +499,11 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		if (!worldObj.isRemote)
 		{
 			EntityPlayerMP killingPlayer = damageSource.getSourceOfDamage() instanceof EntityPlayerMP ? (EntityPlayerMP)damageSource.getSourceOfDamage() : null;
-			String source = killingPlayer != null ? killingPlayer.getCommandSenderName() : damageSource.getDamageType();
+			String source = killingPlayer != null ? killingPlayer.getName() : damageSource.getDamageType();
 
 			if (MCA.getConfig().logVillagerDeaths)
 			{
-				if (killingPlayer != null && !killingPlayer.getCommandSenderName().contains("[CoFH]"))
+				if (killingPlayer != null && !killingPlayer.getName().contains("[CoFH]"))
 				{
 					final PlayerData killerData = MCA.getPlayerData(killingPlayer);
 					boolean related = isPlayerAParent(killingPlayer) || getSpouseId() == killerData.permanentId.getInt();
@@ -518,7 +517,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 				else
 				{
 					EntityPlayer nearestPlayer = worldObj.getClosestPlayerToEntity(this, 25.0D);
-					String nearestPlayerString = nearestPlayer != null ? nearestPlayer.getCommandSenderName() : "None";
+					String nearestPlayerString = nearestPlayer != null ? nearestPlayer.getName() : "None";
 
 					MCA.getLog().info("Villager '" + name.getString() + "(" + getProfessionEnum().toString() + ")' was killed by " + source + ". Nearest player: " + nearestPlayerString);
 				}
@@ -687,7 +686,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 	public boolean isInOverworld()
 	{
-		return worldObj.provider.dimensionId == 0;
+		return worldObj.provider.getDimensionId() == 0;
 	}
 
 	public EnumProfession getProfessionEnum()
@@ -742,12 +741,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 	public void setPlayerMemory(EntityPlayer player, PlayerMemory memory)
 	{
-		playerMemories.put(player.getCommandSenderName(), memory);
+		playerMemories.put(player.getName(), memory);
 	}
 
 	public PlayerMemory getPlayerMemory(EntityPlayer player)
 	{
-		String playerName = player.getCommandSenderName();
+		String playerName = player.getName();
 		PlayerMemory returnMemory = playerMemories.get(playerName);
 
 		if (returnMemory == null)
@@ -761,14 +760,14 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 	public PlayerMemory getPlayerMemoryWithoutCreating(EntityPlayer player) 
 	{
-		String playerName = player.getCommandSenderName();
+		String playerName = player.getName();
 		PlayerMemory returnMemory = playerMemories.get(playerName);
 		return returnMemory;
 	}
 
 	public boolean hasMemoryOfPlayer(EntityPlayer player)
 	{
-		return playerMemories.containsKey(player.getCommandSenderName());
+		return playerMemories.containsKey(player.getName());
 	}
 
 	public void setIsMarried(boolean value, EntityHuman partner) 
@@ -834,7 +833,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 			PlayerData data = MCA.getPlayerData(partner);
 			spouseId.setValue(data.permanentId.getInt());
-			spouseName.setValue(partner.getCommandSenderName());
+			spouseName.setValue(partner.getName());
 			isEngaged.setValue(false);
 
 			getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.FINISHED);
@@ -865,7 +864,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			PlayerData data = MCA.getPlayerData(partner);
 			spouseId.setValue(data.permanentId.getInt());
-			spouseName.setValue(partner.getCommandSenderName());
+			spouseName.setValue(partner.getName());
 		}
 
 		else
@@ -1071,7 +1070,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		}
 	}
 
-	public String getName() 
+	public String getVillagerName() 
 	{
 		return name.getString();
 	}
@@ -1119,38 +1118,38 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public void useRecipe(MerchantRecipe merchantRecipe)
 	{
 		//Representation of EntityVillager's useRecipe without playing sounds.
-		merchantRecipe.incrementToolUses();
-		livingSoundTime = -getTalkInterval();
-
-		final MerchantRecipeList buyingList = getBuyingList();
-
-		for (Object obj : buyingList)
-		{
-			MerchantRecipe recipe = (MerchantRecipe)obj;
-		}
-
-		if (merchantRecipe.hasSameIDsAs((MerchantRecipe) buyingList.get(buyingList.size() - 1)))
-		{
-			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, Integer.valueOf(40), 6);
-			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, true, 7);
-			final EntityPlayer buyingPlayer = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 4);
-
-			if (buyingPlayer == null)
-			{
-				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, null, 9);
-			}
-
-			else
-			{
-				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, buyingPlayer.getCommandSenderName(), 9);
-			}
-		}
-
-		if (merchantRecipe.getItemToBuy().getItem() == Items.emerald)
-		{
-			final int wealth = (Integer)ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 8);
-			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, Integer.valueOf(wealth + merchantRecipe.getItemToBuy().stackSize), 8);
-		}
+//		merchantRecipe.incrementToolUses();
+//		livingSoundTime = -getTalkInterval();
+//
+//		final MerchantRecipeList buyingList = getBuyingList();
+//
+//		for (Object obj : buyingList)
+//		{
+//			MerchantRecipe recipe = (MerchantRecipe)obj;
+//		}
+//
+//		if (merchantRecipe.hasSameIDsAs((MerchantRecipe) buyingList.get(buyingList.size() - 1)))
+//		{
+//			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, Integer.valueOf(40), 6);
+//			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, true, 7);
+//			final EntityPlayer buyingPlayer = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 4);
+//
+//			if (buyingPlayer == null)
+//			{
+//				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, null, 9);
+//			}
+//
+//			else
+//			{
+//				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, buyingPlayer.getName(), 9);
+//			}
+//		}
+//
+//		if (merchantRecipe.getItemToBuy().getItem() == Items.emerald)
+//		{
+//			final int wealth = (Integer)ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 8);
+//			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, Integer.valueOf(wealth + merchantRecipe.getItemToBuy().stackSize), 8);
+//		}
 	}
 
 	@Override
@@ -1327,7 +1326,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		return getMotherId() >= 0 && getFatherId() >= 0;
 	}
 
-	public Inventory getInventory() 
+	public Inventory getVillagerInventory() 
 	{
 		return inventory;
 	}
@@ -1383,7 +1382,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 
 	@Override
-	public String getCommandSenderName() 
+	public String getName() 
 	{
 		return name.getString() + " the " + getProfessionEnum().getUserFriendlyForm();
 	}

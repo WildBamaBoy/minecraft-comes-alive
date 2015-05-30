@@ -2,7 +2,7 @@ package mca.items;
 
 import mca.core.MCA;
 import net.minecraft.item.Item;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ItemGemCutter extends Item
 {
@@ -11,7 +11,6 @@ public class ItemGemCutter extends Item
 		super();
 		
 		this.setUnlocalizedName("GemCutter");
-		this.setTextureName("mca:GemCutter");
 		GameRegistry.registerItem(this, "GemCutter");
 		this.setCreativeTab(MCA.getCreativeTabGemCutting());
 		this.setMaxStackSize(1);

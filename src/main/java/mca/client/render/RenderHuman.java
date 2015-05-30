@@ -24,6 +24,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -54,7 +55,7 @@ public class RenderHuman extends RenderBiped
 
 	public RenderHuman()
 	{
-		super(new ModelHuman(0.0F), 0.5F);
+		super(Minecraft.getMinecraft().getRenderManager(), new ModelHuman(0.0F), 0.5F);
 
 		modelBipedMain = (ModelBiped) mainModel;
 		modelArmorPlate = new ModelBiped(1.0F);
@@ -96,7 +97,7 @@ public class RenderHuman extends RenderBiped
 	}
 
 	@Override
-	protected void passSpecialRender(EntityLivingBase entityLivingBase, double posX, double posY, double posZ)
+	public void passSpecialRender(EntityLivingBase entityLivingBase, double posX, double posY, double posZ)
 	{
 		super.passSpecialRender(entityLivingBase, posX, posY, posZ);
 
@@ -197,7 +198,7 @@ public class RenderHuman extends RenderBiped
 			}
 		}
 
-		double posYCorrection = posY - entity.yOffset;
+		double posYCorrection = posY - entity.getYOffset();
 		shadowOpaque = 1.0F;
 
 		final ItemStack heldItem = entity.getHeldItem();
@@ -208,7 +209,7 @@ public class RenderHuman extends RenderBiped
 		{
 			final EnumAction useAction = heldItem.getItemUseAction();
 
-			if (useAction == EnumAction.bow)
+			if (useAction == EnumAction.BOW)
 			{
 				modelArmorPlate.aimedBow = modelArmor.aimedBow = modelBipedMain.aimedBow = true;
 			}
@@ -362,7 +363,9 @@ public class RenderHuman extends RenderBiped
 	{
 		if (human.isSneaking())
 		{
-			final Tessellator tessellator = Tessellator.instance;
+			final Tessellator tessellator = Tessellator.getInstance();
+			final WorldRenderer renderer = tessellator.getWorldRenderer();
+			
 			final FontRenderer fontRendererObj = getFontRendererFromRenderManager();
 			final int stringWidth = fontRendererObj.getStringWidth(labelText) / 2;
 
@@ -381,13 +384,13 @@ public class RenderHuman extends RenderBiped
 
 				GL11.glDisable(GL11.GL_TEXTURE_2D);
 
-				tessellator.startDrawingQuads();
-				tessellator.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.25F);
-				tessellator.addVertex(-stringWidth - 1, -1D, 0.0D);
-				tessellator.addVertex(-stringWidth - 1, 8D, 0.0D);
-				tessellator.addVertex(stringWidth + 1, 8D, 0.0D);
-				tessellator.addVertex(stringWidth + 1, -1D, 0.0D);
-				tessellator.draw();
+				renderer.startDrawingQuads();
+//				renderer.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.25F); //TODO
+				renderer.addVertex(-stringWidth - 1, -1D, 0.0D);
+				renderer.addVertex(-stringWidth - 1, 8D, 0.0D);
+				renderer.addVertex(stringWidth + 1, 8D, 0.0D);
+				renderer.addVertex(stringWidth + 1, -1D, 0.0D);
+				renderer.draw();
 
 				GL11.glEnable(GL11.GL_TEXTURE_2D);
 
@@ -403,14 +406,14 @@ public class RenderHuman extends RenderBiped
 		else
 		{
 			//RenderLivingLabel
-			func_147906_a(human, labelText, posX, posY, posZ, 64);
+			//func_147906_a(human, labelText, posX, posY, posZ, 64); //TODO
 		}
 	}
 
 	protected boolean canRenderNameTag(EntityLivingBase entityRendering)
 	{
 		final EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
-		final Vec3 entityLookVector = Vec3.createVectorHelper(entityRendering.posX - entityPlayer.posX, entityRendering.boundingBox.minY + (double) entityRendering.height / 2.0F - entityPlayer.posY + entityPlayer.getEyeHeight(), entityRendering.posZ - entityPlayer.posZ).normalize();
+		final Vec3 entityLookVector = new Vec3(entityRendering.posX - entityPlayer.posX, entityRendering.getBoundingBox().minY + (double) entityRendering.height / 2.0F - entityPlayer.posY + entityPlayer.getEyeHeight(), entityRendering.posZ - entityPlayer.posZ).normalize();
 		final double dotProduct = entityPlayer.getLook(1.0F).normalize().dotProduct(entityLookVector);
 		final boolean isPlayerLookingAt = dotProduct > 1.0D - 0.025D / entityLookVector.lengthVector() ? entityPlayer.canEntityBeSeen(entityRendering) : false;
 		final double distance = entityRendering.getDistanceToEntity(renderManager.livingPlayer);

@@ -12,12 +12,12 @@ import mca.util.TutorialManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import radixcore.network.ByteBufIO;
 import radixcore.packets.AbstractPacket;
 import radixcore.util.RadixLogic;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketBabyName extends AbstractPacket implements IMessage, IMessageHandler<PacketBabyName, IMessage>
 {
@@ -68,12 +68,12 @@ public class PacketBabyName extends AbstractPacket implements IMessage, IMessage
 		{
 			if (playerSpouse != null)
 			{
-				int babySlot = playerSpouse.getInventory().getFirstSlotContainingItem(ModItems.babyBoy);
-				babySlot = babySlot == -1 ? playerSpouse.getInventory().getFirstSlotContainingItem(ModItems.babyGirl) : babySlot;
+				int babySlot = playerSpouse.getVillagerInventory().getFirstSlotContainingItem(ModItems.babyBoy);
+				babySlot = babySlot == -1 ? playerSpouse.getVillagerInventory().getFirstSlotContainingItem(ModItems.babyGirl) : babySlot;
 				
 				if (babySlot != -1)
 				{
-					playerSpouse.getInventory().getStackInSlot(babySlot).getTagCompound().setString("name", packet.babyName);
+					playerSpouse.getVillagerInventory().getStackInSlot(babySlot).getTagCompound().setString("name", packet.babyName);
 				}
 			}
 		}

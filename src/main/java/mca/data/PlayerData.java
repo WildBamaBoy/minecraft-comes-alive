@@ -4,12 +4,12 @@ import mca.core.MCA;
 import mca.entity.EntityHuman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.ModMetadata;
 import radixcore.data.AbstractPlayerData;
 import radixcore.data.WatchedBoolean;
 import radixcore.data.WatchedInt;
 import radixcore.data.WatchedString;
 import radixcore.util.RadixLogic;
-import cpw.mods.fml.common.ModMetadata;
 
 public class PlayerData extends AbstractPlayerData
 {
@@ -57,7 +57,7 @@ public class PlayerData extends AbstractPlayerData
 		isEngaged = new WatchedBoolean(false, WatcherIDsPlayerData.IS_ENGAGED, dataWatcher);
 		isInLiteMode = new WatchedBoolean(false, WatcherIDsPlayerData.IS_IN_LITE_MODE, dataWatcher);
 		isMonarch = new WatchedBoolean(false, WatcherIDsPlayerData.IS_MONARCH, dataWatcher);
-		mcaName = new WatchedString(owner != null ? owner.getCommandSenderName() : "none", WatcherIDsPlayerData.MCA_NAME, dataWatcher);
+		mcaName = new WatchedString(owner != null ? owner.getName() : "none", WatcherIDsPlayerData.MCA_NAME, dataWatcher);
 		hasChosenDestiny = new WatchedBoolean(false, WatcherIDsPlayerData.HAS_CHOSEN_DESTINY, dataWatcher);
 		isSuperUser = new WatchedBoolean(false, WatcherIDsPlayerData.IS_SUPER_USER, dataWatcher);
 		spouseName = new WatchedString("none", WatcherIDsPlayerData.SPOUSE_NAME, dataWatcher);
@@ -90,7 +90,7 @@ public class PlayerData extends AbstractPlayerData
 		PlayerData data = MCA.getPlayerData(player);
 		
 		spousePermanentId.setValue(data.permanentId.getInt());
-		spouseName.setValue(player.getCommandSenderName());
+		spouseName.setValue(player.getName());
 		isEngaged.setValue(false);
 	}
 	

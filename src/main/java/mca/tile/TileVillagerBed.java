@@ -25,12 +25,6 @@ public class TileVillagerBed extends TileEntity
 	}
 
 	@Override
-	public void updateEntity()
-	{
-		super.updateEntity();
-	}
-
-	@Override
 	public void writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);

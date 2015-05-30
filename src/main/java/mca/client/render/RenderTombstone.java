@@ -9,6 +9,7 @@ package mca.client.render;
 
 import mca.client.model.ModelTombstone;
 import mca.tile.TileTombstone;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -30,7 +31,7 @@ public class RenderTombstone extends TileEntitySpecialRenderer
 	public void renderTombstoneAt(TileTombstone tombstoneEntity, double posX, double posY, double posZ, float partialTickTime)
 	{
 		final StringBuilder stringBuilder = new StringBuilder();
-		final FontRenderer fontRendererObj = func_147498_b();
+		final FontRenderer fontRendererObj = getFontRenderer();
 
 		final int meta = tombstoneEntity.getBlockMetadata();
 		final float rotation = setRotationByMeta(meta);
@@ -74,7 +75,7 @@ public class RenderTombstone extends TileEntitySpecialRenderer
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tombstoneEntity, double posX, double posY, double posZ, float partialTickTime)
+	public void renderTileEntityAt(TileEntity tombstoneEntity, double posX, double posY, double posZ, float partialTickTime, int unknown)
 	{
 		renderTombstoneAt((TileTombstone) tombstoneEntity, posX, posY, posZ, partialTickTime);
 	}
@@ -86,7 +87,7 @@ public class RenderTombstone extends TileEntitySpecialRenderer
 	 */
 	protected void bindResource(ResourceLocation resourceLocation)
 	{
-		final TextureManager textureManager = field_147501_a.field_147553_e;
+		final TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
 
 		if (textureManager != null)
 		{

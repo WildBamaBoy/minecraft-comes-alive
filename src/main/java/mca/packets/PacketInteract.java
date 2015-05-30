@@ -22,13 +22,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import radixcore.math.Point3D;
 import radixcore.packets.AbstractPacket;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketInteract extends AbstractPacket implements IMessage, IMessageHandler<PacketInteract, IMessage>
 {
@@ -98,7 +98,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 			else if (interaction == EnumInteraction.TRADE)
 			{
 				villager.setCustomer(player);
-				player.displayGUIMerchant(villager, villager.getTitle(player));
+				player.displayVillagerTradeGui(villager);
 			}
 
 			else if (interaction == EnumInteraction.PICK_UP)
@@ -268,7 +268,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 						{
 							ItemBaby baby = (ItemBaby) stack.getItem();
 							
-							if (stack.stackTagCompound.getString("owner").equals(player.getCommandSenderName()))
+							if (stack.getTagCompound().getString("owner").equals(player.getName()))
 							{
 								player.inventory.setInventorySlotContents(i, null);
 							}
@@ -293,10 +293,11 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 					villager.say("interaction.adoptbaby.success", player, babyName);
 					
 					ItemStack stack = new ItemStack(isMale ? ModItems.babyBoy : ModItems.babyGirl);
-					stack.stackTagCompound = new NBTTagCompound();
-					stack.stackTagCompound.setString("name", babyName);
-					stack.stackTagCompound.setInteger("age", 0);
-					stack.stackTagCompound.setString("owner", player.getCommandSenderName());
+					NBTTagCompound nbt = new NBTTagCompound();
+					stack.getTagCompound().setString("name", babyName);
+					stack.getTagCompound().setInteger("age", 0);
+					stack.getTagCompound().setString("owner", player.getName());
+					stack.setTagCompound(nbt);
 					
 					player.inventory.addItemStackToInventory(stack);
 					data.shouldHaveBaby.setValue(true);

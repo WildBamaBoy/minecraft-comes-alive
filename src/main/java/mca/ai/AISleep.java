@@ -218,38 +218,39 @@ public class AISleep extends AbstractAI
 
 			else //Search for a bed.
 			{
-				List<Point3D> bedsNearby = RadixLogic.getNearbyBlocks(owner, BlockVillagerBed.class, 8);
-				List<Point3D> bedHeadsNearby = new ArrayList<Point3D>();
-
-				for (final Point3D point : bedsNearby)
-				{
-					if (BlockVillagerBed.isBlockHeadOfBed(BlockHelper.getBlockMetadata(owner.worldObj, point.iPosX, point.iPosY, point.iPosZ)))
-					{
-						bedHeadsNearby.add(point);
-					}
-				}
-
-				if (bedHeadsNearby.size() > 0)
-				{
-					final Point3D nearestBed = Point3D.getNearestPointInList(new Point3D(owner.posX, owner.posY, owner.posZ), bedHeadsNearby);
-					final TileVillagerBed villagerBed = (TileVillagerBed) BlockHelper.getTileEntity(owner.worldObj, nearestBed.iPosX, nearestBed.iPosY, nearestBed.iPosZ);
-
-					if (!villagerBed.getIsVillagerSleepingIn())
-					{
-						villagerBed.setSleepingVillagerId(owner.getPermanentId());
-						villagerBed.setIsVillagerSleepingIn(true);
-
-						bedPosX.setValue(nearestBed.iPosX);
-						bedPosY.setValue(nearestBed.iPosY);
-						bedPosZ.setValue(nearestBed.iPosZ);
-						bedMeta.setValue(BlockHelper.getBlockMetadata(owner.worldObj, bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt()));
-						hasBed.setValue(true);
-
-						isInBed.setValue(true);
-						owner.halt();
-						owner.setPosition(bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt());
-					}
-				}
+				//TODO
+//				List<Point3D> bedsNearby = RadixLogic.getNearbyBlocks(owner, BlockVillagerBed.class, 8);
+//				List<Point3D> bedHeadsNearby = new ArrayList<Point3D>();
+//
+//				for (final Point3D point : bedsNearby)
+//				{
+//					if (BlockVillagerBed.isBlockHeadOfBed(BlockHelper.getBlockMetadata(owner.worldObj, point.iPosX, point.iPosY, point.iPosZ)))
+//					{
+//						bedHeadsNearby.add(point);
+//					}
+//				}
+//
+//				if (bedHeadsNearby.size() > 0)
+//				{
+//					final Point3D nearestBed = Point3D.getNearestPointInList(new Point3D(owner.posX, owner.posY, owner.posZ), bedHeadsNearby);
+//					final TileVillagerBed villagerBed = (TileVillagerBed) BlockHelper.getTileEntity(owner.worldObj, nearestBed.iPosX, nearestBed.iPosY, nearestBed.iPosZ);
+//
+//					if (!villagerBed.getIsVillagerSleepingIn())
+//					{
+//						villagerBed.setSleepingVillagerId(owner.getPermanentId());
+//						villagerBed.setIsVillagerSleepingIn(true);
+//
+//						bedPosX.setValue(nearestBed.iPosX);
+//						bedPosY.setValue(nearestBed.iPosY);
+//						bedPosZ.setValue(nearestBed.iPosZ);
+//						bedMeta.setValue(BlockHelper.getBlockMetadata(owner.worldObj, bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt()));
+//						hasBed.setValue(true);
+//
+//						isInBed.setValue(true);
+//						owner.halt();
+//						owner.setPosition(bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt());
+//					}
+//				}
 			}
 		}
 
@@ -439,27 +440,27 @@ public class AISleep extends AbstractAI
 		{
 			final Point3D bedPoint = getBedPoint();
 			owner.setPosition(bedPoint.dPosX, bedPoint.dPosY, bedPoint.dPosZ);
-			final int meta = BlockHelper.getBlockMetadata(owner.worldObj, bedPoint.iPosX, bedPoint.iPosY, bedPoint.iPosZ);
-
-			if (meta == 0)
-			{
-				owner.rotationYawHead = owner.renderYawOffset = owner.prevRenderYawOffset = 180.0F;
-			}
-
-			else if (meta == 3)
-			{
-				owner.rotationYawHead = owner.renderYawOffset = owner.prevRenderYawOffset = 90.0F;
-			}
-
-			else if (meta == 2)
-			{
-				owner.rotationYawHead = owner.renderYawOffset = owner.prevRenderYawOffset = 0.0F;
-			}
-
-			else if (meta == 1)
-			{
-				owner.rotationYawHead = owner.renderYawOffset = owner.prevRenderYawOffset = -90.0F;
-			}
+//			final int meta = BlockHelper.getBlockMetadata(owner.worldObj, bedPoint.iPosX, bedPoint.iPosY, bedPoint.iPosZ);
+//
+//			if (meta == 0)
+//			{
+//				owner.rotationYawHead = owner.renderYawOffset = owner.prevRenderYawOffset = 180.0F;
+//			}
+//
+//			else if (meta == 3)
+//			{
+//				owner.rotationYawHead = owner.renderYawOffset = owner.prevRenderYawOffset = 90.0F;
+//			}
+//
+//			else if (meta == 2)
+//			{
+//				owner.rotationYawHead = owner.renderYawOffset = owner.prevRenderYawOffset = 0.0F;
+//			}
+//
+//			else if (meta == 1)
+//			{
+//				owner.rotationYawHead = owner.renderYawOffset = owner.prevRenderYawOffset = -90.0F;
+//			}
 		}
 	}
 }

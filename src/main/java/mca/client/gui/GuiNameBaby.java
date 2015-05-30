@@ -1,5 +1,7 @@
 package mca.client.gui;
 
+import java.io.IOException;
+
 import mca.core.MCA;
 import mca.items.ItemBaby;
 import mca.packets.PacketBabyName;
@@ -8,11 +10,10 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.input.Keyboard;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * Defines the GUI shown when the player must name their child.
@@ -69,7 +70,7 @@ public class GuiNameBaby extends GuiScreen
 		buttonList.add(doneButton = new GuiButton(1, width / 2 - 40, height / 2 - 10, 80, 20, MCA.getLanguageManager().getString("gui.button.done")));
 		buttonList.add(randomButton = new GuiButton(2, width / 2 + 105, height / 2 - 60, 60, 20, MCA.getLanguageManager().getString("gui.button.random")));
 
-		babyNameTextField = new GuiTextField(fontRendererObj, width / 2 - 100, height / 2 - 60, 200, 20);
+		babyNameTextField = new GuiTextField(3, fontRendererObj, width / 2 - 100, height / 2 - 60, 200, 20);
 		babyNameTextField.setMaxStringLength(32);
 	}
 
@@ -138,7 +139,7 @@ public class GuiNameBaby extends GuiScreen
 	}
 
 	@Override
-	protected void mouseClicked(int clickX, int clickY, int clicked)
+	protected void mouseClicked(int clickX, int clickY, int clicked) throws IOException
 	{
 		super.mouseClicked(clickX, clickY, clicked);
 		babyNameTextField.mouseClicked(clickX, clickY, clicked);

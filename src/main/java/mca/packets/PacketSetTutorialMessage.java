@@ -3,11 +3,11 @@ package mca.packets;
 import io.netty.buffer.ByteBuf;
 import mca.util.TutorialManager;
 import mca.util.TutorialMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import radixcore.network.ByteBufIO;
 import radixcore.packets.AbstractPacket;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketSetTutorialMessage extends AbstractPacket implements IMessage, IMessageHandler<PacketSetTutorialMessage, IMessage>
 {

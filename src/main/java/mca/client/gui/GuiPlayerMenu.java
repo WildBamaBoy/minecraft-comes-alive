@@ -1,5 +1,7 @@
 package mca.client.gui;
 
+import java.io.IOException;
+
 import mca.core.MCA;
 import mca.data.PlayerData;
 import mca.enums.EnumInteraction;
@@ -9,14 +11,14 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import radixcore.client.render.RenderHelper;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiPlayerMenu extends GuiScreen
@@ -86,7 +88,7 @@ public class GuiPlayerMenu extends GuiScreen
 	}
 
 	@Override
-	public void handleMouseInput() 
+	public void handleMouseInput() throws IOException 
 	{
 		super.handleMouseInput();
 
@@ -105,7 +107,7 @@ public class GuiPlayerMenu extends GuiScreen
 	}
 
 	@Override
-	protected void mouseClicked(int posX, int posY, int button) 
+	protected void mouseClicked(int posX, int posY, int button) throws IOException 
 	{
 		super.mouseClicked(posX, posY, button);
 	}

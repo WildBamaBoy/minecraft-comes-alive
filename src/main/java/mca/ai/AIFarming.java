@@ -15,8 +15,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import radixcore.constant.Time;
 import radixcore.constant.Font.Color;
+import radixcore.constant.Time;
 import radixcore.data.BlockObj;
 import radixcore.data.WatchedBoolean;
 import radixcore.math.Point3D;
@@ -105,7 +105,7 @@ public class AIFarming extends AbstractToggleAI
 
 						if (canStart)
 						{
-							owner.getInventory().removeCountOfItem(entry.getSeedItem(), seedsRequired);
+							owner.getVillagerInventory().removeCountOfItem(entry.getSeedItem(), seedsRequired);
 						}
 
 						else
@@ -307,13 +307,13 @@ public class AIFarming extends AbstractToggleAI
 			Map<Point3D, BlockObj> schematicData = SchematicHandler.readSchematic(schematic);
 			seedsRequired = SchematicHandler.countOccurencesOfBlockObj(schematicData, new BlockObj(Blocks.wool, entry.getCategory().getReferenceMeta()));
 
-			if (doCreate && !owner.getInventory().containsCountOf(entry.getSeedItem(), seedsRequired))
+			if (doCreate && !owner.getVillagerInventory().containsCountOf(entry.getSeedItem(), seedsRequired))
 			{
 				owner.say("farming.noseeds", player, entry.getCropName().toLowerCase(), seedsRequired);
 				return;
 			}
 
-			else if (player != null && !owner.getInventory().contains(ItemHoe.class))
+			else if (player != null && !owner.getVillagerInventory().contains(ItemHoe.class))
 			{
 				owner.say("farming.nohoe", player);
 				return;
@@ -331,7 +331,7 @@ public class AIFarming extends AbstractToggleAI
 			this.isBuildingFarm = false;
 			this.isAIActive.setValue(true);
 			
-			owner.setHeldItem(owner.getInventory().getBestItemOfType(ItemHoe.class).getItem());
+			owner.setHeldItem(owner.getVillagerInventory().getBestItemOfType(ItemHoe.class).getItem());
 		}
 
 		catch (MappingNotFoundException e)

@@ -2,12 +2,11 @@ package mca.items;
 
 import mca.core.MCA;
 import mca.entity.EntityHuman;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ItemWhistle extends Item
 {
@@ -44,9 +43,9 @@ public class ItemWhistle extends Item
 		return itemStack;
 	}
 
-	@Override
-	public void registerIcons(IIconRegister IIconRegister)
-	{
-		itemIcon = IIconRegister.registerIcon("mca:Whistle");
-	}
+//	@Override
+//	public void registerIcons(IIconRegister IIconRegister)
+//	{
+//		itemIcon = IIconRegister.registerIcon("mca:Whistle");
+//	}
 }

@@ -1,6 +1,5 @@
 package mca.ai;
 
-import mca.core.MCA;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
 import net.minecraft.nbt.NBTTagCompound;
@@ -8,7 +7,6 @@ import radixcore.constant.Time;
 import radixcore.data.WatchedBoolean;
 import radixcore.data.WatchedInt;
 import radixcore.util.RadixLogic;
-import radixcore.util.RadixMath;
 
 public class AIConverse extends AbstractAI 
 {

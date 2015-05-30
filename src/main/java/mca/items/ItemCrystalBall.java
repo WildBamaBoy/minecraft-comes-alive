@@ -10,12 +10,13 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import radixcore.data.DataWatcherEx;
 import radixcore.item.ItemSingle;
 import radixcore.math.Point3D;
-import radixcore.util.SchematicHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ItemCrystalBall extends ItemSingle
 {
@@ -25,14 +26,13 @@ public class ItemCrystalBall extends ItemSingle
 		this.setCreativeTab(MCA.getCreativeTabMain());
 		this.setMaxStackSize(1);
 		this.setUnlocalizedName("CrystalBall");
-		this.setTextureName("mca:CrystalBall");
 
 		GameRegistry.registerItem(this, "CrystalBall");
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World worldObj, int posX, int posY, int posZ, int meta, float playerPosX, float playerPosY, float playerPosZ) 
-	{	
+    public boolean onItemUse(ItemStack stack, EntityPlayer player, World worldObj, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
+	{
 		onItemRightClick(stack, worldObj, player);
 		return true;
 	}	
@@ -71,7 +71,7 @@ public class ItemCrystalBall extends ItemSingle
 	
 	
 	@Override
-	public boolean hasEffect(ItemStack par1ItemStack, int pass) 
+	public boolean hasEffect(ItemStack stack) 
 	{
 		return true;
 	}

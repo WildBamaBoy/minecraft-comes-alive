@@ -7,8 +7,8 @@ import java.net.Socket;
 import java.util.Scanner;
 
 import mca.core.MCA;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import radixcore.core.ModCrashWatcher;
-import cpw.mods.fml.common.FMLCommonHandler;
 
 public class CrashWatcher extends ModCrashWatcher
 {

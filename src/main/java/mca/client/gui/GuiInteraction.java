@@ -7,11 +7,11 @@
 
 package mca.client.gui;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import mca.ai.AIFollow;
-import mca.ai.AIGrow;
 import mca.ai.AIIdle;
 import mca.ai.AIMood;
 import mca.ai.AIProcreate;
@@ -43,6 +43,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -52,8 +54,6 @@ import radixcore.client.render.RenderHelper;
 import radixcore.constant.Font.Color;
 import radixcore.data.DataWatcherEx;
 import radixcore.util.NumberCycleList;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiInteraction extends GuiScreen
@@ -178,8 +178,8 @@ public class GuiInteraction extends GuiScreen
 		if (displayMarriageInfo)
 		{
 			String phraseId = 
-					villager.getSpouseName().equals(player.getCommandSenderName()) && villager.getIsEngaged() ? "gui.info.family.engagedtoplayer" :
-						villager.getSpouseName().equals(player.getCommandSenderName()) ? "gui.info.family.marriedtoplayer" :
+					villager.getSpouseName().equals(player.getName()) && villager.getIsEngaged() ? "gui.info.family.engagedtoplayer" :
+						villager.getSpouseName().equals(player.getName()) ? "gui.info.family.marriedtoplayer" :
 							villager.getIsMarried() ? "gui.info.family.married" : 
 								villager.getIsEngaged() ? "gui.info.family.engaged" : 
 									"gui.info.family.notmarried";
@@ -195,12 +195,12 @@ public class GuiInteraction extends GuiScreen
 			String fatherString = "gui.info.family.father";
 			String motherString = "gui.info.family.mother";
 
-			if (villager.getFatherName().equals(player.getCommandSenderName()))
+			if (villager.getFatherName().equals(player.getName()))
 			{
 				fatherString += ".you";
 			}
 
-			else if (villager.getMotherName().equals(player.getCommandSenderName()))
+			else if (villager.getMotherName().equals(player.getName()))
 			{
 				motherString += ".you";
 			}
@@ -286,7 +286,7 @@ public class GuiInteraction extends GuiScreen
 	}
 
 	@Override
-	public void handleMouseInput() 
+	public void handleMouseInput() throws IOException 
 	{
 		super.handleMouseInput();
 
@@ -327,7 +327,7 @@ public class GuiInteraction extends GuiScreen
 	}
 
 	@Override
-	protected void mouseClicked(int posX, int posY, int button) 
+	protected void mouseClicked(int posX, int posY, int button) throws IOException 
 	{
 		super.mouseClicked(posX, posY, button);
 
@@ -427,7 +427,7 @@ public class GuiInteraction extends GuiScreen
 			case INTERACT: drawInteractButtonMenu(); break;
 			case FOLLOW:
 				villager.setMovementState(EnumMovementState.FOLLOW); 
-				villager.getAI(AIFollow.class).setPlayerFollowingName(player.getCommandSenderName());
+				villager.getAI(AIFollow.class).setPlayerFollowingName(player.getName());
 				villager.getAI(AISleep.class).setIsSleeping(false);
 				villager.getAI(AISleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
 				close();
@@ -616,7 +616,7 @@ public class GuiInteraction extends GuiScreen
 			buttonList.add(new GuiButton(EnumInteraction.STAY.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.stay"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.MOVE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.move"))); yLoc -= yInt;
 
-			boolean followButtonEnabled = villager.getMovementState() != EnumMovementState.FOLLOW || !(villager.getAI(AIFollow.class)).getPlayerFollowingName().equals(player.getCommandSenderName());
+			boolean followButtonEnabled = villager.getMovementState() != EnumMovementState.FOLLOW || !(villager.getAI(AIFollow.class)).getPlayerFollowingName().equals(player.getName());
 			((GuiButton)buttonList.get(1)).enabled = followButtonEnabled;
 
 			boolean stayButtonEnabled = villager.getMovementState() != EnumMovementState.STAY;
@@ -640,7 +640,7 @@ public class GuiInteraction extends GuiScreen
 			buttonList.add(new GuiButton(EnumInteraction.SPECIAL.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.special"))); yLoc -= yInt;
 		}
 
-		if (villager.getSpouseName().equals(player.getCommandSenderName()) || villager.getPlayerSpouse() == player)
+		if (villager.getSpouseName().equals(player.getName()) || villager.getPlayerSpouse() == player)
 		{
 			buttonList.add(new GuiButton(EnumInteraction.PROCREATE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.procreate"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.INVENTORY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.inventory"))); yLoc -= yInt;

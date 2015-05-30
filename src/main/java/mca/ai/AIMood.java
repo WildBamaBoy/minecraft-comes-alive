@@ -8,12 +8,13 @@ import mca.entity.EntityHuman;
 import mca.enums.EnumMood;
 import mca.enums.EnumPersonality;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.constant.Particle;
 import radixcore.constant.Time;
 import radixcore.data.WatchedFloat;
 import radixcore.util.RadixMath;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class AIMood extends AbstractAI
 {
@@ -45,16 +46,16 @@ public class AIMood extends AbstractAI
 		if (MCA.getConfig().showMoodParticles && getMoodLevel() != 0)
 		{
 			int moodLevel = getMoodLevel();
-			String particles = "";
+			EnumParticleTypes particles = null;
 
 			switch (owner.getPersonality().getMoodGroup())
 			{
 			case GENERAL:
-				particles = moodLevel > 0 ? Particle.HAPPY : Particle.SPLASH; break;
+				particles = moodLevel > 0 ? EnumParticleTypes.VILLAGER_HAPPY : EnumParticleTypes.WATER_SPLASH; break;
 			case PLAYFUL:
-				particles = moodLevel > 0 ? Particle.HAPPY : Particle.POTION_EFFECT; break;
+				particles = moodLevel > 0 ? EnumParticleTypes.VILLAGER_HAPPY : EnumParticleTypes.SPELL_MOB; break;
 			case SERIOUS:
-				particles = moodLevel > 0 ? Particle.HAPPY : Particle.ANGRY; break;
+				particles = moodLevel > 0 ? EnumParticleTypes.VILLAGER_HAPPY : EnumParticleTypes.VILLAGER_ANGRY; break;
 			}
 			
 			switch (Math.abs(moodLevel))

@@ -8,7 +8,6 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 import radixcore.data.WatchedString;
 import radixcore.util.BlockHelper;
 import radixcore.util.RadixMath;
@@ -67,7 +66,7 @@ public class AIFollow extends AbstractAI
 				if (distanceToPlayer >= 10.0D)
 				{
 					final int playerX = net.minecraft.util.MathHelper.floor_double(entityPlayer.posX) - 2;
-					final int playerY = net.minecraft.util.MathHelper.floor_double(entityPlayer.boundingBox.minY);
+					final int playerY = net.minecraft.util.MathHelper.floor_double(entityPlayer.getBoundingBox().minY);
 					final int playerZ = net.minecraft.util.MathHelper.floor_double(entityPlayer.posZ) - 2;
 
 					for (int i = 0; i <= 4; ++i)

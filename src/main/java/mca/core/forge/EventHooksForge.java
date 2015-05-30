@@ -2,10 +2,13 @@ package mca.core.forge;
 
 import java.lang.reflect.Field;
 
+import com.google.common.base.Predicate;
+
 import mca.core.MCA;
 import mca.entity.EntityHuman;
 import mca.packets.PacketInteractWithPlayerC;
 import mca.util.TutorialManager;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -25,8 +28,8 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import radixcore.math.Point3D;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class EventHooksForge 
 {
@@ -73,7 +76,7 @@ public class EventHooksForge
 
 			else if (mob instanceof EntityCreeper)
 			{
-				mob.tasks.addTask(0, new EntityAIAvoidEntity(mob, EntityVillager.class, 16F, 1.35F, 1.35F));
+				//TODO
 			}
 
 			else
@@ -96,7 +99,7 @@ public class EventHooksForge
 				}
 
 				mob.tasks.addTask(2, new EntityAIAttackOnCollide(mob, EntityHuman.class, moveSpeed, false));
-				mob.targetTasks.addTask(2, new EntityAINearestAttackableTarget(mob, EntityHuman.class, 16, false));
+//				mob.targetTasks.addTask(2, new EntityAINearestAttackableTarget(mob, EntityHuman.class, 16, false)); //TODO
 			}
 		}
 
@@ -153,7 +156,7 @@ public class EventHooksForge
 			}
 		}
 
-		else if (event.target instanceof EntityPlayerMP && !event.entityPlayer.worldObj.isRemote && !event.entityPlayer.getCommandSenderName().contains("[CoFH]"))
+		else if (event.target instanceof EntityPlayerMP && !event.entityPlayer.worldObj.isRemote && !event.entityPlayer.getName().contains("[CoFH]"))
 		{
 			MCA.getPacketHandler().sendPacketToPlayer(new PacketInteractWithPlayerC(event.entityPlayer, (EntityPlayer)event.target), (EntityPlayerMP) event.entityPlayer);
 		}
@@ -162,7 +165,7 @@ public class EventHooksForge
 	@SubscribeEvent
 	public void worldSaveEventHandler(WorldEvent.Unload event)
 	{
-		if (!event.world.isRemote && event.world.provider.dimensionId == 0)
+		if (!event.world.isRemote && event.world.provider.getDimensionId() == 0)
 		{
 			MCA.getCrashWatcher().checkForCrashReports();
 		}

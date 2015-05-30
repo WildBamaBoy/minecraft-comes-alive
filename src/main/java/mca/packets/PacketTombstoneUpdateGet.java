@@ -6,11 +6,11 @@ import mca.tile.TileTombstone;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import radixcore.packets.AbstractPacket;
 import radixcore.util.BlockHelper;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketTombstoneUpdateGet extends AbstractPacket implements IMessage, IMessageHandler<PacketTombstoneUpdateGet, IMessage>
 {
@@ -24,9 +24,9 @@ public class PacketTombstoneUpdateGet extends AbstractPacket implements IMessage
 
 	public PacketTombstoneUpdateGet(TileTombstone tombstone)
 	{
-		this.x = tombstone.xCoord;
-		this.y = tombstone.yCoord;
-		this.z = tombstone.zCoord;
+		this.x = tombstone.getPos().getX();
+		this.y = tombstone.getPos().getY();
+		this.z = tombstone.getPos().getZ();
 	}
 
 	@Override

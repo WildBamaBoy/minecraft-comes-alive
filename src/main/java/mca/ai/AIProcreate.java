@@ -15,6 +15,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.Achievement;
+import net.minecraft.util.EnumParticleTypes;
 import radixcore.constant.Particle;
 import radixcore.constant.Time;
 import radixcore.data.WatchedBoolean;
@@ -44,7 +45,7 @@ public class AIProcreate extends AbstractAI
 		if (isProcreating.getBoolean())
 		{
 			owner.rotationYawHead += 40;
-			VersionBridge.spawnParticlesAroundEntityC(Particle.HEART, owner, 2);
+			VersionBridge.spawnParticlesAroundEntityC(EnumParticleTypes.HEART, owner, 2);
 		}
 	}
 
@@ -75,7 +76,7 @@ public class AIProcreate extends AbstractAI
 					
 					if (isPlayerInventoryFull)
 					{
-						owner.getInventory().addItemStackToInventory(stack);
+						owner.getVillagerInventory().addItemStackToInventory(stack);
 					}
 					
 					else

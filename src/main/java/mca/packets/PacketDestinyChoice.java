@@ -14,16 +14,17 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.management.PlayerManager;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import radixcore.math.Point3D;
 import radixcore.packets.AbstractPacket;
 import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
 import radixcore.util.SchematicHandler;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMessageHandler<PacketDestinyChoice, IMessage>
 {
@@ -68,7 +69,8 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 				{
 					for (int y = -5; y < 10; y++)
 					{
-						manager.markBlockForUpdate((int)player.posX + x, (int)player.posY + y, (int)player.posZ + z);						
+//						manager.markBlockForUpdate((int)player.posX + x, (int)player.posY + y, (int)player.posZ + z);
+						manager.func_180244_a(new BlockPos((int)player.posX + x, (int)player.posY + y, (int)player.posZ + z));
 					}
 				}
 			}
@@ -107,7 +109,7 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 
 					if (isPlayerMale)
 					{
-						fatherName = player.getCommandSenderName();
+						fatherName = player.getName();
 						fatherId = data.permanentId.getInt();
 						motherName = spouse.getName();
 						motherId = spouse.getPermanentId();
@@ -115,7 +117,7 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 
 					else
 					{
-						motherName = player.getCommandSenderName();
+						motherName = player.getName();
 						motherId = data.permanentId.getInt();
 						fatherName = spouse.getName();
 						fatherId = spouse.getPermanentId();
@@ -149,7 +151,7 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 
 				for (Point3D point : RadixLogic.getNearbyBlocks(player, Blocks.bedrock, 70))
 				{
-					BlockHelper.setBlock(player.worldObj, point.iPosX, point.iPosY, point.iPosZ, ModBlocks.tombstone, 4);
+					BlockHelper.setBlock(player.worldObj, point.iPosX, point.iPosY, point.iPosZ, ModBlocks.tombstone);
 
 					final TileTombstone tile = (TileTombstone) BlockHelper.getTileEntity(player.worldObj, point.iPosX, point.iPosY, point.iPosZ);
 

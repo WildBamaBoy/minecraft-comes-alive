@@ -7,7 +7,7 @@ import mca.core.MCA;
 import mca.enums.EnumBedColor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockOre;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public final class ModBlocks
 {
@@ -30,8 +30,8 @@ public final class ModBlocks
 		bedPurple = new BlockVillagerBed(EnumBedColor.PURPLE);
 		
 		spawner = new BlockVillagerSpawner();
-		roseGoldBlock = new BlockOre().setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockName("roseGoldBlock").setBlockTextureName("mca:RoseGoldBlock").setCreativeTab(MCA.getCreativeTabMain());
-		roseGoldOre = new BlockOre().setHardness(3.0F).setResistance(5.0F).setStepSound(Block.soundTypePiston).setBlockName("roseGoldOre").setBlockTextureName("mca:RoseGoldOre").setCreativeTab(MCA.getCreativeTabMain());
+		roseGoldBlock = new BlockOre().setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("roseGoldBlock").setStepSound(Block.soundTypePiston).setCreativeTab(MCA.getCreativeTabMain());
+		roseGoldOre = new BlockOre().setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("roseGoldOre").setStepSound(Block.soundTypePiston).setCreativeTab(MCA.getCreativeTabMain());
 
 		roseGoldBlock.setHarvestLevel("pickaxe", 2);
 		roseGoldOre.setHarvestLevel("pickaxe", 2);

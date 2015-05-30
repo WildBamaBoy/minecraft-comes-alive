@@ -9,6 +9,7 @@ import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.items.ItemBaby;
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
@@ -34,7 +35,7 @@ public class CommandMCA extends CommandBase
 	}
 
 	@Override
-	public void processCommand(ICommandSender commandSender, String[] input) 
+	public void processCommand(ICommandSender commandSender, String[] input) throws CommandException 
 	{
 		try
 		{
@@ -163,7 +164,7 @@ public class CommandMCA extends CommandBase
 					{
 						if (stack != null && stack.getItem() instanceof ItemBaby)
 						{
-							stack.stackTagCompound.setFloat("age", MCA.getConfig().babyGrowUpTime * Time.MINUTE);
+							stack.getTagCompound().setFloat("age", MCA.getConfig().babyGrowUpTime * Time.MINUTE);
 						}
 					}
 				}
@@ -348,12 +349,12 @@ public class CommandMCA extends CommandBase
 
 		catch (ClassCastException e)
 		{
-			throw new WrongUsageException("MCA commands cannot be used through rcon.");
+			throw new CommandException("MCA commands cannot be used through rcon.");
 		}
 
 		catch (Exception e)
 		{
-			throw new WrongUsageException("An invalid argument was provided. Usage: " + getCommandUsage(commandSender));
+			throw new CommandException("An invalid argument was provided. Usage: " + getCommandUsage(commandSender));
 		}
 	}
 

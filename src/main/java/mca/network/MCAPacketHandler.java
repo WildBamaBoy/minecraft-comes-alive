@@ -14,9 +14,9 @@ import mca.packets.PacketSyncPlayerMemory;
 import mca.packets.PacketToggleAI;
 import mca.packets.PacketTombstoneUpdateGet;
 import mca.packets.PacketTombstoneUpdateSet;
+import net.minecraftforge.fml.relauncher.Side;
 import radixcore.network.AbstractPacketHandler;
 import radixcore.packets.PacketDataContainer;
-import cpw.mods.fml.relauncher.Side;
 
 public class MCAPacketHandler extends AbstractPacketHandler
 {

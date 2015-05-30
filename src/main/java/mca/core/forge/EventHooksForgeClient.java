@@ -1,15 +1,14 @@
 package mca.core.forge;
 
-import radixcore.util.BlockHelper;
 import mca.client.gui.GuiSetup;
 import mca.core.MCA;
 import mca.data.PlayerData;
-import mca.entity.EntityHuman;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEnchantmentTable;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import radixcore.util.BlockHelper;
 
 public class EventHooksForgeClient 
 {
@@ -20,7 +19,7 @@ public class EventHooksForgeClient
 		{
 			if (event.entityPlayer.worldObj.isRemote && Minecraft.getMinecraft().isIntegratedServerRunning())
 			{
-				Block block = BlockHelper.getBlock(event.world, event.x, event.y, event.z);
+				Block block = BlockHelper.getBlock(event.world, event.pos.getX(), event.pos.getY(), event.pos.getZ());
 				
 				if (block instanceof BlockEnchantmentTable)
 				{

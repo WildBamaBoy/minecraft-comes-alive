@@ -8,6 +8,7 @@ import mca.enums.EnumBabyState;
 import mca.enums.EnumProgressionStep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumParticleTypes;
 import radixcore.constant.Time;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
@@ -164,8 +165,8 @@ public class AIProgressStory extends AbstractAI
 			setProgressionStep(EnumProgressionStep.HAD_BABY);
 			mateAI.setProgressionStep(EnumProgressionStep.HAD_BABY);
 
-			VersionBridge.spawnParticlesAroundEntityS("heart", owner, 16);
-			VersionBridge.spawnParticlesAroundEntityS("heart", mate, 16);
+			VersionBridge.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, owner, 16);
+			VersionBridge.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, mate, 16);
 
 			//Father's part is done, mother is now dominant for the baby's progression.
 			isDominant = false;

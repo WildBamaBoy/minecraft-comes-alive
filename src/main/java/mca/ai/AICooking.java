@@ -4,19 +4,18 @@ import mca.api.CookableFood;
 import mca.api.RegistryMCA;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
-import net.minecraft.block.BlockFurnace;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import radixcore.constant.Time;
 import radixcore.data.WatchedBoolean;
 import radixcore.math.Point3D;
 import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class AICooking extends AbstractToggleAI
 {
@@ -127,9 +126,9 @@ public class AICooking extends AbstractToggleAI
 	
 	private boolean getFuelFromInventory()
 	{
-		for (int i = 0; i < owner.getInventory().getSizeInventory(); i++)
+		for (int i = 0; i < owner.getVillagerInventory().getSizeInventory(); i++)
 		{
-			ItemStack stack = owner.getInventory().getStackInSlot(i);
+			ItemStack stack = owner.getVillagerInventory().getStackInSlot(i);
 
 			if (stack != null)
 			{
@@ -149,7 +148,7 @@ public class AICooking extends AbstractToggleAI
 						hasFuel = true;
 						fuelUsesRemaining = fuelValue;
 
-						owner.getInventory().decrStackSize(owner.getInventory().getFirstSlotContainingItem(stack.getItem()), 1);
+						owner.getVillagerInventory().decrStackSize(owner.getVillagerInventory().getFirstSlotContainingItem(stack.getItem()), 1);
 					}
 				}
 
@@ -200,9 +199,9 @@ public class AICooking extends AbstractToggleAI
 
 	private void getCookableFoodFromInventory()
 	{
-		for (int i = 0; i < owner.getInventory().getSizeInventory(); i++)
+		for (int i = 0; i < owner.getVillagerInventory().getSizeInventory(); i++)
 		{
-			ItemStack stack = owner.getInventory().getStackInSlot(i);
+			ItemStack stack = owner.getVillagerInventory().getStackInSlot(i);
 
 			for (final CookableFood entry : RegistryMCA.getCookableFoodList())
 			{
@@ -254,9 +253,9 @@ public class AICooking extends AbstractToggleAI
 				{
 					CookableFood foodObj = RegistryMCA.getCookableFoodList().get(indexOfCookingFood);
 					
-					if (owner.getInventory().contains(foodObj.getFoodRaw()))
+					if (owner.getVillagerInventory().contains(foodObj.getFoodRaw()))
 					{
-						owner.getInventory().decrStackSize(owner.getInventory().getFirstSlotContainingItem(foodObj.getFoodRaw()), 1);
+						owner.getVillagerInventory().decrStackSize(owner.getVillagerInventory().getFirstSlotContainingItem(foodObj.getFoodRaw()), 1);
 						addItemStackToInventory(new ItemStack(foodObj.getFoodCooked(), 1, 0));
 					}
 

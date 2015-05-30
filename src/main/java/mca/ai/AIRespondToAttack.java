@@ -43,7 +43,7 @@ public class AIRespondToAttack extends AbstractAI
 	{
 		if (!owner.getIsChild() && isRetaliating && owner.getHealth() > 0.0F)
 		{
-			if (target instanceof EntityPlayerMP && !target.getCommandSenderName().equals("[CoFH]") && !(target instanceof FakePlayer))
+			if (target instanceof EntityPlayerMP && !target.getName().equals("[CoFH]") && !(target instanceof FakePlayer))
 			{
 				final EntityPlayer targetPlayer = (EntityPlayer)target;
 
@@ -144,7 +144,7 @@ public class AIRespondToAttack extends AbstractAI
 			return;
 		}
 
-		if (entity instanceof EntityPlayerMP && !entity.getCommandSenderName().equals("[CoFH]") && !(entity instanceof FakePlayer))
+		if (entity instanceof EntityPlayerMP && !entity.getName().equals("[CoFH]") && !(entity instanceof FakePlayer))
 		{
 			EntityPlayer player = (EntityPlayer)entity;
 			target = player;
@@ -159,7 +159,7 @@ public class AIRespondToAttack extends AbstractAI
 				owner.say("behavior.retaliate.begin", player);
 
 				isRetaliating = true;
-				targetPlayerName = player.getCommandSenderName();
+				targetPlayerName = player.getName();
 				
 				PlayerMemory memory = owner.getPlayerMemory(player);
 				memory.setHearts(memory.getHearts() - 5);

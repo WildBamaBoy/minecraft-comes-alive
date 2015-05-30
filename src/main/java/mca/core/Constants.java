@@ -1,7 +1,5 @@
 package mca.core;
 
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 
 public final class Constants 
 {

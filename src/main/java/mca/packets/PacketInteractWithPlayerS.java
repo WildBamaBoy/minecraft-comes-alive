@@ -15,11 +15,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import radixcore.constant.Font.Color;
 import radixcore.packets.AbstractPacket;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketInteractWithPlayerS extends AbstractPacket implements IMessage, IMessageHandler<PacketInteractWithPlayerS, IMessage>
 {
@@ -79,7 +79,7 @@ public class PacketInteractWithPlayerS extends AbstractPacket implements IMessag
 		case ASKTOMARRY:
 			if (targetData.spousePermanentId.getInt() != 0 || targetData.isEngaged.getBoolean())
 			{
-				sender.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString("interactionp.marry.fail.targetalreadymarried", target.getCommandSenderName())));
+				sender.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString("interactionp.marry.fail.targetalreadymarried", target.getName())));
 			}
 
 			else if (senderData.spousePermanentId.getInt() != 0 || senderData.isEngaged.getBoolean())
@@ -94,7 +94,7 @@ public class PacketInteractWithPlayerS extends AbstractPacket implements IMessag
 
 			else
 			{
-				sender.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString("interactionp.marry.sent", target.getCommandSenderName())));
+				sender.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString("interactionp.marry.sent", target.getName())));
 				MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenPrompt(sender, target, interaction), (EntityPlayerMP)target);
 			}
 
@@ -103,27 +103,27 @@ public class PacketInteractWithPlayerS extends AbstractPacket implements IMessag
 			targetData.setNotMarried();
 			senderData.setNotMarried();
 
-			sender.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString(Color.RED + MCA.getLanguageManager().getString("interactionp.divorce.notify", target.getCommandSenderName()))));
-			target.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString(Color.RED + MCA.getLanguageManager().getString("interactionp.divorce.notify", sender.getCommandSenderName()))));
+			sender.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString(Color.RED + MCA.getLanguageManager().getString("interactionp.divorce.notify", target.getName()))));
+			target.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString(Color.RED + MCA.getLanguageManager().getString("interactionp.divorce.notify", sender.getName()))));
 			break;
 
 		case HAVEBABY:
 			if (senderData.shouldHaveBaby.getBoolean())
 			{
-				sender.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString("interactionp.havebaby.fail.alreadyexists", target.getCommandSenderName())));				
+				sender.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString("interactionp.havebaby.fail.alreadyexists", target.getName())));				
 			}
 
 			else
 			{
-				sender.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString("interactionp.havebaby.sent", target.getCommandSenderName())));
+				sender.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString("interactionp.havebaby.sent", target.getName())));
 				MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenPrompt(sender, target, interaction), (EntityPlayerMP)target);
 			}
 			
 			break;
 
 		case ASKTOMARRY_ACCEPT:
-			sender.addChatMessage(new ChatComponentText(Color.GREEN + MCA.getLanguageManager().getString("interactionp.marry.success", target.getCommandSenderName())));
-			target.addChatMessage(new ChatComponentText(Color.GREEN + MCA.getLanguageManager().getString("interactionp.marry.success", sender.getCommandSenderName())));
+			sender.addChatMessage(new ChatComponentText(Color.GREEN + MCA.getLanguageManager().getString("interactionp.marry.success", target.getName())));
+			target.addChatMessage(new ChatComponentText(Color.GREEN + MCA.getLanguageManager().getString("interactionp.marry.success", sender.getName())));
 
 			senderData.setMarried(target);
 			targetData.setMarried(sender);

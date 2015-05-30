@@ -4,8 +4,8 @@ import java.util.List;
 
 import mca.core.MCA;
 import net.minecraft.client.gui.GuiScreen;
-import cpw.mods.fml.client.config.GuiConfig;
-import cpw.mods.fml.client.config.IConfigElement;
+import net.minecraftforge.fml.client.config.GuiConfig;
+import net.minecraftforge.fml.client.config.IConfigElement;
 
 public class GuiConfigPage extends GuiConfig
 {

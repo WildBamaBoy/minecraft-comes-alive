@@ -1,5 +1,6 @@
 package mca.client.gui;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -18,6 +19,8 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -26,8 +29,6 @@ import org.lwjgl.opengl.GL12;
 import radixcore.constant.Font.Color;
 import radixcore.data.DataWatcherEx;
 import radixcore.util.NumberCycleList;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * Defines the GUI used to edit villager information.
@@ -123,11 +124,11 @@ public class GuiVillagerEditor extends GuiScreen
 
 		drawEditorGuiPage1();
 
-		nameTextField = new GuiTextField(fontRendererObj, width / 2 - 205, height / 2 - 95, 150, 20);
+		nameTextField = new GuiTextField(1, fontRendererObj, width / 2 - 205, height / 2 - 95, 150, 20);
 		nameTextField.setMaxStringLength(32);
 		nameTextField.setText(villager.getName());
 
-		dummyTextField = new GuiTextField(fontRendererObj, width / 2 + 90, height / 2 - 100, 100, 200);
+		dummyTextField = new GuiTextField(2, fontRendererObj, width / 2 + 90, height / 2 - 100, 100, 200);
 		dummyTextField.setMaxStringLength(0);
 	}
 
@@ -268,7 +269,7 @@ public class GuiVillagerEditor extends GuiScreen
 	}
 
 	@Override
-	protected void keyTyped(char c, int i)
+	protected void keyTyped(char c, int i) throws IOException
 	{
 		if (i == Keyboard.KEY_ESCAPE)
 		{
@@ -290,7 +291,7 @@ public class GuiVillagerEditor extends GuiScreen
 	}
 
 	@Override
-	protected void mouseClicked(int clickX, int clickY, int clicked)
+	protected void mouseClicked(int clickX, int clickY, int clicked) throws IOException
 	{
 		super.mouseClicked(clickX, clickY, clicked);
 
@@ -388,10 +389,10 @@ public class GuiVillagerEditor extends GuiScreen
 			villager.rotationPitch = -((float) Math.atan(0F / 40.0F)) * 20.0F;
 			villager.rotationYawHead = villager.rotationYaw;
 
-			GL11.glTranslatef(0.0F, villager.yOffset, 0.0F);
+			GL11.glTranslated(0.0D, villager.getYOffset(), 0.0D);
 
-			RenderManager.instance.playerViewY = 180.0F;
-			RenderManager.instance.renderEntityWithPosYaw(villager, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
+			Minecraft.getMinecraft().getRenderManager().playerViewY = 180.0F;
+			Minecraft.getMinecraft().getRenderManager().renderEntityWithPosYaw(villager, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
 
 			villager.renderYawOffset = yawOffset;
 			villager.rotationYaw = rotationYaw;

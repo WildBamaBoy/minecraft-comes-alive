@@ -43,7 +43,7 @@ public class PlayerMemory implements Serializable
 	public PlayerMemory(EntityHuman owner, EntityPlayer player)
 	{
 		this.owner = owner;
-		this.playerName = player.getCommandSenderName();
+		this.playerName = player.getName();
 		this.uuid = player.getUniqueID().toString();
 		this.permanentId = MCA.getPlayerData(player).permanentId.getInt();
 		this.dialogueType = owner.getIsChild() ? EnumDialogueType.CHILD : EnumDialogueType.ADULT;

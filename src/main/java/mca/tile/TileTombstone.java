@@ -18,15 +18,16 @@ public class TileTombstone extends TileEntity
 		lineBeingEdited = -1;
 	}
 
-	@Override
-	public void updateEntity()
-	{
-		if (worldObj.isRemote && !hasSynced && !guiOpen)
-		{
-			hasSynced = true;
-			MCA.getPacketHandler().sendPacketToServer(new PacketTombstoneUpdateGet(this));
-		}
-	}
+	//TODO
+//	@Override
+//	public void updateEntity()
+//	{
+//		if (worldObj.isRemote && !hasSynced && !guiOpen)
+//		{
+//			hasSynced = true;
+//			MCA.getPacketHandler().sendPacketToServer(new PacketTombstoneUpdateGet(this));
+//		}
+//	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt)

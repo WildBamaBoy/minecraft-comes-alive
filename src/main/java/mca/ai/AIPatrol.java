@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import radixcore.constant.Time;
 import radixcore.math.Point3D;
 import radixcore.util.BlockHelper;
@@ -43,14 +44,14 @@ public class AIPatrol extends AbstractAI
 		{
 			if (!hasDoor)
 			{
-				List<Point3D> nearbyDoors = RadixLogic.getNearbyBlocks(owner, Blocks.wooden_door, 15);
+				List<Point3D> nearbyDoors = RadixLogic.getNearbyBlocks(owner, Blocks.oak_door, 15);
 	
 				if (!nearbyDoors.isEmpty())
 				{
 					Point3D doorPoint = nearbyDoors.get(RadixMath.getNumberInRange(0, nearbyDoors.size() - 1));
 	
 					//Only use the top of the door.
-					if (BlockHelper.getBlock(owner.worldObj, doorPoint.iPosX, doorPoint.iPosY - 1, doorPoint.iPosZ) != Blocks.wooden_door)
+					if (BlockHelper.getBlock(owner.worldObj, doorPoint.iPosX, doorPoint.iPosY - 1, doorPoint.iPosZ) != Blocks.oak_door)
 					{
 						doorPoint = doorPoint.setPoint(doorPoint.iPosX, doorPoint.iPosY + 1, doorPoint.iPosZ);
 					}
@@ -61,7 +62,7 @@ public class AIPatrol extends AbstractAI
 					Block block = (Block)BlockHelper.getBlock(owner.worldObj, doorPoint.iPosX, doorPoint.iPosY, doorPoint.iPosZ);
 					BlockDoor door = null;
 					
-					if (block == Blocks.wooden_door) //Account for ClassCastException per issue #259.
+					if (block == Blocks.oak_door) //Account for ClassCastException per issue #259.
 					{
 						door = (BlockDoor)block;
 					}
@@ -72,7 +73,7 @@ public class AIPatrol extends AbstractAI
 						return;
 					}
 					
-					int doorState = door.func_150012_g(owner.worldObj, doorPoint.iPosX, doorPoint.iPosY, doorPoint.iPosZ);
+					int doorState = door.func_176515_e(owner.worldObj, new BlockPos(doorPoint.iPosX, doorPoint.iPosY, doorPoint.iPosZ)); //TODO check this
 					boolean isPositive = RadixLogic.getBooleanWithProbability(50);
 					int offset = isPositive ? RadixMath.getNumberInRange(1, 3) : RadixMath.getNumberInRange(1, 3) * -1;
 					boolean isValid = false;
@@ -104,7 +105,7 @@ public class AIPatrol extends AbstractAI
 							movePoint = movePoint.setPoint(movePoint.dPosX + offset, movePoint.dPosY, movePoint.dPosZ);
 						}
 	
-						if (owner.worldObj.canBlockSeeTheSky(movePoint.iPosX, movePoint.iPosY, movePoint.iPosZ) && 
+						if (BlockHelper.canBlockSeeTheSky(owner.worldObj, movePoint.iPosX, movePoint.iPosY, movePoint.iPosZ) && 
 								BlockHelper.getBlock(owner.worldObj, movePoint.iPosX, movePoint.iPosY, movePoint.iPosZ) == Blocks.air)
 						{
 							//Random chance of skipping a valid first pass so that they aren't always right against the door.

@@ -1,6 +1,5 @@
 package mca.core.forge;
 
-import radixcore.util.BlockHelper;
 import mca.client.gui.GuiNameBaby;
 import mca.client.gui.GuiSetup;
 import mca.client.gui.GuiTombstone;
@@ -9,7 +8,8 @@ import mca.entity.EntityHuman;
 import mca.tile.TileTombstone;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.network.IGuiHandler;
+import net.minecraftforge.fml.common.network.IGuiHandler;
+import radixcore.util.BlockHelper;
 
 /**
  * Handles GUIs client and server side.

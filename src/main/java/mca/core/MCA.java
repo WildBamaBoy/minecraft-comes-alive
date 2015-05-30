@@ -45,6 +45,22 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.ModMetadata;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
 import org.apache.logging.log4j.Logger;
@@ -59,24 +75,8 @@ import radixcore.math.Point3D;
 import radixcore.update.RDXUpdateProtocol;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixStartup;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.ModMetadata;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.event.FMLServerStoppingEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.EntityRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore@[2.0.2,)", acceptedMinecraftVersions = "[1.7.10]",
+@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore@[2.0.2,)", acceptedMinecraftVersions = "[1.8]",
 		guiFactory = "mca.core.forge.client.MCAGuiFactory")
 public class MCA
 {
@@ -113,7 +113,7 @@ public class MCA
 	
 	@EventHandler
     public void preInit(FMLPreInitializationEvent event)
-    {	
+    {
     	instance = this;
 		metadata = event.getModMetadata();
     	logger = event.getModLog();
@@ -402,7 +402,7 @@ public class MCA
 		RegistryMCA.addObjectAsGift(Items.flint_and_steel, 4);
 		RegistryMCA.addObjectAsGift(Items.redstone, 5);
 		RegistryMCA.addObjectAsGift(Items.boat, 4);
-		RegistryMCA.addObjectAsGift(Items.wooden_door, 4);
+		RegistryMCA.addObjectAsGift(Items.oak_door, 4);
 		RegistryMCA.addObjectAsGift(Items.iron_door, 6);
 		RegistryMCA.addObjectAsGift(Items.minecart, 7);
 		RegistryMCA.addObjectAsGift(Items.flint, 2);
@@ -498,7 +498,7 @@ public class MCA
 		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.porkchop, Items.cooked_porkchop));
 		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.beef, Items.cooked_beef));
 		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.chicken, Items.cooked_chicken));
-		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.fish, Items.cooked_fished));
+		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.fish, Items.cooked_fish));
 		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.potato, Items.baked_potato));
 		
 		RegistryMCA.addCropToFarmingAI(1, new CropEntry(EnumCropCategory.WHEAT, Blocks.wheat, Items.wheat_seeds, Blocks.wheat, 7, Items.wheat, 1, 4));

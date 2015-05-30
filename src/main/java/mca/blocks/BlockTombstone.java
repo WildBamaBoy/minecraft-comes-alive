@@ -5,14 +5,17 @@ import mca.tile.TileTombstone;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.util.BlockHelper;
 
 public class BlockTombstone extends BlockContainer
@@ -30,16 +33,16 @@ public class BlockTombstone extends BlockContainer
 	}
 
 	@Override
-	public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int posX, int posY, int posZ)
+	public AxisAlignedBB getCollisionBoundingBox(World world, BlockPos pos, IBlockState state)
 	{
 		return null; //No collision.
 	}
 
-	@Override
-	public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int posX, int posY, int posZ)
-	{
-		setBlockBoundsBasedOnState(world, posX, posY, posZ);
-		return super.getSelectedBoundingBoxFromPool(world, posX, posY, posZ);
+    @SideOnly(Side.CLIENT)
+    public AxisAlignedBB getSelectedBoundingBox(World world, BlockPos pos)
+    {
+		setBlockBoundsBasedOnState(world, pos);
+		return super.getSelectedBoundingBox(world, pos);
 	}
 
 	@Override
@@ -49,35 +52,37 @@ public class BlockTombstone extends BlockContainer
 	}
 
 	@Override
-	public boolean renderAsNormalBlock()
-	{
-		return false;
-	}
-
-	@Override
 	public boolean isOpaqueCube()
 	{
 		return false;
 	}
 
 	@Override
-	public void onNeighborBlockChange(World world, int posX, int posY, int posZ, Block blockNeighbor)
+	public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block blockNeighbor)
 	{
+		int posX = pos.getX();
+		int posY = pos.getY();
+		int posZ = pos.getZ();
+		
 		if (!BlockHelper.getBlock(world, posX, posY - 1, posZ).getMaterial().isSolid())
 		{
-			dropBlockAsItem(world, posX, posY, posZ, new ItemStack(ModItems.tombstone, 1));
+			dropBlockAsItem(world, pos, state, 0);
 			BlockHelper.setBlock(world, posX, posY, posZ, Blocks.air);
 		}
 
-		super.onNeighborBlockChange(world, posX, posY, posZ, blockNeighbor);
+		super.onNeighborBlockChange(world, pos, state, blockNeighbor);
 	}
 
 	@Override
-	public void onBlockDestroyedByPlayer(World world, int posX, int posY, int posZ, int meta)
+	public void onBlockDestroyedByPlayer(World world, BlockPos pos, IBlockState state)
 	{
+		int posX = pos.getX();
+		int posY = pos.getY();
+		int posZ = pos.getZ();
+		
 		if (!world.isRemote)
 		{
-			dropBlockAsItem(world, posX, posY, posZ, new ItemStack(ModItems.tombstone, 1));
+			dropBlockAsItem(world, pos, state, 0);
 			
 			TileTombstone tombstone = (TileTombstone) BlockHelper.getTileEntity(world, posX, posY, posZ);
 			
@@ -94,31 +99,29 @@ public class BlockTombstone extends BlockContainer
 	}
 
 	@Override
-	public void harvestBlock(World world, EntityPlayer player, int posX, int posY, int posZ, int meta)
+	public void harvestBlock(World worldIn, EntityPlayer playerIn, BlockPos pos, IBlockState state, TileEntity te)
 	{
 		//Do nothing to avoid duplication glitch.
 	}
 
 	@Override
-	public void registerBlockIcons(IIconRegister IIconRegister)
+	public boolean canPlaceBlockAt(World world, BlockPos pos)
 	{
-		blockIcon = IIconRegister.registerIcon("mca:Tombstone");
+		int posX = pos.getX();
+		int posY = pos.getY();
+		int posZ = pos.getZ();
+		
+		return BlockHelper.getBlock(world, posX, posY - 1, posZ).isAir(world, pos) && super.canPlaceBlockAt(world, pos);
 	}
 
 	@Override
-	public boolean canPlaceBlockAt(World world, int posX, int posY, int posZ)
-	{
-		return BlockHelper.getBlock(world, posX, posY - 1, posZ).isAir(world, posX, posY, posZ) && super.canPlaceBlockAt(world, posX, posY, posZ);
-	}
-
-	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z, EntityPlayer player) 
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos) 
 	{
 		return new ItemStack(ModItems.tombstone);
 	}
 	
 	@Override
-	public boolean hasTileEntity(int metadata)
+	public boolean hasTileEntity(IBlockState state)
 	{
 		return true;
 	}

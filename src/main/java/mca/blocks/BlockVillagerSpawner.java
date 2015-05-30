@@ -7,22 +7,22 @@ import mca.core.MCA;
 import mca.entity.EntityHuman;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import radixcore.constant.Time;
 import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class BlockVillagerSpawner extends Block
 {
 	public BlockVillagerSpawner()
 	{
 		super(Material.iron);
-
-		setBlockName("VillagerSpawner");
-		setBlockTextureName("mca:VillagerSpawner");
+		
 		setCreativeTab(MCA.getCreativeTabMain());
 		setTickRandomly(true);
 		setHardness(1.0F);
@@ -36,11 +36,11 @@ public class BlockVillagerSpawner extends Block
 	}
 
 	@Override
-	public void updateTick(World world, int x, int y, int z, Random random) 
+	public void updateTick(World world, BlockPos pos, IBlockState state, Random random) 
 	{
-		super.updateTick(world, x, y, z, random);
+		super.updateTick(world, pos, state, random);
 
-		List<Entity> nearbyEntities = RadixLogic.getAllEntitiesWithinDistanceOfCoordinates(world, x, y, z, 32);
+		List<Entity> nearbyEntities = RadixLogic.getAllEntitiesWithinDistanceOfCoordinates(world, pos.getX(), pos.getY(), pos.getZ(), 32);
 		int nearbyHumans = 0;
 
 		for (Entity entity : nearbyEntities)
@@ -53,13 +53,13 @@ public class BlockVillagerSpawner extends Block
 
 		if (nearbyHumans < MCA.getConfig().villagerSpawnerCap)
 		{
-			int spawnY = y;
+			int spawnY = pos.getY();
 			boolean continueSpawning = false;
 
 			while (spawnY < 256)
 			{
-				Block block = BlockHelper.getBlock(world, x, spawnY, z);
-				Block blockAbove = BlockHelper.getBlock(world, x, spawnY + 1, z);
+				Block block = BlockHelper.getBlock(world, pos.getX(), spawnY, pos.getZ());
+				Block blockAbove = BlockHelper.getBlock(world, pos.getX(), spawnY + 1, pos.getZ());
 
 				if (block == Blocks.air && blockAbove == Blocks.air)
 				{
@@ -76,11 +76,11 @@ public class BlockVillagerSpawner extends Block
 			if (continueSpawning)
 			{
 				final EntityHuman human = new EntityHuman(world, world.rand.nextBoolean());
-				human.setPositionAndRotation((double) x + 0.5F, (double) spawnY, (double) z + 0.5F, (float)random.nextInt(360) + 1, 0.0F);
+				human.setPositionAndRotation((double) pos.getX() + 0.5F, (double) spawnY, (double) pos.getZ() + 0.5F, (float)random.nextInt(360) + 1, 0.0F);
 				world.spawnEntityInWorld(human);
 			}
 		}
 
-		world.scheduleBlockUpdate(x, y, z, this, tickRate());
+		world.scheduleUpdate(pos, this, tickRate());
 	}
 }

@@ -8,6 +8,7 @@ import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
 import mca.enums.EnumPersonality;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockSapling;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -158,20 +159,21 @@ public class AIWoodcutting extends AbstractToggleAI
 					yLevel++;
 
 					//Check that the next y level still contains a tree, reset if not.
-					final Block nextBlock = BlockHelper.getBlock(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY + yLevel, treeBasePoint.iPosZ);
-					final int nextBlockMeta = BlockHelper.getBlockMetadata(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY + yLevel, treeBasePoint.iPosZ); 
-
-					if (nextBlock != apiEntry.getLogBlock() || nextBlockMeta != apiEntry.getLogMeta())
-					{
-						if (apiEntry.hasSapling() && doReplant)
-						{
-							BlockHelper.setBlock(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY - 1, treeBasePoint.iPosZ, Blocks.dirt);
-							BlockHelper.setBlock(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY, treeBasePoint.iPosZ, apiEntry.getSaplingBlock(), apiEntry.getSaplingMeta());
-						}
-						
-						yLevel = 0;
-						treeBasePoint = Point3D.ZERO;
-					}
+					//TODO
+//					final Block nextBlock = BlockHelper.getBlock(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY + yLevel, treeBasePoint.iPosZ);
+//					final int nextBlockMeta = BlockHelper.getBlockMetadata(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY + yLevel, treeBasePoint.iPosZ); 
+//
+//					if (nextBlock != apiEntry.getLogBlock() || nextBlockMeta != apiEntry.getLogMeta())
+//					{
+//						if (apiEntry.hasSapling() && doReplant)
+//						{
+//							BlockHelper.setBlock(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY - 1, treeBasePoint.iPosZ, Blocks.dirt);
+//							BlockHelper.setBlock(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY, treeBasePoint.iPosZ, apiEntry.getSaplingBlock(), apiEntry.getSaplingMeta());
+//						}
+//						
+//						yLevel = 0;
+//						treeBasePoint = Point3D.ZERO;
+//					}
 				}
 			}
 
@@ -246,7 +248,7 @@ public class AIWoodcutting extends AbstractToggleAI
 
 	private int calculateCutInterval()
 	{
-		ItemStack bestAxe = owner.getInventory().getBestItemOfType(ItemAxe.class);
+		ItemStack bestAxe = owner.getVillagerInventory().getBestItemOfType(ItemAxe.class);
 		int returnAmount = -1;
 
 		if (bestAxe != null)

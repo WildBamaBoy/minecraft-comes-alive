@@ -9,17 +9,17 @@ import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.network.play.client.C12PacketUpdateSign;
 import net.minecraft.util.ChatAllowedCharacters;
+import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 @SideOnly(Side.CLIENT)
 public class GuiTombstone extends GuiScreen
 {
-	private static final String allowedCharacters = new String(ChatAllowedCharacters.allowedCharacters);
+	private static final String allowedCharacters = new String(ChatAllowedCharacters.allowedCharactersArray);
 
 	private final TileTombstone entityTombstone;
 	private int updateCounter;
@@ -49,7 +49,8 @@ public class GuiTombstone extends GuiScreen
 
 		if (nethandlerplayclient != null)
 		{
-			nethandlerplayclient.addToSendQueue(new C12PacketUpdateSign(entityTombstone.xCoord, entityTombstone.yCoord, entityTombstone.zCoord, entityTombstone.signText));
+			//TODO
+//			nethandlerplayclient.addToSendQueue(new C12PacketUpdateSign(entityTombstone.getPos(), new ChatComponentText(entityTombstone.signText));
 		}
 
 		MCA.getPacketHandler().sendPacketToServer(new PacketTombstoneUpdateSet(entityTombstone));

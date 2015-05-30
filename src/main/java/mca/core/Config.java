@@ -5,8 +5,8 @@ import java.util.List;
 
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
-import cpw.mods.fml.client.config.IConfigElement;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.client.config.IConfigElement;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public final class Config 
 {

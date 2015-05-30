@@ -14,8 +14,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import radixcore.constant.Time;
 import radixcore.constant.Font.Color;
+import radixcore.constant.Time;
 import radixcore.data.WatchedBoolean;
 import radixcore.math.Point3D;
 import radixcore.util.BlockHelper;
@@ -89,7 +89,7 @@ public class AIMining extends AbstractToggleAI
 						if (!nearbyStone.isEmpty())
 						{
 							Point3D point = nearbyStone.get(RadixMath.getNumberInRange(0, nearbyStone.size() - 1));
-							BlockHelper.setBlockMetadataWithNotify(owner.worldObj, point.iPosX, point.iPosY, point.iPosZ, 11, 2);
+//							BlockHelper.setBlockMetadataWithNotify(owner.worldObj, point.iPosX, point.iPosY, point.iPosZ, 11, 2); //TODO meta 11
 							isBuildingMine = false;
 						}
 
@@ -134,7 +134,7 @@ public class AIMining extends AbstractToggleAI
 							addStack = new ItemStack(Blocks.cobblestone);
 						}
 
-						owner.getInventory().addItemStackToInventory(addStack);
+						owner.getVillagerInventory().addItemStackToInventory(addStack);
 						owner.damageHeldItem(2);
 					}
 				}
@@ -253,7 +253,7 @@ public class AIMining extends AbstractToggleAI
 		this.isAIActive.setValue(true);
 		this.activityInterval = SEARCH_INTERVAL;
 		
-		ItemStack pickaxe = owner.getInventory().getBestItemOfType(ItemPickaxe.class);
+		ItemStack pickaxe = owner.getVillagerInventory().getBestItemOfType(ItemPickaxe.class);
 		
 		if (pickaxe != null)
 		{
@@ -280,7 +280,7 @@ public class AIMining extends AbstractToggleAI
 		this.isAIActive.setValue(true);
 		this.activityInterval = 0;
 		
-		ItemStack pickaxe = owner.getInventory().getBestItemOfType(ItemPickaxe.class);
+		ItemStack pickaxe = owner.getVillagerInventory().getBestItemOfType(ItemPickaxe.class);
 		
 		if (pickaxe != null)
 		{
