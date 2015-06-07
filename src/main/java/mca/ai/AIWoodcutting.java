@@ -8,7 +8,8 @@ import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
 import mca.enums.EnumPersonality;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockSapling;
+import net.minecraft.block.BlockLog;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -16,6 +17,7 @@ import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import radixcore.constant.Font.Color;
 import radixcore.data.WatchedBoolean;
 import radixcore.math.Point3D;
@@ -73,18 +75,18 @@ public class AIWoodcutting extends AbstractToggleAI
 				reset();
 				return;
 			}
-			
+
 			if (treeBasePoint.iPosX == 0 && treeBasePoint.iPosY == 0 && treeBasePoint.iPosZ == 0)
 			{
 				final WoodcuttingEntry apiEntry = RegistryMCA.getWoodcuttingEntryById(apiId);
-				
+
 				if (apiEntry.getLogBlock() == null) //Protect against possible NPE.
 				{
 					isAIActive.setValue(false);
 					return;
 				}
 
-				final Point3D point = RadixLogic.getNearestBlockPosWithMetadata(owner, apiEntry.getLogBlock(), apiEntry.getLogMeta(), 15);
+				final Point3D point = RadixLogic.getFirstNearestBlock(owner, apiEntry.getLogBlock(), 15);
 
 				if (point != null)
 				{
@@ -141,7 +143,7 @@ public class AIWoodcutting extends AbstractToggleAI
 					{
 						//pass on greedy
 					}
-					
+
 					else if (!addedToInventory)
 					{
 						notifyAssigningPlayer("My inventory is full.");
@@ -159,21 +161,19 @@ public class AIWoodcutting extends AbstractToggleAI
 					yLevel++;
 
 					//Check that the next y level still contains a tree, reset if not.
-					//TODO
-//					final Block nextBlock = BlockHelper.getBlock(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY + yLevel, treeBasePoint.iPosZ);
-//					final int nextBlockMeta = BlockHelper.getBlockMetadata(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY + yLevel, treeBasePoint.iPosZ); 
-//
-//					if (nextBlock != apiEntry.getLogBlock() || nextBlockMeta != apiEntry.getLogMeta())
-//					{
-//						if (apiEntry.hasSapling() && doReplant)
-//						{
-//							BlockHelper.setBlock(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY - 1, treeBasePoint.iPosZ, Blocks.dirt);
-//							BlockHelper.setBlock(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY, treeBasePoint.iPosZ, apiEntry.getSaplingBlock(), apiEntry.getSaplingMeta());
-//						}
-//						
-//						yLevel = 0;
-//						treeBasePoint = Point3D.ZERO;
-//					}
+					final Block nextBlock = BlockHelper.getBlock(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY + yLevel, treeBasePoint.iPosZ);
+
+					if (nextBlock != apiEntry.getLogBlock())
+					{
+						if (apiEntry.hasSapling() && doReplant)
+						{
+							BlockHelper.setBlock(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY - 1, treeBasePoint.iPosZ, Blocks.dirt);
+							BlockHelper.setBlock(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY, treeBasePoint.iPosZ, apiEntry.getSaplingBlock());
+						}
+
+						yLevel = 0;
+						treeBasePoint = Point3D.ZERO;
+					}
 				}
 			}
 
@@ -242,7 +242,7 @@ public class AIWoodcutting extends AbstractToggleAI
 		this.doReplant = doReplant;
 		this.cutInterval = calculateCutInterval();		
 		this.cutTimeLeft = cutInterval;
-		
+
 		this.isAIActive.setValue(true);
 	}
 
@@ -289,7 +289,7 @@ public class AIWoodcutting extends AbstractToggleAI
 
 		return returnAmount;
 	}
-	
+
 	@Override
 	protected String getName() 
 	{

@@ -2,8 +2,6 @@ package mca.core.forge;
 
 import java.lang.reflect.Field;
 
-import com.google.common.base.Predicate;
-
 import mca.core.MCA;
 import mca.entity.EntityHuman;
 import mca.packets.PacketInteractWithPlayerC;
@@ -30,6 +28,8 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import radixcore.math.Point3D;
+
+import com.google.common.base.Predicate;
 
 public class EventHooksForge 
 {
@@ -76,7 +76,17 @@ public class EventHooksForge
 
 			else if (mob instanceof EntityCreeper)
 			{
-				//TODO
+		        mob.tasks.addTask(3, new EntityAIAvoidEntity(mob, new Predicate()
+		        {
+		            public boolean func_179958_a(Entity p_179958_1_)
+		            {
+		                return p_179958_1_ instanceof EntityHuman;
+		            }
+		            public boolean apply(Object p_apply_1_)
+		            {
+		                return this.func_179958_a((Entity)p_apply_1_);
+		            }
+		        }, 6.0F, 1.0D, 1.2D));
 			}
 
 			else
@@ -99,7 +109,7 @@ public class EventHooksForge
 				}
 
 				mob.tasks.addTask(2, new EntityAIAttackOnCollide(mob, EntityHuman.class, moveSpeed, false));
-//				mob.targetTasks.addTask(2, new EntityAINearestAttackableTarget(mob, EntityHuman.class, 16, false)); //TODO
+				mob.targetTasks.addTask(2, new EntityAINearestAttackableTarget(mob, EntityHuman.class, false));
 			}
 		}
 

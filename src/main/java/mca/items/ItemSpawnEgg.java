@@ -33,7 +33,7 @@ public class ItemSpawnEgg extends Item
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		int posX = pos.getX();
-		int posY = pos.getY();
+		int posY = pos.getY() + 1;
 		int posZ = pos.getZ();
 		
 		if (!world.isRemote)

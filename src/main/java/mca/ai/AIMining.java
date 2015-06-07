@@ -82,14 +82,12 @@ public class AIMining extends AbstractToggleAI
 				{
 					if (!owner.getAI(AIBuild.class).getIsActive())
 					{
-						//When the chore is not running, pick a random stone block nearby and set its meta to 11.
+						//When the chore is not running, search for a group of fences nearby.
 						//This identifies this area as a mine.
-						List<Point3D> nearbyStone = RadixLogic.getNearbyBlocks(owner, Blocks.stone, 6);
+						List<Point3D> nearbyFence = RadixLogic.getNearbyBlocks(owner, Blocks.oak_fence, 6);
 
-						if (!nearbyStone.isEmpty())
+						if (nearbyFence.size() >= 8)
 						{
-							Point3D point = nearbyStone.get(RadixMath.getNumberInRange(0, nearbyStone.size() - 1));
-//							BlockHelper.setBlockMetadataWithNotify(owner.worldObj, point.iPosX, point.iPosY, point.iPosZ, 11, 2); //TODO meta 11
 							isBuildingMine = false;
 						}
 

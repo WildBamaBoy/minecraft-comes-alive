@@ -3,9 +3,10 @@ package mca.tile;
 import mca.core.MCA;
 import mca.packets.PacketTombstoneUpdateGet;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 
-public class TileTombstone extends TileEntity
+public class TileTombstone extends TileEntity implements IUpdatePlayerListBox
 {
 	public int lineBeingEdited;
 	public boolean guiOpen;
@@ -18,16 +19,15 @@ public class TileTombstone extends TileEntity
 		lineBeingEdited = -1;
 	}
 
-	//TODO
-//	@Override
-//	public void updateEntity()
-//	{
-//		if (worldObj.isRemote && !hasSynced && !guiOpen)
-//		{
-//			hasSynced = true;
-//			MCA.getPacketHandler().sendPacketToServer(new PacketTombstoneUpdateGet(this));
-//		}
-//	}
+	@Override
+	public void update()
+	{
+		if (worldObj.isRemote && !hasSynced && !guiOpen)
+		{
+			hasSynced = true;
+			MCA.getPacketHandler().sendPacketToServer(new PacketTombstoneUpdateGet(this));
+		}
+	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt)

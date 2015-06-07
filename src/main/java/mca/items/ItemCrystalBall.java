@@ -90,7 +90,7 @@ public class ItemCrystalBall extends ItemSingle
 		DataWatcherEx.allowClientSideModification = false;
 		
 		MCA.destinySpawnFlag = true; //Will hand off spawning to clientTickEvent
-		MCA.destinyCenterPoint = new Point3D(player.posX - 1, player.posY, player.posZ);
+		MCA.destinyCenterPoint = new Point3D(player.posX, player.posY + 1, player.posZ);
 		TutorialManager.setTutorialMessage(new TutorialMessage("Right-click the enchantment table to begin.", ""));
 		player.setPositionAndRotation(player.posX, player.posY, player.posZ, 180.0F, 0.0F);
 	}

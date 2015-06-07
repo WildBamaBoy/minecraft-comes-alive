@@ -361,63 +361,18 @@ public class RenderHuman extends RenderBiped
 	 */
 	private void renderLabel(EntityHuman human, double posX, double posY, double posZ, String labelText)
 	{
-		if (human.isSneaking())
-		{
-			final Tessellator tessellator = Tessellator.getInstance();
-			final WorldRenderer renderer = tessellator.getWorldRenderer();
-			
-			final FontRenderer fontRendererObj = getFontRendererFromRenderManager();
-			final int stringWidth = fontRendererObj.getStringWidth(labelText) / 2;
-
-			GL11.glPushMatrix();
-			{
-				GL11.glTranslatef((float) posX + 0.0F, (float) posY + 2.3F, (float) posZ);
-				GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-				GL11.glRotatef(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-				GL11.glRotatef(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-				GL11.glScalef(-LABEL_SCALE, -LABEL_SCALE, LABEL_SCALE);
-				GL11.glDisable(GL11.GL_LIGHTING);
-				GL11.glTranslatef(0.0F, 0.25F / LABEL_SCALE, 0.0F);
-				GL11.glDepthMask(false);
-				GL11.glEnable(GL11.GL_BLEND);
-				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-				GL11.glDisable(GL11.GL_TEXTURE_2D);
-
-				renderer.startDrawingQuads();
-//				renderer.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.25F); //TODO
-				renderer.addVertex(-stringWidth - 1, -1D, 0.0D);
-				renderer.addVertex(-stringWidth - 1, 8D, 0.0D);
-				renderer.addVertex(stringWidth + 1, 8D, 0.0D);
-				renderer.addVertex(stringWidth + 1, -1D, 0.0D);
-				renderer.draw();
-
-				GL11.glEnable(GL11.GL_TEXTURE_2D);
-
-				GL11.glDepthMask(true);
-				fontRendererObj.drawString(labelText, -fontRendererObj.getStringWidth(labelText) / 2, 0, 0x20ffffff);
-				GL11.glEnable(GL11.GL_LIGHTING);
-				GL11.glDisable(GL11.GL_BLEND);
-				GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-			}
-			GL11.glPopMatrix();
-		}
-
-		else
-		{
-			//RenderLivingLabel
-			//func_147906_a(human, labelText, posX, posY, posZ, 64); //TODO
-		}
+		renderLivingLabel(human, labelText, posX, posY, posZ, 64);
 	}
 
 	protected boolean canRenderNameTag(EntityLivingBase entityRendering)
 	{
 		final EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
-		final Vec3 entityLookVector = new Vec3(entityRendering.posX - entityPlayer.posX, entityRendering.getBoundingBox().minY + (double) entityRendering.height / 2.0F - entityPlayer.posY + entityPlayer.getEyeHeight(), entityRendering.posZ - entityPlayer.posZ).normalize();
+
+		final Vec3 entityLookVector = new Vec3(entityRendering.posX - entityPlayer.posX, entityRendering.getEntityBoundingBox().minY - 3 + (double) entityRendering.height / 2.0F - entityPlayer.posY + entityPlayer.getEyeHeight(), entityRendering.posZ - entityPlayer.posZ).normalize(); //entityRendering.getLook(1.0F).normalize();
 		final double dotProduct = entityPlayer.getLook(1.0F).normalize().dotProduct(entityLookVector);
 		final boolean isPlayerLookingAt = dotProduct > 1.0D - 0.025D / entityLookVector.lengthVector() ? entityPlayer.canEntityBeSeen(entityRendering) : false;
 		final double distance = entityRendering.getDistanceToEntity(renderManager.livingPlayer);
-
+		
 		return !(Minecraft.getMinecraft().currentScreen instanceof GuiInteraction) && distance < 5.0D && isPlayerLookingAt && Minecraft.isGuiEnabled() && entityRendering != renderManager.livingPlayer && !entityRendering.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) && entityRendering.riddenByEntity == null;
 	}
 }

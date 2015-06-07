@@ -53,7 +53,7 @@ public final class Config
 
 	public boolean showMoodParticles;
 	public boolean showNameTagOnHover;
-	public boolean showVillagerConversations = false; //TODO
+	public boolean showVillagerConversations = false;
 	public boolean modifyFemaleBody;
 	public boolean allowBlinking;
 	

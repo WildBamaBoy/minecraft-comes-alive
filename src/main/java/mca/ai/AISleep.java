@@ -218,7 +218,7 @@ public class AISleep extends AbstractAI
 
 			else //Search for a bed.
 			{
-				//TODO
+				//FIXME
 //				List<Point3D> bedsNearby = RadixLogic.getNearbyBlocks(owner, BlockVillagerBed.class, 8);
 //				List<Point3D> bedHeadsNearby = new ArrayList<Point3D>();
 //

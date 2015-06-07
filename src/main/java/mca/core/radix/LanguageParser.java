@@ -111,7 +111,6 @@ public class LanguageParser extends AbstractLanguageParser
 				}
 			}
 		}
-
 		return unparsedPhrase;
 	}
 }

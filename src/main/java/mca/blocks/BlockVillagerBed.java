@@ -169,7 +169,7 @@ public class BlockVillagerBed extends BlockDirectional implements ITileEntityPro
 //		}
 //	}
 //
-//	//TODO
+//	//FIXME
 ////	@Override
 ////	public void onBlockPreDestroy(World world, int posX, int posY, int posZ, int meta)
 ////	{

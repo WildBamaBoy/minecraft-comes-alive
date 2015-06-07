@@ -121,10 +121,9 @@ public class MCA
     	languageManager = new LanguageManager(ID, new LanguageParser());
     	crashWatcher = new CrashWatcher();
     	packetHandler = new MCAPacketHandler(ID);
-    	proxy.registerRenderers();
     	proxy.registerEventHandlers();
     	playerDataMap = new HashMap<String, AbstractPlayerData>();
-    	
+
     	ModMetadataEx exData = ModMetadataEx.getFromModMetadata(metadata);
     	exData.updateProtocolClass = config.allowUpdateChecking ? RDXUpdateProtocol.class : null;
     	exData.classContainingClientDataContainer = MCA.class;
@@ -151,6 +150,7 @@ public class MCA
     	items = new ModItems();
     	blocks = new ModBlocks();
     	achievements = new ModAchievements();
+    	proxy.registerRenderers();
     	
     	SkinLoader.loadSkins();
 

@@ -66,6 +66,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
@@ -463,6 +464,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		//Disables trading villager sounds.
 	}
 
+	@Override
+	public IChatComponent getDisplayName()
+	{
+		return new ChatComponentText("");//new ChatComponentText(getName());
+	}
+	
 	@Override
 	public void swingItem()
 	{
@@ -1384,7 +1391,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	@Override
 	public String getName() 
 	{
-		return name.getString() + " the " + getProfessionEnum().getUserFriendlyForm();
+		return name.getString();
 	}
 
 	private MerchantRecipeList getBuyingList()

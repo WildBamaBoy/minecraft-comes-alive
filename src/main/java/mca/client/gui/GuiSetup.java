@@ -261,7 +261,7 @@ public class GuiSetup extends GuiScreen
 		case 1: case 2: 					page = 2; break;
 		case 3: case 4: case 5: 			page = 3; break;
 		case 6: 							page = 4; break;
-		case 7: case 8: case 10: case 11: 	//TODO Skip on cases that the warning message will be displayed.
+		case 7: case 8: case 10: case 11: 	//Skip on cases that the warning message will be displayed.
 			data.hasChosenDestiny.setValue(true);
 			setDestinyComplete();
 			mc.displayGuiScreen(null);
@@ -294,7 +294,7 @@ public class GuiSetup extends GuiScreen
 		case 9: page = 5; break;
 		case 10: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.NONE)); break;
 		
-		case 11: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.VILLAGE)); break; //TODO Store destiny choice and use it at this instance.
+		case 11: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.VILLAGE)); break; //Store destiny choice and use it at this instance.
 		case 12: page = 4; break;
 		case 13: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.CANCEL));
 				mc.displayGuiScreen(null); break;

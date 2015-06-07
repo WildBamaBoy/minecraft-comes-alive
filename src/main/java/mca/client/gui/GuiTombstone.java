@@ -49,8 +49,14 @@ public class GuiTombstone extends GuiScreen
 
 		if (nethandlerplayclient != null)
 		{
-			//TODO
-//			nethandlerplayclient.addToSendQueue(new C12PacketUpdateSign(entityTombstone.getPos(), new ChatComponentText(entityTombstone.signText));
+			ChatComponentText[] textArray = new ChatComponentText[4];
+			
+			for (int i = 0; i < entityTombstone.signText.length; i++)
+			{
+				textArray[i] = new ChatComponentText(entityTombstone.signText[i]);
+			}
+			
+			nethandlerplayclient.addToSendQueue(new C12PacketUpdateSign(entityTombstone.getPos(), textArray));
 		}
 
 		MCA.getPacketHandler().sendPacketToServer(new PacketTombstoneUpdateSet(entityTombstone));

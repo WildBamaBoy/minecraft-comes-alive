@@ -73,7 +73,7 @@ public class AIPatrol extends AbstractAI
 						return;
 					}
 					
-					int doorState = door.func_176515_e(owner.worldObj, new BlockPos(doorPoint.iPosX, doorPoint.iPosY, doorPoint.iPosZ)); //TODO check this
+					int doorState = door.func_176515_e(owner.worldObj, new BlockPos(doorPoint.iPosX, doorPoint.iPosY, doorPoint.iPosZ));
 					boolean isPositive = RadixLogic.getBooleanWithProbability(50);
 					int offset = isPositive ? RadixMath.getNumberInRange(1, 3) : RadixMath.getNumberInRange(1, 3) * -1;
 					boolean isValid = false;
