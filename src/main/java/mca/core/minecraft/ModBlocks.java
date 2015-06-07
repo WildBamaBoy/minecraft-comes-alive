@@ -7,7 +7,13 @@ import mca.core.MCA;
 import mca.enums.EnumBedColor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockOre;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemModelMesher;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public final class ModBlocks
 {
@@ -40,8 +46,17 @@ public final class ModBlocks
 		tombstone.setHarvestLevel("pickaxe", 1);
 		tombstone.setHardness(3.0F);
 		
-		GameRegistry.registerBlock(roseGoldBlock, roseGoldBlock.getUnlocalizedName());
-		GameRegistry.registerBlock(roseGoldOre, roseGoldOre.getUnlocalizedName());
-		GameRegistry.registerBlock(tombstone, tombstone.getUnlocalizedName());
+		GameRegistry.registerBlock(roseGoldBlock, "roseGoldBlock");
+		GameRegistry.registerBlock(roseGoldOre, "roseGoldOre");
+		GameRegistry.registerBlock(tombstone, "blockTombstone");
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static void registerModelMeshers()
+	{
+		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+		mesher.register(Item.getItemFromBlock(roseGoldBlock), 0, new ModelResourceLocation("mca:roseGoldBlock", "inventory"));
+		mesher.register(Item.getItemFromBlock(roseGoldOre), 0, new ModelResourceLocation("mca:roseGoldOre", "inventory"));
+		mesher.register(Item.getItemFromBlock(spawner), 0, new ModelResourceLocation("mca:VillagerSpawner", "inventory"));
 	}
 }

@@ -3,6 +3,7 @@ package mca.core.forge;
 import mca.client.model.ModelHorseExtension;
 import mca.client.render.RenderHuman;
 import mca.client.render.RenderTombstone;
+import mca.core.minecraft.ModBlocks;
 import mca.core.minecraft.ModItems;
 import mca.entity.EntityHuman;
 import mca.tile.TileTombstone;
@@ -23,6 +24,7 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityHorse.class, new RenderHorse(Minecraft.getMinecraft().getRenderManager(), new ModelHorseExtension(), 0.5F));
 		
 		ModItems.registerModelMeshers();
+		ModBlocks.registerModelMeshers();
 	}
 
 	@Override

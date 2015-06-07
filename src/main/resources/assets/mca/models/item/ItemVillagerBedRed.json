@@ -1,7 +1,7 @@
 {
 	"parent": "builtin/generated",
 	"textures": {
-		"layer0": "mca:items/ItemVillagerBedRed"
+		"layer0": "mca:items/VillagerBedRed"
 	},
 	"display": {
 		"thirdperson": {
