@@ -16,7 +16,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.Achievement;
 import net.minecraft.util.EnumParticleTypes;
-import radixcore.constant.Particle;
 import radixcore.constant.Time;
 import radixcore.data.WatchedBoolean;
 

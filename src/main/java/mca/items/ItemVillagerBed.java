@@ -6,6 +6,9 @@ import mca.blocks.BlockVillagerBed;
 import mca.core.MCA;
 import mca.core.minecraft.ModBlocks;
 import mca.enums.EnumBedColor;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockBed;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,7 +19,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import radixcore.util.BlockHelper;
 
 public class ItemVillagerBed extends Item
 {
@@ -56,77 +58,62 @@ public class ItemVillagerBed extends Item
 	@Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World worldObj, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
-		return true;
-//		int posX = pos.getX();
-//		int posY = pos.getY();
-//		int posZ = pos.getZ();
-//		
-//		if (worldObj.isRemote)
-//		{
-//			return true;
-//		}
-//
-//		else if (meta != 1)
-//		{
-//			return false;
-//		}
-//
-//		else
-//		{
-//			++posY;
-//			final BlockVillagerBed blockVillagerBed = getBedBlock();
-//
-//			final int metaCalc = MathHelper.floor_double(entityPlayer.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
-//
-//			byte movX = 0;
-//			byte movZ = 0;
-//
-//			if (metaCalc == 0)
-//			{
-//				movZ = 1;
-//			}
-//
-//			if (metaCalc == 1)
-//			{
-//				movX = -1;
-//			}
-//
-//			if (metaCalc == 2)
-//			{
-//				movZ = -1;
-//			}
-//
-//			if (metaCalc == 3)
-//			{
-//				movX = 1;
-//			}
-//
-//			if (entityPlayer.canPlayerEdit(posX, posY, posZ, meta, itemStack) && entityPlayer.canPlayerEdit(posX + movX, posY, posZ + movZ, meta, itemStack))
-//			{
-//				if (world.isAirBlock(posX, posY, posZ) && world.isAirBlock(posX + movX, posY, posZ + movZ) && BlockHelper.doesBlockHaveSolidTopSurface(world, posX, posY - 1, posZ) && BlockHelper.doesBlockHaveSolidTopSurface(world, posX + movX, posY - 1, posZ + movZ))
-//				{
-//					BlockHelper.setBlock(world, posX, posY, posZ, blockVillagerBed, metaCalc);
-//
-//					if (BlockHelper.getBlock(world, posX, posY, posZ) == blockVillagerBed)
-//					{
-//						BlockHelper.setBlock(world, posX + movX, posY, posZ + movZ, blockVillagerBed, metaCalc + 8);
-//					}
-//
-//					--itemStack.stackSize;
-//					return true;
-//				}
-//
-//				else
-//				{
-//					return false;
-//				}
-//			}
-//
-//			else
-//			{
-//				return false;
-//			}
-//		}
+		if (worldObj.isRemote)
+        {
+            return true;
+        }
+		
+        else if (side != EnumFacing.UP)
+        {
+            return false;
+        }
+		
+        else
+        {
+            IBlockState state = worldObj.getBlockState(pos);
+            Block block = state.getBlock();
+            boolean isReplaceable = block.isReplaceable(worldObj, pos);
+
+            if (!isReplaceable)
+            {
+                pos = pos.offsetUp();
+            }
+
+            int metaCalc = MathHelper.floor_double((double)(player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+            EnumFacing horizontalFacing = EnumFacing.getHorizontal(metaCalc);
+            BlockPos offsetPos = pos.offset(horizontalFacing);
+            boolean offsetIsReplaceable = block.isReplaceable(worldObj, offsetPos);
+            boolean posIsAir = worldObj.isAirBlock(pos) || isReplaceable;
+            boolean offsetIsAir = worldObj.isAirBlock(offsetPos) || offsetIsReplaceable;
+
+            if (player.func_175151_a(pos, side, stack) && player.func_175151_a(offsetPos, side, stack))
+            {
+                if (posIsAir && offsetIsAir && World.doesBlockHaveSolidTopSurface(worldObj, pos.offsetDown()) && World.doesBlockHaveSolidTopSurface(worldObj, offsetPos.offsetDown()))
+                {
+                    int facingIndex = horizontalFacing.getHorizontalIndex();
+                    IBlockState footState = getBedBlock().getDefaultState().withProperty(BlockBed.OCCUPIED_PROP, Boolean.valueOf(false)).withProperty(BlockBed.FACING, horizontalFacing).withProperty(BlockBed.PART_PROP, BlockBed.EnumPartType.FOOT);
+
+                    if (worldObj.setBlockState(pos, footState, 3))
+                    {
+                        IBlockState headState = footState.withProperty(BlockBed.PART_PROP, BlockBed.EnumPartType.HEAD);
+                        worldObj.setBlockState(offsetPos, headState, 3);
+                    }
+
+                    --stack.stackSize;
+                    return true;
+                }
+                
+                else
+                {
+                    return false;
+                }
+            }
+            
+            else
+            {
+                return false;
+            }
+        }
 	}
 
 	@Override

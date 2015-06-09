@@ -2,7 +2,6 @@ package mca.core.minecraft;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraftforge.common.AchievementPage;
 import radixcore.util.RadixAchievement;
@@ -58,13 +57,6 @@ public final class ModAchievements
 		childHasChildren = RadixAchievement.register("childHasChildren", 15, middle, ModItems.babyBoy, childMarried);
 
 		middle = 5;
-
-		craftDiamondDust = RadixAchievement.register("craftDiamondDust", 0, middle, ModItems.diamondDust, null);
-		craftColoredDiamondDust = RadixAchievement.register("craftColoredDiamondDust", 2, middle + 1, new ItemStack(ModItems.coloredDiamondDust, 1, 3), craftDiamondDust);
-		smeltColoredDiamond = RadixAchievement.register("smeltColoredDiamond", 4, middle - 1, new ItemStack(ModItems.coloredDiamond, 1, 8), craftColoredDiamondDust);
-		craftShapedDiamond = RadixAchievement.register("craftShapedDiamond", 6, middle + 1, new ItemStack(ModItems.coloredDiamondStar, 1, 12), smeltColoredDiamond);
-		craftShapedRing = RadixAchievement.register("craftShapedRing", 8, middle - 1, new ItemStack(ModItems.coloredEngagementRing, 1, 6), craftShapedDiamond);
-
 		page = RadixAchievement.registerPage("Minecraft Comes Alive", this.getClass());
 	}
 }

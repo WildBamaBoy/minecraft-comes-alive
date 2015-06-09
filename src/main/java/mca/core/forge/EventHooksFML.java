@@ -206,20 +206,8 @@ public class EventHooksFML
 		Item craftedItem = event.crafting.getItem();
 		EntityPlayer player = event.player;
 
-		if (craftedItem == ModItems.diamondDust)
-		{
-			player.triggerAchievement(ModAchievements.craftDiamondDust);
-		}
-
-		else if (craftedItem == ModItems.coloredDiamondDust)
-		{
-			player.triggerAchievement(ModAchievements.craftColoredDiamondDust);
-		}
-
-		else if (craftedItem == ModItems.diamondHeart || craftedItem == ModItems.diamondOval || craftedItem == ModItems.diamondSquare
-				|| craftedItem == ModItems.diamondStar || craftedItem == ModItems.diamondTiny || craftedItem == ModItems.diamondTriangle
-				|| craftedItem == ModItems.coloredDiamondHeart || craftedItem == ModItems.coloredDiamondOval || craftedItem == ModItems.coloredDiamondSquare
-				|| craftedItem == ModItems.coloredDiamondStar || craftedItem == ModItems.coloredDiamondTiny || craftedItem == ModItems.coloredDiamondTriangle)
+		if (craftedItem == ModItems.diamondHeart || craftedItem == ModItems.diamondOval || craftedItem == ModItems.diamondSquare
+				|| craftedItem == ModItems.diamondStar || craftedItem == ModItems.diamondTiny || craftedItem == ModItems.diamondTriangle)
 		{
 			player.triggerAchievement(ModAchievements.craftShapedDiamond);
 			
@@ -243,12 +231,8 @@ public class EventHooksFML
 
 		else if (craftedItem == ModItems.engagementRingHeart || craftedItem == ModItems.engagementRingOval || craftedItem == ModItems.engagementRingSquare
 				|| craftedItem == ModItems.engagementRingStar || craftedItem == ModItems.engagementRingTiny || craftedItem == ModItems.engagementRingTriangle
-				|| craftedItem == ModItems.ringHeartColored || craftedItem == ModItems.ringOvalColored || craftedItem == ModItems.ringSquareColored
-				|| craftedItem == ModItems.ringStarColored || craftedItem == ModItems.ringTinyColored || craftedItem == ModItems.ringTriangleColored
 				|| craftedItem == ModItems.engagementRingHeartRG || craftedItem == ModItems.engagementRingOvalRG || craftedItem == ModItems.engagementRingSquareRG
-				|| craftedItem == ModItems.engagementRingStarRG || craftedItem == ModItems.engagementRingTinyRG || craftedItem == ModItems.engagementRingTriangleRG
-				|| craftedItem == ModItems.ringHeartColoredRG || craftedItem == ModItems.ringOvalColoredRG || craftedItem == ModItems.ringSquareColoredRG
-				|| craftedItem == ModItems.ringStarColoredRG || craftedItem == ModItems.ringTinyColoredRG || craftedItem == ModItems.ringTriangleColoredRG)
+				|| craftedItem == ModItems.engagementRingStarRG || craftedItem == ModItems.engagementRingTinyRG || craftedItem == ModItems.engagementRingTriangleRG)
 		{
 			player.triggerAchievement(ModAchievements.craftShapedRing);
 		}
@@ -259,10 +243,5 @@ public class EventHooksFML
 	{
 		Item smeltedItem = event.smelting.getItem();
 		EntityPlayer player = event.player;
-
-		if (smeltedItem == ModItems.coloredDiamond)
-		{
-			player.triggerAchievement(ModAchievements.smeltColoredDiamond);
-		}
 	}
 }

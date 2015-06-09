@@ -11,7 +11,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import radixcore.constant.Particle;
 import radixcore.constant.Time;
 import radixcore.data.WatchedFloat;
 import radixcore.util.RadixMath;

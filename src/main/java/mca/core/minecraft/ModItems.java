@@ -1,18 +1,11 @@
 package mca.core.minecraft;
 
-import java.io.File;
-import java.io.PrintWriter;
 import java.lang.reflect.Field;
 
 import mca.core.MCA;
 import mca.enums.EnumBedColor;
-import mca.enums.EnumCut;
 import mca.items.ItemBaby;
-import mca.items.ItemColoredDiamond;
-import mca.items.ItemColoredDiamondDust;
-import mca.items.ItemColoredEngagementRing;
 import mca.items.ItemCrystalBall;
-import mca.items.ItemCutRingColored;
 import mca.items.ItemGemCutter;
 import mca.items.ItemSpawnEgg;
 import mca.items.ItemTombstone;
@@ -25,7 +18,6 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import radixcore.item.ItemColorable;
 import radixcore.item.ItemSingle;
 import radixcore.util.RadixStartup;
 
@@ -68,17 +60,6 @@ public final class ModItems
 	public static Item triangleMold;
 	public static Item starMold;
 
-	public static ItemColoredDiamond coloredDiamond;
-	public static ItemColoredDiamond coloredDiamondHeart;
-	public static ItemColoredDiamond coloredDiamondTiny;
-	public static ItemColoredDiamond coloredDiamondOval;
-	public static ItemColoredDiamond coloredDiamondSquare;
-	public static ItemColoredDiamond coloredDiamondTriangle;
-	public static ItemColoredDiamond coloredDiamondStar;
-
-	public static Item diamondDust;
-	public static ItemColorable coloredDiamondDust;
-
 	public static ItemSingle engagementRingHeart;
 	public static ItemSingle engagementRingHeartRG;
 	public static ItemSingle engagementRingTiny;
@@ -91,21 +72,6 @@ public final class ModItems
 	public static ItemSingle engagementRingTriangleRG;
 	public static ItemSingle engagementRingStar;
 	public static ItemSingle engagementRingStarRG;
-
-	public static ItemColoredEngagementRing coloredEngagementRing;
-	public static ItemColoredEngagementRing coloredEngagementRingRG;
-	public static ItemCutRingColored ringHeartColored;
-	public static ItemCutRingColored ringHeartColoredRG;
-	public static ItemCutRingColored ringTinyColored;
-	public static ItemCutRingColored ringTinyColoredRG;
-	public static ItemCutRingColored ringOvalColored;
-	public static ItemCutRingColored ringOvalColoredRG;
-	public static ItemCutRingColored ringSquareColored;
-	public static ItemCutRingColored ringSquareColoredRG;
-	public static ItemCutRingColored ringTriangleColored;
-	public static ItemCutRingColored ringTriangleColoredRG;
-	public static ItemCutRingColored ringStarColored;
-	public static ItemCutRingColored ringStarColoredRG;
 
 	public static ItemTombstone tombstone;
 	public static ItemWhistle whistle;
@@ -170,32 +136,6 @@ public final class ModItems
 		bedPurple = new ItemVillagerBed(EnumBedColor.PURPLE);
 		bedPink = new ItemVillagerBed(EnumBedColor.PINK);
 		crystalBall = new ItemCrystalBall();
-
-		diamondDust.setCreativeTab(MCA.getCreativeTabGemCutting());
-		coloredDiamondDust = new ItemColoredDiamondDust();	
-
-		coloredDiamond = new ItemColoredDiamond(EnumCut.NONE);
-		coloredDiamondHeart = new ItemColoredDiamond(EnumCut.HEART);
-		coloredDiamondTiny = new ItemColoredDiamond(EnumCut.TINY);
-		coloredDiamondOval = new ItemColoredDiamond(EnumCut.OVAL);
-		coloredDiamondSquare = new ItemColoredDiamond(EnumCut.SQUARE);
-		coloredDiamondTriangle = new ItemColoredDiamond(EnumCut.TRIANGLE);
-		coloredDiamondStar = new ItemColoredDiamond(EnumCut.STAR);
-
-		coloredEngagementRing = new ItemColoredEngagementRing(false);
-		coloredEngagementRingRG = new ItemColoredEngagementRing(true);
-		ringHeartColored = new ItemCutRingColored(EnumCut.HEART, false);
-		ringHeartColoredRG = new ItemCutRingColored(EnumCut.HEART, true);
-		ringTinyColored = new ItemCutRingColored(EnumCut.TINY, false);
-		ringTinyColoredRG = new ItemCutRingColored(EnumCut.TINY, true);
-		ringOvalColored = new ItemCutRingColored(EnumCut.OVAL, false);
-		ringOvalColoredRG = new ItemCutRingColored(EnumCut.OVAL, true);
-		ringSquareColored = new ItemCutRingColored(EnumCut.SQUARE, false);
-		ringSquareColoredRG = new ItemCutRingColored(EnumCut.SQUARE, true);
-		ringTriangleColored = new ItemCutRingColored(EnumCut.TRIANGLE, false);
-		ringTriangleColoredRG = new ItemCutRingColored(EnumCut.TRIANGLE, true);
-		ringStarColored = new ItemCutRingColored(EnumCut.STAR, false);
-		ringStarColoredRG = new ItemCutRingColored(EnumCut.STAR, true);
 
 		tombstone = new ItemTombstone();
 		villagerEditor = new ItemVillagerEditor();

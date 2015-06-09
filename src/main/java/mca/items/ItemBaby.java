@@ -11,7 +11,6 @@ import mca.entity.EntityHuman;
 import mca.enums.EnumDialogueType;
 import mca.packets.PacketOpenBabyNameGUI;
 import mca.util.TutorialManager;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;

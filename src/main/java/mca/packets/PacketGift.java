@@ -29,7 +29,6 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import radixcore.constant.Particle;
 import radixcore.packets.AbstractPacket;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
@@ -100,15 +99,11 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 			else if (item == ModItems.engagementRing || 
 					item == ModItems.weddingRingRG 
-					|| item == ModItems.coloredEngagementRingRG || item == ModItems.coloredEngagementRing || item == ModItems.engagementRingRG 
+					|| item == ModItems.engagementRingRG 
 					|| item == ModItems.engagementRingHeart || item == ModItems.engagementRingOval 
 					|| item == ModItems.engagementRingSquare || item == ModItems.engagementRingStar || item == ModItems.engagementRingTiny || item == ModItems.engagementRingTriangle
-					|| item == ModItems.ringHeartColored || item == ModItems.ringOvalColored || item == ModItems.ringSquareColored
-					|| item == ModItems.ringStarColored || item == ModItems.ringTinyColored || item == ModItems.ringTriangleColored
 					|| item == ModItems.engagementRingHeartRG || item == ModItems.engagementRingOvalRG || item == ModItems.engagementRingSquareRG
-					|| item == ModItems.engagementRingStarRG || item == ModItems.engagementRingTinyRG || item == ModItems.engagementRingTriangleRG
-					|| item == ModItems.ringHeartColoredRG || item == ModItems.ringOvalColoredRG || item == ModItems.ringSquareColoredRG
-					|| item == ModItems.ringStarColoredRG || item == ModItems.ringTinyColoredRG || item == ModItems.ringTriangleColoredRG)
+					|| item == ModItems.engagementRingStarRG || item == ModItems.engagementRingTinyRG || item == ModItems.engagementRingTriangleRG)
 			{
 				removeItem = handleEngagementRing(player, human);
 			}

@@ -73,6 +73,7 @@ import radixcore.forge.gen.SimpleOreGenerator;
 import radixcore.lang.LanguageManager;
 import radixcore.math.Point3D;
 import radixcore.update.RDXUpdateProtocol;
+import radixcore.util.RadixExcept;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixStartup;
 
@@ -139,7 +140,6 @@ public class MCA
     	
     	FMLCommonHandler.instance().bus().register(new EventHooksFML());
     	MinecraftForge.EVENT_BUS.register(new EventHooksForge());
-    	NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
     }
     
     @EventHandler
@@ -151,6 +151,7 @@ public class MCA
     	blocks = new ModBlocks();
     	achievements = new ModAchievements();
     	proxy.registerRenderers();
+    	NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
     	
     	SkinLoader.loadSkins();
 
@@ -210,7 +211,6 @@ public class MCA
     		logger.fatal("Config: MCA's default wedding ring recipe is currently disabled. You can change this in the config. You must use Rose Gold to craft wedding rings!");
     	}
     	
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondDust), Items.diamond);
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.roseGoldDust), ModItems.roseGoldIngot);
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.goldDust, 6), Items.water_bucket, new ItemStack(ModItems.roseGoldDust));
 
@@ -225,42 +225,12 @@ public class MCA
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(ModItems.bedPurple));
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(ModItems.bedPink));
 		
-    	//Colored diamond recipes.
-		for (int i = 0; i < 16; ++i)
-		{
-			ItemStack coloredDiamond =  new ItemStack(ModItems.coloredDiamond, 1, i);
-			ItemStack coloredDiamondDust = new ItemStack(ModItems.coloredDiamondDust, 1, i);
-			ItemStack engagementRing = new ItemStack(ModItems.coloredEngagementRing, 1, i);
-			ItemStack engagementRingRG = new ItemStack(ModItems.coloredEngagementRingRG, 1, i);
-			ItemStack dye = new ItemStack(Items.dye, 1, i);
-			
-			GameRegistry.addShapelessRecipe(coloredDiamondDust, dye, new ItemStack(ModItems.diamondDust));
-
-	    	GameRegistry.addRecipe(engagementRing, 
-	    			"GDG", "G G", "GGG", 'D', coloredDiamond, 'G', Items.gold_ingot);
-	    	GameRegistry.addRecipe(engagementRingRG, 
-	    			"GDG", "G G", "GGG", 'D', coloredDiamond, 'G', ModItems.roseGoldIngot);
-	    	
-	    	GameRegistry.addSmelting(coloredDiamondDust, coloredDiamond, 5.0F);
-	    	
-			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.coloredDiamondHeart, 1, i), new ItemStack(ModItems.heartMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), coloredDiamond);
-			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.coloredDiamondOval, 1, i), new ItemStack(ModItems.ovalMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), coloredDiamond);
-			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.coloredDiamondSquare, 1, i), new ItemStack(ModItems.squareMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), coloredDiamond);
-			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.coloredDiamondTriangle, 1, i), new ItemStack(ModItems.triangleMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), coloredDiamond);
-			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.coloredDiamondStar, 1, i), new ItemStack(ModItems.starMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), coloredDiamond);
-			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.coloredDiamondTiny, 1, i), new ItemStack(ModItems.tinyMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), coloredDiamond);
-		}
-		
 		//Cut diamond recipes
 		for (EnumCut cut : EnumCut.values())
 		{
 			Item cutItem = null;
 			Item ringItem = null;
 			Item ringRGItem = null;
-
-			Item cutItemC = null;
-			Item ringItemC = null;
-			Item ringRGItemC = null;
 			
 			switch (cut)
 			{
@@ -268,49 +238,31 @@ public class MCA
 				cutItem = ModItems.diamondHeart;
 				ringItem = ModItems.engagementRingHeart;
 				ringRGItem = ModItems.engagementRingHeartRG;
-				cutItemC = ModItems.coloredDiamondHeart; 
-				ringItemC = ModItems.ringHeartColored;
-				ringRGItemC = ModItems.ringHeartColoredRG;
 				break;
 			case OVAL: 
 				cutItem = ModItems.diamondOval;
 				ringItem = ModItems.engagementRingOval;
 				ringRGItem = ModItems.engagementRingOvalRG;
-				cutItemC = ModItems.coloredDiamondOval; 
-				ringItemC = ModItems.ringOvalColored;
-				ringRGItemC = ModItems.ringOvalColoredRG;
 				break;
 			case SQUARE: 
 				cutItem = ModItems.diamondSquare;
 				ringItem = ModItems.engagementRingSquare;
 				ringRGItem = ModItems.engagementRingSquareRG;
-				cutItemC = ModItems.coloredDiamondSquare; 
-				ringItemC = ModItems.ringSquareColored;
-				ringRGItemC = ModItems.ringSquareColoredRG;
 				break;
 			case STAR: 
 				cutItem = ModItems.diamondStar;
 				ringItem = ModItems.engagementRingStar;
 				ringRGItem = ModItems.engagementRingStarRG;
-				cutItemC = ModItems.coloredDiamondStar; 
-				ringItemC = ModItems.ringStarColored;
-				ringRGItemC = ModItems.ringStarColoredRG;
 				break;
 			case TINY: 
 				cutItem = ModItems.diamondTiny;
 				ringItem = ModItems.engagementRingTiny;
 				ringRGItem = ModItems.engagementRingTinyRG;
-				cutItemC = ModItems.coloredDiamondTiny; 
-				ringItemC = ModItems.ringTinyColored;
-				ringRGItemC = ModItems.ringTinyColoredRG;
 				break;
 			case TRIANGLE: 
 				cutItem = ModItems.diamondTriangle;
 				ringItem = ModItems.engagementRingTriangle;
 				ringRGItem = ModItems.engagementRingTriangleRG;
-				cutItemC = ModItems.coloredDiamondTriangle; 
-				ringItemC = ModItems.ringTriangleColored;
-				ringRGItemC = ModItems.ringTriangleColoredRG;
 				break;
 			default:
 				continue;
@@ -324,21 +276,16 @@ public class MCA
 	    	GameRegistry.addRecipe(new ItemStack(ringRGItem, 1), 
 	    			"GDG", "G G", "GGG", 'D', baseStack, 'G', ModItems.roseGoldIngot);
 	    	
-			//All colors
-			for (int i = 0; i < 16; ++i)
-			{
-				ItemStack coloredStack = new ItemStack(cutItemC, 1, i);
-				
-		    	GameRegistry.addRecipe(new ItemStack(ringItemC, 1, i), 
-		    			"GDG", "G G", "GGG", 'D', coloredStack, 'G', Items.gold_ingot);
-		    	GameRegistry.addRecipe(new ItemStack(ringRGItemC, 1, i), 
-		    			"GDG", "G G", "GGG", 'D', coloredStack, 'G', ModItems.roseGoldIngot);
-			}
+			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondHeart, 1, 0), new ItemStack(ModItems.heartMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.diamond);
+			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondTiny, 1, 0), new ItemStack(ModItems.tinyMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.diamond);
+			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondOval, 1, 0), new ItemStack(ModItems.ovalMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.diamond);
+			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondSquare, 1, 0), new ItemStack(ModItems.squareMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.diamond);
+			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondTriangle, 1, 0), new ItemStack(ModItems.triangleMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.diamond);
+			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondStar, 1, 0), new ItemStack(ModItems.starMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.diamond);
 		}
 			
     	//Smeltings
     	GameRegistry.addSmelting(ModBlocks.roseGoldOre, new ItemStack(ModItems.roseGoldIngot), 5.0F);
-    	GameRegistry.addSmelting(ModItems.diamondDust, new ItemStack(Items.diamond), 5.0F);
 
     	if (MCA.config.roseGoldSpawnWeight > 0)
     	{
@@ -603,7 +550,15 @@ public class MCA
     {
     	for (AbstractPlayerData data : playerDataMap.values())
     	{
-   			data.saveDataToFile();
+    		try
+    		{
+    			data.saveDataToFile();
+    		}
+    		
+    		catch (NullPointerException e)
+    		{
+    			RadixExcept.logErrorCatch(e, "Catching error saving player data due to NPE.");
+    		}
        	}
     	
     	MCA.playerDataMap.clear();

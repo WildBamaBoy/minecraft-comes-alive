@@ -1,13 +1,19 @@
 package mca.blocks;
 
+import java.util.Random;
+
 import mca.core.minecraft.ModItems;
 import mca.tile.TileTombstone;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -20,6 +26,8 @@ import radixcore.util.BlockHelper;
 
 public class BlockTombstone extends BlockContainer
 {
+    public static final PropertyInteger ROTATION_PROP = PropertyInteger.create("rotation", 0, 15);
+    
 	public BlockTombstone()
 	{
 		super(Material.rock);
@@ -97,6 +105,12 @@ public class BlockTombstone extends BlockContainer
 			}
 		}
 	}
+	
+	@Override
+	public Item getItemDropped(IBlockState state, Random rand, int fortune) 
+	{
+		return ModItems.tombstone;
+	}
 
 	@Override
 	public void harvestBlock(World worldIn, EntityPlayer playerIn, BlockPos pos, IBlockState state, TileEntity te)
@@ -111,7 +125,7 @@ public class BlockTombstone extends BlockContainer
 		int posY = pos.getY();
 		int posZ = pos.getZ();
 		
-		return BlockHelper.getBlock(world, posX, posY - 1, posZ).isAir(world, pos) && super.canPlaceBlockAt(world, pos);
+		return !BlockHelper.getBlock(world, posX, posY - 1, posZ).isAir(world, pos) && super.canPlaceBlockAt(world, pos);
 	}
 
 	@Override
@@ -125,4 +139,34 @@ public class BlockTombstone extends BlockContainer
 	{
 		return true;
 	}
+	
+	@Override
+    public IBlockState getStateFromMeta(int meta)
+    {
+        return this.getDefaultState().withProperty(ROTATION_PROP, Integer.valueOf(meta));
+    }
+
+	@Override
+    public int getMetaFromState(IBlockState state)
+    {
+        return ((Integer)state.getValue(ROTATION_PROP)).intValue();
+    }
+
+	@Override
+    protected BlockState createBlockState()
+    {
+        return new BlockState(this, new IProperty[] {ROTATION_PROP});
+    }
+
+    @SideOnly(Side.CLIENT)
+    public boolean addHitEffects(World worldObj, MovingObjectPosition target, net.minecraft.client.particle.EffectRenderer effectRenderer)
+    {
+        return true;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public boolean addDestroyEffects(World world, BlockPos pos, net.minecraft.client.particle.EffectRenderer effectRenderer)
+    {
+        return true;
+    }
 }

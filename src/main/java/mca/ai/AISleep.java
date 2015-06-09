@@ -12,8 +12,12 @@ import mca.enums.EnumSleepingState;
 import mca.tile.TileVillagerBed;
 import mca.util.TutorialManager;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockBed;
+import net.minecraft.block.BlockBed.EnumPartType;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import radixcore.constant.Time;
 import radixcore.data.WatchedBoolean;
 import radixcore.data.WatchedInt;
@@ -218,39 +222,43 @@ public class AISleep extends AbstractAI
 
 			else //Search for a bed.
 			{
-				//FIXME
-//				List<Point3D> bedsNearby = RadixLogic.getNearbyBlocks(owner, BlockVillagerBed.class, 8);
-//				List<Point3D> bedHeadsNearby = new ArrayList<Point3D>();
-//
-//				for (final Point3D point : bedsNearby)
-//				{
-//					if (BlockVillagerBed.isBlockHeadOfBed(BlockHelper.getBlockMetadata(owner.worldObj, point.iPosX, point.iPosY, point.iPosZ)))
-//					{
-//						bedHeadsNearby.add(point);
-//					}
-//				}
-//
-//				if (bedHeadsNearby.size() > 0)
-//				{
-//					final Point3D nearestBed = Point3D.getNearestPointInList(new Point3D(owner.posX, owner.posY, owner.posZ), bedHeadsNearby);
-//					final TileVillagerBed villagerBed = (TileVillagerBed) BlockHelper.getTileEntity(owner.worldObj, nearestBed.iPosX, nearestBed.iPosY, nearestBed.iPosZ);
-//
-//					if (!villagerBed.getIsVillagerSleepingIn())
-//					{
-//						villagerBed.setSleepingVillagerId(owner.getPermanentId());
-//						villagerBed.setIsVillagerSleepingIn(true);
-//
-//						bedPosX.setValue(nearestBed.iPosX);
-//						bedPosY.setValue(nearestBed.iPosY);
-//						bedPosZ.setValue(nearestBed.iPosZ);
-//						bedMeta.setValue(BlockHelper.getBlockMetadata(owner.worldObj, bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt()));
-//						hasBed.setValue(true);
-//
-//						isInBed.setValue(true);
-//						owner.halt();
-//						owner.setPosition(bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt());
-//					}
-//				}
+				List<Point3D> bedsNearby = RadixLogic.getNearbyBlocks(owner, BlockVillagerBed.class, 8);
+				List<Point3D> bedHeadsNearby = new ArrayList<Point3D>();
+
+				for (final Point3D point : bedsNearby)
+				{
+					IBlockState state = owner.worldObj.getBlockState(new BlockPos(point.iPosX, point.iPosY, point.iPosZ));
+					EnumPartType part = (EnumPartType) state.getValue(BlockBed.PART_PROP);
+					
+					if (part == BlockBed.EnumPartType.HEAD) // VillagerBed.isBlockHeadOfBed(BlockHelper.getBlockMetadata(owner.worldObj, point.iPosX, point.iPosY, point.iPosZ)))
+					{
+						bedHeadsNearby.add(point);
+					}
+				}
+
+				if (bedHeadsNearby.size() > 0)
+				{
+					final Point3D nearestBed = Point3D.getNearestPointInList(new Point3D(owner.posX, owner.posY, owner.posZ), bedHeadsNearby);
+					final TileVillagerBed tileVillagerBed = (TileVillagerBed) BlockHelper.getTileEntity(owner.worldObj, nearestBed.iPosX, nearestBed.iPosY, nearestBed.iPosZ);
+					final IBlockState state = owner.worldObj.getBlockState(new BlockPos(nearestBed.iPosX, nearestBed.iPosY, nearestBed.iPosZ));
+					final BlockBed bedBlock = (BlockBed) state.getBlock();
+					
+					if (!tileVillagerBed.getIsVillagerSleepingIn())
+					{
+						tileVillagerBed.setSleepingVillagerId(owner.getPermanentId());
+						tileVillagerBed.setIsVillagerSleepingIn(true);
+
+						bedPosX.setValue(nearestBed.iPosX);
+						bedPosY.setValue(nearestBed.iPosY);
+						bedPosZ.setValue(nearestBed.iPosZ);
+						bedMeta.setValue(bedBlock.getMetaFromState(state)); //BlockHelper.getBlockMetadata(owner.worldObj, bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt()));
+						hasBed.setValue(true);
+
+						isInBed.setValue(true);
+						owner.halt();
+						owner.setPosition(bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt());
+					}
+				}
 			}
 		}
 
