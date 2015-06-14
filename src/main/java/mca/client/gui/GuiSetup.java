@@ -51,6 +51,7 @@ public class GuiSetup extends GuiScreen
 	private GuiTextField nameTextField;
 
 	private int page;
+	
 	public GuiSetup(EntityPlayer player)
 	{
 		super();
@@ -62,6 +63,7 @@ public class GuiSetup extends GuiScreen
 	public void initGui()
 	{
 		DataWatcherEx.allowClientSideModification = true;
+		MCA.destinySpawnFlag = false;
 		Keyboard.enableRepeatEvents(true);
 		page = 1;
 		drawControls();
@@ -215,7 +217,6 @@ public class GuiSetup extends GuiScreen
 		playerSP.prevTimeInPortal = 0.0F;
 
 		DataWatcherEx.allowClientSideModification = false;
-		MCA.destinySpawnFlag = false;
 	}
 
 	@Override

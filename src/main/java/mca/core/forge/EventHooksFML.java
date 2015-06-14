@@ -5,20 +5,29 @@ import java.util.List;
 
 import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
+import mca.core.minecraft.ModBlocks;
 import mca.core.minecraft.ModItems;
 import mca.data.PlayerData;
+import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
+import mca.enums.EnumDestinyChoice;
+import mca.enums.EnumDialogueType;
 import mca.enums.EnumProfession;
 import mca.enums.EnumProfessionGroup;
 import mca.items.ItemGemCutter;
+import mca.tile.TileTombstone;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.management.PlayerManager;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
@@ -30,13 +39,18 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.constant.Time;
+import radixcore.math.Point3D;
 import radixcore.packets.PacketDataContainer;
+import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
 import radixcore.util.SchematicHandler;
 
 public class EventHooksFML 
 {
+	private static EnumDestinyChoice queuedDestiny;
+	private static EntityPlayer queuedDestinyPlayer;
+	
 	public static boolean playPortalAnimation;
 	private int clientTickCounter;
 	private int serverTickCounter;
@@ -146,6 +160,9 @@ public class EventHooksFML
 	@SubscribeEvent
 	public void serverTickEventHandler(ServerTickEvent event)
 	{
+		//Do any queued destiny spawn.
+		doDestinySpawn();
+		
 		if (serverTickCounter <= 0 && MCA.getConfig().guardSpawnRate > 0)
 		{
 			//Build a list of all humans on the server.
@@ -193,7 +210,7 @@ public class EventHooksFML
 					}
 				}
 			}
-
+			
 			serverTickCounter = Time.MINUTE;
 		}
 
@@ -243,5 +260,128 @@ public class EventHooksFML
 	{
 		Item smeltedItem = event.smelting.getItem();
 		EntityPlayer player = event.player;
+	}
+	
+	public static void queueDestinySpawn(EnumDestinyChoice choice, EntityPlayer player)
+	{
+		queuedDestiny = choice;
+		queuedDestinyPlayer = player;
+	}
+	
+	private static void doDestinySpawn()
+	{
+		if (queuedDestiny != null)
+		{
+			WorldServer world = (WorldServer) queuedDestinyPlayer.worldObj;
+			PlayerData data = MCA.getPlayerData(queuedDestinyPlayer);
+			
+			if (queuedDestiny == EnumDestinyChoice.NONE || queuedDestiny == EnumDestinyChoice.CANCEL)
+			{
+				//Update the region around the player so that the destiny room disappears.
+				final PlayerManager manager = world.getPlayerManager();
+
+				for (int x = -20; x < 20; x++)
+				{
+					for (int z = -20; z < 20; z++)
+					{
+						for (int y = -5; y < 10; y++)
+						{
+							manager.func_180244_a(new BlockPos((int)queuedDestinyPlayer.posX + x, (int)queuedDestinyPlayer.posY + y, (int)queuedDestinyPlayer.posZ + z));
+						}
+					}
+				}
+
+				if (queuedDestiny == EnumDestinyChoice.CANCEL)
+				{
+					queuedDestinyPlayer.inventory.addItemStackToInventory(new ItemStack(ModItems.crystalBall));
+				}
+			}
+
+			else
+			{
+				if (queuedDestiny == EnumDestinyChoice.FAMILY)
+				{
+					SchematicHandler.spawnStructureRelativeToPlayer("/assets/mca/schematic/family.schematic", queuedDestinyPlayer);
+
+					boolean isSpouseMale = data.genderPreference.getInt() == 0 ? true : data.genderPreference.getInt() == 2 ? false : world.rand.nextBoolean();
+					EntityHuman spouse = new EntityHuman(world, isSpouseMale);
+					spouse.setPosition(queuedDestinyPlayer.posX - 2, queuedDestinyPlayer.posY, queuedDestinyPlayer.posZ);
+					world.spawnEntityInWorld(spouse);
+
+					PlayerMemory spouseMemory = spouse.getPlayerMemory(queuedDestinyPlayer);
+					spouse.setIsMarried(true, queuedDestinyPlayer);
+					spouseMemory.setHearts(100);
+
+					int numChildren = RadixMath.getNumberInRange(0, 2);
+
+					while (numChildren > 0)
+					{
+						boolean isPlayerMale = data.isMale.getBoolean();
+
+						String motherName = "N/A";
+						int motherId = 0;
+						String fatherName = "N/A";
+						int fatherId = 0;
+
+						if (isPlayerMale)
+						{
+							fatherName = queuedDestinyPlayer.getName();
+							fatherId = data.permanentId.getInt();
+							motherName = spouse.getName();
+							motherId = spouse.getPermanentId();
+						}
+
+						else
+						{
+							motherName = queuedDestinyPlayer.getName();
+							motherId = data.permanentId.getInt();
+							fatherName = spouse.getName();
+							fatherId = spouse.getPermanentId();
+						}
+
+						final EntityHuman child = new EntityHuman(world, RadixLogic.getBooleanWithProbability(50), true, motherName, fatherName, motherId, fatherId, true);
+						child.setPosition(queuedDestinyPlayer.posX + RadixMath.getNumberInRange(1, 3), queuedDestinyPlayer.posY, queuedDestinyPlayer.posZ);
+						world.spawnEntityInWorld(child);
+
+						PlayerMemory childMemory = child.getPlayerMemory(queuedDestinyPlayer);
+						childMemory.setHearts(100);
+						childMemory.setDialogueType(EnumDialogueType.CHILDP);
+						numChildren--;
+					}
+				}
+
+				else if (queuedDestiny == EnumDestinyChoice.ALONE)
+				{
+					SchematicHandler.spawnStructureRelativeToPlayer("/assets/mca/schematic/bachelor.schematic", queuedDestinyPlayer);				
+				}
+
+				else if (queuedDestiny == EnumDestinyChoice.VILLAGE)
+				{
+					SchematicHandler.spawnStructureRelativeToPlayer("/assets/mca/schematic/village1.schematic", queuedDestinyPlayer);
+
+					for (Point3D point : RadixLogic.getNearbyBlocks(queuedDestinyPlayer, Blocks.mob_spawner, 70))
+					{
+						BlockHelper.setBlock(queuedDestinyPlayer.worldObj, point.iPosX, point.iPosY, point.iPosZ, Blocks.air);
+						MCA.naturallySpawnVillagers(new Point3D(point.iPosX, point.iPosY, point.iPosZ), queuedDestinyPlayer.worldObj, -1);
+					}
+
+					for (Point3D point : RadixLogic.getNearbyBlocks(queuedDestinyPlayer, Blocks.bedrock, 70))
+					{
+						BlockHelper.setBlock(queuedDestinyPlayer.worldObj, point.iPosX, point.iPosY, point.iPosZ, ModBlocks.tombstone);
+
+						final TileTombstone tile = (TileTombstone) BlockHelper.getTileEntity(queuedDestinyPlayer.worldObj, point.iPosX, point.iPosY, point.iPosZ);
+
+						if (tile != null)
+						{
+							tile.signText[1] = RadixLogic.getBooleanWithProbability(50) ? MCA.getLanguageManager().getString("name.male") : MCA.getLanguageManager().getString("name.female");
+							tile.signText[2] = "RIP";
+						}
+					}
+				}
+			}
+			
+			queuedDestiny = null;
+			queuedDestinyPlayer = null;
+		}
 	}
 }
