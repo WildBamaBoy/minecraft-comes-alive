@@ -19,6 +19,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import radixcore.data.DataWatcherEx;
 import radixcore.math.Point3D;
 import radixcore.packets.AbstractPacket;
 import radixcore.util.BlockHelper;
@@ -54,6 +55,16 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 	@Override
 	public IMessage onMessage(PacketDestinyChoice packet, MessageContext context)
 	{
+		MCA.getPacketHandler().addPacketForProcessing(packet, context);
+		return null;
+	}
+
+	@Override
+	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	{
+		DataWatcherEx.allowClientSideModification = true;
+		
+		final PacketDestinyChoice packet = (PacketDestinyChoice)message;
 		final EntityPlayerMP player = (EntityPlayerMP)this.getPlayer(context);
 		final PlayerData data = MCA.getPlayerData(player);
 		final WorldServer world = (WorldServer)player.worldObj;
@@ -122,7 +133,7 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 						fatherName = spouse.getName();
 						fatherId = spouse.getPermanentId();
 					}
-
+					
 					final EntityHuman child = new EntityHuman(world, RadixLogic.getBooleanWithProbability(50), true, motherName, fatherName, motherId, fatherId, true);
 					child.setPosition(player.posX + RadixMath.getNumberInRange(1, 3), player.posY, player.posZ);
 					world.spawnEntityInWorld(child);
@@ -165,6 +176,6 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 		}
 
 		player.worldObj.playSoundAtEntity(player, "portal.travel", 0.5F, 2.0F);
-		return null;
+		DataWatcherEx.allowClientSideModification = false;
 	}
 }

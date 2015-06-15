@@ -103,7 +103,9 @@ public class EventHooksFML
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void clientTickEventHandler(ClientTickEvent event)
-	{	
+	{
+		MCA.getPacketHandler().processPackets();
+		
 		net.minecraft.client.Minecraft mc = net.minecraft.client.Minecraft.getMinecraft();
 		net.minecraft.client.gui.GuiScreen currentScreen = mc.currentScreen;
 
@@ -146,6 +148,8 @@ public class EventHooksFML
 	@SubscribeEvent
 	public void serverTickEventHandler(ServerTickEvent event)
 	{
+		MCA.getPacketHandler().processPackets();
+		
 		if (serverTickCounter <= 0 && MCA.getConfig().guardSpawnRate > 0)
 		{
 			//Build a list of all humans on the server.

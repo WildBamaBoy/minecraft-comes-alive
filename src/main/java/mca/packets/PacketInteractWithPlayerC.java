@@ -84,6 +84,15 @@ public class PacketInteractWithPlayerC extends AbstractPacket implements IMessag
 	@Override
 	public IMessage onMessage(PacketInteractWithPlayerC packet, MessageContext context)
 	{
+		MCA.getPacketHandler().addPacketForProcessing(packet, context);
+		return null;
+	}
+
+	@Override
+	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	{
+		PacketInteractWithPlayerC packet = (PacketInteractWithPlayerC) message;
+		
 		EntityPlayer recipient = this.getPlayerClient();
 		EntityPlayer target = (EntityPlayer) recipient.worldObj.getEntityByID(packet.targetEntityId);
 		
@@ -91,12 +100,11 @@ public class PacketInteractWithPlayerC extends AbstractPacket implements IMessag
 		{
 			if (MCA.getConfig().shiftClickForPlayerMarriage && !Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
 			{
-				return null;
+				return;
 			}
 			
 			Minecraft.getMinecraft().displayGuiScreen(new GuiPlayerMenu(recipient, target, packet.targetIsMarried, packet.targetIsEngaged, packet.isMarriedToInitiator, packet.targetSpouseName));
 		}
 		
-		return null;
 	}
 }

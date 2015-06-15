@@ -77,13 +77,13 @@ import radixcore.util.RadixExcept;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixStartup;
 
-@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore@[2.0.2,)", acceptedMinecraftVersions = "[1.8]",
+@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore@[2.0.3,)", acceptedMinecraftVersions = "[1.8]",
 		guiFactory = "mca.core.forge.client.MCAGuiFactory")
 public class MCA
 {
 	public static final String ID = "MCA";
 	public static final String NAME = "Minecraft Comes Alive";
-	public static final String VERSION = "5.0.6-1.8";
+	public static final String VERSION = "5.0.6.1-1.8";
 
 	@Instance(ID)
 	private static MCA instance;

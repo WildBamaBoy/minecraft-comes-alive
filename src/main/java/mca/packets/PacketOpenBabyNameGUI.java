@@ -2,6 +2,7 @@ package mca.packets;
 
 import io.netty.buffer.ByteBuf;
 import mca.client.gui.GuiNameBaby;
+import mca.core.MCA;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -40,10 +41,15 @@ public class PacketOpenBabyNameGUI extends AbstractPacket implements IMessage, I
 	@Override
 	public IMessage onMessage(PacketOpenBabyNameGUI packet, MessageContext context)
 	{
-		EntityPlayer senderPlayer = this.getPlayer(context);
-		
-		Minecraft.getMinecraft().displayGuiScreen(new GuiNameBaby(senderPlayer, packet.isMale));
-		
+		MCA.getPacketHandler().addPacketForProcessing(packet, context);
 		return null;
+	}
+
+	@Override
+	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	{
+		PacketOpenBabyNameGUI packet = (PacketOpenBabyNameGUI)message;
+		EntityPlayer senderPlayer = this.getPlayer(context);
+		Minecraft.getMinecraft().displayGuiScreen(new GuiNameBaby(senderPlayer, packet.isMale));		
 	}
 }

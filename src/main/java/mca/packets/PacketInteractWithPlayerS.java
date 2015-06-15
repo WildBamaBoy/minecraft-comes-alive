@@ -53,6 +53,14 @@ public class PacketInteractWithPlayerS extends AbstractPacket implements IMessag
 	@Override
 	public IMessage onMessage(PacketInteractWithPlayerS packet, MessageContext context)
 	{
+		MCA.getPacketHandler().addPacketForProcessing(packet, context);
+		return null;
+	}
+
+	@Override
+	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	{
+		PacketInteractWithPlayerS packet = (PacketInteractWithPlayerS)message;
 		EntityPlayer sender = this.getPlayer(context);
 		EntityPlayer target = (EntityPlayer) sender.worldObj.getEntityByID(packet.entityId);
 		PlayerData senderData = MCA.getPlayerData(sender);
@@ -160,6 +168,5 @@ public class PacketInteractWithPlayerS extends AbstractPacket implements IMessag
 
 			break;
 		}
-		return null;
 	}
 }

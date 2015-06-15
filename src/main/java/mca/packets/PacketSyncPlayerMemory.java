@@ -1,6 +1,7 @@
 package mca.packets;
 
 import io.netty.buffer.ByteBuf;
+import mca.core.MCA;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import net.minecraft.entity.player.EntityPlayer;
@@ -43,8 +44,16 @@ public class PacketSyncPlayerMemory extends AbstractPacket implements IMessage, 
 	@Override
 	public IMessage onMessage(PacketSyncPlayerMemory packet, MessageContext context)
 	{
+		MCA.getPacketHandler().addPacketForProcessing(packet, context);
+		return null;
+	}
+
+	@Override
+	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	{
 		try
 		{
+			PacketSyncPlayerMemory packet = (PacketSyncPlayerMemory) message;
 			EntityPlayer player = getPlayer(context);
 			EntityHuman human = (EntityHuman) player.worldObj.getEntityByID(packet.entityId);
 			
@@ -58,7 +67,5 @@ public class PacketSyncPlayerMemory extends AbstractPacket implements IMessage, 
 		{
 			RadixExcept.logErrorCatch(e, "Unexpected error while syncing player memory.");
 		}
-		
-		return null;
 	}
 }

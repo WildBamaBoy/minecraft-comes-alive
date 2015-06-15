@@ -62,6 +62,14 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 	@Override
 	public IMessage onMessage(PacketInteract packet, MessageContext context)
 	{
+		MCA.getPacketHandler().addPacketForProcessing(packet, context);
+		return null;
+	}
+
+	@Override
+	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	{
+		PacketInteract packet = (PacketInteract)message;
 		EntityHuman villager = null;
 		EntityPlayer player = null;
 
@@ -320,7 +328,5 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 				}
 			}
 		}
-
-		return null;
 	}
 }

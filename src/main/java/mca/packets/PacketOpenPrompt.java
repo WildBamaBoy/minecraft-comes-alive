@@ -2,6 +2,7 @@ package mca.packets;
 
 import io.netty.buffer.ByteBuf;
 import mca.client.gui.GuiPrompt;
+import mca.core.MCA;
 import mca.enums.EnumInteraction;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -50,11 +51,18 @@ public class PacketOpenPrompt extends AbstractPacket implements IMessage, IMessa
 	@Override
 	public IMessage onMessage(PacketOpenPrompt packet, MessageContext context)
 	{
+		MCA.getPacketHandler().addPacketForProcessing(packet, context);
+		return null;
+	}
+
+	@Override
+	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	{
+		PacketOpenPrompt packet = (PacketOpenPrompt)message;
 		EntityPlayer target = this.getPlayer(context);
 		EntityPlayer sender = (EntityPlayer) target.worldObj.getEntityByID(packet.senderId);
 		EnumInteraction interaction = EnumInteraction.fromId(packet.interactionId);
 		
 		Minecraft.getMinecraft().displayGuiScreen(new GuiPrompt(sender, target, interaction));
-		return null;
 	}
 }

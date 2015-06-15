@@ -51,6 +51,14 @@ public class PacketBabyName extends AbstractPacket implements IMessage, IMessage
 	@Override
 	public IMessage onMessage(PacketBabyName packet, MessageContext context)
 	{
+		MCA.getPacketHandler().addPacketForProcessing(packet, context);
+		return null;
+	}
+
+	@Override
+	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	{
+		PacketBabyName packet = (PacketBabyName)message;
 		EntityPlayer senderPlayer = this.getPlayer(context);
 		ItemStack stack = packet.slot == -1 ? null : senderPlayer.inventory.getStackInSlot(packet.slot); //To avoid index out of bounds.
 		PlayerData data = MCA.getPlayerData(senderPlayer);
@@ -95,7 +103,5 @@ public class PacketBabyName extends AbstractPacket implements IMessage, IMessage
 				}
 			}
 		}
-		
-		return null;
 	}
 }

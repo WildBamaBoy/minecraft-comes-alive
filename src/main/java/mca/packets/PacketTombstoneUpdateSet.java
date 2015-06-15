@@ -71,6 +71,14 @@ public class PacketTombstoneUpdateSet extends AbstractPacket implements IMessage
 	@Override
 	public IMessage onMessage(PacketTombstoneUpdateSet packet, MessageContext context)
 	{
+		MCA.getPacketHandler().addPacketForProcessing(packet, context);
+		return null;
+	}
+
+	@Override
+	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	{
+		final PacketTombstoneUpdateSet packet = (PacketTombstoneUpdateSet)message;
 		final EntityPlayer player = this.getPlayer(context);
 		final World world = player.worldObj;
 		
@@ -93,7 +101,5 @@ public class PacketTombstoneUpdateSet extends AbstractPacket implements IMessage
 		{
 			//Throw away these exceptions.
 		}
-		
-		return null;
 	}
 }

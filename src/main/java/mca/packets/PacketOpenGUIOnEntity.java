@@ -3,6 +3,7 @@ package mca.packets;
 import io.netty.buffer.ByteBuf;
 import mca.client.gui.GuiInteraction;
 import mca.client.gui.GuiVillagerEditor;
+import mca.core.MCA;
 import mca.entity.EntityHuman;
 import mca.items.ItemVillagerEditor;
 import net.minecraft.client.Minecraft;
@@ -43,6 +44,14 @@ public class PacketOpenGUIOnEntity extends AbstractPacket implements IMessage, I
 	@Override
 	public IMessage onMessage(PacketOpenGUIOnEntity packet, MessageContext context)
 	{
+		MCA.getPacketHandler().addPacketForProcessing(packet, context);
+		return null;
+	}
+
+	@Override
+	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	{
+		PacketOpenGUIOnEntity packet = (PacketOpenGUIOnEntity)message;
 		final EntityPlayer player = this.getPlayer(context);
 		final EntityHuman entity = (EntityHuman) player.worldObj.getEntityByID(packet.entityId);
 		
@@ -55,7 +64,5 @@ public class PacketOpenGUIOnEntity extends AbstractPacket implements IMessage, I
 		{
 			Minecraft.getMinecraft().displayGuiScreen(new GuiInteraction(entity, player));			
 		}
-		
-		return null;
 	}
 }

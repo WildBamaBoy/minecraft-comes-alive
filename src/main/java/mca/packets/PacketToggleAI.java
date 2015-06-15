@@ -12,6 +12,7 @@ import mca.ai.AIMining;
 import mca.ai.AIWoodcutting;
 import mca.api.RegistryMCA;
 import mca.api.exception.MappingNotFoundException;
+import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
 import mca.entity.EntityHuman;
 import mca.enums.EnumInteraction;
@@ -101,6 +102,14 @@ public class PacketToggleAI extends AbstractPacket implements IMessage, IMessage
 	@Override
 	public IMessage onMessage(PacketToggleAI packet, MessageContext context)
 	{
+		MCA.getPacketHandler().addPacketForProcessing(packet, context);
+		return null;
+	}
+
+	@Override
+	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	{
+		PacketToggleAI packet = (PacketToggleAI)message;
 		EntityPlayer player = getPlayer(context);
 		EntityHuman human = (EntityHuman) player.worldObj.getEntityByID(packet.entityId);
 		
@@ -161,6 +170,5 @@ public class PacketToggleAI extends AbstractPacket implements IMessage, IMessage
 			human.getAI(AICooking.class).startCooking(player);
 			break;
 		}
-		return null;
 	}
 }

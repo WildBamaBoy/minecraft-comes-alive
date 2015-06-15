@@ -65,102 +65,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 	@Override
 	public IMessage onMessage(PacketGift packet, MessageContext context)
 	{
-		EntityHuman human = null;
-		EntityPlayer player = null;
-
-		for (WorldServer world : MinecraftServer.getServer().worldServers)
-		{
-			player = getPlayer(context);
-			human = (EntityHuman) world.getEntityByID(packet.entityId);
-
-			if (player != null && human != null)
-			{
-				break;
-			}
-		}
-
-		if (player != null && human != null)
-		{
-			final ItemStack stack = player.inventory.mainInventory[packet.slot];
-			final Item item = stack.getItem();
-			boolean removeItem = false;
-			int removeCount = 1;
-
-			if (item == ModItems.weddingRing || item == ModItems.weddingRingRG)
-			{
-				removeItem = handleWeddingRing(player, human);
-			}
-
-			else if (item == ModItems.matchmakersRing)
-			{
-				removeItem = handleMatchmakersRing(player, human, stack);
-				removeCount = 2;
-			}
-
-			else if (item == ModItems.engagementRing || 
-					item == ModItems.weddingRingRG 
-					|| item == ModItems.engagementRingRG 
-					|| item == ModItems.engagementRingHeart || item == ModItems.engagementRingOval 
-					|| item == ModItems.engagementRingSquare || item == ModItems.engagementRingStar || item == ModItems.engagementRingTiny || item == ModItems.engagementRingTriangle
-					|| item == ModItems.engagementRingHeartRG || item == ModItems.engagementRingOvalRG || item == ModItems.engagementRingSquareRG
-					|| item == ModItems.engagementRingStarRG || item == ModItems.engagementRingTinyRG || item == ModItems.engagementRingTriangleRG)
-			{
-				removeItem = handleEngagementRing(player, human);
-			}
-
-			else if (item == ModItems.divorcePapers)
-			{
-				removeItem = handleDivorcePapers(player, human);
-			}
-
-			else if (item == Items.golden_apple && human.getIsChild() && human.isPlayerAParent(player))
-			{
-				removeItem = true;
-				removeCount = 1;
-				
-				human.getAI(AIGrow.class).accelerate();
-			}
-			
-			else if ((item == ModItems.babyBoy || item == ModItems.babyGirl) && human.getPlayerSpouse() == player)
-			{
-				removeItem = true;
-				removeCount = 1;
-				
-				human.getVillagerInventory().addItemStackToInventory(stack);
-			}
-			
-			else if ((item == Items.cake || Block.getBlockFromItem(item) == Blocks.cake) && human.getAI(AIProgressStory.class).getProgressionStep() == EnumProgressionStep.TRY_FOR_BABY)
-			{
-				human.say("gift.cake", player);
-				human.getAI(AIProgressStory.class).setTicksUntilNextProgress(0);
-				human.getAI(AIProgressStory.class).setForceNextProgress(true);
-				removeItem = true;
-				removeCount = 1;
-				
-				TutorialManager.sendMessageToPlayer(player, "Cake can influence villagers to have children.", "However they can only have a few before they will stop.");
-			}
-			
-			else
-			{
-				removeItem = handleStandardGift(player, human, packet.slot, stack);
-			}
-
-			if (removeItem && !player.capabilities.isCreativeMode)
-			{
-				stack.stackSize -= removeCount;
-
-				if (stack.stackSize > 0)
-				{
-					player.inventory.setInventorySlotContents(packet.slot, stack);
-				}
-
-				else
-				{
-					player.inventory.setInventorySlotContents(packet.slot, null);				
-				}
-			}
-		}
-
+		MCA.getPacketHandler().addPacketForProcessing(packet, context);
 		return null;
 	}
 
@@ -442,5 +347,107 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 		}
 		
 		return false;
+	}
+
+	@Override
+	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	{
+		PacketGift packet = (PacketGift)message;
+		EntityHuman human = null;
+		EntityPlayer player = null;
+
+		for (WorldServer world : MinecraftServer.getServer().worldServers)
+		{
+			player = getPlayer(context);
+			human = (EntityHuman) world.getEntityByID(packet.entityId);
+
+			if (player != null && human != null)
+			{
+				break;
+			}
+		}
+
+		if (player != null && human != null)
+		{
+			final ItemStack stack = player.inventory.mainInventory[packet.slot];
+			final Item item = stack.getItem();
+			boolean removeItem = false;
+			int removeCount = 1;
+
+			if (item == ModItems.weddingRing || item == ModItems.weddingRingRG)
+			{
+				removeItem = handleWeddingRing(player, human);
+			}
+
+			else if (item == ModItems.matchmakersRing)
+			{
+				removeItem = handleMatchmakersRing(player, human, stack);
+				removeCount = 2;
+			}
+
+			else if (item == ModItems.engagementRing || 
+					item == ModItems.weddingRingRG 
+					|| item == ModItems.engagementRingRG 
+					|| item == ModItems.engagementRingHeart || item == ModItems.engagementRingOval 
+					|| item == ModItems.engagementRingSquare || item == ModItems.engagementRingStar || item == ModItems.engagementRingTiny || item == ModItems.engagementRingTriangle
+					|| item == ModItems.engagementRingHeartRG || item == ModItems.engagementRingOvalRG || item == ModItems.engagementRingSquareRG
+					|| item == ModItems.engagementRingStarRG || item == ModItems.engagementRingTinyRG || item == ModItems.engagementRingTriangleRG)
+			{
+				removeItem = handleEngagementRing(player, human);
+			}
+
+			else if (item == ModItems.divorcePapers)
+			{
+				removeItem = handleDivorcePapers(player, human);
+			}
+
+			else if (item == Items.golden_apple && human.getIsChild() && human.isPlayerAParent(player))
+			{
+				removeItem = true;
+				removeCount = 1;
+				
+				human.getAI(AIGrow.class).accelerate();
+			}
+			
+			else if ((item == ModItems.babyBoy || item == ModItems.babyGirl) && human.getPlayerSpouse() == player)
+			{
+				removeItem = true;
+				removeCount = 1;
+				
+				human.getVillagerInventory().addItemStackToInventory(stack);
+			}
+			
+			else if ((item == Items.cake || Block.getBlockFromItem(item) == Blocks.cake) && human.getAI(AIProgressStory.class).getProgressionStep() == EnumProgressionStep.TRY_FOR_BABY)
+			{
+				human.say("gift.cake", player);
+				human.getAI(AIProgressStory.class).setTicksUntilNextProgress(0);
+				human.getAI(AIProgressStory.class).setForceNextProgress(true);
+				removeItem = true;
+				removeCount = 1;
+				
+				TutorialManager.sendMessageToPlayer(player, "Cake can influence villagers to have children.", "However they can only have a few before they will stop.");
+			}
+			
+			else
+			{
+				removeItem = handleStandardGift(player, human, packet.slot, stack);
+			}
+
+			if (removeItem && !player.capabilities.isCreativeMode)
+			{
+				stack.stackSize -= removeCount;
+
+				if (stack.stackSize > 0)
+				{
+					player.inventory.setInventorySlotContents(packet.slot, stack);
+				}
+
+				else
+				{
+					player.inventory.setInventorySlotContents(packet.slot, null);				
+				}
+			}
+		}
+
 	}
 }
