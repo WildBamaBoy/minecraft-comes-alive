@@ -302,9 +302,9 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 					
 					ItemStack stack = new ItemStack(isMale ? ModItems.babyBoy : ModItems.babyGirl);
 					NBTTagCompound nbt = new NBTTagCompound();
-					stack.getTagCompound().setString("name", babyName);
-					stack.getTagCompound().setInteger("age", 0);
-					stack.getTagCompound().setString("owner", player.getName());
+					nbt.setString("name", babyName);
+					nbt.setInteger("age", 0);
+					nbt.setString("owner", player.getName());
 					stack.setTagCompound(nbt);
 					
 					player.inventory.addItemStackToInventory(stack);
