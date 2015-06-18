@@ -48,6 +48,7 @@ public class PacketOpenGUIOnEntity extends AbstractPacket implements IMessage, I
 		return null;
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void processOnGameThread(IMessageHandler message, MessageContext context) 
 	{

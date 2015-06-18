@@ -88,6 +88,7 @@ public class PacketInteractWithPlayerC extends AbstractPacket implements IMessag
 		return null;
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void processOnGameThread(IMessageHandler message, MessageContext context) 
 	{

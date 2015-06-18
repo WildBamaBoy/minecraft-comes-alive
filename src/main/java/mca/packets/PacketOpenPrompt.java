@@ -55,6 +55,7 @@ public class PacketOpenPrompt extends AbstractPacket implements IMessage, IMessa
 		return null;
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void processOnGameThread(IMessageHandler message, MessageContext context) 
 	{
