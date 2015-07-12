@@ -36,8 +36,8 @@ public final class ModBlocks
 		bedPurple = new BlockVillagerBed(EnumBedColor.PURPLE);
 		
 		spawner = new BlockVillagerSpawner();
-		roseGoldBlock = new BlockOre().setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("roseGoldBlock").setStepSound(Block.soundTypePiston).setCreativeTab(MCA.getCreativeTabMain());
-		roseGoldOre = new BlockOre().setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("roseGoldOre").setStepSound(Block.soundTypePiston).setCreativeTab(MCA.getCreativeTabMain());
+		roseGoldBlock = new BlockOre().setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("RoseGoldBlock").setStepSound(Block.soundTypePiston).setCreativeTab(MCA.getCreativeTabMain());
+		roseGoldOre = new BlockOre().setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("RoseGoldOre").setStepSound(Block.soundTypePiston).setCreativeTab(MCA.getCreativeTabMain());
 
 		roseGoldBlock.setHarvestLevel("pickaxe", 2);
 		roseGoldOre.setHarvestLevel("pickaxe", 2);
@@ -46,17 +46,17 @@ public final class ModBlocks
 		tombstone.setHarvestLevel("pickaxe", 1);
 		tombstone.setHardness(3.0F);
 		
-		GameRegistry.registerBlock(roseGoldBlock, "roseGoldBlock");
-		GameRegistry.registerBlock(roseGoldOre, "roseGoldOre");
-		GameRegistry.registerBlock(tombstone, "blockTombstone");
+		GameRegistry.registerBlock(roseGoldBlock, "RoseGoldBlock");
+		GameRegistry.registerBlock(roseGoldOre, "RoseGoldOre");
+		GameRegistry.registerBlock(tombstone, "BlockTombstone");
 	}
 	
 	@SideOnly(Side.CLIENT)
 	public static void registerModelMeshers()
 	{
 		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-		mesher.register(Item.getItemFromBlock(roseGoldBlock), 0, new ModelResourceLocation("mca:roseGoldBlock", "inventory"));
-		mesher.register(Item.getItemFromBlock(roseGoldOre), 0, new ModelResourceLocation("mca:roseGoldOre", "inventory"));
+		mesher.register(Item.getItemFromBlock(roseGoldBlock), 0, new ModelResourceLocation("mca:RoseGoldBlock", "inventory"));
+		mesher.register(Item.getItemFromBlock(roseGoldOre), 0, new ModelResourceLocation("mca:RoseGoldOre", "inventory"));
 		mesher.register(Item.getItemFromBlock(spawner), 0, new ModelResourceLocation("mca:VillagerSpawner", "inventory"));
 	}
 }
