@@ -68,7 +68,7 @@ public class AISleep extends AbstractAI
 	@Override
 	public void onUpdateServer() 
 	{
-		if (owner.getProfessionGroup() == EnumProfessionGroup.Guard)
+		if (owner.getProfessionGroup() == EnumProfessionGroup.Guard && !owner.isMarriedToAPlayer() && !owner.isMarriedToAVillager())
 		{
 			return;
 		}

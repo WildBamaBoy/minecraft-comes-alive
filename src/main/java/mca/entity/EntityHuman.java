@@ -573,7 +573,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		}
 	}
 
-	private boolean isMarriedToAVillager() 
+	public boolean isMarriedToAVillager() 
 	{
 		return spouseId.getInt() > 0;
 	}
