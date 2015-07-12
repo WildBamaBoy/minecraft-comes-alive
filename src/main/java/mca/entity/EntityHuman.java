@@ -570,6 +570,17 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 					human.getAI(AIMood.class).modifyMoodLevel(-2.0F);
 				}
 			}
+
+			//Drop all items in the inventory.
+			for (int i = 0; i < inventory.getSizeInventory(); i++)
+			{
+				ItemStack stack = inventory.getStackInSlot(i);
+
+				if (stack != null)
+				{
+					entityDropItem(stack, 1.0F);
+				}
+			}
 		}
 	}
 
