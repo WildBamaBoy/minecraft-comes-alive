@@ -372,6 +372,13 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	@Override
 	public boolean interact(EntityPlayer player)
 	{
+		if (ridingEntity == player)
+		{
+			mountEntity(null);
+			dismountEntity(player);
+			return true;
+		}
+		
 		if (!worldObj.isRemote)
 		{
 			if (!isInteracting.getBoolean())
@@ -469,7 +476,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	{
 		return new ChatComponentText("");//new ChatComponentText(getName());
 	}
-	
+
 	@Override
 	public void swingItem()
 	{
@@ -1125,38 +1132,38 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public void useRecipe(MerchantRecipe merchantRecipe)
 	{
 		//Representation of EntityVillager's useRecipe without playing sounds.
-//		merchantRecipe.incrementToolUses();
-//		livingSoundTime = -getTalkInterval();
-//
-//		final MerchantRecipeList buyingList = getBuyingList();
-//
-//		for (Object obj : buyingList)
-//		{
-//			MerchantRecipe recipe = (MerchantRecipe)obj;
-//		}
-//
-//		if (merchantRecipe.hasSameIDsAs((MerchantRecipe) buyingList.get(buyingList.size() - 1)))
-//		{
-//			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, Integer.valueOf(40), 6);
-//			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, true, 7);
-//			final EntityPlayer buyingPlayer = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 4);
-//
-//			if (buyingPlayer == null)
-//			{
-//				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, null, 9);
-//			}
-//
-//			else
-//			{
-//				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, buyingPlayer.getName(), 9);
-//			}
-//		}
-//
-//		if (merchantRecipe.getItemToBuy().getItem() == Items.emerald)
-//		{
-//			final int wealth = (Integer)ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 8);
-//			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, Integer.valueOf(wealth + merchantRecipe.getItemToBuy().stackSize), 8);
-//		}
+		//		merchantRecipe.incrementToolUses();
+		//		livingSoundTime = -getTalkInterval();
+		//
+		//		final MerchantRecipeList buyingList = getBuyingList();
+		//
+		//		for (Object obj : buyingList)
+		//		{
+		//			MerchantRecipe recipe = (MerchantRecipe)obj;
+		//		}
+		//
+		//		if (merchantRecipe.hasSameIDsAs((MerchantRecipe) buyingList.get(buyingList.size() - 1)))
+		//		{
+		//			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, Integer.valueOf(40), 6);
+		//			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, true, 7);
+		//			final EntityPlayer buyingPlayer = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 4);
+		//
+		//			if (buyingPlayer == null)
+		//			{
+		//				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, null, 9);
+		//			}
+		//
+		//			else
+		//			{
+		//				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, buyingPlayer.getName(), 9);
+		//			}
+		//		}
+		//
+		//		if (merchantRecipe.getItemToBuy().getItem() == Items.emerald)
+		//		{
+		//			final int wealth = (Integer)ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 8);
+		//			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, Integer.valueOf(wealth + merchantRecipe.getItemToBuy().stackSize), 8);
+		//		}
 	}
 
 	@Override
