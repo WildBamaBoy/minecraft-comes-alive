@@ -55,8 +55,8 @@ public final class ModBlocks
 	public static void registerModelMeshers()
 	{
 		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-		mesher.register(Item.getItemFromBlock(roseGoldBlock), 0, new ModelResourceLocation("mca:RoseGoldBlock", "inventory"));
-		mesher.register(Item.getItemFromBlock(roseGoldOre), 0, new ModelResourceLocation("mca:RoseGoldOre", "inventory"));
+		mesher.register(Item.getItemFromBlock(roseGoldBlock), 0, new ModelResourceLocation("mca:roseGoldBlock", "inventory"));
+		mesher.register(Item.getItemFromBlock(roseGoldOre), 0, new ModelResourceLocation("mca:roseGoldOre", "inventory"));
 		mesher.register(Item.getItemFromBlock(spawner), 0, new ModelResourceLocation("mca:VillagerSpawner", "inventory"));
 	}
 }
