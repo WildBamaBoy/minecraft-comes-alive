@@ -603,7 +603,10 @@ public class MCA
     {
     	for (AbstractPlayerData data : playerDataMap.values())
     	{
-   			data.saveDataToFile();
+    		if (data != null) //Bad data seems to be generated with other mods.
+    		{
+    			data.saveDataToFile();
+    		}
        	}
     	
     	MCA.playerDataMap.clear();
