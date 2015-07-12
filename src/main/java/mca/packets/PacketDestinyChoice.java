@@ -106,6 +106,7 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 				PlayerMemory spouseMemory = spouse.getPlayerMemory(player);
 				spouse.setIsMarried(true, player);
 				spouseMemory.setHearts(100);
+				spouseMemory.setDialogueType(EnumDialogueType.SPOUSE);
 
 				int numChildren = RadixMath.getNumberInRange(0, 2);
 
