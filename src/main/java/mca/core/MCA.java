@@ -471,6 +471,9 @@ public class MCA
 		RegistryMCA.addObjectAsGift(Blocks.piston, 10);
 		RegistryMCA.addObjectAsGift(Blocks.glowstone, 10);
 		RegistryMCA.addObjectAsGift(Blocks.emerald_block, 100);
+		RegistryMCA.addObjectAsGift(ModBlocks.roseGoldBlock, 35);
+		RegistryMCA.addObjectAsGift(ModBlocks.roseGoldOre, 7);
+		RegistryMCA.addObjectAsGift(Blocks.redstone_block, 20);
 		
 		RegistryMCA.addBlockToMiningAI(1, Blocks.coal_ore);
 		RegistryMCA.addBlockToMiningAI(2, Blocks.iron_ore);
