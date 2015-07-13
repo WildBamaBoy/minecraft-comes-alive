@@ -1,7 +1,7 @@
 minecraft {
     version = "1.7.10-10.13.2.1236"
     runDir =  "eclipse/"
-    replaceIn "mca/core/Constants.java"
+    replaceIn "mca/core/MCA.java"
     replace   "@VERSION@", project.version
 }
 
