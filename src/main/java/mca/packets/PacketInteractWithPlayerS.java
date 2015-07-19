@@ -1,9 +1,8 @@
 package mca.packets;
 
-import io.netty.buffer.ByteBuf;
-
 import java.util.Random;
 
+import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
 import mca.core.minecraft.ModItems;

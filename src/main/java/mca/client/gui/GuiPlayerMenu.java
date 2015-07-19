@@ -2,6 +2,10 @@ package mca.client.gui;
 
 import java.io.IOException;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
 import mca.core.MCA;
 import mca.data.PlayerData;
 import mca.enums.EnumInteraction;
@@ -13,11 +17,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
 import radixcore.client.render.RenderHelper;
 
 @SideOnly(Side.CLIENT)

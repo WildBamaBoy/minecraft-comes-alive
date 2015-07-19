@@ -29,7 +29,6 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import radixcore.constant.Particle;
 import radixcore.packets.AbstractPacket;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;

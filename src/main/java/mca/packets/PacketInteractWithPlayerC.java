@@ -1,5 +1,7 @@
 package mca.packets;
 
+import org.lwjgl.input.Keyboard;
+
 import io.netty.buffer.ByteBuf;
 import mca.client.gui.GuiPlayerMenu;
 import mca.core.MCA;
@@ -12,9 +14,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import org.lwjgl.input.Keyboard;
-
 import radixcore.network.ByteBufIO;
 import radixcore.packets.AbstractPacket;
 

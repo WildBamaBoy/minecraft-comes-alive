@@ -1,10 +1,9 @@
 package mca.packets;
 
-import io.netty.buffer.ByteBuf;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import io.netty.buffer.ByteBuf;
 import mca.ai.AICooking;
 import mca.ai.AIFarming;
 import mca.ai.AIHunting;

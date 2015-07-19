@@ -10,6 +10,7 @@ import mca.packets.PacketOpenBabyNameGUI;
 import mca.packets.PacketOpenGUIOnEntity;
 import mca.packets.PacketOpenPrompt;
 import mca.packets.PacketSetTutorialMessage;
+import mca.packets.PacketSyncConfig;
 import mca.packets.PacketSyncPlayerMemory;
 import mca.packets.PacketToggleAI;
 import mca.packets.PacketTombstoneUpdateGet;
@@ -44,5 +45,6 @@ public class MCAPacketHandler extends AbstractPacketHandler
 		this.registerPacket(PacketInteractWithPlayerC.class, Side.CLIENT);
 		this.registerPacket(PacketInteractWithPlayerS.class, Side.SERVER);
 		this.registerPacket(PacketOpenPrompt.class, Side.CLIENT);
+		this.registerPacket(PacketSyncConfig.class, Side.CLIENT);
 	}
 }

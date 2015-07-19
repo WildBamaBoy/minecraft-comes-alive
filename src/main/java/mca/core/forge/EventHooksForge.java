@@ -2,6 +2,8 @@ package mca.core.forge;
 
 import java.lang.reflect.Field;
 
+import com.google.common.base.Predicate;
+
 import mca.core.MCA;
 import mca.entity.EntityHuman;
 import mca.packets.PacketInteractWithPlayerC;
@@ -28,8 +30,6 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import radixcore.math.Point3D;
-
-import com.google.common.base.Predicate;
 
 public class EventHooksForge 
 {

@@ -11,6 +11,7 @@ import mca.entity.EntityHuman;
 import mca.enums.EnumProfession;
 import mca.enums.EnumProfessionGroup;
 import mca.items.ItemGemCutter;
+import mca.packets.PacketSyncConfig;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -82,6 +83,7 @@ public class EventHooksFML
 		}
 
 		MCA.getPacketHandler().sendPacketToPlayer(new PacketDataContainer(MCA.ID, data), (EntityPlayerMP)event.player);
+		MCA.getPacketHandler().sendPacketToPlayer(new PacketSyncConfig(MCA.getConfig()), (EntityPlayerMP)event.player);
 
 		if (!data.hasChosenDestiny.getBoolean() && !player.inventory.hasItem(ModItems.crystalBall) && MCA.getConfig().giveCrystalBall)
 		{
@@ -115,6 +117,7 @@ public class EventHooksFML
 			MCA.destinyCenterPoint = null;
 			MCA.destinySpawnFlag = false;
 			MCA.playerDataContainer = null;
+			MCA.resetConfig();
 		}
 
 		if (playPortalAnimation)

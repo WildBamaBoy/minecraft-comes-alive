@@ -10,6 +10,8 @@ package mca.client.render;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.opengl.GL11;
+
 import mca.ai.AIConverse;
 import mca.ai.AISleep;
 import mca.client.gui.GuiInteraction;
@@ -31,9 +33,6 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
-
-import org.lwjgl.opengl.GL11;
-
 import radixcore.client.render.RenderHelper;
 import radixcore.util.RadixMath;
 
