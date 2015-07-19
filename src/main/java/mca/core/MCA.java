@@ -4,6 +4,24 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.logging.log4j.Logger;
+
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.ModMetadata;
+import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.event.FMLServerStoppingEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.EntityRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mca.api.CookableFood;
 import mca.api.CropEntry;
 import mca.api.RegistryMCA;
@@ -46,9 +64,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
-
-import org.apache.logging.log4j.Logger;
-
 import radixcore.core.ModMetadataEx;
 import radixcore.core.RadixCore;
 import radixcore.data.AbstractPlayerData;
@@ -59,25 +74,9 @@ import radixcore.math.Point3D;
 import radixcore.update.RDXUpdateProtocol;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixStartup;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.ModMetadata;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.event.FMLServerStoppingEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.EntityRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore@[2.0.2,)", acceptedMinecraftVersions = "[1.7.10]",
-		guiFactory = "mca.core.forge.client.MCAGuiFactory")
+guiFactory = "mca.core.forge.client.MCAGuiFactory")
 public class MCA
 {
 	public static final String ID = "MCA";
@@ -92,124 +91,126 @@ public class MCA
 	private static ModAchievements achievements;
 	private static CreativeTabs creativeTabMain;
 	private static CreativeTabs creativeTabGemCutting;
+	private static Config clientConfig;
 	private static Config config;
 	private static LanguageManager languageManager;
 	private static MCAPacketHandler packetHandler;
 	private static CrashWatcher crashWatcher;
-	
+
 	private static Logger logger;
-	
+
 	@SidedProxy(clientSide = "mca.core.forge.ClientProxy", serverSide = "mca.core.forge.ServerProxy")
 	public static ServerProxy proxy;
-	
+
 	public static Map<String, AbstractPlayerData> playerDataMap;
-	
+
 	@SideOnly(Side.CLIENT)
 	public static DataContainer playerDataContainer;
 	@SideOnly(Side.CLIENT)
 	public static Point3D destinyCenterPoint;
 	@SideOnly(Side.CLIENT)
 	public static boolean destinySpawnFlag;
-	
+
 	@EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {	
-    	instance = this;
+	public void preInit(FMLPreInitializationEvent event)
+	{	
+		instance = this;
 		metadata = event.getModMetadata();
-    	logger = event.getModLog();
-    	config = new Config(event);
-    	languageManager = new LanguageManager(ID, new LanguageParser());
-    	crashWatcher = new CrashWatcher();
-    	packetHandler = new MCAPacketHandler(ID);
-    	proxy.registerRenderers();
-    	proxy.registerEventHandlers();
-    	playerDataMap = new HashMap<String, AbstractPlayerData>();
-    	
-    	ModMetadataEx exData = ModMetadataEx.getFromModMetadata(metadata);
-    	exData.updateProtocolClass = config.allowUpdateChecking ? RDXUpdateProtocol.class : null;
-    	exData.classContainingClientDataContainer = MCA.class;
-    	exData.classContainingGetPlayerDataMethod = MCA.class;
-    	exData.playerDataMap = playerDataMap;
-    	
-    	RadixCore.registerMod(exData);
-    	
-    	if (exData.updateProtocolClass == null)
-    	{
-    		logger.fatal("Config: Update checking is turned off. You will not be notified of any available updates for MCA.");
-    	}
-    	
-    	FMLCommonHandler.instance().bus().register(new EventHooksFML());
-    	MinecraftForge.EVENT_BUS.register(new EventHooksForge());
-    	NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
-    }
-    
-    @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
-    	creativeTabMain = RadixStartup.registerCreativeTab(ModItems.class, "engagementRing", metadata, null);
-    	creativeTabGemCutting = RadixStartup.registerCreativeTab(ModItems.class, "diamondHeart", metadata, "gemCutting");
-    	items = new ModItems();
-    	blocks = new ModBlocks();
-    	achievements = new ModAchievements();
-    	
-    	SkinLoader.loadSkins();
+		logger = event.getModLog();
+		config = new Config(event);
+		clientConfig = config;
+		languageManager = new LanguageManager(ID, new LanguageParser());
+		crashWatcher = new CrashWatcher();
+		packetHandler = new MCAPacketHandler(ID);
+		proxy.registerRenderers();
+		proxy.registerEventHandlers();
+		playerDataMap = new HashMap<String, AbstractPlayerData>();
 
-    	//Entity registry
-    	EntityRegistry.registerModEntity(EntityHuman.class, EntityHuman.class.getSimpleName(), config.baseEntityId, this, 50, 2, true);
+		ModMetadataEx exData = ModMetadataEx.getFromModMetadata(metadata);
+		exData.updateProtocolClass = config.allowUpdateChecking ? RDXUpdateProtocol.class : null;
+		exData.classContainingClientDataContainer = MCA.class;
+		exData.classContainingGetPlayerDataMethod = MCA.class;
+		exData.playerDataMap = playerDataMap;
 
-    	//Tile registry
-    	GameRegistry.registerTileEntity(TileVillagerBed.class, TileVillagerBed.class.getSimpleName());
-    	GameRegistry.registerTileEntity(TileTombstone.class, TileTombstone.class.getSimpleName());
-    	
-    	//Recipes
-    	GameRegistry.addRecipe(new ItemStack(ModItems.divorcePapers, 1), 
-    			new Object[] { " IF", " P ", 'I', new ItemStack(Items.dye, 1, 0), 'F', Items.feather, 'P', Items.paper });
+		RadixCore.registerMod(exData);
 
-    	GameRegistry.addRecipe(new ItemStack(ModItems.whistle), 
-    			" W#", "###", '#', Items.iron_ingot, 'W', Blocks.planks);
-    	GameRegistry.addRecipe(new ItemStack(Items.gold_ingot), 
-    			"GGG", "GGG", "GGG", 'G', ModItems.goldDust);
-    	GameRegistry.addRecipe(new ItemStack(ModItems.roseGoldIngot, 9), 
-    			"GGG", "GGG", "GGG", 'G', ModItems.roseGoldDust);
-    	GameRegistry.addRecipe(new ItemStack(ModItems.engagementRing), 
-    			"GDG", "G G", "GGG", 'D', Items.diamond, 'G', Items.gold_ingot);
-    	GameRegistry.addRecipe(new ItemStack(ModItems.engagementRingRG), 
-    			"GDG", "G G", "GGG", 'D', Items.diamond, 'G', ModItems.roseGoldIngot);
-    	GameRegistry.addRecipe(new ItemStack(ModItems.weddingRingRG),
-    			"GGG", "G G", "GGG", 'G', ModItems.roseGoldIngot);
-    	GameRegistry.addRecipe(new ItemStack(ModBlocks.roseGoldBlock),
-    			"GGG", "GGG", "GGG", 'G', ModItems.roseGoldIngot);
-    	GameRegistry.addRecipe(new ItemStack(ModItems.matchmakersRing),
-    			"III", "I I", "III", 'I', Items.iron_ingot);
-    	GameRegistry.addRecipe(new ItemStack(ModItems.tombstone),
-    			" S ", "SIS", "SSS", 'S', Blocks.stone, 'I', Items.sign);
-    	GameRegistry.addRecipe(new ItemStack(ModItems.gemCutter),
-    			"  G", "IG ", "DI ", 'G', Items.gold_ingot, 'I', Items.iron_ingot, 'D', Items.diamond);
-    	GameRegistry.addRecipe(new ItemStack(ModItems.heartMold),
-    			"CCC", "C C", " C ", 'C', Items.clay_ball);
-    	GameRegistry.addRecipe(new ItemStack(ModItems.tinyMold),
-    			" C ", "C C", " C ", 'C', Items.clay_ball);
-    	GameRegistry.addRecipe(new ItemStack(ModItems.ovalMold),
-    			"CCC", "   ", "CCC", 'C', Items.clay_ball);    	
-    	GameRegistry.addRecipe(new ItemStack(ModItems.squareMold),
-    			"CCC", "C C", "CCC", 'C', Items.clay_ball);    	
-    	GameRegistry.addRecipe(new ItemStack(ModItems.triangleMold),
-    			" C ", "C C", "CCC", 'C', Items.clay_ball);    	
-    	GameRegistry.addRecipe(new ItemStack(ModItems.starMold),
-    			" C ", "CCC", " C ", 'C', Items.clay_ball);
+		if (exData.updateProtocolClass == null)
+		{
+			logger.fatal("Config: Update checking is turned off. You will not be notified of any available updates for MCA.");
+		}
 
-    	//Variable recipes
-    	if (!config.disableWeddingRingRecipe)
-    	{
-        	GameRegistry.addRecipe(new ItemStack(ModItems.weddingRing),
-        			"GGG", "G G", "GGG", 'G', Items.gold_ingot);
-    	}
-    	
-    	else
-    	{
-    		logger.fatal("Config: MCA's default wedding ring recipe is currently disabled. You can change this in the config. You must use Rose Gold to craft wedding rings!");
-    	}
-    	
+		FMLCommonHandler.instance().bus().register(new EventHooksFML());
+		MinecraftForge.EVENT_BUS.register(new EventHooksForge());
+		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
+	}
+
+	@EventHandler
+	public void init(FMLInitializationEvent event)
+	{
+		creativeTabMain = RadixStartup.registerCreativeTab(ModItems.class, "engagementRing", metadata, null);
+		creativeTabGemCutting = RadixStartup.registerCreativeTab(ModItems.class, "diamondHeart", metadata, "gemCutting");
+		items = new ModItems();
+		blocks = new ModBlocks();
+		achievements = new ModAchievements();
+
+		SkinLoader.loadSkins();
+
+		//Entity registry
+		EntityRegistry.registerModEntity(EntityHuman.class, EntityHuman.class.getSimpleName(), config.baseEntityId, this, 50, 2, true);
+
+		//Tile registry
+		GameRegistry.registerTileEntity(TileVillagerBed.class, TileVillagerBed.class.getSimpleName());
+		GameRegistry.registerTileEntity(TileTombstone.class, TileTombstone.class.getSimpleName());
+
+		//Recipes
+		GameRegistry.addRecipe(new ItemStack(ModItems.divorcePapers, 1), 
+				new Object[] { " IF", " P ", 'I', new ItemStack(Items.dye, 1, 0), 'F', Items.feather, 'P', Items.paper });
+
+		GameRegistry.addRecipe(new ItemStack(ModItems.whistle), 
+				" W#", "###", '#', Items.iron_ingot, 'W', Blocks.planks);
+		GameRegistry.addRecipe(new ItemStack(Items.gold_ingot), 
+				"GGG", "GGG", "GGG", 'G', ModItems.goldDust);
+		GameRegistry.addRecipe(new ItemStack(ModItems.roseGoldIngot, 9), 
+				"GGG", "GGG", "GGG", 'G', ModItems.roseGoldDust);
+		GameRegistry.addRecipe(new ItemStack(ModItems.engagementRing), 
+				"GDG", "G G", "GGG", 'D', Items.diamond, 'G', Items.gold_ingot);
+		GameRegistry.addRecipe(new ItemStack(ModItems.engagementRingRG), 
+				"GDG", "G G", "GGG", 'D', Items.diamond, 'G', ModItems.roseGoldIngot);
+		GameRegistry.addRecipe(new ItemStack(ModItems.weddingRingRG),
+				"GGG", "G G", "GGG", 'G', ModItems.roseGoldIngot);
+		GameRegistry.addRecipe(new ItemStack(ModBlocks.roseGoldBlock),
+				"GGG", "GGG", "GGG", 'G', ModItems.roseGoldIngot);
+		GameRegistry.addRecipe(new ItemStack(ModItems.matchmakersRing),
+				"III", "I I", "III", 'I', Items.iron_ingot);
+		GameRegistry.addRecipe(new ItemStack(ModItems.tombstone),
+				" S ", "SIS", "SSS", 'S', Blocks.stone, 'I', Items.sign);
+		GameRegistry.addRecipe(new ItemStack(ModItems.gemCutter),
+				"  G", "IG ", "DI ", 'G', Items.gold_ingot, 'I', Items.iron_ingot, 'D', Items.diamond);
+		GameRegistry.addRecipe(new ItemStack(ModItems.heartMold),
+				"CCC", "C C", " C ", 'C', Items.clay_ball);
+		GameRegistry.addRecipe(new ItemStack(ModItems.tinyMold),
+				" C ", "C C", " C ", 'C', Items.clay_ball);
+		GameRegistry.addRecipe(new ItemStack(ModItems.ovalMold),
+				"CCC", "   ", "CCC", 'C', Items.clay_ball);    	
+		GameRegistry.addRecipe(new ItemStack(ModItems.squareMold),
+				"CCC", "C C", "CCC", 'C', Items.clay_ball);    	
+		GameRegistry.addRecipe(new ItemStack(ModItems.triangleMold),
+				" C ", "C C", "CCC", 'C', Items.clay_ball);    	
+		GameRegistry.addRecipe(new ItemStack(ModItems.starMold),
+				" C ", "CCC", " C ", 'C', Items.clay_ball);
+
+		//Variable recipes
+		if (!config.disableWeddingRingRecipe)
+		{
+			GameRegistry.addRecipe(new ItemStack(ModItems.weddingRing),
+					"GGG", "G G", "GGG", 'G', Items.gold_ingot);
+		}
+
+		else
+		{
+			logger.fatal("Config: MCA's default wedding ring recipe is currently disabled. You can change this in the config. You must use Rose Gold to craft wedding rings!");
+		}
+
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondDust), Items.diamond);
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.roseGoldDust), ModItems.roseGoldIngot);
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.goldDust, 6), Items.water_bucket, new ItemStack(ModItems.roseGoldDust));
@@ -224,8 +225,8 @@ public class MCA
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(ModItems.bedGreen));
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(ModItems.bedPurple));
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(ModItems.bedPink));
-		
-    	//Colored diamond recipes.
+
+		//Colored diamond recipes.
 		for (int i = 0; i < 16; ++i)
 		{
 			ItemStack coloredDiamond =  new ItemStack(ModItems.coloredDiamond, 1, i);
@@ -233,16 +234,16 @@ public class MCA
 			ItemStack engagementRing = new ItemStack(ModItems.coloredEngagementRing, 1, i);
 			ItemStack engagementRingRG = new ItemStack(ModItems.coloredEngagementRingRG, 1, i);
 			ItemStack dye = new ItemStack(Items.dye, 1, i);
-			
+
 			GameRegistry.addShapelessRecipe(coloredDiamondDust, dye, new ItemStack(ModItems.diamondDust));
 
-	    	GameRegistry.addRecipe(engagementRing, 
-	    			"GDG", "G G", "GGG", 'D', coloredDiamond, 'G', Items.gold_ingot);
-	    	GameRegistry.addRecipe(engagementRingRG, 
-	    			"GDG", "G G", "GGG", 'D', coloredDiamond, 'G', ModItems.roseGoldIngot);
-	    	
-	    	GameRegistry.addSmelting(coloredDiamondDust, coloredDiamond, 5.0F);
-	    	
+			GameRegistry.addRecipe(engagementRing, 
+					"GDG", "G G", "GGG", 'D', coloredDiamond, 'G', Items.gold_ingot);
+			GameRegistry.addRecipe(engagementRingRG, 
+					"GDG", "G G", "GGG", 'D', coloredDiamond, 'G', ModItems.roseGoldIngot);
+
+			GameRegistry.addSmelting(coloredDiamondDust, coloredDiamond, 5.0F);
+
 			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.coloredDiamondHeart, 1, i), new ItemStack(ModItems.heartMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), coloredDiamond);
 			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.coloredDiamondOval, 1, i), new ItemStack(ModItems.ovalMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), coloredDiamond);
 			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.coloredDiamondSquare, 1, i), new ItemStack(ModItems.squareMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), coloredDiamond);
@@ -250,7 +251,7 @@ public class MCA
 			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.coloredDiamondStar, 1, i), new ItemStack(ModItems.starMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), coloredDiamond);
 			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.coloredDiamondTiny, 1, i), new ItemStack(ModItems.tinyMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), coloredDiamond);
 		}
-		
+
 		//Cut diamond recipes
 		for (EnumCut cut : EnumCut.values())
 		{
@@ -261,7 +262,7 @@ public class MCA
 			Item cutItemC = null;
 			Item ringItemC = null;
 			Item ringRGItemC = null;
-			
+
 			switch (cut)
 			{
 			case HEART:
@@ -315,41 +316,41 @@ public class MCA
 			default:
 				continue;
 			}
-			
+
 			//Base recipes
 			ItemStack baseStack = new ItemStack(cutItem, 1);
-			
-	    	GameRegistry.addRecipe(new ItemStack(ringItem, 1), 
-	    			"GDG", "G G", "GGG", 'D', baseStack, 'G', Items.gold_ingot);
-	    	GameRegistry.addRecipe(new ItemStack(ringRGItem, 1), 
-	    			"GDG", "G G", "GGG", 'D', baseStack, 'G', ModItems.roseGoldIngot);
-	    	
+
+			GameRegistry.addRecipe(new ItemStack(ringItem, 1), 
+					"GDG", "G G", "GGG", 'D', baseStack, 'G', Items.gold_ingot);
+			GameRegistry.addRecipe(new ItemStack(ringRGItem, 1), 
+					"GDG", "G G", "GGG", 'D', baseStack, 'G', ModItems.roseGoldIngot);
+
 			//All colors
 			for (int i = 0; i < 16; ++i)
 			{
 				ItemStack coloredStack = new ItemStack(cutItemC, 1, i);
-				
-		    	GameRegistry.addRecipe(new ItemStack(ringItemC, 1, i), 
-		    			"GDG", "G G", "GGG", 'D', coloredStack, 'G', Items.gold_ingot);
-		    	GameRegistry.addRecipe(new ItemStack(ringRGItemC, 1, i), 
-		    			"GDG", "G G", "GGG", 'D', coloredStack, 'G', ModItems.roseGoldIngot);
+
+				GameRegistry.addRecipe(new ItemStack(ringItemC, 1, i), 
+						"GDG", "G G", "GGG", 'D', coloredStack, 'G', Items.gold_ingot);
+				GameRegistry.addRecipe(new ItemStack(ringRGItemC, 1, i), 
+						"GDG", "G G", "GGG", 'D', coloredStack, 'G', ModItems.roseGoldIngot);
 			}
 		}
-			
-    	//Smeltings
-    	GameRegistry.addSmelting(ModBlocks.roseGoldOre, new ItemStack(ModItems.roseGoldIngot), 5.0F);
-    	GameRegistry.addSmelting(ModItems.diamondDust, new ItemStack(Items.diamond), 5.0F);
 
-    	if (MCA.config.roseGoldSpawnWeight > 0)
-    	{
-    		SimpleOreGenerator.register(new SimpleOreGenerator(ModBlocks.roseGoldOre, 6, 12, 40, true, false), MCA.config.roseGoldSpawnWeight);
-    	}
-    }
-    
-    @EventHandler
-    public void postInit(FMLPostInitializationEvent event)
-    {
-    	RegistryMCA.addObjectAsGift(Items.wooden_sword, 3);
+		//Smeltings
+		GameRegistry.addSmelting(ModBlocks.roseGoldOre, new ItemStack(ModItems.roseGoldIngot), 5.0F);
+		GameRegistry.addSmelting(ModItems.diamondDust, new ItemStack(Items.diamond), 5.0F);
+
+		if (MCA.config.roseGoldSpawnWeight > 0)
+		{
+			SimpleOreGenerator.register(new SimpleOreGenerator(ModBlocks.roseGoldOre, 6, 12, 40, true, false), MCA.config.roseGoldSpawnWeight);
+		}
+	}
+
+	@EventHandler
+	public void postInit(FMLPostInitializationEvent event)
+	{
+		RegistryMCA.addObjectAsGift(Items.wooden_sword, 3);
 		RegistryMCA.addObjectAsGift(Items.wooden_axe, 3);
 		RegistryMCA.addObjectAsGift(Items.wooden_hoe, 3);
 		RegistryMCA.addObjectAsGift(Items.wooden_shovel, 3);
@@ -474,13 +475,14 @@ public class MCA
 		RegistryMCA.addObjectAsGift(ModBlocks.roseGoldBlock, 35);
 		RegistryMCA.addObjectAsGift(ModBlocks.roseGoldOre, 7);
 		RegistryMCA.addObjectAsGift(Blocks.redstone_block, 20);
+
 		RegistryMCA.addObjectAsGift(ModItems.diamondHeart, 50);
 		RegistryMCA.addObjectAsGift(ModItems.diamondOval, 50);
 		RegistryMCA.addObjectAsGift(ModItems.diamondSquare, 50);
 		RegistryMCA.addObjectAsGift(ModItems.diamondStar, 50);
 		RegistryMCA.addObjectAsGift(ModItems.diamondTriangle, 50);
 		RegistryMCA.addObjectAsGift(ModItems.diamondTiny, 50);
-		
+
 		RegistryMCA.addBlockToMiningAI(1, Blocks.coal_ore);
 		RegistryMCA.addBlockToMiningAI(2, Blocks.iron_ore);
 		RegistryMCA.addBlockToMiningAI(3, Blocks.lapis_ore);
@@ -489,40 +491,40 @@ public class MCA
 		RegistryMCA.addBlockToMiningAI(6, Blocks.emerald_ore);
 		RegistryMCA.addBlockToMiningAI(7, Blocks.quartz_ore);
 		RegistryMCA.addBlockToMiningAI(8, ModBlocks.roseGoldOre);
-		
+
 		RegistryMCA.addBlockToWoodcuttingAI(1, new WoodcuttingEntry(Blocks.log, 0, Blocks.sapling, 0));
 		RegistryMCA.addBlockToWoodcuttingAI(2, new WoodcuttingEntry(Blocks.log, 1, Blocks.sapling, 1));
 		RegistryMCA.addBlockToWoodcuttingAI(3, new WoodcuttingEntry(Blocks.log, 2, Blocks.sapling, 2));
 		RegistryMCA.addBlockToWoodcuttingAI(4, new WoodcuttingEntry(Blocks.log, 3, Blocks.sapling, 3));
 		RegistryMCA.addBlockToWoodcuttingAI(5, new WoodcuttingEntry(Blocks.log2, 0, Blocks.sapling, 4));
 		RegistryMCA.addBlockToWoodcuttingAI(6, new WoodcuttingEntry(Blocks.log2, 1, Blocks.sapling, 5));
-		
+
 		RegistryMCA.addEntityToHuntingAI(EntitySheep.class);
 		RegistryMCA.addEntityToHuntingAI(EntityCow.class);
 		RegistryMCA.addEntityToHuntingAI(EntityPig.class);
 		RegistryMCA.addEntityToHuntingAI(EntityChicken.class);
 		RegistryMCA.addEntityToHuntingAI(EntityOcelot.class, false);
 		RegistryMCA.addEntityToHuntingAI(EntityWolf.class, false);
-		
+
 		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.porkchop, Items.cooked_porkchop));
 		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.beef, Items.cooked_beef));
 		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.chicken, Items.cooked_chicken));
 		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.fish, Items.cooked_fished));
 		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.potato, Items.baked_potato));
-		
+
 		RegistryMCA.addCropToFarmingAI(1, new CropEntry(EnumCropCategory.WHEAT, Blocks.wheat, Items.wheat_seeds, Blocks.wheat, 7, Items.wheat, 1, 4));
 		RegistryMCA.addCropToFarmingAI(2, new CropEntry(EnumCropCategory.WHEAT, Blocks.potatoes, Items.potato, Blocks.potatoes, 7, Items.potato, 1, 4));
 		RegistryMCA.addCropToFarmingAI(3, new CropEntry(EnumCropCategory.WHEAT, Blocks.carrots, Items.carrot, Blocks.carrots, 7, Items.carrot, 1, 4));
 		RegistryMCA.addCropToFarmingAI(4, new CropEntry(EnumCropCategory.MELON, Blocks.melon_stem, Items.melon_seeds, Blocks.melon_block, 0, Items.melon, 2, 6));
 		RegistryMCA.addCropToFarmingAI(5, new CropEntry(EnumCropCategory.MELON, Blocks.pumpkin_stem, Items.pumpkin_seeds, Blocks.pumpkin, 0, null, 1, 1));
 		RegistryMCA.addCropToFarmingAI(6, new CropEntry(EnumCropCategory.SUGARCANE, Blocks.reeds, Items.reeds, Blocks.reeds, 0, Items.reeds, 1, 1));
-		
+
 		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.dirt, 1, 6), EnumGiftCategory.BAD);
 		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.deadbush, 1, 1), EnumGiftCategory.BAD);
 		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.cactus, 1, 3), EnumGiftCategory.BAD);
 		RegistryMCA.addWeddingGift(new WeddingGift(Items.stick, 1, 4), EnumGiftCategory.BAD);
 		RegistryMCA.addWeddingGift(new WeddingGift(Items.rotten_flesh, 1, 4), EnumGiftCategory.BAD);
-		
+
 		RegistryMCA.addWeddingGift(new WeddingGift(Items.clay_ball, 4, 16), EnumGiftCategory.GOOD);
 		RegistryMCA.addWeddingGift(new WeddingGift(Items.stone_axe, 1, 1), EnumGiftCategory.GOOD);
 		RegistryMCA.addWeddingGift(new WeddingGift(Items.stone_sword, 1, 1), EnumGiftCategory.GOOD);
@@ -540,7 +542,7 @@ public class MCA
 		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.log, 2, 16), EnumGiftCategory.GOOD);
 		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.cobblestone, 2, 16), EnumGiftCategory.GOOD);
 		RegistryMCA.addWeddingGift(new WeddingGift(Items.coal, 2, 8), EnumGiftCategory.GOOD);
-		
+
 		RegistryMCA.addWeddingGift(new WeddingGift(Items.clay_ball, 16, 32), EnumGiftCategory.BETTER);
 		RegistryMCA.addWeddingGift(new WeddingGift(Items.iron_axe, 1, 1), EnumGiftCategory.BETTER);
 		RegistryMCA.addWeddingGift(new WeddingGift(Items.iron_sword, 1, 1), EnumGiftCategory.BETTER);
@@ -562,7 +564,7 @@ public class MCA
 		RegistryMCA.addWeddingGift(new WeddingGift(Items.melon, 4, 8), EnumGiftCategory.BETTER);
 		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.bookshelf, 2, 4), EnumGiftCategory.BETTER);
 		RegistryMCA.addWeddingGift(new WeddingGift(Items.iron_ingot, 8, 16), EnumGiftCategory.BETTER);
-		
+
 		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.brick_block, 32, 32), EnumGiftCategory.BEST);
 		RegistryMCA.addWeddingGift(new WeddingGift(Items.diamond_axe, 1, 1), EnumGiftCategory.BEST);
 		RegistryMCA.addWeddingGift(new WeddingGift(Items.diamond_sword, 1, 1), EnumGiftCategory.BEST);
@@ -587,87 +589,101 @@ public class MCA
 		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.iron_block, 1, 8), EnumGiftCategory.BEST);
 		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.obsidian, 4, 8), EnumGiftCategory.BEST);
 		RegistryMCA.addWeddingGift(new WeddingGift(Items.emerald, 4, 6), EnumGiftCategory.BEST);
-    }
-    
-    @EventHandler
-    public void serverStarting(FMLServerStartingEvent event)
-    {
-    	event.registerServerCommand(new CommandMCA());
-    	    	
-    	File playerDataPath = new File(AbstractPlayerData.getPlayerDataPath(event.getServer().getEntityWorld(), MCA.ID));
-    	playerDataPath.mkdirs();
-    	
-    	for (File f : playerDataPath.listFiles())
-    	{
-    		String uuid = f.getName().replace(".dat", "");
-    		PlayerData data = new PlayerData(uuid, event.getServer().getEntityWorld());
-    		data = data.readDataFromFile(null, PlayerData.class, f);
-    		
-    		MCA.playerDataMap.put(uuid, data);
-    	}
-    }
-    
-    @EventHandler
-    public void serverStopping(FMLServerStoppingEvent event)
-    {
-    	for (AbstractPlayerData data : playerDataMap.values())
-    	{
-    		if (data != null) //Bad data seems to be generated with other mods.
-    		{
-    			data.saveDataToFile();
-    		}
-       	}
-    	
-    	MCA.playerDataMap.clear();
-    }
-    
+	}
+
+	@EventHandler
+	public void serverStarting(FMLServerStartingEvent event)
+	{
+		event.registerServerCommand(new CommandMCA());
+
+		File playerDataPath = new File(AbstractPlayerData.getPlayerDataPath(event.getServer().getEntityWorld(), MCA.ID));
+		playerDataPath.mkdirs();
+
+		for (File f : playerDataPath.listFiles())
+		{
+			String uuid = f.getName().replace(".dat", "");
+			PlayerData data = new PlayerData(uuid, event.getServer().getEntityWorld());
+			data = data.readDataFromFile(null, PlayerData.class, f);
+
+			MCA.playerDataMap.put(uuid, data);
+		}
+	}
+
+	@EventHandler
+	public void serverStopping(FMLServerStoppingEvent event)
+	{
+		for (AbstractPlayerData data : playerDataMap.values())
+		{
+			if (data != null) //Bad data seems to be generated with other mods.
+			{
+				data.saveDataToFile();
+			}
+		}
+
+		MCA.playerDataMap.clear();
+	}
+
 	public static MCA getInstance()
 	{
 		return instance;
 	}
-	
+
 	public static Logger getLog()
 	{
 		return logger;
 	}
-	
+
 	public static Config getConfig()
 	{
 		return config;
 	}
-	
+
+	public static void setConfig(Config configObj)
+	{
+		config = configObj;
+	}
+
+	public static void resetConfig()
+	{
+		if (config != clientConfig)
+		{
+			logger.info("Resetting config to client-side values...");
+			config = clientConfig;
+		}
+	}
+
 	public static ModMetadata getMetadata()
 	{
 		return metadata;
 	}
-	
+
 	public static CreativeTabs getCreativeTabMain()
 	{
 		return creativeTabMain;
 	}
-	
+
 	public static CreativeTabs getCreativeTabGemCutting()
 	{
 		return creativeTabGemCutting;
 	}
-	
+
 	public static LanguageManager getLanguageManager()
 	{
 		return languageManager;
 	}
-	
+
 	public static MCAPacketHandler getPacketHandler()
 	{
 		return packetHandler;
 	}
-	
+
 	public static PlayerData getPlayerData(EntityPlayer player)
 	{
 		if (!player.worldObj.isRemote)
 		{
 			return (PlayerData) playerDataMap.get(player.getUniqueID().toString());
 		}
-		
+
 		else
 		{
 			return playerDataContainer.getPlayerData(PlayerData.class);
@@ -678,7 +694,7 @@ public class MCA
 	{
 		return (PlayerData) playerDataMap.get(uuid);
 	}
-	
+
 	public static EntityHuman getHumanByPermanentId(int id) 
 	{
 		for (WorldServer world : MinecraftServer.getServer().worldServers)
@@ -688,7 +704,7 @@ public class MCA
 				if (obj instanceof EntityHuman)
 				{
 					EntityHuman human = (EntityHuman)obj;
-					
+
 					if (human.getPermanentId() == id)
 					{
 						return human;
@@ -696,10 +712,10 @@ public class MCA
 				}
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	public static void naturallySpawnVillagers(Point3D pointOfSpawn, World world, int originalProfession)
 	{
 		boolean hasFamily = RadixLogic.getBooleanWithProbability(20);
