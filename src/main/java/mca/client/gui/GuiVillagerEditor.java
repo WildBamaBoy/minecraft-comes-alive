@@ -174,8 +174,8 @@ public class GuiVillagerEditor extends GuiScreen
 		{
 			textures.next();
 			
-			String skin = villager.getSkin();
-			villager.setSkin(skin.replaceAll("\\d+", String.valueOf(textures.get())));
+			String skin = villager.getHeadTexture();
+			villager.setHeadTexture(skin.replaceAll("\\d+", String.valueOf(textures.get())));
 			drawEditorGuiPage1();
 		}
 
@@ -183,8 +183,8 @@ public class GuiVillagerEditor extends GuiScreen
 		{
 			textures.previous();
 			
-			String skin = villager.getSkin();
-			villager.setSkin(skin.replaceAll("\\d+", String.valueOf(textures.get())));
+			String skin = villager.getHeadTexture();
+			villager.setHeadTexture(skin.replaceAll("\\d+", String.valueOf(textures.get())));
 			drawEditorGuiPage1();
 		}
 
@@ -192,7 +192,7 @@ public class GuiVillagerEditor extends GuiScreen
 		{
 			villager.setProfessionId(jobs.next());
 			textures = villager.getProfessionGroup().getListOfSkinIDs(villager.getIsMale());
-			villager.setSkin(villager.getRandomSkin());
+			villager.setHeadTexture(villager.getRandomSkin());
 			drawEditorGuiPage1();
 		}
 
@@ -200,7 +200,7 @@ public class GuiVillagerEditor extends GuiScreen
 		{
 			villager.setProfessionId(jobs.previous());
 			textures = villager.getProfessionGroup().getListOfSkinIDs(villager.getIsMale());
-			villager.setSkin(villager.getRandomSkin());
+			villager.setHeadTexture(villager.getRandomSkin());
 			drawEditorGuiPage1();
 		}
 
@@ -313,7 +313,7 @@ public class GuiVillagerEditor extends GuiScreen
 		buttonList.clear();
 		buttonList.add(randomButton = new GuiButton(1, width / 2 - 50, height / 2 - 95, 60, 20, MCA.getInstance().getLanguageManager().getString("gui.button.random")));
 		buttonList.add(genderButton = new GuiButton(2, width / 2 - 190, height / 2 - 60, 175, 20, MCA.getInstance().getLanguageManager().getString("gui.button.setup.gender." + villager.getIsMale())));
-		buttonList.add(textureButton = new GuiButton(3, width / 2 - 190, height / 2 - 40, 175, 20, "Texture: " + villager.getSkin().replace("mca:textures/skins/", "").replace(".png", "")));
+		buttonList.add(textureButton = new GuiButton(3, width / 2 - 190, height / 2 - 40, 175, 20, "Texture: " + villager.getHeadTexture().replace("mca:textures/skins/", "").replace(".png", "")));
 		buttonList.add(shiftTextureIndexUpButton = new GuiButton(4, width / 2 - 15, height / 2 - 40, 20, 20, ">>"));
 		buttonList.add(shiftTextureIndexDownButton = new GuiButton(5, width / 2 - 210, height / 2 - 40, 20, 20, "<<"));
 		buttonList.add(professionButton = new GuiButton(6, width / 2 - 190, height / 2 - 20, 175, 20, "Job: " + villager.getProfessionEnum().getUserFriendlyForm()));

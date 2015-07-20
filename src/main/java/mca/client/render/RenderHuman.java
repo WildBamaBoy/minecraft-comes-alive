@@ -146,7 +146,7 @@ public class RenderHuman extends RenderBiped
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity)
 	{
-		final String skinName = ((EntityHuman)entity).getSkin();
+		final String skinName = ((EntityHuman)entity).getHeadTexture();
 
 		if (skinName.isEmpty())
 		{
@@ -155,7 +155,7 @@ public class RenderHuman extends RenderBiped
 
 		else
 		{
-			return new ResourceLocation(((EntityHuman)entity).getSkin());
+			return new ResourceLocation(((EntityHuman)entity).getHeadTexture());
 		}
 	}
 
