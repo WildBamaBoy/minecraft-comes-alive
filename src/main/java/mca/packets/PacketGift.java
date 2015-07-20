@@ -144,6 +144,14 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				TutorialManager.sendMessageToPlayer(player, "Cake can influence villagers to have children.", "However they can only have a few before they will stop.");
 			}
 			
+			else if (item == ModItems.newOutfit && human.allowControllingInteractions(player))
+			{
+				VersionBridge.spawnParticlesAroundEntityS(Particle.HAPPY, human, 16);
+				human.setClothesTexture(human.getRandomSkin());
+				removeItem = true;
+				removeCount = 1;
+			}
+			
 			else
 			{
 				removeItem = handleStandardGift(player, human, packet.slot, stack);

@@ -91,7 +91,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class EntityHuman extends EntityVillager implements IWatchable, IPermanent, IEntityAdditionalSpawnData
 {
 	private final WatchedString name;
-	private final WatchedString skin;
+	private final WatchedString headTexture;
+	private final WatchedString clothesTexture;
 	private final WatchedInt professionId;
 	private final WatchedInt personalityId;
 	private final WatchedInt permanentId;
@@ -134,7 +135,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		professionId = new WatchedInt(EnumProfession.getAtRandom().getId(), WatcherIDsHuman.PROFESSION, dataWatcherEx);
 		personalityId = new WatchedInt(EnumPersonality.getAtRandom().getId(), WatcherIDsHuman.PERSONALITY_ID, dataWatcherEx);
 		permanentId = new WatchedInt(RadixLogic.generatePermanentEntityId(this), WatcherIDsHuman.PERMANENT_ID, dataWatcherEx);
-		skin = new WatchedString(getRandomSkin(), WatcherIDsHuman.SKIN, dataWatcherEx);
+		headTexture = new WatchedString(getRandomSkin(), WatcherIDsHuman.HEAD_TEXTURE, dataWatcherEx);
+		clothesTexture = new WatchedString(headTexture.getString(), WatcherIDsHuman.CLOTHES_TEXTURE, dataWatcherEx);
 		isEngaged = new WatchedBoolean(false, WatcherIDsHuman.IS_ENGAGED, dataWatcherEx);
 		spouseId = new WatchedInt(0, WatcherIDsHuman.SPOUSE_ID, dataWatcherEx);
 		spouseName = new WatchedString("null", WatcherIDsHuman.SPOUSE_NAME, dataWatcherEx);
@@ -209,7 +211,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		this.isMale.setValue(isMale);
 		this.name.setValue(getRandomName());
-		this.skin.setValue(getRandomSkin());
+		this.headTexture.setValue(getRandomSkin());
 	}
 
 	public EntityHuman(World world, boolean isMale, int profession, boolean isOverwrite)
@@ -226,7 +228,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			this.professionId.setValue(profession);
 		}
 
-		this.skin.setValue(this.getRandomSkin());
+		this.headTexture.setValue(this.getRandomSkin());
 	}
 
 	private EntityHuman(World world, boolean isMale, boolean isChild)
@@ -245,7 +247,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		if (isPlayerChild)
 		{
 			this.professionId.setValue(EnumProfession.Child.getId());
-			this.skin.setValue(this.getRandomSkin());
+			this.headTexture.setValue(this.getRandomSkin());
 		}
 	}
 
@@ -398,7 +400,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		aiManager.writeToNBT(nbt);
 
 		nbt.setString("name", name.getString());
-		nbt.setString("skin", skin.getString());
+		nbt.setString("skin", headTexture.getString());
+		nbt.setString("clothesTexture", clothesTexture.getString());
 		nbt.setInteger("professionId", professionId.getInt());
 		nbt.setInteger("personalityId", personalityId.getInt());
 		nbt.setInteger("permanentId", permanentId.getInt());
@@ -431,7 +434,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		aiManager.readFromNBT(nbt);
 
 		name.setValue(nbt.getString("name"));
-		skin.setValue(nbt.getString("skin"));
+		headTexture.setValue(nbt.getString("skin"));
+		clothesTexture.setValue(nbt.getString("clothesTexture"));
 		professionId.setValue(nbt.getInteger("professionId"));
 		personalityId.setValue(nbt.getInteger("personalityId"));
 		permanentId.setValue(nbt.getInteger("permanentId"));
@@ -721,16 +725,26 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		return isMale.getBoolean();
 	}
 
-	public void setSkin(String value)
+	public void setHeadTexture(String value)
 	{
-		this.skin.setValue(value);
+		this.headTexture.setValue(value);
 	}
 
-	public String getSkin()
+	public String getHeadTexture()
 	{
-		return skin.getString();
+		return headTexture.getString();
 	}
 
+	public void setClothesTexture(String value)
+	{
+		this.clothesTexture.setValue(value);
+	}
+	
+	public String getClothesTexture()
+	{
+		return clothesTexture.getString();
+	}
+	
 	public boolean getIsChild()
 	{
 		return isChild.getBoolean();
@@ -1363,7 +1377,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public void setIsMale(boolean value) 
 	{
 		this.isMale.setValue(value);
-		this.setSkin(this.getRandomSkin());
+		this.setHeadTexture(this.getRandomSkin());
 	}
 
 	public void setHeight(float f) 

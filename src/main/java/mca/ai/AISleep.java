@@ -274,16 +274,16 @@ public class AISleep extends AbstractAI
 
 	public void transitionSkinState(boolean toSleeping)
 	{
-		String skinValue = owner.getSkin();
+		String skinValue = owner.getHeadTexture();
 
 		if (toSleeping && !skinValue.contains("sleeping"))
 		{
-			owner.setSkin(skinValue.replace("/skins/", "/skins/sleeping/"));
+			owner.setHeadTexture(skinValue.replace("/skins/", "/skins/sleeping/"));
 		}
 
 		else if (!toSleeping && skinValue.contains("sleeping"))
 		{
-			owner.setSkin(skinValue.replace("/skins/sleeping/", "/skins/"));
+			owner.setHeadTexture(skinValue.replace("/skins/sleeping/", "/skins/"));
 		}
 	}
 

@@ -42,6 +42,7 @@ public final class ModItems
 	public static Item roseGoldIngot;
 	public static Item roseGoldDust;
 	public static Item goldDust;
+	public static Item newOutfit;
 	
 	//Second tab
 	public static ItemGemCutter gemCutter;
