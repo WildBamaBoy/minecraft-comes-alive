@@ -1,13 +1,28 @@
-minecraft {
+def buildNumber = 1
+
+minecraft 
+{
+    def Properties versionProps = new Properties()
+    def versionPropsFile = file('version.properties')
+    
+    versionProps.load(new FileInputStream(versionPropsFile))
+
+    def code = versionProps['BUILD_NUMBER'].toInteger() + 1
+    buildNumber = code
+    
+    versionProps['BUILD_NUMBER']=code.toString()
+    versionProps.store(versionPropsFile.newWriter(), null)
+
     version = "1.7.10-10.13.2.1236"
     runDir =  "eclipse/"
     replaceIn "mca/core/MCA.java"
-    replace   "@VERSION@", project.version
+    replace   "@VERSION@", "${project.minecraft.version}-${project.version}" + "." + buildNumber
 }
 
-version = "${project.version}"
+version = "${project.minecraft.version}-${project.version}" + "." + buildNumber
 
-processResources {
+processResources 
+{
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 

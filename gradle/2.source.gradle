@@ -1,6 +1,6 @@
 task sourceJar(type: Jar) {
     from sourceSets.main.allSource
-    classifier = project.minecraft.version + '-sources'
+    classifier = 'sources'
     
     tasks.apiJar.execute()
 }
