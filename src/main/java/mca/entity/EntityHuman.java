@@ -1,10 +1,13 @@
 package mca.entity;
 
-import io.netty.buffer.ByteBuf;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
+import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import io.netty.buffer.ByteBuf;
 import mca.ai.AIBlink;
 import mca.ai.AIBuild;
 import mca.ai.AIConverse;
@@ -45,7 +48,7 @@ import mca.enums.EnumProgressionStep;
 import mca.enums.EnumSleepingState;
 import mca.items.ItemBaby;
 import mca.packets.PacketOpenGUIOnEntity;
-import net.minecraft.client.entity.EntityClientPlayerMP;
+import mca.util.Utilities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -82,11 +85,6 @@ import radixcore.data.WatchedString;
 import radixcore.inventory.Inventory;
 import radixcore.network.ByteBufIO;
 import radixcore.util.RadixLogic;
-import radixcore.util.RadixMath;
-import cpw.mods.fml.common.ObfuscationReflectionHelper;
-import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityHuman extends EntityVillager implements IWatchable, IPermanent, IEntityAdditionalSpawnData
 {
@@ -147,8 +145,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		parentNames = new WatchedString("null", WatcherIDsHuman.PARENT_NAMES, dataWatcherEx);
 		parentIDs = new WatchedString("null", WatcherIDsHuman.PARENT_IDS, dataWatcherEx);
 		isInteracting = new WatchedBoolean(false, WatcherIDsHuman.IS_INTERACTING, dataWatcherEx);
-		scaleHeight = new WatchedFloat(RadixMath.getNumberInRange(-0.03F, 0.18F), WatcherIDsHuman.HEIGHT, dataWatcherEx);
-		scaleGirth = new WatchedFloat(RadixMath.getNumberInRange(-0.01F, 0.5F), WatcherIDsHuman.GIRTH, dataWatcherEx);
+		scaleHeight = new WatchedFloat((float) Utilities.getNumberInRange(worldObj.rand, 0.03F, 0.09F), WatcherIDsHuman.HEIGHT, dataWatcherEx);
+		scaleGirth = new WatchedFloat((float) Utilities.getNumberInRange(worldObj.rand, -0.03F, 0.05F), WatcherIDsHuman.GIRTH, dataWatcherEx);
 		doDisplay = new WatchedBoolean(false, WatcherIDsHuman.DO_DISPLAY, dataWatcherEx);
 		isSwinging = new WatchedBoolean(false, WatcherIDsHuman.IS_SWINGING, dataWatcherEx);
 		heldItem = new WatchedInt(-1, WatcherIDsHuman.HELD_ITEM, dataWatcherEx);
