@@ -58,6 +58,17 @@ public class AIFollow extends AbstractAI
 			final EntityLiving entityPathController = (EntityLiving) (owner.ridingEntity instanceof EntityHorse ? owner.ridingEntity : owner);
 			final EntityPlayer entityPlayer = owner.worldObj.getPlayerEntityByName(playerFollowingName.getString());
 
+			if (entityPathController instanceof EntityHorse)
+			{
+				final EntityHorse horse = (EntityHorse) entityPathController;
+
+				//This makes the horse move properly.
+				if (horse.isHorseSaddled())
+				{
+					horse.setHorseSaddled(false);
+				}
+			}
+			
 			if (entityPlayer != null)
 			{
 				entityPathController.getLookHelper().setLookPositionWithEntity(entityPlayer, 10.0F, owner.getVerticalFaceSpeed());
