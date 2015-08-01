@@ -645,7 +645,6 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		if (aiSleep.getIsSleeping())
 		{
-			aiSleep.setIsSleeping(false);
 			aiSleep.setSleepingState(EnumSleepingState.INTERRUPTED);
 		}
 	}
@@ -694,7 +693,6 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		}
 
 		aiManager.getAI(AIIdle.class).reset();
-		aiManager.getAI(AISleep.class).setIsSleeping(false);
 		aiManager.getAI(AISleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
 	}
 

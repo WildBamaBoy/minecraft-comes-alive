@@ -5,9 +5,8 @@ public enum EnumSleepingState
 {
 	AWAKE(0),
 	INTERRUPTED(1),
-	WALKING_HOME(2),
-	SLEEPING(3),
-	NO_HOME(4);
+	SLEEPING(2),
+	NO_HOME(3);
 	
 	private int id;
 	
