@@ -47,5 +47,5 @@ public class WatcherIDsHuman
 	public static final int IS_FISHING_ACTIVE = 43;
 	public static final int IS_WOODCUTTING_ACTIVE = 44;
 	public static final int IS_SWINGING = 45;
-	public static final int UNUSED_46 = 46;
+	public static final int SLEEPING_STATE = 46;
 }

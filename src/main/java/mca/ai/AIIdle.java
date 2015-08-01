@@ -3,6 +3,7 @@ package mca.ai;
 import mca.entity.EntityHuman;
 import mca.enums.EnumMovementState;
 import mca.enums.EnumProfessionGroup;
+import mca.enums.EnumSleepingState;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
 
@@ -36,7 +37,7 @@ public class AIIdle extends AbstractAI
 	
 			if (!AISleep.getIsSleeping())
 			{
-				AISleep.setIsSleeping(true);
+				AISleep.setSleepingState(EnumSleepingState.SLEEPING);
 			}
 		}
 	}

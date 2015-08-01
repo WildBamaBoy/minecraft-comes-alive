@@ -1,5 +1,8 @@
 package mca.packets;
 
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import mca.ai.AIMood;
 import mca.ai.AISleep;
@@ -15,20 +18,19 @@ import mca.enums.EnumInteraction;
 import mca.enums.EnumPersonality;
 import mca.items.ItemBaby;
 import mca.util.TutorialManager;
+import mca.util.Utilities;
+import net.minecraft.block.Block;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
-import radixcore.math.Point3D;
 import radixcore.packets.AbstractPacket;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketInteract extends AbstractPacket implements IMessage, IMessageHandler<PacketInteract, IMessage>
 {
@@ -82,7 +84,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 
 			if (interaction == EnumInteraction.SET_HOME)
 			{
-				if (villager.getAI(AISleep.class).setHomePointWithVerify(new Point3D(villager.posX, villager.posY, villager.posZ)))
+				if (villager.getAI(AISleep.class).setHomePoint(villager.posX, villager.posY, villager.posZ))
 				{
 					villager.say("interaction.sethome.success", player);
 					TutorialManager.sendMessageToPlayer(player, "Villagers go to their home points at night, and then go to sleep.", "If their home point becomes blocked, they will automatically find a new one.");
@@ -90,7 +92,26 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 
 				else
 				{
-					villager.say("interaction.sethome.fail", player);
+					Block block = null;
+					int iPosX = (int)villager.posX;
+					int iPosY = (int)villager.posY;
+					int iPosZ = (int)villager.posZ;
+					
+					if (!Utilities.isPointClear(villager.worldObj, iPosX, iPosY, iPosZ))
+					{
+						block = villager.worldObj.getBlock(iPosX, iPosY, iPosZ);
+					}
+					
+					else if (!Utilities.isPointClear(villager.worldObj, iPosX, iPosY + 1, iPosZ))
+					{
+						block = villager.worldObj.getBlock(iPosX, iPosY + 1, iPosZ);
+					}
+					
+					if (block != null)
+					{
+						villager.say("interaction.sethome.fail", player, block.getLocalizedName().toLowerCase());
+					}
+					
 					TutorialManager.sendMessageToPlayer(player, "Move villagers away from the edges of walls", "and other blocks before setting their home.");
 				}
 			}
