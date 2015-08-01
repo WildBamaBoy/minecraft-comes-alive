@@ -223,6 +223,12 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 			{
 				if (villager.ridingEntity != null)
 				{
+					//horseSaddled is set to false when mounted by a villager in order for
+					//the navigator to function properly and make them move. Set them back
+					//as saddled when the villager dismounts.
+					EntityHorse horse = (EntityHorse)villager.ridingEntity;
+					horse.setHorseSaddled(true);
+					
 					villager.mountEntity(null);
 				}
 
