@@ -211,6 +211,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		this.isMale.setValue(isMale);
 		this.name.setValue(getRandomName());
 		this.headTexture.setValue(getRandomSkin());
+		this.clothesTexture.setValue(this.headTexture.getString());
 	}
 
 	public EntityHuman(World world, boolean isMale, int profession, boolean isOverwrite)
@@ -228,6 +229,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		}
 
 		this.headTexture.setValue(this.getRandomSkin());
+		this.clothesTexture.setValue(this.headTexture.getString());
 	}
 
 	private EntityHuman(World world, boolean isMale, boolean isChild)
@@ -247,6 +249,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			this.professionId.setValue(EnumProfession.Child.getId());
 			this.headTexture.setValue(this.getRandomSkin());
+			this.clothesTexture.setValue(this.headTexture.getString());
 		}
 	}
 
