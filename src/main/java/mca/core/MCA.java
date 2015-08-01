@@ -730,6 +730,7 @@ public class MCA
 			}
 		}
 
+		human.setHealth(MCA.getConfig().villagerMaxHealth);
 		world.spawnEntityInWorld(human);
 	}
 
