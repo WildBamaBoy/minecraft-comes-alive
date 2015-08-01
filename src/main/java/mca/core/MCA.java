@@ -421,6 +421,12 @@ public class MCA
 		RegistryMCA.addObjectAsGift(ModBlocks.roseGoldBlock, 35);
 		RegistryMCA.addObjectAsGift(ModBlocks.roseGoldOre, 7);
 		RegistryMCA.addObjectAsGift(Blocks.redstone_block, 20);
+		RegistryMCA.addObjectAsGift(ModItems.diamondHeart, 50);
+		RegistryMCA.addObjectAsGift(ModItems.diamondOval, 50);
+		RegistryMCA.addObjectAsGift(ModItems.diamondSquare, 50);
+		RegistryMCA.addObjectAsGift(ModItems.diamondStar, 50);
+		RegistryMCA.addObjectAsGift(ModItems.diamondTriangle, 50);
+		RegistryMCA.addObjectAsGift(ModItems.diamondTiny, 50);
 		
 		RegistryMCA.addBlockToMiningAI(1, Blocks.coal_ore);
 		RegistryMCA.addBlockToMiningAI(2, Blocks.iron_ore);
