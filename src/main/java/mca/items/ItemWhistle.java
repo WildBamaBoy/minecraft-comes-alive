@@ -47,6 +47,6 @@ public class ItemWhistle extends Item
 	@Override
 	public void registerIcons(IIconRegister IIconRegister)
 	{
-		itemIcon = IIconRegister.registerIcon("mca:Whistle");
+		itemIcon = IIconRegister.registerIcon("mca:whistle");
 	}
 }

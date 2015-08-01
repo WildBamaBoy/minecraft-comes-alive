@@ -22,7 +22,7 @@ public class ItemVillagerEditor extends Item
 	@Override
 	public void registerIcons(IIconRegister IIconRegister)
 	{
-		itemIcon = IIconRegister.registerIcon("mca:VillagerEditor");
+		itemIcon = IIconRegister.registerIcon("mca:villagereditor");
 	}
 
 	@SideOnly(Side.CLIENT)

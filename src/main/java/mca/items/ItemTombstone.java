@@ -102,6 +102,6 @@ public class ItemTombstone extends Item
 	@Override
 	public void registerIcons(IIconRegister IIconRegister)
 	{
-		itemIcon = IIconRegister.registerIcon("mca:Tombstone");
+		itemIcon = IIconRegister.registerIcon("mca:tombstone");
 	}
 }
