@@ -47,7 +47,11 @@ public class PacketSyncPlayerMemory extends AbstractPacket implements IMessage, 
 		{
 			EntityPlayer player = getPlayer(context);
 			EntityHuman human = (EntityHuman) player.worldObj.getEntityByID(packet.entityId);
-			human.setPlayerMemory(player, packet.memory);
+			
+			if (human != null) //In the case that the client human has been unloaded.
+			{
+				human.setPlayerMemory(player, packet.memory);
+			}
 		}
 		
 		catch (Exception e)
