@@ -742,7 +742,15 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	
 	public String getClothesTexture()
 	{
-		return clothesTexture.getString();
+		if (clothesTexture.getString().isEmpty()) //When updating.
+		{
+			return headTexture.getString();
+		}
+		
+		else
+		{
+			return clothesTexture.getString();
+		}
 	}
 	
 	public boolean getIsChild()
