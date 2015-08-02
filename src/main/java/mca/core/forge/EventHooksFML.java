@@ -24,14 +24,18 @@ import mca.items.ItemGemCutter;
 import mca.packets.PacketSyncConfig;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import radixcore.constant.Time;
+import radixcore.math.Point3D;
 import radixcore.packets.PacketDataContainer;
+import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
 import radixcore.util.SchematicHandler;
@@ -129,17 +133,17 @@ public class EventHooksFML
 				playPortalAnimation = false;
 			}
 		}
-		
+
 		if (clientTickCounter <= 0)
 		{
 			clientTickCounter = Time.SECOND / 2;
-			
+
 			if (MCA.destinySpawnFlag)
 			{
 				SchematicHandler.spawnStructureRelativeToPoint("/assets/mca/schematic/destiny-test.schematic", MCA.destinyCenterPoint, mc.theWorld);
 			}
 		}
-		
+
 		else
 		{
 			clientTickCounter--;
@@ -191,13 +195,20 @@ public class EventHooksFML
 					if (numberOfGuards < neededNumberOfGuards)
 					{
 						final EntityHuman guard = new EntityHuman(human.worldObj, RadixLogic.getBooleanWithProbability(50), EnumProfession.Guard.getId(), false);
-						guard.setPosition(human.posX, human.posY, human.posZ);
-						human.worldObj.spawnEntityInWorld(guard);
+						final Vec3 pos = RandomPositionGenerator.findRandomTarget(human, 10, 1);
+						final Point3D posAsPoint = new Point3D(pos.xCoord, pos.yCoord, pos.zCoord);
+						
+						//Check that we can see the sky, no guards in caves or stuck in blocks.
+						if (BlockHelper.canBlockSeeTheSky(human.worldObj, posAsPoint.iPosX, (int)human.posY, posAsPoint.iPosZ))
+						{
+							guard.setPosition(pos.xCoord, (int)human.posY, pos.zCoord);
+							human.worldObj.spawnEntityInWorld(guard);
+						}
 					}
 				}
 			}
 
-			serverTickCounter = Time.MINUTE;
+			serverTickCounter = Time.SECOND;
 		}
 
 		serverTickCounter--;
@@ -225,20 +236,20 @@ public class EventHooksFML
 				|| craftedItem == ModItems.coloredDiamondStar || craftedItem == ModItems.coloredDiamondTiny || craftedItem == ModItems.coloredDiamondTriangle)
 		{
 			player.triggerAchievement(ModAchievements.craftShapedDiamond);
-			
+
 			for (int i = 0; i < event.craftMatrix.getSizeInventory(); i++)
 			{
 				ItemStack stack = event.craftMatrix.getStackInSlot(i);
-				
+
 				if (stack != null && stack.getItem() instanceof ItemGemCutter)
 				{
 					stack.attemptDamageItem(1, event.player.getRNG());
-					
+
 					if (stack.getItemDamage() < stack.getMaxDamage())
 					{
 						event.player.inventory.addItemStackToInventory(stack);
 					}
-					
+
 					break;
 				}
 			}
