@@ -357,7 +357,7 @@ public class AISleep extends AbstractAI
 				final Point3D nearestBed = Point3D.getNearestPointInList(new Point3D(owner.posX, owner.posY, owner.posZ), bedFeetNearby);
 				final TileVillagerBed villagerBed = (TileVillagerBed) BlockHelper.getTileEntity(owner.worldObj, nearestBed.iPosX, nearestBed.iPosY, nearestBed.iPosZ);
 
-				if (!villagerBed.getIsVillagerSleepingIn())
+				if (villagerBed != null && !villagerBed.getIsVillagerSleepingIn())
 				{
 					villagerBed.setSleepingVillagerId(owner.getPermanentId());
 					villagerBed.setIsVillagerSleepingIn(true);
