@@ -198,7 +198,11 @@ public class MCA
 				" C ", "C C", "CCC", 'C', Items.clay_ball);    	
 		GameRegistry.addRecipe(new ItemStack(ModItems.starMold),
 				" C ", "CCC", " C ", 'C', Items.clay_ball);
-
+		GameRegistry.addRecipe(new ItemStack(ModItems.needle),
+				"I  ", " I ", "  I", 'I', new ItemStack(Items.iron_ingot));
+		GameRegistry.addRecipe(new ItemStack(ModItems.newOutfit),
+				"C C", "CCC", "CCC", 'C', ModItems.cloth);
+		
 		//Variable recipes
 		if (!config.disableWeddingRingRecipe)
 		{
@@ -225,6 +229,12 @@ public class MCA
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(ModItems.bedGreen));
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(ModItems.bedPurple));
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(ModItems.bedPink));
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.needleAndString), new ItemStack(ModItems.needle), new ItemStack(Items.string));
+
+		for(int i = 0; i < 16; i++)
+		{
+			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.cloth), new ItemStack(Blocks.wool), new ItemStack(ModItems.needleAndString, 1, i));
+		}		
 
 		//Colored diamond recipes.
 		for (int i = 0; i < 16; ++i)

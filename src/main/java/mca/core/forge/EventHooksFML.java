@@ -236,23 +236,6 @@ public class EventHooksFML
 				|| craftedItem == ModItems.coloredDiamondStar || craftedItem == ModItems.coloredDiamondTiny || craftedItem == ModItems.coloredDiamondTriangle)
 		{
 			player.triggerAchievement(ModAchievements.craftShapedDiamond);
-
-			for (int i = 0; i < event.craftMatrix.getSizeInventory(); i++)
-			{
-				ItemStack stack = event.craftMatrix.getStackInSlot(i);
-
-				if (stack != null && stack.getItem() instanceof ItemGemCutter)
-				{
-					stack.attemptDamageItem(1, event.player.getRNG());
-
-					if (stack.getItemDamage() < stack.getMaxDamage())
-					{
-						event.player.inventory.addItemStackToInventory(stack);
-					}
-
-					break;
-				}
-			}
 		}
 
 		else if (craftedItem == ModItems.engagementRingHeart || craftedItem == ModItems.engagementRingOval || craftedItem == ModItems.engagementRingSquare
@@ -265,6 +248,24 @@ public class EventHooksFML
 				|| craftedItem == ModItems.ringStarColoredRG || craftedItem == ModItems.ringTinyColoredRG || craftedItem == ModItems.ringTriangleColoredRG)
 		{
 			player.triggerAchievement(ModAchievements.craftShapedRing);
+		}
+		
+		//Return damageable items to the inventory.
+		for (int i = 0; i < event.craftMatrix.getSizeInventory(); i++)
+		{
+			ItemStack stack = event.craftMatrix.getStackInSlot(i);
+
+			if (stack != null && (stack.getItem() instanceof ItemGemCutter || stack.getItem() == ModItems.needleAndString))
+			{
+				stack.attemptDamageItem(1, event.player.getRNG());
+
+				if (stack.getItemDamage() < stack.getMaxDamage())
+				{
+					event.player.inventory.addItemStackToInventory(stack);
+				}
+
+				break;
+			}
 		}
 	}
 

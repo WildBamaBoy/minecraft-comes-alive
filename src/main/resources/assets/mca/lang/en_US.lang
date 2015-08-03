@@ -97,6 +97,9 @@ item.OvalMold.name=Oval Mold
 item.SquareMold.name=Square Mold
 item.TriangleMold.name=Triangle Mold
 item.StarMold.name=Star Mold
+item.NeedleAndString.name=Needle and String
+item.Needle.name=Needle
+item.Cloth.name=Cloth
 tile.VillagerSpawner.name=Villager Spawner
 
 #######
