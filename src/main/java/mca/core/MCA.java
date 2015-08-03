@@ -722,7 +722,7 @@ public class MCA
 		boolean isMale = RadixLogic.getBooleanWithProbability(50);
 
 		final EntityHuman human = new EntityHuman(world, isMale, originalProfession != -1 ? originalProfession : EnumProfession.getAtRandom().getId(), true);
-		human.setPosition(pointOfSpawn.iPosX, pointOfSpawn.iPosY, pointOfSpawn.iPosZ);
+		human.setPosition(pointOfSpawn.dPosX, pointOfSpawn.dPosY, pointOfSpawn.dPosZ);
 
 		if (hasFamily)
 		{
@@ -747,12 +747,11 @@ public class MCA
 				}
 
 				final EntityHuman child = new EntityHuman(world, RadixLogic.getBooleanWithProbability(50), true, motherName, fatherName, motherID, fatherID, false);
-				child.setPosition(pointOfSpawn.iPosX, pointOfSpawn.iPosY, pointOfSpawn.iPosZ + 1);
+				child.setPosition(pointOfSpawn.dPosX, pointOfSpawn.dPosY, pointOfSpawn.dPosZ + 1);
 				world.spawnEntityInWorld(child);
 			}
 		}
 
-		human.setHealth(MCA.getConfig().villagerMaxHealth);
 		world.spawnEntityInWorld(human);
 	}
 

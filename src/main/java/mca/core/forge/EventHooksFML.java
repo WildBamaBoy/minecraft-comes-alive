@@ -208,7 +208,7 @@ public class EventHooksFML
 				}
 			}
 
-			serverTickCounter = Time.SECOND;
+			serverTickCounter = Time.MINUTE;
 		}
 
 		serverTickCounter--;
