@@ -366,7 +366,7 @@ public class AISleep extends AbstractAI
 				final IBlockState state = owner.worldObj.getBlockState(new BlockPos(nearestBed.iPosX, nearestBed.iPosY, nearestBed.iPosZ));
 				final BlockBed bedBlock = (BlockBed) state.getBlock();
 				
-				if (!villagerBed.getIsVillagerSleepingIn())
+				if (villagerBed != null && !villagerBed.getIsVillagerSleepingIn())
 				{
 					villagerBed.setSleepingVillagerId(owner.getPermanentId());
 					villagerBed.setIsVillagerSleepingIn(true);
