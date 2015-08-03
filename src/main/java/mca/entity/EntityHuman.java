@@ -258,7 +258,6 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(1, new EntityAITradePlayer(this));
-        this.tasks.addTask(2, new EntityAIMoveIndoors(this));
 		this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
 		this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
 		this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, getSpeed()));
@@ -273,6 +272,11 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		if (this.getHealth() > maxHealth || this.getProfessionGroup() == EnumProfessionGroup.Guard)
 		{
 			this.setHealth(maxHealth);
+		}
+		
+		if (this.getProfessionGroup() != EnumProfessionGroup.Guard)
+		{
+	        this.tasks.addTask(2, new EntityAIMoveIndoors(this));
 		}
 	}
 
