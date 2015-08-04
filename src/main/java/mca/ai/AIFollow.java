@@ -74,7 +74,8 @@ public class AIFollow extends AbstractAI
 				
 				final double distanceToPlayer = RadixMath.getDistanceToEntity(owner, entityPlayer);
 
-				if (distanceToPlayer >= 10.0D)
+				//Crash was reported where bounding box ended up being null.
+				if (distanceToPlayer >= 10.0D && entityPlayer.getEntityBoundingBox() != null)
 				{
 					final int playerX = net.minecraft.util.MathHelper.floor_double(entityPlayer.posX) - 2;
 					final int playerY = net.minecraft.util.MathHelper.floor_double(entityPlayer.getEntityBoundingBox().minY);
