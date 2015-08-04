@@ -2,11 +2,11 @@ package mca.items;
 
 import java.util.List;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import mca.core.MCA;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ItemNewOutfit extends Item
 {
@@ -15,7 +15,6 @@ public class ItemNewOutfit extends Item
 		super();
 		
 		this.setUnlocalizedName("NewOutfit");
-		this.setTextureName("mca:NewOutfit");
 		GameRegistry.registerItem(this, "NewOutfit");
 		this.setCreativeTab(MCA.getCreativeTabGemCutting());
 		this.setMaxStackSize(1);
