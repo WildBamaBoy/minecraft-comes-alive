@@ -200,13 +200,17 @@ public class EventHooksFML
 					{
 						final EntityHuman guard = new EntityHuman(human.worldObj, RadixLogic.getBooleanWithProbability(50), EnumProfession.Guard.getId(), false);
 						final Vec3 pos = RandomPositionGenerator.findRandomTarget(human, 10, 1);
-						final Point3D posAsPoint = new Point3D(pos.xCoord, pos.yCoord, pos.zCoord);
-						
-						//Check that we can see the sky, no guards in caves or stuck in blocks.
-						if (BlockHelper.canBlockSeeTheSky(human.worldObj, posAsPoint.iPosX, (int)human.posY, posAsPoint.iPosZ))
+
+						if (pos != null) //Ensure a random position was actually found.
 						{
-							guard.setPosition(pos.xCoord, (int)human.posY, pos.zCoord);
-							human.worldObj.spawnEntityInWorld(guard);
+							final Point3D posAsPoint = new Point3D(pos.xCoord, pos.yCoord, pos.zCoord);
+
+							//Check that we can see the sky, no guards in caves or stuck in blocks.
+							if (BlockHelper.canBlockSeeTheSky(human.worldObj, posAsPoint.iPosX, (int)human.posY, posAsPoint.iPosZ))
+							{
+								guard.setPosition(pos.xCoord, (int)human.posY, pos.zCoord);
+								human.worldObj.spawnEntityInWorld(guard);
+							}
 						}
 					}
 				}
@@ -237,7 +241,7 @@ public class EventHooksFML
 		{
 			player.triggerAchievement(ModAchievements.craftShapedRing);
 		}
-		
+
 		//Return damageable items to the inventory.
 		for (int i = 0; i < event.craftMatrix.getSizeInventory(); i++)
 		{
