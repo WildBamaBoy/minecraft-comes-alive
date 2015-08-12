@@ -16,7 +16,7 @@ public class ItemNewOutfit extends Item
 		
 		this.setUnlocalizedName("NewOutfit");
 		GameRegistry.registerItem(this, "NewOutfit");
-		this.setCreativeTab(MCA.getCreativeTabGemCutting());
+		this.setCreativeTab(MCA.getCreativeTabMain());
 		this.setMaxStackSize(1);
 		this.setMaxDamage(16);
 	}
