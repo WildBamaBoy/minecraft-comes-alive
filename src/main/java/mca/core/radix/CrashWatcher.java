@@ -20,10 +20,12 @@ public class CrashWatcher extends ModCrashWatcher
 			boolean isServer = FMLCommonHandler.instance().getEffectiveSide().isServer();
 
 			//Get the report into a form we can easily work with.
-			String report = new Scanner(crashFile).useDelimiter("\\Z").next();
+			Scanner scanner = new Scanner(crashFile);
+			String report = scanner.useDelimiter("\\Z").next();
+			scanner.close();
+			
 			String[] lineByLine = report.split("\\r?\\n");
 			String[] stackTrace = new String[lineByLine.length];
-			
 			int stackIndex = 0;
 			
 			for (int i = 0; i < lineByLine.length; i++)
