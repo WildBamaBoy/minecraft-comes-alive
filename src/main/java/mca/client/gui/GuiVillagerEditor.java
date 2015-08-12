@@ -176,6 +176,7 @@ public class GuiVillagerEditor extends GuiScreen
 			
 			String skin = villager.getHeadTexture();
 			villager.setHeadTexture(skin.replaceAll("\\d+", String.valueOf(textures.get())));
+			villager.setClothesTexture(villager.getHeadTexture());
 			drawEditorGuiPage1();
 		}
 
@@ -185,6 +186,7 @@ public class GuiVillagerEditor extends GuiScreen
 			
 			String skin = villager.getHeadTexture();
 			villager.setHeadTexture(skin.replaceAll("\\d+", String.valueOf(textures.get())));
+			villager.setClothesTexture(villager.getHeadTexture());
 			drawEditorGuiPage1();
 		}
 
@@ -193,6 +195,7 @@ public class GuiVillagerEditor extends GuiScreen
 			villager.setProfessionId(jobs.next());
 			textures = villager.getProfessionGroup().getListOfSkinIDs(villager.getIsMale());
 			villager.setHeadTexture(villager.getRandomSkin());
+			villager.setClothesTexture(villager.getHeadTexture());
 			drawEditorGuiPage1();
 		}
 
@@ -201,6 +204,7 @@ public class GuiVillagerEditor extends GuiScreen
 			villager.setProfessionId(jobs.previous());
 			textures = villager.getProfessionGroup().getListOfSkinIDs(villager.getIsMale());
 			villager.setHeadTexture(villager.getRandomSkin());
+			villager.setClothesTexture(villager.getHeadTexture());
 			drawEditorGuiPage1();
 		}
 
