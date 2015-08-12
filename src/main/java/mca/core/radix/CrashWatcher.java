@@ -17,10 +17,28 @@ public class CrashWatcher extends ModCrashWatcher
 	{
 		try
 		{
-			String report = new Scanner(crashFile).useDelimiter("\\Z").next();
 			boolean isServer = FMLCommonHandler.instance().getEffectiveSide().isServer();
 
-			if (report.contains("at mca."))
+			//Get the report into a form we can easily work with.
+			String report = new Scanner(crashFile).useDelimiter("\\Z").next();
+			String[] lineByLine = report.split("\\r?\\n");
+			String[] stackTrace = new String[lineByLine.length];
+			
+			int stackIndex = 0;
+			
+			for (int i = 0; i < lineByLine.length; i++)
+			{
+				String line = lineByLine[i];
+				
+				if (line.startsWith("\tat"))
+				{
+					stackTrace[stackIndex] = lineByLine[i];
+					stackIndex++;
+				}
+			}
+			
+			//Determine whether MCA is the cause of the problem, or whether a mod simply ran through it. The first part of the stack trace should include "at mca."
+			if (stackTrace[0].contains("at mca."))
 			{
 				if (MCA.getConfig().allowCrashReporting)
 				{
