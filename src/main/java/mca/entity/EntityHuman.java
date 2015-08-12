@@ -1307,8 +1307,17 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 	public boolean isPlayerAParent(EntityPlayer player)
 	{
-		final PlayerData data = MCA.getPlayerData(player);	
-		return getMotherId() == data.permanentId.getInt() || getFatherId() == data.permanentId.getInt();
+		final PlayerData data = MCA.getPlayerData(player);
+		
+		if (data != null)
+		{
+			return getMotherId() == data.permanentId.getInt() || getFatherId() == data.permanentId.getInt();
+		}
+		
+		else
+		{
+			return false;
+		}
 	}
 
 	public boolean allowControllingInteractions(EntityPlayer player)
