@@ -230,7 +230,8 @@ public class MCA
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(ModItems.bedPurple));
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(ModItems.bedPink));
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.needleAndString), new ItemStack(ModItems.needle), new ItemStack(Items.string));
-
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.roseGoldIngot, 9), new ItemStack(ModBlocks.roseGoldBlock));
+		
 		for(int i = 0; i < 16; i++)
 		{
 			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.cloth), new ItemStack(Blocks.wool), new ItemStack(ModItems.needleAndString, 1, i));
