@@ -10,6 +10,7 @@
 !/*.gradle
 !/*.md
 !setupws.bat
+!version.properties
 .gradle
 gitlog-to-changelog
 CHANGELOG
