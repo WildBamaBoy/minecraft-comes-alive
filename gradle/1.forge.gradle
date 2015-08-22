@@ -1,3 +1,5 @@
+def buildNumber = 1
+
 minecraft {
     def Properties versionProps = new Properties()
     def versionPropsFile = file('version.properties')
