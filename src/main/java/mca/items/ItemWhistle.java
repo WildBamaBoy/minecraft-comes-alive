@@ -15,8 +15,8 @@ public class ItemWhistle extends Item
 		super();
 		maxStackSize = 1;
 		setCreativeTab(MCA.getCreativeTabMain());
-		setUnlocalizedName("whistle");
-		GameRegistry.registerItem(this, "whistle");
+		setUnlocalizedName("Whistle");
+		GameRegistry.registerItem(this, "Whistle");
 	}
 
 	@Override
