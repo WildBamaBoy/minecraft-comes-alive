@@ -702,6 +702,7 @@ farming.nohoe=I'll need to have a hoe in order to farm.
 
 hunting.badspot=I can't find a good hunting spot.
 sleep.nohome=I don't have a home point!
+sleep.invalid=My home point is invalid!
 
 #################
 # Parser
