@@ -23,6 +23,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
@@ -110,7 +111,7 @@ public class EventHooksFML
 	@SubscribeEvent
 	public void clientTickEventHandler(ClientTickEvent event)
 	{
-		MCA.getPacketHandler().processPackets();
+		MCA.getPacketHandler().processPackets(Side.CLIENT);
 		
 		net.minecraft.client.Minecraft mc = net.minecraft.client.Minecraft.getMinecraft();
 		net.minecraft.client.gui.GuiScreen currentScreen = mc.currentScreen;
@@ -155,7 +156,7 @@ public class EventHooksFML
 	@SubscribeEvent
 	public void serverTickEventHandler(ServerTickEvent event)
 	{
-		MCA.getPacketHandler().processPackets();
+		MCA.getPacketHandler().processPackets(Side.SERVER);
 		
 		if (serverTickCounter <= 0 && MCA.getConfig().guardSpawnRate > 0)
 		{

@@ -3,6 +3,7 @@ package mca.packets;
 import io.netty.buffer.ByteBuf;
 import mca.core.Config;
 import mca.core.MCA;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -37,7 +38,7 @@ public class PacketSyncConfig extends AbstractPacket implements IMessage, IMessa
 	@Override
 	public IMessage onMessage(PacketSyncConfig packet, MessageContext context)
 	{
-		MCA.getPacketHandler().addPacketForProcessing(packet, context);
+		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
 		return null;
 	}
 

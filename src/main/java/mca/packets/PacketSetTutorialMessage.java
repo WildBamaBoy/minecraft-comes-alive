@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
 import mca.util.TutorialManager;
 import mca.util.TutorialMessage;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -38,7 +39,7 @@ public class PacketSetTutorialMessage extends AbstractPacket implements IMessage
 	@Override
 	public IMessage onMessage(PacketSetTutorialMessage packet, MessageContext context)
 	{
-		MCA.getPacketHandler().addPacketForProcessing(packet, context);
+		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
 		return null;
 	}
 
