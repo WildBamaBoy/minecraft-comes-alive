@@ -1,5 +1,7 @@
 package mca.ai;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import mca.api.CropEntry;
@@ -10,11 +12,13 @@ import mca.core.MCA;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.BlockPos;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Time;
 import radixcore.data.BlockObj;
@@ -193,8 +197,33 @@ public class AIFarming extends AbstractToggleAI
 
 							else
 							{
-								harvestTargetPoint = RadixLogic.getFirstNearestBlockWithMeta(owner, entry.getHarvestBlock(), entry.getHarvestBlockMeta(), radius);
-
+								List<Point3D> nearbyBlocks = RadixLogic.getNearbyBlocks(owner, entry.getHarvestBlock(), radius);
+								List<Point3D> validMetaBlocks = new ArrayList<Point3D>();
+								
+								for (Point3D point : nearbyBlocks)
+								{
+									IBlockState state = owner.worldObj.getBlockState(new BlockPos(point.iPosX, point.iPosY, point.iPosZ));
+									int meta = state.getBlock().getMetaFromState(state);
+									
+									if (meta == entry.getHarvestBlockMeta())
+									{
+										validMetaBlocks.add(point);
+									}
+								}
+								
+								double distance = 100.0D;
+								
+								for (Point3D point : validMetaBlocks)
+								{
+									double distanceToPoint = RadixMath.getDistanceToXYZ(owner, point);
+									
+									if (distanceToPoint < distance)
+									{
+										distance = distanceToPoint;
+										harvestTargetPoint = point;
+									}
+								}
+								
 								if (harvestTargetPoint == null)
 								{
 									harvestTargetPoint = Point3D.ZERO;
