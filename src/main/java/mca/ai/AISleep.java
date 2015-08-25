@@ -75,10 +75,10 @@ public class AISleep extends AbstractAI
 			{
 				setSleepingState(EnumSleepingState.INTERRUPTED);
 			}
-			
+
 			return;
 		}
-		
+
 		switch (getSleepingState())
 		{
 		case AWAKE: 
@@ -351,11 +351,15 @@ public class AISleep extends AbstractAI
 			for (final Point3D point : bedsNearby)
 			{
 				IBlockState state = owner.worldObj.getBlockState(new BlockPos(point.iPosX, point.iPosY, point.iPosZ));
-				EnumPartType part = (EnumPartType) state.getValue(BlockBed.PART_PROP);
-				
-				if (part == BlockBed.EnumPartType.FOOT)
+
+				if (state.getBlock() instanceof BlockVillagerBed)
 				{
-					bedFeetNearby.add(point);
+					EnumPartType part = (EnumPartType) state.getValue(BlockBed.PART_PROP);
+
+					if (part == BlockBed.EnumPartType.FOOT)
+					{
+						bedFeetNearby.add(point);
+					}
 				}
 			}
 
@@ -365,7 +369,7 @@ public class AISleep extends AbstractAI
 				final TileVillagerBed villagerBed = (TileVillagerBed) BlockHelper.getTileEntity(owner.worldObj, nearestBed.iPosX, nearestBed.iPosY, nearestBed.iPosZ);
 				final IBlockState state = owner.worldObj.getBlockState(new BlockPos(nearestBed.iPosX, nearestBed.iPosY, nearestBed.iPosZ));
 				final BlockBed bedBlock = (BlockBed) state.getBlock();
-				
+
 				if (villagerBed != null && !villagerBed.getIsVillagerSleepingIn())
 				{
 					villagerBed.setSleepingVillagerId(owner.getPermanentId());

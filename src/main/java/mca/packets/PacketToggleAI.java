@@ -16,7 +16,6 @@ import mca.core.minecraft.ModAchievements;
 import mca.entity.EntityHuman;
 import mca.enums.EnumInteraction;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;

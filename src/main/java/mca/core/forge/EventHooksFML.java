@@ -23,7 +23,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
@@ -83,8 +82,12 @@ public class EventHooksFML
 		else
 		{
 			data = MCA.getPlayerData(player);
-			data = data.readDataFromFile(event.player, PlayerData.class, null);  //Read from the file again to assign owner.
-			MCA.playerDataMap.put(event.player.getUniqueID().toString(), data);  //Put updated data back into the map.
+
+			if (data != null) //Very rare issue, ignore for now but look into later TODO
+			{
+				data = data.readDataFromFile(event.player, PlayerData.class, null);  //Read from the file again to assign owner.
+				MCA.playerDataMap.put(event.player.getUniqueID().toString(), data);  //Put updated data back into the map.
+			}
 		}
 
 		MCA.getPacketHandler().sendPacketToPlayer(new PacketDataContainer(MCA.ID, data), (EntityPlayerMP)event.player);
@@ -112,7 +115,7 @@ public class EventHooksFML
 	public void clientTickEventHandler(ClientTickEvent event)
 	{
 		MCA.getPacketHandler().processPackets(Side.CLIENT);
-		
+
 		net.minecraft.client.Minecraft mc = net.minecraft.client.Minecraft.getMinecraft();
 		net.minecraft.client.gui.GuiScreen currentScreen = mc.currentScreen;
 
@@ -157,7 +160,7 @@ public class EventHooksFML
 	public void serverTickEventHandler(ServerTickEvent event)
 	{
 		MCA.getPacketHandler().processPackets(Side.SERVER);
-		
+
 		if (serverTickCounter <= 0 && MCA.getConfig().guardSpawnRate > 0)
 		{
 			//Build a list of all humans on the server.
