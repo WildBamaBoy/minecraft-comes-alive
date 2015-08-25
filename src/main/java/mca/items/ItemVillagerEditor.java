@@ -14,15 +14,9 @@ public class ItemVillagerEditor extends Item
 		super();
 		maxStackSize = 1;
 		setCreativeTab(MCA.getCreativeTabMain());
-		setUnlocalizedName("villagereditor");
-		GameRegistry.registerItem(this, "villagereditor");
+		setUnlocalizedName("VillagerEditor");
+		GameRegistry.registerItem(this, "VillagerEditor");
 	}
-//
-//	@Override
-//	public void registerIcons(IIconRegister IIconRegister)
-//	{
-//		itemIcon = IIconRegister.registerIcon("mca:VillagerEditor");
-//	}
 
 	@SideOnly(Side.CLIENT)
 	@Override

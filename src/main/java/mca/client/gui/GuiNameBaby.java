@@ -2,6 +2,8 @@ package mca.client.gui;
 
 import java.io.IOException;
 
+import org.lwjgl.input.Keyboard;
+
 import mca.core.MCA;
 import mca.items.ItemBaby;
 import mca.packets.PacketBabyName;
@@ -12,8 +14,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import org.lwjgl.input.Keyboard;
 
 /**
  * Defines the GUI shown when the player must name their child.

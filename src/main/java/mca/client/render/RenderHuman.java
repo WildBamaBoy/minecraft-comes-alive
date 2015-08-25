@@ -10,6 +10,8 @@ package mca.client.render;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.opengl.GL11;
+
 import mca.ai.AIConverse;
 import mca.ai.AISleep;
 import mca.client.gui.GuiInteraction;
@@ -31,9 +33,6 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
-
-import org.lwjgl.opengl.GL11;
-
 import radixcore.client.render.RenderHelper;
 import radixcore.util.RadixMath;
 
@@ -146,7 +145,7 @@ public class RenderHuman extends RenderBiped
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity)
 	{
-		final String skinName = ((EntityHuman)entity).getSkin();
+		final String skinName = ((EntityHuman)entity).getHeadTexture();
 
 		if (skinName.isEmpty())
 		{
@@ -155,7 +154,7 @@ public class RenderHuman extends RenderBiped
 
 		else
 		{
-			return new ResourceLocation(((EntityHuman)entity).getSkin());
+			return new ResourceLocation(((EntityHuman)entity).getHeadTexture());
 		}
 	}
 
@@ -228,34 +227,34 @@ public class RenderHuman extends RenderBiped
 		final AISleep sleepAI = entity.getAI(AISleep.class);
 		final int meta = sleepAI.getBedMeta();
 
-		if (meta == 8)
+		if (meta == 0)
 		{
 			entity.rotationYawHead = 180.0F;
-			GL11.glTranslated(-0.5D, 0.0D, -1.0D);
+			GL11.glTranslated(-0.5D, 0.0D, 0.0D);
 			GL11.glRotated(90, -1, 0, 0);
 			GL11.glTranslated(0.0D, 0.0D, -0.75D);
 		}
 
-		else if (meta == 11)
+		else if (meta == 3)
 		{
 			entity.rotationYawHead = 90.0F;
+			GL11.glTranslated(0.5D, 0.0D, 0.0D);
+			GL11.glRotated(90, -1, 0, 0);
+			GL11.glTranslated(0.0D, 0.0D, -0.75D);
+		}
+
+		else if (meta == 2)
+		{
+			entity.rotationYawHead = 0.0F;
 			GL11.glTranslated(0.5D, 0.0D, -1.0D);
 			GL11.glRotated(90, -1, 0, 0);
 			GL11.glTranslated(0.0D, 0.0D, -0.75D);
 		}
 
-		else if (meta == 10)
-		{
-			entity.rotationYawHead = 0.0F;
-			GL11.glTranslated(0.5D, 0.0D, -2.0D);
-			GL11.glRotated(90, -1, 0, 0);
-			GL11.glTranslated(0.0D, 0.0D, -0.75D);
-		}
-
-		else if (meta == 9)
+		else if (meta == 1)
 		{
 			entity.rotationYawHead = -90.0F;
-			GL11.glTranslated(-0.5D, 0.0D, -2.0D);
+			GL11.glTranslated(-0.5D, 0.0D, -1.0D);
 			GL11.glRotated(90, -1, 0, 0);
 			GL11.glTranslated(0.0D, 0.0D, -0.75D);
 		}

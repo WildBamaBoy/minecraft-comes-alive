@@ -15,6 +15,8 @@ import mca.enums.EnumInteraction;
 import mca.enums.EnumPersonality;
 import mca.items.ItemBaby;
 import mca.util.TutorialManager;
+import mca.util.Utilities;
+import net.minecraft.block.Block;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -22,11 +24,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import radixcore.math.Point3D;
 import radixcore.packets.AbstractPacket;
+import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
 
@@ -62,7 +65,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 	@Override
 	public IMessage onMessage(PacketInteract packet, MessageContext context)
 	{
-		MCA.getPacketHandler().addPacketForProcessing(packet, context);
+		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
 		return null;
 	}
 
@@ -90,7 +93,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 
 			if (interaction == EnumInteraction.SET_HOME)
 			{
-				if (villager.getAI(AISleep.class).setHomePointWithVerify(new Point3D(villager.posX, villager.posY, villager.posZ)))
+				if (villager.getAI(AISleep.class).setHomePoint(villager.posX, villager.posY, villager.posZ))
 				{
 					villager.say("interaction.sethome.success", player);
 					TutorialManager.sendMessageToPlayer(player, "Villagers go to their home points at night, and then go to sleep.", "If their home point becomes blocked, they will automatically find a new one.");
@@ -98,7 +101,26 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 
 				else
 				{
-					villager.say("interaction.sethome.fail", player);
+					Block block = null;
+					int iPosX = (int)villager.posX;
+					int iPosY = (int)villager.posY;
+					int iPosZ = (int)villager.posZ;
+					
+					if (!Utilities.isPointClear(villager.worldObj, iPosX, iPosY, iPosZ))
+					{
+						block = BlockHelper.getBlock(villager.worldObj, iPosX, iPosY, iPosZ);
+					}
+					
+					else if (!Utilities.isPointClear(villager.worldObj, iPosX, iPosY + 1, iPosZ))
+					{
+						block = BlockHelper.getBlock(villager.worldObj, iPosX, iPosY + 1, iPosZ);
+					}
+					
+					if (block != null)
+					{
+						villager.say("interaction.sethome.fail", player, block.getLocalizedName().toLowerCase());
+					}
+					
 					TutorialManager.sendMessageToPlayer(player, "Move villagers away from the edges of walls", "and other blocks before setting their home.");
 				}
 			}
@@ -202,6 +224,12 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 			{
 				if (villager.ridingEntity != null)
 				{
+					//horseSaddled is set to false when mounted by a villager in order for
+					//the navigator to function properly and make them move. Set them back
+					//as saddled when the villager dismounts.
+					EntityHorse horse = (EntityHorse)villager.ridingEntity;
+					horse.setHorseSaddled(true);
+					
 					villager.mountEntity(null);
 				}
 

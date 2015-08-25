@@ -71,7 +71,7 @@ public class PacketTombstoneUpdateSet extends AbstractPacket implements IMessage
 	@Override
 	public IMessage onMessage(PacketTombstoneUpdateSet packet, MessageContext context)
 	{
-		MCA.getPacketHandler().addPacketForProcessing(packet, context);
+		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
 		return null;
 	}
 

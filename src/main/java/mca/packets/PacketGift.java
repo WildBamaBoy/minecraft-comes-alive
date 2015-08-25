@@ -26,6 +26,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -65,7 +66,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 	@Override
 	public IMessage onMessage(PacketGift packet, MessageContext context)
 	{
-		MCA.getPacketHandler().addPacketForProcessing(packet, context);
+		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
 		return null;
 	}
 
@@ -426,6 +427,14 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				removeCount = 1;
 				
 				TutorialManager.sendMessageToPlayer(player, "Cake can influence villagers to have children.", "However they can only have a few before they will stop.");
+			}
+			
+			else if (item == ModItems.newOutfit && human.allowControllingInteractions(player))
+			{
+				VersionBridge.spawnParticlesAroundEntityS(EnumParticleTypes.VILLAGER_HAPPY, human, 16);
+				human.setClothesTexture(human.getRandomSkin());
+				removeItem = true;
+				removeCount = 1;
 			}
 			
 			else

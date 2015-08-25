@@ -57,13 +57,25 @@ public class AIFollow extends AbstractAI
 			final EntityLiving entityPathController = (EntityLiving) (owner.ridingEntity instanceof EntityHorse ? owner.ridingEntity : owner);
 			final EntityPlayer entityPlayer = owner.worldObj.getPlayerEntityByName(playerFollowingName.getString());
 
+			if (entityPathController instanceof EntityHorse)
+			{
+				final EntityHorse horse = (EntityHorse) entityPathController;
+
+				//This makes the horse move properly.
+				if (horse.isHorseSaddled())
+				{
+					horse.setHorseSaddled(false);
+				}
+			}
+			
 			if (entityPlayer != null)
 			{
 				entityPathController.getLookHelper().setLookPositionWithEntity(entityPlayer, 10.0F, owner.getVerticalFaceSpeed());
 				
 				final double distanceToPlayer = RadixMath.getDistanceToEntity(owner, entityPlayer);
 
-				if (distanceToPlayer >= 10.0D)
+				//Crash was reported where bounding box ended up being null.
+				if (distanceToPlayer >= 10.0D && entityPlayer.getEntityBoundingBox() != null)
 				{
 					final int playerX = net.minecraft.util.MathHelper.floor_double(entityPlayer.posX) - 2;
 					final int playerY = net.minecraft.util.MathHelper.floor_double(entityPlayer.getEntityBoundingBox().minY);

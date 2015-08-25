@@ -6,6 +6,7 @@ import mca.ai.AISleep;
 import mca.core.minecraft.ModItems;
 import mca.entity.EntityHuman;
 import mca.enums.EnumBedColor;
+import mca.enums.EnumSleepingState;
 import mca.tile.TileVillagerBed;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.ITileEntityProvider;
@@ -100,7 +101,7 @@ public class BlockVillagerBed extends BlockBed implements ITileEntityProvider
 						if (entity != null)
 						{
 							final AISleep sleepAI = entity.getAI(AISleep.class);
-							sleepAI.setIsSleeping(false);
+							sleepAI.setSleepingState(EnumSleepingState.INTERRUPTED);
 						}
 					}
 

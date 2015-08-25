@@ -1,9 +1,8 @@
 package mca.packets;
 
-import io.netty.buffer.ByteBuf;
-
 import java.util.Random;
 
+import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
 import mca.core.minecraft.ModItems;
@@ -15,6 +14,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -53,7 +53,7 @@ public class PacketInteractWithPlayerS extends AbstractPacket implements IMessag
 	@Override
 	public IMessage onMessage(PacketInteractWithPlayerS packet, MessageContext context)
 	{
-		MCA.getPacketHandler().addPacketForProcessing(packet, context);
+		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
 		return null;
 	}
 

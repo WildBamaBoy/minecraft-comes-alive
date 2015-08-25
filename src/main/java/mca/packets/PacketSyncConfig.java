@@ -1,9 +1,8 @@
 package mca.packets;
 
 import io.netty.buffer.ByteBuf;
+import mca.core.Config;
 import mca.core.MCA;
-import mca.util.TutorialManager;
-import mca.util.TutorialMessage;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -11,42 +10,45 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import radixcore.network.ByteBufIO;
 import radixcore.packets.AbstractPacket;
 
-public class PacketSetTutorialMessage extends AbstractPacket implements IMessage, IMessageHandler<PacketSetTutorialMessage, IMessage>
+public class PacketSyncConfig extends AbstractPacket implements IMessage, IMessageHandler<PacketSyncConfig, IMessage>
 {
-	private TutorialMessage tutorialMessage;
-
-	public PacketSetTutorialMessage()
+	private Config configObject;
+	
+	public PacketSyncConfig()
 	{
 	}
 
-	public PacketSetTutorialMessage(TutorialMessage message)
+	public PacketSyncConfig(Config configObject)
 	{
-		this.tutorialMessage = message;
+		this.configObject = configObject;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf byteBuf)
 	{
-		tutorialMessage = (TutorialMessage) ByteBufIO.readObject(byteBuf);
+		configObject = (Config) ByteBufIO.readObject(byteBuf);
 	}
 
 	@Override
 	public void toBytes(ByteBuf byteBuf)
 	{
-		ByteBufIO.writeObject(byteBuf, tutorialMessage);
+		ByteBufIO.writeObject(byteBuf, configObject);
 	}
 
 	@Override
-	public IMessage onMessage(PacketSetTutorialMessage packet, MessageContext context)
+	public IMessage onMessage(PacketSyncConfig packet, MessageContext context)
 	{
 		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
 		return null;
 	}
 
+
 	@Override
 	public void processOnGameThread(IMessageHandler message, MessageContext context) 
 	{
-		PacketSetTutorialMessage packet = (PacketSetTutorialMessage)message;
-		TutorialManager.setTutorialMessage(packet.tutorialMessage);		
+		PacketSyncConfig packet = (PacketSyncConfig) message;
+		
+		MCA.setConfig(packet.configObject);
+		MCA.getLog().info("Received and applied server-side configuration.");
 	}
 }

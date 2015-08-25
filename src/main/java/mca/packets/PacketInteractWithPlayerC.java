@@ -1,5 +1,7 @@
 package mca.packets;
 
+import org.lwjgl.input.Keyboard;
+
 import io.netty.buffer.ByteBuf;
 import mca.client.gui.GuiPlayerMenu;
 import mca.core.MCA;
@@ -7,14 +9,12 @@ import mca.data.PlayerData;
 import mca.entity.EntityHuman;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import org.lwjgl.input.Keyboard;
-
 import radixcore.network.ByteBufIO;
 import radixcore.packets.AbstractPacket;
 
@@ -84,7 +84,7 @@ public class PacketInteractWithPlayerC extends AbstractPacket implements IMessag
 	@Override
 	public IMessage onMessage(PacketInteractWithPlayerC packet, MessageContext context)
 	{
-		MCA.getPacketHandler().addPacketForProcessing(packet, context);
+		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
 		return null;
 	}
 

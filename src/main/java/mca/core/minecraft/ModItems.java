@@ -7,6 +7,7 @@ import mca.enums.EnumBedColor;
 import mca.items.ItemBaby;
 import mca.items.ItemCrystalBall;
 import mca.items.ItemGemCutter;
+import mca.items.ItemNewOutfit;
 import mca.items.ItemSpawnEgg;
 import mca.items.ItemTombstone;
 import mca.items.ItemVillagerBed;
@@ -43,7 +44,11 @@ public final class ModItems
 	public static Item roseGoldIngot;
 	public static Item roseGoldDust;
 	public static Item goldDust;
-
+	public static ItemNewOutfit newOutfit;
+	public static Item needle;
+	public static Item needleAndString;
+	public static Item cloth;
+	
 	//Second tab
 	public static ItemGemCutter gemCutter;
 	public static Item diamondHeart;
@@ -139,6 +144,12 @@ public final class ModItems
 
 		tombstone = new ItemTombstone();
 		villagerEditor = new ItemVillagerEditor();
+		newOutfit = new ItemNewOutfit();
+		
+		//Modifications
+		needleAndString.setMaxStackSize(1);
+		needleAndString.setMaxDamage(16);
+		needle.setMaxStackSize(1);
 	}
 
 	@SideOnly(Side.CLIENT)

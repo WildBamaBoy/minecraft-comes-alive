@@ -7,6 +7,8 @@
 
 package mca.client.render;
 
+import org.lwjgl.opengl.GL11;
+
 import mca.client.model.ModelTombstone;
 import mca.tile.TileTombstone;
 import net.minecraft.client.Minecraft;
@@ -15,8 +17,6 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
 
 public class RenderTombstone extends TileEntitySpecialRenderer
 {

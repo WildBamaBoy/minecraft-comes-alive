@@ -1,12 +1,14 @@
 package mca.client.model;
 
+import org.lwjgl.opengl.GL11;
+
 import mca.core.MCA;
 import mca.entity.EntityHuman;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-
-import org.lwjgl.opengl.GL11;
+import net.minecraft.util.ResourceLocation;
 
 public class ModelHuman extends ModelBiped
 {
@@ -21,16 +23,26 @@ public class ModelHuman extends ModelBiped
 		breasts.setRotationPoint(0F, 3.5F, -3F);
 		breasts.setTextureSize(64, 64);
 		breasts.mirror = true;
-		
+
 		setRotation(breasts, 1.07818F, 0F, 0F);
 	}
 
 	@Override
 	public void render(Entity entity, float f1, float f2, float f3, float f4, float f5, float f6) 
 	{
-		super.render(entity, f1, f2, f3, f4, f5, f6);
-
 		final EntityHuman human = (EntityHuman)entity;
+		this.setRotationAngles(f1, f2, f3, f4, f5, f6, entity);
+
+		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(human.getHeadTexture()));
+		this.bipedHead.render(f6);
+		this.bipedHeadwear.render(f6);
+
+		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(human.getClothesTexture()));
+		this.bipedBody.render(f6);
+		this.bipedRightArm.render(f6);
+		this.bipedLeftArm.render(f6);
+		this.bipedRightLeg.render(f6);
+		this.bipedLeftLeg.render(f6);
 
 		if (!human.getIsMale() && !human.getIsChild() && MCA.getConfig().modifyFemaleBody)
 		{

@@ -64,7 +64,9 @@ public class AIDefend extends AbstractAI
 
 			else if (target != null)
 			{
-				if (target.isDead)
+				double distanceToTarget = RadixMath.getDistanceToEntity(owner, target);
+				
+				if (target.isDead || distanceToTarget >= 15.0D)
 				{
 					reset();
 					return;
@@ -89,8 +91,6 @@ public class AIDefend extends AbstractAI
 
 				else
 				{
-					double distanceToTarget = RadixMath.getDistanceToEntity(owner, target);
-
 					if (distanceToTarget <= 2.0F)
 					{
 						owner.swingItem();

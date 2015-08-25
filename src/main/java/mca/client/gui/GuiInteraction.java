@@ -11,6 +11,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
 import mca.ai.AIFollow;
 import mca.ai.AIIdle;
 import mca.ai.AIMood;
@@ -45,11 +49,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
 import radixcore.client.render.RenderHelper;
 import radixcore.constant.Font.Color;
 import radixcore.data.DataWatcherEx;
@@ -230,9 +229,8 @@ public class GuiInteraction extends GuiScreen
 		{
 			if (villager.getIsChild())
 			{
-				//Relative to the growth scale, divide by 0.02.
-				int age = (int)(villager.getIsMale() ? 0.39F : 0.37F / MCA.getConfig().childGrowUpTime * villager.getAge() / 0.02F);
-
+				int age = (int) (0.37F / MCA.getConfig().childGrowUpTime * villager.getAge() / 0.02F);
+				
 				if (age < 4)
 				{
 					age = 4;
@@ -428,7 +426,6 @@ public class GuiInteraction extends GuiScreen
 			case FOLLOW:
 				villager.setMovementState(EnumMovementState.FOLLOW); 
 				villager.getAI(AIFollow.class).setPlayerFollowingName(player.getName());
-				villager.getAI(AISleep.class).setIsSleeping(false);
 				villager.getAI(AISleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
 				close();
 				break;

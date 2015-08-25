@@ -1,5 +1,8 @@
 package mca.client.gui;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
+
 import mca.core.MCA;
 import mca.packets.PacketTombstoneUpdateSet;
 import mca.tile.TileTombstone;
@@ -12,9 +15,6 @@ import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
 
 @SideOnly(Side.CLIENT)
 public class GuiTombstone extends GuiScreen

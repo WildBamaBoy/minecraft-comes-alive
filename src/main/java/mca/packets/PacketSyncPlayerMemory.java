@@ -5,6 +5,7 @@ import mca.core.MCA;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -44,7 +45,7 @@ public class PacketSyncPlayerMemory extends AbstractPacket implements IMessage, 
 	@Override
 	public IMessage onMessage(PacketSyncPlayerMemory packet, MessageContext context)
 	{
-		MCA.getPacketHandler().addPacketForProcessing(packet, context);
+		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
 		return null;
 	}
 

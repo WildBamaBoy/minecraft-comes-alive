@@ -22,8 +22,8 @@ public class ItemTombstone extends Item
 		super();
 		maxStackSize = 1;
 		setCreativeTab(MCA.getCreativeTabMain());
-		setUnlocalizedName("tombstone");
-		GameRegistry.registerItem(this, "tombstone");
+		setUnlocalizedName("ItemTombstone");
+		GameRegistry.registerItem(this, "ItemTombstone");
 	}
 
 	@Override

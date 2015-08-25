@@ -4,7 +4,7 @@ public class WatcherIDsHuman
 {
 	public static final int NAME = 1;
 	public static final int PROFESSION = 2;
-	public static final int SKIN = 3;
+	public static final int HEAD_TEXTURE = 3;
 	public static final int IS_SLEEPING = 4;
 	public static final int IS_MALE = 5;
 	public static final int PERMANENT_ID = 6;
@@ -47,5 +47,6 @@ public class WatcherIDsHuman
 	public static final int IS_FISHING_ACTIVE = 43;
 	public static final int IS_WOODCUTTING_ACTIVE = 44;
 	public static final int IS_SWINGING = 45;
-	public static final int UNUSED_46 = 46;
+	public static final int SLEEPING_STATE = 46;
+	public static final int CLOTHES_TEXTURE = 47;
 }

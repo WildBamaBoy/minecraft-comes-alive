@@ -63,6 +63,7 @@ item.ItemVillagerBedPurple.name=Purple Villager Bed
 item.DivorcePapers.name=Divorce Papers
 item.RoseGoldIngot.name=Rose Gold Ingot
 item.CrystalBall.name=Crystal Ball
+item.NewOutfit.name=New Outfit
 item.DiamondHeart.name=Diamond Heart
 item.DiamondTiny.name=Tiny Diamond
 item.DiamondOval.name=Diamond Oval
@@ -96,6 +97,9 @@ item.OvalMold.name=Oval Mold
 item.SquareMold.name=Square Mold
 item.TriangleMold.name=Triangle Mold
 item.StarMold.name=Star Mold
+item.NeedleAndString.name=Needle and String
+item.Needle.name=Needle
+item.Cloth.name=Cloth
 tile.VillagerSpawner.name=Villager Spawner
 
 #######
@@ -698,6 +702,7 @@ farming.nohoe=I'll need to have a hoe in order to farm.
 
 hunting.badspot=I can't find a good hunting spot.
 sleep.nohome=I don't have a home point!
+sleep.invalid=My home point is invalid!
 
 #################
 # Parser
@@ -858,9 +863,9 @@ interaction.sethome.success1=Okay, this will be my new home point.
 interaction.sethome.success2=I understand, I'll be sleeping here at night.
 interaction.sethome.success3=Sure thing, %PlayerName%.
 
-interaction.sethome.fail1=This doesn't look like a safe home point for me.
-interaction.sethome.fail2=This place doesn't seem safe. Is there another place nearby?
-interaction.sethome.fail3=I'm not too sure about this place. I can't have my home point here.
+interaction.sethome.fail1=This doesn't look like a safe home point for me. There's some %a1% in the way.
+interaction.sethome.fail2=Is there another place nearby? There's some %a1% in the way.
+interaction.sethome.fail3=I can't have my home point here. There's some %a1% in the way.
 
 interaction.mining.fail.toolow1=We're too low for me to create a mine.
 interaction.mining.fail.toolow2=We need to be on higher ground.

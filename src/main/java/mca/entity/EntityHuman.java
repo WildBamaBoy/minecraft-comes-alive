@@ -1,10 +1,9 @@
 package mca.entity;
 
-import io.netty.buffer.ByteBuf;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import io.netty.buffer.ByteBuf;
 import mca.ai.AIBlink;
 import mca.ai.AIBuild;
 import mca.ai.AIConverse;
@@ -45,6 +44,7 @@ import mca.enums.EnumProgressionStep;
 import mca.enums.EnumSleepingState;
 import mca.items.ItemBaby;
 import mca.packets.PacketOpenGUIOnEntity;
+import mca.util.Utilities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -86,12 +86,12 @@ import radixcore.data.WatchedString;
 import radixcore.inventory.Inventory;
 import radixcore.network.ByteBufIO;
 import radixcore.util.RadixLogic;
-import radixcore.util.RadixMath;
 
 public class EntityHuman extends EntityVillager implements IWatchable, IPermanent, IEntityAdditionalSpawnData
 {
 	private final WatchedString name;
-	private final WatchedString skin;
+	private final WatchedString headTexture;
+	private final WatchedString clothesTexture;
 	private final WatchedInt professionId;
 	private final WatchedInt personalityId;
 	private final WatchedInt permanentId;
@@ -134,7 +134,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		professionId = new WatchedInt(EnumProfession.getAtRandom().getId(), WatcherIDsHuman.PROFESSION, dataWatcherEx);
 		personalityId = new WatchedInt(EnumPersonality.getAtRandom().getId(), WatcherIDsHuman.PERSONALITY_ID, dataWatcherEx);
 		permanentId = new WatchedInt(RadixLogic.generatePermanentEntityId(this), WatcherIDsHuman.PERMANENT_ID, dataWatcherEx);
-		skin = new WatchedString(getRandomSkin(), WatcherIDsHuman.SKIN, dataWatcherEx);
+		headTexture = new WatchedString(getRandomSkin(), WatcherIDsHuman.HEAD_TEXTURE, dataWatcherEx);
+		clothesTexture = new WatchedString(headTexture.getString(), WatcherIDsHuman.CLOTHES_TEXTURE, dataWatcherEx);
 		isEngaged = new WatchedBoolean(false, WatcherIDsHuman.IS_ENGAGED, dataWatcherEx);
 		spouseId = new WatchedInt(0, WatcherIDsHuman.SPOUSE_ID, dataWatcherEx);
 		spouseName = new WatchedString("null", WatcherIDsHuman.SPOUSE_NAME, dataWatcherEx);
@@ -145,8 +146,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		parentNames = new WatchedString("null", WatcherIDsHuman.PARENT_NAMES, dataWatcherEx);
 		parentIDs = new WatchedString("null", WatcherIDsHuman.PARENT_IDS, dataWatcherEx);
 		isInteracting = new WatchedBoolean(false, WatcherIDsHuman.IS_INTERACTING, dataWatcherEx);
-		scaleHeight = new WatchedFloat(RadixMath.getNumberInRange(-0.03F, 0.18F), WatcherIDsHuman.HEIGHT, dataWatcherEx);
-		scaleGirth = new WatchedFloat(RadixMath.getNumberInRange(-0.01F, 0.5F), WatcherIDsHuman.GIRTH, dataWatcherEx);
+		scaleHeight = new WatchedFloat((float) Utilities.getNumberInRange(worldObj.rand, 0.03F, 0.09F), WatcherIDsHuman.HEIGHT, dataWatcherEx);
+		scaleGirth = new WatchedFloat((float) Utilities.getNumberInRange(worldObj.rand, -0.03F, 0.05F), WatcherIDsHuman.GIRTH, dataWatcherEx);
 		doDisplay = new WatchedBoolean(false, WatcherIDsHuman.DO_DISPLAY, dataWatcherEx);
 		isSwinging = new WatchedBoolean(false, WatcherIDsHuman.IS_SWINGING, dataWatcherEx);
 		heldItem = new WatchedInt(-1, WatcherIDsHuman.HELD_ITEM, dataWatcherEx);
@@ -209,7 +210,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		this.isMale.setValue(isMale);
 		this.name.setValue(getRandomName());
-		this.skin.setValue(getRandomSkin());
+		this.headTexture.setValue(getRandomSkin());
+		this.clothesTexture.setValue(this.headTexture.getString());
 	}
 
 	public EntityHuman(World world, boolean isMale, int profession, boolean isOverwrite)
@@ -226,7 +228,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			this.professionId.setValue(profession);
 		}
 
-		this.skin.setValue(this.getRandomSkin());
+		this.headTexture.setValue(this.getRandomSkin());
+		this.clothesTexture.setValue(this.headTexture.getString());
 	}
 
 	private EntityHuman(World world, boolean isMale, boolean isChild)
@@ -245,7 +248,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		if (isPlayerChild)
 		{
 			this.professionId.setValue(EnumProfession.Child.getId());
-			this.skin.setValue(this.getRandomSkin());
+			this.headTexture.setValue(this.getRandomSkin());
+			this.clothesTexture.setValue(this.headTexture.getString());
 		}
 	}
 
@@ -255,7 +259,6 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		this.tasks.addTask(0, new EntityAISwimming(this));
 		this.tasks.addTask(1, new EntityAITradePlayer(this));
-		this.tasks.addTask(2, new EntityAIMoveIndoors(this));
 		this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
 		this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
 		this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, getSpeed()));
@@ -270,6 +273,11 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		if (this.getHealth() > maxHealth || this.getProfessionGroup() == EnumProfessionGroup.Guard)
 		{
 			this.setHealth(maxHealth);
+		}
+		
+		if (this.getProfessionGroup() != EnumProfessionGroup.Guard)
+		{
+	        this.tasks.addTask(2, new EntityAIMoveIndoors(this));
 		}
 	}
 
@@ -405,7 +413,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		aiManager.writeToNBT(nbt);
 
 		nbt.setString("name", name.getString());
-		nbt.setString("skin", skin.getString());
+		nbt.setString("skin", headTexture.getString());
+		nbt.setString("clothesTexture", clothesTexture.getString());
 		nbt.setInteger("professionId", professionId.getInt());
 		nbt.setInteger("personalityId", personalityId.getInt());
 		nbt.setInteger("permanentId", permanentId.getInt());
@@ -438,7 +447,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		aiManager.readFromNBT(nbt);
 
 		name.setValue(nbt.getString("name"));
-		skin.setValue(nbt.getString("skin"));
+		headTexture.setValue(nbt.getString("skin"));
+		clothesTexture.setValue(nbt.getString("clothesTexture"));
 		professionId.setValue(nbt.getInteger("professionId"));
 		personalityId.setValue(nbt.getInteger("personalityId"));
 		permanentId.setValue(nbt.getInteger("permanentId"));
@@ -645,7 +655,6 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		if (aiSleep.getIsSleeping())
 		{
-			aiSleep.setIsSleeping(false);
 			aiSleep.setSleepingState(EnumSleepingState.INTERRUPTED);
 		}
 	}
@@ -694,7 +703,6 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		}
 
 		aiManager.getAI(AIIdle.class).reset();
-		aiManager.getAI(AISleep.class).setIsSleeping(false);
 		aiManager.getAI(AISleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
 	}
 
@@ -736,16 +744,34 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		return isMale.getBoolean();
 	}
 
-	public void setSkin(String value)
+	public void setHeadTexture(String value)
 	{
-		this.skin.setValue(value);
+		this.headTexture.setValue(value);
 	}
 
-	public String getSkin()
+	public String getHeadTexture()
 	{
-		return skin.getString();
+		return headTexture.getString();
 	}
 
+	public void setClothesTexture(String value)
+	{
+		this.clothesTexture.setValue(value);
+	}
+	
+	public String getClothesTexture()
+	{
+		if (clothesTexture.getString().isEmpty()) //When updating.
+		{
+			return headTexture.getString();
+		}
+		
+		else
+		{
+			return clothesTexture.getString();
+		}
+	}
+	
 	public boolean getIsChild()
 	{
 		return isChild.getBoolean();
@@ -1281,8 +1307,17 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 	public boolean isPlayerAParent(EntityPlayer player)
 	{
-		final PlayerData data = MCA.getPlayerData(player);	
-		return getMotherId() == data.permanentId.getInt() || getFatherId() == data.permanentId.getInt();
+		final PlayerData data = MCA.getPlayerData(player);
+		
+		if (data != null)
+		{
+			return getMotherId() == data.permanentId.getInt() || getFatherId() == data.permanentId.getInt();
+		}
+		
+		else
+		{
+			return false;
+		}
 	}
 
 	public boolean allowControllingInteractions(EntityPlayer player)
@@ -1378,7 +1413,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public void setIsMale(boolean value) 
 	{
 		this.isMale.setValue(value);
-		this.setSkin(this.getRandomSkin());
+		this.setHeadTexture(this.getRandomSkin());
 	}
 
 	public void setHeight(float f) 

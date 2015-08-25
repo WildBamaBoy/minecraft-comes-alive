@@ -1,7 +1,7 @@
 {
 	"parent": "builtin/generated",
 	"textures": {
-		"layer0": "mca:items/tombstone"
+		"layer0": "mca:items/Whistle"
 	},
 	"display": {
 		"thirdperson": {

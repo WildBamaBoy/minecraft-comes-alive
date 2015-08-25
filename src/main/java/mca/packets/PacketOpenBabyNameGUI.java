@@ -5,6 +5,7 @@ import mca.client.gui.GuiNameBaby;
 import mca.core.MCA;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -41,7 +42,7 @@ public class PacketOpenBabyNameGUI extends AbstractPacket implements IMessage, I
 	@Override
 	public IMessage onMessage(PacketOpenBabyNameGUI packet, MessageContext context)
 	{
-		MCA.getPacketHandler().addPacketForProcessing(packet, context);
+		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
 		return null;
 	}
 
