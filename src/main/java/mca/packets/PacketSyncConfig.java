@@ -3,7 +3,6 @@ package mca.packets;
 import io.netty.buffer.ByteBuf;
 import mca.core.Config;
 import mca.core.MCA;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
