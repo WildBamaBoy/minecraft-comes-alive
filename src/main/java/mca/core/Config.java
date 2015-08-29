@@ -1,8 +1,5 @@
 package mca.core;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +24,7 @@ public final class Config implements Serializable
 	public boolean giveCrystalBall;
 	public boolean disablePatreonButton;
 	public boolean enableDiminishingReturns;
+	public Integer[] dimensionWhitelist;
 	public int guardSpawnRate;
 	public int chanceToHaveTwins;
 	public int villagerMaxHealth;
@@ -95,6 +93,33 @@ public final class Config implements Serializable
 		guardSpawnRate = config.get("General", "Guard spawn rate", 3, "One guard per this many villagers. Set to zero or a negative number to disable guards.").getInt();
 		enableDiminishingReturns = config.get("General", "Enable diminishing returns?", true, "True if hearts increase decreases after multiple interactions.").getBoolean();
 
+		String validDimensions = config.get("General", "Dimension whitelist", "0, 1, -1", "The dimension IDs in which MCA villagers can spawn, separated by a comma.").getString();
+		List<Integer> dimensionsList = new ArrayList<Integer>();
+
+		for (String s : validDimensions.split(","))
+		{
+			s = s.trim();
+			
+			try
+			{
+				int intValue = Integer.parseInt(s);
+				dimensionsList.add(intValue);
+			}
+			
+			catch (NumberFormatException e)
+			{
+				MCA.getLog().error("Unable to parse dimension ID provided in config: " + s);
+			}
+		}
+		
+		if (dimensionsList.isEmpty())
+		{
+			MCA.getLog().info("Detected empty dimension whitelist, adding dimension 0 as default.");
+			dimensionsList.add(0);
+		}
+		
+		dimensionWhitelist = dimensionsList.toArray(new Integer[dimensionsList.size()]);
+		
 		villagerMaxHealth = config.get("General", "Villager max health", 20).getInt();
 		villagerAttackDamage = config.get("General", "Villager attack damage", 2, "How many half-hearts of damage a villager can deal without a weapon. Does not affect players.").getInt();
 		guardMaxHealth = config.get("General", "Guard max health", 40).getInt();
