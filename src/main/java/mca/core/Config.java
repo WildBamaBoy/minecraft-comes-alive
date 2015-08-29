@@ -26,6 +26,7 @@ public final class Config implements Serializable
 	public boolean shiftClickForPlayerMarriage;
 	public boolean giveCrystalBall;
 	public boolean disablePatreonButton;
+	public boolean enableDiminishingReturns;
 	public int guardSpawnRate;
 	public int chanceToHaveTwins;
 	public int villagerMaxHealth;
@@ -91,8 +92,8 @@ public final class Config implements Serializable
 		overwriteOriginalVillagers = config.get("General", "Overwrite original villagers", true).getBoolean();
 		shiftClickForPlayerMarriage = config.get("General", "Shift-click for player marriage menu", false, "True if you must hold shift then right click a player to open the marriage menu. Useful on PvP servers.").getBoolean();
 		chanceToHaveTwins = config.get("General", "Chance to have twins", 2, "Your percent chance of having twins.").getInt();
-		guardSpawnRate = config.get("General", "Guard spawn rate", 3, 
-				"One guard per this many villagers. Set to zero or a negative number to disable guards.").getInt();
+		guardSpawnRate = config.get("General", "Guard spawn rate", 3, "One guard per this many villagers. Set to zero or a negative number to disable guards.").getInt();
+		enableDiminishingReturns = config.get("General", "Enable diminishing returns?", true, "True if hearts increase decreases after multiple interactions.").getBoolean();
 
 		villagerMaxHealth = config.get("General", "Villager max health", 20).getInt();
 		villagerAttackDamage = config.get("General", "Villager attack damage", 2, "How many half-hearts of damage a villager can deal without a weapon. Does not affect players.").getInt();

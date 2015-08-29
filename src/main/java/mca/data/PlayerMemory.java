@@ -34,7 +34,7 @@ public class PlayerMemory implements Serializable
 	private EnumDialogueType dialogueType;
 	private int feedbackDisplayTime;
 	private boolean lastInteractionSuccess;
-	
+
 	private transient int timeUntilGreeting;
 	private transient int distanceTravelledFrom;
 
@@ -47,14 +47,14 @@ public class PlayerMemory implements Serializable
 		this.uuid = player.getUniqueID().toString();
 		this.permanentId = MCA.getPlayerData(player).permanentId.getInt();
 		this.dialogueType = owner.getIsChild() ? EnumDialogueType.CHILD : EnumDialogueType.ADULT;
-		
+
 		//If both parents are players, player memory will not properly be set up for the player who
 		//did not place the baby down. Account for this here when the memory is created for the first time.
 		if (owner.getMotherName().equals(playerName) || owner.getFatherName().equals(playerName))
 		{
 			dialogueType = EnumDialogueType.CHILDP;
 			hearts = 100;
-			
+
 			//Also set this player as not having a baby, since it won't be set at all as the player may be offline.
 			PlayerData data = MCA.getPlayerData(player);
 			data.shouldHaveBaby.setValue(false);
@@ -126,16 +126,16 @@ public class PlayerMemory implements Serializable
 					owner.getAIManager().disableAllToggleAIs();
 				}
 			}
-			
+
 			counter = Time.MINUTE;
 		}
 
 		counter--;
-		
+
 		if (feedbackDisplayTime > 0)
 		{
 			feedbackDisplayTime--;
-			
+
 			if (feedbackDisplayTime <= 0)
 			{
 				//Send an update to turn feedback display off.
@@ -193,14 +193,14 @@ public class PlayerMemory implements Serializable
 		this.hasGift = value;
 		onNonTransientValueChanged();
 	}
-	
+
 	public void setLastInteractionSuccess(boolean value)
 	{
 		this.lastInteractionSuccess = value;
 		this.feedbackDisplayTime = Time.SECOND * 2;
 		onNonTransientValueChanged();
 	}
-	
+
 	public void setDialogueType(EnumDialogueType value) 
 	{
 		this.dialogueType = value;
@@ -216,12 +216,12 @@ public class PlayerMemory implements Serializable
 	{
 		return feedbackDisplayTime > 0;
 	}
-	
+
 	public boolean getLastInteractionSuccess()
 	{
 		return lastInteractionSuccess;
 	}
-	
+
 	private void onNonTransientValueChanged()
 	{
 		final EntityPlayerMP player = (EntityPlayerMP) owner.worldObj.getPlayerEntityByName(playerName);
@@ -240,8 +240,11 @@ public class PlayerMemory implements Serializable
 
 	public void increaseInteractionFatigue() 
 	{
-		interactionFatigue++;
-		onNonTransientValueChanged();
+		if (MCA.getConfig().enableDiminishingReturns)
+		{
+			interactionFatigue++;
+			onNonTransientValueChanged();
+		}
 	}
 
 	public void resetInteractionFatigue()
