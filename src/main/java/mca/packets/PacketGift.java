@@ -121,29 +121,46 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			{
 				removeItem = true;
 				removeCount = 1;
-				
+
 				human.getAI(AIGrow.class).accelerate();
 			}
-			
+
 			else if ((item == ModItems.babyBoy || item == ModItems.babyGirl) && human.getPlayerSpouse() == player)
 			{
 				removeItem = true;
 				removeCount = 1;
-				
+
 				human.getInventory().addItemStackToInventory(stack);
 			}
-			
-			else if ((item == Items.cake || Block.getBlockFromItem(item) == Blocks.cake) && human.getAI(AIProgressStory.class).getProgressionStep() == EnumProgressionStep.TRY_FOR_BABY)
+
+			else if (item == Items.cake || Block.getBlockFromItem(item) == Blocks.cake)
 			{
-				human.say("gift.cake", player);
-				human.getAI(AIProgressStory.class).setTicksUntilNextProgress(0);
-				human.getAI(AIProgressStory.class).setForceNextProgress(true);
-				removeItem = true;
-				removeCount = 1;
+				EnumProgressionStep step = human.getAI(AIProgressStory.class).getProgressionStep();
 				
-				TutorialManager.sendMessageToPlayer(player, "Cake can influence villagers to have children.", "However they can only have a few before they will stop.");
+				if (step == EnumProgressionStep.TRY_FOR_BABY)
+				{
+					human.say("gift.cake", player);
+					human.getAI(AIProgressStory.class).setTicksUntilNextProgress(0);
+					human.getAI(AIProgressStory.class).setForceNextProgress(true);
+					removeItem = true;
+					removeCount = 1;
+
+					TutorialManager.sendMessageToPlayer(player, "Cake can influence villagers to have children.", "However they can only have a few before they will stop.");
+				}
+				
+				else if (step == EnumProgressionStep.FINISHED)
+				{
+					human.say("gift.cake.refuse", player);
+					removeItem = false;
+				}
+				
+				else
+				{
+					removeCount = 1;
+					removeItem = handleStandardGift(player, human, packet.slot, stack);
+				}
 			}
-			
+
 			else if (item == ModItems.newOutfit && human.allowControllingInteractions(player))
 			{
 				VersionBridge.spawnParticlesAroundEntityS(Particle.HAPPY, human, 16);
@@ -151,7 +168,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				removeItem = true;
 				removeCount = 1;
 			}
-			
+
 			else
 			{
 				removeItem = handleStandardGift(player, human, packet.slot, stack);
@@ -185,7 +202,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 		{
 			human.say("interaction.give.invalid", player); 
 		}
-		
+
 		else if (data.spousePermanentId.getInt() == human.getPermanentId() && (!human.getIsEngaged() || human.getIsMarried()))
 		{
 			human.say("interaction.marry.fail.marriedtogiver", player); 
@@ -200,7 +217,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 		{
 			human.say("interaction.engage.fail.engagedtoother", player); 
 		}
-		
+
 		else if (data.spousePermanentId.getInt() != 0 && !data.isEngaged.getBoolean())
 		{
 			human.say("interaction.marry.fail.playermarried", player); 
@@ -226,35 +243,35 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			TutorialManager.sendMessageToPlayer(player, "You are now married. You can have", "children by using the 'Procreate' button.");
 			return true;
 		}
-		
+
 		return false;
 	}
 
 	private boolean handleMatchmakersRing(EntityPlayer player, EntityHuman human, ItemStack stack)
 	{
 		EntityHuman partner = (EntityHuman) RadixLogic.getNearestEntityOfTypeWithinDistance(EntityHuman.class, human, 5);
-		
+
 		if (human.getIsChild())
 		{
 			human.say("interaction.give.invalid", player); 
 		}
-		
+
 		else if (human.getIsMarried())
 		{
 			human.say("interaction.matchmaker.fail.married", player); 
 		}
-		
+
 		else if (human.getIsEngaged())
 		{
 			human.say("interaction.matchmaker.fail.engaged", player); 
 		}
-		
+
 		else if (stack.stackSize < 2)
 		{
 			human.say("interaction.matchmaker.fail.needtwo", player); 
 			TutorialManager.sendMessageToPlayer(player, "You must have two matchmaker's rings", "in a stack to arrange a marriage.");
 		}
-		
+
 		else
 		{	
 			boolean partnerIsValid = partner != null 
@@ -263,42 +280,42 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 					&& !partner.getIsChild() 
 					&& (partner.getFatherId() == -1 || partner.getFatherId() != human.getFatherId()) 
 					&& (partner.getMotherId() == -1 || partner.getMotherId() != human.getMotherId());
-					
+
 			if (partner == null)
 			{
 				human.say("interaction.matchmaker.fail.novillagers", player); 
 				TutorialManager.sendMessageToPlayer(player, "To arrange a marriage, have two rings in a stack and ", "make sure another marriable villager is nearby.");
 			}
-			
+
 			else if (!partnerIsValid)
 			{
 				human.say("interaction.matchmaker.fail.invalid", player, partner); 
 				TutorialManager.sendMessageToPlayer(player, "A married villager, relative, or child was too close to this", "villager. Move this villager away from anyone not marriable.");
 			}
-			
+
 			else
 			{
 				human.setIsMarried(true, partner);
 				partner.setIsMarried(true, human);
-				
+
 				VersionBridge.spawnParticlesAroundEntityS(Particle.HEART, human, 16);
 				VersionBridge.spawnParticlesAroundEntityS(Particle.HEART, partner, 16);
-				
+
 				for (Object obj : human.worldObj.playerEntities)
 				{
 					EntityPlayer onlinePlayer = (EntityPlayer)obj;
-					
+
 					if (human.isPlayerAParent(onlinePlayer) || partner.isPlayerAParent(onlinePlayer))
 					{
 						onlinePlayer.triggerAchievement(ModAchievements.childMarried);	
 					}
 				}
-				
+
 				TutorialManager.sendMessageToPlayer(player, "These villagers are now married.", "They will have children in the near future.");
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -311,7 +328,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 		{
 			human.say("interaction.give.invalid", player); 
 		}
-		
+
 		else if (data.spousePermanentId.getInt() == human.getPermanentId())
 		{
 			human.say("interaction.marry.fail.marriedtogiver", player); 
@@ -326,7 +343,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 		{
 			human.say("interaction.engage.fail.engagedtoother", player); 
 		}
-		
+
 		else if (data.spousePermanentId.getInt() != 0)
 		{
 			human.say("interaction.marry.fail.playermarried", player); 
@@ -353,7 +370,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			TutorialManager.sendMessageToPlayer(player, "You are now engaged. Now gift a wedding ring", "to get gifts from other villagers.");
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -366,12 +383,12 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 		{
 			human.say("interaction.give.invalid", player); 
 		}
-		
+
 		else if (!human.getIsMarried())
 		{
 			human.say("interaction.divorce.notmarried", player); 
 		}
-		
+
 		else if (human.isMarriedToAPlayer() && data.spousePermanentId.getInt() != human.getPermanentId())
 		{
 			human.say("interaction.divorce.notmarriedtoplayer", player); 
@@ -382,7 +399,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			if (human.isMarriedToAPlayer())
 			{
 				memory.setHearts(-100);
-				
+
 				human.say("interaction.divorce.success", player); 
 
 				memory.setDialogueType(EnumDialogueType.ADULT);
@@ -393,22 +410,22 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				human.getAI(AIMood.class).modifyMoodLevel(-10.0F);
 				VersionBridge.spawnParticlesAroundEntityS(Particle.ANGRY, human, 16);
 			}
-			
+
 			else
 			{
 				final EntityHuman partner = human.getVillagerSpouse();
-				
+
 				if (partner != null)
 				{
 					partner.setIsMarried(false, (EntityHuman) null);
 				}
-				
+
 				human.setIsMarried(false, (EntityHuman) null);
 			}
-			
+
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -423,7 +440,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			IGiftableItem item = (IGiftableItem)stack.getItem();
 			giftValue = item.getGiftValue();
 		}
-		
+
 		final int heartsModify = RadixMath.clamp(giftValue - (memory.getInteractionFatigue() * 4), -5, Integer.MAX_VALUE);
 		final String giftType = heartsModify <= 0 ? "bad" : heartsModify <= 5 ? "good" : heartsModify <= 10 ? "better" : "best";
 
@@ -441,18 +458,18 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 		{
 			TutorialManager.sendMessageToPlayer(player, "This villager did not like your gift.", "Try a different item next time.");
 		}
-		
+
 		if (heartsModify > 0)
 		{
 			human.getAI(AIMood.class).modifyMoodLevel(1.0F);
 			return true;
 		}
-		
+
 		else
 		{
 			human.getAI(AIMood.class).modifyMoodLevel(-1.0F);
 		}
-		
+
 		return false;
 	}
 }

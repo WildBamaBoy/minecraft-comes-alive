@@ -622,6 +622,9 @@ mood.pleased=Pleased
 gift.cake1=What's this? A cake? Oh...oh my. I...need to find my spouse.
 gift.cake2=A cake! How thoughtful! I...wait, what's this odd feeling?
 gift.cake3=Finally, something that will help my marriage...
+gift.cake.refuse1=I don't think I want any more cake, but thank you.
+gift.cake.refuse2=No thanks, I don't want cake anymore.
+gift.cake.refuse3=Oh, no. I couldn't.
 
 ################
 # GUIs
