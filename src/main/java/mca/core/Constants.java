@@ -1,8 +1,5 @@
 package mca.core;
 
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
-
 public final class Constants 
 {
 	public static final int GUI_ID_NAMEBABY = 1;

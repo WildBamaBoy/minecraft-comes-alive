@@ -10,8 +10,13 @@ package mca.client.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mca.ai.AIFollow;
-import mca.ai.AIGrow;
 import mca.ai.AIIdle;
 import mca.ai.AIMood;
 import mca.ai.AIProcreate;
@@ -43,17 +48,10 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
 import radixcore.client.render.RenderHelper;
 import radixcore.constant.Font.Color;
 import radixcore.data.DataWatcherEx;
 import radixcore.util.NumberCycleList;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiInteraction extends GuiScreen
@@ -170,7 +168,7 @@ public class GuiInteraction extends GuiScreen
 		}
 		GL11.glPopMatrix();
 
-		if (playerData.isSuperUser.getBoolean())
+		if (playerData.getIsSuperUser())
 		{
 			RenderHelper.drawTextPopup(Color.WHITE + "You are a superuser.", 10, height - 16);
 		}
@@ -495,7 +493,7 @@ public class GuiInteraction extends GuiScreen
 			case HIRE: drawHireButtonMenu(); break;
 
 			case PROCREATE:
-				if (playerData.shouldHaveBaby.getBoolean())
+				if (playerData.getShouldHaveBaby())
 				{
 					player.addChatMessage(new ChatComponentText(Color.RED + "You already have a baby."));
 				}

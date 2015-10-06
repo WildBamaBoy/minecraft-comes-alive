@@ -1,5 +1,8 @@
 package mca.packets;
 
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import mca.ai.AIProcreate;
 import mca.core.MCA;
@@ -15,9 +18,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import radixcore.network.ByteBufIO;
 import radixcore.packets.AbstractPacket;
 import radixcore.util.RadixLogic;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketBabyName extends AbstractPacket implements IMessage, IMessageHandler<PacketBabyName, IMessage>
 {
@@ -54,7 +54,7 @@ public class PacketBabyName extends AbstractPacket implements IMessage, IMessage
 		EntityPlayer senderPlayer = this.getPlayer(context);
 		ItemStack stack = packet.slot == -1 ? null : senderPlayer.inventory.getStackInSlot(packet.slot); //To avoid index out of bounds.
 		PlayerData data = MCA.getPlayerData(senderPlayer);
-		EntityHuman playerSpouse = MCA.getHumanByPermanentId(data.spousePermanentId.getInt());
+		EntityHuman playerSpouse = MCA.getHumanByPermanentId(data.getSpousePermanentId());
 		
 		//Player has the baby.
 		if (stack != null && stack.getItem() instanceof ItemBaby)

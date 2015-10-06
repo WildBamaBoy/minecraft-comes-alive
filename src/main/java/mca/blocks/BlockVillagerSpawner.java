@@ -3,6 +3,7 @@ package mca.blocks;
 import java.util.List;
 import java.util.Random;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import mca.core.MCA;
 import mca.entity.EntityHuman;
 import net.minecraft.block.Block;
@@ -13,7 +14,6 @@ import net.minecraft.world.World;
 import radixcore.constant.Time;
 import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class BlockVillagerSpawner extends Block
 {

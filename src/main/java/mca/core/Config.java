@@ -71,7 +71,7 @@ public final class Config implements Serializable
 		addConfigValues();
 	}
 
-	public void addConfigValues()
+	private void addConfigValues()
 	{
 		config.setCategoryComment("Init", "Settings that affect how MCA starts up.");
 		baseItemId = config.get("Init", "Base Item ID", 35277, "The base ID to use for items in MCA. Only applicable in 1.6.4.").getInt();
@@ -176,12 +176,12 @@ public final class Config implements Serializable
 		config.save();
 	}
 	
-	public Configuration getConfigInstance()
+	public Configuration getInstance()
 	{
 		return config;
 	}
 
-	public List<IConfigElement> getConfigCategories()
+	public List<IConfigElement> getCategories()
 	{
 		List<IConfigElement> elements = new ArrayList<IConfigElement>();
 

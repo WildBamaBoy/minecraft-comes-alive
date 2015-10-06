@@ -17,12 +17,12 @@ import mca.enums.EnumDialogueType;
 import mca.enums.EnumInteraction;
 import mca.enums.EnumPersonality;
 import mca.items.ItemBaby;
+import mca.util.MarriageHandler;
 import mca.util.TutorialManager;
 import mca.util.Utilities;
 import net.minecraft.block.Block;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -252,24 +252,22 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 			{
 				PlayerData data = MCA.getPlayerData(player);
 				
-				if (data.spousePermanentId.getInt() != 0)
+				if (data.getSpousePermanentId() != 0)
 				{
 					villager.say("interaction.divorce.priest.success", player);
 					
-					EntityHuman spouse = MCA.getHumanByPermanentId(data.spousePermanentId.getInt());
+					EntityHuman spouse = MCA.getHumanByPermanentId(data.getSpousePermanentId());
 					
 					if (spouse != null)
 					{
+						MarriageHandler.endMarriage(player, spouse);
 						PlayerMemory memory = spouse.getPlayerMemory(player);
-						
-						spouse.setIsMarried(false, (EntityHuman)null);
-						spouse.setIsEngaged(false, (EntityPlayer)null);
+
 						spouse.getAI(AIMood.class).modifyMoodLevel(-5.0F);
 						memory.setHearts(-100);
-						memory.setDialogueType(EnumDialogueType.ADULT);
 					}
 					
-					data.setNotMarried();
+					MarriageHandler.forceEndMarriage(player);
 				}
 				
 				else
@@ -282,10 +280,10 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 			{
 				PlayerData data = MCA.getPlayerData(player);
 				
-				if (data.shouldHaveBaby.getBoolean())
+				if (data.getShouldHaveBaby())
 				{
 					villager.say("interaction.resetbaby.success", player);
-					data.shouldHaveBaby.setValue(false);
+					data.setShouldHaveBaby(false);
 					
 					for (int i = 0; i < player.inventory.mainInventory.length; i++)
 					{
@@ -313,7 +311,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 			{
 				PlayerData data = MCA.getPlayerData(player);
 				
-				if (!data.shouldHaveBaby.getBoolean())
+				if (!data.getShouldHaveBaby())
 				{
 					boolean isMale = RadixLogic.getBooleanWithProbability(50);
 					String babyName = isMale ? MCA.getLanguageManager().getString("name.male") : MCA.getLanguageManager().getString("name.female");
@@ -326,7 +324,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 					stack.stackTagCompound.setString("owner", player.getCommandSenderName());
 					
 					player.inventory.addItemStackToInventory(stack);
-					data.shouldHaveBaby.setValue(true);
+					data.setShouldHaveBaby(true);
 				}
 				
 				else

@@ -2,6 +2,8 @@ package mca.ai;
 
 import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mca.core.MCA;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
@@ -12,8 +14,6 @@ import radixcore.constant.Particle;
 import radixcore.constant.Time;
 import radixcore.data.WatchedFloat;
 import radixcore.util.RadixMath;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class AIMood extends AbstractAI
 {

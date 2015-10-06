@@ -1,10 +1,12 @@
 package mca.packets;
 
-import io.netty.buffer.ByteBuf;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import io.netty.buffer.ByteBuf;
 import mca.ai.AICooking;
 import mca.ai.AIFarming;
 import mca.ai.AIHunting;
@@ -17,9 +19,6 @@ import mca.entity.EntityHuman;
 import mca.enums.EnumInteraction;
 import net.minecraft.entity.player.EntityPlayer;
 import radixcore.packets.AbstractPacket;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketToggleAI extends AbstractPacket implements IMessage, IMessageHandler<PacketToggleAI, IMessage>
 {

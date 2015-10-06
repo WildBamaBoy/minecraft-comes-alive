@@ -45,7 +45,7 @@ public class PlayerMemory implements Serializable
 		this.owner = owner;
 		this.playerName = player.getCommandSenderName();
 		this.uuid = player.getUniqueID().toString();
-		this.permanentId = MCA.getPlayerData(player).permanentId.getInt();
+		this.permanentId = MCA.getPlayerData(player).getPermanentId();
 		this.dialogueType = owner.getIsChild() ? EnumDialogueType.CHILD : EnumDialogueType.ADULT;
 
 		//If both parents are players, player memory will not properly be set up for the player who
@@ -224,8 +224,11 @@ public class PlayerMemory implements Serializable
 
 	private void onNonTransientValueChanged()
 	{
-		final EntityPlayerMP player = (EntityPlayerMP) owner.worldObj.getPlayerEntityByName(playerName);
-		MCA.getPacketHandler().sendPacketToPlayer(new PacketSyncPlayerMemory(this.owner.getEntityId(), this), player);
+		if (!MCA.isTesting)
+		{
+			final EntityPlayerMP player = (EntityPlayerMP) owner.worldObj.getPlayerEntityByName(playerName);
+			MCA.getPacketHandler().sendPacketToPlayer(new PacketSyncPlayerMemory(this.owner.getEntityId(), this), player);
+		}
 	}
 
 	public String getPlayerName() 

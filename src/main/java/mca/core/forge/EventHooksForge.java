@@ -2,6 +2,7 @@ package mca.core.forge;
 
 import java.lang.reflect.Field;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mca.core.MCA;
 import mca.entity.EntityHuman;
 import mca.packets.PacketInteractWithPlayerC;
@@ -26,7 +27,6 @@ import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import radixcore.math.Point3D;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class EventHooksForge 
 {

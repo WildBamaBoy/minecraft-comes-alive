@@ -1,10 +1,10 @@
 package mca.items;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import mca.api.IGiftableItem;
 import mca.core.MCA;
 import net.minecraft.item.ItemStack;
 import radixcore.item.ItemColorable;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ItemColoredDiamondDust extends ItemColorable implements IGiftableItem
 {

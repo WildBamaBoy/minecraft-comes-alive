@@ -1,11 +1,11 @@
 package mca.ai;
 
 import mca.core.MCA;
-import mca.core.VersionBridge;
 import mca.core.minecraft.ModAchievements;
 import mca.entity.EntityHuman;
 import mca.enums.EnumBabyState;
 import mca.enums.EnumProgressionStep;
+import mca.util.Utilities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
@@ -27,7 +27,7 @@ public class AIProgressStory extends AbstractAI
 		super(entityHuman);
 
 		isDominant = true;
-		ticksUntilNextProgress = MCA.getConfig().storyProgressionRate;
+		ticksUntilNextProgress = MCA.getConfig() != null ? MCA.getConfig().storyProgressionRate : 20;
 		setProgressionStep(EnumProgressionStep.SEARCH_FOR_PARTNER);
 	}
 
@@ -85,7 +85,7 @@ public class AIProgressStory extends AbstractAI
 	public void reset() 
 	{
 		owner.setTicksAlive(0);
-		ticksUntilNextProgress = MCA.getConfig().storyProgressionRate;
+		ticksUntilNextProgress = MCA.isTesting ? 20 : MCA.getConfig().storyProgressionRate;
 		setProgressionStep(EnumProgressionStep.SEARCH_FOR_PARTNER);
 		isDominant = true;
 	}
@@ -143,8 +143,8 @@ public class AIProgressStory extends AbstractAI
 			}
 
 			//Mark both as married.
-			owner.setIsMarried(true, partner);
-			partner.setIsMarried(true, owner);
+			owner.setMarriedTo(partner);
+			partner.setMarriedTo(owner);
 		}
 	}
 
@@ -164,8 +164,8 @@ public class AIProgressStory extends AbstractAI
 			setProgressionStep(EnumProgressionStep.HAD_BABY);
 			mateAI.setProgressionStep(EnumProgressionStep.HAD_BABY);
 
-			VersionBridge.spawnParticlesAroundEntityS("heart", owner, 16);
-			VersionBridge.spawnParticlesAroundEntityS("heart", mate, 16);
+			Utilities.spawnParticlesAroundEntityS("heart", owner, 16);
+			Utilities.spawnParticlesAroundEntityS("heart", mate, 16);
 
 			//Father's part is done, mother is now dominant for the baby's progression.
 			isDominant = false;

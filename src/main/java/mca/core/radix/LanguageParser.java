@@ -50,12 +50,12 @@ public class LanguageParser extends AbstractLanguageParser
 				else if (unparsedPhrase.contains("%PlayerName%"))
 				{
 					PlayerData data = MCA.getPlayerData(playerTarget);
-					unparsedPhrase = unparsedPhrase.replace("%PlayerName%", data.mcaName.getString());
+					unparsedPhrase = unparsedPhrase.replace("%PlayerName%", data.getMcaName());
 				}
 				
 				else if (unparsedPhrase.contains("%ParentOpposite%"))
 				{
-					boolean isPlayerMale = MCA.getPlayerData(playerTarget).isMale.getBoolean();
+					boolean isPlayerMale = MCA.getPlayerData(playerTarget).getIsMale();
 					
 					if (isPlayerMale)
 					{
@@ -70,7 +70,7 @@ public class LanguageParser extends AbstractLanguageParser
 				
 				else if (unparsedPhrase.contains("%ParentTitle%"))
 				{
-					boolean isPlayerMale = MCA.getPlayerData(playerTarget).isMale.getBoolean();
+					boolean isPlayerMale = MCA.getPlayerData(playerTarget).getIsMale();
 					
 					if (!isPlayerMale)
 					{

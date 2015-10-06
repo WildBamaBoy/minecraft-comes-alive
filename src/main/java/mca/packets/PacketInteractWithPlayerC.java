@@ -2,6 +2,11 @@ package mca.packets;
 
 import org.lwjgl.input.Keyboard;
 
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import mca.client.gui.GuiPlayerMenu;
 import mca.core.MCA;
@@ -11,11 +16,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import radixcore.network.ByteBufIO;
 import radixcore.packets.AbstractPacket;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class PacketInteractWithPlayerC extends AbstractPacket implements IMessage, IMessageHandler<PacketInteractWithPlayerC, IMessage>
 {
@@ -36,9 +36,9 @@ public class PacketInteractWithPlayerC extends AbstractPacket implements IMessag
 		PlayerData initData = MCA.getPlayerData(initiator);
 		PlayerData targetData = MCA.getPlayerData(target);
 		
-		targetIsMarried = targetData.spousePermanentId.getInt() != 0;
-		targetIsEngaged = targetData.isEngaged.getBoolean();
-		isMarriedToInitiator = targetData.spousePermanentId.getInt() == initData.permanentId.getInt();
+		targetIsMarried = targetData.getSpousePermanentId() != 0;
+		targetIsEngaged = targetData.getIsEngaged();
+		isMarriedToInitiator = targetData.getSpousePermanentId() == initData.getPermanentId();
 		
 		for (Object obj : initiator.worldObj.loadedEntityList)
 		{
@@ -46,7 +46,7 @@ public class PacketInteractWithPlayerC extends AbstractPacket implements IMessag
 			{
 				EntityHuman human = (EntityHuman)obj;
 				
-				if (human.getSpouseId() == targetData.permanentId.getInt())
+				if (human.getSpouseId() == targetData.getPermanentId())
 				{
 					targetSpouseName = human.getName();
 				}

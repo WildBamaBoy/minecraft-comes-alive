@@ -3,6 +3,7 @@ package mca.items;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
 import mca.data.PlayerData;
@@ -22,7 +23,6 @@ import net.minecraft.world.World;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Font.Format;
 import radixcore.constant.Time;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ItemBaby extends Item 
 {
@@ -84,7 +84,7 @@ public class ItemBaby extends Item
 		{
 			ItemBaby baby = (ItemBaby)stack.getItem();
 			PlayerData data = MCA.getPlayerData(player);
-			boolean isPlayerMale = data.isMale.getBoolean();
+			boolean isPlayerMale = data.getIsMale();
 
 			String motherName = "N/A";
 			int motherId = 0;
@@ -93,18 +93,18 @@ public class ItemBaby extends Item
 
 			if (isPlayerMale)
 			{
-				motherName = data.spouseName.getString();
-				motherId = data.spousePermanentId.getInt();
+				motherName = data.getSpouseName();
+				motherId = data.getSpousePermanentId();
 				fatherName = player.getCommandSenderName();
-				fatherId = data.permanentId.getInt();
+				fatherId = data.getPermanentId();
 			}
 
 			else
 			{
-				fatherName = data.spouseName.getString();
-				fatherId = data.spousePermanentId.getInt();
+				fatherName = data.getSpouseName();
+				fatherId = data.getSpousePermanentId();
 				motherName = player.getCommandSenderName();
-				motherId = data.permanentId.getInt();				
+				motherId = data.getPermanentId();				
 			}
 
 			final EntityHuman child = new EntityHuman(worldObj, baby.isBoy, true, motherName, fatherName, motherId, fatherId, true);
@@ -119,7 +119,7 @@ public class ItemBaby extends Item
 			player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
 			player.triggerAchievement(ModAchievements.babyToChild);
 
-			data.shouldHaveBaby.setValue(false);
+			data.setShouldHaveBaby(false);
 		}
 
 		return true;

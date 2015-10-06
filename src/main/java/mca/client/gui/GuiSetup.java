@@ -9,6 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mca.core.MCA;
 import mca.core.forge.EventHooksFML;
 import mca.data.PlayerData;
@@ -22,11 +28,6 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
 import radixcore.client.render.RenderHelper;
 import radixcore.constant.Font.Color;
 import radixcore.data.BlockObj;
@@ -34,8 +35,6 @@ import radixcore.data.DataWatcherEx;
 import radixcore.math.Point3D;
 import radixcore.util.BlockHelper;
 import radixcore.util.SchematicHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiSetup extends GuiScreen
@@ -261,7 +260,7 @@ public class GuiSetup extends GuiScreen
 		case 3: case 4: case 5: 			page = 3; break;
 		case 6: 							page = 4; break;
 		case 7: case 8: case 10: case 11: 	//TODO Skip on cases that the warning message will be displayed.
-			data.hasChosenDestiny.setValue(true);
+			data.setHasChosenDestiny(true);
 			setDestinyComplete();
 			mc.displayGuiScreen(null);
 			break;
@@ -271,13 +270,13 @@ public class GuiSetup extends GuiScreen
 
 		switch (button.id)
 		{
-		case 1: data.isMale.setValue(true); break;
-		case 2: data.isMale.setValue(false); break;
-		case 3: data.genderPreference.setValue(0); break;
-		case 4: data.genderPreference.setValue(1); break;
-		case 5: data.genderPreference.setValue(2); break;
+		case 1: data.setIsMale(true); break;
+		case 2: data.setIsMale(false); break;
+		case 3: data.setGenderPreference(0); break;
+		case 4: data.setGenderPreference(1); break;
+		case 5: data.setGenderPreference(2); break;
 		case 6: 
-			data.mcaName.setValue(nameTextField.getText());
+			data.setMcaName(nameTextField.getText());
 
 			if (!Minecraft.getMinecraft().isIntegratedServerRunning()) 
 			{
@@ -368,7 +367,7 @@ public class GuiSetup extends GuiScreen
 		PlayerData data = MCA.playerDataContainer.getPlayerData(PlayerData.class);
 
 		DataWatcherEx.allowClientSideModification = true;
-		data.hasChosenDestiny.setValue(true);
+		data.setHasChosenDestiny(true);
 		DataWatcherEx.allowClientSideModification = false;
 	}
 }

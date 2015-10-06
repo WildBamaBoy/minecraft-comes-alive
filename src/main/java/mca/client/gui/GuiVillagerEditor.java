@@ -4,6 +4,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mca.ai.AISleep;
 import mca.core.MCA;
 import mca.entity.EntityHuman;
@@ -18,16 +24,9 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EntityPlayer;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-
 import radixcore.constant.Font.Color;
 import radixcore.data.DataWatcherEx;
 import radixcore.util.NumberCycleList;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 /**
  * Defines the GUI used to edit villager information.

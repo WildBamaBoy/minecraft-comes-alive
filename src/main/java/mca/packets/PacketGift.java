@@ -1,5 +1,8 @@
 package mca.packets;
 
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import mca.ai.AIGrow;
 import mca.ai.AIMood;
@@ -7,7 +10,6 @@ import mca.ai.AIProgressStory;
 import mca.api.IGiftableItem;
 import mca.api.RegistryMCA;
 import mca.core.MCA;
-import mca.core.VersionBridge;
 import mca.core.minecraft.ModAchievements;
 import mca.core.minecraft.ModItems;
 import mca.data.PlayerData;
@@ -15,7 +17,9 @@ import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.enums.EnumDialogueType;
 import mca.enums.EnumProgressionStep;
+import mca.util.MarriageHandler;
 import mca.util.TutorialManager;
+import mca.util.Utilities;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -29,9 +33,6 @@ import radixcore.constant.Particle;
 import radixcore.packets.AbstractPacket;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketGift extends AbstractPacket implements IMessage, IMessageHandler<PacketGift, IMessage>
 {
@@ -163,7 +164,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 			else if (item == ModItems.newOutfit && human.allowControllingInteractions(player))
 			{
-				VersionBridge.spawnParticlesAroundEntityS(Particle.HAPPY, human, 16);
+				Utilities.spawnParticlesAroundEntityS(Particle.HAPPY, human, 16);
 				human.setClothesTexture(human.getRandomSkin());
 				removeItem = true;
 				removeCount = 1;
@@ -203,7 +204,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			human.say("interaction.give.invalid", player); 
 		}
 
-		else if (data.spousePermanentId.getInt() == human.getPermanentId() && (!human.getIsEngaged() || human.getIsMarried()))
+		else if (data.getSpousePermanentId() == human.getPermanentId() && (!human.getIsEngaged() || human.getIsMarried()))
 		{
 			human.say("interaction.marry.fail.marriedtogiver", player); 
 		}
@@ -213,12 +214,12 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			human.say("interaction.marry.fail.marriedtoother", player); 
 		}
 
-		else if (human.getIsEngaged() && human.getSpouseId() != data.permanentId.getInt())
+		else if (human.getIsEngaged() && human.getSpouseId() != data.getPermanentId())
 		{
 			human.say("interaction.engage.fail.engagedtoother", player); 
 		}
 
-		else if (data.spousePermanentId.getInt() != 0 && !data.isEngaged.getBoolean())
+		else if (data.getSpousePermanentId() != 0 && !data.getIsEngaged())
 		{
 			human.say("interaction.marry.fail.playermarried", player); 
 		}
@@ -233,13 +234,11 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 		{
 			player.triggerAchievement(ModAchievements.marriage);
 			human.say("interaction.marry.success", player); 
-
-			memory.setDialogueType(EnumDialogueType.SPOUSE);
-			data.setMarried(human);
-			human.setIsMarried(true, player);
+			
+			MarriageHandler.startMarriage(player, human);
 
 			human.getAI(AIMood.class).modifyMoodLevel(3.0F);
-			VersionBridge.spawnParticlesAroundEntityS(Particle.HEART, human, 16);
+			Utilities.spawnParticlesAroundEntityS(Particle.HEART, human, 16);
 			TutorialManager.sendMessageToPlayer(player, "You are now married. You can have", "children by using the 'Procreate' button.");
 			return true;
 		}
@@ -295,11 +294,11 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 			else
 			{
-				human.setIsMarried(true, partner);
-				partner.setIsMarried(true, human);
+				human.setMarriedTo(partner);
+				partner.setMarriedTo(human);
 
-				VersionBridge.spawnParticlesAroundEntityS(Particle.HEART, human, 16);
-				VersionBridge.spawnParticlesAroundEntityS(Particle.HEART, partner, 16);
+				Utilities.spawnParticlesAroundEntityS(Particle.HEART, human, 16);
+				Utilities.spawnParticlesAroundEntityS(Particle.HEART, partner, 16);
 
 				for (Object obj : human.worldObj.playerEntities)
 				{
@@ -329,7 +328,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			human.say("interaction.give.invalid", player); 
 		}
 
-		else if (data.spousePermanentId.getInt() == human.getPermanentId())
+		else if (data.getSpousePermanentId() == human.getPermanentId())
 		{
 			human.say("interaction.marry.fail.marriedtogiver", player); 
 		}
@@ -344,7 +343,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			human.say("interaction.engage.fail.engagedtoother", player); 
 		}
 
-		else if (data.spousePermanentId.getInt() != 0)
+		else if (data.getSpousePermanentId() != 0)
 		{
 			human.say("interaction.marry.fail.playermarried", player); 
 		}
@@ -360,13 +359,10 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			player.triggerAchievement(ModAchievements.engagement);
 			human.say("interaction.engage.success", player); 
 
-			memory.setDialogueType(EnumDialogueType.SPOUSE);
-			data.spousePermanentId.setValue(human.getPermanentId());
-			data.isEngaged.setValue(true);
-			human.setIsEngaged(true, player);
+			MarriageHandler.startEngagement(player, human);
 
 			human.getAI(AIMood.class).modifyMoodLevel(3.0F);
-			VersionBridge.spawnParticlesAroundEntityS(Particle.HEART, human, 16);
+			Utilities.spawnParticlesAroundEntityS(Particle.HEART, human, 16);
 			TutorialManager.sendMessageToPlayer(player, "You are now engaged. Now gift a wedding ring", "to get gifts from other villagers.");
 			return true;
 		}
@@ -389,7 +385,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			human.say("interaction.divorce.notmarried", player); 
 		}
 
-		else if (human.isMarriedToAPlayer() && data.spousePermanentId.getInt() != human.getPermanentId())
+		else if (human.isMarriedToAPlayer() && data.getSpousePermanentId() != human.getPermanentId())
 		{
 			human.say("interaction.divorce.notmarriedtoplayer", player); 
 		}
@@ -399,16 +395,12 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			if (human.isMarriedToAPlayer())
 			{
 				memory.setHearts(-100);
-
 				human.say("interaction.divorce.success", player); 
 
-				memory.setDialogueType(EnumDialogueType.ADULT);
-				human.setIsMarried(false, (EntityHuman) null);
-				human.setIsEngaged(false, (EntityPlayer) null);
-				data.setNotMarried();
+				MarriageHandler.endMarriage(player, human);
 
 				human.getAI(AIMood.class).modifyMoodLevel(-10.0F);
-				VersionBridge.spawnParticlesAroundEntityS(Particle.ANGRY, human, 16);
+				Utilities.spawnParticlesAroundEntityS(Particle.ANGRY, human, 16);
 			}
 
 			else
@@ -417,10 +409,10 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 				if (partner != null)
 				{
-					partner.setIsMarried(false, (EntityHuman) null);
+					partner.setMarriedTo(null);
 				}
 
-				human.setIsMarried(false, (EntityHuman) null);
+				human.setMarriedTo(null);
 			}
 
 			return true;

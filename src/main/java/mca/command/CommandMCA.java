@@ -8,6 +8,7 @@ import mca.data.PlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.items.ItemBaby;
+import mca.util.MarriageHandler;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
@@ -69,7 +70,7 @@ public class CommandMCA extends CommandBase
 				{
 					final PlayerData data = MCA.getPlayerData(targetPlayer);
 
-					if (data.isSuperUser.getBoolean())
+					if (data.getIsSuperUser())
 					{
 						if (doGet)
 						{
@@ -79,7 +80,7 @@ public class CommandMCA extends CommandBase
 						else
 						{
 							addChatMessage(commandSender, Color.GREEN + playerName + " is no longer a superuser.");						
-							data.isSuperUser.setValue(false);
+							data.setIsSuperUser(false);
 						}
 					}
 
@@ -93,7 +94,7 @@ public class CommandMCA extends CommandBase
 						else
 						{
 							addChatMessage(commandSender, Color.GREEN + playerName + " is now a superuser.");
-							data.isSuperUser.setValue(true);
+							data.setIsSuperUser(true);
 						}
 					}
 				}
@@ -278,9 +279,7 @@ public class CommandMCA extends CommandBase
 
 				if (targetPlayer != null)
 				{
-					PlayerData data = MCA.getPlayerData(targetPlayer);
-					data.setNotMarried();
-
+					MarriageHandler.forceEndMarriage(targetPlayer);
 					addChatMessage(commandSender, Color.GOLD + playerName + "'s marriage has been reset.");	
 				}
 
@@ -298,7 +297,7 @@ public class CommandMCA extends CommandBase
 				if (targetPlayer != null)
 				{
 					PlayerData data = MCA.getPlayerData(targetPlayer);
-					data.shouldHaveBaby.setValue(false);
+					data.setShouldHaveBaby(false);
 
 					addChatMessage(commandSender, Color.GOLD + playerName + "'s baby status has been reset.");	
 				}

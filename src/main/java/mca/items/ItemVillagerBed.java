@@ -2,6 +2,9 @@ package mca.items;
 
 import java.util.List;
 
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mca.blocks.BlockVillagerBed;
 import mca.core.MCA;
 import mca.core.minecraft.ModBlocks;
@@ -13,9 +16,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import radixcore.util.BlockHelper;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemVillagerBed extends Item
 {

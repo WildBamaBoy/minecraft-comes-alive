@@ -1,6 +1,6 @@
 package mca.items;
 
-import radixcore.util.BlockHelper;
+import cpw.mods.fml.common.registry.GameRegistry;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.ModBlocks;
@@ -11,7 +11,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.registry.GameRegistry;
+import radixcore.util.BlockHelper;
 
 public class ItemTombstone extends Item
 {

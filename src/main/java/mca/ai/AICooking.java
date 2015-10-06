@@ -1,10 +1,10 @@
 package mca.ai;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import mca.api.CookableFood;
 import mca.api.RegistryMCA;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
-import net.minecraft.block.BlockFurnace;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -16,7 +16,6 @@ import radixcore.math.Point3D;
 import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class AICooking extends AbstractToggleAI
 {

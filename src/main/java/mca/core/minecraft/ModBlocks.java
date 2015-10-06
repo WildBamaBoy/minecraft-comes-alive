@@ -1,5 +1,6 @@
 package mca.core.minecraft;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import mca.blocks.BlockTombstone;
 import mca.blocks.BlockVillagerBed;
 import mca.blocks.BlockVillagerSpawner;
@@ -7,7 +8,6 @@ import mca.core.MCA;
 import mca.enums.EnumBedColor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockOre;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public final class ModBlocks
 {

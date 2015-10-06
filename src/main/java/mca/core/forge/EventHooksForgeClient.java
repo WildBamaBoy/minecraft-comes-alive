@@ -1,15 +1,14 @@
 package mca.core.forge;
 
-import radixcore.util.BlockHelper;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mca.client.gui.GuiSetup;
 import mca.core.MCA;
 import mca.data.PlayerData;
-import mca.entity.EntityHuman;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEnchantmentTable;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import radixcore.util.BlockHelper;
 
 public class EventHooksForgeClient 
 {
@@ -26,7 +25,7 @@ public class EventHooksForgeClient
 				{
 					PlayerData data = MCA.getPlayerData(event.entityPlayer);
 					
-					if (!data.hasChosenDestiny.getBoolean())
+					if (!data.getHasChosenDestiny())
 					{
 						event.setCanceled(true);
 						Minecraft.getMinecraft().displayGuiScreen(new GuiSetup(event.entityPlayer));
