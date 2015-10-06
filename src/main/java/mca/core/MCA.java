@@ -44,6 +44,7 @@ import mca.entity.EntityHuman;
 import mca.enums.EnumCut;
 import mca.enums.EnumProfession;
 import mca.network.MCAPacketHandler;
+import mca.test.DummyPlayer;
 import mca.tile.TileTombstone;
 import mca.tile.TileVillagerBed;
 import mca.util.SkinLoader;
@@ -111,6 +112,11 @@ public class MCA
 	@SideOnly(Side.CLIENT)
 	public static boolean destinySpawnFlag;
 
+	//Fields used for unit testing only.
+	public static boolean isTesting;
+	public static PlayerData stevePlayerData;
+	public static PlayerData alexPlayerData;
+	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{	
@@ -633,7 +639,7 @@ public class MCA
 
 		MCA.playerDataMap.clear();
 	}
-
+	
 	public static MCA getInstance()
 	{
 		return instance;
@@ -690,7 +696,13 @@ public class MCA
 
 	public static PlayerData getPlayerData(EntityPlayer player)
 	{
-		if (!player.worldObj.isRemote)
+		if (player instanceof DummyPlayer)
+		{
+			DummyPlayer dummy = (DummyPlayer)player;
+			return dummy.getIsSteve() ? stevePlayerData : alexPlayerData;
+		}
+		
+		else if (!player.worldObj.isRemote)
 		{
 			return (PlayerData) playerDataMap.get(player.getUniqueID().toString());
 		}
@@ -741,8 +753,8 @@ public class MCA
 			spouse.setPosition(human.posX, human.posY, human.posZ - 1);
 			world.spawnEntityInWorld(spouse);
 
-			human.setIsMarried(true, spouse);
-			spouse.setIsMarried(true, human);
+			human.setMarriedTo(spouse);
+			spouse.setMarriedTo(human);
 
 			String motherName = !isMale ? human.getName() : spouse.getName();
 			String fatherName = isMale ? human.getName() : spouse.getName();
@@ -769,5 +781,12 @@ public class MCA
 	public static CrashWatcher getCrashWatcher() 
 	{
 		return crashWatcher;
+	}
+
+	public static void initializeForTesting() 
+	{
+		MCA.isTesting = true;
+		MCA.metadata = new ModMetadata();
+		MCA.metadata.modId = MCA.ID;
 	}
 }
