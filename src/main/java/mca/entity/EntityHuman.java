@@ -45,7 +45,6 @@ import mca.enums.EnumMovementState;
 import mca.enums.EnumPersonality;
 import mca.enums.EnumProfession;
 import mca.enums.EnumProfessionGroup;
-import mca.enums.EnumProgressionStep;
 import mca.enums.EnumSleepingState;
 import mca.items.ItemBaby;
 import mca.packets.PacketOpenGUIOnEntity;

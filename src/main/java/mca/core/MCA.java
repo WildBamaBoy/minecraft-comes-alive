@@ -48,7 +48,6 @@ import mca.test.DummyPlayer;
 import mca.tile.TileTombstone;
 import mca.tile.TileVillagerBed;
 import mca.util.SkinLoader;
-import net.minecraft.client.resources.Language;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;

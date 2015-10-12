@@ -1,11 +1,8 @@
 package mca.data;
 
-import java.util.List;
-
 import cpw.mods.fml.common.ModMetadata;
 import mca.core.MCA;
 import mca.entity.EntityHuman;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import radixcore.data.AbstractPlayerData;
