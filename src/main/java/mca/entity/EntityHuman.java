@@ -112,6 +112,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	private final WatchedBoolean doDisplay;
 	private final WatchedBoolean isSwinging;
 	private final WatchedInt heldItem;
+	private final WatchedBoolean isInfected;
 
 	private final Inventory inventory;
 
@@ -155,6 +156,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		doDisplay = new WatchedBoolean(false, WatcherIDsHuman.DO_DISPLAY, dataWatcherEx);
 		isSwinging = new WatchedBoolean(false, WatcherIDsHuman.IS_SWINGING, dataWatcherEx);
 		heldItem = new WatchedInt(-1, WatcherIDsHuman.HELD_ITEM, dataWatcherEx);
+		isInfected = new WatchedBoolean(false, WatcherIDsHuman.IS_INFECTED, dataWatcherEx);
 
 		aiManager = new AIManager(this);
 		aiManager.addAI(new AIIdle(this));
@@ -422,8 +424,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		nbt.setBoolean("isInteracting", isInteracting.getBoolean());
 		nbt.setFloat("scaleHeight", scaleHeight.getFloat());
 		nbt.setFloat("scaleGirth", scaleGirth.getFloat());
-
 		nbt.setInteger("ticksAlive", ticksAlive);
+		nbt.setBoolean("isInfected", isInfected.getBoolean());
 
 		PlayerMemoryHandler.writePlayerMemoryToNBT(playerMemories, nbt);
 		dataWatcherEx.writeDataWatcherToNBT(nbt);
@@ -443,7 +445,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		professionId.setValue(nbt.getInteger("professionId"));
 		personalityId.setValue(nbt.getInteger("personalityId"));
 		permanentId.setValue(nbt.getInteger("permanentId"));
-		setIsMale(nbt.getBoolean("isMale"));
+		isMale.setValue(nbt.getBoolean("isMale"));
 		isEngaged.setValue(nbt.getBoolean("isEngaged"));
 		spouseId.setValue(nbt.getInteger("spouseId"));
 		spouseName.setValue(nbt.getString("spouseName"));
@@ -456,8 +458,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		isInteracting.setValue(nbt.getBoolean("isInteracting"));
 		scaleHeight.setValue(nbt.getFloat("scaleHeight"));
 		scaleGirth.setValue(nbt.getFloat("scaleGirth"));
-
 		ticksAlive = nbt.getInteger("ticksAlive");
+		isInfected.setValue(nbt.getBoolean("isInfected"));
 
 		PlayerMemoryHandler.readPlayerMemoryFromNBT(this, playerMemories, nbt);
 		dataWatcherEx.readDataWatcherFromNBT(nbt);
@@ -487,6 +489,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	@Override
 	protected String getLivingSound()
 	{
+		//Infected villagers moan like zombies.
 		return null;
 	}
 
@@ -662,33 +665,42 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			target.addChatMessage(new ChatComponentText(sb.toString()));
 		}
 
-		aiManager.getAI(AIIdle.class).reset();		
-
+		aiManager.getAI(AIIdle.class).reset();
 	}
 
 	public void say(String phraseId, EntityPlayer target, Object... arguments)
 	{
-		final StringBuilder sb = new StringBuilder();
-
-		//Handle chat prefix.
-		if (MCA.getConfig().villagerChatPrefix != null && !MCA.getConfig().villagerChatPrefix.equals("null"))
+		if (getIsInfected()) //Infected villagers moan when they speak, and will not say anything else.
 		{
-			sb.append(MCA.getConfig().villagerChatPrefix);
+			String zombieMoan = RadixLogic.getBooleanWithProbability(33) ? "Raagh..." : RadixLogic.getBooleanWithProbability(33) ? "Ughh..." : "Argh-gur...";
+			target.addChatMessage(new ChatComponentText(getTitle(target) + ": " + zombieMoan));
+			worldObj.playSoundAtEntity(this, "mob.zombie.say", 0.5F, rand.nextFloat() + 0.5F);
 		}
 
-		//Add title and text.
-		sb.append(getTitle(target));
-		sb.append(": ");
-		sb.append(MCA.getLanguageManager().getString(phraseId, arguments));
-
-		//Just in case the target is no longer present, somehow.
-		if (target != null)
+		else
 		{
-			target.addChatMessage(new ChatComponentText(sb.toString()));
-		}
+			final StringBuilder sb = new StringBuilder();
 
-		aiManager.getAI(AIIdle.class).reset();
-		aiManager.getAI(AISleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
+			//Handle chat prefix.
+			if (MCA.getConfig().villagerChatPrefix != null && !MCA.getConfig().villagerChatPrefix.equals("null"))
+			{
+				sb.append(MCA.getConfig().villagerChatPrefix);
+			}
+
+			//Add title and text.
+			sb.append(getTitle(target));
+			sb.append(": ");
+			sb.append(MCA.getLanguageManager().getString(phraseId, arguments));
+
+			//Just in case the target is no longer present, somehow.
+			if (target != null)
+			{
+				target.addChatMessage(new ChatComponentText(sb.toString()));
+			}
+
+			aiManager.getAI(AIIdle.class).reset();
+			aiManager.getAI(AISleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
+		}
 	}
 
 	public void say(String phraseId, EntityPlayer target)
@@ -702,12 +714,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public String getTitle(EntityPlayer player)
 	{
 		PlayerMemory memory = getPlayerMemory(player);
-		
+
 		if (memory.isRelatedToPlayer())
 		{
 			return MCA.getLanguageManager().getString(isMale.getBoolean() ? "title.relative.male" : "title.relative.female", this, player);
 		}
-		
+
 		else
 		{
 			return MCA.getLanguageManager().getString(isMale.getBoolean() ? "title.nonrelative.male" : "title.nonrelative.female", this, player);
@@ -745,7 +757,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			{
 				return 5.0D;
 			}
-	
+
 			else
 			{
 				return 0.5D;
@@ -1316,6 +1328,11 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			return true;
 		}
 
+		else if (getIsInfected()) //Infected villagers can't use an inventory or do chores.
+		{
+			return false;
+		}
+		
 		else if (memory.getIsHiredBy())
 		{
 			return true;
@@ -1418,5 +1435,18 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public void setIsEngaged(boolean value) 
 	{
 		isEngaged.setValue(value);
+	}
+
+	public boolean getIsInfected()
+	{
+		return isInfected.getBoolean();
+	}
+
+	public void setIsInfected(boolean value) 
+	{
+		isInfected.setValue(value);
+
+		// The texture is determined by the renderer. The appropriate skin will be
+		// rendered after checking the isInfected variable.
 	}
 }

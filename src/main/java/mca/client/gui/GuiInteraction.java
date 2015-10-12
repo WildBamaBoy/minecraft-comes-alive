@@ -50,6 +50,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
 import radixcore.client.render.RenderHelper;
 import radixcore.constant.Font.Color;
+import radixcore.constant.Font.Format;
 import radixcore.data.DataWatcherEx;
 import radixcore.util.NumberCycleList;
 
@@ -100,7 +101,7 @@ public class GuiInteraction extends GuiScreen
 	public void initGui()
 	{
 		drawGui();
-
+		
 		try
 		{
 			villager.displayNameForPlayer = true;
@@ -128,6 +129,9 @@ public class GuiInteraction extends GuiScreen
 			DataWatcherEx.allowClientSideModification = true;
 			villager.setIsInteracting(false);
 			DataWatcherEx.allowClientSideModification = false;
+			
+			//Show tutorial message for infected villagers after closing, to avoid cluttering the GUI.
+			TutorialManager.setTutorialMessage(new TutorialMessage("Infected villagers cannot do chores, have an inventory,", "and they may bite. Surely there's a cure?"));
 		}
 
 		catch (NullPointerException e)
@@ -173,6 +177,11 @@ public class GuiInteraction extends GuiScreen
 			RenderHelper.drawTextPopup(Color.WHITE + "You are a superuser.", 10, height - 16);
 		}
 
+		if (villager.getIsInfected())
+		{
+			RenderHelper.drawTextPopup(Color.GREEN + Format.BOLD + "INFECTED!", 62, 11);			
+		}
+		
 		if (displayMarriageInfo)
 		{
 			String phraseId = 

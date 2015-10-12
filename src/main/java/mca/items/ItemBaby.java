@@ -58,7 +58,8 @@ public class ItemBaby extends Item
 				itemStack.stackTagCompound.setString("name", "Unnamed");
 				itemStack.stackTagCompound.setInteger("age", 0);
 				itemStack.stackTagCompound.setString("owner", ownerName);
-
+				itemStack.stackTagCompound.setBoolean("isInfected", false);
+				
 				if (entity instanceof EntityPlayer)
 				{
 					EntityPlayer player = (EntityPlayer)entity;
@@ -111,6 +112,12 @@ public class ItemBaby extends Item
 			final EntityHuman child = new EntityHuman(worldObj, baby.isBoy, true, motherName, fatherName, motherId, fatherId, true);
 			child.setPosition(posX, posY + 1, posZ);
 			child.setName(stack.stackTagCompound.getString("name"));
+			
+			if (stack.stackTagCompound.getBoolean("isInfected"))
+			{
+				child.setIsInfected(true);
+			}
+			
 			worldObj.spawnEntityInWorld(child);
 
 			PlayerMemory childMemory = child.getPlayerMemory(player);
@@ -140,14 +147,12 @@ public class ItemBaby extends Item
 		return super.onItemRightClick(itemStack, world, player);
 	}
 
-
 	@Override
 	public boolean onEntityItemUpdate(EntityItem entityItem) 
 	{
 		updateBabyGrowth(entityItem.getEntityItem());
 		return super.onEntityItemUpdate(entityItem);
 	}
-
 
 	@Override
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List infoList, boolean unknown)
@@ -170,6 +175,11 @@ public class ItemBaby extends Item
 			infoList.add(textColor + "Age: "  + Format.RESET + nearestTenth.format(ageInMinutes) + " minutes.");
 			infoList.add(textColor + "Parent: " + Format.RESET + ownerName);
 
+			if (itemStack.stackTagCompound.getBoolean("isInfected"))
+			{
+				infoList.add(Color.GREEN + "Infected!");
+			}
+			
 			if (isReadyToGrowUp(itemStack))
 			{
 				infoList.add(Color.GREEN + "Ready to grow up!");
