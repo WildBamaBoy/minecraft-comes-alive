@@ -4,6 +4,7 @@ import mca.core.MCA;
 import mca.data.PlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
+import mca.enums.EnumRelation;
 import net.minecraft.entity.player.EntityPlayer;
 import radixcore.lang.AbstractLanguageParser;
 import radixcore.util.RadixExcept;
@@ -81,6 +82,12 @@ public class LanguageParser extends AbstractLanguageParser
 					{
 						unparsedPhrase = unparsedPhrase.replace("%ParentTitle%", MCA.getLanguageManager().getString("parser.dad"));						
 					}					
+				}
+				
+				else if (unparsedPhrase.contains("%RelationToPlayer%"))
+				{
+					EnumRelation relation = memory.getRelation();
+					unparsedPhrase = unparsedPhrase.replace("%RelationToPlayer%", MCA.getLanguageManager().getString(relation.getPhraseId()));
 				}
 				
 				else if (unparsedPhrase.contains("%a1%"))

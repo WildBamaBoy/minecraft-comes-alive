@@ -11,6 +11,7 @@ import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.enums.EnumDialogueType;
 import mca.enums.EnumProgressionStep;
+import mca.enums.EnumRelation;
 import mca.util.MarriageHandler;
 import radixcore.core.RadixCore;
 
@@ -76,6 +77,7 @@ public class TestMarriageHandler
 		Assert.assertEquals(steve.getCommandSenderName(), eve.getSpouseName());
 		
 		Assert.assertEquals(eveMemory.getDialogueType(), EnumDialogueType.SPOUSE);
+		Assert.assertFalse(eveMemory.getRelation() == EnumRelation.WIFE || eveMemory.getRelation() == EnumRelation.HUSBAND);
 		Assert.assertEquals(eveStoryProgression.getProgressionStep(), EnumProgressionStep.FINISHED);
 		
 		resetAllAndAssert();
@@ -97,6 +99,7 @@ public class TestMarriageHandler
 		Assert.assertEquals(eve.getName(), steveData.getSpouseName());
 		Assert.assertEquals(steve.getCommandSenderName(), eve.getSpouseName());
 		Assert.assertEquals(eveMemory.getDialogueType(), EnumDialogueType.SPOUSE);
+		Assert.assertTrue(eveMemory.getRelation() == EnumRelation.WIFE || eveMemory.getRelation() == EnumRelation.HUSBAND);
 		Assert.assertEquals(eveStoryProgression.getProgressionStep(), EnumProgressionStep.FINISHED);
 		
 		resetAllAndAssert();

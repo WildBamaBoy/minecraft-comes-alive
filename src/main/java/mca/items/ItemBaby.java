@@ -10,6 +10,7 @@ import mca.data.PlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.enums.EnumDialogueType;
+import mca.enums.EnumRelation;
 import mca.packets.PacketOpenBabyNameGUI;
 import mca.util.TutorialManager;
 import net.minecraft.entity.Entity;
@@ -115,6 +116,7 @@ public class ItemBaby extends Item
 			PlayerMemory childMemory = child.getPlayerMemory(player);
 			childMemory.setHearts(100);
 			childMemory.setDialogueType(EnumDialogueType.CHILDP);
+			childMemory.setRelation(child.getIsMale() ? EnumRelation.SON : EnumRelation.DAUGHTER);
 
 			player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
 			player.triggerAchievement(ModAchievements.babyToChild);

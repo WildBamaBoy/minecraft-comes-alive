@@ -12,6 +12,7 @@ import java.io.Serializable;
 import mca.core.MCA;
 import mca.entity.EntityHuman;
 import mca.enums.EnumDialogueType;
+import mca.enums.EnumRelation;
 import mca.packets.PacketSyncPlayerMemory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -34,6 +35,7 @@ public class PlayerMemory implements Serializable
 	private EnumDialogueType dialogueType;
 	private int feedbackDisplayTime;
 	private boolean lastInteractionSuccess;
+	private int relationId;
 
 	private transient int timeUntilGreeting;
 	private transient int distanceTravelledFrom;
@@ -88,6 +90,7 @@ public class PlayerMemory implements Serializable
 		nbt.setBoolean(nbtPrefix + "isHiredBy", isHiredBy);
 		nbt.setInteger(nbtPrefix + "feedbackDisplayTime", feedbackDisplayTime);
 		nbt.setBoolean(nbtPrefix + "lastInteractionSuccess", lastInteractionSuccess);
+		nbt.setInteger(nbtPrefix + "relationId", relationId);
 	}
 
 	public void readPlayerMemoryFromNBT(NBTTagCompound nbt)
@@ -108,6 +111,7 @@ public class PlayerMemory implements Serializable
 		isHiredBy = nbt.getBoolean(nbtPrefix + "isHiredBy");
 		feedbackDisplayTime = nbt.getInteger(nbtPrefix + "feedbackDisplayTime");
 		lastInteractionSuccess = nbt.getBoolean(nbtPrefix + "lastInteractionSuccess");
+		relationId = nbt.getInteger(nbtPrefix + "relationId");
 	}
 
 	public void doTick()
@@ -281,5 +285,20 @@ public class PlayerMemory implements Serializable
 		isHiredBy = value;
 		hireTimeLeft = length * 60; //Measured in hours
 		onNonTransientValueChanged();
+	}
+
+	public void setRelation(EnumRelation relation)
+	{
+		relationId = relation.getId();
+	}
+	
+	public EnumRelation getRelation()
+	{
+		return EnumRelation.getById(relationId);
+	}
+	
+	public boolean isRelatedToPlayer()
+	{
+		return relationId > 0;
 	}
 }

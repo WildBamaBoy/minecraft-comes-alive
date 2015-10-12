@@ -7,6 +7,7 @@ import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.enums.EnumDialogueType;
 import mca.enums.EnumProgressionStep;
+import mca.enums.EnumRelation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import radixcore.util.RadixLogic;
@@ -52,6 +53,7 @@ public class MarriageHandler
 
 		//Set the appropriate dialogue type.
 		memory.setDialogueType(EnumDialogueType.SPOUSE);
+		memory.setRelation(human.getIsMale() ? EnumRelation.HUSBAND : EnumRelation.WIFE);
 		
 		//Handle engagement gifts if we were engaged prior to marriage.
 		if (handleEngagement)
@@ -133,6 +135,7 @@ public class MarriageHandler
 		human.setSpouseId(0);
 		human.setIsEngaged(false);
 		memory.setDialogueType(EnumDialogueType.ADULT);
+		memory.setRelation(EnumRelation.NONE);
 		
 		human.getAI(AIProgressStory.class).reset();
 	}

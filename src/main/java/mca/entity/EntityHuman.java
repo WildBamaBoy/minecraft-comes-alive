@@ -720,7 +720,17 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	 */
 	public String getTitle(EntityPlayer player)
 	{
-		return MCA.getLanguageManager().getString(isMale.getBoolean() ? "title.nonrelative.male" : "title.nonrelative.female", this);
+		PlayerMemory memory = getPlayerMemory(player);
+		
+		if (memory.isRelatedToPlayer())
+		{
+			return MCA.getLanguageManager().getString(isMale.getBoolean() ? "title.relative.male" : "title.relative.female", this, player);
+		}
+		
+		else
+		{
+			return MCA.getLanguageManager().getString(isMale.getBoolean() ? "title.nonrelative.male" : "title.nonrelative.female", this, player);
+		}
 	}
 
 	public boolean isInOverworld()
