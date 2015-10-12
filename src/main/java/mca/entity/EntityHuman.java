@@ -189,25 +189,6 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		inventory = new Inventory("Villager Inventory", false, 41);
 	}
 
-	public double getBaseAttackDamage() 
-	{
-		switch (getPersonality())
-		{
-		case STRONG: return 2.0D;
-		case CONFIDENT: return 1.0D;
-		default: 
-			if (getProfessionGroup() == EnumProfessionGroup.Guard)
-			{
-				return 5.0D;
-			}
-
-			else
-			{
-				return 0.5D;
-			}
-		}
-	}
-
 	public EntityHuman(World world, boolean isMale)
 	{
 		this(world);
@@ -751,6 +732,25 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public <T extends AbstractAI> T getAI(Class<T> clazz)
 	{
 		return this.aiManager.getAI(clazz);
+	}
+
+	public double getBaseAttackDamage() 
+	{
+		switch (getPersonality())
+		{
+		case STRONG: return 2.0D;
+		case CONFIDENT: return 1.0D;
+		default: 
+			if (getProfessionGroup() == EnumProfessionGroup.Guard)
+			{
+				return 5.0D;
+			}
+	
+			else
+			{
+				return 0.5D;
+			}
+		}
 	}
 
 	public boolean getIsMale()
