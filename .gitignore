@@ -16,3 +16,4 @@
 .gradle
 gitlog-to-changelog
 CHANGELOG
+*.jar
