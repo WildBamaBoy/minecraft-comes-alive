@@ -1353,7 +1353,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 	public void setIsMale(boolean value) 
 	{
-		this.setIsMale(value);
+		this.isMale.setValue(value);
 		this.setHeadTexture(this.getRandomSkin());
 	}
 
