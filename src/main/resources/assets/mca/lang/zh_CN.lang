@@ -1,43 +1,43 @@
 #X-Generator: crowdin.com
-itemGroup.tabMCA=Minecraft Comes Alive
-itemGroup.tabMCA.gemCutting=MCA - Gem Cutting
+itemGroup.tabMCA=Minecraft 虚拟人生
+itemGroup.tabMCA.gemCutting=MCA - 琢宝石
 
 #######
 # Achievements
 ##############################
-achievement.fullGoldHearts=Getting Somewhere
+achievement.fullGoldHearts=到个地方
 achievement.fullGoldHearts.desc=Get 5 gold hearts with a villager.
 achievement.engagement=Happily Taken\!
 achievement.engagement.desc=Get engaged to a villager.
-achievement.marriage=We're Married\!
-achievement.marriage.desc=Get married to a villager.
-achievement.babyBoy=It's a Boy\!
-achievement.babyBoy.desc=Have a baby boy.
-achievement.babyGirl=It's a Girl\!
-achievement.babyGirl.desc=Have a baby girl.
-achievement.twins=Twins\!
-achievement.twins.desc=Have twins.
-achievement.babyToChild=They Grow Up So Fast
-achievement.babyToChild.desc=Grow your baby into a child.
+achievement.marriage=我们结婚了！
+achievement.marriage.desc=和村民结婚。
+achievement.babyBoy=生了个男孩\!
+achievement.babyBoy.desc=生下一个男孩。
+achievement.babyGirl=喜得千金！
+achievement.babyGirl.desc=生下一个女孩。
+achievement.twins=双胞胎！
+achievement.twins.desc=生双胞胎。
+achievement.babyToChild=他们长的真快。
+achievement.babyToChild.desc=把你的婴儿长到儿童了。
 achievement.hunting=Bullseye\!
-achievement.hunting.desc=Make your child go hunting.
+achievement.hunting.desc=让你的孩子去捕猎。
 achievement.mining=Infiniminer
-achievement.mining.desc=Make your child mine for you.
-achievement.woodcutting=Lumberjack
-achievement.woodcutting.desc=Make your child cut trees.
-achievement.farming=Free Labor
-achievement.farming.desc=Make your child farm.
-achievement.childToAdult=Fully Grown\!
-achievement.childToAdult.desc=Grow your child into an adult.
-achievement.childMarried=Leaving the Nest
-achievement.childMarried.desc=Have your child get married.
-achievement.childHasChildren=Grandparent
-achievement.childHasChildren.desc=Meet your grandchildren.
-achievement.craftDiamondDust=Don't Breathe This\!
-achievement.craftDiamondDust.desc=Crush a diamond into dust.
-achievement.craftColoredDiamondDust=Adding Some Color
-achievement.craftColoredDiamondDust.desc=Add dye to a pile of diamond dust.
-achievement.smeltColoredDiamond=Diamonds With Style
+achievement.mining.desc=让你的孩子给你采矿。
+achievement.woodcutting=伐木能手
+achievement.woodcutting.desc=让你的孩子去砍树。
+achievement.farming=耕耘收获
+achievement.farming.desc=让你的孩子去种地。
+achievement.childToAdult=成体！
+achievement.childToAdult.desc=把你的儿童成体了。
+achievement.childMarried=做在家了
+achievement.childMarried.desc=把你的孩子结婚了。
+achievement.childHasChildren=爷爷/奶奶/外公/外婆/老爷/姥姥
+achievement.childHasChildren.desc=见你的孙子/孙女/外孙子/外孙女。
+achievement.craftDiamondDust=不要鼻息这个！
+achievement.craftDiamondDust.desc=把砖石碾碎到粉。
+achievement.craftColoredDiamondDust=加点颜色
+achievement.craftColoredDiamondDust.desc=加颜料到一垛钻石粉末。
+achievement.smeltColoredDiamond=标格的钻石
 achievement.smeltColoredDiamond.desc=Smelt a colored diamond.
 achievement.craftShapedDiamond=Diamond Cutter
 achievement.craftShapedDiamond.desc=Shape a diamond.
@@ -47,20 +47,20 @@ achievement.craftShapedRing.desc=Craft a shaped diamond ring.
 #######
 # Items & Blocks
 ##############################
-item.WeddingRing.name=Wedding Ring
+item.WeddingRing.name=结婚戒指
 item.WeddingRingRG.name=Rose Gold Wedding Ring
-item.EngagementRing.name=Engagement Ring
+item.EngagementRing.name=订婚戒指
 item.EngagementRingRG.name=Rose Gold Engagement Ring
 item.MatchmakersRing.name=Matchmaker's Ring
-item.BabyBoy.name=Baby Boy
-item.BabyGirl.name=Baby Girl
-item.EggMale.name=Spawn Male Villager
-item.EggFemale.name=Spawn Female Villager
-item.ItemVillagerBedRed.name=Red Villager Bed
-item.ItemVillagerBedBlue.name=Blue Villager Bed
-item.ItemVillagerBedGreen.name=Green Villager Bed
-item.ItemVillagerBedPink.name=Pink Villager Bed
-item.ItemVillagerBedPurple.name=Purple Villager Bed
+item.BabyBoy.name=男宝宝
+item.BabyGirl.name=女宝宝
+item.EggMale.name=生成男性村民
+item.EggFemale.name=生成女性村民
+item.ItemVillagerBedRed.name=红色的村民床
+item.ItemVillagerBedBlue.name=蓝色的村民床
+item.ItemVillagerBedGreen.name=绿色的村民床
+item.ItemVillagerBedPink.name=粉红色的村民床
+item.ItemVillagerBedPurple.name=紫色的村民床
 item.DivorcePapers.name=Divorce Papers
 item.RoseGoldIngot.name=Rose Gold Ingot
 item.CrystalBall.name=Crystal Ball
@@ -84,13 +84,13 @@ item.EngagementRingTriangle.name=Triangle Engagement Ring
 item.EngagementRingTriangleRG.name=Rose Gold Triangle Engagement Ring
 item.EngagementRingStar.name=Star Engagement Ring
 item.EngagementRingStarRG.name=Rose Gold Star Engagement Ring
-item.tombstone.name=Tombstone
+item.tombstone.name=墓碑
 item.RoseGoldDust.name=Rose Gold Dust
 item.GoldDust.name=Gold Dust
 tile.roseGoldOre.name=Rose Gold Ore
 tile.roseGoldBlock.name=Rose Gold Block
-item.whistle.name=Whistle
-item.villagereditor.name=Villager Editor
+item.whistle.name=哨子
+item.villagereditor.name=编辑村民
 item.GemCutter.name=Gem Cutter
 item.HeartMold.name=Heart Mold
 item.TinyMold.name=Tiny Mold
@@ -145,7 +145,7 @@ name.male29=Billy
 name.male30=Cain
 name.male31=Brogan
 name.male32=Brenton
-name.male33=Blue
+name.male33=伤感
 name.male34=Blaze
 name.male35=Brady
 name.male36=Bear
@@ -190,7 +190,7 @@ name.male74=Ezio
 name.male75=Ezra
 name.male76=Forest
 name.male77=Hunter
-name.male78=Archer
+name.male78=弓箭手
 name.male79=Heath
 name.male80=Han
 name.male81=Isaac
@@ -557,62 +557,62 @@ name.female256=Saira
 ##############
 # Professions
 ##############################
-profession.archer=Archer
+profession.archer=弓箭手
 profession.armorer=Armorer
-profession.butcher=Butcher
-profession.cleric=Cleric
-profession.farmer=Farmer
-profession.fisherman=Fisherman
+profession.butcher=卖肉着
+profession.cleric=神职人员
+profession.farmer=庄稼人
+profession.fisherman=渔父
 profession.fletcher=Fletcher
 profession.guard=Guard
 profession.spouse=Spouse
 profession.leatherworker=Leatherworker
-profession.librarian=Librarian
-profession.shepherd=Shepherd
+profession.librarian=图书管理员
+profession.shepherd=牧羊着
 profession.toolsmith=Toolsmith
 profession.weaponsmith=Weaponsmith
-profession.miner=Miner
-profession.mason=Mason
-profession.baker=Baker
-profession.child=Child
-profession.househusband=Househusband
-profession.housewife=Housewife
+profession.miner=矿工
+profession.mason=系瓦匠
+profession.baker=面包师傅
+profession.child=小孩
+profession.househusband=家庭主夫
+profession.housewife=家庭主妇
 
 ################
 # Personalities
 ################################
-personality.athletic=Athletic
-personality.confident=Confident
-personality.strong=Strong
-personality.friendly=Friendly
-personality.curious=Curious
-personality.peaceful=Peaceful
-personality.flirty=Flirty
-personality.witty=Witty
-personality.sensitive=Sensitive
-personality.greedy=Greedy
+personality.athletic=矫捷
+personality.confident=笃定
+personality.strong=强势
+personality.friendly=恺悌
+personality.curious=好奇
+personality.peaceful=安宁
+personality.flirty=嫂
+personality.witty=伶俐
+personality.sensitive=善感
+personality.greedy=贪心
 personality.stubborn=Stubborn
 personality.odd=Odd
 
 ################
 # Moods
 ################################
-mood.depressed=Depressed
-mood.sad=Sad
-mood.unhappy=Unhappy
-mood.passive=Passive
-mood.fine=Fine
-mood.happy=Happy
+mood.depressed=忧愁
+mood.sad=难过
+mood.unhappy=不开心
+mood.passive=被动的
+mood.fine=好
+mood.happy=开心
 mood.overjoyed=Overjoyed
 mood.bored_to_tears=Bored to tears
 mood.bored=Bored
 mood.uninterested=Uninterested
-mood.silly=Silly
+mood.silly=笨
 mood.giggly=Giggly
 mood.entertained=Entertained
-mood.infuriated=Infuriated
-mood.angry=Angry
-mood.annoyed=Annoyed
+mood.infuriated=七窍生烟
+mood.angry=生气
+mood.annoyed=被作弄
 mood.interested=Interested
 mood.talkative=Talkative
 mood.pleased=Pleased
@@ -630,10 +630,10 @@ gift.cake.refuse3=Oh, no. I couldn't.
 ################
 # GUIs
 ################################
-gui.button.exit=Exit
-gui.button.back=Back
-gui.button.adoptbaby=Adopt Baby
-gui.button.next=Next
+gui.button.exit=退出
+gui.button.back=返回
+gui.button.adoptbaby=领养婴儿
+gui.button.next=下一条
 
 ################
 # Dialogue
@@ -643,10 +643,10 @@ title.nonrelative.female=%Name% the %Profession%
 title.relative.male=%RelationToPlayer% %Name%
 title.relative.female=%RelationToPlayer% %Name%
 
-label.sleeping=Sleeping
-label.health=Health\: 
+label.sleeping=睡眠中
+label.health=生命值：
 
-behavior.retaliate.begin1=Ow\! That hurt\!
+behavior.retaliate.begin1=哦，你弄伤我了！
 behavior.retaliate.begin2=I'll get you for that\!
 behavior.retaliate.begin3=Ouch\! Why did you hit me?
 behavior.retaliate.begin4=That hurts, stop it\!
@@ -664,8 +664,8 @@ behavior.retaliate.distanced7=I'm going to hit you if I see you again\!
 behavior.retaliate.distanced8=I'll get my friends and beat you up\!
 
 behavior.retaliate.weapondrawn1=No\! Please don't hurt me\!
-behavior.retaliate.weapondrawn2=Stop\! No\!
-behavior.retaliate.weapondrawn3=Someone help me\!
+behavior.retaliate.weapondrawn2=停下！不！
+behavior.retaliate.weapondrawn3=来人救救我吧！
 behavior.retaliate.weapondrawn4=They're going to kill me\! Someone help\!
 behavior.retaliate.weapondrawn5=You can take whatever you want, just please don't hurt me\!
 behavior.retaliate.weapondrawn6=I don't want to die\! Stay away\!
@@ -677,15 +677,15 @@ behavior.build.fail.tooclose=Don't you think we're too close to other buildings?
 # Conversations between villagers
 #####################################
 conversation1.progress1=Hey, how are you today?
-conversation1.progress2=I'm okay, how are you?
+conversation1.progress2=我很好，你呢？
 conversation1.progress3=I am fine. What are you planning to do today?
 conversation1.progress4=Nothing much, how about you?
 conversation1.progress5=I am thinking about going fishing.
 conversation1.progress6=Really? I don't like fishing.
-conversation1.progress7=Why? It's really fun.
-conversation1.progress8=It's boring to me.
+conversation1.progress7=为何？那真的很有趣。
+conversation1.progress8=对我来说那很无聊
 conversation1.progress9=Like mining is any better?
-conversation1.progress10=What?
+conversation1.progress10=什么？
 conversation1.progress11=You heard me.
 conversation1.progress12=Whatever.
 
@@ -711,68 +711,68 @@ sleep.invalid=My home point is invalid\!
 #################
 # Parser
 ################################
-parser.mom=Mom
-parser.dad=Dad
+parser.mom=妈妈
+parser.dad=父亲
 
 #################
 # GUI
 ################################
-gui.button.yes=Yes
-gui.button.no=No
-gui.button.ok=Ok
-gui.button.done=Done
-gui.button.random=Random
-gui.button.interact=Interact
-gui.button.follow=Follow Me
-gui.button.stay=Stay Here
+gui.button.yes=是
+gui.button.no=不
+gui.button.ok=好的
+gui.button.done=完毕
+gui.button.random=随机
+gui.button.interact=互动
+gui.button.follow=跟着我
+gui.button.stay=呆在这
 gui.button.move=Move Freely
-gui.button.trade=Trade
-gui.button.sethome=Set Home
-gui.button.ridehorse=Ride Horse
-gui.button.special=Special
-gui.button.procreate=Procreate
+gui.button.trade=物物交换
+gui.button.sethome=设置为家
+gui.button.ridehorse=骑马
+gui.button.special=特殊
+gui.button.procreate=与配偶OOXX
 gui.button.pickup=Pick Up
 gui.button.work=Work
-gui.button.inventory=Inventory
-gui.button.chat=Chat
-gui.button.joke=Joke
-gui.button.gift=Gift
-gui.button.shakehand=Shake Hand
-gui.button.tellstory=Tell Story
-gui.button.flirt=Flirt
+gui.button.inventory=打开背包
+gui.button.chat=聊天
+gui.button.joke=笑话
+gui.button.gift=礼物
+gui.button.shakehand=挥手
+gui.button.tellstory=讲故事
+gui.button.flirt=调情
 gui.button.hug=Hug
-gui.button.kiss=Kiss
-gui.button.farming=Farming
+gui.button.kiss=亲吻
+gui.button.farming=种地
 gui.button.farming.radius=Radius\: %a1%
 gui.button.farming.plant=Plant\: %a1%
-gui.button.woodcutting=Woodcutting
+gui.button.woodcutting=伐木
 gui.button.woodcutting.logtype=Log Type\: %a1%
 gui.button.woodcutting.replant=Replant\: %a1%
-gui.button.mining=Mining
-gui.button.hunting=Hunting
-gui.button.kill=Kill
-gui.button.tame=Tame
+gui.button.mining=采矿
+gui.button.hunting=狩猎
+gui.button.kill=攻击模式
+gui.button.tame=驯服模式
 gui.button.cooking=Cooking
 gui.button.mode=Mode\: %a1%
-gui.button.start=Start
+gui.button.start=开始
 gui.button.stop=Stop
 gui.button.havebaby=Have Baby
-gui.button.divorce=Divorce
+gui.button.divorce=离婚
 gui.button.asktomarry=Ask to Marry
-gui.button.hire=Hire
+gui.button.hire=雇佣
 gui.button.hired=Hired
 gui.button.length=Length\: %a1% hour(s)
 gui.button.accept=Accept
-gui.button.divorcespouse=Divorce Spouse
+gui.button.divorcespouse=与配偶离婚
 gui.button.resetbaby=Reset Baby
-gui.button.setup.gender.false=Gender\: Female
-gui.button.setup.gender.true=Gender\: Male
+gui.button.setup.gender.false=性别：女
+gui.button.setup.gender.true=性别：男
 
 gui.title.namebaby.male=It's a boy\!
 gui.title.namebaby.female=It's a girl\!
-gui.title.namebaby=Name your baby\:
+gui.title.namebaby=给你的宝宝起名字
 gui.title.tombstone=Enter tombstone text\:
-gui.title.editor=Villager Editor
+gui.title.editor=编辑村民
 
 gui.info.family.married=Married to %a1%.
 gui.info.family.engaged=Engaged to %a1%.
@@ -784,7 +784,7 @@ gui.info.family.father=Father\: %a1%
 gui.info.family.mother.you=Mother\: You
 gui.info.family.father.you=Father\: You
 
-gui.info.gift.line1=Gift Available
+gui.info.gift.line1=可获得的礼物
 gui.info.gift.line2=(Click to take)
 
 gui.info.mood=Mood\: %a1%
@@ -799,7 +799,7 @@ interaction.give.invalid5=Huh? What is this thing?
 interaction.divorce.priest.success1=Very well. You are hereby no longer married.
 interaction.divorce.priest.success2=As you wish. May you find love elsewhere.
 
-interaction.divorce.notmarried1=I am not married to anyone.
+interaction.divorce.notmarried1=我没有和任何人结婚。
 interaction.divorce.notmarried2=What do I need divorce papers for? I am not married.
 interaction.divorce.notmarried3=I'm not married. Why are you giving these to me?
 
@@ -815,7 +815,7 @@ interaction.divorce.success4=Why would you do this to me? I never want to see yo
 interaction.marry.fail.marriedtogiver1=It's a pretty ring, but I am already married to you, silly.
 interaction.marry.fail.marriedtogiver2=We are already married. Did you forget?
 
-interaction.marry.fail.marriedtoother1=I'm sorry, no...I'm already married.
+interaction.marry.fail.marriedtoother1=我很抱歉，但是，我已经结婚了。
 interaction.marry.fail.marriedtoother2=Oh, I thought you knew...I'm already married to someone.
 interaction.marry.fail.marriedtoother3=What?\! I'm already married\!
 
@@ -878,7 +878,7 @@ interaction.hire.success2=Everything is in order. What would you like me to do?
 interaction.hire.success3=Ready to start working at any time, boss\!
 
 interaction.ridehorse.fail.notnearby=I don't see any horses nearby.
-interaction.ridehorse.fail.notrideable=I can't ride that horse.
+interaction.ridehorse.fail.notrideable=我没法骑那匹马.
 
 interaction.resetbaby.success=Very well, you may now have another child. Be more careful next time\!
 interaction.resetbaby.fail=You do not have a baby.
@@ -911,15 +911,15 @@ interaction.adoptbaby.success=Wonderful\! I'd like you to meet %a1%, your new ba
 
 adult.gift.bad1=This isn't a good gift...
 adult.gift.bad2=What made you think that I would like this?
-adult.gift.bad3=No thanks.
+adult.gift.bad3=不，谢谢了。
 adult.gift.bad4=I don't want that, why would I?
 adult.gift.bad5=Why are you giving me that?
 adult.gift.bad6=Is this supposed to be a gift? No thanks.
 
 adult.gift.good1=How considerate\! Thank you.
-adult.gift.good2=Thanks\!
+adult.gift.good2=谢谢！
 adult.gift.good3=How thoughtful\!
-adult.gift.good4=Oh, I love these\!
+adult.gift.good4=哦，我喜欢这个！
 adult.gift.good5=A gift? For me? How nice\!
 
 adult.gift.better1=Hey, this is pretty cool\!
@@ -1012,7 +1012,7 @@ adult.hug.good4=You're as snuggly as a sheep\!
 
 # 5 bad hugs when talking to an adult:
 adult.hug.bad1=You're covered in soot and mud\! 
-adult.hug.bad2=No thanks.
+adult.hug.bad2=不，谢谢了。
 adult.hug.bad3=Uh, why?
 adult.hug.bad4=After you called me a dinosaur last week? No.
 adult.hug.bad5=Quite frankly, you don't deserve a hug after you did that.
@@ -1240,7 +1240,7 @@ child.greeting3=Eek\! You look scary\!
 # 5 good chats when talking to a child WHO IS YOUR OWN:
 childp.chat.good1=Oh, I was just going to go explorin' later.
 childp.chat.good2=Can we go camping? Please?\!
-childp.chat.good3=Hi, can you make me a cake?
+childp.chat.good3=你好，你能为我做蛋糕吗？
 childp.chat.good4=Can I have my own room away from our house? That would be cool\!
 childp.chat.good5=Let's move into a cave\! That sounds so fun\!
 
@@ -1393,7 +1393,7 @@ spouse.hug.good5=Let's stay like this forever\!
 
 # 5 bad hugs when talking to an spouse:
 spouse.hug.bad1=Why don't you go hug your ex?
-spouse.hug.bad2=No thanks.
+spouse.hug.bad2=不，谢谢了。
 spouse.hug.bad3=Man, you stink.
 spouse.hug.bad4=What do you want?
 spouse.hug.bad5=Huge someone else.
@@ -1402,7 +1402,7 @@ spouse.hug.bad5=Huge someone else.
 spouse.kiss.good1=I fall in love all over again when our lips meet\!
 spouse.kiss.good2=Time stops ticking when I'm with you.
 spouse.kiss.good3=Sweet as cake\!
-spouse.kiss.good4=I love you, baby\!
+spouse.kiss.good4=我爱你，宝贝！
 spouse.kiss.good5=I wouldn't trade you for anyone in the world\! 
 
 # 5 bad kisses when talking to an spouse:
@@ -1423,7 +1423,7 @@ relative.gift.bad2=Eh, you keep it.
 relative.gift.bad3=Ew, where did you find this? In a mine?
 relative.gift.bad4=I'm not touching that.
 
-relative.gift.good1=Oh thank you.
+relative.gift.good1=哦，谢谢你！
 relative.gift.good2=Thank you for thinking of me, %PlayerName%.
 relative.gift.good3=How thoughtful of you.
 relative.gift.good4=How'd you know I liked these?
@@ -1468,20 +1468,20 @@ child.gift.good2=Is this really for me?
 child.gift.good3=This is cool\!
 
 child.gift.better1=Awesome\! I'm going to show this to all my friends.
-child.gift.better2=You found it\! I lost this a few minutes ago.
+child.gift.better2=你找到了！我几分钟前刚刚丢失的它。
 child.gift.better3=My friend stole one of these from me. Did you beat him up for me?
 
 child.gift.best1=%PlayerName%, you give the best presents\!
 child.gift.best2=Finally\! My friend will stop bragging now.
-child.gift.best3=Wow\! Where did you get this thing?
+child.gift.best3=哇！你在哪里得到的？
 child.gift.best4=My Dad has one of these. Now I have one too\!
 
-spouse.gift.bad1=Oh honey...this is just terrible.
+spouse.gift.bad1=哦，亲爱的...这真是个麻烦事
 spouse.gift.bad2=Um, is this supposed to be a gift for me?
 spouse.gift.bad3=Throw away your own junk\! Oh, this was a gift?...sorry.
 spouse.gift.bad4=I thought you knew me better than that. I hate these.
 
-spouse.gift.good1=%PlayerName%, you're so sweet.
+spouse.gift.good1=%PlayerName% ，你真善良。
 spouse.gift.good2=Ah\! You're too good to me.
 spouse.gift.good3=This is unexpected, thank you, dear\!
 spouse.gift.good4=Aw, how sweet of you.
@@ -1507,7 +1507,7 @@ childp.gift.good1=Oh, cool\! Thank you %ParentTitle%.
 childp.gift.good2=%ParentOpposite% says these are 'sexy'. What does that mean?
 childp.gift.good3=This is much better than the last gift I got\!
 childp.gift.good4=Woo hoo\! It's mine, all mine\!
-childp.gift.good5=Can I...can I eat it?
+childp.gift.good5=我...我能吃吗？
 
 childp.gift.better1=For me? For free?\!
 childp.gift.better2=Ooh\! Shiny\!

@@ -1,103 +1,103 @@
 #X-Generator: crowdin.com
-itemGroup.tabMCA=Minecraft Comes Alive
-itemGroup.tabMCA.gemCutting=MCA - Gem Cutting
+itemGroup.tabMCA=Minecraft оживает
+itemGroup.tabMCA.gemCutting=MCA - Ювелирное дело
 
 #######
 # Achievements
 ##############################
-achievement.fullGoldHearts=Getting Somewhere
-achievement.fullGoldHearts.desc=Get 5 gold hearts with a villager.
-achievement.engagement=Happily Taken\!
-achievement.engagement.desc=Get engaged to a villager.
-achievement.marriage=We're Married\!
-achievement.marriage.desc=Get married to a villager.
-achievement.babyBoy=It's a Boy\!
-achievement.babyBoy.desc=Have a baby boy.
-achievement.babyGirl=It's a Girl\!
-achievement.babyGirl.desc=Have a baby girl.
-achievement.twins=Twins\!
-achievement.twins.desc=Have twins.
-achievement.babyToChild=They Grow Up So Fast
-achievement.babyToChild.desc=Grow your baby into a child.
-achievement.hunting=Bullseye\!
-achievement.hunting.desc=Make your child go hunting.
-achievement.mining=Infiniminer
-achievement.mining.desc=Make your child mine for you.
-achievement.woodcutting=Lumberjack
-achievement.woodcutting.desc=Make your child cut trees.
-achievement.farming=Free Labor
-achievement.farming.desc=Make your child farm.
-achievement.childToAdult=Fully Grown\!
-achievement.childToAdult.desc=Grow your child into an adult.
-achievement.childMarried=Leaving the Nest
-achievement.childMarried.desc=Have your child get married.
-achievement.childHasChildren=Grandparent
-achievement.childHasChildren.desc=Meet your grandchildren.
-achievement.craftDiamondDust=Don't Breathe This\!
-achievement.craftDiamondDust.desc=Crush a diamond into dust.
-achievement.craftColoredDiamondDust=Adding Some Color
-achievement.craftColoredDiamondDust.desc=Add dye to a pile of diamond dust.
-achievement.smeltColoredDiamond=Diamonds With Style
-achievement.smeltColoredDiamond.desc=Smelt a colored diamond.
-achievement.craftShapedDiamond=Diamond Cutter
-achievement.craftShapedDiamond.desc=Shape a diamond.
-achievement.craftShapedRing=A Finished Product
-achievement.craftShapedRing.desc=Craft a shaped diamond ring.
+achievement.fullGoldHearts=Уже Где-То
+achievement.fullGoldHearts.desc=Получите 5 золотых сердец с жителя.
+achievement.engagement=С Радостью Приняты\!
+achievement.engagement.desc=Обручитесь с жителем.
+achievement.marriage=Мы обручены\!
+achievement.marriage.desc=Женитесь на жителе деревни.
+achievement.babyBoy=Это мальчик\!
+achievement.babyBoy.desc=Заведите мальчика.
+achievement.babyGirl=Это девочка\!
+achievement.babyGirl.desc=Заведите девочку.
+achievement.twins=Близнецы\!
+achievement.twins.desc=Завести близнецов.
+achievement.babyToChild=Они так быстро растут
+achievement.babyToChild.desc=Вырастить подростка.
+achievement.hunting=В яблочко\!
+achievement.hunting.desc=Научить вашего ребёнка охотиться.
+achievement.mining=Шахтёр
+achievement.mining.desc=Заставить ребёнка копать вместо вас.
+achievement.woodcutting=Дровосек
+achievement.woodcutting.desc=Заставить вашего ребёнка рубить деревья.
+achievement.farming=Бесплатная рабочая сила
+achievement.farming.desc=Заставить ребёнка заниматься земледелием.
+achievement.childToAdult=Полностью вырос\!
+achievement.childToAdult.desc=Вырастить взрослого человека.
+achievement.childMarried=Покидая гнездо
+achievement.childMarried.desc=Ваш ребёнок поженился.
+achievement.childHasChildren=Второе поколение
+achievement.childHasChildren.desc=Встретиться с внуками.
+achievement.craftDiamondDust=Не вдыхай это\!
+achievement.craftDiamondDust.desc=Раздробить алмаз в пыль.
+achievement.craftColoredDiamondDust=Добавить ярких красок
+achievement.craftColoredDiamondDust.desc=Совместить краситель и горку алмазной пыли.
+achievement.smeltColoredDiamond=Гранённый со стилем
+achievement.smeltColoredDiamond.desc=Обжечь покрашенный алмаз.
+achievement.craftShapedDiamond=Ювелир
+achievement.craftShapedDiamond.desc=Огранить алмаз.
+achievement.craftShapedRing=Готовый продукт
+achievement.craftShapedRing.desc=Создай кольцо с гранённым алмазом.
 
 #######
 # Items & Blocks
 ##############################
-item.WeddingRing.name=Wedding Ring
-item.WeddingRingRG.name=Rose Gold Wedding Ring
-item.EngagementRing.name=Engagement Ring
-item.EngagementRingRG.name=Rose Gold Engagement Ring
-item.MatchmakersRing.name=Matchmaker's Ring
-item.BabyBoy.name=Baby Boy
-item.BabyGirl.name=Baby Girl
-item.EggMale.name=Spawn Male Villager
-item.EggFemale.name=Spawn Female Villager
-item.ItemVillagerBedRed.name=Red Villager Bed
-item.ItemVillagerBedBlue.name=Blue Villager Bed
-item.ItemVillagerBedGreen.name=Green Villager Bed
-item.ItemVillagerBedPink.name=Pink Villager Bed
-item.ItemVillagerBedPurple.name=Purple Villager Bed
-item.DivorcePapers.name=Divorce Papers
-item.RoseGoldIngot.name=Rose Gold Ingot
-item.CrystalBall.name=Crystal Ball
+item.WeddingRing.name=Обручальное кольцо
+item.WeddingRingRG.name=Свадебное кольцо из розового золота
+item.EngagementRing.name=Обручальное кольцо
+item.EngagementRingRG.name=Обручальное кольцо из розового золота
+item.MatchmakersRing.name=Кольцо свахи
+item.BabyBoy.name=Мальчик
+item.BabyGirl.name=Девочка
+item.EggMale.name=Призвать существо - Мужчина
+item.EggFemale.name=Яйцо призыва жителя женщины
+item.ItemVillagerBedRed.name=Красная деревенская кровать
+item.ItemVillagerBedBlue.name=Синяя деревенская кровать
+item.ItemVillagerBedGreen.name=Зелёная деревенская кровать
+item.ItemVillagerBedPink.name=Розовая деревенская кровать
+item.ItemVillagerBedPurple.name=Фиолетовая деревенская кровать
+item.DivorcePapers.name=Документы на развод
+item.RoseGoldIngot.name=Слиток розового золота
+item.CrystalBall.name=Хрустальный шар
 item.NewOutfit.name=New Outfit
-item.DiamondHeart.name=Diamond Heart
-item.DiamondTiny.name=Tiny Diamond
-item.DiamondOval.name=Diamond Oval
-item.DiamondSquare.name=Diamond Square
-item.DiamondTriangle.name=Diamond Triangle
-item.DiamondStar.name=Diamond Star
-item.DiamondDust.name=Diamond Dust
-item.EngagementRingHeart.name=Heart Engagement Ring
-item.EngagementRingHeartRG.name=Rose Gold Heart Engagement Ring
-item.EngagementRingTiny.name=Tiny Engagement Ring
-item.EngagementRingTinyRG.name=Rose Gold Tiny Engagement Ring
-item.EngagementRingOval.name=Oval Engagement Ring
-item.EngagementRingOvalRG.name=Oval Rose Gold Engagement Ring
-item.EngagementRingSquare.name=Square Engagement Ring
-item.EngagementRingSquareRG.name=Rose Gold Square Engagement Ring
-item.EngagementRingTriangle.name=Triangle Engagement Ring
-item.EngagementRingTriangleRG.name=Rose Gold Triangle Engagement Ring
-item.EngagementRingStar.name=Star Engagement Ring
-item.EngagementRingStarRG.name=Rose Gold Star Engagement Ring
-item.tombstone.name=Tombstone
+item.DiamondHeart.name=Алмазное сердце
+item.DiamondTiny.name=Небольшой алмаз
+item.DiamondOval.name=Алмаз овальной формы
+item.DiamondSquare.name=Алмаз квадратной формы
+item.DiamondTriangle.name=Алмаз треугольной формы
+item.DiamondStar.name=Алмаз в форме звезды
+item.DiamondDust.name=Алмазная пыль
+item.EngagementRingHeart.name=Обручальное кольцо с камнем в форме сердца
+item.EngagementRingHeartRG.name=Обручальное кольцо с камнем в форме сердца из розового золота
+item.EngagementRingTiny.name=Небольшое обручальное кольцо
+item.EngagementRingTinyRG.name=Небольшое обручальное кольцо из розового золота
+item.EngagementRingOval.name=Обручальное кольцо с овальным камнем
+item.EngagementRingOvalRG.name=Обручальное кольцо с овальным камнем из розового золота
+item.EngagementRingSquare.name=Обручальное кольцо с квадратным камнем
+item.EngagementRingSquareRG.name=Обручальное кольцо с квадратным камнем из розового золота
+item.EngagementRingTriangle.name=Обручальное кольцо с треугольным камнем
+item.EngagementRingTriangleRG.name=Обручальное кольцо с треугольным камнем из розового золота
+item.EngagementRingStar.name=Обручальное кольцо с камнем в форме звезды
+item.EngagementRingStarRG.name=Обручальное кольцо с камнем в форме звезды из розового золота
+item.tombstone.name=Захоронение
 item.RoseGoldDust.name=Rose Gold Dust
 item.GoldDust.name=Gold Dust
-tile.roseGoldOre.name=Rose Gold Ore
-tile.roseGoldBlock.name=Rose Gold Block
-item.whistle.name=Whistle
-item.villagereditor.name=Villager Editor
-item.GemCutter.name=Gem Cutter
-item.HeartMold.name=Heart Mold
-item.TinyMold.name=Tiny Mold
-item.OvalMold.name=Oval Mold
-item.SquareMold.name=Square Mold
-item.TriangleMold.name=Triangle Mold
-item.StarMold.name=Star Mold
+tile.roseGoldOre.name=Руда Розового золота
+tile.roseGoldBlock.name=Блок Розового золота
+item.whistle.name=Свисток
+item.villagereditor.name=Редактор жителей
+item.GemCutter.name=Инструмент для огранки камней
+item.HeartMold.name=Форма "Сердце"
+item.TinyMold.name=Маленькая форма
+item.OvalMold.name=Овальная форма
+item.SquareMold.name=Квадратная форма
+item.TriangleMold.name=Треугольная форма
+item.StarMold.name=Форма "Звезда"
 item.NeedleAndString.name=Needle and String
 item.Needle.name=Needle
 item.Cloth.name=Cloth
@@ -106,34 +106,34 @@ tile.VillagerSpawner.name=Villager Spawner
 #######
 # Item Information
 ##############################
-information.villagerbed.line1=Place on the ground and
-information.villagerbed.line2=any nearby villager will
-information.villagerbed.line3=sleep in bed at night.
+information.villagerbed.line1=Поставь на землю и
+information.villagerbed.line2=все ближайшие жители будут
+information.villagerbed.line3=спать в кроватях ночью.
 
 #######
 # Names
 ##############################
-name.male1=Aaron
+name.male1=Аарон
 name.male2=Abe
 name.male3=Abel
 name.male4=Ace
-name.male5=Adam
+name.male5=Адам
 name.male6=Adan
 name.male7=Adriel
-name.male8=Aidan
+name.male8=Эйден
 name.male9=Ajay
 name.male10=Al
-name.male11=Alan
-name.male12=Alex
+name.male11=Алан
+name.male12=Алекс
 name.male13=Alec
 name.male14=Alden
 name.male15=Amir
-name.male16=Andre
+name.male16=Андрэ
 name.male17=Andy
 name.male18=Ash
 name.male19=Arran
 name.male20=Asher
-name.male21=Ashton
+name.male21=Эштон
 name.male22=Aven
 name.male23=Avery
 name.male24=Bailey
@@ -141,13 +141,13 @@ name.male25=Barrett
 name.male26=Brett
 name.male27=Bobby
 name.male28=Bev
-name.male29=Billy
+name.male29=Билли
 name.male30=Cain
 name.male31=Brogan
 name.male32=Brenton
-name.male33=Blue
+name.male33=Синий
 name.male34=Blaze
-name.male35=Brady
+name.male35=Бреди
 name.male36=Bear
 name.male37=Casey
 name.male38=Caiden
@@ -160,25 +160,25 @@ name.male44=Chance
 name.male45=Cliff
 name.male46=Clyde
 name.male47=Coby
-name.male48=Cody
+name.male48=Коди
 name.male49=Drake
 name.male50=Devon
 name.male51=Dirk
 name.male52=Dion
 name.male53=Drake
-name.male54=Drew
+name.male54=Дрю
 name.male55=Cyrcus
 name.male56=Cole
 name.male57=Daire
 name.male58=Dakota
-name.male59=Dale
+name.male59=Дейл
 name.male60=Damian
 name.male61=Dash
 name.male62=Dario
 name.male63=Coby
 name.male64=Curt
 name.male65=Darius
-name.male66=Dan
+name.male66=Дэн
 name.male67=Davin
 name.male68=Eli
 name.male69=Eliot
@@ -189,8 +189,8 @@ name.male73=Fabio
 name.male74=Ezio
 name.male75=Ezra
 name.male76=Forest
-name.male77=Hunter
-name.male78=Archer
+name.male77=Хантер
+name.male78=Лучник
 name.male79=Heath
 name.male80=Han
 name.male81=Isaac
@@ -198,33 +198,33 @@ name.male82=Irvin
 name.male83=Jai
 name.male84=Jaiden
 name.male85=Jaime
-name.male86=Jake
+name.male86=Джейк
 name.male87=Jakob
 name.male88=Jalen
 name.male89=Hendrix
 name.male90=Giles
 name.male91=Erik
-name.male92=Evan
+name.male92=Эван
 name.male93=Eliot
 name.male94=Diego
 name.male95=Don
 name.male96=Deon
-name.male97=Leon
+name.male97=Леон
 name.male98=Ira
 name.male99=Joel
 name.male100=Joey
-name.male101=Tristan
+name.male101=Тристан
 name.male102=Jock
-name.male103=Kaden
+name.male103=Каден
 name.male104=Kai
 name.male105=Layne
 name.male106=Levi
 name.male107=Leven
 name.male108=Lev
 name.male109=Leighton
-name.male110=Lucas
+name.male110=Лукас
 name.male111=Marshall
-name.male112=Marcus
+name.male112=Маркус
 name.male113=Marik
 name.male114=Michael
 name.male115=Mitchel
@@ -242,7 +242,7 @@ name.male126=Scott
 name.male127=Stiles
 name.male128=Sid
 name.male129=Silas
-name.male130=Toby
+name.male130=Тоби
 name.male131=Ty
 name.male132=Turner
 name.male133=Taylor
@@ -259,9 +259,9 @@ name.male143=Nick
 name.male144=Nico
 name.male145=Norman
 name.male146=Soren
-name.male147=Tate
-name.male148=Terry
-name.male149=Tim
+name.male147=Тейт
+name.male148=Терри
+name.male149=Тим
 name.male150=Zain
 name.male151=Zaiden
 name.male152=Zeph
@@ -279,7 +279,7 @@ name.male163=Troy
 name.male164=Trey
 name.male165=Trevon
 name.male166=Trenton
-name.male167=Trent
+name.male167=Трент
 name.male168=Ted
 name.male169=Ryan
 name.male170=Ryder
@@ -317,10 +317,10 @@ name.female17=Alina
 name.female18=Alisa
 name.female19=Alivia
 name.female20=Ashlie
-name.female21=Ashley
+name.female21=Эшли
 name.female22=Ashlee
 name.female23=Ayla
-name.female24=Ava
+name.female24=Эйва
 name.female25=Avril
 name.female26=Blake
 name.female27=Bess
@@ -350,7 +350,7 @@ name.female50=Ceri
 name.female51=Cassia
 name.female52=Catrina
 name.female53=Callie
-name.female54=Cameron
+name.female54=Камерон
 name.female55=Cami
 name.female56=Camila
 name.female57=Camryn
@@ -386,7 +386,7 @@ name.female86=Dara
 name.female87=Demi
 name.female88=Deena
 name.female89=Dina
-name.female90=Destiny
+name.female90=Дэстини
 name.female91=Delaney
 name.female92=Deidre
 name.female93=Dinah
@@ -414,7 +414,7 @@ name.female114=Erin
 name.female115=Fawn
 name.female116=Fran
 name.female117=Farah
-name.female118=Faye
+name.female118=Фай
 name.female119=Felicity
 name.female120=Fern
 name.female121=Gail
@@ -424,15 +424,15 @@ name.female124=Grace
 name.female125=Gracelyn
 name.female126=Bracie
 name.female127=Harley
-name.female128=Hannah
+name.female128=Ханна
 name.female129=Heaven
 name.female130=Heather
-name.female131=Holly
+name.female131=Холли
 name.female132=Honor
 name.female133=Honey
 name.female134=Hope
 name.female135=Hayley
-name.female136=Hazel
+name.female136=Хейзел
 name.female137=Ivy
 name.female138=Iris
 name.female139=Ivana
@@ -442,7 +442,7 @@ name.female142=Iliana
 name.female143=Jadyn
 name.female144=Jade
 name.female145=Jane
-name.female146=Jessica
+name.female146=Джессика
 name.female147=Juliet
 name.female148=Itzel
 name.female149=Iris
@@ -455,7 +455,7 @@ name.female155=Jordan
 name.female156=Joni
 name.female157=Joyce
 name.female158=Kailyn
-name.female159=Kaitlin
+name.female159=Кэйтлин
 name.female160=Karen
 name.female161=Kaidence
 name.female162=Kara
@@ -557,72 +557,72 @@ name.female256=Saira
 ##############
 # Professions
 ##############################
-profession.archer=Archer
-profession.armorer=Armorer
-profession.butcher=Butcher
-profession.cleric=Cleric
-profession.farmer=Farmer
-profession.fisherman=Fisherman
-profession.fletcher=Fletcher
-profession.guard=Guard
-profession.spouse=Spouse
-profession.leatherworker=Leatherworker
-profession.librarian=Librarian
-profession.shepherd=Shepherd
-profession.toolsmith=Toolsmith
-profession.weaponsmith=Weaponsmith
-profession.miner=Miner
-profession.mason=Mason
-profession.baker=Baker
-profession.child=Child
+profession.archer=Лучник
+profession.armorer=Бронник
+profession.butcher=Мясник
+profession.cleric=Церковник
+profession.farmer=Фермер
+profession.fisherman=Рыбак
+profession.fletcher=Мастер по лукам
+profession.guard=Охранник
+profession.spouse=Супруга
+profession.leatherworker=Кожевник
+profession.librarian=Библиотекарь
+profession.shepherd=Пастух
+profession.toolsmith=Кузнец-инструментальщик
+profession.weaponsmith=Оружейник
+profession.miner=Шахтёр
+profession.mason=Каменщик
+profession.baker=Пекарь
+profession.child=Ребёнок
 profession.househusband=Househusband
-profession.housewife=Housewife
+profession.housewife=Домохозяйка
 
 ################
 # Personalities
 ################################
-personality.athletic=Athletic
-personality.confident=Confident
-personality.strong=Strong
-personality.friendly=Friendly
-personality.curious=Curious
-personality.peaceful=Peaceful
-personality.flirty=Flirty
-personality.witty=Witty
-personality.sensitive=Sensitive
-personality.greedy=Greedy
-personality.stubborn=Stubborn
-personality.odd=Odd
+personality.athletic=Атлетичный
+personality.confident=Уверенный
+personality.strong=Сильный
+personality.friendly=Дружелюбный
+personality.curious=Любопытный
+personality.peaceful=Мирный
+personality.flirty=Кокетливый
+personality.witty=Остроумный
+personality.sensitive=Чувствительный
+personality.greedy=Жадный
+personality.stubborn=Упрямый
+personality.odd=Странный
 
 ################
 # Moods
 ################################
-mood.depressed=Depressed
-mood.sad=Sad
-mood.unhappy=Unhappy
-mood.passive=Passive
-mood.fine=Fine
-mood.happy=Happy
-mood.overjoyed=Overjoyed
-mood.bored_to_tears=Bored to tears
-mood.bored=Bored
-mood.uninterested=Uninterested
-mood.silly=Silly
-mood.giggly=Giggly
+mood.depressed=В депрессии
+mood.sad=Грустный
+mood.unhappy=Несчастный
+mood.passive=Пассивный
+mood.fine=Отлично
+mood.happy=Счастливый
+mood.overjoyed=Счастливый
+mood.bored_to_tears=Скучный до смерти
+mood.bored=Скучный
+mood.uninterested=Незаинтересованный
+mood.silly=Глупый
+mood.giggly=Смешливый
 mood.entertained=Entertained
-mood.infuriated=Infuriated
-mood.angry=Angry
-mood.annoyed=Annoyed
-mood.interested=Interested
-mood.talkative=Talkative
-mood.pleased=Pleased
+mood.infuriated=Ярость
+mood.angry=Злой
+mood.annoyed=Надоедливый
+mood.interested=Заинтересованный
+mood.talkative=Общительный
+mood.pleased=Удовлетворён
 
 ################
 # Gift Responses
 ################################
-gift.cake1=What's this? A cake? Oh...oh my. I...need to find my spouse.
-gift.cake2=A cake\! How thoughtful\! I...wait, what's this odd feeling?
-gift.cake3=Finally, something that will help my marriage...
+gift.cake1=Что это? Торт? Ой...Эмм, мой. Мне...нужно найти своего супруга.
+gift.cake2=Тортик\! Какая забота\! Я...минуту, что это за странное чувство?
+gift.cake3=Наконец-то, что-то что поможет моей свадьбе...
 gift.cake.refuse1=I don't think I want any more cake, but thank you.
 gift.cake.refuse2=No thanks, I don't want cake anymore.
 gift.cake.refuse3=Oh, no. I couldn't.
@@ -630,268 +630,268 @@ gift.cake.refuse3=Oh, no. I couldn't.
 ################
 # GUIs
 ################################
-gui.button.exit=Exit
-gui.button.back=Back
-gui.button.adoptbaby=Adopt Baby
-gui.button.next=Next
+gui.button.exit=Выход
+gui.button.back=Назад
+gui.button.adoptbaby=Усыновить малыша
+gui.button.next=Дальше
 
 ################
 # Dialogue
 ################################
-title.nonrelative.male=%Name% the %Profession%
-title.nonrelative.female=%Name% the %Profession%
+title.nonrelative.male=%Name% %Profession%
+title.nonrelative.female=%Name% %Profession%
 title.relative.male=%RelationToPlayer% %Name%
 title.relative.female=%RelationToPlayer% %Name%
 
-label.sleeping=Sleeping
-label.health=Health\: 
+label.sleeping=Спит
+label.health=Здоровье\: 
 
-behavior.retaliate.begin1=Ow\! That hurt\!
-behavior.retaliate.begin2=I'll get you for that\!
-behavior.retaliate.begin3=Ouch\! Why did you hit me?
-behavior.retaliate.begin4=That hurts, stop it\!
-behavior.retaliate.begin5=Agh\! That really hurt\!
-behavior.retaliate.begin6=Hey\! What do you think you're doing?\!
-behavior.retaliate.begin7=*Oof*\! That better have been an accident\!
+behavior.retaliate.begin1=Ай\! Это больно\!
+behavior.retaliate.begin2=Ты за это поплатишься\!
+behavior.retaliate.begin3=Ай\! Зачем ты ударил меня?
+behavior.retaliate.begin4=Это больно, прекрати\!
+behavior.retaliate.begin5=Аргх\! Это действительно больно\!
+behavior.retaliate.begin6=Эй\! Что ты делаешь?\!
+behavior.retaliate.begin7=Лучше бы это было случайностью\!
 
-behavior.retaliate.distanced1=That's right, you'd better run\!
-behavior.retaliate.distanced2=If you come back, I'm calling the guards\!
-behavior.retaliate.distanced3=Come back and fight like a man\!
-behavior.retaliate.distanced4=If I see you again, I'm going to punch you\!
-behavior.retaliate.distanced5=I knew you were afraid of me\!
-behavior.retaliate.distanced6=Why are you running? Get back here so I can hit you\!
-behavior.retaliate.distanced7=I'm going to hit you if I see you again\!
-behavior.retaliate.distanced8=I'll get my friends and beat you up\!
+behavior.retaliate.distanced1=Всё верно, тебе лучше бежать\!
+behavior.retaliate.distanced2=Если ты вернёшься, я позову охрану\!
+behavior.retaliate.distanced3=Вернись и дерись как мужик\!
+behavior.retaliate.distanced4=Если я увижу тебя еще раз, я надеру тебе зад\!
+behavior.retaliate.distanced5=Я знал что ты меня боишься\!
+behavior.retaliate.distanced6=Почему ты убегаешь? А ну вернись, что-бы я мог надрать тебе зад\!
+behavior.retaliate.distanced7=Я тебя ударю если увижу еще раз\!
+behavior.retaliate.distanced8=Мы с моими друзьями изобьём тебя\!
 
-behavior.retaliate.weapondrawn1=No\! Please don't hurt me\!
-behavior.retaliate.weapondrawn2=Stop\! No\!
-behavior.retaliate.weapondrawn3=Someone help me\!
-behavior.retaliate.weapondrawn4=They're going to kill me\! Someone help\!
-behavior.retaliate.weapondrawn5=You can take whatever you want, just please don't hurt me\!
-behavior.retaliate.weapondrawn6=I don't want to die\! Stay away\!
-behavior.retaliate.weapondrawn7=Mother Notch, please help me\!
+behavior.retaliate.weapondrawn1=Нет\! Пожалуйста не бей меня\!
+behavior.retaliate.weapondrawn2=Хватит\! Прекрати\!
+behavior.retaliate.weapondrawn3=Кто-нибудь, помогите\!
+behavior.retaliate.weapondrawn4=Они собираются убить меня\! Кто-нибудь помогите\!
+behavior.retaliate.weapondrawn5=Берите что хотите, только не бейте меня\!
+behavior.retaliate.weapondrawn6=Я не хочу умирать\! Не подходи\!
+behavior.retaliate.weapondrawn7=Святой Нотче, пожалуйста, помоги мне\!
 
-behavior.build.fail.tooclose=Don't you think we're too close to other buildings?
+behavior.build.fail.tooclose=Тебе не кажется что мы слишком близко к другому строению?
 
 ##################
 # Conversations between villagers
 #####################################
-conversation1.progress1=Hey, how are you today?
-conversation1.progress2=I'm okay, how are you?
-conversation1.progress3=I am fine. What are you planning to do today?
-conversation1.progress4=Nothing much, how about you?
-conversation1.progress5=I am thinking about going fishing.
-conversation1.progress6=Really? I don't like fishing.
-conversation1.progress7=Why? It's really fun.
-conversation1.progress8=It's boring to me.
-conversation1.progress9=Like mining is any better?
-conversation1.progress10=What?
-conversation1.progress11=You heard me.
-conversation1.progress12=Whatever.
+conversation1.progress1=Эй, как твои дела?
+conversation1.progress2=Всё в порядке, а у тебя?
+conversation1.progress3=Я в порядке. Какие у тебя планы на сегодня?
+conversation1.progress4=Ничего особенного, а как насчёт тебя?
+conversation1.progress5=Я думаю пойти порыбачить.
+conversation1.progress6=Правда? Я не люблю рыбалку.
+conversation1.progress7=Почему? Это довольно весело.
+conversation1.progress8=Ну, как по мне, это скучно.
+conversation1.progress9=Ну, как будто копать шахты лучше?
+conversation1.progress10=Что?
+conversation1.progress11=Ты меня слышал.
+conversation1.progress12=И что.
 
-conversation2.progress1=What are you looking at?
-conversation2.progress2=I don't know, I haven't figured it out yet.
-conversation2.progress3=Well, that was rude\!
-conversation2.progress4=*Somebody* woke up on the wrong side of the bed today.
+conversation2.progress1=Что ты ищешь?
+conversation2.progress2=Я не знаю. Еще не решил.
+conversation2.progress3=Хорошо, это было грубо\!
+conversation2.progress4=*Somebody* встал не с той ноги.
 
 #################
 # AI Messages
 ################################
-mining.search.none=There's no %a1% nearby.
-mining.search.nearby=There's some %a1% nearby...
-mining.search.value=There's some %a1% %a2% blocks away.
+mining.search.none=Здесь нет %a1% поблизости.
+mining.search.nearby=Здесь немного %a1% поблизости...
+mining.search.value=Здесь немного %a1% через %a2% блоков.
 
-farming.noseeds=I don't have enough %a1%. I will need at least %a2% to create a farm.
-farming.nohoe=I'll need to have a hoe in order to farm.
+farming.noseeds=У меня не достаточно %a1%. Мне нужно по крайней мере %a2% что-бы создать ферму.
+farming.nohoe=Мне нужна мотыга, что-бы заниматься земледелием.
 
-hunting.badspot=I can't find a good hunting spot.
-sleep.nohome=I don't have a home point\!
+hunting.badspot=Я не могу найти хорошее место для охоты.
+sleep.nohome=У меня нет точки дома\!
 sleep.invalid=My home point is invalid\!
 
 #################
 # Parser
 ################################
-parser.mom=Mom
-parser.dad=Dad
+parser.mom=Мама
+parser.dad=Папа
 
 #################
 # GUI
 ################################
-gui.button.yes=Yes
-gui.button.no=No
-gui.button.ok=Ok
-gui.button.done=Done
-gui.button.random=Random
-gui.button.interact=Interact
-gui.button.follow=Follow Me
-gui.button.stay=Stay Here
-gui.button.move=Move Freely
-gui.button.trade=Trade
-gui.button.sethome=Set Home
-gui.button.ridehorse=Ride Horse
-gui.button.special=Special
-gui.button.procreate=Procreate
-gui.button.pickup=Pick Up
-gui.button.work=Work
-gui.button.inventory=Inventory
-gui.button.chat=Chat
-gui.button.joke=Joke
-gui.button.gift=Gift
-gui.button.shakehand=Shake Hand
-gui.button.tellstory=Tell Story
-gui.button.flirt=Flirt
-gui.button.hug=Hug
-gui.button.kiss=Kiss
-gui.button.farming=Farming
-gui.button.farming.radius=Radius\: %a1%
-gui.button.farming.plant=Plant\: %a1%
-gui.button.woodcutting=Woodcutting
-gui.button.woodcutting.logtype=Log Type\: %a1%
-gui.button.woodcutting.replant=Replant\: %a1%
-gui.button.mining=Mining
-gui.button.hunting=Hunting
-gui.button.kill=Kill
-gui.button.tame=Tame
-gui.button.cooking=Cooking
-gui.button.mode=Mode\: %a1%
-gui.button.start=Start
-gui.button.stop=Stop
-gui.button.havebaby=Have Baby
-gui.button.divorce=Divorce
-gui.button.asktomarry=Ask to Marry
-gui.button.hire=Hire
-gui.button.hired=Hired
-gui.button.length=Length\: %a1% hour(s)
-gui.button.accept=Accept
-gui.button.divorcespouse=Divorce Spouse
+gui.button.yes=Да
+gui.button.no=Нет
+gui.button.ok=Хорошо
+gui.button.done=Готово
+gui.button.random=Случайно
+gui.button.interact=Взаимодействовать
+gui.button.follow=Следуй за мной
+gui.button.stay=Оставайся здесь
+gui.button.move=Свободен
+gui.button.trade=Торговля
+gui.button.sethome=Установить точку дома
+gui.button.ridehorse=Ездить Верхом
+gui.button.special=Особое
+gui.button.procreate=Потомство
+gui.button.pickup=Поднять
+gui.button.work=Работа
+gui.button.inventory=Инвентарь
+gui.button.chat=Поговорить
+gui.button.joke=Пошутить
+gui.button.gift=Сделать подарок
+gui.button.shakehand=Пожать Руку
+gui.button.tellstory=Рассказать Историю
+gui.button.flirt=Флиртовать
+gui.button.hug=Обнять
+gui.button.kiss=Поцеловать
+gui.button.farming=Фермерство
+gui.button.farming.radius=Радиус\: %a1%
+gui.button.farming.plant=Растение\: %a1%
+gui.button.woodcutting=Рубка деревьев
+gui.button.woodcutting.logtype=Вид брёвен\: %a1%
+gui.button.woodcutting.replant=Засаживать снова\: %a1%
+gui.button.mining=Шахтёрство
+gui.button.hunting=Охота
+gui.button.kill=Убивать
+gui.button.tame=Приручать
+gui.button.cooking=Готовка
+gui.button.mode=Режим\: %a1%
+gui.button.start=Начать
+gui.button.stop=Закончить
+gui.button.havebaby=У младенца
+gui.button.divorce=Развод
+gui.button.asktomarry=Предложить выйти замуж
+gui.button.hire=Нанять
+gui.button.hired=Нанят на работу
+gui.button.length=Продолжительность\: %a1% часа(ов)
+gui.button.accept=Согласиться
+gui.button.divorcespouse=Развестись
 gui.button.resetbaby=Reset Baby
-gui.button.setup.gender.false=Gender\: Female
-gui.button.setup.gender.true=Gender\: Male
+gui.button.setup.gender.false=Пол\: Женский
+gui.button.setup.gender.true=Пол\: Мужской
 
-gui.title.namebaby.male=It's a boy\!
-gui.title.namebaby.female=It's a girl\!
-gui.title.namebaby=Name your baby\:
-gui.title.tombstone=Enter tombstone text\:
-gui.title.editor=Villager Editor
+gui.title.namebaby.male=Это мальчик\!
+gui.title.namebaby.female=Это девочка\!
+gui.title.namebaby=Назови своего ребёнка\:
+gui.title.tombstone=Введите текст для надгробия\:
+gui.title.editor=Редактор жителей
 
-gui.info.family.married=Married to %a1%.
-gui.info.family.engaged=Engaged to %a1%.
-gui.info.family.marriedtoplayer=Married to you.
-gui.info.family.engagedtoplayer=Engaged to you.
-gui.info.family.notmarried=Not married.
-gui.info.family.mother=Mother\: %a1%
-gui.info.family.father=Father\: %a1%
-gui.info.family.mother.you=Mother\: You
-gui.info.family.father.you=Father\: You
+gui.info.family.married=В браке с %a1%.
+gui.info.family.engaged=В помолвке с %a1%.
+gui.info.family.marriedtoplayer=В браке с тобой.
+gui.info.family.engagedtoplayer=В помолвке с тобой.
+gui.info.family.notmarried=Не в браке.
+gui.info.family.mother=Мать\: %a1%
+gui.info.family.father=Отец\: %a1%
+gui.info.family.mother.you=Мать\: Ты
+gui.info.family.father.you=Отец\: Ты
 
-gui.info.gift.line1=Gift Available
-gui.info.gift.line2=(Click to take)
+gui.info.gift.line1=Доступен подарок
+gui.info.gift.line2=(Нажми что-бы забрать)
 
-gui.info.mood=Mood\: %a1%
-gui.info.personality=Personality\: %a1%
+gui.info.mood=Настроение\: %a1%
+gui.info.personality=Личность\: %a1%
 
-interaction.give.invalid1=I can't use that.
-interaction.give.invalid2=What is this? I can't do anything with it.
-interaction.give.invalid3=I don't know what you want me to do with that.
-interaction.give.invalid4=Why are you giving me this?
-interaction.give.invalid5=Huh? What is this thing?
+interaction.give.invalid1=Я не могу использовать это.
+interaction.give.invalid2=Что это? Я не знаю что с этим делать.
+interaction.give.invalid3=Я не знаю что мне делать с этим.
+interaction.give.invalid4=Почему ты мне даёшь это?
+interaction.give.invalid5=Хм? Что это?
 
-interaction.divorce.priest.success1=Very well. You are hereby no longer married.
-interaction.divorce.priest.success2=As you wish. May you find love elsewhere.
+interaction.divorce.priest.success1=Очень хорошо. Таким образом ты больше не в браке.
+interaction.divorce.priest.success2=Как пожелаешь. Может быть ты встретишь свою любовь.
 
-interaction.divorce.notmarried1=I am not married to anyone.
-interaction.divorce.notmarried2=What do I need divorce papers for? I am not married.
-interaction.divorce.notmarried3=I'm not married. Why are you giving these to me?
+interaction.divorce.notmarried1=Я не состою в браке.
+interaction.divorce.notmarried2=Что мне делать с документами на развод? Я не в браке.
+interaction.divorce.notmarried3=Я не в браке. Зачем ты мне это даёшь?
 
-interaction.divorce.fail.notmarriedtoplayer1=What?\! You want me to leave my spouse? You're awful\!
-interaction.divorce.fail.notmarriedtoplayer2=No\! I won't do that to my spouse\! I am happily married\!
-interaction.divorce.fail.notmarriedtoplayer3=What do you think you're doing? I'm not going to use that\!
+interaction.divorce.fail.notmarriedtoplayer1=Что?\! Ты хочешь разрушить мою семью? Как ужасно\!
+interaction.divorce.fail.notmarriedtoplayer2=Нет\! Я не собираюсь разводиться\! У меня счастливая семья\!
+interaction.divorce.fail.notmarriedtoplayer3=Что ты делаешь? Я не буду это использовать\!
 
-interaction.divorce.success1=I thought you loved me\! Get out\!
-interaction.divorce.success2=It was fun while it lasted. Goodbye, and good luck.
-interaction.divorce.success3=I can't believe you're doing this\! Leave, now\!
-interaction.divorce.success4=Why would you do this to me? I never want to see you again\!
+interaction.divorce.success1=То-есть ты меня не любишь? Выметайся\!
+interaction.divorce.success2=Было весело, пока оно длилось. Прощай, я желаю тебе удачи.
+interaction.divorce.success3=Не могу поверить, что ты это делаешь\! Уходи вон, сейчас же\!
+interaction.divorce.success4=Зачем ты это делаешь? Я не хочу тебя больше видеть\!
 
-interaction.marry.fail.marriedtogiver1=It's a pretty ring, but I am already married to you, silly.
-interaction.marry.fail.marriedtogiver2=We are already married. Did you forget?
+interaction.marry.fail.marriedtogiver1=Это красивое кольцо, но мы уже в браке, дурашка.
+interaction.marry.fail.marriedtogiver2=Мы уже в браке. Или вылетело из головы?
 
-interaction.marry.fail.marriedtoother1=I'm sorry, no...I'm already married.
-interaction.marry.fail.marriedtoother2=Oh, I thought you knew...I'm already married to someone.
-interaction.marry.fail.marriedtoother3=What?\! I'm already married\!
+interaction.marry.fail.marriedtoother1=Прости, но нет...Я уже в браке.
+interaction.marry.fail.marriedtoother2=Эх, ты разве не знаешь...Я уже в браке.
+interaction.marry.fail.marriedtoother3=Что?\! Я уже в браке\!
 
-interaction.marry.fail.playermarried1=Uh...I see that ring on your finger. You're already married\!
-interaction.marry.fail.playermarried2=Just what are you trying to do? You're already married\!
-interaction.marry.fail.playermarried3=What? Really? I think you're married to someone else, aren't you?
-interaction.marry.fail.playermarried4=I'm appalled\! You already have a spouse.
+interaction.marry.fail.playermarried1=Я вижу кольцо на твоём пальце. Ты уже в браке\!
+interaction.marry.fail.playermarried2=Вот что ты пытаешься сделать? Ты уже в браке\!
+interaction.marry.fail.playermarried3=Что? Правда? Ты разве уже не в браке?
+interaction.marry.fail.playermarried4=Интересно\! Ты ведь уже в браке.
 
-interaction.marry.fail.lowhearts1=What? No\! I don't like you\!
-interaction.marry.fail.lowhearts2=Oh, pretty ring\! Oh wait...it's for me? Um...no.
-interaction.marry.fail.lowhearts3=Is that for me? Sorry, I just don't know you enough.
-interaction.marry.fail.lowhearts4=I'm flattered, but I don't really know you.
+interaction.marry.fail.lowhearts1=Что? Нет, ты мне не нравишься\!
+interaction.marry.fail.lowhearts2=Какое красивое кольцо\! Подожди ка...оно для меня? Эм...нет.
+interaction.marry.fail.lowhearts3=Это для меня? Прости, но нам нужно познакомиться поближе.
+interaction.marry.fail.lowhearts4=Это восхитительно, но нам нужно узнать друг друга получше.
 
-interaction.engage.success1=Yes\! I will marry you\! I love you\!
-interaction.engage.success2=Of course I'll marry you\!
-interaction.engage.success3=About time...just kidding\! Love you\!
-interaction.engage.success4=Is...is this real? I mean, this moment, not the ring. But the ring is real, right?
+interaction.engage.success1=Да\! Я люблю тебя\! Мы будем вместе\!
+interaction.engage.success2=Конечно мы поженимся\!
+interaction.engage.success3=По поводу времени...шучу\! Люблю тебя\!
+interaction.engage.success4=Это...Это всё взаправду? Я имею ввиду предложение, не кольцо. Но ведь кольцо тоже настоящее, верно?
 
-interaction.marry.success1=It's a dream come true\! I'll love you forever\!
-interaction.marry.success2=We're finally married\! Now what?
-interaction.marry.success3=I'm happy to be married to you, %PlayerName%.
-interaction.marry.success4=I can't wait to start our life together\!
+interaction.marry.success1=Мечты становятся явью\! Я буду любить тебя вечно\!
+interaction.marry.success2=Мы наконец-то поженились\! Что теперь?
+interaction.marry.success3=Мне радостно находиться с тобой в браке %PlayerName%.
+interaction.marry.success4=Я не могу дождаться нашей совместной жизни\!
 
-interaction.matchmaker.fail.married1=I am already married to someone.
-interaction.matchmaker.fail.married2=I'm happily married, I do not want another spouse.
-interaction.matchmaker.fail.married3=I don't want that - I'm already married.
+interaction.matchmaker.fail.married1=Я уже в браке.
+interaction.matchmaker.fail.married2=У меня счастливый брак. Мне не нужен гарем.
+interaction.matchmaker.fail.married3=Я не хочу этого - Я уже в браке.
 
-interaction.matchmaker.fail.engaged1=I am engaged to someone already, I can't take that ring.
-interaction.matchmaker.fail.engaged2=I've promised to marry someone else.
-interaction.matchmaker.fail.engaged3=Oh, thanks but I think I'm okay. I'm already engaged to someone.
+interaction.matchmaker.fail.engaged1=Я уже в браке с кем-то и не могу взять это кольцо.
+interaction.matchmaker.fail.engaged2=Я обещал жениться на другой.
+interaction.matchmaker.fail.engaged3=Спасибо, но я думаю, что со мной всё в порядке. Я уже с кем-то в браке.
 
-interaction.matchmaker.fail.needtwo1=Don't you need two rings to arrange a marriage?
-interaction.matchmaker.fail.needtwo2=Oh, okay\! But you need two rings first.
-interaction.matchmaker.fail.needtwo3=My spouse and I will both need a ring, but you only have one.
+interaction.matchmaker.fail.needtwo1=Разве тебе не нужно два кольца на свадьбу?
+interaction.matchmaker.fail.needtwo2=Хорошо\! Но тебе нужно два кольца.
+interaction.matchmaker.fail.needtwo3=Моей жене и мне нужно кольцо, но у вас только одно.
 
-interaction.matchmaker.fail.novillagers1=I don't see anyone close by. Who did you want me to marry?
-interaction.matchmaker.fail.novillagers2=I just don't know...move me closer to the one you think is right for me.
-interaction.matchmaker.fail.novillagers3=Oh, but there doesn't seem to be anyone close by. Who should I marry?
+interaction.matchmaker.fail.novillagers1=Я никого не вижу рядом. На ком, по твоему, мне жениться?
+interaction.matchmaker.fail.novillagers2=Я даже не знаю... подвинь меня к тому, который сочтёшь нужным для меня.
+interaction.matchmaker.fail.novillagers3=Хм, но рядом со мной никого нет. С кем мне вступить в брак?
 
-interaction.matchmaker.fail.invalid1=But I can't marry %Name%.
+interaction.matchmaker.fail.invalid1=Но я не могу вступить в брак с %Name%.
 interaction.matchmaker.fail.invalid2=The only villager close by is %Name%, and I can't marry them.
 interaction.matchmaker.fail.invalid3=I don't think that I can marry %Name%. That might be a little strange.
 
 interaction.sethome.success1=Okay, this will be my new home point.
-interaction.sethome.success2=I understand, I'll be sleeping here at night.
-interaction.sethome.success3=Sure thing, %PlayerName%.
+interaction.sethome.success2=Ясно. Спать ночью буду тут.
+interaction.sethome.success3=Конечно, %PlayerName%.
 
 interaction.sethome.fail1=This doesn't look like a safe home point for me. There's some %a1% in the way.
 interaction.sethome.fail2=Is there another place nearby? There's some %a1% in the way.
 interaction.sethome.fail3=I can't have my home point here. There's some %a1% in the way.
 
-interaction.mining.fail.toolow1=We're too low for me to create a mine.
-interaction.mining.fail.toolow2=We need to be on higher ground.
-interaction.mining.fail.toolow3=I don't think it's a good idea to create a mine here. We need to be higher.
-interaction.mining.fail.nopickaxe=I don't have a pickaxe. How am I supposed to mine without one?
+interaction.mining.fail.toolow1=Мы слишком низко что-бы создать шахту.
+interaction.mining.fail.toolow2=Нам нужно забраться повыше.
+interaction.mining.fail.toolow3=Не очень хорошая идея строить шахту тут. Нам нужно забраться повыше.
+interaction.mining.fail.nopickaxe=У меня нет кирки. Как я буду добывать руду?
 
 interaction.hire.fail.notenoughgold=You need a stack of %a1% gold ingots to hire this villager.
 interaction.hire.success1=Glad to be on board\! What's my first job?
 interaction.hire.success2=Everything is in order. What would you like me to do?
-interaction.hire.success3=Ready to start working at any time, boss\!
+interaction.hire.success3=Готов приступить к работе в любое время, босс\!
 
-interaction.ridehorse.fail.notnearby=I don't see any horses nearby.
-interaction.ridehorse.fail.notrideable=I can't ride that horse.
+interaction.ridehorse.fail.notnearby=Я не вижу лошадей поблизости.
+interaction.ridehorse.fail.notrideable=Я не могу поехать на этой лошади.
 
 interaction.resetbaby.success=Very well, you may now have another child. Be more careful next time\!
-interaction.resetbaby.fail=You do not have a baby.
+interaction.resetbaby.fail=У тебя нет детей.
 
 interactionp.marry.sent=You have asked %a1% to marry you.
-interactionp.marry.success=You are now married to %a1%.
+interactionp.marry.success=Теперь вы женаты на %a1%.
 interactionp.marry.fail.alreadymarried=You are already married or engaged.
 interactionp.marry.fail.targetalreadymarried=%a1% is already married.
-interactionp.marry.fail.noweddingring=You do not have a wedding ring.
+interactionp.marry.fail.noweddingring=У вас нет обручального кольца.
 interactionp.marry.prompt=%a1% would like to marry you.
 
 interactionp.havebaby.sent=You have asked %a1% to have a baby.
-interactionp.havebaby.prompt=%a1% would like to have a baby.
+interactionp.havebaby.prompt=%a1% хотелось бы завести ребенка.
 interactionp.havebaby.fail.alreadyexists=You should already have a baby.
 
 interactionp.divorce.notify=You are no longer married to %a1%.
@@ -909,30 +909,30 @@ interaction.adoptbaby.success=Wonderful\! I'd like you to meet %a1%, your new ba
 #   Spouse      (married to the player recieving the message   
 #####################################
 
-adult.gift.bad1=This isn't a good gift...
+adult.gift.bad1=Это не самый лучший подарок...
 adult.gift.bad2=What made you think that I would like this?
-adult.gift.bad3=No thanks.
+adult.gift.bad3=Нет спасибо.
 adult.gift.bad4=I don't want that, why would I?
 adult.gift.bad5=Why are you giving me that?
 adult.gift.bad6=Is this supposed to be a gift? No thanks.
 
 adult.gift.good1=How considerate\! Thank you.
-adult.gift.good2=Thanks\!
-adult.gift.good3=How thoughtful\!
-adult.gift.good4=Oh, I love these\!
-adult.gift.good5=A gift? For me? How nice\!
+adult.gift.good2=Спасибо\!
+adult.gift.good3=Какой заботливый\!
+adult.gift.good4=Ох, мне нравится это\!
+adult.gift.good5=Подарок? Для меня? Как мило\!
 
-adult.gift.better1=Hey, this is pretty cool\!
-adult.gift.better2=Thanks, friend\!
-adult.gift.better3=%PlayerName%, you're such a good friend\!
+adult.gift.better1=Хэй, это было очень круто\!
+adult.gift.better2=Спасибо, друг\!
+adult.gift.better3=%PlayerName%, ты такой хороший друг\!
 adult.gift.better4=Oh wow, I actually needed one of these\!
-adult.gift.better5=This is a pretty good gift\!
+adult.gift.better5=Это довольно хороший подарок\!
 
 adult.gift.best1=I...I don't know what to say. Thank you so much, %PlayerName%\!
 adult.gift.best2=How did you...nevermind, this is amazing\!
 adult.gift.best3=Oh wow, I've always wanted one of these\!
-adult.gift.best4=This is fantastic\! I'll put it to good use.
-adult.gift.best5=Thank you so much. I will remember this forever.
+adult.gift.best4=Это фантастика\! Я найду этому хорошее применение.
+adult.gift.best5=Большое спасибо\! Я буду помнить это всегда.
 
 # 5 good chats when talking to an adult:
 adult.chat.good1=Man, cookies and milk does sound delicious right now.
@@ -944,29 +944,29 @@ adult.chat.good5=My dream is to build my own village, but I'm so lazy.
 # 5 bad chats when talking to an adult:
 adult.chat.bad1=Did you seriously just say that?
 adult.chat.bad2=I don't believe it exploded on its own.
-adult.chat.bad3=You know, you're not that cool.
-adult.chat.bad4=Show off.
+adult.chat.bad3=Ты не очень прикольный.
+adult.chat.bad4=Выпендриваться.
 adult.chat.bad5=You should be thrown in a dungeon\! 
 
 # 5 good jokes when talking to an adult:
 adult.joke.good1=Haha\! Serves that Skelly right\!
-adult.joke.good2=*Laughs* That's hilarious\!
+adult.joke.good2=*Смеется* Уморительно\!
 adult.joke.good3=That's funny\! Did you hear the one about the cows?
 adult.joke.good4=Unfortunate for the sheep to lose its wool, but funny\!
 adult.joke.good5=That's the best I have ever heard\!
 
 # 5 bad jokes when talking to an adult:
 adult.joke.bad1=Don't speak about my pig like that\!
-adult.joke.bad2=Ha.
+adult.joke.bad2=Ха.
 adult.joke.bad3=Ah, you're not the funniest in town.
-adult.joke.bad4=That's low.
+adult.joke.bad4=Это низко.
 adult.joke.bad5=You shouldn't joke about that.
 
 # 5 good handshakes when talking to an adult:
 adult.handshake.good1=You have a nice grip\!
 adult.handshake.good2=Your grip shows me you have great power\!
 adult.handshake.good3=Wow, you're so polite\!
-adult.handshake.good4=Good day\!
+adult.handshake.good4=Добрый день\!
 adult.handshake.good5=Why, hello there\!
 
 # 5 bad handshakes when talking to an adult:
@@ -974,7 +974,7 @@ adult.handshake.bad1=Seriously? After you slaughtered the cow?
 adult.handshake.bad2=Um, no that's okay.
 adult.handshake.bad3=I'm not a stranger, you don't have to be so polite.
 adult.handshake.bad4=Wow really? This isn't like you.
-adult.handshake.bad5=Go away.
+adult.handshake.bad5=Пошел прочь.
 
 # 5 good stories when talking to an adult:
 adult.tellstory.good1=Really? I can't believe that all happened\!
@@ -991,8 +991,8 @@ adult.tellstory.bad4=You're terrible\! Creepers have feelings too\!
 adult.tellstory.bad5=How could you kill a poor sheep?\!
 
 # 5 good flirts when talking to an adult:
-adult.flirt.good1=You're sooo brave\!
-adult.flirt.good2=Oh, you\! Stop being so cute\!
+adult.flirt.good1=Ты тааакооой храбрый\!
+adult.flirt.good2=Эй ты\! Перестань быть таким милым\!
 adult.flirt.good3=*Blushes* Do you mean it?
 adult.flirt.good4=Oh, my...
 adult.flirt.good5=That was so adorable\! You had me at "hello"\! 
@@ -1002,29 +1002,29 @@ adult.flirt.bad1=If you mean that, then prove it.
 adult.flirt.bad2=Aw.... Wait, you told the baker the same thing\!
 adult.flirt.bad3=Not in a million years.
 adult.flirt.bad4=Pathetic much?
-adult.flirt.bad5=A zombie has a better chance than you.
+adult.flirt.bad5=У зомби больше шансов, чем у тебя.
 
 # 5 good hugs when talking to an adult:
-adult.hug.good1=Long time no see\!
-adult.hug.good2=Thank you, I needed that.
+adult.hug.good1=Давно не виделись\!
+adult.hug.good2=Спасибо, мне нужно это.
 adult.hug.good3=At least one thing made my day today.
 adult.hug.good4=You're as snuggly as a sheep\!
 
 # 5 bad hugs when talking to an adult:
 adult.hug.bad1=You're covered in soot and mud\! 
-adult.hug.bad2=No thanks.
-adult.hug.bad3=Uh, why?
+adult.hug.bad2=Нет спасибо.
+adult.hug.bad3=Э-э, почему?
 adult.hug.bad4=After you called me a dinosaur last week? No.
 adult.hug.bad5=Quite frankly, you don't deserve a hug after you did that.
 
 # 5 good kisses when talking to an adult:
 adult.kiss.good1=I wish this moment would last forever.
-adult.kiss.good2=I think I love you...
+adult.kiss.good2=Я думаю, что люблю тебя...
 adult.kiss.good3=Mmm, tastes like pumpkin pie\!
 
 # 5 bad kisses when talking to an adult:
 adult.kiss.bad1=Not if someone can see.
-adult.kiss.bad2=You call that a kiss?
+adult.kiss.bad2=И ты называешь это поцелуем?
 adult.kiss.bad3=Ash kisses better than you.
 adult.kiss.bad4=Two words... breath mints\!
 adult.kiss.bad5=Thank you?
@@ -1040,7 +1040,7 @@ adult.greeting5=How are you today?
 # 5 good chats when talking to a parent:
 parent.chat.good1=I'm fine, and how are you, dear?
 parent.chat.good2=Have I ever told you how much you look like your lost great uncle?
-parent.chat.good3=You make me so proud\!
+parent.chat.good3=Я тобой горжусь\!
 parent.chat.good4=How sweet\! What happened to you, you're never kind\! *Laughs*
 parent.chat.good5=That reminds me of when you were a lil' tot\! 
 
@@ -1060,7 +1060,7 @@ parent.joke.good4=When did you become a comedian? That's hilarious\!
 parent.joke.good5=Great Aunt Berry would had loved to hear that one\!
 
 # 5 bad jokes when talking to a parent:
-parent.joke.bad1=Ha...
+parent.joke.bad1=Ха...
 parent.joke.bad2=You're my kid so I have to laugh... but it isn't funny.
 parent.joke.bad3=You're as dull as my first date.
 parent.joke.bad4=No offense, but that was bad.
@@ -1090,12 +1090,12 @@ parent.tellstory.good5=Is the house done, yet?
 # 5 bad stories when talking to a parent:
 parent.tellstory.bad1=I wish you were little again, this story depresses me.
 parent.tellstory.bad2=Don't you do that again\! Wolves are nothing to play with\!
-parent.tellstory.bad3=You stole my earrings?\! 
+parent.tellstory.bad3=Ты украл мои сережки?\! 
 parent.tellstory.bad4=We all know you can't be a successful miner.
 parent.tellstory.bad5=You're not the brightest lightbulb in the room...
 
 # 5 good hugs when talking to a parent:
-parent.hug.good1=You've grown so much\!
+parent.hug.good1=Ты так вырос\!
 parent.hug.good2=I remember hugging you each night before bed.
 parent.hug.good3=Sweet child of mine\! 
 parent.hug.good4=You never let me down\! 
@@ -1142,7 +1142,7 @@ relative.handshake.good3=Next time I expect diamonds\! *Laughs*
 # 5 bad handshakes when talking to a relative:
 relative.handshake.bad1=Come on, we're family. Informality is fine.
 relative.handshake.bad2=Shawn warned me about this...
-relative.handshake.bad3=Is this some sort of joke?
+relative.handshake.bad3=Это какая-то шутка?
 
 # 5 good stories when talking to a relative:
 relative.tellstory.good1=Let me just tell you, your mom was such a thief as a child\!
@@ -1207,19 +1207,19 @@ child.joke.bad5=Don't be mean\!
 child.handshake.good1=Hiya\! Someone I know likes you...
 child.handshake.good2=Dad said this is a very nice thing to do.
 child.handshake.good3=Now high five\! Down low... too slow\!
-child.handshake.good4=Hi stranger\!
+child.handshake.good4=Привет незнакомец\!
 child.handshake.good5=*Giggles* I just cleaned a cow with this hand.
 
 # 5 bad handshakes when talking to a child:
-child.handshake.bad1=Stranger danger...
-child.handshake.bad2=Mom, dad\! This person is trying to kidnap me\!
+child.handshake.bad1=Незнакомцы опасны...
+child.handshake.bad2=Мама, папа\! Этот человек пытается меня украсть\!
 child.handshake.bad3=Don't touch me I'm famous\!
 child.handshake.bad4=Ew, your hand has black stuff on it.
 child.handshake.bad5=I'll only shake your hand if you give me a diamond.
 
 # 5 good stories when talking to a child:
-child.tellstory.good1=Wow\! You're a beast\!
-child.tellstory.good2=I want to be just like you when I grow up. Shh, don't tell dad.
+child.tellstory.good1=Ого\! Ты - животное\!
+child.tellstory.good2=Я хочу стать таким, как ты, когда вырасту. Только чшш, не говори папе.
 child.tellstory.good3=Can you adopt me?\! You're awesome\!
 child.tellstory.good4=I went fishing and almost drowned.
 child.tellstory.good5=Does this mean I can take whatever I want? I mean, "borrow?"
@@ -1231,16 +1231,16 @@ child.tellstory.bad3=I believe you're speaking about my grandpa...
 child.tellstory.bad4=You're nothing but a scaredycat like dad said\!
 child.tellstory.bad5=How could you kill a poor chicken?
 
-child.greeting1=Hi, who are you?
-child.greeting2=My name's %Name%. What's your name?
-child.greeting3=Eek\! You look scary\!
+child.greeting1=Привет, ты кто?
+child.greeting2=Меня зовут %Name%. А вас как?
+child.greeting3=Брр\! Ты выглядишь пугающим\!
 
 ##############################################################################################
 
 # 5 good chats when talking to a child WHO IS YOUR OWN:
 childp.chat.good1=Oh, I was just going to go explorin' later.
-childp.chat.good2=Can we go camping? Please?\!
-childp.chat.good3=Hi, can you make me a cake?
+childp.chat.good2=Мы можем пойти в лагерь? Пожалуйста?\!
+childp.chat.good3=Привет, вы можете сделать мне торт?
 childp.chat.good4=Can I have my own room away from our house? That would be cool\!
 childp.chat.good5=Let's move into a cave\! That sounds so fun\!
 
@@ -1248,12 +1248,12 @@ childp.chat.good5=Let's move into a cave\! That sounds so fun\!
 childp.chat.bad1=%ParentOpposite% talks about them a lot...
 childp.chat.bad2=I don't think %ParentOpposite% would like that very much.
 childp.chat.bad3=Is that why %ParentOpposite% talked about this thing called "divorce?"
-childp.chat.bad4=I want a new daddy.
-childp.chat.bad5=I don't want a baby sister.
+childp.chat.bad4=Я хочу нового папочку.
+childp.chat.bad5=Я не хочу сестру.
 
 # 5 good jokes when talking to an playerchild:
-childp.joke.good1=*Laughs* Tell that one again\!
-childp.joke.good2=I've got to tell my friend that one\!
+childp.joke.good1=* Смеется * Расскажите это еще раз\!
+childp.joke.good2=Я должен рассказать это другу\!
 childp.joke.good3=How did the creeper explode?\!
 childp.joke.good4=*Laughs*Why is there no longer 3 of them?
 childp.joke.good5=*Laughs* ... *Laughs*... *Laughs*
@@ -1288,26 +1288,26 @@ childp.tellstory.good5=Did the lava hurt?
 
 # 5 bad stories when talking to an playerchild:
 childp.tellstory.bad1=I don't want to hear about grandma.
-childp.tellstory.bad2=You always say that. I just want a pet.
+childp.tellstory.bad2=Ты всегда так говоришь. Я просто хочу питомца.
 childp.tellstory.bad3=%ParentOpposite% has been lying to you, too.
 childp.tellstory.bad4=You said you didn't eat the cake and cookies...
 childp.tellstory.bad5=Someone said you were a bad person, and I believe them\!
 
 # 5 good hugs when talking to an playerchild:
 childp.hug.good1=*Kisses* You're the best ever\!
-childp.hug.good2=I'm going to be as strong as you are one day\!
+childp.hug.good2=Однажды я стану таким же сильным, как ты\!
 childp.hug.good3=Why doesn't %ParentOpposite% hug anymore?
 childp.hug.good4=I love hugs\! You're soft and warm\!
 childp.hug.good5=You should hug %ParentOpposite% too\!
 
 # 5 bad hugs when talking to an playerchild:
-childp.hug.bad1=I'm too old for hugs\!
+childp.hug.bad1=Я слишком взрослый для обнимашек\!
 childp.hug.bad2=Stop it\! I don't want people to see\!
 childp.hug.bad3=Go away, you're so annoying\!
 childp.hug.bad4=Just leave me alone or give me some cookies\!
 childp.hug.bad5=I'd rather hug a skeleton. 
 
-childp.greeting1=Hey there\!
+childp.greeting1=Эй там\!
 childp.greeting2=Hey, what's going on?
 childp.greeting3=What are you doing?
 childp.greeting4=Where are you going?
@@ -1393,7 +1393,7 @@ spouse.hug.good5=Let's stay like this forever\!
 
 # 5 bad hugs when talking to an spouse:
 spouse.hug.bad1=Why don't you go hug your ex?
-spouse.hug.bad2=No thanks.
+spouse.hug.bad2=Нет спасибо.
 spouse.hug.bad3=Man, you stink.
 spouse.hug.bad4=What do you want?
 spouse.hug.bad5=Huge someone else.
@@ -1423,7 +1423,7 @@ relative.gift.bad2=Eh, you keep it.
 relative.gift.bad3=Ew, where did you find this? In a mine?
 relative.gift.bad4=I'm not touching that.
 
-relative.gift.good1=Oh thank you.
+relative.gift.good1=Ох спасибо.
 relative.gift.good2=Thank you for thinking of me, %PlayerName%.
 relative.gift.good3=How thoughtful of you.
 relative.gift.good4=How'd you know I liked these?
@@ -1431,7 +1431,7 @@ relative.gift.good5=Youre too kind.
 
 relative.gift.better1=I have the perfect spot for this.
 relative.gift.better2=Thank you very much, %PlayerName%.
-relative.gift.better3=This is lovely.
+relative.gift.better3=Это довольно мило.
 relative.gift.better4=I appreciate you thinking about me.
 relative.gift.better5=Ill take good care of it.
 
@@ -1447,7 +1447,7 @@ parent.gift.bad3=Why can't you bring me something other than junk?
 parent.gift.bad4=I don't mean to hurt your feelings, but I don't want that.
 
 parent.gift.good1=Oh, how thoughtful\!
-parent.gift.good2=Thank you very much\!
+parent.gift.good2=Большое вам спасибо\!
 parent.gift.good3=You always were my favorite.
 
 parent.gift.better1=Hey, where did you get this? It's great\!
@@ -1463,16 +1463,16 @@ child.gift.bad2=Yuck\! I don't want this.
 child.gift.bad3=Why did you bring me this? It's dumb\!
 child.gift.bad4=I don't even know what this is\!
 
-child.gift.good1=Is it...is it all mine?
-child.gift.good2=Is this really for me?
-child.gift.good3=This is cool\!
+child.gift.good1=Это... Это все мое?
+child.gift.good2=Это и правда мне?
+child.gift.good3=Прикольно\!
 
-child.gift.better1=Awesome\! I'm going to show this to all my friends.
-child.gift.better2=You found it\! I lost this a few minutes ago.
+child.gift.better1=Здорово\! Пойду покажу это всем своим друзьям.
+child.gift.better2=Ты нашел\! Я потерял это несколько минут назад.
 child.gift.better3=My friend stole one of these from me. Did you beat him up for me?
 
 child.gift.best1=%PlayerName%, you give the best presents\!
-child.gift.best2=Finally\! My friend will stop bragging now.
+child.gift.best2=Наконец-то\! Мой друг прекратил хвастаться.
 child.gift.best3=Wow\! Where did you get this thing?
 child.gift.best4=My Dad has one of these. Now I have one too\!
 
@@ -1481,15 +1481,15 @@ spouse.gift.bad2=Um, is this supposed to be a gift for me?
 spouse.gift.bad3=Throw away your own junk\! Oh, this was a gift?...sorry.
 spouse.gift.bad4=I thought you knew me better than that. I hate these.
 
-spouse.gift.good1=%PlayerName%, you're so sweet.
+spouse.gift.good1=%PlayerName%, ты такой милый.
 spouse.gift.good2=Ah\! You're too good to me.
 spouse.gift.good3=This is unexpected, thank you, dear\!
 spouse.gift.good4=Aw, how sweet of you.
 spouse.gift.good5=Thanks, hun\!
 
 spouse.gift.better1=Oh wow, this is actually really nice\!
-spouse.gift.better2=I love it\! Thank you\!
-spouse.gift.better3=This is amazing, dear\!
+spouse.gift.better2=Я это обожаю\! Спасибо тебе\!
+spouse.gift.better3=Это замечательно, дорогой\!
 spouse.gift.better4=You got this for me? How sweet\!
 spouse.gift.better5=Oh, thank you %PlayerName%\!
 
@@ -1506,14 +1506,14 @@ childp.gift.bad4=I could get this easily, no thanks, %ParentTitle%.
 childp.gift.good1=Oh, cool\! Thank you %ParentTitle%.
 childp.gift.good2=%ParentOpposite% says these are 'sexy'. What does that mean?
 childp.gift.good3=This is much better than the last gift I got\!
-childp.gift.good4=Woo hoo\! It's mine, all mine\!
-childp.gift.good5=Can I...can I eat it?
+childp.gift.good4=Вуу хуу\! Это мое, все мое\!
+childp.gift.good5=Могу я... могу я съесть это?
 
-childp.gift.better1=For me? For free?\!
+childp.gift.better1=Для меня? Бесплатно?\!
 childp.gift.better2=Ooh\! Shiny\!
 childp.gift.better3=I really like this, %ParentTitle%\!
 childp.gift.better4=All of my friends will be jealous now\!
-childp.gift.better5=This is great, %ParentTitle%\!
+childp.gift.better5=Это здорово, %ParentTitle%\!
 
 childp.gift.best1=This must have cost a fortune\!
 childp.gift.best2=%ParentTitle%, I knew you would get me one of these. I just knew it\!

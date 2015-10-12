@@ -1,96 +1,96 @@
 #X-Generator: crowdin.com
-itemGroup.tabMCA=Minecraft Comes Alive
-itemGroup.tabMCA.gemCutting=MCA - Gem Cutting
+itemGroup.tabMCA=ماينكرافت أصبحت حية
+itemGroup.tabMCA.gemCutting=م ج أ - صقل الجواهر
 
 #######
 # Achievements
 ##############################
-achievement.fullGoldHearts=Getting Somewhere
-achievement.fullGoldHearts.desc=Get 5 gold hearts with a villager.
-achievement.engagement=Happily Taken\!
-achievement.engagement.desc=Get engaged to a villager.
-achievement.marriage=We're Married\!
-achievement.marriage.desc=Get married to a villager.
-achievement.babyBoy=It's a Boy\!
-achievement.babyBoy.desc=Have a baby boy.
-achievement.babyGirl=It's a Girl\!
-achievement.babyGirl.desc=Have a baby girl.
-achievement.twins=Twins\!
-achievement.twins.desc=Have twins.
-achievement.babyToChild=They Grow Up So Fast
-achievement.babyToChild.desc=Grow your baby into a child.
-achievement.hunting=Bullseye\!
-achievement.hunting.desc=Make your child go hunting.
+achievement.fullGoldHearts=قاصد وجهة
+achievement.fullGoldHearts.desc=احصل مع القروي على خمسة قلوب ذهبية.
+achievement.engagement=اقتنيت بسرور\!
+achievement.engagement.desc=اخطب قروية.
+achievement.marriage=نحن متزوجان\!
+achievement.marriage.desc=تزوج من قروية.
+achievement.babyBoy=إنه صبي\!
+achievement.babyBoy.desc=احصل على غلام.
+achievement.babyGirl=إنها فتاة\!
+achievement.babyGirl.desc=احصل على جارية.
+achievement.twins=توأم\!
+achievement.twins.desc=احصل على توأم.
+achievement.babyToChild=إنهم يكبرون سريعاً
+achievement.babyToChild.desc=دع وليدك يكبر طفلاً.
+achievement.hunting=عين الهدف\!
+achievement.hunting.desc=اجعل طفلك يذهب إلى الصيد.
 achievement.mining=Infiniminer
-achievement.mining.desc=Make your child mine for you.
-achievement.woodcutting=Lumberjack
-achievement.woodcutting.desc=Make your child cut trees.
-achievement.farming=Free Labor
-achievement.farming.desc=Make your child farm.
-achievement.childToAdult=Fully Grown\!
-achievement.childToAdult.desc=Grow your child into an adult.
-achievement.childMarried=Leaving the Nest
-achievement.childMarried.desc=Have your child get married.
-achievement.childHasChildren=Grandparent
-achievement.childHasChildren.desc=Meet your grandchildren.
-achievement.craftDiamondDust=Don't Breathe This\!
-achievement.craftDiamondDust.desc=Crush a diamond into dust.
-achievement.craftColoredDiamondDust=Adding Some Color
-achievement.craftColoredDiamondDust.desc=Add dye to a pile of diamond dust.
-achievement.smeltColoredDiamond=Diamonds With Style
-achievement.smeltColoredDiamond.desc=Smelt a colored diamond.
-achievement.craftShapedDiamond=Diamond Cutter
-achievement.craftShapedDiamond.desc=Shape a diamond.
-achievement.craftShapedRing=A Finished Product
-achievement.craftShapedRing.desc=Craft a shaped diamond ring.
+achievement.mining.desc=اجعل طفلك ينقب من أجلك.
+achievement.woodcutting=حطاب
+achievement.woodcutting.desc=اجعل طفلك يقطع الشجر.
+achievement.farming=العمل الحر
+achievement.farming.desc=اجعل طفلك يزرع.
+achievement.childToAdult=ناضج تمامًا\!
+achievement.childToAdult.desc=اجعل طفلك ينمو ليصبح بالغًا.
+achievement.childMarried=ترك العش
+achievement.childMarried.desc=اجعل طفلك يتزوج.
+achievement.childHasChildren=أجداد
+achievement.childHasChildren.desc=قابل أحفادك.
+achievement.craftDiamondDust=لا تتنفس هذا\!
+achievement.craftDiamondDust.desc=اسحق الماس إلى غبار.
+achievement.craftColoredDiamondDust=أضف بعض الألوان
+achievement.craftColoredDiamondDust.desc=أضف صبغة لحزمة من غبار الماس.
+achievement.smeltColoredDiamond=ألماس مع أسلوب
+achievement.smeltColoredDiamond.desc=شممت ماسًا ملونًا.
+achievement.craftShapedDiamond=قاطع الماس
+achievement.craftShapedDiamond.desc=شكّل ماسة.
+achievement.craftShapedRing=منتج نهائي
+achievement.craftShapedRing.desc=اضنع خاتمًا ماسيًا مشكّلًا.
 
 #######
 # Items & Blocks
 ##############################
-item.WeddingRing.name=Wedding Ring
-item.WeddingRingRG.name=Rose Gold Wedding Ring
-item.EngagementRing.name=Engagement Ring
-item.EngagementRingRG.name=Rose Gold Engagement Ring
-item.MatchmakersRing.name=Matchmaker's Ring
-item.BabyBoy.name=Baby Boy
-item.BabyGirl.name=Baby Girl
-item.EggMale.name=Spawn Male Villager
-item.EggFemale.name=Spawn Female Villager
-item.ItemVillagerBedRed.name=Red Villager Bed
-item.ItemVillagerBedBlue.name=Blue Villager Bed
-item.ItemVillagerBedGreen.name=Green Villager Bed
-item.ItemVillagerBedPink.name=Pink Villager Bed
-item.ItemVillagerBedPurple.name=Purple Villager Bed
-item.DivorcePapers.name=Divorce Papers
-item.RoseGoldIngot.name=Rose Gold Ingot
-item.CrystalBall.name=Crystal Ball
+item.WeddingRing.name=خاتم زواج
+item.WeddingRingRG.name=خاتم زواج ذهبي وردي
+item.EngagementRing.name=خاتم خطوبة
+item.EngagementRingRG.name=خاتم خطوبة ذهبي وردي
+item.MatchmakersRing.name=خاتم الخاطب
+item.BabyBoy.name=رضيع
+item.BabyGirl.name=رضيعة
+item.EggMale.name=تفريخ قروي
+item.EggFemale.name=تفريخ قروية
+item.ItemVillagerBedRed.name=سرير قروي أحمر
+item.ItemVillagerBedBlue.name=سرير قروي أزرق
+item.ItemVillagerBedGreen.name=سرير قروي أخضر
+item.ItemVillagerBedPink.name=سرير قروي وردي
+item.ItemVillagerBedPurple.name=سرير قروي بنفسجي
+item.DivorcePapers.name=أوراق طلاق
+item.RoseGoldIngot.name=صبة ذهبية وردية
+item.CrystalBall.name=كرة كريستالية
 item.NewOutfit.name=New Outfit
-item.DiamondHeart.name=Diamond Heart
-item.DiamondTiny.name=Tiny Diamond
-item.DiamondOval.name=Diamond Oval
-item.DiamondSquare.name=Diamond Square
-item.DiamondTriangle.name=Diamond Triangle
-item.DiamondStar.name=Diamond Star
-item.DiamondDust.name=Diamond Dust
-item.EngagementRingHeart.name=Heart Engagement Ring
-item.EngagementRingHeartRG.name=Rose Gold Heart Engagement Ring
-item.EngagementRingTiny.name=Tiny Engagement Ring
-item.EngagementRingTinyRG.name=Rose Gold Tiny Engagement Ring
-item.EngagementRingOval.name=Oval Engagement Ring
-item.EngagementRingOvalRG.name=Oval Rose Gold Engagement Ring
-item.EngagementRingSquare.name=Square Engagement Ring
-item.EngagementRingSquareRG.name=Rose Gold Square Engagement Ring
-item.EngagementRingTriangle.name=Triangle Engagement Ring
-item.EngagementRingTriangleRG.name=Rose Gold Triangle Engagement Ring
+item.DiamondHeart.name=قلب ماسي
+item.DiamondTiny.name=ماسة صغيرة
+item.DiamondOval.name=ماسة بيضوية
+item.DiamondSquare.name=ماسة مربعة
+item.DiamondTriangle.name=ماسة مثلثة
+item.DiamondStar.name=ماسة نجمية
+item.DiamondDust.name=غبار ماسي
+item.EngagementRingHeart.name=خاتم خطوبة على شكل قلب
+item.EngagementRingHeartRG.name=خاتم خطوبة على شكل قلب ذهبي وردي
+item.EngagementRingTiny.name=خاتم خطوبة صغير
+item.EngagementRingTinyRG.name=خاتم خطوبة صغير ذهبي وردي
+item.EngagementRingOval.name=خاتم خطوبة بيضوي
+item.EngagementRingOvalRG.name=خاتم خطوبة بيضوي ذهبي وردي
+item.EngagementRingSquare.name=خاتم خطوبة مربع
+item.EngagementRingSquareRG.name=خاتم خطوبة مربع ذهبي وردي
+item.EngagementRingTriangle.name=خاتم خطوبة مثلث
+item.EngagementRingTriangleRG.name=خاتم خطوبة مثلث ذهبي وردي
 item.EngagementRingStar.name=Star Engagement Ring
 item.EngagementRingStarRG.name=Rose Gold Star Engagement Ring
-item.tombstone.name=Tombstone
+item.tombstone.name=قبر
 item.RoseGoldDust.name=Rose Gold Dust
 item.GoldDust.name=Gold Dust
 tile.roseGoldOre.name=Rose Gold Ore
 tile.roseGoldBlock.name=Rose Gold Block
-item.whistle.name=Whistle
-item.villagereditor.name=Villager Editor
+item.whistle.name=صفارة
+item.villagereditor.name=قروي معدل
 item.GemCutter.name=Gem Cutter
 item.HeartMold.name=Heart Mold
 item.TinyMold.name=Tiny Mold
@@ -113,18 +113,18 @@ information.villagerbed.line3=sleep in bed at night.
 #######
 # Names
 ##############################
-name.male1=Aaron
+name.male1=خالد
 name.male2=Abe
 name.male3=Abel
 name.male4=Ace
-name.male5=Adam
+name.male5=آدم
 name.male6=Adan
 name.male7=Adriel
-name.male8=Aidan
+name.male8=صالح
 name.male9=Ajay
 name.male10=Al
-name.male11=Alan
-name.male12=Alex
+name.male11=عبدالإله
+name.male12=عبدالمحسن
 name.male13=Alec
 name.male14=Alden
 name.male15=Amir
@@ -145,9 +145,9 @@ name.male29=Billy
 name.male30=Cain
 name.male31=Brogan
 name.male32=Brenton
-name.male33=Blue
+name.male33=أزرق
 name.male34=Blaze
-name.male35=Brady
+name.male35=عبدالرحمن
 name.male36=Bear
 name.male37=Casey
 name.male38=Caiden
@@ -584,7 +584,7 @@ profession.housewife=Housewife
 personality.athletic=Athletic
 personality.confident=Confident
 personality.strong=Strong
-personality.friendly=Friendly
+personality.friendly=ودود
 personality.curious=Curious
 personality.peaceful=Peaceful
 personality.flirty=Flirty
@@ -597,32 +597,32 @@ personality.odd=Odd
 ################
 # Moods
 ################################
-mood.depressed=Depressed
-mood.sad=Sad
-mood.unhappy=Unhappy
-mood.passive=Passive
-mood.fine=Fine
-mood.happy=Happy
-mood.overjoyed=Overjoyed
-mood.bored_to_tears=Bored to tears
-mood.bored=Bored
-mood.uninterested=Uninterested
-mood.silly=Silly
-mood.giggly=Giggly
-mood.entertained=Entertained
-mood.infuriated=Infuriated
-mood.angry=Angry
-mood.annoyed=Annoyed
-mood.interested=Interested
-mood.talkative=Talkative
-mood.pleased=Pleased
+mood.depressed=مكتئب
+mood.sad=حزين
+mood.unhappy=غير سعيد
+mood.passive=سلبي
+mood.fine=بخير
+mood.happy=سعيد
+mood.overjoyed=مبتهج
+mood.bored_to_tears=يشعر بالملل لحد الدموع
+mood.bored=يشعر بالملل
+mood.uninterested=غير مهتم
+mood.silly=سخيف
+mood.giggly=مقهقه
+mood.entertained=مُسلّى
+mood.infuriated=ثائر
+mood.angry=غاضب
+mood.annoyed=منزعج
+mood.interested=مهتم
+mood.talkative=ثرثار
+mood.pleased=مسرور
 
 ################
 # Gift Responses
 ################################
-gift.cake1=What's this? A cake? Oh...oh my. I...need to find my spouse.
-gift.cake2=A cake\! How thoughtful\! I...wait, what's this odd feeling?
-gift.cake3=Finally, something that will help my marriage...
+gift.cake1=ما هذا؟ كعكة؟ يا...يا إلهي. أنا...علي أن أجد زوجي.
+gift.cake2=كعكة\! كم هذا جميل. أنا...انتظر، ما هذا الشعور الغريب؟
+gift.cake3=أخيرًا، شيء سيساعد زواجي...
 gift.cake.refuse1=I don't think I want any more cake, but thank you.
 gift.cake.refuse2=No thanks, I don't want cake anymore.
 gift.cake.refuse3=Oh, no. I couldn't.
@@ -632,67 +632,67 @@ gift.cake.refuse3=Oh, no. I couldn't.
 ################################
 gui.button.exit=Exit
 gui.button.back=Back
-gui.button.adoptbaby=Adopt Baby
+gui.button.adoptbaby=تبنى رضيعًا
 gui.button.next=Next
 
 ################
 # Dialogue
 ################################
-title.nonrelative.male=%Name% the %Profession%
-title.nonrelative.female=%Name% the %Profession%
+title.nonrelative.male=%Name% الـ %Profession%
+title.nonrelative.female=%Name% الـ %Profession%
 title.relative.male=%RelationToPlayer% %Name%
 title.relative.female=%RelationToPlayer% %Name%
 
-label.sleeping=Sleeping
-label.health=Health\: 
+label.sleeping=نائم
+label.health=الصحة\: 
 
-behavior.retaliate.begin1=Ow\! That hurt\!
-behavior.retaliate.begin2=I'll get you for that\!
-behavior.retaliate.begin3=Ouch\! Why did you hit me?
-behavior.retaliate.begin4=That hurts, stop it\!
-behavior.retaliate.begin5=Agh\! That really hurt\!
-behavior.retaliate.begin6=Hey\! What do you think you're doing?\!
-behavior.retaliate.begin7=*Oof*\! That better have been an accident\!
+behavior.retaliate.begin1=أوه\! هذا مؤلم\!
+behavior.retaliate.begin2=سأنال منك لهذا\!
+behavior.retaliate.begin3=أوتش\! لما ضربتني؟
+behavior.retaliate.begin4=هذا مؤلم، توقف\!
+behavior.retaliate.begin5=آاه\! هذا يؤلم جدًا\!
+behavior.retaliate.begin6=هيه\! ماذا تظن نفسك فاعلًا؟\!
+behavior.retaliate.begin7=*أووف*\! يستحسن أن يكون هذا حادثًا\!
 
-behavior.retaliate.distanced1=That's right, you'd better run\!
-behavior.retaliate.distanced2=If you come back, I'm calling the guards\!
-behavior.retaliate.distanced3=Come back and fight like a man\!
-behavior.retaliate.distanced4=If I see you again, I'm going to punch you\!
-behavior.retaliate.distanced5=I knew you were afraid of me\!
-behavior.retaliate.distanced6=Why are you running? Get back here so I can hit you\!
-behavior.retaliate.distanced7=I'm going to hit you if I see you again\!
-behavior.retaliate.distanced8=I'll get my friends and beat you up\!
+behavior.retaliate.distanced1=هذا صحيح، من الأفضل أن تجري\!
+behavior.retaliate.distanced2=إذا عدت، سأنادي الحرس\!
+behavior.retaliate.distanced3=عد وقاتل كالرجال\!
+behavior.retaliate.distanced4=إذا رأيتك مجددًا، سألكمك\!
+behavior.retaliate.distanced5=كنت أعلم أنك تخاف مني\!
+behavior.retaliate.distanced6=لماذا تهرب؟ عد هنا لكي أضربك\!
+behavior.retaliate.distanced7=سأضربك لو رأيتك مجددًا\!
+behavior.retaliate.distanced8=سأحضر أصدقائي وسنحطمك\!
 
-behavior.retaliate.weapondrawn1=No\! Please don't hurt me\!
-behavior.retaliate.weapondrawn2=Stop\! No\!
-behavior.retaliate.weapondrawn3=Someone help me\!
-behavior.retaliate.weapondrawn4=They're going to kill me\! Someone help\!
-behavior.retaliate.weapondrawn5=You can take whatever you want, just please don't hurt me\!
-behavior.retaliate.weapondrawn6=I don't want to die\! Stay away\!
-behavior.retaliate.weapondrawn7=Mother Notch, please help me\!
+behavior.retaliate.weapondrawn1=لا\! أرجوك لا تؤذني\!
+behavior.retaliate.weapondrawn2=توقف\! لا\!
+behavior.retaliate.weapondrawn3=ساعدوني\!
+behavior.retaliate.weapondrawn4=سوف يقتلونني\! ساعدوني\!
+behavior.retaliate.weapondrawn5=خذ ما تشاء، فقط لا تؤذني\!
+behavior.retaliate.weapondrawn6=لا أريد أن أموت\! ابق بعيدًا\!
+behavior.retaliate.weapondrawn7=الأم نوتش\! أرجوك ساعديني\!
 
-behavior.build.fail.tooclose=Don't you think we're too close to other buildings?
+behavior.build.fail.tooclose=ألا تعتقد أننا قريبون جدًا للبنايات الأخرى؟
 
 ##################
 # Conversations between villagers
 #####################################
-conversation1.progress1=Hey, how are you today?
-conversation1.progress2=I'm okay, how are you?
-conversation1.progress3=I am fine. What are you planning to do today?
-conversation1.progress4=Nothing much, how about you?
-conversation1.progress5=I am thinking about going fishing.
-conversation1.progress6=Really? I don't like fishing.
-conversation1.progress7=Why? It's really fun.
-conversation1.progress8=It's boring to me.
-conversation1.progress9=Like mining is any better?
-conversation1.progress10=What?
-conversation1.progress11=You heard me.
-conversation1.progress12=Whatever.
+conversation1.progress1=مرحبًا، كيف حالك اليوم؟
+conversation1.progress2=أنا بخير، كيف حالك أنت؟
+conversation1.progress3=أنا بخير. ماذا تخطط أن تفعل اليوم؟
+conversation1.progress4=ليس الكثير، ماذا عنك؟
+conversation1.progress5=أفكر بالذهاب للصيد.
+conversation1.progress6=حقًا؟ لا أحب الصيد.
+conversation1.progress7=لماذا؟ إنه ممتع جدًا.
+conversation1.progress8=إنه ممل بالنسبة لي.
+conversation1.progress9=والتنقيب أفضل؟
+conversation1.progress10=ماذا؟
+conversation1.progress11=سمعتني.
+conversation1.progress12=لا يهم.
 
-conversation2.progress1=What are you looking at?
-conversation2.progress2=I don't know, I haven't figured it out yet.
-conversation2.progress3=Well, that was rude\!
-conversation2.progress4=*Somebody* woke up on the wrong side of the bed today.
+conversation2.progress1=إلام تنظر؟
+conversation2.progress2=لا أعرف، أنا لا أعلم بعد.
+conversation2.progress3=حسنًا، هذا كان فظًا\!
+conversation2.progress4=*شخص ما* استيقظ على الجهة الخطأ من السرير اليوم.
 
 #################
 # AI Messages
@@ -711,8 +711,8 @@ sleep.invalid=My home point is invalid\!
 #################
 # Parser
 ################################
-parser.mom=Mom
-parser.dad=Dad
+parser.mom=أمي
+parser.dad=أبي
 
 #################
 # GUI
@@ -722,57 +722,57 @@ gui.button.no=No
 gui.button.ok=Ok
 gui.button.done=Done
 gui.button.random=Random
-gui.button.interact=Interact
-gui.button.follow=Follow Me
+gui.button.interact=تفاعل
+gui.button.follow=اتبعني
 gui.button.stay=Stay Here
 gui.button.move=Move Freely
-gui.button.trade=Trade
-gui.button.sethome=Set Home
-gui.button.ridehorse=Ride Horse
-gui.button.special=Special
-gui.button.procreate=Procreate
+gui.button.trade=تقابل
+gui.button.sethome=تحديد المنزل
+gui.button.ridehorse=ركوب الخيل
+gui.button.special=مميز
+gui.button.procreate=الإنجاب
 gui.button.pickup=Pick Up
 gui.button.work=Work
-gui.button.inventory=Inventory
-gui.button.chat=Chat
-gui.button.joke=Joke
-gui.button.gift=Gift
-gui.button.shakehand=Shake Hand
-gui.button.tellstory=Tell Story
-gui.button.flirt=Flirt
+gui.button.inventory=الحقيبة
+gui.button.chat=دردشة
+gui.button.joke=نكتة/مزحة
+gui.button.gift=هدية
+gui.button.shakehand=مصافحة
+gui.button.tellstory=قول قصة
+gui.button.flirt=مغازلة
 gui.button.hug=Hug
-gui.button.kiss=Kiss
-gui.button.farming=Farming
+gui.button.kiss=تقبيل
+gui.button.farming=الزراعة
 gui.button.farming.radius=Radius\: %a1%
 gui.button.farming.plant=Plant\: %a1%
-gui.button.woodcutting=Woodcutting
+gui.button.woodcutting=التحطيب
 gui.button.woodcutting.logtype=Log Type\: %a1%
 gui.button.woodcutting.replant=Replant\: %a1%
-gui.button.mining=Mining
-gui.button.hunting=Hunting
-gui.button.kill=Kill
-gui.button.tame=Tame
+gui.button.mining=التنقيب
+gui.button.hunting=الصيد
+gui.button.kill=قتل
+gui.button.tame=ترويض
 gui.button.cooking=Cooking
 gui.button.mode=Mode\: %a1%
-gui.button.start=Start
+gui.button.start=بدء التشغيل
 gui.button.stop=Stop
-gui.button.havebaby=Have Baby
-gui.button.divorce=Divorce
-gui.button.asktomarry=Ask to Marry
-gui.button.hire=Hire
+gui.button.havebaby=لديهم طفل
+gui.button.divorce=الطلاق
+gui.button.asktomarry=يطلب الزواج
+gui.button.hire=توظيف
 gui.button.hired=Hired
 gui.button.length=Length\: %a1% hour(s)
-gui.button.accept=Accept
-gui.button.divorcespouse=Divorce Spouse
+gui.button.accept=قبول
+gui.button.divorcespouse=تطليق الزوج/الزوجة
 gui.button.resetbaby=Reset Baby
-gui.button.setup.gender.false=Gender\: Female
-gui.button.setup.gender.true=Gender\: Male
+gui.button.setup.gender.false=الجنس\: أنثى
+gui.button.setup.gender.true=الجنس\: ذكر
 
 gui.title.namebaby.male=It's a boy\!
 gui.title.namebaby.female=It's a girl\!
 gui.title.namebaby=Name your baby\:
 gui.title.tombstone=Enter tombstone text\:
-gui.title.editor=Villager Editor
+gui.title.editor=قروي معدل
 
 gui.info.family.married=Married to %a1%.
 gui.info.family.engaged=Engaged to %a1%.
@@ -878,7 +878,7 @@ interaction.hire.success2=Everything is in order. What would you like me to do?
 interaction.hire.success3=Ready to start working at any time, boss\!
 
 interaction.ridehorse.fail.notnearby=I don't see any horses nearby.
-interaction.ridehorse.fail.notrideable=I can't ride that horse.
+interaction.ridehorse.fail.notrideable=لا أستطيع ركوب ذلك الخيل.
 
 interaction.resetbaby.success=Very well, you may now have another child. Be more careful next time\!
 interaction.resetbaby.fail=You do not have a baby.
@@ -911,15 +911,15 @@ interaction.adoptbaby.success=Wonderful\! I'd like you to meet %a1%, your new ba
 
 adult.gift.bad1=This isn't a good gift...
 adult.gift.bad2=What made you think that I would like this?
-adult.gift.bad3=No thanks.
+adult.gift.bad3=لا شكراً.
 adult.gift.bad4=I don't want that, why would I?
 adult.gift.bad5=Why are you giving me that?
 adult.gift.bad6=Is this supposed to be a gift? No thanks.
 
 adult.gift.good1=How considerate\! Thank you.
-adult.gift.good2=Thanks\!
+adult.gift.good2=شكراً\!
 adult.gift.good3=How thoughtful\!
-adult.gift.good4=Oh, I love these\!
+adult.gift.good4=اوه احببتها\!
 adult.gift.good5=A gift? For me? How nice\!
 
 adult.gift.better1=Hey, this is pretty cool\!
@@ -974,7 +974,7 @@ adult.handshake.bad1=Seriously? After you slaughtered the cow?
 adult.handshake.bad2=Um, no that's okay.
 adult.handshake.bad3=I'm not a stranger, you don't have to be so polite.
 adult.handshake.bad4=Wow really? This isn't like you.
-adult.handshake.bad5=Go away.
+adult.handshake.bad5=أذهب بعيداً.
 
 # 5 good stories when talking to an adult:
 adult.tellstory.good1=Really? I can't believe that all happened\!
@@ -1012,7 +1012,7 @@ adult.hug.good4=You're as snuggly as a sheep\!
 
 # 5 bad hugs when talking to an adult:
 adult.hug.bad1=You're covered in soot and mud\! 
-adult.hug.bad2=No thanks.
+adult.hug.bad2=لا شكراً.
 adult.hug.bad3=Uh, why?
 adult.hug.bad4=After you called me a dinosaur last week? No.
 adult.hug.bad5=Quite frankly, you don't deserve a hug after you did that.
@@ -1393,7 +1393,7 @@ spouse.hug.good5=Let's stay like this forever\!
 
 # 5 bad hugs when talking to an spouse:
 spouse.hug.bad1=Why don't you go hug your ex?
-spouse.hug.bad2=No thanks.
+spouse.hug.bad2=لا شكراً.
 spouse.hug.bad3=Man, you stink.
 spouse.hug.bad4=What do you want?
 spouse.hug.bad5=Huge someone else.
@@ -1481,7 +1481,7 @@ spouse.gift.bad2=Um, is this supposed to be a gift for me?
 spouse.gift.bad3=Throw away your own junk\! Oh, this was a gift?...sorry.
 spouse.gift.bad4=I thought you knew me better than that. I hate these.
 
-spouse.gift.good1=%PlayerName%, you're so sweet.
+spouse.gift.good1=هذي هدية جميلة جداً.\n
 spouse.gift.good2=Ah\! You're too good to me.
 spouse.gift.good3=This is unexpected, thank you, dear\!
 spouse.gift.good4=Aw, how sweet of you.

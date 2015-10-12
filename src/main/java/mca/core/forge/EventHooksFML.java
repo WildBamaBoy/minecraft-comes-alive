@@ -22,6 +22,7 @@ import mca.enums.EnumProfession;
 import mca.enums.EnumProfessionGroup;
 import mca.items.ItemGemCutter;
 import mca.packets.PacketSyncConfig;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.RandomPositionGenerator;
@@ -122,6 +123,18 @@ public class EventHooksFML
 			MCA.resetConfig();
 		}
 
+		//Check for setting/processing the flag for loading language again.
+		if (currentScreen instanceof net.minecraft.client.gui.GuiLanguage)
+		{
+			MCA.reloadLanguage = true;
+		}
+
+		else if (MCA.reloadLanguage)
+		{
+			MCA.reloadLanguage = false;
+			MCA.getLanguageManager().loadLanguage(MCA.getLanguageManager().getGameLanguageID());
+		}
+		
 		if (playPortalAnimation)
 		{
 			EntityPlayerSP player = (EntityPlayerSP)mc.thePlayer;

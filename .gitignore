@@ -1,4 +1,6 @@
 /*
+/src/main/java/radixcore/*
+/lib/*
 !/.gitignore
 !/gradle/
 !/gradle/*
