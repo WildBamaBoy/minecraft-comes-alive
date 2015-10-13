@@ -131,7 +131,10 @@ public class GuiInteraction extends GuiScreen
 			DataWatcherEx.allowClientSideModification = false;
 			
 			//Show tutorial message for infected villagers after closing, to avoid cluttering the GUI.
-			TutorialManager.setTutorialMessage(new TutorialMessage("Infected villagers cannot do chores, have an inventory,", "and they may bite. Surely there's a cure?"));
+			if (villager.getIsInfected())
+			{
+				TutorialManager.setTutorialMessage(new TutorialMessage("Infected villagers cannot do chores, have an inventory,", "and they may bite. Surely there's a cure?"));
+			}
 		}
 
 		catch (NullPointerException e)
