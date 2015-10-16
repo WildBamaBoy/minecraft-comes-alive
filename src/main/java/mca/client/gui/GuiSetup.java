@@ -45,7 +45,7 @@ public class GuiSetup extends GuiScreen
 	
 	private EntityPlayer player;
 	private PlayerData data;
-
+	private EnumDestinyChoice destinyChoice;
 	private GuiTextField nameTextField;
 
 	private int page;
@@ -259,11 +259,6 @@ public class GuiSetup extends GuiScreen
 		case 1: case 2: 					page = 2; break;
 		case 3: case 4: case 5: 			page = 3; break;
 		case 6: 							page = 4; break;
-		case 7: case 8: case 10: case 11: 	//TODO Skip on cases that the warning message will be displayed.
-			data.setHasChosenDestiny(true);
-			setDestinyComplete();
-			mc.displayGuiScreen(null);
-			break;
 		default:
 			page = 1;
 		}
@@ -287,12 +282,23 @@ public class GuiSetup extends GuiScreen
 
 			break;
 
-		case 7: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.FAMILY)); break;
-		case 8: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.ALONE)); break;
-		case 9: page = 5; break;
-		case 10: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.NONE)); break;
+		case 7: destinyChoice = EnumDestinyChoice.FAMILY; page = 5; break;
+		case 8: destinyChoice = EnumDestinyChoice.ALONE; page = 5; break;
+		case 9: destinyChoice = EnumDestinyChoice.VILLAGE; page = 5; break;
+		case 10: //No destiny.
+			data.setHasChosenDestiny(true);
+			setDestinyComplete();
+			mc.displayGuiScreen(null);
+			
+			MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.NONE)); break;
 		
-		case 11: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.VILLAGE)); break; //TODO Store destiny choice and use it at this instance.
+		case 11: //Confirmation button to spawn destiny area.
+			data.setHasChosenDestiny(true);
+			setDestinyComplete();
+			mc.displayGuiScreen(null);
+			
+			MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(destinyChoice)); 
+			break;
 		case 12: page = 4; break;
 		case 13: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.CANCEL));
 				mc.displayGuiScreen(null); break;
