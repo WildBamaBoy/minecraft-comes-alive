@@ -46,7 +46,7 @@ public class AIDefend extends AbstractAI
 	@Override
 	public void onUpdateServer() 
 	{
-		if (owner.getProfessionGroup() == EnumProfessionGroup.Guard && !owner.getIsMarried())
+		if (owner.getProfessionGroup() == EnumProfessionGroup.Guard && !owner.getIsMarried() && !owner.getIsInfected())
 		{
 			if (target == null)
 			{

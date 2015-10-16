@@ -519,20 +519,19 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	@Override
 	protected String getLivingSound()
 	{
-		//Infected villagers moan like zombies.
 		return null;
 	}
 
 	@Override
 	protected String getHurtSound() 
 	{
-		return null;
+		return getIsInfected() ? "mob.zombie.hurt" : null;
 	}
 
 	@Override
 	protected String getDeathSound() 
 	{
-		return null;
+		return getIsInfected() ? "mob.zombie.death" : null;
 	}
 
 	@Override
@@ -1008,7 +1007,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	@Override
 	public ItemStack getHeldItem()
 	{
-		if (babyState.getInt() > 0)
+		if (getIsInfected())
+		{
+			return null;
+		}
+		
+		else if (babyState.getInt() > 0)
 		{
 			switch (babyState.getInt())
 			{

@@ -204,13 +204,15 @@ public class EventHooksForge
 	@SubscribeEvent
 	public void onLivingAttack(LivingAttackEvent event)
 	{
-		if (event.source != null && event.source.getSourceOfDamage() instanceof EntityZombie)
+		if (MCA.getConfig().enableInfection)
 		{
-			EntityZombie zombie = (EntityZombie)event.source.getSourceOfDamage();
-			boolean flag = RadixLogic.getBooleanWithProbability(3);
-			
-			if (event.entityLiving instanceof EntityPlayer && flag)
+			if (event.source != null && event.source.getSourceOfDamage() instanceof EntityZombie)
 			{
+				EntityZombie zombie = (EntityZombie)event.source.getSourceOfDamage();
+				boolean flag = RadixLogic.getBooleanWithProbability(3);
+
+				if (event.entityLiving instanceof EntityPlayer && flag)
+				{
 					EntityPlayer player = (EntityPlayer) event.entityLiving;
 
 					for (ItemStack stack : player.inventory.mainInventory)
@@ -223,17 +225,18 @@ public class EventHooksForge
 							Utilities.spawnParticlesAroundEntityS(Particle.WITCH_MAGIC, player, 32);
 						}
 					}
-			}
+				}
 
-			else if (event.entityLiving instanceof EntityHuman && flag)
-			{
-				EntityHuman human = (EntityHuman)event.entityLiving;
-				human.setIsInfected(true);
-				human.setHealth(human.getMaxHealth());
-				zombie.setAttackTarget(null);
-				
-				human.worldObj.playSoundAtEntity(human, "mob.wither.idle", 0.5F, 1.0F);
-				Utilities.spawnParticlesAroundEntityS(Particle.WITCH_MAGIC, human, 32);
+				else if (event.entityLiving instanceof EntityHuman && flag)
+				{
+					EntityHuman human = (EntityHuman)event.entityLiving;
+					human.setIsInfected(true);
+					human.setHealth(human.getMaxHealth());
+					zombie.setAttackTarget(null);
+
+					human.worldObj.playSoundAtEntity(human, "mob.wither.idle", 0.5F, 1.0F);
+					Utilities.spawnParticlesAroundEntityS(Particle.WITCH_MAGIC, human, 32);
+				}
 			}
 		}
 	}
