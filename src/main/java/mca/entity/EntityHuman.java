@@ -51,6 +51,8 @@ import mca.items.ItemVillagerEditor;
 import mca.packets.PacketOpenGUIOnEntity;
 import mca.util.MarriageHandler;
 import mca.util.Utilities;
+import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -74,6 +76,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
@@ -115,7 +118,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	private final WatchedInt heldItem;
 	private final WatchedBoolean isInfected;
 	private final WatchedBoolean doOpenInventory;
-
+	private final WatchedString playerSkinUsername;
+	
 	private final Inventory inventory;
 
 	@SideOnly(Side.CLIENT)
@@ -126,6 +130,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	protected AIManager aiManager;
 	protected Map<String, PlayerMemory> playerMemories;
 	protected DataWatcherEx dataWatcherEx;
+	private ResourceLocation playerSkinResourceLocation;
+	private ThreadDownloadImageData	imageDownloadThread;
 
 	public EntityHuman(World world) 
 	{
@@ -160,7 +166,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		heldItem = new WatchedInt(-1, WatcherIDsHuman.HELD_ITEM, dataWatcherEx);
 		isInfected = new WatchedBoolean(false, WatcherIDsHuman.IS_INFECTED, dataWatcherEx);
 		doOpenInventory = new WatchedBoolean(false, WatcherIDsHuman.DO_OPEN_INVENTORY, dataWatcherEx);
-
+		playerSkinUsername = new WatchedString("null", WatcherIDsHuman.PLAYER_SKIN_USERNAME, dataWatcherEx);
+		
 		aiManager = new AIManager(this);
 		aiManager.addAI(new AIIdle(this));
 		aiManager.addAI(new AIRegenerate(this));
@@ -342,17 +349,17 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 					item.onUpdate(stack, worldObj, this, 1, false);
 				}
 			}
-			
+
 			//Check if inventory should be opened for player.
 			if (doOpenInventory.getBoolean())
 			{
 				final EntityPlayer player = worldObj.getClosestPlayerToEntity(this, 10.0D);
-				
+
 				if (player != null)
 				{
 					player.openGui(MCA.getInstance(), Constants.GUI_ID_INVENTORY, worldObj, (int)posX, (int)posY, (int)posZ);
 				}
-				
+
 				setDoOpenInventory(false);
 			}
 		}
@@ -405,9 +412,9 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 				int guiId = player.inventory.getCurrentItem() != null && 
 						player.inventory.getCurrentItem().getItem() instanceof ItemVillagerEditor 
 						? Constants.GUI_ID_EDITOR : Constants.GUI_ID_INTERACT;
-				
+
 				MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId(), guiId), (EntityPlayerMP) player);
-				
+
 				isInteracting.setValue(true);
 			}
 
@@ -447,7 +454,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		nbt.setFloat("scaleGirth", scaleGirth.getFloat());
 		nbt.setInteger("ticksAlive", ticksAlive);
 		nbt.setBoolean("isInfected", isInfected.getBoolean());
-
+		nbt.setString("playerSkinUsername", playerSkinUsername.getString());
+		
 		PlayerMemoryHandler.writePlayerMemoryToNBT(playerMemories, nbt);
 		dataWatcherEx.writeDataWatcherToNBT(nbt);
 
@@ -481,7 +489,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		scaleGirth.setValue(nbt.getFloat("scaleGirth"));
 		ticksAlive = nbt.getInteger("ticksAlive");
 		isInfected.setValue(nbt.getBoolean("isInfected"));
-
+		playerSkinUsername.setValue(nbt.getString("playerSkinUsername"));
+		
 		PlayerMemoryHandler.readPlayerMemoryFromNBT(this, playerMemories, nbt);
 		dataWatcherEx.readDataWatcherFromNBT(nbt);
 		doDisplay.setValue(true);
@@ -798,7 +807,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 	public String getHeadTexture()
 	{
-		return headTexture.getString();
+		return usesPlayerSkin() ? getPlayerSkinResourceLocation().getResourcePath() : headTexture.getString();
 	}
 
 	public void setClothesTexture(String value)
@@ -808,7 +817,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 	public String getClothesTexture()
 	{
-		if (clothesTexture.getString().isEmpty()) //When updating.
+		if (usesPlayerSkin())
+		{
+			return getPlayerSkinResourceLocation().getResourcePath();
+		}
+		
+		else if (clothesTexture.getString().isEmpty()) //When updating.
 		{
 			return headTexture.getString();
 		}
@@ -1193,6 +1207,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public void writeSpawnData(ByteBuf buffer) 
 	{
 		ByteBufIO.writeObject(buffer, playerMemories);
+		ByteBufIO.writeObject(buffer, playerSkinUsername.getString());
 	}
 
 	@Override
@@ -1200,6 +1215,9 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	{
 		Map<String, PlayerMemory> recvMemories = (Map<String, PlayerMemory>) ByteBufIO.readObject(additionalData);
 		this.playerMemories = recvMemories;
+		
+		//Set the player's skin upon loading on the server.
+		setPlayerSkin((String)ByteBufIO.readObject(additionalData));
 	}
 
 	public void setIsInteracting(boolean value)
@@ -1353,7 +1371,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			return false;
 		}
-		
+
 		else if (memory.getIsHiredBy())
 		{
 			return true;
@@ -1370,7 +1388,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public void openInventory(EntityPlayer player)
 	{
 		MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId(), Constants.GUI_ID_INVENTORY), (EntityPlayerMP) player);
-//		player.displayGUIChest(inventory);
+		//		player.displayGUIChest(inventory);
 	}
 
 	public boolean isChildOfAVillager() 
@@ -1476,53 +1494,100 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	{
 		doOpenInventory.setValue(value);
 	}
-	
+
 	@Override
-    public ItemStack getEquipmentInSlot(int slot)
-    {
-    	//0 is the held item, others are armor slots.
-    	switch (slot)
-    	{
-    	case 0: return getHeldItem();
-    	case 1: return inventory.getStackInSlot(39); //Boots
-    	case 2: return inventory.getStackInSlot(38); //Leggings
-    	case 3: return inventory.getStackInSlot(37); //Chest
-    	case 4: return inventory.getStackInSlot(36); //Helmet
-    	}
-    	return null;
-    }
-    
-    @Override
-    public int getTotalArmorValue()
-    {
-    	int value = 0;
-    	
-    	for (int i = 36; i < 40; i++)
-    	{
-    		final ItemStack stack = inventory.getStackInSlot(i);
+	public ItemStack getEquipmentInSlot(int slot)
+	{
+		//0 is the held item, others are armor slots.
+		switch (slot)
+		{
+		case 0: return getHeldItem();
+		case 1: return inventory.getStackInSlot(39); //Boots
+		case 2: return inventory.getStackInSlot(38); //Leggings
+		case 3: return inventory.getStackInSlot(37); //Chest
+		case 4: return inventory.getStackInSlot(36); //Helmet
+		}
+		return null;
+	}
 
-    		if (stack != null && stack.getItem() instanceof ItemArmor)
-    		{
-    			value += ((ItemArmor)stack.getItem()).damageReduceAmount;
-    		}
-    	}
-    	
-    	return value;
-    }
-    
-    @Override
-    public void damageArmor(float amount)
-    {
-    	int value = 0;
-    	
-    	for (int i = 36; i < 40; i++)
-    	{
-    		final ItemStack stack = inventory.getStackInSlot(i);
+	@Override
+	public int getTotalArmorValue()
+	{
+		int value = 0;
 
-    		if (stack != null && stack.getItem() instanceof ItemArmor)
-    		{
-    			stack.damageItem((int) amount, this);
-    		}
-    	}	
-    }
+		for (int i = 36; i < 40; i++)
+		{
+			final ItemStack stack = inventory.getStackInSlot(i);
+
+			if (stack != null && stack.getItem() instanceof ItemArmor)
+			{
+				value += ((ItemArmor)stack.getItem()).damageReduceAmount;
+			}
+		}
+
+		return value;
+	}
+
+	@Override
+	public void damageArmor(float amount)
+	{
+		int value = 0;
+
+		for (int i = 36; i < 40; i++)
+		{
+			final ItemStack stack = inventory.getStackInSlot(i);
+
+			if (stack != null && stack.getItem() instanceof ItemArmor)
+			{
+				stack.damageItem((int) amount, this);
+			}
+		}	
+	}
+
+	public void setPlayerSkin(String username)
+	{
+		if (!username.isEmpty() && !username.equals("null"))
+		{ 
+			if (username.equals("SheWolfDeadly"))
+			{
+				username = "TheSheWolfDeadly";
+			}
+			
+			boolean previous = DataWatcherEx.allowClientSideModification;
+			
+			DataWatcherEx.allowClientSideModification = true;
+			playerSkinUsername.setValue(username);
+			DataWatcherEx.allowClientSideModification = previous;
+			
+			playerSkinResourceLocation = AbstractClientPlayer.getLocationSkin(playerSkinUsername.getString());
+			imageDownloadThread = AbstractClientPlayer.getDownloadImageSkin(playerSkinResourceLocation, playerSkinUsername.getString());
+		}
+		
+		else
+		{
+			boolean previous = DataWatcherEx.allowClientSideModification;
+			
+			DataWatcherEx.allowClientSideModification = true;
+			playerSkinUsername.setValue("null");
+			DataWatcherEx.allowClientSideModification = previous;
+			
+			playerSkinResourceLocation = null;
+			imageDownloadThread = null;
+		}
+	}
+	
+	public boolean usesPlayerSkin()
+	{
+		return getPlayerSkinResourceLocation() != null;
+	}
+	
+	public ResourceLocation getPlayerSkinResourceLocation()
+	{
+		return playerSkinResourceLocation;
+	}
+	
+	public String getPlayerSkinUsername()
+	{
+		return playerSkinUsername.getString();
+	}
 }

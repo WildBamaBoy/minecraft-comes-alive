@@ -41,6 +41,8 @@ public class GuiVillagerEditor extends GuiScreen
 
 	private GuiTextField nameTextField;
 	private GuiTextField dummyTextField;
+	private GuiTextField playerSkinTextField;
+	
 	private GuiButton randomButton;
 	private GuiButton genderButton;
 	private GuiButton shiftTextureIndexUpButton;
@@ -50,6 +52,7 @@ public class GuiVillagerEditor extends GuiScreen
 	private GuiButton shiftProfessionDownButton;
 	private GuiButton shiftTraitUpButton;
 	private GuiButton shiftTraitDownButton;
+	private GuiButton applyPlayerSkinButton;
 
 	//Buttons on page 2
 	private GuiButton heightButton;
@@ -97,7 +100,8 @@ public class GuiVillagerEditor extends GuiScreen
 		try
 		{
 			nameTextField.updateCursorCounter();
-
+			playerSkinTextField.updateCursorCounter();
+			
 			if (nameTextField.getText().isEmpty())
 			{
 				doneButton.enabled = false;
@@ -128,6 +132,10 @@ public class GuiVillagerEditor extends GuiScreen
 
 		dummyTextField = new GuiTextField(fontRendererObj, width / 2 + 90, height / 2 - 100, 100, 200);
 		dummyTextField.setMaxStringLength(0);
+		
+		playerSkinTextField = new GuiTextField(fontRendererObj, width / 2 - 205, height / 2 + 40, 150, 20);
+		playerSkinTextField.setMaxStringLength(32);
+		playerSkinTextField.setText(villager.usesPlayerSkin() ? villager.getPlayerSkinUsername() : "N/A");
 	}
 
 	@Override
@@ -268,6 +276,19 @@ public class GuiVillagerEditor extends GuiScreen
 			villager.setGirth(villager.getGirth() - 0.01F);
 			drawEditorGuiPage2();
 		}
+		
+		else if (guibutton == applyPlayerSkinButton)
+		{
+			if (playerSkinTextField.getText().equals(""))
+			{
+				villager.setPlayerSkin("");
+			}
+			
+			else
+			{
+				villager.setPlayerSkin(playerSkinTextField.getText().trim());
+			}
+		}
 	}
 
 	@Override
@@ -283,6 +304,8 @@ public class GuiVillagerEditor extends GuiScreen
 			nameTextField.textboxKeyTyped(c, i);
 			final String text = nameTextField.getText().trim();
 			villager.setName(text);
+			
+			playerSkinTextField.textboxKeyTyped(c, i);
 			drawEditorGuiPage1();
 		}
 
@@ -300,6 +323,7 @@ public class GuiVillagerEditor extends GuiScreen
 		if (currentPage == 1)
 		{
 			nameTextField.mouseClicked(clickX, clickY, clicked);
+			playerSkinTextField.mouseClicked(clickX, clickY, clicked);
 		}
 	}
 
@@ -325,6 +349,8 @@ public class GuiVillagerEditor extends GuiScreen
 		buttonList.add(personalityButton = new GuiButton(12, width / 2 - 190, height / 2 + 0, 175, 20, MCA.getInstance().getLanguageManager().getString("gui.info.personality", villager.getPersonality().getFriendlyName())));
 		buttonList.add(shiftTraitUpButton = new GuiButton(13, width / 2 - 15, height / 2 + 0, 20, 20, ">>"));
 		buttonList.add(shiftTraitDownButton = new GuiButton(14, width / 2 - 210, height / 2 + 0, 20, 20, "<<"));
+		buttonList.add(applyPlayerSkinButton = new GuiButton(15, width / 2 - 50, height / 2 + 40, 40, 20, "Apply"));
+		
 		buttonList.add(doneButton = new GuiButton(17, width / 2 - 50, height / 2 + 85, 75, 20, MCA.getInstance().getLanguageManager().getString("gui.button.done")));
 		buttonList.add(nextButton = new GuiButton(18, width / 2 + 25, height / 2 + 85, 50, 20, MCA.getInstance().getLanguageManager().getString("gui.button.next")));
 		buttonList.add(backButton = new GuiButton(19, width / 2 - 101, height / 2 + 85, 50, 20, MCA.getInstance().getLanguageManager().getString("gui.button.back")));
@@ -345,9 +371,9 @@ public class GuiVillagerEditor extends GuiScreen
 		buttonList.add(heightButton = new GuiButton(1, width / 2 - 190, height / 2 - 40, 175, 20, "Height Factor: " + displayHeight));
 		buttonList.add(shiftHeightUpButton = new GuiButton(2, width / 2 - 15, height / 2 - 40, 20, 20, ">>"));
 		buttonList.add(shiftHeightDownButton = new GuiButton(3, width / 2 - 210, height / 2 - 40, 20, 20, "<<"));
-		buttonList.add(girthButton = new GuiButton(4, width / 2 - 190, height / 2 - 0, 175, 20, "Girth Factor: " + displayGirth));
-		buttonList.add(shiftGirthUpButton = new GuiButton(5, width / 2 - 15, height / 2 - 0, 20, 20, ">>"));
-		buttonList.add(shiftGirthDownButton = new GuiButton(6, width / 2 - 210, height / 2 - 0, 20, 20, "<<"));
+		buttonList.add(girthButton = new GuiButton(4, width / 2 - 190, height / 2 - 20, 175, 20, "Girth Factor: " + displayGirth));
+		buttonList.add(shiftGirthUpButton = new GuiButton(5, width / 2 - 15, height / 2 - 20, 20, 20, ">>"));
+		buttonList.add(shiftGirthDownButton = new GuiButton(6, width / 2 - 210, height / 2 - 20, 20, 20, "<<"));
 		buttonList.add(doneButton = new GuiButton(16, width / 2 - 50, height / 2 + 85, 75, 20, MCA.getInstance().getLanguageManager().getString("gui.button.done")));
 		buttonList.add(nextButton = new GuiButton(17, width / 2 + 25, height / 2 + 85, 50, 20, MCA.getInstance().getLanguageManager().getString("gui.button.next")));
 		buttonList.add(backButton = new GuiButton(18, width / 2 - 101, height / 2 + 85, 50, 20, MCA.getInstance().getLanguageManager().getString("gui.button.back")));
@@ -413,9 +439,12 @@ public class GuiVillagerEditor extends GuiScreen
 
 		if (currentPage == 1)
 		{
-			drawString(fontRendererObj, "ID: " + Color.WHITE + villager.getPermanentId(), width / 2 - 200, height / 2 - 110, 0xffff00);
+			drawString(fontRendererObj, "Name:", width / 2 - 220, height / 2 - 110, 0xffffff);
 			drawString(fontRendererObj, MCA.getInstance().getLanguageManager().getString("gui.title.editor"), width / 2 - 205, height / 2 - 87, 0xa0a0a0);
+			drawString(fontRendererObj, "Use Player's Skin:", width / 2 - 220, height / 2 + 25, 0xffffff);
+			
 			nameTextField.drawTextBox();
+			playerSkinTextField.drawTextBox();
 		}
 
 		GL11.glPushMatrix();

@@ -147,11 +147,17 @@ public class RenderHuman extends RenderBiped
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity)
 	{
-		final String skinName = ((EntityHuman)entity).getHeadTexture();
+		final EntityHuman human = (EntityHuman)entity;
+		final String skinName = human.getHeadTexture();
 
 		if (skinName.isEmpty())
 		{
 			return new ResourceLocation("minecraft:textures/entity/steve.png");
+		}
+		
+		else if (human.getPlayerSkinResourceLocation() != null)
+		{
+			return human.getPlayerSkinResourceLocation();
 		}
 
 		else
