@@ -79,9 +79,9 @@ public class GuiVillagerEditor extends GuiScreen
 
 		this.player = player;
 		villager = EntityHuman;
-		villager.getAI(AISleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
 		
 		DataWatcherEx.allowClientSideModification = true;
+		villager.getAI(AISleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
 		
 		jobs = NumberCycleList.fromList(EnumProfession.getListOfIds());
 		personalities = NumberCycleList.fromList(EnumPersonality.getListOfIds());

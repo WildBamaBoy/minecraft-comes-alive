@@ -47,6 +47,7 @@ import mca.enums.EnumProfession;
 import mca.enums.EnumProfessionGroup;
 import mca.enums.EnumSleepingState;
 import mca.items.ItemBaby;
+import mca.items.ItemVillagerEditor;
 import mca.packets.PacketOpenGUIOnEntity;
 import mca.util.MarriageHandler;
 import mca.util.Utilities;
@@ -67,6 +68,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -112,6 +114,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	private final WatchedBoolean isSwinging;
 	private final WatchedInt heldItem;
 	private final WatchedBoolean isInfected;
+	private final WatchedBoolean doOpenInventory;
 
 	private final Inventory inventory;
 
@@ -156,6 +159,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		isSwinging = new WatchedBoolean(false, WatcherIDsHuman.IS_SWINGING, dataWatcherEx);
 		heldItem = new WatchedInt(-1, WatcherIDsHuman.HELD_ITEM, dataWatcherEx);
 		isInfected = new WatchedBoolean(false, WatcherIDsHuman.IS_INFECTED, dataWatcherEx);
+		doOpenInventory = new WatchedBoolean(false, WatcherIDsHuman.DO_OPEN_INVENTORY, dataWatcherEx);
 
 		aiManager = new AIManager(this);
 		aiManager.addAI(new AIIdle(this));
@@ -338,6 +342,19 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 					item.onUpdate(stack, worldObj, this, 1, false);
 				}
 			}
+			
+			//Check if inventory should be opened for player.
+			if (doOpenInventory.getBoolean())
+			{
+				final EntityPlayer player = worldObj.getClosestPlayerToEntity(this, 10.0D);
+				
+				if (player != null)
+				{
+					player.openGui(MCA.getInstance(), Constants.GUI_ID_INVENTORY, worldObj, (int)posX, (int)posY, (int)posZ);
+				}
+				
+				setDoOpenInventory(false);
+			}
 		}
 
 		else
@@ -385,7 +402,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			if (!isInteracting.getBoolean())
 			{
-				MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId()), (EntityPlayerMP) player);
+				int guiId = player.inventory.getCurrentItem() != null && 
+						player.inventory.getCurrentItem().getItem() instanceof ItemVillagerEditor 
+						? Constants.GUI_ID_EDITOR : Constants.GUI_ID_INTERACT;
+				
+				MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId(), guiId), (EntityPlayerMP) player);
+				
 				isInteracting.setValue(true);
 			}
 
@@ -1347,7 +1369,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 	public void openInventory(EntityPlayer player)
 	{
-		player.displayGUIChest(inventory);
+		MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId(), Constants.GUI_ID_INVENTORY), (EntityPlayerMP) player);
+//		player.displayGUIChest(inventory);
 	}
 
 	public boolean isChildOfAVillager() 
@@ -1448,4 +1471,58 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		// The texture is determined by the renderer. The appropriate skin will be
 		// rendered after checking the isInfected variable.
 	}
+
+	public void setDoOpenInventory(boolean value)
+	{
+		doOpenInventory.setValue(value);
+	}
+	
+	@Override
+    public ItemStack getEquipmentInSlot(int slot)
+    {
+    	//0 is the held item, others are armor slots.
+    	switch (slot)
+    	{
+    	case 0: return getHeldItem();
+    	case 1: return inventory.getStackInSlot(39); //Boots
+    	case 2: return inventory.getStackInSlot(38); //Leggings
+    	case 3: return inventory.getStackInSlot(37); //Chest
+    	case 4: return inventory.getStackInSlot(36); //Helmet
+    	}
+    	return null;
+    }
+    
+    @Override
+    public int getTotalArmorValue()
+    {
+    	int value = 0;
+    	
+    	for (int i = 36; i < 40; i++)
+    	{
+    		final ItemStack stack = inventory.getStackInSlot(i);
+
+    		if (stack != null && stack.getItem() instanceof ItemArmor)
+    		{
+    			value += ((ItemArmor)stack.getItem()).damageReduceAmount;
+    		}
+    	}
+    	
+    	return value;
+    }
+    
+    @Override
+    public void damageArmor(float amount)
+    {
+    	int value = 0;
+    	
+    	for (int i = 36; i < 40; i++)
+    	{
+    		final ItemStack stack = inventory.getStackInSlot(i);
+
+    		if (stack != null && stack.getItem() instanceof ItemArmor)
+    		{
+    			stack.damageItem((int) amount, this);
+    		}
+    	}	
+    }
 }

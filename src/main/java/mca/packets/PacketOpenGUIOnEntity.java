@@ -7,9 +7,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import mca.client.gui.GuiInteraction;
+import mca.client.gui.GuiInventory;
 import mca.client.gui.GuiVillagerEditor;
+import mca.core.Constants;
+import mca.core.MCA;
 import mca.entity.EntityHuman;
-import mca.items.ItemVillagerEditor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import radixcore.packets.AbstractPacket;
@@ -17,26 +19,30 @@ import radixcore.packets.AbstractPacket;
 public class PacketOpenGUIOnEntity extends AbstractPacket implements IMessage, IMessageHandler<PacketOpenGUIOnEntity, IMessage>
 {
 	private int entityId;
-
+	private int guiId;
+	
 	public PacketOpenGUIOnEntity()
 	{
 	}
 
-	public PacketOpenGUIOnEntity(int entityId)
+	public PacketOpenGUIOnEntity(int entityId, int guiId)
 	{
 		this.entityId = entityId;
+		this.guiId = guiId;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf byteBuf)
 	{
 		entityId = byteBuf.readInt();
+		guiId = byteBuf.readInt();
 	}
 
 	@Override
 	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(entityId);
+		byteBuf.writeInt(guiId);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -46,15 +52,7 @@ public class PacketOpenGUIOnEntity extends AbstractPacket implements IMessage, I
 		final EntityPlayer player = this.getPlayer(context);
 		final EntityHuman entity = (EntityHuman) player.worldObj.getEntityByID(packet.entityId);
 		
-		if (player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem() instanceof ItemVillagerEditor)
-		{
-			Minecraft.getMinecraft().displayGuiScreen(new GuiVillagerEditor(entity, player));
-		}
-		
-		else
-		{
-			Minecraft.getMinecraft().displayGuiScreen(new GuiInteraction(entity, player));			
-		}
+		player.openGui(MCA.getInstance(), packet.guiId, player.worldObj, (int) entity.posX, (int) entity.posY, (int) entity.posZ);
 		
 		return null;
 	}

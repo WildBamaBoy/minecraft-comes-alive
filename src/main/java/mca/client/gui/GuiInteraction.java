@@ -25,6 +25,7 @@ import mca.api.CropEntry;
 import mca.api.RegistryMCA;
 import mca.api.WoodcuttingEntry;
 import mca.api.exception.MappingNotFoundException;
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.data.PlayerData;
 import mca.data.PlayerMemory;
@@ -570,12 +571,17 @@ public class GuiInteraction extends GuiScreen
 			case TRADE: 
 			case SET_HOME: 
 			case RIDE_HORSE: 
-			case INVENTORY:
 			case RESETBABY:
 			case DIVORCE:
 			case ADOPTBABY:
 			case STOP: MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId())); close(); break;
 
+			case INVENTORY:
+				DataWatcherEx.allowClientSideModification = true;
+				villager.setDoOpenInventory(true);
+				DataWatcherEx.allowClientSideModification = false;
+				break;
+				
 			case START: 
 				switch (EnumInteraction.fromId(currentPage))
 				{

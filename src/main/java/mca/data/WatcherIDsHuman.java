@@ -50,4 +50,5 @@ public class WatcherIDsHuman
 	public static final int SLEEPING_STATE = 46;
 	public static final int CLOTHES_TEXTURE = 47;
 	public static final int IS_INFECTED = 48;
+	public static final int DO_OPEN_INVENTORY = 49;
 }

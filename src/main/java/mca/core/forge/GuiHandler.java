@@ -1,15 +1,22 @@
 package mca.core.forge;
 
 import cpw.mods.fml.common.network.IGuiHandler;
+import mca.client.gui.GuiInteraction;
+import mca.client.gui.GuiInventory;
 import mca.client.gui.GuiNameBaby;
 import mca.client.gui.GuiSetup;
 import mca.client.gui.GuiTombstone;
+import mca.client.gui.GuiVillagerEditor;
 import mca.core.Constants;
+import mca.core.MCA;
 import mca.entity.EntityHuman;
+import mca.inventory.ContainerInventory;
 import mca.tile.TileTombstone;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import radixcore.util.BlockHelper;
+import radixcore.util.RadixLogic;
 
 /**
  * Handles GUIs client and server side.
@@ -19,7 +26,17 @@ public class GuiHandler implements IGuiHandler
 	@Override
 	public Object getServerGuiElement(int guiId, EntityPlayer player, World world, int posX, int posY, int posZ)
 	{
-		return null;
+		final EntityHuman entity = (EntityHuman) RadixLogic.getEntityOfTypeAtXYZ(EntityHuman.class, world, posX, posY, posZ);
+
+		if (guiId == Constants.GUI_ID_INVENTORY)
+		{
+			return new ContainerInventory(player.inventory, entity.getInventory(), entity);
+		}
+
+		else
+		{
+			return null;
+		}
 	}
 
 	@Override
@@ -35,7 +52,18 @@ public class GuiHandler implements IGuiHandler
 			return new GuiSetup(player);
 		case Constants.GUI_ID_TOMBSTONE:
 			return new GuiTombstone((TileTombstone)BlockHelper.getTileEntity(world, posX, posY, posZ));
-		default: return null;
+		case Constants.GUI_ID_INTERACT: 
+			entity = (EntityHuman) RadixLogic.getEntityOfTypeAtXYZ(EntityHuman.class, world, posX, posY, posZ);
+			return new GuiInteraction(entity, player);
+		case Constants.GUI_ID_EDITOR: 
+			entity = (EntityHuman) RadixLogic.getEntityOfTypeAtXYZ(EntityHuman.class, world, posX, posY, posZ);
+			return new GuiVillagerEditor(entity, player);
+		case Constants.GUI_ID_INVENTORY: 
+			entity = (EntityHuman) RadixLogic.getEntityOfTypeAtXYZ(EntityHuman.class, world, posX, posY, posZ);
+			return new GuiInventory(entity, player.inventory, entity.getInventory(), false);
+		default: 
+			MCA.getLog().fatal("Failed to handle provided GUI ID: " + guiId +". This is a programming error, please report!");
+			return null;
 		}
 	}
 }
