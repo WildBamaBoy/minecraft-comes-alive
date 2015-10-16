@@ -24,11 +24,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
 import radixcore.constant.Particle;
+import radixcore.inventory.Inventory;
 import radixcore.packets.AbstractPacket;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
@@ -169,6 +171,35 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				removeCount = 1;
 			}
 
+			else if (item instanceof ItemArmor)
+			{
+				removeItem = true;
+				removeCount = 1;
+				
+				Inventory inventory = human.getInventory();
+				ItemArmor armor = (ItemArmor)item;
+				int inventorySlot = 0;
+				
+				switch (armor.armorType)
+				{
+				case 0: inventorySlot = 36; break;
+				case 1: inventorySlot = 37; break;
+				case 2: inventorySlot = 38; break;
+				case 3: inventorySlot = 39; break;
+				}
+
+				//Check for an existing armor item and drop it to make room for the new one.
+				ItemStack stackInArmorSlot = inventory.getStackInSlot(inventorySlot);
+				
+				if (stackInArmorSlot != null)
+				{
+					human.entityDropItem(stackInArmorSlot, 1.0F);
+				}
+				
+				//Add the new armor item to its respective slot.
+				inventory.setInventorySlotContents(inventorySlot, stack);
+			}
+			
 			else
 			{
 				removeItem = handleStandardGift(player, human, packet.slot, stack);
