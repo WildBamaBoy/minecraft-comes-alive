@@ -122,7 +122,7 @@ public class PlayerData extends AbstractPlayerData
 
 	public void setIsMale(boolean value)
 	{
-		this.setIsMale(value);
+		this.isMale.setValue(value);
 	}
 
 	public boolean getShouldHaveBaby() 
