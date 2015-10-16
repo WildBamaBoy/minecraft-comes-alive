@@ -658,6 +658,16 @@ public class GuiInteraction extends GuiScreen
 		{
 			buttonList.add(new GuiButton(EnumInteraction.PROCREATE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.procreate"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.INVENTORY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.inventory"))); yLoc -= yInt;
+			
+			if (!villager.getAIManager().isToggleAIActive())
+			{
+				buttonList.add(new GuiButton(EnumInteraction.COOKING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.cooking"))); yLoc -= yInt;
+			}
+			
+			else
+			{
+				buttonList.add(new GuiButton(EnumInteraction.STOP.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.DARKRED + MCA.getLanguageManager().getString("gui.button.stop"))); yLoc -= yInt;
+			}
 		}
 
 		if (villager.isPlayerAParent(player) && villager.getIsChild())
