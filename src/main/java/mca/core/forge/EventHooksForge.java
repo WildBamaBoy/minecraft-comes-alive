@@ -204,26 +204,40 @@ public class EventHooksForge
 	@SubscribeEvent
 	public void onLivingAttack(LivingAttackEvent event)
 	{
-		if (event.source != null && event.source.getSourceOfDamage() instanceof EntityZombie && event.entityLiving instanceof EntityPlayer)
+		if (event.source != null && event.source.getSourceOfDamage() instanceof EntityZombie)
 		{
-			if (RadixLogic.getBooleanWithProbability(5)) //5 percent chance of baby becoming infected.
+			EntityZombie zombie = (EntityZombie)event.source.getSourceOfDamage();
+			boolean flag = RadixLogic.getBooleanWithProbability(3);
+			
+			if (event.entityLiving instanceof EntityPlayer && flag)
 			{
-				EntityPlayer player = (EntityPlayer) event.entityLiving;
+					EntityPlayer player = (EntityPlayer) event.entityLiving;
 
-				for (ItemStack stack : player.inventory.mainInventory)
-				{
-					if (stack != null && stack.getItem() instanceof ItemBaby)
+					for (ItemStack stack : player.inventory.mainInventory)
 					{
-						stack.stackTagCompound.setBoolean("isInfected", true);
-						player.addChatComponentMessage(new ChatComponentText(Color.RED + stack.stackTagCompound.getString("name") + " has been " + Color.GREEN + Format.BOLD + "infected" + Color.RED + "!"));
-						player.worldObj.playSoundAtEntity(player, "mob.wither.idle", 0.5F, 1.0F);
-						Utilities.spawnParticlesAroundEntityS(Particle.WITCH_MAGIC, player, 32);
+						if (stack != null && stack.getItem() instanceof ItemBaby)
+						{
+							stack.stackTagCompound.setBoolean("isInfected", true);
+							player.addChatComponentMessage(new ChatComponentText(Color.RED + stack.stackTagCompound.getString("name") + " has been " + Color.GREEN + Format.BOLD + "infected" + Color.RED + "!"));
+							player.worldObj.playSoundAtEntity(player, "mob.wither.idle", 0.5F, 1.0F);
+							Utilities.spawnParticlesAroundEntityS(Particle.WITCH_MAGIC, player, 32);
+						}
 					}
-				}
+			}
+
+			else if (event.entityLiving instanceof EntityHuman && flag)
+			{
+				EntityHuman human = (EntityHuman)event.entityLiving;
+				human.setIsInfected(true);
+				human.setHealth(human.getMaxHealth());
+				zombie.setAttackTarget(null);
+				
+				human.worldObj.playSoundAtEntity(human, "mob.wither.idle", 0.5F, 1.0F);
+				Utilities.spawnParticlesAroundEntityS(Particle.WITCH_MAGIC, human, 32);
 			}
 		}
 	}
-	
+
 	@SubscribeEvent
 	public void onLivingSetTarget(LivingSetAttackTargetEvent event)
 	{
@@ -232,7 +246,7 @@ public class EventHooksForge
 		{
 			EntityMob mob = (EntityMob) event.entityLiving;
 			EntityHuman target = (EntityHuman) event.target;
-			
+
 			if (target.getIsInfected())
 			{
 				mob.setAttackTarget(null);
