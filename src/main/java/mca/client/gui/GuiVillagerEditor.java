@@ -439,9 +439,9 @@ public class GuiVillagerEditor extends GuiScreen
 
 		if (currentPage == 1)
 		{
-			drawString(fontRendererObj, "Name:", width / 2 - 220, height / 2 - 110, 0xffffff);
+			drawString(fontRendererObj, "Name:", width / 2 - 205, height / 2 - 110, 0xffffff);
 			drawString(fontRendererObj, MCA.getInstance().getLanguageManager().getString("gui.title.editor"), width / 2 - 205, height / 2 - 87, 0xa0a0a0);
-			drawString(fontRendererObj, "Use Player's Skin:", width / 2 - 220, height / 2 + 25, 0xffffff);
+			drawString(fontRendererObj, "Use Player's Skin:", width / 2 - 205, height / 2 + 25, 0xffffff);
 			
 			nameTextField.drawTextBox();
 			playerSkinTextField.drawTextBox();
