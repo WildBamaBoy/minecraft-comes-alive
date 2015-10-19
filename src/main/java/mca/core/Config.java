@@ -8,6 +8,7 @@ import cpw.mods.fml.client.config.IConfigElement;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 
 public final class Config implements Serializable
 {
@@ -26,6 +27,7 @@ public final class Config implements Serializable
 	public boolean enableDiminishingReturns;
 	public boolean enableInfection;
 	public Integer[] dimensionWhitelist;
+	public String[] additionalGiftItems;
 	public int guardSpawnRate;
 	public int chanceToHaveTwins;
 	public int villagerMaxHealth;
@@ -94,6 +96,8 @@ public final class Config implements Serializable
 		guardSpawnRate = config.get("General", "Guard spawn rate", 3, "One guard per this many villagers. Set to zero or a negative number to disable guards.").getInt();
 		enableDiminishingReturns = config.get("General", "Enable diminishing returns?", true, "True if hearts increase decreases after multiple interactions.").getBoolean();
 		enableInfection = config.get("General", "Enable infection?", true, "True if villagers and your children have a chance of being infected from zombies.").getBoolean();
+		
+		//Dimension whitelist.
 		String validDimensions = config.get("General", "Dimension whitelist", "0, 1, -1", "The dimension IDs in which MCA villagers can spawn, separated by a comma.").getString();
 		List<Integer> dimensionsList = new ArrayList<Integer>();
 
@@ -120,7 +124,7 @@ public final class Config implements Serializable
 		}
 		
 		dimensionWhitelist = dimensionsList.toArray(new Integer[dimensionsList.size()]);
-		
+				
 		villagerMaxHealth = config.get("General", "Villager max health", 20).getInt();
 		villagerAttackDamage = config.get("General", "Villager attack damage", 2, "How many half-hearts of damage a villager can deal without a weapon. Does not affect players.").getInt();
 		guardMaxHealth = config.get("General", "Guard max health", 40).getInt();
@@ -166,6 +170,9 @@ public final class Config implements Serializable
 		allowTrading = config.get("Server", "Allow trading", true).getBoolean();
 		logVillagerDeaths = config.get("Server", "Log villager deaths", false, "True if you want villager deaths to be logged to the console/server logs. Shows 'RMFS' values in console, R = related, M = mother, F = father, S = spouse. Can be a bit spammy!").getBoolean();
 		villagerChatPrefix = config.get("Server", "Villager chat prefix", "").getDefault();
+		
+		//Additional gifts.
+		additionalGiftItems = config.get("Server", "Additional gifts", new String[]{"#fermented_spider_eye|25", "#poisonous_potato|12"}, "The names of the items/blocks that can be gifted in addition to the default items. Include hearts value preceded by |.").getStringList();
 		
 		config.save();
 	}

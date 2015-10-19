@@ -49,6 +49,7 @@ import mca.test.DummyPlayer;
 import mca.tile.TileTombstone;
 import mca.tile.TileVillagerBed;
 import mca.util.SkinLoader;
+import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;
@@ -119,7 +120,7 @@ public class MCA
 	public static boolean isTesting;
 	public static PlayerData stevePlayerData;
 	public static PlayerData alexPlayerData;
-	
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{	
@@ -211,7 +212,7 @@ public class MCA
 				"I  ", " I ", "  I", 'I', new ItemStack(Items.iron_ingot));
 		GameRegistry.addRecipe(new ItemStack(ModItems.newOutfit),
 				"C C", "CCC", "CCC", 'C', ModItems.cloth);
-		
+
 		//Variable recipes
 		if (!config.disableWeddingRingRecipe)
 		{
@@ -503,6 +504,42 @@ public class MCA
 		RegistryMCA.addObjectAsGift(ModItems.diamondTriangle, 50);
 		RegistryMCA.addObjectAsGift(ModItems.diamondTiny, 50);
 
+		if (getConfig().additionalGiftItems.length > 0)
+		{
+			for (String entry : getConfig().additionalGiftItems)
+			{
+				try
+				{
+					String[] split = entry.split("\\|");
+					int heartsValue = Integer.parseInt(split[1]);
+					String itemName = split[0];
+
+					if (!itemName.startsWith("#"))
+					{
+						Object item = Item.itemRegistry.getObject(itemName);
+						Object block = Block.blockRegistry.getObject(itemName);
+						Object addObject = item != null ? item : block != null ? block : null;
+
+						if (addObject != null)
+						{
+							RegistryMCA.addObjectAsGift(addObject, heartsValue);
+							logger.info("Successfully added " + itemName + " with hearts value of " + heartsValue + " to gift registry.");
+						}
+
+						else
+						{
+							logger.error("Failed to find item by name provided. Gift entry not created: " + entry);
+						}
+					}
+				}
+
+				catch (Exception e)
+				{
+					logger.error("Failed to add additional gift due to error. Use <item name>|<hearts value>: " + entry);
+				}
+			}
+		}
+
 		RegistryMCA.addBlockToMiningAI(1, new MiningEntry(Blocks.coal_ore, Items.coal, 0.45F));
 		RegistryMCA.addBlockToMiningAI(2, new MiningEntry(Blocks.iron_ore, 0.4F));
 		RegistryMCA.addBlockToMiningAI(3, new MiningEntry(Blocks.lapis_ore, new ItemStack(Items.dye, 1, 4), 0.3F));
@@ -642,7 +679,7 @@ public class MCA
 
 		MCA.playerDataMap.clear();
 	}
-	
+
 	public static MCA getInstance()
 	{
 		return instance;
@@ -704,7 +741,7 @@ public class MCA
 			DummyPlayer dummy = (DummyPlayer)player;
 			return dummy.getIsSteve() ? stevePlayerData : alexPlayerData;
 		}
-		
+
 		else if (!player.worldObj.isRemote)
 		{
 			return (PlayerData) playerDataMap.get(player.getUniqueID().toString());
