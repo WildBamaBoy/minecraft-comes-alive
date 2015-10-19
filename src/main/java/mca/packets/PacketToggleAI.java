@@ -120,15 +120,7 @@ public class PacketToggleAI extends AbstractPacket implements IMessage, IMessage
 			
 			else
 			{
-				try 
-				{
-					human.getAI(AIMining.class).startSearching(player, RegistryMCA.getNotifyBlockById(packet.integers.get(0)));
-				} 
-				
-				catch (MappingNotFoundException e) 
-				{
-					e.printStackTrace();
-				}
+				human.getAI(AIMining.class).startSearching(player, packet.integers.get(0));
 			}
 			break;
 			

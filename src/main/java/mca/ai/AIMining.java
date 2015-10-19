@@ -1,13 +1,18 @@
 package mca.ai;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
+import mca.api.MiningEntry;
 import mca.api.RegistryMCA;
 import mca.api.exception.MappingNotFoundException;
 import mca.core.MCA;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
 import mca.enums.EnumMovementState;
+import mca.test.DummyMiningEntry;
+import mca.test.DummyStack;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -105,35 +110,10 @@ public class AIMining extends AbstractToggleAI
 					owner.setMovementState(EnumMovementState.STAY);
 					owner.swingItem();
 
-					boolean acquireOre = RadixLogic.getBooleanWithProbability(25);
+					ItemStack addStack = getHarvestStack();
 
-					if (acquireOre)
+					if (addStack != null)
 					{
-						ItemStack addStack = null;
-						boolean getSpecialOre = RadixLogic.getBooleanWithProbability(15);
-
-						if (getSpecialOre)
-						{
-							List<Integer> miningBlockIDs = RegistryMCA.getMiningBlockIDs();
-							int id = miningBlockIDs.get(RadixMath.getNumberInRange(0, miningBlockIDs.size() - 1));
-
-							try
-							{
-								Block block = RegistryMCA.getNotifyBlockById(id);
-								addStack = new ItemStack(block);
-							}
-
-							catch (MappingNotFoundException e)
-							{
-								addStack = new ItemStack(Blocks.cobblestone);
-							}
-						}
-
-						else
-						{
-							addStack = new ItemStack(Blocks.cobblestone);
-						}
-
 						owner.getInventory().addItemStackToInventory(addStack);
 						owner.damageHeldItem(2);
 					}
@@ -151,7 +131,7 @@ public class AIMining extends AbstractToggleAI
 				{
 					activityInterval = SEARCH_INTERVAL;
 
-					final Block notifyBlock = RegistryMCA.getNotifyBlockById(idOfNotifyBlock);
+					final Block notifyBlock = RegistryMCA.getMiningEntryById(idOfNotifyBlock).getBlock();
 					final Point3D ownerPos = new Point3D(owner.posX, owner.posY, owner.posZ);
 					int distanceToBlock = -1;
 
@@ -223,6 +203,8 @@ public class AIMining extends AbstractToggleAI
 	public void reset() 
 	{
 		isAIActive.setValue(false);
+		System.out.println("RESET");
+		new Throwable().printStackTrace();
 	}
 
 	@Override
@@ -245,10 +227,10 @@ public class AIMining extends AbstractToggleAI
 		isGathering = nbt.getBoolean("isGathering");
 	}
 
-	public void startSearching(EntityPlayer assigningPlayer, Block searchBlock)
+	public void startSearching(EntityPlayer assigningPlayer, int notifyBlockId)
 	{
 		this.assigningPlayer = assigningPlayer.getPersistentID().toString();
-		this.idOfNotifyBlock = RegistryMCA.getIdOfNotifyBlock(searchBlock);
+		this.idOfNotifyBlock = notifyBlockId;
 		this.isGathering = false;
 		this.isAIActive.setValue(true);
 		this.activityInterval = SEARCH_INTERVAL;
@@ -310,5 +292,56 @@ public class AIMining extends AbstractToggleAI
 	protected String getName() 
 	{
 		return "Mining";
+	}
+	
+	public ItemStack getHarvestStack()
+	{
+		boolean doHarvest = RadixLogic.getBooleanWithProbability(25);
+
+		if (doHarvest)
+		{
+			ItemStack addStack = null;
+			boolean getSpecialOre = RadixLogic.getBooleanWithProbability(3);
+
+			if (getSpecialOre)
+			{
+				Map<Integer, MiningEntry> entries = RegistryMCA.getMiningEntryMap();
+				float totalWeight = 0.0F;
+				int index = -1;
+				
+				//Sum up the total weight of all entries.
+				for (MiningEntry entry : entries.values())
+				{
+					totalWeight += entry.getWeight();
+				}
+				
+				//Apply randomness.
+				float random = (float) (Math.random() * totalWeight);
+				
+				// Subtract the weight of each item until we are at or less than zero. That entry
+				// is the one we add.
+				for (Map.Entry<Integer, MiningEntry> entry : entries.entrySet())
+				{
+					random -= entry.getValue().getWeight();
+					
+					if (random <= 0.0F)
+					{
+						index = entry.getKey();
+						break;
+					}
+				}
+				
+				addStack = entries.get(index).getMinedItemStack();
+			}
+
+			else
+			{
+				addStack = new ItemStack(Blocks.cobblestone, 1);
+			}
+			
+			return addStack;
+		}
+		
+		return null;
 	}
 }

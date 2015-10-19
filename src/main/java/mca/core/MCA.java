@@ -24,6 +24,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mca.api.CookableFood;
 import mca.api.CropEntry;
+import mca.api.MiningEntry;
 import mca.api.RegistryMCA;
 import mca.api.WeddingGift;
 import mca.api.WoodcuttingEntry;
@@ -502,14 +503,14 @@ public class MCA
 		RegistryMCA.addObjectAsGift(ModItems.diamondTriangle, 50);
 		RegistryMCA.addObjectAsGift(ModItems.diamondTiny, 50);
 
-		RegistryMCA.addBlockToMiningAI(1, Blocks.coal_ore);
-		RegistryMCA.addBlockToMiningAI(2, Blocks.iron_ore);
-		RegistryMCA.addBlockToMiningAI(3, Blocks.lapis_ore);
-		RegistryMCA.addBlockToMiningAI(4, Blocks.gold_ore);
-		RegistryMCA.addBlockToMiningAI(5, Blocks.diamond_ore);
-		RegistryMCA.addBlockToMiningAI(6, Blocks.emerald_ore);
-		RegistryMCA.addBlockToMiningAI(7, Blocks.quartz_ore);
-		RegistryMCA.addBlockToMiningAI(8, ModBlocks.roseGoldOre);
+		RegistryMCA.addBlockToMiningAI(1, new MiningEntry(Blocks.coal_ore, Items.coal, 0.45F));
+		RegistryMCA.addBlockToMiningAI(2, new MiningEntry(Blocks.iron_ore, 0.4F));
+		RegistryMCA.addBlockToMiningAI(3, new MiningEntry(Blocks.lapis_ore, new ItemStack(Items.dye, 1, 4), 0.3F));
+		RegistryMCA.addBlockToMiningAI(4, new MiningEntry(Blocks.gold_ore, 0.05F));
+		RegistryMCA.addBlockToMiningAI(5, new MiningEntry(Blocks.diamond_ore, Items.diamond, 0.04F));
+		RegistryMCA.addBlockToMiningAI(6, new MiningEntry(Blocks.emerald_ore, Items.emerald, 0.03F));
+		RegistryMCA.addBlockToMiningAI(7, new MiningEntry(Blocks.quartz_ore, Items.quartz, 0.02F));
+		RegistryMCA.addBlockToMiningAI(8, new MiningEntry(ModBlocks.roseGoldOre, 0.07F));
 
 		RegistryMCA.addBlockToWoodcuttingAI(1, new WoodcuttingEntry(Blocks.log, 0, Blocks.sapling, 0));
 		RegistryMCA.addBlockToWoodcuttingAI(2, new WoodcuttingEntry(Blocks.log, 1, Blocks.sapling, 1));

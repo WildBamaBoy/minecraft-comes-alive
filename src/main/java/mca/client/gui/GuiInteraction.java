@@ -94,7 +94,7 @@ public class GuiInteraction extends GuiScreen
 		this.radiusMappings = NumberCycleList.fromIntegers(5, 10, 15, 20, 25);
 		this.farmingMappings = NumberCycleList.fromList(RegistryMCA.getCropEntryIDs());
 		this.woodcuttingMappings = NumberCycleList.fromList(RegistryMCA.getWoodcuttingBlockIDs());
-		this.miningMappings = NumberCycleList.fromList(RegistryMCA.getMiningBlockIDs());
+		this.miningMappings = NumberCycleList.fromList(RegistryMCA.getMiningEntryIDs());
 		this.hireLengths = NumberCycleList.fromIntegers(3);
 	}
 
@@ -908,7 +908,7 @@ public class GuiInteraction extends GuiScreen
 
 		try
 		{
-			block = RegistryMCA.getNotifyBlockById(miningMappings.get());
+			block = RegistryMCA.getMiningEntryById(miningMappings.get()).getBlock();
 		}
 
 		catch (MappingNotFoundException e)
