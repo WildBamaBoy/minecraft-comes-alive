@@ -5,6 +5,7 @@ import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import mca.ai.AIMood;
+import mca.ai.AIProcreate;
 import mca.ai.AISleep;
 import mca.api.RegistryMCA;
 import mca.core.MCA;
@@ -26,7 +27,9 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.WorldServer;
+import radixcore.constant.Font.Color;
 import radixcore.packets.AbstractPacket;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
@@ -310,7 +313,12 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 			{
 				PlayerData data = MCA.getPlayerData(player);
 				
-				if (!data.getShouldHaveBaby())
+				if (getIsOverChildrenCount(player))
+				{
+					player.addChatMessage(new ChatComponentText(Color.RED + "You have too many children."));
+				}
+				
+				else if (!data.getShouldHaveBaby())
 				{
 					boolean isMale = RadixLogic.getBooleanWithProbability(50);
 					String babyName = isMale ? MCA.getLanguageManager().getString("name.male") : MCA.getLanguageManager().getString("name.female");
@@ -342,8 +350,49 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 					player.inventory.consumeInventoryItem(Items.gold_ingot);
 				}
 			}
+			
+			else if (interaction == EnumInteraction.PROCREATE)
+			{
+				PlayerData playerData = MCA.getPlayerData(player);
+				
+				if (getIsOverChildrenCount(player))
+				{
+					player.addChatMessage(new ChatComponentText(Color.RED + "You have too many children."));
+				}
+					
+				else if (playerData.getShouldHaveBaby())
+				{
+					player.addChatMessage(new ChatComponentText(Color.RED + "You already have a baby."));
+				}
+
+				else
+				{
+					villager.getAI(AIProcreate.class).setIsProcreating(true);
+				}
+			}
 		}
 
 		return null;
+	}
+	
+	private boolean getIsOverChildrenCount(EntityPlayer player)
+	{
+		PlayerData playerData = MCA.getPlayerData(player);
+		int childrenCount = 0;
+		
+		for (Object obj : MinecraftServer.getServer().worldServers[0].loadedEntityList)
+		{
+			if (obj instanceof EntityHuman)
+			{
+				EntityHuman human = (EntityHuman)obj;
+				
+				if (human.isPlayerAParent(player))
+				{
+					childrenCount++;
+				}
+			}
+		}
+		
+		return childrenCount >= MCA.getConfig().childLimit && MCA.getConfig().childLimit != -1;
 	}
 }

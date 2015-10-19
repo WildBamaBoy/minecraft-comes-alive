@@ -506,18 +506,10 @@ public class GuiInteraction extends GuiScreen
 			case HIRE: drawHireButtonMenu(); break;
 
 			case PROCREATE:
-				if (playerData.getShouldHaveBaby())
-				{
-					player.addChatMessage(new ChatComponentText(Color.RED + "You already have a baby."));
-				}
-
-				else
-				{
-					villager.getAI(AIProcreate.class).setIsProcreating(true);
-				}
-
+				MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId()));
 				close();
 				break;
+				
 			case PICK_UP:
 				TutorialManager.setTutorialMessage(new TutorialMessage("You can drop your child by right-clicking the ground.", ""));
 				villager.mountEntity(player);
