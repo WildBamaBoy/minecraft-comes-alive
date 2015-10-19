@@ -505,11 +505,6 @@ public class GuiInteraction extends GuiScreen
 			case LENGTH: hireLengths.next();
 			case HIRE: drawHireButtonMenu(); break;
 
-			case PROCREATE:
-				MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId()));
-				close();
-				break;
-				
 			case PICK_UP:
 				TutorialManager.setTutorialMessage(new TutorialMessage("You can drop your child by right-clicking the ground.", ""));
 				villager.mountEntity(player);
@@ -565,6 +560,7 @@ public class GuiInteraction extends GuiScreen
 			case RIDE_HORSE: 
 			case RESETBABY:
 			case DIVORCE:
+			case PROCREATE:
 			case ADOPTBABY:
 			case STOP: MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId())); close(); break;
 
