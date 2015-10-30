@@ -24,6 +24,7 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ChatComponentText;
 import radixcore.constant.Font.Color;
 import radixcore.data.DataWatcherEx;
 import radixcore.util.NumberCycleList;
@@ -62,6 +63,7 @@ public class GuiVillagerEditor extends GuiScreen
 	private GuiButton shiftGirthUpButton;
 	private GuiButton shiftGirthDownButton;
 	private GuiButton isInfectedButton;
+	private GuiButton clearInteractionFlagButton;
 	
 	private GuiButton backButton;
 	private GuiButton nextButton;
@@ -296,6 +298,12 @@ public class GuiVillagerEditor extends GuiScreen
 			villager.setIsInfected(!villager.getIsInfected());
 			drawEditorGuiPage2();
 		}
+		
+		else if (guibutton == clearInteractionFlagButton)
+		{
+			villager.setIsInteracting(false);
+			player.addChatComponentMessage(new ChatComponentText(Color.GREEN + "[MCA] Interaction flag cleared."));
+		}
 	}
 
 	@Override
@@ -382,6 +390,7 @@ public class GuiVillagerEditor extends GuiScreen
 		buttonList.add(shiftGirthUpButton = new GuiButton(5, width / 2 - 15, height / 2 - 20, 20, 20, ">>"));
 		buttonList.add(shiftGirthDownButton = new GuiButton(6, width / 2 - 210, height / 2 - 20, 20, 20, "<<"));
 		buttonList.add(isInfectedButton = new GuiButton(7, width / 2 - 190, height / 2 - 0, 175, 20, "Is Infected: " + villager.getIsInfected()));
+		buttonList.add(clearInteractionFlagButton = new GuiButton(8, width / 2 - 190, height / 2 + 20, 175, 20, "Clear Interaction Flag"));
 		
 		buttonList.add(doneButton = new GuiButton(16, width / 2 - 50, height / 2 + 85, 75, 20, MCA.getInstance().getLanguageManager().getString("gui.button.done")));
 		buttonList.add(nextButton = new GuiButton(17, width / 2 + 25, height / 2 + 85, 50, 20, MCA.getInstance().getLanguageManager().getString("gui.button.next")));
