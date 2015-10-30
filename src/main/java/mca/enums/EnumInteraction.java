@@ -138,9 +138,9 @@ public enum EnumInteraction
 
 		switch (this)
 		{
-		case FLIRT: returnAmount = hearts >= 60 ? 5 : hearts >= 70 ? 10 : hearts >= 80 ? 15 : hearts >= 90 ? 20 : hearts >= 100 ? 25 : 0; break;
-		case HUG: returnAmount = hearts >= 60 ? 10 : hearts >= 70 ? 15 : hearts >= 80 ? 20 : hearts >= 90 ? 25 : hearts >= 100 ? 30 : 0; break;
-		case KISS: returnAmount = hearts >= 60 ? 20 : hearts >= 70 ? 30 : hearts >= 80 ? 40 : hearts >= 90 ? 50 : hearts >= 100 ? 60 : 0; break;
+		case FLIRT: returnAmount = hearts >= 100 ? 25 : hearts >= 90 ? 20 : hearts >= 80 ? 15 : hearts >= 70 ? 10 : hearts >= 60 ? 5 : 0; break;
+		case HUG: returnAmount = hearts >= 100 ? 50 : hearts >= 90 ? 35 : hearts >= 80 ? 20 : hearts >= 70 ? 15 : hearts >= 60 ? 10 : 0; break;
+		case KISS: returnAmount = hearts >= 100 ? 80 : hearts >= 90 ? 55 : hearts >= 80 ? 40 : hearts >= 70 ? 30 : hearts >= 60 ? 20 : 0; break;
 		}
 		
 		return returnAmount;
