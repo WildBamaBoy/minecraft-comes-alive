@@ -6,6 +6,11 @@ import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.DamageSource;
+import radixcore.constant.Font.Color;
 import radixcore.constant.Time;
 import radixcore.util.RadixLogic;
 
@@ -80,9 +85,22 @@ public class AIGreet extends AbstractAI
 					PlayerMemory memory = owner.getPlayerMemory(closestPlayer);
 					AISleep AISleep = owner.getAI(AISleep.class);
 
+					//memory.setTimeUntilGreeting(20);
+					
 					if (memory.getTimeUntilGreeting() <= 0 && RadixLogic.getBooleanWithProbability(CHANCE_TO_GREET) && owner.canEntityBeSeen(closestPlayer) && !AISleep.getIsSleeping())
 					{
-						owner.say(memory.getDialogueType() + ".greeting", closestPlayer);
+						if (owner.getIsInfected())
+						{
+							closestPlayer.addChatComponentMessage(new ChatComponentText(Color.RED + owner.getName() + " bites you."));
+							closestPlayer.attackEntityFrom(DamageSource.generic, 2.0F);
+							closestPlayer.addPotionEffect(new PotionEffect(Potion.weakness.id, Time.MINUTE * 2, 1));
+						}
+
+						else
+						{
+							owner.say(memory.getDialogueType() + ".greeting", closestPlayer);
+						}
+						
 						memory.setTimeUntilGreeting(GREETING_INTERVAL);
 						memory.setDistanceTraveledFrom(0);
 					}

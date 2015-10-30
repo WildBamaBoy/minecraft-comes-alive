@@ -61,7 +61,8 @@ public class GuiVillagerEditor extends GuiScreen
 	private GuiButton girthButton;
 	private GuiButton shiftGirthUpButton;
 	private GuiButton shiftGirthDownButton;
-
+	private GuiButton isInfectedButton;
+	
 	private GuiButton backButton;
 	private GuiButton nextButton;
 	private GuiButton doneButton;
@@ -289,6 +290,12 @@ public class GuiVillagerEditor extends GuiScreen
 				villager.setPlayerSkin(playerSkinTextField.getText().trim());
 			}
 		}
+		
+		else if (guibutton == isInfectedButton)
+		{
+			villager.setIsInfected(!villager.getIsInfected());
+			drawEditorGuiPage2();
+		}
 	}
 
 	@Override
@@ -374,6 +381,8 @@ public class GuiVillagerEditor extends GuiScreen
 		buttonList.add(girthButton = new GuiButton(4, width / 2 - 190, height / 2 - 20, 175, 20, "Girth Factor: " + displayGirth));
 		buttonList.add(shiftGirthUpButton = new GuiButton(5, width / 2 - 15, height / 2 - 20, 20, 20, ">>"));
 		buttonList.add(shiftGirthDownButton = new GuiButton(6, width / 2 - 210, height / 2 - 20, 20, 20, "<<"));
+		buttonList.add(isInfectedButton = new GuiButton(7, width / 2 - 190, height / 2 - 0, 175, 20, "Is Infected: " + villager.getIsInfected()));
+		
 		buttonList.add(doneButton = new GuiButton(16, width / 2 - 50, height / 2 + 85, 75, 20, MCA.getInstance().getLanguageManager().getString("gui.button.done")));
 		buttonList.add(nextButton = new GuiButton(17, width / 2 + 25, height / 2 + 85, 50, 20, MCA.getInstance().getLanguageManager().getString("gui.button.next")));
 		buttonList.add(backButton = new GuiButton(18, width / 2 - 101, height / 2 + 85, 50, 20, MCA.getInstance().getLanguageManager().getString("gui.button.back")));

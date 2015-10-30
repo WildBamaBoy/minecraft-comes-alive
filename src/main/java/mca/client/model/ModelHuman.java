@@ -36,25 +36,16 @@ public class ModelHuman extends ModelBiped
 		//Default head texture is going to be the one we can get straight from the human object.
 		String headTexture = human.getHeadTexture();
 		String clothesTexture = human.getClothesTexture();
-		
+
 		//But if the human is infected, we need to show the zombified skin instead. Check for this here.
 		if (human.getIsInfected())
 		{
 			String textureBase = "mca:textures/skins/";
-			
-			if (human.getIsChild())
-			{
-				headTexture = human.getIsMale() ? textureBase + "ZombieChildMale.png" : textureBase + "ZombieChildFemale.png";
-				clothesTexture = headTexture;
-			}
-			
-			else
-			{
-				headTexture = human.getIsMale() ? textureBase + "ZombieVillagerMale.png" : textureBase + "ZombieVillagerFemale.png";
-				clothesTexture = headTexture;
-			}
+
+			headTexture = human.getIsMale() ? textureBase + "ZombieVillagerMale.png" : textureBase + "ZombieVillagerFemale.png";
+			clothesTexture = headTexture;
 		}
-		
+
 		//Bind the head texture to the head and headwear.
 		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(headTexture));
 		this.bipedHead.render(f6);

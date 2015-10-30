@@ -183,7 +183,8 @@ public class GuiInteraction extends GuiScreen
 
 		if (villager.getIsInfected())
 		{
-			RenderHelper.drawTextPopup(Color.GREEN + Format.BOLD + "INFECTED!", 62, 11);			
+			int xLoc = villager.getProfessionGroup() == EnumProfessionGroup.Child ? 62 : 18;
+			RenderHelper.drawTextPopup(Color.GREEN + Format.BOLD + "INFECTED!", xLoc, 11);			
 		}
 		
 		if (displayMarriageInfo)

@@ -27,6 +27,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
 import radixcore.constant.Particle;
@@ -198,6 +199,11 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				
 				//Add the new armor item to its respective slot.
 				inventory.setInventorySlotContents(inventorySlot, stack);
+			}
+			
+			else if (human.getIsInfected() && human.getActivePotionEffect(Potion.weakness) != null && stack.getItem() == Items.golden_apple)
+			{
+				human.cureInfection();
 			}
 			
 			else

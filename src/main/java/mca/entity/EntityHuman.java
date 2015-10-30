@@ -74,12 +74,15 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
+import radixcore.constant.Particle;
 import radixcore.constant.Font.Color;
 import radixcore.data.DataWatcherEx;
 import radixcore.data.IPermanent;
@@ -1593,5 +1596,13 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public String getPlayerSkinUsername()
 	{
 		return playerSkinUsername.getString();
+	}
+	
+	public void cureInfection()
+	{
+		this.setIsInfected(false);
+        this.addPotionEffect(new PotionEffect(Potion.confusion.id, 200, 0));
+        this.worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1017, (int)this.posX, (int)this.posY, (int)this.posZ, 0);
+        Utilities.spawnParticlesAroundEntityS(Particle.HAPPY, this, 16);
 	}
 }
