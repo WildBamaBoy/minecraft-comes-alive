@@ -1,5 +1,5 @@
 #X-Generator: crowdin.com
-itemGroup.tabMCA=Minecraft Canlanıyor
+itemGroup.tabMCA=Minecraft Comes Alive
 itemGroup.tabMCA.gemCutting=MCA - Taş Kesme
 
 #######
@@ -64,7 +64,7 @@ item.ItemVillagerBedPurple.name=Mor köylü yatağı
 item.DivorcePapers.name=Boşanma Kağıtları
 item.RoseGoldIngot.name=Külçe altın
 item.CrystalBall.name=Kristal top
-item.NewOutfit.name=New Outfit
+item.NewOutfit.name=Yeni Kıyafet
 item.DiamondHeart.name=Elmas kalp
 item.DiamondTiny.name=Küçük elmas
 item.DiamondOval.name=Oval elmas
@@ -85,8 +85,8 @@ item.EngagementRingTriangleRG.name=Pembe Altın Üçgen Nişan Yüzüğü
 item.EngagementRingStar.name=Yıldız Nişan Yüzüğü
 item.EngagementRingStarRG.name=Pembe Altın Yıldız Nişan Yüzüğü
 item.tombstone.name=Mezar Taşı
-item.RoseGoldDust.name=Rose Gold Dust
-item.GoldDust.name=Gold Dust
+item.RoseGoldDust.name=Pembe Altın Tozu
+item.GoldDust.name=Altın Toz
 tile.roseGoldOre.name=Pembe Altın Cevheri
 tile.roseGoldBlock.name=Pembe Altın Bloğu
 item.whistle.name=Islık
@@ -98,10 +98,10 @@ item.OvalMold.name=Oval Kalıp
 item.SquareMold.name=Kare Kalıp
 item.TriangleMold.name=Üçgen Kalıp
 item.StarMold.name=Yıldız Kalıp
-item.NeedleAndString.name=Needle and String
-item.Needle.name=Needle
-item.Cloth.name=Cloth
-tile.VillagerSpawner.name=Villager Spawner
+item.NeedleAndString.name=İğne ve İplik
+item.Needle.name=İğne
+item.Cloth.name=Kıyafet
+tile.VillagerSpawner.name=Köylü Oluşturucu
 
 #######
 # Item Information
@@ -623,25 +623,33 @@ mood.pleased=Keyifli
 gift.cake1=Bu da ne? Bir kek? Aa.... aman. Benim...eşimi bulmam gerek.
 gift.cake2=Bir kek\! Ne düşünceli\! Ben... bekle, bu tuhaf his de nedir?
 gift.cake3=Sonunda, bir şeyler evliliğime yardım edecek...
-gift.cake.refuse1=I don't think I want any more cake, but thank you.
-gift.cake.refuse2=No thanks, I don't want cake anymore.
-gift.cake.refuse3=Oh, no. I couldn't.
+gift.cake.refuse1=Artık pasta istediğimi sanmıyorum, ama teşekkürler.
+gift.cake.refuse2=Hayır teşekkürler, artık pasta istemiyorum.
+gift.cake.refuse3=Ah, hayır. Olmaz.
 
 ################
 # GUIs
 ################################
-gui.button.exit=Exit
-gui.button.back=Back
+gui.button.exit=Çıkış
+gui.button.back=Geri
 gui.button.adoptbaby=Bebek Evlat Edin
-gui.button.next=Next
+gui.button.next=İleri
+
+################
+# Relations
+################################
+relation.husband=Husband
+relation.wife=Wife
+relation.daughter=Daughter
+relation.son=Son
 
 ################
 # Dialogue
 ################################
 title.nonrelative.male=%Profession% %Name%
 title.nonrelative.female=%Profession% %Name%
-title.relative.male=%Name% %RelationToPlayer%
-title.relative.female=%Name% %RelationToPlayer%
+title.relative.male=%Name% (%RelationToPlayer%)
+title.relative.female=%Name% (%RelationToPlayer%)
 
 label.sleeping=Uyuyor
 label.health=Can\: 
@@ -706,7 +714,7 @@ farming.nohoe=Ekip biçmek için bir çapaya ihtiyacım olacak.
 
 hunting.badspot=İyi bir avcılık noktası bulamadım.
 sleep.nohome=Evim yok\!
-sleep.invalid=My home point is invalid\!
+sleep.invalid=Benim evimin olduğu yer geçersiz\!
 
 #################
 # Parser
@@ -717,11 +725,11 @@ parser.dad=Baba
 #################
 # GUI
 ################################
-gui.button.yes=Yes
-gui.button.no=No
-gui.button.ok=Ok
-gui.button.done=Done
-gui.button.random=Random
+gui.button.yes=Evet
+gui.button.no=Hayır
+gui.button.ok=Tamam
+gui.button.done=Devam
+gui.button.random=Rastgele
 gui.button.interact=Etkileşim
 gui.button.follow=Takip et
 gui.button.stay=Burada Kal
@@ -863,9 +871,9 @@ interaction.sethome.success1=Tamam, burası benim yeni evim olacak.
 interaction.sethome.success2=Anladım, geceleri burada uyuyacağım.
 interaction.sethome.success3=Tabi ki, %PlayerName%.
 
-interaction.sethome.fail1=This doesn't look like a safe home point for me. There's some %a1% in the way.
-interaction.sethome.fail2=Is there another place nearby? There's some %a1% in the way.
-interaction.sethome.fail3=I can't have my home point here. There's some %a1% in the way.
+interaction.sethome.fail1=Burası benim için güvenli bir ev noktası gibi görünmüyor. Yol üzerinde bazı %a1% var.
+interaction.sethome.fail2=Yakınlarda başka yer var mı? Yolda %a1% var.
+interaction.sethome.fail3=Ev noktamı buraya ayarlayamam. Yolumda birkaç %a1% var.
 
 interaction.mining.fail.toolow1=Maden çıkarmak için çok aşağıdayız.
 interaction.mining.fail.toolow2=Daha yüksek bir yere geçmemiz gerekiyor.
@@ -1520,5 +1528,6 @@ childp.gift.best2=%ParentTitle%, bunlardan birisini alacağını biliyordum. Bil
 childp.gift.best3=Heheey\! Dünyanın en iyi %ParentTitle% benimle\!
 childp.gift.best4=Bu çok harika\! Hepsinin benim olduğuna inanmıyorum\!
 childp.gift.best5=Teşekkürler, %ParentTitle%\! En iyisi sensin\!
+
 
 

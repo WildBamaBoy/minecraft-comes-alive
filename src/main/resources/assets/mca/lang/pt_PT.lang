@@ -1,26 +1,26 @@
 #X-Generator: crowdin.com
 itemGroup.tabMCA=Minecraft Comes Alive
-itemGroup.tabMCA.gemCutting=MCA - Corte de gemas
+itemGroup.tabMCA.gemCutting=MCA - Gem Cutting
 
 #######
 # Achievements
 ##############################
 achievement.fullGoldHearts=Chegar a algum lado
-achievement.fullGoldHearts.desc=Obtém 5 corações de ouro com um aldeão.
+achievement.fullGoldHearts.desc=Obtém 5 coracoes de ouro com um aldeao.
 achievement.engagement=Felicidade conquistada\!
-achievement.engagement.desc=Fica noivo de um aldeão.
+achievement.engagement.desc=Fica noivo de um aldeao.
 achievement.marriage=Estamos casados\!
-achievement.marriage.desc=Casar com um aldeão.
-achievement.babyBoy=É um menino\!
+achievement.marriage.desc=Casar com um aldeao.
+achievement.babyBoy=E um menino\!
 achievement.babyBoy.desc=Ter um menino.
 achievement.babyGirl=É uma menina\!
 achievement.babyGirl.desc=Ter uma menina.
-achievement.twins=Gémeos\!
-achievement.twins.desc=Ter gémeos.
-achievement.babyToChild=Eles crescem tão rápido
-achievement.babyToChild.desc=Cresça o seu bebé para criança.
+achievement.twins=Gemeos\!
+achievement.twins.desc=Ter gemeos.
+achievement.babyToChild=Eles crescem tao rapido
+achievement.babyToChild.desc=Cresça o seu bebe para criança.
 achievement.hunting=Bullseye\!
-achievement.hunting.desc=Mande o seu filho caçar.
+achievement.hunting.desc=Mande o seu filho cacar.
 achievement.mining=Infiniminer
 achievement.mining.desc=Make your child mine for you.
 achievement.woodcutting=Lenhador
@@ -64,7 +64,7 @@ item.ItemVillagerBedPurple.name=Cama púrpura de aldeão
 item.DivorcePapers.name=Papeis de divórcio
 item.RoseGoldIngot.name=Barra de Ouro Rosa
 item.CrystalBall.name=Bola de Cristal
-item.NewOutfit.name=New Outfit
+item.NewOutfit.name=Pt_br
 item.DiamondHeart.name=Coração de Diamante
 item.DiamondTiny.name=Diamante pequeno
 item.DiamondOval.name=Diamante oval
@@ -85,8 +85,8 @@ item.EngagementRingTriangleRG.name=Anel de Noivado de Ouro Rosa com Diamante Tri
 item.EngagementRingStar.name=Anel de Noivado de Ouro Rosa com Estrela de Diamante
 item.EngagementRingStarRG.name=Anel de Noivado de Ouro Rosa com Estrela de Diamante
 item.tombstone.name=Túmulo
-item.RoseGoldDust.name=Rose Gold Dust
-item.GoldDust.name=Gold Dust
+item.RoseGoldDust.name=Pó dourado-rosa
+item.GoldDust.name=Pó dourado
 tile.roseGoldOre.name=Minério de Ouro Cor-de-Rosa
 tile.roseGoldBlock.name=Bloco de Ouro Rosa
 item.whistle.name=Assobia
@@ -98,10 +98,10 @@ item.OvalMold.name=Molde Oval
 item.SquareMold.name=Molde quadrado
 item.TriangleMold.name=Molde triangular
 item.StarMold.name=Molde estrelar
-item.NeedleAndString.name=Needle and String
-item.Needle.name=Needle
-item.Cloth.name=Cloth
-tile.VillagerSpawner.name=Villager Spawner
+item.NeedleAndString.name=Agulha e fio
+item.Needle.name=Agulha
+item.Cloth.name=Tecido
+tile.VillagerSpawner.name=Evocador de Aldeão
 
 #######
 # Item Information
@@ -623,25 +623,33 @@ mood.pleased=Satisfeito
 gift.cake1=O que é isto? Um bolo? Ó...ó Meu Deus. Eu...preciso de encontrar a minha esposa.
 gift.cake2=Um bolo\! Quão atencioso\! Eu...espera, que sentimento estranho é este?
 gift.cake3=Finalmente, alguma coisa que vai ajudar o meu casamento...
-gift.cake.refuse1=I don't think I want any more cake, but thank you.
-gift.cake.refuse2=No thanks, I don't want cake anymore.
-gift.cake.refuse3=Oh, no. I couldn't.
+gift.cake.refuse1=Não quero mais bolo, mas obrigado.
+gift.cake.refuse2=Não obrigado, não quero mais bolo.
+gift.cake.refuse3=Oh, não. Não foi possível.
 
 ################
 # GUIs
 ################################
-gui.button.exit=Exit
-gui.button.back=Back
+gui.button.exit=Sair
+gui.button.back=Anterior
 gui.button.adoptbaby=Adotar um bebé
-gui.button.next=Next
+gui.button.next=Seguinte
+
+################
+# Relations
+################################
+relation.husband=Husband
+relation.wife=Wife
+relation.daughter=Daughter
+relation.son=Son
 
 ################
 # Dialogue
 ################################
 title.nonrelative.male=%Name%, a %Profession%
 title.nonrelative.female=%Name%, a %Profession%
-title.relative.male=%RelationToPlayer% %Name%
-title.relative.female=%RelationToPlayer% %Name%
+title.relative.male=%Name% (%RelationToPlayer%)
+title.relative.female=%Name% (%RelationToPlayer%)
 
 label.sleeping=A dormir
 label.health=Vida\: 
@@ -706,7 +714,7 @@ farming.nohoe=Vou precisar de uma enxada para fazer a fazenda.
 
 hunting.badspot=Não consigo encontrar um bom sítio de caça.
 sleep.nohome=Eu não tenho um ponto de spawn\!
-sleep.invalid=My home point is invalid\!
+sleep.invalid=meus pontos de origem sao  inválidos
 
 #################
 # Parser
@@ -717,11 +725,11 @@ parser.dad=Pai
 #################
 # GUI
 ################################
-gui.button.yes=Yes
-gui.button.no=No
-gui.button.ok=Ok
-gui.button.done=Done
-gui.button.random=Random
+gui.button.yes=Sim
+gui.button.no=Não
+gui.button.ok=OK
+gui.button.done=OK
+gui.button.random=Aleatório
 gui.button.interact=Interagir
 gui.button.follow=Segue-me
 gui.button.stay=Fica aqui
@@ -863,9 +871,9 @@ interaction.sethome.success1=Okay, esta será a minha nova casa.
 interaction.sethome.success2=Entendi, Dormirei aqui à noite.
 interaction.sethome.success3=Com certeza, %PlayerName%.
 
-interaction.sethome.fail1=This doesn't look like a safe home point for me. There's some %a1% in the way.
-interaction.sethome.fail2=Is there another place nearby? There's some %a1% in the way.
-interaction.sethome.fail3=I can't have my home point here. There's some %a1% in the way.
+interaction.sethome.fail1=Esse não parece um bom acampamento para mim. Tem um %a1% no caminho.
+interaction.sethome.fail2=PORTUGUES E MENHOR QUE INGRES
+interaction.sethome.fail3=id
 
 interaction.mining.fail.toolow1=Cá para mim, nós estamos muito baixo para criar uma mina.
 interaction.mining.fail.toolow2=Nós precisamos de estar num terreno mais alto.
@@ -1520,5 +1528,6 @@ childp.gift.best2=%ParentTitle%, eu sabia que me darias um destes. Eu sabia-o, s
 childp.gift.best3=Yay\! Eu tenho o melhor %ParentTitle% do mundo\!
 childp.gift.best4=Isto é incrível\! Não posso acreditar que é tudo meu\!
 childp.gift.best5=Muito Obrigado, %ParentTitle%\! És o melhor de sempre\!
+
 
 

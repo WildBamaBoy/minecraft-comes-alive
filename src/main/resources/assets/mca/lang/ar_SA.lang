@@ -1,5 +1,5 @@
 #X-Generator: crowdin.com
-itemGroup.tabMCA=ماينكرافت أصبحت حية
+itemGroup.tabMCA=Minecraft Comes Alive
 itemGroup.tabMCA.gemCutting=م ج أ - صقل الجواهر
 
 #######
@@ -64,10 +64,10 @@ item.ItemVillagerBedPurple.name=سرير قروي بنفسجي
 item.DivorcePapers.name=أوراق طلاق
 item.RoseGoldIngot.name=صبة ذهبية وردية
 item.CrystalBall.name=كرة كريستالية
-item.NewOutfit.name=New Outfit
+item.NewOutfit.name=زي جديد
 item.DiamondHeart.name=قلب ماسي
 item.DiamondTiny.name=ماسة صغيرة
-item.DiamondOval.name=ماسة بيضوية
+item.DiamondOval.name=ماسة بيضاوية
 item.DiamondSquare.name=ماسة مربعة
 item.DiamondTriangle.name=ماسة مثلثة
 item.DiamondStar.name=ماسة نجمية
@@ -82,33 +82,33 @@ item.EngagementRingSquare.name=خاتم خطوبة مربع
 item.EngagementRingSquareRG.name=خاتم خطوبة مربع ذهبي وردي
 item.EngagementRingTriangle.name=خاتم خطوبة مثلث
 item.EngagementRingTriangleRG.name=خاتم خطوبة مثلث ذهبي وردي
-item.EngagementRingStar.name=Star Engagement Ring
-item.EngagementRingStarRG.name=Rose Gold Star Engagement Ring
+item.EngagementRingStar.name=خاتم خطوبة نجمي
+item.EngagementRingStarRG.name=خاتم نجمي ذهبي محمر
 item.tombstone.name=قبر
-item.RoseGoldDust.name=Rose Gold Dust
-item.GoldDust.name=Gold Dust
-tile.roseGoldOre.name=Rose Gold Ore
-tile.roseGoldBlock.name=Rose Gold Block
+item.RoseGoldDust.name=غبار ذهبي محمر
+item.GoldDust.name=غبار ذهبي
+tile.roseGoldOre.name=خام ذهب محمر
+tile.roseGoldBlock.name=مكعب ذهب محمر
 item.whistle.name=صفارة
 item.villagereditor.name=قروي معدل
-item.GemCutter.name=Gem Cutter
-item.HeartMold.name=Heart Mold
-item.TinyMold.name=Tiny Mold
-item.OvalMold.name=Oval Mold
-item.SquareMold.name=Square Mold
-item.TriangleMold.name=Triangle Mold
-item.StarMold.name=Star Mold
-item.NeedleAndString.name=Needle and String
-item.Needle.name=Needle
-item.Cloth.name=Cloth
-tile.VillagerSpawner.name=Villager Spawner
+item.GemCutter.name=قاطعة جواهر
+item.HeartMold.name=قالب قلبي
+item.TinyMold.name=قالب صغير
+item.OvalMold.name=قالب بيضاوي
+item.SquareMold.name=قالب مربع
+item.TriangleMold.name=قالب مثلث
+item.StarMold.name=قالب نجمي
+item.NeedleAndString.name=إبرة وخيط
+item.Needle.name=إبره
+item.Cloth.name=قماش
+tile.VillagerSpawner.name=بيّاضة قروين
 
 #######
 # Item Information
 ##############################
-information.villagerbed.line1=Place on the ground and
-information.villagerbed.line2=any nearby villager will
-information.villagerbed.line3=sleep in bed at night.
+information.villagerbed.line1=ضعه على الأرض و
+information.villagerbed.line2=اي قروي قريب سـ
+information.villagerbed.line3=ينام بالسرير في الليل.
 
 #######
 # Names
@@ -557,42 +557,42 @@ name.female256=Saira
 ##############
 # Professions
 ##############################
-profession.archer=Archer
-profession.armorer=Armorer
-profession.butcher=Butcher
-profession.cleric=Cleric
-profession.farmer=Farmer
-profession.fisherman=Fisherman
-profession.fletcher=Fletcher
-profession.guard=Guard
-profession.spouse=Spouse
-profession.leatherworker=Leatherworker
-profession.librarian=Librarian
-profession.shepherd=Shepherd
-profession.toolsmith=Toolsmith
-profession.weaponsmith=Weaponsmith
-profession.miner=Miner
-profession.mason=Mason
-profession.baker=Baker
-profession.child=Child
-profession.househusband=Househusband
-profession.housewife=Housewife
+profession.archer=رامي السهام
+profession.armorer=خبير الأسلحة
+profession.butcher=جزار
+profession.cleric=رجل دين
+profession.farmer=مزارع
+profession.fisherman=صياد سمك (حداق)
+profession.fletcher=صانع اسهم
+profession.guard=حارس
+profession.spouse=زوج
+profession.leatherworker=صانع جلود
+profession.librarian=أمين المكتبة
+profession.shepherd=راعي
+profession.toolsmith=حداد أدوات
+profession.weaponsmith=حداد أسحلة
+profession.miner=منقب
+profession.mason=بناء
+profession.baker=خباز
+profession.child=طفل
+profession.househusband=رب منزل
+profession.housewife=ربة منزل
 
 ################
 # Personalities
 ################################
-personality.athletic=Athletic
-personality.confident=Confident
-personality.strong=Strong
+personality.athletic=رياضي
+personality.confident=واثق
+personality.strong=قوي
 personality.friendly=ودود
-personality.curious=Curious
-personality.peaceful=Peaceful
-personality.flirty=Flirty
-personality.witty=Witty
-personality.sensitive=Sensitive
-personality.greedy=Greedy
-personality.stubborn=Stubborn
-personality.odd=Odd
+personality.curious=فضولي
+personality.peaceful=سالم
+personality.flirty=غزلي
+personality.witty=بارع
+personality.sensitive=حساس
+personality.greedy=طمع
+personality.stubborn=عناد
+personality.odd=غرابة
 
 ################
 # Moods
@@ -623,25 +623,33 @@ mood.pleased=مسرور
 gift.cake1=ما هذا؟ كعكة؟ يا...يا إلهي. أنا...علي أن أجد زوجي.
 gift.cake2=كعكة\! كم هذا جميل. أنا...انتظر، ما هذا الشعور الغريب؟
 gift.cake3=أخيرًا، شيء سيساعد زواجي...
-gift.cake.refuse1=I don't think I want any more cake, but thank you.
-gift.cake.refuse2=No thanks, I don't want cake anymore.
-gift.cake.refuse3=Oh, no. I couldn't.
+gift.cake.refuse1=لا اعتقد انني اريد المزيد من الكعك, لكن شكراً.
+gift.cake.refuse2=لا شكراً, لا اريد الكعك بعد الآن.
+gift.cake.refuse3=اوه, لا. لا استطيع.
 
 ################
 # GUIs
 ################################
-gui.button.exit=Exit
-gui.button.back=Back
+gui.button.exit=خروج
+gui.button.back=العودة
 gui.button.adoptbaby=تبنى رضيعًا
-gui.button.next=Next
+gui.button.next=القادم
+
+################
+# Relations
+################################
+relation.husband=Husband
+relation.wife=Wife
+relation.daughter=Daughter
+relation.son=Son
 
 ################
 # Dialogue
 ################################
 title.nonrelative.male=%Name% الـ %Profession%
 title.nonrelative.female=%Name% الـ %Profession%
-title.relative.male=%RelationToPlayer% %Name%
-title.relative.female=%RelationToPlayer% %Name%
+title.relative.male=%Name% (%RelationToPlayer%)
+title.relative.female=%Name% (%RelationToPlayer%)
 
 label.sleeping=نائم
 label.health=الصحة\: 
@@ -697,16 +705,16 @@ conversation2.progress4=*شخص ما* استيقظ على الجهة الخطأ 
 #################
 # AI Messages
 ################################
-mining.search.none=There's no %a1% nearby.
-mining.search.nearby=There's some %a1% nearby...
-mining.search.value=There's some %a1% %a2% blocks away.
+mining.search.none=لا يوجد %a1% قريبين.
+mining.search.nearby=يوجد بعض %a1% قريب من هنا...
+mining.search.value=يوجد مكعبات %a1% %a2% بعيدا من هنا.
 
-farming.noseeds=I don't have enough %a1%. I will need at least %a2% to create a farm.
-farming.nohoe=I'll need to have a hoe in order to farm.
+farming.noseeds=ليس لدي %a1% كفاية. احتاج على الأقل %a2% لصنع مزرعة.
+farming.nohoe=سأحتاج محرثة للزراعة.
 
-hunting.badspot=I can't find a good hunting spot.
-sleep.nohome=I don't have a home point\!
-sleep.invalid=My home point is invalid\!
+hunting.badspot=لا استطيع إيجاد مكان صيد جيد.
+sleep.nohome=ليس لدي نقطة منزل\!
+sleep.invalid=نقطة منزلي خاطئة\!
 
 #################
 # Parser
@@ -717,22 +725,22 @@ parser.dad=أبي
 #################
 # GUI
 ################################
-gui.button.yes=Yes
-gui.button.no=No
-gui.button.ok=Ok
-gui.button.done=Done
-gui.button.random=Random
+gui.button.yes=نعم
+gui.button.no=لا
+gui.button.ok=موافق
+gui.button.done=انتهى
+gui.button.random=عشوائي
 gui.button.interact=تفاعل
 gui.button.follow=اتبعني
-gui.button.stay=Stay Here
-gui.button.move=Move Freely
+gui.button.stay=ابق هنا
+gui.button.move=تحرك بحرية
 gui.button.trade=تقابل
 gui.button.sethome=تحديد المنزل
 gui.button.ridehorse=ركوب الخيل
 gui.button.special=مميز
 gui.button.procreate=الإنجاب
-gui.button.pickup=Pick Up
-gui.button.work=Work
+gui.button.pickup=امسك
+gui.button.work=اعمل
 gui.button.inventory=الحقيبة
 gui.button.chat=دردشة
 gui.button.joke=نكتة/مزحة
@@ -740,163 +748,163 @@ gui.button.gift=هدية
 gui.button.shakehand=مصافحة
 gui.button.tellstory=قول قصة
 gui.button.flirt=مغازلة
-gui.button.hug=Hug
+gui.button.hug=عناق
 gui.button.kiss=تقبيل
 gui.button.farming=الزراعة
-gui.button.farming.radius=Radius\: %a1%
-gui.button.farming.plant=Plant\: %a1%
+gui.button.farming.radius=المساحة\: %a1%
+gui.button.farming.plant=شجرة\: %a1%
 gui.button.woodcutting=التحطيب
-gui.button.woodcutting.logtype=Log Type\: %a1%
-gui.button.woodcutting.replant=Replant\: %a1%
+gui.button.woodcutting.logtype=نوع الخشب\: %a1%
+gui.button.woodcutting.replant=إعادة زراعة\: %a1%
 gui.button.mining=التنقيب
 gui.button.hunting=الصيد
 gui.button.kill=قتل
 gui.button.tame=ترويض
-gui.button.cooking=Cooking
-gui.button.mode=Mode\: %a1%
+gui.button.cooking=طبخ
+gui.button.mode=الحالة\: %a1%
 gui.button.start=بدء التشغيل
-gui.button.stop=Stop
+gui.button.stop=توقف
 gui.button.havebaby=لديهم طفل
 gui.button.divorce=الطلاق
 gui.button.asktomarry=يطلب الزواج
 gui.button.hire=توظيف
-gui.button.hired=Hired
-gui.button.length=Length\: %a1% hour(s)
+gui.button.hired=مستأجر
+gui.button.length=لمدة\: %a1% ساعة
 gui.button.accept=قبول
 gui.button.divorcespouse=تطليق الزوج/الزوجة
-gui.button.resetbaby=Reset Baby
+gui.button.resetbaby=إعادة تعيين الطفل
 gui.button.setup.gender.false=الجنس\: أنثى
 gui.button.setup.gender.true=الجنس\: ذكر
 
-gui.title.namebaby.male=It's a boy\!
-gui.title.namebaby.female=It's a girl\!
-gui.title.namebaby=Name your baby\:
-gui.title.tombstone=Enter tombstone text\:
+gui.title.namebaby.male=انه ولد\!
+gui.title.namebaby.female=إنها فتاة\!
+gui.title.namebaby=اختر إسم لطفلك\:
+gui.title.tombstone=اكتب على القبر\:
 gui.title.editor=قروي معدل
 
-gui.info.family.married=Married to %a1%.
-gui.info.family.engaged=Engaged to %a1%.
-gui.info.family.marriedtoplayer=Married to you.
-gui.info.family.engagedtoplayer=Engaged to you.
-gui.info.family.notmarried=Not married.
-gui.info.family.mother=Mother\: %a1%
-gui.info.family.father=Father\: %a1%
-gui.info.family.mother.you=Mother\: You
-gui.info.family.father.you=Father\: You
+gui.info.family.married=متزوج من %a1%.
+gui.info.family.engaged=مخطوب ل %a1%.
+gui.info.family.marriedtoplayer=متزوج/ة منك.
+gui.info.family.engagedtoplayer=مخطوب/ة لك.
+gui.info.family.notmarried=ليس متزوج/ة.
+gui.info.family.mother=ام\: %a1%
+gui.info.family.father=أب\: %a1%
+gui.info.family.mother.you=امك
+gui.info.family.father.you=ابوك
 
-gui.info.gift.line1=Gift Available
-gui.info.gift.line2=(Click to take)
+gui.info.gift.line1=هدية متوفرة
+gui.info.gift.line2=(اضغط لتأخذها)
 
-gui.info.mood=Mood\: %a1%
-gui.info.personality=Personality\: %a1%
+gui.info.mood=الحال\: %a1%
+gui.info.personality=الشخصية\: %a1%
 
-interaction.give.invalid1=I can't use that.
-interaction.give.invalid2=What is this? I can't do anything with it.
-interaction.give.invalid3=I don't know what you want me to do with that.
-interaction.give.invalid4=Why are you giving me this?
-interaction.give.invalid5=Huh? What is this thing?
+interaction.give.invalid1=لا استطيع استخدام هذا.
+interaction.give.invalid2=ما هذا؟ لا استطيع القيام بشيء به.
+interaction.give.invalid3=لا اعلم مالذي تريدني القيام به بهذا.
+interaction.give.invalid4=لماذا تعطيني هذا؟
+interaction.give.invalid5=ها؟ ماهذا الشيء؟
 
-interaction.divorce.priest.success1=Very well. You are hereby no longer married.
-interaction.divorce.priest.success2=As you wish. May you find love elsewhere.
+interaction.divorce.priest.success1=جيد جداً. انت الآن غير متزوج علناً.
+interaction.divorce.priest.success2=كما تتمنى. ستجد الحب في مكان ما.
 
-interaction.divorce.notmarried1=I am not married to anyone.
-interaction.divorce.notmarried2=What do I need divorce papers for? I am not married.
-interaction.divorce.notmarried3=I'm not married. Why are you giving these to me?
+interaction.divorce.notmarried1=انا لست متزوجاً لأحد.
+interaction.divorce.notmarried2=لما احتاج اوراق الطلاق؟ وانا لست متزوجاً اصلا.
+interaction.divorce.notmarried3=انا لست متزوجة. لما تعطيني هذا؟
 
-interaction.divorce.fail.notmarriedtoplayer1=What?\! You want me to leave my spouse? You're awful\!
-interaction.divorce.fail.notmarriedtoplayer2=No\! I won't do that to my spouse\! I am happily married\!
-interaction.divorce.fail.notmarriedtoplayer3=What do you think you're doing? I'm not going to use that\!
+interaction.divorce.fail.notmarriedtoplayer1=تنسى العشرة يالخاين\!
+interaction.divorce.fail.notmarriedtoplayer2=لا\! لماذا تقوم بهذا لحياتنه الزوجية\! انا سعيدة بزواجنه\!
+interaction.divorce.fail.notmarriedtoplayer3=ماذا تظن انك فاعل؟ لن اقوم بإستخدام هذا\!
 
-interaction.divorce.success1=I thought you loved me\! Get out\!
-interaction.divorce.success2=It was fun while it lasted. Goodbye, and good luck.
-interaction.divorce.success3=I can't believe you're doing this\! Leave, now\!
-interaction.divorce.success4=Why would you do this to me? I never want to see you again\!
+interaction.divorce.success1=ظننت انك تحبني\! اخر من هنا\!
+interaction.divorce.success2=كان ممتاً لكنه انتهى. إلى اللقاء, وحظاً موفقاً.
+interaction.divorce.success3=لا اصدق انك قمت بذالك\! ارحل, الآن\!
+interaction.divorce.success4=لماذا قمت بهذا لي؟ لا اريد ان اراك مجددا\!
 
-interaction.marry.fail.marriedtogiver1=It's a pretty ring, but I am already married to you, silly.
-interaction.marry.fail.marriedtogiver2=We are already married. Did you forget?
+interaction.marry.fail.marriedtogiver1=إنه خاتم جميل, لكن انا متزوجة منك بالفعل, ايها السخيف.
+interaction.marry.fail.marriedtogiver2=نحن متزوجون بالفعل. انسيت ذالك؟
 
-interaction.marry.fail.marriedtoother1=I'm sorry, no...I'm already married.
-interaction.marry.fail.marriedtoother2=Oh, I thought you knew...I'm already married to someone.
-interaction.marry.fail.marriedtoother3=What?\! I'm already married\!
+interaction.marry.fail.marriedtoother1=آسفة, لا... انا بالفعل متزوجة.
+interaction.marry.fail.marriedtoother2=اوه, توقعت انك تعلم... انا بالفعل متزوجة
+interaction.marry.fail.marriedtoother3=شنو؟\! ما تستحي على ويهك انت\!؟ انا متزوجة\!
 
-interaction.marry.fail.playermarried1=Uh...I see that ring on your finger. You're already married\!
-interaction.marry.fail.playermarried2=Just what are you trying to do? You're already married\!
-interaction.marry.fail.playermarried3=What? Really? I think you're married to someone else, aren't you?
-interaction.marry.fail.playermarried4=I'm appalled\! You already have a spouse.
+interaction.marry.fail.playermarried1=ارى الخاتم على إصبعك. انت بالفعل متزوج\!
+interaction.marry.fail.playermarried2=شقاعد تسوي انته؟ انت متزوج\!
+interaction.marry.fail.playermarried3=ماذا؟ حقا؟ اعتقد انك متزوج من شخص اخر, اليس كذالك؟
+interaction.marry.fail.playermarried4=ارفض\! انت متزوج بالفعل.
 
-interaction.marry.fail.lowhearts1=What? No\! I don't like you\!
-interaction.marry.fail.lowhearts2=Oh, pretty ring\! Oh wait...it's for me? Um...no.
-interaction.marry.fail.lowhearts3=Is that for me? Sorry, I just don't know you enough.
-interaction.marry.fail.lowhearts4=I'm flattered, but I don't really know you.
+interaction.marry.fail.lowhearts1=ماذا؟ لا\! انا لا احبك\!
+interaction.marry.fail.lowhearts2=اوه, خاتم جميل\! لحظة....انه لي؟ امم... لا.
+interaction.marry.fail.lowhearts3=انه لي؟ اسف/ة, لم اعرفك بما فيه الكفاية.
+interaction.marry.fail.lowhearts4=اعرفك تعرفني علشان نتزوج؟
 
-interaction.engage.success1=Yes\! I will marry you\! I love you\!
-interaction.engage.success2=Of course I'll marry you\!
-interaction.engage.success3=About time...just kidding\! Love you\!
-interaction.engage.success4=Is...is this real? I mean, this moment, not the ring. But the ring is real, right?
+interaction.engage.success1=نعم\! سأتزوجك\! انا احبك\!
+interaction.engage.success2=بالتأكيد\! سأتزوجك\!
+interaction.engage.success3=دعني افكر...انني امزح\! انا احبك\!
+interaction.engage.success4=انت من صجك؟\! مو قادر/ة اصدق\! اكيد موافق/ة.
 
-interaction.marry.success1=It's a dream come true\! I'll love you forever\!
-interaction.marry.success2=We're finally married\! Now what?
-interaction.marry.success3=I'm happy to be married to you, %PlayerName%.
-interaction.marry.success4=I can't wait to start our life together\!
+interaction.marry.success1=انه حلم يتحقق\! سأحبك للأبد\!
+interaction.marry.success2=تزوجنا اخيرا\! والآن ماذا؟
+interaction.marry.success3=انا سعيد/ة للزواج من يا %PlayerName%.
+interaction.marry.success4=لا استطيع الإنتظار لنعيش سويه\!
 
-interaction.matchmaker.fail.married1=I am already married to someone.
-interaction.matchmaker.fail.married2=I'm happily married, I do not want another spouse.
-interaction.matchmaker.fail.married3=I don't want that - I'm already married.
+interaction.matchmaker.fail.married1=انا بالفعل متزوحه.
+interaction.matchmaker.fail.married2=انا سعيد/ة بزواجي, لا اريد زوجاً اخر.
+interaction.matchmaker.fail.married3=لا اريد هذا - انا بالفعل متزوج/ة.
 
-interaction.matchmaker.fail.engaged1=I am engaged to someone already, I can't take that ring.
-interaction.matchmaker.fail.engaged2=I've promised to marry someone else.
-interaction.matchmaker.fail.engaged3=Oh, thanks but I think I'm okay. I'm already engaged to someone.
+interaction.matchmaker.fail.engaged1=أنا مخطوبة لشخص الآن, لا يمكنني أن أخذ هذا الخاتم.
+interaction.matchmaker.fail.engaged2=لقد قطعت وعداً بأن أتزوج أحد ما.
+interaction.matchmaker.fail.engaged3=أووه, شكراً لك لكن أعتقد إني بخير..أنا مخطوبة لشخص.
 
-interaction.matchmaker.fail.needtwo1=Don't you need two rings to arrange a marriage?
-interaction.matchmaker.fail.needtwo2=Oh, okay\! But you need two rings first.
-interaction.matchmaker.fail.needtwo3=My spouse and I will both need a ring, but you only have one.
+interaction.matchmaker.fail.needtwo1=هل تحتاج لخاتمين لتقيم الزواج؟
+interaction.matchmaker.fail.needtwo2=أووه, حسناً \! لكن أحتاج لخاتمين في الأول.
+interaction.matchmaker.fail.needtwo3=أنا و زوجي كلانا يحتاج لخاتم, لكن أنت تملك واحد فقط.
 
-interaction.matchmaker.fail.novillagers1=I don't see anyone close by. Who did you want me to marry?
+interaction.matchmaker.fail.novillagers1=لا أرى أحد قريب لي, من ستزوجني له؟
 interaction.matchmaker.fail.novillagers2=I just don't know...move me closer to the one you think is right for me.
 interaction.matchmaker.fail.novillagers3=Oh, but there doesn't seem to be anyone close by. Who should I marry?
 
-interaction.matchmaker.fail.invalid1=But I can't marry %Name%.
-interaction.matchmaker.fail.invalid2=The only villager close by is %Name%, and I can't marry them.
-interaction.matchmaker.fail.invalid3=I don't think that I can marry %Name%. That might be a little strange.
+interaction.matchmaker.fail.invalid1=لكنني لا استطيع الزواج من %Name%.
+interaction.matchmaker.fail.invalid2=القروي الوحيد القريب من هنا هو %Name%, وانا لا استطيع الزواج منه.
+interaction.matchmaker.fail.invalid3=لا اعتقد انني استطيع الزواج من %Name%. قد يبدو غريباً بعض الشيء.
 
-interaction.sethome.success1=Okay, this will be my new home point.
-interaction.sethome.success2=I understand, I'll be sleeping here at night.
-interaction.sethome.success3=Sure thing, %PlayerName%.
+interaction.sethome.success1=حسنا, ستكون هذه نقطة منزلي.
+interaction.sethome.success2=افهم ذالك, سأنام هنا ليلاً.
+interaction.sethome.success3=شيء اكيد, %PlayerName%.
 
-interaction.sethome.fail1=This doesn't look like a safe home point for me. There's some %a1% in the way.
-interaction.sethome.fail2=Is there another place nearby? There's some %a1% in the way.
-interaction.sethome.fail3=I can't have my home point here. There's some %a1% in the way.
+interaction.sethome.fail1=هذا لا يبدو لي منزلا آمناً. يوجد %a1% في الطريق.
+interaction.sethome.fail2=الا يوجد مكان اخر بالجوار؟ يوجد بعض الـ %a1% في الطريق.
+interaction.sethome.fail3=لا استطيع جعل نقطة منزلي هنا. يوجد بعض %a1% في الطريق.
 
-interaction.mining.fail.toolow1=We're too low for me to create a mine.
-interaction.mining.fail.toolow2=We need to be on higher ground.
-interaction.mining.fail.toolow3=I don't think it's a good idea to create a mine here. We need to be higher.
-interaction.mining.fail.nopickaxe=I don't have a pickaxe. How am I supposed to mine without one?
+interaction.mining.fail.toolow1=نحن منخفضون جداً بنسبة لي اصنع منجماً.
+interaction.mining.fail.toolow2=يجب ان نكون في ارض اعلى.
+interaction.mining.fail.toolow3=لا ارى انها فكرة جيدة لصنع منجم هنا. علينا ان نكون اعلى.
+interaction.mining.fail.nopickaxe=ليس لدي معول. كيف لي ان انقب من دونه؟
 
-interaction.hire.fail.notenoughgold=You need a stack of %a1% gold ingots to hire this villager.
-interaction.hire.success1=Glad to be on board\! What's my first job?
-interaction.hire.success2=Everything is in order. What would you like me to do?
-interaction.hire.success3=Ready to start working at any time, boss\!
+interaction.hire.fail.notenoughgold=يجب ان يكون لديك حزمة من %a1% سبائك الذهب لاستاجار هذا القروي.
+interaction.hire.success1=سررت لكوني معك\! ماهي اول وظائفي؟
+interaction.hire.success2=خلها علي ولا يهمك. شنو تبيني اسوي؟
+interaction.hire.success3=جاهز للعمل في اي وقت, سيدي\!
 
-interaction.ridehorse.fail.notnearby=I don't see any horses nearby.
+interaction.ridehorse.fail.notnearby=لا ارى احصنة قريبه.
 interaction.ridehorse.fail.notrideable=لا أستطيع ركوب ذلك الخيل.
 
-interaction.resetbaby.success=Very well, you may now have another child. Be more careful next time\!
-interaction.resetbaby.fail=You do not have a baby.
+interaction.resetbaby.success=جيد جداً, الآن تستطيع الحصول على طفل اخر. كن اكثر حذرا في المرة القادمة\!
+interaction.resetbaby.fail=ليس لديك طفل.
 
-interactionp.marry.sent=You have asked %a1% to marry you.
-interactionp.marry.success=You are now married to %a1%.
-interactionp.marry.fail.alreadymarried=You are already married or engaged.
-interactionp.marry.fail.targetalreadymarried=%a1% is already married.
-interactionp.marry.fail.noweddingring=You do not have a wedding ring.
-interactionp.marry.prompt=%a1% would like to marry you.
+interactionp.marry.sent=قد سألت %a1% لتتزوجك.
+interactionp.marry.success=انت الآن متزوج من %a1%.
+interactionp.marry.fail.alreadymarried=انت بالفعل متزوج او مخطوب.
+interactionp.marry.fail.targetalreadymarried=%a1% بالفعل متزوج/ة.
+interactionp.marry.fail.noweddingring=ليس لديك خاتم زفاف.
+interactionp.marry.prompt=%a1% يرغب بالزواج منك.
 
-interactionp.havebaby.sent=You have asked %a1% to have a baby.
-interactionp.havebaby.prompt=%a1% would like to have a baby.
-interactionp.havebaby.fail.alreadyexists=You should already have a baby.
+interactionp.havebaby.sent=قد سألت %a1% للحصول على طفل.
+interactionp.havebaby.prompt=%a1% يود الحصول على طفل.
+interactionp.havebaby.fail.alreadyexists=يجب ان يكون بالفعل لديك طفل.
 
-interactionp.divorce.notify=You are no longer married to %a1%.
+interactionp.divorce.notify=لم تدم متزوجاً من %a1%.
 
-interaction.adoptbaby.success=Wonderful\! I'd like you to meet %a1%, your new baby\! Treat them well.
+interaction.adoptbaby.success=رائع\! اود ان تقابل %a1%, طفلك الجديد\! عامله جيداً.
 
 ###################
 # Typed Dialogue
@@ -909,89 +917,89 @@ interaction.adoptbaby.success=Wonderful\! I'd like you to meet %a1%, your new ba
 #   Spouse      (married to the player recieving the message   
 #####################################
 
-adult.gift.bad1=This isn't a good gift...
-adult.gift.bad2=What made you think that I would like this?
+adult.gift.bad1=هذه ليست هدية جيدة...
+adult.gift.bad2=مالذي جعلك تعتقد بأنني سأحب هذا؟
 adult.gift.bad3=لا شكراً.
-adult.gift.bad4=I don't want that, why would I?
-adult.gift.bad5=Why are you giving me that?
-adult.gift.bad6=Is this supposed to be a gift? No thanks.
+adult.gift.bad4=لا اريد هذا, لما عساي اريده؟
+adult.gift.bad5=لماذا تعطيني هذا؟
+adult.gift.bad6=هل على هذه ان تكون هدية؟ لا شكرا.
 
-adult.gift.good1=How considerate\! Thank you.
+adult.gift.good1=مشكور ما تقصر.
 adult.gift.good2=شكراً\!
-adult.gift.good3=How thoughtful\!
+adult.gift.good3=هدية مدروسة\!
 adult.gift.good4=اوه احببتها\!
-adult.gift.good5=A gift? For me? How nice\!
+adult.gift.good5=هديه؟ من اجلي؟ هذا رائع\!
 
-adult.gift.better1=Hey, this is pretty cool\!
-adult.gift.better2=Thanks, friend\!
-adult.gift.better3=%PlayerName%, you're such a good friend\!
-adult.gift.better4=Oh wow, I actually needed one of these\!
-adult.gift.better5=This is a pretty good gift\!
+adult.gift.better1=هي, هذا رائع جداً\!
+adult.gift.better2=شكراً, يا صديق\!
+adult.gift.better3=%PlayerName%, انت صديق جيد\!
+adult.gift.better4=اوه رائع, فالواقع كنت احد احتاج مثل هذه\!
+adult.gift.better5=انها هديته رائعة\!
 
-adult.gift.best1=I...I don't know what to say. Thank you so much, %PlayerName%\!
-adult.gift.best2=How did you...nevermind, this is amazing\!
-adult.gift.best3=Oh wow, I've always wanted one of these\!
-adult.gift.best4=This is fantastic\! I'll put it to good use.
-adult.gift.best5=Thank you so much. I will remember this forever.
+adult.gift.best1=انا... لا اعرف ماذا اقول. شكراً لك كثيراً %PlayerName%\!
+adult.gift.best2=كيف لك ان...لا تبال, انها رائعة\!
+adult.gift.best3=او رائع, لطالما تمنيت واحدة منها\!
+adult.gift.best4=هذا مدهش\! سأستخدمها جيداً.
+adult.gift.best5=شكرا جزيلاً. سأتذكر هذا للأبد.
 
 # 5 good chats when talking to an adult:
-adult.chat.good1=Man, cookies and milk does sound delicious right now.
-adult.chat.good2=Yes, I suppose the weather is nice today.
-adult.chat.good3=I'm doing just fine\! Hit my toe when I woke up, though.
-adult.chat.good4=An apple a day keeps the zombies away\!
-adult.chat.good5=My dream is to build my own village, but I'm so lazy.
+adult.chat.good1=يا رجل, البسكويت والحليب تبدو شهية حاليا.
+adult.chat.good2=نعم, ارى ان الجو جميل اليوم.
+adult.chat.good3=والله الحمدلله بخير انت شلونك.
+adult.chat.good4=انا ايضا احب متابعة zon720 على اليوتيوب\!
+adult.chat.good5=حلمي هو بناء قريتي الخاصة, لكنني كسول جداً.
 
 # 5 bad chats when talking to an adult:
-adult.chat.bad1=Did you seriously just say that?
-adult.chat.bad2=I don't believe it exploded on its own.
-adult.chat.bad3=You know, you're not that cool.
-adult.chat.bad4=Show off.
-adult.chat.bad5=You should be thrown in a dungeon\! 
+adult.chat.bad1=قد الي انت قلته؟
+adult.chat.bad2=لا اصدق ما تقول.
+adult.chat.bad3=انت تعلم, انك لست بتلك الروعة.
+adult.chat.bad4=جالس تهايط علينا.
+adult.chat.bad5=يجب ان ترمى بالكهف\! 
 
 # 5 good jokes when talking to an adult:
-adult.joke.good1=Haha\! Serves that Skelly right\!
-adult.joke.good2=*Laughs* That's hilarious\!
-adult.joke.good3=That's funny\! Did you hear the one about the cows?
-adult.joke.good4=Unfortunate for the sheep to lose its wool, but funny\!
-adult.joke.good5=That's the best I have ever heard\!
+adult.joke.good1=ههههه\! حلوه منك\!
+adult.joke.good2=*ضحك* هذا مرح\!
+adult.joke.good3=هذا مضحك\! انت ضريف.
+adult.joke.good4=ههههه بطني\! بطني\!
+adult.joke.good5=هذي اقوى نكته سمعتها\!
 
 # 5 bad jokes when talking to an adult:
-adult.joke.bad1=Don't speak about my pig like that\!
-adult.joke.bad2=Ha.
-adult.joke.bad3=Ah, you're not the funniest in town.
-adult.joke.bad4=That's low.
-adult.joke.bad5=You shouldn't joke about that.
+adult.joke.bad1=يعني ضريف مع ويهك؟\!
+adult.joke.bad2=اضحك يعني؟
+adult.joke.bad3=لست الأضرف في هذا البلدة على الإطلاق.
+adult.joke.bad4=مليق, سامج.
+adult.joke.bad5=لا يجب عليك المزاح بهذا الأمر.
 
 # 5 good handshakes when talking to an adult:
-adult.handshake.good1=You have a nice grip\!
-adult.handshake.good2=Your grip shows me you have great power\!
-adult.handshake.good3=Wow, you're so polite\!
-adult.handshake.good4=Good day\!
-adult.handshake.good5=Why, hello there\!
+adult.handshake.good1=وعليكم السلام\!
+adult.handshake.good2=قبضتك تريني بأن لدي قِواً رائعة\!
+adult.handshake.good3=واو, انت بالفعل مهذب\!
+adult.handshake.good4=يوم جميل\!
+adult.handshake.good5=اوه, اهلا بك\!
 
 # 5 bad handshakes when talking to an adult:
-adult.handshake.bad1=Seriously? After you slaughtered the cow?
-adult.handshake.bad2=Um, no that's okay.
-adult.handshake.bad3=I'm not a stranger, you don't have to be so polite.
-adult.handshake.bad4=Wow really? This isn't like you.
+adult.handshake.bad1=حقاً؟ تصافحني بعد ان قتلت بقره؟
+adult.handshake.bad2=امم, ليس بهذا السهوله.
+adult.handshake.bad3=آيي, كسرت يدي يا مالك راسك الكسر.
+adult.handshake.bad4=بماذا لطخت يدك قبل ان تصافحني؟ هذا مقزز.
 adult.handshake.bad5=أذهب بعيداً.
 
 # 5 good stories when talking to an adult:
-adult.tellstory.good1=Really? I can't believe that all happened\!
-adult.tellstory.good2=I wish I was brave enough to take on a creeper.
-adult.tellstory.good3=That was a really good story\! Is it original?
-adult.tellstory.good4=All of that happened yesterday? No way\!
-adult.tellstory.good5=I was near there yesterday, I can't believe I didn't hear this already.
+adult.tellstory.good1=حقاً؟ لا اصدق ان كل هذا قد حدث\!
+adult.tellstory.good2=اتمنى لو كنت شجاعاً كفاية للقضاء على كريبر.
+adult.tellstory.good3=كانت هذي قصة رائعة حقا\! اهذه حقيقه؟
+adult.tellstory.good4=كل هذا صار امس؟ يا رجل\!
+adult.tellstory.good5=كنت هناك بالأمس, لا اصدق انني لم اسمع عنه بالفعل.
 
 # 5 bad stories when talking to an adult:
-adult.tellstory.bad1=*Ahem* That's my mother you're talking about.
-adult.tellstory.bad2=This is why the village talks about you.
-adult.tellstory.bad3=I don't get it...
-adult.tellstory.bad4=You're terrible\! Creepers have feelings too\!
-adult.tellstory.bad5=How could you kill a poor sheep?\!
+adult.tellstory.bad1=*احم* انت تتكلم عن امي.
+adult.tellstory.bad2=ما تعرف تسولف انت.
+adult.tellstory.bad3=لم افهم...
+adult.tellstory.bad4=يا ايها المتوحش\! للكريبر مشاعر ايضاً\!
+adult.tellstory.bad5=كيف لك انت تقتل خروفاً مسكيناً؟\!
 
 # 5 good flirts when talking to an adult:
-adult.flirt.good1=You're sooo brave\!
+adult.flirt.good1=انت شجاعٌ حقاً\!
 adult.flirt.good2=Oh, you\! Stop being so cute\!
 adult.flirt.good3=*Blushes* Do you mean it?
 adult.flirt.good4=Oh, my...
@@ -1520,5 +1528,6 @@ childp.gift.best2=%ParentTitle%, I knew you would get me one of these. I just kn
 childp.gift.best3=Yay\! I have the best %ParentTitle% in the world\!
 childp.gift.best4=This is so amazing\! I can't believe this is all mine\!
 childp.gift.best5=Thank you so much, %ParentTitle%\! You're the best ever\!
+
 
 

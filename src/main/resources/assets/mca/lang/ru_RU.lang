@@ -1,5 +1,5 @@
 #X-Generator: crowdin.com
-itemGroup.tabMCA=Minecraft оживает
+itemGroup.tabMCA=Minecraft Comes Alive
 itemGroup.tabMCA.gemCutting=MCA - Ювелирное дело
 
 #######
@@ -64,7 +64,7 @@ item.ItemVillagerBedPurple.name=Фиолетовая деревенская кр
 item.DivorcePapers.name=Документы на развод
 item.RoseGoldIngot.name=Слиток розового золота
 item.CrystalBall.name=Хрустальный шар
-item.NewOutfit.name=New Outfit
+item.NewOutfit.name=Новая Одежда
 item.DiamondHeart.name=Алмазное сердце
 item.DiamondTiny.name=Небольшой алмаз
 item.DiamondOval.name=Алмаз овальной формы
@@ -85,8 +85,8 @@ item.EngagementRingTriangleRG.name=Обручальное кольцо с тре
 item.EngagementRingStar.name=Обручальное кольцо с камнем в форме звезды
 item.EngagementRingStarRG.name=Обручальное кольцо с камнем в форме звезды из розового золота
 item.tombstone.name=Захоронение
-item.RoseGoldDust.name=Rose Gold Dust
-item.GoldDust.name=Gold Dust
+item.RoseGoldDust.name=Розово-Золотая Пыль
+item.GoldDust.name=Золотая Пыль
 tile.roseGoldOre.name=Руда Розового золота
 tile.roseGoldBlock.name=Блок Розового золота
 item.whistle.name=Свисток
@@ -98,10 +98,10 @@ item.OvalMold.name=Овальная форма
 item.SquareMold.name=Квадратная форма
 item.TriangleMold.name=Треугольная форма
 item.StarMold.name=Форма "Звезда"
-item.NeedleAndString.name=Needle and String
-item.Needle.name=Needle
-item.Cloth.name=Cloth
-tile.VillagerSpawner.name=Villager Spawner
+item.NeedleAndString.name=Игла с Ниткой
+item.Needle.name=Иглы
+item.Cloth.name=Ткань
+tile.VillagerSpawner.name=Спавнер Жителей
 
 #######
 # Item Information
@@ -636,12 +636,20 @@ gui.button.adoptbaby=Усыновить малыша
 gui.button.next=Дальше
 
 ################
+# Relations
+################################
+relation.husband=Husband
+relation.wife=Wife
+relation.daughter=Daughter
+relation.son=Son
+
+################
 # Dialogue
 ################################
 title.nonrelative.male=%Name% %Profession%
 title.nonrelative.female=%Name% %Profession%
-title.relative.male=%RelationToPlayer% %Name%
-title.relative.female=%RelationToPlayer% %Name%
+title.relative.male=%Name% (%RelationToPlayer%)
+title.relative.female=%Name% (%RelationToPlayer%)
 
 label.sleeping=Спит
 label.health=Здоровье\: 
@@ -764,7 +772,7 @@ gui.button.hired=Нанят на работу
 gui.button.length=Продолжительность\: %a1% часа(ов)
 gui.button.accept=Согласиться
 gui.button.divorcespouse=Развестись
-gui.button.resetbaby=Reset Baby
+gui.button.resetbaby=Сброс Ребенока
 gui.button.setup.gender.false=Пол\: Женский
 gui.button.setup.gender.true=Пол\: Мужской
 
@@ -967,7 +975,7 @@ adult.handshake.good1=You have a nice grip\!
 adult.handshake.good2=Your grip shows me you have great power\!
 adult.handshake.good3=Wow, you're so polite\!
 adult.handshake.good4=Добрый день\!
-adult.handshake.good5=Why, hello there\!
+adult.handshake.good5=Ну, Здравствуй\!
 
 # 5 bad handshakes when talking to an adult:
 adult.handshake.bad1=Seriously? After you slaughtered the cow?
@@ -986,7 +994,7 @@ adult.tellstory.good5=I was near there yesterday, I can't believe I didn't hear 
 # 5 bad stories when talking to an adult:
 adult.tellstory.bad1=*Ahem* That's my mother you're talking about.
 adult.tellstory.bad2=This is why the village talks about you.
-adult.tellstory.bad3=I don't get it...
+adult.tellstory.bad3=Я не понимаю...
 adult.tellstory.bad4=You're terrible\! Creepers have feelings too\!
 adult.tellstory.bad5=How could you kill a poor sheep?\!
 
@@ -994,14 +1002,14 @@ adult.tellstory.bad5=How could you kill a poor sheep?\!
 adult.flirt.good1=Ты тааакооой храбрый\!
 adult.flirt.good2=Эй ты\! Перестань быть таким милым\!
 adult.flirt.good3=*Blushes* Do you mean it?
-adult.flirt.good4=Oh, my...
+adult.flirt.good4=О, мой...
 adult.flirt.good5=That was so adorable\! You had me at "hello"\! 
 
 # 5 bad flirts when talking to an adult:
 adult.flirt.bad1=If you mean that, then prove it.
 adult.flirt.bad2=Aw.... Wait, you told the baker the same thing\!
 adult.flirt.bad3=Not in a million years.
-adult.flirt.bad4=Pathetic much?
+adult.flirt.bad4=Смотрится жалко?
 adult.flirt.bad5=У зомби больше шансов, чем у тебя.
 
 # 5 good hugs when talking to an adult:
@@ -1027,13 +1035,13 @@ adult.kiss.bad1=Not if someone can see.
 adult.kiss.bad2=И ты называешь это поцелуем?
 adult.kiss.bad3=Ash kisses better than you.
 adult.kiss.bad4=Two words... breath mints\!
-adult.kiss.bad5=Thank you?
+adult.kiss.bad5=Спасибо?
 
 adult.greeting1=Why, hello there\!
 adult.greeting2=Hey\! How are you today?
 adult.greeting3=Hey, good to see you\!
 adult.greeting4=What's going on with you today?
-adult.greeting5=How are you today?
+adult.greeting5=Как ты сегодня?
 
 ##############################################################################################
 
@@ -1069,8 +1077,8 @@ parent.joke.bad5=No one ever told us you were the funny one, that's for sure.
 # 5 good handshakes when talking to a parent:
 parent.handshake.good1=It's good to see that we raised a polite child\!
 parent.handshake.good2=How civil\! We've tought you well.
-parent.handshake.good3=Good to see you again\!
-parent.handshake.good4=How have you been?
+parent.handshake.good3=Рад видеть тебя снова\!
+parent.handshake.good4=Как поживаешь?
 parent.handshake.good5=That's a nice, firm handshake you've got there.
 
 # 5 bad handshakes when talking to a parent:
@@ -1401,8 +1409,8 @@ spouse.hug.bad5=Huge someone else.
 # 5 good kisses when talking to an spouse:
 spouse.kiss.good1=I fall in love all over again when our lips meet\!
 spouse.kiss.good2=Time stops ticking when I'm with you.
-spouse.kiss.good3=Sweet as cake\!
-spouse.kiss.good4=I love you, baby\!
+spouse.kiss.good3=Сладкий как торт\!
+spouse.kiss.good4=Я люблю тебя\!
 spouse.kiss.good5=I wouldn't trade you for anyone in the world\! 
 
 # 5 bad kisses when talking to an spouse:
@@ -1471,7 +1479,7 @@ child.gift.better1=Здорово\! Пойду покажу это всем св
 child.gift.better2=Ты нашел\! Я потерял это несколько минут назад.
 child.gift.better3=My friend stole one of these from me. Did you beat him up for me?
 
-child.gift.best1=%PlayerName%, you give the best presents\!
+child.gift.best1=%PlayerName%, вы дарите лучшие подарки\!
 child.gift.best2=Наконец-то\! Мой друг прекратил хвастаться.
 child.gift.best3=Wow\! Where did you get this thing?
 child.gift.best4=My Dad has one of these. Now I have one too\!
@@ -1520,5 +1528,6 @@ childp.gift.best2=%ParentTitle%, I knew you would get me one of these. I just kn
 childp.gift.best3=Yay\! I have the best %ParentTitle% in the world\!
 childp.gift.best4=This is so amazing\! I can't believe this is all mine\!
 childp.gift.best5=Thank you so much, %ParentTitle%\! You're the best ever\!
+
 
 

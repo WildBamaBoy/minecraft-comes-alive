@@ -1,5 +1,5 @@
 #X-Generator: crowdin.com
-itemGroup.tabMCA=Minecraft wird Belebt
+itemGroup.tabMCA=Minecraft Comes Alive
 itemGroup.tabMCA.gemCutting=MCA - Edelsteinbearbeitung
 
 #######
@@ -33,9 +33,9 @@ achievement.childMarried=Flügge werden
 achievement.childMarried.desc=Lass' dein Kind heiraten.
 achievement.childHasChildren=Großeltern
 achievement.childHasChildren.desc=Lerne deine Enkel kennen.
-achievement.craftDiamondDust=Oh, Nicht einatmen\!
+achievement.craftDiamondDust=Oh, nicht einatmen\!
 achievement.craftDiamondDust.desc=Mahle einen Diamanten zu Staub.
-achievement.craftColoredDiamondDust=Etwas Farbe hinzufügen
+achievement.craftColoredDiamondDust=Farbe ins Spiel bringen
 achievement.craftColoredDiamondDust.desc=Füge Farbstoff zu einem Häufchen Diamantenstaub hinzu.
 achievement.smeltColoredDiamond=Diamanten mit Style
 achievement.smeltColoredDiamond.desc=Schmelze einen gefärbten Diamanten.
@@ -59,56 +59,56 @@ item.EggFemale.name=Erschaffe Dorfbewohnerin
 item.ItemVillagerBedRed.name=rotes Dorfbewohnerbett
 item.ItemVillagerBedBlue.name=blaues Dorfbewohnerbett
 item.ItemVillagerBedGreen.name=grünes Dorfbewohnerbett
-item.ItemVillagerBedPink.name=pinkes Dorfbewohnerbett
-item.ItemVillagerBedPurple.name=lilanes Dorfbewohnerbett
+item.ItemVillagerBedPink.name=Pinkes Dorfbewohnerbett
+item.ItemVillagerBedPurple.name=Lilanes Dorfbewohnerbett
 item.DivorcePapers.name=Scheidungspapiere
 item.RoseGoldIngot.name=Roségoldbarren
 item.CrystalBall.name=Kristallkugel
-item.NewOutfit.name=New Outfit
+item.NewOutfit.name=Neues Outfit
 item.DiamondHeart.name=Diamantherz
-item.DiamondTiny.name=winziger Diamant
-item.DiamondOval.name=Diamantoval
-item.DiamondSquare.name=Diamantquadrat
-item.DiamondTriangle.name=Diamantdreieck
-item.DiamondStar.name=Diamantstern
+item.DiamondTiny.name=Winziger Diamant
+item.DiamondOval.name=Ovaler Diamant
+item.DiamondSquare.name=Quadratischer Diamant
+item.DiamondTriangle.name=Dreieckiger Diamant
+item.DiamondStar.name=Sternförmiger Diamant
 item.DiamondDust.name=Diamantstaub
-item.EngagementRingHeart.name=herzförmiger Verlobungsring
-item.EngagementRingHeartRG.name=roségoldener herzförmiger Verlobungsring
-item.EngagementRingTiny.name=winziger Verlobungsring
-item.EngagementRingTinyRG.name=roségoldener winziger Verlobungsring
-item.EngagementRingOval.name=ovaler Verlobungsring
-item.EngagementRingOvalRG.name=roségoldener ovaler Verlobungsring
-item.EngagementRingSquare.name=quadratischer Verlobungsring
-item.EngagementRingSquareRG.name=roségoldener quadratischer Verlobungsring
-item.EngagementRingTriangle.name=dreieckiger Verlobungsring
-item.EngagementRingTriangleRG.name=roségoldener dreieckiger Verlobungsring
-item.EngagementRingStar.name=sternförmiger Verlobungsring
-item.EngagementRingStarRG.name=roségoldener sternförmiger Verlobungsring
+item.EngagementRingHeart.name=Herzförmiger Verlobungsring
+item.EngagementRingHeartRG.name=Roségoldener herzförmiger Verlobungsring
+item.EngagementRingTiny.name=Winziger Verlobungsring
+item.EngagementRingTinyRG.name=Roségoldener winziger Verlobungsring
+item.EngagementRingOval.name=Ovaler Verlobungsring
+item.EngagementRingOvalRG.name=Roségoldener ovaler Verlobungsring
+item.EngagementRingSquare.name=Quadratischer Verlobungsring
+item.EngagementRingSquareRG.name=Roségoldener quadratischer Verlobungsring
+item.EngagementRingTriangle.name=Dreieckiger Verlobungsring
+item.EngagementRingTriangleRG.name=Roségoldener dreieckiger Verlobungsring
+item.EngagementRingStar.name=Sternförmiger Verlobungsring
+item.EngagementRingStarRG.name=Roségoldener sternförmiger Verlobungsring
 item.tombstone.name=Grabstein
-item.RoseGoldDust.name=Rose Gold Dust
-item.GoldDust.name=Gold Dust
+item.RoseGoldDust.name=Roségoldstaub
+item.GoldDust.name=Goldstaub
 tile.roseGoldOre.name=Roségolderz
 tile.roseGoldBlock.name=Roségoldblock
 item.whistle.name=Pfeife
 item.villagereditor.name=Dorfbewohner-Editor
-item.GemCutter.name=Schmuckschneider
-item.HeartMold.name=Herz-Form
+item.GemCutter.name=Edelsteinschleifer
+item.HeartMold.name=Herzform
 item.TinyMold.name=Winzige Form
-item.OvalMold.name=Oval-Form
-item.SquareMold.name=Quadrat-Form
-item.TriangleMold.name=Dreiecks-Form
-item.StarMold.name=Stern-Form
-item.NeedleAndString.name=Needle and String
-item.Needle.name=Needle
-item.Cloth.name=Cloth
-tile.VillagerSpawner.name=Villager Spawner
+item.OvalMold.name=Ovale Form
+item.SquareMold.name=Quadratische Form
+item.TriangleMold.name=Dreieckige Form
+item.StarMold.name=Sternform
+item.NeedleAndString.name=Nadel und Faden
+item.Needle.name=Nadel
+item.Cloth.name=Stoff
+tile.VillagerSpawner.name=Dorfbewohner-Spawner
 
 #######
 # Item Information
 ##############################
 information.villagerbed.line1=Platziere es auf dem Boden und
 information.villagerbed.line2=ein Dorfbewohner in der Nähe wird
-information.villagerbed.line3=das Bett in der Nacht nutzen.
+information.villagerbed.line3=während der Nacht im Bett schlafen.
 
 #######
 # Names
@@ -560,13 +560,13 @@ name.female256=Saira
 profession.archer=Bogenschütze
 profession.armorer=Waffenmeister
 profession.butcher=Metzger
-profession.cleric=Kleriker
+profession.cleric=Priester
 profession.farmer=Bauer
 profession.fisherman=Angler
 profession.fletcher=Pfeilmacher
 profession.guard=Wache
 profession.spouse=Partner
-profession.leatherworker=Lederer
+profession.leatherworker=Sattler
 profession.librarian=Bibliothekar
 profession.shepherd=Schäfer
 profession.toolsmith=Werkzeugschmied
@@ -604,7 +604,7 @@ mood.passive=Passiv
 mood.fine=Zufrieden
 mood.happy=Glücklich
 mood.overjoyed=Überglücklich
-mood.bored_to_tears=zu Tränen gelangweilt
+mood.bored_to_tears=Zu Tode gelangweilt
 mood.bored=Gelangweilt
 mood.uninterested=Desinteressiert
 mood.silly=Zickig
@@ -623,9 +623,9 @@ mood.pleased=Zufrieden
 gift.cake1=Was ist das? Ein Kuchen? Oh...oh mein Gott. Ich... muss meinen Gatten finden.
 gift.cake2=Ein Kuchen\! Wie aufmerksam\! Ich... warte, was ist dieses komische Gefühl?
 gift.cake3=Endlich... Das sollte meiner Ehe helfen...
-gift.cake.refuse1=I don't think I want any more cake, but thank you.
-gift.cake.refuse2=No thanks, I don't want cake anymore.
-gift.cake.refuse3=Oh, no. I couldn't.
+gift.cake.refuse1=Ich glaube, ich kann nicht noch mehr Kuchen essen, aber danke der Nachfrage.
+gift.cake.refuse2=Nein, danke. Ich mag nicht noch mehr Kuchen.
+gift.cake.refuse3=Oh, nein. Ich kann nicht mehr.
 
 ################
 # GUIs
@@ -636,14 +636,22 @@ gui.button.adoptbaby=Baby adoptieren
 gui.button.next=Weiter
 
 ################
+# Relations
+################################
+relation.husband=Husband
+relation.wife=Wife
+relation.daughter=Daughter
+relation.son=Son
+
+################
 # Dialogue
 ################################
-title.nonrelative.male=%Name%, die %Profession%
+title.nonrelative.male=%Name%, der %Profession%
 title.nonrelative.female=%Name%, die %Profession%
-title.relative.male=%RelationToPlayer% %Name%
-title.relative.female=%RelationToPlayer% %Name%
+title.relative.male=%Name% (%RelationToPlayer%)
+title.relative.female=%Name% (%RelationToPlayer%)
 
-label.sleeping=Am schlafen
+label.sleeping=Am Schlafen
 label.health=Gesundheit\: 
 
 behavior.retaliate.begin1=Au\! Das hat weh getan\!
@@ -654,7 +662,7 @@ behavior.retaliate.begin5=Aua\! Das hat wirklich weh getan\!
 behavior.retaliate.begin6=Hey\! Was glaubst du, was du da machst?\!
 behavior.retaliate.begin7=*Uff*\! Ich hoffe, dass war ein Unfall\!
 
-behavior.retaliate.distanced1=Oh ja, Jetzt rennst du besser\!
+behavior.retaliate.distanced1=Oh ja, jetzt rennst du besser\!
 behavior.retaliate.distanced2=Wenn du wiederkommst, hole ich die Wachen\!
 behavior.retaliate.distanced3=Komm zurück und kämpfe wie ein Mann\!
 behavior.retaliate.distanced4=Wenn ich dich nochmal sehe, hau ich dir eine rein\!
@@ -706,7 +714,7 @@ farming.nohoe=Ich werde eine Hacke brauchen, um die Felder zu bewirtschaften.
 
 hunting.badspot=Ich kann keinen guten Jagdplatz finden.
 sleep.nohome=Ich habe kein Zuhause\!
-sleep.invalid=My home point is invalid\!
+sleep.invalid=Meine Hausposition ist ungültig\!
 
 #################
 # Parser
@@ -863,9 +871,9 @@ interaction.sethome.success1=Okay, das wird mein neues Zuhause.
 interaction.sethome.success2=In Ordnung, hier werde ich schlafen.
 interaction.sethome.success3=Natürlich, %PlayerName%.
 
-interaction.sethome.fail1=This doesn't look like a safe home point for me. There's some %a1% in the way.
-interaction.sethome.fail2=Is there another place nearby? There's some %a1% in the way.
-interaction.sethome.fail3=I can't have my home point here. There's some %a1% in the way.
+interaction.sethome.fail1=Das sieht nicht wie eine sichere Hausposition aus. Da sind einige %a1% im Weg.
+interaction.sethome.fail2=Gibt es keinen anderen Platz in der Nähe? Da sind einige %a1% im Weg.
+interaction.sethome.fail3=Ich kann meine Hausposition hier nicht setzen. Da sind einige %a1% im Weg.
 
 interaction.mining.fail.toolow1=Wir sind zu tief, um etwas abzubauen.
 interaction.mining.fail.toolow2=Wir müssen auf eine höhere Ebene.
@@ -1520,5 +1528,6 @@ childp.gift.best2=%ParentTitle%, Ich wusste du würdest mir so eins geben. Ich w
 childp.gift.best3=Yay\! Ich habe den besten %ParentTitle% auf der Welt\!
 childp.gift.best4=Das ist so einzigartig\! Ich kann nicht glauben, dass das alles mir gehört\!
 childp.gift.best5=Danke vielmals, %ParentTitle%\! Du bist einfach der beste\!
+
 
 

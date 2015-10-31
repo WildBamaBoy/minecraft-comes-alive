@@ -5,7 +5,7 @@ itemGroup.tabMCA.gemCutting=MCA - Gem Cutting
 #######
 # Achievements
 ##############################
-achievement.fullGoldHearts=Getting Somewhere
+achievement.fullGoldHearts=Nu rör det på sig
 achievement.fullGoldHearts.desc=Get 5 gold hearts with a villager.
 achievement.engagement=Happily Taken\!
 achievement.engagement.desc=Get engaged to a villager.
@@ -40,8 +40,8 @@ achievement.craftColoredDiamondDust.desc=Add dye to a pile of diamond dust.
 achievement.smeltColoredDiamond=Diamanter med stil
 achievement.smeltColoredDiamond.desc=Smält en färgad diamant.
 achievement.craftShapedDiamond=Diamond Cutter
-achievement.craftShapedDiamond.desc=Shape a diamond.
-achievement.craftShapedRing=A Finished Product
+achievement.craftShapedDiamond.desc=Forma en diamant.
+achievement.craftShapedRing=En Klar Produkt
 achievement.craftShapedRing.desc=Craft a shaped diamond ring.
 
 #######
@@ -66,7 +66,7 @@ item.RoseGoldIngot.name=Rosguldtacka
 item.CrystalBall.name=Crystal Ball
 item.NewOutfit.name=New Outfit
 item.DiamondHeart.name=Diamanthjärta
-item.DiamondTiny.name=Tiny Diamond
+item.DiamondTiny.name=Liten Diamant
 item.DiamondOval.name=Diamond Oval
 item.DiamondSquare.name=Diamond Square
 item.DiamondTriangle.name=Diamond Triangle
@@ -636,12 +636,20 @@ gui.button.adoptbaby=Adoptera bebis
 gui.button.next=Next
 
 ################
+# Relations
+################################
+relation.husband=Husband
+relation.wife=Wife
+relation.daughter=Daughter
+relation.son=Son
+
+################
 # Dialogue
 ################################
 title.nonrelative.male=%Name% the %Profession%
 title.nonrelative.female=%Name% the %Profession%
-title.relative.male=%RelationToPlayer% %Name%
-title.relative.female=%RelationToPlayer% %Name%
+title.relative.male=%Name% (%RelationToPlayer%)
+title.relative.female=%Name% (%RelationToPlayer%)
 
 label.sleeping=Sover
 label.health=Hälsa\: 
@@ -1520,5 +1528,6 @@ childp.gift.best2=%ParentTitle%, I knew you would get me one of these. I just kn
 childp.gift.best3=Yay\! I have the best %ParentTitle% in the world\!
 childp.gift.best4=This is so amazing\! I can't believe this is all mine\!
 childp.gift.best5=Thank you so much, %ParentTitle%\! You're the best ever\!
+
 
 

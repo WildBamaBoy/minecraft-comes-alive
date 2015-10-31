@@ -1,5 +1,5 @@
 #X-Generator: crowdin.com
-itemGroup.tabMCA=Minecraft Herää Henkiin
+itemGroup.tabMCA=Minecraft Comes Alive
 itemGroup.tabMCA.gemCutting=MCA - Jalokivileikkaus
 
 #######
@@ -64,13 +64,13 @@ item.ItemVillagerBedPurple.name=Violetti Kyläläispeti
 item.DivorcePapers.name=Eropaperit
 item.RoseGoldIngot.name=Ruusukultaharkko
 item.CrystalBall.name=Kristallipallo
-item.NewOutfit.name=New Outfit
+item.NewOutfit.name=Uusi puku
 item.DiamondHeart.name=Timanttisydän
 item.DiamondTiny.name=Pieni timantti
-item.DiamondOval.name=Timantti Ovaali
-item.DiamondSquare.name=Timantti Neliö
-item.DiamondTriangle.name=Timantti Kolmio
-item.DiamondStar.name=Timantti Tähti
+item.DiamondOval.name=Timanttiovaali
+item.DiamondSquare.name=Timanttineliö
+item.DiamondTriangle.name=Timanttikolmio
+item.DiamondStar.name=Timanttitähti
 item.DiamondDust.name=Timanttipöly
 item.EngagementRingHeart.name=Sydämmenmuotoinen kihlasormus
 item.EngagementRingHeartRG.name=Ruusukultainen sydän kihlasormus
@@ -80,17 +80,17 @@ item.EngagementRingOval.name=Ovaalikihlasormus
 item.EngagementRingOvalRG.name=Ovaaliruusunkultainen vihkisormus
 item.EngagementRingSquare.name=Neliönmuotoinen kihlasormus
 item.EngagementRingSquareRG.name=Ruusunkultainen neliö kihlasormus
-item.EngagementRingTriangle.name=Kolmion muotoinen kihlasormus
-item.EngagementRingTriangleRG.name=Ruusukultainen kolmio kihlasormus
+item.EngagementRingTriangle.name=Kolmionmuotoinen kihlasormus
+item.EngagementRingTriangleRG.name=Ruusukultainen kolmiokihlasormus
 item.EngagementRingStar.name=Tähdenmuotoinen kihlasormus
-item.EngagementRingStarRG.name=Ruusukultainen tähti kihlasormus
+item.EngagementRingStarRG.name=Ruusukultainen tähtikihlasormus
 item.tombstone.name=Hautakivi
-item.RoseGoldDust.name=Rose Gold Dust
-item.GoldDust.name=Gold Dust
+item.RoseGoldDust.name=Ruusunkultapöly
+item.GoldDust.name=Kultapöly
 tile.roseGoldOre.name=Ruusukultamalmi
 tile.roseGoldBlock.name=Ruusukultakuutio
 item.whistle.name=Pilli
-item.villagereditor.name=Kyläläisen Muokkaaja
+item.villagereditor.name=Kyläläismuokkaaja
 item.GemCutter.name=Jalokivenleikkaaja
 item.HeartMold.name=Sydänmuotti
 item.TinyMold.name=Pienimuotti
@@ -98,10 +98,10 @@ item.OvalMold.name=Ovaalimuotti
 item.SquareMold.name=Neliömuotti
 item.TriangleMold.name=Kolmiomuotti
 item.StarMold.name=Tähtimuotti
-item.NeedleAndString.name=Needle and String
-item.Needle.name=Needle
-item.Cloth.name=Cloth
-tile.VillagerSpawner.name=Villager Spawner
+item.NeedleAndString.name=Neula ja Lanka
+item.Needle.name=Neula
+item.Cloth.name=Vaate
+tile.VillagerSpawner.name=Kyläläisluoja
 
 #######
 # Item Information
@@ -623,25 +623,33 @@ mood.pleased=Tyytyväinen
 gift.cake1=Mikäs tämä on? Kakku? Voi...voi ei. Minun... pitää löytää puolisoni.
 gift.cake2=Kakku\! Kuinka ajattelevaista\! Minä... hetkinen, mikä on tämä kummallinen tunne?
 gift.cake3=Viimeinkin jotain joka auttaa avioliitossani...
-gift.cake.refuse1=I don't think I want any more cake, but thank you.
-gift.cake.refuse2=No thanks, I don't want cake anymore.
-gift.cake.refuse3=Oh, no. I couldn't.
+gift.cake.refuse1=En usko että haluan enempää kakkua, mutta kiitos kuitenkin.
+gift.cake.refuse2=Ei kiitos, en halua enempää kakkua.
+gift.cake.refuse3=Voi ei. En voinut.
 
 ################
 # GUIs
 ################################
-gui.button.exit=Exit
-gui.button.back=Back
+gui.button.exit=Poistu
+gui.button.back=Takaisin
 gui.button.adoptbaby=Adoptoi vauva
-gui.button.next=Next
+gui.button.next=Seuraava
+
+################
+# Relations
+################################
+relation.husband=Husband
+relation.wife=Wife
+relation.daughter=Daughter
+relation.son=Son
 
 ################
 # Dialogue
 ################################
 title.nonrelative.male=%Name% %Profession%
 title.nonrelative.female=%Name% %Profession%
-title.relative.male=%RelationToPlayer% %Name%
-title.relative.female=%RelationToPlayer% %Name%
+title.relative.male=%Name% (%RelationToPlayer%)
+title.relative.female=%Name% (%RelationToPlayer%)
 
 label.sleeping=Nukkuu
 label.health=Terveys\: 
@@ -705,8 +713,8 @@ farming.noseeds=Minulla ei ole tarpeeksi %a1%. Tarvitsen vähintään %a2% maati
 farming.nohoe=Tarvitsen kuokan jotta voin viljellä.
 
 hunting.badspot=En löydä hyvää metsästyspaikkaa.
-sleep.nohome=Minulla ei ole kotipistettä\!
-sleep.invalid=My home point is invalid\!
+sleep.nohome=Minulla ei ole kotipaikkaa\!
+sleep.invalid=Kotipaikkani on epäkelpo\!
 
 #################
 # Parser
@@ -717,11 +725,11 @@ parser.dad=Isä
 #################
 # GUI
 ################################
-gui.button.yes=Yes
-gui.button.no=No
+gui.button.yes=Kyllä
+gui.button.no=Ei
 gui.button.ok=Ok
-gui.button.done=Done
-gui.button.random=Random
+gui.button.done=Tehty
+gui.button.random=Satunnainen
 gui.button.interact=Käytä
 gui.button.follow=Seuraa minua
 gui.button.stay=Pysy täällä
@@ -772,7 +780,7 @@ gui.title.namebaby.male=Se on poika\!
 gui.title.namebaby.female=Se on tyttö\!
 gui.title.namebaby=Nimeä vauvasi\:
 gui.title.tombstone=Lisää hautakiven teksti\:
-gui.title.editor=Kyläläisen Muokkaaja
+gui.title.editor=Kyläläismuokkaaja
 
 gui.info.family.married=Naimisissa %a1% kanssa.
 gui.info.family.engaged=Kihloissa %a1% kanssa.
@@ -832,7 +840,7 @@ interaction.marry.fail.lowhearts4=Olen imarreltu, mutta en oikein tunne sinua.
 interaction.engage.success1=Kyllä\! Menen naimisiin kanssasi\! Rakastan sinua\!
 interaction.engage.success2=Tottakai menen naimisiin kanssasi\!
 interaction.engage.success3=Oli jo aikakin...kunhan vitsailin\! Rakastan sinua\!
-interaction.engage.success4=Onko... Onko tämä todellista? Tarkoitan, tämä hetki, ei sormus. Mutta tuo sormus on aito, eikö?
+interaction.engage.success4=Onko... Onko tämä todellista? Tarkoitan, tämä hetki, ei sormus. Mutta onhan tuo sormus on aito?
 
 interaction.marry.success1=Tämä on unelmieni täyttymys\! Rakastan sinua ikuisesti\!
 interaction.marry.success2=Me olemme vihdoin naimisissa\! Mitäs nyt?
@@ -853,7 +861,7 @@ interaction.matchmaker.fail.needtwo3=Puolisoni ja minä tarvitsemme molemmat sor
 
 interaction.matchmaker.fail.novillagers1=En näe ketään lähettyvillä. Kenet sinä halusit minun kanssa menevän naimisiin?
 interaction.matchmaker.fail.novillagers2=En oikein tiedä... siirrä minut lähemmäs sille jonka uskot olevan se oikea minulle.
-interaction.matchmaker.fail.novillagers3=Ai, mutta täällä ei vaikuta olevan ketään lähettyvillä. Kenen kanssa minun pitäisi mennä naimisiin?
+interaction.matchmaker.fail.novillagers3=Mutta täällä ei vaikuta olevan ketään lähettyvillä. Kenen kanssa minun pitäisi mennä naimisiin?
 
 interaction.matchmaker.fail.invalid1=Mutta en voi mennä naimisiin %Name% kanssa.
 interaction.matchmaker.fail.invalid2=Ainoa lähettyvillä oleva kyläläinen on %Name%, ja en voi mennä naimisiin hänen kanssaan.
@@ -863,9 +871,9 @@ interaction.sethome.success1=Ok, tästä tulee minun uusi kotipiste.
 interaction.sethome.success2=Ymmärrän, Nukun täällä öisin.
 interaction.sethome.success3=Selvä juttu, %PlayerName%.
 
-interaction.sethome.fail1=This doesn't look like a safe home point for me. There's some %a1% in the way.
-interaction.sethome.fail2=Is there another place nearby? There's some %a1% in the way.
-interaction.sethome.fail3=I can't have my home point here. There's some %a1% in the way.
+interaction.sethome.fail1=Tämä ei näytä turvalliselta kotipaikalta minulle. Lähistöllä on muutama %a1%.
+interaction.sethome.fail2=Onko lähistöllä toista paikkaa? Tässä on muutama %a1% tiellä.
+interaction.sethome.fail3=En voi tehdä tästä kotipaikkaani. Lähistöllä on muutama %a1%.
 
 interaction.mining.fail.toolow1=Olemme liian alhaalla että voisin luoda kaivoksen.
 interaction.mining.fail.toolow2=Meidän täytyy olla korkeammalla tasolla.
@@ -922,10 +930,10 @@ adult.gift.good3=Kuinka huomaavaista\!
 adult.gift.good4=Oi, minä rakastan näitä\!
 adult.gift.good5=Lahja? Minulle? Kuinka hienoa\!
 
-adult.gift.better1=Hei, tää on aika hieno\!
+adult.gift.better1=Hei, tämä on aika hieno\!
 adult.gift.better2=Kiitos, ystäväiseni\!
 adult.gift.better3=Olet todella hyvä kaveri %PlayerName%\!
-adult.gift.better4=Vau, tarvitsinki juuri tälläistä\!
+adult.gift.better4=Vau, tarvitsinkin juuri tälläistä\!
 adult.gift.better5=Tämä on aika hieno lahja\!
 
 adult.gift.best1=Minä....Minä en tiedä mitä minun pitäisi sanoa. Kiitos todella paljon, %PlayerName%\!
@@ -1126,7 +1134,7 @@ relative.chat.bad4=Jos et lähde niin laitan lähestymiskiellon sinulle.
 relative.chat.bad5=Olet niin törkeä.
 
 # 5 good jokes when talking to a relative:
-relative.joke.good1=Pappa kertoi minulle tuon, eikös vain?\!
+relative.joke.good1=Pappa kertoi sinulle tuon, eikös vain?\!
 relative.joke.good2=Tuo vitsi on menee pitkällä perinteenä perheessämme\!
 relative.joke.good3=Sitten lehmä hyppäsi rotkon yli *Nauraa*
 
@@ -1488,7 +1496,7 @@ spouse.gift.good4=Oi, kuinka kilttiä sinulta.
 spouse.gift.good5=Kiitos, kulta\!
 
 spouse.gift.better1=Vau, tämä on itseasiassa todella kiva\!
-spouse.gift.better2=Rakastin sitä\! Kiitos\!
+spouse.gift.better2=Rakastan sitä\! Kiitos\!
 spouse.gift.better3=Kulta, tämä on ihmeelllinen\!
 spouse.gift.better4=Sinä hankit tämän minulle? Kuinka kilttiä\!
 spouse.gift.better5=Voi, kiitos %PlayerName%\!
@@ -1520,5 +1528,6 @@ childp.gift.best2=%ParentTitle%, Tiesin, että hankkisit minulle yhden tämmöis
 childp.gift.best3=Jee\! Minulla on paras %ParentTitle% maailmassa\!
 childp.gift.best4=Tämä on hurjaa\! En voi uskoa, että tämä kaikki on minun\!
 childp.gift.best5=Kiitos todella paljon, %ParentTitle%\! Olet ihan paras\!
+
 
 

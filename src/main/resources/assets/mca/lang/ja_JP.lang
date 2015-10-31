@@ -64,7 +64,7 @@ item.ItemVillagerBedPurple.name=村人の紫のベッド
 item.DivorcePapers.name=離婚届
 item.RoseGoldIngot.name=ローズゴールドインゴット
 item.CrystalBall.name=クリスタルボール
-item.NewOutfit.name=New Outfit
+item.NewOutfit.name=新しい衣装
 item.DiamondHeart.name=ダイヤモンドハート
 item.DiamondTiny.name=小さなダイアモンド
 item.DiamondOval.name=卵形のダイヤモンド
@@ -85,8 +85,8 @@ item.EngagementRingTriangleRG.name=ローズゴールドの三角形の婚約指
 item.EngagementRingStar.name=星形の婚約指輪
 item.EngagementRingStarRG.name=ローズゴールドの星形の婚約指輪
 item.tombstone.name=墓石
-item.RoseGoldDust.name=Rose Gold Dust
-item.GoldDust.name=Gold Dust
+item.RoseGoldDust.name=ローズゴールドの粉
+item.GoldDust.name=金粉
 tile.roseGoldOre.name=ローズゴールド鉱石
 tile.roseGoldBlock.name=ローズゴールドブロック
 item.whistle.name=ホイッスル
@@ -98,10 +98,10 @@ item.OvalMold.name=小判形の金型
 item.SquareMold.name=四角い金型
 item.TriangleMold.name=三角形の金型
 item.StarMold.name=星形の金型
-item.NeedleAndString.name=Needle and String
-item.Needle.name=Needle
-item.Cloth.name=Cloth
-tile.VillagerSpawner.name=Villager Spawner
+item.NeedleAndString.name=針と糸
+item.Needle.name=針
+item.Cloth.name=布
+tile.VillagerSpawner.name=村人スポナー
 
 #######
 # Item Information
@@ -623,9 +623,9 @@ mood.pleased=喜んで！
 gift.cake1=これは何？ケーキ？あぁ…どうしよう。私は…結婚相手を探さなきゃ。
 gift.cake2=ケーキだ！なんて気が効くの！私…待って、この違和感はなんだろう？
 gift.cake3=最後に、私の結婚を助ける何か...
-gift.cake.refuse1=I don't think I want any more cake, but thank you.
-gift.cake.refuse2=No thanks, I don't want cake anymore.
-gift.cake.refuse3=Oh, no. I couldn't.
+gift.cake.refuse1=これ以上のケーキはいらないよ、でもありがとう。
+gift.cake.refuse2=いや結構、私はもうケーキは欲しくない。
+gift.cake.refuse3=ああやだ、私はできない。
 
 ################
 # GUIs
@@ -636,12 +636,20 @@ gui.button.adoptbaby=赤ちゃんを養子縁組する
 gui.button.next=次
 
 ################
+# Relations
+################################
+relation.husband=Husband
+relation.wife=Wife
+relation.daughter=Daughter
+relation.son=Son
+
+################
 # Dialogue
 ################################
 title.nonrelative.male=%Name%は%Profession%
 title.nonrelative.female=%Name%は%Profession%
-title.relative.male=%RelationToPlayer% %Name%
-title.relative.female=%RelationToPlayer% %Name%
+title.relative.male=%Name% (%RelationToPlayer%)
+title.relative.female=%Name% (%RelationToPlayer%)
 
 label.sleeping=睡眠中
 label.health=健康状態\:  
@@ -706,7 +714,7 @@ farming.nohoe=私が農作をするためにはクワが必要になるね。
 
 hunting.badspot=良い狩場が見つけられない。
 sleep.nohome=私にはホームポイントがありません！
-sleep.invalid=My home point is invalid\!
+sleep.invalid=私のホームポイントが無効になってる！
 
 #################
 # Parser
@@ -863,9 +871,9 @@ interaction.sethome.success1=よし、ここを新しいホームポイントと
 interaction.sethome.success2=分かったよ、私は夜にここで寝るね。
 interaction.sethome.success3=そうだね、%PlayerName%。
 
-interaction.sethome.fail1=This doesn't look like a safe home point for me. There's some %a1% in the way.
-interaction.sethome.fail2=Is there another place nearby? There's some %a1% in the way.
-interaction.sethome.fail3=I can't have my home point here. There's some %a1% in the way.
+interaction.sethome.fail1=私にはここが安全なホームポイントだとは思えない。いくつかの%a1%な方法があるよ。
+interaction.sethome.fail2=%a1%が邪魔です。ほかの場所はありますか？
+interaction.sethome.fail3=%a1%があるのでここにホームポイントを設置できません。
 
 interaction.mining.fail.toolow1=私たちが鉱山を作るためにはあまりにも低い場所だ。
 interaction.mining.fail.toolow2=私たちは地面より高い位置が必要です。
@@ -890,11 +898,11 @@ interactionp.marry.fail.targetalreadymarried=%a1%はすでに結婚している
 interactionp.marry.fail.noweddingring=結婚指輪を持っていません
 interactionp.marry.prompt=%a1% あなたと結婚したいと思います。
 
-interactionp.havebaby.sent=You have asked %a1% to have a baby.
+interactionp.havebaby.sent=%a1%に子作りするように頼みました。
 interactionp.havebaby.prompt=%a1%  赤ちゃんが欲しいと思います。
 interactionp.havebaby.fail.alreadyexists=あなたたちには既に赤ちゃんがいます。
 
-interactionp.divorce.notify=You are no longer married to %a1%.
+interactionp.divorce.notify=あなたは、もう%a1%と結婚していません。
 
 interaction.adoptbaby.success=Wonderful\! I'd like you to meet %a1%, your new baby\! Treat them well.
 
@@ -912,7 +920,7 @@ interaction.adoptbaby.success=Wonderful\! I'd like you to meet %a1%, your new ba
 adult.gift.bad1=これは、良い贈り物ではないね…
 adult.gift.bad2=私は君にこれが欲しいと思わせていたの？
 adult.gift.bad3=遠慮します。
-adult.gift.bad4=I don't want that, why would I?
+adult.gift.bad4=それはいらないよ。何で私がそれを受け取らなきゃならないの？
 adult.gift.bad5=なんで私にこれをくれたの？
 adult.gift.bad6=これが贈り物だと思ってるの？いらないよ。
 
@@ -925,7 +933,7 @@ adult.gift.good5=贈り物？私に？なんて素晴らしい！
 adult.gift.better1=ねぇ、これはとってもクールだね！
 adult.gift.better2=ありがとう、友よ。
 adult.gift.better3=%PlayerName%, あなたは良い友達だよ！
-adult.gift.better4=Oh wow, I actually needed one of these\!
+adult.gift.better4=わあすごい、私はこのうちの一つが本当に必要だったんだ！
 adult.gift.better5=これはかなり良い贈り物です！
 
 adult.gift.best1=な…なんて言ったらいいのか…。本当にありがとう、%PlayerName%！
@@ -942,8 +950,8 @@ adult.chat.good4=一日一個のリンゴ、ゾンビ知らず！
 adult.chat.good5=私の夢は私自身の村を造ること、でも私はとても怠惰なんだ。
 
 # 5 bad chats when talking to an adult:
-adult.chat.bad1=Did you seriously just say that?
-adult.chat.bad2=I don't believe it exploded on its own.
+adult.chat.bad1=あなたは本気でそれを言ってるのか？
+adult.chat.bad2=私はそれが自分で爆発したとは思えないね。
 adult.chat.bad3=ねぇ知ってる？君はそんなにかっこよくないよ。
 adult.chat.bad4=見せびらかす
 adult.chat.bad5=君は、地下牢にでも入ればいい！ 
@@ -977,7 +985,7 @@ adult.handshake.bad4=え、本当に？あなたらしくないね。
 adult.handshake.bad5=あっち行って。
 
 # 5 good stories when talking to an adult:
-adult.tellstory.good1=Really? I can't believe that all happened\!
+adult.tellstory.good1=本当に？それが全て本当に起こったことだとは信じられないよ！
 adult.tellstory.good2=I wish I was brave enough to take on a creeper.
 adult.tellstory.good3=すごく良い話だ！オリジナルなの？
 adult.tellstory.good4=全部昨日起きたことだって？まさか！
@@ -988,11 +996,11 @@ adult.tellstory.bad1=*Ahem* That's my mother you're talking about.
 adult.tellstory.bad2=This is why the village talks about you.
 adult.tellstory.bad3=意味がわかりません…
 adult.tellstory.bad4=あなたはひどい！\nクリーパーにだって、感情はあるよ！
-adult.tellstory.bad5=How could you kill a poor sheep?\!
+adult.tellstory.bad5=どうしたら貧しい羊を殺すことができるんだい！
 
 # 5 good flirts when talking to an adult:
 adult.flirt.good1=あなたすっっっごく勇気があるね！
-adult.flirt.good2=Oh, you\! Stop being so cute\!
+adult.flirt.good2=あぁ君！かわいすぎるからやめて！
 adult.flirt.good3=*Blushes* Do you mean it?
 adult.flirt.good4=なんてこった…
 adult.flirt.good5=That was so adorable\! You had me at "hello"\! 
@@ -1026,7 +1034,7 @@ adult.kiss.good3=ふーむ、パンプキンパイみたいな味だ！
 adult.kiss.bad1=誰かが見ているところでするのは良くないよ。
 adult.kiss.bad2=あなたはそれをキスと呼びますか?
 adult.kiss.bad3=君とキスするくらいなら灰とした方がマシだよ。
-adult.kiss.bad4=Two words... breath mints\!
+adult.kiss.bad4=一言…ブレスミント！
 adult.kiss.bad5=ありがとう？
 
 adult.greeting1=やぁ、こんにちはみんな！
@@ -1053,7 +1061,7 @@ parent.chat.bad5=I had a diamond sword for you but now you're not getting it\!
 
 
 # 5 good jokes when talking to a parent:
-parent.joke.good1=You get your humor from me\!*Laughs*
+parent.joke.good1=あなたは私からユーモアを得たのね！*笑う*
 parent.joke.good2=You fill my day with laughter and joy\!
 parent.joke.good3=私にはその笑いが必要だったんだ！
 parent.joke.good4=君はいつコメディアンになったの？とっても面白いね！
@@ -1061,7 +1069,7 @@ parent.joke.good5=Great Aunt Berry would had loved to hear that one\!
 
 # 5 bad jokes when talking to a parent:
 parent.joke.bad1=はぁ…
-parent.joke.bad2=You're my kid so I have to laugh... but it isn't funny.
+parent.joke.bad2=あんたは私の子供だから笑わなきゃいけないけど…でも面白くない。
 parent.joke.bad3=You're as dull as my first date.
 parent.joke.bad4=No offense, but that was bad.
 parent.joke.bad5=No one ever told us you were the funny one, that's for sure.
@@ -1081,10 +1089,10 @@ parent.handshake.bad4=Are you embarrassed to be seen with me, or something?
 parent.handshake.bad5=I never realized how weak you were.
 
 # 5 good stories when talking to a parent:
-parent.tellstory.good1=After that you took off your diaper and threw it on the priest\!
-parent.tellstory.good2=Did you end up getting a date?
+parent.tellstory.good1=その後、あなたはおむつを脱いで司祭に投げつけた！
+parent.tellstory.good2=日付の取得は終わった？
 parent.tellstory.good3=They sound lovely\! So when are you going to make me a grandparent?
-parent.tellstory.good4=Yes, I remember that\! Your cousin Bert ate way too many cookies.
+parent.tellstory.good4=ああ、覚えてるよ！　あなたのいとこのバートは、あまりにもたくさんのクッキーを食べていたね。
 parent.tellstory.good5=まだ家は完成しないのかな？
 
 # 5 bad stories when talking to a parent:
@@ -1102,9 +1110,9 @@ parent.hug.good4=You never let me down\!
 parent.hug.good5=You're the best child a parent could ask for\!
 
 # 5 bad hugs when talking to a parent:
-parent.hug.bad1=I'm not mad, I'm disappointed. 
+parent.hug.bad1=怒ってないよ、私はがっかりしているんだ。 
 parent.hug.bad2=Sucking up? Get your own cake mix\!
-parent.hug.bad3=Why don't we hug like this more often? Are you embarrassed? 
+parent.hug.bad3=どうして私たちは度々こうして抱き合わなきゃならないの？あなたは恥ずかしくないの？ 
 parent.hug.bad4=Not until you wash off.
 parent.hug.bad5=君があんな話をした後なのに？とんでもない。
 
@@ -1242,7 +1250,7 @@ childp.chat.good1=Oh, I was just going to go explorin' later.
 childp.chat.good2=ねぇみんなでキャンプに行こう？お願い！
 childp.chat.good3=やぁ、あなたは私にケーキを作ってくれますか？
 childp.chat.good4=Can I have my own room away from our house? That would be cool\!
-childp.chat.good5=Let's move into a cave\! That sounds so fun\!
+childp.chat.good5=洞窟へ移動しよう！なんだか楽しそうだよ！
 
 # 5 bad chats when talking to an playerchild:
 childp.chat.bad1=%ParentOpposite% talks about them a lot...
@@ -1270,18 +1278,18 @@ childp.handshake.good1=Why do I need to learn this stuff?
 childp.handshake.good2=%ParentOpposite% said that this is a polite thing to do.
 childp.handshake.good3=成長したら、私はあなたに似ると思う！
 childp.handshake.good4=今ケーキをいただけますか？
-childp.handshake.good5=I don't get it, but okay\! 
+childp.handshake.good5=意味がわからない、でもいいよ！ 
 
 # 5 bad handshakes when talking to an playerchild:
 childp.handshake.bad1=握手したくないから自分の手に唾吐いといたよ。
 childp.handshake.bad2=You're such an old person.
 childp.handshake.bad3=Only losers shake hands.
 childp.handshake.bad4=I'll shake your hand if you give me cake.
-childp.handshake.bad5=No, you'll slip and hit me.
+childp.handshake.bad5=いやだ、君が滑って私を殴るかもしれないじゃないか。
 
 # 5 good stories when talking to an playerchild:
 childp.tellstory.good1=%ParentOpposite% really did that?\! What happened to their clothes?
-childp.tellstory.good2=I want to explore a cave, too\! Let's go\!
+childp.tellstory.good2=私はまた洞穴を探検したい！行こう！
 childp.tellstory.good3=One day I'll kill more creepers than you\!
 childp.tellstory.good4=Oh, oh, oh\! Can we climb a tree, too?\!
 childp.tellstory.good5=溶岩痛かった？ 
@@ -1361,7 +1369,7 @@ spouse.tellstory.good1=Let's not tell our children that one...
 spouse.tellstory.good2=君は、とても反抗的だった！そんな君も好きだよ！
 spouse.tellstory.good3=Did you ever tell your parents about losing their rings?
 spouse.tellstory.good4=It was that moment when I fell in love with you\!
-spouse.tellstory.good5=Wow, you're the best hunter ever\!
+spouse.tellstory.good5=すごい、君はこれまでで最高のハンターだ！
 
 # 5 bad stories when talking to an spouse:
 spouse.tellstory.bad1=Talk to me when you kill something other than a harmless cow.
@@ -1372,24 +1380,24 @@ spouse.tellstory.bad5=Why did you wear the pink fluffy underwear? Whose were the
 
 # 5 good flirts when talking to an spouse:
 spouse.flirt.good1=*Blushes* Well, how about we do something like that, then\!
-spouse.flirt.good2=Aw, you said that when we first met.
-spouse.flirt.good3=Baby, you're so cute\!
-spouse.flirt.good4=You bet I am\!
-spouse.flirt.good5=*Winks* You still got it\!
+spouse.flirt.good2=あぁ、私たちが初めて会ったときに君が言った言葉を覚えてるかい。
+spouse.flirt.good3=ベイビー、君はとっても可愛いね！
+spouse.flirt.good4=もちろんだよ！
+spouse.flirt.good5=*ウインクして* 君はまだまだイケてるね！
 
 # 5 bad flirts when talking to an spouse:
 spouse.flirt.bad1=*ため息*
 spouse.flirt.bad2=This one is getting old... like you.
-spouse.flirt.bad3=We're married, we don't have to do this anymore.
-spouse.flirt.bad4=Talk to the tree, it cares more.
+spouse.flirt.bad3=私たちはもう結婚しているんだよ、いちゃいちゃする必要なんてないんだ。
+spouse.flirt.bad4=木にでも話しかけてなよ、気にかけてくれるよ。
 spouse.flirt.bad5=え、えーと…君は今なんて言ったの？
 
 # 5 good hugs when talking to an spouse:
-spouse.hug.good1=I love being entangled in your arms\!
-spouse.hug.good2=Wait, don't leave... you're warm.
+spouse.hug.good1=私はあなたの腕の中にいるのが大好きなんだ！
+spouse.hug.good2=待って、離れないで…君はとても暖かいね。
 spouse.hug.good3=Would you rather only being able to hug or kiss?
 spouse.hug.good4=*ちゅっ* 
-spouse.hug.good5=Let's stay like this forever\!
+spouse.hug.good5=永遠にこうしていようよ！
 
 # 5 bad hugs when talking to an spouse:
 spouse.hug.bad1=Why don't you go hug your ex?
@@ -1419,25 +1427,25 @@ spouse.greeting4=ねぇ%PlayerName%！君はお腹が空いてるように見え
 spouse.greeting5=%PlayerName%、お帰りなさい！君がいなくて寂しかったよ。
 
 relative.gift.bad1=You shouldn't have... literally.
-relative.gift.bad2=Eh, you keep it.
+relative.gift.bad2=いや、自分で持ってなよ。
 relative.gift.bad3=Ew, where did you find this? In a mine?
-relative.gift.bad4=I'm not touching that.
+relative.gift.bad4=私はそれに触りたくもないよ。
 
 relative.gift.good1=ああ、ありがとう。
 relative.gift.good2=Thank you for thinking of me, %PlayerName%.
-relative.gift.good3=How thoughtful of you.
-relative.gift.good4=How'd you know I liked these?
-relative.gift.good5=Youre too kind.
+relative.gift.good3=気が利くね。
+relative.gift.good4=あなたはどうして私がこれが好きだと分かったの？
+relative.gift.good5=あなたは優しすぎる。
 
 relative.gift.better1=I have the perfect spot for this.
-relative.gift.better2=Thank you very much, %PlayerName%.
+relative.gift.better2=本当にありがとう、%PlayerName%。
 relative.gift.better3=これはとても可愛らしいね。
 relative.gift.better4=I appreciate you thinking about me.
 relative.gift.better5=Ill take good care of it.
 
 relative.gift.best1=Ive always wanted one of these\!
-relative.gift.best2=This is the best gift I've ever received, %PlayerName%\!
-relative.gift.best3=You give the best gifts, %PlayerName%\!
+relative.gift.best2=これは私がこれまでに受け取った中で一番最高な贈り物だよ、%PlayerName%！
+relative.gift.best3=あなたは最高の贈り物をくれたね、%PlayerName%！
 relative.gift.best4=I can't believe this, you're too sweet, thank you\!
 relative.gift.best5=You know me like the back of your hand\!
 
@@ -1460,15 +1468,15 @@ parent.gift.best3=This was yours when you were a child, I can't believe you foun
 
 child.gift.bad1=えー、これは気に入らない！
 child.gift.bad2=オエッ！こんなもの欲しくないよ。
-child.gift.bad3=Why did you bring me this? It's dumb\!
-child.gift.bad4=I don't even know what this is\!
+child.gift.bad3=何でこれを私に持ってきたの？呆れて言葉も出ないよ！
+child.gift.bad4=私にはこれが何なのかわからないよ！
 
-child.gift.good1=Is it...is it all mine?
+child.gift.good1=それを…それを全部私に？
 child.gift.good2=これは、本当に私のためですか？
 child.gift.good3=これは素晴らしい！
 
 child.gift.better1=Awesome\! I'm going to show this to all my friends.
-child.gift.better2=You found it\! I lost this a few minutes ago.
+child.gift.better2=あなたがそれを見つけてくれたんだね！私は数分前にこれを失くしたところだったんだ。
 child.gift.better3=My friend stole one of these from me. Did you beat him up for me?
 
 child.gift.best1=%PlayerName%, you give the best presents\!
@@ -1483,11 +1491,11 @@ spouse.gift.bad4=I thought you knew me better than that. I hate these.
 
 spouse.gift.good1=%PlayerName%、君は可愛いね。
 spouse.gift.good2=あぁ！君は、私にとても親切にしてくれるね。
-spouse.gift.good3=This is unexpected, thank you, dear\!
-spouse.gift.good4=Aw, how sweet of you.
+spouse.gift.good3=これは予想外だよ、ありがとう、親愛なる人！
+spouse.gift.good4=あぁ、なんて優しいんでしょう。
 spouse.gift.good5=ありがとう、愛しい人！
 
-spouse.gift.better1=Oh wow, this is actually really nice\!
+spouse.gift.better1=わぁ、これは本当に素晴らしいよ！
 spouse.gift.better2=これ、好きなやつだ！ありがとう！
 spouse.gift.better3=これは驚いた、大切にするよ！
 spouse.gift.better4=You got this for me? How sweet\!
@@ -1505,8 +1513,8 @@ childp.gift.bad4=I could get this easily, no thanks, %ParentTitle%.
 
 childp.gift.good1=わぁ、すばらしい！ありがとう%ParentTitle%。
 childp.gift.good2=%ParentOpposite% says these are 'sexy'. What does that mean?
-childp.gift.good3=This is much better than the last gift I got\!
-childp.gift.good4=Woo hoo\! It's mine, all mine\!
+childp.gift.good3=これは私が最後に貰った贈り物よりも良い物だよ！
+childp.gift.good4=わーい！これは私の、全部私の！
 childp.gift.good5=私が…私がこれを食べてもいいんだね？
 
 childp.gift.better1=これを私に？タダで！？
@@ -1518,7 +1526,8 @@ childp.gift.better5=最高だよ %ParentTitle%！
 childp.gift.best1=これは運を全て使い果たしてしまったかも！
 childp.gift.best2=%ParentTitle%, I knew you would get me one of these. I just knew it\!
 childp.gift.best3=わーい！これは世界で一番最高な%ParentTitle%だよ！
-childp.gift.best4=This is so amazing\! I can't believe this is all mine\!
+childp.gift.best4=これは素晴らしい！これが全て私の物になるなんて信じられないよ！
 childp.gift.best5=ほんとにありがとう、%ParentTitle%！君は最高だよ！
+
 
 

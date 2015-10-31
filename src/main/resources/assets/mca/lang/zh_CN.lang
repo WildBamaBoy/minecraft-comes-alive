@@ -1,5 +1,5 @@
 #X-Generator: crowdin.com
-itemGroup.tabMCA=Minecraft 虚拟人生
+itemGroup.tabMCA=Minecraft Comes Alive
 itemGroup.tabMCA.gemCutting=MCA - 琢宝石
 
 #######
@@ -636,12 +636,20 @@ gui.button.adoptbaby=领养婴儿
 gui.button.next=下一条
 
 ################
+# Relations
+################################
+relation.husband=Husband
+relation.wife=Wife
+relation.daughter=Daughter
+relation.son=Son
+
+################
 # Dialogue
 ################################
 title.nonrelative.male=%Name% the %Profession%
 title.nonrelative.female=%Name% the %Profession%
-title.relative.male=%RelationToPlayer% %Name%
-title.relative.female=%RelationToPlayer% %Name%
+title.relative.male=%Name% (%RelationToPlayer%)
+title.relative.female=%Name% (%RelationToPlayer%)
 
 label.sleeping=睡眠中
 label.health=生命值：
@@ -1520,5 +1528,6 @@ childp.gift.best2=%ParentTitle%, I knew you would get me one of these. I just kn
 childp.gift.best3=Yay\! I have the best %ParentTitle% in the world\!
 childp.gift.best4=This is so amazing\! I can't believe this is all mine\!
 childp.gift.best5=Thank you so much, %ParentTitle%\! You're the best ever\!
+
 
 

@@ -1,5 +1,5 @@
 #X-Generator: crowdin.com
-itemGroup.tabMCA=Minecraft prende vita
+itemGroup.tabMCA=Minecraft Comes Alive
 itemGroup.tabMCA.gemCutting=MCA - Taglia gemme
 
 #######
@@ -48,9 +48,9 @@ achievement.craftShapedRing.desc=Fabbrica un anello a forma di diamante.
 # Items & Blocks
 ##############################
 item.WeddingRing.name=Fede nuziale
-item.WeddingRingRG.name=Anello matrimoniale rosa
+item.WeddingRingRG.name=Anello matrimoniale d'oro rosa
 item.EngagementRing.name=Anello di fidanzamento
-item.EngagementRingRG.name=Anello di fidanzamento rosa
+item.EngagementRingRG.name=Anello di fidanzamento d'oro rosa
 item.MatchmakersRing.name=Anello organizza-matrimoni
 item.BabyBoy.name=Maschietto
 item.BabyGirl.name=Femminuccia
@@ -64,7 +64,7 @@ item.ItemVillagerBedPurple.name=Letto viola del villico
 item.DivorcePapers.name=Carte per il divorzio
 item.RoseGoldIngot.name=Lingotto d'oro rosa
 item.CrystalBall.name=Sfera di cristallo
-item.NewOutfit.name=New Outfit
+item.NewOutfit.name=Nuovo Completo
 item.DiamondHeart.name=Cuore di diamante
 item.DiamondTiny.name=Piccolo diamante
 item.DiamondOval.name=Ovale di diamante
@@ -85,8 +85,8 @@ item.EngagementRingTriangleRG.name=Anello di fidanzamento triangolare d'oro rosa
 item.EngagementRingStar.name=Anello di fidanzamento stellare
 item.EngagementRingStarRG.name=Anello di fidanzamento stellare d'oro rosa
 item.tombstone.name=lapide
-item.RoseGoldDust.name=Rose Gold Dust
-item.GoldDust.name=Gold Dust
+item.RoseGoldDust.name=Polvere D'Oro Rosa
+item.GoldDust.name=Polvere D'Oro
 tile.roseGoldOre.name=Oro grezzo rosa
 tile.roseGoldBlock.name=Blocco d'oro rosa
 item.whistle.name=fischio
@@ -98,10 +98,10 @@ item.OvalMold.name=modello ovale
 item.SquareMold.name=modello quadrato
 item.TriangleMold.name=modello triangolare
 item.StarMold.name=modello stellare
-item.NeedleAndString.name=Needle and String
-item.Needle.name=Needle
-item.Cloth.name=Cloth
-tile.VillagerSpawner.name=Villager Spawner
+item.NeedleAndString.name=Ago e Filo
+item.Needle.name=Ago
+item.Cloth.name=Stoffa
+tile.VillagerSpawner.name=Spawner di Villici
 
 #######
 # Item Information
@@ -623,9 +623,9 @@ mood.pleased=Compiaciuto
 gift.cake1=Cos'è questa? Una torta? Oh...oh mio. Devo...devo trovare la mia sposa.
 gift.cake2=Una torta\! Che bel pensiero\! Io...aspetta, cos'è questa strana sensazione?
 gift.cake3=Finalmente, qualcosa che aiuterà il mio matrimonio...
-gift.cake.refuse1=I don't think I want any more cake, but thank you.
-gift.cake.refuse2=No thanks, I don't want cake anymore.
-gift.cake.refuse3=Oh, no. I couldn't.
+gift.cake.refuse1=Non penso di voler altra torta, ma ti ringrazio.
+gift.cake.refuse2=No grazie, Non voglio più la torta.
+gift.cake.refuse3=Oh, no. Non posso.
 
 ################
 # GUIs
@@ -636,12 +636,20 @@ gui.button.adoptbaby=Adotta un bambino
 gui.button.next=Avanti
 
 ################
+# Relations
+################################
+relation.husband=Husband
+relation.wife=Wife
+relation.daughter=Daughter
+relation.son=Son
+
+################
 # Dialogue
 ################################
 title.nonrelative.male=%Name% il %Profession%
 title.nonrelative.female=%Name% il %Profession%
-title.relative.male=%RelationToPlayer% %Name%
-title.relative.female=%RelationToPlayer% %Name%
+title.relative.male=%Name% (%RelationToPlayer%)
+title.relative.female=%Name% (%RelationToPlayer%)
 
 label.sleeping=Dorme
 label.health=Salute\: 
@@ -706,7 +714,7 @@ farming.nohoe=Devo farmi una zappa per coltivare.
 
 hunting.badspot=Non trovo un buon punto per la caccia.
 sleep.nohome=Non ho una casa\!
-sleep.invalid=My home point is invalid\!
+sleep.invalid=Casa mia non è valida\!
 
 #################
 # Parser
@@ -844,7 +852,7 @@ interaction.matchmaker.fail.married2=Sono felicemente sposato, non voglio un'alt
 interaction.matchmaker.fail.married3=Non lo voglio - Sono già sposato.
 
 interaction.matchmaker.fail.engaged1=Sono già impegnato con qualcuno, non posso prendere questo anello.
-interaction.matchmaker.fail.engaged2=Ho già promesso a qualcuno di sposarlo.
+interaction.matchmaker.fail.engaged2=Ho già promesso a qualcun' altro di sposarlo.
 interaction.matchmaker.fail.engaged3=Oh, grazie ma sto bene. Sono già impegnato con qualcuno.
 
 interaction.matchmaker.fail.needtwo1=Non hai bisogno di due anelli per fare un matrimonio?
@@ -863,19 +871,19 @@ interaction.sethome.success1=Ok, sarà la mia nuova casa.
 interaction.sethome.success2=Ho capito, dormirò qui stanotte.
 interaction.sethome.success3=Sicuro, %PlayerName%.
 
-interaction.sethome.fail1=This doesn't look like a safe home point for me. There's some %a1% in the way.
-interaction.sethome.fail2=Is there another place nearby? There's some %a1% in the way.
-interaction.sethome.fail3=I can't have my home point here. There's some %a1% in the way.
+interaction.sethome.fail1=Questa non sembra una casa sicura per me. C'è qualche %a1% sulla strada.
+interaction.sethome.fail2=C'è un altro posto vicino? C'è qualche %a1% sulla strada.
+interaction.sethome.fail3=Non posso abitare qua. C'è qualche %a1% sulla strada.
 
 interaction.mining.fail.toolow1=Siamo troppo in basso per creare una miniera.
 interaction.mining.fail.toolow2=Dobbiamo essere in un punto più alto.
 interaction.mining.fail.toolow3=Non penso che sia una buona idea creare una miniera qua. Dobbiamo essere più in alto.
-interaction.mining.fail.nopickaxe=Non ho un piccone. Come dovrei estrarre senza averlo?
+interaction.mining.fail.nopickaxe=Non ho un piccone. Come dovrei estrarre senza?
 
 interaction.hire.fail.notenoughgold=Devi avere uno stack di %a1% di lingotti d'oro per assumere questo villico.
 interaction.hire.success1=Onorato di essere a bordo. Qual'è il mio primo lavoro?
 interaction.hire.success2=Ogni cosa è in ordine. Cosa vorresti che facessi?
-interaction.hire.success3=Pronto per iniziare in qualsiasi momento, boss\!
+interaction.hire.success3=Pronto per iniziare in qualsiasi momento, capo\!
 
 interaction.ridehorse.fail.notnearby=Non vedo nessun cavallo vicino.
 interaction.ridehorse.fail.notrideable=Non posso cavalcare questo cavallo.
@@ -910,7 +918,7 @@ interaction.adoptbaby.success=Meraviglioso\! Ti piacerà conoscere %a1%, il tuo 
 #####################################
 
 adult.gift.bad1=Non è un bel regalo...
-adult.gift.bad2=Cosa ti ha fatto pensare che mi piacesse così?
+adult.gift.bad2=Cosa ti ha fatto pensare che ciò mi piacesse?
 adult.gift.bad3=No grazie.
 adult.gift.bad4=Non lo voglio, perché dovrei?
 adult.gift.bad5=Perché mi stai dando questo?
@@ -1205,7 +1213,7 @@ child.joke.bad5=Non essere meschino\!
 
 # 5 good handshakes when talking to a child:
 child.handshake.good1=Hiya\! Piaci a qualcuno che conosco...
-child.handshake.good2=Il papà dice è una cosa buona da fare.
+child.handshake.good2=Il papà dice che è una cosa buona da fare.
 child.handshake.good3=Batti cinque\! Rallenta... troppo lento\!
 child.handshake.good4=Ciao straniero\!
 child.handshake.good5=*Ridacchia* Ho appena pulito una mucca con questa mano.
@@ -1504,7 +1512,7 @@ childp.gift.bad3=Non me l'hai dato, l'anno scorso?
 childp.gift.bad4=Posso ottenerlo facilmente, no grazie %ParentTitle%.
 
 childp.gift.good1=Oh, grandioso\! Grazie %ParentTitle%.
-childp.gift.good2=%ParentOpposite% dice che sono 'sexy'. Cosa significa?
+childp.gift.good2=%ParentOpposite% dice che questi sono 'sexy'. Cosa significa?
 childp.gift.good3=è molto meglio dell'altro regalo che ricevetti\!
 childp.gift.good4=Woo hoo\! Tutto mio, tutto mio\!
 childp.gift.good5=Posso... posso mangiarlo?
@@ -1520,5 +1528,6 @@ childp.gift.best2=%ParentTitle%, sapevo che mi avresti preso una di queste. Lo s
 childp.gift.best3=Yay\! Ho il miglior %ParentTitle% nel mondo\!
 childp.gift.best4=È fantastico\! Non posso credere che sia tutto mio\!
 childp.gift.best5=Grazie mille, %ParentTitle%\! Sei il migliore\!
+
 
 
