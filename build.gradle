@@ -24,7 +24,7 @@ buildscript
 
 apply plugin: 'forge'
 
-version = "5.0.7"
+version = "5.1"
 group= "com.radixshock"
 archivesBaseName = "MCA"
 
