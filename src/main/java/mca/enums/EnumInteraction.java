@@ -53,6 +53,17 @@ public enum EnumInteraction
 	COMBAT(701, "combat"),
 	ATTACK_ANIMALS(702, "attackanimals"),
 	ATTACK_MOBS(703, "attackmobs"),
+        
+        // build menu
+        BUILD(4201, "build"),
+        BUILDNEXTPAGE(4202, "buildnextpage"),
+        BUILDNORTH(4203, "north"),
+        BUILDEAST(4204, "east"),
+        BUILDSOUTH(4205, "south"),
+        BUILDWEST(4206, "west"),
+        BUILDPAGE0(4210, "buildpage0"),
+        
+        // end build menu space at 4299 or something
 	
 	HIRE(801, "hire"),
 	LENGTH(802, "length"),

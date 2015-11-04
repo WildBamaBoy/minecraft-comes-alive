@@ -32,7 +32,7 @@ Absolutely no modifications can be made to MCA when it is placed in a modpack. E
 #####Source Code
 The source code of MCA is made available for educational purposes only. Neither it, its source code, nor its byte code may be modified and recompiled for public use by anyone except us.
 
-We do accept and encourage private modifications with the intent for said modifications to be added to the official public version.
+We do accept and encourage private modifications with the intent for said modifications to be added to the official public version. Make sure to disable error reporting in the config while testing or I'll get spam! 
 
 Authors that submit modified code (a pull request) that is later added into the publically available build release all rights to the code under the terms that they are credited via in-code documentation and any other methods of credit/thanks deemed appropriate by the mod author.
 

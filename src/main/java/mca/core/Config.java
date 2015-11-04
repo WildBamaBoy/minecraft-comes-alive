@@ -1,8 +1,18 @@
 package mca.core;
 
+import com.google.common.io.Files;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.ConfigElement;
@@ -10,6 +20,7 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import radixcore.util.RadixExcept; 
 
 public final class Config implements Serializable
 {
@@ -64,11 +75,20 @@ public final class Config implements Serializable
 	
 	public boolean allowCrashReporting;
 	public boolean allowUpdateChecking;
+        
+        public boolean allowBuildingChore;
+        public int ticksPerBuildStep;
+        public int cyclesPerBuildStep;
+        public int skipsPerBuildCycle;
+        
+        // build menu
+        public char[][] buildables = null; // client/server
+        public String buildablePath = null; // server only
 	
 	public Config(FMLPreInitializationEvent event)
 	{
 		config = new Configuration(event.getSuggestedConfigurationFile());
-		addConfigValues();
+		addConfigValues(event);
 	}
 
 	public void addConfigValues()
@@ -138,6 +158,12 @@ public final class Config implements Serializable
 		allowTrading = config.get("Server", "Allow trading", true).getBoolean();
 		logVillagerDeaths = config.get("Server", "Log villager deaths", false, "True if you want villager deaths to be logged to the console/server logs. Shows 'RMFS' values in console, R = related, M = mother, F = father, S = spouse. Can be a bit spammy!").getBoolean();
 		villagerChatPrefix = config.get("Server", "Villager chat prefix", "").getDefault();
+                
+                // build menu
+                allowBuildingChore = config.get("Server", "Allow building chore", true).getBoolean();
+                ticksPerBuildStep = config.get("Server", "Ticks per Build Step", 10, "Remember there are 20 ticks per second!").getInt();
+                cyclesPerBuildStep = config.get("Server", "Cycles per Build Step", 2, "Too many of these too infrequently can cause lag spikes. Too many too often can bog down the game completely").getInt();
+                skipsPerBuildCycle = config.get("Server", "Skips per Build Cycle", 64, "Able to skip multiples of the same block that don't need to be replaced.").getInt();
 		
 		config.save();
 	}
@@ -172,4 +198,136 @@ public final class Config implements Serializable
 
 		return elements;
 	}
+        
+        public void addConfigValues(FMLPreInitializationEvent event)
+        {
+            addConfigValues();
+            if (allowBuildingChore) findBuildables(event);
+        }
+        
+        public void findBuildables(FMLPreInitializationEvent event)
+        {
+            //search for buildable folder
+            File dir = event.getModConfigurationDirectory();
+            File buildableDir = new File(dir.getPath() + File.separator + "MCA" + File.separator + "buildable");
+            if (buildableDir.isFile() || buildableDir.isHidden())
+            {
+                RadixExcept.logErrorCatch(new IOException("Unable to get MCA buildable directory!"),
+                        "Is a file or hidden file taking \"config/MCA/buildable\"?");
+                return;
+            }
+            //if it doesn't exist, create it and fill it with internal buildable schematics
+            if (!buildableDir.exists())
+            {
+                if (!extractBuildables(event,buildableDir))
+                {
+                    RadixExcept.logErrorCatch(new IOException("Unable to extract internal schematics!"),
+                        "Can I not write to \"" + buildableDir.getPath() + "\" ?");
+                }
+            }
+            //open buildable folder
+            File[] buildableFiles = buildableDir.listFiles();
+            String str;
+            String ext = ".schematic";
+            String name;
+            ArrayList<String> matches = new ArrayList<String>();
+            //count schematic files
+            if (buildableFiles != null) for (File f : buildableFiles)
+            {
+                name = f.getName();
+                str = name.toLowerCase();
+                if (str.endsWith(ext))
+                {
+                    matches.add(name);
+                }
+            }
+            //create a large enough array of character arrays
+            if (!matches.isEmpty())
+            {
+                buildablePath = buildableDir.getPath() + File.separator;
+                buildables = new char[matches.size()][];
+                //populate strings with filenames sans directory and extension
+                int i = 0;
+                for (String s : matches)
+                {
+                    buildables[i++] = s.toCharArray(); // quite convenient
+                }
+            }
+            //now you either have a list of names of buildable schematics or you have nothing
+            if (buildables != null)
+            {
+                File log = new File(buildablePath + "buildable.log");
+                try {
+                    Files.write(Arrays.deepToString(buildables).getBytes(), log);
+                } catch (IOException ex) {
+                    RadixExcept.logErrorCatch(ex,  "Can't write buildables log.");
+                }
+            }
+            else RadixExcept.logErrorCatch(new IOException("No buildables!"),"No buildable schematics.");
+        } 
+        
+        public boolean extractBuildables(FMLPreInitializationEvent event, File buildableDir)
+        {
+            boolean ret = true;
+            if (!buildableDir.mkdirs())
+            {
+                RadixExcept.logErrorCatch(new IOException("Unable to make MCA buildable directory!"),
+                        "Am I unable to write to \"config/MCA/buildable\"?");
+                return false;
+            }
+            //load internal buildable folder to new external one
+            ZipFile modJar;
+            try {
+                modJar = new ZipFile(event.getSourceFile());
+            } catch (IOException ex) {
+                RadixExcept.logErrorCatch(ex, "Unable to get MCA jar!");
+                return false;
+            }
+
+            if (modJar != null)
+            {
+                String inDir = "assets/mca/schematic/buildable/";
+                File newFile;
+                ZipEntry entry;
+                ZipInputStream zis;
+                FileOutputStream writeable;
+                byte[] buffer = new byte[4096];
+                try {
+                    zis = new ZipInputStream(new FileInputStream(modJar.getName()));
+                } catch (FileNotFoundException ex) {
+                    RadixExcept.logErrorCatch(ex,"Could not get ZipInputStream");
+                    return false;
+                }
+                try {
+                    //single deep copy
+                    while ((entry = zis.getNextEntry()) != null)
+                    {
+                        if (!entry.isDirectory() && entry.getName().startsWith(inDir))
+                        {
+                            newFile = new File(buildableDir.getPath() + File.separator + entry.getName().substring(inDir.length()-1));
+                            writeable = new FileOutputStream(newFile);
+                            
+                            // now copy out of the zip archive until all bytes are copied
+                            int len;
+                            while ((len = zis.read(buffer)) > 0)
+                            {
+                                writeable.write(buffer, 0, len);
+                            }
+                            writeable.close();
+                        }
+                    }
+                } catch (IOException ex) {
+                    RadixExcept.logErrorCatch(ex,"Failed to read the mod jar.");
+                    return false;
+                }
+            }
+            else 
+            {
+                RadixExcept.logErrorCatch(new IOException("modJar = null"),"Unable to get mod jar.");
+                return false;
+            }
+            return ret;
+        }
 }
+
+       

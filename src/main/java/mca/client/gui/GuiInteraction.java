@@ -82,7 +82,15 @@ public class GuiInteraction extends GuiScreen
 	private boolean miningModeFlag;
 	private boolean huntingModeFlag;
 	private boolean woodcuttingReplantFlag;
-
+        
+        // build menu
+        private EnumInteraction buildDirection = EnumInteraction.BUILDNORTH;
+        private int buildPage = 0;
+        private final int buildPageSize = 6;
+        private int buildSchematic = -1;
+        
+        
+        
 	public GuiInteraction(EntityHuman villager, EntityPlayer player)
 	{
 		super();
@@ -415,6 +423,12 @@ public class GuiInteraction extends GuiScreen
 		EnumInteraction interaction = EnumInteraction.fromId(button.id);
 		villager.getAI(AIIdle.class).reset();
 
+                if (button.id >= EnumInteraction.BUILDPAGE0.getId() && button.id < 4299)
+                {
+                    buildSchematic = (buildPage*buildPageSize)+button.id-EnumInteraction.BUILDPAGE0.getId();
+                    drawBuildControlMenu();
+                }
+                else
 		if (interaction != null)
 		{
 			switch (interaction)
@@ -453,6 +467,34 @@ public class GuiInteraction extends GuiScreen
 			case MINING_TARGET: miningMappings.next(); drawMiningControlMenu(); break;
 
 			case COOKING: drawCookingControlMenu(); break;
+                            
+                        // build menu
+                        case BUILD: drawBuildControlMenu(); break;
+                        case BUILDNORTH: 
+                            buildDirection = EnumInteraction.BUILDEAST;
+                            drawBuildControlMenu();
+                            break;
+                        case BUILDEAST: 
+                            buildDirection = EnumInteraction.BUILDSOUTH;
+                            drawBuildControlMenu();
+                            break;
+                        case BUILDSOUTH: 
+                            buildDirection = EnumInteraction.BUILDWEST;
+                            drawBuildControlMenu();
+                            break;
+                        case BUILDWEST: 
+                            buildDirection = EnumInteraction.BUILDNORTH;
+                            drawBuildControlMenu();
+                            break;
+                            
+                        case BUILDNEXTPAGE:
+                            ++buildPage;
+                            int quo = MCA.getConfig().buildables.length/buildPageSize;
+                            int rem = MCA.getConfig().buildables.length/buildPageSize;
+                            buildPage = buildPage%(quo+(rem==0?0:1));
+                            buildSchematic = -1;
+                            drawBuildControlMenu();
+                            break;
 
 			/*
 			 * Buttons available in special cases.
@@ -573,6 +615,31 @@ public class GuiInteraction extends GuiScreen
 				case WOODCUTTING: MCA.getPacketHandler().sendPacketToServer(new PacketToggleAI(villager, EnumInteraction.WOODCUTTING, woodcuttingReplantFlag, woodcuttingMappings.get())); break;
 				case HUNTING: MCA.getPacketHandler().sendPacketToServer(new PacketToggleAI(villager, EnumInteraction.HUNTING, huntingModeFlag)); break;
 				case COOKING: MCA.getPacketHandler().sendPacketToServer(new PacketToggleAI(villager, EnumInteraction.COOKING)); break;
+
+                                case BUILD:
+                                    if (buildSchematic >= 0)
+                                    {
+                                        int rotation = 0;
+                                        switch(buildDirection)
+                                        {
+                                            case BUILDEAST:
+                                                rotation = 1;
+                                                break;
+                                            case BUILDSOUTH:
+                                                rotation = 2;
+                                                break;
+                                            case BUILDWEST:
+                                                rotation = 3;
+                                                //break;
+                                        }
+
+                                        player.addChatMessage( new ChatComponentText(Color.RED + "Trying to build: " 
+                                                + new String(MCA.getConfig().buildables[buildSchematic])) );
+                                        MCA.getPacketHandler().sendPacketToServer(new PacketToggleAI(villager, 
+                                                EnumInteraction.BUILD, buildSchematic, rotation));
+                                    }
+                                    else player.addChatMessage(new ChatComponentText(Color.RED + "Not available."));
+                                    break;
 				}
 
 				close();
@@ -585,7 +652,9 @@ public class GuiInteraction extends GuiScreen
 				case MINING:
 				case WOODCUTTING:
 				case HUNTING:
+                                case BUILD: 
 				case COOKING: drawWorkButtonMenu(); break;
+                                
 
 				case SPECIAL:
 				case WORK:
@@ -713,6 +782,7 @@ public class GuiInteraction extends GuiScreen
 		buttonList.add(new GuiButton(EnumInteraction.MINING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.mining"))); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.HUNTING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.hunting"))); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.COOKING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.cooking"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.BUILD.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.build"))); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.STOP.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.DARKRED + MCA.getLanguageManager().getString("gui.button.stop"))); yLoc -= yInt;
 
 		if (villager.getAIManager().isToggleAIActive())
@@ -762,7 +832,12 @@ public class GuiInteraction extends GuiScreen
 					{
 						continue;
 					}
-
+                                        else if (button.id == EnumInteraction.BUILD.getId())
+                                        { 
+                                            if (MCA.getConfig().allowBuildingChore) button.enabled = true; 
+                                            else button.enabled = false;
+                                        }
+                                    
 					else if (button.id != validChore.getId())
 					{
 						button.enabled = false;
@@ -898,6 +973,61 @@ public class GuiInteraction extends GuiScreen
 		buttonList.add(new GuiButton(EnumInteraction.MINING_MODE.getId(),  width / 2 + xLoc - 40, height / 2 - yLoc, 105, 20, modeText)); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.MINING_TARGET.getId(),  width / 2 + xLoc - 80, height / 2 - yLoc, 145, 20, targetText)); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + MCA.getLanguageManager().getString("gui.button.start"))); yLoc -= yInt;
+	}
+        
+        private void drawBuildControlMenu()
+	{
+		buttonList.clear();
+		currentPage = EnumInteraction.BUILD.getId();		
+
+		int xLoc = width == 480 ? 170 : 145; 
+		int yLoc = height == 240 ? 115 : height == 255 ? 125 : 132;
+		int yInt = height <= 240 ? 20 : 22;
+                
+                char[][] buildables = MCA.getConfig().buildables;
+                int first = buildPage*buildPageSize;
+                int len = buildables.length-first;
+                if (len > buildPageSize) len = buildPageSize;
+                String[] build = new String[len];
+                
+                for (int i=0; i<len; ++i)
+                {
+                    String[] str = new String(buildables[first+i]).split("\\.");
+                    build[i] = str[0];
+                }
+
+		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString("gui.button.build"))); yLoc -= yInt;
+
+                for (int i=0; i<len; ++i)
+                {
+                    buttonList.add(new GuiButton(EnumInteraction.BUILDPAGE0.getId()+i,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, build[i])); yLoc -= yInt;
+                }
+                
+                buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + MCA.getLanguageManager().getString("gui.button.start"))); yLoc -= yInt;
+                
+                switch (buildDirection)
+                {
+                    case BUILDEAST:
+                        buttonList.add(new GuiButton(EnumInteraction.BUILDEAST.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.build.east"))); yLoc -= yInt;
+                        break;
+                    case BUILDSOUTH:
+                        buttonList.add(new GuiButton(EnumInteraction.BUILDSOUTH.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.build.south"))); yLoc -= yInt;
+                        break;
+                    case BUILDWEST:
+                        buttonList.add(new GuiButton(EnumInteraction.BUILDWEST.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.build.west"))); yLoc -= yInt;
+                        break;
+                    default:
+                        buttonList.add(new GuiButton(EnumInteraction.BUILDNORTH.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.build.north"))); yLoc -= yInt;
+                }
+                
+                buttonList.add(new GuiButton(EnumInteraction.BUILDNEXTPAGE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.build.nextpage"))); yLoc -= yInt;
+                
+                if (buildSchematic >= 0) for (Object obj : buttonList)
+                {
+                    GuiButton button = (GuiButton)obj;
+                    if ( button.id == (buildSchematic-first+EnumInteraction.BUILDPAGE0.getId()) ) button.enabled = false;
+                }
 	}
 
 	private void drawWoodcuttingControlMenu() 

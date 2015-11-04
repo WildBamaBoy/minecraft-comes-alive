@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
+import java.io.File; 
+import java.io.FileNotFoundException;
+import mca.ai.AIBuild; 
 import mca.ai.AICooking;
 import mca.ai.AIFarming;
 import mca.ai.AIHunting;
@@ -20,6 +23,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import radixcore.packets.AbstractPacket;
+import radixcore.util.RadixExcept;
 
 public class PacketToggleAI extends AbstractPacket implements IMessage, IMessageHandler<PacketToggleAI, IMessage>
 {
@@ -27,6 +31,7 @@ public class PacketToggleAI extends AbstractPacket implements IMessage, IMessage
 	private int interactionId;
 	private List<Boolean> booleans;
 	private List<Integer> integers;
+        
 	
 	public PacketToggleAI()
 	{
@@ -111,7 +116,7 @@ public class PacketToggleAI extends AbstractPacket implements IMessage, IMessage
 		PacketToggleAI packet = (PacketToggleAI)message;
 		EntityPlayer player = getPlayer(context);
 		EntityHuman human = (EntityHuman) player.worldObj.getEntityByID(packet.entityId);
-		
+                
 		switch(EnumInteraction.fromId(packet.interactionId))
 		{
 		case FARMING: 
@@ -168,6 +173,26 @@ public class PacketToggleAI extends AbstractPacket implements IMessage, IMessage
 		case COOKING: 
 			human.getAI(AICooking.class).startCooking(player);
 			break;
+                    
+                case BUILD:
+                    int schematic = packet.integers.get(0);
+                    int rotation = packet.integers.get(1);
+                    String buildable = MCA.getConfig().buildablePath + new String(MCA.getConfig().buildables[schematic]);
+                    File file = new File(buildable);
+                    
+                    if (file.exists() && file.isFile()) 
+                    {
+                        MCA.getLog().debug(human.getName() + " trying to build: " + buildable);
+                        human.getAI(AIBuild.class).startBuilding(buildable, false, null, null, rotation, true, true);
+                    }
+                    else
+                    {
+                        //This is what happens if you delete a buildable schematic after you start the server and try to build it
+                        human.say(MCA.getLanguageManager().getString("build.error"), player);
+                        RadixExcept.logErrorCatch(new FileNotFoundException("Couldn't find buildable schematic for MCA."), 
+                                "File " + buildable + " existed when the server started. Don't delete anything in config/MCA/buildable/ while the server is running!");
+                    }
 		}
 	}
+        
 }
