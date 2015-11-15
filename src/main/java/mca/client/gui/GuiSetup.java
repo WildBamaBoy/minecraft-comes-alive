@@ -252,17 +252,19 @@ public class GuiSetup extends GuiScreen
 			}
 		}
 
+		//Page switching
 		switch (button.id)
 		{
 		case -2: page = 6; break;
 		case 0: page = page == 6 ? 1 : page - 1; break;
 		case 1: case 2: 					page = 2; break;
 		case 3: case 4: case 5: 			page = 3; break;
-		case 6: 							page = 4; break;
+		case 6: if (MCA.getConfig().enableStructureSpawning) page = 4; break;
 		default:
 			page = 1;
 		}
 
+		//Button actions.
 		switch (button.id)
 		{
 		case 1: data.setIsMale(true); break;
@@ -273,7 +275,7 @@ public class GuiSetup extends GuiScreen
 		case 6: 
 			data.setMcaName(nameTextField.getText());
 
-			if (!Minecraft.getMinecraft().isIntegratedServerRunning()) 
+			if (!Minecraft.getMinecraft().isIntegratedServerRunning() || !MCA.getConfig().enableStructureSpawning) 
 			{
 				setDestinyComplete();
 				mc.displayGuiScreen(null);
@@ -347,7 +349,7 @@ public class GuiSetup extends GuiScreen
 				nameTextField.setText(player.getCommandSenderName());
 			}
 
-			GuiButton doneButton = new GuiButton(6, width / 2 - 32, height / 2 + 30, 65, 20, "Continue");
+			GuiButton doneButton = new GuiButton(6, width / 2 - 32, height / 2 + 30, 65, 20, MCA.getConfig().enableStructureSpawning ? "Continue" : "Done");
 			doneButton.enabled = !nameTextField.getText().trim().isEmpty();
 			buttonList.add(doneButton);
 		}

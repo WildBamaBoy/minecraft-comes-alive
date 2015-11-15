@@ -26,6 +26,7 @@ public final class Config implements Serializable
 	public boolean disablePatreonButton;
 	public boolean enableDiminishingReturns;
 	public boolean enableInfection;
+	public boolean enableStructureSpawning;
 	public Integer[] dimensionWhitelist;
 	public String[] additionalGiftItems;
 	public int guardSpawnRate;
@@ -96,6 +97,7 @@ public final class Config implements Serializable
 		guardSpawnRate = config.get("General", "Guard spawn rate", 3, "One guard per this many villagers. Set to zero or a negative number to disable guards.").getInt();
 		enableDiminishingReturns = config.get("General", "Enable diminishing returns?", true, "True if hearts increase decreases after multiple interactions.").getBoolean();
 		enableInfection = config.get("General", "Enable infection?", true, "True if villagers and your children have a chance of being infected from zombies.").getBoolean();
+		enableStructureSpawning = config.get("General", "Enable structure spawning?", true, "True if players can have the option to spawn structures during MCA's setup.").getBoolean();
 		
 		//Dimension whitelist.
 		String validDimensions = config.get("General", "Dimension whitelist", "0, 1, -1", "The dimension IDs in which MCA villagers can spawn, separated by a comma.").getString();
