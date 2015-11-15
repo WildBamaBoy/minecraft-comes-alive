@@ -45,6 +45,7 @@ import mca.enums.EnumMovementState;
 import mca.enums.EnumPersonality;
 import mca.enums.EnumProfession;
 import mca.enums.EnumProfessionGroup;
+import mca.enums.EnumProgressionStep;
 import mca.enums.EnumSleepingState;
 import mca.items.ItemBaby;
 import mca.items.ItemVillagerEditor;
@@ -895,8 +896,9 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			spouseName.setValue(partner.getName());
 			partner.spouseId.setValue(this.getPermanentId());
 			partner.spouseName.setValue(this.getName());
-
-
+			
+			//Prevent story progression.
+			getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.FINISHED);
 		}
 
 		else if (entity instanceof EntityPlayer)
@@ -905,6 +907,9 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			PlayerData data = MCA.getPlayerData(partner);
 			spouseId.setValue(data.getPermanentId());
 			spouseName.setValue(partner.getCommandSenderName());
+			
+			//Prevent story progression.
+			getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.FINISHED);
 		}
 
 		else //Null, must reset.
