@@ -1,8 +1,8 @@
 package mca.items;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import mca.core.MCA;
 import net.minecraft.item.Item;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ItemGemCutter extends Item
 {

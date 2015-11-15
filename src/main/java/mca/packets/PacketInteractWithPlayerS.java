@@ -1,14 +1,17 @@
 package mca.packets;
 
-import io.netty.buffer.ByteBuf;
-
 import java.util.Random;
 
+import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
 import mca.core.minecraft.ModItems;
 import mca.data.PlayerData;
 import mca.enums.EnumInteraction;
+import mca.util.MarriageHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
@@ -17,9 +20,6 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.util.ChatComponentText;
 import radixcore.constant.Font.Color;
 import radixcore.packets.AbstractPacket;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketInteractWithPlayerS extends AbstractPacket implements IMessage, IMessageHandler<PacketInteractWithPlayerS, IMessage>
 {
@@ -77,12 +77,12 @@ public class PacketInteractWithPlayerS extends AbstractPacket implements IMessag
 		switch (interaction)
 		{
 		case ASKTOMARRY:
-			if (targetData.spousePermanentId.getInt() != 0 || targetData.isEngaged.getBoolean())
+			if (targetData.getSpousePermanentId() != 0 || targetData.getIsEngaged())
 			{
 				sender.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString("interactionp.marry.fail.targetalreadymarried", target.getCommandSenderName())));
 			}
 
-			else if (senderData.spousePermanentId.getInt() != 0 || senderData.isEngaged.getBoolean())
+			else if (senderData.getSpousePermanentId() != 0 || senderData.getIsEngaged())
 			{
 				sender.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString("interactionp.marry.fail.alreadymarried")));				
 			}
@@ -100,15 +100,14 @@ public class PacketInteractWithPlayerS extends AbstractPacket implements IMessag
 
 			break;
 		case DIVORCE:
-			targetData.setNotMarried();
-			senderData.setNotMarried();
+			MarriageHandler.endMarriage(sender, target);
 
 			sender.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString(Color.RED + MCA.getLanguageManager().getString("interactionp.divorce.notify", target.getCommandSenderName()))));
 			target.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString(Color.RED + MCA.getLanguageManager().getString("interactionp.divorce.notify", sender.getCommandSenderName()))));
 			break;
 
 		case HAVEBABY:
-			if (senderData.shouldHaveBaby.getBoolean())
+			if (senderData.getShouldHaveBaby())
 			{
 				sender.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString("interactionp.havebaby.fail.alreadyexists", target.getCommandSenderName())));				
 			}
@@ -125,8 +124,7 @@ public class PacketInteractWithPlayerS extends AbstractPacket implements IMessag
 			sender.addChatMessage(new ChatComponentText(Color.GREEN + MCA.getLanguageManager().getString("interactionp.marry.success", target.getCommandSenderName())));
 			target.addChatMessage(new ChatComponentText(Color.GREEN + MCA.getLanguageManager().getString("interactionp.marry.success", sender.getCommandSenderName())));
 
-			senderData.setMarried(target);
-			targetData.setMarried(sender);
+			MarriageHandler.startMarriage(sender, target);
 
 			for (int i = 0; i < target.inventory.getSizeInventory(); i++)
 			{
@@ -145,8 +143,8 @@ public class PacketInteractWithPlayerS extends AbstractPacket implements IMessag
 			break;
 
 		case HAVEBABY_ACCEPT:
-			senderData.shouldHaveBaby.setValue(true);
-			targetData.shouldHaveBaby.setValue(true);
+			senderData.setShouldHaveBaby(true);
+			targetData.setShouldHaveBaby(true);
 
 			boolean isMale = new Random().nextBoolean();
 			ItemStack stack = new ItemStack(isMale ? ModItems.babyBoy : ModItems.babyGirl);

@@ -1,0 +1,1533 @@
+#X-Generator: crowdin.com
+itemGroup.tabMCA=Minecraft Comes Alive
+itemGroup.tabMCA.gemCutting=MTĦ - Qtuħ tal-Ġawwar
+
+#######
+# Achievements
+##############################
+achievement.fullGoldHearts=Qiegħdin naslu x'imkien
+achievement.fullGoldHearts.desc=Ikseb ħames qlub tad-deheb ma' raħħal.
+achievement.engagement=Miksub bil-Qalb\!
+achievement.engagement.desc=Tgħarras ma' raħħal.
+achievement.marriage=Miżżewġin\!
+achievement.marriage.desc=Iżżewweġ lil xi ħadd mir-raħal.
+achievement.babyBoy=Għandna tifel\!
+achievement.babyBoy.desc=Agħmel tifel.
+achievement.babyGirl=Għandna tifla\!
+achievement.babyGirl.desc=Agħmel tifla.
+achievement.twins=Tewmin\!
+achievement.twins.desc=Agħmel tewmin.
+achievement.babyToChild=Jikbru tassew malajr
+achievement.babyToChild.desc=Sawwar it-tarbija tiegħek f'tifel jew tifla.
+achievement.hunting=Eżatt\!
+achievement.hunting.desc=Ibgħat l'ibnek għal kaċċa.
+achievement.mining=Minatur Etern
+achievement.mining.desc=Qabbad lil ibnek jimmina għalik.
+achievement.woodcutting=Boskajjol
+achievement.woodcutting.desc=Qabbad ibnek (jew bintek) jaqta s-siġar.
+achievement.farming=Xogħol b'xejn
+achievement.farming.desc=Qabbad lill-ibnek (jew bintek) jaħdem fix-xogħol tal-biedja.
+achievement.childToAdult=Kiber\!
+achievement.childToAdult.desc=Sawwar lil ibnek (jew bintek) f'adult.
+achievement.childMarried=Tluq mil-Bejta
+achievement.childMarried.desc=Żewweġ lill-ibnek jew bintek.
+achievement.childHasChildren=Nannu jew Nanna
+achievement.childHasChildren.desc=Iltaqa' man-neputijiet.
+achievement.craftDiamondDust=Tħallix dan jidħol f'imnifsejk\!
+achievement.craftDiamondDust.desc=Itħan djamant fi' trab.
+achievement.craftColoredDiamondDust=Żid xi ftit lewn
+achievement.craftColoredDiamondDust.desc=Żid tintura ma' gozz trab tad-djamanti.
+achievement.smeltColoredDiamond=Djamanti bi stil
+achievement.smeltColoredDiamond.desc=Ifforġja djamant ikkulurit.
+achievement.craftShapedDiamond=Ġojjellier
+achievement.craftShapedDiamond.desc=Aqta' djamant.
+achievement.craftShapedRing=Prodott Lest
+achievement.craftShapedRing.desc=Agħmel ċurkett tad-djamant iffurmat.
+
+#######
+# Items & Blocks
+##############################
+item.WeddingRing.name=Ċurkett taż-Żwieġ
+item.WeddingRingRG.name=Ċurkett taż-Żwieġ tad-Deheb Roża
+item.EngagementRing.name=Ċurkett tal-Għerusija
+item.EngagementRingRG.name=Ċurkett tal-Għerusija tad-Deheb Roża
+item.MatchmakersRing.name=Ċurkett tal-Qabbiel
+item.BabyBoy.name=Tabija tifel
+item.BabyGirl.name=Tarbija tifla
+item.EggMale.name=Oħloq raħħal
+item.EggFemale.name=Oħloq raħħala
+item.ItemVillagerBedRed.name=Sodda tar-raħħal ħamra
+item.ItemVillagerBedBlue.name=Sodda tar-Raħli Blu
+item.ItemVillagerBedGreen.name=Sodda tar-Raħli Ħadra
+item.ItemVillagerBedPink.name=Sodda tar-Raħli Roża
+item.ItemVillagerBedPurple.name=Sodda tar-Raħli Vjola
+item.DivorcePapers.name=Formoli tad-Divorzju
+item.RoseGoldIngot.name=Ingott tad-Deheb Roża
+item.CrystalBall.name=Sfera tal-Kristall
+item.NewOutfit.name=Libsa Ġdida
+item.DiamondHeart.name=Qalb tad-Djamant
+item.DiamondTiny.name=Djamant Żgħir
+item.DiamondOval.name=Djamant Ovali
+item.DiamondSquare.name=Djamant Kwadru
+item.DiamondTriangle.name=Djamant Trijangolari
+item.DiamondStar.name=Djamant sura ta' Kewkba
+item.DiamondDust.name=Trab tad-Djamanti
+item.EngagementRingHeart.name=Ċurkett tal-Għerusija sura ta' Qalb
+item.EngagementRingHeartRG.name=Ċurkett tal-Għerusija sura ta' Qalb, tad-Deheb Roża
+item.EngagementRingTiny.name=Ċurkett tal-Għerusija Żgħir
+item.EngagementRingTinyRG.name=Ċurkett tal-Għerusija Żgħir, tad-Deheb Roża
+item.EngagementRingOval.name=Ċurkett tal-Għerusija Ovali
+item.EngagementRingOvalRG.name=Ċurkett tal-Għerusija Ovali, tad-Deheb Roża
+item.EngagementRingSquare.name=Ċurkett tal-Għerusija Kwadru
+item.EngagementRingSquareRG.name=Ċurkett tal-Għerusija Kwadru, tad-Deheb Roża
+item.EngagementRingTriangle.name=Ċurkett tal-Għerusija Trijangolari
+item.EngagementRingTriangleRG.name=Ċurkett tal-Għerusija Trijangolari, tad-Deheb Roża
+item.EngagementRingStar.name=Ċurkett tal-Għerusija sura ta' Kewkba
+item.EngagementRingStarRG.name=Ċurkett tal-Għerusija sura ta' Kewkba, tad-Deheb Roża
+item.tombstone.name=Lapida
+item.RoseGoldDust.name=Trab tad-Deheb Roża
+item.GoldDust.name=Trab tad-Deheb
+tile.roseGoldOre.name=Mineral tad-Deheb Roża
+tile.roseGoldBlock.name=Blokka tad-Deheb Roża
+item.whistle.name=Suffara
+item.villagereditor.name=Editur tar-raħħala
+item.GemCutter.name=Għodda tal-Ġawwar
+item.HeartMold.name=Forma ta' Qalb
+item.TinyMold.name=Forma Żgħira
+item.OvalMold.name=Forma Ovali
+item.SquareMold.name=Forma Kwadra
+item.TriangleMold.name=Forma trijangola
+item.StarMold.name=Forma ta' kewkba
+item.NeedleAndString.name=Labra u Ħajt
+item.Needle.name=Labra
+item.Cloth.name=Drapp
+tile.VillagerSpawner.name=Mafqas tar-Raħħala
+
+#######
+# Item Information
+##############################
+information.villagerbed.line1=Qiegħed ma' l-art u
+information.villagerbed.line2=kwalunke raħli jmur
+information.villagerbed.line3=jirqid fis-sodda dak il-lejl.
+
+#######
+# Names
+##############################
+name.male1=Aaron
+name.male2=Abe
+name.male3=Abel
+name.male4=Ace
+name.male5=Adam
+name.male6=Adan
+name.male7=Adriel
+name.male8=Aidan
+name.male9=Ajay
+name.male10=Al
+name.male11=Alan
+name.male12=Alex
+name.male13=Alec
+name.male14=Alden
+name.male15=Amir
+name.male16=Andre
+name.male17=Andy
+name.male18=Ash
+name.male19=Arran
+name.male20=Asher
+name.male21=Ashton
+name.male22=Aven
+name.male23=Avery
+name.male24=Bailey
+name.male25=Barrett
+name.male26=Brett
+name.male27=Bobby
+name.male28=Bev
+name.male29=Billy
+name.male30=Cain
+name.male31=Brogan
+name.male32=Brenton
+name.male33=Blue
+name.male34=Blaze
+name.male35=Brady
+name.male36=Bear
+name.male37=Casey
+name.male38=Caiden
+name.male39=Cam
+name.male40=Cedric
+name.male41=Clayton
+name.male42=Chad
+name.male43=Casper
+name.male44=Chance
+name.male45=Cliff
+name.male46=Clyde
+name.male47=Coby
+name.male48=Cody
+name.male49=Drake
+name.male50=Devon
+name.male51=Dirk
+name.male52=Dion
+name.male53=Drake
+name.male54=Drew
+name.male55=Cyrcus
+name.male56=Cole
+name.male57=Daire
+name.male58=Dakota
+name.male59=Dale
+name.male60=Damian
+name.male61=Dash
+name.male62=Dario
+name.male63=Coby
+name.male64=Curt
+name.male65=Darius
+name.male66=Dan
+name.male67=Davin
+name.male68=Eli
+name.male69=Eliot
+name.male70=Elijah
+name.male71=Enzo
+name.male72=Finn
+name.male73=Fabio
+name.male74=Ezio
+name.male75=Ezra
+name.male76=Forest
+name.male77=Hunter
+name.male78=Archer
+name.male79=Heath
+name.male80=Han
+name.male81=Isaac
+name.male82=Irvin
+name.male83=Jai
+name.male84=Jaiden
+name.male85=Jaime
+name.male86=Jake
+name.male87=Jakob
+name.male88=Jalen
+name.male89=Hendrix
+name.male90=Giles
+name.male91=Erik
+name.male92=Evan
+name.male93=Eliot
+name.male94=Diego
+name.male95=Don
+name.male96=Deon
+name.male97=Leon
+name.male98=Ira
+name.male99=Joel
+name.male100=Joey
+name.male101=Tristan
+name.male102=Jock
+name.male103=Kaden
+name.male104=Kai
+name.male105=Layne
+name.male106=Levi
+name.male107=Leven
+name.male108=Lev
+name.male109=Leighton
+name.male110=Lucas
+name.male111=Marshall
+name.male112=Marcus
+name.male113=Marik
+name.male114=Michael
+name.male115=Mitchel
+name.male116=Nik
+name.male117=Niall
+name.male118=Ollie
+name.male119=Ned
+name.male120=Paolo
+name.male121=Paul
+name.male122=Pearce
+name.male123=Rafael
+name.male124=Owen
+name.male125=Phil
+name.male126=Scott
+name.male127=Stiles
+name.male128=Sid
+name.male129=Silas
+name.male130=Toby
+name.male131=Ty
+name.male132=Turner
+name.male133=Taylor
+name.male134=Storm
+name.male135=Sage
+name.male136=Jade
+name.male137=Rick
+name.male138=Ren
+name.male139=Nash
+name.male140=Mylo
+name.male141=Niko
+name.male142=Nicholas
+name.male143=Nick
+name.male144=Nico
+name.male145=Norman
+name.male146=Soren
+name.male147=Tate
+name.male148=Terry
+name.male149=Tim
+name.male150=Zain
+name.male151=Zaiden
+name.male152=Zeph
+name.male153=Zeke
+name.male154=Zayne
+name.male155=Zed
+name.male156=Zac
+name.male157=Wilson
+name.male158=Wayne
+name.male159=Vishal
+name.male160=Vlad
+name.male161=Wade
+name.male162=Walker
+name.male163=Troy
+name.male164=Trey
+name.male165=Trevon
+name.male166=Trenton
+name.male167=Trent
+name.male168=Ted
+name.male169=Ryan
+name.male170=Ryder
+name.male171=Reilly
+name.male172=Reid
+name.male173=Quentin
+name.male174=Princeton
+name.male175=Preston
+name.male176=Piers
+name.male177=Romeo
+name.male178=Red
+name.male179=Sean
+name.male180=Shawn
+name.male181=Ross
+name.male182=Robby
+name.male183=Chandler
+
+name.female1=Aaliyah
+name.female2=Ada
+name.female3=Alka
+name.female4=Ali
+name.female5=Alisa
+name.female6=Ally
+name.female7=Alicia
+name.female8=Alana
+name.female9=Abbi
+name.female10=Abby
+name.female11=Abrielle
+name.female12=Aby
+name.female13=Acacia
+name.female14=Aisha
+name.female15=Aleah
+name.female16=Amity
+name.female17=Alina
+name.female18=Alisa
+name.female19=Alivia
+name.female20=Ashlie
+name.female21=Ashley
+name.female22=Ashlee
+name.female23=Ayla
+name.female24=Ava
+name.female25=Avril
+name.female26=Blake
+name.female27=Bess
+name.female28=Beth
+name.female29=Becca
+name.female30=Beccy
+name.female31=Becky
+name.female32=Bella
+name.female33=Belle
+name.female34=Beryl
+name.female35=Britney
+name.female36=Britt
+name.female37=Brie
+name.female38=Bielle
+name.female39=Brigid
+name.female40=Briley
+name.female41=Brisa
+name.female42=Brynn
+name.female43=Cadence
+name.female44=Cailin
+name.female45=Cecelia
+name.female46=Chasity
+name.female47=Chloe
+name.female48=Celeste
+name.female49=Cayla
+name.female50=Ceri
+name.female51=Cassia
+name.female52=Catrina
+name.female53=Callie
+name.female54=Cameron
+name.female55=Cami
+name.female56=Camila
+name.female57=Camryn
+name.female58=Candace
+name.female59=Cali
+name.female60=Carly
+name.female61=Carlin
+name.female62=Cleo
+name.female63=Cori
+name.female64=Carla
+name.female65=Carol
+name.female66=Clover
+name.female67=Clarice
+name.female68=Claris
+name.female69=Clare
+name.female70=Corina
+name.female71=Cece
+name.female72=Daina
+name.female73=Darby
+name.female74=Dena
+name.female75=Denny
+name.female76=Dixie
+name.female77=Dolly
+name.female78=Delany
+name.female79=Delia
+name.female80=Delilah
+name.female81=Delina
+name.female82=Diane
+name.female83=Dasia
+name.female84=Della
+name.female85=Daysha
+name.female86=Dara
+name.female87=Demi
+name.female88=Deena
+name.female89=Dina
+name.female90=Destiny
+name.female91=Delaney
+name.female92=Deidre
+name.female93=Dinah
+name.female94=Ebony
+name.female95=Echo
+name.female96=Eden
+name.female97=Edith
+name.female98=Edna
+name.female99=Elisa
+name.female100=Elisabeth
+name.female101=Elise
+name.female102=Eliza
+name.female103=Ella
+name.female104=Elle
+name.female105=Ellen
+name.female106=Elly
+name.female107=Esme
+name.female108=Elina
+name.female109=Elicia
+name.female110=Ellis
+name.female111=Emmy
+name.female112=Enya
+name.female113=Erica
+name.female114=Erin
+name.female115=Fawn
+name.female116=Fran
+name.female117=Farah
+name.female118=Faye
+name.female119=Felicity
+name.female120=Fern
+name.female121=Gail
+name.female122=Gina
+name.female123=Ginger
+name.female124=Grace
+name.female125=Gracelyn
+name.female126=Bracie
+name.female127=Harley
+name.female128=Hannah
+name.female129=Heaven
+name.female130=Heather
+name.female131=Holly
+name.female132=Honor
+name.female133=Honey
+name.female134=Hope
+name.female135=Hayley
+name.female136=Hazel
+name.female137=Ivy
+name.female138=Iris
+name.female139=Ivana
+name.female140=Jade
+name.female141=Ira
+name.female142=Iliana
+name.female143=Jadyn
+name.female144=Jade
+name.female145=Jane
+name.female146=Jessica
+name.female147=Juliet
+name.female148=Itzel
+name.female149=Iris
+name.female150=Jaida
+name.female151=Jamie
+name.female152=Jess
+name.female153=Jessa
+name.female154=Jocelyn
+name.female155=Jordan
+name.female156=Joni
+name.female157=Joyce
+name.female158=Kailyn
+name.female159=Kaitlin
+name.female160=Karen
+name.female161=Kaidence
+name.female162=Kara
+name.female163=Kassie
+name.female164=Katelyn
+name.female165=Katerine
+name.female166=Katherine
+name.female167=Keeley
+name.female168=Kelli
+name.female169=Lily
+name.female170=Liz
+name.female171=Liza
+name.female172=Leslie
+name.female173=Laila
+name.female174=Lea
+name.female175=Leah
+name.female176=Lena
+name.female177=Lexie
+name.female178=Petrie
+name.female179=Luna
+name.female180=Loran
+name.female181=Lyra
+name.female182=Lyric
+name.female183=Luci
+name.female184=Mara
+name.female185=Mavis
+name.female186=Millie
+name.female187=Michelle
+name.female188=Mika
+name.female189=Marisa
+name.female190=Mavis
+name.female191=Masie
+name.female192=Mona
+name.female193=Monica
+name.female194=Spencer
+name.female195=Monique
+name.female196=Montana
+name.female197=Mitzi
+name.female198=Molly
+name.female199=Nicki
+name.female200=Naya
+name.female201=Noelle
+name.female202=Moemi
+name.female203=Nola
+name.female204=Nora
+name.female205=Nikita
+name.female206=Nikki
+name.female207=Raquel
+name.female208=Raven
+name.female209=Remi
+name.female210=Rayna
+name.female211=Renae
+name.female212=Rose
+name.female213=Riley
+name.female214=Sage
+name.female215=Rydel
+name.female216=Rayna
+name.female217=Rayne
+name.female218=Rain
+name.female219=Ruby
+name.female220=Sade
+name.female221=Sable
+name.female222=Sara
+name.female223=Shyla
+name.female224=Stacey
+name.female225=Sky
+name.female226=Snow
+name.female227=Sally
+name.female228=Saige
+name.female229=Ryleigh
+name.female230=Rita
+name.female231=Rosalie
+name.female232=Summer
+name.female233=Star
+name.female234=Tala
+name.female235=Talia
+name.female236=Talitha
+name.female237=Tami
+name.female238=Judith
+name.female239=Tess
+name.female240=Zoey
+name.female241=Zoe
+name.female242=Ziva
+name.female243=Zina
+name.female244=Zora
+name.female245=Cula
+name.female246=Zelina
+name.female247=Yvette
+name.female248=Xena
+name.female249=Xandra
+name.female250=Winter
+name.female251=Vera
+name.female252=Teri
+name.female253=Tiana
+name.female254=Tiara
+name.female255=Tasha
+name.female256=Saira
+
+##############
+# Professions
+##############################
+profession.archer=Arċier
+profession.armorer=Armatur
+profession.butcher=Biċċier
+profession.cleric=Qassis
+profession.farmer=Bidwi
+profession.fisherman=Sajjied
+profession.fletcher=Ħaddem tal-Qwies
+profession.guard=Għassies
+profession.spouse=Konjugu
+profession.leatherworker=Ħaddiem tal-Ġlud
+profession.librarian=Librar
+profession.shepherd=Rgħaj
+profession.toolsmith=Ħaddied
+profession.weaponsmith=Ħaddiem tal-Armi
+profession.miner=Minatur
+profession.mason=Bennej
+profession.baker=Furnar
+profession.child=Tifel
+profession.househusband=Raġel tad-Dar
+profession.housewife=Mara tad-Dar
+
+################
+# Personalities
+################################
+personality.athletic=Atletiku
+personality.confident=Kunfidenti
+personality.strong=B'Saħħtu
+personality.friendly=Amikevoli
+personality.curious=Kurjus
+personality.peaceful=Paċifiku
+personality.flirty=Flirtus
+personality.witty=Moħħu Jilħaqlu
+personality.sensitive=Sensittiv
+personality.greedy=Mimli Regħba
+personality.stubborn=Rasu Iebsa
+personality.odd=Eċċentriku
+
+################
+# Moods
+################################
+mood.depressed=Depress
+mood.sad=Imnikket
+mood.unhappy=Imdejjaq
+mood.passive=Passiv
+mood.fine=Kuntent
+mood.happy=Ferħan
+mood.overjoyed=Ser itir bil-ferħ
+mood.bored_to_tears=Meqrud għal-mewt
+mood.bored=Meqrud
+mood.uninterested=Bla interess
+mood.silly=F'muża taċ-Ċajt
+mood.giggly=F'muża tad-Daħk
+mood.entertained=Intrattenut
+mood.infuriated=Indannat
+mood.angry=Irrabjat(a)
+mood.annoyed=Irritat(a)
+mood.interested=Interessat(a)
+mood.talkative=Lokwaċi
+mood.pleased=Kuntent(a)
+
+################
+# Gift Responses
+################################
+gift.cake1=Dan x'inhu? Kejk? Il-marelli. Jeħtieġ... insib lill-żewġi.
+gift.cake2=A cake\! How thoughtful\! I...wait, what's this odd feeling?
+gift.cake3=Finally, something that will help my marriage...
+gift.cake.refuse1=M'għandix aptit aktar kejk, iżda nirringrazzjak xorta.
+gift.cake.refuse2=Le grazzi, ma' rridx aktar kejk.
+gift.cake.refuse3=Eh, le. Ma' jtinix.
+
+################
+# GUIs
+################################
+gui.button.exit=Oħroġ
+gui.button.back=Lura
+gui.button.adoptbaby=Addotta Tarbija
+gui.button.next=Li Jmiss
+
+################
+# Relations
+################################
+relation.husband=Husband
+relation.wife=Il-Mara
+relation.daughter=Il-Bint
+relation.son=L-Iben
+
+################
+# Dialogue
+################################
+title.nonrelative.male=%Name%, il-%Profession%
+title.nonrelative.female=%Name%, il-%Profession%
+title.relative.male=%Name% (%RelationToPlayer%)
+title.relative.female=%Name% (%RelationToPlayer%)
+
+label.sleeping=Rieqed
+label.health=Saħħa\: 
+
+behavior.retaliate.begin1=Aħħ\! Weġġajt\!
+behavior.retaliate.begin2=Inpattihilek\!
+behavior.retaliate.begin3=Ajma\! Għaliex tajtni daqqa?
+behavior.retaliate.begin4=Qiegħed tweġġagħni, ieqaf\!
+behavior.retaliate.begin5=Aħħ\! Weġġajtni ħafna\!
+behavior.retaliate.begin6=Int\! X'mingħalik qiegħed tagħmel?\!
+behavior.retaliate.begin7=*Ajma*\! Nispera li bi żball\!
+
+behavior.retaliate.distanced1=Hekk hu, aħjar tlebbet l'hemm\!
+behavior.retaliate.distanced2=Jekk tiġi lura, insejjaħ l-għassiesa\!
+behavior.retaliate.distanced3=Ejja lura u ġġieled ta' raġel\!
+behavior.retaliate.distanced4=Jekk nerġa' narak, intik daqqa ta' ponn\!
+behavior.retaliate.distanced5=Kont naf li tibża' minni\!
+behavior.retaliate.distanced6=Għaliex qiegħed tiġri? Ejja lura ħalli nċapċapielek\!
+behavior.retaliate.distanced7=Natik xeba' jekk nerġa' narak\!
+behavior.retaliate.distanced8=Insejjaħ lil sħabi u ngħeżżuk\!
+
+behavior.retaliate.weapondrawn1=Le\! Jekk jogħġbok tweġġagħnix\!
+behavior.retaliate.weapondrawn2=Ieqaf\! Le\!
+behavior.retaliate.weapondrawn3=Xi ħadd itini l-ajjut\!
+behavior.retaliate.weapondrawn4=Ser joqtluni\! Għinuni\!
+behavior.retaliate.weapondrawn5=Ħu li trid, iżda tweġġagħnix\!
+behavior.retaliate.weapondrawn6=Ma' rridx immut\! Oqgħod lura\!
+behavior.retaliate.weapondrawn7=Omm Notch, jekk jogħġbok għini\!
+
+behavior.build.fail.tooclose=Ma' taħsibx li qiegħdin qrib wisq ta' bini ieħor?
+
+##################
+# Conversations between villagers
+#####################################
+conversation1.progress1=Hey, how are you today?
+conversation1.progress2=I'm okay, how are you?
+conversation1.progress3=I am fine. What are you planning to do today?
+conversation1.progress4=Nothing much, how about you?
+conversation1.progress5=I am thinking about going fishing.
+conversation1.progress6=Really? I don't like fishing.
+conversation1.progress7=Why? It's really fun.
+conversation1.progress8=It's boring to me.
+conversation1.progress9=Like mining is any better?
+conversation1.progress10=What?
+conversation1.progress11=You heard me.
+conversation1.progress12=Whatever.
+
+conversation2.progress1=What are you looking at?
+conversation2.progress2=I don't know, I haven't figured it out yet.
+conversation2.progress3=Well, that was rude\!
+conversation2.progress4=*Somebody* woke up on the wrong side of the bed today.
+
+#################
+# AI Messages
+################################
+mining.search.none=M'hawnx %a1% fil-qrib.
+mining.search.nearby=Hawn xi %a1% fil-qrib...
+mining.search.value=Hemm xi %a1% %a2% blokkijiet il-bogħod.
+
+farming.noseeds=I don't have enough %a1%. I will need at least %a2% to create a farm.
+farming.nohoe=I'll need to have a hoe in order to farm.
+
+hunting.badspot=I can't find a good hunting spot.
+sleep.nohome=I don't have a home point\!
+sleep.invalid=Il-punt li jimmarka d-dar tiegħi mhux validu\!
+
+#################
+# Parser
+################################
+parser.mom=Мама
+parser.dad=Papa
+
+#################
+# GUI
+################################
+gui.button.yes=Iva
+gui.button.no=Le
+gui.button.ok=Ok
+gui.button.done=Lest
+gui.button.random=Każwali
+gui.button.interact=Interaġixxi
+gui.button.follow=Imxi waraja
+gui.button.stay=Oqgħod hawn
+gui.button.move=Mur fejn trid
+gui.button.trade=Partat
+gui.button.sethome=Issetja d-Dar
+gui.button.ridehorse=Irkeb Żiemel
+gui.button.special=Speċċjali
+gui.button.procreate=Ipprokreja
+gui.button.pickup=Iġbor
+gui.button.work=Aħdem
+gui.button.inventory=Inventarju
+gui.button.chat=Paċpaċ
+gui.button.joke=Għid ċajta
+gui.button.gift=Agħti rigal
+gui.button.shakehand=Ħu bl-idejn
+gui.button.tellstory=Għid xi Ġrajja
+gui.button.flirt=Ittanta
+gui.button.hug=Għannaq
+gui.button.kiss=Bus
+gui.button.farming=Biedja
+gui.button.farming.radius=Radju\: %a1%
+gui.button.farming.plant=Iżra\: %a1%
+gui.button.woodcutting=Qtuħ tas-siġar
+gui.button.woodcutting.logtype=Tip ta' njam\: %a1%
+gui.button.woodcutting.replant=Erġ' iżra\: %a1%
+gui.button.mining=Imminar
+gui.button.hunting=Kaċċa
+gui.button.kill=Oqtol
+gui.button.tame=Iddomestika
+gui.button.cooking=Tisjir
+gui.button.mode=Modalità\: %a1%
+gui.button.start=Niedi
+gui.button.stop=Temm
+gui.button.havebaby=Rabbi Tarbija
+gui.button.divorce=Divorzju
+gui.button.asktomarry=Saqsi għaż-Żwieġ
+gui.button.hire=Impjega
+gui.button.hired=Impjegat(a)
+gui.button.length=Tul\: %a1% siegħa(t)
+gui.button.accept=Aċċetta
+gui.button.divorcespouse=Iddivorzja l-Żewġek
+gui.button.resetbaby=Irrisettja t-Tarbija
+gui.button.setup.gender.false=Ġeneru\: Femminil
+gui.button.setup.gender.true=Ġeneru\: Maskil
+
+gui.title.namebaby.male=Għandna tifel\!
+gui.title.namebaby.female=Għandna tifla\!
+gui.title.namebaby=Agħti isem lit-tarbija\:
+gui.title.tombstone=Daħħal it-test għall-lapida\:
+gui.title.editor=Editur tar-Raħlin
+
+gui.info.family.married=Miżżewweġ lil %a1%.
+gui.info.family.engaged=Għarus lil %a1%.
+gui.info.family.marriedtoplayer=Miżżewweġ (jew miżżewġa) lilek.
+gui.info.family.engagedtoplayer=L-Għarus (jew Għarusa) tiegħek.
+gui.info.family.notmarried=Ġuvni (jew Xebba)
+gui.info.family.mother=Omm\: %a1%
+gui.info.family.father=Missier\: %a1%
+gui.info.family.mother.you=Omm\: Int
+gui.info.family.father.you=Missier\: Int
+
+gui.info.gift.line1=Rigal Disponibbli
+gui.info.gift.line2=(Agħfas sabiex tikseb)
+
+gui.info.mood=Burdata\: %a1%
+gui.info.personality=Personalità\: %a1%
+
+interaction.give.invalid1=Ma' nistax nużaha.
+interaction.give.invalid2=Din x'inhi? Ma' nista' nagħmel xejn biha.
+interaction.give.invalid3=Ma' nafx xi tridni nagħmel biha.
+interaction.give.invalid4=Għaliex tajtieli din?
+interaction.give.invalid5=X'inhu? Din x'inhi?
+
+interaction.divorce.priest.success1=Tajjeb wisq. Issa m'għadekx iddikjarat miżżewweġ.
+interaction.divorce.priest.success2=Kif trid. Nispera li ssib l-imħabba band' oħra.
+
+interaction.divorce.notmarried1=Jien miżżewweġ (jew miżżewġa) lil ħadd.
+interaction.divorce.notmarried2=X'nambihom il-formoli tad-divorzju? M'inhix miżżewweġ (jew miżżewġa).
+interaction.divorce.notmarried3=I'm not married. Why are you giving these to me?
+
+interaction.divorce.fail.notmarriedtoplayer1=What?\! You want me to leave my spouse? You're awful\!
+interaction.divorce.fail.notmarriedtoplayer2=No\! I won't do that to my spouse\! I am happily married\!
+interaction.divorce.fail.notmarriedtoplayer3=What do you think you're doing? I'm not going to use that\!
+
+interaction.divorce.success1=I thought you loved me\! Get out\!
+interaction.divorce.success2=It was fun while it lasted. Goodbye, and good luck.
+interaction.divorce.success3=I can't believe you're doing this\! Leave, now\!
+interaction.divorce.success4=Why would you do this to me? I never want to see you again\!
+
+interaction.marry.fail.marriedtogiver1=It's a pretty ring, but I am already married to you, silly.
+interaction.marry.fail.marriedtogiver2=We are already married. Did you forget?
+
+interaction.marry.fail.marriedtoother1=I'm sorry, no...I'm already married.
+interaction.marry.fail.marriedtoother2=Oh, I thought you knew...I'm already married to someone.
+interaction.marry.fail.marriedtoother3=What?\! I'm already married\!
+
+interaction.marry.fail.playermarried1=Uh...I see that ring on your finger. You're already married\!
+interaction.marry.fail.playermarried2=Just what are you trying to do? You're already married\!
+interaction.marry.fail.playermarried3=What? Really? I think you're married to someone else, aren't you?
+interaction.marry.fail.playermarried4=I'm appalled\! You already have a spouse.
+
+interaction.marry.fail.lowhearts1=What? No\! I don't like you\!
+interaction.marry.fail.lowhearts2=Oh, pretty ring\! Oh wait...it's for me? Um...no.
+interaction.marry.fail.lowhearts3=Is that for me? Sorry, I just don't know you enough.
+interaction.marry.fail.lowhearts4=I'm flattered, but I don't really know you.
+
+interaction.engage.success1=Yes\! I will marry you\! I love you\!
+interaction.engage.success2=U żgur li niżżewġek\!
+interaction.engage.success3=Stenna naqra oħra... qiegħed niċċajta\! Inħobbok\!
+interaction.engage.success4=Is...is this real? I mean, this moment, not the ring. But the ring is real, right?
+
+interaction.marry.success1=It's a dream come true\! I'll love you forever\!
+interaction.marry.success2=We're finally married\! Now what?
+interaction.marry.success3=I'm happy to be married to you, %PlayerName%.
+interaction.marry.success4=I can't wait to start our life together\!
+
+interaction.matchmaker.fail.married1=Diġà fi żwieġ ma' xi ħadd ieħor.
+interaction.matchmaker.fail.married2=I'm happily married, I do not want another spouse.
+interaction.matchmaker.fail.married3=I don't want that - I'm already married.
+
+interaction.matchmaker.fail.engaged1=I am engaged to someone already, I can't take that ring.
+interaction.matchmaker.fail.engaged2=I've promised to marry someone else.
+interaction.matchmaker.fail.engaged3=Oh, thanks but I think I'm okay. I'm already engaged to someone.
+
+interaction.matchmaker.fail.needtwo1=Don't you need two rings to arrange a marriage?
+interaction.matchmaker.fail.needtwo2=Oh, okay\! But you need two rings first.
+interaction.matchmaker.fail.needtwo3=My spouse and I will both need a ring, but you only have one.
+
+interaction.matchmaker.fail.novillagers1=Mhinix nara l'ħadd fil-qrib. Lil minn xtaqtni niżżewweġ?
+interaction.matchmaker.fail.novillagers2=Għadni ma' nafx... mexxini eqreb lejn min taħseb li jgħodd jew tgħodd għalija.
+interaction.matchmaker.fail.novillagers3=Eh, imma ma jidher li hawn ħadd fil-qrib. Lil min missni niżżewweġ?
+
+interaction.matchmaker.fail.invalid1=Imma ma' nistax niżżewweġ lil %Name%.
+interaction.matchmaker.fail.invalid2=L-uniku raħħal fil-qrib huwa jew hija %Name%, u ma' nistax niżżewġu jew niżżewwiġha.
+interaction.matchmaker.fail.invalid3=I don't think that I can marry %Name%. That might be a little strange.
+
+interaction.sethome.success1=Okay, this will be my new home point.
+interaction.sethome.success2=I understand, I'll be sleeping here at night.
+interaction.sethome.success3=Mela le, %PlayerName%.
+
+interaction.sethome.fail1=This doesn't look like a safe home point for me.
+interaction.sethome.fail2=This place doesn't seem safe. Is there another place nearby?
+interaction.sethome.fail3=I'm not too sure about this place. I can't have my home point here.
+
+interaction.mining.fail.toolow1=We're too low for me to create a mine.
+interaction.mining.fail.toolow2=We need to be on higher ground.
+interaction.mining.fail.toolow3=I don't think it's a good idea to create a mine here. We need to be higher.
+interaction.mining.fail.nopickaxe=I don't have a pickaxe. How am I supposed to mine without one?
+
+interaction.hire.fail.notenoughgold=Teħtieġ mazz ta' %a1% ingotti tad-deheb sabiex tħaddem dar-raħħal.
+interaction.hire.success1=Glad to be on board\! What's my first job?
+interaction.hire.success2=Everything is in order. What would you like me to do?
+interaction.hire.success3=Ready to start working at any time, boss\!
+
+interaction.ridehorse.fail.notnearby=I don't see any horses nearby.
+interaction.ridehorse.fail.notrideable=Ma' nistax nirkeb dak iż-żiemel.
+
+interaction.resetbaby.success=Very well, you may now have another child. Be more careful next time\!
+interaction.resetbaby.fail=M'għandekx tarbija.
+
+interactionp.marry.sent=Saqsejt lil %a1% għaż-żwieġ.
+interactionp.marry.success=Issa miżżewweġ (jew miżżewġa) lil %a1%.
+interactionp.marry.fail.alreadymarried=You are already married or engaged.
+interactionp.marry.fail.targetalreadymarried=%a1% is already married.
+interactionp.marry.fail.noweddingring=You do not have a wedding ring.
+interactionp.marry.prompt=%a1% would like to marry you.
+
+interactionp.havebaby.sent=You have asked %a1% to have a baby.
+interactionp.havebaby.prompt=%a1% would like to have a baby.
+interactionp.havebaby.fail.alreadyexists=You should already have a baby.
+
+interactionp.divorce.notify=You are no longer married to %a1%.
+
+interaction.adoptbaby.success=Wonderful\! I'd like you to meet %a1%, your new baby\! Treat them well.
+
+###################
+# Typed Dialogue
+#
+# Types:
+#   Parent      (an adult human that is the parent of the player)
+#   Relative    (an adult human that is related to the player)
+#   Adult       (an adult human)
+#   Child       (a human that is a child)
+#   Spouse      (married to the player recieving the message   
+#####################################
+
+adult.gift.bad1=This isn't a good gift...
+adult.gift.bad2=What made you think that I would like this?
+adult.gift.bad3=Le grazzi.
+adult.gift.bad4=I don't want that, why would I?
+adult.gift.bad5=Why are you giving me that?
+adult.gift.bad6=Is this supposed to be a gift? No thanks.
+
+adult.gift.good1=How considerate\! Thank you.
+adult.gift.good2=Grazzi\!
+adult.gift.good3=How thoughtful\!
+adult.gift.good4=Oh, I love these\!
+adult.gift.good5=A gift? For me? How nice\!
+
+adult.gift.better1=Hey, this is pretty cool\!
+adult.gift.better2=Grazzi, ħabib\!
+adult.gift.better3=%PlayerName%, int ħabib ta' veru\!
+adult.gift.better4=Oh wow, I actually needed one of these\!
+adult.gift.better5=This is a pretty good gift\!
+
+adult.gift.best1=I...I don't know what to say. Thank you so much, %PlayerName%\!
+adult.gift.best2=How did you...nevermind, this is amazing\!
+adult.gift.best3=Oh wow, I've always wanted one of these\!
+adult.gift.best4=This is fantastic\! I'll put it to good use.
+adult.gift.best5=Thank you so much. I will remember this forever.
+
+# 5 good chats when talking to an adult:
+adult.chat.good1=Man, cookies and milk does sound delicious right now.
+adult.chat.good2=Yes, I suppose the weather is nice today.
+adult.chat.good3=I'm doing just fine\! Hit my toe when I woke up, though.
+adult.chat.good4=An apple a day keeps the zombies away\!
+adult.chat.good5=My dream is to build my own village, but I'm so lazy.
+
+# 5 bad chats when talking to an adult:
+adult.chat.bad1=Did you seriously just say that?
+adult.chat.bad2=I don't believe it exploded on its own.
+adult.chat.bad3=You know, you're not that cool.
+adult.chat.bad4=Puppant.
+adult.chat.bad5=You should be thrown in a dungeon\! 
+
+# 5 good jokes when talking to an adult:
+adult.joke.good1=Haha\! Serves that Skelly right\!
+adult.joke.good2=*Laughs* That's hilarious\!
+adult.joke.good3=That's funny\! Did you hear the one about the cows?
+adult.joke.good4=Unfortunate for the sheep to lose its wool, but funny\!
+adult.joke.good5=That's the best I have ever heard\!
+
+# 5 bad jokes when talking to an adult:
+adult.joke.bad1=Don't speak about my pig like that\!
+adult.joke.bad2=Ħmm.
+adult.joke.bad3=Ah, you're not the funniest in town.
+adult.joke.bad4=That's low.
+adult.joke.bad5=You shouldn't joke about that.
+
+# 5 good handshakes when talking to an adult:
+adult.handshake.good1=You have a nice grip\!
+adult.handshake.good2=Your grip shows me you have great power\!
+adult.handshake.good3=Wow, you're so polite\!
+adult.handshake.good4=Il-ġurnata t-tajba\!
+adult.handshake.good5=Why, hello there\!
+
+# 5 bad handshakes when talking to an adult:
+adult.handshake.bad1=Seriously? After you slaughtered the cow?
+adult.handshake.bad2=Um, no that's okay.
+adult.handshake.bad3=I'm not a stranger, you don't have to be so polite.
+adult.handshake.bad4=Wow really? This isn't like you.
+adult.handshake.bad5=Itlaq l'hemm.
+
+# 5 good stories when talking to an adult:
+adult.tellstory.good1=Really? I can't believe that all happened\!
+adult.tellstory.good2=I wish I was brave enough to take on a creeper.
+adult.tellstory.good3=That was a really good story\! Is it original?
+adult.tellstory.good4=All of that happened yesterday? No way\!
+adult.tellstory.good5=I was near there yesterday, I can't believe I didn't hear this already.
+
+# 5 bad stories when talking to an adult:
+adult.tellstory.bad1=*Ahem* That's my mother you're talking about.
+adult.tellstory.bad2=This is why the village talks about you.
+adult.tellstory.bad3=I don't get it...
+adult.tellstory.bad4=You're terrible\! Creepers have feelings too\!
+adult.tellstory.bad5=How could you kill a poor sheep?\!
+
+# 5 good flirts when talking to an adult:
+adult.flirt.good1=Kemm int qalbieni\!
+adult.flirt.good2=Oh, you\! Stop being so cute\!
+adult.flirt.good3=*Blushes* Do you mean it?
+adult.flirt.good4=Oh, my...
+adult.flirt.good5=That was so adorable\! You had me at "hello"\! 
+
+# 5 bad flirts when talking to an adult:
+adult.flirt.bad1=If you mean that, then prove it.
+adult.flirt.bad2=Aw.... Wait, you told the baker the same thing\!
+adult.flirt.bad3=Lanqas f'miljun sena.
+adult.flirt.bad4=Tassew patetiku.
+adult.flirt.bad5=A zombie has a better chance than you.
+
+# 5 good hugs when talking to an adult:
+adult.hug.good1=Long time no see\!
+adult.hug.good2=Thank you, I needed that.
+adult.hug.good3=At least one thing made my day today.
+adult.hug.good4=You're as snuggly as a sheep\!
+
+# 5 bad hugs when talking to an adult:
+adult.hug.bad1=Miksi bil-ġmied u t-tajn\! 
+adult.hug.bad2=Le grazzi.
+adult.hug.bad3=Ehm, għaliex?
+adult.hug.bad4=Wara li għajjartni dinosawru l-ġimgħa li għaddiet? Le.
+adult.hug.bad5=Biex ngħidel is-sew, ma' jistħoqlokx tgħannieqa wara dak li għamilt.
+
+# 5 good kisses when talking to an adult:
+adult.kiss.good1=Nixtieq dal-waqt jibqa' għal dejjem.
+adult.kiss.good2=Naħseb li nħobbok...
+adult.kiss.good3=Mmmm, togħma ta' torta tal-qara ħamra\!
+
+# 5 bad kisses when talking to an adult:
+adult.kiss.bad1=Mhux jekk xi ħadd qiegħed jara.
+adult.kiss.bad2=Dik tgħidilha bewsa?
+adult.kiss.bad3=Ash ibus aħjar minnek.
+adult.kiss.bad4=Kelma waħda... mentini\!
+adult.kiss.bad5=Grazzi?
+
+adult.greeting1=Ara, insellimlek\!
+adult.greeting2=Bonġu\! Kif int illum?
+adult.greeting3=Bonġu, nieħu pjaċir narak\!
+adult.greeting4=X'inhu għaddej f'ħajtek illum?
+adult.greeting5=Kif int illum?
+
+##############################################################################################
+
+# 5 good chats when talking to a parent:
+parent.chat.good1=Kollox sew, u int kif tinsab, qalbi?
+parent.chat.good2=Qatt għidtlek kemm tixbaħ lil ħu nannuk li ħalliena?
+parent.chat.good3=Kemm jien kburi bik\!
+parent.chat.good4=Xi ħlew? Xi ġralek, mhux soltu tkun daqshekk qalbek tajba\! *Daħk*
+parent.chat.good5=Qed niftakar meta kond għadek daqs tikka\! 
+
+# 5 bad chats when talking to a parent:
+parent.chat.bad1=Qatt m'int kbir biżżejjed għal xi tbeżbiża, kiesaħ.
+parent.chat.bad2=Dak xi kliem hu. Mhux hekk rabbejtek.
+parent.chat.bad3=Għalhekk oħtok kienet il-favurita.
+parent.chat.bad4=Għaliex għadek ma sirtx tabib?
+parent.chat.bad5=Għandi xabla tad-djamanti għalik imma issa insiha\!
+
+
+# 5 good jokes when talking to a parent:
+parent.joke.good1=Ħadt is-sens ta' umoriżmu minn għandi\! *Daħk*
+parent.joke.good2=Int timlili l-ġurnata bid-daħk u l-ferħ\!
+parent.joke.good3=Kelli bżonnha dik id-daħka\!
+parent.joke.good4=Meta sirt kummidjant? Fqajtni\!
+parent.joke.good5=Iz-zija Berry kienet tieħu pjaċir b'xi ħaġa hekk\!
+
+# 5 bad jokes when talking to a parent:
+parent.joke.bad1=Ħeħ...
+parent.joke.bad2=Int ibni u jeħtieġ li nidħak... iżda mhix tad-daħk.
+parent.joke.bad3=Int ċass bħal l-ewwel persuna li ħriġt magħha.
+parent.joke.bad4=Tieħux għalik, imma mhux tajba.
+parent.joke.bad5=Ħadd ma' qalilna li int il-buffu tal-familja, dak żgur.
+
+# 5 good handshakes when talking to a parent:
+parent.handshake.good1=Tajjeb li qiegħdin naraw kemm rabbejna tifel edukat\!
+parent.handshake.good2=X'prudenza\! Għallimnik sew.
+parent.handshake.good3=Nieħi pjaċir nerġa narak\!
+parent.handshake.good4=Kif kond danl-aħħar?
+parent.handshake.good5=Tajjeb, għandek id soda hawn.
+
+# 5 bad handshakes when talking to a parent:
+parent.handshake.bad1=Kieku kont daqshekk edukat fil-laqgħat tal-familja.
+parent.handshake.bad2=X'inhi dil-formalità kollha? 
+parent.handshake.bad3=Tieħodli b'idejk u ma' tgħannaqnix?
+parent.handshake.bad4=Qiegħed tistħi tidher miegħi, jew?
+parent.handshake.bad5=Qatt ma' ndunajt kemm int kont dgħajjef.
+
+# 5 good stories when talking to a parent:
+parent.tellstory.good1=U wara, int neħħejt il-ħarqa u waddabtha lil-qassis\!
+parent.tellstory.good2=Kond ħriġt ma' dik il-persuna?
+parent.tellstory.good3=They sound lovely\! So when are you going to make me a grandparent?
+parent.tellstory.good4=Yes, I remember that\! Your cousin Bert ate way too many cookies.
+parent.tellstory.good5=Is the house done, yet?
+
+# 5 bad stories when talking to a parent:
+parent.tellstory.bad1=I wish you were little again, this story depresses me.
+parent.tellstory.bad2=Don't you do that again\! Wolves are nothing to play with\!
+parent.tellstory.bad3=You stole my earrings?\! 
+parent.tellstory.bad4=We all know you can't be a successful miner.
+parent.tellstory.bad5=You're not the brightest lightbulb in the room...
+
+# 5 good hugs when talking to a parent:
+parent.hug.good1=You've grown so much\!
+parent.hug.good2=I remember hugging you each night before bed.
+parent.hug.good3=Sweet child of mine\! 
+parent.hug.good4=Int qatt ma' tiddeludini\! 
+parent.hug.good5=You're the best child a parent could ask for\!
+
+# 5 bad hugs when talking to a parent:
+parent.hug.bad1=I'm not mad, I'm disappointed. 
+parent.hug.bad2=Sucking up? Get your own cake mix\!
+parent.hug.bad3=Why don't we hug like this more often? Are you embarrassed? 
+parent.hug.bad4=Mhux sakemm tinħasel.
+parent.hug.bad5=After you told me that? No way.
+
+
+##############################################################################################
+
+# 5 good chats when talking to a relative:
+relative.chat.good1=You act just like your momma did as a kid\!
+relative.chat.good2=I'm glad you came to see me\!
+relative.chat.good3=We should get a family reunion together.
+relative.chat.good4=You're the sweetest of the family\!
+relative.chat.good5=Don't tell anyone, but you're my favorite\!
+
+# 5 bad chats when talking to a relative:
+relative.chat.bad1=Excuse me? Do you know who you are talking to?
+relative.chat.bad2=That's no excuse to speak to me like that\!
+relative.chat.bad3=Go home. You're no longer welcome around me.
+relative.chat.bad4=If you don't leave I'll put a restraining order on you.
+relative.chat.bad5=Kemm int pastaż.
+
+# 5 good jokes when talking to a relative:
+relative.joke.good1=In-nannu qalielek, hux?\!
+relative.joke.good2=Dik iċ-ċajta ila tiġri fir-razza\!
+relative.joke.good3=Imbagħad il-baqra qabżet ir-ravina\! *Daħk*
+
+# 5 bad jokes when talking to a relative:
+relative.joke.bad1=Ma' jistħoqx tgħid dak il-kliem dwar il-familja.
+relative.joke.bad2=Ħalli l-umoriżmu f'idejn zijuk.
+
+# 5 good handshakes when talking to a relative:
+relative.handshake.good1=Qiegħu hemm\!
+relative.handshake.good2=*Pulls hand away* Gotchya\!
+relative.handshake.good3=Next time I expect diamonds\! *Laughs*
+
+# 5 bad handshakes when talking to a relative:
+relative.handshake.bad1=Come on, we're family. Informality is fine.
+relative.handshake.bad2=Shawn avżani dwar dan...
+relative.handshake.bad3=Din xi ċajta?
+
+# 5 good stories when talking to a relative:
+relative.tellstory.good1=Ħa ngħidlek din, ommok kienet ħalliela mil-kbar meta kienet żgħira\!
+relative.tellstory.good2=Donnu n-nannu Jay\! Kien iħobb jitfa lin-nies fil-lag\!
+relative.tellstory.good3=In-nanna kienet tħobb tħit ir-rix tat-tiġieġ, ukoll.
+relative.tellstory.good4=Mmm... L-istuffat taċ-ċanga t'ommok kien tassew bnin dak iż-żmien.
+relative.tellstory.good5=Missna niltaqgħu hekk aktar ta' spiss\!
+
+# 5 bad stories when talking to a relative:
+relative.tellstory.bad1=Hemmek spiċċat il-familja...
+relative.tellstory.bad2=Eh, tabilħaqq... int ta' mnieħrek imxammar...
+relative.tellstory.bad3=Tibqax tippoppa.
+relative.tellstory.bad4=Il-ġenituri tiegħek rabbewk aħjar minn hekk\!
+relative.tellstory.bad5=Int uffiċjalment irrinnegat.
+
+# 5 good hugs when talking to a relative:
+relative.hug.good1=Qiegħed (jew qiegħda) nieħu pjaċir narak\!
+relative.hug.good2=Missek issib ħin iżżur liz-ziju Jimmy, issa\!
+relative.hug.good3=Nixtieq kelli aktar x'intik minn dit-tgħannieqa\!
+relative.hug.good4=Iddumx ma' terġa żżurni\!
+relative.hug.good5=Dejjem inistenna bil-ħerqa għat-tgħanniqiet tiegħek\!
+
+
+# 5 bad hugs when talking to a relative:
+relative.hug.bad1=Naf x'ser tgħidli, mhux ser narak darb' oħra dis-sena?
+relative.hug.bad2=Mela naħseb li ser terġa' titlaqni.
+relative.hug.bad3=*Eħħ* Din hi t-tislima tat-tluq?
+relative.hug.bad4=Jekk jogħġbok oqgħod naqr' oħra...
+relative.hug.bad5=Ew, tinkwietax. Tegħreq wisq.
+
+##############################################################################################
+
+# 5 good chats when talking to a child:
+child.chat.good1=Smajt ġrajjiet dwarhek\! Int eroi?
+child.chat.good2=Bonġu. Kond ser nippriva nitla' fuq is-saqaf.
+child.chat.good3=Trid tiġi miegħi inqabbdu n-nar x'imkien?
+child.chat.good4=Jien ser insir kaċċatur bħalek u noqtol ħafna affarijiet\!
+child.chat.good5=Bonġu\! X'ser tagħmel illum? Jien sejjer ngħum\!
+
+# 5 bad chats when talking to a child:
+child.chat.bad1=Jekk ma' ttinix il-gallettini inżomm in-nifs.
+child.chat.bad2=Il-ġenituri tiegħi qaluli biex ma' nkellmikx, li int ħażin.
+child.chat.bad3=*Daħk* Tidher tinten\!
+child.chat.bad4=Iva? Mela ser nissuttalek id-dar bil-bajd\!
+child.chat.bad5=Lalala, mhux qiegħed nisimek\! Lalala.
+
+# 5 good jokes when talking to a child:
+child.joke.good1=Int iddaħħakni aktar mil-papà\!
+child.joke.good2=Għidli ċajta oħra\!
+child.joke.good3=Inti l-akbar buffu tad-dinja\!
+child.joke.good4=Din ser ngħida lill-ommi\! *Daħk*
+child.joke.good5=Missha tiekol werqa\!
+
+# 5 bad jokes when talking to a child:
+child.joke.bad1=Ma' nistgħax naqbad art.
+child.joke.bad2=Mhux qiegħed iddaħħakni. Tassew.
+child.joke.bad3=Jeħtieġ li tieqaf...
+child.joke.bad4=Imma, it-tuffieħa ta' min?
+child.joke.bad5=Tkux kattiv\!
+
+# 5 good handshakes when talking to a child:
+child.handshake.good1=Bonġu\! Xi ħadd li naf togħħbu...
+child.handshake.good2=Il-papà qal li din azzjoni tajba ħafna.
+child.handshake.good3=Issa high five\! L-isfel... għajjien\!
+child.handshake.good4=Bonġu ħabib\!
+child.handshake.good5=*Daħk* Għadni kif imsaħt baqra b'idu.
+
+# 5 bad handshakes when talking to a child:
+child.handshake.bad1=Inkwiet il-barrani...
+child.handshake.bad2=Ma, pa\! Dil-persuna qiegħda tipprova taħtafni\!
+child.handshake.bad3=Tmissnix, jien magħruf\!
+child.handshake.bad4=Ew, idejk imġemmda.
+child.handshake.bad5=Nieħodlek b'idejk biss jekk ittini djamant.
+
+# 5 good stories when talking to a child:
+child.tellstory.good1=Wow\! Int bhima\!
+child.tellstory.good2=Nixtieq inkun bħalek la nikber. Xxxx, tgħidx lill-papà.
+child.tellstory.good3=Trid taddottani?\! Int tal-ġenn\!
+child.tellstory.good4=Mort nistad u għal naqra m'għeriqtx.
+child.tellstory.good5=Jiġifieri nista' nieħu li rrid? Irrid ngħid, "nissellef?"
+
+# 5 bad stories when talking to a child:
+child.tellstory.bad1=Int aħdar\!
+child.tellstory.bad2=Issa ngħid lill-ommi x'għidt dwarha...
+child.tellstory.bad3=Naħseb li qiegħed titħadded fuq nannuwi...
+child.tellstory.bad4=Int beżżiegħ kif qal il-papà\!
+child.tellstory.bad5=X'wasslek toqtol dik il-provra tiġieġa?
+
+child.greeting1=Bonġu, min int?
+child.greeting2=Jisimni %Name%. U int x'jismek?
+child.greeting3=Maaa\! Tidher tal-waħx\!
+
+##############################################################################################
+
+# 5 good chats when talking to a child WHO IS YOUR OWN:
+childp.chat.good1=Eh, kond sejjer nesplora aktar tard.
+childp.chat.good2=Nistgħu immorru nikkampjaw? U ejja?\!
+childp.chat.good3=Bonġu, tista' tagħmel kejk?
+childp.chat.good4=Can I have my own room away from our house? That would be cool\!
+childp.chat.good5=Let's move into a cave\! That sounds so fun\!
+
+# 5 bad chats when talking to an playerchild:
+childp.chat.bad1=%ParentOpposite% talks about them a lot...
+childp.chat.bad2=I don't think %ParentOpposite% would like that very much.
+childp.chat.bad3=Is that why %ParentOpposite% talked about this thing called "divorce?"
+childp.chat.bad4=Nixtieq papà ġdid.
+childp.chat.bad5=I don't want a baby sister.
+
+# 5 good jokes when talking to an playerchild:
+childp.joke.good1=*Laughs* Tell that one again\!
+childp.joke.good2=I've got to tell my friend that one\!
+childp.joke.good3=Il-krijper kif sploda?\!
+childp.joke.good4=*Laughs*Why is there no longer 3 of them?
+childp.joke.good5=*Laughs* ... *Laughs*... *Laughs*
+
+# 5 bad jokes when talking to an playerchild:
+childp.joke.bad1=%ParentOpposite% said you were funny, though...
+childp.joke.bad2=I like knock knock jokes better.
+childp.joke.bad3=I don't get it, that was dumb.
+childp.joke.bad4=*Yawn* My friend's dad is cooler and funnier than you.
+childp.joke.bad5=Nippreferi naqra kejk.
+
+# 5 good handshakes when talking to an playerchild:
+childp.handshake.good1=Why do I need to learn this stuff? 
+childp.handshake.good2=%ParentOpposite% said that this is a polite thing to do.
+childp.handshake.good3=I'm gonna be just like you when I grow up\!
+childp.handshake.good4=Can I have cake now?
+childp.handshake.good5=I don't get it, but okay\! 
+
+# 5 bad handshakes when talking to an playerchild:
+childp.handshake.bad1=Nobżoq fuq idi.
+childp.handshake.bad2=You're such an old person.
+childp.handshake.bad3=Only losers shake hands.
+childp.handshake.bad4=I'll shake your hand if you give me cake.
+childp.handshake.bad5=No, you'll slip and hit me.
+
+# 5 good stories when talking to an playerchild:
+childp.tellstory.good1=%ParentOpposite% really did that?\! What happened to their clothes?
+childp.tellstory.good2=I want to explore a cave, too\! Let's go\!
+childp.tellstory.good3=One day I'll kill more creepers than you\!
+childp.tellstory.good4=Oh, oh, oh\! Can we climb a tree, too?\!
+childp.tellstory.good5=Il-lava weġġatek? 
+
+# 5 bad stories when talking to an playerchild:
+childp.tellstory.bad1=I don't want to hear about grandma.
+childp.tellstory.bad2=You always say that. I just want a pet.
+childp.tellstory.bad3=%ParentOpposite% has been lying to you, too.
+childp.tellstory.bad4=You said you didn't eat the cake and cookies...
+childp.tellstory.bad5=Someone said you were a bad person, and I believe them\!
+
+# 5 good hugs when talking to an playerchild:
+childp.hug.good1=*Kisses* You're the best ever\!
+childp.hug.good2=I'm going to be as strong as you are one day\!
+childp.hug.good3=Why doesn't %ParentOpposite% hug anymore?
+childp.hug.good4=I love hugs\! You're soft and warm\!
+childp.hug.good5=You should hug %ParentOpposite% too\!
+
+# 5 bad hugs when talking to an playerchild:
+childp.hug.bad1=Kbirt wisq għat-tgħanniq\!
+childp.hug.bad2=Stop it\! I don't want people to see\!
+childp.hug.bad3=Mhur l'hemm kemm int tad-dwejjaq\!
+childp.hug.bad4=Ħallini bi kwieti hew tini l-biskuttini\!
+childp.hug.bad5=Nippreferi ngħanneq skeletru. 
+
+childp.greeting1=Insellimlek\!
+childp.greeting2=Bonġu, x'qiegħed jiġri?
+childp.greeting3=X'qiegħed tagħmel?
+childp.greeting4=Fejn sejjer?
+
+##############################################################################################
+
+# 5 good chats when talking to an spouse:
+spouse.chat.good1=Jien naddaft id-dar kollha. Kif kienet il-ġurnata tiegħek?
+spouse.chat.good2=Qalbi, ejja mmorru nikkampjaw xi ħin. Pjaċir hux?
+spouse.chat.good3=Mela llum rajt brimba. Kienet daqsiex u ħrabt l'hemm.
+spouse.chat.good4=Missna nibnu dar flimkien\!
+spouse.chat.good5=Kważi waqajt fil-lava d-darba l-oħra. Ma' kienetx tkun xi ħaġa sabiħa żgur\!
+
+# 5 bad chats when talking to an spouse:
+spouse.chat.bad1=Naf li m'aħniex l-aktar familja fqira, iżda...
+spouse.chat.bad2=Nieħu pjażir fil-kumpanija tiegħek imma nixtieq ftit ħin għalija.
+spouse.chat.bad3=Xi kultant nixtieq li kelli l-"għar" personali tiegħi biex naħrab minnek u minn kullħadd.
+spouse.chat.bad4=Itlaq l'hemm, m'inhix f'burdata.
+spouse.chat.bad5=Where have you been? Are you seeing someone behind my back?
+
+# 5 good jokes when talking to an spouse:
+spouse.joke.good1=*Laughs* I married you for your humor\!
+spouse.joke.good2=You should throw an egg at him next time\!
+spouse.joke.good3=Then the wolf fell in love with the sheep.
+spouse.joke.good4=That never gets old\!
+spouse.joke.good5=Here's one for you... How many chickens does a creeper blow up?
+
+# 5 bad jokes when talking to an spouse:
+spouse.joke.bad1=Lame...
+spouse.joke.bad2=Sweetheart, you're not funny.
+spouse.joke.bad3=Ħa...Ħa...Ħa...Mhux tad-daħk.
+spouse.joke.bad4=Dik trid tneħħijha minn moħħok.
+spouse.joke.bad5=Owkej...
+
+# 5 good handshakes when talking to an spouse:
+spouse.handshake.good1=Idek tassew ratba\!
+spouse.handshake.good2=Our hands fit perfectly together.
+spouse.handshake.good3=One day people will forget to shake hands.
+spouse.handshake.good4=Our children will need to be this polite.
+spouse.handshake.good5=*Continues to shake hand* Tell me when to stop\!
+
+# 5 bad handshakes when talking to an spouse:
+spouse.handshake.bad1=Handshake? How about a kiss, instead?
+spouse.handshake.bad2=*Squeezes hand hard*
+spouse.handshake.bad3=Idek inkallata, insa.
+spouse.handshake.bad4=Miksijjin bil-ġermi.
+spouse.handshake.bad5=Why don't you get a decent job instead of shaking my hand?
+
+# 5 good stories when talking to an spouse:
+spouse.tellstory.good1=Let's not tell our children that one...
+spouse.tellstory.good2=You were so rebellious\! I love it\!
+spouse.tellstory.good3=Did you ever tell your parents about losing their rings?
+spouse.tellstory.good4=It was that moment when I fell in love with you\!
+spouse.tellstory.good5=Wow, you're the best hunter ever\!
+
+# 5 bad stories when talking to an spouse:
+spouse.tellstory.bad1=Talk to me when you kill something other than a harmless cow.
+spouse.tellstory.bad2=Don't do something that reckless\!
+spouse.tellstory.bad3=You have a family to think about\!
+spouse.tellstory.bad4=...If you liked them why didn't you marry them, instead?
+spouse.tellstory.bad5=Why did you wear the pink fluffy underwear? Whose were they?
+
+# 5 good flirts when talking to an spouse:
+spouse.flirt.good1=*Blushes* Well, how about we do something like that, then\!
+spouse.flirt.good2=Aw, you said that when we first met.
+spouse.flirt.good3=Baby, you're so cute\!
+spouse.flirt.good4=You bet I am\!
+spouse.flirt.good5=*Winks* You still got it\!
+
+# 5 bad flirts when talking to an spouse:
+spouse.flirt.bad1=*Sighs*
+spouse.flirt.bad2=This one is getting old... like you.
+spouse.flirt.bad3=We're married, we don't have to do this anymore.
+spouse.flirt.bad4=Talk to the tree, it cares more.
+spouse.flirt.bad5=Yeah, yeah... What was it you were saying?
+
+# 5 good hugs when talking to an spouse:
+spouse.hug.good1=I love being entangled in your arms\!
+spouse.hug.good2=Wait, don't leave... you're warm.
+spouse.hug.good3=Would you rather only being able to hug or kiss?
+spouse.hug.good4=*Bews* 
+spouse.hug.good5=Let's stay like this forever\!
+
+# 5 bad hugs when talking to an spouse:
+spouse.hug.bad1=Why don't you go hug your ex?
+spouse.hug.bad2=Le grazzi.
+spouse.hug.bad3=Man, you stink.
+spouse.hug.bad4=What do you want?
+spouse.hug.bad5=Huge someone else.
+
+# 5 good kisses when talking to an spouse:
+spouse.kiss.good1=I fall in love all over again when our lips meet\!
+spouse.kiss.good2=Time stops ticking when I'm with you.
+spouse.kiss.good3=Sweet as cake\!
+spouse.kiss.good4=Inħobbok, qalbi\!
+spouse.kiss.good5=I wouldn't trade you for anyone in the world\! 
+
+# 5 bad kisses when talking to an spouse:
+spouse.kiss.bad1=Not where someone can see us...
+spouse.kiss.bad2=We don't have to if you don't want to.
+spouse.kiss.bad3=Your breath smells like wolf kibble.
+spouse.kiss.bad4=Go take a drink from the lake.
+spouse.kiss.bad5=Now that we're married I can tell you how lousy you are at kissing.
+
+spouse.greeting1=Hi honey, where have you been?
+spouse.greeting2=Bonġu ħanini, kif inhi il-ġurnata tiegħek?
+spouse.greeting3=Oh, %PlayerName%\! You look tired.
+spouse.greeting4=Hey %PlayerName%\! You look hungry. Would you like me to cook something?
+spouse.greeting5=%PlayerName%, you're back\! I missed you.
+
+relative.gift.bad1=You shouldn't have... literally.
+relative.gift.bad2=Eh, żommha.
+relative.gift.bad3=Ew, where did you find this? In a mine?
+relative.gift.bad4=I'm not touching that.
+
+relative.gift.good1=Oh.. grazzi.
+relative.gift.good2=Thank you for thinking of me, %PlayerName%.
+relative.gift.good3=How thoughtful of you.
+relative.gift.good4=How'd you know I liked these?
+relative.gift.good5=Int twajjeb wisq.
+
+relative.gift.better1=I have the perfect spot for this.
+relative.gift.better2=Thank you very much, %PlayerName%.
+relative.gift.better3=This is lovely.
+relative.gift.better4=I appreciate you thinking about me.
+relative.gift.better5=Ill take good care of it.
+
+relative.gift.best1=Ive always wanted one of these\!
+relative.gift.best2=This is the best gift I've ever received, %PlayerName%\!
+relative.gift.best3=You give the best gifts, %PlayerName%\!
+relative.gift.best4=I can't believe this, you're too sweet, thank you\!
+relative.gift.best5=You know me like the back of your hand\!
+
+parent.gift.bad1=Oh, uh, thanks but no thanks.
+parent.gift.bad2=I appreciate the thought, but you can keep it.
+parent.gift.bad3=Why can't you bring me something other than junk?
+parent.gift.bad4=Mhux biex inweġġalek qalbek, iżda ma rridux dak.
+
+parent.gift.good1=Oh, xi ħsieb sabiħ\!
+parent.gift.good2=Grazzi mill-qalb\!
+parent.gift.good3=Int minn dejjem il-preferut tiegħi.
+
+parent.gift.better1=Hey, where did you get this? It's great\!
+parent.gift.better2=You didn't have to get this for me, thanks\!
+parent.gift.better3=You never have to give me anything, but thank you so much\!
+
+parent.gift.best1=I always knew that one day I'd find this again. Thank you so much\!
+parent.gift.best2=I lost this years ago, thanks\!
+parent.gift.best3=This was yours when you were a child, I can't believe you found it\!
+
+child.gift.bad1=Jaqq, ma' jogħġobnix\!
+child.gift.bad2=Jaqq\! Ma' rridux.
+child.gift.bad3=Għaliex tajtuli dan? Bla sens\!
+child.gift.bad4=Lanqas biss naf x'suppost hu\!
+
+child.gift.good1=Dan.. dan kollu tiegħi?
+child.gift.good2=Dan tassew għalija?
+child.gift.good3=This is cool\!
+
+child.gift.better1=Awesome\! I'm going to show this to all my friends.
+child.gift.better2=You found it\! I lost this a few minutes ago.
+child.gift.better3=My friend stole one of these from me. Did you beat him up for me?
+
+child.gift.best1=%PlayerName%, you give the best presents\!
+child.gift.best2=Finally\! My friend will stop bragging now.
+child.gift.best3=Wow\! Where did you get this thing?
+child.gift.best4=Missieri għandu bħalu. Issa għandi jien ukoll\!
+
+spouse.gift.bad1=Oh honey...this is just terrible.
+spouse.gift.bad2=Um, is this supposed to be a gift for me?
+spouse.gift.bad3=Throw away your own junk\! Oh, this was a gift?...sorry.
+spouse.gift.bad4=I thought you knew me better than that. I hate these.
+
+spouse.gift.good1=%PlayerName%, you're so sweet.
+spouse.gift.good2=Ah\! You're too good to me.
+spouse.gift.good3=This is unexpected, thank you, dear\!
+spouse.gift.good4=Ooh, xi ħsieb ħelu.
+spouse.gift.good5=Grazzi, qalbi\!
+
+spouse.gift.better1=Oh wow, this is actually really nice\!
+spouse.gift.better2=Kemm hu għal qalbi\! Grazzi\!
+spouse.gift.better3=Dan vera sabiħ, ħanini\!
+spouse.gift.better4=Dan għalija? Xi ħlew\!
+spouse.gift.better5=Oh, grazzi %PlayerName%\!
+
+spouse.gift.best1=Oh %PlayerName%, inħobbok\!
+spouse.gift.best2=Int qalbek tajba *wisq* miegħi\!
+spouse.gift.best3=Din żgur swiet ħafna flus\! Grazzi\!
+spouse.gift.best4=Jien.. ma' nistax nemmen li tiksibli xi ħaġa b'tant ħsieb warajha\!
+
+childp.gift.bad1=%ParentTitle%, dan rigal tal-qamel.
+childp.gift.bad2=Jaqq, %ParentOpposite% jagħti rigali isbaħ\!
+childp.gift.bad3=Ma tajtnix xi ħaġa hekk, xi sena ilu?
+childp.gift.bad4=Din inġib bħala meta rrid, le grazzi, %ParentTitle%.
+
+childp.gift.good1=Oh, tal-ġenn, Grazzi %ParentTitle%.
+childp.gift.good2=%ParentOpposite% tgħid li dawn "sexy". Xi tfisser?
+childp.gift.good3=Dan ħafna isbaħ mill-aħħar rigal li qlajt\!
+childp.gift.good4=Woo hoo\! Din tiegħi, kollha tiegħi\!
+childp.gift.good5=Nista'... nista' nikolha?
+
+childp.gift.better1=Għalija? B'xejn?\!
+childp.gift.better2=Ohh\! Xi tlellix\!
+childp.gift.better3=Tassew togħġobni, %ParentTitle%\!
+childp.gift.better4=Sħabi kollha ser jgħiru għalija issa\!
+childp.gift.better5=Tal-ġenn, %ParentTitle%\!
+
+childp.gift.best1=Din min jaf kemm swietek\!
+childp.gift.best2=%ParentTitle%, kont naf li ssibli xi ħaġa hekk. Ħassejtha\!
+childp.gift.best3=Yay\! Għandi l-aqwa %ParentTitle% fid-dinja\!
+childp.gift.best4=Din vera tal-blieħ\! Ma' nistax nemmen li din tiegħi\!
+childp.gift.best5=Grazzi ħafna, %ParentTitle%\! Inti l-aqwa fost l-aqwa\!
+
+
+

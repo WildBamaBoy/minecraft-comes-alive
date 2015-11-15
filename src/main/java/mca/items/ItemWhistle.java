@@ -1,13 +1,14 @@
 package mca.items;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import mca.core.MCA;
 import mca.entity.EntityHuman;
+import mca.enums.EnumMovementState;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ItemWhistle extends Item
 {
@@ -36,6 +37,7 @@ public class ItemWhistle extends Item
 						human.setPosition(player.posX, player.posY, player.posZ);
 						human.getNavigator().clearPathEntity();
 						human.halt();
+						human.setMovementState(EnumMovementState.STAY);
 					}
 				}
 			}
@@ -47,6 +49,6 @@ public class ItemWhistle extends Item
 	@Override
 	public void registerIcons(IIconRegister IIconRegister)
 	{
-		itemIcon = IIconRegister.registerIcon("mca:whistle");
+		itemIcon = IIconRegister.registerIcon("mca:Whistle");
 	}
 }

@@ -33,17 +33,33 @@ public class ModelHuman extends ModelBiped
 		final EntityHuman human = (EntityHuman)entity;
 		this.setRotationAngles(f1, f2, f3, f4, f5, f6, entity);
 
-		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(human.getHeadTexture()));
+		//Default head texture is going to be the one we can get straight from the human object.
+		String headTexture = human.getHeadTexture();
+		String clothesTexture = human.getClothesTexture();
+
+		//But if the human is infected, we need to show the zombified skin instead. Check for this here.
+		if (human.getIsInfected())
+		{
+			String textureBase = "mca:textures/skins/";
+
+			headTexture = human.getIsMale() ? textureBase + "ZombieVillagerMale.png" : textureBase + "ZombieVillagerFemale.png";
+			clothesTexture = headTexture;
+		}
+
+		//Bind the head texture to the head and headwear.
+		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(headTexture));
 		this.bipedHead.render(f6);
 		this.bipedHeadwear.render(f6);
 
-		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(human.getClothesTexture()));
+		//Bind the clothes texture to the rest of the body.
+		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(clothesTexture));
 		this.bipedBody.render(f6);
 		this.bipedRightArm.render(f6);
 		this.bipedLeftArm.render(f6);
 		this.bipedRightLeg.render(f6);
 		this.bipedLeftLeg.render(f6);
 
+		//Render breasts on adult females if the config allows it.
 		if (!human.getIsMale() && !human.getIsChild() && MCA.getConfig().modifyFemaleBody)
 		{
 			GL11.glPushMatrix();

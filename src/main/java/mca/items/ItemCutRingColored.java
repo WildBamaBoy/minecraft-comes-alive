@@ -1,5 +1,6 @@
 package mca.items;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import mca.api.IGiftableItem;
 import mca.core.MCA;
 import mca.enums.EnumCut;
@@ -7,7 +8,6 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import radixcore.item.ItemColorable;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ItemCutRingColored extends ItemColorable implements IGiftableItem
 {

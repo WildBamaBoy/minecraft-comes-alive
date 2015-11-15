@@ -10,16 +10,18 @@ package mca.client.render;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.opengl.GL11;
+
 import mca.ai.AIConverse;
 import mca.ai.AISleep;
 import mca.client.gui.GuiInteraction;
 import mca.client.gui.GuiVillagerEditor;
 import mca.client.model.ModelHuman;
-import mca.client.model.UVPoint;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
+import mca.util.UVPoint;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelBiped;
@@ -33,9 +35,6 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
-
-import org.lwjgl.opengl.GL11;
-
 import radixcore.client.render.RenderHelper;
 import radixcore.util.RadixMath;
 
@@ -148,11 +147,17 @@ public class RenderHuman extends RenderBiped
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity)
 	{
-		final String skinName = ((EntityHuman)entity).getHeadTexture();
+		final EntityHuman human = (EntityHuman)entity;
+		final String skinName = human.getHeadTexture();
 
 		if (skinName.isEmpty())
 		{
 			return new ResourceLocation("minecraft:textures/entity/steve.png");
+		}
+		
+		else if (human.getPlayerSkinResourceLocation() != null)
+		{
+			return human.getPlayerSkinResourceLocation();
 		}
 
 		else

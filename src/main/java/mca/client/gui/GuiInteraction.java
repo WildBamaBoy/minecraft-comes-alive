@@ -10,8 +10,13 @@ package mca.client.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mca.ai.AIFollow;
-import mca.ai.AIGrow;
 import mca.ai.AIIdle;
 import mca.ai.AIMood;
 import mca.ai.AIProcreate;
@@ -20,6 +25,7 @@ import mca.api.CropEntry;
 import mca.api.RegistryMCA;
 import mca.api.WoodcuttingEntry;
 import mca.api.exception.MappingNotFoundException;
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.data.PlayerData;
 import mca.data.PlayerMemory;
@@ -43,17 +49,11 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
 import radixcore.client.render.RenderHelper;
 import radixcore.constant.Font.Color;
+import radixcore.constant.Font.Format;
 import radixcore.data.DataWatcherEx;
 import radixcore.util.NumberCycleList;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiInteraction extends GuiScreen
@@ -94,7 +94,7 @@ public class GuiInteraction extends GuiScreen
 		this.radiusMappings = NumberCycleList.fromIntegers(5, 10, 15, 20, 25);
 		this.farmingMappings = NumberCycleList.fromList(RegistryMCA.getCropEntryIDs());
 		this.woodcuttingMappings = NumberCycleList.fromList(RegistryMCA.getWoodcuttingBlockIDs());
-		this.miningMappings = NumberCycleList.fromList(RegistryMCA.getMiningBlockIDs());
+		this.miningMappings = NumberCycleList.fromList(RegistryMCA.getMiningEntryIDs());
 		this.hireLengths = NumberCycleList.fromIntegers(3);
 	}
 
@@ -102,7 +102,7 @@ public class GuiInteraction extends GuiScreen
 	public void initGui()
 	{
 		drawGui();
-
+		
 		try
 		{
 			villager.displayNameForPlayer = true;
@@ -130,6 +130,12 @@ public class GuiInteraction extends GuiScreen
 			DataWatcherEx.allowClientSideModification = true;
 			villager.setIsInteracting(false);
 			DataWatcherEx.allowClientSideModification = false;
+			
+			//Show tutorial message for infected villagers after closing, to avoid cluttering the GUI.
+			if (villager.getIsInfected())
+			{
+				TutorialManager.setTutorialMessage(new TutorialMessage("Infected villagers cannot do chores, have an inventory,", "and they may bite. Surely there's a cure?"));
+			}
 		}
 
 		catch (NullPointerException e)
@@ -170,11 +176,17 @@ public class GuiInteraction extends GuiScreen
 		}
 		GL11.glPopMatrix();
 
-		if (playerData.isSuperUser.getBoolean())
+		if (playerData.getIsSuperUser())
 		{
 			RenderHelper.drawTextPopup(Color.WHITE + "You are a superuser.", 10, height - 16);
 		}
 
+		if (villager.getIsInfected())
+		{
+			int xLoc = villager.getProfessionGroup() == EnumProfessionGroup.Child ? 62 : 18;
+			RenderHelper.drawTextPopup(Color.GREEN + Format.BOLD + "INFECTED!", xLoc, 11);			
+		}
+		
 		if (displayMarriageInfo)
 		{
 			String phraseId = 
@@ -494,19 +506,6 @@ public class GuiInteraction extends GuiScreen
 			case LENGTH: hireLengths.next();
 			case HIRE: drawHireButtonMenu(); break;
 
-			case PROCREATE:
-				if (playerData.shouldHaveBaby.getBoolean())
-				{
-					player.addChatMessage(new ChatComponentText(Color.RED + "You already have a baby."));
-				}
-
-				else
-				{
-					villager.getAI(AIProcreate.class).setIsProcreating(true);
-				}
-
-				close();
-				break;
 			case PICK_UP:
 				TutorialManager.setTutorialMessage(new TutorialMessage("You can drop your child by right-clicking the ground.", ""));
 				villager.mountEntity(player);
@@ -560,12 +559,18 @@ public class GuiInteraction extends GuiScreen
 			case TRADE: 
 			case SET_HOME: 
 			case RIDE_HORSE: 
-			case INVENTORY:
 			case RESETBABY:
 			case DIVORCE:
+			case PROCREATE:
 			case ADOPTBABY:
 			case STOP: MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId())); close(); break;
 
+			case INVENTORY:
+				DataWatcherEx.allowClientSideModification = true;
+				villager.setDoOpenInventory(true);
+				DataWatcherEx.allowClientSideModification = false;
+				break;
+				
 			case START: 
 				switch (EnumInteraction.fromId(currentPage))
 				{
@@ -642,6 +647,16 @@ public class GuiInteraction extends GuiScreen
 		{
 			buttonList.add(new GuiButton(EnumInteraction.PROCREATE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.procreate"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.INVENTORY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.inventory"))); yLoc -= yInt;
+			
+			if (!villager.getAIManager().isToggleAIActive())
+			{
+				buttonList.add(new GuiButton(EnumInteraction.COOKING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.cooking"))); yLoc -= yInt;
+			}
+			
+			else
+			{
+				buttonList.add(new GuiButton(EnumInteraction.STOP.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.DARKRED + MCA.getLanguageManager().getString("gui.button.stop"))); yLoc -= yInt;
+			}
 		}
 
 		if (villager.isPlayerAParent(player) && villager.getIsChild())
@@ -882,7 +897,7 @@ public class GuiInteraction extends GuiScreen
 
 		try
 		{
-			block = RegistryMCA.getNotifyBlockById(miningMappings.get());
+			block = RegistryMCA.getMiningEntryById(miningMappings.get()).getBlock();
 		}
 
 		catch (MappingNotFoundException e)

@@ -46,7 +46,7 @@ public class AIDefend extends AbstractAI
 	@Override
 	public void onUpdateServer() 
 	{
-		if (owner.getProfessionGroup() == EnumProfessionGroup.Guard && !owner.getIsMarried())
+		if (owner.getProfessionGroup() == EnumProfessionGroup.Guard && !owner.getIsMarried() && !owner.getIsInfected())
 		{
 			if (target == null)
 			{
@@ -102,7 +102,7 @@ public class AIDefend extends AbstractAI
 
 						try
 						{
-							target.attackEntityFrom(DamageSource.generic, MCA.getConfig().guardAttackDamage);
+							target.attackEntityFrom(DamageSource.causeMobDamage(owner), MCA.getConfig().guardAttackDamage);
 						}
 						
 						catch (NullPointerException e) //Noticing a crash with the human mob mod.

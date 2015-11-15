@@ -1,4 +1,4 @@
-package mca.client.model;
+package mca.util;
 
 public final class UVPoint 
 {

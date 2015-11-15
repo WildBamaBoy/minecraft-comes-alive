@@ -12,6 +12,7 @@ import java.io.Serializable;
 import mca.core.MCA;
 import mca.entity.EntityHuman;
 import mca.enums.EnumDialogueType;
+import mca.enums.EnumRelation;
 import mca.packets.PacketSyncPlayerMemory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -34,7 +35,8 @@ public class PlayerMemory implements Serializable
 	private EnumDialogueType dialogueType;
 	private int feedbackDisplayTime;
 	private boolean lastInteractionSuccess;
-	
+	private int relationId;
+
 	private transient int timeUntilGreeting;
 	private transient int distanceTravelledFrom;
 
@@ -45,16 +47,16 @@ public class PlayerMemory implements Serializable
 		this.owner = owner;
 		this.playerName = player.getCommandSenderName();
 		this.uuid = player.getUniqueID().toString();
-		this.permanentId = MCA.getPlayerData(player).permanentId.getInt();
+		this.permanentId = MCA.getPlayerData(player).getPermanentId();
 		this.dialogueType = owner.getIsChild() ? EnumDialogueType.CHILD : EnumDialogueType.ADULT;
-		
+
 		//If both parents are players, player memory will not properly be set up for the player who
 		//did not place the baby down. Account for this here when the memory is created for the first time.
 		if (owner.getMotherName().equals(playerName) || owner.getFatherName().equals(playerName))
 		{
 			dialogueType = EnumDialogueType.CHILDP;
 			hearts = 100;
-			
+
 			//Also set this player as not having a baby, since it won't be set at all as the player may be offline.
 			PlayerData data = MCA.getPlayerData(player);
 			data.shouldHaveBaby.setValue(false);
@@ -88,6 +90,7 @@ public class PlayerMemory implements Serializable
 		nbt.setBoolean(nbtPrefix + "isHiredBy", isHiredBy);
 		nbt.setInteger(nbtPrefix + "feedbackDisplayTime", feedbackDisplayTime);
 		nbt.setBoolean(nbtPrefix + "lastInteractionSuccess", lastInteractionSuccess);
+		nbt.setInteger(nbtPrefix + "relationId", relationId);
 	}
 
 	public void readPlayerMemoryFromNBT(NBTTagCompound nbt)
@@ -108,6 +111,7 @@ public class PlayerMemory implements Serializable
 		isHiredBy = nbt.getBoolean(nbtPrefix + "isHiredBy");
 		feedbackDisplayTime = nbt.getInteger(nbtPrefix + "feedbackDisplayTime");
 		lastInteractionSuccess = nbt.getBoolean(nbtPrefix + "lastInteractionSuccess");
+		relationId = nbt.getInteger(nbtPrefix + "relationId");
 	}
 
 	public void doTick()
@@ -126,16 +130,16 @@ public class PlayerMemory implements Serializable
 					owner.getAIManager().disableAllToggleAIs();
 				}
 			}
-			
+
 			counter = Time.MINUTE;
 		}
 
 		counter--;
-		
+
 		if (feedbackDisplayTime > 0)
 		{
 			feedbackDisplayTime--;
-			
+
 			if (feedbackDisplayTime <= 0)
 			{
 				//Send an update to turn feedback display off.
@@ -193,14 +197,14 @@ public class PlayerMemory implements Serializable
 		this.hasGift = value;
 		onNonTransientValueChanged();
 	}
-	
+
 	public void setLastInteractionSuccess(boolean value)
 	{
 		this.lastInteractionSuccess = value;
 		this.feedbackDisplayTime = Time.SECOND * 2;
 		onNonTransientValueChanged();
 	}
-	
+
 	public void setDialogueType(EnumDialogueType value) 
 	{
 		this.dialogueType = value;
@@ -216,16 +220,19 @@ public class PlayerMemory implements Serializable
 	{
 		return feedbackDisplayTime > 0;
 	}
-	
+
 	public boolean getLastInteractionSuccess()
 	{
 		return lastInteractionSuccess;
 	}
-	
+
 	private void onNonTransientValueChanged()
 	{
-		final EntityPlayerMP player = (EntityPlayerMP) owner.worldObj.getPlayerEntityByName(playerName);
-		MCA.getPacketHandler().sendPacketToPlayer(new PacketSyncPlayerMemory(this.owner.getEntityId(), this), player);
+		if (!MCA.isTesting)
+		{
+			final EntityPlayerMP player = (EntityPlayerMP) owner.worldObj.getPlayerEntityByName(playerName);
+			MCA.getPacketHandler().sendPacketToPlayer(new PacketSyncPlayerMemory(this.owner.getEntityId(), this), player);
+		}
 	}
 
 	public String getPlayerName() 
@@ -240,8 +247,11 @@ public class PlayerMemory implements Serializable
 
 	public void increaseInteractionFatigue() 
 	{
-		interactionFatigue++;
-		onNonTransientValueChanged();
+		if (MCA.getConfig().enableDiminishingReturns)
+		{
+			interactionFatigue++;
+			onNonTransientValueChanged();
+		}
 	}
 
 	public void resetInteractionFatigue()
@@ -275,5 +285,20 @@ public class PlayerMemory implements Serializable
 		isHiredBy = value;
 		hireTimeLeft = length * 60; //Measured in hours
 		onNonTransientValueChanged();
+	}
+
+	public void setRelation(EnumRelation relation)
+	{
+		relationId = relation.getId();
+	}
+	
+	public EnumRelation getRelation()
+	{
+		return EnumRelation.getById(relationId);
+	}
+	
+	public boolean isRelatedToPlayer()
+	{
+		return relationId > 0;
 	}
 }

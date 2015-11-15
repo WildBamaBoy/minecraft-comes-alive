@@ -51,7 +51,7 @@ public class EventHooksFML
 	{
 		if (eventArgs.modID.equals(MCA.ID))
 		{
-			MCA.getConfig().getConfigInstance().save();
+			MCA.getConfig().getInstance().save();
 			MCA.getConfig().syncConfiguration();
 		}
 	}
@@ -89,7 +89,7 @@ public class EventHooksFML
 		MCA.getPacketHandler().sendPacketToPlayer(new PacketDataContainer(MCA.ID, data), (EntityPlayerMP)event.player);
 		MCA.getPacketHandler().sendPacketToPlayer(new PacketSyncConfig(MCA.getConfig()), (EntityPlayerMP)event.player);
 
-		if (!data.hasChosenDestiny.getBoolean() && !player.inventory.hasItem(ModItems.crystalBall) && MCA.getConfig().giveCrystalBall)
+		if (!data.getHasChosenDestiny() && !player.inventory.hasItem(ModItems.crystalBall) && MCA.getConfig().giveCrystalBall)
 		{
 			player.inventory.addItemStackToInventory(new ItemStack(ModItems.crystalBall));
 		}
@@ -122,6 +122,18 @@ public class EventHooksFML
 			MCA.resetConfig();
 		}
 
+		//Check for setting/processing the flag for loading language again.
+		if (currentScreen instanceof net.minecraft.client.gui.GuiLanguage)
+		{
+			MCA.reloadLanguage = true;
+		}
+
+		else if (MCA.reloadLanguage)
+		{
+			MCA.reloadLanguage = false;
+			MCA.getLanguageManager().loadLanguage(MCA.getLanguageManager().getGameLanguageID());
+		}
+		
 		if (playPortalAnimation)
 		{
 			EntityPlayerSP player = (EntityPlayerSP)mc.thePlayer;

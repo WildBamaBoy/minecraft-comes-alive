@@ -1,5 +1,6 @@
 package mca.items;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.forge.EventHooksFML;
@@ -14,8 +15,6 @@ import net.minecraft.world.World;
 import radixcore.data.DataWatcherEx;
 import radixcore.item.ItemSingle;
 import radixcore.math.Point3D;
-import radixcore.util.SchematicHandler;
-import cpw.mods.fml.common.registry.GameRegistry;
 
 public class ItemCrystalBall extends ItemSingle
 {
@@ -86,7 +85,7 @@ public class ItemCrystalBall extends ItemSingle
 		PlayerData data = MCA.playerDataContainer.getPlayerData(PlayerData.class);
 		
 		DataWatcherEx.allowClientSideModification = true;
-		data.hasChosenDestiny.setValue(false);
+		data.setHasChosenDestiny(false);
 		DataWatcherEx.allowClientSideModification = false;
 		
 		MCA.destinySpawnFlag = true; //Will hand off spawning to clientTickEvent

@@ -2,6 +2,9 @@ package mca.blocks;
 
 import java.util.Random;
 
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mca.ai.AISleep;
 import mca.core.minecraft.ModItems;
 import mca.entity.EntityHuman;
@@ -27,9 +30,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockVillagerBed extends BlockDirectional implements ITileEntityProvider
 {

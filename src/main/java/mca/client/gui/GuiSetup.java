@@ -9,6 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import mca.core.MCA;
 import mca.core.forge.EventHooksFML;
 import mca.data.PlayerData;
@@ -22,11 +28,6 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
-
 import radixcore.client.render.RenderHelper;
 import radixcore.constant.Font.Color;
 import radixcore.data.BlockObj;
@@ -34,8 +35,6 @@ import radixcore.data.DataWatcherEx;
 import radixcore.math.Point3D;
 import radixcore.util.BlockHelper;
 import radixcore.util.SchematicHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiSetup extends GuiScreen
@@ -46,7 +45,7 @@ public class GuiSetup extends GuiScreen
 	
 	private EntityPlayer player;
 	private PlayerData data;
-
+	private EnumDestinyChoice destinyChoice;
 	private GuiTextField nameTextField;
 
 	private int page;
@@ -253,33 +252,30 @@ public class GuiSetup extends GuiScreen
 			}
 		}
 
+		//Page switching
 		switch (button.id)
 		{
 		case -2: page = 6; break;
 		case 0: page = page == 6 ? 1 : page - 1; break;
 		case 1: case 2: 					page = 2; break;
 		case 3: case 4: case 5: 			page = 3; break;
-		case 6: 							page = 4; break;
-		case 7: case 8: case 10: case 11: 	//TODO Skip on cases that the warning message will be displayed.
-			data.hasChosenDestiny.setValue(true);
-			setDestinyComplete();
-			mc.displayGuiScreen(null);
-			break;
+		case 6: if (MCA.getConfig().enableStructureSpawning) page = 4; break;
 		default:
 			page = 1;
 		}
 
+		//Button actions.
 		switch (button.id)
 		{
-		case 1: data.isMale.setValue(true); break;
-		case 2: data.isMale.setValue(false); break;
-		case 3: data.genderPreference.setValue(0); break;
-		case 4: data.genderPreference.setValue(1); break;
-		case 5: data.genderPreference.setValue(2); break;
+		case 1: data.setIsMale(true); break;
+		case 2: data.setIsMale(false); break;
+		case 3: data.setGenderPreference(0); break;
+		case 4: data.setGenderPreference(1); break;
+		case 5: data.setGenderPreference(2); break;
 		case 6: 
-			data.mcaName.setValue(nameTextField.getText());
+			data.setMcaName(nameTextField.getText());
 
-			if (!Minecraft.getMinecraft().isIntegratedServerRunning()) 
+			if (!Minecraft.getMinecraft().isIntegratedServerRunning() || !MCA.getConfig().enableStructureSpawning) 
 			{
 				setDestinyComplete();
 				mc.displayGuiScreen(null);
@@ -288,12 +284,23 @@ public class GuiSetup extends GuiScreen
 
 			break;
 
-		case 7: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.FAMILY)); break;
-		case 8: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.ALONE)); break;
-		case 9: page = 5; break;
-		case 10: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.NONE)); break;
+		case 7: destinyChoice = EnumDestinyChoice.FAMILY; page = 5; break;
+		case 8: destinyChoice = EnumDestinyChoice.ALONE; page = 5; break;
+		case 9: destinyChoice = EnumDestinyChoice.VILLAGE; page = 5; break;
+		case 10: //No destiny.
+			data.setHasChosenDestiny(true);
+			setDestinyComplete();
+			mc.displayGuiScreen(null);
+			
+			MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.NONE)); break;
 		
-		case 11: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.VILLAGE)); break; //TODO Store destiny choice and use it at this instance.
+		case 11: //Confirmation button to spawn destiny area.
+			data.setHasChosenDestiny(true);
+			setDestinyComplete();
+			mc.displayGuiScreen(null);
+			
+			MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(destinyChoice)); 
+			break;
 		case 12: page = 4; break;
 		case 13: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.CANCEL));
 				mc.displayGuiScreen(null); break;
@@ -342,7 +349,7 @@ public class GuiSetup extends GuiScreen
 				nameTextField.setText(player.getCommandSenderName());
 			}
 
-			GuiButton doneButton = new GuiButton(6, width / 2 - 32, height / 2 + 30, 65, 20, "Continue");
+			GuiButton doneButton = new GuiButton(6, width / 2 - 32, height / 2 + 30, 65, 20, MCA.getConfig().enableStructureSpawning ? "Continue" : "Done");
 			doneButton.enabled = !nameTextField.getText().trim().isEmpty();
 			buttonList.add(doneButton);
 		}
@@ -368,7 +375,7 @@ public class GuiSetup extends GuiScreen
 		PlayerData data = MCA.playerDataContainer.getPlayerData(PlayerData.class);
 
 		DataWatcherEx.allowClientSideModification = true;
-		data.hasChosenDestiny.setValue(true);
+		data.setHasChosenDestiny(true);
 		DataWatcherEx.allowClientSideModification = false;
 	}
 }
