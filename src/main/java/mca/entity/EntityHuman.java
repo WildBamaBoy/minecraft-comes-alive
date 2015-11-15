@@ -898,8 +898,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			partner.spouseId.setValue(this.getPermanentId());
 			partner.spouseName.setValue(this.getName());
 			
-			//Prevent story progression.
-			getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.FINISHED);
+			getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.TRY_FOR_BABY);
 		}
 
 		else if (entity instanceof EntityPlayer)
@@ -909,7 +908,6 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			spouseId.setValue(data.getPermanentId());
 			spouseName.setValue(partner.getCommandSenderName());
 			
-			//Prevent story progression.
 			getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.FINISHED);
 		}
 

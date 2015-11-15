@@ -15,6 +15,7 @@ import mca.core.minecraft.ModItems;
 import mca.data.PlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
+import mca.enums.EnumBabyState;
 import mca.enums.EnumProgressionStep;
 import mca.util.MarriageHandler;
 import mca.util.TutorialManager;
@@ -140,23 +141,39 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			{
 				EnumProgressionStep step = human.getAI(AIProgressStory.class).getProgressionStep();
 				
-				if (step == EnumProgressionStep.TRY_FOR_BABY)
+				if (human.isMarriedToAVillager() && human.getVillagerSpouse() != null && RadixMath.getDistanceToEntity(human, human.getVillagerSpouse()) <= 8.5D)
 				{
-					human.say("gift.cake", player);
-					human.getAI(AIProgressStory.class).setTicksUntilNextProgress(0);
-					human.getAI(AIProgressStory.class).setForceNextProgress(true);
+					EntityHuman spouse = human.getVillagerSpouse();
+					
 					removeItem = true;
 					removeCount = 1;
 
-					TutorialManager.sendMessageToPlayer(player, "Cake can influence villagers to have children.", "However they can only have a few before they will stop.");
+					if (human.getBabyState() == EnumBabyState.NONE && spouse.getBabyState() == EnumBabyState.NONE)
+					{
+						human.say("gift.cake" + RadixMath.getNumberInRange(1, 3), player);
+						
+						final EntityHuman progressor = !human.getIsMale() ? human : !spouse.getIsMale() ? spouse : human;
+						human.getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.HAD_BABY);
+						spouse.getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.HAD_BABY);
+						
+						Utilities.spawnParticlesAroundEntityS(Particle.HEART, human, 16);
+						Utilities.spawnParticlesAroundEntityS(Particle.HEART, spouse, 16);
+						
+						progressor.setBabyState(EnumBabyState.getRandomGender());
+					}
+					
+					else
+					{
+						human.sayRaw("We already have a baby.", player);
+					}
+
+					TutorialManager.sendMessageToPlayer(player, "Cake can influence villagers to have children.", "");
 				}
 				
-				else if (step == EnumProgressionStep.FINISHED)
+				else if (human.isMarriedToAVillager() && human.getVillagerSpouse() == null)
 				{
-					human.say("gift.cake.refuse", player);
-					removeItem = false;
+					human.sayRaw("I don't see my spouse anywhere...", player);
 				}
-				
 				else
 				{
 					removeCount = 1;
