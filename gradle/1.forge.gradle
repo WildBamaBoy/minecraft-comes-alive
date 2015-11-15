@@ -13,7 +13,7 @@ minecraft
     versionProps['BUILD_NUMBER']=code.toString()
     versionProps.store(versionPropsFile.newWriter(), null)
 
-    version = "1.7.10-10.13.4.1558"
+    version = "1.7.10-10.13.4.1558-1.7.10"
     runDir =  "eclipse/"
     replaceIn "mca/core/MCA.java"
     replace   "@VERSION@", "${project.minecraft.version}-${project.version}" + "." + buildNumber
