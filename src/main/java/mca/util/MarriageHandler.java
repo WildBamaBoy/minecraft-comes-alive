@@ -63,10 +63,10 @@ public class MarriageHandler
 			{
 				try
 				{
-					if (localEntity != human)
+					if (localEntity.getEntityId() != human.getEntityId())
 					{
 						EntityHuman localHuman = (EntityHuman)localEntity;
-						PlayerMemory localMemory = human.getPlayerMemory(player);
+						PlayerMemory localMemory = localHuman.getPlayerMemory(player);
 						localMemory.setHasGift(true);
 					}
 				}
