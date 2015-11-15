@@ -21,7 +21,7 @@ public class MarriageHandler
 	{
 		PlayerData playerData = MCA.getPlayerData(player);
 		PlayerMemory memory = human.getPlayerMemory(player);
-		
+
 		playerData.setSpouseName(human.getName());
 		playerData.setSpousePermanentId(human.getPermanentId());
 		playerData.setIsEngaged(true);
@@ -29,17 +29,17 @@ public class MarriageHandler
 		human.setSpouseName(player.getCommandSenderName());
 		human.setSpouseId(playerData.getPermanentId());
 		human.setIsEngaged(true);
-		
+
 		human.getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.FINISHED);
 		memory.setDialogueType(EnumDialogueType.SPOUSE);
 	}
-	
+
 	public static void startMarriage(EntityPlayer player, EntityHuman human)
 	{
 		boolean handleEngagement = human.getIsEngaged();
 		PlayerData playerData = MCA.getPlayerData(player);
 		PlayerMemory memory = human.getPlayerMemory(player);
-		
+
 		playerData.setSpouseName(human.getName());
 		playerData.setSpousePermanentId(human.getPermanentId());
 		playerData.setIsEngaged(false);
@@ -47,14 +47,14 @@ public class MarriageHandler
 		human.setSpouseName(player.getCommandSenderName());
 		human.setSpouseId(playerData.getPermanentId());
 		human.setIsEngaged(false);
-		
+
 		//Prevent any story progression on this villager.
 		human.getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.FINISHED);
 
 		//Set the appropriate dialogue type.
 		memory.setDialogueType(EnumDialogueType.SPOUSE);
 		memory.setRelation(human.getIsMale() ? EnumRelation.HUSBAND : EnumRelation.WIFE);
-		
+
 		//Handle engagement gifts if we were engaged prior to marriage.
 		if (handleEngagement)
 		{
@@ -77,17 +77,17 @@ public class MarriageHandler
 			}
 		}
 	}
-	
+
 	public static void startMarriage(EntityHuman human1, EntityHuman human2)
 	{
 		human1.setSpouseName(human2.getName());
 		human1.setSpouseId(human2.getPermanentId());
 		human1.setIsEngaged(false);
-		
+
 		human2.setSpouseName(human1.getName());
 		human2.setSpouseId(human1.getPermanentId());
 		human2.setIsEngaged(false);
-		
+
 		//Set up the story progression AI and set dominant progressor based on gender.
 		AIProgressStory storyAI = human1.getAI(AIProgressStory.class);
 		AIProgressStory partnerAI = human2.getAI(AIProgressStory.class);
@@ -107,62 +107,62 @@ public class MarriageHandler
 			storyAI.setDominant(false);
 		}
 	}
-	
+
 	public static void startMarriage(EntityPlayer player1, EntityPlayer player2)
 	{
 		PlayerData player1Data = MCA.getPlayerData(player1);
 		PlayerData player2Data = MCA.getPlayerData(player2);
-		
+
 		player1Data.setSpouseName(player2.getCommandSenderName());
 		player1Data.setSpousePermanentId(player2Data.getPermanentId());
 		player1Data.setIsEngaged(false);
-		
+
 		player2Data.setSpouseName(player1.getCommandSenderName());
 		player2Data.setSpousePermanentId(player1Data.getPermanentId());
 		player2Data.setIsEngaged(false);
 	}
-	
+
 	public static void endMarriage(EntityPlayer player, EntityHuman human)
 	{
 		PlayerData playerData = MCA.getPlayerData(player);
 		PlayerMemory memory = human.getPlayerMemory(player);
-		
+
 		playerData.setSpouseName("none");
 		playerData.setSpousePermanentId(0);
 		playerData.setIsEngaged(false);
-		
+
 		human.setSpouseName("none");
 		human.setSpouseId(0);
 		human.setIsEngaged(false);
 		memory.setDialogueType(EnumDialogueType.ADULT);
 		memory.setRelation(EnumRelation.NONE);
-		
+
 		human.getAI(AIProgressStory.class).reset();
 	}
-	
+
 	public static void endMarriage(EntityHuman human1, EntityHuman human2)
 	{
 		human1.setSpouseName("none");
 		human1.setSpouseId(0);
 		human1.setIsEngaged(false);
-		
+
 		human2.setSpouseName("none");
 		human2.setSpouseId(0);
 		human2.setIsEngaged(false);
-		
+
 		human1.getAI(AIProgressStory.class).reset();
 		human2.getAI(AIProgressStory.class).reset();
 	}
-	
+
 	public static void endMarriage(EntityPlayer player1, EntityPlayer player2)
 	{
 		PlayerData player1Data = MCA.getPlayerData(player1);
 		PlayerData player2Data = MCA.getPlayerData(player2);
-		
+
 		player1Data.setSpouseName("none");
 		player1Data.setSpousePermanentId(0);
 		player1Data.setIsEngaged(false);
-		
+
 		player2Data.setSpouseName("none");
 		player2Data.setSpousePermanentId(0);
 		player2Data.setIsEngaged(false);
@@ -172,12 +172,15 @@ public class MarriageHandler
 	{
 		forceEndMarriage(MCA.getPlayerData(player));
 	}
-	
+
 	public static void forceEndMarriage(PlayerData data) 
 	{
-		data.setSpouseName("none");
-		data.setSpousePermanentId(0);
-		data.setIsEngaged(false);
+		if (data != null)
+		{
+			data.setSpouseName("none");
+			data.setSpousePermanentId(0);
+			data.setIsEngaged(false);
+		}
 	}
 
 	private MarriageHandler()
