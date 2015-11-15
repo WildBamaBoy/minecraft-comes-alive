@@ -102,7 +102,7 @@ public class AIDefend extends AbstractAI
 
 						try
 						{
-							target.attackEntityFrom(DamageSource.generic, MCA.getConfig().guardAttackDamage);
+							target.attackEntityFrom(DamageSource.causeMobDamage(owner), MCA.getConfig().guardAttackDamage);
 						}
 						
 						catch (NullPointerException e) //Noticing a crash with the human mob mod.
