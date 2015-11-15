@@ -5,6 +5,7 @@ import mca.core.MCA;
 import mca.data.PlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
+import mca.enums.EnumBabyState;
 import mca.enums.EnumDialogueType;
 import mca.enums.EnumProgressionStep;
 import mca.enums.EnumRelation;
@@ -124,6 +125,8 @@ public class MarriageHandler
 
 	public static void endMarriage(EntityPlayer player, EntityHuman human)
 	{
+		human.setBabyState(EnumBabyState.NONE);
+		
 		PlayerData playerData = MCA.getPlayerData(player);
 		PlayerMemory memory = human.getPlayerMemory(player);
 
@@ -142,6 +145,9 @@ public class MarriageHandler
 
 	public static void endMarriage(EntityHuman human1, EntityHuman human2)
 	{
+		human1.setBabyState(EnumBabyState.NONE);
+		human2.setBabyState(EnumBabyState.NONE);
+		
 		human1.setSpouseName("none");
 		human1.setSpouseId(0);
 		human1.setIsEngaged(false);
