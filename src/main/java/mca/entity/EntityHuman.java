@@ -703,6 +703,11 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 	public void say(String phraseId, EntityPlayer target, Object... arguments)
 	{
+		if (target == null)
+		{
+			return;
+		}
+		
 		if (getIsInfected()) //Infected villagers moan when they speak, and will not say anything else.
 		{
 			String zombieMoan = RadixLogic.getBooleanWithProbability(33) ? "Raagh..." : RadixLogic.getBooleanWithProbability(33) ? "Ughh..." : "Argh-gur...";
@@ -725,11 +730,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			sb.append(": ");
 			sb.append(MCA.getLanguageManager().getString(phraseId, arguments));
 
-			//Just in case the target is no longer present, somehow.
-			if (target != null)
-			{
-				target.addChatMessage(new ChatComponentText(sb.toString()));
-			}
+			target.addChatMessage(new ChatComponentText(sb.toString()));
 
 			aiManager.getAI(AIIdle.class).reset();
 			aiManager.getAI(AISleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
