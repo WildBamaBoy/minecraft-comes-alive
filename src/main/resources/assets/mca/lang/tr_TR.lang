@@ -638,10 +638,10 @@ gui.button.next=İleri
 ################
 # Relations
 ################################
-relation.husband=Husband
-relation.wife=Wife
-relation.daughter=Daughter
-relation.son=Son
+relation.husband=Eş
+relation.wife=Karı
+relation.daughter=Kız evlat
+relation.son=Erkek evlat
 
 ################
 # Dialogue

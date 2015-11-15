@@ -638,10 +638,10 @@ gui.button.next=Siguiente
 ################
 # Relations
 ################################
-relation.husband=Husband
-relation.wife=Wife
-relation.daughter=Daughter
-relation.son=Son
+relation.husband=Marido
+relation.wife=Esposa
+relation.daughter=Hija
+relation.son=Hijo
 
 ################
 # Dialogue

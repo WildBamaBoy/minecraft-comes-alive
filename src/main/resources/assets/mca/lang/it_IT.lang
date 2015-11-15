@@ -638,10 +638,10 @@ gui.button.next=Avanti
 ################
 # Relations
 ################################
-relation.husband=Husband
-relation.wife=Wife
-relation.daughter=Daughter
-relation.son=Son
+relation.husband=Marito
+relation.wife=Moglie
+relation.daughter=Figlia
+relation.son=Figlio
 
 ################
 # Dialogue
@@ -943,7 +943,7 @@ adult.gift.best4=È fantastico\! Lo userò bene.
 adult.gift.best5=Grazie mille. Me lo ricorderò per sempre.
 
 # 5 good chats when talking to an adult:
-adult.chat.good1=Amico, latte e biscotti sembra veramente delizioso.
+adult.chat.good1=Amico, latte e biscotti sembrano veramente deliziosi.
 adult.chat.good2=Si, suppongo che il tempo sia bello oggi.
 adult.chat.good3=Va tutto bene\! Anche se ho colpito il mignolo quando mi sono svegliato.
 adult.chat.good4=Una mela al giorno toglie gli zombi di torno\!
@@ -1162,9 +1162,9 @@ relative.tellstory.good5=Dovremmo farlo insieme più spesso\!
 # 5 bad stories when talking to a relative:
 relative.tellstory.bad1=è quando la famiglia si distrusse...
 relative.tellstory.bad2=Oh, è chiaro...sei uno snob...
-relative.tellstory.bad3=Smetti di cercare di mostrarti.
+relative.tellstory.bad3=Smetti di provare a metterti in mostra.
 relative.tellstory.bad4=I tuoi genitori ti hanno educato meglio di così\!
-relative.tellstory.bad5=Sei disonorato.
+relative.tellstory.bad5=Sei senza onore.
 
 # 5 good hugs when talking to a relative:
 relative.hug.good1=Che bello vederti\!
@@ -1175,7 +1175,7 @@ relative.hug.good5=Sono sempre impaziente di un tuo abbraccio\!
 
 
 # 5 bad hugs when talking to a relative:
-relative.hug.bad1=Lasciami indovinare, questo sarà l'ultima volta che ti vedrò per un anno?
+relative.hug.bad1=Lasciami indovinare, questa sarà l'ultima volta che ti vedrò per un anno?
 relative.hug.bad2=Credo che tu voglia ancora lasciarmi.
 relative.hug.bad3=*Piange* Questo è un addio?
 relative.hug.bad4=Per favore stai un po' di più...
@@ -1299,7 +1299,7 @@ childp.tellstory.bad1=Non voglio sentire niente sulla nonna.
 childp.tellstory.bad2=Lo dici sempre. Io voglio un animale.
 childp.tellstory.bad3=Anche %ParentOpposite% ti dice le bugie.
 childp.tellstory.bad4=Avevi detto di non aver mangiato la torta e i biscotti...
-childp.tellstory.bad5=Qualcuno mi ha detto che sei una cattiva persone, e gli credo\!
+childp.tellstory.bad5=Qualcuno mi ha detto che sei una cattiva persona, e gli credo\!
 
 # 5 good hugs when talking to an playerchild:
 childp.hug.good1=*Baci* Sei sempre il migliore\!

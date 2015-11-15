@@ -29,7 +29,7 @@ achievement.farming=Wer braucht schon eine Gewerkschaft
 achievement.farming.desc=Lass' dein Kind etwas farmen.
 achievement.childToAdult=Erwachsen\!
 achievement.childToAdult.desc=Lass' dein Kind erwachsen werden.
-achievement.childMarried=Flügge werden
+achievement.childMarried=Das Nest verlassen
 achievement.childMarried.desc=Lass' dein Kind heiraten.
 achievement.childHasChildren=Großeltern
 achievement.childHasChildren.desc=Lerne deine Enkel kennen.
@@ -41,7 +41,7 @@ achievement.smeltColoredDiamond=Diamanten mit Style
 achievement.smeltColoredDiamond.desc=Schmelze einen gefärbten Diamanten.
 achievement.craftShapedDiamond=Diamantenschneider
 achievement.craftShapedDiamond.desc=Forme einen Diamanten.
-achievement.craftShapedRing=Dein fertiges Produkt
+achievement.craftShapedRing=Ein fertiges Produkt
 achievement.craftShapedRing.desc=Einen geschliffenen Diamanten herstellen.
 
 #######
@@ -66,15 +66,15 @@ item.RoseGoldIngot.name=Roségoldbarren
 item.CrystalBall.name=Kristallkugel
 item.NewOutfit.name=Neues Outfit
 item.DiamondHeart.name=Diamantherz
-item.DiamondTiny.name=Winziger Diamant
+item.DiamondTiny.name=winziger Diamant
 item.DiamondOval.name=Ovaler Diamant
 item.DiamondSquare.name=Quadratischer Diamant
 item.DiamondTriangle.name=Dreieckiger Diamant
 item.DiamondStar.name=Sternförmiger Diamant
 item.DiamondDust.name=Diamantstaub
-item.EngagementRingHeart.name=Herzförmiger Verlobungsring
-item.EngagementRingHeartRG.name=Roségoldener herzförmiger Verlobungsring
-item.EngagementRingTiny.name=Winziger Verlobungsring
+item.EngagementRingHeart.name=herzförmiger Verlobungsring
+item.EngagementRingHeartRG.name=roségoldener herzförmiger Verlobungsring
+item.EngagementRingTiny.name=winziger Verlobungsring
 item.EngagementRingTinyRG.name=Roségoldener winziger Verlobungsring
 item.EngagementRingOval.name=Ovaler Verlobungsring
 item.EngagementRingOvalRG.name=Roségoldener ovaler Verlobungsring
@@ -638,10 +638,10 @@ gui.button.next=Weiter
 ################
 # Relations
 ################################
-relation.husband=Husband
-relation.wife=Wife
-relation.daughter=Daughter
-relation.son=Son
+relation.husband=Ehemann
+relation.wife=Ehefrau
+relation.daughter=Tochter
+relation.son=Sohn
 
 ################
 # Dialogue

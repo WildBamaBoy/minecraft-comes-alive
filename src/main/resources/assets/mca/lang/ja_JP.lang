@@ -638,10 +638,10 @@ gui.button.next=次
 ################
 # Relations
 ################################
-relation.husband=Husband
-relation.wife=Wife
-relation.daughter=Daughter
-relation.son=Son
+relation.husband=夫
+relation.wife=妻
+relation.daughter=娘
+relation.son=息子
 
 ################
 # Dialogue
@@ -937,7 +937,7 @@ adult.gift.better4=わあすごい、私はこのうちの一つが本当に必�
 adult.gift.better5=これはかなり良い贈り物です！
 
 adult.gift.best1=な…なんて言ったらいいのか…。本当にありがとう、%PlayerName%！
-adult.gift.best2=How did you...nevermind, this is amazing\!
+adult.gift.best2=どうやって･･･いえ、すごい！
 adult.gift.best3=わぁ！私は常にこれが欲しいと思っていたんだ！
 adult.gift.best4=This is fantastic\! I'll put it to good use.
 adult.gift.best5=本当にありがとう。一生忘れないよ。
@@ -945,7 +945,7 @@ adult.gift.best5=本当にありがとう。一生忘れないよ。
 # 5 good chats when talking to an adult:
 adult.chat.good1=ねぇ、今すぐ美味しいクッキーと牛乳が欲しいよ。
 adult.chat.good2=そうだね、私も今日の天気は素晴らしいと思うよ。
-adult.chat.good3=I'm doing just fine\! Hit my toe when I woke up, though.
+adult.chat.good3=こっちは元気だよ！けど爪先をぶつけて起きたんだ。
 adult.chat.good4=一日一個のリンゴ、ゾンビ知らず！
 adult.chat.good5=私の夢は私自身の村を造ること、でも私はとても怠惰なんだ。
 
@@ -1001,7 +1001,7 @@ adult.tellstory.bad5=どうしたら貧しい羊を殺すことができるん�
 # 5 good flirts when talking to an adult:
 adult.flirt.good1=あなたすっっっごく勇気があるね！
 adult.flirt.good2=あぁ君！かわいすぎるからやめて！
-adult.flirt.good3=*Blushes* Do you mean it?
+adult.flirt.good3=え、えっと･･･どういう意味ですか･･･？
 adult.flirt.good4=なんてこった…
 adult.flirt.good5=That was so adorable\! You had me at "hello"\! 
 
@@ -1049,7 +1049,7 @@ adult.greeting5=元気？
 parent.chat.good1=私は元気だよ、君は？
 parent.chat.good2=Have I ever told you how much you look like your lost great uncle?
 parent.chat.good3=君は私の誇りだよ！
-parent.chat.good4=How sweet\! What happened to you, you're never kind\! *Laughs*
+parent.chat.good4=わぁ、すごい！何かあったの？こんなにやさしくしてくれたことなかったのに！（笑）
 parent.chat.good5=That reminds me of when you were a lil' tot\! 
 
 # 5 bad chats when talking to a parent:
@@ -1057,7 +1057,7 @@ parent.chat.bad1=You're never too old for spankings, smarty pants.
 parent.chat.bad2=Watch your mouth. That's not the way I raised you.
 parent.chat.bad3=This is why your sister was my favorite.
 parent.chat.bad4=どうして君は医者じゃないの？まだなれないの？
-parent.chat.bad5=I had a diamond sword for you but now you're not getting it\!
+parent.chat.bad5=このダイヤの剣、あげようと思ってたのに･･･！
 
 
 # 5 good jokes when talking to a parent:
@@ -1104,7 +1104,7 @@ parent.tellstory.bad5=You're not the brightest lightbulb in the room...
 
 # 5 good hugs when talking to a parent:
 parent.hug.good1=あなたはとても成長したね！
-parent.hug.good2=I remember hugging you each night before bed.
+parent.hug.good2=あの夜のこと、覚えてますよ。
 parent.hug.good3=私の可愛い子！ 
 parent.hug.good4=You never let me down\! 
 parent.hug.good5=You're the best child a parent could ask for\!
@@ -1120,7 +1120,7 @@ parent.hug.bad5=君があんな話をした後なのに？とんでもない。
 ##############################################################################################
 
 # 5 good chats when talking to a relative:
-relative.chat.good1=You act just like your momma did as a kid\!
+relative.chat.good1=まるでお母さんみたいですね。
 relative.chat.good2=会いに来てくれて嬉しいよ！
 relative.chat.good3=We should get a family reunion together.
 relative.chat.good4=You're the sweetest of the family\!
@@ -1144,7 +1144,7 @@ relative.joke.bad2=Leave the humor to uncle.
 
 # 5 good handshakes when talking to a relative:
 relative.handshake.good1=握手しよう！
-relative.handshake.good2=*Pulls hand away* Gotchya\!
+relative.handshake.good2=やったね！（ガッツポーズ）
 relative.handshake.good3=Next time I expect diamonds\! *Laughs*
 
 # 5 bad handshakes when talking to a relative:
@@ -1290,7 +1290,7 @@ childp.handshake.bad5=いやだ、君が滑って私を殴るかもしれない�
 # 5 good stories when talking to an playerchild:
 childp.tellstory.good1=%ParentOpposite% really did that?\! What happened to their clothes?
 childp.tellstory.good2=私はまた洞穴を探検したい！行こう！
-childp.tellstory.good3=One day I'll kill more creepers than you\!
+childp.tellstory.good3=いつかあなたよりもクリーパーを倒して見せます！\n
 childp.tellstory.good4=Oh, oh, oh\! Can we climb a tree, too?\!
 childp.tellstory.good5=溶岩痛かった？ 
 

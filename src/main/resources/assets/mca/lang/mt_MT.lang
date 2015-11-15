@@ -639,15 +639,15 @@ gui.button.next=Li Jmiss
 # Relations
 ################################
 relation.husband=Husband
-relation.wife=Wife
-relation.daughter=Daughter
-relation.son=Son
+relation.wife=Il-Mara
+relation.daughter=Il-Bint
+relation.son=L-Iben
 
 ################
 # Dialogue
 ################################
-title.nonrelative.male=%Name% the %Profession%
-title.nonrelative.female=%Name% the %Profession%
+title.nonrelative.male=%Name%, il-%Profession%
+title.nonrelative.female=%Name%, il-%Profession%
 title.relative.male=%Name% (%RelationToPlayer%)
 title.relative.female=%Name% (%RelationToPlayer%)
 
@@ -660,7 +660,7 @@ behavior.retaliate.begin3=Ajma\! Għaliex tajtni daqqa?
 behavior.retaliate.begin4=Qiegħed tweġġagħni, ieqaf\!
 behavior.retaliate.begin5=Aħħ\! Weġġajtni ħafna\!
 behavior.retaliate.begin6=Int\! X'mingħalik qiegħed tagħmel?\!
-behavior.retaliate.begin7=*Oof*\! That better have been an accident\!
+behavior.retaliate.begin7=*Ajma*\! Nispera li bi żball\!
 
 behavior.retaliate.distanced1=Hekk hu, aħjar tlebbet l'hemm\!
 behavior.retaliate.distanced2=Jekk tiġi lura, insejjaħ l-għassiesa\!
@@ -838,8 +838,8 @@ interaction.marry.fail.lowhearts3=Is that for me? Sorry, I just don't know you e
 interaction.marry.fail.lowhearts4=I'm flattered, but I don't really know you.
 
 interaction.engage.success1=Yes\! I will marry you\! I love you\!
-interaction.engage.success2=Of course I'll marry you\!
-interaction.engage.success3=About time...just kidding\! Love you\!
+interaction.engage.success2=U żgur li niżżewġek\!
+interaction.engage.success3=Stenna naqra oħra... qiegħed niċċajta\! Inħobbok\!
 interaction.engage.success4=Is...is this real? I mean, this moment, not the ring. But the ring is real, right?
 
 interaction.marry.success1=It's a dream come true\! I'll love you forever\!
@@ -847,7 +847,7 @@ interaction.marry.success2=We're finally married\! Now what?
 interaction.marry.success3=I'm happy to be married to you, %PlayerName%.
 interaction.marry.success4=I can't wait to start our life together\!
 
-interaction.matchmaker.fail.married1=I am already married to someone.
+interaction.matchmaker.fail.married1=Diġà fi żwieġ ma' xi ħadd ieħor.
 interaction.matchmaker.fail.married2=I'm happily married, I do not want another spouse.
 interaction.matchmaker.fail.married3=I don't want that - I'm already married.
 
@@ -925,14 +925,14 @@ adult.gift.bad5=Why are you giving me that?
 adult.gift.bad6=Is this supposed to be a gift? No thanks.
 
 adult.gift.good1=How considerate\! Thank you.
-adult.gift.good2=Thanks\!
+adult.gift.good2=Grazzi\!
 adult.gift.good3=How thoughtful\!
 adult.gift.good4=Oh, I love these\!
 adult.gift.good5=A gift? For me? How nice\!
 
 adult.gift.better1=Hey, this is pretty cool\!
-adult.gift.better2=Thanks, friend\!
-adult.gift.better3=%PlayerName%, you're such a good friend\!
+adult.gift.better2=Grazzi, ħabib\!
+adult.gift.better3=%PlayerName%, int ħabib ta' veru\!
 adult.gift.better4=Oh wow, I actually needed one of these\!
 adult.gift.better5=This is a pretty good gift\!
 
@@ -953,7 +953,7 @@ adult.chat.good5=My dream is to build my own village, but I'm so lazy.
 adult.chat.bad1=Did you seriously just say that?
 adult.chat.bad2=I don't believe it exploded on its own.
 adult.chat.bad3=You know, you're not that cool.
-adult.chat.bad4=Show off.
+adult.chat.bad4=Puppant.
 adult.chat.bad5=You should be thrown in a dungeon\! 
 
 # 5 good jokes when talking to an adult:
@@ -965,7 +965,7 @@ adult.joke.good5=That's the best I have ever heard\!
 
 # 5 bad jokes when talking to an adult:
 adult.joke.bad1=Don't speak about my pig like that\!
-adult.joke.bad2=Ha.
+adult.joke.bad2=Ħmm.
 adult.joke.bad3=Ah, you're not the funniest in town.
 adult.joke.bad4=That's low.
 adult.joke.bad5=You shouldn't joke about that.
@@ -1106,14 +1106,14 @@ parent.tellstory.bad5=You're not the brightest lightbulb in the room...
 parent.hug.good1=You've grown so much\!
 parent.hug.good2=I remember hugging you each night before bed.
 parent.hug.good3=Sweet child of mine\! 
-parent.hug.good4=You never let me down\! 
+parent.hug.good4=Int qatt ma' tiddeludini\! 
 parent.hug.good5=You're the best child a parent could ask for\!
 
 # 5 bad hugs when talking to a parent:
 parent.hug.bad1=I'm not mad, I'm disappointed. 
 parent.hug.bad2=Sucking up? Get your own cake mix\!
 parent.hug.bad3=Why don't we hug like this more often? Are you embarrassed? 
-parent.hug.bad4=Not until you wash off.
+parent.hug.bad4=Mhux sakemm tinħasel.
 parent.hug.bad5=After you told me that? No way.
 
 
@@ -1256,13 +1256,13 @@ childp.chat.good5=Let's move into a cave\! That sounds so fun\!
 childp.chat.bad1=%ParentOpposite% talks about them a lot...
 childp.chat.bad2=I don't think %ParentOpposite% would like that very much.
 childp.chat.bad3=Is that why %ParentOpposite% talked about this thing called "divorce?"
-childp.chat.bad4=I want a new daddy.
+childp.chat.bad4=Nixtieq papà ġdid.
 childp.chat.bad5=I don't want a baby sister.
 
 # 5 good jokes when talking to an playerchild:
 childp.joke.good1=*Laughs* Tell that one again\!
 childp.joke.good2=I've got to tell my friend that one\!
-childp.joke.good3=How did the creeper explode?\!
+childp.joke.good3=Il-krijper kif sploda?\!
 childp.joke.good4=*Laughs*Why is there no longer 3 of them?
 childp.joke.good5=*Laughs* ... *Laughs*... *Laughs*
 
@@ -1271,7 +1271,7 @@ childp.joke.bad1=%ParentOpposite% said you were funny, though...
 childp.joke.bad2=I like knock knock jokes better.
 childp.joke.bad3=I don't get it, that was dumb.
 childp.joke.bad4=*Yawn* My friend's dad is cooler and funnier than you.
-childp.joke.bad5=I'd rather have cake.
+childp.joke.bad5=Nippreferi naqra kejk.
 
 # 5 good handshakes when talking to an playerchild:
 childp.handshake.good1=Why do I need to learn this stuff? 
@@ -1281,7 +1281,7 @@ childp.handshake.good4=Can I have cake now?
 childp.handshake.good5=I don't get it, but okay\! 
 
 # 5 bad handshakes when talking to an playerchild:
-childp.handshake.bad1=I spit on my hand.
+childp.handshake.bad1=Nobżoq fuq idi.
 childp.handshake.bad2=You're such an old person.
 childp.handshake.bad3=Only losers shake hands.
 childp.handshake.bad4=I'll shake your hand if you give me cake.
@@ -1292,7 +1292,7 @@ childp.tellstory.good1=%ParentOpposite% really did that?\! What happened to thei
 childp.tellstory.good2=I want to explore a cave, too\! Let's go\!
 childp.tellstory.good3=One day I'll kill more creepers than you\!
 childp.tellstory.good4=Oh, oh, oh\! Can we climb a tree, too?\!
-childp.tellstory.good5=Did the lava hurt? 
+childp.tellstory.good5=Il-lava weġġatek? 
 
 # 5 bad stories when talking to an playerchild:
 childp.tellstory.bad1=I don't want to hear about grandma.
@@ -1309,9 +1309,9 @@ childp.hug.good4=I love hugs\! You're soft and warm\!
 childp.hug.good5=You should hug %ParentOpposite% too\!
 
 # 5 bad hugs when talking to an playerchild:
-childp.hug.bad1=I'm too old for hugs\!
+childp.hug.bad1=Kbirt wisq għat-tgħanniq\!
 childp.hug.bad2=Stop it\! I don't want people to see\!
-childp.hug.bad3=Go away, you're so annoying\!
+childp.hug.bad3=Mhur l'hemm kemm int tad-dwejjaq\!
 childp.hug.bad4=Ħallini bi kwieti hew tini l-biskuttini\!
 childp.hug.bad5=Nippreferi ngħanneq skeletru. 
 
@@ -1346,12 +1346,12 @@ spouse.joke.good5=Here's one for you... How many chickens does a creeper blow up
 # 5 bad jokes when talking to an spouse:
 spouse.joke.bad1=Lame...
 spouse.joke.bad2=Sweetheart, you're not funny.
-spouse.joke.bad3=Ha...Ha...Ha...Not funny.
-spouse.joke.bad4=You need to erase that from your mind.
-spouse.joke.bad5=Okay...
+spouse.joke.bad3=Ħa...Ħa...Ħa...Mhux tad-daħk.
+spouse.joke.bad4=Dik trid tneħħijha minn moħħok.
+spouse.joke.bad5=Owkej...
 
 # 5 good handshakes when talking to an spouse:
-spouse.handshake.good1=Your hand is so soft\!
+spouse.handshake.good1=Idek tassew ratba\!
 spouse.handshake.good2=Our hands fit perfectly together.
 spouse.handshake.good3=One day people will forget to shake hands.
 spouse.handshake.good4=Our children will need to be this polite.
@@ -1360,8 +1360,8 @@ spouse.handshake.good5=*Continues to shake hand* Tell me when to stop\!
 # 5 bad handshakes when talking to an spouse:
 spouse.handshake.bad1=Handshake? How about a kiss, instead?
 spouse.handshake.bad2=*Squeezes hand hard*
-spouse.handshake.bad3=Your hand is nasty, no way.
-spouse.handshake.bad4=They have germs on them.
+spouse.handshake.bad3=Idek inkallata, insa.
+spouse.handshake.bad4=Miksijjin bil-ġermi.
 spouse.handshake.bad5=Why don't you get a decent job instead of shaking my hand?
 
 # 5 good stories when talking to an spouse:
@@ -1396,12 +1396,12 @@ spouse.flirt.bad5=Yeah, yeah... What was it you were saying?
 spouse.hug.good1=I love being entangled in your arms\!
 spouse.hug.good2=Wait, don't leave... you're warm.
 spouse.hug.good3=Would you rather only being able to hug or kiss?
-spouse.hug.good4=*Kisses* 
+spouse.hug.good4=*Bews* 
 spouse.hug.good5=Let's stay like this forever\!
 
 # 5 bad hugs when talking to an spouse:
 spouse.hug.bad1=Why don't you go hug your ex?
-spouse.hug.bad2=No thanks.
+spouse.hug.bad2=Le grazzi.
 spouse.hug.bad3=Man, you stink.
 spouse.hug.bad4=What do you want?
 spouse.hug.bad5=Huge someone else.
@@ -1410,7 +1410,7 @@ spouse.hug.bad5=Huge someone else.
 spouse.kiss.good1=I fall in love all over again when our lips meet\!
 spouse.kiss.good2=Time stops ticking when I'm with you.
 spouse.kiss.good3=Sweet as cake\!
-spouse.kiss.good4=I love you, baby\!
+spouse.kiss.good4=Inħobbok, qalbi\!
 spouse.kiss.good5=I wouldn't trade you for anyone in the world\! 
 
 # 5 bad kisses when talking to an spouse:
@@ -1421,21 +1421,21 @@ spouse.kiss.bad4=Go take a drink from the lake.
 spouse.kiss.bad5=Now that we're married I can tell you how lousy you are at kissing.
 
 spouse.greeting1=Hi honey, where have you been?
-spouse.greeting2=Hello dear, how is your day going?
+spouse.greeting2=Bonġu ħanini, kif inhi il-ġurnata tiegħek?
 spouse.greeting3=Oh, %PlayerName%\! You look tired.
 spouse.greeting4=Hey %PlayerName%\! You look hungry. Would you like me to cook something?
 spouse.greeting5=%PlayerName%, you're back\! I missed you.
 
 relative.gift.bad1=You shouldn't have... literally.
-relative.gift.bad2=Eh, you keep it.
+relative.gift.bad2=Eh, żommha.
 relative.gift.bad3=Ew, where did you find this? In a mine?
 relative.gift.bad4=I'm not touching that.
 
-relative.gift.good1=Oh thank you.
+relative.gift.good1=Oh.. grazzi.
 relative.gift.good2=Thank you for thinking of me, %PlayerName%.
 relative.gift.good3=How thoughtful of you.
 relative.gift.good4=How'd you know I liked these?
-relative.gift.good5=Youre too kind.
+relative.gift.good5=Int twajjeb wisq.
 
 relative.gift.better1=I have the perfect spot for this.
 relative.gift.better2=Thank you very much, %PlayerName%.

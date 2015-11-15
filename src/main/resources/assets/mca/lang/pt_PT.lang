@@ -12,7 +12,7 @@ achievement.engagement.desc=Fica noivo de um aldeao.
 achievement.marriage=Estamos casados\!
 achievement.marriage.desc=Casar com um aldeao.
 achievement.babyBoy=E um menino\!
-achievement.babyBoy.desc=Ter um menino.
+achievement.babyBoy.desc=Tenha um menino.
 achievement.babyGirl=É uma menina\!
 achievement.babyGirl.desc=Ter uma menina.
 achievement.twins=Gemeos\!
@@ -22,7 +22,7 @@ achievement.babyToChild.desc=Cresça o seu bebe para criança.
 achievement.hunting=Bullseye\!
 achievement.hunting.desc=Mande o seu filho cacar.
 achievement.mining=Infiniminer
-achievement.mining.desc=Make your child mine for you.
+achievement.mining.desc=\nFaça a sua mina de criança para você.
 achievement.woodcutting=Lenhador
 achievement.woodcutting.desc=Mande o seu filho cortar árvores.
 achievement.farming=Trabalho grátis
@@ -638,10 +638,10 @@ gui.button.next=Seguinte
 ################
 # Relations
 ################################
-relation.husband=Husband
-relation.wife=Wife
-relation.daughter=Daughter
-relation.son=Son
+relation.husband=Jj
+relation.wife=\ 
+relation.daughter=Filha
+relation.son=Filho
 
 ################
 # Dialogue

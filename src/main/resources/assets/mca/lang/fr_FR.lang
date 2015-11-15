@@ -9,7 +9,7 @@ achievement.fullGoldHearts=Arriver à quelque chose
 achievement.fullGoldHearts.desc=Obtenez 5 cœurs d'or avec un villageois.
 achievement.engagement=Bien parti \!
 achievement.engagement.desc=Être engagé à un villageois.
-achievement.marriage=Nous sommes mariés\!
+achievement.marriage=On est mariés \!
 achievement.marriage.desc=Mariez-vous à un villageois.
 achievement.babyBoy=C'est un garçon \!
 achievement.babyBoy.desc=Avoir un petit garçon.
@@ -84,13 +84,13 @@ item.EngagementRingTriangle.name=Bague de fiançailles triangle
 item.EngagementRingTriangleRG.name=Bague de fiançailles triangle d'or rose
 item.EngagementRingStar.name=Bague de fiançailles en forme d'étoile
 item.EngagementRingStarRG.name=Bague de fiançailles d'or rose en forme d'étoile
-item.tombstone.name=Tombe
+item.tombstone.name=Pierre tombale
 item.RoseGoldDust.name=Poudre d'or rose
 item.GoldDust.name=Poudre d'or
 tile.roseGoldOre.name=Minerai d'or rose
 tile.roseGoldBlock.name=Bloc d'or rose
 item.whistle.name=Sifflet
-item.villagereditor.name=Editeur de villageois
+item.villagereditor.name=Éditeur de villageois
 item.GemCutter.name=Tailleur de gemmes
 item.HeartMold.name=Moule en forme de cœur
 item.TinyMold.name=Petit moule
@@ -599,7 +599,7 @@ personality.odd=Odieux
 ################################
 mood.depressed=Déprimé
 mood.sad=Triste
-mood.unhappy=Attristé
+mood.unhappy=Malheureux
 mood.passive=Passif
 mood.fine=Bien
 mood.happy=Heureux
@@ -638,10 +638,10 @@ gui.button.next=Suivant
 ################
 # Relations
 ################################
-relation.husband=Husband
-relation.wife=Wife
-relation.daughter=Daughter
-relation.son=Son
+relation.husband=Mari
+relation.wife=Femme
+relation.daughter=Fille
+relation.son=Fils
 
 ################
 # Dialogue
@@ -729,20 +729,20 @@ gui.button.yes=Oui
 gui.button.no=Non
 gui.button.ok=Ok
 gui.button.done=Terminé
-gui.button.random=Au Hasard
+gui.button.random=Aléatoire
 gui.button.interact=Interagir
 gui.button.follow=Suis-moi
 gui.button.stay=Reste ici
 gui.button.move=Déplacement libre
 gui.button.trade=Échanger
-gui.button.sethome=Definir l'habitation
+gui.button.sethome=Attribuer une habitation
 gui.button.ridehorse=Monter un cheval
 gui.button.special=Spécial
 gui.button.procreate=Reproduction
 gui.button.pickup=Prendre dans les bras
 gui.button.work=Travailler
 gui.button.inventory=Inventaire
-gui.button.chat=Bavarder
+gui.button.chat=Chat
 gui.button.joke=Blaguer
 gui.button.gift=Cadeau
 gui.button.shakehand=Serrer la main

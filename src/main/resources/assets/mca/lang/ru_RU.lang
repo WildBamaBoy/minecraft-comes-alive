@@ -575,7 +575,7 @@ profession.miner=Шахтёр
 profession.mason=Каменщик
 profession.baker=Пекарь
 profession.child=Ребёнок
-profession.househusband=Househusband
+profession.househusband=Домохозяйка
 profession.housewife=Домохозяйка
 
 ################
@@ -609,7 +609,7 @@ mood.bored=Скучный
 mood.uninterested=Незаинтересованный
 mood.silly=Глупый
 mood.giggly=Смешливый
-mood.entertained=Entertained
+mood.entertained=Развлекать
 mood.infuriated=Ярость
 mood.angry=Злой
 mood.annoyed=Надоедливый
@@ -623,9 +623,9 @@ mood.pleased=Удовлетворён
 gift.cake1=Что это? Торт? Ой...Эмм, мой. Мне...нужно найти своего супруга.
 gift.cake2=Тортик\! Какая забота\! Я...минуту, что это за странное чувство?
 gift.cake3=Наконец-то, что-то что поможет моей свадьбе...
-gift.cake.refuse1=I don't think I want any more cake, but thank you.
-gift.cake.refuse2=No thanks, I don't want cake anymore.
-gift.cake.refuse3=Oh, no. I couldn't.
+gift.cake.refuse1=Я не думаю, что я хочу больше торта, но спасибо.
+gift.cake.refuse2=Нет, спасибо, я не хочу больше торта.
+gift.cake.refuse3=Ой, нет. Я не мог.
 
 ################
 # GUIs
@@ -638,10 +638,10 @@ gui.button.next=Дальше
 ################
 # Relations
 ################################
-relation.husband=Husband
-relation.wife=Wife
-relation.daughter=Daughter
-relation.son=Son
+relation.husband=Муж
+relation.wife=Жена
+relation.daughter=Дочь
+relation.son=Сын
 
 ################
 # Dialogue
@@ -714,7 +714,7 @@ farming.nohoe=Мне нужна мотыга, что-бы заниматься �
 
 hunting.badspot=Я не могу найти хорошее место для охоты.
 sleep.nohome=У меня нет точки дома\!
-sleep.invalid=My home point is invalid\!
+sleep.invalid=Моя домашняя точка является недопустимая\!
 
 #################
 # Parser
@@ -864,37 +864,37 @@ interaction.matchmaker.fail.novillagers2=Я даже не знаю... подви
 interaction.matchmaker.fail.novillagers3=Хм, но рядом со мной никого нет. С кем мне вступить в брак?
 
 interaction.matchmaker.fail.invalid1=Но я не могу вступить в брак с %Name%.
-interaction.matchmaker.fail.invalid2=The only villager close by is %Name%, and I can't marry them.
-interaction.matchmaker.fail.invalid3=I don't think that I can marry %Name%. That might be a little strange.
+interaction.matchmaker.fail.invalid2=Единственный сельчанин, расположенных поблизости %Name%,и я не могу жениться на него.
+interaction.matchmaker.fail.invalid3=Я не думаю, что я могу жениться на %Name%. Это может быть немного странноватым.
 
-interaction.sethome.success1=Okay, this will be my new home point.
+interaction.sethome.success1=Ладно, это будет мой новый дом.
 interaction.sethome.success2=Ясно. Спать ночью буду тут.
 interaction.sethome.success3=Конечно, %PlayerName%.
 
-interaction.sethome.fail1=This doesn't look like a safe home point for me. There's some %a1% in the way.
-interaction.sethome.fail2=Is there another place nearby? There's some %a1% in the way.
-interaction.sethome.fail3=I can't have my home point here. There's some %a1% in the way.
+interaction.sethome.fail1=Это не выглядит безопасным дом для меня. Есть некоторые блоки %a1% на пути.
+interaction.sethome.fail2=Есть другое место поблизости? Некоторые блоки %a1% на пути.
+interaction.sethome.fail3=Я не могу, у меня дом здесь. Есть некоторые блоки %a1% на пути.
 
 interaction.mining.fail.toolow1=Мы слишком низко что-бы создать шахту.
 interaction.mining.fail.toolow2=Нам нужно забраться повыше.
 interaction.mining.fail.toolow3=Не очень хорошая идея строить шахту тут. Нам нужно забраться повыше.
 interaction.mining.fail.nopickaxe=У меня нет кирки. Как я буду добывать руду?
 
-interaction.hire.fail.notenoughgold=You need a stack of %a1% gold ingots to hire this villager.
-interaction.hire.success1=Glad to be on board\! What's my first job?
-interaction.hire.success2=Everything is in order. What would you like me to do?
+interaction.hire.fail.notenoughgold=Вам нужен стак %a1% слитков золота, чтобы нанять этого жителя.
+interaction.hire.success1=Рад быть на борту\! Какое мое первое задание?
+interaction.hire.success2=Все в порядке. Что бы вы хотели от меня?
 interaction.hire.success3=Готов приступить к работе в любое время, босс\!
 
 interaction.ridehorse.fail.notnearby=Я не вижу лошадей поблизости.
 interaction.ridehorse.fail.notrideable=Я не могу поехать на этой лошади.
 
-interaction.resetbaby.success=Very well, you may now have another child. Be more careful next time\!
+interaction.resetbaby.success=Очень хорошо, вы можете сейчас иметь еще одного ребенка. Будьте осторожнее в следующий раз\!
 interaction.resetbaby.fail=У тебя нет детей.
 
 interactionp.marry.sent=You have asked %a1% to marry you.
 interactionp.marry.success=Теперь вы женаты на %a1%.
 interactionp.marry.fail.alreadymarried=You are already married or engaged.
-interactionp.marry.fail.targetalreadymarried=%a1% is already married.
+interactionp.marry.fail.targetalreadymarried=%a1% вже в шлюбі.
 interactionp.marry.fail.noweddingring=У вас нет обручального кольца.
 interactionp.marry.prompt=%a1% would like to marry you.
 
@@ -921,7 +921,7 @@ adult.gift.bad1=Это не самый лучший подарок...
 adult.gift.bad2=What made you think that I would like this?
 adult.gift.bad3=Нет спасибо.
 adult.gift.bad4=I don't want that, why would I?
-adult.gift.bad5=Why are you giving me that?
+adult.gift.bad5=Нащо ти мені це дав?
 adult.gift.bad6=Is this supposed to be a gift? No thanks.
 
 adult.gift.good1=How considerate\! Thank you.
@@ -947,10 +947,10 @@ adult.chat.good1=Man, cookies and milk does sound delicious right now.
 adult.chat.good2=Yes, I suppose the weather is nice today.
 adult.chat.good3=I'm doing just fine\! Hit my toe when I woke up, though.
 adult.chat.good4=An apple a day keeps the zombies away\!
-adult.chat.good5=My dream is to build my own village, but I'm so lazy.
+adult.chat.good5=Я мрію побудувати своє власне село, але я надто ледачий для цього.
 
 # 5 bad chats when talking to an adult:
-adult.chat.bad1=Did you seriously just say that?
+adult.chat.bad1=Це був жарт?
 adult.chat.bad2=I don't believe it exploded on its own.
 adult.chat.bad3=Ты не очень прикольный.
 adult.chat.bad4=Выпендриваться.
@@ -1038,15 +1038,15 @@ adult.kiss.bad4=Two words... breath mints\!
 adult.kiss.bad5=Спасибо?
 
 adult.greeting1=Why, hello there\!
-adult.greeting2=Hey\! How are you today?
-adult.greeting3=Hey, good to see you\!
+adult.greeting2=Привіт\! Як сямаєш сьогодні?
+adult.greeting3=Привіт, радий тебе бачити\!
 adult.greeting4=What's going on with you today?
 adult.greeting5=Как ты сегодня?
 
 ##############################################################################################
 
 # 5 good chats when talking to a parent:
-parent.chat.good1=I'm fine, and how are you, dear?
+parent.chat.good1=Зі мною все добре, а як ти?
 parent.chat.good2=Have I ever told you how much you look like your lost great uncle?
 parent.chat.good3=Я тобой горжусь\!
 parent.chat.good4=How sweet\! What happened to you, you're never kind\! *Laughs*
