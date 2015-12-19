@@ -1,3 +1,4 @@
+#X-Generator: crowdin.com
 itemGroup.tabMCA=Minecraft Comes Alive
 itemGroup.tabMCA.gemCutting=MCA - Gem Cutting
 
@@ -83,13 +84,13 @@ item.EngagementRingTriangle.name=Triangle Engagement Ring
 item.EngagementRingTriangleRG.name=Rose Gold Triangle Engagement Ring
 item.EngagementRingStar.name=Star Engagement Ring
 item.EngagementRingStarRG.name=Rose Gold Star Engagement Ring
-item.tombstone.name=Tombstone
+item.ItemTombstone.name=Tombstone
 item.RoseGoldDust.name=Rose Gold Dust
 item.GoldDust.name=Gold Dust
 tile.RoseGoldOre.name=Rose Gold Ore
 tile.RoseGoldBlock.name=Rose Gold Block
-item.whistle.name=Whistle
-item.villagereditor.name=Villager Editor
+item.Whistle.name=Whistle
+item.VillagerEditor.name=Villager Editor
 item.GemCutter.name=Gem Cutter
 item.HeartMold.name=Heart Mold
 item.TinyMold.name=Tiny Mold
@@ -622,6 +623,9 @@ mood.pleased=Pleased
 gift.cake1=What's this? A cake? Oh...oh my. I...need to find my spouse.
 gift.cake2=A cake! How thoughtful! I...wait, what's this odd feeling?
 gift.cake3=Finally, something that will help my marriage...
+gift.cake.refuse1=I don't think I want any more cake, but thank you.
+gift.cake.refuse2=No thanks, I don't want cake anymore.
+gift.cake.refuse3=Oh, no. I couldn't.
 
 ################
 # GUIs
@@ -632,12 +636,20 @@ gui.button.adoptbaby=Adopt Baby
 gui.button.next=Next
 
 ################
+# Relations
+################################
+relation.husband=Husband
+relation.wife=Wife
+relation.daughter=Daughter
+relation.son=Son
+
+################
 # Dialogue
 ################################
 title.nonrelative.male=%Name% the %Profession%
 title.nonrelative.female=%Name% the %Profession%
-title.relative.male=%RelationToPlayer% %Name%
-title.relative.female=%RelationToPlayer% %Name%
+title.relative.male=%Name% (%RelationToPlayer%)
+title.relative.female=%Name% (%RelationToPlayer%)
 
 label.sleeping=Sleeping
 label.health=Health: 
@@ -718,8 +730,6 @@ gui.button.no=No
 gui.button.ok=Ok
 gui.button.done=Done
 gui.button.random=Random
-gui.button.back=Back
-gui.button.exit=Exit
 gui.button.interact=Interact
 gui.button.follow=Follow Me
 gui.button.stay=Stay Here
@@ -797,8 +807,6 @@ interaction.give.invalid5=Huh? What is this thing?
 interaction.divorce.priest.success1=Very well. You are hereby no longer married.
 interaction.divorce.priest.success2=As you wish. May you find love elsewhere.
 
-interaction.divorce.priest.fail1=
-interaction.divorce.priest.fail2=
 interaction.divorce.notmarried1=I am not married to anyone.
 interaction.divorce.notmarried2=What do I need divorce papers for? I am not married.
 interaction.divorce.notmarried3=I'm not married. Why are you giving these to me?
@@ -1422,20 +1430,20 @@ relative.gift.bad1=You shouldn't have... literally.
 relative.gift.bad2=Eh, you keep it.
 relative.gift.bad3=Ew, where did you find this? In a mine?
 relative.gift.bad4=I'm not touching that.
- 
+
 relative.gift.good1=Oh thank you.
 relative.gift.good2=Thank you for thinking of me, %PlayerName%.
 relative.gift.good3=How thoughtful of you.
 relative.gift.good4=How'd you know I liked these?
-relative.gift.good5=You’re too kind.
- 
+relative.gift.good5=YouÂ’re too kind.
+
 relative.gift.better1=I have the perfect spot for this.
 relative.gift.better2=Thank you very much, %PlayerName%.
 relative.gift.better3=This is lovely.
 relative.gift.better4=I appreciate you thinking about me.
-relative.gift.better5=I’ll take good care of it.
- 
-relative.gift.best1=I’ve always wanted one of these!
+relative.gift.better5=IÂ’ll take good care of it.
+
+relative.gift.best1=IÂ’ve always wanted one of these!
 relative.gift.best2=This is the best gift I've ever received, %PlayerName%!
 relative.gift.best3=You give the best gifts, %PlayerName%!
 relative.gift.best4=I can't believe this, you're too sweet, thank you!
@@ -1520,3 +1528,6 @@ childp.gift.best2=%ParentTitle%, I knew you would get me one of these. I just kn
 childp.gift.best3=Yay! I have the best %ParentTitle% in the world!
 childp.gift.best4=This is so amazing! I can't believe this is all mine!
 childp.gift.best5=Thank you so much, %ParentTitle%! You're the best ever!
+
+
+
