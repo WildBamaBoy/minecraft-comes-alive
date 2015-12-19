@@ -17,11 +17,11 @@ import mca.ai.AISleep;
 import mca.client.gui.GuiInteraction;
 import mca.client.gui.GuiVillagerEditor;
 import mca.client.model.ModelHuman;
-import mca.client.model.UVPoint;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
+import mca.util.UVPoint;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderBiped;
@@ -145,11 +145,17 @@ public class RenderHuman extends RenderBiped
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity)
 	{
-		final String skinName = ((EntityHuman)entity).getHeadTexture();
+		final EntityHuman human = (EntityHuman)entity;
+		final String skinName = human.getHeadTexture();
 
 		if (skinName.isEmpty())
 		{
 			return new ResourceLocation("minecraft:textures/entity/steve.png");
+		}
+		
+		else if (human.getPlayerSkinResourceLocation() != null)
+		{
+			return human.getPlayerSkinResourceLocation();
 		}
 
 		else

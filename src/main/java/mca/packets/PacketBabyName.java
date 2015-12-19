@@ -62,7 +62,7 @@ public class PacketBabyName extends AbstractPacket implements IMessage, IMessage
 		EntityPlayer senderPlayer = this.getPlayer(context);
 		ItemStack stack = packet.slot == -1 ? null : senderPlayer.inventory.getStackInSlot(packet.slot); //To avoid index out of bounds.
 		PlayerData data = MCA.getPlayerData(senderPlayer);
-		EntityHuman playerSpouse = MCA.getHumanByPermanentId(data.spousePermanentId.getInt());
+		EntityHuman playerSpouse = MCA.getHumanByPermanentId(data.getSpousePermanentId());
 		
 		//Player has the baby.
 		if (stack != null && stack.getItem() instanceof ItemBaby)

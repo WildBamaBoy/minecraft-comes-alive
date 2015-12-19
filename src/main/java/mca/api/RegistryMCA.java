@@ -1,8 +1,8 @@
 /*******************************************************************************
-* Copyright (c) 2014 WildBamaBoy.
-* All rights reserved. This program and the accompanying materials
-* are made available under the terms of the MCA Minecraft Mod license.
-******************************************************************************/
+ * Copyright (c) 2014 WildBamaBoy.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the MCA Minecraft Mod license.
+ ******************************************************************************/
 
 package mca.api;
 
@@ -32,9 +32,9 @@ import net.minecraft.item.ItemStack;
 public final class RegistryMCA 
 {
 	public static final Random rand = new Random();
-	
+
 	private static final Map<Object, Integer> giftMap = new HashMap<Object, Integer>();
-	private static final Map<Integer, Block> notifyBlockMap = new HashMap<Integer, Block>();
+	private static final Map<Integer, MiningEntry> miningEntryMap = new HashMap<Integer, MiningEntry>();
 	private static final Map<Integer, WoodcuttingEntry> woodcuttingBlockMap = new HashMap<Integer, WoodcuttingEntry>();
 	private static final Map<Integer, CropEntry> cropEntryMap = new HashMap<Integer, CropEntry>();
 	private static final List<Class> huntingKillableEntities = new ArrayList<Class>();
@@ -44,7 +44,7 @@ public final class RegistryMCA
 	private static final List<WeddingGift> villagerGiftsGood = new ArrayList<WeddingGift>();
 	private static final List<WeddingGift> villagerGiftsBetter = new ArrayList<WeddingGift>();
 	private static final List<WeddingGift> villagerGiftsBest = new ArrayList<WeddingGift>();
-	
+
 	/**
 	 * Adds the provided object to the map of gifts and gift values.
 	 * 
@@ -61,7 +61,7 @@ public final class RegistryMCA
 		{
 			giftMap.put(blockOrItem, giftValue);
 		}
-		
+
 		else
 		{
 			throw new IllegalArgumentException("Provided gift object was not a block or an item.");
@@ -103,11 +103,11 @@ public final class RegistryMCA
 	 * Throws an exception if the block or ID is already registered.
 	 * 
 	 * @param id	A unique ID for the block.
-	 * @param block	A unique block to add to the mining AI.
+	 * @param entry	A unique MiningEntry to add to the mining AI.
 	 */
-	public static void addBlockToMiningAI(int id, Block block)
+	public static void addBlockToMiningAI(int id, MiningEntry entry)
 	{
-		putIfNotDuplicate(notifyBlockMap, id, block);
+		putIfNotDuplicate(miningEntryMap, id, entry);
 	}
 
 	/**
@@ -140,13 +140,13 @@ public final class RegistryMCA
 		{
 			huntingKillableEntities.add(clazz);
 		}
-		
+
 		else
 		{
 			huntingTameableEntities.add(clazz);
 		}
 	}
-	
+
 	/**
 	 * Adds a CookableFood object to the cooking AI.
 	 * 
@@ -165,7 +165,7 @@ public final class RegistryMCA
 			int index = new Random().nextInt(huntingTameableEntities.size());
 			return huntingTameableEntities.get(index);
 		}
-		
+
 		else
 		{
 			int index = new Random().nextInt(huntingKillableEntities.size());
@@ -173,35 +173,45 @@ public final class RegistryMCA
 		}
 	}
 
-	public static Block getNotifyBlockById(int id) throws MappingNotFoundException
+	public static MiningEntry getMiningEntryById(int id) throws MappingNotFoundException
 	{
-		Block block = notifyBlockMap.get(id);
-		
-		if (block != null)
+		MiningEntry entry = miningEntryMap.get(id);
+
+		if (entry != null)
 		{
-			return block;
+			return entry;
 		}
-		
+
 		else
 		{
 			throw new MappingNotFoundException();
 		}
 	}
 
-	public static Integer getIdOfNotifyBlock(Block block)
+	public static Integer getIdOfMiningEntryContainingBlock(Block block) throws MappingNotFoundException
 	{
-		return reverseLookupKey(notifyBlockMap, block);
+		for (Map.Entry<Integer, MiningEntry> entry : miningEntryMap.entrySet())
+		{
+			MiningEntry theEntry = entry.getValue();
+
+			if (theEntry.getBlock().equals(block))
+			{
+				return entry.getKey();
+			}
+		}
+
+		throw new MappingNotFoundException();
 	}
 
 	public static WoodcuttingEntry getWoodcuttingEntryById(int id) throws MappingNotFoundException
 	{
 		WoodcuttingEntry entry = woodcuttingBlockMap.get(id);
-		
+
 		if (entry != null)
 		{
 			return entry;
 		}
-		
+
 		else
 		{
 			throw new MappingNotFoundException();
@@ -222,45 +232,50 @@ public final class RegistryMCA
 	{
 		return Collections.unmodifiableMap(giftMap);
 	}
-	
+
 	public static List<CookableFood> getCookableFoodList()
 	{
 		return Collections.unmodifiableList(cookableFood);
+	}
+
+	public static Map<Integer, MiningEntry> getMiningEntryMap()
+	{
+		return Collections.unmodifiableMap(miningEntryMap);
 	}
 	
 	public static List<Integer> getWoodcuttingBlockIDs()
 	{
 		List<Integer> returnList = new ArrayList<Integer>();
-		
+
 		for (Map.Entry<Integer, WoodcuttingEntry> entry : woodcuttingBlockMap.entrySet())
 		{
 			returnList.add(entry.getKey());
 		}
-		
+
 		return Collections.unmodifiableList(returnList);
 	}
-	
-	public static List<Integer> getMiningBlockIDs()
+
+	public static List<Integer> getMiningEntryIDs()
 	{
 		List<Integer> returnList = new ArrayList<Integer>();
-		
-		for (Map.Entry<Integer, Block> entry : notifyBlockMap.entrySet())
+
+		for (Map.Entry<Integer, MiningEntry> entry : miningEntryMap.entrySet())
 		{
 			returnList.add(entry.getKey());
 		}
-		
+
 		return Collections.unmodifiableList(returnList);
 	}
-	
+
 	public static CropEntry getCropEntryById(int id) throws MappingNotFoundException
 	{
 		final CropEntry entry = cropEntryMap.get(id);	
-		
+
 		if (entry != null)
 		{
 			return entry;
 		}
-		
+
 		else
 		{
 			throw new MappingNotFoundException();
@@ -270,12 +285,12 @@ public final class RegistryMCA
 	public static List<Integer> getCropEntryIDs() 
 	{
 		List<Integer> returnList = new ArrayList<Integer>();
-		
+
 		for (Map.Entry<Integer, CropEntry> entry : cropEntryMap.entrySet())
 		{
 			returnList.add(entry.getKey());
 		}
-		
+
 		return returnList;
 	}
 
@@ -291,54 +306,54 @@ public final class RegistryMCA
 			break;
 		}
 	}
-	
+
 	public static ItemStack getGiftStackFromRelationship(int heartsLevel)
 	{
 		List<WeddingGift> giftList = null;
-		
+
 		if (heartsLevel < 0)
 		{
 			giftList = villagerGiftsBad;
 		}
-		
+
 		else if (heartsLevel >= 0 && heartsLevel <= 25)
 		{
 			giftList = villagerGiftsGood;
 		}
-		
+
 		else if (heartsLevel > 25 && heartsLevel <= 50)
 		{
 			giftList = villagerGiftsBetter;
 		}
-		
+
 		else
 		{
 			giftList = villagerGiftsBest;
 		}
-		
+
 		Random rand = new Random();
 		WeddingGift giftEntry = giftList.get(rand.nextInt(giftList.size()));
 		return new ItemStack(giftEntry.getItem(), rand.nextInt(giftEntry.getMaximum() - giftEntry.getMinimum() + 1) + giftEntry.getMinimum());
 	}
-	
+
 	private static <K, V> void putIfNotDuplicate(Map<K, V> map, K key, V value)
 	{
 		if (map.containsKey(key))
 		{
 			throw new IllegalArgumentException("Key is already contained in map for key/value pair: key = " + key + ", value = " + value);
 		}
-		
+
 		else if (map.containsValue(value))
 		{
 			throw new IllegalArgumentException("Value is already contained in map for key/value pair: key = " + key + ", value = " + value);
 		}
-		
+
 		else
 		{
 			map.put(key, value);
 		}
 	}
-	
+
 	private static <K, V> K reverseLookupKey(Map<K, V> map, V value)
 	{
 		for (Map.Entry<K, V> entry : map.entrySet())
@@ -348,7 +363,7 @@ public final class RegistryMCA
 				return entry.getKey();
 			}
 		}
-		
+
 		return null;
 	}
 

@@ -36,9 +36,9 @@ public class PacketInteractWithPlayerC extends AbstractPacket implements IMessag
 		PlayerData initData = MCA.getPlayerData(initiator);
 		PlayerData targetData = MCA.getPlayerData(target);
 		
-		targetIsMarried = targetData.spousePermanentId.getInt() != 0;
-		targetIsEngaged = targetData.isEngaged.getBoolean();
-		isMarriedToInitiator = targetData.spousePermanentId.getInt() == initData.permanentId.getInt();
+		targetIsMarried = targetData.getSpousePermanentId() != 0;
+		targetIsEngaged = targetData.getIsEngaged();
+		isMarriedToInitiator = targetData.getSpousePermanentId() == initData.getPermanentId();
 		
 		for (Object obj : initiator.worldObj.loadedEntityList)
 		{
@@ -46,7 +46,7 @@ public class PacketInteractWithPlayerC extends AbstractPacket implements IMessag
 			{
 				EntityHuman human = (EntityHuman)obj;
 				
-				if (human.getSpouseId() == targetData.permanentId.getInt())
+				if (human.getSpouseId() == targetData.getPermanentId())
 				{
 					targetSpouseName = human.getName();
 				}

@@ -18,26 +18,30 @@ import radixcore.packets.AbstractPacket;
 public class PacketOpenGUIOnEntity extends AbstractPacket implements IMessage, IMessageHandler<PacketOpenGUIOnEntity, IMessage>
 {
 	private int entityId;
-
+	private int guiId;
+	
 	public PacketOpenGUIOnEntity()
 	{
 	}
 
-	public PacketOpenGUIOnEntity(int entityId)
+	public PacketOpenGUIOnEntity(int entityId, int guiId)
 	{
 		this.entityId = entityId;
+		this.guiId = guiId;
 	}
 
 	@Override
 	public void fromBytes(ByteBuf byteBuf)
 	{
 		entityId = byteBuf.readInt();
+		guiId = byteBuf.readInt();
 	}
 
 	@Override
 	public void toBytes(ByteBuf byteBuf)
 	{
 		byteBuf.writeInt(entityId);
+		byteBuf.writeInt(guiId);
 	}
 
 	@SideOnly(Side.CLIENT)

@@ -25,7 +25,7 @@ public class EventHooksForgeClient
 				{
 					PlayerData data = MCA.getPlayerData(event.entityPlayer);
 					
-					if (!data.hasChosenDestiny.getBoolean())
+					if (!data.getHasChosenDestiny())
 					{
 						event.setCanceled(true);
 						Minecraft.getMinecraft().displayGuiScreen(new GuiSetup(event.entityPlayer));

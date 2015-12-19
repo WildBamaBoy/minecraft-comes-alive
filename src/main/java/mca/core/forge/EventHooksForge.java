@@ -6,8 +6,10 @@ import com.google.common.base.Predicate;
 
 import mca.core.MCA;
 import mca.entity.EntityHuman;
+import mca.items.ItemBaby;
 import mca.packets.PacketInteractWithPlayerC;
 import mca.util.TutorialManager;
+import mca.util.Utilities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
@@ -23,27 +25,48 @@ import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import radixcore.constant.Font.Color;
+import radixcore.constant.Font.Format;
+import radixcore.constant.Particle;
 import radixcore.math.Point3D;
+import radixcore.math.Point3D;
+import radixcore.util.RadixLogic;
 
 public class EventHooksForge 
 {
 	@SubscribeEvent
 	public void entityJoinedWorldEventHandler(EntityJoinWorldEvent event)
 	{
-		if (!event.world.isRemote)
-		{			
+		boolean isValidDimension = false;
+
+		for (int i : MCA.getConfig().dimensionWhitelist)
+		{
+			if (event.world.provider.getDimensionId() == i)
+			{
+				isValidDimension = true;
+				break;
+			}
+		}
+
+		if (!event.world.isRemote && isValidDimension)
+		{
 			if (event.entity instanceof EntityMob)
 			{
 				doAddMobTasks((EntityMob) event.entity);
 			}
 
-			if (event.entity instanceof EntityVillager && !(event.entity instanceof EntityHuman) && MCA.getConfig().overwriteOriginalVillagers)
+			if (event.entity.getClass() == EntityVillager.class && MCA.getConfig().overwriteOriginalVillagers)
 			{
 				doOverwriteVillager(event, (EntityVillager) event.entity);
 			}
@@ -54,6 +77,7 @@ public class EventHooksForge
 	{
 		if (entity.getProfession() >= 0 && entity.getProfession() <= 4)
 		{
+			event.setCanceled(true);
 			entity.setDead();
 			MCA.naturallySpawnVillagers(new Point3D(entity.posX, entity.posY, entity.posZ), event.world, entity.getProfession());
 		}
@@ -122,11 +146,11 @@ public class EventHooksForge
 					try
 					{
 						EntityAITaskEntry task = (EntityAITaskEntry)mob.targetTasks.taskEntries.get(i);
-						
+
 						if (task.action instanceof EntityAINearestAttackableTarget)
 						{
 							EntityAINearestAttackableTarget nat = (EntityAINearestAttackableTarget)task.action;
-							
+
 							for (Field f : nat.getClass().getDeclaredFields())
 							{	
 								if (f.getType().equals(Class.class))
@@ -134,7 +158,7 @@ public class EventHooksForge
 									f.setAccessible(true);
 									Class targetClass = (Class) f.get(nat);
 									f.setAccessible(false);
-									
+
 									if (targetClass.isAssignableFrom(EntityVillager.class))
 									{
 										mob.targetTasks.removeTask(nat);
@@ -143,7 +167,7 @@ public class EventHooksForge
 							}
 						}
 					}
-					
+
 					catch (Exception e)
 					{
 						continue;
@@ -189,6 +213,62 @@ public class EventHooksForge
 			if (event.entityPlayer.riddenByEntity instanceof EntityHuman)
 			{
 				event.entityPlayer.riddenByEntity.mountEntity(null);
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public void onLivingAttack(LivingAttackEvent event)
+	{
+		if (MCA.getConfig().enableInfection)
+		{
+			if (event.source != null && event.source.getSourceOfDamage() instanceof EntityZombie)
+			{
+				EntityZombie zombie = (EntityZombie)event.source.getSourceOfDamage();
+				boolean flag = RadixLogic.getBooleanWithProbability(3);
+
+				if (event.entityLiving instanceof EntityPlayer && flag)
+				{
+					EntityPlayer player = (EntityPlayer) event.entityLiving;
+
+					for (ItemStack stack : player.inventory.mainInventory)
+					{
+						if (stack != null && stack.getItem() instanceof ItemBaby)
+						{
+							stack.getTagCompound().setBoolean("isInfected", true);
+							player.addChatComponentMessage(new ChatComponentText(Color.RED + stack.getTagCompound().getString("name") + " has been " + Color.GREEN + Format.BOLD + "infected" + Color.RED + "!"));
+							player.worldObj.playSoundAtEntity(player, "mob.wither.idle", 0.5F, 1.0F);
+							Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.SPELL_WITCH, player, 32);
+						}
+					}
+				}
+
+				else if (event.entityLiving instanceof EntityHuman && flag)
+				{
+					EntityHuman human = (EntityHuman)event.entityLiving;
+					human.setIsInfected(true);
+					human.setHealth(human.getMaxHealth());
+					zombie.setAttackTarget(null);
+
+					human.worldObj.playSoundAtEntity(human, "mob.wither.idle", 0.5F, 1.0F);
+					Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.SPELL_WITCH, human, 32);
+				}
+			}
+		}
+	}
+
+	@SubscribeEvent
+	public void onLivingSetTarget(LivingSetAttackTargetEvent event)
+	{
+		//Mobs shouldn't attack infected villagers. Account for this when they attempt to set their target.
+		if (event.entityLiving instanceof EntityMob && event.target instanceof EntityHuman)
+		{
+			EntityMob mob = (EntityMob) event.entityLiving;
+			EntityHuman target = (EntityHuman) event.target;
+
+			if (target.getIsInfected())
+			{
+				mob.setAttackTarget(null);
 			}
 		}
 	}

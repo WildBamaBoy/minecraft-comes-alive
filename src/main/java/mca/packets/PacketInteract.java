@@ -2,6 +2,7 @@ package mca.packets;
 
 import io.netty.buffer.ByteBuf;
 import mca.ai.AIMood;
+import mca.ai.AIProcreate;
 import mca.ai.AISleep;
 import mca.api.RegistryMCA;
 import mca.core.MCA;
@@ -10,10 +11,10 @@ import mca.core.minecraft.ModItems;
 import mca.data.PlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
-import mca.enums.EnumDialogueType;
 import mca.enums.EnumInteraction;
 import mca.enums.EnumPersonality;
 import mca.items.ItemBaby;
+import mca.util.MarriageHandler;
 import mca.util.TutorialManager;
 import mca.util.Utilities;
 import net.minecraft.block.Block;
@@ -23,10 +24,12 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import radixcore.constant.Font.Color;
 import radixcore.packets.AbstractPacket;
 import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
@@ -260,24 +263,22 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 			{
 				PlayerData data = MCA.getPlayerData(player);
 				
-				if (data.spousePermanentId.getInt() != 0)
+				if (data.getSpousePermanentId() != 0)
 				{
 					villager.say("interaction.divorce.priest.success", player);
 					
-					EntityHuman spouse = MCA.getHumanByPermanentId(data.spousePermanentId.getInt());
+					EntityHuman spouse = MCA.getHumanByPermanentId(data.getSpousePermanentId());
 					
 					if (spouse != null)
 					{
+						MarriageHandler.endMarriage(player, spouse);
 						PlayerMemory memory = spouse.getPlayerMemory(player);
-						
-						spouse.setIsMarried(false, (EntityHuman)null);
-						spouse.setIsEngaged(false, (EntityPlayer)null);
+
 						spouse.getAI(AIMood.class).modifyMoodLevel(-5.0F);
 						memory.setHearts(-100);
-						memory.setDialogueType(EnumDialogueType.ADULT);
 					}
 					
-					data.setNotMarried();
+					MarriageHandler.forceEndMarriage(player);
 				}
 				
 				else
@@ -290,10 +291,10 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 			{
 				PlayerData data = MCA.getPlayerData(player);
 				
-				if (data.shouldHaveBaby.getBoolean())
+				if (data.getShouldHaveBaby())
 				{
 					villager.say("interaction.resetbaby.success", player);
-					data.shouldHaveBaby.setValue(false);
+					data.setShouldHaveBaby(false);
 					
 					for (int i = 0; i < player.inventory.mainInventory.length; i++)
 					{
@@ -321,7 +322,12 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 			{
 				PlayerData data = MCA.getPlayerData(player);
 				
-				if (!data.shouldHaveBaby.getBoolean())
+				if (getIsOverChildrenCount(player))
+				{
+					player.addChatMessage(new ChatComponentText(Color.RED + "You have too many children."));
+				}
+				
+				else if (!data.getShouldHaveBaby())
 				{
 					boolean isMale = RadixLogic.getBooleanWithProbability(50);
 					String babyName = isMale ? MCA.getLanguageManager().getString("name.male") : MCA.getLanguageManager().getString("name.female");
@@ -335,7 +341,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 					stack.setTagCompound(nbt);
 					
 					player.inventory.addItemStackToInventory(stack);
-					data.shouldHaveBaby.setValue(true);
+					data.setShouldHaveBaby(true);
 				}
 				
 				else
@@ -354,6 +360,47 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 					player.inventory.consumeInventoryItem(Items.gold_ingot);
 				}
 			}
+			
+			else if (interaction == EnumInteraction.PROCREATE)
+			{
+				PlayerData playerData = MCA.getPlayerData(player);
+				
+				if (getIsOverChildrenCount(player))
+				{
+					player.addChatMessage(new ChatComponentText(Color.RED + "You have too many children."));
+				}
+					
+				else if (playerData.getShouldHaveBaby())
+				{
+					player.addChatMessage(new ChatComponentText(Color.RED + "You already have a baby."));
+				}
+
+				else
+				{
+					villager.getAI(AIProcreate.class).setIsProcreating(true);
+				}
+			}
 		}
+	}
+	
+	private boolean getIsOverChildrenCount(EntityPlayer player)
+	{
+		PlayerData playerData = MCA.getPlayerData(player);
+		int childrenCount = 0;
+		
+		for (Object obj : MinecraftServer.getServer().worldServers[0].loadedEntityList)
+		{
+			if (obj instanceof EntityHuman)
+			{
+				EntityHuman human = (EntityHuman)obj;
+				
+				if (human.isPlayerAParent(player))
+				{
+					childrenCount++;
+				}
+			}
+		}
+		
+		return childrenCount >= MCA.getConfig().childLimit && MCA.getConfig().childLimit != -1;
 	}
 }

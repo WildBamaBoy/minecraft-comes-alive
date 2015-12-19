@@ -6,6 +6,8 @@ import java.util.List;
 
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.ConfigElement;
+import net.minecraftforge.common.config.ConfigElement;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.config.IConfigElement;
@@ -25,6 +27,11 @@ public final class Config implements Serializable
 	public boolean shiftClickForPlayerMarriage;
 	public boolean giveCrystalBall;
 	public boolean disablePatreonButton;
+	public boolean enableDiminishingReturns;
+	public boolean enableInfection;
+	public boolean enableStructureSpawning;
+	public Integer[] dimensionWhitelist;
+	public String[] additionalGiftItems;
 	public int guardSpawnRate;
 	public int chanceToHaveTwins;
 	public int villagerMaxHealth;
@@ -71,7 +78,7 @@ public final class Config implements Serializable
 		addConfigValues();
 	}
 
-	public void addConfigValues()
+	private void addConfigValues()
 	{
 		config.setCategoryComment("Init", "Settings that affect how MCA starts up.");
 		baseItemId = config.get("Init", "Base Item ID", 35277, "The base ID to use for items in MCA. Only applicable in 1.6.4.").getInt();
@@ -90,9 +97,39 @@ public final class Config implements Serializable
 		overwriteOriginalVillagers = config.get("General", "Overwrite original villagers", true).getBoolean();
 		shiftClickForPlayerMarriage = config.get("General", "Shift-click for player marriage menu", false, "True if you must hold shift then right click a player to open the marriage menu. Useful on PvP servers.").getBoolean();
 		chanceToHaveTwins = config.get("General", "Chance to have twins", 2, "Your percent chance of having twins.").getInt();
-		guardSpawnRate = config.get("General", "Guard spawn rate", 3, 
-				"One guard per this many villagers. Set to zero or a negative number to disable guards.").getInt();
+		guardSpawnRate = config.get("General", "Guard spawn rate", 3, "One guard per this many villagers. Set to zero or a negative number to disable guards.").getInt();
+		enableDiminishingReturns = config.get("General", "Enable diminishing returns?", true, "True if hearts increase decreases after multiple interactions.").getBoolean();
+		enableInfection = config.get("General", "Enable infection?", true, "True if villagers and your children have a chance of being infected from zombies.").getBoolean();
+		enableStructureSpawning = config.get("General", "Enable structure spawning?", true, "True if players can have the option to spawn structures during MCA's setup.").getBoolean();
+		
+		//Dimension whitelist.
+		String validDimensions = config.get("General", "Dimension whitelist", "0, 1, -1", "The dimension IDs in which MCA villagers can spawn, separated by a comma.").getString();
+		List<Integer> dimensionsList = new ArrayList<Integer>();
 
+		for (String s : validDimensions.split(","))
+		{
+			s = s.trim();
+			
+			try
+			{
+				int intValue = Integer.parseInt(s);
+				dimensionsList.add(intValue);
+			}
+			
+			catch (NumberFormatException e)
+			{
+				MCA.getLog().error("Unable to parse dimension ID provided in config: " + s);
+			}
+		}
+		
+		if (dimensionsList.isEmpty())
+		{
+			MCA.getLog().info("Detected empty dimension whitelist, adding dimension 0 as default.");
+			dimensionsList.add(0);
+		}
+		
+		dimensionWhitelist = dimensionsList.toArray(new Integer[dimensionsList.size()]);
+				
 		villagerMaxHealth = config.get("General", "Villager max health", 20).getInt();
 		villagerAttackDamage = config.get("General", "Villager attack damage", 2, "How many half-hearts of damage a villager can deal without a weapon. Does not affect players.").getInt();
 		guardMaxHealth = config.get("General", "Guard max health", 40).getInt();
@@ -139,6 +176,9 @@ public final class Config implements Serializable
 		logVillagerDeaths = config.get("Server", "Log villager deaths", false, "True if you want villager deaths to be logged to the console/server logs. Shows 'RMFS' values in console, R = related, M = mother, F = father, S = spouse. Can be a bit spammy!").getBoolean();
 		villagerChatPrefix = config.get("Server", "Villager chat prefix", "").getDefault();
 		
+		//Additional gifts.
+		additionalGiftItems = config.get("Server", "Additional gifts", new String[]{"#fermented_spider_eye|25", "#poisonous_potato|12"}, "The names of the items/blocks that can be gifted in addition to the default items. Include hearts value preceded by |.").getStringList();
+		
 		config.save();
 	}
 	
@@ -149,12 +189,12 @@ public final class Config implements Serializable
 		config.save();
 	}
 	
-	public Configuration getConfigInstance()
+	public Configuration getInstance()
 	{
 		return config;
 	}
 
-	public List<IConfigElement> getConfigCategories()
+	public List<IConfigElement> getCategories()
 	{
 		List<IConfigElement> elements = new ArrayList<IConfigElement>();
 

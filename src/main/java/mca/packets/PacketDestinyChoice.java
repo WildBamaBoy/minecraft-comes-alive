@@ -98,13 +98,13 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 			{
 				SchematicHandler.spawnStructureRelativeToPlayer("/assets/mca/schematic/family.schematic", player);
 
-				boolean isSpouseMale = data.genderPreference.getInt() == 0 ? true : data.genderPreference.getInt() == 2 ? false : world.rand.nextBoolean();
+				boolean isSpouseMale = data.getGenderPreference() == 0 ? true : data.getGenderPreference() == 2 ? false : world.rand.nextBoolean();
 				EntityHuman spouse = new EntityHuman(world, isSpouseMale);
 				spouse.setPosition(player.posX - 2, player.posY, player.posZ);
 				world.spawnEntityInWorld(spouse);
 
 				PlayerMemory spouseMemory = spouse.getPlayerMemory(player);
-				spouse.setIsMarried(true, player);
+				spouse.setMarriedTo(player);
 				spouseMemory.setHearts(100);
 				spouseMemory.setDialogueType(EnumDialogueType.SPOUSE);
 
@@ -112,7 +112,7 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 
 				while (numChildren > 0)
 				{
-					boolean isPlayerMale = data.isMale.getBoolean();
+					boolean isPlayerMale = data.getIsMale();
 
 					String motherName = "N/A";
 					int motherId = 0;
@@ -122,7 +122,7 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 					if (isPlayerMale)
 					{
 						fatherName = player.getName();
-						fatherId = data.permanentId.getInt();
+						fatherId = data.getPermanentId();
 						motherName = spouse.getName();
 						motherId = spouse.getPermanentId();
 					}
@@ -130,7 +130,7 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 					else
 					{
 						motherName = player.getName();
-						motherId = data.permanentId.getInt();
+						motherId = data.getPermanentId();
 						fatherName = spouse.getName();
 						fatherId = spouse.getPermanentId();
 					}

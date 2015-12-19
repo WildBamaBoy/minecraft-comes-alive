@@ -2,6 +2,7 @@ package mca.entity;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import io.netty.buffer.ByteBuf;
 import mca.ai.AIBlink;
@@ -43,8 +44,13 @@ import mca.enums.EnumProfessionGroup;
 import mca.enums.EnumProgressionStep;
 import mca.enums.EnumSleepingState;
 import mca.items.ItemBaby;
+import mca.items.ItemVillagerEditor;
 import mca.packets.PacketOpenGUIOnEntity;
+import mca.util.MarriageHandler;
 import mca.util.Utilities;
+import mca.util.Utilities;
+import net.minecraft.client.entity.AbstractClientPlayer;
+import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -53,6 +59,7 @@ import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAIOpenDoor;
 import net.minecraft.entity.ai.EntityAIRestrictOpenDoor;
 import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.ai.EntityAITradePlayer;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
@@ -62,14 +69,23 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
+import net.minecraft.village.MerchantRecipeList;
+import net.minecraft.world.World;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
@@ -111,6 +127,9 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	private final WatchedBoolean doDisplay;
 	private final WatchedBoolean isSwinging;
 	private final WatchedInt heldItem;
+	private final WatchedBoolean isInfected;
+	private final WatchedBoolean doOpenInventory;
+	private final WatchedString playerSkinUsername;
 
 	private final Inventory inventory;
 
@@ -122,10 +141,15 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	protected AIManager aiManager;
 	protected Map<String, PlayerMemory> playerMemories;
 	protected DataWatcherEx dataWatcherEx;
+	private ResourceLocation playerSkinResourceLocation;
+	private ThreadDownloadImageData	imageDownloadThread;
 
 	public EntityHuman(World world) 
 	{
 		super(world);
+
+		Random rand = world != null ? world.rand : new Random();
+
 		dataWatcherEx = new DataWatcherEx(this, MCA.ID);
 		playerMemories = new HashMap<String, PlayerMemory>();
 
@@ -146,11 +170,14 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		parentNames = new WatchedString("null", WatcherIDsHuman.PARENT_NAMES, dataWatcherEx);
 		parentIDs = new WatchedString("null", WatcherIDsHuman.PARENT_IDS, dataWatcherEx);
 		isInteracting = new WatchedBoolean(false, WatcherIDsHuman.IS_INTERACTING, dataWatcherEx);
-		scaleHeight = new WatchedFloat((float) Utilities.getNumberInRange(worldObj.rand, 0.03F, 0.09F), WatcherIDsHuman.HEIGHT, dataWatcherEx);
-		scaleGirth = new WatchedFloat((float) Utilities.getNumberInRange(worldObj.rand, -0.03F, 0.05F), WatcherIDsHuman.GIRTH, dataWatcherEx);
+		scaleHeight = new WatchedFloat((float) Utilities.getNumberInRange(rand, 0.03F, 0.09F), WatcherIDsHuman.HEIGHT, dataWatcherEx);
+		scaleGirth = new WatchedFloat((float) Utilities.getNumberInRange(rand, -0.03F, 0.05F), WatcherIDsHuman.GIRTH, dataWatcherEx);
 		doDisplay = new WatchedBoolean(false, WatcherIDsHuman.DO_DISPLAY, dataWatcherEx);
 		isSwinging = new WatchedBoolean(false, WatcherIDsHuman.IS_SWINGING, dataWatcherEx);
 		heldItem = new WatchedInt(-1, WatcherIDsHuman.HELD_ITEM, dataWatcherEx);
+		isInfected = new WatchedBoolean(false, WatcherIDsHuman.IS_INFECTED, dataWatcherEx);
+		doOpenInventory = new WatchedBoolean(false, WatcherIDsHuman.DO_OPEN_INVENTORY, dataWatcherEx);
+		playerSkinUsername = new WatchedString("null", WatcherIDsHuman.PLAYER_SKIN_USERNAME, dataWatcherEx);
 
 		aiManager = new AIManager(this);
 		aiManager.addAI(new AIIdle(this));
@@ -177,7 +204,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		addAI();
 
-		if (!worldObj.isRemote)
+		if (world != null && !world.isRemote)
 		{
 			doDisplay.setValue(true);
 		}
@@ -185,30 +212,11 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		inventory = new Inventory("Villager Inventory", false, 41);
 	}
 
-	public double getBaseAttackDamage() 
-	{
-		switch (getPersonality())
-		{
-		case STRONG: return 2.0D;
-		case CONFIDENT: return 1.0D;
-		default: 
-			if (getProfessionGroup() == EnumProfessionGroup.Guard)
-			{
-				return 5.0D;
-			}
-
-			else
-			{
-				return 0.5D;
-			}
-		}
-	}
-
 	public EntityHuman(World world, boolean isMale)
 	{
 		this(world);
 
-		this.isMale.setValue(isMale);
+		this.setIsMale(isMale);
 		this.name.setValue(getRandomName());
 		this.headTexture.setValue(getRandomSkin());
 		this.clothesTexture.setValue(this.headTexture.getString());
@@ -267,29 +275,42 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		this.tasks.addTask(9, new EntityAIWander(this, getSpeed()));
 		this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));
 
-		int maxHealth = this.getProfessionGroup() == EnumProfessionGroup.Guard ? MCA.getConfig().guardMaxHealth : MCA.getConfig().villagerMaxHealth;
+		int maxHealth = MCA.isTesting ? 20 : this.getProfessionGroup() == EnumProfessionGroup.Guard ? MCA.getConfig().guardMaxHealth : MCA.getConfig().villagerMaxHealth;
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealth);
 
 		if (this.getHealth() > maxHealth || this.getProfessionGroup() == EnumProfessionGroup.Guard)
 		{
 			this.setHealth(maxHealth);
 		}
-		
+
 		if (this.getProfessionGroup() != EnumProfessionGroup.Guard)
 		{
-	        this.tasks.addTask(2, new EntityAIMoveIndoors(this));
+			this.tasks.addTask(2, new EntityAIMoveIndoors(this));
 		}
 	}
 
 	public String getRandomSkin()
 	{
-		final EnumProfessionGroup professionGroup = EnumProfession.getProfessionById(professionId.getInt()).getSkinGroup();
-		return isMale.getBoolean() ? professionGroup.getMaleSkin() : professionGroup.getFemaleSkin();
+		if (MCA.isTesting)
+		{
+			return "testing.png";
+		}
+
+		else
+		{
+			final EnumProfessionGroup professionGroup = EnumProfession.getProfessionById(professionId.getInt()).getSkinGroup();
+			return isMale.getBoolean() ? professionGroup.getMaleSkin() : professionGroup.getFemaleSkin();
+		}
 	}
 
 	private String getRandomName()
 	{
-		if (isMale.getBoolean())
+		if (MCA.isTesting)
+		{
+			return isMale.getBoolean() ? "Adam" : "Eve";
+		}
+
+		else if (isMale.getBoolean())
 		{
 			return MCA.getLanguageManager().getString("name.male");
 		}
@@ -338,6 +359,19 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 					ItemBaby item = (ItemBaby)stack.getItem();
 					item.onUpdate(stack, worldObj, this, 1, false);
 				}
+			}
+
+			//Check if inventory should be opened for player.
+			if (doOpenInventory.getBoolean())
+			{
+				final EntityPlayer player = worldObj.getClosestPlayerToEntity(this, 10.0D);
+
+				if (player != null)
+				{
+					player.openGui(MCA.getInstance(), Constants.GUI_ID_INVENTORY, worldObj, (int)posX, (int)posY, (int)posZ);
+				}
+
+				setDoOpenInventory(false);
 			}
 		}
 
@@ -393,7 +427,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			if (!isInteracting.getBoolean())
 			{
-				MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId()), (EntityPlayerMP) player);
+				int guiId = player.inventory.getCurrentItem() != null && 
+						player.inventory.getCurrentItem().getItem() instanceof ItemVillagerEditor 
+						? Constants.GUI_ID_EDITOR : Constants.GUI_ID_INTERACT;
+
+				MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId(), guiId), (EntityPlayerMP) player);
+
 				isInteracting.setValue(true);
 			}
 
@@ -417,9 +456,9 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		nbt.setString("clothesTexture", clothesTexture.getString());
 		nbt.setInteger("professionId", professionId.getInt());
 		nbt.setInteger("personalityId", personalityId.getInt());
-		nbt.setInteger("permanentId", permanentId.getInt());
+		nbt.setInteger("permanentId", getPermanentId());
 		nbt.setBoolean("isMale", isMale.getBoolean());
-		nbt.setBoolean("isEngaged", isEngaged.getBoolean());
+		nbt.setBoolean("isEngaged", getIsEngaged());
 		nbt.setInteger("spouseId", spouseId.getInt());
 		nbt.setString("spouseName", spouseName.getString());
 		nbt.setInteger("babyState", babyState.getInt());
@@ -431,8 +470,9 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		nbt.setBoolean("isInteracting", isInteracting.getBoolean());
 		nbt.setFloat("scaleHeight", scaleHeight.getFloat());
 		nbt.setFloat("scaleGirth", scaleGirth.getFloat());
-
 		nbt.setInteger("ticksAlive", ticksAlive);
+		nbt.setBoolean("isInfected", isInfected.getBoolean());
+		nbt.setString("playerSkinUsername", playerSkinUsername.getString());
 
 		PlayerMemoryHandler.writePlayerMemoryToNBT(playerMemories, nbt);
 		dataWatcherEx.writeDataWatcherToNBT(nbt);
@@ -465,8 +505,9 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		isInteracting.setValue(nbt.getBoolean("isInteracting"));
 		scaleHeight.setValue(nbt.getFloat("scaleHeight"));
 		scaleGirth.setValue(nbt.getFloat("scaleGirth"));
-
 		ticksAlive = nbt.getInteger("ticksAlive");
+		isInfected.setValue(nbt.getBoolean("isInfected"));
+		playerSkinUsername.setValue(nbt.getString("playerSkinUsername"));
 
 		PlayerMemoryHandler.readPlayerMemoryFromNBT(this, playerMemories, nbt);
 		dataWatcherEx.readDataWatcherFromNBT(nbt);
@@ -508,13 +549,13 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	@Override
 	protected String getHurtSound() 
 	{
-		return null;
+		return getIsInfected() ? "mob.zombie.hurt" : null;
 	}
 
 	@Override
 	protected String getDeathSound() 
 	{
-		return null;
+		return getIsInfected() ? "mob.zombie.death" : null;
 	}
 
 	@Override
@@ -532,7 +573,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 				if (killingPlayer != null && !killingPlayer.getName().contains("[CoFH]"))
 				{
 					final PlayerData killerData = MCA.getPlayerData(killingPlayer);
-					boolean related = isPlayerAParent(killingPlayer) || getSpouseId() == killerData.permanentId.getInt();
+					boolean related = isPlayerAParent(killingPlayer) || getSpouseId() == killerData.getPermanentId();
 					MCA.getLog().info("Villager '" + name.getString() + "(" + getProfessionEnum().toString() + ")' was killed by player " + source + "." + 
 							" R:" + related + 
 							" M:" + this.getMotherName() + 
@@ -560,17 +601,17 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 				{
 					PlayerData data = MCA.getPlayerData(playerPartner);
 					playerPartner.addChatMessage(new ChatComponentText(Color.RED + name.getString() + " has died from " + damageSource.damageType));
-					data.setNotMarried();
+					MarriageHandler.forceEndMarriage(playerPartner);
 				}
 
-				else
+				else //Couldn't find the partner, try to find in our memory and look up the player data on the server.
 				{
 					for (PlayerMemory memory : playerMemories.values())
 					{
 						if (memory.getPermanentId() == this.spouseId.getInt())
 						{
 							PlayerData data = MCA.getPlayerData(memory.getUUID());
-							data.setNotMarried();
+							MarriageHandler.forceEndMarriage(data);
 							break;
 						}
 					}
@@ -583,7 +624,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 				if (partner != null)
 				{
-					partner.setIsMarried(false, (EntityHuman)null);
+					partner.setMarriedTo(null);
 				}
 			}
 
@@ -621,6 +662,14 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		EnumMovementState moveState = EnumMovementState.fromId(movementState.getInt());
 		boolean isSleeping = sleepAI.getIsSleeping();
 
+		if (isSleeping)
+		{
+			// Minecraft 1.8 moved the execution of tasks out of updateAITasks and into EntityAITasks.updateTasks().
+			// Get the 'tickCount' value per tick and set it to 1 when we don't want tasks to execute. This prevents
+			// The AI tasks from ever triggering an update.
+			ObfuscationReflectionHelper.setPrivateValue(EntityAITasks.class, tasks, 1, 4);
+		}
+		
 		if (!isSleeping && (moveState == EnumMovementState.MOVE || moveState == EnumMovementState.FOLLOW))
 		{
 			super.updateAITasks();
@@ -677,33 +726,43 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			target.addChatMessage(new ChatComponentText(sb.toString()));
 		}
 
-		aiManager.getAI(AIIdle.class).reset();		
-
+		aiManager.getAI(AIIdle.class).reset();
 	}
 
 	public void say(String phraseId, EntityPlayer target, Object... arguments)
 	{
-		final StringBuilder sb = new StringBuilder();
-
-		//Handle chat prefix.
-		if (MCA.getConfig().villagerChatPrefix != null && !MCA.getConfig().villagerChatPrefix.equals("null"))
+		if (target == null)
 		{
-			sb.append(MCA.getConfig().villagerChatPrefix);
+			return;
 		}
 
-		//Add title and text.
-		sb.append(getTitle(target));
-		sb.append(": ");
-		sb.append(MCA.getLanguageManager().getString(phraseId, arguments));
-
-		//Just in case the target is no longer present, somehow.
-		if (target != null)
+		if (getIsInfected()) //Infected villagers moan when they speak, and will not say anything else.
 		{
+			String zombieMoan = RadixLogic.getBooleanWithProbability(33) ? "Raagh..." : RadixLogic.getBooleanWithProbability(33) ? "Ughh..." : "Argh-gur...";
+			target.addChatMessage(new ChatComponentText(getTitle(target) + ": " + zombieMoan));
+			worldObj.playSoundAtEntity(this, "mob.zombie.say", 0.5F, rand.nextFloat() + 0.5F);
+		}
+
+		else
+		{
+			final StringBuilder sb = new StringBuilder();
+
+			//Handle chat prefix.
+			if (MCA.getConfig().villagerChatPrefix != null && !MCA.getConfig().villagerChatPrefix.equals("null"))
+			{
+				sb.append(MCA.getConfig().villagerChatPrefix);
+			}
+
+			//Add title and text.
+			sb.append(getTitle(target));
+			sb.append(": ");
+			sb.append(MCA.getLanguageManager().getString(phraseId, arguments));
+
 			target.addChatMessage(new ChatComponentText(sb.toString()));
-		}
 
-		aiManager.getAI(AIIdle.class).reset();
-		aiManager.getAI(AISleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
+			aiManager.getAI(AIIdle.class).reset();
+			aiManager.getAI(AISleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
+		}
 	}
 
 	public void say(String phraseId, EntityPlayer target)
@@ -716,7 +775,17 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	 */
 	public String getTitle(EntityPlayer player)
 	{
-		return MCA.getLanguageManager().getString(isMale.getBoolean() ? "title.nonrelative.male" : "title.nonrelative.female", this);
+		PlayerMemory memory = getPlayerMemory(player);
+
+		if (memory.isRelatedToPlayer())
+		{
+			return MCA.getLanguageManager().getString(isMale.getBoolean() ? "title.relative.male" : "title.relative.female", this, player);
+		}
+
+		else
+		{
+			return MCA.getLanguageManager().getString(isMale.getBoolean() ? "title.nonrelative.male" : "title.nonrelative.female", this, player);
+		}
 	}
 
 	public boolean isInOverworld()
@@ -739,6 +808,25 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		return this.aiManager.getAI(clazz);
 	}
 
+	public double getBaseAttackDamage() 
+	{
+		switch (getPersonality())
+		{
+		case STRONG: return 2.0D;
+		case CONFIDENT: return 1.0D;
+		default: 
+			if (getProfessionGroup() == EnumProfessionGroup.Guard)
+			{
+				return 5.0D;
+			}
+
+			else
+			{
+				return 0.5D;
+			}
+		}
+	}
+
 	public boolean getIsMale()
 	{
 		return isMale.getBoolean();
@@ -751,27 +839,32 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 	public String getHeadTexture()
 	{
-		return headTexture.getString();
+		return usesPlayerSkin() ? getPlayerSkinResourceLocation().getResourcePath() : headTexture.getString();
 	}
 
 	public void setClothesTexture(String value)
 	{
 		this.clothesTexture.setValue(value);
 	}
-	
+
 	public String getClothesTexture()
 	{
-		if (clothesTexture.getString().isEmpty()) //When updating.
+		if (usesPlayerSkin())
+		{
+			return getPlayerSkinResourceLocation().getResourcePath();
+		}
+
+		else if (clothesTexture.getString().isEmpty()) //When updating.
 		{
 			return headTexture.getString();
 		}
-		
+
 		else
 		{
 			return clothesTexture.getString();
 		}
 	}
-	
+
 	public boolean getIsChild()
 	{
 		return isChild.getBoolean();
@@ -823,33 +916,30 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		return playerMemories.containsKey(player.getName());
 	}
 
-	public void setIsMarried(boolean value, EntityHuman partner) 
+	public void setMarriedTo(Entity entity) 
 	{
-		if (value)
+		if (entity instanceof EntityHuman) //Human marrying another human
 		{
-			spouseId.setValue(partner.permanentId.getInt());
-			spouseName.setValue(partner.name.getString());
+			EntityHuman partner = (EntityHuman)entity;
+			spouseId.setValue(partner.getPermanentId());
+			spouseName.setValue(partner.getName());
+			partner.spouseId.setValue(this.getPermanentId());
+			partner.spouseName.setValue(this.getName());
 
-			AIProgressStory storyAI = getAI(AIProgressStory.class);
-			AIProgressStory partnerAI = partner.getAI(AIProgressStory.class);
-
-			storyAI.setProgressionStep(EnumProgressionStep.TRY_FOR_BABY);
-			partnerAI.setProgressionStep(EnumProgressionStep.TRY_FOR_BABY);
-
-			if (getIsMale())
-			{
-				storyAI.setDominant(true);
-				partnerAI.setDominant(false);
-			}
-
-			else if (partner.getIsMale())
-			{
-				partnerAI.setDominant(true);
-				storyAI.setDominant(false);
-			}
+			getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.TRY_FOR_BABY);
 		}
 
-		else
+		else if (entity instanceof EntityPlayer)
+		{
+			EntityPlayer partner = (EntityPlayer) entity;
+			PlayerData data = MCA.getPlayerData(partner);
+			spouseId.setValue(data.getPermanentId());
+			spouseName.setValue(partner.getName());
+
+			getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.FINISHED);
+		}
+
+		else //Null, must reset.
 		{
 			spouseId.setValue(0);
 			spouseName.setValue("none");
@@ -858,46 +948,6 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			getAI(AIProgressStory.class).reset();
 		}
 	}
-
-	public void setIsMarried(boolean value, EntityPlayer partner) 
-	{
-		if (value)
-		{
-			if (isEngaged.getBoolean())
-			{
-				for (Entity entity : RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, this, 50))
-				{
-					try
-					{
-						if (entity != this)
-						{
-							EntityHuman human = (EntityHuman)entity;
-							PlayerMemory memory = human.getPlayerMemory(partner);
-							memory.setHasGift(true);
-						}
-					}
-
-					catch (ClassCastException e) //Something odd with Thaumcraft? Unable to reproduce.
-					{
-						continue;
-					}
-				}
-			}
-
-			PlayerData data = MCA.getPlayerData(partner);
-			spouseId.setValue(data.permanentId.getInt());
-			spouseName.setValue(partner.getName());
-			isEngaged.setValue(false);
-
-			getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.FINISHED);
-		}
-
-		else
-		{
-			setIsMarried(value, (EntityHuman)null);
-			getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.SEARCH_FOR_PARTNER);
-		}
-	}	
 
 	public boolean getIsMarried()
 	{
@@ -916,7 +966,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		if (value)
 		{
 			PlayerData data = MCA.getPlayerData(partner);
-			spouseId.setValue(data.permanentId.getInt());
+			spouseId.setValue(data.getPermanentId());
 			spouseName.setValue(partner.getName());
 		}
 
@@ -1010,7 +1060,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	@Override
 	public ItemStack getHeldItem()
 	{
-		if (babyState.getInt() > 0)
+		if (getIsInfected())
+		{
+			return null;
+		}
+
+		else if (babyState.getInt() > 0)
 		{
 			switch (babyState.getInt())
 			{
@@ -1209,6 +1264,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public void writeSpawnData(ByteBuf buffer) 
 	{
 		ByteBufIO.writeObject(buffer, playerMemories);
+		ByteBufIO.writeObject(buffer, playerSkinUsername.getString());
 	}
 
 	@Override
@@ -1216,6 +1272,9 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	{
 		Map<String, PlayerMemory> recvMemories = (Map<String, PlayerMemory>) ByteBufIO.readObject(additionalData);
 		this.playerMemories = recvMemories;
+
+		//Set the player's skin upon loading on the server.
+		setPlayerSkin((String)ByteBufIO.readObject(additionalData));
 	}
 
 	public void setIsInteracting(boolean value)
@@ -1308,12 +1367,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public boolean isPlayerAParent(EntityPlayer player)
 	{
 		final PlayerData data = MCA.getPlayerData(player);
-		
+
 		if (data != null)
 		{
-			return getMotherId() == data.permanentId.getInt() || getFatherId() == data.permanentId.getInt();
+			return getMotherId() == data.getPermanentId() || getFatherId() == data.getPermanentId();
 		}
-		
+
 		else
 		{
 			return false;
@@ -1324,12 +1383,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	{
 		final PlayerData data = MCA.getPlayerData(player);
 
-		if (data.isSuperUser.getBoolean())
+		if (data.getIsSuperUser())
 		{
 			return true;
 		}
 
-		else if (isMarriedToAPlayer() && getSpouseId() != data.permanentId.getInt())
+		else if (isMarriedToAPlayer() && getSpouseId() != data.getPermanentId())
 		{
 			return false;
 		}
@@ -1360,9 +1419,14 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		final PlayerData data = MCA.getPlayerData(player);
 		final PlayerMemory memory = getPlayerMemory(player);
 
-		if (data.isSuperUser.getBoolean())
+		if (data.getIsSuperUser())
 		{
 			return true;
+		}
+
+		else if (getIsInfected()) //Infected villagers can't use an inventory or do chores.
+		{
+			return false;
 		}
 
 		else if (memory.getIsHiredBy())
@@ -1380,7 +1444,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 	public void openInventory(EntityPlayer player)
 	{
-		player.displayGUIChest(inventory);
+		MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId(), Constants.GUI_ID_INVENTORY), (EntityPlayerMP) player);
+		//		player.displayGUIChest(inventory);
 	}
 
 	public boolean isChildOfAVillager() 
@@ -1452,5 +1517,142 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	private MerchantRecipeList getBuyingList()
 	{
 		return (MerchantRecipeList) ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 5);
+	}
+
+	public void setSpouseId(int value) 
+	{
+		spouseId.setValue(value);
+	}
+
+	public void setSpouseName(String value) 
+	{
+		spouseName.setValue(value);
+	}
+
+	public void setIsEngaged(boolean value) 
+	{
+		isEngaged.setValue(value);
+	}
+
+	public boolean getIsInfected()
+	{
+		return isInfected.getBoolean();
+	}
+
+	public void setIsInfected(boolean value) 
+	{
+		isInfected.setValue(value);
+
+		// The texture is determined by the renderer. The appropriate skin will be
+		// rendered after checking the isInfected variable.
+	}
+
+	public void setDoOpenInventory(boolean value)
+	{
+		doOpenInventory.setValue(value);
+	}
+
+	@Override
+	public ItemStack getEquipmentInSlot(int slot)
+	{
+		//0 is the held item, others are armor slots.
+		switch (slot)
+		{
+		case 0: return getHeldItem();
+		case 1: return inventory.getStackInSlot(39); //Boots
+		case 2: return inventory.getStackInSlot(38); //Leggings
+		case 3: return inventory.getStackInSlot(37); //Chest
+		case 4: return inventory.getStackInSlot(36); //Helmet
+		}
+		return null;
+	}
+
+	@Override
+	public int getTotalArmorValue()
+	{
+		int value = 0;
+
+		for (int i = 36; i < 40; i++)
+		{
+			final ItemStack stack = inventory.getStackInSlot(i);
+
+			if (stack != null && stack.getItem() instanceof ItemArmor)
+			{
+				value += ((ItemArmor)stack.getItem()).damageReduceAmount;
+			}
+		}
+
+		return value;
+	}
+
+	@Override
+	public void damageArmor(float amount)
+	{
+		int value = 0;
+
+		for (int i = 36; i < 40; i++)
+		{
+			final ItemStack stack = inventory.getStackInSlot(i);
+
+			if (stack != null && stack.getItem() instanceof ItemArmor)
+			{
+				stack.damageItem((int) amount, this);
+			}
+		}	
+	}
+
+	public void setPlayerSkin(String username)
+	{
+		if (!username.isEmpty() && !username.equals("null"))
+		{ 
+			if (username.equals("SheWolfDeadly"))
+			{
+				username = "TheSheWolfDeadly";
+			}
+
+			boolean previous = DataWatcherEx.allowClientSideModification;
+
+			DataWatcherEx.allowClientSideModification = true;
+			playerSkinUsername.setValue(username);
+			DataWatcherEx.allowClientSideModification = previous;
+
+			playerSkinResourceLocation = AbstractClientPlayer.getLocationSkin(playerSkinUsername.getString());
+			imageDownloadThread = AbstractClientPlayer.getDownloadImageSkin(playerSkinResourceLocation, playerSkinUsername.getString());
+		}
+
+		else
+		{
+			boolean previous = DataWatcherEx.allowClientSideModification;
+
+			DataWatcherEx.allowClientSideModification = true;
+			playerSkinUsername.setValue("null");
+			DataWatcherEx.allowClientSideModification = previous;
+
+			playerSkinResourceLocation = null;
+			imageDownloadThread = null;
+		}
+	}
+
+	public boolean usesPlayerSkin()
+	{
+		return getPlayerSkinResourceLocation() != null;
+	}
+
+	public ResourceLocation getPlayerSkinResourceLocation()
+	{
+		return playerSkinResourceLocation;
+	}
+
+	public String getPlayerSkinUsername()
+	{
+		return playerSkinUsername.getString();
+	}
+
+	public void cureInfection()
+	{
+		this.setIsInfected(false);
+		this.addPotionEffect(new PotionEffect(Potion.confusion.id, 200, 0));
+		this.worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1017, new BlockPos((int)this.posX, (int)this.posY, (int)this.posZ), 0);
+		Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.VILLAGER_HAPPY, this, 16);
 	}
 }

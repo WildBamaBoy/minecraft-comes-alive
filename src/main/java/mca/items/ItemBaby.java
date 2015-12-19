@@ -9,6 +9,7 @@ import mca.data.PlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.enums.EnumDialogueType;
+import mca.enums.EnumRelation;
 import mca.packets.PacketOpenBabyNameGUI;
 import mca.util.TutorialManager;
 import net.minecraft.entity.Entity;
@@ -54,11 +55,14 @@ public class ItemBaby extends Item
 			{
 				String ownerName = entity instanceof EntityPlayer ? entity.getName() : entity instanceof EntityHuman ? ((EntityHuman)entity).getSpouseName() : "Unknown";
 
-				NBTTagCompound nbt = new NBTTagCompound();
-				nbt.setString("name", "Unnamed");
-				nbt.setInteger("age", 0);
-				nbt.setString("owner", ownerName);
-				itemStack.setTagCompound(nbt);
+				NBTTagCompound compound = new NBTTagCompound();
+
+				compound.setString("name", "Unnamed");
+				compound.setInteger("age", 0);
+				compound.setString("owner", ownerName);
+				compound.setBoolean("isInfected", false);
+				
+				itemStack.setTagCompound(compound);
 				
 				if (entity instanceof EntityPlayer)
 				{
@@ -89,7 +93,7 @@ public class ItemBaby extends Item
 		{
 			ItemBaby baby = (ItemBaby)stack.getItem();
 			PlayerData data = MCA.getPlayerData(player);
-			boolean isPlayerMale = data.isMale.getBoolean();
+			boolean isPlayerMale = data.getIsMale();
 
 			String motherName = "N/A";
 			int motherId = 0;
@@ -98,33 +102,40 @@ public class ItemBaby extends Item
 
 			if (isPlayerMale)
 			{
-				motherName = data.spouseName.getString();
-				motherId = data.spousePermanentId.getInt();
+				motherName = data.getSpouseName();
+				motherId = data.getSpousePermanentId();
 				fatherName = player.getName();
-				fatherId = data.permanentId.getInt();
+				fatherId = data.getPermanentId();
 			}
 
 			else
 			{
-				fatherName = data.spouseName.getString();
-				fatherId = data.spousePermanentId.getInt();
+				fatherName = data.getSpouseName();
+				fatherId = data.getSpousePermanentId();
 				motherName = player.getName();
-				motherId = data.permanentId.getInt();				
+				motherId = data.getPermanentId();				
 			}
 
 			final EntityHuman child = new EntityHuman(worldObj, baby.isBoy, true, motherName, fatherName, motherId, fatherId, true);
 			child.setPosition(posX, posY + 1, posZ);
 			child.setName(stack.getTagCompound().getString("name"));
+
+			if (stack.getTagCompound().getBoolean("isInfected"))
+			{
+				child.setIsInfected(true);
+			}
+			
 			worldObj.spawnEntityInWorld(child);
 
 			PlayerMemory childMemory = child.getPlayerMemory(player);
 			childMemory.setHearts(100);
 			childMemory.setDialogueType(EnumDialogueType.CHILDP);
+			childMemory.setRelation(child.getIsMale() ? EnumRelation.SON : EnumRelation.DAUGHTER);
 
 			player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
 			player.triggerAchievement(ModAchievements.babyToChild);
 
-			data.shouldHaveBaby.setValue(false);
+			data.setShouldHaveBaby(false);
 		}
 
 		return true;
@@ -143,14 +154,12 @@ public class ItemBaby extends Item
 		return super.onItemRightClick(itemStack, world, player);
 	}
 
-
 	@Override
 	public boolean onEntityItemUpdate(EntityItem entityItem) 
 	{
 		updateBabyGrowth(entityItem.getEntityItem());
 		return super.onEntityItemUpdate(entityItem);
 	}
-
 
 	@Override
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List infoList, boolean unknown)
@@ -173,6 +182,11 @@ public class ItemBaby extends Item
 			infoList.add(textColor + "Age: "  + Format.RESET + nearestTenth.format(ageInMinutes) + " minutes.");
 			infoList.add(textColor + "Parent: " + Format.RESET + ownerName);
 
+			if (itemStack.getTagCompound().getBoolean("isInfected"))
+			{
+				infoList.add(Color.GREEN + "Infected!");
+			}
+			
 			if (isReadyToGrowUp(itemStack))
 			{
 				infoList.add(Color.GREEN + "Ready to grow up!");

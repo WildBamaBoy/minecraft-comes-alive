@@ -86,7 +86,7 @@ public class ItemCrystalBall extends ItemSingle
 		PlayerData data = MCA.playerDataContainer.getPlayerData(PlayerData.class);
 		
 		DataWatcherEx.allowClientSideModification = true;
-		data.hasChosenDestiny.setValue(false);
+		data.setHasChosenDestiny(false);
 		DataWatcherEx.allowClientSideModification = false;
 		
 		MCA.destinySpawnFlag = true; //Will hand off spawning to clientTickEvent

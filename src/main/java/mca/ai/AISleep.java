@@ -95,7 +95,6 @@ public class AISleep extends AbstractAI
 			else if (!hasHomePoint() || !isHomePointValid())
 			{
 				final String phrase = !hasHomePoint() ? "sleep.nohome" : "sleep.invalid";
-
 				if (isInfluencedByPlayer && influentialPlayer != null)
 				{
 					owner.say(phrase, influentialPlayer);
@@ -367,8 +366,6 @@ public class AISleep extends AbstractAI
 			{
 				final Point3D nearestBed = Point3D.getNearestPointInList(new Point3D(owner.posX, owner.posY, owner.posZ), bedFeetNearby);
 				final TileVillagerBed villagerBed = (TileVillagerBed) BlockHelper.getTileEntity(owner.worldObj, nearestBed.iPosX, nearestBed.iPosY, nearestBed.iPosZ);
-				final IBlockState state = owner.worldObj.getBlockState(new BlockPos(nearestBed.iPosX, nearestBed.iPosY, nearestBed.iPosZ));
-				final BlockBed bedBlock = (BlockBed) state.getBlock();
 
 				if (villagerBed != null && !villagerBed.getIsVillagerSleepingIn())
 				{
@@ -378,7 +375,7 @@ public class AISleep extends AbstractAI
 					bedPosX.setValue(nearestBed.iPosX);
 					bedPosY.setValue(nearestBed.iPosY);
 					bedPosZ.setValue(nearestBed.iPosZ);
-					bedMeta.setValue(bedBlock.getMetaFromState(state)); 
+					bedMeta.setValue(BlockHelper.getBlockMetadata(owner.worldObj, bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt()));
 					hasBed.setValue(true);
 
 					isInBed.setValue(true);

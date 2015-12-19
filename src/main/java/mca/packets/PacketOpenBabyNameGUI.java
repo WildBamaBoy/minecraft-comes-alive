@@ -1,9 +1,13 @@
 package mca.packets;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBuf;
+import mca.client.gui.GuiNameBaby;
 import mca.client.gui.GuiNameBaby;
 import mca.core.MCA;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;

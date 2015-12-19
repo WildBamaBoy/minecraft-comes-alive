@@ -3,6 +3,7 @@ package mca.client.gui;
 import java.io.IOException;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Keyboard;
 
 import mca.core.MCA;
 import mca.items.ItemBaby;

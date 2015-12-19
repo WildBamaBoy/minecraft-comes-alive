@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import mca.api.CookableFood;
 import mca.api.CropEntry;
+import mca.api.MiningEntry;
 import mca.api.RegistryMCA;
 import mca.api.WeddingGift;
 import mca.api.WoodcuttingEntry;
@@ -28,9 +29,11 @@ import mca.entity.EntityHuman;
 import mca.enums.EnumCut;
 import mca.enums.EnumProfession;
 import mca.network.MCAPacketHandler;
+import mca.test.DummyPlayer;
 import mca.tile.TileTombstone;
 import mca.tile.TileVillagerBed;
 import mca.util.SkinLoader;
+import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;
@@ -76,7 +79,7 @@ import radixcore.util.RadixExcept;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixStartup;
 
-@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore@[1.8-2.0.4,)", acceptedMinecraftVersions = "[1.8]",
+@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore@[1.8-2.1.0,)", acceptedMinecraftVersions = "[1.8]",
 guiFactory = "mca.core.forge.client.MCAGuiFactory")
 public class MCA
 {
@@ -111,10 +114,17 @@ public class MCA
 	public static Point3D destinyCenterPoint;
 	@SideOnly(Side.CLIENT)
 	public static boolean destinySpawnFlag;
+	@SideOnly(Side.CLIENT)
+	public static boolean reloadLanguage;
+
+	//Fields used for unit testing only.
+	public static boolean isTesting;
+	public static PlayerData stevePlayerData;
+	public static PlayerData alexPlayerData;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
-	{
+	{	
 		instance = this;
 		metadata = event.getModMetadata();
 		logger = event.getModLog();
@@ -141,6 +151,7 @@ public class MCA
 
 		FMLCommonHandler.instance().bus().register(new EventHooksFML());
 		MinecraftForge.EVENT_BUS.register(new EventHooksForge());
+		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 	}
 
 	@EventHandler
@@ -203,7 +214,7 @@ public class MCA
 				"I  ", " I ", "  I", 'I', new ItemStack(Items.iron_ingot));
 		GameRegistry.addRecipe(new ItemStack(ModItems.newOutfit),
 				"C C", "CCC", "CCC", 'C', ModItems.cloth);
-		
+
 		//Variable recipes
 		if (!config.disableWeddingRingRecipe)
 		{
@@ -231,7 +242,7 @@ public class MCA
 		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(ModItems.bedPink));
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.needleAndString), new ItemStack(ModItems.needle), new ItemStack(Items.string));
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.roseGoldIngot, 9), new ItemStack(ModBlocks.roseGoldBlock));
-		
+
 		for(int i = 0; i < 16; i++)
 		{
 			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.cloth), new ItemStack(Blocks.wool), new ItemStack(ModItems.needleAndString, 1, i));
@@ -440,14 +451,50 @@ public class MCA
 		RegistryMCA.addObjectAsGift(ModItems.diamondTriangle, 50);
 		RegistryMCA.addObjectAsGift(ModItems.diamondTiny, 50);
 
-		RegistryMCA.addBlockToMiningAI(1, Blocks.coal_ore);
-		RegistryMCA.addBlockToMiningAI(2, Blocks.iron_ore);
-		RegistryMCA.addBlockToMiningAI(3, Blocks.lapis_ore);
-		RegistryMCA.addBlockToMiningAI(4, Blocks.gold_ore);
-		RegistryMCA.addBlockToMiningAI(5, Blocks.diamond_ore);
-		RegistryMCA.addBlockToMiningAI(6, Blocks.emerald_ore);
-		RegistryMCA.addBlockToMiningAI(7, Blocks.quartz_ore);
-		RegistryMCA.addBlockToMiningAI(8, ModBlocks.roseGoldOre);
+		if (getConfig().additionalGiftItems.length > 0)
+		{
+			for (String entry : getConfig().additionalGiftItems)
+			{
+				try
+				{
+					String[] split = entry.split("\\|");
+					int heartsValue = Integer.parseInt(split[1]);
+					String itemName = split[0];
+
+					if (!itemName.startsWith("#"))
+					{
+						Object item = Item.itemRegistry.getObject(itemName);
+						Object block = Block.blockRegistry.getObject(itemName);
+						Object addObject = item != null ? item : block != null ? block : null;
+
+						if (addObject != null)
+						{
+							RegistryMCA.addObjectAsGift(addObject, heartsValue);
+							logger.info("Successfully added " + itemName + " with hearts value of " + heartsValue + " to gift registry.");
+						}
+
+						else
+						{
+							logger.error("Failed to find item by name provided. Gift entry not created: " + entry);
+						}
+					}
+				}
+
+				catch (Exception e)
+				{
+					logger.error("Failed to add additional gift due to error. Use <item name>|<hearts value>: " + entry);
+				}
+			}
+		}
+
+		RegistryMCA.addBlockToMiningAI(1, new MiningEntry(Blocks.coal_ore, Items.coal, 0.45F));
+		RegistryMCA.addBlockToMiningAI(2, new MiningEntry(Blocks.iron_ore, 0.4F));
+		RegistryMCA.addBlockToMiningAI(3, new MiningEntry(Blocks.lapis_ore, new ItemStack(Items.dye, 1, 4), 0.3F));
+		RegistryMCA.addBlockToMiningAI(4, new MiningEntry(Blocks.gold_ore, 0.05F));
+		RegistryMCA.addBlockToMiningAI(5, new MiningEntry(Blocks.diamond_ore, Items.diamond, 0.04F));
+		RegistryMCA.addBlockToMiningAI(6, new MiningEntry(Blocks.emerald_ore, Items.emerald, 0.03F));
+		RegistryMCA.addBlockToMiningAI(7, new MiningEntry(Blocks.quartz_ore, Items.quartz, 0.02F));
+		RegistryMCA.addBlockToMiningAI(8, new MiningEntry(ModBlocks.roseGoldOre, 0.07F));
 
 		RegistryMCA.addBlockToWoodcuttingAI(1, new WoodcuttingEntry(Blocks.log, 0, Blocks.sapling, 0));
 		RegistryMCA.addBlockToWoodcuttingAI(2, new WoodcuttingEntry(Blocks.log, 1, Blocks.sapling, 1));
@@ -580,23 +627,14 @@ public class MCA
 			{
 				RadixExcept.logErrorCatch(e, "Catching error saving player data due to NPE.");
 			}
+
+			if (data != null) //Bad data seems to be generated with other mods.
+			{
+				data.saveDataToFile();
+			}
 		}
 
 		MCA.playerDataMap.clear();
-	}
-
-	public static void setConfig(Config configObj)
-	{
-		config = configObj;
-	}
-
-	public static void resetConfig()
-	{
-		if (config != clientConfig)
-		{
-			logger.info("Resetting config to client-side values...");
-			config = clientConfig;
-		}
 	}
 
 	public static MCA getInstance()
@@ -614,6 +652,20 @@ public class MCA
 		return config;
 	}
 
+	public static void setConfig(Config configObj)
+	{
+		config = configObj;
+	}
+
+	public static void resetConfig()
+	{
+		if (config != clientConfig)
+		{
+			logger.info("Resetting config to client-side values...");
+			config = clientConfig;
+		}
+	}
+	
 	public static ModMetadata getMetadata()
 	{
 		return metadata;
@@ -641,7 +693,13 @@ public class MCA
 
 	public static PlayerData getPlayerData(EntityPlayer player)
 	{
-		if (!player.worldObj.isRemote)
+		if (player instanceof DummyPlayer)
+		{
+			DummyPlayer dummy = (DummyPlayer)player;
+			return dummy.getIsSteve() ? stevePlayerData : alexPlayerData;
+		}
+
+		else if (!player.worldObj.isRemote)
 		{
 			return (PlayerData) playerDataMap.get(player.getUniqueID().toString());
 		}
@@ -692,8 +750,8 @@ public class MCA
 			spouse.setPosition(human.posX, human.posY, human.posZ - 1);
 			world.spawnEntityInWorld(spouse);
 
-			human.setIsMarried(true, spouse);
-			spouse.setIsMarried(true, human);
+			human.setMarriedTo(spouse);
+			spouse.setMarriedTo(human);
 
 			String motherName = !isMale ? human.getName() : spouse.getName();
 			String fatherName = isMale ? human.getName() : spouse.getName();
@@ -720,5 +778,12 @@ public class MCA
 	public static CrashWatcher getCrashWatcher() 
 	{
 		return crashWatcher;
+	}
+
+	public static void initializeForTesting() 
+	{
+		MCA.isTesting = true;
+		MCA.metadata = new ModMetadata();
+		MCA.metadata.modId = MCA.ID;
 	}
 }

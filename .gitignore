@@ -1,4 +1,6 @@
 /*
+/src/main/java/radixcore/*
+/lib/*
 !/.gitignore
 !/gradle/
 !/gradle/*
@@ -14,3 +16,4 @@
 .gradle
 gitlog-to-changelog
 CHANGELOG
+*.jar

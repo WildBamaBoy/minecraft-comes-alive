@@ -30,7 +30,7 @@ public class AICooking extends AbstractToggleAI
 	private int indexOfCookingFood;
 	private int cookingTicks;
 	private int cookingInterval;
-	
+
 	public AICooking(EntityHuman owner) 
 	{
 		super(owner);
@@ -42,6 +42,14 @@ public class AICooking extends AbstractToggleAI
 	public void setIsActive(boolean value) 
 	{
 		isAIActive.setValue(value);
+		
+		if (!value)
+		{
+			if (hasFurnace)
+			{
+				BlockHelper.updateFurnaceState(false, owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ);
+			}
+		}
 	}
 
 	@Override
@@ -74,6 +82,18 @@ public class AICooking extends AbstractToggleAI
 					setPathToFurnace();
 					doCookFood();
 				}
+
+				else if (!hasCookableFood)
+				{
+					EntityPlayer player = getAssigningPlayer();
+
+					if (player != null)
+					{
+						owner.sayRaw("I don't have any food to cook.", player); //TODO Translate.
+					}
+
+					reset();
+				}
 			}
 
 			else
@@ -81,7 +101,13 @@ public class AICooking extends AbstractToggleAI
 				if (!getFuelFromInventory())
 				{
 					reset();
-					notifyAssigningPlayer("I don't have any fuel.");
+
+					EntityPlayer player = getAssigningPlayer();
+
+					if (player != null)
+					{
+						owner.sayRaw("I don't have any fuel.", player); //TODO Translate.
+					}
 				}
 			}
 		}
@@ -91,14 +117,20 @@ public class AICooking extends AbstractToggleAI
 			if (!isFurnaceNearby())
 			{
 				reset();
-				notifyAssigningPlayer("There's no furnace nearby.");
+
+				EntityPlayer player = getAssigningPlayer();
+
+				if (player != null)
+				{
+					owner.sayRaw("There's no furnace nearby.", player); //TODO Translate.
+				}
 			}
 		}
 	}
 
 	@Override
 	public void reset() 
-	{
+	{		
 		hasFurnace = false;
 		setIsActive(false);
 	}
@@ -118,12 +150,12 @@ public class AICooking extends AbstractToggleAI
 	public void startCooking(EntityPlayer player)
 	{
 		assigningPlayer = player.getUniqueID().toString();
-		
+
 		setIsActive(true);
 		furnacePos = Point3D.ZERO;
-		cookingInterval = Time.SECOND * 10;
+		cookingInterval = Time.SECOND * 8;
 	}
-	
+
 	private boolean getFuelFromInventory()
 	{
 		for (int i = 0; i < owner.getVillagerInventory().getSizeInventory(); i++)
@@ -168,8 +200,6 @@ public class AICooking extends AbstractToggleAI
 		hasFurnace = nearbyFurnace != null;
 		furnacePos = hasFurnace ? nearbyFurnace : furnacePos;
 
-		System.out.println(hasFurnace);
-		
 		return hasFurnace;
 	}
 
@@ -185,7 +215,13 @@ public class AICooking extends AbstractToggleAI
 			else
 			{
 				reset();
-				notifyAssigningPlayer("There's no furnace nearby.");
+
+				EntityPlayer player = getAssigningPlayer();
+
+				if (player != null)
+				{
+					owner.sayRaw("There's no furnace nearby.", player); //TODO Translate.
+				}
 			}
 		}
 
@@ -234,7 +270,7 @@ public class AICooking extends AbstractToggleAI
 	private void doCookFood()
 	{
 		final double distanceToFurnace = RadixMath.getDistanceToXYZ(owner, furnacePos);
-		
+
 		if (distanceToFurnace <= 2.5D)
 		{
 			if (isCooking)
@@ -245,18 +281,32 @@ public class AICooking extends AbstractToggleAI
 					{
 						BlockHelper.updateFurnaceState(true, owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ);
 					}
-					
+
 					cookingTicks++;
 				}
 
 				else
 				{
 					CookableFood foodObj = RegistryMCA.getCookableFoodList().get(indexOfCookingFood);
-					
-					if (owner.getVillagerInventory().contains(foodObj.getFoodRaw()))
+					int rawFoodSlot = owner.getVillagerInventory().getFirstSlotContainingItem(foodObj.getFoodRaw());
+
+					if (rawFoodSlot > -1)
 					{
-						owner.getVillagerInventory().decrStackSize(owner.getVillagerInventory().getFirstSlotContainingItem(foodObj.getFoodRaw()), 1);
+						owner.getVillagerInventory().decrStackSize(rawFoodSlot, 1);
 						addItemStackToInventory(new ItemStack(foodObj.getFoodCooked(), 1, 0));
+						owner.swingItem();
+					}
+
+					else
+					{
+						EntityPlayer player = getAssigningPlayer();
+
+						if (player != null)
+						{
+							owner.sayRaw("I don't have any food to cook.", player); //TODO Translate.
+						}
+
+						reset();
 					}
 
 					isCooking = false;
@@ -264,7 +314,7 @@ public class AICooking extends AbstractToggleAI
 					cookingTicks = 0;
 					fuelUsesRemaining--;
 					BlockHelper.updateFurnaceState(false, owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ);
-					
+
 					if (fuelUsesRemaining <= 0)
 					{
 						hasFuel = false;
@@ -277,6 +327,14 @@ public class AICooking extends AbstractToggleAI
 				isCooking = true;
 			}
 		}
+	}
+
+	private boolean hasCookableFood()
+	{
+		CookableFood foodObj = RegistryMCA.getCookableFoodList().get(indexOfCookingFood);
+		int rawFoodSlot = owner.getVillagerInventory().getFirstSlotContainingItem(foodObj.getFoodRaw());
+
+		return rawFoodSlot > -1;
 	}
 
 	@Override

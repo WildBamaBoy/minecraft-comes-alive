@@ -9,8 +9,6 @@ import mca.ai.AIFarming;
 import mca.ai.AIHunting;
 import mca.ai.AIMining;
 import mca.ai.AIWoodcutting;
-import mca.api.RegistryMCA;
-import mca.api.exception.MappingNotFoundException;
 import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
 import mca.entity.EntityHuman;
@@ -129,15 +127,7 @@ public class PacketToggleAI extends AbstractPacket implements IMessage, IMessage
 			
 			else
 			{
-				try 
-				{
-					human.getAI(AIMining.class).startSearching(player, RegistryMCA.getNotifyBlockById(packet.integers.get(0)));
-				} 
-				
-				catch (MappingNotFoundException e) 
-				{
-					e.printStackTrace();
-				}
+				human.getAI(AIMining.class).startSearching(player, packet.integers.get(0));
 			}
 			break;
 			

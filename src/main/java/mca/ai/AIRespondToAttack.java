@@ -41,7 +41,7 @@ public class AIRespondToAttack extends AbstractAI
 	@Override
 	public void onUpdateServer() 
 	{
-		if (!owner.getIsChild() && isRetaliating && owner.getHealth() > 0.0F)
+		if (!owner.getIsChild() && isRetaliating && owner.getHealth() > 0.0F && !owner.getIsInfected())
 		{
 			if (target instanceof EntityPlayerMP && !target.getName().equals("[CoFH]") && !(target instanceof FakePlayer))
 			{

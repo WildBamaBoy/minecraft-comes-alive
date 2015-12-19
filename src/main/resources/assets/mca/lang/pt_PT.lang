@@ -1,0 +1,1533 @@
+#X-Generator: crowdin.com
+itemGroup.tabMCA=Minecraft Comes Alive
+itemGroup.tabMCA.gemCutting=MCA - Corte de Gemas
+
+#######
+# Achievements
+##############################
+achievement.fullGoldHearts=Chegar a algum lugar
+achievement.fullGoldHearts.desc=Consiga 5 coracoes de ouro com um aldeão.
+achievement.engagement=Felicidade conquistada\!
+achievement.engagement.desc=Fique noivo de um aldeao.
+achievement.marriage=Estamos casados\!
+achievement.marriage.desc=Case-se com um aldeao.
+achievement.babyBoy=E um menino\!
+achievement.babyBoy.desc=Tenha um menino.
+achievement.babyGirl=É uma menina\!
+achievement.babyGirl.desc=Tenha um bebê menina.
+achievement.twins=Gemeos\!
+achievement.twins.desc=Tenha gemeos.
+achievement.babyToChild=Eles crescem tao rapido
+achievement.babyToChild.desc=Cresça o seu bebe para criança.
+achievement.hunting=Bullseye\!
+achievement.hunting.desc=Mande o seu filho cacar.
+achievement.mining=Infiniminer
+achievement.mining.desc=Faça a seu filho minerar para você.
+achievement.woodcutting=Lenhador
+achievement.woodcutting.desc=Mande o seu filho cortar árvores.
+achievement.farming=Trabalho grátis
+achievement.farming.desc=Mande o seu filho cultivar.
+achievement.childToAdult=Graúdo\!
+achievement.childToAdult.desc=Faca seu filho crescer até a idade adulta.
+achievement.childMarried=Deixando o ninho
+achievement.childMarried.desc=Veja o seu filho casar.
+achievement.childHasChildren=Avós
+achievement.childHasChildren.desc=Conheça o seu neto.
+achievement.craftDiamondDust=Não respire isto\!
+achievement.craftDiamondDust.desc=Esmagar um diamante até virar poeira.
+achievement.craftColoredDiamondDust=Adicionando uma cor
+achievement.craftColoredDiamondDust.desc=Adicionar cor ao diamante em pó.
+achievement.smeltColoredDiamond=Diamante com estilo
+achievement.smeltColoredDiamond.desc=Fundir um diamante colorido.
+achievement.craftShapedDiamond=Cortador de diamante
+achievement.craftShapedDiamond.desc=Molde um diamante.
+achievement.craftShapedRing=Produto terminado
+achievement.craftShapedRing.desc=Construir um anel de diamante moldado.
+
+#######
+# Items & Blocks
+##############################
+item.WeddingRing.name=Aliança
+item.WeddingRingRG.name=Aliança de Ouro Rosa
+item.EngagementRing.name=Anel de noivado
+item.EngagementRingRG.name=Anel de Noivado de Ouro Rosa
+item.MatchmakersRing.name=Anel de Casamento
+item.BabyBoy.name=Um Bebê Menino
+item.BabyGirl.name=Um Bebê Menina
+item.EggMale.name=Evocar aldeão masculino
+item.EggFemale.name=Evocar aldeão feminino
+item.ItemVillagerBedRed.name=Cama Vermelha de Aldeão
+item.ItemVillagerBedBlue.name=Cama Azul de Aldeão
+item.ItemVillagerBedGreen.name=Cama Verde de Aldeão
+item.ItemVillagerBedPink.name=Cama Cor-de-Rosa de Aldeão
+item.ItemVillagerBedPurple.name=Cama Púrpura de Aldeão
+item.DivorcePapers.name=Papeis de Divórcio
+item.RoseGoldIngot.name=Barra de Ouro Rosa
+item.CrystalBall.name=Bola de Cristal
+item.NewOutfit.name=Roupa Nova
+item.DiamondHeart.name=Coração de Diamante
+item.DiamondTiny.name=Diamante Pequeno
+item.DiamondOval.name=Diamante Oval
+item.DiamondSquare.name=Diamante Quadrado
+item.DiamondTriangle.name=Diamante Triangular
+item.DiamondStar.name=Estrela de Diamante
+item.DiamondDust.name=Pó de Diamante
+item.EngagementRingHeart.name=Anel de Noivado com Coração de Diamante
+item.EngagementRingHeartRG.name=Anel de Noivado de Ouro Rosa com Coração de Diamante
+item.EngagementRingTiny.name=Anel de Noivado com Diamante Pequeno
+item.EngagementRingTinyRG.name=Anel de Noivado de Ouro Rosa com Diamante Pequeno
+item.EngagementRingOval.name=Anel de Noivado Oval
+item.EngagementRingOvalRG.name=Anel de Noivado com Diamante Oval
+item.EngagementRingSquare.name=Anel de Noivado com Diamante Quadrado
+item.EngagementRingSquareRG.name=Anel de Noivado de Ouro Rosa com Diamante Quadrado
+item.EngagementRingTriangle.name=Anel de Noivado com Diamante Triangular
+item.EngagementRingTriangleRG.name=Anel de Noivado de Ouro Rosa com Diamante Triangular
+item.EngagementRingStar.name=Anel de Noivado de Ouro Rosa com Estrela de Diamante
+item.EngagementRingStarRG.name=Anel de Noivado de Ouro Rosa com Estrela de Diamante
+item.tombstone.name=Túmulo
+item.RoseGoldDust.name=Pó Dourado-Rosa
+item.GoldDust.name=Pó Dourado
+tile.roseGoldOre.name=Minério de Ouro Cor-de-Rosa
+tile.roseGoldBlock.name=Bloco de Ouro Rosa
+item.whistle.name=Assobio
+item.villagereditor.name=Editor de Aldeão
+item.GemCutter.name=Cortador de Gemas
+item.HeartMold.name=Molde de Coração
+item.TinyMold.name=Molde Pequeno
+item.OvalMold.name=Molde Oval
+item.SquareMold.name=Molde Quadrado
+item.TriangleMold.name=Molde Triangular
+item.StarMold.name=Molde Estrelar
+item.NeedleAndString.name=Agulha e Fio
+item.Needle.name=Agulha
+item.Cloth.name=Tecido
+tile.VillagerSpawner.name=Invocador de Aldeão
+
+#######
+# Item Information
+##############################
+information.villagerbed.line1=Coloque no chão e
+information.villagerbed.line2=qualquer aldeão por perto
+information.villagerbed.line3=vai dormir à noite.
+
+#######
+# Names
+##############################
+name.male1=Aaron
+name.male2=Abe
+name.male3=Abel
+name.male4=Ace
+name.male5=Adão
+name.male6=Adan
+name.male7=Adriel
+name.male8=Aidan
+name.male9=Ajay
+name.male10=Al
+name.male11=Alan
+name.male12=Alexandre \n(There are a lot of names here that can't be translated...)
+name.male13=Alec
+name.male14=Alden
+name.male15=Amir
+name.male16=Andre
+name.male17=Andy
+name.male18=Ash
+name.male19=Arran
+name.male20=Asher
+name.male21=Ashton
+name.male22=Aven
+name.male23=Avery
+name.male24=Bailey
+name.male25=Barrett
+name.male26=Brett
+name.male27=Bobby
+name.male28=Bev
+name.male29=Billy
+name.male30=Cain
+name.male31=Brogan
+name.male32=Brenton
+name.male33=Azul
+name.male34=Blaze
+name.male35=Brady
+name.male36=Bear
+name.male37=Casey
+name.male38=Caiden
+name.male39=Cam
+name.male40=Cedric
+name.male41=Clayton
+name.male42=Chad
+name.male43=Casper
+name.male44=Chance
+name.male45=Cliff
+name.male46=Clyde
+name.male47=Coby
+name.male48=Cody
+name.male49=Drake
+name.male50=Devon
+name.male51=Dirk
+name.male52=Dion
+name.male53=Drake
+name.male54=Drew
+name.male55=Cyrcus
+name.male56=Cole
+name.male57=Daire
+name.male58=Dakota
+name.male59=Dale
+name.male60=Damian
+name.male61=Dash
+name.male62=Dario
+name.male63=Coby
+name.male64=Curt
+name.male65=Darius
+name.male66=Dan
+name.male67=Davin
+name.male68=Eli
+name.male69=Eliot
+name.male70=Elijah
+name.male71=Enzo
+name.male72=Finn
+name.male73=Fabio
+name.male74=Ezio
+name.male75=Ezra
+name.male76=Forest
+name.male77=Hunter
+name.male78=Arqueiro
+name.male79=Heath
+name.male80=Han
+name.male81=Isaac
+name.male82=Irvin
+name.male83=Jai
+name.male84=Jaiden
+name.male85=Jaime
+name.male86=Jake
+name.male87=Jakob
+name.male88=Jalen
+name.male89=Hendrix
+name.male90=Giles
+name.male91=Erik
+name.male92=Evan
+name.male93=Eliot
+name.male94=Diego
+name.male95=Don
+name.male96=Deon
+name.male97=Leon
+name.male98=Ira
+name.male99=Joel
+name.male100=Joey
+name.male101=Tristan
+name.male102=Jock
+name.male103=Kaden
+name.male104=Kai
+name.male105=Layne
+name.male106=Levi
+name.male107=Leven
+name.male108=Lev
+name.male109=Leighton
+name.male110=Lucas
+name.male111=Marshall
+name.male112=Marcus
+name.male113=Marik
+name.male114=Michael
+name.male115=Mitchel
+name.male116=Nik
+name.male117=Niall
+name.male118=Ollie
+name.male119=Ned
+name.male120=Paolo
+name.male121=Paul
+name.male122=Pearce
+name.male123=Rafael
+name.male124=Owen
+name.male125=Phil
+name.male126=Scott
+name.male127=Stiles
+name.male128=Sid
+name.male129=Silas
+name.male130=Toby
+name.male131=Ty
+name.male132=Turner
+name.male133=Taylor
+name.male134=Storm
+name.male135=Sage
+name.male136=Jade
+name.male137=Rick
+name.male138=Ren
+name.male139=Nash
+name.male140=Mylo
+name.male141=Niko
+name.male142=Nicholas
+name.male143=Nick
+name.male144=Nico
+name.male145=Norman
+name.male146=Soren
+name.male147=Tate
+name.male148=Terry
+name.male149=Tim
+name.male150=Zain
+name.male151=Zaiden
+name.male152=Zeph
+name.male153=Zeke
+name.male154=Zayne
+name.male155=Zed
+name.male156=Zac
+name.male157=Wilson
+name.male158=Wayne
+name.male159=Vishal
+name.male160=Vlad
+name.male161=Wade
+name.male162=Walker
+name.male163=Troy
+name.male164=Trey
+name.male165=Trevon
+name.male166=Trenton
+name.male167=Trent
+name.male168=Ted
+name.male169=Ryan
+name.male170=Ryder
+name.male171=Reilly
+name.male172=Reid
+name.male173=Quentin
+name.male174=Princeton
+name.male175=Preston
+name.male176=Piers
+name.male177=Romeo
+name.male178=Red
+name.male179=Sean
+name.male180=Shawn
+name.male181=Ross
+name.male182=Robby
+name.male183=Chandler
+
+name.female1=Aaliyah
+name.female2=Ada
+name.female3=Alka
+name.female4=Ali
+name.female5=Alisa
+name.female6=Ally
+name.female7=Alicia
+name.female8=Alana
+name.female9=Abbi
+name.female10=Abby
+name.female11=Abrielle
+name.female12=Aby
+name.female13=Acacia
+name.female14=Aisha
+name.female15=Aleah
+name.female16=Amity
+name.female17=Alina
+name.female18=Alisa
+name.female19=Alivia
+name.female20=Ashlie
+name.female21=Ashley
+name.female22=Ashlee
+name.female23=Ayla
+name.female24=Ava
+name.female25=Avril
+name.female26=Blake
+name.female27=Bess
+name.female28=Beth
+name.female29=Becca
+name.female30=Beccy
+name.female31=Becky
+name.female32=Bella
+name.female33=Belle
+name.female34=Beryl
+name.female35=Britney
+name.female36=Britt
+name.female37=Brie
+name.female38=Bielle
+name.female39=Brigid
+name.female40=Briley
+name.female41=Brisa
+name.female42=Brynn
+name.female43=Cadence
+name.female44=Cailin
+name.female45=Cecelia
+name.female46=Chasity
+name.female47=Chloe
+name.female48=Celeste
+name.female49=Cayla
+name.female50=Ceri
+name.female51=Cassia
+name.female52=Catrina
+name.female53=Callie
+name.female54=Cameron
+name.female55=Cami
+name.female56=Camila
+name.female57=Camryn
+name.female58=Candace
+name.female59=Cali
+name.female60=Carly
+name.female61=Carlin
+name.female62=Cleo
+name.female63=Cori
+name.female64=Carla
+name.female65=Carol
+name.female66=Clover
+name.female67=Clarice
+name.female68=Claris
+name.female69=Clare
+name.female70=Corina
+name.female71=Cece
+name.female72=Daina
+name.female73=Darby
+name.female74=Dena
+name.female75=Denny
+name.female76=Dixie
+name.female77=Dolly
+name.female78=Delany
+name.female79=Delia
+name.female80=Delilah
+name.female81=Delina
+name.female82=Diane
+name.female83=Dasia
+name.female84=Della
+name.female85=Daysha
+name.female86=Dara
+name.female87=Demi
+name.female88=Deena
+name.female89=Dina
+name.female90=Destiny
+name.female91=Delaney
+name.female92=Deidre
+name.female93=Dinah
+name.female94=Ebony
+name.female95=Echo
+name.female96=Eden
+name.female97=Edith
+name.female98=Edna
+name.female99=Elisa
+name.female100=Elisabeth
+name.female101=Elise
+name.female102=Eliza
+name.female103=Ella
+name.female104=Elle
+name.female105=Ellen
+name.female106=Elly
+name.female107=Esme
+name.female108=Elina
+name.female109=Elicia
+name.female110=Ellis
+name.female111=Emmy
+name.female112=Enya
+name.female113=Erica
+name.female114=Erin
+name.female115=Fawn
+name.female116=Fran
+name.female117=Farah
+name.female118=Faye
+name.female119=Felicity
+name.female120=Fern
+name.female121=Gail
+name.female122=Gina
+name.female123=Ginger
+name.female124=Grace
+name.female125=Gracelyn
+name.female126=Bracie
+name.female127=Harley
+name.female128=Ana
+name.female129=Heaven
+name.female130=Heather
+name.female131=Holly
+name.female132=Honor
+name.female133=Honey
+name.female134=Hope
+name.female135=Hayley
+name.female136=Hazel
+name.female137=Ivy
+name.female138=Iris
+name.female139=Ivana
+name.female140=Jade
+name.female141=Ira
+name.female142=Iliana
+name.female143=Jadyn
+name.female144=Jade
+name.female145=Jane
+name.female146=Jessica (the same)
+name.female147=Juliet
+name.female148=Itzel
+name.female149=Iris
+name.female150=Jaida
+name.female151=Jamie
+name.female152=Jess
+name.female153=Jessa
+name.female154=Jocelyn
+name.female155=Jordan
+name.female156=Joni
+name.female157=Joyce
+name.female158=Kailyn
+name.female159=Kaitlin
+name.female160=Karen
+name.female161=Kaidence
+name.female162=Kara
+name.female163=Kassie
+name.female164=Katelyn
+name.female165=Katerine
+name.female166=Katherine
+name.female167=Keeley
+name.female168=Kelli
+name.female169=Lily
+name.female170=Liz
+name.female171=Liza
+name.female172=Leslie
+name.female173=Laila
+name.female174=Lea
+name.female175=Leah
+name.female176=Lena
+name.female177=Lexie
+name.female178=Petrie
+name.female179=Luna
+name.female180=Loran
+name.female181=Lyra
+name.female182=Lyric
+name.female183=Luci
+name.female184=Mara
+name.female185=Mavis
+name.female186=Millie
+name.female187=Michelle
+name.female188=Mika
+name.female189=Marisa
+name.female190=Mavis
+name.female191=Masie
+name.female192=Mona
+name.female193=Monica
+name.female194=Spencer
+name.female195=Monique
+name.female196=Montana
+name.female197=Mitzi
+name.female198=Molly
+name.female199=Nicki
+name.female200=Naya
+name.female201=Noelle
+name.female202=Moemi
+name.female203=Nola
+name.female204=Nora
+name.female205=Nikita
+name.female206=Nikki
+name.female207=Raquel
+name.female208=Raven
+name.female209=Remi
+name.female210=Rayna
+name.female211=Renae
+name.female212=Rose
+name.female213=Riley
+name.female214=Sage
+name.female215=Rydel
+name.female216=Rayna
+name.female217=Rayne
+name.female218=Rain
+name.female219=Ruby
+name.female220=Sade
+name.female221=Sable
+name.female222=Sara
+name.female223=Shyla
+name.female224=Stacey
+name.female225=Sky
+name.female226=Snow
+name.female227=Sally
+name.female228=Saige
+name.female229=Ryleigh
+name.female230=Rita
+name.female231=Rosalie
+name.female232=Summer
+name.female233=Star
+name.female234=Tala
+name.female235=Talia
+name.female236=Talitha
+name.female237=Tami
+name.female238=Judith
+name.female239=Tess
+name.female240=Zoey
+name.female241=Zoe
+name.female242=Ziva
+name.female243=Zina
+name.female244=Zora
+name.female245=Cula
+name.female246=Zelina
+name.female247=Yvette
+name.female248=Xena
+name.female249=Xandra
+name.female250=Winter
+name.female251=Vera
+name.female252=Teri
+name.female253=Tiana
+name.female254=Tiara
+name.female255=Tasha
+name.female256=Saira
+
+##############
+# Professions
+##############################
+profession.archer=Arqueiro
+profession.armorer=Armeiro
+profession.butcher=Carniceiro
+profession.cleric=Padre
+profession.farmer=Agricultor
+profession.fisherman=Pescador
+profession.fletcher=Flecheiro
+profession.guard=Guarda
+profession.spouse=Esposa
+profession.leatherworker=Coureiro
+profession.librarian=Bibliotecário
+profession.shepherd=Pastor
+profession.toolsmith=Ferreiro de Ferramentas
+profession.weaponsmith=Ferreiro de Armas
+profession.miner=Mineiro
+profession.mason=Pedreiro
+profession.baker=Padeiro
+profession.child=Criança
+profession.househusband=Dono de casa
+profession.housewife=Dona de casa
+
+################
+# Personalities
+################################
+personality.athletic=Atleta
+personality.confident=Confiante
+personality.strong=Forte
+personality.friendly=Amigável
+personality.curious=Curioso
+personality.peaceful=Pacífico
+personality.flirty=Paqueirador
+personality.witty=Espirituoso
+personality.sensitive=Sensível
+personality.greedy=Ganancioso
+personality.stubborn=Teimoso
+personality.odd=Esquisito
+
+################
+# Moods
+################################
+mood.depressed=Deprimido
+mood.sad=Triste
+mood.unhappy=Infeliz
+mood.passive=Passivo
+mood.fine=Bem
+mood.happy=Feliz
+mood.overjoyed=Eufórico
+mood.bored_to_tears=Aborrecido até às Lágrimas
+mood.bored=Aborrecido
+mood.uninterested=Desinteressado
+mood.silly=Idiota
+mood.giggly=Risonho
+mood.entertained=Entretido
+mood.infuriated=Enfurecido
+mood.angry=Zangado
+mood.annoyed=Irritado
+mood.interested=Interessado
+mood.talkative=Falador
+mood.pleased=Satisfeito
+
+################
+# Gift Responses
+################################
+gift.cake1=O que é isto? Um bolo? Oh...oh Meu Deus. Eu...preciso de encontrar a minha esposa.
+gift.cake2=Um bolo\! Que belo presente\! Eu...espera, que sentimento estranho é este?
+gift.cake3=Finalmente, alguma coisa que vai ajudar o meu casamento...
+gift.cake.refuse1=Não quero mais bolo, mas obrigado.
+gift.cake.refuse2=Não obrigado, não quero mais bolo.
+gift.cake.refuse3=Oh, não. Não é possível.
+
+################
+# GUIs
+################################
+gui.button.exit=Sair
+gui.button.back=Anterior
+gui.button.adoptbaby=Adotar um Bebê
+gui.button.next=Seguinte
+
+################
+# Relations
+################################
+relation.husband=Marido
+relation.wife=\ Esposa
+relation.daughter=Filha
+relation.son=Filho
+
+################
+# Dialogue
+################################
+title.nonrelative.male=%Name%, o %Profession%
+title.nonrelative.female=%Name%, a %Profession%
+title.relative.male=%Name% (%RelationToPlayer%)
+title.relative.female=%Name% (%RelationToPlayer%)
+
+label.sleeping=Dormindo
+label.health=Vida\: 
+
+behavior.retaliate.begin1=AI\! Isso doeu\!
+behavior.retaliate.begin2=Vai pagar por essa\!
+behavior.retaliate.begin3=Ai\! Porque você me bateu?
+behavior.retaliate.begin4=Isso dói, para\!
+behavior.retaliate.begin5=Argh\! Isso dói muito\!
+behavior.retaliate.begin6=Ei\! O que você pensa que está fazendo?\!
+behavior.retaliate.begin7=*Oof*\! É bom que tenha sido um acidente\!
+
+behavior.retaliate.distanced1=É isso mesmo, é melhor correr\!
+behavior.retaliate.distanced2=Se você voltar, eu chamo os guardas\!
+behavior.retaliate.distanced3=Volta e lute como um homem\!
+behavior.retaliate.distanced4=Se te ver de novo, te dou um murro\!
+behavior.retaliate.distanced5=Eu sabia que você estava com medo de mim\!
+behavior.retaliate.distanced6=Porque é que você tá correndo? Volta aqui para eu te bater\!
+behavior.retaliate.distanced7=Eu vou te bater se vê-lo de novo\!
+behavior.retaliate.distanced8=Eu vou buscar os meus amigos e você vai sofrer as consequências\!
+
+behavior.retaliate.weapondrawn1=Não\! Por favor não me machuca\!
+behavior.retaliate.weapondrawn2=Para\! Não\!
+behavior.retaliate.weapondrawn3=Alguém que me ajude\!
+behavior.retaliate.weapondrawn4=Eles vão me matar\! Alguém me ajude\!
+behavior.retaliate.weapondrawn5=Pode levar o que quiser, mas por favor, não me machuque\!
+behavior.retaliate.weapondrawn6=Eu não quero morrer\! Afaste-se\!
+behavior.retaliate.weapondrawn7=Mãe de Notch, por favor ajude-me\!
+
+behavior.build.fail.tooclose=Não acha que estamos muito próximos das construções?
+
+##################
+# Conversations between villagers
+#####################################
+conversation1.progress1=Hey, como estás, hoje?
+conversation1.progress2=Estou bem, e tu?
+conversation1.progress3=Estou bem. O que é que estás a planear fazer hoje?
+conversation1.progress4=Nada de mais, e tu?
+conversation1.progress5=Estou a pensar em ir pescar.
+conversation1.progress6=A sério? Eu não gosto de pescar.
+conversation1.progress7=Porquê? Isto é mesmo divertido.
+conversation1.progress8=Isto está a ser chato para mim.
+conversation1.progress9=Há algo melhor que minar?
+conversation1.progress10=O quê?
+conversation1.progress11=Tu ouviste-me.
+conversation1.progress12=Tanto faz.
+
+conversation2.progress1=Estás a olhar para o quê?
+conversation2.progress2=Eu não sei, ainda não descobri.
+conversation2.progress3=Bem, isso foi indelicado\!
+conversation2.progress4=*Alguém* acordou do lado errado da cama, hoje.
+
+#################
+# AI Messages
+################################
+mining.search.none=Não há %a1% por perto.
+mining.search.nearby=Há %a1% por perto...
+mining.search.value=Há alguns %a1% a %a2% blocos de distância.
+
+farming.noseeds=Não tenho %a1% suficientes. Vou precisar de pelo menos %a2% para criar uma fazenda.
+farming.nohoe=Vou precisar de uma enxada para fazer a fazenda.
+
+hunting.badspot=Não consigo encontrar um bom lugar para caçar.
+sleep.nohome=Eu não tenho um ponto de spawn\!
+sleep.invalid=Meus pontos de origem sao  inválidos
+
+#################
+# Parser
+################################
+parser.mom=Mãe
+parser.dad=Pai
+
+#################
+# GUI
+################################
+gui.button.yes=Sim
+gui.button.no=Não
+gui.button.ok=OK
+gui.button.done=Próximo
+gui.button.random=Aleatório
+gui.button.interact=Interagir
+gui.button.follow=Siga-me
+gui.button.stay=Fique Aqui
+gui.button.move=Ande Sozinho
+gui.button.trade=Trocar
+gui.button.sethome=Definir Casa
+gui.button.ridehorse=Montar Cavalo
+gui.button.special=Especial
+gui.button.procreate=Ter Filhos
+gui.button.pickup=Pegar
+gui.button.work=Trabalho
+gui.button.inventory=Inventário
+gui.button.chat=Conversar
+gui.button.joke=Contar piada
+gui.button.gift=Presentear
+gui.button.shakehand=Apertar Mãos
+gui.button.tellstory=Contar História
+gui.button.flirt=Flertar
+gui.button.hug=Abraçar
+gui.button.kiss=Beijar
+gui.button.farming=Agricultar
+gui.button.farming.radius=Raio\: %a1%
+gui.button.farming.plant=Plantar\: %a1%
+gui.button.woodcutting=Pegar Madeira
+gui.button.woodcutting.logtype=Tipo de Madeira\: %a1%
+gui.button.woodcutting.replant=Replantar\: %a1%
+gui.button.mining=Minerar
+gui.button.hunting=Caçar
+gui.button.kill=Matar
+gui.button.tame=Domar
+gui.button.cooking=Cozinhar
+gui.button.mode=Modo\: %a1%
+gui.button.start=Começar
+gui.button.stop=Parar
+gui.button.havebaby=Ter um Bebê
+gui.button.divorce=Divorciar
+gui.button.asktomarry=Pedir em Casamento
+gui.button.hire=Contratar
+gui.button.hired=Contratado
+gui.button.length=Duração\: %a1% hora(s)
+gui.button.accept=Aceitar
+gui.button.divorcespouse=Divorciar-se
+gui.button.resetbaby=Reiniciar Bebê
+gui.button.setup.gender.false=Gênero\: Feminino
+gui.button.setup.gender.true=Gênero\: Masculino
+
+gui.title.namebaby.male=É um menino\!
+gui.title.namebaby.female=É uma menina\!
+gui.title.namebaby=Nome do bebê\:
+gui.title.tombstone=Inserir texto da lápide\:
+gui.title.editor=Editor de Aldeão
+
+gui.info.family.married=Casado(a) com %a1%.
+gui.info.family.engaged=Noivo(a) de %a1%.
+gui.info.family.marriedtoplayer=Casado(a) com você
+gui.info.family.engagedtoplayer=Seu(Sua) Noivo(a).
+gui.info.family.notmarried=Solteiro.
+gui.info.family.mother=Mãe\: %a1%
+gui.info.family.father=Pai\: %a1%
+gui.info.family.mother.you=Mãe\: Você
+gui.info.family.father.you=Pai\: Você
+
+gui.info.gift.line1=Presente Disponível
+gui.info.gift.line2=(Clique para pegar)
+
+gui.info.mood=Humor\: %a1%
+gui.info.personality=Personalidade\: %a1%
+
+interaction.give.invalid1=Eu não posso usar isto.
+interaction.give.invalid2=O que é isto? Eu não posso fazer nada com isto.
+interaction.give.invalid3=Eu não sei o que quer que eu faça com isto.
+interaction.give.invalid4=Porque está me dando isto?
+interaction.give.invalid5=Huh? O que é esta coisa?
+
+interaction.divorce.priest.success1=Muito bem. Vocês já não são casados.
+interaction.divorce.priest.success2=Como quiser. Talvez encontre amor em outro lugar.
+
+interaction.divorce.notmarried1=Eu não sou casado(a).
+interaction.divorce.notmarried2=Para que é que preciso dos papeis de divórcio? Eu não sou casado(a).
+interaction.divorce.notmarried3=Eu não sou casado(a). Porque está me dando isto?
+
+interaction.divorce.fail.notmarriedtoplayer1=O quê? Quer que eu deixe a minha esposa? Você é horrível\!
+interaction.divorce.fail.notmarriedtoplayer2=Não\! Eu não quero fazer isso com minha esposa\! Eu sou feliz casado\!
+interaction.divorce.fail.notmarriedtoplayer3=O que pensa estar fazendo? Eu não vou usar isto\!
+
+interaction.divorce.success1=Eu pensei que me amava\! Sai\!
+interaction.divorce.success2=Foi divertido enquanto durou. Adeus, e boa sorte.
+interaction.divorce.success3=Eu não posso acreditar que está fazendo isso\! Sai, agora\!
+interaction.divorce.success4=Porque faria isso comigo? Nunca mais quero te ver\!
+
+interaction.marry.fail.marriedtogiver1=É um anel lindíssimo, mas nós já somos casados, bobo.
+interaction.marry.fail.marriedtogiver2=Nós já somos casados. Já se esqueceu?
+
+interaction.marry.fail.marriedtoother1=Desculpa, não...eu já sou casado(a).
+interaction.marry.fail.marriedtoother2=Oh, Pensei que sabia...eu já sou casado(a).
+interaction.marry.fail.marriedtoother3=O quê?\! Eu já sou casado(a)\!
+
+interaction.marry.fail.playermarried1=Ah...Eu estou vendo esse anel no seu dedo. Você já é casado\!
+interaction.marry.fail.playermarried2=O que você está tentando fazer? Você já é casado\!
+interaction.marry.fail.playermarried3=O quê? Sério? Eu acho que você está casado com outra pessoa, não é?
+interaction.marry.fail.playermarried4=Estou chocado(a)\! Você já é casado.
+
+interaction.marry.fail.lowhearts1=O quê? Não\! Eu não gosto de você\!
+interaction.marry.fail.lowhearts2=Oh, anel lindo\! Oh espere... é para mim? Uh...não.
+interaction.marry.fail.lowhearts3=Isso é para mim? Desculpe, eu só não sei o suficiente.
+interaction.marry.fail.lowhearts4=Estou lisonjeado, mas eu realmente não conheço você.
+
+interaction.engage.success1=Sim\! Eu me caso com você\! Eu te amo\!
+interaction.engage.success2=Claro que eu me caso com você\!
+interaction.engage.success3=Com o tempo...estou brincando\! Te amo\!
+interaction.engage.success4=Isso...isso é real? Quer dizer, este momento, não o anel. Mas o anel é verdadeiro, certo?
+
+interaction.marry.success1=É um sonho se tornando realidade\! Eu irei te amar para sempre\!
+interaction.marry.success2=Nós estamos finalmente casados\! E agora?
+interaction.marry.success3=Eu estou feliz por ter me casado com você, %PlayerName%.
+interaction.marry.success4=Mal posso esperar para começar nossa vida juntos\!
+
+interaction.matchmaker.fail.married1=Eu já estou casado(a) com alguém.
+interaction.matchmaker.fail.married2=Eu sou casado(a), eu não quero outra pessoa.
+interaction.matchmaker.fail.married3=Eu não quero isso, Eu já sou casado(a).
+
+interaction.matchmaker.fail.engaged1=Já estou com alguém, não posso pegar esse anel .
+interaction.matchmaker.fail.engaged2=Eu prometi casar com alguém.
+interaction.matchmaker.fail.engaged3=Oh, obrigado(a), mas eu acho que eu estou bem. Eu já estou com alguém.
+
+interaction.matchmaker.fail.needtwo1=Não precisa de dois anéis para organizar um casamento?
+interaction.matchmaker.fail.needtwo2=Oh, okay\! Mas primeiro precisamos de dois anéis.
+interaction.matchmaker.fail.needtwo3=Eu e a minha esposa vamos precisar de um anel, mas você só tem um.
+
+interaction.matchmaker.fail.novillagers1=Não tem ninguém perto. Com quem quer vou casar?
+interaction.matchmaker.fail.novillagers2=Eu não sei...me leve para perto de alguém que você ache que é certo para mim.
+interaction.matchmaker.fail.novillagers3=Oh, mas não me parece que seja com alguém aqui por perto. Com quem me devo casar?
+
+interaction.matchmaker.fail.invalid1=Mas eu não me posso casar com o(a) %Name%.
+interaction.matchmaker.fail.invalid2=O único aldeão por perto é o(a) %Name%, e não me posso casar com ele(a).
+interaction.matchmaker.fail.invalid3=Não acho que possa me casar com o(a) %Name%. Isso seria um pouco estranho.
+
+interaction.sethome.success1=Okay, esta será a minha nova casa.
+interaction.sethome.success2=Entendi, vou dormir aqui à noite.
+interaction.sethome.success3=Com certeza, %PlayerName%.
+
+interaction.sethome.fail1=Esse não parece um bom acampamento para mim. Tem um %a1% no caminho.
+interaction.sethome.fail2=Tem outro lugar? Há alguns %a1% no caminho.
+interaction.sethome.fail3=Não posso morar aqui. Tem uns %a1% no caminho.
+
+interaction.mining.fail.toolow1=Estamos muito baixo para criar uma mina.
+interaction.mining.fail.toolow2=Nós precisamos estar num terreno mais alto.
+interaction.mining.fail.toolow3=Eu não acho que seja uma boa ideia criar uma mina, aqui. Nós precisamos estar mais alto.
+interaction.mining.fail.nopickaxe=Eu não tenho uma picareta. Como é que é posso minerar?
+
+interaction.hire.fail.notenoughgold=Você precisa de uma pilha de %a1% de barras de ouro para contratar este aldeão.
+interaction.hire.success1=Feliz de estar a bordo\! Qual é a minha primeira função?
+interaction.hire.success2=Está tudo em ordem. O que gostaria que fizesse?
+interaction.hire.success3=Pronto para começar a trabalhar a qualquer momento, chefe\!
+
+interaction.ridehorse.fail.notnearby=Não vejo nenhum cavalo por perto.
+interaction.ridehorse.fail.notrideable=Eu não posso montar esse cavalo.
+
+interaction.resetbaby.success=Muito bem, agora já pode ter outro filho. Seja mais cuidadoso na próxima\!
+interaction.resetbaby.fail=Você não tem um bebê.
+
+interactionp.marry.sent=Você pediu à(ao) %a1% para casar com você.
+interactionp.marry.success=Agora está casado(a) com  %a1%.
+interactionp.marry.fail.alreadymarried=Você já está casado(a) ou comprometido(a).
+interactionp.marry.fail.targetalreadymarried=%a1% já é casado(a).
+interactionp.marry.fail.noweddingring=Você não tem uma aliança.
+interactionp.marry.prompt=%a1% gostaria de se casar com você.
+
+interactionp.havebaby.sent=Você pediu à(ao) %a1% para ter um bebê.
+interactionp.havebaby.prompt=%a1% gostaria de ter um bebê.
+interactionp.havebaby.fail.alreadyexists=Você já tem um bebê.
+
+interactionp.divorce.notify=Você já não é casado com o(a) %a1%.
+
+interaction.adoptbaby.success=Maravilha\! Gostaria que conhecesse o(a) %a1%, seu novo bebê\! Cuide bem dele.
+
+###################
+# Typed Dialogue
+#
+# Types:
+#   Parent      (an adult human that is the parent of the player)
+#   Relative    (an adult human that is related to the player)
+#   Adult       (an adult human)
+#   Child       (a human that is a child)
+#   Spouse      (married to the player recieving the message   
+#####################################
+
+adult.gift.bad1=Isto não é um bom presente...
+adult.gift.bad2=O que te fez pensar que eu gostaria disto?
+adult.gift.bad3=Não obrigado.
+adult.gift.bad4=Eu não quero isto, porque é que deveria querer?
+adult.gift.bad5=Porque é que me está me dando isto?
+adult.gift.bad6=Isto é um presente? Não obrigado.
+
+adult.gift.good1=Quanta consideração\! Obrigado.
+adult.gift.good2=Obrigado\!
+adult.gift.good3=Que considerável\!
+adult.gift.good4=Oh, adorei\!
+adult.gift.good5=Um presente? Para mim? Que bom\!
+
+adult.gift.better1=Hey, isto é muito bom\!
+adult.gift.better2=Obrigado, amigo(a)\!
+adult.gift.better3=%PlayerName%, você é um bom amigo\!
+adult.gift.better4=Wow, Estava mesmo precisando de um destes\!
+adult.gift.better5=Isto é mesmo um bom presente\!
+
+adult.gift.best1=Eu...Eu não sei o que dizer. Muito obrigado, %PlayerName%\!
+adult.gift.best2=Como é que você...esquece, isto é fantástico\!
+adult.gift.best3=Wow, eu sempre quis um destes\!
+adult.gift.best4=Isto é fantástico\! Vou usar bem.
+adult.gift.best5=Muito obrigado, vou me lembrar disto para sempre.
+
+# 5 good chats when talking to an adult:
+adult.chat.good1=Biscoitos e leite soam muito bem agora.
+adult.chat.good2=Sim, eu suponho que hoje o tempo seja bom.
+adult.chat.good3=Estou bem\! Embora tenha batido com o dedo do pé quando acordei.
+adult.chat.good4=Uma maça por dia mantém os zombies afastados\!
+adult.chat.good5=O meu sonho é construir a minha própria vila, mas eu sou tão malandro.
+
+# 5 bad chats when talking to an adult:
+adult.chat.bad1=Você disse isso mesmo?
+adult.chat.bad2=Eu não acredito que isto explode sozinho.
+adult.chat.bad3=Você sabes, você não és assim tão legal.
+adult.chat.bad4=Exibicionista.
+adult.chat.bad5=Você devia ser deixado numa masmorra\! 
+
+# 5 good jokes when talking to an adult:
+adult.joke.good1=Haha\! Essa serve muito bem ao esqueleto\!
+adult.joke.good2=*Risos* Essa é hilariante\!
+adult.joke.good3=Essa é engraçada\! Já ouviu aquela sobre as vacas?
+adult.joke.good4=Coitada da ovelha que perdeu a lã, mas foi engraçada\!
+adult.joke.good5=Essa é a melhor que já ouvi\!
+
+# 5 bad jokes when talking to an adult:
+adult.joke.bad1=Não fale assim do meu porco\!
+adult.joke.bad2=HaHa.
+adult.joke.bad3=Ah, você não é o mais engraçado da vila.
+adult.joke.bad4=Essa foi ruim.
+adult.joke.bad5=Você devia contar uma piada sobre isso.
+
+# 5 good handshakes when talking to an adult:
+adult.handshake.good1=Você tem um ótimo aperto de mão\!
+adult.handshake.good2=O seu aperto de mão demonstra o seu grande poder\!
+adult.handshake.good3=Wow, você é tão educado\!
+adult.handshake.good4=Bom Dia\!
+adult.handshake.good5=Porquê, olá\!
+
+# 5 bad handshakes when talking to an adult:
+adult.handshake.bad1=Ah, sério? Depois de ter abatido a vaca?
+adult.handshake.bad2=Hum, não está lá muito bem.
+adult.handshake.bad3=Eu não sou nenhum estranho, você não tem que ser tão educado.
+adult.handshake.bad4=Wow, sério? Isto não parece seu.
+adult.handshake.bad5=Vai embora.
+
+# 5 good stories when talking to an adult:
+adult.tellstory.good1=Ah, sério? Não posso acreditar que tudo isso aconteceu\!
+adult.tellstory.good2=Eu desejava ser corajoso o suficiente para matar um creeper. 
+adult.tellstory.good3=Essa foi uma história muito boa\! É original?
+adult.tellstory.good4=Tudo isso aconteceu ontem? Não pode ser\!
+adult.tellstory.good5=Eu estive aqui, ontem. Não acredito que ainda não tinha ouvido isso.
+
+# 5 bad stories when talking to an adult:
+adult.tellstory.bad1=*Ahem* Está falando da minha mãe.
+adult.tellstory.bad2=Este é o porquê da vila falar de você.
+adult.tellstory.bad3=Não entendi...
+adult.tellstory.bad4=Você é horrível\! Os creepers também têm sentimentos\!
+adult.tellstory.bad5=Como é que pode ter matado uma pobre ovelha?\!
+
+# 5 good flirts when talking to an adult:
+adult.flirt.good1=Você é tããããão corajoso\!
+adult.flirt.good2=Oh, você\! Para de ser tão fofo\!
+adult.flirt.good3=*Corado* Você disse isso?
+adult.flirt.good4=Oh, meu...
+adult.flirt.good5=Isso foi tão adorável\! Merece o meu "Olá"\! 
+
+# 5 bad flirts when talking to an adult:
+adult.flirt.bad1=Se você disse isso, então prove.
+adult.flirt.bad2=Aw....Espera, você disse ao padeiro(a) a mesma coisa\!
+adult.flirt.bad3=Nem num milhão de anos.
+adult.flirt.bad4=Muito patético?
+adult.flirt.bad5=Um zombie tem mais chances do que você.
+
+# 5 good hugs when talking to an adult:
+adult.hug.good1=Há quanto tempo\!
+adult.hug.good2=Obrigado, estava precisando.
+adult.hug.good3=Pelo menos uma coisa fez o meu dia feliz.
+adult.hug.good4=Você é tão confortável como uma ovelha\!
+
+# 5 bad hugs when talking to an adult:
+adult.hug.bad1=Está cheio de fuligem e lama\! 
+adult.hug.bad2=Não obrigado.
+adult.hug.bad3=Uh, Porquê?
+adult.hug.bad4=Depois de ter me chamado de dinossauro na semana passada? Não.
+adult.hug.bad5=Para ser franco, você não merece um abraço depois do que fez.
+
+# 5 good kisses when talking to an adult:
+adult.kiss.good1=Queria que este momento durasse para sempre.
+adult.kiss.good2=Eu acho que te amo...
+adult.kiss.good3=Mmm, tem gosto de mel\!
+
+# 5 bad kisses when talking to an adult:
+adult.kiss.bad1=Não, alguém pode ver.
+adult.kiss.bad2=Chama isso de beijo?
+adult.kiss.bad3=Ash beija melhor que você.
+adult.kiss.bad4=Duas palavras...hálito, pastilhas\!
+adult.kiss.bad5=Obrigado?
+
+adult.greeting1=Porquê, olá\!
+adult.greeting2=Hey, como você está hoje?
+adult.greeting3=Hey, que bom te ver\!
+adult.greeting4=O que é que está acontecendo com você hoje?
+adult.greeting5=Como você está hoje?
+
+##############################################################################################
+
+# 5 good chats when talking to a parent:
+parent.chat.good1=Estou bem, e você, querido?
+parent.chat.good2=Alguma vez te disse o quanto você se parece com o seu tio-avô desaparecido?
+parent.chat.good3=Você me deixa tão orgulhoso\!
+parent.chat.good4=Que fofo\! O que te aconteceu, você nunca foi simpático\! *Risos*
+parent.chat.good5=Isso me faz lembrar de quando era pequeno\! 
+
+# 5 bad chats when talking to a parent:
+parent.chat.bad1=Nunca se é velho demais para umas palmadas, seu espertinho.
+parent.chat.bad2=Cuidado com a língua. Não foi assim que eu te eduquei.
+parent.chat.bad3=É por isto que a sua irmã é a minha favorita.
+parent.chat.bad4=Porque ainda não é médico?
+parent.chat.bad5=Eu tinha uma espada de diamantes para você mas agora você não merece\!
+
+
+# 5 good jokes when talking to a parent:
+parent.joke.good1=Você herdou meu humor\! *Risos*
+parent.joke.good2=Você encheu meu dia com risos e alegria\!
+parent.joke.good3=Eu precisava rir\!
+parent.joke.good4=Quando é que se tornou um comediante? Essa é hilaria\!
+parent.joke.good5=A tia-avó Berry teria adorado ouvir essa\!
+
+# 5 bad jokes when talking to a parent:
+parent.joke.bad1=Ha...
+parent.joke.bad2=Você é o meu filho por isso tenho que rir...mas não teve piada.
+parent.joke.bad3=Você é tão monótono como o meu primeiro encontro.
+parent.joke.bad4=Sem ofensa, mas essa foi ruim.
+parent.joke.bad5=Nunca ninguém nos disse que você era engraçado, isso é verdade.
+
+# 5 good handshakes when talking to a parent:
+parent.handshake.good1=É bom ver que criamos uma criança educada\!
+parent.handshake.good2=Que civilizado\! Te ensinamos bem.
+parent.handshake.good3=É bom te ver de novo\!
+parent.handshake.good4=Como tem passado?
+parent.handshake.good5=Você tem um bom aperto de mão.
+
+# 5 bad handshakes when talking to a parent:
+parent.handshake.bad1=Se pelo menos você fosse educado nas reuniões de família.
+parent.handshake.bad2=O que tem a formalidade? 
+parent.handshake.bad3=Você vai apertar minha mão e não vai me abraçar?
+parent.handshake.bad4=Está embaraçado por ter sido visto comigo, ou alguma coisa do gênero?
+parent.handshake.bad5=Nunca tinha reparado que você é tão fraco.
+
+# 5 good stories when talking to a parent:
+parent.tellstory.good1=Depois que você tirou a fralda e a jogou no padre\!
+parent.tellstory.good2=Você acabou de conseguir um encontro?
+parent.tellstory.good3=Isso parece adorável\! Então, quando é que vai me dar um neto?
+parent.tellstory.good4=Sim, eu me lembro disso\! O seu primo Bert comeu muitas bolachas.
+parent.tellstory.good5=A casa já está pronta?
+
+# 5 bad stories when talking to a parent:
+parent.tellstory.bad1=Desejava que você voltasse a ser pequeno, esta história me deprimiu.
+parent.tellstory.bad2=Não volte a fazer isso\! Os lobos não são para brincadeiras\!
+parent.tellstory.bad3=Você roubou os brincos?\! 
+parent.tellstory.bad4=Todos nós sabemos que não pode ser um mineiro bem sucedido.
+parent.tellstory.bad5=Você não é a lâmpada mais brilhante no quarto...
+
+# 5 good hugs when talking to a parent:
+parent.hug.good1=Você cresceu tanto\!
+parent.hug.good2=Me lembro de te abraçar, todas as noites, antes de dormir.
+parent.hug.good3=Meu querido filho\! 
+parent.hug.good4=Você nunca me decepcionou\! 
+parent.hug.good5=Você é o melhor filho que alguém pode pedir\!
+
+# 5 bad hugs when talking to a parent:
+parent.hug.bad1=Eu não estou zangado, estou desapontado.
+parent.hug.bad2=Que porcaria? Você vai fazer a sua própria mistura de bolo\!
+parent.hug.bad3=Porque é que não nos abraçamos com mais frequência? Você tem vergonha? 
+parent.hug.bad4=Não até você tomar banho.
+parent.hug.bad5=Depois de ter me dito isso? Nem pensar.
+
+
+##############################################################################################
+
+# 5 good chats when talking to a relative:
+relative.chat.good1=Você se comportou como a sua mãe quando era criança\!
+relative.chat.good2=Estou contente que tenha vindo me ver\!
+relative.chat.good3=Nós deveríamos ter uma reunião de família.
+relative.chat.good4=Você é o queridinho da família\!
+relative.chat.good5=Não diga a ninguém, mas você é o meu favorito\!
+
+# 5 bad chats when talking to a relative:
+relative.chat.bad1=Desculpa? Você sabe com quem está falando?
+relative.chat.bad2=Não há desculpa para você falar assim comigo\!
+relative.chat.bad3=Vai para casa. Você não é mais bem-vindo aqui.
+relative.chat.bad4=Se não for embora eu vou te pôr uma ordem restritiva.
+relative.chat.bad5=Você é tão indelicado.
+
+# 5 good jokes when talking to a relative:
+relative.joke.good1=O vovô te contou essa, não foi?\!
+relative.joke.good2=Essa piada vai se tornar uma tradição na família\!
+relative.joke.good3=Então a vaca saltou da ravina\! *Risos*
+
+# 5 bad jokes when talking to a relative:
+relative.joke.bad1=Você não deveria falar da família dessa forma.
+relative.joke.bad2=Deixa o humor para o tio.
+
+# 5 good handshakes when talking to a relative:
+relative.handshake.good1=Põe ele lá\!
+relative.handshake.good2=*Tira a mão* Te peguei\!
+relative.handshake.good3=Da próxima vez, espero diamantes\! *Risos*
+
+# 5 bad handshakes when talking to a relative:
+relative.handshake.bad1=Vamos lá, nós somos família. Informalidade é bom.
+relative.handshake.bad2=Shawn me avisou sobre isso...
+relative.handshake.bad3=Isto é algum tipo de piada?
+
+# 5 good stories when talking to a relative:
+relative.tellstory.good1=Deixa só eu te dizer que a sua mãe estava roubando como uma criança\!
+relative.tellstory.good2=Parece com o avô Jay\! Ele costumava jogar as pessoas no lago\!
+relative.tellstory.good3=A vovó também costumava coser as penas de galinha.
+relative.tellstory.good4=Mmm... O guisado de vaca da sua mãe era incrível nessa altura.
+relative.tellstory.good5=Nós devíamos ficar juntos mais vezes\!
+
+# 5 bad stories when talking to a relative:
+relative.tellstory.bad1=Foi quando a família se desfez...
+relative.tellstory.bad2=Oh, é verdade...você é do tipo esnobe...
+relative.tellstory.bad3=Para de tentar se exibir.
+relative.tellstory.bad4=Os seus pais te educaram melhor do que isso\!
+relative.tellstory.bad5=Você foi oficialmente repudiado.
+
+# 5 good hugs when talking to a relative:
+relative.hug.good1=É bom te ver\!
+relative.hug.good2=Você deveria tirar um tempinho para ver o tio Jimmy\!
+relative.hug.good3=Desejaria ter mais do que este abraço para te dar\!
+relative.hug.good4=Não espere muito tempo para me ver de novo\!
+relative.hug.good5=Eu sempre vejo para além dos teus abraços\!
+
+
+# 5 bad hugs when talking to a relative:
+relative.hug.bad1=Deixe-me adivinhar, esta é a ultima vez que te vejo este ano?
+relative.hug.bad2=Eu acho que você está me deixando novamente.
+relative.hug.bad3=*Suspiros* Isto significa um adeus?
+relative.hug.bad4=Por favor fique mais um pouco...
+relative.hug.bad5=Ew, tudo bem. Você transpira demais.
+
+##############################################################################################
+
+# 5 good chats when talking to a child:
+child.chat.good1=Eu ouvi histórias sobre você\! Você é um herói?
+child.chat.good2=Oi, eu estava indo tentar subir ao telhado.
+child.chat.good3=Quer ir queimar coisas comigo?
+child.chat.good4=Eu vou ser um caçador como você e vou matar muitas coisas\!
+child.chat.good5=Olá\! O que vai fazer, hoje? Eu vou nadar\!
+
+# 5 bad chats when talking to a child:
+child.chat.bad1=Se não me der uma bolacha eu vou segurar minha respiração.
+child.chat.bad2=Os meus pais me disseram para não falar com você, porque você é mau.
+child.chat.bad3=*Risos* Você parece malcheiroso\!
+child.chat.bad4=Oh sim? Eu vou atirar ovos na sua casa\!
+child.chat.bad5=Lalala, Não estou ouvindo\! Lalala.
+
+# 5 good jokes when talking to a child:
+child.joke.good1=É mais engraçada que o papai\!
+child.joke.good2=Me conta outra\!
+child.joke.good3=Você é a pessoa mais engraçada do mundo\!
+child.joke.good4=Eu vou contar essa para a minha mãe\! *Risos*
+child.joke.good5=Deve comer uma folha\!
+
+# 5 bad jokes when talking to a child:
+child.joke.bad1=Não entendi.
+child.joke.bad2=Você não é engraçado. Sério.
+child.joke.bad3=Você precisa parar de...
+child.joke.bad4=Mas, quem é a maça?
+child.joke.bad5=Não seja mesquinho\!
+
+# 5 good handshakes when talking to a child:
+child.handshake.good1=Hiya\! Sei de alguém que gostaria de você...
+child.handshake.good2=O meu pai disse que isto era uma coisa muito legal de se fazer.
+child.handshake.good3=Agora dá cá cinco\! Lá em baixo... muito lento\!
+child.handshake.good4=Olá estranho\!
+child.handshake.good5=*Gargalhadas* Eu só limpei a vaca com esta mão.
+
+# 5 bad handshakes when talking to a child:
+child.handshake.bad1=Estranho perigoso...
+child.handshake.bad2=Mãe, Pai\! Esta pessoa está tentando me sequestrar\!
+child.handshake.bad3=Não me toque, eu sou famoso\!
+child.handshake.bad4=Ew, a sua mão tem coisas pretas.
+child.handshake.bad5=Eu só aperto sua mão se me der um diamante.
+
+# 5 good stories when talking to a child:
+child.tellstory.good1=Wow\! Você é uma besta\!
+child.tellstory.good2=Quando crescer quero ser como você. Shh, não diga para o papai.
+child.tellstory.good3=Pode me adotar?\! Você é incrível\!
+child.tellstory.good4=Eu fui pescar e quase me afoguei.
+child.tellstory.good5=Será que isso significa que eu posso levar o que eu quiser? Quer dizer, "pegar emprestado"?
+
+# 5 bad stories when talking to a child:
+child.tellstory.bad1=Você é insignificante\!
+child.tellstory.bad2=Eu vou dizer à minha mãe o que você disse sobre ela...
+child.tellstory.bad3=Acho que você está falando sobre o meu avô...
+child.tellstory.bad4=Você não passa de um gato assustador como papai disse\!
+child.tellstory.bad5=Como pôde matar uma pobre galinha?
+
+child.greeting1=Olá, quem é você?
+child.greeting2=Me chamo %Name%. E você?
+child.greeting3=Eek\! Você parece assustador\!
+
+##############################################################################################
+
+# 5 good chats when talking to a child WHO IS YOUR OWN:
+childp.chat.good1=Oh, eu estava indo explorar depois.
+childp.chat.good2=Podemos ir acampar? Por favor?\!
+childp.chat.good3=Olá, você pode me fazer um bolo?
+childp.chat.good4=Posso ter o meu próprio quarto longe da nossa casa? Isso seria legal\!
+childp.chat.good5=Vamos nos mudar para uma caverna\! Parece tão divertido\!
+
+# 5 bad chats when talking to an playerchild:
+childp.chat.bad1=O(A) %ParentOpposite% fala muito sobre eles...
+childp.chat.bad2=Não acho que o(a) %ParentOpposite% gostaria muito disso.
+childp.chat.bad3=É por isso que o(a) %ParentOpposite% falou daquela coisa chamada "divorcio?"
+childp.chat.bad4=Eu quero um pai novo.
+childp.chat.bad5=Eu não quero uma babá.
+
+# 5 good jokes when talking to an playerchild:
+childp.joke.good1=*Risos* Diz essa outra vez\!
+childp.joke.good2=Eu tenho que contar essa aos meus amigos\!
+childp.joke.good3=Como é que o creeper explode?\!
+childp.joke.good4=*Risos* Porque é que não há mais 3 deles?
+childp.joke.good5=*Risos*...*Risos*...*Risos*
+
+# 5 bad jokes when talking to an playerchild:
+childp.joke.bad1=O(A) %ParentOpposite% disse que era engraçado, embora...
+childp.joke.bad2=Eu gosto mais da piada do "truz...truz".
+childp.joke.bad3=Não percebi, essa foi estúpida.
+childp.joke.bad4=*Bocejo* Os amigos do meu pai são mais legais e divertidos do que você.
+childp.joke.bad5=Eu prefiro ter um bolo.
+
+# 5 good handshakes when talking to an playerchild:
+childp.handshake.good1=Porque eu preciso aprender essas coisas? 
+childp.handshake.good2=O(A) %ParentOpposite% disse que isso é uma coisa educada de se fazer.
+childp.handshake.good3=Eu serei como você quando crescer\!
+childp.handshake.good4=Posso ter um bolo, agora?
+childp.handshake.good5=Não entendi, mas okay\! 
+
+# 5 bad handshakes when talking to an playerchild:
+childp.handshake.bad1=Eu cuspi na minha mão.
+childp.handshake.bad2=Você parece um velho.
+childp.handshake.bad3=Só os perdedores é que dão apertos de mão.
+childp.handshake.bad4=Eu vou apertar sua mão se você me der um bolo.
+childp.handshake.bad5=Não, você vai cuspir em mim e me bater.
+
+# 5 good stories when talking to an playerchild:
+childp.tellstory.good1=O(A) %ParentOpposite% fez mesmo isso?\! O que aconteceu com suas roupas?
+childp.tellstory.good2=Eu também quero explorar uma caverna\! Vamos\!
+childp.tellstory.good3=Um dia eu vou matar mais creepers do que você\!
+childp.tellstory.good4=Oh, oh, oh\! Também podemos escalar uma árvore?\!
+childp.tellstory.good5=A lava machuca? 
+
+# 5 bad stories when talking to an playerchild:
+childp.tellstory.bad1=Eu não quero ouvir falar da vovó.
+childp.tellstory.bad2=Você sempre diz isso. Eu só quero um animal de estimação.
+childp.tellstory.bad3=O(A) %ParentOpposite% também mentiu pra você.
+childp.tellstory.bad4=Você tinha dito que não comeu nem o bolo, nem as bolachas...
+childp.tellstory.bad5=Algumas pessoas disseram que você é uma pessoa má, e eu acredito neles\!
+
+# 5 good hugs when talking to an playerchild:
+childp.hug.good1=*Beijos* Você é o maior\!
+childp.hug.good2=Eu serei mais forte do que você algum dia foi\!
+childp.hug.good3=Porque é que o(a) %ParentOpposite%  nunca mais me abraçou?
+childp.hug.good4=Eu adoro abraços\! Você é tão meigo e acolhedor\!
+childp.hug.good5=Você deveria abraçar o(a) %ParentOpposite% também\!
+
+# 5 bad hugs when talking to an playerchild:
+childp.hug.bad1=Estou muito velho para abraços\!
+childp.hug.bad2=Para como isso\! Não quero que as pessoas vejam\!
+childp.hug.bad3=Se afasta, você é tão estranho\!
+childp.hug.bad4=Me deixa em paz ou me dá algumas bolachas\!
+childp.hug.bad5=Eu prefiro abraçar um esqueleto. 
+
+childp.greeting1=Olá\!
+childp.greeting2=Hey, o que aconteceu?
+childp.greeting3=O que você está fazendo?
+childp.greeting4=Onde você vai?
+
+##############################################################################################
+
+# 5 good chats when talking to an spouse:
+spouse.chat.good1=Eu limpei a casa toda. Como foi o seu dia?
+spouse.chat.good2=Querido, vamos acampar um dia destes. Não parece divertido?
+spouse.chat.good3=Hoje, vi uma aranha. Era enorme por isso fugi.
+spouse.chat.good4=Nós deveríamos construir uma casa nova, juntos\!
+spouse.chat.good5=Eu quase cai num poço de lava em outro dia. Isso não teria sido nada bom\!
+
+# 5 bad chats when talking to an spouse:
+spouse.chat.bad1=Eu sei que não somos a família mais pobre, mas...
+spouse.chat.bad2=Eu adoro estar com você mas eu preciso de espaço.
+spouse.chat.bad3=Às vezes eu desejava ter a minha própria caverna para fugir de você e de todos.
+spouse.chat.bad4=Vai embora. Não estou no clima.
+spouse.chat.bad5=Onde você esteve? Você está vendo alguém pelas minhas costas?
+
+# 5 good jokes when talking to an spouse:
+spouse.joke.good1=*Risos* Eu casei com você pelo seu humor\!
+spouse.joke.good2=Você devia atirar um ovo nele da próxima vez\!
+spouse.joke.good3=Então o lobo se apaixonou pela ovelha.
+spouse.joke.good4=Essa nunca é velha\!
+spouse.joke.good5=Aqui está uma para você...Quantas galinhas um creeper explode?
+
+# 5 bad jokes when talking to an spouse:
+spouse.joke.bad1=Coxo...
+spouse.joke.bad2=Querido, você não é engraçado.
+spouse.joke.bad3=Ha...Ha...Ha...Não teve piada.
+spouse.joke.bad4=Você precisa apagar isso da sua mente.
+spouse.joke.bad5=Okay...
+
+# 5 good handshakes when talking to an spouse:
+spouse.handshake.good1=A sua mão é tão macia\!
+spouse.handshake.good2=As nossos mãos encaixam perfeitamente.
+spouse.handshake.good3=Um dia as pessoas vão esquecer o aperto de mão.
+spouse.handshake.good4=Os nossos filhos tem que ser educados assim.
+spouse.handshake.good5=*Aperto de mão continuado* Me diga quando parar\!
+
+# 5 bad handshakes when talking to an spouse:
+spouse.handshake.bad1=Aperto de mão? E que tal um beijo?
+spouse.handshake.bad2=*Aperto de mão forte*
+spouse.handshake.bad3=A sua mão está imunda, nem pensar.
+spouse.handshake.bad4=Eles têm germes.
+spouse.handshake.bad5=Porque é que você não arranja um emprego decente em vez de apertar mãos?
+
+# 5 good stories when talking to an spouse:
+spouse.tellstory.good1=Não vamos contar essa aos nossos filhos...
+spouse.tellstory.good2=Você foi tão rebelde\! Adoro isso\!
+spouse.tellstory.good3=Você alguma vez contou aos seus pais sobre ter perdido os anéis deles?
+spouse.tellstory.good4=Foi neste momento que me apaixonei por você\!
+spouse.tellstory.good5=Wow, você é o melhor caçador de sempre\!
+
+# 5 bad stories when talking to an spouse:
+spouse.tellstory.bad1=Fala comigo quando você matar outra coisa que não seja uma vaca inofensiva.
+spouse.tellstory.bad2=Não faça nada imprudente\!
+spouse.tellstory.bad3=Você tem uma família para pensar\!
+spouse.tellstory.bad4=...Se você gosta deles porque não se casa com eles?
+spouse.tellstory.bad5=Porque você usa cuecas cor-de-rosa fofas? De quem eram?
+
+# 5 good flirts when talking to an spouse:
+spouse.flirt.good1=*Corar* Bem, que tal fazer algo assim, então\!
+spouse.flirt.good2=Awwn, você disse isso quando nos conhecemos.
+spouse.flirt.good3=Querido, você é tão lindo\!
+spouse.flirt.good4=Você pode apostar que sou\!
+spouse.flirt.good5=*Piscar olhos* Você ainda tem isso\!
+
+# 5 bad flirts when talking to an spouse:
+spouse.flirt.bad1=*Sinais*
+spouse.flirt.bad2=Essa já é velha...como você.
+spouse.flirt.bad3=Nós somos casados, não precisamos fazer isto.
+spouse.flirt.bad4=Fale com a árvore, ela se importa mais.
+spouse.flirt.bad5=Yeah, yeah... O que dizia?
+
+# 5 good hugs when talking to an spouse:
+spouse.hug.good1=Eu adoro ser envolvida nos seus braços\!
+spouse.hug.good2=Espera, não me largue...você é acolhedor.
+spouse.hug.good3=Você preferiria apenas ser capaz de abraçar ou beijar?
+spouse.hug.good4=*Beijos* 
+spouse.hug.good5=Vamos ficar assim para sempre\!
+
+# 5 bad hugs when talking to an spouse:
+spouse.hug.bad1=Porque você não vai abraçar sua ex?
+spouse.hug.bad2=Não obrigado.
+spouse.hug.bad3=Cara, você fede.
+spouse.hug.bad4=O que você quer?
+spouse.hug.bad5=Vai abraçar outro.
+
+# 5 good kisses when talking to an spouse:
+spouse.kiss.good1=Eu me apaixono novamente sempre que os nossos lábios se tocam\!
+spouse.kiss.good2=O tempo para quando estou com você.
+spouse.kiss.good3=Doce como um bolo\!
+spouse.kiss.good4=Eu te amo, amor\!
+spouse.kiss.good5=Eu não te trocaria por ninguém no mundo\! 
+
+# 5 bad kisses when talking to an spouse:
+spouse.kiss.bad1=Não onde possam nos ver...
+spouse.kiss.bad2=Não temos que fazer se você não quiser.
+spouse.kiss.bad3=O seu hálito cheira a croquete de lobo.
+spouse.kiss.bad4=Vai tomar uma bebida do lago.
+spouse.kiss.bad5=Agora que somos casados, posso te dizer como você beija mal.
+
+spouse.greeting1=Oi querido, onde esteve?
+spouse.greeting2=Olá querido, como foi o seu dia?
+spouse.greeting3=Oh, %PlayerName%\! Você parece cansado.
+spouse.greeting4=Hey %PlayerName%\! Você parece com fome. Quer que eu cozinhe algo?
+spouse.greeting5=%PlayerName%, você voltou\! Senti saudades.
+
+relative.gift.bad1=Você não deveria...literalmente.
+relative.gift.bad2=Eh, guarde isso.
+relative.gift.bad3=Ew, onde você encontrou isso? Numa mina?
+relative.gift.bad4=Eu não vou tocar nisso.
+
+relative.gift.good1=Oh...obrigado.
+relative.gift.good2=Obrigado por ter pensado em mim, %PlayerName%.
+relative.gift.good3=Isso é tão atencioso da sua parte.
+relative.gift.good4=Como é que você sabia que eu ia gostar disto?
+relative.gift.good5=Você é tão gentil.
+
+relative.gift.better1=Eu tenho o lugar perfeito para isto.
+relative.gift.better2=Muito obrigado, %PlayerName%.
+relative.gift.better3=Isto é adorável.
+relative.gift.better4=Eu agradeço por ter pensado em mim.
+relative.gift.better5=Eu tomo melhor conta disto.
+
+relative.gift.best1=Eu sempre quis um destes\!
+relative.gift.best2=Este é o melhor presente que já ganhei, %PlayerName%\!
+relative.gift.best3=Você me dá sempre os melhores presentes, %PlayerName%\!
+relative.gift.best4=Não posso acreditar nisto, você é tão fofo, obrigado\!
+relative.gift.best5=Você me conheces como a palma da sua mão\!
+
+parent.gift.bad1=Oh, uh, obrigado mas não obrigado.
+parent.gift.bad2=Eu aprecio a ideia, mas pode guardá-la.
+parent.gift.bad3=Porque é que você não pode me trazer algo melhor que este lixo?
+parent.gift.bad4=Eu não quero dizer para não te magoar, mas eu não quero isto.
+
+parent.gift.good1=Oh, que lindo\!
+parent.gift.good2=Muito obrigado\!
+parent.gift.good3=Você será sempre o meu favorito.
+
+parent.gift.better1=Hey, onde arranjou isso? Isso é fantástico\!
+parent.gift.better2=Não precisava conseguir isso para mim, obrigado\!
+parent.gift.better3=Você não tem obrigação de me dar nada, mas muito obrigado\!
+
+parent.gift.best1=Eu sempre soube que, um dia, encontraria isto, Muito obrigado\!
+parent.gift.best2=Eu perdi isto há anos, obrigado\!
+parent.gift.best3=Isso era teu quando você era criança, não acredito que você encontrou isto\!
+
+child.gift.bad1=Ew, não gosto disto\!
+child.gift.bad2=Yuck\! Eu não quero isto.
+child.gift.bad3=Porque é que você me trouxe isto? Isto é estúpido\!
+child.gift.bad4=Eu nem sei o que isto é\!
+
+child.gift.good1=Isto é...isto é só meu?
+child.gift.good2=Isto é mesmo para mim?
+child.gift.good3=Isto é muito legal\!
+
+child.gift.better1=Incrível\! Vou mostrá-lo a todos os meus amigos.
+child.gift.better2=Você encontrou\! Eu perdi isto há uns minutos.
+child.gift.better3=O meu amigo roubou um desses. Bateu nele por mim?
+
+child.gift.best1=%PlayerName%, você me deu o melhor dos presente\!
+child.gift.best2=Finalmente\! Agora o meu amigo vai parar de se gabar.
+child.gift.best3=Wow\! Onde você foi para conseguir esta coisa?
+child.gift.best4=O meu pai tem um desses. Agora eu também tenho\!
+
+spouse.gift.bad1=Oh querido...isso é simplesmente terrível.
+spouse.gift.bad2=Hm, isso supostamente é um presente para mim?
+spouse.gift.bad3=Deita esse lixo aí\! Oh, isso era um presente?...Desculpe.
+spouse.gift.bad4=Pensei que você me conhecia melhor. Odiei isso.
+
+spouse.gift.good1=%PlayerName%, você é tão fofo.
+spouse.gift.good2=Ah\! Você é tão fofo para mim.
+spouse.gift.good3=Isso era inesperado, obrigado, querido\!
+spouse.gift.good4=Aw, que fofo.
+spouse.gift.good5=Obrigado, querido\!
+
+spouse.gift.better1=Oh wow, Isto é muito legal\!
+spouse.gift.better2=Amei\! Obrigado\!
+spouse.gift.better3=Isto é incrível, querido\!
+spouse.gift.better4=Você conseguiu isso para mim? Que fofo\!
+spouse.gift.better5=Oh, obrigado %PlayerName%\!
+
+spouse.gift.best1=Oh %PlayerName%, te amo\!
+spouse.gift.best2=Você é um *caminho* muito bom para mim\!
+spouse.gift.best3=Isto deve ter sido extremamente caro\! Obrigado\!
+spouse.gift.best4=Eu...não posso acreditar que me deu uma coisa tão linda\!
+
+childp.gift.bad1=%ParentTitle%, este presente é mesmo horrível.
+childp.gift.bad2=Ew, %ParentOpposite% me dê presentes melhores\!
+childp.gift.bad3=Você não me deu isso, sei lá, no ano passado?
+childp.gift.bad4=Não obrigado, eu poderia ter isso facilmente,%ParentTitle%.
+
+childp.gift.good1=Oh, legal\! Obrigado %ParentTitle%.
+childp.gift.good2=%ParentOpposite% disse que estes são "sexy". O que isso significa?
+childp.gift.good3=Este presente é muito melhor do que o último que recebi\!
+childp.gift.good4=Woo hoo\! Isto é meu, tudo meu\!
+childp.gift.good5=Posso...Posso comer isto?
+
+childp.gift.better1=Para mim? Grátis?\!
+childp.gift.better2=Ooh\! Brilhante\!
+childp.gift.better3=Eu gosto muito disso, %ParentTitle%\!
+childp.gift.better4=Todos os meus amigos vão ficar com inveja\!
+childp.gift.better5=Isso é espetacular, %ParentTitle%\!
+
+childp.gift.best1=Isso deve ter custado uma fortuna\!
+childp.gift.best2=%ParentTitle%, eu sabia que você me daria um desses. Eu sabia, simplesmente\!
+childp.gift.best3=Yay\! Eu tenho o melhor %ParentTitle% do mundo\!
+childp.gift.best4=Isto é incrível\! Não posso acreditar que é tudo meu\!
+childp.gift.best5=Muito Obrigado, %ParentTitle%\! Você é o melhor de sempre\!
+
+
+
