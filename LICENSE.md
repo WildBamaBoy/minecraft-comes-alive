@@ -1,6 +1,6 @@
 MCA MINECRAFT MOD LICENSE
-last revised: 8/12/2015
-version: 1.1.2
+last revised: 12/23/2015
+version: 1.1.3
 
 [Section 0. Terminology]
 	Minecraft: A copy of the Minecraft video game.
@@ -26,20 +26,19 @@ version: 1.1.2
 	This mod may be bundled with other mods and provided to the public in a compilation, known commonly as a modpack, without the consent of the author. 
 	The modpack must provide credit to the mod author and link to an information site owned or maintained by the mod author.
 	The modpack must be strictly not-for-profit, and may not generate revenue of any kind, including sales, website advertising, URL shortener advertising, donations, etc. The sales of services that create a modpack containing this mod are considered legal.
-	A modpack utilizing this mod must not make any modifications to the mod’s code, file structure, binaries, or assets, or bundle a modified version of this mod within the modpack.
+	A modpack utilizing this mod must not make any modifications to the mod’s code, file structure, or binaries.
 	All troubleshooting for this mod within a modpack is solely the responsibility of the modpack creator.
 
 [Section 5. Source Code]
 	The source code of this mod is made available for educational purposes only. It shall remain externally visible yet only modifiable by the mod author.
 	This mod is proprietary software and as such neither it, its source code, nor its byte code may be modified and recompiled for public use.
-	The mod author may choose to incorporate private modifications of this mod’s source code into the publically available build should it be requested by the author of the modified code. Such actions are commonly referred to as pull requests. However, modified code that has not been merged into the publically available build cannot be redistributed to the public in any form with no exceptions.
+	The mod author may choose to incorporate private modifications of this mod’s source code into the publically available build should it be requested by the author of the modified code, known commonly as pull requests. However, modified code that has not been merged into the publically available build cannot be redistributed to the public in any form with no exceptions.
 	Code authors that submit modified code that is later added into the publically available build release all rights to the code under the terms that they are credited via in-code documentation and any other methods of credit/thanks deemed appropriate by the mod author and agreed upon by the code author.
 	Code submitted and merged in this manner is then bound by this license.
 
 [Section 6. Modification]
-	Direct modification of this mod’s code, binaries, or assets made by persons other than the author is strictly forbidden from public distribution.
+	Direct modification of this mod’s code or binaries made by persons other than the author is strictly forbidden from public distribution.
 	Indirect modification of this mod's code, binaries, or assets is allowed. Examples include runtime bytecode manipulation (ASM), the application of texture packs, and the application of resource packs.
-	Texture packs and resource packs are welcomed and encouraged. However, you cannot distribute a copy of this mod with the texture/resource pack installed to the mod's archive. Such is a direct modification to the mod itself, and is prohibited.
 
 [Section 7. Reproduction]
 	Any reproduction of this mod into another product, digital or physical, is considered copyright infringement and is strictly forbidden unless otherwise approved by the mod author. This includes implementing only select aspects of the mod into the new product. Implemented aspects can be similar, but not the same, determined at the mod author's discretion. 
@@ -52,4 +51,4 @@ version: 1.1.2
 	In the event that no public declaration of the mod’s end-of-life is made within 1 year after the previous update or the most recent announcement regarding development status, the mod is released into the public domain.
 
 This document and the policies set forth within are subject to change at any time and without any prior warning.
-Copyright © 2014 WildBamaBoy.
+Copyright © 2016 WildBamaBoy.
