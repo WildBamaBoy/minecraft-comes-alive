@@ -24,12 +24,12 @@ import mca.entity.EntityHuman;
 import mca.util.UVPoint;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelZombie;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
@@ -58,16 +58,16 @@ public class RenderHuman extends RenderBiped
 		modelBipedMain = (ModelBiped) mainModel;
 		modelArmorPlate = new ModelBiped(1.0F);
 		modelArmor = new ModelBiped(0.5F);
-		
-        LayerBipedArmor layerbipedarmor = new LayerBipedArmor(this)
-        {
-            protected void func_177177_a()
-            {
-                this.field_177189_c = new ModelBiped(0.5F);
-                this.field_177186_d = new ModelBiped(1.0F);
-            }
-        };
-        this.addLayer(layerbipedarmor);
+
+		LayerBipedArmor layerbipedarmor = new LayerBipedArmor(this)
+		{
+			protected void func_177177_a()
+			{
+				this.field_177189_c = new ModelBiped(0.5F);
+				this.field_177186_d = new ModelBiped(1.0F);
+			}
+		};
+		this.addLayer(layerbipedarmor);
 	}
 
 	@Override
@@ -86,7 +86,15 @@ public class RenderHuman extends RenderBiped
 
 			if (entityLivingBase.ridingEntity != null)
 			{
-				GL11.glTranslated(0.0D, (0.0D + growthFactor) + growthFactor, 0.2D);
+				if (entityLivingBase.ridingEntity instanceof EntityHorse)
+				{
+					GL11.glTranslated(0.0D, growthFactor - 0.3D, 0.2D);
+				}
+
+				else
+				{
+					GL11.glTranslated(0.0D, (1.0D + growthFactor) + growthFactor, 0.2D);
+				}
 			}
 		}
 
@@ -164,7 +172,7 @@ public class RenderHuman extends RenderBiped
 		{
 			return new ResourceLocation("minecraft:textures/entity/steve.png");
 		}
-		
+
 		else if (human.getPlayerSkinResourceLocation() != null)
 		{
 			return human.getPlayerSkinResourceLocation();
@@ -386,7 +394,7 @@ public class RenderHuman extends RenderBiped
 		final double dotProduct = entityPlayer.getLook(1.0F).normalize().dotProduct(entityLookVector);
 		final boolean isPlayerLookingAt = dotProduct > 1.0D - 0.025D / entityLookVector.lengthVector() ? entityPlayer.canEntityBeSeen(entityRendering) : false;
 		final double distance = entityRendering.getDistanceToEntity(renderManager.livingPlayer);
-		
+
 		return !(Minecraft.getMinecraft().currentScreen instanceof GuiInteraction) && distance < 5.0D && isPlayerLookingAt && Minecraft.isGuiEnabled() && entityRendering != renderManager.livingPlayer && !entityRendering.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) && entityRendering.riddenByEntity == null;
 	}
 }
