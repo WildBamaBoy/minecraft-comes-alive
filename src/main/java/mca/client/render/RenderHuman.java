@@ -30,6 +30,7 @@ import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
@@ -76,7 +77,15 @@ public class RenderHuman extends RenderBiped
 
 			if (entityLivingBase.ridingEntity != null)
 			{
-				GL11.glTranslated(0.0D, (1.0D + growthFactor) + growthFactor, 0.2D);
+				if (entityLivingBase.ridingEntity instanceof EntityHorse)
+				{
+					GL11.glTranslated(0.0D, growthFactor - 0.3D, 0.2D);
+				}
+				
+				else
+				{
+					GL11.glTranslated(0.0D, (1.0D + growthFactor) + growthFactor, 0.2D);
+				}
 			}
 		}
 

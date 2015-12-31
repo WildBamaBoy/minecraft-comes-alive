@@ -61,8 +61,6 @@ public class AISleep extends AbstractAI
 	public void onUpdateServer() 
 	{		
 		boolean isDaytime = owner.worldObj.isDaytime();
-		boolean isInfluencedByPlayer = owner.isMarriedToAPlayer() || owner.getMotherId() < 0 || owner.getFatherId() < 0; //< 0 means it's a player.
-		EntityPlayer influentialPlayer = getInfluentialPlayer();
 
 		//If the villager is busy working, following, or riding something automatically set their sleep state to interrupted for the night.
 		if (owner.getAIManager().isToggleAIActive() || owner.getMovementState() == EnumMovementState.FOLLOW || owner.ridingEntity != null || (owner.getProfessionGroup() == EnumProfessionGroup.Guard && !owner.getIsMarried()))
@@ -91,7 +89,9 @@ public class AISleep extends AbstractAI
 			else if (!hasHomePoint() || !isHomePointValid())
 			{
 				final String phrase = !hasHomePoint() ? "sleep.nohome" : "sleep.invalid";
-
+				boolean isInfluencedByPlayer = owner.isMarriedToAPlayer() || owner.getMotherId() < 0 || owner.getFatherId() < 0; //< 0 means it's a player.
+				EntityPlayer influentialPlayer = getInfluentialPlayer();
+				
 				if (isInfluencedByPlayer && influentialPlayer != null)
 				{
 					owner.say(phrase, influentialPlayer);
