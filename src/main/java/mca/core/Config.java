@@ -21,7 +21,7 @@ public final class Config implements Serializable
 	public int baseBlockId;
 	public int baseEntityId;
 	public boolean disableWeddingRingRecipe;
-	
+
 	public boolean overwriteOriginalVillagers;
 	public boolean allowMobAttacks;
 	public boolean shiftClickForPlayerMarriage;
@@ -41,9 +41,9 @@ public final class Config implements Serializable
 	public boolean storyProgression;
 	public int storyProgressionThreshold;
 	public int storyProgressionRate;
-	
+
 	public int roseGoldSpawnWeight;
-	
+
 	public int babyGrowUpTime;
 	public int childGrowUpTime;
 	public boolean isAgingEnabled;
@@ -59,6 +59,7 @@ public final class Config implements Serializable
 	public boolean allowGiftDemands;
 	public boolean allowTrading;
 	public boolean logVillagerDeaths;
+	public boolean spawnInAllDimensions;
 	public String villagerChatPrefix;
 
 	public boolean showMoodParticles;
@@ -66,12 +67,12 @@ public final class Config implements Serializable
 	public boolean showVillagerConversations = false;
 	public boolean modifyFemaleBody;
 	public boolean allowBlinking;
-	
+
 	public boolean inTutorialMode;
-	
+
 	public boolean allowCrashReporting;
 	public boolean allowUpdateChecking;
-	
+
 	public Config(FMLPreInitializationEvent event)
 	{
 		config = new Configuration(event.getSuggestedConfigurationFile());
@@ -85,11 +86,11 @@ public final class Config implements Serializable
 		baseBlockId = config.get("Init", "Base Block ID", 3344, "The base ID to use for blocks in MCA. Only applicable in 1.6.4.").getInt();
 		baseEntityId = config.get("Init", "Base Entity ID", 227, "The base ID to use for entities in MCA. Only change if you know what you are doing!").getInt();
 		disableWeddingRingRecipe = config.get("Init", "Disable wedding ring recipe", false, "True if you want to disable the recipe for the wedding ring. It can confict with a few mods. Rose gold can be used as an alternative.").getBoolean();
-		
+
 		config.setCategoryComment("Privacy", "Setting pertaining to your privacy while using MCA.");
 		allowCrashReporting = config.get("Privacy", "Allow crash reporting", true, "True if MCA can send crash reports to the mod authors. Crash reports may include your Minecraft username, OS version, Java version, and PC username.").getBoolean();
 		allowUpdateChecking = config.get("Privacy", "Allow update checking", true, "True if MCA can check for updates. This setting requires a restart in order to take effect.").getBoolean();
-		
+
 		config.setCategoryComment("General", "General mod settings.");
 
 		giveCrystalBall = config.get("General", "Give crystal ball", true, "Toggles giving the crystal ball to new players on join. WARNING: If this is false, you must spawn the crystal ball in later manually!").getBoolean();
@@ -101,35 +102,44 @@ public final class Config implements Serializable
 		enableDiminishingReturns = config.get("General", "Enable diminishing returns?", true, "True if hearts increase decreases after multiple interactions.").getBoolean();
 		enableInfection = config.get("General", "Enable infection?", true, "True if villagers and your children have a chance of being infected from zombies.").getBoolean();
 		enableStructureSpawning = config.get("General", "Enable structure spawning?", true, "True if players can have the option to spawn structures during MCA's setup.").getBoolean();
-		
-		//Dimension whitelist.
-		String validDimensions = config.get("General", "Dimension whitelist", "0, 1, -1", "The dimension IDs in which MCA villagers can spawn, separated by a comma.").getString();
-		List<Integer> dimensionsList = new ArrayList<Integer>();
+		spawnInAllDimensions = config.get("General", "Spawn villagers in all dimensions?", false, "True if you want to ignore the dimension whitelist and spawn MCA villagers in all worlds.").getBoolean();
 
-		for (String s : validDimensions.split(","))
+		//Dimension whitelist.
+		if (spawnInAllDimensions)
 		{
-			s = s.trim();
-			
-			try
-			{
-				int intValue = Integer.parseInt(s);
-				dimensionsList.add(intValue);
-			}
-			
-			catch (NumberFormatException e)
-			{
-				MCA.getLog().error("Unable to parse dimension ID provided in config: " + s);
-			}
+			MCA.getLog().info("MCA is configured to spawn villagers in all dimensions. The dimension whitelist will be ignored.");
 		}
-		
-		if (dimensionsList.isEmpty())
+
+		else
 		{
-			MCA.getLog().info("Detected empty dimension whitelist, adding dimension 0 as default.");
-			dimensionsList.add(0);
+			String validDimensions = config.get("General", "Dimension whitelist", "0, 1, -1", "The dimension IDs in which MCA villagers can spawn, separated by a comma.").getString();
+			List<Integer> dimensionsList = new ArrayList<Integer>();
+
+			for (String s : validDimensions.split(","))
+			{
+				s = s.trim();
+
+				try
+				{
+					int intValue = Integer.parseInt(s);
+					dimensionsList.add(intValue);
+				}
+
+				catch (NumberFormatException e)
+				{
+					MCA.getLog().error("Unable to parse dimension ID provided in config: " + s);
+				}
+			}
+
+			if (dimensionsList.isEmpty())
+			{
+				MCA.getLog().info("Detected empty dimension whitelist, adding dimension 0 as default.");
+				dimensionsList.add(0);
+			}
+
+			dimensionWhitelist = dimensionsList.toArray(new Integer[dimensionsList.size()]);
 		}
-		
-		dimensionWhitelist = dimensionsList.toArray(new Integer[dimensionsList.size()]);
-				
+
 		villagerMaxHealth = config.get("General", "Villager max health", 20).getInt();
 		villagerAttackDamage = config.get("General", "Villager attack damage", 2, "How many half-hearts of damage a villager can deal without a weapon. Does not affect players.").getInt();
 		guardMaxHealth = config.get("General", "Guard max health", 40).getInt();
@@ -147,10 +157,10 @@ public final class Config implements Serializable
 		inTutorialMode = config.get("General", "Tutorial mode", true,
 				"Displays various tips while you play. ").getBoolean();
 		allowMobAttacks = config.get("General", "Allow mob attacks", true, "True if regular Minecraft mobs can attack villagers. False to prevent mobs from attacking any villager.").getBoolean();
-		
+
 		config.setCategoryComment("World Generation", "All settings related to MCA's world generation.");
 		roseGoldSpawnWeight = config.get("World Generation", "Rose gold spawn weight", 1, "Sets the spawn weight for rose gold. Higher numbers = less common. Set to zero to disable.").getInt();
-		
+
 		config.setCategoryComment("Aging", "All aging-related settings of villagers and children in-game.");
 		babyGrowUpTime = config.get("Aging", "Time until babies grow up (in minutes)", 10).getInt();
 		childGrowUpTime = config.get("Aging", "Time until children grow up (in minutes)", 180).getInt();
@@ -162,7 +172,7 @@ public final class Config implements Serializable
 		//showVillagerConversations = config.get("Graphics", "Show villager conversations", true, "True if you want to see any conversations a villager may have with another villager.").getBoolean();
 		modifyFemaleBody = config.get("Graphics", "Modify female body", true, "True if you want a female villager to render with breasts, curves, etc.").getBoolean();
 		allowBlinking = config.get("Graphics", "Allow blinking", true, "True if you want to see villagers blink their eyes at random.").getBoolean();
-		
+
 		config.setCategoryComment("Server", "All settings that server administrators may want to configure.");
 		childLimit = config.get("Server", "Child limit", -1).getInt();
 		villagerSpawnerCap = config.get("Server", "Villager spawner cap", 16, "How many villagers maximum that can be within a 32 block radius of any villager spawner block.").getInt();
@@ -175,20 +185,20 @@ public final class Config implements Serializable
 		allowTrading = config.get("Server", "Allow trading", true).getBoolean();
 		logVillagerDeaths = config.get("Server", "Log villager deaths", false, "True if you want villager deaths to be logged to the console/server logs. Shows 'RMFS' values in console, R = related, M = mother, F = father, S = spouse. Can be a bit spammy!").getBoolean();
 		villagerChatPrefix = config.get("Server", "Villager chat prefix", "").getDefault();
-		
+
 		//Additional gifts.
 		additionalGiftItems = config.get("Server", "Additional gifts", new String[]{"#fermented_spider_eye|25", "#poisonous_potato|12"}, "The names of the items/blocks that can be gifted in addition to the default items. Include hearts value preceded by |.").getStringList();
-		
+
 		config.save();
 	}
-	
+
 	public void syncConfiguration()
 	{
 		config.load();
 		addConfigValues();
 		config.save();
 	}
-	
+
 	public Configuration getInstance()
 	{
 		return config;
@@ -211,5 +221,26 @@ public final class Config implements Serializable
 		}
 
 		return elements;
+	}
+	
+	public boolean canSpawnInDimension(int dimensionId)
+	{
+		if (spawnInAllDimensions)
+		{
+			return true;
+		}
+		
+		else
+		{
+			for (int i : dimensionWhitelist)
+			{
+				if (i == dimensionId)
+				{
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 }

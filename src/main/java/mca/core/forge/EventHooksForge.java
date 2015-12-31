@@ -48,18 +48,7 @@ public class EventHooksForge
 	@SubscribeEvent
 	public void entityJoinedWorldEventHandler(EntityJoinWorldEvent event)
 	{
-		boolean isValidDimension = false;
-
-		for (int i : MCA.getConfig().dimensionWhitelist)
-		{
-			if (event.world.provider.getDimensionId() == i)
-			{
-				isValidDimension = true;
-				break;
-			}
-		}
-
-		if (!event.world.isRemote && isValidDimension)
+		if (!event.world.isRemote && MCA.getConfig().canSpawnInDimension(event.world.provider.getDimensionId()))
 		{
 			if (event.entity instanceof EntityMob)
 			{
