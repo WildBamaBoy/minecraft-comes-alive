@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 public class ModelHuman extends ModelBiped
@@ -59,9 +60,8 @@ public class ModelHuman extends ModelBiped
 		this.bipedLeftArm.render(f6);
 		this.bipedRightLeg.render(f6);
 		this.bipedLeftLeg.render(f6);
-
-		//Render breasts on adult females if the config allows it.
-		if (!human.getIsMale() && !human.getIsChild() && MCA.getConfig().modifyFemaleBody)
+		
+		if (!human.getIsMale() && !human.getIsChild() && MCA.getConfig().modifyFemaleBody && human.getEquipmentInSlot(3) == null)
 		{
 			GL11.glPushMatrix();
 			{
