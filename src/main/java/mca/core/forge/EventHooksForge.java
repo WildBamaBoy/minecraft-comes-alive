@@ -68,18 +68,15 @@ public class EventHooksForge
 
 			if (event.entity.getClass() == EntityVillager.class && MCA.getConfig().overwriteOriginalVillagers)
 			{
-				doOverwriteVillager(event, (EntityVillager) event.entity);
-			}
-		}
-	}
+				EntityVillager villager = (EntityVillager)event.entity;
 
-	private void doOverwriteVillager(EntityJoinWorldEvent event, EntityVillager entity) 
-	{
-		if (entity.getProfession() >= 0 && entity.getProfession() <= 4)
-		{
-			event.setCanceled(true);
-			entity.setDead();
-			MCA.naturallySpawnVillagers(new Point3D(entity.posX, entity.posY, entity.posZ), event.world, entity.getProfession());
+				if (villager.getProfession() >= 0 && villager.getProfession() <= 4)
+				{
+					// The server will later check for object 28, and then overwrite the villager.
+					// This will prevent ConcurrentModification exceptions when overwriting villagers.
+					villager.getDataWatcher().addObject(28, 3577);
+				}
+			}
 		}
 	}
 
@@ -100,17 +97,17 @@ public class EventHooksForge
 
 			else if (mob instanceof EntityCreeper)
 			{
-		        mob.tasks.addTask(3, new EntityAIAvoidEntity(mob, new Predicate()
-		        {
-		            public boolean func_179958_a(Entity p_179958_1_)
-		            {
-		                return p_179958_1_ instanceof EntityHuman;
-		            }
-		            public boolean apply(Object p_apply_1_)
-		            {
-		                return this.func_179958_a((Entity)p_apply_1_);
-		            }
-		        }, 6.0F, 1.0D, 1.2D));
+				mob.tasks.addTask(3, new EntityAIAvoidEntity(mob, new Predicate()
+				{
+					public boolean func_179958_a(Entity p_179958_1_)
+					{
+						return p_179958_1_ instanceof EntityHuman;
+					}
+					public boolean apply(Object p_apply_1_)
+					{
+						return this.func_179958_a((Entity)p_apply_1_);
+					}
+				}, 6.0F, 1.0D, 1.2D));
 			}
 
 			else

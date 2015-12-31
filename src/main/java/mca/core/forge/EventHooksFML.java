@@ -15,6 +15,7 @@ import mca.packets.PacketSyncConfig;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.RandomPositionGenerator;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
@@ -173,6 +174,38 @@ public class EventHooksFML
 	{
 		MCA.getPacketHandler().processPackets(Side.SERVER);
 
+		// This block prevents the long-standing issue of crashing while using a world that previously contained villagers.
+		// It will check every second for a villager that has not been converted, and see if it should be. These villagers
+		// are identified by having the value of 3577 for watched object number 28.
+		if (serverTickCounter % 40 == 0)
+		{
+			for (World world : MinecraftServer.getServer().worldServers)
+			{
+				for (int i = 0; i < world.loadedEntityList.size(); i++)
+				{
+					Object obj = world.loadedEntityList.get(i);
+					
+					if (obj instanceof EntityVillager)
+					{
+						EntityVillager villager = (EntityVillager)obj;
+
+						try
+						{
+							if (villager.getDataWatcher().getWatchableObjectInt(28) == 3577)
+							{
+								doOverwriteVillager(villager);
+							}
+						}
+
+						catch (Exception e)
+						{
+							continue;
+						}
+					}
+				}
+			}
+		}
+
 		if (serverTickCounter <= 0 && MCA.getConfig().guardSpawnRate > 0)
 		{
 			//Build a list of all humans on the server.
@@ -282,5 +315,11 @@ public class EventHooksFML
 	{
 		Item smeltedItem = event.smelting.getItem();
 		EntityPlayer player = event.player;
+	}
+
+	private void doOverwriteVillager(EntityVillager entity) 
+	{
+		entity.setDead();
+		MCA.naturallySpawnVillagers(new Point3D(entity.posX, entity.posY, entity.posZ), entity.worldObj, entity.getProfession());
 	}
 }
