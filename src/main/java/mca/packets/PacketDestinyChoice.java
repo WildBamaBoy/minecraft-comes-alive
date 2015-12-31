@@ -13,6 +13,8 @@ import mca.tile.TileTombstone;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.server.management.PlayerManager;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.WorldServer;
@@ -94,7 +96,14 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 
 		else
 		{
-			if (packet.choice == EnumDestinyChoice.FAMILY)
+			// Players have previously been able to spawn in structures on dedicated servers.
+			// Add a check for the dedicated server and prevent anything from happening.
+			if (MinecraftServer.getServer().isDedicatedServer())
+			{
+				return;
+			}
+			
+			else if (packet.choice == EnumDestinyChoice.FAMILY)
 			{
 				SchematicHandler.spawnStructureRelativeToPlayer("/assets/mca/schematic/family.schematic", player);
 
