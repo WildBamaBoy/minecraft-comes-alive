@@ -1,6 +1,6 @@
 MCA MINECRAFT MOD LICENSE
-last revised: 12/23/2015
-version: 1.1.3
+last revised: 1/7/2016
+version: 1.1.4
 
 [Section 0. Terminology]
 	Minecraft: A copy of the Minecraft video game.
@@ -32,7 +32,7 @@ version: 1.1.3
 [Section 5. Source Code]
 	The source code of this mod is made available for educational purposes only. It shall remain externally visible yet only modifiable by the mod author.
 	This mod is proprietary software and as such neither it, its source code, nor its byte code may be modified and recompiled for public use.
-	The mod author may choose to incorporate private modifications of this mod’s source code into the publically available build should it be requested by the author of the modified code, known commonly as pull requests. However, modified code that has not been merged into the publically available build cannot be redistributed to the public in any form with no exceptions.
+	The mod author may choose to incorporate private modifications (forks) of this mod’s source code into the publically available build should it be requested by the author of the modified code, known commonly as pull requests. However, modified code that has not been merged into the publically available build cannot be compiled and distributed to the public by anyone except the original owners of the project.
 	Code authors that submit modified code that is later added into the publically available build release all rights to the code under the terms that they are credited via in-code documentation and any other methods of credit/thanks deemed appropriate by the mod author and agreed upon by the code author.
 	Code submitted and merged in this manner is then bound by this license.
 
