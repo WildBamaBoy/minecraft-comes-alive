@@ -86,12 +86,13 @@ public class EventHooksForge
 
 			else if (mob instanceof EntityCreeper)
 			{
-				mob.tasks.addTask(3, new EntityAIAvoidEntity(mob, new Predicate()
+				mob.tasks.addTask(3, new EntityAIAvoidEntity(mob, EntityHuman.class, new Predicate()
 				{
 					public boolean func_179958_a(Entity p_179958_1_)
 					{
 						return p_179958_1_ instanceof EntityHuman;
 					}
+					
 					public boolean apply(Object p_apply_1_)
 					{
 						return this.func_179958_a((Entity)p_apply_1_);

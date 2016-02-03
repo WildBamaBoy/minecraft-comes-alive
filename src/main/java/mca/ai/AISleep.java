@@ -356,7 +356,7 @@ public class AISleep extends AbstractAI
 
 				if (state.getBlock() instanceof BlockVillagerBed)
 				{
-					EnumPartType part = (EnumPartType) state.getValue(BlockBed.PART_PROP);
+					EnumPartType part = (EnumPartType) state.getValue(BlockBed.PART);
 
 					if (part == BlockBed.EnumPartType.FOOT)
 					{

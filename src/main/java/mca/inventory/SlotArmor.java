@@ -66,7 +66,7 @@ class SlotArmor extends Slot
 	 */
 	@SideOnly(Side.CLIENT)
 	@Override
-	public String func_178171_c()
+	public String getSlotTexture()
 	{
 		return ItemArmor.EMPTY_SLOT_NAMES[armorType];
 	}

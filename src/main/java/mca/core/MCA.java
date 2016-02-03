@@ -47,6 +47,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
@@ -79,7 +80,7 @@ import radixcore.util.RadixExcept;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixStartup;
 
-@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore@[1.8-2.1.0,)", acceptedMinecraftVersions = "[1.8]",
+@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore@[1.8.9-2.1.0,)", acceptedMinecraftVersions = "[1.8.9]",
 guiFactory = "mca.core.forge.client.MCAGuiFactory")
 public class MCA
 {
@@ -463,8 +464,8 @@ public class MCA
 
 					if (!itemName.startsWith("#"))
 					{
-						Object item = Item.itemRegistry.getObject(itemName);
-						Object block = Block.blockRegistry.getObject(itemName);
+						Object item = Item.itemRegistry.getObject(new ResourceLocation(itemName));
+						Object block = Block.blockRegistry.getObject(new ResourceLocation(itemName));
 						Object addObject = item != null ? item : block != null ? block : null;
 
 						if (addObject != null)

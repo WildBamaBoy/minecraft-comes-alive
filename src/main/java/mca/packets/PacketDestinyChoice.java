@@ -82,8 +82,7 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 				{
 					for (int y = -5; y < 10; y++)
 					{
-//						manager.markBlockForUpdate((int)player.posX + x, (int)player.posY + y, (int)player.posZ + z);
-						manager.func_180244_a(new BlockPos((int)player.posX + x, (int)player.posY + y, (int)player.posZ + z));
+						manager.markBlockForUpdate(new BlockPos((int)player.posX + x, (int)player.posY + y, (int)player.posZ + z));
 					}
 				}
 			}

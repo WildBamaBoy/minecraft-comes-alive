@@ -76,7 +76,7 @@ public class ItemVillagerBed extends Item
 
             if (!isReplaceable)
             {
-                pos = pos.offsetUp();
+                pos = pos.offset(EnumFacing.UP);
             }
 
             int metaCalc = MathHelper.floor_double((double)(player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
@@ -86,16 +86,16 @@ public class ItemVillagerBed extends Item
             boolean posIsAir = worldObj.isAirBlock(pos) || isReplaceable;
             boolean offsetIsAir = worldObj.isAirBlock(offsetPos) || offsetIsReplaceable;
 
-            if (player.func_175151_a(pos, side, stack) && player.func_175151_a(offsetPos, side, stack))
+            if (player.canPlayerEdit(pos, side, stack) && player.canPlayerEdit(offsetPos, side, stack))
             {
-                if (posIsAir && offsetIsAir && World.doesBlockHaveSolidTopSurface(worldObj, pos.offsetDown()) && World.doesBlockHaveSolidTopSurface(worldObj, offsetPos.offsetDown()))
+                if (posIsAir && offsetIsAir && World.doesBlockHaveSolidTopSurface(worldObj, pos.offset(EnumFacing.DOWN)) && World.doesBlockHaveSolidTopSurface(worldObj, offsetPos.offset(EnumFacing.DOWN)))
                 {
                     int facingIndex = horizontalFacing.getHorizontalIndex();
-                    IBlockState footState = getBedBlock().getDefaultState().withProperty(BlockBed.OCCUPIED_PROP, Boolean.valueOf(false)).withProperty(BlockBed.FACING, horizontalFacing).withProperty(BlockBed.PART_PROP, BlockBed.EnumPartType.FOOT);
+                    IBlockState footState = getBedBlock().getDefaultState().withProperty(BlockBed.OCCUPIED, Boolean.valueOf(false)).withProperty(BlockBed.FACING, horizontalFacing).withProperty(BlockBed.PART, BlockBed.EnumPartType.FOOT);
 
                     if (worldObj.setBlockState(pos, footState, 3))
                     {
-                        IBlockState headState = footState.withProperty(BlockBed.PART_PROP, BlockBed.EnumPartType.HEAD);
+                        IBlockState headState = footState.withProperty(BlockBed.PART, BlockBed.EnumPartType.HEAD);
                         worldObj.setBlockState(offsetPos, headState, 3);
                     }
 

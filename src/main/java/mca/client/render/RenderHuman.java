@@ -25,6 +25,7 @@ import mca.util.UVPoint;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderBiped;
+import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -41,7 +42,7 @@ import radixcore.util.RadixMath;
 /**
  * Determines how a Human is rendered.
  */
-public class RenderHuman extends RenderBiped
+public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 {
 	private static final ResourceLocation gui = new ResourceLocation("mca:textures/gui.png");
 	private static final UVPoint exMark = new UVPoint(55, 18, 3, 13);
@@ -71,7 +72,7 @@ public class RenderHuman extends RenderBiped
 	}
 
 	@Override
-	protected void preRenderCallback(EntityLivingBase entityLivingBase, float partialTickTime)
+	protected void preRenderCallback(T entityLivingBase, float partialTickTime)
 	{
 		final EntityHuman entity = (EntityHuman) entityLivingBase;
 		final AISleep sleepAI = entity.getAI(AISleep.class);
@@ -112,10 +113,9 @@ public class RenderHuman extends RenderBiped
 		}
 	}
 
-	@Override
-	public void passSpecialRender(EntityLivingBase entityLivingBase, double posX, double posY, double posZ)
+	public void passSpecialRender(T entityLivingBase, double posX, double posY, double posZ)
 	{
-		super.passSpecialRender(entityLivingBase, posX, posY, posZ);
+//		super.passSpecialRender(entityLivingBase, posX, posY, posZ);
 
 		final EntityHuman human = (EntityHuman)entityLivingBase;
 		final AIConverse converseAI = human.getAI(AIConverse.class);
@@ -163,7 +163,7 @@ public class RenderHuman extends RenderBiped
 	}
 
 	@Override
-	protected ResourceLocation getEntityTexture(Entity entity)
+	protected ResourceLocation getEntityTexture(T entity)
 	{
 		final EntityHuman human = (EntityHuman)entity;
 		final String skinName = human.getHeadTexture();
@@ -242,7 +242,7 @@ public class RenderHuman extends RenderBiped
 			posYCorrection -= 0.125D;
 		}
 
-		super.doRender(entity, posX, posYCorrection, posZ, rotationYaw, rotationPitch);
+		super.doRender((T) entity, posX, posYCorrection, posZ, rotationYaw, rotationPitch);
 		modelArmorPlate.aimedBow = modelArmor.aimedBow = modelBipedMain.aimedBow = false;
 		modelArmorPlate.isSneak = modelArmor.isSneak = modelBipedMain.isSneak = false;
 		modelArmorPlate.heldItemRight = modelArmor.heldItemRight = modelBipedMain.heldItemRight = 0;
@@ -286,16 +286,17 @@ public class RenderHuman extends RenderBiped
 		}
 	}
 
-	@Override
-	public void doRender(Entity entity, double posX, double posY, double posZ, float rotationYaw, float rotationPitch)
-	{
-		renderHuman((EntityHuman) entity, posX, posY, posZ, rotationYaw, rotationPitch);
-	}
+//	@Override
+//	public void doRender(Entity entity, double posX, double posY, double posZ, float rotationYaw, float rotationPitch)
+//	{
+//		renderHuman((EntityHuman) entity, posX, posY, posZ, rotationYaw, rotationPitch);
+//	}
 
 	@Override
-	public void doRender(EntityLiving entityLiving, double posX, double posY, double posZ, float rotationYaw, float rotationPitch)
+	public void doRender(T entity, double posX, double posY, double posZ, float rotationYaw, float rotationPitch)
 	{
-		renderHuman((EntityHuman) entityLiving, posX, posY, posZ, rotationYaw, rotationPitch);
+		passSpecialRender(entity, posX, posY, posZ);
+		renderHuman(entity, posX, posY, posZ, rotationYaw, rotationPitch);
 	}
 
 	private void renderHearts(EntityHuman human, double posX, double posY, double posZ, int heartsLevel)
@@ -383,7 +384,7 @@ public class RenderHuman extends RenderBiped
 	 */
 	private void renderLabel(EntityHuman human, double posX, double posY, double posZ, String labelText)
 	{
-		renderLivingLabel(human, labelText, posX, posY, posZ, 64);
+		renderLivingLabel((T) human, labelText, posX, posY, posZ, 64);
 	}
 
 	protected boolean canRenderNameTag(EntityLivingBase entityRendering)

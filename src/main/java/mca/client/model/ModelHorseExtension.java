@@ -168,7 +168,7 @@ public class ModelHorseExtension extends ModelHorse
 			final float rearingCurrent = entityHorse.getRearingAmount(partialTickTime);
 			final float rearingRemaining = 1.0F - rearingCurrent;
 
-			entityHorse.func_110201_q(partialTickTime);
+//			entityHorse.getRearingAmount(partialTickTime);//FIXME
 			final float headRotatePointY = rearingCurrent * -6.0F + grassEatingAmount * 11.0F + (1.0F - Math.max(rearingCurrent, grassEatingAmount)) * 4.0F;
 			final float headRotatePointZ = rearingCurrent * -1.0F + grassEatingAmount * -10.0F + (1.0F - Math.max(rearingCurrent, grassEatingAmount)) * -10.0F;
 			final float headRotateAngleX = rearingCurrent * (0.2617994F + rotationPitch360) + grassEatingAmount * 2.18166F + (1.0F - Math.max(rearingCurrent, grassEatingAmount)) * (0.5235988F + rotationPitch360);
