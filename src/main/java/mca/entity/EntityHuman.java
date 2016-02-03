@@ -123,7 +123,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	private final WatchedBoolean isInfected;
 	private final WatchedBoolean doOpenInventory;
 	private final WatchedString playerSkinUsername;
-	
+
 	private final Inventory inventory;
 
 	@SideOnly(Side.CLIENT)
@@ -171,7 +171,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		isInfected = new WatchedBoolean(false, WatcherIDsHuman.IS_INFECTED, dataWatcherEx);
 		doOpenInventory = new WatchedBoolean(false, WatcherIDsHuman.DO_OPEN_INVENTORY, dataWatcherEx);
 		playerSkinUsername = new WatchedString("null", WatcherIDsHuman.PLAYER_SKIN_USERNAME, dataWatcherEx);
-		
+
 		aiManager = new AIManager(this);
 		aiManager.addAI(new AIIdle(this));
 		aiManager.addAI(new AIRegenerate(this));
@@ -411,21 +411,11 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	{
 		if (!worldObj.isRemote)
 		{
-			if (!isInteracting.getBoolean())
-			{
-				int guiId = player.inventory.getCurrentItem() != null && 
-						player.inventory.getCurrentItem().getItem() instanceof ItemVillagerEditor 
-						? Constants.GUI_ID_EDITOR : Constants.GUI_ID_INTERACT;
+			int guiId = player.inventory.getCurrentItem() != null && 
+					player.inventory.getCurrentItem().getItem() instanceof ItemVillagerEditor 
+					? Constants.GUI_ID_EDITOR : Constants.GUI_ID_INTERACT;
 
-				MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId(), guiId), (EntityPlayerMP) player);
-
-				isInteracting.setValue(true);
-			}
-
-			else
-			{
-				player.addChatMessage(new ChatComponentText("That villager is being interacted with."));
-			}
+			MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId(), guiId), (EntityPlayerMP) player);
 		}
 
 		return true;
@@ -459,7 +449,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		nbt.setInteger("ticksAlive", ticksAlive);
 		nbt.setBoolean("isInfected", isInfected.getBoolean());
 		nbt.setString("playerSkinUsername", playerSkinUsername.getString());
-		
+
 		PlayerMemoryHandler.writePlayerMemoryToNBT(playerMemories, nbt);
 		dataWatcherEx.writeDataWatcherToNBT(nbt);
 
@@ -494,7 +484,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		ticksAlive = nbt.getInteger("ticksAlive");
 		isInfected.setValue(nbt.getBoolean("isInfected"));
 		playerSkinUsername.setValue(nbt.getString("playerSkinUsername"));
-		
+
 		PlayerMemoryHandler.readPlayerMemoryFromNBT(this, playerMemories, nbt);
 		dataWatcherEx.readDataWatcherFromNBT(nbt);
 		doDisplay.setValue(true);
@@ -707,7 +697,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			return;
 		}
-		
+
 		if (getIsInfected()) //Infected villagers moan when they speak, and will not say anything else.
 		{
 			String zombieMoan = RadixLogic.getBooleanWithProbability(33) ? "Raagh..." : RadixLogic.getBooleanWithProbability(33) ? "Ughh..." : "Argh-gur...";
@@ -825,7 +815,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			return getPlayerSkinResourceLocation().getResourcePath();
 		}
-		
+
 		else if (clothesTexture.getString().isEmpty()) //When updating.
 		{
 			return headTexture.getString();
@@ -897,7 +887,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			spouseName.setValue(partner.getName());
 			partner.spouseId.setValue(this.getPermanentId());
 			partner.spouseName.setValue(this.getName());
-			
+
 			getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.TRY_FOR_BABY);
 		}
 
@@ -907,7 +897,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			PlayerData data = MCA.getPlayerData(partner);
 			spouseId.setValue(data.getPermanentId());
 			spouseName.setValue(partner.getCommandSenderName());
-			
+
 			getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.FINISHED);
 		}
 
@@ -1018,7 +1008,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			return null;
 		}
-		
+
 		else if (babyState.getInt() > 0)
 		{
 			switch (babyState.getInt())
@@ -1226,7 +1216,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	{
 		Map<String, PlayerMemory> recvMemories = (Map<String, PlayerMemory>) ByteBufIO.readObject(additionalData);
 		this.playerMemories = recvMemories;
-		
+
 		//Set the player's skin upon loading on the server.
 		setPlayerSkin((String)ByteBufIO.readObject(additionalData));
 	}
@@ -1563,50 +1553,50 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			{
 				username = "TheSheWolfDeadly";
 			}
-			
+
 			boolean previous = DataWatcherEx.allowClientSideModification;
-			
+
 			DataWatcherEx.allowClientSideModification = true;
 			playerSkinUsername.setValue(username);
 			DataWatcherEx.allowClientSideModification = previous;
-			
+
 			playerSkinResourceLocation = AbstractClientPlayer.getLocationSkin(playerSkinUsername.getString());
 			imageDownloadThread = AbstractClientPlayer.getDownloadImageSkin(playerSkinResourceLocation, playerSkinUsername.getString());
 		}
-		
+
 		else
 		{
 			boolean previous = DataWatcherEx.allowClientSideModification;
-			
+
 			DataWatcherEx.allowClientSideModification = true;
 			playerSkinUsername.setValue("null");
 			DataWatcherEx.allowClientSideModification = previous;
-			
+
 			playerSkinResourceLocation = null;
 			imageDownloadThread = null;
 		}
 	}
-	
+
 	public boolean usesPlayerSkin()
 	{
 		return getPlayerSkinResourceLocation() != null;
 	}
-	
+
 	public ResourceLocation getPlayerSkinResourceLocation()
 	{
 		return playerSkinResourceLocation;
 	}
-	
+
 	public String getPlayerSkinUsername()
 	{
 		return playerSkinUsername.getString();
 	}
-	
+
 	public void cureInfection()
 	{
 		this.setIsInfected(false);
-        this.addPotionEffect(new PotionEffect(Potion.confusion.id, 200, 0));
-        this.worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1017, (int)this.posX, (int)this.posY, (int)this.posZ, 0);
-        Utilities.spawnParticlesAroundEntityS(Particle.HAPPY, this, 16);
+		this.addPotionEffect(new PotionEffect(Potion.confusion.id, 200, 0));
+		this.worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1017, (int)this.posX, (int)this.posY, (int)this.posZ, 0);
+		Utilities.spawnParticlesAroundEntityS(Particle.HAPPY, this, 16);
 	}
 }
