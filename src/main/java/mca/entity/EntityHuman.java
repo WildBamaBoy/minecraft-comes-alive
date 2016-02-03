@@ -425,21 +425,11 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		if (!worldObj.isRemote)
 		{
-			if (!isInteracting.getBoolean())
-			{
-				int guiId = player.inventory.getCurrentItem() != null && 
-						player.inventory.getCurrentItem().getItem() instanceof ItemVillagerEditor 
-						? Constants.GUI_ID_EDITOR : Constants.GUI_ID_INTERACT;
+			int guiId = player.inventory.getCurrentItem() != null && 
+					player.inventory.getCurrentItem().getItem() instanceof ItemVillagerEditor 
+					? Constants.GUI_ID_EDITOR : Constants.GUI_ID_INTERACT;
 
-				MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId(), guiId), (EntityPlayerMP) player);
-
-				isInteracting.setValue(true);
-			}
-
-			else
-			{
-				player.addChatMessage(new ChatComponentText("That villager is being interacted with."));
-			}
+			MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId(), guiId), (EntityPlayerMP) player);
 		}
 
 		return true;
@@ -935,7 +925,6 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			PlayerData data = MCA.getPlayerData(partner);
 			spouseId.setValue(data.getPermanentId());
 			spouseName.setValue(partner.getName());
-
 			getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.FINISHED);
 		}
 
