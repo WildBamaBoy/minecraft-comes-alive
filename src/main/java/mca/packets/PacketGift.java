@@ -121,6 +121,11 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				removeItem = handleDivorcePapers(player, human);
 			}
 
+			else if (human.getIsInfected() && human.getActivePotionEffect(Potion.weakness) != null && stack.getItem() == Items.golden_apple)
+			{
+				human.cureInfection();
+			}
+			
 			else if (item == Items.golden_apple && human.getIsChild() && human.isPlayerAParent(player))
 			{
 				removeItem = true;
@@ -216,11 +221,6 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				
 				//Add the new armor item to its respective slot.
 				inventory.setInventorySlotContents(inventorySlot, stack);
-			}
-			
-			else if (human.getIsInfected() && human.getActivePotionEffect(Potion.weakness) != null && stack.getItem() == Items.golden_apple)
-			{
-				human.cureInfection();
 			}
 			
 			else
