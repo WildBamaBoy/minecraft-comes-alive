@@ -123,6 +123,9 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 			else if (human.getIsInfected() && human.getActivePotionEffect(Potion.weakness) != null && stack.getItem() == Items.golden_apple)
 			{
+				removeItem = true;
+				removeCount = 1;
+				
 				human.cureInfection();
 			}
 			
