@@ -1,0 +1,38 @@
+def buildNumber = 1
+
+minecraft {
+    def Properties versionProps = new Properties()
+    def versionPropsFile = file('version.properties')
+    
+    versionProps.load(new FileInputStream(versionPropsFile))
+
+    def code = versionProps['BUILD_NUMBER'].toInteger() + 1
+    buildNumber = code
+    
+    versionProps['BUILD_NUMBER']=code.toString()
+    versionProps.store(versionPropsFile.newWriter(), null)
+	
+    version = "1.8.9-11.15.1.1722"
+    runDir = "run"
+    mappings = "stable_20"
+	replaceIn "mca/core/MCA.java"
+    replace   "@VERSION@", "${project.minecraft.version}-${project.version}" + "." + buildNumber
+}
+
+version = "${project.minecraft.version}-${project.version}" + "." + buildNumber
+
+processResources
+{
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+                
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+        
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
