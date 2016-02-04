@@ -54,6 +54,7 @@ public class ItemTombstone extends Item
 			
 			if (tombstone != null)
 			{
+				tombstone.setPlayer(player);
 				player.openGui(MCA.getInstance(), Constants.GUI_ID_TOMBSTONE, worldObj, pos.getX(), pos.getY(), pos.getZ());
 			}
 

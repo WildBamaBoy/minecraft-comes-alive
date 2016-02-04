@@ -14,9 +14,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.server.management.PlayerManager;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -177,8 +177,8 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 
 					if (tile != null)
 					{
-						tile.signText[1] = RadixLogic.getBooleanWithProbability(50) ? MCA.getLanguageManager().getString("name.male") : MCA.getLanguageManager().getString("name.female");
-						tile.signText[2] = "RIP";
+						tile.signText[1] = new ChatComponentText(RadixLogic.getBooleanWithProbability(50) ? MCA.getLanguageManager().getString("name.male") : MCA.getLanguageManager().getString("name.female"));
+						tile.signText[2] = new ChatComponentText("RIP");
 					}
 				}
 			}

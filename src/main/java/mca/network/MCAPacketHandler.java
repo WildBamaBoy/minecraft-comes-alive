@@ -13,8 +13,6 @@ import mca.packets.PacketSetTutorialMessage;
 import mca.packets.PacketSyncConfig;
 import mca.packets.PacketSyncPlayerMemory;
 import mca.packets.PacketToggleAI;
-import mca.packets.PacketTombstoneUpdateGet;
-import mca.packets.PacketTombstoneUpdateSet;
 import net.minecraftforge.fml.relauncher.Side;
 import radixcore.network.AbstractPacketHandler;
 import radixcore.packets.PacketDataContainer;
@@ -39,9 +37,6 @@ public class MCAPacketHandler extends AbstractPacketHandler
 		this.registerPacket(PacketOpenBabyNameGUI.class, Side.CLIENT);
 		this.registerPacket(PacketDestinyChoice.class, Side.SERVER);
 		this.registerPacket(PacketToggleAI.class, Side.SERVER);
-		this.registerPacket(PacketTombstoneUpdateSet.class, Side.SERVER);
-		this.registerPacket(PacketTombstoneUpdateSet.class, Side.CLIENT);
-		this.registerPacket(PacketTombstoneUpdateGet.class, Side.SERVER);
 		this.registerPacket(PacketInteractWithPlayerC.class, Side.CLIENT);
 		this.registerPacket(PacketInteractWithPlayerS.class, Side.SERVER);
 		this.registerPacket(PacketOpenPrompt.class, Side.CLIENT);

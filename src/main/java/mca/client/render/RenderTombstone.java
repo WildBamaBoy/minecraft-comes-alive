@@ -60,7 +60,7 @@ public class RenderTombstone extends TileEntitySpecialRenderer
 
 		for (int line = 0; line < tombstoneEntity.signText.length; line++)
 		{
-			String lineText = tombstoneEntity.signText[line];
+			String lineText = tombstoneEntity.signText[line].getUnformattedText();
 
 			if (line == tombstoneEntity.lineBeingEdited)
 			{
