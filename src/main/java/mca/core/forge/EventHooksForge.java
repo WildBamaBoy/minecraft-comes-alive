@@ -240,6 +240,12 @@ public class EventHooksForge
 					human.worldObj.playSoundAtEntity(human, "mob.wither.idle", 0.5F, 1.0F);
 					Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.SPELL_WITCH, human, 32);
 				}
+				
+				else if (event.entityLiving instanceof EntityHuman && ((EntityHuman)event.entityLiving).getIsInfected())
+				{
+					event.setCanceled(true);
+					zombie.setAttackTarget(null);
+				}
 			}
 		}
 	}
