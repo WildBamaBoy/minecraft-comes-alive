@@ -19,6 +19,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
@@ -166,20 +167,18 @@ public class ItemBaby extends Item
 	{
 		super.addInformation(itemStack, entityPlayer, infoList, unknown);
 
-		DecimalFormat nearestTenth = new DecimalFormat("0.0");
-
 		if (itemStack.hasTagCompound())
 		{
 			//Text color is blue for boys, purple for girls.
 			String textColor = ((ItemBaby)itemStack.getItem()).isBoy ? Color.AQUA : Color.LIGHTPURPLE;
-			float ageInMinutes = (float)itemStack.getTagCompound().getInteger("age") / Time.MINUTE;
+			int ageInMinutes = itemStack.getTagCompound().getInteger("age");
 
 			//Owner name is You for the current owner. Otherwise, the player's name.
 			String ownerName = itemStack.getTagCompound().getString("owner");
 			ownerName = ownerName.equals(entityPlayer.getName()) ? "You" : ownerName;
 
 			infoList.add(textColor + "Name: " + Format.RESET + itemStack.getTagCompound().getString("name"));
-			infoList.add(textColor + "Age: "  + Format.RESET + nearestTenth.format(ageInMinutes) + " minutes.");
+			infoList.add(textColor + "Age: "  + Format.RESET + ageInMinutes + (ageInMinutes == 1 ? " minute" : " minutes"));
 			infoList.add(textColor + "Parent: " + Format.RESET + ownerName);
 
 			if (itemStack.getTagCompound().getBoolean("isInfected"))
@@ -196,7 +195,7 @@ public class ItemBaby extends Item
 
 	private void updateBabyGrowth(ItemStack itemStack)
 	{
-		if (itemStack.hasTagCompound())
+		if (itemStack.hasTagCompound() && MinecraftServer.getServer().getTickCounter() % Time.MINUTE == 0)
 		{
 			int age = itemStack.getTagCompound().getInteger("age");
 			age++;
@@ -208,7 +207,7 @@ public class ItemBaby extends Item
 	{
 		if (itemStack.hasTagCompound())
 		{
-			final float ageInMinutes = (float)itemStack.getTagCompound().getInteger("age") / Time.MINUTE;
+			final int ageInMinutes = itemStack.getTagCompound().getInteger("age");
 			return ageInMinutes >= MCA.getConfig().babyGrowUpTime;
 		}
 
