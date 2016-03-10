@@ -105,6 +105,7 @@ public class EventHooksFML
 		else
 		{
 			MCA.getLog().warn("Unable to initialize player data for " + event.player.getName() + ". Did you update from a previous version without clearing player data?");
+			MCA.getLog().warn("If not, please report this issue at http://github.com/minecraft-comes-alive/issues.");
 		}
 	}
 
