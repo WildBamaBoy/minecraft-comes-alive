@@ -7,6 +7,8 @@ import net.minecraft.block.Block;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public final class CropEntry 
 {
@@ -82,6 +84,7 @@ public final class CropEntry
 		return returnArray;
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public String getCropName()
 	{
 		return I18n.format(itemSeed.getUnlocalizedName() + ".name");
