@@ -283,7 +283,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			this.setHealth(maxHealth);
 		}
 
-		if (this.getProfessionGroup() != EnumProfessionGroup.Guard)
+		if (this.getProfessionGroup() != EnumProfessionGroup.Guard || (this.getProfessionGroup() == EnumProfessionGroup.Guard && this.getIsMarried()))
 		{
 			this.tasks.addTask(2, new EntityAIMoveIndoors(this));
 		}
@@ -936,6 +936,9 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 			getAI(AIProgressStory.class).reset();
 		}
+		
+		//Reset Minecraft AI when this happens.
+		addAI();
 	}
 
 	public boolean getIsMarried()
