@@ -1204,6 +1204,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		return !sleepAI.getIsSleeping();
 	}
 
+	@Override
+	protected boolean canDespawn() 
+	{
+		return false;
+	}
+
 	public float getHeight() 
 	{
 		return scaleHeight.getFloat();
