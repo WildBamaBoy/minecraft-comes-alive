@@ -772,7 +772,7 @@ gui.button.hired=Нанят на работу
 gui.button.length=Продолжительность\: %a1% часа(ов)
 gui.button.accept=Согласиться
 gui.button.divorcespouse=Развестись
-gui.button.resetbaby=Сброс Ребенка
+gui.button.resetbaby=Сброс Ребенока
 gui.button.setup.gender.false=Пол\: Женский
 gui.button.setup.gender.true=Пол\: Мужской
 
@@ -891,20 +891,20 @@ interaction.ridehorse.fail.notrideable=Я не могу поехать на эт
 interaction.resetbaby.success=Очень хорошо, вы можете сейчас иметь еще одного ребенка. Будьте осторожнее в следующий раз\!
 interaction.resetbaby.fail=У тебя нет детей.
 
-interactionp.marry.sent=Вы попросили %a1% жениться на вас.
+interactionp.marry.sent=You have asked %a1% to marry you.
 interactionp.marry.success=Теперь вы женаты на %a1%.
-interactionp.marry.fail.alreadymarried=Вы уже женаты или помолвлены.
-interactionp.marry.fail.targetalreadymarried=%a1% уже женат.
+interactionp.marry.fail.alreadymarried=You are already married or engaged.
+interactionp.marry.fail.targetalreadymarried=%a1% вже в шлюбі.
 interactionp.marry.fail.noweddingring=У вас нет обручального кольца.
-interactionp.marry.prompt=%a1% хочет жениться на тебе.
+interactionp.marry.prompt=%a1% would like to marry you.
 
-interactionp.havebaby.sent=Вы попросили %a1% завести ребенка.
+interactionp.havebaby.sent=You have asked %a1% to have a baby.
 interactionp.havebaby.prompt=%a1% хотелось бы завести ребенка.
-interactionp.havebaby.fail.alreadyexists=У вас должен быть ребенок.
+interactionp.havebaby.fail.alreadyexists=You should already have a baby.
 
-interactionp.divorce.notify=Вы развелись с %a1%.
+interactionp.divorce.notify=You are no longer married to %a1%.
 
-interaction.adoptbaby.success=Прекрасно\! Я хотел бы познакомить вас с %a1%, вашим новым ребенком\! Относитесь к нему хорошо.
+interaction.adoptbaby.success=Wonderful\! I'd like you to meet %a1%, your new baby\! Treat them well.
 
 ###################
 # Typed Dialogue
@@ -918,13 +918,13 @@ interaction.adoptbaby.success=Прекрасно\! Я хотел бы позна
 #####################################
 
 adult.gift.bad1=Это не самый лучший подарок...
-adult.gift.bad2=Что заставило вас думать, что хотел это?
+adult.gift.bad2=What made you think that I would like this?
 adult.gift.bad3=Нет спасибо.
-adult.gift.bad4=Я не хочу, зачем мне это?
-adult.gift.bad5=Почему ты даёшь мне это?
-adult.gift.bad6=Это подарок? Нет, спасибо.
+adult.gift.bad4=I don't want that, why would I?
+adult.gift.bad5=Ну и зачем ты мне дал это?
+adult.gift.bad6=Is this supposed to be a gift? No thanks.
 
-adult.gift.good1=Какой вы заботливый\! Спасибо.
+adult.gift.good1=How considerate\! Thank you.
 adult.gift.good2=Спасибо\!
 adult.gift.good3=Какой заботливый\!
 adult.gift.good4=Ох, мне нравится это\!
@@ -933,259 +933,259 @@ adult.gift.good5=Подарок? Для меня? Как мило\!
 adult.gift.better1=Хэй, это было очень круто\!
 adult.gift.better2=Спасибо, друг\!
 adult.gift.better3=%PlayerName%, ты такой хороший друг\!
-adult.gift.better4=Ух ты, мне правда нужен один из них\!
+adult.gift.better4=Oh wow, I actually needed one of these\!
 adult.gift.better5=Это довольно хороший подарок\!
 
-adult.gift.best1=Я..Я правда не знаю что сказать. Огромное спасибо, %PlayerName%\!
-adult.gift.best2=Как ты...Неважно, это невероятно\!
-adult.gift.best3=Ух ты, я всегда хотел одну из них\!
+adult.gift.best1=I...I don't know what to say. Thank you so much, %PlayerName%\!
+adult.gift.best2=How did you...nevermind, this is amazing\!
+adult.gift.best3=Oh wow, I've always wanted one of these\!
 adult.gift.best4=Это фантастика\! Я найду этому хорошее применение.
 adult.gift.best5=Большое спасибо\! Я буду помнить это всегда.
 
 # 5 good chats when talking to an adult:
-adult.chat.good1=Парень, как бы хотелось сейчас выпить молока с печеньем.
-adult.chat.good2=Да, я думаю сегодня хорошая погода.
+adult.chat.good1=Man, cookies and milk does sound delicious right now.
+adult.chat.good2=Yes, I suppose the weather is nice today.
 adult.chat.good3=I'm doing just fine\! Hit my toe when I woke up, though.
-adult.chat.good4=Одно яблоко в день держит зомби вдалеке\!
-adult.chat.good5=У меня есть мечта - построить собственный домик в деревне, но я так ленив.
+adult.chat.good4=An apple a day keeps the zombies away\!
+adult.chat.good5=Я хочу построить свой город, но я слишком ленив для этого.
 
 # 5 bad chats when talking to an adult:
-adult.chat.bad1=Ты серьезно хочешь сказать это?
-adult.chat.bad2=Я не верю, что он взорвался сам по себе.
+adult.chat.bad1=Это была шутка?
+adult.chat.bad2=I don't believe it exploded on its own.
 adult.chat.bad3=Ты не очень прикольный.
 adult.chat.bad4=Выпендриваться.
-adult.chat.bad5=Вы должны быть брошены в темницу\! 
+adult.chat.bad5=You should be thrown in a dungeon\! 
 
 # 5 good jokes when talking to an adult:
 adult.joke.good1=Haha\! Serves that Skelly right\!
 adult.joke.good2=*Смеется* Уморительно\!
-adult.joke.good3=Это забавно\! Вы слышали что нибудь насчет коров?
-adult.joke.good4=К несчастью для овец терять свою же шерсть, но весело\!
-adult.joke.good5=Это лучшее, что я когда-либо слышал\!
+adult.joke.good3=That's funny\! Did you hear the one about the cows?
+adult.joke.good4=Unfortunate for the sheep to lose its wool, but funny\!
+adult.joke.good5=That's the best I have ever heard\!
 
 # 5 bad jokes when talking to an adult:
-adult.joke.bad1=Не говорите о моей свинке это\!
+adult.joke.bad1=Don't speak about my pig like that\!
 adult.joke.bad2=Ха.
-adult.joke.bad3=Ах, ты не смешной в этом городе.
+adult.joke.bad3=Ah, you're not the funniest in town.
 adult.joke.bad4=Это низко.
-adult.joke.bad5=Вы не должны шутить об этом.
+adult.joke.bad5=You shouldn't joke about that.
 
 # 5 good handshakes when talking to an adult:
-adult.handshake.good1=У вас сильное пожатие\!
-adult.handshake.good2=Ваше пожатие показывает мне, что вы очень сильны\!
-adult.handshake.good3=Ничего себе, вы так вежливы\!
+adult.handshake.good1=You have a nice grip\!
+adult.handshake.good2=Your grip shows me you have great power\!
+adult.handshake.good3=Wow, you're so polite\!
 adult.handshake.good4=Добрый день\!
 adult.handshake.good5=Ну, Здравствуй\!
 
 # 5 bad handshakes when talking to an adult:
-adult.handshake.bad1=Серьезно? После того как вы убили корову?
-adult.handshake.bad2=Хм, нет, все в порядке.
-adult.handshake.bad3=Я вам не чужой, вы не должны быть настолько вежливы.
-adult.handshake.bad4=Ничего себе. Ты сам на себя не похож.
+adult.handshake.bad1=Seriously? After you slaughtered the cow?
+adult.handshake.bad2=Um, no that's okay.
+adult.handshake.bad3=I'm not a stranger, you don't have to be so polite.
+adult.handshake.bad4=Wow really? This isn't like you.
 adult.handshake.bad5=Пошел прочь.
 
 # 5 good stories when talking to an adult:
-adult.tellstory.good1=В самом деле? Я не могу поверить, что это произошло\!
-adult.tellstory.good2=Я хотел бы быть достаточно храбрым, чтобы взять крипера.
-adult.tellstory.good3=Это была действительно хорошая история\! Это оригинал?
-adult.tellstory.good4=Все о том, что произошло вчера? Ни за что\!
+adult.tellstory.good1=Really? I can't believe that all happened\!
+adult.tellstory.good2=I wish I was brave enough to take on a creeper.
+adult.tellstory.good3=That was a really good story\! Is it original?
+adult.tellstory.good4=All of that happened yesterday? No way\!
 adult.tellstory.good5=I was near there yesterday, I can't believe I didn't hear this already.
 
 # 5 bad stories when talking to an adult:
-adult.tellstory.bad1=*Кхм* Мне кажется, что вы говорите о моей матери.
+adult.tellstory.bad1=*Ahem* That's my mother you're talking about.
 adult.tellstory.bad2=This is why the village talks about you.
 adult.tellstory.bad3=Я не понимаю...
-adult.tellstory.bad4=Ты ужасный\! У криперов тоже есть чувства\!
-adult.tellstory.bad5=Как вы могли убить бедную овечку?\!
+adult.tellstory.bad4=You're terrible\! Creepers have feelings too\!
+adult.tellstory.bad5=How could you kill a poor sheep?\!
 
 # 5 good flirts when talking to an adult:
 adult.flirt.good1=Ты тааакооой храбрый\!
 adult.flirt.good2=Эй ты\! Перестань быть таким милым\!
-adult.flirt.good3=*Краснеет* Вы имеете в виду это?
+adult.flirt.good3=*Blushes* Do you mean it?
 adult.flirt.good4=О, мой...
-adult.flirt.good5=Это было так восхитительно\! Вы сказали мне "привет"\! 
+adult.flirt.good5=That was so adorable\! You had me at "hello"\! 
 
 # 5 bad flirts when talking to an adult:
-adult.flirt.bad1=Если вы имеете в виду это, тогда докажите.
-adult.flirt.bad2=Хм.... Подожди, ты сказал, что пекарь то же самое\!
-adult.flirt.bad3=Не через миллион лет.
+adult.flirt.bad1=If you mean that, then prove it.
+adult.flirt.bad2=Aw.... Wait, you told the baker the same thing\!
+adult.flirt.bad3=Not in a million years.
 adult.flirt.bad4=Смотрится жалко?
 adult.flirt.bad5=У зомби больше шансов, чем у тебя.
 
 # 5 good hugs when talking to an adult:
 adult.hug.good1=Давно не виделись\!
 adult.hug.good2=Спасибо, мне нужно это.
-adult.hug.good3=По крайней мере, одна вещь сделала сегодня мой день.
+adult.hug.good3=At least one thing made my day today.
 adult.hug.good4=You're as snuggly as a sheep\!
 
 # 5 bad hugs when talking to an adult:
-adult.hug.bad1=Вы весь в саже и грязи\! 
+adult.hug.bad1=You're covered in soot and mud\! 
 adult.hug.bad2=Нет спасибо.
 adult.hug.bad3=Э-э, почему?
-adult.hug.bad4=После того как вы меня назвали динозавром на прошлой неделе? Нет.
-adult.hug.bad5=Честно говоря, вы не заслуживаете объятий после того, что сделали.
+adult.hug.bad4=After you called me a dinosaur last week? No.
+adult.hug.bad5=Quite frankly, you don't deserve a hug after you did that.
 
 # 5 good kisses when talking to an adult:
-adult.kiss.good1=Я хочу, чтобы этот момент длился вечно.
+adult.kiss.good1=I wish this moment would last forever.
 adult.kiss.good2=Я думаю, что люблю тебя...
-adult.kiss.good3=Ммм, на вкус как тыквенный пирог\!
+adult.kiss.good3=Mmm, tastes like pumpkin pie\!
 
 # 5 bad kisses when talking to an adult:
 adult.kiss.bad1=Not if someone can see.
 adult.kiss.bad2=И ты называешь это поцелуем?
-adult.kiss.bad3=Пепел целуется лучше, чем ты.
+adult.kiss.bad3=Ash kisses better than you.
 adult.kiss.bad4=Two words... breath mints\!
 adult.kiss.bad5=Спасибо?
 
-adult.greeting1=Ну, Здравствуй\!
-adult.greeting2=Эй, как твои дела?
-adult.greeting3=Хей, рад тебя видеть\!
-adult.greeting4=Что сегодня с вами происходит?
+adult.greeting1=Why, hello there\!
+adult.greeting2=Привет, как дела?
+adult.greeting3=Привет, рад тебя видеть\!
+adult.greeting4=What's going on with you today?
 adult.greeting5=Как ты сегодня?
 
 ##############################################################################################
 
 # 5 good chats when talking to a parent:
-parent.chat.good1=Я в порядке, а как ты, дорогая?
-parent.chat.good2=Я говорил тебе, что ты очень похож на твоего великого дядюшку?
+parent.chat.good1=Зі мною все добре, а як ти?
+parent.chat.good2=Have I ever told you how much you look like your lost great uncle?
 parent.chat.good3=Я тобой горжусь\!
 parent.chat.good4=How sweet\! What happened to you, you're never kind\! *Laughs*
-parent.chat.good5=Это напоминает мне о том, когда вы были маленьким малышом\! 
+parent.chat.good5=That reminds me of when you were a lil' tot\! 
 
 # 5 bad chats when talking to a parent:
 parent.chat.bad1=You're never too old for spankings, smarty pants.
 parent.chat.bad2=Watch your mouth. That's not the way I raised you.
-parent.chat.bad3=Вот почему ваша сестра была моя любимая.
-parent.chat.bad4=Почему вы еще не врач все же?
-parent.chat.bad5=У меня был алмазный меч для вас, но теперь вы не получите его\!
+parent.chat.bad3=This is why your sister was my favorite.
+parent.chat.bad4=Why are you not a doctor, yet?
+parent.chat.bad5=I had a diamond sword for you but now you're not getting it\!
 
 
 # 5 good jokes when talking to a parent:
-parent.joke.good1=Ты передаешь свое чувство юмора мне\! *Смеется*
-parent.joke.good2=Ты заполняешь мой день смехом и радостью\!
+parent.joke.good1=You get your humor from me\!*Laughs*
+parent.joke.good2=You fill my day with laughter and joy\!
 parent.joke.good3=I needed that laugh\!
-parent.joke.good4=Когда ты станешь комиком? Это весело\!
+parent.joke.good4=When did you become a comedian? That's hilarious\!
 parent.joke.good5=Great Aunt Berry would had loved to hear that one\!
 
 # 5 bad jokes when talking to a parent:
 parent.joke.bad1=Ха...
-parent.joke.bad2=Ты мой ребенок, значит я должен смеяться... но это не смешно.
-parent.joke.bad3=Ты такой же скучный, как мой первый день.
-parent.joke.bad4=Без обид, но это было ужасно.
-parent.joke.bad5=Никто никогда не говорил нам, что ты забавный, но это оказалось правдой.
+parent.joke.bad2=You're my kid so I have to laugh... but it isn't funny.
+parent.joke.bad3=You're as dull as my first date.
+parent.joke.bad4=No offense, but that was bad.
+parent.joke.bad5=No one ever told us you were the funny one, that's for sure.
 
 # 5 good handshakes when talking to a parent:
-parent.handshake.good1=Рад видеть, что мы вырастили вежливого ребенка\!
+parent.handshake.good1=It's good to see that we raised a polite child\!
 parent.handshake.good2=How civil\! We've tought you well.
 parent.handshake.good3=Рад видеть тебя снова\!
 parent.handshake.good4=Как поживаешь?
-parent.handshake.good5=Это приятно, крепкое рукопожатие у вас есть.
+parent.handshake.good5=That's a nice, firm handshake you've got there.
 
 # 5 bad handshakes when talking to a parent:
 parent.handshake.bad1=If only you were this polite at family reunions.
-parent.handshake.bad2=Что с формальностью? 
-parent.handshake.bad3=Вы пожали мою руку, но не обняли меня?
-parent.handshake.bad4=Вы смущены потому что увидели меня, или что?
-parent.handshake.bad5=Я до конца не понимал, как вы были слабы.
+parent.handshake.bad2=What's with the formality? 
+parent.handshake.bad3=You'll shake my hand but not hug me?
+parent.handshake.bad4=Are you embarrassed to be seen with me, or something?
+parent.handshake.bad5=I never realized how weak you were.
 
 # 5 good stories when talking to a parent:
-parent.tellstory.good1=После этого вы сняли свой подгузник, и бросили его на священника\!
+parent.tellstory.good1=After that you took off your diaper and threw it on the priest\!
 parent.tellstory.good2=Did you end up getting a date?
-parent.tellstory.good3=Это звучит прекрасно\! Когда вы собираетесь сделать меня дедушкой?
-parent.tellstory.good4=Да, я помню это\! Ваш двоюродный брат Берт ел очень много печенья.
+parent.tellstory.good3=They sound lovely\! So when are you going to make me a grandparent?
+parent.tellstory.good4=Yes, I remember that\! Your cousin Bert ate way too many cookies.
 parent.tellstory.good5=Is the house done, yet?
 
 # 5 bad stories when talking to a parent:
 parent.tellstory.bad1=I wish you were little again, this story depresses me.
 parent.tellstory.bad2=Don't you do that again\! Wolves are nothing to play with\!
 parent.tellstory.bad3=Ты украл мои сережки?\! 
-parent.tellstory.bad4=Мы все знаем, что вы не можете быть успешным шахтером.
+parent.tellstory.bad4=We all know you can't be a successful miner.
 parent.tellstory.bad5=You're not the brightest lightbulb in the room...
 
 # 5 good hugs when talking to a parent:
 parent.hug.good1=Ты так вырос\!
-parent.hug.good2=Я вспоминаю, обнимая тебя каждый вечер перед сном.
-parent.hug.good3=Милый мой ребенок\! 
-parent.hug.good4=Ты никогда не подводил меня\! 
-parent.hug.good5=Ты самый лучший ребенок, которого мог попросить взрослый\!
+parent.hug.good2=I remember hugging you each night before bed.
+parent.hug.good3=Sweet child of mine\! 
+parent.hug.good4=You never let me down\! 
+parent.hug.good5=You're the best child a parent could ask for\!
 
 # 5 bad hugs when talking to a parent:
-parent.hug.bad1=Я не сумасшедший, я разочарован. 
-parent.hug.bad2=Хочешь сосать? Держи свой любимый тортовый микс\!
+parent.hug.bad1=I'm not mad, I'm disappointed. 
+parent.hug.bad2=Sucking up? Get your own cake mix\!
 parent.hug.bad3=Why don't we hug like this more often? Are you embarrassed? 
 parent.hug.bad4=Not until you wash off.
-parent.hug.bad5=После того как вы мне сказали это? Ни за что.
+parent.hug.bad5=After you told me that? No way.
 
 
 ##############################################################################################
 
 # 5 good chats when talking to a relative:
 relative.chat.good1=You act just like your momma did as a kid\!
-relative.chat.good2=Я рад, что ты пришел ко мне\!
+relative.chat.good2=I'm glad you came to see me\!
 relative.chat.good3=We should get a family reunion together.
-relative.chat.good4=Ты самый милый в семье\!
-relative.chat.good5=Не говори никому, но я тебя люблю больше всех\!
+relative.chat.good4=You're the sweetest of the family\!
+relative.chat.good5=Don't tell anyone, but you're my favorite\!
 
 # 5 bad chats when talking to a relative:
-relative.chat.bad1=Простите? Вы знаете о ком вы говорите?
-relative.chat.bad2=Это не повод, чтобы так грубо говорить со мной\!
-relative.chat.bad3=Идите домой. Я больше не рад вас видеть рядом со мной.
+relative.chat.bad1=Excuse me? Do you know who you are talking to?
+relative.chat.bad2=That's no excuse to speak to me like that\!
+relative.chat.bad3=Go home. You're no longer welcome around me.
 relative.chat.bad4=If you don't leave I'll put a restraining order on you.
-relative.chat.bad5=Ты так груб\!
+relative.chat.bad5=You're so rude.
 
 # 5 good jokes when talking to a relative:
 relative.joke.good1=Grandpa told you that one, didn't he?\!
 relative.joke.good2=That joke goes way back in the family\!
-relative.joke.good3=Тогда корова перепрыгнула через овраг\! *Смеется*
+relative.joke.good3=Then the cow jumped over the ravine\! *Laughs*
 
 # 5 bad jokes when talking to a relative:
-relative.joke.bad1=Ты не должен говорить о семье так.
-relative.joke.bad2=Оставь свой юмор для дяди.
+relative.joke.bad1=You shouldn't speak about family that way.
+relative.joke.bad2=Leave the humor to uncle.
 
 # 5 good handshakes when talking to a relative:
-relative.handshake.good1=Положи это здесь\!
-relative.handshake.good2=*Тянет руку* Коничива\!
-relative.handshake.good3=В следующий раз я жду алмазов\! *Смеется*
+relative.handshake.good1=Put it there\!
+relative.handshake.good2=*Pulls hand away* Gotchya\!
+relative.handshake.good3=Next time I expect diamonds\! *Laughs*
 
 # 5 bad handshakes when talking to a relative:
 relative.handshake.bad1=Come on, we're family. Informality is fine.
-relative.handshake.bad2=Шон предупредил меня об этом...
+relative.handshake.bad2=Shawn warned me about this...
 relative.handshake.bad3=Это какая-то шутка?
 
 # 5 good stories when talking to a relative:
 relative.tellstory.good1=Let me just tell you, your mom was such a thief as a child\!
 relative.tellstory.good2=Sounds like Grandad Jay\! He used to throw people in the lake\!
 relative.tellstory.good3=Grandma used to sew the chicken feathers, too.
-relative.tellstory.good4=Ммм... Коровье рагу твоей мамы было восхитительно раньше.
-relative.tellstory.good5=Мы должны собираться вместе чаще\!
+relative.tellstory.good4=Mmm... Your mom's cow stew was amazing back then.
+relative.tellstory.good5=We should get together like that more often\!
 
 # 5 bad stories when talking to a relative:
-relative.tellstory.bad1=И тогда семья распалась...
+relative.tellstory.bad1=That's when the family fell apart...
 relative.tellstory.bad2=Oh, that's right... you're the snobby one...
 relative.tellstory.bad3=Quit trying to show off.
 relative.tellstory.bad4=Your parents raised you better than that\!
-relative.tellstory.bad5=Вы официально отреклись.
+relative.tellstory.bad5=You have officially been disowned.
 
 # 5 good hugs when talking to a relative:
-relative.hug.good1=Рад тебя видеть\!
+relative.hug.good1=It's good to see you\!
 relative.hug.good2=You should make time to see Uncle Jimmy, next\!
 relative.hug.good3=I wish I had more to give you other than this hug\!
-relative.hug.good4=Не жди долго, чтобы вновь увидеться со мной\!
-relative.hug.good5=Я всегда с нетерпением жду ваших объятий\!
+relative.hug.good4=Don't wait too long to see me again\!
+relative.hug.good5=I always look forward to your hugs\!
 
 
 # 5 bad hugs when talking to a relative:
-relative.hug.bad1=Позвольте мне угадать, это будет в последний раз, когда я вижу тебя в течение года?
-relative.hug.bad2=Я думал, что вы оставили меня снова.
-relative.hug.bad3=*Вздыхает* Обозначает ли это "пока"?
-relative.hug.bad4=Пожалуйста, останься еще чуть-чуть...
-relative.hug.bad5=Фу, это нормально. Вы потеете слишком часто.
+relative.hug.bad1=Let me guess, this will be the last time I see you for a year?
+relative.hug.bad2=I guess you're leaving me again.
+relative.hug.bad3=*Sighs* Does this mean goodbye?
+relative.hug.bad4=Please stay a little longer...
+relative.hug.bad5=Ew, that's okay. You sweat too much.
 
 ##############################################################################################
 
 # 5 good chats when talking to a child:
-child.chat.good1=Я слышал истории о вас\! Вы герой?
-child.chat.good2=Привет. Я собирался пойти попробовать взобраться на крышу.
+child.chat.good1=I heard stories about you\! Are you a hero?
+child.chat.good2=Hi. I was going to go try and climb to the roof.
 child.chat.good3=Do you wanna go burn stuff with me?
 child.chat.good4=I'm going to be a hunter like you and kill many things\!
 child.chat.good5=Hi\! What are you doing today? I'm going swimmin'\!
@@ -1195,49 +1195,49 @@ child.chat.bad1=If you don't give me cookies I'll hold my breath.
 child.chat.bad2=My parents said not to talk to you, that you're bad.
 child.chat.bad3=*Laughs* You look smelly\!
 child.chat.bad4=Oh yeah? Well I'm gonna egg your house\!
-child.chat.bad5=Ляляля, Я не слушаю\! Ляляля.
+child.chat.bad5=Lalala, I'm not listening\! Lalala.
 
 # 5 good jokes when talking to a child:
 child.joke.good1=You're funnier than daddy\!
-child.joke.good2=Расскажи мне еще одну\!
-child.joke.good3=Ты смешной человек\!
+child.joke.good2=Tell me another one\!
+child.joke.good3=You're the funniest person alive\!
 child.joke.good4=I'm tellin' my momma that one\! *Laughs*
 child.joke.good5=It should eat a leaf\!
 
 # 5 bad jokes when talking to a child:
-child.joke.bad1=Не понял.
-child.joke.bad2=Вы не смешной. Правда.
-child.joke.bad3=Тебе следует остановиться...
-child.joke.bad4=Но, кто яблоко?
-child.joke.bad5=Не быть скупым\!
+child.joke.bad1=I don't get it.
+child.joke.bad2=You're not funny. Really.
+child.joke.bad3=You need to stop...
+child.joke.bad4=But, who's apple?
+child.joke.bad5=Don't be mean\!
 
 # 5 good handshakes when talking to a child:
-child.handshake.good1=Хия\! Я знаю, что кто-то любит тебя...
+child.handshake.good1=Hiya\! Someone I know likes you...
 child.handshake.good2=Dad said this is a very nice thing to do.
-child.handshake.good3=Дай пять высоко\! Слишком низко... слишком медленно\!
+child.handshake.good3=Now high five\! Down low... too slow\!
 child.handshake.good4=Привет незнакомец\!
-child.handshake.good5=*Хихикает* Я как раз чистил корову с этой стороны.
+child.handshake.good5=*Giggles* I just cleaned a cow with this hand.
 
 # 5 bad handshakes when talking to a child:
 child.handshake.bad1=Незнакомцы опасны...
 child.handshake.bad2=Мама, папа\! Этот человек пытается меня украсть\!
-child.handshake.bad3=Не трогай меня\! Я знаменитость\!
-child.handshake.bad4=Фу, твоя рука грязная.
-child.handshake.bad5=Я пожму вам руку, если вы дадите мне алмаз.
+child.handshake.bad3=Don't touch me I'm famous\!
+child.handshake.bad4=Ew, your hand has black stuff on it.
+child.handshake.bad5=I'll only shake your hand if you give me a diamond.
 
 # 5 good stories when talking to a child:
 child.tellstory.good1=Ого\! Ты - животное\!
 child.tellstory.good2=Я хочу стать таким, как ты, когда вырасту. Только чшш, не говори папе.
-child.tellstory.good3=Ты можешь взять меня? Ты прекрасен\!
-child.tellstory.good4=Я пошел на рыбалку и чуть не утонул.
-child.tellstory.good5=Значит ли это, что я могу взять все, что я хочу?.. Я имею в виду, "одолжить?"
+child.tellstory.good3=Can you adopt me?\! You're awesome\!
+child.tellstory.good4=I went fishing and almost drowned.
+child.tellstory.good5=Does this mean I can take whatever I want? I mean, "borrow?"
 
 # 5 bad stories when talking to a child:
-child.tellstory.bad1=Ты жадина\!
-child.tellstory.bad2=Я расскажу маме, что ты мне сказал о ней...
-child.tellstory.bad3=Я думаю, что вы говорите о моем дедушке...
+child.tellstory.bad1=You're a meanie\!
+child.tellstory.bad2=I'm telling my mom what you said about her...
+child.tellstory.bad3=I believe you're speaking about my grandpa...
 child.tellstory.bad4=You're nothing but a scaredycat like dad said\!
-child.tellstory.bad5=Как ты мог убить бедную курицу?
+child.tellstory.bad5=How could you kill a poor chicken?
 
 child.greeting1=Привет, ты кто?
 child.greeting2=Меня зовут %Name%. А вас как?
@@ -1246,15 +1246,15 @@ child.greeting3=Брр\! Ты выглядишь пугающим\!
 ##############################################################################################
 
 # 5 good chats when talking to a child WHO IS YOUR OWN:
-childp.chat.good1=Ох, я как раз собирался пойти исследовать позже.
+childp.chat.good1=Oh, I was just going to go explorin' later.
 childp.chat.good2=Мы можем пойти в лагерь? Пожалуйста?\!
 childp.chat.good3=Привет, вы можете сделать мне торт?
-childp.chat.good4=Можно у меня будет своя комната в нашем доме? Было бы здорово\!
-childp.chat.good5=Пойдем в пещеру\! Это звучит весело\!
+childp.chat.good4=Can I have my own room away from our house? That would be cool\!
+childp.chat.good5=Let's move into a cave\! That sounds so fun\!
 
 # 5 bad chats when talking to an playerchild:
-childp.chat.bad1=%ParentOpposite% говорят о них много...
-childp.chat.bad2=Я не думаю, что %ParentOpposite% хотят очень много.
+childp.chat.bad1=%ParentOpposite% talks about them a lot...
+childp.chat.bad2=I don't think %ParentOpposite% would like that very much.
 childp.chat.bad3=Is that why %ParentOpposite% talked about this thing called "divorce?"
 childp.chat.bad4=Я хочу нового папочку.
 childp.chat.bad5=Я не хочу сестру.
@@ -1262,79 +1262,79 @@ childp.chat.bad5=Я не хочу сестру.
 # 5 good jokes when talking to an playerchild:
 childp.joke.good1=* Смеется * Расскажите это еще раз\!
 childp.joke.good2=Я должен рассказать это другу\!
-childp.joke.good3=Как крипер взорвался?\!
+childp.joke.good3=How did the creeper explode?\!
 childp.joke.good4=*Laughs*Why is there no longer 3 of them?
-childp.joke.good5=*Смеется* ... *Смеется* ... *Смеется*
+childp.joke.good5=*Laughs* ... *Laughs*... *Laughs*
 
 # 5 bad jokes when talking to an playerchild:
-childp.joke.bad1=%ParentOpposite% сказали, что вы были смешными, хотя...
+childp.joke.bad1=%ParentOpposite% said you were funny, though...
 childp.joke.bad2=I like knock knock jokes better.
-childp.joke.bad3=Я не понимаю, это было глупо.
-childp.joke.bad4=*Зевок* Друзья моего папы прикольнее и смешнее тебя.
-childp.joke.bad5=Я бы предпочел пирог.
+childp.joke.bad3=I don't get it, that was dumb.
+childp.joke.bad4=*Yawn* My friend's dad is cooler and funnier than you.
+childp.joke.bad5=I'd rather have cake.
 
 # 5 good handshakes when talking to an playerchild:
 childp.handshake.good1=Why do I need to learn this stuff? 
 childp.handshake.good2=%ParentOpposite% said that this is a polite thing to do.
-childp.handshake.good3=Я хочу быть как ты, когда вырасту\!
+childp.handshake.good3=I'm gonna be just like you when I grow up\!
 childp.handshake.good4=Can I have cake now?
 childp.handshake.good5=I don't get it, but okay\! 
 
 # 5 bad handshakes when talking to an playerchild:
-childp.handshake.bad1=Мне плевать на мою руку.
-childp.handshake.bad2=Ты такой старый.
-childp.handshake.bad3=Только неудачники жмут руки.
-childp.handshake.bad4=Я пожму вам руку, если вы дадите мне торт.
-childp.handshake.bad5=Нет, вы подскользнулись и ударили меня.
+childp.handshake.bad1=I spit on my hand.
+childp.handshake.bad2=You're such an old person.
+childp.handshake.bad3=Only losers shake hands.
+childp.handshake.bad4=I'll shake your hand if you give me cake.
+childp.handshake.bad5=No, you'll slip and hit me.
 
 # 5 good stories when talking to an playerchild:
-childp.tellstory.good1=%ParentOpposite% что... Что случилось и их одеждой?
-childp.tellstory.good2=Я хочу исследователь пещеру тоже\! Пошли\!
-childp.tellstory.good3=Однажды я убью больше криперов, чем ты\!
-childp.tellstory.good4=Ой, ой, ой\! Сможешь ли ты забраться на дерево тоже?\!
-childp.tellstory.good5=Причиняет ли лава боль? 
+childp.tellstory.good1=%ParentOpposite% really did that?\! What happened to their clothes?
+childp.tellstory.good2=I want to explore a cave, too\! Let's go\!
+childp.tellstory.good3=One day I'll kill more creepers than you\!
+childp.tellstory.good4=Oh, oh, oh\! Can we climb a tree, too?\!
+childp.tellstory.good5=Did the lava hurt? 
 
 # 5 bad stories when talking to an playerchild:
-childp.tellstory.bad1=Я ничего не хочу слышать про бабушку.
+childp.tellstory.bad1=I don't want to hear about grandma.
 childp.tellstory.bad2=Ты всегда так говоришь. Я просто хочу питомца.
 childp.tellstory.bad3=%ParentOpposite% has been lying to you, too.
 childp.tellstory.bad4=You said you didn't eat the cake and cookies...
 childp.tellstory.bad5=Someone said you were a bad person, and I believe them\!
 
 # 5 good hugs when talking to an playerchild:
-childp.hug.good1=*Целуются* Ты лучший\!
+childp.hug.good1=*Kisses* You're the best ever\!
 childp.hug.good2=Однажды я стану таким же сильным, как ты\!
 childp.hug.good3=Why doesn't %ParentOpposite% hug anymore?
-childp.hug.good4=Я люблю обнимашки\! Ты теплый и мягкий\!
+childp.hug.good4=I love hugs\! You're soft and warm\!
 childp.hug.good5=You should hug %ParentOpposite% too\!
 
 # 5 bad hugs when talking to an playerchild:
 childp.hug.bad1=Я слишком взрослый для обнимашек\!
-childp.hug.bad2=Прекрати\! Я не хочу чтобы люди увидели это\!
+childp.hug.bad2=Stop it\! I don't want people to see\!
 childp.hug.bad3=Go away, you're so annoying\!
-childp.hug.bad4=Просто отстань от меня или дай печенек\!
-childp.hug.bad5=Поскорее бы обнять скелета. 
+childp.hug.bad4=Just leave me alone or give me some cookies\!
+childp.hug.bad5=I'd rather hug a skeleton. 
 
 childp.greeting1=Эй там\!
-childp.greeting2=Эй, что тут происходит?
-childp.greeting3=Что ты делаешь?
-childp.greeting4=Куда ты собрался?
+childp.greeting2=Hey, what's going on?
+childp.greeting3=What are you doing?
+childp.greeting4=Where are you going?
 
 ##############################################################################################
 
 # 5 good chats when talking to an spouse:
-spouse.chat.good1=Я убрался во всем доме. Как прошёл день?
+spouse.chat.good1=I cleaned the entire house. How was your day?
 spouse.chat.good2=Honey, let's go camping sometime. Doesn't that sound like fun?
 spouse.chat.good3=So today I saw a spider. It was huge so I ran away.
-spouse.chat.good4=Давай вместе построим новый дом\!
+spouse.chat.good4=We should build a new house together\!
 spouse.chat.good5=I almost walked into a lava pit the other day. That wouldn't have been good\!
 
 # 5 bad chats when talking to an spouse:
 spouse.chat.bad1=I know we're not the poorest family, but...
 spouse.chat.bad2=I love being around you but I need some space.
 spouse.chat.bad3=Sometimes I wish I had my own "cave" to escape from you and everyone.
-spouse.chat.bad4=Проваливай, я не в настроении.
-spouse.chat.bad5=Где ты был? Ты видишь кого нибудь за моей спиной?
+spouse.chat.bad4=Go away, I'm not in the mood.
+spouse.chat.bad5=Where have you been? Are you seeing someone behind my back?
 
 # 5 good jokes when talking to an spouse:
 spouse.joke.good1=*Laughs* I married you for your humor\!
@@ -1344,132 +1344,132 @@ spouse.joke.good4=That never gets old\!
 spouse.joke.good5=Here's one for you... How many chickens does a creeper blow up?
 
 # 5 bad jokes when talking to an spouse:
-spouse.joke.bad1=Хромой...
-spouse.joke.bad2=Милая, ты не смешна.
-spouse.joke.bad3=Ха...Ха...Ха...Не смешно.
-spouse.joke.bad4=Вам нужно стереть это из вашей головы.
-spouse.joke.bad5=Хорошо...
+spouse.joke.bad1=Lame...
+spouse.joke.bad2=Sweetheart, you're not funny.
+spouse.joke.bad3=Ha...Ha...Ha...Not funny.
+spouse.joke.bad4=You need to erase that from your mind.
+spouse.joke.bad5=Okay...
 
 # 5 good handshakes when talking to an spouse:
-spouse.handshake.good1=Ваша рука такая мягкая\!
-spouse.handshake.good2=Наши руки идеально сочетаются друг с другом.
-spouse.handshake.good3=В один день люди забудут как жать руки.
-spouse.handshake.good4=Наши дети должны быть вежливы.
-spouse.handshake.good5=*Продолжает трясти рукой* Скажи мне, когда остановиться\!
+spouse.handshake.good1=Your hand is so soft\!
+spouse.handshake.good2=Our hands fit perfectly together.
+spouse.handshake.good3=One day people will forget to shake hands.
+spouse.handshake.good4=Our children will need to be this polite.
+spouse.handshake.good5=*Continues to shake hand* Tell me when to stop\!
 
 # 5 bad handshakes when talking to an spouse:
-spouse.handshake.bad1=Рукопожатие? Как насчет поцелуя, а?
-spouse.handshake.bad2=*Сильно сжимает руку*
-spouse.handshake.bad3=Ваша рука не противна, ни капли.
-spouse.handshake.bad4=На ней микробы.
-spouse.handshake.bad5=Почему бы вам не получить приличную работу, не пожимая мне руку?
+spouse.handshake.bad1=Handshake? How about a kiss, instead?
+spouse.handshake.bad2=*Squeezes hand hard*
+spouse.handshake.bad3=Your hand is nasty, no way.
+spouse.handshake.bad4=They have germs on them.
+spouse.handshake.bad5=Why don't you get a decent job instead of shaking my hand?
 
 # 5 good stories when talking to an spouse:
-spouse.tellstory.good1=Давайте не будем говорить нашим детям, что один...
-spouse.tellstory.good2=Вы так упрямы\! Я люблю таких\!
-spouse.tellstory.good3=Ты когда-нибудь скажешь своим родителям, что потерял их кольцо?
-spouse.tellstory.good4=Это был тот момент, когда я влюбился в тебя\!
-spouse.tellstory.good5=Ничего себе, ты лучший охотник, которых я видел\!
+spouse.tellstory.good1=Let's not tell our children that one...
+spouse.tellstory.good2=You were so rebellious\! I love it\!
+spouse.tellstory.good3=Did you ever tell your parents about losing their rings?
+spouse.tellstory.good4=It was that moment when I fell in love with you\!
+spouse.tellstory.good5=Wow, you're the best hunter ever\!
 
 # 5 bad stories when talking to an spouse:
-spouse.tellstory.bad1=Поговорите со мной, когда вы убьете что-нибудь другое, а не бедную корову.
+spouse.tellstory.bad1=Talk to me when you kill something other than a harmless cow.
 spouse.tellstory.bad2=Don't do something that reckless\!
 spouse.tellstory.bad3=You have a family to think about\!
 spouse.tellstory.bad4=...If you liked them why didn't you marry them, instead?
-spouse.tellstory.bad5=Почему вы носите розовое пушистое белье? Чье оно?
+spouse.tellstory.bad5=Why did you wear the pink fluffy underwear? Whose were they?
 
 # 5 good flirts when talking to an spouse:
 spouse.flirt.good1=*Blushes* Well, how about we do something like that, then\!
-spouse.flirt.good2=Ой, вы сказали это когда мы впервые встретились.
-spouse.flirt.good3=Ребенок, ты такой милый\!
+spouse.flirt.good2=Aw, you said that when we first met.
+spouse.flirt.good3=Baby, you're so cute\!
 spouse.flirt.good4=You bet I am\!
 spouse.flirt.good5=*Winks* You still got it\!
 
 # 5 bad flirts when talking to an spouse:
-spouse.flirt.bad1=*Вздыхает*
-spouse.flirt.bad2=Сей стареет... как и ты.
-spouse.flirt.bad3=Мы уже женаты, не нужно делать этого снова.
+spouse.flirt.bad1=*Sighs*
+spouse.flirt.bad2=This one is getting old... like you.
+spouse.flirt.bad3=We're married, we don't have to do this anymore.
 spouse.flirt.bad4=Talk to the tree, it cares more.
-spouse.flirt.bad5=Да, да... Что ты сказал?
+spouse.flirt.bad5=Yeah, yeah... What was it you were saying?
 
 # 5 good hugs when talking to an spouse:
-spouse.hug.good1=Я люблю быть запутанным в ваших объятиях\!
-spouse.hug.good2=Подожди, не уходи... ты искренний.
+spouse.hug.good1=I love being entangled in your arms\!
+spouse.hug.good2=Wait, don't leave... you're warm.
 spouse.hug.good3=Would you rather only being able to hug or kiss?
-spouse.hug.good4=*Поцелуй* 
-spouse.hug.good5=Давайте останемся здесь навсегда\!
+spouse.hug.good4=*Kisses* 
+spouse.hug.good5=Let's stay like this forever\!
 
 # 5 bad hugs when talking to an spouse:
-spouse.hug.bad1=Почему бы вам не пойти обнять своего бывшего?
+spouse.hug.bad1=Why don't you go hug your ex?
 spouse.hug.bad2=Нет спасибо.
-spouse.hug.bad3=Парень, ты воняешь.
-spouse.hug.bad4=Чего ты хочешь?
+spouse.hug.bad3=Man, you stink.
+spouse.hug.bad4=What do you want?
 spouse.hug.bad5=Huge someone else.
 
 # 5 good kisses when talking to an spouse:
-spouse.kiss.good1=Я падаю в любви каждый раз, когда наши губы встречаются\!
-spouse.kiss.good2=Время останавливается, когда я с тобой.
+spouse.kiss.good1=I fall in love all over again when our lips meet\!
+spouse.kiss.good2=Time stops ticking when I'm with you.
 spouse.kiss.good3=Сладкий как торт\!
 spouse.kiss.good4=Я люблю тебя\!
-spouse.kiss.good5=Я не променяю тебя на никого в мире\! 
+spouse.kiss.good5=I wouldn't trade you for anyone in the world\! 
 
 # 5 bad kisses when talking to an spouse:
-spouse.kiss.bad1=Нет, там нас может кто-нибудь увидеть...
+spouse.kiss.bad1=Not where someone can see us...
 spouse.kiss.bad2=We don't have to if you don't want to.
-spouse.kiss.bad3=У вас из зо рта пахнет каменным волком.
-spouse.kiss.bad4=Пойдемте глотнем из озера.
-spouse.kiss.bad5=Теперь, когда мы поженились, я могу сказать вам, что вы паршиво целуетесь.
+spouse.kiss.bad3=Your breath smells like wolf kibble.
+spouse.kiss.bad4=Go take a drink from the lake.
+spouse.kiss.bad5=Now that we're married I can tell you how lousy you are at kissing.
 
-spouse.greeting1=Привет сладенький, где ты был?
-spouse.greeting2=Привет дорогой, как прошел день?
-spouse.greeting3=Ох, %PlayerName%\! Ты выглядишь уставшим.
-spouse.greeting4=Хей, %PlayerName%\! Ты выглядишь голодным. Хочешь я что-нибудь приготовлю?
-spouse.greeting5=%PlayerName%, ты вернулся\! Я скучал по тебе.
+spouse.greeting1=Hi honey, where have you been?
+spouse.greeting2=Hello dear, how is your day going?
+spouse.greeting3=Oh, %PlayerName%\! You look tired.
+spouse.greeting4=Hey %PlayerName%\! You look hungry. Would you like me to cook something?
+spouse.greeting5=%PlayerName%, you're back\! I missed you.
 
 relative.gift.bad1=You shouldn't have... literally.
 relative.gift.bad2=Eh, you keep it.
-relative.gift.bad3=Фу, где ты нашел это? В шахте?
+relative.gift.bad3=Ew, where did you find this? In a mine?
 relative.gift.bad4=I'm not touching that.
 
 relative.gift.good1=Ох спасибо.
-relative.gift.good2=Спасибо, что ты думаешь обо мне, %PlayerName%.
-relative.gift.good3=Как заботливо с твоей стороны.
+relative.gift.good2=Thank you for thinking of me, %PlayerName%.
+relative.gift.good3=How thoughtful of you.
 relative.gift.good4=How'd you know I liked these?
-relative.gift.good5=Вы слишком добры.
+relative.gift.good5=Youre too kind.
 
-relative.gift.better1=У меня есть хорошее местечко для этого.
-relative.gift.better2=Спасибо тебе большое, %PlayerName%.
+relative.gift.better1=I have the perfect spot for this.
+relative.gift.better2=Thank you very much, %PlayerName%.
 relative.gift.better3=Это довольно мило.
-relative.gift.better4=Я ценю, что ты думаешь обо мне.
-relative.gift.better5=Я позабочусь о нем.
+relative.gift.better4=I appreciate you thinking about me.
+relative.gift.better5=Ill take good care of it.
 
-relative.gift.best1=Я всегда хотел одну из этих штук\!
-relative.gift.best2=Это самый лучший подарок, который я когда-либо получал,%PlayerName%\!
-relative.gift.best3=Ты даришь лучшие подарки, %PlayerName%\!
-relative.gift.best4=Я не могу поверить\! Ты слишком милый, спасибо\!
-relative.gift.best5=Ты знаешь меня, как свои пять пальцев\!
+relative.gift.best1=Ive always wanted one of these\!
+relative.gift.best2=This is the best gift I've ever received, %PlayerName%\!
+relative.gift.best3=You give the best gifts, %PlayerName%\!
+relative.gift.best4=I can't believe this, you're too sweet, thank you\!
+relative.gift.best5=You know me like the back of your hand\!
 
-parent.gift.bad1=Вау, ох, спасибо, спасибо.
-parent.gift.bad2=Я ценю вашу заботу, но вы можете оставить его себе.
-parent.gift.bad3=Почему ты не можешь принести мне что-нибудь, кроме барахла?
-parent.gift.bad4=Я не хочу ранить твои чувства, но мне это не нужно.
+parent.gift.bad1=Oh, uh, thanks but no thanks.
+parent.gift.bad2=I appreciate the thought, but you can keep it.
+parent.gift.bad3=Why can't you bring me something other than junk?
+parent.gift.bad4=I don't mean to hurt your feelings, but I don't want that.
 
-parent.gift.good1=Ой, как заботливо\!
+parent.gift.good1=Oh, how thoughtful\!
 parent.gift.good2=Большое вам спасибо\!
-parent.gift.good3=Ты всегда был моим любимчиком.
+parent.gift.good3=You always were my favorite.
 
-parent.gift.better1=Эй, где ты это взял? Это же прекрасно\!
+parent.gift.better1=Hey, where did you get this? It's great\!
 parent.gift.better2=You didn't have to get this for me, thanks\!
-parent.gift.better3=Вы мне не были должны давать мне что-либо, но спасибо большое\!
+parent.gift.better3=You never have to give me anything, but thank you so much\!
 
-parent.gift.best1=Я всегда знал, что наступит день, когда я его найду. Спасибо большое\!
-parent.gift.best2=Я потерял это год назад, спасибо\!
-parent.gift.best3=Это было твоим, когда ты был ребенком. Я не могу поверить, что ты нашел это\!
+parent.gift.best1=I always knew that one day I'd find this again. Thank you so much\!
+parent.gift.best2=I lost this years ago, thanks\!
+parent.gift.best3=This was yours when you were a child, I can't believe you found it\!
 
-child.gift.bad1=Фу, мне не нравится эта вещь\!
-child.gift.bad2=Тьфу\! Я не хочу этого.
-child.gift.bad3=Зачем ты дал мне это? Это не мое\!
-child.gift.bad4=Я даже не знаю, что это\!
+child.gift.bad1=Ew, I don't like this\!
+child.gift.bad2=Yuck\! I don't want this.
+child.gift.bad3=Why did you bring me this? It's dumb\!
+child.gift.bad4=I don't even know what this is\!
 
 child.gift.good1=Это... Это все мое?
 child.gift.good2=Это и правда мне?
@@ -1477,57 +1477,57 @@ child.gift.good3=Прикольно\!
 
 child.gift.better1=Здорово\! Пойду покажу это всем своим друзьям.
 child.gift.better2=Ты нашел\! Я потерял это несколько минут назад.
-child.gift.better3=Мой друг украл одну такую штуку у меня. Ты избил его для меня?
+child.gift.better3=My friend stole one of these from me. Did you beat him up for me?
 
 child.gift.best1=%PlayerName%, вы дарите лучшие подарки\!
 child.gift.best2=Наконец-то\! Мой друг прекратил хвастаться.
-child.gift.best3=Вот это да\! Где вы взяли эту вещь?
-child.gift.best4=У моего папы есть одна такая штука. Теперь у меня она тоже есть\!
+child.gift.best3=Wow\! Where did you get this thing?
+child.gift.best4=My Dad has one of these. Now I have one too\!
 
-spouse.gift.bad1=Ох, милый...Это просто ужасно.
-spouse.gift.bad2=Хм, это наверное подарок для меня?
-spouse.gift.bad3=Выбросьте свой мусор\! Ой, это был подарок?... Извините.
-spouse.gift.bad4=Я думал, что ты знаешь меня лучше...Я ненавижу их.
+spouse.gift.bad1=Oh honey...this is just terrible.
+spouse.gift.bad2=Um, is this supposed to be a gift for me?
+spouse.gift.bad3=Throw away your own junk\! Oh, this was a gift?...sorry.
+spouse.gift.bad4=I thought you knew me better than that. I hate these.
 
 spouse.gift.good1=%PlayerName%, ты такой милый.
-spouse.gift.good2=Ах\! Ты слишком хорош для меня.
-spouse.gift.good3=Это так неожиданно, спасибо, дорогой\!
-spouse.gift.good4=Ой, как мило с твоей стороны.
-spouse.gift.good5=Спасибо, хун\!
+spouse.gift.good2=Ah\! You're too good to me.
+spouse.gift.good3=This is unexpected, thank you, dear\!
+spouse.gift.good4=Aw, how sweet of you.
+spouse.gift.good5=Thanks, hun\!
 
-spouse.gift.better1=Ух ты, это на самом деле очень приятно\!
+spouse.gift.better1=Oh wow, this is actually really nice\!
 spouse.gift.better2=Я это обожаю\! Спасибо тебе\!
 spouse.gift.better3=Это замечательно, дорогой\!
-spouse.gift.better4=Ты это для меня? Как мило\!
-spouse.gift.better5=Ох, спасибо тебе, %PlayerName%\!
+spouse.gift.better4=You got this for me? How sweet\!
+spouse.gift.better5=Oh, thank you %PlayerName%\!
 
-spouse.gift.best1=Ох, %PlayerName%, я люблю тебя\!
+spouse.gift.best1=Oh %PlayerName%, I love you\!
 spouse.gift.best2=You are *way* too good to me\!
-spouse.gift.best3=Это наверное стоит очень дорого\! Спасибо\!
+spouse.gift.best3=This must have been extremely expensive\! Thank you\!
 spouse.gift.best4=I...can't believe you'd get me something so thoughtful\!
 
-childp.gift.bad1=%ParentTitle%, это и вправду плохой подарок.
-childp.gift.bad2=Ну и ну, %ParentOpposite% дает лучшие подарки\!
+childp.gift.bad1=%ParentTitle%, this is a really bad gift.
+childp.gift.bad2=Ew, %ParentOpposite% gives better gifts\!
 childp.gift.bad3=Didn't you give me this like, last year?
 childp.gift.bad4=I could get this easily, no thanks, %ParentTitle%.
 
-childp.gift.good1=Вау, Круто\! Спасибо, %ParentTitle%.
-childp.gift.good2=%ParentOpposite% говорит что они 'секси'. Что это значит?
-childp.gift.good3=Этот подарок намного лучше прошлого\!
+childp.gift.good1=Oh, cool\! Thank you %ParentTitle%.
+childp.gift.good2=%ParentOpposite% says these are 'sexy'. What does that mean?
+childp.gift.good3=This is much better than the last gift I got\!
 childp.gift.good4=Вуу хуу\! Это мое, все мое\!
 childp.gift.good5=Могу я... могу я съесть это?
 
 childp.gift.better1=Для меня? Бесплатно?\!
-childp.gift.better2=Ваау\! Блестящий\!
-childp.gift.better3=Мне очень нравится это, %ParentTitle%\!
-childp.gift.better4=Все мои друзья будут мне завидовать\!
+childp.gift.better2=Ooh\! Shiny\!
+childp.gift.better3=I really like this, %ParentTitle%\!
+childp.gift.better4=All of my friends will be jealous now\!
 childp.gift.better5=Это здорово, %ParentTitle%\!
 
-childp.gift.best1=Это наверное стоит целое состояние\!
+childp.gift.best1=This must have cost a fortune\!
 childp.gift.best2=%ParentTitle%, I knew you would get me one of these. I just knew it\!
-childp.gift.best3=Ура\! У меня лучший %ParentTitle% в мире\!
-childp.gift.best4=Это потрясающе\! Я не могу поверить, что это все мое\!
-childp.gift.best5=Большое спасибо, %ParentTitle%\! Ты лучший\!
+childp.gift.best3=Yay\! I have the best %ParentTitle% in the world\!
+childp.gift.best4=This is so amazing\! I can't believe this is all mine\!
+childp.gift.best5=Thank you so much, %ParentTitle%\! You're the best ever\!
 
 
 
