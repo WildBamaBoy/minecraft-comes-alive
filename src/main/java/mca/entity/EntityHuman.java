@@ -1612,4 +1612,10 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
         this.worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1017, (int)this.posX, (int)this.posY, (int)this.posZ, 0);
         Utilities.spawnParticlesAroundEntityS(Particle.HAPPY, this, 16);
 	}
+	
+	@Override
+	protected boolean canDespawn() 
+	{
+		return false;
+	}
 }
