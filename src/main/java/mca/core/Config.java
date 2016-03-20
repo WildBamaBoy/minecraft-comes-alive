@@ -174,9 +174,9 @@ public final class Config implements Serializable
 		villagerChatPrefix = config.get("Server", "Villager chat prefix", "").getDefault();
 		
 		//Additional gifts.
-		additionalGiftItems = config.get("Server", "Additional gifts", new String[]{"#fermented_spider_eye|25", "#poisonous_potato|12"}, "The names of the items/blocks that can be gifted in addition to the default items. Include hearts value preceded by |.").getStringList();
-		
-		config.save();
+		additionalGiftItems = config.get("Server", "Additional gifts", new String[]{"#<EXAMPLE> fermented_spider_eye|25", "#<EXAMPLE> poisonous_potato|12"}, "The names of the items/blocks that can be gifted in addition to the default items. Include hearts value preceded by |. 10 hearts points equals 1 heart.").getStringList();
+		  
+  		config.save();
 	}
 	
 	public void syncConfiguration()
