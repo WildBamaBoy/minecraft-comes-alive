@@ -64,6 +64,7 @@ import net.minecraft.entity.ai.EntityAITradePlayer;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.EntityAIWatchClosest2;
+import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -283,7 +284,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			this.setHealth(maxHealth);
 		}
 
-		if (this.getProfessionGroup() != EnumProfessionGroup.Guard)
+		if (this.getProfessionGroup() != EnumProfessionGroup.Guard || (this.getProfessionGroup() == EnumProfessionGroup.Guard && this.getIsMarried()))
 		{
 			this.tasks.addTask(2, new EntityAIMoveIndoors(this));
 		}
@@ -936,6 +937,9 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 			getAI(AIProgressStory.class).reset();
 		}
+		
+		//Reset Minecraft AI when this happens.
+		addAI();
 	}
 
 	public boolean getIsMarried()
@@ -1201,6 +1205,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		return !sleepAI.getIsSleeping();
 	}
 
+	@Override
+	protected boolean canDespawn() 
+	{
+		return false;
+	}
+
 	public float getHeight() 
 	{
 		return scaleHeight.getFloat();
@@ -1212,41 +1222,42 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	}
 
 	@Override
-	public void useRecipe(MerchantRecipe merchantRecipe)
+	public void useRecipe(MerchantRecipe recipe)
 	{
-		//Representation of EntityVillager's useRecipe without playing sounds.
-		//		merchantRecipe.incrementToolUses();
-		//		livingSoundTime = -getTalkInterval();
-		//
-		//		final MerchantRecipeList buyingList = getBuyingList();
-		//
-		//		for (Object obj : buyingList)
-		//		{
-		//			MerchantRecipe recipe = (MerchantRecipe)obj;
-		//		}
-		//
-		//		if (merchantRecipe.hasSameIDsAs((MerchantRecipe) buyingList.get(buyingList.size() - 1)))
-		//		{
-		//			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, Integer.valueOf(40), 6);
-		//			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, true, 7);
-		//			final EntityPlayer buyingPlayer = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 4);
-		//
-		//			if (buyingPlayer == null)
-		//			{
-		//				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, null, 9);
-		//			}
-		//
-		//			else
-		//			{
-		//				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, buyingPlayer.getName(), 9);
-		//			}
-		//		}
-		//
-		//		if (merchantRecipe.getItemToBuy().getItem() == Items.emerald)
-		//		{
-		//			final int wealth = (Integer)ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 8);
-		//			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, Integer.valueOf(wealth + merchantRecipe.getItemToBuy().stackSize), 8);
-		//		}
+		recipe.incrementToolUses();
+        this.livingSoundTime = -this.getTalkInterval();
+        int i = 3 + this.rand.nextInt(4);
+
+        if (recipe.getToolUses() == 1 || this.rand.nextInt(5) == 0)
+        {
+            ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, 40, 6); //this.timeUntilReset = 40;
+            ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, true, 8); // this.needsInitilization = true;
+            //this.isWillingToMate = true; NOPE!
+
+            EntityPlayer buyingPlayer = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 4);
+            
+            if (buyingPlayer != null)
+            {
+                ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, buyingPlayer.getName(), 10); //this.lastBuyingPlayer = buyingPlayer.getName();
+            }
+            
+            else
+            {
+                ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, null, 10); //this.lastBuyingPlayer = null;
+            }
+            
+            i += 5;
+        }
+
+        if (recipe.getItemToBuy().getItem() == Items.emerald)
+        {
+            ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, recipe.getItemToBuy().stackSize, 9); //this.wealth += recipe.getItemToBuy().stackSize;
+        }
+
+        if (recipe.getRewardsExp())
+        {
+            this.worldObj.spawnEntityInWorld(new EntityXPOrb(this.worldObj, this.posX, this.posY + 0.5D, this.posZ, i));
+        }
 	}
 
 	@Override

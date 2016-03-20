@@ -150,8 +150,8 @@ public class MCA
 			logger.fatal("Config: Update checking is turned off. You will not be notified of any available updates for MCA.");
 		}
 
-		FMLCommonHandler.instance().bus().register(new EventHooksFML());
 		MinecraftForge.EVENT_BUS.register(new EventHooksForge());
+		MinecraftForge.EVENT_BUS.register(new EventHooksFML());
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 	}
 

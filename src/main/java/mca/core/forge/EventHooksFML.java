@@ -91,12 +91,21 @@ public class EventHooksFML
 			}
 		}
 
-		MCA.getPacketHandler().sendPacketToPlayer(new PacketDataContainer(MCA.ID, data), (EntityPlayerMP)event.player);
-		MCA.getPacketHandler().sendPacketToPlayer(new PacketSyncConfig(MCA.getConfig()), (EntityPlayerMP)event.player);
-
-		if (!data.getHasChosenDestiny() && !player.inventory.hasItem(ModItems.crystalBall) && MCA.getConfig().giveCrystalBall)
+		if (data != null)
 		{
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.crystalBall));
+			MCA.getPacketHandler().sendPacketToPlayer(new PacketDataContainer(MCA.ID, data), (EntityPlayerMP)event.player);
+			MCA.getPacketHandler().sendPacketToPlayer(new PacketSyncConfig(MCA.getConfig()), (EntityPlayerMP)event.player);
+
+			if (!data.getHasChosenDestiny() && !player.inventory.hasItem(ModItems.crystalBall) && MCA.getConfig().giveCrystalBall)
+			{
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.crystalBall));
+			}
+		}
+		
+		else
+		{
+			MCA.getLog().warn("Unable to initialize player data for " + event.player.getName() + ". Did you update from a previous version without clearing player data?");
+			MCA.getLog().warn("If not, please report this issue at http://github.com/minecraft-comes-alive/issues.");
 		}
 	}
 
@@ -144,6 +153,12 @@ public class EventHooksFML
 		if (playPortalAnimation)
 		{
 			EntityPlayerSP player = (EntityPlayerSP)mc.thePlayer;
+
+			if (player == null)
+			{
+				return; //Crash when kicked from a server while using the ball. Client-side, so just throw it out.
+			}
+
 			player.prevTimeInPortal = player.timeInPortal;
 			player.timeInPortal -= 0.0125F;
 
@@ -184,7 +199,7 @@ public class EventHooksFML
 				for (int i = 0; i < world.loadedEntityList.size(); i++)
 				{
 					Object obj = world.loadedEntityList.get(i);
-					
+
 					if (obj instanceof EntityVillager)
 					{
 						EntityVillager villager = (EntityVillager)obj;

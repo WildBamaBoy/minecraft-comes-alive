@@ -338,7 +338,7 @@ public class AIFarming extends AbstractToggleAI
 
 			if (doCreate && !owner.getVillagerInventory().containsCountOf(entry.getSeedItem(), seedsRequired))
 			{
-				owner.say("farming.noseeds", player, entry.getCropName().toLowerCase(), seedsRequired);
+				owner.say("farming.noseeds", player, seedsRequired);
 				return;
 			}
 
