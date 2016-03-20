@@ -921,7 +921,7 @@ adult.gift.bad1=Это не самый лучший подарок...
 adult.gift.bad2=What made you think that I would like this?
 adult.gift.bad3=Нет спасибо.
 adult.gift.bad4=I don't want that, why would I?
-adult.gift.bad5=Нащо ти мені це дав?
+adult.gift.bad5=Ну и зачем ты мне дал это?
 adult.gift.bad6=Is this supposed to be a gift? No thanks.
 
 adult.gift.good1=How considerate\! Thank you.
@@ -947,10 +947,10 @@ adult.chat.good1=Man, cookies and milk does sound delicious right now.
 adult.chat.good2=Yes, I suppose the weather is nice today.
 adult.chat.good3=I'm doing just fine\! Hit my toe when I woke up, though.
 adult.chat.good4=An apple a day keeps the zombies away\!
-adult.chat.good5=Я мрію побудувати своє власне село, але я надто ледачий для цього.
+adult.chat.good5=Я хочу построить свой город, но я слишком ленив для этого.
 
 # 5 bad chats when talking to an adult:
-adult.chat.bad1=Це був жарт?
+adult.chat.bad1=Это была шутка?
 adult.chat.bad2=I don't believe it exploded on its own.
 adult.chat.bad3=Ты не очень прикольный.
 adult.chat.bad4=Выпендриваться.
@@ -1038,8 +1038,8 @@ adult.kiss.bad4=Two words... breath mints\!
 adult.kiss.bad5=Спасибо?
 
 adult.greeting1=Why, hello there\!
-adult.greeting2=Привіт\! Як сямаєш сьогодні?
-adult.greeting3=Привіт, радий тебе бачити\!
+adult.greeting2=Привет, как дела?
+adult.greeting3=Привет, рад тебя видеть\!
 adult.greeting4=What's going on with you today?
 adult.greeting5=Как ты сегодня?
 

@@ -8,8 +8,8 @@ itemGroup.tabMCA.gemCutting=MCA - Taillage de gemmes
 achievement.fullGoldHearts=Arriver à quelque chose
 achievement.fullGoldHearts.desc=Obtenez 5 cœurs d'or avec un villageois.
 achievement.engagement=Bien parti \!
-achievement.engagement.desc=Être engagé à un villageois.
-achievement.marriage=On est mariés \!
+achievement.engagement.desc=Être fiancé à un villageois.
+achievement.marriage=Nous sommes mariés\!
 achievement.marriage.desc=Mariez-vous à un villageois.
 achievement.babyBoy=C'est un garçon \!
 achievement.babyBoy.desc=Avoir un petit garçon.
@@ -63,7 +63,7 @@ item.ItemVillagerBedPink.name=Lit rose pour villageois
 item.ItemVillagerBedPurple.name=Lit violet pour villageois
 item.DivorcePapers.name=Papiers de divorce
 item.RoseGoldIngot.name=Lingot d'or rose
-item.CrystalBall.name=Boule de Crystal
+item.CrystalBall.name=Boule de Cristal
 item.NewOutfit.name=Nouveaux habits
 item.DiamondHeart.name=Cœur de diamant
 item.DiamondTiny.name=Petit diamant
@@ -78,8 +78,8 @@ item.EngagementRingTiny.name=Petite bague de fiançailles
 item.EngagementRingTinyRG.name=Petite bague de fiançailles d'or rose
 item.EngagementRingOval.name=Bague de fiançailles ovale
 item.EngagementRingOvalRG.name=Bague de fiançailles ovale d'or rose
-item.EngagementRingSquare.name=Bague de fiançailles carré
-item.EngagementRingSquareRG.name=Bague de fiançailles carré d'or rose
+item.EngagementRingSquare.name=Bague de fiançailles carrée
+item.EngagementRingSquareRG.name=Bague de fiançailles carrée en or rose
 item.EngagementRingTriangle.name=Bague de fiançailles triangle
 item.EngagementRingTriangleRG.name=Bague de fiançailles triangle d'or rose
 item.EngagementRingStar.name=Bague de fiançailles en forme d'étoile
@@ -108,7 +108,7 @@ tile.VillagerSpawner.name=Spawner de villageois
 ##############################
 information.villagerbed.line1=Place par terre et un
 information.villagerbed.line2=villageois proche va
-information.villagerbed.line3=dormir dedans la nuit.
+information.villagerbed.line3=dormir dans un lit ce soir.
 
 #######
 # Names
@@ -613,7 +613,7 @@ mood.entertained=Entraîné
 mood.infuriated=Excédé
 mood.angry=En colère
 mood.annoyed=Agacé
-mood.interested=Interressé
+mood.interested=Intéressé
 mood.talkative=Bavard
 mood.pleased=Content
 
@@ -659,24 +659,24 @@ behavior.retaliate.begin2=Je vais t'avoir un jour \!
 behavior.retaliate.begin3=Aïe \! Pourquoi tu m'as tappé ?
 behavior.retaliate.begin4=Ça fait mal, arrête \!
 behavior.retaliate.begin5=Argh \! Ça fait vraiment mal \!
-behavior.retaliate.begin6=Hé \! Qu'est-ce que tu pense faire ?\!
+behavior.retaliate.begin6=Hé \! Qu'est-ce que tu penses faire ?\!
 behavior.retaliate.begin7=*ouch* \! Cela vaut mieux être un accident \!
 
 behavior.retaliate.distanced1=C'est vrai, vaut mieux que tu cours \!
 behavior.retaliate.distanced2=Si tu reviens, j'appelle les gardes \!
-behavior.retaliate.distanced3=Reviens et bas toi comme un homme \!
+behavior.retaliate.distanced3=Reviens et bats-toi comme un homme \!
 behavior.retaliate.distanced4=Si je te revois, je vais te frapper \!
 behavior.retaliate.distanced5=Je savais que tu avais peur de moi \!
-behavior.retaliate.distanced6=Pourquoi cours tu ? Reviens ici pour que je te tapes \!
-behavior.retaliate.distanced7=Je te taperai si je te revois \!
+behavior.retaliate.distanced6=Pourquoi cours-tu ? Reviens ici pour que je te tape \!
+behavior.retaliate.distanced7=Que je ne te revois pas ici \!
 behavior.retaliate.distanced8=Je vais appeler mes amis pour te battre \!
 
-behavior.retaliate.weapondrawn1=Non \! Ne me fait pas de mal \!
+behavior.retaliate.weapondrawn1=Non \! Ne me fais pas mal \!
 behavior.retaliate.weapondrawn2=Stop \! Non \!
-behavior.retaliate.weapondrawn3=Quelqu'un peut t-il m'aider \!
+behavior.retaliate.weapondrawn3=Aidez-moi \!
 behavior.retaliate.weapondrawn4=Ils veulent me tuer \! Aidez-moi \!
-behavior.retaliate.weapondrawn5=Tu peut prendre tout ce que tu veut, mais ne me tue pas, s'il te plaaaît \!
-behavior.retaliate.weapondrawn6=Je ne veut pas mourir \! Reste à distance \!
+behavior.retaliate.weapondrawn5=Tu peux prendre tout ce que tu veux, mais ne me tue pas, s'il-te-plaaaît \!
+behavior.retaliate.weapondrawn6=Je ne veux pas mourir \! Reste à distance \!
 behavior.retaliate.weapondrawn7=Mère Notch, sauvez-moi \!
 
 behavior.build.fail.tooclose=Tu ne penses pas être un peu trop proche d'autres bâtiments ?
@@ -733,16 +733,16 @@ gui.button.random=Aléatoire
 gui.button.interact=Interagir
 gui.button.follow=Suis-moi
 gui.button.stay=Reste ici
-gui.button.move=Déplacement libre
+gui.button.move=Balade toi
 gui.button.trade=Échanger
 gui.button.sethome=Attribuer une habitation
 gui.button.ridehorse=Monter un cheval
 gui.button.special=Spécial
-gui.button.procreate=Reproduction
+gui.button.procreate=Faire un enfant
 gui.button.pickup=Prendre dans les bras
 gui.button.work=Travailler
 gui.button.inventory=Inventaire
-gui.button.chat=Chat
+gui.button.chat=Bavarder
 gui.button.joke=Blaguer
 gui.button.gift=Cadeau
 gui.button.shakehand=Serrer la main
@@ -793,69 +793,69 @@ gui.info.family.mother.you=Mère \: Vous
 gui.info.family.father.you=Père \: Vous
 
 gui.info.gift.line1=Cadeau disponible
-gui.info.gift.line2=(Clickez pour le prendre)
+gui.info.gift.line2=(Cliquez pour le prendre)
 
 gui.info.mood=Humeur \: %a1%
-gui.info.personality=Personalité \: %a1%
+gui.info.personality=Personnalité \: %a1%
 
-interaction.give.invalid1=Je ne peut pas utiliser ceci.
-interaction.give.invalid2=Qu'est-ce que c'est que ça ? Je ne peut rien faire avec.
-interaction.give.invalid3=Je ne sais pas ce que tu veut que je fasse avec ça.
-interaction.give.invalid4=Pourquoi me donnes tu cela ?
-interaction.give.invalid5=Hein ? Qu'est-ce que ce truc ?
+interaction.give.invalid1=Je ne peux pas utiliser ceci.
+interaction.give.invalid2=Qu'est-ce que c'est que ça ? Je ne peux rien faire avec.
+interaction.give.invalid3=Je ne sais pas ce que tu veux que je fasse avec ça.
+interaction.give.invalid4=Pourquoi me donnes-tu cela ?
+interaction.give.invalid5=Hein ? Qu'est-ce que c'est que ce truc ?
 
-interaction.divorce.priest.success1=Très bien. Vous êtes désormais plus marié.
+interaction.divorce.priest.success1=Très bien. Vous n'êtes désormais plus mariés.
 interaction.divorce.priest.success2=Comme vous le souhaitez. Peut-être trouverez vous l'amour autre part.
 
 interaction.divorce.notmarried1=Je ne suis marié avec personne.
 interaction.divorce.notmarried2=Pourquoi ai-je besoin de papiers de divorce ? Je ne suis pas marié.
-interaction.divorce.notmarried3=Je ne suis pas marié. Pourquoi me donnes tu ceux-ci ?
+interaction.divorce.notmarried3=Je ne suis pas marié. Pourquoi me donnes-tu ceux-ci ?
 
-interaction.divorce.fail.notmarriedtoplayer1=Quoi ? Tu veux que je le quittes ? Tu est fou \!
-interaction.divorce.fail.notmarriedtoplayer2=Non \! Je ne lui ferai jamais ca \! Je suis marié heureux \!
+interaction.divorce.fail.notmarriedtoplayer1=Quoi ? Tu veux que je le quitte ? Tu es horrible \!
+interaction.divorce.fail.notmarriedtoplayer2=Non \! Je ne lui ferai jamais ça \! Je suis marié et heureux \!
 interaction.divorce.fail.notmarriedtoplayer3=Qu'est-ce que tu crois faire ? Je ne vais pas utiliser cela \!
 
-interaction.divorce.success1=Je croyais que tu m'aimais \! Dégage de là \!
-interaction.divorce.success2=C'était drôle à la fin \! Au revoir, et bonne chance \!
-interaction.divorce.success3=Je ne peux pas admettre que tu as fait ça \! Pars, maintenant \!
-interaction.divorce.success4=Pourquoi voulais tu me faire ça ? Je veux jamais te revoir \!
+interaction.divorce.success1=Je croyais que tu m'aimais \! Va-t'en \!
+interaction.divorce.success2=Ce fut agréable jusqu'à la fin. Au revoir, et bonne chance.
+interaction.divorce.success3=Je ne peux pas croire ce que tu as fait \! Pars, maintenant \!
+interaction.divorce.success4=Pourquoi voulais-tu me faire ça ? Je veux plus jamais te revoir \!
 
 interaction.marry.fail.marriedtogiver1=C'est une belle bague, mais je suis déjà marié avec toi \!
-interaction.marry.fail.marriedtogiver2=On est déjà marié. L'as tu oublié ?
+interaction.marry.fail.marriedtogiver2=On est déjà marié. L'as-tu oublié ?
 
 interaction.marry.fail.marriedtoother1=Je suis désolé, je suis déjà marié.
 interaction.marry.fail.marriedtoother2=Oh, je croyais que tu le savais... Je suis déjà marié avec quelqu'un.
 interaction.marry.fail.marriedtoother3=Quoi ? Je suis déjà marié \!
 
-interaction.marry.fail.playermarried1=Euh,je vois cette blague sur ton doigt. Tu est déjà marié \!
-interaction.marry.fail.playermarried2=Qu'est-ce que t'essaie de faire ? Tu est déjà marié \!
-interaction.marry.fail.playermarried3=Quoi ? Vraiment ? Je croyais que tu était déjà marié avec quelqu'un d'autre, non ?
+interaction.marry.fail.playermarried1=Euh, je vois cette bague sur ton doigt. Tu es déjà marié \!
+interaction.marry.fail.playermarried2=Qu'est-ce que t'essaies de faire ? Tu es déjà marié \!
+interaction.marry.fail.playermarried3=Quoi ? Vraiment ? Je croyais que tu étais déjà marié avec quelqu'un d'autre, non ?
 interaction.marry.fail.playermarried4=Je suis épaté \! Tu as déjà un(e) époux(se).
 
-interaction.marry.fail.lowhearts1=Quoi ? Non, je ne t'aimes pas \!
+interaction.marry.fail.lowhearts1=Quoi ? Non, je ne t'aime pas \!
 interaction.marry.fail.lowhearts2=Oh, joli bague \! Euh, attends... C'est pour moi ? Non merci.
 interaction.marry.fail.lowhearts3=C'est pour moi ? Désolé, je ne te connais pas assez.
 interaction.marry.fail.lowhearts4=Je suis flatté, mais je ne te connais pas vraiment.
 
-interaction.engage.success1=Oui \! Je vais me marier avec toi \! Je t'aimes \!
+interaction.engage.success1=Oui \! Je vais me marier avec toi \! Je t'aime \!
 interaction.engage.success2=Bien sûr que je vais me marier avec toi \!
 interaction.engage.success3=A propos du temps...mais non, je blague \! Je t'aime \!
 interaction.engage.success4=C'est... C'est bien réel ? Je veux dire, le moment, pas l'anneau. Mais la bague est réelle ?
 
-interaction.marry.success1=Mon rêve devient réalité \! Je t'aimerais toujours \!
+interaction.marry.success1=Mon rêve devient réalité \! Je t'aimerai toujours \!
 interaction.marry.success2=On est enfin marié \! Maintenant, on fait quoi ?
-interaction.marry.success3=Je sui content d'être marié avec toi, %PlayerName%.
-interaction.marry.success4=Je ne peut attendre de commencer notre vie à deux \!
+interaction.marry.success3=Je suis content d'être marié avec toi, %PlayerName%.
+interaction.marry.success4=Je ne peux attendre de commencer notre vie à deux \!
 
 interaction.matchmaker.fail.married1=Je suis déjà marié avec quelqu'un.
-interaction.matchmaker.fail.married2=Je suis marié heureux, je ne veux pas un(e) autre époux(se).
-interaction.matchmaker.fail.married3=Je ne veux pas cela, je suis déjà marié.
+interaction.matchmaker.fail.married2=Je suis marié et heureux, je ne veux pas un(e) autre époux(se).
+interaction.matchmaker.fail.married3=Je ne veux pas ça, je suis déjà marié.
 
-interaction.matchmaker.fail.engaged1=Je suis déjà fiancé avec quelqu'un, je ne peut pas prendre cette bague.
+interaction.matchmaker.fail.engaged1=Je suis déjà fiancé avec quelqu'un, je ne peux pas prendre cette bague.
 interaction.matchmaker.fail.engaged2=J'ai promis de me marier avec quelqu'un d'autre.
-interaction.matchmaker.fail.engaged3=Oh, merci mais je pense que c'est bon. Je suis déjà fiancé de quelqu'un.
+interaction.matchmaker.fail.engaged3=Oh, merci mais je pense que c'est bon. Je suis déjà fiancé à quelqu'un.
 
-interaction.matchmaker.fail.needtwo1=Tu n'as pas besoin de deux bagues pour organiser un mariage arrangé ?
+interaction.matchmaker.fail.needtwo1=N'as-tu pas besoin de deux bagues pour organiser un mariage ?
 interaction.matchmaker.fail.needtwo2=Oh, okay \! Mais tu as besoin de deux bagues d'abord.
 interaction.matchmaker.fail.needtwo3=Mon époux(se) et moi avons tous les deux besoin d'une bague, mais tu n'en a qu'une.
 
@@ -881,9 +881,9 @@ interaction.mining.fail.toolow3=Je ne crois pas que c'est une bonne idée de cr�
 interaction.mining.fail.nopickaxe=Je n'ai pas de pioche. Comment puis-je miner sans en avoir une ?
 
 interaction.hire.fail.notenoughgold=Vous avez besoin de %a1% lingots d'or pour embaucher ce villageois.
-interaction.hire.success1=Content d'être là \! Quel est mon premier devoir ?
+interaction.hire.success1=Content d'être là \! Quel est mon premier travaille ?
 interaction.hire.success2=Tout est en ordre. Qu'est-ce que tu veux que je fasse ?
-interaction.hire.success3=Prêt à commencer à travailler, toujours, chef \!
+interaction.hire.success3=Prêt à travailler, à tout moment , chef \!
 
 interaction.ridehorse.fail.notnearby=Je ne vois aucun cheval proche.
 interaction.ridehorse.fail.notrideable=Je ne peux pas monter ce cheval.
@@ -917,23 +917,23 @@ interaction.adoptbaby.success=Super \! J'aimerai rencontrer %a1%, ton nouveau b�
 #   Spouse      (married to the player recieving the message   
 #####################################
 
-adult.gift.bad1=Ce n'est pas un beau cadeau...
+adult.gift.bad1=Ce n'est pas un bon cadeau...
 adult.gift.bad2=Qu'est-ce que tu veux que je fasse avec ça ?
 adult.gift.bad3=Non merci.
 adult.gift.bad4=Je n'en veux pas, pourquoi j'en voudrais ?
 adult.gift.bad5=Pourquoi me donnes tu cela ?
 adult.gift.bad6=C'est censé être un cadeau ? Non merci.
 
-adult.gift.good1=Tellement aimable \! Merci.
+adult.gift.good1=C'est tellement gentil \! Merci.
 adult.gift.good2=Merci \!
-adult.gift.good3=Quel attentionné \!
+adult.gift.good3=Quel gentillesse \!
 adult.gift.good4=Oh je les adores \!
 adult.gift.good5=Un cadeau ? Pour moi ? Merci \!
 
 adult.gift.better1=Hé, c'est cool ce truc \!
 adult.gift.better2=Merci, l'ami \!
-adult.gift.better3=%PlayerName%, tu es tellement un bon ami \!
-adult.gift.better4=Wow, je cherchais actuellement un comme ça \!
+adult.gift.better3=%PlayerName%, tu es vraiment un bon ami \!
+adult.gift.better4=Wow, j'en cherchais justement un \!
 adult.gift.better5=C'est un beau cadeau, ça \!
 
 adult.gift.best1=Je ne sais pas quoi dire...Merci beaucoup, %PlayerName%.
@@ -971,7 +971,7 @@ adult.joke.bad4=Tu régresses.
 adult.joke.bad5=Tu ne devrais pas blaguer à propos de cela.
 
 # 5 good handshakes when talking to an adult:
-adult.handshake.good1=Tu as une belle habitude \!
+adult.handshake.good1=Tu as une bonne poigne \!
 adult.handshake.good2=Ta force me montre que tu as un grand pouvoir \!
 adult.handshake.good3=Wow, tu es si poli \!
 adult.handshake.good4=Bonjour \!
@@ -986,9 +986,9 @@ adult.handshake.bad5=Va-t'en.
 
 # 5 good stories when talking to an adult:
 adult.tellstory.good1=Vraiment ? Je ne peut admettre que c'est vraiment arrivé \!
-adult.tellstory.good2=Je rêve être assez courageux pour m'assoir sur un creeper.
+adult.tellstory.good2=Je rêve d'être assez courageux pour m'assoir sur un creeper.
 adult.tellstory.good3=C'était vraiment une belle histoire. C'est originel ?
-adult.tellstory.good4=Tout cela c'est passé hier ? Pas de traces.
+adult.tellstory.good4=Tout cela c'est passé hier ? sûrement pas \!
 adult.tellstory.good5=J'était à coté hier, je peut impassiblement ne pas avoir entendu parler de ça.
 
 # 5 bad stories when talking to an adult:
@@ -1008,7 +1008,7 @@ adult.flirt.good5=C'est si adorable \! Tu m'as dit bonjour \!
 # 5 bad flirts when talking to an adult:
 adult.flirt.bad1=Si tu dis cela, alors prouve-le.
 adult.flirt.bad2=Euh... Attends, t'as dit pareil au boulanger \!
-adult.flirt.bad3=Pas dans un million d'années.
+adult.flirt.bad3=meme Pas dans un million d'années.
 adult.flirt.bad4=Assez pathétique ?
 adult.flirt.bad5=Un zombie a de meilleurs chance que toi.
 
@@ -1072,11 +1072,11 @@ parent.joke.bad1=Haha...
 parent.joke.bad2=Tu es mon enfant alors je me dois de rigoler... mais ce n'est pas drôle.
 parent.joke.bad3=Tu es aussi ennuyant que mon/ma premier conjoint(e).
 parent.joke.bad4=Je ne te critique pas, mais c'était nul.
-parent.joke.bad5=Personne ne nous a jamais dit que tu était le drôle, c'était pour vérifier.
+parent.joke.bad5=Personne ne nous a jamais dit si tu était drôle, c'était pour vérifier.
 
 # 5 good handshakes when talking to a parent:
 parent.handshake.good1=C'est bien de voir que nous avons élevé un enfant poli \!
-parent.handshake.good2=Quel civil \! On pense que tu va bien.
+parent.handshake.good2=Quel amabilité \! On pense que tu va bien.
 parent.handshake.good3=Ca fait du bien de te revoir \!
 parent.handshake.good4=Ou était-tu passé ?
 parent.handshake.good5=C'est bien, c'était un bon serrage de main que tu as eu, là.
@@ -1085,13 +1085,13 @@ parent.handshake.good5=C'est bien, c'était un bon serrage de main que tu as eu,
 parent.handshake.bad1=Si seulement tu était aussi poli aux réunions familiales.
 parent.handshake.bad2=Et la formalité ?
 parent.handshake.bad3=Tu va me serrer la main et pas me faire de câlins ?
-parent.handshake.bad4=Tu a la honte d'être vu avec moi, ou quoi ?
+parent.handshake.bad4=Tu a honte d'être vu avec moi, ou quoi ?
 parent.handshake.bad5=Je n'ai jamais remarqué à quel point tu était faible.
 
 # 5 good stories when talking to a parent:
 parent.tellstory.good1=Après ça, tu as retiré ta couche et tu l'a jeté sur le prêtre \!
 parent.tellstory.good2=Et à la fin tu est tombé(e) amoureux(se) ?
-parent.tellstory.good3=Ça a l'air bien \! Et quand va tu me rendre grand-parent ?
+parent.tellstory.good3=Ça a l'air bien \! Et quand vais-je devenir grand-parent ?
 parent.tellstory.good4=Oui, je me rappelle \! Ton cousin Bert a mangé trop de cookies.
 parent.tellstory.good5=La maison est terminée, maintenant ?
 
@@ -1106,12 +1106,12 @@ parent.tellstory.bad5=Tu n'est pas la plus scintillante des ampoules de la salle
 parent.hug.good1=Tu as tellement grandi \!
 parent.hug.good2=Je me rappelle que je te faisait un câlin tous les soir avant de dormir.
 parent.hug.good3=Mon adorable enfant \! 
-parent.hug.good4=Tu me laisses jamais tomber \! 
+parent.hug.good4=tu ne me laisses jamais tomber \! 
 parent.hug.good5=Tu es le meilleur enfant qu'un parent pourrais demander \!
 
 # 5 bad hugs when talking to a parent:
 parent.hug.bad1=Je ne suis pas dingue, je suis déçu(e). 
-parent.hug.bad2=Absorption ? Obtenez votre propre préparation pour gâteau\!
+parent.hug.bad2=Tu n'aimes pas ? Fais le gâteau à ta manière \!
 parent.hug.bad3=Pourquoi on ne se fait pas des câlins plus souvent ? Tu est gêné ? 
 parent.hug.bad4=Pas avant que tu te laves.
 parent.hug.bad5=Après m'avoir raconté cela ? Non.
@@ -1121,10 +1121,10 @@ parent.hug.bad5=Après m'avoir raconté cela ? Non.
 
 # 5 good chats when talking to a relative:
 relative.chat.good1=Tu fait comme ta mère quand elle était enfant \!
-relative.chat.good2=Je suis content que tu es venu me voir \!
+relative.chat.good2=Je suis content que tu sois venu me voir \!
 relative.chat.good3=On devrais faire une réunion de famille.
 relative.chat.good4=Tu es le plus adorable de la famille \!
-relative.chat.good5=Ne la dis a personne, mais tu es mon favori \!
+relative.chat.good5=Ne le dis a personne, mais tu es mon favori \!
 
 # 5 bad chats when talking to a relative:
 relative.chat.bad1=Pardon ? Mais tu sais a qui tu parles ?
@@ -1168,7 +1168,7 @@ relative.tellstory.bad5=Tu as officiellement été renié.
 
 # 5 good hugs when talking to a relative:
 relative.hug.good1=Ça fait du bien de te revoir \!
-relative.hug.good2=Tu devrais prendre du temps pour voir oncle Jim, après \!
+relative.hug.good2=Tu devrais prendre du temps pour voir l'oncle Jim, après \!
 relative.hug.good3=Je souhaiterais avoir à te donner autre chose que ce câlin \!
 relative.hug.good4=N'attends pas trop longtemps avant de me revoir \!
 relative.hug.good5=Je suis toujours partant pour tes câlins \!
@@ -1283,7 +1283,7 @@ childp.handshake.good5=Je ne comprends pas, mais bon \!
 # 5 bad handshakes when talking to an playerchild:
 childp.handshake.bad1=J'ai craché sur ma main.
 childp.handshake.bad2=Tu es tellement vieux.
-childp.handshake.bad3=Il y a que les nuls qui serrent la main.
+childp.handshake.bad3=Il n'y a que les nuls qui serrent la main.
 childp.handshake.bad4=Je te serres la main que si tu me donnes un gâteau.
 childp.handshake.bad5=Non, tu va glisser et me taper.
 
@@ -1299,7 +1299,7 @@ childp.tellstory.bad1=Je ne veut pas entendre parler de grand-mère.
 childp.tellstory.bad2=Tu dis toujours ça. Je veut juste un animal de compagnie.
 childp.tellstory.bad3=%ParentOpposite% t'a aussi menti.
 childp.tellstory.bad4=Tu as dit que tu n'avais pas mangé le gâteau et les cookies...
-childp.tellstory.bad5=Quelqu'un a dit que tu n'était une bonne personne, et j'approuve \!
+childp.tellstory.bad5=Quelqu'un a dit que tu n'était pas une bonne personne, et j'approuve \!
 
 # 5 good hugs when talking to an playerchild:
 childp.hug.good1=*embrasse* Tu es le meilleur \!
@@ -1334,7 +1334,7 @@ spouse.chat.bad1=Je sais qu'on n'est pas la pire famille, mais...
 spouse.chat.bad2=J'aime être à côté de toi mais j'ai besoin de place.
 spouse.chat.bad3=Parfois je souhaite avoir ma propre grotte pour échapper à toi et pût les autres.
 spouse.chat.bad4=Pars, je ne suis pas d'humeur.
-spouse.chat.bad5=Ou as a tu été ? As-tu vu quelqu'un pendant que je tournais la tête ?
+spouse.chat.bad5=Ou as a tu été ? As-tu vu quelqu'un quand j'avais le dos tourné
 
 # 5 good jokes when talking to an spouse:
 spouse.joke.good1=*rires* Je me suis marié pour ton humour \!
@@ -1348,7 +1348,7 @@ spouse.joke.bad1=Nulle...
 spouse.joke.bad2=Chéri(e), tu n'es pas drôle.
 spouse.joke.bad3=Ha...ha...ha...C'est pas drôle.
 spouse.joke.bad4=Tu devrais effacer celle-là de ta mémoire.
-spouse.joke.bad5=Okay...
+spouse.joke.bad5=D'accord...
 
 # 5 good handshakes when talking to an spouse:
 spouse.handshake.good1=Ta main est si douce \!

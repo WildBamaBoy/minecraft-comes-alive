@@ -17,7 +17,7 @@ achievement.babyGirl=Es ist ein Mädchen\!
 achievement.babyGirl.desc=Bekomme ein kleines Mädchen.
 achievement.twins=Zwillinge\!
 achievement.twins.desc=Bekomme Zwillinge.
-achievement.babyToChild=Sie werden so schnell groß
+achievement.babyToChild=Sie werden so schnell erwachsen
 achievement.babyToChild.desc=Ziehe dein Baby zu einem Kind auf.
 achievement.hunting=Volltreffer\!
 achievement.hunting.desc=Lass' dein Kind jagen gehen.
@@ -47,7 +47,7 @@ achievement.craftShapedRing.desc=Einen geschliffenen Diamanten herstellen.
 #######
 # Items & Blocks
 ##############################
-item.WeddingRing.name=Hochzeitsring
+item.WeddingRing.name=Ehering
 item.WeddingRingRG.name=roségoldener Hochzeitsring
 item.EngagementRing.name=Verlobungsring
 item.EngagementRingRG.name=roségoldener Verlobungsring
@@ -607,7 +607,7 @@ mood.overjoyed=Überglücklich
 mood.bored_to_tears=Zu Tode gelangweilt
 mood.bored=Gelangweilt
 mood.uninterested=Desinteressiert
-mood.silly=Zickig
+mood.silly=Albern
 mood.giggly=Albern
 mood.entertained=Unterhalten
 mood.infuriated=Kochend

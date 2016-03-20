@@ -638,10 +638,10 @@ gui.button.next=Seuraava
 ################
 # Relations
 ################################
-relation.husband=Husband
-relation.wife=Wife
-relation.daughter=Daughter
-relation.son=Son
+relation.husband=Mies
+relation.wife=Vaimo
+relation.daughter=Tytär
+relation.son=Poika
 
 ################
 # Dialogue
