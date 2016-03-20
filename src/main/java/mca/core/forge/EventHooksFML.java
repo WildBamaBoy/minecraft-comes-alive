@@ -137,6 +137,12 @@ public class EventHooksFML
 		if (playPortalAnimation)
 		{
 			EntityPlayerSP player = (EntityPlayerSP)mc.thePlayer;
+			
+			if (player == null)
+			{
+				return; //Crash when kicked from a server while using the ball. Client-side, so throw it out.
+			}
+			
 			player.prevTimeInPortal = player.timeInPortal;
 			player.timeInPortal -= 0.0125F;
 
