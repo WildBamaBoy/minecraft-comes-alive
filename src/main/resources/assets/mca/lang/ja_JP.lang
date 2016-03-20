@@ -725,9 +725,9 @@ parser.dad=父
 #################
 # GUI
 ################################
-gui.button.yes=Yes
-gui.button.no=No
-gui.button.ok=OK
+gui.button.yes=はい
+gui.button.no=いいえ
+gui.button.ok=オーケー
 gui.button.done=完了
 gui.button.random=ランダム
 gui.button.interact=対話
@@ -939,7 +939,7 @@ adult.gift.better5=これはかなり良い贈り物です！
 adult.gift.best1=な…なんて言ったらいいのか…。本当にありがとう、%PlayerName%！
 adult.gift.best2=どうやって･･･いえ、すごい！
 adult.gift.best3=わぁ！私は常にこれが欲しいと思っていたんだ！
-adult.gift.best4=This is fantastic\! I'll put it to good use.
+adult.gift.best4=素晴らしい！大切に使わせてもらうよ。
 adult.gift.best5=本当にありがとう。一生忘れないよ。
 
 # 5 good chats when talking to an adult:
@@ -959,7 +959,7 @@ adult.chat.bad5=君は、地下牢にでも入ればいい！
 # 5 good jokes when talking to an adult:
 adult.joke.good1=Haha\! Serves that Skelly right\!
 adult.joke.good2=*笑いながら* それはとても陽気だね！
-adult.joke.good3=That's funny\! Did you hear the one about the cows?
+adult.joke.good3=そりゃあ面白いね！牛の話も聞いたかい？
 adult.joke.good4=羊毛を刈られる羊は不運だけど、面白い！
 adult.joke.good5=その話は、これまでに聞いた中で最高の話だよ！
 
@@ -986,14 +986,14 @@ adult.handshake.bad5=あっち行って。
 
 # 5 good stories when talking to an adult:
 adult.tellstory.good1=本当に？それが全て本当に起こったことだとは信じられないよ！
-adult.tellstory.good2=I wish I was brave enough to take on a creeper.
+adult.tellstory.good2=クリーパーと闘う勇敢な心を持ちたいな。
 adult.tellstory.good3=すごく良い話だ！オリジナルなの？
 adult.tellstory.good4=全部昨日起きたことだって？まさか！
-adult.tellstory.good5=I was near there yesterday, I can't believe I didn't hear this already.
+adult.tellstory.good5=昨日はあそこの近くにいたんだけど、聞いてなかったことが信じられない。
 
 # 5 bad stories when talking to an adult:
-adult.tellstory.bad1=*Ahem* That's my mother you're talking about.
-adult.tellstory.bad2=This is why the village talks about you.
+adult.tellstory.bad1=エヘン。君が話しているそれは僕のお母さんだよ。
+adult.tellstory.bad2=それは村が君の噂話をしてる理由さ。
 adult.tellstory.bad3=意味がわかりません…
 adult.tellstory.bad4=あなたはひどい！\nクリーパーにだって、感情はあるよ！
 adult.tellstory.bad5=どうしたら貧しい羊を殺すことができるんだい！
@@ -1062,7 +1062,7 @@ parent.chat.bad5=このダイヤの剣、あげようと思ってたのに･･
 
 # 5 good jokes when talking to a parent:
 parent.joke.good1=あなたは私からユーモアを得たのね！*笑う*
-parent.joke.good2=You fill my day with laughter and joy\!
+parent.joke.good2=あなたは私の一日を笑いと喜びで満たしたよ！
 parent.joke.good3=私にはその笑いが必要だったんだ！
 parent.joke.good4=君はいつコメディアンになったの？とっても面白いね！
 parent.joke.good5=Great Aunt Berry would had loved to hear that one\!
@@ -1106,7 +1106,7 @@ parent.tellstory.bad5=You're not the brightest lightbulb in the room...
 parent.hug.good1=あなたはとても成長したね！
 parent.hug.good2=あの夜のこと、覚えてますよ。
 parent.hug.good3=私の可愛い子！ 
-parent.hug.good4=You never let me down\! 
+parent.hug.good4=あなたは決して私を失望させたりしないのに！ 
 parent.hug.good5=You're the best child a parent could ask for\!
 
 # 5 bad hugs when talking to a parent:
@@ -1122,7 +1122,7 @@ parent.hug.bad5=君があんな話をした後なのに？とんでもない。
 # 5 good chats when talking to a relative:
 relative.chat.good1=まるでお母さんみたいですね。
 relative.chat.good2=会いに来てくれて嬉しいよ！
-relative.chat.good3=We should get a family reunion together.
+relative.chat.good3=私たちは家族会議をするべきだよ
 relative.chat.good4=You're the sweetest of the family\!
 relative.chat.good5=Don't tell anyone, but you're my favorite\!
 
@@ -1156,12 +1156,12 @@ relative.handshake.bad3=これは、ある種の冗談ですか？
 relative.tellstory.good1=Let me just tell you, your mom was such a thief as a child\!
 relative.tellstory.good2=Sounds like Grandad Jay\! He used to throw people in the lake\!
 relative.tellstory.good3=Grandma used to sew the chicken feathers, too.
-relative.tellstory.good4=Mmm... Your mom's cow stew was amazing back then.
+relative.tellstory.good4=むむ…、思ってみれば君の母さんのビーフシチューは素晴らしかったね。
 relative.tellstory.good5=We should get together like that more often\!
 
 # 5 bad stories when talking to a relative:
 relative.tellstory.bad1=That's when the family fell apart...
-relative.tellstory.bad2=Oh, that's right... you're the snobby one...
+relative.tellstory.bad2=あぁ、そうなんだ…あなたはキザな人だね…
 relative.tellstory.bad3=気をひこうとするのをやめて。
 relative.tellstory.bad4=Your parents raised you better than that\!
 relative.tellstory.bad5=You have officially been disowned.
@@ -1169,7 +1169,7 @@ relative.tellstory.bad5=You have officially been disowned.
 # 5 good hugs when talking to a relative:
 relative.hug.good1=久しぶりにあなたに会った！
 relative.hug.good2=You should make time to see Uncle Jimmy, next\!
-relative.hug.good3=I wish I had more to give you other than this hug\!
+relative.hug.good3=あなたのハグは他の人より良かったよ！
 relative.hug.good4=Don't wait too long to see me again\!
 relative.hug.good5=私は常に君のハグを楽しみにしているんだよ！
 
@@ -1187,7 +1187,7 @@ relative.hug.bad5=おぇっ、遠慮しとくよ。 君は汗をかき過ぎて�
 child.chat.good1=私はあなたに関する話を聞いたんだ！あなたは英雄なの？
 child.chat.good2=Hi. I was going to go try and climb to the roof.
 child.chat.good3=Do you wanna go burn stuff with me?
-child.chat.good4=I'm going to be a hunter like you and kill many things\!
+child.chat.good4=我长大时会做猎人，去杀很多东西！
 child.chat.good5=やあ！今日は何をするの？　私は泳いでくるんだ！
 
 # 5 bad chats when talking to a child:
@@ -1199,7 +1199,7 @@ child.chat.bad5=ラララ、聞こえない！ラララ。
 
 # 5 good jokes when talking to a child:
 child.joke.good1=君はパパよりも面白いね！
-child.joke.good2=Tell me another one\!
+child.joke.good2=誰かに伝えて！
 child.joke.good3=You're the funniest person alive\!
 child.joke.good4=ママにも教えよっと\! *笑い*
 child.joke.good5=それは、葉を食べなきゃいけないね！
@@ -1359,7 +1359,7 @@ spouse.handshake.good5=*Continues to shake hand* Tell me when to stop\!
 
 # 5 bad handshakes when talking to an spouse:
 spouse.handshake.bad1=握手？それよりもキスしない？
-spouse.handshake.bad2=*Squeezes hand hard*
+spouse.handshake.bad2=*強く手を握る*
 spouse.handshake.bad3=君の手は汚いね。握手したくないよ。
 spouse.handshake.bad4=They have germs on them.
 spouse.handshake.bad5=Why don't you get a decent job instead of shaking my hand?
@@ -1375,7 +1375,7 @@ spouse.tellstory.good5=すごい、君はこれまでで最高のハンターだ
 spouse.tellstory.bad1=Talk to me when you kill something other than a harmless cow.
 spouse.tellstory.bad2=Don't do something that reckless\!
 spouse.tellstory.bad3=You have a family to think about\!
-spouse.tellstory.bad4=...If you liked them why didn't you marry them, instead?
+spouse.tellstory.bad4=あなたがあの人たちのことを好きだったのならなんで結婚しなかったの？
 spouse.tellstory.bad5=Why did you wear the pink fluffy underwear? Whose were they?
 
 # 5 good flirts when talking to an spouse:

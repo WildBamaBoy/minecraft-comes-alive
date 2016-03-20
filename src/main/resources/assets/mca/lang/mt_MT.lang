@@ -621,8 +621,8 @@ mood.pleased=Kuntent(a)
 # Gift Responses
 ################################
 gift.cake1=Dan x'inhu? Kejk? Il-marelli. Jeħtieġ... insib lill-żewġi.
-gift.cake2=A cake\! How thoughtful\! I...wait, what's this odd feeling?
-gift.cake3=Finally, something that will help my marriage...
+gift.cake2=Kejk\! Xi ħsieb sabiħ\! Jien...stenna, x'qed inħoss?
+gift.cake3=Fl-aħħar, xi ħaġa biex tgħin iż-żwieġ tiegħi...
 gift.cake.refuse1=M'għandix aptit aktar kejk, iżda nirringrazzjak xorta.
 gift.cake.refuse2=Le grazzi, ma' rridx aktar kejk.
 gift.cake.refuse3=Eh, le. Ma' jtinix.
@@ -638,7 +638,7 @@ gui.button.next=Li Jmiss
 ################
 # Relations
 ################################
-relation.husband=Husband
+relation.husband=Ir-Raġel
 relation.wife=Il-Mara
 relation.daughter=Il-Bint
 relation.son=L-Iben
@@ -709,11 +709,11 @@ mining.search.none=M'hawnx %a1% fil-qrib.
 mining.search.nearby=Hawn xi %a1% fil-qrib...
 mining.search.value=Hemm xi %a1% %a2% blokkijiet il-bogħod.
 
-farming.noseeds=I don't have enough %a1%. I will need at least %a2% to create a farm.
-farming.nohoe=I'll need to have a hoe in order to farm.
+farming.noseeds=M'għandix biżżejjed %a1%. Neħtieġ tal-anqas %a2% biex nibni razzett.
+farming.nohoe=Neħtieġ zappun biex naħdem l-għalqa.
 
-hunting.badspot=I can't find a good hunting spot.
-sleep.nohome=I don't have a home point\!
+hunting.badspot=Ma' nistax insib post sura għall-kaċċa.
+sleep.nohome=M'għandix post immarkat bħala dari\!
 sleep.invalid=Il-punt li jimmarka d-dar tiegħi mhux validu\!
 
 #################
@@ -809,55 +809,55 @@ interaction.divorce.priest.success2=Kif trid. Nispera li ssib l-imħabba band' o
 
 interaction.divorce.notmarried1=Jien miżżewweġ (jew miżżewġa) lil ħadd.
 interaction.divorce.notmarried2=X'nambihom il-formoli tad-divorzju? M'inhix miżżewweġ (jew miżżewġa).
-interaction.divorce.notmarried3=I'm not married. Why are you giving these to me?
+interaction.divorce.notmarried3=Mhinix miżżewwġa. Għaliex qiegħed ittini dawn?
 
-interaction.divorce.fail.notmarriedtoplayer1=What?\! You want me to leave my spouse? You're awful\!
-interaction.divorce.fail.notmarriedtoplayer2=No\! I won't do that to my spouse\! I am happily married\!
-interaction.divorce.fail.notmarriedtoplayer3=What do you think you're doing? I'm not going to use that\!
+interaction.divorce.fail.notmarriedtoplayer1=X'inhu?\! Tridni nitlaq lill-żewġi? Int mill-għar\!
+interaction.divorce.fail.notmarriedtoplayer2=Le\! Mhux se nagħmel hekk lil żewġi\! Jien għandi żwieġ sabiħ\!
+interaction.divorce.fail.notmarriedtoplayer3=X'minn għalik qiegħed tagħmel? Mhux se nużah dak\!
 
-interaction.divorce.success1=I thought you loved me\! Get out\!
-interaction.divorce.success2=It was fun while it lasted. Goodbye, and good luck.
-interaction.divorce.success3=I can't believe you're doing this\! Leave, now\!
-interaction.divorce.success4=Why would you do this to me? I never want to see you again\!
+interaction.divorce.success1=Ħsibt li tħobbni\! Itlaq il-barra\!
+interaction.divorce.success2=Kien żmien sabiħ sakemm spiċċa. Saħħa, u r-risq.
+interaction.divorce.success3=Ma' rridx nemmen li qiegħed tagħmel dan\! Itlaq, issa\!
+interaction.divorce.success4=Għaliex għamiltli hekk? Qatt ma' rrid nerġa nara wiċċek\!
 
-interaction.marry.fail.marriedtogiver1=It's a pretty ring, but I am already married to you, silly.
-interaction.marry.fail.marriedtogiver2=We are already married. Did you forget?
+interaction.marry.fail.marriedtogiver1=Ċurkett ħelu, iżda jien mhux diġà miżżewġa miegħek, iblaħ.
+interaction.marry.fail.marriedtogiver2=Aħna diġà miżżewġin. Mela nsejt?
 
-interaction.marry.fail.marriedtoother1=I'm sorry, no...I'm already married.
-interaction.marry.fail.marriedtoother2=Oh, I thought you knew...I'm already married to someone.
-interaction.marry.fail.marriedtoother3=What?\! I'm already married\!
+interaction.marry.fail.marriedtoother1=Jiddispjaċini, le...Jien diġà miżżewġa.
+interaction.marry.fail.marriedtoother2=Oh, ħsibt li kont taf...Jien diġà miżżewġa lil xi ħadd.
+interaction.marry.fail.marriedtoother3=X'inhu?\! Jien diġà miżżewġa\!
 
-interaction.marry.fail.playermarried1=Uh...I see that ring on your finger. You're already married\!
-interaction.marry.fail.playermarried2=Just what are you trying to do? You're already married\!
-interaction.marry.fail.playermarried3=What? Really? I think you're married to someone else, aren't you?
-interaction.marry.fail.playermarried4=I'm appalled\! You already have a spouse.
+interaction.marry.fail.playermarried1=Uh.. qiegħed nara dak iċ-ċurket f'subajk. Int diġà miżżewweġ\!
+interaction.marry.fail.playermarried2=X'minn għalik qiegħed tipprova tagħmel? Int diġà miżżewweġ\!
+interaction.marry.fail.playermarried3=X'inhu? Tassew? Naħseb li int diġà miżżewweġ lil xi ħadd ieħor, hux veru?
+interaction.marry.fail.playermarried4=Iddiżgustata\! Int diġà miżżewweġ.
 
-interaction.marry.fail.lowhearts1=What? No\! I don't like you\!
-interaction.marry.fail.lowhearts2=Oh, pretty ring\! Oh wait...it's for me? Um...no.
-interaction.marry.fail.lowhearts3=Is that for me? Sorry, I just don't know you enough.
-interaction.marry.fail.lowhearts4=I'm flattered, but I don't really know you.
+interaction.marry.fail.lowhearts1=X'inhu? Le\! Ma' togħġobnix\!
+interaction.marry.fail.lowhearts2=Oh, ċurkett ħelu\! Stenna...fan għalija? Emm...le.
+interaction.marry.fail.lowhearts3=Dak għalija? Jiddispjaċini, inħoss li ma' nafekx biżżejjed.
+interaction.marry.fail.lowhearts4=Inħossni onorata, iżda ma' nafekx sew.
 
-interaction.engage.success1=Yes\! I will marry you\! I love you\!
+interaction.engage.success1=Iva\! Niżżewġek\! Inħobbok\!
 interaction.engage.success2=U żgur li niżżewġek\!
 interaction.engage.success3=Stenna naqra oħra... qiegħed niċċajta\! Inħobbok\!
-interaction.engage.success4=Is...is this real? I mean, this moment, not the ring. But the ring is real, right?
+interaction.engage.success4=Dan... dan ta' veru? Irrid ngħid, dal-mument, mhux iċ-ċurkett. Imma ċ-ċurkett ta' veru, hux?
 
-interaction.marry.success1=It's a dream come true\! I'll love you forever\!
-interaction.marry.success2=We're finally married\! Now what?
-interaction.marry.success3=I'm happy to be married to you, %PlayerName%.
-interaction.marry.success4=I can't wait to start our life together\!
+interaction.marry.success1=Din ħolma saret realtà\! Inħobbok għal dejjem\!
+interaction.marry.success2=Fl-aħħar miżżewġin\! Issa x'imiss?
+interaction.marry.success3=Tassew ferħana li miżżewġa lilek, %PlayerName%.
+interaction.marry.success4=Għandi ġenn biex nibdew ħajjitna flimkien\!
 
 interaction.matchmaker.fail.married1=Diġà fi żwieġ ma' xi ħadd ieħor.
-interaction.matchmaker.fail.married2=I'm happily married, I do not want another spouse.
-interaction.matchmaker.fail.married3=I don't want that - I'm already married.
+interaction.matchmaker.fail.married2=Jien ferħana fi żwieġi, ma' nixtieqx xi żewġ ieħor.
+interaction.matchmaker.fail.married3=Ma' rridux dak - diġà miżżewġa.
 
-interaction.matchmaker.fail.engaged1=I am engaged to someone already, I can't take that ring.
-interaction.matchmaker.fail.engaged2=I've promised to marry someone else.
-interaction.matchmaker.fail.engaged3=Oh, thanks but I think I'm okay. I'm already engaged to someone.
+interaction.matchmaker.fail.engaged1=Jien diġà għarusa lil xi ħadd. Ma' nistax naċċetta dak iċ-ċurkett.
+interaction.matchmaker.fail.engaged2=Għamilt wiegħda li niżżewweġ li xi ħadd ieħor.
+interaction.matchmaker.fail.engaged3=Oh, grazzi, iżda qiegħda tajjeb kif jien. Diġà għarusa lil xi ħadd.
 
-interaction.matchmaker.fail.needtwo1=Don't you need two rings to arrange a marriage?
-interaction.matchmaker.fail.needtwo2=Oh, okay\! But you need two rings first.
-interaction.matchmaker.fail.needtwo3=My spouse and I will both need a ring, but you only have one.
+interaction.matchmaker.fail.needtwo1=Ma' teħtieġx żewġt iċrieket biex tiżżewweġ?
+interaction.matchmaker.fail.needtwo2=Ok, owkej\! Iżda l-ewwel nett teħtieġ żewġt iċrieket.
+interaction.matchmaker.fail.needtwo3=Jien u żewġi t-tnejn li aħna neħtieġu ċurkett, imma int wieħed biss għandek.
 
 interaction.matchmaker.fail.novillagers1=Mhinix nara l'ħadd fil-qrib. Lil minn xtaqtni niżżewweġ?
 interaction.matchmaker.fail.novillagers2=Għadni ma' nafx... mexxini eqreb lejn min taħseb li jgħodd jew tgħodd għalija.
@@ -865,38 +865,38 @@ interaction.matchmaker.fail.novillagers3=Eh, imma ma jidher li hawn ħadd fil-qr
 
 interaction.matchmaker.fail.invalid1=Imma ma' nistax niżżewweġ lil %Name%.
 interaction.matchmaker.fail.invalid2=L-uniku raħħal fil-qrib huwa jew hija %Name%, u ma' nistax niżżewġu jew niżżewwiġha.
-interaction.matchmaker.fail.invalid3=I don't think that I can marry %Name%. That might be a little strange.
+interaction.matchmaker.fail.invalid3=Ma' naħsibx li nista' niżżewweġ lil %Name%. Tkun ħaġa ftit stramba.
 
-interaction.sethome.success1=Okay, this will be my new home point.
-interaction.sethome.success2=I understand, I'll be sleeping here at night.
+interaction.sethome.success1=Owkey, dal-punt il-ġdid se jimmarka dari.
+interaction.sethome.success2=Fhimt, nibda norqod hawn bil-lejl.
 interaction.sethome.success3=Mela le, %PlayerName%.
 
 interaction.sethome.fail1=This doesn't look like a safe home point for me.
 interaction.sethome.fail2=This place doesn't seem safe. Is there another place nearby?
 interaction.sethome.fail3=I'm not too sure about this place. I can't have my home point here.
 
-interaction.mining.fail.toolow1=We're too low for me to create a mine.
-interaction.mining.fail.toolow2=We need to be on higher ground.
-interaction.mining.fail.toolow3=I don't think it's a good idea to create a mine here. We need to be higher.
-interaction.mining.fail.nopickaxe=I don't have a pickaxe. How am I supposed to mine without one?
+interaction.mining.fail.toolow1=Qiegħdin fil-baxx wisq biex nibda minjiera.
+interaction.mining.fail.toolow2=Neħtieġu nkunu fuq art aktar fil-għoli.
+interaction.mining.fail.toolow3=Ma' naħsibx li idea tajba nibdew minjiera hawn. Neħtieġu nitilgħu aktar il-fuq.
+interaction.mining.fail.nopickaxe=M'għandix baqqun. Kif tridni nimmina mingħirha?
 
 interaction.hire.fail.notenoughgold=Teħtieġ mazz ta' %a1% ingotti tad-deheb sabiex tħaddem dar-raħħal.
-interaction.hire.success1=Glad to be on board\! What's my first job?
-interaction.hire.success2=Everything is in order. What would you like me to do?
-interaction.hire.success3=Ready to start working at any time, boss\!
+interaction.hire.success1=Kuntent naħdem miegħek\! X'inhu l-ewwel xogħol tiegħi?
+interaction.hire.success2=Kollox jidher sew. Xi tridni nagħmel?
+interaction.hire.success3=X'ħin trid nibda naħdem, boss\!
 
-interaction.ridehorse.fail.notnearby=I don't see any horses nearby.
+interaction.ridehorse.fail.notnearby=M'inix nara żwiemel fil-qrib.
 interaction.ridehorse.fail.notrideable=Ma' nistax nirkeb dak iż-żiemel.
 
-interaction.resetbaby.success=Very well, you may now have another child. Be more careful next time\!
+interaction.resetbaby.success=Tajjeb wisq, issa jista' jkollok tifel ieħor. Oqgħod aktar attent darb' oħra\!
 interaction.resetbaby.fail=M'għandekx tarbija.
 
 interactionp.marry.sent=Saqsejt lil %a1% għaż-żwieġ.
 interactionp.marry.success=Issa miżżewweġ (jew miżżewġa) lil %a1%.
-interactionp.marry.fail.alreadymarried=You are already married or engaged.
-interactionp.marry.fail.targetalreadymarried=%a1% is already married.
-interactionp.marry.fail.noweddingring=You do not have a wedding ring.
-interactionp.marry.prompt=%a1% would like to marry you.
+interactionp.marry.fail.alreadymarried=Int diġà miżżewwġ jew għarus.
+interactionp.marry.fail.targetalreadymarried=%a1% diġà miżżewweġ.
+interactionp.marry.fail.noweddingring=M'għandekx ċurkett taż-żwieġ.
+interactionp.marry.prompt=%a1% jixtieq jiżżewġek.
 
 interactionp.havebaby.sent=You have asked %a1% to have a baby.
 interactionp.havebaby.prompt=%a1% would like to have a baby.
@@ -917,7 +917,7 @@ interaction.adoptbaby.success=Wonderful\! I'd like you to meet %a1%, your new ba
 #   Spouse      (married to the player recieving the message   
 #####################################
 
-adult.gift.bad1=This isn't a good gift...
+adult.gift.bad1=Dan mhux rigal addattat...
 adult.gift.bad2=What made you think that I would like this?
 adult.gift.bad3=Le grazzi.
 adult.gift.bad4=I don't want that, why would I?
@@ -927,7 +927,7 @@ adult.gift.bad6=Is this supposed to be a gift? No thanks.
 adult.gift.good1=How considerate\! Thank you.
 adult.gift.good2=Grazzi\!
 adult.gift.good3=How thoughtful\!
-adult.gift.good4=Oh, I love these\!
+adult.gift.good4=Oh, kemm inħobbhom dawn\!
 adult.gift.good5=A gift? For me? How nice\!
 
 adult.gift.better1=Hey, this is pretty cool\!
@@ -967,7 +967,7 @@ adult.joke.good5=That's the best I have ever heard\!
 adult.joke.bad1=Don't speak about my pig like that\!
 adult.joke.bad2=Ħmm.
 adult.joke.bad3=Ah, you're not the funniest in town.
-adult.joke.bad4=That's low.
+adult.joke.bad4=Waqajt fil-baxx.
 adult.joke.bad5=You shouldn't joke about that.
 
 # 5 good handshakes when talking to an adult:
@@ -980,13 +980,13 @@ adult.handshake.good5=Why, hello there\!
 # 5 bad handshakes when talking to an adult:
 adult.handshake.bad1=Seriously? After you slaughtered the cow?
 adult.handshake.bad2=Um, no that's okay.
-adult.handshake.bad3=I'm not a stranger, you don't have to be so polite.
-adult.handshake.bad4=Wow really? This isn't like you.
+adult.handshake.bad3=M'inhix barrani, m'hemmx għalfejn tkun daqshekk formali.
+adult.handshake.bad4=Wow veru? Din qisa mhux minn għandek.
 adult.handshake.bad5=Itlaq l'hemm.
 
 # 5 good stories when talking to an adult:
-adult.tellstory.good1=Really? I can't believe that all happened\!
-adult.tellstory.good2=I wish I was brave enough to take on a creeper.
+adult.tellstory.good1=Tassew? Ma' nemminx li ġara dak kollu\!
+adult.tellstory.good2=Nixtieq kont qalbieni biżżejjed biex inħebb għal xi kriper.
 adult.tellstory.good3=That was a really good story\! Is it original?
 adult.tellstory.good4=All of that happened yesterday? No way\!
 adult.tellstory.good5=I was near there yesterday, I can't believe I didn't hear this already.
@@ -994,7 +994,7 @@ adult.tellstory.good5=I was near there yesterday, I can't believe I didn't hear 
 # 5 bad stories when talking to an adult:
 adult.tellstory.bad1=*Ahem* That's my mother you're talking about.
 adult.tellstory.bad2=This is why the village talks about you.
-adult.tellstory.bad3=I don't get it...
+adult.tellstory.bad3=Mhux qed nifhem...
 adult.tellstory.bad4=You're terrible\! Creepers have feelings too\!
 adult.tellstory.bad5=How could you kill a poor sheep?\!
 
@@ -1002,7 +1002,7 @@ adult.tellstory.bad5=How could you kill a poor sheep?\!
 adult.flirt.good1=Kemm int qalbieni\!
 adult.flirt.good2=Oh, you\! Stop being so cute\!
 adult.flirt.good3=*Blushes* Do you mean it?
-adult.flirt.good4=Oh, my...
+adult.flirt.good4=Il, marelli...
 adult.flirt.good5=That was so adorable\! You had me at "hello"\! 
 
 # 5 bad flirts when talking to an adult:
@@ -1013,7 +1013,7 @@ adult.flirt.bad4=Tassew patetiku.
 adult.flirt.bad5=A zombie has a better chance than you.
 
 # 5 good hugs when talking to an adult:
-adult.hug.good1=Long time no see\!
+adult.hug.good1=Kemm ilni ma narak\!
 adult.hug.good2=Thank you, I needed that.
 adult.hug.good3=At least one thing made my day today.
 adult.hug.good4=You're as snuggly as a sheep\!
@@ -1449,7 +1449,7 @@ relative.gift.best3=You give the best gifts, %PlayerName%\!
 relative.gift.best4=I can't believe this, you're too sweet, thank you\!
 relative.gift.best5=You know me like the back of your hand\!
 
-parent.gift.bad1=Oh, uh, thanks but no thanks.
+parent.gift.bad1=Oh, emm, grazzi imma le grazzi.
 parent.gift.bad2=I appreciate the thought, but you can keep it.
 parent.gift.bad3=Why can't you bring me something other than junk?
 parent.gift.bad4=Mhux biex inweġġalek qalbek, iżda ma rridux dak.
@@ -1463,7 +1463,7 @@ parent.gift.better2=You didn't have to get this for me, thanks\!
 parent.gift.better3=You never have to give me anything, but thank you so much\!
 
 parent.gift.best1=I always knew that one day I'd find this again. Thank you so much\!
-parent.gift.best2=I lost this years ago, thanks\!
+parent.gift.best2=Din tliftha snin ilu, grazzi\!
 parent.gift.best3=This was yours when you were a child, I can't believe you found it\!
 
 child.gift.bad1=Jaqq, ma' jogħġobnix\!
@@ -1473,15 +1473,15 @@ child.gift.bad4=Lanqas biss naf x'suppost hu\!
 
 child.gift.good1=Dan.. dan kollu tiegħi?
 child.gift.good2=Dan tassew għalija?
-child.gift.good3=This is cool\!
+child.gift.good3=Tal-ġenn\!
 
 child.gift.better1=Awesome\! I'm going to show this to all my friends.
 child.gift.better2=You found it\! I lost this a few minutes ago.
 child.gift.better3=My friend stole one of these from me. Did you beat him up for me?
 
-child.gift.best1=%PlayerName%, you give the best presents\!
+child.gift.best1=%PlayerName%, int tagħti l-isbaħ rigali\!
 child.gift.best2=Finally\! My friend will stop bragging now.
-child.gift.best3=Wow\! Where did you get this thing?
+child.gift.best3=Wow\! Din minn fejn ġibtha?
 child.gift.best4=Missieri għandu bħalu. Issa għandi jien ukoll\!
 
 spouse.gift.bad1=Oh honey...this is just terrible.

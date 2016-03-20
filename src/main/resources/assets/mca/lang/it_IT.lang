@@ -48,9 +48,9 @@ achievement.craftShapedRing.desc=Fabbrica un anello a forma di diamante.
 # Items & Blocks
 ##############################
 item.WeddingRing.name=Fede nuziale
-item.WeddingRingRG.name=Anello matrimoniale d'oro rosa
+item.WeddingRingRG.name=Anello matrimoniale rosa
 item.EngagementRing.name=Anello di fidanzamento
-item.EngagementRingRG.name=Anello di fidanzamento d'oro rosa
+item.EngagementRingRG.name=Anello di fidanzamento rosa
 item.MatchmakersRing.name=Anello organizza-matrimoni
 item.BabyBoy.name=Maschietto
 item.BabyGirl.name=Femminuccia
@@ -623,7 +623,7 @@ mood.pleased=Compiaciuto
 gift.cake1=Cos'è questa? Una torta? Oh...oh mio. Devo...devo trovare la mia sposa.
 gift.cake2=Una torta\! Che bel pensiero\! Io...aspetta, cos'è questa strana sensazione?
 gift.cake3=Finalmente, qualcosa che aiuterà il mio matrimonio...
-gift.cake.refuse1=Non penso di voler altra torta, ma ti ringrazio.
+gift.cake.refuse1=Non penso di voler dell' altra torta, ma ti ringrazio.
 gift.cake.refuse2=No grazie, Non voglio più la torta.
 gift.cake.refuse3=Oh, no. Non posso.
 
@@ -777,7 +777,7 @@ gui.button.setup.gender.false=Genere\: Femmina
 gui.button.setup.gender.true=Genere\: Maschio
 
 gui.title.namebaby.male=È un maschio\!
-gui.title.namebaby.female=È una bambina\!
+gui.title.namebaby.female=È una Femmina\!
 gui.title.namebaby=Nome del bambino\:
 gui.title.tombstone=Inserisci il testo della tomba\:
 gui.title.editor=Modifica il villico
@@ -871,9 +871,9 @@ interaction.sethome.success1=Ok, sarà la mia nuova casa.
 interaction.sethome.success2=Ho capito, dormirò qui stanotte.
 interaction.sethome.success3=Sicuro, %PlayerName%.
 
-interaction.sethome.fail1=Questa non sembra una casa sicura per me. C'è qualche %a1% sulla strada.
-interaction.sethome.fail2=C'è un altro posto vicino? C'è qualche %a1% sulla strada.
-interaction.sethome.fail3=Non posso abitare qua. C'è qualche %a1% sulla strada.
+interaction.sethome.fail1=Questa non sembra una casa sicura per me. C'è un po' di %a1% sulla strada.
+interaction.sethome.fail2=C'è un altro posto vicino? C'è un po' di %a1% sulla strada.
+interaction.sethome.fail3=Non posso abitare qua. C'è un po' di %a1% sulla strada.
 
 interaction.mining.fail.toolow1=Siamo troppo in basso per creare una miniera.
 interaction.mining.fail.toolow2=Dobbiamo essere in un punto più alto.
@@ -1113,7 +1113,7 @@ parent.hug.good5=Sei il miglior bambino e un genitore possa chiedere\!
 parent.hug.bad1=Non sono pazzo, sono deluso.
 parent.hug.bad2=Leccapiedi? Prendi la tua torta\!
 parent.hug.bad3=Perché non ci abbracciamo come ora più spesso? Sei imbarazzato?
-parent.hug.bad4=Non finché non ti lavi.
+parent.hug.bad4=No finché non ti lavi.
 parent.hug.bad5=Dopo che me l'hai detto? In nessun modo.
 
 
@@ -1212,7 +1212,7 @@ child.joke.bad4=Ma, chi è mela?
 child.joke.bad5=Non essere meschino\!
 
 # 5 good handshakes when talking to a child:
-child.handshake.good1=Hiya\! Piaci a qualcuno che conosco...
+child.handshake.good1=Hiya\! Piaci a una persona che conosco...
 child.handshake.good2=Il papà dice che è una cosa buona da fare.
 child.handshake.good3=Batti cinque\! Rallenta... troppo lento\!
 child.handshake.good4=Ciao straniero\!
@@ -1249,7 +1249,7 @@ child.greeting3=Eek\! Sei spaventoso\!
 childp.chat.good1=Oh, andrò ad esplorare dopo.
 childp.chat.good2=Possiamo andare a campeggio? Perfavore?\!
 childp.chat.good3=Ciao, potresti prepararmi una torta?
-childp.chat.good4=Posso avere una mia stanza fuori da casa mia? Sarebbe grandioso\!
+childp.chat.good4=Posso avere una mia stanza fuori da casa nostra? Sarebbe grandioso\!
 childp.chat.good5=Andiamo in una caverna\! Suona così divertente\!
 
 # 5 bad chats when talking to an playerchild:
@@ -1261,7 +1261,7 @@ childp.chat.bad5=Non voglio una baby sitter.
 
 # 5 good jokes when talking to an playerchild:
 childp.joke.good1=*Ride* Diccene un'altra\!
-childp.joke.good2=Lo devo dire hai miei amici questo\!
+childp.joke.good2=Lo devo dire ai miei amici questo\!
 childp.joke.good3=Come è esploso il creeper?\!
 childp.joke.good4=*ride* Perché non ce ne sono più 3?
 childp.joke.good5=*Ride* ... *Ride*... *Ride*
@@ -1292,7 +1292,7 @@ childp.tellstory.good1=%ParentOpposite% lo ha fatto davvero? Cosa successe ai su
 childp.tellstory.good2=Voglio anche andare ad esplorare una caverna\! Andiamo\!
 childp.tellstory.good3=Un giorno ucciderò più creeper di te\!
 childp.tellstory.good4=Oh, oh oh\! Possiamo arrampicarci su un albero?\!
-childp.tellstory.good5=Fa male la lava? 
+childp.tellstory.good5=Ha fatto male la lava? 
 
 # 5 bad stories when talking to an playerchild:
 childp.tellstory.bad1=Non voglio sentire niente sulla nonna.
@@ -1389,7 +1389,7 @@ spouse.flirt.good5=*occhiolino* hai capito\!
 spouse.flirt.bad1=*sospiro*
 spouse.flirt.bad2=Questa persona sta invecchiando...come te.
 spouse.flirt.bad3=Siamo sposati, non dobbiamo più farlo.
-spouse.flirt.bad4=Parla all'albero, si preoccupa di più.
+spouse.flirt.bad4=Parla all'albero, si interessa di più.
 spouse.flirt.bad5=Si, si... Cosa stavi dicendo?
 
 # 5 good hugs when talking to an spouse:
@@ -1414,7 +1414,7 @@ spouse.kiss.good4=Ti adoro, baby\!
 spouse.kiss.good5=Non ti voglio scambiare con niente al mondo\! 
 
 # 5 bad kisses when talking to an spouse:
-spouse.kiss.bad1=Non dove qualcuno ci può vedere...
+spouse.kiss.bad1=Non dove possiamo esser visti...
 spouse.kiss.bad2=Non dobbiamo se tu non vuoi.
 spouse.kiss.bad3=Il tuo alito sa di crocchette per il cane.
 spouse.kiss.bad4=Vai a bere dal lago.
@@ -1455,7 +1455,7 @@ parent.gift.bad3=Perchè non mi dai altro che schifezze?
 parent.gift.bad4=Non voglio ferire i tuoi sentimenti, ma non lo voglio.
 
 parent.gift.good1=Oh, che gentile\!
-parent.gift.good2=Grazie veramente tante\!
+parent.gift.good2=Tante grazie\!
 parent.gift.good3=Sei sempre stato il mio preferito.
 
 parent.gift.better1=Dove l'hai preso? è grandioso\!
