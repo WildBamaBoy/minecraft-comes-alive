@@ -15,7 +15,8 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.TextComponentString;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Font.Format;
 import radixcore.constant.Time;
@@ -36,7 +37,7 @@ public class CommandMCA extends CommandBase
 	}
 
 	@Override
-	public void processCommand(ICommandSender commandSender, String[] input) throws CommandException 
+	public void execute(MinecraftServer server, ICommandSender commandSender, String[] input) throws CommandException 
 	{
 		try
 		{
@@ -365,14 +366,14 @@ public class CommandMCA extends CommandBase
 
 	private void addChatMessage(ICommandSender commandSender, String message)
 	{
-		commandSender.addChatMessage(new ChatComponentText(Color.GOLD + "[MCA] " + Format.RESET + message));
+		commandSender.addChatMessage(new TextComponentString(Color.GOLD + "[MCA] " + Format.RESET + message));
 	}
 
 	private void addChatMessage(ICommandSender commandSender, String message, boolean noPrefix)
 	{
 		if (noPrefix)
 		{
-			commandSender.addChatMessage(new ChatComponentText(message));			
+			commandSender.addChatMessage(new TextComponentString(message));			
 		}
 
 		else

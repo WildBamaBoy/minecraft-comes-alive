@@ -10,7 +10,7 @@
 //import net.minecraft.entity.ai.RandomPositionGenerator;
 //import net.minecraft.init.Blocks;
 //import net.minecraft.nbt.NBTTagCompound;
-//import net.minecraft.util.Vec3;
+//import net.minecraft.util.Vec3d;
 //import radixcore.constant.Time;
 //import radixcore.math.Point3D;
 //import radixcore.util.RadixLogic;
@@ -172,7 +172,7 @@
 //	{
 //		if (owner.getNavigator().noPath() && eventTimer <= 0)
 //		{
-//			Vec3 vec = RandomPositionGenerator.findRandomTarget(owner, 10, 7);
+//			Vec3d vec = RandomPositionGenerator.findRandomTarget(owner, 10, 7);
 //
 //			if (vec != null)
 //			{

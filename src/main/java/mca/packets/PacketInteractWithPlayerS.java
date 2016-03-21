@@ -14,7 +14,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -87,22 +87,22 @@ public class PacketInteractWithPlayerS extends AbstractPacket implements IMessag
 		case ASKTOMARRY:
 			if (targetData.getSpousePermanentId() != 0 || targetData.getIsEngaged())
 			{
-				sender.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString("interactionp.marry.fail.targetalreadymarried", target.getName())));
+				sender.addChatMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.marry.fail.targetalreadymarried", target.getName())));
 			}
 
 			else if (senderData.getSpousePermanentId() != 0 || senderData.getIsEngaged())
 			{
-				sender.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString("interactionp.marry.fail.alreadymarried")));				
+				sender.addChatMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.marry.fail.alreadymarried")));				
 			}
 
 			else if (!senderHasWeddingRing)
 			{
-				sender.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString("interactionp.marry.fail.noweddingring")));
+				sender.addChatMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.marry.fail.noweddingring")));
 			}
 
 			else
 			{
-				sender.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString("interactionp.marry.sent", target.getName())));
+				sender.addChatMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.marry.sent", target.getName())));
 				MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenPrompt(sender, target, interaction), (EntityPlayerMP)target);
 			}
 
@@ -110,27 +110,27 @@ public class PacketInteractWithPlayerS extends AbstractPacket implements IMessag
 		case DIVORCE:
 			MarriageHandler.endMarriage(sender, target);
 
-			sender.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString(Color.RED + MCA.getLanguageManager().getString("interactionp.divorce.notify", target.getName()))));
-			target.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString(Color.RED + MCA.getLanguageManager().getString("interactionp.divorce.notify", sender.getName()))));
+			sender.addChatMessage(new TextComponentString(MCA.getLanguageManager().getString(Color.RED + MCA.getLanguageManager().getString("interactionp.divorce.notify", target.getName()))));
+			target.addChatMessage(new TextComponentString(MCA.getLanguageManager().getString(Color.RED + MCA.getLanguageManager().getString("interactionp.divorce.notify", sender.getName()))));
 			break;
 
 		case HAVEBABY:
 			if (senderData.getShouldHaveBaby())
 			{
-				sender.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString("interactionp.havebaby.fail.alreadyexists", target.getName())));				
+				sender.addChatMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.havebaby.fail.alreadyexists", target.getName())));				
 			}
 
 			else
 			{
-				sender.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString("interactionp.havebaby.sent", target.getName())));
+				sender.addChatMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.havebaby.sent", target.getName())));
 				MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenPrompt(sender, target, interaction), (EntityPlayerMP)target);
 			}
 			
 			break;
 
 		case ASKTOMARRY_ACCEPT:
-			sender.addChatMessage(new ChatComponentText(Color.GREEN + MCA.getLanguageManager().getString("interactionp.marry.success", target.getName())));
-			target.addChatMessage(new ChatComponentText(Color.GREEN + MCA.getLanguageManager().getString("interactionp.marry.success", sender.getName())));
+			sender.addChatMessage(new TextComponentString(Color.GREEN + MCA.getLanguageManager().getString("interactionp.marry.success", target.getName())));
+			target.addChatMessage(new TextComponentString(Color.GREEN + MCA.getLanguageManager().getString("interactionp.marry.success", sender.getName())));
 
 			MarriageHandler.startMarriage(sender, target);
 
@@ -142,7 +142,7 @@ public class PacketInteractWithPlayerS extends AbstractPacket implements IMessag
 				{
 					if (stack.getItem() == ModItems.weddingRing || stack.getItem() == ModItems.weddingRingRG)
 					{
-						target.inventory.consumeInventoryItem(stack.getItem());
+						target.inventory.deleteStack(stack);
 						break;
 					}
 				}
@@ -159,8 +159,8 @@ public class PacketInteractWithPlayerS extends AbstractPacket implements IMessag
 			target.inventory.addItemStackToInventory(stack);
 
 			Achievement achievement = isMale ? ModAchievements.babyBoy : ModAchievements.babyGirl;
-			sender.triggerAchievement(achievement);
-			target.triggerAchievement(achievement);
+			sender.addStat(achievement);
+			target.addStat(achievement);
 
 			MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenBabyNameGUI(isMale), (EntityPlayerMP) target);
 

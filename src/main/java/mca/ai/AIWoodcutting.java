@@ -264,7 +264,7 @@ public class AIWoodcutting extends AbstractToggleAI
 			case IRON:
 				returnAmount = 25;
 				break;
-			case EMERALD:
+			case DIAMOND:
 				returnAmount = 10;
 				break;
 			case GOLD:

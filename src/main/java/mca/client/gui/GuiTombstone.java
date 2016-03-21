@@ -9,9 +9,9 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.network.play.client.C12PacketUpdateSign;
+import net.minecraft.network.play.client.CPacketUpdateSign;
 import net.minecraft.util.ChatAllowedCharacters;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -47,13 +47,13 @@ public class GuiTombstone extends GuiScreen
 
 		if (nethandlerplayclient != null)
 		{
-			ChatComponentText[] textArray = new ChatComponentText[4];
+			TextComponentString[] textArray = new TextComponentString[4];
 			
 			for (int i = 0; i < entityTombstone.signText.length; i++)
 			{
-				textArray[i] = (ChatComponentText) entityTombstone.signText[i];
+				textArray[i] = (TextComponentString) entityTombstone.signText[i];
 			}
-			nethandlerplayclient.addToSendQueue(new C12PacketUpdateSign(entityTombstone.getPos(), textArray));
+			nethandlerplayclient.addToSendQueue(new CPacketUpdateSign(entityTombstone.getPos(), textArray));
 		}
 
 //		MCA.getPacketHandler().sendPacketToServer(new PacketTombstoneUpdateSet(entityTombstone));
@@ -97,12 +97,12 @@ public class GuiTombstone extends GuiScreen
 
 		if (id == 14 && entityTombstone.signText[editLine].getUnformattedText().length() > 0)
 		{
-			entityTombstone.signText[editLine] = new ChatComponentText(entityTombstone.signText[editLine].getUnformattedText().substring(0, entityTombstone.signText[editLine].getUnformattedText().length() - 1));
+			entityTombstone.signText[editLine] = new TextComponentString(entityTombstone.signText[editLine].getUnformattedText().substring(0, entityTombstone.signText[editLine].getUnformattedText().length() - 1));
 		}
 
 		if (ChatAllowedCharacters.isAllowedCharacter(c) && entityTombstone.signText[editLine].getUnformattedText().length() < 15)
 		{
-			entityTombstone.signText[editLine] = new ChatComponentText(entityTombstone.signText[editLine].getUnformattedText() + c);
+			entityTombstone.signText[editLine] = new TextComponentString(entityTombstone.signText[editLine].getUnformattedText() + c);
 		}
 
 		if (id == 0)

@@ -17,7 +17,7 @@ import net.minecraft.block.BlockBed.EnumPartType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import radixcore.data.WatchedBoolean;
 import radixcore.data.WatchedInt;
 import radixcore.math.Point3D;
@@ -67,7 +67,7 @@ public class AISleep extends AbstractAI
 		boolean isDaytime = owner.worldObj.isDaytime();
 
 		//If the villager is busy working, following, or riding something automatically set their sleep state to interrupted for the night.
-		if (owner.getAIManager().isToggleAIActive() || owner.getMovementState() == EnumMovementState.FOLLOW || owner.ridingEntity != null || (owner.getProfessionGroup() == EnumProfessionGroup.Guard && !owner.getIsMarried()))
+		if (owner.getAIManager().isToggleAIActive() || owner.getMovementState() == EnumMovementState.FOLLOW || owner.getRidingEntity() != null || (owner.getProfessionGroup() == EnumProfessionGroup.Guard && !owner.getIsMarried()))
 		{
 			if (!isDaytime && getSleepingState() != EnumSleepingState.INTERRUPTED)
 			{

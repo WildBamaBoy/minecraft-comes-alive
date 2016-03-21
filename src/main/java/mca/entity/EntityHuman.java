@@ -1,6 +1,8 @@
 package mca.entity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -51,8 +53,10 @@ import mca.util.Utilities;
 import mca.util.Utilities;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIMoveIndoors;
 import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
@@ -68,20 +72,27 @@ import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.projectile.EntityTippedArrow;
+import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
+import net.minecraft.init.MobEffects;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
@@ -277,7 +288,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));
 
 		int maxHealth = MCA.isTesting ? 20 : this.getProfessionGroup() == EnumProfessionGroup.Guard ? MCA.getConfig().guardMaxHealth : MCA.getConfig().villagerMaxHealth;
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealth);
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(maxHealth);
 
 		if (this.getHealth() > maxHealth || this.getProfessionGroup() == EnumProfessionGroup.Guard)
 		{
@@ -415,11 +426,11 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	}
 
 	@Override
-	public boolean interact(EntityPlayer player)
+	public boolean processInteract(EntityPlayer player, EnumHand hand, ItemStack stack)
 	{
-		if (ridingEntity == player)
+		if (getRidingEntity() == player)
 		{
-			mountEntity(null);
+			dismountRidingEntity();
 			dismountEntity(player);
 			return true;
 		}
@@ -516,13 +527,13 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	}
 
 	@Override
-	public IChatComponent getDisplayName()
+	public ITextComponent getDisplayName()
 	{
-		return new ChatComponentText("");//new ChatComponentText(getName());
+		return new TextComponentString("");//new TextComponentString(getName());
 	}
 
 	@Override
-	public void swingItem()
+	public void swingArm(EnumHand hand)
 	{
 		if (!isSwinging.getBoolean() || swingProgressTicks >= 8 / 2 || swingProgressTicks < 0)
 		{
@@ -532,21 +543,21 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	}
 
 	@Override
-	protected String getLivingSound()
+	protected SoundEvent getAmbientSound()
 	{
 		return null;
 	}
 
 	@Override
-	protected String getHurtSound() 
+	protected SoundEvent getHurtSound() 
 	{
-		return getIsInfected() ? "mob.zombie.hurt" : null;
+		return getIsInfected() ? SoundEvents.entity_zombie_hurt : null;
 	}
 
 	@Override
-	protected String getDeathSound() 
+	protected SoundEvent getDeathSound() 
 	{
-		return getIsInfected() ? "mob.zombie.death" : null;
+		return getIsInfected() ? SoundEvents.entity_zombie_death : null;
 	}
 
 	@Override
@@ -591,7 +602,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 				if (playerPartner != null)
 				{
 					PlayerData data = MCA.getPlayerData(playerPartner);
-					playerPartner.addChatMessage(new ChatComponentText(Color.RED + name.getString() + " has died from " + damageSource.damageType));
+					playerPartner.addChatMessage(new TextComponentString(Color.RED + name.getString() + " has died from " + damageSource.damageType));
 					MarriageHandler.forceEndMarriage(playerPartner);
 				}
 
@@ -714,7 +725,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		if (target != null)
 		{
-			target.addChatMessage(new ChatComponentText(sb.toString()));
+			target.addChatMessage(new TextComponentString(sb.toString()));
 		}
 
 		aiManager.getAI(AIIdle.class).reset();
@@ -730,8 +741,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		if (getIsInfected()) //Infected villagers moan when they speak, and will not say anything else.
 		{
 			String zombieMoan = RadixLogic.getBooleanWithProbability(33) ? "Raagh..." : RadixLogic.getBooleanWithProbability(33) ? "Ughh..." : "Argh-gur...";
-			target.addChatMessage(new ChatComponentText(getTitle(target) + ": " + zombieMoan));
-			worldObj.playSoundAtEntity(this, "mob.zombie.say", 0.5F, rand.nextFloat() + 0.5F);
+			target.addChatMessage(new TextComponentString(getTitle(target) + ": " + zombieMoan));
+			this.playSound(SoundEvents.entity_zombie_ambient, 0.5F, rand.nextFloat() + 0.5F);
 		}
 
 		else
@@ -749,7 +760,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			sb.append(": ");
 			sb.append(MCA.getLanguageManager().getString(phraseId, arguments));
 
-			target.addChatMessage(new ChatComponentText(sb.toString()));
+			target.addChatMessage(new TextComponentString(sb.toString()));
 
 			aiManager.getAI(AIIdle.class).reset();
 			aiManager.getAI(AISleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
@@ -781,7 +792,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 	public boolean isInOverworld()
 	{
-		return worldObj.provider.getDimensionId() == 0;
+		return worldObj.provider.getDimension() == 0;
 	}
 
 	public EnumProfession getProfessionEnum()
@@ -1051,7 +1062,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	}
 
 	@Override
-	public ItemStack getHeldItem()
+	public ItemStack getHeldItem(EnumHand hand)
 	{
 		if (getIsInfected())
 		{
@@ -1113,7 +1124,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	{
 		try
 		{
-			ItemStack heldItem = getHeldItem();
+			ItemStack heldItem = getHeldItem(EnumHand.MAIN_HAND);
 
 			if (heldItem != null)
 			{
@@ -1551,14 +1562,31 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	{
 		doOpenInventory.setValue(value);
 	}
+    
+    public Iterable<ItemStack> getHeldEquipment()
+    {
+    	List<ItemStack> heldEquipment = new ArrayList<ItemStack>();
+    	heldEquipment.add(getHeldItem(EnumHand.MAIN_HAND));
+        return heldEquipment;
+    }
 
-	@Override
+    public Iterable<ItemStack> getArmorInventoryList()
+    {
+    	List<ItemStack> armorInventory = new ArrayList<ItemStack>();
+    	armorInventory.add(inventory.getStackInSlot(39));
+    	armorInventory.add(inventory.getStackInSlot(38));
+    	armorInventory.add(inventory.getStackInSlot(37));
+    	armorInventory.add(inventory.getStackInSlot(36));
+        
+        return armorInventory;
+    }
+    
 	public ItemStack getEquipmentInSlot(int slot)
 	{
 		//0 is the held item, others are armor slots.
 		switch (slot)
 		{
-		case 0: return getHeldItem();
+		case 0: return getHeldItem(EnumHand.MAIN_HAND);
 		case 1: return inventory.getStackInSlot(39); //Boots
 		case 2: return inventory.getStackInSlot(38); //Leggings
 		case 3: return inventory.getStackInSlot(37); //Chest
@@ -1651,8 +1679,39 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public void cureInfection()
 	{
 		this.setIsInfected(false);
-		this.addPotionEffect(new PotionEffect(Potion.confusion.id, 200, 0));
+		this.addPotionEffect(new PotionEffect(MobEffects.confusion, 200, 0));
 		this.worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1017, new BlockPos((int)this.posX, (int)this.posY, (int)this.posZ), 0);
 		Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.VILLAGER_HAPPY, this, 16);
+	}
+	
+	public void attackEntityWithRangedAttack(EntityLivingBase target, float velocity)
+    {
+        EntityArrow entityarrow = new EntityTippedArrow(this.worldObj, this);
+        double d0 = target.posX - this.posX;
+        double d1 = target.getEntityBoundingBox().minY + (double)(target.height / 3.0F) - entityarrow.posY;
+        double d2 = target.posZ - this.posZ;
+        double d3 = (double)MathHelper.sqrt_double(d0 * d0 + d2 * d2);
+        entityarrow.setThrowableHeading(d0, d1 + d3 * 0.20000000298023224D, d2, 1.6F, (float)(14 - this.worldObj.getDifficulty().getDifficultyId() * 4));
+        int i = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.power, this);
+        int j = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.punch, this);
+        entityarrow.setDamage((double)(velocity * 2.0F) + this.rand.nextGaussian() * 0.25D + (double)((float)this.worldObj.getDifficulty().getDifficultyId() * 0.11F));
+
+        if (i > 0)
+        {
+            entityarrow.setDamage(entityarrow.getDamage() + (double)i * 0.5D + 0.5D);
+        }
+
+        if (j > 0)
+        {
+            entityarrow.setKnockbackStrength(j);
+        }
+
+        this.playSound(SoundEvents.entity_skeleton_shoot, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+        this.worldObj.spawnEntityInWorld(entityarrow);
+    }
+
+	public void swingItem() 
+	{
+		this.swingArm(EnumHand.MAIN_HAND);
 	}
 }

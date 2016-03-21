@@ -44,8 +44,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.client.render.RenderHelper;
@@ -490,7 +490,7 @@ public class GuiInteraction extends GuiScreen
 
 				if (!hasGold)
 				{
-					player.addChatMessage(new ChatComponentText(MCA.getLanguageManager().getString("interaction.hire.fail.notenoughgold", hireLengths.get())));
+					player.addChatMessage(new TextComponentString(MCA.getLanguageManager().getString("interaction.hire.fail.notenoughgold", hireLengths.get())));
 				}
 
 				else
@@ -507,7 +507,7 @@ public class GuiInteraction extends GuiScreen
 
 			case PICK_UP:
 				TutorialManager.setTutorialMessage(new TutorialMessage("You can drop your child by right-clicking the ground.", ""));
-				villager.mountEntity(player);
+				villager.startRiding(player, true);
 				MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId()));
 				close(); 
 				break;

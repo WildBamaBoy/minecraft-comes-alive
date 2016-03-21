@@ -21,14 +21,14 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -111,7 +111,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 		else
 		{
-			player.triggerAchievement(ModAchievements.marriage);
+			player.addStat(ModAchievements.marriage);
 			human.say("interaction.marry.success", player); 
 
 			MarriageHandler.startMarriage(player, human);
@@ -185,7 +185,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 					if (human.isPlayerAParent(onlinePlayer) || partner.isPlayerAParent(onlinePlayer))
 					{
-						onlinePlayer.triggerAchievement(ModAchievements.childMarried);	
+						onlinePlayer.addStat(ModAchievements.childMarried);	
 					}
 				}
 
@@ -235,7 +235,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 		else
 		{
-			player.triggerAchievement(ModAchievements.engagement);
+			player.addStat(ModAchievements.engagement);
 			human.say("interaction.engage.success", player); 
 
 			MarriageHandler.startEngagement(player, human);
@@ -352,7 +352,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 		EntityHuman human = null;
 		EntityPlayer player = null;
 
-		for (WorldServer world : MinecraftServer.getServer().worldServers)
+		for (WorldServer world : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers)
 		{
 			player = getPlayer(context);
 			human = (EntityHuman) world.getEntityByID(packet.entityId);
@@ -396,7 +396,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				removeItem = handleDivorcePapers(player, human);
 			}
 
-			else if (human.getIsInfected() && human.getActivePotionEffect(Potion.weakness) != null && stack.getItem() == Items.golden_apple)
+			else if (human.getIsInfected() && human.getActivePotionEffect(MobEffects.weakness) != null && stack.getItem() == Items.golden_apple)
 			{
 				removeItem = true;
 				removeCount = 1;
@@ -481,7 +481,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				ItemArmor armor = (ItemArmor)item;
 				int inventorySlot = 0;
 
-				switch (armor.armorType)
+				switch (armor.armorType.getIndex())
 				{
 				case 0: inventorySlot = 36; break;
 				case 1: inventorySlot = 37; break;

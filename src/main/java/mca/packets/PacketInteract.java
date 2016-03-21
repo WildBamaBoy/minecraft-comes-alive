@@ -23,9 +23,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -78,7 +78,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 		EntityHuman villager = null;
 		EntityPlayer player = null;
 
-		for (WorldServer world : MinecraftServer.getServer().worldServers)
+		for (WorldServer world : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers)
 		{
 			player = getPlayer(context);
 			villager = (EntityHuman) world.getEntityByID(packet.entityId);
@@ -135,7 +135,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 
 			else if (interaction == EnumInteraction.PICK_UP)
 			{
-				villager.mountEntity(player);
+				villager.startRiding(player);
 			}
 
 			else if (interaction == EnumInteraction.TAKE_GIFT)
@@ -203,7 +203,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 
 				if (memory.getHearts() >= 100)
 				{
-					player.triggerAchievement(ModAchievements.fullGoldHearts);
+					player.addStat(ModAchievements.fullGoldHearts);
 				}
 
 				if (memory.getInteractionFatigue() == 4)
@@ -224,15 +224,15 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 
 			else if (interaction == EnumInteraction.RIDE_HORSE)
 			{
-				if (villager.ridingEntity != null)
+				if (villager.getRidingEntity() != null)
 				{
 					//horseSaddled is set to false when mounted by a villager in order for
 					//the navigator to function properly and make them move. Set them back
 					//as saddled when the villager dismounts.
-					EntityHorse horse = (EntityHorse)villager.ridingEntity;
+					EntityHorse horse = (EntityHorse)villager.getRidingEntity();
 					horse.setHorseSaddled(true);
 					
-					villager.mountEntity(null);
+					villager.dismountRidingEntity();
 				}
 
 				else
@@ -241,9 +241,9 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 					
 					if (horse != null)
 					{
-						if (horse.isHorseSaddled() && horse.riddenByEntity == null)
+						if (horse.isHorseSaddled() && !horse.isBeingRidden())
 						{
-							villager.mountEntity(horse);
+							villager.startRiding(horse);
 						}
 
 						else
@@ -324,7 +324,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 				
 				if (getIsOverChildrenCount(player))
 				{
-					player.addChatMessage(new ChatComponentText(Color.RED + "You have too many children."));
+					player.addChatMessage(new TextComponentString(Color.RED + "You have too many children."));
 				}
 				
 				else if (!data.getShouldHaveBaby())
@@ -357,7 +357,12 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 
 				for (int i = 0; i < 3; i++)
 				{
-					player.inventory.consumeInventoryItem(Items.gold_ingot);
+					int slot = player.inventory.getSlotFor(new ItemStack(Items.gold_ingot));
+					
+					if (slot > -1)
+					{
+						player.inventory.decrStackSize(slot, 1);
+					}
 				}
 			}
 			
@@ -367,12 +372,12 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 				
 				if (getIsOverChildrenCount(player))
 				{
-					player.addChatMessage(new ChatComponentText(Color.RED + "You have too many children."));
+					player.addChatMessage(new TextComponentString(Color.RED + "You have too many children."));
 				}
 					
 				else if (playerData.getShouldHaveBaby())
 				{
-					player.addChatMessage(new ChatComponentText(Color.RED + "You already have a baby."));
+					player.addChatMessage(new TextComponentString(Color.RED + "You already have a baby."));
 				}
 
 				else
@@ -388,7 +393,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 		PlayerData playerData = MCA.getPlayerData(player);
 		int childrenCount = 0;
 		
-		for (Object obj : MinecraftServer.getServer().worldServers[0].loadedEntityList)
+		for (Object obj : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers[0].loadedEntityList)
 		{
 			if (obj instanceof EntityHuman)
 			{

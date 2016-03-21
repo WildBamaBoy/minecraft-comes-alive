@@ -97,7 +97,7 @@ public class PacketBabyName extends AbstractPacket implements IMessage, IMessage
 				{
 					playerSpouse.getAI(AIProcreate.class).setIsProcreating(true);
 					procreateAI.setHasHadTwins(true);
-					senderPlayer.triggerAchievement(ModAchievements.twins);
+					senderPlayer.addStat(ModAchievements.twins);
 					
 					TutorialManager.sendMessageToPlayer(senderPlayer, "Congratulations! You've just had twins!", "Your spouse can only have twins once.");
 				}

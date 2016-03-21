@@ -186,7 +186,7 @@ public class AIProgressStory extends AbstractAI
 				
 				if (owner.isPlayerAParent(onlinePlayer) || mate.isPlayerAParent(onlinePlayer))
 				{
-					onlinePlayer.triggerAchievement(ModAchievements.childHasChildren);	
+					onlinePlayer.addStat(ModAchievements.childHasChildren);	
 				}
 			}
 		}

@@ -8,9 +8,11 @@ import mca.tile.TileTombstone;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import radixcore.util.BlockHelper;
@@ -27,11 +29,11 @@ public class ItemTombstone extends Item
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World worldObj, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World worldObj, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		if (side != EnumFacing.UP)
 		{
-			return false;
+			return EnumActionResult.PASS;
 		}
 
 		else
@@ -40,13 +42,13 @@ public class ItemTombstone extends Item
 
 			if (!ModBlocks.tombstone.canPlaceBlockAt(worldObj, pos))
 			{
-				return false;
+				return EnumActionResult.FAIL;
 			}
 
 			else
 			{
 				int i = MathHelper.floor_double((double)((player.rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
-				worldObj.setBlockState(pos, ModBlocks.tombstone.getDefaultState().withProperty(BlockTombstone.ROTATION_PROP, Integer.valueOf(i)), 3);
+				worldObj.setBlockState(pos, ModBlocks.tombstone.getDefaultState().withProperty(BlockTombstone.ROTATION, Integer.valueOf(i)), 3);
 			}
 			
 			--stack.stackSize;
@@ -58,7 +60,7 @@ public class ItemTombstone extends Item
 				player.openGui(MCA.getInstance(), Constants.GUI_ID_TOMBSTONE, worldObj, pos.getX(), pos.getY(), pos.getZ());
 			}
 
-			return true;
+			return EnumActionResult.SUCCESS;
 		}
 	}
 }

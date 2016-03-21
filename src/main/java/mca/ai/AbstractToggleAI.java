@@ -4,7 +4,7 @@ import mca.entity.EntityHuman;
 import mca.enums.EnumPersonality;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.text.TextComponentString;
 import radixcore.util.RadixLogic;
 
 /**
@@ -42,7 +42,7 @@ public abstract class AbstractToggleAI extends AbstractAI
 		
 		if (player != null)
 		{
-			player.addChatMessage(new ChatComponentText(message));
+			player.addChatMessage(new TextComponentString(message));
 		}
 	}
 	

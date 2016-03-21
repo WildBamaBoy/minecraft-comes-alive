@@ -8,7 +8,7 @@ import com.mojang.authlib.GameProfile;
 import mca.core.MCA;
 import mca.data.PlayerData;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.text.ITextComponent;
 import sun.misc.Unsafe;
 
 /**
@@ -81,7 +81,7 @@ public class DummyPlayer extends EntityPlayer
 	}
 
 	@Override
-	public void addChatMessage(IChatComponent chatComponent) 
+	public void addChatMessage(ITextComponent chatComponent) 
 	{
 		return; //Not used, required by implementation.
 	}
@@ -109,6 +109,12 @@ public class DummyPlayer extends EntityPlayer
 
 	@Override
 	public boolean isSpectator() 
+	{
+		return false;
+	}
+
+	@Override
+	public boolean isCreative() 
 	{
 		return false;
 	}

@@ -113,12 +113,12 @@ public class PacketToggleAI extends AbstractPacket implements IMessage, IMessage
 		switch(EnumInteraction.fromId(packet.interactionId))
 		{
 		case FARMING: 
-			player.triggerAchievement(ModAchievements.farming);
+			player.addStat(ModAchievements.farming);
 			human.getAI(AIFarming.class).startFarming(player, packet.integers.get(0), packet.integers.get(1), packet.booleans.get(0));
 			break;
 			
 		case MINING: 
-			player.triggerAchievement(ModAchievements.mining);
+			player.addStat(ModAchievements.mining);
 			
 			if (packet.booleans.get(0))
 			{
@@ -132,7 +132,7 @@ public class PacketToggleAI extends AbstractPacket implements IMessage, IMessage
 			break;
 			
 		case WOODCUTTING: 
-			player.triggerAchievement(ModAchievements.woodcutting);
+			player.addStat(ModAchievements.woodcutting);
 			boolean doReplant = packet.booleans.get(0);
 			int mappingId = packet.integers.get(0);
 			
@@ -140,7 +140,7 @@ public class PacketToggleAI extends AbstractPacket implements IMessage, IMessage
 			break;
 			
 		case HUNTING: 
-			player.triggerAchievement(ModAchievements.hunting);
+			player.addStat(ModAchievements.hunting);
 			boolean flag = packet.booleans.get(0);
 			
 			if (flag)

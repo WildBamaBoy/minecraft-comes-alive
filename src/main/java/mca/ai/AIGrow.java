@@ -40,7 +40,7 @@ public class AIGrow extends AbstractAI
 						
 						if (owner.isPlayerAParent(player))
 						{
-							player.triggerAchievement(ModAchievements.childToAdult);
+							player.addStat(ModAchievements.childToAdult);
 						}
 					}
 				}

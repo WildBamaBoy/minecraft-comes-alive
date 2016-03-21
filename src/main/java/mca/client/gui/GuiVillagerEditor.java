@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 import mca.ai.AISleep;
 import mca.core.MCA;
@@ -19,10 +18,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.constant.Font.Color;
@@ -302,7 +299,7 @@ public class GuiVillagerEditor extends GuiScreen
 		else if (guibutton == clearInteractionFlagButton)
 		{
 			villager.setIsInteracting(false);
-			player.addChatComponentMessage(new ChatComponentText(Color.GREEN + "[MCA] Interaction flag cleared."));
+			player.addChatComponentMessage(new TextComponentString(Color.GREEN + "[MCA] Interaction flag cleared."));
 		}
 	}
 
@@ -415,42 +412,43 @@ public class GuiVillagerEditor extends GuiScreen
 				posY = height / 2 + 80;
 			}
 
-			GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-			GL11.glPushMatrix();
-			GL11.glTranslatef(posX, posY, 50.0F);
-			GL11.glScalef(-scale, scale, scale);
-			GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
-
-			final float yawOffset = villager.renderYawOffset;
-			final float rotationYaw = villager.rotationYaw;
-			final float rotationPitch = villager.rotationPitch;
-
-			GL11.glRotatef(135.0F, 0.0F, 1.0F, 0.0F);
-			RenderHelper.enableStandardItemLighting();
-			GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
-			GL11.glRotatef(-((float) Math.atan(0F / 40.0F)) * 20.0F, 1.0F, 0.0F, 0.0F);
-
-			villager.renderYawOffset = (float) Math.atan(0F / 40.0F) * 20.0F;
-			villager.rotationYaw = (float) Math.atan(0F / 40.0F) * 40.0F;
-			villager.rotationPitch = -((float) Math.atan(0F / 40.0F)) * 20.0F;
-			villager.rotationYawHead = villager.rotationYaw;
-
-			GL11.glTranslated(0.0D, villager.getYOffset(), 0.0D);
-
-			Minecraft.getMinecraft().getRenderManager().playerViewY = 180.0F;
-			Minecraft.getMinecraft().getRenderManager().renderEntityWithPosYaw(villager, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
-
-			villager.renderYawOffset = yawOffset;
-			villager.rotationYaw = rotationYaw;
-			villager.rotationPitch = rotationPitch;
-
-			GL11.glPopMatrix();
-
-			RenderHelper.disableStandardItemLighting();
-			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-			OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
-			GL11.glDisable(GL11.GL_TEXTURE_2D);
-			OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
+			//TODO GuiInventory.drawEntityOnScreen
+//			GL11.glEnable(GL11.GL_COLOR_MATERIAL);
+//			GL11.glPushMatrix();
+//			GL11.glTranslatef(posX, posY, 50.0F);
+//			GL11.glScalef(-scale, scale, scale);
+//			GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
+//
+//			final float yawOffset = villager.renderYawOffset;
+//			final float rotationYaw = villager.rotationYaw;
+//			final float rotationPitch = villager.rotationPitch;
+//
+//			GL11.glRotatef(135.0F, 0.0F, 1.0F, 0.0F);
+//			RenderHelper.enableStandardItemLighting();
+//			GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
+//			GL11.glRotatef(-((float) Math.atan(0F / 40.0F)) * 20.0F, 1.0F, 0.0F, 0.0F);
+//
+//			villager.renderYawOffset = (float) Math.atan(0F / 40.0F) * 20.0F;
+//			villager.rotationYaw = (float) Math.atan(0F / 40.0F) * 40.0F;
+//			villager.rotationPitch = -((float) Math.atan(0F / 40.0F)) * 20.0F;
+//			villager.rotationYawHead = villager.rotationYaw;
+//
+//			GL11.glTranslated(0.0D, villager.getYOffset(), 0.0D);
+//
+//			Minecraft.getMinecraft().getRenderManager().playerViewY = 180.0F;
+//			Minecraft.getMinecraft().getRenderManager().renderEntityWithPosYaw(villager, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
+//
+//			villager.renderYawOffset = yawOffset;
+//			villager.rotationYaw = rotationYaw;
+//			villager.rotationPitch = rotationPitch;
+//
+//			GL11.glPopMatrix();
+//
+//			RenderHelper.disableStandardItemLighting();
+//			GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+//			OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
+//			GL11.glDisable(GL11.GL_TEXTURE_2D);
+//			OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
 
 			dummyTextField.drawTextBox();
 		}

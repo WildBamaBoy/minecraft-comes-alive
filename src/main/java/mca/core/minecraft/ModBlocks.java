@@ -9,7 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockOre;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -36,8 +36,8 @@ public final class ModBlocks
 		bedPurple = new BlockVillagerBed(EnumBedColor.PURPLE);
 		
 		spawner = new BlockVillagerSpawner();
-		roseGoldBlock = new BlockOre().setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("RoseGoldBlock").setStepSound(Block.soundTypePiston).setCreativeTab(MCA.getCreativeTabMain());
-		roseGoldOre = new BlockOre().setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("RoseGoldOre").setStepSound(Block.soundTypePiston).setCreativeTab(MCA.getCreativeTabMain());
+		roseGoldBlock = new BlockOre().setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("RoseGoldBlock").setCreativeTab(MCA.getCreativeTabMain());
+		roseGoldOre = new BlockOre().setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("RoseGoldOre").setCreativeTab(MCA.getCreativeTabMain());
 
 		roseGoldBlock.setHarvestLevel("pickaxe", 2);
 		roseGoldOre.setHarvestLevel("pickaxe", 2);

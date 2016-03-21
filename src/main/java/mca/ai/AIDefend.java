@@ -11,7 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import radixcore.constant.Time;
@@ -83,8 +83,8 @@ public class AIDefend extends AbstractAI
 					
 					if (rangedAttackTime <= 0)
 					{
-						owner.worldObj.spawnEntityInWorld(new EntityArrow(owner.worldObj, owner, target, 1.6F, 12F));
-						owner.worldObj.playSoundAtEntity(owner, "random.bow", 1.0F, 1.0F / (owner.getRNG().nextFloat() * 0.4F + 0.8F));
+						owner.attackEntityWithRangedAttack(target, 12F);
+						owner.playSound(SoundEvents.entity_skeleton_shoot, 1.0F, 1.0F / (owner.getRNG().nextFloat() * 0.4F + 0.8F));
 						rangedAttackTime = 60;
 					}
 

@@ -4,6 +4,7 @@ import mca.entity.EntityHuman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -34,7 +35,17 @@ public class ContainerInventory extends Container
 
 		for (int slot = 0; slot < 4; ++slot)
 		{
-			addSlotToContainer(new SlotArmor(this, inventoryEntity, slot + 36, 8, 18 + slot * 18, slot));
+			EntityEquipmentSlot armorSlot = null;
+			
+			switch (slot)
+			{
+			case 0: armorSlot = EntityEquipmentSlot.FEET; break; 
+			case 1: armorSlot = EntityEquipmentSlot.LEGS; break;
+			case 2: armorSlot = EntityEquipmentSlot.CHEST; break;
+			case 3: armorSlot = EntityEquipmentSlot.HEAD; break;
+			}
+			
+			addSlotToContainer(new SlotArmor(this, inventoryEntity, slot + 36, 8, 18 + slot * 18, armorSlot));
 		}
 
 		bindPlayerInventory((InventoryPlayer) inventoryPlayer);

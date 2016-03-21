@@ -24,32 +24,11 @@ public class ItemColoredEngagementRing extends ItemColorable implements IGiftabl
 		this.setCreativeTab(MCA.getCreativeTabGemCutting());
 	}
 
-//	@Override
-//	public boolean requiresMultipleRenderPasses() 
-//	{
-//		return true;
-//	}
-
 	@Override
-	public int getColorFromItemStack(ItemStack itemStack, int pass)
+	public int getColorFromItemstack(ItemStack itemStack, int pass)
 	{
-		return pass == 0 ? super.getColorFromItemStack(itemStack, pass) : 0xFFFFFF;
+		return pass == 0 ? super.getColorFromItemstack(itemStack, pass) : 0xFFFFFF;
 	}
-	
-//	@Override
-//	public IIcon getIconFromDamageForRenderPass(int damage, int pass) 
-//	{
-//		return icons[pass];
-//	}
-//
-//	@Override
-//	public void registerIcons(IIconRegister iconRegister) 
-//	{
-//		final String name = isRoseGold ? "ColoredEngagementRingRG" : "ColoredEngagementRing";
-//		
-//		icons[0] = iconRegister.registerIcon("mca:" + name);
-//		icons[1] = iconRegister.registerIcon(isRoseGold ? "mca:RingBottomRG" : "mca:RingBottom");
-//	}
 	
 	@Override
 	public String getUnlocalizedName(ItemStack stack) 

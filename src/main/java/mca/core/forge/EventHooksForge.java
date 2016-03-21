@@ -1,9 +1,11 @@
 package mca.core.forge;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 import com.google.common.base.Predicate;
 
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.entity.EntityHuman;
 import mca.items.ItemBaby;
@@ -11,7 +13,6 @@ import mca.packets.PacketInteractWithPlayerC;
 import mca.util.TutorialManager;
 import mca.util.Utilities;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
@@ -25,9 +26,10 @@ import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -38,9 +40,6 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Font.Format;
-import radixcore.constant.Particle;
-import radixcore.math.Point3D;
-import radixcore.math.Point3D;
 import radixcore.util.RadixLogic;
 
 public class EventHooksForge 
@@ -48,7 +47,7 @@ public class EventHooksForge
 	@SubscribeEvent
 	public void entityJoinedWorldEventHandler(EntityJoinWorldEvent event)
 	{
-		if (!event.world.isRemote && MCA.getConfig().canSpawnInDimension(event.world.provider.getDimensionId()))
+		if (!event.world.isRemote && MCA.getConfig().canSpawnInDimension(event.world.provider.getDimension()))
 		{
 			if (event.entity instanceof EntityMob)
 			{
@@ -63,7 +62,7 @@ public class EventHooksForge
 				{
 					// The server will later check for object 28, and then overwrite the villager.
 					// This will prevent ConcurrentModification exceptions when overwriting villagers.
-					villager.getDataWatcher().addObject(28, 3577);
+					villager.getDataManager().register(Constants.OVERWRITE_KEY, 3577);
 				}
 			}
 		}
@@ -92,7 +91,7 @@ public class EventHooksForge
 					{
 						return p_179958_1_ instanceof EntityHuman;
 					}
-					
+
 					public boolean apply(Object p_apply_1_)
 					{
 						return this.func_179958_a((Entity)p_apply_1_);
@@ -102,24 +101,23 @@ public class EventHooksForge
 
 			else
 			{
-				float moveSpeed = 0.7F;
+				double moveSpeed = 0.7D;
 
 				if (mob instanceof EntitySpider)
 				{
-					moveSpeed = 1.2F;
+					moveSpeed = 1.2D;
 				}
 
 				else if (mob instanceof EntitySkeleton)
 				{
-					moveSpeed = 1.1F;
+					moveSpeed = 1.1D;
 				}
 
 				else if (mob instanceof EntityZombie)
 				{
-					moveSpeed = 0.9F;
+					moveSpeed = 0.9D;
 				}
 
-				mob.tasks.addTask(2, new EntityAIAttackOnCollide(mob, EntityHuman.class, moveSpeed, false));
 				mob.targetTasks.addTask(2, new EntityAINearestAttackableTarget(mob, EntityHuman.class, false));
 			}
 		}
@@ -132,27 +130,28 @@ public class EventHooksForge
 				{
 					try
 					{
-						EntityAITaskEntry task = (EntityAITaskEntry)mob.targetTasks.taskEntries.get(i);
-
-						if (task.action instanceof EntityAINearestAttackableTarget)
-						{
-							EntityAINearestAttackableTarget nat = (EntityAINearestAttackableTarget)task.action;
-
-							for (Field f : nat.getClass().getDeclaredFields())
-							{	
-								if (f.getType().equals(Class.class))
-								{
-									f.setAccessible(true);
-									Class targetClass = (Class) f.get(nat);
-									f.setAccessible(false);
-
-									if (targetClass.isAssignableFrom(EntityVillager.class))
-									{
-										mob.targetTasks.removeTask(nat);
-									}
-								}
-							}
-						}
+						//FIXME
+//						EntityAITaskEntry task = (EntityAITaskEntry)mob.targetTasks.taskEntries.get(i);
+//
+//						if (task.action instanceof EntityAINearestAttackableTarget)
+//						{
+//							EntityAINearestAttackableTarget nat = (EntityAINearestAttackableTarget)task.action;
+//
+//							for (Field f : nat.getClass().getDeclaredFields())
+//							{	
+//								if (f.getType().equals(Class.class))
+//								{
+//									f.setAccessible(true);
+//									Class targetClass = (Class) f.get(nat);
+//									f.setAccessible(false);
+//
+//									if (targetClass.isAssignableFrom(EntityVillager.class))
+//									{
+//										mob.targetTasks.removeTask(nat);
+//									}
+//								}
+//							}
+//						}
 					}
 
 					catch (Exception e)
@@ -167,26 +166,35 @@ public class EventHooksForge
 	@SubscribeEvent
 	public void entityInteractEventHandler(EntityInteractEvent event)
 	{	
-		if (event.target instanceof EntityHorse)
+		if (event.getTarget() instanceof EntityHorse)
 		{
-			final EntityHorse entityHorse = (EntityHorse) event.target;
-			if (entityHorse.riddenByEntity instanceof EntityHuman)
+			final EntityHorse entityHorse = (EntityHorse) event.getTarget();
+
+			if (entityHorse.isBeingRidden())
 			{
-				final EntityHuman entity = (EntityHuman) entityHorse.riddenByEntity;
-				entity.interact(event.entityPlayer);
+				try
+				{
+					final EntityHuman entity = (EntityHuman) entityHorse.getPassengers().get(0);
+					entity.processInteract(event.entityPlayer, event.entityPlayer.getActiveHand(), event.entityPlayer.getHeldItem(event.entityPlayer.getActiveHand()));
+				}
+
+				catch (Exception e)
+				{
+					// Yes, it's lazy. What of it?
+				}
 			}
 		}
 
-		else if (event.target instanceof EntityPlayerMP && !event.entityPlayer.worldObj.isRemote && !event.entityPlayer.getName().contains("[CoFH]"))
+		else if (event.getTarget() instanceof EntityPlayerMP && !event.entityPlayer.worldObj.isRemote && !event.entityPlayer.getName().contains("[CoFH]"))
 		{
-			MCA.getPacketHandler().sendPacketToPlayer(new PacketInteractWithPlayerC(event.entityPlayer, (EntityPlayer)event.target), (EntityPlayerMP) event.entityPlayer);
+			MCA.getPacketHandler().sendPacketToPlayer(new PacketInteractWithPlayerC(event.entityPlayer, (EntityPlayer)event.getTarget()), (EntityPlayerMP) event.entityPlayer);
 		}
 	}
 
 	@SubscribeEvent
 	public void worldSaveEventHandler(WorldEvent.Unload event)
 	{
-		if (!event.world.isRemote && event.world.provider.getDimensionId() == 0)
+		if (!event.world.isRemote && event.world.provider.getDimension() == 0)
 		{
 			MCA.getCrashWatcher().checkForCrashReports();
 		}
@@ -197,9 +205,9 @@ public class EventHooksForge
 	{
 		if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
 		{
-			if (event.entityPlayer.riddenByEntity instanceof EntityHuman)
+			if (event.entityPlayer.getControllingPassenger() instanceof EntityHuman)
 			{
-				event.entityPlayer.riddenByEntity.mountEntity(null);
+				event.entityPlayer.getControllingPassenger().dismountRidingEntity();
 			}
 		}
 	}
@@ -223,8 +231,8 @@ public class EventHooksForge
 						if (stack != null && stack.getItem() instanceof ItemBaby)
 						{
 							stack.getTagCompound().setBoolean("isInfected", true);
-							player.addChatComponentMessage(new ChatComponentText(Color.RED + stack.getTagCompound().getString("name") + " has been " + Color.GREEN + Format.BOLD + "infected" + Color.RED + "!"));
-							player.worldObj.playSoundAtEntity(player, "mob.wither.idle", 0.5F, 1.0F);
+							player.addChatComponentMessage(new TextComponentString(Color.RED + stack.getTagCompound().getString("name") + " has been " + Color.GREEN + Format.BOLD + "infected" + Color.RED + "!"));
+							player.playSound(SoundEvents.entity_wither_ambient, 0.5F, 1.0F);
 							Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.SPELL_WITCH, player, 32);
 						}
 					}
@@ -237,10 +245,10 @@ public class EventHooksForge
 					human.setHealth(human.getMaxHealth());
 					zombie.setAttackTarget(null);
 
-					human.worldObj.playSoundAtEntity(human, "mob.wither.idle", 0.5F, 1.0F);
+					human.playSound(SoundEvents.entity_wither_ambient, 0.5F, 1.0F);
 					Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.SPELL_WITCH, human, 32);
 				}
-				
+
 				else if (event.entityLiving instanceof EntityHuman && ((EntityHuman)event.entityLiving).getIsInfected())
 				{
 					event.setCanceled(true);
@@ -264,5 +272,20 @@ public class EventHooksForge
 				mob.setAttackTarget(null);
 			}
 		}
+	}
+
+	public static boolean isHorseRiddenByHuman(EntityHorse horse)
+	{
+		List<Entity> passengers = horse.getPassengers();
+
+		for (Entity passenger : passengers)
+		{
+			if (passenger instanceof EntityHuman)
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

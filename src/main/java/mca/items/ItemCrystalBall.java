@@ -8,11 +8,15 @@ import mca.util.TutorialManager;
 import mca.util.TutorialMessage;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import radixcore.data.DataWatcherEx;
 import radixcore.item.ItemSingle;
@@ -31,14 +35,14 @@ public class ItemCrystalBall extends ItemSingle
 	}
 
 	@Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer player, World worldObj, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World worldObj, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
-		onItemRightClick(stack, worldObj, player);
-		return true;
+		this.onItemRightClick(stack, worldObj, player, hand);
+		return EnumActionResult.PASS;
 	}	
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) 
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) 
 	{
 		if (world.isRemote)
 		{
@@ -58,15 +62,15 @@ public class ItemCrystalBall extends ItemSingle
 		
 		else
 		{
-			if (!MinecraftServer.getServer().isDedicatedServer())
+			if (!FMLCommonHandler.instance().getMinecraftServerInstance().isDedicatedServer())
 			{
-				world.playSoundAtEntity(player, "fireworks.largeBlast_far", 0.5F, 1.0F);
-				world.playSoundAtEntity(player, "portal.travel", 0.5F, 2.0F);
+				player.playSound(SoundEvents.entity_firework_large_blast_far, 0.5F, 1.0F);
+				player.playSound(SoundEvents.block_portal_travel, 0.5F, 2.0F);
 			}
 		}
 		
 		player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
-		return itemStack;
+		return super.onItemRightClick(itemStack, world, player, hand);
 	}
 	
 	

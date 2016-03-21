@@ -6,6 +6,8 @@ import mca.enums.EnumMovementState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -21,7 +23,7 @@ public class ItemWhistle extends Item
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand)
 	{
 		if (!world.isRemote)
 		{
@@ -42,12 +44,6 @@ public class ItemWhistle extends Item
 			}
 		}
 
-		return itemStack;
+		return super.onItemRightClick(itemStack, world, player, hand);
 	}
-
-//	@Override
-//	public void registerIcons(IIconRegister IIconRegister)
-//	{
-//		itemIcon = IIconRegister.registerIcon("mca:Whistle");
-//	}
 }

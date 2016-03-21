@@ -12,6 +12,7 @@ import mca.packets.PacketOpenBabyNameGUI;
 import mca.util.Utilities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.Achievement;
@@ -59,7 +60,7 @@ public class AIProcreate extends AbstractAI
 			{
 				isProcreating.setValue(false);
 				procreateTicks = 0;
-				owner.playSound("mob.chicken.plop", 1.0F, 1.0F);
+				owner.playSound(SoundEvents.entity_chicken_egg, 1.0F, 1.0F);
 
 				final EntityPlayer playerSpouse = owner.getPlayerSpouse();
 				
@@ -84,7 +85,7 @@ public class AIProcreate extends AbstractAI
 					}
 					
 					Achievement achievement = isMale ? ModAchievements.babyBoy : ModAchievements.babyGirl;
-					playerSpouse.triggerAchievement(achievement);
+					playerSpouse.addStat(achievement);
 					
 					MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenBabyNameGUI(isMale), (EntityPlayerMP) playerSpouse);
 				}
