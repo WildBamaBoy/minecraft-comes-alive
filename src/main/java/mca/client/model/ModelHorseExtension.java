@@ -1,12 +1,12 @@
 package mca.client.model;
 
-import mca.entity.EntityHuman;
+import mca.core.forge.EventHooksForge;
 import net.minecraft.client.model.ModelHorse;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityHorse;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.MathHelper;
 
 /**
  * Forces the saddle to render on a horse when an MCA villager is riding it.
@@ -91,7 +91,7 @@ public class ModelHorseExtension extends ModelHorse
 		super.render(entity, posX, posY, posZ, rotationYaw, rotationPitch, yOffset);
 		final EntityHorse entityHorse = (EntityHorse) entity;
 
-		if (entityHorse.riddenByEntity instanceof EntityHuman)
+		if (EventHooksForge.isHorseRiddenByHuman(entityHorse))
 		{
 			headpiece.render(yOffset);
 			seatCenter.render(yOffset);
@@ -139,7 +139,7 @@ public class ModelHorseExtension extends ModelHorse
 
 		final EntityHorse entityHorse = (EntityHorse) entityLiving;
 
-		if (entityHorse.riddenByEntity instanceof EntityHuman)
+		if (EventHooksForge.isHorseRiddenByHuman(entityHorse))
 		{
 			final float yawOffset = adjuestRotations(entityLiving.prevRenderYawOffset, entityLiving.renderYawOffset, partialTickTime);
 			final float rotationYawHead = adjuestRotations(entityLiving.prevRotationYawHead, entityLiving.rotationYawHead, partialTickTime);
@@ -168,7 +168,7 @@ public class ModelHorseExtension extends ModelHorse
 			final float rearingCurrent = entityHorse.getRearingAmount(partialTickTime);
 			final float rearingRemaining = 1.0F - rearingCurrent;
 
-//			entityHorse.getRearingAmount(partialTickTime);//FIXME
+			//			entityHorse.getRearingAmount(partialTickTime);//FIXME
 			final float headRotatePointY = rearingCurrent * -6.0F + grassEatingAmount * 11.0F + (1.0F - Math.max(rearingCurrent, grassEatingAmount)) * 4.0F;
 			final float headRotatePointZ = rearingCurrent * -1.0F + grassEatingAmount * -10.0F + (1.0F - Math.max(rearingCurrent, grassEatingAmount)) * -10.0F;
 			final float headRotateAngleX = rearingCurrent * (0.2617994F + rotationPitch360) + grassEatingAmount * 2.18166F + (1.0F - Math.max(rearingCurrent, grassEatingAmount)) * (0.5235988F + rotationPitch360);

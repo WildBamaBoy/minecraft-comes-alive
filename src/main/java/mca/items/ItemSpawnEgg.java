@@ -6,8 +6,10 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import radixcore.util.BlockHelper;
@@ -29,28 +31,26 @@ public class ItemSpawnEgg extends Item
 	}
 
 	@Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World worldObj, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		int posX = pos.getX();
 		int posY = pos.getY() + 1;
 		int posZ = pos.getZ();
 		
-		if (!world.isRemote)
+		if (!worldObj.isRemote)
 		{
-			final Block block = BlockHelper.getBlock(world, posX, posY, posZ);
+			final Block block = BlockHelper.getBlock(worldObj, posX, posY, posZ);
 			double verticalOffset = 0.0D;
 
-			spawnHuman(world, posX + 0.5D, posY + verticalOffset, posZ + 0.5D);
+			spawnHuman(worldObj, posX + 0.5D, posY + verticalOffset, posZ + 0.5D);
 			
 			if (!player.capabilities.isCreativeMode)
 			{
 				player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
 			}
-			
-			return true;
 		}
 		
-		return false;
+		return EnumActionResult.PASS;
 	}
 
 	public void spawnHuman(World world, double posX, double posY, double posZ)

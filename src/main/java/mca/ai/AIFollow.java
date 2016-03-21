@@ -4,12 +4,15 @@ import mca.core.Constants;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
 import mca.enums.EnumMovementState;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
 import radixcore.data.WatchedString;
-import radixcore.util.BlockHelper;
 import radixcore.util.RadixMath;
 
 public class AIFollow extends AbstractAI
@@ -54,7 +57,7 @@ public class AIFollow extends AbstractAI
 	{
 		if (owner.getMovementState() == EnumMovementState.FOLLOW)
 		{
-			final EntityLiving entityPathController = (EntityLiving) (owner.ridingEntity instanceof EntityHorse ? owner.ridingEntity : owner);
+			final EntityLiving entityPathController = (EntityLiving) (owner.getRidingEntity() instanceof EntityHorse ? owner.getRidingEntity() : owner);
 			final EntityPlayer entityPlayer = owner.worldObj.getPlayerEntityByName(playerFollowingName.getString());
 
 			if (entityPathController instanceof EntityHorse)
@@ -77,21 +80,22 @@ public class AIFollow extends AbstractAI
 				//Crash was reported where bounding box ended up being null.
 				if (distanceToPlayer >= 10.0D && entityPlayer.getEntityBoundingBox() != null)
 				{
-					final int playerX = net.minecraft.util.MathHelper.floor_double(entityPlayer.posX) - 2;
-					final int playerY = net.minecraft.util.MathHelper.floor_double(entityPlayer.getEntityBoundingBox().minY);
-					final int playerZ = net.minecraft.util.MathHelper.floor_double(entityPlayer.posZ) - 2;
+					final int i = net.minecraft.util.math.MathHelper.floor_double(entityPlayer.posX) - 2;
+					final int j = net.minecraft.util.math.MathHelper.floor_double(entityPlayer.getEntityBoundingBox().minY);
+					final int k = net.minecraft.util.math.MathHelper.floor_double(entityPlayer.posZ) - 2;
 
-					for (int i = 0; i <= 4; ++i)
-					{
-						for (int i2 = 0; i2 <= 4; ++i2)
-						{
-							if ((i < 1 || i2 < 1 || i > 3 || i2 > 3) && BlockHelper.doesBlockHaveSolidTopSurface(owner.worldObj, playerX + i, playerY - 1, playerZ + i2) && !BlockHelper.getBlock(owner.worldObj, playerX + i, playerY, playerZ + i2).isNormalCube() && !BlockHelper.getBlock(owner.worldObj, playerX + i, playerY + 1, playerZ + i2).isNormalCube())
-							{
-								entityPathController.setLocationAndAngles(playerX + i + 0.5F, playerY, playerZ + i2 + 0.5F, entityPlayer.rotationYaw, entityPlayer.rotationPitch);
-								entityPathController.getNavigator().clearPathEntity();
-							}
-						}
-					}
+                    for (int l = 0; l <= 4; ++l)
+                    {
+                        for (int i1 = 0; i1 <= 4; ++i1)
+                        {
+                            if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && entityPathController.worldObj.getBlockState(new BlockPos(i + l, k - 1, j + i1)).isFullyOpaque() && this.isBlockSpawnable(new BlockPos(i + l, k, j + i1)) && this.isBlockSpawnable(new BlockPos(i + l, k + 1, j + i1)))
+                            {
+                                entityPathController.setLocationAndAngles((double)((float)(i + l) + 0.5F), (double)k, (double)((float)(j + i1) + 0.5F), entityPathController.rotationYaw, entityPathController.rotationPitch);
+                                entityPathController.getNavigator().clearPathEntity();
+                                return;
+                            }
+                        }
+                    }
 				}
 
 				else if (distanceToPlayer >= 4.5D && owner.getNavigator().noPath())
@@ -122,4 +126,11 @@ public class AIFollow extends AbstractAI
 	{
 		playerFollowingName.setValue(value);
 	}
+	
+    private boolean isBlockSpawnable(BlockPos pos)
+    {
+        IBlockState iblockstate = owner.worldObj.getBlockState(pos);
+        Block block = iblockstate.getBlock();
+        return block == Blocks.air ? true : !iblockstate.isFullCube();
+    }
 }

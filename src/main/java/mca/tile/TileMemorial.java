@@ -12,6 +12,7 @@ import mca.util.MarriageHandler;
 import mca.util.Utilities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumParticleTypes;
@@ -60,7 +61,7 @@ public class TileMemorial extends TileEntity implements ITickable
 				BlockHelper.setBlock(worldObj, xCoord, yCoord, zCoord, Blocks.air);
 				Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.VILLAGER_HAPPY, human, 32);
 				Utilities.spawnParticlesAroundPointS(EnumParticleTypes.FIREWORKS_SPARK, worldObj, xCoord + 0.5D, yCoord, zCoord + 0.5D, 16);
-				this.worldObj.playSoundAtEntity(player, "fireworks.largeBlast", 3.0F, 1.0F);
+				player.playSound(SoundEvents.entity_firework_large_blast, 3.0F, 1.0F);
 
 				if (this.ownerRelation == EnumRelation.NONE)
 				{
@@ -89,7 +90,7 @@ public class TileMemorial extends TileEntity implements ITickable
 
 				if (revivalTicks == Time.SECOND * 2 || revivalTicks == Time.SECOND * 1)
 				{
-					this.worldObj.playSoundAtEntity(player, "fireworks.largeBlast", 3.0F, 1.0F);
+					player.playSound(SoundEvents.entity_firework_large_blast, 3.0F, 1.0F);
 					Utilities.spawnParticlesAroundPointS(EnumParticleTypes.FIREWORKS_SPARK, worldObj, xCoord + 0.5D, yCoord, zCoord + 0.5D, 32);	
 				}
 

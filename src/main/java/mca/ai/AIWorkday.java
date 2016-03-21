@@ -11,8 +11,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Vec3d;
 import radixcore.constant.Time;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
@@ -20,7 +20,7 @@ import radixcore.util.RadixMath;
 public class AIWorkday extends AbstractAI
 {
 	private EnumWorkdayState state = EnumWorkdayState.IDLE;
-	private Vec3 vecTarget;
+	private Vec3d vecTarget;
 	private EntityLivingBase lookTarget;
 	private int ticksActive;
 	public AIWorkday(EntityHuman owner) 
@@ -180,8 +180,8 @@ public class AIWorkday extends AbstractAI
 	{
 		final Class entityClass = playerOnly ? EntityPlayer.class : EntityLivingBase.class;
 		final int maxDistanceAway = 3;
-		final List<Entity> entitiesAroundMe = owner.worldObj.getEntitiesWithinAABB(entityClass, AxisAlignedBB.fromBounds(owner.posX - maxDistanceAway, owner.posY - maxDistanceAway, owner.posZ - maxDistanceAway, owner.posX + maxDistanceAway, owner.posY + maxDistanceAway, owner.posZ + maxDistanceAway));
-
+		final List<Entity> entitiesAroundMe = owner.worldObj.getEntitiesWithinAABB(entityClass, new AxisAlignedBB(owner.posX - maxDistanceAway, owner.posY - maxDistanceAway, owner.posZ - maxDistanceAway, owner.posX + maxDistanceAway, owner.posY + maxDistanceAway, owner.posZ + maxDistanceAway));
+		
 		double lastDistance = 100.0D;
 		Entity target = null;
 

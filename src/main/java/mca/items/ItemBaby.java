@@ -1,6 +1,5 @@
 package mca.items;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
 import mca.core.MCA;
@@ -19,10 +18,13 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Font.Format;
@@ -84,7 +86,7 @@ public class ItemBaby extends Item
 	}
 
 	@Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer player, World worldObj, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
+    public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World worldObj, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		int posX = pos.getX();
 		int posY = pos.getY();
@@ -134,17 +136,17 @@ public class ItemBaby extends Item
 			childMemory.setRelation(child.getIsMale() ? EnumRelation.SON : EnumRelation.DAUGHTER);
 
 			player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
-			player.triggerAchievement(ModAchievements.babyToChild);
+			player.addStat(ModAchievements.babyToChild);
 
 			data.setShouldHaveBaby(false);
 		}
 
-		return true;
+		return EnumActionResult.PASS;
 	}	
 
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) 
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) 
 	{
 		if (!world.isRemote && itemStack.getTagCompound().getString("name").equals("Unnamed"))
 		{
@@ -152,7 +154,7 @@ public class ItemBaby extends Item
 			MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenBabyNameGUI(baby.isBoy), (EntityPlayerMP)player);
 		}
 
-		return super.onItemRightClick(itemStack, world, player);
+		return super.onItemRightClick(itemStack, world, player, hand);
 	}
 
 	@Override
@@ -195,7 +197,7 @@ public class ItemBaby extends Item
 
 	private void updateBabyGrowth(ItemStack itemStack)
 	{
-		if (itemStack.hasTagCompound() && MinecraftServer.getServer().getTickCounter() % Time.MINUTE == 0)
+		if (itemStack.hasTagCompound() && FMLCommonHandler.instance().getMinecraftServerInstance().getTickCounter() % Time.MINUTE == 0)
 		{
 			int age = itemStack.getTagCompound().getInteger("age");
 			age++;

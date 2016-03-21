@@ -6,17 +6,19 @@ import mca.core.Constants;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
 import mca.enums.EnumCombatBehaviors;
-import mca.enums.EnumMovementState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.projectile.EntityTippedArrow;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.MathHelper;
 import radixcore.data.DataWatcherEx;
 import radixcore.data.WatchedInt;
 import radixcore.util.RadixLogic;
@@ -93,7 +95,7 @@ public class AICombat extends AbstractAI
 				{
 					owner.swingItem();
 					
-					ItemStack heldItem = owner.getHeldItem();
+					ItemStack heldItem = owner.getHeldItem(EnumHand.MAIN_HAND);
 					Item.ToolMaterial swordMaterial = null;
 					
 					if (heldItem != null && heldItem.getItem() instanceof ItemSword)
@@ -116,8 +118,17 @@ public class AICombat extends AbstractAI
 				
 				if (rangedAttackTime <= 0)
 				{
-					owner.worldObj.spawnEntityInWorld(new EntityArrow(owner.worldObj, owner, attackTarget, 1.6F, 12F));
-					owner.worldObj.playSoundAtEntity(owner, "random.bow", 1.0F, 1.0F / (owner.getRNG().nextFloat() * 0.4F + 0.8F));
+					EntityTippedArrow arrow = new EntityTippedArrow(owner.worldObj, owner);
+			        double dX = attackTarget.posX - owner.posX;
+			        double dY = attackTarget.getEntityBoundingBox().minY + (double)(attackTarget.height / 3.0F) - arrow.posY;
+			        double dZ = attackTarget.posZ - owner.posZ;
+			        double d3 = (double)MathHelper.sqrt_double(dX * dX + dZ * dZ);
+			        
+			        arrow.setThrowableHeading(dX, dY + d3 * 0.20000000298023224D, dZ, 1.6F, (float)(14 - owner.worldObj.getDifficulty().getDifficultyId() * 4));
+			        arrow.setDamage((double)(5.0F) + owner.getRNG().nextGaussian() * 0.25D + (double)((float)owner.worldObj.getDifficulty().getDifficultyId() * 0.11F));
+			        owner.playSound(SoundEvents.entity_skeleton_shoot, 1.0F, 1.0F / (owner.getRNG().nextFloat() * 0.4F + 0.8F));
+					owner.worldObj.spawnEntityInWorld(arrow);
+					
 					rangedAttackTime = 60;
 				}
 

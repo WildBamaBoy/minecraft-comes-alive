@@ -6,6 +6,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.MinecraftException;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.chunk.storage.IChunkLoader;
+import net.minecraft.world.gen.structure.template.TemplateManager;
 import net.minecraft.world.storage.IPlayerFileData;
 import net.minecraft.world.storage.ISaveHandler;
 import net.minecraft.world.storage.WorldInfo;
@@ -68,13 +69,13 @@ public class DummySaveHandler implements ISaveHandler
 	}
 
 	@Override
-	public String getWorldDirectoryName() 
+	public IPlayerFileData getPlayerNBTManager() 
 	{
-		return "TestWorld";
+		return null;
 	}
 
 	@Override
-	public IPlayerFileData getPlayerNBTManager() 
+	public TemplateManager getStructureTemplateManager() 
 	{
 		return null;
 	}

@@ -15,10 +15,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import radixcore.util.BlockHelper;
@@ -43,7 +43,7 @@ public class BlockVillagerBed extends BlockBed implements ITileEntityProvider
 	}
 
 	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos) 
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) 
 	{
 		return new ItemStack(getItemDropped(null, world.rand, 0));
 	}
@@ -67,7 +67,7 @@ public class BlockVillagerBed extends BlockBed implements ITileEntityProvider
     {
         if (worldIn.isRemote)
         {
-        	playerIn.addChatMessage(new ChatComponentText("You cannot sleep in a villager's bed."));
+        	playerIn.addChatMessage(new TextComponentString("You cannot sleep in a villager's bed."));
         }
         
         return false;

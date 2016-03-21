@@ -3,6 +3,7 @@ package mca.core.forge;
 import java.util.ArrayList;
 import java.util.List;
 
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
 import mca.core.minecraft.ModItems;
@@ -15,7 +16,6 @@ import mca.enums.EnumBabyState;
 import mca.enums.EnumProfession;
 import mca.enums.EnumProfessionGroup;
 import mca.items.ItemGemCutter;
-import mca.packets.PacketPlaySoundOnPlayer;
 import mca.packets.PacketPlayerDataLogin;
 import mca.packets.PacketSpawnLightning;
 import mca.packets.PacketSyncConfig;
@@ -29,12 +29,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.village.Village;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
@@ -64,7 +64,7 @@ public class EventHooksFML
 	@SubscribeEvent
 	public void onConfigChanges(ConfigChangedEvent.OnConfigChangedEvent eventArgs)
 	{
-		if (eventArgs.modID.equals(MCA.ID))
+		if (eventArgs.getModID().equals(MCA.ID))
 		{
 			MCA.getConfig().getInstance().save();
 			MCA.getConfig().syncConfiguration();
@@ -121,7 +121,7 @@ public class EventHooksFML
 			}
 			
 			//Add the crystal ball to the inventory if needed.
-			if (!nbtData.getHasChosenDestiny() && !player.inventory.hasItem(ModItems.crystalBall) && MCA.getConfig().giveCrystalBall)
+			if (!nbtData.getHasChosenDestiny() && !player.inventory.hasItemStack(new ItemStack(ModItems.crystalBall)) && MCA.getConfig().giveCrystalBall)
 			{
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.crystalBall));
 			}
@@ -202,7 +202,7 @@ public class EventHooksFML
 		// are identified by having the value of 3577 for watched object number 28.
 		if (serverTickCounter % 40 == 0)
 		{
-			for (World world : MinecraftServer.getServer().worldServers)
+			for (World world : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers)
 			{
 				for (int i = 0; i < world.loadedEntityList.size(); i++)
 				{
@@ -214,7 +214,7 @@ public class EventHooksFML
 
 						try
 						{
-							if (villager.getDataWatcher().getWatchableObjectInt(28) == 3577)
+							if (villager.getDataManager().get(Constants.OVERWRITE_KEY) == 3577)
 							{
 								doOverwriteVillager(villager);
 							}
@@ -243,8 +243,8 @@ public class EventHooksFML
 				double dX = summonPos.iPosX + (summonWorld.rand.nextInt(6) * (RadixLogic.getBooleanWithProbability(50) ? 1 : -1));
 				double dZ = summonPos.iPosZ + (summonWorld.rand.nextInt(6) * (RadixLogic.getBooleanWithProbability(50) ? 1 : -1));
 				double y = (double)RadixLogic.getSpawnSafeTopLevel(summonWorld, (int)dX, (int)dZ);
-				NetworkRegistry.TargetPoint lightningTarget = new NetworkRegistry.TargetPoint(summonWorld.provider.getDimensionId(), dX, y, dZ, 64);
-				EntityLightningBolt lightning = new EntityLightningBolt(summonWorld, dX, y, dZ);
+				NetworkRegistry.TargetPoint lightningTarget = new NetworkRegistry.TargetPoint(summonWorld.provider.getDimension(), dX, y, dZ, 64);
+				EntityLightningBolt lightning = new EntityLightningBolt(summonWorld, dX, y, dZ, false);
 								
 				summonWorld.spawnEntityInWorld(lightning);
 				MCA.getPacketHandler().sendPacketToAllAround(new PacketSpawnLightning(new Point3D(dX, y, dZ)), lightningTarget);
@@ -252,8 +252,9 @@ public class EventHooksFML
 				//On the first lightning bolt, send the summon sound to all around the summon point.
 				if (summonCounter == 80)
 				{
-					NetworkRegistry.TargetPoint summonTarget = new NetworkRegistry.TargetPoint(summonWorld.provider.getDimensionId(), summonPos.iPosX, summonPos.iPosY, summonPos.iPosZ, 32);
-					MCA.getPacketHandler().sendPacketToAllAround(new PacketPlaySoundOnPlayer("mca:reaper.summon"), summonTarget);
+					NetworkRegistry.TargetPoint summonTarget = new NetworkRegistry.TargetPoint(summonWorld.provider.getDimension(), summonPos.iPosX, summonPos.iPosY, summonPos.iPosZ, 32);
+					//FIXME
+					//MCA.getPacketHandler().sendPacketToAllAround(new PacketPlaySoundOnPlayer("mca:reaper.summon"), summonTarget);
 				}
 			}
 			
@@ -273,7 +274,7 @@ public class EventHooksFML
 			//Build a list of all humans on the server.
 			List<EntityHuman> humans = new ArrayList<EntityHuman>();
 
-			for (World world : MinecraftServer.getServer().worldServers)
+			for (World world : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers)
 			{
 				for (Object obj : world.loadedEntityList)
 				{
@@ -300,7 +301,7 @@ public class EventHooksFML
 					if (numberOfGuardsAroundMe < neededNumberOfGuards)
 					{
 						final EntityHuman guard = new EntityHuman(human.worldObj, RadixLogic.getBooleanWithProbability(50), EnumProfession.Guard.getId(), false);
-						final Vec3 pos = RandomPositionGenerator.findRandomTarget(human, 10, 1);
+						final Vec3d pos = RandomPositionGenerator.findRandomTarget(human, 10, 1);
 
 						if (pos != null) //Ensure a random position was actually found.
 						{
@@ -322,7 +323,7 @@ public class EventHooksFML
 		
 		if (serverTickCounter <= 0 && MCA.getConfig().replenishEmptyVillages && RadixLogic.getBooleanWithProbability(25))
 		{
-			for (World world : MinecraftServer.getServer().worldServers)
+			for (World world : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers)
 			{
 				for (Object obj : world.villageCollectionObj.getVillageList())
 				{
@@ -400,7 +401,7 @@ public class EventHooksFML
 		if (craftedItem == ModItems.diamondHeart || craftedItem == ModItems.diamondOval || craftedItem == ModItems.diamondSquare
 				|| craftedItem == ModItems.diamondStar || craftedItem == ModItems.diamondTiny || craftedItem == ModItems.diamondTriangle)
 		{
-			player.triggerAchievement(ModAchievements.craftShapedDiamond);
+			player.addStat(ModAchievements.craftShapedDiamond);
 		}
 
 		else if (craftedItem == ModItems.engagementRingHeart || craftedItem == ModItems.engagementRingOval || craftedItem == ModItems.engagementRingSquare
@@ -408,7 +409,7 @@ public class EventHooksFML
 				|| craftedItem == ModItems.engagementRingHeartRG || craftedItem == ModItems.engagementRingOvalRG || craftedItem == ModItems.engagementRingSquareRG
 				|| craftedItem == ModItems.engagementRingStarRG || craftedItem == ModItems.engagementRingTinyRG || craftedItem == ModItems.engagementRingTriangleRG)
 		{
-			player.triggerAchievement(ModAchievements.craftShapedRing);
+			player.addStat(ModAchievements.craftShapedRing);
 		}
 
 		//Return damageable items to the inventory.
@@ -424,7 +425,7 @@ public class EventHooksFML
 				{
 					event.player.inventory.addItemStackToInventory(stack);
 				}
-				player.triggerAchievement(ModAchievements.craftShapedDiamond);
+				player.addStat(ModAchievements.craftShapedDiamond);
 			}
 
 			break;

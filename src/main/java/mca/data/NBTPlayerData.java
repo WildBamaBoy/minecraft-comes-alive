@@ -334,7 +334,7 @@ public final class NBTPlayerData implements Serializable
 				//Find the player reference in the world.
 				EntityPlayer player = null;
 				
-				for (WorldServer server : MinecraftServer.getServer().worldServers)
+				for (WorldServer server : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers)
 				{
 					EntityPlayer foundPlayer = server.getPlayerEntityByUUID(ownerUUID); 
 					

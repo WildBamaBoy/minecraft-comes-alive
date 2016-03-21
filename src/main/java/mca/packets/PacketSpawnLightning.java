@@ -3,6 +3,8 @@ package mca.packets;
 import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
 import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
@@ -53,9 +55,9 @@ public class PacketSpawnLightning extends AbstractPacket implements IMessage, IM
 	{
 		PacketSpawnLightning packet = (PacketSpawnLightning)message;
 		World world = getPlayerClient().worldObj;
-		EntityLightningBolt lightning = new EntityLightningBolt(world, packet.position.dPosX, packet.position.dPosY, packet.position.dPosZ);
+		EntityLightningBolt lightning = new EntityLightningBolt(world, packet.position.dPosX, packet.position.dPosY, packet.position.dPosZ, false);
 		
 		world.spawnEntityInWorld(lightning);
-		getPlayerClient().playSound("ambient.weather.thunder", 2.0F, 1.0F);
+		getPlayerClient().playSound(SoundEvents.entity_lightning_thunder, 2.0F, 1.0F);
 	}
 }

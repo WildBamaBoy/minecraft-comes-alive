@@ -13,7 +13,6 @@ import mca.packets.PacketOpenBabyNameGUI;
 import mca.packets.PacketOpenGUIOnEntity;
 import mca.packets.PacketOpenPrompt;
 import mca.packets.PacketOpenVillagerPrompt;
-import mca.packets.PacketPlaySoundOnPlayer;
 import mca.packets.PacketPlayerDataC;
 import mca.packets.PacketPlayerDataLogin;
 import mca.packets.PacketPlayerDataS;
@@ -57,7 +56,6 @@ public class MCAPacketHandler extends AbstractPacketHandler
 		this.registerPacket(PacketRequestRelatedVillagers.class, Side.SERVER);
 		this.registerPacket(PacketRelatedVillagers.class, Side.CLIENT);
 		this.registerPacket(PacketCallVillager.class, Side.SERVER);
-		this.registerPacket(PacketPlaySoundOnPlayer.class, Side.CLIENT);
 		this.registerPacket(PacketSpawnLightning.class, Side.CLIENT);
 		this.registerPacket(PacketMemorialUpdateGet.class, Side.SERVER);
 		this.registerPacket(PacketMemorialUpdateSet.class, Side.CLIENT);

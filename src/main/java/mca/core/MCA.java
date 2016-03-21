@@ -20,6 +20,7 @@ import mca.core.forge.EventHooksFML;
 import mca.core.forge.EventHooksForge;
 import mca.core.forge.GuiHandler;
 import mca.core.forge.ServerProxy;
+import mca.core.forge.SoundsMCA;
 import mca.core.minecraft.ModAchievements;
 import mca.core.minecraft.ModBlocks;
 import mca.core.minecraft.ModItems;
@@ -52,11 +53,11 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFishFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -76,7 +77,6 @@ import net.minecraftforge.oredict.OreDictionary;
 import radixcore.core.ModMetadataEx;
 import radixcore.core.RadixCore;
 import radixcore.data.AbstractPlayerData;
-import radixcore.data.DataContainer;
 import radixcore.forge.gen.SimpleOreGenerator;
 import radixcore.lang.LanguageManager;
 import radixcore.math.Point3D;
@@ -85,7 +85,7 @@ import radixcore.util.RadixExcept;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixStartup;
 
-@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore@[1.8.9-2.1.2,)", acceptedMinecraftVersions = "[1.8.9]",
+@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore@[1.9-2.1.2,)", acceptedMinecraftVersions = "[1.8.9]",
 guiFactory = "mca.core.forge.client.MCAGuiFactory")
 public class MCA
 {
@@ -141,7 +141,7 @@ public class MCA
 		packetHandler = new MCAPacketHandler(ID);
 		proxy.registerEventHandlers();
 		playerDataMap = new HashMap<String, AbstractPlayerData>();
-
+		
 		ModMetadataEx exData = ModMetadataEx.getFromModMetadata(metadata);
 		exData.updateProtocolClass = config.allowUpdateChecking ? RDXUpdateProtocol.class : null;
 		exData.classContainingClientDataContainer = MCA.class;
@@ -155,6 +155,8 @@ public class MCA
 			logger.fatal("Config: Update checking is turned off. You will not be notified of any available updates for MCA.");
 		}
 
+		SoundsMCA.registerSounds();
+		
 		MinecraftForge.EVENT_BUS.register(new EventHooksForge());
 		MinecraftForge.EVENT_BUS.register(new EventHooksFML());
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
@@ -714,7 +716,7 @@ public class MCA
 
 	public static EntityHuman getHumanByPermanentId(int id) 
 	{
-		for (WorldServer world : MinecraftServer.getServer().worldServers)
+		for (WorldServer world : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers)
 		{
 			for (Object obj : world.loadedEntityList)
 			{

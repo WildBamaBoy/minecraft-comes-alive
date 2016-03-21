@@ -25,17 +25,12 @@ import mca.util.UVPoint;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderBiped;
-import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 import radixcore.client.render.RenderHelper;
 import radixcore.util.RadixMath;
 
@@ -62,10 +57,11 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 
 		LayerBipedArmor layerbipedarmor = new LayerBipedArmor(this)
 		{
-			protected void func_177177_a()
+			@Override
+			protected void initArmor()
 			{
-				this.field_177189_c = new ModelBiped(0.5F);
-				this.field_177186_d = new ModelBiped(1.0F);
+				this.modelLeggings = new ModelBiped(0.5F);
+				this.modelArmor = new ModelBiped(1.0F);
 			}
 		};
 		this.addLayer(layerbipedarmor);
@@ -85,9 +81,9 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 
 			scale = 0.55F + growthFactor;
 
-			if (entityLivingBase.ridingEntity != null)
+			if (entityLivingBase.getRidingEntity() != null)
 			{
-				if (entityLivingBase.ridingEntity instanceof EntityHorse)
+				if (entityLivingBase.getRidingEntity() instanceof EntityHorse)
 				{
 					GL11.glTranslated(0.0D, growthFactor - 0.3D, 0.2D);
 				}
@@ -107,7 +103,7 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 			renderHumanSleeping(entity, partialTickTime);
 		}
 
-		else if (entityLivingBase.ridingEntity != null)
+		else if (entityLivingBase.getRidingEntity() != null)
 		{
 			GL11.glTranslated(0.0D, 0.55D, 0.1D);
 		}
@@ -223,19 +219,20 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 		double posYCorrection = posY - entity.getYOffset();
 		shadowOpaque = 1.0F;
 
-		final ItemStack heldItem = entity.getHeldItem();
-		modelArmorPlate.heldItemRight = modelArmor.heldItemRight = modelBipedMain.heldItemRight = heldItem == null ? 0 : 1;
-		modelArmorPlate.isSneak = modelArmor.isSneak = modelBipedMain.isSneak = entity.isSneaking();
-
-		if (heldItem != null)
-		{
-			final EnumAction useAction = heldItem.getItemUseAction();
-
-			if (useAction == EnumAction.BOW)
-			{
-				modelArmorPlate.aimedBow = modelArmor.aimedBow = modelBipedMain.aimedBow = true;
-			}
-		}
+		//FIXME
+//		final ItemStack heldItem = entity.getHeldItem();
+//		modelArmorPlate.heldItemRight = modelArmor.heldItemRight = modelBipedMain.heldItemRight = heldItem == null ? 0 : 1;
+//		modelArmorPlate.isSneak = modelArmor.isSneak = modelBipedMain.isSneak = entity.isSneaking();
+//
+//		if (heldItem != null)
+//		{
+//			final EnumAction useAction = heldItem.getItemUseAction();
+//
+//			if (useAction == EnumAction.BOW)
+//			{
+//				modelArmorPlate.aimedBow = modelArmor.aimedBow = modelBipedMain.aimedBow = true;
+//			}
+//		}
 
 		if (entity.isSneaking())
 		{
@@ -243,9 +240,10 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 		}
 
 		super.doRender((T) entity, posX, posYCorrection, posZ, rotationYaw, rotationPitch);
-		modelArmorPlate.aimedBow = modelArmor.aimedBow = modelBipedMain.aimedBow = false;
-		modelArmorPlate.isSneak = modelArmor.isSneak = modelBipedMain.isSneak = false;
-		modelArmorPlate.heldItemRight = modelArmor.heldItemRight = modelBipedMain.heldItemRight = 0;
+		//FIXME
+//		modelArmorPlate.aimedBow = modelArmor.aimedBow = modelBipedMain.aimedBow = false;
+//		modelArmorPlate.isSneak = modelArmor.isSneak = modelBipedMain.isSneak = false;
+//		modelArmorPlate.heldItemRight = modelArmor.heldItemRight = modelBipedMain.heldItemRight = 0;
 	}
 
 	protected void renderHumanSleeping(EntityHuman entity, double partialTickTime)
@@ -391,11 +389,11 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 	{
 		final EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
 
-		final Vec3 entityLookVector = new Vec3(entityRendering.posX - entityPlayer.posX, entityRendering.getEntityBoundingBox().minY - 3 + (double) entityRendering.height / 2.0F - entityPlayer.posY + entityPlayer.getEyeHeight(), entityRendering.posZ - entityPlayer.posZ).normalize(); //entityRendering.getLook(1.0F).normalize();
+		final Vec3d entityLookVector = new Vec3d(entityRendering.posX - entityPlayer.posX, entityRendering.getEntityBoundingBox().minY - 3 + (double) entityRendering.height / 2.0F - entityPlayer.posY + entityPlayer.getEyeHeight(), entityRendering.posZ - entityPlayer.posZ).normalize(); //entityRendering.getLook(1.0F).normalize();
 		final double dotProduct = entityPlayer.getLook(1.0F).normalize().dotProduct(entityLookVector);
 		final boolean isPlayerLookingAt = dotProduct > 1.0D - 0.025D / entityLookVector.lengthVector() ? entityPlayer.canEntityBeSeen(entityRendering) : false;
 		final double distance = entityRendering.getDistanceToEntity(renderManager.livingPlayer);
 
-		return !(Minecraft.getMinecraft().currentScreen instanceof GuiInteraction) && distance < 5.0D && isPlayerLookingAt && Minecraft.isGuiEnabled() && entityRendering != renderManager.livingPlayer && !entityRendering.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) && entityRendering.riddenByEntity == null;
+		return !(Minecraft.getMinecraft().currentScreen instanceof GuiInteraction) && distance < 5.0D && isPlayerLookingAt && Minecraft.isGuiEnabled() && entityRendering != renderManager.livingPlayer && !entityRendering.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) && !entityRendering.isBeingRidden();
 	}
 }

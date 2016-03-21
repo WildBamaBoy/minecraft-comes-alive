@@ -21,8 +21,8 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.WorldServer;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Font.Format;
@@ -44,7 +44,7 @@ public class CommandMCA extends CommandBase
 	}
 
 	@Override
-	public void processCommand(ICommandSender commandSender, String[] input) throws CommandException 
+	public void execute(MinecraftServer server, ICommandSender commandSender, String[] input) throws CommandException 
 	{
 		try
 		{
@@ -127,7 +127,7 @@ public class CommandMCA extends CommandBase
 				addChatMessage(commandSender, Color.YELLOW + "Beginning conversion of player data...");
 				
 				PlayerDataCollection dataCollection = PlayerDataCollection.get();
-				File playerDataPath = new File(AbstractPlayerData.getPlayerDataPath(MinecraftServer.getServer().getEntityWorld(), MCA.ID));
+				File playerDataPath = new File(AbstractPlayerData.getPlayerDataPath(server.getEntityWorld(), MCA.ID));
 				playerDataPath.mkdirs();
 
 				int total = 0;
@@ -136,10 +136,10 @@ public class CommandMCA extends CommandBase
 				for (File f : playerDataPath.listFiles())
 				{
 					String uuid = f.getName().replace(".dat", "");
-					PlayerData data = new PlayerData(uuid, MinecraftServer.getServer().getEntityWorld());
+					PlayerData data = new PlayerData(uuid, server.getEntityWorld());
 					data = data.readDataFromFile(null, PlayerData.class, f);
 					
-					boolean success = dataCollection.migrateOldPlayerData(MinecraftServer.getServer().getEntityWorld(), UUID.fromString(uuid), data);
+					boolean success = dataCollection.migrateOldPlayerData(server.getEntityWorld(), UUID.fromString(uuid), data);
 					
 					if (success)
 					{
@@ -370,7 +370,7 @@ public class CommandMCA extends CommandBase
 			
 			else if (subcommand.equalsIgnoreCase("kgr"))
 			{
-				for (WorldServer world : MinecraftServer.getServer().worldServers)
+				for (WorldServer world : server.worldServers)
 				{
 					for (Object obj : world.loadedEntityList)
 					{
@@ -438,14 +438,14 @@ public class CommandMCA extends CommandBase
 
 	private void addChatMessage(ICommandSender commandSender, String message)
 	{
-		commandSender.addChatMessage(new ChatComponentText(Color.GOLD + "[MCA] " + Format.RESET + message));
+		commandSender.addChatMessage(new TextComponentString(Color.GOLD + "[MCA] " + Format.RESET + message));
 	}
 
 	private void addChatMessage(ICommandSender commandSender, String message, boolean noPrefix)
 	{
 		if (noPrefix)
 		{
-			commandSender.addChatMessage(new ChatComponentText(message));			
+			commandSender.addChatMessage(new TextComponentString(message));			
 		}
 
 		else

@@ -3,8 +3,6 @@ package mca.client.gui;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 import mca.core.MCA;
 import mca.data.VillagerSaveData;
@@ -14,9 +12,6 @@ import mca.packets.PacketRequestRelatedVillagers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -175,43 +170,7 @@ public class GuiWhistle extends GuiScreen
 		int posY = height / 2 + 45;
 		final int scale = 70;
 
-		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-		GL11.glPushMatrix();
-		GL11.glTranslatef(posX, posY, 50.0F);
-		GL11.glScalef(-scale, scale, scale);
-		GL11.glRotatef(180.0F, 0.0F, 0.0F, 1.0F);
-
-		final float yawOffset = dummyHuman.renderYawOffset;
-		final float rotationYaw = dummyHuman.rotationYaw;
-		final float rotationPitch = dummyHuman.rotationPitch;
-
-		GL11.glRotatef(135.0F, 0.0F, 1.0F, 0.0F);
-		RenderHelper.enableStandardItemLighting();
-		GL11.glRotatef(-135.0F, 0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(-((float) Math.atan(0F / 40.0F)) * 20.0F, 1.0F, 0.0F, 0.0F);
-
-		dummyHuman.renderYawOffset = (float) Math.atan(0F / 40.0F) * 20.0F;
-		dummyHuman.rotationYaw = (float) Math.atan(0F / 40.0F) * 40.0F;
-		dummyHuman.rotationPitch = -((float) Math.atan(0F / 40.0F)) * 20.0F;
-		dummyHuman.rotationYawHead = dummyHuman.rotationYaw;
-
-		GL11.glTranslatef(0.0F, dummyHuman.getEyeHeight(), 0.0F);
-
-		GL11.glTranslated(0.0D, -1.5D, 0.0D);
-		Minecraft.getMinecraft().getRenderManager().playerViewY = 180.0F;
-		Minecraft.getMinecraft().getRenderManager().renderEntityWithPosYaw(dummyHuman, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
-
-		dummyHuman.renderYawOffset = yawOffset;
-		dummyHuman.rotationYaw = rotationYaw;
-		dummyHuman.rotationPitch = rotationPitch;
-
-		GL11.glPopMatrix();
-
-		RenderHelper.disableStandardItemLighting();
-		GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-		OpenGlHelper.setActiveTexture(OpenGlHelper.lightmapTexUnit);
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		OpenGlHelper.setActiveTexture(OpenGlHelper.defaultTexUnit);
+		net.minecraft.client.gui.inventory.GuiInventory.drawEntityOnScreen(posX, posY, 75, 0, 0, dummyHuman);
 	}
 
 	public void setVillagerDataList(List<VillagerSaveData> dataList)

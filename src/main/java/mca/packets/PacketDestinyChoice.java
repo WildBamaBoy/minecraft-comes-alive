@@ -12,12 +12,13 @@ import mca.enums.EnumDialogueType;
 import mca.tile.TileTombstone;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerManager;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -74,7 +75,7 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 		if (packet.choice == EnumDestinyChoice.NONE || packet.choice == EnumDestinyChoice.CANCEL)
 		{
 			//Update the region around the player so that the destiny room disappears.
-			final PlayerManager manager = world.getPlayerManager();
+			final PlayerManager manager = world.getPlayerChunkManager();
 
 			for (int x = -20; x < 20; x++)
 			{
@@ -96,8 +97,8 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 		else
 		{
 			// Players have previously been able to spawn in structures on dedicated servers.
-			// Add a check for the dedicated server and prevent anything from happening as long as the appropriate config is set.
-			if (MinecraftServer.getServer().isDedicatedServer() && !MCA.getConfig().serverEnableStructureSpawning)
+			// Add a check for the dedicated server and prevent anything from happening.
+			if (FMLCommonHandler.instance().getMinecraftServerInstance().isDedicatedServer() && !MCA.getConfig().serverEnableStructureSpawning)
 			{
 				return;
 			}
@@ -177,14 +178,14 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 
 					if (tile != null)
 					{
-						tile.signText[1] = new ChatComponentText(RadixLogic.getBooleanWithProbability(50) ? MCA.getLanguageManager().getString("name.male") : MCA.getLanguageManager().getString("name.female"));
-						tile.signText[2] = new ChatComponentText("RIP");
+						tile.signText[1] = new TextComponentString(RadixLogic.getBooleanWithProbability(50) ? MCA.getLanguageManager().getString("name.male") : MCA.getLanguageManager().getString("name.female"));
+						tile.signText[2] = new TextComponentString("RIP");
 					}
 				}
 			}
 		}
 
-		player.worldObj.playSoundAtEntity(player, "portal.travel", 0.5F, 2.0F);
+		player.playSound(SoundEvents.block_portal_travel, 0.5F, 2.0F);
 		DataWatcherEx.allowClientSideModification = false;
 	}
 }

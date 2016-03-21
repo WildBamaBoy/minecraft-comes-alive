@@ -4,32 +4,29 @@ import mca.client.gui.GuiSetup;
 import mca.core.MCA;
 import mca.data.NBTPlayerData;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockEnchantmentTable;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraft.init.Blocks;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import radixcore.util.BlockHelper;
 
 public class EventHooksForgeClient 
 {
 	@SubscribeEvent
-	public void playerInteractEventHandler(PlayerInteractEvent event)
+	public void rightClickBlockEventHandler(RightClickBlock event)
 	{
-		if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
+		if (event.getEntityPlayer().worldObj.isRemote && Minecraft.getMinecraft().isIntegratedServerRunning())
 		{
-			if (event.entityPlayer.worldObj.isRemote && Minecraft.getMinecraft().isIntegratedServerRunning())
+			Block block = BlockHelper.getBlock(event.getWorld(), event.getPos().getX(), event.getPos().getY(), event.getPos().getZ());
+
+			if (block == Blocks.enchanting_table)
 			{
-				Block block = BlockHelper.getBlock(event.world, event.pos.getX(), event.pos.getY(), event.pos.getZ());
+				NBTPlayerData data = MCA.getPlayerData(event.getEntityPlayer());
 				
-				if (block instanceof BlockEnchantmentTable)
+				if (!data.getHasChosenDestiny())
 				{
-					NBTPlayerData data = MCA.getPlayerData(event.entityPlayer);
-					
-					if (!data.getHasChosenDestiny())
-					{
-						event.setCanceled(true);
-						Minecraft.getMinecraft().displayGuiScreen(new GuiSetup(event.entityPlayer));
-					}
+					event.setCanceled(true);
+					Minecraft.getMinecraft().displayGuiScreen(new GuiSetup(event.getEntityPlayer()));
 				}
 			}
 		}

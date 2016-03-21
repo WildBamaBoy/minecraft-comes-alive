@@ -2,16 +2,16 @@ package mca.util;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.network.play.server.S2APacketParticles;
-import net.minecraft.util.BlockPos;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.network.play.server.SPacketParticles;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
-import radixcore.util.BlockHelper;
 
 public class Utilities 
 {
@@ -22,8 +22,9 @@ public class Utilities
 	
 	public static boolean isPointClear(World world, int posX, int posY, int posZ)
 	{
-		Block block = BlockHelper.getBlock(world, posX, posY, posZ);
-		return !block.getMaterial().blocksMovement();
+		BlockPos block = new BlockPos(posX, posY, posZ);
+		
+		return !world.getBlockState(block).getMaterial().blocksMovement();
 	}
 	
 	public static double getNumberInRange(Random rand, float standardDeviation, float mean)
@@ -45,7 +46,7 @@ public class Utilities
 			final float velY = (float) (rand.nextGaussian() * 0.02D);
 			final float velZ = (float) (rand.nextGaussian() * 0.02D);
 
-			S2APacketParticles packet = new S2APacketParticles(type, true, parX, parY, parZ, velX, velY, velZ, 0.0F, 0);
+			SPacketParticles packet = new SPacketParticles(type, true, parX, parY, parZ, velX, velY, velZ, 0.0F, 0);
 
 			for (int j = 0; j < world.playerEntities.size(); ++j)
 			{
@@ -75,7 +76,7 @@ public class Utilities
 			final float velY = (float) (rand.nextGaussian() * 0.02D);
 			final float velZ = (float) (rand.nextGaussian() * 0.02D);
 
-			S2APacketParticles packet = new S2APacketParticles(type, true, parX, parY, parZ, velX, velY, velZ, 0.0F, 0);
+			SPacketParticles packet = new SPacketParticles(type, true, parX, parY, parZ, velX, velY, velZ, 0.0F, 0);
 
 			for (int j = 0; j < entityOrigin.worldObj.playerEntities.size(); ++j)
 			{

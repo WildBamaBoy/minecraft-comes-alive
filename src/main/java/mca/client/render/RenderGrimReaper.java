@@ -6,8 +6,6 @@ import mca.client.model.ModelGrimReaper;
 import mca.entity.EntityGrimReaper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderBiped;
-import net.minecraft.entity.boss.BossStatus;
-import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderGrimReaper<T extends EntityGrimReaper> extends RenderBiped<T>
@@ -23,7 +21,6 @@ public class RenderGrimReaper<T extends EntityGrimReaper> extends RenderBiped<T>
 	public void doRender(T entity, double posX, double posY, double posZ, float angle, float offsetY) 
 	{
 		super.doRender(entity, posX, posY, posZ, angle, offsetY);
-		BossStatus.setBossStatus((IBossDisplayData) entity, false);
 	}
 
 	@Override

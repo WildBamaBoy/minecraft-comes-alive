@@ -12,9 +12,9 @@ import com.google.common.io.Files;
 import mca.core.MCA;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import radixcore.util.RadixExcept;
 
 public class PlayerDataCollection extends WorldSavedData 
@@ -26,7 +26,7 @@ public class PlayerDataCollection extends WorldSavedData
 
 	public static PlayerDataCollection get() 
 	{
-		World world = MinecraftServer.getServer().getEntityWorld();
+		World world = FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld();
 		PlayerDataCollection data = (PlayerDataCollection) world.loadItemData(PlayerDataCollection.class, ID);
 
 		if (data == null)

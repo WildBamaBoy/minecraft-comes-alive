@@ -3,12 +3,14 @@ package mca.entity;
 import java.util.List;
 
 import mca.core.MCA;
+import mca.core.forge.SoundsMCA;
 import mca.core.minecraft.ModItems;
 import mca.enums.EnumReaperAttackState;
 import mca.packets.PacketSpawnLightning;
 import mca.util.Utilities;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -18,24 +20,30 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.init.MobEffects;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.BossInfo;
+import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
 import radixcore.constant.Time;
 import radixcore.math.Point3D;
@@ -43,8 +51,12 @@ import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
 
-public class EntityGrimReaper extends EntityMob implements IBossDisplayData
+public class EntityGrimReaper extends EntityMob
 {
+    private static final DataParameter<Integer> ATTACK_STATE = EntityDataManager.<Integer>createKey(EntityGrimReaper.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> STATE_TRANSITION_COOLDOWN = EntityDataManager.<Integer>createKey(EntityGrimReaper.class, DataSerializers.VARINT);
+    
+    private final BossInfoServer bossInfo = (BossInfoServer)(new BossInfoServer(this.getDisplayName(), BossInfo.Color.PURPLE, BossInfo.Overlay.PROGRESS)).setDarkenSky(true);
 	private EntityAINearestAttackableTarget aiNearestAttackableTarget = new EntityAINearestAttackableTarget(this, EntityPlayer.class, true);
 	private int healingCooldown;
 	private int timesHealed;
@@ -69,15 +81,10 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 	protected final void applyEntityAttributes()
 	{
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(40.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.30F);
-		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(12.5F);
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(225.0F);
-	}
-
-	public IChatComponent func_145748_c_()
-	{
-		return new ChatComponentText("Grim Reaper");
+		this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(40.0D);
+		this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.30F);
+		this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(12.5F);
+		this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(225.0F);
 	}
 
 	@Override
@@ -90,28 +97,28 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 	protected void entityInit()
 	{
 		super.entityInit();
-		this.dataWatcher.addObject(13, 0);
-		this.dataWatcher.addObject(14, 0);
+        this.dataWatcher.register(ATTACK_STATE, Integer.valueOf(0));
+        this.dataWatcher.register(STATE_TRANSITION_COOLDOWN, Integer.valueOf(0));
 	}
 
 	public void setAttackState(EnumReaperAttackState state)
-	{
+	{	    
 		//Only update if needed so that sounds only play once.
-		if (this.dataWatcher.getWatchableObjectInt(13) != state.getId())
+		if (this.dataWatcher.get(ATTACK_STATE) != state.getId())
 		{
-			this.dataWatcher.updateObject(13, state.getId());
+			this.dataWatcher.set(ATTACK_STATE, state.getId());
 
 			switch (state)
 			{
-			case PRE: this.playSound("mca:reaper.scythe.out", 1.0F, 1.0F); break;
-			case POST: this.playSound("mca:reaper.scythe.swing", 1.0F, 1.0F); break;
+			case PRE: this.playSound(SoundsMCA.reaper_scythe_out, 1.0F, 1.0F); break;
+			case POST: this.playSound(SoundsMCA.reaper_scythe_swing, 1.0F, 1.0F); break;
 			}
 		}
 	}
 
 	public EnumReaperAttackState getAttackState()
 	{
-		return EnumReaperAttackState.fromId(this.dataWatcher.getWatchableObjectInt(13));
+		return EnumReaperAttackState.fromId(this.dataWatcher.get(ATTACK_STATE));
 	}
 
 	public boolean hasEntityToAttack()
@@ -128,6 +135,8 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float damage) 
 	{	
+        bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
+        
 		//Ignore wall damage and fire damage.
 		if (source == DamageSource.inWall || source == DamageSource.onFire || source.isExplosion() || source == DamageSource.inFire)
 		{
@@ -148,7 +157,7 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 			double deltaX = this.posX - player.posX;
 			double deltaZ = this.posZ - player.posZ;
 
-			this.playSound("mca:reaper.block", 1.0F, 1.0F);
+			this.playSound(SoundsMCA.reaper_block, 1.0F, 1.0F);
 			teleportTo(player.posX - (deltaX * 2), player.posY + 2, this.posZ - (deltaZ * 2));
 			setStateTransitionCooldown(0);
 			return false;
@@ -191,7 +200,7 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 		
 		super.attackEntityFrom(source, damage);
 
-		if (!worldObj.isRemote && this.getHealth() <= (this.getEntityAttribute(SharedMonsterAttributes.maxHealth).getBaseValue() / 2) && healingCooldown == 0)
+		if (!worldObj.isRemote && this.getHealth() <= (this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue() / 2) && healingCooldown == 0)
 		{
 			setAttackState(EnumReaperAttackState.REST);
 			healingCooldown = (Time.MINUTE * 2) + (Time.SECOND * 30);
@@ -213,7 +222,7 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 			
 			if (entity instanceof EntityLivingBase)
 			{
-				((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.wither.id, this.worldObj.getDifficulty().getDifficultyId() * 20, 1));
+				((EntityLivingBase)entity).addPotionEffect(new PotionEffect(MobEffects.wither, this.worldObj.getDifficulty().getDifficultyId() * 20, 1));
 			}
 			
 			setAttackState(EnumReaperAttackState.POST);
@@ -232,7 +241,7 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 				{
 					EntityPlayer player = (EntityPlayer)entityToAttack;
 
-					if (player.isBlocking())
+					if (player.isActiveItemStackBlocking())
 					{
 						double dX = this.posX - player.posX;
 						double dZ = this.posZ - player.posZ;
@@ -249,7 +258,7 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 							player.inventory.mainInventory[currentItem] = randomItemStack;
 							player.inventory.mainInventory[randomItem] = currentItemStack;
 							
-							player.addPotionEffect(new PotionEffect(Potion.blindness.id, this.worldObj.getDifficulty().getDifficultyId() * (Time.SECOND * 2), 1));
+							player.addPotionEffect(new PotionEffect(MobEffects.blindness, this.worldObj.getDifficulty().getDifficultyId() * (Time.SECOND * 2), 1));
 						}
 					}
 
@@ -289,21 +298,21 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 	}
 
 	@Override
-	protected String getLivingSound()
+	protected SoundEvent getAmbientSound()
 	{
-		return "mca:reaper.idle";
+		return SoundsMCA.reaper_idle;
 	}
 
 	@Override
-	protected String getDeathSound() 
+	protected SoundEvent getDeathSound() 
 	{
-		return "mca:reaper.death";
+		return SoundsMCA.reaper_death;
 	}
 
 	@Override
-	protected String getHurtSound()
+	protected SoundEvent getHurtSound()
 	{
-		return "mob.wither.hurt";
+		return SoundEvents.entity_wither_hurt;
 	}
 
 	@Override
@@ -357,7 +366,7 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 
 					if (mob instanceof EntitySkeleton)
 					{
-						mob.setCurrentItemOrArmor(0, new ItemStack(Items.bow));
+						mob.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.bow));
 					}
 
 					worldObj.spawnEntityInWorld(mob);
@@ -453,8 +462,9 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 			{
 				BlockHelper.setBlock(worldObj, point, Blocks.dirt);
 				Block blockAbove = BlockHelper.getBlock(worldObj, point.iPosX, point.iPosY + 1, point.iPosZ);
-
-				if (blockAbove.getMaterial() == Material.plants || blockAbove.getMaterial() == Material.vine)
+				IBlockState state = blockAbove.getDefaultState();
+				
+				if (blockAbove.getMaterial(state) == Material.plants || blockAbove.getMaterial(state) == Material.vine)
 				{
 					Block blockAbovePlant = BlockHelper.getBlock(worldObj, point.iPosX, point.iPosY + 2, point.iPosZ);
 					
@@ -490,12 +500,12 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 
 	public void setStateTransitionCooldown(int value)
 	{
-		this.dataWatcher.updateObject(14, value);
+		this.dataWatcher.set(STATE_TRANSITION_COOLDOWN, value);
 	}
 
 	public int getStateTransitionCooldown()
 	{
-		return this.dataWatcher.getWatchableObjectInt(14);
+		return this.dataWatcher.get(STATE_TRANSITION_COOLDOWN);
 	}
 
 	public float getFloatingTicks()
@@ -509,11 +519,23 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 		{
 			Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.PORTAL, this, 16);
 
-			this.playSound("mob.endermen.portal", 2.0F, 1.0F);
+			this.playSound(SoundEvents.entity_endermen_teleport, 2.0F, 1.0F);
 			this.setPosition(x, y, z);
-			this.playSound("mob.endermen.portal", 2.0F, 1.0F);
+			this.playSound(SoundEvents.entity_endermen_teleport, 2.0F, 1.0F);
 
 			Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.PORTAL, this, 16);
 		}
 	}
+	
+    public void setBossVisibleTo(EntityPlayerMP player)
+    {
+        super.setBossVisibleTo(player);
+        this.bossInfo.addPlayer(player);
+    }
+
+    public void setBossNonVisibleTo(EntityPlayerMP player)
+    {
+        super.setBossNonVisibleTo(player);
+        this.bossInfo.removePlayer(player);
+    }
 }

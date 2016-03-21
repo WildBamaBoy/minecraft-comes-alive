@@ -3,7 +3,6 @@ package mca.blocks;
 import mca.core.minecraft.ModItems;
 import mca.tile.TileMemorial;
 import net.minecraft.block.BlockContainer;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
@@ -12,56 +11,60 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.util.BlockHelper;
 
 public class BlockMemorial extends BlockContainer
 {
+	protected static final AxisAlignedBB SIGN_AABB = new AxisAlignedBB(0.1F, 0.0F, 0.1F, 0.9F, 0.75F, 0.9F);
+    
 	public BlockMemorial()
 	{
 		super(Material.cloth);
-		setBlockBounds(0.1F, 0.0F, 0.1F, 0.9F, 0.75F, 0.9F);
 	}
 
-	@Override
-	public TileEntity createNewTileEntity(World world, int unknown)
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
 	{
-		return new TileMemorial();
+		return SIGN_AABB;
 	}
 
-	@Override
-	public AxisAlignedBB getCollisionBoundingBox(World world, BlockPos pos, IBlockState state)
+	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos)
 	{
-		return null; //No collision.
+		return NULL_AABB;
 	}
 
-    @SideOnly(Side.CLIENT)
-    @Override
-    public AxisAlignedBB getSelectedBoundingBox(World world, BlockPos pos)
-    {
-		setBlockBoundsBasedOnState(world, pos);
-		return super.getSelectedBoundingBox(world, pos);
-	}
-
-	@Override
-	public int getRenderType()
-	{
-		return -1;
-	}
-
-	@Override
-	public boolean isOpaqueCube()
+	public boolean isFullCube(IBlockState state)
 	{
 		return false;
 	}
+
+	public boolean isPassable(IBlockAccess worldIn, BlockPos pos)
+	{
+		return true;
+	}
+
+	/**
+	 * Used to determine ambient occlusion and culling when rebuilding chunks for render
+	 */
+	public boolean isOpaqueCube(IBlockState state)
+	{
+		return false;
+	}
+
+	/**
+	 * Return true if an entity can be spawned inside the block (used to get the player's bed spawn location)
+	 */
+	public boolean canSpawnInBlock()
+	{
+		return true;
+	}
 	
 	@Override
-	public ItemStack getPickBlock(MovingObjectPosition target, World world, BlockPos pos) 
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) 
 	{
 		return null;
 	}
@@ -99,12 +102,6 @@ public class BlockMemorial extends BlockContainer
 	}
 
 	@Override
-	public void harvestBlock(World worldIn, EntityPlayer playerIn, BlockPos pos, IBlockState state, TileEntity te)
-	{
-		//Do nothing to avoid duplication glitch.
-	}
-
-	@Override
 	public boolean hasTileEntity(IBlockState state)
 	{
 		return true;
@@ -114,8 +111,13 @@ public class BlockMemorial extends BlockContainer
     public boolean onBlockEventReceived(World worldIn, BlockPos pos, IBlockState state, int eventID, int eventParam) 
     {
         super.onBlockEventReceived(worldIn, pos, state, eventID, eventParam);
-        System.out.println("A");
         TileEntity tileentity = worldIn.getTileEntity(pos);
         return tileentity == null ? false : tileentity.receiveClientEvent(eventID, eventParam);
     }
+
+	@Override
+	public TileEntity createNewTileEntity(World worldIn, int meta) 
+	{
+		return new TileMemorial();
+	}
 }

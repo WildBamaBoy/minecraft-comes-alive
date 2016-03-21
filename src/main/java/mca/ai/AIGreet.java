@@ -11,11 +11,11 @@ import mca.enums.EnumInteraction;
 import mca.packets.PacketOpenVillagerPrompt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.MobEffects;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.text.TextComponentString;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Time;
 import radixcore.util.RadixLogic;
@@ -95,9 +95,9 @@ public class AIGreet extends AbstractAI
 					{
 						if (owner.getIsInfected() && !closestPlayer.capabilities.isCreativeMode)
 						{
-							closestPlayer.addChatComponentMessage(new ChatComponentText(Color.RED + owner.getName() + " bites you."));
+							closestPlayer.addChatComponentMessage(new TextComponentString(Color.RED + owner.getName() + " bites you."));
 							closestPlayer.attackEntityFrom(DamageSource.generic, 2.0F);
-							closestPlayer.addPotionEffect(new PotionEffect(Potion.weakness.id, Time.MINUTE * 2, 1));
+							closestPlayer.addPotionEffect(new PotionEffect(MobEffects.weakness, Time.MINUTE * 2, 1));
 						}
 
 						else

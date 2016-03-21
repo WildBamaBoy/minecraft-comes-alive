@@ -10,12 +10,15 @@ import mca.data.VillagerSaveData;
 import mca.enums.EnumMemorialType;
 import mca.tile.TileMemorial;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -37,45 +40,47 @@ public class ItemStaffOfLife extends Item
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) 
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) 
 	{
 		int posX = pos.getX();
 		int posY = pos.getY();
 		int posZ = pos.getZ();
 		
-		if (!world.isRemote)
+		if (!worldIn.isRemote)
 		{
-			TileEntity tile = BlockHelper.getTileEntity(world, posX, posY, posZ);
+			TileEntity tile = BlockHelper.getTileEntity(worldIn, posX, posY, posZ);
 
 			if (tile instanceof TileMemorial)
 			{
 				TileMemorial memorial = (TileMemorial)tile;
 				VillagerSaveData data = memorial.getVillagerSaveData();
-				NBTPlayerData playerData = MCA.getPlayerData(player);
+				NBTPlayerData playerData = MCA.getPlayerData(playerIn);
 
 				//Make sure the owner is the one reviving them.
-				if (!data.ownerUUID.equals(player.getUniqueID()))
+				if (!data.ownerUUID.equals(playerIn.getUniqueID()))
 				{
-					player.addChatComponentMessage(new ChatComponentText(Color.RED + "You cannot revive " + data.name + " because they are not related to you."));
-					return false;
+					playerIn.addChatComponentMessage(new TextComponentString(Color.RED + "You cannot revive " + data.name + " because they are not related to you."));
+					return EnumActionResult.FAIL;
 				}
 				
 				//For rings, they belonged to a spouse. Check for remarriage and forbid.
 				if (memorial.getType() == EnumMemorialType.BROKEN_RING && (playerData.getIsEngaged() || playerData.getIsMarried()))
 				{
-					player.addChatComponentMessage(new ChatComponentText(Color.RED + "You cannot revive " + data.name + " because you are already married."));
-					return false;
+					playerIn.addChatComponentMessage(new TextComponentString(Color.RED + "You cannot revive " + data.name + " because you are already married."));
+					return EnumActionResult.FAIL;
 				}
 				
 				//Once everything is okay, set the tile's revival ticks to begin the revival process.
-				memorial.setPlayer(player);
+				memorial.setPlayer(playerIn);
 				memorial.setRevivalTicks(Time.SECOND * 5);
-				stack.damageItem(1, player);
-				world.playSoundAtEntity(player, "portal.travel", 1.0F, 1.0F);
+				stack.damageItem(1, playerIn);
+				playerIn.playSound(SoundEvents.block_portal_travel, 1.0F, 1.0F);
+				
+				return EnumActionResult.SUCCESS;
 			}
 		}
 		
-		return false;
+		return EnumActionResult.PASS;
 	}
 
 	@SideOnly(Side.CLIENT)

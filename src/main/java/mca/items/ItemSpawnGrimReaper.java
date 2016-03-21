@@ -4,11 +4,12 @@ import mca.core.MCA;
 import mca.entity.EntityGrimReaper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import radixcore.util.BlockHelper;
@@ -27,18 +28,18 @@ public class ItemSpawnGrimReaper extends Item
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) 
+	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) 
 	{
 		int posX = pos.getX();
 		int posY = pos.getY() + 1;
 		int posZ = pos.getZ();
 		
-		if (!world.isRemote)
+		if (!worldIn.isRemote)
 		{
-			final Block block = BlockHelper.getBlock(world, posX, posY, posZ);
+			final Block block = BlockHelper.getBlock(worldIn, posX, posY, posZ);
 			double verticalOffset = 0.0D;
 
-			EntityGrimReaper reaper = new EntityGrimReaper(world);
+			EntityGrimReaper reaper = new EntityGrimReaper(worldIn);
 			reaper.setPosition(posX + 0.5D, posY + verticalOffset, posZ + 0.5D);
 			reaper.worldObj.spawnEntityInWorld(reaper);
 			
@@ -47,9 +48,9 @@ public class ItemSpawnGrimReaper extends Item
 				playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, null);
 			}
 			
-			return true;
+			return EnumActionResult.SUCCESS;
 		}
 		
-		return false;
+		return EnumActionResult.PASS;
 	}
 }

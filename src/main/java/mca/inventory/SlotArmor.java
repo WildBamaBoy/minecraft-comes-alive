@@ -1,5 +1,6 @@
 package mca.inventory;
 
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
@@ -18,7 +19,7 @@ class SlotArmor extends Slot
 	/**
 	 * The armor type that can be placed on that slot, it uses the same values of armorType field on ItemArmor.
 	 */
-	final int armorType;
+	final EntityEquipmentSlot armorType;
 
 	/**
 	 * The parent class of this slot, ContainerInventory, SlotArmor is an Anon inner class.
@@ -35,7 +36,7 @@ class SlotArmor extends Slot
 	 * @param posY The slot's Y position.
 	 * @param armorType The armor type this armor slot will contain.
 	 */
-	SlotArmor(ContainerInventory playerContainer, IInventory inventory, int slotIndex, int posX, int posY, int armorType)
+	SlotArmor(ContainerInventory playerContainer, IInventory inventory, int slotIndex, int posX, int posY, EntityEquipmentSlot armorType)
 	{
 		super(inventory, slotIndex, posX, posY);
 		parent = playerContainer;
@@ -68,6 +69,6 @@ class SlotArmor extends Slot
 	@Override
 	public String getSlotTexture()
 	{
-		return ItemArmor.EMPTY_SLOT_NAMES[armorType];
+		return ItemArmor.EMPTY_SLOT_NAMES[armorType.getIndex()];
 	}
 }
