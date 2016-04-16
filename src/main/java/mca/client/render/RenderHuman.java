@@ -55,12 +55,13 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 		this.addLayer(bipedArmorLayer);
 	}
 
-	private void doPreRenderCorrections(EntityHuman entityLivingBase, float partialTickTime)
+	@Override
+	protected void preRenderCallback(EntityHuman entityLivingBase, float partialTickTime)
 	{
 		final EntityHuman entity = (EntityHuman) entityLivingBase;
 		final AISleep sleepAI = entity.getAI(AISleep.class);
 		float scale = entity.getIsMale() ? Constants.SCALE_M_ADULT : Constants.SCALE_F_ADULT;
-
+		
 		if (entity.getIsChild())
 		{
 			final boolean doGradualGrowth = MCA.getConfig().isAgingEnabled;
@@ -280,7 +281,6 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 	@Override
 	public void doRender(EntityHuman entity, double x, double y, double z, float entityYaw, float partialTicks)
 	{
-		doPreRenderCorrections(entity, partialTicks);
 		doRenderEntity(entity, x, y, z, entityYaw, partialTicks);
 		doRenderEffects(entity, x, y, z, entityYaw, partialTicks);
 	}
