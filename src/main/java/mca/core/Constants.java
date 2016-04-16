@@ -1,13 +1,13 @@
 package mca.core;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 
 public final class Constants 
 {
-	public static final DataParameter<Integer> OVERWRITE_KEY = EntityDataManager.<Integer>createKey(Entity.class, DataSerializers.VARINT);
+	public static final DataParameter<Integer> OVERWRITE_KEY = EntityDataManager.<Integer>createKey(EntityVillager.class, DataSerializers.VARINT);
 	
 	public static final int GUI_ID_NAMEBABY = 1;
 	public static final int GUI_ID_SETUP = 2;
