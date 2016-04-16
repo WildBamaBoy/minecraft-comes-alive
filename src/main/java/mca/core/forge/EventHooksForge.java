@@ -1,5 +1,6 @@
 package mca.core.forge;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import com.google.common.base.Predicate;
@@ -14,6 +15,7 @@ import mca.util.Utilities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntityMob;
@@ -32,7 +34,6 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.event.world.WorldEvent;
@@ -129,28 +130,27 @@ public class EventHooksForge
 				{
 					try
 					{
-						//FIXME
-						//						EntityAITaskEntry task = (EntityAITaskEntry)mob.targetTasks.taskEntries.get(i);
-						//
-						//						if (task.action instanceof EntityAINearestAttackableTarget)
-						//						{
-						//							EntityAINearestAttackableTarget nat = (EntityAINearestAttackableTarget)task.action;
-						//
-						//							for (Field f : nat.getClass().getDeclaredFields())
-						//							{	
-						//								if (f.getType().equals(Class.class))
-						//								{
-						//									f.setAccessible(true);
-						//									Class targetClass = (Class) f.get(nat);
-						//									f.setAccessible(false);
-						//
-						//									if (targetClass.isAssignableFrom(EntityVillager.class))
-						//									{
-						//										mob.targetTasks.removeTask(nat);
-						//									}
-						//								}
-						//							}
-						//						}
+						EntityAITaskEntry task = (EntityAITaskEntry)mob.targetTasks.taskEntries.toArray()[i];
+
+						if (task.action instanceof EntityAINearestAttackableTarget)
+						{
+							EntityAINearestAttackableTarget nat = (EntityAINearestAttackableTarget)task.action;
+
+							for (Field f : nat.getClass().getDeclaredFields())
+							{	
+								if (f.getType().equals(Class.class))
+								{
+									f.setAccessible(true);
+									Class targetClass = (Class) f.get(nat);
+									f.setAccessible(false);
+
+									if (targetClass.isAssignableFrom(EntityVillager.class))
+									{
+										mob.targetTasks.removeTask(nat);
+									}
+								}
+							}
+						}
 					}
 
 					catch (Exception e)
