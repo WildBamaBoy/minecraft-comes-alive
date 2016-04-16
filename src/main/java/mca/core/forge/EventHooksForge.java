@@ -1,5 +1,6 @@
 package mca.core.forge;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import com.google.common.base.Predicate;
@@ -20,6 +21,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntityMob;
@@ -158,28 +160,27 @@ public class EventHooksForge
 				{
 					try
 					{
-						//FIXME
-						//						EntityAITaskEntry task = (EntityAITaskEntry)mob.targetTasks.taskEntries.get(i);
-						//
-						//						if (task.action instanceof EntityAINearestAttackableTarget)
-						//						{
-						//							EntityAINearestAttackableTarget nat = (EntityAINearestAttackableTarget)task.action;
-						//
-						//							for (Field f : nat.getClass().getDeclaredFields())
-						//							{	
-						//								if (f.getType().equals(Class.class))
-						//								{
-						//									f.setAccessible(true);
-						//									Class targetClass = (Class) f.get(nat);
-						//									f.setAccessible(false);
-						//
-						//									if (targetClass.isAssignableFrom(EntityVillager.class))
-						//									{
-						//										mob.targetTasks.removeTask(nat);
-						//									}
-						//								}
-						//							}
-						//						}
+						EntityAITaskEntry task = (EntityAITaskEntry)mob.targetTasks.taskEntries.toArray()[i];
+
+						if (task.action instanceof EntityAINearestAttackableTarget)
+						{
+							EntityAINearestAttackableTarget nat = (EntityAINearestAttackableTarget)task.action;
+
+							for (Field f : nat.getClass().getDeclaredFields())
+							{	
+								if (f.getType().equals(Class.class))
+								{
+									f.setAccessible(true);
+									Class targetClass = (Class) f.get(nat);
+									f.setAccessible(false);
+
+									if (targetClass.isAssignableFrom(EntityVillager.class))
+									{
+										mob.targetTasks.removeTask(nat);
+									}
+								}
+							}
+						}
 					}
 
 					catch (Exception e)
