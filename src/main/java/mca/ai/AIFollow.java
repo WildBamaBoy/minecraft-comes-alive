@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import radixcore.data.WatchedString;
 import radixcore.util.RadixMath;
 
@@ -80,22 +81,22 @@ public class AIFollow extends AbstractAI
 				//Crash was reported where bounding box ended up being null.
 				if (distanceToPlayer >= 10.0D && entityPlayer.getEntityBoundingBox() != null)
 				{
-					final int i = net.minecraft.util.math.MathHelper.floor_double(entityPlayer.posX) - 2;
-					final int j = net.minecraft.util.math.MathHelper.floor_double(entityPlayer.getEntityBoundingBox().minY);
-					final int k = net.minecraft.util.math.MathHelper.floor_double(entityPlayer.posZ) - 2;
+                        int i = MathHelper.floor_double(entityPlayer.posX) - 2;
+                        int j = MathHelper.floor_double(entityPlayer.posZ) - 2;
+                        int k = MathHelper.floor_double(entityPlayer.getEntityBoundingBox().minY);
 
-                    for (int l = 0; l <= 4; ++l)
-                    {
-                        for (int i1 = 0; i1 <= 4; ++i1)
+                        for (int l = 0; l <= 4; ++l)
                         {
-                            if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && entityPathController.worldObj.getBlockState(new BlockPos(i + l, k - 1, j + i1)).isFullyOpaque() && this.isBlockSpawnable(new BlockPos(i + l, k, j + i1)) && this.isBlockSpawnable(new BlockPos(i + l, k + 1, j + i1)))
+                            for (int i1 = 0; i1 <= 4; ++i1)
                             {
-                                entityPathController.setLocationAndAngles((double)((float)(i + l) + 0.5F), (double)k, (double)((float)(j + i1) + 0.5F), entityPathController.rotationYaw, entityPathController.rotationPitch);
-                                entityPathController.getNavigator().clearPathEntity();
-                                return;
+                                if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && entityPlayer.worldObj.getBlockState(new BlockPos(i + l, k - 1, j + i1)).isFullyOpaque() && this.isBlockSpawnable(new BlockPos(i + l, k, j + i1)) && isBlockSpawnable(new BlockPos(i + l, k + 1, j + i1)))
+                                {
+                                    owner.setLocationAndAngles((double)((float)(i + l) + 0.5F), (double)k, (double)((float)(j + i1) + 0.5F), owner.rotationYaw, owner.rotationPitch);
+                                    owner.getNavigator().clearPathEntity();
+                                    return;
+                                }
                             }
                         }
-                    }
 				}
 
 				else if (distanceToPlayer >= 4.5D && owner.getNavigator().noPath())
