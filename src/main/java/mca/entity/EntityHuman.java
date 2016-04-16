@@ -106,6 +106,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.registry.FMLControlledNamespacedRegistry;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
@@ -169,7 +170,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	private final Inventory inventory;
 
 	@SideOnly(Side.CLIENT)
-	public boolean displayNameForPlayer;
+	public boolean isInteractionGuiOpen;
 
 	public int timesWarnedForLowHearts;
 	protected int ticksAlive;

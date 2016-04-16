@@ -143,7 +143,7 @@ public class GuiVillagerEditor extends GuiScreen
 	{
 		Keyboard.enableRepeatEvents(false);
 		
-		villager.displayNameForPlayer = false;
+		villager.isInteractionGuiOpen = false;
 
 		DataWatcherEx.allowClientSideModification = true;
 		villager.setIsInteracting(false);
