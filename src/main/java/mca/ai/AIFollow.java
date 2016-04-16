@@ -71,38 +71,39 @@ public class AIFollow extends AbstractAI
 					horse.setHorseSaddled(false);
 				}
 			}
-			
+
 			if (entityPlayer != null)
 			{
 				entityPathController.getLookHelper().setLookPositionWithEntity(entityPlayer, 10.0F, owner.getVerticalFaceSpeed());
-				
+
 				final double distanceToPlayer = RadixMath.getDistanceToEntity(owner, entityPlayer);
 
 				//Crash was reported where bounding box ended up being null.
-				if (distanceToPlayer >= 10.0D && entityPlayer.getEntityBoundingBox() != null)
+				if (distanceToPlayer >= 15.0D && entityPlayer.getEntityBoundingBox() != null)
 				{
-                        int i = MathHelper.floor_double(entityPlayer.posX) - 2;
-                        int j = MathHelper.floor_double(entityPlayer.posZ) - 2;
-                        int k = MathHelper.floor_double(entityPlayer.getEntityBoundingBox().minY);
+					int i = MathHelper.floor_double(entityPlayer.posX) - 2;
+					int j = MathHelper.floor_double(entityPlayer.posZ) - 2;
+					int k = MathHelper.floor_double(entityPlayer.getEntityBoundingBox().minY);
 
-                        for (int l = 0; l <= 4; ++l)
-                        {
-                            for (int i1 = 0; i1 <= 4; ++i1)
-                            {
-                                if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && entityPlayer.worldObj.getBlockState(new BlockPos(i + l, k - 1, j + i1)).isFullyOpaque() && this.isBlockSpawnable(new BlockPos(i + l, k, j + i1)) && isBlockSpawnable(new BlockPos(i + l, k + 1, j + i1)))
-                                {
-                                    owner.setLocationAndAngles((double)((float)(i + l) + 0.5F), (double)k, (double)((float)(j + i1) + 0.5F), owner.rotationYaw, owner.rotationPitch);
-                                    owner.getNavigator().clearPathEntity();
-                                    return;
-                                }
-                            }
-                        }
+					for (int l = 0; l <= 4; ++l)
+					{
+						for (int i1 = 0; i1 <= 4; ++i1)
+						{
+							if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && entityPlayer.worldObj.getBlockState(new BlockPos(i + l, k - 1, j + i1)).isFullyOpaque() && this.isBlockSpawnable(new BlockPos(i + l, k, j + i1)) && isBlockSpawnable(new BlockPos(i + l, k + 1, j + i1)))
+							{
+								owner.setLocationAndAngles((double)((float)(i + l) + 0.5F), (double)k, (double)((float)(j + i1) + 0.5F), owner.rotationYaw, owner.rotationPitch);
+								owner.getNavigator().clearPathEntity();
+								return;
+							}
+						}
+					}
 				}
 
 				else if (distanceToPlayer >= 4.5D && owner.getNavigator().noPath())
 				{
 					float speed = entityPathController instanceof EntityHorse ? Constants.SPEED_HORSE_RUN :  entityPlayer.isSprinting() ? Constants.SPEED_SPRINT : owner.getSpeed();
 					entityPathController.getNavigator().tryMoveToEntityLiving(entityPlayer, speed);
+					entityPathController.faceEntity(entityPlayer, 16.0F, 16.0F);
 				}
 
 				else if (distanceToPlayer <= 2.0D) //To avoid crowding the player.
@@ -127,11 +128,11 @@ public class AIFollow extends AbstractAI
 	{
 		playerFollowingName.setValue(value);
 	}
-	
-    private boolean isBlockSpawnable(BlockPos pos)
-    {
-        IBlockState iblockstate = owner.worldObj.getBlockState(pos);
-        Block block = iblockstate.getBlock();
-        return block == Blocks.air ? true : !iblockstate.isFullCube();
-    }
+
+	private boolean isBlockSpawnable(BlockPos pos)
+	{
+		IBlockState iblockstate = owner.worldObj.getBlockState(pos);
+		Block block = iblockstate.getBlock();
+		return block == Blocks.air ? true : !iblockstate.isFullCube();
+	}
 }

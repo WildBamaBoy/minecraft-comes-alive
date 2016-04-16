@@ -86,16 +86,13 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 		GL11.glScalef(scale, scale + entity.getHeight(), scale);
 		GL11.glScalef(scale + entity.getGirth(), scale, scale + entity.getGirth());
 
-		//FIXME
-		//		if (sleepAI.getIsInBed())
-		//		{
-		//			renderHumanSleeping(entity, partialTickTime);
-		//		}
-		//
-		//		else if (entityLivingBase.getRidingEntity() != null)
-		//		{
-		//			GL11.glTranslated(0.0D, 0.55D, 0.1D);
-		//		}
+		if (entityLivingBase.getRidingEntity() != null)
+		{
+			if (entityLivingBase.getRidingEntity() instanceof EntityHorse)
+			{
+				GL11.glTranslated(0.0D, 0.55D, 0.1D);
+			}
+		}
 	}
 
 	@SuppressWarnings("unchecked")
