@@ -185,7 +185,6 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 			}
 		}
 
-		player.playSound(SoundEvents.block_portal_travel, 0.5F, 2.0F);
 		DataWatcherEx.allowClientSideModification = false;
 	}
 }

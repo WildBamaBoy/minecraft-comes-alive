@@ -26,6 +26,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -181,8 +182,7 @@ public class GuiSetup extends GuiScreen
 		drawControls();
 	}
 
-	@Override
-	public void onGuiClosed()
+	private void cleanUpOnClose()
 	{
 		try
 		{
@@ -215,8 +215,10 @@ public class GuiSetup extends GuiScreen
 
 		DataWatcherEx.allowClientSideModification = false;
 		MCA.destinySpawnFlag = false;
+		
+		player.playSound(SoundEvents.block_portal_travel, 0.5F, 2.0F);
 	}
-
+	
 	@Override
 	protected void keyTyped(char c, int i)
 	{
@@ -285,6 +287,7 @@ public class GuiSetup extends GuiScreen
 				(isDedicatedServer && !MCA.getConfig().serverEnableStructureSpawning)) 
 			{
 				setDestinyComplete();
+				cleanUpOnClose();
 				mc.displayGuiScreen(null);
 				MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.NONE));
 			}
@@ -297,18 +300,21 @@ public class GuiSetup extends GuiScreen
 		case 10: //No destiny.
 			data.setHasChosenDestiny(true);
 			setDestinyComplete();
+			cleanUpOnClose();
 			mc.displayGuiScreen(null);
 			
 			MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.NONE)); break;
 		case 11: //Confirmation button to spawn destiny area.
 			data.setHasChosenDestiny(true);
 			setDestinyComplete();
+			cleanUpOnClose();
 			mc.displayGuiScreen(null);
 			
 			MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(destinyChoice)); 
 			break;
 		case 12: page = 4; break;
 		case 13: MCA.getPacketHandler().sendPacketToServer(new PacketDestinyChoice(EnumDestinyChoice.CANCEL));
+				cleanUpOnClose();
 				mc.displayGuiScreen(null); break;
 		}
 	}
