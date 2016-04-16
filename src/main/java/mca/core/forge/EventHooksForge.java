@@ -1,6 +1,5 @@
 package mca.core.forge;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 import com.google.common.base.Predicate;
@@ -15,7 +14,6 @@ import mca.util.Utilities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntityMob;
@@ -34,8 +32,9 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
-import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import radixcore.constant.Font.Color;
@@ -47,16 +46,16 @@ public class EventHooksForge
 	@SubscribeEvent
 	public void entityJoinedWorldEventHandler(EntityJoinWorldEvent event)
 	{
-		if (!event.world.isRemote && MCA.getConfig().canSpawnInDimension(event.world.provider.getDimension()))
+		if (!event.getWorld().isRemote && MCA.getConfig().canSpawnInDimension(event.getWorld().provider.getDimension()))
 		{
-			if (event.entity instanceof EntityMob)
+			if (event.getEntity() instanceof EntityMob)
 			{
-				doAddMobTasks((EntityMob) event.entity);
+				doAddMobTasks((EntityMob) event.getEntity());
 			}
 
-			if (event.entity.getClass() == EntityVillager.class && MCA.getConfig().overwriteOriginalVillagers)
+			if (event.getEntity().getClass() == EntityVillager.class && MCA.getConfig().overwriteOriginalVillagers)
 			{
-				EntityVillager villager = (EntityVillager)event.entity;
+				EntityVillager villager = (EntityVillager)event.getEntity();
 
 				if (villager.getProfession() >= 0 && villager.getProfession() <= 4)
 				{
@@ -131,27 +130,27 @@ public class EventHooksForge
 					try
 					{
 						//FIXME
-//						EntityAITaskEntry task = (EntityAITaskEntry)mob.targetTasks.taskEntries.get(i);
-//
-//						if (task.action instanceof EntityAINearestAttackableTarget)
-//						{
-//							EntityAINearestAttackableTarget nat = (EntityAINearestAttackableTarget)task.action;
-//
-//							for (Field f : nat.getClass().getDeclaredFields())
-//							{	
-//								if (f.getType().equals(Class.class))
-//								{
-//									f.setAccessible(true);
-//									Class targetClass = (Class) f.get(nat);
-//									f.setAccessible(false);
-//
-//									if (targetClass.isAssignableFrom(EntityVillager.class))
-//									{
-//										mob.targetTasks.removeTask(nat);
-//									}
-//								}
-//							}
-//						}
+						//						EntityAITaskEntry task = (EntityAITaskEntry)mob.targetTasks.taskEntries.get(i);
+						//
+						//						if (task.action instanceof EntityAINearestAttackableTarget)
+						//						{
+						//							EntityAINearestAttackableTarget nat = (EntityAINearestAttackableTarget)task.action;
+						//
+						//							for (Field f : nat.getClass().getDeclaredFields())
+						//							{	
+						//								if (f.getType().equals(Class.class))
+						//								{
+						//									f.setAccessible(true);
+						//									Class targetClass = (Class) f.get(nat);
+						//									f.setAccessible(false);
+						//
+						//									if (targetClass.isAssignableFrom(EntityVillager.class))
+						//									{
+						//										mob.targetTasks.removeTask(nat);
+						//									}
+						//								}
+						//							}
+						//						}
 					}
 
 					catch (Exception e)
@@ -164,7 +163,7 @@ public class EventHooksForge
 	}
 
 	@SubscribeEvent
-	public void entityInteractEventHandler(EntityInteractEvent event)
+	public void entityInteractEventHandler(EntityInteract event)
 	{	
 		if (event.getTarget() instanceof EntityHorse)
 		{
@@ -175,7 +174,7 @@ public class EventHooksForge
 				try
 				{
 					final EntityHuman entity = (EntityHuman) entityHorse.getPassengers().get(0);
-					entity.processInteract(event.entityPlayer, event.entityPlayer.getActiveHand(), event.entityPlayer.getHeldItem(event.entityPlayer.getActiveHand()));
+					entity.processInteract(event.getEntityPlayer(), event.getEntityPlayer().getActiveHand(), event.getEntityPlayer().getHeldItem(event.getEntityPlayer().getActiveHand()));
 				}
 
 				catch (Exception e)
@@ -185,30 +184,27 @@ public class EventHooksForge
 			}
 		}
 
-		else if (event.getTarget() instanceof EntityPlayerMP && !event.entityPlayer.worldObj.isRemote && !event.entityPlayer.getName().contains("[CoFH]"))
+		else if (event.getTarget() instanceof EntityPlayerMP && !event.getEntityPlayer().worldObj.isRemote && !event.getEntityPlayer().getName().contains("[CoFH]"))
 		{
-			MCA.getPacketHandler().sendPacketToPlayer(new PacketInteractWithPlayerC(event.entityPlayer, (EntityPlayer)event.getTarget()), (EntityPlayerMP) event.entityPlayer);
+			MCA.getPacketHandler().sendPacketToPlayer(new PacketInteractWithPlayerC(event.getEntityPlayer(), (EntityPlayer)event.getTarget()), (EntityPlayerMP) event.getEntityPlayer());
 		}
 	}
 
 	@SubscribeEvent
 	public void worldSaveEventHandler(WorldEvent.Unload event)
 	{
-		if (!event.world.isRemote && event.world.provider.getDimension() == 0)
+		if (!event.getWorld().isRemote && event.getWorld().provider.getDimension() == 0)
 		{
 			MCA.getCrashWatcher().checkForCrashReports();
 		}
 	}
 
 	@SubscribeEvent
-	public void playerInteractEventHandler(PlayerInteractEvent event)
+	public void rightClickBlockEventHandler(RightClickBlock event)
 	{
-		if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
+		if (event.getEntityPlayer().getControllingPassenger() instanceof EntityHuman)
 		{
-			if (event.entityPlayer.getControllingPassenger() instanceof EntityHuman)
-			{
-				event.entityPlayer.getControllingPassenger().dismountRidingEntity();
-			}
+			event.getEntityPlayer().getControllingPassenger().dismountRidingEntity();
 		}
 	}
 
@@ -217,14 +213,14 @@ public class EventHooksForge
 	{
 		if (MCA.getConfig().enableInfection)
 		{
-			if (event.source != null && event.source.getSourceOfDamage() instanceof EntityZombie)
+			if (event.getSource() != null && event.getSource().getSourceOfDamage() instanceof EntityZombie)
 			{
-				EntityZombie zombie = (EntityZombie)event.source.getSourceOfDamage();
+				EntityZombie zombie = (EntityZombie)event.getSource().getSourceOfDamage();
 				boolean flag = RadixLogic.getBooleanWithProbability(3);
 
-				if (event.entityLiving instanceof EntityPlayer && flag)
+				if (event.getEntityLiving() instanceof EntityPlayer && flag)
 				{
-					EntityPlayer player = (EntityPlayer) event.entityLiving;
+					EntityPlayer player = (EntityPlayer) event.getEntityLiving();
 
 					for (ItemStack stack : player.inventory.mainInventory)
 					{
@@ -238,9 +234,9 @@ public class EventHooksForge
 					}
 				}
 
-				else if (event.entityLiving instanceof EntityHuman && flag)
+				else if (event.getEntityLiving() instanceof EntityHuman && flag)
 				{
-					EntityHuman human = (EntityHuman)event.entityLiving;
+					EntityHuman human = (EntityHuman)event.getEntityLiving();
 					human.setIsInfected(true);
 					human.setHealth(human.getMaxHealth());
 					zombie.setAttackTarget(null);
@@ -249,7 +245,7 @@ public class EventHooksForge
 					Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.SPELL_WITCH, human, 32);
 				}
 
-				else if (event.entityLiving instanceof EntityHuman && ((EntityHuman)event.entityLiving).getIsInfected())
+				else if (event.getEntityLiving() instanceof EntityHuman && ((EntityHuman)event.getEntityLiving()).getIsInfected())
 				{
 					event.setCanceled(true);
 					zombie.setAttackTarget(null);
@@ -262,10 +258,10 @@ public class EventHooksForge
 	public void onLivingSetTarget(LivingSetAttackTargetEvent event)
 	{
 		//Mobs shouldn't attack infected villagers. Account for this when they attempt to set their target.
-		if (event.entityLiving instanceof EntityMob && event.target instanceof EntityHuman)
+		if (event.getEntityLiving() instanceof EntityMob && event.getTarget() instanceof EntityHuman)
 		{
-			EntityMob mob = (EntityMob) event.entityLiving;
-			EntityHuman target = (EntityHuman) event.target;
+			EntityMob mob = (EntityMob) event.getEntityLiving();
+			EntityHuman target = (EntityHuman) event.getTarget();
 
 			if (target.getIsInfected())
 			{

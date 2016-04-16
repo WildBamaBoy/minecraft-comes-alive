@@ -51,7 +51,7 @@ public class EventHooksFML
 	@SubscribeEvent
 	public void onConfigChanges(ConfigChangedEvent.OnConfigChangedEvent eventArgs)
 	{
-		if (eventArgs.modID.equals(MCA.ID))
+		if (eventArgs.getModID().equals(MCA.ID))
 		{
 			MCA.getConfig().getInstance().save();
 			MCA.getConfig().syncConfiguration();
