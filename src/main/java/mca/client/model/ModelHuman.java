@@ -14,9 +14,9 @@ public class ModelHuman extends ModelBiped
 {
 	private ModelRenderer breasts;
 
-	public ModelHuman(float f)
+	public ModelHuman()
 	{
-		super(f);
+		super(0.5F);
 
 		breasts = new ModelRenderer(this, 18, 21);
 		breasts.addBox(-3F, 0F, -1F, 6, 3, 3);

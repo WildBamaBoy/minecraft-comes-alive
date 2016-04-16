@@ -1,10 +1,3 @@
-/*******************************************************************************
- * RenderHuman.java
- * Copyright (c) 2014 WildBamaBoy.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the MCA Minecraft Mod license.
- ******************************************************************************/
-
 package mca.client.render;
 
 import java.util.ArrayList;
@@ -12,7 +5,6 @@ import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 
-import mca.ai.AIConverse;
 import mca.ai.AISleep;
 import mca.client.gui.GuiInteraction;
 import mca.client.gui.GuiVillagerEditor;
@@ -23,14 +15,13 @@ import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.util.UVPoint;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelZombie;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
+import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import radixcore.client.render.RenderHelper;
@@ -46,31 +37,25 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 	private static final UVPoint minus = new UVPoint(69, 23, 7, 3);
 	private static final UVPoint plus = new UVPoint(85, 21, 7, 7);
 	private static final float LABEL_SCALE = 0.027F;
-	private final ModelBiped modelArmorPlate;
-	private final ModelBiped modelArmor;
+	private final LayerBipedArmor bipedArmorLayer = new LayerBipedArmor(this)
+	{
+		protected void initArmor()
+		{
+			this.modelLeggings = new ModelZombie(0.5F, true);
+			this.modelArmor = new ModelZombie(1.0F, true);
+		}
+	};
 
 	public RenderHuman()
 	{
-		super(Minecraft.getMinecraft().getRenderManager(), new ModelHuman(0.0F), 0.5F);
+		super(Minecraft.getMinecraft().getRenderManager(), new ModelHuman(), 0.5F);
 
-		modelBipedMain = (ModelBiped) mainModel;
-		modelArmorPlate = new ModelBiped(1.0F);
-		modelArmor = new ModelBiped(0.5F);
-
-		LayerBipedArmor layerbipedarmor = new LayerBipedArmor(this)
-		{
-			@Override
-			protected void initArmor()
-			{
-				this.modelLeggings = new ModelBiped(0.5F);
-				this.modelArmor = new ModelBiped(1.0F);
-			}
-		};
-		this.addLayer(layerbipedarmor);
+		//Build the render layers.
+		this.addLayer(new LayerHeldItem(this));
+		this.addLayer(bipedArmorLayer);
 	}
 
-	@Override
-	protected void preRenderCallback(T entityLivingBase, float partialTickTime)
+	private void doPreRenderCorrections(EntityHuman entityLivingBase, float partialTickTime)
 	{
 		final EntityHuman entity = (EntityHuman) entityLivingBase;
 		final AISleep sleepAI = entity.getAI(AISleep.class);
@@ -100,89 +85,20 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 		GL11.glScalef(scale, scale + entity.getHeight(), scale);
 		GL11.glScalef(scale + entity.getGirth(), scale, scale + entity.getGirth());
 
-		if (sleepAI.getIsInBed())
-		{
-			renderHumanSleeping(entity, partialTickTime);
-		}
-
-		else if (entityLivingBase.getRidingEntity() != null)
-		{
-			GL11.glTranslated(0.0D, 0.55D, 0.1D);
-		}
+		//FIXME
+		//		if (sleepAI.getIsInBed())
+		//		{
+		//			renderHumanSleeping(entity, partialTickTime);
+		//		}
+		//
+		//		else if (entityLivingBase.getRidingEntity() != null)
+		//		{
+		//			GL11.glTranslated(0.0D, 0.55D, 0.1D);
+		//		}
 	}
 
-	public void passSpecialRender(T entityLivingBase, double posX, double posY, double posZ)
-	{
-//		super.passSpecialRender(entityLivingBase, posX, posY, posZ);
-
-		final EntityHuman human = (EntityHuman)entityLivingBase;
-		final AIConverse converseAI = human.getAI(AIConverse.class);
-		final int currentHealth = (int) human.getHealth();
-		final int maxHealth = (int) human.getMaxHealth();
-		final double distanceFromPlayer = RadixMath.getDistanceToEntity(human, Minecraft.getMinecraft().thePlayer);
-
-		if (Minecraft.getMinecraft().currentScreen instanceof GuiVillagerEditor)
-		{
-			return;
-		}
-
-		else if (currentHealth < maxHealth)
-		{
-			renderLabel(human, posX, posY, posZ, MCA.getLanguageManager().getString("label.health") + currentHealth + "/" + maxHealth);
-		}
-
-		else if (canRenderNameTag(entityLivingBase) && MCA.getConfig().showNameTagOnHover)
-		{
-			renderLabel(human, posX, posY, posZ, human.getTitle(Minecraft.getMinecraft().thePlayer));
-		}
-
-		else if (human.displayNameForPlayer)
-		{
-			renderLabel(human, posX, posY + (distanceFromPlayer / 15.0D)  + (human.getHeight() * 1.15D), posZ, human.getTitle(Minecraft.getMinecraft().thePlayer));
-			renderHearts(human, posX, posY + (distanceFromPlayer / 15.0D) + (human.getHeight() * 1.15D), posZ, human.getPlayerMemory(Minecraft.getMinecraft().thePlayer).getHearts());
-		}
-
-		else if (human.getAIManager().isToggleAIActive())
-		{
-			renderLabel(human, posX, posY + (distanceFromPlayer / 15.0D)  + (human.getHeight() * 1.15D), posZ, human.getAIManager().getNameOfActiveAI());
-		}
-
-		else if (converseAI.getConversationActive() && distanceFromPlayer <= 6.0D && MCA.getConfig().showVillagerConversations)
-		{
-			String conversationString = "conversation" + converseAI.getConversationID() + ".progress" + converseAI.getConversationProgress();
-			boolean elevateLabel = converseAI.getConversationProgress() % 2 == 0;
-			posY = elevateLabel ? posY + 0.25D : posY;
-
-			if (converseAI.getConversationProgress() != 0)
-			{
-				renderLabel(human, posX, posY, posZ, MCA.getLanguageManager().getString(conversationString));
-			}
-		}
-	}
-
-	@Override
-	protected ResourceLocation getEntityTexture(T entity)
-	{
-		final EntityHuman human = (EntityHuman)entity;
-		final String skinName = human.getHeadTexture();
-
-		if (skinName.isEmpty())
-		{
-			return new ResourceLocation("minecraft:textures/entity/steve.png");
-		}
-
-		else if (human.getPlayerSkinResourceLocation() != null)
-		{
-			return human.getPlayerSkinResourceLocation();
-		}
-
-		else
-		{
-			return new ResourceLocation(((EntityHuman)entity).getHeadTexture());
-		}
-	}
-
-	private void renderHuman(EntityHuman entity, double posX, double posY, double posZ, float rotationYaw, float rotationPitch)
+	@SuppressWarnings("unchecked")
+	private void doRenderEntity(EntityHuman entity, double x, double y, double z, float entityYaw, float partialTicks)
 	{
 		final EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		final PlayerMemory memory = entity.getPlayerMemoryWithoutCreating(player);
@@ -193,9 +109,7 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 		}
 
 		//Pass special renders according to player memory here.
-		if (RadixMath.getDistanceToEntity(entity, player) <= 5.0F
-				&& !entity.getAI(AISleep.class).getIsSleeping()
-				&& !entity.displayNameForPlayer && memory != null)
+		if (RadixMath.getDistanceToEntity(entity, player) <= 5.0F && !entity.getAI(AISleep.class).getIsSleeping() && !entity.isInteractionGuiOpen && memory != null)
 		{
 			UVPoint uvp = memory.doDisplayFeedback() ? (memory.getLastInteractionSuccess() ? plus : minus) : memory.getHasQuest() ? exMark : null;
 
@@ -203,13 +117,13 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 			{
 				GL11.glPushMatrix();
 				{
-					GL11.glTranslatef((float) posX, (float) posY + entity.height + 0.25F + 0.5F, (float) posZ);
+					GL11.glTranslatef((float) x, (float) y + entity.height + 0.25F + 0.5F, (float) z);
 					GL11.glRotatef(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
 					GL11.glRotatef(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
 					GL11.glScalef(-LABEL_SCALE, -LABEL_SCALE, LABEL_SCALE);
 					GL11.glDisable(GL11.GL_LIGHTING);
 					GL11.glTranslatef(0.0F, 0.25F / LABEL_SCALE, 0.0F);
-					RenderHelper.drawTexturedRectangle(gui, (int) posX, (int) posY + 12, uvp.getU(), uvp.getV(), uvp.getWidth(), uvp.getHeight());
+					RenderHelper.drawTexturedRectangle(gui, (int) x, (int) y + 12, uvp.getU(), uvp.getV(), uvp.getWidth(), uvp.getHeight());
 				}
 				GL11.glPopMatrix();
 
@@ -218,85 +132,55 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 			}
 		}
 
-		double posYCorrection = posY - entity.getYOffset();
-		shadowOpaque = 1.0F;
-
-		//FIXME
-//		final ItemStack heldItem = entity.getHeldItem();
-//		modelArmorPlate.heldItemRight = modelArmor.heldItemRight = modelBipedMain.heldItemRight = heldItem == null ? 0 : 1;
-//		modelArmorPlate.isSneak = modelArmor.isSneak = modelBipedMain.isSneak = entity.isSneaking();
-//
-//		if (heldItem != null)
-//		{
-//			final EnumAction useAction = heldItem.getItemUseAction();
-//
-//			if (useAction == EnumAction.BOW)
-//			{
-//				modelArmorPlate.aimedBow = modelArmor.aimedBow = modelBipedMain.aimedBow = true;
-//			}
-//		}
+		double posYCorrection = y - entity.getYOffset();
 
 		if (entity.isSneaking())
 		{
 			posYCorrection -= 0.125D;
 		}
 
-		super.doRender((T) entity, posX, posYCorrection, posZ, rotationYaw, rotationPitch);
-		//FIXME
-//		modelArmorPlate.aimedBow = modelArmor.aimedBow = modelBipedMain.aimedBow = false;
-//		modelArmorPlate.isSneak = modelArmor.isSneak = modelBipedMain.isSneak = false;
-//		modelArmorPlate.heldItemRight = modelArmor.heldItemRight = modelBipedMain.heldItemRight = 0;
+		super.doRender((T) entity, x, posYCorrection, z, entityYaw, partialTicks);
 	}
 
-	protected void renderHumanSleeping(EntityHuman entity, double partialTickTime)
+	/**
+	 * Renders labels, effects, etc. around the entity.
+	 */
+	private void doRenderEffects(EntityHuman entity, double x, double y, double z, float entityYaw, float partialTicks)
 	{
-		final AISleep sleepAI = entity.getAI(AISleep.class);
-		final int meta = sleepAI.getBedMeta();
+		final int currentHealth = (int) entity.getHealth();
+		final int maxHealth = (int) entity.getMaxHealth();
+		final double distanceFromPlayer = RadixMath.getDistanceToEntity(entity, Minecraft.getMinecraft().thePlayer);
 
-		if (meta == 0)
+		//Ignore special effects in the villager editor.
+		if (Minecraft.getMinecraft().currentScreen instanceof GuiVillagerEditor)
 		{
-			entity.rotationYawHead = 180.0F;
-			GL11.glTranslated(-0.5D, 0.0D, 0.0D);
-			GL11.glRotated(90, -1, 0, 0);
-			GL11.glTranslated(0.0D, 0.0D, -0.75D);
+			return;
 		}
 
-		else if (meta == 3)
+		//Render health first, if they're damaged.
+		else if (currentHealth < maxHealth)
 		{
-			entity.rotationYawHead = 90.0F;
-			GL11.glTranslated(0.5D, 0.0D, 0.0D);
-			GL11.glRotated(90, -1, 0, 0);
-			GL11.glTranslated(0.0D, 0.0D, -0.75D);
+			renderLabel(entity, x, y, z, MCA.getLanguageManager().getString("label.health") + currentHealth + "/" + maxHealth);
 		}
 
-		else if (meta == 2)
+		//Render their name assuming that they're not damaged.
+		else if (canRenderNameTag(entity) && MCA.getConfig().showNameTagOnHover)
 		{
-			entity.rotationYawHead = 0.0F;
-			GL11.glTranslated(0.5D, 0.0D, -1.0D);
-			GL11.glRotated(90, -1, 0, 0);
-			GL11.glTranslated(0.0D, 0.0D, -0.75D);
+			renderLabel(entity, x, y, z, entity.getTitle(Minecraft.getMinecraft().thePlayer));
 		}
 
-		else if (meta == 1)
+		//When in the interaction GUI, render the person's name and hearts value.
+		else if (entity.isInteractionGuiOpen)
 		{
-			entity.rotationYawHead = -90.0F;
-			GL11.glTranslated(-0.5D, 0.0D, -1.0D);
-			GL11.glRotated(90, -1, 0, 0);
-			GL11.glTranslated(0.0D, 0.0D, -0.75D);
+			renderLabel(entity, x, y + (distanceFromPlayer / 15.0D)  + (entity.getHeight() * 1.15D), z, entity.getTitle(Minecraft.getMinecraft().thePlayer));
+			renderHearts(entity, x, y + (distanceFromPlayer / 15.0D) + (entity.getHeight() * 1.15D), z, entity.getPlayerMemory(Minecraft.getMinecraft().thePlayer).getHearts());
 		}
-	}
 
-//	@Override
-//	public void doRender(Entity entity, double posX, double posY, double posZ, float rotationYaw, float rotationPitch)
-//	{
-//		renderHuman((EntityHuman) entity, posX, posY, posZ, rotationYaw, rotationPitch);
-//	}
-
-	@Override
-	public void doRender(T entity, double posX, double posY, double posZ, float rotationYaw, float rotationPitch)
-	{
-		passSpecialRender(entity, posX, posY, posZ);
-		renderHuman(entity, posX, posY, posZ, rotationYaw, rotationPitch);
+		//When performing a chore, render the name of the chore above their head.
+		else if (entity.getAIManager().isToggleAIActive())
+		{
+			renderLabel(entity, x, y + (distanceFromPlayer / 15.0D)  + (entity.getHeight() * 1.15D), z, entity.getAIManager().getNameOfActiveAI());
+		}
 	}
 
 	private void renderHearts(EntityHuman human, double posX, double posY, double posZ, int heartsLevel)
@@ -376,18 +260,12 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 		}
 	}
 
-	/**
-	 * Renders a label above an entity's head.
-	 * 
-	 * @param human The entity that the label should be rendered on.
-	 * @param labelText The text that should appear on the label.
-	 */
 	private void renderLabel(EntityHuman human, double posX, double posY, double posZ, String labelText)
 	{
 		renderLivingLabel((T) human, labelText, posX, posY, posZ, 64);
 	}
 
-	protected boolean canRenderNameTag(EntityLivingBase entityRendering)
+	private boolean canRenderNameTag(EntityLivingBase entityRendering)
 	{
 		final EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
 
@@ -397,5 +275,35 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 		final double distance = entityRendering.getDistanceToEntity(renderManager.livingPlayer);
 
 		return !(Minecraft.getMinecraft().currentScreen instanceof GuiInteraction) && distance < 5.0D && isPlayerLookingAt && Minecraft.isGuiEnabled() && entityRendering != renderManager.livingPlayer && !entityRendering.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) && !entityRendering.isBeingRidden();
+	}
+
+	@Override
+	public void doRender(EntityHuman entity, double x, double y, double z, float entityYaw, float partialTicks)
+	{
+		doPreRenderCorrections(entity, partialTicks);
+		doRenderEntity(entity, x, y, z, entityYaw, partialTicks);
+		doRenderEffects(entity, x, y, z, entityYaw, partialTicks);
+	}
+
+	@Override
+	protected ResourceLocation getEntityTexture(T entity)
+	{
+		final EntityHuman human = (EntityHuman)entity;
+		final String skinName = human.getHeadTexture();
+
+		if (skinName.isEmpty())
+		{
+			return new ResourceLocation("minecraft:textures/entity/steve.png");
+		}
+
+		else if (human.getPlayerSkinResourceLocation() != null)
+		{
+			return human.getPlayerSkinResourceLocation();
+		}
+
+		else
+		{
+			return new ResourceLocation(((EntityHuman)entity).getHeadTexture());
+		}
 	}
 }

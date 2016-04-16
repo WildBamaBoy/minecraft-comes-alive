@@ -104,7 +104,7 @@ public class GuiInteraction extends GuiScreen
 		
 		try
 		{
-			villager.displayNameForPlayer = true;
+			villager.isInteractionGuiOpen = true;
 
 			DataWatcherEx.allowClientSideModification = true;
 			villager.setIsInteracting(true);
@@ -124,7 +124,7 @@ public class GuiInteraction extends GuiScreen
 	{
 		try
 		{
-			villager.displayNameForPlayer = false;
+			villager.isInteractionGuiOpen = false;
 
 			DataWatcherEx.allowClientSideModification = true;
 			villager.setIsInteracting(false);
