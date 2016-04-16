@@ -1,0 +1,3 @@
+gradlew setupDecompWorkspace --refresh-dependencies
+gradlew genIntellijRuns
+pause

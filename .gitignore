@@ -11,7 +11,7 @@
 !/gfx
 !/*.gradle
 !/*.md
-!setupws.bat
+!setup.bat
 !version.properties
 .gradle
 gitlog-to-changelog
