@@ -78,7 +78,7 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 
 				else
 				{
-					GL11.glTranslated(0.0D, (1.0D + growthFactor) + growthFactor, 0.2D);
+					GL11.glTranslated(0.0D, growthFactor + 0.1D, 0.4D);
 				}
 			}
 		}
