@@ -4,9 +4,12 @@ import java.util.Random;
 
 import mca.core.minecraft.ModItems;
 import mca.tile.TileTombstone;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -14,6 +17,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.Mirror;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -30,6 +35,7 @@ public class BlockTombstone extends BlockContainer
 	public BlockTombstone()
 	{
 		super(Material.circuits);
+		this.setDefaultState(this.blockState.getBaseState().withProperty(ROTATION, Integer.valueOf(0)));
 	}
 
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
@@ -119,4 +125,29 @@ public class BlockTombstone extends BlockContainer
 	{
 		return true;
 	}
+
+    public IBlockState withRotation(IBlockState state, Rotation rot)
+    {
+        return state.withProperty(ROTATION, Integer.valueOf(rot.func_185833_a(((Integer)state.getValue(ROTATION)).intValue(), 16)));
+    }
+
+    public IBlockState withMirror(IBlockState state, Mirror mirrorIn)
+    {
+        return state.withProperty(ROTATION, Integer.valueOf(mirrorIn.mirrorRotation(((Integer)state.getValue(ROTATION)).intValue(), 16)));
+    }
+
+    public IBlockState getStateFromMeta(int meta)
+    {
+        return this.getDefaultState().withProperty(ROTATION, Integer.valueOf(meta));
+    }
+
+    public int getMetaFromState(IBlockState state)
+    {
+        return ((Integer)state.getValue(ROTATION)).intValue();
+    }
+
+    protected BlockStateContainer createBlockState()
+    {
+        return new BlockStateContainer(this, new IProperty[] {ROTATION});
+    }
 }
