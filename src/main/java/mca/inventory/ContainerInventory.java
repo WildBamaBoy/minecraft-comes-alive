@@ -39,10 +39,10 @@ public class ContainerInventory extends Container
 			
 			switch (slot)
 			{
-			case 0: armorSlot = EntityEquipmentSlot.FEET; break; 
-			case 1: armorSlot = EntityEquipmentSlot.LEGS; break;
-			case 2: armorSlot = EntityEquipmentSlot.CHEST; break;
-			case 3: armorSlot = EntityEquipmentSlot.HEAD; break;
+			case 3: armorSlot = EntityEquipmentSlot.FEET; break; 
+			case 2: armorSlot = EntityEquipmentSlot.LEGS; break;
+			case 1: armorSlot = EntityEquipmentSlot.CHEST; break;
+			case 0: armorSlot = EntityEquipmentSlot.HEAD; break;
 			}
 			
 			addSlotToContainer(new SlotArmor(this, inventoryEntity, slot + 36, 8, 18 + slot * 18, armorSlot));
