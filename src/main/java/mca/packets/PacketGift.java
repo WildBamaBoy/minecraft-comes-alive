@@ -500,6 +500,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				}
 
 				//Add the new armor item to its respective slot.
+				inventory.setInventorySlotContents(inventorySlot, new ItemStack(stack.getItem(), 1, stack.getItemDamage()));
 			}
 
 			else
