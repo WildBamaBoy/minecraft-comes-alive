@@ -4,7 +4,6 @@ import mca.client.gui.GuiSetup;
 import mca.core.MCA;
 import mca.data.PlayerData;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockEnchantmentTable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;

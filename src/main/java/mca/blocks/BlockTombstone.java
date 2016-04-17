@@ -4,7 +4,6 @@ import java.util.Random;
 
 import mca.core.minecraft.ModItems;
 import mca.tile.TileTombstone;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;

@@ -12,7 +12,6 @@ import mca.enums.EnumDialogueType;
 import mca.tile.TileTombstone;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.management.PlayerManager;
 import net.minecraft.util.math.BlockPos;

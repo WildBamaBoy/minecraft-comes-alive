@@ -15,7 +15,6 @@ import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.util.UVPoint;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
