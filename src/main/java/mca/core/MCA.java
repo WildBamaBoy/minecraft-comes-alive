@@ -79,7 +79,7 @@ import radixcore.util.RadixExcept;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixStartup;
 
-@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore@[1.9-2.1.0,)", acceptedMinecraftVersions = "[1.9.0]",
+@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore@[1.9-2.1.0,);required-after:Forge@[12.16.0.1865,)", acceptedMinecraftVersions = "[1.9.0]",
 guiFactory = "mca.core.forge.client.MCAGuiFactory")
 public class MCA
 {
