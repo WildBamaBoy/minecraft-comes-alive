@@ -78,6 +78,8 @@ import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.inventory.EntityEquipmentSlot.Type;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -672,7 +674,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			// The AI tasks from ever triggering an update.
 			ObfuscationReflectionHelper.setPrivateValue(EntityAITasks.class, tasks, 1, 4);
 		}
-		
+
 		if (!isSleeping && (moveState == EnumMovementState.MOVE || moveState == EnumMovementState.FOLLOW))
 		{
 			super.updateAITasks();
@@ -949,7 +951,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 			getAI(AIProgressStory.class).reset();
 		}
-		
+
 		//Reset Minecraft AI when this happens.
 		addAI();
 	}
@@ -1237,39 +1239,39 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public void useRecipe(MerchantRecipe recipe)
 	{
 		recipe.incrementToolUses();
-        this.livingSoundTime = -this.getTalkInterval();
-        int i = 3 + this.rand.nextInt(4);
+		this.livingSoundTime = -this.getTalkInterval();
+		int i = 3 + this.rand.nextInt(4);
 
-        if (recipe.getToolUses() == 1 || this.rand.nextInt(5) == 0)
-        {
-            ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, 40, 6); //this.timeUntilReset = 40;
-            ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, true, 8); // this.needsInitilization = true;
-            //this.isWillingToMate = true; NOPE!
+		if (recipe.getToolUses() == 1 || this.rand.nextInt(5) == 0)
+		{
+			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, 40, 6); //this.timeUntilReset = 40;
+			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, true, 8); // this.needsInitilization = true;
+			//this.isWillingToMate = true; NOPE!
 
-            EntityPlayer buyingPlayer = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 4);
-            
-            if (buyingPlayer != null)
-            {
-                ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, buyingPlayer.getName(), 10); //this.lastBuyingPlayer = buyingPlayer.getName();
-            }
-            
-            else
-            {
-                ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, null, 10); //this.lastBuyingPlayer = null;
-            }
-            
-            i += 5;
-        }
+			EntityPlayer buyingPlayer = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 4);
 
-        if (recipe.getItemToBuy().getItem() == Items.emerald)
-        {
-            ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, recipe.getItemToBuy().stackSize, 9); //this.wealth += recipe.getItemToBuy().stackSize;
-        }
+			if (buyingPlayer != null)
+			{
+				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, buyingPlayer.getName(), 10); //this.lastBuyingPlayer = buyingPlayer.getName();
+			}
 
-        if (recipe.getRewardsExp())
-        {
-            this.worldObj.spawnEntityInWorld(new EntityXPOrb(this.worldObj, this.posX, this.posY + 0.5D, this.posZ, i));
-        }
+			else
+			{
+				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, null, 10); //this.lastBuyingPlayer = null;
+			}
+
+			i += 5;
+		}
+
+		if (recipe.getItemToBuy().getItem() == Items.emerald)
+		{
+			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, recipe.getItemToBuy().stackSize, 9); //this.wealth += recipe.getItemToBuy().stackSize;
+		}
+
+		if (recipe.getRewardsExp())
+		{
+			this.worldObj.spawnEntityInWorld(new EntityXPOrb(this.worldObj, this.posX, this.posY + 0.5D, this.posZ, i));
+		}
 	}
 
 	@Override
@@ -1563,36 +1565,38 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	{
 		doOpenInventory.setValue(value);
 	}
-    
-    public Iterable<ItemStack> getHeldEquipment()
-    {
-    	List<ItemStack> heldEquipment = new ArrayList<ItemStack>();
-    	heldEquipment.add(getHeldItem(EnumHand.MAIN_HAND));
-        return heldEquipment;
-    }
 
-    public Iterable<ItemStack> getArmorInventoryList()
-    {
-    	List<ItemStack> armorInventory = new ArrayList<ItemStack>();
-    	armorInventory.add(inventory.getStackInSlot(39));
-    	armorInventory.add(inventory.getStackInSlot(38));
-    	armorInventory.add(inventory.getStackInSlot(37));
-    	armorInventory.add(inventory.getStackInSlot(36));
-        
-        return armorInventory;
-    }
-    
-	public ItemStack getEquipmentInSlot(int slot)
+	public Iterable<ItemStack> getHeldEquipment()
 	{
-		//0 is the held item, others are armor slots.
-		switch (slot)
+		List<ItemStack> heldEquipment = new ArrayList<ItemStack>();
+		heldEquipment.add(getHeldItem(EnumHand.MAIN_HAND));
+		return heldEquipment;
+	}
+
+	public Iterable<ItemStack> getArmorInventoryList()
+	{
+		List<ItemStack> armorInventory = new ArrayList<ItemStack>();
+		armorInventory.add(inventory.getStackInSlot(39));
+		armorInventory.add(inventory.getStackInSlot(38));
+		armorInventory.add(inventory.getStackInSlot(37));
+		armorInventory.add(inventory.getStackInSlot(36));
+
+		return armorInventory;
+	}
+
+	@Override
+	public ItemStack getItemStackFromSlot(EntityEquipmentSlot slotIn)
+	{
+		switch (slotIn)
 		{
-		case 0: return getHeldItem(EnumHand.MAIN_HAND);
-		case 1: return inventory.getStackInSlot(39); //Boots
-		case 2: return inventory.getStackInSlot(38); //Leggings
-		case 3: return inventory.getStackInSlot(37); //Chest
-		case 4: return inventory.getStackInSlot(36); //Helmet
+		case HEAD: return inventory.getStackInSlot(36);
+		case CHEST: return inventory.getStackInSlot(37);
+		case LEGS: return inventory.getStackInSlot(38);
+		case FEET: return inventory.getStackInSlot(39);
+		case MAINHAND: return getHeldItem(EnumHand.MAIN_HAND);
+		case OFFHAND: return null;
 		}
+
 		return null;
 	}
 
@@ -1684,32 +1688,32 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		this.worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1017, new BlockPos((int)this.posX, (int)this.posY, (int)this.posZ), 0);
 		Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.VILLAGER_HAPPY, this, 16);
 	}
-	
+
 	public void attackEntityWithRangedAttack(EntityLivingBase target, float velocity)
-    {
-        EntityArrow entityarrow = new EntityTippedArrow(this.worldObj, this);
-        double d0 = target.posX - this.posX;
-        double d1 = target.getEntityBoundingBox().minY + (double)(target.height / 3.0F) - entityarrow.posY;
-        double d2 = target.posZ - this.posZ;
-        double d3 = (double)MathHelper.sqrt_double(d0 * d0 + d2 * d2);
-        entityarrow.setThrowableHeading(d0, d1 + d3 * 0.20000000298023224D, d2, 1.6F, (float)(14 - this.worldObj.getDifficulty().getDifficultyId() * 4));
-        int i = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.power, this);
-        int j = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.punch, this);
-        entityarrow.setDamage((double)(velocity * 2.0F) + this.rand.nextGaussian() * 0.25D + (double)((float)this.worldObj.getDifficulty().getDifficultyId() * 0.11F));
+	{
+		EntityArrow entityarrow = new EntityTippedArrow(this.worldObj, this);
+		double d0 = target.posX - this.posX;
+		double d1 = target.getEntityBoundingBox().minY + (double)(target.height / 3.0F) - entityarrow.posY;
+		double d2 = target.posZ - this.posZ;
+		double d3 = (double)MathHelper.sqrt_double(d0 * d0 + d2 * d2);
+		entityarrow.setThrowableHeading(d0, d1 + d3 * 0.20000000298023224D, d2, 1.6F, (float)(14 - this.worldObj.getDifficulty().getDifficultyId() * 4));
+		int i = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.power, this);
+		int j = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.punch, this);
+		entityarrow.setDamage((double)(velocity * 2.0F) + this.rand.nextGaussian() * 0.25D + (double)((float)this.worldObj.getDifficulty().getDifficultyId() * 0.11F));
 
-        if (i > 0)
-        {
-            entityarrow.setDamage(entityarrow.getDamage() + (double)i * 0.5D + 0.5D);
-        }
+		if (i > 0)
+		{
+			entityarrow.setDamage(entityarrow.getDamage() + (double)i * 0.5D + 0.5D);
+		}
 
-        if (j > 0)
-        {
-            entityarrow.setKnockbackStrength(j);
-        }
+		if (j > 0)
+		{
+			entityarrow.setKnockbackStrength(j);
+		}
 
-        this.playSound(SoundEvents.entity_skeleton_shoot, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
-        this.worldObj.spawnEntityInWorld(entityarrow);
-    }
+		this.playSound(SoundEvents.entity_skeleton_shoot, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+		this.worldObj.spawnEntityInWorld(entityarrow);
+	}
 
 	public void swingItem() 
 	{

@@ -483,10 +483,10 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 				switch (armor.armorType.getIndex())
 				{
-				case 0: inventorySlot = 36; break;
-				case 1: inventorySlot = 37; break;
-				case 2: inventorySlot = 38; break;
-				case 3: inventorySlot = 39; break;
+				case 3: inventorySlot = 36; break;
+				case 2: inventorySlot = 37; break;
+				case 1: inventorySlot = 38; break;
+				case 0: inventorySlot = 39; break;
 				}
 
 				//Check for an existing armor item and drop it to make room for the new one.
@@ -498,7 +498,6 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				}
 
 				//Add the new armor item to its respective slot.
-				inventory.setInventorySlotContents(inventorySlot, stack);
 			}
 
 			else

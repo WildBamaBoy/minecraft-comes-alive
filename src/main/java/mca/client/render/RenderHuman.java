@@ -15,7 +15,7 @@ import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.util.UVPoint;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelZombie;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
@@ -37,14 +37,6 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 	private static final UVPoint minus = new UVPoint(69, 23, 7, 3);
 	private static final UVPoint plus = new UVPoint(85, 21, 7, 7);
 	private static final float LABEL_SCALE = 0.027F;
-	private final LayerBipedArmor bipedArmorLayer = new LayerBipedArmor(this)
-	{
-		protected void initArmor()
-		{
-			this.modelLeggings = new ModelZombie(0.5F, true);
-			this.modelArmor = new ModelZombie(1.0F, true);
-		}
-	};
 
 	public RenderHuman()
 	{
@@ -52,7 +44,7 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 
 		//Build the render layers.
 		this.addLayer(new LayerHeldItem(this));
-		this.addLayer(bipedArmorLayer);
+        this.addLayer(new LayerBipedArmor(this));
 	}
 
 	@Override
