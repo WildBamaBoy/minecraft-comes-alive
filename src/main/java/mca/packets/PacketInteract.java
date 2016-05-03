@@ -417,10 +417,18 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 					memory.setIsHiredBy(true, length * 60);
 				}
 
-				for (int i = 0; i < length; i++)
+				int currentSlot = 0;
+				for (int i = 0; i < 3; i++)
 				{
-					int slot = player.inventory.getSlotFor(new ItemStack(Items.gold_ingot));
-					
+					int slot = -1;
+					for (; currentSlot < player.inventory.mainInventory.length; currentSlot++) {
+						ItemStack stack = player.inventory.mainInventory[currentSlot];
+						if (stack != null && stack.getItem() == Items.gold_ingot) {
+							slot = currentSlot;
+							break;
+						}
+					}
+
 					if (slot > -1)
 					{
 						player.inventory.decrStackSize(slot, 1);
