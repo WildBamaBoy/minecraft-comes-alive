@@ -1242,20 +1242,21 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		if (recipe.getToolUses() == 1 || this.rand.nextInt(5) == 0)
 		{
-			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, 40, 6); //this.timeUntilReset = 40;
-			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, true, 8); // this.needsInitilization = true;
+			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, 40, "timeUntilReset");
+			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, true, "needsInitilization");
 			//this.isWillingToMate = true; NOPE!
 
-			EntityPlayer buyingPlayer = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 4);
+
+			EntityPlayer buyingPlayer = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, "buyingPlayer");
 
 			if (buyingPlayer != null)
 			{
-				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, buyingPlayer.getName(), 10); //this.lastBuyingPlayer = buyingPlayer.getName();
+				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, buyingPlayer.getName(), "lastBuyingPlayer"); //this.lastBuyingPlayer = buyingPlayer.getName();
 			}
 
 			else
 			{
-				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, null, 10); //this.lastBuyingPlayer = null;
+				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, null, "lastBuyingPlayer"); //this.lastBuyingPlayer = null;
 			}
 
 			i += 5;
@@ -1263,7 +1264,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		if (recipe.getItemToBuy().getItem() == Items.emerald)
 		{
-			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, recipe.getItemToBuy().stackSize, 9); //this.wealth += recipe.getItemToBuy().stackSize;
+			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, recipe.getItemToBuy().stackSize, "wealth"); //this.wealth += recipe.getItemToBuy().stackSize;
 		}
 
 		if (recipe.getRewardsExp())
@@ -1526,12 +1527,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		return name.getString();
 	}
 
-	private MerchantRecipeList getBuyingList()
-	{
-		return (MerchantRecipeList) ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 5);
-	}
-
-	public void setSpouseId(int value) 
+	public void setSpouseId(int value)
 	{
 		spouseId.setValue(value);
 	}
