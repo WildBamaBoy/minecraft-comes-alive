@@ -115,6 +115,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	private final WatchedInt age;
 	private final WatchedString parentNames;
 	private final WatchedString parentIDs;
+	private final WatchedString parentsGenders;
 	private final WatchedBoolean isInteracting;
 	private final WatchedFloat scaleHeight;
 	private final WatchedFloat scaleGirth;
@@ -163,6 +164,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		age = new WatchedInt(0, WatcherIDsHuman.AGE, dataWatcherEx);
 		parentNames = new WatchedString("null", WatcherIDsHuman.PARENT_NAMES, dataWatcherEx);
 		parentIDs = new WatchedString("null", WatcherIDsHuman.PARENT_IDS, dataWatcherEx);
+		parentsGenders = new WatchedString("null", WatcherIDsHuman.PARENTS_GENDERS, dataWatcherEx);
 		isInteracting = new WatchedBoolean(false, WatcherIDsHuman.IS_INTERACTING, dataWatcherEx);
 		scaleHeight = new WatchedFloat((float) Utilities.getNumberInRange(rand, 0.03F, 0.09F), WatcherIDsHuman.HEIGHT, dataWatcherEx);
 		scaleGirth = new WatchedFloat((float) Utilities.getNumberInRange(rand, -0.03F, 0.05F), WatcherIDsHuman.GIRTH, dataWatcherEx);
@@ -244,9 +246,16 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	{
 		this(world, isMale, isChild);
 
+		EntityHuman father = MCA.getHumanByPermanentId(fatherId);
+		EntityHuman mother = MCA.getHumanByPermanentId(motherId);
+		
+		boolean fatherIsMale = father != null ? father.getIsMale() : true;
+		boolean motherIsMale = mother != null ? mother.getIsMale() : false;
+		
 		this.parentNames.setValue(fatherName + "|" + motherName);
 		this.parentIDs.setValue(fatherId + "|" + motherId);
-
+		this.parentsGenders.setValue(fatherIsMale + "|" + motherIsMale);
+		
 		if (isPlayerChild)
 		{
 			this.professionId.setValue(EnumProfession.Child.getId());
@@ -444,6 +453,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		nbt.setInteger("age", age.getInt());
 		nbt.setString("parentNames", parentNames.getString());
 		nbt.setString("parentIDs", parentIDs.getString());
+		nbt.setString("parentsGenders", parentsGenders.getString());
 		nbt.setBoolean("isInteracting", isInteracting.getBoolean());
 		nbt.setFloat("scaleHeight", scaleHeight.getFloat());
 		nbt.setFloat("scaleGirth", scaleGirth.getFloat());
@@ -479,6 +489,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		age.setValue(nbt.getInteger("age"));
 		parentNames.setValue(nbt.getString("parentNames"));
 		parentIDs.setValue(nbt.getString("parentIDs"));
+		parentsGenders.setValue(nbt.getString("parentsGenders"));
 		isInteracting.setValue(nbt.getBoolean("isInteracting"));
 		scaleHeight.setValue(nbt.getFloat("scaleHeight"));
 		scaleGirth.setValue(nbt.getFloat("scaleGirth"));
@@ -1614,5 +1625,31 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	protected boolean canDespawn() 
 	{
 		return false;
+	}
+
+	public boolean getFatherIsMale() 
+	{
+		try
+		{
+			return Boolean.parseBoolean(parentsGenders.getString().split("\\|")[0]);	
+		}
+		
+		catch (Exception e)
+		{
+			return true;
+		}
+	}
+
+	public boolean getMotherIsMale() 
+	{
+		try
+		{
+			return Boolean.parseBoolean(parentsGenders.getString().split("\\|")[1]);
+		}
+		
+		catch (Exception e)
+		{
+			return false;
+		}
 	}
 }
