@@ -183,7 +183,10 @@ public class GuiInteraction extends GuiScreen
 
 		if (villager.getIsInfected())
 		{
-			int xLoc = villager.getProfessionGroup() == EnumProfessionGroup.Child ? 62 : 18;
+			//Compensate for "Age: Adult" by moving over 80 instead of 62. 18 for all others.
+			int xLoc = villager.getProfessionGroup() == EnumProfessionGroup.Child ? 
+					villager.getIsChild() ? 62 : 80 : 18;
+			
 			RenderHelper.drawTextPopup(Color.GREEN + Format.BOLD + "INFECTED!", xLoc, 11);			
 		}
 		
