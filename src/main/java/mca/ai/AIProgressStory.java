@@ -211,6 +211,8 @@ public class AIProgressStory extends AbstractAI
 
 			//Reset self and mate status
 			owner.setBabyState(EnumBabyState.NONE);
+			mate.setBabyState(EnumBabyState.NONE);
+			
 			babyAge = 0;
 			setProgressionStep(EnumProgressionStep.FINISHED);
 

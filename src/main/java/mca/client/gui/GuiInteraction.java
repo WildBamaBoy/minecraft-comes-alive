@@ -206,8 +206,8 @@ public class GuiInteraction extends GuiScreen
 		{
 			List<String> displayList = new ArrayList<String>();
 
-			String fatherString = "gui.info.family.father";
-			String motherString = "gui.info.family.mother";
+			String fatherString = villager.getFatherIsMale() ? "gui.info.family.father" : "gui.info.family.mother";
+			String motherString = villager.getMotherIsMale() ? "gui.info.family.father" : "gui.info.family.mother";
 
 			if (villager.getFatherName().equals(player.getName()))
 			{
