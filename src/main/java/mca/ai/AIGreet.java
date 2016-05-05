@@ -89,7 +89,7 @@ public class AIGreet extends AbstractAI
 					
 					if (memory.getTimeUntilGreeting() <= 0 && RadixLogic.getBooleanWithProbability(CHANCE_TO_GREET) && owner.canEntityBeSeen(closestPlayer) && !AISleep.getIsSleeping())
 					{
-						if (owner.getIsInfected())
+						if (owner.getIsInfected() && !closestPlayer.capabilities.isCreativeMode)
 						{
 							closestPlayer.addChatComponentMessage(new ChatComponentText(Color.RED + owner.getName() + " bites you."));
 							closestPlayer.attackEntityFrom(DamageSource.generic, 2.0F);
