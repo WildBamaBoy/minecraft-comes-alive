@@ -50,6 +50,7 @@ import mca.enums.EnumSleepingState;
 import mca.items.ItemBaby;
 import mca.items.ItemVillagerEditor;
 import mca.packets.PacketOpenGUIOnEntity;
+import mca.packets.PacketSetSize;
 import mca.util.MarriageHandler;
 import mca.util.Utilities;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -1232,6 +1233,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public void setSizeOverride(float width, float height)
 	{
 		this.setSize(width, height);
+		
+		//Sync size with all clients once set on the server.
+		if (!worldObj.isRemote)
+		{
+			MCA.getPacketHandler().sendPacketToAllPlayers(new PacketSetSize(this, width, height));
+		}
 	}
 
 	public String getFatherName() 
