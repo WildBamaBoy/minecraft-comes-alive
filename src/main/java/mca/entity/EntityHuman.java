@@ -99,7 +99,10 @@ import net.minecraft.village.MerchantRecipe;
 import net.minecraft.world.World;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.common.registry.FMLControlledNamespacedRegistry;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import net.minecraftforge.fml.common.registry.VillagerRegistry;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.constant.Font.Color;
@@ -116,6 +119,16 @@ import radixcore.util.RadixLogic;
 
 public class EntityHuman extends EntityVillager implements IWatchable, IPermanent, IEntityAdditionalSpawnData
 {
+	// Field indexes from EntityVillager for use with ReflectionHelper.
+	// These can be determined using ReflectionHelper.findField(EntityVillager.class, "fieldOfE
+	private static final int ENTITY_VILLAGER_TIME_UNTIL_RESET_FIELD_INDEX = 8; //timeUntilReset
+	private static final int ENTITY_VILLAGER_NEEDS_INITIALIZATION = 9; //needsInitilization (note the spelling mistake)
+	private static final int ENTITY_VILLAGER_BUYING_PLAYER = 6; //buyingPlayer
+	private static final int ENTITY_VILLAGER_LAST_BUYING_PLAYER = 12; //lastBuyingPlayer
+	private static final int ENTITY_VILLAGER_WEALTH = 11; //wealth
+	private static final int ENTITY_VILLAGER_CAREER_ID = 13; //careerId
+	public static final int ENTITY_VILLAGER_CAREER_LEVEL = 14;
+
 	private final WatchedString name;
 	private final WatchedString headTexture;
 	private final WatchedString clothesTexture;
@@ -239,12 +252,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		if (isOverwrite)
 		{
-			this.professionId.setValue(EnumProfession.getNewProfessionFromVanilla(profession).getId());
+			this.setProfessionId(EnumProfession.getNewProfessionFromVanilla(profession).getId());
 		}
 
 		else
 		{
-			this.professionId.setValue(profession);
+			this.setProfessionId(profession);
 		}
 
 		this.headTexture.setValue(this.getRandomSkin());
@@ -266,7 +279,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		if (isPlayerChild)
 		{
-			this.professionId.setValue(EnumProfession.Child.getId());
+			this.setProfessionId(EnumProfession.Child.getId());
 			this.headTexture.setValue(this.getRandomSkin());
 			this.clothesTexture.setValue(this.headTexture.getString());
 		}
@@ -490,7 +503,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		name.setValue(nbt.getString("name"));
 		headTexture.setValue(nbt.getString("skin"));
 		clothesTexture.setValue(nbt.getString("clothesTexture"));
-		professionId.setValue(nbt.getInteger("professionId"));
+		setProfessionId(nbt.getInteger("professionId"));
 		personalityId.setValue(nbt.getInteger("personalityId"));
 		permanentId.setValue(nbt.getInteger("permanentId"));
 		isMale.setValue(nbt.getBoolean("isMale"));
@@ -1240,21 +1253,21 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		if (recipe.getToolUses() == 1 || this.rand.nextInt(5) == 0)
 		{
-			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, 40, "timeUntilReset");
-			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, true, "needsInitilization");
+			ReflectionHelper.setPrivateValue(EntityVillager.class, this, 40, ENTITY_VILLAGER_TIME_UNTIL_RESET_FIELD_INDEX);
+			ReflectionHelper.setPrivateValue(EntityVillager.class, this, true, ENTITY_VILLAGER_NEEDS_INITIALIZATION);
 			//this.isWillingToMate = true; NOPE!
 
 
-			EntityPlayer buyingPlayer = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, "buyingPlayer");
+			EntityPlayer buyingPlayer = ReflectionHelper.getPrivateValue(EntityVillager.class, this, ENTITY_VILLAGER_BUYING_PLAYER);
 
 			if (buyingPlayer != null)
 			{
-				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, buyingPlayer.getName(), "lastBuyingPlayer"); //this.lastBuyingPlayer = buyingPlayer.getName();
+				ReflectionHelper.setPrivateValue(EntityVillager.class, this, buyingPlayer.getName(), ENTITY_VILLAGER_LAST_BUYING_PLAYER);
 			}
 
 			else
 			{
-				ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, null, "lastBuyingPlayer"); //this.lastBuyingPlayer = null;
+				ReflectionHelper.setPrivateValue(EntityVillager.class, this, null, ENTITY_VILLAGER_LAST_BUYING_PLAYER);
 			}
 
 			i += 5;
@@ -1262,7 +1275,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		if (recipe.getItemToBuy().getItem() == Items.emerald)
 		{
-			ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, recipe.getItemToBuy().stackSize, "wealth"); //this.wealth += recipe.getItemToBuy().stackSize;
+			ReflectionHelper.setPrivateValue(EntityVillager.class, this, recipe.getItemToBuy().stackSize, ENTITY_VILLAGER_WEALTH); //this.wealth += recipe.getItemToBuy().stackSize;
 		}
 
 		if (recipe.getRewardsExp())
@@ -1505,6 +1518,15 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public void setProfessionId(int profession)
 	{
 		this.professionId.setValue(profession);
+
+		// Set the forge profession and career to match our MCA profession.
+		int vanillaProfId = this.getProfessionGroup().getVanillaProfessionId();
+		FMLControlledNamespacedRegistry<VillagerRegistry.VillagerProfession> registry = (FMLControlledNamespacedRegistry<VillagerRegistry.VillagerProfession>)VillagerRegistry.instance().getRegistry();
+		VillagerRegistry.VillagerProfession prof = registry.getObjectById(vanillaProfId);
+
+		this.setProfession(prof);
+		ReflectionHelper.setPrivateValue(EntityVillager.class, this, this.getProfessionEnum().getVanillaCareerId(), ENTITY_VILLAGER_CAREER_ID);
+		ReflectionHelper.setPrivateValue(EntityVillager.class, this, 1, ENTITY_VILLAGER_CAREER_LEVEL);
 	}
 
 	public void setPersonality(int personalityId) 
