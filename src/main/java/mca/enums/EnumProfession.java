@@ -8,31 +8,33 @@ import radixcore.util.RadixMath;
 
 public enum EnumProfession 
 {
-	Farmer(0, EnumProfessionGroup.Farmer),
-	Fisherman(1, EnumProfessionGroup.Farmer),
-	Shepherd(2, EnumProfessionGroup.Farmer),
-	Fletcher(3, EnumProfessionGroup.Farmer),
-	Librarian(4, EnumProfessionGroup.Librarian),
-	Cleric(5, EnumProfessionGroup.Priest),
-	Armorer(6, EnumProfessionGroup.Smith),
-	WeaponSmith(7, EnumProfessionGroup.Smith),
-	ToolSmith(8, EnumProfessionGroup.Smith),
-	Butcher(9, EnumProfessionGroup.Butcher),
-	Baker(10, EnumProfessionGroup.Baker),
-	Leatherworker(11, EnumProfessionGroup.Butcher),
-	Guard(12, EnumProfessionGroup.Guard),
-	Archer(13, EnumProfessionGroup.Guard),
-	Miner(14, EnumProfessionGroup.Miner),
-	Mason(15, EnumProfessionGroup.Miner),
-	Child(16, EnumProfessionGroup.Child);
+	Farmer       (0,  EnumProfessionGroup.Farmer,   1),
+	Fisherman    (1,  EnumProfessionGroup.Farmer,   2),
+	Shepherd     (2,  EnumProfessionGroup.Farmer,   3),
+	Fletcher     (3,  EnumProfessionGroup.Farmer,   4),
+	Librarian    (4,  EnumProfessionGroup.Librarian,1),
+	Cleric       (5,  EnumProfessionGroup.Priest,   1),
+	Armorer      (6,  EnumProfessionGroup.Smith,    1),
+	WeaponSmith  (7,  EnumProfessionGroup.Smith,    2),
+	ToolSmith    (8,  EnumProfessionGroup.Smith,    3),
+	Butcher      (9,  EnumProfessionGroup.Butcher,  1),
+	Baker        (10, EnumProfessionGroup.Baker,    1),
+	Leatherworker(11, EnumProfessionGroup.Butcher,  2),
+	Guard        (12, EnumProfessionGroup.Guard,    1),
+	Archer       (13, EnumProfessionGroup.Guard,    1),
+	Miner        (14, EnumProfessionGroup.Miner,    1),
+	Mason        (15, EnumProfessionGroup.Miner,    1),
+	Child        (16, EnumProfessionGroup.Child,    1);
 
 	private int id;
+	private int vanillaCareerId;
 	private EnumProfessionGroup skinGroup;
 
-	private EnumProfession(int id, EnumProfessionGroup skinGroup)
+	private EnumProfession(int id, EnumProfessionGroup skinGroup, int vanillaCareerId)
 	{
 		this.id = id;
 		this.skinGroup = skinGroup;
+		this.vanillaCareerId = vanillaCareerId;
 	}
 
 	public int getId()
@@ -155,5 +157,9 @@ public enum EnumProfession
 		}
 
 		return "";
+	}
+
+	public int getVanillaCareerId() {
+		return vanillaCareerId;
 	}
 }
