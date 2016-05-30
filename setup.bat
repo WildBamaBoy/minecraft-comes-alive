@@ -1,3 +1,2 @@
-gradlew setupDecompWorkspace --refresh-dependencies
-gradlew genIntellijRuns
+gradlew setupDecompWorkspace eclipse --refresh-dependencies
 pause
