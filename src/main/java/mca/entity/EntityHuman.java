@@ -31,6 +31,7 @@ import mca.ai.AIRegenerate;
 import mca.ai.AIRespondToAttack;
 import mca.ai.AISleep;
 import mca.ai.AIWoodcutting;
+import mca.ai.AIWorkday;
 import mca.ai.AbstractAI;
 import mca.core.Constants;
 import mca.core.MCA;
@@ -56,17 +57,10 @@ import mca.util.Utilities;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIMoveIndoors;
-import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAIOpenDoor;
 import net.minecraft.entity.ai.EntityAIRestrictOpenDoor;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITradePlayer;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.ai.EntityAIWatchClosest2;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -84,8 +78,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
-import radixcore.constant.Particle;
 import radixcore.constant.Font.Color;
+import radixcore.constant.Particle;
 import radixcore.data.DataWatcherEx;
 import radixcore.data.IPermanent;
 import radixcore.data.IWatchable;
@@ -197,7 +191,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		aiManager.addAI(new AICooking(this));
 		aiManager.addAI(new AIFarming(this));
 		aiManager.addAI(new AIDefend(this));
-
+		aiManager.addAI(new AIWorkday(this));
+		
 		addAI();
 
 		if (world != null && !world.isRemote)
@@ -268,15 +263,10 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	{
 		this.tasks.taskEntries.clear();
 
-		this.tasks.addTask(0, new EntityAISwimming(this));
-		this.tasks.addTask(1, new EntityAITradePlayer(this));
+//		this.tasks.addTask(0, new EntityAISwimming(this));
+//		this.tasks.addTask(1, new EntityAITradePlayer(this));
 		this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
 		this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
-		this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, getSpeed()));
-		this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityPlayer.class, 3.0F, 1.0F));
-		this.tasks.addTask(9, new EntityAIWatchClosest2(this, EntityHuman.class, 5.0F, 0.02F));
-		this.tasks.addTask(9, new EntityAIWander(this, getSpeed()));
-		this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));
 
 		int maxHealth = MCA.isTesting ? 20 : this.getProfessionGroup() == EnumProfessionGroup.Guard ? MCA.getConfig().guardMaxHealth : MCA.getConfig().villagerMaxHealth;
 		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealth);

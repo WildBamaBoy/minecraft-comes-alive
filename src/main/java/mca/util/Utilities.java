@@ -3,6 +3,7 @@ package mca.util;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDoor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.S2APacketParticles;
@@ -75,6 +76,25 @@ public class Utilities
 			final float velZ = (float) (rand.nextGaussian() * 0.02D);
 
 			entityOrigin.worldObj.spawnParticle(name, parX, parY, parZ, velX, velY, velZ);
+		}
+	}
+	
+	public static void setDoorIsOpenAt(World world, int doorX, int doorY, int doorZ, boolean isOpen)
+	{
+		
+	}
+	
+	public static boolean getDoorIsOpenAt(World world, int doorX, int doorY, int doorZ)
+	{
+		try
+		{
+			BlockDoor door = (BlockDoor) world.getBlock(doorX, doorY, doorZ);
+			return !door.func_150015_f(world, doorX, doorY, doorZ);
+		}
+		
+		catch (Exception e)
+		{
+			return false;
 		}
 	}
 }
