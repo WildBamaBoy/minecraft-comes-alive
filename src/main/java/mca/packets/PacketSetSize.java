@@ -1,13 +1,13 @@
 package mca.packets;
 
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import mca.entity.EntityHuman;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import radixcore.network.ByteBufIO;
 import radixcore.packets.AbstractPacket;
 
@@ -51,6 +51,15 @@ public class PacketSetSize extends AbstractPacket implements IMessage, IMessageH
 	@Override
 	public IMessage onMessage(PacketSetSize packet, MessageContext context)
 	{
+
+		
+		return null;
+	}
+
+	@Override
+	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	{
+		PacketSetSize packet = (PacketSetSize)message;
 		EntityPlayer player = getPlayer(context);
 		World world = player.worldObj;
 		EntityHuman human = null;
@@ -80,7 +89,5 @@ public class PacketSetSize extends AbstractPacket implements IMessage, IMessageH
 		{
 			human.setSizeOverride(packet.width, packet.height);
 		}
-		
-		return null;
 	}
 }

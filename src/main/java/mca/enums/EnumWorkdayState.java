@@ -1,14 +1,15 @@
 package mca.enums;
 
+import mca.enums.EnumWorkdayState;
 import radixcore.util.RadixMath;
 
 public enum EnumWorkdayState 
 {
-	WANDER (1), /* Wander through village */
-	INDOORS (2), /* Move into a nearby building */
-	WORK (3), /* Perform job */
-	VISIT (4), /* Visit a far off building */
-	CHAT (5); /* Stop and chat with nearby villager. */
+	MOVE_INDOORS(1),
+	WANDER(2),
+	WATCH_CLOSEST_ANYTHING(3),
+	WATCH_CLOSEST_PLAYER(4),
+	IDLE(5);
 	
 	private int id;
 	
