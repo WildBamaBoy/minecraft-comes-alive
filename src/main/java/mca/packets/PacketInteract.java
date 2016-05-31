@@ -14,6 +14,7 @@ import mca.core.minecraft.ModItems;
 import mca.data.PlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
+import mca.enums.EnumDialogueType;
 import mca.enums.EnumInteraction;
 import mca.enums.EnumPersonality;
 import mca.items.ItemBaby;
@@ -145,60 +146,75 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 				AIMood mood = villager.getAI(AIMood.class);
 				PlayerMemory memory = villager.getPlayerMemory(player);
 
-				int successChance = interaction.getSuccessChance(villager, memory);
+				//First check for spouse leaving due to low hearts.
+				if (memory.getDialogueType() == EnumDialogueType.SPOUSE && memory.getHearts() <= 25 && villager.timesWarnedForLowHearts >= 3)
+				{
+					villager.say("spouse.endmarriage", player, player);
+					player.addChatComponentMessage(new ChatComponentText(Color.RED + MCA.getLanguageManager().getString("notify.spouseendedmarriage", villager)));
+					memory.setHearts(-100);
+					mood.modifyMoodLevel(-20.0F);
+					villager.timesWarnedForLowHearts = 0;
+					
+					MarriageHandler.endMarriage(player, villager);
+				}
 				
-				int pointsModification = interaction.getBasePoints()
-						+ villager.getPersonality().getHeartsModifierForInteraction(interaction) 
-						+ mood.getMood(villager.getPersonality()).getPointsModifierForInteraction(interaction);
-
-				boolean wasGood = RadixLogic.getBooleanWithProbability(successChance);
-
-				if (villager.getPersonality() == EnumPersonality.FRIENDLY)
-				{
-					pointsModification += pointsModification * 0.15D;
-				}
-
-				else if (villager.getPersonality() == EnumPersonality.FLIRTY)
-				{
-					pointsModification += pointsModification * 0.25D;
-				}
-
-				else if (villager.getPersonality() == EnumPersonality.SENSITIVE && RadixLogic.getBooleanWithProbability(5))
-				{
-					pointsModification = -35;
-					wasGood = false;
-				}
-
-				else if (villager.getPersonality() == EnumPersonality.STUBBORN)
-				{
-					pointsModification -= pointsModification * 0.15D;
-				}
-
-				if (wasGood)
-				{
-					pointsModification = RadixMath.clamp(pointsModification, 1, 100);
-					mood.modifyMoodLevel(RadixMath.getNumberInRange(0.2F, 1.0F));
-					villager.say(memory.getDialogueType().toString() + "." + interaction.getName() + ".good", player);
-				}
-
 				else
 				{
-					pointsModification = RadixMath.clamp(pointsModification * -1, -100, -1);
-					mood.modifyMoodLevel(RadixMath.getNumberInRange(0.2F, 1.0F) * -1);
-					villager.say(memory.getDialogueType().toString() + "." + interaction.getName() + ".bad", player);
-				}
-
-				memory.setHearts(memory.getHearts() + pointsModification);
-				memory.increaseInteractionFatigue();
-
-				if (memory.getHearts() >= 100)
-				{
-					player.triggerAchievement(ModAchievements.fullGoldHearts);
-				}
-
-				if (memory.getInteractionFatigue() == 4)
-				{
-					TutorialManager.sendMessageToPlayer(player, "Villagers tire of conversation after a few tries.", "Talk to them later for better success chances.");
+					int successChance = interaction.getSuccessChance(villager, memory);
+					
+					int pointsModification = interaction.getBasePoints()
+							+ villager.getPersonality().getHeartsModifierForInteraction(interaction) 
+							+ mood.getMood(villager.getPersonality()).getPointsModifierForInteraction(interaction);
+	
+					boolean wasGood = RadixLogic.getBooleanWithProbability(successChance);
+	
+					if (villager.getPersonality() == EnumPersonality.FRIENDLY)
+					{
+						pointsModification += pointsModification * 0.15D;
+					}
+	
+					else if (villager.getPersonality() == EnumPersonality.FLIRTY)
+					{
+						pointsModification += pointsModification * 0.25D;
+					}
+	
+					else if (villager.getPersonality() == EnumPersonality.SENSITIVE && RadixLogic.getBooleanWithProbability(5))
+					{
+						pointsModification = -35;
+						wasGood = false;
+					}
+	
+					else if (villager.getPersonality() == EnumPersonality.STUBBORN)
+					{
+						pointsModification -= pointsModification * 0.15D;
+					}
+	
+					if (wasGood)
+					{
+						pointsModification = RadixMath.clamp(pointsModification, 1, 100);
+						mood.modifyMoodLevel(RadixMath.getNumberInRange(0.2F, 1.0F));
+						villager.say(memory.getDialogueType().toString() + "." + interaction.getName() + ".good", player);
+					}
+	
+					else
+					{
+						pointsModification = RadixMath.clamp(pointsModification * -1, -100, -1);
+						mood.modifyMoodLevel(RadixMath.getNumberInRange(0.2F, 1.0F) * -1);
+						villager.say(memory.getDialogueType().toString() + "." + interaction.getName() + ".bad", player);
+					}
+	
+					memory.setHearts(memory.getHearts() + pointsModification);
+					memory.increaseInteractionFatigue();
+	
+					if (memory.getHearts() >= 100)
+					{
+						player.triggerAchievement(ModAchievements.fullGoldHearts);
+					}
+	
+					if (memory.getInteractionFatigue() == 4)
+					{
+						TutorialManager.sendMessageToPlayer(player, "Villagers tire of conversation after a few tries.", "Talk to them later for better success chances.");
+					}
 				}
 			}
 

@@ -1426,6 +1426,18 @@ spouse.greeting3=Oh, %PlayerName%\! You look tired.
 spouse.greeting4=Hey %PlayerName%\! You look hungry. Would you like me to cook something?
 spouse.greeting5=%PlayerName%, you're back\! I missed you.
 
+spouse.greeting.lowhearts1=There you are. Where did you go? You never tell me anything anymore.
+spouse.greeting.lowhearts2=Are you going to say hi to me this time?
+spouse.greeting.lowhearts3=Um, hi! I still exist, you know!
+spouse.greeting.lowhearts4=%PlayerName%, are you ignoring me on purpose?
+spouse.greeting.lowhearts5=I'm starting to feel like you don't pay attention to me.
+
+spouse.endmarriage1=I've had it. You don't treat me well enough. I'm leaving you!
+spouse.endmarriage2=I'm leaving. Forever! Don't look for me.
+spouse.endmarriage3=I'm sorry - I thought we could work things out, but it's not working for me. Goodbye.
+spouse.endmarriage4=%PlayerName%, this is goodbye. Don't try to follow me.
+notify.spouseendedmarriage=%Name% has ended their marriage with you.
+
 relative.gift.bad1=You shouldn't have... literally.
 relative.gift.bad2=Eh, you keep it.
 relative.gift.bad3=Ew, where did you find this? In a mine?
@@ -1528,6 +1540,3 @@ childp.gift.best2=%ParentTitle%, I knew you would get me one of these. I just kn
 childp.gift.best3=Yay\! I have the best %ParentTitle% in the world\!
 childp.gift.best4=This is so amazing\! I can't believe this is all mine\!
 childp.gift.best5=Thank you so much, %ParentTitle%\! You're the best ever\!
-
-
-
