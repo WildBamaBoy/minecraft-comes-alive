@@ -135,6 +135,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	@SideOnly(Side.CLIENT)
 	public boolean displayNameForPlayer;
 
+	public int timesWarnedForLowHearts;
 	protected int ticksAlive;
 	protected int swingProgressTicks;
 	protected AIManager aiManager;
@@ -467,7 +468,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		nbt.setInteger("ticksAlive", ticksAlive);
 		nbt.setBoolean("isInfected", isInfected.getBoolean());
 		nbt.setString("playerSkinUsername", playerSkinUsername.getString());
-
+		nbt.setInteger("timesWarnedForLowHearts", timesWarnedForLowHearts);
+		
 		PlayerMemoryHandler.writePlayerMemoryToNBT(playerMemories, nbt);
 		dataWatcherEx.writeDataWatcherToNBT(nbt);
 
@@ -503,7 +505,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		ticksAlive = nbt.getInteger("ticksAlive");
 		isInfected.setValue(nbt.getBoolean("isInfected"));
 		playerSkinUsername.setValue(nbt.getString("playerSkinUsername"));
-
+		timesWarnedForLowHearts= nbt.getInteger("timesWarnedForLowHearts");
+		
 		PlayerMemoryHandler.readPlayerMemoryFromNBT(this, playerMemories, nbt);
 		dataWatcherEx.readDataWatcherFromNBT(nbt);
 		doDisplay.setValue(true);

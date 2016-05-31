@@ -2,6 +2,7 @@ package mca.command;
 
 import java.util.Arrays;
 
+import mca.ai.AIGreet;
 import mca.ai.AIProgressStory;
 import mca.core.MCA;
 import mca.data.PlayerData;
@@ -290,6 +291,21 @@ public class CommandMCA extends CommandBase
 				}
 			}
 
+			else if (subcommand.equalsIgnoreCase("rgt"))
+			{
+				for (Object obj : player.worldObj.loadedEntityList)
+				{
+					if (obj instanceof EntityHuman)
+					{
+						EntityHuman human = (EntityHuman) obj;
+						PlayerMemory memory = human.getPlayerMemory(player);
+						memory.setTimeUntilGreeting(0);
+					}
+				}
+
+				addChatMessage(commandSender, Color.GOLD + "Reset greeting timers.");
+			}
+			
 			else if (subcommand.equalsIgnoreCase("rb"))
 			{
 				String playerName = arguments[0];
@@ -393,6 +409,7 @@ public class CommandMCA extends CommandBase
 		addChatMessage(commandSender, Color.WHITE + " /mca clv " + Color.GOLD + " - Clear all loaded villagers. " + Color.RED + "(IRREVERSABLE)", true);
 		addChatMessage(commandSender, Color.WHITE + " /mca mh+ " + Color.GOLD + " - Increase hearts by 1.", true);
 		addChatMessage(commandSender, Color.WHITE + " /mca mh- " + Color.GOLD + " - Decrease hearts by 1.", true);
+		addChatMessage(commandSender, Color.WHITE + " /mca rgt " + Color.GOLD + " - Reset your greeting timers.", true);
 
 		addChatMessage(commandSender, Color.DARKRED + "--- " + Color.GOLD + "OP COMMANDS" + Color.DARKRED + " ---", true);
 		addChatMessage(commandSender, Color.WHITE + " /mca rm <username> " + Color.GOLD + " - Reset <username>'s marriage.", true);

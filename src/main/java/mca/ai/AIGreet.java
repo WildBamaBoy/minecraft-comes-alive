@@ -4,6 +4,7 @@ import java.util.Map;
 
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
+import mca.enums.EnumDialogueType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
@@ -98,7 +99,18 @@ public class AIGreet extends AbstractAI
 
 						else
 						{
-							owner.say(memory.getDialogueType() + ".greeting", closestPlayer);
+							//Check for low hearts on spouses.
+							if (memory.getDialogueType() == EnumDialogueType.SPOUSE && memory.getHearts() <= -25)
+							{
+								owner.say(memory.getDialogueType() + ".greeting.lowhearts", closestPlayer);
+								owner.timesWarnedForLowHearts++;
+							}
+							
+							else
+							{
+								owner.say(memory.getDialogueType() + ".greeting", closestPlayer);
+								owner.timesWarnedForLowHearts = 0; //Make sure we reset when hearts are back to normal.
+							}
 						}
 						
 						memory.setTimeUntilGreeting(GREETING_INTERVAL);
