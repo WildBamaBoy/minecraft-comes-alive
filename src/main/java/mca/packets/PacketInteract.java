@@ -162,7 +162,6 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 
 				boolean wasGood = RadixLogic.getBooleanWithProbability(successChance);
 
-
 				if (villager.getPersonality() == EnumPersonality.FRIENDLY)
 				{
 					pointsModification += pointsModification * 0.15D;
@@ -208,7 +207,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 
 				if (memory.getInteractionFatigue() == 4)
 				{
-					TutorialManager.sendMessageToPlayer(player, "Vilagers tire of conversation after a few tries.", "Talk to them later for better success chances.");
+					TutorialManager.sendMessageToPlayer(player, "Villagers tire of conversation after a few tries.", "Talk to them later for better success chances.");
 				}
 			}
 
