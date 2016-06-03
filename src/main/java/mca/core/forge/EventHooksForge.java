@@ -1,14 +1,17 @@
 package mca.core.forge;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mca.core.MCA;
 import mca.entity.EntityHuman;
+import mca.enums.EnumProfession;
 import mca.items.ItemBaby;
 import mca.packets.PacketInteractWithPlayerC;
 import mca.util.TutorialManager;
 import mca.util.Utilities;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -52,6 +55,25 @@ public class EventHooksForge
 
 			if (event.entity.getClass() == EntityVillager.class && MCA.getConfig().overwriteOriginalVillagers)
 			{
+				//Check for a zombie being turned into a villager. Don't overwrite with families in this case.
+				List<Entity> zombiesAroundMe = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityZombie.class, event.entity, 3);
+				
+				for (Entity entity : zombiesAroundMe)
+				{
+					EntityZombie zombie = (EntityZombie)entity;
+					
+					if (zombie.isConverting())
+					{
+						boolean isMale = RadixLogic.getBooleanWithProbability(50);
+						final EntityHuman human = new EntityHuman(entity.worldObj, isMale, EnumProfession.getAtRandom().getId(), false);
+						human.setPosition(zombie.posX, zombie.posY, zombie.posZ);
+						entity.worldObj.spawnEntityInWorld(human);
+						event.entity.setDead();
+						return;
+					}
+				}
+				
+				//Otherwise, no zombie was found so continue overwriting normally.
 				doOverwriteVillager(event, (EntityVillager) event.entity);
 			}
 		}
