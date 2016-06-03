@@ -1,11 +1,13 @@
 package mca.core.forge;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 import com.google.common.base.Predicate;
 
 import mca.core.MCA;
 import mca.entity.EntityHuman;
+import mca.enums.EnumProfession;
 import mca.items.ItemBaby;
 import mca.packets.PacketInteractWithPlayerC;
 import mca.util.TutorialManager;
@@ -59,6 +61,25 @@ public class EventHooksForge
 			{
 				EntityVillager villager = (EntityVillager)event.entity;
 
+				//Check for a zombie being turned into a villager. Don't overwrite with families in this case.
+				List<Entity> zombiesAroundMe = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityZombie.class, event.entity, 3);
+				
+				for (Entity entity : zombiesAroundMe)
+				{
+					EntityZombie zombie = (EntityZombie)entity;
+					
+					if (zombie.isConverting())
+					{
+						boolean isMale = RadixLogic.getBooleanWithProbability(50);
+						final EntityHuman human = new EntityHuman(entity.worldObj, isMale, EnumProfession.getAtRandom().getId(), false);
+						human.setPosition(zombie.posX, zombie.posY, zombie.posZ);
+						entity.worldObj.spawnEntityInWorld(human);
+						event.entity.setDead();
+						return;
+					}
+				}
+				
+				//Otherwise, no zombie was found so continue overwriting normally.
 				if (villager.getProfession() >= 0 && villager.getProfession() <= 4)
 				{
 					// The server will later check for object 28, and then overwrite the villager.
