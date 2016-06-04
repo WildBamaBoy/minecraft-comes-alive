@@ -239,28 +239,18 @@ public class EventHooksFML
 
 			if (!humans.isEmpty())
 			{
-				//Pick three at random.
+				//Pick three humans at random to perform guard spawning around.
 				for (int i = 0; i < 3; i++)
 				{
 					EntityHuman human = humans.get(RadixMath.getNumberInRange(0, humans.size() - 1));
 
-					int neededNumberOfGuards = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, human, 50).size() / MCA.getConfig().guardSpawnRate;
-					int numberOfGuards = 0;
-
-					for (Entity entity : RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, human, 50))
-					{
-						if (entity instanceof EntityHuman)
-						{
-							EntityHuman otherHuman = (EntityHuman)entity;
-
-							if (otherHuman.getProfessionGroup() == EnumProfessionGroup.Guard)
-							{
-								numberOfGuards++;
-							}
-						}
-					}
-
-					if (numberOfGuards < neededNumberOfGuards)
+					//Don't count guards in the total count of villagers.
+					List<Entity> villagersAroundMe = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, human, 50);
+					int numberOfGuardsAroundMe = getNumberOfGuardsFromEntityList(villagersAroundMe);
+					int numberOfVillagersAroundMe = villagersAroundMe.size() - numberOfGuardsAroundMe; 
+					int neededNumberOfGuards = numberOfVillagersAroundMe / MCA.getConfig().guardSpawnRate;
+					
+					if (numberOfGuardsAroundMe < neededNumberOfGuards)
 					{
 						final EntityHuman guard = new EntityHuman(human.worldObj, RadixLogic.getBooleanWithProbability(50), EnumProfession.Guard.getId(), false);
 						final Vec3 pos = RandomPositionGenerator.findRandomTarget(human, 10, 1);
@@ -336,5 +326,25 @@ public class EventHooksFML
 	{
 		entity.setDead();
 		MCA.naturallySpawnVillagers(new Point3D(entity.posX, entity.posY, entity.posZ), entity.worldObj, entity.getProfession());
+	}
+
+	private int getNumberOfGuardsFromEntityList(List<Entity> entityList) 
+	{
+		int returnValue = 0;
+		
+		for (Entity entity : entityList)
+		{
+			if (entity instanceof EntityHuman)
+			{
+				EntityHuman human = (EntityHuman)entity;
+				
+				if (human.getProfessionGroup() == EnumProfessionGroup.Guard)
+				{
+					returnValue++;
+				}
+			}
+		}
+		
+		return returnValue;
 	}
 }
