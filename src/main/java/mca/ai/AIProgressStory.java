@@ -4,7 +4,6 @@ import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
 import mca.entity.EntityHuman;
 import mca.enums.EnumBabyState;
-import mca.enums.EnumProfessionGroup;
 import mca.enums.EnumProgressionStep;
 import mca.util.Utilities;
 import net.minecraft.entity.player.EntityPlayer;
@@ -121,7 +120,6 @@ public class AIProgressStory extends AbstractAI
 				&& !partner.getIsMarried() 
 				&& !partner.getIsEngaged() 
 				&& !partner.getIsChild() 
-				&& partner.getProfessionGroup() != EnumProfessionGroup.Guard
 				&& (partner.getFatherId() == -1 || partner.getFatherId() != owner.getFatherId()) 
 				&& (partner.getMotherId() == -1 || partner.getMotherId() != owner.getMotherId());
 		
