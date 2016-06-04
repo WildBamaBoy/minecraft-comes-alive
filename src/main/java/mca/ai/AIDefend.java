@@ -51,7 +51,7 @@ public class AIDefend extends AbstractAI
 			return;
 		}
 		
-		if (owner.getProfessionGroup() == EnumProfessionGroup.Guard && !owner.getIsMarried() && !owner.getIsInfected())
+		if (owner.getProfessionGroup() == EnumProfessionGroup.Guard && !owner.getIsInfected())
 		{
 			if (target == null)
 			{

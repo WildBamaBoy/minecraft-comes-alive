@@ -277,7 +277,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			this.setHealth(maxHealth);
 		}
 
-		if (this.getProfessionGroup() != EnumProfessionGroup.Guard || (this.getProfessionGroup() == EnumProfessionGroup.Guard && this.getIsMarried()))
+		if (this.getProfessionGroup() != EnumProfessionGroup.Guard)
 		{
 			this.tasks.addTask(2, new EntityAIMoveIndoors(this));
 		}
@@ -1026,12 +1026,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			}
 		}
 
-		else if (getProfessionEnum() == EnumProfession.Guard && !getIsMarried())
+		else if (getProfessionEnum() == EnumProfession.Guard)
 		{
 			return new ItemStack(Items.iron_sword);
 		}
 
-		else if (getProfessionEnum() == EnumProfession.Archer && !getIsMarried())
+		else if (getProfessionEnum() == EnumProfession.Archer)
 		{
 			return new ItemStack(Items.bow);
 		}
