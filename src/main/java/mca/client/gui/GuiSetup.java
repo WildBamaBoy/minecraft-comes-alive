@@ -276,7 +276,13 @@ public class GuiSetup extends GuiScreen
 		case 6: 
 			data.setMcaName(nameTextField.getText());
 
-			if (!Minecraft.getMinecraft().isIntegratedServerRunning() || !MCA.getConfig().enableStructureSpawning) 
+			boolean isDedicatedServer = !Minecraft.getMinecraft().isIntegratedServerRunning();
+			
+			//Skip destiny choices if on single player and the option is disabled, or if we're on
+			//a dedicated server and the server option is disabled. Server option is disabled by
+			//default, and is actually verified server-side before spawning the structure.
+			if ((!isDedicatedServer && !MCA.getConfig().enableStructureSpawning) ||
+				(isDedicatedServer && !MCA.getConfig().serverEnableStructureSpawning)) 
 			{
 				setDestinyComplete();
 				mc.displayGuiScreen(null);

@@ -96,8 +96,8 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 		else
 		{
 			// Players have previously been able to spawn in structures on dedicated servers.
-			// Add a check for the dedicated server and prevent anything from happening.
-			if (MinecraftServer.getServer().isDedicatedServer())
+			// Add a check for the dedicated server and prevent anything from happening as long as the appropriate config is set.
+			if (MinecraftServer.getServer().isDedicatedServer() && !MCA.getConfig().serverEnableStructureSpawning)
 			{
 				return;
 			}
