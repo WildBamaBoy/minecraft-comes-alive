@@ -1524,7 +1524,11 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	@Override
 	public String getName() 
 	{
+<<<<<<< HEAD
 		return name.getString();
+=======
+		return name.getString() + " the " + getProfessionEnum().getUserFriendlyForm(this);
+>>>>>>> ee518b3... Feature: Children are properly titled as "the Child", and adults with no profession are titled as "the Villager"
 	}
 
 	private MerchantRecipeList getBuyingList()

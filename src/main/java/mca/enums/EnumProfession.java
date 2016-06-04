@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mca.core.MCA;
+import mca.entity.EntityHuman;
 import radixcore.util.RadixMath;
 
 public enum EnumProfession 
@@ -92,9 +93,25 @@ public enum EnumProfession
 		return values[returnIndex];
 	}
 
-	public String getUserFriendlyForm() 
+	public String getUserFriendlyForm(EntityHuman human) 
 	{
-		return MCA.getLanguageManager().getString(getLocalizationId());
+		//Player children have the "child" profession. Change their display title to "Villager" if they're grown up.
+		if (this == Child && !human.getIsChild())
+		{
+			return MCA.getLanguageManager().getString("profession.villager");
+		}
+		
+		//All children will show the "Child" title, regardless of underlying profession. 
+		//When grown, their actual profession title will be shown.
+		else if (human.getIsChild())
+		{
+			return MCA.getLanguageManager().getString("profession.child");			
+		}
+		
+		else
+		{
+			return MCA.getLanguageManager().getString(getLocalizationId());
+		}
 	}
 
 	public EnumProfessionGroup getSkinGroup()
