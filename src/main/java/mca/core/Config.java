@@ -27,6 +27,7 @@ public final class Config implements Serializable
 	public boolean enableDiminishingReturns;
 	public boolean enableInfection;
 	public boolean enableStructureSpawning;
+	public boolean serverEnableStructureSpawning;
 	public Integer[] dimensionWhitelist;
 	public String[] additionalGiftItems;
 	public int guardSpawnRate;
@@ -98,7 +99,7 @@ public final class Config implements Serializable
 		guardSpawnRate = config.get("General", "Guard spawn rate", 3, "One guard per this many villagers. Set to zero or a negative number to disable guards.").getInt();
 		enableDiminishingReturns = config.get("General", "Enable diminishing returns?", true, "True if hearts increase decreases after multiple interactions.").getBoolean();
 		enableInfection = config.get("General", "Enable infection?", true, "True if villagers and your children have a chance of being infected from zombies.").getBoolean();
-		enableStructureSpawning = config.get("General", "Enable structure spawning?", true, "True if players can have the option to spawn structures during MCA's setup.").getBoolean();
+		enableStructureSpawning = config.get("General", "Enable structure spawning?", true, "True if players can have the option to spawn structures during MCA's setup. Single player only!").getBoolean();
 		spawnInAllDimensions = config.get("General", "Spawn villagers in all dimensions?", false, "True if you want to ignore the dimension whitelist and spawn MCA villagers in all worlds.").getBoolean();
 
 		//Dimension whitelist.
@@ -182,7 +183,8 @@ public final class Config implements Serializable
 		allowTrading = config.get("Server", "Allow trading", true).getBoolean();
 		logVillagerDeaths = config.get("Server", "Log villager deaths", false, "True if you want villager deaths to be logged to the console/server logs. Shows 'RMFS' values in console, R = related, M = mother, F = father, S = spouse. Can be a bit spammy!").getBoolean();
 		villagerChatPrefix = config.get("Server", "Villager chat prefix", "").getDefault();
-
+		serverEnableStructureSpawning = config.get("Server", "Enable structure spawning on server?", false, "True if players can have the option to spawn structures during MCA's setup on a server. WARNING: POTENTIAL FOR GRIEFING IS VERY HIGH - YOU HAVE BEEN WARNED").getBoolean();
+		
 		//Additional gifts.
 		additionalGiftItems = config.get("Server", "Additional gifts", new String[]{"#<EXAMPLE> fermented_spider_eye|25", "#<EXAMPLE> poisonous_potato|12"}, "The names of the items/blocks that can be gifted in addition to the default items. Include hearts value preceded by |. 10 hearts points equals 1 heart.").getStringList();
 		  
