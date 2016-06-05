@@ -102,7 +102,7 @@ public class AIGreet extends AbstractAI
 							//Check for low hearts on spouses.
 							if (memory.getDialogueType() == EnumDialogueType.SPOUSE && memory.getHearts() <= -25)
 							{
-								owner.say(memory.getDialogueType() + ".greeting.lowhearts", closestPlayer);
+								owner.say(memory.getDialogueType() + ".lowhearts.greeting", closestPlayer);
 								owner.timesWarnedForLowHearts++;
 							}
 							

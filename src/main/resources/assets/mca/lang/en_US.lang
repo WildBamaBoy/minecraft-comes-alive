@@ -1435,11 +1435,11 @@ spouse.greeting3=Oh, %PlayerName%\! You look tired.
 spouse.greeting4=Hey %PlayerName%\! You look hungry. Would you like me to cook something?
 spouse.greeting5=%PlayerName%, you're back\! I missed you.
 
-spouse.greeting.lowhearts1=There you are. Where did you go? You never tell me anything anymore.
-spouse.greeting.lowhearts2=Are you going to say hi to me this time?
-spouse.greeting.lowhearts3=Um, hi! I still exist, you know!
-spouse.greeting.lowhearts4=%PlayerName%, are you ignoring me on purpose?
-spouse.greeting.lowhearts5=I'm starting to feel like you don't pay attention to me.
+spouse.lowhearts.greeting1=There you are. Where did you go? You never tell me anything anymore.
+spouse.lowhearts.greeting2=Are you going to say hi to me this time?
+spouse.lowhearts.greeting3=Um, hi! I still exist, you know!
+spouse.lowhearts.greeting4=%PlayerName%, are you ignoring me on purpose?
+spouse.lowhearts.greeting5=I'm starting to feel like you don't pay attention to me.
 
 spouse.endmarriage1=I've had it. You don't treat me well enough. I'm leaving you!
 spouse.endmarriage2=I'm leaving. Forever! Don't look for me.
