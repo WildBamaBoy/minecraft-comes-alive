@@ -9,7 +9,8 @@ public enum EnumWorkdayState
 	WANDER(2),
 	WATCH_CLOSEST_ANYTHING(3),
 	WATCH_CLOSEST_PLAYER(4),
-	IDLE(5);
+	IDLE(5),
+	WORK(6);
 	
 	private int id;
 	

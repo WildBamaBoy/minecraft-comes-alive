@@ -468,6 +468,8 @@ public class GuiInteraction extends GuiScreen
 			case MINING_MODE: miningModeFlag = !miningModeFlag; drawMiningControlMenu(); break;
 			case MINING_TARGET: miningMappings.next(); drawMiningControlMenu(); break;
 
+			case FISHING: drawFishingControlMenu(); break;
+			
 			case COOKING: drawCookingControlMenu(); break;
 
 			/*
@@ -581,6 +583,7 @@ public class GuiInteraction extends GuiScreen
 				case MINING: MCA.getPacketHandler().sendPacketToServer(new PacketToggleAI(villager, EnumInteraction.MINING, miningModeFlag, miningMappings.get())); break;
 				case WOODCUTTING: MCA.getPacketHandler().sendPacketToServer(new PacketToggleAI(villager, EnumInteraction.WOODCUTTING, woodcuttingReplantFlag, woodcuttingMappings.get())); break;
 				case HUNTING: MCA.getPacketHandler().sendPacketToServer(new PacketToggleAI(villager, EnumInteraction.HUNTING, huntingModeFlag)); break;
+				case FISHING: MCA.getPacketHandler().sendPacketToServer(new PacketToggleAI(villager, EnumInteraction.FISHING)); break;
 				case COOKING: MCA.getPacketHandler().sendPacketToServer(new PacketToggleAI(villager, EnumInteraction.COOKING)); break;
 				}
 
@@ -594,6 +597,7 @@ public class GuiInteraction extends GuiScreen
 				case MINING:
 				case WOODCUTTING:
 				case HUNTING:
+				case FISHING:
 				case COOKING: drawWorkButtonMenu(); break;
 
 				case SPECIAL:
@@ -669,8 +673,8 @@ public class GuiInteraction extends GuiScreen
 
 		if (villager.allowWorkInteractions(player))
 		{
-			buttonList.add(new GuiButton(EnumInteraction.WORK.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.work"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.INVENTORY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.inventory"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.WORK.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.work"))); yLoc -= yInt;
 
 			//Disable work button for adult children.
 			if (villager.isPlayerAParent(player) && !villager.getIsChild())
@@ -716,8 +720,6 @@ public class GuiInteraction extends GuiScreen
 
 	private void drawWorkButtonMenu()
 	{
-		PlayerMemory memory = villager.getPlayerMemory(player);
-
 		currentPage = EnumInteraction.WORK.getId();
 		buttonList.clear();
 
@@ -731,6 +733,7 @@ public class GuiInteraction extends GuiScreen
 		buttonList.add(new GuiButton(EnumInteraction.WOODCUTTING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.woodcutting"))); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.MINING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.mining"))); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.HUNTING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.hunting"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.FISHING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.fishing"))); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.COOKING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.cooking"))); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.STOP.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.DARKRED + MCA.getLanguageManager().getString("gui.button.stop"))); yLoc -= yInt;
 
@@ -756,7 +759,7 @@ public class GuiInteraction extends GuiScreen
 
 		else
 		{
-			((GuiButton)buttonList.get(7)).enabled = false; //Stop button
+			((GuiButton)buttonList.get(8)).enabled = false; //Stop button
 		}
 
 		if (memory.getIsHiredBy())
@@ -792,7 +795,7 @@ public class GuiInteraction extends GuiScreen
 
 		if (villager.getIsChild())
 		{
-			((GuiButton)buttonList.get(6)).enabled = false;
+			((GuiButton)buttonList.get(7)).enabled = false; //Cooking
 		}
 	}
 
@@ -967,6 +970,20 @@ public class GuiInteraction extends GuiScreen
 		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + MCA.getLanguageManager().getString("gui.button.start"))); yLoc -= yInt;
 	}
 
+	private void drawFishingControlMenu() 
+	{
+		buttonList.clear();
+		currentPage = EnumInteraction.FISHING.getId();
+
+		int xLoc = width == 480 ? 170 : 145; 
+		int yLoc = height == 240 ? 115 : height == 255 ? 125 : 132;
+		int yInt = 22;
+
+		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString("gui.button.fishing"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + MCA.getLanguageManager().getString("gui.button.start"))); yLoc -= yInt;
+	}
+	
 	private void drawCookingControlMenu() 
 	{
 		buttonList.clear();

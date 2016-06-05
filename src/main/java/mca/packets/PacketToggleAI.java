@@ -9,11 +9,10 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import mca.ai.AICooking;
 import mca.ai.AIFarming;
+import mca.ai.AIFishing;
 import mca.ai.AIHunting;
 import mca.ai.AIMining;
 import mca.ai.AIWoodcutting;
-import mca.api.RegistryMCA;
-import mca.api.exception.MappingNotFoundException;
 import mca.core.minecraft.ModAchievements;
 import mca.entity.EntityHuman;
 import mca.enums.EnumInteraction;
@@ -150,6 +149,10 @@ public class PacketToggleAI extends AbstractPacket implements IMessage, IMessage
 			
 		case COOKING: 
 			human.getAI(AICooking.class).startCooking(player);
+			break;
+			
+		case FISHING:
+			human.getAI(AIFishing.class).startFishing(player);
 			break;
 		}
 		return null;

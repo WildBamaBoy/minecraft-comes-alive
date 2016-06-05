@@ -3,8 +3,10 @@ package mca.core.forge;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import mca.client.model.ModelHorseExtension;
+import mca.client.render.RenderFishHook;
 import mca.client.render.RenderHuman;
 import mca.client.render.RenderTombstone;
+import mca.entity.EntityChoreFishHook;
 import mca.entity.EntityHuman;
 import mca.tile.TileTombstone;
 import net.minecraft.client.renderer.entity.RenderHorse;
@@ -19,6 +21,7 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityHuman.class, new RenderHuman());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileTombstone.class, new RenderTombstone());
 		RenderingRegistry.registerEntityRenderingHandler(EntityHorse.class, new RenderHorse(new ModelHorseExtension(), 0.5F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityChoreFishHook.class, new RenderFishHook());
 	}
 
 	@Override

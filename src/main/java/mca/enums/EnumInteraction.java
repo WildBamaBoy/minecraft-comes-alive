@@ -48,6 +48,8 @@ public enum EnumInteraction
 	MINING_MODE(502, "miningmode"),
 	MINING_TARGET(503, "miningtarget"),
 	
+	FISHING(551, "fishing"),
+	
 	COOKING(601, "cooking"),
 	
 	COMBAT(701, "combat"),
