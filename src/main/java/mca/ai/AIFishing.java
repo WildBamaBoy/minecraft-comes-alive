@@ -46,7 +46,6 @@ public class AIFishing extends AbstractToggleAI
 	{
 		this.assigningPlayer = player != null ? player.getUniqueID().toString() : "none";
 		this.setIsActive(true);
-		owner.setHeldItem(owner.getVillagerInventory().getStackInSlot(owner.getVillagerInventory().getFirstSlotContainingItem(Items.fishing_rod)).getItem());
 	}
 
 	@Override
@@ -301,6 +300,8 @@ public class AIFishing extends AbstractToggleAI
 			reset();
 			return;
 		}
+		
+		owner.setHeldItem(owner.getVillagerInventory().getStackInSlot(owner.getVillagerInventory().getFirstSlotContainingItem(Items.fishing_rod)).getItem());
 	}
 
 	private int getFishCatchChance()
