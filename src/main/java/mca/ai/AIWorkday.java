@@ -51,7 +51,8 @@ public class AIWorkday extends AbstractAI
 		//Prevent the workday while we're down for sleep or doing something with the player.
 		if (owner.getMovementState() == EnumMovementState.STAY 
 				|| owner.getMovementState() == EnumMovementState.FOLLOW 
-				|| owner.getAI(AISleep.class).getIsSleeping())
+				|| owner.getAI(AISleep.class).getIsSleeping()
+				|| owner.getAIManager().isToggleAIActive())
 		{
 			//Allow looking at the player while staying.
 			if (owner.getMovementState() == EnumMovementState.STAY)

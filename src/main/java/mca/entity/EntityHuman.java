@@ -12,6 +12,7 @@ import mca.ai.AICooking;
 import mca.ai.AIDefend;
 import mca.ai.AIEat;
 import mca.ai.AIFarming;
+import mca.ai.AIFishing;
 import mca.ai.AIFollow;
 import mca.ai.AIGreet;
 import mca.ai.AIGrow;
@@ -57,12 +58,7 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIMoveIndoors;
 import net.minecraft.entity.ai.EntityAIOpenDoor;
 import net.minecraft.entity.ai.EntityAIRestrictOpenDoor;
-import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITasks;
-import net.minecraft.entity.ai.EntityAITradePlayer;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.ai.EntityAIWatchClosest2;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -80,6 +76,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
@@ -89,7 +86,6 @@ import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.constant.Font.Color;
-import radixcore.constant.Particle;
 import radixcore.data.DataWatcherEx;
 import radixcore.data.IPermanent;
 import radixcore.data.IWatchable;
@@ -98,6 +94,7 @@ import radixcore.data.WatchedFloat;
 import radixcore.data.WatchedInt;
 import radixcore.data.WatchedString;
 import radixcore.inventory.Inventory;
+import radixcore.math.Point3D;
 import radixcore.network.ByteBufIO;
 import radixcore.util.RadixLogic;
 
@@ -201,6 +198,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		aiManager.addAI(new AIHunting(this));
 		aiManager.addAI(new AICooking(this));
 		aiManager.addAI(new AIFarming(this));
+		aiManager.addAI(new AIFishing(this));
 		aiManager.addAI(new AIDefend(this));
 		aiManager.addAI(new AIWorkday(this));
 		
@@ -1524,11 +1522,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	@Override
 	public String getName() 
 	{
-<<<<<<< HEAD
-		return name.getString();
-=======
 		return name.getString() + " the " + getProfessionEnum().getUserFriendlyForm(this);
->>>>>>> ee518b3... Feature: Children are properly titled as "the Child", and adults with no profession are titled as "the Villager"
 	}
 
 	private MerchantRecipeList getBuyingList()
@@ -1698,4 +1692,34 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			return false;
 		}
 	}
+	
+	public void facePosition(Point3D position)
+	{
+		double midX = position.dPosX - this.posX;
+        double midZ = position.dPosZ - this.posZ;
+        double d1 = 0;
+
+        double d3 = (double)MathHelper.sqrt_double(midX * midX + midZ * midZ);
+        float f2 = (float)(Math.atan2(midZ, midX) * 180.0D / Math.PI) - 90.0F;
+        float f3 = (float)(-(Math.atan2(d1, d3) * 180.0D / Math.PI));
+        this.rotationPitch = this.updateRotation(this.rotationPitch, f3, 16.0F);
+        this.rotationYaw = this.updateRotation(this.rotationYaw, f2, 16.0F);
+	}
+	
+    private float updateRotation(float p_70663_1_, float p_70663_2_, float p_70663_3_)
+    {
+        float f3 = MathHelper.wrapAngleTo180_float(p_70663_2_ - p_70663_1_);
+
+        if (f3 > p_70663_3_)
+        {
+            f3 = p_70663_3_;
+        }
+
+        if (f3 < -p_70663_3_)
+        {
+            f3 = -p_70663_3_;
+        }
+
+        return p_70663_1_ + f3;
+    }
 }

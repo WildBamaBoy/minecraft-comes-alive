@@ -717,6 +717,10 @@ hunting.badspot=I can't find a good hunting spot.
 sleep.nohome=I don't have a home point\!
 sleep.invalid=My home point is invalid\!
 
+fishing.norod=I don't have a fishing rod!
+fishing.nowater=I don't see any water nearby...
+fishing.finished=I've finished fishing.
+
 #################
 # Parser
 ################################
@@ -762,6 +766,7 @@ gui.button.hunting=Hunting
 gui.button.kill=Kill
 gui.button.tame=Tame
 gui.button.cooking=Cooking
+gui.button.fishing=Fishing
 gui.button.mode=Mode\: %a1%
 gui.button.start=Start
 gui.button.stop=Stop

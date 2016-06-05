@@ -18,6 +18,7 @@ import mca.api.exception.MappingNotFoundException;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import radixcore.util.RadixMath;
 
 /**
  * <p>The main registry used by MCA to manage what items will be used 
@@ -37,6 +38,7 @@ public final class RegistryMCA
 	private static final Map<Integer, MiningEntry> miningEntryMap = new HashMap<Integer, MiningEntry>();
 	private static final Map<Integer, WoodcuttingEntry> woodcuttingBlockMap = new HashMap<Integer, WoodcuttingEntry>();
 	private static final Map<Integer, CropEntry> cropEntryMap = new HashMap<Integer, CropEntry>();
+	private static final Map<Integer, FishingEntry> fishingEntryMap = new HashMap<Integer, FishingEntry>();
 	private static final List<Class> huntingKillableEntities = new ArrayList<Class>();
 	private static final List<Class> huntingTameableEntities = new ArrayList<Class>();
 	private static final List<CookableFood> cookableFood = new ArrayList<CookableFood>();
@@ -68,6 +70,20 @@ public final class RegistryMCA
 		}
 	}
 
+	/**
+	 * Adds the provided fishing entry to the fishing AI if it is
+	 * not already added.
+	 * 
+	 * Throws an exception if the entry or ID is already registered.
+	 * 
+	 * @param 	id		A unique ID for the FishingEntry.
+	 * @param 	entry 	A unique FishingEntry.
+	 */
+	public static void addFishingEntryToFishingAI(int id, FishingEntry entry)
+	{
+		putIfNotDuplicate(fishingEntryMap, id, entry);
+	}
+	
 	/**
 	 * Adds the provided crop entry to the farming AI if it is
 	 * not already added.
@@ -294,6 +310,38 @@ public final class RegistryMCA
 		return returnList;
 	}
 
+	public static FishingEntry getRandomFishingEntry()
+	{
+		return fishingEntryMap.get(RadixMath.getNumberInRange(0, fishingEntryMap.size() - 1));
+	}
+	
+	public static FishingEntry getFishingEntryById(int id) throws MappingNotFoundException
+	{
+		final FishingEntry entry = fishingEntryMap.get(id);	
+
+		if (entry != null)
+		{
+			return entry;
+		}
+
+		else
+		{
+			throw new MappingNotFoundException();
+		}
+	}
+
+	public static List<Integer> getFishingEntryIDs() 
+	{
+		List<Integer> returnList = new ArrayList<Integer>();
+
+		for (Map.Entry<Integer, CropEntry> entry : cropEntryMap.entrySet())
+		{
+			returnList.add(entry.getKey());
+		}
+
+		return returnList;
+	}
+	
 	public static void addWeddingGift(WeddingGift gift, EnumGiftCategory category)
 	{
 		switch (category)

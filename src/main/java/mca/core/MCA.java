@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import mca.api.CookableFood;
 import mca.api.CropEntry;
+import mca.api.FishingEntry;
 import mca.api.MiningEntry;
 import mca.api.RegistryMCA;
 import mca.api.WeddingGift;
@@ -25,6 +26,7 @@ import mca.core.minecraft.ModItems;
 import mca.core.radix.CrashWatcher;
 import mca.core.radix.LanguageParser;
 import mca.data.PlayerData;
+import mca.entity.EntityChoreFishHook;
 import mca.entity.EntityHuman;
 import mca.enums.EnumCut;
 import mca.enums.EnumProfession;
@@ -45,6 +47,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemFishFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
@@ -170,7 +173,8 @@ public class MCA
 
 		//Entity registry
 		EntityRegistry.registerModEntity(EntityHuman.class, EntityHuman.class.getSimpleName(), config.baseEntityId, this, 50, 2, true);
-
+		EntityRegistry.registerModEntity(EntityChoreFishHook.class, EntityChoreFishHook.class.getSimpleName(), config.baseEntityId + 1, this, 50, 2, true);
+		
 		//Tile registry
 		GameRegistry.registerTileEntity(TileVillagerBed.class, TileVillagerBed.class.getSimpleName());
 		GameRegistry.registerTileEntity(TileTombstone.class, TileTombstone.class.getSimpleName());
@@ -452,6 +456,12 @@ public class MCA
 		RegistryMCA.addObjectAsGift(ModItems.diamondTriangle, 50);
 		RegistryMCA.addObjectAsGift(ModItems.diamondTiny, 50);
 
+		RegistryMCA.addFishingEntryToFishingAI(0, new FishingEntry(Items.fish));
+		RegistryMCA.addFishingEntryToFishingAI(1, new FishingEntry(Items.fish, ItemFishFood.FishType.CLOWNFISH.getMetadata()));
+		RegistryMCA.addFishingEntryToFishingAI(2, new FishingEntry(Items.fish, ItemFishFood.FishType.COD.getMetadata()));
+		RegistryMCA.addFishingEntryToFishingAI(3, new FishingEntry(Items.fish, ItemFishFood.FishType.PUFFERFISH.getMetadata()));
+		RegistryMCA.addFishingEntryToFishingAI(4, new FishingEntry(Items.fish, ItemFishFood.FishType.SALMON.getMetadata()));
+		
 		if (getConfig().additionalGiftItems.length > 0)
 		{
 			for (String entry : getConfig().additionalGiftItems)

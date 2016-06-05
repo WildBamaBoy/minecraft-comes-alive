@@ -6,6 +6,7 @@ import java.util.List;
 import io.netty.buffer.ByteBuf;
 import mca.ai.AICooking;
 import mca.ai.AIFarming;
+import mca.ai.AIFishing;
 import mca.ai.AIHunting;
 import mca.ai.AIMining;
 import mca.ai.AIWoodcutting;
@@ -157,6 +158,10 @@ public class PacketToggleAI extends AbstractPacket implements IMessage, IMessage
 			
 		case COOKING: 
 			human.getAI(AICooking.class).startCooking(player);
+			break;
+			
+		case FISHING:
+			human.getAI(AIFishing.class).startFishing(player);
 			break;
 		}
 	}

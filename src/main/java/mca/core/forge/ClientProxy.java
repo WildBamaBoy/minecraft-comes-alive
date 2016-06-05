@@ -1,10 +1,12 @@
 package mca.core.forge;
 
 import mca.client.model.ModelHorseExtension;
+import mca.client.render.RenderFishHook;
 import mca.client.render.RenderHuman;
 import mca.client.render.RenderTombstone;
 import mca.core.minecraft.ModBlocks;
 import mca.core.minecraft.ModItems;
+import mca.entity.EntityChoreFishHook;
 import mca.entity.EntityHuman;
 import mca.tile.TileTombstone;
 import net.minecraft.client.Minecraft;
