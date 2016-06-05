@@ -28,6 +28,7 @@ public final class Config implements Serializable
 	public boolean enableInfection;
 	public boolean enableStructureSpawning;
 	public boolean serverEnableStructureSpawning;
+	public boolean allowVillagerRevival;
 	public Integer[] dimensionWhitelist;
 	public String[] additionalGiftItems;
 	public int guardSpawnRate;
@@ -184,6 +185,7 @@ public final class Config implements Serializable
 		logVillagerDeaths = config.get("Server", "Log villager deaths", false, "True if you want villager deaths to be logged to the console/server logs. Shows 'RMFS' values in console, R = related, M = mother, F = father, S = spouse. Can be a bit spammy!").getBoolean();
 		villagerChatPrefix = config.get("Server", "Villager chat prefix", "").getDefault();
 		serverEnableStructureSpawning = config.get("Server", "Enable structure spawning on server?", false, "True if players can have the option to spawn structures during MCA's setup on a server. WARNING: POTENTIAL FOR GRIEFING IS VERY HIGH - YOU HAVE BEEN WARNED").getBoolean();
+		allowVillagerRevival = config.get("Server", "Allow dead villagers to be revived?", true, "True if players can have the ability to revive villagers they are related to. Creates a file in [world name]/data/ that could become very large on big servers.").getBoolean();
 		
 		//Additional gifts.
 		additionalGiftItems = config.get("Server", "Additional gifts", new String[]{"#<EXAMPLE> fermented_spider_eye|25", "#<EXAMPLE> poisonous_potato|12"}, "The names of the items/blocks that can be gifted in addition to the default items. Include hearts value preceded by |. 10 hearts points equals 1 heart.").getStringList();

@@ -48,7 +48,7 @@ public class PacketRequestRelatedVillagers extends AbstractPacket implements IMe
 				
 				if (human.isPlayerAParent(sender) || human.getPlayerSpouse() == sender)
 				{
-					dataList.add(VillagerSaveData.fromVillager(human, sender));
+					dataList.add(VillagerSaveData.fromVillager(human, sender, null));
 				}
 			}
 		}
