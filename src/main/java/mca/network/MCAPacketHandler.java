@@ -1,6 +1,7 @@
 package mca.network;
 
 import mca.packets.PacketBabyName;
+import mca.packets.PacketCallVillager;
 import mca.packets.PacketDestinyChoice;
 import mca.packets.PacketGift;
 import mca.packets.PacketInteract;
@@ -9,6 +10,8 @@ import mca.packets.PacketInteractWithPlayerS;
 import mca.packets.PacketOpenBabyNameGUI;
 import mca.packets.PacketOpenGUIOnEntity;
 import mca.packets.PacketOpenPrompt;
+import mca.packets.PacketRelatedVillagers;
+import mca.packets.PacketRequestRelatedVillagers;
 import mca.packets.PacketSetSize;
 import mca.packets.PacketSetTutorialMessage;
 import mca.packets.PacketSyncConfig;
@@ -43,5 +46,8 @@ public class MCAPacketHandler extends AbstractPacketHandler
 		this.registerPacket(PacketOpenPrompt.class, Side.CLIENT);
 		this.registerPacket(PacketSyncConfig.class, Side.CLIENT);
 		this.registerPacket(PacketSetSize.class, Side.CLIENT);
+		this.registerPacket(PacketRequestRelatedVillagers.class, Side.SERVER);
+		this.registerPacket(PacketRelatedVillagers.class, Side.CLIENT);
+		this.registerPacket(PacketCallVillager.class, Side.SERVER);
 	}
 }
