@@ -70,6 +70,8 @@ public class GuiInteraction extends GuiScreen
 	private boolean displayGiftInfo;
 	private boolean inGiftMode;
 
+	private int timeSinceLastClick;
+	
 	/*
 	 * Fields used for AI controls.
 	 */
@@ -148,6 +150,15 @@ public class GuiInteraction extends GuiScreen
 	public boolean doesGuiPauseGame() 
 	{
 		return false;
+	}
+
+	@Override
+	public void updateScreen() 
+	{
+		if (timeSinceLastClick < 100)
+		{
+			timeSinceLastClick++;
+		}
 	}
 
 	@Override
@@ -428,6 +439,12 @@ public class GuiInteraction extends GuiScreen
 
 	protected void actionPerformed(GuiButton button)
 	{
+		if (timeSinceLastClick <= 2) //Prevent click-throughs caused by Mojang's button system.
+		{
+			return;
+		}
+		
+		timeSinceLastClick = 0;
 		EnumInteraction interaction = EnumInteraction.fromId(button.id);
 		villager.getAI(AIIdle.class).reset();
 
