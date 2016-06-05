@@ -2,15 +2,16 @@ package mca.packets;
 
 import java.util.List;
 
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import mca.client.gui.GuiWhistle;
+import mca.core.MCA;
 import mca.data.VillagerSaveData;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.network.ByteBufIO;
 import radixcore.packets.AbstractPacket;
 
@@ -44,12 +45,19 @@ public class PacketRelatedVillagers extends AbstractPacket implements IMessage, 
 	@Override
 	public IMessage onMessage(PacketRelatedVillagers packet, MessageContext context)
 	{
+		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
+		return null;
+	}
+
+	@Override
+	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	{
+		PacketRelatedVillagers packet = (PacketRelatedVillagers)message;
+		
 		if (Minecraft.getMinecraft().currentScreen instanceof GuiWhistle)
 		{
 			GuiWhistle gui = (GuiWhistle)Minecraft.getMinecraft().currentScreen;
 			gui.setVillagerDataList(packet.dataList);
 		}
-		
-		return null;
 	}
 }

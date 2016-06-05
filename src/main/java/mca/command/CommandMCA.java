@@ -1,12 +1,14 @@
 package mca.command;
 
 import java.util.Arrays;
+import java.util.UUID;
 
-import mca.ai.AIGreet;
 import mca.ai.AIProgressStory;
 import mca.core.MCA;
+import mca.data.RevivableVillagerManager;
 import mca.data.PlayerData;
 import mca.data.PlayerMemory;
+import mca.data.VillagerSaveData;
 import mca.entity.EntityHuman;
 import mca.items.ItemBaby;
 import mca.util.MarriageHandler;
@@ -356,6 +358,30 @@ public class CommandMCA extends CommandBase
 				}
 			}
 
+			else if (subcommand.equalsIgnoreCase("revive"))
+			{
+				String uuid = arguments[0];
+				
+				VillagerSaveData data = RevivableVillagerManager.get().getVillagerSaveDataByUUID(UUID.fromString(uuid));
+				
+				if (data == null)
+				{
+					addChatMessage(commandSender, Color.RED + "Revivable villager with uuid {" + uuid + "} could not be found. ");
+				}
+				
+				else
+				{
+					EntityHuman human = new EntityHuman(player.worldObj);
+					human = data.applyToHuman(human);
+					
+					RevivableVillagerManager.get().removeVillagerData(UUID.fromString(uuid));
+					human.setPosition(player.posX, player.posY, player.posZ);
+					human.worldObj.spawnEntityInWorld(human);
+					
+					addChatMessage(commandSender, Color.GREEN + "Revived villager with uuid {" + uuid + "}.");
+				}
+			}
+			
 			else
 			{
 				throw new WrongUsageException("");
@@ -416,6 +442,7 @@ public class CommandMCA extends CommandBase
 		addChatMessage(commandSender, Color.WHITE + " /mca rb <username> " + Color.GOLD + " - Reset <username>'s baby.", true);
 		addChatMessage(commandSender, Color.WHITE + " /mca rh <username> " + Color.GOLD + " - Reset <username>'s hearts.", true);
 		addChatMessage(commandSender, Color.WHITE + " /mca rr <username> " + Color.GOLD + " - Completely reset <username>.", true);
+		addChatMessage(commandSender, Color.WHITE + " /mca revive <uuid> " + Color.GOLD + " - Revive a dead villager.", true);
 		addChatMessage(commandSender, Color.WHITE + " /mca sudo <username> " + Color.GOLD + " - Toggle <username> as a superuser.", true);
 		addChatMessage(commandSender, Color.WHITE + " /mca sudo ? <username> " + Color.GOLD + " - Get if <username> is a superuser.", true);
 

@@ -2,13 +2,13 @@ package mca.packets;
 
 import java.util.UUID;
 
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
-import mca.data.VillagerSaveData;
+import mca.core.MCA;
 import mca.entity.EntityHuman;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import radixcore.packets.AbstractPacket;
 
 public class PacketCallVillager extends AbstractPacket implements IMessage, IMessageHandler<PacketCallVillager, IMessage>
@@ -50,6 +50,14 @@ public class PacketCallVillager extends AbstractPacket implements IMessage, IMes
 	@Override
 	public IMessage onMessage(PacketCallVillager packet, MessageContext context)
 	{
+		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);		
+		return null;
+	}
+
+	@Override
+	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	{
+		PacketCallVillager packet = (PacketCallVillager)message;
 		EntityPlayer sender = this.getPlayer(context);
 		
 		if (packet.callAllRelated)
@@ -91,7 +99,5 @@ public class PacketCallVillager extends AbstractPacket implements IMessage, IMes
 				human.setPositionAndUpdate(sender.posX, sender.posY, sender.posZ);
 			}
 		}
-		
-		return null;
 	}
 }

@@ -3,6 +3,7 @@ package mca.entity;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 import io.netty.buffer.ByteBuf;
 import mca.ai.AIBlink;
@@ -33,6 +34,7 @@ import mca.ai.AbstractAI;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.ModItems;
+import mca.data.RevivableVillagerManager;
 import mca.data.PlayerData;
 import mca.data.PlayerMemory;
 import mca.data.PlayerMemoryHandler;
@@ -591,12 +593,13 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 			if (isMarriedToAPlayer())
 			{
+				UUID ownerUUID = null;
 				EntityPlayer playerPartner = getPlayerSpouse();
 
 				if (playerPartner != null)
 				{
-					PlayerData data = MCA.getPlayerData(playerPartner);
-					playerPartner.addChatMessage(new ChatComponentText(Color.RED + name.getString() + " has died from " + damageSource.damageType));
+					playerPartner.addChatMessage(new ChatComponentText(Color.RED + getTitle(playerPartner) + " has died."));
+					ownerUUID = playerPartner.getPersistentID();
 					MarriageHandler.forceEndMarriage(playerPartner);
 				}
 
@@ -607,10 +610,18 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 						if (memory.getPermanentId() == this.spouseId.getInt())
 						{
 							PlayerData data = MCA.getPlayerData(memory.getUUID());
+							ownerUUID = UUID.fromString(memory.getUUID());
+							
 							MarriageHandler.forceEndMarriage(data);
 							break;
 						}
 					}
+				}
+				
+				//Once the owner UUID is found, save the villager and its owner to file.
+				if (ownerUUID != null && MCA.getConfig().allowVillagerRevival) //Handle cases where the player may not be found at all.
+				{
+					RevivableVillagerManager.get().addVillagerData(this, ownerUUID);
 				}
 			}
 
@@ -624,6 +635,29 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 				}
 			}
 
+			//Find and alert parents of the death.
+			for (PlayerMemory memory : playerMemories.values())
+			{
+				boolean madeRevivable = false;
+				
+				if (isPlayerAParent(memory.getUUID()))
+				{
+					EntityPlayer playerParent = worldObj.getPlayerEntityByUUID(UUID.fromString(memory.getUUID()));
+					
+					if (playerParent != null)
+					{
+						playerParent.addChatMessage(new ChatComponentText(Color.RED + getTitle(playerParent) + " has died."));
+					}
+					
+					if (!madeRevivable) //Only assign one owner to the villager to prevent duplicates
+					{
+						RevivableVillagerManager.get().addVillagerData(this, UUID.fromString(memory.getUUID()));
+						madeRevivable = true;
+					}
+				}
+			}
+			
+			//Decrease mood of nearby villagers.
 			for (Entity entity : RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, this, 20))
 			{
 				if (entity instanceof EntityHuman)
@@ -641,6 +675,29 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 				if (stack != null)
 				{
 					entityDropItem(stack, 1.0F);
+				}
+			}
+			
+			//Log the death to the server log if needed.
+			if (MCA.getConfig().logVillagerDeaths)
+			{
+				if (killingPlayer != null && !killingPlayer.getName().contains("[CoFH]"))
+				{
+					final PlayerData killerData = MCA.getPlayerData(killingPlayer);
+					boolean related = isPlayerAParent(killingPlayer) || getSpouseId() == killerData.getPermanentId();
+					MCA.getLog().info("Villager '" + name.getString() + "(" + getProfessionEnum().toString() + ")' was killed by player " + source + "." + 
+							" R:" + related + 
+							" M:" + this.getMotherName() + 
+							" F:" + this.getFatherName() + 
+							" S:" + this.getSpouseName());
+				}
+
+				else
+				{
+					EntityPlayer nearestPlayer = worldObj.getClosestPlayerToEntity(this, 25.0D);
+					String nearestPlayerString = nearestPlayer != null ? nearestPlayer.getName() : "None";
+
+					MCA.getLog().info("Villager '" + name.getString() + "(" + getProfessionEnum().toString() + ")' was killed by " + source + ". Nearest player: " + nearestPlayerString);
 				}
 			}
 		}
@@ -1394,6 +1451,21 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			return false;
 		}
 	}
+	
+	public boolean isPlayerAParent(String uuid)
+	{
+		final PlayerData data = MCA.getPlayerData(uuid);
+
+		if (data != null)
+		{
+			return getMotherId() == data.getPermanentId() || getFatherId() == data.getPermanentId();
+		}
+
+		else
+		{
+			return false;
+		}
+	}
 
 	public boolean allowControllingInteractions(EntityPlayer player)
 	{
@@ -1515,6 +1587,21 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public void setPersonality(int personalityId) 
 	{
 		this.personalityId.setValue(personalityId);
+	}
+
+	public void setParentNames(String parentNames) 
+	{
+		this.parentNames.setValue(parentNames);
+	}
+
+	public void setParentIDs(String parentIDs) 
+	{
+		this.parentIDs.setValue(parentIDs);
+	}
+
+	public void setParentsGenders(String parentsGenders) 
+	{
+		this.parentsGenders.setValue(parentsGenders);
 	}
 
 	@Override

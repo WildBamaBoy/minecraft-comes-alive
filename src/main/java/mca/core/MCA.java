@@ -26,6 +26,7 @@ import mca.core.minecraft.ModItems;
 import mca.core.radix.CrashWatcher;
 import mca.core.radix.LanguageParser;
 import mca.data.PlayerData;
+import mca.data.RevivableVillagerManager;
 import mca.entity.EntityChoreFishHook;
 import mca.entity.EntityHuman;
 import mca.enums.EnumCut;
@@ -54,7 +55,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -63,6 +63,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -625,6 +626,13 @@ public class MCA
 	}
 
 	@EventHandler
+	public void serverStarted(FMLServerStartedEvent event)
+	{
+		//Cause data to be read from NBT immediately after server starting.
+		RevivableVillagerManager.get();
+	}
+	
+	@EventHandler
 	public void serverStopping(FMLServerStoppingEvent event)
 	{
 		for (AbstractPlayerData data : playerDataMap.values())
@@ -646,6 +654,7 @@ public class MCA
 		}
 
 		MCA.playerDataMap.clear();
+		RevivableVillagerManager.get().clearVillagerData();
 	}
 
 	public static MCA getInstance()

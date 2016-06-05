@@ -3,17 +3,17 @@ package mca.packets;
 import java.util.ArrayList;
 import java.util.List;
 
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
 import mca.data.VillagerSaveData;
 import mca.entity.EntityHuman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.packets.AbstractPacket;
 
 public class PacketRequestRelatedVillagers extends AbstractPacket implements IMessage, IMessageHandler<PacketRequestRelatedVillagers, IMessage>
@@ -37,6 +37,13 @@ public class PacketRequestRelatedVillagers extends AbstractPacket implements IMe
 	@Override
 	public IMessage onMessage(PacketRequestRelatedVillagers packet, MessageContext context)
 	{
+		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
+		return null;
+	}
+
+	@Override
+	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	{
 		EntityPlayer sender = this.getPlayer(context);
 		List<VillagerSaveData> dataList = new ArrayList<VillagerSaveData>();
 		
@@ -48,12 +55,11 @@ public class PacketRequestRelatedVillagers extends AbstractPacket implements IMe
 				
 				if (human.isPlayerAParent(sender) || human.getPlayerSpouse() == sender)
 				{
-					dataList.add(VillagerSaveData.fromVillager(human, sender));
+					dataList.add(VillagerSaveData.fromVillager(human, sender, null));
 				}
 			}
 		}
 		
 		MCA.getPacketHandler().sendPacketToPlayer(new PacketRelatedVillagers(dataList), (EntityPlayerMP) sender);
-		return null;
 	}
 }

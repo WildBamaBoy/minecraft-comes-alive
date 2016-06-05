@@ -6,8 +6,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import mca.core.MCA;
 import mca.data.VillagerSaveData;
 import mca.entity.EntityHuman;
@@ -20,6 +18,8 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.data.DataWatcherEx;
 
 /**
@@ -195,10 +195,10 @@ public class GuiWhistle extends GuiScreen
 		dummyHuman.rotationPitch = -((float) Math.atan(0F / 40.0F)) * 20.0F;
 		dummyHuman.rotationYawHead = dummyHuman.rotationYaw;
 
-		GL11.glTranslatef(0.0F, dummyHuman.yOffset, 0.0F);
+		GL11.glTranslatef(0.0F, dummyHuman.getEyeHeight(), 0.0F);
 
-		RenderManager.instance.playerViewY = 180.0F;
-		RenderManager.instance.renderEntityWithPosYaw(dummyHuman, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
+		Minecraft.getMinecraft().getRenderManager().playerViewY = 180.0F;
+		Minecraft.getMinecraft().getRenderManager().renderEntityWithPosYaw(dummyHuman, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
 
 		dummyHuman.renderYawOffset = yawOffset;
 		dummyHuman.rotationYaw = rotationYaw;
