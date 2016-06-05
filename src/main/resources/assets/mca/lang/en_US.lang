@@ -815,6 +815,7 @@ interaction.give.invalid5=Huh? What is this thing?
 
 interaction.divorce.priest.success1=Very well. You are hereby no longer married.
 interaction.divorce.priest.success2=As you wish. May you find love elsewhere.
+interaction.divorce.priest.fail.notmarried=You are not married to anyone.
 
 interaction.divorce.notmarried1=I am not married to anyone.
 interaction.divorce.notmarried2=What do I need divorce papers for? I am not married.
