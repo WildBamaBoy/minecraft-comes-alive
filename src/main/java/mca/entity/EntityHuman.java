@@ -888,6 +888,11 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		return playerMemories.containsKey(player.getCommandSenderName());
 	}
 
+	public Map<String, PlayerMemory> getAllPlayerMemories()
+	{
+		return playerMemories;
+	}
+	
 	public void setMarriedTo(Entity entity) 
 	{
 		if (entity instanceof EntityHuman) //Human marrying another human
@@ -1649,6 +1654,21 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			return false;
 		}
+	}
+	
+	public String getParentIds() 
+	{
+		return parentIDs.getString();
+	}
+
+	public String getParentsGenders() 
+	{
+		return parentsGenders.getString();
+	}
+
+	public void setDoDisplay(boolean value)
+	{
+		this.doDisplay.setValue(value);
 	}
 	
 	public void facePosition(Point3D position)

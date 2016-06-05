@@ -635,6 +635,8 @@ gui.button.exit=Exit
 gui.button.back=Back
 gui.button.adoptbaby=Adopt Baby
 gui.button.next=Next
+gui.button.call=Call
+gui.button.callall=Call All
 
 ################
 # Relations
@@ -787,6 +789,7 @@ gui.title.namebaby.female=It's a girl\!
 gui.title.namebaby=Name your baby\:
 gui.title.tombstone=Enter tombstone text\:
 gui.title.editor=Villager Editor
+gui.title.whistle=Call Family Member
 
 gui.info.family.married=Married to %a1%.
 gui.info.family.engaged=Engaged to %a1%.
