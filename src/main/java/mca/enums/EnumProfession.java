@@ -25,7 +25,8 @@ public enum EnumProfession
 	Archer(13, EnumProfessionGroup.Guard),
 	Miner(14, EnumProfessionGroup.Miner),
 	Mason(15, EnumProfessionGroup.Miner),
-	Child(16, EnumProfessionGroup.Child);
+	Child(16, EnumProfessionGroup.Child),
+	Warrior(17, EnumProfessionGroup.Warrior);
 
 	private int id;
 	private EnumProfessionGroup skinGroup;
@@ -169,6 +170,8 @@ public enum EnumProfession
 			return "profession.baker";
 		case Child:
 			return "profession.child";
+		case Warrior:
+			return "profession.warrior";
 		}
 
 		return "";
