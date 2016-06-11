@@ -30,6 +30,39 @@ public class Utilities
 	{
 		return (rand.nextGaussian() * standardDeviation) + mean;
 	}
+
+	public static void spawnParticlesAroundPointS(EnumParticleTypes type, World world, double posX, double posY, double posZ, int rate)
+	{
+		final Random rand = world.rand;
+
+		for (int i = 0; i < rate; i++)
+		{
+			final float parX = (float) (posX + rand.nextFloat() * 1 * 2.0F - 1);
+			final float parY = (float) (posY + 0.5D + rand.nextFloat() * 1);
+			final float parZ = (float) (posZ + rand.nextFloat() * 1 * 2.0F - 1);
+
+			final float velX = (float) (rand.nextGaussian() * 0.02D);
+			final float velY = (float) (rand.nextGaussian() * 0.02D);
+			final float velZ = (float) (rand.nextGaussian() * 0.02D);
+
+			S2APacketParticles packet = new S2APacketParticles(type, true, parX, parY, parZ, velX, velY, velZ, 0.0F, 0);
+
+			for (int j = 0; j < world.playerEntities.size(); ++j)
+			{
+				EntityPlayerMP entityPlayerMP = (EntityPlayerMP)world.playerEntities.get(j);
+				ChunkCoordIntPair chunkCoordinates = new ChunkCoordIntPair(entityPlayerMP.chunkCoordX, entityPlayerMP.chunkCoordZ);
+				double deltaX = posX - chunkCoordinates.chunkXPos;
+				double deltaY = posY - entityPlayerMP.chunkCoordY;
+				double deltaZ = posZ - chunkCoordinates.chunkZPos;
+				double distanceSq = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+
+				if (distanceSq <= 256.0D)
+				{
+					entityPlayerMP.playerNetServerHandler.sendPacket(packet);
+				}
+			}
+		}
+	}
 	
 	public static void spawnParticlesAroundEntityS(EnumParticleTypes type, Entity entityOrigin, int rate)
 	{

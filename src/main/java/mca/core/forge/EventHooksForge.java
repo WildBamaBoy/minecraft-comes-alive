@@ -13,6 +13,7 @@ import mca.enums.EnumCombatBehaviors;
 import mca.enums.EnumProfession;
 import mca.items.ItemBaby;
 import mca.packets.PacketInteractWithPlayerC;
+import mca.packets.PacketPlaySoundOnPlayer;
 import mca.util.TutorialManager;
 import mca.util.Utilities;
 import net.minecraft.entity.Entity;
@@ -31,6 +32,7 @@ import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumParticleTypes;
@@ -40,10 +42,15 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Font.Format;
+import radixcore.constant.Particle;
+import radixcore.math.Point3D;
+import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
 
 public class EventHooksForge 
@@ -341,6 +348,45 @@ public class EventHooksForge
 			if (target.getIsInfected())
 			{
 				mob.setAttackTarget(null);
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onPlaceEvent(PlaceEvent event) //Check for grim reaper summoning totem.
+	{
+		if (BlockHelper.getBlock(event.world, event.pos.getX(), event.pos.getY(), event.pos.getZ()) == Blocks.obsidian)
+		{
+			int topY = 0;
+			boolean summonReaper = false;
+			
+			if (BlockHelper.getBlock(event.world, event.pos.getX(), event.pos.getY() - 1, event.pos.getZ()) == Blocks.emerald_block)
+			{
+				summonReaper = BlockHelper.getBlock(event.world, event.pos.getX(), event.pos.getY() - 2, event.pos.getZ()) == Blocks.obsidian;
+				topY = event.pos.getY();
+			}
+			
+			else if (BlockHelper.getBlock(event.world, event.pos.getX(), event.pos.getY() + 1, event.pos.getZ()) == Blocks.emerald_block)
+			{
+				summonReaper = BlockHelper.getBlock(event.world, event.pos.getX(), event.pos.getY() + 2, event.pos.getZ()) == Blocks.obsidian;
+				topY = event.pos.getY() + 2;
+			}
+			
+			summonReaper = summonReaper && !event.world.isDaytime();
+			
+			if (summonReaper)
+			{
+				Point3D summonPoint = new Point3D(event.pos.getX(), topY + 5, event.pos.getZ());
+				NetworkRegistry.TargetPoint summonTarget = new NetworkRegistry.TargetPoint(event.world.provider.getDimensionId(), summonPoint.iPosX, summonPoint.iPosY, summonPoint.iPosZ, 32);
+
+				EventHooksFML.setReaperSummonPoint(event.world, new Point3D(event.pos.getX(), topY + 5, event.pos.getZ()));
+				MCA.getPacketHandler().sendPacketToAllAround(new PacketPlaySoundOnPlayer("portal.portal"), summonTarget);
+				
+				for (int i = 0; i < 3; i++)
+				{
+					Utilities.spawnParticlesAroundPointS(EnumParticleTypes.FLAME, event.world, event.pos.getX(), topY - i, event.pos.getZ(), 32);
+					BlockHelper.setBlock(event.world, event.pos.getX(), topY - i, event.pos.getZ(), Blocks.air);
+				}
 			}
 		}
 	}

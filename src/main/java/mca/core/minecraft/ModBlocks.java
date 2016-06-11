@@ -1,5 +1,6 @@
 package mca.core.minecraft;
 
+import mca.blocks.BlockMemorial;
 import mca.blocks.BlockTombstone;
 import mca.blocks.BlockVillagerBed;
 import mca.blocks.BlockVillagerSpawner;
@@ -26,9 +27,12 @@ public final class ModBlocks
 	public static Block roseGoldOre;
 	public static BlockTombstone tombstone;
 	public static BlockVillagerSpawner spawner;
+	public static BlockMemorial memorial;
 	
 	public ModBlocks()
 	{
+		memorial = new BlockMemorial();
+		
 		bedRed = new BlockVillagerBed(EnumBedColor.RED);
 		bedBlue = new BlockVillagerBed(EnumBedColor.BLUE);
 		bedGreen = new BlockVillagerBed(EnumBedColor.GREEN);
@@ -58,5 +62,6 @@ public final class ModBlocks
 		mesher.register(Item.getItemFromBlock(roseGoldBlock), 0, new ModelResourceLocation("mca:RoseGoldBlock", "inventory"));
 		mesher.register(Item.getItemFromBlock(roseGoldOre), 0, new ModelResourceLocation("mca:RoseGoldOre", "inventory"));
 		mesher.register(Item.getItemFromBlock(spawner), 0, new ModelResourceLocation("mca:VillagerSpawner", "inventory"));
+
 	}
 }

@@ -4,11 +4,15 @@ import java.lang.reflect.Field;
 
 import mca.core.MCA;
 import mca.enums.EnumBedColor;
+import mca.enums.EnumMemorialType;
 import mca.items.ItemBaby;
 import mca.items.ItemCrystalBall;
 import mca.items.ItemGemCutter;
+import mca.items.ItemMemorial;
 import mca.items.ItemNewOutfit;
 import mca.items.ItemSpawnEgg;
+import mca.items.ItemSpawnGrimReaper;
+import mca.items.ItemStaffOfLife;
 import mca.items.ItemTombstone;
 import mca.items.ItemVillagerBed;
 import mca.items.ItemVillagerEditor;
@@ -35,6 +39,7 @@ public final class ModItems
 	public static ItemBaby babyGirl;
 	public static ItemSpawnEgg eggMale;
 	public static ItemSpawnEgg eggFemale;
+	public static ItemSpawnGrimReaper eggReaper;
 	public static ItemVillagerBed bedRed;
 	public static ItemVillagerBed bedBlue;
 	public static ItemVillagerBed bedGreen;
@@ -81,21 +86,11 @@ public final class ModItems
 	public static ItemTombstone tombstone;
 	public static ItemWhistle whistle;
 	public static ItemVillagerEditor villagerEditor;
-
-	//	public static final Item lostRelativeDocument;
-
-	/*
-	public static final Item crown;
-	public static final Item heirCrown;
-	public static final Item monarchCoat;
-	public static final Item monarchPants;
-	public static final Item monarchBoots;
-	public static final Item redCrown;
-	public static final Item greenCrown;
-	public static final Item blueCrown;
-	public static final Item pinkCrown;
-	public static final Item purpleCrown;
-	 */
+	
+	public static ItemMemorial brokenRing;
+	public static ItemMemorial childsDoll;
+	public static ItemMemorial toyTrain;
+	public static ItemStaffOfLife staffOfLife;
 
 	public ModItems()
 	{
@@ -133,6 +128,7 @@ public final class ModItems
 		babyGirl = new ItemBaby(false);
 		eggMale = new ItemSpawnEgg(true);
 		eggFemale = new ItemSpawnEgg(false);
+		eggReaper = new ItemSpawnGrimReaper();
 		whistle = new ItemWhistle();
 
 		bedRed = new ItemVillagerBed(EnumBedColor.RED);
@@ -145,6 +141,11 @@ public final class ModItems
 		tombstone = new ItemTombstone();
 		villagerEditor = new ItemVillagerEditor();
 		newOutfit = new ItemNewOutfit();
+		
+		brokenRing = new ItemMemorial(EnumMemorialType.BROKEN_RING);
+		childsDoll = new ItemMemorial(EnumMemorialType.DOLL);
+		toyTrain = new ItemMemorial(EnumMemorialType.TRAIN);
+		staffOfLife = new ItemStaffOfLife();
 		
 		//Modifications
 		needleAndString.setMaxStackSize(1);

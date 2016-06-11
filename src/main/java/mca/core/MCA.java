@@ -26,13 +26,14 @@ import mca.core.minecraft.ModItems;
 import mca.core.radix.CrashWatcher;
 import mca.core.radix.LanguageParser;
 import mca.data.PlayerData;
-import mca.data.RevivableVillagerManager;
 import mca.entity.EntityChoreFishHook;
+import mca.entity.EntityGrimReaper;
 import mca.entity.EntityHuman;
 import mca.enums.EnumCut;
 import mca.enums.EnumProfession;
 import mca.network.MCAPacketHandler;
 import mca.test.DummyPlayer;
+import mca.tile.TileMemorial;
 import mca.tile.TileTombstone;
 import mca.tile.TileVillagerBed;
 import mca.util.SkinLoader;
@@ -63,7 +64,6 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -175,10 +175,12 @@ public class MCA
 		//Entity registry
 		EntityRegistry.registerModEntity(EntityHuman.class, EntityHuman.class.getSimpleName(), config.baseEntityId, this, 50, 2, true);
 		EntityRegistry.registerModEntity(EntityChoreFishHook.class, EntityChoreFishHook.class.getSimpleName(), config.baseEntityId + 1, this, 50, 2, true);
+		EntityRegistry.registerModEntity(EntityGrimReaper.class, EntityGrimReaper.class.getSimpleName(), config.baseEntityId + 2, this, 50, 2, true);
 		
 		//Tile registry
 		GameRegistry.registerTileEntity(TileVillagerBed.class, TileVillagerBed.class.getSimpleName());
 		GameRegistry.registerTileEntity(TileTombstone.class, TileTombstone.class.getSimpleName());
+		GameRegistry.registerTileEntity(TileMemorial.class, TileMemorial.class.getSimpleName());
 
 		//Recipes
 		GameRegistry.addRecipe(new ItemStack(ModItems.divorcePapers, 1), 
@@ -624,13 +626,6 @@ public class MCA
 			MCA.playerDataMap.put(uuid, data);
 		}
 	}
-
-	@EventHandler
-	public void serverStarted(FMLServerStartedEvent event)
-	{
-		//Cause data to be read from NBT immediately after server starting.
-		RevivableVillagerManager.get();
-	}
 	
 	@EventHandler
 	public void serverStopping(FMLServerStoppingEvent event)
@@ -654,7 +649,6 @@ public class MCA
 		}
 
 		MCA.playerDataMap.clear();
-		RevivableVillagerManager.get().clearVillagerData();
 	}
 
 	public static MCA getInstance()

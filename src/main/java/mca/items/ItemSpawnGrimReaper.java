@@ -1,9 +1,10 @@
 package mca.items;
 
 import mca.core.MCA;
-import mca.entity.EntityHuman;
+import mca.entity.EntityGrimReaper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
@@ -12,15 +13,12 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import radixcore.util.BlockHelper;
 
-public class ItemSpawnEgg extends Item
+public class ItemSpawnGrimReaper extends Item
 {
-	private boolean isMale;
-
-	public ItemSpawnEgg(boolean isMale)
+	public ItemSpawnGrimReaper()
 	{
-		final String itemName = isMale ? "EggMale" : "EggFemale";
+		final String itemName = "EggGrimReaper";
 
-		this.isMale = isMale;
 		this.setCreativeTab(MCA.getCreativeTabMain());
 		this.setMaxStackSize(1);
 		this.setUnlocalizedName(itemName);
@@ -29,7 +27,7 @@ public class ItemSpawnEgg extends Item
 	}
 
 	@Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
+	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) 
 	{
 		int posX = pos.getX();
 		int posY = pos.getY() + 1;
@@ -40,23 +38,18 @@ public class ItemSpawnEgg extends Item
 			final Block block = BlockHelper.getBlock(world, posX, posY, posZ);
 			double verticalOffset = 0.0D;
 
-			spawnHuman(world, posX + 0.5D, posY + verticalOffset, posZ + 0.5D);
+			EntityGrimReaper reaper = new EntityGrimReaper(world);
+			reaper.setPosition(posX + 0.5D, posY + verticalOffset, posZ + 0.5D);
+			reaper.worldObj.spawnEntityInWorld(reaper);
 			
-			if (!player.capabilities.isCreativeMode)
+			if (!playerIn.capabilities.isCreativeMode)
 			{
-				player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+				playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, null);
 			}
 			
 			return true;
 		}
 		
 		return false;
-	}
-
-	public void spawnHuman(World world, double posX, double posY, double posZ)
-	{
-		EntityHuman entityHuman = new EntityHuman(world, isMale);
-		entityHuman.setPosition(posX, posY, posZ);
-		world.spawnEntityInWorld(entityHuman);
 	}
 }

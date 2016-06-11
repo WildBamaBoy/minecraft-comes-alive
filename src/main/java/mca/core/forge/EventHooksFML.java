@@ -7,20 +7,26 @@ import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
 import mca.core.minecraft.ModItems;
 import mca.data.PlayerData;
+import mca.entity.EntityGrimReaper;
 import mca.entity.EntityHuman;
 import mca.enums.EnumProfession;
 import mca.enums.EnumProfessionGroup;
 import mca.items.ItemGemCutter;
+import mca.packets.PacketPlaySoundOnPlayer;
+import mca.packets.PacketSpawnLightning;
 import mca.packets.PacketSyncConfig;
+import mca.util.Utilities;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.RandomPositionGenerator;
+import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -31,8 +37,10 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import radixcore.constant.Particle;
 import radixcore.constant.Time;
 import radixcore.math.Point3D;
 import radixcore.packets.PacketDataContainer;
@@ -44,9 +52,13 @@ import radixcore.util.SchematicHandler;
 public class EventHooksFML 
 {
 	public static boolean playPortalAnimation;
+	private static int summonCounter;
+	private static Point3D summonPos;
+	private static World summonWorld;
+	
 	private int clientTickCounter;
 	private int serverTickCounter;
-
+	
 	@SubscribeEvent
 	public void onConfigChanges(ConfigChangedEvent.OnConfigChangedEvent eventArgs)
 	{
@@ -221,6 +233,45 @@ public class EventHooksFML
 			}
 		}
 
+		//Tick down reaper counter.
+		if (summonCounter > 0)
+		{
+			summonCounter--;
+			
+			//Spawn particles around the summon point.
+			Utilities.spawnParticlesAroundPointS(EnumParticleTypes.PORTAL, summonWorld, summonPos.iPosX, summonPos.iPosY, summonPos.iPosZ, 2);
+			
+			//Lightning will strike periodically.
+			if (summonCounter % (Time.SECOND * 2) == 0)
+			{
+				double dX = summonPos.iPosX + (summonWorld.rand.nextInt(6) * (RadixLogic.getBooleanWithProbability(50) ? 1 : -1));
+				double dZ = summonPos.iPosZ + (summonWorld.rand.nextInt(6) * (RadixLogic.getBooleanWithProbability(50) ? 1 : -1));
+				double y = (double)RadixLogic.getSpawnSafeTopLevel(summonWorld, (int)dX, (int)dZ);
+				NetworkRegistry.TargetPoint lightningTarget = new NetworkRegistry.TargetPoint(summonWorld.provider.getDimensionId(), dX, y, dZ, 64);
+				EntityLightningBolt lightning = new EntityLightningBolt(summonWorld, dX, y, dZ);
+								
+				summonWorld.spawnEntityInWorld(lightning);
+				MCA.getPacketHandler().sendPacketToAllAround(new PacketSpawnLightning(new Point3D(dX, y, dZ)), lightningTarget);
+				
+				//On the first lightning bolt, send the summon sound to all around the summon point.
+				if (summonCounter == 80)
+				{
+					NetworkRegistry.TargetPoint summonTarget = new NetworkRegistry.TargetPoint(summonWorld.provider.getDimensionId(), summonPos.iPosX, summonPos.iPosY, summonPos.iPosZ, 32);
+					MCA.getPacketHandler().sendPacketToAllAround(new PacketPlaySoundOnPlayer("mca:reaper.summon"), summonTarget);
+				}
+			}
+			
+			if (summonCounter == 0)
+			{
+				EntityGrimReaper reaper = new EntityGrimReaper(summonWorld);
+				reaper.setPosition(summonPos.iPosX, summonPos.iPosY, summonPos.iPosZ);
+				summonWorld.spawnEntityInWorld(reaper);
+				
+				summonPos = null;
+				summonWorld = null;
+			}
+		}
+
 		if (serverTickCounter <= 0 && MCA.getConfig().guardSpawnRate > 0)
 		{
 			//Build a list of all humans on the server.
@@ -328,6 +379,13 @@ public class EventHooksFML
 		MCA.naturallySpawnVillagers(new Point3D(entity.posX, entity.posY, entity.posZ), entity.worldObj, entity.getProfession());
 	}
 
+	public static void setReaperSummonPoint(World worldObj, Point3D point)
+	{
+		summonWorld = worldObj;
+		summonPos = point;
+		summonCounter = Time.SECOND * 6;
+	}
+	
 	private int getNumberOfGuardsFromEntityList(List<Entity> entityList) 
 	{
 		int returnValue = 0;

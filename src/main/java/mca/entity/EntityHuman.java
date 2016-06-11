@@ -38,7 +38,7 @@ import mca.core.minecraft.ModItems;
 import mca.data.PlayerData;
 import mca.data.PlayerMemory;
 import mca.data.PlayerMemoryHandler;
-import mca.data.RevivableVillagerManager;
+import mca.data.VillagerSaveData;
 import mca.data.WatcherIDsHuman;
 import mca.enums.EnumBabyState;
 import mca.enums.EnumCombatBehaviors;
@@ -48,6 +48,7 @@ import mca.enums.EnumPersonality;
 import mca.enums.EnumProfession;
 import mca.enums.EnumProfessionGroup;
 import mca.enums.EnumProgressionStep;
+import mca.enums.EnumRelation;
 import mca.enums.EnumSleepingState;
 import mca.items.ItemBaby;
 import mca.items.ItemVillagerEditor;
@@ -103,7 +104,6 @@ import radixcore.inventory.Inventory;
 import radixcore.math.Point3D;
 import radixcore.network.ByteBufIO;
 import radixcore.util.RadixLogic;
-import radixcore.util.RadixMath;
 
 public class EntityHuman extends EntityVillager implements IWatchable, IPermanent, IEntityAdditionalSpawnData
 {
@@ -600,12 +600,17 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			if (isMarriedToAPlayer())
 			{
 				UUID ownerUUID = null;
+				String ownerName = null;
+				EnumRelation ownerRelation = null;
 				EntityPlayer playerPartner = getPlayerSpouse();
 
 				if (playerPartner != null)
 				{
-					playerPartner.addChatMessage(new ChatComponentText(Color.RED + getTitle(playerPartner) + " has died."));
 					ownerUUID = playerPartner.getPersistentID();
+					ownerName = playerPartner.getName();
+					ownerRelation = getPlayerMemory(playerPartner).getRelation();
+					
+					playerPartner.addChatMessage(new ChatComponentText(Color.RED + getTitle(playerPartner) + " has died."));
 					MarriageHandler.forceEndMarriage(playerPartner);
 				}
 
@@ -616,7 +621,10 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 						if (memory.getPermanentId() == this.spouseId.getInt())
 						{
 							PlayerData data = MCA.getPlayerData(memory.getUUID());
+							
 							ownerUUID = UUID.fromString(memory.getUUID());
+							ownerName = memory.getPlayerName();
+							ownerRelation = memory.getRelation();
 							
 							MarriageHandler.forceEndMarriage(data);
 							break;
@@ -624,10 +632,31 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 					}
 				}
 				
-				//Once the owner UUID is found, save the villager and its owner to file.
+				//Once the owner UUID is found, save the villager data to their memorial item and drop it.
 				if (ownerUUID != null && MCA.getConfig().allowVillagerRevival) //Handle cases where the player may not be found at all.
 				{
-					RevivableVillagerManager.get().addVillagerData(this, ownerUUID);
+					Item memorialItem = null;
+					
+					switch (ownerRelation)
+					{
+					case HUSBAND:
+					case WIFE: memorialItem = ModItems.brokenRing; break;
+					case SON: memorialItem = ModItems.toyTrain; break;
+					case DAUGHTER: memorialItem = ModItems.childsDoll; break;
+					}
+					
+					if (memorialItem != null)
+					{
+						VillagerSaveData data = VillagerSaveData.fromVillager(this, null, ownerUUID);
+						ItemStack memorialStack = new ItemStack(memorialItem);
+						
+						memorialStack.setTagCompound(new NBTTagCompound());
+						memorialStack.getTagCompound().setString("ownerName", ownerName);
+						memorialStack.getTagCompound().setInteger("relation", ownerRelation.getId());
+						data.writeDataToNBT(memorialStack.getTagCompound());
+						
+						this.entityDropItem(memorialStack, 1.0F);
+					}
 				}
 			}
 
@@ -644,8 +673,6 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			//Find and alert parents of the death.
 			for (PlayerMemory memory : playerMemories.values())
 			{
-				boolean madeRevivable = false;
-				
 				if (isPlayerAParent(memory.getUUID()))
 				{
 					EntityPlayer playerParent = worldObj.getPlayerEntityByUUID(UUID.fromString(memory.getUUID()));
@@ -653,12 +680,6 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 					if (playerParent != null)
 					{
 						playerParent.addChatMessage(new ChatComponentText(Color.RED + getTitle(playerParent) + " has died."));
-					}
-					
-					if (!madeRevivable) //Only assign one owner to the villager to prevent duplicates
-					{
-						RevivableVillagerManager.get().addVillagerData(this, UUID.fromString(memory.getUUID()));
-						madeRevivable = true;
 					}
 				}
 			}
