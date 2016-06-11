@@ -11,10 +11,12 @@ import mca.packets.PacketInteractWithPlayerS;
 import mca.packets.PacketOpenBabyNameGUI;
 import mca.packets.PacketOpenGUIOnEntity;
 import mca.packets.PacketOpenPrompt;
+import mca.packets.PacketPlaySoundOnPlayer;
 import mca.packets.PacketRelatedVillagers;
 import mca.packets.PacketRequestRelatedVillagers;
 import mca.packets.PacketSetSize;
 import mca.packets.PacketSetTutorialMessage;
+import mca.packets.PacketSpawnLightning;
 import mca.packets.PacketSyncConfig;
 import mca.packets.PacketSyncPlayerMemory;
 import mca.packets.PacketToggleAI;
@@ -54,5 +56,7 @@ public class MCAPacketHandler extends AbstractPacketHandler
 		this.registerPacket(PacketRequestRelatedVillagers.class, Side.SERVER);
 		this.registerPacket(PacketRelatedVillagers.class, Side.CLIENT);
 		this.registerPacket(PacketCallVillager.class, Side.SERVER);
+		this.registerPacket(PacketPlaySoundOnPlayer.class, Side.CLIENT);
+		this.registerPacket(PacketSpawnLightning.class, Side.CLIENT);
 	}
 }
