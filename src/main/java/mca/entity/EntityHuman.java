@@ -1489,7 +1489,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	{
 		return getPlayerSpouse() != player && (getProfessionGroup() == EnumProfessionGroup.Farmer || 
 				getProfessionGroup() == EnumProfessionGroup.Miner || 
-				getProfessionGroup() == EnumProfessionGroup.Guard);
+				getProfessionGroup() == EnumProfessionGroup.Warrior);
 	}
 
 	public void setIsMale(boolean value) 
