@@ -1,14 +1,12 @@
 package mca.command;
 
 import java.util.Arrays;
-import java.util.UUID;
 
 import mca.ai.AIProgressStory;
 import mca.core.MCA;
-import mca.data.RevivableVillagerManager;
 import mca.data.PlayerData;
 import mca.data.PlayerMemory;
-import mca.data.VillagerSaveData;
+import mca.entity.EntityGrimReaper;
 import mca.entity.EntityHuman;
 import mca.items.ItemBaby;
 import mca.util.MarriageHandler;
@@ -17,7 +15,10 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.DamageSource;
+import net.minecraft.world.WorldServer;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Font.Format;
 import radixcore.constant.Time;
@@ -356,29 +357,22 @@ public class CommandMCA extends CommandBase
 					addChatMessage(commandSender, Color.RED + playerName + " was not found on the server.");					
 				}
 			}
-
-			else if (subcommand.equalsIgnoreCase("revive"))
+			
+			else if (subcommand.equalsIgnoreCase("kgr"))
 			{
-				String uuid = arguments[0];
-				
-				VillagerSaveData data = RevivableVillagerManager.get().getVillagerSaveDataByUUID(UUID.fromString(uuid));
-				
-				if (data == null)
+				for (WorldServer world : MinecraftServer.getServer().worldServers)
 				{
-					addChatMessage(commandSender, Color.RED + "Revivable villager with uuid {" + uuid + "} could not be found. ");
+					for (Object obj : world.loadedEntityList)
+					{
+						if (obj instanceof EntityGrimReaper)
+						{
+							EntityGrimReaper reaper = (EntityGrimReaper)obj;
+							reaper.attackEntityFrom(DamageSource.outOfWorld, 10000F);
+						}
+					}
 				}
 				
-				else
-				{
-					EntityHuman human = new EntityHuman(player.worldObj);
-					human = data.applyToHuman(human);
-					
-					RevivableVillagerManager.get().removeVillagerData(UUID.fromString(uuid));
-					human.setPosition(player.posX, player.posY, player.posZ);
-					human.worldObj.spawnEntityInWorld(human);
-					
-					addChatMessage(commandSender, Color.GREEN + "Revived villager with uuid {" + uuid + "}.");
-				}
+				addChatMessage(commandSender, Color.GREEN + "Killed all Grim Reaper entities.");
 			}
 			
 			else
@@ -435,7 +429,8 @@ public class CommandMCA extends CommandBase
 		addChatMessage(commandSender, Color.WHITE + " /mca mh+ " + Color.GOLD + " - Increase hearts by 1.", true);
 		addChatMessage(commandSender, Color.WHITE + " /mca mh- " + Color.GOLD + " - Decrease hearts by 1.", true);
 		addChatMessage(commandSender, Color.WHITE + " /mca rgt " + Color.GOLD + " - Reset your greeting timers.", true);
-
+		addChatMessage(commandSender, Color.WHITE + " /mca kgr " + Color.GOLD + " - Kill all Grim Reapers in the world.", true);
+		
 		addChatMessage(commandSender, Color.DARKRED + "--- " + Color.GOLD + "OP COMMANDS" + Color.DARKRED + " ---", true);
 		addChatMessage(commandSender, Color.WHITE + " /mca rm <username> " + Color.GOLD + " - Reset <username>'s marriage.", true);
 		addChatMessage(commandSender, Color.WHITE + " /mca rb <username> " + Color.GOLD + " - Reset <username>'s baby.", true);

@@ -1,0 +1,8 @@
+{
+    "reaper.scythe.out": { "category": "hostile", "sounds": [ "reaper-scythe-out" ] },
+    "reaper.scythe.swing": { "category": "hostile", "sounds": [ "reaper-scythe-swing" ] },
+    "reaper.idle": { "category": "hostile", "sounds": [ "reaper-idle" ] },
+    "reaper.death": { "category": "hostile", "sounds": [ "reaper-death" ] },
+    "reaper.block": { "category": "hostile", "sounds": [ "reaper-block" ] },
+    "reaper.summon": { "category": "hostile", "sounds": [ "reaper-summon" ] }
+}

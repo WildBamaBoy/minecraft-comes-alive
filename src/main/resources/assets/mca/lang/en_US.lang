@@ -101,7 +101,12 @@ item.StarMold.name=Star Mold
 item.NeedleAndString.name=Needle and String
 item.Needle.name=Needle
 item.Cloth.name=Cloth
+item.EggGrimReaper.name=Spawn Grim Reaper
 tile.VillagerSpawner.name=Villager Spawner
+item.BrokenRing.name=Broken Ring
+item.StaffOfLife.name=Staff of Life
+item.ChildsDoll.name=Child's Doll
+item.ToyTrain.name=Toy Train
 
 #######
 # Item Information

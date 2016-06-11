@@ -1,6 +1,7 @@
 package mca.core.minecraft;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import mca.blocks.BlockMemorial;
 import mca.blocks.BlockTombstone;
 import mca.blocks.BlockVillagerBed;
 import mca.blocks.BlockVillagerSpawner;
@@ -20,9 +21,12 @@ public final class ModBlocks
 	public static Block roseGoldOre;
 	public static BlockTombstone tombstone;
 	public static BlockVillagerSpawner spawner;
+	public static BlockMemorial memorial;
 	
 	public ModBlocks()
 	{
+		memorial = new BlockMemorial();
+		
 		bedRed = new BlockVillagerBed(EnumBedColor.RED);
 		bedBlue = new BlockVillagerBed(EnumBedColor.BLUE);
 		bedGreen = new BlockVillagerBed(EnumBedColor.GREEN);
@@ -43,5 +47,6 @@ public final class ModBlocks
 		GameRegistry.registerBlock(roseGoldBlock, roseGoldBlock.getUnlocalizedName());
 		GameRegistry.registerBlock(roseGoldOre, roseGoldOre.getUnlocalizedName());
 		GameRegistry.registerBlock(tombstone, tombstone.getUnlocalizedName());
+		GameRegistry.registerBlock(memorial, memorial.getUnlocalizedName());
 	}
 }

@@ -4,14 +4,17 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import mca.core.MCA;
 import mca.entity.EntityHuman;
 import mca.enums.EnumProfession;
 import mca.items.ItemBaby;
 import mca.packets.PacketInteractWithPlayerC;
+import mca.packets.PacketPlaySoundOnPlayer;
 import mca.util.TutorialManager;
 import mca.util.Utilities;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -26,6 +29,7 @@ import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -34,6 +38,7 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Font.Format;
@@ -270,6 +275,45 @@ public class EventHooksForge
 			if (target.getIsInfected())
 			{
 				mob.setAttackTarget(null);
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onPlaceEvent(PlaceEvent event) //Check for grim reaper summoning totem.
+	{
+		if (event.block == Blocks.obsidian)
+		{
+			int topY = 0;
+			boolean summonReaper = false;
+			
+			if (event.world.getBlock(event.x, event.y - 1, event.z) == Blocks.emerald_block)
+			{
+				summonReaper = event.world.getBlock(event.x, event.y - 2, event.z) == Blocks.obsidian;
+				topY = event.y;
+			}
+			
+			else if (event.world.getBlock(event.x, event.y + 1, event.z) == Blocks.emerald_block)
+			{
+				summonReaper = event.world.getBlock(event.x, event.y + 2, event.z) == Blocks.obsidian;
+				topY = event.y + 2;
+			}
+			
+			summonReaper = summonReaper && !event.world.isDaytime();
+			
+			if (summonReaper)
+			{
+				Point3D summonPoint = new Point3D(event.x, topY + 5, event.z);
+				NetworkRegistry.TargetPoint summonTarget = new NetworkRegistry.TargetPoint(event.world.provider.dimensionId, summonPoint.iPosX, summonPoint.iPosY, summonPoint.iPosZ, 32);
+
+				EventHooksFML.setReaperSummonPoint(event.world, new Point3D(event.x, topY + 5, event.z));
+				MCA.getPacketHandler().sendPacketToAllAround(new PacketPlaySoundOnPlayer("portal.portal"), summonTarget);
+				
+				for (int i = 0; i < 3; i++)
+				{
+					Utilities.spawnParticlesAroundPointS(Particle.FLAMES, event.world, event.x, topY - i, event.z, 32);
+					event.world.setBlock(event.x, topY - i, event.z, Blocks.air);
+				}
 			}
 		}
 	}
