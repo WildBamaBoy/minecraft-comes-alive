@@ -292,7 +292,8 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			human.say("interaction.marry.success", player); 
 			
 			MarriageHandler.startMarriage(player, human);
-
+			memory.setIsHiredBy(false, 0);
+			
 			human.getAI(AIMood.class).modifyMoodLevel(3.0F);
 			Utilities.spawnParticlesAroundEntityS(Particle.HEART, human, 16);
 			TutorialManager.sendMessageToPlayer(player, "You are now married. You can have", "children by using the 'Procreate' button.");
@@ -416,7 +417,8 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			human.say("interaction.engage.success", player); 
 
 			MarriageHandler.startEngagement(player, human);
-
+			memory.setIsHiredBy(false, 0);
+			
 			human.getAI(AIMood.class).modifyMoodLevel(3.0F);
 			Utilities.spawnParticlesAroundEntityS(Particle.HEART, human, 16);
 			TutorialManager.sendMessageToPlayer(player, "You are now engaged. Now gift a wedding ring", "to get gifts from other villagers.");

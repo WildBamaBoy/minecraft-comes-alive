@@ -210,7 +210,7 @@ public class AIWorkday extends AbstractAI
 	{
 		if (lookTarget != null)
 		{
-			owner.getLookHelper().setLookPositionWithEntity(lookTarget, 9.0F, 1.0F);
+			owner.getLookHelper().setLookPositionWithEntity(lookTarget, 9.0F, 3.0F);
 		}
 	}
 }
