@@ -16,6 +16,7 @@ import mca.packets.PacketInteractWithPlayerC;
 import mca.packets.PacketPlaySoundOnPlayer;
 import mca.util.TutorialManager;
 import mca.util.Utilities;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
@@ -340,40 +341,68 @@ public class EventHooksForge
 	}
 	
 	@SubscribeEvent
-	public void onPlaceEvent(PlaceEvent event) //Check for grim reaper summoning totem.
+	public void onPlaceEvent(PlaceEvent event) //Check for grim reaper summoning area.
 	{
-		if (event.block == Blocks.obsidian)
+		if (event.block == Blocks.fire && event.world.getBlock(event.x, event.y - 1, event.z) == Blocks.emerald_block)
 		{
-			int topY = 0;
-			boolean summonReaper = false;
-			
-			if (event.world.getBlock(event.x, event.y - 1, event.z) == Blocks.emerald_block)
-			{
-				summonReaper = event.world.getBlock(event.x, event.y - 2, event.z) == Blocks.obsidian;
-				topY = event.y;
-			}
-			
-			else if (event.world.getBlock(event.x, event.y + 1, event.z) == Blocks.emerald_block)
-			{
-				summonReaper = event.world.getBlock(event.x, event.y + 2, event.z) == Blocks.obsidian;
-				topY = event.y + 2;
-			}
-			
-			summonReaper = summonReaper && !event.world.isDaytime();
-			
-			if (summonReaper)
-			{
-				Point3D summonPoint = new Point3D(event.x, topY + 5, event.z);
-				NetworkRegistry.TargetPoint summonTarget = new NetworkRegistry.TargetPoint(event.world.provider.dimensionId, summonPoint.iPosX, summonPoint.iPosY, summonPoint.iPosZ, 32);
+			int totemsFound = 0;
 
-				EventHooksFML.setReaperSummonPoint(event.world, new Point3D(event.x, topY + 5, event.z));
-				MCA.getPacketHandler().sendPacketToAllAround(new PacketPlaySoundOnPlayer("portal.portal"), summonTarget);
+			//Check on +/- X and Z for at least 3 totems on fire.
+			for (int i = 0; i < 4; i++)
+			{
+				int dX = 0;
+				int dZ = 0;
 				
-				for (int i = 0; i < 3; i++)
+				switch (i)
 				{
-					Utilities.spawnParticlesAroundPointS(Particle.FLAMES, event.world, event.x, topY - i, event.z, 32);
-					event.world.setBlock(event.x, topY - i, event.z, Blocks.air);
+				case 0: dX = -3; break;
+				case 1: dX = 3; break;
+				case 2: dZ = -3; break;
+				case 3: dZ = 3; break;
 				}
+				
+				//Scan upwards to ensure it's obsidian, and on fire.
+				for (int j = -1; j < 2; j++) //-1 since the fire is on top of the emerald.
+				{
+					Block block = event.world.getBlock(event.x + dX, event.y + j, event.z + dZ);
+					
+					if (block == Blocks.obsidian || block == Blocks.fire)
+					{
+					}
+					
+					else
+					{
+						break;
+					}
+					
+					//If we made it up to 1 without breaking, make sure the block is fire so that it's a lit totem.
+					if (j == 1 && block == Blocks.fire)
+					{
+						totemsFound++;
+					}
+					
+					continue;
+				}
+			}
+			
+			if (totemsFound >= 3 && !event.world.isDaytime())
+			{
+				Point3D summonPoint = new Point3D(event.x, event.y + 5, event.z);
+				NetworkRegistry.TargetPoint summonTarget = new NetworkRegistry.TargetPoint(event.world.provider.dimensionId, summonPoint.iPosX, summonPoint.iPosY + 5, summonPoint.iPosZ, 32);
+	
+				EventHooksFML.setReaperSummonPoint(event.world, new Point3D(event.x + 1.0D, event.y + 5, event.z + 1.0D));
+				MCA.getPacketHandler().sendPacketToAllAround(new PacketPlaySoundOnPlayer("portal.portal"), summonTarget);
+					
+				for (int i = 0; i < 2; i++)
+				{
+					Utilities.spawnParticlesAroundPointS(Particle.FLAMES, event.world, event.x, event.y - i, event.z, 32);
+					event.world.setBlock(event.x, event.y - i, event.z, Blocks.air);
+				}
+			}
+			
+			else if (totemsFound >= 3 && event.world.isDaytime())
+			{
+				TutorialManager.sendMessageToPlayer(event.player, "The Grim Reaper must be summoned at night.", "");
 			}
 		}
 	}
