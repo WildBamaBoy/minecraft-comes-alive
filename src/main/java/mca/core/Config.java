@@ -62,6 +62,7 @@ public final class Config implements Serializable
 	public boolean allowTrading;
 	public boolean logVillagerDeaths;
 	public boolean spawnInAllDimensions;
+	public boolean replenishEmptyVillages;
 	public String villagerChatPrefix;
 
 	public boolean showMoodParticles;
@@ -105,7 +106,8 @@ public final class Config implements Serializable
 		enableInfection = config.get("General", "Enable infection?", true, "True if villagers and your children have a chance of being infected from zombies.").getBoolean();
 		enableStructureSpawning = config.get("General", "Enable structure spawning?", true, "True if players can have the option to spawn structures during MCA's setup. Single player only!").getBoolean();
 		spawnInAllDimensions = config.get("General", "Spawn villagers in all dimensions?", false, "True if you want to ignore the dimension whitelist and spawn MCA villagers in all worlds.").getBoolean();
-
+		replenishEmptyVillages = config.get("General", "Replenish empty villages?", true, "True if villagers can spawn within villages that have very few or no villagers. Controlled by vanilla village requirements.").getBoolean();
+		
 		//Dimension whitelist.
 		if (spawnInAllDimensions)
 		{
