@@ -549,7 +549,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			EntityPlayerMP killingPlayer = damageSource.getSourceOfDamage() instanceof EntityPlayerMP ? (EntityPlayerMP)damageSource.getSourceOfDamage() : null;
 			String source = killingPlayer != null ? killingPlayer.getCommandSenderName() : damageSource.getDamageType();
-
+			boolean memorialDropped = false;
+			
 			aiManager.disableAllToggleAIs();
 			getAI(AISleep.class).transitionSkinState(true);
 
@@ -612,6 +613,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 						data.writeDataToNBT(memorialStack.stackTagCompound);
 						
 						this.entityDropItem(memorialStack, 1.0F);
+						memorialDropped = true;
 					}
 				}
 			}
@@ -636,6 +638,20 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 					if (playerParent != null)
 					{
 						playerParent.addChatMessage(new ChatComponentText(Color.RED + getTitle(playerParent) + " has died."));
+						
+						if (!memorialDropped)
+						{
+							VillagerSaveData data = VillagerSaveData.fromVillager(this, null, UUID.fromString(memory.getUUID()));
+							ItemStack memorialStack = new ItemStack(this.isMale.getBoolean() ? ModItems.toyTrain : ModItems.childsDoll);
+							
+							memorialStack.stackTagCompound = new NBTTagCompound();
+							memorialStack.stackTagCompound.setString("ownerName", memory.getPlayerName());
+							memorialStack.stackTagCompound.setInteger("relation", memory.getRelation().getId());
+							data.writeDataToNBT(memorialStack.stackTagCompound);
+							
+							this.entityDropItem(memorialStack, 1.0F);
+							memorialDropped = true;
+						}
 					}
 				}
 			}
