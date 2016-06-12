@@ -8,6 +8,8 @@ import mca.packets.PacketGift;
 import mca.packets.PacketInteract;
 import mca.packets.PacketInteractWithPlayerC;
 import mca.packets.PacketInteractWithPlayerS;
+import mca.packets.PacketMemorialUpdateGet;
+import mca.packets.PacketMemorialUpdateSet;
 import mca.packets.PacketOpenBabyNameGUI;
 import mca.packets.PacketOpenGUIOnEntity;
 import mca.packets.PacketOpenPrompt;
@@ -58,5 +60,7 @@ public class MCAPacketHandler extends AbstractPacketHandler
 		this.registerPacket(PacketCallVillager.class, Side.SERVER);
 		this.registerPacket(PacketPlaySoundOnPlayer.class, Side.CLIENT);
 		this.registerPacket(PacketSpawnLightning.class, Side.CLIENT);
+		this.registerPacket(PacketMemorialUpdateGet.class, Side.SERVER);
+		this.registerPacket(PacketMemorialUpdateSet.class, Side.CLIENT);
 	}
 }
