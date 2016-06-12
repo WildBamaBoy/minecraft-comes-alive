@@ -20,6 +20,7 @@ import mca.core.minecraft.ModItems;
 import mca.data.PlayerData;
 import mca.entity.EntityGrimReaper;
 import mca.entity.EntityHuman;
+import mca.enums.EnumBabyState;
 import mca.enums.EnumProfession;
 import mca.enums.EnumProfessionGroup;
 import mca.items.ItemGemCutter;
@@ -37,6 +38,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Vec3;
+import net.minecraft.village.Village;
 import net.minecraft.world.World;
 import radixcore.constant.Particle;
 import radixcore.constant.Time;
@@ -271,6 +273,74 @@ public class EventHooksFML
 			}
 
 			serverTickCounter = Time.MINUTE;
+		}
+		
+		if (serverTickCounter <= 0 && MCA.getConfig().replenishEmptyVillages && RadixLogic.getBooleanWithProbability(25))
+		{
+			for (World world : MinecraftServer.getServer().worldServers)
+			{
+				for (Object obj : world.villageCollectionObj.getVillageList())
+				{
+					Village village = (Village)obj;
+					
+					int populationCapacity = village.getNumVillageDoors();
+					int population = 0;
+					double posX = village.getCenter().posX;
+					double posY = village.getCenter().posY;
+					double posZ = village.getCenter().posZ;
+					
+					for (Entity entity : RadixLogic.getAllEntitiesWithinDistanceOfCoordinates(world, posX, posY, posZ, village.getVillageRadius()))
+					{
+						if (entity instanceof EntityHuman)
+						{
+							EntityHuman human = (EntityHuman) entity;
+							
+							//Count everyone except guards
+							if (human.getProfessionGroup() != EnumProfessionGroup.Guard)
+							{
+								population++;
+							}
+							
+							//Count babies with the villager population.
+							if (human.getBabyState() != EnumBabyState.NONE)
+							{
+								population++;
+							}
+						}
+					}
+
+					//If the village can support more villagers, spawn.
+					int tries = 0;
+
+					if (population < populationCapacity)
+					{
+						while (tries < 3)
+						{
+							posX = posX + (world.rand.nextInt(village.getVillageRadius())) * (RadixLogic.getBooleanWithProbability(50) ? 1 : -1);
+							posZ = posZ + (world.rand.nextInt(village.getVillageRadius())) * (RadixLogic.getBooleanWithProbability(50) ? 1 : -1);
+							
+							//Offset to the center of the block
+							posX += 0.5D;
+							posZ += 0.5D;
+							double dY = RadixLogic.getSpawnSafeTopLevel(world, (int)posX, (int)posZ);
+							
+							//Prevent spawning on roof by checking the safe spawn level against the center level
+							//and making sure it's not too high.
+							if (dY - posY <= 4.0F)
+							{
+								Point3D pointOfSpawn = new Point3D(posX, dY, posZ);
+								MCA.naturallySpawnVillagers(pointOfSpawn, world, -1);
+								break;
+							}
+							
+							else //Try again up to 3 times if not.
+							{
+								tries++;
+							}
+						}
+					}
+				}
+			}
 		}
 
 		serverTickCounter--;
