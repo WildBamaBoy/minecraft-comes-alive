@@ -6,20 +6,14 @@ import mca.core.Constants;
 import mca.entity.EntityHuman;
 import mca.enums.EnumMovementState;
 import mca.enums.EnumWorkdayState;
-import mca.util.Utilities;
-import net.minecraft.block.BlockDoor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
-import net.minecraft.village.Village;
-import net.minecraft.village.VillageDoorInfo;
 import radixcore.constant.Time;
-import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
 
 public class AIWorkday extends AbstractAI

@@ -1,6 +1,5 @@
 package mca.enums;
 
-import mca.enums.EnumWorkdayState;
 import radixcore.util.RadixMath;
 
 public enum EnumWorkdayState 

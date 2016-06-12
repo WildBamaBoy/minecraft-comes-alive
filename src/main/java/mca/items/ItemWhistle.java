@@ -3,8 +3,6 @@ package mca.items;
 import cpw.mods.fml.common.registry.GameRegistry;
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.entity.EntityHuman;
-import mca.enums.EnumMovementState;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;

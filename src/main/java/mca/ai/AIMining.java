@@ -1,6 +1,5 @@
 package mca.ai;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -11,8 +10,6 @@ import mca.core.MCA;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
 import mca.enums.EnumMovementState;
-import mca.test.DummyMiningEntry;
-import mca.test.DummyStack;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;

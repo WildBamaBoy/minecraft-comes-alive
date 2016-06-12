@@ -3,7 +3,6 @@ package mca.client.render;
 import org.lwjgl.opengl.GL11;
 
 import mca.client.model.ModelGrimReaper;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
