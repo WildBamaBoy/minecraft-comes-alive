@@ -5,14 +5,18 @@ import java.util.List;
 
 import com.google.common.base.Predicate;
 
+import mca.ai.AICombat;
 import mca.core.MCA;
+import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
+import mca.enums.EnumCombatBehaviors;
 import mca.enums.EnumProfession;
 import mca.items.ItemBaby;
 import mca.packets.PacketInteractWithPlayerC;
 import mca.util.TutorialManager;
 import mca.util.Utilities;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -40,9 +44,6 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Font.Format;
-import radixcore.constant.Particle;
-import radixcore.math.Point3D;
-import radixcore.math.Point3D;
 import radixcore.util.RadixLogic;
 
 public class EventHooksForge 
@@ -228,6 +229,47 @@ public class EventHooksForge
 	@SubscribeEvent
 	public void onLivingAttack(LivingAttackEvent event)
 	{
+		//Handle warrior triggers on player taking damage.
+		if (event.entityLiving instanceof EntityPlayer && event.source.getEntity() instanceof EntityLivingBase)
+		{
+			List<Entity> entityList = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, event.entityLiving, 15);
+			
+			for (Entity entity : entityList)
+			{
+				EntityHuman human = (EntityHuman)entity;
+				AICombat combat = human.getAI(AICombat.class);
+				PlayerMemory memory = human.getPlayerMemory((EntityPlayer)event.entityLiving);
+				
+				if (memory.getIsHiredBy() && human.getProfessionEnum() == EnumProfession.Warrior && 
+					combat.getMethodBehavior() != EnumCombatBehaviors.METHOD_DO_NOT_FIGHT &&
+					combat.getTriggerBehavior() == EnumCombatBehaviors.TRIGGER_PLAYER_TAKE_DAMAGE)
+				{
+					combat.setAttackTarget((EntityLivingBase)event.source.getEntity());
+				}
+			}
+		}
+
+		//Handle warrior triggers on player dealing damage.
+		else if (event.source.getEntity() instanceof EntityPlayer && event.entityLiving != null)
+		{
+			List<Entity> entityList = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, event.source.getEntity(), 15);
+			
+			for (Entity entity : entityList)
+			{
+				EntityHuman human = (EntityHuman)entity;
+				AICombat combat = human.getAI(AICombat.class);
+				PlayerMemory memory = human.getPlayerMemory((EntityPlayer)event.source.getEntity());
+				
+				if (memory.getIsHiredBy() && human.getProfessionEnum() == EnumProfession.Warrior && 
+					combat.getMethodBehavior() != EnumCombatBehaviors.METHOD_DO_NOT_FIGHT &&
+					combat.getTriggerBehavior() == EnumCombatBehaviors.TRIGGER_PLAYER_DEAL_DAMAGE)
+				{
+					combat.setAttackTarget((EntityLivingBase)event.entityLiving);
+				}
+			}
+		}
+		
+		//Handle infection checks
 		if (MCA.getConfig().enableInfection)
 		{
 			if (event.source != null && event.source.getSourceOfDamage() instanceof EntityZombie)
@@ -254,6 +296,22 @@ public class EventHooksForge
 				else if (event.entityLiving instanceof EntityHuman && flag)
 				{
 					EntityHuman human = (EntityHuman)event.entityLiving;
+					
+					//Warriors are immune to infection.
+					if (human.getProfessionEnum() == EnumProfession.Warrior)
+					{
+						return;
+					}
+					
+					//Villagers wearing armor are immune to infection.
+					for (int i = 1; i < 5; i++)
+					{
+						if (human.getEquipmentInSlot(i) != null)
+						{
+							return;
+						}
+					}
+
 					human.setIsInfected(true);
 					human.setHealth(human.getMaxHealth());
 					zombie.setAttackTarget(null);

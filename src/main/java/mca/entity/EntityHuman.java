@@ -8,6 +8,7 @@ import java.util.UUID;
 import io.netty.buffer.ByteBuf;
 import mca.ai.AIBlink;
 import mca.ai.AIBuild;
+import mca.ai.AICombat;
 import mca.ai.AIConverse;
 import mca.ai.AICooking;
 import mca.ai.AIDefend;
@@ -34,12 +35,13 @@ import mca.ai.AbstractAI;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.ModItems;
-import mca.data.RevivableVillagerManager;
 import mca.data.PlayerData;
 import mca.data.PlayerMemory;
 import mca.data.PlayerMemoryHandler;
+import mca.data.RevivableVillagerManager;
 import mca.data.WatcherIDsHuman;
 import mca.enums.EnumBabyState;
+import mca.enums.EnumCombatBehaviors;
 import mca.enums.EnumDialogueType;
 import mca.enums.EnumMovementState;
 import mca.enums.EnumPersonality;
@@ -68,7 +70,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
@@ -99,6 +103,7 @@ import radixcore.inventory.Inventory;
 import radixcore.math.Point3D;
 import radixcore.network.ByteBufIO;
 import radixcore.util.RadixLogic;
+import radixcore.util.RadixMath;
 
 public class EntityHuman extends EntityVillager implements IWatchable, IPermanent, IEntityAdditionalSpawnData
 {
@@ -203,6 +208,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		aiManager.addAI(new AIFishing(this));
 		aiManager.addAI(new AIDefend(this));
 		aiManager.addAI(new AIWorkday(this));
+		aiManager.addAI(new AICombat(this));
 		
 		addAI();
 
@@ -1160,6 +1166,21 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			}
 		}
 
+		else if (getProfessionEnum() == EnumProfession.Warrior)
+		{
+			AICombat combat = getAI(AICombat.class);
+			
+			if (combat.getMethodBehavior() == EnumCombatBehaviors.METHOD_RANGED_ONLY)
+			{
+				return inventory.getBestItemOfType(ItemBow.class);
+			}
+			
+			else
+			{
+				return inventory.getBestItemOfType(ItemSword.class);	
+			}
+		}
+		
 		return null;
 	}
 
@@ -1349,6 +1370,11 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		this.isInteracting.setValue(value);
 	}
 
+	public boolean getIsInteracting()
+	{
+		return this.isInteracting.getBoolean();
+	}
+	
 	public void setSizeOverride(float width, float height)
 	{
 		this.setSize(width, height);

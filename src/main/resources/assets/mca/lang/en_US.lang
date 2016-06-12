@@ -724,6 +724,21 @@ fishing.norod=I don't have a fishing rod!
 fishing.nowater=I don't see any water nearby...
 fishing.finished=I've finished fishing.
 
+combat.button.method=Method: 
+combat.meleeandranged=Melee & Ranged
+combat.meleeonly=Melee Only
+combat.rangedonly=Ranged Only
+combat.donotfight=Do not fight
+
+combat.button.trigger=Trigger: 
+combat.trigger.always=Always Attack
+combat.trigger.playertakedamage=You take damage
+combat.trigger.playerattacks=You attack something
+
+combat.button.target=Target: 
+combat.target.passive=Passive Mobs
+combat.target.hostile=Hostile Mobs
+combat.target.either=Passive and Hostile Mobs
 #################
 # Parser
 ################################
@@ -780,6 +795,9 @@ gui.button.hire=Hire
 gui.button.hired=Hired
 gui.button.length=Length\: %a1% hour(s)
 gui.button.accept=Accept
+gui.button.combat=Combat
+gui.button.extend=Extend
+gui.button.dismiss=Dismiss
 gui.button.divorcespouse=Divorce Spouse
 gui.button.resetbaby=Reset Baby
 gui.button.setup.gender.false=Gender\: Female

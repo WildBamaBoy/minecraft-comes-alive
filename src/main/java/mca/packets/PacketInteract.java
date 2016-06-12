@@ -31,6 +31,8 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import radixcore.constant.Font.Color;
+import radixcore.constant.Time;
+import radixcore.network.ByteBufIO;
 import radixcore.packets.AbstractPacket;
 import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
@@ -40,6 +42,8 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 {
 	private int buttonId;
 	private int entityId;
+	private int numAdditionalData;
+	private Object[] additionalData;
 
 	public PacketInteract()
 	{
@@ -51,11 +55,26 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 		this.entityId = entityId;
 	}
 
+	public PacketInteract(int buttonId, int entityId, Object... additionalData)
+	{
+		this.buttonId = buttonId;
+		this.entityId = entityId;
+		this.numAdditionalData = additionalData.length;
+		this.additionalData = additionalData;
+	}
+
 	@Override
 	public void fromBytes(ByteBuf byteBuf)
 	{
 		this.buttonId = byteBuf.readInt();
 		this.entityId = byteBuf.readInt();
+		this.numAdditionalData = byteBuf.readInt();
+		this.additionalData = new Object[numAdditionalData];
+
+		for (int i = 0; i < this.numAdditionalData; i++)
+		{
+			additionalData[i] = ByteBufIO.readObject(byteBuf);
+		}
 	}
 
 	@Override
@@ -63,6 +82,15 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 	{
 		byteBuf.writeInt(buttonId);
 		byteBuf.writeInt(entityId);
+		byteBuf.writeInt(numAdditionalData);
+
+		if (numAdditionalData > 0)
+		{
+			for (Object obj : additionalData)
+			{
+				ByteBufIO.writeObject(byteBuf, obj);
+			}
+		}
 	}
 
 	@Override
@@ -108,22 +136,22 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 					int iPosX = (int)villager.posX;
 					int iPosY = (int)villager.posY;
 					int iPosZ = (int)villager.posZ;
-					
+
 					if (!Utilities.isPointClear(villager.worldObj, iPosX, iPosY, iPosZ))
 					{
 						block = BlockHelper.getBlock(villager.worldObj, iPosX, iPosY, iPosZ);
 					}
-					
+
 					else if (!Utilities.isPointClear(villager.worldObj, iPosX, iPosY + 1, iPosZ))
 					{
 						block = BlockHelper.getBlock(villager.worldObj, iPosX, iPosY + 1, iPosZ);
 					}
-					
+
 					if (block != null)
 					{
 						villager.say("interaction.sethome.fail", player, block.getLocalizedName().toLowerCase());
 					}
-					
+
 					TutorialManager.sendMessageToPlayer(player, "Move villagers away from the edges of walls", "and other blocks before setting their home.");
 				}
 			}
@@ -143,7 +171,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 			{
 				PlayerMemory memory = villager.getPlayerMemory(player);
 				memory.setHasGift(false);
-				
+
 				ItemStack stack = RegistryMCA.getGiftStackFromRelationship(memory.getHearts());
 				villager.dropItem(stack.getItem(), stack.stackSize);
 			}
@@ -163,63 +191,63 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 					memory.setHearts(-100);
 					mood.modifyMoodLevel(-20.0F);
 					villager.timesWarnedForLowHearts = 0;
-					
+
 					MarriageHandler.endMarriage(player, villager);
 				}
-				
+
 				else
 				{
 					int successChance = interaction.getSuccessChance(villager, memory);
-					
+
 					int pointsModification = interaction.getBasePoints()
 							+ villager.getPersonality().getHeartsModifierForInteraction(interaction) 
 							+ mood.getMood(villager.getPersonality()).getPointsModifierForInteraction(interaction);
-	
+
 					boolean wasGood = RadixLogic.getBooleanWithProbability(successChance);
-	
+
 					if (villager.getPersonality() == EnumPersonality.FRIENDLY)
 					{
 						pointsModification += pointsModification * 0.15D;
 					}
-	
+
 					else if (villager.getPersonality() == EnumPersonality.FLIRTY)
 					{
 						pointsModification += pointsModification * 0.25D;
 					}
-	
+
 					else if (villager.getPersonality() == EnumPersonality.SENSITIVE && RadixLogic.getBooleanWithProbability(5))
 					{
 						pointsModification = -35;
 						wasGood = false;
 					}
-	
+
 					else if (villager.getPersonality() == EnumPersonality.STUBBORN)
 					{
 						pointsModification -= pointsModification * 0.15D;
 					}
-	
+
 					if (wasGood)
 					{
 						pointsModification = RadixMath.clamp(pointsModification, 1, 100);
 						mood.modifyMoodLevel(RadixMath.getNumberInRange(0.2F, 1.0F));
 						villager.say(memory.getDialogueType().toString() + "." + interaction.getName() + ".good", player);
 					}
-	
+
 					else
 					{
 						pointsModification = RadixMath.clamp(pointsModification * -1, -100, -1);
 						mood.modifyMoodLevel(RadixMath.getNumberInRange(0.2F, 1.0F) * -1);
 						villager.say(memory.getDialogueType().toString() + "." + interaction.getName() + ".bad", player);
 					}
-	
+
 					memory.setHearts(memory.getHearts() + pointsModification);
 					memory.increaseInteractionFatigue();
-	
+
 					if (memory.getHearts() >= 100)
 					{
 						player.triggerAchievement(ModAchievements.fullGoldHearts);
 					}
-	
+
 					if (memory.getInteractionFatigue() == 4)
 					{
 						TutorialManager.sendMessageToPlayer(player, "Villagers tire of conversation after a few tries.", "Talk to them later for better success chances.");
@@ -246,14 +274,14 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 					//as saddled when the villager dismounts.
 					EntityHorse horse = (EntityHorse)villager.ridingEntity;
 					horse.setHorseSaddled(true);
-					
+
 					villager.mountEntity(null);
 				}
 
 				else
 				{
 					EntityHorse horse = (EntityHorse)RadixLogic.getNearestEntityOfTypeWithinDistance(EntityHorse.class, villager, 5);
-					
+
 					if (horse != null)
 					{
 						if (horse.isHorseSaddled() && horse.riddenByEntity == null)
@@ -277,13 +305,13 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 			else if (interaction == EnumInteraction.DIVORCE)
 			{
 				PlayerData data = MCA.getPlayerData(player);
-				
+
 				if (data.getSpousePermanentId() != 0)
 				{
 					villager.say("interaction.divorce.priest.success", player);
-					
+
 					EntityHuman spouse = MCA.getHumanByPermanentId(data.getSpousePermanentId());
-					
+
 					if (spouse != null)
 					{
 						MarriageHandler.endMarriage(player, spouse);
@@ -292,10 +320,10 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 						spouse.getAI(AIMood.class).modifyMoodLevel(-5.0F);
 						memory.setHearts(-100);
 					}
-					
+
 					MarriageHandler.forceEndMarriage(player);
 				}
-				
+
 				else
 				{
 					villager.say("interaction.divorce.priest.fail.notmarried", player);
@@ -305,20 +333,20 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 			else if (interaction == EnumInteraction.RESETBABY)
 			{
 				PlayerData data = MCA.getPlayerData(player);
-				
+
 				if (data.getShouldHaveBaby())
 				{
 					villager.say("interaction.resetbaby.success", player);
 					data.setShouldHaveBaby(false);
-					
+
 					for (int i = 0; i < player.inventory.mainInventory.length; i++)
 					{
 						ItemStack stack = player.inventory.getStackInSlot(i);
-						
+
 						if (stack != null && stack.getItem() instanceof ItemBaby)
 						{
 							ItemBaby baby = (ItemBaby) stack.getItem();
-							
+
 							if (stack.getTagCompound().getString("owner").equals(player.getName()))
 							{
 								player.inventory.setInventorySlotContents(i, null);
@@ -326,29 +354,30 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 						}
 					}
 				}
-				
+
 				else
 				{
 					villager.say("interaction.resetbaby.fail", player);
 				}
 			}
-			
+
 			else if (interaction == EnumInteraction.ADOPTBABY)
 			{
 				PlayerData data = MCA.getPlayerData(player);
-				
+
 				if (getIsOverChildrenCount(player))
 				{
 					player.addChatMessage(new ChatComponentText(Color.RED + "You have too many children."));
 				}
-				
+
 				else if (!data.getShouldHaveBaby())
 				{
 					boolean isMale = RadixLogic.getBooleanWithProbability(50);
 					String babyName = isMale ? MCA.getLanguageManager().getString("name.male") : MCA.getLanguageManager().getString("name.female");
 					villager.say("interaction.adoptbaby.success", player, babyName);
-					
+
 					ItemStack stack = new ItemStack(isMale ? ModItems.babyBoy : ModItems.babyGirl);
+
 					NBTTagCompound nbt = new NBTTagCompound();
 					nbt.setString("name", babyName);
 					nbt.setInteger("age", 0);
@@ -358,33 +387,44 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 					player.inventory.addItemStackToInventory(stack);
 					data.setShouldHaveBaby(true);
 				}
-				
+
 				else
 				{
 					villager.say("interactionp.havebaby.fail.alreadyexists", player);
 				}
 			}
-			
+
 			else if (interaction == EnumInteraction.ACCEPT)
 			{
+				Integer length = (Integer) packet.additionalData[0];
+				Boolean isExtending = (Boolean) packet.additionalData[1];
 				PlayerMemory memory = villager.getPlayerMemory(player);
-				memory.setIsHiredBy(true, 3);
 
-				for (int i = 0; i < 3; i++)
+				if (isExtending)
+				{
+					memory.setIsHiredBy(true, memory.getHireTimeLeft() + (length * 60));
+				}
+				
+				else
+				{
+					memory.setIsHiredBy(true, length * 60);
+				}
+
+				for (int i = 0; i < length; i++)
 				{
 					player.inventory.consumeInventoryItem(Items.gold_ingot);
 				}
 			}
-			
+
 			else if (interaction == EnumInteraction.PROCREATE)
 			{
 				PlayerData playerData = MCA.getPlayerData(player);
-				
+
 				if (getIsOverChildrenCount(player))
 				{
 					player.addChatMessage(new ChatComponentText(Color.RED + "You have too many children."));
 				}
-					
+
 				else if (playerData.getShouldHaveBaby())
 				{
 					player.addChatMessage(new ChatComponentText(Color.RED + "You already have a baby."));
@@ -395,27 +435,33 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 					villager.getAI(AIProcreate.class).setIsProcreating(true);
 				}
 			}
+
+			else if (interaction == EnumInteraction.DISMISS)
+			{
+				PlayerMemory memory = villager.getPlayerMemory(player);
+				memory.setIsHiredBy(false, 0);
+			}
 		}
 	}
-	
+
 	private boolean getIsOverChildrenCount(EntityPlayer player)
 	{
 		PlayerData playerData = MCA.getPlayerData(player);
 		int childrenCount = 0;
-		
+
 		for (Object obj : MinecraftServer.getServer().worldServers[0].loadedEntityList)
 		{
 			if (obj instanceof EntityHuman)
 			{
 				EntityHuman human = (EntityHuman)obj;
-				
+
 				if (human.isPlayerAParent(player))
 				{
 					childrenCount++;
 				}
 			}
 		}
-		
+
 		return childrenCount >= MCA.getConfig().childLimit && MCA.getConfig().childLimit != -1;
 	}
 }

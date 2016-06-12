@@ -283,7 +283,7 @@ public class PlayerMemory implements Serializable
 	public void setIsHiredBy(boolean value, int length)
 	{
 		isHiredBy = value;
-		hireTimeLeft = length * 60; //Measured in hours
+		hireTimeLeft = length;
 		onNonTransientValueChanged();
 	}
 
@@ -300,5 +300,10 @@ public class PlayerMemory implements Serializable
 	public boolean isRelatedToPlayer()
 	{
 		return relationId > 0;
+	}
+	
+	public int getHireTimeLeft()
+	{
+		return hireTimeLeft;
 	}
 }

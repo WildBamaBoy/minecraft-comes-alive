@@ -15,6 +15,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
+import mca.ai.AICombat;
 import mca.ai.AIFollow;
 import mca.ai.AIIdle;
 import mca.ai.AIMood;
@@ -27,6 +28,7 @@ import mca.core.MCA;
 import mca.data.PlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
+import mca.enums.EnumCombatBehaviors;
 import mca.enums.EnumInteraction;
 import mca.enums.EnumMovementState;
 import mca.enums.EnumProfessionGroup;
@@ -80,6 +82,9 @@ public class GuiInteraction extends GuiScreen
 	private NumberCycleList woodcuttingMappings;
 	private NumberCycleList miningMappings;
 	private NumberCycleList hireLengths;
+	private NumberCycleList combatMethods;
+	private NumberCycleList combatTriggers;
+	private NumberCycleList combatTargets;
 	private boolean farmingModeFlag;
 	private boolean miningModeFlag;
 	private boolean huntingModeFlag;
@@ -96,7 +101,21 @@ public class GuiInteraction extends GuiScreen
 		this.farmingMappings = NumberCycleList.fromList(RegistryMCA.getCropEntryIDs());
 		this.woodcuttingMappings = NumberCycleList.fromList(RegistryMCA.getWoodcuttingBlockIDs());
 		this.miningMappings = NumberCycleList.fromList(RegistryMCA.getMiningEntryIDs());
-		this.hireLengths = NumberCycleList.fromIntegers(3);
+		this.hireLengths = NumberCycleList.fromIntegers(1, 2, 3);
+		this.combatMethods = NumberCycleList.fromIntegers(
+				EnumCombatBehaviors.METHOD_DO_NOT_FIGHT.getNumericId(),
+				EnumCombatBehaviors.METHOD_MELEE_ONLY.getNumericId(),
+				EnumCombatBehaviors.METHOD_RANGED_ONLY.getNumericId(),
+				EnumCombatBehaviors.METHOD_MELEE_AND_RANGED.getNumericId());
+		this.combatTriggers = NumberCycleList.fromIntegers(
+				EnumCombatBehaviors.TRIGGER_PLAYER_TAKE_DAMAGE.getNumericId(),
+				EnumCombatBehaviors.TRIGGER_PLAYER_DEAL_DAMAGE.getNumericId(),
+				EnumCombatBehaviors.TRIGGER_ALWAYS.getNumericId());
+		this.combatTargets = NumberCycleList.fromIntegers(
+				EnumCombatBehaviors.TARGET_HOSTILE_MOBS.getNumericId(),
+				EnumCombatBehaviors.TARGET_PASSIVE_MOBS.getNumericId(),
+				EnumCombatBehaviors.TARGET_PASSIVE_OR_HOSTILE_MOBS.getNumericId());
+		
 	}
 
 	@Override
@@ -296,6 +315,23 @@ public class GuiInteraction extends GuiScreen
 			}
 		}
 		
+		if (memory.getIsHiredBy())
+		{
+			int days = (memory.getHireTimeLeft() / 1440);
+			int hours = (memory.getHireTimeLeft() / 60) - (days > 0 ? days * 24 : 0);
+			int minute = (memory.getHireTimeLeft() % 60);
+				
+			if (days > 0)
+			{
+				RenderHelper.drawTextPopup("Hired: " + days + "d " + hours + "h " + minute + "m left.", 18, 140);
+			}
+			
+			else
+			{
+				RenderHelper.drawTextPopup("Hired: " + hours + "h " + minute + "m left.", 18, 140);
+			}
+		}
+		
 		super.drawScreen(i, j, f);
 	}
 
@@ -445,6 +481,7 @@ public class GuiInteraction extends GuiScreen
 		
 		timeSinceLastClick = 0;
 		EnumInteraction interaction = EnumInteraction.fromId(button.id);
+		AICombat combatAI = villager.getAI(AICombat.class);
 		villager.getAI(AIIdle.class).reset();
 
 		if (interaction != null)
@@ -488,6 +525,23 @@ public class GuiInteraction extends GuiScreen
 			
 			case COOKING: drawCookingControlMenu(); break;
 
+			case COMBAT: drawCombatControlMenu(); break;
+			case ATTACK_METHOD: 
+				combatMethods.next();
+				combatAI.setMethodBehavior(combatMethods.get());
+				drawCombatControlMenu(); 
+				break;
+			case ATTACK_TRIGGER: 
+				combatTriggers.next(); 
+				combatAI.setTriggerBehavior(combatTriggers.get());
+				drawCombatControlMenu(); 
+				break;
+			case ATTACK_TARGET: 
+				combatTargets.next(); 
+				combatAI.setTargetBehavior(combatTargets.get());
+				drawCombatControlMenu(); 
+				break;
+			
 			/*
 			 * Buttons available in special cases.
 			 */
@@ -518,15 +572,33 @@ public class GuiInteraction extends GuiScreen
 				else
 				{
 					villager.say("interaction.hire.success", player);
-					MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId()));
+					MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), 
+							villager.getEntityId(), 
+							new Integer(hireLengths.get()), 
+							new Boolean(currentPage == EnumInteraction.EXTEND.getId())));
 				}
 
 				Minecraft.getMinecraft().displayGuiScreen(null);
 				break;
 
-			case LENGTH: hireLengths.next();
+			case LENGTH: 
+				hireLengths.next();
+				
+				if (currentPage == EnumInteraction.EXTEND.getId())
+				{
+					drawExtendButtonMenu();
+				}
+				
+				else
+				{
+					drawHireButtonMenu();
+				}
+				
+				break;
+				
 			case HIRE: drawHireButtonMenu(); break;
-
+			case EXTEND: drawExtendButtonMenu(); break;
+			
 			case PICK_UP:
 				TutorialManager.setTutorialMessage(new TutorialMessage("You can drop your child by right-clicking the ground.", ""));
 				villager.mountEntity(player);
@@ -584,6 +656,7 @@ public class GuiInteraction extends GuiScreen
 			case DIVORCE:
 			case PROCREATE:
 			case ADOPTBABY:
+			case DISMISS:
 			case STOP: MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId())); close(); break;
 
 			case INVENTORY:
@@ -631,7 +704,10 @@ public class GuiInteraction extends GuiScreen
 				case WORK:
 				case INTERACT: drawMainButtonMenu(); break;
 
+				case EXTEND:
 				case HIRE: drawSpecialButtonMenu(); break;
+				
+				case COMBAT: drawWorkButtonMenu(); break;
 				}
 			}
 		}
@@ -672,7 +748,12 @@ public class GuiInteraction extends GuiScreen
 			buttonList.add(new GuiButton(EnumInteraction.RIDE_HORSE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.ridehorse"))); yLoc -= yInt;
 		}
 
-		if (!villager.getIsChild())
+		if (villager.getPlayerSpouse() == player)
+		{
+			buttonList.add(new GuiButton(EnumInteraction.WORK.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.work"))); yLoc -= yInt;
+		}
+		
+		else if (!villager.getIsChild())
 		{
 			buttonList.add(new GuiButton(EnumInteraction.SPECIAL.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.special"))); yLoc -= yInt;
 		}
@@ -752,6 +833,7 @@ public class GuiInteraction extends GuiScreen
 		buttonList.add(new GuiButton(EnumInteraction.HUNTING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.hunting"))); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.FISHING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.fishing"))); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.COOKING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.cooking"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.COMBAT.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.combat"))); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.STOP.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.DARKRED + MCA.getLanguageManager().getString("gui.button.stop"))); yLoc -= yInt;
 
 		if (villager.getAIManager().isToggleAIActive())
@@ -776,7 +858,7 @@ public class GuiInteraction extends GuiScreen
 
 		else
 		{
-			((GuiButton)buttonList.get(8)).enabled = false; //Stop button
+			((GuiButton)buttonList.get(9)).enabled = false; //Stop button
 		}
 
 		if (memory.getIsHiredBy())
@@ -788,7 +870,7 @@ public class GuiInteraction extends GuiScreen
 			{
 			case Farmer: validChore = EnumInteraction.FARMING; break;
 			case Miner: validChore = EnumInteraction.MINING; break;
-			case Guard: validChore = EnumInteraction.COMBAT; break;
+			case Warrior: validChore = EnumInteraction.COMBAT; break;
 			}
 
 			if (validChore != null)
@@ -814,6 +896,15 @@ public class GuiInteraction extends GuiScreen
 		{
 			((GuiButton)buttonList.get(7)).enabled = false; //Cooking
 		}
+		
+		//Disable work for spouses
+		if (villager.getPlayerSpouse() == player)
+		{
+			for (int i = 2; i < 7; i++)
+			{
+				((GuiButton)buttonList.get(i)).enabled = false;				
+			}
+		}
 	}
 
 	private void drawSpecialButtonMenu()
@@ -833,11 +924,19 @@ public class GuiInteraction extends GuiScreen
 			boolean isHired = villager.getPlayerMemory(player).getIsHiredBy();
 			String hireButtonText = isHired ? "gui.button.hired" : "gui.button.hire";
 
-			buttonList.add(new GuiButton(EnumInteraction.HIRE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString(hireButtonText))); yLoc -= yInt;
-
+			buttonList.add(new GuiButton(EnumInteraction.HIRE.getId(), width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString(hireButtonText))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.EXTEND.getId(), width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.extend"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.DISMISS.getId(), width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.dismiss"))); yLoc -= yInt;
+			
 			if (isHired)
 			{
 				((GuiButton)buttonList.get(2)).enabled = false;
+			}
+			
+			else
+			{
+				((GuiButton)buttonList.get(3)).enabled = false;
+				((GuiButton)buttonList.get(4)).enabled = false;
 			}
 		}
 
@@ -873,7 +972,22 @@ public class GuiInteraction extends GuiScreen
 
 		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
 		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString("gui.button.hire"))); yLoc -= yInt;
-		//		buttonList.add(new GuiButton(EnumInteraction.LENGTH.getId(),  width / 2 + xLoc - 35, height / 2 - yLoc, 100, 20, MCA.getLanguageManager().getString("gui.button.length", hireLengths.get()))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.LENGTH.getId(),  width / 2 + xLoc - 35, height / 2 - yLoc, 100, 20, MCA.getLanguageManager().getString("gui.button.length", hireLengths.get()))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.ACCEPT.getId(),  width / 2 + xLoc - 25, height / 2 - yLoc, 90, 20, MCA.getLanguageManager().getString("gui.button.accept"))); yLoc -= yInt;
+	}
+	
+	private void drawExtendButtonMenu()
+	{
+		buttonList.clear();
+		currentPage = EnumInteraction.EXTEND.getId();
+
+		int xLoc = width == 480 ? 170 : 145; 
+		int yLoc = height == 240 ? 115 : height == 255 ? 125 : 132;
+		int yInt = 22;
+
+		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString("gui.button.extend"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.LENGTH.getId(),  width / 2 + xLoc - 35, height / 2 - yLoc, 100, 20, MCA.getLanguageManager().getString("gui.button.length", hireLengths.get()))); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.ACCEPT.getId(),  width / 2 + xLoc - 25, height / 2 - yLoc, 90, 20, MCA.getLanguageManager().getString("gui.button.accept"))); yLoc -= yInt;
 	}
 
@@ -1028,6 +1142,36 @@ public class GuiInteraction extends GuiScreen
 		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + MCA.getLanguageManager().getString("gui.button.start"))); yLoc -= yInt;
 	}
 
+	private void drawCombatControlMenu() 
+	{
+		AICombat combatAI = villager.getAIManager().getAI(AICombat.class);
+		
+		buttonList.clear();
+		currentPage = EnumInteraction.COMBAT.getId();
+
+		int xLoc = width == 480 ? 170 : 145; 
+		int yLoc = height == 240 ? 115 : height == 255 ? 125 : 132;
+		int yInt = 22;
+
+		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString("gui.button.combat"))); yLoc -= yInt;
+
+		xLoc -= 95;
+		
+		buttonList.add(new GuiButton(EnumInteraction.ATTACK_METHOD.getId(), width / 2 + xLoc, height / 2 - yLoc,  160, 20, 
+				MCA.getLanguageManager().getString("combat.button.method") + combatAI.getMethodBehavior().getParsedText())); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.ATTACK_TRIGGER.getId(), width / 2 + xLoc, height / 2 - yLoc,  160, 20, 
+				MCA.getLanguageManager().getString("combat.button.trigger") + combatAI.getTriggerBehavior().getParsedText())); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.ATTACK_TARGET.getId(), width / 2 + xLoc, height / 2 - yLoc,  160, 20, 
+				MCA.getLanguageManager().getString("combat.button.target") + combatAI.getTargetBehavior().getParsedText())); yLoc -= yInt;
+				
+		if (combatAI.getMethodBehavior() == EnumCombatBehaviors.METHOD_DO_NOT_FIGHT)
+		{
+			((GuiButton)buttonList.get(3)).enabled = false;
+			((GuiButton)buttonList.get(4)).enabled = false;
+		}
+	}
+	
 	private void close()
 	{
 		Minecraft.getMinecraft().displayGuiScreen(null);

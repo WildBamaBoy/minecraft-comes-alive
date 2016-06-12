@@ -53,4 +53,7 @@ public class WatcherIDsHuman
 	public static final int DO_OPEN_INVENTORY = 49;
 	public static final int PLAYER_SKIN_USERNAME = 50;
 	public static final int PARENTS_GENDERS = 51;
+	public static final int COMBAT_METHOD = 52;
+	public static final int COMBAT_TRIGGER = 53;
+	public static final int COMBAT_TARGET = 54;
 }
