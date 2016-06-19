@@ -23,12 +23,12 @@ public class PlayerData extends AbstractPlayerData
 	protected WatchedBoolean shouldHaveBaby;
 	protected WatchedBoolean isEngaged;
 	protected WatchedBoolean isInLiteMode;
-	protected WatchedBoolean isMonarch;
 	protected WatchedBoolean hasChosenDestiny;
 	protected WatchedString mcaName;
 	protected WatchedString spouseName;
 	protected WatchedBoolean isSuperUser;
-
+	protected WatchedBoolean isNobility;
+	
 	public PlayerData(String playerUUID, World world)
 	{
 		super(playerUUID, MCA.ID, world);
@@ -56,11 +56,11 @@ public class PlayerData extends AbstractPlayerData
 		shouldHaveBaby = new WatchedBoolean(false, WatcherIDsPlayerData.SHOULD_HAVE_BABY, dataWatcher);
 		isEngaged = new WatchedBoolean(false, WatcherIDsPlayerData.IS_ENGAGED, dataWatcher);
 		isInLiteMode = new WatchedBoolean(false, WatcherIDsPlayerData.IS_IN_LITE_MODE, dataWatcher);
-		isMonarch = new WatchedBoolean(false, WatcherIDsPlayerData.IS_MONARCH, dataWatcher);
 		mcaName = new WatchedString(owner != null ? owner.getCommandSenderName() : "none", WatcherIDsPlayerData.MCA_NAME, dataWatcher);
 		hasChosenDestiny = new WatchedBoolean(false, WatcherIDsPlayerData.HAS_CHOSEN_DESTINY, dataWatcher);
 		isSuperUser = new WatchedBoolean(false, WatcherIDsPlayerData.IS_SUPER_USER, dataWatcher);
 		spouseName = new WatchedString("none", WatcherIDsPlayerData.SPOUSE_NAME, dataWatcher);
+		isNobility = new WatchedBoolean(false, WatcherIDsPlayerData.IS_NOBILITY, dataWatcher);
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class PlayerData extends AbstractPlayerData
 		MCA.getLog().info("Should Have Baby: " + getShouldHaveBaby());
 		MCA.getLog().info("Is Engaged: " + getIsEngaged());
 		MCA.getLog().info("Is In Lite Mode: " + isInLiteMode.getBoolean());
-		MCA.getLog().info("Is Monarch: " + isMonarch.getBoolean());
+		MCA.getLog().info("Is Nobility: " + isNobility.getBoolean());
 		MCA.getLog().info("MCA Name: " + mcaName.getString());
 	}
 	
@@ -155,16 +155,6 @@ public class PlayerData extends AbstractPlayerData
 		this.isInLiteMode.setValue(value);
 	}
 
-	public boolean getIsMonarch() 
-	{
-		return isMonarch.getBoolean();
-	}
-
-	public void setIsMonarch(boolean value) 
-	{
-		this.isMonarch.setValue(value);
-	}
-
 	public boolean getHasChosenDestiny() 
 	{
 		return hasChosenDestiny.getBoolean();
@@ -213,5 +203,15 @@ public class PlayerData extends AbstractPlayerData
 	public void setIsEngaged(boolean value) 
 	{
 		this.isEngaged.setValue(value);
+	}
+	
+	public boolean getIsNobility()
+	{
+		return isNobility.getBoolean();
+	}
+	
+	public void setIsNobility(boolean value)
+	{
+		this.isNobility.setValue(value);
 	}
 }

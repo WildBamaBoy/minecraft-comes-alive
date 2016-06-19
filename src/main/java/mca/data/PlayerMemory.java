@@ -36,7 +36,7 @@ public class PlayerMemory implements Serializable
 	private int feedbackDisplayTime;
 	private boolean lastInteractionSuccess;
 	private int relationId;
-
+	private int taxResetCounter;
 	private transient int timeUntilGreeting;
 	private transient int distanceTravelledFrom;
 
@@ -90,6 +90,7 @@ public class PlayerMemory implements Serializable
 		nbt.setBoolean(nbtPrefix + "isHiredBy", isHiredBy);
 		nbt.setInteger(nbtPrefix + "feedbackDisplayTime", feedbackDisplayTime);
 		nbt.setBoolean(nbtPrefix + "lastInteractionSuccess", lastInteractionSuccess);
+		nbt.setInteger(nbtPrefix + "taxResetCounter", taxResetCounter);
 		nbt.setInteger(nbtPrefix + "relationId", relationId);
 	}
 
@@ -112,6 +113,7 @@ public class PlayerMemory implements Serializable
 		feedbackDisplayTime = nbt.getInteger(nbtPrefix + "feedbackDisplayTime");
 		lastInteractionSuccess = nbt.getBoolean(nbtPrefix + "lastInteractionSuccess");
 		relationId = nbt.getInteger(nbtPrefix + "relationId");
+		taxResetCounter = nbt.getInteger(nbtPrefix + "taxResetCounter");
 	}
 
 	public void doTick()
@@ -131,6 +133,16 @@ public class PlayerMemory implements Serializable
 				}
 			}
 
+			if (taxResetCounter > 0)
+			{
+				taxResetCounter--;
+				
+				if (taxResetCounter <= 0)
+				{
+					setTaxResetCounter(0);
+				}
+			}
+			
 			counter = Time.MINUTE;
 		}
 
@@ -305,5 +317,16 @@ public class PlayerMemory implements Serializable
 	public int getHireTimeLeft()
 	{
 		return hireTimeLeft;
+	}
+	
+	public void setTaxResetCounter(int value)
+	{
+		this.taxResetCounter = value;
+		onNonTransientValueChanged();
+	}
+	
+	public int getTaxResetCounter()
+	{
+		return taxResetCounter;
 	}
 }

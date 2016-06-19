@@ -485,6 +485,7 @@ public class GuiInteraction extends GuiScreen
 
 		if (interaction != null)
 		{
+			DataWatcherEx.allowClientSideModification = true;
 			switch (interaction)
 			{
 			/*
@@ -656,12 +657,17 @@ public class GuiInteraction extends GuiScreen
 			case PROCREATE:
 			case ADOPTBABY:
 			case DISMISS:
+			case TAXES:
 			case STOP: MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId())); close(); break;
 
 			case INVENTORY:
 				DataWatcherEx.allowClientSideModification = true;
 				villager.setDoOpenInventory(true);
 				DataWatcherEx.allowClientSideModification = false;
+				break;
+			
+			case NOBILITY:
+				drawNobilityControlMenu();
 				break;
 				
 			case START: 
@@ -707,8 +713,12 @@ public class GuiInteraction extends GuiScreen
 				case HIRE: drawSpecialButtonMenu(); break;
 				
 				case COMBAT: drawWorkButtonMenu(); break;
+				
+				case NOBILITY: drawMainButtonMenu(); break;
 				}
 			}
+			
+			DataWatcherEx.allowClientSideModification = false;
 		}
 	}
 
@@ -787,6 +797,12 @@ public class GuiInteraction extends GuiScreen
 					}
 				}
 			}
+		}
+		
+		if (playerData.getIsNobility() && !villager.isPlayerAParent(player) && villager.getPlayerSpouse() != player)
+		{
+			String nobilityString = playerData.getIsMale() ? "gui.button.duke" : "gui.button.duchess";
+			buttonList.add(new GuiButton(EnumInteraction.NOBILITY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString(nobilityString))); yLoc -= yInt;
 		}
 	}
 
@@ -1169,6 +1185,31 @@ public class GuiInteraction extends GuiScreen
 			((GuiButton)buttonList.get(3)).enabled = false;
 			((GuiButton)buttonList.get(4)).enabled = false;
 		}
+	}
+	
+	private void drawNobilityControlMenu()
+	{
+		buttonList.clear();
+		currentPage = EnumInteraction.NOBILITY.getId();
+
+		int xLoc = width == 480 ? 170 : 145; 
+		int yLoc = height == 240 ? 115 : height == 255 ? 125 : 132;
+		int yInt = 22;
+
+		String nobilityString = playerData.getIsMale() ? "gui.button.duke" : "gui.button.duchess";
+		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString(nobilityString))); yLoc -= yInt;		
+		
+		xLoc -= 55;
+		
+		buttonList.add(new GuiButton(EnumInteraction.TAXES.getId(), width / 2 + xLoc, height / 2 - yLoc, 120, 20, MCA.getLanguageManager().getString("gui.button.taxes"))); yLoc -= yInt;
+		
+		if (memory.getTaxResetCounter() > 0)
+		{
+			((GuiButton)buttonList.get(2)).enabled = false;
+		}
+		
+		TutorialManager.setTutorialMessage(new TutorialMessage("Taxing will result in a small contribution of items possible", "every 20 minutes. It also decrease hearts of all nearby villagers."));
 	}
 	
 	private void close()
