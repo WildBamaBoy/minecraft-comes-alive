@@ -376,6 +376,34 @@ public class CommandMCA extends CommandBase
 				addChatMessage(commandSender, Color.GREEN + "Killed all Grim Reaper entities.");
 			}
 			
+			else if (subcommand.equalsIgnoreCase("tpn")) //Toggle player nobility
+			{
+				String playerName = arguments[0];
+				EntityPlayer targetPlayer = player.worldObj.getPlayerEntityByName(playerName);
+
+				if (targetPlayer != null)
+				{
+					PlayerData data = MCA.getPlayerData(targetPlayer);
+					
+					if (data.getIsNobility())
+					{
+						data.setIsNobility(false);
+						addChatMessage(commandSender, Color.GOLD + playerName + " is now set as non-nobility.");
+					}
+					
+					else
+					{
+						data.setIsNobility(true);
+						addChatMessage(commandSender, Color.GOLD + playerName + " is now set as nobility.");
+					}
+				}
+
+				else
+				{
+					addChatMessage(commandSender, Color.RED + playerName + " was not found on the server.");					
+				}
+			}
+			
 			else
 			{
 				throw new WrongUsageException("");

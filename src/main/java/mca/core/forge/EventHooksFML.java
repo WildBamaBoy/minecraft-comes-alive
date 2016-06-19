@@ -336,9 +336,9 @@ public class EventHooksFML
 					
 					int populationCapacity = village.getNumVillageDoors();
 					int population = 0;
-					double posX = village.getCenter().posX;
-					double posY = village.getCenter().posY;
-					double posZ = village.getCenter().posZ;
+					double posX = village.getCenter().getX();
+					double posY = village.getCenter().getY();
+					double posZ = village.getCenter().getZ();
 					
 					for (Entity entity : RadixLogic.getAllEntitiesWithinDistanceOfCoordinates(world, posX, posY, posZ, village.getVillageRadius()))
 					{

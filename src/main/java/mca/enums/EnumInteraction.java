@@ -74,7 +74,10 @@ public enum EnumInteraction
 	HAVEBABY_ACCEPT(1004, "havebabyaccept"), 
 	
 	RESETBABY(1101, "resetbaby"),
-	ADOPTBABY(1102, "adoptbaby");
+	ADOPTBABY(1102, "adoptbaby"),
+	
+	NOBILITY(1201, "nobility"),
+	TAXES(1202, "taxes");
 	
 	private int id;
 	private String name;

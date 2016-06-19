@@ -1,5 +1,7 @@
 package mca.packets;
 
+import java.util.List;
+
 import io.netty.buffer.ByteBuf;
 import mca.ai.AIMood;
 import mca.ai.AIProcreate;
@@ -17,21 +19,25 @@ import mca.enums.EnumPersonality;
 import mca.items.ItemBaby;
 import mca.util.MarriageHandler;
 import mca.util.TutorialManager;
+import mca.util.TutorialMessage;
 import mca.util.Utilities;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import radixcore.constant.Font.Color;
-import radixcore.constant.Time;
 import radixcore.network.ByteBufIO;
 import radixcore.packets.AbstractPacket;
 import radixcore.util.BlockHelper;
@@ -440,6 +446,78 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 			{
 				PlayerMemory memory = villager.getPlayerMemory(player);
 				memory.setIsHiredBy(false, 0);
+			}
+			
+			else if (interaction == EnumInteraction.TAXES)
+			{
+				//Count villagers in area.
+				List<Entity> villagerList = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, villager, 50);
+				int villagersInArea = villagerList.size();
+				
+				if (villagersInArea > 10)
+				{
+					//Calculate total hearts and averages.
+					Item dropItem = RadixLogic.getBooleanWithProbability(3) ? Items.diamond : 
+						RadixLogic.getBooleanWithProbability(50) ? Items.gold_nugget : Items.iron_ingot;
+					PlayerMemory thisMemory = villager.getPlayerMemory(player);
+					int happinessLevel = 0;
+					int totalHearts = 0;
+					int itemsDropped = 0;
+					double averageHearts = 0;
+					double percentAverage = 0;
+					
+					for (Entity entity : villagerList)
+					{
+						EntityHuman human = (EntityHuman)entity;
+						PlayerMemory memory = human.getPlayerMemory(player);
+						totalHearts += memory.getHearts();
+					}
+					
+					averageHearts = (float)totalHearts / (float)(villagersInArea * 100);
+					percentAverage = (int) (averageHearts * 100);
+					happinessLevel = MathHelper.clamp_int((int)Math.round(percentAverage / 25), 0, 4);
+					itemsDropped = RadixMath.getNumberInRange(Math.round((float)happinessLevel / 2), happinessLevel * 2);
+					
+					if (itemsDropped == 0) //On happiness level 0, make sure just one is dropped.
+					{
+						itemsDropped++;
+					}
+					
+					if (dropItem == Items.diamond) //Halve what will be received from a rare diamond drop.
+					{
+						itemsDropped = MathHelper.clamp_int(itemsDropped, 1, 5);
+					}
+					
+					if (happinessLevel <= 2)
+					{
+						MCA.getPacketHandler().sendPacketToPlayer(new PacketSetTutorialMessage(
+								new TutorialMessage("Unhappy villagers do not like being taxed, and will contribute less.", 
+										"Increase their happiness by maintaining high hearts with them.")), (EntityPlayerMP) player);
+					}
+					
+					//Randomly decrease hearts of all villagers around.
+					for (Entity entity : villagerList)
+					{
+						if (RadixLogic.getBooleanWithProbability(50))
+						{
+							EntityHuman human = (EntityHuman)entity;
+							PlayerMemory memory = human.getPlayerMemory(player);
+							memory.setHearts(memory.getHearts() - RadixMath.getNumberInRange(3, 8));
+						}
+					}
+					
+					//Drop the item.
+					villager.entityDropItem(new ItemStack(dropItem, itemsDropped), 1.0F);
+					
+					//Comment on village happiness and reset this villager's tax time.
+					villager.say("interaction.tax.happylevel" + happinessLevel, player);
+					thisMemory.setTaxResetCounter(20); //Set to 20 minutes.
+				}
+				
+				else
+				{
+					villager.say("interaction.tax.notlargeenough", player);
+				}
 			}
 		}
 	}

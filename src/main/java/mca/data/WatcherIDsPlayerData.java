@@ -9,7 +9,7 @@ public class WatcherIDsPlayerData
 	public static final int SHOULD_HAVE_BABY = 5;
 	public static final int IS_ENGAGED = 6;
 	public static final int IS_IN_LITE_MODE = 7;
-	public static final int IS_MONARCH = 8;
+	public static final int IS_NOBILITY = 8;
 	public static final int MCA_NAME = 9;
 	public static final int UNUSED_10 = 10;
 	public static final int HAS_CHOSEN_DESTINY = 11;
