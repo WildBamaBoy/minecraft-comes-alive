@@ -659,6 +659,7 @@ public class GuiInteraction extends GuiScreen
 			case ADOPTBABY:
 			case DISMISS:
 			case TAXES:
+			case CHECKHAPPINESS:
 			case STOP: MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId())); close(); break;
 
 			case INVENTORY:
@@ -961,6 +962,11 @@ public class GuiInteraction extends GuiScreen
 			buttonList.add(new GuiButton(EnumInteraction.DIVORCE.getId(),  width / 2 + xLoc - 20, height / 2 - yLoc,  85, 20, MCA.getLanguageManager().getString("gui.button.divorcespouse"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.ADOPTBABY.getId(),  width / 2 + xLoc - 20, height / 2 - yLoc,  85, 20, MCA.getLanguageManager().getString("gui.button.adoptbaby"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.RESETBABY.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.resetbaby"))); yLoc -= yInt;
+		}
+		
+		else if (villager.getProfessionGroup() == EnumProfessionGroup.Librarian && villager.getPlayerSpouse() != player)
+		{
+			buttonList.add(new GuiButton(EnumInteraction.CHECKHAPPINESS.getId(),  width / 2 + xLoc - 20, height / 2 - yLoc,  85, 20, MCA.getLanguageManager().getString("gui.button.checkhappiness"))); yLoc -= yInt;
 		}
 		
 		if (villager.getPlayerSpouse() == player)
