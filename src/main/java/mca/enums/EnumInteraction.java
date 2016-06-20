@@ -77,7 +77,9 @@ public enum EnumInteraction
 	ADOPTBABY(1102, "adoptbaby"),
 	
 	NOBILITY(1201, "nobility"),
-	TAXES(1202, "taxes");
+	TAXES(1202, "taxes"),
+	
+	CHECKHAPPINESS(1301, "checkhappiness");
 	
 	private int id;
 	private String name;

@@ -342,8 +342,6 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 
 						if (stack != null && stack.getItem() instanceof ItemBaby)
 						{
-							ItemBaby baby = (ItemBaby) stack.getItem();
-
 							if (stack.stackTagCompound.getString("owner").equals(player.getCommandSenderName()))
 							{
 								player.inventory.setInventorySlotContents(i, null);
@@ -439,39 +437,22 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 			
 			else if (interaction == EnumInteraction.TAXES)
 			{
-				//Count villagers in area.
 				List<Entity> villagerList = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, villager, 50);
-				int villagersInArea = villagerList.size();
+				int percentAverage = getVillageHappinessPercentage(villager, player, villagerList);
 				
-				if (villagersInArea > 10)
+				if (percentAverage != -1)
 				{
-					//Calculate total hearts and averages.
+					PlayerMemory thisMemory = villager.getPlayerMemory(player);
 					Item dropItem = RadixLogic.getBooleanWithProbability(3) ? Items.diamond : 
 						RadixLogic.getBooleanWithProbability(50) ? Items.gold_nugget : Items.iron_ingot;
-					PlayerMemory thisMemory = villager.getPlayerMemory(player);
-					int happinessLevel = 0;
-					int totalHearts = 0;
-					int itemsDropped = 0;
-					double averageHearts = 0;
-					double percentAverage = 0;
-					
-					for (Entity entity : villagerList)
-					{
-						EntityHuman human = (EntityHuman)entity;
-						PlayerMemory memory = human.getPlayerMemory(player);
-						totalHearts += memory.getHearts();
-					}
-					
-					averageHearts = (float)totalHearts / (float)(villagersInArea * 100);
-					percentAverage = (int) (averageHearts * 100);
-					happinessLevel = MathHelper.clamp_int((int)Math.round(percentAverage / 25), 0, 4);
-					itemsDropped = RadixMath.getNumberInRange(Math.round((float)happinessLevel / 2), happinessLevel * 2);
+					int	happinessLevel = MathHelper.clamp_int((int)Math.round(percentAverage / 25), 0, 4);
+					int	itemsDropped = RadixMath.getNumberInRange(Math.round((float)happinessLevel / 2), happinessLevel * 2);
 					
 					if (itemsDropped == 0) //On happiness level 0, make sure just one is dropped.
 					{
 						itemsDropped++;
 					}
-					
+						
 					if (dropItem == Items.diamond) //Halve what will be received from a rare diamond drop.
 					{
 						itemsDropped = MathHelper.clamp_int(itemsDropped, 1, 5);
@@ -480,10 +461,10 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 					if (happinessLevel <= 2)
 					{
 						MCA.getPacketHandler().sendPacketToPlayer(new PacketSetTutorialMessage(
-								new TutorialMessage("Unhappy villagers do not like being taxed, and will contribute less.", 
-										"Increase their happiness by maintaining high hearts with them.")), (EntityPlayerMP) player);
+							new TutorialMessage("Unhappy villagers do not like being taxed, and will contribute less.", 
+									"Increase their happiness by maintaining high hearts with them.")), (EntityPlayerMP) player);
 					}
-					
+						
 					//Randomly decrease hearts of all villagers around.
 					for (Entity entity : villagerList)
 					{
@@ -494,10 +475,10 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 							memory.setHearts(memory.getHearts() - RadixMath.getNumberInRange(3, 8));
 						}
 					}
-					
+						
 					//Drop the item.
 					villager.entityDropItem(new ItemStack(dropItem, itemsDropped), 1.0F);
-					
+						
 					//Comment on village happiness and reset this villager's tax time.
 					villager.say("interaction.tax.happylevel" + happinessLevel, player);
 					thisMemory.setTaxResetCounter(20); //Set to 20 minutes.
@@ -508,6 +489,23 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 					villager.say("interaction.tax.notlargeenough", player);
 				}
 			}
+
+			else if (interaction == EnumInteraction.CHECKHAPPINESS)
+			{
+				List<Entity> villagerList = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, villager, 50);
+				int happinessPercent = getVillageHappinessPercentage(villager, player, villagerList);
+				int requiredVillagers = 10 - villagerList.size();
+				
+				if (happinessPercent == -1)
+				{
+					villager.say("interaction.checkhappiness.fail", player, requiredVillagers);					
+				}
+				
+				else
+				{
+					villager.say("interaction.checkhappiness.success", player, happinessPercent);
+				}
+			}
 		}
 
 		return null;
@@ -515,7 +513,6 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 
 	private boolean getIsOverChildrenCount(EntityPlayer player)
 	{
-		PlayerData playerData = MCA.getPlayerData(player);
 		int childrenCount = 0;
 
 		for (Object obj : MinecraftServer.getServer().worldServers[0].loadedEntityList)
@@ -532,5 +529,34 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 		}
 
 		return childrenCount >= MCA.getConfig().childLimit && MCA.getConfig().childLimit != -1;
+	}
+	
+	private int getVillageHappinessPercentage(EntityHuman villager, EntityPlayer player, List<Entity> villagerList)
+	{
+		int villagersInArea = villagerList.size();
+				
+		if (villagersInArea >= 10)
+		{
+			//Calculate total hearts and averages.
+			int totalHearts = 0;
+			int percentAverage = 0;
+			double averageHearts = 0;
+			
+			for (Entity entity : villagerList)
+			{
+				EntityHuman human = (EntityHuman)entity;
+				PlayerMemory memory = human.getPlayerMemory(player);
+				totalHearts += MathHelper.clamp_int(memory.getHearts(), -100, 100);
+			}
+			
+			averageHearts = (float)totalHearts / (float)(villagersInArea * 100);
+			percentAverage = (int) (averageHearts * 100);
+			return percentAverage;
+		}
+		
+		else
+		{
+			return -1;
+		}
 	}
 }

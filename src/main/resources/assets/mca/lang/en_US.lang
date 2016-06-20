@@ -643,6 +643,7 @@ gui.button.adoptbaby=Adopt Baby
 gui.button.next=Next
 gui.button.call=Call
 gui.button.callall=Call All
+gui.button.checkhappiness=Check Happiness
 
 ################
 # Relations
@@ -936,6 +937,9 @@ interaction.tax.notlargeenough1=I don't think our village is big enough to requi
 interaction.tax.notlargeenough2=We're just a small village - we don't need taxes.
 interaction.tax.notlargeenough3=We'd need a higher population before we even think about taxes.
 interaction.tax.notlargeenough4=Tax? What? We're too small for that!
+
+interaction.checkhappiness.success=My records put the village's happiness at about %a1% percent.
+interaction.checkhappiness.fail=Our village isn't large enough for me to track our happiness yet. We need %a1% more villagers.
 
 interactionp.marry.sent=You have asked %a1% to marry you.
 interactionp.marry.success=You are now married to %a1%.
