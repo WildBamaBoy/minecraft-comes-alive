@@ -1197,7 +1197,7 @@ public class GuiInteraction extends GuiScreen
 		int yLoc = height == 240 ? 115 : height == 255 ? 125 : 132;
 		int yInt = 22;
 
-		String nobilityString = playerData.getIsMale() ? "gui.button.duke" : "gui.button.duchess";
+		String nobilityString = playerData.getIsMale() ? "gui.button.baron" : "gui.button.baroness";
 		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
 		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString(nobilityString))); yLoc -= yInt;		
 		
