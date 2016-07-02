@@ -56,6 +56,7 @@ import mca.packets.PacketOpenGUIOnEntity;
 import mca.packets.PacketSetSize;
 import mca.util.MarriageHandler;
 import mca.util.Utilities;
+import net.minecraft.block.Block;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.entity.Entity;
@@ -68,6 +69,7 @@ import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -79,6 +81,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.BlockPos;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
@@ -103,6 +106,7 @@ import radixcore.data.WatchedString;
 import radixcore.inventory.Inventory;
 import radixcore.math.Point3D;
 import radixcore.network.ByteBufIO;
+import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
 
 public class EntityHuman extends EntityVillager implements IWatchable, IPermanent, IEntityAdditionalSpawnData
@@ -659,6 +663,9 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 						this.entityDropItem(memorialStack, 1.0F);
 						memorialDropped = true;
 					}
+
+					createMemorialChestForMarriedAdult();
+					memorialDropped = true;
 				}
 			}
 
@@ -694,6 +701,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 							data.writeDataToNBT(memorialStack.getTagCompound());
 							
 							this.entityDropItem(memorialStack, 1.0F);
+
+							createMemorialChestForChild(memory);
 							memorialDropped = true;
 						}
 					}
@@ -1891,5 +1900,96 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
         }
 
         return p_70663_1_ + f3;
+    }
+    
+    private void createMemorialChestForChild(PlayerMemory memory)
+    {
+		VillagerSaveData data = VillagerSaveData.fromVillager(this, null, UUID.fromString(memory.getUUID()));
+		ItemStack memorialStack = new ItemStack(this.isMale.getBoolean() ? ModItems.toyTrain : ModItems.childsDoll);
+		
+		memorialStack.setTagCompound(new NBTTagCompound());
+		memorialStack.getTagCompound().setString("ownerName", memory.getPlayerName());
+		memorialStack.getTagCompound().setInteger("relation", memory.getRelation().getId());
+		data.writeDataToNBT(memorialStack.getTagCompound());
+		
+		this.entityDropItem(memorialStack, 1.0F);
+		createMemorialChestAtCurrentLocation(memorialStack);
+    }
+    
+    private void createMemorialChestForMarriedAdult()
+    {		
+		UUID ownerUUID = null;
+		String ownerName = null;
+		EnumRelation ownerRelation = null;
+		Item memorialItem = null;
+		EntityPlayer playerPartner = getPlayerSpouse();
+		
+		if (playerPartner == null)
+		{
+			return;
+		}
+		
+		ownerUUID = playerPartner.getPersistentID();
+		ownerName = playerPartner.getName();
+		ownerRelation = getPlayerMemory(playerPartner).getRelation();
+		
+		switch (ownerRelation)
+		{
+		case HUSBAND:
+		case WIFE: memorialItem = ModItems.brokenRing; break;
+		case SON: memorialItem = ModItems.toyTrain; break;
+		case DAUGHTER: memorialItem = ModItems.childsDoll; break;
+		}
+		
+		if (memorialItem != null)
+		{
+			VillagerSaveData data = VillagerSaveData.fromVillager(this, null, ownerUUID);
+			ItemStack memorialStack = new ItemStack(memorialItem);
+			
+			memorialStack.setTagCompound(new NBTTagCompound());
+			memorialStack.getTagCompound().setString("ownerName", ownerName);
+			memorialStack.getTagCompound().setInteger("relation", ownerRelation.getId());
+			data.writeDataToNBT(memorialStack.getTagCompound());
+			
+			createMemorialChestAtCurrentLocation(memorialStack);
+		}
+    }
+
+    private void createMemorialChestAtCurrentLocation(ItemStack memorialItem)
+    {
+    	Point3D nearestAir = RadixLogic.getFirstNearestBlock(this, Blocks.air, 3);
+    	
+    	if (nearestAir == null)
+    	{
+    		MCA.getLog().warn("No available location to spawn villager death chest for " + this.getName());
+    	}
+    	
+    	else
+    	{
+    		int y = nearestAir.iPosY;
+    		Block block = Blocks.air;
+    		
+    		while (block == Blocks.air)
+    		{
+    			y--;
+    			block = BlockHelper.getBlock(worldObj, nearestAir.iPosX, y, nearestAir.iPosZ);
+    		}
+    		
+    		y += 1;
+    		BlockHelper.setBlock(worldObj, nearestAir.iPosX, y, nearestAir.iPosZ, Blocks.chest);
+    		
+    		try
+    		{
+    			TileEntityChest chest = (TileEntityChest) worldObj.getTileEntity(new BlockPos(nearestAir.iPosX, y, nearestAir.iPosZ));
+    			chest.setInventorySlotContents(0, memorialItem);
+    			MCA.getLog().info("Spawned villager death chest at: " + nearestAir.iPosX + ", " + y + ", " + nearestAir.iPosZ);
+    		}
+    		
+    		catch (Exception e)
+    		{
+    			MCA.getLog().error("Error spawning villager death chest: " + e.getMessage());
+    			return;
+    		}
+    	}
     }
 }
