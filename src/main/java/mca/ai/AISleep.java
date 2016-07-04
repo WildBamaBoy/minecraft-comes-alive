@@ -278,6 +278,11 @@ public class AISleep extends AbstractAI
 		}
 	}
 
+	public Point3D getHomePoint()
+	{
+		return new Point3D(homePosX, homePosY, homePosZ);
+	}
+	
 	public void transitionSkinState(boolean toSleeping)
 	{
 		String skinValue = owner.getHeadTexture();
