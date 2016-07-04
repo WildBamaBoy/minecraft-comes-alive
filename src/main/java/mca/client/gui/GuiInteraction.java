@@ -803,7 +803,7 @@ public class GuiInteraction extends GuiScreen
 		
 		if (playerData.getIsNobility() && !villager.isPlayerAParent(player) && villager.getPlayerSpouse() != player)
 		{
-			String nobilityString = playerData.getIsMale() ? "gui.button.duke" : "gui.button.duchess";
+			String nobilityString = playerData.getIsMale() ? "gui.button.baron" : "gui.button.baroness";
 			buttonList.add(new GuiButton(EnumInteraction.NOBILITY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString(nobilityString))); yLoc -= yInt;
 		}
 	}

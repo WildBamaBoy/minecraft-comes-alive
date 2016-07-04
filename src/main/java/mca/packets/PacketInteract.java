@@ -519,7 +519,12 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 				else
 				{
 					villager.say("interaction.checkhappiness.success", player, happinessPercent);
-					flag = true;
+					
+					if (happinessPercent > 80)
+					{
+						TutorialManager.sendMessageToPlayer(player, "Once your village's happiness is at 80% or more they may", "soon ask you to become a baron or baroness.");
+						flag = true;
+					}
 				}
 				
 				//Setting the flag again on a noble can cause the greeting for becoming baron to come up again.
@@ -527,6 +532,13 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 				{
 					data.setHappinessThresholdMet(flag);
 				}
+			}
+			
+			else if (interaction == EnumInteraction.NOBILITY_PROMPT_ACCEPT)
+			{
+				NBTPlayerData data = MCA.getPlayerData(player);
+				data.setIsNobility(true);
+				data.setHappinessThresholdMet(false);
 			}
 		}
 	}
