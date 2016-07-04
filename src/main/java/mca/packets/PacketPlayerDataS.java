@@ -50,8 +50,7 @@ public class PacketPlayerDataS extends AbstractPacket implements IMessage, IMess
 		
 		NBTPlayerData data = MCA.getPlayerData(this.getPlayer(context));
 		data.setByFieldUpdateObj(packet.fieldUpdateObj);
-		
-		System.out.println("DATA S " + packet.fieldUpdateObj.fieldId + " : " + packet.fieldUpdateObj.value);
+
 		return null;
 	}
 }

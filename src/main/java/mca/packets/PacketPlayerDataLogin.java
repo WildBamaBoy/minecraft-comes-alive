@@ -39,7 +39,6 @@ public class PacketPlayerDataLogin extends AbstractPacket implements IMessage, I
 	public IMessage onMessage(PacketPlayerDataLogin packet, MessageContext context)
 	{
 		MCA.myPlayerData = packet.playerData;
-		System.out.println("DATA LOGIN");
 		return null;
 	}
 }

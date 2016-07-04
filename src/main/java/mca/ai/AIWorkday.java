@@ -73,9 +73,6 @@ public class AIWorkday extends AbstractAI
 		}
 
 		//Increment our ticks active in this state and switch if necessary.
-		//TODO remove state setting
-		state = EnumWorkdayState.WANDER;
-
 		ticksActive++;
 
 		if (ticksActive % Time.MINUTE == 0)

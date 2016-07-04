@@ -380,6 +380,5 @@ public class GuiSetup extends GuiScreen
 	{
 		NBTPlayerData data = MCA.getPlayerData(player);
 		data.setHasChosenDestiny(true);
-		System.out.println("DESTINY CHOOSE");
 	}
 }

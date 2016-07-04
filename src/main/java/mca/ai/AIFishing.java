@@ -128,8 +128,6 @@ public class AIFishing extends AbstractToggleAI
 
 		catch (Exception e)
 		{
-			System.out.println("Error in AI - resetting.");
-			e.printStackTrace();
 			reset();
 		}
 	}
