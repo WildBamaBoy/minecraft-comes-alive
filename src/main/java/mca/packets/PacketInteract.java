@@ -10,7 +10,7 @@ import mca.api.RegistryMCA;
 import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
 import mca.core.minecraft.ModItems;
-import mca.data.PlayerData;
+import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.enums.EnumDialogueType;
@@ -310,7 +310,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 
 			else if (interaction == EnumInteraction.DIVORCE)
 			{
-				PlayerData data = MCA.getPlayerData(player);
+				NBTPlayerData data = MCA.getPlayerData(player);
 
 				if (data.getSpousePermanentId() != 0)
 				{
@@ -338,7 +338,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 
 			else if (interaction == EnumInteraction.RESETBABY)
 			{
-				PlayerData data = MCA.getPlayerData(player);
+				NBTPlayerData data = MCA.getPlayerData(player);
 
 				if (data.getShouldHaveBaby())
 				{
@@ -369,7 +369,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 
 			else if (interaction == EnumInteraction.ADOPTBABY)
 			{
-				PlayerData data = MCA.getPlayerData(player);
+				NBTPlayerData data = MCA.getPlayerData(player);
 
 				if (getIsOverChildrenCount(player))
 				{
@@ -424,7 +424,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 
 			else if (interaction == EnumInteraction.PROCREATE)
 			{
-				PlayerData playerData = MCA.getPlayerData(player);
+				NBTPlayerData playerData = MCA.getPlayerData(player);
 
 				if (getIsOverChildrenCount(player))
 				{
@@ -505,18 +505,27 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 
 			else if (interaction == EnumInteraction.CHECKHAPPINESS)
 			{
+				NBTPlayerData data = MCA.getPlayerData(player);
 				List<Entity> villagerList = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, villager, 50);
 				int happinessPercent = getVillageHappinessPercentage(villager, player, villagerList);
 				int requiredVillagers = 10 - villagerList.size();
+				boolean flag = false; 
 				
 				if (happinessPercent == -1)
 				{
-					villager.say("interaction.checkhappiness.fail", player, requiredVillagers);					
+					villager.say("interaction.checkhappiness.fail", player, requiredVillagers);
 				}
 				
 				else
 				{
 					villager.say("interaction.checkhappiness.success", player, happinessPercent);
+					flag = true;
+				}
+				
+				//Setting the flag again on a noble can cause the greeting for becoming baron to come up again.
+				if (!data.getIsNobility())
+				{
+					data.setHappinessThresholdMet(flag);
 				}
 			}
 		}

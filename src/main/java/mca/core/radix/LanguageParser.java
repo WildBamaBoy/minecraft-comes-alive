@@ -1,7 +1,7 @@
 package mca.core.radix;
 
 import mca.core.MCA;
-import mca.data.PlayerData;
+import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.enums.EnumRelation;
@@ -50,7 +50,7 @@ public class LanguageParser extends AbstractLanguageParser
 				
 				else if (unparsedPhrase.contains("%PlayerName%"))
 				{
-					PlayerData data = MCA.getPlayerData(playerTarget);
+					NBTPlayerData data = MCA.getPlayerData(playerTarget);
 					unparsedPhrase = unparsedPhrase.replace("%PlayerName%", data.getMcaName());
 				}
 				

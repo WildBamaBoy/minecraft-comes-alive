@@ -1,10 +1,14 @@
 package mca.command;
 
+import java.io.File;
 import java.util.Arrays;
+import java.util.UUID;
 
 import mca.ai.AIProgressStory;
 import mca.core.MCA;
+import mca.data.NBTPlayerData;
 import mca.data.PlayerData;
+import mca.data.PlayerDataCollection;
 import mca.data.PlayerMemory;
 import mca.entity.EntityGrimReaper;
 import mca.entity.EntityHuman;
@@ -73,7 +77,7 @@ public class CommandMCA extends CommandBase
 
 				if (targetPlayer != null)
 				{
-					final PlayerData data = MCA.getPlayerData(targetPlayer);
+					final NBTPlayerData data = MCA.getPlayerData(targetPlayer);
 
 					if (data.getIsSuperUser())
 					{
@@ -112,38 +116,43 @@ public class CommandMCA extends CommandBase
 
 			else if (subcommand.equalsIgnoreCase("dpd"))
 			{
-				final String arg0 = arguments[0];
+				addChatMessage(commandSender, Color.YELLOW + "Dumping player data to console.");
+				
+				PlayerDataCollection dataCollection = PlayerDataCollection.get();
+				dataCollection.getPlayerData(player.getUniqueID()).dumpToConsole();
+			}
+			
+			else if (subcommand.equalsIgnoreCase("cpd"))
+			{
+				addChatMessage(commandSender, Color.YELLOW + "Beginning conversion of player data...");
+				
+				PlayerDataCollection dataCollection = PlayerDataCollection.get();
+				File playerDataPath = new File(AbstractPlayerData.getPlayerDataPath(MinecraftServer.getServer().getEntityWorld(), MCA.ID));
+				playerDataPath.mkdirs();
 
-				if (arg0.equalsIgnoreCase("all"))
+				int total = 0;
+				int numSucceeded = 0;
+				
+				for (File f : playerDataPath.listFiles())
 				{
-					for (AbstractPlayerData data : MCA.playerDataMap.values())
+					String uuid = f.getName().replace(".dat", "");
+					PlayerData data = new PlayerData(uuid, MinecraftServer.getServer().getEntityWorld());
+					data = data.readDataFromFile(null, PlayerData.class, f);
+					
+					boolean success = dataCollection.migrateOldPlayerData(MinecraftServer.getServer().getEntityWorld(), UUID.fromString(uuid), data);
+					
+					if (success)
 					{
-						PlayerData pData = (PlayerData)data;
-						pData.dumpToConsole();
+						numSucceeded++;
 					}
 					
-					addChatMessage(commandSender, Color.GREEN + "All player data has been logged to the console.");
+					total++;
 				}
-
-				else
-				{
-					final EntityPlayer targetPlayer = player.worldObj.getPlayerEntityByName(arg0);
-
-					if (targetPlayer != null)
-					{
-						PlayerData data = MCA.getPlayerData(targetPlayer);
-						data.dumpToConsole();
-
-						addChatMessage(commandSender, Color.GREEN + arg0 + "'s player data has been logged to the console.");
-					}
-
-					else
-					{
-						addChatMessage(commandSender, Color.RED + arg0 + " was not found on the server.");
-					}
-				}
+				
+				addChatMessage(commandSender, Color.GREEN + "Conversion of player data completed.");
+				addChatMessage(commandSender, Color.GREEN + "Successfully converted " + numSucceeded + " out of " + total);
 			}
-
+			
 			else if (subcommand.equalsIgnoreCase("ffh"))
 			{
 				for (Object obj : player.worldObj.loadedEntityList)
@@ -316,7 +325,7 @@ public class CommandMCA extends CommandBase
 
 				if (targetPlayer != null)
 				{
-					PlayerData data = MCA.getPlayerData(targetPlayer);
+					NBTPlayerData data = MCA.getPlayerData(targetPlayer);
 					data.setShouldHaveBaby(false);
 
 					addChatMessage(commandSender, Color.GOLD + playerName + "'s baby status has been reset.");	
@@ -383,7 +392,7 @@ public class CommandMCA extends CommandBase
 
 				if (targetPlayer != null)
 				{
-					PlayerData data = MCA.getPlayerData(targetPlayer);
+					NBTPlayerData data = MCA.getPlayerData(targetPlayer);
 					
 					if (data.getIsNobility())
 					{

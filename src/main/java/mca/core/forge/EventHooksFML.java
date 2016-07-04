@@ -6,7 +6,9 @@ import java.util.List;
 import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
 import mca.core.minecraft.ModItems;
+import mca.data.NBTPlayerData;
 import mca.data.PlayerData;
+import mca.data.PlayerDataCollection;
 import mca.entity.EntityGrimReaper;
 import mca.entity.EntityHuman;
 import mca.enums.EnumBabyState;
@@ -14,6 +16,7 @@ import mca.enums.EnumProfession;
 import mca.enums.EnumProfessionGroup;
 import mca.items.ItemGemCutter;
 import mca.packets.PacketPlaySoundOnPlayer;
+import mca.packets.PacketPlayerDataLogin;
 import mca.packets.PacketSpawnLightning;
 import mca.packets.PacketSyncConfig;
 import mca.util.Utilities;
@@ -36,16 +39,13 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import radixcore.constant.Particle;
 import radixcore.constant.Time;
 import radixcore.math.Point3D;
-import radixcore.packets.PacketDataContainer;
 import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
@@ -74,63 +74,57 @@ public class EventHooksFML
 	@SubscribeEvent
 	public void playerLoggedInEventHandler(PlayerLoggedInEvent event)
 	{
+		//In 5.2, we've migrated from storing our own data files to using WorldSavedData.
+		//Upon login, we check for this old data and migrate it to the new object we use.
 		EntityPlayer player = event.player;
+		PlayerDataCollection dataCollection = PlayerDataCollection.get();
+		boolean setPermanentId = false;
+		
+		//Continue to create the old player data object so any existing player data file is read.
+		NBTPlayerData nbtData = null;
 		PlayerData data = null;
+		data = new PlayerData(player);
 
-		if (!MCA.playerDataMap.containsKey(player.getUniqueID().toString()))
+		if (data.dataExists())
 		{
-			data = new PlayerData(player);
+			data = data.readDataFromFile(event.player, PlayerData.class, null);
+			dataCollection.migrateOldPlayerData(player, data);
+			nbtData = dataCollection.getPlayerData(player.getUniqueID());
+		}
 
-			if (data.dataExists())
-			{
-				data = data.readDataFromFile(event.player, PlayerData.class, null);
-			}
-
-			else
-			{
-				data.initializeNewData(event.player);
-			}
-
-			MCA.playerDataMap.put(event.player.getUniqueID().toString(), data);
+		//If no old data exists, check to see if new data exists. If not, create and store it.
+		else if (dataCollection.getPlayerData(player.getUniqueID()) == null)
+		{
+			//A permanent ID is generated if no ID exists after reading from NBT.
+			NBTPlayerData nbtPlayerData = new NBTPlayerData();
+			dataCollection.putPlayerData(player.getUniqueID(), nbtPlayerData);
+			nbtData = nbtPlayerData;
+			setPermanentId = true;
 		}
 
 		else
 		{
-			data = MCA.getPlayerData(player);
-
-			if (data != null) //Very rare issue, ignore for now but look into later TODO
-			{
-				data = data.readDataFromFile(event.player, PlayerData.class, null);  //Read from the file again to assign owner.
-				MCA.playerDataMap.put(event.player.getUniqueID().toString(), data);  //Put updated data back into the map.
-			}
+			nbtData = dataCollection.getPlayerData(player.getUniqueID());
 		}
+				
+		//Sync the server's configuration, for display settings.
+		MCA.getPacketHandler().sendPacketToPlayer(new PacketSyncConfig(MCA.getConfig()), (EntityPlayerMP)event.player);
 
-		if (data != null)
+		//Send copy of the player data to the client.
+		if (nbtData != null)
 		{
-			MCA.getPacketHandler().sendPacketToPlayer(new PacketDataContainer(MCA.ID, data), (EntityPlayerMP)event.player);
-			MCA.getPacketHandler().sendPacketToPlayer(new PacketSyncConfig(MCA.getConfig()), (EntityPlayerMP)event.player);
-
-			if (!data.getHasChosenDestiny() && !player.inventory.hasItem(ModItems.crystalBall) && MCA.getConfig().giveCrystalBall)
+			MCA.getPacketHandler().sendPacketToPlayer(new PacketPlayerDataLogin(nbtData), (EntityPlayerMP) player);
+			
+			if (setPermanentId)
+			{
+				nbtData.setPermanentId(RadixLogic.generatePermanentEntityId(player));
+			}
+			
+			//Add the crystal ball to the inventory if needed.
+			if (!nbtData.getHasChosenDestiny() && !player.inventory.hasItem(ModItems.crystalBall) && MCA.getConfig().giveCrystalBall)
 			{
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.crystalBall));
 			}
-		}
-		
-		else
-		{
-			MCA.getLog().warn("Unable to initialize player data for " + event.player.getName() + ". Did you update from a previous version without clearing player data?");
-			MCA.getLog().warn("If not, please report this issue at http://github.com/minecraft-comes-alive/issues.");
-		}
-	}
-
-	@SubscribeEvent
-	public void playerLoggedOutEventHandler(PlayerLoggedOutEvent event)
-	{
-		PlayerData data = MCA.getPlayerData(event.player);
-
-		if (data != null)
-		{
-			data.saveDataToFile();
 		}
 	}
 
@@ -143,12 +137,12 @@ public class EventHooksFML
 		net.minecraft.client.Minecraft mc = net.minecraft.client.Minecraft.getMinecraft();
 		net.minecraft.client.gui.GuiScreen currentScreen = mc.currentScreen;
 
-		if (currentScreen instanceof net.minecraft.client.gui.GuiMainMenu && MCA.playerDataContainer != null)
+		if (currentScreen instanceof net.minecraft.client.gui.GuiMainMenu && MCA.myPlayerData != null)
 		{
 			playPortalAnimation = false;
 			MCA.destinyCenterPoint = null;
 			MCA.destinySpawnFlag = false;
-			MCA.playerDataContainer = null;
+			MCA.myPlayerData = null;
 			MCA.resetConfig();
 		}
 

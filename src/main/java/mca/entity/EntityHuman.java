@@ -35,6 +35,7 @@ import mca.ai.AbstractAI;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.ModItems;
+import mca.data.NBTPlayerData;
 import mca.data.PlayerData;
 import mca.data.PlayerMemory;
 import mca.data.PlayerMemoryHandler;
@@ -80,8 +81,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.BlockPos;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
@@ -581,7 +582,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			{
 				if (killingPlayer != null && !killingPlayer.getName().contains("[CoFH]"))
 				{
-					final PlayerData killerData = MCA.getPlayerData(killingPlayer);
+					final NBTPlayerData killerData = MCA.getPlayerData(killingPlayer);
 					boolean related = isPlayerAParent(killingPlayer) || getSpouseId() == killerData.getPermanentId();
 					MCA.getLog().info("Villager '" + name.getString() + "(" + getProfessionEnum().toString() + ")' was killed by player " + source + "." + 
 							" R:" + related + 
@@ -625,7 +626,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 					{
 						if (memory.getPermanentId() == this.spouseId.getInt())
 						{
-							PlayerData data = MCA.getPlayerData(memory.getUUID());
+							NBTPlayerData data = MCA.getPlayerData(worldObj, UUID.fromString(memory.getUUID()));
 							
 							ownerUUID = UUID.fromString(memory.getUUID());
 							ownerName = memory.getPlayerName();
@@ -735,7 +736,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			{
 				if (killingPlayer != null && !killingPlayer.getName().contains("[CoFH]"))
 				{
-					final PlayerData killerData = MCA.getPlayerData(killingPlayer);
+					final NBTPlayerData killerData = MCA.getPlayerData(killingPlayer);
 					boolean related = isPlayerAParent(killingPlayer) || getSpouseId() == killerData.getPermanentId();
 					MCA.getLog().info("Villager '" + name.getString() + "(" + getProfessionEnum().toString() + ")' was killed by player " + source + "." + 
 							" R:" + related + 
@@ -1042,7 +1043,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		else if (entity instanceof EntityPlayer)
 		{
 			EntityPlayer partner = (EntityPlayer) entity;
-			PlayerData data = MCA.getPlayerData(partner);
+			NBTPlayerData data = MCA.getPlayerData(partner);
 			spouseId.setValue(data.getPermanentId());
 			spouseName.setValue(partner.getName());
 			getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.FINISHED);
@@ -1077,7 +1078,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		if (value)
 		{
-			PlayerData data = MCA.getPlayerData(partner);
+			NBTPlayerData data = MCA.getPlayerData(partner);
 			spouseId.setValue(data.getPermanentId());
 			spouseName.setValue(partner.getName());
 		}
@@ -1511,7 +1512,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 	public boolean isPlayerAParent(EntityPlayer player)
 	{
-		final PlayerData data = MCA.getPlayerData(player);
+		final NBTPlayerData data = MCA.getPlayerData(player);
 
 		if (data != null)
 		{
@@ -1526,7 +1527,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	
 	public boolean isPlayerAParent(String uuid)
 	{
-		final PlayerData data = MCA.getPlayerData(uuid);
+		final NBTPlayerData data = MCA.getPlayerData(worldObj, UUID.fromString(uuid));
 
 		if (data != null)
 		{
@@ -1541,7 +1542,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 	public boolean allowControllingInteractions(EntityPlayer player)
 	{
-		final PlayerData data = MCA.getPlayerData(player);
+		final NBTPlayerData data = MCA.getPlayerData(player);
 
 		if (data.getIsSuperUser())
 		{
@@ -1576,7 +1577,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 	public boolean allowWorkInteractions(EntityPlayer player)
 	{
-		final PlayerData data = MCA.getPlayerData(player);
+		final NBTPlayerData data = MCA.getPlayerData(player);
 		final PlayerMemory memory = getPlayerMemory(player);
 
 		if (data.getIsSuperUser())

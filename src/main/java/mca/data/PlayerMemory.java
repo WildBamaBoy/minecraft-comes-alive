@@ -58,8 +58,8 @@ public class PlayerMemory implements Serializable
 			hearts = 100;
 
 			//Also set this player as not having a baby, since it won't be set at all as the player may be offline.
-			PlayerData data = MCA.getPlayerData(player);
-			data.shouldHaveBaby.setValue(false);
+			NBTPlayerData data = MCA.getPlayerData(player);
+			data.setShouldHaveBaby(false);
 		}
 	}
 

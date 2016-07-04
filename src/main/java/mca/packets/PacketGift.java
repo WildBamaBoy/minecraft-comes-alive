@@ -9,7 +9,7 @@ import mca.api.RegistryMCA;
 import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
 import mca.core.minecraft.ModItems;
-import mca.data.PlayerData;
+import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.enums.EnumBabyState;
@@ -75,7 +75,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 	private boolean handleWeddingRing(EntityPlayer player, EntityHuman human)
 	{
-		PlayerData data = MCA.getPlayerData(player);
+		NBTPlayerData data = MCA.getPlayerData(player);
 		PlayerMemory memory = human.getPlayerMemory(player);
 
 		if (human.getIsChild() || !human.allowIntimateInteractions(player))
@@ -200,7 +200,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 	private boolean handleEngagementRing(EntityPlayer player, EntityHuman human)
 	{
-		PlayerData data = MCA.getPlayerData(player);
+		NBTPlayerData data = MCA.getPlayerData(player);
 		PlayerMemory memory = human.getPlayerMemory(player);
 
 		if (human.getIsChild() || !human.allowIntimateInteractions(player))
@@ -253,7 +253,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 	private boolean handleDivorcePapers(EntityPlayer player, EntityHuman human) 
 	{
-		PlayerData data = MCA.getPlayerData(player);
+		NBTPlayerData data = MCA.getPlayerData(player);
 		PlayerMemory memory = human.getPlayerMemory(player);
 
 		if (human.getIsChild())

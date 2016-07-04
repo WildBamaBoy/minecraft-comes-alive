@@ -6,7 +6,7 @@ import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
 import mca.core.minecraft.ModItems;
-import mca.data.PlayerData;
+import mca.data.NBTPlayerData;
 import mca.enums.EnumInteraction;
 import mca.util.MarriageHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -63,8 +63,8 @@ public class PacketInteractWithPlayerS extends AbstractPacket implements IMessag
 		PacketInteractWithPlayerS packet = (PacketInteractWithPlayerS)message;
 		EntityPlayer sender = this.getPlayer(context);
 		EntityPlayer target = (EntityPlayer) sender.worldObj.getEntityByID(packet.entityId);
-		PlayerData senderData = MCA.getPlayerData(sender);
-		PlayerData targetData = MCA.getPlayerData(target);
+		NBTPlayerData senderData = MCA.getPlayerData(sender);
+		NBTPlayerData targetData = MCA.getPlayerData(target);
 		EnumInteraction interaction = EnumInteraction.fromId(packet.interactionId);
 
 		boolean senderHasWeddingRing = false;

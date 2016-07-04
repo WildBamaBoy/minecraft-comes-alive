@@ -7,7 +7,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import mca.core.MCA;
-import mca.data.PlayerData;
+import mca.data.NBTPlayerData;
 import mca.enums.EnumInteraction;
 import mca.packets.PacketInteractWithPlayerS;
 import net.minecraft.client.Minecraft;
@@ -24,7 +24,7 @@ public class GuiPlayerMenu extends GuiScreen
 {
 	private final EntityPlayer player;
 	private final EntityPlayer playerTarget;
-	private final PlayerData playerData;
+	private final NBTPlayerData playerData;
 
 	private boolean targetIsMarried;
 	private boolean targetIsEngaged;

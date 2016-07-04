@@ -16,7 +16,7 @@ import org.lwjgl.opengl.GL11;
 
 import mca.core.MCA;
 import mca.core.forge.EventHooksFML;
-import mca.data.PlayerData;
+import mca.data.NBTPlayerData;
 import mca.enums.EnumDestinyChoice;
 import mca.packets.PacketDestinyChoice;
 import net.minecraft.client.Minecraft;
@@ -45,7 +45,7 @@ public class GuiSetup extends GuiScreen
 	private static List<String> supportersList = new ArrayList<String>();
 	
 	private EntityPlayer player;
-	private PlayerData data;
+	private NBTPlayerData data;
 	private EnumDestinyChoice destinyChoice;
 	private GuiTextField nameTextField;
 
@@ -378,10 +378,8 @@ public class GuiSetup extends GuiScreen
 
 	private void setDestinyComplete()
 	{
-		PlayerData data = MCA.playerDataContainer.getPlayerData(PlayerData.class);
-
-		DataWatcherEx.allowClientSideModification = true;
+		NBTPlayerData data = MCA.getPlayerData(player);
 		data.setHasChosenDestiny(true);
-		DataWatcherEx.allowClientSideModification = false;
+		System.out.println("DESTINY CHOOSE");
 	}
 }

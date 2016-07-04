@@ -1,8 +1,8 @@
 package mca.core;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.logging.log4j.Logger;
 
@@ -25,14 +25,15 @@ import mca.core.minecraft.ModBlocks;
 import mca.core.minecraft.ModItems;
 import mca.core.radix.CrashWatcher;
 import mca.core.radix.LanguageParser;
+import mca.data.NBTPlayerData;
 import mca.data.PlayerData;
+import mca.data.PlayerDataCollection;
 import mca.entity.EntityChoreFishHook;
 import mca.entity.EntityGrimReaper;
 import mca.entity.EntityHuman;
 import mca.enums.EnumCut;
 import mca.enums.EnumProfession;
 import mca.network.MCAPacketHandler;
-import mca.test.DummyPlayer;
 import mca.tile.TileMemorial;
 import mca.tile.TileTombstone;
 import mca.tile.TileVillagerBed;
@@ -114,7 +115,7 @@ public class MCA
 	public static Map<String, AbstractPlayerData> playerDataMap;
 
 	@SideOnly(Side.CLIENT)
-	public static DataContainer playerDataContainer;
+	public static NBTPlayerData myPlayerData;
 	@SideOnly(Side.CLIENT)
 	public static Point3D destinyCenterPoint;
 	@SideOnly(Side.CLIENT)
@@ -613,18 +614,6 @@ public class MCA
 	public void serverStarting(FMLServerStartingEvent event)
 	{
 		event.registerServerCommand(new CommandMCA());
-
-		File playerDataPath = new File(AbstractPlayerData.getPlayerDataPath(event.getServer().getEntityWorld(), MCA.ID));
-		playerDataPath.mkdirs();
-
-		for (File f : playerDataPath.listFiles())
-		{
-			String uuid = f.getName().replace(".dat", "");
-			PlayerData data = new PlayerData(uuid, event.getServer().getEntityWorld());
-			data = data.readDataFromFile(null, PlayerData.class, f);
-
-			MCA.playerDataMap.put(uuid, data);
-		}
 	}
 	
 	@EventHandler
@@ -705,28 +694,22 @@ public class MCA
 		return packetHandler;
 	}
 
-	public static PlayerData getPlayerData(EntityPlayer player)
+	public static NBTPlayerData getPlayerData(EntityPlayer player)
 	{
-		if (player instanceof DummyPlayer)
+		if (!player.worldObj.isRemote)
 		{
-			DummyPlayer dummy = (DummyPlayer)player;
-			return dummy.getIsSteve() ? stevePlayerData : alexPlayerData;
+			return PlayerDataCollection.get().getPlayerData(player.getUniqueID());
 		}
-
-		else if (!player.worldObj.isRemote)
-		{
-			return (PlayerData) playerDataMap.get(player.getUniqueID().toString());
-		}
-
+		
 		else
 		{
-			return playerDataContainer.getPlayerData(PlayerData.class);
+			return myPlayerData;
 		}
 	}
-
-	public static PlayerData getPlayerData(String uuid)
+	
+	public static NBTPlayerData getPlayerData(World worldObj, UUID uuid)
 	{
-		return (PlayerData) playerDataMap.get(uuid);
+		return PlayerDataCollection.get().getPlayerData(uuid);
 	}
 
 	public static EntityHuman getHumanByPermanentId(int id) 

@@ -2,7 +2,7 @@ package mca.util;
 
 import mca.ai.AIProgressStory;
 import mca.core.MCA;
-import mca.data.PlayerData;
+import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.enums.EnumBabyState;
@@ -20,7 +20,7 @@ public class MarriageHandler
 {
 	public static void startEngagement(EntityPlayer player, EntityHuman human)
 	{
-		PlayerData playerData = MCA.getPlayerData(player);
+		NBTPlayerData playerData = MCA.getPlayerData(player);
 		PlayerMemory memory = human.getPlayerMemory(player);
 
 		playerData.setSpouseName(human.getName());
@@ -38,7 +38,7 @@ public class MarriageHandler
 	public static void startMarriage(EntityPlayer player, EntityHuman human)
 	{
 		boolean handleEngagement = human.getIsEngaged();
-		PlayerData playerData = MCA.getPlayerData(player);
+		NBTPlayerData playerData = MCA.getPlayerData(player);
 		PlayerMemory memory = human.getPlayerMemory(player);
 
 		playerData.setSpouseName(human.getName());
@@ -111,8 +111,8 @@ public class MarriageHandler
 
 	public static void startMarriage(EntityPlayer player1, EntityPlayer player2)
 	{
-		PlayerData player1Data = MCA.getPlayerData(player1);
-		PlayerData player2Data = MCA.getPlayerData(player2);
+		NBTPlayerData player1Data = MCA.getPlayerData(player1);
+		NBTPlayerData player2Data = MCA.getPlayerData(player2);
 
 		player1Data.setSpouseName(player2.getName());
 		player1Data.setSpousePermanentId(player2Data.getPermanentId());
@@ -127,7 +127,7 @@ public class MarriageHandler
 	{
 		human.setBabyState(EnumBabyState.NONE);
 		
-		PlayerData playerData = MCA.getPlayerData(player);
+		NBTPlayerData playerData = MCA.getPlayerData(player);
 		PlayerMemory memory = human.getPlayerMemory(player);
 
 		playerData.setSpouseName("none");
@@ -162,8 +162,8 @@ public class MarriageHandler
 
 	public static void endMarriage(EntityPlayer player1, EntityPlayer player2)
 	{
-		PlayerData player1Data = MCA.getPlayerData(player1);
-		PlayerData player2Data = MCA.getPlayerData(player2);
+		NBTPlayerData player1Data = MCA.getPlayerData(player1);
+		NBTPlayerData player2Data = MCA.getPlayerData(player2);
 
 		player1Data.setSpouseName("none");
 		player1Data.setSpousePermanentId(0);
@@ -179,7 +179,7 @@ public class MarriageHandler
 		forceEndMarriage(MCA.getPlayerData(player));
 	}
 
-	public static void forceEndMarriage(PlayerData data) 
+	public static void forceEndMarriage(NBTPlayerData data) 
 	{
 		if (data != null)
 		{

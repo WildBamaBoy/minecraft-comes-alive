@@ -5,7 +5,7 @@ import mca.ai.AIProcreate;
 import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
 import mca.core.minecraft.ModItems;
-import mca.data.PlayerData;
+import mca.data.NBTPlayerData;
 import mca.entity.EntityHuman;
 import mca.items.ItemBaby;
 import mca.util.TutorialManager;
@@ -61,7 +61,7 @@ public class PacketBabyName extends AbstractPacket implements IMessage, IMessage
 		PacketBabyName packet = (PacketBabyName)message;
 		EntityPlayer senderPlayer = this.getPlayer(context);
 		ItemStack stack = packet.slot == -1 ? null : senderPlayer.inventory.getStackInSlot(packet.slot); //To avoid index out of bounds.
-		PlayerData data = MCA.getPlayerData(senderPlayer);
+		NBTPlayerData data = MCA.getPlayerData(senderPlayer);
 		EntityHuman playerSpouse = MCA.getHumanByPermanentId(data.getSpousePermanentId());
 		
 		//Player has the baby.

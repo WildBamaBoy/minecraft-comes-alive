@@ -5,7 +5,7 @@ import java.util.Random;
 import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
 import mca.core.minecraft.ModItems;
-import mca.data.PlayerData;
+import mca.data.NBTPlayerData;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityHuman;
 import mca.packets.PacketOpenBabyNameGUI;
@@ -65,7 +65,7 @@ public class AIProcreate extends AbstractAI
 				
 				if (playerSpouse != null)
 				{
-					PlayerData data = MCA.getPlayerData(playerSpouse);
+					NBTPlayerData data = MCA.getPlayerData(playerSpouse);
 					data.setShouldHaveBaby(true);
 					
 					boolean isMale = new Random().nextBoolean();

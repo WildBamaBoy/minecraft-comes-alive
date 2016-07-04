@@ -32,6 +32,10 @@ public class GuiPrompt extends GuiScreen
 			prompt = MCA.getLanguageManager().getString("interactionp.marry.prompt", sender.getName());
 			returnInteraction = EnumInteraction.ASKTOMARRY_ACCEPT;
 			break;
+		case NOBILITY:
+			prompt = MCA.getLanguageManager().getString("nobility.prompt.line1");
+			returnInteraction = EnumInteraction.NOBILITY_PROMPT_ACCEPT;
+			break;
 		}
 	}
 	

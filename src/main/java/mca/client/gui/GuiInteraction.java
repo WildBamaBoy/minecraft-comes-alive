@@ -25,7 +25,7 @@ import mca.api.RegistryMCA;
 import mca.api.WoodcuttingEntry;
 import mca.api.exception.MappingNotFoundException;
 import mca.core.MCA;
-import mca.data.PlayerData;
+import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.enums.EnumCombatBehaviors;
@@ -64,7 +64,7 @@ public class GuiInteraction extends GuiScreen
 	private final EntityHuman villager;
 	private final EntityPlayer player;
 	private final PlayerMemory memory;
-	private final PlayerData playerData;
+	private final NBTPlayerData playerData;
 
 	private boolean displayMarriageInfo;
 	private boolean displayParentsInfo;
