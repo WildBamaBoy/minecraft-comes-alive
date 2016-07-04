@@ -74,46 +74,44 @@ public class EventHooksFML
 	public void playerLoggedInEventHandler(PlayerLoggedInEvent event)
 	{
 		//In 5.2, we've migrated from storing our own data files to using WorldSavedData.
-		//Upon login, we check for this old data and migrate it to the new object we use.
-		EntityPlayer player = event.player;
+		//Upon login, we check for this old data and migrate it to the new object we use.		
+		//We continue to create the old player data object so any existing player data file is read.
 		PlayerDataCollection dataCollection = PlayerDataCollection.get();
-		boolean setPermanentId = false;
-		
-		//Continue to create the old player data object so any existing player data file is read.
+		EntityPlayer player = event.player;
 		NBTPlayerData nbtData = null;
-		PlayerData data = null;
-		data = new PlayerData(player);
+		PlayerData oldData = new PlayerData(player);
+		boolean setPermanentId = false;
 
-		if (data.dataExists())
+		//Check for old data and migrate it into the nbtData object.
+		if (oldData.dataExists())
 		{
-			data = data.readDataFromFile(event.player, PlayerData.class, null);
-			dataCollection.migrateOldPlayerData(player, data);
+			oldData = oldData.readDataFromFile(event.player, PlayerData.class, null);
+			dataCollection.migrateOldPlayerData(player, oldData);
 			nbtData = dataCollection.getPlayerData(player.getUniqueID());
 		}
 
-		//If no old data exists, check to see if new data exists. If not, create and store it.
+		//If no old data, see if this player's data is empty in the world data.
 		else if (dataCollection.getPlayerData(player.getUniqueID()) == null)
 		{
-			//A permanent ID is generated if no ID exists after reading from NBT.
+			//If so, they need a new data object and permanent ID since this is their first login.
 			NBTPlayerData nbtPlayerData = new NBTPlayerData();
 			dataCollection.putPlayerData(player.getUniqueID(), nbtPlayerData);
 			nbtData = nbtPlayerData;
 			setPermanentId = true;
 		}
 
-		else
+		else //If new data is already contained in the data collection, just grab what has already been loaded from disk.
 		{
 			nbtData = dataCollection.getPlayerData(player.getUniqueID());
 		}
 		
-		//Sync the server's configuration, for display settings.
-		MCA.getPacketHandler().sendPacketToPlayer(new PacketSyncConfig(MCA.getConfig()), (EntityPlayerMP)event.player);
-
 		//Send copy of the player data to the client.
 		if (nbtData != null)
 		{
+			//Send the object before making any changes.
 			MCA.getPacketHandler().sendPacketToPlayer(new PacketPlayerDataLogin(nbtData), (EntityPlayerMP) player);
-		
+
+			//Assign permanent ID if the flag is set.
 			if (setPermanentId)
 			{
 				nbtData.setPermanentId(RadixLogic.generatePermanentEntityId(player));
@@ -125,6 +123,9 @@ public class EventHooksFML
 				player.inventory.addItemStackToInventory(new ItemStack(ModItems.crystalBall));
 			}
 		}
+		
+		//Sync the server's configuration, for display settings.
+		MCA.getPacketHandler().sendPacketToPlayer(new PacketSyncConfig(MCA.getConfig()), (EntityPlayerMP)event.player);
 	}
 
 	@SideOnly(Side.CLIENT)
