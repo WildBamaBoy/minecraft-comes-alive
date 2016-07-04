@@ -83,10 +83,8 @@ import radixcore.update.RDXUpdateProtocol;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixStartup;
 
-@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore", acceptedMinecraftVersions = "[1.7.10]",
+@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore@[2.1.2,)", acceptedMinecraftVersions = "[1.7.10]",
 guiFactory = "mca.core.forge.client.MCAGuiFactory")
-//@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore@[2.1.1,)", acceptedMinecraftVersions = "[1.7.10]",
-//guiFactory = "mca.core.forge.client.MCAGuiFactory")
 public class MCA
 {
 	public static final String ID = "MCA";
