@@ -70,8 +70,6 @@ public class PlayerDataCollection extends WorldSavedData
 				continue;
 			}
 		}
-		
-		System.out.println("WRITE");
 	}
 
 	@Override
@@ -88,8 +86,6 @@ public class PlayerDataCollection extends WorldSavedData
 
 				data.readFromNBT(playerDataTags);
 				playerDataMap.put(uuid, data);
-				
-				System.out.println(tagKey);
 			}
 
 			catch (Exception e)

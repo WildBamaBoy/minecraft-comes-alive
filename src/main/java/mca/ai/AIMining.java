@@ -198,7 +198,6 @@ public class AIMining extends AbstractToggleAI
 	public void reset() 
 	{
 		isAIActive.setValue(false);
-		System.out.println("RESET");
 		new Throwable().printStackTrace();
 	}
 
