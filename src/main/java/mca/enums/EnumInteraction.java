@@ -77,7 +77,8 @@ public enum EnumInteraction
 	ADOPTBABY(1102, "adoptbaby"),
 	
 	NOBILITY(1201, "nobility"),
-	TAXES(1202, "taxes"),
+	NOBILITY_PROMPT_ACCEPT(1202, "nobilityaccept"),
+	TAXES(1203, "taxes"),
 	
 	CHECKHAPPINESS(1301, "checkhappiness");
 	

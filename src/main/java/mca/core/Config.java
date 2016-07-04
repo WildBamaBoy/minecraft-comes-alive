@@ -71,7 +71,8 @@ public final class Config implements Serializable
 
 	public boolean allowCrashReporting;
 	public boolean allowUpdateChecking;
-
+	public boolean showPlayerDataMigrationErrors;
+	
 	public Config(FMLPreInitializationEvent event)
 	{
 		config = new Configuration(event.getSuggestedConfigurationFile());
@@ -187,10 +188,11 @@ public final class Config implements Serializable
 		villagerChatPrefix = config.get("Server", "Villager chat prefix", "").getDefault();
 		serverEnableStructureSpawning = config.get("Server", "Enable structure spawning on server?", false, "True if players can have the option to spawn structures during MCA's setup on a server. WARNING: POTENTIAL FOR GRIEFING IS VERY HIGH - YOU HAVE BEEN WARNED").getBoolean();
 		allowVillagerRevival = config.get("Server", "Allow dead villagers to be revived?", true, "True if players can have the ability to revive villagers they are related to. Creates a file in [world name]/data/ that could become very large on big servers.").getBoolean();
+		showPlayerDataMigrationErrors = config.get("Server", "Show player data migration errors?", true, "If you're updating MCA on an existing world, some internal migrations of data must be performed. This can be error prone, but if you want to ignore these errors, set this to false - NOT RECOMMENDED! YOUR PLAYERS COULD LOSE PROGRESS!").getBoolean();
 		
 		//Additional gifts.
 		additionalGiftItems = config.get("Server", "Additional gifts", new String[]{"#<EXAMPLE> fermented_spider_eye|25", "#<EXAMPLE> poisonous_potato|12"}, "The names of the items/blocks that can be gifted in addition to the default items. Include hearts value preceded by |. 10 hearts points equals 1 heart.").getStringList();
-		  
+		
   		config.save();
 	}
 

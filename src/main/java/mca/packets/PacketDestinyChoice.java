@@ -7,7 +7,7 @@ import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
 import mca.core.minecraft.ModBlocks;
 import mca.core.minecraft.ModItems;
-import mca.data.PlayerData;
+import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.enums.EnumDestinyChoice;
@@ -55,7 +55,7 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 	public IMessage onMessage(PacketDestinyChoice packet, MessageContext context)
 	{
 		final EntityPlayerMP player = (EntityPlayerMP)this.getPlayer(context);
-		final PlayerData data = MCA.getPlayerData(player);
+		final NBTPlayerData data = MCA.getPlayerData(player);
 		final WorldServer world = (WorldServer)player.worldObj;
 
 		if (packet.choice == EnumDestinyChoice.NONE || packet.choice == EnumDestinyChoice.CANCEL)

@@ -14,6 +14,9 @@ import mca.packets.PacketOpenBabyNameGUI;
 import mca.packets.PacketOpenGUIOnEntity;
 import mca.packets.PacketOpenPrompt;
 import mca.packets.PacketPlaySoundOnPlayer;
+import mca.packets.PacketPlayerDataC;
+import mca.packets.PacketPlayerDataLogin;
+import mca.packets.PacketPlayerDataS;
 import mca.packets.PacketRelatedVillagers;
 import mca.packets.PacketRequestRelatedVillagers;
 import mca.packets.PacketSetSize;
@@ -62,5 +65,8 @@ public class MCAPacketHandler extends AbstractPacketHandler
 		this.registerPacket(PacketSpawnLightning.class, Side.CLIENT);
 		this.registerPacket(PacketMemorialUpdateGet.class, Side.SERVER);
 		this.registerPacket(PacketMemorialUpdateSet.class, Side.CLIENT);
+		this.registerPacket(PacketPlayerDataS.class, Side.SERVER);
+		this.registerPacket(PacketPlayerDataC.class, Side.CLIENT);
+		this.registerPacket(PacketPlayerDataLogin.class, Side.CLIENT);
 	}
 }

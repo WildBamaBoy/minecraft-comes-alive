@@ -4,6 +4,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.forge.EventHooksFML;
+import mca.data.NBTPlayerData;
 import mca.data.PlayerData;
 import mca.util.TutorialManager;
 import mca.util.TutorialMessage;
@@ -12,7 +13,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
-import radixcore.data.DataWatcherEx;
 import radixcore.item.ItemSingle;
 import radixcore.math.Point3D;
 
@@ -44,7 +44,7 @@ public class ItemCrystalBall extends ItemSingle
 			net.minecraft.client.Minecraft mc = net.minecraft.client.Minecraft.getMinecraft();
 			net.minecraft.client.gui.GuiScreen currentScreen = mc.currentScreen;
 			
-			if (mc.isIntegratedServerRunning() && MCA.playerDataContainer != null)
+			if (mc.isIntegratedServerRunning()) //&& MCA.playerDataContainer != null)
 			{
 				spawnDestinyRoom(player);
 			}
@@ -82,11 +82,9 @@ public class ItemCrystalBall extends ItemSingle
 		playerSP.timeInPortal = 6.0F;
 		playerSP.prevTimeInPortal = 0.0F;
 		
-		PlayerData data = MCA.playerDataContainer.getPlayerData(PlayerData.class);
+		NBTPlayerData data = MCA.myPlayerData;
 		
-		DataWatcherEx.allowClientSideModification = true;
 		data.setHasChosenDestiny(false);
-		DataWatcherEx.allowClientSideModification = false;
 		
 		MCA.destinySpawnFlag = true; //Will hand off spawning to clientTickEvent
 		MCA.destinyCenterPoint = new Point3D(player.posX - 1, player.posY, player.posZ);

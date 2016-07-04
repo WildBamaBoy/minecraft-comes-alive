@@ -2,6 +2,8 @@ package mca.ai;
 
 import java.util.Map;
 
+import mca.core.MCA;
+import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.enums.EnumDialogueType;
@@ -85,8 +87,6 @@ public class AIGreet extends AbstractAI
 				{
 					PlayerMemory memory = owner.getPlayerMemory(closestPlayer);
 					AISleep AISleep = owner.getAI(AISleep.class);
-
-					//memory.setTimeUntilGreeting(20);
 					
 					if (memory.getTimeUntilGreeting() <= 0 && RadixLogic.getBooleanWithProbability(CHANCE_TO_GREET) && owner.canEntityBeSeen(closestPlayer) && !AISleep.getIsSleeping())
 					{
@@ -108,8 +108,19 @@ public class AIGreet extends AbstractAI
 							
 							else
 							{
-								owner.say(memory.getDialogueType() + ".greeting", closestPlayer);
-								owner.timesWarnedForLowHearts = 0; //Make sure we reset when hearts are back to normal.
+								//Check for nobility greeting.
+								NBTPlayerData data = MCA.getPlayerData(closestPlayer);
+
+								if (data.getHappinessThresholdMet() && RadixLogic.getBooleanWithProbability(10))
+								{
+									
+								}
+								
+								else
+								{
+									owner.say(memory.getDialogueType() + ".greeting", closestPlayer);
+									owner.timesWarnedForLowHearts = 0; //Make sure we reset when hearts are back to normal.
+								}
 							}
 						}
 						

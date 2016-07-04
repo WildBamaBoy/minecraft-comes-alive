@@ -8,7 +8,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mca.core.MCA;
-import mca.data.PlayerData;
+import mca.data.NBTPlayerData;
 import mca.data.VillagerSaveData;
 import mca.enums.EnumMemorialType;
 import mca.tile.TileMemorial;
@@ -46,7 +46,7 @@ public class ItemStaffOfLife extends Item
 			{
 				TileMemorial memorial = (TileMemorial)tile;
 				VillagerSaveData data = memorial.getVillagerSaveData();
-				PlayerData playerData = MCA.getPlayerData(player);
+				NBTPlayerData playerData = MCA.getPlayerData(player);
 
 				//Make sure the owner is the one reviving them.
 				if (!data.ownerUUID.equals(player.getUniqueID()))
