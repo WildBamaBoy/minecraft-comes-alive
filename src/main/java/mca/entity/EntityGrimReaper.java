@@ -453,14 +453,6 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 	public void onDeath(DamageSource source) 
 	{
 		super.onDeath(source);
-
-		for (int i = 0; i < 5; i++)
-		{
-			int dX = rand.nextInt(18) * (RadixLogic.getBooleanWithProbability(50) ? 1 : -1);
-			int dZ = rand.nextInt(18) * (RadixLogic.getBooleanWithProbability(50) ? 1 : -1);
-			EntityLightningBolt lightning = new EntityLightningBolt(worldObj, posX + dX, posY, posZ + dZ);
-			worldObj.spawnEntityInWorld(lightning);
-		}
 	}
 
 	@Override
