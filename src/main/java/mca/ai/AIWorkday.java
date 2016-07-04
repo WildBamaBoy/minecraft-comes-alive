@@ -14,6 +14,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import radixcore.constant.Time;
+import radixcore.math.Point3D;
+import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
 
 public class AIWorkday extends AbstractAI
@@ -74,10 +76,12 @@ public class AIWorkday extends AbstractAI
 
 		//Increment our ticks active in this state and switch if necessary.
 		ticksActive++;
-
-		if (ticksActive % Time.MINUTE == 0)
+		state = EnumWorkdayState.WANDER;
+		
+		if (ticksActive % (Time.SECOND * 15) == 0 && RadixLogic.getBooleanWithProbability(30))
 		{
 			ticksActive = 0;
+			state = EnumWorkdayState.getRandom();
 		}
 	}
 
@@ -101,7 +105,8 @@ public class AIWorkday extends AbstractAI
 
 	private void handleMoveIndoors()
 	{
-
+		handleLook();
+		handleWander(); //TODO
 	}
 
 	private void handleWander()
@@ -111,15 +116,19 @@ public class AIWorkday extends AbstractAI
 		//Every few seconds, grab a target if we don't have one.
 		if (vecTarget == null && ticksActive % (Time.SECOND * (owner.getRNG().nextInt(5) + 5)) == 0)
 		{
-			vecTarget = RandomPositionGenerator.findRandomTarget(owner, 10, 5);
+			vecTarget = RandomPositionGenerator.findRandomTarget(owner, 7, 5);
+			owner.getNavigator().setPath(null, 0.0D);
 		}
 
 		else if (vecTarget != null) //Otherwise if we do have a target, try moving to it.
 		{
-			owner.getNavigator().tryMoveToXYZ(vecTarget.xCoord, vecTarget.yCoord, vecTarget.zCoord, Constants.SPEED_WALK - 0.1F);
-
-			//If we didn't find a path, or we've been pathing too long, clear and stop.
-			if (owner.getNavigator().noPath() || (ticksActive % Time.SECOND * 20) == 0)
+			if (owner.getNavigator().noPath())
+			{
+				owner.getNavigator().tryMoveToXYZ(vecTarget.xCoord, vecTarget.yCoord, vecTarget.zCoord, Constants.SPEED_WALK - 0.1F);
+			}
+			
+			//If we've been pathing too long, clear and stop.
+			if (ticksActive % (Time.SECOND * 10) == 0)
 			{
 				vecTarget = null;
 			}
@@ -140,7 +149,7 @@ public class AIWorkday extends AbstractAI
 
 	private void handleIdle()
 	{
-
+		handleLook();
 	}
 
 	private void handleLook()
