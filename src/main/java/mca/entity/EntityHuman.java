@@ -65,7 +65,9 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIMoveIndoors;
 import net.minecraft.entity.ai.EntityAIOpenDoor;
 import net.minecraft.entity.ai.EntityAIRestrictOpenDoor;
+import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITasks;
+import net.minecraft.entity.ai.EntityAITradePlayer;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -79,6 +81,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntityChest;
@@ -285,8 +288,9 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	{
 		this.tasks.taskEntries.clear();
 
-//		this.tasks.addTask(0, new EntityAISwimming(this));
-//		this.tasks.addTask(1, new EntityAITradePlayer(this));
+        ((PathNavigateGround)this.getNavigator()).setAvoidsWater(false);
+		this.tasks.addTask(0, new EntityAISwimming(this));
+		this.tasks.addTask(1, new EntityAITradePlayer(this));
 		this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
 		this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
 
