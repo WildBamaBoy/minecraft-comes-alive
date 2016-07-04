@@ -24,6 +24,7 @@ public class ClientProxy extends ServerProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityHuman.class, new RenderHuman());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileTombstone.class, new RenderTombstone());
 		RenderingRegistry.registerEntityRenderingHandler(EntityHorse.class, new RenderHorse(Minecraft.getMinecraft().getRenderManager(), new ModelHorseExtension(), 0.5F));
+		RenderingRegistry.registerEntityRenderingHandler(EntityChoreFishHook.class, new RenderFishHook(Minecraft.getMinecraft().getRenderManager()));
 		
 		ModItems.registerModelMeshers();
 		ModBlocks.registerModelMeshers();
