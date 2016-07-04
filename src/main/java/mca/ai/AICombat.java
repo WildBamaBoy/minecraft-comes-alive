@@ -239,7 +239,10 @@ public class AICombat extends AbstractAI
 
 	public void setAttackTarget(EntityLivingBase entity)
 	{
-		this.attackTarget = entity;
+		if (entity != owner)
+		{
+			this.attackTarget = entity;
+		}
 	}
 	
 	public EntityLivingBase getAttackTarget()
