@@ -62,7 +62,12 @@ public class TileMemorial extends TileEntity
 				Utilities.spawnParticlesAroundPointS(Particle.FIREWORKS, worldObj, this.xCoord + 0.5D, this.yCoord, this.zCoord + 0.5D, 16);
 				this.worldObj.playSoundAtEntity(player, "fireworks.largeBlast", 3.0F, 1.0F);
 
-				if (this.getType() == EnumMemorialType.BROKEN_RING)
+				if (this.ownerRelation == EnumRelation.NONE)
+				{
+					return;
+				}
+				
+				else if (this.getType() == EnumMemorialType.BROKEN_RING)
 				{
 					MarriageHandler.startMarriage(player, human);
 					human.getPlayerMemory(player).setHearts(100);

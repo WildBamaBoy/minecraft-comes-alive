@@ -132,7 +132,7 @@ public enum EnumProfession
 		return returnList;
 	}
 	
-	private String getLocalizationId()
+	public String getLocalizationId()
 	{
 		switch (this)
 		{

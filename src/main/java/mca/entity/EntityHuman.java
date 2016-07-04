@@ -55,6 +55,7 @@ import mca.enums.EnumProgressionStep;
 import mca.enums.EnumRelation;
 import mca.enums.EnumSleepingState;
 import mca.items.ItemBaby;
+import mca.items.ItemMemorial;
 import mca.items.ItemVillagerEditor;
 import mca.packets.PacketOpenGUIOnEntity;
 import mca.packets.PacketSetSize;
@@ -431,11 +432,28 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	{
 		if (!worldObj.isRemote)
 		{
-			int guiId = player.inventory.getCurrentItem() != null && 
-					player.inventory.getCurrentItem().getItem() instanceof ItemVillagerEditor 
-					? Constants.GUI_ID_EDITOR : Constants.GUI_ID_INTERACT;
-
-			MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId(), guiId), (EntityPlayerMP) player);
+			ItemStack playerItemStack = player.inventory.getCurrentItem();
+			Item playerItem = playerItemStack != null ? playerItemStack.getItem() : null;
+			
+			if (player.capabilities.isCreativeMode && playerItem instanceof ItemMemorial && !playerItemStack.hasTagCompound())
+			{
+				ItemMemorial memorial = (ItemMemorial)playerItem;
+				VillagerSaveData data = VillagerSaveData.fromVillager(this, null, player.getUniqueID());
+				
+				playerItemStack.stackTagCompound = new NBTTagCompound();
+				playerItemStack.stackTagCompound.setString("ownerName", player.getCommandSenderName());
+				playerItemStack.stackTagCompound.setInteger("relation", getPlayerMemory(player).getRelation().getId());
+				data.writeDataToNBT(playerItemStack.stackTagCompound);
+				
+				player.addChatComponentMessage(new ChatComponentText(Color.GREEN + "Villager captured in memorial object."));
+				this.setDead();
+			}
+			
+			else
+			{
+				int guiId = playerItemStack != null && playerItem instanceof ItemVillagerEditor ? Constants.GUI_ID_EDITOR : Constants.GUI_ID_INTERACT;
+				MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId(), guiId), (EntityPlayerMP) player);
+			}
 		}
 
 		return true;
