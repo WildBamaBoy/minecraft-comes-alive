@@ -76,7 +76,6 @@ import net.minecraftforge.oredict.OreDictionary;
 import radixcore.core.ModMetadataEx;
 import radixcore.core.RadixCore;
 import radixcore.data.AbstractPlayerData;
-import radixcore.data.DataContainer;
 import radixcore.forge.gen.SimpleOreGenerator;
 import radixcore.lang.LanguageManager;
 import radixcore.math.Point3D;
