@@ -76,7 +76,6 @@ public class AIWorkday extends AbstractAI
 
 		//Increment our ticks active in this state and switch if necessary.
 		ticksActive++;
-		state = EnumWorkdayState.WANDER;
 		
 		if (ticksActive % (Time.SECOND * 15) == 0 && RadixLogic.getBooleanWithProbability(30))
 		{
