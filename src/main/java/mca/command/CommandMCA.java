@@ -467,6 +467,8 @@ public class CommandMCA extends CommandBase
 		addChatMessage(commandSender, Color.WHITE + " /mca mh- " + Color.GOLD + " - Decrease hearts by 1.", true);
 		addChatMessage(commandSender, Color.WHITE + " /mca rgt " + Color.GOLD + " - Reset your greeting timers.", true);
 		addChatMessage(commandSender, Color.WHITE + " /mca kgr " + Color.GOLD + " - Kill all Grim Reapers in the world.", true);
+		addChatMessage(commandSender, Color.WHITE + " /mca dpd " + Color.GOLD + " - Dump player data for <username>.", true);
+		addChatMessage(commandSender, Color.WHITE + " /mca cpd " + Color.GOLD + " - Convert old player data to the new format.", true);
 		
 		addChatMessage(commandSender, Color.DARKRED + "--- " + Color.GOLD + "OP COMMANDS" + Color.DARKRED + " ---", true);
 		addChatMessage(commandSender, Color.WHITE + " /mca rm <username> " + Color.GOLD + " - Reset <username>'s marriage.", true);
