@@ -67,7 +67,12 @@ public class TileMemorial extends TileEntity implements ITickable
 				Utilities.spawnParticlesAroundPointS(EnumParticleTypes.FIREWORKS_SPARK, worldObj, xCoord + 0.5D, yCoord, zCoord + 0.5D, 16);
 				this.worldObj.playSoundAtEntity(player, "fireworks.largeBlast", 3.0F, 1.0F);
 
-				if (this.getType() == EnumMemorialType.BROKEN_RING)
+				if (this.ownerRelation == EnumRelation.NONE)
+				{
+					return;
+				}
+				
+				else if (this.getType() == EnumMemorialType.BROKEN_RING)
 				{
 					MarriageHandler.startMarriage(player, human);
 					human.getPlayerMemory(player).setHearts(100);

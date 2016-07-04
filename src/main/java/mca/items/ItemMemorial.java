@@ -8,6 +8,7 @@ import mca.core.MCA;
 import mca.core.minecraft.ModBlocks;
 import mca.data.VillagerSaveData;
 import mca.enums.EnumMemorialType;
+import mca.enums.EnumProfession;
 import mca.enums.EnumRelation;
 import mca.tile.TileMemorial;
 import net.minecraft.entity.player.EntityPlayer;
@@ -53,10 +54,20 @@ public class ItemMemorial extends Item
 			TileMemorial tile = (TileMemorial) BlockHelper.getTileEntity(worldIn, posX, posY, posZ);
 			
 			tile.setType(this.type);
+
 			tile.setVillagerSaveData(VillagerSaveData.fromNBT(stack.getTagCompound()));
 			tile.setOwnerName(stack.getTagCompound().getString("ownerName"));
-			tile.setRelation(EnumRelation.getById(stack.getTagCompound().getInteger("relation")));
+
+			if (stack.hasTagCompound())
+			{
+				tile.setRelation(EnumRelation.getById(stack.getTagCompound().getInteger("relation")));
+			}
 			
+			else
+			{
+				tile.setRelation(EnumRelation.NONE);
+			}
+
 			playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, null);
 		}
 		
@@ -73,15 +84,27 @@ public class ItemMemorial extends Item
 			VillagerSaveData data = VillagerSaveData.fromNBT(itemStack.getTagCompound());
 			String ownerName = itemStack.getTagCompound().getString("ownerName");
 			String name = data.name;
-			String relation = MCA.getLanguageManager().getString(EnumRelation.getById(itemStack.getTagCompound().getInteger("relation")).getPhraseId());
+			String relationId = EnumRelation.getById(itemStack.getTagCompound().getInteger("relation")).getPhraseId(); 
 			
 			infoList.add(Color.WHITE + "Belonged to: ");
-			infoList.add(Color.GREEN + name + ", " + relation + " of " + ownerName);
+
+			if (!relationId.equals("relation.none"))
+			{
+				infoList.add(Color.GREEN + name + ", " + MCA.getLanguageManager().getString(relationId) + " of " + ownerName);
+			}
+			
+			else
+			{
+				infoList.add(Color.GREEN + name + " the " + MCA.getLanguageManager().getString(EnumProfession.getProfessionById(data.professionId).getLocalizationId()));
+				infoList.add("Captured by: " + ownerName);
+			}
 		}
 
 		else
 		{
 			infoList.add(Color.GREEN + "CREATIVE " + Format.RESET + "- No villager attached.");
+			infoList.add("Right-click a villager to attach them");
+			infoList.add("to this object.");
 		}
 
 		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
