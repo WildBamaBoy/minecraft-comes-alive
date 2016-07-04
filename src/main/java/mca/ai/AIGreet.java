@@ -7,7 +7,10 @@ import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.enums.EnumDialogueType;
+import mca.enums.EnumInteraction;
+import mca.packets.PacketOpenVillagerPrompt;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -113,7 +116,7 @@ public class AIGreet extends AbstractAI
 
 								if (data.getHappinessThresholdMet() && RadixLogic.getBooleanWithProbability(10))
 								{
-									
+									MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenVillagerPrompt(closestPlayer, owner, EnumInteraction.NOBILITY), (EntityPlayerMP)closestPlayer);
 								}
 								
 								else
