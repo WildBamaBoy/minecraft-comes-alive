@@ -30,7 +30,7 @@ public class BlockTombstone extends BlockContainer
     
 	public BlockTombstone()
 	{
-		super(Material.rock);
+		super(Material.circuits);
 		setBlockBounds(0.1F, 0.0F, 0.1F, 0.9F, 0.75F, 0.9F);
 	}
 
