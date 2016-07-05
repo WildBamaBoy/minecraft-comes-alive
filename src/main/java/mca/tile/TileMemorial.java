@@ -29,11 +29,6 @@ public class TileMemorial extends TileEntity implements ITickable
 	private EntityPlayer player;
 	private boolean hasSynced;
 
-	public TileMemorial()
-	{
-
-	}
-
 	@Override
 	public void update()
 	{

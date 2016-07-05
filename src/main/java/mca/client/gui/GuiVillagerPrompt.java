@@ -36,6 +36,7 @@ public class GuiVillagerPrompt extends GuiScreen
 	{
 		if (button.id == 1)
 		{
+			MCA.getPlayerData(player).setIsNobility(true);
 			MCA.getPacketHandler().sendPacketToServer(new PacketInteract(returnInteraction.getId(), human.getEntityId()));
 		}
 		

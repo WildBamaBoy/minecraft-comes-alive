@@ -69,6 +69,5 @@ public class PacketMemorialUpdateGet extends AbstractPacket implements IMessage,
 		{
 			//Throw away these exceptions.
 		}
-		
 	}
 }

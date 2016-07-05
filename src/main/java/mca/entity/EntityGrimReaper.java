@@ -12,6 +12,12 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.entity.ai.EntityAILookIdle;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAIWander;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityMob;
@@ -31,9 +37,6 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import radixcore.constant.Particle;
 import radixcore.constant.Time;
 import radixcore.math.Point3D;
 import radixcore.util.BlockHelper;
@@ -42,11 +45,10 @@ import radixcore.util.RadixMath;
 
 public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 {
+	private EntityAINearestAttackableTarget aiNearestAttackableTarget = new EntityAINearestAttackableTarget(this, EntityPlayer.class, true);
 	private int healingCooldown;
 	private int timesHealed;
-	private EntityLivingBase entityToAttack;
 	
-	@SideOnly(Side.CLIENT)
 	private float floatingTicks;
 
 	public EntityGrimReaper(World world) 
@@ -54,6 +56,13 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 		super(world);
 		setSize(1.0F, 2.6F);
 		this.experienceValue = 100;
+		
+        this.tasks.addTask(1, new EntityAISwimming(this));
+        this.tasks.addTask(4, new EntityAIWander(this, 1.0D));
+        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.tasks.addTask(6, new EntityAILookIdle(this));
+        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, new Class[0]));
+        this.targetTasks.addTask(2, aiNearestAttackableTarget);
 	}
 
 	@Override
@@ -61,7 +70,7 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 	{
 		super.applyEntityAttributes();
 		this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(40.0D);
-		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(2.0F);
+		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.30F);
 		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(12.5F);
 		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(225.0F);
 	}
@@ -69,12 +78,6 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 	public IChatComponent func_145748_c_()
 	{
 		return new ChatComponentText("Grim Reaper");
-	}
-
-	@Override
-	public boolean isAIDisabled() 
-	{
-		return true;
 	}
 
 	@Override
@@ -111,9 +114,9 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 		return EnumReaperAttackState.fromId(this.dataWatcher.getWatchableObjectInt(13));
 	}
 
-	public boolean hasEntitytoAttack()
+	public boolean hasEntityToAttack()
 	{
-		return entityToAttack != null;
+		return this.getAttackTarget() != null;
 	}
 
 	@Override
@@ -201,6 +204,8 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 
 	protected void attackEntity(Entity entity, float damage) 
 	{
+		EntityLivingBase entityToAttack = this.getAttackTarget();
+		
 		//Within 1.2 blocks of the target, damage it. Set attack state to post attack.
 		if (RadixMath.getDistanceToEntity(entityToAttack, this) <= 1.8D)
 		{
@@ -307,6 +312,14 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 		super.onUpdate();
 		extinguish(); //No fire.
 		
+		EntityLivingBase entityToAttack = this.getAttackTarget();
+
+		if (entityToAttack != null && getAttackState() != EnumReaperAttackState.REST)
+		{
+			attackEntity(entityToAttack, 5.0F);
+			this.getMoveHelper().setMoveTo(entityToAttack.posX, entityToAttack.posY, entityToAttack.posZ, 6.0F);
+		}
+		
 		//Increment floating ticks on the client when resting.
 		if (worldObj.isRemote && getAttackState() == EnumReaperAttackState.REST)
 		{
@@ -397,7 +410,7 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 		//See if our entity to attack has died at any point.
 		if (entityToAttack != null && entityToAttack.isDead)
 		{
-			entityToAttack = null;
+			this.setAttackTarget(null);
 			setAttackState(EnumReaperAttackState.IDLE);
 		}
 
@@ -426,11 +439,11 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 			//Speed up in order to lunge at the player.
 			if (getAttackState() == EnumReaperAttackState.PRE)
 			{
-				motionX = motionX * 1.4F;
-				motionZ = motionZ * 1.4F;
+				motionX = motionX * 1.1F;
+				motionZ = motionZ * 1.1F;
 			}
 		}
-
+		
 		//Kill plants close to us.
 		if (!worldObj.isRemote)
 		{
@@ -443,6 +456,14 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 
 				if (blockAbove.getMaterial() == Material.plants || blockAbove.getMaterial() == Material.vine)
 				{
+					Block blockAbovePlant = BlockHelper.getBlock(worldObj, point.iPosX, point.iPosY + 2, point.iPosZ);
+					
+					//Check above the plant to see if its a double plant. Remove that as well to prevent spawning flowers for some reason.
+					if (blockAbovePlant == Blocks.double_plant)
+					{
+						BlockHelper.setBlock(worldObj, point.iPosX, point.iPosY + 2, point.iPosZ, Blocks.air);
+					}
+					
 					BlockHelper.setBlock(worldObj, point.iPosX, point.iPosY + 1, point.iPosZ, Blocks.air);
 				}
 			}
@@ -477,7 +498,6 @@ public class EntityGrimReaper extends EntityMob implements IBossDisplayData
 		return this.dataWatcher.getWatchableObjectInt(14);
 	}
 
-	@SideOnly(Side.CLIENT)
 	public float getFloatingTicks()
 	{
 		return floatingTicks;

@@ -53,6 +53,7 @@ public final class ModBlocks
 		GameRegistry.registerBlock(roseGoldBlock, "RoseGoldBlock");
 		GameRegistry.registerBlock(roseGoldOre, "RoseGoldOre");
 		GameRegistry.registerBlock(tombstone, "Tombstone");
+		GameRegistry.registerBlock(memorial, "Memorial");
 	}
 	
 	@SideOnly(Side.CLIENT)

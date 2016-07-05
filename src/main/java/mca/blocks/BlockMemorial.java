@@ -3,6 +3,7 @@ package mca.blocks;
 import mca.core.minecraft.ModItems;
 import mca.tile.TileMemorial;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
@@ -66,13 +67,11 @@ public class BlockMemorial extends BlockContainer
 	}
 
 	@Override
-	public void onBlockDestroyedByPlayer(World world, BlockPos pos, IBlockState meta) 
+	public void breakBlock(World world, BlockPos pos, IBlockState meta) 
 	{
-		super.onBlockDestroyedByPlayer(world, pos, meta);
-
 		if (!world.isRemote)
 		{
-			TileMemorial memorial = (TileMemorial) BlockHelper.getTileEntity(world, pos.getX(), pos.getY(), pos.getZ());			
+			TileMemorial memorial = (TileMemorial) BlockHelper.getTileEntity(world, pos.getX(), pos.getY(), pos.getZ());
 			Item memorialItem = null;
 			ItemStack memorialStack = null;
 
@@ -94,6 +93,8 @@ public class BlockMemorial extends BlockContainer
 				EntityItem drop = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), memorialStack);
 				world.spawnEntityInWorld(drop);
 			}
+			
+			super.breakBlock(world, pos, meta);
 		}
 	}
 
@@ -108,4 +109,13 @@ public class BlockMemorial extends BlockContainer
 	{
 		return true;
 	}
+
+    @Override
+    public boolean onBlockEventReceived(World worldIn, BlockPos pos, IBlockState state, int eventID, int eventParam) 
+    {
+        super.onBlockEventReceived(worldIn, pos, state, eventID, eventParam);
+        System.out.println("A");
+        TileEntity tileentity = worldIn.getTileEntity(pos);
+        return tileentity == null ? false : tileentity.receiveClientEvent(eventID, eventParam);
+    }
 }

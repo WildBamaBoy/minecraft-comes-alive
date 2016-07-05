@@ -50,11 +50,8 @@ public class Utilities
 			for (int j = 0; j < world.playerEntities.size(); ++j)
 			{
 				EntityPlayerMP entityPlayerMP = (EntityPlayerMP)world.playerEntities.get(j);
-				ChunkCoordIntPair chunkCoordinates = new ChunkCoordIntPair(entityPlayerMP.chunkCoordX, entityPlayerMP.chunkCoordZ);
-				double deltaX = posX - chunkCoordinates.chunkXPos;
-				double deltaY = posY - entityPlayerMP.chunkCoordY;
-				double deltaZ = posZ - chunkCoordinates.chunkZPos;
-				double distanceSq = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+	            BlockPos blockpos = entityPlayerMP.getPosition();
+	            double distanceSq = blockpos.distanceSq(posX, posY, posZ);
 
 				if (distanceSq <= 256.0D)
 				{

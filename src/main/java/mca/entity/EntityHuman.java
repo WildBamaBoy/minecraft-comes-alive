@@ -1709,7 +1709,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	@Override
 	public String getName() 
 	{
-		return name.getString() + " the " + getProfessionEnum().getUserFriendlyForm(this);
+		return name.getString();
 	}
 
 	private MerchantRecipeList getBuyingList()

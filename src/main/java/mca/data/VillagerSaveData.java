@@ -78,7 +78,7 @@ public class VillagerSaveData implements Serializable
 		this.name = human.getName();
 		this.headTexture = human.getHeadTexture();
 		this.clothesTexture = human.getClothesTexture();
-		this.professionId = human.getProfession();
+		this.professionId = human.getProfessionEnum().getId();
 		this.personalityId = human.getPersonality().getId();
 		this.permanentId = human.getPermanentId();
 		this.isMale = human.getIsMale();

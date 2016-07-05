@@ -20,7 +20,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Font.Format;
-import radixcore.math.Point3D;
 import radixcore.util.BlockHelper;
 
 /** Class for an item dropped containing data about the villager who died. */
@@ -45,16 +44,14 @@ public class ItemMemorial extends Item
 		if (!worldIn.isRemote && stack.hasTagCompound())
 		{
 			int posX = pos.getX();
-			int posY = pos.getY();
-			int posZ = pos.getZ();
+			int posY = pos.getY() + 1;
+			int posZ = pos.getZ();			
+			pos = new BlockPos(posX, posY, posZ);
 			
-			posY++;
-			
-			BlockHelper.setBlock(worldIn, new Point3D(posX, posY, posZ), ModBlocks.memorial);
+			worldIn.setBlockState(pos, ModBlocks.memorial.getDefaultState(), 2);
 			TileMemorial tile = (TileMemorial) BlockHelper.getTileEntity(worldIn, posX, posY, posZ);
 			
 			tile.setType(this.type);
-
 			tile.setVillagerSaveData(VillagerSaveData.fromNBT(stack.getTagCompound()));
 			tile.setOwnerName(stack.getTagCompound().getString("ownerName"));
 

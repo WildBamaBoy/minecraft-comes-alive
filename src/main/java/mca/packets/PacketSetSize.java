@@ -1,6 +1,7 @@
 package mca.packets;
 
 import io.netty.buffer.ByteBuf;
+import mca.core.MCA;
 import mca.entity.EntityHuman;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -51,8 +52,7 @@ public class PacketSetSize extends AbstractPacket implements IMessage, IMessageH
 	@Override
 	public IMessage onMessage(PacketSetSize packet, MessageContext context)
 	{
-
-		
+		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
 		return null;
 	}
 
