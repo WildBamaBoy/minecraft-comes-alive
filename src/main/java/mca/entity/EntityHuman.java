@@ -36,7 +36,6 @@ import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.ModItems;
 import mca.data.NBTPlayerData;
-import mca.data.PlayerData;
 import mca.data.PlayerMemory;
 import mca.data.PlayerMemoryHandler;
 import mca.data.VillagerSaveData;
@@ -97,7 +96,10 @@ import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.common.registry.FMLControlledNamespacedRegistry;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import net.minecraftforge.fml.common.registry.VillagerRegistry;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.constant.Font.Color;
@@ -116,6 +118,16 @@ import radixcore.util.RadixLogic;
 
 public class EntityHuman extends EntityVillager implements IWatchable, IPermanent, IEntityAdditionalSpawnData
 {
+	// Field indexes from EntityVillager for use with ReflectionHelper.
+	// These can be determined using ReflectionHelper.findField(EntityVillager.class, "fieldOfE
+	private static final int ENTITY_VILLAGER_TIME_UNTIL_RESET_FIELD_INDEX = 6; //timeUntilReset
+	private static final int ENTITY_VILLAGER_NEEDS_INITIALIZATION = 7; //needsInitilization (note the spelling mistake)
+	private static final int ENTITY_VILLAGER_BUYING_PLAYER = 4; //buyingPlayer
+	private static final int ENTITY_VILLAGER_LAST_BUYING_PLAYER = 10; //lastBuyingPlayer
+	private static final int ENTITY_VILLAGER_WEALTH = 9; //wealth
+	private static final int ENTITY_VILLAGER_CAREER_ID = 11; //careerId
+	public static final int ENTITY_VILLAGER_CAREER_LEVEL = 12;
+
 	private final WatchedString name;
 	private final WatchedString headTexture;
 	private final WatchedString clothesTexture;
@@ -245,12 +257,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		if (isOverwrite)
 		{
-			this.professionId.setValue(EnumProfession.getNewProfessionFromVanilla(profession).getId());
+			this.setProfessionId(EnumProfession.getNewProfessionFromVanilla(profession).getId());
 		}
 
 		else
 		{
-			this.professionId.setValue(profession);
+			this.setProfessionId(profession);
 		}
 
 		this.headTexture.setValue(this.getRandomSkin());
@@ -279,7 +291,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		
 		if (isPlayerChild)
 		{
-			this.professionId.setValue(EnumProfession.Child.getId());
+			this.setProfessionId(EnumProfession.Child.getId());
 			this.headTexture.setValue(this.getRandomSkin());
 			this.clothesTexture.setValue(this.headTexture.getString());
 		}
@@ -518,7 +530,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		name.setValue(nbt.getString("name"));
 		headTexture.setValue(nbt.getString("skin"));
 		clothesTexture.setValue(nbt.getString("clothesTexture"));
-		professionId.setValue(nbt.getInteger("professionId"));
+		setProfessionId(nbt.getInteger("professionId"));
 		personalityId.setValue(nbt.getInteger("personalityId"));
 		permanentId.setValue(nbt.getInteger("permanentId"));
 		isMale.setValue(nbt.getBoolean("isMale"));
@@ -1387,20 +1399,20 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
         if (recipe.getToolUses() == 1 || this.rand.nextInt(5) == 0)
         {
-            ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, 40, 6); //this.timeUntilReset = 40;
-            ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, true, 8); // this.needsInitilization = true;
+        	ReflectionHelper.setPrivateValue(EntityVillager.class, this, 40, ENTITY_VILLAGER_TIME_UNTIL_RESET_FIELD_INDEX);
+        	ReflectionHelper.setPrivateValue(EntityVillager.class, this, true, ENTITY_VILLAGER_NEEDS_INITIALIZATION);
             //this.isWillingToMate = true; NOPE!
 
-            EntityPlayer buyingPlayer = ObfuscationReflectionHelper.getPrivateValue(EntityVillager.class, this, 4);
-            
+        	EntityPlayer buyingPlayer = ReflectionHelper.getPrivateValue(EntityVillager.class, this, ENTITY_VILLAGER_BUYING_PLAYER);
+        	
             if (buyingPlayer != null)
             {
-                ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, buyingPlayer.getName(), 10); //this.lastBuyingPlayer = buyingPlayer.getName();
+            	ReflectionHelper.setPrivateValue(EntityVillager.class, this, buyingPlayer.getName(), ENTITY_VILLAGER_LAST_BUYING_PLAYER);
             }
             
             else
             {
-                ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, null, 10); //this.lastBuyingPlayer = null;
+            	ReflectionHelper.setPrivateValue(EntityVillager.class, this, null, ENTITY_VILLAGER_LAST_BUYING_PLAYER);
             }
             
             i += 5;
@@ -1408,7 +1420,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
         if (recipe.getItemToBuy().getItem() == Items.emerald)
         {
-            ObfuscationReflectionHelper.setPrivateValue(EntityVillager.class, this, recipe.getItemToBuy().stackSize, 9); //this.wealth += recipe.getItemToBuy().stackSize;
+        	ReflectionHelper.setPrivateValue(EntityVillager.class, this, recipe.getItemToBuy().stackSize, ENTITY_VILLAGER_WEALTH); //this.wealth += recipe.getItemToBuy().stackSize;
         }
 
         if (recipe.getRewardsExp())
@@ -1677,6 +1689,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public void setProfessionId(int profession)
 	{
 		this.professionId.setValue(profession);
+
+		int vanillaProfId = this.getProfessionGroup().getVanillaProfessionId();
+		this.setProfession(vanillaProfId);
+		
+		ReflectionHelper.setPrivateValue(EntityVillager.class, this, this.getProfessionEnum().getVanillaCareerId(), ENTITY_VILLAGER_CAREER_ID);
+		ReflectionHelper.setPrivateValue(EntityVillager.class, this, 1, ENTITY_VILLAGER_CAREER_LEVEL);
 	}
 
 	public void setPersonality(int personalityId) 
