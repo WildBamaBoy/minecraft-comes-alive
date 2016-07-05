@@ -453,10 +453,10 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 				ItemMemorial memorial = (ItemMemorial)playerItem;
 				VillagerSaveData data = VillagerSaveData.fromVillager(this, null, player.getUniqueID());
 				
-				playerItemStack.stackTagCompound = new NBTTagCompound();
-				playerItemStack.stackTagCompound.setString("ownerName", player.getCommandSenderName());
-				playerItemStack.stackTagCompound.setInteger("relation", getPlayerMemory(player).getRelation().getId());
-				data.writeDataToNBT(playerItemStack.stackTagCompound);
+				playerItemStack.setTagCompound(new NBTTagCompound());
+				playerItemStack.getTagCompound().setString("ownerName", player.getName());
+				playerItemStack.getTagCompound().setInteger("relation", getPlayerMemory(player).getRelation().getId());
+				data.writeDataToNBT(playerItemStack.getTagCompound());
 				
 				player.addChatComponentMessage(new ChatComponentText(Color.GREEN + "Villager captured in memorial object."));
 				this.setDead();

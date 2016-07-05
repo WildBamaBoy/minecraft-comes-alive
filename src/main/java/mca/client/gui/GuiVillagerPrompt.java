@@ -26,7 +26,7 @@ public class GuiVillagerPrompt extends GuiScreen
 		switch (interaction)
 		{
 		case NOBILITY:
-			prompt = MCA.getLanguageManager().getString("interactionp.havebaby.prompt", player.getCommandSenderName());
+			prompt = MCA.getLanguageManager().getString("interactionp.havebaby.prompt", player.getName());
 			returnInteraction = EnumInteraction.NOBILITY_PROMPT_ACCEPT;
 			break;
 		}
