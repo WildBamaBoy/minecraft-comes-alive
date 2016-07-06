@@ -56,6 +56,7 @@ public class PacketOpenVillagerPrompt extends AbstractPacket implements IMessage
 		return null;
 	}
 
+	@SideOnly(Side.CLIENT)
 	@Override
 	public void processOnGameThread(IMessageHandler message, MessageContext context) 
 	{
