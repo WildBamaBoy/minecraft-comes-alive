@@ -1,6 +1,7 @@
 package mca.core.forge;
 
 import java.lang.reflect.Field;
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.common.base.Predicate;
@@ -316,9 +317,13 @@ public class EventHooksForge
 					}
 
 					//Villagers wearing armor are immune to infection.
-					for (int i = 1; i < 5; i++)
+					Iterator<ItemStack> iterator = human.getEquipmentAndArmor().iterator();
+					
+					while (iterator.hasNext())
 					{
-						if (human.getEquipmentInSlot(i) != null)
+						ItemStack stack = iterator.next();
+						
+						if (stack != null)
 						{
 							return;
 						}
