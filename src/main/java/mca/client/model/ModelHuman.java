@@ -17,7 +17,7 @@ public class ModelHuman extends ModelBiped
 
 	public ModelHuman()
 	{
-		super(0.5F);
+		super(0.0F);
 
 		breasts = new ModelRenderer(this, 18, 21);
 		breasts.addBox(-3F, 0F, -1F, 6, 3, 3);
@@ -52,36 +52,18 @@ public class ModelHuman extends ModelBiped
 		//Bind the head texture to the head and headwear.
 		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(headTexture));
 		
-		GL11.glPushMatrix();
-		{
-			GL11.glTranslated(0.0D, -0.05D, 0.0D);
-			GL11.glScaled(scale, scale, scale);
-			this.bipedHead.render(f6);
-			this.bipedHeadwear.render(f6);
-		}
-		GL11.glPopMatrix();
+		this.bipedHead.render(f6);
+		this.bipedHeadwear.render(f6);
 		
 		//Bind the clothes texture to the rest of the body.
 		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(clothesTexture));
 
-		GL11.glPushMatrix();
-		{
-			GL11.glScaled(scale, scale, scale);
-			this.bipedBody.render(f6);
-			this.bipedRightLeg.render(f6);
-			this.bipedLeftLeg.render(f6);
-		}
-		GL11.glPopMatrix();
-		
-		GL11.glPushMatrix();
-		{
-			GL11.glScaled(scale, scale, scale);
-			GL11.glTranslated(0.0D, 0.0D, 0.0D);
-			this.bipedRightArm.render(f6);
-			this.bipedLeftArm.render(f6);
-		}
-		GL11.glPopMatrix();
-		
+		this.bipedBody.render(f6);
+		this.bipedRightLeg.render(f6);
+		this.bipedLeftLeg.render(f6);
+		this.bipedRightArm.render(f6);
+		this.bipedLeftArm.render(f6);
+
 		if (!human.getIsMale() && !human.getIsChild() && MCA.getConfig().modifyFemaleBody && human.getItemStackFromSlot(EntityEquipmentSlot.CHEST) == null)
 		{
 			GL11.glPushMatrix();
