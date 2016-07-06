@@ -197,6 +197,7 @@ public class GuiWhistle extends GuiScreen
 
 		GL11.glTranslatef(0.0F, dummyHuman.getEyeHeight(), 0.0F);
 
+		GL11.glTranslated(0.0D, -1.5D, 0.0D);
 		Minecraft.getMinecraft().getRenderManager().playerViewY = 180.0F;
 		Minecraft.getMinecraft().getRenderManager().renderEntityWithPosYaw(dummyHuman, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F);
 
