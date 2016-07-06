@@ -3,6 +3,7 @@ package mca.core.minecraft;
 import mca.core.MCA;
 import mca.enums.EnumBedColor;
 import mca.enums.EnumCut;
+import mca.enums.EnumMemorialType;
 import mca.items.ItemBaby;
 import mca.items.ItemColoredDiamond;
 import mca.items.ItemColoredDiamondDust;
@@ -10,8 +11,11 @@ import mca.items.ItemColoredEngagementRing;
 import mca.items.ItemCrystalBall;
 import mca.items.ItemCutRingColored;
 import mca.items.ItemGemCutter;
+import mca.items.ItemMemorial;
 import mca.items.ItemNewOutfit;
 import mca.items.ItemSpawnEgg;
+import mca.items.ItemSpawnGrimReaper;
+import mca.items.ItemStaffOfLife;
 import mca.items.ItemTombstone;
 import mca.items.ItemVillagerBed;
 import mca.items.ItemVillagerEditor;
@@ -34,6 +38,7 @@ public final class ModItems
 	public static ItemBaby babyGirl;
 	public static ItemSpawnEgg eggMale;
 	public static ItemSpawnEgg eggFemale;
+	public static ItemSpawnGrimReaper eggReaper;
 	public static ItemVillagerBed bedRed;
 	public static ItemVillagerBed bedBlue;
 	public static ItemVillagerBed bedGreen;
@@ -107,6 +112,11 @@ public final class ModItems
 	public static ItemWhistle whistle;
 	public static ItemVillagerEditor villagerEditor;
 	
+	public static ItemMemorial brokenRing;
+	public static ItemMemorial childsDoll;
+	public static ItemMemorial toyTrain;
+	public static ItemStaffOfLife staffOfLife;
+	
 //	public static final Item lostRelativeDocument;
 	
 	/*
@@ -158,6 +168,7 @@ public final class ModItems
 		babyGirl = new ItemBaby(false);
 		eggMale = new ItemSpawnEgg(true);
 		eggFemale = new ItemSpawnEgg(false);
+		eggReaper = new ItemSpawnGrimReaper();
 		whistle = new ItemWhistle();
 		
 		bedRed = new ItemVillagerBed(EnumBedColor.RED);
@@ -196,6 +207,11 @@ public final class ModItems
 		tombstone = new ItemTombstone();
 		villagerEditor = new ItemVillagerEditor();
 		newOutfit = new ItemNewOutfit();
+		
+		brokenRing = new ItemMemorial(EnumMemorialType.BROKEN_RING);
+		childsDoll = new ItemMemorial(EnumMemorialType.DOLL);
+		toyTrain = new ItemMemorial(EnumMemorialType.TRAIN);
+		staffOfLife = new ItemStaffOfLife();
 		
 		//Modifications
 		needleAndString.setMaxStackSize(1);

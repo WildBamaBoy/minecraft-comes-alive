@@ -6,7 +6,7 @@ import java.util.List;
 import cpw.mods.fml.common.registry.GameRegistry;
 import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
-import mca.data.PlayerData;
+import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.enums.EnumDialogueType;
@@ -85,7 +85,7 @@ public class ItemBaby extends Item
 		if (!worldObj.isRemote && isReadyToGrowUp(stack))
 		{
 			ItemBaby baby = (ItemBaby)stack.getItem();
-			PlayerData data = MCA.getPlayerData(player);
+			NBTPlayerData data = MCA.getPlayerData(player);
 			boolean isPlayerMale = data.getIsMale();
 
 			String motherName = "N/A";

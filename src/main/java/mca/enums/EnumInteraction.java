@@ -48,15 +48,20 @@ public enum EnumInteraction
 	MINING_MODE(502, "miningmode"),
 	MINING_TARGET(503, "miningtarget"),
 	
+	FISHING(551, "fishing"),
+	
 	COOKING(601, "cooking"),
 	
 	COMBAT(701, "combat"),
-	ATTACK_ANIMALS(702, "attackanimals"),
-	ATTACK_MOBS(703, "attackmobs"),
+	ATTACK_METHOD(702, "attackmethod"),
+	ATTACK_TRIGGER(703, "attacktrigger"),
+	ATTACK_TARGET(704, "attacktarget"),
 	
 	HIRE(801, "hire"),
 	LENGTH(802, "length"),
 	ACCEPT(803, "accept"),
+	EXTEND(804, "extend"),
+	DISMISS(805, "dismiss"),
 	
 	START(997, "start"),
 	STOP(998, "stop"),
@@ -69,7 +74,13 @@ public enum EnumInteraction
 	HAVEBABY_ACCEPT(1004, "havebabyaccept"), 
 	
 	RESETBABY(1101, "resetbaby"),
-	ADOPTBABY(1102, "adoptbaby");
+	ADOPTBABY(1102, "adoptbaby"),
+	
+	NOBILITY(1201, "nobility"),
+	NOBILITY_PROMPT_ACCEPT(1202, "nobilityaccept"),
+	TAXES(1203, "taxes"),
+	
+	CHECKHAPPINESS(1301, "checkhappiness");
 	
 	private int id;
 	private String name;

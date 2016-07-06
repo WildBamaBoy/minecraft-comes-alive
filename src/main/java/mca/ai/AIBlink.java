@@ -31,7 +31,7 @@ public class AIBlink extends AbstractAI
 	@Override
 	public void onUpdateServer() 
 	{
-		if (MCA.getConfig().allowBlinking && !owner.getAI(AISleep.class).getIsSleeping() && owner.getHealth() > 0.0F && owner.usesPlayerSkin())
+		if (MCA.getConfig().allowBlinking && !owner.getAI(AISleep.class).getIsSleeping() && owner.getHealth() > 0.0F && !owner.usesPlayerSkin())
 		{
 			timeSinceLastBlink++;
 

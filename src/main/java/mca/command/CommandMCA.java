@@ -1,11 +1,16 @@
 package mca.command;
 
+import java.io.File;
 import java.util.Arrays;
+import java.util.UUID;
 
 import mca.ai.AIProgressStory;
 import mca.core.MCA;
+import mca.data.NBTPlayerData;
 import mca.data.PlayerData;
+import mca.data.PlayerDataCollection;
 import mca.data.PlayerMemory;
+import mca.entity.EntityGrimReaper;
 import mca.entity.EntityHuman;
 import mca.items.ItemBaby;
 import mca.util.MarriageHandler;
@@ -14,7 +19,10 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.DamageSource;
+import net.minecraft.world.WorldServer;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Font.Format;
 import radixcore.constant.Time;
@@ -68,7 +76,7 @@ public class CommandMCA extends CommandBase
 
 				if (targetPlayer != null)
 				{
-					final PlayerData data = MCA.getPlayerData(targetPlayer);
+					final NBTPlayerData data = MCA.getPlayerData(targetPlayer);
 
 					if (data.getIsSuperUser())
 					{
@@ -107,38 +115,43 @@ public class CommandMCA extends CommandBase
 
 			else if (subcommand.equalsIgnoreCase("dpd"))
 			{
-				final String arg0 = arguments[0];
+				addChatMessage(commandSender, Color.YELLOW + "Dumping player data to console.");
+				
+				PlayerDataCollection dataCollection = PlayerDataCollection.get();
+				dataCollection.getPlayerData(player.getUniqueID()).dumpToConsole();
+			}
+			
+			else if (subcommand.equalsIgnoreCase("cpd"))
+			{
+				addChatMessage(commandSender, Color.YELLOW + "Beginning conversion of player data...");
+				
+				PlayerDataCollection dataCollection = PlayerDataCollection.get();
+				File playerDataPath = new File(AbstractPlayerData.getPlayerDataPath(MinecraftServer.getServer().getEntityWorld(), MCA.ID));
+				playerDataPath.mkdirs();
 
-				if (arg0.equalsIgnoreCase("all"))
+				int total = 0;
+				int numSucceeded = 0;
+				
+				for (File f : playerDataPath.listFiles())
 				{
-					for (AbstractPlayerData data : MCA.playerDataMap.values())
+					String uuid = f.getName().replace(".dat", "");
+					PlayerData data = new PlayerData(uuid, MinecraftServer.getServer().getEntityWorld());
+					data = data.readDataFromFile(null, PlayerData.class, f);
+					
+					boolean success = dataCollection.migrateOldPlayerData(MinecraftServer.getServer().getEntityWorld(), UUID.fromString(uuid), data);
+					
+					if (success)
 					{
-						PlayerData pData = (PlayerData)data;
-						pData.dumpToConsole();
+						numSucceeded++;
 					}
 					
-					addChatMessage(commandSender, Color.GREEN + "All player data has been logged to the console.");
+					total++;
 				}
-
-				else
-				{
-					final EntityPlayer targetPlayer = player.worldObj.getPlayerEntityByName(arg0);
-
-					if (targetPlayer != null)
-					{
-						PlayerData data = MCA.getPlayerData(targetPlayer);
-						data.dumpToConsole();
-
-						addChatMessage(commandSender, Color.GREEN + arg0 + "'s player data has been logged to the console.");
-					}
-
-					else
-					{
-						addChatMessage(commandSender, Color.RED + arg0 + " was not found on the server.");
-					}
-				}
+				
+				addChatMessage(commandSender, Color.GREEN + "Conversion of player data completed.");
+				addChatMessage(commandSender, Color.GREEN + "Successfully converted " + numSucceeded + " out of " + total);
 			}
-
+			
 			else if (subcommand.equalsIgnoreCase("ffh"))
 			{
 				for (Object obj : player.worldObj.loadedEntityList)
@@ -289,6 +302,21 @@ public class CommandMCA extends CommandBase
 				}
 			}
 
+			else if (subcommand.equalsIgnoreCase("rgt"))
+			{
+				for (Object obj : player.worldObj.loadedEntityList)
+				{
+					if (obj instanceof EntityHuman)
+					{
+						EntityHuman human = (EntityHuman) obj;
+						PlayerMemory memory = human.getPlayerMemory(player);
+						memory.setTimeUntilGreeting(0);
+					}
+				}
+
+				addChatMessage(commandSender, Color.GOLD + "Reset greeting timers.");
+			}
+			
 			else if (subcommand.equalsIgnoreCase("rb"))
 			{
 				String playerName = arguments[0];
@@ -296,7 +324,7 @@ public class CommandMCA extends CommandBase
 
 				if (targetPlayer != null)
 				{
-					PlayerData data = MCA.getPlayerData(targetPlayer);
+					NBTPlayerData data = MCA.getPlayerData(targetPlayer);
 					data.setShouldHaveBaby(false);
 
 					addChatMessage(commandSender, Color.GOLD + playerName + "'s baby status has been reset.");	
@@ -338,7 +366,52 @@ public class CommandMCA extends CommandBase
 					addChatMessage(commandSender, Color.RED + playerName + " was not found on the server.");					
 				}
 			}
+			
+			else if (subcommand.equalsIgnoreCase("kgr"))
+			{
+				for (WorldServer world : MinecraftServer.getServer().worldServers)
+				{
+					for (Object obj : world.loadedEntityList)
+					{
+						if (obj instanceof EntityGrimReaper)
+						{
+							EntityGrimReaper reaper = (EntityGrimReaper)obj;
+							reaper.attackEntityFrom(DamageSource.outOfWorld, 10000F);
+						}
+					}
+				}
+				
+				addChatMessage(commandSender, Color.GREEN + "Killed all Grim Reaper entities.");
+			}
+			
+			else if (subcommand.equalsIgnoreCase("tpn")) //Toggle player nobility
+			{
+				String playerName = arguments[0];
+				EntityPlayer targetPlayer = player.worldObj.getPlayerEntityByName(playerName);
 
+				if (targetPlayer != null)
+				{
+					NBTPlayerData data = MCA.getPlayerData(targetPlayer);
+					
+					if (data.getIsNobility())
+					{
+						data.setIsNobility(false);
+						addChatMessage(commandSender, Color.GOLD + playerName + " is now set as non-nobility.");
+					}
+					
+					else
+					{
+						data.setIsNobility(true);
+						addChatMessage(commandSender, Color.GOLD + playerName + " is now set as nobility.");
+					}
+				}
+
+				else
+				{
+					addChatMessage(commandSender, Color.RED + playerName + " was not found on the server.");					
+				}
+			}
+			
 			else
 			{
 				throw new WrongUsageException("");
@@ -392,12 +465,17 @@ public class CommandMCA extends CommandBase
 		addChatMessage(commandSender, Color.WHITE + " /mca clv " + Color.GOLD + " - Clear all loaded villagers. " + Color.RED + "(IRREVERSABLE)", true);
 		addChatMessage(commandSender, Color.WHITE + " /mca mh+ " + Color.GOLD + " - Increase hearts by 1.", true);
 		addChatMessage(commandSender, Color.WHITE + " /mca mh- " + Color.GOLD + " - Decrease hearts by 1.", true);
-
+		addChatMessage(commandSender, Color.WHITE + " /mca rgt " + Color.GOLD + " - Reset your greeting timers.", true);
+		addChatMessage(commandSender, Color.WHITE + " /mca kgr " + Color.GOLD + " - Kill all Grim Reapers in the world.", true);
+		addChatMessage(commandSender, Color.WHITE + " /mca dpd " + Color.GOLD + " - Dump player data for <username>.", true);
+		addChatMessage(commandSender, Color.WHITE + " /mca cpd " + Color.GOLD + " - Convert old player data to the new format.", true);
+		
 		addChatMessage(commandSender, Color.DARKRED + "--- " + Color.GOLD + "OP COMMANDS" + Color.DARKRED + " ---", true);
 		addChatMessage(commandSender, Color.WHITE + " /mca rm <username> " + Color.GOLD + " - Reset <username>'s marriage.", true);
 		addChatMessage(commandSender, Color.WHITE + " /mca rb <username> " + Color.GOLD + " - Reset <username>'s baby.", true);
 		addChatMessage(commandSender, Color.WHITE + " /mca rh <username> " + Color.GOLD + " - Reset <username>'s hearts.", true);
 		addChatMessage(commandSender, Color.WHITE + " /mca rr <username> " + Color.GOLD + " - Completely reset <username>.", true);
+		addChatMessage(commandSender, Color.WHITE + " /mca revive <uuid> " + Color.GOLD + " - Revive a dead villager.", true);
 		addChatMessage(commandSender, Color.WHITE + " /mca sudo <username> " + Color.GOLD + " - Toggle <username> as a superuser.", true);
 		addChatMessage(commandSender, Color.WHITE + " /mca sudo ? <username> " + Color.GOLD + " - Get if <username> is a superuser.", true);
 

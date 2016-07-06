@@ -7,12 +7,12 @@ import mca.client.gui.GuiNameBaby;
 import mca.client.gui.GuiSetup;
 import mca.client.gui.GuiTombstone;
 import mca.client.gui.GuiVillagerEditor;
+import mca.client.gui.GuiWhistle;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.entity.EntityHuman;
 import mca.inventory.ContainerInventory;
 import mca.tile.TileTombstone;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import radixcore.util.BlockHelper;
@@ -50,6 +50,8 @@ public class GuiHandler implements IGuiHandler
 			return new GuiNameBaby(player, false);
 		case Constants.GUI_ID_SETUP:
 			return new GuiSetup(player);
+		case Constants.GUI_ID_WHISTLE:
+			return new GuiWhistle(player);
 		case Constants.GUI_ID_TOMBSTONE:
 			return new GuiTombstone((TileTombstone)BlockHelper.getTileEntity(world, posX, posY, posZ));
 		case Constants.GUI_ID_INTERACT: 

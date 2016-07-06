@@ -10,7 +10,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import mca.client.gui.GuiPlayerMenu;
 import mca.core.MCA;
-import mca.data.PlayerData;
+import mca.data.NBTPlayerData;
 import mca.entity.EntityHuman;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,8 +33,8 @@ public class PacketInteractWithPlayerC extends AbstractPacket implements IMessag
 	{
 		this.targetEntityId = target.getEntityId();
 		
-		PlayerData initData = MCA.getPlayerData(initiator);
-		PlayerData targetData = MCA.getPlayerData(target);
+		NBTPlayerData initData = MCA.getPlayerData(initiator);
+		NBTPlayerData targetData = MCA.getPlayerData(target);
 		
 		targetIsMarried = targetData.getSpousePermanentId() != 0;
 		targetIsEngaged = targetData.getIsEngaged();

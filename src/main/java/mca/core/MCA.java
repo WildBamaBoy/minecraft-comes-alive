@@ -1,8 +1,8 @@
 package mca.core;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.logging.log4j.Logger;
 
@@ -24,6 +24,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mca.api.CookableFood;
 import mca.api.CropEntry;
+import mca.api.FishingEntry;
 import mca.api.MiningEntry;
 import mca.api.RegistryMCA;
 import mca.api.WeddingGift;
@@ -40,12 +41,16 @@ import mca.core.minecraft.ModBlocks;
 import mca.core.minecraft.ModItems;
 import mca.core.radix.CrashWatcher;
 import mca.core.radix.LanguageParser;
+import mca.data.NBTPlayerData;
 import mca.data.PlayerData;
+import mca.data.PlayerDataCollection;
+import mca.entity.EntityChoreFishHook;
+import mca.entity.EntityGrimReaper;
 import mca.entity.EntityHuman;
 import mca.enums.EnumCut;
 import mca.enums.EnumProfession;
 import mca.network.MCAPacketHandler;
-import mca.test.DummyPlayer;
+import mca.tile.TileMemorial;
 import mca.tile.TileTombstone;
 import mca.tile.TileVillagerBed;
 import mca.util.SkinLoader;
@@ -61,6 +66,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemFishFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
@@ -70,7 +76,6 @@ import net.minecraftforge.oredict.OreDictionary;
 import radixcore.core.ModMetadataEx;
 import radixcore.core.RadixCore;
 import radixcore.data.AbstractPlayerData;
-import radixcore.data.DataContainer;
 import radixcore.forge.gen.SimpleOreGenerator;
 import radixcore.lang.LanguageManager;
 import radixcore.math.Point3D;
@@ -78,7 +83,7 @@ import radixcore.update.RDXUpdateProtocol;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixStartup;
 
-@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore@[2.1.1,)", acceptedMinecraftVersions = "[1.7.10]",
+@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore@[2.1.2,)", acceptedMinecraftVersions = "[1.7.10]",
 guiFactory = "mca.core.forge.client.MCAGuiFactory")
 public class MCA
 {
@@ -108,7 +113,7 @@ public class MCA
 	public static Map<String, AbstractPlayerData> playerDataMap;
 
 	@SideOnly(Side.CLIENT)
-	public static DataContainer playerDataContainer;
+	public static NBTPlayerData myPlayerData;
 	@SideOnly(Side.CLIENT)
 	public static Point3D destinyCenterPoint;
 	@SideOnly(Side.CLIENT)
@@ -167,10 +172,13 @@ public class MCA
 
 		//Entity registry
 		EntityRegistry.registerModEntity(EntityHuman.class, EntityHuman.class.getSimpleName(), config.baseEntityId, this, 50, 2, true);
-
+		EntityRegistry.registerModEntity(EntityChoreFishHook.class, EntityChoreFishHook.class.getSimpleName(), config.baseEntityId + 1, this, 50, 2, true);
+		EntityRegistry.registerModEntity(EntityGrimReaper.class, EntityGrimReaper.class.getSimpleName(), config.baseEntityId + 2, this, 50, 2, true);
+		
 		//Tile registry
 		GameRegistry.registerTileEntity(TileVillagerBed.class, TileVillagerBed.class.getSimpleName());
 		GameRegistry.registerTileEntity(TileTombstone.class, TileTombstone.class.getSimpleName());
+		GameRegistry.registerTileEntity(TileMemorial.class, TileMemorial.class.getSimpleName());
 
 		//Recipes
 		GameRegistry.addRecipe(new ItemStack(ModItems.divorcePapers, 1), 
@@ -504,6 +512,12 @@ public class MCA
 		RegistryMCA.addObjectAsGift(ModItems.diamondTriangle, 50);
 		RegistryMCA.addObjectAsGift(ModItems.diamondTiny, 50);
 
+		RegistryMCA.addFishingEntryToFishingAI(0, new FishingEntry(Items.fish));
+		RegistryMCA.addFishingEntryToFishingAI(1, new FishingEntry(Items.fish, ItemFishFood.FishType.CLOWNFISH.func_150976_a()));
+		RegistryMCA.addFishingEntryToFishingAI(2, new FishingEntry(Items.fish, ItemFishFood.FishType.COD.func_150976_a()));
+		RegistryMCA.addFishingEntryToFishingAI(3, new FishingEntry(Items.fish, ItemFishFood.FishType.PUFFERFISH.func_150976_a()));
+		RegistryMCA.addFishingEntryToFishingAI(4, new FishingEntry(Items.fish, ItemFishFood.FishType.SALMON.func_150976_a()));
+		
 		if (getConfig().additionalGiftItems.length > 0)
 		{
 			for (String entry : getConfig().additionalGiftItems)
@@ -652,20 +666,8 @@ public class MCA
 	public void serverStarting(FMLServerStartingEvent event)
 	{
 		event.registerServerCommand(new CommandMCA());
-
-		File playerDataPath = new File(AbstractPlayerData.getPlayerDataPath(event.getServer().getEntityWorld(), MCA.ID));
-		playerDataPath.mkdirs();
-
-		for (File f : playerDataPath.listFiles())
-		{
-			String uuid = f.getName().replace(".dat", "");
-			PlayerData data = new PlayerData(uuid, event.getServer().getEntityWorld());
-			data = data.readDataFromFile(null, PlayerData.class, f);
-
-			MCA.playerDataMap.put(uuid, data);
-		}
 	}
-
+	
 	@EventHandler
 	public void serverStopping(FMLServerStoppingEvent event)
 	{
@@ -734,28 +736,22 @@ public class MCA
 		return packetHandler;
 	}
 
-	public static PlayerData getPlayerData(EntityPlayer player)
+	public static NBTPlayerData getPlayerData(EntityPlayer player)
 	{
-		if (player instanceof DummyPlayer)
+		if (!player.worldObj.isRemote)
 		{
-			DummyPlayer dummy = (DummyPlayer)player;
-			return dummy.getIsSteve() ? stevePlayerData : alexPlayerData;
+			return PlayerDataCollection.get().getPlayerData(player.getUniqueID());
 		}
-
-		else if (!player.worldObj.isRemote)
-		{
-			return (PlayerData) playerDataMap.get(player.getUniqueID().toString());
-		}
-
+		
 		else
 		{
-			return playerDataContainer.getPlayerData(PlayerData.class);
+			return myPlayerData;
 		}
 	}
-
-	public static PlayerData getPlayerData(String uuid)
+	
+	public static NBTPlayerData getPlayerData(World worldObj, UUID uuid)
 	{
-		return (PlayerData) playerDataMap.get(uuid);
+		return PlayerDataCollection.get().getPlayerData(uuid);
 	}
 
 	public static EntityHuman getHumanByPermanentId(int id) 

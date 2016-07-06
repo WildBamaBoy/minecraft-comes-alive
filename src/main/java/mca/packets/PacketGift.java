@@ -12,7 +12,7 @@ import mca.api.RegistryMCA;
 import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
 import mca.core.minecraft.ModItems;
-import mca.data.PlayerData;
+import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.enums.EnumBabyState;
@@ -252,7 +252,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 	private boolean handleWeddingRing(EntityPlayer player, EntityHuman human)
 	{
-		PlayerData data = MCA.getPlayerData(player);
+		NBTPlayerData data = MCA.getPlayerData(player);
 		PlayerMemory memory = human.getPlayerMemory(player);
 
 		if (human.getIsChild() || !human.allowIntimateInteractions(player))
@@ -292,7 +292,8 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			human.say("interaction.marry.success", player); 
 			
 			MarriageHandler.startMarriage(player, human);
-
+			memory.setIsHiredBy(false, 0);
+			
 			human.getAI(AIMood.class).modifyMoodLevel(3.0F);
 			Utilities.spawnParticlesAroundEntityS(Particle.HEART, human, 16);
 			TutorialManager.sendMessageToPlayer(player, "You are now married. You can have", "children by using the 'Procreate' button.");
@@ -376,7 +377,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 	private boolean handleEngagementRing(EntityPlayer player, EntityHuman human)
 	{
-		PlayerData data = MCA.getPlayerData(player);
+		NBTPlayerData data = MCA.getPlayerData(player);
 		PlayerMemory memory = human.getPlayerMemory(player);
 
 		if (human.getIsChild() || !human.allowIntimateInteractions(player))
@@ -416,7 +417,8 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 			human.say("interaction.engage.success", player); 
 
 			MarriageHandler.startEngagement(player, human);
-
+			memory.setIsHiredBy(false, 0);
+			
 			human.getAI(AIMood.class).modifyMoodLevel(3.0F);
 			Utilities.spawnParticlesAroundEntityS(Particle.HEART, human, 16);
 			TutorialManager.sendMessageToPlayer(player, "You are now engaged. Now gift a wedding ring", "to get gifts from other villagers.");
@@ -428,7 +430,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 	private boolean handleDivorcePapers(EntityPlayer player, EntityHuman human) 
 	{
-		PlayerData data = MCA.getPlayerData(player);
+		NBTPlayerData data = MCA.getPlayerData(player);
 		PlayerMemory memory = human.getPlayerMemory(player);
 
 		if (human.getIsChild())

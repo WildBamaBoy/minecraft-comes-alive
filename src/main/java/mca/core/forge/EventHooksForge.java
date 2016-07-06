@@ -1,14 +1,24 @@
 package mca.core.forge;
 
 import java.lang.reflect.Field;
+import java.util.List;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import mca.ai.AICombat;
 import mca.core.MCA;
+import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
+import mca.enums.EnumCombatBehaviors;
+import mca.enums.EnumProfession;
 import mca.items.ItemBaby;
 import mca.packets.PacketInteractWithPlayerC;
+import mca.packets.PacketPlaySoundOnPlayer;
 import mca.util.TutorialManager;
 import mca.util.Utilities;
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -23,6 +33,7 @@ import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -31,6 +42,7 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.BlockEvent.PlaceEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Font.Format;
@@ -52,6 +64,25 @@ public class EventHooksForge
 
 			if (event.entity.getClass() == EntityVillager.class && MCA.getConfig().overwriteOriginalVillagers)
 			{
+				//Check for a zombie being turned into a villager. Don't overwrite with families in this case.
+				List<Entity> zombiesAroundMe = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityZombie.class, event.entity, 3);
+				
+				for (Entity entity : zombiesAroundMe)
+				{
+					EntityZombie zombie = (EntityZombie)entity;
+					
+					if (zombie.isConverting())
+					{
+						boolean isMale = RadixLogic.getBooleanWithProbability(50);
+						final EntityHuman human = new EntityHuman(entity.worldObj, isMale, EnumProfession.getAtRandom().getId(), false);
+						human.setPosition(zombie.posX, zombie.posY, zombie.posZ);
+						entity.worldObj.spawnEntityInWorld(human);
+						event.entity.setDead();
+						return;
+					}
+				}
+				
+				//Otherwise, no zombie was found so continue overwriting normally.
 				doOverwriteVillager(event, (EntityVillager) event.entity);
 			}
 		}
@@ -193,6 +224,47 @@ public class EventHooksForge
 	@SubscribeEvent
 	public void onLivingAttack(LivingAttackEvent event)
 	{
+		//Handle warrior triggers on player taking damage.
+		if (event.entityLiving instanceof EntityPlayer && event.source.getEntity() instanceof EntityLivingBase)
+		{
+			List<Entity> entityList = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, event.entityLiving, 15);
+			
+			for (Entity entity : entityList)
+			{
+				EntityHuman human = (EntityHuman)entity;
+				AICombat combat = human.getAI(AICombat.class);
+				PlayerMemory memory = human.getPlayerMemory((EntityPlayer)event.entityLiving);
+				
+				if (memory.getIsHiredBy() && human.getProfessionEnum() == EnumProfession.Warrior && 
+					combat.getMethodBehavior() != EnumCombatBehaviors.METHOD_DO_NOT_FIGHT &&
+					combat.getTriggerBehavior() == EnumCombatBehaviors.TRIGGER_PLAYER_TAKE_DAMAGE)
+				{
+					combat.setAttackTarget((EntityLivingBase)event.source.getEntity());
+				}
+			}
+		}
+
+		//Handle warrior triggers on player dealing damage.
+		else if (event.source.getEntity() instanceof EntityPlayer && event.entityLiving != null)
+		{
+			List<Entity> entityList = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, event.source.getEntity(), 15);
+			
+			for (Entity entity : entityList)
+			{
+				EntityHuman human = (EntityHuman)entity;
+				AICombat combat = human.getAI(AICombat.class);
+				PlayerMemory memory = human.getPlayerMemory((EntityPlayer)event.source.getEntity());
+				
+				if (memory.getIsHiredBy() && human.getProfessionEnum() == EnumProfession.Warrior && 
+					combat.getMethodBehavior() != EnumCombatBehaviors.METHOD_DO_NOT_FIGHT &&
+					combat.getTriggerBehavior() == EnumCombatBehaviors.TRIGGER_PLAYER_DEAL_DAMAGE)
+				{
+					combat.setAttackTarget((EntityLivingBase)event.entityLiving);
+				}
+			}
+		}
+		
+		//Handle infection checks
 		if (MCA.getConfig().enableInfection)
 		{
 			if (event.source != null && event.source.getSourceOfDamage() instanceof EntityZombie)
@@ -219,6 +291,22 @@ public class EventHooksForge
 				else if (event.entityLiving instanceof EntityHuman && flag)
 				{
 					EntityHuman human = (EntityHuman)event.entityLiving;
+					
+					//Warriors are immune to infection.
+					if (human.getProfessionEnum() == EnumProfession.Warrior)
+					{
+						return;
+					}
+					
+					//Villagers wearing armor are immune to infection.
+					for (int i = 1; i < 5; i++)
+					{
+						if (human.getEquipmentInSlot(i) != null)
+						{
+							return;
+						}
+					}
+
 					human.setIsInfected(true);
 					human.setHealth(human.getMaxHealth());
 					zombie.setAttackTarget(null);
@@ -248,6 +336,73 @@ public class EventHooksForge
 			if (target.getIsInfected())
 			{
 				mob.setAttackTarget(null);
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onPlaceEvent(PlaceEvent event) //Check for grim reaper summoning area.
+	{
+		if (event.block == Blocks.fire && event.world.getBlock(event.x, event.y - 1, event.z) == Blocks.emerald_block)
+		{
+			int totemsFound = 0;
+
+			//Check on +/- X and Z for at least 3 totems on fire.
+			for (int i = 0; i < 4; i++)
+			{
+				int dX = 0;
+				int dZ = 0;
+				
+				switch (i)
+				{
+				case 0: dX = -3; break;
+				case 1: dX = 3; break;
+				case 2: dZ = -3; break;
+				case 3: dZ = 3; break;
+				}
+				
+				//Scan upwards to ensure it's obsidian, and on fire.
+				for (int j = -1; j < 2; j++) //-1 since the fire is on top of the emerald.
+				{
+					Block block = event.world.getBlock(event.x + dX, event.y + j, event.z + dZ);
+					
+					if (block == Blocks.obsidian || block == Blocks.fire)
+					{
+					}
+					
+					else
+					{
+						break;
+					}
+					
+					//If we made it up to 1 without breaking, make sure the block is fire so that it's a lit totem.
+					if (j == 1 && block == Blocks.fire)
+					{
+						totemsFound++;
+					}
+					
+					continue;
+				}
+			}
+			
+			if (totemsFound >= 3 && !event.world.isDaytime())
+			{
+				Point3D summonPoint = new Point3D(event.x, event.y + 5, event.z);
+				NetworkRegistry.TargetPoint summonTarget = new NetworkRegistry.TargetPoint(event.world.provider.dimensionId, summonPoint.iPosX, summonPoint.iPosY + 5, summonPoint.iPosZ, 32);
+	
+				EventHooksFML.setReaperSummonPoint(event.world, new Point3D(event.x + 1.0D, event.y + 5, event.z + 1.0D));
+				MCA.getPacketHandler().sendPacketToAllAround(new PacketPlaySoundOnPlayer("portal.portal"), summonTarget);
+					
+				for (int i = 0; i < 2; i++)
+				{
+					Utilities.spawnParticlesAroundPointS(Particle.FLAMES, event.world, event.x, event.y - i, event.z, 32);
+					event.world.setBlock(event.x, event.y - i, event.z, Blocks.air);
+				}
+			}
+			
+			else if (totemsFound >= 3 && event.world.isDaytime())
+			{
+				TutorialManager.sendMessageToPlayer(event.player, "The Grim Reaper must be summoned at night.", "");
 			}
 		}
 	}

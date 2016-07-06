@@ -18,7 +18,8 @@ public enum EnumProfessionGroup
 	Librarian(1),
 	Miner(3),
 	Priest(2),
-	Smith(3);
+	Smith(3),
+	Warrior(3);
 
 	private List<String> completeSkinList;
 	private List<String> maleSkinList;

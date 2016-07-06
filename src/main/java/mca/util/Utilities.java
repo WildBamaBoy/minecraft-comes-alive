@@ -3,6 +3,7 @@ package mca.util;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDoor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.S2APacketParticles;
@@ -25,6 +26,39 @@ public class Utilities
 	public static double getNumberInRange(Random rand, float standardDeviation, float mean)
 	{
 		return (rand.nextGaussian() * standardDeviation) + mean;
+	}
+	
+	public static void spawnParticlesAroundPointS(String name, World world, double posX, double posY, double posZ, int rate)
+	{
+		final Random rand = world.rand;
+
+		for (int i = 0; i < rate; i++)
+		{
+			final float parX = (float) (posX + rand.nextFloat() * 1 * 2.0F - 1);
+			final float parY = (float) (posY + 0.5D + rand.nextFloat() * 1);
+			final float parZ = (float) (posZ + rand.nextFloat() * 1 * 2.0F - 1);
+
+			final float velX = (float) (rand.nextGaussian() * 0.02D);
+			final float velY = (float) (rand.nextGaussian() * 0.02D);
+			final float velZ = (float) (rand.nextGaussian() * 0.02D);
+
+			S2APacketParticles packet = new S2APacketParticles(name, parX, parY, parZ, velX, velY, velZ, 0.0F, 0);
+
+			for (int j = 0; j < world.playerEntities.size(); ++j)
+			{
+				EntityPlayerMP entityPlayerMP = (EntityPlayerMP)world.playerEntities.get(j);
+				ChunkCoordinates chunkCoordinates = entityPlayerMP.getPlayerCoordinates();
+				double deltaX = posX - chunkCoordinates.posX;
+				double deltaY = posY - chunkCoordinates.posY;
+				double deltaZ = posZ - chunkCoordinates.posZ;
+				double distanceSq = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+
+				if (distanceSq <= 256.0D)
+				{
+					entityPlayerMP.playerNetServerHandler.sendPacket(packet);
+				}
+			}
+		}
 	}
 	
 	public static void spawnParticlesAroundEntityS(String name, Entity entityOrigin, int rate)
@@ -75,6 +109,25 @@ public class Utilities
 			final float velZ = (float) (rand.nextGaussian() * 0.02D);
 
 			entityOrigin.worldObj.spawnParticle(name, parX, parY, parZ, velX, velY, velZ);
+		}
+	}
+	
+	public static void setDoorIsOpenAt(World world, int doorX, int doorY, int doorZ, boolean isOpen)
+	{
+		
+	}
+	
+	public static boolean getDoorIsOpenAt(World world, int doorX, int doorY, int doorZ)
+	{
+		try
+		{
+			BlockDoor door = (BlockDoor) world.getBlock(doorX, doorY, doorZ);
+			return !door.func_150015_f(world, doorX, doorY, doorZ);
+		}
+		
+		catch (Exception e)
+		{
+			return false;
 		}
 	}
 }

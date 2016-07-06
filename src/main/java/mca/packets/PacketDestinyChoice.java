@@ -7,7 +7,7 @@ import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
 import mca.core.minecraft.ModBlocks;
 import mca.core.minecraft.ModItems;
-import mca.data.PlayerData;
+import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
 import mca.enums.EnumDestinyChoice;
@@ -55,7 +55,7 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 	public IMessage onMessage(PacketDestinyChoice packet, MessageContext context)
 	{
 		final EntityPlayerMP player = (EntityPlayerMP)this.getPlayer(context);
-		final PlayerData data = MCA.getPlayerData(player);
+		final NBTPlayerData data = MCA.getPlayerData(player);
 		final WorldServer world = (WorldServer)player.worldObj;
 
 		if (packet.choice == EnumDestinyChoice.NONE || packet.choice == EnumDestinyChoice.CANCEL)
@@ -83,8 +83,8 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 		else
 		{
 			// Players have previously been able to spawn in structures on dedicated servers.
-			// Add a check for the dedicated server and prevent anything from happening.
-			if (MinecraftServer.getServer().isDedicatedServer())
+			// Add a check for the dedicated server and prevent anything from happening as long as the appropriate config is set.
+			if (MinecraftServer.getServer().isDedicatedServer() && !MCA.getConfig().serverEnableStructureSpawning)
 			{
 				return null;
 			}

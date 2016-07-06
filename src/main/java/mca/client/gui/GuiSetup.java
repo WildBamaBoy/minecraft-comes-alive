@@ -17,7 +17,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mca.core.MCA;
 import mca.core.forge.EventHooksFML;
-import mca.data.PlayerData;
+import mca.data.NBTPlayerData;
 import mca.enums.EnumDestinyChoice;
 import mca.packets.PacketDestinyChoice;
 import net.minecraft.client.Minecraft;
@@ -44,7 +44,7 @@ public class GuiSetup extends GuiScreen
 	private static List<String> supportersList = new ArrayList<String>();
 	
 	private EntityPlayer player;
-	private PlayerData data;
+	private NBTPlayerData data;
 	private EnumDestinyChoice destinyChoice;
 	private GuiTextField nameTextField;
 
@@ -275,7 +275,13 @@ public class GuiSetup extends GuiScreen
 		case 6: 
 			data.setMcaName(nameTextField.getText());
 
-			if (!Minecraft.getMinecraft().isIntegratedServerRunning() || !MCA.getConfig().enableStructureSpawning) 
+			boolean isDedicatedServer = !Minecraft.getMinecraft().isIntegratedServerRunning();
+			
+			//Skip destiny choices if on single player and the option is disabled, or if we're on
+			//a dedicated server and the server option is disabled. Server option is disabled by
+			//default, and is actually verified server-side before spawning the structure.
+			if ((!isDedicatedServer && !MCA.getConfig().enableStructureSpawning) ||
+				(isDedicatedServer && !MCA.getConfig().serverEnableStructureSpawning)) 
 			{
 				setDestinyComplete();
 				mc.displayGuiScreen(null);
@@ -372,10 +378,7 @@ public class GuiSetup extends GuiScreen
 
 	private void setDestinyComplete()
 	{
-		PlayerData data = MCA.playerDataContainer.getPlayerData(PlayerData.class);
-
-		DataWatcherEx.allowClientSideModification = true;
+		NBTPlayerData data = MCA.getPlayerData(player);
 		data.setHasChosenDestiny(true);
-		DataWatcherEx.allowClientSideModification = false;
 	}
 }

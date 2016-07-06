@@ -20,7 +20,8 @@ public class AIPatrol extends AbstractAI
 	private boolean isWaitingAtDoor;
 	private int timeUntilMoveReset;
 	private Point3D movePoint;
-
+	private int timeUntilTick;
+	
 	public AIPatrol(EntityHuman owner) 
 	{
 		super(owner);
@@ -39,6 +40,18 @@ public class AIPatrol extends AbstractAI
 	@Override
 	public void onUpdateServer() 
 	{
+		//Run every second, instead of constantly.
+		if (timeUntilTick > 0)
+		{
+			timeUntilTick--;
+			return;
+		}
+		
+		else
+		{
+			timeUntilTick = 20;
+		}
+		
 		if (owner.getProfessionGroup() == EnumProfessionGroup.Guard && !owner.worldObj.isDaytime())
 		{
 			if (!hasDoor)

@@ -8,7 +8,6 @@ import cpw.mods.fml.client.config.IConfigElement;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.config.Property;
 
 public final class Config implements Serializable
 {
@@ -27,6 +26,8 @@ public final class Config implements Serializable
 	public boolean enableDiminishingReturns;
 	public boolean enableInfection;
 	public boolean enableStructureSpawning;
+	public boolean serverEnableStructureSpawning;
+	public boolean allowVillagerRevival;
 	public Integer[] dimensionWhitelist;
 	public String[] additionalGiftItems;
 	public int guardSpawnRate;
@@ -57,6 +58,7 @@ public final class Config implements Serializable
 	public boolean allowTrading;
 	public boolean logVillagerDeaths;
 	public boolean spawnInAllDimensions;
+	public boolean replenishEmptyVillages;
 	public String villagerChatPrefix;
 
 	public boolean showMoodParticles;
@@ -69,7 +71,8 @@ public final class Config implements Serializable
 
 	public boolean allowCrashReporting;
 	public boolean allowUpdateChecking;
-
+	public boolean showPlayerDataMigrationErrors;
+	
 	public Config(FMLPreInitializationEvent event)
 	{
 		config = new Configuration(event.getSuggestedConfigurationFile());
@@ -98,9 +101,10 @@ public final class Config implements Serializable
 		guardSpawnRate = config.get("General", "Guard spawn rate", 3, "One guard per this many villagers. Set to zero or a negative number to disable guards.").getInt();
 		enableDiminishingReturns = config.get("General", "Enable diminishing returns?", true, "True if hearts increase decreases after multiple interactions.").getBoolean();
 		enableInfection = config.get("General", "Enable infection?", true, "True if villagers and your children have a chance of being infected from zombies.").getBoolean();
-		enableStructureSpawning = config.get("General", "Enable structure spawning?", true, "True if players can have the option to spawn structures during MCA's setup.").getBoolean();
+		enableStructureSpawning = config.get("General", "Enable structure spawning?", true, "True if players can have the option to spawn structures during MCA's setup. Single player only!").getBoolean();
 		spawnInAllDimensions = config.get("General", "Spawn villagers in all dimensions?", false, "True if you want to ignore the dimension whitelist and spawn MCA villagers in all worlds.").getBoolean();
-
+		replenishEmptyVillages = config.get("General", "Replenish empty villages?", true, "True if villagers can spawn within villages that have very few or no villagers. Controlled by vanilla village requirements.").getBoolean();
+		
 		//Dimension whitelist.
 		if (spawnInAllDimensions)
 		{
@@ -182,10 +186,13 @@ public final class Config implements Serializable
 		allowTrading = config.get("Server", "Allow trading", true).getBoolean();
 		logVillagerDeaths = config.get("Server", "Log villager deaths", false, "True if you want villager deaths to be logged to the console/server logs. Shows 'RMFS' values in console, R = related, M = mother, F = father, S = spouse. Can be a bit spammy!").getBoolean();
 		villagerChatPrefix = config.get("Server", "Villager chat prefix", "").getDefault();
-
+		serverEnableStructureSpawning = config.get("Server", "Enable structure spawning on server?", false, "True if players can have the option to spawn structures during MCA's setup on a server. WARNING: POTENTIAL FOR GRIEFING IS VERY HIGH - YOU HAVE BEEN WARNED").getBoolean();
+		allowVillagerRevival = config.get("Server", "Allow dead villagers to be revived?", true, "True if players can have the ability to revive villagers they are related to. Creates a file in [world name]/data/ that could become very large on big servers.").getBoolean();
+		showPlayerDataMigrationErrors = config.get("Server", "Show player data migration errors?", true, "If you're updating MCA on an existing world, some internal migrations of data must be performed. This can be error prone, but if you want to ignore these errors, set this to false - NOT RECOMMENDED! YOUR PLAYERS COULD LOSE PROGRESS!").getBoolean();
+		
 		//Additional gifts.
 		additionalGiftItems = config.get("Server", "Additional gifts", new String[]{"#<EXAMPLE> fermented_spider_eye|25", "#<EXAMPLE> poisonous_potato|12"}, "The names of the items/blocks that can be gifted in addition to the default items. Include hearts value preceded by |. 10 hearts points equals 1 heart.").getStringList();
-		  
+		
   		config.save();
 	}
 

@@ -2,9 +2,15 @@ package mca.ai;
 
 import java.util.Map;
 
+import mca.core.MCA;
+import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityHuman;
+import mca.enums.EnumDialogueType;
+import mca.enums.EnumInteraction;
+import mca.packets.PacketOpenVillagerPrompt;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -84,12 +90,10 @@ public class AIGreet extends AbstractAI
 				{
 					PlayerMemory memory = owner.getPlayerMemory(closestPlayer);
 					AISleep AISleep = owner.getAI(AISleep.class);
-
-					//memory.setTimeUntilGreeting(20);
 					
 					if (memory.getTimeUntilGreeting() <= 0 && RadixLogic.getBooleanWithProbability(CHANCE_TO_GREET) && owner.canEntityBeSeen(closestPlayer) && !AISleep.getIsSleeping())
 					{
-						if (owner.getIsInfected())
+						if (owner.getIsInfected() && !closestPlayer.capabilities.isCreativeMode)
 						{
 							closestPlayer.addChatComponentMessage(new ChatComponentText(Color.RED + owner.getName() + " bites you."));
 							closestPlayer.attackEntityFrom(DamageSource.generic, 2.0F);
@@ -98,7 +102,29 @@ public class AIGreet extends AbstractAI
 
 						else
 						{
-							owner.say(memory.getDialogueType() + ".greeting", closestPlayer);
+							//Check for low hearts on spouses.
+							if (memory.getDialogueType() == EnumDialogueType.SPOUSE && memory.getHearts() <= -25)
+							{
+								owner.say(memory.getDialogueType() + ".lowhearts.greeting", closestPlayer);
+								owner.timesWarnedForLowHearts++;
+							}
+							
+							else
+							{
+								//Check for nobility greeting.
+								NBTPlayerData data = MCA.getPlayerData(closestPlayer);
+
+								if (data.getHappinessThresholdMet() && RadixLogic.getBooleanWithProbability(10))
+								{
+									MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenVillagerPrompt(closestPlayer, owner, EnumInteraction.NOBILITY), (EntityPlayerMP)closestPlayer);
+								}
+								
+								else
+								{
+									owner.say(memory.getDialogueType() + ".greeting", closestPlayer);
+									owner.timesWarnedForLowHearts = 0; //Make sure we reset when hearts are back to normal.
+								}
+							}
 						}
 						
 						memory.setTimeUntilGreeting(GREETING_INTERVAL);

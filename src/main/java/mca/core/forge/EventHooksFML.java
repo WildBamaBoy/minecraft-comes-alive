@@ -8,33 +8,43 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.ServerTickEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
 import mca.core.minecraft.ModItems;
+import mca.data.NBTPlayerData;
 import mca.data.PlayerData;
+import mca.data.PlayerDataCollection;
+import mca.entity.EntityGrimReaper;
 import mca.entity.EntityHuman;
+import mca.enums.EnumBabyState;
 import mca.enums.EnumProfession;
 import mca.enums.EnumProfessionGroup;
 import mca.items.ItemGemCutter;
+import mca.packets.PacketPlaySoundOnPlayer;
+import mca.packets.PacketPlayerDataLogin;
+import mca.packets.PacketSpawnLightning;
 import mca.packets.PacketSyncConfig;
+import mca.util.Utilities;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.RandomPositionGenerator;
+import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Vec3;
+import net.minecraft.village.Village;
 import net.minecraft.world.World;
+import radixcore.constant.Particle;
 import radixcore.constant.Time;
 import radixcore.math.Point3D;
-import radixcore.packets.PacketDataContainer;
 import radixcore.util.BlockHelper;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixMath;
@@ -43,9 +53,13 @@ import radixcore.util.SchematicHandler;
 public class EventHooksFML 
 {
 	public static boolean playPortalAnimation;
+	private static int summonCounter;
+	private static Point3D summonPos;
+	private static World summonWorld;
+	
 	private int clientTickCounter;
 	private int serverTickCounter;
-
+	
 	@SubscribeEvent
 	public void onConfigChanges(ConfigChangedEvent.OnConfigChangedEvent eventArgs)
 	{
@@ -59,51 +73,59 @@ public class EventHooksFML
 	@SubscribeEvent
 	public void playerLoggedInEventHandler(PlayerLoggedInEvent event)
 	{
+		//In 5.2, we've migrated from storing our own data files to using WorldSavedData.
+		//Upon login, we check for this old data and migrate it to the new object we use.		
+		//We continue to create the old player data object so any existing player data file is read.
+		PlayerDataCollection dataCollection = PlayerDataCollection.get();
 		EntityPlayer player = event.player;
-		PlayerData data = null;
+		NBTPlayerData nbtData = null;
+		PlayerData oldData = new PlayerData(player);
+		boolean setPermanentId = false;
 
-		if (!MCA.playerDataMap.containsKey(player.getUniqueID().toString()))
+		//Check for old data and migrate it into the nbtData object.
+		if (oldData.dataExists())
 		{
-			data = new PlayerData(player);
-
-			if (data.dataExists())
-			{
-				data = data.readDataFromFile(event.player, PlayerData.class, null);
-			}
-
-			else
-			{
-				data.initializeNewData(event.player);
-			}
-
-			MCA.playerDataMap.put(event.player.getUniqueID().toString(), data);
+			oldData = oldData.readDataFromFile(event.player, PlayerData.class, null);
+			dataCollection.migrateOldPlayerData(player, oldData);
+			nbtData = dataCollection.getPlayerData(player.getUniqueID());
 		}
 
-		else
+		//If no old data, see if this player's data is empty in the world data.
+		else if (dataCollection.getPlayerData(player.getUniqueID()) == null)
 		{
-			data = MCA.getPlayerData(player);
-			data = data.readDataFromFile(event.player, PlayerData.class, null);  //Read from the file again to assign owner.
-			MCA.playerDataMap.put(event.player.getUniqueID().toString(), data);  //Put updated data back into the map.
+			//If so, they need a new data object and permanent ID since this is their first login.
+			NBTPlayerData nbtPlayerData = new NBTPlayerData();
+			dataCollection.putPlayerData(player.getUniqueID(), nbtPlayerData);
+			nbtData = nbtPlayerData;
+			setPermanentId = true;
 		}
 
-		MCA.getPacketHandler().sendPacketToPlayer(new PacketDataContainer(MCA.ID, data), (EntityPlayerMP)event.player);
+		else //If new data is already contained in the data collection, just grab what has already been loaded from disk.
+		{
+			nbtData = dataCollection.getPlayerData(player.getUniqueID());
+		}
+		
+		//Send copy of the player data to the client.
+		if (nbtData != null)
+		{
+			//Send the object before making any changes.
+			MCA.getPacketHandler().sendPacketToPlayer(new PacketPlayerDataLogin(nbtData), (EntityPlayerMP) player);
+
+			//Assign permanent ID if the flag is set.
+			if (setPermanentId)
+			{
+				nbtData.setPermanentId(RadixLogic.generatePermanentEntityId(player));
+			}
+			
+			//Add the crystal ball to the inventory if needed.
+			if (!nbtData.getHasChosenDestiny() && !player.inventory.hasItem(ModItems.crystalBall) && MCA.getConfig().giveCrystalBall)
+			{
+				player.inventory.addItemStackToInventory(new ItemStack(ModItems.crystalBall));
+			}
+		}
+		
+		//Sync the server's configuration, for display settings.
 		MCA.getPacketHandler().sendPacketToPlayer(new PacketSyncConfig(MCA.getConfig()), (EntityPlayerMP)event.player);
-
-		if (!data.getHasChosenDestiny() && !player.inventory.hasItem(ModItems.crystalBall) && MCA.getConfig().giveCrystalBall)
-		{
-			player.inventory.addItemStackToInventory(new ItemStack(ModItems.crystalBall));
-		}
-	}
-
-	@SubscribeEvent
-	public void playerLoggedOutEventHandler(PlayerLoggedOutEvent event)
-	{
-		PlayerData data = MCA.getPlayerData(event.player);
-
-		if (data != null)
-		{
-			data.saveDataToFile();
-		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -113,12 +135,12 @@ public class EventHooksFML
 		net.minecraft.client.Minecraft mc = net.minecraft.client.Minecraft.getMinecraft();
 		net.minecraft.client.gui.GuiScreen currentScreen = mc.currentScreen;
 
-		if (currentScreen instanceof net.minecraft.client.gui.GuiMainMenu && MCA.playerDataContainer != null)
+		if (currentScreen instanceof net.minecraft.client.gui.GuiMainMenu && MCA.myPlayerData != null)
 		{
 			playPortalAnimation = false;
 			MCA.destinyCenterPoint = null;
 			MCA.destinySpawnFlag = false;
-			MCA.playerDataContainer = null;
+			MCA.myPlayerData = null;
 			MCA.resetConfig();
 		}
 
@@ -171,6 +193,45 @@ public class EventHooksFML
 	@SubscribeEvent
 	public void serverTickEventHandler(ServerTickEvent event)
 	{
+		//Tick down reaper counter.
+		if (summonCounter > 0)
+		{
+			summonCounter--;
+			
+			//Spawn particles around the summon point.
+			Utilities.spawnParticlesAroundPointS(Particle.PORTAL, summonWorld, summonPos.iPosX, summonPos.iPosY, summonPos.iPosZ, 2);
+			
+			//Lightning will strike periodically.
+			if (summonCounter % (Time.SECOND * 2) == 0)
+			{
+				double dX = summonPos.iPosX + (summonWorld.rand.nextInt(6) * (RadixLogic.getBooleanWithProbability(50) ? 1 : -1));
+				double dZ = summonPos.iPosZ + (summonWorld.rand.nextInt(6) * (RadixLogic.getBooleanWithProbability(50) ? 1 : -1));
+				double y = (double)RadixLogic.getSpawnSafeTopLevel(summonWorld, (int)dX, (int)dZ);
+				NetworkRegistry.TargetPoint lightningTarget = new NetworkRegistry.TargetPoint(summonWorld.provider.dimensionId, dX, y, dZ, 64);
+				EntityLightningBolt lightning = new EntityLightningBolt(summonWorld, dX, y, dZ);
+								
+				summonWorld.spawnEntityInWorld(lightning);
+				MCA.getPacketHandler().sendPacketToAllAround(new PacketSpawnLightning(new Point3D(dX, y, dZ)), lightningTarget);
+				
+				//On the first lightning bolt, send the summon sound to all around the summon point.
+				if (summonCounter == 80)
+				{
+					NetworkRegistry.TargetPoint summonTarget = new NetworkRegistry.TargetPoint(summonWorld.provider.dimensionId, summonPos.iPosX, summonPos.iPosY, summonPos.iPosZ, 32);
+					MCA.getPacketHandler().sendPacketToAllAround(new PacketPlaySoundOnPlayer("mca:reaper.summon"), summonTarget);
+				}
+			}
+			
+			if (summonCounter == 0)
+			{
+				EntityGrimReaper reaper = new EntityGrimReaper(summonWorld);
+				reaper.setPosition(summonPos.iPosX, summonPos.iPosY, summonPos.iPosZ);
+				summonWorld.spawnEntityInWorld(reaper);
+				
+				summonPos = null;
+				summonWorld = null;
+			}
+		}
+		
 		if (serverTickCounter <= 0 && MCA.getConfig().guardSpawnRate > 0)
 		{
 			//Build a list of all humans on the server.
@@ -189,28 +250,18 @@ public class EventHooksFML
 
 			if (!humans.isEmpty())
 			{
-				//Pick three at random.
+				//Pick three humans at random to perform guard spawning around.
 				for (int i = 0; i < 3; i++)
 				{
 					EntityHuman human = humans.get(RadixMath.getNumberInRange(0, humans.size() - 1));
 
-					int neededNumberOfGuards = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, human, 50).size() / MCA.getConfig().guardSpawnRate;
-					int numberOfGuards = 0;
-
-					for (Entity entity : RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, human, 50))
-					{
-						if (entity instanceof EntityHuman)
-						{
-							EntityHuman otherHuman = (EntityHuman)entity;
-
-							if (otherHuman.getProfessionGroup() == EnumProfessionGroup.Guard)
-							{
-								numberOfGuards++;
-							}
-						}
-					}
-
-					if (numberOfGuards < neededNumberOfGuards)
+					//Don't count guards in the total count of villagers.
+					List<Entity> villagersAroundMe = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, human, 50);
+					int numberOfGuardsAroundMe = getNumberOfGuardsFromEntityList(villagersAroundMe);
+					int numberOfVillagersAroundMe = villagersAroundMe.size() - numberOfGuardsAroundMe; 
+					int neededNumberOfGuards = numberOfVillagersAroundMe / MCA.getConfig().guardSpawnRate;
+					
+					if (numberOfGuardsAroundMe < neededNumberOfGuards)
 					{
 						final EntityHuman guard = new EntityHuman(human.worldObj, RadixLogic.getBooleanWithProbability(50), EnumProfession.Guard.getId(), false);
 						final Vec3 pos = RandomPositionGenerator.findRandomTarget(human, 10, 1);
@@ -231,6 +282,74 @@ public class EventHooksFML
 			}
 
 			serverTickCounter = Time.MINUTE;
+		}
+		
+		if (serverTickCounter <= 0 && MCA.getConfig().replenishEmptyVillages && RadixLogic.getBooleanWithProbability(25))
+		{
+			for (World world : MinecraftServer.getServer().worldServers)
+			{
+				for (Object obj : world.villageCollectionObj.getVillageList())
+				{
+					Village village = (Village)obj;
+					
+					int populationCapacity = village.getNumVillageDoors();
+					int population = 0;
+					double posX = village.getCenter().posX;
+					double posY = village.getCenter().posY;
+					double posZ = village.getCenter().posZ;
+					
+					for (Entity entity : RadixLogic.getAllEntitiesWithinDistanceOfCoordinates(world, posX, posY, posZ, village.getVillageRadius()))
+					{
+						if (entity instanceof EntityHuman)
+						{
+							EntityHuman human = (EntityHuman) entity;
+							
+							//Count everyone except guards
+							if (human.getProfessionGroup() != EnumProfessionGroup.Guard)
+							{
+								population++;
+							}
+							
+							//Count babies with the villager population.
+							if (human.getBabyState() != EnumBabyState.NONE)
+							{
+								population++;
+							}
+						}
+					}
+
+					//If the village can support more villagers, spawn.
+					int tries = 0;
+
+					if (population < populationCapacity)
+					{
+						while (tries < 3)
+						{
+							posX = posX + (world.rand.nextInt(village.getVillageRadius())) * (RadixLogic.getBooleanWithProbability(50) ? 1 : -1);
+							posZ = posZ + (world.rand.nextInt(village.getVillageRadius())) * (RadixLogic.getBooleanWithProbability(50) ? 1 : -1);
+							
+							//Offset to the center of the block
+							posX += 0.5D;
+							posZ += 0.5D;
+							double dY = RadixLogic.getSpawnSafeTopLevel(world, (int)posX, (int)posZ);
+							
+							//Prevent spawning on roof by checking the safe spawn level against the center level
+							//and making sure it's not too high.
+							if (dY - posY <= 4.0F)
+							{
+								Point3D pointOfSpawn = new Point3D(posX, dY, posZ);
+								MCA.naturallySpawnVillagers(pointOfSpawn, world, -1);
+								break;
+							}
+							
+							else //Try again up to 3 times if not.
+							{
+								tries++;
+							}
+						}
+					}
+				}
+			}
 		}
 
 		serverTickCounter--;
@@ -301,5 +420,32 @@ public class EventHooksFML
 		{
 			player.triggerAchievement(ModAchievements.smeltColoredDiamond);
 		}
+	}
+
+	public static void setReaperSummonPoint(World worldObj, Point3D point)
+	{
+		summonWorld = worldObj;
+		summonPos = point;
+		summonCounter = Time.SECOND * 6;
+	}
+	
+	private int getNumberOfGuardsFromEntityList(List<Entity> entityList) 
+	{
+		int returnValue = 0;
+		
+		for (Entity entity : entityList)
+		{
+			if (entity instanceof EntityHuman)
+			{
+				EntityHuman human = (EntityHuman)entity;
+				
+				if (human.getProfessionGroup() == EnumProfessionGroup.Guard)
+				{
+					returnValue++;
+				}
+			}
+		}
+		
+		return returnValue;
 	}
 }

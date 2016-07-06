@@ -36,7 +36,7 @@ public class PlayerMemory implements Serializable
 	private int feedbackDisplayTime;
 	private boolean lastInteractionSuccess;
 	private int relationId;
-
+	private int taxResetCounter;
 	private transient int timeUntilGreeting;
 	private transient int distanceTravelledFrom;
 
@@ -58,8 +58,8 @@ public class PlayerMemory implements Serializable
 			hearts = 100;
 
 			//Also set this player as not having a baby, since it won't be set at all as the player may be offline.
-			PlayerData data = MCA.getPlayerData(player);
-			data.shouldHaveBaby.setValue(false);
+			NBTPlayerData data = MCA.getPlayerData(player);
+			data.setShouldHaveBaby(false);
 		}
 	}
 
@@ -90,6 +90,7 @@ public class PlayerMemory implements Serializable
 		nbt.setBoolean(nbtPrefix + "isHiredBy", isHiredBy);
 		nbt.setInteger(nbtPrefix + "feedbackDisplayTime", feedbackDisplayTime);
 		nbt.setBoolean(nbtPrefix + "lastInteractionSuccess", lastInteractionSuccess);
+		nbt.setInteger(nbtPrefix + "taxResetCounter", taxResetCounter);
 		nbt.setInteger(nbtPrefix + "relationId", relationId);
 	}
 
@@ -112,6 +113,7 @@ public class PlayerMemory implements Serializable
 		feedbackDisplayTime = nbt.getInteger(nbtPrefix + "feedbackDisplayTime");
 		lastInteractionSuccess = nbt.getBoolean(nbtPrefix + "lastInteractionSuccess");
 		relationId = nbt.getInteger(nbtPrefix + "relationId");
+		taxResetCounter = nbt.getInteger(nbtPrefix + "taxResetCounter");
 	}
 
 	public void doTick()
@@ -131,6 +133,16 @@ public class PlayerMemory implements Serializable
 				}
 			}
 
+			if (taxResetCounter > 0)
+			{
+				taxResetCounter--;
+				
+				if (taxResetCounter <= 0)
+				{
+					setTaxResetCounter(0);
+				}
+			}
+			
 			counter = Time.MINUTE;
 		}
 
@@ -283,7 +295,7 @@ public class PlayerMemory implements Serializable
 	public void setIsHiredBy(boolean value, int length)
 	{
 		isHiredBy = value;
-		hireTimeLeft = length * 60; //Measured in hours
+		hireTimeLeft = length;
 		onNonTransientValueChanged();
 	}
 
@@ -300,5 +312,21 @@ public class PlayerMemory implements Serializable
 	public boolean isRelatedToPlayer()
 	{
 		return relationId > 0;
+	}
+	
+	public int getHireTimeLeft()
+	{
+		return hireTimeLeft;
+	}
+	
+	public void setTaxResetCounter(int value)
+	{
+		this.taxResetCounter = value;
+		onNonTransientValueChanged();
+	}
+	
+	public int getTaxResetCounter()
+	{
+		return taxResetCounter;
 	}
 }

@@ -3,7 +3,7 @@ package mca.core.forge;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import mca.client.gui.GuiSetup;
 import mca.core.MCA;
-import mca.data.PlayerData;
+import mca.data.NBTPlayerData;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEnchantmentTable;
 import net.minecraft.client.Minecraft;
@@ -23,7 +23,7 @@ public class EventHooksForgeClient
 				
 				if (block instanceof BlockEnchantmentTable)
 				{
-					PlayerData data = MCA.getPlayerData(event.entityPlayer);
+					NBTPlayerData data = MCA.getPlayerData(event.entityPlayer);
 					
 					if (!data.getHasChosenDestiny())
 					{
