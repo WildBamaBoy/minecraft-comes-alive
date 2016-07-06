@@ -148,7 +148,7 @@ public class AIFarming extends AbstractToggleAI
 						for (int id : RegistryMCA.getCropEntryIDs())
 						{
 							final CropEntry entry = RegistryMCA.getCropEntryById(id);
-
+							
 							if (entry.getCategory() == EnumCropCategory.SUGARCANE)
 							{
 								Point3D nearestHarvest = RadixLogic.getFirstNearestBlockWithMeta(owner, entry.getHarvestBlock(), entry.getHarvestBlockMeta(), radius);
@@ -204,7 +204,7 @@ public class AIFarming extends AbstractToggleAI
 								{
 									IBlockState state = owner.worldObj.getBlockState(new BlockPos(point.iPosX, point.iPosY, point.iPosZ));
 									int meta = state.getBlock().getMetaFromState(state);
-									
+
 									if (meta == entry.getHarvestBlockMeta())
 									{
 										validMetaBlocks.add(point);
@@ -224,7 +224,7 @@ public class AIFarming extends AbstractToggleAI
 									}
 								}
 								
-								if (harvestTargetPoint == null)
+								if (harvestTargetPoint == null || harvestTargetPoint == Point3D.ZERO)
 								{
 									harvestTargetPoint = Point3D.ZERO;
 									continue;
