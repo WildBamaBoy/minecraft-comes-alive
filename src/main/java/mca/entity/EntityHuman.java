@@ -695,7 +695,6 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 						memorialStack.getTagCompound().setInteger("relation", ownerRelation.getId());
 						data.writeDataToNBT(memorialStack.getTagCompound());
 						
-						this.entityDropItem(memorialStack, 1.0F);
 						memorialDropped = true;
 					}
 
