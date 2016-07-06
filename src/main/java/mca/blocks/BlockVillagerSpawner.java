@@ -21,7 +21,7 @@ public class BlockVillagerSpawner extends Block
 {
 	public BlockVillagerSpawner()
 	{
-		super(Material.iron);
+		super(Material.IRON);
 		
 		setCreativeTab(MCA.getCreativeTabMain());
 		setUnlocalizedName("VillagerSpawner");
@@ -62,7 +62,7 @@ public class BlockVillagerSpawner extends Block
 				Block block = BlockHelper.getBlock(world, pos.getX(), spawnY, pos.getZ());
 				Block blockAbove = BlockHelper.getBlock(world, pos.getX(), spawnY + 1, pos.getZ());
 
-				if (block == Blocks.air && blockAbove == Blocks.air)
+				if (block == Blocks.AIR && blockAbove == Blocks.AIR)
 				{
 					continueSpawning = true;
 					break;

@@ -41,18 +41,18 @@ public final class ModAchievements
 	{
 		int middle = 0;
 
-		fullGoldHearts = RadixAchievement.register("fullGoldHearts", 0, middle, Blocks.yellow_flower, null);
+		fullGoldHearts = RadixAchievement.register("fullGoldHearts", 0, middle, Blocks.YELLOW_FLOWER, null);
 		engagement = RadixAchievement.register("engagement",  2, middle + 2, ModItems.engagementRing, fullGoldHearts);
 		marriage = RadixAchievement.register("marriage",  4, middle, ModItems.weddingRing, engagement);
 		babyBoy = RadixAchievement.register("babyBoy", 6, middle + 1, ModItems.babyBoy, marriage);
 		babyGirl = RadixAchievement.register("babyGirl", 6, middle - 1, ModItems.babyGirl, marriage);
 		twins = RadixAchievement.register("twins", 6, middle, ModItems.diamondHeart, marriage);
-		babyToChild = RadixAchievement.register("babyToChild", 8, middle, Items.cake, marriage);
-		hunting = RadixAchievement.register("hunting", 9, middle + 1, Items.bow, babyToChild);
-		mining = RadixAchievement.register("mining", 10, middle + 1, Items.iron_pickaxe, babyToChild);
-		woodcutting = RadixAchievement.register("woodcutting", 9, middle - 1, Items.iron_axe, babyToChild);
-		farming = RadixAchievement.register("farming", 10, middle - 1, Items.iron_hoe, babyToChild);
-		childToAdult = RadixAchievement.register("childToAdult", 11, middle, Items.iron_sword, babyToChild);
+		babyToChild = RadixAchievement.register("babyToChild", 8, middle, Items.CAKE, marriage);
+		hunting = RadixAchievement.register("hunting", 9, middle + 1, Items.BOW, babyToChild);
+		mining = RadixAchievement.register("mining", 10, middle + 1, Items.IRON_PICKAXE, babyToChild);
+		woodcutting = RadixAchievement.register("woodcutting", 9, middle - 1, Items.IRON_AXE, babyToChild);
+		farming = RadixAchievement.register("farming", 10, middle - 1, Items.IRON_HOE, babyToChild);
+		childToAdult = RadixAchievement.register("childToAdult", 11, middle, Items.IRON_SWORD, babyToChild);
 		childMarried = RadixAchievement.register("childMarried", 13, middle, ModItems.matchmakersRing, childToAdult);
 		childHasChildren = RadixAchievement.register("childHasChildren", 15, middle, ModItems.babyBoy, childMarried);
 

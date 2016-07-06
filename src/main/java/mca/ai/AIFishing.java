@@ -159,7 +159,7 @@ public class AIFishing extends AbstractToggleAI
 	private boolean trySetWaterCoordinates()
 	{
 		//Get all water up to 10 blocks away from the entity.
-		final Point3D waterCoordinates = RadixLogic.getFirstNearestBlock(owner, Blocks.water, 10);
+		final Point3D waterCoordinates = RadixLogic.getFirstNearestBlock(owner, Blocks.WATER, 10);
 
 		if (waterCoordinates == null)
 		{
@@ -182,12 +182,12 @@ public class AIFishing extends AbstractToggleAI
 
 	private boolean canFishingBegin()
 	{
-		return RadixLogic.getFirstNearestBlock(owner, Blocks.water, 1) != null;
+		return RadixLogic.getFirstNearestBlock(owner, Blocks.WATER, 1) != null;
 	}
 
 	private void doSetFishingTarget()
 	{
-		final List<Point3D> nearbyWater = RadixLogic.getNearbyBlocks(owner, Blocks.water, 10);
+		final List<Point3D> nearbyWater = RadixLogic.getNearbyBlocks(owner, Blocks.WATER, 10);
 		final Point3D randomNearbyWater = nearbyWater.get(RadixMath.getNumberInRange(0, nearbyWater.size() - 1));
 		
 		waterCoordinatesX = randomNearbyWater.iPosX;
@@ -236,7 +236,7 @@ public class AIFishing extends AbstractToggleAI
 				owner.damageHeldItem(1);
 				
 				//Check if they're carrying 64 fish and end the chore if they are.
-				if (owner.getVillagerInventory().containsCountOf(Items.fish, 64))
+				if (owner.getVillagerInventory().containsCountOf(Items.FISH, 64))
 				{
 					owner.say(MCA.getLanguageManager().getString("notify.child.chore.finished.fishing"), getAssigningPlayer());
 					reset();
@@ -292,14 +292,14 @@ public class AIFishing extends AbstractToggleAI
 	private void doItemVerification()
 	{
 		//Make sure a child has a fishing rod.
-		if (owner instanceof EntityHuman && !owner.getVillagerInventory().contains(Items.fishing_rod))
+		if (owner instanceof EntityHuman && !owner.getVillagerInventory().contains(Items.FISHING_ROD))
 		{
 			owner.say("fishing.norod", getAssigningPlayer());
 			reset();
 			return;
 		}
 		
-		owner.setHeldItem(owner.getVillagerInventory().getStackInSlot(owner.getVillagerInventory().getFirstSlotContainingItem(Items.fishing_rod)).getItem());
+		owner.setHeldItem(owner.getVillagerInventory().getStackInSlot(owner.getVillagerInventory().getFirstSlotContainingItem(Items.FISHING_ROD)).getItem());
 	}
 
 	private int getFishCatchChance()

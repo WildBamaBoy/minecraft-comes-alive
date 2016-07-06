@@ -133,6 +133,6 @@ public class AIFollow extends AbstractAI
 	{
 		IBlockState iblockstate = owner.worldObj.getBlockState(pos);
 		Block block = iblockstate.getBlock();
-		return block == Blocks.air ? true : !iblockstate.isFullCube();
+		return block == Blocks.AIR ? true : !iblockstate.isFullCube();
 	}
 }

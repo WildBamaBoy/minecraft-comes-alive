@@ -97,7 +97,7 @@ public class AIGreet extends AbstractAI
 						{
 							closestPlayer.addChatComponentMessage(new TextComponentString(Color.RED + owner.getName() + " bites you."));
 							closestPlayer.attackEntityFrom(DamageSource.generic, 2.0F);
-							closestPlayer.addPotionEffect(new PotionEffect(MobEffects.weakness, Time.MINUTE * 2, 1));
+							closestPlayer.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, Time.MINUTE * 2, 1));
 						}
 
 						else

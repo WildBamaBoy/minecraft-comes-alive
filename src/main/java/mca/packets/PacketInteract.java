@@ -423,7 +423,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 					int slot = -1;
 					for (; currentSlot < player.inventory.mainInventory.length; currentSlot++) {
 						ItemStack stack = player.inventory.mainInventory[currentSlot];
-						if (stack != null && stack.getItem() == Items.gold_ingot) {
+						if (stack != null && stack.getItem() == Items.GOLD_INGOT) {
 							slot = currentSlot;
 							break;
 						}
@@ -470,8 +470,8 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 				if (percentAverage != -1)
 				{
 					PlayerMemory thisMemory = villager.getPlayerMemory(player);
-					Item dropItem = RadixLogic.getBooleanWithProbability(3) ? Items.diamond : 
-						RadixLogic.getBooleanWithProbability(50) ? Items.gold_nugget : Items.iron_ingot;
+					Item dropItem = RadixLogic.getBooleanWithProbability(3) ? Items.DIAMOND : 
+						RadixLogic.getBooleanWithProbability(50) ? Items.GOLD_NUGGET : Items.IRON_INGOT;
 					int	happinessLevel = MathHelper.clamp_int((int)Math.round(percentAverage / 25), 0, 4);
 					int	itemsDropped = RadixMath.getNumberInRange(Math.round((float)happinessLevel / 2), happinessLevel * 2);
 					
@@ -480,7 +480,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 						itemsDropped++;
 					}
 						
-					if (dropItem == Items.diamond) //Halve what will be received from a rare diamond drop.
+					if (dropItem == Items.DIAMOND) //Halve what will be received from a rare diamond drop.
 					{
 						itemsDropped = MathHelper.clamp_int(itemsDropped, 1, 5);
 					}

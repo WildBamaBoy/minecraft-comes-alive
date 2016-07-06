@@ -58,6 +58,6 @@ public class PacketSpawnLightning extends AbstractPacket implements IMessage, IM
 		EntityLightningBolt lightning = new EntityLightningBolt(world, packet.position.dPosX, packet.position.dPosY, packet.position.dPosZ, false);
 		
 		world.spawnEntityInWorld(lightning);
-		getPlayerClient().playSound(SoundEvents.entity_lightning_thunder, 2.0F, 1.0F);
+		getPlayerClient().playSound(SoundEvents.ENTITY_LIGHTNING_THUNDER, 2.0F, 1.0F);
 	}
 }

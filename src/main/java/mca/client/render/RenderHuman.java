@@ -262,9 +262,9 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 		final Vec3d entityLookVector = new Vec3d(entityRendering.posX - entityPlayer.posX, entityRendering.getEntityBoundingBox().minY - 3 + (double) entityRendering.height / 2.0F - entityPlayer.posY + entityPlayer.getEyeHeight(), entityRendering.posZ - entityPlayer.posZ).normalize(); //entityRendering.getLook(1.0F).normalize();
 		final double dotProduct = entityPlayer.getLook(1.0F).normalize().dotProduct(entityLookVector);
 		final boolean isPlayerLookingAt = dotProduct > 1.0D - 0.025D / entityLookVector.lengthVector() ? entityPlayer.canEntityBeSeen(entityRendering) : false;
-		final double distance = entityRendering.getDistanceToEntity(renderManager.livingPlayer);
+		final double distance = entityRendering.getDistanceToEntity(Minecraft.getMinecraft().thePlayer);
 
-		return !(Minecraft.getMinecraft().currentScreen instanceof GuiInteraction) && distance < 5.0D && isPlayerLookingAt && Minecraft.isGuiEnabled() && entityRendering != renderManager.livingPlayer && !entityRendering.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) && !entityRendering.isBeingRidden();
+		return !(Minecraft.getMinecraft().currentScreen instanceof GuiInteraction) && distance < 5.0D && isPlayerLookingAt && Minecraft.isGuiEnabled() && entityRendering != Minecraft.getMinecraft().thePlayer && !entityRendering.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) && !entityRendering.isBeingRidden();
 	}
 
 	@Override

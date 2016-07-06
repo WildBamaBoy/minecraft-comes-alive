@@ -18,7 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiTombstone extends GuiScreen
 {
-	private static final String allowedCharacters = new String(ChatAllowedCharacters.allowedCharactersArray);
+	private static final String allowedCharacters = new String(ChatAllowedCharacters.ILLEGAL_FILE_CHARACTERS);
 
 	private final TileTombstone entityTombstone;
 	private int updateCounter;
@@ -43,7 +43,7 @@ public class GuiTombstone extends GuiScreen
 	public void onGuiClosed()
 	{
 		Keyboard.enableRepeatEvents(false);
-		final NetHandlerPlayClient nethandlerplayclient = mc.getNetHandler();
+		final NetHandlerPlayClient nethandlerplayclient = mc.getConnection();
 
 		if (nethandlerplayclient != null)
 		{
@@ -53,7 +53,7 @@ public class GuiTombstone extends GuiScreen
 			{
 				textArray[i] = (TextComponentString) entityTombstone.signText[i];
 			}
-			nethandlerplayclient.addToSendQueue(new CPacketUpdateSign(entityTombstone.getPos(), textArray));
+			nethandlerplayclient.sendPacket(new CPacketUpdateSign(entityTombstone.getPos(), textArray));
 		}
 
 //		MCA.getPacketHandler().sendPacketToServer(new PacketTombstoneUpdateSet(entityTombstone));

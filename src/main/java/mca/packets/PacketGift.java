@@ -398,7 +398,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				removeItem = handleDivorcePapers(player, human);
 			}
 
-			else if (human.getIsInfected() && human.getActivePotionEffect(MobEffects.weakness) != null && stack.getItem() == Items.golden_apple)
+			else if (human.getIsInfected() && human.getActivePotionEffect(MobEffects.WEAKNESS) != null && stack.getItem() == Items.GOLDEN_APPLE)
 			{
 				removeItem = true;
 				removeCount = 1;
@@ -406,7 +406,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				human.cureInfection();
 			}
 			
-			else if (item == Items.golden_apple && human.getIsChild() && human.isPlayerAParent(player))
+			else if (item == Items.GOLDEN_APPLE && human.getIsChild() && human.isPlayerAParent(player))
 			{
 				removeItem = true;
 				removeCount = 1;
@@ -422,7 +422,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				human.getVillagerInventory().addItemStackToInventory(stack);
 			}
 
-			else if (item == Items.cake || Block.getBlockFromItem(item) == Blocks.cake)
+			else if (item == Items.CAKE || Block.getBlockFromItem(item) == Blocks.CAKE)
 			{
 				EnumProgressionStep step = human.getAI(AIProgressStory.class).getProgressionStep();
 

@@ -19,7 +19,7 @@ public class EventHooksForgeClient
 		{
 			Block block = BlockHelper.getBlock(event.getWorld(), event.getPos().getX(), event.getPos().getY(), event.getPos().getZ());
 
-			if (block == Blocks.enchanting_table)
+			if (block == Blocks.ENCHANTING_TABLE)
 			{
 				NBTPlayerData data = MCA.getPlayerData(event.getEntityPlayer());
 

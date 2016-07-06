@@ -50,7 +50,7 @@ public class PlayerDataCollection extends WorldSavedData
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) 
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) 
 	{
 		for (Map.Entry<UUID, NBTPlayerData> entry : playerDataMap.entrySet())
 		{
@@ -70,6 +70,8 @@ public class PlayerDataCollection extends WorldSavedData
 				continue;
 			}
 		}
+		
+		return nbt;
 	}
 
 	@Override

@@ -76,7 +76,7 @@ public class AIHunting extends AbstractToggleAI
 		if (standPoint.iPosX == 0 && standPoint.iPosY == 0 && standPoint.iPosZ == 0)
 		{
 			//Find a point to stand at and hunt.
-			List<Point3D> grassBlocks = RadixLogic.getNearbyBlocks(owner, Blocks.grass, 15);
+			List<Point3D> grassBlocks = RadixLogic.getNearbyBlocks(owner, Blocks.GRASS, 15);
 
 			if (grassBlocks.size() > 0)
 			{
@@ -117,7 +117,7 @@ public class AIHunting extends AbstractToggleAI
 					{
 						final Class entityClass = RegistryMCA.getRandomHuntingEntity(isTaming);
 						final EntityLiving entity = (EntityLiving)entityClass.getDeclaredConstructor(World.class).newInstance(owner.worldObj);
-						final List<Point3D> nearbyGrass = RadixLogic.getNearbyBlocks(owner, Blocks.grass, 3);
+						final List<Point3D> nearbyGrass = RadixLogic.getNearbyBlocks(owner, Blocks.GRASS, 3);
 						final Point3D spawnPoint = nearbyGrass.get(owner.worldObj.rand.nextInt(nearbyGrass.size()));
 
 						if (spawnPoint != null)

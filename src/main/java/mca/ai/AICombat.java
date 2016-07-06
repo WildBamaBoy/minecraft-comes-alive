@@ -126,7 +126,7 @@ public class AICombat extends AbstractAI
 			        
 			        arrow.setThrowableHeading(dX, dY + d3 * 0.20000000298023224D, dZ, 1.6F, (float)(14 - owner.worldObj.getDifficulty().getDifficultyId() * 4));
 			        arrow.setDamage((double)(5.0F) + owner.getRNG().nextGaussian() * 0.25D + (double)((float)owner.worldObj.getDifficulty().getDifficultyId() * 0.11F));
-			        owner.playSound(SoundEvents.entity_skeleton_shoot, 1.0F, 1.0F / (owner.getRNG().nextFloat() * 0.4F + 0.8F));
+			        owner.playSound(SoundEvents.ENTITY_SKELETON_SHOOT, 1.0F, 1.0F / (owner.getRNG().nextFloat() * 0.4F + 0.8F));
 					owner.worldObj.spawnEntityInWorld(arrow);
 					
 					rangedAttackTime = 60;

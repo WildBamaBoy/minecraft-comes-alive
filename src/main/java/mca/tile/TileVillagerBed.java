@@ -25,12 +25,14 @@ public class TileVillagerBed extends TileEntity
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt)
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
 
 		nbt.setBoolean("isVillagerSleepingIn", isVillagerSleepingIn);
 		nbt.setInteger("sleepingVillagerId", sleepingVillagerId);
+		
+		return nbt;
 	}
 
 	@Override

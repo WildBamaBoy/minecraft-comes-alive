@@ -196,7 +196,7 @@ public class AICooking extends AbstractToggleAI
 
 	private boolean isFurnaceNearby()
 	{
-		final Point3D nearbyFurnace = RadixLogic.getFirstNearestBlock(owner, Blocks.furnace, 10);
+		final Point3D nearbyFurnace = RadixLogic.getFirstNearestBlock(owner, Blocks.FURNACE, 10);
 		hasFurnace = nearbyFurnace != null;
 		furnacePos = hasFurnace ? nearbyFurnace : furnacePos;
 
@@ -262,8 +262,8 @@ public class AICooking extends AbstractToggleAI
 
 	private boolean isFurnaceStillPresent()
 	{
-		return BlockHelper.getBlock(owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ) == Blocks.furnace || 
-				BlockHelper.getBlock(owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ) == Blocks.lit_furnace;
+		return BlockHelper.getBlock(owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ) == Blocks.FURNACE || 
+				BlockHelper.getBlock(owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ) == Blocks.LIT_FURNACE;
 	}
 
 
@@ -277,7 +277,7 @@ public class AICooking extends AbstractToggleAI
 			{
 				if (cookingTicks <= cookingInterval)
 				{
-					if (BlockHelper.getBlock(owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ) != Blocks.lit_furnace)
+					if (BlockHelper.getBlock(owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ) != Blocks.LIT_FURNACE)
 					{
 						BlockHelper.updateFurnaceState(true, owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ);
 					}

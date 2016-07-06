@@ -132,7 +132,7 @@ public class AIWoodcutting extends AbstractToggleAI
 
 					final WoodcuttingEntry apiEntry = RegistryMCA.getWoodcuttingEntryById(apiId);
 					final Block block = apiEntry.getLogBlock();
-					BlockHelper.setBlock(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY + yLevel, treeBasePoint.iPosZ, Blocks.air);
+					BlockHelper.setBlock(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY + yLevel, treeBasePoint.iPosZ, Blocks.AIR);
 					boolean addedToInventory = addItemStackToInventory(new ItemStack(block, 1, apiEntry.getLogMeta()));
 					boolean toolBroken = owner.damageHeldItem(2);
 
@@ -164,7 +164,7 @@ public class AIWoodcutting extends AbstractToggleAI
 					{
 						if (apiEntry.hasSapling() && doReplant)
 						{
-							BlockHelper.setBlock(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY - 1, treeBasePoint.iPosZ, Blocks.dirt);
+							BlockHelper.setBlock(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY - 1, treeBasePoint.iPosZ, Blocks.DIRT);
 							BlockHelper.setBlock(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY, treeBasePoint.iPosZ, apiEntry.getSaplingBlock());
 						}
 
@@ -176,14 +176,14 @@ public class AIWoodcutting extends AbstractToggleAI
 
 			else
 			{
-				for (Point3D point : RadixLogic.getNearbyBlocks(owner, Blocks.leaves, 1))
+				for (Point3D point : RadixLogic.getNearbyBlocks(owner, Blocks.LEAVES, 1))
 				{
-					BlockHelper.setBlock(owner.worldObj, point.iPosX, point.iPosY, point.iPosZ, Blocks.air);
+					BlockHelper.setBlock(owner.worldObj, point.iPosX, point.iPosY, point.iPosZ, Blocks.AIR);
 				}
 
-				for (Point3D point : RadixLogic.getNearbyBlocks(owner, Blocks.leaves2, 1))
+				for (Point3D point : RadixLogic.getNearbyBlocks(owner, Blocks.LEAVES2, 1))
 				{
-					BlockHelper.setBlock(owner.worldObj, point.iPosX, point.iPosY, point.iPosZ, Blocks.air);				
+					BlockHelper.setBlock(owner.worldObj, point.iPosX, point.iPosY, point.iPosZ, Blocks.AIR);				
 				}
 
 				if (owner.getNavigator().noPath())

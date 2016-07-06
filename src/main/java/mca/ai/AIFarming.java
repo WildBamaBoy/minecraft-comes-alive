@@ -100,9 +100,9 @@ public class AIFarming extends AbstractToggleAI
 						final int y = RadixLogic.getSpawnSafeTopLevel(owner.worldObj, (int) owner.posX, (int) owner.posZ);
 						Block groundBlock = BlockHelper.getBlock(owner.worldObj, (int)owner.posX, y - 1, (int)owner.posZ);
 
-						if (groundBlock != Blocks.grass || groundBlock != Blocks.sand || groundBlock != Blocks.dirt)
+						if (groundBlock != Blocks.GRASS || groundBlock != Blocks.SAND || groundBlock != Blocks.DIRT)
 						{
-							groundBlock = Blocks.grass;
+							groundBlock = Blocks.GRASS;
 						}
 
 						boolean canStart = owner.getAI(AIBuild.class).startBuilding(schematic, true, groundBlock, entry);
@@ -164,8 +164,8 @@ public class AIFarming extends AbstractToggleAI
 									int yMod = 0;
 
 									//Move y down until ground is found.
-									while (BlockHelper.getBlock(owner.worldObj, nearestHarvest.iPosX, nearestHarvest.iPosY + yMod, nearestHarvest.iPosZ) != Blocks.grass 
-											&& BlockHelper.getBlock(owner.worldObj, nearestHarvest.iPosX, nearestHarvest.iPosY + yMod, nearestHarvest.iPosZ) != Blocks.dirt)
+									while (BlockHelper.getBlock(owner.worldObj, nearestHarvest.iPosX, nearestHarvest.iPosY + yMod, nearestHarvest.iPosZ) != Blocks.GRASS 
+											&& BlockHelper.getBlock(owner.worldObj, nearestHarvest.iPosX, nearestHarvest.iPosY + yMod, nearestHarvest.iPosZ) != Blocks.DIRT)
 									{
 										yMod--;
 
@@ -253,13 +253,13 @@ public class AIFarming extends AbstractToggleAI
 						
 						if (entry.getCategory() != EnumCropCategory.SUGARCANE)
 						{
-							BlockHelper.setBlock(owner.worldObj, harvestTargetPoint.iPosX, harvestTargetPoint.iPosY - 1, harvestTargetPoint.iPosZ, Blocks.farmland);
+							BlockHelper.setBlock(owner.worldObj, harvestTargetPoint.iPosX, harvestTargetPoint.iPosY - 1, harvestTargetPoint.iPosZ, Blocks.FARMLAND);
 							BlockHelper.setBlock(owner.worldObj, harvestTargetPoint.iPosX, harvestTargetPoint.iPosY, harvestTargetPoint.iPosZ, entry.getCropBlock());
 						}
 						
 						else
 						{
-							BlockHelper.setBlock(owner.worldObj, harvestTargetPoint.iPosX, harvestTargetPoint.iPosY, harvestTargetPoint.iPosZ, Blocks.air);
+							BlockHelper.setBlock(owner.worldObj, harvestTargetPoint.iPosX, harvestTargetPoint.iPosY, harvestTargetPoint.iPosZ, Blocks.AIR);
 						}
 						
 						for (ItemStack stack : entry.getStacksOnHarvest())
@@ -334,7 +334,7 @@ public class AIFarming extends AbstractToggleAI
 			}
 
 			Map<Point3D, BlockObj> schematicData = SchematicHandler.readSchematic(schematic);
-			seedsRequired = SchematicHandler.countOccurencesOfBlockObj(schematicData, new BlockObj(Blocks.wool, entry.getCategory().getReferenceMeta()));
+			seedsRequired = SchematicHandler.countOccurencesOfBlockObj(schematicData, new BlockObj(Blocks.WOOL, entry.getCategory().getReferenceMeta()));
 
 			if (doCreate && !owner.getVillagerInventory().containsCountOf(entry.getSeedItem(), seedsRequired))
 			{

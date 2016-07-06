@@ -87,7 +87,7 @@ public class AIBuild extends AbstractToggleAI
 
 						index++;
 
-						if (blockObj.getBlock() == Blocks.grass && groundBlock != null)
+						if (blockObj.getBlock() == Blocks.GRASS && groundBlock != null)
 						{
 							BlockHelper.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, groundBlock);							
 						}
@@ -156,7 +156,7 @@ public class AIBuild extends AbstractToggleAI
 	 */
 	public boolean startBuilding(String schematicLocation, boolean doTopDown)
 	{
-		if (RadixLogic.getNearbyBlocks(owner, Blocks.planks, 10).size() != 0)
+		if (RadixLogic.getNearbyBlocks(owner, Blocks.PLANKS, 10).size() != 0)
 		{			
 			return false;
 		}
@@ -200,16 +200,16 @@ public class AIBuild extends AbstractToggleAI
 			final Point3D point = entry.getKey();
 			Block blockAtPoint = BlockHelper.getBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ);
 			
-			if (blockAtPoint == Blocks.tallgrass || blockAtPoint == Blocks.red_flower || blockAtPoint == Blocks.double_plant || blockAtPoint == Blocks.yellow_flower)
+			if (blockAtPoint == Blocks.TALLGRASS || blockAtPoint == Blocks.RED_FLOWER || blockAtPoint == Blocks.DOUBLE_PLANT || blockAtPoint == Blocks.YELLOW_FLOWER)
 			{
-				BlockHelper.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, Blocks.air);
+				BlockHelper.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, Blocks.AIR);
 			}
 			
 			compareY = -25;
 
 			while (compareY < 25)
 			{
-				if (schematicMap.get(point).getBlock() == Blocks.torch)
+				if (schematicMap.get(point).getBlock() == Blocks.TORCH)
 				{
 					torchPoints.add(point);
 				}
@@ -226,11 +226,11 @@ public class AIBuild extends AbstractToggleAI
 		//Modify the schematic as needed if a crop entry is provided.
 		if (cropEntry != null)
 		{
-			final BlockObj searchRefBlock = new BlockObj(Blocks.wool, cropEntry.getCategory().getReferenceMeta());
-			final BlockObj waterRefBlock = new BlockObj(Blocks.wool, 11);
-			final BlockObj farmland = new BlockObj(Blocks.farmland, 0);
+			final BlockObj searchRefBlock = new BlockObj(Blocks.WOOL, cropEntry.getCategory().getReferenceMeta());
+			final BlockObj waterRefBlock = new BlockObj(Blocks.WOOL, 11);
+			final BlockObj farmland = new BlockObj(Blocks.FARMLAND, 0);
 			final BlockObj cropBlock = new BlockObj(cropEntry.getCropBlock(), 0);
-			final BlockObj waterBlock = new BlockObj(Blocks.water, 0);
+			final BlockObj waterBlock = new BlockObj(Blocks.WATER, 0);
 
 			final Map<Point3D, BlockObj> changes = new HashMap<Point3D, BlockObj>();
 

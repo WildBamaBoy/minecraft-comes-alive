@@ -57,14 +57,14 @@ public class AIPatrol extends AbstractAI
 		{
 			if (!hasDoor)
 			{
-				List<Point3D> nearbyDoors = RadixLogic.getNearbyBlocks(owner, Blocks.oak_door, 15);
+				List<Point3D> nearbyDoors = RadixLogic.getNearbyBlocks(owner, Blocks.OAK_DOOR, 15);
 	
 				if (!nearbyDoors.isEmpty())
 				{
 					Point3D doorPoint = nearbyDoors.get(RadixMath.getNumberInRange(0, nearbyDoors.size() - 1));
 	
 					//Only use the top of the door.
-					if (BlockHelper.getBlock(owner.worldObj, doorPoint.iPosX, doorPoint.iPosY - 1, doorPoint.iPosZ) != Blocks.oak_door)
+					if (BlockHelper.getBlock(owner.worldObj, doorPoint.iPosX, doorPoint.iPosY - 1, doorPoint.iPosZ) != Blocks.OAK_DOOR)
 					{
 						doorPoint = doorPoint.setPoint(doorPoint.iPosX, doorPoint.iPosY + 1, doorPoint.iPosZ);
 					}
@@ -75,7 +75,7 @@ public class AIPatrol extends AbstractAI
 					Block block = (Block)BlockHelper.getBlock(owner.worldObj, doorPoint.iPosX, doorPoint.iPosY, doorPoint.iPosZ);
 					BlockDoor door = null;
 					
-					if (block == Blocks.oak_door) //Account for ClassCastException per issue #259.
+					if (block == Blocks.OAK_DOOR) //Account for ClassCastException per issue #259.
 					{
 						door = (BlockDoor)block;
 					}
@@ -119,7 +119,7 @@ public class AIPatrol extends AbstractAI
 						}
 	
 						if (BlockHelper.canBlockSeeTheSky(owner.worldObj, movePoint.iPosX, movePoint.iPosY, movePoint.iPosZ) && 
-								BlockHelper.getBlock(owner.worldObj, movePoint.iPosX, movePoint.iPosY, movePoint.iPosZ) == Blocks.air)
+								BlockHelper.getBlock(owner.worldObj, movePoint.iPosX, movePoint.iPosY, movePoint.iPosZ) == Blocks.AIR)
 						{
 							//Random chance of skipping a valid first pass so that they aren't always right against the door.
 							if (i == 1 && RadixLogic.getBooleanWithProbability(50))
@@ -201,14 +201,14 @@ public class AIPatrol extends AbstractAI
 
 		while (returnPoint.iPosY > 0)
 		{
-			if (block == Blocks.air)
+			if (block == Blocks.AIR)
 			{
 				lastBlockWasAir = true;
 				returnPoint.iPosY--;
 				block = BlockHelper.getBlock(owner.worldObj, returnPoint.iPosX, returnPoint.iPosY, returnPoint.iPosZ);
 			}
 
-			else if (block != Blocks.air && lastBlockWasAir)
+			else if (block != Blocks.AIR && lastBlockWasAir)
 			{
 				return new Point3D(returnPoint.iPosX, returnPoint.iPosY + 1, returnPoint.iPosZ);
 			}

@@ -58,10 +58,10 @@ public class TileMemorial extends TileEntity implements ITickable
 				human.setPosition(xCoord + 0.5D, yCoord, zCoord + 0.5D);
 				worldObj.spawnEntityInWorld(human);
 
-				BlockHelper.setBlock(worldObj, xCoord, yCoord, zCoord, Blocks.air);
+				BlockHelper.setBlock(worldObj, xCoord, yCoord, zCoord, Blocks.AIR);
 				Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.VILLAGER_HAPPY, human, 32);
 				Utilities.spawnParticlesAroundPointS(EnumParticleTypes.FIREWORKS_SPARK, worldObj, xCoord + 0.5D, yCoord, zCoord + 0.5D, 16);
-				player.playSound(SoundEvents.entity_firework_large_blast, 3.0F, 1.0F);
+				player.playSound(SoundEvents.ENTITY_FIREWORK_LARGE_BLAST, 3.0F, 1.0F);
 
 				if (this.ownerRelation == EnumRelation.NONE)
 				{
@@ -90,7 +90,7 @@ public class TileMemorial extends TileEntity implements ITickable
 
 				if (revivalTicks == Time.SECOND * 2 || revivalTicks == Time.SECOND * 1)
 				{
-					player.playSound(SoundEvents.entity_firework_large_blast, 3.0F, 1.0F);
+					player.playSound(SoundEvents.ENTITY_FIREWORK_LARGE_BLAST, 3.0F, 1.0F);
 					Utilities.spawnParticlesAroundPointS(EnumParticleTypes.FIREWORKS_SPARK, worldObj, xCoord + 0.5D, yCoord, zCoord + 0.5D, 32);	
 				}
 
@@ -103,7 +103,7 @@ public class TileMemorial extends TileEntity implements ITickable
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt)
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt)
 	{
 		super.writeToNBT(nbt);
 
@@ -111,6 +111,8 @@ public class TileMemorial extends TileEntity implements ITickable
 		data.writeDataToNBT(nbt);
 		nbt.setString("ownerName", ownerName);
 		nbt.setInteger("relation", ownerRelation.getId());
+		
+		return nbt;
 	}
 
 	@Override

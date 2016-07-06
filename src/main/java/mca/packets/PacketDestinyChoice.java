@@ -12,9 +12,8 @@ import mca.enums.EnumDialogueType;
 import mca.tile.TileTombstone;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.management.PlayerManager;
+import net.minecraft.server.management.PlayerChunkMap;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.WorldServer;
@@ -75,7 +74,7 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 		if (packet.choice == EnumDestinyChoice.NONE || packet.choice == EnumDestinyChoice.CANCEL)
 		{
 			//Update the region around the player so that the destiny room disappears.
-			final PlayerManager manager = world.getPlayerChunkManager();
+			final PlayerChunkMap manager = world.getPlayerChunkMap();
 
 			for (int x = -20; x < 20; x++)
 			{
@@ -164,13 +163,13 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 			{
 				SchematicHandler.spawnStructureRelativeToPlayer("/assets/mca/schematic/village1.schematic", player);
 
-				for (Point3D point : RadixLogic.getNearbyBlocks(player, Blocks.mob_spawner, 70))
+				for (Point3D point : RadixLogic.getNearbyBlocks(player, Blocks.MOB_SPAWNER, 70))
 				{
-					BlockHelper.setBlock(player.worldObj, point.iPosX, point.iPosY, point.iPosZ, Blocks.air);
+					BlockHelper.setBlock(player.worldObj, point.iPosX, point.iPosY, point.iPosZ, Blocks.AIR);
 					MCA.naturallySpawnVillagers(new Point3D(point.iPosX, point.iPosY, point.iPosZ), world, -1);
 				}
 
-				for (Point3D point : RadixLogic.getNearbyBlocks(player, Blocks.bedrock, 70))
+				for (Point3D point : RadixLogic.getNearbyBlocks(player, Blocks.BEDROCK, 70))
 				{
 					BlockHelper.setBlock(player.worldObj, point.iPosX, point.iPosY, point.iPosZ, ModBlocks.tombstone);
 

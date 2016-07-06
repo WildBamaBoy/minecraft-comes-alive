@@ -84,7 +84,7 @@ public class AIDefend extends AbstractAI
 					if (rangedAttackTime <= 0)
 					{
 						owner.attackEntityWithRangedAttack(target, 12F);
-						owner.playSound(SoundEvents.entity_skeleton_shoot, 1.0F, 1.0F / (owner.getRNG().nextFloat() * 0.4F + 0.8F));
+						owner.playSound(SoundEvents.ENTITY_SKELETON_SHOOT, 1.0F, 1.0F / (owner.getRNG().nextFloat() * 0.4F + 0.8F));
 						rangedAttackTime = 60;
 					}
 

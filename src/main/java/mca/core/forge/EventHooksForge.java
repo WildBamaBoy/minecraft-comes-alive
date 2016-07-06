@@ -300,7 +300,7 @@ public class EventHooksForge
 						{
 							stack.getTagCompound().setBoolean("isInfected", true);
 							player.addChatComponentMessage(new TextComponentString(Color.RED + stack.getTagCompound().getString("name") + " has been " + Color.GREEN + Format.BOLD + "infected" + Color.RED + "!"));
-							player.playSound(SoundEvents.entity_wither_ambient, 0.5F, 1.0F);
+							player.playSound(SoundEvents.ENTITY_WITHER_AMBIENT, 0.5F, 1.0F);
 							Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.SPELL_WITCH, player, 32);
 						}
 					}
@@ -333,7 +333,7 @@ public class EventHooksForge
 					human.setHealth(human.getMaxHealth());
 					zombie.setAttackTarget(null);
 
-					human.playSound(SoundEvents.entity_wither_ambient, 0.5F, 1.0F);
+					human.playSound(SoundEvents.ENTITY_WITHER_AMBIENT, 0.5F, 1.0F);
 					Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.SPELL_WITCH, human, 32);
 				}
 
@@ -370,7 +370,7 @@ public class EventHooksForge
 		int z = event.getPos().getZ();
 		Block placedBlock = event.getPlacedBlock().getBlock();
 
-		if (placedBlock == Blocks.fire && BlockHelper.getBlock(event.getWorld(), x, y - 1, z) == Blocks.emerald_block)
+		if (placedBlock == Blocks.FIRE && BlockHelper.getBlock(event.getWorld(), x, y - 1, z) == Blocks.EMERALD_BLOCK)
 		{
 			int totemsFound = 0;
 
@@ -393,7 +393,7 @@ public class EventHooksForge
 				{
 					Block block = BlockHelper.getBlock(event.getWorld(), x + dX, y + j, z + dZ);
 
-					if (block == Blocks.obsidian || block == Blocks.fire)
+					if (block == Blocks.OBSIDIAN || block == Blocks.FIRE)
 					{
 					}
 
@@ -403,7 +403,7 @@ public class EventHooksForge
 					}
 
 					//If we made it up to 1 without breaking, make sure the block is fire so that it's a lit totem.
-					if (j == 1 && block == Blocks.fire)
+					if (j == 1 && block == Blocks.FIRE)
 					{
 						totemsFound++;
 					}
@@ -425,7 +425,7 @@ public class EventHooksForge
 				for (int i = 0; i < 2; i++)
 				{
 					Utilities.spawnParticlesAroundPointS(EnumParticleTypes.FLAME, event.getWorld(), x, y - i, z, 32);
-					BlockHelper.setBlock(event.getWorld(), x, y - i, z, Blocks.air);
+					BlockHelper.setBlock(event.getWorld(), x, y - i, z, Blocks.AIR);
 				}
 			}
 

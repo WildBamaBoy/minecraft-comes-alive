@@ -198,7 +198,7 @@ public class GuiSetup extends GuiScreen
 					BlockHelper.setBlock(player.worldObj,
 							MCA.destinyCenterPoint.iPosX + entry.getKey().iPosX, 
 							y, 
-							MCA.destinyCenterPoint.iPosZ + entry.getKey().iPosZ, Blocks.air);
+							MCA.destinyCenterPoint.iPosZ + entry.getKey().iPosZ, Blocks.AIR);
 				}
 			}
 		}
@@ -216,7 +216,7 @@ public class GuiSetup extends GuiScreen
 		DataWatcherEx.allowClientSideModification = false;
 		MCA.destinySpawnFlag = false;
 		
-		player.playSound(SoundEvents.block_portal_travel, 0.5F, 2.0F);
+		player.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.5F, 2.0F);
 	}
 	
 	@Override

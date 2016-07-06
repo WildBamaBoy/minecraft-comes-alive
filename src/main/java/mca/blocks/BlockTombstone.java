@@ -4,13 +4,13 @@ import java.util.Random;
 
 import mca.core.minecraft.ModItems;
 import mca.tile.TileTombstone;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -34,7 +34,7 @@ public class BlockTombstone extends BlockContainer
     
 	public BlockTombstone()
 	{
-		super(Material.circuits);
+		super(Material.CIRCUITS);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(ROTATION, Integer.valueOf(0)));
 	}
 
@@ -115,20 +115,20 @@ public class BlockTombstone extends BlockContainer
 	}
 
 	@SideOnly(Side.CLIENT)
-	public boolean addHitEffects(IBlockState state, World worldObj, RayTraceResult target, net.minecraft.client.particle.EffectRenderer effectRenderer)
+	public boolean addHitEffects(IBlockState state, World worldObj, RayTraceResult target, ParticleManager manager)
 	{
 		return true;
 	}
 
 	@SideOnly(Side.CLIENT)
-	public boolean addDestroyEffects(World world, BlockPos pos, net.minecraft.client.particle.EffectRenderer effectRenderer)
+	public boolean addDestroyEffects(World world, BlockPos pos, ParticleManager manager)
 	{
 		return true;
 	}
 
     public IBlockState withRotation(IBlockState state, Rotation rot)
     {
-        return state.withProperty(ROTATION, Integer.valueOf(rot.func_185833_a(((Integer)state.getValue(ROTATION)).intValue(), 16)));
+        return state.withProperty(ROTATION, Integer.valueOf(rot.rotate(((Integer)state.getValue(ROTATION)).intValue(), 16)));
     }
 
     public IBlockState withMirror(IBlockState state, Mirror mirrorIn)

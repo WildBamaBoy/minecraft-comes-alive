@@ -179,7 +179,7 @@ public class EntityChoreFishHook extends Entity
             double d7 = this.posX + (this.fishX - this.posX) / (double)this.fishPosRotationIncrements;
             double d8 = this.posY + (this.fishY - this.posY) / (double)this.fishPosRotationIncrements;
             double d9 = this.posZ + (this.fishZ - this.posZ) / (double)this.fishPosRotationIncrements;
-            double d1 = MathHelper.wrapAngleTo180_double(this.fishYaw - (double)this.rotationYaw);
+            double d1 = MathHelper.wrapDegrees(this.fishYaw - (double)this.rotationYaw);
             this.rotationYaw = (float)((double)this.rotationYaw + d1 / (double)this.fishPosRotationIncrements);
             this.rotationPitch = (float)((double)this.rotationPitch + (this.fishPitch - (double)this.rotationPitch) / (double)this.fishPosRotationIncrements);
             --this.fishPosRotationIncrements;
@@ -192,7 +192,7 @@ public class EntityChoreFishHook extends Entity
             {
                 ItemStack itemstack = this.angler.getHeldItem(EnumHand.MAIN_HAND);
 
-                if (this.angler.isDead || !this.angler.isEntityAlive() || itemstack == null || itemstack.getItem() != Items.fishing_rod || this.getDistanceSqToEntity(this.angler) > 1024.0D)
+                if (this.angler.isDead || !this.angler.isEntityAlive() || itemstack == null || itemstack.getItem() != Items.FISHING_ROD || this.getDistanceSqToEntity(this.angler) > 1024.0D)
                 {
                     this.setDead();
                     angler.getAI(AIFishing.class).setHookEntity(null);
@@ -349,7 +349,7 @@ public class EntityChoreFishHook extends Entity
                     double d5 = axisalignedbb1.minY + d3 * (double)(k + 1) / (double)j;
                     AxisAlignedBB axisalignedbb2 = new AxisAlignedBB(axisalignedbb1.minX, d4, axisalignedbb1.minZ, axisalignedbb1.maxX, d5, axisalignedbb1.maxZ);
 
-                    if (this.worldObj.isAABBInMaterial(axisalignedbb2, Material.water))
+                    if (this.worldObj.isAABBInMaterial(axisalignedbb2, Material.WATER))
                     {
                         d10 += 1.0D / (double)j;
                     }
@@ -394,7 +394,7 @@ public class EntityChoreFishHook extends Entity
                         if (this.ticksCatchableDelay <= 0)
                         {
                             this.motionY -= 0.20000000298023224D;
-                            this.playSound(SoundEvents.entity_bobber_splash, 0.25F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.4F);
+                            this.playSound(SoundEvents.ENTITY_BOBBER_SPLASH, 0.25F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.4F);
                             float f8 = (float)MathHelper.floor_double(this.getEntityBoundingBox().minY);
                             worldserver.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX, (double)(f8 + 1.0F), this.posZ, (int)(1.0F + this.width * 20.0F), (double)this.width, 0.0D, (double)this.width, 0.20000000298023224D, new int[0]);
                             worldserver.spawnParticle(EnumParticleTypes.WATER_WAKE, this.posX, (double)(f8 + 1.0F), this.posZ, (int)(1.0F + this.width * 20.0F), (double)this.width, 0.0D, (double)this.width, 0.20000000298023224D, new int[0]);
@@ -411,7 +411,7 @@ public class EntityChoreFishHook extends Entity
                             double d16 = this.posZ + (double)(f11 * (float)this.ticksCatchableDelay * 0.1F);
                             Block block1 = worldserver.getBlockState(new BlockPos((int)d13, (int)d15 - 1, (int)d16)).getBlock();
 
-                            if (block1 == Blocks.water || block1 == Blocks.flowing_water)
+                            if (block1 == Blocks.WATER || block1 == Blocks.FLOWING_WATER)
                             {
                                 if (this.rand.nextFloat() < 0.15F)
                                 {
@@ -452,7 +452,7 @@ public class EntityChoreFishHook extends Entity
                             double d6 = this.posZ + (double)(MathHelper.cos(f9) * f2 * 0.1F);
                             Block block = worldserver.getBlockState(new BlockPos((int)d12, (int)d14 - 1, (int)d6)).getBlock();
 
-                            if (block == Blocks.water || block == Blocks.flowing_water)
+                            if (block == Blocks.WATER || block == Blocks.FLOWING_WATER)
                             {
                                 worldserver.spawnParticle(EnumParticleTypes.WATER_SPLASH, d12, d14, d6, 2 + this.rand.nextInt(2), 0.10000000149011612D, 0.0D, 0.10000000149011612D, 0.0D, new int[0]);
                             }
@@ -501,7 +501,7 @@ public class EntityChoreFishHook extends Entity
         tagCompound.setShort("xTile", (short)this.xTile);
         tagCompound.setShort("yTile", (short)this.yTile);
         tagCompound.setShort("zTile", (short)this.zTile);
-        ResourceLocation resourcelocation = (ResourceLocation)Block.blockRegistry.getNameForObject(this.inTile);
+        ResourceLocation resourcelocation = (ResourceLocation)Block.REGISTRY.getNameForObject(this.inTile);
         tagCompound.setString("inTile", resourcelocation == null ? "" : resourcelocation.toString());
         tagCompound.setByte("shake", (byte)this.shake);
         tagCompound.setByte("inGround", (byte)(this.inGround ? 1 : 0));

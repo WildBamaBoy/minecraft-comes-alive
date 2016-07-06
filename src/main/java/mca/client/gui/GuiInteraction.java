@@ -555,7 +555,7 @@ public class GuiInteraction extends GuiScreen
 				{
 					ItemStack stack = player.inventory.getStackInSlot(i);
 
-					if (stack != null && stack.getItem() == Items.gold_ingot)
+					if (stack != null && stack.getItem() == Items.GOLD_INGOT)
 					{
 						if (stack.stackSize >= hireLengths.get())
 						{
@@ -1074,7 +1074,7 @@ public class GuiInteraction extends GuiScreen
 
 		catch (MappingNotFoundException e)
 		{
-			block = Blocks.coal_ore;
+			block = Blocks.COAL_ORE;
 		}
 
 		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));

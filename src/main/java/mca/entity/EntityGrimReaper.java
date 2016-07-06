@@ -97,16 +97,16 @@ public class EntityGrimReaper extends EntityMob
 	protected void entityInit()
 	{
 		super.entityInit();
-        this.dataWatcher.register(ATTACK_STATE, Integer.valueOf(0));
-        this.dataWatcher.register(STATE_TRANSITION_COOLDOWN, Integer.valueOf(0));
+        this.dataManager.register(ATTACK_STATE, Integer.valueOf(0));
+        this.dataManager.register(STATE_TRANSITION_COOLDOWN, Integer.valueOf(0));
 	}
 
 	public void setAttackState(EnumReaperAttackState state)
 	{	    
 		//Only update if needed so that sounds only play once.
-		if (this.dataWatcher.get(ATTACK_STATE) != state.getId())
+		if (this.dataManager.get(ATTACK_STATE) != state.getId())
 		{
-			this.dataWatcher.set(ATTACK_STATE, state.getId());
+			this.dataManager.set(ATTACK_STATE, state.getId());
 
 			switch (state)
 			{
@@ -118,7 +118,7 @@ public class EntityGrimReaper extends EntityMob
 
 	public EnumReaperAttackState getAttackState()
 	{
-		return EnumReaperAttackState.fromId(this.dataWatcher.get(ATTACK_STATE));
+		return EnumReaperAttackState.fromId(this.dataManager.get(ATTACK_STATE));
 	}
 
 	public boolean hasEntityToAttack()
@@ -216,14 +216,13 @@ public class EntityGrimReaper extends EntityMob
 		EntityLivingBase entityToAttack = this.getAttackTarget();
 		
 		//Within 1.2 blocks of the target, damage it. Set attack state to post attack.
-		System.out.println(RadixMath.getDistanceToEntity(entityToAttack, this));
 		if (RadixMath.getDistanceToEntity(entityToAttack, this) <= 1.2D)
 		{
 			entity.attackEntityFrom(DamageSource.causeMobDamage(this), 13.5F);
 			
 			if (entity instanceof EntityLivingBase)
 			{
-				((EntityLivingBase)entity).addPotionEffect(new PotionEffect(MobEffects.wither, this.worldObj.getDifficulty().getDifficultyId() * 20, 1));
+				((EntityLivingBase)entity).addPotionEffect(new PotionEffect(MobEffects.WITHER, this.worldObj.getDifficulty().getDifficultyId() * 20, 1));
 			}
 			
 			setAttackState(EnumReaperAttackState.POST);
@@ -259,7 +258,7 @@ public class EntityGrimReaper extends EntityMob
 							player.inventory.mainInventory[currentItem] = randomItemStack;
 							player.inventory.mainInventory[randomItem] = currentItemStack;
 							
-							player.addPotionEffect(new PotionEffect(MobEffects.blindness, this.worldObj.getDifficulty().getDifficultyId() * (Time.SECOND * 2), 1));
+							player.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, this.worldObj.getDifficulty().getDifficultyId() * (Time.SECOND * 2), 1));
 						}
 					}
 
@@ -313,7 +312,7 @@ public class EntityGrimReaper extends EntityMob
 	@Override
 	protected SoundEvent getHurtSound()
 	{
-		return SoundEvents.entity_wither_hurt;
+		return SoundEvents.ENTITY_WITHER_HURT;
 	}
 
 	@Override
@@ -367,7 +366,7 @@ public class EntityGrimReaper extends EntityMob
 
 					if (mob instanceof EntitySkeleton)
 					{
-						mob.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.bow));
+						mob.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
 					}
 
 					worldObj.spawnEntityInWorld(mob);
@@ -457,25 +456,25 @@ public class EntityGrimReaper extends EntityMob
 		//Kill plants close to us.
 		if (!worldObj.isRemote)
 		{
-			List<Point3D> grassBlocks = RadixLogic.getNearbyBlocks(this, Blocks.grass, 1);
+			List<Point3D> grassBlocks = RadixLogic.getNearbyBlocks(this, Blocks.GRASS, 1);
 
 			for (Point3D point : grassBlocks)
 			{
-				BlockHelper.setBlock(worldObj, point, Blocks.dirt);
+				BlockHelper.setBlock(worldObj, point, Blocks.DIRT);
 				Block blockAbove = BlockHelper.getBlock(worldObj, point.iPosX, point.iPosY + 1, point.iPosZ);
 				IBlockState state = blockAbove.getDefaultState();
 				
-				if (blockAbove.getMaterial(state) == Material.plants || blockAbove.getMaterial(state) == Material.vine)
+				if (blockAbove.getMaterial(state) == Material.PLANTS || blockAbove.getMaterial(state) == Material.VINE)
 				{
 					Block blockAbovePlant = BlockHelper.getBlock(worldObj, point.iPosX, point.iPosY + 2, point.iPosZ);
 					
 					//Check above the plant to see if its a double plant. Remove that as well to prevent spawning flowers for some reason.
-					if (blockAbovePlant == Blocks.double_plant)
+					if (blockAbovePlant == Blocks.DOUBLE_PLANT)
 					{
-						BlockHelper.setBlock(worldObj, point.iPosX, point.iPosY + 2, point.iPosZ, Blocks.air);
+						BlockHelper.setBlock(worldObj, point.iPosX, point.iPosY + 2, point.iPosZ, Blocks.AIR);
 					}
 					
-					BlockHelper.setBlock(worldObj, point.iPosX, point.iPosY + 1, point.iPosZ, Blocks.air);
+					BlockHelper.setBlock(worldObj, point.iPosX, point.iPosY + 1, point.iPosZ, Blocks.AIR);
 				}
 			}
 		}
@@ -501,12 +500,12 @@ public class EntityGrimReaper extends EntityMob
 
 	public void setStateTransitionCooldown(int value)
 	{
-		this.dataWatcher.set(STATE_TRANSITION_COOLDOWN, value);
+		this.dataManager.set(STATE_TRANSITION_COOLDOWN, value);
 	}
 
 	public int getStateTransitionCooldown()
 	{
-		return this.dataWatcher.get(STATE_TRANSITION_COOLDOWN);
+		return this.dataManager.get(STATE_TRANSITION_COOLDOWN);
 	}
 
 	public float getFloatingTicks()
@@ -520,23 +519,17 @@ public class EntityGrimReaper extends EntityMob
 		{
 			Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.PORTAL, this, 16);
 
-			this.playSound(SoundEvents.entity_endermen_teleport, 2.0F, 1.0F);
+			this.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 2.0F, 1.0F);
 			this.setPosition(x, y, z);
-			this.playSound(SoundEvents.entity_endermen_teleport, 2.0F, 1.0F);
+			this.playSound(SoundEvents.ENTITY_ENDERMEN_TELEPORT, 2.0F, 1.0F);
 
 			Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.PORTAL, this, 16);
 		}
 	}
 	
-    public void setBossVisibleTo(EntityPlayerMP player)
+	@Override
+    public boolean isNonBoss()
     {
-        super.setBossVisibleTo(player);
-        this.bossInfo.addPlayer(player);
-    }
-
-    public void setBossNonVisibleTo(EntityPlayerMP player)
-    {
-        super.setBossNonVisibleTo(player);
-        this.bossInfo.removePlayer(player);
+        return false;
     }
 }

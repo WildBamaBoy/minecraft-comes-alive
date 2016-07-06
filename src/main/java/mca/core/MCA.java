@@ -85,7 +85,7 @@ import radixcore.util.RadixExcept;
 import radixcore.util.RadixLogic;
 import radixcore.util.RadixStartup;
 
-@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore", acceptedMinecraftVersions = "[1.9]",
+@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore", acceptedMinecraftVersions = "[1.9.4]",
 guiFactory = "mca.core.forge.client.MCAGuiFactory")
 //@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore@[1.9-2.1.2,)", acceptedMinecraftVersions = "[1.9]",
 //guiFactory = "mca.core.forge.client.MCAGuiFactory")
@@ -189,42 +189,42 @@ public class MCA
 
 		//Recipes
 		GameRegistry.addRecipe(new ItemStack(ModItems.divorcePapers, 1), 
-				new Object[] { " IF", " P ", 'I', new ItemStack(Items.dye, 1, 0), 'F', Items.feather, 'P', Items.paper });
+				new Object[] { " IF", " P ", 'I', new ItemStack(Items.DYE, 1, 0), 'F', Items.FEATHER, 'P', Items.PAPER });
 
 		GameRegistry.addRecipe(new ItemStack(ModItems.whistle), 
-				" W#", "###", '#', Items.iron_ingot, 'W', Blocks.planks);
-		GameRegistry.addRecipe(new ItemStack(Items.gold_ingot), 
+				" W#", "###", '#', Items.IRON_INGOT, 'W', Blocks.PLANKS);
+		GameRegistry.addRecipe(new ItemStack(Items.GOLD_INGOT), 
 				"GGG", "GGG", "GGG", 'G', ModItems.goldDust);
 		GameRegistry.addRecipe(new ItemStack(ModItems.roseGoldIngot, 9), 
 				"GGG", "GGG", "GGG", 'G', ModItems.roseGoldDust);
 		GameRegistry.addRecipe(new ItemStack(ModItems.engagementRing), 
-				"GDG", "G G", "GGG", 'D', Items.diamond, 'G', Items.gold_ingot);
+				"GDG", "G G", "GGG", 'D', Items.DIAMOND, 'G', Items.GOLD_INGOT);
 		GameRegistry.addRecipe(new ItemStack(ModItems.engagementRingRG), 
-				"GDG", "G G", "GGG", 'D', Items.diamond, 'G', ModItems.roseGoldIngot);
+				"GDG", "G G", "GGG", 'D', Items.DIAMOND, 'G', ModItems.roseGoldIngot);
 		GameRegistry.addRecipe(new ItemStack(ModItems.weddingRingRG),
 				"GGG", "G G", "GGG", 'G', ModItems.roseGoldIngot);
 		GameRegistry.addRecipe(new ItemStack(ModBlocks.roseGoldBlock),
 				"GGG", "GGG", "GGG", 'G', ModItems.roseGoldIngot);
 		GameRegistry.addRecipe(new ItemStack(ModItems.matchmakersRing),
-				"III", "I I", "III", 'I', Items.iron_ingot);
+				"III", "I I", "III", 'I', Items.IRON_INGOT);
 		GameRegistry.addRecipe(new ItemStack(ModItems.tombstone),
-				" S ", "SIS", "SSS", 'S', Blocks.stone, 'I', Items.sign);
+				" S ", "SIS", "SSS", 'S', Blocks.STONE, 'I', Items.SIGN);
 		GameRegistry.addRecipe(new ItemStack(ModItems.gemCutter),
-				"  G", "IG ", "DI ", 'G', Items.gold_ingot, 'I', Items.iron_ingot, 'D', Items.diamond);
+				"  G", "IG ", "DI ", 'G', Items.GOLD_INGOT, 'I', Items.IRON_INGOT, 'D', Items.DIAMOND);
 		GameRegistry.addRecipe(new ItemStack(ModItems.heartMold),
-				"CCC", "C C", " C ", 'C', Items.clay_ball);
+				"CCC", "C C", " C ", 'C', Items.CLAY_BALL);
 		GameRegistry.addRecipe(new ItemStack(ModItems.tinyMold),
-				" C ", "C C", " C ", 'C', Items.clay_ball);
+				" C ", "C C", " C ", 'C', Items.CLAY_BALL);
 		GameRegistry.addRecipe(new ItemStack(ModItems.ovalMold),
-				"CCC", "   ", "CCC", 'C', Items.clay_ball);    	
+				"CCC", "   ", "CCC", 'C', Items.CLAY_BALL);    	
 		GameRegistry.addRecipe(new ItemStack(ModItems.squareMold),
-				"CCC", "C C", "CCC", 'C', Items.clay_ball);    	
+				"CCC", "C C", "CCC", 'C', Items.CLAY_BALL);    	
 		GameRegistry.addRecipe(new ItemStack(ModItems.triangleMold),
-				" C ", "C C", "CCC", 'C', Items.clay_ball);    	
+				" C ", "C C", "CCC", 'C', Items.CLAY_BALL);    	
 		GameRegistry.addRecipe(new ItemStack(ModItems.starMold),
-				" C ", "CCC", " C ", 'C', Items.clay_ball);
+				" C ", "CCC", " C ", 'C', Items.CLAY_BALL);
 		GameRegistry.addRecipe(new ItemStack(ModItems.needle),
-				"I  ", " I ", "  I", 'I', new ItemStack(Items.iron_ingot));
+				"I  ", " I ", "  I", 'I', new ItemStack(Items.IRON_INGOT));
 		GameRegistry.addRecipe(new ItemStack(ModItems.newOutfit),
 				"C C", "CCC", "CCC", 'C', ModItems.cloth);
 
@@ -232,7 +232,7 @@ public class MCA
 		if (!config.disableWeddingRingRecipe)
 		{
 			GameRegistry.addRecipe(new ItemStack(ModItems.weddingRing),
-					"GGG", "G G", "GGG", 'G', Items.gold_ingot);
+					"GGG", "G G", "GGG", 'G', Items.GOLD_INGOT);
 		}
 
 		else
@@ -241,24 +241,24 @@ public class MCA
 		}
 
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.roseGoldDust), ModItems.roseGoldIngot);
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.goldDust, 6), Items.water_bucket, new ItemStack(ModItems.roseGoldDust));
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.goldDust, 6), Items.WATER_BUCKET, new ItemStack(ModItems.roseGoldDust));
 
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedRed), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 14));
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedBlue), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 11));
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedGreen), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 13));
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedPurple), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 10));
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedPink), new ItemStack(Items.bed), new ItemStack(Blocks.carpet, 1, 6));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(ModItems.bedRed));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(ModItems.bedBlue));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(ModItems.bedGreen));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(ModItems.bedPurple));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.bed), new ItemStack(ModItems.bedPink));
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.needleAndString), new ItemStack(ModItems.needle), new ItemStack(Items.string));
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedRed), new ItemStack(Items.BED), new ItemStack(Blocks.CARPET, 1, 14));
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedBlue), new ItemStack(Items.BED), new ItemStack(Blocks.CARPET, 1, 11));
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedGreen), new ItemStack(Items.BED), new ItemStack(Blocks.CARPET, 1, 13));
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedPurple), new ItemStack(Items.BED), new ItemStack(Blocks.CARPET, 1, 10));
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedPink), new ItemStack(Items.BED), new ItemStack(Blocks.CARPET, 1, 6));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.BED), new ItemStack(ModItems.bedRed));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.BED), new ItemStack(ModItems.bedBlue));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.BED), new ItemStack(ModItems.bedGreen));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.BED), new ItemStack(ModItems.bedPurple));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.BED), new ItemStack(ModItems.bedPink));
+		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.needleAndString), new ItemStack(ModItems.needle), new ItemStack(Items.STRING));
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.roseGoldIngot, 9), new ItemStack(ModBlocks.roseGoldBlock));
 
 		for(int i = 0; i < 16; i++)
 		{
-			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.cloth), new ItemStack(Blocks.wool), new ItemStack(ModItems.needleAndString, 1, i));
+			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.cloth), new ItemStack(Blocks.WOOL), new ItemStack(ModItems.needleAndString, 1, i));
 		}		
 
 		//Cut diamond recipes
@@ -308,16 +308,16 @@ public class MCA
 			ItemStack baseStack = new ItemStack(cutItem, 1);
 
 			GameRegistry.addRecipe(new ItemStack(ringItem, 1), 
-					"GDG", "G G", "GGG", 'D', baseStack, 'G', Items.gold_ingot);
+					"GDG", "G G", "GGG", 'D', baseStack, 'G', Items.GOLD_INGOT);
 			GameRegistry.addRecipe(new ItemStack(ringRGItem, 1), 
 					"GDG", "G G", "GGG", 'D', baseStack, 'G', ModItems.roseGoldIngot);
 
-			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondHeart, 1, 0), new ItemStack(ModItems.heartMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.diamond);
-			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondTiny, 1, 0), new ItemStack(ModItems.tinyMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.diamond);
-			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondOval, 1, 0), new ItemStack(ModItems.ovalMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.diamond);
-			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondSquare, 1, 0), new ItemStack(ModItems.squareMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.diamond);
-			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondTriangle, 1, 0), new ItemStack(ModItems.triangleMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.diamond);
-			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondStar, 1, 0), new ItemStack(ModItems.starMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.diamond);
+			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondHeart, 1, 0), new ItemStack(ModItems.heartMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.DIAMOND);
+			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondTiny, 1, 0), new ItemStack(ModItems.tinyMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.DIAMOND);
+			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondOval, 1, 0), new ItemStack(ModItems.ovalMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.DIAMOND);
+			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondSquare, 1, 0), new ItemStack(ModItems.squareMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.DIAMOND);
+			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondTriangle, 1, 0), new ItemStack(ModItems.triangleMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.DIAMOND);
+			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondStar, 1, 0), new ItemStack(ModItems.starMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.DIAMOND);
 		}
 
 		//Smeltings
@@ -332,131 +332,130 @@ public class MCA
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event)
 	{
-		RegistryMCA.addObjectAsGift(Items.wooden_sword, 3);
-		RegistryMCA.addObjectAsGift(Items.wooden_axe, 3);
-		RegistryMCA.addObjectAsGift(Items.wooden_hoe, 3);
-		RegistryMCA.addObjectAsGift(Items.wooden_shovel, 3);
-		RegistryMCA.addObjectAsGift(Items.stone_sword, 5);
-		RegistryMCA.addObjectAsGift(Items.stone_axe, 5);
-		RegistryMCA.addObjectAsGift(Items.stone_hoe, 5);
-		RegistryMCA.addObjectAsGift(Items.stone_shovel, 5);
-		RegistryMCA.addObjectAsGift(Items.wooden_pickaxe, 3);
-		RegistryMCA.addObjectAsGift(Items.beef, 2);
-		RegistryMCA.addObjectAsGift(Items.chicken, 2);
-		RegistryMCA.addObjectAsGift(Items.porkchop, 2);
-		RegistryMCA.addObjectAsGift(Items.leather, 2);
-		RegistryMCA.addObjectAsGift(Items.leather_chestplate, 5);
-		RegistryMCA.addObjectAsGift(Items.leather_helmet, 5);
-		RegistryMCA.addObjectAsGift(Items.leather_leggings, 5);
-		RegistryMCA.addObjectAsGift(Items.leather_boots, 5);
-		RegistryMCA.addObjectAsGift(Items.reeds, 2);
-		RegistryMCA.addObjectAsGift(Items.wheat_seeds, 2);
-		RegistryMCA.addObjectAsGift(Items.wheat, 3);
-		RegistryMCA.addObjectAsGift(Items.bread, 6);
-		RegistryMCA.addObjectAsGift(Items.coal, 5);
-		RegistryMCA.addObjectAsGift(Items.sugar, 5);
-		RegistryMCA.addObjectAsGift(Items.clay_ball, 2);
-		RegistryMCA.addObjectAsGift(Items.dye, 1);
-		RegistryMCA.addObjectAsGift(Items.cooked_beef, 7);
-		RegistryMCA.addObjectAsGift(Items.cooked_chicken, 7);
-		RegistryMCA.addObjectAsGift(Items.cooked_porkchop, 7);
-		RegistryMCA.addObjectAsGift(Items.cookie, 10);
-		RegistryMCA.addObjectAsGift(Items.melon, 10);
-		RegistryMCA.addObjectAsGift(Items.melon_seeds, 5);
-		RegistryMCA.addObjectAsGift(Items.iron_helmet, 10);
-		RegistryMCA.addObjectAsGift(Items.iron_chestplate, 10);
-		RegistryMCA.addObjectAsGift(Items.iron_leggings, 10);
-		RegistryMCA.addObjectAsGift(Items.iron_boots, 10);
-		RegistryMCA.addObjectAsGift(Items.cake, 12);
-		RegistryMCA.addObjectAsGift(Items.iron_sword, 10);
-		RegistryMCA.addObjectAsGift(Items.iron_axe, 10);
-		RegistryMCA.addObjectAsGift(Items.iron_hoe, 10);
-		RegistryMCA.addObjectAsGift(Items.iron_pickaxe, 10);
-		RegistryMCA.addObjectAsGift(Items.iron_shovel, 10);
-		RegistryMCA.addObjectAsGift(Items.fishing_rod, 3);
-		RegistryMCA.addObjectAsGift(Items.bow, 5);
-		RegistryMCA.addObjectAsGift(Items.book, 5);
-		RegistryMCA.addObjectAsGift(Items.bucket, 3);
-		RegistryMCA.addObjectAsGift(Items.milk_bucket, 5);
-		RegistryMCA.addObjectAsGift(Items.water_bucket, 2);
-		RegistryMCA.addObjectAsGift(Items.lava_bucket, 2);
-		RegistryMCA.addObjectAsGift(Items.mushroom_stew, 5);
-		RegistryMCA.addObjectAsGift(Items.pumpkin_seeds, 8);
-		RegistryMCA.addObjectAsGift(Items.flint_and_steel, 4);
-		RegistryMCA.addObjectAsGift(Items.redstone, 5);
-		RegistryMCA.addObjectAsGift(Items.boat, 4);
-		RegistryMCA.addObjectAsGift(Items.oak_door, 4);
-		RegistryMCA.addObjectAsGift(Items.iron_door, 6);
-		RegistryMCA.addObjectAsGift(Items.minecart, 7);
-		RegistryMCA.addObjectAsGift(Items.flint, 2);
-		RegistryMCA.addObjectAsGift(Items.gold_nugget, 4);
-		RegistryMCA.addObjectAsGift(Items.gold_ingot, 20);
-		RegistryMCA.addObjectAsGift(Items.iron_ingot, 10);
-		RegistryMCA.addObjectAsGift(Items.diamond, 30);
-		RegistryMCA.addObjectAsGift(Items.map, 10);
-		RegistryMCA.addObjectAsGift(Items.clock, 5);
-		RegistryMCA.addObjectAsGift(Items.compass, 5);
-		RegistryMCA.addObjectAsGift(Items.blaze_rod, 10);
-		RegistryMCA.addObjectAsGift(Items.blaze_powder, 5);
-		RegistryMCA.addObjectAsGift(Items.diamond_sword, 15);
-		RegistryMCA.addObjectAsGift(Items.diamond_axe, 15);
-		RegistryMCA.addObjectAsGift(Items.diamond_shovel, 15);
-		RegistryMCA.addObjectAsGift(Items.diamond_hoe, 15);
-		RegistryMCA.addObjectAsGift(Items.diamond_leggings, 15);
-		RegistryMCA.addObjectAsGift(Items.diamond_helmet, 15);
-		RegistryMCA.addObjectAsGift(Items.diamond_chestplate, 15);
-		RegistryMCA.addObjectAsGift(Items.diamond_leggings, 15);
-		RegistryMCA.addObjectAsGift(Items.diamond_boots, 15);
-		RegistryMCA.addObjectAsGift(Items.painting, 6);
-		RegistryMCA.addObjectAsGift(Items.ender_pearl, 5);
-		RegistryMCA.addObjectAsGift(Items.ender_eye, 10);
-		RegistryMCA.addObjectAsGift(Items.potionitem, 3);
-		RegistryMCA.addObjectAsGift(Items.slime_ball, 3);
-		RegistryMCA.addObjectAsGift(Items.saddle, 5);
-		RegistryMCA.addObjectAsGift(Items.gunpowder, 7);
-		RegistryMCA.addObjectAsGift(Items.golden_apple, 25);
-		RegistryMCA.addObjectAsGift(Items.record_11, 15);
-		RegistryMCA.addObjectAsGift(Items.record_13, 15);
-		RegistryMCA.addObjectAsGift(Items.record_wait, 15);
-		RegistryMCA.addObjectAsGift(Items.record_cat, 15);
-		RegistryMCA.addObjectAsGift(Items.record_chirp, 15);
-		RegistryMCA.addObjectAsGift(Items.record_far, 15);
-		RegistryMCA.addObjectAsGift(Items.record_mall, 15);
-		RegistryMCA.addObjectAsGift(Items.record_mellohi, 15);
-		RegistryMCA.addObjectAsGift(Items.record_stal, 15);
-		RegistryMCA.addObjectAsGift(Items.record_strad, 15);
-		RegistryMCA.addObjectAsGift(Items.record_ward, 15);
-		RegistryMCA.addObjectAsGift(Items.emerald, 25);
-		RegistryMCA.addObjectAsGift(Blocks.red_flower, 5);
-		RegistryMCA.addObjectAsGift(Blocks.yellow_flower, 5);
-		RegistryMCA.addObjectAsGift(Blocks.planks, 5);
-		RegistryMCA.addObjectAsGift(Blocks.log, 3);
-		RegistryMCA.addObjectAsGift(Blocks.pumpkin, 3);
-		RegistryMCA.addObjectAsGift(Blocks.chest, 5);
-		RegistryMCA.addObjectAsGift(Blocks.wool, 2);
-		RegistryMCA.addObjectAsGift(Blocks.iron_ore, 4);
-		RegistryMCA.addObjectAsGift(Blocks.gold_ore, 7);
-		RegistryMCA.addObjectAsGift(Blocks.redstone_ore, 3);
-		RegistryMCA.addObjectAsGift(Blocks.rail, 3);
-		RegistryMCA.addObjectAsGift(Blocks.detector_rail, 5);
-		RegistryMCA.addObjectAsGift(Blocks.activator_rail, 5);
-		RegistryMCA.addObjectAsGift(Blocks.furnace, 5);
-		RegistryMCA.addObjectAsGift(Blocks.crafting_table, 5);
-		RegistryMCA.addObjectAsGift(Blocks.lapis_block, 15);
-		RegistryMCA.addObjectAsGift(Blocks.bookshelf, 7);
-		RegistryMCA.addObjectAsGift(Blocks.gold_block, 50);
-		RegistryMCA.addObjectAsGift(Blocks.iron_block, 25);
-		RegistryMCA.addObjectAsGift(Blocks.diamond_block, 100);
-		RegistryMCA.addObjectAsGift(Blocks.brewing_stand, 12);
-		RegistryMCA.addObjectAsGift(Blocks.enchanting_table, 25);
-		RegistryMCA.addObjectAsGift(Blocks.brick_block, 15);
-		RegistryMCA.addObjectAsGift(Blocks.obsidian, 15);
-		RegistryMCA.addObjectAsGift(Blocks.piston, 10);
-		RegistryMCA.addObjectAsGift(Blocks.glowstone, 10);
-		RegistryMCA.addObjectAsGift(Blocks.emerald_block, 100);
+		RegistryMCA.addObjectAsGift(Items.WOODEN_SWORD, 3);
+		RegistryMCA.addObjectAsGift(Items.WOODEN_AXE, 3);
+		RegistryMCA.addObjectAsGift(Items.WOODEN_HOE, 3);
+		RegistryMCA.addObjectAsGift(Items.WOODEN_SHOVEL, 3);
+		RegistryMCA.addObjectAsGift(Items.STONE_SWORD, 5);
+		RegistryMCA.addObjectAsGift(Items.STONE_AXE, 5);
+		RegistryMCA.addObjectAsGift(Items.STONE_HOE, 5);
+		RegistryMCA.addObjectAsGift(Items.STONE_SHOVEL, 5);
+		RegistryMCA.addObjectAsGift(Items.WOODEN_PICKAXE, 3);
+		RegistryMCA.addObjectAsGift(Items.BEEF, 2);
+		RegistryMCA.addObjectAsGift(Items.CHICKEN, 2);
+		RegistryMCA.addObjectAsGift(Items.PORKCHOP, 2);
+		RegistryMCA.addObjectAsGift(Items.LEATHER, 2);
+		RegistryMCA.addObjectAsGift(Items.LEATHER_CHESTPLATE, 5);
+		RegistryMCA.addObjectAsGift(Items.LEATHER_HELMET, 5);
+		RegistryMCA.addObjectAsGift(Items.LEATHER_LEGGINGS, 5);
+		RegistryMCA.addObjectAsGift(Items.LEATHER_BOOTS, 5);
+		RegistryMCA.addObjectAsGift(Items.REEDS, 2);
+		RegistryMCA.addObjectAsGift(Items.WHEAT_SEEDS, 2);
+		RegistryMCA.addObjectAsGift(Items.WHEAT, 3);
+		RegistryMCA.addObjectAsGift(Items.BREAD, 6);
+		RegistryMCA.addObjectAsGift(Items.COAL, 5);
+		RegistryMCA.addObjectAsGift(Items.SUGAR, 5);
+		RegistryMCA.addObjectAsGift(Items.CLAY_BALL, 2);
+		RegistryMCA.addObjectAsGift(Items.DYE, 1);
+		RegistryMCA.addObjectAsGift(Items.COOKED_BEEF, 7);
+		RegistryMCA.addObjectAsGift(Items.COOKED_CHICKEN, 7);
+		RegistryMCA.addObjectAsGift(Items.COOKED_PORKCHOP, 7);
+		RegistryMCA.addObjectAsGift(Items.COOKIE, 10);
+		RegistryMCA.addObjectAsGift(Items.MELON, 10);
+		RegistryMCA.addObjectAsGift(Items.MELON_SEEDS, 5);
+		RegistryMCA.addObjectAsGift(Items.IRON_HELMET, 10);
+		RegistryMCA.addObjectAsGift(Items.IRON_CHESTPLATE, 10);
+		RegistryMCA.addObjectAsGift(Items.IRON_LEGGINGS, 10);
+		RegistryMCA.addObjectAsGift(Items.IRON_BOOTS, 10);
+		RegistryMCA.addObjectAsGift(Items.CAKE, 12);
+		RegistryMCA.addObjectAsGift(Items.IRON_SWORD, 10);
+		RegistryMCA.addObjectAsGift(Items.IRON_AXE, 10);
+		RegistryMCA.addObjectAsGift(Items.IRON_HOE, 10);
+		RegistryMCA.addObjectAsGift(Items.IRON_PICKAXE, 10);
+		RegistryMCA.addObjectAsGift(Items.IRON_SHOVEL, 10);
+		RegistryMCA.addObjectAsGift(Items.FISHING_ROD, 3);
+		RegistryMCA.addObjectAsGift(Items.BOW, 5);
+		RegistryMCA.addObjectAsGift(Items.BOOK, 5);
+		RegistryMCA.addObjectAsGift(Items.BUCKET, 3);
+		RegistryMCA.addObjectAsGift(Items.MILK_BUCKET, 5);
+		RegistryMCA.addObjectAsGift(Items.WATER_BUCKET, 2);
+		RegistryMCA.addObjectAsGift(Items.LAVA_BUCKET, 2);
+		RegistryMCA.addObjectAsGift(Items.MUSHROOM_STEW, 5);
+		RegistryMCA.addObjectAsGift(Items.PUMPKIN_SEEDS, 8);
+		RegistryMCA.addObjectAsGift(Items.FLINT_AND_STEEL, 4);
+		RegistryMCA.addObjectAsGift(Items.REDSTONE, 5);
+		RegistryMCA.addObjectAsGift(Items.BOAT, 4);
+		RegistryMCA.addObjectAsGift(Items.OAK_DOOR, 4);
+		RegistryMCA.addObjectAsGift(Items.IRON_DOOR, 6);
+		RegistryMCA.addObjectAsGift(Items.MINECART, 7);
+		RegistryMCA.addObjectAsGift(Items.FLINT, 2);
+		RegistryMCA.addObjectAsGift(Items.GOLD_NUGGET, 4);
+		RegistryMCA.addObjectAsGift(Items.GOLD_INGOT, 20);
+		RegistryMCA.addObjectAsGift(Items.IRON_INGOT, 10);
+		RegistryMCA.addObjectAsGift(Items.DIAMOND, 30);
+		RegistryMCA.addObjectAsGift(Items.MAP, 10);
+		RegistryMCA.addObjectAsGift(Items.CLOCK, 5);
+		RegistryMCA.addObjectAsGift(Items.COMPASS, 5);
+		RegistryMCA.addObjectAsGift(Items.BLAZE_ROD, 10);
+		RegistryMCA.addObjectAsGift(Items.BLAZE_POWDER, 5);
+		RegistryMCA.addObjectAsGift(Items.DIAMOND_SWORD, 15);
+		RegistryMCA.addObjectAsGift(Items.DIAMOND_AXE, 15);
+		RegistryMCA.addObjectAsGift(Items.DIAMOND_SHOVEL, 15);
+		RegistryMCA.addObjectAsGift(Items.DIAMOND_HOE, 15);
+		RegistryMCA.addObjectAsGift(Items.DIAMOND_HELMET, 15);
+		RegistryMCA.addObjectAsGift(Items.DIAMOND_CHESTPLATE, 15);
+		RegistryMCA.addObjectAsGift(Items.DIAMOND_LEGGINGS, 15);
+		RegistryMCA.addObjectAsGift(Items.DIAMOND_BOOTS, 15);
+		RegistryMCA.addObjectAsGift(Items.PAINTING, 6);
+		RegistryMCA.addObjectAsGift(Items.ENDER_PEARL, 5);
+		RegistryMCA.addObjectAsGift(Items.ENDER_EYE, 10);
+		RegistryMCA.addObjectAsGift(Items.POTIONITEM, 3);
+		RegistryMCA.addObjectAsGift(Items.SLIME_BALL, 3);
+		RegistryMCA.addObjectAsGift(Items.SADDLE, 5);
+		RegistryMCA.addObjectAsGift(Items.GUNPOWDER, 7);
+		RegistryMCA.addObjectAsGift(Items.GOLDEN_APPLE, 25);
+		RegistryMCA.addObjectAsGift(Items.RECORD_11, 15);
+		RegistryMCA.addObjectAsGift(Items.RECORD_13, 15);
+		RegistryMCA.addObjectAsGift(Items.RECORD_WAIT, 15);
+		RegistryMCA.addObjectAsGift(Items.RECORD_CAT, 15);
+		RegistryMCA.addObjectAsGift(Items.RECORD_CHIRP, 15);
+		RegistryMCA.addObjectAsGift(Items.RECORD_FAR, 15);
+		RegistryMCA.addObjectAsGift(Items.RECORD_MALL, 15);
+		RegistryMCA.addObjectAsGift(Items.RECORD_MELLOHI, 15);
+		RegistryMCA.addObjectAsGift(Items.RECORD_STAL, 15);
+		RegistryMCA.addObjectAsGift(Items.RECORD_STRAD, 15);
+		RegistryMCA.addObjectAsGift(Items.RECORD_WARD, 15);
+		RegistryMCA.addObjectAsGift(Items.EMERALD, 25);
+		RegistryMCA.addObjectAsGift(Blocks.RED_FLOWER, 5);
+		RegistryMCA.addObjectAsGift(Blocks.YELLOW_FLOWER, 5);
+		RegistryMCA.addObjectAsGift(Blocks.PLANKS, 5);
+		RegistryMCA.addObjectAsGift(Blocks.LOG, 3);
+		RegistryMCA.addObjectAsGift(Blocks.PUMPKIN, 3);
+		RegistryMCA.addObjectAsGift(Blocks.CHEST, 5);
+		RegistryMCA.addObjectAsGift(Blocks.WOOL, 2);
+		RegistryMCA.addObjectAsGift(Blocks.IRON_ORE, 4);
+		RegistryMCA.addObjectAsGift(Blocks.GOLD_ORE, 7);
+		RegistryMCA.addObjectAsGift(Blocks.REDSTONE_ORE, 3);
+		RegistryMCA.addObjectAsGift(Blocks.RAIL, 3);
+		RegistryMCA.addObjectAsGift(Blocks.DETECTOR_RAIL, 5);
+		RegistryMCA.addObjectAsGift(Blocks.ACTIVATOR_RAIL, 5);
+		RegistryMCA.addObjectAsGift(Blocks.FURNACE, 5);
+		RegistryMCA.addObjectAsGift(Blocks.CRAFTING_TABLE, 5);
+		RegistryMCA.addObjectAsGift(Blocks.LAPIS_BLOCK, 15);
+		RegistryMCA.addObjectAsGift(Blocks.BOOKSHELF, 7);
+		RegistryMCA.addObjectAsGift(Blocks.GOLD_BLOCK, 50);
+		RegistryMCA.addObjectAsGift(Blocks.IRON_BLOCK, 25);
+		RegistryMCA.addObjectAsGift(Blocks.DIAMOND_BLOCK, 100);
+		RegistryMCA.addObjectAsGift(Blocks.BREWING_STAND, 12);
+		RegistryMCA.addObjectAsGift(Blocks.ENCHANTING_TABLE, 25);
+		RegistryMCA.addObjectAsGift(Blocks.BRICK_BLOCK, 15);
+		RegistryMCA.addObjectAsGift(Blocks.OBSIDIAN, 15);
+		RegistryMCA.addObjectAsGift(Blocks.PISTON, 10);
+		RegistryMCA.addObjectAsGift(Blocks.GLOWSTONE, 10);
+		RegistryMCA.addObjectAsGift(Blocks.EMERALD_BLOCK, 100);
 		RegistryMCA.addObjectAsGift(ModBlocks.roseGoldBlock, 35);
 		RegistryMCA.addObjectAsGift(ModBlocks.roseGoldOre, 7);
-		RegistryMCA.addObjectAsGift(Blocks.redstone_block, 20);
+		RegistryMCA.addObjectAsGift(Blocks.REDSTONE_BLOCK, 20);
 		RegistryMCA.addObjectAsGift(ModItems.diamondHeart, 50);
 		RegistryMCA.addObjectAsGift(ModItems.diamondOval, 50);
 		RegistryMCA.addObjectAsGift(ModItems.diamondSquare, 50);
@@ -464,11 +463,11 @@ public class MCA
 		RegistryMCA.addObjectAsGift(ModItems.diamondTriangle, 50);
 		RegistryMCA.addObjectAsGift(ModItems.diamondTiny, 50);
 
-		RegistryMCA.addFishingEntryToFishingAI(0, new FishingEntry(Items.fish));
-		RegistryMCA.addFishingEntryToFishingAI(1, new FishingEntry(Items.fish, ItemFishFood.FishType.CLOWNFISH.getMetadata()));
-		RegistryMCA.addFishingEntryToFishingAI(2, new FishingEntry(Items.fish, ItemFishFood.FishType.COD.getMetadata()));
-		RegistryMCA.addFishingEntryToFishingAI(3, new FishingEntry(Items.fish, ItemFishFood.FishType.PUFFERFISH.getMetadata()));
-		RegistryMCA.addFishingEntryToFishingAI(4, new FishingEntry(Items.fish, ItemFishFood.FishType.SALMON.getMetadata()));
+		RegistryMCA.addFishingEntryToFishingAI(0, new FishingEntry(Items.FISH));
+		RegistryMCA.addFishingEntryToFishingAI(1, new FishingEntry(Items.FISH, ItemFishFood.FishType.CLOWNFISH.getMetadata()));
+		RegistryMCA.addFishingEntryToFishingAI(2, new FishingEntry(Items.FISH, ItemFishFood.FishType.COD.getMetadata()));
+		RegistryMCA.addFishingEntryToFishingAI(3, new FishingEntry(Items.FISH, ItemFishFood.FishType.PUFFERFISH.getMetadata()));
+		RegistryMCA.addFishingEntryToFishingAI(4, new FishingEntry(Items.FISH, ItemFishFood.FishType.SALMON.getMetadata()));
 		
 		if (getConfig().additionalGiftItems.length > 0)
 		{
@@ -482,8 +481,8 @@ public class MCA
 
 					if (!itemName.startsWith("#"))
 					{
-						Object item = Item.itemRegistry.getObject(new ResourceLocation(itemName));
-						Object block = Block.blockRegistry.getObject(new ResourceLocation(itemName));
+						Object item = Item.REGISTRY.getObject(new ResourceLocation(itemName));
+						Object block = Block.REGISTRY.getObject(new ResourceLocation(itemName));
 						Object addObject = item != null ? item : block != null ? block : null;
 
 						if (addObject != null)
@@ -506,21 +505,21 @@ public class MCA
 			}
 		}
 
-		RegistryMCA.addBlockToMiningAI(1, new MiningEntry(Blocks.coal_ore, Items.coal, 0.45F));
-		RegistryMCA.addBlockToMiningAI(2, new MiningEntry(Blocks.iron_ore, 0.4F));
-		RegistryMCA.addBlockToMiningAI(3, new MiningEntry(Blocks.lapis_ore, new ItemStack(Items.dye, 1, 4), 0.3F));
-		RegistryMCA.addBlockToMiningAI(4, new MiningEntry(Blocks.gold_ore, 0.05F));
-		RegistryMCA.addBlockToMiningAI(5, new MiningEntry(Blocks.diamond_ore, Items.diamond, 0.04F));
-		RegistryMCA.addBlockToMiningAI(6, new MiningEntry(Blocks.emerald_ore, Items.emerald, 0.03F));
-		RegistryMCA.addBlockToMiningAI(7, new MiningEntry(Blocks.quartz_ore, Items.quartz, 0.02F));
+		RegistryMCA.addBlockToMiningAI(1, new MiningEntry(Blocks.COAL_ORE, Items.COAL, 0.45F));
+		RegistryMCA.addBlockToMiningAI(2, new MiningEntry(Blocks.IRON_ORE, 0.4F));
+		RegistryMCA.addBlockToMiningAI(3, new MiningEntry(Blocks.LAPIS_ORE, new ItemStack(Items.DYE, 1, 4), 0.3F));
+		RegistryMCA.addBlockToMiningAI(4, new MiningEntry(Blocks.GOLD_ORE, 0.05F));
+		RegistryMCA.addBlockToMiningAI(5, new MiningEntry(Blocks.DIAMOND_ORE, Items.DIAMOND, 0.04F));
+		RegistryMCA.addBlockToMiningAI(6, new MiningEntry(Blocks.EMERALD_ORE, Items.EMERALD, 0.03F));
+		RegistryMCA.addBlockToMiningAI(7, new MiningEntry(Blocks.QUARTZ_ORE, Items.QUARTZ, 0.02F));
 		RegistryMCA.addBlockToMiningAI(8, new MiningEntry(ModBlocks.roseGoldOre, 0.07F));
 
-		RegistryMCA.addBlockToWoodcuttingAI(1, new WoodcuttingEntry(Blocks.log, 0, Blocks.sapling, 0));
-		RegistryMCA.addBlockToWoodcuttingAI(2, new WoodcuttingEntry(Blocks.log, 1, Blocks.sapling, 1));
-		RegistryMCA.addBlockToWoodcuttingAI(3, new WoodcuttingEntry(Blocks.log, 2, Blocks.sapling, 2));
-		RegistryMCA.addBlockToWoodcuttingAI(4, new WoodcuttingEntry(Blocks.log, 3, Blocks.sapling, 3));
-		RegistryMCA.addBlockToWoodcuttingAI(5, new WoodcuttingEntry(Blocks.log2, 0, Blocks.sapling, 4));
-		RegistryMCA.addBlockToWoodcuttingAI(6, new WoodcuttingEntry(Blocks.log2, 1, Blocks.sapling, 5));
+		RegistryMCA.addBlockToWoodcuttingAI(1, new WoodcuttingEntry(Blocks.LOG, 0, Blocks.SAPLING, 0));
+		RegistryMCA.addBlockToWoodcuttingAI(2, new WoodcuttingEntry(Blocks.LOG, 1, Blocks.SAPLING, 1));
+		RegistryMCA.addBlockToWoodcuttingAI(3, new WoodcuttingEntry(Blocks.LOG, 2, Blocks.SAPLING, 2));
+		RegistryMCA.addBlockToWoodcuttingAI(4, new WoodcuttingEntry(Blocks.LOG, 3, Blocks.SAPLING, 3));
+		RegistryMCA.addBlockToWoodcuttingAI(5, new WoodcuttingEntry(Blocks.LOG2, 0, Blocks.SAPLING, 4));
+		RegistryMCA.addBlockToWoodcuttingAI(6, new WoodcuttingEntry(Blocks.LOG2, 1, Blocks.SAPLING, 5));
 
 		RegistryMCA.addEntityToHuntingAI(EntitySheep.class);
 		RegistryMCA.addEntityToHuntingAI(EntityCow.class);
@@ -529,89 +528,89 @@ public class MCA
 		RegistryMCA.addEntityToHuntingAI(EntityOcelot.class, false);
 		RegistryMCA.addEntityToHuntingAI(EntityWolf.class, false);
 
-		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.porkchop, Items.cooked_porkchop));
-		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.beef, Items.cooked_beef));
-		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.chicken, Items.cooked_chicken));
-		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.fish, Items.cooked_fish));
-		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.potato, Items.baked_potato));
+		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.PORKCHOP, Items.COOKED_PORKCHOP));
+		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.BEEF, Items.COOKED_BEEF));
+		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.CHICKEN, Items.COOKED_CHICKEN));
+		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.FISH, Items.COOKED_FISH));
+		RegistryMCA.addFoodToCookingAI(new CookableFood(Items.POTATO, Items.BAKED_POTATO));
 
-		RegistryMCA.addCropToFarmingAI(1, new CropEntry(EnumCropCategory.WHEAT, Blocks.wheat, Items.wheat_seeds, Blocks.wheat, 7, Items.wheat, 1, 4));
-		RegistryMCA.addCropToFarmingAI(2, new CropEntry(EnumCropCategory.WHEAT, Blocks.potatoes, Items.potato, Blocks.potatoes, 7, Items.potato, 1, 4));
-		RegistryMCA.addCropToFarmingAI(3, new CropEntry(EnumCropCategory.WHEAT, Blocks.carrots, Items.carrot, Blocks.carrots, 7, Items.carrot, 1, 4));
-		RegistryMCA.addCropToFarmingAI(4, new CropEntry(EnumCropCategory.MELON, Blocks.melon_stem, Items.melon_seeds, Blocks.melon_block, 0, Items.melon, 2, 6));
-		RegistryMCA.addCropToFarmingAI(5, new CropEntry(EnumCropCategory.MELON, Blocks.pumpkin_stem, Items.pumpkin_seeds, Blocks.pumpkin, 0, null, 1, 1));
-		RegistryMCA.addCropToFarmingAI(6, new CropEntry(EnumCropCategory.SUGARCANE, Blocks.reeds, Items.reeds, Blocks.reeds, 0, Items.reeds, 1, 1));
+		RegistryMCA.addCropToFarmingAI(1, new CropEntry(EnumCropCategory.WHEAT, Blocks.WHEAT, Items.WHEAT_SEEDS, Blocks.WHEAT, 7, Items.WHEAT, 1, 4));
+		RegistryMCA.addCropToFarmingAI(2, new CropEntry(EnumCropCategory.WHEAT, Blocks.POTATOES, Items.POTATO, Blocks.POTATOES, 7, Items.POTATO, 1, 4));
+		RegistryMCA.addCropToFarmingAI(3, new CropEntry(EnumCropCategory.WHEAT, Blocks.CARROTS, Items.CARROT, Blocks.CARROTS, 7, Items.CARROT, 1, 4));
+		RegistryMCA.addCropToFarmingAI(4, new CropEntry(EnumCropCategory.MELON, Blocks.MELON_STEM, Items.MELON_SEEDS, Blocks.MELON_BLOCK, 0, Items.MELON, 2, 6));
+		RegistryMCA.addCropToFarmingAI(5, new CropEntry(EnumCropCategory.MELON, Blocks.PUMPKIN_STEM, Items.PUMPKIN_SEEDS, Blocks.PUMPKIN, 0, null, 1, 1));
+		RegistryMCA.addCropToFarmingAI(6, new CropEntry(EnumCropCategory.SUGARCANE, Blocks.REEDS, Items.REEDS, Blocks.REEDS, 0, Items.REEDS, 1, 1));
 
-		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.dirt, 1, 6), EnumGiftCategory.BAD);
-		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.deadbush, 1, 1), EnumGiftCategory.BAD);
-		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.cactus, 1, 3), EnumGiftCategory.BAD);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.stick, 1, 4), EnumGiftCategory.BAD);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.rotten_flesh, 1, 4), EnumGiftCategory.BAD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.DIRT, 1, 6), EnumGiftCategory.BAD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.DEADBUSH, 1, 1), EnumGiftCategory.BAD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.CACTUS, 1, 3), EnumGiftCategory.BAD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.STICK, 1, 4), EnumGiftCategory.BAD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.ROTTEN_FLESH, 1, 4), EnumGiftCategory.BAD);
 
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.clay_ball, 4, 16), EnumGiftCategory.GOOD);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.stone_axe, 1, 1), EnumGiftCategory.GOOD);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.stone_sword, 1, 1), EnumGiftCategory.GOOD);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.stone_shovel, 1, 1), EnumGiftCategory.GOOD);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.apple, 1, 4), EnumGiftCategory.GOOD);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.arrow, 8, 16), EnumGiftCategory.GOOD);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.stone_pickaxe, 1, 1), EnumGiftCategory.GOOD);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.book, 1, 2), EnumGiftCategory.GOOD);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.redstone, 8, 32), EnumGiftCategory.GOOD);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.cooked_porkchop, 3, 6), EnumGiftCategory.GOOD);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.cooked_beef, 3, 6), EnumGiftCategory.GOOD);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.cooked_chicken, 3, 6), EnumGiftCategory.GOOD);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.bread, 1, 3), EnumGiftCategory.GOOD);
-		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.planks, 2, 16), EnumGiftCategory.GOOD);
-		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.log, 2, 16), EnumGiftCategory.GOOD);
-		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.cobblestone, 2, 16), EnumGiftCategory.GOOD);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.coal, 2, 8), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.CLAY_BALL, 4, 16), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.STONE_AXE, 1, 1), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.STONE_SWORD, 1, 1), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.STONE_SHOVEL, 1, 1), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.APPLE, 1, 4), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.ARROW, 8, 16), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.STONE_PICKAXE, 1, 1), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.BOOK, 1, 2), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.REDSTONE, 8, 32), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.COOKED_PORKCHOP, 3, 6), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.COOKED_BEEF, 3, 6), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.COOKED_CHICKEN, 3, 6), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.BREAD, 1, 3), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.PLANKS, 2, 16), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.LOG, 2, 16), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.COBBLESTONE, 2, 16), EnumGiftCategory.GOOD);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.COAL, 2, 8), EnumGiftCategory.GOOD);
 
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.clay_ball, 16, 32), EnumGiftCategory.BETTER);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.iron_axe, 1, 1), EnumGiftCategory.BETTER);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.iron_sword, 1, 1), EnumGiftCategory.BETTER);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.iron_shovel, 1, 1), EnumGiftCategory.BETTER);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.arrow, 16, 32), EnumGiftCategory.BETTER);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.iron_pickaxe, 1, 1), EnumGiftCategory.BETTER);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.redstone, 8, 32), EnumGiftCategory.BETTER);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.cooked_porkchop, 6, 8), EnumGiftCategory.BETTER);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.cooked_beef, 6, 8), EnumGiftCategory.BETTER);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.cooked_chicken, 6, 8), EnumGiftCategory.BETTER);
-		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.planks, 16, 32), EnumGiftCategory.BETTER);
-		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.log, 16, 32), EnumGiftCategory.BETTER);
-		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.cobblestone, 16, 32), EnumGiftCategory.BETTER);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.coal, 10, 16), EnumGiftCategory.BETTER);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.iron_helmet, 1, 1), EnumGiftCategory.BETTER);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.iron_chestplate, 1, 1), EnumGiftCategory.BETTER);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.iron_boots, 1, 1), EnumGiftCategory.BETTER);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.iron_leggings, 1, 1), EnumGiftCategory.BETTER);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.melon, 4, 8), EnumGiftCategory.BETTER);
-		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.bookshelf, 2, 4), EnumGiftCategory.BETTER);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.iron_ingot, 8, 16), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.CLAY_BALL, 16, 32), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.IRON_AXE, 1, 1), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.IRON_SWORD, 1, 1), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.IRON_SHOVEL, 1, 1), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.ARROW, 16, 32), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.IRON_PICKAXE, 1, 1), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.REDSTONE, 8, 32), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.COOKED_PORKCHOP, 6, 8), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.COOKED_BEEF, 6, 8), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.COOKED_CHICKEN, 6, 8), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.PLANKS, 16, 32), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.LOG, 16, 32), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.COBBLESTONE, 16, 32), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.COAL, 10, 16), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.IRON_HELMET, 1, 1), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.IRON_CHESTPLATE, 1, 1), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.IRON_BOOTS, 1, 1), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.IRON_LEGGINGS, 1, 1), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.MELON, 4, 8), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.BOOKSHELF, 2, 4), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.IRON_INGOT, 8, 16), EnumGiftCategory.BETTER);
 
-		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.brick_block, 32, 32), EnumGiftCategory.BEST);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.diamond_axe, 1, 1), EnumGiftCategory.BEST);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.diamond_sword, 1, 1), EnumGiftCategory.BEST);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.diamond_shovel, 1, 1), EnumGiftCategory.BEST);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.arrow, 64, 64), EnumGiftCategory.BEST);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.diamond_pickaxe, 1, 1), EnumGiftCategory.BEST);
-		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.planks, 32, 64), EnumGiftCategory.BEST);
-		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.log, 32, 64), EnumGiftCategory.BEST);
-		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.cobblestone, 32, 64), EnumGiftCategory.BEST);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.coal, 32, 64), EnumGiftCategory.BEST);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.diamond_leggings, 1, 1), EnumGiftCategory.BEST);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.diamond_helmet, 1, 1), EnumGiftCategory.BEST);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.diamond_boots, 1, 1), EnumGiftCategory.BEST);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.diamond_chestplate, 1, 1), EnumGiftCategory.BEST);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.ender_eye, 4, 8), EnumGiftCategory.BEST);
-		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.enchanting_table, 1, 1), EnumGiftCategory.BEST);
-		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.mossy_cobblestone, 32, 64), EnumGiftCategory.BEST);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.diamond, 8, 16), EnumGiftCategory.BEST);
-		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.jukebox, 1, 1), EnumGiftCategory.BEST);
-		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.diamond_block, 1, 2), EnumGiftCategory.BEST);
-		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.gold_block, 1, 4), EnumGiftCategory.BEST);
-		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.iron_block, 1, 8), EnumGiftCategory.BEST);
-		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.obsidian, 4, 8), EnumGiftCategory.BEST);
-		RegistryMCA.addWeddingGift(new WeddingGift(Items.emerald, 4, 6), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.BRICK_BLOCK, 32, 32), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.DIAMOND_AXE, 1, 1), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.DIAMOND_SWORD, 1, 1), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.DIAMOND_SHOVEL, 1, 1), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.ARROW, 64, 64), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.DIAMOND_PICKAXE, 1, 1), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.PLANKS, 32, 64), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.LOG, 32, 64), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.COBBLESTONE, 32, 64), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.COAL, 32, 64), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.DIAMOND_LEGGINGS, 1, 1), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.DIAMOND_HELMET, 1, 1), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.DIAMOND_BOOTS, 1, 1), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.DIAMOND_CHESTPLATE, 1, 1), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.ENDER_EYE, 4, 8), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.ENCHANTING_TABLE, 1, 1), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.MOSSY_COBBLESTONE, 32, 64), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.DIAMOND, 8, 16), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.JUKEBOX, 1, 1), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.DIAMOND_BLOCK, 1, 2), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.GOLD_BLOCK, 1, 4), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.IRON_BLOCK, 1, 8), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.OBSIDIAN, 4, 8), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(Items.EMERALD, 4, 6), EnumGiftCategory.BEST);
 	}
 
 	@EventHandler

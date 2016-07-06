@@ -60,7 +60,7 @@ public class AIProcreate extends AbstractAI
 			{
 				isProcreating.setValue(false);
 				procreateTicks = 0;
-				owner.playSound(SoundEvents.entity_chicken_egg, 1.0F, 1.0F);
+				owner.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, 1.0F);
 
 				final EntityPlayer playerSpouse = owner.getPlayerSpouse();
 				

@@ -606,13 +606,13 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	@Override
 	protected SoundEvent getHurtSound() 
 	{
-		return getIsInfected() ? SoundEvents.entity_zombie_hurt : null;
+		return getIsInfected() ? SoundEvents.ENTITY_ZOMBIE_HURT : null;
 	}
 
 	@Override
 	protected SoundEvent getDeathSound() 
 	{
-		return getIsInfected() ? SoundEvents.entity_zombie_death : null;
+		return getIsInfected() ? SoundEvents.ENTITY_ZOMBIE_DEATH : null;
 	}
 
 	@Override
@@ -894,7 +894,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		{
 			String zombieMoan = RadixLogic.getBooleanWithProbability(33) ? "Raagh..." : RadixLogic.getBooleanWithProbability(33) ? "Ughh..." : "Argh-gur...";
 			target.addChatMessage(new TextComponentString(getTitle(target) + ": " + zombieMoan));
-			this.playSound(SoundEvents.entity_zombie_ambient, 0.5F, rand.nextFloat() + 0.5F);
+			this.playSound(SoundEvents.ENTITY_ZOMBIE_AMBIENT, 0.5F, rand.nextFloat() + 0.5F);
 		}
 
 		else
@@ -1237,12 +1237,12 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
 		else if (getProfessionEnum() == EnumProfession.Guard)
 		{
-			return new ItemStack(Items.iron_sword);
+			return new ItemStack(Items.IRON_SWORD);
 		}
 
 		else if (getProfessionEnum() == EnumProfession.Archer)
 		{
-			return new ItemStack(Items.bow);
+			return new ItemStack(Items.BOW);
 		}
 
 		else if (heldItem.getInt() != -1 && aiManager.isToggleAIActive())
@@ -1433,7 +1433,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
             i += 5;
         }
 
-        if (recipe.getItemToBuy().getItem() == Items.emerald)
+        if (recipe.getItemToBuy().getItem() == Items.EMERALD)
         {
         	ReflectionHelper.setPrivateValue(EntityVillager.class, this, recipe.getItemToBuy().stackSize, ENTITY_VILLAGER_WEALTH); //this.wealth += recipe.getItemToBuy().stackSize;
         }
@@ -1905,8 +1905,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public void cureInfection()
 	{
 		this.setIsInfected(false);
-		this.addPotionEffect(new PotionEffect(MobEffects.confusion, 200, 0));
-		this.worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1017, new BlockPos((int)this.posX, (int)this.posY, (int)this.posZ), 0);
+		this.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 200, 0));
+        this.worldObj.playEvent((EntityPlayer)null, 1027, new BlockPos((int)this.posX, (int)this.posY, (int)this.posZ), 0);
 		Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.VILLAGER_HAPPY, this, 16);
 	}
 
@@ -1966,7 +1966,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	
     private float updateRotation(float p_70663_1_, float p_70663_2_, float p_70663_3_)
     {
-        float f3 = MathHelper.wrapAngleTo180_float(p_70663_2_ - p_70663_1_);
+        float f3 = MathHelper.wrapDegrees(p_70663_2_ - p_70663_1_);
 
         if (f3 > p_70663_3_)
         {
@@ -2035,7 +2035,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 
     private void createMemorialChestAtCurrentLocation(ItemStack memorialItem)
     {
-    	Point3D nearestAir = RadixLogic.getFirstNearestBlock(this, Blocks.air, 3);
+    	Point3D nearestAir = RadixLogic.getFirstNearestBlock(this, Blocks.AIR, 3);
     	
     	if (nearestAir == null)
     	{
@@ -2045,16 +2045,16 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
     	else
     	{
     		int y = nearestAir.iPosY;
-    		Block block = Blocks.air;
+    		Block block = Blocks.AIR;
     		
-    		while (block == Blocks.air)
+    		while (block == Blocks.AIR)
     		{
     			y--;
     			block = BlockHelper.getBlock(worldObj, nearestAir.iPosX, y, nearestAir.iPosZ);
     		}
     		
     		y += 1;
-    		BlockHelper.setBlock(worldObj, nearestAir.iPosX, y, nearestAir.iPosZ, Blocks.chest);
+    		BlockHelper.setBlock(worldObj, nearestAir.iPosX, y, nearestAir.iPosZ, Blocks.CHEST);
     		
     		try
     		{
@@ -2079,8 +2079,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 		double d2 = target.posZ - this.posZ;
 		double d3 = (double)MathHelper.sqrt_double(d0 * d0 + d2 * d2);
 		entityarrow.setThrowableHeading(d0, d1 + d3 * 0.20000000298023224D, d2, 1.6F, (float)(14 - this.worldObj.getDifficulty().getDifficultyId() * 4));
-		int i = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.power, this);
-		int j = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.punch, this);
+		int i = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.POWER, this);
+		int j = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.PUNCH, this);
 		entityarrow.setDamage((double)(velocity * 2.0F) + this.rand.nextGaussian() * 0.25D + (double)((float)this.worldObj.getDifficulty().getDifficultyId() * 0.11F));
 
 		if (i > 0)
@@ -2093,7 +2093,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			entityarrow.setKnockbackStrength(j);
 		}
 
-		this.playSound(SoundEvents.entity_skeleton_shoot, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+		this.playSound(SoundEvents.ENTITY_SKELETON_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
 		this.worldObj.spawnEntityInWorld(entityarrow);
 	}
 

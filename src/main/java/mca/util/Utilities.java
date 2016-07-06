@@ -10,7 +10,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.SPacketParticles;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 
 public class Utilities 
@@ -56,7 +55,7 @@ public class Utilities
 
 				if (distanceSq <= 256.0D)
 				{
-					entityPlayerMP.playerNetServerHandler.sendPacket(packet);
+					entityPlayerMP.connection.sendPacket(packet);
 				}
 			}
 		}
@@ -81,15 +80,14 @@ public class Utilities
 			for (int j = 0; j < entityOrigin.worldObj.playerEntities.size(); ++j)
 			{
 				EntityPlayerMP entityPlayerMP = (EntityPlayerMP)entityOrigin.worldObj.playerEntities.get(j);
-				ChunkCoordIntPair chunkCoordinates = new ChunkCoordIntPair(entityPlayerMP.chunkCoordX, entityPlayerMP.chunkCoordZ);
-				double deltaX = entityOrigin.posX - chunkCoordinates.chunkXPos;
+				double deltaX = entityOrigin.posX - entityPlayerMP.chunkCoordX;
 				double deltaY = entityOrigin.posY - entityPlayerMP.chunkCoordY;
-				double deltaZ = entityOrigin.posZ - chunkCoordinates.chunkZPos;
+				double deltaZ = entityOrigin.posZ - entityPlayerMP.chunkCoordZ;
 				double distanceSq = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
 
 				if (distanceSq <= 256.0D)
 				{
-					entityPlayerMP.playerNetServerHandler.sendPacket(packet);
+					entityPlayerMP.connection.sendPacket(packet);
 				}
 			}
 		}

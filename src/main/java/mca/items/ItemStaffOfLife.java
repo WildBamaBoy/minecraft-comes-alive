@@ -74,7 +74,7 @@ public class ItemStaffOfLife extends Item
 				memorial.setPlayer(playerIn);
 				memorial.setRevivalTicks(Time.SECOND * 5);
 				stack.damageItem(1, playerIn);
-				playerIn.playSound(SoundEvents.block_portal_travel, 1.0F, 1.0F);
+				playerIn.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 1.0F, 1.0F);
 				
 				return EnumActionResult.SUCCESS;
 			}
