@@ -32,6 +32,8 @@ public class ModelHuman extends ModelBiped
 	public void render(Entity entity, float f1, float f2, float f3, float f4, float f5, float f6) 
 	{
 		final EntityHuman human = (EntityHuman)entity;
+		final double scale = 0.9375D;
+		
 		this.setRotationAngles(f1, f2, f3, f4, f5, f6, entity);
 
 		//Default head texture is going to be the one we can get straight from the human object.
@@ -49,17 +51,36 @@ public class ModelHuman extends ModelBiped
 
 		//Bind the head texture to the head and headwear.
 		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(headTexture));
-		this.bipedHead.render(f6);
-		this.bipedHeadwear.render(f6);
-
+		
+		GL11.glPushMatrix();
+		{
+			GL11.glTranslated(0.0D, -0.05D, 0.0D);
+			GL11.glScaled(scale, scale, scale);
+			this.bipedHead.render(f6);
+			this.bipedHeadwear.render(f6);
+		}
+		GL11.glPopMatrix();
+		
 		//Bind the clothes texture to the rest of the body.
 		Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(clothesTexture));
 
-		this.bipedBody.render(f6);
-		this.bipedRightArm.render(f6);
-		this.bipedLeftArm.render(f6);
-		this.bipedRightLeg.render(f6);
-		this.bipedLeftLeg.render(f6);
+		GL11.glPushMatrix();
+		{
+			GL11.glScaled(scale, scale, scale);
+			this.bipedBody.render(f6);
+			this.bipedRightLeg.render(f6);
+			this.bipedLeftLeg.render(f6);
+		}
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		{
+			GL11.glScaled(scale, scale, scale);
+			GL11.glTranslated(0.0D, 0.0D, 0.0D);
+			this.bipedRightArm.render(f6);
+			this.bipedLeftArm.render(f6);
+		}
+		GL11.glPopMatrix();
 		
 		if (!human.getIsMale() && !human.getIsChild() && MCA.getConfig().modifyFemaleBody && human.getItemStackFromSlot(EntityEquipmentSlot.CHEST) == null)
 		{

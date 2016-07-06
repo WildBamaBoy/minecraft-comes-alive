@@ -216,7 +216,8 @@ public class EntityGrimReaper extends EntityMob
 		EntityLivingBase entityToAttack = this.getAttackTarget();
 		
 		//Within 1.2 blocks of the target, damage it. Set attack state to post attack.
-		if (RadixMath.getDistanceToEntity(entityToAttack, this) <= 1.8D)
+		System.out.println(RadixMath.getDistanceToEntity(entityToAttack, this));
+		if (RadixMath.getDistanceToEntity(entityToAttack, this) <= 1.2D)
 		{
 			entity.attackEntityFrom(DamageSource.causeMobDamage(this), 13.5F);
 			
@@ -448,8 +449,8 @@ public class EntityGrimReaper extends EntityMob
 			//Speed up in order to lunge at the player.
 			if (getAttackState() == EnumReaperAttackState.PRE)
 			{
-				motionX = motionX * 1.1F;
-				motionZ = motionZ * 1.1F;
+				motionX = motionX * 1.05F;
+				motionZ = motionZ * 1.05F;
 			}
 		}
 		

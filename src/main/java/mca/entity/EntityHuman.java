@@ -1474,6 +1474,7 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 	public void setSizeOverride(float width, float height)
 	{
 		this.setSize(width, height);
+		this.setScale(0.935F);
 		
 		//Sync size with all clients once set on the server.
 		if (!worldObj.isRemote)
