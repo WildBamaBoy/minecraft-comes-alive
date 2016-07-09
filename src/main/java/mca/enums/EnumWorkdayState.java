@@ -28,7 +28,10 @@ public enum EnumWorkdayState
 			}
 		}
 		
-		return null;
+		//Always default to IDLE to prevent issues loading previous worlds on other versions of MCA.
+		//ID to remember workday state on these worlds should be zero, and would previously trigger
+		//this return of null.
+		return EnumWorkdayState.IDLE;
 	}
 	
 	public int getId()
