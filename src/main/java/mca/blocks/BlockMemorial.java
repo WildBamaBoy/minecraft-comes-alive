@@ -34,7 +34,7 @@ public class BlockMemorial extends BlockContainer
 
 	public AxisAlignedBB getSelectedBoundingBox(IBlockState state, World worldIn, BlockPos pos)
 	{
-		return NULL_AABB;
+		return SIGN_AABB;
 	}
 
 	public boolean isFullCube(IBlockState state)

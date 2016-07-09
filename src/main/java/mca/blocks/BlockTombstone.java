@@ -45,7 +45,7 @@ public class BlockTombstone extends BlockContainer
 
 	public AxisAlignedBB getSelectedBoundingBox(IBlockState blockState, World worldIn, BlockPos pos)
 	{
-		return NULL_AABB;
+		return SIGN_AABB;
 	}
 
 	public boolean isFullCube(IBlockState state)
