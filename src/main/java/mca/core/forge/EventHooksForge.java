@@ -245,19 +245,24 @@ public class EventHooksForge
 		//Handle warrior triggers on player taking damage.
 		if (event.getEntityLiving() instanceof EntityPlayer && event.getSource().getEntity() instanceof EntityLivingBase)
 		{
+			//Is returning entities not matching the provided class. TODO Investigate
 			List<Entity> entityList = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, event.getEntityLiving(), 15);
 
 			for (Entity entity : entityList)
 			{
-				EntityHuman human = (EntityHuman)entity;
-				AICombat combat = human.getAI(AICombat.class);
-				PlayerMemory memory = human.getPlayerMemory((EntityPlayer)event.getEntityLiving());
-
-				if (memory.getIsHiredBy() && human.getProfessionEnum() == EnumProfession.Warrior && 
-						combat.getMethodBehavior() != EnumCombatBehaviors.METHOD_DO_NOT_FIGHT &&
-						combat.getTriggerBehavior() == EnumCombatBehaviors.TRIGGER_PLAYER_TAKE_DAMAGE)
+				//Verify we're working with a MCA villager.
+				if (entity instanceof EntityHuman)
 				{
-					combat.setAttackTarget((EntityLivingBase)event.getSource().getEntity());
+					EntityHuman human = (EntityHuman)entity;
+					AICombat combat = human.getAI(AICombat.class);
+					PlayerMemory memory = human.getPlayerMemory((EntityPlayer)event.getEntityLiving());
+		
+					if (memory.getIsHiredBy() && human.getProfessionEnum() == EnumProfession.Warrior && 
+							combat.getMethodBehavior() != EnumCombatBehaviors.METHOD_DO_NOT_FIGHT &&
+							combat.getTriggerBehavior() == EnumCombatBehaviors.TRIGGER_PLAYER_TAKE_DAMAGE)
+					{
+						combat.setAttackTarget((EntityLivingBase)event.getSource().getEntity());
+					}
 				}
 			}
 		}
