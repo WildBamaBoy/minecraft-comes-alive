@@ -188,7 +188,7 @@ public class EntityChoreFishHook extends Entity
         }
         else
         {
-            if (!this.worldObj.isRemote)
+            if (!this.worldObj.isRemote && this.angler != null)
             {
                 ItemStack itemstack = this.angler.getHeldItem(EnumHand.MAIN_HAND);
 
