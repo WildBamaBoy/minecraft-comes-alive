@@ -150,7 +150,12 @@ public class ItemBaby extends Item
 	@Override
 	public boolean onEntityItemUpdate(EntityItem entityItem) 
 	{
-		updateBabyGrowth(entityItem.getEntityItem());
+		//Happens on servers for some reason.
+		if (entityItem.getEntityItem() != null)
+		{
+			updateBabyGrowth(entityItem.getEntityItem());
+		}
+		
 		return super.onEntityItemUpdate(entityItem);
 	}
 
