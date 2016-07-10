@@ -22,16 +22,20 @@ public class GuiPrompt extends GuiScreen
 		this.target = target;
 		this.interaction = interaction;
 		
-		switch (interaction)
+		//Can seem to happen if another GUI happens to open (from another mod) at the same time the prompt is supposed to appear.
+		if (sender != null && target != null)
 		{
-		case HAVEBABY:
-			prompt = MCA.getLanguageManager().getString("interactionp.havebaby.prompt", sender.getCommandSenderName());
-			returnInteraction = EnumInteraction.HAVEBABY_ACCEPT;
-			break;
-		case ASKTOMARRY:
-			prompt = MCA.getLanguageManager().getString("interactionp.marry.prompt", sender.getCommandSenderName());
-			returnInteraction = EnumInteraction.ASKTOMARRY_ACCEPT;
-			break;
+			switch (interaction)
+			{
+			case HAVEBABY:
+				prompt = MCA.getLanguageManager().getString("interactionp.havebaby.prompt", sender.getCommandSenderName());
+				returnInteraction = EnumInteraction.HAVEBABY_ACCEPT;
+				break;
+			case ASKTOMARRY:
+				prompt = MCA.getLanguageManager().getString("interactionp.marry.prompt", sender.getCommandSenderName());
+				returnInteraction = EnumInteraction.ASKTOMARRY_ACCEPT;
+				break;
+			}
 		}
 	}
 	
