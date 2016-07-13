@@ -1,5 +1,6 @@
 package mca.packets;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
@@ -437,7 +438,18 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 			
 			else if (interaction == EnumInteraction.TAXES)
 			{
-				List<Entity> villagerList = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, villager, 50);
+				//Horrible fix for an issue with RadixCore. TODO Investigate.
+				List<Entity> entityList = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, villager, 50);
+				List<EntityHuman> villagerList = new ArrayList<EntityHuman>();
+				
+				for (Entity entity : entityList)
+				{
+					if (entity instanceof EntityHuman)
+					{
+						villagerList.add((EntityHuman)entity);
+					}
+				}
+				
 				int percentAverage = getVillageHappinessPercentage(villager, player, villagerList);
 				
 				if (percentAverage != -1)
@@ -493,7 +505,19 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 			else if (interaction == EnumInteraction.CHECKHAPPINESS)
 			{
 				NBTPlayerData data = MCA.getPlayerData(player);
-				List<Entity> villagerList = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, villager, 50);
+				
+				//Horrible fix for an issue with RadixCore. TODO Investigate.
+				List<Entity> entityList = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, villager, 50);
+				List<EntityHuman> villagerList = new ArrayList<EntityHuman>();
+				
+				for (Entity entity : entityList)
+				{
+					if (entity instanceof EntityHuman)
+					{
+						villagerList.add((EntityHuman)entity);
+					}
+				}
+				
 				int happinessPercent = getVillageHappinessPercentage(villager, player, villagerList);
 				int requiredVillagers = 10 - villagerList.size();
 				boolean flag = false; 
@@ -552,7 +576,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 		return childrenCount >= MCA.getConfig().childLimit && MCA.getConfig().childLimit != -1;
 	}
 	
-	private int getVillageHappinessPercentage(EntityHuman villager, EntityPlayer player, List<Entity> villagerList)
+	private int getVillageHappinessPercentage(EntityHuman villager, EntityPlayer player, List<EntityHuman> villagerList)
 	{
 		int villagersInArea = villagerList.size();
 				
