@@ -8,6 +8,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
 import mca.entity.EntityHuman;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import radixcore.packets.AbstractPacket;
 
@@ -44,10 +45,13 @@ public class PacketOpenGUIOnEntity extends AbstractPacket implements IMessage, I
 	@Override
 	public IMessage onMessage(PacketOpenGUIOnEntity packet, MessageContext context)
 	{
-		final EntityPlayer player = this.getPlayer(context);
-		final EntityHuman entity = (EntityHuman) player.worldObj.getEntityByID(packet.entityId);
-		
-		player.openGui(MCA.getInstance(), packet.guiId, player.worldObj, (int) entity.posX, (int) entity.posY, (int) entity.posZ);
+		if (Minecraft.getMinecraft().currentScreen == null)
+		{
+			final EntityPlayer player = this.getPlayer(context);
+			final EntityHuman entity = (EntityHuman) player.worldObj.getEntityByID(packet.entityId);
+			
+			player.openGui(MCA.getInstance(), packet.guiId, player.worldObj, (int) entity.posX, (int) entity.posY, (int) entity.posZ);
+		}
 		
 		return null;
 	}
