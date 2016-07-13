@@ -33,7 +33,6 @@ public class PacketRequestRelatedVillagers extends AbstractPacket implements IMe
 	{
 	}
 
-	@SideOnly(Side.CLIENT)
 	@Override
 	public IMessage onMessage(PacketRequestRelatedVillagers packet, MessageContext context)
 	{
