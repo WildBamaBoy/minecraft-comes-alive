@@ -1261,7 +1261,8 @@ public class EntityHuman extends EntityVillager implements IWatchable, IPermanen
 			}
 		}
 
-		else if (getProfessionEnum() == EnumProfession.Warrior)
+		//Warriors, spouses, and player children all use weapons from the combat AI.
+		else if (getProfessionEnum() == EnumProfession.Warrior || this.isMarriedToAPlayer() || getProfessionEnum() == EnumProfession.Child)
 		{
 			AICombat combat = getAI(AICombat.class);
 			
