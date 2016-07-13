@@ -222,7 +222,7 @@ public class AIFarming extends AbstractToggleAI
 						owner.swingItem();
 						owner.damageHeldItem(2);
 						
-						if (entry.getCategory() != EnumCropCategory.SUGARCANE)
+						if (entry.getCategory() == EnumCropCategory.WHEAT)
 						{
 							BlockHelper.setBlock(owner.worldObj, harvestTargetPoint.iPosX, harvestTargetPoint.iPosY - 1, harvestTargetPoint.iPosZ, Blocks.farmland);
 							BlockHelper.setBlock(owner.worldObj, harvestTargetPoint.iPosX, harvestTargetPoint.iPosY, harvestTargetPoint.iPosZ, entry.getCropBlock());
