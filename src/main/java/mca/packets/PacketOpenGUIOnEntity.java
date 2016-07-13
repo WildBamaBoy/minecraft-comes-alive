@@ -56,18 +56,22 @@ public class PacketOpenGUIOnEntity extends AbstractPacket implements IMessage, I
 	@Override
 	public void processOnGameThread(IMessageHandler message, MessageContext context) 
 	{
-		PacketOpenGUIOnEntity packet = (PacketOpenGUIOnEntity)message;
-		final EntityPlayer player = this.getPlayer(context);
-		final EntityHuman entity = (EntityHuman) player.worldObj.getEntityByID(packet.entityId);
-		
-		if (player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem() instanceof ItemVillagerEditor)
+		//Only open the GUI if the player doesn't have a previous one open.
+		if (Minecraft.getMinecraft().currentScreen == null)
 		{
-			Minecraft.getMinecraft().displayGuiScreen(new GuiVillagerEditor(entity, player));
-		}
-		
-		else
-		{
-			Minecraft.getMinecraft().displayGuiScreen(new GuiInteraction(entity, player));			
+			PacketOpenGUIOnEntity packet = (PacketOpenGUIOnEntity)message;
+			final EntityPlayer player = this.getPlayer(context);
+			final EntityHuman entity = (EntityHuman) player.worldObj.getEntityByID(packet.entityId);
+			
+			if (player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem() instanceof ItemVillagerEditor)
+			{
+				Minecraft.getMinecraft().displayGuiScreen(new GuiVillagerEditor(entity, player));
+			}
+			
+			else
+			{
+				Minecraft.getMinecraft().displayGuiScreen(new GuiInteraction(entity, player));			
+			}
 		}
 	}
 }
