@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import mca.api.CropEntry;
 import mca.api.enums.EnumCropCategory;
@@ -195,11 +197,20 @@ public class AIBuild extends AbstractToggleAI
 
 	private void primeSchematic(String schematicLocation)
 	{
-		schematicName = schematicLocation;
+		SortedMap<Point3D, BlockObj> sortedSchematicMap = SchematicHandler.readSchematic(schematicLocation);
+		TreeMap<Point3D, BlockObj> treeSchematicMap = new TreeMap<Point3D, BlockObj>();
 		blockPoints = new ArrayList<Point3D>();
 		torchPoints = new ArrayList<Point3D>();
-		schematicMap = SchematicHandler.readSchematic(schematicLocation);
+		schematicName = schematicLocation;
 		index = 0;
+		
+		treeSchematicMap.putAll(sortedSchematicMap);
+		schematicMap = treeSchematicMap;
+		
+		if (schematicName.contains("mine")) //Reverse mine schematics for top down building.
+		{
+			schematicMap = treeSchematicMap.descendingMap();
+		}
 
 		int compareY = -25;
 
