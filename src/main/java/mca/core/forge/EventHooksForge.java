@@ -39,6 +39,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
@@ -242,6 +243,12 @@ public class EventHooksForge
 	@SubscribeEvent
 	public void onLivingAttack(LivingAttackEvent event)
 	{
+		//Not interested in fake players due to the inability to generate player data for them.
+		if (event.entityLiving instanceof FakePlayer)
+		{
+			return;
+		}
+		
 		//Handle warrior triggers on player taking damage.		
 		if (event.getEntityLiving() instanceof EntityPlayer && event.getSource().getEntity() instanceof EntityLivingBase)
 		{
