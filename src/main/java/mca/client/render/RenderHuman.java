@@ -78,6 +78,11 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 		GL11.glScalef(scale, scale + entity.getHeight(), scale);
 		GL11.glScalef(scale + entity.getGirth(), scale, scale + entity.getGirth());
 
+		if (sleepAI.getIsInBed())
+		{
+			renderHumanSleeping(entity, partialTickTime);
+		}
+		
 		if (entityLivingBase.getRidingEntity() != null)
 		{
 			if (entityLivingBase.getRidingEntity() instanceof EntityHorse)
@@ -267,6 +272,44 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 		return !(Minecraft.getMinecraft().currentScreen instanceof GuiInteraction) && distance < 5.0D && isPlayerLookingAt && Minecraft.isGuiEnabled() && entityRendering != Minecraft.getMinecraft().thePlayer && !entityRendering.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) && !entityRendering.isBeingRidden();
 	}
 
+	protected void renderHumanSleeping(EntityHuman entity, double partialTickTime)
+	{
+		final AISleep sleepAI = entity.getAI(AISleep.class);
+		final int meta = sleepAI.getBedMeta();
+
+		if (meta == 0)
+		{
+			entity.rotationYawHead = 180.0F;
+			GL11.glTranslated(-0.5D, 0.0D, 0.0D);
+			GL11.glRotated(90, -1, 0, 0);
+			GL11.glTranslated(0.0D, 0.0D, -0.75D);
+		}
+
+		else if (meta == 3)
+		{
+			entity.rotationYawHead = 90.0F;
+			GL11.glTranslated(0.5D, 0.0D, 0.0D);
+			GL11.glRotated(90, -1, 0, 0);
+			GL11.glTranslated(0.0D, 0.0D, -0.75D);
+		}
+
+		else if (meta == 2)
+		{
+			entity.rotationYawHead = 0.0F;
+			GL11.glTranslated(0.5D, 0.0D, -1.0D);
+			GL11.glRotated(90, -1, 0, 0);
+			GL11.glTranslated(0.0D, 0.0D, -0.75D);
+		}
+
+		else if (meta == 1)
+		{
+			entity.rotationYawHead = -90.0F;
+			GL11.glTranslated(-0.5D, 0.0D, -1.0D);
+			GL11.glRotated(90, -1, 0, 0);
+			GL11.glTranslated(0.0D, 0.0D, -0.75D);
+		}
+	}
+	
 	@Override
 	public void doRender(EntityHuman entity, double x, double y, double z, float entityYaw, float partialTicks)
 	{
