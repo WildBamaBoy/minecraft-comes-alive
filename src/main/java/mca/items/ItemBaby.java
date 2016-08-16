@@ -202,7 +202,7 @@ public class ItemBaby extends Item
 
 	private void updateBabyGrowth(ItemStack itemStack)
 	{
-		if (itemStack.hasTagCompound() && FMLCommonHandler.instance().getMinecraftServerInstance().getTickCounter() % Time.MINUTE == 0)
+		if (itemStack != null && itemStack.hasTagCompound() && FMLCommonHandler.instance().getMinecraftServerInstance().getTickCounter() % Time.MINUTE == 0)
 		{
 			int age = itemStack.getTagCompound().getInteger("age");
 			age++;
@@ -212,7 +212,7 @@ public class ItemBaby extends Item
 
 	private boolean isReadyToGrowUp(ItemStack itemStack)
 	{
-		if (itemStack.hasTagCompound())
+		if (itemStack != null && itemStack.hasTagCompound())
 		{
 			final int ageInMinutes = itemStack.getTagCompound().getInteger("age");
 			return ageInMinutes >= MCA.getConfig().babyGrowUpTime;
