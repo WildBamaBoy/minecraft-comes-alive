@@ -194,7 +194,7 @@ public class ItemBaby extends Item
 
 	private void updateBabyGrowth(ItemStack itemStack)
 	{
-		if (itemStack.hasTagCompound())
+		if (itemStack != null && itemStack.hasTagCompound())
 		{
 			int age = itemStack.stackTagCompound.getInteger("age");
 			age++;
@@ -204,7 +204,7 @@ public class ItemBaby extends Item
 
 	private boolean isReadyToGrowUp(ItemStack itemStack)
 	{
-		if (itemStack.hasTagCompound())
+		if (itemStack != null && itemStack.hasTagCompound())
 		{
 			final float ageInMinutes = (float)itemStack.stackTagCompound.getInteger("age") / Time.MINUTE;
 			return ageInMinutes >= MCA.getConfig().babyGrowUpTime;
