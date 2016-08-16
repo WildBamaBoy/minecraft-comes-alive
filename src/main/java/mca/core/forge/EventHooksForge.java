@@ -244,7 +244,7 @@ public class EventHooksForge
 	public void onLivingAttack(LivingAttackEvent event)
 	{
 		//Not interested in fake players due to the inability to generate player data for them.
-		if (event.entityLiving instanceof FakePlayer)
+		if (event.getEntityLiving() instanceof FakePlayer)
 		{
 			return;
 		}
