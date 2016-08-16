@@ -37,6 +37,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
@@ -224,6 +225,12 @@ public class EventHooksForge
 	@SubscribeEvent
 	public void onLivingAttack(LivingAttackEvent event)
 	{
+		//Not interested in fake players due to the inability to generate player data for them.
+		if (event.entityLiving instanceof FakePlayer)
+		{
+			return;
+		}
+		
 		//Handle warrior triggers on player taking damage.		
 		if (event.entityLiving instanceof EntityPlayer && event.source.getEntity() instanceof EntityLivingBase)
 		{
