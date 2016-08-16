@@ -69,8 +69,8 @@ public class AIMining extends AbstractToggleAI
 			{
 				activityInterval = MINE_INTERVAL;
 
-				//If we're not already building and a stone block with a meta of 11 isn't found, begin building the mine.
-				if (!isBuildingMine && RadixLogic.getNearbyBlocks(owner, Blocks.OAK_FENCE_GATE, 8).size() == 0)
+				//If we're not already building and oak fence isn't found, begin building the mine.
+				if (!isBuildingMine && RadixLogic.getNearbyBlocks(owner, Blocks.OAK_FENCE, 8).size() == 0)
 				{
 					final int y = RadixLogic.getSpawnSafeTopLevel(owner.worldObj, (int) owner.posX, (int) owner.posZ);
 					final Block groundBlock = BlockHelper.getBlock(owner.worldObj, (int)owner.posX, y - 1, (int)owner.posZ);
@@ -198,7 +198,6 @@ public class AIMining extends AbstractToggleAI
 	public void reset() 
 	{
 		isAIActive.setValue(false);
-		new Throwable().printStackTrace();
 	}
 
 	@Override

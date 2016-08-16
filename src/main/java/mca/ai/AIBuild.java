@@ -94,7 +94,15 @@ public class AIBuild extends AbstractToggleAI
 
 						else
 						{
-							BlockHelper.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, blockObj.getBlock());
+							if (blockObj.getBlock() == Blocks.OAK_FENCE_GATE && this.schematicName.contains("mine"))
+							{
+								BlockHelper.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, Blocks.OAK_FENCE_GATE.getStateFromMeta(blockObj.getMeta()));
+							}
+							
+							else
+							{
+								BlockHelper.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, blockObj.getBlock());
+							}
 						}
 					}
 				}
