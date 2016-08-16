@@ -195,6 +195,11 @@ public class AIProgressStory extends AbstractAI
 	{
 		final EntityHuman mate = owner.getVillagerSpouse();
 
+		if (mate == null) //Not loaded on the server
+		{
+			return;
+		}
+		
 		babyAge++;
 
 		if (babyAge <= MCA.getConfig().babyGrowUpTime)
