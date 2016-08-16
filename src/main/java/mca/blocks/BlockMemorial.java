@@ -1,5 +1,8 @@
 package mca.blocks;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import mca.core.minecraft.ModItems;
 import mca.tile.TileMemorial;
 import net.minecraft.block.BlockContainer;
@@ -120,4 +123,11 @@ public class BlockMemorial extends BlockContainer
 	{
 		return new TileMemorial();
 	}
+
+	@Override
+	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) 
+	{
+		//Empty drops, handled by block broken. 
+		return new ArrayList<ItemStack>();
+	}	
 }
