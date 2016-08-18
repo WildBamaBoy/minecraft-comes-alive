@@ -161,7 +161,7 @@ public class ItemBaby extends Item
 	public boolean onEntityItemUpdate(EntityItem entityItem) 
 	{
 		//Happens on servers for some reason.
-		if (entityItem.getEntityItem() != null)
+		if (entityItem.getEntityItem() != null && !entityItem.worldObj.isRemote)
 		{
 			updateBabyGrowth(entityItem.getEntityItem());
 		}
