@@ -31,7 +31,7 @@ public class AIRegenerate extends AbstractAI
 	{
 		if (timeUntilNextRegen <= 0)
 		{
-			int maxHealth = owner.getProfessionGroup() == EnumProfessionGroup.Guard ? MCA.getConfig().guardMaxHealth : MCA.getConfig().villagerMaxHealth;
+			float maxHealth = owner.getMaxHealth();
 			if (owner.getHealth() < maxHealth && owner.getHealth() > 0.0F)
 			{
 				owner.setHealth(owner.getHealth() + 1);
