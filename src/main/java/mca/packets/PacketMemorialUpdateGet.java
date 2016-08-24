@@ -62,7 +62,9 @@ public class PacketMemorialUpdateGet extends AbstractPacket implements IMessage,
 		try
 		{
 			final TileMemorial memorial = (TileMemorial)BlockHelper.getTileEntity(world, packet.x, packet.y, packet.z);
-			MCA.getPacketHandler().sendPacketToPlayer(new PacketMemorialUpdateSet(memorial), (EntityPlayerMP) player);
+			if (memorial != null) {
+			    MCA.getPacketHandler().sendPacketToPlayer(new PacketMemorialUpdateSet(memorial), (EntityPlayerMP) player);
+			}
 		}
 		
 		catch (ClassCastException e)
