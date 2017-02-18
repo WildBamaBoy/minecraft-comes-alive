@@ -1,6 +1,5 @@
 package mca.packets;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
@@ -13,7 +12,7 @@ import mca.core.minecraft.ModAchievements;
 import mca.core.minecraft.ModItems;
 import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumDialogueType;
 import mca.enums.EnumInteraction;
 import mca.enums.EnumPersonality;
@@ -35,17 +34,16 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import radixcore.constant.Font.Color;
-import radixcore.network.ByteBufIO;
-import radixcore.packets.AbstractPacket;
-import radixcore.util.BlockHelper;
-import radixcore.util.RadixLogic;
-import radixcore.util.RadixMath;
+import radixcore.math.Point3D;
+import radixcore.modules.RadixBlocks;
+import radixcore.modules.RadixLogic;
+import radixcore.modules.RadixMath;
+import radixcore.modules.RadixNettyIO;
+import radixcore.modules.net.AbstractPacket;
 
-public class PacketInteract extends AbstractPacket implements IMessage, IMessageHandler<PacketInteract, IMessage>
+public class PacketInteract extends AbstractPacket<PacketInteract>
 {
 	private int buttonId;
 	private int entityId;
@@ -80,7 +78,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 
 		for (int i = 0; i < this.numAdditionalData; i++)
 		{
-			additionalData[i] = ByteBufIO.readObject(byteBuf);
+			additionalData[i] = RadixNettyIO.readObject(byteBuf);
 		}
 	}
 
@@ -95,29 +93,21 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 		{
 			for (Object obj : additionalData)
 			{
-				ByteBufIO.writeObject(byteBuf, obj);
+				RadixNettyIO.writeObject(byteBuf, obj);
 			}
 		}
 	}
 
 	@Override
-	public IMessage onMessage(PacketInteract packet, MessageContext context)
+	public void processOnGameThread(PacketInteract packet, MessageContext context) 
 	{
-		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
-		return null;
-	}
-
-	@Override
-	public void processOnGameThread(IMessageHandler message, MessageContext context) 
-	{
-		PacketInteract packet = (PacketInteract)message;
-		EntityHuman villager = null;
+		EntityVillagerMCA villager = null;
 		EntityPlayer player = null;
 
 		for (WorldServer world : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers)
 		{
 			player = getPlayer(context);
-			villager = (EntityHuman) world.getEntityByID(packet.entityId);
+			villager = (EntityVillagerMCA) world.getEntityByID(packet.entityId);
 
 			if (player != null && villager != null)
 			{
@@ -146,12 +136,12 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 
 					if (!Utilities.isPointClear(villager.worldObj, iPosX, iPosY, iPosZ))
 					{
-						block = BlockHelper.getBlock(villager.worldObj, iPosX, iPosY, iPosZ);
+						block = RadixBlocks.getBlock(villager.worldObj, iPosX, iPosY, iPosZ);
 					}
 
 					else if (!Utilities.isPointClear(villager.worldObj, iPosX, iPosY + 1, iPosZ))
 					{
-						block = BlockHelper.getBlock(villager.worldObj, iPosX, iPosY + 1, iPosZ);
+						block = RadixBlocks.getBlock(villager.worldObj, iPosX, iPosY + 1, iPosZ);
 					}
 
 					if (block != null)
@@ -287,7 +277,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 
 				else
 				{
-					EntityHorse horse = (EntityHorse)RadixLogic.getNearestEntityOfTypeWithinDistance(EntityHorse.class, villager, 5);
+					EntityHorse horse = RadixLogic.getClosestEntity(Point3D.fromEntityPosition(villager), villager.worldObj, 5, EntityHorse.class, null);
 
 					if (horse != null)
 					{
@@ -317,7 +307,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 				{
 					villager.say("interaction.divorce.priest.success", player);
 
-					EntityHuman spouse = MCA.getHumanByPermanentId(data.getSpousePermanentId());
+					EntityVillagerMCA spouse = MCA.getHumanByPermanentId(data.getSpousePermanentId());
 
 					if (spouse != null)
 					{
@@ -350,14 +340,9 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 					{
 						ItemStack stack = player.inventory.getStackInSlot(i);
 
-						if (stack != null && stack.getItem() instanceof ItemBaby)
+						if (stack != null && stack.getItem() instanceof ItemBaby && stack.getTagCompound().getString("owner").equals(player.getName()))
 						{
-							ItemBaby baby = (ItemBaby) stack.getItem();
-
-							if (stack.getTagCompound().getString("owner").equals(player.getName()))
-							{
-								player.inventory.setInventorySlotContents(i, null);
-							}
+							player.inventory.setInventorySlotContents(i, null);
 						}
 					}
 				}
@@ -464,18 +449,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 			
 			else if (interaction == EnumInteraction.TAXES)
 			{
-				//Horrible fix for an issue with RadixCore. TODO Investigate.
-				List<Entity> entityList = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, villager, 50);
-				List<EntityHuman> villagerList = new ArrayList<EntityHuman>();
-				
-				for (Entity entity : entityList)
-				{
-					if (entity instanceof EntityHuman)
-					{
-						villagerList.add((EntityHuman)entity);
-					}
-				}
-				
+				List<EntityVillagerMCA> villagerList = RadixLogic.getEntitiesWithinDistance(EntityVillagerMCA.class, villager.worldObj, Point3D.fromEntityPosition(villager), 50);
 				int percentAverage = getVillageHappinessPercentage(villager, player, villagerList);
 				
 				if (percentAverage != -1)
@@ -508,7 +482,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 					{
 						if (RadixLogic.getBooleanWithProbability(50))
 						{
-							EntityHuman human = (EntityHuman)entity;
+							EntityVillagerMCA human = (EntityVillagerMCA)entity;
 							PlayerMemory memory = human.getPlayerMemory(player);
 							memory.setHearts(memory.getHearts() - RadixMath.getNumberInRange(3, 8));
 						}
@@ -530,20 +504,9 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 
 			else if (interaction == EnumInteraction.CHECKHAPPINESS)
 			{
-				NBTPlayerData data = MCA.getPlayerData(player);
-				
-				//Horrible fix for an issue with RadixCore. TODO Investigate.
-				List<Entity> entityList = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, villager, 50);
-				List<EntityHuman> villagerList = new ArrayList<EntityHuman>();
-				
-				for (Entity entity : entityList)
-				{
-					if (entity instanceof EntityHuman)
-					{
-						villagerList.add((EntityHuman)entity);
-					}
-				}
-				
+				NBTPlayerData data = MCA.getPlayerData(player);				
+				List<EntityVillagerMCA> villagerList = RadixLogic.getEntitiesWithinDistance(EntityVillagerMCA.class, villager.worldObj, Point3D.fromEntityPosition(villager), 50);
+
 				int happinessPercent = getVillageHappinessPercentage(villager, player, villagerList);
 				int requiredVillagers = 10 - villagerList.size();
 				boolean flag = false; 
@@ -586,9 +549,9 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 		
 		for (Object obj : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers[0].loadedEntityList)
 		{
-			if (obj instanceof EntityHuman)
+			if (obj instanceof EntityVillagerMCA)
 			{
-				EntityHuman human = (EntityHuman)obj;
+				EntityVillagerMCA human = (EntityVillagerMCA)obj;
 
 				if (human.isPlayerAParent(player))
 				{
@@ -600,7 +563,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 		return childrenCount >= MCA.getConfig().childLimit && MCA.getConfig().childLimit != -1;
 	}
 	
-	private int getVillageHappinessPercentage(EntityHuman villager, EntityPlayer player, List<EntityHuman> villagerList)
+	private int getVillageHappinessPercentage(EntityVillagerMCA villager, EntityPlayer player, List<EntityVillagerMCA> villagerList)
 	{
 		int villagersInArea = villagerList.size();
 				
@@ -613,7 +576,7 @@ public class PacketInteract extends AbstractPacket implements IMessage, IMessage
 			
 			for (Entity entity : villagerList)
 			{
-				EntityHuman human = (EntityHuman)entity;
+				EntityVillagerMCA human = (EntityVillagerMCA)entity;
 				PlayerMemory memory = human.getPlayerMemory(player);
 				totalHearts += MathHelper.clamp_int(memory.getHearts(), -100, 100);
 			}

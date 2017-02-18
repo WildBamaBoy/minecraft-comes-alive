@@ -1,14 +1,14 @@
 package mca.ai;
 
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.nbt.NBTTagCompound;
 
 public abstract class AbstractAI 
 {
 	/** The human performing the tasks of this AI. */
-	protected EntityHuman owner;
+	protected EntityVillagerMCA owner;
 
-	public AbstractAI(EntityHuman owner)
+	public AbstractAI(EntityVillagerMCA owner)
 	{
 		this.owner = owner;
 	}

@@ -13,11 +13,11 @@ import mca.packets.PacketInteractWithPlayerS;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import radixcore.client.render.RenderHelper;
 
 @SideOnly(Side.CLIENT)
 public class GuiPlayerMenu extends GuiScreen

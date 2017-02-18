@@ -11,10 +11,10 @@ import mca.data.NBTPlayerData;
 import mca.data.PlayerData;
 import mca.data.PlayerDataCollection;
 import mca.entity.EntityGrimReaper;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumBabyState;
 import mca.enums.EnumProfession;
-import mca.enums.EnumProfessionGroup;
+import mca.enums.EnumProfessionSkinGroup;
 import mca.items.ItemGemCutter;
 import mca.packets.PacketPlayerDataLogin;
 import mca.packets.PacketSpawnLightning;
@@ -46,10 +46,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.constant.Time;
 import radixcore.math.Point3D;
-import radixcore.util.BlockHelper;
-import radixcore.util.RadixLogic;
-import radixcore.util.RadixMath;
-import radixcore.util.SchematicHandler;
+import radixcore.modules.RadixBlocks;
+import radixcore.modules.RadixLogic;
+import radixcore.modules.RadixMath;
 
 public class EventHooksFML 
 {
@@ -272,15 +271,15 @@ public class EventHooksFML
 		if (serverTickCounter <= 0 && MCA.getConfig().guardSpawnRate > 0)
 		{
 			//Build a list of all humans on the server.
-			List<EntityHuman> humans = new ArrayList<EntityHuman>();
+			List<EntityVillagerMCA> humans = new ArrayList<EntityVillagerMCA>();
 
 			for (World world : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers)
 			{
 				for (Object obj : world.loadedEntityList)
 				{
-					if (obj instanceof EntityHuman)
+					if (obj instanceof EntityVillagerMCA)
 					{
-						humans.add((EntityHuman)obj);
+						humans.add((EntityVillagerMCA)obj);
 					}
 				}
 			}
@@ -290,17 +289,17 @@ public class EventHooksFML
 				//Pick three humans at random to perform guard spawning around.
 				for (int i = 0; i < 3; i++)
 				{
-					EntityHuman human = humans.get(RadixMath.getNumberInRange(0, humans.size() - 1));
+					EntityVillagerMCA human = humans.get(RadixMath.getNumberInRange(0, humans.size() - 1));
 
 					//Don't count guards in the total count of villagers.
-					List<Entity> villagersAroundMe = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, human, 50);
+					List<Entity> villagersAroundMe = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityVillagerMCA.class, human, 50);
 					int numberOfGuardsAroundMe = getNumberOfGuardsFromEntityList(villagersAroundMe);
 					int numberOfVillagersAroundMe = villagersAroundMe.size() - numberOfGuardsAroundMe; 
 					int neededNumberOfGuards = numberOfVillagersAroundMe / MCA.getConfig().guardSpawnRate;
 					
 					if (numberOfGuardsAroundMe < neededNumberOfGuards)
 					{
-						final EntityHuman guard = new EntityHuman(human.worldObj, RadixLogic.getBooleanWithProbability(50), EnumProfession.Guard.getId(), false);
+						final EntityVillagerMCA guard = new EntityVillagerMCA(human.worldObj, RadixLogic.getBooleanWithProbability(50), EnumProfession.Guard.getId(), false);
 						final Vec3d pos = RandomPositionGenerator.findRandomTarget(human, 10, 1);
 
 						if (pos != null) //Ensure a random position was actually found.
@@ -308,7 +307,7 @@ public class EventHooksFML
 							final Point3D posAsPoint = new Point3D(pos.xCoord, pos.yCoord, pos.zCoord);
 
 							//Check that we can see the sky, no guards in caves or stuck in blocks.
-							if (BlockHelper.canBlockSeeTheSky(human.worldObj, posAsPoint.iPosX, (int)human.posY, posAsPoint.iPosZ))
+							if (RadixBlocks.canBlockSeeTheSky(human.worldObj, posAsPoint.iPosX, (int)human.posY, posAsPoint.iPosZ))
 							{
 								guard.setPosition(pos.xCoord, (int)human.posY, pos.zCoord);
 								human.worldObj.spawnEntityInWorld(guard);
@@ -337,12 +336,12 @@ public class EventHooksFML
 					
 					for (Entity entity : RadixLogic.getAllEntitiesWithinDistanceOfCoordinates(world, posX, posY, posZ, village.getVillageRadius()))
 					{
-						if (entity instanceof EntityHuman)
+						if (entity instanceof EntityVillagerMCA)
 						{
-							EntityHuman human = (EntityHuman) entity;
+							EntityVillagerMCA human = (EntityVillagerMCA) entity;
 							
 							//Count everyone except guards
-							if (human.getProfessionGroup() != EnumProfessionGroup.Guard)
+							if (human.getProfessionSkinGroup() != EnumProfessionSkinGroup.Guard)
 							{
 								population++;
 							}
@@ -457,11 +456,11 @@ public class EventHooksFML
 		
 		for (Entity entity : entityList)
 		{
-			if (entity instanceof EntityHuman)
+			if (entity instanceof EntityVillagerMCA)
 			{
-				EntityHuman human = (EntityHuman)entity;
+				EntityVillagerMCA human = (EntityVillagerMCA)entity;
 				
-				if (human.getProfessionGroup() == EnumProfessionGroup.Guard)
+				if (human.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard)
 				{
 					returnValue++;
 				}

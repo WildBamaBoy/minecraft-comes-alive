@@ -5,14 +5,12 @@ import mca.core.MCA;
 import mca.tile.TileMemorial;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import radixcore.packets.AbstractPacket;
-import radixcore.util.BlockHelper;
+import radixcore.modules.net.AbstractPacket;
 
-public class PacketMemorialUpdateGet extends AbstractPacket implements IMessage, IMessageHandler<PacketMemorialUpdateGet, IMessage>
+public class PacketMemorialUpdateGet extends AbstractPacket<PacketMemorialUpdateGet>
 {
 	private int x;
 	private int y;
@@ -46,23 +44,17 @@ public class PacketMemorialUpdateGet extends AbstractPacket implements IMessage,
 	}
 
 	@Override
-	public IMessage onMessage(PacketMemorialUpdateGet packet, MessageContext context)
+	public void processOnGameThread(PacketMemorialUpdateGet packet, MessageContext context)
 	{
-		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
-		return null;
-	}
-
-	@Override
-	public void processOnGameThread(IMessageHandler message, MessageContext context)
-	{
-		PacketMemorialUpdateGet packet = (PacketMemorialUpdateGet)message;
 		final EntityPlayer player = this.getPlayer(context);
 		final World world = player.worldObj;
 		
 		try
 		{
-			final TileMemorial memorial = (TileMemorial)BlockHelper.getTileEntity(world, packet.x, packet.y, packet.z);
-			if (memorial != null) {
+			final TileMemorial memorial = (TileMemorial)world.getTileEntity(new BlockPos(packet.x, packet.y, packet.z));
+			
+			if (memorial != null) 
+			{
 			    MCA.getPacketHandler().sendPacketToPlayer(new PacketMemorialUpdateSet(memorial), (EntityPlayerMP) player);
 			}
 		}

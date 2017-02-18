@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import mca.ai.AISleep;
 import mca.core.MCA;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumPersonality;
 import mca.enums.EnumProfession;
 import mca.enums.EnumSleepingState;
@@ -23,8 +23,8 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.constant.Font.Color;
-import radixcore.data.DataWatcherEx;
-import radixcore.util.NumberCycleList;
+import radixcore.datastructures.CircularIntList;
+import radixcore.modules.datawatcher.DataWatcherEx;
 
 /**
  * Defines the GUI used to edit villager information.
@@ -32,7 +32,7 @@ import radixcore.util.NumberCycleList;
 @SideOnly(Side.CLIENT)
 public class GuiVillagerEditor extends GuiScreen
 {
-	private final EntityHuman villager;
+	private final EntityVillagerMCA villager;
 	private final EntityPlayer player;
 
 	private GuiButton familyTreeButton;
@@ -72,11 +72,11 @@ public class GuiVillagerEditor extends GuiScreen
 	private int moodListIndex = 0;
 	private int currentPage = 1;
 
-	private NumberCycleList textures;
-	private NumberCycleList jobs;
-	private NumberCycleList personalities;
+	private CircularIntList textures;
+	private CircularIntList jobs;
+	private CircularIntList personalities;
 	
-	public GuiVillagerEditor(EntityHuman EntityHuman, EntityPlayer player)
+	public GuiVillagerEditor(EntityVillagerMCA EntityHuman, EntityPlayer player)
 	{
 		super();
 
@@ -86,9 +86,9 @@ public class GuiVillagerEditor extends GuiScreen
 		DataWatcherEx.allowClientSideModification = true;
 		villager.getAI(AISleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
 		
-		jobs = NumberCycleList.fromList(EnumProfession.getListOfIds());
-		personalities = NumberCycleList.fromList(EnumPersonality.getListOfIds());
-		textures = villager.getProfessionGroup().getListOfSkinIDs(villager.getIsMale());
+		jobs = CircularIntList.fromList(EnumProfession.getListOfIds());
+		personalities = CircularIntList.fromList(EnumPersonality.getListOfIds());
+		textures = villager.getProfessionSkinGroup().getListOfSkinIDs(villager.getIsMale());
 	}
 
 	@Override
@@ -200,7 +200,7 @@ public class GuiVillagerEditor extends GuiScreen
 		else if (guibutton == shiftProfessionUpButton)
 		{
 			villager.setProfessionId(jobs.next());
-			textures = villager.getProfessionGroup().getListOfSkinIDs(villager.getIsMale());
+			textures = villager.getProfessionSkinGroup().getListOfSkinIDs(villager.getIsMale());
 			villager.setHeadTexture(villager.getRandomSkin());
 			villager.setClothesTexture(villager.getHeadTexture());
 			drawEditorGuiPage1();
@@ -209,7 +209,7 @@ public class GuiVillagerEditor extends GuiScreen
 		else if (guibutton == shiftProfessionDownButton)
 		{
 			villager.setProfessionId(jobs.previous());
-			textures = villager.getProfessionGroup().getListOfSkinIDs(villager.getIsMale());
+			textures = villager.getProfessionSkinGroup().getListOfSkinIDs(villager.getIsMale());
 			villager.setHeadTexture(villager.getRandomSkin());
 			villager.setClothesTexture(villager.getHeadTexture());
 			drawEditorGuiPage1();

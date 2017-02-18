@@ -7,7 +7,7 @@ import mca.core.minecraft.ModAchievements;
 import mca.core.minecraft.ModItems;
 import mca.data.NBTPlayerData;
 import mca.data.WatcherIDsHuman;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.packets.PacketOpenBabyNameGUI;
 import mca.util.Utilities;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,7 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.Achievement;
 import net.minecraft.util.EnumParticleTypes;
 import radixcore.constant.Time;
-import radixcore.data.WatchedBoolean;
+import radixcore.modules.datawatcher.WatchedBoolean;
 
 public class AIProcreate extends AbstractAI
 {
@@ -27,7 +27,7 @@ public class AIProcreate extends AbstractAI
 	private boolean hasHadTwins;
 	private int procreateTicks;
 	
-	public AIProcreate(EntityHuman owner) 
+	public AIProcreate(EntityVillagerMCA owner) 
 	{
 		super(owner);
 		

@@ -8,7 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import radixcore.util.BlockHelper;
+import radixcore.modules.RadixBlocks;
 
 public class EventHooksForgeClient 
 {
@@ -17,7 +17,7 @@ public class EventHooksForgeClient
 	{
 		if (event.getEntityPlayer().worldObj.isRemote && Minecraft.getMinecraft().isIntegratedServerRunning())
 		{
-			Block block = BlockHelper.getBlock(event.getWorld(), event.getPos().getX(), event.getPos().getY(), event.getPos().getZ());
+			Block block = RadixBlocks.getBlock(event.getWorld(), event.getPos().getX(), event.getPos().getY(), event.getPos().getZ());
 
 			if (block == Blocks.ENCHANTING_TABLE)
 			{

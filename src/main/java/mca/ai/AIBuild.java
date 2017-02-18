@@ -10,17 +10,16 @@ import java.util.TreeMap;
 import mca.api.CropEntry;
 import mca.api.enums.EnumCropCategory;
 import mca.data.WatcherIDsHuman;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumMovementState;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
-import radixcore.data.BlockObj;
-import radixcore.data.WatchedBoolean;
 import radixcore.math.Point3D;
-import radixcore.util.BlockHelper;
-import radixcore.util.RadixLogic;
-import radixcore.util.SchematicHandler;
+import radixcore.modules.RadixBlocks;
+import radixcore.modules.RadixLogic;
+import radixcore.modules.datawatcher.WatchedBoolean;
+import radixcore.modules.schematics.BlockObj;
 
 public class AIBuild extends AbstractToggleAI
 {
@@ -37,7 +36,7 @@ public class AIBuild extends AbstractToggleAI
 	private int index = -1;
 	private Block groundBlock;
 
-	public AIBuild(EntityHuman owner) 
+	public AIBuild(EntityVillagerMCA owner) 
 	{
 		super(owner);
 		origin = Point3D.ZERO;
@@ -74,7 +73,7 @@ public class AIBuild extends AbstractToggleAI
 						for (Point3D point : torchPoints)
 						{
 							final BlockObj blockObj = schematicMap.get(point);
-							BlockHelper.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, blockObj.getBlock());
+							RadixBlocks.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, blockObj.getBlock());
 						}
 
 						owner.setMovementState(EnumMovementState.MOVE);
@@ -91,19 +90,19 @@ public class AIBuild extends AbstractToggleAI
 
 						if (blockObj.getBlock() == Blocks.GRASS && groundBlock != null)
 						{
-							BlockHelper.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, groundBlock);							
+							RadixBlocks.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, groundBlock);							
 						}
 
 						else
 						{
 							if (blockObj.getBlock() == Blocks.OAK_FENCE_GATE && this.schematicName.contains("mine"))
 							{
-								BlockHelper.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, Blocks.OAK_FENCE_GATE.getStateFromMeta(blockObj.getMeta()));
+								RadixBlocks.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, Blocks.OAK_FENCE_GATE.getStateFromMeta(blockObj.getMeta()));
 							}
 							
 							else
 							{
-								BlockHelper.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, blockObj.getBlock());
+								RadixBlocks.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, blockObj.getBlock());
 							}
 						}
 					}
@@ -217,11 +216,11 @@ public class AIBuild extends AbstractToggleAI
 		for (final Map.Entry<Point3D, BlockObj> entry: schematicMap.entrySet())
 		{
 			final Point3D point = entry.getKey();
-			Block blockAtPoint = BlockHelper.getBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ);
+			Block blockAtPoint = RadixBlocks.getBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ);
 			
 			if (blockAtPoint == Blocks.TALLGRASS || blockAtPoint == Blocks.RED_FLOWER || blockAtPoint == Blocks.DOUBLE_PLANT || blockAtPoint == Blocks.YELLOW_FLOWER)
 			{
-				BlockHelper.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, Blocks.AIR);
+				RadixBlocks.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, Blocks.AIR);
 			}
 			
 			compareY = -25;

@@ -10,7 +10,7 @@ import mca.core.minecraft.ModBlocks;
 import mca.core.minecraft.ModItems;
 import mca.entity.EntityChoreFishHook;
 import mca.entity.EntityGrimReaper;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.tile.TileMemorial;
 import mca.tile.TileTombstone;
 import net.minecraft.client.Minecraft;
@@ -25,7 +25,7 @@ public class ClientProxy extends ServerProxy
 	@Override
 	public void registerRenderers()
 	{
-		RenderingRegistry.registerEntityRenderingHandler(EntityHuman.class, new RenderHuman());
+		RenderingRegistry.registerEntityRenderingHandler(EntityVillagerMCA.class, new RenderHuman());
 		RenderingRegistry.registerEntityRenderingHandler(EntityHorse.class, new RenderHorse(Minecraft.getMinecraft().getRenderManager(), new ModelHorseExtension(), 0.5F));
 		RenderingRegistry.registerEntityRenderingHandler(EntityChoreFishHook.class, new RenderFishHook(Minecraft.getMinecraft().getRenderManager()));
 		RenderingRegistry.registerEntityRenderingHandler(EntityGrimReaper.class, new RenderGrimReaper());

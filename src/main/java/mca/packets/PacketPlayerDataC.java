@@ -3,14 +3,11 @@ package mca.packets;
 import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
 import mca.data.NBTPlayerData;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import radixcore.network.ByteBufIO;
-import radixcore.packets.AbstractPacket;
+import radixcore.modules.RadixNettyIO;
+import radixcore.modules.net.AbstractPacket;
 
-/* Player data change received from the server. */
-public class PacketPlayerDataC extends AbstractPacket implements IMessage, IMessageHandler<PacketPlayerDataC, IMessage>
+public class PacketPlayerDataC extends AbstractPacket<PacketPlayerDataC>
 {
 	private NBTPlayerData.FieldUpdateObj fieldUpdateObj;
 	
@@ -28,7 +25,7 @@ public class PacketPlayerDataC extends AbstractPacket implements IMessage, IMess
 	{
 		int fieldId = byteBuf.readInt();
 		int typeId = byteBuf.readInt();
-		Object value = ByteBufIO.readObject(byteBuf);
+		Object value = RadixNettyIO.readObject(byteBuf);
 		
 		fieldUpdateObj = NBTPlayerData.FieldUpdateObj.get(NBTPlayerData.FieldID.fromId(fieldId), NBTPlayerData.TypeID.fromId(typeId), value);
 	}
@@ -38,20 +35,12 @@ public class PacketPlayerDataC extends AbstractPacket implements IMessage, IMess
 	{
 		byteBuf.writeInt(fieldUpdateObj.fieldId.getId());
 		byteBuf.writeInt(fieldUpdateObj.typeId.getId());
-		ByteBufIO.writeObject(byteBuf, fieldUpdateObj.value);
+		RadixNettyIO.writeObject(byteBuf, fieldUpdateObj.value);
 	}
 
 	@Override
-	public IMessage onMessage(PacketPlayerDataC packet, MessageContext context)
+	public void processOnGameThread(PacketPlayerDataC packet, MessageContext context) 
 	{
-		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
-		return null;
-	}
-
-	@Override
-	public void processOnGameThread(IMessageHandler message, MessageContext context) 
-	{
-		PacketPlayerDataC packet = (PacketPlayerDataC) message;
 		NBTPlayerData data = MCA.getPlayerData(this.getPlayerClient());
 		data.setByFieldUpdateObj(packet.fieldUpdateObj);
 	}

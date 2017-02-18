@@ -2,7 +2,7 @@ package mca.enums;
 
 import mca.ai.AIMood;
 import mca.data.PlayerMemory;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 
 public enum EnumInteraction 
 {
@@ -157,7 +157,7 @@ public enum EnumInteraction
 		return returnAmount;
 	}
 	
-	public int getSuccessChance(EntityHuman villager, PlayerMemory memory)
+	public int getSuccessChance(EntityVillagerMCA villager, PlayerMemory memory)
 	{
 		return getBaseChance() - memory.getInteractionFatigue() * 6
 				+ villager.getPersonality().getSuccessModifierForInteraction(this) 

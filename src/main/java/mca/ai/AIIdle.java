@@ -1,8 +1,8 @@
 package mca.ai;
 
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumMovementState;
-import mca.enums.EnumProfessionGroup;
+import mca.enums.EnumProfessionSkinGroup;
 import mca.enums.EnumSleepingState;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
@@ -11,7 +11,7 @@ public class AIIdle extends AbstractAI
 {
 	private int idleTicks;
 
-	public AIIdle(EntityHuman owner) 
+	public AIIdle(EntityVillagerMCA owner) 
 	{
 		super(owner);
 	}
@@ -31,7 +31,7 @@ public class AIIdle extends AbstractAI
 	{
 		idleTicks++;
 	
-		if (idleTicks >= Time.MINUTE * 1 && owner.isInOverworld() && !owner.worldObj.isDaytime() && owner.getProfessionGroup() != EnumProfessionGroup.Guard && owner.getMovementState() == EnumMovementState.STAY)
+		if (idleTicks >= Time.MINUTE * 1 && owner.isInOverworld() && !owner.worldObj.isDaytime() && owner.getProfessionSkinGroup() != EnumProfessionSkinGroup.Guard && owner.getMovementState() == EnumMovementState.STAY)
 		{
 			AISleep AISleep = owner.getAI(AISleep.class);
 	

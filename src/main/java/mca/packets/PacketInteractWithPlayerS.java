@@ -15,13 +15,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import radixcore.constant.Font.Color;
-import radixcore.packets.AbstractPacket;
+import radixcore.modules.net.AbstractPacket;
 
-public class PacketInteractWithPlayerS extends AbstractPacket implements IMessage, IMessageHandler<PacketInteractWithPlayerS, IMessage>
+public class PacketInteractWithPlayerS extends AbstractPacket<PacketInteractWithPlayerS>
 {
 	private int interactionId;
 	private int entityId;
@@ -51,16 +49,8 @@ public class PacketInteractWithPlayerS extends AbstractPacket implements IMessag
 	}
 
 	@Override
-	public IMessage onMessage(PacketInteractWithPlayerS packet, MessageContext context)
+	public void processOnGameThread(PacketInteractWithPlayerS packet, MessageContext context) 
 	{
-		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
-		return null;
-	}
-
-	@Override
-	public void processOnGameThread(IMessageHandler message, MessageContext context) 
-	{
-		PacketInteractWithPlayerS packet = (PacketInteractWithPlayerS)message;
 		EntityPlayer sender = this.getPlayer(context);
 		EntityPlayer target = (EntityPlayer) sender.worldObj.getEntityByID(packet.entityId);
 		NBTPlayerData senderData = MCA.getPlayerData(sender);

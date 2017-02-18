@@ -18,7 +18,7 @@ import mca.api.exception.MappingNotFoundException;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import radixcore.util.RadixMath;
+import radixcore.modules.RadixMath;
 
 /**
  * <p>The main registry used by MCA to manage what items will be used 

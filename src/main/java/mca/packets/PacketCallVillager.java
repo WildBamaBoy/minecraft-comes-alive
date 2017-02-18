@@ -3,15 +3,12 @@ package mca.packets;
 import java.util.UUID;
 
 import io.netty.buffer.ByteBuf;
-import mca.core.MCA;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import radixcore.packets.AbstractPacket;
+import radixcore.modules.net.AbstractPacket;
 
-public class PacketCallVillager extends AbstractPacket implements IMessage, IMessageHandler<PacketCallVillager, IMessage>
+public class PacketCallVillager extends AbstractPacket<PacketCallVillager>
 {
 	private UUID callUUID;
 	private boolean callAllRelated;
@@ -48,25 +45,17 @@ public class PacketCallVillager extends AbstractPacket implements IMessage, IMes
 	}
 
 	@Override
-	public IMessage onMessage(PacketCallVillager packet, MessageContext context)
+	public void processOnGameThread(PacketCallVillager packet, MessageContext context) 
 	{
-		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);		
-		return null;
-	}
-
-	@Override
-	public void processOnGameThread(IMessageHandler message, MessageContext context) 
-	{
-		PacketCallVillager packet = (PacketCallVillager)message;
 		EntityPlayer sender = this.getPlayer(context);
 		
 		if (packet.callAllRelated)
 		{
 			for (final Object obj : sender.worldObj.loadedEntityList)
 			{
-				if (obj instanceof EntityHuman)
+				if (obj instanceof EntityVillagerMCA)
 				{
-					EntityHuman human = (EntityHuman)obj;
+					EntityVillagerMCA human = (EntityVillagerMCA)obj;
 					
 					if (human.isPlayerAParent(sender) || human.getPlayerSpouse() == sender)
 					{
@@ -78,13 +67,13 @@ public class PacketCallVillager extends AbstractPacket implements IMessage, IMes
 		
 		else
 		{
-			EntityHuman human = null;
+			EntityVillagerMCA human = null;
 			
 			for (Object obj : sender.worldObj.loadedEntityList)
 			{
-				if (obj instanceof EntityHuman)
+				if (obj instanceof EntityVillagerMCA)
 				{
-					EntityHuman theHuman = (EntityHuman)obj;
+					EntityVillagerMCA theHuman = (EntityVillagerMCA)obj;
 					
 					if (theHuman.getUniqueID().equals(packet.callUUID))
 					{

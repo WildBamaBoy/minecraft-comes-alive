@@ -1,6 +1,6 @@
 package mca.inventory;
 
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -14,7 +14,7 @@ import net.minecraft.item.ItemStack;
  */
 public class ContainerInventory extends Container
 {
-	protected final EntityHuman entity;
+	protected final EntityVillagerMCA entity;
 
 	/**
 	 * Constructor
@@ -22,7 +22,7 @@ public class ContainerInventory extends Container
 	 * @param inventoryPlayer An instance of a player's inventory.
 	 * @param inventoryEntity An instance of an MCA entity's inventory.
 	 */
-	public ContainerInventory(IInventory inventoryPlayer, IInventory inventoryEntity, EntityHuman entity)
+	public ContainerInventory(IInventory inventoryPlayer, IInventory inventoryEntity, EntityVillagerMCA entity)
 	{
 		this.entity = entity;
 		for (int inventoryHeight = 0; inventoryHeight < 4; ++inventoryHeight)

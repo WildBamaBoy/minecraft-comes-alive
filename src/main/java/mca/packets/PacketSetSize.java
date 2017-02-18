@@ -1,18 +1,15 @@
 package mca.packets;
 
 import io.netty.buffer.ByteBuf;
-import mca.core.MCA;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import radixcore.network.ByteBufIO;
-import radixcore.packets.AbstractPacket;
+import radixcore.modules.RadixNettyIO;
+import radixcore.modules.net.AbstractPacket;
 
-public class PacketSetSize extends AbstractPacket implements IMessage, IMessageHandler<PacketSetSize, IMessage>
+public class PacketSetSize extends AbstractPacket<PacketSetSize>
 {
 	private String entityUUID;
 	private int entityId;
@@ -23,7 +20,7 @@ public class PacketSetSize extends AbstractPacket implements IMessage, IMessageH
 	{
 	}
 
-	public PacketSetSize(EntityHuman human, float width, float height)
+	public PacketSetSize(EntityVillagerMCA human, float width, float height)
 	{
 		this.entityUUID = human.getUniqueID().toString();
 		this.entityId = human.getEntityId();
@@ -34,7 +31,7 @@ public class PacketSetSize extends AbstractPacket implements IMessage, IMessageH
 	@Override
 	public void fromBytes(ByteBuf byteBuf)
 	{
-		this.entityUUID = (String) ByteBufIO.readObject(byteBuf);
+		this.entityUUID = (String) RadixNettyIO.readObject(byteBuf);
 		this.entityId = byteBuf.readInt();
 		this.width = byteBuf.readFloat();
 		this.height = byteBuf.readFloat();
@@ -43,26 +40,18 @@ public class PacketSetSize extends AbstractPacket implements IMessage, IMessageH
 	@Override
 	public void toBytes(ByteBuf byteBuf)
 	{
-		ByteBufIO.writeObject(byteBuf, this.entityUUID);
+		RadixNettyIO.writeObject(byteBuf, this.entityUUID);
 		byteBuf.writeInt(entityId);
 		byteBuf.writeFloat(this.width);
 		byteBuf.writeFloat(this.height);
 	}
 
 	@Override
-	public IMessage onMessage(PacketSetSize packet, MessageContext context)
+	public void processOnGameThread(PacketSetSize packet, MessageContext context) 
 	{
-		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
-		return null;
-	}
-
-	@Override
-	public void processOnGameThread(IMessageHandler message, MessageContext context) 
-	{
-		PacketSetSize packet = (PacketSetSize)message;
 		EntityPlayer player = getPlayer(context);
 		World world = player.worldObj;
-		EntityHuman human = null;
+		EntityVillagerMCA human = null;
 
 		for (Object obj : world.loadedEntityList)
 		{
@@ -74,7 +63,7 @@ public class PacketSetSize extends AbstractPacket implements IMessage, IMessageH
 				//I believe actual entity IDs are deprecated later.
 				if (entity.getUniqueID().toString().equals(packet.entityUUID) || entity.getEntityId() == packet.entityId)
 				{
-					human = (EntityHuman) entity;
+					human = (EntityVillagerMCA) entity;
 					break;
 				}
 			}

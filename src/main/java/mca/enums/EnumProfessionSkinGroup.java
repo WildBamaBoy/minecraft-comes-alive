@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mca.core.MCA;
-import radixcore.util.NumberCycleList;
-import radixcore.util.RadixExcept;
-import radixcore.util.RadixMath;
+import radixcore.datastructures.CircularIntList;
+import radixcore.modules.RadixMath;
 
-public enum EnumProfessionGroup 
+public enum EnumProfessionSkinGroup 
 {
+	Unassigned(-1),
 	Farmer(0),
 	Baker(0),
 	Butcher(4),
@@ -26,7 +26,7 @@ public enum EnumProfessionGroup
 	private List<String> femaleSkinList;
 	private int vanillaId;
 
-	private EnumProfessionGroup(int vanillaId)
+	private EnumProfessionSkinGroup(int vanillaId)
 	{
 		this.completeSkinList = new ArrayList<String>();
 		this.maleSkinList = new ArrayList<String>();
@@ -63,7 +63,9 @@ public enum EnumProfessionGroup
 
 		catch (Exception e)
 		{
-			RadixExcept.logErrorCatch(e, "Unable to generate random skin for skin group <" + this.toString() + ">" + "!");
+			MCA.getLog().error("Unable to generate random skin for skin group <" + this.toString() + ">" + "!");
+			MCA.getLog().error(e);
+			
 			return "";
 		}
 	}
@@ -73,7 +75,7 @@ public enum EnumProfessionGroup
 		return isMale ? maleSkinList : femaleSkinList;
 	}
 
-	public NumberCycleList getListOfSkinIDs(boolean isMale)
+	public CircularIntList getListOfSkinIDs(boolean isMale)
 	{
 		List<String> textureList = getSkinList(isMale);
 		List<Integer> ids = new ArrayList<Integer>();
@@ -84,7 +86,7 @@ public enum EnumProfessionGroup
 			ids.add(id);
 		}
 
-		return NumberCycleList.fromList(ids);
+		return CircularIntList.fromList(ids);
 	}
 
 	public String getMaleSkin()
@@ -97,15 +99,15 @@ public enum EnumProfessionGroup
 		return getSkin(false);
 	}
 
-	private EnumProfessionGroup getRandomGroup(boolean excludeChild)
+	private EnumProfessionSkinGroup getRandomGroup(boolean excludeChild)
 	{
-		EnumProfessionGroup generatedGroup;
+		EnumProfessionSkinGroup generatedGroup;
 		boolean isValid = false;
 
 		do
 		{
-			int index = RadixMath.getNumberInRange(0, EnumProfessionGroup.values().length - 1);
-			generatedGroup = EnumProfessionGroup.values()[index];
+			int index = RadixMath.getNumberInRange(0, EnumProfessionSkinGroup.values().length - 1);
+			generatedGroup = EnumProfessionSkinGroup.values()[index];
 
 			if (excludeChild && generatedGroup == Child)
 			{
@@ -126,7 +128,7 @@ public enum EnumProfessionGroup
 	{
 		MCA.getLog().info("Dumping skin counts...");
 
-		for (EnumProfessionGroup group : EnumProfessionGroup.values())
+		for (EnumProfessionSkinGroup group : EnumProfessionSkinGroup.values())
 		{
 			MCA.getLog().info("Group <" + group.toString() + "> has " + group.completeSkinList.size() + " skins. " + group.maleSkinList.size() + " male and " + group.femaleSkinList.size() + " female.");
 		}

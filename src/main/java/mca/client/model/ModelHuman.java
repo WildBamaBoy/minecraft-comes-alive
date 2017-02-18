@@ -3,7 +3,7 @@ package mca.client.model;
 import org.lwjgl.opengl.GL11;
 
 import mca.core.MCA;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
@@ -31,7 +31,7 @@ public class ModelHuman extends ModelBiped
 	@Override
 	public void render(Entity entity, float f1, float f2, float f3, float f4, float f5, float f6) 
 	{
-		final EntityHuman human = (EntityHuman)entity;
+		final EntityVillagerMCA human = (EntityVillagerMCA)entity;
 		final double scale = 0.9375D;
 		
 		this.setRotationAngles(f1, f2, f3, f4, f5, f6, entity);

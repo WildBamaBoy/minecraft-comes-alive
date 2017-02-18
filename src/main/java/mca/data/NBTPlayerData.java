@@ -3,13 +3,15 @@ package mca.data;
 import java.io.Serializable;
 import java.util.UUID;
 
+import mca.core.Constants;
 import mca.core.MCA;
+import mca.enums.EnumGender;
+import mca.enums.EnumMarriageState;
 import mca.packets.PacketPlayerDataC;
 import mca.packets.PacketPlayerDataS;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
@@ -19,21 +21,19 @@ public final class NBTPlayerData implements Serializable
 
 	public enum FieldID
 	{
-		PERMANENT_ID(1),
-		SPOUSE_PERMANENT_ID(2),
-		HEIR_PERMANENT_ID(3),
-		IS_MALE(4),
-		SHOULD_HAVE_BABY(5),
-		IS_ENGAGED(6),
-		IS_IN_LITE_MODE(7),
-		IS_NOBILITY(8),
-		MCA_NAME(9),
-		UNUSED_10(10),
+		UUID(1),
+		MCA_NAME(2),
+		GENDER(3),
+		GENDER_PREFERENCE(4),
+		SPOUSE_NAME(5),
+		SPOUSE_UUID(6),
+		SPOUSE_GENDER(7),
+		MARRIAGE_STATE(8),
+		OWNS_BABY(9),
+		IS_NOBILITY(10),
 		HAS_CHOSEN_DESTINY(11),
-		GENDER_PREFERENCE(12),
-		IS_SUPER_USER(13),
-		SPOUSE_NAME(14),
-		HAPPINESS_THRESHOLD_MET(15);
+		IS_SUPER_USER(12),
+		HAPPINESS_THRESHOLD_MET(13);
 		
 		private int id;
 		
@@ -65,7 +65,8 @@ public final class NBTPlayerData implements Serializable
 	{
 		STRING(1),
 		BOOLEAN(2),
-		INT(3);
+		INT(3),
+		UUID(4);
 		
 		private int id;
 		
@@ -119,17 +120,17 @@ public final class NBTPlayerData implements Serializable
 		}
 	}
 	
-	private int permanentId;
-	private int spousePermanentId;
-	private int genderPreference;
-	private boolean isMale;
-	private boolean shouldHaveBaby;
-	private boolean isEngaged;
-	private boolean hasChosenDestiny;
+	private UUID uuid;
 	private String mcaName;
+	private int gender;
+	private int genderPreference;
 	private String spouseName;
-	private boolean isSuperUser;
+	private UUID spouseUUID;
+	private int marriageState;
+	private boolean ownsBaby;
 	private boolean isNobility;
+	private boolean hasChosenDestiny;
+	private boolean isSuperUser;
 	private boolean happinessThresholdMet;
 	
 	public boolean ignoreBroadcast;
@@ -140,94 +141,100 @@ public final class NBTPlayerData implements Serializable
 	
 	public void writeToNBT(NBTTagCompound nbt)
 	{
-		nbt.setInteger("permanentId", permanentId);
-		nbt.setInteger("spousePermanentId", spousePermanentId);
-		nbt.setInteger("genderPreference", genderPreference);
-		nbt.setBoolean("isMale", isMale);
-		nbt.setBoolean("shouldHaveBaby", shouldHaveBaby);
-		nbt.setBoolean("isEngaged", isEngaged);
-		nbt.setBoolean("hasChosenDestiny", hasChosenDestiny);
+		nbt.setUniqueId("uuid", uuid);
 		nbt.setString("mcaName", (mcaName == null || mcaName.isEmpty()) ? "none" : mcaName);
+		nbt.setInteger("gender", gender);
+		nbt.setInteger("genderPreference", genderPreference);
 		nbt.setString("spouseName", (spouseName == null || spouseName.isEmpty()) ? "none" : spouseName);
-		nbt.setBoolean("isSuperUser", isSuperUser);
+		nbt.setUniqueId("spouseUUID", spouseUUID == null ? Constants.EMPTY_UUID : spouseUUID);
+		nbt.setInteger("marriageState", marriageState);
+		nbt.setBoolean("ownsBaby", ownsBaby);
 		nbt.setBoolean("isNobility", isNobility);
+		nbt.setBoolean("hasChosenDestiny", hasChosenDestiny);
+		nbt.setBoolean("isSuperUser", isSuperUser);
 		nbt.setBoolean("happinessThresholdMet", happinessThresholdMet);
 	}
 	
 	public void readFromNBT(NBTTagCompound nbt)
 	{
-		permanentId = nbt.getInteger("permanentId");
-		spousePermanentId = nbt.getInteger("spousePermanentId");
-		genderPreference = nbt.getInteger("genderPreference");
-		isMale = nbt.getBoolean("isMale");
-		shouldHaveBaby = nbt.getBoolean("shouldHaveBaby");
-		isEngaged = nbt.getBoolean("isEngaged");
-		hasChosenDestiny = nbt.getBoolean("hasChosenDestiny");
+		uuid = nbt.getUniqueId("uuid");
 		mcaName = nbt.getString("mcaName");
+		gender = nbt.getInteger("gender");
+		genderPreference = nbt.getInteger("genderPreference");
 		spouseName = nbt.getString("spouseName");
-		isSuperUser = nbt.getBoolean("isSuperUser");
+		spouseUUID = nbt.getUniqueId("spouseUUID");
+		marriageState = nbt.getInteger("marriageState");
+		ownsBaby = nbt.getBoolean("ownsBaby");
 		isNobility = nbt.getBoolean("isNobility");
+		hasChosenDestiny = nbt.getBoolean("hasChosenDestiny");
+		isSuperUser = nbt.getBoolean("isSuperUser");
 		happinessThresholdMet = nbt.getBoolean("happinessThresholdMet");
 	}
 	
-	public int getPermanentId() 
+	public UUID getUUID() 
 	{
-		return permanentId;
+		return uuid;
 	}
 
-	public void setPermanentId(int value)
+	public void setUUID(UUID value)
 	{
-		this.permanentId = value;
-		broadcastValueChange(FieldUpdateObj.get(FieldID.PERMANENT_ID, TypeID.INT, value));
+		this.uuid = value;
+		broadcastValueChange(FieldUpdateObj.get(FieldID.UUID, TypeID.UUID, value));
 	}
 	
-	public int getSpousePermanentId() 
+	public UUID getSpouseUUID() 
 	{
-		return spousePermanentId;
+		return spouseUUID;
 	}
 
-	public int getGenderPreference() 
+	public EnumGender getGenderPreference() 
 	{
-		return genderPreference;
+		return EnumGender.byId(genderPreference);
 	}
 
-	public void setGenderPreference(int value) 
+	public void setGenderPreference(EnumGender value) 
 	{
-		this.genderPreference = value;
-		broadcastValueChange(FieldUpdateObj.get(FieldID.GENDER_PREFERENCE, TypeID.INT, value));
+		this.genderPreference = value.getId();
+		broadcastValueChange(FieldUpdateObj.get(FieldID.GENDER_PREFERENCE, TypeID.INT, value.getId()));
 	}
 
-	public boolean getIsMale() 
+	public EnumGender getGender() 
 	{
-		return isMale;
+		return EnumGender.byId(gender);
 	}
 
-	public void setIsMale(boolean value)
+	public void setGender(EnumGender value)
 	{
-		this.isMale = value;
-		broadcastValueChange(FieldUpdateObj.get(FieldID.IS_MALE, TypeID.BOOLEAN, value));
+		this.gender = value.getId();
+		broadcastValueChange(FieldUpdateObj.get(FieldID.GENDER, TypeID.INT, value));
 	}
 
-	public boolean getShouldHaveBaby() 
+	public boolean getOwnsBaby() 
 	{
-		return shouldHaveBaby;
+		return ownsBaby;
 	}
 
-	public void setShouldHaveBaby(boolean value) 
+	public void setOwnsBaby(boolean value) 
 	{
-		this.shouldHaveBaby = value;
-		broadcastValueChange(FieldUpdateObj.get(FieldID.SHOULD_HAVE_BABY, TypeID.BOOLEAN, value));
+		this.ownsBaby = value;
+		broadcastValueChange(FieldUpdateObj.get(FieldID.OWNS_BABY, TypeID.BOOLEAN, value));
 	}
 
-	public void setSpousePermanentId(int value)
+	public void setSpouseUUID(UUID value)
 	{
-		this.spousePermanentId = value;
-		broadcastValueChange(FieldUpdateObj.get(FieldID.SPOUSE_PERMANENT_ID, TypeID.INT, value));
+		this.spouseUUID = value;
+		broadcastValueChange(FieldUpdateObj.get(FieldID.SPOUSE_UUID, TypeID.UUID, value));
 	}
 	
-	public boolean getIsEngaged() 
+	public EnumMarriageState getMarriageState()
 	{
-		return isEngaged;
+		return EnumMarriageState.byId(marriageState);
+	}
+	
+	public void setMarriageState(EnumMarriageState value)
+	{
+		this.marriageState = value.getId();
+		broadcastValueChange(FieldUpdateObj.get(FieldID.MARRIAGE_STATE, TypeID.INT, value));
 	}
 	
 	public boolean getHasChosenDestiny() 
@@ -272,17 +279,6 @@ public final class NBTPlayerData implements Serializable
 	{
 		this.isSuperUser = value;
 		broadcastValueChange(FieldUpdateObj.get(FieldID.IS_SUPER_USER, TypeID.BOOLEAN, value));
-	}
-	
-	public boolean getIsMarried()
-	{
-		return spousePermanentId != 0 && (!getIsEngaged());
-	}
-
-	public void setIsEngaged(boolean value) 
-	{
-		this.isEngaged = value;
-		broadcastValueChange(FieldUpdateObj.get(FieldID.IS_ENGAGED, TypeID.BOOLEAN, value));
 	}
 	
 	public boolean getIsNobility()
@@ -384,18 +380,5 @@ public final class NBTPlayerData implements Serializable
 		}
 		
 		ignoreBroadcast = false;
-	}
-	
-	public void dumpToConsole()
-	{
-		MCA.getLog().info("--------PLAYER DATA DUMP--------");
-		MCA.getLog().info("Permanent ID: " + getPermanentId());
-		MCA.getLog().info("Spouse Permanent ID: " + getSpousePermanentId());
-		MCA.getLog().info("Is Male: " + getIsMale());
-		MCA.getLog().info("Should Have Baby: " + getShouldHaveBaby());
-		MCA.getLog().info("Is Engaged: " + getIsEngaged());
-		MCA.getLog().info("Is Nobility: " + getIsNobility());
-		MCA.getLog().info("MCA Name: " + getMcaName());
-		MCA.getLog().info("Has Chosen Destiny: " + getHasChosenDestiny());
 	}
 }

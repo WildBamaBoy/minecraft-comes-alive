@@ -3,7 +3,7 @@ package mca.ai;
 import java.util.List;
 
 import mca.core.Constants;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumMovementState;
 import mca.enums.EnumWorkdayState;
 import net.minecraft.entity.Entity;
@@ -14,8 +14,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import radixcore.constant.Time;
-import radixcore.util.RadixLogic;
-import radixcore.util.RadixMath;
+import radixcore.modules.RadixLogic;
+import radixcore.modules.RadixMath;
 
 public class AIWorkday extends AbstractAI
 {
@@ -23,7 +23,7 @@ public class AIWorkday extends AbstractAI
 	private Vec3d vecTarget;
 	private EntityLivingBase lookTarget;
 	private int ticksActive;
-	public AIWorkday(EntityHuman owner) 
+	public AIWorkday(EntityVillagerMCA owner) 
 	{
 		super(owner);
 	}

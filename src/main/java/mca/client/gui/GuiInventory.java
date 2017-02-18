@@ -1,7 +1,7 @@
 package mca.client.gui;
 
 import mca.core.MCA;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.inventory.ContainerInventory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -19,7 +19,7 @@ public class GuiInventory extends InventoryEffectRenderer
 {
 	private static final ResourceLocation resourceLocation = new ResourceLocation("mca:textures/gui/container/inventory.png");
 
-	private final EntityHuman owner;
+	private final EntityVillagerMCA owner;
 	private GuiButton backButton;
 	private GuiButton exitButton;
 
@@ -37,7 +37,7 @@ public class GuiInventory extends InventoryEffectRenderer
 	 * @param entityInventory The inventory of the entity that the player is interacting with.
 	 * @param fromEditor Is this GUI being opened from the villager editor?
 	 */
-	public GuiInventory(EntityHuman entity, IInventory playerInventory, IInventory entityInventory, boolean fromEditor)
+	public GuiInventory(EntityVillagerMCA entity, IInventory playerInventory, IInventory entityInventory, boolean fromEditor)
 	{
 		super(new ContainerInventory(playerInventory, entityInventory, entity));
 

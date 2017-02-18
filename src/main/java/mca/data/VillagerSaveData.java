@@ -3,7 +3,7 @@ package mca.data;
 import java.io.Serializable;
 import java.util.UUID;
 
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumBabyState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -35,7 +35,7 @@ public class VillagerSaveData implements Serializable
 	public final String playerSkinUsername;
 	public final String displayTitle;
 	
-	public static VillagerSaveData fromVillager(EntityHuman human, EntityPlayer requestingPlayer, UUID ownerUUID)
+	public static VillagerSaveData fromVillager(EntityVillagerMCA human, EntityPlayer requestingPlayer, UUID ownerUUID)
 	{
 		return new VillagerSaveData(human, requestingPlayer, ownerUUID);
 	}
@@ -45,7 +45,7 @@ public class VillagerSaveData implements Serializable
 		return new VillagerSaveData(nbt);
 	}
 	
-	public EntityHuman applyToHuman(EntityHuman human)
+	public EntityVillagerMCA applyToHuman(EntityVillagerMCA human)
 	{
 		human.setName(name);
 		human.setPersonality(personalityId);
@@ -71,7 +71,7 @@ public class VillagerSaveData implements Serializable
 		return human;
 	}
 	
-	private VillagerSaveData(EntityHuman human, EntityPlayer requestingPlayer, UUID ownerUUID)
+	private VillagerSaveData(EntityVillagerMCA human, EntityPlayer requestingPlayer, UUID ownerUUID)
 	{
 		this.uuid = human.getUniqueID();
 		this.ownerUUID = ownerUUID != null ? ownerUUID : new UUID(0L, 0L);

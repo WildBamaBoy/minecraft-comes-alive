@@ -24,7 +24,6 @@ import net.minecraft.item.Item;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.item.ItemSingle;
-import radixcore.util.RadixStartup;
 
 public final class ModItems
 {

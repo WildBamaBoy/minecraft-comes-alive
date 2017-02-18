@@ -1,7 +1,7 @@
 package mca.client.gui;
 
 import mca.core.MCA;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumInteraction;
 import mca.packets.PacketInteract;
 import net.minecraft.client.Minecraft;
@@ -12,12 +12,12 @@ import net.minecraft.entity.player.EntityPlayer;
 public class GuiVillagerPrompt extends GuiScreen
 {
 	private EntityPlayer player;
-	private EntityHuman human;
+	private EntityVillagerMCA human;
 	private EnumInteraction interaction;
 	private String prompt;
 	private EnumInteraction returnInteraction;
 	
-	public GuiVillagerPrompt(EntityPlayer player, EntityHuman human, EnumInteraction interaction) 
+	public GuiVillagerPrompt(EntityPlayer player, EntityVillagerMCA human, EnumInteraction interaction) 
 	{
 		this.player = player;
 		this.human = human;

@@ -19,7 +19,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import radixcore.util.BlockHelper;
 
 public class BlockMemorial extends BlockContainer
 {
@@ -77,7 +76,7 @@ public class BlockMemorial extends BlockContainer
 	{
 		if (!world.isRemote)
 		{
-			TileMemorial memorial = (TileMemorial) BlockHelper.getTileEntity(world, pos.getX(), pos.getY(), pos.getZ());
+			TileMemorial memorial = (TileMemorial) world.getTileEntity(pos);
 			Item memorialItem = null;
 			ItemStack memorialStack = null;
 

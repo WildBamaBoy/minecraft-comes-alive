@@ -10,7 +10,7 @@ import mca.ai.AICombat;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.data.PlayerMemory;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumCombatBehaviors;
 import mca.enums.EnumProfession;
 import mca.items.ItemBaby;
@@ -52,8 +52,8 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Font.Format;
 import radixcore.math.Point3D;
-import radixcore.util.BlockHelper;
-import radixcore.util.RadixLogic;
+import radixcore.modules.RadixBlocks;
+import radixcore.modules.RadixLogic;
 
 public class EventHooksForge 
 {
@@ -81,7 +81,7 @@ public class EventHooksForge
 					if (zombie.isConverting())
 					{
 						boolean isMale = RadixLogic.getBooleanWithProbability(50);
-						final EntityHuman human = new EntityHuman(entity.worldObj, isMale, EnumProfession.getAtRandom().getId(), false);
+						final EntityVillagerMCA human = new EntityVillagerMCA(entity.worldObj, isMale, EnumProfession.getAtRandom().getId(), false);
 						human.setPosition(zombie.posX, zombie.posY, zombie.posZ);
 						entity.worldObj.spawnEntityInWorld(human);
 						event.getEntity().setDead();
@@ -117,11 +117,11 @@ public class EventHooksForge
 
 			else if (mob instanceof EntityCreeper)
 			{
-				mob.tasks.addTask(3, new EntityAIAvoidEntity(mob, EntityHuman.class, new Predicate()
+				mob.tasks.addTask(3, new EntityAIAvoidEntity(mob, EntityVillagerMCA.class, new Predicate()
 				{
 					public boolean func_179958_a(Entity p_179958_1_)
 					{
-						return p_179958_1_ instanceof EntityHuman;
+						return p_179958_1_ instanceof EntityVillagerMCA;
 					}
 
 					public boolean apply(Object p_apply_1_)
@@ -150,7 +150,7 @@ public class EventHooksForge
 					moveSpeed = 0.9D;
 				}
 
-				mob.targetTasks.addTask(2, new EntityAINearestAttackableTarget(mob, EntityHuman.class, false));
+				mob.targetTasks.addTask(2, new EntityAINearestAttackableTarget(mob, EntityVillagerMCA.class, false));
 			}
 		}
 
@@ -205,7 +205,7 @@ public class EventHooksForge
 			{
 				try
 				{
-					final EntityHuman entity = (EntityHuman) entityHorse.getPassengers().get(0);
+					final EntityVillagerMCA entity = (EntityVillagerMCA) entityHorse.getPassengers().get(0);
 					entity.processInteract(event.getEntityPlayer(), event.getEntityPlayer().getActiveHand(), event.getEntityPlayer().getHeldItem(event.getEntityPlayer().getActiveHand()));
 				}
 
@@ -234,7 +234,7 @@ public class EventHooksForge
 	@SubscribeEvent
 	public void rightClickBlockEventHandler(RightClickBlock event)
 	{
-		if (event.getEntityPlayer().getControllingPassenger() instanceof EntityHuman)
+		if (event.getEntityPlayer().getControllingPassenger() instanceof EntityVillagerMCA)
 		{
 			event.getEntityPlayer().getControllingPassenger().dismountRidingEntity();
 		}
@@ -252,11 +252,11 @@ public class EventHooksForge
 		//Handle warrior triggers on player taking damage.		
 		if (event.getEntityLiving() instanceof EntityPlayer && event.getSource().getEntity() instanceof EntityLivingBase)
 		{
-			List<Entity> entityList = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, event.getEntityLiving(), 15);
+			List<Entity> entityList = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityVillagerMCA.class, event.getEntityLiving(), 15);
 
 			for (Entity entity : entityList)
 			{
-				EntityHuman human = (EntityHuman)entity;
+				EntityVillagerMCA human = (EntityVillagerMCA)entity;
 				AICombat combat = human.getAI(AICombat.class);
 				PlayerMemory memory = human.getPlayerMemory((EntityPlayer)event.getEntityLiving());
 		
@@ -272,11 +272,11 @@ public class EventHooksForge
 		//Handle warrior triggers on player dealing damage.
 		else if (event.getSource().getEntity() instanceof EntityPlayer && event.getEntityLiving() != null)
 		{
-			List<Entity> entityList = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, event.getSource().getEntity(), 15);
+			List<Entity> entityList = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityVillagerMCA.class, event.getSource().getEntity(), 15);
 
 			for (Entity entity : entityList)
 			{
-				EntityHuman human = (EntityHuman)entity;
+				EntityVillagerMCA human = (EntityVillagerMCA)entity;
 				AICombat combat = human.getAI(AICombat.class);
 				PlayerMemory memory = human.getPlayerMemory((EntityPlayer)event.getSource().getEntity());
 
@@ -313,9 +313,9 @@ public class EventHooksForge
 					}
 				}
 
-				else if (event.getEntityLiving() instanceof EntityHuman && flag)
+				else if (event.getEntityLiving() instanceof EntityVillagerMCA && flag)
 				{
-					EntityHuman human = (EntityHuman)event.getEntityLiving();
+					EntityVillagerMCA human = (EntityVillagerMCA)event.getEntityLiving();
 
 					//Warriors are immune to infection.
 					if (human.getProfessionEnum() == EnumProfession.Warrior)
@@ -344,7 +344,7 @@ public class EventHooksForge
 					Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.SPELL_WITCH, human, 32);
 				}
 
-				else if (event.getEntityLiving() instanceof EntityHuman && ((EntityHuman)event.getEntityLiving()).getIsInfected())
+				else if (event.getEntityLiving() instanceof EntityVillagerMCA && ((EntityVillagerMCA)event.getEntityLiving()).getIsInfected())
 				{
 					event.setCanceled(true);
 					zombie.setAttackTarget(null);
@@ -357,10 +357,10 @@ public class EventHooksForge
 	public void onLivingSetTarget(LivingSetAttackTargetEvent event)
 	{
 		//Mobs shouldn't attack infected villagers. Account for this when they attempt to set their target.
-		if (event.getEntityLiving() instanceof EntityMob && event.getTarget() instanceof EntityHuman)
+		if (event.getEntityLiving() instanceof EntityMob && event.getTarget() instanceof EntityVillagerMCA)
 		{
 			EntityMob mob = (EntityMob) event.getEntityLiving();
-			EntityHuman target = (EntityHuman) event.getTarget();
+			EntityVillagerMCA target = (EntityVillagerMCA) event.getTarget();
 
 			if (target.getIsInfected())
 			{
@@ -377,7 +377,7 @@ public class EventHooksForge
 		int z = event.getPos().getZ();
 		Block placedBlock = event.getPlacedBlock().getBlock();
 
-		if (placedBlock == Blocks.FIRE && BlockHelper.getBlock(event.getWorld(), x, y - 1, z) == Blocks.EMERALD_BLOCK)
+		if (placedBlock == Blocks.FIRE && RadixBlocks.getBlock(event.getWorld(), x, y - 1, z) == Blocks.EMERALD_BLOCK)
 		{
 			int totemsFound = 0;
 
@@ -398,7 +398,7 @@ public class EventHooksForge
 				//Scan upwards to ensure it's obsidian, and on fire.
 				for (int j = -1; j < 2; j++) //-1 since the fire is on top of the emerald.
 				{
-					Block block = BlockHelper.getBlock(event.getWorld(), x + dX, y + j, z + dZ);
+					Block block = RadixBlocks.getBlock(event.getWorld(), x + dX, y + j, z + dZ);
 
 					if (block == Blocks.OBSIDIAN || block == Blocks.FIRE)
 					{
@@ -432,7 +432,7 @@ public class EventHooksForge
 				for (int i = 0; i < 2; i++)
 				{
 					Utilities.spawnParticlesAroundPointS(EnumParticleTypes.FLAME, event.getWorld(), x, y - i, z, 32);
-					BlockHelper.setBlock(event.getWorld(), x, y - i, z, Blocks.AIR);
+					RadixBlocks.setBlock(event.getWorld(), x, y - i, z, Blocks.AIR);
 				}
 			}
 
@@ -449,7 +449,7 @@ public class EventHooksForge
 
 		for (Entity passenger : passengers)
 		{
-			if (passenger instanceof EntityHuman)
+			if (passenger instanceof EntityVillagerMCA)
 			{
 				return true;
 			}

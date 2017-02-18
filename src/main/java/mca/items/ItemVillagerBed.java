@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import radixcore.util.BlockHelper;
+import radixcore.modules.RadixBlocks;
 
 public class ItemVillagerBed extends Item
 {
@@ -94,7 +94,7 @@ public class ItemVillagerBed extends Item
             	BlockPos offsetDown = pos.offset(EnumFacing.DOWN);
             	BlockPos offsetPosDown = offsetPos.offset(EnumFacing.DOWN);
             	
-                if (posIsAir && offsetIsAir && BlockHelper.doesBlockHaveSolidTopSurface(worldObj, offsetDown.getX(), offsetDown.getY(), offsetDown.getZ()) && BlockHelper.doesBlockHaveSolidTopSurface(worldObj, offsetPosDown.getX(), offsetPosDown.getY(), offsetPosDown.getZ()))
+                if (posIsAir && offsetIsAir && RadixBlocks.doesBlockHaveSolidTopSurface(worldObj, offsetDown.getX(), offsetDown.getY(), offsetDown.getZ()) && RadixBlocks.doesBlockHaveSolidTopSurface(worldObj, offsetPosDown.getX(), offsetPosDown.getY(), offsetPosDown.getZ()))
                 {
                     int facingIndex = horizontalFacing.getHorizontalIndex();
                     IBlockState footState = getBedBlock().getDefaultState().withProperty(BlockBed.OCCUPIED, Boolean.valueOf(false)).withProperty(BlockBed.FACING, horizontalFacing).withProperty(BlockBed.PART, BlockBed.EnumPartType.FOOT);

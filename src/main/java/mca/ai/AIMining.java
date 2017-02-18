@@ -8,7 +8,7 @@ import mca.api.RegistryMCA;
 import mca.api.exception.MappingNotFoundException;
 import mca.core.MCA;
 import mca.data.WatcherIDsHuman;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumMovementState;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,11 +18,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Time;
-import radixcore.data.WatchedBoolean;
 import radixcore.math.Point3D;
-import radixcore.util.BlockHelper;
-import radixcore.util.RadixLogic;
-import radixcore.util.RadixMath;
+import radixcore.modules.RadixBlocks;
+import radixcore.modules.RadixLogic;
+import radixcore.modules.RadixMath;
+import radixcore.modules.datawatcher.WatchedBoolean;
 
 public class AIMining extends AbstractToggleAI
 {
@@ -37,7 +37,7 @@ public class AIMining extends AbstractToggleAI
 	private boolean isGathering;
 	private boolean isBuildingMine;
 
-	public AIMining(EntityHuman owner) 
+	public AIMining(EntityVillagerMCA owner) 
 	{
 		super(owner);
 		isAIActive = new WatchedBoolean(false, WatcherIDsHuman.IS_MINING_ACTIVE, owner.getDataWatcherEx());
@@ -73,7 +73,7 @@ public class AIMining extends AbstractToggleAI
 				if (!isBuildingMine && RadixLogic.getNearbyBlocks(owner, Blocks.OAK_FENCE, 8).size() == 0)
 				{
 					final int y = RadixLogic.getSpawnSafeTopLevel(owner.worldObj, (int) owner.posX, (int) owner.posZ);
-					final Block groundBlock = BlockHelper.getBlock(owner.worldObj, (int)owner.posX, y - 1, (int)owner.posZ);
+					final Block groundBlock = RadixBlocks.getBlock(owner.worldObj, (int)owner.posX, y - 1, (int)owner.posZ);
 					owner.getAI(AIBuild.class).startBuilding("/assets/mca/schematic/mine1.schematic", true, groundBlock);
 
 					isBuildingMine = true;

@@ -8,9 +8,10 @@
 package mca.data;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import mca.core.MCA;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumDialogueType;
 import mca.enums.EnumRelation;
 import mca.packets.PacketSyncPlayerMemory;
@@ -21,11 +22,10 @@ import radixcore.constant.Time;
 
 public class PlayerMemory implements Serializable
 {
-	private transient final EntityHuman owner;
+	private transient final EntityVillagerMCA owner;
 
 	private String playerName;
-	private String uuid;
-	private int permanentId;
+	private UUID uuid;
 	private int hearts;
 	private int hireTimeLeft;
 	private int interactionFatigue;
@@ -42,12 +42,11 @@ public class PlayerMemory implements Serializable
 
 	private int counter;
 
-	public PlayerMemory(EntityHuman owner, EntityPlayer player)
+	public PlayerMemory(EntityVillagerMCA owner, EntityPlayer player)
 	{
 		this.owner = owner;
 		this.playerName = player.getName();
-		this.uuid = player.getUniqueID().toString();
-		this.permanentId = MCA.getPlayerData(player).getPermanentId();
+		this.uuid = player.getUniqueID();
 		this.dialogueType = owner.getIsChild() ? EnumDialogueType.CHILD : EnumDialogueType.ADULT;
 
 		//If both parents are players, player memory will not properly be set up for the player who
@@ -59,14 +58,14 @@ public class PlayerMemory implements Serializable
 
 			//Also set this player as not having a baby, since it won't be set at all as the player may be offline.
 			NBTPlayerData data = MCA.getPlayerData(player);
-			data.setShouldHaveBaby(false);
+			data.setOwnsBaby(false);
 		}
 	}
 
 	/**
 	 * Only for loading from NBT.
 	 */
-	public PlayerMemory(EntityHuman owner, String username)
+	public PlayerMemory(EntityVillagerMCA owner, String username)
 	{
 		this.owner = owner;
 		this.playerName = username;
@@ -77,8 +76,7 @@ public class PlayerMemory implements Serializable
 		String nbtPrefix = "playerMemoryValue" + playerName;
 
 		nbt.setString(nbtPrefix + "playerName", playerName);
-		nbt.setString(nbtPrefix + "uuid", uuid);
-		nbt.setInteger(nbtPrefix + "permanentId", permanentId);
+		nbt.setUniqueId(nbtPrefix + "uuid", uuid);
 		nbt.setInteger(nbtPrefix + "hearts", hearts);
 		nbt.setInteger(nbtPrefix + "timeUntilGreeting", timeUntilGreeting);
 		nbt.setInteger(nbtPrefix + "distanceTraveledFrom", distanceTravelledFrom);
@@ -99,8 +97,7 @@ public class PlayerMemory implements Serializable
 		String nbtPrefix = "playerMemoryValue" + playerName;
 
 		playerName = nbt.getString(nbtPrefix + "playerName");
-		uuid = nbt.getString(nbtPrefix + "uuid");
-		permanentId = nbt.getInteger(nbtPrefix + "permanentId");
+		uuid = nbt.getUniqueId(nbtPrefix + "uuid");
 		hearts = nbt.getInteger(nbtPrefix + "hearts");
 		timeUntilGreeting = nbt.getInteger(nbtPrefix + "timeUntilGreeting");
 		distanceTravelledFrom = nbt.getInteger(nbtPrefix + "distanceTraveledFrom");
@@ -240,11 +237,8 @@ public class PlayerMemory implements Serializable
 
 	private void onNonTransientValueChanged()
 	{
-		if (!MCA.isTesting)
-		{
-			final EntityPlayerMP player = (EntityPlayerMP) owner.worldObj.getPlayerEntityByName(playerName);
-			MCA.getPacketHandler().sendPacketToPlayer(new PacketSyncPlayerMemory(this.owner.getEntityId(), this), player);
-		}
+		final EntityPlayerMP player = (EntityPlayerMP) owner.worldObj.getPlayerEntityByName(playerName);
+		MCA.getPacketHandler().sendPacketToPlayer(new PacketSyncPlayerMemory(this.owner.getEntityId(), this), player);
 	}
 
 	public String getPlayerName() 
@@ -272,12 +266,7 @@ public class PlayerMemory implements Serializable
 		onNonTransientValueChanged();
 	}
 
-	public int getPermanentId() 
-	{
-		return permanentId;
-	}
-
-	public String getUUID()
+	public UUID getUUID()
 	{
 		return uuid;
 	}

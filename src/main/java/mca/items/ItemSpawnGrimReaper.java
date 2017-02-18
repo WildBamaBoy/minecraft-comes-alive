@@ -12,7 +12,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import radixcore.util.BlockHelper;
+import radixcore.modules.RadixBlocks;
 
 public class ItemSpawnGrimReaper extends Item
 {
@@ -36,7 +36,7 @@ public class ItemSpawnGrimReaper extends Item
 		
 		if (!worldIn.isRemote)
 		{
-			final Block block = BlockHelper.getBlock(worldIn, posX, posY, posZ);
+			final Block block = RadixBlocks.getBlock(worldIn, posX, posY, posZ);
 			double verticalOffset = 0.0D;
 
 			EntityGrimReaper reaper = new EntityGrimReaper(worldIn);

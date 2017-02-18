@@ -4,14 +4,11 @@ import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
 import mca.data.NBTPlayerData;
 import mca.data.PlayerDataCollection;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import radixcore.network.ByteBufIO;
-import radixcore.packets.AbstractPacket;
+import radixcore.modules.RadixNettyIO;
+import radixcore.modules.net.AbstractPacket;
 
-/* Player data change received from a player. */
-public class PacketPlayerDataS extends AbstractPacket implements IMessage, IMessageHandler<PacketPlayerDataS, IMessage>
+public class PacketPlayerDataS extends AbstractPacket<PacketPlayerDataS>
 {
 	private NBTPlayerData.FieldUpdateObj fieldUpdateObj;
 	
@@ -29,7 +26,7 @@ public class PacketPlayerDataS extends AbstractPacket implements IMessage, IMess
 	{
 		int fieldId = byteBuf.readInt();
 		int typeId = byteBuf.readInt();
-		Object value = ByteBufIO.readObject(byteBuf);
+		Object value = RadixNettyIO.readObject(byteBuf);
 		
 		fieldUpdateObj = NBTPlayerData.FieldUpdateObj.get(NBTPlayerData.FieldID.fromId(fieldId), NBTPlayerData.TypeID.fromId(typeId), value);
 	}
@@ -39,21 +36,12 @@ public class PacketPlayerDataS extends AbstractPacket implements IMessage, IMess
 	{
 		byteBuf.writeInt(fieldUpdateObj.fieldId.getId());
 		byteBuf.writeInt(fieldUpdateObj.typeId.getId());
-		ByteBufIO.writeObject(byteBuf, fieldUpdateObj.value);
+		RadixNettyIO.writeObject(byteBuf, fieldUpdateObj.value);
 	}
 
 	@Override
-	public IMessage onMessage(PacketPlayerDataS packet, MessageContext context)
-	{
-		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
-		return null;
-	}
-
-	@Override
-	public void processOnGameThread(IMessageHandler message, MessageContext context) 
-	{
-		PacketPlayerDataS packet = (PacketPlayerDataS)message;
-		
+	public void processOnGameThread(PacketPlayerDataS packet, MessageContext context) 
+	{	
 		//Always mark for saving if data is being changed from the client.
 		PlayerDataCollection.get().markDirty();
 		

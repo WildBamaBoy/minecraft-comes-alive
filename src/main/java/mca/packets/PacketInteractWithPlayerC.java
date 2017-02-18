@@ -6,18 +6,16 @@ import io.netty.buffer.ByteBuf;
 import mca.client.gui.GuiPlayerMenu;
 import mca.core.MCA;
 import mca.data.NBTPlayerData;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import radixcore.network.ByteBufIO;
-import radixcore.packets.AbstractPacket;
+import radixcore.modules.RadixNettyIO;
+import radixcore.modules.net.AbstractPacket;
 
-public class PacketInteractWithPlayerC extends AbstractPacket implements IMessage, IMessageHandler<PacketInteractWithPlayerC, IMessage>
+public class PacketInteractWithPlayerC extends AbstractPacket<PacketInteractWithPlayerC>
 {
 	private int targetEntityId;
 	private boolean targetIsMarried;
@@ -42,9 +40,9 @@ public class PacketInteractWithPlayerC extends AbstractPacket implements IMessag
 		
 		for (Object obj : initiator.worldObj.loadedEntityList)
 		{
-			if (obj instanceof EntityHuman)
+			if (obj instanceof EntityVillagerMCA)
 			{
-				EntityHuman human = (EntityHuman)obj;
+				EntityVillagerMCA human = (EntityVillagerMCA)obj;
 				
 				if (human.getSpouseId() == targetData.getPermanentId())
 				{
@@ -66,7 +64,7 @@ public class PacketInteractWithPlayerC extends AbstractPacket implements IMessag
 		targetIsMarried = byteBuf.readBoolean();
 		targetIsEngaged = byteBuf.readBoolean();
 		isMarriedToInitiator = byteBuf.readBoolean();
-		targetSpouseName = (String) ByteBufIO.readObject(byteBuf);
+		targetSpouseName = (String) RadixNettyIO.readObject(byteBuf);
 	}
 
 	@Override
@@ -76,23 +74,13 @@ public class PacketInteractWithPlayerC extends AbstractPacket implements IMessag
 		byteBuf.writeBoolean(targetIsMarried);
 		byteBuf.writeBoolean(targetIsEngaged);
 		byteBuf.writeBoolean(isMarriedToInitiator);
-		ByteBufIO.writeObject(byteBuf, targetSpouseName);
+		RadixNettyIO.writeObject(byteBuf, targetSpouseName);
 	}
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public IMessage onMessage(PacketInteractWithPlayerC packet, MessageContext context)
+	public void processOnGameThread(PacketInteractWithPlayerC packet, MessageContext context) 
 	{
-		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
-		return null;
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void processOnGameThread(IMessageHandler message, MessageContext context) 
-	{
-		PacketInteractWithPlayerC packet = (PacketInteractWithPlayerC) message;
-		
 		EntityPlayer recipient = this.getPlayerClient();
 		EntityPlayer target = (EntityPlayer) recipient.worldObj.getEntityByID(packet.targetEntityId);
 		

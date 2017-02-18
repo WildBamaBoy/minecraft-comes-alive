@@ -3,11 +3,10 @@ package mca.core.radix;
 import mca.core.MCA;
 import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumRelation;
 import net.minecraft.entity.player.EntityPlayer;
-import radixcore.lang.AbstractLanguageParser;
-import radixcore.util.RadixExcept;
+import radixcore.modules.lang.AbstractLanguageParser;
 
 public class LanguageParser extends AbstractLanguageParser
 {
@@ -16,8 +15,8 @@ public class LanguageParser extends AbstractLanguageParser
 	public String parsePhrase(String unparsedPhrase, Object[] arguments) 
 	{
 		int passes = 0;
-		EntityHuman entitySpeaker = (EntityHuman) this.getArgumentOfType(arguments, EntityHuman.class, 1);
-		EntityHuman entitySecondary = (EntityHuman) this.getArgumentOfType(arguments, EntityHuman.class, 2);
+		EntityVillagerMCA entitySpeaker = (EntityVillagerMCA) this.getArgumentOfType(arguments, EntityVillagerMCA.class, 1);
+		EntityVillagerMCA entitySecondary = (EntityVillagerMCA) this.getArgumentOfType(arguments, EntityVillagerMCA.class, 2);
 		EntityPlayer playerTarget = (EntityPlayer) this.getArgumentOfType(arguments, EntityPlayer.class);
 		PlayerMemory memory = (entitySpeaker != null && playerTarget != null) ? entitySpeaker.getPlayerMemory(playerTarget) : null;
 		

@@ -5,7 +5,6 @@ import mca.core.MCA;
 import mca.enums.EnumCut;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import radixcore.item.ItemColorable;
 
 public class ItemCutRingColored extends ItemColorable implements IGiftableItem
 {

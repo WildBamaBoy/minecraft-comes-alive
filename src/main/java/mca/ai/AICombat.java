@@ -4,7 +4,7 @@ import java.util.List;
 
 import mca.core.Constants;
 import mca.data.WatcherIDsHuman;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumCombatBehaviors;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -19,10 +19,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.MathHelper;
-import radixcore.data.DataWatcherEx;
-import radixcore.data.WatchedInt;
-import radixcore.util.RadixLogic;
-import radixcore.util.RadixMath;
+import radixcore.modules.RadixLogic;
+import radixcore.modules.RadixMath;
+import radixcore.modules.datawatcher.DataWatcherEx;
+import radixcore.modules.datawatcher.WatchedInt;
 
 public class AICombat extends AbstractAI
 {
@@ -33,7 +33,7 @@ public class AICombat extends AbstractAI
 	private EntityLivingBase attackTarget;
 	private int rangedAttackTime;
 	
-	public AICombat(EntityHuman owner) 
+	public AICombat(EntityVillagerMCA owner) 
 	{
 		super(owner);
 		attackMethodInt = new WatchedInt(EnumCombatBehaviors.METHOD_DO_NOT_FIGHT.getNumericId(), WatcherIDsHuman.COMBAT_METHOD, owner.getDataWatcherEx());

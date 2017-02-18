@@ -22,7 +22,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Font.Format;
-import radixcore.util.BlockHelper;
+import radixcore.modules.RadixBlocks;
 
 /** Class for an item dropped containing data about the villager who died. */
 public class ItemMemorial extends Item
@@ -51,7 +51,7 @@ public class ItemMemorial extends Item
 			pos = new BlockPos(posX, posY, posZ);
 			
 			worldIn.setBlockState(pos, ModBlocks.memorial.getDefaultState(), 2);
-			TileMemorial tile = (TileMemorial) BlockHelper.getTileEntity(worldIn, posX, posY, posZ);
+			TileMemorial tile = (TileMemorial) RadixBlocks.getTileEntity(worldIn, posX, posY, posZ);
 			
 			tile.setType(this.type);
 			tile.setVillagerSaveData(VillagerSaveData.fromNBT(stack.getTagCompound()));

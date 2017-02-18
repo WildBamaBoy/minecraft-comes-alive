@@ -5,7 +5,7 @@ import java.util.List;
 import mca.api.RegistryMCA;
 import mca.core.MCA;
 import mca.data.WatcherIDsHuman;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumMovementState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -18,11 +18,10 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Time;
-import radixcore.data.WatchedBoolean;
 import radixcore.math.Point3D;
-import radixcore.util.RadixExcept;
-import radixcore.util.RadixLogic;
-import radixcore.util.RadixMath;
+import radixcore.modules.RadixLogic;
+import radixcore.modules.RadixMath;
+import radixcore.modules.datawatcher.WatchedBoolean;
 
 public class AIHunting extends AbstractToggleAI
 {
@@ -32,7 +31,7 @@ public class AIHunting extends AbstractToggleAI
 	private boolean isTaming;
 	private int ticksActive;
 
-	public AIHunting(EntityHuman owner) 
+	public AIHunting(EntityVillagerMCA owner) 
 	{
 		super(owner);
 		isAIActive = new WatchedBoolean(false, WatcherIDsHuman.IS_HUNTING_ACTIVE, owner.getDataWatcherEx());

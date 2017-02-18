@@ -1,17 +1,14 @@
 package mca.command;
 
-import java.io.File;
 import java.util.Arrays;
-import java.util.UUID;
 
 import mca.ai.AIProgressStory;
 import mca.core.MCA;
 import mca.data.NBTPlayerData;
-import mca.data.PlayerData;
 import mca.data.PlayerDataCollection;
 import mca.data.PlayerMemory;
 import mca.entity.EntityGrimReaper;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.items.ItemBaby;
 import mca.util.MarriageHandler;
 import net.minecraft.command.CommandBase;
@@ -27,7 +24,6 @@ import net.minecraft.world.WorldServer;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Font.Format;
 import radixcore.constant.Time;
-import radixcore.data.AbstractPlayerData;
 
 public class CommandMCA extends CommandBase
 {
@@ -122,44 +118,13 @@ public class CommandMCA extends CommandBase
 				dataCollection.getPlayerData(player.getUniqueID()).dumpToConsole();
 			}
 			
-			else if (subcommand.equalsIgnoreCase("cpd"))
-			{
-				addChatMessage(commandSender, Color.YELLOW + "Beginning conversion of player data...");
-				
-				PlayerDataCollection dataCollection = PlayerDataCollection.get();
-				File playerDataPath = new File(AbstractPlayerData.getPlayerDataPath(server.getEntityWorld(), MCA.ID));
-				playerDataPath.mkdirs();
-
-				int total = 0;
-				int numSucceeded = 0;
-				
-				for (File f : playerDataPath.listFiles())
-				{
-					String uuid = f.getName().replace(".dat", "");
-					PlayerData data = new PlayerData(uuid, server.getEntityWorld());
-					data = data.readDataFromFile(null, PlayerData.class, f);
-					
-					boolean success = dataCollection.migrateOldPlayerData(server.getEntityWorld(), UUID.fromString(uuid), data);
-					
-					if (success)
-					{
-						numSucceeded++;
-					}
-					
-					total++;
-				}
-				
-				addChatMessage(commandSender, Color.GREEN + "Conversion of player data completed.");
-				addChatMessage(commandSender, Color.GREEN + "Successfully converted " + numSucceeded + " out of " + total);
-			}
-			
 			else if (subcommand.equalsIgnoreCase("ffh"))
 			{
 				for (Object obj : player.worldObj.loadedEntityList)
 				{
-					if (obj instanceof EntityHuman)
+					if (obj instanceof EntityVillagerMCA)
 					{
-						EntityHuman human = (EntityHuman) obj;
+						EntityVillagerMCA human = (EntityVillagerMCA) obj;
 						PlayerMemory memory = human.getPlayerMemory(player);
 						memory.setHearts(100);
 					}
@@ -190,9 +155,9 @@ public class CommandMCA extends CommandBase
 			{
 				for (Object obj : player.worldObj.loadedEntityList)
 				{
-					if (obj instanceof EntityHuman)
+					if (obj instanceof EntityVillagerMCA)
 					{
-						EntityHuman human = (EntityHuman) obj;
+						EntityVillagerMCA human = (EntityVillagerMCA) obj;
 
 						if (human.getIsChild())
 						{
@@ -212,9 +177,9 @@ public class CommandMCA extends CommandBase
 			{
 				for (Object obj : player.worldObj.loadedEntityList)
 				{
-					if (obj instanceof EntityHuman)
+					if (obj instanceof EntityVillagerMCA)
 					{
-						EntityHuman human = (EntityHuman) obj;
+						EntityVillagerMCA human = (EntityVillagerMCA) obj;
 						human.setTicksAlive(MCA.getConfig().storyProgressionThreshold * Time.MINUTE);
 
 						AIProgressStory storyAI = human.getAI(AIProgressStory.class);
@@ -229,9 +194,9 @@ public class CommandMCA extends CommandBase
 			{
 				for (Object obj : player.worldObj.loadedEntityList)
 				{
-					if (obj instanceof EntityHuman)
+					if (obj instanceof EntityVillagerMCA)
 					{
-						EntityHuman human = (EntityHuman) obj;
+						EntityVillagerMCA human = (EntityVillagerMCA) obj;
 						human.setIsInteracting(false);
 					}
 				}
@@ -245,9 +210,9 @@ public class CommandMCA extends CommandBase
 
 				for (Object obj : player.worldObj.loadedEntityList)
 				{
-					if (obj instanceof EntityHuman)
+					if (obj instanceof EntityVillagerMCA)
 					{
-						EntityHuman human = (EntityHuman) obj;
+						EntityVillagerMCA human = (EntityVillagerMCA) obj;
 						human.setDead();
 						num++;
 					}
@@ -260,9 +225,9 @@ public class CommandMCA extends CommandBase
 			{
 				for (Object obj : player.worldObj.loadedEntityList)
 				{
-					if (obj instanceof EntityHuman)
+					if (obj instanceof EntityVillagerMCA)
 					{
-						EntityHuman human = (EntityHuman) obj;
+						EntityVillagerMCA human = (EntityVillagerMCA) obj;
 						PlayerMemory memory = human.getPlayerMemory(player);
 						memory.setHearts(memory.getHearts() + 10);
 					}
@@ -275,9 +240,9 @@ public class CommandMCA extends CommandBase
 			{
 				for (Object obj : player.worldObj.loadedEntityList)
 				{
-					if (obj instanceof EntityHuman)
+					if (obj instanceof EntityVillagerMCA)
 					{
-						EntityHuman human = (EntityHuman) obj;
+						EntityVillagerMCA human = (EntityVillagerMCA) obj;
 						PlayerMemory memory = human.getPlayerMemory(player);
 						memory.setHearts(memory.getHearts() - 10);
 					}
@@ -307,9 +272,9 @@ public class CommandMCA extends CommandBase
 			{
 				for (Object obj : player.worldObj.loadedEntityList)
 				{
-					if (obj instanceof EntityHuman)
+					if (obj instanceof EntityVillagerMCA)
 					{
-						EntityHuman human = (EntityHuman) obj;
+						EntityVillagerMCA human = (EntityVillagerMCA) obj;
 						PlayerMemory memory = human.getPlayerMemory(player);
 						memory.setTimeUntilGreeting(0);
 					}
@@ -346,9 +311,9 @@ public class CommandMCA extends CommandBase
 				{
 					for (Object obj : player.worldObj.loadedEntityList)
 					{
-						if (obj instanceof EntityHuman)
+						if (obj instanceof EntityVillagerMCA)
 						{
-							EntityHuman human = (EntityHuman) obj;
+							EntityVillagerMCA human = (EntityVillagerMCA) obj;
 							PlayerMemory memory = human.getPlayerMemory(targetPlayer);
 							memory.setHearts(0);
 						}

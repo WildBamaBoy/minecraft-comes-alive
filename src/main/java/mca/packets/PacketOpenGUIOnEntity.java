@@ -3,19 +3,16 @@ package mca.packets;
 import io.netty.buffer.ByteBuf;
 import mca.client.gui.GuiInteraction;
 import mca.client.gui.GuiVillagerEditor;
-import mca.core.MCA;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.items.ItemVillagerEditor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import radixcore.packets.AbstractPacket;
+import radixcore.modules.net.AbstractPacket;
 
-public class PacketOpenGUIOnEntity extends AbstractPacket implements IMessage, IMessageHandler<PacketOpenGUIOnEntity, IMessage>
+public class PacketOpenGUIOnEntity extends AbstractPacket<PacketOpenGUIOnEntity>
 {
 	private int entityId;
 	private int guiId;
@@ -46,22 +43,13 @@ public class PacketOpenGUIOnEntity extends AbstractPacket implements IMessage, I
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public IMessage onMessage(PacketOpenGUIOnEntity packet, MessageContext context)
-	{
-		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
-		return null;
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	public void processOnGameThread(PacketOpenGUIOnEntity packet, MessageContext context) 
 	{
 		//Only open the GUI if the player doesn't have a previous one open.
 		if (Minecraft.getMinecraft().currentScreen == null)
 		{
-			PacketOpenGUIOnEntity packet = (PacketOpenGUIOnEntity)message;
 			final EntityPlayer player = this.getPlayer(context);
-			final EntityHuman entity = (EntityHuman) player.worldObj.getEntityByID(packet.entityId);
+			final EntityVillagerMCA entity = (EntityVillagerMCA) player.worldObj.getEntityByID(packet.entityId);
 			
 			if (player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem() instanceof ItemVillagerEditor)
 			{

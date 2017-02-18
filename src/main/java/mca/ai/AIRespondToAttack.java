@@ -3,9 +3,9 @@ package mca.ai;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.data.PlayerMemory;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumPersonality;
-import mca.enums.EnumProfessionGroup;
+import mca.enums.EnumProfessionSkinGroup;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -15,7 +15,7 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.util.FakePlayer;
-import radixcore.util.RadixMath;
+import radixcore.modules.RadixMath;
 
 public class AIRespondToAttack extends AbstractAI
 {
@@ -23,7 +23,7 @@ public class AIRespondToAttack extends AbstractAI
 	private Entity target;
 	private boolean isRetaliating;
 
-	public AIRespondToAttack(EntityHuman entityHuman) 
+	public AIRespondToAttack(EntityVillagerMCA entityHuman) 
 	{
 		super(entityHuman);
 	}
@@ -107,7 +107,7 @@ public class AIRespondToAttack extends AbstractAI
 
 					else if (distanceToTarget <= 1.8D)
 					{
-						float attackDamage = owner.getProfessionGroup() == EnumProfessionGroup.Guard ? MCA.getConfig().guardAttackDamage : MCA.getConfig().villagerAttackDamage;
+						float attackDamage = owner.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard ? MCA.getConfig().guardAttackDamage : MCA.getConfig().villagerAttackDamage;
 						owner.swingItem();
 						target.attackEntityFrom(DamageSource.generic, attackDamage);
 						reset();

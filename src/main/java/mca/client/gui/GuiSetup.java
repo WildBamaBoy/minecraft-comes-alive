@@ -24,19 +24,18 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import radixcore.client.render.RenderHelper;
 import radixcore.constant.Font.Color;
-import radixcore.data.BlockObj;
-import radixcore.data.DataWatcherEx;
 import radixcore.math.Point3D;
-import radixcore.util.BlockHelper;
-import radixcore.util.SchematicHandler;
+import radixcore.modules.RadixBlocks;
+import radixcore.modules.datawatcher.DataWatcherEx;
+import radixcore.modules.schematics.BlockObj;
 
 @SideOnly(Side.CLIENT)
 public class GuiSetup extends GuiScreen
@@ -195,7 +194,7 @@ public class GuiSetup extends GuiScreen
 
 				if (y > (int)player.posY - 2)
 				{
-					BlockHelper.setBlock(player.worldObj,
+					RadixBlocks.setBlock(player.worldObj,
 							MCA.destinyCenterPoint.iPosX + entry.getKey().iPosX, 
 							y, 
 							MCA.destinyCenterPoint.iPosZ + entry.getKey().iPosZ, Blocks.AIR);

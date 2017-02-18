@@ -25,8 +25,7 @@ import mca.packets.PacketSyncConfig;
 import mca.packets.PacketSyncPlayerMemory;
 import mca.packets.PacketToggleAI;
 import net.minecraftforge.fml.relauncher.Side;
-import radixcore.network.AbstractPacketHandler;
-import radixcore.packets.PacketDataContainer;
+import radixcore.modules.net.AbstractPacketHandler;
 
 public class MCAPacketHandler extends AbstractPacketHandler
 {
@@ -40,7 +39,6 @@ public class MCAPacketHandler extends AbstractPacketHandler
 	{
 		this.registerPacket(PacketGift.class, Side.SERVER);
 		this.registerPacket(PacketInteract.class, Side.SERVER);
-		this.registerPacket(PacketDataContainer.class, Side.CLIENT);
 		this.registerPacket(PacketOpenGUIOnEntity.class, Side.CLIENT);
 		this.registerPacket(PacketSyncPlayerMemory.class, Side.CLIENT);
 		this.registerPacket(PacketSetTutorialMessage.class, Side.CLIENT);

@@ -1,7 +1,5 @@
 package mca.core;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import org.apache.logging.log4j.Logger;
@@ -27,11 +25,10 @@ import mca.core.minecraft.ModItems;
 import mca.core.radix.CrashWatcher;
 import mca.core.radix.LanguageParser;
 import mca.data.NBTPlayerData;
-import mca.data.PlayerData;
 import mca.data.PlayerDataCollection;
 import mca.entity.EntityChoreFishHook;
 import mca.entity.EntityGrimReaper;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumCut;
 import mca.enums.EnumProfession;
 import mca.network.MCAPacketHandler;
@@ -55,9 +52,7 @@ import net.minecraft.item.ItemFishFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -76,16 +71,14 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import radixcore.core.ModMetadataEx;
 import radixcore.core.RadixCore;
-import radixcore.data.AbstractPlayerData;
-import radixcore.forge.gen.SimpleOreGenerator;
-import radixcore.lang.LanguageManager;
 import radixcore.math.Point3D;
-import radixcore.update.RDXUpdateProtocol;
-import radixcore.util.RadixExcept;
-import radixcore.util.RadixLogic;
-import radixcore.util.RadixStartup;
+import radixcore.modules.RadixLogic;
+import radixcore.modules.gen.SimpleOreGenerator;
+import radixcore.modules.lang.LanguageManager;
+import radixcore.modules.updates.IUpdateProtocol;
+import radixcore.modules.updates.RDXUpdateProtocol;
 
-@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore@[1.10.2-2.1.3,)", acceptedMinecraftVersions = "[1.10.2]",
+@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore@[1.11-2.3.0,)", acceptedMinecraftVersions = "[1.11]",
 guiFactory = "mca.core.forge.client.MCAGuiFactory")
 public class MCA
 {
@@ -112,8 +105,6 @@ public class MCA
 	@SidedProxy(clientSide = "mca.core.forge.ClientProxy", serverSide = "mca.core.forge.ServerProxy")
 	public static ServerProxy proxy;
 
-	public static Map<String, AbstractPlayerData> playerDataMap;
-
 	@SideOnly(Side.CLIENT)
 	public static NBTPlayerData myPlayerData;
 	@SideOnly(Side.CLIENT)
@@ -122,11 +113,6 @@ public class MCA
 	public static boolean destinySpawnFlag;
 	@SideOnly(Side.CLIENT)
 	public static boolean reloadLanguage;
-
-	//Fields used for unit testing only.
-	public static boolean isTesting;
-	public static PlayerData stevePlayerData;
-	public static PlayerData alexPlayerData;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
@@ -140,19 +126,16 @@ public class MCA
 		crashWatcher = new CrashWatcher();
 		packetHandler = new MCAPacketHandler(ID);
 		proxy.registerEventHandlers();
-		playerDataMap = new HashMap<String, AbstractPlayerData>();
 		
 		ModMetadataEx exData = ModMetadataEx.getFromModMetadata(metadata);
-		exData.updateProtocolClass = config.allowUpdateChecking ? RDXUpdateProtocol.class : null;
-		exData.classContainingClientDataContainer = MCA.class;
-		exData.classContainingGetPlayerDataMethod = MCA.class;
-		exData.playerDataMap = playerDataMap;
+		exData.updateProtocol = (IUpdateProtocol) (config.allowUpdateChecking ? RDXUpdateProtocol.class : (IUpdateProtocol) null);
+		exData.packetHandler = packetHandler;
 
 		RadixCore.registerMod(exData);
 
-		if (exData.updateProtocolClass == null)
+		if (exData.updateProtocol == null)
 		{
-			logger.fatal("Config: Update checking is turned off. You will not be notified of any available updates for MCA.");
+			logger.warn("Update checking is turned off. You will not be notified of any available updates for MCA.");
 		}
 
 		SoundsMCA.registerSounds();
@@ -176,7 +159,7 @@ public class MCA
 		SkinLoader.loadSkins();
 
 		//Entity registry
-		EntityRegistry.registerModEntity(EntityHuman.class, EntityHuman.class.getSimpleName(), config.baseEntityId, this, 50, 2, true);
+		EntityRegistry.registerModEntity(EntityVillagerMCA.class, EntityVillagerMCA.class.getSimpleName(), config.baseEntityId, this, 50, 2, true);
 		EntityRegistry.registerModEntity(EntityChoreFishHook.class, EntityChoreFishHook.class.getSimpleName(), config.baseEntityId + 1, this, 50, 2, true);
 		EntityRegistry.registerModEntity(EntityGrimReaper.class, EntityGrimReaper.class.getSimpleName(), config.baseEntityId + 2, this, 50, 2, true);
 		
@@ -620,25 +603,6 @@ public class MCA
 	@EventHandler
 	public void serverStopping(FMLServerStoppingEvent event)
 	{
-		for (AbstractPlayerData data : playerDataMap.values())
-		{
-			try
-			{
-				data.saveDataToFile();
-			}
-
-			catch (NullPointerException e)
-			{
-				RadixExcept.logErrorCatch(e, "Catching error saving player data due to NPE.");
-			}
-
-			if (data != null) //Bad data seems to be generated with other mods.
-			{
-				data.saveDataToFile();
-			}
-		}
-
-		MCA.playerDataMap.clear();
 	}
 
 	public static MCA getInstance()
@@ -713,38 +677,17 @@ public class MCA
 		return PlayerDataCollection.get().getPlayerData(uuid);
 	}
 
-	public static EntityHuman getHumanByPermanentId(int id) 
-	{
-		for (WorldServer world : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers)
-		{
-			for (Object obj : world.loadedEntityList)
-			{
-				if (obj instanceof EntityHuman)
-				{
-					EntityHuman human = (EntityHuman)obj;
-
-					if (human.getPermanentId() == id)
-					{
-						return human;
-					}
-				}
-			}
-		}
-
-		return null;
-	}
-
 	public static void naturallySpawnVillagers(Point3D pointOfSpawn, World world, int originalProfession)
 	{
 		boolean hasFamily = RadixLogic.getBooleanWithProbability(20);
 		boolean isMale = RadixLogic.getBooleanWithProbability(50);
 
-		final EntityHuman human = new EntityHuman(world, isMale, originalProfession != -1 ? originalProfession : EnumProfession.getAtRandom().getId(), true);
+		final EntityVillagerMCA human = new EntityVillagerMCA(world, isMale, originalProfession != -1 ? originalProfession : EnumProfession.getAtRandom().getId(), true);
 		human.setPosition(pointOfSpawn.dPosX, pointOfSpawn.dPosY, pointOfSpawn.dPosZ);
 
 		if (hasFamily)
 		{
-			final EntityHuman spouse = new EntityHuman(world, !isMale, EnumProfession.getAtRandom().getId(), false);
+			final EntityVillagerMCA spouse = new EntityVillagerMCA(world, !isMale, EnumProfession.getAtRandom().getId(), false);
 			spouse.setPosition(human.posX, human.posY, human.posZ - 1);
 			world.spawnEntityInWorld(spouse);
 
@@ -764,7 +707,7 @@ public class MCA
 					continue;
 				}
 
-				final EntityHuman child = new EntityHuman(world, RadixLogic.getBooleanWithProbability(50), true, motherName, fatherName, motherID, fatherID, false);
+				final EntityVillagerMCA child = new EntityVillagerMCA(world, RadixLogic.getBooleanWithProbability(50), true, motherName, fatherName, motherID, fatherID, false);
 				child.setPosition(pointOfSpawn.dPosX, pointOfSpawn.dPosY, pointOfSpawn.dPosZ + 1);
 				world.spawnEntityInWorld(child);
 			}

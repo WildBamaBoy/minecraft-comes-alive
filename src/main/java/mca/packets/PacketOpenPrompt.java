@@ -2,18 +2,15 @@ package mca.packets;
 
 import io.netty.buffer.ByteBuf;
 import mca.client.gui.GuiPrompt;
-import mca.core.MCA;
 import mca.enums.EnumInteraction;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import radixcore.packets.AbstractPacket;
+import radixcore.modules.net.AbstractPacket;
 
-public class PacketOpenPrompt extends AbstractPacket implements IMessage, IMessageHandler<PacketOpenPrompt, IMessage>
+public class PacketOpenPrompt extends AbstractPacket<PacketOpenPrompt>
 {
 	private int senderId;
 	private int targetId;
@@ -49,17 +46,8 @@ public class PacketOpenPrompt extends AbstractPacket implements IMessage, IMessa
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public IMessage onMessage(PacketOpenPrompt packet, MessageContext context)
+	public void processOnGameThread(PacketOpenPrompt packet, MessageContext context) 
 	{
-		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
-		return null;
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void processOnGameThread(IMessageHandler message, MessageContext context) 
-	{
-		PacketOpenPrompt packet = (PacketOpenPrompt)message;
 		EntityPlayer target = this.getPlayer(context);
 		EntityPlayer sender = (EntityPlayer) target.worldObj.getEntityByID(packet.senderId);
 		EnumInteraction interaction = EnumInteraction.fromId(packet.interactionId);

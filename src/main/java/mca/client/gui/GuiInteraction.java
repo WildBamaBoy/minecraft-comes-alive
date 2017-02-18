@@ -27,11 +27,11 @@ import mca.api.exception.MappingNotFoundException;
 import mca.core.MCA;
 import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumCombatBehaviors;
 import mca.enums.EnumInteraction;
 import mca.enums.EnumMovementState;
-import mca.enums.EnumProfessionGroup;
+import mca.enums.EnumProfessionSkinGroup;
 import mca.enums.EnumSleepingState;
 import mca.packets.PacketGift;
 import mca.packets.PacketInteract;
@@ -42,6 +42,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -50,18 +51,17 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import radixcore.client.render.RenderHelper;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Font.Format;
-import radixcore.data.DataWatcherEx;
-import radixcore.util.NumberCycleList;
+import radixcore.datastructures.CircularIntList;
+import radixcore.modules.datawatcher.DataWatcherEx;
 
 @SideOnly(Side.CLIENT)
 public class GuiInteraction extends GuiScreen
 {
 	private static boolean displaySuccessChance;
 	
-	private final EntityHuman villager;
+	private final EntityVillagerMCA villager;
 	private final EntityPlayer player;
 	private final PlayerMemory memory;
 	private final NBTPlayerData playerData;
@@ -77,41 +77,41 @@ public class GuiInteraction extends GuiScreen
 	 * Fields used for AI controls.
 	 */
 	private int currentPage;
-	private NumberCycleList radiusMappings;
-	private NumberCycleList farmingMappings;
-	private NumberCycleList woodcuttingMappings;
-	private NumberCycleList miningMappings;
-	private NumberCycleList hireLengths;
-	private NumberCycleList combatMethods;
-	private NumberCycleList combatTriggers;
-	private NumberCycleList combatTargets;
+	private CircularIntList radiusMappings;
+	private CircularIntList farmingMappings;
+	private CircularIntList woodcuttingMappings;
+	private CircularIntList miningMappings;
+	private CircularIntList hireLengths;
+	private CircularIntList combatMethods;
+	private CircularIntList combatTriggers;
+	private CircularIntList combatTargets;
 	private boolean farmingModeFlag;
 	private boolean miningModeFlag;
 	private boolean huntingModeFlag;
 	private boolean woodcuttingReplantFlag;
 
-	public GuiInteraction(EntityHuman villager, EntityPlayer player)
+	public GuiInteraction(EntityVillagerMCA villager, EntityPlayer player)
 	{
 		super();
 		this.villager = villager;
 		this.player = player;
 		this.playerData = MCA.getPlayerData(player);
 		this.memory = villager.getPlayerMemory(player);
-		this.radiusMappings = NumberCycleList.fromIntegers(5, 10, 15, 20, 25);
-		this.farmingMappings = NumberCycleList.fromList(RegistryMCA.getCropEntryIDs());
-		this.woodcuttingMappings = NumberCycleList.fromList(RegistryMCA.getWoodcuttingBlockIDs());
-		this.miningMappings = NumberCycleList.fromList(RegistryMCA.getMiningEntryIDs());
-		this.hireLengths = NumberCycleList.fromIntegers(1, 2, 3);
-		this.combatMethods = NumberCycleList.fromIntegers(
+		this.radiusMappings = CircularIntList.fromIntegers(5, 10, 15, 20, 25);
+		this.farmingMappings = CircularIntList.fromList(RegistryMCA.getCropEntryIDs());
+		this.woodcuttingMappings = CircularIntList.fromList(RegistryMCA.getWoodcuttingBlockIDs());
+		this.miningMappings = CircularIntList.fromList(RegistryMCA.getMiningEntryIDs());
+		this.hireLengths = CircularIntList.fromIntegers(1, 2, 3);
+		this.combatMethods = CircularIntList.fromIntegers(
 				EnumCombatBehaviors.METHOD_DO_NOT_FIGHT.getNumericId(),
 				EnumCombatBehaviors.METHOD_MELEE_ONLY.getNumericId(),
 				EnumCombatBehaviors.METHOD_RANGED_ONLY.getNumericId(),
 				EnumCombatBehaviors.METHOD_MELEE_AND_RANGED.getNumericId());
-		this.combatTriggers = NumberCycleList.fromIntegers(
+		this.combatTriggers = CircularIntList.fromIntegers(
 				EnumCombatBehaviors.TRIGGER_PLAYER_TAKE_DAMAGE.getNumericId(),
 				EnumCombatBehaviors.TRIGGER_PLAYER_DEAL_DAMAGE.getNumericId(),
 				EnumCombatBehaviors.TRIGGER_ALWAYS.getNumericId());
-		this.combatTargets = NumberCycleList.fromIntegers(
+		this.combatTargets = CircularIntList.fromIntegers(
 				EnumCombatBehaviors.TARGET_HOSTILE_MOBS.getNumericId(),
 				EnumCombatBehaviors.TARGET_PASSIVE_MOBS.getNumericId(),
 				EnumCombatBehaviors.TARGET_PASSIVE_OR_HOSTILE_MOBS.getNumericId());
@@ -213,7 +213,7 @@ public class GuiInteraction extends GuiScreen
 		if (villager.getIsInfected())
 		{
 			//Compensate for "Age: Adult" by moving over 80 instead of 62. 18 for all others.
-			int xLoc = villager.getProfessionGroup() == EnumProfessionGroup.Child ? 
+			int xLoc = villager.getProfessionSkinGroup() == EnumProfessionSkinGroup.Child ? 
 					villager.getIsChild() ? 62 : 80 : 18;
 			
 			RenderHelper.drawTextPopup(Color.GREEN + Format.BOLD + "INFECTED!", xLoc, 11);			
@@ -270,7 +270,7 @@ public class GuiInteraction extends GuiScreen
 		RenderHelper.drawTextPopup(moodString, 18, 29);
 		RenderHelper.drawTextPopup(personalityString, 18, 46);
 
-		if (villager.getProfessionGroup() == EnumProfessionGroup.Child)
+		if (villager.getProfessionSkinGroup() == EnumProfessionSkinGroup.Child)
 		{
 			if (villager.getIsChild())
 			{
@@ -734,7 +734,7 @@ public class GuiInteraction extends GuiScreen
 
 		buttonList.add(new GuiButton(EnumInteraction.INTERACT.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.interact"))); yLoc -= yInt;
 
-		if (villager.allowControllingInteractions(player))
+		if (villager.allowsControllingInteractions(player))
 		{
 			buttonList.add(new GuiButton(EnumInteraction.FOLLOW.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.follow"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.STAY.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.stay"))); yLoc -= yInt;
@@ -753,7 +753,7 @@ public class GuiInteraction extends GuiScreen
 			buttonList.add(new GuiButton(EnumInteraction.TRADE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.trade"))); yLoc -= yInt;
 		}
 
-		if (villager.allowControllingInteractions(player))
+		if (villager.allowsControllingInteractions(player))
 		{
 			buttonList.add(new GuiButton(EnumInteraction.SET_HOME.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.sethome"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.RIDE_HORSE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.ridehorse"))); yLoc -= yInt;
@@ -780,7 +780,7 @@ public class GuiInteraction extends GuiScreen
 			buttonList.add(new GuiButton(EnumInteraction.PICK_UP.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.pickup"))); yLoc -= yInt;
 		}
 
-		if (villager.allowWorkInteractions(player))
+		if (villager.allowsWorkInteractions(player))
 		{
 			buttonList.add(new GuiButton(EnumInteraction.INVENTORY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.inventory"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.WORK.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.work"))); yLoc -= yInt;
@@ -825,7 +825,7 @@ public class GuiInteraction extends GuiScreen
 		buttonList.add(new GuiButton(EnumInteraction.SHAKE_HAND.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.shakehand"))); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.TELL_STORY.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.tellstory"))); yLoc -= yInt;
 
-		if (villager.allowIntimateInteractions(player))
+		if (villager.allowsIntimateInteractions(player))
 		{
 			buttonList.add(new GuiButton(EnumInteraction.FLIRT.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.flirt"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.HUG.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.hug"))); yLoc -= yInt;
@@ -880,7 +880,7 @@ public class GuiInteraction extends GuiScreen
 
 		if (memory.getIsHiredBy())
 		{
-			EnumProfessionGroup profession = villager.getProfessionGroup();
+			EnumProfessionSkinGroup profession = villager.getProfessionSkinGroup();
 			EnumInteraction validChore = null;
 
 			switch (profession)
@@ -957,14 +957,14 @@ public class GuiInteraction extends GuiScreen
 			}
 		}
 
-		else if (villager.getProfessionGroup() == EnumProfessionGroup.Priest && villager.getPlayerSpouse() != player)
+		else if (villager.getProfessionSkinGroup() == EnumProfessionSkinGroup.Priest && villager.getPlayerSpouse() != player)
 		{
 			buttonList.add(new GuiButton(EnumInteraction.DIVORCE.getId(),  width / 2 + xLoc - 20, height / 2 - yLoc,  85, 20, MCA.getLanguageManager().getString("gui.button.divorcespouse"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.ADOPTBABY.getId(),  width / 2 + xLoc - 20, height / 2 - yLoc,  85, 20, MCA.getLanguageManager().getString("gui.button.adoptbaby"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.RESETBABY.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.resetbaby"))); yLoc -= yInt;
 		}
 		
-		else if (villager.getProfessionGroup() == EnumProfessionGroup.Librarian && villager.getPlayerSpouse() != player)
+		else if (villager.getProfessionSkinGroup() == EnumProfessionSkinGroup.Librarian && villager.getPlayerSpouse() != player)
 		{
 			buttonList.add(new GuiButton(EnumInteraction.CHECKHAPPINESS.getId(),  width / 2 + xLoc - 20, height / 2 - yLoc,  85, 20, MCA.getLanguageManager().getString("gui.button.checkhappiness"))); yLoc -= yInt;
 		}

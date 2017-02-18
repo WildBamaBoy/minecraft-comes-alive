@@ -1,8 +1,6 @@
 package mca.ai;
 
-import mca.core.MCA;
-import mca.entity.EntityHuman;
-import mca.enums.EnumProfessionGroup;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
 
@@ -10,7 +8,7 @@ public class AIRegenerate extends AbstractAI
 {
 	private int timeUntilNextRegen;
 
-	public AIRegenerate(EntityHuman owner) 
+	public AIRegenerate(EntityVillagerMCA owner) 
 	{
 		super(owner);
 		timeUntilNextRegen = Time.SECOND * 3;

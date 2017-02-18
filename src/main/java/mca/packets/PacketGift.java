@@ -11,9 +11,10 @@ import mca.core.minecraft.ModAchievements;
 import mca.core.minecraft.ModItems;
 import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumBabyState;
 import mca.enums.EnumProgressionStep;
+import mca.inventory.VillagerInventory;
 import mca.util.MarriageHandler;
 import mca.util.TutorialManager;
 import mca.util.Utilities;
@@ -29,15 +30,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import radixcore.inventory.Inventory;
-import radixcore.packets.AbstractPacket;
-import radixcore.util.RadixLogic;
-import radixcore.util.RadixMath;
+import radixcore.math.Point3D;
+import radixcore.modules.RadixLogic;
+import radixcore.modules.RadixMath;
+import radixcore.modules.net.AbstractPacket;
 
-public class PacketGift extends AbstractPacket implements IMessage, IMessageHandler<PacketGift, IMessage>
+public class PacketGift extends AbstractPacket<PacketGift>
 {
 	private int entityId;
 	private int slot;
@@ -46,7 +45,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 	{
 	}
 
-	public PacketGift(EntityHuman human, int slot)
+	public PacketGift(EntityVillagerMCA human, int slot)
 	{
 		this.entityId = human.getEntityId();
 		this.slot = slot;
@@ -66,19 +65,12 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 		byteBuf.writeInt(slot);
 	}
 
-	@Override
-	public IMessage onMessage(PacketGift packet, MessageContext context)
-	{
-		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
-		return null;
-	}
-
-	private boolean handleWeddingRing(EntityPlayer player, EntityHuman human)
+	private boolean handleWeddingRing(EntityPlayer player, EntityVillagerMCA human)
 	{
 		NBTPlayerData data = MCA.getPlayerData(player);
 		PlayerMemory memory = human.getPlayerMemory(player);
 
-		if (human.getIsChild() || !human.allowIntimateInteractions(player))
+		if (human.getIsChild() || !human.allowsIntimateInteractions(player))
 		{
 			human.say("interaction.give.invalid", player); 
 		}
@@ -126,9 +118,9 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 		return false;
 	}
 
-	private boolean handleMatchmakersRing(EntityPlayer player, EntityHuman human, ItemStack stack)
+	private boolean handleMatchmakersRing(EntityPlayer player, EntityVillagerMCA human, ItemStack stack)
 	{
-		EntityHuman partner = (EntityHuman) RadixLogic.getNearestEntityOfTypeWithinDistance(EntityHuman.class, human, 5);
+		EntityVillagerMCA partner = RadixLogic.getClosestEntity(Point3D.fromEntityPosition(human), human.worldObj, 5, EntityVillagerMCA.class, human);
 
 		if (human.getIsChild())
 		{
@@ -198,12 +190,12 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 		return false;
 	}
 
-	private boolean handleEngagementRing(EntityPlayer player, EntityHuman human)
+	private boolean handleEngagementRing(EntityPlayer player, EntityVillagerMCA human)
 	{
 		NBTPlayerData data = MCA.getPlayerData(player);
 		PlayerMemory memory = human.getPlayerMemory(player);
 
-		if (human.getIsChild() || !human.allowIntimateInteractions(player))
+		if (human.getIsChild() || !human.allowsIntimateInteractions(player))
 		{
 			human.say("interaction.give.invalid", player); 
 		}
@@ -251,7 +243,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 		return false;
 	}
 
-	private boolean handleDivorcePapers(EntityPlayer player, EntityHuman human) 
+	private boolean handleDivorcePapers(EntityPlayer player, EntityVillagerMCA human) 
 	{
 		NBTPlayerData data = MCA.getPlayerData(player);
 		PlayerMemory memory = human.getPlayerMemory(player);
@@ -286,7 +278,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 			else
 			{
-				final EntityHuman partner = human.getVillagerSpouse();
+				final EntityVillagerMCA partner = human.getVillagerSpouse();
 
 				if (partner != null)
 				{
@@ -302,7 +294,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 		return false;
 	}
 
-	private boolean handleStandardGift(EntityPlayer player, EntityHuman human, int slot, ItemStack stack)
+	private boolean handleStandardGift(EntityPlayer player, EntityVillagerMCA human, int slot, ItemStack stack)
 	{
 		final PlayerMemory memory = human.getPlayerMemory(player);
 		final Object queryObject = stack.getItem() instanceof ItemBlock ? Block.getBlockFromItem(stack.getItem()) : stack.getItem();
@@ -347,17 +339,15 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 	}
 
 	@Override
-	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	public void processOnGameThread(PacketGift packet, MessageContext context) 
 	{
-		final PacketGift packet = (PacketGift)message;
-		
-		EntityHuman human = null;
+		EntityVillagerMCA human = null;
 		EntityPlayer player = null;
 
 		for (WorldServer world : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers)
 		{
 			player = getPlayer(context);
-			human = (EntityHuman) world.getEntityByID(packet.entityId);
+			human = (EntityVillagerMCA) world.getEntityByID(packet.entityId);
 
 			if (player != null && human != null)
 			{
@@ -419,7 +409,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				removeItem = true;
 				removeCount = 1;
 
-				human.getVillagerInventory().addItemStackToInventory(stack);
+				human.getVillagerInventory().addItem(stack);
 			}
 
 			else if (item == Items.CAKE || Block.getBlockFromItem(item) == Blocks.CAKE)
@@ -428,7 +418,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 
 				if (human.isMarriedToAVillager() && human.getVillagerSpouse() != null && RadixMath.getDistanceToEntity(human, human.getVillagerSpouse()) <= 8.5D)
 				{
-					EntityHuman spouse = human.getVillagerSpouse();
+					EntityVillagerMCA spouse = human.getVillagerSpouse();
 
 					removeItem = true;
 					removeCount = 1;
@@ -437,7 +427,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 					{
 						human.say("gift.cake" + RadixMath.getNumberInRange(1, 3), player);
 
-						final EntityHuman progressor = !human.getIsMale() ? human : !spouse.getIsMale() ? spouse : human;
+						final EntityVillagerMCA progressor = !human.getIsMale() ? human : !spouse.getIsMale() ? spouse : human;
 						human.getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.HAD_BABY);
 						spouse.getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.HAD_BABY);
 
@@ -466,7 +456,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				}
 			}
 
-			else if (item == ModItems.newOutfit && human.allowControllingInteractions(player))
+			else if (item == ModItems.newOutfit && human.allowsControllingInteractions(player))
 			{
 				Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.VILLAGER_HAPPY, human, 16);
 				human.setClothesTexture(human.getRandomSkin());
@@ -479,7 +469,7 @@ public class PacketGift extends AbstractPacket implements IMessage, IMessageHand
 				removeItem = true;
 				removeCount = 1;
 
-				Inventory inventory = human.getVillagerInventory();
+				VillagerInventory inventory = human.getVillagerInventory();
 				ItemArmor armor = (ItemArmor)item;
 				int inventorySlot = 0;
 

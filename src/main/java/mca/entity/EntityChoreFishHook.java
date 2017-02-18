@@ -36,7 +36,7 @@ public class EntityChoreFishHook extends Entity
     private Block inTile;
     private boolean inGround;
     public int shake;
-    public EntityHuman angler;
+    public EntityVillagerMCA angler;
     private int ticksInGround;
     private int ticksInAir;
     private int ticksCatchable;
@@ -68,7 +68,7 @@ public class EntityChoreFishHook extends Entity
     }
 
     @SideOnly(Side.CLIENT)
-    public EntityChoreFishHook(World worldIn, double x, double y, double z, EntityHuman anglerIn)
+    public EntityChoreFishHook(World worldIn, double x, double y, double z, EntityVillagerMCA anglerIn)
     {
         this(worldIn);
         this.setPosition(x, y, z);
@@ -77,7 +77,7 @@ public class EntityChoreFishHook extends Entity
         angler.getAI(AIFishing.class).setHookEntity(this);
     }
 
-    public EntityChoreFishHook(World worldIn, EntityHuman anglerIn)
+    public EntityChoreFishHook(World worldIn, EntityVillagerMCA anglerIn)
     {
         super(worldIn);
         this.xTile = -1;

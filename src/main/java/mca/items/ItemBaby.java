@@ -6,7 +6,7 @@ import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
 import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumDialogueType;
 import mca.enums.EnumRelation;
 import mca.packets.PacketOpenBabyNameGUI;
@@ -56,7 +56,7 @@ public class ItemBaby extends Item
 		{
 			if (!itemStack.hasTagCompound())
 			{
-				String ownerName = entity instanceof EntityPlayer ? entity.getName() : entity instanceof EntityHuman ? ((EntityHuman)entity).getSpouseName() : "Unknown";
+				String ownerName = entity instanceof EntityPlayer ? entity.getName() : entity instanceof EntityVillagerMCA ? ((EntityVillagerMCA)entity).getSpouseName() : "Unknown";
 
 				NBTTagCompound compound = new NBTTagCompound();
 
@@ -119,7 +119,7 @@ public class ItemBaby extends Item
 				motherId = data.getPermanentId();				
 			}
 
-			final EntityHuman child = new EntityHuman(worldObj, baby.isBoy, true, motherName, fatherName, motherId, fatherId, true);
+			final EntityVillagerMCA child = new EntityVillagerMCA(worldObj, baby.isBoy, true, motherName, fatherName, motherId, fatherId, true);
 			child.setPosition(posX, posY + 1, posZ);
 			child.setName(stack.getTagCompound().getString("name"));
 

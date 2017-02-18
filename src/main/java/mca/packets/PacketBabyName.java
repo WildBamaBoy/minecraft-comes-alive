@@ -6,20 +6,18 @@ import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
 import mca.core.minecraft.ModItems;
 import mca.data.NBTPlayerData;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.items.ItemBaby;
 import mca.util.TutorialManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import radixcore.network.ByteBufIO;
-import radixcore.packets.AbstractPacket;
-import radixcore.util.RadixLogic;
+import radixcore.modules.RadixLogic;
+import radixcore.modules.RadixNettyIO;
+import radixcore.modules.net.AbstractPacket;
 
-public class PacketBabyName extends AbstractPacket implements IMessage, IMessageHandler<PacketBabyName, IMessage>
+public class PacketBabyName extends AbstractPacket<PacketBabyName>
 {
 	private String babyName;
 	private int slot;
@@ -37,32 +35,24 @@ public class PacketBabyName extends AbstractPacket implements IMessage, IMessage
 	@Override
 	public void fromBytes(ByteBuf byteBuf)
 	{
-		babyName = (String) ByteBufIO.readObject(byteBuf);
+		babyName = (String) RadixNettyIO.readObject(byteBuf);
 		slot = byteBuf.readInt();
 	}
 
 	@Override
 	public void toBytes(ByteBuf byteBuf)
 	{
-		ByteBufIO.writeObject(byteBuf, babyName);
+		RadixNettyIO.writeObject(byteBuf, babyName);
 		byteBuf.writeInt(slot);
 	}
 
 	@Override
-	public IMessage onMessage(PacketBabyName packet, MessageContext context)
+	public void processOnGameThread(PacketBabyName packet, MessageContext context) 
 	{
-		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
-		return null;
-	}
-
-	@Override
-	public void processOnGameThread(IMessageHandler message, MessageContext context) 
-	{
-		PacketBabyName packet = (PacketBabyName)message;
 		EntityPlayer senderPlayer = this.getPlayer(context);
 		ItemStack stack = packet.slot == -1 ? null : senderPlayer.inventory.getStackInSlot(packet.slot); //To avoid index out of bounds.
 		NBTPlayerData data = MCA.getPlayerData(senderPlayer);
-		EntityHuman playerSpouse = MCA.getHumanByPermanentId(data.getSpousePermanentId());
+		EntityVillagerMCA playerSpouse = MCA.getHumanByPermanentId(data.getSpousePermanentId());
 		
 		//Player has the baby.
 		if (stack != null && stack.getItem() instanceof ItemBaby)

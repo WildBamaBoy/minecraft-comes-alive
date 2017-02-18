@@ -1,18 +1,14 @@
 package mca.packets;
 
 import io.netty.buffer.ByteBuf;
-import mca.core.MCA;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import radixcore.math.Point3D;
-import radixcore.packets.AbstractPacket;
+import radixcore.modules.net.AbstractPacket;
 
-public class PacketSpawnLightning extends AbstractPacket implements IMessage, IMessageHandler<PacketSpawnLightning, IMessage>
+public class PacketSpawnLightning extends AbstractPacket<PacketSpawnLightning>
 {
 	private Point3D position;
 	
@@ -29,9 +25,9 @@ public class PacketSpawnLightning extends AbstractPacket implements IMessage, IM
 	@Override
 	public void toBytes(ByteBuf buf) 
 	{
-		buf.writeDouble(this.position.dPosX);
-		buf.writeDouble(this.position.dPosY);
-		buf.writeDouble(this.position.dPosZ);
+		buf.writeDouble(this.position.dX());
+		buf.writeDouble(this.position.dY());
+		buf.writeDouble(this.position.dZ());
 	}
 	
 	@Override
@@ -44,18 +40,10 @@ public class PacketSpawnLightning extends AbstractPacket implements IMessage, IM
 	}
 
 	@Override
-	public IMessage onMessage(PacketSpawnLightning packet, MessageContext ctx) 
+	public void processOnGameThread(PacketSpawnLightning packet, MessageContext context) 
 	{
-		MCA.getPacketHandler().addPacketForProcessing(ctx.side, packet, ctx);
-		return null;
-	}
-
-	@Override
-	public void processOnGameThread(IMessageHandler message, MessageContext context) 
-	{
-		PacketSpawnLightning packet = (PacketSpawnLightning)message;
 		World world = getPlayerClient().worldObj;
-		EntityLightningBolt lightning = new EntityLightningBolt(world, packet.position.dPosX, packet.position.dPosY, packet.position.dPosZ, false);
+		EntityLightningBolt lightning = new EntityLightningBolt(world, packet.position.dX(), packet.position.dY(), packet.position.dZ(), false);
 		
 		world.spawnEntityInWorld(lightning);
 		getPlayerClient().playSound(SoundEvents.ENTITY_LIGHTNING_THUNDER, 2.0F, 1.0F);

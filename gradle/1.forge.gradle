@@ -12,9 +12,9 @@ minecraft {
     versionProps['BUILD_NUMBER']=code.toString()
     versionProps.store(versionPropsFile.newWriter(), null)
 	
-    version = "1.10.2-12.18.0.2007-1.10.0"
+    version = "1.11-13.19.0.2180"
     runDir = "run"
-    mappings = "snapshot_20160518"
+    mappings = "snapshot_20161111"
 	replaceIn "mca/core/MCA.java"
     replace   "@VERSION@", "${project.minecraft.version}-${project.version}" + "." + buildNumber
 }

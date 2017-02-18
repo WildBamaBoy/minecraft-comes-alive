@@ -1,5 +1,9 @@
 package mca.core;
 
+import java.util.UUID;
+
+import com.google.common.base.Optional;
+
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -8,6 +12,9 @@ import net.minecraft.network.datasync.EntityDataManager;
 public final class Constants 
 {
 	public static final DataParameter<Integer> OVERWRITE_KEY = EntityDataManager.<Integer>createKey(EntityVillager.class, DataSerializers.VARINT);
+	
+	public static final UUID EMPTY_UUID = new UUID(0, 0);
+	public static final Optional<UUID> EMPTY_UUID_OPT = Optional.of(EMPTY_UUID);
 	
 	public static final int GUI_ID_NAMEBABY = 1;
 	public static final int GUI_ID_SETUP = 2;

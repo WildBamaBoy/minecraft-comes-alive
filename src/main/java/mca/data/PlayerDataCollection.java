@@ -15,7 +15,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldSavedData;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import radixcore.util.RadixExcept;
 
 public class PlayerDataCollection extends WorldSavedData 
 {	

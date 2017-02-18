@@ -2,12 +2,12 @@ package mca.data;
 
 import java.util.Map;
 
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.nbt.NBTTagCompound;
 
 public final class PlayerMemoryHandler 
 {
-	public static void readPlayerMemoryFromNBT(EntityHuman human, Map<String, PlayerMemory> playerMemories, NBTTagCompound nbt)
+	public static void readPlayerMemoryFromNBT(EntityVillagerMCA human, Map<String, PlayerMemory> playerMemories, NBTTagCompound nbt)
 	{
 		int counter = 0;
 		

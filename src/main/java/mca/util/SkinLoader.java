@@ -15,12 +15,12 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
-import mca.enums.EnumProfessionGroup;
+import mca.core.MCA;
+import mca.enums.EnumProfessionSkinGroup;
 import radixcore.core.RadixCore;
-import radixcore.util.RadixExcept;
 
 /**
- * Handles loading of MCA's skins skins.
+ * Handles loading of MCA's skins.
  */
 public final class SkinLoader
 {
@@ -37,18 +37,18 @@ public final class SkinLoader
 
 			else
 			{
-				RadixExcept.logFatalCatch(new FileNotFoundException("Unable to locate MCA assets!"), "Unable to find MCA JAR file in mods folder. If using a third party launcher, check that it is set up properly. Ensure that MCA is a .JAR file, not a .ZIP file or folder.");
+				MCA.getLog().fatal(new FileNotFoundException("Unable to locate MCA assets!"));
 			}
 		}
 
 		catch (final IOException e)
 		{
-			RadixExcept.logFatalCatch(e, "Unexpected exception while loading skins.");
+			MCA.getLog().fatal(e);
 		}
 		
 		catch (final NullPointerException e)
 		{
-			RadixExcept.logFatalCatch(e, "Unexpected exception while loading skins.");
+			MCA.getLog().fatal(e);
 		}
 	}
 
@@ -58,8 +58,7 @@ public final class SkinLoader
 
 		if (modData == null)
 		{
-				RadixExcept.logFatalCatch(new FileNotFoundException("Unable to locate MCA assets! This may be due to an issue with your launcher (if made by a third party), or your MCA installation. Try reinstalling the mod, or try a different launcher."), 
-						"Unable to find file containing MCA assets.");
+			MCA.getLog().fatal(new FileNotFoundException("Unable to locate MCA assets! This may be due to an issue with your launcher (if made by a third party), or your MCA installation. Try reinstalling the mod, or try a different launcher."));
 		}
 
 		return modData;
@@ -106,7 +105,7 @@ public final class SkinLoader
 
 			if (archiveFilePath.contains("textures/skins") && !archiveFilePath.contains("/sleeping/"))
 			{
-				for (EnumProfessionGroup skinGroup : EnumProfessionGroup.values())
+				for (EnumProfessionSkinGroup skinGroup : EnumProfessionSkinGroup.values())
 				{
 					if (file.getName().contains(skinGroup.toString()))
 					{

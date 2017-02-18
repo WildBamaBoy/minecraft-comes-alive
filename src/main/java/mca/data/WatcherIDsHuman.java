@@ -7,6 +7,7 @@ public class WatcherIDsHuman
 	public static final int HEAD_TEXTURE = 3;
 	public static final int IS_SLEEPING = 4;
 	public static final int IS_MALE = 5;
+	@Deprecated
 	public static final int PERMANENT_ID = 6;
 	public static final int IS_MARRIED = 7;
 	public static final int SPOUSE_ID = 8;
@@ -15,6 +16,7 @@ public class WatcherIDsHuman
 	public static final int IS_CHILD = 11;
 	public static final int AGE = 12;
 	public static final int PARENT_NAMES = 13;
+	@Deprecated
 	public static final int PARENT_IDS = 14;
 	public static final int SPOUSE_NAME = 15;
 	public static final int IS_IN_BED = 16;
@@ -51,6 +53,7 @@ public class WatcherIDsHuman
 	public static final int CLOTHES_TEXTURE = 47;
 	public static final int IS_INFECTED = 48;
 	public static final int DO_OPEN_INVENTORY = 49;
+	@Deprecated
 	public static final int PLAYER_SKIN_USERNAME = 50;
 	public static final int PARENTS_GENDERS = 51;
 	public static final int COMBAT_METHOD = 52;

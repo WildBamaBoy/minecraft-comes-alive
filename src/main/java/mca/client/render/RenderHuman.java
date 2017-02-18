@@ -12,10 +12,10 @@ import mca.client.model.ModelHuman;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.data.PlayerMemory;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.util.UVPoint;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
@@ -24,13 +24,12 @@ import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
-import radixcore.client.render.RenderHelper;
-import radixcore.util.RadixMath;
+import radixcore.modules.RadixMath;
 
 /**
  * Determines how a Human is rendered.
  */
-public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
+public class RenderHuman<T extends EntityVillagerMCA> extends RenderBiped<T>
 {
 	private static final ResourceLocation gui = new ResourceLocation("mca:textures/gui.png");
 	private static final UVPoint exMark = new UVPoint(55, 18, 3, 13);
@@ -48,9 +47,9 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 	}
 
 	@Override
-	protected void preRenderCallback(EntityHuman entityLivingBase, float partialTickTime)
+	protected void preRenderCallback(EntityVillagerMCA entityLivingBase, float partialTickTime)
 	{
-		final EntityHuman entity = (EntityHuman) entityLivingBase;
+		final EntityVillagerMCA entity = (EntityVillagerMCA) entityLivingBase;
 		final AISleep sleepAI = entity.getAI(AISleep.class);
 		float scale = entity.getIsMale() ? Constants.SCALE_M_ADULT : Constants.SCALE_F_ADULT;
 		
@@ -93,7 +92,7 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 	}
 
 	@SuppressWarnings("unchecked")
-	private void doRenderEntity(EntityHuman entity, double x, double y, double z, float entityYaw, float partialTicks)
+	private void doRenderEntity(EntityVillagerMCA entity, double x, double y, double z, float entityYaw, float partialTicks)
 	{
 		final EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 		final PlayerMemory memory = entity.getPlayerMemoryWithoutCreating(player);
@@ -140,7 +139,7 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 	/**
 	 * Renders labels, effects, etc. around the entity.
 	 */
-	private void doRenderEffects(EntityHuman entity, double x, double y, double z, float entityYaw, float partialTicks)
+	private void doRenderEffects(EntityVillagerMCA entity, double x, double y, double z, float entityYaw, float partialTicks)
 	{
 		final int currentHealth = (int) entity.getHealth();
 		final int maxHealth = (int) entity.getMaxHealth();
@@ -178,7 +177,7 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 		}
 	}
 
-	private void renderHearts(EntityHuman human, double posX, double posY, double posZ, int heartsLevel)
+	private void renderHearts(EntityVillagerMCA human, double posX, double posY, double posZ, int heartsLevel)
 	{
 		try
 		{
@@ -255,7 +254,7 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 		}
 	}
 
-	private void renderLabel(EntityHuman human, double posX, double posY, double posZ, String labelText)
+	private void renderLabel(EntityVillagerMCA human, double posX, double posY, double posZ, String labelText)
 	{
 		renderLivingLabel((T) human, labelText, posX, posY, posZ, 64);
 	}
@@ -272,7 +271,7 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 		return !(Minecraft.getMinecraft().currentScreen instanceof GuiInteraction) && distance < 5.0D && isPlayerLookingAt && Minecraft.isGuiEnabled() && entityRendering != Minecraft.getMinecraft().thePlayer && !entityRendering.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) && !entityRendering.isBeingRidden();
 	}
 
-	protected void renderHumanSleeping(EntityHuman entity, double partialTickTime)
+	protected void renderHumanSleeping(EntityVillagerMCA entity, double partialTickTime)
 	{
 		final AISleep sleepAI = entity.getAI(AISleep.class);
 		final int meta = sleepAI.getBedMeta();
@@ -311,7 +310,7 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 	}
 	
 	@Override
-	public void doRender(EntityHuman entity, double x, double y, double z, float entityYaw, float partialTicks)
+	public void doRender(EntityVillagerMCA entity, double x, double y, double z, float entityYaw, float partialTicks)
 	{
 		doRenderEntity(entity, x, y, z, entityYaw, partialTicks);
 		doRenderEffects(entity, x, y, z, entityYaw, partialTicks);
@@ -320,7 +319,7 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 	@Override
 	protected ResourceLocation getEntityTexture(T entity)
 	{
-		final EntityHuman human = (EntityHuman)entity;
+		final EntityVillagerMCA human = (EntityVillagerMCA)entity;
 		final String skinName = human.getHeadTexture();
 
 		if (skinName.isEmpty())
@@ -335,7 +334,7 @@ public class RenderHuman<T extends EntityHuman> extends RenderBiped<T>
 
 		else
 		{
-			return new ResourceLocation(((EntityHuman)entity).getHeadTexture());
+			return new ResourceLocation(((EntityVillagerMCA)entity).getHeadTexture());
 		}
 	}
 }

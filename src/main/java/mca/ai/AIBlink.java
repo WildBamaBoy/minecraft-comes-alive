@@ -1,10 +1,10 @@
 package mca.ai;
 
 import mca.core.MCA;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
-import radixcore.util.RadixMath;
+import radixcore.modules.RadixMath;
 
 public class AIBlink extends AbstractAI
 {
@@ -13,7 +13,7 @@ public class AIBlink extends AbstractAI
 	public int timeHeldBlink;
 	public int nextBlink;
 
-	public AIBlink(EntityHuman owner) 
+	public AIBlink(EntityVillagerMCA owner) 
 	{
 		super(owner);
 	}
@@ -31,7 +31,7 @@ public class AIBlink extends AbstractAI
 	@Override
 	public void onUpdateServer() 
 	{
-		if (MCA.getConfig().allowBlinking && !owner.getAI(AISleep.class).getIsSleeping() && owner.getHealth() > 0.0F && !owner.usesPlayerSkin())
+		if (MCA.getConfig().allowBlinking && !owner.getAI(AISleep.class).getIsSleeping() && owner.getHealth() > 0.0F)
 		{
 			timeSinceLastBlink++;
 

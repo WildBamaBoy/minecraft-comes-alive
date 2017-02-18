@@ -1,18 +1,14 @@
 package mca.packets;
 
 import io.netty.buffer.ByteBuf;
-import mca.core.MCA;
 import mca.data.PlayerMemory;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import radixcore.network.ByteBufIO;
-import radixcore.packets.AbstractPacket;
-import radixcore.util.RadixExcept;
+import radixcore.modules.RadixNettyIO;
+import radixcore.modules.net.AbstractPacket;
 
-public class PacketSyncPlayerMemory extends AbstractPacket implements IMessage, IMessageHandler<PacketSyncPlayerMemory, IMessage>
+public class PacketSyncPlayerMemory extends AbstractPacket<PacketSyncPlayerMemory>
 {
 	private int entityId;
 	private PlayerMemory memory;
@@ -31,41 +27,25 @@ public class PacketSyncPlayerMemory extends AbstractPacket implements IMessage, 
 	public void fromBytes(ByteBuf byteBuf)
 	{
 		this.entityId = byteBuf.readInt();
-		this.memory = (PlayerMemory) ByteBufIO.readObject(byteBuf);
+		this.memory = (PlayerMemory) RadixNettyIO.readObject(byteBuf);
 	}
 
 	@Override
 	public void toBytes(ByteBuf byteBuf)
 	{		
 		byteBuf.writeInt(entityId);
-		ByteBufIO.writeObject(byteBuf, this.memory);
+		RadixNettyIO.writeObject(byteBuf, this.memory);
 	}
 
 	@Override
-	public IMessage onMessage(PacketSyncPlayerMemory packet, MessageContext context)
+	public void processOnGameThread(PacketSyncPlayerMemory packet, MessageContext context) 
 	{
-		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
-		return null;
-	}
-
-	@Override
-	public void processOnGameThread(IMessageHandler message, MessageContext context) 
-	{
-		try
-		{
-			PacketSyncPlayerMemory packet = (PacketSyncPlayerMemory) message;
-			EntityPlayer player = getPlayer(context);
-			EntityHuman human = (EntityHuman) player.worldObj.getEntityByID(packet.entityId);
-			
-			if (human != null && packet.memory != null) //Noticing NPE here with varying causes. Can be ignored.
-			{
-				human.setPlayerMemory(player, packet.memory);
-			}
-		}
+		EntityPlayer player = getPlayer(context);
+		EntityVillagerMCA human = (EntityVillagerMCA) player.worldObj.getEntityByID(packet.entityId);
 		
-		catch (Exception e)
+		if (human != null && packet.memory != null) //Noticing NPE here with varying causes. Can be ignored.
 		{
-			RadixExcept.logErrorCatch(e, "Unexpected error while syncing player memory.");
+			human.setPlayerMemory(player, packet.memory);
 		}
 	}
 }

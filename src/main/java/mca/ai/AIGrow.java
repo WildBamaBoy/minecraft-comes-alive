@@ -2,18 +2,18 @@ package mca.ai;
 
 import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
-import radixcore.util.RadixMath;
+import radixcore.modules.RadixMath;
 
 public class AIGrow extends AbstractAI
 {
 	private int timeUntilTickUpdate;
 	private int freeTickUpdates;
 	
-	public AIGrow(EntityHuman entityHuman) 
+	public AIGrow(EntityVillagerMCA entityHuman) 
 	{
 		super(entityHuman);
 	}

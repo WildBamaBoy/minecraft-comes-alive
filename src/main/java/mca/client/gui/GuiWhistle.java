@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import mca.core.MCA;
 import mca.data.VillagerSaveData;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.packets.PacketCallVillager;
 import mca.packets.PacketRequestRelatedVillagers;
 import net.minecraft.client.Minecraft;
@@ -15,7 +15,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import radixcore.data.DataWatcherEx;
+import radixcore.modules.datawatcher.DataWatcherEx;
 
 /**
  * Defines the GUI shown when the player right clicks the whistle.
@@ -23,7 +23,7 @@ import radixcore.data.DataWatcherEx;
 @SideOnly(Side.CLIENT)
 public class GuiWhistle extends GuiScreen
 {
-	private EntityHuman dummyHuman;
+	private EntityVillagerMCA dummyHuman;
 
 	private List<VillagerSaveData> villagerDataList;
 
@@ -183,7 +183,7 @@ public class GuiWhistle extends GuiScreen
 		{
 			VillagerSaveData firstData = dataList.get(0);
 			villagerNameButton.displayString = firstData.displayTitle;
-			dummyHuman = new EntityHuman(Minecraft.getMinecraft().theWorld);
+			dummyHuman = new EntityVillagerMCA(Minecraft.getMinecraft().theWorld);
 
 			updateDummyVillagerWithData(firstData);
 		}

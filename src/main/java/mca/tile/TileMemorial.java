@@ -3,12 +3,13 @@ package mca.tile;
 import mca.core.MCA;
 import mca.data.PlayerMemory;
 import mca.data.VillagerSaveData;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumDialogueType;
+import mca.enums.EnumGender;
 import mca.enums.EnumMemorialType;
 import mca.enums.EnumRelation;
 import mca.packets.PacketMemorialUpdateGet;
-import mca.util.MarriageHandler;
+import mca.util.Either;
 import mca.util.Utilities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -18,7 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
 import radixcore.constant.Time;
-import radixcore.util.BlockHelper;
+import radixcore.modules.RadixBlocks;
 
 public class TileMemorial extends TileEntity implements ITickable
 {
@@ -52,13 +53,13 @@ public class TileMemorial extends TileEntity implements ITickable
 
 			if (revivalTicks == 1) //Last tick
 			{	
-				EntityHuman human = new EntityHuman(worldObj);
+				EntityVillagerMCA human = new EntityVillagerMCA(worldObj);
 
 				data.applyToHuman(human);
 				human.setPosition(xCoord + 0.5D, yCoord, zCoord + 0.5D);
 				worldObj.spawnEntityInWorld(human);
 
-				BlockHelper.setBlock(worldObj, xCoord, yCoord, zCoord, Blocks.AIR);
+				RadixBlocks.setBlock(worldObj, xCoord, yCoord, zCoord, Blocks.AIR);
 				Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.VILLAGER_HAPPY, human, 32);
 				Utilities.spawnParticlesAroundPointS(EnumParticleTypes.FIREWORKS_SPARK, worldObj, xCoord + 0.5D, yCoord, zCoord + 0.5D, 16);
 				player.playSound(SoundEvents.ENTITY_FIREWORK_LARGE_BLAST, 3.0F, 1.0F);
@@ -70,7 +71,7 @@ public class TileMemorial extends TileEntity implements ITickable
 				
 				else if (this.getType() == EnumMemorialType.BROKEN_RING)
 				{
-					MarriageHandler.startMarriage(player, human);
+					human.setSpouse(Either.<EntityVillagerMCA, EntityPlayer>withR(player));
 					human.getPlayerMemory(player).setHearts(100);
 				}
 
@@ -79,7 +80,7 @@ public class TileMemorial extends TileEntity implements ITickable
 					PlayerMemory memory = human.getPlayerMemory(player);
 					memory.setHearts(100);
 					memory.setDialogueType(EnumDialogueType.CHILDP);
-					memory.setRelation(human.getIsMale() ? EnumRelation.SON : EnumRelation.DAUGHTER);
+					memory.setRelation(human.getGender() == EnumGender.MALE ? EnumRelation.SON : EnumRelation.DAUGHTER);
 				}
 			}
 

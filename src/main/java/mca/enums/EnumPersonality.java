@@ -9,7 +9,7 @@ import mca.core.MCA;
 public enum EnumPersonality 
 {
 	//Fallback on error.
-	NONE(0, EnumMoodGroup.ALL),
+	UNASSIGNED(0, EnumMoodGroup.UNASSIGNED),
 
 	//Positive
 	ATHLETIC(1, EnumMoodGroup.PLAYFUL),  	//Runs 15% faster

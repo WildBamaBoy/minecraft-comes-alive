@@ -2,19 +2,16 @@ package mca.packets;
 
 import io.netty.buffer.ByteBuf;
 import mca.client.gui.GuiVillagerPrompt;
-import mca.core.MCA;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumInteraction;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import radixcore.packets.AbstractPacket;
+import radixcore.modules.net.AbstractPacket;
 
-public class PacketOpenVillagerPrompt extends AbstractPacket implements IMessage, IMessageHandler<PacketOpenVillagerPrompt, IMessage>
+public class PacketOpenVillagerPrompt extends AbstractPacket<PacketOpenVillagerPrompt>
 {
 	private int senderId;
 	private int targetId;
@@ -25,7 +22,7 @@ public class PacketOpenVillagerPrompt extends AbstractPacket implements IMessage
 		//Required
 	}
 
-	public PacketOpenVillagerPrompt(EntityPlayer player, EntityHuman human, EnumInteraction interaction)
+	public PacketOpenVillagerPrompt(EntityPlayer player, EntityVillagerMCA human, EnumInteraction interaction)
 	{
 		this.senderId = player.getEntityId();
 		this.targetId = human.getEntityId();
@@ -50,20 +47,10 @@ public class PacketOpenVillagerPrompt extends AbstractPacket implements IMessage
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public IMessage onMessage(PacketOpenVillagerPrompt packet, MessageContext context)
+	public void processOnGameThread(PacketOpenVillagerPrompt packet, MessageContext context) 
 	{
-		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
-		return null;
-	}
-
-	@SideOnly(Side.CLIENT)
-	@Override
-	public void processOnGameThread(IMessageHandler message, MessageContext context) 
-	{
-		PacketOpenVillagerPrompt packet = (PacketOpenVillagerPrompt)message;
-		
 		EntityPlayer player = this.getPlayer(context);
-		EntityHuman human = (EntityHuman) player.worldObj.getEntityByID(packet.targetId);
+		EntityVillagerMCA human = (EntityVillagerMCA) player.worldObj.getEntityByID(packet.targetId);
 		EnumInteraction interaction = EnumInteraction.fromId(packet.interactionId);
 		
 		Minecraft.getMinecraft().displayGuiScreen(new GuiVillagerPrompt(player, human, interaction));

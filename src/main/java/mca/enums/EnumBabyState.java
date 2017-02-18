@@ -1,6 +1,6 @@
 package mca.enums;
 
-import radixcore.util.RadixLogic;
+import radixcore.modules.RadixLogic;
 
 public enum EnumBabyState 
 {

@@ -1,7 +1,7 @@
 package mca.items;
 
 import mca.core.MCA;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -12,7 +12,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import radixcore.util.BlockHelper;
+import radixcore.modules.RadixBlocks;
 
 public class ItemSpawnEgg extends Item
 {
@@ -39,7 +39,7 @@ public class ItemSpawnEgg extends Item
 		
 		if (!worldObj.isRemote)
 		{
-			final Block block = BlockHelper.getBlock(worldObj, posX, posY, posZ);
+			final Block block = RadixBlocks.getBlock(worldObj, posX, posY, posZ);
 			double verticalOffset = 0.0D;
 
 			spawnHuman(worldObj, posX + 0.5D, posY + verticalOffset, posZ + 0.5D);
@@ -55,7 +55,7 @@ public class ItemSpawnEgg extends Item
 
 	public void spawnHuman(World world, double posX, double posY, double posZ)
 	{
-		EntityHuman entityHuman = new EntityHuman(world, isMale);
+		EntityVillagerMCA entityHuman = new EntityVillagerMCA(world, isMale);
 		entityHuman.setPosition(posX, posY, posZ);
 		world.spawnEntityInWorld(entityHuman);
 	}

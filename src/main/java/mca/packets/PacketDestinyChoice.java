@@ -6,7 +6,7 @@ import mca.core.minecraft.ModBlocks;
 import mca.core.minecraft.ModItems;
 import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumDestinyChoice;
 import mca.enums.EnumDialogueType;
 import mca.tile.TileTombstone;
@@ -18,18 +18,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import radixcore.data.DataWatcherEx;
 import radixcore.math.Point3D;
-import radixcore.packets.AbstractPacket;
-import radixcore.util.BlockHelper;
-import radixcore.util.RadixLogic;
-import radixcore.util.RadixMath;
-import radixcore.util.SchematicHandler;
+import radixcore.modules.RadixBlocks;
+import radixcore.modules.RadixLogic;
+import radixcore.modules.RadixMath;
+import radixcore.modules.datawatcher.DataWatcherEx;
+import radixcore.modules.net.AbstractPacket;
+import radixcore.modules.schematics.RadixSchematics;
 
-public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMessageHandler<PacketDestinyChoice, IMessage>
+public class PacketDestinyChoice extends AbstractPacket<PacketDestinyChoice>
 {
 	private EnumDestinyChoice choice;
 
@@ -53,20 +51,12 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 	{
 		byteBuf.writeInt(choice.getId());
 	}
-
+	
 	@Override
-	public IMessage onMessage(PacketDestinyChoice packet, MessageContext context)
-	{
-		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
-		return null;
-	}
-
-	@Override
-	public void processOnGameThread(IMessageHandler message, MessageContext context) 
+	public void processOnGameThread(PacketDestinyChoice packet, MessageContext context) 
 	{
 		DataWatcherEx.allowClientSideModification = true;
 		
-		final PacketDestinyChoice packet = (PacketDestinyChoice)message;
 		final EntityPlayerMP player = (EntityPlayerMP)this.getPlayer(context);
 		final NBTPlayerData data = MCA.getPlayerData(player);
 		final WorldServer world = (WorldServer)player.worldObj;
@@ -104,10 +94,10 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 			
 			else if (packet.choice == EnumDestinyChoice.FAMILY)
 			{
-				SchematicHandler.spawnStructureRelativeToPlayer("/assets/mca/schematic/family.schematic", player);
+				RadixSchematics.spawnStructureRelativeToPlayer("/assets/mca/schematic/family.schematic", player);
 
 				boolean isSpouseMale = data.getGenderPreference() == 0 ? true : data.getGenderPreference() == 2 ? false : world.rand.nextBoolean();
-				EntityHuman spouse = new EntityHuman(world, isSpouseMale);
+				EntityVillagerMCA spouse = new EntityVillagerMCA(world, isSpouseMale);
 				spouse.setPosition(player.posX - 2, player.posY, player.posZ);
 				world.spawnEntityInWorld(spouse);
 
@@ -143,7 +133,7 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 						fatherId = spouse.getPermanentId();
 					}
 					
-					final EntityHuman child = new EntityHuman(world, RadixLogic.getBooleanWithProbability(50), true, motherName, fatherName, motherId, fatherId, true);
+					final EntityVillagerMCA child = new EntityVillagerMCA(world, RadixLogic.getBooleanWithProbability(50), true, motherName, fatherName, motherId, fatherId, true);
 					child.setPosition(player.posX + RadixMath.getNumberInRange(1, 3), player.posY, player.posZ);
 					world.spawnEntityInWorld(child);
 
@@ -156,24 +146,24 @@ public class PacketDestinyChoice extends AbstractPacket implements IMessage, IMe
 
 			else if (packet.choice == EnumDestinyChoice.ALONE)
 			{
-				SchematicHandler.spawnStructureRelativeToPlayer("/assets/mca/schematic/bachelor.schematic", player);				
+				RadixSchematics.spawnStructureRelativeToPlayer("/assets/mca/schematic/bachelor.schematic", player);				
 			}
 
 			else if (packet.choice == EnumDestinyChoice.VILLAGE)
 			{
-				SchematicHandler.spawnStructureRelativeToPlayer("/assets/mca/schematic/village1.schematic", player);
+				RadixSchematics.spawnStructureRelativeToPlayer("/assets/mca/schematic/village1.schematic", player);
 
 				for (Point3D point : RadixLogic.getNearbyBlocks(player, Blocks.MOB_SPAWNER, 70))
 				{
-					BlockHelper.setBlock(player.worldObj, point.iPosX, point.iPosY, point.iPosZ, Blocks.AIR);
-					MCA.naturallySpawnVillagers(new Point3D(point.iPosX, point.iPosY, point.iPosZ), world, -1);
+					RadixBlocks.setBlock(player.worldObj, point, Blocks.AIR);
+					MCA.naturallySpawnVillagers(new Point3D(point.iX(), point.iY(), point.iZ()), world, -1);
 				}
 
 				for (Point3D point : RadixLogic.getNearbyBlocks(player, Blocks.BEDROCK, 70))
 				{
-					BlockHelper.setBlock(player.worldObj, point.iPosX, point.iPosY, point.iPosZ, ModBlocks.tombstone);
+					RadixBlocks.setBlock(player.worldObj, point, ModBlocks.tombstone);
 
-					final TileTombstone tile = (TileTombstone) BlockHelper.getTileEntity(player.worldObj, point.iPosX, point.iPosY, point.iPosZ);
+					final TileTombstone tile = (TileTombstone) player.worldObj.getTileEntity(point.toBlockPos());
 
 					if (tile != null)
 					{

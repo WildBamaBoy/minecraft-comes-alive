@@ -4,35 +4,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mca.core.MCA;
-import mca.entity.EntityHuman;
-import radixcore.util.RadixMath;
+import mca.entity.EntityVillagerMCA;
+import radixcore.modules.RadixMath;
 
 public enum EnumProfession 
 {
-	Farmer       (0,  EnumProfessionGroup.Farmer,   1),
-	Fisherman    (1,  EnumProfessionGroup.Farmer,   2),
-	Shepherd     (2,  EnumProfessionGroup.Farmer,   3),
-	Fletcher     (3,  EnumProfessionGroup.Farmer,   4),
-	Librarian    (4,  EnumProfessionGroup.Librarian,1),
-	Cleric       (5,  EnumProfessionGroup.Priest,   1),
-	Armorer      (6,  EnumProfessionGroup.Smith,    1),
-	WeaponSmith  (7,  EnumProfessionGroup.Smith,    2),
-	ToolSmith    (8,  EnumProfessionGroup.Smith,    3),
-	Butcher      (9,  EnumProfessionGroup.Butcher,  1),
-	Baker        (10, EnumProfessionGroup.Baker,    1),
-	Leatherworker(11, EnumProfessionGroup.Butcher,  2),
-	Guard        (12, EnumProfessionGroup.Guard,    1),
-	Archer       (13, EnumProfessionGroup.Guard,    1),
-	Miner        (14, EnumProfessionGroup.Miner,    1),
-	Mason        (15, EnumProfessionGroup.Miner,    1),
-	Child        (16, EnumProfessionGroup.Child,    1),
-	Warrior      (17, EnumProfessionGroup.Warrior,  3);
+	Unassigned	 (-1, EnumProfessionSkinGroup.Unassigned, -1),
+	Farmer       (0,  EnumProfessionSkinGroup.Farmer,   1),
+	Fisherman    (1,  EnumProfessionSkinGroup.Farmer,   2),
+	Shepherd     (2,  EnumProfessionSkinGroup.Farmer,   3),
+	Fletcher     (3,  EnumProfessionSkinGroup.Farmer,   4),
+	Librarian    (4,  EnumProfessionSkinGroup.Librarian,1),
+	Cleric       (5,  EnumProfessionSkinGroup.Priest,   1),
+	Armorer      (6,  EnumProfessionSkinGroup.Smith,    1),
+	WeaponSmith  (7,  EnumProfessionSkinGroup.Smith,    2),
+	ToolSmith    (8,  EnumProfessionSkinGroup.Smith,    3),
+	Butcher      (9,  EnumProfessionSkinGroup.Butcher,  1),
+	Baker        (10, EnumProfessionSkinGroup.Baker,    1),
+	Leatherworker(11, EnumProfessionSkinGroup.Butcher,  2),
+	Guard        (12, EnumProfessionSkinGroup.Guard,    1),
+	Archer       (13, EnumProfessionSkinGroup.Guard,    1),
+	Miner        (14, EnumProfessionSkinGroup.Miner,    1),
+	Mason        (15, EnumProfessionSkinGroup.Miner,    1),
+	Child        (16, EnumProfessionSkinGroup.Child,    1),
+	Warrior      (17, EnumProfessionSkinGroup.Warrior,  3);
 
 	private int id;
 	private int vanillaCareerId;
-	private EnumProfessionGroup skinGroup;
+	private EnumProfessionSkinGroup skinGroup;
 
-	private EnumProfession(int id, EnumProfessionGroup skinGroup, int vanillaCareerId)
+	private EnumProfession(int id, EnumProfessionSkinGroup skinGroup, int vanillaCareerId)
 	{
 		this.id = id;
 		this.vanillaCareerId = vanillaCareerId;
@@ -48,23 +49,23 @@ public enum EnumProfession
 	{
 		switch (id)
 		{
-		case 0: return getRandomByGroup(EnumProfessionGroup.Farmer, EnumProfessionGroup.Miner);
-		case 1: return getRandomByGroup(EnumProfessionGroup.Librarian);
-		case 2: return getRandomByGroup(EnumProfessionGroup.Priest);
-		case 3: return getRandomByGroup(EnumProfessionGroup.Smith);
-		case 4: return getRandomByGroup(EnumProfessionGroup.Butcher, EnumProfessionGroup.Baker);
+		case 0: return getRandomByGroup(EnumProfessionSkinGroup.Farmer, EnumProfessionSkinGroup.Miner);
+		case 1: return getRandomByGroup(EnumProfessionSkinGroup.Librarian);
+		case 2: return getRandomByGroup(EnumProfessionSkinGroup.Priest);
+		case 3: return getRandomByGroup(EnumProfessionSkinGroup.Smith);
+		case 4: return getRandomByGroup(EnumProfessionSkinGroup.Butcher, EnumProfessionSkinGroup.Baker);
 		default:
-			return getRandomByGroup(EnumProfessionGroup.Farmer);
+			return getRandomByGroup(EnumProfessionSkinGroup.Farmer);
 		}
 	}
 
-	public static EnumProfession getRandomByGroup(EnumProfessionGroup... groups)
+	public static EnumProfession getRandomByGroup(EnumProfessionSkinGroup... groups)
 	{
 		List<EnumProfession> groupProfessions = new ArrayList<EnumProfession>();
 
 		for (EnumProfession profession : EnumProfession.values())
 		{
-			for (EnumProfessionGroup group : groups)
+			for (EnumProfessionSkinGroup group : groups)
 			{
 				if (profession.skinGroup == group)
 				{
@@ -96,7 +97,7 @@ public enum EnumProfession
 		return values[returnIndex];
 	}
 
-	public String getUserFriendlyForm(EntityHuman human) 
+	public String getUserFriendlyForm(EntityVillagerMCA human) 
 	{
 		//Player children have the "child" profession. Change their display title to "Villager" if they're grown up.
 		if (this == Child && !human.getIsChild())
@@ -117,7 +118,7 @@ public enum EnumProfession
 		}
 	}
 
-	public EnumProfessionGroup getSkinGroup()
+	public EnumProfessionSkinGroup getSkinGroup()
 	{
 		return skinGroup;
 	}

@@ -8,7 +8,7 @@ import mca.core.Constants;
 import mca.core.MCA;
 import mca.data.WatcherIDsHuman;
 import mca.entity.EntityChoreFishHook;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -16,10 +16,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Font.Color;
-import radixcore.data.WatchedBoolean;
 import radixcore.math.Point3D;
-import radixcore.util.RadixLogic;
-import radixcore.util.RadixMath;
+import radixcore.modules.RadixLogic;
+import radixcore.modules.RadixMath;
+import radixcore.modules.datawatcher.WatchedBoolean;
 
 public class AIFishing extends AbstractToggleAI
 {
@@ -36,7 +36,7 @@ public class AIFishing extends AbstractToggleAI
 	private int fishCatchCheck;
 	private int idleFishingTime;
 
-	public AIFishing(EntityHuman owner) 
+	public AIFishing(EntityVillagerMCA owner) 
 	{
 		super(owner);
 		isAIActive = new WatchedBoolean(false, WatcherIDsHuman.IS_FISHING_ACTIVE, owner.getDataWatcherEx());
@@ -292,7 +292,7 @@ public class AIFishing extends AbstractToggleAI
 	private void doItemVerification()
 	{
 		//Make sure a child has a fishing rod.
-		if (owner instanceof EntityHuman && !owner.getVillagerInventory().contains(Items.FISHING_ROD))
+		if (owner instanceof EntityVillagerMCA && !owner.getVillagerInventory().contains(Items.FISHING_ROD))
 		{
 			owner.say("fishing.norod", getAssigningPlayer());
 			reset();

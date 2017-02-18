@@ -3,7 +3,7 @@ package mca.ai;
 import mca.api.CookableFood;
 import mca.api.RegistryMCA;
 import mca.data.WatcherIDsHuman;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -11,11 +11,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import radixcore.constant.Time;
-import radixcore.data.WatchedBoolean;
 import radixcore.math.Point3D;
-import radixcore.util.BlockHelper;
-import radixcore.util.RadixLogic;
-import radixcore.util.RadixMath;
+import radixcore.modules.RadixBlocks;
+import radixcore.modules.RadixLogic;
+import radixcore.modules.RadixMath;
+import radixcore.modules.datawatcher.WatchedBoolean;
 
 public class AICooking extends AbstractToggleAI
 {
@@ -31,7 +31,7 @@ public class AICooking extends AbstractToggleAI
 	private int cookingTicks;
 	private int cookingInterval;
 
-	public AICooking(EntityHuman owner) 
+	public AICooking(EntityVillagerMCA owner) 
 	{
 		super(owner);
 		isAIActive = new WatchedBoolean(false, WatcherIDsHuman.IS_COOKING_ACTIVE, owner.getDataWatcherEx());
@@ -47,7 +47,7 @@ public class AICooking extends AbstractToggleAI
 		{
 			if (hasFurnace)
 			{
-				BlockHelper.updateFurnaceState(false, owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ);
+				RadixBlocks.updateFurnaceState(false, owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ);
 			}
 		}
 	}
@@ -262,8 +262,8 @@ public class AICooking extends AbstractToggleAI
 
 	private boolean isFurnaceStillPresent()
 	{
-		return BlockHelper.getBlock(owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ) == Blocks.FURNACE || 
-				BlockHelper.getBlock(owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ) == Blocks.LIT_FURNACE;
+		return RadixBlocks.getBlock(owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ) == Blocks.FURNACE || 
+				RadixBlocks.getBlock(owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ) == Blocks.LIT_FURNACE;
 	}
 
 
@@ -277,9 +277,9 @@ public class AICooking extends AbstractToggleAI
 			{
 				if (cookingTicks <= cookingInterval)
 				{
-					if (BlockHelper.getBlock(owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ) != Blocks.LIT_FURNACE)
+					if (RadixBlocks.getBlock(owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ) != Blocks.LIT_FURNACE)
 					{
-						BlockHelper.updateFurnaceState(true, owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ);
+						RadixBlocks.updateFurnaceState(true, owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ);
 					}
 
 					cookingTicks++;
@@ -313,7 +313,7 @@ public class AICooking extends AbstractToggleAI
 					hasCookableFood = false;
 					cookingTicks = 0;
 					fuelUsesRemaining--;
-					BlockHelper.updateFurnaceState(false, owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ);
+					RadixBlocks.updateFurnaceState(false, owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ);
 
 					if (fuelUsesRemaining <= 0)
 					{

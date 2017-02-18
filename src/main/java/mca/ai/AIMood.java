@@ -4,7 +4,7 @@ import java.util.Random;
 
 import mca.core.MCA;
 import mca.data.WatcherIDsHuman;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumMood;
 import mca.enums.EnumPersonality;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,8 +12,8 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.constant.Time;
-import radixcore.data.WatchedFloat;
-import radixcore.util.RadixMath;
+import radixcore.modules.RadixMath;
+import radixcore.modules.datawatcher.WatchedFloat;
 
 public class AIMood extends AbstractAI
 {
@@ -26,7 +26,7 @@ public class AIMood extends AbstractAI
 
 	private int counter;
 	
-	public AIMood(EntityHuman entityHuman) 
+	public AIMood(EntityVillagerMCA entityHuman) 
 	{
 		super(entityHuman);
 

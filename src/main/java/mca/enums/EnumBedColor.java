@@ -1,7 +1,5 @@
 package mca.enums;
 
-import radixcore.util.RadixString;
-
 public enum EnumBedColor 
 {
 	BLUE,
@@ -13,6 +11,6 @@ public enum EnumBedColor
 	@Override
 	public String toString()
 	{
-		return RadixString.upperFirstLetter(this.name().toLowerCase());
+		return name().toLowerCase().substring(0, 1).toUpperCase() + name().substring(1);
 	}
 }

@@ -5,9 +5,9 @@ import java.util.List;
 
 import mca.blocks.BlockVillagerBed;
 import mca.data.WatcherIDsHuman;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumMovementState;
-import mca.enums.EnumProfessionGroup;
+import mca.enums.EnumProfessionSkinGroup;
 import mca.enums.EnumSleepingState;
 import mca.tile.TileVillagerBed;
 import mca.util.Utilities;
@@ -18,12 +18,11 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
-import radixcore.data.WatchedBoolean;
-import radixcore.data.WatchedInt;
 import radixcore.math.Point3D;
-import radixcore.util.BlockHelper;
-import radixcore.util.RadixExcept;
-import radixcore.util.RadixLogic;
+import radixcore.modules.RadixBlocks;
+import radixcore.modules.RadixLogic;
+import radixcore.modules.datawatcher.WatchedBoolean;
+import radixcore.modules.datawatcher.WatchedInt;
 
 public class AISleep extends AbstractAI
 {
@@ -38,7 +37,7 @@ public class AISleep extends AbstractAI
 	private WatchedInt bedPosY;
 	private WatchedInt bedPosZ;
 
-	public AISleep(EntityHuman owner) 
+	public AISleep(EntityVillagerMCA owner) 
 	{
 		super(owner);
 		sleepingState = new WatchedInt(EnumSleepingState.AWAKE.getId(), WatcherIDsHuman.SLEEPING_STATE, owner.getDataWatcherEx());
@@ -67,7 +66,7 @@ public class AISleep extends AbstractAI
 		boolean isDaytime = owner.worldObj.isDaytime();
 
 		//If the villager is busy working, following, or riding something automatically set their sleep state to interrupted for the night.
-		if (owner.getAIManager().isToggleAIActive() || owner.getMovementState() == EnumMovementState.FOLLOW || owner.getRidingEntity() != null || (owner.getProfessionGroup() == EnumProfessionGroup.Guard && !owner.getIsMarried()))
+		if (owner.getAIManager().isToggleAIActive() || owner.getMovementState() == EnumMovementState.FOLLOW || owner.getRidingEntity() != null || (owner.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard && !owner.getIsMarried()))
 		{
 			if (!isDaytime && getSleepingState() != EnumSleepingState.INTERRUPTED)
 			{
@@ -212,7 +211,7 @@ public class AISleep extends AbstractAI
 
 			try
 			{
-				final TileVillagerBed villagerBed = (TileVillagerBed) BlockHelper.getTileEntity(owner.worldObj, bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt());
+				final TileVillagerBed villagerBed = (TileVillagerBed) RadixBlocks.getTileEntity(owner.worldObj, bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt());
 				villagerBed.setSleepingVillagerId(-1);
 				villagerBed.setIsVillagerSleepingIn(false);
 			}
@@ -313,13 +312,13 @@ public class AISleep extends AbstractAI
 		if (hasBed.getBoolean())
 		{
 			//Check if the bed still exists.
-			final Block blockAtBed = BlockHelper.getBlock(owner.worldObj, bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt());
+			final Block blockAtBed = RadixBlocks.getBlock(owner.worldObj, bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt());
 
 			if (blockAtBed instanceof BlockVillagerBed)
 			{
 				try
 				{
-					final TileVillagerBed villagerBed = (TileVillagerBed) BlockHelper.getTileEntity(owner.worldObj, bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt());
+					final TileVillagerBed villagerBed = (TileVillagerBed) RadixBlocks.getTileEntity(owner.worldObj, bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt());
 
 					if (!villagerBed.getIsVillagerSleepingIn())
 					{
@@ -373,7 +372,7 @@ public class AISleep extends AbstractAI
 			if (bedFeetNearby.size() > 0)
 			{
 				final Point3D nearestBed = Point3D.getNearestPointInList(new Point3D(owner.posX, owner.posY, owner.posZ), bedFeetNearby);
-				final TileVillagerBed villagerBed = (TileVillagerBed) BlockHelper.getTileEntity(owner.worldObj, nearestBed.iPosX, nearestBed.iPosY, nearestBed.iPosZ);
+				final TileVillagerBed villagerBed = (TileVillagerBed) RadixBlocks.getTileEntity(owner.worldObj, nearestBed.iPosX, nearestBed.iPosY, nearestBed.iPosZ);
 
 				if (villagerBed != null && !villagerBed.getIsVillagerSleepingIn())
 				{
@@ -383,7 +382,7 @@ public class AISleep extends AbstractAI
 					bedPosX.setValue(nearestBed.iPosX);
 					bedPosY.setValue(nearestBed.iPosY);
 					bedPosZ.setValue(nearestBed.iPosZ);
-					bedMeta.setValue(BlockHelper.getBlockMetadata(owner.worldObj, bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt()));
+					bedMeta.setValue(RadixBlocks.getBlockMetadata(owner.worldObj, bedPosX.getInt(), bedPosY.getInt(), bedPosZ.getInt()));
 					hasBed.setValue(true);
 
 					isInBed.setValue(true);

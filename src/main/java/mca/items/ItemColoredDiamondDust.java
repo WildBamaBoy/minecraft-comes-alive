@@ -4,7 +4,6 @@ import mca.api.IGiftableItem;
 import mca.core.MCA;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import radixcore.item.ItemColorable;
 
 public class ItemColoredDiamondDust extends ItemColorable implements IGiftableItem
 {

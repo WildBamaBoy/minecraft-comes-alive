@@ -15,7 +15,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import radixcore.util.BlockHelper;
+import radixcore.modules.RadixBlocks;
 
 public class ItemTombstone extends Item
 {
@@ -52,7 +52,7 @@ public class ItemTombstone extends Item
 			}
 			
 			--stack.stackSize;
-			final TileTombstone tombstone = (TileTombstone) BlockHelper.getTileEntity(worldObj, pos.getX(), pos.getY(), pos.getZ());
+			final TileTombstone tombstone = (TileTombstone) RadixBlocks.getTileEntity(worldObj, pos.getX(), pos.getY(), pos.getZ());
 			
 			if (tombstone != null)
 			{

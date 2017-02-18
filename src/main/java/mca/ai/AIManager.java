@@ -3,7 +3,7 @@ package mca.ai;
 import java.util.ArrayList;
 import java.util.List;
 
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.nbt.NBTTagCompound;
 
 /**
@@ -11,10 +11,10 @@ import net.minecraft.nbt.NBTTagCompound;
  */
 public class AIManager 
 {
-	private EntityHuman owner;
+	private EntityVillagerMCA owner;
 	private List<AbstractAI> AIList;
 
-	public AIManager(EntityHuman owner)
+	public AIManager(EntityVillagerMCA owner)
 	{
 		this.owner = owner;
 		this.AIList = new ArrayList<AbstractAI>();

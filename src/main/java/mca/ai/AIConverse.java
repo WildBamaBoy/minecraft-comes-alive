@@ -1,12 +1,12 @@
 package mca.ai;
 
 import mca.data.WatcherIDsHuman;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
-import radixcore.data.WatchedBoolean;
-import radixcore.data.WatchedInt;
-import radixcore.util.RadixLogic;
+import radixcore.modules.RadixLogic;
+import radixcore.modules.datawatcher.WatchedBoolean;
+import radixcore.modules.datawatcher.WatchedInt;
 
 public class AIConverse extends AbstractAI 
 {
@@ -26,7 +26,7 @@ public class AIConverse extends AbstractAI
 	private int timeUntilAdvance = START_INTERVAL;
 	private int conversationSize = 0;
 	
-	public AIConverse(EntityHuman owner) 
+	public AIConverse(EntityVillagerMCA owner) 
 	{
 		super(owner);
 
@@ -140,7 +140,7 @@ public class AIConverse extends AbstractAI
 	@Override
 	public void reset() 
 	{
-		final EntityHuman target = (EntityHuman) RadixLogic.getEntityByPermanentId(owner.worldObj, conversationTarget.getInt());
+		final EntityVillagerMCA target = (EntityVillagerMCA) RadixLogic.getEntityByPermanentId(owner.worldObj, conversationTarget.getInt());
 
 		if (target != null)
 		{

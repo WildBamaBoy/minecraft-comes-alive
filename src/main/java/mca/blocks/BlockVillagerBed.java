@@ -4,7 +4,7 @@ import java.util.Random;
 
 import mca.ai.AISleep;
 import mca.core.minecraft.ModItems;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumBedColor;
 import mca.enums.EnumSleepingState;
 import mca.tile.TileVillagerBed;
@@ -21,8 +21,8 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import radixcore.util.BlockHelper;
-import radixcore.util.RadixLogic;
+import radixcore.modules.RadixBlocks;
+import radixcore.modules.RadixLogic;
 
 public class BlockVillagerBed extends BlockBed implements ITileEntityProvider
 {
@@ -86,7 +86,7 @@ public class BlockVillagerBed extends BlockBed implements ITileEntityProvider
 		
 		if (!worldIn.isRemote)
 		{
-			final TileEntity tileEntity = BlockHelper.getTileEntity(worldIn, posX, posY, posZ);
+			final TileEntity tileEntity = RadixBlocks.getTileEntity(worldIn, posX, posY, posZ);
 
 			if (tileEntity instanceof TileVillagerBed)
 			{
@@ -96,7 +96,7 @@ public class BlockVillagerBed extends BlockBed implements ITileEntityProvider
 				{
 					try
 					{
-						final EntityHuman entity = (EntityHuman) RadixLogic.getEntityByPermanentId(worldIn, villagerBed.getSleepingVillagerId());
+						final EntityVillagerMCA entity = (EntityVillagerMCA) RadixLogic.getEntityByPermanentId(worldIn, villagerBed.getSleepingVillagerId());
 
 						if (entity != null)
 						{

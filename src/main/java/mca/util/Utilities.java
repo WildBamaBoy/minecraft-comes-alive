@@ -4,8 +4,6 @@ import java.util.Random;
 
 import net.minecraft.block.BlockDoor;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.SPacketParticles;
 import net.minecraft.util.EnumParticleTypes;

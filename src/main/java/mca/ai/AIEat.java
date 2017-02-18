@@ -1,11 +1,11 @@
 package mca.ai;
 
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class AIEat extends AbstractAI
 {
-	public AIEat(EntityHuman entityHuman) {
+	public AIEat(EntityVillagerMCA entityHuman) {
 		super(entityHuman);
 	}
 

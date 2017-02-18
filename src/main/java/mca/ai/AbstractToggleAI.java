@@ -1,11 +1,13 @@
 package mca.ai;
 
-import mca.entity.EntityHuman;
+import java.util.UUID;
+
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumPersonality;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
-import radixcore.util.RadixLogic;
+import radixcore.modules.RadixLogic;
 
 /**
  * Defines an AI that can be "toggled" on or off. It does not run consistently.
@@ -13,9 +15,9 @@ import radixcore.util.RadixLogic;
 public abstract class AbstractToggleAI extends AbstractAI
 {
 	/** The UUID of the player that triggered this AI. */
-	protected String assigningPlayer = "none";
+	protected UUID assigningPlayer = new UUID(0,0);
 	
-	public AbstractToggleAI(EntityHuman owner)
+	public AbstractToggleAI(EntityVillagerMCA owner)
 	{
 		super(owner);
 	}
@@ -32,7 +34,7 @@ public abstract class AbstractToggleAI extends AbstractAI
 	/** @returns The player who triggered this AI. Looks up the player by UUID. */
 	public final EntityPlayer getAssigningPlayer()
 	{
-		return RadixLogic.getPlayerByUUID(assigningPlayer, owner.worldObj);
+		return owner.worldObj.getPlayerEntityByUUID(assigningPlayer);
 	}
 	
 	/** Adds a chat message to the assigning player's chat log. */
@@ -51,8 +53,8 @@ public abstract class AbstractToggleAI extends AbstractAI
 	{
 		if (owner.getPersonality() == EnumPersonality.CURIOUS && RadixLogic.getBooleanWithProbability(10))
 		{
-			owner.getVillagerInventory().addItemStackToInventory(stack);
-			return owner.getVillagerInventory().addItemStackToInventory(stack.copy());
+			owner.getVillagerInventory().addItem(stack);
+			return owner.getVillagerInventory().addItem(stack.copy()) == null;
 		}
 		
 		else if (owner.getPersonality() == EnumPersonality.GREEDY && RadixLogic.getBooleanWithProbability(10))
@@ -62,7 +64,7 @@ public abstract class AbstractToggleAI extends AbstractAI
 		
 		else if (owner.getPersonality() != EnumPersonality.GREEDY)
 		{
-			return owner.getVillagerInventory().addItemStackToInventory(stack);
+			return owner.getVillagerInventory().addItem(stack) == null;
 		}
 		
 		return false;

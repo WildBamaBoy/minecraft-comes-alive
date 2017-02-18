@@ -17,4 +17,9 @@ version = "5.2"
 group= "com.radixshock"
 archivesBaseName = "MCA"
 
+sourceCompatibility = targetCompatibility = "1.6"
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.6"
+}
+
 fileTree('gradle').include('*.gradle').collect().sort().each { apply from: it }

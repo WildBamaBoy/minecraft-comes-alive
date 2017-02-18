@@ -6,7 +6,7 @@ import java.util.List;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import radixcore.client.render.RenderHelper;
+import radixcore.modules.client.RadixRender;
 
 public final class TutorialMessage implements Serializable
 {
@@ -24,7 +24,7 @@ public final class TutorialMessage implements Serializable
 	{
 		if (line2.isEmpty())
 		{
-			RenderHelper.drawTextPopup(line1, 4, -20 + animationProgress);
+			RadixRender.drawTextPopup(line1, 4, -20 + animationProgress);
 		}
 		
 		else
@@ -33,7 +33,7 @@ public final class TutorialMessage implements Serializable
 			text.add(line1);
 			text.add(line2);
 			
-			RenderHelper.drawTextPopup(text, 4, -20 + animationProgress);
+			RadixRender.drawTextPopup(text, 4, -20 + animationProgress);
 		}
 	}
 }

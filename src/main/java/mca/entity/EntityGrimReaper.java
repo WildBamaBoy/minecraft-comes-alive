@@ -25,7 +25,6 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
@@ -47,9 +46,9 @@ import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
 import radixcore.constant.Time;
 import radixcore.math.Point3D;
-import radixcore.util.BlockHelper;
-import radixcore.util.RadixLogic;
-import radixcore.util.RadixMath;
+import radixcore.modules.RadixBlocks;
+import radixcore.modules.RadixLogic;
+import radixcore.modules.RadixMath;
 
 public class EntityGrimReaper extends EntityMob
 {
@@ -460,21 +459,21 @@ public class EntityGrimReaper extends EntityMob
 
 			for (Point3D point : grassBlocks)
 			{
-				BlockHelper.setBlock(worldObj, point, Blocks.DIRT);
-				Block blockAbove = BlockHelper.getBlock(worldObj, point.iPosX, point.iPosY + 1, point.iPosZ);
+				RadixBlocks.setBlock(worldObj, point, Blocks.DIRT);
+				Block blockAbove = RadixBlocks.getBlock(worldObj, point.iX(), point.iY() + 1, point.iZ());
 				IBlockState state = blockAbove.getDefaultState();
 				
 				if (blockAbove.getMaterial(state) == Material.PLANTS || blockAbove.getMaterial(state) == Material.VINE)
 				{
-					Block blockAbovePlant = BlockHelper.getBlock(worldObj, point.iPosX, point.iPosY + 2, point.iPosZ);
+					Block blockAbovePlant = RadixBlocks.getBlock(worldObj, point.iX(), point.iY() + 2, point.iZ());
 					
 					//Check above the plant to see if its a double plant. Remove that as well to prevent spawning flowers for some reason.
 					if (blockAbovePlant == Blocks.DOUBLE_PLANT)
 					{
-						BlockHelper.setBlock(worldObj, point.iPosX, point.iPosY + 2, point.iPosZ, Blocks.AIR);
+						RadixBlocks.setBlock(worldObj, point.iX(), point.iY() + 2, point.iZ(), Blocks.AIR);
 					}
 					
-					BlockHelper.setBlock(worldObj, point.iPosX, point.iPosY + 1, point.iPosZ, Blocks.AIR);
+					RadixBlocks.setBlock(worldObj, point.iX(), point.iY() + 1, point.iZ(), Blocks.AIR);
 				}
 			}
 		}

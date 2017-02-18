@@ -4,19 +4,25 @@ import java.util.List;
 
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumProfession;
-import mca.enums.EnumProfessionGroup;
+import mca.enums.EnumProfessionSkinGroup;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.projectile.EntityTippedArrow;
+import net.minecraft.init.Enchantments;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.MathHelper;
 import radixcore.constant.Time;
-import radixcore.util.RadixLogic;
-import radixcore.util.RadixMath;
+import radixcore.modules.RadixLogic;
+import radixcore.modules.RadixMath;
 
 public class AIDefend extends AbstractAI
 {
@@ -26,7 +32,7 @@ public class AIDefend extends AbstractAI
 	private int timeUntilTargetSearch;
 	private int rangedAttackTime;
 
-	public AIDefend(EntityHuman owner) 
+	public AIDefend(EntityVillagerMCA owner) 
 	{
 		super(owner);
 	}
@@ -51,7 +57,7 @@ public class AIDefend extends AbstractAI
 			return;
 		}
 		
-		if (owner.getProfessionGroup() == EnumProfessionGroup.Guard && !owner.getIsInfected())
+		if (owner.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard && !owner.getIsInfected())
 		{
 			if (target == null)
 			{
@@ -83,7 +89,7 @@ public class AIDefend extends AbstractAI
 					
 					if (rangedAttackTime <= 0)
 					{
-						owner.attackEntityWithRangedAttack(target, 12F);
+						attackEntityWithRangedAttack(owner, target, 12F);
 						owner.playSound(SoundEvents.ENTITY_SKELETON_SHOOT, 1.0F, 1.0F / (owner.getRNG().nextFloat() * 0.4F + 0.8F));
 						rangedAttackTime = 60;
 					}
@@ -160,5 +166,31 @@ public class AIDefend extends AbstractAI
 				}
 			}
 		}
+	}
+	
+	private void attackEntityWithRangedAttack(EntityVillagerMCA shooter, EntityLivingBase target, float velocity)
+	{
+		EntityArrow entityarrow = new EntityTippedArrow(shooter.worldObj, shooter);
+		double d0 = target.posX - shooter.posX;
+		double d1 = target.getEntityBoundingBox().minY + (double)(target.height / 3.0F) - entityarrow.posY;
+		double d2 = target.posZ - shooter.posZ;
+		double d3 = (double)MathHelper.sqrt_double(d0 * d0 + d2 * d2);
+		entityarrow.setThrowableHeading(d0, d1 + d3 * 0.2D, d2, 1.6F, (float)(14 - shooter.worldObj.getDifficulty().getDifficultyId() * 4));
+		int i = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.POWER, shooter);
+		int j = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.PUNCH, shooter);
+		entityarrow.setDamage((double)(velocity * 2.0F) + shooter.getRNG().nextGaussian() * 0.25D + (double)((float)shooter.worldObj.getDifficulty().getDifficultyId() * 0.11F));
+
+		if (i > 0)
+		{
+			entityarrow.setDamage(entityarrow.getDamage() + (double)i * 0.5D + 0.5D);
+		}
+
+		if (j > 0)
+		{
+			entityarrow.setKnockbackStrength(j);
+		}
+
+		shooter.playSound(SoundEvents.ENTITY_SKELETON_SHOOT, 1.0F, 1.0F / (shooter.getRNG().nextFloat() * 0.4F + 0.8F));
+		shooter.worldObj.spawnEntityInWorld(entityarrow);
 	}
 }

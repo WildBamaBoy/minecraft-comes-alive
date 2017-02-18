@@ -2,7 +2,7 @@ package mca.ai;
 
 import mca.core.Constants;
 import mca.data.WatcherIDsHuman;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumMovementState;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -13,14 +13,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import radixcore.data.WatchedString;
-import radixcore.util.RadixMath;
+import radixcore.modules.RadixMath;
+import radixcore.modules.datawatcher.WatchedString;
 
 public class AIFollow extends AbstractAI
 {
 	private final WatchedString playerFollowingName;
 
-	public AIFollow(EntityHuman entityHuman) 
+	public AIFollow(EntityVillagerMCA entityHuman) 
 	{
 		super(entityHuman);
 		playerFollowingName = new WatchedString("EMPTY", WatcherIDsHuman.PLAYER_FOLLOWING_NAME, owner.getDataWatcherEx());

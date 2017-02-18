@@ -1,15 +1,14 @@
 package mca.data;
 
 import mca.core.MCA;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ModMetadata;
-import radixcore.data.AbstractPlayerData;
-import radixcore.data.WatchedBoolean;
-import radixcore.data.WatchedInt;
-import radixcore.data.WatchedString;
-import radixcore.util.RadixLogic;
+import radixcore.modules.RadixLogic;
+import radixcore.modules.datawatcher.WatchedBoolean;
+import radixcore.modules.datawatcher.WatchedInt;
+import radixcore.modules.datawatcher.WatchedString;
 
 public class PlayerData extends AbstractPlayerData
 {
@@ -100,7 +99,7 @@ public class PlayerData extends AbstractPlayerData
 		return heirPermanentId.getInt();
 	}
 
-	public void setHeir(EntityHuman heirInstance) 
+	public void setHeir(EntityVillagerMCA heirInstance) 
 	{
 		this.heirPermanentId.setValue(heirInstance.getPermanentId());
 	}

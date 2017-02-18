@@ -2,7 +2,7 @@ package mca.ai;
 
 import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumBabyState;
 import mca.enums.EnumProgressionStep;
 import mca.util.Utilities;
@@ -10,8 +10,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumParticleTypes;
 import radixcore.constant.Time;
-import radixcore.util.RadixLogic;
-import radixcore.util.RadixMath;
+import radixcore.modules.RadixLogic;
+import radixcore.modules.RadixMath;
 
 public class AIProgressStory extends AbstractAI
 {
@@ -23,7 +23,7 @@ public class AIProgressStory extends AbstractAI
 
 	private boolean forceNextProgress;
 	
-	public AIProgressStory(EntityHuman entityHuman) 
+	public AIProgressStory(EntityVillagerMCA entityHuman) 
 	{
 		super(entityHuman);
 
@@ -113,7 +113,7 @@ public class AIProgressStory extends AbstractAI
 
 	private void doPartnerSearch()
 	{
-		EntityHuman partner = (EntityHuman) RadixLogic.getNearestEntityOfTypeWithinDistance(EntityHuman.class, owner, 15);
+		EntityVillagerMCA partner = (EntityVillagerMCA) RadixLogic.getNearestEntityOfTypeWithinDistance(EntityVillagerMCA.class, owner, 15);
 
 		boolean partnerIsValid = partner != null 
 				&& partner.getIsMale() != owner.getIsMale() 
@@ -151,8 +151,8 @@ public class AIProgressStory extends AbstractAI
 
 	private void doTryForBaby()
 	{
-		final EntityHuman mate = owner.getVillagerSpouse();
-		final int villagersInArea = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityHuman.class, owner, 32).size();
+		final EntityVillagerMCA mate = owner.getVillagerSpouse();
+		final int villagersInArea = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityVillagerMCA.class, owner, 32).size();
 		
 		if (villagersInArea >= MCA.getConfig().storyProgressionCap && MCA.getConfig().storyProgressionCap != -1 && !forceNextProgress)
 		{
@@ -194,7 +194,7 @@ public class AIProgressStory extends AbstractAI
 
 	private void doAgeBaby()
 	{
-		final EntityHuman mate = owner.getVillagerSpouse();
+		final EntityVillagerMCA mate = owner.getVillagerSpouse();
 
 		if (mate == null) //Not loaded on the server
 		{
@@ -206,9 +206,9 @@ public class AIProgressStory extends AbstractAI
 		if (babyAge <= MCA.getConfig().babyGrowUpTime)
 		{
 			//Spawn the child.
-			EntityHuman child;
+			EntityVillagerMCA child;
 
-			child = new EntityHuman(owner.worldObj, owner.getBabyState().isMale(), true, owner.getName(), owner.getSpouseName(), owner.getPermanentId(), owner.getSpouseId(), false);
+			child = new EntityVillagerMCA(owner.worldObj, owner.getBabyState().isMale(), true, owner.getName(), owner.getSpouseName(), owner.getPermanentId(), owner.getSpouseId(), false);
 			child.setPosition(owner.posX, owner.posY, owner.posZ);
 			owner.worldObj.spawnEntityInWorld(child);
 
@@ -238,7 +238,7 @@ public class AIProgressStory extends AbstractAI
 		}
 	}
 
-	private AIProgressStory getMateAI(EntityHuman human)
+	private AIProgressStory getMateAI(EntityVillagerMCA human)
 	{
 		return human.getAI(AIProgressStory.class);
 	}

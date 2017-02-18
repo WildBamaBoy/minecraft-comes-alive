@@ -10,17 +10,14 @@ import mca.ai.AIFishing;
 import mca.ai.AIHunting;
 import mca.ai.AIMining;
 import mca.ai.AIWoodcutting;
-import mca.core.MCA;
 import mca.core.minecraft.ModAchievements;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumInteraction;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import radixcore.packets.AbstractPacket;
+import radixcore.modules.net.AbstractPacket;
 
-public class PacketToggleAI extends AbstractPacket implements IMessage, IMessageHandler<PacketToggleAI, IMessage>
+public class PacketToggleAI extends AbstractPacket<PacketToggleAI>
 {
 	private int entityId;
 	private int interactionId;
@@ -32,7 +29,7 @@ public class PacketToggleAI extends AbstractPacket implements IMessage, IMessage
 		//Required.
 	}
 
-	public PacketToggleAI(EntityHuman human, EnumInteraction interaction, Object... arguments)
+	public PacketToggleAI(EntityVillagerMCA human, EnumInteraction interaction, Object... arguments)
 	{
 		this.entityId = human.getEntityId();
 		this.interactionId = interaction.getId();
@@ -98,18 +95,10 @@ public class PacketToggleAI extends AbstractPacket implements IMessage, IMessage
 	}
 
 	@Override
-	public IMessage onMessage(PacketToggleAI packet, MessageContext context)
+	public void processOnGameThread(PacketToggleAI packet, MessageContext context) 
 	{
-		MCA.getPacketHandler().addPacketForProcessing(context.side, packet, context);
-		return null;
-	}
-
-	@Override
-	public void processOnGameThread(IMessageHandler message, MessageContext context) 
-	{
-		PacketToggleAI packet = (PacketToggleAI)message;
 		EntityPlayer player = getPlayer(context);
-		EntityHuman human = (EntityHuman) player.worldObj.getEntityByID(packet.entityId);
+		EntityVillagerMCA human = (EntityVillagerMCA) player.worldObj.getEntityByID(packet.entityId);
 		
 		switch(EnumInteraction.fromId(packet.interactionId))
 		{

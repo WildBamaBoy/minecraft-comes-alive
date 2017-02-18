@@ -5,7 +5,7 @@ import java.util.Map;
 import mca.core.MCA;
 import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
-import mca.entity.EntityHuman;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumDialogueType;
 import mca.enums.EnumInteraction;
 import mca.packets.PacketOpenVillagerPrompt;
@@ -18,7 +18,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.TextComponentString;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Time;
-import radixcore.util.RadixLogic;
+import radixcore.modules.RadixLogic;
 
 public class AIGreet extends AbstractAI
 {
@@ -28,7 +28,7 @@ public class AIGreet extends AbstractAI
 	private Map<String, PlayerMemory> playerMemories;
 	private int ticksUntilUpdate = 0;
 
-	public AIGreet(EntityHuman owner, Map<String, PlayerMemory> playerMemories)
+	public AIGreet(EntityVillagerMCA owner, Map<String, PlayerMemory> playerMemories)
 	{
 		super(owner);
 		this.playerMemories = playerMemories;

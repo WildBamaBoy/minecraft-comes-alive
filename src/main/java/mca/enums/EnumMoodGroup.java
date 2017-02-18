@@ -2,7 +2,7 @@ package mca.enums;
 
 public enum EnumMoodGroup 
 {
-	ALL,
+	UNASSIGNED,
 	GENERAL,
 	PLAYFUL,
 	SERIOUS;

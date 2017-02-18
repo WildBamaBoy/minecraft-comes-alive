@@ -25,7 +25,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Time;
-import radixcore.util.BlockHelper;
+import radixcore.modules.RadixBlocks;
 
 public class ItemStaffOfLife extends Item
 {
@@ -48,7 +48,7 @@ public class ItemStaffOfLife extends Item
 		
 		if (!worldIn.isRemote)
 		{
-			TileEntity tile = BlockHelper.getTileEntity(worldIn, posX, posY, posZ);
+			TileEntity tile = RadixBlocks.getTileEntity(worldIn, posX, posY, posZ);
 
 			if (tile instanceof TileMemorial)
 			{
