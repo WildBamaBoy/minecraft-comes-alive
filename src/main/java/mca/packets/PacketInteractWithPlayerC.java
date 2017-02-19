@@ -4,9 +4,11 @@ import org.lwjgl.input.Keyboard;
 
 import io.netty.buffer.ByteBuf;
 import mca.client.gui.GuiPlayerMenu;
+import mca.core.Constants;
 import mca.core.MCA;
 import mca.data.NBTPlayerData;
 import mca.entity.EntityVillagerMCA;
+import mca.enums.EnumMarriageState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -34,9 +36,9 @@ public class PacketInteractWithPlayerC extends AbstractPacket<PacketInteractWith
 		NBTPlayerData initData = MCA.getPlayerData(initiator);
 		NBTPlayerData targetData = MCA.getPlayerData(target);
 		
-		targetIsMarried = targetData.getSpousePermanentId() != 0;
-		targetIsEngaged = targetData.getIsEngaged();
-		isMarriedToInitiator = targetData.getSpousePermanentId() == initData.getPermanentId();
+		targetIsMarried = targetData.getSpouseUUID() != Constants.EMPTY_UUID;
+		targetIsEngaged = targetData.getMarriageState() == EnumMarriageState.ENGAGED;
+		isMarriedToInitiator = targetData.getSpouseUUID() == initData.getUUID();
 		
 		for (Object obj : initiator.worldObj.loadedEntityList)
 		{
@@ -44,7 +46,7 @@ public class PacketInteractWithPlayerC extends AbstractPacket<PacketInteractWith
 			{
 				EntityVillagerMCA human = (EntityVillagerMCA)obj;
 				
-				if (human.getSpouseId() == targetData.getPermanentId())
+				if (human.getSpouseUUID() == targetData.getUUID())
 				{
 					targetSpouseName = human.getName();
 				}

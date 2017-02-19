@@ -9,7 +9,6 @@ import java.util.TreeMap;
 
 import mca.api.CropEntry;
 import mca.api.enums.EnumCropCategory;
-import mca.data.WatcherIDsHuman;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumMovementState;
 import net.minecraft.block.Block;
@@ -18,18 +17,17 @@ import net.minecraft.nbt.NBTTagCompound;
 import radixcore.math.Point3D;
 import radixcore.modules.RadixBlocks;
 import radixcore.modules.RadixLogic;
-import radixcore.modules.datawatcher.WatchedBoolean;
 import radixcore.modules.schematics.BlockObj;
+import radixcore.modules.schematics.RadixSchematics;
 
 public class AIBuild extends AbstractToggleAI
-{
+{	
 	private Map<Point3D, BlockObj> schematicMap;
 	private CropEntry cropEntry;
 
 	private List<Point3D> blockPoints;
 	private List<Point3D> torchPoints;
 	private Point3D origin;
-	private WatchedBoolean isAIActive;
 
 	private String schematicName = "none";
 	private int interval = 20;
@@ -40,7 +38,6 @@ public class AIBuild extends AbstractToggleAI
 	{
 		super(owner);
 		origin = Point3D.ZERO;
-		isAIActive = new WatchedBoolean(false, WatcherIDsHuman.IS_BUILDING_ACTIVE, owner.getDataWatcherEx());
 	}
 
 	@Override
@@ -73,7 +70,7 @@ public class AIBuild extends AbstractToggleAI
 						for (Point3D point : torchPoints)
 						{
 							final BlockObj blockObj = schematicMap.get(point);
-							RadixBlocks.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, blockObj.getBlock());
+							RadixBlocks.setBlock(owner.worldObj, origin.iX() + point.iX(), origin.iY() + point.iY(), origin.iZ() + point.iZ(), blockObj.getBlock());
 						}
 
 						owner.setMovementState(EnumMovementState.MOVE);
@@ -85,24 +82,24 @@ public class AIBuild extends AbstractToggleAI
 					{
 						final Point3D point = blockPoints.get(index);
 						final BlockObj blockObj = schematicMap.get(point);
-
+						final Point3D target = new Point3D(origin.iX() + point.iX(), origin.iY() + point.iY(), origin.iZ() + point.iZ());
 						index++;
 
 						if (blockObj.getBlock() == Blocks.GRASS && groundBlock != null)
 						{
-							RadixBlocks.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, groundBlock);							
+							RadixBlocks.setBlock(owner.worldObj, target, groundBlock);							
 						}
 
 						else
 						{
 							if (blockObj.getBlock() == Blocks.OAK_FENCE_GATE && this.schematicName.contains("mine"))
 							{
-								RadixBlocks.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, Blocks.OAK_FENCE_GATE.getStateFromMeta(blockObj.getMeta()));
+								RadixBlocks.setBlock(owner.worldObj, target.toBlockPos(), Block.getStateById(blockObj.getMeta()));
 							}
 							
 							else
 							{
-								RadixBlocks.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, blockObj.getBlock());
+								RadixBlocks.setBlock(owner.worldObj, target, blockObj.getBlock());
 							}
 						}
 					}
@@ -132,9 +129,9 @@ public class AIBuild extends AbstractToggleAI
 		nbt.setString("schematicName", schematicName);
 		nbt.setInteger("interval", interval);
 		nbt.setInteger("index", index);
-		nbt.setInteger("originX", origin.iPosX);
-		nbt.setInteger("originY", origin.iPosY);
-		nbt.setInteger("originZ", origin.iPosZ);
+		nbt.setInteger("originX", origin.iX());
+		nbt.setInteger("originY", origin.iY());
+		nbt.setInteger("originZ", origin.iZ());
 	}
 
 	@Override
@@ -182,21 +179,22 @@ public class AIBuild extends AbstractToggleAI
 		}
 	}
 
-	public boolean startBuilding(String schematicLocation, boolean doTopDown, Block groundBlock)
+	public boolean startBuilding(String schematicLocation, boolean doTopDown, Block groundBlockIn)
 	{
-		this.groundBlock = groundBlock;
+		this.groundBlock = groundBlockIn;
 		return startBuilding(schematicLocation, doTopDown);
 	}
 
-	public boolean startBuilding(String schematicLocation, boolean doTopDown, Block groundBlock, CropEntry cropEntry)
+	public boolean startBuilding(String schematicLocation, boolean doTopDown, Block groundBlockIn, CropEntry cropEntryIn)
 	{
-		this.cropEntry = cropEntry;
+		this.groundBlock = groundBlockIn;
+		this.cropEntry = cropEntryIn;
 		return startBuilding(schematicLocation, doTopDown, groundBlock);
 	}
 
 	private void primeSchematic(String schematicLocation)
 	{
-		SortedMap<Point3D, BlockObj> sortedSchematicMap = SchematicHandler.readSchematic(schematicLocation);
+		SortedMap<Point3D, BlockObj> sortedSchematicMap = RadixSchematics.readSchematic(schematicLocation);
 		TreeMap<Point3D, BlockObj> treeSchematicMap = new TreeMap<Point3D, BlockObj>();
 		blockPoints = new ArrayList<Point3D>();
 		torchPoints = new ArrayList<Point3D>();
@@ -216,11 +214,11 @@ public class AIBuild extends AbstractToggleAI
 		for (final Map.Entry<Point3D, BlockObj> entry: schematicMap.entrySet())
 		{
 			final Point3D point = entry.getKey();
-			Block blockAtPoint = RadixBlocks.getBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ);
+			Block blockAtPoint = RadixBlocks.getBlock(owner.worldObj, origin.iX() + point.iX(), origin.iY() + point.iY(), origin.iZ() + point.iZ());
 			
 			if (blockAtPoint == Blocks.TALLGRASS || blockAtPoint == Blocks.RED_FLOWER || blockAtPoint == Blocks.DOUBLE_PLANT || blockAtPoint == Blocks.YELLOW_FLOWER)
 			{
-				RadixBlocks.setBlock(owner.worldObj, origin.iPosX + point.iPosX, origin.iPosY + point.iPosY, origin.iPosZ + point.iPosZ, Blocks.AIR);
+				RadixBlocks.setBlock(owner.worldObj, origin.iX() + point.iX(), origin.iY() + point.iY(), origin.iZ() + point.iZ(), Blocks.AIR);
 			}
 			
 			compareY = -25;
@@ -232,7 +230,7 @@ public class AIBuild extends AbstractToggleAI
 					torchPoints.add(point);
 				}
 
-				else if (point.iPosY == compareY)
+				else if (point.iY() == compareY)
 				{
 					blockPoints.add(point);
 				}
@@ -257,7 +255,7 @@ public class AIBuild extends AbstractToggleAI
 				if (entry.getValue().equals(searchRefBlock))
 				{
 					final Point3D key = entry.getKey();
-					final Point3D belowKey = SchematicHandler.getPoint3DWithValue(schematicMap, new Point3D(key.iPosX, key.iPosY - 1, key.iPosZ));
+					final Point3D belowKey = RadixSchematics.getPoint3DWithValue(schematicMap, new Point3D(key.iX(), key.iY() - 1, key.iZ()));
 
 					if (belowKey != null && cropEntry.getCategory() != EnumCropCategory.SUGARCANE) 
 					{
@@ -278,18 +276,6 @@ public class AIBuild extends AbstractToggleAI
 				schematicMap.put(entry.getKey(), entry.getValue());
 			}
 		}
-	}
-
-	@Override
-	public void setIsActive(boolean value) 
-	{
-		isAIActive.setValue(value);
-	}
-
-	@Override
-	public boolean getIsActive() 
-	{
-		return isAIActive.getBoolean();
 	}
 
 	@Override

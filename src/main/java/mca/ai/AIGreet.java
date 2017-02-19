@@ -95,7 +95,7 @@ public class AIGreet extends AbstractAI
 					{
 						if (owner.getIsInfected() && !closestPlayer.capabilities.isCreativeMode)
 						{
-							closestPlayer.addChatComponentMessage(new TextComponentString(Color.RED + owner.getName() + " bites you."));
+							closestPlayer.addChatComponentMessage(new TextComponentString(Color.RED + owner.getName() + " bites you."), false);
 							closestPlayer.attackEntityFrom(DamageSource.generic, 2.0F);
 							closestPlayer.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, Time.MINUTE * 2, 1));
 						}
@@ -106,7 +106,7 @@ public class AIGreet extends AbstractAI
 							if (memory.getDialogueType() == EnumDialogueType.SPOUSE && memory.getHearts() <= -25)
 							{
 								owner.say(memory.getDialogueType() + ".lowhearts.greeting", closestPlayer);
-								owner.timesWarnedForLowHearts++;
+								owner.incrementLowHeartWarnings();
 							}
 							
 							else
@@ -122,7 +122,7 @@ public class AIGreet extends AbstractAI
 								else
 								{
 									owner.say(memory.getDialogueType() + ".greeting", closestPlayer);
-									owner.timesWarnedForLowHearts = 0; //Make sure we reset when hearts are back to normal.
+									owner.resetLowHeartWarnings(); //Make sure we reset when hearts are back to normal.
 								}
 							}
 						}

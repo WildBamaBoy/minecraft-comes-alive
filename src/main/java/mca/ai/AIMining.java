@@ -7,7 +7,6 @@ import mca.api.MiningEntry;
 import mca.api.RegistryMCA;
 import mca.api.exception.MappingNotFoundException;
 import mca.core.MCA;
-import mca.data.WatcherIDsHuman;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumMovementState;
 import net.minecraft.block.Block;
@@ -22,15 +21,11 @@ import radixcore.math.Point3D;
 import radixcore.modules.RadixBlocks;
 import radixcore.modules.RadixLogic;
 import radixcore.modules.RadixMath;
-import radixcore.modules.datawatcher.WatchedBoolean;
 
 public class AIMining extends AbstractToggleAI
 {
 	private static final int SEARCH_INTERVAL = Time.SECOND * 10;
 	private static final int MINE_INTERVAL = Time.SECOND * 1;
-
-	private WatchedBoolean isAIActive;
-	private Point3D blockMining;
 
 	private int idOfNotifyBlock;
 	private int activityInterval;
@@ -40,19 +35,9 @@ public class AIMining extends AbstractToggleAI
 	public AIMining(EntityVillagerMCA owner) 
 	{
 		super(owner);
-		isAIActive = new WatchedBoolean(false, WatcherIDsHuman.IS_MINING_ACTIVE, owner.getDataWatcherEx());
+		setIsActive(false);
 	}
-
-	@Override
-	public void onUpdateCommon() 
-	{
-	}
-
-	@Override
-	public void onUpdateClient() 
-	{
-	}
-
+	
 	@Override
 	public void onUpdateServer() 
 	{
@@ -109,7 +94,7 @@ public class AIMining extends AbstractToggleAI
 
 					if (addStack != null)
 					{
-						owner.getVillagerInventory().addItemStackToInventory(addStack);
+						owner.getVillagerInventory().addItem(addStack);
 						owner.damageHeldItem(2);
 					}
 				}
@@ -135,12 +120,12 @@ public class AIMining extends AbstractToggleAI
 					{
 						if (distanceToBlock == -1)
 						{
-							distanceToBlock = (int) RadixMath.getDistanceToXYZ(point.iPosX, point.iPosY, point.iPosZ, ownerPos.iPosX, ownerPos.iPosY, ownerPos.iPosZ);
+							distanceToBlock = (int) RadixMath.getDistanceToXYZ(point.iX(), point.iY(), point.iZ(), ownerPos.iX(), ownerPos.iY(), ownerPos.iZ());
 						}
 
 						else
 						{
-							double distanceToPoint = RadixMath.getDistanceToXYZ(point.iPosX, point.iPosY, point.iPosZ, ownerPos.iPosX, ownerPos.iPosY, ownerPos.iPosZ);
+							double distanceToPoint = RadixMath.getDistanceToXYZ(point.iX(), point.iY(), point.iZ(), ownerPos.iX(), ownerPos.iY(), ownerPos.iZ());
 
 							if (distanceToPoint < distanceToBlock)
 							{
@@ -176,7 +161,7 @@ public class AIMining extends AbstractToggleAI
 					}
 
 					//Notify the player if they're on the server.
-					final EntityPlayer player = RadixLogic.getPlayerByUUID(assigningPlayer, owner.worldObj);
+					final EntityPlayer player = owner.worldObj.getPlayerEntityByUUID(assigningPlayer);
 
 					if (player != null)
 					{
@@ -195,37 +180,31 @@ public class AIMining extends AbstractToggleAI
 	}
 
 	@Override
-	public void reset() 
-	{
-		isAIActive.setValue(false);
-	}
-
-	@Override
 	public void writeToNBT(NBTTagCompound nbt) 
 	{
-		nbt.setBoolean("isMiningActive", isAIActive.getBoolean());
+		nbt.setBoolean("isMiningActive", getIsActive());
 		nbt.setInteger("idOfNotifyBlock", idOfNotifyBlock);
 		nbt.setInteger("activityInterval", activityInterval);
-		nbt.setString("assigningPlayer", assigningPlayer);
+		nbt.setUniqueId("assigningPlayer", assigningPlayer);
 		nbt.setBoolean("isGathering", isGathering);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) 
 	{
-		isAIActive.setValue(nbt.getBoolean("isMiningActive"));
+		setIsActive(nbt.getBoolean("isMiningActive"));
 		idOfNotifyBlock = nbt.getInteger("idOfNotifyBlock");
 		activityInterval = nbt.getInteger("activityInterval");
-		assigningPlayer = nbt.getString("assigningPlayer");
+		assigningPlayer = nbt.getUniqueId("assigningPlayer");
 		isGathering = nbt.getBoolean("isGathering");
 	}
 
 	public void startSearching(EntityPlayer assigningPlayer, int notifyBlockId)
 	{
-		this.assigningPlayer = assigningPlayer.getPersistentID().toString();
+		this.assigningPlayer = assigningPlayer.getPersistentID();
 		this.idOfNotifyBlock = notifyBlockId;
 		this.isGathering = false;
-		this.isAIActive.setValue(true);
+		this.setIsActive(true);
 		this.activityInterval = SEARCH_INTERVAL;
 		
 		ItemStack pickaxe = owner.getVillagerInventory().getBestItemOfType(ItemPickaxe.class);
@@ -250,9 +229,9 @@ public class AIMining extends AbstractToggleAI
 			return;
 		}
 
-		this.assigningPlayer = player.getPersistentID().toString();
+		this.assigningPlayer = player.getPersistentID();
 		this.isGathering = true;
-		this.isAIActive.setValue(true);
+		this.setIsActive(true);
 		this.activityInterval = 0;
 		
 		ItemStack pickaxe = owner.getVillagerInventory().getBestItemOfType(ItemPickaxe.class);
@@ -267,18 +246,6 @@ public class AIMining extends AbstractToggleAI
 			owner.say("interaction.mining.fail.nopickaxe", player);
 			reset();
 		}
-	}
-
-	@Override
-	public void setIsActive(boolean value) 
-	{
-		isAIActive.setValue(value);
-	}
-
-	@Override
-	public boolean getIsActive() 
-	{
-		return isAIActive.getBoolean();
 	}
 	
 	@Override

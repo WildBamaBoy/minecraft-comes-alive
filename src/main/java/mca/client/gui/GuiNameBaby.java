@@ -98,9 +98,9 @@ public class GuiNameBaby extends GuiScreen
 		{
 			int slot = -1;
 			
-			for (int i = 0; i < player.inventory.mainInventory.length; i++)
+			for (int i = 0; i < player.inventory.mainInventory.size(); i++)
 			{
-				ItemStack stack = player.inventory.mainInventory[i];
+				ItemStack stack = player.inventory.mainInventory.get(i);
 				
 				if (stack != null && stack.getItem() instanceof ItemBaby && stack.getTagCompound().getString("name").equals("Unnamed"))
 				{

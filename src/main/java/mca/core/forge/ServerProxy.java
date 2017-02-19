@@ -1,7 +1,7 @@
 package mca.core.forge;
 
 import mca.core.MCA;
-import mca.network.MCAPacketHandler;
+import mca.network.PacketHandlerMCA;
 
 public class ServerProxy 
 {
@@ -15,9 +15,9 @@ public class ServerProxy
 		
 	}
 	
-	public MCAPacketHandler registerPackets() 
+	public PacketHandlerMCA registerPackets() 
 	{
-    	MCAPacketHandler handler = new MCAPacketHandler(MCA.ID);
+    	PacketHandlerMCA handler = new PacketHandlerMCA(MCA.ID);
     	return handler;
 	}
 }

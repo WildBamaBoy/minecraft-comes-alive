@@ -7,7 +7,7 @@ public enum EnumMood
 	DEPRESSED(-3, EnumMoodGroup.GENERAL),
 	SAD(-2, EnumMoodGroup.GENERAL),
 	UNHAPPY(-1, EnumMoodGroup.GENERAL),
-	PASSIVE(0, EnumMoodGroup.ALL),
+	PASSIVE(0, EnumMoodGroup.UNASSIGNED),
 	FINE(1, EnumMoodGroup.GENERAL),
 	HAPPY(2, EnumMoodGroup.GENERAL),
 	OVERJOYED(3, EnumMoodGroup.GENERAL),

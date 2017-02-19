@@ -6,8 +6,8 @@ import mca.client.render.RenderGrimReaper;
 import mca.client.render.RenderHuman;
 import mca.client.render.RenderMemorial;
 import mca.client.render.RenderTombstone;
-import mca.core.minecraft.ModBlocks;
-import mca.core.minecraft.ModItems;
+import mca.core.minecraft.BlocksMCA;
+import mca.core.minecraft.ItemsMCA;
 import mca.entity.EntityChoreFishHook;
 import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
@@ -32,8 +32,8 @@ public class ClientProxy extends ServerProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileTombstone.class, new RenderTombstone());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileMemorial.class, new RenderMemorial());
 		
-		ModItems.registerModelMeshers();
-		ModBlocks.registerModelMeshers();
+		ItemsMCA.registerModelMeshers();
+		BlocksMCA.registerModelMeshers();
 	}
 
 	@Override

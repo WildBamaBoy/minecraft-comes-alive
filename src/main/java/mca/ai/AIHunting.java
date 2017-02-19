@@ -4,7 +4,6 @@ import java.util.List;
 
 import mca.api.RegistryMCA;
 import mca.core.MCA;
-import mca.data.WatcherIDsHuman;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumMovementState;
 import net.minecraft.entity.Entity;
@@ -21,11 +20,9 @@ import radixcore.constant.Time;
 import radixcore.math.Point3D;
 import radixcore.modules.RadixLogic;
 import radixcore.modules.RadixMath;
-import radixcore.modules.datawatcher.WatchedBoolean;
 
 public class AIHunting extends AbstractToggleAI
 {
-	private WatchedBoolean isAIActive;
 	private Point3D standPoint;
 
 	private boolean isTaming;
@@ -34,32 +31,7 @@ public class AIHunting extends AbstractToggleAI
 	public AIHunting(EntityVillagerMCA owner) 
 	{
 		super(owner);
-		isAIActive = new WatchedBoolean(false, WatcherIDsHuman.IS_HUNTING_ACTIVE, owner.getDataWatcherEx());
 		standPoint = Point3D.ZERO;
-	}
-
-	@Override
-	public void setIsActive(boolean value) 
-	{
-		isAIActive.setValue(value);
-	}
-
-	@Override
-	public boolean getIsActive() 
-	{
-		return isAIActive.getBoolean();
-	}
-
-	@Override
-	public void onUpdateCommon() 
-	{
-
-	}
-
-	@Override
-	public void onUpdateClient() 
-	{
-
 	}
 
 	@Override
@@ -71,8 +43,8 @@ public class AIHunting extends AbstractToggleAI
 			reset();
 			return;
 		}
-		
-		if (standPoint.iPosX == 0 && standPoint.iPosY == 0 && standPoint.iPosZ == 0)
+
+		if (standPoint.iX() == 0 && standPoint.iY() == 0 && standPoint.iZ() == 0)
 		{
 			//Find a point to stand at and hunt.
 			List<Point3D> grassBlocks = RadixLogic.getNearbyBlocks(owner, Blocks.GRASS, 15);
@@ -93,7 +65,7 @@ public class AIHunting extends AbstractToggleAI
 
 		if (RadixMath.getDistanceToXYZ(owner, standPoint) >= 5.0F && owner.getNavigator().noPath())
 		{
-			boolean successful = owner.getNavigator().tryMoveToXYZ(standPoint.dPosX, standPoint.dPosY, standPoint.dPosZ, owner.getSpeed());
+			boolean successful = owner.getNavigator().tryMoveToXYZ(standPoint.dX(), standPoint.dY(), standPoint.dZ(), owner.getSpeed());
 
 			if (!successful)
 			{
@@ -121,11 +93,11 @@ public class AIHunting extends AbstractToggleAI
 
 						if (spawnPoint != null)
 						{
-							entity.setPosition(spawnPoint.iPosX, spawnPoint.iPosY + 1, spawnPoint.iPosZ);
+							entity.setPosition(spawnPoint.iX(), spawnPoint.iY() + 1, spawnPoint.iZ());
 						}
-						
+
 						owner.worldObj.spawnEntityInWorld(entity);
-						
+
 						if (!isTaming)
 						{
 							entity.attackEntityFrom(DamageSource.generic, 100.0F);
@@ -135,24 +107,24 @@ public class AIHunting extends AbstractToggleAI
 
 					catch (Exception e)
 					{
-						RadixExcept.logErrorCatch(e, "There was an error spawning an entity for the hunting AI. If you are using a mod that expands MCA's hunting AI, it is likely the problem!");
+						//Pass
 					}
 				}
 
-				List<Entity> nearbyItems = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityItem.class, owner, 5);
-				
+				List<EntityItem> nearbyItems = RadixLogic.getEntitiesWithinDistance(EntityItem.class, owner, 5);
+
 				if (nearbyItems.size() != 0)
 				{
 					for (Entity entity : nearbyItems)
 					{
 						EntityItem item = (EntityItem)entity;
 						ItemStack stack = item.getEntityItem();
-						
+
 						addItemStackToInventory(stack);
 						item.setDead();
 					}
 				}
-				
+
 				ticksActive = 0;
 			}
 		}
@@ -168,7 +140,7 @@ public class AIHunting extends AbstractToggleAI
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) 
 	{
-		nbt.setBoolean("isHuntingActive", isAIActive.getBoolean());
+		nbt.setBoolean("isHuntingActive", getIsActive());
 		nbt.setBoolean("isTaming", isTaming);
 		standPoint.writeToNBT("standPoint", nbt);
 		nbt.setInteger("ticksActive", ticksActive);
@@ -177,7 +149,7 @@ public class AIHunting extends AbstractToggleAI
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) 
 	{
-		isAIActive.setValue(nbt.getBoolean("isHuntingActive"));
+		setIsActive(nbt.getBoolean("isHuntingActive"));
 		isTaming = nbt.getBoolean("isTaming");
 		standPoint = Point3D.readFromNBT("standPoint", nbt);
 		ticksActive = nbt.getInteger("ticksActive");
@@ -185,8 +157,8 @@ public class AIHunting extends AbstractToggleAI
 
 	public void startTaming(EntityPlayer player)
 	{
-		assigningPlayer = player.getUniqueID().toString();
-		
+		assigningPlayer = player.getUniqueID();
+
 		standPoint = Point3D.ZERO;
 		isTaming = true;
 
@@ -196,15 +168,15 @@ public class AIHunting extends AbstractToggleAI
 
 	public void startKilling(EntityPlayer player)
 	{
-		assigningPlayer = player.getUniqueID().toString();
-		
+		assigningPlayer = player.getUniqueID();
+
 		standPoint = Point3D.ZERO;
 		isTaming = false;
 
 		setIsActive(true);
 		owner.setMovementState(EnumMovementState.MOVE);
 	}
-	
+
 	@Override
 	protected String getName() 
 	{

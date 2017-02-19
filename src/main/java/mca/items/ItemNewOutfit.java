@@ -6,7 +6,6 @@ import mca.core.MCA;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ItemNewOutfit extends Item
 {
@@ -15,7 +14,6 @@ public class ItemNewOutfit extends Item
 		super();
 		
 		this.setUnlocalizedName("NewOutfit");
-		GameRegistry.registerItem(this, "NewOutfit");
 		this.setCreativeTab(MCA.getCreativeTabMain());
 		this.setMaxStackSize(1);
 		this.setMaxDamage(16);

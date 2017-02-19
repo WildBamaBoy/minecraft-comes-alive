@@ -72,18 +72,16 @@ public class EventHooksForge
 				EntityVillager villager = (EntityVillager)event.getEntity();
 
 				//Check for a zombie being turned into a villager. Don't overwrite with families in this case.
-				List<Entity> zombiesAroundMe = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityZombie.class, event.getEntity(), 3);
+				List<EntityZombie> zombiesAroundMe = RadixLogic.getEntitiesWithinDistance(EntityZombie.class, event.getEntity(), 3);
 
-				for (Entity entity : zombiesAroundMe)
+				for (EntityZombie zombie : zombiesAroundMe)
 				{
-					EntityZombie zombie = (EntityZombie)entity;
-
 					if (zombie.isConverting())
 					{
 						boolean isMale = RadixLogic.getBooleanWithProbability(50);
-						final EntityVillagerMCA human = new EntityVillagerMCA(entity.worldObj, isMale, EnumProfession.getAtRandom().getId(), false);
+						final EntityVillagerMCA human = new EntityVillagerMCA(zombie.worldObj, isMale, EnumProfession.getAtRandom().getId(), false);
 						human.setPosition(zombie.posX, zombie.posY, zombie.posZ);
-						entity.worldObj.spawnEntityInWorld(human);
+						zombie.worldObj.spawnEntityInWorld(human);
 						event.getEntity().setDead();
 						return;
 					}
@@ -422,7 +420,7 @@ public class EventHooksForge
 			if (totemsFound >= 3 && !event.getWorld().isDaytime())
 			{
 				Point3D summonPoint = new Point3D(x, y + 5, z);
-				NetworkRegistry.TargetPoint summonTarget = new NetworkRegistry.TargetPoint(event.getWorld().provider.getDimension(), summonPoint.iPosX, summonPoint.iPosY + 5, summonPoint.iPosZ, 32);
+				NetworkRegistry.TargetPoint summonTarget = new NetworkRegistry.TargetPoint(event.getWorld().provider.getDimension(), summonPoint.iX(), summonPoint.iY() + 5, summonPoint.iZ(), 32);
 
 				EventHooksFML.setReaperSummonPoint(event.getWorld(), new Point3D(x + 1.0D, y + 5, z + 1.0D));
 

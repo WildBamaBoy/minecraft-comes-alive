@@ -5,7 +5,7 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 
 import mca.core.MCA;
-import mca.core.minecraft.ModBlocks;
+import mca.core.minecraft.BlocksMCA;
 import mca.data.VillagerSaveData;
 import mca.enums.EnumMemorialType;
 import mca.enums.EnumProfession;
@@ -19,10 +19,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Font.Format;
-import radixcore.modules.RadixBlocks;
 
 /** Class for an item dropped containing data about the villager who died. */
 public class ItemMemorial extends Item
@@ -35,23 +33,19 @@ public class ItemMemorial extends Item
 
 		this.type = type;
 		this.setUnlocalizedName(type.getTypeName());
-		GameRegistry.registerItem(this, type.getTypeName());
 		this.setCreativeTab(MCA.getCreativeTabMain());
 		this.setMaxStackSize(1);
 	}
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) 
+	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) 
 	{
+		ItemStack stack = playerIn.getHeldItem(hand);
+		
 		if (!worldIn.isRemote && stack.hasTagCompound())
-		{
-			int posX = pos.getX();
-			int posY = pos.getY() + 1;
-			int posZ = pos.getZ();			
-			pos = new BlockPos(posX, posY, posZ);
-			
-			worldIn.setBlockState(pos, ModBlocks.memorial.getDefaultState(), 2);
-			TileMemorial tile = (TileMemorial) RadixBlocks.getTileEntity(worldIn, posX, posY, posZ);
+		{			
+			worldIn.setBlockState(pos, BlocksMCA.memorial.getDefaultState(), 2);
+			TileMemorial tile = (TileMemorial) worldIn.getTileEntity(pos);
 			
 			tile.setType(this.type);
 			tile.setVillagerSaveData(VillagerSaveData.fromNBT(stack.getTagCompound()));

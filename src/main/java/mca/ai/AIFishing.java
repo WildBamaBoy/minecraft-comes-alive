@@ -1,12 +1,12 @@
 package mca.ai;
 
 import java.util.List;
+import java.util.UUID;
 
 import mca.api.FishingEntry;
 import mca.api.RegistryMCA;
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.data.WatcherIDsHuman;
 import mca.entity.EntityChoreFishHook;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,55 +19,27 @@ import radixcore.constant.Font.Color;
 import radixcore.math.Point3D;
 import radixcore.modules.RadixLogic;
 import radixcore.modules.RadixMath;
-import radixcore.modules.datawatcher.WatchedBoolean;
 
 public class AIFishing extends AbstractToggleAI
 {
-	private WatchedBoolean isAIActive;
-
 	private EntityChoreFishHook hook;
 	private boolean hasWaterPoint;
 	private boolean hasFishingTarget;
-	private boolean isFishing;
 	private int waterCoordinatesX;
 	private int waterCoordinatesY;
 	private int waterCoordinatesZ;
-	private int fishingTicks;
-	private int fishCatchCheck;
 	private int idleFishingTime;
 
 	public AIFishing(EntityVillagerMCA owner) 
 	{
 		super(owner);
-		isAIActive = new WatchedBoolean(false, WatcherIDsHuman.IS_FISHING_ACTIVE, owner.getDataWatcherEx());
+		setIsActive(false);
 	}
 
 	public void startFishing(EntityPlayer player)
 	{
-		this.assigningPlayer = player != null ? player.getUniqueID().toString() : "none";
+		this.assigningPlayer = player != null ? player.getUniqueID() : new UUID(0, 0);
 		this.setIsActive(true);
-	}
-
-	@Override
-	public void setIsActive(boolean value) 
-	{
-		isAIActive.setValue(value);
-	}
-
-	@Override
-	public boolean getIsActive() 
-	{
-		return isAIActive.getBoolean();
-	}
-
-	@Override
-	public void onUpdateCommon() 
-	{
-	}
-
-	@Override
-	public void onUpdateClient() 
-	{
 	}
 
 	@Override
@@ -133,21 +105,15 @@ public class AIFishing extends AbstractToggleAI
 	}
 
 	@Override
-	public void reset() 
-	{
-		isAIActive.setValue(false);
-	}
-
-	@Override
 	public void writeToNBT(NBTTagCompound nbt) 
 	{
-		nbt.setBoolean("isFishingActive", isAIActive.getBoolean());
+		nbt.setBoolean("isFishingActive", getIsActive());
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) 
 	{
-		isAIActive.setValue(nbt.getBoolean("isFishingActive"));
+		setIsActive(nbt.getBoolean("isFishingActive"));
 	}
 
 	@Override
@@ -159,7 +125,7 @@ public class AIFishing extends AbstractToggleAI
 	private boolean trySetWaterCoordinates()
 	{
 		//Get all water up to 10 blocks away from the entity.
-		final Point3D waterCoordinates = RadixLogic.getFirstNearestBlock(owner, Blocks.WATER, 10);
+		final Point3D waterCoordinates = RadixLogic.getNearestBlock(owner, 10, Blocks.WATER);
 
 		if (waterCoordinates == null)
 		{
@@ -171,9 +137,9 @@ public class AIFishing extends AbstractToggleAI
 
 		else
 		{
-			waterCoordinatesX = waterCoordinates.iPosX;
-			waterCoordinatesY = waterCoordinates.iPosY;
-			waterCoordinatesZ = waterCoordinates.iPosZ;
+			waterCoordinatesX = waterCoordinates.iX();
+			waterCoordinatesY = waterCoordinates.iY();
+			waterCoordinatesZ = waterCoordinates.iZ();
 			hasWaterPoint = true;
 
 			return true;
@@ -182,7 +148,7 @@ public class AIFishing extends AbstractToggleAI
 
 	private boolean canFishingBegin()
 	{
-		return RadixLogic.getFirstNearestBlock(owner, Blocks.WATER, 1) != null;
+		return RadixLogic.getNearestBlock(owner, 1, Blocks.WATER) != null;
 	}
 
 	private void doSetFishingTarget()
@@ -190,9 +156,9 @@ public class AIFishing extends AbstractToggleAI
 		final List<Point3D> nearbyWater = RadixLogic.getNearbyBlocks(owner, Blocks.WATER, 10);
 		final Point3D randomNearbyWater = nearbyWater.get(RadixMath.getNumberInRange(0, nearbyWater.size() - 1));
 		
-		waterCoordinatesX = randomNearbyWater.iPosX;
-		waterCoordinatesY = randomNearbyWater.iPosY;
-		waterCoordinatesZ = randomNearbyWater.iPosZ;
+		waterCoordinatesX = randomNearbyWater.iX();
+		waterCoordinatesY = randomNearbyWater.iY();
+		waterCoordinatesZ = randomNearbyWater.iZ();
 
 		hasFishingTarget = true;
 	}
@@ -208,19 +174,9 @@ public class AIFishing extends AbstractToggleAI
 		idleFishingTime++;
 	}
 
-	private void doGenerateNextCatchCheck()
-	{
-		fishCatchCheck = owner.worldObj.rand.nextInt(200) + 100;
-		hook = new EntityChoreFishHook(owner.worldObj, owner);
-
-		owner.worldObj.spawnEntityInWorld(hook);
-		owner.damageHeldItem(1);
-		owner.swingItem();
-	}
-
 	public void doFishCatchAttempt()
 	{
-		final int catchChance = 100; //getFishCatchChance();
+		final int catchChance = getFishCatchChance();
 
 		if (RadixLogic.getBooleanWithProbability(catchChance))
 		{
@@ -230,9 +186,7 @@ public class AIFishing extends AbstractToggleAI
 				final int amountToAdd = getFishAmountToAdd();
 				final Item fishItem = entry.getFishItem();
 
-				owner.getVillagerInventory().addItemStackToInventory(new ItemStack(fishItem, amountToAdd, entry.getItemDamage()));
-				fishCatchCheck = 0;
-				fishingTicks = 0;
+				owner.getVillagerInventory().addItem(new ItemStack(fishItem, amountToAdd, entry.getItemDamage()));
 				owner.damageHeldItem(1);
 				
 				//Check if they're carrying 64 fish and end the chore if they are.
@@ -258,8 +212,6 @@ public class AIFishing extends AbstractToggleAI
 		else
 		{
 			hook = null;
-			fishCatchCheck = 0;
-			fishingTicks = 0;
 			idleFishingTime = 0;
 			hasFishingTarget = false;
 		}
@@ -269,15 +221,8 @@ public class AIFishing extends AbstractToggleAI
 	{
 		if (hook == null || hook.isDead)
 		{
-			fishCatchCheck = 0;
-			fishingTicks = 0;
 			idleFishingTime = 0;
 			trySetWaterCoordinates();
-		}
-
-		else
-		{
-			fishingTicks++;
 		}
 	}
 
@@ -292,7 +237,7 @@ public class AIFishing extends AbstractToggleAI
 	private void doItemVerification()
 	{
 		//Make sure a child has a fishing rod.
-		if (owner instanceof EntityVillagerMCA && !owner.getVillagerInventory().contains(Items.FISHING_ROD))
+		if (owner instanceof EntityVillagerMCA && !owner.getVillagerInventory().contains(Items.FISHING_ROD.getClass()))
 		{
 			owner.say("fishing.norod", getAssigningPlayer());
 			reset();

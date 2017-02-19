@@ -1,29 +1,29 @@
 package mca.ai;
 
+import java.util.UUID;
+
 import mca.core.Constants;
-import mca.data.WatcherIDsHuman;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumMovementState;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.passive.EntityHorse;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import radixcore.modules.RadixMath;
-import radixcore.modules.datawatcher.WatchedString;
 
 public class AIFollow extends AbstractAI
 {
-	private final WatchedString playerFollowingName;
-
+	private UUID followingUUID;
+	
 	public AIFollow(EntityVillagerMCA entityHuman) 
 	{
 		super(entityHuman);
-		playerFollowingName = new WatchedString("EMPTY", WatcherIDsHuman.PLAYER_FOLLOWING_NAME, owner.getDataWatcherEx());
+		followingUUID = new UUID(0, 0);
 	}
 
 	@Override
@@ -34,23 +34,13 @@ public class AIFollow extends AbstractAI
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) 
 	{
-		nbt.setString("playerFollowingName", playerFollowingName.getString());
+		nbt.setUniqueId("followingUUID", followingUUID);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) 
 	{
-		playerFollowingName.setValue(nbt.getString("playerFollowingName"));
-	}
-
-	@Override
-	public void onUpdateCommon() 
-	{
-	}
-
-	@Override
-	public void onUpdateClient() 
-	{
+		followingUUID = nbt.getUniqueId("followingUUID");
 	}
 
 	@Override
@@ -59,7 +49,7 @@ public class AIFollow extends AbstractAI
 		if (owner.getMovementState() == EnumMovementState.FOLLOW)
 		{
 			final EntityLiving entityPathController = (EntityLiving) (owner.getRidingEntity() instanceof EntityHorse ? owner.getRidingEntity() : owner);
-			final EntityPlayer entityPlayer = owner.worldObj.getPlayerEntityByName(playerFollowingName.getString());
+			final Entity entityFollowing = owner.worldObj.getPlayerEntityByUUID(followingUUID);
 
 			if (entityPathController instanceof EntityHorse)
 			{
@@ -72,24 +62,24 @@ public class AIFollow extends AbstractAI
 				}
 			}
 
-			if (entityPlayer != null)
+			if (entityFollowing != null)
 			{
-				entityPathController.getLookHelper().setLookPositionWithEntity(entityPlayer, 10.0F, owner.getVerticalFaceSpeed());
+				entityPathController.getLookHelper().setLookPositionWithEntity(entityFollowing, 10.0F, owner.getVerticalFaceSpeed());
 
-				final double distanceToPlayer = RadixMath.getDistanceToEntity(owner, entityPlayer);
+				final double distanceToTarget = RadixMath.getDistanceToEntity(owner, entityFollowing);
 
 				//Crash was reported where bounding box ended up being null.
-				if (distanceToPlayer >= 15.0D && entityPlayer.getEntityBoundingBox() != null)
+				if (distanceToTarget >= 15.0D && entityFollowing.getEntityBoundingBox() != null)
 				{
-					int i = MathHelper.floor_double(entityPlayer.posX) - 2;
-					int j = MathHelper.floor_double(entityPlayer.posZ) - 2;
-					int k = MathHelper.floor_double(entityPlayer.getEntityBoundingBox().minY);
+					int i = MathHelper.floor_double(entityFollowing.posX) - 2;
+					int j = MathHelper.floor_double(entityFollowing.posZ) - 2;
+					int k = MathHelper.floor_double(entityFollowing.getEntityBoundingBox().minY);
 
 					for (int l = 0; l <= 4; ++l)
 					{
 						for (int i1 = 0; i1 <= 4; ++i1)
 						{
-							if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && entityPlayer.worldObj.getBlockState(new BlockPos(i + l, k - 1, j + i1)).isFullyOpaque() && this.isBlockSpawnable(new BlockPos(i + l, k, j + i1)) && isBlockSpawnable(new BlockPos(i + l, k + 1, j + i1)))
+							if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && entityFollowing.worldObj.getBlockState(new BlockPos(i + l, k - 1, j + i1)).isFullyOpaque() && this.isBlockSpawnable(new BlockPos(i + l, k, j + i1)) && isBlockSpawnable(new BlockPos(i + l, k + 1, j + i1)))
 							{
 								owner.setLocationAndAngles((double)((float)(i + l) + 0.5F), (double)k, (double)((float)(j + i1) + 0.5F), owner.rotationYaw, owner.rotationPitch);
 								owner.getNavigator().clearPathEntity();
@@ -99,14 +89,14 @@ public class AIFollow extends AbstractAI
 					}
 				}
 
-				else if (distanceToPlayer >= 4.5D && owner.getNavigator().noPath())
+				else if (distanceToTarget >= 4.5D && owner.getNavigator().noPath())
 				{
-					float speed = entityPathController instanceof EntityHorse ? Constants.SPEED_HORSE_RUN :  entityPlayer.isSprinting() ? Constants.SPEED_SPRINT : owner.getSpeed();
-					entityPathController.getNavigator().tryMoveToEntityLiving(entityPlayer, speed);
-					entityPathController.faceEntity(entityPlayer, 16.0F, 16.0F);
+					float speed = entityPathController instanceof EntityHorse ? Constants.SPEED_HORSE_RUN :  entityFollowing.isSprinting() ? Constants.SPEED_SPRINT : owner.getSpeed();
+					entityPathController.getNavigator().tryMoveToEntityLiving(entityFollowing, speed);
+					entityPathController.faceEntity(entityFollowing, 16.0F, 16.0F);
 				}
 
-				else if (distanceToPlayer <= 2.0D) //To avoid crowding the player.
+				else if (distanceToTarget <= 2.0D) //To avoid crowding the player.
 				{
 					entityPathController.getNavigator().clearPathEntity();
 				}
@@ -119,14 +109,14 @@ public class AIFollow extends AbstractAI
 		}
 	}
 
-	public String getPlayerFollowingName()
+	public UUID getFollowingUUID()
 	{
-		return playerFollowingName.getString();
+		return followingUUID;
 	}
 
-	public void setPlayerFollowingName(String value)
+	public void setFollowingUUID(UUID value)
 	{
-		playerFollowingName.setValue(value);
+		followingUUID = value;
 	}
 
 	private boolean isBlockSpawnable(BlockPos pos)

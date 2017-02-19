@@ -4,7 +4,7 @@ import java.util.List;
 
 import mca.blocks.BlockVillagerBed;
 import mca.core.MCA;
-import mca.core.minecraft.ModBlocks;
+import mca.core.minecraft.BlocksMCA;
 import mca.enums.EnumBedColor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
@@ -18,10 +18,8 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import radixcore.modules.RadixBlocks;
 
 public class ItemVillagerBed extends Item
 {
@@ -35,8 +33,6 @@ public class ItemVillagerBed extends Item
 		this.setCreativeTab(MCA.getCreativeTabMain());
 		this.setMaxStackSize(1);
 		this.setUnlocalizedName(itemName);
-
-		GameRegistry.registerItem(this, itemName);
 	}
 
 	private BlockVillagerBed getBedBlock()
@@ -44,23 +40,25 @@ public class ItemVillagerBed extends Item
 		switch (color)
 		{
 		case BLUE:
-			return ModBlocks.bedBlue;
+			return BlocksMCA.bedBlue;
 		case GREEN:
-			return ModBlocks.bedGreen;
+			return BlocksMCA.bedGreen;
 		case PINK:
-			return ModBlocks.bedPink;
+			return BlocksMCA.bedPink;
 		case PURPLE:
-			return ModBlocks.bedPurple;
+			return BlocksMCA.bedPurple;
 		case RED:
-			return ModBlocks.bedRed;
+			return BlocksMCA.bedRed;
 		default:
 			return null;
 		}
 	}
 	
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World worldObj, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
+	public EnumActionResult onItemUse(EntityPlayer player, World worldObj, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
+		ItemStack stack = player.getHeldItem(hand);
+		
 		if (worldObj.isRemote)
         {
             return EnumActionResult.SUCCESS;
@@ -92,11 +90,9 @@ public class ItemVillagerBed extends Item
             if (player.canPlayerEdit(pos, side, stack) && player.canPlayerEdit(offsetPos, side, stack))
             {
             	BlockPos offsetDown = pos.offset(EnumFacing.DOWN);
-            	BlockPos offsetPosDown = offsetPos.offset(EnumFacing.DOWN);
             	
-                if (posIsAir && offsetIsAir && RadixBlocks.doesBlockHaveSolidTopSurface(worldObj, offsetDown.getX(), offsetDown.getY(), offsetDown.getZ()) && RadixBlocks.doesBlockHaveSolidTopSurface(worldObj, offsetPosDown.getX(), offsetPosDown.getY(), offsetPosDown.getZ()))
+                if (posIsAir && offsetIsAir && worldObj.isSideSolid(offsetDown, EnumFacing.UP))
                 {
-                    int facingIndex = horizontalFacing.getHorizontalIndex();
                     IBlockState footState = getBedBlock().getDefaultState().withProperty(BlockBed.OCCUPIED, Boolean.valueOf(false)).withProperty(BlockBed.FACING, horizontalFacing).withProperty(BlockBed.PART, BlockBed.EnumPartType.FOOT);
 
                     if (worldObj.setBlockState(pos, footState, 3))
@@ -105,7 +101,7 @@ public class ItemVillagerBed extends Item
                         worldObj.setBlockState(offsetPos, headState, 3);
                     }
 
-                    --stack.stackSize;
+                    stack.func_190917_f(-1); //Decrease stack size by 1;
                     return EnumActionResult.SUCCESS;
                 }
                 

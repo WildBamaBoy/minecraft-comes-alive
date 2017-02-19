@@ -17,10 +17,8 @@ import io.netty.buffer.ByteBuf;
 import mca.ai.AIBlink;
 import mca.ai.AIBuild;
 import mca.ai.AICombat;
-import mca.ai.AIConverse;
 import mca.ai.AICooking;
 import mca.ai.AIDefend;
-import mca.ai.AIEat;
 import mca.ai.AIFarming;
 import mca.ai.AIFishing;
 import mca.ai.AIFollow;
@@ -42,7 +40,7 @@ import mca.ai.AIWorkday;
 import mca.ai.AbstractAI;
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.minecraft.ModItems;
+import mca.core.minecraft.ItemsMCA;
 import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
 import mca.data.PlayerMemoryHandler;
@@ -180,7 +178,6 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 		aiManager.addAI(new AIRegenerate(this));
 		aiManager.addAI(new AISleep(this));
 		aiManager.addAI(new AIFollow(this));
-		aiManager.addAI(new AIEat(this));
 		aiManager.addAI(new AIGreet(this, playerMemories));
 		aiManager.addAI(new AIProgressStory(this));
 		aiManager.addAI(new AIProcreate(this));
@@ -188,7 +185,6 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 		aiManager.addAI(new AIPatrol(this));
 		aiManager.addAI(new AIGrow(this));
 		aiManager.addAI(new AIMood(this));
-		aiManager.addAI(new AIConverse(this));
 		aiManager.addAI(new AIBlink(this));
 		aiManager.addAI(new AIBuild(this));
 		aiManager.addAI(new AIMining(this));
@@ -821,8 +817,8 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 		{
 			switch (babyState)
 			{
-			case MALE: return new ItemStack(ModItems.babyBoy);
-			case FEMALE: return new ItemStack(ModItems.babyGirl);
+			case MALE: return new ItemStack(ItemsMCA.babyBoy);
+			case FEMALE: return new ItemStack(ItemsMCA.babyGirl);
 			}
 		}
 
@@ -874,19 +870,10 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 		return null;
 	}
 	
-	//TODO
-//	public void setHeldItem(Item item)
-//	{
-//		if (item != null)
-//		{
-//			heldItem.setValue(Item.getIdFromItem(item));
-//		}
-//
-//		else
-//		{
-//			heldItem.setValue(-1);
-//		}
-//	}
+	public void setHeldItem(Item item)
+	{
+		setHeldItem(EnumHand.MAIN_HAND, new ItemStack(item));
+	}
 	
 	public boolean damageHeldItem(int amount)
 	{
@@ -905,7 +892,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 				{
 					itemInSlot.damageItem(amount, this);
 
-					if (itemInSlot.stackSize == 0)
+					if (itemInSlot.func_190916_E() == 0)
 					{
 						aiManager.disableAllToggleAIs();
 						inventory.setInventorySlotContents(slot, null);
@@ -1484,7 +1471,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	private void createMemorialChestForChild(PlayerMemory memory)
 	{
 		VillagerSaveData data = VillagerSaveData.fromVillager(this, null, memory.getUUID());
-		ItemStack memorialStack = new ItemStack(getGender() == EnumGender.MALE ? ModItems.toyTrain : ModItems.childsDoll);
+		ItemStack memorialStack = new ItemStack(getGender() == EnumGender.MALE ? ItemsMCA.toyTrain : ItemsMCA.childsDoll);
 		
 		memorialStack.setTagCompound(new NBTTagCompound());
 		memorialStack.getTagCompound().setString("ownerName", memory.getPlayerName());
@@ -1514,9 +1501,9 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 		switch (ownerRelation)
 		{
 		case HUSBAND:
-		case WIFE: memorialItem = ModItems.brokenRing; break;
-		case SON: memorialItem = ModItems.toyTrain; break;
-		case DAUGHTER: memorialItem = ModItems.childsDoll; break;
+		case WIFE: memorialItem = ItemsMCA.brokenRing; break;
+		case SON: memorialItem = ItemsMCA.toyTrain; break;
+		case DAUGHTER: memorialItem = ItemsMCA.childsDoll; break;
 		}
 		
 		if (memorialItem != null)
@@ -1596,5 +1583,20 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	public void setTicksAlive(int value)
 	{
 		this.ticksAlive = value;
+	}
+	
+	public int getLowHeartWarnings()
+	{
+		return timesWarnedForLowHearts;
+	}
+	
+	public void incrementLowHeartWarnings()
+	{
+		timesWarnedForLowHearts++;
+	}
+	
+	public void resetLowHeartWarnings()
+	{
+		timesWarnedForLowHearts = 0;
 	}
 }

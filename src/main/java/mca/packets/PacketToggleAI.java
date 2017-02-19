@@ -10,7 +10,7 @@ import mca.ai.AIFishing;
 import mca.ai.AIHunting;
 import mca.ai.AIMining;
 import mca.ai.AIWoodcutting;
-import mca.core.minecraft.ModAchievements;
+import mca.core.minecraft.AchievementsMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumInteraction;
 import net.minecraft.entity.player.EntityPlayer;
@@ -103,12 +103,12 @@ public class PacketToggleAI extends AbstractPacket<PacketToggleAI>
 		switch(EnumInteraction.fromId(packet.interactionId))
 		{
 		case FARMING: 
-			player.addStat(ModAchievements.farming);
+			player.addStat(AchievementsMCA.farming);
 			human.getAI(AIFarming.class).startFarming(player, packet.integers.get(0), packet.integers.get(1), packet.booleans.get(0));
 			break;
 			
 		case MINING: 
-			player.addStat(ModAchievements.mining);
+			player.addStat(AchievementsMCA.mining);
 			
 			if (packet.booleans.get(0))
 			{
@@ -122,7 +122,7 @@ public class PacketToggleAI extends AbstractPacket<PacketToggleAI>
 			break;
 			
 		case WOODCUTTING: 
-			player.addStat(ModAchievements.woodcutting);
+			player.addStat(AchievementsMCA.woodcutting);
 			boolean doReplant = packet.booleans.get(0);
 			int mappingId = packet.integers.get(0);
 			
@@ -130,7 +130,7 @@ public class PacketToggleAI extends AbstractPacket<PacketToggleAI>
 			break;
 			
 		case HUNTING: 
-			player.addStat(ModAchievements.hunting);
+			player.addStat(AchievementsMCA.hunting);
 			boolean flag = packet.booleans.get(0);
 			
 			if (flag)

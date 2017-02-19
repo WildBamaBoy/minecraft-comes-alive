@@ -1,7 +1,7 @@
 package mca.ai;
 
 import mca.core.MCA;
-import mca.core.minecraft.ModAchievements;
+import mca.core.minecraft.AchievementsMCA;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -40,7 +40,7 @@ public class AIGrow extends AbstractAI
 						
 						if (owner.isPlayerAParent(player))
 						{
-							player.addStat(ModAchievements.childToAdult);
+							player.addStat(AchievementsMCA.childToAdult);
 						}
 					}
 				}

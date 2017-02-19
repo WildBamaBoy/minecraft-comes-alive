@@ -14,18 +14,17 @@ public abstract class AbstractAI
 	}
 	
 	/** Update code that runs on both the client and the server. */
-	public abstract void onUpdateCommon();
+	public void onUpdateCommon(){};
 	
 	/** Update code that will only run on the client. */
-	public abstract void onUpdateClient();
+	public void onUpdateClient(){};
 	
 	/** Update code that will only run on the server. */
-	public abstract void onUpdateServer();
+	public void onUpdateServer(){};
+
+	public void reset(){};
 	
-	/** */
-	public abstract void reset();
+	public void writeToNBT(NBTTagCompound nbt){};
 	
-	public abstract void writeToNBT(NBTTagCompound nbt);
-	
-	public abstract void readFromNBT(NBTTagCompound nbt);
+	public void readFromNBT(NBTTagCompound nbt){};
 }

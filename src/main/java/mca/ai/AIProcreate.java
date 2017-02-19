@@ -3,10 +3,9 @@ package mca.ai;
 import java.util.Random;
 
 import mca.core.MCA;
-import mca.core.minecraft.ModAchievements;
-import mca.core.minecraft.ModItems;
+import mca.core.minecraft.AchievementsMCA;
+import mca.core.minecraft.ItemsMCA;
 import mca.data.NBTPlayerData;
-import mca.data.WatcherIDsHuman;
 import mca.entity.EntityVillagerMCA;
 import mca.packets.PacketOpenBabyNameGUI;
 import mca.util.Utilities;
@@ -15,14 +14,16 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.stats.Achievement;
 import net.minecraft.util.EnumParticleTypes;
 import radixcore.constant.Time;
-import radixcore.modules.datawatcher.WatchedBoolean;
 
 public class AIProcreate extends AbstractAI
 {
-	private WatchedBoolean isProcreating;
+	private static final DataParameter<Boolean> IS_PROCREATING = EntityDataManager.<Boolean>createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
 	
 	private boolean hasHadTwins;
 	private int procreateTicks;
@@ -30,19 +31,13 @@ public class AIProcreate extends AbstractAI
 	public AIProcreate(EntityVillagerMCA owner) 
 	{
 		super(owner);
-		
-		isProcreating = new WatchedBoolean(false, WatcherIDsHuman.IS_PROCREATING, owner.getDataWatcherEx());
-	}
-
-	@Override
-	public void onUpdateCommon() 
-	{
+		setIsProcreating(false);
 	}
 
 	@Override
 	public void onUpdateClient() 
 	{
-		if (isProcreating.getBoolean())
+		if (getIsProcreating())
 		{
 			owner.rotationYawHead += 40;
 			Utilities.spawnParticlesAroundEntityC(EnumParticleTypes.HEART, owner, 2);
@@ -52,31 +47,31 @@ public class AIProcreate extends AbstractAI
 	@Override
 	public void onUpdateServer() 
 	{
-		if (isProcreating.getBoolean())
+		if (getIsProcreating())
 		{
 			procreateTicks++;
 			
 			if (procreateTicks >= Time.SECOND * 3)
 			{
-				isProcreating.setValue(false);
+				setIsProcreating(false);
 				procreateTicks = 0;
 				owner.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, 1.0F);
 
-				final EntityPlayer playerSpouse = owner.getPlayerSpouse();
+				final EntityPlayer playerSpouse = owner.getPlayerSpouseInstance();
 				
 				if (playerSpouse != null)
 				{
 					NBTPlayerData data = MCA.getPlayerData(playerSpouse);
-					data.setShouldHaveBaby(true);
+					data.setOwnsBaby(true);
 					
 					boolean isMale = new Random().nextBoolean();
-					ItemStack stack = new ItemStack(isMale ? ModItems.babyBoy : ModItems.babyGirl);
+					ItemStack stack = new ItemStack(isMale ? ItemsMCA.babyBoy : ItemsMCA.babyGirl);
 					
 					boolean isPlayerInventoryFull = playerSpouse.inventory.getFirstEmptyStack() == -1;
 					
 					if (isPlayerInventoryFull)
 					{
-						owner.getVillagerInventory().addItemStackToInventory(stack);
+						owner.getVillagerInventory().addItem(stack);
 					}
 					
 					else
@@ -84,7 +79,7 @@ public class AIProcreate extends AbstractAI
 						playerSpouse.inventory.addItemStackToInventory(stack);
 					}
 					
-					Achievement achievement = isMale ? ModAchievements.babyBoy : ModAchievements.babyGirl;
+					Achievement achievement = isMale ? AchievementsMCA.babyBoy : AchievementsMCA.babyGirl;
 					playerSpouse.addStat(achievement);
 					
 					MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenBabyNameGUI(isMale), (EntityPlayerMP) playerSpouse);
@@ -94,15 +89,9 @@ public class AIProcreate extends AbstractAI
 	}
 
 	@Override
-	public void reset() 
-	{
-		
-	}
-
-	@Override
 	public void writeToNBT(NBTTagCompound nbt) 
 	{
-		nbt.setBoolean("isProcreating", isProcreating.getBoolean());
+		nbt.setBoolean("isProcreating", getIsProcreating());
 		nbt.setBoolean("hasHadTwins", hasHadTwins);
 		nbt.setInteger("procreateTicks", procreateTicks);
 	}
@@ -110,14 +99,19 @@ public class AIProcreate extends AbstractAI
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) 
 	{
-		isProcreating.setValue(nbt.getBoolean("isProcreating"));
+		setIsProcreating(nbt.getBoolean("isProcreating"));
 		hasHadTwins = nbt.getBoolean("hasHadTwins");
 		procreateTicks = nbt.getInteger("procreateTicks");
 	}
 
 	public void setIsProcreating(boolean value)
 	{
-		this.isProcreating.setValue(true);
+		owner.getDataManager().set(IS_PROCREATING, value);
+	}
+	
+	public boolean getIsProcreating()
+	{
+		return owner.getDataManager().get(IS_PROCREATING);
 	}
 	
 	public boolean getHasHadTwins()

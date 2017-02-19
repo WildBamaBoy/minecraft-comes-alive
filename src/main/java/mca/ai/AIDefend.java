@@ -36,19 +36,7 @@ public class AIDefend extends AbstractAI
 	{
 		super(owner);
 	}
-
-	@Override
-	public void onUpdateCommon() 
-	{
-
-	}
-
-	@Override
-	public void onUpdateClient() 
-	{
-
-	}
-
+	
 	@Override
 	public void onUpdateServer() 
 	{
@@ -150,12 +138,12 @@ public class AIDefend extends AbstractAI
 
 	private void tryAssignTarget()
 	{
-		List<Entity> possibleTargets = RadixLogic.getAllEntitiesWithinDistanceOfCoordinates(owner.worldObj, owner.posX, owner.posY, owner.posZ, 15);
+		List<EntityMob> possibleTargets = RadixLogic.getEntitiesWithinDistance(EntityMob.class, owner, 15);
 		double closestDistance = 100.0D;
 
 		for (Entity entity : possibleTargets)
 		{
-			if (entity instanceof EntityMob && !(entity instanceof EntityCreeper) && owner.canEntityBeSeen(entity))
+			if (!(entity instanceof EntityCreeper) && owner.canEntityBeSeen(entity))
 			{
 				double distance = RadixMath.getDistanceToEntity(owner, entity);
 

@@ -27,9 +27,9 @@ import mca.packets.PacketToggleAI;
 import net.minecraftforge.fml.relauncher.Side;
 import radixcore.modules.net.AbstractPacketHandler;
 
-public class MCAPacketHandler extends AbstractPacketHandler
+public class PacketHandlerMCA extends AbstractPacketHandler
 {
-	public MCAPacketHandler(String modId) 
+	public PacketHandlerMCA(String modId) 
 	{
 		super(modId);
 	}

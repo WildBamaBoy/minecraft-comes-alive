@@ -73,7 +73,7 @@ public class AIWoodcutting extends AbstractToggleAI
 				return;
 			}
 
-			if (treeBasePoint.iPosX == 0 && treeBasePoint.iPosY == 0 && treeBasePoint.iPosZ == 0)
+			if (treeBasePoint.iX() == 0 && treeBasePoint.iY() == 0 && treeBasePoint.iZ() == 0)
 			{
 				final WoodcuttingEntry apiEntry = RegistryMCA.getWoodcuttingEntryById(apiId);
 
@@ -88,28 +88,28 @@ public class AIWoodcutting extends AbstractToggleAI
 				if (point != null)
 				{
 					//Follow the point down until logs are NOT found, so we have the base of the tree.
-					while (RadixBlocks.getBlock(owner.worldObj, point.iPosX, point.iPosY, point.iPosZ) == apiEntry.getLogBlock())
+					while (RadixBlocks.getBlock(owner.worldObj, point.iX(), point.iY(), point.iZ()) == apiEntry.getLogBlock())
 					{
-						point.iPosY--;
+						point.iY()--;
 
-						if (point.iPosY <= 0) //Impose a limit on failure
+						if (point.iY() <= 0) //Impose a limit on failure
 						{
 							break;
 						}
 					}
 
 					//Follow back up and make sure we have the base. Not sure why, simply adding 1 caused issues every now and then.
-					while (RadixBlocks.getBlock(owner.worldObj, point.iPosX, point.iPosY, point.iPosZ) != apiEntry.getLogBlock())
+					while (RadixBlocks.getBlock(owner.worldObj, point.iX(), point.iY(), point.iZ()) != apiEntry.getLogBlock())
 					{
-						point.iPosY++;
+						point.iY()++;
 
-						if (point.iPosY >= 255)
+						if (point.iY() >= 255)
 						{
 							break;
 						}
 					}
 
-					Point3D modifiedPoint = new Point3D(point.iPosX, point.iPosY, point.iPosZ);
+					Point3D modifiedPoint = new Point3D(point.iX(), point.iY(), point.iZ());
 					treeBasePoint = modifiedPoint;
 				}
 
@@ -121,7 +121,7 @@ public class AIWoodcutting extends AbstractToggleAI
 				}
 			}
 
-			else if (RadixMath.getDistanceToXYZ(treeBasePoint.dPosX, treeBasePoint.dPosY, treeBasePoint.dPosZ, owner.posX, owner.posY, owner.posZ) <= 2.5D || yLevel > 0)
+			else if (RadixMath.getDistanceToXYZ(treeBasePoint.dX(), treeBasePoint.dY(), treeBasePoint.dZ(), owner.posX, owner.posY, owner.posZ) <= 2.5D || yLevel > 0)
 			{
 				cutTimeLeft--;
 				owner.swingItem();
@@ -132,7 +132,7 @@ public class AIWoodcutting extends AbstractToggleAI
 
 					final WoodcuttingEntry apiEntry = RegistryMCA.getWoodcuttingEntryById(apiId);
 					final Block block = apiEntry.getLogBlock();
-					RadixBlocks.setBlock(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY + yLevel, treeBasePoint.iPosZ, Blocks.AIR);
+					RadixBlocks.setBlock(owner.worldObj, treeBasePoint.iX(), treeBasePoint.iY() + yLevel, treeBasePoint.iZ(), Blocks.AIR);
 					boolean addedToInventory = addItemStackToInventory(new ItemStack(block, 1, apiEntry.getLogMeta()));
 					boolean toolBroken = owner.damageHeldItem(2);
 
@@ -158,14 +158,14 @@ public class AIWoodcutting extends AbstractToggleAI
 					yLevel++;
 
 					//Check that the next y level still contains a tree, reset if not.
-					final Block nextBlock = RadixBlocks.getBlock(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY + yLevel, treeBasePoint.iPosZ);
+					final Block nextBlock = RadixBlocks.getBlock(owner.worldObj, treeBasePoint.iX(), treeBasePoint.iY() + yLevel, treeBasePoint.iZ());
 
 					if (nextBlock != apiEntry.getLogBlock())
 					{
 						if (apiEntry.hasSapling() && doReplant)
 						{
-							RadixBlocks.setBlock(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY - 1, treeBasePoint.iPosZ, Blocks.DIRT);
-							RadixBlocks.setBlock(owner.worldObj, treeBasePoint.iPosX, treeBasePoint.iPosY, treeBasePoint.iPosZ, apiEntry.getSaplingBlock());
+							RadixBlocks.setBlock(owner.worldObj, treeBasePoint.iX(), treeBasePoint.iY() - 1, treeBasePoint.iZ(), Blocks.DIRT);
+							RadixBlocks.setBlock(owner.worldObj, treeBasePoint.iX(), treeBasePoint.iY(), treeBasePoint.iZ(), apiEntry.getSaplingBlock());
 						}
 
 						yLevel = 0;
@@ -178,17 +178,17 @@ public class AIWoodcutting extends AbstractToggleAI
 			{
 				for (Point3D point : RadixLogic.getNearbyBlocks(owner, Blocks.LEAVES, 1))
 				{
-					RadixBlocks.setBlock(owner.worldObj, point.iPosX, point.iPosY, point.iPosZ, Blocks.AIR);
+					RadixBlocks.setBlock(owner.worldObj, point.iX(), point.iY(), point.iZ(), Blocks.AIR);
 				}
 
 				for (Point3D point : RadixLogic.getNearbyBlocks(owner, Blocks.LEAVES2, 1))
 				{
-					RadixBlocks.setBlock(owner.worldObj, point.iPosX, point.iPosY, point.iPosZ, Blocks.AIR);				
+					RadixBlocks.setBlock(owner.worldObj, point.iX(), point.iY(), point.iZ(), Blocks.AIR);				
 				}
 
 				if (owner.getNavigator().noPath())
 				{
-					owner.getNavigator().tryMoveToXYZ(treeBasePoint.dPosX, treeBasePoint.dPosY, treeBasePoint.dPosZ, owner.getSpeed());
+					owner.getNavigator().tryMoveToXYZ(treeBasePoint.dX(), treeBasePoint.dY(), treeBasePoint.dZ(), owner.getSpeed());
 				}
 			}
 		}

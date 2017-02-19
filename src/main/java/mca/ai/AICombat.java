@@ -3,10 +3,8 @@ package mca.ai;
 import java.util.List;
 
 import mca.core.Constants;
-import mca.data.WatcherIDsHuman;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumCombatBehaviors;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
@@ -16,19 +14,20 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.MathHelper;
 import radixcore.modules.RadixLogic;
 import radixcore.modules.RadixMath;
-import radixcore.modules.datawatcher.DataWatcherEx;
-import radixcore.modules.datawatcher.WatchedInt;
 
 public class AICombat extends AbstractAI
 {
-	private WatchedInt attackMethodInt;
-	private WatchedInt attackTriggerInt;
-	private WatchedInt attackTargetInt;
+	private static final DataParameter<Integer> ATTACK_METHOD_ID = EntityDataManager.<Integer>createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> ATTACK_TRIGGER_ID = EntityDataManager.<Integer>createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
+	private static final DataParameter<Integer> ATTACK_TARGET_ID = EntityDataManager.<Integer>createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
 
 	private EntityLivingBase attackTarget;
 	private int rangedAttackTime;
@@ -36,9 +35,10 @@ public class AICombat extends AbstractAI
 	public AICombat(EntityVillagerMCA owner) 
 	{
 		super(owner);
-		attackMethodInt = new WatchedInt(EnumCombatBehaviors.METHOD_DO_NOT_FIGHT.getNumericId(), WatcherIDsHuman.COMBAT_METHOD, owner.getDataWatcherEx());
-		attackTriggerInt = new WatchedInt(EnumCombatBehaviors.TRIGGER_PLAYER_TAKE_DAMAGE.getNumericId(), WatcherIDsHuman.COMBAT_TRIGGER, owner.getDataWatcherEx());
-		attackTargetInt = new WatchedInt(EnumCombatBehaviors.TARGET_HOSTILE_MOBS.getNumericId(), WatcherIDsHuman.COMBAT_TARGET, owner.getDataWatcherEx());
+
+		setMethodBehavior(EnumCombatBehaviors.METHOD_DO_NOT_FIGHT);
+		setTriggerBehavior(EnumCombatBehaviors.TRIGGER_PLAYER_TAKE_DAMAGE);
+		setTargetBehavior(EnumCombatBehaviors.TARGET_HOSTILE_MOBS);
 	}
 
 	@Override
@@ -54,8 +54,8 @@ public class AICombat extends AbstractAI
 	@Override
 	public void onUpdateServer() 
 	{
-		//Do nothing when we're asleep or when being interacted with.
-		if (owner.getAI(AISleep.class).getIsSleeping() || owner.getIsInteracting())
+		//Do nothing when we're asleep
+		if (owner.getAI(AISleep.class).getIsSleeping())
 		{
 			return;
 		}
@@ -148,73 +148,63 @@ public class AICombat extends AbstractAI
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) 
 	{
-		nbt.setInteger("attackMethod", attackMethodInt.getInt());
-		nbt.setInteger("attackTrigger", attackTriggerInt.getInt());
-		nbt.setInteger("attackTarget", attackTargetInt.getInt());
+		nbt.setInteger("attackMethodId", owner.getDataManager().get(ATTACK_METHOD_ID));
+		nbt.setInteger("attackTriggerId", owner.getDataManager().get(ATTACK_TRIGGER_ID));
+		nbt.setInteger("attackTargetId", owner.getDataManager().get(ATTACK_TARGET_ID));
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) 
 	{
-		setMethodBehavior(nbt.getInteger("attackMethod"));
-		setTriggerBehavior(nbt.getInteger("attackTrigger"));
-		setTargetBehavior(nbt.getInteger("attackTarget"));
+		setMethodBehavior(EnumCombatBehaviors.getById(nbt.getInteger("attackMethodId")));
+		setTriggerBehavior(EnumCombatBehaviors.getById(nbt.getInteger("attackTriggerId")));
+		setTargetBehavior(EnumCombatBehaviors.getById(nbt.getInteger("attackTargetId")));
 	}
 
 	public EnumCombatBehaviors getMethodBehavior()
 	{
-		return EnumCombatBehaviors.getById(attackMethodInt.getInt());
+		return EnumCombatBehaviors.getById(owner.getDataManager().get(ATTACK_METHOD_ID));
 	}
 
 	public EnumCombatBehaviors getTriggerBehavior()
 	{
-		return EnumCombatBehaviors.getById(attackTriggerInt.getInt());
+		return EnumCombatBehaviors.getById(owner.getDataManager().get(ATTACK_TRIGGER_ID));
 	}
 
 	public EnumCombatBehaviors getTargetBehavior()
 	{
-		return EnumCombatBehaviors.getById(attackTargetInt.getInt());
+		return EnumCombatBehaviors.getById(owner.getDataManager().get(ATTACK_TARGET_ID));
 	}
 
-	public void setMethodBehavior(int value)
+	public void setMethodBehavior(EnumCombatBehaviors value)
 	{
-		DataWatcherEx.allowClientSideModification = true;
-		this.attackMethodInt.setValue(value);
-		DataWatcherEx.allowClientSideModification = false;
+		owner.getDataManager().set(ATTACK_METHOD_ID, value.getNumericId());
 	}
 
-	public void setTriggerBehavior(int value)
+	public void setTriggerBehavior(EnumCombatBehaviors value)
 	{
-		DataWatcherEx.allowClientSideModification = true;
-		this.attackTriggerInt.setValue(value);
-		DataWatcherEx.allowClientSideModification = false;
+		owner.getDataManager().set(ATTACK_TRIGGER_ID, value.getNumericId());
 	}
 
-	public void setTargetBehavior(int value)
+	public void setTargetBehavior(EnumCombatBehaviors value)
 	{
-		DataWatcherEx.allowClientSideModification = true;
-		this.attackTargetInt.setValue(value);
-		DataWatcherEx.allowClientSideModification = false;
+		owner.getDataManager().set(ATTACK_TARGET_ID, value.getNumericId());
 	}
 
 	private void findAttackTarget()
 	{
-		List<Entity> entitiesAroundMe = RadixLogic.getAllEntitiesWithinDistanceOfCoordinates(owner.worldObj, owner.posX, owner.posY, owner.posZ, 10);
+		List<EntityLivingBase> entitiesAroundMe = RadixLogic.getEntitiesWithinDistance(EntityLivingBase.class, owner, 10);
 		double distance = 100.0D;
 		EntityLivingBase target = null;
 
-		for (Entity entity : entitiesAroundMe)
+		for (EntityLivingBase livingBase : entitiesAroundMe)
 		{
-			if (entity instanceof EntityLivingBase)
-			{
-				EntityLivingBase livingBase = (EntityLivingBase)entity;
-				double distanceTo = RadixMath.getDistanceToEntity(owner, livingBase);
+			double distanceTo = RadixMath.getDistanceToEntity(owner, livingBase);
 
-				if (isEntityValidToAttack(livingBase) && distanceTo < distance)
-				{
-					distance = RadixMath.getDistanceToEntity(owner, livingBase);
-					target = livingBase;
-				}
+			if (isEntityValidToAttack(livingBase) && distanceTo < distance)
+			{
+				distance = RadixMath.getDistanceToEntity(owner, livingBase);
+				target = livingBase;
 			}
 		}
 

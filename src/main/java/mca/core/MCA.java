@@ -19,9 +19,9 @@ import mca.core.forge.EventHooksForge;
 import mca.core.forge.GuiHandler;
 import mca.core.forge.ServerProxy;
 import mca.core.forge.SoundsMCA;
-import mca.core.minecraft.ModAchievements;
-import mca.core.minecraft.ModBlocks;
-import mca.core.minecraft.ModItems;
+import mca.core.minecraft.AchievementsMCA;
+import mca.core.minecraft.BlocksMCA;
+import mca.core.minecraft.ItemsMCA;
 import mca.core.radix.CrashWatcher;
 import mca.core.radix.LanguageParser;
 import mca.data.NBTPlayerData;
@@ -29,15 +29,15 @@ import mca.data.PlayerDataCollection;
 import mca.entity.EntityChoreFishHook;
 import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
-import mca.enums.EnumCut;
 import mca.enums.EnumProfession;
-import mca.network.MCAPacketHandler;
+import mca.network.PacketHandlerMCA;
 import mca.tile.TileMemorial;
 import mca.tile.TileTombstone;
 import mca.tile.TileVillagerBed;
 import mca.util.SkinLoader;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityOcelot;
@@ -68,7 +68,6 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.oredict.OreDictionary;
 import radixcore.core.ModMetadataEx;
 import radixcore.core.RadixCore;
 import radixcore.math.Point3D;
@@ -89,15 +88,11 @@ public class MCA
 	@Instance(ID)
 	private static MCA instance;
 	private static ModMetadata metadata;
-	private static ModItems items;
-	private static ModBlocks blocks;
-	private static ModAchievements achievements;
 	private static CreativeTabs creativeTabMain;
-	private static CreativeTabs creativeTabGemCutting;
 	private static Config clientConfig;
 	private static Config config;
 	private static LanguageManager languageManager;
-	private static MCAPacketHandler packetHandler;
+	private static PacketHandlerMCA packetHandler;
 	private static CrashWatcher crashWatcher;
 
 	private static Logger logger;
@@ -124,7 +119,7 @@ public class MCA
 		clientConfig = config;
 		languageManager = new LanguageManager(ID, new LanguageParser());
 		crashWatcher = new CrashWatcher();
-		packetHandler = new MCAPacketHandler(ID);
+		packetHandler = new PacketHandlerMCA(ID);
 		proxy.registerEventHandlers();
 		
 		ModMetadataEx exData = ModMetadataEx.getFromModMetadata(metadata);
@@ -148,11 +143,18 @@ public class MCA
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		creativeTabMain = RadixStartup.registerCreativeTab(ModItems.class, "engagementRing", metadata, null);
-		creativeTabGemCutting = RadixStartup.registerCreativeTab(ModItems.class, "diamondHeart", metadata, "gemCutting");
-		items = new ModItems();
-		blocks = new ModBlocks();
-		achievements = new ModAchievements();
+		creativeTabMain = new CreativeTabs("MCA")
+				{
+					@Override
+					public ItemStack getTabIconItem() 
+					{
+						return new ItemStack(ItemsMCA.engagementRing);
+					}
+				};
+				
+		ItemsMCA.initialize();
+		BlocksMCA.initialize();
+		AchievementsMCA.initialize();
 		proxy.registerRenderers();
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 
@@ -169,50 +171,36 @@ public class MCA
 		GameRegistry.registerTileEntity(TileMemorial.class, TileMemorial.class.getSimpleName());
 
 		//Recipes
-		GameRegistry.addRecipe(new ItemStack(ModItems.divorcePapers, 1), 
+		GameRegistry.addRecipe(new ItemStack(ItemsMCA.divorcePapers, 1), 
 				new Object[] { " IF", " P ", 'I', new ItemStack(Items.DYE, 1, 0), 'F', Items.FEATHER, 'P', Items.PAPER });
 
-		GameRegistry.addRecipe(new ItemStack(ModItems.whistle), 
+		GameRegistry.addRecipe(new ItemStack(ItemsMCA.whistle), 
 				" W#", "###", '#', Items.IRON_INGOT, 'W', Blocks.PLANKS);
 		GameRegistry.addRecipe(new ItemStack(Items.GOLD_INGOT), 
-				"GGG", "GGG", "GGG", 'G', ModItems.goldDust);
-		GameRegistry.addRecipe(new ItemStack(ModItems.roseGoldIngot, 9), 
-				"GGG", "GGG", "GGG", 'G', ModItems.roseGoldDust);
-		GameRegistry.addRecipe(new ItemStack(ModItems.engagementRing), 
+				"GGG", "GGG", "GGG", 'G', ItemsMCA.goldDust);
+		GameRegistry.addRecipe(new ItemStack(ItemsMCA.roseGoldIngot, 9), 
+				"GGG", "GGG", "GGG", 'G', ItemsMCA.roseGoldDust);
+		GameRegistry.addRecipe(new ItemStack(ItemsMCA.engagementRing), 
 				"GDG", "G G", "GGG", 'D', Items.DIAMOND, 'G', Items.GOLD_INGOT);
-		GameRegistry.addRecipe(new ItemStack(ModItems.engagementRingRG), 
-				"GDG", "G G", "GGG", 'D', Items.DIAMOND, 'G', ModItems.roseGoldIngot);
-		GameRegistry.addRecipe(new ItemStack(ModItems.weddingRingRG),
-				"GGG", "G G", "GGG", 'G', ModItems.roseGoldIngot);
-		GameRegistry.addRecipe(new ItemStack(ModBlocks.roseGoldBlock),
-				"GGG", "GGG", "GGG", 'G', ModItems.roseGoldIngot);
-		GameRegistry.addRecipe(new ItemStack(ModItems.matchmakersRing),
+		GameRegistry.addRecipe(new ItemStack(ItemsMCA.engagementRingRG), 
+				"GDG", "G G", "GGG", 'D', Items.DIAMOND, 'G', ItemsMCA.roseGoldIngot);
+		GameRegistry.addRecipe(new ItemStack(ItemsMCA.weddingRingRG),
+				"GGG", "G G", "GGG", 'G', ItemsMCA.roseGoldIngot);
+		GameRegistry.addRecipe(new ItemStack(BlocksMCA.roseGoldBlock),
+				"GGG", "GGG", "GGG", 'G', ItemsMCA.roseGoldIngot);
+		GameRegistry.addRecipe(new ItemStack(ItemsMCA.matchmakersRing),
 				"III", "I I", "III", 'I', Items.IRON_INGOT);
-		GameRegistry.addRecipe(new ItemStack(ModItems.tombstone),
+		GameRegistry.addRecipe(new ItemStack(ItemsMCA.tombstone),
 				" S ", "SIS", "SSS", 'S', Blocks.STONE, 'I', Items.SIGN);
-		GameRegistry.addRecipe(new ItemStack(ModItems.gemCutter),
-				"  G", "IG ", "DI ", 'G', Items.GOLD_INGOT, 'I', Items.IRON_INGOT, 'D', Items.DIAMOND);
-		GameRegistry.addRecipe(new ItemStack(ModItems.heartMold),
-				"CCC", "C C", " C ", 'C', Items.CLAY_BALL);
-		GameRegistry.addRecipe(new ItemStack(ModItems.tinyMold),
-				" C ", "C C", " C ", 'C', Items.CLAY_BALL);
-		GameRegistry.addRecipe(new ItemStack(ModItems.ovalMold),
-				"CCC", "   ", "CCC", 'C', Items.CLAY_BALL);    	
-		GameRegistry.addRecipe(new ItemStack(ModItems.squareMold),
-				"CCC", "C C", "CCC", 'C', Items.CLAY_BALL);    	
-		GameRegistry.addRecipe(new ItemStack(ModItems.triangleMold),
-				" C ", "C C", "CCC", 'C', Items.CLAY_BALL);    	
-		GameRegistry.addRecipe(new ItemStack(ModItems.starMold),
-				" C ", "CCC", " C ", 'C', Items.CLAY_BALL);
-		GameRegistry.addRecipe(new ItemStack(ModItems.needle),
+		GameRegistry.addRecipe(new ItemStack(ItemsMCA.needle),
 				"I  ", " I ", "  I", 'I', new ItemStack(Items.IRON_INGOT));
-		GameRegistry.addRecipe(new ItemStack(ModItems.newOutfit),
-				"C C", "CCC", "CCC", 'C', ModItems.cloth);
+		GameRegistry.addRecipe(new ItemStack(ItemsMCA.newOutfit),
+				"C C", "CCC", "CCC", 'C', ItemsMCA.cloth);
 
 		//Variable recipes
 		if (!config.disableWeddingRingRecipe)
 		{
-			GameRegistry.addRecipe(new ItemStack(ModItems.weddingRing),
+			GameRegistry.addRecipe(new ItemStack(ItemsMCA.weddingRing),
 					"GGG", "G G", "GGG", 'G', Items.GOLD_INGOT);
 		}
 
@@ -221,92 +209,33 @@ public class MCA
 			logger.fatal("Config: MCA's default wedding ring recipe is currently disabled. You can change this in the config. You must use Rose Gold to craft wedding rings!");
 		}
 
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.roseGoldDust), ModItems.roseGoldIngot);
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.goldDust, 6), Items.WATER_BUCKET, new ItemStack(ModItems.roseGoldDust));
+		GameRegistry.addShapelessRecipe(new ItemStack(ItemsMCA.roseGoldDust), ItemsMCA.roseGoldIngot);
+		GameRegistry.addShapelessRecipe(new ItemStack(ItemsMCA.goldDust, 6), Items.WATER_BUCKET, new ItemStack(ItemsMCA.roseGoldDust));
 
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedRed), new ItemStack(Items.BED), new ItemStack(Blocks.CARPET, 1, 14));
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedBlue), new ItemStack(Items.BED), new ItemStack(Blocks.CARPET, 1, 11));
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedGreen), new ItemStack(Items.BED), new ItemStack(Blocks.CARPET, 1, 13));
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedPurple), new ItemStack(Items.BED), new ItemStack(Blocks.CARPET, 1, 10));
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.bedPink), new ItemStack(Items.BED), new ItemStack(Blocks.CARPET, 1, 6));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.BED), new ItemStack(ModItems.bedRed));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.BED), new ItemStack(ModItems.bedBlue));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.BED), new ItemStack(ModItems.bedGreen));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.BED), new ItemStack(ModItems.bedPurple));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.BED), new ItemStack(ModItems.bedPink));
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.needleAndString), new ItemStack(ModItems.needle), new ItemStack(Items.STRING));
-		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.roseGoldIngot, 9), new ItemStack(ModBlocks.roseGoldBlock));
+		GameRegistry.addShapelessRecipe(new ItemStack(ItemsMCA.bedRed), new ItemStack(Items.BED), new ItemStack(Blocks.CARPET, 1, 14));
+		GameRegistry.addShapelessRecipe(new ItemStack(ItemsMCA.bedBlue), new ItemStack(Items.BED), new ItemStack(Blocks.CARPET, 1, 11));
+		GameRegistry.addShapelessRecipe(new ItemStack(ItemsMCA.bedGreen), new ItemStack(Items.BED), new ItemStack(Blocks.CARPET, 1, 13));
+		GameRegistry.addShapelessRecipe(new ItemStack(ItemsMCA.bedPurple), new ItemStack(Items.BED), new ItemStack(Blocks.CARPET, 1, 10));
+		GameRegistry.addShapelessRecipe(new ItemStack(ItemsMCA.bedPink), new ItemStack(Items.BED), new ItemStack(Blocks.CARPET, 1, 6));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.BED), new ItemStack(ItemsMCA.bedRed));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.BED), new ItemStack(ItemsMCA.bedBlue));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.BED), new ItemStack(ItemsMCA.bedGreen));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.BED), new ItemStack(ItemsMCA.bedPurple));
+		GameRegistry.addShapelessRecipe(new ItemStack(Items.BED), new ItemStack(ItemsMCA.bedPink));
+		GameRegistry.addShapelessRecipe(new ItemStack(ItemsMCA.needleAndString), new ItemStack(ItemsMCA.needle), new ItemStack(Items.STRING));
+		GameRegistry.addShapelessRecipe(new ItemStack(ItemsMCA.roseGoldIngot, 9), new ItemStack(BlocksMCA.roseGoldBlock));
 
 		for(int i = 0; i < 16; i++)
 		{
-			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.cloth), new ItemStack(Blocks.WOOL), new ItemStack(ModItems.needleAndString, 1, i));
+			GameRegistry.addShapelessRecipe(new ItemStack(ItemsMCA.cloth), new ItemStack(Blocks.WOOL), new ItemStack(ItemsMCA.needleAndString, 1, i));
 		}		
 
-		//Cut diamond recipes
-		for (EnumCut cut : EnumCut.values())
-		{
-			Item cutItem = null;
-			Item ringItem = null;
-			Item ringRGItem = null;
-
-			switch (cut)
-			{
-			case HEART:
-				cutItem = ModItems.diamondHeart;
-				ringItem = ModItems.engagementRingHeart;
-				ringRGItem = ModItems.engagementRingHeartRG;
-				break;
-			case OVAL: 
-				cutItem = ModItems.diamondOval;
-				ringItem = ModItems.engagementRingOval;
-				ringRGItem = ModItems.engagementRingOvalRG;
-				break;
-			case SQUARE: 
-				cutItem = ModItems.diamondSquare;
-				ringItem = ModItems.engagementRingSquare;
-				ringRGItem = ModItems.engagementRingSquareRG;
-				break;
-			case STAR: 
-				cutItem = ModItems.diamondStar;
-				ringItem = ModItems.engagementRingStar;
-				ringRGItem = ModItems.engagementRingStarRG;
-				break;
-			case TINY: 
-				cutItem = ModItems.diamondTiny;
-				ringItem = ModItems.engagementRingTiny;
-				ringRGItem = ModItems.engagementRingTinyRG;
-				break;
-			case TRIANGLE: 
-				cutItem = ModItems.diamondTriangle;
-				ringItem = ModItems.engagementRingTriangle;
-				ringRGItem = ModItems.engagementRingTriangleRG;
-				break;
-			default:
-				continue;
-			}
-
-			//Base recipes
-			ItemStack baseStack = new ItemStack(cutItem, 1);
-
-			GameRegistry.addRecipe(new ItemStack(ringItem, 1), 
-					"GDG", "G G", "GGG", 'D', baseStack, 'G', Items.GOLD_INGOT);
-			GameRegistry.addRecipe(new ItemStack(ringRGItem, 1), 
-					"GDG", "G G", "GGG", 'D', baseStack, 'G', ModItems.roseGoldIngot);
-
-			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondHeart, 1, 0), new ItemStack(ModItems.heartMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.DIAMOND);
-			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondTiny, 1, 0), new ItemStack(ModItems.tinyMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.DIAMOND);
-			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondOval, 1, 0), new ItemStack(ModItems.ovalMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.DIAMOND);
-			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondSquare, 1, 0), new ItemStack(ModItems.squareMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.DIAMOND);
-			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondTriangle, 1, 0), new ItemStack(ModItems.triangleMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.DIAMOND);
-			GameRegistry.addShapelessRecipe(new ItemStack(ModItems.diamondStar, 1, 0), new ItemStack(ModItems.starMold), new ItemStack(ModItems.gemCutter, 1, OreDictionary.WILDCARD_VALUE), Items.DIAMOND);
-		}
-
 		//Smeltings
-		GameRegistry.addSmelting(ModBlocks.roseGoldOre, new ItemStack(ModItems.roseGoldIngot), 5.0F);
+		GameRegistry.addSmelting(BlocksMCA.roseGoldOre, new ItemStack(ItemsMCA.roseGoldIngot), 5.0F);
 
 		if (MCA.config.roseGoldSpawnWeight > 0)
 		{
-			SimpleOreGenerator.register(new SimpleOreGenerator(ModBlocks.roseGoldOre, 6, 12, 40, true, false), MCA.config.roseGoldSpawnWeight);
+			SimpleOreGenerator.register(new SimpleOreGenerator(BlocksMCA.roseGoldOre, 6, 12, 40, true, false), MCA.config.roseGoldSpawnWeight);
 		}
 	}
 
@@ -434,15 +363,9 @@ public class MCA
 		RegistryMCA.addObjectAsGift(Blocks.PISTON, 10);
 		RegistryMCA.addObjectAsGift(Blocks.GLOWSTONE, 10);
 		RegistryMCA.addObjectAsGift(Blocks.EMERALD_BLOCK, 100);
-		RegistryMCA.addObjectAsGift(ModBlocks.roseGoldBlock, 35);
-		RegistryMCA.addObjectAsGift(ModBlocks.roseGoldOre, 7);
+		RegistryMCA.addObjectAsGift(BlocksMCA.roseGoldBlock, 35);
+		RegistryMCA.addObjectAsGift(BlocksMCA.roseGoldOre, 7);
 		RegistryMCA.addObjectAsGift(Blocks.REDSTONE_BLOCK, 20);
-		RegistryMCA.addObjectAsGift(ModItems.diamondHeart, 50);
-		RegistryMCA.addObjectAsGift(ModItems.diamondOval, 50);
-		RegistryMCA.addObjectAsGift(ModItems.diamondSquare, 50);
-		RegistryMCA.addObjectAsGift(ModItems.diamondStar, 50);
-		RegistryMCA.addObjectAsGift(ModItems.diamondTriangle, 50);
-		RegistryMCA.addObjectAsGift(ModItems.diamondTiny, 50);
 
 		RegistryMCA.addFishingEntryToFishingAI(0, new FishingEntry(Items.FISH));
 		RegistryMCA.addFishingEntryToFishingAI(1, new FishingEntry(Items.FISH, ItemFishFood.FishType.CLOWNFISH.getMetadata()));
@@ -493,7 +416,7 @@ public class MCA
 		RegistryMCA.addBlockToMiningAI(5, new MiningEntry(Blocks.DIAMOND_ORE, Items.DIAMOND, 0.04F));
 		RegistryMCA.addBlockToMiningAI(6, new MiningEntry(Blocks.EMERALD_ORE, Items.EMERALD, 0.03F));
 		RegistryMCA.addBlockToMiningAI(7, new MiningEntry(Blocks.QUARTZ_ORE, Items.QUARTZ, 0.02F));
-		RegistryMCA.addBlockToMiningAI(8, new MiningEntry(ModBlocks.roseGoldOre, 0.07F));
+		RegistryMCA.addBlockToMiningAI(8, new MiningEntry(BlocksMCA.roseGoldOre, 0.07F));
 
 		RegistryMCA.addBlockToWoodcuttingAI(1, new WoodcuttingEntry(Blocks.LOG, 0, Blocks.SAPLING, 0));
 		RegistryMCA.addBlockToWoodcuttingAI(2, new WoodcuttingEntry(Blocks.LOG, 1, Blocks.SAPLING, 1));
@@ -644,17 +567,12 @@ public class MCA
 		return creativeTabMain;
 	}
 
-	public static CreativeTabs getCreativeTabGemCutting()
-	{
-		return creativeTabGemCutting;
-	}
-
 	public static LanguageManager getLanguageManager()
 	{
 		return languageManager;
 	}
 
-	public static MCAPacketHandler getPacketHandler()
+	public static PacketHandlerMCA getPacketHandler()
 	{
 		return packetHandler;
 	}
@@ -683,7 +601,7 @@ public class MCA
 		boolean isMale = RadixLogic.getBooleanWithProbability(50);
 
 		final EntityVillagerMCA human = new EntityVillagerMCA(world, isMale, originalProfession != -1 ? originalProfession : EnumProfession.getAtRandom().getId(), true);
-		human.setPosition(pointOfSpawn.dPosX, pointOfSpawn.dPosY, pointOfSpawn.dPosZ);
+		human.setPosition(pointOfSpawn.dX(), pointOfSpawn.dY(), pointOfSpawn.dZ());
 
 		if (hasFamily)
 		{
@@ -696,8 +614,8 @@ public class MCA
 
 			String motherName = !isMale ? human.getName() : spouse.getName();
 			String fatherName = isMale ? human.getName() : spouse.getName();
-			int motherID = !isMale ? human.getPermanentId() : spouse.getPermanentId();
-			int fatherID = isMale ? human.getPermanentId() : spouse.getPermanentId();
+			UUID motherID = !isMale ? human.getPersistentID() : spouse.getPersistentID();
+			UUID fatherID = isMale ? human.getPersistentID() : spouse.getPersistentID();
 
 			//Children
 			for (int i = 0; i < 2; i++)
@@ -708,7 +626,7 @@ public class MCA
 				}
 
 				final EntityVillagerMCA child = new EntityVillagerMCA(world, RadixLogic.getBooleanWithProbability(50), true, motherName, fatherName, motherID, fatherID, false);
-				child.setPosition(pointOfSpawn.dPosX, pointOfSpawn.dPosY, pointOfSpawn.dPosZ + 1);
+				child.setPosition(pointOfSpawn.dX(), pointOfSpawn.dY(), pointOfSpawn.dZ() + 1);
 				world.spawnEntityInWorld(child);
 			}
 		}
@@ -721,10 +639,16 @@ public class MCA
 		return crashWatcher;
 	}
 
-	public static void initializeForTesting() 
+	public static Entity getEntityByUUID(World world, UUID uuid) 
 	{
-		MCA.isTesting = true;
-		MCA.metadata = new ModMetadata();
-		MCA.metadata.modId = MCA.ID;
+		for (Entity entity : world.loadedEntityList)
+		{
+			if (entity.getUniqueID() == uuid)
+			{
+				return entity;
+			}
+		}
+		
+		return null;
 	}
 }

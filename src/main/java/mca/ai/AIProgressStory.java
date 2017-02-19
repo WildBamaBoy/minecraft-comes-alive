@@ -1,9 +1,11 @@
 package mca.ai;
 
 import mca.core.MCA;
-import mca.core.minecraft.ModAchievements;
+import mca.core.minecraft.AchievementsMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumBabyState;
+import mca.enums.EnumGender;
+import mca.enums.EnumMarriageState;
 import mca.enums.EnumProgressionStep;
 import mca.util.Utilities;
 import net.minecraft.entity.player.EntityPlayer;
@@ -30,16 +32,6 @@ public class AIProgressStory extends AbstractAI
 		isDominant = true;
 		ticksUntilNextProgress = MCA.getConfig() != null ? MCA.getConfig().storyProgressionRate : 20;
 		setProgressionStep(EnumProgressionStep.SEARCH_FOR_PARTNER);
-	}
-
-	@Override
-	public void onUpdateCommon() 
-	{
-	}
-
-	@Override
-	public void onUpdateClient() 
-	{
 	}
 
 	@Override
@@ -86,7 +78,7 @@ public class AIProgressStory extends AbstractAI
 	public void reset() 
 	{
 		owner.setTicksAlive(0);
-		ticksUntilNextProgress = MCA.isTesting ? 20 : MCA.getConfig().storyProgressionRate;
+		ticksUntilNextProgress = MCA.getConfig().storyProgressionRate;
 		setProgressionStep(EnumProgressionStep.SEARCH_FOR_PARTNER);
 		isDominant = true;
 	}
@@ -116,12 +108,11 @@ public class AIProgressStory extends AbstractAI
 		EntityVillagerMCA partner = (EntityVillagerMCA) RadixLogic.getNearestEntityOfTypeWithinDistance(EntityVillagerMCA.class, owner, 15);
 
 		boolean partnerIsValid = partner != null 
-				&& partner.getIsMale() != owner.getIsMale() 
-				&& !partner.getIsMarried() 
-				&& !partner.getIsEngaged() 
+				&& partner.getGender() != owner.getGender() 
+				&& partner.getMarriageState() == EnumMarriageState.NOT_MARRIED 
 				&& !partner.getIsChild() 
-				&& (partner.getFatherId() == -1 || partner.getFatherId() != owner.getFatherId()) 
-				&& (partner.getMotherId() == -1 || partner.getMotherId() != owner.getMotherId());
+				&& (partner.getFatherUUID() != owner.getFatherUUID()) 
+				&& (partner.getMotherUUID() != owner.getMotherUUID());
 		
 		if (partnerIsValid)
 		{
@@ -131,7 +122,7 @@ public class AIProgressStory extends AbstractAI
 			mateAI.setProgressionStep(EnumProgressionStep.TRY_FOR_BABY);
 
 			//Set the dominant story progressor.
-			if (owner.getIsMale())
+			if (owner.getGender() == EnumGender.MALE)
 			{
 				this.isDominant = true;
 				mateAI.isDominant = false;
@@ -151,8 +142,8 @@ public class AIProgressStory extends AbstractAI
 
 	private void doTryForBaby()
 	{
-		final EntityVillagerMCA mate = owner.getVillagerSpouse();
-		final int villagersInArea = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityVillagerMCA.class, owner, 32).size();
+		final EntityVillagerMCA mate = owner.getVillagerSpouseInstance();
+		final int villagersInArea = RadixLogic.getEntitiesWithinDistance(EntityVillagerMCA.class, owner, 32).size();
 		
 		if (villagersInArea >= MCA.getConfig().storyProgressionCap && MCA.getConfig().storyProgressionCap != -1 && !forceNextProgress)
 		{
@@ -161,7 +152,7 @@ public class AIProgressStory extends AbstractAI
 		
 		if (RadixLogic.getBooleanWithProbability(50) && mate != null && RadixMath.getDistanceToEntity(owner, mate) <= 8.5D)
 		{
-			AIProgressStory mateAI = getMateAI(owner.getVillagerSpouse());
+			AIProgressStory mateAI = getMateAI(owner.getVillagerSpouseInstance());
 			setProgressionStep(EnumProgressionStep.HAD_BABY);
 			mateAI.setProgressionStep(EnumProgressionStep.HAD_BABY);
 
@@ -186,7 +177,7 @@ public class AIProgressStory extends AbstractAI
 				
 				if (owner.isPlayerAParent(onlinePlayer) || mate.isPlayerAParent(onlinePlayer))
 				{
-					onlinePlayer.addStat(ModAchievements.childHasChildren);	
+					onlinePlayer.addStat(AchievementsMCA.childHasChildren);	
 				}
 			}
 		}
@@ -194,7 +185,7 @@ public class AIProgressStory extends AbstractAI
 
 	private void doAgeBaby()
 	{
-		final EntityVillagerMCA mate = owner.getVillagerSpouse();
+		final EntityVillagerMCA mate = owner.getVillagerSpouseInstance();
 
 		if (mate == null) //Not loaded on the server
 		{
@@ -208,9 +199,13 @@ public class AIProgressStory extends AbstractAI
 			//Spawn the child.
 			EntityVillagerMCA child;
 
-			child = new EntityVillagerMCA(owner.worldObj, owner.getBabyState().isMale(), true, owner.getName(), owner.getSpouseName(), owner.getPermanentId(), owner.getSpouseId(), false);
+			/*
+			child = new EntityVillagerMCA(owner.worldObj);
+			child.setGender(owner.getBabyState().isMale() ? EnumGender.MALE : EnumGender.FEMALE);
+			child.setIsChild(true);
+			chlld.setMother();  owner.getName(), owner.getSpouseName(), owner.getUniqueID(), owner.getSpouseUUID(), false); TODO
 			child.setPosition(owner.posX, owner.posY, owner.posZ);
-			owner.worldObj.spawnEntityInWorld(child);
+			owner.worldObj.spawnEntityInWorld(child);*/
 
 			//Reset self and mate status
 			owner.setBabyState(EnumBabyState.NONE);

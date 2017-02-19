@@ -6,6 +6,9 @@ import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumPersonality;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.text.TextComponentString;
 import radixcore.modules.RadixLogic;
 
@@ -14,6 +17,8 @@ import radixcore.modules.RadixLogic;
  */
 public abstract class AbstractToggleAI extends AbstractAI
 {
+	protected final DataParameter<Boolean> IS_AI_ACTIVE = EntityDataManager.<Boolean>createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
+	
 	/** The UUID of the player that triggered this AI. */
 	protected UUID assigningPlayer = new UUID(0,0);
 	
@@ -23,10 +28,16 @@ public abstract class AbstractToggleAI extends AbstractAI
 	}
 	
 	/** Sets this AI as active and begins calling the update methods. */
-	public abstract void setIsActive(boolean value);
+	public final void setIsActive(boolean value)
+	{
+		owner.getDataManager().set(IS_AI_ACTIVE, value);
+	}
 	
 	/** @returns True if this AI is currently running. */
-	public abstract boolean getIsActive();
+	public final boolean getIsActive()
+	{
+		return owner.getDataManager().get(IS_AI_ACTIVE);
+	}
 	
 	/** @returns The user-friendly name of this AI. Displays above the actor's head. */
 	protected abstract String getName();

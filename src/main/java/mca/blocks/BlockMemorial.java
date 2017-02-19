@@ -3,7 +3,7 @@ package mca.blocks;
 import java.util.ArrayList;
 import java.util.List;
 
-import mca.core.minecraft.ModItems;
+import mca.core.minecraft.ItemsMCA;
 import mca.tile.TileMemorial;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -82,9 +82,9 @@ public class BlockMemorial extends BlockContainer
 
 			switch (memorial.getType())
 			{
-			case BROKEN_RING: memorialItem = ModItems.brokenRing; break;
-			case DOLL: memorialItem = ModItems.childsDoll; break;
-			case TRAIN: memorialItem = ModItems.toyTrain; break;
+			case BROKEN_RING: memorialItem = ItemsMCA.brokenRing; break;
+			case DOLL: memorialItem = ItemsMCA.childsDoll; break;
+			case TRAIN: memorialItem = ItemsMCA.toyTrain; break;
 			}
 
 			if (memorial.getRevivalTicks() == 0) //Will be 1 when removed from a villager revival.

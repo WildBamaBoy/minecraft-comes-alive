@@ -365,11 +365,11 @@ public final class NBTPlayerData implements Serializable
 		
 		switch (obj.fieldId)
 		{
-		case PERMANENT_ID: setPermanentId((Integer) obj.value); break;
-		case SPOUSE_PERMANENT_ID: setSpousePermanentId((Integer) obj.value); break;
-		case IS_MALE: setIsMale((Boolean)obj.value); break;
-		case SHOULD_HAVE_BABY: setShouldHaveBaby((Boolean)obj.value); break;
-		case IS_ENGAGED: setIsEngaged((Boolean)obj.value); break;
+		case UUID: setPermanentId((Integer) obj.value); break;
+		case SPOUSE_UUID: setSpousePermanentId((Integer) obj.value); break;
+		case GENDER: setIsMale((Boolean)obj.value); break;
+		case OWNS_BABY: setOwnsBaby((Boolean)obj.value); break;
+		case MARRIAGE_STATE: setIsEngaged((Boolean)obj.value); break;
 		case IS_NOBILITY: setIsNobility((Boolean)obj.value); break;
 		case MCA_NAME: setMcaName((String)obj.value); break;
 		case HAS_CHOSEN_DESTINY: setHasChosenDestiny((Boolean)obj.value); break;

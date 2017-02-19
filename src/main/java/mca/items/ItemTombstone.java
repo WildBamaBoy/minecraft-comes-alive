@@ -3,7 +3,7 @@ package mca.items;
 import mca.blocks.BlockTombstone;
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.minecraft.ModBlocks;
+import mca.core.minecraft.BlocksMCA;
 import mca.tile.TileTombstone;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -14,8 +14,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-import radixcore.modules.RadixBlocks;
 
 public class ItemTombstone extends Item
 {
@@ -25,12 +23,13 @@ public class ItemTombstone extends Item
 		maxStackSize = 1;
 		setCreativeTab(MCA.getCreativeTabMain());
 		setUnlocalizedName("ItemTombstone");
-		GameRegistry.registerItem(this, "ItemTombstone");
 	}
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World worldObj, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
+	public EnumActionResult onItemUse(EntityPlayer player, World worldObj, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
+		ItemStack stack = player.getHeldItem(hand);
+		
 		if (side != EnumFacing.UP)
 		{
 			return EnumActionResult.PASS;
@@ -40,7 +39,7 @@ public class ItemTombstone extends Item
 		{
 			pos = pos.offset(side);
 
-			if (!ModBlocks.tombstone.canPlaceBlockAt(worldObj, pos))
+			if (!BlocksMCA.tombstone.canPlaceBlockAt(worldObj, pos))
 			{
 				return EnumActionResult.FAIL;
 			}
@@ -48,11 +47,11 @@ public class ItemTombstone extends Item
 			else
 			{
 				int i = MathHelper.floor_double((double)((player.rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
-				worldObj.setBlockState(pos, ModBlocks.tombstone.getDefaultState().withProperty(BlockTombstone.ROTATION, Integer.valueOf(i)), 3);
+				worldObj.setBlockState(pos, BlocksMCA.tombstone.getDefaultState().withProperty(BlockTombstone.ROTATION, Integer.valueOf(i)), 3);
 			}
 			
-			--stack.stackSize;
-			final TileTombstone tombstone = (TileTombstone) RadixBlocks.getTileEntity(worldObj, pos.getX(), pos.getY(), pos.getZ());
+			stack.func_190917_f(-1); //Decrease stack size by one
+			final TileTombstone tombstone = (TileTombstone) worldObj.getTileEntity(pos);
 			
 			if (tombstone != null)
 			{

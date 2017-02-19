@@ -15,7 +15,6 @@ import mca.data.PlayerMemory;
 import mca.entity.EntityVillagerMCA;
 import mca.util.UVPoint;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
@@ -25,6 +24,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import radixcore.modules.RadixMath;
+import radixcore.modules.client.RadixRender;
 
 /**
  * Determines how a Human is rendered.
@@ -117,7 +117,7 @@ public class RenderHuman<T extends EntityVillagerMCA> extends RenderBiped<T>
 					GL11.glScalef(-LABEL_SCALE, -LABEL_SCALE, LABEL_SCALE);
 					GL11.glDisable(GL11.GL_LIGHTING);
 					GL11.glTranslatef(0.0F, 0.25F / LABEL_SCALE, 0.0F);
-					RenderHelper.drawTexturedRectangle(gui, (int) x, (int) y + 12, uvp.getU(), uvp.getV(), uvp.getWidth(), uvp.getHeight());
+					RadixRender.drawTexturedRectangle(gui, (int) x, (int) y + 12, uvp.getU(), uvp.getV(), uvp.getWidth(), uvp.getHeight());
 				}
 				GL11.glPopMatrix();
 
@@ -230,15 +230,15 @@ public class RenderHuman<T extends EntityVillagerMCA> extends RenderBiped<T>
 					switch (heartsToDraw.size())
 					{
 					case 1: 
-						RenderHelper.drawTexturedRectangle(gui, ((int)posX + (10 * 2) - 22), (int)posY - 4, heartsToDraw.get(0), 20, 9, 9); break;
+						RadixRender.drawTexturedRectangle(gui, ((int)posX + (10 * 2) - 22), (int)posY - 4, heartsToDraw.get(0), 20, 9, 9); break;
 					case 2: 
-						for (int i = 0; i < 2; i++){RenderHelper.drawTexturedRectangle(gui, ((int)posX + (10 * i) - 9), (int)posY - 4, heartsToDraw.get(i), 20, 9, 9); } break;
+						for (int i = 0; i < 2; i++){RadixRender.drawTexturedRectangle(gui, ((int)posX + (10 * i) - 9), (int)posY - 4, heartsToDraw.get(i), 20, 9, 9); } break;
 					case 3: 
-						for (int i = 0; i < 3; i++){RenderHelper.drawTexturedRectangle(gui, ((int)posX + (10 * i) - 14), (int)posY - 4, heartsToDraw.get(i), 20, 9, 9); } break;
+						for (int i = 0; i < 3; i++){RadixRender.drawTexturedRectangle(gui, ((int)posX + (10 * i) - 14), (int)posY - 4, heartsToDraw.get(i), 20, 9, 9); } break;
 					case 4: 
-						for (int i = 0; i < 4; i++){RenderHelper.drawTexturedRectangle(gui, ((int)posX + (10 * i) - 19), (int)posY - 4, heartsToDraw.get(i), 20, 9, 9); } break;
+						for (int i = 0; i < 4; i++){RadixRender.drawTexturedRectangle(gui, ((int)posX + (10 * i) - 19), (int)posY - 4, heartsToDraw.get(i), 20, 9, 9); } break;
 					case 5: 
-						for (int i = 0; i < 5; i++){RenderHelper.drawTexturedRectangle(gui, ((int)posX + (10 * i) - 23), (int)posY - 4, heartsToDraw.get(i), 20, 9, 9); } break;
+						for (int i = 0; i < 5; i++){RadixRender.drawTexturedRectangle(gui, ((int)posX + (10 * i) - 23), (int)posY - 4, heartsToDraw.get(i), 20, 9, 9); } break;
 					}
 				}
 				GL11.glPopMatrix();

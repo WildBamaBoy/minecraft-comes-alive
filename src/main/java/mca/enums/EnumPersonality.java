@@ -58,7 +58,7 @@ public enum EnumPersonality
 			}
 		}
 
-		return NONE;
+		return UNASSIGNED;
 	}
 
 	public static EnumPersonality getAtRandom()

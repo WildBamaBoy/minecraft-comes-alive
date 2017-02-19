@@ -1,5 +1,6 @@
 package mca.packets;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
@@ -7,9 +8,10 @@ import mca.ai.AIMood;
 import mca.ai.AIProcreate;
 import mca.ai.AISleep;
 import mca.api.RegistryMCA;
+import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.minecraft.ModAchievements;
-import mca.core.minecraft.ModItems;
+import mca.core.minecraft.AchievementsMCA;
+import mca.core.minecraft.ItemsMCA;
 import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityVillagerMCA;
@@ -30,14 +32,14 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import radixcore.constant.Font.Color;
-import radixcore.math.Point3D;
-import radixcore.modules.RadixBlocks;
 import radixcore.modules.RadixLogic;
 import radixcore.modules.RadixMath;
 import radixcore.modules.RadixNettyIO;
@@ -99,8 +101,9 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 	}
 
 	@Override
-	public void processOnGameThread(PacketInteract packet, MessageContext context) 
+	public void processOnGameThread(PacketInteract message, MessageContext context) 
 	{
+		PacketInteract packet = (PacketInteract)message;
 		EntityVillagerMCA villager = null;
 		EntityPlayer player = null;
 
@@ -133,15 +136,16 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 					int iPosX = (int)villager.posX;
 					int iPosY = (int)villager.posY;
 					int iPosZ = (int)villager.posZ;
-
+					BlockPos pos = new BlockPos(iPosX, iPosY, iPosZ);
+					
 					if (!Utilities.isPointClear(villager.worldObj, iPosX, iPosY, iPosZ))
 					{
-						block = RadixBlocks.getBlock(villager.worldObj, iPosX, iPosY, iPosZ);
+						block = villager.worldObj.getBlockState(pos).getBlock();
 					}
 
 					else if (!Utilities.isPointClear(villager.worldObj, iPosX, iPosY + 1, iPosZ))
 					{
-						block = RadixBlocks.getBlock(villager.worldObj, iPosX, iPosY + 1, iPosZ);
+						block = villager.worldObj.getBlockState(pos.add(0, 1, 0)).getBlock();
 					}
 
 					if (block != null)
@@ -155,8 +159,10 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 
 			else if (interaction == EnumInteraction.TRADE)
 			{
+				/* TODO
 				villager.setCustomer(player);
 				player.displayVillagerTradeGui(villager);
+				*/
 			}
 
 			else if (interaction == EnumInteraction.PICK_UP)
@@ -170,7 +176,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 				memory.setHasGift(false);
 
 				ItemStack stack = RegistryMCA.getGiftStackFromRelationship(memory.getHearts());
-				villager.dropItem(stack.getItem(), stack.stackSize);
+				villager.dropItem(stack.getItem(), stack.func_190916_E());
 			}
 
 			else if (interaction == EnumInteraction.CHAT || interaction == EnumInteraction.JOKE || interaction == EnumInteraction.SHAKE_HAND ||
@@ -181,13 +187,13 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 				PlayerMemory memory = villager.getPlayerMemory(player);
 
 				//First check for spouse leaving due to low hearts.
-				if (memory.getDialogueType() == EnumDialogueType.SPOUSE && memory.getHearts() <= 25 && villager.timesWarnedForLowHearts >= 3)
+				if (memory.getDialogueType() == EnumDialogueType.SPOUSE && memory.getHearts() <= 25 && villager.getLowHeartWarnings() >= 3)
 				{
 					villager.say("spouse.endmarriage", player, player);
-					player.addChatComponentMessage(new TextComponentString(Color.RED + MCA.getLanguageManager().getString("notify.spouseendedmarriage", villager)));
+					player.addChatComponentMessage(new TextComponentString(Color.RED + MCA.getLanguageManager().getString("notify.spouseendedmarriage", villager)), true);
 					memory.setHearts(-100);
 					mood.modifyMoodLevel(-20.0F);
-					villager.timesWarnedForLowHearts = 0;
+					villager.resetLowHeartWarnings();
 
 					MarriageHandler.endMarriage(player, villager);
 				}
@@ -242,7 +248,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 
 					if (memory.getHearts() >= 100)
 					{
-						player.addStat(ModAchievements.fullGoldHearts);
+						player.addStat(AchievementsMCA.fullGoldHearts);
 					}
 
 					if (memory.getInteractionFatigue() == 4)
@@ -277,7 +283,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 
 				else
 				{
-					EntityHorse horse = RadixLogic.getClosestEntity(Point3D.fromEntityPosition(villager), villager.worldObj, 5, EntityHorse.class, null);
+					EntityHorse horse = (EntityHorse)RadixLogic.getClosestEntityExclusive(villager, 5, EntityHorse.class);
 
 					if (horse != null)
 					{
@@ -303,11 +309,11 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 			{
 				NBTPlayerData data = MCA.getPlayerData(player);
 
-				if (data.getSpousePermanentId() != 0)
+				if (data.getSpouseUUID() != Constants.EMPTY_UUID)
 				{
 					villager.say("interaction.divorce.priest.success", player);
 
-					EntityVillagerMCA spouse = MCA.getHumanByPermanentId(data.getSpousePermanentId());
+					EntityVillagerMCA spouse = (EntityVillagerMCA) MCA.getEntityByUUID(villager.worldObj, data.getSpouseUUID());
 
 					if (spouse != null)
 					{
@@ -331,18 +337,23 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 			{
 				NBTPlayerData data = MCA.getPlayerData(player);
 
-				if (data.getShouldHaveBaby())
+				if (data.getOwnsBaby())
 				{
 					villager.say("interaction.resetbaby.success", player);
-					data.setShouldHaveBaby(false);
+					data.setOwnsBaby(false);
 
-					for (int i = 0; i < player.inventory.mainInventory.length; i++)
+					for (int i = 0; i < player.inventory.mainInventory.size(); i++)
 					{
 						ItemStack stack = player.inventory.getStackInSlot(i);
 
-						if (stack != null && stack.getItem() instanceof ItemBaby && stack.getTagCompound().getString("owner").equals(player.getName()))
+						if (stack != null && stack.getItem() instanceof ItemBaby)
 						{
-							player.inventory.setInventorySlotContents(i, null);
+							ItemBaby baby = (ItemBaby) stack.getItem();
+
+							if (stack.getTagCompound().getString("owner").equals(player.getName()))
+							{
+								player.inventory.setInventorySlotContents(i, null);
+							}
 						}
 					}
 				}
@@ -362,13 +373,13 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 					player.addChatMessage(new TextComponentString(Color.RED + "You have too many children."));
 				}
 
-				else if (!data.getShouldHaveBaby())
+				else if (!data.getOwnsBaby())
 				{
 					boolean isMale = RadixLogic.getBooleanWithProbability(50);
 					String babyName = isMale ? MCA.getLanguageManager().getString("name.male") : MCA.getLanguageManager().getString("name.female");
 					villager.say("interaction.adoptbaby.success", player, babyName);
 
-					ItemStack stack = new ItemStack(isMale ? ModItems.babyBoy : ModItems.babyGirl);
+					ItemStack stack = new ItemStack(isMale ? ItemsMCA.babyBoy : ItemsMCA.babyGirl);
 
 					NBTTagCompound nbt = new NBTTagCompound();
 					nbt.setString("name", babyName);
@@ -377,7 +388,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 					stack.setTagCompound(nbt);
 					
 					player.inventory.addItemStackToInventory(stack);
-					data.setShouldHaveBaby(true);
+					data.setOwnsBaby(true);
 				}
 
 				else
@@ -406,8 +417,8 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 				for (int i = 0; i < 3; i++)
 				{
 					int slot = -1;
-					for (; currentSlot < player.inventory.mainInventory.length; currentSlot++) {
-						ItemStack stack = player.inventory.mainInventory[currentSlot];
+					for (; currentSlot < player.inventory.mainInventory.size(); currentSlot++) {
+						ItemStack stack = player.inventory.mainInventory.get(currentSlot);
 						if (stack != null && stack.getItem() == Items.GOLD_INGOT) {
 							slot = currentSlot;
 							break;
@@ -430,7 +441,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 					player.addChatMessage(new TextComponentString(Color.RED + "You have too many children."));
 				}
 
-				else if (playerData.getShouldHaveBaby())
+				else if (playerData.getOwnsBaby())
 				{
 					player.addChatMessage(new TextComponentString(Color.RED + "You already have a baby."));
 				}
@@ -449,7 +460,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 			
 			else if (interaction == EnumInteraction.TAXES)
 			{
-				List<EntityVillagerMCA> villagerList = RadixLogic.getEntitiesWithinDistance(EntityVillagerMCA.class, villager.worldObj, Point3D.fromEntityPosition(villager), 50);
+				List<EntityVillagerMCA> villagerList = RadixLogic.getEntitiesWithinDistance(EntityVillagerMCA.class, villager, 50);
 				int percentAverage = getVillageHappinessPercentage(villager, player, villagerList);
 				
 				if (percentAverage != -1)
@@ -504,9 +515,12 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 
 			else if (interaction == EnumInteraction.CHECKHAPPINESS)
 			{
-				NBTPlayerData data = MCA.getPlayerData(player);				
-				List<EntityVillagerMCA> villagerList = RadixLogic.getEntitiesWithinDistance(EntityVillagerMCA.class, villager.worldObj, Point3D.fromEntityPosition(villager), 50);
-
+				NBTPlayerData data = MCA.getPlayerData(player);
+				
+				//Horrible fix for an issue with RadixCore. TODO Investigate.
+				List<EntityVillagerMCA> villagerList = RadixLogic.getEntitiesWithinDistance(EntityVillagerMCA.class, villager, 50);
+				int percentAverage = getVillageHappinessPercentage(villager, player, villagerList);
+				
 				int happinessPercent = getVillageHappinessPercentage(villager, player, villagerList);
 				int requiredVillagers = 10 - villagerList.size();
 				boolean flag = false; 

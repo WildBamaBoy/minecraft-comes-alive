@@ -26,4 +26,80 @@ public class VillagerInventory extends InventoryBasic
 		
 		return -1;
 	}
+	
+	public boolean contains(Class clazz)
+	{
+		for (int i = 0; i < this.getSizeInventory(); ++i)
+		{
+			final ItemStack stack = this.getStackInSlot(i);
+
+			if (stack != null)
+			{
+				final Item item = stack.getItem();
+
+				if (item.getClass() == clazz)
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+	
+	public boolean containsCountOf(Item item, int threshold)
+	{
+		int totalCount = 0;
+		
+		for (int i = 0; i < this.getSizeInventory(); ++i)
+		{
+			final ItemStack stack = this.getStackInSlot(i);
+
+			if (stack != null)
+			{
+				final Item stackItem = stack.getItem();
+
+				if (stackItem.getClass() == item.getClass())
+				{
+					totalCount += stack.func_190916_E();
+				}
+			}
+		}
+
+		return totalCount >= threshold;
+	}
+	
+	/**
+	 * Gets the best quality (max damage) item of the specified type that is in the inventory.
+	 *
+	 * @param type The class of item that will be returned.
+	 * @return The item stack containing the item of the specified type with the highest max damage.
+	 */
+	public ItemStack getBestItemOfType(Class type)
+	{
+		return getStackInSlot(getBestItemOfTypeSlot(type));
+	}
+
+	public int getBestItemOfTypeSlot(Class type)
+	{
+		int highestMaxDamage = 0;
+
+		for (int i = 0; i < this.getSizeInventory(); ++i)
+		{
+			ItemStack stackInInventory = this.getStackInSlot(i);
+
+			if (stackInInventory != null)
+			{
+				final String itemClassName = stackInInventory.getItem().getClass().getName();
+
+				if (itemClassName.equals(type.getName()) && highestMaxDamage < stackInInventory.getMaxDamage())
+				{
+					highestMaxDamage = stackInInventory.getMaxDamage();					
+					return i;
+				}
+			}
+		}
+
+		return -1;
+	}
 }

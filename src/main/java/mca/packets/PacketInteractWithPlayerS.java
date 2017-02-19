@@ -3,11 +3,13 @@ package mca.packets;
 import java.util.Random;
 
 import io.netty.buffer.ByteBuf;
+import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.minecraft.ModAchievements;
-import mca.core.minecraft.ModItems;
+import mca.core.minecraft.AchievementsMCA;
+import mca.core.minecraft.ItemsMCA;
 import mca.data.NBTPlayerData;
 import mca.enums.EnumInteraction;
+import mca.enums.EnumMarriageState;
 import mca.util.MarriageHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -65,7 +67,7 @@ public class PacketInteractWithPlayerS extends AbstractPacket<PacketInteractWith
 			{
 				Item item = stack.getItem();
 
-				if (item == ModItems.weddingRing || item == ModItems.weddingRingRG)
+				if (item == ItemsMCA.weddingRing || item == ItemsMCA.weddingRingRG)
 				{
 					senderHasWeddingRing = true;
 				}
@@ -75,12 +77,12 @@ public class PacketInteractWithPlayerS extends AbstractPacket<PacketInteractWith
 		switch (interaction)
 		{
 		case ASKTOMARRY:
-			if (targetData.getSpousePermanentId() != 0 || targetData.getIsEngaged())
+			if (targetData.getSpouseUUID() != Constants.EMPTY_UUID || senderData.getMarriageState() != EnumMarriageState.NOT_MARRIED)
 			{
 				sender.addChatMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.marry.fail.targetalreadymarried", target.getName())));
 			}
 
-			else if (senderData.getSpousePermanentId() != 0 || senderData.getIsEngaged())
+			else if (senderData.getSpouseUUID() != Constants.EMPTY_UUID || senderData.getMarriageState() != EnumMarriageState.NOT_MARRIED)
 			{
 				sender.addChatMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.marry.fail.alreadymarried")));				
 			}
@@ -105,7 +107,7 @@ public class PacketInteractWithPlayerS extends AbstractPacket<PacketInteractWith
 			break;
 
 		case HAVEBABY:
-			if (senderData.getShouldHaveBaby())
+			if (senderData.getOwnsBaby())
 			{
 				sender.addChatMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.havebaby.fail.alreadyexists", target.getName())));				
 			}
@@ -130,7 +132,7 @@ public class PacketInteractWithPlayerS extends AbstractPacket<PacketInteractWith
 
 				if (stack != null)
 				{
-					if (stack.getItem() == ModItems.weddingRing || stack.getItem() == ModItems.weddingRingRG)
+					if (stack.getItem() == ItemsMCA.weddingRing || stack.getItem() == ItemsMCA.weddingRingRG)
 					{
 						target.inventory.deleteStack(stack);
 						break;
@@ -141,14 +143,14 @@ public class PacketInteractWithPlayerS extends AbstractPacket<PacketInteractWith
 			break;
 
 		case HAVEBABY_ACCEPT:
-			senderData.setShouldHaveBaby(true);
-			targetData.setShouldHaveBaby(true);
+			senderData.setOwnsBaby(true);
+			targetData.setOwnsBaby(true);
 
 			boolean isMale = new Random().nextBoolean();
-			ItemStack stack = new ItemStack(isMale ? ModItems.babyBoy : ModItems.babyGirl);
+			ItemStack stack = new ItemStack(isMale ? ItemsMCA.babyBoy : ItemsMCA.babyGirl);
 			target.inventory.addItemStackToInventory(stack);
 
-			Achievement achievement = isMale ? ModAchievements.babyBoy : ModAchievements.babyGirl;
+			Achievement achievement = isMale ? AchievementsMCA.babyBoy : AchievementsMCA.babyGirl;
 			sender.addStat(achievement);
 			target.addStat(achievement);
 

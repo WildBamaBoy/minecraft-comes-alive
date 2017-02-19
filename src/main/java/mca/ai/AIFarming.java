@@ -3,13 +3,13 @@ package mca.ai;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import mca.api.CropEntry;
 import mca.api.RegistryMCA;
 import mca.api.enums.EnumCropCategory;
 import mca.api.exception.MappingNotFoundException;
 import mca.core.MCA;
-import mca.data.WatcherIDsHuman;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -25,14 +25,13 @@ import radixcore.math.Point3D;
 import radixcore.modules.RadixBlocks;
 import radixcore.modules.RadixLogic;
 import radixcore.modules.RadixMath;
-import radixcore.modules.datawatcher.WatchedBoolean;
 import radixcore.modules.schematics.BlockObj;
+import radixcore.modules.schematics.RadixSchematics;
 
 public class AIFarming extends AbstractToggleAI
 {
 	private static final int FARM_INTERVAL = Time.SECOND * 1;
 
-	private WatchedBoolean isAIActive;
 	private Point3D farmCenterPoint;
 	private Point3D harvestTargetPoint;
 	private int apiId;
@@ -47,32 +46,9 @@ public class AIFarming extends AbstractToggleAI
 	public AIFarming(EntityVillagerMCA owner) 
 	{
 		super(owner);
-		isAIActive = new WatchedBoolean(false, WatcherIDsHuman.IS_FARMING_ACTIVE, owner.getDataWatcherEx());
 		farmCenterPoint = Point3D.ZERO;
 		harvestTargetPoint = Point3D.ZERO;
 		schematic = "none";
-	}
-
-	@Override
-	public void setIsActive(boolean value) 
-	{
-		isAIActive.setValue(value);
-	}
-
-	@Override
-	public boolean getIsActive() 
-	{
-		return isAIActive.getBoolean();
-	}
-
-	@Override
-	public void onUpdateCommon() 
-	{
-	}
-
-	@Override
-	public void onUpdateClient() 
-	{	
 	}
 
 	@Override
@@ -108,7 +84,7 @@ public class AIFarming extends AbstractToggleAI
 
 						if (canStart)
 						{
-							owner.getVillagerInventory().removeCountOfItem(entry.getSeedItem(), seedsRequired);
+							//TODO //owner.getVillagerInventory().(entry.getSeedItem(), seedsRequired);
 						}
 
 						else
@@ -140,9 +116,9 @@ public class AIFarming extends AbstractToggleAI
 
 				else //Harvest mode.
 				{
-					final double delta = RadixMath.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, harvestTargetPoint.dPosX, harvestTargetPoint.dPosY, harvestTargetPoint.dPosZ);
+					final double delta = RadixMath.getDistanceToXYZ(owner.posX, owner.posY, owner.posZ, harvestTargetPoint.dX(), harvestTargetPoint.dY(), harvestTargetPoint.dZ());
 
-					if (harvestTargetPoint.iPosX == 0 && harvestTargetPoint.iPosY == 0 && harvestTargetPoint.iPosZ == 0)
+					if (harvestTargetPoint.iX() == 0 && harvestTargetPoint.iY() == 0 && harvestTargetPoint.iZ() == 0)
 					{
 						for (int id : RegistryMCA.getCropEntryIDs())
 						{
@@ -163,8 +139,8 @@ public class AIFarming extends AbstractToggleAI
 									int yMod = 0;
 
 									//Move y down until ground is found.
-									while (RadixBlocks.getBlock(owner.worldObj, nearestHarvest.iPosX, nearestHarvest.iPosY + yMod, nearestHarvest.iPosZ) != Blocks.GRASS 
-											&& RadixBlocks.getBlock(owner.worldObj, nearestHarvest.iPosX, nearestHarvest.iPosY + yMod, nearestHarvest.iPosZ) != Blocks.DIRT)
+									while (RadixBlocks.getBlock(owner.worldObj, nearestHarvest.iX(), nearestHarvest.iY() + yMod, nearestHarvest.iZ()) != Blocks.GRASS 
+											&& RadixBlocks.getBlock(owner.worldObj, nearestHarvest.iX(), nearestHarvest.iY() + yMod, nearestHarvest.iZ()) != Blocks.DIRT)
 									{
 										yMod--;
 
@@ -176,10 +152,10 @@ public class AIFarming extends AbstractToggleAI
 									}
 
 									//Bump up the harvest point by two, since the harvestable crop should be two above the ground block.
-									Point3D modHarvestPoint = new Point3D(nearestHarvest.iPosX, nearestHarvest.iPosY + yMod + 2, nearestHarvest.iPosZ);
+									Point3D modHarvestPoint = new Point3D(nearestHarvest.iX(), nearestHarvest.iY() + yMod + 2, nearestHarvest.iZ());
 									
 									//Make sure the harvest block is there, then assign the harvest point.
-									if (RadixBlocks.getBlock(owner.worldObj, modHarvestPoint.iPosX, modHarvestPoint.iPosY, modHarvestPoint.iPosZ) == entry.getHarvestBlock())
+									if (RadixBlocks.getBlock(owner.worldObj, modHarvestPoint.iX(), modHarvestPoint.iY(), modHarvestPoint.iZ()) == entry.getHarvestBlock())
 									{
 										harvestTargetPoint = modHarvestPoint;
 										apiId = id;
@@ -201,7 +177,7 @@ public class AIFarming extends AbstractToggleAI
 								
 								for (Point3D point : nearbyBlocks)
 								{
-									IBlockState state = owner.worldObj.getBlockState(new BlockPos(point.iPosX, point.iPosY, point.iPosZ));
+									IBlockState state = owner.worldObj.getBlockState(new BlockPos(point.iX(), point.iY(), point.iZ()));
 									int meta = state.getBlock().getMetaFromState(state);
 
 									if (meta == entry.getHarvestBlockMeta())
@@ -240,7 +216,7 @@ public class AIFarming extends AbstractToggleAI
 
 					if (delta >= 2.0D && owner.getNavigator().noPath())
 					{
-						owner.getNavigator().tryMoveToXYZ(harvestTargetPoint.dPosX, harvestTargetPoint.dPosY, harvestTargetPoint.dPosZ, owner.getSpeed());
+						owner.getNavigator().tryMoveToXYZ(harvestTargetPoint.dX(), harvestTargetPoint.dY(), harvestTargetPoint.dZ(), owner.getSpeed());
 					}
 
 					if (delta < 2.5D)
@@ -252,13 +228,13 @@ public class AIFarming extends AbstractToggleAI
 						
 						if (entry.getCategory() == EnumCropCategory.WHEAT)
 						{
-							RadixBlocks.setBlock(owner.worldObj, harvestTargetPoint.iPosX, harvestTargetPoint.iPosY - 1, harvestTargetPoint.iPosZ, Blocks.FARMLAND);
-							RadixBlocks.setBlock(owner.worldObj, harvestTargetPoint.iPosX, harvestTargetPoint.iPosY, harvestTargetPoint.iPosZ, entry.getCropBlock());
+							RadixBlocks.setBlock(owner.worldObj, harvestTargetPoint.iX(), harvestTargetPoint.iY() - 1, harvestTargetPoint.iZ(), Blocks.FARMLAND);
+							RadixBlocks.setBlock(owner.worldObj, harvestTargetPoint.iX(), harvestTargetPoint.iY(), harvestTargetPoint.iZ(), entry.getCropBlock());
 						}
 						
 						else
 						{
-							RadixBlocks.setBlock(owner.worldObj, harvestTargetPoint.iPosX, harvestTargetPoint.iPosY, harvestTargetPoint.iPosZ, Blocks.AIR);
+							RadixBlocks.setBlock(owner.worldObj, harvestTargetPoint.iX(), harvestTargetPoint.iY(), harvestTargetPoint.iZ(), Blocks.AIR);
 						}
 						
 						for (ItemStack stack : entry.getStacksOnHarvest())
@@ -287,14 +263,14 @@ public class AIFarming extends AbstractToggleAI
 	@Override
 	public void reset() 
 	{
-		isAIActive.setValue(false);
+		setIsActive(false);
 		seedsRequired = 0;
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) 
 	{
-		nbt.setBoolean("isFarmingActive", isAIActive.getBoolean());
+		nbt.setBoolean("isFarmingActive", getIsActive());
 		farmCenterPoint.writeToNBT("farmCenterPoint", nbt);
 		harvestTargetPoint.writeToNBT("harvestTargetPoint", nbt);
 		nbt.setInteger("apiId", apiId);
@@ -308,7 +284,7 @@ public class AIFarming extends AbstractToggleAI
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) 
 	{
-		isAIActive.setValue(nbt.getBoolean("isFarmingActive"));
+		setIsActive(nbt.getBoolean("isFarmingActive"));
 		farmCenterPoint = Point3D.readFromNBT("farmCenterPoint", nbt);
 		harvestTargetPoint = Point3D.readFromNBT("harvestTargetPoint", nbt);
 		apiId = nbt.getInteger("apiId");
@@ -332,8 +308,8 @@ public class AIFarming extends AbstractToggleAI
 			case SUGARCANE:	schematic = "/assets/mca/schematic/sugarcane1.schematic"; break;
 			}
 
-			Map<Point3D, BlockObj> schematicData = SchematicHandler.readSchematic(schematic);
-			seedsRequired = SchematicHandler.countOccurencesOfBlockObj(schematicData, new BlockObj(Blocks.WOOL, entry.getCategory().getReferenceMeta()));
+			Map<Point3D, BlockObj> schematicData = RadixSchematics.readSchematic(schematic);
+			seedsRequired = RadixSchematics.countOccurencesOfBlockObj(schematicData, new BlockObj(Blocks.WOOL, entry.getCategory().getReferenceMeta()));
 
 			if (doCreate && !owner.getVillagerInventory().containsCountOf(entry.getSeedItem(), seedsRequired))
 			{
@@ -348,7 +324,7 @@ public class AIFarming extends AbstractToggleAI
 			}
 
 			//Assign arguments.
-			this.assigningPlayer = player != null ? player.getUniqueID().toString() : "none";
+			this.assigningPlayer = player != null ? player.getUniqueID() : new UUID(0, 0);
 			this.activityInterval = 0;
 			this.apiId = apiId;
 			this.radius = radius;
@@ -357,7 +333,7 @@ public class AIFarming extends AbstractToggleAI
 			this.harvestTargetPoint = Point3D.ZERO;
 			this.farmCreatedFlag = false;
 			this.isBuildingFarm = false;
-			this.isAIActive.setValue(true);
+			this.setIsActive(true);
 			
 			owner.setHeldItem(owner.getVillagerInventory().getBestItemOfType(ItemHoe.class).getItem());
 		}

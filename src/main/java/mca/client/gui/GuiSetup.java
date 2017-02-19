@@ -24,7 +24,6 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
@@ -34,8 +33,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.constant.Font.Color;
 import radixcore.math.Point3D;
 import radixcore.modules.RadixBlocks;
+import radixcore.modules.client.RadixRender;
 import radixcore.modules.datawatcher.DataWatcherEx;
 import radixcore.modules.schematics.BlockObj;
+import radixcore.modules.schematics.RadixSchematics;
 
 @SideOnly(Side.CLIENT)
 public class GuiSetup extends GuiScreen
@@ -133,7 +134,7 @@ public class GuiSetup extends GuiScreen
 		GL11.glPushMatrix();
 		{
 			GL11.glScaled(0.55D, 0.25D, 1.0D);
-			RenderHelper.drawTexturedRectangle(setupLogo, width / 2 + 62, height / 2 - 120, 0, 0, 256, 256);
+			RadixRender.drawTexturedRectangle(setupLogo, width / 2 + 62, height / 2 - 120, 0, 0, 256, 256);
 		}
 		GL11.glPopMatrix();
 
@@ -185,19 +186,19 @@ public class GuiSetup extends GuiScreen
 	{
 		try
 		{
-			Map<Point3D, BlockObj> destinySchematic = SchematicHandler.readSchematic("/assets/mca/schematic/destiny-test.schematic");
+			Map<Point3D, BlockObj> destinySchematic = RadixSchematics.readSchematic("/assets/mca/schematic/destiny-test.schematic");
 
 			//Purge the old schematic.
 			for (Map.Entry<Point3D, BlockObj> entry : destinySchematic.entrySet())
 			{
-				int y = MCA.destinyCenterPoint.iPosY + entry.getKey().iPosY;
+				int y = MCA.destinyCenterPoint.iY() + entry.getKey().iY();
 
 				if (y > (int)player.posY - 2)
 				{
 					RadixBlocks.setBlock(player.worldObj,
-							MCA.destinyCenterPoint.iPosX + entry.getKey().iPosX, 
+							MCA.destinyCenterPoint.iX() + entry.getKey().iX(), 
 							y, 
-							MCA.destinyCenterPoint.iPosZ + entry.getKey().iPosZ, Blocks.AIR);
+							MCA.destinyCenterPoint.iZ() + entry.getKey().iZ(), Blocks.AIR);
 				}
 			}
 		}

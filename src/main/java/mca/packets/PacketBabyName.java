@@ -3,8 +3,8 @@ package mca.packets;
 import io.netty.buffer.ByteBuf;
 import mca.ai.AIProcreate;
 import mca.core.MCA;
-import mca.core.minecraft.ModAchievements;
-import mca.core.minecraft.ModItems;
+import mca.core.minecraft.AchievementsMCA;
+import mca.core.minecraft.ItemsMCA;
 import mca.data.NBTPlayerData;
 import mca.entity.EntityVillagerMCA;
 import mca.items.ItemBaby;
@@ -52,7 +52,7 @@ public class PacketBabyName extends AbstractPacket<PacketBabyName>
 		EntityPlayer senderPlayer = this.getPlayer(context);
 		ItemStack stack = packet.slot == -1 ? null : senderPlayer.inventory.getStackInSlot(packet.slot); //To avoid index out of bounds.
 		NBTPlayerData data = MCA.getPlayerData(senderPlayer);
-		EntityVillagerMCA playerSpouse = MCA.getHumanByPermanentId(data.getSpousePermanentId());
+		EntityVillagerMCA playerSpouse = (EntityVillagerMCA)MCA.getEntityByUUID(senderPlayer.worldObj, data.getSpouseUUID());
 		
 		//Player has the baby.
 		if (stack != null && stack.getItem() instanceof ItemBaby)
@@ -66,8 +66,8 @@ public class PacketBabyName extends AbstractPacket<PacketBabyName>
 		{
 			if (playerSpouse != null)
 			{
-				int babySlot = playerSpouse.getVillagerInventory().getFirstSlotContainingItem(ModItems.babyBoy);
-				babySlot = babySlot == -1 ? playerSpouse.getVillagerInventory().getFirstSlotContainingItem(ModItems.babyGirl) : babySlot;
+				int babySlot = playerSpouse.getVillagerInventory().getFirstSlotContainingItem(ItemsMCA.babyBoy);
+				babySlot = babySlot == -1 ? playerSpouse.getVillagerInventory().getFirstSlotContainingItem(ItemsMCA.babyGirl) : babySlot;
 				
 				if (babySlot != -1)
 				{
@@ -87,7 +87,7 @@ public class PacketBabyName extends AbstractPacket<PacketBabyName>
 				{
 					playerSpouse.getAI(AIProcreate.class).setIsProcreating(true);
 					procreateAI.setHasHadTwins(true);
-					senderPlayer.addStat(ModAchievements.twins);
+					senderPlayer.addStat(AchievementsMCA.twins);
 					
 					TutorialManager.sendMessageToPlayer(senderPlayer, "Congratulations! You've just had twins!", "Your spouse can only have twins once.");
 				}

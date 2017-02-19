@@ -2,7 +2,7 @@ package mca.blocks;
 
 import java.util.Random;
 
-import mca.core.minecraft.ModItems;
+import mca.core.minecraft.ItemsMCA;
 import mca.tile.TileTombstone;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -36,6 +36,8 @@ public class BlockTombstone extends BlockContainer
 	{
 		super(Material.CIRCUITS);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(ROTATION, Integer.valueOf(0)));
+		this.setHarvestLevel("pickaxe", 1);
+		this.setHardness(3.0F);
 	}
 
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
@@ -87,12 +89,12 @@ public class BlockTombstone extends BlockContainer
 	 */
 	public Item getItemDropped(IBlockState state, Random rand, int fortune)
 	{
-		return ModItems.tombstone;
+		return ItemsMCA.tombstone;
 	}
 
 	public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state)
 	{
-		return new ItemStack(ModItems.tombstone);
+		return new ItemStack(ItemsMCA.tombstone);
 	}
 
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)

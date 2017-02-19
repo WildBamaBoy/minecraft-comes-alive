@@ -291,7 +291,7 @@ public class CommandMCA extends CommandBase
 				if (targetPlayer != null)
 				{
 					NBTPlayerData data = MCA.getPlayerData(targetPlayer);
-					data.setShouldHaveBaby(false);
+					data.setOwnsBaby(false);
 
 					addChatMessage(commandSender, Color.GOLD + playerName + "'s baby status has been reset.");	
 				}

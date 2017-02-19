@@ -48,55 +48,17 @@ public class VillagerSaveData implements Serializable
 	public EntityVillagerMCA applyToHuman(EntityVillagerMCA human)
 	{
 		human.setName(name);
-		human.setPersonality(personalityId);
-		human.setPermanentId(permanentId);
-		human.setIsMale(isMale);
-		human.setIsEngaged(isEngaged);
-		human.setSpouseId(spouseId);
-		human.setSpouseName(spouseName);
-		human.setBabyState(EnumBabyState.fromId(babyState));
-		human.setIsChild(isChild);
-		human.setAge(age);
-		human.setParentNames(parentNames);
-		human.setParentIDs(parentIDs);
-		human.setParentsGenders(parentsGenders);
-		human.setHeight(scaleHeight);
-		human.setGirth(scaleGirth);
-		human.setIsInfected(isInfected);
-		human.setPlayerSkin(playerSkinUsername);
-		human.setProfessionId(professionId);
-		human.setClothesTexture(clothesTexture);
-		human.setHeadTexture(headTexture);
+		/*TODO*/
 		
 		return human;
 	}
 	
+	/*
 	private VillagerSaveData(EntityVillagerMCA human, EntityPlayer requestingPlayer, UUID ownerUUID)
 	{
-		this.uuid = human.getUniqueID();
-		this.ownerUUID = ownerUUID != null ? ownerUUID : new UUID(0L, 0L);
-		this.name = human.getName();
-		this.headTexture = human.getHeadTexture();
-		this.clothesTexture = human.getClothesTexture();
-		this.professionId = human.getProfessionEnum().getId();
-		this.personalityId = human.getPersonality().getId();
-		this.permanentId = human.getPermanentId();
-		this.isMale = human.getIsMale();
-		this.isEngaged = human.getIsEngaged();
-		this.spouseId = human.getSpouseId();
-		this.spouseName = human.getSpouseName();
-		this.babyState = human.getBabyState().getId();
-		this.isChild = human.getIsChild();
-		this.age = human.getAge();
-		this.parentNames = human.getParentNames();
-		this.parentIDs = human.getParentIds();
-		this.parentsGenders = human.getParentsGenders();
-		this.scaleHeight = human.getHeight();
-		this.scaleGirth = human.getGirth();
-		this.isInfected = human.getIsInfected();
-		this.playerSkinUsername = human.getPlayerSkinUsername();
-		this.displayTitle = requestingPlayer != null ? human.getTitle(requestingPlayer) : name;
-	}
+		
+		/*TODO*/
+	}*/
 
 	private VillagerSaveData(NBTTagCompound nbt)
 	{

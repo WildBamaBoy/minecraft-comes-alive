@@ -3,11 +3,12 @@ package mca.items;
 import java.util.List;
 
 import mca.core.MCA;
-import mca.core.minecraft.ModAchievements;
+import mca.core.minecraft.AchievementsMCA;
 import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumDialogueType;
+import mca.enums.EnumGender;
 import mca.enums.EnumRelation;
 import mca.packets.PacketOpenBabyNameGUI;
 import mca.util.TutorialManager;
@@ -25,7 +26,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Font.Format;
 import radixcore.constant.Time;
@@ -42,10 +42,7 @@ public class ItemBaby extends Item
 		this.setCreativeTab(MCA.getCreativeTabMain());
 		this.setMaxStackSize(1);
 		this.setUnlocalizedName(itemName);
-
-		GameRegistry.registerItem(this, itemName);
 	}
-
 
 	@Override
 	public void onUpdate(ItemStack itemStack, World world, Entity entity, int unknownInt, boolean unknownBoolean)
@@ -86,8 +83,10 @@ public class ItemBaby extends Item
 	}
 
 	@Override
-    public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World worldObj, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
+    public EnumActionResult onItemUse(EntityPlayer player, World worldObj, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
+		ItemStack stack = player.getHeldItem(hand);
+		
 		int posX = pos.getX();
 		int posY = pos.getY();
 		int posZ = pos.getZ();
@@ -96,7 +95,7 @@ public class ItemBaby extends Item
 		{
 			ItemBaby baby = (ItemBaby)stack.getItem();
 			NBTPlayerData data = MCA.getPlayerData(player);
-			boolean isPlayerMale = data.getIsMale();
+			boolean isPlayerMale = data.getGender() == EnumGender.MALE ? true : false;
 
 			String motherName = "N/A";
 			int motherId = 0;
@@ -106,20 +105,24 @@ public class ItemBaby extends Item
 			if (isPlayerMale)
 			{
 				motherName = data.getSpouseName();
-				motherId = data.getSpousePermanentId();
+				//motherId = data.getSpouseUUID();
 				fatherName = player.getName();
-				fatherId = data.getPermanentId();
+				//fatherId = data.getPermanentId();
 			}
 
 			else
 			{
 				fatherName = data.getSpouseName();
-				fatherId = data.getSpousePermanentId();
+				//fatherId = data.getSpouseUUID();
 				motherName = player.getName();
-				motherId = data.getPermanentId();				
+				//motherId = data.getPermanentId();				
 			}
 
-			final EntityVillagerMCA child = new EntityVillagerMCA(worldObj, baby.isBoy, true, motherName, fatherName, motherId, fatherId, true);
+			final EntityVillagerMCA child = new EntityVillagerMCA(worldObj);
+			child.setGender(baby.isBoy ? EnumGender.MALE : EnumGender.FEMALE);
+			child.setIsChild(true);
+			//TODO set parents
+			
 			child.setPosition(posX, posY + 1, posZ);
 			child.setName(stack.getTagCompound().getString("name"));
 
@@ -133,12 +136,12 @@ public class ItemBaby extends Item
 			PlayerMemory childMemory = child.getPlayerMemory(player);
 			childMemory.setHearts(100);
 			childMemory.setDialogueType(EnumDialogueType.CHILDP);
-			childMemory.setRelation(child.getIsMale() ? EnumRelation.SON : EnumRelation.DAUGHTER);
+			childMemory.setRelation(child.getGender() == EnumGender.MALE ? EnumRelation.SON : EnumRelation.DAUGHTER);
 
 			player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
-			player.addStat(ModAchievements.babyToChild);
+			player.addStat(AchievementsMCA.babyToChild);
 
-			data.setShouldHaveBaby(false);
+			data.setOwnsBaby(false);
 		}
 
 		return EnumActionResult.PASS;
@@ -146,15 +149,17 @@ public class ItemBaby extends Item
 
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) 
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) 
 	{
-		if (!world.isRemote && itemStack.getTagCompound().getString("name").equals("Unnamed"))
+		ItemStack stack = player.getHeldItem(hand);
+		
+		if (!world.isRemote && stack.getTagCompound().getString("name").equals("Unnamed"))
 		{
-			ItemBaby baby = (ItemBaby) itemStack.getItem();
+			ItemBaby baby = (ItemBaby) stack.getItem();
 			MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenBabyNameGUI(baby.isBoy), (EntityPlayerMP)player);
 		}
 
-		return super.onItemRightClick(itemStack, world, player, hand);
+		return super.onItemRightClick(world, player, hand);
 	}
 
 	@Override

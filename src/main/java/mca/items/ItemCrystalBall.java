@@ -16,7 +16,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import radixcore.item.ItemSingle;
 import radixcore.math.Point3D;
 
@@ -28,26 +27,23 @@ public class ItemCrystalBall extends ItemSingle
 		this.setCreativeTab(MCA.getCreativeTabMain());
 		this.setMaxStackSize(1);
 		this.setUnlocalizedName("CrystalBall");
-
-		GameRegistry.registerItem(this, "CrystalBall");
 	}
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer player, World worldObj, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
+	public EnumActionResult onItemUse(EntityPlayer player, World worldObj, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
-		this.onItemRightClick(stack, worldObj, player, hand);
+		this.onItemRightClick(worldObj, player, hand);
 		return EnumActionResult.PASS;
 	}	
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStack, World world, EntityPlayer player, EnumHand hand) 
+	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) 
 	{
 		if (world.isRemote)
 		{
 			net.minecraft.client.Minecraft mc = net.minecraft.client.Minecraft.getMinecraft();
-			net.minecraft.client.gui.GuiScreen currentScreen = mc.currentScreen;
 			
-			if (mc.isIntegratedServerRunning()) //&& MCA.playerDataContainer != null)
+			if (mc.isIntegratedServerRunning())
 			{
 				spawnDestinyRoom(player);
 			}
@@ -62,7 +58,7 @@ public class ItemCrystalBall extends ItemSingle
 		player.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.5F, 2.0F);
 		
 		player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
-		return super.onItemRightClick(itemStack, world, player, hand);
+		return super.onItemRightClick(world, player, hand);
 	}
 	
 	

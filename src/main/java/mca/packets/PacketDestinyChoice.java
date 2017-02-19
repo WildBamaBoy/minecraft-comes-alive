@@ -2,13 +2,14 @@ package mca.packets;
 
 import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
-import mca.core.minecraft.ModBlocks;
-import mca.core.minecraft.ModItems;
+import mca.core.minecraft.BlocksMCA;
+import mca.core.minecraft.ItemsMCA;
 import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumDestinyChoice;
 import mca.enums.EnumDialogueType;
+import mca.enums.EnumGender;
 import mca.tile.TileTombstone;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -79,7 +80,7 @@ public class PacketDestinyChoice extends AbstractPacket<PacketDestinyChoice>
 
 			if (packet.choice == EnumDestinyChoice.CANCEL)
 			{
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.crystalBall));
+				player.inventory.addItemStackToInventory(new ItemStack(ItemsMCA.crystalBall));
 			}
 		}
 
@@ -96,7 +97,8 @@ public class PacketDestinyChoice extends AbstractPacket<PacketDestinyChoice>
 			{
 				RadixSchematics.spawnStructureRelativeToPlayer("/assets/mca/schematic/family.schematic", player);
 
-				boolean isSpouseMale = data.getGenderPreference() == 0 ? true : data.getGenderPreference() == 2 ? false : world.rand.nextBoolean();
+				boolean isSpouseMale = data.getGenderPreference() == EnumGender.MALE ? true : data.getGenderPreference() == EnumGender.FEMALE ? false : world.rand.nextBoolean();
+
 				EntityVillagerMCA spouse = new EntityVillagerMCA(world, isSpouseMale);
 				spouse.setPosition(player.posX - 2, player.posY, player.posZ);
 				world.spawnEntityInWorld(spouse);
@@ -117,20 +119,21 @@ public class PacketDestinyChoice extends AbstractPacket<PacketDestinyChoice>
 					String fatherName = "N/A";
 					int fatherId = 0;
 
+					//TODO
 					if (isPlayerMale)
 					{
 						fatherName = player.getName();
-						fatherId = data.getPermanentId();
+						fatherId = data.getPersistentID();
 						motherName = spouse.getName();
-						motherId = spouse.getPermanentId();
+						motherId = spouse.getPersistentID();
 					}
 
 					else
 					{
 						motherName = player.getName();
-						motherId = data.getPermanentId();
+						motherId = data.getUUID();
 						fatherName = spouse.getName();
-						fatherId = spouse.getPermanentId();
+						fatherId = spouse.getPersistentID();
 					}
 					
 					final EntityVillagerMCA child = new EntityVillagerMCA(world, RadixLogic.getBooleanWithProbability(50), true, motherName, fatherName, motherId, fatherId, true);
@@ -161,7 +164,7 @@ public class PacketDestinyChoice extends AbstractPacket<PacketDestinyChoice>
 
 				for (Point3D point : RadixLogic.getNearbyBlocks(player, Blocks.BEDROCK, 70))
 				{
-					RadixBlocks.setBlock(player.worldObj, point, ModBlocks.tombstone);
+					RadixBlocks.setBlock(player.worldObj, point, BlocksMCA.tombstone);
 
 					final TileTombstone tile = (TileTombstone) player.worldObj.getTileEntity(point.toBlockPos());
 
@@ -173,7 +176,5 @@ public class PacketDestinyChoice extends AbstractPacket<PacketDestinyChoice>
 				}
 			}
 		}
-
-		DataWatcherEx.allowClientSideModification = false;
 	}
 }

@@ -5902,6 +5902,10 @@ combat.button.target=Target:
 combat.target.passive=Passive Mobs
 combat.target.hostile=Hostile Mobs
 combat.target.either=Passive and Hostile Mobs
+
+cooking.nofood=I don't have any food to cook.
+cooking.nofuel=I don't have any fuel.
+cooking.nofurnace=There's no furnace nearby.
 #################
 # Parser
 ################################

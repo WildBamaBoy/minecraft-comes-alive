@@ -5,15 +5,15 @@ import java.util.Random;
 
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
+import mca.enums.EnumGender;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import radixcore.constant.Time;
+import radixcore.math.Point3D;
 import radixcore.modules.RadixBlocks;
 import radixcore.modules.RadixLogic;
 
@@ -27,8 +27,6 @@ public class BlockVillagerSpawner extends Block
 		setUnlocalizedName("VillagerSpawner");
 		setTickRandomly(true);
 		setHardness(1.0F);
-
-		GameRegistry.registerBlock(this, "VillagerSpawner");
 	}
 
 	public int tickRate()
@@ -41,16 +39,9 @@ public class BlockVillagerSpawner extends Block
 	{
 		super.updateTick(world, pos, state, random);
 
-		List<Entity> nearbyEntities = RadixLogic.getAllEntitiesWithinDistanceOfCoordinates(world, pos.getX(), pos.getY(), pos.getZ(), 32);
-		int nearbyHumans = 0;
-
-		for (Entity entity : nearbyEntities)
-		{
-			if (entity instanceof EntityVillagerMCA)
-			{
-				nearbyHumans++;
-			}
-		}
+		Point3D point = new Point3D(pos.getX(), pos.getY(), pos.getZ());
+		List<EntityVillagerMCA> nearbyEntities = RadixLogic.getEntitiesWithinDistance(EntityVillagerMCA.class, world, point, 32);
+		int nearbyHumans = nearbyEntities.size();
 
 		if (nearbyHumans < MCA.getConfig().villagerSpawnerCap)
 		{
@@ -76,7 +67,8 @@ public class BlockVillagerSpawner extends Block
 
 			if (continueSpawning)
 			{
-				final EntityVillagerMCA human = new EntityVillagerMCA(world, world.rand.nextBoolean());
+				final EntityVillagerMCA human = new EntityVillagerMCA(world);
+				human.setGender(world.rand.nextBoolean() ? EnumGender.MALE : EnumGender.FEMALE);
 				human.setPositionAndRotation((double) pos.getX() + 0.5F, (double) spawnY, (double) pos.getZ() + 0.5F, (float)random.nextInt(360) + 1, 0.0F);
 				world.spawnEntityInWorld(human);
 			}

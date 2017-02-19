@@ -13,9 +13,9 @@ import mca.entity.EntityVillagerMCA;
 import mca.inventory.ContainerInventory;
 import mca.tile.TileTombstone;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
-import radixcore.modules.RadixBlocks;
 import radixcore.modules.RadixLogic;
 
 /**
@@ -53,7 +53,7 @@ public class GuiHandler implements IGuiHandler
 		case Constants.GUI_ID_WHISTLE:
 			return new GuiWhistle(player);
 		case Constants.GUI_ID_TOMBSTONE:
-			return new GuiTombstone((TileTombstone)RadixBlocks.getTileEntity(world, posX, posY, posZ));
+			return new GuiTombstone((TileTombstone)world.getTileEntity(new BlockPos(posX, posY, posZ)));
 		case Constants.GUI_ID_INTERACT: 
 			entity = (EntityVillagerMCA) RadixLogic.getEntityOfTypeAtXYZ(EntityVillagerMCA.class, world, posX, posY, posZ);
 			return new GuiInteraction(entity, player);

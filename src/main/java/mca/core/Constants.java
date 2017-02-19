@@ -36,7 +36,6 @@ public final class Constants
 	public static final float SCALE_MAX = 1.1F;
 	public static final float SCALE_MIN = 0.85F;
 
-	
 	private Constants()
 	{
 	}

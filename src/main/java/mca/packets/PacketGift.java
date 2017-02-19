@@ -6,13 +6,15 @@ import mca.ai.AIMood;
 import mca.ai.AIProgressStory;
 import mca.api.IGiftableItem;
 import mca.api.RegistryMCA;
+import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.minecraft.ModAchievements;
-import mca.core.minecraft.ModItems;
+import mca.core.minecraft.AchievementsMCA;
+import mca.core.minecraft.ItemsMCA;
 import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumBabyState;
+import mca.enums.EnumMarriageState;
 import mca.enums.EnumProgressionStep;
 import mca.inventory.VillagerInventory;
 import mca.util.MarriageHandler;
@@ -75,22 +77,22 @@ public class PacketGift extends AbstractPacket<PacketGift>
 			human.say("interaction.give.invalid", player); 
 		}
 
-		else if (data.getSpousePermanentId() == human.getPermanentId() && (!human.getIsEngaged() || human.getIsMarried()))
+		else if (data.getSpouseUUID() == human.getPersistentID())
 		{
 			human.say("interaction.marry.fail.marriedtogiver", player); 
 		}
 
-		else if (human.getIsMarried())
+		else if (human.getMarriageState() != EnumMarriageState.NOT_MARRIED)
 		{
 			human.say("interaction.marry.fail.marriedtoother", player); 
 		}
 
-		else if (human.getIsEngaged() && human.getSpouseId() != data.getPermanentId())
+		else if (human.getMarriageState() == EnumMarriageState.ENGAGED && human.getSpouseUUID() != data.getUUID())
 		{
 			human.say("interaction.engage.fail.engagedtoother", player); 
 		}
 
-		else if (data.getSpousePermanentId() != 0 && !data.getIsEngaged())
+		else if (data.getSpouseUUID() != Constants.EMPTY_UUID && data.getMarriageState() != EnumMarriageState.NOT_MARRIED)
 		{
 			human.say("interaction.marry.fail.playermarried", player); 
 		}
@@ -103,7 +105,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 
 		else
 		{
-			player.addStat(ModAchievements.marriage);
+			player.addStat(AchievementsMCA.marriage);
 			human.say("interaction.marry.success", player); 
 
 			MarriageHandler.startMarriage(player, human);
@@ -127,17 +129,17 @@ public class PacketGift extends AbstractPacket<PacketGift>
 			human.say("interaction.give.invalid", player); 
 		}
 
-		else if (human.getIsMarried())
+		else if (human.getMarriageState() == EnumMarriageState.MARRIED_TO_PLAYER || human.getMarriageState() == EnumMarriageState.MARRIED_TO_VILLAGER)
 		{
 			human.say("interaction.matchmaker.fail.married", player); 
 		}
 
-		else if (human.getIsEngaged())
+		else if (human.getMarriageState() == EnumMarriageState.ENGAGED)
 		{
 			human.say("interaction.matchmaker.fail.engaged", player); 
 		}
 
-		else if (stack.stackSize < 2)
+		else if (stack.func_190916_E() < 2)
 		{
 			human.say("interaction.matchmaker.fail.needtwo", player); 
 			TutorialManager.sendMessageToPlayer(player, "You must have two matchmaker's rings", "in a stack to arrange a marriage.");
@@ -146,8 +148,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 		else
 		{	
 			boolean partnerIsValid = partner != null 
-					&& !partner.getIsMarried() 
-					&& !partner.getIsEngaged() 
+					&& partner.getMarriageState() == EnumMarriageState.NOT_MARRIED 
 					&& !partner.getIsChild() 
 					&& (partner.getFatherId() == -1 || partner.getFatherId() != human.getFatherId()) 
 					&& (partner.getMotherId() == -1 || partner.getMotherId() != human.getMotherId());
@@ -178,7 +179,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 
 					if (human.isPlayerAParent(onlinePlayer) || partner.isPlayerAParent(onlinePlayer))
 					{
-						onlinePlayer.addStat(ModAchievements.childMarried);	
+						onlinePlayer.addStat(AchievementsMCA.childMarried);	
 					}
 				}
 
@@ -200,22 +201,22 @@ public class PacketGift extends AbstractPacket<PacketGift>
 			human.say("interaction.give.invalid", player); 
 		}
 
-		else if (data.getSpousePermanentId() == human.getPermanentId())
+		else if (data.getSpouseUUID() == human.getPersistentID())
 		{
 			human.say("interaction.marry.fail.marriedtogiver", player); 
 		}
 
-		else if (human.getIsMarried())
+		else if (human.getMarriageState() == EnumMarriageState.MARRIED_TO_PLAYER || human.getMarriageState() == EnumMarriageState.MARRIED_TO_VILLAGER)
 		{
 			human.say("interaction.marry.fail.marriedtoother", player); 
 		}
 
-		else if (human.getIsEngaged())
+		else if (human.getMarriageState() == EnumMarriageState.ENGAGED)
 		{
 			human.say("interaction.engage.fail.engagedtoother", player); 
 		}
 
-		else if (data.getSpousePermanentId() != 0)
+		else if (data.getSpouseUUID() != Constants.EMPTY_UUID)
 		{
 			human.say("interaction.marry.fail.playermarried", player); 
 		}
@@ -228,7 +229,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 
 		else
 		{
-			player.addStat(ModAchievements.engagement);
+			player.addStat(AchievementsMCA.engagement);
 			human.say("interaction.engage.success", player); 
 
 			MarriageHandler.startEngagement(player, human);
@@ -253,12 +254,12 @@ public class PacketGift extends AbstractPacket<PacketGift>
 			human.say("interaction.give.invalid", player); 
 		}
 
-		else if (!human.getIsMarried())
+		else if (human.getMarriageState() == EnumMarriageState.NOT_MARRIED)
 		{
 			human.say("interaction.divorce.notmarried", player); 
 		}
 
-		else if (human.isMarriedToAPlayer() && data.getSpousePermanentId() != human.getPermanentId())
+		else if (human.isMarriedToAPlayer() && data.getSpouseUUID() != human.getPersistentID())
 		{
 			human.say("interaction.divorce.notmarriedtoplayer", player); 
 		}
@@ -357,33 +358,28 @@ public class PacketGift extends AbstractPacket<PacketGift>
 
 		if (player != null && human != null)
 		{
-			final ItemStack stack = player.inventory.mainInventory[packet.slot];
+			final ItemStack stack = player.inventory.mainInventory.get(packet.slot);
 			final Item item = stack.getItem();
 			boolean removeItem = false;
 			int removeCount = 1;
 
-			if (item == ModItems.weddingRing || item == ModItems.weddingRingRG)
+			if (item == ItemsMCA.weddingRing || item == ItemsMCA.weddingRingRG)
 			{
 				removeItem = handleWeddingRing(player, human);
 			}
 
-			else if (item == ModItems.matchmakersRing)
+			else if (item == ItemsMCA.matchmakersRing)
 			{
 				removeItem = handleMatchmakersRing(player, human, stack);
 				removeCount = 2;
 			}
 
-			else if (item == ModItems.engagementRing || item == ModItems.weddingRingRG || item == ModItems.engagementRingRG 
-					|| item == ModItems.engagementRingHeart || item == ModItems.engagementRingOval 
-					|| item == ModItems.engagementRingSquare || item == ModItems.engagementRingStar || item == ModItems.engagementRingTiny || item == ModItems.engagementRingTriangle
-					|| item == ModItems.engagementRingHeartRG || item == ModItems.engagementRingOvalRG || item == ModItems.engagementRingSquareRG
-					|| item == ModItems.engagementRingStarRG || item == ModItems.engagementRingTinyRG || item == ModItems.engagementRingTriangleRG
-					)
+			else if (item == ItemsMCA.engagementRing || item == ItemsMCA.weddingRingRG || item == ItemsMCA.engagementRingRG)
 			{
 				removeItem = handleEngagementRing(player, human);
 			}
 
-			else if (item == ModItems.divorcePapers)
+			else if (item == ItemsMCA.divorcePapers)
 			{
 				removeItem = handleDivorcePapers(player, human);
 			}
@@ -404,7 +400,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 				human.getAI(AIGrow.class).accelerate();
 			}
 
-			else if ((item == ModItems.babyBoy || item == ModItems.babyGirl) && human.getPlayerSpouse() == player)
+			else if ((item == ItemsMCA.babyBoy || item == ItemsMCA.babyGirl) && human.getPlayerSpouseInstance() == player)
 			{
 				removeItem = true;
 				removeCount = 1;
@@ -456,7 +452,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 				}
 			}
 
-			else if (item == ModItems.newOutfit && human.allowsControllingInteractions(player))
+			else if (item == ItemsMCA.newOutfit && human.allowsControllingInteractions(player))
 			{
 				Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.VILLAGER_HAPPY, human, 16);
 				human.setClothesTexture(human.getRandomSkin());
@@ -500,9 +496,9 @@ public class PacketGift extends AbstractPacket<PacketGift>
 
 			if (removeItem && !player.capabilities.isCreativeMode)
 			{
-				stack.stackSize -= removeCount;
+				stack.func_190917_f(removeCount * -1);
 
-				if (stack.stackSize > 0)
+				if (stack.func_190916_E() > 0)
 				{
 					player.inventory.setInventorySlotContents(packet.slot, stack);
 				}

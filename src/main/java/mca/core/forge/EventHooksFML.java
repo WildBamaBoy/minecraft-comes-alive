@@ -5,17 +5,17 @@ import java.util.List;
 
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.minecraft.ModAchievements;
-import mca.core.minecraft.ModItems;
+import mca.core.minecraft.AchievementsMCA;
+import mca.core.minecraft.ItemsMCA;
 import mca.data.NBTPlayerData;
-import mca.data.PlayerData;
 import mca.data.PlayerDataCollection;
 import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumBabyState;
+import mca.enums.EnumGender;
+import mca.enums.EnumPersonality;
 import mca.enums.EnumProfession;
 import mca.enums.EnumProfessionSkinGroup;
-import mca.items.ItemGemCutter;
 import mca.packets.PacketPlayerDataLogin;
 import mca.packets.PacketSpawnLightning;
 import mca.packets.PacketSyncConfig;
@@ -46,9 +46,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.constant.Time;
 import radixcore.math.Point3D;
-import radixcore.modules.RadixBlocks;
 import radixcore.modules.RadixLogic;
 import radixcore.modules.RadixMath;
+import radixcore.modules.schematics.RadixSchematics;
 
 public class EventHooksFML 
 {
@@ -56,10 +56,10 @@ public class EventHooksFML
 	private static int summonCounter;
 	private static Point3D summonPos;
 	private static World summonWorld;
-	
+
 	private int clientTickCounter;
 	private int serverTickCounter;
-	
+
 	@SubscribeEvent
 	public void onConfigChanges(ConfigChangedEvent.OnConfigChangedEvent eventArgs)
 	{
@@ -78,21 +78,11 @@ public class EventHooksFML
 		EntityPlayer player = event.player;
 		PlayerDataCollection dataCollection = PlayerDataCollection.get();
 		boolean setPermanentId = false;
-		
+
 		//Continue to create the old player data object so any existing player data file is read.
 		NBTPlayerData nbtData = null;
-		PlayerData data = null;
-		data = new PlayerData(player);
 
-		if (data.dataExists())
-		{
-			data = data.readDataFromFile(event.player, PlayerData.class, null);
-			dataCollection.migrateOldPlayerData(player, data);
-			nbtData = dataCollection.getPlayerData(player.getUniqueID());
-		}
-
-		//If no old data exists, check to see if new data exists. If not, create and store it.
-		else if (dataCollection.getPlayerData(player.getUniqueID()) == null)
+		if (dataCollection.getPlayerData(player.getUniqueID()) == null)
 		{
 			//A permanent ID is generated if no ID exists after reading from NBT.
 			NBTPlayerData nbtPlayerData = new NBTPlayerData();
@@ -105,7 +95,7 @@ public class EventHooksFML
 		{
 			nbtData = dataCollection.getPlayerData(player.getUniqueID());
 		}
-				
+
 		//Sync the server's configuration, for display settings.
 		MCA.getPacketHandler().sendPacketToPlayer(new PacketSyncConfig(MCA.getConfig()), (EntityPlayerMP)event.player);
 
@@ -113,16 +103,16 @@ public class EventHooksFML
 		if (nbtData != null)
 		{
 			MCA.getPacketHandler().sendPacketToPlayer(new PacketPlayerDataLogin(nbtData), (EntityPlayerMP) player);
-			
+
 			if (setPermanentId)
 			{
 				nbtData.setPermanentId(RadixLogic.generatePermanentEntityId(player));
 			}
-			
+
 			//Add the crystal ball to the inventory if needed.
-			if (!nbtData.getHasChosenDestiny() && !player.inventory.hasItemStack(new ItemStack(ModItems.crystalBall)) && MCA.getConfig().giveCrystalBall)
+			if (!nbtData.getHasChosenDestiny() && !player.inventory.hasItemStack(new ItemStack(ItemsMCA.crystalBall)) && MCA.getConfig().giveCrystalBall)
 			{
-				player.inventory.addItemStackToInventory(new ItemStack(ModItems.crystalBall));
+				player.inventory.addItemStackToInventory(new ItemStack(ItemsMCA.crystalBall));
 			}
 		}
 	}
@@ -181,7 +171,7 @@ public class EventHooksFML
 
 			if (MCA.destinySpawnFlag)
 			{
-				SchematicHandler.spawnStructureRelativeToPoint("/assets/mca/schematic/destiny-test.schematic", MCA.destinyCenterPoint, mc.theWorld);
+				RadixSchematics.spawnStructureRelativeToPoint("/assets/mca/schematic/destiny-test.schematic", MCA.destinyCenterPoint, mc.theWorld);
 			}
 		}
 
@@ -232,37 +222,37 @@ public class EventHooksFML
 		if (summonCounter > 0)
 		{
 			summonCounter--;
-			
+
 			//Spawn particles around the summon point.
-			Utilities.spawnParticlesAroundPointS(EnumParticleTypes.PORTAL, summonWorld, summonPos.iPosX, summonPos.iPosY, summonPos.iPosZ, 2);
-			
+			Utilities.spawnParticlesAroundPointS(EnumParticleTypes.PORTAL, summonWorld, summonPos.iX(), summonPos.iY(), summonPos.iZ(), 2);
+
 			//Lightning will strike periodically.
 			if (summonCounter % (Time.SECOND * 2) == 0)
 			{
-				double dX = summonPos.iPosX + (summonWorld.rand.nextInt(6) * (RadixLogic.getBooleanWithProbability(50) ? 1 : -1));
-				double dZ = summonPos.iPosZ + (summonWorld.rand.nextInt(6) * (RadixLogic.getBooleanWithProbability(50) ? 1 : -1));
+				double dX = summonPos.iX() + (summonWorld.rand.nextInt(6) * (RadixLogic.getBooleanWithProbability(50) ? 1 : -1));
+				double dZ = summonPos.iZ() + (summonWorld.rand.nextInt(6) * (RadixLogic.getBooleanWithProbability(50) ? 1 : -1));
 				double y = (double)RadixLogic.getSpawnSafeTopLevel(summonWorld, (int)dX, (int)dZ);
 				NetworkRegistry.TargetPoint lightningTarget = new NetworkRegistry.TargetPoint(summonWorld.provider.getDimension(), dX, y, dZ, 64);
 				EntityLightningBolt lightning = new EntityLightningBolt(summonWorld, dX, y, dZ, false);
-								
+
 				summonWorld.spawnEntityInWorld(lightning);
 				MCA.getPacketHandler().sendPacketToAllAround(new PacketSpawnLightning(new Point3D(dX, y, dZ)), lightningTarget);
-				
+
 				//On the first lightning bolt, send the summon sound to all around the summon point.
 				if (summonCounter == 80)
 				{
-					NetworkRegistry.TargetPoint summonTarget = new NetworkRegistry.TargetPoint(summonWorld.provider.getDimension(), summonPos.iPosX, summonPos.iPosY, summonPos.iPosZ, 32);
+					NetworkRegistry.TargetPoint summonTarget = new NetworkRegistry.TargetPoint(summonWorld.provider.getDimension(), summonPos.iX(), summonPos.iY(), summonPos.iZ(), 32);
 					//FIXME
 					//MCA.getPacketHandler().sendPacketToAllAround(new PacketPlaySoundOnPlayer("mca:reaper.summon"), summonTarget);
 				}
 			}
-			
+
 			if (summonCounter == 0)
 			{
 				EntityGrimReaper reaper = new EntityGrimReaper(summonWorld);
-				reaper.setPosition(summonPos.iPosX, summonPos.iPosY, summonPos.iPosZ);
+				reaper.setPosition(summonPos.iX(), summonPos.iY(), summonPos.iZ());
 				summonWorld.spawnEntityInWorld(reaper);
-				
+
 				summonPos = null;
 				summonWorld = null;
 			}
@@ -292,14 +282,18 @@ public class EventHooksFML
 					EntityVillagerMCA human = humans.get(RadixMath.getNumberInRange(0, humans.size() - 1));
 
 					//Don't count guards in the total count of villagers.
-					List<Entity> villagersAroundMe = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityVillagerMCA.class, human, 50);
+					List<EntityVillagerMCA> villagersAroundMe = RadixLogic.getEntitiesWithinDistance(EntityVillagerMCA.class, human, 50);
 					int numberOfGuardsAroundMe = getNumberOfGuardsFromEntityList(villagersAroundMe);
 					int numberOfVillagersAroundMe = villagersAroundMe.size() - numberOfGuardsAroundMe; 
 					int neededNumberOfGuards = numberOfVillagersAroundMe / MCA.getConfig().guardSpawnRate;
-					
+
 					if (numberOfGuardsAroundMe < neededNumberOfGuards)
 					{
 						final EntityVillagerMCA guard = new EntityVillagerMCA(human.worldObj, RadixLogic.getBooleanWithProbability(50), EnumProfession.Guard.getId(), false);
+						guard.setGender(human.worldObj.rand.nextBoolean() ? EnumGender.MALE : EnumGender.FEMALE);
+						guard.setProfession(EnumProfession.Guard);
+						guard.setPersonality(EnumPersonality.getAtRandom());
+						//NAME, TEXTURE
 						final Vec3d pos = RandomPositionGenerator.findRandomTarget(human, 10, 1);
 
 						if (pos != null) //Ensure a random position was actually found.
@@ -307,7 +301,7 @@ public class EventHooksFML
 							final Point3D posAsPoint = new Point3D(pos.xCoord, pos.yCoord, pos.zCoord);
 
 							//Check that we can see the sky, no guards in caves or stuck in blocks.
-							if (RadixBlocks.canBlockSeeTheSky(human.worldObj, posAsPoint.iPosX, (int)human.posY, posAsPoint.iPosZ))
+							if (human.worldObj.canBlockSeeSky(posAsPoint.toBlockPos()))
 							{
 								guard.setPosition(pos.xCoord, (int)human.posY, pos.zCoord);
 								human.worldObj.spawnEntityInWorld(guard);
@@ -319,7 +313,7 @@ public class EventHooksFML
 
 			serverTickCounter = Time.MINUTE;
 		}
-		
+
 		if (serverTickCounter <= 0 && MCA.getConfig().replenishEmptyVillages && RadixLogic.getBooleanWithProbability(25))
 		{
 			for (World world : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers)
@@ -327,30 +321,27 @@ public class EventHooksFML
 				for (Object obj : world.villageCollectionObj.getVillageList())
 				{
 					Village village = (Village)obj;
-					
+
 					int populationCapacity = village.getNumVillageDoors();
 					int population = 0;
 					double posX = village.getCenter().getX();
 					double posY = village.getCenter().getY();
 					double posZ = village.getCenter().getZ();
-					
-					for (Entity entity : RadixLogic.getAllEntitiesWithinDistanceOfCoordinates(world, posX, posY, posZ, village.getVillageRadius()))
+
+					for (EntityVillagerMCA entity : RadixLogic.getEntitiesWithinDistance(EntityVillagerMCA.class, world, posX, posY, posZ, village.getVillageRadius()))
 					{
-						if (entity instanceof EntityVillagerMCA)
+						EntityVillagerMCA human = (EntityVillagerMCA) entity;
+
+						//Count everyone except guards
+						if (human.getProfessionSkinGroup() != EnumProfessionSkinGroup.Guard)
 						{
-							EntityVillagerMCA human = (EntityVillagerMCA) entity;
-							
-							//Count everyone except guards
-							if (human.getProfessionSkinGroup() != EnumProfessionSkinGroup.Guard)
-							{
-								population++;
-							}
-							
-							//Count babies with the villager population.
-							if (human.getBabyState() != EnumBabyState.NONE)
-							{
-								population++;
-							}
+							population++;
+						}
+
+						//Count babies with the villager population.
+						if (human.getBabyState() != EnumBabyState.NONE)
+						{
+							population++;
 						}
 					}
 
@@ -363,12 +354,12 @@ public class EventHooksFML
 						{
 							posX = posX + (world.rand.nextInt(village.getVillageRadius())) * (RadixLogic.getBooleanWithProbability(50) ? 1 : -1);
 							posZ = posZ + (world.rand.nextInt(village.getVillageRadius())) * (RadixLogic.getBooleanWithProbability(50) ? 1 : -1);
-							
+
 							//Offset to the center of the block
 							posX += 0.5D;
 							posZ += 0.5D;
 							double dY = RadixLogic.getSpawnSafeTopLevel(world, (int)posX, (int)posZ);
-							
+
 							//Prevent spawning on roof by checking the safe spawn level against the center level
 							//and making sure it's not too high.
 							if (dY - posY <= 4.0F)
@@ -377,7 +368,7 @@ public class EventHooksFML
 								MCA.naturallySpawnVillagers(pointOfSpawn, world, -1);
 								break;
 							}
-							
+
 							else //Try again up to 3 times if not.
 							{
 								tries++;
@@ -397,26 +388,12 @@ public class EventHooksFML
 		Item craftedItem = event.crafting.getItem();
 		EntityPlayer player = event.player;
 
-		if (craftedItem == ModItems.diamondHeart || craftedItem == ModItems.diamondOval || craftedItem == ModItems.diamondSquare
-				|| craftedItem == ModItems.diamondStar || craftedItem == ModItems.diamondTiny || craftedItem == ModItems.diamondTriangle)
-		{
-			player.addStat(ModAchievements.craftShapedDiamond);
-		}
-
-		else if (craftedItem == ModItems.engagementRingHeart || craftedItem == ModItems.engagementRingOval || craftedItem == ModItems.engagementRingSquare
-				|| craftedItem == ModItems.engagementRingStar || craftedItem == ModItems.engagementRingTiny || craftedItem == ModItems.engagementRingTriangle
-				|| craftedItem == ModItems.engagementRingHeartRG || craftedItem == ModItems.engagementRingOvalRG || craftedItem == ModItems.engagementRingSquareRG
-				|| craftedItem == ModItems.engagementRingStarRG || craftedItem == ModItems.engagementRingTinyRG || craftedItem == ModItems.engagementRingTriangleRG)
-		{
-			player.addStat(ModAchievements.craftShapedRing);
-		}
-
 		//Return damageable items to the inventory.
 		for (int i = 0; i < event.craftMatrix.getSizeInventory(); i++)
 		{
 			ItemStack stack = event.craftMatrix.getStackInSlot(i);
 
-			if (stack != null && (stack.getItem() instanceof ItemGemCutter || stack.getItem() == ModItems.needleAndString))
+			if (stack != null && (stack.getItem() == ItemsMCA.needleAndString))
 			{
 				stack.attemptDamageItem(1, event.player.getRNG());
 
@@ -424,7 +401,7 @@ public class EventHooksFML
 				{
 					event.player.inventory.addItemStackToInventory(stack);
 				}
-				player.addStat(ModAchievements.craftShapedDiamond);
+				player.addStat(AchievementsMCA.craftShapedDiamond);
 			}
 
 			break;
@@ -449,24 +426,19 @@ public class EventHooksFML
 		summonPos = point;
 		summonCounter = Time.SECOND * 6;
 	}
-	
-	private int getNumberOfGuardsFromEntityList(List<Entity> entityList) 
+
+	private int getNumberOfGuardsFromEntityList(List<EntityVillagerMCA> entityList) 
 	{
 		int returnValue = 0;
-		
-		for (Entity entity : entityList)
+
+		for (EntityVillagerMCA entity : entityList)
 		{
-			if (entity instanceof EntityVillagerMCA)
+			if (entity.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard)
 			{
-				EntityVillagerMCA human = (EntityVillagerMCA)entity;
-				
-				if (human.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard)
-				{
-					returnValue++;
-				}
+				returnValue++;
 			}
 		}
-		
+
 		return returnValue;
 	}
 }

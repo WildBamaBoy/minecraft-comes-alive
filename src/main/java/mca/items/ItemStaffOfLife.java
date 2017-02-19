@@ -7,6 +7,7 @@ import org.lwjgl.input.Keyboard;
 import mca.core.MCA;
 import mca.data.NBTPlayerData;
 import mca.data.VillagerSaveData;
+import mca.enums.EnumMarriageState;
 import mca.enums.EnumMemorialType;
 import mca.tile.TileMemorial;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,12 +21,10 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Time;
-import radixcore.modules.RadixBlocks;
 
 public class ItemStaffOfLife extends Item
 {
@@ -36,19 +35,16 @@ public class ItemStaffOfLife extends Item
 		setCreativeTab(MCA.getCreativeTabMain());
 		setUnlocalizedName("StaffOfLife");
 		setMaxDamage(4);
-		GameRegistry.registerItem(this, "StaffOfLife");
 	}
 
 	@Override
-	public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) 
+	public EnumActionResult onItemUse(EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) 
 	{
-		int posX = pos.getX();
-		int posY = pos.getY();
-		int posZ = pos.getZ();
+		ItemStack stack = playerIn.getHeldItem(hand);
 		
 		if (!worldIn.isRemote)
 		{
-			TileEntity tile = RadixBlocks.getTileEntity(worldIn, posX, posY, posZ);
+			TileEntity tile = worldIn.getTileEntity(pos);
 
 			if (tile instanceof TileMemorial)
 			{
@@ -59,14 +55,14 @@ public class ItemStaffOfLife extends Item
 				//Make sure the owner is the one reviving them.
 				if (!data.ownerUUID.equals(playerIn.getUniqueID()))
 				{
-					playerIn.addChatComponentMessage(new TextComponentString(Color.RED + "You cannot revive " + data.name + " because they are not related to you."));
+					playerIn.addChatComponentMessage(new TextComponentString(Color.RED + "You cannot revive " + data.name + " because they are not related to you."), false);
 					return EnumActionResult.FAIL;
 				}
 				
 				//For rings, they belonged to a spouse. Check for remarriage and forbid.
-				if (memorial.getType() == EnumMemorialType.BROKEN_RING && (playerData.getIsEngaged() || playerData.getIsMarried()))
+				if (memorial.getType() == EnumMemorialType.BROKEN_RING && (playerData.getMarriageState() != EnumMarriageState.NOT_MARRIED))
 				{
-					playerIn.addChatComponentMessage(new TextComponentString(Color.RED + "You cannot revive " + data.name + " because you are already married."));
+					playerIn.addChatComponentMessage(new TextComponentString(Color.RED + "You cannot revive " + data.name + " because you are already married."), false);
 					return EnumActionResult.FAIL;
 				}
 				

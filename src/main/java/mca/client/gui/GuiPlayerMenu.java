@@ -13,11 +13,11 @@ import mca.packets.PacketInteractWithPlayerS;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import radixcore.modules.client.RadixRender;
 
 @SideOnly(Side.CLIENT)
 public class GuiPlayerMenu extends GuiScreen
@@ -67,7 +67,7 @@ public class GuiPlayerMenu extends GuiScreen
 			GL11.glColor3f(255.0F, 255.0F, 255.0F);
 			GL11.glScalef(2.0F, 2.0F, 2.0F);
 
-			RenderHelper.drawTexturedRectangle(new ResourceLocation("mca:textures/gui.png"), 5, 30, marriageIconU, 0, 16, 16);
+			RadixRender.drawTexturedRectangle(new ResourceLocation("mca:textures/gui.png"), 5, 30, marriageIconU, 0, 16, 16);
 		}
 		GL11.glPopMatrix();
 
@@ -80,7 +80,7 @@ public class GuiPlayerMenu extends GuiScreen
 								"gui.info.family.notmarried";
 
 			//Always include the villager's spouse name in case %a1% will be provided.
-			RenderHelper.drawTextPopup(MCA.getLanguageManager().getString(phraseId, targetSpouseName), 49, 73);
+			RadixRender.drawTextPopup(MCA.getLanguageManager().getString(phraseId, targetSpouseName), 49, 73);
 		}
 
 		super.drawScreen(i, j, f);

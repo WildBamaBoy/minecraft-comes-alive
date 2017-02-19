@@ -1,17 +1,20 @@
 package mca.tile;
 
+import java.util.UUID;
+
+import mca.core.Constants;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileVillagerBed extends TileEntity
 {
 	private boolean isVillagerSleepingIn;
-	private int sleepingVillagerId;
+	private UUID sleepingVillagerId;
 
 	public TileVillagerBed()
 	{
 		isVillagerSleepingIn = false;
-		sleepingVillagerId = -1;
+		sleepingVillagerId = Constants.EMPTY_UUID;
 	}
 
 	public boolean getIsVillagerSleepingIn()
@@ -30,7 +33,7 @@ public class TileVillagerBed extends TileEntity
 		super.writeToNBT(nbt);
 
 		nbt.setBoolean("isVillagerSleepingIn", isVillagerSleepingIn);
-		nbt.setInteger("sleepingVillagerId", sleepingVillagerId);
+		nbt.setUniqueId("sleepingVillagerId", sleepingVillagerId);
 		
 		return nbt;
 	}
@@ -41,15 +44,15 @@ public class TileVillagerBed extends TileEntity
 		super.readFromNBT(nbt);
 
 		isVillagerSleepingIn = nbt.getBoolean("isVillagerSleepingIn");
-		sleepingVillagerId = nbt.getInteger("sleepingVillagerId");
+		sleepingVillagerId = nbt.getUniqueId("sleepingVillagerId");
 	}
 
-	public void setSleepingVillagerId(int value)
+	public void setSleepingVillagerUUID(UUID uuid)
 	{
-		sleepingVillagerId = value;
+		sleepingVillagerId = uuid;
 	}
 
-	public int getSleepingVillagerId()
+	public UUID getSleepingVillagerId()
 	{
 		return sleepingVillagerId;
 	}

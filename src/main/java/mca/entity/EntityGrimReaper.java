@@ -4,7 +4,7 @@ import java.util.List;
 
 import mca.core.MCA;
 import mca.core.forge.SoundsMCA;
-import mca.core.minecraft.ModItems;
+import mca.core.minecraft.ItemsMCA;
 import mca.enums.EnumReaperAttackState;
 import mca.packets.PacketSpawnLightning;
 import mca.util.Utilities;
@@ -89,7 +89,7 @@ public class EntityGrimReaper extends EntityMob
 	@Override
 	protected void dropFewItems(boolean hitByPlayer, int lootingLvl) 
 	{
-		dropItem(ModItems.staffOfLife, 1);
+		dropItem(ItemsMCA.staffOfLife, 1);
 	}
 
 	@Override
@@ -251,11 +251,11 @@ public class EntityGrimReaper extends EntityMob
 						{
 							int currentItem = player.inventory.currentItem;
 							int randomItem = rand.nextInt(InventoryPlayer.getHotbarSize());
-							ItemStack currentItemStack = player.inventory.mainInventory[currentItem];
-							ItemStack randomItemStack = player.inventory.mainInventory[randomItem];
+							ItemStack currentItemStack = player.inventory.mainInventory.get(currentItem);
+							ItemStack randomItemStack = player.inventory.mainInventory.get(randomItem);
 
-							player.inventory.mainInventory[currentItem] = randomItemStack;
-							player.inventory.mainInventory[randomItem] = currentItemStack;
+							player.inventory.mainInventory.set(currentItem, randomItemStack);
+							player.inventory.mainInventory.set(randomItem, currentItemStack);
 							
 							player.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, this.worldObj.getDifficulty().getDifficultyId() * (Time.SECOND * 2), 1));
 						}

@@ -2,12 +2,11 @@ package mca.ai;
 
 import mca.api.CookableFood;
 import mca.api.RegistryMCA;
-import mca.data.WatcherIDsHuman;
 import mca.entity.EntityVillagerMCA;
+import net.minecraft.block.BlockFurnace;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import radixcore.constant.Time;
@@ -15,11 +14,9 @@ import radixcore.math.Point3D;
 import radixcore.modules.RadixBlocks;
 import radixcore.modules.RadixLogic;
 import radixcore.modules.RadixMath;
-import radixcore.modules.datawatcher.WatchedBoolean;
 
 public class AICooking extends AbstractToggleAI
 {
-	private WatchedBoolean isAIActive;
 	private Point3D furnacePos;
 
 	private int fuelUsesRemaining;
@@ -34,40 +31,7 @@ public class AICooking extends AbstractToggleAI
 	public AICooking(EntityVillagerMCA owner) 
 	{
 		super(owner);
-		isAIActive = new WatchedBoolean(false, WatcherIDsHuman.IS_COOKING_ACTIVE, owner.getDataWatcherEx());
 		furnacePos = Point3D.ZERO;
-	}
-
-	@Override
-	public void setIsActive(boolean value) 
-	{
-		isAIActive.setValue(value);
-		
-		if (!value)
-		{
-			if (hasFurnace)
-			{
-				RadixBlocks.updateFurnaceState(false, owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ);
-			}
-		}
-	}
-
-	@Override
-	public boolean getIsActive() 
-	{
-		return isAIActive.getBoolean();
-	}
-
-	@Override
-	public void onUpdateCommon() 
-	{
-
-	}
-
-	@Override
-	public void onUpdateClient() 
-	{
-
 	}
 
 	@Override
@@ -89,7 +53,7 @@ public class AICooking extends AbstractToggleAI
 
 					if (player != null)
 					{
-						owner.sayRaw("I don't have any food to cook.", player); //TODO Translate.
+						owner.say("cooking.nofood", player);
 					}
 
 					reset();
@@ -106,7 +70,7 @@ public class AICooking extends AbstractToggleAI
 
 					if (player != null)
 					{
-						owner.sayRaw("I don't have any fuel.", player); //TODO Translate.
+						owner.say("cooking.nofuel", player);
 					}
 				}
 			}
@@ -122,7 +86,7 @@ public class AICooking extends AbstractToggleAI
 
 				if (player != null)
 				{
-					owner.sayRaw("There's no furnace nearby.", player); //TODO Translate.
+					owner.say("cooking.nofurnace", player);
 				}
 			}
 		}
@@ -135,21 +99,9 @@ public class AICooking extends AbstractToggleAI
 		setIsActive(false);
 	}
 
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) 
-	{
-
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) 
-	{
-
-	}
-
 	public void startCooking(EntityPlayer player)
 	{
-		assigningPlayer = player.getUniqueID().toString();
+		assigningPlayer = player.getUniqueID();
 
 		setIsActive(true);
 		furnacePos = Point3D.ZERO;
@@ -196,7 +148,7 @@ public class AICooking extends AbstractToggleAI
 
 	private boolean isFurnaceNearby()
 	{
-		final Point3D nearbyFurnace = RadixLogic.getFirstNearestBlock(owner, Blocks.FURNACE, 10);
+		final Point3D nearbyFurnace = RadixLogic.getNearestBlock(owner, 10, Blocks.FURNACE);
 		hasFurnace = nearbyFurnace != null;
 		furnacePos = hasFurnace ? nearbyFurnace : furnacePos;
 
@@ -220,7 +172,7 @@ public class AICooking extends AbstractToggleAI
 
 				if (player != null)
 				{
-					owner.sayRaw("There's no furnace nearby.", player); //TODO Translate.
+					owner.say("cooking.nofurnace", player);
 				}
 			}
 		}
@@ -256,14 +208,14 @@ public class AICooking extends AbstractToggleAI
 
 		if (owner.getNavigator().noPath() && distanceToFurnace >= 2.5D)
 		{
-			owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ), owner.getSpeed());
+			owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(furnacePos.iX(), furnacePos.iY(), furnacePos.iZ()), owner.getSpeed());
 		}
 	}
 
 	private boolean isFurnaceStillPresent()
 	{
-		return RadixBlocks.getBlock(owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ) == Blocks.FURNACE || 
-				RadixBlocks.getBlock(owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ) == Blocks.LIT_FURNACE;
+		return RadixBlocks.getBlock(owner.worldObj, furnacePos.iX(), furnacePos.iY(), furnacePos.iZ()) == Blocks.FURNACE || 
+				RadixBlocks.getBlock(owner.worldObj, furnacePos.iX(), furnacePos.iY(), furnacePos.iZ()) == Blocks.LIT_FURNACE;
 	}
 
 
@@ -277,9 +229,9 @@ public class AICooking extends AbstractToggleAI
 			{
 				if (cookingTicks <= cookingInterval)
 				{
-					if (RadixBlocks.getBlock(owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ) != Blocks.LIT_FURNACE)
+					if (RadixBlocks.getBlock(owner.worldObj, furnacePos) != Blocks.LIT_FURNACE)
 					{
-						RadixBlocks.updateFurnaceState(true, owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ);
+						BlockFurnace.setState(true, owner.worldObj, furnacePos.toBlockPos());
 					}
 
 					cookingTicks++;
@@ -303,7 +255,7 @@ public class AICooking extends AbstractToggleAI
 
 						if (player != null)
 						{
-							owner.sayRaw("I don't have any food to cook.", player); //TODO Translate.
+							owner.say("cooking.nofood", player);
 						}
 
 						reset();
@@ -313,7 +265,7 @@ public class AICooking extends AbstractToggleAI
 					hasCookableFood = false;
 					cookingTicks = 0;
 					fuelUsesRemaining--;
-					RadixBlocks.updateFurnaceState(false, owner.worldObj, furnacePos.iPosX, furnacePos.iPosY, furnacePos.iPosZ);
+					BlockFurnace.setState(false, owner.worldObj, furnacePos.toBlockPos());
 
 					if (fuelUsesRemaining <= 0)
 					{
@@ -328,15 +280,6 @@ public class AICooking extends AbstractToggleAI
 			}
 		}
 	}
-
-	private boolean hasCookableFood()
-	{
-		CookableFood foodObj = RegistryMCA.getCookableFoodList().get(indexOfCookingFood);
-		int rawFoodSlot = owner.getVillagerInventory().getFirstSlotContainingItem(foodObj.getFoodRaw());
-
-		return rawFoodSlot > -1;
-	}
-
 	@Override
 	protected String getName() 
 	{

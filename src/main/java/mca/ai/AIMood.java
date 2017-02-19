@@ -3,21 +3,22 @@ package mca.ai;
 import java.util.Random;
 
 import mca.core.MCA;
-import mca.data.WatcherIDsHuman;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumMood;
 import mca.enums.EnumPersonality;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.constant.Time;
 import radixcore.modules.RadixMath;
-import radixcore.modules.datawatcher.WatchedFloat;
 
 public class AIMood extends AbstractAI
 {
-	private WatchedFloat moodValue;
+	private final DataParameter<Float> MOOD_VALUE = EntityDataManager.<Float>createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
 	
 	@SideOnly(Side.CLIENT)
 	private int particleSpawnInterval;
@@ -29,14 +30,7 @@ public class AIMood extends AbstractAI
 	public AIMood(EntityVillagerMCA entityHuman) 
 	{
 		super(entityHuman);
-
-		moodValue = new WatchedFloat(5.0F, WatcherIDsHuman.MOOD_VALUE, entityHuman.getDataWatcherEx());
-	}
-
-	@Override
-	public void onUpdateCommon() 
-	{
-
+		owner.getDataManager().set(MOOD_VALUE, 0.0F);
 	}
 
 	@Override
@@ -109,25 +103,25 @@ public class AIMood extends AbstractAI
 	}
 
 	@Override
-	public void reset() 
-	{
-	}
-
-	@Override
 	public void writeToNBT(NBTTagCompound nbt) 
 	{
-		nbt.setFloat("moodValue", moodValue.getFloat());
+		nbt.setFloat("moodValue", getMoodValue());
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) 
 	{
-		moodValue.setValue(nbt.getFloat("moodValue"));
+		setMoodValue(nbt.getFloat("moodValue"));
 	}
 
+	public void setMoodValue(float value)
+	{
+		owner.getDataManager().set(MOOD_VALUE, value);
+	}
+	
 	public void modifyMoodLevel(float amount)
 	{
-		moodValue.setValue(RadixMath.clamp(moodValue.getFloat() + amount, 0.0F, 10.0F));
+		owner.getDataManager().set(MOOD_VALUE, RadixMath.clamp(getMoodValue() + amount, 0.0F, 10.0F));
 	}
 	
 	public EnumMood getMood(EnumPersonality personality)
@@ -135,11 +129,16 @@ public class AIMood extends AbstractAI
 		return personality.getMoodGroup().getMood(getMoodLevel());
 	}
 	
+	private float getMoodValue()
+	{
+		return owner.getDataManager().get(MOOD_VALUE);
+	}
+	
 	private int getMoodLevel()
 	{
 		int level = 0;
 		
-		switch (Math.round(moodValue.getFloat()))
+		switch (Math.round(getMoodValue()))
 		{
 		case 0:  level = -3; break;
 		case 1:  level = -2; break;

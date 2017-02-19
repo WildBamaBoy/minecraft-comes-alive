@@ -7,6 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.init.Blocks;
@@ -305,7 +306,7 @@ public class EntityChoreFishHook extends Entity
 
             if (!this.inGround)
             {
-                this.moveEntity(this.motionX, this.motionY, this.motionZ);
+                this.moveEntity(MoverType.SELF, this.motionX, this.motionY, this.motionZ);
                 float f5 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
                 this.rotationYaw = (float)(MathHelper.atan2(this.motionX, this.motionZ) * 180.0D / Math.PI);
 
@@ -349,7 +350,7 @@ public class EntityChoreFishHook extends Entity
                     double d5 = axisalignedbb1.minY + d3 * (double)(k + 1) / (double)j;
                     AxisAlignedBB axisalignedbb2 = new AxisAlignedBB(axisalignedbb1.minX, d4, axisalignedbb1.minZ, axisalignedbb1.maxX, d5, axisalignedbb1.maxZ);
 
-                    if (this.worldObj.isAABBInMaterial(axisalignedbb2, Material.WATER))
+                    if (this.worldObj.isMaterialInBB(axisalignedbb2, Material.WATER))
                     {
                         d10 += 1.0D / (double)j;
                     }
