@@ -1,6 +1,5 @@
 #X-Generator: crowdin.com
-itemGroup.tabMCA=Minecraft Comes Alive
-itemGroup.tabMCA.gemCutting=MCA - Gem Cutting
+itemGroup.MCA=Minecraft Comes Alive
 
 #######
 # Achievements
