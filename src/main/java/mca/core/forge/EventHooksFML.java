@@ -5,15 +5,12 @@ import java.util.List;
 
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.minecraft.AchievementsMCA;
 import mca.core.minecraft.ItemsMCA;
 import mca.data.NBTPlayerData;
 import mca.data.PlayerDataCollection;
 import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumBabyState;
-import mca.enums.EnumGender;
-import mca.enums.EnumPersonality;
 import mca.enums.EnumProfession;
 import mca.enums.EnumProfessionSkinGroup;
 import mca.packets.PacketPlayerDataLogin;
@@ -21,13 +18,11 @@ import mca.packets.PacketSpawnLightning;
 import mca.packets.PacketSyncConfig;
 import mca.util.Utilities;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.RandomPositionGenerator;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.Vec3d;
@@ -37,7 +32,6 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemCraftedEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemSmeltedEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
@@ -106,7 +100,7 @@ public class EventHooksFML
 
 			if (setPermanentId)
 			{
-				nbtData.setPermanentId(RadixLogic.generatePermanentEntityId(player));
+				nbtData.setUUID(player.getUniqueID());
 			}
 
 			//Add the crystal ball to the inventory if needed.
@@ -149,7 +143,7 @@ public class EventHooksFML
 
 		if (playPortalAnimation)
 		{
-			EntityPlayerSP player = (EntityPlayerSP)mc.thePlayer;
+			EntityPlayerSP player = (EntityPlayerSP)mc.player;
 
 			if (player == null)
 			{
@@ -171,7 +165,7 @@ public class EventHooksFML
 
 			if (MCA.destinySpawnFlag)
 			{
-				RadixSchematics.spawnStructureRelativeToPoint("/assets/mca/schematic/destiny-test.schematic", MCA.destinyCenterPoint, mc.theWorld);
+				RadixSchematics.spawnStructureRelativeToPoint("/assets/mca/schematic/destiny-test.schematic", MCA.destinyCenterPoint, mc.world);
 			}
 		}
 
@@ -191,7 +185,7 @@ public class EventHooksFML
 		// are identified by having the value of 3577 for watched object number 28.
 		if (serverTickCounter % 40 == 0)
 		{
-			for (World world : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers)
+			for (World world : FMLCommonHandler.instance().getMinecraftServerInstance().worlds)
 			{
 				for (int i = 0; i < world.loadedEntityList.size(); i++)
 				{
@@ -235,7 +229,7 @@ public class EventHooksFML
 				NetworkRegistry.TargetPoint lightningTarget = new NetworkRegistry.TargetPoint(summonWorld.provider.getDimension(), dX, y, dZ, 64);
 				EntityLightningBolt lightning = new EntityLightningBolt(summonWorld, dX, y, dZ, false);
 
-				summonWorld.spawnEntityInWorld(lightning);
+				summonWorld.spawnEntity(lightning);
 				MCA.getPacketHandler().sendPacketToAllAround(new PacketSpawnLightning(new Point3D(dX, y, dZ)), lightningTarget);
 
 				//On the first lightning bolt, send the summon sound to all around the summon point.
@@ -251,7 +245,7 @@ public class EventHooksFML
 			{
 				EntityGrimReaper reaper = new EntityGrimReaper(summonWorld);
 				reaper.setPosition(summonPos.iX(), summonPos.iY(), summonPos.iZ());
-				summonWorld.spawnEntityInWorld(reaper);
+				summonWorld.spawnEntity(reaper);
 
 				summonPos = null;
 				summonWorld = null;
@@ -263,7 +257,7 @@ public class EventHooksFML
 			//Build a list of all humans on the server.
 			List<EntityVillagerMCA> humans = new ArrayList<EntityVillagerMCA>();
 
-			for (World world : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers)
+			for (World world : FMLCommonHandler.instance().getMinecraftServerInstance().worlds)
 			{
 				for (Object obj : world.loadedEntityList)
 				{
@@ -289,11 +283,13 @@ public class EventHooksFML
 
 					if (numberOfGuardsAroundMe < neededNumberOfGuards)
 					{
-						final EntityVillagerMCA guard = new EntityVillagerMCA(human.worldObj, RadixLogic.getBooleanWithProbability(50), EnumProfession.Guard.getId(), false);
-						guard.setGender(human.worldObj.rand.nextBoolean() ? EnumGender.MALE : EnumGender.FEMALE);
+						final EntityVillagerMCA guard = new EntityVillagerMCA(human.world);
+						guard.assignRandomName();
+						guard.assignRandomGender();
+						guard.assignRandomPersonality();
 						guard.setProfession(EnumProfession.Guard);
-						guard.setPersonality(EnumPersonality.getAtRandom());
-						//NAME, TEXTURE
+						guard.assignRandomSkin();
+						
 						final Vec3d pos = RandomPositionGenerator.findRandomTarget(human, 10, 1);
 
 						if (pos != null) //Ensure a random position was actually found.
@@ -301,10 +297,10 @@ public class EventHooksFML
 							final Point3D posAsPoint = new Point3D(pos.xCoord, pos.yCoord, pos.zCoord);
 
 							//Check that we can see the sky, no guards in caves or stuck in blocks.
-							if (human.worldObj.canBlockSeeSky(posAsPoint.toBlockPos()))
+							if (human.world.canBlockSeeSky(posAsPoint.toBlockPos()))
 							{
 								guard.setPosition(pos.xCoord, (int)human.posY, pos.zCoord);
-								human.worldObj.spawnEntityInWorld(guard);
+								human.world.spawnEntity(guard);
 							}
 						}
 					}
@@ -316,7 +312,7 @@ public class EventHooksFML
 
 		if (serverTickCounter <= 0 && MCA.getConfig().replenishEmptyVillages && RadixLogic.getBooleanWithProbability(25))
 		{
-			for (World world : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers)
+			for (World world : FMLCommonHandler.instance().getMinecraftServerInstance().worlds)
 			{
 				for (Object obj : world.villageCollectionObj.getVillageList())
 				{
@@ -385,9 +381,6 @@ public class EventHooksFML
 	@SubscribeEvent
 	public void itemCraftedEventHandler(ItemCraftedEvent event)
 	{
-		Item craftedItem = event.crafting.getItem();
-		EntityPlayer player = event.player;
-
 		//Return damageable items to the inventory.
 		for (int i = 0; i < event.craftMatrix.getSizeInventory(); i++)
 		{
@@ -401,28 +394,21 @@ public class EventHooksFML
 				{
 					event.player.inventory.addItemStackToInventory(stack);
 				}
-				player.addStat(AchievementsMCA.craftShapedDiamond);
 			}
 
 			break;
 		}
 	}
-	@SubscribeEvent
-	public void itemSmeltedEventHandler(ItemSmeltedEvent event)
-	{
-		Item smeltedItem = event.smelting.getItem();
-		EntityPlayer player = event.player;
-	}
 
 	private void doOverwriteVillager(EntityVillager entity) 
 	{
 		entity.setDead();
-		MCA.naturallySpawnVillagers(new Point3D(entity.posX, entity.posY, entity.posZ), entity.worldObj, entity.getProfession());
+		MCA.naturallySpawnVillagers(new Point3D(entity.posX, entity.posY, entity.posZ), entity.world, entity.getProfession());
 	}
 
-	public static void setReaperSummonPoint(World worldObj, Point3D point)
+	public static void setReaperSummonPoint(World world, Point3D point)
 	{
-		summonWorld = worldObj;
+		summonWorld = world;
 		summonPos = point;
 		summonCounter = Time.SECOND * 6;
 	}

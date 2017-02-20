@@ -57,8 +57,8 @@ public class AIMining extends AbstractToggleAI
 				//If we're not already building and oak fence isn't found, begin building the mine.
 				if (!isBuildingMine && RadixLogic.getNearbyBlocks(owner, Blocks.OAK_FENCE, 8).size() == 0)
 				{
-					final int y = RadixLogic.getSpawnSafeTopLevel(owner.worldObj, (int) owner.posX, (int) owner.posZ);
-					final Block groundBlock = RadixBlocks.getBlock(owner.worldObj, (int)owner.posX, y - 1, (int)owner.posZ);
+					final int y = RadixLogic.getSpawnSafeTopLevel(owner.world, (int) owner.posX, (int) owner.posZ);
+					final Block groundBlock = RadixBlocks.getBlock(owner.world, (int)owner.posX, y - 1, (int)owner.posZ);
 					owner.getAI(AIBuild.class).startBuilding("/assets/mca/schematic/mine1.schematic", true, groundBlock);
 
 					isBuildingMine = true;
@@ -161,7 +161,7 @@ public class AIMining extends AbstractToggleAI
 					}
 
 					//Notify the player if they're on the server.
-					final EntityPlayer player = owner.worldObj.getPlayerEntityByUUID(assigningPlayer);
+					final EntityPlayer player = owner.world.getPlayerEntityByUUID(assigningPlayer);
 
 					if (player != null)
 					{

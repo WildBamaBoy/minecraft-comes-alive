@@ -214,8 +214,8 @@ public class AICooking extends AbstractToggleAI
 
 	private boolean isFurnaceStillPresent()
 	{
-		return RadixBlocks.getBlock(owner.worldObj, furnacePos.iX(), furnacePos.iY(), furnacePos.iZ()) == Blocks.FURNACE || 
-				RadixBlocks.getBlock(owner.worldObj, furnacePos.iX(), furnacePos.iY(), furnacePos.iZ()) == Blocks.LIT_FURNACE;
+		return RadixBlocks.getBlock(owner.world, furnacePos.iX(), furnacePos.iY(), furnacePos.iZ()) == Blocks.FURNACE || 
+				RadixBlocks.getBlock(owner.world, furnacePos.iX(), furnacePos.iY(), furnacePos.iZ()) == Blocks.LIT_FURNACE;
 	}
 
 
@@ -229,9 +229,9 @@ public class AICooking extends AbstractToggleAI
 			{
 				if (cookingTicks <= cookingInterval)
 				{
-					if (RadixBlocks.getBlock(owner.worldObj, furnacePos) != Blocks.LIT_FURNACE)
+					if (RadixBlocks.getBlock(owner.world, furnacePos) != Blocks.LIT_FURNACE)
 					{
-						BlockFurnace.setState(true, owner.worldObj, furnacePos.toBlockPos());
+						BlockFurnace.setState(true, owner.world, furnacePos.toBlockPos());
 					}
 
 					cookingTicks++;
@@ -265,7 +265,7 @@ public class AICooking extends AbstractToggleAI
 					hasCookableFood = false;
 					cookingTicks = 0;
 					fuelUsesRemaining--;
-					BlockFurnace.setState(false, owner.worldObj, furnacePos.toBlockPos());
+					BlockFurnace.setState(false, owner.world, furnacePos.toBlockPos());
 
 					if (fuelUsesRemaining <= 0)
 					{

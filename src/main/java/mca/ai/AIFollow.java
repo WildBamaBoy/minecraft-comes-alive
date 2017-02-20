@@ -49,7 +49,7 @@ public class AIFollow extends AbstractAI
 		if (owner.getMovementState() == EnumMovementState.FOLLOW)
 		{
 			final EntityLiving entityPathController = (EntityLiving) (owner.getRidingEntity() instanceof EntityHorse ? owner.getRidingEntity() : owner);
-			final Entity entityFollowing = owner.worldObj.getPlayerEntityByUUID(followingUUID);
+			final Entity entityFollowing = owner.world.getPlayerEntityByUUID(followingUUID);
 
 			if (entityPathController instanceof EntityHorse)
 			{
@@ -71,15 +71,15 @@ public class AIFollow extends AbstractAI
 				//Crash was reported where bounding box ended up being null.
 				if (distanceToTarget >= 15.0D && entityFollowing.getEntityBoundingBox() != null)
 				{
-					int i = MathHelper.floor_double(entityFollowing.posX) - 2;
-					int j = MathHelper.floor_double(entityFollowing.posZ) - 2;
-					int k = MathHelper.floor_double(entityFollowing.getEntityBoundingBox().minY);
+					int i = MathHelper.floor(entityFollowing.posX) - 2;
+					int j = MathHelper.floor(entityFollowing.posZ) - 2;
+					int k = MathHelper.floor(entityFollowing.getEntityBoundingBox().minY);
 
 					for (int l = 0; l <= 4; ++l)
 					{
 						for (int i1 = 0; i1 <= 4; ++i1)
 						{
-							if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && entityFollowing.worldObj.getBlockState(new BlockPos(i + l, k - 1, j + i1)).isFullyOpaque() && this.isBlockSpawnable(new BlockPos(i + l, k, j + i1)) && isBlockSpawnable(new BlockPos(i + l, k + 1, j + i1)))
+							if ((l < 1 || i1 < 1 || l > 3 || i1 > 3) && entityFollowing.world.getBlockState(new BlockPos(i + l, k - 1, j + i1)).isFullyOpaque() && this.isBlockSpawnable(new BlockPos(i + l, k, j + i1)) && isBlockSpawnable(new BlockPos(i + l, k + 1, j + i1)))
 							{
 								owner.setLocationAndAngles((double)((float)(i + l) + 0.5F), (double)k, (double)((float)(j + i1) + 0.5F), owner.rotationYaw, owner.rotationPitch);
 								owner.getNavigator().clearPathEntity();
@@ -121,7 +121,7 @@ public class AIFollow extends AbstractAI
 
 	private boolean isBlockSpawnable(BlockPos pos)
 	{
-		IBlockState iblockstate = owner.worldObj.getBlockState(pos);
+		IBlockState iblockstate = owner.world.getBlockState(pos);
 		Block block = iblockstate.getBlock();
 		return block == Blocks.AIR ? true : !iblockstate.isFullCube();
 	}

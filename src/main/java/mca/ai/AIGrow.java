@@ -29,12 +29,12 @@ public class AIGrow extends AbstractAI
 		{
 			if (timeUntilTickUpdate <= 0 || freeTickUpdates != 0)
 			{
-				if (owner.getAge() >= MCA.getConfig().childGrowUpTime && !owner.worldObj.isRemote)
+				if (owner.getAge() >= MCA.getConfig().childGrowUpTime && !owner.world.isRemote)
 				{
 					owner.getAIManager().disableAllToggleAIs();
 					owner.setIsChild(false);
 					
-					for (Object obj : owner.worldObj.playerEntities)
+					for (Object obj : owner.world.playerEntities)
 					{
 						EntityPlayer player = (EntityPlayer)obj;
 						
@@ -47,7 +47,7 @@ public class AIGrow extends AbstractAI
 	
 				else
 				{
-					if (!owner.worldObj.isRemote)
+					if (!owner.world.isRemote)
 					{
 						owner.setAge(owner.getAge() + 1);
 					}

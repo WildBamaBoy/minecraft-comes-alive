@@ -83,7 +83,7 @@ public class ItemBaby extends Item
 	}
 
 	@Override
-    public EnumActionResult onItemUse(EntityPlayer player, World worldObj, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
+    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		ItemStack stack = player.getHeldItem(hand);
 		
@@ -91,7 +91,7 @@ public class ItemBaby extends Item
 		int posY = pos.getY();
 		int posZ = pos.getZ();
 		
-		if (!worldObj.isRemote && isReadyToGrowUp(stack))
+		if (!world.isRemote && isReadyToGrowUp(stack))
 		{
 			ItemBaby baby = (ItemBaby)stack.getItem();
 			NBTPlayerData data = MCA.getPlayerData(player);
@@ -118,7 +118,7 @@ public class ItemBaby extends Item
 				//motherId = data.getPermanentId();				
 			}
 
-			final EntityVillagerMCA child = new EntityVillagerMCA(worldObj);
+			final EntityVillagerMCA child = new EntityVillagerMCA(world);
 			child.setGender(baby.isBoy ? EnumGender.MALE : EnumGender.FEMALE);
 			child.setIsChild(true);
 			//TODO set parents
@@ -131,7 +131,7 @@ public class ItemBaby extends Item
 				child.setIsInfected(true);
 			}
 			
-			worldObj.spawnEntityInWorld(child);
+			world.spawnEntity(child);
 
 			PlayerMemory childMemory = child.getPlayerMemory(player);
 			childMemory.setHearts(100);
@@ -166,7 +166,7 @@ public class ItemBaby extends Item
 	public boolean onEntityItemUpdate(EntityItem entityItem) 
 	{
 		//Happens on servers for some reason.
-		if (entityItem.getEntityItem() != null && !entityItem.worldObj.isRemote)
+		if (entityItem.getEntityItem() != null && !entityItem.world.isRemote)
 		{
 			updateBabyGrowth(entityItem.getEntityItem());
 		}

@@ -3,12 +3,16 @@ package mca.data;
 import java.io.Serializable;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumGender;
 import mca.enums.EnumMarriageState;
 import mca.packets.PacketPlayerDataC;
 import mca.packets.PacketPlayerDataS;
+import mca.util.Either;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -126,6 +130,7 @@ public final class NBTPlayerData implements Serializable
 	private int genderPreference;
 	private String spouseName;
 	private UUID spouseUUID;
+	private int spouseGender;
 	private int marriageState;
 	private boolean ownsBaby;
 	private boolean isNobility;
@@ -203,12 +208,23 @@ public final class NBTPlayerData implements Serializable
 		return EnumGender.byId(gender);
 	}
 
+	public EnumGender getSpouseGender()
+	{
+		return EnumGender.byId(spouseGender);
+	}
+	
 	public void setGender(EnumGender value)
 	{
 		this.gender = value.getId();
 		broadcastValueChange(FieldUpdateObj.get(FieldID.GENDER, TypeID.INT, value));
 	}
 
+	public void setSpouseGender(EnumGender value)
+	{
+		this.spouseGender = value.getId();
+		broadcastValueChange(FieldUpdateObj.get(FieldID.SPOUSE_GENDER, TypeID.INT, value));
+	}
+	
 	public boolean getOwnsBaby() 
 	{
 		return ownsBaby;
@@ -235,6 +251,47 @@ public final class NBTPlayerData implements Serializable
 	{
 		this.marriageState = value.getId();
 		broadcastValueChange(FieldUpdateObj.get(FieldID.MARRIAGE_STATE, TypeID.INT, value));
+	}
+	
+	/**
+	 * Sets the given entity to be the spouse of the current player. This is symmetric against the provided entity.
+	 * If null is provided, this player's spouse information will be reset. This is **NOT** symmetric.
+	 * 
+	 * @param 	either	Either object containing an MCA villager or a player. May be null.
+	 */
+	public void setSpouse(@Nullable Either<EntityVillagerMCA, EntityPlayer> either)
+	{
+		if (either == null)
+		{
+			//Reset spouse information back to default
+			setSpouseName("");
+			setSpouseUUID(Constants.EMPTY_UUID);
+			setSpouseGender(EnumGender.UNASSIGNED);
+			setMarriageState(EnumMarriageState.NOT_MARRIED);
+		}
+		
+		else if (either.getLeft() != null) //Marry to a villager, symmetric
+		{
+			EntityVillagerMCA spouse = either.getLeft();
+			spouse.setSpouse(either); //Call to method already in villager
+		}
+		
+		else if (either.getRight() != null) //Marry to another player
+		{
+			EntityPlayer targetPlayer = either.getRight();
+			EntityPlayer thisPlayer = targetPlayer.world.getPlayerEntityByUUID(this.getUUID());
+			NBTPlayerData targetPlayerData = MCA.getPlayerData(targetPlayer);
+			
+			this.setSpouseName(targetPlayer.getName());
+			this.setSpouseUUID(targetPlayerData.getUUID());
+			this.setSpouseGender(targetPlayerData.getGender());
+			setMarriageState(EnumMarriageState.MARRIED_TO_PLAYER);
+			
+			targetPlayerData.setSpouseName(thisPlayer.getName());
+			targetPlayerData.setSpouseUUID(this.getUUID());
+			targetPlayerData.setSpouseGender(this.getGender());
+			targetPlayerData.setMarriageState(EnumMarriageState.MARRIED_TO_PLAYER);
+		}
 	}
 	
 	public boolean getHasChosenDestiny() 
@@ -330,7 +387,7 @@ public final class NBTPlayerData implements Serializable
 				//Find the player reference in the world.
 				EntityPlayer player = null;
 				
-				for (WorldServer server : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers)
+				for (WorldServer server : FMLCommonHandler.instance().getMinecraftServerInstance().worlds)
 				{
 					EntityPlayer foundPlayer = server.getPlayerEntityByUUID(ownerUUID); 
 					
@@ -365,15 +422,16 @@ public final class NBTPlayerData implements Serializable
 		
 		switch (obj.fieldId)
 		{
-		case UUID: setPermanentId((Integer) obj.value); break;
-		case SPOUSE_UUID: setSpousePermanentId((Integer) obj.value); break;
-		case GENDER: setIsMale((Boolean)obj.value); break;
+		case UUID: setUUID((UUID) obj.value); break;
+		case SPOUSE_UUID: setSpouseUUID((UUID) obj.value); break;
+		case GENDER: setGender(EnumGender.byId((Integer)obj.value)); break;
+		case SPOUSE_GENDER: setSpouseGender(EnumGender.byId((Integer)obj.value)); break;
 		case OWNS_BABY: setOwnsBaby((Boolean)obj.value); break;
-		case MARRIAGE_STATE: setIsEngaged((Boolean)obj.value); break;
+		case MARRIAGE_STATE: setMarriageState(EnumMarriageState.byId((Integer)obj.value)); break;
 		case IS_NOBILITY: setIsNobility((Boolean)obj.value); break;
 		case MCA_NAME: setMcaName((String)obj.value); break;
 		case HAS_CHOSEN_DESTINY: setHasChosenDestiny((Boolean)obj.value); break;
-		case GENDER_PREFERENCE: setGenderPreference((Integer)obj.value); break;
+		case GENDER_PREFERENCE: setGenderPreference(EnumGender.byId((Integer)obj.value)); break;
 		case IS_SUPER_USER: setIsSuperUser((Boolean)obj.value); break;
 		case SPOUSE_NAME: setSpouseName((String)obj.value); break;
 		case HAPPINESS_THRESHOLD_MET: setHappinessThresholdMet((Boolean)obj.value); break;

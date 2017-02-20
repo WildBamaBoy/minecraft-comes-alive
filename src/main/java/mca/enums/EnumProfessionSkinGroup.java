@@ -89,49 +89,14 @@ public enum EnumProfessionSkinGroup
 		return CircularIntList.fromList(ids);
 	}
 
-	public String getMaleSkin()
+	public String getRandomMaleSkin()
 	{
 		return getSkin(true);
 	}
 
-	public String getFemaleSkin()
+	public String getRandomFemaleSkin()
 	{
 		return getSkin(false);
-	}
-
-	private EnumProfessionSkinGroup getRandomGroup(boolean excludeChild)
-	{
-		EnumProfessionSkinGroup generatedGroup;
-		boolean isValid = false;
-
-		do
-		{
-			int index = RadixMath.getNumberInRange(0, EnumProfessionSkinGroup.values().length - 1);
-			generatedGroup = EnumProfessionSkinGroup.values()[index];
-
-			if (excludeChild && generatedGroup == Child)
-			{
-				continue;
-			}
-
-			else
-			{
-				isValid = true;
-			}
-		}
-		while(!isValid);
-
-		return generatedGroup;
-	}
-
-	public static void dumpSkinCounts()
-	{
-		MCA.getLog().info("Dumping skin counts...");
-
-		for (EnumProfessionSkinGroup group : EnumProfessionSkinGroup.values())
-		{
-			MCA.getLog().info("Group <" + group.toString() + "> has " + group.completeSkinList.size() + " skins. " + group.maleSkinList.size() + " male and " + group.femaleSkinList.size() + " female.");
-		}
 	}
 
 	public int getVanillaProfessionId() 

@@ -1,6 +1,5 @@
 package mca.packets;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
@@ -19,7 +18,6 @@ import mca.enums.EnumDialogueType;
 import mca.enums.EnumInteraction;
 import mca.enums.EnumPersonality;
 import mca.items.ItemBaby;
-import mca.util.MarriageHandler;
 import mca.util.TutorialManager;
 import mca.util.TutorialMessage;
 import mca.util.Utilities;
@@ -37,7 +35,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import radixcore.constant.Font.Color;
 import radixcore.modules.RadixLogic;
@@ -107,7 +104,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 		EntityVillagerMCA villager = null;
 		EntityPlayer player = null;
 
-		for (WorldServer world : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers)
+		for (WorldServer world : FMLCommonHandler.instance().getMinecraftServerInstance().worlds)
 		{
 			player = getPlayer(context);
 			villager = (EntityVillagerMCA) world.getEntityByID(packet.entityId);
@@ -138,14 +135,14 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 					int iPosZ = (int)villager.posZ;
 					BlockPos pos = new BlockPos(iPosX, iPosY, iPosZ);
 					
-					if (!Utilities.isPointClear(villager.worldObj, iPosX, iPosY, iPosZ))
+					if (!Utilities.isPointClear(villager.world, iPosX, iPosY, iPosZ))
 					{
-						block = villager.worldObj.getBlockState(pos).getBlock();
+						block = villager.world.getBlockState(pos).getBlock();
 					}
 
-					else if (!Utilities.isPointClear(villager.worldObj, iPosX, iPosY + 1, iPosZ))
+					else if (!Utilities.isPointClear(villager.world, iPosX, iPosY + 1, iPosZ))
 					{
-						block = villager.worldObj.getBlockState(pos.add(0, 1, 0)).getBlock();
+						block = villager.world.getBlockState(pos.add(0, 1, 0)).getBlock();
 					}
 
 					if (block != null)
@@ -176,7 +173,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 				memory.setHasGift(false);
 
 				ItemStack stack = RegistryMCA.getGiftStackFromRelationship(memory.getHearts());
-				villager.dropItem(stack.getItem(), stack.func_190916_E());
+				villager.dropItem(stack.getItem(), stack.getCount());
 			}
 
 			else if (interaction == EnumInteraction.CHAT || interaction == EnumInteraction.JOKE || interaction == EnumInteraction.SHAKE_HAND ||
@@ -190,12 +187,14 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 				if (memory.getDialogueType() == EnumDialogueType.SPOUSE && memory.getHearts() <= 25 && villager.getLowHeartWarnings() >= 3)
 				{
 					villager.say("spouse.endmarriage", player, player);
-					player.addChatComponentMessage(new TextComponentString(Color.RED + MCA.getLanguageManager().getString("notify.spouseendedmarriage", villager)), true);
+					player.sendMessage(new TextComponentString(Color.RED + MCA.getLanguageManager().getString("notify.spouseendedmarriage", villager)));
 					memory.setHearts(-100);
 					mood.modifyMoodLevel(-20.0F);
 					villager.resetLowHeartWarnings();
 
-					MarriageHandler.endMarriage(player, villager);
+					NBTPlayerData playerData = MCA.getPlayerData(player);
+					playerData.setSpouse(null);
+					villager.setSpouse(null);
 				}
 
 				else
@@ -313,18 +312,18 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 				{
 					villager.say("interaction.divorce.priest.success", player);
 
-					EntityVillagerMCA spouse = (EntityVillagerMCA) MCA.getEntityByUUID(villager.worldObj, data.getSpouseUUID());
+					EntityVillagerMCA spouse = (EntityVillagerMCA) MCA.getEntityByUUID(villager.world, data.getSpouseUUID());
 
 					if (spouse != null)
 					{
-						MarriageHandler.endMarriage(player, spouse);
+						spouse.setSpouse(null);
 						PlayerMemory memory = spouse.getPlayerMemory(player);
 
 						spouse.getAI(AIMood.class).modifyMoodLevel(-5.0F);
 						memory.setHearts(-100);
 					}
 
-					MarriageHandler.forceEndMarriage(player);
+					data.setSpouse(null);
 				}
 
 				else
@@ -348,8 +347,6 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 
 						if (stack != null && stack.getItem() instanceof ItemBaby)
 						{
-							ItemBaby baby = (ItemBaby) stack.getItem();
-
 							if (stack.getTagCompound().getString("owner").equals(player.getName()))
 							{
 								player.inventory.setInventorySlotContents(i, null);
@@ -370,7 +367,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 
 				if (getIsOverChildrenCount(player))
 				{
-					player.addChatMessage(new TextComponentString(Color.RED + "You have too many children."));
+					player.sendMessage(new TextComponentString(Color.RED + "You have too many children."));
 				}
 
 				else if (!data.getOwnsBaby())
@@ -438,12 +435,12 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 
 				if (getIsOverChildrenCount(player))
 				{
-					player.addChatMessage(new TextComponentString(Color.RED + "You have too many children."));
+					player.sendMessage(new TextComponentString(Color.RED + "You have too many children."));
 				}
 
 				else if (playerData.getOwnsBaby())
 				{
-					player.addChatMessage(new TextComponentString(Color.RED + "You already have a baby."));
+					player.sendMessage(new TextComponentString(Color.RED + "You already have a baby."));
 				}
 
 				else
@@ -468,7 +465,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 					PlayerMemory thisMemory = villager.getPlayerMemory(player);
 					Item dropItem = RadixLogic.getBooleanWithProbability(3) ? Items.DIAMOND : 
 						RadixLogic.getBooleanWithProbability(50) ? Items.GOLD_NUGGET : Items.IRON_INGOT;
-					int	happinessLevel = MathHelper.clamp_int((int)Math.round(percentAverage / 25), 0, 4);
+					int	happinessLevel = MathHelper.clamp((int)Math.round(percentAverage / 25), 0, 4);
 					int	itemsDropped = RadixMath.getNumberInRange(Math.round((float)happinessLevel / 2), happinessLevel * 2);
 					
 					if (itemsDropped == 0) //On happiness level 0, make sure just one is dropped.
@@ -478,7 +475,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 						
 					if (dropItem == Items.DIAMOND) //Halve what will be received from a rare diamond drop.
 					{
-						itemsDropped = MathHelper.clamp_int(itemsDropped, 1, 5);
+						itemsDropped = MathHelper.clamp(itemsDropped, 1, 5);
 					}
 					
 					if (happinessLevel <= 2)
@@ -561,7 +558,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 	{
 		int childrenCount = 0;
 		
-		for (Object obj : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers[0].loadedEntityList)
+		for (Object obj : FMLCommonHandler.instance().getMinecraftServerInstance().worlds[0].loadedEntityList)
 		{
 			if (obj instanceof EntityVillagerMCA)
 			{
@@ -592,7 +589,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 			{
 				EntityVillagerMCA human = (EntityVillagerMCA)entity;
 				PlayerMemory memory = human.getPlayerMemory(player);
-				totalHearts += MathHelper.clamp_int(memory.getHearts(), -100, 100);
+				totalHearts += MathHelper.clamp(memory.getHearts(), -100, 100);
 			}
 			
 			averageHearts = (float)totalHearts / (float)(villagersInArea * 100);

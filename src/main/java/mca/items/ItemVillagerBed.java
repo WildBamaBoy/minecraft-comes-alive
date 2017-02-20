@@ -55,11 +55,11 @@ public class ItemVillagerBed extends Item
 	}
 	
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldObj, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		ItemStack stack = player.getHeldItem(hand);
 		
-		if (worldObj.isRemote)
+		if (world.isRemote)
         {
             return EnumActionResult.SUCCESS;
         }
@@ -71,37 +71,37 @@ public class ItemVillagerBed extends Item
 		
         else
         {
-            IBlockState state = worldObj.getBlockState(pos);
+            IBlockState state = world.getBlockState(pos);
             Block block = state.getBlock();
-            boolean isReplaceable = block.isReplaceable(worldObj, pos);
+            boolean isReplaceable = block.isReplaceable(world, pos);
 
             if (!isReplaceable)
             {
                 pos = pos.offset(EnumFacing.UP);
             }
 
-            int metaCalc = MathHelper.floor_double((double)(player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+            int metaCalc = MathHelper.floor((double)(player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
             EnumFacing horizontalFacing = EnumFacing.getHorizontal(metaCalc);
             BlockPos offsetPos = pos.offset(horizontalFacing);
-            boolean offsetIsReplaceable = block.isReplaceable(worldObj, offsetPos);
-            boolean posIsAir = worldObj.isAirBlock(pos) || isReplaceable;
-            boolean offsetIsAir = worldObj.isAirBlock(offsetPos) || offsetIsReplaceable;
+            boolean offsetIsReplaceable = block.isReplaceable(world, offsetPos);
+            boolean posIsAir = world.isAirBlock(pos) || isReplaceable;
+            boolean offsetIsAir = world.isAirBlock(offsetPos) || offsetIsReplaceable;
 
             if (player.canPlayerEdit(pos, side, stack) && player.canPlayerEdit(offsetPos, side, stack))
             {
             	BlockPos offsetDown = pos.offset(EnumFacing.DOWN);
             	
-                if (posIsAir && offsetIsAir && worldObj.isSideSolid(offsetDown, EnumFacing.UP))
+                if (posIsAir && offsetIsAir && world.isSideSolid(offsetDown, EnumFacing.UP))
                 {
                     IBlockState footState = getBedBlock().getDefaultState().withProperty(BlockBed.OCCUPIED, Boolean.valueOf(false)).withProperty(BlockBed.FACING, horizontalFacing).withProperty(BlockBed.PART, BlockBed.EnumPartType.FOOT);
 
-                    if (worldObj.setBlockState(pos, footState, 3))
+                    if (world.setBlockState(pos, footState, 3))
                     {
                         IBlockState headState = footState.withProperty(BlockBed.PART, BlockBed.EnumPartType.HEAD);
-                        worldObj.setBlockState(offsetPos, headState, 3);
+                        world.setBlockState(offsetPos, headState, 3);
                     }
 
-                    stack.func_190917_f(-1); //Decrease stack size by 1;
+                    stack.shrink(1);
                     return EnumActionResult.SUCCESS;
                 }
                 

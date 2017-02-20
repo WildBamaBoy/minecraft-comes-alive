@@ -49,7 +49,7 @@ public class PacketOpenPrompt extends AbstractPacket<PacketOpenPrompt>
 	public void processOnGameThread(PacketOpenPrompt packet, MessageContext context) 
 	{
 		EntityPlayer target = this.getPlayer(context);
-		EntityPlayer sender = (EntityPlayer) target.worldObj.getEntityByID(packet.senderId);
+		EntityPlayer sender = (EntityPlayer) target.world.getEntityByID(packet.senderId);
 		EnumInteraction interaction = EnumInteraction.fromId(packet.interactionId);
 		
 		Minecraft.getMinecraft().displayGuiScreen(new GuiPrompt(sender, target, interaction));

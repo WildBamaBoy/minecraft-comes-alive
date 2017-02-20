@@ -237,7 +237,7 @@ public class PlayerMemory implements Serializable
 
 	private void onNonTransientValueChanged()
 	{
-		final EntityPlayerMP player = (EntityPlayerMP) owner.worldObj.getPlayerEntityByName(playerName);
+		final EntityPlayerMP player = (EntityPlayerMP) owner.world.getPlayerEntityByName(playerName);
 		MCA.getPacketHandler().sendPacketToPlayer(new PacketSyncPlayerMemory(this.owner.getEntityId(), this), player);
 	}
 

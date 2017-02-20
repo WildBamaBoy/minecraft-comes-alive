@@ -29,11 +29,13 @@ import mca.data.PlayerDataCollection;
 import mca.entity.EntityChoreFishHook;
 import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
+import mca.enums.EnumGender;
 import mca.enums.EnumProfession;
 import mca.network.PacketHandlerMCA;
 import mca.tile.TileMemorial;
 import mca.tile.TileTombstone;
 import mca.tile.TileVillagerBed;
+import mca.util.Either;
 import mca.util.SkinLoader;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -77,14 +79,14 @@ import radixcore.modules.lang.LanguageManager;
 import radixcore.modules.updates.IUpdateProtocol;
 import radixcore.modules.updates.RDXUpdateProtocol;
 
-@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:RadixCore@[1.11-2.3.0,)", acceptedMinecraftVersions = "[1.11]",
+@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:radixcore@[1.11.2-2.3.0,)", acceptedMinecraftVersions = "[1.11.2]",
 guiFactory = "mca.core.forge.client.MCAGuiFactory")
 public class MCA
 {
-	public static final String ID = "MCA";
+	public static final String ID = "mca";
 	public static final String NAME = "Minecraft Comes Alive";
 	public static final String VERSION = "@VERSION@";
-
+	
 	@Instance(ID)
 	private static MCA instance;
 	private static ModMetadata metadata;
@@ -161,9 +163,9 @@ public class MCA
 		SkinLoader.loadSkins();
 
 		//Entity registry
-		EntityRegistry.registerModEntity(EntityVillagerMCA.class, EntityVillagerMCA.class.getSimpleName(), config.baseEntityId, this, 50, 2, true);
-		EntityRegistry.registerModEntity(EntityChoreFishHook.class, EntityChoreFishHook.class.getSimpleName(), config.baseEntityId + 1, this, 50, 2, true);
-		EntityRegistry.registerModEntity(EntityGrimReaper.class, EntityGrimReaper.class.getSimpleName(), config.baseEntityId + 2, this, 50, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ID, "VillagerMCA"), EntityVillagerMCA.class, EntityVillagerMCA.class.getSimpleName(), config.baseEntityId, this, 50, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ID, "FishHookMCA"), EntityChoreFishHook.class, EntityChoreFishHook.class.getSimpleName(), config.baseEntityId + 1, this, 50, 2, true);
+		EntityRegistry.registerModEntity(new ResourceLocation(ID, "GrimReaperMCA"), EntityGrimReaper.class, EntityGrimReaper.class.getSimpleName(), config.baseEntityId + 2, this, 50, 2, true);
 		
 		//Tile registry
 		GameRegistry.registerTileEntity(TileVillagerBed.class, TileVillagerBed.class.getSimpleName());
@@ -579,7 +581,7 @@ public class MCA
 
 	public static NBTPlayerData getPlayerData(EntityPlayer player)
 	{
-		if (!player.worldObj.isRemote)
+		if (!player.world.isRemote)
 		{
 			return PlayerDataCollection.get().getPlayerData(player.getUniqueID());
 		}
@@ -590,7 +592,7 @@ public class MCA
 		}
 	}
 	
-	public static NBTPlayerData getPlayerData(World worldObj, UUID uuid)
+	public static NBTPlayerData getPlayerData(World world, UUID uuid)
 	{
 		return PlayerDataCollection.get().getPlayerData(uuid);
 	}
@@ -598,24 +600,32 @@ public class MCA
 	public static void naturallySpawnVillagers(Point3D pointOfSpawn, World world, int originalProfession)
 	{
 		boolean hasFamily = RadixLogic.getBooleanWithProbability(20);
-		boolean isMale = RadixLogic.getBooleanWithProbability(50);
+		boolean adult1IsMale = RadixLogic.getBooleanWithProbability(50);
 
-		final EntityVillagerMCA human = new EntityVillagerMCA(world, isMale, originalProfession != -1 ? originalProfession : EnumProfession.getAtRandom().getId(), true);
-		human.setPosition(pointOfSpawn.dX(), pointOfSpawn.dY(), pointOfSpawn.dZ());
+		final EntityVillagerMCA adult1 = new EntityVillagerMCA(world);
+		adult1.setGender(adult1IsMale ? EnumGender.MALE : EnumGender.FEMALE);
+		adult1.setProfession(originalProfession != -1 ? EnumProfession.getProfessionById(originalProfession) : EnumProfession.getAtRandom());
+		adult1.assignRandomName();
+		adult1.assignRandomSkin();
+		adult1.assignRandomPersonality();
+		
+		adult1.setPosition(pointOfSpawn.dX(), pointOfSpawn.dY(), pointOfSpawn.dZ());
 
 		if (hasFamily)
 		{
-			final EntityVillagerMCA spouse = new EntityVillagerMCA(world, !isMale, EnumProfession.getAtRandom().getId(), false);
-			spouse.setPosition(human.posX, human.posY, human.posZ - 1);
-			world.spawnEntityInWorld(spouse);
+			final EntityVillagerMCA adult2 = new EntityVillagerMCA(world);
+			adult2.setGender(adult1IsMale ? EnumGender.FEMALE : EnumGender.MALE);
+			adult2.assignRandomProfession();
+			adult2.assignRandomName();
+			adult2.assignRandomSkin();
+			adult2.assignRandomPersonality();
+			adult2.setPosition(adult1.posX, adult1.posY, adult1.posZ - 1);
+			world.spawnEntity(adult2);
 
-			human.setMarriedTo(spouse);
-			spouse.setMarriedTo(human);
+			adult1.setSpouse(Either.<EntityVillagerMCA,EntityPlayer>withL(adult2));
 
-			String motherName = !isMale ? human.getName() : spouse.getName();
-			String fatherName = isMale ? human.getName() : spouse.getName();
-			UUID motherID = !isMale ? human.getPersistentID() : spouse.getPersistentID();
-			UUID fatherID = isMale ? human.getPersistentID() : spouse.getPersistentID();
+			final EntityVillagerMCA father = adult1IsMale ? adult1 : adult2;
+			final EntityVillagerMCA mother = father == adult1 ? adult2 : adult1;
 
 			//Children
 			for (int i = 0; i < 2; i++)
@@ -625,13 +635,21 @@ public class MCA
 					continue;
 				}
 
-				final EntityVillagerMCA child = new EntityVillagerMCA(world, RadixLogic.getBooleanWithProbability(50), true, motherName, fatherName, motherID, fatherID, false);
+				final EntityVillagerMCA child = new EntityVillagerMCA(world);
+				child.assignRandomGender();
+				child.assignRandomName();
+				child.assignRandomProfession();
+				child.assignRandomSkin();
+				child.assignRandomPersonality();
+				child.setMother(Either.<EntityVillagerMCA,EntityPlayer>withL(mother));
+				child.setFather(Either.<EntityVillagerMCA,EntityPlayer>withL(father));
+				
 				child.setPosition(pointOfSpawn.dX(), pointOfSpawn.dY(), pointOfSpawn.dZ() + 1);
-				world.spawnEntityInWorld(child);
+				world.spawnEntity(child);
 			}
 		}
 
-		world.spawnEntityInWorld(human);
+		world.spawnEntity(adult1);
 	}
 
 	public static CrashWatcher getCrashWatcher() 

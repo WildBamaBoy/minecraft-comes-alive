@@ -52,7 +52,7 @@ public class PacketBabyName extends AbstractPacket<PacketBabyName>
 		EntityPlayer senderPlayer = this.getPlayer(context);
 		ItemStack stack = packet.slot == -1 ? null : senderPlayer.inventory.getStackInSlot(packet.slot); //To avoid index out of bounds.
 		NBTPlayerData data = MCA.getPlayerData(senderPlayer);
-		EntityVillagerMCA playerSpouse = (EntityVillagerMCA)MCA.getEntityByUUID(senderPlayer.worldObj, data.getSpouseUUID());
+		EntityVillagerMCA playerSpouse = (EntityVillagerMCA)MCA.getEntityByUUID(senderPlayer.world, data.getSpouseUUID());
 		
 		//Player has the baby.
 		if (stack != null && stack.getItem() instanceof ItemBaby)

@@ -5,8 +5,10 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import mca.core.MCA;
-import mca.data.VillagerSaveData;
 import mca.entity.EntityVillagerMCA;
+import mca.entity.VillagerSaveData;
+import mca.enums.EnumGender;
+import mca.enums.EnumProfession;
 import mca.packets.PacketCallVillager;
 import mca.packets.PacketRequestRelatedVillagers;
 import net.minecraft.client.Minecraft;
@@ -15,7 +17,6 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import radixcore.modules.datawatcher.DataWatcherEx;
 
 /**
  * Defines the GUI shown when the player right clicks the whistle.
@@ -183,7 +184,7 @@ public class GuiWhistle extends GuiScreen
 		{
 			VillagerSaveData firstData = dataList.get(0);
 			villagerNameButton.displayString = firstData.displayTitle;
-			dummyHuman = new EntityVillagerMCA(Minecraft.getMinecraft().theWorld);
+			dummyHuman = new EntityVillagerMCA(Minecraft.getMinecraft().world);
 
 			updateDummyVillagerWithData(firstData);
 		}
@@ -197,16 +198,14 @@ public class GuiWhistle extends GuiScreen
 
 	private void updateDummyVillagerWithData(VillagerSaveData data)
 	{
-		DataWatcherEx.allowClientSideModification = true;
-		dummyHuman.setIsMale(data.isMale);
-		dummyHuman.setProfessionId(data.professionId);
+		dummyHuman.setGender(data.gender);
+		dummyHuman.setProfession(EnumProfession.getProfessionById(data.professionId.getId()));
 		dummyHuman.setHeadTexture(data.headTexture);
 		dummyHuman.setClothesTexture(data.clothesTexture);
 		dummyHuman.setIsChild(data.isChild);
 		dummyHuman.setAge(data.age);
-		dummyHuman.setGirth(data.scaleGirth);
-		dummyHuman.setHeight(data.scaleHeight);
+		dummyHuman.setScaleWidth(data.scaleWidth);
+		dummyHuman.setScaleHeight(data.scaleHeight);
 		dummyHuman.setDoDisplay(true);
-		DataWatcherEx.allowClientSideModification = false;
 	}
 }

@@ -7,6 +7,7 @@ import mca.enums.EnumBabyState;
 import mca.enums.EnumGender;
 import mca.enums.EnumMarriageState;
 import mca.enums.EnumProgressionStep;
+import mca.util.Either;
 import mca.util.Utilities;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -105,7 +106,7 @@ public class AIProgressStory extends AbstractAI
 
 	private void doPartnerSearch()
 	{
-		EntityVillagerMCA partner = (EntityVillagerMCA) RadixLogic.getNearestEntityOfTypeWithinDistance(EntityVillagerMCA.class, owner, 15);
+		EntityVillagerMCA partner = (EntityVillagerMCA) RadixLogic.getClosestEntityExclusive(owner, 15, EntityVillagerMCA.class);
 
 		boolean partnerIsValid = partner != null 
 				&& partner.getGender() != owner.getGender() 
@@ -134,9 +135,8 @@ public class AIProgressStory extends AbstractAI
 				mateAI.isDominant = true;
 			}
 
-			//Mark both as married.
-			owner.setMarriedTo(partner);
-			partner.setMarriedTo(owner);
+			//Mark as married.
+			owner.setSpouse(Either.<EntityVillagerMCA, EntityPlayer>withL(partner));
 		}
 	}
 
@@ -171,7 +171,7 @@ public class AIProgressStory extends AbstractAI
 			mateAI.numChildren++;
 			
 			//Notify parent players of achievement.
-			for (Object obj : owner.worldObj.playerEntities)
+			for (Object obj : owner.world.playerEntities)
 			{
 				EntityPlayer onlinePlayer = (EntityPlayer)obj;
 				
@@ -200,12 +200,12 @@ public class AIProgressStory extends AbstractAI
 			EntityVillagerMCA child;
 
 			/*
-			child = new EntityVillagerMCA(owner.worldObj);
+			child = new EntityVillagerMCA(owner.world);
 			child.setGender(owner.getBabyState().isMale() ? EnumGender.MALE : EnumGender.FEMALE);
 			child.setIsChild(true);
 			chlld.setMother();  owner.getName(), owner.getSpouseName(), owner.getUniqueID(), owner.getSpouseUUID(), false); TODO
 			child.setPosition(owner.posX, owner.posY, owner.posZ);
-			owner.worldObj.spawnEntityInWorld(child);*/
+			owner.world.spawnEntity(child);*/
 
 			//Reset self and mate status
 			owner.setBabyState(EnumBabyState.NONE);

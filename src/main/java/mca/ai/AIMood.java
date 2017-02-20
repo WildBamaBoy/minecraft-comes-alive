@@ -60,12 +60,12 @@ public class AIMood extends AbstractAI
 
 			if (particleSpawnCounter <= 0)
 			{
-				final Random rand = owner.worldObj.rand;
+				final Random rand = owner.world.rand;
 				final double velX = rand.nextGaussian() * 0.02D;
 				final double velY = rand.nextGaussian() * 0.02D;
 				final double velZ = rand.nextGaussian() * 0.02D;
 
-				owner.worldObj.spawnParticle(particles, 
+				owner.world.spawnParticle(particles, 
 						owner.posX + rand.nextFloat() * owner.width * 2.0F - owner.width, 
 						owner.posY + 0.5D + rand.nextFloat() * owner.height, 
 						owner.posZ + rand.nextFloat() * owner.width * 2.0F - owner.width, 

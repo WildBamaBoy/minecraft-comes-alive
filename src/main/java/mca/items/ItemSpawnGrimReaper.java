@@ -34,7 +34,7 @@ public class ItemSpawnGrimReaper extends Item
 
 			EntityGrimReaper reaper = new EntityGrimReaper(worldIn);
 			reaper.setPosition(posX + 0.5D, posY + verticalOffset, posZ + 0.5D);
-			reaper.worldObj.spawnEntityInWorld(reaper);
+			reaper.world.spawnEntity(reaper);
 			
 			if (!playerIn.capabilities.isCreativeMode)
 			{

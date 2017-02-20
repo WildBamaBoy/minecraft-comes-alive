@@ -12,6 +12,7 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Optional;
+import com.sun.istack.internal.NotNull;
 
 import io.netty.buffer.ByteBuf;
 import mca.ai.AIBlink;
@@ -44,8 +45,8 @@ import mca.core.minecraft.ItemsMCA;
 import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
 import mca.data.PlayerMemoryHandler;
-import mca.data.VillagerSaveData;
 import mca.enums.EnumBabyState;
+import mca.enums.EnumCombatBehaviors;
 import mca.enums.EnumDialogueType;
 import mca.enums.EnumGender;
 import mca.enums.EnumMarriageState;
@@ -81,7 +82,9 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -255,7 +258,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 		super.onUpdate();
 		aiManager.onUpdate();
 
-		if (!worldObj.isRemote)
+		if (!world.isRemote)
 		{
 			ticksAlive++;
 
@@ -273,18 +276,18 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 				if (stack != null && stack.getItem() instanceof ItemBaby)
 				{
 					ItemBaby item = (ItemBaby)stack.getItem();
-					item.onUpdate(stack, worldObj, this, 1, false);
+					item.onUpdate(stack, world, this, 1, false);
 				}
 			}
 
 			//Check if inventory should be opened for player.
 			if (getDoOpenInventory())
 			{
-				final EntityPlayer player = worldObj.getClosestPlayerToEntity(this, 10.0D);
+				final EntityPlayer player = world.getClosestPlayerToEntity(this, 10.0D);
 
 				if (player != null)
 				{
-					player.openGui(MCA.getInstance(), Constants.GUI_ID_INVENTORY, worldObj, (int)posX, (int)posY, (int)posZ);
+					player.openGui(MCA.getInstance(), Constants.GUI_ID_INVENTORY, world, (int)posX, (int)posY, (int)posZ);
 				}
 
 				setDoOpenInventory(false);
@@ -307,7 +310,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 			return true;
 		}
 
-		if (!worldObj.isRemote)
+		if (!world.isRemote)
 		{
 			ItemStack heldItem = player.getHeldItem(hand);
 			Item item = heldItem.getItem();
@@ -339,7 +342,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	{
 		super.onDeath(damageSource);
 
-		if (!worldObj.isRemote)
+		if (!world.isRemote)
 		{
 			//Switch to the sleeping skin and disable all chores/toggle AIs so they won't move
 			aiManager.disableAllToggleAIs();
@@ -365,7 +368,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 			//Reset the marriage stats of the player/villager this one was married to
 			if (isMarriedToAPlayer()) 	
 			{
-				NBTPlayerData playerData = MCA.getPlayerData(worldObj, getSpouseUUID());
+				NBTPlayerData playerData = MCA.getPlayerData(world, getSpouseUUID());
 				
 				playerData.setMarriageState(EnumMarriageState.NOT_MARRIED);
 				playerData.setSpouseName("");
@@ -392,11 +395,11 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 				//Alert parents and spouse of the death.
 				if (memory.getUUID().equals(getSpouseUUID()) || isPlayerAParent(memory.getUUID()))
 				{
-					EntityPlayer player = worldObj.getPlayerEntityByUUID(memory.getUUID());
+					EntityPlayer player = world.getPlayerEntityByUUID(memory.getUUID());
 					
 					if (player != null) //The player may not be online
 					{
-						player.addChatMessage(new TextComponentString(Color.RED + getTitle(player) + " has died."));
+						player.sendMessage(new TextComponentString(Color.RED + getTitle(player) + " has died."));
 					}
 				}
 			}
@@ -554,7 +557,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 
 		if (target != null)
 		{
-			target.addChatMessage(new TextComponentString(sb.toString()));
+			target.sendMessage(new TextComponentString(sb.toString()));
 		}
 
 		aiManager.getAI(AIIdle.class).reset();
@@ -570,7 +573,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 		if (getIsInfected()) //Infected villagers moan when they speak, and will not say anything else.
 		{
 			String zombieMoan = RadixLogic.getBooleanWithProbability(33) ? "Raagh..." : RadixLogic.getBooleanWithProbability(33) ? "Ughh..." : "Argh-gur...";
-			target.addChatMessage(new TextComponentString(getTitle(target) + ": " + zombieMoan));
+			target.sendMessage(new TextComponentString(getTitle(target) + ": " + zombieMoan));
 			this.playSound(SoundEvents.ENTITY_ZOMBIE_AMBIENT, 0.5F, rand.nextFloat() + 0.5F);
 		}
 
@@ -589,7 +592,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 			sb.append(": ");
 			sb.append(MCA.getLanguageManager().getString(phraseId, arguments));
 
-			target.addChatMessage(new TextComponentString(sb.toString()));
+			target.sendMessage(new TextComponentString(sb.toString()));
 
 			aiManager.getAI(AIIdle.class).reset();
 			aiManager.getAI(AISleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
@@ -690,7 +693,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	    double midZ = position.dZ() - this.posZ;
 	    double d1 = 0;
 	
-	    double d3 = (double)MathHelper.sqrt_double(midX * midX + midZ * midZ);
+	    double d3 = (double)MathHelper.sqrt(midX * midX + midZ * midZ);
 	    float f2 = (float)(Math.atan2(midZ, midX) * 180.0D / Math.PI) - 90.0F;
 	    float f3 = (float)(-(Math.atan2(d1, d3) * 180.0D / Math.PI));
 	    this.rotationPitch = this.updateRotation(this.rotationPitch, f3, 16.0F);
@@ -852,19 +855,17 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 		//Warriors, spouses, and player children all use weapons from the combat AI.
 		else if (getProfessionEnum() == EnumProfession.Warrior || this.isMarriedToAPlayer() || getProfessionEnum() == EnumProfession.Child)
 		{
-			//FIXME
+			AICombat combat = getAI(AICombat.class);
 			
-//			AICombat combat = getAI(AICombat.class);
-//			
-//			if (combat.getMethodBehavior() == EnumCombatBehaviors.METHOD_RANGED_ONLY)
-//			{
-//				return inventory.getBestItemOfType(ItemBow.class);
-//			}
-//			
-//			else
-//			{
-//				return inventory.getBestItemOfType(ItemSword.class);	
-//			}
+			if (combat.getMethodBehavior() == EnumCombatBehaviors.METHOD_RANGED_ONLY)
+			{
+				return inventory.getBestItemOfType(ItemBow.class);
+			}
+			
+			else
+			{
+				return inventory.getBestItemOfType(ItemSword.class);	
+			}
 		}
 		
 		return null;
@@ -892,7 +893,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 				{
 					itemInSlot.damageItem(amount, this);
 
-					if (itemInSlot.func_190916_E() == 0)
+					if (itemInSlot.getCount() == 0)
 					{
 						aiManager.disableAllToggleAIs();
 						inventory.setInventorySlotContents(slot, null);
@@ -1001,6 +1002,29 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 		}
 	}
 	
+	public void assignRandomName()
+	{
+		if (getGender() == EnumGender.MALE)
+		{
+			setName(MCA.getLanguageManager().getString("name.male"));
+		}
+
+		else
+		{
+			setName(MCA.getLanguageManager().getString("name.female"));
+		}
+	}
+	
+	public void assignRandomGender()
+	{
+		setGender(world.rand.nextBoolean() ? EnumGender.MALE : EnumGender.FEMALE);
+	}
+	
+	public void assignRandomProfession()
+	{
+		setProfession(EnumProfession.getAtRandom());
+	}
+	
     /*********************************************************
      *	Getters / setters and methods relating to them 
      */
@@ -1032,6 +1056,24 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	public void setClothesTexture(String texture)
 	{
 		dataManager.set(CLOTHES_TEXTURE, texture);
+	}
+	
+	public void assignRandomSkin()
+	{
+		if (this.getGender() == EnumGender.UNASSIGNED)
+		{
+			Throwable t = new Throwable();
+			MCA.getLog().error("Attempted to randomize skin on unassigned gender villager.");
+			MCA.getLog().error(t);
+		}
+		
+		else
+		{
+			EnumProfessionSkinGroup skinGroup = this.getProfessionSkinGroup();
+			String skin = this.getGender() == EnumGender.MALE ? skinGroup.getRandomMaleSkin() : skinGroup.getRandomFemaleSkin();
+			setHeadTexture(skin);
+			setClothesTexture(skin);
+		}
 	}
 	
 	public EnumProfession getProfessionEnum()
@@ -1130,16 +1172,40 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 			dataManager.set(SPOUSE_NAME, player.getName());
 			dataManager.set(SPOUSE_UUID, Optional.of(player.getUniqueID()));
 			dataManager.set(SPOUSE_GENDER, playerData.getGender().getId());
-			
 			setMarriageState(EnumMarriageState.MARRIED_TO_PLAYER);
 			
 			playerData.setSpouseName(this.getName());
+			playerData.setSpouseGender(this.getGender());
 			playerData.setSpouseUUID(this.getUniqueID());
 			playerData.setMarriageState(EnumMarriageState.MARRIED_TO_VILLAGER);
 			
 			//Prevent story progression when married to a player
 			getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.FINISHED);
 		}
+	}
+	
+	/* Performs an engagement between this villager and provided player. 
+	 * DOES NOT handle nulls. To end an engagement, call setSpouse with null.
+	 * */
+	public void setFiancee(@NotNull EntityPlayer player) 
+	{
+		if (player == null) throw new RuntimeException("Engagement player cannot be null");
+		
+		NBTPlayerData playerData = MCA.getPlayerData(player);
+		
+		dataManager.set(SPOUSE_NAME, player.getName());
+		dataManager.set(SPOUSE_UUID, Optional.of(player.getUniqueID()));
+		dataManager.set(SPOUSE_GENDER, playerData.getGender().getId());
+		
+		setMarriageState(EnumMarriageState.ENGAGED);
+		
+		playerData.setSpouseName(this.getName());
+		playerData.setSpouseGender(this.getGender());
+		playerData.setSpouseUUID(this.getUniqueID());
+		playerData.setMarriageState(EnumMarriageState.ENGAGED);
+		
+		//Prevent story progression when engaged to a player
+		getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.FINISHED);
 	}
 	
 	public boolean isMarriedToAPlayer()
@@ -1152,9 +1218,14 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 		return getMarriageState() == EnumMarriageState.MARRIED_TO_VILLAGER;
 	}
 	
+	public boolean getIsEngaged()
+	{
+		return getMarriageState() == EnumMarriageState.ENGAGED;
+	}
+	
 	public EntityVillagerMCA getVillagerSpouseInstance()
 	{
-		for (Object obj : worldObj.loadedEntityList)
+		for (Object obj : world.loadedEntityList)
 		{
 			if (obj instanceof EntityVillagerMCA)
 			{
@@ -1172,7 +1243,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 
 	public EntityPlayer getPlayerSpouseInstance()
 	{
-		for (Object obj : worldObj.playerEntities)
+		for (Object obj : world.playerEntities)
 		{
 			final EntityPlayer player = (EntityPlayer)obj;
 			
@@ -1288,7 +1359,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	
 	public boolean isPlayerAParent(UUID uuid)
 	{
-		final NBTPlayerData data = MCA.getPlayerData(worldObj, uuid);
+		final NBTPlayerData data = MCA.getPlayerData(world, uuid);
 
 		if (data != null)
 		{
@@ -1346,8 +1417,8 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	{
 		// If we can't find data for the mother and father, the child's parents
 		// must be other villagers.
-		NBTPlayerData motherData = MCA.getPlayerData(worldObj, getMotherUUID());
-		NBTPlayerData fatherData = MCA.getPlayerData(worldObj, getFatherUUID());
+		NBTPlayerData motherData = MCA.getPlayerData(world, getMotherUUID());
+		NBTPlayerData fatherData = MCA.getPlayerData(world, getFatherUUID());
 		
 		return motherData == null && fatherData == null;
 	}
@@ -1441,7 +1512,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	{
 		setIsInfected(false);
 		addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 200, 0));
-        worldObj.playEvent((EntityPlayer)null, 1027, new BlockPos((int)this.posX, (int)this.posY, (int)this.posZ), 0);
+        world.playEvent((EntityPlayer)null, 1027, new BlockPos((int)this.posX, (int)this.posY, (int)this.posZ), 0);
 		Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.VILLAGER_HAPPY, this, 16);
 	}
 	
@@ -1460,7 +1531,40 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 		return EnumMarriageState.byId(dataManager.get(MARRIAGE_STATE));
 	}
 	
-	private void setMarriageState(EnumMarriageState state)
+	/*package-private*/ void setSpouseUUID(UUID uuid)
+	{
+		dataManager.set(SPOUSE_UUID, Optional.of(uuid));
+	}
+	
+	/*package-private*/ void setSpouseName(String value)
+	{
+		dataManager.set(SPOUSE_NAME, value);
+	}
+	
+	/*package-private*/ void setSpouseGender(EnumGender gender)
+	{
+		dataManager.set(SPOUSE_GENDER, gender.getId());
+	}
+	
+	/*package-private*/ void setParentName(boolean mother, String value)
+	{
+		DataParameter field = mother ? MOTHER_NAME : FATHER_NAME;
+		dataManager.set(field, value);
+	}
+
+	/*package-private*/ void setParentUUID(boolean mother, UUID uuid)
+	{
+		DataParameter field = mother ? MOTHER_UUID: FATHER_UUID;
+		dataManager.set(field, Optional.of(uuid));
+	}
+	
+	/*package-private*/ void setParentGender(boolean mother, EnumGender gender)
+	{
+		DataParameter field = mother ? MOTHER_GENDER : FATHER_GENDER;
+		dataManager.set(field, gender.getId());
+	}
+	
+	/*package-private*/ void setMarriageState(EnumMarriageState state)
 	{
 		dataManager.set(MARRIAGE_STATE, state.getId());
 	}
@@ -1537,15 +1641,15 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 			while (block == Blocks.AIR)
 			{
 				y--;
-				block = RadixBlocks.getBlock(worldObj, nearestAir.iX(), y, nearestAir.iY());
+				block = RadixBlocks.getBlock(world, nearestAir.iX(), y, nearestAir.iY());
 			}
 			
 			y += 1;
-			RadixBlocks.setBlock(worldObj, nearestAir.iX(), y, nearestAir.iZ(), Blocks.CHEST);
+			RadixBlocks.setBlock(world, nearestAir.iX(), y, nearestAir.iZ(), Blocks.CHEST);
 			
 			try
 			{
-				TileEntityChest chest = (TileEntityChest) worldObj.getTileEntity(new BlockPos(nearestAir.iX(), y, nearestAir.iZ()));
+				TileEntityChest chest = (TileEntityChest) world.getTileEntity(new BlockPos(nearestAir.iX(), y, nearestAir.iZ()));
 				chest.setInventorySlotContents(0, memorialItem);
 				MCA.getLog().info("Spawned villager death chest at: " + nearestAir.iX() + ", " + y + ", " + nearestAir.iZ());
 			}
@@ -1564,7 +1668,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 		//this.setScale(0.935F); //FIXME
 		
 		//Sync size with all clients once set on the server.
-		if (!worldObj.isRemote)
+		if (!world.isRemote)
 		{
 			MCA.getPacketHandler().sendPacketToAllPlayers(new PacketSetSize(this, width, height));
 		}
@@ -1572,7 +1676,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	
 	public boolean isInOverworld()
 	{
-		return worldObj.provider.getDimension() == 0;
+		return world.provider.getDimension() == 0;
 	}
 	
 	public int getTicksAlive()
@@ -1598,5 +1702,35 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	public void resetLowHeartWarnings()
 	{
 		timesWarnedForLowHearts = 0;
+	}
+	
+	@Deprecated
+	public boolean getIsMale()
+	{
+		return getGender() == EnumGender.MALE;
+	}
+
+	@Deprecated
+	public String getParentNames() 
+	{
+		return this.getMotherName() + "|" + this.getFatherName();
+	}
+	
+	@Deprecated
+	public boolean getIsMarried()
+	{
+		return getMarriageState() == EnumMarriageState.MARRIED_TO_VILLAGER || getMarriageState() == EnumMarriageState.MARRIED_TO_PLAYER;
+	}
+	
+	public boolean getCanBeHired(EntityPlayer player) 
+	{
+		return getPlayerSpouseInstance() != player && (getProfessionSkinGroup() == EnumProfessionSkinGroup.Farmer || 
+				getProfessionSkinGroup() == EnumProfessionSkinGroup.Miner || 
+				getProfessionSkinGroup() == EnumProfessionSkinGroup.Warrior);
+	}
+
+	public void assignRandomPersonality() 
+	{
+		setPersonality(EnumPersonality.getAtRandom());
 	}
 }

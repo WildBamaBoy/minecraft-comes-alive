@@ -57,7 +57,6 @@ import radixcore.constant.Font.Color;
 import radixcore.constant.Font.Format;
 import radixcore.datastructures.CircularIntList;
 import radixcore.modules.client.RadixRender;
-import radixcore.modules.datawatcher.DataWatcherEx;
 
 @SideOnly(Side.CLIENT)
 public class GuiInteraction extends GuiScreen
@@ -551,7 +550,7 @@ public class GuiInteraction extends GuiScreen
 
 					if (stack != null && stack.getItem() == Items.GOLD_INGOT)
 					{
-						if (stack.func_190916_E() >= hireLengths.get())
+						if (stack.getCount() >= hireLengths.get())
 						{
 							hasGold = true;
 							break;
@@ -561,7 +560,7 @@ public class GuiInteraction extends GuiScreen
 
 				if (!hasGold)
 				{
-					player.addChatMessage(new TextComponentString(MCA.getLanguageManager().getString("interaction.hire.fail.notenoughgold", hireLengths.get())));
+					player.sendMessage(new TextComponentString(MCA.getLanguageManager().getString("interaction.hire.fail.notenoughgold", hireLengths.get())));
 				}
 
 				else
@@ -657,9 +656,7 @@ public class GuiInteraction extends GuiScreen
 			case STOP: MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId())); close(); break;
 
 			case INVENTORY:
-				DataWatcherEx.allowClientSideModification = true;
 				villager.setDoOpenInventory(true);
-				DataWatcherEx.allowClientSideModification = false;
 				break;
 			
 			case NOBILITY:
@@ -713,8 +710,6 @@ public class GuiInteraction extends GuiScreen
 				case NOBILITY: drawMainButtonMenu(); break;
 				}
 			}
-			
-			DataWatcherEx.allowClientSideModification = false;
 		}
 	}
 

@@ -8,8 +8,9 @@ import java.util.Scanner;
 
 import mca.core.MCA;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import radixcore.modules.AbstractCrashWatcher;
 
-public class CrashWatcher extends ModCrashWatcher
+public class CrashWatcher extends AbstractCrashWatcher
 {
 	@Override
 	protected void onCrash(File crashFile) 

@@ -47,7 +47,7 @@ public class PacketMemorialUpdateGet extends AbstractPacket<PacketMemorialUpdate
 	public void processOnGameThread(PacketMemorialUpdateGet packet, MessageContext context)
 	{
 		final EntityPlayer player = this.getPlayer(context);
-		final World world = player.worldObj;
+		final World world = player.world;
 		
 		try
 		{

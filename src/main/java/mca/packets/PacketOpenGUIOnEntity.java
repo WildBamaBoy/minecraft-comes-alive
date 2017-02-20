@@ -49,7 +49,7 @@ public class PacketOpenGUIOnEntity extends AbstractPacket<PacketOpenGUIOnEntity>
 		if (Minecraft.getMinecraft().currentScreen == null)
 		{
 			final EntityPlayer player = this.getPlayer(context);
-			final EntityVillagerMCA entity = (EntityVillagerMCA) player.worldObj.getEntityByID(packet.entityId);
+			final EntityVillagerMCA entity = (EntityVillagerMCA) player.world.getEntityByID(packet.entityId);
 			
 			if (player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem() instanceof ItemVillagerEditor)
 			{

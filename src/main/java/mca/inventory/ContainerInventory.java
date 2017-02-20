@@ -81,7 +81,7 @@ public class ContainerInventory extends Container
 				return null;
 			}
 
-			if (slotStack.func_190916_E() == 0) //Get stack size
+			if (slotStack.getCount() == 0)
 			{
 				slot.putStack((ItemStack) null);
 			}

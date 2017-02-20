@@ -13,6 +13,7 @@ import mca.core.Constants;
 import mca.core.MCA;
 import mca.data.PlayerMemory;
 import mca.entity.EntityVillagerMCA;
+import mca.enums.EnumGender;
 import mca.util.UVPoint;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderBiped;
@@ -51,12 +52,12 @@ public class RenderHuman<T extends EntityVillagerMCA> extends RenderBiped<T>
 	{
 		final EntityVillagerMCA entity = (EntityVillagerMCA) entityLivingBase;
 		final AISleep sleepAI = entity.getAI(AISleep.class);
-		float scale = entity.getIsMale() ? Constants.SCALE_M_ADULT : Constants.SCALE_F_ADULT;
+		float scale = entity.getGender() == EnumGender.MALE ? Constants.SCALE_M_ADULT : Constants.SCALE_F_ADULT;
 		
 		if (entity.getIsChild())
 		{
 			final boolean doGradualGrowth = MCA.getConfig().isAgingEnabled;
-			final float growthFactor = (entity.getIsMale() ? 0.39F : 0.37F) / MCA.getConfig().childGrowUpTime * entity.getAge();
+			final float growthFactor = (entity.getGender() == EnumGender.MALE ? 0.39F : 0.37F) / MCA.getConfig().childGrowUpTime * entity.getAge();
 
 			scale = 0.55F + growthFactor;
 
@@ -74,8 +75,8 @@ public class RenderHuman<T extends EntityVillagerMCA> extends RenderBiped<T>
 			}
 		}
 
-		GL11.glScalef(scale, scale + entity.getHeight(), scale);
-		GL11.glScalef(scale + entity.getGirth(), scale, scale + entity.getGirth());
+		GL11.glScalef(scale, scale + entity.getEyeHeight(), scale);
+		GL11.glScalef(scale + entity.getScaleWidth(), scale, scale + entity.getScaleWidth());
 
 		if (sleepAI.getIsInBed())
 		{
@@ -94,7 +95,7 @@ public class RenderHuman<T extends EntityVillagerMCA> extends RenderBiped<T>
 	@SuppressWarnings("unchecked")
 	private void doRenderEntity(EntityVillagerMCA entity, double x, double y, double z, float entityYaw, float partialTicks)
 	{
-		final EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+		final EntityPlayer player = Minecraft.getMinecraft().player;
 		final PlayerMemory memory = entity.getPlayerMemoryWithoutCreating(player);
 
 		if (!entity.getDoDisplay())
@@ -143,7 +144,7 @@ public class RenderHuman<T extends EntityVillagerMCA> extends RenderBiped<T>
 	{
 		final int currentHealth = (int) entity.getHealth();
 		final int maxHealth = (int) entity.getMaxHealth();
-		final double distanceFromPlayer = RadixMath.getDistanceToEntity(entity, Minecraft.getMinecraft().thePlayer);
+		final double distanceFromPlayer = RadixMath.getDistanceToEntity(entity, Minecraft.getMinecraft().player);
 
 		//Ignore special effects in the villager editor.
 		if (Minecraft.getMinecraft().currentScreen instanceof GuiVillagerEditor)
@@ -160,20 +161,20 @@ public class RenderHuman<T extends EntityVillagerMCA> extends RenderBiped<T>
 		//Render their name assuming that they're not damaged.
 		else if (canRenderNameTag(entity) && MCA.getConfig().showNameTagOnHover)
 		{
-			renderLabel(entity, x, y, z, entity.getTitle(Minecraft.getMinecraft().thePlayer));
+			renderLabel(entity, x, y, z, entity.getTitle(Minecraft.getMinecraft().player));
 		}
 
 		//When in the interaction GUI, render the person's name and hearts value.
 		else if (entity.isInteractionGuiOpen)
 		{
-			renderLabel(entity, x, y + (distanceFromPlayer / 15.0D)  + (entity.getHeight() * 1.15D), z, entity.getTitle(Minecraft.getMinecraft().thePlayer));
-			renderHearts(entity, x, y + (distanceFromPlayer / 15.0D) + (entity.getHeight() * 1.15D), z, entity.getPlayerMemory(Minecraft.getMinecraft().thePlayer).getHearts());
+			renderLabel(entity, x, y + (distanceFromPlayer / 15.0D)  + (entity.getEyeHeight() * 1.15D), z, entity.getTitle(Minecraft.getMinecraft().player));
+			renderHearts(entity, x, y + (distanceFromPlayer / 15.0D) + (entity.getEyeHeight() * 1.15D), z, entity.getPlayerMemory(Minecraft.getMinecraft().player).getHearts());
 		}
 
 		//When performing a chore, render the name of the chore above their head.
 		else if (entity.getAIManager().isToggleAIActive())
 		{
-			renderLabel(entity, x, y + (distanceFromPlayer / 15.0D)  + (entity.getHeight() * 1.15D), z, entity.getAIManager().getNameOfActiveAI());
+			renderLabel(entity, x, y + (distanceFromPlayer / 15.0D)  + (entity.getEyeHeight() * 1.15D), z, entity.getAIManager().getNameOfActiveAI());
 		}
 	}
 
@@ -261,14 +262,14 @@ public class RenderHuman<T extends EntityVillagerMCA> extends RenderBiped<T>
 
 	private boolean canRenderNameTag(EntityLivingBase entityRendering)
 	{
-		final EntityPlayer entityPlayer = Minecraft.getMinecraft().thePlayer;
+		final EntityPlayer entityPlayer = Minecraft.getMinecraft().player;
 
 		final Vec3d entityLookVector = new Vec3d(entityRendering.posX - entityPlayer.posX, entityRendering.getEntityBoundingBox().minY - 3 + (double) entityRendering.height / 2.0F - entityPlayer.posY + entityPlayer.getEyeHeight(), entityRendering.posZ - entityPlayer.posZ).normalize(); //entityRendering.getLook(1.0F).normalize();
 		final double dotProduct = entityPlayer.getLook(1.0F).normalize().dotProduct(entityLookVector);
 		final boolean isPlayerLookingAt = dotProduct > 1.0D - 0.025D / entityLookVector.lengthVector() ? entityPlayer.canEntityBeSeen(entityRendering) : false;
-		final double distance = entityRendering.getDistanceToEntity(Minecraft.getMinecraft().thePlayer);
+		final double distance = entityRendering.getDistanceToEntity(Minecraft.getMinecraft().player);
 
-		return !(Minecraft.getMinecraft().currentScreen instanceof GuiInteraction) && distance < 5.0D && isPlayerLookingAt && Minecraft.isGuiEnabled() && entityRendering != Minecraft.getMinecraft().thePlayer && !entityRendering.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer) && !entityRendering.isBeingRidden();
+		return !(Minecraft.getMinecraft().currentScreen instanceof GuiInteraction) && distance < 5.0D && isPlayerLookingAt && Minecraft.isGuiEnabled() && entityRendering != Minecraft.getMinecraft().player && !entityRendering.isInvisibleToPlayer(Minecraft.getMinecraft().player) && !entityRendering.isBeingRidden();
 	}
 
 	protected void renderHumanSleeping(EntityVillagerMCA entity, double partialTickTime)
@@ -325,11 +326,6 @@ public class RenderHuman<T extends EntityVillagerMCA> extends RenderBiped<T>
 		if (skinName.isEmpty())
 		{
 			return new ResourceLocation("minecraft:textures/entity/steve.png");
-		}
-
-		else if (human.getPlayerSkinResourceLocation() != null)
-		{
-			return human.getPlayerSkinResourceLocation();
 		}
 
 		else

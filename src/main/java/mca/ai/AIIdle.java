@@ -31,7 +31,7 @@ public class AIIdle extends AbstractAI
 	{
 		idleTicks++;
 	
-		if (idleTicks >= Time.MINUTE * 1 && owner.isInOverworld() && !owner.worldObj.isDaytime() && owner.getProfessionSkinGroup() != EnumProfessionSkinGroup.Guard && owner.getMovementState() == EnumMovementState.STAY)
+		if (idleTicks >= Time.MINUTE * 1 && owner.isInOverworld() && !owner.world.isDaytime() && owner.getProfessionSkinGroup() != EnumProfessionSkinGroup.Guard && owner.getMovementState() == EnumMovementState.STAY)
 		{
 			AISleep AISleep = owner.getAI(AISleep.class);
 	

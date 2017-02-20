@@ -6,7 +6,7 @@ import org.lwjgl.input.Keyboard;
 
 import mca.core.MCA;
 import mca.core.minecraft.BlocksMCA;
-import mca.data.VillagerSaveData;
+import mca.entity.VillagerSaveData;
 import mca.enums.EnumMemorialType;
 import mca.enums.EnumProfession;
 import mca.enums.EnumRelation;
@@ -89,7 +89,7 @@ public class ItemMemorial extends Item
 			
 			else
 			{
-				infoList.add(Color.GREEN + name + " the " + MCA.getLanguageManager().getString(EnumProfession.getProfessionById(data.professionId).getLocalizationId()));
+				infoList.add(Color.GREEN + name + " the " + MCA.getLanguageManager().getString(EnumProfession.getProfessionById(data.professionId.getId()).getLocalizationId()));
 				infoList.add("Captured by: " + ownerName);
 			}
 		}

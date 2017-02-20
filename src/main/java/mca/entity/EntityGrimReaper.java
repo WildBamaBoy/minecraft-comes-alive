@@ -137,10 +137,10 @@ public class EntityGrimReaper extends EntityMob
         bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
         
 		//Ignore wall damage and fire damage.
-		if (source == DamageSource.inWall || source == DamageSource.onFire || source.isExplosion() || source == DamageSource.inFire)
+		if (source == DamageSource.IN_WALL || source == DamageSource.ON_FIRE || source.isExplosion() || source == DamageSource.IN_FIRE)
 		{
 			//Teleport out of any walls we may end up in.
-			if (source == DamageSource.inWall)
+			if (source == DamageSource.IN_WALL)
 			{
 				teleportTo(this.posX, this.posY + 3, this.posZ);
 			}
@@ -149,7 +149,7 @@ public class EntityGrimReaper extends EntityMob
 		}
 		
 		//Ignore damage when blocking, and teleport behind the player when they attempt to block.
-		else if (!worldObj.isRemote && this.getAttackState() == EnumReaperAttackState.BLOCK && source.getSourceOfDamage() instanceof EntityPlayer)
+		else if (!world.isRemote && this.getAttackState() == EnumReaperAttackState.BLOCK && source.getSourceOfDamage() instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer) source.getSourceOfDamage();
 
@@ -163,7 +163,7 @@ public class EntityGrimReaper extends EntityMob
 		}
 
 		//Randomly portal behind the player who just attacked.
-		else if (!worldObj.isRemote && source.getSourceOfDamage() instanceof EntityPlayer && RadixLogic.getBooleanWithProbability(30))
+		else if (!world.isRemote && source.getSourceOfDamage() instanceof EntityPlayer && RadixLogic.getBooleanWithProbability(30))
 		{
 			EntityPlayer player = (EntityPlayer) source.getSourceOfDamage();
 
@@ -199,7 +199,7 @@ public class EntityGrimReaper extends EntityMob
 		
 		super.attackEntityFrom(source, damage);
 
-		if (!worldObj.isRemote && this.getHealth() <= (this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue() / 2) && healingCooldown == 0)
+		if (!world.isRemote && this.getHealth() <= (this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue() / 2) && healingCooldown == 0)
 		{
 			setAttackState(EnumReaperAttackState.REST);
 			healingCooldown = (Time.MINUTE * 2) + (Time.SECOND * 30);
@@ -221,7 +221,7 @@ public class EntityGrimReaper extends EntityMob
 			
 			if (entity instanceof EntityLivingBase)
 			{
-				((EntityLivingBase)entity).addPotionEffect(new PotionEffect(MobEffects.WITHER, this.worldObj.getDifficulty().getDifficultyId() * 20, 1));
+				((EntityLivingBase)entity).addPotionEffect(new PotionEffect(MobEffects.WITHER, this.world.getDifficulty().getDifficultyId() * 20, 1));
 			}
 			
 			setAttackState(EnumReaperAttackState.POST);
@@ -247,7 +247,7 @@ public class EntityGrimReaper extends EntityMob
 
 						teleportTo(player.posX - (dX * 2), player.posY + 2, this.posZ - (dZ * 2));
 
-						if (!worldObj.isRemote && RadixLogic.getBooleanWithProbability(20))
+						if (!world.isRemote && RadixLogic.getBooleanWithProbability(20))
 						{
 							int currentItem = player.inventory.currentItem;
 							int randomItem = rand.nextInt(InventoryPlayer.getHotbarSize());
@@ -257,7 +257,7 @@ public class EntityGrimReaper extends EntityMob
 							player.inventory.mainInventory.set(currentItem, randomItemStack);
 							player.inventory.mainInventory.set(randomItem, currentItemStack);
 							
-							player.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, this.worldObj.getDifficulty().getDifficultyId() * (Time.SECOND * 2), 1));
+							player.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, this.world.getDifficulty().getDifficultyId() * (Time.SECOND * 2), 1));
 						}
 					}
 
@@ -287,7 +287,7 @@ public class EntityGrimReaper extends EntityMob
 
 	protected Entity findPlayerToAttack() 
 	{
-		return worldObj.getClosestPlayerToEntity(this, 48.0D);
+		return world.getClosestPlayerToEntity(this, 48.0D);
 	}
 
 	@Override
@@ -329,7 +329,7 @@ public class EntityGrimReaper extends EntityMob
 		}
 		
 		//Increment floating ticks on the client when resting.
-		if (worldObj.isRemote && getAttackState() == EnumReaperAttackState.REST)
+		if (world.isRemote && getAttackState() == EnumReaperAttackState.REST)
 		{
 			floatingTicks += 0.1F;
 			Utilities.spawnParticlesAroundEntityC(EnumParticleTypes.SUSPENDED_DEPTH, this, 1);
@@ -340,27 +340,27 @@ public class EntityGrimReaper extends EntityMob
 		//Runs on common to spawn lightning.
 		if (getAttackState() == EnumReaperAttackState.REST)
 		{
-			if (!worldObj.isRemote && getStateTransitionCooldown() == 1)
+			if (!world.isRemote && getStateTransitionCooldown() == 1)
 			{
 				setAttackState(EnumReaperAttackState.IDLE);
 				timesHealed++;
 			}
 
-			else if (!worldObj.isRemote && getStateTransitionCooldown() % 100 == 0)
+			else if (!world.isRemote && getStateTransitionCooldown() % 100 == 0)
 			{
-				this.setHealth(this.getHealth() + MathHelper.clamp_float(10.5F - (timesHealed * 3.5F), 3.0F, 10.5F));
+				this.setHealth(this.getHealth() + MathHelper.clamp(10.5F - (timesHealed * 3.5F), 3.0F, 10.5F));
 
 				//Let's have a light show.
 				int dX = rand.nextInt(8) + 4 * (RadixLogic.getBooleanWithProbability(50) ? 1 : -1);
 				int dZ = rand.nextInt(8) + 4 * (RadixLogic.getBooleanWithProbability(50) ? 1 : -1);
-				int y = RadixLogic.getSpawnSafeTopLevel(worldObj, (int)posX + dX, (int)posZ + dZ);
+				int y = RadixLogic.getSpawnSafeTopLevel(world, (int)posX + dX, (int)posZ + dZ);
 
 				MCA.getPacketHandler().sendPacketToAllPlayers(new PacketSpawnLightning(new Point3D(posX + dX, y, posZ + dZ)));
 
 				//Also spawn a random skeleton or zombie.
-				if (!worldObj.isRemote)
+				if (!world.isRemote)
 				{
-					EntityMob mob = RadixLogic.getBooleanWithProbability(50) ? new EntityZombie(worldObj) : new EntitySkeleton(worldObj);
+					EntityMob mob = RadixLogic.getBooleanWithProbability(50) ? new EntityZombie(world) : new EntitySkeleton(world);
 					mob.setPosition(posX + dX + 4, y, posZ + dZ + 4);
 
 					if (mob instanceof EntitySkeleton)
@@ -368,7 +368,7 @@ public class EntityGrimReaper extends EntityMob
 						mob.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
 					}
 
-					worldObj.spawnEntityInWorld(mob);
+					world.spawnEntity(mob);
 				}
 			}
 		}
@@ -453,27 +453,27 @@ public class EntityGrimReaper extends EntityMob
 		}
 		
 		//Kill plants close to us.
-		if (!worldObj.isRemote)
+		if (!world.isRemote)
 		{
 			List<Point3D> grassBlocks = RadixLogic.getNearbyBlocks(this, Blocks.GRASS, 1);
 
 			for (Point3D point : grassBlocks)
 			{
-				RadixBlocks.setBlock(worldObj, point, Blocks.DIRT);
-				Block blockAbove = RadixBlocks.getBlock(worldObj, point.iX(), point.iY() + 1, point.iZ());
+				RadixBlocks.setBlock(world, point, Blocks.DIRT);
+				Block blockAbove = RadixBlocks.getBlock(world, point.iX(), point.iY() + 1, point.iZ());
 				IBlockState state = blockAbove.getDefaultState();
 				
 				if (blockAbove.getMaterial(state) == Material.PLANTS || blockAbove.getMaterial(state) == Material.VINE)
 				{
-					Block blockAbovePlant = RadixBlocks.getBlock(worldObj, point.iX(), point.iY() + 2, point.iZ());
+					Block blockAbovePlant = RadixBlocks.getBlock(world, point.iX(), point.iY() + 2, point.iZ());
 					
 					//Check above the plant to see if its a double plant. Remove that as well to prevent spawning flowers for some reason.
 					if (blockAbovePlant == Blocks.DOUBLE_PLANT)
 					{
-						RadixBlocks.setBlock(worldObj, point.iX(), point.iY() + 2, point.iZ(), Blocks.AIR);
+						RadixBlocks.setBlock(world, point.iX(), point.iY() + 2, point.iZ(), Blocks.AIR);
 					}
 					
-					RadixBlocks.setBlock(worldObj, point.iX(), point.iY() + 1, point.iZ(), Blocks.AIR);
+					RadixBlocks.setBlock(world, point.iX(), point.iY() + 1, point.iZ(), Blocks.AIR);
 				}
 			}
 		}
@@ -514,7 +514,7 @@ public class EntityGrimReaper extends EntityMob
 
 	private void teleportTo(double x, double y, double z)
 	{
-		if (!worldObj.isRemote)
+		if (!world.isRemote)
 		{
 			Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.PORTAL, this, 16);
 

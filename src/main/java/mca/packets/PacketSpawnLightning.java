@@ -42,10 +42,10 @@ public class PacketSpawnLightning extends AbstractPacket<PacketSpawnLightning>
 	@Override
 	public void processOnGameThread(PacketSpawnLightning packet, MessageContext context) 
 	{
-		World world = getPlayerClient().worldObj;
+		World world = getPlayerClient().world;
 		EntityLightningBolt lightning = new EntityLightningBolt(world, packet.position.dX(), packet.position.dY(), packet.position.dZ(), false);
 		
-		world.spawnEntityInWorld(lightning);
+		world.spawnEntity(lightning);
 		getPlayerClient().playSound(SoundEvents.ENTITY_LIGHTNING_THUNDER, 2.0F, 1.0F);
 	}
 }

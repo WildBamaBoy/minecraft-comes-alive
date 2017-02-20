@@ -61,7 +61,7 @@ public class VillagerInventory extends InventoryBasic
 
 				if (stackItem.getClass() == item.getClass())
 				{
-					totalCount += stack.func_190916_E();
+					totalCount += stack.getCount();
 				}
 			}
 		}
@@ -101,5 +101,10 @@ public class VillagerInventory extends InventoryBasic
 		}
 
 		return -1;
+	}
+
+	public void removeCountOfItem(Item seedItem, int seedsRequired) 
+	{
+		
 	}
 }

@@ -40,7 +40,7 @@ public class PacketInteractWithPlayerC extends AbstractPacket<PacketInteractWith
 		targetIsEngaged = targetData.getMarriageState() == EnumMarriageState.ENGAGED;
 		isMarriedToInitiator = targetData.getSpouseUUID() == initData.getUUID();
 		
-		for (Object obj : initiator.worldObj.loadedEntityList)
+		for (Object obj : initiator.world.loadedEntityList)
 		{
 			if (obj instanceof EntityVillagerMCA)
 			{
@@ -84,7 +84,7 @@ public class PacketInteractWithPlayerC extends AbstractPacket<PacketInteractWith
 	public void processOnGameThread(PacketInteractWithPlayerC packet, MessageContext context) 
 	{
 		EntityPlayer recipient = this.getPlayerClient();
-		EntityPlayer target = (EntityPlayer) recipient.worldObj.getEntityByID(packet.targetEntityId);
+		EntityPlayer target = (EntityPlayer) recipient.world.getEntityByID(packet.targetEntityId);
 		
 		if (target != null)
 		{

@@ -50,7 +50,7 @@ public class PacketSetSize extends AbstractPacket<PacketSetSize>
 	public void processOnGameThread(PacketSetSize packet, MessageContext context) 
 	{
 		EntityPlayer player = getPlayer(context);
-		World world = player.worldObj;
+		World world = player.world;
 		EntityVillagerMCA human = null;
 
 		for (Object obj : world.loadedEntityList)

@@ -29,6 +29,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.monster.EntityZombieVillager;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -72,16 +73,18 @@ public class EventHooksForge
 				EntityVillager villager = (EntityVillager)event.getEntity();
 
 				//Check for a zombie being turned into a villager. Don't overwrite with families in this case.
-				List<EntityZombie> zombiesAroundMe = RadixLogic.getEntitiesWithinDistance(EntityZombie.class, event.getEntity(), 3);
+				List<EntityZombieVillager> zombiesAroundMe = RadixLogic.getEntitiesWithinDistance(EntityZombieVillager.class, event.getEntity(), 3);
 
-				for (EntityZombie zombie : zombiesAroundMe)
+				for (EntityZombieVillager zombie : zombiesAroundMe)
 				{
 					if (zombie.isConverting())
 					{
 						boolean isMale = RadixLogic.getBooleanWithProbability(50);
-						final EntityVillagerMCA human = new EntityVillagerMCA(zombie.worldObj, isMale, EnumProfession.getAtRandom().getId(), false);
+						final EntityVillagerMCA human = new EntityVillagerMCA(zombie.world);
+						//final EntityVillagerMCA human = new EntityVillagerMCA(zombie.world, isMale, EnumProfession.getAtRandom().getId(), false);
+						//TODO
 						human.setPosition(zombie.posX, zombie.posY, zombie.posZ);
-						zombie.worldObj.spawnEntityInWorld(human);
+						zombie.world.spawnEntity(human);
 						event.getEntity().setDead();
 						return;
 					}
@@ -204,7 +207,7 @@ public class EventHooksForge
 				try
 				{
 					final EntityVillagerMCA entity = (EntityVillagerMCA) entityHorse.getPassengers().get(0);
-					entity.processInteract(event.getEntityPlayer(), event.getEntityPlayer().getActiveHand(), event.getEntityPlayer().getHeldItem(event.getEntityPlayer().getActiveHand()));
+					entity.processInteract(event.getEntityPlayer(), event.getEntityPlayer().getActiveHand());
 				}
 
 				catch (Exception e)
@@ -214,7 +217,7 @@ public class EventHooksForge
 			}
 		}
 
-		else if (event.getTarget() instanceof EntityPlayerMP && !event.getEntityPlayer().worldObj.isRemote && !event.getEntityPlayer().getName().contains("[CoFH]"))
+		else if (event.getTarget() instanceof EntityPlayerMP && !event.getEntityPlayer().world.isRemote && !event.getEntityPlayer().getName().contains("[CoFH]"))
 		{
 			MCA.getPacketHandler().sendPacketToPlayer(new PacketInteractWithPlayerC(event.getEntityPlayer(), (EntityPlayer)event.getTarget()), (EntityPlayerMP) event.getEntityPlayer());
 		}
@@ -250,7 +253,7 @@ public class EventHooksForge
 		//Handle warrior triggers on player taking damage.		
 		if (event.getEntityLiving() instanceof EntityPlayer && event.getSource().getEntity() instanceof EntityLivingBase)
 		{
-			List<Entity> entityList = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityVillagerMCA.class, event.getEntityLiving(), 15);
+			List<EntityVillagerMCA> entityList = RadixLogic.getEntitiesWithinDistance(EntityVillagerMCA.class, event.getEntityLiving(), 15);
 
 			for (Entity entity : entityList)
 			{
@@ -270,7 +273,7 @@ public class EventHooksForge
 		//Handle warrior triggers on player dealing damage.
 		else if (event.getSource().getEntity() instanceof EntityPlayer && event.getEntityLiving() != null)
 		{
-			List<Entity> entityList = RadixLogic.getAllEntitiesOfTypeWithinDistance(EntityVillagerMCA.class, event.getSource().getEntity(), 15);
+			List<EntityVillagerMCA> entityList = RadixLogic.getEntitiesWithinDistance(EntityVillagerMCA.class, event.getSource().getEntity(), 15);
 
 			for (Entity entity : entityList)
 			{
@@ -304,7 +307,7 @@ public class EventHooksForge
 						if (stack != null && stack.getItem() instanceof ItemBaby)
 						{
 							stack.getTagCompound().setBoolean("isInfected", true);
-							player.addChatComponentMessage(new TextComponentString(Color.RED + stack.getTagCompound().getString("name") + " has been " + Color.GREEN + Format.BOLD + "infected" + Color.RED + "!"));
+							player.sendMessage(new TextComponentString(Color.RED + stack.getTagCompound().getString("name") + " has been " + Color.GREEN + Format.BOLD + "infected" + Color.RED + "!"));
 							player.playSound(SoundEvents.ENTITY_WITHER_AMBIENT, 0.5F, 1.0F);
 							Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.SPELL_WITCH, player, 32);
 						}

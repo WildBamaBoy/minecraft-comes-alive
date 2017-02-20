@@ -2,8 +2,8 @@ package mca.tile;
 
 import mca.core.MCA;
 import mca.data.PlayerMemory;
-import mca.data.VillagerSaveData;
 import mca.entity.EntityVillagerMCA;
+import mca.entity.VillagerSaveData;
 import mca.enums.EnumDialogueType;
 import mca.enums.EnumGender;
 import mca.enums.EnumMemorialType;
@@ -34,13 +34,13 @@ public class TileMemorial extends TileEntity implements ITickable
 	@Override
 	public void update()
 	{
-		if (worldObj.isRemote && !hasSynced)
+		if (world.isRemote && !hasSynced)
 		{
 			hasSynced = true;
 			MCA.getPacketHandler().sendPacketToServer(new PacketMemorialUpdateGet(this));
 		}
 
-		if (!worldObj.isRemote)
+		if (!world.isRemote)
 		{
 			int xCoord = pos.getX();
 			int yCoord = pos.getY();
@@ -53,15 +53,15 @@ public class TileMemorial extends TileEntity implements ITickable
 
 			if (revivalTicks == 1) //Last tick
 			{	
-				EntityVillagerMCA human = new EntityVillagerMCA(worldObj);
+				EntityVillagerMCA human = new EntityVillagerMCA(world);
 
 				data.applyToHuman(human);
 				human.setPosition(xCoord + 0.5D, yCoord, zCoord + 0.5D);
-				worldObj.spawnEntityInWorld(human);
+				world.spawnEntity(human);
 
-				RadixBlocks.setBlock(worldObj, xCoord, yCoord, zCoord, Blocks.AIR);
+				RadixBlocks.setBlock(world, xCoord, yCoord, zCoord, Blocks.AIR);
 				Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.VILLAGER_HAPPY, human, 32);
-				Utilities.spawnParticlesAroundPointS(EnumParticleTypes.FIREWORKS_SPARK, worldObj, xCoord + 0.5D, yCoord, zCoord + 0.5D, 16);
+				Utilities.spawnParticlesAroundPointS(EnumParticleTypes.FIREWORKS_SPARK, world, xCoord + 0.5D, yCoord, zCoord + 0.5D, 16);
 				player.playSound(SoundEvents.ENTITY_FIREWORK_LARGE_BLAST, 3.0F, 1.0F);
 
 				if (this.ownerRelation == EnumRelation.NONE)
@@ -87,17 +87,17 @@ public class TileMemorial extends TileEntity implements ITickable
 			else if (revivalTicks > 0)
 			{
 				revivalTicks--;
-				Utilities.spawnParticlesAroundPointS(EnumParticleTypes.SPELL_INSTANT, worldObj, xCoord + 0.5D, yCoord, zCoord + 0.5D, 2);
+				Utilities.spawnParticlesAroundPointS(EnumParticleTypes.SPELL_INSTANT, world, xCoord + 0.5D, yCoord, zCoord + 0.5D, 2);
 
 				if (revivalTicks == Time.SECOND * 2 || revivalTicks == Time.SECOND * 1)
 				{
 					player.playSound(SoundEvents.ENTITY_FIREWORK_LARGE_BLAST, 3.0F, 1.0F);
-					Utilities.spawnParticlesAroundPointS(EnumParticleTypes.FIREWORKS_SPARK, worldObj, xCoord + 0.5D, yCoord, zCoord + 0.5D, 32);	
+					Utilities.spawnParticlesAroundPointS(EnumParticleTypes.FIREWORKS_SPARK, world, xCoord + 0.5D, yCoord, zCoord + 0.5D, 32);	
 				}
 
 				if (revivalTicks < Time.SECOND * 2)
 				{
-					Utilities.spawnParticlesAroundPointS(EnumParticleTypes.VILLAGER_HAPPY, worldObj, xCoord + 0.5D, yCoord, zCoord + 0.5D, 2);
+					Utilities.spawnParticlesAroundPointS(EnumParticleTypes.VILLAGER_HAPPY, world, xCoord + 0.5D, yCoord, zCoord + 0.5D, 2);
 				}
 			}
 		}

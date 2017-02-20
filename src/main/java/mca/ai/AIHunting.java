@@ -80,27 +80,27 @@ public class AIHunting extends AbstractToggleAI
 
 			if (ticksActive >= Time.SECOND * 20)
 			{
-				boolean doSpawn = owner.worldObj.rand.nextBoolean();
+				boolean doSpawn = owner.world.rand.nextBoolean();
 
 				if (doSpawn)
 				{
 					try
 					{
 						final Class entityClass = RegistryMCA.getRandomHuntingEntity(isTaming);
-						final EntityLiving entity = (EntityLiving)entityClass.getDeclaredConstructor(World.class).newInstance(owner.worldObj);
+						final EntityLiving entity = (EntityLiving)entityClass.getDeclaredConstructor(World.class).newInstance(owner.world);
 						final List<Point3D> nearbyGrass = RadixLogic.getNearbyBlocks(owner, Blocks.GRASS, 3);
-						final Point3D spawnPoint = nearbyGrass.get(owner.worldObj.rand.nextInt(nearbyGrass.size()));
+						final Point3D spawnPoint = nearbyGrass.get(owner.world.rand.nextInt(nearbyGrass.size()));
 
 						if (spawnPoint != null)
 						{
 							entity.setPosition(spawnPoint.iX(), spawnPoint.iY() + 1, spawnPoint.iZ());
 						}
 
-						owner.worldObj.spawnEntityInWorld(entity);
+						owner.world.spawnEntity(entity);
 
 						if (!isTaming)
 						{
-							entity.attackEntityFrom(DamageSource.generic, 100.0F);
+							entity.attackEntityFrom(DamageSource.GENERIC, 100.0F);
 							owner.swingItem();
 						}
 					}

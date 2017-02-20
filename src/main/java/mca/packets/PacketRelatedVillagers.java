@@ -4,7 +4,7 @@ import java.util.List;
 
 import io.netty.buffer.ByteBuf;
 import mca.client.gui.GuiWhistle;
-import mca.data.VillagerSaveData;
+import mca.entity.VillagerSaveData;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import radixcore.modules.RadixNettyIO;

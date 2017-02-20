@@ -72,7 +72,7 @@ public class AIRespondToAttack extends AbstractAI
 						else if (distanceToPlayer <= 1.8D)
 						{
 							owner.swingItem();
-							targetPlayer.attackEntityFrom(DamageSource.generic, 1.0F);
+							targetPlayer.attackEntityFrom(DamageSource.GENERIC, 1.0F);
 							reset();
 						}
 					}
@@ -80,7 +80,7 @@ public class AIRespondToAttack extends AbstractAI
 
 				else //If target player is null for some reason, try to get it again and stop if it fails.
 				{
-					target = owner.worldObj.getPlayerEntityByName(targetPlayerName);
+					target = owner.world.getPlayerEntityByName(targetPlayerName);
 
 					if (target == null)
 					{
@@ -109,7 +109,7 @@ public class AIRespondToAttack extends AbstractAI
 					{
 						float attackDamage = owner.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard ? MCA.getConfig().guardAttackDamage : MCA.getConfig().villagerAttackDamage;
 						owner.swingItem();
-						target.attackEntityFrom(DamageSource.generic, attackDamage);
+						target.attackEntityFrom(DamageSource.GENERIC, attackDamage);
 						reset();
 					}
 				}

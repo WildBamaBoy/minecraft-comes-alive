@@ -67,7 +67,7 @@ public class AIGreet extends AbstractAI
 			if (ticksUntilUpdate <= 0)
 			{
 				//Update the distance that each known player has traveled from this entity.
-				for (Object obj : owner.worldObj.playerEntities)
+				for (Object obj : owner.world.playerEntities)
 				{
 					EntityPlayer player = (EntityPlayer)obj;
 
@@ -84,7 +84,7 @@ public class AIGreet extends AbstractAI
 				}
 
 				//Get the closest player and try to greet them.
-				EntityPlayer closestPlayer = owner.worldObj.getClosestPlayerToEntity(owner, 4);
+				EntityPlayer closestPlayer = owner.world.getClosestPlayerToEntity(owner, 4);
 
 				if (closestPlayer != null)
 				{
@@ -95,8 +95,8 @@ public class AIGreet extends AbstractAI
 					{
 						if (owner.getIsInfected() && !closestPlayer.capabilities.isCreativeMode)
 						{
-							closestPlayer.addChatComponentMessage(new TextComponentString(Color.RED + owner.getName() + " bites you."), false);
-							closestPlayer.attackEntityFrom(DamageSource.generic, 2.0F);
+							closestPlayer.sendMessage(new TextComponentString(Color.RED + owner.getName() + " bites you."));
+							closestPlayer.attackEntityFrom(DamageSource.GENERIC, 2.0F);
 							closestPlayer.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, Time.MINUTE * 2, 1));
 						}
 

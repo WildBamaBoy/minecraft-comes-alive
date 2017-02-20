@@ -50,7 +50,7 @@ public class PacketOpenVillagerPrompt extends AbstractPacket<PacketOpenVillagerP
 	public void processOnGameThread(PacketOpenVillagerPrompt packet, MessageContext context) 
 	{
 		EntityPlayer player = this.getPlayer(context);
-		EntityVillagerMCA human = (EntityVillagerMCA) player.worldObj.getEntityByID(packet.targetId);
+		EntityVillagerMCA human = (EntityVillagerMCA) player.world.getEntityByID(packet.targetId);
 		EnumInteraction interaction = EnumInteraction.fromId(packet.interactionId);
 		
 		Minecraft.getMinecraft().displayGuiScreen(new GuiVillagerPrompt(player, human, interaction));

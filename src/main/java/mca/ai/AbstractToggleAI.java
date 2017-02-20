@@ -45,7 +45,7 @@ public abstract class AbstractToggleAI extends AbstractAI
 	/** @returns The player who triggered this AI. Looks up the player by UUID. */
 	public final EntityPlayer getAssigningPlayer()
 	{
-		return owner.worldObj.getPlayerEntityByUUID(assigningPlayer);
+		return owner.world.getPlayerEntityByUUID(assigningPlayer);
 	}
 	
 	/** Adds a chat message to the assigning player's chat log. */
@@ -55,7 +55,7 @@ public abstract class AbstractToggleAI extends AbstractAI
 		
 		if (player != null)
 		{
-			player.addChatMessage(new TextComponentString(message));
+			player.sendMessage(new TextComponentString(message));
 		}
 	}
 	

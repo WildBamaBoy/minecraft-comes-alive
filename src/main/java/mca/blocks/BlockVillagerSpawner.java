@@ -70,7 +70,7 @@ public class BlockVillagerSpawner extends Block
 				final EntityVillagerMCA human = new EntityVillagerMCA(world);
 				human.setGender(world.rand.nextBoolean() ? EnumGender.MALE : EnumGender.FEMALE);
 				human.setPositionAndRotation((double) pos.getX() + 0.5F, (double) spawnY, (double) pos.getZ() + 0.5F, (float)random.nextInt(360) + 1, 0.0F);
-				world.spawnEntityInWorld(human);
+				world.spawnEntity(human);
 			}
 		}
 

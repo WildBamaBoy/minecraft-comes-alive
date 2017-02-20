@@ -68,7 +68,7 @@ public class BlockVillagerBed extends BlockBed implements ITileEntityProvider
 	{
         if (worldIn.isRemote)
         {
-        	playerIn.addChatMessage(new TextComponentString("You cannot sleep in a villager's bed."));
+        	playerIn.sendMessage(new TextComponentString("You cannot sleep in a villager's bed."));
         }
         
         return false;

@@ -1,23 +1,16 @@
 package mca.client.gui;
 
-import java.awt.Desktop;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URI;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import mca.core.MCA;
 import mca.core.forge.EventHooksFML;
 import mca.data.NBTPlayerData;
 import mca.enums.EnumDestinyChoice;
+import mca.enums.EnumGender;
 import mca.packets.PacketDestinyChoice;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -34,7 +27,6 @@ import radixcore.constant.Font.Color;
 import radixcore.math.Point3D;
 import radixcore.modules.RadixBlocks;
 import radixcore.modules.client.RadixRender;
-import radixcore.modules.datawatcher.DataWatcherEx;
 import radixcore.modules.schematics.BlockObj;
 import radixcore.modules.schematics.RadixSchematics;
 
@@ -42,8 +34,6 @@ import radixcore.modules.schematics.RadixSchematics;
 public class GuiSetup extends GuiScreen
 {
 	private static ResourceLocation setupLogo = new ResourceLocation("mca:textures/setup.png");
-	private static String supportersURL = "http://pastebin.com/raw.php?i=VF4pMfZQ";
-	private static List<String> supportersList = new ArrayList<String>();
 	
 	private EntityPlayer player;
 	private NBTPlayerData data;
@@ -61,41 +51,9 @@ public class GuiSetup extends GuiScreen
 	@Override
 	public void initGui()
 	{
-		DataWatcherEx.allowClientSideModification = true;
 		Keyboard.enableRepeatEvents(true);
 		page = 1;
 		drawControls();
-		
-		if (supportersList.isEmpty())
-		{
-			MCA.getLog().info("Downloading supporters list...");
-			
-			new Thread(new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					try
-					{
-						URL url = new URL(supportersURL);
-						BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-						String input;
-						
-						while ((input = in.readLine()) != null)
-						{
-							supportersList.add(input);
-						}
-						
-						MCA.getLog().info("Successfully downloaded supporters list.");
-					}
-					
-					catch (Exception e)
-					{
-						supportersList.add("Failed to download supporters list!");
-					}
-				}
-			}).start();
-		}
 	}
 
 	@Override
@@ -113,9 +71,6 @@ public class GuiSetup extends GuiScreen
 	public void handleMouseInput() throws IOException 
 	{
 		super.handleMouseInput();
-
-		int x = Mouse.getEventX() * width / mc.displayWidth;
-		int y = height - Mouse.getEventY() * height / mc.displayHeight - 1;
 	}
 
 	@Override
@@ -165,18 +120,6 @@ public class GuiSetup extends GuiScreen
 			drawCenteredString(fontRendererObj, "WARNING: This destiny can potentially be destructive to your world.", width / 2, 70, 0xffffff);
 			drawCenteredString(fontRendererObj, "This option works best on flat land with no other structures nearby. Continue?", width / 2, 85, 0xffffff);
 		}
-		
-		else if (page == 6)
-		{
-			drawCenteredString(fontRendererObj, "Thank you to my amazing Patreon supporters!", width / 2, 70, 0xffffff);
-			
-			int i = 85;
-			for (String s : supportersList)
-			{
-				drawCenteredString(fontRendererObj, Color.GREEN + s, width / 2, i, 0xffffff); 
-				i += 15;
-			}
-		}
 
 		super.drawScreen(sizeX, sizeY, offset);
 		drawControls();
@@ -195,7 +138,7 @@ public class GuiSetup extends GuiScreen
 
 				if (y > (int)player.posY - 2)
 				{
-					RadixBlocks.setBlock(player.worldObj,
+					RadixBlocks.setBlock(player.world,
 							MCA.destinyCenterPoint.iX() + entry.getKey().iX(), 
 							y, 
 							MCA.destinyCenterPoint.iZ() + entry.getKey().iZ(), Blocks.AIR);
@@ -213,7 +156,6 @@ public class GuiSetup extends GuiScreen
 		playerSP.timeInPortal = 6.0F;
 		playerSP.prevTimeInPortal = 0.0F;
 
-		DataWatcherEx.allowClientSideModification = false;
 		MCA.destinySpawnFlag = false;
 		
 		player.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.5F, 2.0F);
@@ -242,23 +184,9 @@ public class GuiSetup extends GuiScreen
 	@Override
 	protected void actionPerformed(GuiButton button)
 	{
-		if (button.id == -1) //Patreon
-		{
-			try
-			{
-				Desktop.getDesktop().browse(new URI("https://www.patreon.com/wildbamaboy"));
-			}
-
-			catch (Exception e)
-			{
-				return;
-			}
-		}
-
 		//Page switching
 		switch (button.id)
 		{
-		case -2: page = 6; break;
 		case 0: page = page == 6 ? 1 : page - 1; break;
 		case 1: case 2: 					page = 2; break;
 		case 3: case 4: case 5: 			page = 3; break;
@@ -270,11 +198,11 @@ public class GuiSetup extends GuiScreen
 		//Button actions.
 		switch (button.id)
 		{
-		case 1: data.setIsMale(true); break;
-		case 2: data.setIsMale(false); break;
-		case 3: data.setGenderPreference(0); break;
-		case 4: data.setGenderPreference(1); break;
-		case 5: data.setGenderPreference(2); break;
+		case 1: data.setGender(EnumGender.MALE); break;
+		case 2: data.setGender(EnumGender.FEMALE); break;
+		case 3: data.setGenderPreference(EnumGender.MALE); break;
+		case 4: data.setGenderPreference(EnumGender.UNASSIGNED); break;
+		case 5: data.setGenderPreference(EnumGender.FEMALE); break;
 		case 6: 
 			data.setMcaName(nameTextField.getText());
 
@@ -329,11 +257,6 @@ public class GuiSetup extends GuiScreen
 	{
 		buttonList.clear();
 		
-		if (!MCA.getConfig().disablePatreonButton)
-		{
-			buttonList.add(new GuiButtonPatreon(-1, width / 2 + 90, height / 2 + 80));
-		}
-		
 		if (page > 1)
 		{
 			buttonList.add(new GuiButton(0, width / 2 - 200, height / 2 + 90, 65, 20, "Back"));
@@ -341,7 +264,6 @@ public class GuiSetup extends GuiScreen
 
 		if (page == 1)
 		{
-			buttonList.add(new GuiButton(-2, width / 2 - 200, height / 2 + 90, 80, 20, Color.GREEN + "Supporters"));
 			buttonList.add(new GuiButton(1, width / 2 - 65, height / 2 + 10, 65, 20, Color.AQUA + "Male"));
 			buttonList.add(new GuiButton(2, width / 2 + 2, height / 2 + 10, 65, 20, Color.LIGHTPURPLE + "Female"));
 		}
@@ -384,7 +306,6 @@ public class GuiSetup extends GuiScreen
 
 	private void setDestinyComplete()
 	{
-		NBTPlayerData data = MCA.getPlayerData(player);
 		data.setHasChosenDestiny(true);
 	}
 }

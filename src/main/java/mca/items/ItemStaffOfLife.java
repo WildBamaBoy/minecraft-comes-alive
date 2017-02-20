@@ -6,7 +6,7 @@ import org.lwjgl.input.Keyboard;
 
 import mca.core.MCA;
 import mca.data.NBTPlayerData;
-import mca.data.VillagerSaveData;
+import mca.entity.VillagerSaveData;
 import mca.enums.EnumMarriageState;
 import mca.enums.EnumMemorialType;
 import mca.tile.TileMemorial;
@@ -55,14 +55,14 @@ public class ItemStaffOfLife extends Item
 				//Make sure the owner is the one reviving them.
 				if (!data.ownerUUID.equals(playerIn.getUniqueID()))
 				{
-					playerIn.addChatComponentMessage(new TextComponentString(Color.RED + "You cannot revive " + data.name + " because they are not related to you."), false);
+					playerIn.sendMessage(new TextComponentString(Color.RED + "You cannot revive " + data.name + " because they are not related to you."));
 					return EnumActionResult.FAIL;
 				}
 				
 				//For rings, they belonged to a spouse. Check for remarriage and forbid.
 				if (memorial.getType() == EnumMemorialType.BROKEN_RING && (playerData.getMarriageState() != EnumMarriageState.NOT_MARRIED))
 				{
-					playerIn.addChatComponentMessage(new TextComponentString(Color.RED + "You cannot revive " + data.name + " because you are already married."), false);
+					playerIn.sendMessage(new TextComponentString(Color.RED + "You cannot revive " + data.name + " because you are already married."));
 					return EnumActionResult.FAIL;
 				}
 				

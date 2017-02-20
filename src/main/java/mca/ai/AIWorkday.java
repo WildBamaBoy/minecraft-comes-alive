@@ -180,7 +180,7 @@ public class AIWorkday extends AbstractAI
 	{
 		final Class entityClass = playerOnly ? EntityPlayer.class : EntityLivingBase.class;
 		final int maxDistanceAway = 3;
-		final List<Entity> entitiesAroundMe = owner.worldObj.getEntitiesWithinAABB(entityClass, new AxisAlignedBB(owner.posX - maxDistanceAway, owner.posY - maxDistanceAway, owner.posZ - maxDistanceAway, owner.posX + maxDistanceAway, owner.posY + maxDistanceAway, owner.posZ + maxDistanceAway));
+		final List<Entity> entitiesAroundMe = owner.world.getEntitiesWithinAABB(entityClass, new AxisAlignedBB(owner.posX - maxDistanceAway, owner.posY - maxDistanceAway, owner.posZ - maxDistanceAway, owner.posX + maxDistanceAway, owner.posY + maxDistanceAway, owner.posZ + maxDistanceAway));
 		
 		double lastDistance = 100.0D;
 		Entity target = null;

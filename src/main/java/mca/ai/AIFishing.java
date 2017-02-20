@@ -82,8 +82,8 @@ public class AIFishing extends AbstractToggleAI
 				{
 					if (hook == null || hook.isDead)
 					{
-						hook = new EntityChoreFishHook(owner.worldObj, owner);
-						owner.worldObj.spawnEntityInWorld(hook);
+						hook = new EntityChoreFishHook(owner.world, owner);
+						owner.world.spawnEntity(hook);
 						owner.swingItem();
 					}
 

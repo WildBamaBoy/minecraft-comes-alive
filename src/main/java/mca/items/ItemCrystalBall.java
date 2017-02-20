@@ -30,9 +30,9 @@ public class ItemCrystalBall extends ItemSingle
 	}
 
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldObj, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
-		this.onItemRightClick(worldObj, player, hand);
+		this.onItemRightClick(world, player, hand);
 		return EnumActionResult.PASS;
 	}	
 

@@ -319,10 +319,10 @@ public class ModelGrimReaper extends ModelBiped
     	
     	else
     	{
-    		rightLeg.rotateAngleX = MathHelper.clamp_float(MathHelper.cos(100F * 0.6662F + 3.141593F) * 2.5F * f1, 0.0F, 1.1F);
-    		leftLeg.rotateAngleX = MathHelper.clamp_float(MathHelper.cos(100F * 0.6662F + 3.141593F) * 2.5F * f1, 0.0F, 1.1F);
-    		rightLeg.rotateAngleX = MathHelper.clamp_float(MathHelper.cos(100F * 0.6662F + 3.141593F) * 2.5F * f1, 0.0F, 1.1F);
-    		leftLeg.rotateAngleX = MathHelper.clamp_float(MathHelper.cos(100F * 0.6662F + 3.141593F) * 2.5F * f1, 0.0F, 1.1F);
+    		rightLeg.rotateAngleX = MathHelper.clamp(MathHelper.cos(100F * 0.6662F + 3.141593F) * 2.5F * f1, 0.0F, 1.1F);
+    		leftLeg.rotateAngleX = MathHelper.clamp(MathHelper.cos(100F * 0.6662F + 3.141593F) * 2.5F * f1, 0.0F, 1.1F);
+    		rightLeg.rotateAngleX = MathHelper.clamp(MathHelper.cos(100F * 0.6662F + 3.141593F) * 2.5F * f1, 0.0F, 1.1F);
+    		leftLeg.rotateAngleX = MathHelper.clamp(MathHelper.cos(100F * 0.6662F + 3.141593F) * 2.5F * f1, 0.0F, 1.1F);
     		
     		rightLeg.rotateAngleY = 0.0F;
     		leftLeg.rotateAngleY = 0.0F;

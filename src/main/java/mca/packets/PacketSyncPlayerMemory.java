@@ -41,7 +41,7 @@ public class PacketSyncPlayerMemory extends AbstractPacket<PacketSyncPlayerMemor
 	public void processOnGameThread(PacketSyncPlayerMemory packet, MessageContext context) 
 	{
 		EntityPlayer player = getPlayer(context);
-		EntityVillagerMCA human = (EntityVillagerMCA) player.worldObj.getEntityByID(packet.entityId);
+		EntityVillagerMCA human = (EntityVillagerMCA) player.world.getEntityByID(packet.entityId);
 		
 		if (human != null && packet.memory != null) //Noticing NPE here with varying causes. Can be ignored.
 		{

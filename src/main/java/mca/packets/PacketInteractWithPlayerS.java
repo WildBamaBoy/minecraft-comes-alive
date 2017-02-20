@@ -8,9 +8,10 @@ import mca.core.MCA;
 import mca.core.minecraft.AchievementsMCA;
 import mca.core.minecraft.ItemsMCA;
 import mca.data.NBTPlayerData;
+import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumInteraction;
 import mca.enums.EnumMarriageState;
-import mca.util.MarriageHandler;
+import mca.util.Either;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
@@ -54,7 +55,7 @@ public class PacketInteractWithPlayerS extends AbstractPacket<PacketInteractWith
 	public void processOnGameThread(PacketInteractWithPlayerS packet, MessageContext context) 
 	{
 		EntityPlayer sender = this.getPlayer(context);
-		EntityPlayer target = (EntityPlayer) sender.worldObj.getEntityByID(packet.entityId);
+		EntityPlayer target = (EntityPlayer) sender.world.getEntityByID(packet.entityId);
 		NBTPlayerData senderData = MCA.getPlayerData(sender);
 		NBTPlayerData targetData = MCA.getPlayerData(target);
 		EnumInteraction interaction = EnumInteraction.fromId(packet.interactionId);
@@ -79,52 +80,53 @@ public class PacketInteractWithPlayerS extends AbstractPacket<PacketInteractWith
 		case ASKTOMARRY:
 			if (targetData.getSpouseUUID() != Constants.EMPTY_UUID || senderData.getMarriageState() != EnumMarriageState.NOT_MARRIED)
 			{
-				sender.addChatMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.marry.fail.targetalreadymarried", target.getName())));
+				sender.sendMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.marry.fail.targetalreadymarried", target.getName())));
 			}
 
 			else if (senderData.getSpouseUUID() != Constants.EMPTY_UUID || senderData.getMarriageState() != EnumMarriageState.NOT_MARRIED)
 			{
-				sender.addChatMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.marry.fail.alreadymarried")));				
+				sender.sendMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.marry.fail.alreadymarried")));				
 			}
 
 			else if (!senderHasWeddingRing)
 			{
-				sender.addChatMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.marry.fail.noweddingring")));
+				sender.sendMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.marry.fail.noweddingring")));
 			}
 
 			else
 			{
-				sender.addChatMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.marry.sent", target.getName())));
+				sender.sendMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.marry.sent", target.getName())));
 				MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenPrompt(sender, target, interaction), (EntityPlayerMP)target);
 			}
 
 			break;
 		case DIVORCE:
-			MarriageHandler.endMarriage(sender, target);
-
-			sender.addChatMessage(new TextComponentString(MCA.getLanguageManager().getString(Color.RED + MCA.getLanguageManager().getString("interactionp.divorce.notify", target.getName()))));
-			target.addChatMessage(new TextComponentString(MCA.getLanguageManager().getString(Color.RED + MCA.getLanguageManager().getString("interactionp.divorce.notify", sender.getName()))));
+			senderData.setSpouse(null);
+			targetData.setSpouse(null);
+			
+			sender.sendMessage(new TextComponentString(MCA.getLanguageManager().getString(Color.RED + MCA.getLanguageManager().getString("interactionp.divorce.notify", target.getName()))));
+			target.sendMessage(new TextComponentString(MCA.getLanguageManager().getString(Color.RED + MCA.getLanguageManager().getString("interactionp.divorce.notify", sender.getName()))));
 			break;
 
 		case HAVEBABY:
 			if (senderData.getOwnsBaby())
 			{
-				sender.addChatMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.havebaby.fail.alreadyexists", target.getName())));				
+				sender.sendMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.havebaby.fail.alreadyexists", target.getName())));				
 			}
 
 			else
 			{
-				sender.addChatMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.havebaby.sent", target.getName())));
+				sender.sendMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.havebaby.sent", target.getName())));
 				MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenPrompt(sender, target, interaction), (EntityPlayerMP)target);
 			}
 			
 			break;
 
 		case ASKTOMARRY_ACCEPT:
-			sender.addChatMessage(new TextComponentString(Color.GREEN + MCA.getLanguageManager().getString("interactionp.marry.success", target.getName())));
-			target.addChatMessage(new TextComponentString(Color.GREEN + MCA.getLanguageManager().getString("interactionp.marry.success", sender.getName())));
+			sender.sendMessage(new TextComponentString(Color.GREEN + MCA.getLanguageManager().getString("interactionp.marry.success", target.getName())));
+			target.sendMessage(new TextComponentString(Color.GREEN + MCA.getLanguageManager().getString("interactionp.marry.success", sender.getName())));
 
-			MarriageHandler.startMarriage(sender, target);
+			senderData.setSpouse(Either.<EntityVillagerMCA, EntityPlayer>withR(target));
 
 			for (int i = 0; i < target.inventory.getSizeInventory(); i++)
 			{

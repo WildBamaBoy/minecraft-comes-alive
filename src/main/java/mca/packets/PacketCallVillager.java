@@ -51,7 +51,7 @@ public class PacketCallVillager extends AbstractPacket<PacketCallVillager>
 		
 		if (packet.callAllRelated)
 		{
-			for (final Object obj : sender.worldObj.loadedEntityList)
+			for (final Object obj : sender.world.loadedEntityList)
 			{
 				if (obj instanceof EntityVillagerMCA)
 				{
@@ -69,7 +69,7 @@ public class PacketCallVillager extends AbstractPacket<PacketCallVillager>
 		{
 			EntityVillagerMCA human = null;
 			
-			for (Object obj : sender.worldObj.loadedEntityList)
+			for (Object obj : sender.world.loadedEntityList)
 			{
 				if (obj instanceof EntityVillagerMCA)
 				{

@@ -26,7 +26,7 @@ public class ItemTombstone extends Item
 	}
 
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldObj, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		ItemStack stack = player.getHeldItem(hand);
 		
@@ -39,24 +39,24 @@ public class ItemTombstone extends Item
 		{
 			pos = pos.offset(side);
 
-			if (!BlocksMCA.tombstone.canPlaceBlockAt(worldObj, pos))
+			if (!BlocksMCA.tombstone.canPlaceBlockAt(world, pos))
 			{
 				return EnumActionResult.FAIL;
 			}
 
 			else
 			{
-				int i = MathHelper.floor_double((double)((player.rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
-				worldObj.setBlockState(pos, BlocksMCA.tombstone.getDefaultState().withProperty(BlockTombstone.ROTATION, Integer.valueOf(i)), 3);
+				int i = MathHelper.floor((double)((player.rotationYaw + 180.0F) * 16.0F / 360.0F) + 0.5D) & 15;
+				world.setBlockState(pos, BlocksMCA.tombstone.getDefaultState().withProperty(BlockTombstone.ROTATION, Integer.valueOf(i)), 3);
 			}
 			
-			stack.func_190917_f(-1); //Decrease stack size by one
-			final TileTombstone tombstone = (TileTombstone) worldObj.getTileEntity(pos);
+			stack.shrink(-1);
+			final TileTombstone tombstone = (TileTombstone) world.getTileEntity(pos);
 			
 			if (tombstone != null)
 			{
 				tombstone.setPlayer(player);
-				player.openGui(MCA.getInstance(), Constants.GUI_ID_TOMBSTONE, worldObj, pos.getX(), pos.getY(), pos.getZ());
+				player.openGui(MCA.getInstance(), Constants.GUI_ID_TOMBSTONE, world, pos.getX(), pos.getY(), pos.getZ());
 			}
 
 			return EnumActionResult.SUCCESS;

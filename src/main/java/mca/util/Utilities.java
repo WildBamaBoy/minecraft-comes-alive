@@ -61,7 +61,7 @@ public class Utilities
 	
 	public static void spawnParticlesAroundEntityS(EnumParticleTypes type, Entity entityOrigin, int rate)
 	{
-		final Random rand = entityOrigin.worldObj.rand;
+		final Random rand = entityOrigin.world.rand;
 
 		for (int i = 0; i < rate; i++)
 		{
@@ -75,9 +75,9 @@ public class Utilities
 
 			SPacketParticles packet = new SPacketParticles(type, true, parX, parY, parZ, velX, velY, velZ, 0.0F, 0);
 
-			for (int j = 0; j < entityOrigin.worldObj.playerEntities.size(); ++j)
+			for (int j = 0; j < entityOrigin.world.playerEntities.size(); ++j)
 			{
-				EntityPlayerMP entityPlayerMP = (EntityPlayerMP)entityOrigin.worldObj.playerEntities.get(j);
+				EntityPlayerMP entityPlayerMP = (EntityPlayerMP)entityOrigin.world.playerEntities.get(j);
 				double deltaX = entityOrigin.posX - entityPlayerMP.chunkCoordX;
 				double deltaY = entityOrigin.posY - entityPlayerMP.chunkCoordY;
 				double deltaZ = entityOrigin.posZ - entityPlayerMP.chunkCoordZ;
@@ -93,7 +93,7 @@ public class Utilities
 	
 	public static void spawnParticlesAroundEntityC(EnumParticleTypes type, Entity entityOrigin, int rate)
 	{
-		final Random rand = entityOrigin.worldObj.rand;
+		final Random rand = entityOrigin.world.rand;
 
 		for (int i = 0; i < rate; i++)
 		{
@@ -105,7 +105,7 @@ public class Utilities
 			final float velY = (float) (rand.nextGaussian() * 0.02D);
 			final float velZ = (float) (rand.nextGaussian() * 0.02D);
 
-			entityOrigin.worldObj.spawnParticle(type, parX, parY, parZ, velX, velY, velZ);
+			entityOrigin.world.spawnParticle(type, parX, parY, parZ, velX, velY, velZ);
 		}
 	}
 	

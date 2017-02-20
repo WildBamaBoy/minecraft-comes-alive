@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL11;
 import mca.ai.AISleep;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
+import mca.enums.EnumGender;
 import mca.enums.EnumPersonality;
 import mca.enums.EnumProfession;
 import mca.enums.EnumSleepingState;
@@ -19,12 +20,9 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import radixcore.constant.Font.Color;
 import radixcore.datastructures.CircularIntList;
-import radixcore.modules.datawatcher.DataWatcherEx;
 
 /**
  * Defines the GUI used to edit villager information.
@@ -50,7 +48,6 @@ public class GuiVillagerEditor extends GuiScreen
 	private GuiButton shiftProfessionDownButton;
 	private GuiButton shiftTraitUpButton;
 	private GuiButton shiftTraitDownButton;
-	private GuiButton applyPlayerSkinButton;
 
 	//Buttons on page 2
 	private GuiButton heightButton;
@@ -60,7 +57,6 @@ public class GuiVillagerEditor extends GuiScreen
 	private GuiButton shiftGirthUpButton;
 	private GuiButton shiftGirthDownButton;
 	private GuiButton isInfectedButton;
-	private GuiButton clearInteractionFlagButton;
 	
 	private GuiButton backButton;
 	private GuiButton nextButton;
@@ -83,12 +79,11 @@ public class GuiVillagerEditor extends GuiScreen
 		this.player = player;
 		villager = EntityHuman;
 		
-		DataWatcherEx.allowClientSideModification = true;
 		villager.getAI(AISleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
 		
 		jobs = CircularIntList.fromList(EnumProfession.getListOfIds());
 		personalities = CircularIntList.fromList(EnumPersonality.getListOfIds());
-		textures = villager.getProfessionSkinGroup().getListOfSkinIDs(villager.getIsMale());
+		textures = villager.getProfessionSkinGroup().getListOfSkinIDs(villager.getGender() == EnumGender.MALE);
 	}
 
 	@Override
@@ -132,22 +127,13 @@ public class GuiVillagerEditor extends GuiScreen
 
 		dummyTextField = new GuiTextField(2, fontRendererObj, width / 2 + 90, height / 2 - 100, 100, 200);
 		dummyTextField.setMaxStringLength(0);
-		
-		playerSkinTextField = new GuiTextField(3, fontRendererObj, width / 2 - 205, height / 2 + 40, 150, 20);
-		playerSkinTextField.setMaxStringLength(32);
-		playerSkinTextField.setText(villager.usesPlayerSkin() ? villager.getPlayerSkinUsername() : "N/A");
 	}
 
 	@Override
 	public void onGuiClosed()
 	{
 		Keyboard.enableRepeatEvents(false);
-		
 		villager.isInteractionGuiOpen = false;
-
-		DataWatcherEx.allowClientSideModification = true;
-		villager.setIsInteracting(false);
-		DataWatcherEx.allowClientSideModification = false;
 	}
 
 	@Override
@@ -165,7 +151,7 @@ public class GuiVillagerEditor extends GuiScreen
 
 		else if (guibutton == randomButton)
 		{
-			nameTextField.setText(villager.getIsMale() ? MCA.getLanguageManager().getString("name.male") : MCA.getLanguageManager().getString("name.female"));
+			nameTextField.setText(villager.getGender() == EnumGender.MALE ? MCA.getLanguageManager().getString("name.male") : MCA.getLanguageManager().getString("name.female"));
 			villager.setName(nameTextField.getText());
 			nameTextField.mouseClicked(5, 5, 5);
 			drawEditorGuiPage1();
@@ -173,7 +159,8 @@ public class GuiVillagerEditor extends GuiScreen
 
 		else if (guibutton == genderButton)
 		{
-			villager.setIsMale(!villager.getIsMale());
+			EnumGender opposite = villager.getGender() == EnumGender.MALE ? EnumGender.FEMALE : EnumGender.MALE;
+			villager.setGender(opposite);
 			drawEditorGuiPage1();
 		}
 
@@ -199,31 +186,28 @@ public class GuiVillagerEditor extends GuiScreen
 
 		else if (guibutton == shiftProfessionUpButton)
 		{
-			villager.setProfessionId(jobs.next());
-			textures = villager.getProfessionSkinGroup().getListOfSkinIDs(villager.getIsMale());
-			villager.setHeadTexture(villager.getRandomSkin());
+			villager.setProfession(EnumProfession.getProfessionById(jobs.next()));
+			villager.setHeadTexture(villager.getIsMale() ? villager.getProfessionSkinGroup().getRandomMaleSkin() : villager.getProfessionSkinGroup().getRandomFemaleSkin());
 			villager.setClothesTexture(villager.getHeadTexture());
 			drawEditorGuiPage1();
 		}
 
 		else if (guibutton == shiftProfessionDownButton)
 		{
-			villager.setProfessionId(jobs.previous());
-			textures = villager.getProfessionSkinGroup().getListOfSkinIDs(villager.getIsMale());
-			villager.setHeadTexture(villager.getRandomSkin());
-			villager.setClothesTexture(villager.getHeadTexture());
+			villager.setProfession(EnumProfession.getProfessionById(jobs.previous()));
+			villager.assignRandomSkin();
 			drawEditorGuiPage1();
 		}
 
 		else if (guibutton == shiftTraitUpButton)
 		{
-			villager.setPersonality(personalities.next());
+			villager.setPersonality(EnumPersonality.getById(personalities.next()));
 			drawEditorGuiPage1();
 		}
 
 		else if (guibutton == shiftTraitDownButton)
 		{
-			villager.setPersonality(personalities.previous());
+			villager.setPersonality(EnumPersonality.getById(personalities.previous()));
 			drawEditorGuiPage1();
 		}
 
@@ -255,51 +239,32 @@ public class GuiVillagerEditor extends GuiScreen
 
 		else if (guibutton == shiftHeightUpButton)
 		{
-			villager.setHeight(villager.getHeight() + 0.01F);
+			villager.setScaleHeight(villager.getScaleHeight() + 0.01F);
 			drawEditorGuiPage2();
 		}
 
 		else if (guibutton == shiftHeightDownButton)
 		{
-			villager.setHeight(villager.getHeight() - 0.01F);
+			villager.setScaleHeight(villager.getScaleHeight() - 0.01F);
 			drawEditorGuiPage2();
 		}
 
 		else if (guibutton == shiftGirthUpButton)
 		{
-			villager.setGirth(villager.getGirth() + 0.01F);
+			villager.setScaleWidth(villager.getScaleWidth() + 0.01F);
 			drawEditorGuiPage2();
 		}
 
 		else if (guibutton == shiftGirthDownButton)
 		{
-			villager.setGirth(villager.getGirth() - 0.01F);
+			villager.setScaleWidth(villager.getScaleWidth() - 0.01F);
 			drawEditorGuiPage2();
-		}
-		
-		else if (guibutton == applyPlayerSkinButton)
-		{
-			if (playerSkinTextField.getText().equals(""))
-			{
-				villager.setPlayerSkin("");
-			}
-			
-			else
-			{
-				villager.setPlayerSkin(playerSkinTextField.getText().trim());
-			}
 		}
 		
 		else if (guibutton == isInfectedButton)
 		{
 			villager.setIsInfected(!villager.getIsInfected());
 			drawEditorGuiPage2();
-		}
-		
-		else if (guibutton == clearInteractionFlagButton)
-		{
-			villager.setIsInteracting(false);
-			player.addChatComponentMessage(new TextComponentString(Color.GREEN + "[MCA] Interaction flag cleared."));
 		}
 	}
 
@@ -350,22 +315,21 @@ public class GuiVillagerEditor extends GuiScreen
 		currentPage = 1;
 
 		buttonList.clear();
-		buttonList.add(randomButton = new GuiButton(1, width / 2 - 50, height / 2 - 95, 60, 20, MCA.getInstance().getLanguageManager().getString("gui.button.random")));
-		buttonList.add(genderButton = new GuiButton(2, width / 2 - 190, height / 2 - 60, 175, 20, MCA.getInstance().getLanguageManager().getString("gui.button.setup.gender." + villager.getIsMale())));
+		buttonList.add(randomButton = new GuiButton(1, width / 2 - 50, height / 2 - 95, 60, 20, MCA.getLanguageManager().getString("gui.button.random")));
+		buttonList.add(genderButton = new GuiButton(2, width / 2 - 190, height / 2 - 60, 175, 20, MCA.getLanguageManager().getString("gui.button.setup.gender." + villager.getIsMale())));
 		buttonList.add(textureButton = new GuiButton(3, width / 2 - 190, height / 2 - 40, 175, 20, "Texture: " + villager.getHeadTexture().replace("mca:textures/skins/", "").replace(".png", "")));
 		buttonList.add(shiftTextureIndexUpButton = new GuiButton(4, width / 2 - 15, height / 2 - 40, 20, 20, ">>"));
 		buttonList.add(shiftTextureIndexDownButton = new GuiButton(5, width / 2 - 210, height / 2 - 40, 20, 20, "<<"));
 		buttonList.add(professionButton = new GuiButton(6, width / 2 - 190, height / 2 - 20, 175, 20, "Job: " + villager.getProfessionEnum().getUserFriendlyForm(villager)));
 		buttonList.add(shiftProfessionUpButton = new GuiButton(7, width / 2 - 15, height / 2 - 20, 20, 20, ">>"));
 		buttonList.add(shiftProfessionDownButton = new GuiButton(8, width / 2 - 210, height / 2 - 20, 20, 20, "<<"));
-		buttonList.add(personalityButton = new GuiButton(12, width / 2 - 190, height / 2 + 0, 175, 20, MCA.getInstance().getLanguageManager().getString("gui.info.personality", villager.getPersonality().getFriendlyName())));
+		buttonList.add(personalityButton = new GuiButton(12, width / 2 - 190, height / 2 + 0, 175, 20, MCA.getLanguageManager().getString("gui.info.personality", villager.getPersonality().getFriendlyName())));
 		buttonList.add(shiftTraitUpButton = new GuiButton(13, width / 2 - 15, height / 2 + 0, 20, 20, ">>"));
 		buttonList.add(shiftTraitDownButton = new GuiButton(14, width / 2 - 210, height / 2 + 0, 20, 20, "<<"));
-//		buttonList.add(applyPlayerSkinButton = new GuiButton(15, width / 2 - 50, height / 2 + 40, 40, 20, "Apply"));
 		
-		buttonList.add(doneButton = new GuiButton(17, width / 2 - 50, height / 2 + 85, 75, 20, MCA.getInstance().getLanguageManager().getString("gui.button.done")));
-		buttonList.add(nextButton = new GuiButton(18, width / 2 + 25, height / 2 + 85, 50, 20, MCA.getInstance().getLanguageManager().getString("gui.button.next")));
-		buttonList.add(backButton = new GuiButton(19, width / 2 - 101, height / 2 + 85, 50, 20, MCA.getInstance().getLanguageManager().getString("gui.button.back")));
+		buttonList.add(doneButton = new GuiButton(17, width / 2 - 50, height / 2 + 85, 75, 20, MCA.getLanguageManager().getString("gui.button.done")));
+		buttonList.add(nextButton = new GuiButton(18, width / 2 + 25, height / 2 + 85, 50, 20, MCA.getLanguageManager().getString("gui.button.next")));
+		buttonList.add(backButton = new GuiButton(19, width / 2 - 101, height / 2 + 85, 50, 20, MCA.getLanguageManager().getString("gui.button.back")));
 
 		backButton.enabled = false;
 	}
@@ -375,8 +339,8 @@ public class GuiVillagerEditor extends GuiScreen
 	 */
 	private void drawEditorGuiPage2()
 	{
-		final int displayHeight = Math.round(villager.getHeight() * 100);
-		final int displayGirth = Math.round(villager.getGirth() * 100);
+		final int displayHeight = Math.round(villager.getScaleHeight() * 100);
+		final int displayGirth = Math.round(villager.getScaleWidth() * 100);
 
 		currentPage = 2;
 		buttonList.clear();
@@ -387,11 +351,10 @@ public class GuiVillagerEditor extends GuiScreen
 		buttonList.add(shiftGirthUpButton = new GuiButton(5, width / 2 - 15, height / 2 - 20, 20, 20, ">>"));
 		buttonList.add(shiftGirthDownButton = new GuiButton(6, width / 2 - 210, height / 2 - 20, 20, 20, "<<"));
 		buttonList.add(isInfectedButton = new GuiButton(7, width / 2 - 190, height / 2 - 0, 175, 20, "Is Infected: " + villager.getIsInfected()));
-		buttonList.add(clearInteractionFlagButton = new GuiButton(8, width / 2 - 190, height / 2 + 20, 175, 20, "Clear Interaction Flag"));
 		
-		buttonList.add(doneButton = new GuiButton(16, width / 2 - 50, height / 2 + 85, 75, 20, MCA.getInstance().getLanguageManager().getString("gui.button.done")));
-		buttonList.add(nextButton = new GuiButton(17, width / 2 + 25, height / 2 + 85, 50, 20, MCA.getInstance().getLanguageManager().getString("gui.button.next")));
-		buttonList.add(backButton = new GuiButton(18, width / 2 - 101, height / 2 + 85, 50, 20, MCA.getInstance().getLanguageManager().getString("gui.button.back")));
+		buttonList.add(doneButton = new GuiButton(16, width / 2 - 50, height / 2 + 85, 75, 20, MCA.getLanguageManager().getString("gui.button.done")));
+		buttonList.add(nextButton = new GuiButton(17, width / 2 + 25, height / 2 + 85, 50, 20, MCA.getLanguageManager().getString("gui.button.next")));
+		buttonList.add(backButton = new GuiButton(18, width / 2 - 101, height / 2 + 85, 50, 20, MCA.getLanguageManager().getString("gui.button.back")));
 
 		nextButton.enabled = false;
 	}
@@ -419,17 +382,14 @@ public class GuiVillagerEditor extends GuiScreen
 		if (currentPage == 1)
 		{
 			drawString(fontRendererObj, "Name:", width / 2 - 205, height / 2 - 110, 0xffffff);
-			drawString(fontRendererObj, MCA.getInstance().getLanguageManager().getString("gui.title.editor"), width / 2 - 205, height / 2 - 87, 0xa0a0a0);
-			//TODO
-//			drawString(fontRendererObj, "Use Player's Skin:", width / 2 - 205, height / 2 + 25, 0xffffff);
+			drawString(fontRendererObj, MCA.getLanguageManager().getString("gui.title.editor"), width / 2 - 205, height / 2 - 87, 0xa0a0a0);
 			
 			nameTextField.drawTextBox();
-//			playerSkinTextField.drawTextBox();
 		}
 
 		GL11.glPushMatrix();
 		GL11.glScalef(1.5F, 1.5F, 1.5F);
-		drawCenteredString(fontRendererObj, MCA.getInstance().getLanguageManager().getString("gui.title.editor"), width / 2 - 75, height / 2 - 125, 0xffffff);
+		drawCenteredString(fontRendererObj, MCA.getLanguageManager().getString("gui.title.editor"), width / 2 - 75, height / 2 - 125, 0xffffff);
 		GL11.glPopMatrix();
 
 		super.drawScreen(sizeX, sizeY, offset);

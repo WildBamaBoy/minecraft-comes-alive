@@ -4,6 +4,7 @@ import mca.core.MCA;
 import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityVillagerMCA;
+import mca.enums.EnumGender;
 import mca.enums.EnumRelation;
 import net.minecraft.entity.player.EntityPlayer;
 import radixcore.modules.lang.AbstractLanguageParser;
@@ -55,7 +56,7 @@ public class LanguageParser extends AbstractLanguageParser
 				
 				else if (unparsedPhrase.contains("%ParentOpposite%"))
 				{
-					boolean isPlayerMale = MCA.getPlayerData(playerTarget).getIsMale();
+					boolean isPlayerMale = MCA.getPlayerData(playerTarget).getGender() == EnumGender.MALE;
 					
 					if (isPlayerMale)
 					{
@@ -70,7 +71,7 @@ public class LanguageParser extends AbstractLanguageParser
 				
 				else if (unparsedPhrase.contains("%ParentTitle%"))
 				{
-					boolean isPlayerMale = MCA.getPlayerData(playerTarget).getIsMale();
+					boolean isPlayerMale = MCA.getPlayerData(playerTarget).getGender() == EnumGender.MALE;
 					
 					if (!isPlayerMale)
 					{
@@ -102,7 +103,7 @@ public class LanguageParser extends AbstractLanguageParser
 
 			catch (Exception e)
 			{
-				RadixExcept.logErrorCatch(e, "Exception while parsing phrase.");
+				e.printStackTrace();
 			}
 
 			finally
@@ -112,7 +113,7 @@ public class LanguageParser extends AbstractLanguageParser
 				if (passes >= 10)
 				{
 					Throwable t = new Throwable();
-					RadixExcept.logErrorCatch(t, "Too many passes through parser! Some text isn't displaying correctly.");
+					t.printStackTrace();
 					break;
 				}
 			}

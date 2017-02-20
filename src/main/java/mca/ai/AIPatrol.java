@@ -53,7 +53,7 @@ public class AIPatrol extends AbstractAI
 			timeUntilTick = 20;
 		}
 		
-		if (owner.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard && !owner.worldObj.isDaytime())
+		if (owner.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard && !owner.world.isDaytime())
 		{
 			if (!hasDoor)
 			{
@@ -64,7 +64,7 @@ public class AIPatrol extends AbstractAI
 					Point3D doorPoint = nearbyDoors.get(RadixMath.getNumberInRange(0, nearbyDoors.size() - 1));
 	
 					//Only use the top of the door.
-					if (RadixBlocks.getBlock(owner.worldObj, doorPoint.iX(), doorPoint.iY() - 1, doorPoint.iZ()) != Blocks.OAK_DOOR)
+					if (RadixBlocks.getBlock(owner.world, doorPoint.iX(), doorPoint.iY() - 1, doorPoint.iZ()) != Blocks.OAK_DOOR)
 					{
 						doorPoint.set(doorPoint.iX(), doorPoint.iY() + 1, doorPoint.iZ());
 					}
@@ -72,7 +72,7 @@ public class AIPatrol extends AbstractAI
 					movePoint = new Point3D(doorPoint.iX(), doorPoint.iY(), doorPoint.iZ());
 					hasDoor = true;
 	
-					Block block = (Block)RadixBlocks.getBlock(owner.worldObj, doorPoint.iX(), doorPoint.iY(), doorPoint.iZ());
+					Block block = (Block)RadixBlocks.getBlock(owner.world, doorPoint.iX(), doorPoint.iY(), doorPoint.iZ());
 					BlockDoor door = null;
 					
 					if (block == Blocks.OAK_DOOR) //Account for ClassCastException per issue #259.
@@ -86,7 +86,7 @@ public class AIPatrol extends AbstractAI
 						return;
 					}
 					
-					int doorState = door.combineMetadata(owner.worldObj, new BlockPos(doorPoint.iX(), doorPoint.iY(), doorPoint.iZ()));
+					int doorState = door.combineMetadata(owner.world, new BlockPos(doorPoint.iX(), doorPoint.iY(), doorPoint.iZ()));
 					boolean isPositive = RadixLogic.getBooleanWithProbability(50);
 					int offset = isPositive ? RadixMath.getNumberInRange(1, 3) : RadixMath.getNumberInRange(1, 3) * -1;
 					boolean isValid = false;
@@ -118,8 +118,8 @@ public class AIPatrol extends AbstractAI
 							movePoint.set(movePoint.dX() + offset, movePoint.dY(), movePoint.dZ());
 						}
 	
-						if (owner.worldObj.canBlockSeeSky(movePoint.toBlockPos()) && 
-								RadixBlocks.getBlock(owner.worldObj, movePoint.iX(), movePoint.iY(), movePoint.iZ()) == Blocks.AIR)
+						if (owner.world.canBlockSeeSky(movePoint.toBlockPos()) && 
+								RadixBlocks.getBlock(owner.world, movePoint.iX(), movePoint.iY(), movePoint.iZ()) == Blocks.AIR)
 						{
 							//Random chance of skipping a valid first pass so that they aren't always right against the door.
 							if (i == 1 && RadixLogic.getBooleanWithProbability(50))
@@ -196,7 +196,7 @@ public class AIPatrol extends AbstractAI
 	private Point3D movePointToGround(Point3D point)
 	{
 		Point3D returnPoint = new Point3D(point.iX(), point.iY(), point.iZ());
-		Block block = RadixBlocks.getBlock(owner.worldObj, returnPoint.iX(), returnPoint.iY(), returnPoint.iZ());
+		Block block = RadixBlocks.getBlock(owner.world, returnPoint.iX(), returnPoint.iY(), returnPoint.iZ());
 		boolean lastBlockWasAir = false;
 
 		while (returnPoint.iY() > 0)
@@ -205,7 +205,7 @@ public class AIPatrol extends AbstractAI
 			{
 				lastBlockWasAir = true;
 				returnPoint.set(returnPoint.iX(), returnPoint.iY() - 1, returnPoint.iZ());
-				block = RadixBlocks.getBlock(owner.worldObj, returnPoint.iX(), returnPoint.iY(), returnPoint.iZ());
+				block = RadixBlocks.getBlock(owner.world, returnPoint.iX(), returnPoint.iY(), returnPoint.iZ());
 			}
 
 			else if (block != Blocks.AIR && lastBlockWasAir)

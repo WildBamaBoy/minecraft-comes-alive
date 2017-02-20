@@ -13,12 +13,12 @@ public class Either<L, R>
 	
 	public static <L, R> Either<L, R> withL(L l)
 	{
-		return new Either<L, R>(l, null);
+		return new Either<L, R>(l, (R)null);
 	}
 
 	public static <L, R> Either<L, R> withR(R r)
 	{
-		return new Either<L, R>(null, r);
+		return new Either<L, R>((L)null, r);
 	}
 	
 	public L getLeft()

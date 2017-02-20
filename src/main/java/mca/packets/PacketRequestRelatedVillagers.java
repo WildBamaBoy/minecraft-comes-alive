@@ -5,8 +5,8 @@ import java.util.List;
 
 import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
-import mca.data.VillagerSaveData;
 import mca.entity.EntityVillagerMCA;
+import mca.entity.VillagerSaveData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -35,7 +35,7 @@ public class PacketRequestRelatedVillagers extends AbstractPacket<PacketRequestR
 		EntityPlayer sender = this.getPlayer(context);
 		List<VillagerSaveData> dataList = new ArrayList<VillagerSaveData>();
 		
-		for (final Object obj : sender.worldObj.loadedEntityList)
+		for (final Object obj : sender.world.loadedEntityList)
 		{
 			if (obj instanceof EntityVillagerMCA)
 			{

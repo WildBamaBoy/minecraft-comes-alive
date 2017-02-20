@@ -10,7 +10,11 @@ import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumDestinyChoice;
 import mca.enums.EnumDialogueType;
 import mca.enums.EnumGender;
+import mca.enums.EnumProfession;
 import mca.tile.TileTombstone;
+import mca.util.Either;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -24,7 +28,6 @@ import radixcore.math.Point3D;
 import radixcore.modules.RadixBlocks;
 import radixcore.modules.RadixLogic;
 import radixcore.modules.RadixMath;
-import radixcore.modules.datawatcher.DataWatcherEx;
 import radixcore.modules.net.AbstractPacket;
 import radixcore.modules.schematics.RadixSchematics;
 
@@ -56,11 +59,9 @@ public class PacketDestinyChoice extends AbstractPacket<PacketDestinyChoice>
 	@Override
 	public void processOnGameThread(PacketDestinyChoice packet, MessageContext context) 
 	{
-		DataWatcherEx.allowClientSideModification = true;
-		
 		final EntityPlayerMP player = (EntityPlayerMP)this.getPlayer(context);
 		final NBTPlayerData data = MCA.getPlayerData(player);
-		final WorldServer world = (WorldServer)player.worldObj;
+		final WorldServer world = (WorldServer)player.world;
 
 		if (packet.choice == EnumDestinyChoice.NONE || packet.choice == EnumDestinyChoice.CANCEL)
 		{
@@ -99,12 +100,17 @@ public class PacketDestinyChoice extends AbstractPacket<PacketDestinyChoice>
 
 				boolean isSpouseMale = data.getGenderPreference() == EnumGender.MALE ? true : data.getGenderPreference() == EnumGender.FEMALE ? false : world.rand.nextBoolean();
 
-				EntityVillagerMCA spouse = new EntityVillagerMCA(world, isSpouseMale);
+				EntityVillagerMCA spouse = new EntityVillagerMCA(world);
+				spouse.setGender(isSpouseMale ? EnumGender.MALE : EnumGender.FEMALE);
+				spouse.assignRandomName();
+				spouse.assignRandomProfession();
+				spouse.assignRandomPersonality();
+				spouse.assignRandomSkin();
 				spouse.setPosition(player.posX - 2, player.posY, player.posZ);
-				world.spawnEntityInWorld(spouse);
+				world.spawnEntity(spouse);
 
 				PlayerMemory spouseMemory = spouse.getPlayerMemory(player);
-				spouse.setMarriedTo(player);
+				spouse.setSpouse(Either.<EntityVillagerMCA, EntityPlayer>withR(player));
 				spouseMemory.setHearts(100);
 				spouseMemory.setDialogueType(EnumDialogueType.SPOUSE);
 
@@ -112,33 +118,32 @@ public class PacketDestinyChoice extends AbstractPacket<PacketDestinyChoice>
 
 				while (numChildren > 0)
 				{
-					boolean isPlayerMale = data.getIsMale();
+					boolean isPlayerMale = data.getGender() == EnumGender.MALE;
 
-					String motherName = "N/A";
-					int motherId = 0;
-					String fatherName = "N/A";
-					int fatherId = 0;
-
-					//TODO
-					if (isPlayerMale)
+					Entity father = isPlayerMale ? player : spouse;
+					Entity mother = father == player ? spouse : player;
+										
+					final EntityVillagerMCA child = new EntityVillagerMCA(world);
+					child.assignRandomGender();
+					child.assignRandomName();
+					child.assignRandomPersonality();
+					child.setProfession(EnumProfession.Child);
+					child.setIsChild(true);
+					
+					if (father instanceof EntityPlayer)
 					{
-						fatherName = player.getName();
-						fatherId = data.getPersistentID();
-						motherName = spouse.getName();
-						motherId = spouse.getPersistentID();
-					}
-
-					else
-					{
-						motherName = player.getName();
-						motherId = data.getUUID();
-						fatherName = spouse.getName();
-						fatherId = spouse.getPersistentID();
+						child.setFather(Either.<EntityVillagerMCA, EntityPlayer>withR((EntityPlayer)father));
+						child.setMother(Either.<EntityVillagerMCA, EntityPlayer>withL((EntityVillagerMCA)mother));
 					}
 					
-					final EntityVillagerMCA child = new EntityVillagerMCA(world, RadixLogic.getBooleanWithProbability(50), true, motherName, fatherName, motherId, fatherId, true);
+					else
+					{
+						child.setFather(Either.<EntityVillagerMCA, EntityPlayer>withL((EntityVillagerMCA)father));
+						child.setMother(Either.<EntityVillagerMCA, EntityPlayer>withR((EntityPlayer)mother));						
+					}
+					
 					child.setPosition(player.posX + RadixMath.getNumberInRange(1, 3), player.posY, player.posZ);
-					world.spawnEntityInWorld(child);
+					world.spawnEntity(child);
 
 					PlayerMemory childMemory = child.getPlayerMemory(player);
 					childMemory.setHearts(100);
@@ -158,15 +163,15 @@ public class PacketDestinyChoice extends AbstractPacket<PacketDestinyChoice>
 
 				for (Point3D point : RadixLogic.getNearbyBlocks(player, Blocks.MOB_SPAWNER, 70))
 				{
-					RadixBlocks.setBlock(player.worldObj, point, Blocks.AIR);
+					RadixBlocks.setBlock(player.world, point, Blocks.AIR);
 					MCA.naturallySpawnVillagers(new Point3D(point.iX(), point.iY(), point.iZ()), world, -1);
 				}
 
 				for (Point3D point : RadixLogic.getNearbyBlocks(player, Blocks.BEDROCK, 70))
 				{
-					RadixBlocks.setBlock(player.worldObj, point, BlocksMCA.tombstone);
+					RadixBlocks.setBlock(player.world, point, BlocksMCA.tombstone);
 
-					final TileTombstone tile = (TileTombstone) player.worldObj.getTileEntity(point.toBlockPos());
+					final TileTombstone tile = (TileTombstone) player.world.getTileEntity(point.toBlockPos());
 
 					if (tile != null)
 					{

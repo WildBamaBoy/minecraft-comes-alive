@@ -98,7 +98,7 @@ public class PacketToggleAI extends AbstractPacket<PacketToggleAI>
 	public void processOnGameThread(PacketToggleAI packet, MessageContext context) 
 	{
 		EntityPlayer player = getPlayer(context);
-		EntityVillagerMCA human = (EntityVillagerMCA) player.worldObj.getEntityByID(packet.entityId);
+		EntityVillagerMCA human = (EntityVillagerMCA) player.world.getEntityByID(packet.entityId);
 		
 		switch(EnumInteraction.fromId(packet.interactionId))
 		{

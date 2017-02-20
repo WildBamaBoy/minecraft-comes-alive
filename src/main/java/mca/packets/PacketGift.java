@@ -17,7 +17,7 @@ import mca.enums.EnumBabyState;
 import mca.enums.EnumMarriageState;
 import mca.enums.EnumProgressionStep;
 import mca.inventory.VillagerInventory;
-import mca.util.MarriageHandler;
+import mca.util.Either;
 import mca.util.TutorialManager;
 import mca.util.Utilities;
 import net.minecraft.block.Block;
@@ -108,7 +108,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 			player.addStat(AchievementsMCA.marriage);
 			human.say("interaction.marry.success", player); 
 
-			MarriageHandler.startMarriage(player, human);
+			human.setSpouse(Either.<EntityVillagerMCA, EntityPlayer>withR(player));
 			memory.setIsHiredBy(false, 0);
 			
 			human.getAI(AIMood.class).modifyMoodLevel(3.0F);
@@ -122,7 +122,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 
 	private boolean handleMatchmakersRing(EntityPlayer player, EntityVillagerMCA human, ItemStack stack)
 	{
-		EntityVillagerMCA partner = RadixLogic.getClosestEntity(Point3D.fromEntityPosition(human), human.worldObj, 5, EntityVillagerMCA.class, human);
+		EntityVillagerMCA partner = RadixLogic.getClosestEntity(Point3D.fromEntityPosition(human), human.world, 5, EntityVillagerMCA.class, human);
 
 		if (human.getIsChild())
 		{
@@ -139,7 +139,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 			human.say("interaction.matchmaker.fail.engaged", player); 
 		}
 
-		else if (stack.func_190916_E() < 2)
+		else if (stack.getCount() < 2)
 		{
 			human.say("interaction.matchmaker.fail.needtwo", player); 
 			TutorialManager.sendMessageToPlayer(player, "You must have two matchmaker's rings", "in a stack to arrange a marriage.");
@@ -150,8 +150,8 @@ public class PacketGift extends AbstractPacket<PacketGift>
 			boolean partnerIsValid = partner != null 
 					&& partner.getMarriageState() == EnumMarriageState.NOT_MARRIED 
 					&& !partner.getIsChild() 
-					&& (partner.getFatherId() == -1 || partner.getFatherId() != human.getFatherId()) 
-					&& (partner.getMotherId() == -1 || partner.getMotherId() != human.getMotherId());
+					&& (partner.getFatherUUID() == Constants.EMPTY_UUID || partner.getFatherUUID() != human.getFatherUUID()) 
+					&& (partner.getMotherUUID() == Constants.EMPTY_UUID || partner.getMotherUUID() != human.getMotherUUID());
 
 			if (partner == null)
 			{
@@ -167,13 +167,12 @@ public class PacketGift extends AbstractPacket<PacketGift>
 
 			else
 			{
-				human.setMarriedTo(partner);
-				partner.setMarriedTo(human);
+				human.setSpouse(Either.<EntityVillagerMCA, EntityPlayer>withL(partner));
 
 				Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, human, 16);
 				Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, partner, 16);
 
-				for (Object obj : human.worldObj.playerEntities)
+				for (Object obj : human.world.playerEntities)
 				{
 					EntityPlayer onlinePlayer = (EntityPlayer)obj;
 
@@ -231,8 +230,8 @@ public class PacketGift extends AbstractPacket<PacketGift>
 		{
 			player.addStat(AchievementsMCA.engagement);
 			human.say("interaction.engage.success", player); 
-
-			MarriageHandler.startEngagement(player, human);
+			human.setFiancee(player);
+			
 			memory.setIsHiredBy(false, 0);
 			
 			human.getAI(AIMood.class).modifyMoodLevel(3.0F);
@@ -271,7 +270,8 @@ public class PacketGift extends AbstractPacket<PacketGift>
 				memory.setHearts(-100);
 				human.say("interaction.divorce.success", player); 
 
-				MarriageHandler.endMarriage(player, human);
+				human.setSpouse(null);
+				data.setSpouse(null);
 
 				human.getAI(AIMood.class).modifyMoodLevel(-10.0F);
 				Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.VILLAGER_ANGRY, human, 16);
@@ -279,14 +279,14 @@ public class PacketGift extends AbstractPacket<PacketGift>
 
 			else
 			{
-				final EntityVillagerMCA partner = human.getVillagerSpouse();
+				final EntityVillagerMCA partner = human.getVillagerSpouseInstance();
 
 				if (partner != null)
 				{
-					partner.setMarriedTo(null);
+					partner.setSpouse(null);
 				}
 
-				human.setMarriedTo(null);
+				human.setSpouse(null);
 			}
 
 			return true;
@@ -295,7 +295,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 		return false;
 	}
 
-	private boolean handleStandardGift(EntityPlayer player, EntityVillagerMCA human, int slot, ItemStack stack)
+	private boolean handleStandardGift(EntityPlayer player, EntityVillagerMCA human, int slot1, ItemStack stack)
 	{
 		final PlayerMemory memory = human.getPlayerMemory(player);
 		final Object queryObject = stack.getItem() instanceof ItemBlock ? Block.getBlockFromItem(stack.getItem()) : stack.getItem();
@@ -345,7 +345,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 		EntityVillagerMCA human = null;
 		EntityPlayer player = null;
 
-		for (WorldServer world : FMLCommonHandler.instance().getMinecraftServerInstance().worldServers)
+		for (WorldServer world : FMLCommonHandler.instance().getMinecraftServerInstance().worlds)
 		{
 			player = getPlayer(context);
 			human = (EntityVillagerMCA) world.getEntityByID(packet.entityId);
@@ -412,9 +412,9 @@ public class PacketGift extends AbstractPacket<PacketGift>
 			{
 				EnumProgressionStep step = human.getAI(AIProgressStory.class).getProgressionStep();
 
-				if (human.isMarriedToAVillager() && human.getVillagerSpouse() != null && RadixMath.getDistanceToEntity(human, human.getVillagerSpouse()) <= 8.5D)
+				if (human.isMarriedToAVillager() && human.getVillagerSpouseInstance() != null && RadixMath.getDistanceToEntity(human, human.getVillagerSpouseInstance()) <= 8.5D)
 				{
-					EntityVillagerMCA spouse = human.getVillagerSpouse();
+					EntityVillagerMCA spouse = human.getVillagerSpouseInstance();
 
 					removeItem = true;
 					removeCount = 1;
@@ -441,7 +441,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 					TutorialManager.sendMessageToPlayer(player, "Cake can influence villagers to have children.", "");
 				}
 
-				else if (human.isMarriedToAVillager() && human.getVillagerSpouse() == null)
+				else if (human.isMarriedToAVillager() && human.getVillagerSpouseInstance() == null)
 				{
 					human.sayRaw("I don't see my spouse anywhere...", player);
 				}
@@ -455,7 +455,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 			else if (item == ItemsMCA.newOutfit && human.allowsControllingInteractions(player))
 			{
 				Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.VILLAGER_HAPPY, human, 16);
-				human.setClothesTexture(human.getRandomSkin());
+				human.setClothesTexture(human.getProfessionSkinGroup().getRandomMaleSkin());
 				removeItem = true;
 				removeCount = 1;
 			}
@@ -496,9 +496,9 @@ public class PacketGift extends AbstractPacket<PacketGift>
 
 			if (removeItem && !player.capabilities.isCreativeMode)
 			{
-				stack.func_190917_f(removeCount * -1);
+				stack.shrink(removeCount);
 
-				if (stack.func_190916_E() > 0)
+				if (stack.getCount() > 0)
 				{
 					player.inventory.setInventorySlotContents(packet.slot, stack);
 				}

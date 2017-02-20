@@ -158,15 +158,15 @@ public class AIDefend extends AbstractAI
 	
 	private void attackEntityWithRangedAttack(EntityVillagerMCA shooter, EntityLivingBase target, float velocity)
 	{
-		EntityArrow entityarrow = new EntityTippedArrow(shooter.worldObj, shooter);
+		EntityArrow entityarrow = new EntityTippedArrow(shooter.world, shooter);
 		double d0 = target.posX - shooter.posX;
 		double d1 = target.getEntityBoundingBox().minY + (double)(target.height / 3.0F) - entityarrow.posY;
 		double d2 = target.posZ - shooter.posZ;
-		double d3 = (double)MathHelper.sqrt_double(d0 * d0 + d2 * d2);
-		entityarrow.setThrowableHeading(d0, d1 + d3 * 0.2D, d2, 1.6F, (float)(14 - shooter.worldObj.getDifficulty().getDifficultyId() * 4));
+		double d3 = (double)MathHelper.sqrt(d0 * d0 + d2 * d2);
+		entityarrow.setThrowableHeading(d0, d1 + d3 * 0.2D, d2, 1.6F, (float)(14 - shooter.world.getDifficulty().getDifficultyId() * 4));
 		int i = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.POWER, shooter);
 		int j = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.PUNCH, shooter);
-		entityarrow.setDamage((double)(velocity * 2.0F) + shooter.getRNG().nextGaussian() * 0.25D + (double)((float)shooter.worldObj.getDifficulty().getDifficultyId() * 0.11F));
+		entityarrow.setDamage((double)(velocity * 2.0F) + shooter.getRNG().nextGaussian() * 0.25D + (double)((float)shooter.world.getDifficulty().getDifficultyId() * 0.11F));
 
 		if (i > 0)
 		{
@@ -179,6 +179,6 @@ public class AIDefend extends AbstractAI
 		}
 
 		shooter.playSound(SoundEvents.ENTITY_SKELETON_SHOOT, 1.0F, 1.0F / (shooter.getRNG().nextFloat() * 0.4F + 0.8F));
-		shooter.worldObj.spawnEntityInWorld(entityarrow);
+		shooter.world.spawnEntity(entityarrow);
 	}
 }

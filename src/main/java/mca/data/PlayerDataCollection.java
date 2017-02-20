@@ -20,12 +20,12 @@ public class PlayerDataCollection extends WorldSavedData
 	public static PlayerDataCollection get() 
 	{
 		World world = FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld();
-		PlayerDataCollection data = (PlayerDataCollection) world.loadItemData(PlayerDataCollection.class, ID);
+		PlayerDataCollection data = (PlayerDataCollection) world.loadData(PlayerDataCollection.class, ID);
 
 		if (data == null)
 		{
 			data = new PlayerDataCollection();
-			world.setItemData(ID, data);
+			world.setData(ID, data);
 		}
 
 		return data;

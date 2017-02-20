@@ -4,7 +4,6 @@ import mca.api.RegistryMCA;
 import mca.api.WoodcuttingEntry;
 import mca.api.exception.MappingNotFoundException;
 import mca.core.MCA;
-import mca.data.WatcherIDsHuman;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumPersonality;
 import net.minecraft.block.Block;
@@ -20,11 +19,9 @@ import radixcore.math.Point3D;
 import radixcore.modules.RadixBlocks;
 import radixcore.modules.RadixLogic;
 import radixcore.modules.RadixMath;
-import radixcore.modules.datawatcher.WatchedBoolean;
 
 public class AIWoodcutting extends AbstractToggleAI
 {
-	private WatchedBoolean isAIActive;
 	private Point3D treeBasePoint;
 	private int apiId;
 	private int yLevel;
@@ -35,30 +32,7 @@ public class AIWoodcutting extends AbstractToggleAI
 	public AIWoodcutting(EntityVillagerMCA owner) 
 	{
 		super(owner);
-		isAIActive = new WatchedBoolean(false, WatcherIDsHuman.IS_WOODCUTTING_ACTIVE, owner.getDataWatcherEx());
 		treeBasePoint = Point3D.ZERO;
-	}
-
-	@Override
-	public void setIsActive(boolean value) 
-	{
-		isAIActive.setValue(value);
-	}
-
-	@Override
-	public boolean getIsActive() 
-	{
-		return isAIActive.getBoolean();
-	}
-
-	@Override
-	public void onUpdateCommon() 
-	{
-	}
-
-	@Override
-	public void onUpdateClient() 
-	{	
 	}
 
 	@Override
@@ -79,18 +53,18 @@ public class AIWoodcutting extends AbstractToggleAI
 
 				if (apiEntry.getLogBlock() == null) //Protect against possible NPE.
 				{
-					isAIActive.setValue(false);
+					setIsActive(false);
 					return;
 				}
 
-				final Point3D point = RadixLogic.getFirstNearestBlock(owner, apiEntry.getLogBlock(), 15);
+				final Point3D point = RadixLogic.getNearestBlock(owner, 15, apiEntry.getLogBlock());
 
 				if (point != null)
 				{
 					//Follow the point down until logs are NOT found, so we have the base of the tree.
-					while (RadixBlocks.getBlock(owner.worldObj, point.iX(), point.iY(), point.iZ()) == apiEntry.getLogBlock())
+					while (RadixBlocks.getBlock(owner.world, point.iX(), point.iY(), point.iZ()) == apiEntry.getLogBlock())
 					{
-						point.iY()--;
+						point.set(point.iX(), point.iY() - 1, point.iZ());
 
 						if (point.iY() <= 0) //Impose a limit on failure
 						{
@@ -99,9 +73,9 @@ public class AIWoodcutting extends AbstractToggleAI
 					}
 
 					//Follow back up and make sure we have the base. Not sure why, simply adding 1 caused issues every now and then.
-					while (RadixBlocks.getBlock(owner.worldObj, point.iX(), point.iY(), point.iZ()) != apiEntry.getLogBlock())
+					while (RadixBlocks.getBlock(owner.world, point.iX(), point.iY(), point.iZ()) != apiEntry.getLogBlock())
 					{
-						point.iY()++;
+						point.set(point.iX(), point.iY() + 1, point.iZ());
 
 						if (point.iY() >= 255)
 						{
@@ -116,7 +90,7 @@ public class AIWoodcutting extends AbstractToggleAI
 				else
 				{
 					notifyAssigningPlayer("There are no logs nearby.");
-					isAIActive.setValue(false);
+					setIsActive(false);
 					return;
 				}
 			}
@@ -132,7 +106,7 @@ public class AIWoodcutting extends AbstractToggleAI
 
 					final WoodcuttingEntry apiEntry = RegistryMCA.getWoodcuttingEntryById(apiId);
 					final Block block = apiEntry.getLogBlock();
-					RadixBlocks.setBlock(owner.worldObj, treeBasePoint.iX(), treeBasePoint.iY() + yLevel, treeBasePoint.iZ(), Blocks.AIR);
+					RadixBlocks.setBlock(owner.world, treeBasePoint.iX(), treeBasePoint.iY() + yLevel, treeBasePoint.iZ(), Blocks.AIR);
 					boolean addedToInventory = addItemStackToInventory(new ItemStack(block, 1, apiEntry.getLogMeta()));
 					boolean toolBroken = owner.damageHeldItem(2);
 
@@ -144,28 +118,28 @@ public class AIWoodcutting extends AbstractToggleAI
 					else if (!addedToInventory)
 					{
 						notifyAssigningPlayer("My inventory is full.");
-						isAIActive.setValue(false);
+						setIsActive(false);
 						return;
 					}
 
 					else if (toolBroken)
 					{
 						notifyAssigningPlayer("My axe has broken.");
-						isAIActive.setValue(false);
+						setIsActive(false);
 						return;					
 					}
 
 					yLevel++;
 
 					//Check that the next y level still contains a tree, reset if not.
-					final Block nextBlock = RadixBlocks.getBlock(owner.worldObj, treeBasePoint.iX(), treeBasePoint.iY() + yLevel, treeBasePoint.iZ());
+					final Block nextBlock = RadixBlocks.getBlock(owner.world, treeBasePoint.iX(), treeBasePoint.iY() + yLevel, treeBasePoint.iZ());
 
 					if (nextBlock != apiEntry.getLogBlock())
 					{
 						if (apiEntry.hasSapling() && doReplant)
 						{
-							RadixBlocks.setBlock(owner.worldObj, treeBasePoint.iX(), treeBasePoint.iY() - 1, treeBasePoint.iZ(), Blocks.DIRT);
-							RadixBlocks.setBlock(owner.worldObj, treeBasePoint.iX(), treeBasePoint.iY(), treeBasePoint.iZ(), apiEntry.getSaplingBlock());
+							RadixBlocks.setBlock(owner.world, treeBasePoint.iX(), treeBasePoint.iY() - 1, treeBasePoint.iZ(), Blocks.DIRT);
+							RadixBlocks.setBlock(owner.world, treeBasePoint.iX(), treeBasePoint.iY(), treeBasePoint.iZ(), apiEntry.getSaplingBlock());
 						}
 
 						yLevel = 0;
@@ -178,12 +152,12 @@ public class AIWoodcutting extends AbstractToggleAI
 			{
 				for (Point3D point : RadixLogic.getNearbyBlocks(owner, Blocks.LEAVES, 1))
 				{
-					RadixBlocks.setBlock(owner.worldObj, point.iX(), point.iY(), point.iZ(), Blocks.AIR);
+					RadixBlocks.setBlock(owner.world, point.iX(), point.iY(), point.iZ(), Blocks.AIR);
 				}
 
 				for (Point3D point : RadixLogic.getNearbyBlocks(owner, Blocks.LEAVES2, 1))
 				{
-					RadixBlocks.setBlock(owner.worldObj, point.iX(), point.iY(), point.iZ(), Blocks.AIR);				
+					RadixBlocks.setBlock(owner.world, point.iX(), point.iY(), point.iZ(), Blocks.AIR);				
 				}
 
 				if (owner.getNavigator().noPath())
@@ -200,15 +174,9 @@ public class AIWoodcutting extends AbstractToggleAI
 	}
 
 	@Override
-	public void reset() 
-	{
-		isAIActive.setValue(false);
-	}
-
-	@Override
 	public void writeToNBT(NBTTagCompound nbt) 
 	{
-		nbt.setBoolean("isWoodcuttingActive", isAIActive.getBoolean());
+		nbt.setBoolean("isWoodcuttingActive", getIsActive());
 
 		treeBasePoint.writeToNBT("treeBasePoint", nbt);
 		nbt.setInteger("apiId", apiId);
@@ -221,7 +189,7 @@ public class AIWoodcutting extends AbstractToggleAI
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) 
 	{
-		isAIActive.setValue(nbt.getBoolean("isWoodcuttingActive"));
+		setIsActive(nbt.getBoolean("isWoodcuttingActive"));
 
 		treeBasePoint = Point3D.readFromNBT("treeBasePoint", nbt);
 		apiId = nbt.getInteger("apiId");
@@ -231,16 +199,16 @@ public class AIWoodcutting extends AbstractToggleAI
 		doReplant = nbt.getBoolean("doReplant");
 	}
 
-	public void startWoodcutting(EntityPlayer player, int apiId, boolean doReplant)
+	public void startWoodcutting(EntityPlayer player, int apiIdIn, boolean doReplantIn)
 	{
-		this.apiId = apiId;
-		this.assigningPlayer = player.getUniqueID().toString();
+		this.apiId = apiIdIn;
+		this.assigningPlayer = player.getUniqueID();
 		this.yLevel = 0;
-		this.doReplant = doReplant;
+		this.doReplant = doReplantIn;
 		this.cutInterval = calculateCutInterval();		
 		this.cutTimeLeft = cutInterval;
 
-		this.isAIActive.setValue(true);
+		setIsActive(true);
 	}
 
 	private int calculateCutInterval()

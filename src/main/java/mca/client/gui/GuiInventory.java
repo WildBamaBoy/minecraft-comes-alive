@@ -57,8 +57,8 @@ public class GuiInventory extends InventoryEffectRenderer
 	{
 		super.initGui();
 		buttonList.clear();
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageManager().getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getInstance().getLanguageManager().getString("gui.button.exit")));
+		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getLanguageManager().getString("gui.button.back")));
+		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getLanguageManager().getString("gui.button.exit")));
 	}
 
 	@Override
@@ -89,7 +89,7 @@ public class GuiInventory extends InventoryEffectRenderer
 	{
 		mc.getTextureManager().bindTexture(resourceLocation);
 
-		final int addX = Minecraft.getMinecraft().thePlayer.getActivePotionEffects().size() > 0 ? 120 : 0;
+		final int addX = Minecraft.getMinecraft().player.getActivePotionEffects().size() > 0 ? 120 : 0;
 
 		//Draw the two inventories.
 		final int x = (width - xSize + addX) / 2;
@@ -102,6 +102,6 @@ public class GuiInventory extends InventoryEffectRenderer
 	public void onGuiClosed()
 	{
 		super.onGuiClosed();
-		owner.getVillagerInventory().closeInventory(Minecraft.getMinecraft().thePlayer);
+		owner.getVillagerInventory().closeInventory(Minecraft.getMinecraft().player);
 	}
 }

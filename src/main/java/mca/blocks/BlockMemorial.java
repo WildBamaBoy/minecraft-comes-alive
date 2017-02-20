@@ -96,7 +96,7 @@ public class BlockMemorial extends BlockContainer
 				memorial.getVillagerSaveData().writeDataToNBT(memorialStack.getTagCompound());
 				
 				EntityItem drop = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), memorialStack);
-				world.spawnEntityInWorld(drop);
+				world.spawnEntity(drop);
 			}
 			
 			super.breakBlock(world, pos, meta);

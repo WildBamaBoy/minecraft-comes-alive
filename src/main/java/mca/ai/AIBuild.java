@@ -70,7 +70,7 @@ public class AIBuild extends AbstractToggleAI
 						for (Point3D point : torchPoints)
 						{
 							final BlockObj blockObj = schematicMap.get(point);
-							RadixBlocks.setBlock(owner.worldObj, origin.iX() + point.iX(), origin.iY() + point.iY(), origin.iZ() + point.iZ(), blockObj.getBlock());
+							RadixBlocks.setBlock(owner.world, origin.iX() + point.iX(), origin.iY() + point.iY(), origin.iZ() + point.iZ(), blockObj.getBlock());
 						}
 
 						owner.setMovementState(EnumMovementState.MOVE);
@@ -87,19 +87,19 @@ public class AIBuild extends AbstractToggleAI
 
 						if (blockObj.getBlock() == Blocks.GRASS && groundBlock != null)
 						{
-							RadixBlocks.setBlock(owner.worldObj, target, groundBlock);							
+							RadixBlocks.setBlock(owner.world, target, groundBlock);							
 						}
 
 						else
 						{
 							if (blockObj.getBlock() == Blocks.OAK_FENCE_GATE && this.schematicName.contains("mine"))
 							{
-								RadixBlocks.setBlock(owner.worldObj, target.toBlockPos(), Block.getStateById(blockObj.getMeta()));
+								RadixBlocks.setBlock(owner.world, target.toBlockPos(), Block.getStateById(blockObj.getMeta()));
 							}
 							
 							else
 							{
-								RadixBlocks.setBlock(owner.worldObj, target, blockObj.getBlock());
+								RadixBlocks.setBlock(owner.world, target, blockObj.getBlock());
 							}
 						}
 					}
@@ -214,11 +214,11 @@ public class AIBuild extends AbstractToggleAI
 		for (final Map.Entry<Point3D, BlockObj> entry: schematicMap.entrySet())
 		{
 			final Point3D point = entry.getKey();
-			Block blockAtPoint = RadixBlocks.getBlock(owner.worldObj, origin.iX() + point.iX(), origin.iY() + point.iY(), origin.iZ() + point.iZ());
+			Block blockAtPoint = RadixBlocks.getBlock(owner.world, origin.iX() + point.iX(), origin.iY() + point.iY(), origin.iZ() + point.iZ());
 			
 			if (blockAtPoint == Blocks.TALLGRASS || blockAtPoint == Blocks.RED_FLOWER || blockAtPoint == Blocks.DOUBLE_PLANT || blockAtPoint == Blocks.YELLOW_FLOWER)
 			{
-				RadixBlocks.setBlock(owner.worldObj, origin.iX() + point.iX(), origin.iY() + point.iY(), origin.iZ() + point.iZ(), Blocks.AIR);
+				RadixBlocks.setBlock(owner.world, origin.iX() + point.iX(), origin.iY() + point.iY(), origin.iZ() + point.iZ(), Blocks.AIR);
 			}
 			
 			compareY = -25;

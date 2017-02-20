@@ -15,7 +15,7 @@ public class EventHooksForgeClient
 	@SubscribeEvent
 	public void rightClickBlockEventHandler(RightClickBlock event)
 	{
-		if (event.getEntityPlayer().worldObj.isRemote && Minecraft.getMinecraft().isIntegratedServerRunning())
+		if (event.getEntityPlayer().world.isRemote && Minecraft.getMinecraft().isIntegratedServerRunning())
 		{
 			Block block = RadixBlocks.getBlock(event.getWorld(), event.getPos().getX(), event.getPos().getY(), event.getPos().getZ());
 

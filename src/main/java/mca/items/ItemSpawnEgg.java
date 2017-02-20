@@ -26,17 +26,17 @@ public class ItemSpawnEgg extends Item
 	}
 
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldObj, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
 		int posX = pos.getX();
 		int posY = pos.getY() + 1;
 		int posZ = pos.getZ();
 		
-		if (!worldObj.isRemote)
+		if (!world.isRemote)
 		{
 			double verticalOffset = 0.0D;
 
-			spawnHuman(worldObj, posX + 0.5D, posY + verticalOffset, posZ + 0.5D);
+			spawnHuman(world, posX + 0.5D, posY + verticalOffset, posZ + 0.5D);
 			
 			if (!player.capabilities.isCreativeMode)
 			{
@@ -52,6 +52,6 @@ public class ItemSpawnEgg extends Item
 		EntityVillagerMCA entityHuman = new EntityVillagerMCA(world);
 		entityHuman.setGender(isMale ? EnumGender.MALE : EnumGender.FEMALE);
 		entityHuman.setPosition(posX, posY, posZ);
-		world.spawnEntityInWorld(entityHuman);
+		world.spawnEntity(entityHuman);
 	}
 }
