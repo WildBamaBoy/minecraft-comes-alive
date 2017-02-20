@@ -395,4 +395,9 @@ public class AISleep extends AbstractAI
 	{
 		return new BlockPos(bedPosX, bedPosY, bedPosZ);
 	}
+	
+	protected void registerDataParameters()
+	{
+		owner.getDataManager().register(SLEEPING_STATE, Integer.valueOf(EnumSleepingState.AWAKE.getId()));
+	}
 }

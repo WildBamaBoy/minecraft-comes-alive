@@ -250,4 +250,11 @@ public class AICombat extends AbstractAI
 	{
 		return this.attackTarget;
 	}
+	
+	protected void registerDataParameters()
+	{
+		owner.getDataManager().register(ATTACK_METHOD_ID, EnumCombatBehaviors.METHOD_DO_NOT_FIGHT.getNumericId());
+		owner.getDataManager().register(ATTACK_TRIGGER_ID, EnumCombatBehaviors.TRIGGER_PLAYER_DEAL_DAMAGE.getNumericId());
+		owner.getDataManager().register(ATTACK_TARGET_ID, EnumCombatBehaviors.TARGET_PASSIVE_MOBS.getNumericId());
+	}
 }

@@ -5,12 +5,17 @@ import mca.network.PacketHandlerMCA;
 
 public class ServerProxy 
 {
-	public void registerRenderers()
+	public void registerEntityRenderers()
 	{
 		//Server-side, no rendering.
 	}
 
 	public void registerEventHandlers()
+	{
+		
+	}
+	
+	public void registerModelMeshers()
 	{
 		
 	}

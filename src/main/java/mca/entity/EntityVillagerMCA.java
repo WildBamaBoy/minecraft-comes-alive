@@ -164,17 +164,8 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	{
 		super(world);
 		
-		setName("");
-		setClothesTexture("");
-		setHeadTexture("");
-		setProfession(EnumProfession.Unassigned);
-		setPersonality(EnumPersonality.UNASSIGNED);
-		setGender(EnumGender.UNASSIGNED);
-		setSpouse(null);
-		setMother(null);
-		setFather(null);
 		playerMemories = new HashMap<String, PlayerMemory>();
-
+		
 		//Add custom AIs
 		aiManager = new AIManager(this);
 		aiManager.addAI(new AIIdle(this));
@@ -200,6 +191,16 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 		aiManager.addAI(new AIWorkday(this));
 		aiManager.addAI(new AICombat(this));
 		
+		setName("");
+		setClothesTexture("");
+		setHeadTexture("");
+		setProfession(EnumProfession.Unassigned);
+		setPersonality(EnumPersonality.UNASSIGNED);
+		setGender(EnumGender.UNASSIGNED);
+		setSpouse(null);
+		setMother(null);
+		setFather(null);
+
 		addAI();
 
 		inventory = new VillagerInventory();
@@ -249,6 +250,39 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 		swingProgress = (float) swingProgressTicks / (float) 8;
 	}
 
+	@Override
+    protected void entityInit()
+    {
+        super.entityInit();
+        this.dataManager.register(NAME, "Steve");
+        this.dataManager.register(HEAD_TEXTURE, "");
+        this.dataManager.register(CLOTHES_TEXTURE, "");
+        this.dataManager.register(PROFESSION, EnumProfession.Farmer.getId());
+        this.dataManager.register(PERSONALITY, EnumPersonality.FRIENDLY.getId());
+        this.dataManager.register(GENDER, EnumGender.MALE.getId());
+        this.dataManager.register(SPOUSE_NAME, "N/A");
+        this.dataManager.register(SPOUSE_UUID, Constants.EMPTY_UUID_OPT);
+        this.dataManager.register(SPOUSE_GENDER, EnumGender.UNASSIGNED.getId());
+        this.dataManager.register(MOTHER_NAME, "N/A");
+        this.dataManager.register(MOTHER_UUID, Constants.EMPTY_UUID_OPT);
+        this.dataManager.register(MOTHER_GENDER, EnumGender.UNASSIGNED.getId());
+        this.dataManager.register(FATHER_NAME, "N/A");
+        this.dataManager.register(FATHER_UUID, Constants.EMPTY_UUID_OPT);
+        this.dataManager.register(FATHER_GENDER, EnumGender.UNASSIGNED.getId());
+        this.dataManager.register(BABY_STATE, EnumBabyState.NONE.getId());
+        this.dataManager.register(MOVEMENT_STATE, EnumMovementState.MOVE.getId());
+        this.dataManager.register(IS_CHILD, Boolean.valueOf(false));
+        this.dataManager.register(AGE, Integer.valueOf(0));
+        this.dataManager.register(SCALE_HEIGHT, Float.valueOf(0));
+        this.dataManager.register(SCALE_WIDTH, Float.valueOf(0));
+        this.dataManager.register(DO_DISPLAY, Boolean.valueOf(false));
+        this.dataManager.register(IS_SWINGING, Boolean.valueOf(false));
+        this.dataManager.register(HELD_ITEM_SLOT, Integer.valueOf(0));
+        this.dataManager.register(IS_INFECTED, Boolean.valueOf(false));
+        this.dataManager.register(DO_OPEN_INVENTORY, Boolean.valueOf(false));
+        this.dataManager.register(MARRIAGE_STATE, Integer.valueOf(0));
+    }
+    
 	/*****************************
 	 * Base Minecraft events
 	 */
@@ -497,6 +531,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	{
 		Map<String, PlayerMemory> recvMemories = (Map<String, PlayerMemory>) RadixNettyIO.readObject(additionalData);
 		this.playerMemories = recvMemories;
+		setDoDisplay(true);
 	}
 
 	/******************************
@@ -813,7 +848,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 		
 		if (getIsInfected())
 		{
-			return null;
+			return ItemStack.EMPTY;
 		}
 
 		else if (babyState != EnumBabyState.NONE)
@@ -868,7 +903,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 			}
 		}
 		
-		return null;
+		return ItemStack.EMPTY;
 	}
 	
 	public void setHeldItem(Item item)
@@ -945,10 +980,10 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 		case LEGS: return inventory.getStackInSlot(38);
 		case FEET: return inventory.getStackInSlot(39);
 		case MAINHAND: return getHeldItem(EnumHand.MAIN_HAND);
-		case OFFHAND: return null;
+		case OFFHAND: return ItemStack.EMPTY;
 		}
 
-		return null;
+		return ItemStack.EMPTY;
 	}
 
 	@Override

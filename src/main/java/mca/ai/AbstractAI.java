@@ -11,6 +11,7 @@ public abstract class AbstractAI
 	public AbstractAI(EntityVillagerMCA owner)
 	{
 		this.owner = owner;
+		registerDataParameters();
 	}
 	
 	/** Update code that runs on both the client and the server. */
@@ -27,4 +28,6 @@ public abstract class AbstractAI
 	public void writeToNBT(NBTTagCompound nbt){};
 	
 	public void readFromNBT(NBTTagCompound nbt){};
+	
+	protected void registerDataParameters(){};
 }

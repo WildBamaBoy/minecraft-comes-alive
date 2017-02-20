@@ -123,4 +123,9 @@ public class AIProcreate extends AbstractAI
 	{
 		hasHadTwins = value;
 	}
+	
+	protected void registerDataParameters()
+	{
+		owner.getDataManager().register(IS_PROCREATING, false);
+	}
 }

@@ -17,7 +17,7 @@ import radixcore.modules.RadixLogic;
  */
 public abstract class AbstractToggleAI extends AbstractAI
 {
-	protected final DataParameter<Boolean> IS_AI_ACTIVE = EntityDataManager.<Boolean>createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
+	protected static final DataParameter<Boolean> IS_AI_ACTIVE = EntityDataManager.<Boolean>createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
 	
 	/** The UUID of the player that triggered this AI. */
 	protected UUID assigningPlayer = new UUID(0,0);
@@ -79,5 +79,18 @@ public abstract class AbstractToggleAI extends AbstractAI
 		}
 		
 		return false;
+	}
+	
+	protected void registerDataParameters()
+	{
+		try
+		{
+			owner.getDataManager().get(IS_AI_ACTIVE);
+		}
+		
+		catch (NullPointerException e) //When not registered
+		{
+			owner.getDataManager().register(IS_AI_ACTIVE, false);
+		}
 	}
 }

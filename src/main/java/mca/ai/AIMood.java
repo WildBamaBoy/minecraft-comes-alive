@@ -18,7 +18,7 @@ import radixcore.modules.RadixMath;
 
 public class AIMood extends AbstractAI
 {
-	private final DataParameter<Float> MOOD_VALUE = EntityDataManager.<Float>createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
+	private static final DataParameter<Float> MOOD_VALUE = EntityDataManager.<Float>createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
 	
 	@SideOnly(Side.CLIENT)
 	private int particleSpawnInterval;
@@ -51,32 +51,35 @@ public class AIMood extends AbstractAI
 				particles = moodLevel > 0 ? EnumParticleTypes.VILLAGER_HAPPY : EnumParticleTypes.VILLAGER_ANGRY; break;
 			}
 			
-			switch (Math.abs(moodLevel))
+			if (particles != null)
 			{
-			case 1: particleSpawnInterval = 25; break;
-			case 2: particleSpawnInterval = 15; break;
-			case 3: particleSpawnInterval = 10; break;
-			}
-
-			if (particleSpawnCounter <= 0)
-			{
-				final Random rand = owner.world.rand;
-				final double velX = rand.nextGaussian() * 0.02D;
-				final double velY = rand.nextGaussian() * 0.02D;
-				final double velZ = rand.nextGaussian() * 0.02D;
-
-				owner.world.spawnParticle(particles, 
-						owner.posX + rand.nextFloat() * owner.width * 2.0F - owner.width, 
-						owner.posY + 0.5D + rand.nextFloat() * owner.height, 
-						owner.posZ + rand.nextFloat() * owner.width * 2.0F - owner.width, 
-						velX, velY, velZ);
-
-				particleSpawnCounter = particleSpawnInterval;
-			}
-
-			else
-			{
-				particleSpawnCounter--;
+				switch (Math.abs(moodLevel))
+				{
+				case 1: particleSpawnInterval = 25; break;
+				case 2: particleSpawnInterval = 15; break;
+				case 3: particleSpawnInterval = 10; break;
+				}
+	
+				if (particleSpawnCounter <= 0)
+				{
+					final Random rand = owner.world.rand;
+					final double velX = rand.nextGaussian() * 0.02D;
+					final double velY = rand.nextGaussian() * 0.02D;
+					final double velZ = rand.nextGaussian() * 0.02D;
+	
+					owner.world.spawnParticle(particles, 
+							owner.posX + rand.nextFloat() * owner.width * 2.0F - owner.width, 
+							owner.posY + 0.5D + rand.nextFloat() * owner.height, 
+							owner.posZ + rand.nextFloat() * owner.width * 2.0F - owner.width, 
+							velX, velY, velZ);
+	
+					particleSpawnCounter = particleSpawnInterval;
+				}
+	
+				else
+				{
+					particleSpawnCounter--;
+				}
 			}
 		}
 	}
@@ -154,5 +157,10 @@ public class AIMood extends AbstractAI
 		}
 
 		return level;
+	}
+	
+	protected void registerDataParameters()
+	{
+		owner.getDataManager().register(MOOD_VALUE, 0.0F);
 	}
 }

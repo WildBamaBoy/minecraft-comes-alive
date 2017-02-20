@@ -122,6 +122,7 @@ public class MCA
 		languageManager = new LanguageManager(ID, new LanguageParser());
 		crashWatcher = new CrashWatcher();
 		packetHandler = new PacketHandlerMCA(ID);
+		proxy.registerEntityRenderers();
 		proxy.registerEventHandlers();
 		
 		ModMetadataEx exData = ModMetadataEx.getFromModMetadata(metadata);
@@ -157,7 +158,7 @@ public class MCA
 		ItemsMCA.initialize();
 		BlocksMCA.initialize();
 		AchievementsMCA.initialize();
-		proxy.registerRenderers();
+		proxy.registerModelMeshers();
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 
 		SkinLoader.loadSkins();
