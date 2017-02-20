@@ -1,5 +1,5 @@
 {
-	"parent": "mca:block/RoseGoldOre",
+	"parent": "mca:block/rosegoldore",
 	"display": {
 		"thirdperson": {
 			"rotation": [ 10, -45, 170 ],
