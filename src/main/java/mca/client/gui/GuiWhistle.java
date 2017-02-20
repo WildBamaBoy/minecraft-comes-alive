@@ -7,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.VillagerSaveData;
-import mca.enums.EnumGender;
 import mca.enums.EnumProfession;
 import mca.packets.PacketCallVillager;
 import mca.packets.PacketRequestRelatedVillagers;

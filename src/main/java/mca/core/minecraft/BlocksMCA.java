@@ -25,8 +25,8 @@ public final class BlocksMCA
 	public static final BlockVillagerBed bedGreen = new BlockVillagerBed(EnumBedColor.GREEN);
 	public static final BlockVillagerBed bedPink = new BlockVillagerBed(EnumBedColor.PINK);
 	public static final BlockVillagerBed bedPurple = new BlockVillagerBed(EnumBedColor.PURPLE);
-	public static final Block roseGoldBlock = new BlockOre().setHardness(3.0F).setResistance(5.0F).setRegistryName("RoseGoldBlock").setCreativeTab(MCA.getCreativeTabMain());
-	public static final Block roseGoldOre = new BlockOre().setHardness(3.0F).setResistance(5.0F).setRegistryName("RoseGoldOre").setCreativeTab(MCA.getCreativeTabMain());
+	public static final Block roseGoldBlock = new BlockOre().setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("RoseGoldBlock").setCreativeTab(MCA.getCreativeTabMain());
+	public static final Block roseGoldOre = new BlockOre().setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("RoseGoldOre").setCreativeTab(MCA.getCreativeTabMain());
 	public static final BlockTombstone tombstone = new BlockTombstone();
 	public static final BlockVillagerSpawner spawner = new BlockVillagerSpawner();
 	public static final BlockMemorial memorial = new BlockMemorial();
@@ -44,6 +44,7 @@ public final class BlocksMCA
 			try
 			{
 				Block block = (Block) f.get(null);
+				block.setRegistryName(block.getUnlocalizedName().substring(5).toLowerCase());
 				GameRegistry.register(block);
 			}
 

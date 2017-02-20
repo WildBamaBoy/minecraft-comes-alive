@@ -16,7 +16,7 @@ public class ItemWhistle extends Item
 		super();
 		maxStackSize = 1;
 		setCreativeTab(MCA.getCreativeTabMain());
-		setRegistryName("Whistle");
+		setUnlocalizedName("Whistle");
 	}
 
 	@Override

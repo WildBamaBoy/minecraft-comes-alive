@@ -76,7 +76,6 @@ import radixcore.math.Point3D;
 import radixcore.modules.RadixLogic;
 import radixcore.modules.gen.SimpleOreGenerator;
 import radixcore.modules.lang.LanguageManager;
-import radixcore.modules.updates.IUpdateProtocol;
 import radixcore.modules.updates.NoUpdateProtocol;
 import radixcore.modules.updates.RDXUpdateProtocol;
 

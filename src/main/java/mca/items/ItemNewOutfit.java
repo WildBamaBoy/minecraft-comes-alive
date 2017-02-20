@@ -13,7 +13,7 @@ public class ItemNewOutfit extends Item
 	{
 		super();
 		
-		this.setRegistryName("NewOutfit");
+		this.setUnlocalizedName("NewOutfit");
 		this.setCreativeTab(MCA.getCreativeTabMain());
 		this.setMaxStackSize(1);
 		this.setMaxDamage(16);

@@ -33,7 +33,7 @@ public class BlockVillagerBed extends BlockBed implements ITileEntityProvider
 	{
 		super();
 		this.bedColor = bedColor;
-		this.setRegistryName("BlockVillagerBed" + bedColor.toString());
+		this.setUnlocalizedName("BlockVillagerBed" + bedColor.toString());
 	}
 
 	@Override
