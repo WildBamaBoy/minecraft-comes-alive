@@ -32,7 +32,7 @@ public class ItemVillagerBed extends Item
 		this.color = color;
 		this.setCreativeTab(MCA.getCreativeTabMain());
 		this.setMaxStackSize(1);
-		this.setUnlocalizedName(itemName);
+		this.setRegistryName(itemName);
 	}
 
 	private BlockVillagerBed getBedBlock()

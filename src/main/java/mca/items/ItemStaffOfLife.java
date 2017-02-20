@@ -33,7 +33,7 @@ public class ItemStaffOfLife extends Item
 		super();
 		maxStackSize = 1;
 		setCreativeTab(MCA.getCreativeTabMain());
-		setUnlocalizedName("StaffOfLife");
+		setRegistryName("StaffOfLife");
 		setMaxDamage(4);
 	}
 

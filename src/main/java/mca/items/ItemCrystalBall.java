@@ -26,7 +26,7 @@ public class ItemCrystalBall extends ItemSingle
 		super();
 		this.setCreativeTab(MCA.getCreativeTabMain());
 		this.setMaxStackSize(1);
-		this.setUnlocalizedName("CrystalBall");
+		this.setRegistryName("CrystalBall");
 	}
 
 	@Override

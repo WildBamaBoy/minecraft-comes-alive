@@ -22,7 +22,7 @@ public class ItemSpawnEgg extends Item
 		this.isMale = isMale;
 		this.setCreativeTab(MCA.getCreativeTabMain());
 		this.setMaxStackSize(1);
-		this.setUnlocalizedName(itemName);
+		this.setRegistryName(itemName);
 	}
 
 	@Override

@@ -27,6 +27,7 @@ public class BlockMemorial extends BlockContainer
 	public BlockMemorial()
 	{
 		super(Material.CLOTH);
+		setRegistryName("Memorial");
 	}
 
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)

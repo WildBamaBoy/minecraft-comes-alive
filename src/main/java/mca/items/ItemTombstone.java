@@ -22,7 +22,7 @@ public class ItemTombstone extends Item
 		super();
 		maxStackSize = 1;
 		setCreativeTab(MCA.getCreativeTabMain());
-		setUnlocalizedName("ItemTombstone");
+		setRegistryName("ItemTombstone");
 	}
 
 	@Override

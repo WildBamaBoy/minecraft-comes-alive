@@ -24,7 +24,7 @@ public class BlockVillagerSpawner extends Block
 		super(Material.IRON);
 		
 		setCreativeTab(MCA.getCreativeTabMain());
-		setUnlocalizedName("VillagerSpawner");
+		setRegistryName("VillagerSpawner");
 		setTickRandomly(true);
 		setHardness(1.0F);
 	}

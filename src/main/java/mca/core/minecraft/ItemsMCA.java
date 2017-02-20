@@ -26,12 +26,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public final class ItemsMCA
 {
-	public static final Item weddingRing = new Item().setUnlocalizedName("WeddingRing").setMaxStackSize(1);
-	public static final Item weddingRingRG = new Item().setUnlocalizedName("WeddingRingRG").setMaxStackSize(1);
-	public static final Item engagementRing = new Item().setUnlocalizedName("EngagementRing").setMaxStackSize(1);
-	public static final Item engagementRingRG = new Item().setUnlocalizedName("EngagementRingRG").setMaxStackSize(1);
-	public static final Item matchmakersRing = new Item().setUnlocalizedName("MatchmakersRing").setMaxStackSize(1);
-	public static final Item divorcePapers = new Item().setUnlocalizedName("DivorcePapers").setMaxStackSize(1);
+	public static final Item weddingRing = new Item().setRegistryName("WeddingRing").setMaxStackSize(1);
+	public static final Item weddingRingRG = new Item().setRegistryName("WeddingRingRG").setMaxStackSize(1);
+	public static final Item engagementRing = new Item().setRegistryName("EngagementRing").setMaxStackSize(1);
+	public static final Item engagementRingRG = new Item().setRegistryName("EngagementRingRG").setMaxStackSize(1);
+	public static final Item matchmakersRing = new Item().setRegistryName("MatchmakersRing").setMaxStackSize(1);
+	public static final Item divorcePapers = new Item().setRegistryName("DivorcePapers").setMaxStackSize(1);
 	public static final ItemBaby babyBoy = new ItemBaby(true);
 	public static final ItemBaby babyGirl = new ItemBaby(false);
 	public static final ItemSpawnEgg eggMale = new ItemSpawnEgg(true);
@@ -43,13 +43,13 @@ public final class ItemsMCA
 	public static final ItemVillagerBed bedPurple = new ItemVillagerBed(EnumBedColor.PURPLE);
 	public static final ItemVillagerBed bedPink = new ItemVillagerBed(EnumBedColor.PINK);
 	public static final ItemCrystalBall crystalBall = new ItemCrystalBall();
-	public static final Item roseGoldIngot = new Item().setUnlocalizedName("RoseGoldIngot");
-	public static final Item roseGoldDust = new Item().setUnlocalizedName("RoseGoldDust");
-	public static final Item goldDust = new Item().setUnlocalizedName("GoldDust");
+	public static final Item roseGoldIngot = new Item().setRegistryName("RoseGoldIngot");
+	public static final Item roseGoldDust = new Item().setRegistryName("RoseGoldDust");
+	public static final Item goldDust = new Item().setRegistryName("GoldDust");
 	public static final ItemNewOutfit newOutfit = new ItemNewOutfit();
-	public static final Item needle = new Item().setUnlocalizedName("Needle").setMaxStackSize(1);
-	public static final Item needleAndString = new Item().setUnlocalizedName("NeedleAndString").setMaxDamage(16).setMaxStackSize(1);
-	public static final Item cloth = new Item().setUnlocalizedName("Cloth");
+	public static final Item needle = new Item().setRegistryName("Needle").setMaxStackSize(1);
+	public static final Item needleAndString = new Item().setRegistryName("NeedleAndString").setMaxDamage(16).setMaxStackSize(1);
+	public static final Item cloth = new Item().setRegistryName("Cloth");
 
 	public static final ItemTombstone tombstone = new ItemTombstone();
 	public static final ItemWhistle whistle = new ItemWhistle();

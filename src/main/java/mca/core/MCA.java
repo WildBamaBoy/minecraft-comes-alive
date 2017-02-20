@@ -77,6 +77,7 @@ import radixcore.modules.RadixLogic;
 import radixcore.modules.gen.SimpleOreGenerator;
 import radixcore.modules.lang.LanguageManager;
 import radixcore.modules.updates.IUpdateProtocol;
+import radixcore.modules.updates.NoUpdateProtocol;
 import radixcore.modules.updates.RDXUpdateProtocol;
 
 @Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:radixcore@[1.11.2-2.3.0,)", acceptedMinecraftVersions = "[1.11.2]",
@@ -125,7 +126,7 @@ public class MCA
 		proxy.registerEventHandlers();
 		
 		ModMetadataEx exData = ModMetadataEx.getFromModMetadata(metadata);
-		exData.updateProtocol = (IUpdateProtocol) (config.allowUpdateChecking ? RDXUpdateProtocol.class : (IUpdateProtocol) null);
+		exData.updateProtocol = config.allowUpdateChecking ? new RDXUpdateProtocol() : new NoUpdateProtocol();
 		exData.packetHandler = packetHandler;
 
 		RadixCore.registerMod(exData);
