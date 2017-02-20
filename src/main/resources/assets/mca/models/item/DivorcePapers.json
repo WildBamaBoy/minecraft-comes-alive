@@ -1,6 +1,6 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "mca:items/DivorcePapers"
+		"layer0": "mca:items/divorcepapers"
 	}
 }
