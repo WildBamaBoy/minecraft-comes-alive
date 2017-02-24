@@ -1,4 +1,4 @@
-package mca.ai;
+package mca.actions;
 
 import mca.core.MCA;
 import mca.core.minecraft.AchievementsMCA;
@@ -8,12 +8,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
 import radixcore.modules.RadixMath;
 
-public class AIGrow extends AbstractAI
+public class ActionGrow extends AbstractAction
 {
 	private int timeUntilTickUpdate;
 	private int freeTickUpdates;
 	
-	public AIGrow(EntityVillagerMCA entityHuman) 
+	public ActionGrow(EntityVillagerMCA entityHuman) 
 	{
 		super(entityHuman);
 	}
@@ -25,20 +25,20 @@ public class AIGrow extends AbstractAI
 		//with the client lagging behind at most one minute, but the player should never notice this as any differences in hitbox
 		//size after age increases by one is very small.
 		
-		if (owner.getIsChild())
+		if (actor.getIsChild())
 		{
 			if (timeUntilTickUpdate <= 0 || freeTickUpdates != 0)
 			{
-				if (owner.getAge() >= MCA.getConfig().childGrowUpTime && !owner.world.isRemote)
+				if (actor.getAge() >= MCA.getConfig().childGrowUpTime && !actor.world.isRemote)
 				{
-					owner.getAIManager().disableAllToggleAIs();
-					owner.setIsChild(false);
+					actor.getAIManager().disableAllToggleActions();
+					actor.setIsChild(false);
 					
-					for (Object obj : owner.world.playerEntities)
+					for (Object obj : actor.world.playerEntities)
 					{
 						EntityPlayer player = (EntityPlayer)obj;
 						
-						if (owner.isPlayerAParent(player))
+						if (actor.isPlayerAParent(player))
 						{
 							player.addStat(AchievementsMCA.childToAdult);
 						}
@@ -47,13 +47,13 @@ public class AIGrow extends AbstractAI
 	
 				else
 				{
-					if (!owner.world.isRemote)
+					if (!actor.world.isRemote)
 					{
-						owner.setAge(owner.getAge() + 1);
+						actor.setAge(actor.getAge() + 1);
 					}
 					
-					float newHeight = 0.69F + (owner.getAge() * (1.8F - 0.69F) / MCA.getConfig().childGrowUpTime);
-					owner.setSizeOverride(owner.width, newHeight);
+					float newHeight = 0.69F + (actor.getAge() * (1.8F - 0.69F) / MCA.getConfig().childGrowUpTime);
+					actor.setSizeOverride(actor.width, newHeight);
 				}
 				
 				timeUntilTickUpdate = Time.MINUTE;
@@ -70,22 +70,7 @@ public class AIGrow extends AbstractAI
 			}
 		}
 	}
-
-	@Override
-	public void onUpdateClient() 
-	{
-	}
-
-	@Override
-	public void onUpdateServer() 
-	{
-	}
-
-	@Override
-	public void reset() 
-	{	
-	}
-
+	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) 
 	{	

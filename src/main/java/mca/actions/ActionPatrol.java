@@ -1,4 +1,4 @@
-package mca.ai;
+package mca.actions;
 
 import java.util.List;
 
@@ -7,7 +7,6 @@ import mca.enums.EnumProfessionSkinGroup;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import radixcore.constant.Time;
 import radixcore.math.Point3D;
@@ -15,7 +14,7 @@ import radixcore.modules.RadixBlocks;
 import radixcore.modules.RadixLogic;
 import radixcore.modules.RadixMath;
 
-public class AIPatrol extends AbstractAI
+public class ActionPatrol extends AbstractAction
 {
 	private boolean hasDoor;
 	private boolean isWaitingAtDoor;
@@ -23,19 +22,9 @@ public class AIPatrol extends AbstractAI
 	private Point3D movePoint;
 	private int timeUntilTick;
 	
-	public AIPatrol(EntityVillagerMCA owner) 
+	public ActionPatrol(EntityVillagerMCA actor) 
 	{
-		super(owner);
-	}
-
-	@Override
-	public void onUpdateCommon() 
-	{
-	}
-
-	@Override
-	public void onUpdateClient() 
-	{
+		super(actor);
 	}
 
 	@Override
@@ -53,18 +42,18 @@ public class AIPatrol extends AbstractAI
 			timeUntilTick = 20;
 		}
 		
-		if (owner.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard && !owner.world.isDaytime())
+		if (actor.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard && !actor.world.isDaytime())
 		{
 			if (!hasDoor)
 			{
-				List<Point3D> nearbyDoors = RadixLogic.getNearbyBlocks(owner, Blocks.OAK_DOOR, 15);
+				List<Point3D> nearbyDoors = RadixLogic.getNearbyBlocks(actor, Blocks.OAK_DOOR, 15);
 	
 				if (!nearbyDoors.isEmpty())
 				{
 					Point3D doorPoint = nearbyDoors.get(RadixMath.getNumberInRange(0, nearbyDoors.size() - 1));
 	
 					//Only use the top of the door.
-					if (RadixBlocks.getBlock(owner.world, doorPoint.iX(), doorPoint.iY() - 1, doorPoint.iZ()) != Blocks.OAK_DOOR)
+					if (RadixBlocks.getBlock(actor.world, doorPoint.iX(), doorPoint.iY() - 1, doorPoint.iZ()) != Blocks.OAK_DOOR)
 					{
 						doorPoint.set(doorPoint.iX(), doorPoint.iY() + 1, doorPoint.iZ());
 					}
@@ -72,7 +61,7 @@ public class AIPatrol extends AbstractAI
 					movePoint = new Point3D(doorPoint.iX(), doorPoint.iY(), doorPoint.iZ());
 					hasDoor = true;
 	
-					Block block = (Block)RadixBlocks.getBlock(owner.world, doorPoint.iX(), doorPoint.iY(), doorPoint.iZ());
+					Block block = (Block)RadixBlocks.getBlock(actor.world, doorPoint.iX(), doorPoint.iY(), doorPoint.iZ());
 					BlockDoor door = null;
 					
 					if (block == Blocks.OAK_DOOR) //Account for ClassCastException per issue #259.
@@ -86,7 +75,7 @@ public class AIPatrol extends AbstractAI
 						return;
 					}
 					
-					int doorState = door.combineMetadata(owner.world, new BlockPos(doorPoint.iX(), doorPoint.iY(), doorPoint.iZ()));
+					int doorState = BlockDoor.combineMetadata(actor.world, new BlockPos(doorPoint.iX(), doorPoint.iY(), doorPoint.iZ()));
 					boolean isPositive = RadixLogic.getBooleanWithProbability(50);
 					int offset = isPositive ? RadixMath.getNumberInRange(1, 3) : RadixMath.getNumberInRange(1, 3) * -1;
 					boolean isValid = false;
@@ -118,8 +107,8 @@ public class AIPatrol extends AbstractAI
 							movePoint.set(movePoint.dX() + offset, movePoint.dY(), movePoint.dZ());
 						}
 	
-						if (owner.world.canBlockSeeSky(movePoint.toBlockPos()) && 
-								RadixBlocks.getBlock(owner.world, movePoint.iX(), movePoint.iY(), movePoint.iZ()) == Blocks.AIR)
+						if (actor.world.canBlockSeeSky(movePoint.toBlockPos()) && 
+								RadixBlocks.getBlock(actor.world, movePoint.iX(), movePoint.iY(), movePoint.iZ()) == Blocks.AIR)
 						{
 							//Random chance of skipping a valid first pass so that they aren't always right against the door.
 							if (i == 1 && RadixLogic.getBooleanWithProbability(50))
@@ -143,9 +132,9 @@ public class AIPatrol extends AbstractAI
 	
 			else //Guard already has door to move to.
 			{
-				if (owner.getNavigator().noPath()) //Prevents jumping issues.
+				if (actor.getNavigator().noPath()) //Prevents jumping issues.
 				{
-					boolean pathSet = owner.getNavigator().tryMoveToXYZ(movePoint.dX(), movePoint.dY(), movePoint.dZ(), 0.6D);
+					boolean pathSet = actor.getNavigator().tryMoveToXYZ(movePoint.dX(), movePoint.dY(), movePoint.dZ(), 0.6D);
 	
 					if (!pathSet && !isWaitingAtDoor)
 					{
@@ -155,9 +144,9 @@ public class AIPatrol extends AbstractAI
 					}
 				}
 	
-				if (owner.getDistance(movePoint.dX(), movePoint.dY(), movePoint.dZ()) <= 2.0D && !isWaitingAtDoor)
+				if (actor.getDistance(movePoint.dX(), movePoint.dY(), movePoint.dZ()) <= 2.0D && !isWaitingAtDoor)
 				{
-					owner.getNavigator().clearPathEntity();
+					actor.getNavigator().clearPathEntity();
 					isWaitingAtDoor = true;
 					timeUntilMoveReset = Time.SECOND * RadixMath.getNumberInRange(5, 15);
 				}
@@ -176,27 +165,11 @@ public class AIPatrol extends AbstractAI
 			}
 		}
 	}
-
-	@Override
-	public void reset() 
-	{
-
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) 
-	{
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) 
-	{
-	}
-
+	
 	private Point3D movePointToGround(Point3D point)
 	{
 		Point3D returnPoint = new Point3D(point.iX(), point.iY(), point.iZ());
-		Block block = RadixBlocks.getBlock(owner.world, returnPoint.iX(), returnPoint.iY(), returnPoint.iZ());
+		Block block = RadixBlocks.getBlock(actor.world, returnPoint.iX(), returnPoint.iY(), returnPoint.iZ());
 		boolean lastBlockWasAir = false;
 
 		while (returnPoint.iY() > 0)
@@ -205,7 +178,7 @@ public class AIPatrol extends AbstractAI
 			{
 				lastBlockWasAir = true;
 				returnPoint.set(returnPoint.iX(), returnPoint.iY() - 1, returnPoint.iZ());
-				block = RadixBlocks.getBlock(owner.world, returnPoint.iX(), returnPoint.iY(), returnPoint.iZ());
+				block = RadixBlocks.getBlock(actor.world, returnPoint.iX(), returnPoint.iY(), returnPoint.iZ());
 			}
 
 			else if (block != Blocks.AIR && lastBlockWasAir)

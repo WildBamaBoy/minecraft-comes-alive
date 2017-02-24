@@ -1,4 +1,4 @@
-package mca.ai;
+package mca.actions;
 
 import java.util.Random;
 
@@ -21,16 +21,16 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.util.EnumParticleTypes;
 import radixcore.constant.Time;
 
-public class AIProcreate extends AbstractAI
+public class ActionProcreate extends AbstractAction
 {
 	private static final DataParameter<Boolean> IS_PROCREATING = EntityDataManager.<Boolean>createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
 	
 	private boolean hasHadTwins;
 	private int procreateTicks;
 	
-	public AIProcreate(EntityVillagerMCA owner) 
+	public ActionProcreate(EntityVillagerMCA actor) 
 	{
-		super(owner);
+		super(actor);
 		setIsProcreating(false);
 	}
 
@@ -39,8 +39,8 @@ public class AIProcreate extends AbstractAI
 	{
 		if (getIsProcreating())
 		{
-			owner.rotationYawHead += 40;
-			Utilities.spawnParticlesAroundEntityC(EnumParticleTypes.HEART, owner, 2);
+			actor.rotationYawHead += 40;
+			Utilities.spawnParticlesAroundEntityC(EnumParticleTypes.HEART, actor, 2);
 		}
 	}
 
@@ -55,9 +55,9 @@ public class AIProcreate extends AbstractAI
 			{
 				setIsProcreating(false);
 				procreateTicks = 0;
-				owner.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, 1.0F);
+				actor.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, 1.0F);
 
-				final EntityPlayer playerSpouse = owner.getPlayerSpouseInstance();
+				final EntityPlayer playerSpouse = actor.getPlayerSpouseInstance();
 				
 				if (playerSpouse != null)
 				{
@@ -71,7 +71,7 @@ public class AIProcreate extends AbstractAI
 					
 					if (isPlayerInventoryFull)
 					{
-						owner.getVillagerInventory().addItem(stack);
+						actor.getVillagerInventory().addItem(stack);
 					}
 					
 					else
@@ -106,12 +106,12 @@ public class AIProcreate extends AbstractAI
 
 	public void setIsProcreating(boolean value)
 	{
-		owner.getDataManager().set(IS_PROCREATING, value);
+		actor.getDataManager().set(IS_PROCREATING, value);
 	}
 	
 	public boolean getIsProcreating()
 	{
-		return owner.getDataManager().get(IS_PROCREATING);
+		return actor.getDataManager().get(IS_PROCREATING);
 	}
 	
 	public boolean getHasHadTwins()
@@ -126,6 +126,6 @@ public class AIProcreate extends AbstractAI
 	
 	protected void registerDataParameters()
 	{
-		owner.getDataManager().register(IS_PROCREATING, false);
+		actor.getDataManager().register(IS_PROCREATING, false);
 	}
 }

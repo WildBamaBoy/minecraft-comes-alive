@@ -1,4 +1,4 @@
-package mca.ai;
+package mca.actions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ import net.minecraft.util.math.BlockPos;
 import radixcore.math.Point3D;
 import radixcore.modules.RadixLogic;
 
-public class AISleep extends AbstractAI
+public class ActionSleep extends AbstractAction
 {
 	private static final DataParameter<Integer> SLEEPING_STATE = EntityDataManager.<Integer>createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
 
@@ -38,32 +38,22 @@ public class AISleep extends AbstractAI
 	private int bedPosY;
 	private int bedPosZ;
 
-	public AISleep(EntityVillagerMCA owner) 
+	public ActionSleep(EntityVillagerMCA actor) 
 	{
-		super(owner);
+		super(actor);
 		setSleepingState(EnumSleepingState.AWAKE);
 		homePosY = -1;
 	}
 
 	@Override
-	public void onUpdateCommon() 
-	{
-	}
-
-	@Override
-	public void onUpdateClient() 
-	{
-	}
-
-	@Override
 	public void onUpdateServer() 
 	{		
-		boolean isDaytime = owner.world.isDaytime();
+		boolean isDaytime = actor.world.isDaytime();
 
 		//If the villager is busy working, following, or riding something automatically set their sleep state to interrupted for the night.
-		if (owner.getAIManager().isToggleAIActive() || owner.getMovementState() == EnumMovementState.FOLLOW || 
-			owner.getRidingEntity() != null || 
-			(owner.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard && !owner.getIsMarried()))
+		if (actor.getAIManager().isToggleActionActive() || actor.getMovementState() == EnumMovementState.FOLLOW || 
+			actor.getRidingEntity() != null || 
+			(actor.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard && !actor.getIsMarried()))
 		{
 			if (!isDaytime && getSleepingState() != EnumSleepingState.INTERRUPTED)
 			{
@@ -80,7 +70,7 @@ public class AISleep extends AbstractAI
 			{
 				if (hasHomePoint() && isHomePointValid())
 				{
-					owner.setPosition(homePosX, homePosY, homePosZ);
+					actor.setPosition(homePosX, homePosY, homePosZ);
 					trySleepInBed();
 					setSleepingState(EnumSleepingState.SLEEPING);
 				}
@@ -95,13 +85,13 @@ public class AISleep extends AbstractAI
 
 				if (influentialPlayer != null) //TODO
 				{
-					owner.say(phrase, influentialPlayer);
+					actor.say(phrase, influentialPlayer);
 					setSleepingState(EnumSleepingState.NO_HOME);
 				}
 
 				else
 				{
-					setHomePoint(owner.posX, owner.posY, owner.posZ);
+					setHomePoint(actor.posX, actor.posY, actor.posZ);
 				}
 			}
 
@@ -126,12 +116,6 @@ public class AISleep extends AbstractAI
 		case NO_HOME: 
 			break;
 		}
-
-	}
-
-	@Override
-	public void reset() 
-	{
 
 	}
 
@@ -167,19 +151,19 @@ public class AISleep extends AbstractAI
 
 	private EntityPlayer getInfluentialPlayer()
 	{
-		if (owner.isMarriedToAPlayer())
+		if (actor.isMarriedToAPlayer())
 		{
-			return owner.getPlayerSpouseInstance();
+			return actor.getPlayerSpouseInstance();
 		}
 
 		//TODO check
-		else if (owner.getMotherUUID() != Constants.EMPTY_UUID || owner.getFatherUUID() != Constants.EMPTY_UUID)
+		else if (actor.getMotherUUID() != Constants.EMPTY_UUID || actor.getFatherUUID() != Constants.EMPTY_UUID)
 		{
-			for (Object obj : owner.world.playerEntities)
+			for (Object obj : actor.world.playerEntities)
 			{
 				EntityPlayer player = (EntityPlayer)obj;
 
-				if (owner.isPlayerAParent(player))
+				if (actor.isPlayerAParent(player))
 				{
 					return player;
 				}
@@ -196,7 +180,7 @@ public class AISleep extends AbstractAI
 
 	public void setSleepingState(EnumSleepingState state)
 	{
-		owner.getDataManager().set(SLEEPING_STATE, state.getId());
+		actor.getDataManager().set(SLEEPING_STATE, state.getId());
 
 		if (state == EnumSleepingState.SLEEPING)
 		{
@@ -210,7 +194,7 @@ public class AISleep extends AbstractAI
 
 			try
 			{
-				final TileVillagerBed villagerBed = (TileVillagerBed) owner.world.getTileEntity(getBedPos());
+				final TileVillagerBed villagerBed = (TileVillagerBed) actor.world.getTileEntity(getBedPos());
 				villagerBed.setSleepingVillagerUUID(Constants.EMPTY_UUID);
 				villagerBed.setIsVillagerSleepingIn(false);
 			}
@@ -224,7 +208,7 @@ public class AISleep extends AbstractAI
 
 	public EnumSleepingState getSleepingState()
 	{
-		return EnumSleepingState.fromId(owner.getDataManager().get(SLEEPING_STATE));
+		return EnumSleepingState.fromId(actor.getDataManager().get(SLEEPING_STATE));
 	}
 
 	public boolean isHomePointValid()
@@ -236,7 +220,7 @@ public class AISleep extends AbstractAI
 
 		final Point3D point = new Point3D(homePosX, homePosY, homePosZ);
 
-		if (Utilities.isPointClear(owner.world, point.iX(), point.iY(), point.iZ()) && Utilities.isPointClear(owner.world, point.iX(), point.iY() + 1, point.iZ()))
+		if (Utilities.isPointClear(actor.world, point.iX(), point.iY(), point.iZ()) && Utilities.isPointClear(actor.world, point.iX(), point.iY() + 1, point.iZ()))
 		{
 			return true;
 		}
@@ -261,7 +245,7 @@ public class AISleep extends AbstractAI
 	{
 		Point3D point = new Point3D(posX, posY, posZ);
 
-		if (Utilities.isPointClear(owner.world, point.iX(), point.iY(), point.iZ()) && Utilities.isPointClear(owner.world, point.iX(), point.iY() + 1, point.iZ()))
+		if (Utilities.isPointClear(actor.world, point.iX(), point.iY(), point.iZ()) && Utilities.isPointClear(actor.world, point.iX(), point.iY() + 1, point.iZ()))
 		{
 			homePosX = posX;
 			homePosY = posY;
@@ -283,16 +267,16 @@ public class AISleep extends AbstractAI
 	
 	public void transitionSkinState(boolean toSleeping)
 	{
-		String skinValue = owner.getHeadTexture();
+		String skinValue = actor.getHeadTexture();
 
 		if (toSleeping && !skinValue.contains("sleeping"))
 		{
-			owner.setHeadTexture(skinValue.replace("/skins/", "/skins/sleeping/"));
+			actor.setHeadTexture(skinValue.replace("/skins/", "/skins/sleeping/"));
 		}
 
 		else if (!toSleeping && skinValue.contains("sleeping"))
 		{
-			owner.setHeadTexture(skinValue.replace("/skins/sleeping/", "/skins/"));
+			actor.setHeadTexture(skinValue.replace("/skins/sleeping/", "/skins/"));
 		}
 	}
 
@@ -311,22 +295,22 @@ public class AISleep extends AbstractAI
 		if (hasBed)
 		{
 			//Check if the bed still exists.
-			final Block blockAtBed = owner.world.getBlockState(getBedPos()).getBlock();
+			final Block blockAtBed = actor.world.getBlockState(getBedPos()).getBlock();
 
 			if (blockAtBed instanceof BlockVillagerBed)
 			{
 				try
 				{
-					final TileVillagerBed villagerBed = (TileVillagerBed) owner.world.getTileEntity(getBedPos());
+					final TileVillagerBed villagerBed = (TileVillagerBed) actor.world.getTileEntity(getBedPos());
 
 					if (!villagerBed.getIsVillagerSleepingIn())
 					{
-						villagerBed.setSleepingVillagerUUID(owner.getPersistentID());
+						villagerBed.setSleepingVillagerUUID(actor.getPersistentID());
 						villagerBed.setIsVillagerSleepingIn(true);
 						isInBed = true;
 
-						owner.halt();
-						owner.setPosition(bedPosX, bedPosY, bedPosZ);
+						actor.halt();
+						actor.setPosition(bedPosX, bedPosY, bedPosZ);
 					}
 				}
 
@@ -349,12 +333,12 @@ public class AISleep extends AbstractAI
 
 		else //Search for a bed.
 		{
-			List<Point3D> bedsNearby = RadixLogic.getNearbyBlocks(owner, BlockVillagerBed.class, 8);
+			List<Point3D> bedsNearby = RadixLogic.getNearbyBlocks(actor, BlockVillagerBed.class, 8);
 			List<Point3D> bedFeetNearby = new ArrayList<Point3D>();
 
 			for (final Point3D point : bedsNearby)
 			{
-				IBlockState state = owner.world.getBlockState(new BlockPos(point.iX(), point.iY(), point.iZ()));
+				IBlockState state = actor.world.getBlockState(new BlockPos(point.iX(), point.iY(), point.iZ()));
 
 				if (state.getBlock() instanceof BlockVillagerBed)
 				{
@@ -369,13 +353,13 @@ public class AISleep extends AbstractAI
 
 			if (bedFeetNearby.size() > 0)
 			{
-				final Point3D nearestBed = Point3D.getNearestPointInList(new Point3D(owner.posX, owner.posY, owner.posZ), bedFeetNearby);
-				final TileVillagerBed villagerBed = (TileVillagerBed) owner.world.getTileEntity(nearestBed.toBlockPos());
+				final Point3D nearestBed = Point3D.getNearestPointInList(new Point3D(actor.posX, actor.posY, actor.posZ), bedFeetNearby);
+				final TileVillagerBed villagerBed = (TileVillagerBed) actor.world.getTileEntity(nearestBed.toBlockPos());
 
 				if (villagerBed != null && !villagerBed.getIsVillagerSleepingIn())
 				{
-					IBlockState state = owner.world.getBlockState(getBedPos());
-					villagerBed.setSleepingVillagerUUID(owner.getPersistentID());
+					IBlockState state = actor.world.getBlockState(getBedPos());
+					villagerBed.setSleepingVillagerUUID(actor.getPersistentID());
 					villagerBed.setIsVillagerSleepingIn(true);
 
 					bedPosX = nearestBed.iX();
@@ -384,8 +368,8 @@ public class AISleep extends AbstractAI
 					bedMeta = state.getBlock().getMetaFromState(state);
 					hasBed = true;
 					isInBed = true;
-					owner.halt();
-					owner.setPosition(bedPosX, bedPosY, bedPosZ);
+					actor.halt();
+					actor.setPosition(bedPosX, bedPosY, bedPosZ);
 				}
 			}
 		}
@@ -398,6 +382,6 @@ public class AISleep extends AbstractAI
 	
 	protected void registerDataParameters()
 	{
-		owner.getDataManager().register(SLEEPING_STATE, Integer.valueOf(EnumSleepingState.AWAKE.getId()));
+		actor.getDataManager().register(SLEEPING_STATE, Integer.valueOf(EnumSleepingState.AWAKE.getId()));
 	}
 }

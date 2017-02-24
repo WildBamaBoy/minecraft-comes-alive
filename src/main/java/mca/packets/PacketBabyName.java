@@ -1,7 +1,7 @@
 package mca.packets;
 
 import io.netty.buffer.ByteBuf;
-import mca.ai.AIProcreate;
+import mca.actions.ActionProcreate;
 import mca.core.MCA;
 import mca.core.minecraft.AchievementsMCA;
 import mca.core.minecraft.ItemsMCA;
@@ -81,11 +81,11 @@ public class PacketBabyName extends AbstractPacket<PacketBabyName>
 		{
 			if (playerSpouse != null)
 			{
-				final AIProcreate procreateAI = playerSpouse.getAI(AIProcreate.class);
+				final ActionProcreate procreateAI = playerSpouse.getAI(ActionProcreate.class);
 				
 				if (!procreateAI.getHasHadTwins())
 				{
-					playerSpouse.getAI(AIProcreate.class).setIsProcreating(true);
+					playerSpouse.getAI(ActionProcreate.class).setIsProcreating(true);
 					procreateAI.setHasHadTwins(true);
 					senderPlayer.addStat(AchievementsMCA.twins);
 					

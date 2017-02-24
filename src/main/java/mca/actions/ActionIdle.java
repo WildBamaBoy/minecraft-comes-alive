@@ -1,4 +1,4 @@
-package mca.ai;
+package mca.actions;
 
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumMovementState;
@@ -7,23 +7,13 @@ import mca.enums.EnumSleepingState;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
 
-public class AIIdle extends AbstractAI
+public class ActionIdle extends AbstractAction
 {
 	private int idleTicks;
 
-	public AIIdle(EntityVillagerMCA owner) 
+	public ActionIdle(EntityVillagerMCA actor) 
 	{
-		super(owner);
-	}
-
-	@Override
-	public void onUpdateCommon() 
-	{
-	}
-
-	@Override
-	public void onUpdateClient() 
-	{
+		super(actor);
 	}
 
 	@Override
@@ -31,9 +21,9 @@ public class AIIdle extends AbstractAI
 	{
 		idleTicks++;
 	
-		if (idleTicks >= Time.MINUTE * 1 && owner.isInOverworld() && !owner.world.isDaytime() && owner.getProfessionSkinGroup() != EnumProfessionSkinGroup.Guard && owner.getMovementState() == EnumMovementState.STAY)
+		if (idleTicks >= Time.MINUTE * 1 && actor.isInOverworld() && !actor.world.isDaytime() && actor.getProfessionSkinGroup() != EnumProfessionSkinGroup.Guard && actor.getMovementState() == EnumMovementState.STAY)
 		{
-			AISleep AISleep = owner.getAI(AISleep.class);
+			ActionSleep AISleep = actor.getAI(ActionSleep.class);
 	
 			if (!AISleep.getIsSleeping())
 			{

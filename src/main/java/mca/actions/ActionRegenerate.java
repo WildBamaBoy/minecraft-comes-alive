@@ -1,27 +1,17 @@
-package mca.ai;
+package mca.actions;
 
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
 
-public class AIRegenerate extends AbstractAI
+public class ActionRegenerate extends AbstractAction
 {
 	private int timeUntilNextRegen;
 
-	public AIRegenerate(EntityVillagerMCA owner) 
+	public ActionRegenerate(EntityVillagerMCA actor) 
 	{
-		super(owner);
+		super(actor);
 		timeUntilNextRegen = Time.SECOND * 3;
-	}
-
-	@Override
-	public void onUpdateCommon() 
-	{
-	}
-
-	@Override
-	public void onUpdateClient() 
-	{
 	}
 
 	@Override
@@ -29,10 +19,10 @@ public class AIRegenerate extends AbstractAI
 	{
 		if (timeUntilNextRegen <= 0)
 		{
-			float maxHealth = owner.getMaxHealth();
-			if (owner.getHealth() < maxHealth && owner.getHealth() > 0.0F)
+			float maxHealth = actor.getMaxHealth();
+			if (actor.getHealth() < maxHealth && actor.getHealth() > 0.0F)
 			{
-				owner.setHealth(owner.getHealth() + 1);
+				actor.setHealth(actor.getHealth() + 1);
 			}
 
 			timeUntilNextRegen = Time.SECOND * 3;
@@ -43,13 +33,7 @@ public class AIRegenerate extends AbstractAI
 			timeUntilNextRegen--;
 		}
 	}
-
-	@Override
-	public void reset() 
-	{
-
-	}
-
+	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) 
 	{

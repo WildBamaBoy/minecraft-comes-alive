@@ -126,7 +126,7 @@ public class PlayerMemory implements Serializable
 				if (hireTimeLeft <= 0)
 				{
 					setIsHiredBy(false, 0);
-					owner.getAIManager().disableAllToggleAIs();
+					owner.getAIManager().disableAllToggleActions();
 				}
 			}
 

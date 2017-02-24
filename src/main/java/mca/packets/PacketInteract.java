@@ -3,9 +3,9 @@ package mca.packets;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
-import mca.ai.AIMood;
-import mca.ai.AIProcreate;
-import mca.ai.AISleep;
+import mca.actions.ActionProcreate;
+import mca.actions.ActionSleep;
+import mca.actions.ActionUpdateMood;
 import mca.api.RegistryMCA;
 import mca.core.Constants;
 import mca.core.MCA;
@@ -16,6 +16,7 @@ import mca.data.PlayerMemory;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumDialogueType;
 import mca.enums.EnumInteraction;
+import mca.enums.EnumMovementState;
 import mca.enums.EnumPersonality;
 import mca.items.ItemBaby;
 import mca.util.TutorialManager;
@@ -121,7 +122,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 
 			if (interaction == EnumInteraction.SET_HOME)
 			{
-				if (villager.getAI(AISleep.class).setHomePoint(villager.posX, villager.posY, villager.posZ))
+				if (villager.getAI(ActionSleep.class).setHomePoint(villager.posX, villager.posY, villager.posZ))
 				{
 					villager.say("interaction.sethome.success", player);
 					TutorialManager.sendMessageToPlayer(player, "Villagers go to their home points at night, and then go to sleep.", "If their home point becomes blocked, they will automatically find a new one.");
@@ -180,7 +181,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 					interaction == EnumInteraction.TELL_STORY || interaction == EnumInteraction.FLIRT || interaction == EnumInteraction.HUG ||
 					interaction == EnumInteraction.KISS)
 			{
-				AIMood mood = villager.getAI(AIMood.class);
+				ActionUpdateMood mood = villager.getAI(ActionUpdateMood.class);
 				PlayerMemory memory = villager.getPlayerMemory(player);
 
 				//First check for spouse leaving due to low hearts.
@@ -257,9 +258,24 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 				}
 			}
 
+			else if (interaction == EnumInteraction.FOLLOW)
+			{
+				villager.setMovementState(EnumMovementState.FOLLOW);
+			}
+			
+			else if (interaction == EnumInteraction.STAY)
+			{
+				villager.setMovementState(EnumMovementState.STAY);
+			}
+			
+			else if (interaction == EnumInteraction.MOVE)
+			{
+				villager.setMovementState(EnumMovementState.MOVE);
+			}
+			
 			else if (interaction == EnumInteraction.STOP)
 			{
-				villager.getAIManager().disableAllToggleAIs();
+				villager.getAIManager().disableAllToggleActions();
 			}
 
 			else if (interaction == EnumInteraction.INVENTORY)
@@ -319,7 +335,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 						spouse.setSpouse(null);
 						PlayerMemory memory = spouse.getPlayerMemory(player);
 
-						spouse.getAI(AIMood.class).modifyMoodLevel(-5.0F);
+						spouse.getAI(ActionUpdateMood.class).modifyMoodLevel(-5.0F);
 						memory.setHearts(-100);
 					}
 
@@ -445,7 +461,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 
 				else
 				{
-					villager.getAI(AIProcreate.class).setIsProcreating(true);
+					villager.getAI(ActionProcreate.class).setIsProcreating(true);
 				}
 			}
 

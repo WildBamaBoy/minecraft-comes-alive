@@ -128,7 +128,7 @@ public class EventHooksFML
 			MCA.myPlayerData = null;
 			MCA.resetConfig();
 		}
-
+		
 		//Check for setting/processing the flag for loading language again.
 		if (currentScreen instanceof net.minecraft.client.gui.GuiLanguage)
 		{

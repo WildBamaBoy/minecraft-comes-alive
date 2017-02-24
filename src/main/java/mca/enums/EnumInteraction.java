@@ -1,6 +1,6 @@
 package mca.enums;
 
-import mca.ai.AIMood;
+import mca.actions.ActionUpdateMood;
 import mca.data.PlayerMemory;
 import mca.entity.EntityVillagerMCA;
 
@@ -161,7 +161,7 @@ public enum EnumInteraction
 	{
 		return getBaseChance() - memory.getInteractionFatigue() * 6
 				+ villager.getPersonality().getSuccessModifierForInteraction(this) 
-				+ villager.getAI(AIMood.class).getMood(villager.getPersonality()).getSuccessModifierForInteraction(this)
+				+ villager.getAI(ActionUpdateMood.class).getMood(villager.getPersonality()).getSuccessModifierForInteraction(this)
 				+ getBonusChanceForCurrentPoints(memory.getHearts());
 	}
 }

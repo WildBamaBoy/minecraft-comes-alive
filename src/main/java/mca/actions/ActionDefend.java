@@ -1,4 +1,4 @@
-package mca.ai;
+package mca.actions;
 
 import java.util.List;
 
@@ -10,21 +10,19 @@ import mca.enums.EnumProfessionSkinGroup;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.MathHelper;
 import radixcore.constant.Time;
 import radixcore.modules.RadixLogic;
 import radixcore.modules.RadixMath;
 
-public class AIDefend extends AbstractAI
+public class ActionDefend extends AbstractAction
 {
 	private static final int TARGET_SEARCH_INTERVAL = Time.SECOND * 1;
 
@@ -32,20 +30,20 @@ public class AIDefend extends AbstractAI
 	private int timeUntilTargetSearch;
 	private int rangedAttackTime;
 
-	public AIDefend(EntityVillagerMCA owner) 
+	public ActionDefend(EntityVillagerMCA actor) 
 	{
-		super(owner);
+		super(actor);
 	}
 	
 	@Override
 	public void onUpdateServer() 
 	{
-		if (owner.getAI(AISleep.class).getIsSleeping())
+		if (actor.getAI(ActionSleep.class).getIsSleeping())
 		{
 			return;
 		}
 		
-		if (owner.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard && !owner.getIsInfected())
+		if (actor.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard && !actor.getIsInfected())
 		{
 			if (target == null)
 			{
@@ -63,7 +61,7 @@ public class AIDefend extends AbstractAI
 
 			else if (target != null)
 			{
-				double distanceToTarget = RadixMath.getDistanceToEntity(owner, target);
+				double distanceToTarget = RadixMath.getDistanceToEntity(actor, target);
 				
 				if (target.isDead || distanceToTarget >= 15.0D)
 				{
@@ -71,14 +69,14 @@ public class AIDefend extends AbstractAI
 					return;
 				}
 
-				if (owner.getProfessionEnum() == EnumProfession.Archer)
+				if (actor.getProfessionEnum() == EnumProfession.Archer)
 				{
-					owner.getLookHelper().setLookPosition(target.posX, target.posY + (double)target.getEyeHeight(), target.posZ, 10.0F, owner.getVerticalFaceSpeed());
+					actor.getLookHelper().setLookPosition(target.posX, target.posY + (double)target.getEyeHeight(), target.posZ, 10.0F, actor.getVerticalFaceSpeed());
 					
 					if (rangedAttackTime <= 0)
 					{
-						attackEntityWithRangedAttack(owner, target, 12F);
-						owner.playSound(SoundEvents.ENTITY_SKELETON_SHOOT, 1.0F, 1.0F / (owner.getRNG().nextFloat() * 0.4F + 0.8F));
+						attackTargetWithRangedAttack(actor, 12F);
+						actor.playSound(SoundEvents.ENTITY_SKELETON_SHOOT, 1.0F, 1.0F / (actor.getRNG().nextFloat() * 0.4F + 0.8F));
 						rangedAttackTime = 60;
 					}
 
@@ -92,16 +90,16 @@ public class AIDefend extends AbstractAI
 				{
 					if (distanceToTarget <= 2.0F)
 					{
-						owner.swingItem();
+						actor.swingItem();
 
-						if (owner.onGround)
+						if (actor.onGround)
 						{
-							owner.motionY += 0.45F;
+							actor.motionY += 0.45F;
 						}
 
 						try
 						{
-							target.attackEntityFrom(DamageSource.causeMobDamage(owner), MCA.getConfig().guardAttackDamage);
+							target.attackEntityFrom(DamageSource.causeMobDamage(actor), MCA.getConfig().guardAttackDamage);
 						}
 						
 						catch (NullPointerException e) //Noticing a crash with the human mob mod.
@@ -110,9 +108,9 @@ public class AIDefend extends AbstractAI
 						}
 					}
 
-					else if (distanceToTarget > 2.0F && owner.getNavigator().noPath())
+					else if (distanceToTarget > 2.0F && actor.getNavigator().noPath())
 					{
-						owner.getNavigator().tryMoveToEntityLiving(target, Constants.SPEED_RUN);
+						actor.getNavigator().tryMoveToEntityLiving(target, Constants.SPEED_RUN);
 					}
 				}
 			}
@@ -126,26 +124,16 @@ public class AIDefend extends AbstractAI
 		rangedAttackTime = 0;
 	}
 
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) 
-	{
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) 
-	{	
-	}
-
 	private void tryAssignTarget()
 	{
-		List<EntityMob> possibleTargets = RadixLogic.getEntitiesWithinDistance(EntityMob.class, owner, 15);
+		List<EntityMob> possibleTargets = RadixLogic.getEntitiesWithinDistance(EntityMob.class, actor, 15);
 		double closestDistance = 100.0D;
 
 		for (Entity entity : possibleTargets)
 		{
-			if (!(entity instanceof EntityCreeper) && owner.canEntityBeSeen(entity))
+			if (!(entity instanceof EntityCreeper) && actor.canEntityBeSeen(entity))
 			{
-				double distance = RadixMath.getDistanceToEntity(owner, entity);
+				double distance = RadixMath.getDistanceToEntity(actor, entity);
 
 				if (distance < closestDistance)
 				{
@@ -156,7 +144,7 @@ public class AIDefend extends AbstractAI
 		}
 	}
 	
-	private void attackEntityWithRangedAttack(EntityVillagerMCA shooter, EntityLivingBase target, float velocity)
+	private void attackTargetWithRangedAttack(EntityVillagerMCA shooter, float velocity)
 	{
 		EntityArrow entityarrow = new EntityTippedArrow(shooter.world, shooter);
 		double d0 = target.posX - shooter.posX;

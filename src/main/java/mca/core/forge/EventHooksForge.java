@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.google.common.base.Predicate;
 
-import mca.ai.AICombat;
+import mca.actions.ActionCombat;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.data.PlayerMemory;
@@ -258,7 +258,7 @@ public class EventHooksForge
 			for (Entity entity : entityList)
 			{
 				EntityVillagerMCA human = (EntityVillagerMCA)entity;
-				AICombat combat = human.getAI(AICombat.class);
+				ActionCombat combat = human.getAI(ActionCombat.class);
 				PlayerMemory memory = human.getPlayerMemory((EntityPlayer)event.getEntityLiving());
 		
 				if (memory.getIsHiredBy() && human.getProfessionEnum() == EnumProfession.Warrior && 
@@ -278,7 +278,7 @@ public class EventHooksForge
 			for (Entity entity : entityList)
 			{
 				EntityVillagerMCA human = (EntityVillagerMCA)entity;
-				AICombat combat = human.getAI(AICombat.class);
+				ActionCombat combat = human.getAI(ActionCombat.class);
 				PlayerMemory memory = human.getPlayerMemory((EntityPlayer)event.getSource().getEntity());
 
 				if (memory.getIsHiredBy() && human.getProfessionEnum() == EnumProfession.Warrior && 

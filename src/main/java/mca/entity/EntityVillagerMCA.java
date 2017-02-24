@@ -3,6 +3,8 @@ package mca.entity;
 import static mca.core.Constants.EMPTY_UUID;
 import static mca.core.Constants.EMPTY_UUID_OPT;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,30 +17,30 @@ import com.google.common.base.Optional;
 import com.sun.istack.internal.NotNull;
 
 import io.netty.buffer.ByteBuf;
-import mca.ai.AIBlink;
-import mca.ai.AIBuild;
-import mca.ai.AICombat;
-import mca.ai.AICooking;
-import mca.ai.AIDefend;
-import mca.ai.AIFarming;
-import mca.ai.AIFishing;
-import mca.ai.AIFollow;
-import mca.ai.AIGreet;
-import mca.ai.AIGrow;
-import mca.ai.AIHunting;
-import mca.ai.AIIdle;
-import mca.ai.AIManager;
-import mca.ai.AIMining;
-import mca.ai.AIMood;
-import mca.ai.AIPatrol;
-import mca.ai.AIProcreate;
-import mca.ai.AIProgressStory;
-import mca.ai.AIRegenerate;
-import mca.ai.AIRespondToAttack;
-import mca.ai.AISleep;
-import mca.ai.AIWoodcutting;
-import mca.ai.AIWorkday;
-import mca.ai.AbstractAI;
+import mca.actions.AbstractAction;
+import mca.actions.ActionAttackResponse;
+import mca.actions.ActionBlink;
+import mca.actions.ActionBuild;
+import mca.actions.ActionCombat;
+import mca.actions.ActionCook;
+import mca.actions.ActionDefend;
+import mca.actions.ActionFarm;
+import mca.actions.ActionFish;
+import mca.actions.ActionFollow;
+import mca.actions.ActionGreet;
+import mca.actions.ActionGrow;
+import mca.actions.ActionHunt;
+import mca.actions.ActionIdle;
+import mca.actions.ActionManager;
+import mca.actions.ActionMine;
+import mca.actions.ActionPatrol;
+import mca.actions.ActionProcreate;
+import mca.actions.ActionRegenerate;
+import mca.actions.ActionSleep;
+import mca.actions.ActionStoryProgression;
+import mca.actions.ActionUpdateMood;
+import mca.actions.ActionWander;
+import mca.actions.ActionWoodcut;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.ItemsMCA;
@@ -152,7 +154,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	private int timesWarnedForLowHearts;
 	private int ticksAlive;
 	private int swingProgressTicks;
-	private AIManager aiManager;
+	private ActionManager actionManager;
 	private Map<String, PlayerMemory> playerMemories;
 
 	/**
@@ -167,29 +169,29 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 		playerMemories = new HashMap<String, PlayerMemory>();
 		
 		//Add custom AIs
-		aiManager = new AIManager(this);
-		aiManager.addAI(new AIIdle(this));
-		aiManager.addAI(new AIRegenerate(this));
-		aiManager.addAI(new AISleep(this));
-		aiManager.addAI(new AIFollow(this));
-		aiManager.addAI(new AIGreet(this, playerMemories));
-		aiManager.addAI(new AIProgressStory(this));
-		aiManager.addAI(new AIProcreate(this));
-		aiManager.addAI(new AIRespondToAttack(this));
-		aiManager.addAI(new AIPatrol(this));
-		aiManager.addAI(new AIGrow(this));
-		aiManager.addAI(new AIMood(this));
-		aiManager.addAI(new AIBlink(this));
-		aiManager.addAI(new AIBuild(this));
-		aiManager.addAI(new AIMining(this));
-		aiManager.addAI(new AIWoodcutting(this));
-		aiManager.addAI(new AIHunting(this));
-		aiManager.addAI(new AICooking(this));
-		aiManager.addAI(new AIFarming(this));
-		aiManager.addAI(new AIFishing(this));
-		aiManager.addAI(new AIDefend(this));
-		aiManager.addAI(new AIWorkday(this));
-		aiManager.addAI(new AICombat(this));
+		actionManager = new ActionManager(this);
+		actionManager.addAction(new ActionIdle(this));
+		actionManager.addAction(new ActionRegenerate(this));
+		actionManager.addAction(new ActionSleep(this));
+		actionManager.addAction(new ActionFollow(this));
+		actionManager.addAction(new ActionGreet(this, playerMemories));
+		actionManager.addAction(new ActionStoryProgression(this));
+		actionManager.addAction(new ActionProcreate(this));
+		actionManager.addAction(new ActionAttackResponse(this));
+		actionManager.addAction(new ActionPatrol(this));
+		actionManager.addAction(new ActionGrow(this));
+		actionManager.addAction(new ActionUpdateMood(this));
+		actionManager.addAction(new ActionBlink(this));
+		actionManager.addAction(new ActionBuild(this));
+		actionManager.addAction(new ActionMine(this));
+		actionManager.addAction(new ActionWoodcut(this));
+		actionManager.addAction(new ActionHunt(this));
+		actionManager.addAction(new ActionCook(this));
+		actionManager.addAction(new ActionFarm(this));
+		actionManager.addAction(new ActionFish(this));
+		actionManager.addAction(new ActionDefend(this));
+		actionManager.addAction(new ActionWander(this));
+		actionManager.addAction(new ActionCombat(this));
 		
 		setName("");
 		setClothesTexture("");
@@ -290,8 +292,8 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	public void onUpdate()
 	{
 		super.onUpdate();
-		aiManager.onUpdate();
-
+		actionManager.onUpdate();
+		
 		if (!world.isRemote)
 		{
 			ticksAlive++;
@@ -379,13 +381,13 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 		if (!world.isRemote)
 		{
 			//Switch to the sleeping skin and disable all chores/toggle AIs so they won't move
-			aiManager.disableAllToggleAIs();
-			getAI(AISleep.class).transitionSkinState(true);
+			actionManager.disableAllToggleActions();
+			getAI(ActionSleep.class).transitionSkinState(true);
 			
 			//The death of a villager negatively modifies the mood of nearby villagers
 			for (EntityVillagerMCA human : RadixLogic.getEntitiesWithinDistance(EntityVillagerMCA.class, this, 20))
 			{
-				human.getAI(AIMood.class).modifyMoodLevel(-2.0F);
+				human.getAI(ActionUpdateMood.class).modifyMoodLevel(-2.0F);
 			}
 
 			//Drop all items in the inventory
@@ -445,7 +447,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	@Override
 	protected void updateAITasks()
 	{
-		AISleep sleepAI = getAI(AISleep.class);
+		ActionSleep sleepAI = getAI(ActionSleep.class);
 		EnumMovementState moveState = getMovementState();
 		boolean isSleeping = sleepAI.getIsSleeping();
 
@@ -479,7 +481,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	{
 		super.damageEntity(damageSource, damageAmount);
 	
-		final AIRespondToAttack aiRespondToAttack = getAI(AIRespondToAttack.class);
+		final ActionAttackResponse aiRespondToAttack = getAI(ActionAttackResponse.class);
 	
 		if (!aiRespondToAttack.getIsRetaliating())
 		{
@@ -487,7 +489,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 		}
 	
 		//Reset sleeping if appropriate.
-		AISleep aiSleep = aiManager.getAI(AISleep.class);
+		ActionSleep aiSleep = actionManager.getAction(ActionSleep.class);
 	
 		if (aiSleep.getIsSleeping())
 		{
@@ -499,8 +501,63 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	public void writeEntityToNBT(NBTTagCompound nbt) 
 	{
 		super.writeEntityToNBT(nbt);
-		aiManager.writeToNBT(nbt);
+		actionManager.writeToNBT(nbt);
 
+		//Auto save data manager values to NBT by reflection
+		for (Field f : this.getClass().getDeclaredFields())
+		{
+			try
+			{
+				if (f.getType() == DataParameter.class)
+				{
+					Type genericType = f.getGenericType();
+					String typeName = genericType.getTypeName();
+					DataParameter param = (DataParameter) f.get(this);
+					String paramName = f.getName();
+					
+					if (typeName.contains("Boolean"))
+					{
+						DataParameter<Boolean> bParam = (DataParameter<Boolean>)param;
+						nbt.setBoolean(paramName, dataManager.get(bParam).booleanValue());
+					}
+					
+					else if (typeName.contains("Integer"))
+					{
+						DataParameter<Integer> iParam = (DataParameter<Integer>)param;
+						nbt.setInteger(paramName, dataManager.get(iParam).intValue());
+					}
+					
+					else if (typeName.contains("String"))
+					{
+						DataParameter<String> sParam = (DataParameter<String>)param;
+						nbt.setString(paramName, dataManager.get(sParam));
+					}
+					
+					else if (typeName.contains("Float"))
+					{
+						DataParameter<Float> fParam = (DataParameter<Float>)param;
+						nbt.setFloat(paramName, dataManager.get(fParam).floatValue());
+					}
+					
+					else if (typeName.contains("Optional<java.util.UUID>"))
+					{
+						DataParameter<Optional<UUID>> uuParam = (DataParameter<Optional<UUID>>)param;
+						nbt.setUniqueId(paramName, dataManager.get(uuParam).get());
+					}
+					
+					else
+					{
+						throw new RuntimeException("Field type not handled while saving to NBT: " + f.getName());
+					}
+				}
+			}
+			
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
 		nbt.setInteger("ticksAlive", ticksAlive);
 		nbt.setInteger("timesWarnedForLowHearts", timesWarnedForLowHearts);
 		
@@ -511,8 +568,63 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	public void readEntityFromNBT(NBTTagCompound nbt)
 	{
 		super.readEntityFromNBT(nbt);
-		aiManager.readFromNBT(nbt);
+		actionManager.readFromNBT(nbt);
 
+		//Auto read data manager values
+		for (Field f : this.getClass().getDeclaredFields())
+		{
+			try
+			{
+				if (f.getType() == DataParameter.class)
+				{
+					Type genericType = f.getGenericType();
+					String typeName = genericType.getTypeName();
+					DataParameter param = (DataParameter) f.get(this);
+					String paramName = f.getName();
+					
+					if (typeName.contains("Boolean"))
+					{
+						DataParameter<Boolean> bParam = (DataParameter<Boolean>)param;
+						dataManager.set(bParam, nbt.getBoolean(paramName));
+					}
+					
+					else if (typeName.contains("Integer"))
+					{
+						DataParameter<Integer> iParam = (DataParameter<Integer>)param;
+						dataManager.set(iParam, nbt.getInteger(paramName));
+					}
+					
+					else if (typeName.contains("String"))
+					{
+						DataParameter<String> sParam = (DataParameter<String>)param;
+						dataManager.set(sParam, nbt.getString(paramName));
+					}
+					
+					else if (typeName.contains("Float"))
+					{
+						DataParameter<Float> fParam = (DataParameter<Float>)param;
+						dataManager.set(fParam, nbt.getFloat(paramName));
+					}
+					
+					else if (typeName.contains("Optional<java.util.UUID>"))
+					{
+						DataParameter<Optional<UUID>> uuParam = (DataParameter<Optional<UUID>>)param;
+						dataManager.set(uuParam, Optional.of(nbt.getUniqueId(paramName)));
+					}
+					
+					else
+					{
+						throw new RuntimeException("Field type not handled while saving to NBT: " + f.getName());
+					}
+				}
+			}
+			
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
 		ticksAlive = nbt.getInteger("ticksAlive");
 		timesWarnedForLowHearts = nbt.getInteger("timesWarnedForLowHearts");
 		
@@ -564,7 +676,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	@Override
 	public boolean canBePushed()
 	{
-		final AISleep sleepAI = aiManager.getAI(AISleep.class);		
+		final ActionSleep sleepAI = actionManager.getAction(ActionSleep.class);		
 		return !sleepAI.getIsSleeping();
 	}
 
@@ -595,7 +707,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 			target.sendMessage(new TextComponentString(sb.toString()));
 		}
 
-		aiManager.getAI(AIIdle.class).reset();
+		actionManager.getAction(ActionIdle.class).reset();
 	}
 
 	public void say(String phraseId, EntityPlayer target, Object... arguments)
@@ -629,8 +741,8 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 
 			target.sendMessage(new TextComponentString(sb.toString()));
 
-			aiManager.getAI(AIIdle.class).reset();
-			aiManager.getAI(AISleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
+			actionManager.getAction(ActionIdle.class).reset();
+			actionManager.getAction(ActionSleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
 		}
 	}
 
@@ -696,14 +808,14 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	/***********
 	 * AI, movement, and interaction methods
 	 */
-	public AIManager getAIManager() 
+	public ActionManager getAIManager() 
 	{
-		return aiManager;
+		return actionManager;
 	}
 
-	public <T extends AbstractAI> T getAI(Class<T> clazz)
+	public <T extends AbstractAction> T getAI(Class<T> clazz)
 	{
-		return this.aiManager.getAI(clazz);
+		return this.actionManager.getAction(clazz);
 	}
 
 	public float getSpeed()
@@ -797,7 +909,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 		}
 	
 		//Married to a player, and this player is not their spouse.
-		else if (isMarriedToAPlayer() && getSpouseUUID() != data.getUUID())
+		else if (isMarriedToAPlayer() && !getSpouseUUID().equals(data.getUUID()))
 		{
 			return false;
 		}
@@ -890,7 +1002,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 		//Warriors, spouses, and player children all use weapons from the combat AI.
 		else if (getProfessionEnum() == EnumProfession.Warrior || this.isMarriedToAPlayer() || getProfessionEnum() == EnumProfession.Child)
 		{
-			AICombat combat = getAI(AICombat.class);
+			ActionCombat combat = getAI(ActionCombat.class);
 			
 			if (combat.getMethodBehavior() == EnumCombatBehaviors.METHOD_RANGED_ONLY)
 			{
@@ -930,7 +1042,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 
 					if (itemInSlot.getCount() == 0)
 					{
-						aiManager.disableAllToggleAIs();
+						actionManager.disableAllToggleActions();
 						inventory.setInventorySlotContents(slot, null);
 						return true;
 					}
@@ -1111,6 +1223,11 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 		}
 	}
 	
+	public void assignRandomScale()
+	{
+		
+	}
+	
 	public EnumProfession getProfessionEnum()
 	{
 		return EnumProfession.getProfessionById(dataManager.get(PROFESSION));
@@ -1178,7 +1295,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 			setMarriageState(EnumMarriageState.NOT_MARRIED);
 			
 			//Reset our own story progression so that it may run again.
-			getAI(AIProgressStory.class).reset();
+			getAI(ActionStoryProgression.class).reset();
 		}
 		
 		else if (either.getLeft() != null)
@@ -1195,8 +1312,8 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 			spouse.dataManager.set(SPOUSE_GENDER, this.getGender().getId());
 			spouse.setMarriageState(EnumMarriageState.MARRIED_TO_VILLAGER);
 			
-			getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.TRY_FOR_BABY);
-			spouse.getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.TRY_FOR_BABY);
+			getAI(ActionStoryProgression.class).setProgressionStep(EnumProgressionStep.TRY_FOR_BABY);
+			spouse.getAI(ActionStoryProgression.class).setProgressionStep(EnumProgressionStep.TRY_FOR_BABY);
 		}
 		
 		else if (either.getRight() != null)
@@ -1215,7 +1332,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 			playerData.setMarriageState(EnumMarriageState.MARRIED_TO_VILLAGER);
 			
 			//Prevent story progression when married to a player
-			getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.FINISHED);
+			getAI(ActionStoryProgression.class).setProgressionStep(EnumProgressionStep.FINISHED);
 		}
 	}
 	
@@ -1240,7 +1357,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 		playerData.setMarriageState(EnumMarriageState.ENGAGED);
 		
 		//Prevent story progression when engaged to a player
-		getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.FINISHED);
+		getAI(ActionStoryProgression.class).setProgressionStep(EnumProgressionStep.FINISHED);
 	}
 	
 	public boolean isMarriedToAPlayer()

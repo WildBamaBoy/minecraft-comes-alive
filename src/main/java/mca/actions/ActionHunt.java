@@ -1,4 +1,4 @@
-package mca.ai;
+package mca.actions;
 
 import java.util.List;
 
@@ -21,16 +21,16 @@ import radixcore.math.Point3D;
 import radixcore.modules.RadixLogic;
 import radixcore.modules.RadixMath;
 
-public class AIHunting extends AbstractToggleAI
+public class ActionHunt extends AbstractToggleAction
 {
 	private Point3D standPoint;
 
 	private boolean isTaming;
 	private int ticksActive;
 
-	public AIHunting(EntityVillagerMCA owner) 
+	public ActionHunt(EntityVillagerMCA actor) 
 	{
-		super(owner);
+		super(actor);
 		standPoint = Point3D.ZERO;
 	}
 
@@ -47,7 +47,7 @@ public class AIHunting extends AbstractToggleAI
 		if (standPoint.iX() == 0 && standPoint.iY() == 0 && standPoint.iZ() == 0)
 		{
 			//Find a point to stand at and hunt.
-			List<Point3D> grassBlocks = RadixLogic.getNearbyBlocks(owner, Blocks.GRASS, 15);
+			List<Point3D> grassBlocks = RadixLogic.getNearbyBlocks(actor, Blocks.GRASS, 15);
 
 			if (grassBlocks.size() > 0)
 			{
@@ -56,52 +56,52 @@ public class AIHunting extends AbstractToggleAI
 
 			else
 			{
-				owner.say("hunting.badspot", getAssigningPlayer());
+				actor.say("hunting.badspot", getAssigningPlayer());
 				reset();
 			}
 
 			return;
 		}
 
-		if (RadixMath.getDistanceToXYZ(owner, standPoint) >= 5.0F && owner.getNavigator().noPath())
+		if (RadixMath.getDistanceToXYZ(actor, standPoint) >= 5.0F && actor.getNavigator().noPath())
 		{
-			boolean successful = owner.getNavigator().tryMoveToXYZ(standPoint.dX(), standPoint.dY(), standPoint.dZ(), owner.getSpeed());
+			boolean successful = actor.getNavigator().tryMoveToXYZ(standPoint.dX(), standPoint.dY(), standPoint.dZ(), actor.getSpeed());
 
 			if (!successful)
 			{
-				owner.say("hunting.badspot", getAssigningPlayer());
+				actor.say("hunting.badspot", getAssigningPlayer());
 				reset();
 			}
 		}
 
-		else if (RadixMath.getDistanceToXYZ(owner, standPoint) < 5.0F)
+		else if (RadixMath.getDistanceToXYZ(actor, standPoint) < 5.0F)
 		{
 			ticksActive++;
 
 			if (ticksActive >= Time.SECOND * 20)
 			{
-				boolean doSpawn = owner.world.rand.nextBoolean();
+				boolean doSpawn = actor.world.rand.nextBoolean();
 
 				if (doSpawn)
 				{
 					try
 					{
 						final Class entityClass = RegistryMCA.getRandomHuntingEntity(isTaming);
-						final EntityLiving entity = (EntityLiving)entityClass.getDeclaredConstructor(World.class).newInstance(owner.world);
-						final List<Point3D> nearbyGrass = RadixLogic.getNearbyBlocks(owner, Blocks.GRASS, 3);
-						final Point3D spawnPoint = nearbyGrass.get(owner.world.rand.nextInt(nearbyGrass.size()));
+						final EntityLiving entity = (EntityLiving)entityClass.getDeclaredConstructor(World.class).newInstance(actor.world);
+						final List<Point3D> nearbyGrass = RadixLogic.getNearbyBlocks(actor, Blocks.GRASS, 3);
+						final Point3D spawnPoint = nearbyGrass.get(actor.world.rand.nextInt(nearbyGrass.size()));
 
 						if (spawnPoint != null)
 						{
 							entity.setPosition(spawnPoint.iX(), spawnPoint.iY() + 1, spawnPoint.iZ());
 						}
 
-						owner.world.spawnEntity(entity);
+						actor.world.spawnEntity(entity);
 
 						if (!isTaming)
 						{
 							entity.attackEntityFrom(DamageSource.GENERIC, 100.0F);
-							owner.swingItem();
+							actor.swingItem();
 						}
 					}
 
@@ -111,7 +111,7 @@ public class AIHunting extends AbstractToggleAI
 					}
 				}
 
-				List<EntityItem> nearbyItems = RadixLogic.getEntitiesWithinDistance(EntityItem.class, owner, 5);
+				List<EntityItem> nearbyItems = RadixLogic.getEntitiesWithinDistance(EntityItem.class, actor, 5);
 
 				if (nearbyItems.size() != 0)
 				{
@@ -163,7 +163,7 @@ public class AIHunting extends AbstractToggleAI
 		isTaming = true;
 
 		setIsActive(true);
-		owner.setMovementState(EnumMovementState.MOVE);
+		actor.setMovementState(EnumMovementState.MOVE);
 	}
 
 	public void startKilling(EntityPlayer player)
@@ -174,7 +174,7 @@ public class AIHunting extends AbstractToggleAI
 		isTaming = false;
 
 		setIsActive(true);
-		owner.setMovementState(EnumMovementState.MOVE);
+		actor.setMovementState(EnumMovementState.MOVE);
 	}
 
 	@Override

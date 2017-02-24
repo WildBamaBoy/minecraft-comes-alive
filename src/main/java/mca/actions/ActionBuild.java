@@ -1,4 +1,4 @@
-package mca.ai;
+package mca.actions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ import radixcore.modules.RadixLogic;
 import radixcore.modules.schematics.BlockObj;
 import radixcore.modules.schematics.RadixSchematics;
 
-public class AIBuild extends AbstractToggleAI
+public class ActionBuild extends AbstractToggleAction
 {	
 	private Map<Point3D, BlockObj> schematicMap;
 	private CropEntry cropEntry;
@@ -34,20 +34,10 @@ public class AIBuild extends AbstractToggleAI
 	private int index = -1;
 	private Block groundBlock;
 
-	public AIBuild(EntityVillagerMCA owner) 
+	public ActionBuild(EntityVillagerMCA actor) 
 	{
-		super(owner);
+		super(actor);
 		origin = Point3D.ZERO;
-	}
-
-	@Override
-	public void onUpdateCommon() 
-	{	
-	}
-
-	@Override
-	public void onUpdateClient() 
-	{	
 	}
 
 	@Override
@@ -60,7 +50,7 @@ public class AIBuild extends AbstractToggleAI
 			if (interval <= 0)
 			{
 				interval = 20;
-				owner.swingItem();
+				actor.swingItem();
 
 				for (int i = 0; i < 10; i++)
 				{
@@ -70,10 +60,10 @@ public class AIBuild extends AbstractToggleAI
 						for (Point3D point : torchPoints)
 						{
 							final BlockObj blockObj = schematicMap.get(point);
-							RadixBlocks.setBlock(owner.world, origin.iX() + point.iX(), origin.iY() + point.iY(), origin.iZ() + point.iZ(), blockObj.getBlock());
+							RadixBlocks.setBlock(actor.world, origin.iX() + point.iX(), origin.iY() + point.iY(), origin.iZ() + point.iZ(), blockObj.getBlock());
 						}
 
-						owner.setMovementState(EnumMovementState.MOVE);
+						actor.setMovementState(EnumMovementState.MOVE);
 						reset();
 						break;
 					}
@@ -87,19 +77,19 @@ public class AIBuild extends AbstractToggleAI
 
 						if (blockObj.getBlock() == Blocks.GRASS && groundBlock != null)
 						{
-							RadixBlocks.setBlock(owner.world, target, groundBlock);							
+							RadixBlocks.setBlock(actor.world, target, groundBlock);							
 						}
 
 						else
 						{
 							if (blockObj.getBlock() == Blocks.OAK_FENCE_GATE && this.schematicName.contains("mine"))
 							{
-								RadixBlocks.setBlock(owner.world, target.toBlockPos(), Block.getStateById(blockObj.getMeta()));
+								RadixBlocks.setBlock(actor.world, target.toBlockPos(), Block.getStateById(blockObj.getMeta()));
 							}
 							
 							else
 							{
-								RadixBlocks.setBlock(owner.world, target, blockObj.getBlock());
+								RadixBlocks.setBlock(actor.world, target, blockObj.getBlock());
 							}
 						}
 					}
@@ -162,15 +152,15 @@ public class AIBuild extends AbstractToggleAI
 	 */
 	public boolean startBuilding(String schematicLocation, boolean doTopDown)
 	{
-		if (RadixLogic.getNearbyBlocks(owner, Blocks.PLANKS, 10).size() != 0)
+		if (RadixLogic.getNearbyBlocks(actor, Blocks.PLANKS, 10).size() != 0)
 		{			
 			return false;
 		}
 
 		else
 		{
-			this.origin = new Point3D(owner.posX, owner.posY + 1, owner.posZ);
-			this.owner.setMovementState(EnumMovementState.STAY);
+			this.origin = new Point3D(actor.posX, actor.posY + 1, actor.posZ);
+			this.actor.setMovementState(EnumMovementState.STAY);
 
 			primeSchematic(schematicLocation);
 
@@ -214,11 +204,11 @@ public class AIBuild extends AbstractToggleAI
 		for (final Map.Entry<Point3D, BlockObj> entry: schematicMap.entrySet())
 		{
 			final Point3D point = entry.getKey();
-			Block blockAtPoint = RadixBlocks.getBlock(owner.world, origin.iX() + point.iX(), origin.iY() + point.iY(), origin.iZ() + point.iZ());
+			Block blockAtPoint = RadixBlocks.getBlock(actor.world, origin.iX() + point.iX(), origin.iY() + point.iY(), origin.iZ() + point.iZ());
 			
 			if (blockAtPoint == Blocks.TALLGRASS || blockAtPoint == Blocks.RED_FLOWER || blockAtPoint == Blocks.DOUBLE_PLANT || blockAtPoint == Blocks.YELLOW_FLOWER)
 			{
-				RadixBlocks.setBlock(owner.world, origin.iX() + point.iX(), origin.iY() + point.iY(), origin.iZ() + point.iZ(), Blocks.AIR);
+				RadixBlocks.setBlock(actor.world, origin.iX() + point.iX(), origin.iY() + point.iY(), origin.iZ() + point.iZ(), Blocks.AIR);
 			}
 			
 			compareY = -25;

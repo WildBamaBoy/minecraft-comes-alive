@@ -15,11 +15,11 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-import mca.ai.AICombat;
-import mca.ai.AIFollow;
-import mca.ai.AIIdle;
-import mca.ai.AIMood;
-import mca.ai.AISleep;
+import mca.actions.ActionCombat;
+import mca.actions.ActionFollow;
+import mca.actions.ActionIdle;
+import mca.actions.ActionSleep;
+import mca.actions.ActionUpdateMood;
 import mca.api.CropEntry;
 import mca.api.RegistryMCA;
 import mca.api.WoodcuttingEntry;
@@ -258,7 +258,7 @@ public class GuiInteraction extends GuiScreen
 			RadixRender.drawTextPopup(displayList, 49, 129);
 		}
 
-		String moodString = MCA.getLanguageManager().getString("gui.info.mood", villager.getAI(AIMood.class).getMood(villager.getPersonality()).getFriendlyName());
+		String moodString = MCA.getLanguageManager().getString("gui.info.mood", villager.getAI(ActionUpdateMood.class).getMood(villager.getPersonality()).getFriendlyName());
 		String personalityString = MCA.getLanguageManager().getString("gui.info.personality", villager.getPersonality().getFriendlyName());
 
 		RadixRender.drawTextPopup(moodString, 18, 29);
@@ -475,8 +475,8 @@ public class GuiInteraction extends GuiScreen
 		
 		timeSinceLastClick = 0;
 		EnumInteraction interaction = EnumInteraction.fromId(button.id);
-		AICombat combatAI = villager.getAI(AICombat.class);
-		villager.getAI(AIIdle.class).reset();
+		ActionCombat combatAI = villager.getAI(ActionCombat.class);
+		villager.getAI(ActionIdle.class).reset();
 
 		if (interaction != null)
 		{
@@ -486,14 +486,6 @@ public class GuiInteraction extends GuiScreen
 			 * Basic interaction buttons.
 			 */
 			case INTERACT: drawInteractButtonMenu(); break;
-			case FOLLOW:
-				villager.setMovementState(EnumMovementState.FOLLOW); 
-				villager.getAI(AIFollow.class).setFollowingUUID(player.getUniqueID());
-				villager.getAI(AISleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
-				close();
-				break;
-			case STAY: villager.setMovementState(EnumMovementState.STAY);   close(); break;
-			case MOVE: villager.setMovementState(EnumMovementState.MOVE);   close(); break;
 			case WORK: drawWorkButtonMenu(); break;
 
 			/*
@@ -643,6 +635,9 @@ public class GuiInteraction extends GuiScreen
 			case FLIRT: 
 			case HUG: 
 			case KISS: 
+			case FOLLOW:
+			case STAY:
+			case MOVE:
 			case TRADE: 
 			case SET_HOME: 
 			case RIDE_HORSE: 
@@ -653,11 +648,8 @@ public class GuiInteraction extends GuiScreen
 			case DISMISS:
 			case TAXES:
 			case CHECKHAPPINESS:
-			case STOP: MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId())); close(); break;
-
 			case INVENTORY:
-				villager.setDoOpenInventory(true);
-				break;
+			case STOP: MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), villager.getEntityId())); close(); break;
 			
 			case NOBILITY:
 				drawNobilityControlMenu();
@@ -729,7 +721,7 @@ public class GuiInteraction extends GuiScreen
 			buttonList.add(new GuiButton(EnumInteraction.STAY.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.stay"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.MOVE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.move"))); yLoc -= yInt;
 
-			boolean followButtonEnabled = villager.getMovementState() != EnumMovementState.FOLLOW || !(villager.getAI(AIFollow.class)).getFollowingUUID().equals(player.getUniqueID());
+			boolean followButtonEnabled = villager.getMovementState() != EnumMovementState.FOLLOW || !(villager.getAI(ActionFollow.class)).getFollowingUUID().equals(player.getUniqueID());
 			((GuiButton)buttonList.get(1)).enabled = followButtonEnabled;
 
 			boolean stayButtonEnabled = villager.getMovementState() != EnumMovementState.STAY;
@@ -842,7 +834,7 @@ public class GuiInteraction extends GuiScreen
 		buttonList.add(new GuiButton(EnumInteraction.COMBAT.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.combat"))); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.STOP.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.DARKRED + MCA.getLanguageManager().getString("gui.button.stop"))); yLoc -= yInt;
 
-		if (villager.getAIManager().isToggleAIActive())
+		if (villager.getAIManager().isToggleActionActive())
 		{
 			for (Object obj : buttonList)
 			{
@@ -960,7 +952,7 @@ public class GuiInteraction extends GuiScreen
 		
 		if (villager.getPlayerSpouseInstance() == player)
 		{
-			if (!villager.getAIManager().isToggleAIActive())
+			if (!villager.getAIManager().isToggleActionActive())
 			{
 				buttonList.add(new GuiButton(EnumInteraction.COOKING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.cooking"))); yLoc -= yInt;
 			}
@@ -1155,7 +1147,7 @@ public class GuiInteraction extends GuiScreen
 
 	private void drawCombatControlMenu() 
 	{
-		AICombat combatAI = villager.getAIManager().getAI(AICombat.class);
+		ActionCombat combatAI = villager.getAIManager().getAction(ActionCombat.class);
 		
 		buttonList.clear();
 		currentPage = EnumInteraction.COMBAT.getId();

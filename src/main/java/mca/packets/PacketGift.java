@@ -1,9 +1,9 @@
 package mca.packets;
 
 import io.netty.buffer.ByteBuf;
-import mca.ai.AIGrow;
-import mca.ai.AIMood;
-import mca.ai.AIProgressStory;
+import mca.actions.ActionGrow;
+import mca.actions.ActionStoryProgression;
+import mca.actions.ActionUpdateMood;
 import mca.api.IGiftableItem;
 import mca.api.RegistryMCA;
 import mca.core.Constants;
@@ -111,7 +111,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 			human.setSpouse(Either.<EntityVillagerMCA, EntityPlayer>withR(player));
 			memory.setIsHiredBy(false, 0);
 			
-			human.getAI(AIMood.class).modifyMoodLevel(3.0F);
+			human.getAI(ActionUpdateMood.class).modifyMoodLevel(3.0F);
 			Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, human, 16);
 			TutorialManager.sendMessageToPlayer(player, "You are now married. You can have", "children by using the 'Procreate' button.");
 			return true;
@@ -234,7 +234,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 			
 			memory.setIsHiredBy(false, 0);
 			
-			human.getAI(AIMood.class).modifyMoodLevel(3.0F);
+			human.getAI(ActionUpdateMood.class).modifyMoodLevel(3.0F);
 			Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, human, 16);
 			TutorialManager.sendMessageToPlayer(player, "You are now engaged. Now gift a wedding ring", "to get gifts from other villagers.");
 			return true;
@@ -273,7 +273,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 				human.setSpouse(null);
 				data.setSpouse(null);
 
-				human.getAI(AIMood.class).modifyMoodLevel(-10.0F);
+				human.getAI(ActionUpdateMood.class).modifyMoodLevel(-10.0F);
 				Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.VILLAGER_ANGRY, human, 16);
 			}
 
@@ -327,13 +327,13 @@ public class PacketGift extends AbstractPacket<PacketGift>
 
 		if (heartsModify > 0)
 		{
-			human.getAI(AIMood.class).modifyMoodLevel(1.0F);
+			human.getAI(ActionUpdateMood.class).modifyMoodLevel(1.0F);
 			return true;
 		}
 
 		else
 		{
-			human.getAI(AIMood.class).modifyMoodLevel(-1.0F);
+			human.getAI(ActionUpdateMood.class).modifyMoodLevel(-1.0F);
 		}
 
 		return false;
@@ -397,7 +397,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 				removeItem = true;
 				removeCount = 1;
 
-				human.getAI(AIGrow.class).accelerate();
+				human.getAI(ActionGrow.class).accelerate();
 			}
 
 			else if ((item == ItemsMCA.babyBoy || item == ItemsMCA.babyGirl) && human.getPlayerSpouseInstance() == player)
@@ -410,7 +410,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 
 			else if (item == Items.CAKE || Block.getBlockFromItem(item) == Blocks.CAKE)
 			{
-				EnumProgressionStep step = human.getAI(AIProgressStory.class).getProgressionStep();
+				EnumProgressionStep step = human.getAI(ActionStoryProgression.class).getProgressionStep();
 
 				if (human.isMarriedToAVillager() && human.getVillagerSpouseInstance() != null && RadixMath.getDistanceToEntity(human, human.getVillagerSpouseInstance()) <= 8.5D)
 				{
@@ -424,8 +424,8 @@ public class PacketGift extends AbstractPacket<PacketGift>
 						human.say("gift.cake" + RadixMath.getNumberInRange(1, 3), player);
 
 						final EntityVillagerMCA progressor = !human.getIsMale() ? human : !spouse.getIsMale() ? spouse : human;
-						human.getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.HAD_BABY);
-						spouse.getAI(AIProgressStory.class).setProgressionStep(EnumProgressionStep.HAD_BABY);
+						human.getAI(ActionStoryProgression.class).setProgressionStep(EnumProgressionStep.HAD_BABY);
+						spouse.getAI(ActionStoryProgression.class).setProgressionStep(EnumProgressionStep.HAD_BABY);
 
 						Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, human, 16);
 						Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, spouse, 16);

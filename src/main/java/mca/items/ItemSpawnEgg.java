@@ -5,6 +5,7 @@ import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumGender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -40,7 +41,7 @@ public class ItemSpawnEgg extends Item
 			
 			if (!player.capabilities.isCreativeMode)
 			{
-				player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+				player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
 			}
 		}
 		

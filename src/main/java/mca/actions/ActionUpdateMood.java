@@ -1,4 +1,4 @@
-package mca.ai;
+package mca.actions;
 
 import java.util.Random;
 
@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.constant.Time;
 import radixcore.modules.RadixMath;
 
-public class AIMood extends AbstractAI
+public class ActionUpdateMood extends AbstractAction
 {
 	private static final DataParameter<Float> MOOD_VALUE = EntityDataManager.<Float>createKey(EntityVillagerMCA.class, DataSerializers.FLOAT);
 	
@@ -27,10 +27,9 @@ public class AIMood extends AbstractAI
 
 	private int counter;
 	
-	public AIMood(EntityVillagerMCA entityHuman) 
+	public ActionUpdateMood(EntityVillagerMCA entityHuman) 
 	{
 		super(entityHuman);
-		owner.getDataManager().set(MOOD_VALUE, 0.0F);
 	}
 
 	@Override
@@ -41,7 +40,7 @@ public class AIMood extends AbstractAI
 			int moodLevel = getMoodLevel();
 			EnumParticleTypes particles = null;
 
-			switch (owner.getPersonality().getMoodGroup())
+			switch (actor.getPersonality().getMoodGroup())
 			{
 			case GENERAL:
 				particles = moodLevel > 0 ? EnumParticleTypes.VILLAGER_HAPPY : EnumParticleTypes.WATER_SPLASH; break;
@@ -62,15 +61,15 @@ public class AIMood extends AbstractAI
 	
 				if (particleSpawnCounter <= 0)
 				{
-					final Random rand = owner.world.rand;
+					final Random rand = actor.world.rand;
 					final double velX = rand.nextGaussian() * 0.02D;
 					final double velY = rand.nextGaussian() * 0.02D;
 					final double velZ = rand.nextGaussian() * 0.02D;
 	
-					owner.world.spawnParticle(particles, 
-							owner.posX + rand.nextFloat() * owner.width * 2.0F - owner.width, 
-							owner.posY + 0.5D + rand.nextFloat() * owner.height, 
-							owner.posZ + rand.nextFloat() * owner.width * 2.0F - owner.width, 
+					actor.world.spawnParticle(particles, 
+							actor.posX + rand.nextFloat() * actor.width * 2.0F - actor.width, 
+							actor.posY + 0.5D + rand.nextFloat() * actor.height, 
+							actor.posZ + rand.nextFloat() * actor.width * 2.0F - actor.width, 
 							velX, velY, velZ);
 	
 					particleSpawnCounter = particleSpawnInterval;
@@ -119,12 +118,12 @@ public class AIMood extends AbstractAI
 
 	public void setMoodValue(float value)
 	{
-		owner.getDataManager().set(MOOD_VALUE, value);
+		actor.getDataManager().set(MOOD_VALUE, value);
 	}
 	
 	public void modifyMoodLevel(float amount)
 	{
-		owner.getDataManager().set(MOOD_VALUE, RadixMath.clamp(getMoodValue() + amount, 0.0F, 10.0F));
+		actor.getDataManager().set(MOOD_VALUE, RadixMath.clamp(getMoodValue() + amount, 0.0F, 10.0F));
 	}
 	
 	public EnumMood getMood(EnumPersonality personality)
@@ -134,7 +133,7 @@ public class AIMood extends AbstractAI
 	
 	private float getMoodValue()
 	{
-		return owner.getDataManager().get(MOOD_VALUE);
+		return actor.getDataManager().get(MOOD_VALUE);
 	}
 	
 	private int getMoodLevel()
@@ -161,6 +160,6 @@ public class AIMood extends AbstractAI
 	
 	protected void registerDataParameters()
 	{
-		owner.getDataManager().register(MOOD_VALUE, 0.0F);
+		actor.getDataManager().register(MOOD_VALUE, 5.0F);
 	}
 }

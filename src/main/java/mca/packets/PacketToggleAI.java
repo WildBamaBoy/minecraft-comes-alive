@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
-import mca.ai.AICooking;
-import mca.ai.AIFarming;
-import mca.ai.AIFishing;
-import mca.ai.AIHunting;
-import mca.ai.AIMining;
-import mca.ai.AIWoodcutting;
+import mca.actions.ActionCook;
+import mca.actions.ActionFarm;
+import mca.actions.ActionFish;
+import mca.actions.ActionHunt;
+import mca.actions.ActionMine;
+import mca.actions.ActionWoodcut;
 import mca.core.minecraft.AchievementsMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumInteraction;
@@ -104,7 +104,7 @@ public class PacketToggleAI extends AbstractPacket<PacketToggleAI>
 		{
 		case FARMING: 
 			player.addStat(AchievementsMCA.farming);
-			human.getAI(AIFarming.class).startFarming(player, packet.integers.get(0), packet.integers.get(1), packet.booleans.get(0));
+			human.getAI(ActionFarm.class).startFarming(player, packet.integers.get(0), packet.integers.get(1), packet.booleans.get(0));
 			break;
 			
 		case MINING: 
@@ -112,12 +112,12 @@ public class PacketToggleAI extends AbstractPacket<PacketToggleAI>
 			
 			if (packet.booleans.get(0))
 			{
-				human.getAI(AIMining.class).startGathering(player);
+				human.getAI(ActionMine.class).startGathering(player);
 			}
 			
 			else
 			{
-				human.getAI(AIMining.class).startSearching(player, packet.integers.get(0));
+				human.getAI(ActionMine.class).startSearching(player, packet.integers.get(0));
 			}
 			break;
 			
@@ -126,7 +126,7 @@ public class PacketToggleAI extends AbstractPacket<PacketToggleAI>
 			boolean doReplant = packet.booleans.get(0);
 			int mappingId = packet.integers.get(0);
 			
-			human.getAI(AIWoodcutting.class).startWoodcutting(player, mappingId, doReplant);
+			human.getAI(ActionWoodcut.class).startWoodcutting(player, mappingId, doReplant);
 			break;
 			
 		case HUNTING: 
@@ -135,22 +135,22 @@ public class PacketToggleAI extends AbstractPacket<PacketToggleAI>
 			
 			if (flag)
 			{
-				human.getAI(AIHunting.class).startKilling(player);
+				human.getAI(ActionHunt.class).startKilling(player);
 			}
 			
 			else
 			{
-				human.getAI(AIHunting.class).startTaming(player);
+				human.getAI(ActionHunt.class).startTaming(player);
 			}
 			
 			break;
 			
 		case COOKING: 
-			human.getAI(AICooking.class).startCooking(player);
+			human.getAI(ActionCook.class).startCooking(player);
 			break;
 			
 		case FISHING:
-			human.getAI(AIFishing.class).startFishing(player);
+			human.getAI(ActionFish.class).startFishing(player);
 			break;
 		}
 	}

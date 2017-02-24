@@ -1,4 +1,4 @@
-package mca.ai;
+package mca.actions;
 
 import mca.core.Constants;
 import mca.core.MCA;
@@ -12,36 +12,25 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.util.FakePlayer;
 import radixcore.modules.RadixMath;
 
-public class AIRespondToAttack extends AbstractAI
+public class ActionAttackResponse extends AbstractAction
 {
 	private String targetPlayerName;
 	private Entity target;
 	private boolean isRetaliating;
 
-	public AIRespondToAttack(EntityVillagerMCA entityHuman) 
+	public ActionAttackResponse(EntityVillagerMCA entityHuman) 
 	{
 		super(entityHuman);
 	}
 
 	@Override
-	public void onUpdateCommon() 
-	{
-	}
-
-	@Override
-	public void onUpdateClient() 
-	{
-	}
-
-	@Override
 	public void onUpdateServer() 
 	{
-		if (!owner.getIsChild() && isRetaliating && owner.getHealth() > 0.0F && !owner.getIsInfected())
+		if (!actor.getIsChild() && isRetaliating && actor.getHealth() > 0.0F && !actor.getIsInfected())
 		{
 			if (target instanceof EntityPlayerMP && !target.getName().equals("[CoFH]") && !(target instanceof FakePlayer))
 			{
@@ -49,11 +38,11 @@ public class AIRespondToAttack extends AbstractAI
 
 				if (targetPlayer != null)
 				{
-					double distanceToPlayer = RadixMath.getDistanceToEntity(owner, targetPlayer);
+					double distanceToPlayer = RadixMath.getDistanceToEntity(actor, targetPlayer);
 
 					if (distanceToPlayer >= 10.0D)
 					{
-						owner.say("behavior.retaliate.distanced", targetPlayer);
+						actor.say("behavior.retaliate.distanced", targetPlayer);
 						reset();
 					}
 
@@ -64,14 +53,14 @@ public class AIRespondToAttack extends AbstractAI
 							handlePlayerWithWeapon();
 						}
 
-						else if (owner.getNavigator().noPath())
+						else if (actor.getNavigator().noPath())
 						{
-							owner.getNavigator().tryMoveToEntityLiving(targetPlayer, Constants.SPEED_RUN);
+							actor.getNavigator().tryMoveToEntityLiving(targetPlayer, Constants.SPEED_RUN);
 						}
 
 						else if (distanceToPlayer <= 1.8D)
 						{
-							owner.swingItem();
+							actor.swingItem();
 							targetPlayer.attackEntityFrom(DamageSource.GENERIC, 1.0F);
 							reset();
 						}
@@ -80,7 +69,7 @@ public class AIRespondToAttack extends AbstractAI
 
 				else //If target player is null for some reason, try to get it again and stop if it fails.
 				{
-					target = owner.world.getPlayerEntityByName(targetPlayerName);
+					target = actor.world.getPlayerEntityByName(targetPlayerName);
 
 					if (target == null)
 					{
@@ -91,7 +80,7 @@ public class AIRespondToAttack extends AbstractAI
 
 			else if (target != null)
 			{
-				double distanceToTarget = RadixMath.getDistanceToEntity(owner, target);
+				double distanceToTarget = RadixMath.getDistanceToEntity(actor, target);
 
 				if (distanceToTarget >= 10.0D)
 				{
@@ -100,15 +89,15 @@ public class AIRespondToAttack extends AbstractAI
 
 				else
 				{
-					if (owner.getNavigator().noPath())
+					if (actor.getNavigator().noPath())
 					{
-						owner.getNavigator().tryMoveToEntityLiving(target, Constants.SPEED_RUN);
+						actor.getNavigator().tryMoveToEntityLiving(target, Constants.SPEED_RUN);
 					}
 
 					else if (distanceToTarget <= 1.8D)
 					{
-						float attackDamage = owner.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard ? MCA.getConfig().guardAttackDamage : MCA.getConfig().villagerAttackDamage;
-						owner.swingItem();
+						float attackDamage = actor.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard ? MCA.getConfig().guardAttackDamage : MCA.getConfig().villagerAttackDamage;
+						actor.swingItem();
 						target.attackEntityFrom(DamageSource.GENERIC, attackDamage);
 						reset();
 					}
@@ -122,24 +111,12 @@ public class AIRespondToAttack extends AbstractAI
 	{
 		isRetaliating = false;
 		targetPlayerName = null;
-		owner.getNavigator().clearPathEntity();
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) 
-	{
-
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) 
-	{
-
+		actor.getNavigator().clearPathEntity();
 	}
 
 	public void startResponse(Entity entity)
 	{
-		if (owner.getPersonality() == EnumPersonality.PEACEFUL)
+		if (actor.getPersonality() == EnumPersonality.PEACEFUL)
 		{
 			return;
 		}
@@ -156,12 +133,12 @@ public class AIRespondToAttack extends AbstractAI
 
 			else
 			{
-				owner.say("behavior.retaliate.begin", player);
+				actor.say("behavior.retaliate.begin", player);
 
 				isRetaliating = true;
 				targetPlayerName = player.getName();
 				
-				PlayerMemory memory = owner.getPlayerMemory(player);
+				PlayerMemory memory = actor.getPlayerMemory(player);
 				memory.setHearts(memory.getHearts() - 5);
 			}
 		}
@@ -189,7 +166,7 @@ public class AIRespondToAttack extends AbstractAI
 	{
 		try
 		{
-			owner.say("behavior.retaliate.weapondrawn", (EntityPlayer)target);
+			actor.say("behavior.retaliate.weapondrawn", (EntityPlayer)target);
 		}
 		
 		catch (NullPointerException e)

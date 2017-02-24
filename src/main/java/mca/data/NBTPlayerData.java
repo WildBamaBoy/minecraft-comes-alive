@@ -216,13 +216,13 @@ public final class NBTPlayerData implements Serializable
 	public void setGender(EnumGender value)
 	{
 		this.gender = value.getId();
-		broadcastValueChange(FieldUpdateObj.get(FieldID.GENDER, TypeID.INT, value));
+		broadcastValueChange(FieldUpdateObj.get(FieldID.GENDER, TypeID.INT, value.getId()));
 	}
 
 	public void setSpouseGender(EnumGender value)
 	{
 		this.spouseGender = value.getId();
-		broadcastValueChange(FieldUpdateObj.get(FieldID.SPOUSE_GENDER, TypeID.INT, value));
+		broadcastValueChange(FieldUpdateObj.get(FieldID.SPOUSE_GENDER, TypeID.INT, value.getId()));
 	}
 	
 	public boolean getOwnsBaby() 
@@ -250,7 +250,7 @@ public final class NBTPlayerData implements Serializable
 	public void setMarriageState(EnumMarriageState value)
 	{
 		this.marriageState = value.getId();
-		broadcastValueChange(FieldUpdateObj.get(FieldID.MARRIAGE_STATE, TypeID.INT, value));
+		broadcastValueChange(FieldUpdateObj.get(FieldID.MARRIAGE_STATE, TypeID.INT, value.getId()));
 	}
 	
 	/**

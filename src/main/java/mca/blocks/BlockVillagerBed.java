@@ -2,7 +2,7 @@ package mca.blocks;
 
 import java.util.Random;
 
-import mca.ai.AISleep;
+import mca.actions.ActionSleep;
 import mca.core.Constants;
 import mca.core.MCA;
 import mca.core.minecraft.ItemsMCA;
@@ -98,7 +98,7 @@ public class BlockVillagerBed extends BlockBed implements ITileEntityProvider
 
 						if (entity != null)
 						{
-							final AISleep sleepAI = entity.getAI(AISleep.class);
+							final ActionSleep sleepAI = entity.getAI(ActionSleep.class);
 							sleepAI.setSleepingState(EnumSleepingState.INTERRUPTED);
 						}
 					}

@@ -1,4 +1,4 @@
-package mca.ai;
+package mca.actions;
 
 import mca.api.RegistryMCA;
 import mca.api.WoodcuttingEntry;
@@ -20,7 +20,7 @@ import radixcore.modules.RadixBlocks;
 import radixcore.modules.RadixLogic;
 import radixcore.modules.RadixMath;
 
-public class AIWoodcutting extends AbstractToggleAI
+public class ActionWoodcut extends AbstractToggleAction
 {
 	private Point3D treeBasePoint;
 	private int apiId;
@@ -29,9 +29,9 @@ public class AIWoodcutting extends AbstractToggleAI
 	private int cutTimeLeft;
 	private boolean doReplant;
 
-	public AIWoodcutting(EntityVillagerMCA owner) 
+	public ActionWoodcut(EntityVillagerMCA actor) 
 	{
-		super(owner);
+		super(actor);
 		treeBasePoint = Point3D.ZERO;
 	}
 
@@ -57,12 +57,12 @@ public class AIWoodcutting extends AbstractToggleAI
 					return;
 				}
 
-				final Point3D point = RadixLogic.getNearestBlock(owner, 15, apiEntry.getLogBlock());
+				final Point3D point = RadixLogic.getNearestBlock(actor, 15, apiEntry.getLogBlock());
 
 				if (point != null)
 				{
 					//Follow the point down until logs are NOT found, so we have the base of the tree.
-					while (RadixBlocks.getBlock(owner.world, point.iX(), point.iY(), point.iZ()) == apiEntry.getLogBlock())
+					while (RadixBlocks.getBlock(actor.world, point.iX(), point.iY(), point.iZ()) == apiEntry.getLogBlock())
 					{
 						point.set(point.iX(), point.iY() - 1, point.iZ());
 
@@ -73,7 +73,7 @@ public class AIWoodcutting extends AbstractToggleAI
 					}
 
 					//Follow back up and make sure we have the base. Not sure why, simply adding 1 caused issues every now and then.
-					while (RadixBlocks.getBlock(owner.world, point.iX(), point.iY(), point.iZ()) != apiEntry.getLogBlock())
+					while (RadixBlocks.getBlock(actor.world, point.iX(), point.iY(), point.iZ()) != apiEntry.getLogBlock())
 					{
 						point.set(point.iX(), point.iY() + 1, point.iZ());
 
@@ -95,10 +95,10 @@ public class AIWoodcutting extends AbstractToggleAI
 				}
 			}
 
-			else if (RadixMath.getDistanceToXYZ(treeBasePoint.dX(), treeBasePoint.dY(), treeBasePoint.dZ(), owner.posX, owner.posY, owner.posZ) <= 2.5D || yLevel > 0)
+			else if (RadixMath.getDistanceToXYZ(treeBasePoint.dX(), treeBasePoint.dY(), treeBasePoint.dZ(), actor.posX, actor.posY, actor.posZ) <= 2.5D || yLevel > 0)
 			{
 				cutTimeLeft--;
-				owner.swingItem();
+				actor.swingItem();
 
 				if (cutTimeLeft <= 0)
 				{
@@ -106,11 +106,11 @@ public class AIWoodcutting extends AbstractToggleAI
 
 					final WoodcuttingEntry apiEntry = RegistryMCA.getWoodcuttingEntryById(apiId);
 					final Block block = apiEntry.getLogBlock();
-					RadixBlocks.setBlock(owner.world, treeBasePoint.iX(), treeBasePoint.iY() + yLevel, treeBasePoint.iZ(), Blocks.AIR);
+					RadixBlocks.setBlock(actor.world, treeBasePoint.iX(), treeBasePoint.iY() + yLevel, treeBasePoint.iZ(), Blocks.AIR);
 					boolean addedToInventory = addItemStackToInventory(new ItemStack(block, 1, apiEntry.getLogMeta()));
-					boolean toolBroken = owner.damageHeldItem(2);
+					boolean toolBroken = actor.damageHeldItem(2);
 
-					if (!addedToInventory && owner.getPersonality() == EnumPersonality.GREEDY)
+					if (!addedToInventory && actor.getPersonality() == EnumPersonality.GREEDY)
 					{
 						//pass on greedy
 					}
@@ -132,14 +132,14 @@ public class AIWoodcutting extends AbstractToggleAI
 					yLevel++;
 
 					//Check that the next y level still contains a tree, reset if not.
-					final Block nextBlock = RadixBlocks.getBlock(owner.world, treeBasePoint.iX(), treeBasePoint.iY() + yLevel, treeBasePoint.iZ());
+					final Block nextBlock = RadixBlocks.getBlock(actor.world, treeBasePoint.iX(), treeBasePoint.iY() + yLevel, treeBasePoint.iZ());
 
 					if (nextBlock != apiEntry.getLogBlock())
 					{
 						if (apiEntry.hasSapling() && doReplant)
 						{
-							RadixBlocks.setBlock(owner.world, treeBasePoint.iX(), treeBasePoint.iY() - 1, treeBasePoint.iZ(), Blocks.DIRT);
-							RadixBlocks.setBlock(owner.world, treeBasePoint.iX(), treeBasePoint.iY(), treeBasePoint.iZ(), apiEntry.getSaplingBlock());
+							RadixBlocks.setBlock(actor.world, treeBasePoint.iX(), treeBasePoint.iY() - 1, treeBasePoint.iZ(), Blocks.DIRT);
+							RadixBlocks.setBlock(actor.world, treeBasePoint.iX(), treeBasePoint.iY(), treeBasePoint.iZ(), apiEntry.getSaplingBlock());
 						}
 
 						yLevel = 0;
@@ -150,19 +150,19 @@ public class AIWoodcutting extends AbstractToggleAI
 
 			else
 			{
-				for (Point3D point : RadixLogic.getNearbyBlocks(owner, Blocks.LEAVES, 1))
+				for (Point3D point : RadixLogic.getNearbyBlocks(actor, Blocks.LEAVES, 1))
 				{
-					RadixBlocks.setBlock(owner.world, point.iX(), point.iY(), point.iZ(), Blocks.AIR);
+					RadixBlocks.setBlock(actor.world, point.iX(), point.iY(), point.iZ(), Blocks.AIR);
 				}
 
-				for (Point3D point : RadixLogic.getNearbyBlocks(owner, Blocks.LEAVES2, 1))
+				for (Point3D point : RadixLogic.getNearbyBlocks(actor, Blocks.LEAVES2, 1))
 				{
-					RadixBlocks.setBlock(owner.world, point.iX(), point.iY(), point.iZ(), Blocks.AIR);				
+					RadixBlocks.setBlock(actor.world, point.iX(), point.iY(), point.iZ(), Blocks.AIR);				
 				}
 
-				if (owner.getNavigator().noPath())
+				if (actor.getNavigator().noPath())
 				{
-					owner.getNavigator().tryMoveToXYZ(treeBasePoint.dX(), treeBasePoint.dY(), treeBasePoint.dZ(), owner.getSpeed());
+					actor.getNavigator().tryMoveToXYZ(treeBasePoint.dX(), treeBasePoint.dY(), treeBasePoint.dZ(), actor.getSpeed());
 				}
 			}
 		}
@@ -213,7 +213,7 @@ public class AIWoodcutting extends AbstractToggleAI
 
 	private int calculateCutInterval()
 	{
-		ItemStack bestAxe = owner.getVillagerInventory().getBestItemOfType(ItemAxe.class);
+		ItemStack bestAxe = actor.getVillagerInventory().getBestItemOfType(ItemAxe.class);
 		int returnAmount = -1;
 
 		if (bestAxe != null)
@@ -243,13 +243,13 @@ public class AIWoodcutting extends AbstractToggleAI
 				break;
 			}
 
-			owner.setHeldItem(item);
+			actor.setHeldItem(item);
 		}
 
 		else
 		{
 			returnAmount = 60;
-			owner.setHeldItem(null);
+			actor.setHeldItem(null);
 		}
 
 		return returnAmount;

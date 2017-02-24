@@ -61,7 +61,7 @@ public class ItemMemorial extends Item
 				tile.setRelation(EnumRelation.NONE);
 			}
 
-			playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, null);
+			playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, ItemStack.EMPTY);
 			return EnumActionResult.SUCCESS;
 		}
 		

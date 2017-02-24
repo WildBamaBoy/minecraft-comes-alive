@@ -1,37 +1,26 @@
-package mca.ai;
+package mca.actions;
 
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
-import net.minecraft.nbt.NBTTagCompound;
 import radixcore.constant.Time;
 import radixcore.modules.RadixMath;
 
-public class AIBlink extends AbstractAI
+public class ActionBlink extends AbstractAction
 {
 	public boolean holdingBlink;
 	public int timeSinceLastBlink;
 	public int timeHeldBlink;
 	public int nextBlink;
 
-	public AIBlink(EntityVillagerMCA owner) 
+	public ActionBlink(EntityVillagerMCA actor) 
 	{
-		super(owner);
-	}
-
-	@Override
-	public void onUpdateCommon() 
-	{
-	}
-
-	@Override
-	public void onUpdateClient() 
-	{	
+		super(actor);
 	}
 
 	@Override
 	public void onUpdateServer() 
 	{
-		if (MCA.getConfig().allowBlinking && !owner.getAI(AISleep.class).getIsSleeping() && owner.getHealth() > 0.0F)
+		if (MCA.getConfig().allowBlinking && !actor.getAI(ActionSleep.class).getIsSleeping() && actor.getHealth() > 0.0F)
 		{
 			timeSinceLastBlink++;
 
@@ -45,30 +34,15 @@ public class AIBlink extends AbstractAI
 					holdingBlink = false;
 					timeSinceLastBlink = 0;
 					nextBlink = RadixMath.getNumberInRange(Time.SECOND * 2, Time.SECOND * 8);
-					owner.getAI(AISleep.class).transitionSkinState(false);
+					actor.getAI(ActionSleep.class).transitionSkinState(false);
 				}
 			}
 
 			else if (timeSinceLastBlink >= nextBlink)
 			{
-				owner.getAI(AISleep.class).transitionSkinState(true);
+				actor.getAI(ActionSleep.class).transitionSkinState(true);
 				holdingBlink = true;
 			}
 		}
-	}
-
-	@Override
-	public void reset()
-	{
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) 
-	{
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) 
-	{
 	}
 }

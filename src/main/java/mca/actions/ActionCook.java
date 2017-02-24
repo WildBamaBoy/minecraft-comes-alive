@@ -1,4 +1,4 @@
-package mca.ai;
+package mca.actions;
 
 import mca.api.CookableFood;
 import mca.api.RegistryMCA;
@@ -15,7 +15,7 @@ import radixcore.modules.RadixBlocks;
 import radixcore.modules.RadixLogic;
 import radixcore.modules.RadixMath;
 
-public class AICooking extends AbstractToggleAI
+public class ActionCook extends AbstractToggleAction
 {
 	private Point3D furnacePos;
 
@@ -28,9 +28,9 @@ public class AICooking extends AbstractToggleAI
 	private int cookingTicks;
 	private int cookingInterval;
 
-	public AICooking(EntityVillagerMCA owner) 
+	public ActionCook(EntityVillagerMCA actor) 
 	{
-		super(owner);
+		super(actor);
 		furnacePos = Point3D.ZERO;
 	}
 
@@ -53,7 +53,7 @@ public class AICooking extends AbstractToggleAI
 
 					if (player != null)
 					{
-						owner.say("cooking.nofood", player);
+						actor.say("cooking.nofood", player);
 					}
 
 					reset();
@@ -70,7 +70,7 @@ public class AICooking extends AbstractToggleAI
 
 					if (player != null)
 					{
-						owner.say("cooking.nofuel", player);
+						actor.say("cooking.nofuel", player);
 					}
 				}
 			}
@@ -86,7 +86,7 @@ public class AICooking extends AbstractToggleAI
 
 				if (player != null)
 				{
-					owner.say("cooking.nofurnace", player);
+					actor.say("cooking.nofurnace", player);
 				}
 			}
 		}
@@ -110,9 +110,9 @@ public class AICooking extends AbstractToggleAI
 
 	private boolean getFuelFromInventory()
 	{
-		for (int i = 0; i < owner.getVillagerInventory().getSizeInventory(); i++)
+		for (int i = 0; i < actor.getVillagerInventory().getSizeInventory(); i++)
 		{
-			ItemStack stack = owner.getVillagerInventory().getStackInSlot(i);
+			ItemStack stack = actor.getVillagerInventory().getStackInSlot(i);
 
 			if (stack != null)
 			{
@@ -132,7 +132,7 @@ public class AICooking extends AbstractToggleAI
 						hasFuel = true;
 						fuelUsesRemaining = fuelValue;
 
-						owner.getVillagerInventory().decrStackSize(owner.getVillagerInventory().getFirstSlotContainingItem(stack.getItem()), 1);
+						actor.getVillagerInventory().decrStackSize(actor.getVillagerInventory().getFirstSlotContainingItem(stack.getItem()), 1);
 					}
 				}
 
@@ -148,7 +148,7 @@ public class AICooking extends AbstractToggleAI
 
 	private boolean isFurnaceNearby()
 	{
-		final Point3D nearbyFurnace = RadixLogic.getNearestBlock(owner, 10, Blocks.FURNACE);
+		final Point3D nearbyFurnace = RadixLogic.getNearestBlock(actor, 10, Blocks.FURNACE);
 		hasFurnace = nearbyFurnace != null;
 		furnacePos = hasFurnace ? nearbyFurnace : furnacePos;
 
@@ -172,7 +172,7 @@ public class AICooking extends AbstractToggleAI
 
 				if (player != null)
 				{
-					owner.say("cooking.nofurnace", player);
+					actor.say("cooking.nofurnace", player);
 				}
 			}
 		}
@@ -187,9 +187,9 @@ public class AICooking extends AbstractToggleAI
 
 	private void getCookableFoodFromInventory()
 	{
-		for (int i = 0; i < owner.getVillagerInventory().getSizeInventory(); i++)
+		for (int i = 0; i < actor.getVillagerInventory().getSizeInventory(); i++)
 		{
-			ItemStack stack = owner.getVillagerInventory().getStackInSlot(i);
+			ItemStack stack = actor.getVillagerInventory().getStackInSlot(i);
 
 			for (final CookableFood entry : RegistryMCA.getCookableFoodList())
 			{
@@ -204,24 +204,24 @@ public class AICooking extends AbstractToggleAI
 
 	private void setPathToFurnace()
 	{
-		final double distanceToFurnace = RadixMath.getDistanceToXYZ(owner, furnacePos);
+		final double distanceToFurnace = RadixMath.getDistanceToXYZ(actor, furnacePos);
 
-		if (owner.getNavigator().noPath() && distanceToFurnace >= 2.5D)
+		if (actor.getNavigator().noPath() && distanceToFurnace >= 2.5D)
 		{
-			owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(furnacePos.iX(), furnacePos.iY(), furnacePos.iZ()), owner.getSpeed());
+			actor.getNavigator().setPath(actor.getNavigator().getPathToXYZ(furnacePos.iX(), furnacePos.iY(), furnacePos.iZ()), actor.getSpeed());
 		}
 	}
 
 	private boolean isFurnaceStillPresent()
 	{
-		return RadixBlocks.getBlock(owner.world, furnacePos.iX(), furnacePos.iY(), furnacePos.iZ()) == Blocks.FURNACE || 
-				RadixBlocks.getBlock(owner.world, furnacePos.iX(), furnacePos.iY(), furnacePos.iZ()) == Blocks.LIT_FURNACE;
+		return RadixBlocks.getBlock(actor.world, furnacePos.iX(), furnacePos.iY(), furnacePos.iZ()) == Blocks.FURNACE || 
+				RadixBlocks.getBlock(actor.world, furnacePos.iX(), furnacePos.iY(), furnacePos.iZ()) == Blocks.LIT_FURNACE;
 	}
 
 
 	private void doCookFood()
 	{
-		final double distanceToFurnace = RadixMath.getDistanceToXYZ(owner, furnacePos);
+		final double distanceToFurnace = RadixMath.getDistanceToXYZ(actor, furnacePos);
 
 		if (distanceToFurnace <= 2.5D)
 		{
@@ -229,9 +229,9 @@ public class AICooking extends AbstractToggleAI
 			{
 				if (cookingTicks <= cookingInterval)
 				{
-					if (RadixBlocks.getBlock(owner.world, furnacePos) != Blocks.LIT_FURNACE)
+					if (RadixBlocks.getBlock(actor.world, furnacePos) != Blocks.LIT_FURNACE)
 					{
-						BlockFurnace.setState(true, owner.world, furnacePos.toBlockPos());
+						BlockFurnace.setState(true, actor.world, furnacePos.toBlockPos());
 					}
 
 					cookingTicks++;
@@ -240,13 +240,13 @@ public class AICooking extends AbstractToggleAI
 				else
 				{
 					CookableFood foodObj = RegistryMCA.getCookableFoodList().get(indexOfCookingFood);
-					int rawFoodSlot = owner.getVillagerInventory().getFirstSlotContainingItem(foodObj.getFoodRaw());
+					int rawFoodSlot = actor.getVillagerInventory().getFirstSlotContainingItem(foodObj.getFoodRaw());
 
 					if (rawFoodSlot > -1)
 					{
-						owner.getVillagerInventory().decrStackSize(rawFoodSlot, 1);
+						actor.getVillagerInventory().decrStackSize(rawFoodSlot, 1);
 						addItemStackToInventory(new ItemStack(foodObj.getFoodCooked(), 1, 0));
-						owner.swingItem();
+						actor.swingItem();
 					}
 
 					else
@@ -255,7 +255,7 @@ public class AICooking extends AbstractToggleAI
 
 						if (player != null)
 						{
-							owner.say("cooking.nofood", player);
+							actor.say("cooking.nofood", player);
 						}
 
 						reset();
@@ -265,7 +265,7 @@ public class AICooking extends AbstractToggleAI
 					hasCookableFood = false;
 					cookingTicks = 0;
 					fuelUsesRemaining--;
-					BlockFurnace.setState(false, owner.world, furnacePos.toBlockPos());
+					BlockFurnace.setState(false, actor.world, furnacePos.toBlockPos());
 
 					if (fuelUsesRemaining <= 0)
 					{
@@ -275,7 +275,7 @@ public class AICooking extends AbstractToggleAI
 			}
 			else
 			{
-				owner.swingItem();
+				actor.swingItem();
 				isCooking = true;
 			}
 		}

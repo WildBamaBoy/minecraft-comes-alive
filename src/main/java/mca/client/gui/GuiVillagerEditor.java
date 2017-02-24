@@ -8,7 +8,7 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-import mca.ai.AISleep;
+import mca.actions.ActionSleep;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumGender;
@@ -79,7 +79,7 @@ public class GuiVillagerEditor extends GuiScreen
 		this.player = player;
 		villager = EntityHuman;
 		
-		villager.getAI(AISleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
+		villager.getAI(ActionSleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
 		
 		jobs = CircularIntList.fromList(EnumProfession.getListOfIds());
 		personalities = CircularIntList.fromList(EnumPersonality.getListOfIds());
@@ -370,7 +370,7 @@ public class GuiVillagerEditor extends GuiScreen
 			int posY = height / 2 + 95;
 			final int scale = 80;
 
-			if (!villager.getAI(AISleep.class).getIsSleeping())
+			if (!villager.getAI(ActionSleep.class).getIsSleeping())
 			{
 				posY = height / 2 + 80;
 			}

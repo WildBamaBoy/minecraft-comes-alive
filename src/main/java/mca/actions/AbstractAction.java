@@ -1,16 +1,16 @@
-package mca.ai;
+package mca.actions;
 
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.nbt.NBTTagCompound;
 
-public abstract class AbstractAI 
+public abstract class AbstractAction 
 {
 	/** The human performing the tasks of this AI. */
-	protected EntityVillagerMCA owner;
+	protected EntityVillagerMCA actor;
 
-	public AbstractAI(EntityVillagerMCA owner)
+	public AbstractAction(EntityVillagerMCA actor)
 	{
-		this.owner = owner;
+		this.actor = actor;
 		registerDataParameters();
 	}
 	

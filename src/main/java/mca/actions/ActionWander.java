@@ -1,4 +1,4 @@
-package mca.ai;
+package mca.actions;
 
 import java.util.List;
 
@@ -17,40 +17,29 @@ import radixcore.constant.Time;
 import radixcore.modules.RadixLogic;
 import radixcore.modules.RadixMath;
 
-public class AIWorkday extends AbstractAI
+public class ActionWander extends AbstractAction
 {
 	private EnumWorkdayState state = EnumWorkdayState.IDLE;
 	private Vec3d vecTarget;
 	private EntityLivingBase lookTarget;
 	private int ticksActive;
-	public AIWorkday(EntityVillagerMCA owner) 
+	
+	public ActionWander(EntityVillagerMCA actor) 
 	{
-		super(owner);
-	}
-
-	@Override
-	public void onUpdateCommon() 
-	{
-
-	}
-
-	@Override
-	public void onUpdateClient() 
-	{
-
+		super(actor);
 	}
 
 	@Override
 	public void onUpdateServer() 
 	{
 		//Prevent the workday while we're down for sleep or doing something with the player.
-		if (owner.getMovementState() == EnumMovementState.STAY 
-				|| owner.getMovementState() == EnumMovementState.FOLLOW 
-				|| owner.getAI(AISleep.class).getIsSleeping()
-				|| owner.getAIManager().isToggleAIActive())
+		if (actor.getMovementState() == EnumMovementState.STAY 
+				|| actor.getMovementState() == EnumMovementState.FOLLOW 
+				|| actor.getAI(ActionSleep.class).getIsSleeping()
+				|| actor.getAIManager().isToggleActionActive())
 		{
 			//Allow looking at the player while staying.
-			if (owner.getMovementState() == EnumMovementState.STAY)
+			if (actor.getMovementState() == EnumMovementState.STAY)
 			{
 				handleWatchClosestPlayer();
 			}
@@ -84,12 +73,6 @@ public class AIWorkday extends AbstractAI
 	}
 
 	@Override
-	public void reset() 
-	{
-
-	}
-
-	@Override
 	public void writeToNBT(NBTTagCompound nbt) 
 	{
 		nbt.setInteger("state", state.getId());
@@ -112,17 +95,17 @@ public class AIWorkday extends AbstractAI
 		handleLook();
 		
 		//Every few seconds, grab a target if we don't have one.
-		if (vecTarget == null && ticksActive % (Time.SECOND * (owner.getRNG().nextInt(5) + 5)) == 0)
+		if (vecTarget == null && ticksActive % (Time.SECOND * (actor.getRNG().nextInt(5) + 5)) == 0)
 		{
-			vecTarget = RandomPositionGenerator.findRandomTarget(owner, 7, 5);
-			owner.getNavigator().setPath(null, 0.0D);
+			vecTarget = RandomPositionGenerator.findRandomTarget(actor, 7, 5);
+			actor.getNavigator().setPath(null, 0.0D);
 		}
 
 		else if (vecTarget != null) //Otherwise if we do have a target, try moving to it.
 		{
-			if (owner.getNavigator().noPath())
+			if (actor.getNavigator().noPath())
 			{
-				owner.getNavigator().tryMoveToXYZ(vecTarget.xCoord, vecTarget.yCoord, vecTarget.zCoord, Constants.SPEED_WALK - 0.1F);
+				actor.getNavigator().tryMoveToXYZ(vecTarget.xCoord, vecTarget.yCoord, vecTarget.zCoord, Constants.SPEED_WALK - 0.1F);
 			}
 			
 			//If we've been pathing too long, clear and stop.
@@ -167,7 +150,7 @@ public class AIWorkday extends AbstractAI
 		if (ticksActive % Time.SECOND / 2 == 0)
 		{
 			//Check and make sure our target is still in range.
-			if (lookTarget != null && RadixMath.getDistanceToEntity(owner, lookTarget) > 3.0D)
+			if (lookTarget != null && RadixMath.getDistanceToEntity(actor, lookTarget) > 3.0D)
 			{
 				lookTarget = null;
 			}
@@ -180,19 +163,19 @@ public class AIWorkday extends AbstractAI
 	{
 		final Class entityClass = playerOnly ? EntityPlayer.class : EntityLivingBase.class;
 		final int maxDistanceAway = 3;
-		final List<Entity> entitiesAroundMe = owner.world.getEntitiesWithinAABB(entityClass, new AxisAlignedBB(owner.posX - maxDistanceAway, owner.posY - maxDistanceAway, owner.posZ - maxDistanceAway, owner.posX + maxDistanceAway, owner.posY + maxDistanceAway, owner.posZ + maxDistanceAway));
+		final List<Entity> entitiesAroundMe = actor.world.getEntitiesWithinAABB(entityClass, new AxisAlignedBB(actor.posX - maxDistanceAway, actor.posY - maxDistanceAway, actor.posZ - maxDistanceAway, actor.posX + maxDistanceAway, actor.posY + maxDistanceAway, actor.posZ + maxDistanceAway));
 		
 		double lastDistance = 100.0D;
 		Entity target = null;
 
 		for (Entity entity : entitiesAroundMe)
 		{
-			if (entity == owner) //Don't look at yourself...
+			if (entity == actor) //Don't look at yourself...
 			{
 				continue;
 			}
 
-			double dist = RadixMath.getDistanceToEntity(owner, entity);
+			double dist = RadixMath.getDistanceToEntity(actor, entity);
 
 			if (dist < lastDistance)
 			{
@@ -208,7 +191,7 @@ public class AIWorkday extends AbstractAI
 	{
 		if (lookTarget != null)
 		{
-			owner.getLookHelper().setLookPositionWithEntity(lookTarget, 9.0F, 3.0F);
+			actor.getLookHelper().setLookPositionWithEntity(lookTarget, 9.0F, 3.0F);
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package mca.ai;
+package mca.actions;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,7 +20,7 @@ import radixcore.math.Point3D;
 import radixcore.modules.RadixLogic;
 import radixcore.modules.RadixMath;
 
-public class AIFishing extends AbstractToggleAI
+public class ActionFish extends AbstractToggleAction
 {
 	private EntityChoreFishHook hook;
 	private boolean hasWaterPoint;
@@ -30,9 +30,9 @@ public class AIFishing extends AbstractToggleAI
 	private int waterCoordinatesZ;
 	private int idleFishingTime;
 
-	public AIFishing(EntityVillagerMCA owner) 
+	public ActionFish(EntityVillagerMCA actor) 
 	{
-		super(owner);
+		super(actor);
 		setIsActive(false);
 	}
 
@@ -64,11 +64,11 @@ public class AIFishing extends AbstractToggleAI
 
 			if (!canFishingBegin())
 			{
-				owner.getNavigator().setPath(owner.getNavigator().getPathToXYZ(waterCoordinatesX, waterCoordinatesY, waterCoordinatesZ), Constants.SPEED_WALK);
+				actor.getNavigator().setPath(actor.getNavigator().getPathToXYZ(waterCoordinatesX, waterCoordinatesY, waterCoordinatesZ), Constants.SPEED_WALK);
 				return;
 			}
 
-			owner.getNavigator().clearPathEntity();
+			actor.getNavigator().clearPathEntity();
 
 			if (hasFishingTarget)
 			{
@@ -82,9 +82,9 @@ public class AIFishing extends AbstractToggleAI
 				{
 					if (hook == null || hook.isDead)
 					{
-						hook = new EntityChoreFishHook(owner.world, owner);
-						owner.world.spawnEntity(hook);
-						owner.swingItem();
+						hook = new EntityChoreFishHook(actor.world, actor);
+						actor.world.spawnEntity(hook);
+						actor.swingItem();
 					}
 
 					doFaceFishEntity();
@@ -125,11 +125,11 @@ public class AIFishing extends AbstractToggleAI
 	private boolean trySetWaterCoordinates()
 	{
 		//Get all water up to 10 blocks away from the entity.
-		final Point3D waterCoordinates = RadixLogic.getNearestBlock(owner, 10, Blocks.WATER);
+		final Point3D waterCoordinates = RadixLogic.getNearestBlock(actor, 10, Blocks.WATER);
 
 		if (waterCoordinates == null)
 		{
-			owner.say(MCA.getLanguageManager().getString("fishing.nowater"), getAssigningPlayer());
+			actor.say(MCA.getLanguageManager().getString("fishing.nowater"), getAssigningPlayer());
 
 			reset();
 			return false;
@@ -148,12 +148,12 @@ public class AIFishing extends AbstractToggleAI
 
 	private boolean canFishingBegin()
 	{
-		return RadixLogic.getNearestBlock(owner, 1, Blocks.WATER) != null;
+		return RadixLogic.getNearestBlock(actor, 1, Blocks.WATER) != null;
 	}
 
 	private void doSetFishingTarget()
 	{
-		final List<Point3D> nearbyWater = RadixLogic.getNearbyBlocks(owner, Blocks.WATER, 10);
+		final List<Point3D> nearbyWater = RadixLogic.getNearbyBlocks(actor, Blocks.WATER, 10);
 		final Point3D randomNearbyWater = nearbyWater.get(RadixMath.getNumberInRange(0, nearbyWater.size() - 1));
 		
 		waterCoordinatesX = randomNearbyWater.iX();
@@ -170,7 +170,7 @@ public class AIFishing extends AbstractToggleAI
 			hook.setDead();
 		}
 
-		owner.facePosition(new Point3D(waterCoordinatesX, waterCoordinatesY, waterCoordinatesZ));
+		actor.facePosition(new Point3D(waterCoordinatesX, waterCoordinatesY, waterCoordinatesZ));
 		idleFishingTime++;
 	}
 
@@ -186,13 +186,13 @@ public class AIFishing extends AbstractToggleAI
 				final int amountToAdd = getFishAmountToAdd();
 				final Item fishItem = entry.getFishItem();
 
-				owner.getVillagerInventory().addItem(new ItemStack(fishItem, amountToAdd, entry.getItemDamage()));
-				owner.damageHeldItem(1);
+				actor.getVillagerInventory().addItem(new ItemStack(fishItem, amountToAdd, entry.getItemDamage()));
+				actor.damageHeldItem(1);
 				
 				//Check if they're carrying 64 fish and end the chore if they are.
-				if (owner.getVillagerInventory().containsCountOf(Items.FISH, 64))
+				if (actor.getVillagerInventory().containsCountOf(Items.FISH, 64))
 				{
-					owner.say(MCA.getLanguageManager().getString("notify.child.chore.finished.fishing"), getAssigningPlayer());
+					actor.say(MCA.getLanguageManager().getString("notify.child.chore.finished.fishing"), getAssigningPlayer());
 					reset();
 					return;
 				}
@@ -230,21 +230,21 @@ public class AIFishing extends AbstractToggleAI
 	{
 		if (hook != null)
 		{
-			owner.getLookHelper().setLookPositionWithEntity(hook, 16.0F, 2.0F);
+			actor.getLookHelper().setLookPositionWithEntity(hook, 16.0F, 2.0F);
 		}
 	}
 
 	private void doItemVerification()
 	{
 		//Make sure a child has a fishing rod.
-		if (owner instanceof EntityVillagerMCA && !owner.getVillagerInventory().contains(Items.FISHING_ROD.getClass()))
+		if (actor instanceof EntityVillagerMCA && !actor.getVillagerInventory().contains(Items.FISHING_ROD.getClass()))
 		{
-			owner.say("fishing.norod", getAssigningPlayer());
+			actor.say("fishing.norod", getAssigningPlayer());
 			reset();
 			return;
 		}
 		
-		owner.setHeldItem(owner.getVillagerInventory().getStackInSlot(owner.getVillagerInventory().getFirstSlotContainingItem(Items.FISHING_ROD)).getItem());
+		actor.setHeldItem(actor.getVillagerInventory().getStackInSlot(actor.getVillagerInventory().getFirstSlotContainingItem(Items.FISHING_ROD)).getItem());
 	}
 
 	private int getFishCatchChance()

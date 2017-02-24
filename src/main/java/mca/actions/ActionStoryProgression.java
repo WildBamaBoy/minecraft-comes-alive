@@ -1,4 +1,4 @@
-package mca.ai;
+package mca.actions;
 
 import mca.core.MCA;
 import mca.core.minecraft.AchievementsMCA;
@@ -16,7 +16,7 @@ import radixcore.constant.Time;
 import radixcore.modules.RadixLogic;
 import radixcore.modules.RadixMath;
 
-public class AIProgressStory extends AbstractAI
+public class ActionStoryProgression extends AbstractAction
 {
 	private int ticksUntilNextProgress;
 	private int babyAge;
@@ -26,7 +26,7 @@ public class AIProgressStory extends AbstractAI
 
 	private boolean forceNextProgress;
 	
-	public AIProgressStory(EntityVillagerMCA entityHuman) 
+	public ActionStoryProgression(EntityVillagerMCA entityHuman) 
 	{
 		super(entityHuman);
 
@@ -39,7 +39,7 @@ public class AIProgressStory extends AbstractAI
 	public void onUpdateServer() 
 	{
 		//This AI starts working once the story progression threshold defined in the configuration file has been met.
-		if (MCA.getConfig().storyProgression && owner.getTicksAlive() >= MCA.getConfig().storyProgressionThreshold * Time.MINUTE && isDominant && !owner.getIsChild() && !owner.getIsEngaged())
+		if (MCA.getConfig().storyProgression && actor.getTicksAlive() >= MCA.getConfig().storyProgressionThreshold * Time.MINUTE && isDominant && !actor.getIsChild() && !actor.getIsEngaged())
 		{
 			if (ticksUntilNextProgress <= 0 || forceNextProgress)
 			{
@@ -78,7 +78,7 @@ public class AIProgressStory extends AbstractAI
 	@Override
 	public void reset() 
 	{
-		owner.setTicksAlive(0);
+		actor.setTicksAlive(0);
 		ticksUntilNextProgress = MCA.getConfig().storyProgressionRate;
 		setProgressionStep(EnumProgressionStep.SEARCH_FOR_PARTNER);
 		isDominant = true;
@@ -106,24 +106,24 @@ public class AIProgressStory extends AbstractAI
 
 	private void doPartnerSearch()
 	{
-		EntityVillagerMCA partner = (EntityVillagerMCA) RadixLogic.getClosestEntityExclusive(owner, 15, EntityVillagerMCA.class);
+		EntityVillagerMCA partner = (EntityVillagerMCA) RadixLogic.getClosestEntityExclusive(actor, 15, EntityVillagerMCA.class);
 
 		boolean partnerIsValid = partner != null 
-				&& partner.getGender() != owner.getGender() 
+				&& partner.getGender() != actor.getGender() 
 				&& partner.getMarriageState() == EnumMarriageState.NOT_MARRIED 
 				&& !partner.getIsChild() 
-				&& (partner.getFatherUUID() != owner.getFatherUUID()) 
-				&& (partner.getMotherUUID() != owner.getMotherUUID());
+				&& (partner.getFatherUUID() != actor.getFatherUUID()) 
+				&& (partner.getMotherUUID() != actor.getMotherUUID());
 		
 		if (partnerIsValid)
 		{
 			//Set the other human's story progression appropriately.
-			AIProgressStory mateAI = getMateAI(partner);
+			ActionStoryProgression mateAI = getMateAI(partner);
 			setProgressionStep(EnumProgressionStep.TRY_FOR_BABY);
 			mateAI.setProgressionStep(EnumProgressionStep.TRY_FOR_BABY);
 
 			//Set the dominant story progressor.
-			if (owner.getGender() == EnumGender.MALE)
+			if (actor.getGender() == EnumGender.MALE)
 			{
 				this.isDominant = true;
 				mateAI.isDominant = false;
@@ -136,27 +136,27 @@ public class AIProgressStory extends AbstractAI
 			}
 
 			//Mark as married.
-			owner.setSpouse(Either.<EntityVillagerMCA, EntityPlayer>withL(partner));
+			actor.setSpouse(Either.<EntityVillagerMCA, EntityPlayer>withL(partner));
 		}
 	}
 
 	private void doTryForBaby()
 	{
-		final EntityVillagerMCA mate = owner.getVillagerSpouseInstance();
-		final int villagersInArea = RadixLogic.getEntitiesWithinDistance(EntityVillagerMCA.class, owner, 32).size();
+		final EntityVillagerMCA mate = actor.getVillagerSpouseInstance();
+		final int villagersInArea = RadixLogic.getEntitiesWithinDistance(EntityVillagerMCA.class, actor, 32).size();
 		
 		if (villagersInArea >= MCA.getConfig().storyProgressionCap && MCA.getConfig().storyProgressionCap != -1 && !forceNextProgress)
 		{
 			return;
 		}
 		
-		if (RadixLogic.getBooleanWithProbability(50) && mate != null && RadixMath.getDistanceToEntity(owner, mate) <= 8.5D)
+		if (RadixLogic.getBooleanWithProbability(50) && mate != null && RadixMath.getDistanceToEntity(actor, mate) <= 8.5D)
 		{
-			AIProgressStory mateAI = getMateAI(owner.getVillagerSpouseInstance());
+			ActionStoryProgression mateAI = getMateAI(actor.getVillagerSpouseInstance());
 			setProgressionStep(EnumProgressionStep.HAD_BABY);
 			mateAI.setProgressionStep(EnumProgressionStep.HAD_BABY);
 
-			Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, owner, 16);
+			Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, actor, 16);
 			Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, mate, 16);
 
 			//Father's part is done, mother is now dominant for the baby's progression.
@@ -171,11 +171,11 @@ public class AIProgressStory extends AbstractAI
 			mateAI.numChildren++;
 			
 			//Notify parent players of achievement.
-			for (Object obj : owner.world.playerEntities)
+			for (Object obj : actor.world.playerEntities)
 			{
 				EntityPlayer onlinePlayer = (EntityPlayer)obj;
 				
-				if (owner.isPlayerAParent(onlinePlayer) || mate.isPlayerAParent(onlinePlayer))
+				if (actor.isPlayerAParent(onlinePlayer) || mate.isPlayerAParent(onlinePlayer))
 				{
 					onlinePlayer.addStat(AchievementsMCA.childHasChildren);	
 				}
@@ -185,7 +185,7 @@ public class AIProgressStory extends AbstractAI
 
 	private void doAgeBaby()
 	{
-		final EntityVillagerMCA mate = owner.getVillagerSpouseInstance();
+		final EntityVillagerMCA mate = actor.getVillagerSpouseInstance();
 
 		if (mate == null) //Not loaded on the server
 		{
@@ -208,7 +208,7 @@ public class AIProgressStory extends AbstractAI
 			owner.world.spawnEntity(child);*/
 
 			//Reset self and mate status
-			owner.setBabyState(EnumBabyState.NONE);
+			actor.setBabyState(EnumBabyState.NONE);
 			mate.setBabyState(EnumBabyState.NONE);
 			
 			babyAge = 0;
@@ -216,14 +216,14 @@ public class AIProgressStory extends AbstractAI
 
 			if (mate != null)
 			{
-				AIProgressStory mateAI = getMateAI(mate);
+				ActionStoryProgression mateAI = getMateAI(mate);
 				mateAI.setProgressionStep(EnumProgressionStep.FINISHED);
 			}
 
 			//Generate chance of trying for another baby, if mate is found.
 			if (numChildren < 4 && RadixLogic.getBooleanWithProbability(50) && mate != null)
 			{
-				AIProgressStory mateAI = getMateAI(mate);
+				ActionStoryProgression mateAI = getMateAI(mate);
 				mateAI.setProgressionStep(EnumProgressionStep.TRY_FOR_BABY);
 				mateAI.isDominant = true;
 
@@ -233,9 +233,9 @@ public class AIProgressStory extends AbstractAI
 		}
 	}
 
-	private AIProgressStory getMateAI(EntityVillagerMCA human)
+	private ActionStoryProgression getMateAI(EntityVillagerMCA human)
 	{
-		return human.getAI(AIProgressStory.class);
+		return human.getAI(ActionStoryProgression.class);
 	}
 	
 	public void setTicksUntilNextProgress(int value)

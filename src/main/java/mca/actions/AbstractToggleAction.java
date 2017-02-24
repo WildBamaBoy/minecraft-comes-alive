@@ -1,4 +1,4 @@
-package mca.ai;
+package mca.actions;
 
 import java.util.UUID;
 
@@ -15,28 +15,28 @@ import radixcore.modules.RadixLogic;
 /**
  * Defines an AI that can be "toggled" on or off. It does not run consistently.
  */
-public abstract class AbstractToggleAI extends AbstractAI
+public abstract class AbstractToggleAction extends AbstractAction
 {
 	protected static final DataParameter<Boolean> IS_AI_ACTIVE = EntityDataManager.<Boolean>createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
 	
 	/** The UUID of the player that triggered this AI. */
 	protected UUID assigningPlayer = new UUID(0,0);
 	
-	public AbstractToggleAI(EntityVillagerMCA owner)
+	public AbstractToggleAction(EntityVillagerMCA actor)
 	{
-		super(owner);
+		super(actor);
 	}
 	
 	/** Sets this AI as active and begins calling the update methods. */
 	public final void setIsActive(boolean value)
 	{
-		owner.getDataManager().set(IS_AI_ACTIVE, value);
+		actor.getDataManager().set(IS_AI_ACTIVE, value);
 	}
 	
 	/** @returns True if this AI is currently running. */
 	public final boolean getIsActive()
 	{
-		return owner.getDataManager().get(IS_AI_ACTIVE);
+		return actor.getDataManager().get(IS_AI_ACTIVE);
 	}
 	
 	/** @returns The user-friendly name of this AI. Displays above the actor's head. */
@@ -45,7 +45,7 @@ public abstract class AbstractToggleAI extends AbstractAI
 	/** @returns The player who triggered this AI. Looks up the player by UUID. */
 	public final EntityPlayer getAssigningPlayer()
 	{
-		return owner.world.getPlayerEntityByUUID(assigningPlayer);
+		return actor.world.getPlayerEntityByUUID(assigningPlayer);
 	}
 	
 	/** Adds a chat message to the assigning player's chat log. */
@@ -62,20 +62,20 @@ public abstract class AbstractToggleAI extends AbstractAI
 	/** Handles duplicating stacks added to the inventory, or stacks ignored due to personality. */
 	protected final boolean addItemStackToInventory(ItemStack stack)
 	{
-		if (owner.getPersonality() == EnumPersonality.CURIOUS && RadixLogic.getBooleanWithProbability(10))
+		if (actor.getPersonality() == EnumPersonality.CURIOUS && RadixLogic.getBooleanWithProbability(10))
 		{
-			owner.getVillagerInventory().addItem(stack);
-			return owner.getVillagerInventory().addItem(stack.copy()) == null;
+			actor.getVillagerInventory().addItem(stack);
+			return actor.getVillagerInventory().addItem(stack.copy()) == null;
 		}
 		
-		else if (owner.getPersonality() == EnumPersonality.GREEDY && RadixLogic.getBooleanWithProbability(10))
+		else if (actor.getPersonality() == EnumPersonality.GREEDY && RadixLogic.getBooleanWithProbability(10))
 		{
 			return false;
 		}
 		
-		else if (owner.getPersonality() != EnumPersonality.GREEDY)
+		else if (actor.getPersonality() != EnumPersonality.GREEDY)
 		{
-			return owner.getVillagerInventory().addItem(stack) == null;
+			return actor.getVillagerInventory().addItem(stack) == null;
 		}
 		
 		return false;
@@ -85,12 +85,12 @@ public abstract class AbstractToggleAI extends AbstractAI
 	{
 		try
 		{
-			owner.getDataManager().get(IS_AI_ACTIVE);
+			actor.getDataManager().get(IS_AI_ACTIVE);
 		}
 		
 		catch (NullPointerException e) //When not registered
 		{
-			owner.getDataManager().register(IS_AI_ACTIVE, false);
+			actor.getDataManager().register(IS_AI_ACTIVE, false);
 		}
 	}
 }

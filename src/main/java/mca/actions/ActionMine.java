@@ -1,4 +1,4 @@
-package mca.ai;
+package mca.actions;
 
 import java.util.List;
 import java.util.Map;
@@ -22,7 +22,7 @@ import radixcore.modules.RadixBlocks;
 import radixcore.modules.RadixLogic;
 import radixcore.modules.RadixMath;
 
-public class AIMining extends AbstractToggleAI
+public class ActionMine extends AbstractToggleAction
 {
 	private static final int SEARCH_INTERVAL = Time.SECOND * 10;
 	private static final int MINE_INTERVAL = Time.SECOND * 1;
@@ -32,9 +32,9 @@ public class AIMining extends AbstractToggleAI
 	private boolean isGathering;
 	private boolean isBuildingMine;
 
-	public AIMining(EntityVillagerMCA owner) 
+	public ActionMine(EntityVillagerMCA actor) 
 	{
-		super(owner);
+		super(actor);
 		setIsActive(false);
 	}
 	
@@ -55,11 +55,11 @@ public class AIMining extends AbstractToggleAI
 				activityInterval = MINE_INTERVAL;
 
 				//If we're not already building and oak fence isn't found, begin building the mine.
-				if (!isBuildingMine && RadixLogic.getNearbyBlocks(owner, Blocks.OAK_FENCE, 8).size() == 0)
+				if (!isBuildingMine && RadixLogic.getNearbyBlocks(actor, Blocks.OAK_FENCE, 8).size() == 0)
 				{
-					final int y = RadixLogic.getSpawnSafeTopLevel(owner.world, (int) owner.posX, (int) owner.posZ);
-					final Block groundBlock = RadixBlocks.getBlock(owner.world, (int)owner.posX, y - 1, (int)owner.posZ);
-					owner.getAI(AIBuild.class).startBuilding("/assets/mca/schematic/mine1.schematic", true, groundBlock);
+					final int y = RadixLogic.getSpawnSafeTopLevel(actor.world, (int) actor.posX, (int) actor.posZ);
+					final Block groundBlock = RadixBlocks.getBlock(actor.world, (int)actor.posX, y - 1, (int)actor.posZ);
+					actor.getAI(ActionBuild.class).startBuilding("/assets/mca/schematic/mine1.schematic", true, groundBlock);
 
 					isBuildingMine = true;
 				}
@@ -67,11 +67,11 @@ public class AIMining extends AbstractToggleAI
 				//If build flag has been set, check to see if the build AI is still running.
 				else if (isBuildingMine)
 				{
-					if (!owner.getAI(AIBuild.class).getIsActive())
+					if (!actor.getAI(ActionBuild.class).getIsActive())
 					{
 						//When the chore is not running, search for a group of fences nearby.
 						//This identifies this area as a mine.
-						List<Point3D> nearbyFence = RadixLogic.getNearbyBlocks(owner, Blocks.OAK_FENCE_GATE, 8);
+						List<Point3D> nearbyFence = RadixLogic.getNearbyBlocks(actor, Blocks.OAK_FENCE_GATE, 8);
 
 						if (nearbyFence.size() >= 1)
 						{
@@ -87,15 +87,15 @@ public class AIMining extends AbstractToggleAI
 
 				else //Clear to continue mining.
 				{
-					owner.setMovementState(EnumMovementState.STAY);
-					owner.swingItem();
+					actor.setMovementState(EnumMovementState.STAY);
+					actor.swingItem();
 
 					ItemStack addStack = getHarvestStack();
 
 					if (addStack != null)
 					{
-						owner.getVillagerInventory().addItem(addStack);
-						owner.damageHeldItem(2);
+						actor.getVillagerInventory().addItem(addStack);
+						actor.damageHeldItem(2);
 					}
 				}
 			}
@@ -112,11 +112,11 @@ public class AIMining extends AbstractToggleAI
 					activityInterval = SEARCH_INTERVAL;
 
 					final Block notifyBlock = RegistryMCA.getMiningEntryById(idOfNotifyBlock).getBlock();
-					final Point3D ownerPos = new Point3D(owner.posX, owner.posY, owner.posZ);
+					final Point3D ownerPos = new Point3D(actor.posX, actor.posY, actor.posZ);
 					int distanceToBlock = -1;
 
 					//Find the nearest block we can notify about.
-					for (final Point3D point : RadixLogic.getNearbyBlocks(owner, notifyBlock, 20))
+					for (final Point3D point : RadixLogic.getNearbyBlocks(actor, notifyBlock, 20))
 					{
 						if (distanceToBlock == -1)
 						{
@@ -135,7 +135,7 @@ public class AIMining extends AbstractToggleAI
 					}
 
 					//Damage the pick.
-					owner.damageHeldItem(5);
+					actor.damageHeldItem(5);
 
 					//Determine which message we're going to use and the arguments.
 					final String phraseId;
@@ -161,11 +161,11 @@ public class AIMining extends AbstractToggleAI
 					}
 
 					//Notify the player if they're on the server.
-					final EntityPlayer player = owner.world.getPlayerEntityByUUID(assigningPlayer);
+					final EntityPlayer player = actor.world.getPlayerEntityByUUID(assigningPlayer);
 
 					if (player != null)
 					{
-						owner.say(phraseId, player, arguments);
+						actor.say(phraseId, player, arguments);
 					}
 				}
 
@@ -199,33 +199,33 @@ public class AIMining extends AbstractToggleAI
 		isGathering = nbt.getBoolean("isGathering");
 	}
 
-	public void startSearching(EntityPlayer assigningPlayer, int notifyBlockId)
+	public void startSearching(EntityPlayer player, int notifyBlockId)
 	{
-		this.assigningPlayer = assigningPlayer.getPersistentID();
+		this.assigningPlayer = player.getPersistentID();
 		this.idOfNotifyBlock = notifyBlockId;
 		this.isGathering = false;
 		this.setIsActive(true);
 		this.activityInterval = SEARCH_INTERVAL;
 		
-		ItemStack pickaxe = owner.getVillagerInventory().getBestItemOfType(ItemPickaxe.class);
+		ItemStack pickaxe = actor.getVillagerInventory().getBestItemOfType(ItemPickaxe.class);
 		
 		if (pickaxe != null)
 		{
-			owner.setHeldItem(pickaxe.getItem());
+			actor.setHeldItem(pickaxe.getItem());
 		}
 		
 		else
 		{
-			owner.say("interaction.mining.fail.nopickaxe", assigningPlayer);
+			actor.say("interaction.mining.fail.nopickaxe", player);
 			reset();
 		}
 	}
 
 	public void startGathering(EntityPlayer player) 
 	{
-		if (owner.posY <= 12)
+		if (actor.posY <= 12)
 		{
-			owner.say("interaction.mining.fail.toolow", player);
+			actor.say("interaction.mining.fail.toolow", player);
 			return;
 		}
 
@@ -234,16 +234,16 @@ public class AIMining extends AbstractToggleAI
 		this.setIsActive(true);
 		this.activityInterval = 0;
 		
-		ItemStack pickaxe = owner.getVillagerInventory().getBestItemOfType(ItemPickaxe.class);
+		ItemStack pickaxe = actor.getVillagerInventory().getBestItemOfType(ItemPickaxe.class);
 		
 		if (pickaxe != null)
 		{
-			owner.setHeldItem(pickaxe.getItem());
+			actor.setHeldItem(pickaxe.getItem());
 		}
 		
 		else
 		{
-			owner.say("interaction.mining.fail.nopickaxe", player);
+			actor.say("interaction.mining.fail.nopickaxe", player);
 			reset();
 		}
 	}

@@ -2,7 +2,7 @@ package mca.command;
 
 import java.util.Arrays;
 
-import mca.ai.AIProgressStory;
+import mca.actions.ActionStoryProgression;
 import mca.core.MCA;
 import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
@@ -172,7 +172,7 @@ public class CommandMCA extends CommandBase
 						EntityVillagerMCA human = (EntityVillagerMCA) obj;
 						human.setTicksAlive(MCA.getConfig().storyProgressionThreshold * Time.MINUTE);
 
-						AIProgressStory storyAI = human.getAI(AIProgressStory.class);
+						ActionStoryProgression storyAI = human.getAI(ActionStoryProgression.class);
 						storyAI.setTicksUntilNextProgress(0);
 					}
 				}

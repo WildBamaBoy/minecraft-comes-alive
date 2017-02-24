@@ -1,4 +1,4 @@
-package mca.ai;
+package mca.actions;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import net.minecraft.util.math.MathHelper;
 import radixcore.modules.RadixLogic;
 import radixcore.modules.RadixMath;
 
-public class AICombat extends AbstractAI
+public class ActionCombat extends AbstractAction
 {
 	private static final DataParameter<Integer> ATTACK_METHOD_ID = EntityDataManager.<Integer>createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
 	private static final DataParameter<Integer> ATTACK_TRIGGER_ID = EntityDataManager.<Integer>createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
@@ -32,9 +32,9 @@ public class AICombat extends AbstractAI
 	private EntityLivingBase attackTarget;
 	private int rangedAttackTime;
 	
-	public AICombat(EntityVillagerMCA owner) 
+	public ActionCombat(EntityVillagerMCA actor) 
 	{
-		super(owner);
+		super(actor);
 
 		setMethodBehavior(EnumCombatBehaviors.METHOD_DO_NOT_FIGHT);
 		setTriggerBehavior(EnumCombatBehaviors.TRIGGER_PLAYER_TAKE_DAMAGE);
@@ -42,20 +42,10 @@ public class AICombat extends AbstractAI
 	}
 
 	@Override
-	public void onUpdateCommon() 
-	{
-	}
-
-	@Override
-	public void onUpdateClient() 
-	{	
-	}
-
-	@Override
 	public void onUpdateServer() 
 	{
 		//Do nothing when we're asleep
-		if (owner.getAI(AISleep.class).getIsSleeping())
+		if (actor.getAI(ActionSleep.class).getIsSleeping())
 		{
 			return;
 		}
@@ -82,7 +72,7 @@ public class AICombat extends AbstractAI
 		//If we have a target, proceed to attack.
 		else if (attackTarget != null)
 		{
-			double distanceToTarget = RadixMath.getDistanceToEntity(owner, attackTarget);
+			double distanceToTarget = RadixMath.getDistanceToEntity(actor, attackTarget);
 			
 			//Melee attacks
 			if (getMethodBehavior() == EnumCombatBehaviors.METHOD_MELEE_ONLY || 
@@ -93,9 +83,9 @@ public class AICombat extends AbstractAI
 
 				if (distanceToTarget < 1.5F)
 				{
-					owner.swingItem();
+					actor.swingItem();
 					
-					ItemStack heldItem = owner.getHeldItem(EnumHand.MAIN_HAND);
+					ItemStack heldItem = actor.getHeldItem(EnumHand.MAIN_HAND);
 					Item.ToolMaterial swordMaterial = null;
 					
 					if (heldItem != null && heldItem.getItem() instanceof ItemSword)
@@ -105,7 +95,7 @@ public class AICombat extends AbstractAI
 					}
 					
 					float damage = swordMaterial != null ? 4.0F + swordMaterial.getDamageVsEntity() : 0.5F;
-					attackTarget.attackEntityFrom(DamageSource.causeMobDamage(owner), damage);
+					attackTarget.attackEntityFrom(DamageSource.causeMobDamage(actor), damage);
 				}
 			}
 			
@@ -114,20 +104,20 @@ public class AICombat extends AbstractAI
 					(getMethodBehavior() == EnumCombatBehaviors.METHOD_MELEE_AND_RANGED &&
 					distanceToTarget >= 5.0F))
 			{
-				owner.getLookHelper().setLookPosition(attackTarget.posX, attackTarget.posY + (double)attackTarget.getEyeHeight(), attackTarget.posZ, 10.0F, owner.getVerticalFaceSpeed());
+				actor.getLookHelper().setLookPosition(attackTarget.posX, attackTarget.posY + (double)attackTarget.getEyeHeight(), attackTarget.posZ, 10.0F, actor.getVerticalFaceSpeed());
 				
 				if (rangedAttackTime <= 0)
 				{
-					EntityTippedArrow arrow = new EntityTippedArrow(owner.world, owner);
-			        double dX = attackTarget.posX - owner.posX;
+					EntityTippedArrow arrow = new EntityTippedArrow(actor.world, actor);
+			        double dX = attackTarget.posX - actor.posX;
 			        double dY = attackTarget.getEntityBoundingBox().minY + (double)(attackTarget.height / 3.0F) - arrow.posY;
-			        double dZ = attackTarget.posZ - owner.posZ;
+			        double dZ = attackTarget.posZ - actor.posZ;
 			        double d3 = (double)MathHelper.sqrt(dX * dX + dZ * dZ);
 			        
-			        arrow.setThrowableHeading(dX, dY + d3 * 0.20000000298023224D, dZ, 1.6F, (float)(14 - owner.world.getDifficulty().getDifficultyId() * 4));
-			        arrow.setDamage((double)(5.0F) + owner.getRNG().nextGaussian() * 0.25D + (double)((float)owner.world.getDifficulty().getDifficultyId() * 0.11F));
-			        owner.playSound(SoundEvents.ENTITY_SKELETON_SHOOT, 1.0F, 1.0F / (owner.getRNG().nextFloat() * 0.4F + 0.8F));
-					owner.world.spawnEntity(arrow);
+			        arrow.setThrowableHeading(dX, dY + d3 * 0.20000000298023224D, dZ, 1.6F, (float)(14 - actor.world.getDifficulty().getDifficultyId() * 4));
+			        arrow.setDamage((double)(5.0F) + actor.getRNG().nextGaussian() * 0.25D + (double)((float)actor.world.getDifficulty().getDifficultyId() * 0.11F));
+			        actor.playSound(SoundEvents.ENTITY_SKELETON_SHOOT, 1.0F, 1.0F / (actor.getRNG().nextFloat() * 0.4F + 0.8F));
+					actor.world.spawnEntity(arrow);
 					
 					rangedAttackTime = 60;
 				}
@@ -139,18 +129,12 @@ public class AICombat extends AbstractAI
 			}
 		}
 	}
-
-	@Override
-	public void reset()
-	{
-	}
-
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) 
 	{
-		nbt.setInteger("attackMethodId", owner.getDataManager().get(ATTACK_METHOD_ID));
-		nbt.setInteger("attackTriggerId", owner.getDataManager().get(ATTACK_TRIGGER_ID));
-		nbt.setInteger("attackTargetId", owner.getDataManager().get(ATTACK_TARGET_ID));
+		nbt.setInteger("attackMethodId", actor.getDataManager().get(ATTACK_METHOD_ID));
+		nbt.setInteger("attackTriggerId", actor.getDataManager().get(ATTACK_TRIGGER_ID));
+		nbt.setInteger("attackTargetId", actor.getDataManager().get(ATTACK_TARGET_ID));
 	}
 
 	@Override
@@ -163,47 +147,47 @@ public class AICombat extends AbstractAI
 
 	public EnumCombatBehaviors getMethodBehavior()
 	{
-		return EnumCombatBehaviors.getById(owner.getDataManager().get(ATTACK_METHOD_ID));
+		return EnumCombatBehaviors.getById(actor.getDataManager().get(ATTACK_METHOD_ID));
 	}
 
 	public EnumCombatBehaviors getTriggerBehavior()
 	{
-		return EnumCombatBehaviors.getById(owner.getDataManager().get(ATTACK_TRIGGER_ID));
+		return EnumCombatBehaviors.getById(actor.getDataManager().get(ATTACK_TRIGGER_ID));
 	}
 
 	public EnumCombatBehaviors getTargetBehavior()
 	{
-		return EnumCombatBehaviors.getById(owner.getDataManager().get(ATTACK_TARGET_ID));
+		return EnumCombatBehaviors.getById(actor.getDataManager().get(ATTACK_TARGET_ID));
 	}
 
 	public void setMethodBehavior(EnumCombatBehaviors value)
 	{
-		owner.getDataManager().set(ATTACK_METHOD_ID, value.getNumericId());
+		actor.getDataManager().set(ATTACK_METHOD_ID, value.getNumericId());
 	}
 
 	public void setTriggerBehavior(EnumCombatBehaviors value)
 	{
-		owner.getDataManager().set(ATTACK_TRIGGER_ID, value.getNumericId());
+		actor.getDataManager().set(ATTACK_TRIGGER_ID, value.getNumericId());
 	}
 
 	public void setTargetBehavior(EnumCombatBehaviors value)
 	{
-		owner.getDataManager().set(ATTACK_TARGET_ID, value.getNumericId());
+		actor.getDataManager().set(ATTACK_TARGET_ID, value.getNumericId());
 	}
 
 	private void findAttackTarget()
 	{
-		List<EntityLivingBase> entitiesAroundMe = RadixLogic.getEntitiesWithinDistance(EntityLivingBase.class, owner, 10);
+		List<EntityLivingBase> entitiesAroundMe = RadixLogic.getEntitiesWithinDistance(EntityLivingBase.class, actor, 10);
 		double distance = 100.0D;
 		EntityLivingBase target = null;
 
 		for (EntityLivingBase livingBase : entitiesAroundMe)
 		{
-			double distanceTo = RadixMath.getDistanceToEntity(owner, livingBase);
+			double distanceTo = RadixMath.getDistanceToEntity(actor, livingBase);
 
 			if (isEntityValidToAttack(livingBase) && distanceTo < distance)
 			{
-				distance = RadixMath.getDistanceToEntity(owner, livingBase);
+				distance = RadixMath.getDistanceToEntity(actor, livingBase);
 				target = livingBase;
 			}
 		}
@@ -213,7 +197,7 @@ public class AICombat extends AbstractAI
 
 	private void moveToAttackTarget()
 	{
-		owner.getNavigator().tryMoveToEntityLiving(attackTarget, Constants.SPEED_RUN);
+		actor.getNavigator().tryMoveToEntityLiving(attackTarget, Constants.SPEED_RUN);
 	}
 
 	public boolean isEntityValidToAttack(EntityLivingBase entity)
@@ -240,7 +224,7 @@ public class AICombat extends AbstractAI
 
 	public void setAttackTarget(EntityLivingBase entity)
 	{
-		if (entity != owner)
+		if (entity != actor)
 		{
 			this.attackTarget = entity;
 		}
@@ -253,8 +237,8 @@ public class AICombat extends AbstractAI
 	
 	protected void registerDataParameters()
 	{
-		owner.getDataManager().register(ATTACK_METHOD_ID, EnumCombatBehaviors.METHOD_DO_NOT_FIGHT.getNumericId());
-		owner.getDataManager().register(ATTACK_TRIGGER_ID, EnumCombatBehaviors.TRIGGER_PLAYER_DEAL_DAMAGE.getNumericId());
-		owner.getDataManager().register(ATTACK_TARGET_ID, EnumCombatBehaviors.TARGET_PASSIVE_MOBS.getNumericId());
+		actor.getDataManager().register(ATTACK_METHOD_ID, EnumCombatBehaviors.METHOD_DO_NOT_FIGHT.getNumericId());
+		actor.getDataManager().register(ATTACK_TRIGGER_ID, EnumCombatBehaviors.TRIGGER_PLAYER_DEAL_DAMAGE.getNumericId());
+		actor.getDataManager().register(ATTACK_TARGET_ID, EnumCombatBehaviors.TARGET_PASSIVE_MOBS.getNumericId());
 	}
 }

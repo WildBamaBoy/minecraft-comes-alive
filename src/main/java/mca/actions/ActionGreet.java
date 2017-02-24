@@ -1,4 +1,4 @@
-package mca.ai;
+package mca.actions;
 
 import java.util.Map;
 
@@ -12,7 +12,6 @@ import mca.packets.PacketOpenVillagerPrompt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.MobEffects;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.text.TextComponentString;
@@ -20,7 +19,7 @@ import radixcore.constant.Font.Color;
 import radixcore.constant.Time;
 import radixcore.modules.RadixLogic;
 
-public class AIGreet extends AbstractAI
+public class ActionGreet extends AbstractAction
 {
 	public static final int GREETING_INTERVAL = Time.SECOND * 120;
 	public static final int CHANCE_TO_GREET = 60;
@@ -28,26 +27,16 @@ public class AIGreet extends AbstractAI
 	private Map<String, PlayerMemory> playerMemories;
 	private int ticksUntilUpdate = 0;
 
-	public AIGreet(EntityVillagerMCA owner, Map<String, PlayerMemory> playerMemories)
+	public ActionGreet(EntityVillagerMCA actor, Map<String, PlayerMemory> playerMemories)
 	{
-		super(owner);
+		super(actor);
 		this.playerMemories = playerMemories;
-	}
-
-	@Override
-	public void onUpdateCommon() 
-	{
-	}
-
-	@Override
-	public void onUpdateClient() 
-	{
 	}
 
 	@Override
 	public void onUpdateServer() 
 	{
-		if (!owner.getAI(AISleep.class).getIsSleeping())
+		if (!actor.getAI(ActionSleep.class).getIsSleeping())
 		{
 			//Update ticks until actual update. This AI runs once per second for performance.
 			ticksUntilUpdate = ticksUntilUpdate <= 0 ? Time.SECOND : ticksUntilUpdate - 1;
@@ -67,14 +56,14 @@ public class AIGreet extends AbstractAI
 			if (ticksUntilUpdate <= 0)
 			{
 				//Update the distance that each known player has traveled from this entity.
-				for (Object obj : owner.world.playerEntities)
+				for (Object obj : actor.world.playerEntities)
 				{
 					EntityPlayer player = (EntityPlayer)obj;
 
-					if (owner.hasMemoryOfPlayer(player))
+					if (actor.hasMemoryOfPlayer(player))
 					{
-						PlayerMemory memory = owner.getPlayerMemory(player);
-						float distanceToPlayer = owner.getDistanceToEntity(player);
+						PlayerMemory memory = actor.getPlayerMemory(player);
+						float distanceToPlayer = actor.getDistanceToEntity(player);
 
 						if (distanceToPlayer > memory.getDistanceTraveledFrom())
 						{
@@ -84,18 +73,18 @@ public class AIGreet extends AbstractAI
 				}
 
 				//Get the closest player and try to greet them.
-				EntityPlayer closestPlayer = owner.world.getClosestPlayerToEntity(owner, 4);
+				EntityPlayer closestPlayer = actor.world.getClosestPlayerToEntity(actor, 4);
 
 				if (closestPlayer != null)
 				{
-					PlayerMemory memory = owner.getPlayerMemory(closestPlayer);
-					AISleep AISleep = owner.getAI(AISleep.class);
+					PlayerMemory memory = actor.getPlayerMemory(closestPlayer);
+					ActionSleep AISleep = actor.getAI(ActionSleep.class);
 					
-					if (memory.getTimeUntilGreeting() <= 0 && RadixLogic.getBooleanWithProbability(CHANCE_TO_GREET) && owner.canEntityBeSeen(closestPlayer) && !AISleep.getIsSleeping())
+					if (memory.getTimeUntilGreeting() <= 0 && RadixLogic.getBooleanWithProbability(CHANCE_TO_GREET) && actor.canEntityBeSeen(closestPlayer) && !AISleep.getIsSleeping())
 					{
-						if (owner.getIsInfected() && !closestPlayer.capabilities.isCreativeMode)
+						if (actor.getIsInfected() && !closestPlayer.capabilities.isCreativeMode)
 						{
-							closestPlayer.sendMessage(new TextComponentString(Color.RED + owner.getName() + " bites you."));
+							closestPlayer.sendMessage(new TextComponentString(Color.RED + actor.getName() + " bites you."));
 							closestPlayer.attackEntityFrom(DamageSource.GENERIC, 2.0F);
 							closestPlayer.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, Time.MINUTE * 2, 1));
 						}
@@ -105,8 +94,8 @@ public class AIGreet extends AbstractAI
 							//Check for low hearts on spouses.
 							if (memory.getDialogueType() == EnumDialogueType.SPOUSE && memory.getHearts() <= -25)
 							{
-								owner.say(memory.getDialogueType() + ".lowhearts.greeting", closestPlayer);
-								owner.incrementLowHeartWarnings();
+								actor.say(memory.getDialogueType() + ".lowhearts.greeting", closestPlayer);
+								actor.incrementLowHeartWarnings();
 							}
 							
 							else
@@ -116,13 +105,13 @@ public class AIGreet extends AbstractAI
 
 								if (data.getHappinessThresholdMet() && RadixLogic.getBooleanWithProbability(10))
 								{
-									MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenVillagerPrompt(closestPlayer, owner, EnumInteraction.NOBILITY), (EntityPlayerMP)closestPlayer);
+									MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenVillagerPrompt(closestPlayer, actor, EnumInteraction.NOBILITY), (EntityPlayerMP)closestPlayer);
 								}
 								
 								else
 								{
-									owner.say(memory.getDialogueType() + ".greeting", closestPlayer);
-									owner.resetLowHeartWarnings(); //Make sure we reset when hearts are back to normal.
+									actor.say(memory.getDialogueType() + ".greeting", closestPlayer);
+									actor.resetLowHeartWarnings(); //Make sure we reset when hearts are back to normal.
 								}
 							}
 						}
@@ -133,23 +122,5 @@ public class AIGreet extends AbstractAI
 				}
 			}
 		}
-	}
-
-	@Override
-	public void reset() 
-	{
-
-	}
-
-	@Override
-	public void writeToNBT(NBTTagCompound nbt) 
-	{
-		//No relevant data needed to save.
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound nbt) 
-	{
-		//No relevant data needed to load.
 	}
 }

@@ -57,7 +57,7 @@ public class ItemCrystalBall extends ItemSingle
 		player.playSound(SoundEvents.ENTITY_FIREWORK_LARGE_BLAST_FAR, 0.5F, 1.0F);
 		player.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 0.5F, 2.0F);
 		
-		player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+		player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
 		return super.onItemRightClick(world, player, hand);
 	}
 	
