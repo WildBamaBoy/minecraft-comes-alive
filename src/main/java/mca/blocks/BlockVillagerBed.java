@@ -98,7 +98,7 @@ public class BlockVillagerBed extends BlockBed implements ITileEntityProvider
 
 						if (entity != null)
 						{
-							final ActionSleep sleepAI = entity.getAI(ActionSleep.class);
+							final ActionSleep sleepAI = entity.getBehavior(ActionSleep.class);
 							sleepAI.setSleepingState(EnumSleepingState.INTERRUPTED);
 						}
 					}

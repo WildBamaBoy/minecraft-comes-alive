@@ -9,6 +9,7 @@ import mca.data.PlayerMemory;
 import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
 import mca.items.ItemBaby;
+import mca.util.IngameTester;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -115,7 +116,7 @@ public class CommandMCA extends CommandBase
 					if (obj instanceof EntityVillagerMCA)
 					{
 						EntityVillagerMCA human = (EntityVillagerMCA) obj;
-						PlayerMemory memory = human.getPlayerMemory(player);
+						PlayerMemory memory = human.attributes.getPlayerMemory(player);
 						memory.setHearts(100);
 					}
 				}
@@ -149,13 +150,13 @@ public class CommandMCA extends CommandBase
 					{
 						EntityVillagerMCA human = (EntityVillagerMCA) obj;
 
-						if (human.getIsChild())
+						if (human.attributes.getIsChild())
 						{
-							human.setAge(0);
-							human.setIsChild(false);
+							human.attributes.setAge(0);
+							human.attributes.setIsChild(false);
 
-							float newHeight = 0.69F + (human.getAge() * (1.8F - 0.69F) / MCA.getConfig().childGrowUpTime);
-							human.setSizeOverride(human.width, newHeight);
+							float newHeight = 0.69F + (human.attributes.getAge() * (1.8F - 0.69F) / MCA.getConfig().childGrowUpTime);
+							human.attributes.setSize(human.width, newHeight);
 						}
 					}
 				}
@@ -170,9 +171,9 @@ public class CommandMCA extends CommandBase
 					if (obj instanceof EntityVillagerMCA)
 					{
 						EntityVillagerMCA human = (EntityVillagerMCA) obj;
-						human.setTicksAlive(MCA.getConfig().storyProgressionThreshold * Time.MINUTE);
+						human.attributes.setTicksAlive(MCA.getConfig().storyProgressionThreshold * Time.MINUTE);
 
-						ActionStoryProgression storyAI = human.getAI(ActionStoryProgression.class);
+						ActionStoryProgression storyAI = human.getBehavior(ActionStoryProgression.class);
 						storyAI.setTicksUntilNextProgress(0);
 					}
 				}
@@ -204,7 +205,7 @@ public class CommandMCA extends CommandBase
 					if (obj instanceof EntityVillagerMCA)
 					{
 						EntityVillagerMCA human = (EntityVillagerMCA) obj;
-						PlayerMemory memory = human.getPlayerMemory(player);
+						PlayerMemory memory = human.attributes.getPlayerMemory(player);
 						memory.setHearts(memory.getHearts() + 10);
 					}
 				}
@@ -219,7 +220,7 @@ public class CommandMCA extends CommandBase
 					if (obj instanceof EntityVillagerMCA)
 					{
 						EntityVillagerMCA human = (EntityVillagerMCA) obj;
-						PlayerMemory memory = human.getPlayerMemory(player);
+						PlayerMemory memory = human.attributes.getPlayerMemory(player);
 						memory.setHearts(memory.getHearts() - 10);
 					}
 				}
@@ -239,7 +240,7 @@ public class CommandMCA extends CommandBase
 					
 					if (spouse != null)
 					{
-						spouse.setSpouse(null);
+						spouse.endMarriage();
 					}
 					
 					targetPlayerData.setSpouse(null);
@@ -259,7 +260,7 @@ public class CommandMCA extends CommandBase
 					if (obj instanceof EntityVillagerMCA)
 					{
 						EntityVillagerMCA human = (EntityVillagerMCA) obj;
-						PlayerMemory memory = human.getPlayerMemory(player);
+						PlayerMemory memory = human.attributes.getPlayerMemory(player);
 						memory.setTimeUntilGreeting(0);
 					}
 				}
@@ -298,7 +299,7 @@ public class CommandMCA extends CommandBase
 						if (obj instanceof EntityVillagerMCA)
 						{
 							EntityVillagerMCA human = (EntityVillagerMCA) obj;
-							PlayerMemory memory = human.getPlayerMemory(targetPlayer);
+							PlayerMemory memory = human.attributes.getPlayerMemory(targetPlayer);
 							memory.setHearts(0);
 						}
 					}
@@ -360,6 +361,11 @@ public class CommandMCA extends CommandBase
 				{
 					sendMessage(commandSender, Color.RED + playerName + " was not found on the server.");					
 				}
+			}
+			
+			else if (subcommand.equalsIgnoreCase("test"))
+			{
+				IngameTester.run(player);
 			}
 			
 			else

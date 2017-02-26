@@ -117,7 +117,7 @@ public class ActionFish extends AbstractToggleAction
 	}
 
 	@Override
-	protected String getName() 
+	public String getName() 
 	{
 		return "Fishing";
 	}
@@ -186,11 +186,11 @@ public class ActionFish extends AbstractToggleAction
 				final int amountToAdd = getFishAmountToAdd();
 				final Item fishItem = entry.getFishItem();
 
-				actor.getVillagerInventory().addItem(new ItemStack(fishItem, amountToAdd, entry.getItemDamage()));
+				actor.attributes.getInventory().addItem(new ItemStack(fishItem, amountToAdd, entry.getItemDamage()));
 				actor.damageHeldItem(1);
 				
 				//Check if they're carrying 64 fish and end the chore if they are.
-				if (actor.getVillagerInventory().containsCountOf(Items.FISH, 64))
+				if (actor.attributes.getInventory().containsCountOf(Items.FISH, 64))
 				{
 					actor.say(MCA.getLanguageManager().getString("notify.child.chore.finished.fishing"), getAssigningPlayer());
 					reset();
@@ -237,14 +237,14 @@ public class ActionFish extends AbstractToggleAction
 	private void doItemVerification()
 	{
 		//Make sure a child has a fishing rod.
-		if (actor instanceof EntityVillagerMCA && !actor.getVillagerInventory().contains(Items.FISHING_ROD.getClass()))
+		if (actor instanceof EntityVillagerMCA && !actor.attributes.getInventory().contains(Items.FISHING_ROD.getClass()))
 		{
 			actor.say("fishing.norod", getAssigningPlayer());
 			reset();
 			return;
 		}
 		
-		actor.setHeldItem(actor.getVillagerInventory().getStackInSlot(actor.getVillagerInventory().getFirstSlotContainingItem(Items.FISHING_ROD)).getItem());
+		actor.setHeldItem(actor.attributes.getInventory().getStackInSlot(actor.attributes.getInventory().getFirstSlotContainingItem(Items.FISHING_ROD)).getItem());
 	}
 
 	private int getFishCatchChance()

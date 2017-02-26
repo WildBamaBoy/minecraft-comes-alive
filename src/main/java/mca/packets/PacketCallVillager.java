@@ -57,7 +57,7 @@ public class PacketCallVillager extends AbstractPacket<PacketCallVillager>
 				{
 					EntityVillagerMCA human = (EntityVillagerMCA)obj;
 					
-					if (human.isPlayerAParent(sender) || human.getPlayerSpouseInstance() == sender)
+					if (human.attributes.isPlayerAParent(sender) || human.attributes.getPlayerSpouseInstance() == sender)
 					{
 						human.setPositionAndUpdate(sender.posX, sender.posY, sender.posZ);
 					}

@@ -101,16 +101,16 @@ public class PacketDestinyChoice extends AbstractPacket<PacketDestinyChoice>
 				boolean isSpouseMale = data.getGenderPreference() == EnumGender.MALE ? true : data.getGenderPreference() == EnumGender.FEMALE ? false : world.rand.nextBoolean();
 
 				EntityVillagerMCA spouse = new EntityVillagerMCA(world);
-				spouse.setGender(isSpouseMale ? EnumGender.MALE : EnumGender.FEMALE);
-				spouse.assignRandomName();
-				spouse.assignRandomProfession();
-				spouse.assignRandomPersonality();
-				spouse.assignRandomSkin();
+				spouse.attributes.setGender(isSpouseMale ? EnumGender.MALE : EnumGender.FEMALE);
+				spouse.attributes.assignRandomName();
+				spouse.attributes.assignRandomProfession();
+				spouse.attributes.assignRandomPersonality();
+				spouse.attributes.assignRandomSkin();
 				spouse.setPosition(player.posX - 2, player.posY, player.posZ);
 				world.spawnEntity(spouse);
 
-				PlayerMemory spouseMemory = spouse.getPlayerMemory(player);
-				spouse.setSpouse(Either.<EntityVillagerMCA, EntityPlayer>withR(player));
+				PlayerMemory spouseMemory = spouse.attributes.getPlayerMemory(player);
+				spouse.startMarriage(Either.<EntityVillagerMCA, EntityPlayer>withR(player));
 				spouseMemory.setHearts(100);
 				spouseMemory.setDialogueType(EnumDialogueType.SPOUSE);
 
@@ -124,28 +124,28 @@ public class PacketDestinyChoice extends AbstractPacket<PacketDestinyChoice>
 					Entity mother = father == player ? spouse : player;
 										
 					final EntityVillagerMCA child = new EntityVillagerMCA(world);
-					child.assignRandomGender();
-					child.assignRandomName();
-					child.assignRandomPersonality();
-					child.setProfession(EnumProfession.Child);
-					child.setIsChild(true);
+					child.attributes.assignRandomGender();
+					child.attributes.assignRandomName();
+					child.attributes.assignRandomPersonality();
+					child.attributes.setProfession(EnumProfession.Child);
+					child.attributes.setIsChild(true);
 					
 					if (father instanceof EntityPlayer)
 					{
-						child.setFather(Either.<EntityVillagerMCA, EntityPlayer>withR((EntityPlayer)father));
-						child.setMother(Either.<EntityVillagerMCA, EntityPlayer>withL((EntityVillagerMCA)mother));
+						child.attributes.setFather(Either.<EntityVillagerMCA, EntityPlayer>withR((EntityPlayer)father));
+						child.attributes.setMother(Either.<EntityVillagerMCA, EntityPlayer>withL((EntityVillagerMCA)mother));
 					}
 					
 					else
 					{
-						child.setFather(Either.<EntityVillagerMCA, EntityPlayer>withL((EntityVillagerMCA)father));
-						child.setMother(Either.<EntityVillagerMCA, EntityPlayer>withR((EntityPlayer)mother));						
+						child.attributes.setFather(Either.<EntityVillagerMCA, EntityPlayer>withL((EntityVillagerMCA)father));
+						child.attributes.setMother(Either.<EntityVillagerMCA, EntityPlayer>withR((EntityPlayer)mother));						
 					}
 					
 					child.setPosition(player.posX + RadixMath.getNumberInRange(1, 3), player.posY, player.posZ);
 					world.spawnEntity(child);
 
-					PlayerMemory childMemory = child.getPlayerMemory(player);
+					PlayerMemory childMemory = child.attributes.getPlayerMemory(player);
 					childMemory.setHearts(100);
 					childMemory.setDialogueType(EnumDialogueType.CHILDP);
 					numChildren--;

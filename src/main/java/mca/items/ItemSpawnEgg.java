@@ -51,11 +51,11 @@ public class ItemSpawnEgg extends Item
 	public void spawnHuman(World world, double posX, double posY, double posZ)
 	{
 		EntityVillagerMCA villager = new EntityVillagerMCA(world);
-		villager.setGender(isMale ? EnumGender.MALE : EnumGender.FEMALE);
-		villager.assignRandomName();
-		villager.assignRandomProfession();
-		villager.assignRandomPersonality();
-		villager.assignRandomSkin();
+		villager.attributes.setGender(isMale ? EnumGender.MALE : EnumGender.FEMALE);
+		villager.attributes.assignRandomName();
+		villager.attributes.assignRandomProfession();
+		villager.attributes.assignRandomPersonality();
+		villager.attributes.assignRandomSkin();
 		
 		villager.setPosition(posX, posY, posZ);
 		world.spawnEntity(villager);

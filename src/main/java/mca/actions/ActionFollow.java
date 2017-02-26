@@ -41,7 +41,7 @@ public class ActionFollow extends AbstractAction
 	@Override
 	public void onUpdateServer() 
 	{
-		if (actor.getMovementState() == EnumMovementState.FOLLOW)
+		if (actor.attributes.getMovementState() == EnumMovementState.FOLLOW)
 		{
 			final EntityLiving entityPathController = (EntityLiving) (actor.getRidingEntity() instanceof EntityHorse ? actor.getRidingEntity() : actor);
 			final Entity entityFollowing = actor.world.getPlayerEntityByUUID(followingUUID);
@@ -86,7 +86,7 @@ public class ActionFollow extends AbstractAction
 
 				else if (distanceToTarget >= 4.5D && actor.getNavigator().noPath())
 				{
-					float speed = entityPathController instanceof EntityHorse ? Constants.SPEED_HORSE_RUN :  entityFollowing.isSprinting() ? Constants.SPEED_SPRINT : actor.getSpeed();
+					float speed = entityPathController instanceof EntityHorse ? Constants.SPEED_HORSE_RUN :  entityFollowing.isSprinting() ? Constants.SPEED_SPRINT : actor.attributes.getSpeed();
 					entityPathController.getNavigator().tryMoveToEntityLiving(entityFollowing, speed);
 					entityPathController.faceEntity(entityFollowing, 16.0F, 16.0F);
 				}
@@ -99,7 +99,7 @@ public class ActionFollow extends AbstractAction
 
 			else
 			{
-				actor.setMovementState(EnumMovementState.MOVE);
+				actor.attributes.setMovementState(EnumMovementState.MOVE);
 			}
 		}
 	}

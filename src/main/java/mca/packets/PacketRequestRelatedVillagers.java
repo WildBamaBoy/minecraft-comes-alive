@@ -6,7 +6,7 @@ import java.util.List;
 import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
-import mca.entity.VillagerSaveData;
+import mca.entity.VillagerAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -33,7 +33,7 @@ public class PacketRequestRelatedVillagers extends AbstractPacket<PacketRequestR
 	public void processOnGameThread(PacketRequestRelatedVillagers packet, MessageContext context) 
 	{
 		EntityPlayer sender = this.getPlayer(context);
-		List<VillagerSaveData> dataList = new ArrayList<VillagerSaveData>();
+		List<VillagerAttributes> dataList = new ArrayList<VillagerAttributes>();
 		
 		for (final Object obj : sender.world.loadedEntityList)
 		{
@@ -41,9 +41,9 @@ public class PacketRequestRelatedVillagers extends AbstractPacket<PacketRequestR
 			{
 				EntityVillagerMCA human = (EntityVillagerMCA)obj;
 				
-				if (human.isPlayerAParent(sender) || human.getPlayerSpouseInstance() == sender)
+				if (human.attributes.isPlayerAParent(sender) || human.attributes.getPlayerSpouseInstance() == sender)
 				{
-					dataList.add(VillagerSaveData.fromVillager(human, sender, null));
+					dataList.add(human.attributes);
 				}
 			}
 		}

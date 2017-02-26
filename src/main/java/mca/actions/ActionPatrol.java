@@ -42,7 +42,7 @@ public class ActionPatrol extends AbstractAction
 			timeUntilTick = 20;
 		}
 		
-		if (actor.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard && !actor.world.isDaytime())
+		if (actor.attributes.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard && !actor.world.isDaytime())
 		{
 			if (!hasDoor)
 			{

@@ -40,7 +40,7 @@ public abstract class AbstractToggleAction extends AbstractAction
 	}
 	
 	/** @returns The user-friendly name of this AI. Displays above the actor's head. */
-	protected abstract String getName();
+	public abstract String getName();
 	
 	/** @returns The player who triggered this AI. Looks up the player by UUID. */
 	public final EntityPlayer getAssigningPlayer()
@@ -62,20 +62,22 @@ public abstract class AbstractToggleAction extends AbstractAction
 	/** Handles duplicating stacks added to the inventory, or stacks ignored due to personality. */
 	protected final boolean addItemStackToInventory(ItemStack stack)
 	{
-		if (actor.getPersonality() == EnumPersonality.CURIOUS && RadixLogic.getBooleanWithProbability(10))
+		EnumPersonality personality = actor.attributes.getPersonality();
+		
+		if (personality == EnumPersonality.CURIOUS && RadixLogic.getBooleanWithProbability(10))
 		{
-			actor.getVillagerInventory().addItem(stack);
-			return actor.getVillagerInventory().addItem(stack.copy()) == null;
+			actor.attributes.getInventory().addItem(stack);
+			return actor.attributes.getInventory().addItem(stack.copy()) == null;
 		}
 		
-		else if (actor.getPersonality() == EnumPersonality.GREEDY && RadixLogic.getBooleanWithProbability(10))
+		else if (personality == EnumPersonality.GREEDY && RadixLogic.getBooleanWithProbability(10))
 		{
 			return false;
 		}
 		
-		else if (actor.getPersonality() != EnumPersonality.GREEDY)
+		else if (personality != EnumPersonality.GREEDY)
 		{
-			return actor.getVillagerInventory().addItem(stack) == null;
+			return actor.attributes.getInventory().addItem(stack) == null;
 		}
 		
 		return false;

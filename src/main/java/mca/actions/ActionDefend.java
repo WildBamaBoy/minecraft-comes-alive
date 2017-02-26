@@ -38,12 +38,12 @@ public class ActionDefend extends AbstractAction
 	@Override
 	public void onUpdateServer() 
 	{
-		if (actor.getAI(ActionSleep.class).getIsSleeping())
+		if (actor.getBehavior(ActionSleep.class).getIsSleeping())
 		{
 			return;
 		}
 		
-		if (actor.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard && !actor.getIsInfected())
+		if (actor.attributes.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard && !actor.attributes.getIsInfected())
 		{
 			if (target == null)
 			{
@@ -69,7 +69,7 @@ public class ActionDefend extends AbstractAction
 					return;
 				}
 
-				if (actor.getProfessionEnum() == EnumProfession.Archer)
+				if (actor.attributes.getProfessionEnum() == EnumProfession.Archer)
 				{
 					actor.getLookHelper().setLookPosition(target.posX, target.posY + (double)target.getEyeHeight(), target.posZ, 10.0F, actor.getVerticalFaceSpeed());
 					

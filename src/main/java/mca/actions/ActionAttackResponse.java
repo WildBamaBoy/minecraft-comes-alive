@@ -30,7 +30,7 @@ public class ActionAttackResponse extends AbstractAction
 	@Override
 	public void onUpdateServer() 
 	{
-		if (!actor.getIsChild() && isRetaliating && actor.getHealth() > 0.0F && !actor.getIsInfected())
+		if (!actor.attributes.getIsChild() && isRetaliating && actor.getHealth() > 0.0F && !actor.attributes.getIsInfected())
 		{
 			if (target instanceof EntityPlayerMP && !target.getName().equals("[CoFH]") && !(target instanceof FakePlayer))
 			{
@@ -96,7 +96,7 @@ public class ActionAttackResponse extends AbstractAction
 
 					else if (distanceToTarget <= 1.8D)
 					{
-						float attackDamage = actor.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard ? MCA.getConfig().guardAttackDamage : MCA.getConfig().villagerAttackDamage;
+						float attackDamage = actor.attributes.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard ? MCA.getConfig().guardAttackDamage : MCA.getConfig().villagerAttackDamage;
 						actor.swingItem();
 						target.attackEntityFrom(DamageSource.GENERIC, attackDamage);
 						reset();
@@ -116,7 +116,12 @@ public class ActionAttackResponse extends AbstractAction
 
 	public void startResponse(Entity entity)
 	{
-		if (actor.getPersonality() == EnumPersonality.PEACEFUL)
+		if (getIsRetaliating()) //If already retaliating disregard
+		{
+			return;
+		}
+		
+		if (actor.attributes.getPersonality() == EnumPersonality.PEACEFUL)
 		{
 			return;
 		}
@@ -138,7 +143,7 @@ public class ActionAttackResponse extends AbstractAction
 				isRetaliating = true;
 				targetPlayerName = player.getName();
 				
-				PlayerMemory memory = actor.getPlayerMemory(player);
+				PlayerMemory memory = actor.attributes.getPlayerMemory(player);
 				memory.setHearts(memory.getHearts() - 5);
 			}
 		}

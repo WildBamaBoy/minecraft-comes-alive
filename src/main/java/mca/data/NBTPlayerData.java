@@ -273,7 +273,7 @@ public final class NBTPlayerData implements Serializable
 		else if (either.getLeft() != null) //Marry to a villager, symmetric
 		{
 			EntityVillagerMCA spouse = either.getLeft();
-			spouse.setSpouse(either); //Call to method already in villager
+			spouse.startMarriage(either); //Call to method already in villager
 		}
 		
 		else if (either.getRight() != null) //Marry to another player

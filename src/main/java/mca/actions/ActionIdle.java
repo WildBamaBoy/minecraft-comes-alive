@@ -21,9 +21,9 @@ public class ActionIdle extends AbstractAction
 	{
 		idleTicks++;
 	
-		if (idleTicks >= Time.MINUTE * 1 && actor.isInOverworld() && !actor.world.isDaytime() && actor.getProfessionSkinGroup() != EnumProfessionSkinGroup.Guard && actor.getMovementState() == EnumMovementState.STAY)
+		if (idleTicks >= Time.MINUTE * 1 && actor.isInOverworld() && !actor.world.isDaytime() && actor.attributes.getProfessionSkinGroup() != EnumProfessionSkinGroup.Guard && actor.attributes.getMovementState() == EnumMovementState.STAY)
 		{
-			ActionSleep AISleep = actor.getAI(ActionSleep.class);
+			ActionSleep AISleep = actor.getBehavior(ActionSleep.class);
 	
 			if (!AISleep.getIsSleeping())
 			{

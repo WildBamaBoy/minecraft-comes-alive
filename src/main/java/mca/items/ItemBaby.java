@@ -9,6 +9,7 @@ import mca.data.PlayerMemory;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumDialogueType;
 import mca.enums.EnumGender;
+import mca.enums.EnumProfession;
 import mca.enums.EnumRelation;
 import mca.packets.PacketOpenBabyNameGUI;
 import mca.util.TutorialManager;
@@ -53,7 +54,7 @@ public class ItemBaby extends Item
 		{
 			if (!itemStack.hasTagCompound())
 			{
-				String ownerName = entity instanceof EntityPlayer ? entity.getName() : entity instanceof EntityVillagerMCA ? ((EntityVillagerMCA)entity).getSpouseName() : "Unknown";
+				String ownerName = entity instanceof EntityPlayer ? entity.getName() : entity instanceof EntityVillagerMCA ? ((EntityVillagerMCA)entity).attributes.getSpouseName() : "Unknown";
 
 				NBTTagCompound compound = new NBTTagCompound();
 
@@ -85,6 +86,11 @@ public class ItemBaby extends Item
 	@Override
     public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ)
 	{
+		if (hand == EnumHand.OFF_HAND)
+		{
+			return EnumActionResult.FAIL;
+		}
+		
 		ItemStack stack = player.getHeldItem(hand);
 		
 		int posX = pos.getX();
@@ -119,26 +125,30 @@ public class ItemBaby extends Item
 			}
 
 			final EntityVillagerMCA child = new EntityVillagerMCA(world);
-			child.setGender(baby.isBoy ? EnumGender.MALE : EnumGender.FEMALE);
-			child.setIsChild(true);
+			child.attributes.setGender(baby.isBoy ? EnumGender.MALE : EnumGender.FEMALE);
+			child.attributes.setIsChild(true);
+			child.attributes.setName(stack.getTagCompound().getString("name"));
+			child.attributes.setProfession(EnumProfession.Child);
+			child.attributes.assignRandomSkin();
+			child.attributes.assignRandomScale();
+			
 			//TODO set parents
 			
 			child.setPosition(posX, posY + 1, posZ);
-			child.setName(stack.getTagCompound().getString("name"));
 
 			if (stack.getTagCompound().getBoolean("isInfected"))
 			{
-				child.setIsInfected(true);
+				child.attributes.setIsInfected(true);
 			}
 			
 			world.spawnEntity(child);
 
-			PlayerMemory childMemory = child.getPlayerMemory(player);
+			PlayerMemory childMemory = child.attributes.getPlayerMemory(player);
 			childMemory.setHearts(100);
 			childMemory.setDialogueType(EnumDialogueType.CHILDP);
-			childMemory.setRelation(child.getGender() == EnumGender.MALE ? EnumRelation.SON : EnumRelation.DAUGHTER);
+			childMemory.setRelation(child.attributes.getGender() == EnumGender.MALE ? EnumRelation.SON : EnumRelation.DAUGHTER);
 
-			player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+			player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
 			player.addStat(AchievementsMCA.babyToChild);
 
 			data.setOwnsBaby(false);

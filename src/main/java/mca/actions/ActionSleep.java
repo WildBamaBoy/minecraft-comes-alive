@@ -51,9 +51,9 @@ public class ActionSleep extends AbstractAction
 		boolean isDaytime = actor.world.isDaytime();
 
 		//If the villager is busy working, following, or riding something automatically set their sleep state to interrupted for the night.
-		if (actor.getAIManager().isToggleActionActive() || actor.getMovementState() == EnumMovementState.FOLLOW || 
+		if (actor.getBehaviors().isToggleActionActive() || actor.attributes.getMovementState() == EnumMovementState.FOLLOW || 
 			actor.getRidingEntity() != null || 
-			(actor.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard && !actor.getIsMarried()))
+			(actor.attributes.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard && !actor.attributes.getIsMarried()))
 		{
 			if (!isDaytime && getSleepingState() != EnumSleepingState.INTERRUPTED)
 			{
@@ -151,19 +151,18 @@ public class ActionSleep extends AbstractAction
 
 	private EntityPlayer getInfluentialPlayer()
 	{
-		if (actor.isMarriedToAPlayer())
+		if (actor.attributes.isMarriedToAPlayer())
 		{
-			return actor.getPlayerSpouseInstance();
+			return actor.attributes.getPlayerSpouseInstance();
 		}
 
-		//TODO check
-		else if (actor.getMotherUUID() != Constants.EMPTY_UUID || actor.getFatherUUID() != Constants.EMPTY_UUID)
+		else if (!actor.attributes.getMotherUUID().equals(Constants.EMPTY_UUID) || !actor.attributes.getFatherUUID().equals(Constants.EMPTY_UUID))
 		{
 			for (Object obj : actor.world.playerEntities)
 			{
 				EntityPlayer player = (EntityPlayer)obj;
 
-				if (actor.isPlayerAParent(player))
+				if (actor.attributes.isPlayerAParent(player))
 				{
 					return player;
 				}
@@ -250,7 +249,9 @@ public class ActionSleep extends AbstractAction
 			homePosX = posX;
 			homePosY = posY;
 			homePosZ = posZ;
-
+			bedPosX = 0;
+			bedPosY = 0;
+			bedPosZ = 0;
 			return true;
 		}
 
@@ -267,16 +268,16 @@ public class ActionSleep extends AbstractAction
 	
 	public void transitionSkinState(boolean toSleeping)
 	{
-		String skinValue = actor.getHeadTexture();
+		String skinValue = actor.attributes.getHeadTexture();
 
 		if (toSleeping && !skinValue.contains("sleeping"))
 		{
-			actor.setHeadTexture(skinValue.replace("/skins/", "/skins/sleeping/"));
+			actor.attributes.setHeadTexture(skinValue.replace("/skins/", "/skins/sleeping/"));
 		}
 
 		else if (!toSleeping && skinValue.contains("sleeping"))
 		{
-			actor.setHeadTexture(skinValue.replace("/skins/sleeping/", "/skins/"));
+			actor.attributes.setHeadTexture(skinValue.replace("/skins/sleeping/", "/skins/"));
 		}
 	}
 
@@ -383,5 +384,13 @@ public class ActionSleep extends AbstractAction
 	protected void registerDataParameters()
 	{
 		actor.getDataManager().register(SLEEPING_STATE, Integer.valueOf(EnumSleepingState.AWAKE.getId()));
+	}
+	
+	public void onDamage()
+	{
+		if (getIsSleeping())
+		{
+			setSleepingState(EnumSleepingState.INTERRUPTED);
+		}
 	}
 }

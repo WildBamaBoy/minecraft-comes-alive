@@ -74,7 +74,7 @@ public class EntityChoreFishHook extends Entity
         this.setPosition(x, y, z);
         this.ignoreFrustumCheck = true;
         this.angler = anglerIn;
-        angler.getAI(ActionFish.class).setHookEntity(this);
+        angler.getBehavior(ActionFish.class).setHookEntity(this);
     }
 
     public EntityChoreFishHook(World worldIn, EntityVillagerMCA anglerIn)
@@ -85,7 +85,7 @@ public class EntityChoreFishHook extends Entity
         this.zTile = -1;
         this.ignoreFrustumCheck = true;
         this.angler = anglerIn;
-        angler.getAI(ActionFish.class).setHookEntity(this);
+        angler.getBehavior(ActionFish.class).setHookEntity(this);
         this.setSize(0.25F, 0.25F);
         this.setLocationAndAngles(anglerIn.posX, anglerIn.posY + (double)anglerIn.getEyeHeight(), anglerIn.posZ, anglerIn.rotationYaw, anglerIn.rotationPitch);
         this.posX -= (double)(MathHelper.cos(this.rotationYaw / 180.0F * (float)Math.PI) * 0.16F);
@@ -195,7 +195,7 @@ public class EntityChoreFishHook extends Entity
                 if (this.angler.isDead || !this.angler.isEntityAlive() || itemstack == null || itemstack.getItem() != Items.FISHING_ROD || this.getDistanceSqToEntity(this.angler) > 1024.0D)
                 {
                     this.setDead();
-                    angler.getAI(ActionFish.class).setHookEntity(null);
+                    angler.getBehavior(ActionFish.class).setHookEntity(null);
                     return;
                 }
 
@@ -379,8 +379,8 @@ public class EntityChoreFishHook extends Entity
 						{
 							if (!world.isRemote)
 							{
-								angler.getAI(ActionFish.class).doFishCatchAttempt();
-								angler.getAI(ActionFish.class).setHookEntity(null);
+								angler.getBehavior(ActionFish.class).doFishCatchAttempt();
+								angler.getBehavior(ActionFish.class).setHookEntity(null);
 								setDead();
 								ticksCatchable = 0;
 								angler.swingItem();
@@ -572,7 +572,7 @@ public class EntityChoreFishHook extends Entity
             }
 
             this.setDead();
-            angler.getAI(ActionFish.class).setHookEntity(null);
+            angler.getBehavior(ActionFish.class).setHookEntity(null);
             return i;
         }
     }
@@ -592,7 +592,7 @@ public class EntityChoreFishHook extends Entity
 
         if (this.angler != null)
         {
-            angler.getAI(ActionFish.class).setHookEntity(null);
+            angler.getBehavior(ActionFish.class).setHookEntity(null);
         }
     }
 }

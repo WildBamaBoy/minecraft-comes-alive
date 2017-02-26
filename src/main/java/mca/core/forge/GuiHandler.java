@@ -30,7 +30,7 @@ public class GuiHandler implements IGuiHandler
 
 		if (guiId == Constants.GUI_ID_INVENTORY)
 		{
-			return new ContainerInventory(player.inventory, entity.getVillagerInventory(), entity);
+			return new ContainerInventory(player.inventory, entity.attributes.getInventory(), entity);
 		}
 
 		else
@@ -62,7 +62,7 @@ public class GuiHandler implements IGuiHandler
 			return new GuiVillagerEditor(entity, player);
 		case Constants.GUI_ID_INVENTORY: 
 			entity = (EntityVillagerMCA) RadixLogic.getEntityOfTypeAtXYZ(EntityVillagerMCA.class, world, posX, posY, posZ);
-			return new GuiInventory(entity, player.inventory, entity.getVillagerInventory(), false);
+			return new GuiInventory(entity, player.inventory, entity.attributes.getInventory(), false);
 		default: 
 			MCA.getLog().fatal("Failed to handle provided GUI ID: " + guiId +". This is a programming error, please report!");
 			return null;

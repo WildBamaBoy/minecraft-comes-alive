@@ -1,5 +1,7 @@
 package mca.packets;
 
+import java.util.UUID;
+
 import io.netty.buffer.ByteBuf;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.entity.Entity;
@@ -11,7 +13,7 @@ import radixcore.modules.net.AbstractPacket;
 
 public class PacketSetSize extends AbstractPacket<PacketSetSize>
 {
-	private String entityUUID;
+	private UUID entityUUID;
 	private int entityId;
 	private float width;
 	private float height;
@@ -22,7 +24,7 @@ public class PacketSetSize extends AbstractPacket<PacketSetSize>
 
 	public PacketSetSize(EntityVillagerMCA human, float width, float height)
 	{
-		this.entityUUID = human.getUniqueID().toString();
+		this.entityUUID = human.getUniqueID();
 		this.entityId = human.getEntityId();
 		this.width = width;
 		this.height = height;
@@ -31,7 +33,7 @@ public class PacketSetSize extends AbstractPacket<PacketSetSize>
 	@Override
 	public void fromBytes(ByteBuf byteBuf)
 	{
-		this.entityUUID = (String) RadixNettyIO.readObject(byteBuf);
+		this.entityUUID = (UUID) RadixNettyIO.readObject(byteBuf);
 		this.entityId = byteBuf.readInt();
 		this.width = byteBuf.readFloat();
 		this.height = byteBuf.readFloat();
@@ -76,7 +78,7 @@ public class PacketSetSize extends AbstractPacket<PacketSetSize>
 
 		if (human != null)
 		{
-			human.setSizeOverride(packet.width, packet.height);
+			human.attributes.setSize(packet.width, packet.height);
 		}
 	}
 }

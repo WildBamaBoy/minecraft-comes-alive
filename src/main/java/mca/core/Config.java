@@ -38,6 +38,9 @@ public final class Config implements Serializable
 	public boolean storyProgression;
 	public int storyProgressionThreshold;
 	public int storyProgressionRate;
+	public int marriageHeartsRequirement;
+	public int tradeHeartsRequirement;
+	public int hiringHeartsRequirement;
 
 	public int roseGoldSpawnWeight;
 
@@ -156,7 +159,10 @@ public final class Config implements Serializable
 		inTutorialMode = config.get("General", "Tutorial mode", true,
 				"Displays various tips while you play. ").getBoolean();
 		allowMobAttacks = config.get("General", "Allow mob attacks", true, "True if regular Minecraft mobs can attack villagers. False to prevent mobs from attacking any villager.").getBoolean();
-
+		hiringHeartsRequirement = config.get("General", "Hiring hearts requirement", -1, "Heart points (1 heart = 10, 1 gold heart = 20) required to trade with a villager").getInt();
+		marriageHeartsRequirement = config.get("General", "Marriage hearts requirement", 100, "Heart points (1 heart = 10, 1 gold heart = 20) required to marry a villager. -1 if no requirement").getInt();
+		tradeHeartsRequirement = config.get("General", "Trade hearts requirement", -1, "Heart points (1 heart = 10, 1 gold heart = 20) required to trade with a villager. -1 if no requirement").getInt();
+		
 		config.setCategoryComment("World Generation", "All settings related to MCA's world generation.");
 		roseGoldSpawnWeight = config.get("World Generation", "Rose gold spawn weight", 1, "Sets the spawn weight for rose gold. Higher numbers = less common. Set to zero to disable.").getInt();
 

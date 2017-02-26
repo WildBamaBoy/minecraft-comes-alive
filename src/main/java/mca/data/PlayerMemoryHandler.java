@@ -5,6 +5,7 @@ import java.util.Map;
 import mca.entity.EntityVillagerMCA;
 import net.minecraft.nbt.NBTTagCompound;
 
+@Deprecated
 public final class PlayerMemoryHandler 
 {
 	public static void readPlayerMemoryFromNBT(EntityVillagerMCA human, Map<String, PlayerMemory> playerMemories, NBTTagCompound nbt)

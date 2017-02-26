@@ -20,7 +20,7 @@ public class ActionBlink extends AbstractAction
 	@Override
 	public void onUpdateServer() 
 	{
-		if (MCA.getConfig().allowBlinking && !actor.getAI(ActionSleep.class).getIsSleeping() && actor.getHealth() > 0.0F)
+		if (MCA.getConfig().allowBlinking && !actor.getBehavior(ActionSleep.class).getIsSleeping() && actor.getHealth() > 0.0F)
 		{
 			timeSinceLastBlink++;
 
@@ -34,13 +34,13 @@ public class ActionBlink extends AbstractAction
 					holdingBlink = false;
 					timeSinceLastBlink = 0;
 					nextBlink = RadixMath.getNumberInRange(Time.SECOND * 2, Time.SECOND * 8);
-					actor.getAI(ActionSleep.class).transitionSkinState(false);
+					actor.getBehavior(ActionSleep.class).transitionSkinState(false);
 				}
 			}
 
 			else if (timeSinceLastBlink >= nextBlink)
 			{
-				actor.getAI(ActionSleep.class).transitionSkinState(true);
+				actor.getBehavior(ActionSleep.class).transitionSkinState(true);
 				holdingBlink = true;
 			}
 		}

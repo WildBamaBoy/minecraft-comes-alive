@@ -70,9 +70,9 @@ public class PacketGift extends AbstractPacket<PacketGift>
 	private boolean handleWeddingRing(EntityPlayer player, EntityVillagerMCA human)
 	{
 		NBTPlayerData data = MCA.getPlayerData(player);
-		PlayerMemory memory = human.getPlayerMemory(player);
+		PlayerMemory memory = human.attributes.getPlayerMemory(player);
 
-		if (human.getIsChild() || !human.allowsIntimateInteractions(player))
+		if (human.attributes.getIsChild() || !human.attributes.allowsIntimateInteractions(player))
 		{
 			human.say("interaction.give.invalid", player); 
 		}
@@ -82,12 +82,12 @@ public class PacketGift extends AbstractPacket<PacketGift>
 			human.say("interaction.marry.fail.marriedtogiver", player); 
 		}
 
-		else if (human.getMarriageState() != EnumMarriageState.NOT_MARRIED)
+		else if (human.attributes.getMarriageState() != EnumMarriageState.NOT_MARRIED)
 		{
 			human.say("interaction.marry.fail.marriedtoother", player); 
 		}
 
-		else if (human.getMarriageState() == EnumMarriageState.ENGAGED && human.getSpouseUUID() != data.getUUID())
+		else if (human.attributes.getMarriageState() == EnumMarriageState.ENGAGED && human.attributes.getSpouseUUID() != data.getUUID())
 		{
 			human.say("interaction.engage.fail.engagedtoother", player); 
 		}
@@ -108,10 +108,10 @@ public class PacketGift extends AbstractPacket<PacketGift>
 			player.addStat(AchievementsMCA.marriage);
 			human.say("interaction.marry.success", player); 
 
-			human.setSpouse(Either.<EntityVillagerMCA, EntityPlayer>withR(player));
+			human.startMarriage(Either.<EntityVillagerMCA, EntityPlayer>withR(player));
 			memory.setIsHiredBy(false, 0);
 			
-			human.getAI(ActionUpdateMood.class).modifyMoodLevel(3.0F);
+			human.getBehavior(ActionUpdateMood.class).modifyMoodLevel(3.0F);
 			Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, human, 16);
 			TutorialManager.sendMessageToPlayer(player, "You are now married. You can have", "children by using the 'Procreate' button.");
 			return true;
@@ -124,17 +124,17 @@ public class PacketGift extends AbstractPacket<PacketGift>
 	{
 		EntityVillagerMCA partner = RadixLogic.getClosestEntity(Point3D.fromEntityPosition(human), human.world, 5, EntityVillagerMCA.class, human);
 
-		if (human.getIsChild())
+		if (human.attributes.getIsChild())
 		{
 			human.say("interaction.give.invalid", player); 
 		}
 
-		else if (human.getMarriageState() == EnumMarriageState.MARRIED_TO_PLAYER || human.getMarriageState() == EnumMarriageState.MARRIED_TO_VILLAGER)
+		else if (human.attributes.getMarriageState() == EnumMarriageState.MARRIED_TO_PLAYER || human.attributes.getMarriageState() == EnumMarriageState.MARRIED_TO_VILLAGER)
 		{
 			human.say("interaction.matchmaker.fail.married", player); 
 		}
 
-		else if (human.getMarriageState() == EnumMarriageState.ENGAGED)
+		else if (human.attributes.getMarriageState() == EnumMarriageState.ENGAGED)
 		{
 			human.say("interaction.matchmaker.fail.engaged", player); 
 		}
@@ -148,10 +148,10 @@ public class PacketGift extends AbstractPacket<PacketGift>
 		else
 		{	
 			boolean partnerIsValid = partner != null 
-					&& partner.getMarriageState() == EnumMarriageState.NOT_MARRIED 
-					&& !partner.getIsChild() 
-					&& (partner.getFatherUUID() == Constants.EMPTY_UUID || partner.getFatherUUID() != human.getFatherUUID()) 
-					&& (partner.getMotherUUID() == Constants.EMPTY_UUID || partner.getMotherUUID() != human.getMotherUUID());
+					&& partner.attributes.getMarriageState() == EnumMarriageState.NOT_MARRIED 
+					&& !partner.attributes.getIsChild() 
+					&& (partner.attributes.getFatherUUID() == Constants.EMPTY_UUID || partner.attributes.getFatherUUID() != human.attributes.getFatherUUID()) 
+					&& (partner.attributes.getMotherUUID() == Constants.EMPTY_UUID || partner.attributes.getMotherUUID() != human.attributes.getMotherUUID());
 
 			if (partner == null)
 			{
@@ -167,7 +167,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 
 			else
 			{
-				human.setSpouse(Either.<EntityVillagerMCA, EntityPlayer>withL(partner));
+				human.startMarriage(Either.<EntityVillagerMCA, EntityPlayer>withL(partner));
 
 				Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, human, 16);
 				Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, partner, 16);
@@ -176,7 +176,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 				{
 					EntityPlayer onlinePlayer = (EntityPlayer)obj;
 
-					if (human.isPlayerAParent(onlinePlayer) || partner.isPlayerAParent(onlinePlayer))
+					if (human.attributes.isPlayerAParent(onlinePlayer) || partner.attributes.isPlayerAParent(onlinePlayer))
 					{
 						onlinePlayer.addStat(AchievementsMCA.childMarried);	
 					}
@@ -193,9 +193,9 @@ public class PacketGift extends AbstractPacket<PacketGift>
 	private boolean handleEngagementRing(EntityPlayer player, EntityVillagerMCA human)
 	{
 		NBTPlayerData data = MCA.getPlayerData(player);
-		PlayerMemory memory = human.getPlayerMemory(player);
+		PlayerMemory memory = human.attributes.getPlayerMemory(player);
 
-		if (human.getIsChild() || !human.allowsIntimateInteractions(player))
+		if (human.attributes.getIsChild() || !human.attributes.allowsIntimateInteractions(player))
 		{
 			human.say("interaction.give.invalid", player); 
 		}
@@ -205,12 +205,12 @@ public class PacketGift extends AbstractPacket<PacketGift>
 			human.say("interaction.marry.fail.marriedtogiver", player); 
 		}
 
-		else if (human.getMarriageState() == EnumMarriageState.MARRIED_TO_PLAYER || human.getMarriageState() == EnumMarriageState.MARRIED_TO_VILLAGER)
+		else if (human.attributes.getMarriageState() == EnumMarriageState.MARRIED_TO_PLAYER || human.attributes.getMarriageState() == EnumMarriageState.MARRIED_TO_VILLAGER)
 		{
 			human.say("interaction.marry.fail.marriedtoother", player); 
 		}
 
-		else if (human.getMarriageState() == EnumMarriageState.ENGAGED)
+		else if (human.attributes.getMarriageState() == EnumMarriageState.ENGAGED)
 		{
 			human.say("interaction.engage.fail.engagedtoother", player); 
 		}
@@ -230,11 +230,11 @@ public class PacketGift extends AbstractPacket<PacketGift>
 		{
 			player.addStat(AchievementsMCA.engagement);
 			human.say("interaction.engage.success", player); 
-			human.setFiancee(player);
+			human.attributes.setFiancee(player);
 			
 			memory.setIsHiredBy(false, 0);
 			
-			human.getAI(ActionUpdateMood.class).modifyMoodLevel(3.0F);
+			human.getBehavior(ActionUpdateMood.class).modifyMoodLevel(3.0F);
 			Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, human, 16);
 			TutorialManager.sendMessageToPlayer(player, "You are now engaged. Now gift a wedding ring", "to get gifts from other villagers.");
 			return true;
@@ -246,47 +246,47 @@ public class PacketGift extends AbstractPacket<PacketGift>
 	private boolean handleDivorcePapers(EntityPlayer player, EntityVillagerMCA human) 
 	{
 		NBTPlayerData data = MCA.getPlayerData(player);
-		PlayerMemory memory = human.getPlayerMemory(player);
+		PlayerMemory memory = human.attributes.getPlayerMemory(player);
 
-		if (human.getIsChild())
+		if (human.attributes.getIsChild())
 		{
 			human.say("interaction.give.invalid", player); 
 		}
 
-		else if (human.getMarriageState() == EnumMarriageState.NOT_MARRIED)
+		else if (human.attributes.getMarriageState() == EnumMarriageState.NOT_MARRIED)
 		{
 			human.say("interaction.divorce.notmarried", player); 
 		}
 
-		else if (human.isMarriedToAPlayer() && data.getSpouseUUID() != human.getPersistentID())
+		else if (human.attributes.isMarriedToAPlayer() && data.getSpouseUUID() != human.getPersistentID())
 		{
 			human.say("interaction.divorce.notmarriedtoplayer", player); 
 		}
 
 		else
 		{
-			if (human.isMarriedToAPlayer())
+			if (human.attributes.isMarriedToAPlayer())
 			{
 				memory.setHearts(-100);
 				human.say("interaction.divorce.success", player); 
 
-				human.setSpouse(null);
+				human.endMarriage();
 				data.setSpouse(null);
 
-				human.getAI(ActionUpdateMood.class).modifyMoodLevel(-10.0F);
+				human.getBehavior(ActionUpdateMood.class).modifyMoodLevel(-10.0F);
 				Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.VILLAGER_ANGRY, human, 16);
 			}
 
 			else
 			{
-				final EntityVillagerMCA partner = human.getVillagerSpouseInstance();
+				final EntityVillagerMCA partner = human.attributes.getVillagerSpouseInstance();
 
 				if (partner != null)
 				{
-					partner.setSpouse(null);
+					partner.endMarriage();
 				}
 
-				human.setSpouse(null);
+				human.endMarriage();
 			}
 
 			return true;
@@ -297,7 +297,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 
 	private boolean handleStandardGift(EntityPlayer player, EntityVillagerMCA human, int slot1, ItemStack stack)
 	{
-		final PlayerMemory memory = human.getPlayerMemory(player);
+		final PlayerMemory memory = human.attributes.getPlayerMemory(player);
 		final Object queryObject = stack.getItem() instanceof ItemBlock ? Block.getBlockFromItem(stack.getItem()) : stack.getItem();
 		int giftValue = RegistryMCA.getGiftMap().containsKey(queryObject) ? RegistryMCA.getGiftMap().get(queryObject) : -5;
 
@@ -327,13 +327,13 @@ public class PacketGift extends AbstractPacket<PacketGift>
 
 		if (heartsModify > 0)
 		{
-			human.getAI(ActionUpdateMood.class).modifyMoodLevel(1.0F);
+			human.getBehavior(ActionUpdateMood.class).modifyMoodLevel(1.0F);
 			return true;
 		}
 
 		else
 		{
-			human.getAI(ActionUpdateMood.class).modifyMoodLevel(-1.0F);
+			human.getBehavior(ActionUpdateMood.class).modifyMoodLevel(-1.0F);
 		}
 
 		return false;
@@ -384,7 +384,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 				removeItem = handleDivorcePapers(player, human);
 			}
 
-			else if (human.getIsInfected() && human.getActivePotionEffect(MobEffects.WEAKNESS) != null && stack.getItem() == Items.GOLDEN_APPLE)
+			else if (human.attributes.getIsInfected() && human.getActivePotionEffect(MobEffects.WEAKNESS) != null && stack.getItem() == Items.GOLDEN_APPLE)
 			{
 				removeItem = true;
 				removeCount = 1;
@@ -392,45 +392,45 @@ public class PacketGift extends AbstractPacket<PacketGift>
 				human.cureInfection();
 			}
 			
-			else if (item == Items.GOLDEN_APPLE && human.getIsChild() && human.isPlayerAParent(player))
+			else if (item == Items.GOLDEN_APPLE && human.attributes.getIsChild() && human.attributes.isPlayerAParent(player))
 			{
 				removeItem = true;
 				removeCount = 1;
 
-				human.getAI(ActionGrow.class).accelerate();
+				human.getBehavior(ActionGrow.class).accelerate();
 			}
 
-			else if ((item == ItemsMCA.babyBoy || item == ItemsMCA.babyGirl) && human.getPlayerSpouseInstance() == player)
+			else if ((item == ItemsMCA.babyBoy || item == ItemsMCA.babyGirl) && human.attributes.getPlayerSpouseInstance() == player)
 			{
 				removeItem = true;
 				removeCount = 1;
 
-				human.getVillagerInventory().addItem(stack);
+				human.attributes.getInventory().addItem(stack);
 			}
 
 			else if (item == Items.CAKE || Block.getBlockFromItem(item) == Blocks.CAKE)
 			{
-				EnumProgressionStep step = human.getAI(ActionStoryProgression.class).getProgressionStep();
+				EnumProgressionStep step = human.getBehavior(ActionStoryProgression.class).getProgressionStep();
 
-				if (human.isMarriedToAVillager() && human.getVillagerSpouseInstance() != null && RadixMath.getDistanceToEntity(human, human.getVillagerSpouseInstance()) <= 8.5D)
+				if (human.attributes.isMarriedToAVillager() && human.attributes.getVillagerSpouseInstance() != null && RadixMath.getDistanceToEntity(human, human.attributes.getVillagerSpouseInstance()) <= 8.5D)
 				{
-					EntityVillagerMCA spouse = human.getVillagerSpouseInstance();
+					EntityVillagerMCA spouse = human.attributes.getVillagerSpouseInstance();
 
 					removeItem = true;
 					removeCount = 1;
 
-					if (human.getBabyState() == EnumBabyState.NONE && spouse.getBabyState() == EnumBabyState.NONE)
+					if (human.attributes.getBabyState() == EnumBabyState.NONE && spouse.attributes.getBabyState() == EnumBabyState.NONE)
 					{
 						human.say("gift.cake" + RadixMath.getNumberInRange(1, 3), player);
 
-						final EntityVillagerMCA progressor = !human.getIsMale() ? human : !spouse.getIsMale() ? spouse : human;
-						human.getAI(ActionStoryProgression.class).setProgressionStep(EnumProgressionStep.HAD_BABY);
-						spouse.getAI(ActionStoryProgression.class).setProgressionStep(EnumProgressionStep.HAD_BABY);
+						final EntityVillagerMCA progressor = !human.attributes.getIsMale() ? human : !spouse.attributes.getIsMale() ? spouse : human;
+						human.getBehavior(ActionStoryProgression.class).setProgressionStep(EnumProgressionStep.HAD_BABY);
+						spouse.getBehavior(ActionStoryProgression.class).setProgressionStep(EnumProgressionStep.HAD_BABY);
 
 						Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, human, 16);
 						Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, spouse, 16);
 
-						progressor.setBabyState(EnumBabyState.getRandomGender());
+						progressor.attributes.setBabyState(EnumBabyState.getRandomGender());
 					}
 
 					else
@@ -441,7 +441,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 					TutorialManager.sendMessageToPlayer(player, "Cake can influence villagers to have children.", "");
 				}
 
-				else if (human.isMarriedToAVillager() && human.getVillagerSpouseInstance() == null)
+				else if (human.attributes.isMarriedToAVillager() && human.attributes.getVillagerSpouseInstance() == null)
 				{
 					human.sayRaw("I don't see my spouse anywhere...", player);
 				}
@@ -452,10 +452,10 @@ public class PacketGift extends AbstractPacket<PacketGift>
 				}
 			}
 
-			else if (item == ItemsMCA.newOutfit && human.allowsControllingInteractions(player))
+			else if (item == ItemsMCA.newOutfit && human.attributes.allowsControllingInteractions(player))
 			{
 				Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.VILLAGER_HAPPY, human, 16);
-				human.setClothesTexture(human.getProfessionSkinGroup().getRandomMaleSkin());
+				human.attributes.setClothesTexture(human.attributes.getProfessionSkinGroup().getRandomMaleSkin());
 				removeItem = true;
 				removeCount = 1;
 			}
@@ -465,7 +465,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 				removeItem = true;
 				removeCount = 1;
 
-				VillagerInventory inventory = human.getVillagerInventory();
+				VillagerInventory inventory = human.attributes.getInventory();
 				ItemArmor armor = (ItemArmor)item;
 				int inventorySlot = 0;
 

@@ -11,6 +11,7 @@ import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
@@ -45,7 +46,7 @@ public class ActionCombat extends AbstractAction
 	public void onUpdateServer() 
 	{
 		//Do nothing when we're asleep
-		if (actor.getAI(ActionSleep.class).getIsSleeping())
+		if (actor.getBehavior(ActionSleep.class).getIsSleeping())
 		{
 			return;
 		}
@@ -240,5 +241,18 @@ public class ActionCombat extends AbstractAction
 		actor.getDataManager().register(ATTACK_METHOD_ID, EnumCombatBehaviors.METHOD_DO_NOT_FIGHT.getNumericId());
 		actor.getDataManager().register(ATTACK_TRIGGER_ID, EnumCombatBehaviors.TRIGGER_PLAYER_DEAL_DAMAGE.getNumericId());
 		actor.getDataManager().register(ATTACK_TARGET_ID, EnumCombatBehaviors.TARGET_PASSIVE_MOBS.getNumericId());
+	}
+
+	public ItemStack getHeldItem() 
+	{
+		if (getMethodBehavior() == EnumCombatBehaviors.METHOD_RANGED_ONLY)
+		{
+			return actor.attributes.getInventory().getBestItemOfType(ItemBow.class);
+		}
+		
+		else
+		{
+			return actor.attributes.getInventory().getBestItemOfType(ItemSword.class);	
+		}
 	}
 }

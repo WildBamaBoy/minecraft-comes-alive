@@ -604,26 +604,26 @@ public class MCA
 		boolean adult1IsMale = RadixLogic.getBooleanWithProbability(50);
 
 		final EntityVillagerMCA adult1 = new EntityVillagerMCA(world);
-		adult1.setGender(adult1IsMale ? EnumGender.MALE : EnumGender.FEMALE);
-		adult1.setProfession(originalProfession != -1 ? EnumProfession.getProfessionById(originalProfession) : EnumProfession.getAtRandom());
-		adult1.assignRandomName();
-		adult1.assignRandomSkin();
-		adult1.assignRandomPersonality();
+		adult1.attributes.setGender(adult1IsMale ? EnumGender.MALE : EnumGender.FEMALE);
+		adult1.attributes.setProfession(originalProfession != -1 ? EnumProfession.getProfessionById(originalProfession) : EnumProfession.getAtRandom());
+		adult1.attributes.assignRandomName();
+		adult1.attributes.assignRandomSkin();
+		adult1.attributes.assignRandomPersonality();
 		
 		adult1.setPosition(pointOfSpawn.dX(), pointOfSpawn.dY(), pointOfSpawn.dZ());
 
 		if (hasFamily)
 		{
 			final EntityVillagerMCA adult2 = new EntityVillagerMCA(world);
-			adult2.setGender(adult1IsMale ? EnumGender.FEMALE : EnumGender.MALE);
-			adult2.assignRandomProfession();
-			adult2.assignRandomName();
-			adult2.assignRandomSkin();
-			adult2.assignRandomPersonality();
+			adult2.attributes.setGender(adult1IsMale ? EnumGender.FEMALE : EnumGender.MALE);
+			adult2.attributes.assignRandomProfession();
+			adult2.attributes.assignRandomName();
+			adult2.attributes.assignRandomSkin();
+			adult2.attributes.assignRandomPersonality();
 			adult2.setPosition(adult1.posX, adult1.posY, adult1.posZ - 1);
 			world.spawnEntity(adult2);
 
-			adult1.setSpouse(Either.<EntityVillagerMCA,EntityPlayer>withL(adult2));
+			adult1.startMarriage(Either.<EntityVillagerMCA,EntityPlayer>withL(adult2));
 
 			final EntityVillagerMCA father = adult1IsMale ? adult1 : adult2;
 			final EntityVillagerMCA mother = father == adult1 ? adult2 : adult1;
@@ -637,13 +637,13 @@ public class MCA
 				}
 
 				final EntityVillagerMCA child = new EntityVillagerMCA(world);
-				child.assignRandomGender();
-				child.assignRandomName();
-				child.assignRandomProfession();
-				child.assignRandomSkin();
-				child.assignRandomPersonality();
-				child.setMother(Either.<EntityVillagerMCA,EntityPlayer>withL(mother));
-				child.setFather(Either.<EntityVillagerMCA,EntityPlayer>withL(father));
+				child.attributes.assignRandomGender();
+				child.attributes.assignRandomName();
+				child.attributes.assignRandomProfession();
+				child.attributes.assignRandomSkin();
+				child.attributes.assignRandomPersonality();
+				child.attributes.setMother(Either.<EntityVillagerMCA,EntityPlayer>withL(mother));
+				child.attributes.setFather(Either.<EntityVillagerMCA,EntityPlayer>withL(father));
 				
 				child.setPosition(pointOfSpawn.dX(), pointOfSpawn.dY(), pointOfSpawn.dZ() + 1);
 				world.spawnEntity(child);

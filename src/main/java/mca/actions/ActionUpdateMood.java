@@ -40,7 +40,7 @@ public class ActionUpdateMood extends AbstractAction
 			int moodLevel = getMoodLevel();
 			EnumParticleTypes particles = null;
 
-			switch (actor.getPersonality().getMoodGroup())
+			switch (actor.attributes.getPersonality().getMoodGroup())
 			{
 			case GENERAL:
 				particles = moodLevel > 0 ? EnumParticleTypes.VILLAGER_HAPPY : EnumParticleTypes.WATER_SPLASH; break;

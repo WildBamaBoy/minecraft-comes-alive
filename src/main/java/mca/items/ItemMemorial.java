@@ -6,9 +6,8 @@ import org.lwjgl.input.Keyboard;
 
 import mca.core.MCA;
 import mca.core.minecraft.BlocksMCA;
-import mca.entity.VillagerSaveData;
+import mca.entity.VillagerAttributes;
 import mca.enums.EnumMemorialType;
-import mca.enums.EnumProfession;
 import mca.enums.EnumRelation;
 import mca.tile.TileMemorial;
 import net.minecraft.entity.player.EntityPlayer;
@@ -48,7 +47,7 @@ public class ItemMemorial extends Item
 			TileMemorial tile = (TileMemorial) worldIn.getTileEntity(pos);
 			
 			tile.setType(this.type);
-			tile.setVillagerSaveData(VillagerSaveData.fromNBT(stack.getTagCompound()));
+			tile.setVillagerSaveData(new VillagerAttributes(stack.getTagCompound()));
 			tile.setOwnerName(stack.getTagCompound().getString("ownerName"));
 
 			if (stack.hasTagCompound())
@@ -75,9 +74,9 @@ public class ItemMemorial extends Item
 
 		if (itemStack.hasTagCompound())
 		{
-			VillagerSaveData data = VillagerSaveData.fromNBT(itemStack.getTagCompound());
+			VillagerAttributes data = new VillagerAttributes(itemStack.getTagCompound());
 			String ownerName = itemStack.getTagCompound().getString("ownerName");
-			String name = data.name;
+			String name = data.getName();
 			String relationId = EnumRelation.getById(itemStack.getTagCompound().getInteger("relation")).getPhraseId(); 
 			
 			infoList.add(Color.WHITE + "Belonged to: ");
@@ -89,7 +88,7 @@ public class ItemMemorial extends Item
 			
 			else
 			{
-				infoList.add(Color.GREEN + name + " the " + MCA.getLanguageManager().getString(EnumProfession.getProfessionById(data.professionId.getId()).getLocalizationId()));
+				infoList.add(Color.GREEN + name + " the " + MCA.getLanguageManager().getString(data.getProfessionEnum().getLocalizationId()));
 				infoList.add("Captured by: " + ownerName);
 			}
 		}

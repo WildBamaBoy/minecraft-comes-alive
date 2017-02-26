@@ -52,13 +52,13 @@ public class RenderVillagerMCA extends RenderBiped<EntityVillagerMCA>
 	protected void preRenderCallback(EntityVillagerMCA entityLivingBase, float partialTickTime)
 	{
 		final EntityVillagerMCA entity = (EntityVillagerMCA) entityLivingBase;
-		final ActionSleep sleepAI = entity.getAI(ActionSleep.class);
-		float scale = entity.getGender() == EnumGender.MALE ? Constants.SCALE_M_ADULT : Constants.SCALE_F_ADULT;
+		final ActionSleep sleepAI = entity.getBehavior(ActionSleep.class);
+		float scale = entity.attributes.getGender() == EnumGender.MALE ? Constants.SCALE_M_ADULT : Constants.SCALE_F_ADULT;
 		
-		if (entity.getIsChild())
+		if (entity.attributes.getIsChild())
 		{
 			final boolean doGradualGrowth = MCA.getConfig().isAgingEnabled;
-			final float growthFactor = (entity.getGender() == EnumGender.MALE ? 0.39F : 0.37F) / MCA.getConfig().childGrowUpTime * entity.getAge();
+			final float growthFactor = (entity.attributes.getGender() == EnumGender.MALE ? 0.39F : 0.37F) / MCA.getConfig().childGrowUpTime * entity.getAge();
 
 			scale = 0.55F + growthFactor;
 
@@ -76,8 +76,8 @@ public class RenderVillagerMCA extends RenderBiped<EntityVillagerMCA>
 			}
 		}
 
-		GL11.glScalef(scale, scale + entity.getScaleHeight(), scale);
-		GL11.glScalef(scale + entity.getScaleWidth(), scale, scale + entity.getScaleWidth());
+		GL11.glScalef(scale, scale + entity.attributes.getScaleHeight(), scale);
+		GL11.glScalef(scale + entity.attributes.getScaleWidth(), scale, scale + entity.attributes.getScaleWidth());
 
 		if (sleepAI.getIsInBed())
 		{
@@ -97,10 +97,10 @@ public class RenderVillagerMCA extends RenderBiped<EntityVillagerMCA>
 	private void doRenderEntity(EntityVillagerMCA entity, double x, double y, double z, float entityYaw, float partialTicks)
 	{
 		final EntityPlayer player = Minecraft.getMinecraft().player;
-		final PlayerMemory memory = entity.getPlayerMemoryWithoutCreating(player);
+		final PlayerMemory memory = entity.attributes.getPlayerMemoryWithoutCreating(player);
 
 		//Pass special renders according to player memory here.
-		if (RadixMath.getDistanceToEntity(entity, player) <= 5.0F && !entity.getAI(ActionSleep.class).getIsSleeping() && !entity.isInteractionGuiOpen && memory != null)
+		if (RadixMath.getDistanceToEntity(entity, player) <= 5.0F && !entity.getBehavior(ActionSleep.class).getIsSleeping() && !entity.isInteractionGuiOpen && memory != null)
 		{
 			UVPoint uvp = memory.doDisplayFeedback() ? (memory.getLastInteractionSuccess() ? plus : minus) : memory.getHasQuest() ? exMark : null;
 
@@ -157,20 +157,20 @@ public class RenderVillagerMCA extends RenderBiped<EntityVillagerMCA>
 		//Render their name assuming that they're not damaged.
 		else if (canRenderNameTag(entity) && MCA.getConfig().showNameTagOnHover)
 		{
-			renderLabel(entity, x, y, z, entity.getTitle(Minecraft.getMinecraft().player));
+			renderLabel(entity, x, y, z, entity.attributes.getTitle(Minecraft.getMinecraft().player));
 		}
 
 		//When in the interaction GUI, render the person's name and hearts value.
 		else if (entity.isInteractionGuiOpen)
 		{
-			renderLabel(entity , x, y + 0.1, z, entity.getTitle(Minecraft.getMinecraft().player));
-			renderHearts(entity, x, y + 0.1, z, entity.getPlayerMemory(Minecraft.getMinecraft().player).getHearts());
+			renderLabel(entity , x, y + 0.1, z, entity.attributes.getTitle(Minecraft.getMinecraft().player));
+			renderHearts(entity, x, y + 0.1, z, entity.attributes.getPlayerMemory(Minecraft.getMinecraft().player).getHearts());
 		}
 
 		//When performing a chore, render the name of the chore above their head.
-		else if (entity.getAIManager().isToggleActionActive())
+		else if (entity.getBehaviors().isToggleActionActive())
 		{
-			renderLabel(entity, x, y + (distanceFromPlayer / 15.0D)  + (entity.getEyeHeight() * 1.15D), z, entity.getAIManager().getActiveActionName());
+			renderLabel(entity, x, y + (distanceFromPlayer / 15.0D)  + (entity.getEyeHeight() * 1.15D), z, entity.getBehaviors().getActiveActionName());
 		}
 	}
 
@@ -270,7 +270,7 @@ public class RenderVillagerMCA extends RenderBiped<EntityVillagerMCA>
 
 	protected void renderHumanSleeping(EntityVillagerMCA entity, double partialTickTime)
 	{
-		final ActionSleep sleepAI = entity.getAI(ActionSleep.class);
+		final ActionSleep sleepAI = entity.getBehavior(ActionSleep.class);
 		final int meta = sleepAI.getBedMeta();
 
 		if (meta == 0)
@@ -317,7 +317,7 @@ public class RenderVillagerMCA extends RenderBiped<EntityVillagerMCA>
 	protected ResourceLocation getEntityTexture(EntityVillagerMCA entity)
 	{
 		final EntityVillagerMCA human = (EntityVillagerMCA)entity;
-		final String skinName = human.getHeadTexture();
+		final String skinName = human.attributes.getHeadTexture();
 
 		if (skinName.isEmpty())
 		{
@@ -326,7 +326,7 @@ public class RenderVillagerMCA extends RenderBiped<EntityVillagerMCA>
 
 		else
 		{
-			return new ResourceLocation(((EntityVillagerMCA)entity).getHeadTexture());
+			return new ResourceLocation(((EntityVillagerMCA)entity).attributes.getHeadTexture());
 		}
 	}
 }

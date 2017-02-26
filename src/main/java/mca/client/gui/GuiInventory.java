@@ -102,6 +102,6 @@ public class GuiInventory extends InventoryEffectRenderer
 	public void onGuiClosed()
 	{
 		super.onGuiClosed();
-		owner.getVillagerInventory().closeInventory(Minecraft.getMinecraft().player);
+		owner.attributes.getInventory().closeInventory(Minecraft.getMinecraft().player);
 	}
 }
