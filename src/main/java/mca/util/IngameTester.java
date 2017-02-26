@@ -118,11 +118,11 @@ public class IngameTester
 		catch (AssertionError e)
 		{
 			e.printStackTrace();
-			failTest("Villager marriage and simulation", player);
+			failTest("Villager marriage and story simulation", player);
 			return;
 		}
 		
-		passTest("Villager marriage and simulation", player);
+		passTest("Villager marriage and story simulation", player);
 		
 		//Actions
 		//Story progression
