@@ -1,7 +1,9 @@
 package mca.util;
 
 import mca.actions.ActionStoryProgression;
+import mca.core.Constants;
 import mca.core.MCA;
+import mca.data.NBTPlayerData;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumBabyState;
 import mca.enums.EnumGender;
@@ -70,10 +72,10 @@ public class IngameTester
 			adam.startMarriage(Either.<EntityVillagerMCA, EntityPlayer>withL(eve));
 			
 			assertTrue(adam.attributes.getMarriageState() == EnumMarriageState.MARRIED_TO_VILLAGER);
-			assertTrue(eve.attributes.getMarriageState() == EnumMarriageState.MARRIED_TO_VILLAGER);
 			assertTrue(adam.attributes.getSpouseGender() == eve.attributes.getGender());
 			assertTrue(adam.attributes.getSpouseName().equals(eve.attributes.getName()));
 			assertTrue(adam.attributes.getSpouseUUID() == eve.getPersistentID());
+			assertTrue(eve.attributes.getMarriageState() == EnumMarriageState.MARRIED_TO_VILLAGER);
 			assertTrue(eve.attributes.getSpouseGender() == adam.attributes.getGender());
 			assertTrue(eve.attributes.getSpouseName().equals(adam.attributes.getName()));
 			assertTrue(eve.attributes.getSpouseUUID() == adam.getPersistentID());
@@ -112,7 +114,7 @@ public class IngameTester
 			assertTrue(eve.attributes.getBabyState() != EnumBabyState.NONE);
 			assertTrue(adam.getBehavior(ActionStoryProgression.class).getProgressionStep() == EnumProgressionStep.SEARCH_FOR_PARTNER);
 			
-			adam.startMarriage(Either.<EntityVillagerMCA, EntityPlayer>withL(eve));
+			eve.attributes.setBabyState(EnumBabyState.NONE);
 		}
 		
 		catch (AssertionError e)
@@ -124,11 +126,41 @@ public class IngameTester
 		
 		passTest("Villager marriage and story simulation", player);
 		
-		//Actions
-		//Story progression
-		//Villager marriage
-		//Player marriage to villager
-		//Ending marriage
+		try
+		{
+			NBTPlayerData playerData = MCA.getPlayerData(player);
+			playerData.setSpouse(Either.<EntityVillagerMCA, EntityPlayer>withL(eve));
+			
+			assertTrue(eve.attributes.getMarriageState() == EnumMarriageState.MARRIED_TO_PLAYER);
+			assertTrue(eve.getBehavior(ActionStoryProgression.class).getProgressionStep() == EnumProgressionStep.FINISHED);
+			assertTrue(eve.attributes.getSpouseGender() == playerData.getGender());
+			assertTrue(eve.attributes.getSpouseName().equals(player.getName()));
+			assertTrue(eve.attributes.getSpouseUUID().equals(playerData.getUUID()));
+			assertTrue(playerData.getSpouseGender() == eve.attributes.getGender());
+			assertTrue(playerData.getSpouseUUID().equals(eve.getPersistentID()));
+			assertTrue(playerData.getSpouseName().equals(eve.attributes.getName()));
+			
+			eve.endMarriage();
+			playerData.setSpouse(null);
+			
+			assertTrue(eve.attributes.getMarriageState() == EnumMarriageState.NOT_MARRIED);
+			assertTrue(eve.getBehavior(ActionStoryProgression.class).getProgressionStep() == EnumProgressionStep.SEARCH_FOR_PARTNER);
+			assertTrue(eve.attributes.getSpouseGender() == EnumGender.UNASSIGNED);
+			assertTrue(eve.attributes.getSpouseUUID() == Constants.EMPTY_UUID);
+			assertTrue(eve.attributes.getSpouseName().isEmpty());
+			assertTrue(playerData.getSpouseGender() == EnumGender.UNASSIGNED);
+			assertTrue(playerData.getSpouseUUID().equals(Constants.EMPTY_UUID));
+			assertTrue(playerData.getSpouseName().isEmpty());
+		}
+		
+		catch (AssertionError e)
+		{
+			e.printStackTrace();
+			failTest("Player marriage", player);
+			return;
+		}
+		
+		passTest("Player marriage", player);
 	}
 	
 	private static void addMessage(String message, EntityPlayer player)

@@ -593,8 +593,6 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	@Override
 	public ItemStack getHeldItem(EnumHand hand)
 	{
-		System.out.println(hand);
-		
 		EnumBabyState babyState = attributes.getBabyState();
 		EnumProfession profession = attributes.getProfessionEnum();
 		
