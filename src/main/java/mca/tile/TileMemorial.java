@@ -3,7 +3,7 @@ package mca.tile;
 import mca.core.MCA;
 import mca.data.PlayerMemory;
 import mca.entity.EntityVillagerMCA;
-import mca.entity.VillagerSaveData;
+import mca.entity.VillagerAttributes;
 import mca.enums.EnumDialogueType;
 import mca.enums.EnumGender;
 import mca.enums.EnumMemorialType;
@@ -24,7 +24,7 @@ import radixcore.modules.RadixBlocks;
 public class TileMemorial extends TileEntity implements ITickable
 {
 	private EnumMemorialType type;
-	private VillagerSaveData data;
+	private VillagerAttributes data;
 	private String ownerName;
 	private EnumRelation ownerRelation;
 	private int revivalTicks;
@@ -55,7 +55,7 @@ public class TileMemorial extends TileEntity implements ITickable
 			{	
 				EntityVillagerMCA human = new EntityVillagerMCA(world);
 
-				data.applyToHuman(human);
+				human.attributes.copyFrom(data);
 				human.setPosition(xCoord + 0.5D, yCoord, zCoord + 0.5D);
 				world.spawnEntity(human);
 
@@ -71,16 +71,16 @@ public class TileMemorial extends TileEntity implements ITickable
 				
 				else if (this.getType() == EnumMemorialType.BROKEN_RING)
 				{
-					human.setSpouse(Either.<EntityVillagerMCA, EntityPlayer>withR(player));
-					human.getPlayerMemory(player).setHearts(100);
+					human.startMarriage(Either.<EntityVillagerMCA, EntityPlayer>withR(player));
+					human.attributes.getPlayerMemory(player).setHearts(100);
 				}
 
 				else
 				{
-					PlayerMemory memory = human.getPlayerMemory(player);
+					PlayerMemory memory = human.attributes.getPlayerMemory(player);
 					memory.setHearts(100);
 					memory.setDialogueType(EnumDialogueType.CHILDP);
-					memory.setRelation(human.getGender() == EnumGender.MALE ? EnumRelation.SON : EnumRelation.DAUGHTER);
+					memory.setRelation(human.attributes.getGender() == EnumGender.MALE ? EnumRelation.SON : EnumRelation.DAUGHTER);
 				}
 			}
 
@@ -109,7 +109,7 @@ public class TileMemorial extends TileEntity implements ITickable
 		super.writeToNBT(nbt);
 
 		nbt.setInteger("type", type.getId());
-		data.writeDataToNBT(nbt);
+		data.writeToNBT(nbt);
 		nbt.setString("ownerName", ownerName);
 		nbt.setInteger("relation", ownerRelation.getId());
 		
@@ -121,8 +121,8 @@ public class TileMemorial extends TileEntity implements ITickable
 	{
 		super.readFromNBT(nbt);
 
+		data = new VillagerAttributes(nbt);
 		type = EnumMemorialType.fromId(nbt.getInteger("type"));
-		data = VillagerSaveData.fromNBT(nbt);
 		ownerName = nbt.getString("ownerName");
 		ownerRelation = EnumRelation.getById(nbt.getInteger("relation"));
 	}
@@ -137,12 +137,12 @@ public class TileMemorial extends TileEntity implements ITickable
 		return type;
 	}
 
-	public VillagerSaveData getVillagerSaveData()
+	public VillagerAttributes getVillagerSaveData()
 	{
 		return data;
 	}
 
-	public void setVillagerSaveData(VillagerSaveData data)
+	public void setVillagerSaveData(VillagerAttributes data)
 	{
 		this.data = data;
 	}

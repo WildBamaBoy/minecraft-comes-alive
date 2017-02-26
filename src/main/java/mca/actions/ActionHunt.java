@@ -65,7 +65,7 @@ public class ActionHunt extends AbstractToggleAction
 
 		if (RadixMath.getDistanceToXYZ(actor, standPoint) >= 5.0F && actor.getNavigator().noPath())
 		{
-			boolean successful = actor.getNavigator().tryMoveToXYZ(standPoint.dX(), standPoint.dY(), standPoint.dZ(), actor.getSpeed());
+			boolean successful = actor.getNavigator().tryMoveToXYZ(standPoint.dX(), standPoint.dY(), standPoint.dZ(), actor.attributes.getSpeed());
 
 			if (!successful)
 			{
@@ -163,7 +163,7 @@ public class ActionHunt extends AbstractToggleAction
 		isTaming = true;
 
 		setIsActive(true);
-		actor.setMovementState(EnumMovementState.MOVE);
+		actor.attributes.setMovementState(EnumMovementState.MOVE);
 	}
 
 	public void startKilling(EntityPlayer player)
@@ -174,11 +174,11 @@ public class ActionHunt extends AbstractToggleAction
 		isTaming = false;
 
 		setIsActive(true);
-		actor.setMovementState(EnumMovementState.MOVE);
+		actor.attributes.setMovementState(EnumMovementState.MOVE);
 	}
 
 	@Override
-	protected String getName() 
+	public String getName() 
 	{
 		return "Hunting";
 	}

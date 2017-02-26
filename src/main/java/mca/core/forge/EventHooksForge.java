@@ -258,10 +258,10 @@ public class EventHooksForge
 			for (Entity entity : entityList)
 			{
 				EntityVillagerMCA human = (EntityVillagerMCA)entity;
-				ActionCombat combat = human.getAI(ActionCombat.class);
-				PlayerMemory memory = human.getPlayerMemory((EntityPlayer)event.getEntityLiving());
+				ActionCombat combat = human.getBehavior(ActionCombat.class);
+				PlayerMemory memory = human.attributes.getPlayerMemory((EntityPlayer)event.getEntityLiving());
 		
-				if (memory.getIsHiredBy() && human.getProfessionEnum() == EnumProfession.Warrior && 
+				if (memory.getIsHiredBy() && human.attributes.getProfessionEnum() == EnumProfession.Warrior && 
 						combat.getMethodBehavior() != EnumCombatBehaviors.METHOD_DO_NOT_FIGHT &&
 						combat.getTriggerBehavior() == EnumCombatBehaviors.TRIGGER_PLAYER_TAKE_DAMAGE)
 				{
@@ -278,10 +278,10 @@ public class EventHooksForge
 			for (Entity entity : entityList)
 			{
 				EntityVillagerMCA human = (EntityVillagerMCA)entity;
-				ActionCombat combat = human.getAI(ActionCombat.class);
-				PlayerMemory memory = human.getPlayerMemory((EntityPlayer)event.getSource().getEntity());
+				ActionCombat combat = human.getBehavior(ActionCombat.class);
+				PlayerMemory memory = human.attributes.getPlayerMemory((EntityPlayer)event.getSource().getEntity());
 
-				if (memory.getIsHiredBy() && human.getProfessionEnum() == EnumProfession.Warrior && 
+				if (memory.getIsHiredBy() && human.attributes.getProfessionEnum() == EnumProfession.Warrior && 
 						combat.getMethodBehavior() != EnumCombatBehaviors.METHOD_DO_NOT_FIGHT &&
 						combat.getTriggerBehavior() == EnumCombatBehaviors.TRIGGER_PLAYER_DEAL_DAMAGE)
 				{
@@ -319,7 +319,7 @@ public class EventHooksForge
 					EntityVillagerMCA human = (EntityVillagerMCA)event.getEntityLiving();
 
 					//Warriors are immune to infection.
-					if (human.getProfessionEnum() == EnumProfession.Warrior)
+					if (human.attributes.getProfessionEnum() == EnumProfession.Warrior)
 					{
 						return;
 					}
@@ -337,7 +337,7 @@ public class EventHooksForge
 						}
 					}
 
-					human.setIsInfected(true);
+					human.attributes.setIsInfected(true);
 					human.setHealth(human.getMaxHealth());
 					zombie.setAttackTarget(null);
 
@@ -345,7 +345,7 @@ public class EventHooksForge
 					Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.SPELL_WITCH, human, 32);
 				}
 
-				else if (event.getEntityLiving() instanceof EntityVillagerMCA && ((EntityVillagerMCA)event.getEntityLiving()).getIsInfected())
+				else if (event.getEntityLiving() instanceof EntityVillagerMCA && ((EntityVillagerMCA)event.getEntityLiving()).attributes.getIsInfected())
 				{
 					event.setCanceled(true);
 					zombie.setAttackTarget(null);
@@ -363,7 +363,7 @@ public class EventHooksForge
 			EntityMob mob = (EntityMob) event.getEntityLiving();
 			EntityVillagerMCA target = (EntityVillagerMCA) event.getTarget();
 
-			if (target.getIsInfected())
+			if (target.attributes.getIsInfected())
 			{
 				mob.setAttackTarget(null);
 			}

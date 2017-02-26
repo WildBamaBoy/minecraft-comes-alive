@@ -92,22 +92,29 @@ public enum EnumProfession
 
 	public static EnumProfession getAtRandom()
 	{
-		EnumProfession[] values = EnumProfession.values();
-		int returnIndex = RadixMath.getNumberInRange(0, EnumProfession.values().length - 1);
-		return values[returnIndex];
+		EnumProfession returnValue = Unassigned;
+		
+		while (returnValue == Unassigned)
+		{
+			EnumProfession[] values = values();
+			int returnIndex = RadixMath.getNumberInRange(0, values.length - 1);
+			returnValue = values[returnIndex];
+		}
+		
+		return returnValue;
 	}
 
 	public String getUserFriendlyForm(EntityVillagerMCA human) 
 	{
 		//Player children have the "child" profession. Change their display title to "Villager" if they're grown up.
-		if (this == Child && !human.getIsChild())
+		if (this == Child && !human.attributes.getIsChild())
 		{
 			return MCA.getLanguageManager().getString("profession.villager");
 		}
 		
 		//All children will show the "Child" title, regardless of underlying profession. 
 		//When grown, their actual profession title will be shown.
-		else if (human.getIsChild())
+		else if (human.attributes.getIsChild())
 		{
 			return MCA.getLanguageManager().getString("profession.child");			
 		}

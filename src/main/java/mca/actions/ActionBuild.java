@@ -63,7 +63,7 @@ public class ActionBuild extends AbstractToggleAction
 							RadixBlocks.setBlock(actor.world, origin.iX() + point.iX(), origin.iY() + point.iY(), origin.iZ() + point.iZ(), blockObj.getBlock());
 						}
 
-						actor.setMovementState(EnumMovementState.MOVE);
+						actor.attributes.setMovementState(EnumMovementState.MOVE);
 						reset();
 						break;
 					}
@@ -160,7 +160,7 @@ public class ActionBuild extends AbstractToggleAction
 		else
 		{
 			this.origin = new Point3D(actor.posX, actor.posY + 1, actor.posZ);
-			this.actor.setMovementState(EnumMovementState.STAY);
+			this.actor.attributes.setMovementState(EnumMovementState.STAY);
 
 			primeSchematic(schematicLocation);
 
@@ -269,7 +269,7 @@ public class ActionBuild extends AbstractToggleAction
 	}
 
 	@Override
-	protected String getName() 
+	public String getName() 
 	{
 		return "Building";
 	}

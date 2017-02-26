@@ -1,7 +1,5 @@
 package mca.actions;
 
-import java.util.Map;
-
 import mca.core.MCA;
 import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
@@ -24,25 +22,23 @@ public class ActionGreet extends AbstractAction
 	public static final int GREETING_INTERVAL = Time.SECOND * 120;
 	public static final int CHANCE_TO_GREET = 60;
 
-	private Map<String, PlayerMemory> playerMemories;
 	private int ticksUntilUpdate = 0;
 
-	public ActionGreet(EntityVillagerMCA actor, Map<String, PlayerMemory> playerMemories)
+	public ActionGreet(EntityVillagerMCA actor)
 	{
 		super(actor);
-		this.playerMemories = playerMemories;
 	}
 
 	@Override
 	public void onUpdateServer() 
 	{
-		if (!actor.getAI(ActionSleep.class).getIsSleeping())
+		if (!actor.getBehavior(ActionSleep.class).getIsSleeping())
 		{
 			//Update ticks until actual update. This AI runs once per second for performance.
 			ticksUntilUpdate = ticksUntilUpdate <= 0 ? Time.SECOND : ticksUntilUpdate - 1;
 
 			//Update greeting ticks if necessary. This part of the AI runs every tick.
-			for (PlayerMemory memory : playerMemories.values())
+			for (PlayerMemory memory : actor.attributes.getPlayerMemories().values())
 			{
 				int timeUntilGreeting = memory.getTimeUntilGreeting();
 
@@ -60,9 +56,9 @@ public class ActionGreet extends AbstractAction
 				{
 					EntityPlayer player = (EntityPlayer)obj;
 
-					if (actor.hasMemoryOfPlayer(player))
+					if (actor.attributes.hasMemoryOfPlayer(player))
 					{
-						PlayerMemory memory = actor.getPlayerMemory(player);
+						PlayerMemory memory = actor.attributes.getPlayerMemory(player);
 						float distanceToPlayer = actor.getDistanceToEntity(player);
 
 						if (distanceToPlayer > memory.getDistanceTraveledFrom())
@@ -77,12 +73,12 @@ public class ActionGreet extends AbstractAction
 
 				if (closestPlayer != null)
 				{
-					PlayerMemory memory = actor.getPlayerMemory(closestPlayer);
-					ActionSleep AISleep = actor.getAI(ActionSleep.class);
+					PlayerMemory memory = actor.attributes.getPlayerMemory(closestPlayer);
+					ActionSleep AISleep = actor.getBehavior(ActionSleep.class);
 					
 					if (memory.getTimeUntilGreeting() <= 0 && RadixLogic.getBooleanWithProbability(CHANCE_TO_GREET) && actor.canEntityBeSeen(closestPlayer) && !AISleep.getIsSleeping())
 					{
-						if (actor.getIsInfected() && !closestPlayer.capabilities.isCreativeMode)
+						if (actor.attributes.getIsInfected() && !closestPlayer.capabilities.isCreativeMode)
 						{
 							closestPlayer.sendMessage(new TextComponentString(Color.RED + actor.getName() + " bites you."));
 							closestPlayer.attackEntityFrom(DamageSource.GENERIC, 2.0F);
@@ -95,7 +91,7 @@ public class ActionGreet extends AbstractAction
 							if (memory.getDialogueType() == EnumDialogueType.SPOUSE && memory.getHearts() <= -25)
 							{
 								actor.say(memory.getDialogueType() + ".lowhearts.greeting", closestPlayer);
-								actor.incrementLowHeartWarnings();
+								actor.attributes.incrementLowHeartWarnings();
 							}
 							
 							else
@@ -111,7 +107,7 @@ public class ActionGreet extends AbstractAction
 								else
 								{
 									actor.say(memory.getDialogueType() + ".greeting", closestPlayer);
-									actor.resetLowHeartWarnings(); //Make sure we reset when hearts are back to normal.
+									actor.attributes.resetLowHeartWarnings(); //Make sure we reset when hearts are back to normal.
 								}
 							}
 						}

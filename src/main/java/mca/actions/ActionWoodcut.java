@@ -110,7 +110,7 @@ public class ActionWoodcut extends AbstractToggleAction
 					boolean addedToInventory = addItemStackToInventory(new ItemStack(block, 1, apiEntry.getLogMeta()));
 					boolean toolBroken = actor.damageHeldItem(2);
 
-					if (!addedToInventory && actor.getPersonality() == EnumPersonality.GREEDY)
+					if (!addedToInventory && actor.attributes.getPersonality() == EnumPersonality.GREEDY)
 					{
 						//pass on greedy
 					}
@@ -162,7 +162,7 @@ public class ActionWoodcut extends AbstractToggleAction
 
 				if (actor.getNavigator().noPath())
 				{
-					actor.getNavigator().tryMoveToXYZ(treeBasePoint.dX(), treeBasePoint.dY(), treeBasePoint.dZ(), actor.getSpeed());
+					actor.getNavigator().tryMoveToXYZ(treeBasePoint.dX(), treeBasePoint.dY(), treeBasePoint.dZ(), actor.attributes.getSpeed());
 				}
 			}
 		}
@@ -213,7 +213,7 @@ public class ActionWoodcut extends AbstractToggleAction
 
 	private int calculateCutInterval()
 	{
-		ItemStack bestAxe = actor.getVillagerInventory().getBestItemOfType(ItemAxe.class);
+		ItemStack bestAxe = actor.attributes.getInventory().getBestItemOfType(ItemAxe.class);
 		int returnAmount = -1;
 
 		if (bestAxe != null)
@@ -256,7 +256,7 @@ public class ActionWoodcut extends AbstractToggleAction
 	}
 
 	@Override
-	protected String getName() 
+	public String getName() 
 	{
 		return "Woodcutting";
 	}

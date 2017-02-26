@@ -6,7 +6,7 @@ import org.lwjgl.input.Keyboard;
 
 import mca.core.MCA;
 import mca.data.NBTPlayerData;
-import mca.entity.VillagerSaveData;
+import mca.entity.VillagerAttributes;
 import mca.enums.EnumMarriageState;
 import mca.enums.EnumMemorialType;
 import mca.tile.TileMemorial;
@@ -49,20 +49,20 @@ public class ItemStaffOfLife extends Item
 			if (tile instanceof TileMemorial)
 			{
 				TileMemorial memorial = (TileMemorial)tile;
-				VillagerSaveData data = memorial.getVillagerSaveData();
+				VillagerAttributes data = memorial.getVillagerSaveData();
 				NBTPlayerData playerData = MCA.getPlayerData(playerIn);
 
 				//Make sure the owner is the one reviving them.
-				if (!data.ownerUUID.equals(playerIn.getUniqueID()))
+				if (!data.allowsControllingInteractions(playerIn))
 				{
-					playerIn.sendMessage(new TextComponentString(Color.RED + "You cannot revive " + data.name + " because they are not related to you."));
+					playerIn.sendMessage(new TextComponentString(Color.RED + "You cannot revive " + data.getName() + " because they are not related to you."));
 					return EnumActionResult.FAIL;
 				}
 				
 				//For rings, they belonged to a spouse. Check for remarriage and forbid.
 				if (memorial.getType() == EnumMemorialType.BROKEN_RING && (playerData.getMarriageState() != EnumMarriageState.NOT_MARRIED))
 				{
-					playerIn.sendMessage(new TextComponentString(Color.RED + "You cannot revive " + data.name + " because you are already married."));
+					playerIn.sendMessage(new TextComponentString(Color.RED + "You cannot revive " + data.getName() + " because you are already married."));
 					return EnumActionResult.FAIL;
 				}
 				

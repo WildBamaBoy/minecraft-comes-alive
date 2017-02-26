@@ -80,11 +80,11 @@ public class ActionFarm extends AbstractToggleAction
 							groundBlock = Blocks.GRASS;
 						}
 
-						boolean canStart = actor.getAI(ActionBuild.class).startBuilding(schematic, true, groundBlock, entry);
+						boolean canStart = actor.getBehavior(ActionBuild.class).startBuilding(schematic, true, groundBlock, entry);
 
 						if (canStart)
 						{
-							actor.getVillagerInventory().removeCountOfItem(entry.getSeedItem(), seedsRequired);
+							actor.attributes.getInventory().removeCountOfItem(entry.getSeedItem(), seedsRequired);
 						}
 
 						else
@@ -105,7 +105,7 @@ public class ActionFarm extends AbstractToggleAction
 
 					else if (isBuildingFarm)
 					{
-						if (!actor.getAI(ActionBuild.class).getIsActive())
+						if (!actor.getBehavior(ActionBuild.class).getIsActive())
 						{
 							actor.damageHeldItem(30);
 							isBuildingFarm = false;
@@ -216,7 +216,7 @@ public class ActionFarm extends AbstractToggleAction
 
 					if (delta >= 2.0D && actor.getNavigator().noPath())
 					{
-						actor.getNavigator().tryMoveToXYZ(harvestTargetPoint.dX(), harvestTargetPoint.dY(), harvestTargetPoint.dZ(), actor.getSpeed());
+						actor.getNavigator().tryMoveToXYZ(harvestTargetPoint.dX(), harvestTargetPoint.dY(), harvestTargetPoint.dZ(), actor.attributes.getSpeed());
 					}
 
 					if (delta < 2.5D)
@@ -311,13 +311,13 @@ public class ActionFarm extends AbstractToggleAction
 			Map<Point3D, BlockObj> schematicData = RadixSchematics.readSchematic(schematic);
 			seedsRequired = RadixSchematics.countOccurencesOfBlockObj(schematicData, new BlockObj(Blocks.WOOL, entry.getCategory().getReferenceMeta()));
 
-			if (doCreate1 && !actor.getVillagerInventory().containsCountOf(entry.getSeedItem(), seedsRequired))
+			if (doCreate1 && !actor.attributes.getInventory().containsCountOf(entry.getSeedItem(), seedsRequired))
 			{
 				actor.say("farming.noseeds", player, entry.getCropName().toLowerCase(), seedsRequired);
 				return;
 			}
 
-			else if (player != null && !actor.getVillagerInventory().contains(ItemHoe.class))
+			else if (player != null && !actor.attributes.getInventory().contains(ItemHoe.class))
 			{
 				actor.say("farming.nohoe", player);
 				return;
@@ -335,7 +335,7 @@ public class ActionFarm extends AbstractToggleAction
 			this.isBuildingFarm = false;
 			this.setIsActive(true);
 			
-			actor.setHeldItem(actor.getVillagerInventory().getBestItemOfType(ItemHoe.class).getItem());
+			actor.setHeldItem(actor.attributes.getInventory().getBestItemOfType(ItemHoe.class).getItem());
 		}
 
 		catch (MappingNotFoundException e)
@@ -345,7 +345,7 @@ public class ActionFarm extends AbstractToggleAction
 	}
 	
 	@Override
-	protected String getName() 
+	public String getName() 
 	{
 		return "Farming";
 	}

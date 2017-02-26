@@ -47,11 +47,11 @@ public class PlayerMemory implements Serializable
 		this.owner = owner;
 		this.playerName = player.getName();
 		this.uuid = player.getUniqueID();
-		this.dialogueType = owner.getIsChild() ? EnumDialogueType.CHILD : EnumDialogueType.ADULT;
+		this.dialogueType = owner.attributes.getIsChild() ? EnumDialogueType.CHILD : EnumDialogueType.ADULT;
 
 		//If both parents are players, player memory will not properly be set up for the player who
 		//did not place the baby down. Account for this here when the memory is created for the first time.
-		if (owner.getMotherName().equals(playerName) || owner.getFatherName().equals(playerName))
+		if (owner.attributes.getMotherName().equals(playerName) || owner.attributes.getFatherName().equals(playerName))
 		{
 			dialogueType = EnumDialogueType.CHILDP;
 			hearts = 100;
@@ -126,7 +126,7 @@ public class PlayerMemory implements Serializable
 				if (hireTimeLeft <= 0)
 				{
 					setIsHiredBy(false, 0);
-					owner.getAIManager().disableAllToggleActions();
+					owner.getBehaviors().disableAllToggleActions();
 				}
 			}
 

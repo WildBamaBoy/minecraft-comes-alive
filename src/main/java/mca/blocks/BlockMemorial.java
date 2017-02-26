@@ -94,7 +94,7 @@ public class BlockMemorial extends BlockContainer
 				memorialStack.setTagCompound(new NBTTagCompound());
 				memorialStack.getTagCompound().setInteger("relation", memorial.getRelation().getId());
 				memorialStack.getTagCompound().setString("ownerName", memorial.getOwnerName());
-				memorial.getVillagerSaveData().writeDataToNBT(memorialStack.getTagCompound());
+				memorial.getVillagerSaveData().writeToNBT(memorialStack.getTagCompound());
 				
 				EntityItem drop = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), memorialStack);
 				world.spawnEntity(drop);

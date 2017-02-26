@@ -25,7 +25,7 @@ public class ActionStoryProgression extends AbstractAction
 	private EnumProgressionStep progressionStep;
 
 	private boolean forceNextProgress;
-	
+
 	public ActionStoryProgression(EntityVillagerMCA entityHuman) 
 	{
 		super(entityHuman);
@@ -39,7 +39,7 @@ public class ActionStoryProgression extends AbstractAction
 	public void onUpdateServer() 
 	{
 		//This AI starts working once the story progression threshold defined in the configuration file has been met.
-		if (MCA.getConfig().storyProgression && actor.getTicksAlive() >= MCA.getConfig().storyProgressionThreshold * Time.MINUTE && isDominant && !actor.getIsChild() && !actor.getIsEngaged())
+		if (MCA.getConfig().storyProgression && actor.attributes.getTicksAlive() >= MCA.getConfig().storyProgressionThreshold * Time.MINUTE && isDominant && !actor.attributes.getIsChild() && !actor.attributes.getIsEngaged())
 		{
 			if (ticksUntilNextProgress <= 0 || forceNextProgress)
 			{
@@ -78,10 +78,16 @@ public class ActionStoryProgression extends AbstractAction
 	@Override
 	public void reset() 
 	{
-		actor.setTicksAlive(0);
-		ticksUntilNextProgress = MCA.getConfig().storyProgressionRate;
-		setProgressionStep(EnumProgressionStep.SEARCH_FOR_PARTNER);
-		isDominant = true;
+		//If we have a baby and are told to reset (as in our spouse died), 
+		//do not change anything. Resetting will take place properly once
+		//the baby grows.
+		if (actor.attributes.getBabyState() == EnumBabyState.NONE)
+		{
+			actor.attributes.setTicksAlive(0);
+			ticksUntilNextProgress = MCA.getConfig().storyProgressionRate;
+			setProgressionStep(EnumProgressionStep.SEARCH_FOR_PARTNER);
+			isDominant = true;
+		}
 	}
 
 	@Override
@@ -109,50 +115,32 @@ public class ActionStoryProgression extends AbstractAction
 		EntityVillagerMCA partner = (EntityVillagerMCA) RadixLogic.getClosestEntityExclusive(actor, 15, EntityVillagerMCA.class);
 
 		boolean partnerIsValid = partner != null 
-				&& partner.getGender() != actor.getGender() 
-				&& partner.getMarriageState() == EnumMarriageState.NOT_MARRIED 
-				&& !partner.getIsChild() 
-				&& (partner.getFatherUUID() != actor.getFatherUUID()) 
-				&& (partner.getMotherUUID() != actor.getMotherUUID());
-		
+				&& partner.attributes.getGender() != actor.attributes.getGender() 
+				&& partner.attributes.getMarriageState() == EnumMarriageState.NOT_MARRIED 
+				&& !partner.attributes.getIsChild() 
+				&& (partner.attributes.getFatherUUID() != actor.attributes.getFatherUUID()) 
+				&& (partner.attributes.getMotherUUID() != actor.attributes.getMotherUUID());
+
 		if (partnerIsValid)
 		{
-			//Set the other human's story progression appropriately.
-			ActionStoryProgression mateAI = getMateAI(partner);
-			setProgressionStep(EnumProgressionStep.TRY_FOR_BABY);
-			mateAI.setProgressionStep(EnumProgressionStep.TRY_FOR_BABY);
-
-			//Set the dominant story progressor.
-			if (actor.getGender() == EnumGender.MALE)
-			{
-				this.isDominant = true;
-				mateAI.isDominant = false;
-			}
-
-			else
-			{
-				this.isDominant = false;
-				mateAI.isDominant = true;
-			}
-
 			//Mark as married.
-			actor.setSpouse(Either.<EntityVillagerMCA, EntityPlayer>withL(partner));
+			actor.startMarriage(Either.<EntityVillagerMCA, EntityPlayer>withL(partner));
 		}
 	}
 
 	private void doTryForBaby()
 	{
-		final EntityVillagerMCA mate = actor.getVillagerSpouseInstance();
+		final EntityVillagerMCA mate = actor.attributes.getVillagerSpouseInstance();
 		final int villagersInArea = RadixLogic.getEntitiesWithinDistance(EntityVillagerMCA.class, actor, 32).size();
-		
+
 		if (villagersInArea >= MCA.getConfig().storyProgressionCap && MCA.getConfig().storyProgressionCap != -1 && !forceNextProgress)
 		{
 			return;
 		}
-		
+
 		if (RadixLogic.getBooleanWithProbability(50) && mate != null && RadixMath.getDistanceToEntity(actor, mate) <= 8.5D)
 		{
-			ActionStoryProgression mateAI = getMateAI(actor.getVillagerSpouseInstance());
+			ActionStoryProgression mateAI = getMateAI(actor.attributes.getVillagerSpouseInstance());
 			setProgressionStep(EnumProgressionStep.HAD_BABY);
 			mateAI.setProgressionStep(EnumProgressionStep.HAD_BABY);
 
@@ -164,18 +152,18 @@ public class ActionStoryProgression extends AbstractAction
 			mateAI.isDominant = true;
 
 			//Set baby state for the mother.
-			mate.setBabyState(EnumBabyState.getRandomGender());
-			
+			mate.attributes.setBabyState(EnumBabyState.getRandomGender());
+
 			//Increase number of children.
 			numChildren++;
 			mateAI.numChildren++;
-			
+
 			//Notify parent players of achievement.
 			for (Object obj : actor.world.playerEntities)
 			{
 				EntityPlayer onlinePlayer = (EntityPlayer)obj;
-				
-				if (actor.isPlayerAParent(onlinePlayer) || mate.isPlayerAParent(onlinePlayer))
+
+				if (actor.attributes.isPlayerAParent(onlinePlayer) || mate.attributes.isPlayerAParent(onlinePlayer))
 				{
 					onlinePlayer.addStat(AchievementsMCA.childHasChildren);	
 				}
@@ -185,32 +173,45 @@ public class ActionStoryProgression extends AbstractAction
 
 	private void doAgeBaby()
 	{
-		final EntityVillagerMCA mate = actor.getVillagerSpouseInstance();
-
-		if (mate == null) //Not loaded on the server
-		{
-			return;
-		}
-		
+		final EntityVillagerMCA mate = actor.attributes.getVillagerSpouseInstance();		
 		babyAge++;
 
 		if (babyAge <= MCA.getConfig().babyGrowUpTime)
 		{
 			//Spawn the child.
-			EntityVillagerMCA child;
+			EntityVillagerMCA child = new EntityVillagerMCA(actor.world);
+			child.attributes.setGender(actor.attributes.getBabyState().isMale() ? EnumGender.MALE : EnumGender.FEMALE);
+			child.attributes.setIsChild(true);
+			child.attributes.assignRandomPersonality();
+			child.attributes.assignRandomProfession();
+			child.attributes.assignRandomScale();
+			child.attributes.assignRandomName();
+			child.attributes.assignRandomSkin();
 
-			/*
-			child = new EntityVillagerMCA(owner.world);
-			child.setGender(owner.getBabyState().isMale() ? EnumGender.MALE : EnumGender.FEMALE);
-			child.setIsChild(true);
-			chlld.setMother();  owner.getName(), owner.getSpouseName(), owner.getUniqueID(), owner.getSpouseUUID(), false); TODO
-			child.setPosition(owner.posX, owner.posY, owner.posZ);
-			owner.world.spawnEntity(child);*/
+			boolean actorIsMother = actor.attributes.getGender() == EnumGender.FEMALE;
 
-			//Reset self and mate status
-			actor.setBabyState(EnumBabyState.NONE);
-			mate.setBabyState(EnumBabyState.NONE);
-			
+			if (actorIsMother)
+			{
+				child.attributes.setMother(Either.<EntityVillagerMCA,EntityPlayer>withL(actor));
+				child.attributes.setFatherGender(actor.attributes.getSpouseGender());
+				child.attributes.setFatherName(actor.attributes.getSpouseName());
+				child.attributes.setFatherUUID(actor.attributes.getSpouseUUID());
+			}
+
+			else //The actor is the father
+			{
+				child.attributes.setFather(Either.<EntityVillagerMCA,EntityPlayer>withL(actor));
+				child.attributes.setMotherGender(actor.attributes.getSpouseGender());
+				child.attributes.setMotherName(actor.attributes.getSpouseName());
+				child.attributes.setMotherUUID(actor.attributes.getSpouseUUID());				
+			}
+
+			child.setPosition(actor.posX, actor.posY, actor.posZ);
+			child.world.spawnEntity(child);
+
+			//Reset self and mate status, if mate is found
+			actor.attributes.setBabyState(EnumBabyState.NONE);
+
 			babyAge = 0;
 			setProgressionStep(EnumProgressionStep.FINISHED);
 
@@ -218,49 +219,60 @@ public class ActionStoryProgression extends AbstractAction
 			{
 				ActionStoryProgression mateAI = getMateAI(mate);
 				mateAI.setProgressionStep(EnumProgressionStep.FINISHED);
+				mate.attributes.setBabyState(EnumBabyState.NONE);
+				
+				//Generate chance of trying for another baby, if mate is found.
+				if (numChildren < 4 && RadixLogic.getBooleanWithProbability(50))
+				{
+					mateAI.setProgressionStep(EnumProgressionStep.TRY_FOR_BABY);
+					mateAI.isDominant = true;
+
+					isDominant = false;
+					setProgressionStep(EnumProgressionStep.TRY_FOR_BABY);
+				}
 			}
-
-			//Generate chance of trying for another baby, if mate is found.
-			if (numChildren < 4 && RadixLogic.getBooleanWithProbability(50) && mate != null)
+			
+			//Resetting if we're no longer married (mate died?)
+			else if (actor.attributes.getMarriageState() == EnumMarriageState.NOT_MARRIED)
 			{
-				ActionStoryProgression mateAI = getMateAI(mate);
-				mateAI.setProgressionStep(EnumProgressionStep.TRY_FOR_BABY);
-				mateAI.isDominant = true;
-
-				isDominant = false;
-				setProgressionStep(EnumProgressionStep.TRY_FOR_BABY);
+				reset();
 			}
 		}
 	}
 
 	private ActionStoryProgression getMateAI(EntityVillagerMCA human)
 	{
-		return human.getAI(ActionStoryProgression.class);
+		return human.getBehavior(ActionStoryProgression.class);
 	}
-	
+
 	public void setTicksUntilNextProgress(int value)
 	{
 		this.ticksUntilNextProgress = value;
 	}
-	
+
 	public void setProgressionStep(EnumProgressionStep step)
 	{
 		this.progressionStep = step;
 		this.forceNextProgress = false;
 	}
-	
+
 	public EnumProgressionStep getProgressionStep()
 	{
 		return this.progressionStep;
 	}
-	
+
 	public void setDominant(boolean value)
 	{
 		this.isDominant = value;
 	}
-	
+
 	public void setForceNextProgress(boolean value)
 	{
 		this.forceNextProgress = value;
+	}
+
+	public boolean getIsDominant() 
+	{
+		return this.isDominant;
 	}
 }

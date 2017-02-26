@@ -18,7 +18,6 @@ import org.lwjgl.opengl.GL11;
 import mca.actions.ActionCombat;
 import mca.actions.ActionFollow;
 import mca.actions.ActionIdle;
-import mca.actions.ActionSleep;
 import mca.actions.ActionUpdateMood;
 import mca.api.CropEntry;
 import mca.api.RegistryMCA;
@@ -35,7 +34,6 @@ import mca.enums.EnumInteraction;
 import mca.enums.EnumMarriageState;
 import mca.enums.EnumMovementState;
 import mca.enums.EnumProfessionSkinGroup;
-import mca.enums.EnumSleepingState;
 import mca.packets.PacketGift;
 import mca.packets.PacketInteract;
 import mca.packets.PacketToggleAI;
@@ -98,7 +96,7 @@ public class GuiInteraction extends GuiScreen
 		this.villager = villager;
 		this.player = player;
 		this.playerData = MCA.getPlayerData(player);
-		this.memory = villager.getPlayerMemory(player);
+		this.memory = villager.attributes.getPlayerMemory(player);
 		this.radiusMappings = CircularIntList.fromIntegers(5, 10, 15, 20, 25);
 		this.farmingMappings = CircularIntList.fromList(RegistryMCA.getCropEntryIDs());
 		this.woodcuttingMappings = CircularIntList.fromList(RegistryMCA.getWoodcuttingBlockIDs());
@@ -146,7 +144,7 @@ public class GuiInteraction extends GuiScreen
 			villager.isInteractionGuiOpen = false;
 			
 			//Show tutorial message for infected villagers after closing, to avoid cluttering the GUI.
-			if (villager.getIsInfected())
+			if (villager.attributes.getIsInfected())
 			{
 				TutorialManager.setTutorialMessage(new TutorialMessage("Infected villagers cannot do chores, have an inventory,", "and they may bite. Surely there's a cure?"));
 			}
@@ -176,7 +174,7 @@ public class GuiInteraction extends GuiScreen
 	@Override
 	public void drawScreen(int i, int j, float f)
 	{		
-		int marriageIconU = (villager.getMarriageState() == EnumMarriageState.MARRIED_TO_PLAYER || villager.getMarriageState() == EnumMarriageState.MARRIED_TO_VILLAGER) ? 0 : villager.getMarriageState() == EnumMarriageState.ENGAGED ? 64 : 16;
+		int marriageIconU = (villager.attributes.getMarriageState() == EnumMarriageState.MARRIED_TO_PLAYER || villager.attributes.getMarriageState() == EnumMarriageState.MARRIED_TO_VILLAGER) ? 0 : villager.attributes.getMarriageState() == EnumMarriageState.ENGAGED ? 64 : 16;
 		int parentsIconU = 32;
 		int giftIconU = 48;
 
@@ -204,11 +202,11 @@ public class GuiInteraction extends GuiScreen
 			RadixRender.drawTextPopup(Color.WHITE + "You are a superuser.", 10, height - 16);
 		}
 
-		if (villager.getIsInfected())
+		if (villager.attributes.getIsInfected())
 		{
 			//Compensate for "Age: Adult" by moving over 80 instead of 62. 18 for all others.
-			int xLoc = villager.getProfessionSkinGroup() == EnumProfessionSkinGroup.Child ? 
-					villager.getIsChild() ? 62 : 80 : 18;
+			int xLoc = villager.attributes.getProfessionSkinGroup() == EnumProfessionSkinGroup.Child ? 
+					villager.attributes.getIsChild() ? 62 : 80 : 18;
 			
 			RadixRender.drawTextPopup(Color.GREEN + Format.BOLD + "INFECTED!", xLoc, 11);			
 		}
@@ -216,35 +214,42 @@ public class GuiInteraction extends GuiScreen
 		if (displayMarriageInfo)
 		{
 			String phraseId = 
-					villager.getSpouseName().equals(player.getName()) && villager.getMarriageState() == EnumMarriageState.ENGAGED ? "gui.info.family.engagedtoplayer" :
-						villager.getSpouseName().equals(player.getName()) ? "gui.info.family.marriedtoplayer" :
-							((villager.getMarriageState() == EnumMarriageState.MARRIED_TO_PLAYER || villager.getMarriageState() == EnumMarriageState.MARRIED_TO_VILLAGER)) ? "gui.info.family.married" : 
-								villager.getMarriageState() == EnumMarriageState.ENGAGED ? "gui.info.family.engaged" : 
+					villager.attributes.getSpouseName().equals(player.getName()) && villager.attributes.getMarriageState() == EnumMarriageState.ENGAGED ? "gui.info.family.engagedtoplayer" :
+						villager.attributes.getSpouseName().equals(player.getName()) ? "gui.info.family.marriedtoplayer" :
+							((villager.attributes.getMarriageState() == EnumMarriageState.MARRIED_TO_PLAYER || villager.attributes.getMarriageState() == EnumMarriageState.MARRIED_TO_VILLAGER)) ? "gui.info.family.married" : 
+								villager.attributes.getMarriageState() == EnumMarriageState.ENGAGED ? "gui.info.family.engaged" : 
 									"gui.info.family.notmarried";
 
 			//Always include the villager's spouse name in case %a1% will be provided.
-			RadixRender.drawTextPopup(MCA.getLanguageManager().getString(phraseId, villager.getSpouseName()), 49, 73);
+			RadixRender.drawTextPopup(MCA.getLanguageManager().getString(phraseId, villager.attributes.getSpouseName()), 49, 73);
 		}
 
 		if (displayParentsInfo)
 		{
 			List<String> displayList = new ArrayList<String>();
 
-			String fatherString = villager.getFatherGender() == EnumGender.MALE ? "gui.info.family.father" : "gui.info.family.mother";
-			String motherString = villager.getMotherGender() == EnumGender.MALE ? "gui.info.family.father" : "gui.info.family.mother";
+			EnumGender fatherGender = villager.attributes.getFatherGender();
+			String fatherString = fatherGender == EnumGender.MALE || fatherGender == EnumGender.UNASSIGNED ? "gui.info.family.father" : "gui.info.family.mother";
+			String motherString = villager.attributes.getMotherGender() == EnumGender.MALE ? "gui.info.family.father" : "gui.info.family.mother";
 
-			if (villager.getFatherName().equals(player.getName()))
+			if (villager.attributes.getFatherName().equals(player.getName()))
 			{
 				fatherString += ".you";
 			}
 
-			else if (villager.getMotherName().equals(player.getName()))
+			else if (villager.attributes.getMotherName().equals(player.getName()))
 			{
 				motherString += ".you";
 			}
 
-			displayList.add(MCA.getLanguageManager().getString(fatherString, villager.getFatherName()));
-			displayList.add(MCA.getLanguageManager().getString(motherString, villager.getMotherName()));
+			String fatherName = villager.attributes.getFatherName();
+			String motherName = villager.attributes.getMotherName();
+			
+			if (fatherName.isEmpty()) fatherName = "?";
+			if (motherName.isEmpty()) motherName = "?";
+			
+			displayList.add(MCA.getLanguageManager().getString(fatherString, fatherName));
+			displayList.add(MCA.getLanguageManager().getString(motherString, motherName));
 
 			RadixRender.drawTextPopup(displayList, 49, 97);
 		}
@@ -258,17 +263,17 @@ public class GuiInteraction extends GuiScreen
 			RadixRender.drawTextPopup(displayList, 49, 129);
 		}
 
-		String moodString = MCA.getLanguageManager().getString("gui.info.mood", villager.getAI(ActionUpdateMood.class).getMood(villager.getPersonality()).getFriendlyName());
-		String personalityString = MCA.getLanguageManager().getString("gui.info.personality", villager.getPersonality().getFriendlyName());
+		String moodString = MCA.getLanguageManager().getString("gui.info.mood", villager.getBehavior(ActionUpdateMood.class).getMood(villager.attributes.getPersonality()).getFriendlyName());
+		String personalityString = MCA.getLanguageManager().getString("gui.info.personality", villager.attributes.getPersonality().getFriendlyName());
 
 		RadixRender.drawTextPopup(moodString, 18, 29);
 		RadixRender.drawTextPopup(personalityString, 18, 46);
 
-		if (villager.getProfessionSkinGroup() == EnumProfessionSkinGroup.Child)
+		if (villager.attributes.getProfessionSkinGroup() == EnumProfessionSkinGroup.Child)
 		{
-			if (villager.getIsChild())
+			if (villager.attributes.getIsChild())
 			{
-				int age = (int) (0.37F / MCA.getConfig().childGrowUpTime * villager.getAge() / 0.02F);
+				int age = (int) (0.37F / MCA.getConfig().childGrowUpTime * villager.attributes.getAge() / 0.02F);
 				
 				if (age < 4)
 				{
@@ -331,12 +336,12 @@ public class GuiInteraction extends GuiScreen
 
 	private boolean doDrawParentsIcon() 
 	{
-		return villager.getFatherUUID() != Constants.EMPTY_UUID || villager.getMotherUUID() != Constants.EMPTY_UUID;
+		return villager.attributes.getFatherUUID() != Constants.EMPTY_UUID || villager.attributes.getMotherUUID() != Constants.EMPTY_UUID;
 	}
 
 	private boolean doDrawGiftIcon() 
 	{
-		return villager.getPlayerMemory(player).getHasGift();
+		return villager.attributes.getPlayerMemory(player).getHasGift();
 	}
 
 	@Override
@@ -475,8 +480,8 @@ public class GuiInteraction extends GuiScreen
 		
 		timeSinceLastClick = 0;
 		EnumInteraction interaction = EnumInteraction.fromId(button.id);
-		ActionCombat combatAI = villager.getAI(ActionCombat.class);
-		villager.getAI(ActionIdle.class).reset();
+		ActionCombat combatAI = villager.getBehavior(ActionCombat.class);
+		villager.getBehavior(ActionIdle.class).reset();
 
 		if (interaction != null)
 		{
@@ -679,7 +684,7 @@ public class GuiInteraction extends GuiScreen
 				case FISHING: drawWorkButtonMenu(); break;
 				
 				case COOKING:
-					if (villager.getPlayerSpouseInstance() == player)
+					if (villager.attributes.getPlayerSpouseInstance() == player)
 					{
 						drawSpecialButtonMenu();
 					}
@@ -715,59 +720,59 @@ public class GuiInteraction extends GuiScreen
 
 		buttonList.add(new GuiButton(EnumInteraction.INTERACT.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.interact"))); yLoc -= yInt;
 
-		if (villager.allowsControllingInteractions(player))
+		if (villager.attributes.allowsControllingInteractions(player))
 		{
 			buttonList.add(new GuiButton(EnumInteraction.FOLLOW.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.follow"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.STAY.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.stay"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.MOVE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.move"))); yLoc -= yInt;
 
-			boolean followButtonEnabled = villager.getMovementState() != EnumMovementState.FOLLOW || !(villager.getAI(ActionFollow.class)).getFollowingUUID().equals(player.getUniqueID());
+			boolean followButtonEnabled = villager.attributes.getMovementState() != EnumMovementState.FOLLOW || !(villager.getBehavior(ActionFollow.class)).getFollowingUUID().equals(player.getUniqueID());
 			((GuiButton)buttonList.get(1)).enabled = followButtonEnabled;
 
-			boolean stayButtonEnabled = villager.getMovementState() != EnumMovementState.STAY;
+			boolean stayButtonEnabled = villager.attributes.getMovementState() != EnumMovementState.STAY;
 			((GuiButton)buttonList.get(2)).enabled = stayButtonEnabled;
-			((GuiButton)buttonList.get(3)).enabled = !stayButtonEnabled || villager.getMovementState() == EnumMovementState.FOLLOW;
+			((GuiButton)buttonList.get(3)).enabled = !stayButtonEnabled || villager.attributes.getMovementState() == EnumMovementState.FOLLOW;
 		}
 
-		if (!villager.getIsChild() && MCA.getConfig().allowTrading)
+		if (!villager.attributes.getIsChild() && MCA.getConfig().allowTrading)
 		{
 			buttonList.add(new GuiButton(EnumInteraction.TRADE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.trade"))); yLoc -= yInt;
 		}
 
-		if (villager.allowsControllingInteractions(player))
+		if (villager.attributes.allowsControllingInteractions(player))
 		{
 			buttonList.add(new GuiButton(EnumInteraction.SET_HOME.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.sethome"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.RIDE_HORSE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.ridehorse"))); yLoc -= yInt;
 		}
 
-		if (villager.getPlayerSpouseInstance() == player)
+		if (villager.attributes.getPlayerSpouseInstance() == player)
 		{
 			buttonList.add(new GuiButton(EnumInteraction.WORK.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.work"))); yLoc -= yInt;
 		}
 		
-		else if (!villager.getIsChild())
+		else if (!villager.attributes.getIsChild())
 		{
 			buttonList.add(new GuiButton(EnumInteraction.SPECIAL.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.special"))); yLoc -= yInt;
 		}
 
-		if (villager.getSpouseName().equals(player.getName()) || villager.getPlayerSpouseInstance() == player)
+		if (villager.attributes.getSpouseName().equals(player.getName()) || villager.attributes.getPlayerSpouseInstance() == player)
 		{
 			buttonList.add(new GuiButton(EnumInteraction.PROCREATE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.procreate"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.INVENTORY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.inventory"))); yLoc -= yInt;
 		}
 
-		if (villager.isPlayerAParent(player) && villager.getIsChild())
+		if (villager.attributes.isPlayerAParent(player) && villager.attributes.getIsChild())
 		{
 			buttonList.add(new GuiButton(EnumInteraction.PICK_UP.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.pickup"))); yLoc -= yInt;
 		}
 
-		if (villager.allowsWorkInteractions(player))
+		if (villager.attributes.allowsWorkInteractions(player))
 		{
 			buttonList.add(new GuiButton(EnumInteraction.INVENTORY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.inventory"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.WORK.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.work"))); yLoc -= yInt;
 
 			//Disable work button for adult children.
-			if (villager.isPlayerAParent(player) && !villager.getIsChild())
+			if (villager.attributes.isPlayerAParent(player) && !villager.attributes.getIsChild())
 			{
 				for (Object obj : this.buttonList)
 				{
@@ -782,7 +787,7 @@ public class GuiInteraction extends GuiScreen
 			}
 		}
 		
-		if (playerData.getIsNobility() && !villager.isPlayerAParent(player) && villager.getPlayerSpouseInstance() != player)
+		if (playerData.getIsNobility() && !villager.attributes.isPlayerAParent(player) && villager.attributes.getPlayerSpouseInstance() != player)
 		{
 			String nobilityString = playerData.getGender() == EnumGender.MALE ? "gui.button.baron" : "gui.button.baroness";
 			buttonList.add(new GuiButton(EnumInteraction.NOBILITY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString(nobilityString))); yLoc -= yInt;
@@ -806,7 +811,7 @@ public class GuiInteraction extends GuiScreen
 		buttonList.add(new GuiButton(EnumInteraction.SHAKE_HAND.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.shakehand"))); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.TELL_STORY.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.tellstory"))); yLoc -= yInt;
 
-		if (villager.allowsIntimateInteractions(player))
+		if (villager.attributes.allowsIntimateInteractions(player))
 		{
 			buttonList.add(new GuiButton(EnumInteraction.FLIRT.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.flirt"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.HUG.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.hug"))); yLoc -= yInt;
@@ -834,7 +839,7 @@ public class GuiInteraction extends GuiScreen
 		buttonList.add(new GuiButton(EnumInteraction.COMBAT.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.combat"))); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.STOP.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.DARKRED + MCA.getLanguageManager().getString("gui.button.stop"))); yLoc -= yInt;
 
-		if (villager.getAIManager().isToggleActionActive())
+		if (villager.getBehaviors().isToggleActionActive())
 		{
 			for (Object obj : buttonList)
 			{
@@ -861,7 +866,7 @@ public class GuiInteraction extends GuiScreen
 
 		if (memory.getIsHiredBy())
 		{
-			EnumProfessionSkinGroup profession = villager.getProfessionSkinGroup();
+			EnumProfessionSkinGroup profession = villager.attributes.getProfessionSkinGroup();
 			EnumInteraction validChore = null;
 
 			switch (profession)
@@ -890,13 +895,13 @@ public class GuiInteraction extends GuiScreen
 			}
 		}
 
-		if (villager.getIsChild())
+		if (villager.attributes.getIsChild())
 		{
 			((GuiButton)buttonList.get(7)).enabled = false; //Cooking
 		}
 		
 		//Disable work for spouses
-		if (villager.getPlayerSpouseInstance() == player)
+		if (villager.attributes.getPlayerSpouseInstance() == player)
 		{
 			for (int i = 2; i < 7; i++)
 			{
@@ -917,16 +922,18 @@ public class GuiInteraction extends GuiScreen
 		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
 		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString("gui.button.special"))); yLoc -= yInt;
 
-		if (villager.getCanBeHired(player))
+		if (villager.attributes.getCanBeHired(player))
 		{
-			boolean isHired = villager.getPlayerMemory(player).getIsHiredBy();
+			boolean isHired = memory.getIsHiredBy();
+			boolean reachedHeartLevel = MCA.getConfig().hiringHeartsRequirement == -1 ? true : memory.getHearts() >= MCA.getConfig().hiringHeartsRequirement;
+			
 			String hireButtonText = isHired ? "gui.button.hired" : "gui.button.hire";
 
 			buttonList.add(new GuiButton(EnumInteraction.HIRE.getId(), width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString(hireButtonText))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.EXTEND.getId(), width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.extend"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.DISMISS.getId(), width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.dismiss"))); yLoc -= yInt;
 			
-			if (isHired)
+			if (isHired || !reachedHeartLevel)
 			{
 				((GuiButton)buttonList.get(2)).enabled = false;
 			}
@@ -938,21 +945,21 @@ public class GuiInteraction extends GuiScreen
 			}
 		}
 
-		else if (villager.getProfessionSkinGroup() == EnumProfessionSkinGroup.Priest && villager.getPlayerSpouseInstance() != player)
+		else if (villager.attributes.getProfessionSkinGroup() == EnumProfessionSkinGroup.Priest && villager.attributes.getPlayerSpouseInstance() != player)
 		{
 			buttonList.add(new GuiButton(EnumInteraction.DIVORCE.getId(),  width / 2 + xLoc - 20, height / 2 - yLoc,  85, 20, MCA.getLanguageManager().getString("gui.button.divorcespouse"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.ADOPTBABY.getId(),  width / 2 + xLoc - 20, height / 2 - yLoc,  85, 20, MCA.getLanguageManager().getString("gui.button.adoptbaby"))); yLoc -= yInt;
 			buttonList.add(new GuiButton(EnumInteraction.RESETBABY.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.resetbaby"))); yLoc -= yInt;
 		}
 		
-		else if (villager.getProfessionSkinGroup() == EnumProfessionSkinGroup.Librarian && villager.getPlayerSpouseInstance() != player)
+		else if (villager.attributes.getProfessionSkinGroup() == EnumProfessionSkinGroup.Librarian && villager.attributes.getPlayerSpouseInstance() != player)
 		{
 			buttonList.add(new GuiButton(EnumInteraction.CHECKHAPPINESS.getId(),  width / 2 + xLoc - 20, height / 2 - yLoc,  85, 20, MCA.getLanguageManager().getString("gui.button.checkhappiness"))); yLoc -= yInt;
 		}
 		
-		if (villager.getPlayerSpouseInstance() == player)
+		if (villager.attributes.getPlayerSpouseInstance() == player)
 		{
-			if (!villager.getAIManager().isToggleActionActive())
+			if (!villager.getBehaviors().isToggleActionActive())
 			{
 				buttonList.add(new GuiButton(EnumInteraction.COOKING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.cooking"))); yLoc -= yInt;
 			}
@@ -1147,7 +1154,7 @@ public class GuiInteraction extends GuiScreen
 
 	private void drawCombatControlMenu() 
 	{
-		ActionCombat combatAI = villager.getAIManager().getAction(ActionCombat.class);
+		ActionCombat combatAI = villager.getBehaviors().getAction(ActionCombat.class);
 		
 		buttonList.clear();
 		currentPage = EnumInteraction.COMBAT.getId();

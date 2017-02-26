@@ -46,9 +46,9 @@ public class PacketInteractWithPlayerC extends AbstractPacket<PacketInteractWith
 			{
 				EntityVillagerMCA human = (EntityVillagerMCA)obj;
 				
-				if (human.getSpouseUUID() == targetData.getUUID())
+				if (human.attributes.getSpouseUUID() == targetData.getUUID())
 				{
-					targetSpouseName = human.getName();
+					targetSpouseName = human.attributes.getName();
 				}
 			}
 		}

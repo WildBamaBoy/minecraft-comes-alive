@@ -67,13 +67,10 @@ public class EventHooksFML
 	@SubscribeEvent
 	public void playerLoggedInEventHandler(PlayerLoggedInEvent event)
 	{
-		//In 5.2, we've migrated from storing our own data files to using WorldSavedData.
-		//Upon login, we check for this old data and migrate it to the new object we use.
 		EntityPlayer player = event.player;
 		PlayerDataCollection dataCollection = PlayerDataCollection.get();
 		boolean setPermanentId = false;
 
-		//Continue to create the old player data object so any existing player data file is read.
 		NBTPlayerData nbtData = null;
 
 		if (dataCollection.getPlayerData(player.getUniqueID()) == null)
@@ -284,11 +281,11 @@ public class EventHooksFML
 					if (numberOfGuardsAroundMe < neededNumberOfGuards)
 					{
 						final EntityVillagerMCA guard = new EntityVillagerMCA(human.world);
-						guard.assignRandomName();
-						guard.assignRandomGender();
-						guard.assignRandomPersonality();
-						guard.setProfession(EnumProfession.Guard);
-						guard.assignRandomSkin();
+						guard.attributes.assignRandomName();
+						guard.attributes.assignRandomGender();
+						guard.attributes.assignRandomPersonality();
+						guard.attributes.setProfession(EnumProfession.Guard);
+						guard.attributes.assignRandomSkin();
 						
 						final Vec3d pos = RandomPositionGenerator.findRandomTarget(human, 10, 1);
 
@@ -329,13 +326,13 @@ public class EventHooksFML
 						EntityVillagerMCA human = (EntityVillagerMCA) entity;
 
 						//Count everyone except guards
-						if (human.getProfessionSkinGroup() != EnumProfessionSkinGroup.Guard)
+						if (human.attributes.getProfessionSkinGroup() != EnumProfessionSkinGroup.Guard)
 						{
 							population++;
 						}
 
 						//Count babies with the villager population.
-						if (human.getBabyState() != EnumBabyState.NONE)
+						if (human.attributes.getBabyState() != EnumBabyState.NONE)
 						{
 							population++;
 						}
@@ -419,7 +416,7 @@ public class EventHooksFML
 
 		for (EntityVillagerMCA entity : entityList)
 		{
-			if (entity.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard)
+			if (entity.attributes.getProfessionSkinGroup() == EnumProfessionSkinGroup.Guard)
 			{
 				returnValue++;
 			}

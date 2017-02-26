@@ -57,7 +57,7 @@ public class ActionProcreate extends AbstractAction
 				procreateTicks = 0;
 				actor.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, 1.0F);
 
-				final EntityPlayer playerSpouse = actor.getPlayerSpouseInstance();
+				final EntityPlayer playerSpouse = actor.attributes.getPlayerSpouseInstance();
 				
 				if (playerSpouse != null)
 				{
@@ -71,7 +71,7 @@ public class ActionProcreate extends AbstractAction
 					
 					if (isPlayerInventoryFull)
 					{
-						actor.getVillagerInventory().addItem(stack);
+						actor.attributes.getInventory().addItem(stack);
 					}
 					
 					else

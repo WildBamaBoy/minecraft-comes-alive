@@ -25,20 +25,20 @@ public class ActionGrow extends AbstractAction
 		//with the client lagging behind at most one minute, but the player should never notice this as any differences in hitbox
 		//size after age increases by one is very small.
 		
-		if (actor.getIsChild())
+		if (actor.attributes.getIsChild())
 		{
 			if (timeUntilTickUpdate <= 0 || freeTickUpdates != 0)
 			{
 				if (actor.getAge() >= MCA.getConfig().childGrowUpTime && !actor.world.isRemote)
 				{
-					actor.getAIManager().disableAllToggleActions();
-					actor.setIsChild(false);
+					actor.getBehaviors().disableAllToggleActions();
+					actor.attributes.setIsChild(false);
 					
 					for (Object obj : actor.world.playerEntities)
 					{
 						EntityPlayer player = (EntityPlayer)obj;
 						
-						if (actor.isPlayerAParent(player))
+						if (actor.attributes.isPlayerAParent(player))
 						{
 							player.addStat(AchievementsMCA.childToAdult);
 						}
@@ -49,11 +49,11 @@ public class ActionGrow extends AbstractAction
 				{
 					if (!actor.world.isRemote)
 					{
-						actor.setAge(actor.getAge() + 1);
+						actor.attributes.setAge(actor.getAge() + 1);
 					}
 					
 					float newHeight = 0.69F + (actor.getAge() * (1.8F - 0.69F) / MCA.getConfig().childGrowUpTime);
-					actor.setSizeOverride(actor.width, newHeight);
+					actor.attributes.setSize(actor.width, newHeight);
 				}
 				
 				timeUntilTickUpdate = Time.MINUTE;

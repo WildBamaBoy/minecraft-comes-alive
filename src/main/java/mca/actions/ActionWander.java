@@ -33,13 +33,13 @@ public class ActionWander extends AbstractAction
 	public void onUpdateServer() 
 	{
 		//Prevent the workday while we're down for sleep or doing something with the player.
-		if (actor.getMovementState() == EnumMovementState.STAY 
-				|| actor.getMovementState() == EnumMovementState.FOLLOW 
-				|| actor.getAI(ActionSleep.class).getIsSleeping()
-				|| actor.getAIManager().isToggleActionActive())
+		if (actor.attributes.getMovementState() == EnumMovementState.STAY 
+				|| actor.attributes.getMovementState() == EnumMovementState.FOLLOW 
+				|| actor.getBehavior(ActionSleep.class).getIsSleeping()
+				|| actor.getBehaviors().isToggleActionActive())
 		{
 			//Allow looking at the player while staying.
-			if (actor.getMovementState() == EnumMovementState.STAY)
+			if (actor.attributes.getMovementState() == EnumMovementState.STAY)
 			{
 				handleWatchClosestPlayer();
 			}

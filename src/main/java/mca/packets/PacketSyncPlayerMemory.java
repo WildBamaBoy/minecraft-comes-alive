@@ -45,7 +45,7 @@ public class PacketSyncPlayerMemory extends AbstractPacket<PacketSyncPlayerMemor
 		
 		if (human != null && packet.memory != null) //Noticing NPE here with varying causes. Can be ignored.
 		{
-			human.setPlayerMemory(player, packet.memory);
+			human.attributes.setPlayerMemory(player, packet.memory);
 		}
 	}
 }

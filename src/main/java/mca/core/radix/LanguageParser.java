@@ -19,7 +19,7 @@ public class LanguageParser extends AbstractLanguageParser
 		EntityVillagerMCA entitySpeaker = (EntityVillagerMCA) this.getArgumentOfType(arguments, EntityVillagerMCA.class, 1);
 		EntityVillagerMCA entitySecondary = (EntityVillagerMCA) this.getArgumentOfType(arguments, EntityVillagerMCA.class, 2);
 		EntityPlayer playerTarget = (EntityPlayer) this.getArgumentOfType(arguments, EntityPlayer.class);
-		PlayerMemory memory = (entitySpeaker != null && playerTarget != null) ? entitySpeaker.getPlayerMemory(playerTarget) : null;
+		PlayerMemory memory = (entitySpeaker != null && playerTarget != null) ? entitySpeaker.attributes.getPlayerMemory(playerTarget) : null;
 		
 		//Allow at most 10 passes to avoid infinite loops.
 		while (unparsedPhrase.contains("%"))
@@ -28,23 +28,23 @@ public class LanguageParser extends AbstractLanguageParser
 			{
 				if (unparsedPhrase.contains("%Name%"))
 				{
-					unparsedPhrase = unparsedPhrase.replace("%Name%", entitySpeaker.getName());
+					unparsedPhrase = unparsedPhrase.replace("%Name%", entitySpeaker.attributes.getName());
 				}
 				
 				else if (unparsedPhrase.contains("%Profession%"))
 				{
-					unparsedPhrase = unparsedPhrase.replace("%Profession%", entitySpeaker.getProfessionEnum().getUserFriendlyForm(entitySpeaker));
+					unparsedPhrase = unparsedPhrase.replace("%Profession%", entitySpeaker.attributes.getProfessionEnum().getUserFriendlyForm(entitySpeaker));
 				}
 				
 				else if (unparsedPhrase.contains("%FatherName%"))
 				{
-					String parentName = entitySpeaker.getParentNames();
+					String parentName = entitySpeaker.attributes.getParentNames();
 					unparsedPhrase = unparsedPhrase.replace("%FatherName%", parentName.subSequence(0, parentName.indexOf("|")));
 				}
 				
 				else if (unparsedPhrase.contains("%MotherName%"))
 				{
-					String parentNames = entitySpeaker.getParentNames();
+					String parentNames = entitySpeaker.attributes.getParentNames();
 					unparsedPhrase = unparsedPhrase.replace("%MotherName%", parentNames.subSequence(parentNames.indexOf("|") + 1, parentNames.length()));
 				}
 				

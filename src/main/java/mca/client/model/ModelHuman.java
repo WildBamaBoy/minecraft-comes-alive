@@ -37,15 +37,15 @@ public class ModelHuman extends ModelBiped
 		this.setRotationAngles(f1, f2, f3, f4, f5, f6, entity);
 
 		//Default head texture is going to be the one we can get straight from the human object.
-		String headTexture = human.getHeadTexture();
-		String clothesTexture = human.getClothesTexture();
+		String headTexture = human.attributes.getHeadTexture();
+		String clothesTexture = human.attributes.getClothesTexture();
 
 		//But if the human is infected, we need to show the zombified skin instead. Check for this here.
-		if (human.getIsInfected())
+		if (human.attributes.getIsInfected())
 		{
 			String textureBase = "mca:textures/skins/";
 
-			headTexture = human.getIsMale() ? textureBase + "ZombieVillagerMale.png" : textureBase + "ZombieVillagerFemale.png";
+			headTexture = human.attributes.getIsMale() ? textureBase + "ZombieVillagerMale.png" : textureBase + "ZombieVillagerFemale.png";
 			clothesTexture = headTexture;
 		}
 
@@ -64,7 +64,7 @@ public class ModelHuman extends ModelBiped
 		this.bipedRightArm.render(f6);
 		this.bipedLeftArm.render(f6);
 
-		if (!human.getIsMale() && !human.getIsChild() && MCA.getConfig().modifyFemaleBody && human.getItemStackFromSlot(EntityEquipmentSlot.CHEST) == null)
+		if (!human.attributes.getIsMale() && !human.attributes.getIsChild() && MCA.getConfig().modifyFemaleBody && human.getItemStackFromSlot(EntityEquipmentSlot.CHEST) == null)
 		{
 			GL11.glPushMatrix();
 			{

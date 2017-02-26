@@ -66,12 +66,12 @@ public class PacketBabyName extends AbstractPacket<PacketBabyName>
 		{
 			if (playerSpouse != null)
 			{
-				int babySlot = playerSpouse.getVillagerInventory().getFirstSlotContainingItem(ItemsMCA.babyBoy);
-				babySlot = babySlot == -1 ? playerSpouse.getVillagerInventory().getFirstSlotContainingItem(ItemsMCA.babyGirl) : babySlot;
+				int babySlot = playerSpouse.attributes.getInventory().getFirstSlotContainingItem(ItemsMCA.babyBoy);
+				babySlot = babySlot == -1 ? playerSpouse.attributes.getInventory().getFirstSlotContainingItem(ItemsMCA.babyGirl) : babySlot;
 				
 				if (babySlot != -1)
 				{
-					playerSpouse.getVillagerInventory().getStackInSlot(babySlot).getTagCompound().setString("name", packet.babyName);
+					playerSpouse.attributes.getInventory().getStackInSlot(babySlot).getTagCompound().setString("name", packet.babyName);
 				}
 			}
 		}
@@ -81,11 +81,11 @@ public class PacketBabyName extends AbstractPacket<PacketBabyName>
 		{
 			if (playerSpouse != null)
 			{
-				final ActionProcreate procreateAI = playerSpouse.getAI(ActionProcreate.class);
+				final ActionProcreate procreateAI = playerSpouse.getBehavior(ActionProcreate.class);
 				
 				if (!procreateAI.getHasHadTwins())
 				{
-					playerSpouse.getAI(ActionProcreate.class).setIsProcreating(true);
+					playerSpouse.getBehavior(ActionProcreate.class).setIsProcreating(true);
 					procreateAI.setHasHadTwins(true);
 					senderPlayer.addStat(AchievementsMCA.twins);
 					

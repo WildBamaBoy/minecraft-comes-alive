@@ -59,7 +59,7 @@ public class ActionMine extends AbstractToggleAction
 				{
 					final int y = RadixLogic.getSpawnSafeTopLevel(actor.world, (int) actor.posX, (int) actor.posZ);
 					final Block groundBlock = RadixBlocks.getBlock(actor.world, (int)actor.posX, y - 1, (int)actor.posZ);
-					actor.getAI(ActionBuild.class).startBuilding("/assets/mca/schematic/mine1.schematic", true, groundBlock);
+					actor.getBehavior(ActionBuild.class).startBuilding("/assets/mca/schematic/mine1.schematic", true, groundBlock);
 
 					isBuildingMine = true;
 				}
@@ -67,7 +67,7 @@ public class ActionMine extends AbstractToggleAction
 				//If build flag has been set, check to see if the build AI is still running.
 				else if (isBuildingMine)
 				{
-					if (!actor.getAI(ActionBuild.class).getIsActive())
+					if (!actor.getBehavior(ActionBuild.class).getIsActive())
 					{
 						//When the chore is not running, search for a group of fences nearby.
 						//This identifies this area as a mine.
@@ -87,14 +87,14 @@ public class ActionMine extends AbstractToggleAction
 
 				else //Clear to continue mining.
 				{
-					actor.setMovementState(EnumMovementState.STAY);
+					actor.attributes.setMovementState(EnumMovementState.STAY);
 					actor.swingItem();
 
 					ItemStack addStack = getHarvestStack();
 
 					if (addStack != null)
 					{
-						actor.getVillagerInventory().addItem(addStack);
+						actor.attributes.getInventory().addItem(addStack);
 						actor.damageHeldItem(2);
 					}
 				}
@@ -207,7 +207,7 @@ public class ActionMine extends AbstractToggleAction
 		this.setIsActive(true);
 		this.activityInterval = SEARCH_INTERVAL;
 		
-		ItemStack pickaxe = actor.getVillagerInventory().getBestItemOfType(ItemPickaxe.class);
+		ItemStack pickaxe = actor.attributes.getInventory().getBestItemOfType(ItemPickaxe.class);
 		
 		if (pickaxe != null)
 		{
@@ -234,7 +234,7 @@ public class ActionMine extends AbstractToggleAction
 		this.setIsActive(true);
 		this.activityInterval = 0;
 		
-		ItemStack pickaxe = actor.getVillagerInventory().getBestItemOfType(ItemPickaxe.class);
+		ItemStack pickaxe = actor.attributes.getInventory().getBestItemOfType(ItemPickaxe.class);
 		
 		if (pickaxe != null)
 		{
@@ -249,7 +249,7 @@ public class ActionMine extends AbstractToggleAction
 	}
 	
 	@Override
-	protected String getName() 
+	public String getName() 
 	{
 		return "Mining";
 	}

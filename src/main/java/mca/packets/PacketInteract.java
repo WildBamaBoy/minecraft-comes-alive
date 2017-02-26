@@ -122,7 +122,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 
 			if (interaction == EnumInteraction.SET_HOME)
 			{
-				if (villager.getAI(ActionSleep.class).setHomePoint(villager.posX, villager.posY, villager.posZ))
+				if (villager.getBehavior(ActionSleep.class).setHomePoint(villager.posX, villager.posY, villager.posZ))
 				{
 					villager.say("interaction.sethome.success", player);
 					TutorialManager.sendMessageToPlayer(player, "Villagers go to their home points at night, and then go to sleep.", "If their home point becomes blocked, they will automatically find a new one.");
@@ -158,7 +158,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 			else if (interaction == EnumInteraction.TRADE)
 			{
 				/* TODO
-				villager.setCustomer(player);
+				villager.attributes.setCustomer(player);
 				player.displayVillagerTradeGui(villager);
 				*/
 			}
@@ -170,7 +170,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 
 			else if (interaction == EnumInteraction.TAKE_GIFT)
 			{
-				PlayerMemory memory = villager.getPlayerMemory(player);
+				PlayerMemory memory = villager.attributes.getPlayerMemory(player);
 				memory.setHasGift(false);
 
 				ItemStack stack = RegistryMCA.getGiftStackFromRelationship(memory.getHearts());
@@ -181,21 +181,21 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 					interaction == EnumInteraction.TELL_STORY || interaction == EnumInteraction.FLIRT || interaction == EnumInteraction.HUG ||
 					interaction == EnumInteraction.KISS)
 			{
-				ActionUpdateMood mood = villager.getAI(ActionUpdateMood.class);
-				PlayerMemory memory = villager.getPlayerMemory(player);
+				ActionUpdateMood mood = villager.getBehavior(ActionUpdateMood.class);
+				PlayerMemory memory = villager.attributes.getPlayerMemory(player);
 
 				//First check for spouse leaving due to low hearts.
-				if (memory.getDialogueType() == EnumDialogueType.SPOUSE && memory.getHearts() <= 25 && villager.getLowHeartWarnings() >= 3)
+				if (memory.getDialogueType() == EnumDialogueType.SPOUSE && memory.getHearts() <= 25 && villager.attributes.getLowHeartWarnings() >= 3)
 				{
 					villager.say("spouse.endmarriage", player, player);
 					player.sendMessage(new TextComponentString(Color.RED + MCA.getLanguageManager().getString("notify.spouseendedmarriage", villager)));
 					memory.setHearts(-100);
 					mood.modifyMoodLevel(-20.0F);
-					villager.resetLowHeartWarnings();
+					villager.attributes.resetLowHeartWarnings();
 
 					NBTPlayerData playerData = MCA.getPlayerData(player);
 					playerData.setSpouse(null);
-					villager.setSpouse(null);
+					villager.endMarriage();
 				}
 
 				else
@@ -203,28 +203,28 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 					int successChance = interaction.getSuccessChance(villager, memory);
 
 					int pointsModification = interaction.getBasePoints()
-							+ villager.getPersonality().getHeartsModifierForInteraction(interaction) 
-							+ mood.getMood(villager.getPersonality()).getPointsModifierForInteraction(interaction);
+							+ villager.attributes.getPersonality().getHeartsModifierForInteraction(interaction) 
+							+ mood.getMood(villager.attributes.getPersonality()).getPointsModifierForInteraction(interaction);
 
 					boolean wasGood = RadixLogic.getBooleanWithProbability(successChance);
 
-					if (villager.getPersonality() == EnumPersonality.FRIENDLY)
+					if (villager.attributes.getPersonality() == EnumPersonality.FRIENDLY)
 					{
 						pointsModification += pointsModification * 0.15D;
 					}
 
-					else if (villager.getPersonality() == EnumPersonality.FLIRTY)
+					else if (villager.attributes.getPersonality() == EnumPersonality.FLIRTY)
 					{
 						pointsModification += pointsModification * 0.25D;
 					}
 
-					else if (villager.getPersonality() == EnumPersonality.SENSITIVE && RadixLogic.getBooleanWithProbability(5))
+					else if (villager.attributes.getPersonality() == EnumPersonality.SENSITIVE && RadixLogic.getBooleanWithProbability(5))
 					{
 						pointsModification = -35;
 						wasGood = false;
 					}
 
-					else if (villager.getPersonality() == EnumPersonality.STUBBORN)
+					else if (villager.attributes.getPersonality() == EnumPersonality.STUBBORN)
 					{
 						pointsModification -= pointsModification * 0.15D;
 					}
@@ -260,22 +260,22 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 
 			else if (interaction == EnumInteraction.FOLLOW)
 			{
-				villager.setMovementState(EnumMovementState.FOLLOW);
+				villager.attributes.setMovementState(EnumMovementState.FOLLOW);
 			}
 			
 			else if (interaction == EnumInteraction.STAY)
 			{
-				villager.setMovementState(EnumMovementState.STAY);
+				villager.attributes.setMovementState(EnumMovementState.STAY);
 			}
 			
 			else if (interaction == EnumInteraction.MOVE)
 			{
-				villager.setMovementState(EnumMovementState.MOVE);
+				villager.attributes.setMovementState(EnumMovementState.MOVE);
 			}
 			
 			else if (interaction == EnumInteraction.STOP)
 			{
-				villager.getAIManager().disableAllToggleActions();
+				villager.getBehaviors().disableAllToggleActions();
 			}
 
 			else if (interaction == EnumInteraction.INVENTORY)
@@ -332,10 +332,10 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 
 					if (spouse != null)
 					{
-						spouse.setSpouse(null);
-						PlayerMemory memory = spouse.getPlayerMemory(player);
+						spouse.endMarriage();
+						PlayerMemory memory = spouse.attributes.getPlayerMemory(player);
 
-						spouse.getAI(ActionUpdateMood.class).modifyMoodLevel(-5.0F);
+						spouse.getBehavior(ActionUpdateMood.class).modifyMoodLevel(-5.0F);
 						memory.setHearts(-100);
 					}
 
@@ -414,7 +414,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 			{
 				Integer length = (Integer) packet.additionalData[0];
 				Boolean isExtending = (Boolean) packet.additionalData[1];
-				PlayerMemory memory = villager.getPlayerMemory(player);
+				PlayerMemory memory = villager.attributes.getPlayerMemory(player);
 
 				if (isExtending)
 				{
@@ -461,13 +461,13 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 
 				else
 				{
-					villager.getAI(ActionProcreate.class).setIsProcreating(true);
+					villager.getBehavior(ActionProcreate.class).setIsProcreating(true);
 				}
 			}
 
 			else if (interaction == EnumInteraction.DISMISS)
 			{
-				PlayerMemory memory = villager.getPlayerMemory(player);
+				PlayerMemory memory = villager.attributes.getPlayerMemory(player);
 				memory.setIsHiredBy(false, 0);
 			}
 			
@@ -478,7 +478,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 				
 				if (percentAverage != -1)
 				{
-					PlayerMemory thisMemory = villager.getPlayerMemory(player);
+					PlayerMemory thisMemory = villager.attributes.getPlayerMemory(player);
 					Item dropItem = RadixLogic.getBooleanWithProbability(3) ? Items.DIAMOND : 
 						RadixLogic.getBooleanWithProbability(50) ? Items.GOLD_NUGGET : Items.IRON_INGOT;
 					int	happinessLevel = MathHelper.clamp((int)Math.round(percentAverage / 25), 0, 4);
@@ -507,7 +507,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 						if (RadixLogic.getBooleanWithProbability(50))
 						{
 							EntityVillagerMCA human = (EntityVillagerMCA)entity;
-							PlayerMemory memory = human.getPlayerMemory(player);
+							PlayerMemory memory = human.attributes.getPlayerMemory(player);
 							memory.setHearts(memory.getHearts() - RadixMath.getNumberInRange(3, 8));
 						}
 					}
@@ -580,7 +580,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 			{
 				EntityVillagerMCA human = (EntityVillagerMCA)obj;
 
-				if (human.isPlayerAParent(player))
+				if (human.attributes.isPlayerAParent(player))
 				{
 					childrenCount++;
 				}
@@ -604,7 +604,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 			for (Entity entity : villagerList)
 			{
 				EntityVillagerMCA human = (EntityVillagerMCA)entity;
-				PlayerMemory memory = human.getPlayerMemory(player);
+				PlayerMemory memory = human.attributes.getPlayerMemory(player);
 				totalHearts += MathHelper.clamp(memory.getHearts(), -100, 100);
 			}
 			

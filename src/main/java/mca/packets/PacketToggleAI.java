@@ -104,7 +104,7 @@ public class PacketToggleAI extends AbstractPacket<PacketToggleAI>
 		{
 		case FARMING: 
 			player.addStat(AchievementsMCA.farming);
-			human.getAI(ActionFarm.class).startFarming(player, packet.integers.get(0), packet.integers.get(1), packet.booleans.get(0));
+			human.getBehavior(ActionFarm.class).startFarming(player, packet.integers.get(0), packet.integers.get(1), packet.booleans.get(0));
 			break;
 			
 		case MINING: 
@@ -112,12 +112,12 @@ public class PacketToggleAI extends AbstractPacket<PacketToggleAI>
 			
 			if (packet.booleans.get(0))
 			{
-				human.getAI(ActionMine.class).startGathering(player);
+				human.getBehavior(ActionMine.class).startGathering(player);
 			}
 			
 			else
 			{
-				human.getAI(ActionMine.class).startSearching(player, packet.integers.get(0));
+				human.getBehavior(ActionMine.class).startSearching(player, packet.integers.get(0));
 			}
 			break;
 			
@@ -126,7 +126,7 @@ public class PacketToggleAI extends AbstractPacket<PacketToggleAI>
 			boolean doReplant = packet.booleans.get(0);
 			int mappingId = packet.integers.get(0);
 			
-			human.getAI(ActionWoodcut.class).startWoodcutting(player, mappingId, doReplant);
+			human.getBehavior(ActionWoodcut.class).startWoodcutting(player, mappingId, doReplant);
 			break;
 			
 		case HUNTING: 
@@ -135,22 +135,22 @@ public class PacketToggleAI extends AbstractPacket<PacketToggleAI>
 			
 			if (flag)
 			{
-				human.getAI(ActionHunt.class).startKilling(player);
+				human.getBehavior(ActionHunt.class).startKilling(player);
 			}
 			
 			else
 			{
-				human.getAI(ActionHunt.class).startTaming(player);
+				human.getBehavior(ActionHunt.class).startTaming(player);
 			}
 			
 			break;
 			
 		case COOKING: 
-			human.getAI(ActionCook.class).startCooking(player);
+			human.getBehavior(ActionCook.class).startCooking(player);
 			break;
 			
 		case FISHING:
-			human.getAI(ActionFish.class).startFishing(player);
+			human.getBehavior(ActionFish.class).startFishing(player);
 			break;
 		}
 	}

@@ -110,9 +110,9 @@ public class ActionCook extends AbstractToggleAction
 
 	private boolean getFuelFromInventory()
 	{
-		for (int i = 0; i < actor.getVillagerInventory().getSizeInventory(); i++)
+		for (int i = 0; i < actor.attributes.getInventory().getSizeInventory(); i++)
 		{
-			ItemStack stack = actor.getVillagerInventory().getStackInSlot(i);
+			ItemStack stack = actor.attributes.getInventory().getStackInSlot(i);
 
 			if (stack != null)
 			{
@@ -132,7 +132,7 @@ public class ActionCook extends AbstractToggleAction
 						hasFuel = true;
 						fuelUsesRemaining = fuelValue;
 
-						actor.getVillagerInventory().decrStackSize(actor.getVillagerInventory().getFirstSlotContainingItem(stack.getItem()), 1);
+						actor.attributes.getInventory().decrStackSize(actor.attributes.getInventory().getFirstSlotContainingItem(stack.getItem()), 1);
 					}
 				}
 
@@ -187,9 +187,9 @@ public class ActionCook extends AbstractToggleAction
 
 	private void getCookableFoodFromInventory()
 	{
-		for (int i = 0; i < actor.getVillagerInventory().getSizeInventory(); i++)
+		for (int i = 0; i < actor.attributes.getInventory().getSizeInventory(); i++)
 		{
-			ItemStack stack = actor.getVillagerInventory().getStackInSlot(i);
+			ItemStack stack = actor.attributes.getInventory().getStackInSlot(i);
 
 			for (final CookableFood entry : RegistryMCA.getCookableFoodList())
 			{
@@ -208,7 +208,7 @@ public class ActionCook extends AbstractToggleAction
 
 		if (actor.getNavigator().noPath() && distanceToFurnace >= 2.5D)
 		{
-			actor.getNavigator().setPath(actor.getNavigator().getPathToXYZ(furnacePos.iX(), furnacePos.iY(), furnacePos.iZ()), actor.getSpeed());
+			actor.getNavigator().setPath(actor.getNavigator().getPathToXYZ(furnacePos.iX(), furnacePos.iY(), furnacePos.iZ()), actor.attributes.getSpeed());
 		}
 	}
 
@@ -240,11 +240,11 @@ public class ActionCook extends AbstractToggleAction
 				else
 				{
 					CookableFood foodObj = RegistryMCA.getCookableFoodList().get(indexOfCookingFood);
-					int rawFoodSlot = actor.getVillagerInventory().getFirstSlotContainingItem(foodObj.getFoodRaw());
+					int rawFoodSlot = actor.attributes.getInventory().getFirstSlotContainingItem(foodObj.getFoodRaw());
 
 					if (rawFoodSlot > -1)
 					{
-						actor.getVillagerInventory().decrStackSize(rawFoodSlot, 1);
+						actor.attributes.getInventory().decrStackSize(rawFoodSlot, 1);
 						addItemStackToInventory(new ItemStack(foodObj.getFoodCooked(), 1, 0));
 						actor.swingItem();
 					}
@@ -281,7 +281,7 @@ public class ActionCook extends AbstractToggleAction
 		}
 	}
 	@Override
-	protected String getName() 
+	public String getName() 
 	{
 		return "Cooking";
 	}
