@@ -75,7 +75,7 @@ public class ActionDefend extends AbstractAction
 					
 					if (rangedAttackTime <= 0)
 					{
-						attackTargetWithRangedAttack(actor, 12F);
+						attackTargetWithRangedAttack(actor, 3F);
 						actor.playSound(SoundEvents.ENTITY_SKELETON_SHOOT, 1.0F, 1.0F / (actor.getRNG().nextFloat() * 0.4F + 0.8F));
 						rangedAttackTime = 60;
 					}
