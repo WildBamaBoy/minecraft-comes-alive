@@ -93,7 +93,7 @@ public class MCA
 	private static CreativeTabs creativeTabMain;
 	private static Config clientConfig;
 	private static Config config;
-	private static LanguageManager languageManager;
+	private static Localizer localizer;
 	private static PacketHandlerMCA packetHandler;
 	private static CrashWatcher crashWatcher;
 
@@ -119,7 +119,7 @@ public class MCA
 		logger = event.getModLog();
 		config = new Config(event);
 		clientConfig = config;
-		languageManager = new LanguageManager(ID, new LanguageParser());
+		localizer = new Localizer(event);
 		crashWatcher = new CrashWatcher();
 		packetHandler = new PacketHandlerMCA(ID);
 		proxy.registerEntityRenderers();
@@ -570,11 +570,11 @@ public class MCA
 		return creativeTabMain;
 	}
 
-	public static LanguageManager getLanguageManager()
+	public static Localizer getLanguageManager()
 	{
-		return languageManager;
+		return localizer;
 	}
-
+	
 	public static PacketHandlerMCA getPacketHandler()
 	{
 		return packetHandler;
