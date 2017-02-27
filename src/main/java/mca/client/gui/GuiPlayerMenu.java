@@ -80,7 +80,7 @@ public class GuiPlayerMenu extends GuiScreen
 								"gui.info.family.notmarried";
 
 			//Always include the villager's spouse name in case %a1% will be provided.
-			RadixRender.drawTextPopup(MCA.getLanguageManager().getString(phraseId, targetSpouseName), 49, 73);
+			RadixRender.drawTextPopup(MCA.getLocalizer().getString(phraseId, targetSpouseName), 49, 73);
 		}
 
 		super.drawScreen(i, j, f);
@@ -142,13 +142,13 @@ public class GuiPlayerMenu extends GuiScreen
 
 		if (isMarriedToInitiator)
 		{
-			buttonList.add(new GuiButton(EnumInteraction.DIVORCE.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.divorce"))); yLoc -= yInt;
-			buttonList.add(new GuiButton(EnumInteraction.HAVEBABY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.havebaby"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.DIVORCE.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLocalizer().getString("gui.button.divorce"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.HAVEBABY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLocalizer().getString("gui.button.havebaby"))); yLoc -= yInt;
 		}
 		
 		else
 		{
-			buttonList.add(new GuiButton(EnumInteraction.ASKTOMARRY.getId(), width / 2 + xLoc - 10, height / 2 - yLoc, 75, 20, MCA.getLanguageManager().getString("gui.button.asktomarry"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.ASKTOMARRY.getId(), width / 2 + xLoc - 10, height / 2 - yLoc, 75, 20, MCA.getLocalizer().getString("gui.button.asktomarry"))); yLoc -= yInt;
 		}
 	}
 

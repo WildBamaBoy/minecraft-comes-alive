@@ -151,7 +151,7 @@ public class GuiVillagerEditor extends GuiScreen
 
 		else if (guibutton == randomButton)
 		{
-			nameTextField.setText(villager.attributes.getGender() == EnumGender.MALE ? MCA.getLanguageManager().getString("name.male") : MCA.getLanguageManager().getString("name.female"));
+			nameTextField.setText(villager.attributes.getGender() == EnumGender.MALE ? MCA.getLocalizer().getString("name.male") : MCA.getLocalizer().getString("name.female"));
 			villager.attributes.setName(nameTextField.getText());
 			nameTextField.mouseClicked(5, 5, 5);
 			drawEditorGuiPage1();
@@ -315,21 +315,21 @@ public class GuiVillagerEditor extends GuiScreen
 		currentPage = 1;
 
 		buttonList.clear();
-		buttonList.add(randomButton = new GuiButton(1, width / 2 - 50, height / 2 - 95, 60, 20, MCA.getLanguageManager().getString("gui.button.random")));
-		buttonList.add(genderButton = new GuiButton(2, width / 2 - 190, height / 2 - 60, 175, 20, MCA.getLanguageManager().getString("gui.button.setup.gender." + villager.attributes.getIsMale())));
+		buttonList.add(randomButton = new GuiButton(1, width / 2 - 50, height / 2 - 95, 60, 20, MCA.getLocalizer().getString("gui.button.random")));
+		buttonList.add(genderButton = new GuiButton(2, width / 2 - 190, height / 2 - 60, 175, 20, MCA.getLocalizer().getString("gui.button.setup.gender." + villager.attributes.getIsMale())));
 		buttonList.add(textureButton = new GuiButton(3, width / 2 - 190, height / 2 - 40, 175, 20, "Texture: " + villager.attributes.getHeadTexture().replace("mca:textures/skins/", "").replace(".png", "")));
 		buttonList.add(shiftTextureIndexUpButton = new GuiButton(4, width / 2 - 15, height / 2 - 40, 20, 20, ">>"));
 		buttonList.add(shiftTextureIndexDownButton = new GuiButton(5, width / 2 - 210, height / 2 - 40, 20, 20, "<<"));
 		buttonList.add(professionButton = new GuiButton(6, width / 2 - 190, height / 2 - 20, 175, 20, "Job: " + villager.attributes.getProfessionEnum().getUserFriendlyForm(villager)));
 		buttonList.add(shiftProfessionUpButton = new GuiButton(7, width / 2 - 15, height / 2 - 20, 20, 20, ">>"));
 		buttonList.add(shiftProfessionDownButton = new GuiButton(8, width / 2 - 210, height / 2 - 20, 20, 20, "<<"));
-		buttonList.add(personalityButton = new GuiButton(12, width / 2 - 190, height / 2 + 0, 175, 20, MCA.getLanguageManager().getString("gui.info.personality", villager.attributes.getPersonality().getFriendlyName())));
+		buttonList.add(personalityButton = new GuiButton(12, width / 2 - 190, height / 2 + 0, 175, 20, MCA.getLocalizer().getString("gui.info.personality", villager.attributes.getPersonality().getFriendlyName())));
 		buttonList.add(shiftTraitUpButton = new GuiButton(13, width / 2 - 15, height / 2 + 0, 20, 20, ">>"));
 		buttonList.add(shiftTraitDownButton = new GuiButton(14, width / 2 - 210, height / 2 + 0, 20, 20, "<<"));
 		
-		buttonList.add(doneButton = new GuiButton(17, width / 2 - 50, height / 2 + 85, 75, 20, MCA.getLanguageManager().getString("gui.button.done")));
-		buttonList.add(nextButton = new GuiButton(18, width / 2 + 25, height / 2 + 85, 50, 20, MCA.getLanguageManager().getString("gui.button.next")));
-		buttonList.add(backButton = new GuiButton(19, width / 2 - 101, height / 2 + 85, 50, 20, MCA.getLanguageManager().getString("gui.button.back")));
+		buttonList.add(doneButton = new GuiButton(17, width / 2 - 50, height / 2 + 85, 75, 20, MCA.getLocalizer().getString("gui.button.done")));
+		buttonList.add(nextButton = new GuiButton(18, width / 2 + 25, height / 2 + 85, 50, 20, MCA.getLocalizer().getString("gui.button.next")));
+		buttonList.add(backButton = new GuiButton(19, width / 2 - 101, height / 2 + 85, 50, 20, MCA.getLocalizer().getString("gui.button.back")));
 
 		backButton.enabled = false;
 	}
@@ -352,9 +352,9 @@ public class GuiVillagerEditor extends GuiScreen
 		buttonList.add(shiftGirthDownButton = new GuiButton(6, width / 2 - 210, height / 2 - 20, 20, 20, "<<"));
 		buttonList.add(isInfectedButton = new GuiButton(7, width / 2 - 190, height / 2 - 0, 175, 20, "Is Infected: " + villager.attributes.getIsInfected()));
 		
-		buttonList.add(doneButton = new GuiButton(16, width / 2 - 50, height / 2 + 85, 75, 20, MCA.getLanguageManager().getString("gui.button.done")));
-		buttonList.add(nextButton = new GuiButton(17, width / 2 + 25, height / 2 + 85, 50, 20, MCA.getLanguageManager().getString("gui.button.next")));
-		buttonList.add(backButton = new GuiButton(18, width / 2 - 101, height / 2 + 85, 50, 20, MCA.getLanguageManager().getString("gui.button.back")));
+		buttonList.add(doneButton = new GuiButton(16, width / 2 - 50, height / 2 + 85, 75, 20, MCA.getLocalizer().getString("gui.button.done")));
+		buttonList.add(nextButton = new GuiButton(17, width / 2 + 25, height / 2 + 85, 50, 20, MCA.getLocalizer().getString("gui.button.next")));
+		buttonList.add(backButton = new GuiButton(18, width / 2 - 101, height / 2 + 85, 50, 20, MCA.getLocalizer().getString("gui.button.back")));
 
 		nextButton.enabled = false;
 	}
@@ -382,14 +382,14 @@ public class GuiVillagerEditor extends GuiScreen
 		if (currentPage == 1)
 		{
 			drawString(fontRendererObj, "Name:", width / 2 - 205, height / 2 - 110, 0xffffff);
-			drawString(fontRendererObj, MCA.getLanguageManager().getString("gui.title.editor"), width / 2 - 205, height / 2 - 87, 0xa0a0a0);
+			drawString(fontRendererObj, MCA.getLocalizer().getString("gui.title.editor"), width / 2 - 205, height / 2 - 87, 0xa0a0a0);
 			
 			nameTextField.drawTextBox();
 		}
 
 		GL11.glPushMatrix();
 		GL11.glScalef(1.5F, 1.5F, 1.5F);
-		drawCenteredString(fontRendererObj, MCA.getLanguageManager().getString("gui.title.editor"), width / 2 - 75, height / 2 - 125, 0xffffff);
+		drawCenteredString(fontRendererObj, MCA.getLocalizer().getString("gui.title.editor"), width / 2 - 75, height / 2 - 125, 0xffffff);
 		GL11.glPopMatrix();
 
 		super.drawScreen(sizeX, sizeY, offset);

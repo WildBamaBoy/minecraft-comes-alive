@@ -175,7 +175,7 @@ public class PacketDestinyChoice extends AbstractPacket<PacketDestinyChoice>
 
 					if (tile != null)
 					{
-						tile.signText[1] = new TextComponentString(RadixLogic.getBooleanWithProbability(50) ? MCA.getLanguageManager().getString("name.male") : MCA.getLanguageManager().getString("name.female"));
+						tile.signText[1] = new TextComponentString(RadixLogic.getBooleanWithProbability(50) ? MCA.getLocalizer().getString("name.male") : MCA.getLocalizer().getString("name.female"));
 						tile.signText[2] = new TextComponentString("RIP");
 					}
 				}

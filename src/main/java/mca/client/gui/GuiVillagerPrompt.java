@@ -26,7 +26,7 @@ public class GuiVillagerPrompt extends GuiScreen
 		switch (interaction)
 		{
 		case NOBILITY:
-			prompt = MCA.getLanguageManager().getString("interactionp.havebaby.prompt", player.getName());
+			prompt = MCA.getLocalizer().getString("interactionp.havebaby.prompt", player.getName());
 			returnInteraction = EnumInteraction.NOBILITY_PROMPT_ACCEPT;
 			break;
 		}
@@ -75,7 +75,7 @@ public class GuiVillagerPrompt extends GuiScreen
 		
 		int xLoc = -65 / 2;
 		
-		buttonList.add(new GuiButton(1, width / 2 + xLoc, height / 2, 65, 20, MCA.getLanguageManager().getString("gui.button.yes")));
-		buttonList.add(new GuiButton(2,  width / 2 + xLoc, height / 2 + 23,  65, 20, MCA.getLanguageManager().getString("gui.button.no")));
+		buttonList.add(new GuiButton(1, width / 2 + xLoc, height / 2, 65, 20, MCA.getLocalizer().getString("gui.button.yes")));
+		buttonList.add(new GuiButton(2,  width / 2 + xLoc, height / 2 + 23,  65, 20, MCA.getLocalizer().getString("gui.button.no")));
 	}
 }

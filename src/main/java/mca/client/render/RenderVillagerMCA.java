@@ -151,7 +151,7 @@ public class RenderVillagerMCA extends RenderBiped<EntityVillagerMCA>
 		//Render health first, if they're damaged.
 		else if (currentHealth < maxHealth)
 		{
-			renderLabel(entity, x, y, z, MCA.getLanguageManager().getString("label.health") + currentHealth + "/" + maxHealth);
+			renderLabel(entity, x, y, z, MCA.getLocalizer().getString("label.health") + currentHealth + "/" + maxHealth);
 		}
 
 		//Render their name assuming that they're not damaged.

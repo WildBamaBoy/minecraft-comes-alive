@@ -570,7 +570,7 @@ public class MCA
 		return creativeTabMain;
 	}
 
-	public static Localizer getLanguageManager()
+	public static Localizer getLocalizer()
 	{
 		return localizer;
 	}

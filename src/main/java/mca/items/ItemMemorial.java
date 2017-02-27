@@ -83,12 +83,12 @@ public class ItemMemorial extends Item
 
 			if (!relationId.equals("relation.none"))
 			{
-				infoList.add(Color.GREEN + name + ", " + MCA.getLanguageManager().getString(relationId) + " of " + ownerName);
+				infoList.add(Color.GREEN + name + ", " + MCA.getLocalizer().getString(relationId) + " of " + ownerName);
 			}
 			
 			else
 			{
-				infoList.add(Color.GREEN + name + " the " + MCA.getLanguageManager().getString(data.getProfessionEnum().getLocalizationId()));
+				infoList.add(Color.GREEN + name + " the " + MCA.getLocalizer().getString(data.getProfessionEnum().getLocalizationId()));
 				infoList.add("Captured by: " + ownerName);
 			}
 		}

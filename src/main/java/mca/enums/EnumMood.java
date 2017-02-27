@@ -48,7 +48,7 @@ public enum EnumMood
 	public String getFriendlyName() 
 	{
 		String name = "mood." + this.name().toLowerCase();
-		return MCA.getLanguageManager().getString(name);
+		return MCA.getLocalizer().getString(name);
 	}
 
 	public int getSuccessModifierForInteraction(EnumInteraction interaction) 

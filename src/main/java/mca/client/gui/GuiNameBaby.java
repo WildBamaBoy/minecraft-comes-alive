@@ -67,8 +67,8 @@ public class GuiNameBaby extends GuiScreen
 		Keyboard.enableRepeatEvents(true);
 
 		buttonList.clear();
-		buttonList.add(doneButton = new GuiButton(1, width / 2 - 40, height / 2 - 10, 80, 20, MCA.getLanguageManager().getString("gui.button.done")));
-		buttonList.add(randomButton = new GuiButton(2, width / 2 + 105, height / 2 - 60, 60, 20, MCA.getLanguageManager().getString("gui.button.random")));
+		buttonList.add(doneButton = new GuiButton(1, width / 2 - 40, height / 2 - 10, 80, 20, MCA.getLocalizer().getString("gui.button.done")));
+		buttonList.add(randomButton = new GuiButton(2, width / 2 + 105, height / 2 - 60, 60, 20, MCA.getLocalizer().getString("gui.button.random")));
 
 		babyNameTextField = new GuiTextField(3, fontRendererObj, width / 2 - 100, height / 2 - 60, 200, 20);
 		babyNameTextField.setMaxStringLength(32);
@@ -122,12 +122,12 @@ public class GuiNameBaby extends GuiScreen
 		{
 			if (isMale)
 			{
-				babyNameTextField.setText(MCA.getLanguageManager().getString("name.male"));
+				babyNameTextField.setText(MCA.getLocalizer().getString("name.male"));
 			}
 			
 			else
 			{
-				babyNameTextField.setText(MCA.getLanguageManager().getString("name.female"));
+				babyNameTextField.setText(MCA.getLocalizer().getString("name.female"));
 			}
 		}
 	}
@@ -152,15 +152,15 @@ public class GuiNameBaby extends GuiScreen
 
 		if (isMale)
 		{
-			drawCenteredString(fontRendererObj, MCA.getLanguageManager().getString("gui.title.namebaby.male"), width / 2, height / 2 - 90, 0xffffff);
+			drawCenteredString(fontRendererObj, MCA.getLocalizer().getString("gui.title.namebaby.male"), width / 2, height / 2 - 90, 0xffffff);
 		}
 
 		else
 		{
-			drawCenteredString(fontRendererObj, MCA.getLanguageManager().getString("gui.title.namebaby.female"), width / 2, height / 2 - 90, 0xffffff);
+			drawCenteredString(fontRendererObj, MCA.getLocalizer().getString("gui.title.namebaby.female"), width / 2, height / 2 - 90, 0xffffff);
 		}
 
-		drawString(fontRendererObj, MCA.getLanguageManager().getString("gui.title.namebaby"), width / 2 - 100, height / 2 - 70, 0xa0a0a0);
+		drawString(fontRendererObj, MCA.getLocalizer().getString("gui.title.namebaby"), width / 2 - 100, height / 2 - 70, 0xa0a0a0);
 
 		babyNameTextField.drawTextBox();
 		super.drawScreen(sizeX, sizeY, offset);

@@ -632,12 +632,12 @@ public class VillagerAttributes
 	{
 		if (getGender() == EnumGender.MALE)
 		{
-			setName(MCA.getLanguageManager().getString("name.male"));
+			setName(MCA.getLocalizer().getString("name.male"));
 		}
 
 		else
 		{
-			setName(MCA.getLanguageManager().getString("name.female"));
+			setName(MCA.getLocalizer().getString("name.female"));
 		}
 	}
 
@@ -851,12 +851,12 @@ public class VillagerAttributes
 
 		if (memory.isRelatedToPlayer())
 		{
-			return MCA.getLanguageManager().getString(getGender() == EnumGender.MALE ? "title.relative.male" : "title.relative.female", villager, player);
+			return MCA.getLocalizer().getString(getGender() == EnumGender.MALE ? "title.relative.male" : "title.relative.female", villager, player);
 		}
 
 		else
 		{
-			return MCA.getLanguageManager().getString(getGender() == EnumGender.MALE ? "title.nonrelative.male" : "title.nonrelative.female", villager, player);
+			return MCA.getLocalizer().getString(getGender() == EnumGender.MALE ? "title.nonrelative.male" : "title.nonrelative.female", villager, player);
 		}
 	}
 

@@ -122,8 +122,8 @@ public class ItemVillagerBed extends Item
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List informationList, boolean unknown)
 	{
-		informationList.add(MCA.getLanguageManager().getString("information.villagerbed.line1"));
-		informationList.add(MCA.getLanguageManager().getString("information.villagerbed.line2"));
-		informationList.add(MCA.getLanguageManager().getString("information.villagerbed.line3"));
+		informationList.add(MCA.getLocalizer().getString("information.villagerbed.line1"));
+		informationList.add(MCA.getLocalizer().getString("information.villagerbed.line2"));
+		informationList.add(MCA.getLocalizer().getString("information.villagerbed.line3"));
 	}
 }

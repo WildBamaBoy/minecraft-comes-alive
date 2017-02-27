@@ -31,7 +31,7 @@ public enum EnumCombatBehaviors
 
 	public String getParsedText()
 	{
-		return MCA.getLanguageManager().getString(parserId);
+		return MCA.getLocalizer().getString(parserId);
 	}
 
 	public static EnumCombatBehaviors getById(int id)

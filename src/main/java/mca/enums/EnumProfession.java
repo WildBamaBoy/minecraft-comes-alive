@@ -109,19 +109,19 @@ public enum EnumProfession
 		//Player children have the "child" profession. Change their display title to "Villager" if they're grown up.
 		if (this == Child && !human.attributes.getIsChild())
 		{
-			return MCA.getLanguageManager().getString("profession.villager");
+			return MCA.getLocalizer().getString("profession.villager");
 		}
 		
 		//All children will show the "Child" title, regardless of underlying profession. 
 		//When grown, their actual profession title will be shown.
 		else if (human.attributes.getIsChild())
 		{
-			return MCA.getLanguageManager().getString("profession.child");			
+			return MCA.getLocalizer().getString("profession.child");			
 		}
 		
 		else
 		{
-			return MCA.getLanguageManager().getString(getLocalizationId());
+			return MCA.getLocalizer().getString(getLocalizationId());
 		}
 	}
 

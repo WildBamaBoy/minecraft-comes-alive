@@ -135,7 +135,7 @@ public class EventHooksFML
 		else if (MCA.reloadLanguage)
 		{
 			MCA.reloadLanguage = false;
-			MCA.getLanguageManager().onLanguageChange();
+			MCA.getLocalizer().onLanguageChange();
 		}
 
 		if (playPortalAnimation)

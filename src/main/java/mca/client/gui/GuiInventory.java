@@ -57,8 +57,8 @@ public class GuiInventory extends InventoryEffectRenderer
 	{
 		super.initGui();
 		buttonList.clear();
-		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getLanguageManager().getString("gui.button.back")));
-		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getLanguageManager().getString("gui.button.exit")));
+		buttonList.add(backButton = new GuiButton(10, width / 2 - 190, height / 2 + 85, 65, 20, MCA.getLocalizer().getString("gui.button.back")));
+		buttonList.add(exitButton = new GuiButton(11, width / 2 + 125, height / 2 + 85, 65, 20, MCA.getLocalizer().getString("gui.button.exit")));
 	}
 
 	@Override

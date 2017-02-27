@@ -36,7 +36,7 @@ public class GuiTombstone extends GuiScreen
 	{
 		buttonList.clear();
 		Keyboard.enableRepeatEvents(true);
-		buttonList.add(new GuiButton(0, width / 2 - 100, height / 2 + 70, MCA.getLanguageManager().getString("gui.button.ok")));
+		buttonList.add(new GuiButton(0, width / 2 - 100, height / 2 + 70, MCA.getLocalizer().getString("gui.button.ok")));
 	}
 
 	@Override
@@ -115,7 +115,7 @@ public class GuiTombstone extends GuiScreen
 	public void drawScreen(int sizeX, int sizeY, float offset)
 	{
 		drawDefaultBackground();
-		drawCenteredString(fontRendererObj, MCA.getLanguageManager().getString("gui.title.tombstone"), width / 2, 40, 0xffffff);
+		drawCenteredString(fontRendererObj, MCA.getLocalizer().getString("gui.title.tombstone"), width / 2, 40, 0xffffff);
 
 		GL11.glPushMatrix();
 

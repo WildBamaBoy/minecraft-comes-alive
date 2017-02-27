@@ -28,11 +28,11 @@ public class GuiPrompt extends GuiScreen
 			switch (interaction)
 			{
 			case HAVEBABY:
-				prompt = MCA.getLanguageManager().getString("interactionp.havebaby.prompt", sender.getName());
+				prompt = MCA.getLocalizer().getString("interactionp.havebaby.prompt", sender.getName());
 				returnInteraction = EnumInteraction.HAVEBABY_ACCEPT;
 				break;
 			case ASKTOMARRY:
-				prompt = MCA.getLanguageManager().getString("interactionp.marry.prompt", sender.getName());
+				prompt = MCA.getLocalizer().getString("interactionp.marry.prompt", sender.getName());
 				returnInteraction = EnumInteraction.ASKTOMARRY_ACCEPT;
 				break;
 			}
@@ -78,7 +78,7 @@ public class GuiPrompt extends GuiScreen
 		int yLoc = height == 240 ? 115 : height == 255 ? 125 : 132;
 		int yInt = 22;
 		
-		buttonList.add(new GuiButton(1, width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.yes"))); yLoc -= yInt;
-		buttonList.add(new GuiButton(2,  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.no")));
+		buttonList.add(new GuiButton(1, width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLocalizer().getString("gui.button.yes"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(2,  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.no")));
 	}
 }

@@ -188,7 +188,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 				if (memory.getDialogueType() == EnumDialogueType.SPOUSE && memory.getHearts() <= 25 && villager.attributes.getLowHeartWarnings() >= 3)
 				{
 					villager.say("spouse.endmarriage", player, player);
-					player.sendMessage(new TextComponentString(Color.RED + MCA.getLanguageManager().getString("notify.spouseendedmarriage", villager)));
+					player.sendMessage(new TextComponentString(Color.RED + MCA.getLocalizer().getString("notify.spouseendedmarriage", villager)));
 					memory.setHearts(-100);
 					mood.modifyMoodLevel(-20.0F);
 					villager.attributes.resetLowHeartWarnings();
@@ -389,7 +389,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 				else if (!data.getOwnsBaby())
 				{
 					boolean isMale = RadixLogic.getBooleanWithProbability(50);
-					String babyName = isMale ? MCA.getLanguageManager().getString("name.male") : MCA.getLanguageManager().getString("name.female");
+					String babyName = isMale ? MCA.getLocalizer().getString("name.male") : MCA.getLocalizer().getString("name.female");
 					villager.say("interaction.adoptbaby.success", player, babyName);
 
 					ItemStack stack = new ItemStack(isMale ? ItemsMCA.babyBoy : ItemsMCA.babyGirl);

@@ -461,7 +461,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 			//Add title and text.
 			sb.append(attributes.getTitle(target));
 			sb.append(": ");
-			sb.append(MCA.getLanguageManager().getString(phraseId, arguments));
+			sb.append(MCA.getLocalizer().getString(phraseId, arguments));
 
 			target.sendMessage(new TextComponentString(sb.toString()));
 

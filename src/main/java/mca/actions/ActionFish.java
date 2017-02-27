@@ -129,7 +129,7 @@ public class ActionFish extends AbstractToggleAction
 
 		if (waterCoordinates == null)
 		{
-			actor.say(MCA.getLanguageManager().getString("fishing.nowater"), getAssigningPlayer());
+			actor.say(MCA.getLocalizer().getString("fishing.nowater"), getAssigningPlayer());
 
 			reset();
 			return false;
@@ -192,7 +192,7 @@ public class ActionFish extends AbstractToggleAction
 				//Check if they're carrying 64 fish and end the chore if they are.
 				if (actor.attributes.getInventory().containsCountOf(Items.FISH, 64))
 				{
-					actor.say(MCA.getLanguageManager().getString("notify.child.chore.finished.fishing"), getAssigningPlayer());
+					actor.say(MCA.getLocalizer().getString("notify.child.chore.finished.fishing"), getAssigningPlayer());
 					reset();
 					return;
 				}

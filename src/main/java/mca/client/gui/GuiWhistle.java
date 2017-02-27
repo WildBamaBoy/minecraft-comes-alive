@@ -64,9 +64,9 @@ public class GuiWhistle extends GuiScreen
 		buttonList.add(selectionLeftButton = new GuiButton(1, width / 2 - 123, height / 2 + 65, 20, 20, "<<"));
 		buttonList.add(selectionRightButton = new GuiButton(2, width / 2 + 103, height / 2 + 65, 20, 20, ">>"));
 		buttonList.add(villagerNameButton = new GuiButton(3, width / 2 - 100, height / 2 + 65, 200, 20, ""));
-		buttonList.add(callButton = new GuiButton(4, width / 2 - 100, height / 2 + 90, 60, 20, MCA.getLanguageManager().getString("gui.button.call")));
-		buttonList.add(callAllButton = new GuiButton(5, width / 2 - 30, height / 2 + 90, 60, 20, MCA.getLanguageManager().getString("gui.button.callall")));
-		buttonList.add(exitButton = new GuiButton(6, width / 2 + 40, height / 2 + 90, 60, 20, MCA.getLanguageManager().getString("gui.button.exit")));
+		buttonList.add(callButton = new GuiButton(4, width / 2 - 100, height / 2 + 90, 60, 20, MCA.getLocalizer().getString("gui.button.call")));
+		buttonList.add(callAllButton = new GuiButton(5, width / 2 - 30, height / 2 + 90, 60, 20, MCA.getLocalizer().getString("gui.button.callall")));
+		buttonList.add(exitButton = new GuiButton(6, width / 2 + 40, height / 2 + 90, 60, 20, MCA.getLocalizer().getString("gui.button.exit")));
 
 		MCA.getPacketHandler().sendPacketToServer(new PacketRequestRelatedVillagers());
 	}
@@ -135,7 +135,7 @@ public class GuiWhistle extends GuiScreen
 	public void drawScreen(int sizeX, int sizeY, float offset)
 	{
 		drawDefaultBackground();
-		drawCenteredString(fontRendererObj, MCA.getLanguageManager().getString("gui.title.whistle"), width / 2, height / 2 - 110, 0xffffff);
+		drawCenteredString(fontRendererObj, MCA.getLocalizer().getString("gui.title.whistle"), width / 2, height / 2 - 110, 0xffffff);
 
 		if (loadingAnimationTicks != -1)
 		{

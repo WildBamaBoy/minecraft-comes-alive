@@ -80,22 +80,22 @@ public class PacketInteractWithPlayerS extends AbstractPacket<PacketInteractWith
 		case ASKTOMARRY:
 			if (targetData.getSpouseUUID() != Constants.EMPTY_UUID || senderData.getMarriageState() != EnumMarriageState.NOT_MARRIED)
 			{
-				sender.sendMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.marry.fail.targetalreadymarried", target.getName())));
+				sender.sendMessage(new TextComponentString(MCA.getLocalizer().getString("interactionp.marry.fail.targetalreadymarried", target.getName())));
 			}
 
 			else if (senderData.getSpouseUUID() != Constants.EMPTY_UUID || senderData.getMarriageState() != EnumMarriageState.NOT_MARRIED)
 			{
-				sender.sendMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.marry.fail.alreadymarried")));				
+				sender.sendMessage(new TextComponentString(MCA.getLocalizer().getString("interactionp.marry.fail.alreadymarried")));				
 			}
 
 			else if (!senderHasWeddingRing)
 			{
-				sender.sendMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.marry.fail.noweddingring")));
+				sender.sendMessage(new TextComponentString(MCA.getLocalizer().getString("interactionp.marry.fail.noweddingring")));
 			}
 
 			else
 			{
-				sender.sendMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.marry.sent", target.getName())));
+				sender.sendMessage(new TextComponentString(MCA.getLocalizer().getString("interactionp.marry.sent", target.getName())));
 				MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenPrompt(sender, target, interaction), (EntityPlayerMP)target);
 			}
 
@@ -104,27 +104,27 @@ public class PacketInteractWithPlayerS extends AbstractPacket<PacketInteractWith
 			senderData.setSpouse(null);
 			targetData.setSpouse(null);
 			
-			sender.sendMessage(new TextComponentString(MCA.getLanguageManager().getString(Color.RED + MCA.getLanguageManager().getString("interactionp.divorce.notify", target.getName()))));
-			target.sendMessage(new TextComponentString(MCA.getLanguageManager().getString(Color.RED + MCA.getLanguageManager().getString("interactionp.divorce.notify", sender.getName()))));
+			sender.sendMessage(new TextComponentString(MCA.getLocalizer().getString(Color.RED + MCA.getLocalizer().getString("interactionp.divorce.notify", target.getName()))));
+			target.sendMessage(new TextComponentString(MCA.getLocalizer().getString(Color.RED + MCA.getLocalizer().getString("interactionp.divorce.notify", sender.getName()))));
 			break;
 
 		case HAVEBABY:
 			if (senderData.getOwnsBaby())
 			{
-				sender.sendMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.havebaby.fail.alreadyexists", target.getName())));				
+				sender.sendMessage(new TextComponentString(MCA.getLocalizer().getString("interactionp.havebaby.fail.alreadyexists", target.getName())));				
 			}
 
 			else
 			{
-				sender.sendMessage(new TextComponentString(MCA.getLanguageManager().getString("interactionp.havebaby.sent", target.getName())));
+				sender.sendMessage(new TextComponentString(MCA.getLocalizer().getString("interactionp.havebaby.sent", target.getName())));
 				MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenPrompt(sender, target, interaction), (EntityPlayerMP)target);
 			}
 			
 			break;
 
 		case ASKTOMARRY_ACCEPT:
-			sender.sendMessage(new TextComponentString(Color.GREEN + MCA.getLanguageManager().getString("interactionp.marry.success", target.getName())));
-			target.sendMessage(new TextComponentString(Color.GREEN + MCA.getLanguageManager().getString("interactionp.marry.success", sender.getName())));
+			sender.sendMessage(new TextComponentString(Color.GREEN + MCA.getLocalizer().getString("interactionp.marry.success", target.getName())));
+			target.sendMessage(new TextComponentString(Color.GREEN + MCA.getLocalizer().getString("interactionp.marry.success", sender.getName())));
 
 			senderData.setSpouse(Either.<EntityVillagerMCA, EntityPlayer>withR(target));
 

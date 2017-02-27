@@ -221,7 +221,7 @@ public class GuiInteraction extends GuiScreen
 									"gui.info.family.notmarried";
 
 			//Always include the villager's spouse name in case %a1% will be provided.
-			RadixRender.drawTextPopup(MCA.getLanguageManager().getString(phraseId, villager.attributes.getSpouseName()), 49, 73);
+			RadixRender.drawTextPopup(MCA.getLocalizer().getString(phraseId, villager.attributes.getSpouseName()), 49, 73);
 		}
 
 		if (displayParentsInfo)
@@ -248,8 +248,8 @@ public class GuiInteraction extends GuiScreen
 			if (fatherName.isEmpty()) fatherName = "?";
 			if (motherName.isEmpty()) motherName = "?";
 			
-			displayList.add(MCA.getLanguageManager().getString(fatherString, fatherName));
-			displayList.add(MCA.getLanguageManager().getString(motherString, motherName));
+			displayList.add(MCA.getLocalizer().getString(fatherString, fatherName));
+			displayList.add(MCA.getLocalizer().getString(motherString, motherName));
 
 			RadixRender.drawTextPopup(displayList, 49, 97);
 		}
@@ -257,14 +257,14 @@ public class GuiInteraction extends GuiScreen
 		if (displayGiftInfo)
 		{
 			List<String> displayList = new ArrayList<String>();
-			displayList.add(MCA.getLanguageManager().getString("gui.info.gift.line1"));
-			displayList.add(MCA.getLanguageManager().getString("gui.info.gift.line2"));
+			displayList.add(MCA.getLocalizer().getString("gui.info.gift.line1"));
+			displayList.add(MCA.getLocalizer().getString("gui.info.gift.line2"));
 
 			RadixRender.drawTextPopup(displayList, 49, 129);
 		}
 
-		String moodString = MCA.getLanguageManager().getString("gui.info.mood", villager.getBehavior(ActionUpdateMood.class).getMood(villager.attributes.getPersonality()).getFriendlyName());
-		String personalityString = MCA.getLanguageManager().getString("gui.info.personality", villager.attributes.getPersonality().getFriendlyName());
+		String moodString = MCA.getLocalizer().getString("gui.info.mood", villager.getBehavior(ActionUpdateMood.class).getMood(villager.attributes.getPersonality()).getFriendlyName());
+		String personalityString = MCA.getLocalizer().getString("gui.info.personality", villager.attributes.getPersonality().getFriendlyName());
 
 		RadixRender.drawTextPopup(moodString, 18, 29);
 		RadixRender.drawTextPopup(personalityString, 18, 46);
@@ -557,7 +557,7 @@ public class GuiInteraction extends GuiScreen
 
 				if (!hasGold)
 				{
-					player.sendMessage(new TextComponentString(MCA.getLanguageManager().getString("interaction.hire.fail.notenoughgold", hireLengths.get())));
+					player.sendMessage(new TextComponentString(MCA.getLocalizer().getString("interaction.hire.fail.notenoughgold", hireLengths.get())));
 				}
 
 				else
@@ -718,13 +718,13 @@ public class GuiInteraction extends GuiScreen
 		int yLoc = height == 240 ? 115 : height == 255 ? 125 : 132;
 		int yInt = 22;
 
-		buttonList.add(new GuiButton(EnumInteraction.INTERACT.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.interact"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.INTERACT.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.interact"))); yLoc -= yInt;
 
 		if (villager.attributes.allowsControllingInteractions(player))
 		{
-			buttonList.add(new GuiButton(EnumInteraction.FOLLOW.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.follow"))); yLoc -= yInt;
-			buttonList.add(new GuiButton(EnumInteraction.STAY.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.stay"))); yLoc -= yInt;
-			buttonList.add(new GuiButton(EnumInteraction.MOVE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.move"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.FOLLOW.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.follow"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.STAY.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.stay"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.MOVE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.move"))); yLoc -= yInt;
 
 			boolean followButtonEnabled = villager.attributes.getMovementState() != EnumMovementState.FOLLOW || !(villager.getBehavior(ActionFollow.class)).getFollowingUUID().equals(player.getUniqueID());
 			((GuiButton)buttonList.get(1)).enabled = followButtonEnabled;
@@ -736,40 +736,40 @@ public class GuiInteraction extends GuiScreen
 
 		if (!villager.attributes.getIsChild() && MCA.getConfig().allowTrading)
 		{
-			buttonList.add(new GuiButton(EnumInteraction.TRADE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.trade"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.TRADE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.trade"))); yLoc -= yInt;
 		}
 
 		if (villager.attributes.allowsControllingInteractions(player))
 		{
-			buttonList.add(new GuiButton(EnumInteraction.SET_HOME.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.sethome"))); yLoc -= yInt;
-			buttonList.add(new GuiButton(EnumInteraction.RIDE_HORSE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.ridehorse"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.SET_HOME.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.sethome"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.RIDE_HORSE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.ridehorse"))); yLoc -= yInt;
 		}
 
 		if (villager.attributes.getPlayerSpouseInstance() == player)
 		{
-			buttonList.add(new GuiButton(EnumInteraction.WORK.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.work"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.WORK.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.work"))); yLoc -= yInt;
 		}
 		
 		else if (!villager.attributes.getIsChild())
 		{
-			buttonList.add(new GuiButton(EnumInteraction.SPECIAL.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.special"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.SPECIAL.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.special"))); yLoc -= yInt;
 		}
 
 		if (villager.attributes.getSpouseName().equals(player.getName()) || villager.attributes.getPlayerSpouseInstance() == player)
 		{
-			buttonList.add(new GuiButton(EnumInteraction.PROCREATE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.procreate"))); yLoc -= yInt;
-			buttonList.add(new GuiButton(EnumInteraction.INVENTORY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.inventory"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.PROCREATE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.procreate"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.INVENTORY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLocalizer().getString("gui.button.inventory"))); yLoc -= yInt;
 		}
 
 		if (villager.attributes.isPlayerAParent(player) && villager.attributes.getIsChild())
 		{
-			buttonList.add(new GuiButton(EnumInteraction.PICK_UP.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.pickup"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.PICK_UP.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.pickup"))); yLoc -= yInt;
 		}
 
 		if (villager.attributes.allowsWorkInteractions(player))
 		{
-			buttonList.add(new GuiButton(EnumInteraction.INVENTORY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.inventory"))); yLoc -= yInt;
-			buttonList.add(new GuiButton(EnumInteraction.WORK.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString("gui.button.work"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.INVENTORY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLocalizer().getString("gui.button.inventory"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.WORK.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLocalizer().getString("gui.button.work"))); yLoc -= yInt;
 
 			//Disable work button for adult children.
 			if (villager.attributes.isPlayerAParent(player) && !villager.attributes.getIsChild())
@@ -790,7 +790,7 @@ public class GuiInteraction extends GuiScreen
 		if (playerData.getIsNobility() && !villager.attributes.isPlayerAParent(player) && villager.attributes.getPlayerSpouseInstance() != player)
 		{
 			String nobilityString = playerData.getGender() == EnumGender.MALE ? "gui.button.baron" : "gui.button.baroness";
-			buttonList.add(new GuiButton(EnumInteraction.NOBILITY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLanguageManager().getString(nobilityString))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.NOBILITY.getId(), width / 2 + xLoc, height / 2 - yLoc, 65, 20, MCA.getLocalizer().getString(nobilityString))); yLoc -= yInt;
 		}
 	}
 
@@ -804,18 +804,18 @@ public class GuiInteraction extends GuiScreen
 		int yInt = 22;
 
 		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
-		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString("gui.button.interact"))); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.CHAT.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.chat"))); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.JOKE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.joke"))); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.GIFT.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.gift"))); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.SHAKE_HAND.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.shakehand"))); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.TELL_STORY.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.tellstory"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLocalizer().getString("gui.button.interact"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.CHAT.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.chat"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.JOKE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.joke"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.GIFT.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.gift"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.SHAKE_HAND.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.shakehand"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.TELL_STORY.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.tellstory"))); yLoc -= yInt;
 
 		if (villager.attributes.allowsIntimateInteractions(player))
 		{
-			buttonList.add(new GuiButton(EnumInteraction.FLIRT.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.flirt"))); yLoc -= yInt;
-			buttonList.add(new GuiButton(EnumInteraction.HUG.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.hug"))); yLoc -= yInt;
-			buttonList.add(new GuiButton(EnumInteraction.KISS.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.kiss"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.FLIRT.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.flirt"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.HUG.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.hug"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.KISS.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.kiss"))); yLoc -= yInt;
 		}
 	}
 
@@ -829,15 +829,15 @@ public class GuiInteraction extends GuiScreen
 		int yInt = 22;
 
 		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
-		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString("gui.button.work"))); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.FARMING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.farming"))); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.WOODCUTTING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.woodcutting"))); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.MINING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.mining"))); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.HUNTING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.hunting"))); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.FISHING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.fishing"))); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.COOKING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.cooking"))); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.COMBAT.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.combat"))); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.STOP.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.DARKRED + MCA.getLanguageManager().getString("gui.button.stop"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLocalizer().getString("gui.button.work"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.FARMING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.farming"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.WOODCUTTING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.woodcutting"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.MINING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.mining"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.HUNTING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.hunting"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.FISHING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.fishing"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.COOKING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.cooking"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.COMBAT.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.combat"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.STOP.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.DARKRED + MCA.getLocalizer().getString("gui.button.stop"))); yLoc -= yInt;
 
 		if (villager.getBehaviors().isToggleActionActive())
 		{
@@ -920,7 +920,7 @@ public class GuiInteraction extends GuiScreen
 		int yInt = 22;
 
 		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
-		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString("gui.button.special"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLocalizer().getString("gui.button.special"))); yLoc -= yInt;
 
 		if (villager.attributes.getCanBeHired(player))
 		{
@@ -929,9 +929,9 @@ public class GuiInteraction extends GuiScreen
 			
 			String hireButtonText = isHired ? "gui.button.hired" : "gui.button.hire";
 
-			buttonList.add(new GuiButton(EnumInteraction.HIRE.getId(), width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString(hireButtonText))); yLoc -= yInt;
-			buttonList.add(new GuiButton(EnumInteraction.EXTEND.getId(), width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.extend"))); yLoc -= yInt;
-			buttonList.add(new GuiButton(EnumInteraction.DISMISS.getId(), width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.dismiss"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.HIRE.getId(), width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString(hireButtonText))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.EXTEND.getId(), width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.extend"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.DISMISS.getId(), width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.dismiss"))); yLoc -= yInt;
 			
 			if (isHired || !reachedHeartLevel)
 			{
@@ -947,26 +947,26 @@ public class GuiInteraction extends GuiScreen
 
 		else if (villager.attributes.getProfessionSkinGroup() == EnumProfessionSkinGroup.Priest && villager.attributes.getPlayerSpouseInstance() != player)
 		{
-			buttonList.add(new GuiButton(EnumInteraction.DIVORCE.getId(),  width / 2 + xLoc - 20, height / 2 - yLoc,  85, 20, MCA.getLanguageManager().getString("gui.button.divorcespouse"))); yLoc -= yInt;
-			buttonList.add(new GuiButton(EnumInteraction.ADOPTBABY.getId(),  width / 2 + xLoc - 20, height / 2 - yLoc,  85, 20, MCA.getLanguageManager().getString("gui.button.adoptbaby"))); yLoc -= yInt;
-			buttonList.add(new GuiButton(EnumInteraction.RESETBABY.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.resetbaby"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.DIVORCE.getId(),  width / 2 + xLoc - 20, height / 2 - yLoc,  85, 20, MCA.getLocalizer().getString("gui.button.divorcespouse"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.ADOPTBABY.getId(),  width / 2 + xLoc - 20, height / 2 - yLoc,  85, 20, MCA.getLocalizer().getString("gui.button.adoptbaby"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.RESETBABY.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.resetbaby"))); yLoc -= yInt;
 		}
 		
 		else if (villager.attributes.getProfessionSkinGroup() == EnumProfessionSkinGroup.Librarian && villager.attributes.getPlayerSpouseInstance() != player)
 		{
-			buttonList.add(new GuiButton(EnumInteraction.CHECKHAPPINESS.getId(),  width / 2 + xLoc - 20, height / 2 - yLoc,  85, 20, MCA.getLanguageManager().getString("gui.button.checkhappiness"))); yLoc -= yInt;
+			buttonList.add(new GuiButton(EnumInteraction.CHECKHAPPINESS.getId(),  width / 2 + xLoc - 20, height / 2 - yLoc,  85, 20, MCA.getLocalizer().getString("gui.button.checkhappiness"))); yLoc -= yInt;
 		}
 		
 		if (villager.attributes.getPlayerSpouseInstance() == player)
 		{
 			if (!villager.getBehaviors().isToggleActionActive())
 			{
-				buttonList.add(new GuiButton(EnumInteraction.COOKING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLanguageManager().getString("gui.button.cooking"))); yLoc -= yInt;
+				buttonList.add(new GuiButton(EnumInteraction.COOKING.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, MCA.getLocalizer().getString("gui.button.cooking"))); yLoc -= yInt;
 			}
 				
 			else
 			{
-				buttonList.add(new GuiButton(EnumInteraction.STOP.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.DARKRED + MCA.getLanguageManager().getString("gui.button.stop"))); yLoc -= yInt;
+				buttonList.add(new GuiButton(EnumInteraction.STOP.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.DARKRED + MCA.getLocalizer().getString("gui.button.stop"))); yLoc -= yInt;
 			}
 		}
 	}
@@ -981,9 +981,9 @@ public class GuiInteraction extends GuiScreen
 		int yInt = 22;
 
 		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
-		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString("gui.button.hire"))); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.LENGTH.getId(),  width / 2 + xLoc - 35, height / 2 - yLoc, 100, 20, MCA.getLanguageManager().getString("gui.button.length", hireLengths.get()))); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.ACCEPT.getId(),  width / 2 + xLoc - 25, height / 2 - yLoc, 90, 20, MCA.getLanguageManager().getString("gui.button.accept"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLocalizer().getString("gui.button.hire"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.LENGTH.getId(),  width / 2 + xLoc - 35, height / 2 - yLoc, 100, 20, MCA.getLocalizer().getString("gui.button.length", hireLengths.get()))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.ACCEPT.getId(),  width / 2 + xLoc - 25, height / 2 - yLoc, 90, 20, MCA.getLocalizer().getString("gui.button.accept"))); yLoc -= yInt;
 	}
 	
 	private void drawExtendButtonMenu()
@@ -996,9 +996,9 @@ public class GuiInteraction extends GuiScreen
 		int yInt = 22;
 
 		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
-		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString("gui.button.extend"))); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.LENGTH.getId(),  width / 2 + xLoc - 35, height / 2 - yLoc, 100, 20, MCA.getLanguageManager().getString("gui.button.length", hireLengths.get()))); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.ACCEPT.getId(),  width / 2 + xLoc - 25, height / 2 - yLoc, 90, 20, MCA.getLanguageManager().getString("gui.button.accept"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLocalizer().getString("gui.button.extend"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.LENGTH.getId(),  width / 2 + xLoc - 35, height / 2 - yLoc, 100, 20, MCA.getLocalizer().getString("gui.button.length", hireLengths.get()))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.ACCEPT.getId(),  width / 2 + xLoc - 25, height / 2 - yLoc, 90, 20, MCA.getLocalizer().getString("gui.button.accept"))); yLoc -= yInt;
 	}
 
 	private void drawFarmingControlMenu() 
@@ -1025,11 +1025,11 @@ public class GuiInteraction extends GuiScreen
 		}
 
 		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
-		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString("gui.button.farming"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLocalizer().getString("gui.button.farming"))); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.FARMING_MODE.getId(),  width / 2 + xLoc - 40, height / 2 - yLoc, 105, 20, modeText)); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.FARMING_RADIUS.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, "Radius: " + radiusMappings.get())); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.FARMING_TARGET.getId(),  width / 2 + xLoc - 40, height / 2 - yLoc, 105, 20, "Plant: " + entry.getCropName())); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + MCA.getLanguageManager().getString("gui.button.start"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + MCA.getLocalizer().getString("gui.button.start"))); yLoc -= yInt;
 
 		for (Object obj : buttonList)
 		{
@@ -1073,7 +1073,7 @@ public class GuiInteraction extends GuiScreen
 
 		buttonList.add(new GuiButton(EnumInteraction.MINING_MODE.getId(),  width / 2 + xLoc - 40, height / 2 - yLoc, 105, 20, modeText)); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.MINING_TARGET.getId(),  width / 2 + xLoc - 80, height / 2 - yLoc, 145, 20, targetText)); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + MCA.getLanguageManager().getString("gui.button.start"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + MCA.getLocalizer().getString("gui.button.start"))); yLoc -= yInt;
 	}
 
 	private void drawWoodcuttingControlMenu() 
@@ -1097,14 +1097,14 @@ public class GuiInteraction extends GuiScreen
 			entry = RegistryMCA.getDefaultWoodcuttingEntry();
 		}
 
-		String treeText = MCA.getLanguageManager().getString("gui.button.woodcutting.logtype", new ItemStack(entry.getLogBlock(), 1, entry.getLogMeta()).getDisplayName());
-		String replantText = MCA.getLanguageManager().getString("gui.button.woodcutting.replant", MCA.getLanguageManager().getString(woodcuttingReplantFlag ? "gui.button.yes" : "gui.button.no"));
+		String treeText = MCA.getLocalizer().getString("gui.button.woodcutting.logtype", new ItemStack(entry.getLogBlock(), 1, entry.getLogMeta()).getDisplayName());
+		String replantText = MCA.getLocalizer().getString("gui.button.woodcutting.replant", MCA.getLocalizer().getString(woodcuttingReplantFlag ? "gui.button.yes" : "gui.button.no"));
 
 		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
-		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString("gui.button.woodcutting"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLocalizer().getString("gui.button.woodcutting"))); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.WOODCUTTING_TREE.getId(),  width / 2 + xLoc - 66, height / 2 - yLoc,  130, 20, treeText)); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.WOODCUTTING_REPLANT.getId(),  width / 2 + xLoc - 10, height / 2 - yLoc,  75, 20, replantText)); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + MCA.getLanguageManager().getString("gui.button.start"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + MCA.getLocalizer().getString("gui.button.start"))); yLoc -= yInt;
 	}
 
 	private void drawHuntingControlMenu() 
@@ -1116,12 +1116,12 @@ public class GuiInteraction extends GuiScreen
 		int yLoc = height == 240 ? 115 : height == 255 ? 125 : 132;
 		int yInt = 22;
 
-		String modeText = MCA.getLanguageManager().getString("gui.button.mode", huntingModeFlag ? MCA.getLanguageManager().getString("gui.button.kill") : MCA.getLanguageManager().getString("gui.button.tame")); 
+		String modeText = MCA.getLocalizer().getString("gui.button.mode", huntingModeFlag ? MCA.getLocalizer().getString("gui.button.kill") : MCA.getLocalizer().getString("gui.button.tame")); 
 
 		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
-		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString("gui.button.hunting"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLocalizer().getString("gui.button.hunting"))); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.HUNTING_MODE.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, modeText)); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + MCA.getLanguageManager().getString("gui.button.start"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + MCA.getLocalizer().getString("gui.button.start"))); yLoc -= yInt;
 	}
 
 	private void drawFishingControlMenu() 
@@ -1134,8 +1134,8 @@ public class GuiInteraction extends GuiScreen
 		int yInt = 22;
 
 		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
-		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString("gui.button.fishing"))); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + MCA.getLanguageManager().getString("gui.button.start"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLocalizer().getString("gui.button.fishing"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + MCA.getLocalizer().getString("gui.button.start"))); yLoc -= yInt;
 	}
 	
 	private void drawCookingControlMenu() 
@@ -1148,8 +1148,8 @@ public class GuiInteraction extends GuiScreen
 		int yInt = 22;
 
 		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
-		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString("gui.button.cooking"))); yLoc -= yInt;
-		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + MCA.getLanguageManager().getString("gui.button.start"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLocalizer().getString("gui.button.cooking"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.START.getId(),  width / 2 + xLoc, height / 2 - yLoc,  65, 20, Color.GREEN + MCA.getLocalizer().getString("gui.button.start"))); yLoc -= yInt;
 	}
 
 	private void drawCombatControlMenu() 
@@ -1164,16 +1164,16 @@ public class GuiInteraction extends GuiScreen
 		int yInt = 22;
 
 		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
-		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString("gui.button.combat"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLocalizer().getString("gui.button.combat"))); yLoc -= yInt;
 
 		xLoc -= 95;
 		
 		buttonList.add(new GuiButton(EnumInteraction.ATTACK_METHOD.getId(), width / 2 + xLoc, height / 2 - yLoc,  160, 20, 
-				MCA.getLanguageManager().getString("combat.button.method") + combatAI.getMethodBehavior().getParsedText())); yLoc -= yInt;
+				MCA.getLocalizer().getString("combat.button.method") + combatAI.getMethodBehavior().getParsedText())); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.ATTACK_TRIGGER.getId(), width / 2 + xLoc, height / 2 - yLoc,  160, 20, 
-				MCA.getLanguageManager().getString("combat.button.trigger") + combatAI.getTriggerBehavior().getParsedText())); yLoc -= yInt;
+				MCA.getLocalizer().getString("combat.button.trigger") + combatAI.getTriggerBehavior().getParsedText())); yLoc -= yInt;
 		buttonList.add(new GuiButton(EnumInteraction.ATTACK_TARGET.getId(), width / 2 + xLoc, height / 2 - yLoc,  160, 20, 
-				MCA.getLanguageManager().getString("combat.button.target") + combatAI.getTargetBehavior().getParsedText())); yLoc -= yInt;
+				MCA.getLocalizer().getString("combat.button.target") + combatAI.getTargetBehavior().getParsedText())); yLoc -= yInt;
 				
 		if (combatAI.getMethodBehavior() == EnumCombatBehaviors.METHOD_DO_NOT_FIGHT)
 		{
@@ -1193,11 +1193,11 @@ public class GuiInteraction extends GuiScreen
 
 		String nobilityString = playerData.getGender() == EnumGender.MALE ? "gui.button.baron" : "gui.button.baroness";
 		buttonList.add(new GuiButton(EnumInteraction.BACK.getId(),  width / 2 + xLoc - 32, height / 2 - yLoc, 14, 20, "<<"));
-		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLanguageManager().getString(nobilityString))); yLoc -= yInt;		
+		buttonList.add(new GuiButton(-1,  width / 2 + xLoc - 16, height / 2 - yLoc,  80, 20, Color.YELLOW + MCA.getLocalizer().getString(nobilityString))); yLoc -= yInt;		
 		
 		xLoc -= 55;
 		
-		buttonList.add(new GuiButton(EnumInteraction.TAXES.getId(), width / 2 + xLoc, height / 2 - yLoc, 120, 20, MCA.getLanguageManager().getString("gui.button.taxes"))); yLoc -= yInt;
+		buttonList.add(new GuiButton(EnumInteraction.TAXES.getId(), width / 2 + xLoc, height / 2 - yLoc, 120, 20, MCA.getLocalizer().getString("gui.button.taxes"))); yLoc -= yInt;
 		
 		if (memory.getTaxResetCounter() > 0)
 		{

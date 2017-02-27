@@ -60,12 +60,12 @@ public class LanguageParser extends AbstractLanguageParser
 					
 					if (isPlayerMale)
 					{
-						unparsedPhrase = unparsedPhrase.replace("%ParentOpposite%", MCA.getLanguageManager().getString("parser.mom"));
+						unparsedPhrase = unparsedPhrase.replace("%ParentOpposite%", MCA.getLocalizer().getString("parser.mom"));
 					}
 					
 					else
 					{
-						unparsedPhrase = unparsedPhrase.replace("%ParentOpposite%", MCA.getLanguageManager().getString("parser.dad"));						
+						unparsedPhrase = unparsedPhrase.replace("%ParentOpposite%", MCA.getLocalizer().getString("parser.dad"));						
 					}
 				}
 				
@@ -75,19 +75,19 @@ public class LanguageParser extends AbstractLanguageParser
 					
 					if (!isPlayerMale)
 					{
-						unparsedPhrase = unparsedPhrase.replace("%ParentTitle%", MCA.getLanguageManager().getString("parser.mom"));
+						unparsedPhrase = unparsedPhrase.replace("%ParentTitle%", MCA.getLocalizer().getString("parser.mom"));
 					}
 					
 					else
 					{
-						unparsedPhrase = unparsedPhrase.replace("%ParentTitle%", MCA.getLanguageManager().getString("parser.dad"));						
+						unparsedPhrase = unparsedPhrase.replace("%ParentTitle%", MCA.getLocalizer().getString("parser.dad"));						
 					}					
 				}
 				
 				else if (unparsedPhrase.contains("%RelationToPlayer%"))
 				{
 					EnumRelation relation = memory.getRelation();
-					unparsedPhrase = unparsedPhrase.replace("%RelationToPlayer%", MCA.getLanguageManager().getString(relation.getPhraseId()));
+					unparsedPhrase = unparsedPhrase.replace("%RelationToPlayer%", MCA.getLocalizer().getString(relation.getPhraseId()));
 				}
 				
 				else if (unparsedPhrase.contains("%a1%"))

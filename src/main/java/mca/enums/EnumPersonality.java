@@ -91,7 +91,7 @@ public enum EnumPersonality
 	public String getFriendlyName()
 	{
 		String name = "personality." + this.name().toLowerCase();
-		return MCA.getLanguageManager().getString(name);
+		return MCA.getLocalizer().getString(name);
 	}
 
 	public int getSuccessModifierForInteraction(EnumInteraction interaction) 
