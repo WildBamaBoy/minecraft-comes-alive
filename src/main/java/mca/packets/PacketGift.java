@@ -505,7 +505,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 
 				else
 				{
-					player.inventory.setInventorySlotContents(packet.slot, null);				
+					player.inventory.setInventorySlotContents(packet.slot, ItemStack.EMPTY);				
 				}
 			}
 		}

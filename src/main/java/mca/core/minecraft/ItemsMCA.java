@@ -30,7 +30,7 @@ public final class ItemsMCA
 	public static final Item weddingRingRG = new Item().setUnlocalizedName("WeddingRingRG").setMaxStackSize(1);
 	public static final Item engagementRing = new Item().setUnlocalizedName("EngagementRing").setMaxStackSize(1);
 	public static final Item engagementRingRG = new Item().setUnlocalizedName("EngagementRingRG").setMaxStackSize(1);
-	public static final Item matchmakersRing = new Item().setUnlocalizedName("MatchmakersRing").setMaxStackSize(1);
+	public static final Item matchmakersRing = new Item().setUnlocalizedName("MatchmakersRing").setMaxStackSize(2);
 	public static final Item divorcePapers = new Item().setUnlocalizedName("DivorcePapers").setMaxStackSize(1);
 	public static final ItemBaby babyBoy = new ItemBaby(true);
 	public static final ItemBaby babyGirl = new ItemBaby(false);
