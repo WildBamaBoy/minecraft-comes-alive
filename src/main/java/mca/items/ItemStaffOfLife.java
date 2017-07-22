@@ -10,6 +10,7 @@ import mca.entity.VillagerAttributes;
 import mca.enums.EnumMarriageState;
 import mca.enums.EnumMemorialType;
 import mca.tile.TileMemorial;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
@@ -87,19 +88,19 @@ public class ItemStaffOfLife extends Item
 	}
 
 	@Override
-	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List infoList, boolean unknown)
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) 
 	{
-		infoList.add("Uses left: " + (itemStack.getMaxDamage() - itemStack.getItemDamage() + 1));
+		tooltip.add("Uses left: " + (stack.getMaxDamage() - stack.getItemDamage() + 1));
 		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
 		{
-			infoList.add("Use on an item owned by a dead");
-			infoList.add("villager to revive them. Item");
-			infoList.add("must be placed in the world.");
+			tooltip.add("Use on an item owned by a dead");
+			tooltip.add("villager to revive them. Item");
+			tooltip.add("must be placed in the world.");
 		}
 
 		else
 		{
-			infoList.add("Hold " + Color.YELLOW + "SHIFT" + Color.GRAY + " for info.");
+			tooltip.add("Hold " + Color.YELLOW + "SHIFT" + Color.GRAY + " for info.");
 		}
 	}
 }

@@ -248,7 +248,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 
 					if (memory.getHearts() >= 100)
 					{
-						player.addStat(AchievementsMCA.fullGoldHearts);
+						/* TODO player.addStat(AchievementsMCA.fullGoldHearts);*/
 					}
 
 					if (memory.getInteractionFatigue() == 4)

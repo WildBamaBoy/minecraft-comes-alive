@@ -3,7 +3,6 @@ package mca.actions;
 import java.util.Random;
 
 import mca.core.MCA;
-import mca.core.minecraft.AchievementsMCA;
 import mca.core.minecraft.ItemsMCA;
 import mca.data.NBTPlayerData;
 import mca.entity.EntityVillagerMCA;
@@ -17,7 +16,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.stats.Achievement;
 import net.minecraft.util.EnumParticleTypes;
 import radixcore.constant.Time;
 
@@ -79,9 +77,10 @@ public class ActionProcreate extends AbstractAction
 						playerSpouse.inventory.addItemStackToInventory(stack);
 					}
 					
+					/* TODO
 					Achievement achievement = isMale ? AchievementsMCA.babyBoy : AchievementsMCA.babyGirl;
 					playerSpouse.addStat(achievement);
-					
+					*/
 					MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenBabyNameGUI(isMale), (EntityPlayerMP) playerSpouse);
 				}
 			}

@@ -9,6 +9,7 @@ import mca.enums.EnumBedColor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -119,11 +120,10 @@ public class ItemVillagerBed extends Item
 	}
 
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List informationList, boolean unknown)
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) 
 	{
-		informationList.add(MCA.getLocalizer().getString("information.villagerbed.line1"));
-		informationList.add(MCA.getLocalizer().getString("information.villagerbed.line2"));
-		informationList.add(MCA.getLocalizer().getString("information.villagerbed.line3"));
+		tooltip.add(MCA.getLocalizer().getString("information.villagerbed.line1"));
+		tooltip.add(MCA.getLocalizer().getString("information.villagerbed.line2"));
+		tooltip.add(MCA.getLocalizer().getString("information.villagerbed.line3"));
 	}
 }

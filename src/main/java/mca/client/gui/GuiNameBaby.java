@@ -70,7 +70,7 @@ public class GuiNameBaby extends GuiScreen
 		buttonList.add(doneButton = new GuiButton(1, width / 2 - 40, height / 2 - 10, 80, 20, MCA.getLocalizer().getString("gui.button.done")));
 		buttonList.add(randomButton = new GuiButton(2, width / 2 + 105, height / 2 - 60, 60, 20, MCA.getLocalizer().getString("gui.button.random")));
 
-		babyNameTextField = new GuiTextField(3, fontRendererObj, width / 2 - 100, height / 2 - 60, 200, 20);
+		babyNameTextField = new GuiTextField(3, fontRenderer, width / 2 - 100, height / 2 - 60, 200, 20);
 		babyNameTextField.setMaxStringLength(32);
 	}
 
@@ -152,15 +152,15 @@ public class GuiNameBaby extends GuiScreen
 
 		if (isMale)
 		{
-			drawCenteredString(fontRendererObj, MCA.getLocalizer().getString("gui.title.namebaby.male"), width / 2, height / 2 - 90, 0xffffff);
+			drawCenteredString(fontRenderer, MCA.getLocalizer().getString("gui.title.namebaby.male"), width / 2, height / 2 - 90, 0xffffff);
 		}
 
 		else
 		{
-			drawCenteredString(fontRendererObj, MCA.getLocalizer().getString("gui.title.namebaby.female"), width / 2, height / 2 - 90, 0xffffff);
+			drawCenteredString(fontRenderer, MCA.getLocalizer().getString("gui.title.namebaby.female"), width / 2, height / 2 - 90, 0xffffff);
 		}
 
-		drawString(fontRendererObj, MCA.getLocalizer().getString("gui.title.namebaby"), width / 2 - 100, height / 2 - 70, 0xa0a0a0);
+		drawString(fontRenderer, MCA.getLocalizer().getString("gui.title.namebaby"), width / 2 - 100, height / 2 - 70, 0xa0a0a0);
 
 		babyNameTextField.drawTextBox();
 		super.drawScreen(sizeX, sizeY, offset);

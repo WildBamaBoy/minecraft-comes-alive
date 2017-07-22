@@ -135,8 +135,6 @@ public class MCA
 		{
 			logger.warn("Update checking is turned off. You will not be notified of any available updates for MCA.");
 		}
-
-		SoundsMCA.registerSounds();
 		
 		MinecraftForge.EVENT_BUS.register(new EventHooksForge());
 		MinecraftForge.EVENT_BUS.register(new EventHooksFML());
@@ -154,10 +152,7 @@ public class MCA
 						return new ItemStack(ItemsMCA.engagementRing);
 					}
 				};
-				
-		ItemsMCA.initialize();
-		BlocksMCA.initialize();
-		AchievementsMCA.initialize();
+
 		proxy.registerModelMeshers();
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 
@@ -174,6 +169,7 @@ public class MCA
 		GameRegistry.registerTileEntity(TileMemorial.class, TileMemorial.class.getSimpleName());
 
 		//Recipes
+		/*
 		GameRegistry.addRecipe(new ItemStack(ItemsMCA.divorcePapers, 1), 
 				new Object[] { " IF", " P ", 'I', new ItemStack(Items.DYE, 1, 0), 'F', Items.FEATHER, 'P', Items.PAPER });
 
@@ -232,7 +228,8 @@ public class MCA
 		{
 			GameRegistry.addShapelessRecipe(new ItemStack(ItemsMCA.cloth), new ItemStack(Blocks.WOOL), new ItemStack(ItemsMCA.needleAndString, 1, i));
 		}		
-
+		*/
+		
 		//Smeltings
 		GameRegistry.addSmelting(BlocksMCA.roseGoldOre, new ItemStack(ItemsMCA.roseGoldIngot), 5.0F);
 

@@ -149,9 +149,9 @@ public class EntityGrimReaper extends EntityMob
 		}
 		
 		//Ignore damage when blocking, and teleport behind the player when they attempt to block.
-		else if (!world.isRemote && this.getAttackState() == EnumReaperAttackState.BLOCK && source.getSourceOfDamage() instanceof EntityPlayer)
+		else if (!world.isRemote && this.getAttackState() == EnumReaperAttackState.BLOCK && source.getImmediateSource() instanceof EntityPlayer)
 		{
-			EntityPlayer player = (EntityPlayer) source.getSourceOfDamage();
+			EntityPlayer player = (EntityPlayer) source.getImmediateSource();
 
 			double deltaX = this.posX - player.posX;
 			double deltaZ = this.posZ - player.posZ;
@@ -163,9 +163,9 @@ public class EntityGrimReaper extends EntityMob
 		}
 
 		//Randomly portal behind the player who just attacked.
-		else if (!world.isRemote && source.getSourceOfDamage() instanceof EntityPlayer && RadixLogic.getBooleanWithProbability(30))
+		else if (!world.isRemote && source.getImmediateSource() instanceof EntityPlayer && RadixLogic.getBooleanWithProbability(30))
 		{
-			EntityPlayer player = (EntityPlayer) source.getSourceOfDamage();
+			EntityPlayer player = (EntityPlayer) source.getImmediateSource();
 
 			double deltaX = this.posX - player.posX;
 			double deltaZ = this.posZ - player.posZ;
@@ -174,9 +174,9 @@ public class EntityGrimReaper extends EntityMob
 		}
 
 		//Teleport behind the player who fired an arrow and ignore its damage.
-		else if (source.getSourceOfDamage() instanceof EntityArrow)
+		else if (source.getImmediateSource() instanceof EntityArrow)
 		{
-			EntityArrow arrow = (EntityArrow) source.getSourceOfDamage();
+			EntityArrow arrow = (EntityArrow) source.getImmediateSource();
 
 			if (arrow.shootingEntity instanceof EntityPlayer && getAttackState() != EnumReaperAttackState.REST)
 			{
@@ -309,7 +309,7 @@ public class EntityGrimReaper extends EntityMob
 	}
 
 	@Override
-	protected SoundEvent getHurtSound()
+	protected SoundEvent getHurtSound(DamageSource source)
 	{
 		return SoundEvents.ENTITY_WITHER_HURT;
 	}

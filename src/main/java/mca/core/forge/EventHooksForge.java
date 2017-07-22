@@ -251,7 +251,7 @@ public class EventHooksForge
 		}
 		
 		//Handle warrior triggers on player taking damage.		
-		if (event.getEntityLiving() instanceof EntityPlayer && event.getSource().getEntity() instanceof EntityLivingBase)
+		if (event.getEntityLiving() instanceof EntityPlayer && event.getSource().getTrueSource() instanceof EntityLivingBase)
 		{
 			List<EntityVillagerMCA> entityList = RadixLogic.getEntitiesWithinDistance(EntityVillagerMCA.class, event.getEntityLiving(), 15);
 
@@ -265,21 +265,21 @@ public class EventHooksForge
 						combat.getMethodBehavior() != EnumCombatBehaviors.METHOD_DO_NOT_FIGHT &&
 						combat.getTriggerBehavior() == EnumCombatBehaviors.TRIGGER_PLAYER_TAKE_DAMAGE)
 				{
-					combat.setAttackTarget((EntityLivingBase)event.getSource().getEntity());
+					combat.setAttackTarget((EntityLivingBase)event.getSource().getTrueSource());
 				}
 			}
 		}
 
 		//Handle warrior triggers on player dealing damage.
-		else if (event.getSource().getEntity() instanceof EntityPlayer && event.getEntityLiving() != null)
+		else if (event.getSource().getTrueSource() instanceof EntityPlayer && event.getEntityLiving() != null)
 		{
-			List<EntityVillagerMCA> entityList = RadixLogic.getEntitiesWithinDistance(EntityVillagerMCA.class, event.getSource().getEntity(), 15);
+			List<EntityVillagerMCA> entityList = RadixLogic.getEntitiesWithinDistance(EntityVillagerMCA.class, event.getSource().getTrueSource(), 15);
 
 			for (Entity entity : entityList)
 			{
 				EntityVillagerMCA human = (EntityVillagerMCA)entity;
 				ActionCombat combat = human.getBehavior(ActionCombat.class);
-				PlayerMemory memory = human.attributes.getPlayerMemory((EntityPlayer)event.getSource().getEntity());
+				PlayerMemory memory = human.attributes.getPlayerMemory((EntityPlayer)event.getSource().getTrueSource());
 
 				if (memory.getIsHiredBy() && human.attributes.getProfessionEnum() == EnumProfession.Warrior && 
 						combat.getMethodBehavior() != EnumCombatBehaviors.METHOD_DO_NOT_FIGHT &&
@@ -293,9 +293,9 @@ public class EventHooksForge
 		//Handle infection checks
 		if (MCA.getConfig().enableInfection)
 		{
-			if (event.getSource() != null && event.getSource().getSourceOfDamage() instanceof EntityZombie)
+			if (event.getSource() != null && event.getSource().getTrueSource() instanceof EntityZombie)
 			{
-				EntityZombie zombie = (EntityZombie)event.getSource().getSourceOfDamage();
+				EntityZombie zombie = (EntityZombie)event.getSource().getTrueSource();
 				boolean flag = RadixLogic.getBooleanWithProbability(3);
 
 				if (event.getEntityLiving() instanceof EntityPlayer && flag)

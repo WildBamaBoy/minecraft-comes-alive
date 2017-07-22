@@ -118,7 +118,7 @@ public class ActionHunt extends AbstractToggleAction
 					for (Entity entity : nearbyItems)
 					{
 						EntityItem item = (EntityItem)entity;
-						ItemStack stack = item.getEntityItem();
+						ItemStack stack = item.getItem();
 
 						addItemStackToInventory(stack);
 						item.setDead();

@@ -105,7 +105,7 @@ public class ActionWander extends AbstractAction
 		{
 			if (actor.getNavigator().noPath())
 			{
-				actor.getNavigator().tryMoveToXYZ(vecTarget.xCoord, vecTarget.yCoord, vecTarget.zCoord, Constants.SPEED_WALK - 0.1F);
+				actor.getNavigator().tryMoveToXYZ(vecTarget.x, vecTarget.y, vecTarget.z, Constants.SPEED_WALK - 0.1F);
 			}
 			
 			//If we've been pathing too long, clear and stop.

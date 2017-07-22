@@ -3,9 +3,11 @@ package mca.items;
 import java.util.List;
 
 import mca.core.MCA;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 
 public class ItemNewOutfit extends Item
 {
@@ -20,9 +22,9 @@ public class ItemNewOutfit extends Item
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean unknown) 
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) 
 	{
-		list.add("Use on your spouse or children ");
-		list.add("to change their outfit.");
+		tooltip.add("Use on your spouse or children ");
+		tooltip.add("to change their outfit.");
 	}
 }

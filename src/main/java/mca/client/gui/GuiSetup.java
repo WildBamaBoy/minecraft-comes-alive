@@ -96,29 +96,29 @@ public class GuiSetup extends GuiScreen
 
 		if (page == 1)
 		{
-			drawCenteredString(fontRendererObj, "Are you a male, or a female?", width / 2, 120, 0xffffff);
+			drawCenteredString(fontRenderer, "Are you a male, or a female?", width / 2, 120, 0xffffff);
 		}
 
 		else if (page == 2)
 		{
-			drawCenteredString(fontRendererObj, "Which do you prefer?", width / 2, 120, 0xffffff);
+			drawCenteredString(fontRenderer, "Which do you prefer?", width / 2, 120, 0xffffff);
 		}
 
 		else if (page == 3 && nameTextField != null)
 		{
-			drawCenteredString(fontRendererObj, "What is your name?", width / 2, 100, 0xffffff);
+			drawCenteredString(fontRenderer, "What is your name?", width / 2, 100, 0xffffff);
 			nameTextField.drawTextBox();
 		}
 
 		else if (page == 4)
 		{
-			drawCenteredString(fontRendererObj, "Choose your destiny...", width / 2, 70, 0xffffff);
+			drawCenteredString(fontRenderer, "Choose your destiny...", width / 2, 70, 0xffffff);
 		}
 		
 		else if (page == 5)
 		{
-			drawCenteredString(fontRendererObj, "WARNING: This destiny can potentially be destructive to your world.", width / 2, 70, 0xffffff);
-			drawCenteredString(fontRendererObj, "This option works best on flat land with no other structures nearby. Continue?", width / 2, 85, 0xffffff);
+			drawCenteredString(fontRenderer, "WARNING: This destiny can potentially be destructive to your world.", width / 2, 70, 0xffffff);
+			drawCenteredString(fontRenderer, "This option works best on flat land with no other structures nearby. Continue?", width / 2, 85, 0xffffff);
 		}
 
 		super.drawScreen(sizeX, sizeY, offset);
@@ -279,7 +279,7 @@ public class GuiSetup extends GuiScreen
 		{
 			if (nameTextField == null)
 			{
-				nameTextField = new GuiTextField(-3, fontRendererObj, width / 2 - 100, height / 2 - 5, 200, 20);
+				nameTextField = new GuiTextField(-3, fontRenderer, width / 2 - 100, height / 2 - 5, 200, 20);
 				nameTextField.setText(player.getName());
 			}
 

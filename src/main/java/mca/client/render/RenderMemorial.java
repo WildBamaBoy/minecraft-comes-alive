@@ -14,10 +14,13 @@ import mca.tile.TileMemorial;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityBed;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class RenderMemorial extends TileEntitySpecialRenderer
+@SideOnly(Side.CLIENT)
+public class RenderMemorial extends TileEntitySpecialRenderer<TileMemorial>
 {
 	private static final ResourceLocation RING_TEXTURE = new ResourceLocation("mca:textures/brokenringentity.png");
 	private static final ResourceLocation TRAIN_TEXTURE = new ResourceLocation("mca:textures/trainentity.png");
@@ -56,10 +59,9 @@ public class RenderMemorial extends TileEntitySpecialRenderer
 		GL11.glPopMatrix();
 	}
 
-	@Override
-	public void renderTileEntityAt(TileEntity tombstoneEntity, double posX, double posY, double posZ, float partialTickTime, int unknown)
+	public void render(TileMemorial te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
 	{
-		renderMemorialAt((TileMemorial) tombstoneEntity, posX, posY, posZ, partialTickTime);
+		renderMemorialAt((TileMemorial) te, x, y, z, partialTicks);
 	}
 
 	protected void bindResource(ResourceLocation resourceLocation)

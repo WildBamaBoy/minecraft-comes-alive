@@ -303,7 +303,7 @@ public class GuiInteraction extends GuiScreen
 					
 					if (interaction.getBaseChance() != 0)
 					{
-						RadixRender.drawTextPopup(successChance + "%", button.xPosition - 30, button.yPosition + 6);
+						RadixRender.drawTextPopup(successChance + "%", button.x - 30, button.y + 6);
 					}
 				}
 				

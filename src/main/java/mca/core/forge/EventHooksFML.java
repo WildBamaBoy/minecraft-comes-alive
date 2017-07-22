@@ -291,12 +291,12 @@ public class EventHooksFML
 
 						if (pos != null) //Ensure a random position was actually found.
 						{
-							final Point3D posAsPoint = new Point3D(pos.xCoord, pos.yCoord, pos.zCoord);
+							final Point3D posAsPoint = new Point3D(pos.x, pos.y, pos.z);
 
 							//Check that we can see the sky, no guards in caves or stuck in blocks.
 							if (human.world.canBlockSeeSky(posAsPoint.toBlockPos()))
 							{
-								guard.setPosition(pos.xCoord, (int)human.posY, pos.zCoord);
+								guard.setPosition(pos.x, (int)human.posY, pos.z);
 								human.world.spawnEntity(guard);
 							}
 						}
@@ -311,7 +311,7 @@ public class EventHooksFML
 		{
 			for (World world : FMLCommonHandler.instance().getMinecraftServerInstance().worlds)
 			{
-				for (Object obj : world.villageCollectionObj.getVillageList())
+				for (Object obj : world.villageCollection.getVillageList())
 				{
 					Village village = (Village)obj;
 
@@ -385,7 +385,7 @@ public class EventHooksFML
 
 			if (stack != null && (stack.getItem() == ItemsMCA.needleAndString))
 			{
-				stack.attemptDamageItem(1, event.player.getRNG());
+				stack.damageItem(1, event.player);
 
 				if (stack.getItemDamage() < stack.getMaxDamage())
 				{

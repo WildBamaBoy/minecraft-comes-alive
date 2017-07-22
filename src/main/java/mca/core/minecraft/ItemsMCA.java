@@ -20,7 +20,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -60,7 +60,7 @@ public final class ItemsMCA
 	public static final ItemMemorial toyTrain = new ItemMemorial(EnumMemorialType.TRAIN);
 	public static final ItemStaffOfLife staffOfLife = new ItemStaffOfLife();
 
-	public static void initialize()
+	public static void initialize(RegistryEvent.Register<Item> event)
 	{
 		for (Field f : ItemsMCA.class.getFields())
 		{
@@ -69,7 +69,7 @@ public final class ItemsMCA
 				Item item = (Item) f.get(null);
 				item.setCreativeTab(MCA.getCreativeTabMain());
 				item.setRegistryName(MCA.ID, item.getUnlocalizedName().substring(5)); //huehue
-				GameRegistry.register(item);
+				event.getRegistry().register(item);
 			}
 
 			catch (Exception e)

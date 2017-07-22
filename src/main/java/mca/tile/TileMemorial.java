@@ -42,9 +42,9 @@ public class TileMemorial extends TileEntity implements ITickable
 
 		if (!world.isRemote)
 		{
-			int xCoord = pos.getX();
-			int yCoord = pos.getY();
-			int zCoord = pos.getZ();
+			int x = pos.getX();
+			int y = pos.getY();
+			int z = pos.getZ();
 			
 			if (player == null || player.isDead) //Skip if the player is gone somehow, either on reload or logout.
 			{
@@ -56,12 +56,12 @@ public class TileMemorial extends TileEntity implements ITickable
 				EntityVillagerMCA human = new EntityVillagerMCA(world);
 
 				human.attributes.copyFrom(data);
-				human.setPosition(xCoord + 0.5D, yCoord, zCoord + 0.5D);
+				human.setPosition(x + 0.5D, y, z + 0.5D);
 				world.spawnEntity(human);
 
-				RadixBlocks.setBlock(world, xCoord, yCoord, zCoord, Blocks.AIR);
+				RadixBlocks.setBlock(world, x, y, z, Blocks.AIR);
 				Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.VILLAGER_HAPPY, human, 32);
-				Utilities.spawnParticlesAroundPointS(EnumParticleTypes.FIREWORKS_SPARK, world, xCoord + 0.5D, yCoord, zCoord + 0.5D, 16);
+				Utilities.spawnParticlesAroundPointS(EnumParticleTypes.FIREWORKS_SPARK, world, x + 0.5D, y, z + 0.5D, 16);
 				player.playSound(SoundEvents.ENTITY_FIREWORK_LARGE_BLAST, 3.0F, 1.0F);
 
 				if (this.ownerRelation == EnumRelation.NONE)
@@ -87,17 +87,17 @@ public class TileMemorial extends TileEntity implements ITickable
 			else if (revivalTicks > 0)
 			{
 				revivalTicks--;
-				Utilities.spawnParticlesAroundPointS(EnumParticleTypes.SPELL_INSTANT, world, xCoord + 0.5D, yCoord, zCoord + 0.5D, 2);
+				Utilities.spawnParticlesAroundPointS(EnumParticleTypes.SPELL_INSTANT, world, x + 0.5D, y, z + 0.5D, 2);
 
 				if (revivalTicks == Time.SECOND * 2 || revivalTicks == Time.SECOND * 1)
 				{
 					player.playSound(SoundEvents.ENTITY_FIREWORK_LARGE_BLAST, 3.0F, 1.0F);
-					Utilities.spawnParticlesAroundPointS(EnumParticleTypes.FIREWORKS_SPARK, world, xCoord + 0.5D, yCoord, zCoord + 0.5D, 32);	
+					Utilities.spawnParticlesAroundPointS(EnumParticleTypes.FIREWORKS_SPARK, world, x + 0.5D, y, z + 0.5D, 32);	
 				}
 
 				if (revivalTicks < Time.SECOND * 2)
 				{
-					Utilities.spawnParticlesAroundPointS(EnumParticleTypes.VILLAGER_HAPPY, world, xCoord + 0.5D, yCoord, zCoord + 0.5D, 2);
+					Utilities.spawnParticlesAroundPointS(EnumParticleTypes.VILLAGER_HAPPY, world, x + 0.5D, y, z + 0.5D, 2);
 				}
 			}
 		}

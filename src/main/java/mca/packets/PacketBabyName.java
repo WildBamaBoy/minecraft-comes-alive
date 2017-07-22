@@ -3,7 +3,6 @@ package mca.packets;
 import io.netty.buffer.ByteBuf;
 import mca.actions.ActionProcreate;
 import mca.core.MCA;
-import mca.core.minecraft.AchievementsMCA;
 import mca.core.minecraft.ItemsMCA;
 import mca.data.NBTPlayerData;
 import mca.entity.EntityVillagerMCA;
@@ -87,7 +86,7 @@ public class PacketBabyName extends AbstractPacket<PacketBabyName>
 				{
 					playerSpouse.getBehavior(ActionProcreate.class).setIsProcreating(true);
 					procreateAI.setHasHadTwins(true);
-					senderPlayer.addStat(AchievementsMCA.twins);
+					/*TODO senderPlayer.addStat(AchievementsMCA.twins);*/
 					
 					TutorialManager.sendMessageToPlayer(senderPlayer, "Congratulations! You've just had twins!", "Your spouse can only have twins once.");
 				}

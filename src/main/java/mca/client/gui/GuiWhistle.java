@@ -135,23 +135,23 @@ public class GuiWhistle extends GuiScreen
 	public void drawScreen(int sizeX, int sizeY, float offset)
 	{
 		drawDefaultBackground();
-		drawCenteredString(fontRendererObj, MCA.getLocalizer().getString("gui.title.whistle"), width / 2, height / 2 - 110, 0xffffff);
+		drawCenteredString(fontRenderer, MCA.getLocalizer().getString("gui.title.whistle"), width / 2, height / 2 - 110, 0xffffff);
 
 		if (loadingAnimationTicks != -1)
 		{
-			drawString(fontRendererObj, "Loading" + StringUtils.repeat(".", loadingAnimationTicks % 10), width / 2 - 20, height / 2 - 10, 0xffffff);
+			drawString(fontRenderer, "Loading" + StringUtils.repeat(".", loadingAnimationTicks % 10), width / 2 - 20, height / 2 - 10, 0xffffff);
 		}
 
 		else
 		{
 			if (villagerDataList.size() == 0)
 			{
-				drawCenteredString(fontRendererObj, "No family members could be found in the area.", width / 2, height / 2 + 50, 0xffffff);				
+				drawCenteredString(fontRenderer, "No family members could be found in the area.", width / 2, height / 2 + 50, 0xffffff);				
 			}
 
 			else
 			{
-				drawCenteredString(fontRendererObj, selectedIndex + " / " + villagerDataList.size(), width / 2, height / 2 + 50, 0xffffff);
+				drawCenteredString(fontRenderer, selectedIndex + " / " + villagerDataList.size(), width / 2, height / 2 + 50, 0xffffff);
 			}
 		}
 

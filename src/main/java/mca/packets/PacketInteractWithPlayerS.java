@@ -5,7 +5,6 @@ import java.util.Random;
 import io.netty.buffer.ByteBuf;
 import mca.core.Constants;
 import mca.core.MCA;
-import mca.core.minecraft.AchievementsMCA;
 import mca.core.minecraft.ItemsMCA;
 import mca.data.NBTPlayerData;
 import mca.entity.EntityVillagerMCA;
@@ -16,7 +15,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.Achievement;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import radixcore.constant.Font.Color;
@@ -152,10 +150,12 @@ public class PacketInteractWithPlayerS extends AbstractPacket<PacketInteractWith
 			ItemStack stack = new ItemStack(isMale ? ItemsMCA.babyBoy : ItemsMCA.babyGirl);
 			target.inventory.addItemStackToInventory(stack);
 
+			/* TODO
 			Achievement achievement = isMale ? AchievementsMCA.babyBoy : AchievementsMCA.babyGirl;
 			sender.addStat(achievement);
 			target.addStat(achievement);
-
+			*/
+			
 			MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenBabyNameGUI(isMale), (EntityPlayerMP) target);
 
 			break;

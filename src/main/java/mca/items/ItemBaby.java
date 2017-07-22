@@ -13,6 +13,8 @@ import mca.enums.EnumProfession;
 import mca.enums.EnumRelation;
 import mca.packets.PacketOpenBabyNameGUI;
 import mca.util.TutorialManager;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -149,7 +151,7 @@ public class ItemBaby extends Item
 			childMemory.setRelation(child.attributes.getGender() == EnumGender.MALE ? EnumRelation.SON : EnumRelation.DAUGHTER);
 
 			player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
-			player.addStat(AchievementsMCA.babyToChild);
+			/* TODO player.addStat(AchievementsMCA.babyToChild); */
 
 			data.setOwnsBaby(false);
 		}
@@ -176,41 +178,41 @@ public class ItemBaby extends Item
 	public boolean onEntityItemUpdate(EntityItem entityItem) 
 	{
 		//Happens on servers for some reason.
-		if (entityItem.getEntityItem() != null && !entityItem.world.isRemote)
+		if (entityItem.getItem() != null && !entityItem.world.isRemote)
 		{
-			updateBabyGrowth(entityItem.getEntityItem());
+			updateBabyGrowth(entityItem.getItem());
 		}
 		
 		return super.onEntityItemUpdate(entityItem);
 	}
 
 	@Override
-	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List infoList, boolean unknown)
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) 
 	{
-		super.addInformation(itemStack, entityPlayer, infoList, unknown);
-
-		if (itemStack.hasTagCompound())
+		super.addInformation(stack, worldIn, tooltip, flagIn);
+		
+		if (stack.hasTagCompound())
 		{
 			//Text color is blue for boys, purple for girls.
-			String textColor = ((ItemBaby)itemStack.getItem()).isBoy ? Color.AQUA : Color.LIGHTPURPLE;
-			int ageInMinutes = itemStack.getTagCompound().getInteger("age");
+			String textColor = ((ItemBaby)stack.getItem()).isBoy ? Color.AQUA : Color.LIGHTPURPLE;
+			int ageInMinutes = stack.getTagCompound().getInteger("age");
 
 			//Owner name is You for the current owner. Otherwise, the player's name.
-			String ownerName = itemStack.getTagCompound().getString("owner");
-			ownerName = ownerName.equals(entityPlayer.getName()) ? "You" : ownerName;
+			String ownerName = stack.getTagCompound().getString("owner");
+			ownerName = ownerName.equals(Minecraft.getMinecraft().player.getName()) ? "You" : ownerName;
 
-			infoList.add(textColor + "Name: " + Format.RESET + itemStack.getTagCompound().getString("name"));
-			infoList.add(textColor + "Age: "  + Format.RESET + ageInMinutes + (ageInMinutes == 1 ? " minute" : " minutes"));
-			infoList.add(textColor + "Parent: " + Format.RESET + ownerName);
+			tooltip.add(textColor + "Name: " + Format.RESET + stack.getTagCompound().getString("name"));
+			tooltip.add(textColor + "Age: "  + Format.RESET + ageInMinutes + (ageInMinutes == 1 ? " minute" : " minutes"));
+			tooltip.add(textColor + "Parent: " + Format.RESET + ownerName);
 
-			if (itemStack.getTagCompound().getBoolean("isInfected"))
+			if (stack.getTagCompound().getBoolean("isInfected"))
 			{
-				infoList.add(Color.GREEN + "Infected!");
+				tooltip.add(Color.GREEN + "Infected!");
 			}
 			
-			if (isReadyToGrowUp(itemStack))
+			if (isReadyToGrowUp(stack))
 			{
-				infoList.add(Color.GREEN + "Ready to grow up!");
+				tooltip.add(Color.GREEN + "Ready to grow up!");
 			}
 		}
 	}

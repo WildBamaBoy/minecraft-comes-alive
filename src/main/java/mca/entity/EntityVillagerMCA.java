@@ -91,7 +91,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	{
 		super(world);
 		
-		profiler = world.theProfiler;
+		profiler = world.profiler;
 		attributes = new VillagerAttributes(this);
 		attributes.initialize();
 		behaviors = new VillagerBehaviors(this);
@@ -343,7 +343,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	{
 		super.damageEntity(damageSource, damageAmount);
 		
-		behaviors.getAction(ActionAttackResponse.class).startResponse(damageSource.getEntity());
+		behaviors.getAction(ActionAttackResponse.class).startResponse(damageSource.getImmediateSource());
 		behaviors.getAction(ActionSleep.class).onDamage();
 	}
 
@@ -389,7 +389,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	}
 
 	@Override
-	protected SoundEvent getHurtSound() 
+	protected SoundEvent getHurtSound(DamageSource source) 
 	{
 		return attributes.getIsInfected() ? SoundEvents.ENTITY_ZOMBIE_HURT : null;
 	}

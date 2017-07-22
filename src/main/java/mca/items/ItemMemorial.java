@@ -10,6 +10,7 @@ import mca.entity.VillagerAttributes;
 import mca.enums.EnumMemorialType;
 import mca.enums.EnumRelation;
 import mca.tile.TileMemorial;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -68,50 +69,50 @@ public class ItemMemorial extends Item
 	}
 
 	@Override
-	public void addInformation(ItemStack itemStack, EntityPlayer entityPlayer, List infoList, boolean unknown)
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) 
 	{
-		super.addInformation(itemStack, entityPlayer, infoList, unknown);
+		super.addInformation(stack, worldIn, tooltip, flagIn);
 
-		if (itemStack.hasTagCompound())
+		if (stack.hasTagCompound())
 		{
-			VillagerAttributes data = new VillagerAttributes(itemStack.getTagCompound());
-			String ownerName = itemStack.getTagCompound().getString("ownerName");
+			VillagerAttributes data = new VillagerAttributes(stack.getTagCompound());
+			String ownerName = stack.getTagCompound().getString("ownerName");
 			String name = data.getName();
-			String relationId = EnumRelation.getById(itemStack.getTagCompound().getInteger("relation")).getPhraseId(); 
+			String relationId = EnumRelation.getById(stack.getTagCompound().getInteger("relation")).getPhraseId(); 
 			
-			infoList.add(Color.WHITE + "Belonged to: ");
+			tooltip.add(Color.WHITE + "Belonged to: ");
 
 			if (!relationId.equals("relation.none"))
 			{
-				infoList.add(Color.GREEN + name + ", " + MCA.getLocalizer().getString(relationId) + " of " + ownerName);
+				tooltip.add(Color.GREEN + name + ", " + MCA.getLocalizer().getString(relationId) + " of " + ownerName);
 			}
 			
 			else
 			{
-				infoList.add(Color.GREEN + name + " the " + MCA.getLocalizer().getString(data.getProfessionEnum().getLocalizationId()));
-				infoList.add("Captured by: " + ownerName);
+				tooltip.add(Color.GREEN + name + " the " + MCA.getLocalizer().getString(data.getProfessionEnum().getLocalizationId()));
+				tooltip.add("Captured by: " + ownerName);
 			}
 		}
 
 		else
 		{
-			infoList.add(Color.GREEN + "CREATIVE " + Format.RESET + "- No villager attached.");
-			infoList.add("Right-click a villager to attach them");
-			infoList.add("to this object.");
+			tooltip.add(Color.GREEN + "CREATIVE " + Format.RESET + "- No villager attached.");
+			tooltip.add("Right-click a villager to attach them");
+			tooltip.add("to this object.");
 		}
 
 		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT))
 		{
-			infoList.add("");
-			infoList.add("An item once owned by a");
-			infoList.add("villager who has died. Revive ");
-			infoList.add("them using the " + Color.YELLOW + "Staff of Life" + Color.GRAY + ".");
+			tooltip.add("");
+			tooltip.add("An item once owned by a");
+			tooltip.add("villager who has died. Revive ");
+			tooltip.add("them using the " + Color.YELLOW + "Staff of Life" + Color.GRAY + ".");
 		}
 
 		else
 		{
-			infoList.add("");
-			infoList.add("Hold " + Color.YELLOW + "SHIFT" + Color.GRAY + " for info.");
+			tooltip.add("");
+			tooltip.add("Hold " + Color.YELLOW + "SHIFT" + Color.GRAY + " for info.");
 		}
 	}
 }

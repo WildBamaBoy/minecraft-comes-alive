@@ -17,14 +17,14 @@ public class GuiButtonPatreon extends GuiButton
 	}
 
 	@Override
-	public void drawButton(Minecraft mc, int posX, int posY) 
+	public void drawButton(Minecraft mc, int posX, int posY, float partialTicks) 
 	{
 		if (this.visible)
         {
             mc.getTextureManager().bindTexture(texture);
             
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            this.hovered = posX >= this.xPosition && posY >= this.yPosition && posX < this.xPosition + this.width && posY < this.yPosition + this.height;
+            this.hovered = posX >= this.x && posY >= this.y && posX < this.x + this.width && posY < this.y + this.height;
             int hoverState = this.getHoverState(this.hovered);
             
             GL11.glEnable(GL11.GL_BLEND);
@@ -32,7 +32,7 @@ public class GuiButtonPatreon extends GuiButton
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
             int v = hoverState == 1 ? 0 : 28;
-            this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, v, this.width, this.height);
+            this.drawTexturedModalRect(this.x, this.y, 0, v, this.width, this.height);
 
             this.mouseDragged(mc, posX, posY);
         }

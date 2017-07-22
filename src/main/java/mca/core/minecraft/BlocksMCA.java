@@ -14,6 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -37,7 +38,7 @@ public final class BlocksMCA
 		roseGoldOre.setHarvestLevel("pickaxe", 2);
 	}
 	
-	public static void initialize()
+	public static void initialize(RegistryEvent.Register<Block> event)
 	{
 		for (Field f : BlocksMCA.class.getFields())
 		{
@@ -45,7 +46,7 @@ public final class BlocksMCA
 			{
 				Block block = (Block) f.get(null);
 				block.setRegistryName(block.getUnlocalizedName().substring(5).toLowerCase());
-				GameRegistry.register(block);
+				event.getRegistry().register(block);
 			}
 
 			catch (Exception e)

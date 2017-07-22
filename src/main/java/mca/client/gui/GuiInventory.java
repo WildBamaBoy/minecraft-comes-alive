@@ -81,7 +81,7 @@ public class GuiInventory extends InventoryEffectRenderer
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
 	{
-		fontRendererObj.drawString("Inventory", 32, 6, 4210752);
+		fontRenderer.drawString("Inventory", 32, 6, 4210752);
 	}
 
 	@Override

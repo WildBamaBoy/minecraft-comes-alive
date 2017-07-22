@@ -58,7 +58,7 @@ public class RenderVillagerMCA extends RenderBiped<EntityVillagerMCA>
 		if (entity.attributes.getIsChild())
 		{
 			final boolean doGradualGrowth = MCA.getConfig().isAgingEnabled;
-			final float growthFactor = (entity.attributes.getGender() == EnumGender.MALE ? 0.39F : 0.37F) / MCA.getConfig().childGrowUpTime * entity.getAge();
+			final float growthFactor = (entity.attributes.getGender() == EnumGender.MALE ? 0.39F : 0.37F) / MCA.getConfig().childGrowUpTime * entity.attributes.getAge();
 
 			scale = 0.55F + growthFactor;
 

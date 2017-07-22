@@ -2,7 +2,8 @@ package mca.core.forge;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.registries.IForgeRegistry;
 
 public final class SoundsMCA 
 {
@@ -22,13 +23,14 @@ public final class SoundsMCA
 	
 	private SoundsMCA(){};
 	
-	public static void registerSounds()
+	public static void registerSounds(RegistryEvent.Register<SoundEvent> event)
 	{
-		GameRegistry.register(reaper_scythe_out, loc_reaper_scythe_out);
-		GameRegistry.register(reaper_scythe_swing, loc_reaper_scythe_swing);
-		GameRegistry.register(reaper_idle, loc_reaper_idle);
-		GameRegistry.register(reaper_death, loc_reaper_death);
-		GameRegistry.register(reaper_block, loc_reaper_block);
-		GameRegistry.register(reaper_summon, loc_reaper_summon);
+		IForgeRegistry<SoundEvent> registry = event.getRegistry();
+		registry.register(reaper_scythe_out);
+		registry.register(reaper_scythe_swing);
+		registry.register(reaper_idle);
+		registry.register(reaper_death);
+		registry.register(reaper_block);
+		registry.register(reaper_summon);
 	}
 }

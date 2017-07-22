@@ -7,7 +7,7 @@ import java.util.UUID;
 import mca.core.MCA;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldSavedData;
+import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class PlayerDataCollection extends WorldSavedData 

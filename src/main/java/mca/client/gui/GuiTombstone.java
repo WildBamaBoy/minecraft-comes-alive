@@ -115,7 +115,7 @@ public class GuiTombstone extends GuiScreen
 	public void drawScreen(int sizeX, int sizeY, float offset)
 	{
 		drawDefaultBackground();
-		drawCenteredString(fontRendererObj, MCA.getLocalizer().getString("gui.title.tombstone"), width / 2, 40, 0xffffff);
+		drawCenteredString(fontRenderer, MCA.getLocalizer().getString("gui.title.tombstone"), width / 2, 40, 0xffffff);
 
 		GL11.glPushMatrix();
 
@@ -132,7 +132,7 @@ public class GuiTombstone extends GuiScreen
 			entityTombstone.lineBeingEdited = editLine;
 		}
 
-		TileEntityRendererDispatcher.instance.renderTileEntityAt(entityTombstone, -0.5D, -0.75D, -0.5D, 0.0F);
+		TileEntityRendererDispatcher.instance.render(entityTombstone, -0.5D, -0.75D, -0.5D, 0.0F);
 		entityTombstone.lineBeingEdited = -1;
 
 		GL11.glPopMatrix();

@@ -121,11 +121,11 @@ public class GuiVillagerEditor extends GuiScreen
 
 		drawEditorGuiPage1();
 
-		nameTextField = new GuiTextField(1, fontRendererObj, width / 2 - 205, height / 2 - 95, 150, 20);
+		nameTextField = new GuiTextField(1, fontRenderer, width / 2 - 205, height / 2 - 95, 150, 20);
 		nameTextField.setMaxStringLength(32);
 		nameTextField.setText(villager.attributes.getName());
 
-		dummyTextField = new GuiTextField(2, fontRendererObj, width / 2 + 90, height / 2 - 100, 100, 200);
+		dummyTextField = new GuiTextField(2, fontRenderer, width / 2 + 90, height / 2 - 100, 100, 200);
 		dummyTextField.setMaxStringLength(0);
 	}
 
@@ -381,15 +381,15 @@ public class GuiVillagerEditor extends GuiScreen
 
 		if (currentPage == 1)
 		{
-			drawString(fontRendererObj, "Name:", width / 2 - 205, height / 2 - 110, 0xffffff);
-			drawString(fontRendererObj, MCA.getLocalizer().getString("gui.title.editor"), width / 2 - 205, height / 2 - 87, 0xa0a0a0);
+			drawString(fontRenderer, "Name:", width / 2 - 205, height / 2 - 110, 0xffffff);
+			drawString(fontRenderer, MCA.getLocalizer().getString("gui.title.editor"), width / 2 - 205, height / 2 - 87, 0xa0a0a0);
 			
 			nameTextField.drawTextBox();
 		}
 
 		GL11.glPushMatrix();
 		GL11.glScalef(1.5F, 1.5F, 1.5F);
-		drawCenteredString(fontRendererObj, MCA.getLocalizer().getString("gui.title.editor"), width / 2 - 75, height / 2 - 125, 0xffffff);
+		drawCenteredString(fontRenderer, MCA.getLocalizer().getString("gui.title.editor"), width / 2 - 75, height / 2 - 125, 0xffffff);
 		GL11.glPopMatrix();
 
 		super.drawScreen(sizeX, sizeY, offset);

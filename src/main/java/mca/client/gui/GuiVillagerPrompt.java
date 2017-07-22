@@ -48,12 +48,12 @@ public class GuiVillagerPrompt extends GuiScreen
 	{
 		this.drawDefaultBackground();
 		super.drawScreen(i, j, f);
-		this.drawCenteredString(fontRendererObj, "Your positive relationship with your villagers", width / 2, height / 2 - 95, 0xFFFFFF);
-		this.drawCenteredString(fontRendererObj, "has been noticed far and wide.", width / 2, height / 2 - 85, 0xFFFFFF);
-		this.drawCenteredString(fontRendererObj, "Seeking a leader of their own, they ask that you become their Baron.", width / 2, height / 2 - 65, 0xFFFFFF);
-		this.drawCenteredString(fontRendererObj, "A Baron's responsibilities are to protect their villagers and keep them happy.", width / 2, height / 2 - 55, 0xFFFFFF);
-		this.drawCenteredString(fontRendererObj, "As a Baron, you can tax your villagers for the upkeep of their village.", width / 2, height / 2 - 35, 0xFFFFFF);
-		this.drawCenteredString(fontRendererObj, "Do you accept?", width / 2, height / 2 - 15, 0xFFFFFF);
+		this.drawCenteredString(fontRenderer, "Your positive relationship with your villagers", width / 2, height / 2 - 95, 0xFFFFFF);
+		this.drawCenteredString(fontRenderer, "has been noticed far and wide.", width / 2, height / 2 - 85, 0xFFFFFF);
+		this.drawCenteredString(fontRenderer, "Seeking a leader of their own, they ask that you become their Baron.", width / 2, height / 2 - 65, 0xFFFFFF);
+		this.drawCenteredString(fontRenderer, "A Baron's responsibilities are to protect their villagers and keep them happy.", width / 2, height / 2 - 55, 0xFFFFFF);
+		this.drawCenteredString(fontRenderer, "As a Baron, you can tax your villagers for the upkeep of their village.", width / 2, height / 2 - 35, 0xFFFFFF);
+		this.drawCenteredString(fontRenderer, "Do you accept?", width / 2, height / 2 - 15, 0xFFFFFF);
 		drawButtons();
 	}
 	

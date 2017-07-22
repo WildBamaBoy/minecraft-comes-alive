@@ -10,6 +10,7 @@ package mca.client.render;
 import org.lwjgl.opengl.GL11;
 
 import mca.client.model.ModelTombstone;
+import mca.tile.TileMemorial;
 import mca.tile.TileTombstone;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -18,7 +19,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
-public class RenderTombstone extends TileEntitySpecialRenderer
+public class RenderTombstone extends TileEntitySpecialRenderer<TileTombstone>
 {
 	private static final ResourceLocation TEXTURE = new ResourceLocation("mca:textures/blocks/Tombstone.png");
 	private final ModelTombstone tombstoneModel;
@@ -31,7 +32,7 @@ public class RenderTombstone extends TileEntitySpecialRenderer
 	public void renderTombstoneAt(TileTombstone tombstoneEntity, double posX, double posY, double posZ, float partialTickTime)
 	{
 		final StringBuilder stringBuilder = new StringBuilder();
-		final FontRenderer fontRendererObj = getFontRenderer();
+		final FontRenderer fontRenderer = getFontRenderer();
 
 		final int meta = tombstoneEntity.getBlockMetadata();
 		final float rotation = setRotationByMeta(meta);
@@ -67,7 +68,7 @@ public class RenderTombstone extends TileEntitySpecialRenderer
 				lineText = stringBuilder.append("> ").append(lineText).append(" <").toString();
 			}
 
-			fontRendererObj.drawString(lineText, -fontRendererObj.getStringWidth(lineText) / 2, line * 10 - tombstoneEntity.signText.length * 5, 0x000000);
+			fontRenderer.drawString(lineText, -fontRenderer.getStringWidth(lineText) / 2, line * 10 - tombstoneEntity.signText.length * 5, 0x000000);
 		}
 
 		GL11.glDepthMask(true);
@@ -75,9 +76,9 @@ public class RenderTombstone extends TileEntitySpecialRenderer
 	}
 
 	@Override
-	public void renderTileEntityAt(TileEntity tombstoneEntity, double posX, double posY, double posZ, float partialTickTime, int unknown)
+	public void render(TileTombstone te, double x, double y, double z, float partialTicks, int destroyStage, float alpha)
 	{
-		renderTombstoneAt((TileTombstone) tombstoneEntity, posX, posY, posZ, partialTickTime);
+		renderTombstoneAt(te, x, y, z, partialTicks);
 	}
 
 	/**

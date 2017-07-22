@@ -165,7 +165,9 @@ public class ActionStoryProgression extends AbstractAction
 
 				if (actor.attributes.isPlayerAParent(onlinePlayer) || mate.attributes.isPlayerAParent(onlinePlayer))
 				{
-					onlinePlayer.addStat(AchievementsMCA.childHasChildren);	
+					/* TODO
+					onlinePlayer.addStat(AchievementsMCA.childHasChildren);
+					*/	
 				}
 			}
 		}

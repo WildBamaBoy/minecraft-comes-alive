@@ -54,7 +54,7 @@ public class GuiPrompt extends GuiScreen
 	{
 		this.drawDefaultBackground();
 		super.drawScreen(i, j, f);
-		this.drawCenteredString(fontRendererObj, prompt, width / 2, height / 2 - 95, 0xFFFFFF);
+		this.drawCenteredString(fontRenderer, prompt, width / 2, height / 2 - 95, 0xFFFFFF);
 		drawButtons();
 	}
 	

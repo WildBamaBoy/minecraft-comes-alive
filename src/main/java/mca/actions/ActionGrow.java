@@ -29,7 +29,7 @@ public class ActionGrow extends AbstractAction
 		{
 			if (timeUntilTickUpdate <= 0 || freeTickUpdates != 0)
 			{
-				if (actor.getAge() >= MCA.getConfig().childGrowUpTime && !actor.world.isRemote)
+				if (actor.attributes.getAge() >= MCA.getConfig().childGrowUpTime && !actor.world.isRemote)
 				{
 					actor.getBehaviors().disableAllToggleActions();
 					actor.attributes.setIsChild(false);
@@ -40,7 +40,7 @@ public class ActionGrow extends AbstractAction
 						
 						if (actor.attributes.isPlayerAParent(player))
 						{
-							player.addStat(AchievementsMCA.childToAdult);
+							/*player.addStat(AchievementsMCA.childToAdult); TODO */
 						}
 					}
 				}
@@ -49,10 +49,10 @@ public class ActionGrow extends AbstractAction
 				{
 					if (!actor.world.isRemote)
 					{
-						actor.attributes.setAge(actor.getAge() + 1);
+						actor.attributes.setAge(actor.attributes.getAge() + 1);
 					}
 					
-					float newHeight = 0.69F + (actor.getAge() * (1.8F - 0.69F) / MCA.getConfig().childGrowUpTime);
+					float newHeight = 0.69F + (actor.attributes.getAge() * (1.8F - 0.69F) / MCA.getConfig().childGrowUpTime);
 					actor.attributes.setSize(actor.width, newHeight);
 				}
 				

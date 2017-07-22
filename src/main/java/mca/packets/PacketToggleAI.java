@@ -103,12 +103,12 @@ public class PacketToggleAI extends AbstractPacket<PacketToggleAI>
 		switch(EnumInteraction.fromId(packet.interactionId))
 		{
 		case FARMING: 
-			player.addStat(AchievementsMCA.farming);
+			/*TODO player.addStat(AchievementsMCA.farming);*/
 			human.getBehavior(ActionFarm.class).startFarming(player, packet.integers.get(0), packet.integers.get(1), packet.booleans.get(0));
 			break;
 			
 		case MINING: 
-			player.addStat(AchievementsMCA.mining);
+			/*TODO player.addStat(AchievementsMCA.mining); */
 			
 			if (packet.booleans.get(0))
 			{
@@ -122,7 +122,7 @@ public class PacketToggleAI extends AbstractPacket<PacketToggleAI>
 			break;
 			
 		case WOODCUTTING: 
-			player.addStat(AchievementsMCA.woodcutting);
+			/*TODO player.addStat(AchievementsMCA.woodcutting);*/
 			boolean doReplant = packet.booleans.get(0);
 			int mappingId = packet.integers.get(0);
 			
@@ -130,7 +130,7 @@ public class PacketToggleAI extends AbstractPacket<PacketToggleAI>
 			break;
 			
 		case HUNTING: 
-			player.addStat(AchievementsMCA.hunting);
+			/*TODO player.addStat(AchievementsMCA.hunting); */
 			boolean flag = packet.booleans.get(0);
 			
 			if (flag)
