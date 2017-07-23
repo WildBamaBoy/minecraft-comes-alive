@@ -1,4 +1,4 @@
-package mca.core.forge;
+package mca.core.minecraft;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -23,9 +23,16 @@ public final class SoundsMCA
 	
 	private SoundsMCA(){};
 	
-	public static void registerSounds(RegistryEvent.Register<SoundEvent> event)
+	public static void register(RegistryEvent.Register<SoundEvent> event)
 	{
 		IForgeRegistry<SoundEvent> registry = event.getRegistry();
+		reaper_scythe_out.setRegistryName(loc_reaper_scythe_out);
+		reaper_scythe_swing.setRegistryName(loc_reaper_scythe_swing);
+		reaper_idle.setRegistryName(loc_reaper_idle);
+		reaper_death.setRegistryName(loc_reaper_death);
+		reaper_block.setRegistryName(loc_reaper_block);
+		reaper_summon.setRegistryName(loc_reaper_summon);
+		
 		registry.register(reaper_scythe_out);
 		registry.register(reaper_scythe_swing);
 		registry.register(reaper_idle);

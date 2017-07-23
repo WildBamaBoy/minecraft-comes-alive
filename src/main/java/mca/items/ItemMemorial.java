@@ -33,7 +33,7 @@ public class ItemMemorial extends Item
 
 		this.type = type;
 		this.setUnlocalizedName(type.getTypeName());
-		this.setCreativeTab(MCA.getCreativeTabMain());
+		this.setCreativeTab(MCA.getCreativeTab());
 		this.setMaxStackSize(1);
 	}
 

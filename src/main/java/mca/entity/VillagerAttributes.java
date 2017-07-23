@@ -9,10 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
-
 import com.google.common.base.Optional;
-import com.sun.istack.internal.NotNull;
 
 import io.netty.buffer.ByteBuf;
 import mca.actions.ActionStoryProgression;
@@ -237,9 +234,9 @@ public class VillagerAttributes
 	/* Performs an engagement between this villager and provided player. 
 	 * DOES NOT handle nulls. To end an engagement, call setSpouse with null.
 	 * */
-	public void setFiancee(@NotNull EntityPlayer player) 
+	public void setFiancee(EntityPlayer player) 
 	{
-		if (player == null) throw new RuntimeException("Engagement player cannot be null");
+		if (player == null) throw new Error("Engagement player cannot be null");
 
 		NBTPlayerData playerData = MCA.getPlayerData(player);
 
@@ -321,7 +318,7 @@ public class VillagerAttributes
 		dataManager.set(MOTHER_GENDER, gender.getId());
 	}
 	
-	public void setMother(@Nullable Either<EntityVillagerMCA, EntityPlayer> either)
+	public void setMother(Either<EntityVillagerMCA, EntityPlayer> either)
 	{
 		if (either == null)
 		{
@@ -379,7 +376,7 @@ public class VillagerAttributes
 		dataManager.set(FATHER_GENDER, gender.getId());
 	}
 	
-	public void setFather(@Nullable Either<EntityVillagerMCA, EntityPlayer> either)
+	public void setFather(Either<EntityVillagerMCA, EntityPlayer> either)
 	{
 		if (either == null)
 		{

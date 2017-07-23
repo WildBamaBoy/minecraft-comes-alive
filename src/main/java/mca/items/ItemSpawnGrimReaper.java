@@ -16,7 +16,7 @@ public class ItemSpawnGrimReaper extends Item
 	{
 		final String itemName = "EggGrimReaper";
 
-		this.setCreativeTab(MCA.getCreativeTabMain());
+		this.setCreativeTab(MCA.getCreativeTab());
 		this.setMaxStackSize(1);
 		this.setUnlocalizedName(itemName);
 	}

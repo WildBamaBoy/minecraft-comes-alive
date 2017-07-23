@@ -5,8 +5,6 @@ import static mca.core.Constants.EMPTY_UUID;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.istack.internal.NotNull;
-
 import io.netty.buffer.ByteBuf;
 import mca.actions.AbstractAction;
 import mca.actions.ActionAttackResponse;
@@ -480,7 +478,7 @@ public class EntityVillagerMCA extends EntityCreature implements IEntityAddition
 	 * 
 	 * @param 	either	Either object containing an MCA villager or a player.
 	 */
-	public void startMarriage(@NotNull Either<EntityVillagerMCA, EntityPlayer> either)
+	public void startMarriage(Either<EntityVillagerMCA, EntityPlayer> either)
 	{
 		if (either.getLeft() != null)
 		{

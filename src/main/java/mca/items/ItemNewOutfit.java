@@ -16,7 +16,7 @@ public class ItemNewOutfit extends Item
 		super();
 		
 		this.setUnlocalizedName("NewOutfit");
-		this.setCreativeTab(MCA.getCreativeTabMain());
+		this.setCreativeTab(MCA.getCreativeTab());
 		this.setMaxStackSize(1);
 		this.setMaxDamage(16);
 	}

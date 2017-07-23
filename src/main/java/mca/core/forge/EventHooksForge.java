@@ -9,6 +9,9 @@ import com.google.common.base.Predicate;
 import mca.actions.ActionCombat;
 import mca.core.Constants;
 import mca.core.MCA;
+import mca.core.minecraft.BlocksMCA;
+import mca.core.minecraft.ItemsMCA;
+import mca.core.minecraft.SoundsMCA;
 import mca.data.PlayerMemory;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumCombatBehaviors;
@@ -36,11 +39,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
@@ -58,6 +64,24 @@ import radixcore.modules.RadixLogic;
 
 public class EventHooksForge 
 {
+	@SubscribeEvent
+	public void onRegisterItems(RegistryEvent.Register<Item> event) 
+	{
+		ItemsMCA.register(event);
+	}
+	
+	@SubscribeEvent
+	public void onRegisterBlocks(RegistryEvent.Register<Block> event)
+	{
+		BlocksMCA.register(event);		
+	}
+
+	@SubscribeEvent
+	public void onRegisterSounds(RegistryEvent.Register<SoundEvent> event)
+	{
+		SoundsMCA.register(event);
+	}
+	
 	@SubscribeEvent
 	public void entityJoinedWorldEventHandler(EntityJoinWorldEvent event)
 	{
@@ -118,6 +142,7 @@ public class EventHooksForge
 
 			else if (mob instanceof EntityCreeper)
 			{
+				/* TODO
 				mob.tasks.addTask(3, new EntityAIAvoidEntity(mob, EntityVillagerMCA.class, new Predicate()
 				{
 					public boolean func_179958_a(Entity p_179958_1_)
@@ -129,7 +154,7 @@ public class EventHooksForge
 					{
 						return this.func_179958_a((Entity)p_apply_1_);
 					}
-				}, 6.0F, 1.0D, 1.2D));
+				}, 6.0F, 1.0D, 1.2D)); */
 			}
 
 			else

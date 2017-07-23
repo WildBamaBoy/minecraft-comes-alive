@@ -20,6 +20,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -60,15 +61,15 @@ public final class ItemsMCA
 	public static final ItemMemorial toyTrain = new ItemMemorial(EnumMemorialType.TRAIN);
 	public static final ItemStaffOfLife staffOfLife = new ItemStaffOfLife();
 
-	public static void initialize(RegistryEvent.Register<Item> event)
+	public static void register(RegistryEvent.Register<Item> event)
 	{
 		for (Field f : ItemsMCA.class.getFields())
 		{
 			try
 			{
 				Item item = (Item) f.get(null);
-				item.setCreativeTab(MCA.getCreativeTabMain());
-				item.setRegistryName(MCA.ID, item.getUnlocalizedName().substring(5)); //huehue
+				item.setCreativeTab(MCA.getCreativeTab());
+				item.setRegistryName(new ResourceLocation("mca:" + f.getName()));
 				event.getRegistry().register(item);
 			}
 

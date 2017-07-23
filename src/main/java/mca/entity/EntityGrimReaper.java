@@ -3,8 +3,8 @@ package mca.entity;
 import java.util.List;
 
 import mca.core.MCA;
-import mca.core.forge.SoundsMCA;
 import mca.core.minecraft.ItemsMCA;
+import mca.core.minecraft.SoundsMCA;
 import mca.enums.EnumReaperAttackState;
 import mca.packets.PacketSpawnLightning;
 import mca.util.Utilities;

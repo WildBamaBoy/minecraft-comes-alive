@@ -26,8 +26,8 @@ public final class BlocksMCA
 	public static final BlockVillagerBed bedGreen = new BlockVillagerBed(EnumBedColor.GREEN);
 	public static final BlockVillagerBed bedPink = new BlockVillagerBed(EnumBedColor.PINK);
 	public static final BlockVillagerBed bedPurple = new BlockVillagerBed(EnumBedColor.PURPLE);
-	public static final Block roseGoldBlock = new BlockOre().setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("RoseGoldBlock").setCreativeTab(MCA.getCreativeTabMain());
-	public static final Block roseGoldOre = new BlockOre().setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("RoseGoldOre").setCreativeTab(MCA.getCreativeTabMain());
+	public static final Block roseGoldBlock = new BlockOre().setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("RoseGoldBlock").setCreativeTab(MCA.getCreativeTab());
+	public static final Block roseGoldOre = new BlockOre().setHardness(3.0F).setResistance(5.0F).setUnlocalizedName("RoseGoldOre").setCreativeTab(MCA.getCreativeTab());
 	public static final BlockTombstone tombstone = new BlockTombstone();
 	public static final BlockVillagerSpawner spawner = new BlockVillagerSpawner();
 	public static final BlockMemorial memorial = new BlockMemorial();
@@ -38,7 +38,7 @@ public final class BlocksMCA
 		roseGoldOre.setHarvestLevel("pickaxe", 2);
 	}
 	
-	public static void initialize(RegistryEvent.Register<Block> event)
+	public static void register(RegistryEvent.Register<Block> event)
 	{
 		for (Field f : BlocksMCA.class.getFields())
 		{

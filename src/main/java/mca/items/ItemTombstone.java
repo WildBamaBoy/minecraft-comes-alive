@@ -21,7 +21,7 @@ public class ItemTombstone extends Item
 	{
 		super();
 		maxStackSize = 1;
-		setCreativeTab(MCA.getCreativeTabMain());
+		setCreativeTab(MCA.getCreativeTab());
 		setUnlocalizedName("ItemTombstone");
 	}
 

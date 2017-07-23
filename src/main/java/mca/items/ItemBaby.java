@@ -42,7 +42,7 @@ public class ItemBaby extends Item
 		final String itemName = isBoy ? "BabyBoy" : "BabyGirl";
 
 		this.isBoy = isBoy;
-		this.setCreativeTab(MCA.getCreativeTabMain());
+		this.setCreativeTab(MCA.getCreativeTab());
 		this.setMaxStackSize(1);
 		this.setUnlocalizedName(itemName);
 	}

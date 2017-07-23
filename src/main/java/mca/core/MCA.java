@@ -18,12 +18,9 @@ import mca.core.forge.EventHooksFML;
 import mca.core.forge.EventHooksForge;
 import mca.core.forge.GuiHandler;
 import mca.core.forge.ServerProxy;
-import mca.core.forge.SoundsMCA;
-import mca.core.minecraft.AchievementsMCA;
 import mca.core.minecraft.BlocksMCA;
 import mca.core.minecraft.ItemsMCA;
 import mca.core.radix.CrashWatcher;
-import mca.core.radix.LanguageParser;
 import mca.data.NBTPlayerData;
 import mca.data.PlayerDataCollection;
 import mca.entity.EntityChoreFishHook;
@@ -75,11 +72,10 @@ import radixcore.core.RadixCore;
 import radixcore.math.Point3D;
 import radixcore.modules.RadixLogic;
 import radixcore.modules.gen.SimpleOreGenerator;
-import radixcore.modules.lang.LanguageManager;
 import radixcore.modules.updates.NoUpdateProtocol;
 import radixcore.modules.updates.RDXUpdateProtocol;
 
-@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:radixcore@[1.11.2-2.3.0,)", acceptedMinecraftVersions = "[1.11.2]",
+@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:radixcore@[1.12-2.3.0,)", acceptedMinecraftVersions = "[1.12]",
 guiFactory = "mca.core.forge.client.MCAGuiFactory")
 public class MCA
 {
@@ -90,7 +86,7 @@ public class MCA
 	@Instance(ID)
 	private static MCA instance;
 	private static ModMetadata metadata;
-	private static CreativeTabs creativeTabMain;
+	private static CreativeTabs creativeTab;
 	private static Config clientConfig;
 	private static Config config;
 	private static Localizer localizer;
@@ -125,6 +121,15 @@ public class MCA
 		proxy.registerEntityRenderers();
 		proxy.registerEventHandlers();
 		
+		creativeTab = new CreativeTabs("MCA")
+		{
+			@Override
+			public ItemStack getTabIconItem() 
+			{
+				return new ItemStack(ItemsMCA.engagementRing);
+			}
+		};
+		
 		ModMetadataEx exData = ModMetadataEx.getFromModMetadata(metadata);
 		exData.updateProtocol = config.allowUpdateChecking ? new RDXUpdateProtocol() : new NoUpdateProtocol();
 		exData.packetHandler = packetHandler;
@@ -144,15 +149,6 @@ public class MCA
 	@EventHandler
 	public void init(FMLInitializationEvent event)
 	{
-		creativeTabMain = new CreativeTabs("MCA")
-				{
-					@Override
-					public ItemStack getTabIconItem() 
-					{
-						return new ItemStack(ItemsMCA.engagementRing);
-					}
-				};
-
 		proxy.registerModelMeshers();
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 
@@ -562,11 +558,16 @@ public class MCA
 		return metadata;
 	}
 
-	public static CreativeTabs getCreativeTabMain()
+	public static CreativeTabs getCreativeTab()
 	{
-		return creativeTabMain;
+		return creativeTab;
 	}
 
+	public static void setCreativeTab(CreativeTabs tab)
+	{
+		creativeTab = tab;
+	}
+	
 	public static Localizer getLocalizer()
 	{
 		return localizer;

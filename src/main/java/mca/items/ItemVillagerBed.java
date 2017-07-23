@@ -19,8 +19,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemVillagerBed extends Item
 {
@@ -31,7 +29,7 @@ public class ItemVillagerBed extends Item
 		final String itemName = "ItemVillagerBed" + color.toString();
 		
 		this.color = color;
-		this.setCreativeTab(MCA.getCreativeTabMain());
+		this.setCreativeTab(MCA.getCreativeTab());
 		this.setMaxStackSize(1);
 		this.setUnlocalizedName(itemName);
 	}
@@ -118,7 +116,7 @@ public class ItemVillagerBed extends Item
             }
         }
 	}
-
+	
 	@Override
 	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) 
 	{
