@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL11;
 import mca.actions.ActionSleep;
 import mca.client.gui.GuiInteraction;
 import mca.client.gui.GuiVillagerEditor;
+import mca.client.model.ModelGrimReaper;
 import mca.client.model.ModelHuman;
 import mca.core.Constants;
 import mca.core.MCA;
@@ -31,7 +32,7 @@ import radixcore.modules.client.RadixRender;
 /**
  * Determines how a Human is rendered.
  */
-public class RenderVillagerMCA extends RenderBiped<EntityVillagerMCA>
+public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<EntityVillagerMCA>
 {
 	private static final ResourceLocation gui = new ResourceLocation("mca:textures/gui.png");
 	private static final UVPoint exMark = new UVPoint(55, 18, 3, 13);

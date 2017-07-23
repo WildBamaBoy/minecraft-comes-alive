@@ -25,6 +25,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
@@ -202,7 +203,7 @@ public class EntityGrimReaper extends EntityMob
 		if (!world.isRemote && this.getHealth() <= (this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getBaseValue() / 2) && healingCooldown == 0)
 		{
 			setAttackState(EnumReaperAttackState.REST);
-			healingCooldown = (Time.MINUTE * 2) + (Time.SECOND * 30);
+			healingCooldown = (Time.MINUTE * 3) + (Time.SECOND * 30);
 			teleportTo(this.posX, this.posY + 8, this.posZ);
 			setStateTransitionCooldown(Time.MINUTE * 1);
 		}
@@ -217,7 +218,7 @@ public class EntityGrimReaper extends EntityMob
 		//Within 1.2 blocks of the target, damage it. Set attack state to post attack.
 		if (RadixMath.getDistanceToEntity(entityToAttack, this) <= 1.2D)
 		{
-			entity.attackEntityFrom(DamageSource.causeMobDamage(this), 13.5F);
+			entity.attackEntityFrom(DamageSource.causeMobDamage(this), this.world.getDifficulty().getDifficultyId() * 5.75F);
 			
 			if (entity instanceof EntityLivingBase)
 			{
@@ -431,7 +432,7 @@ public class EntityGrimReaper extends EntityMob
 
 			if(sqDistanceTo < 8F) 
 			{ 
-				moveAmount = ((8F - (float)sqDistanceTo) / 8F)*4F; 
+				moveAmount = MathHelper.clamp(((8F - (float)sqDistanceTo) / 8F)*4F, 0, 2.5F); 
 			}
 
 			if (entityToAttack.posY + 0.2F < posY)
@@ -447,8 +448,8 @@ public class EntityGrimReaper extends EntityMob
 			//Speed up in order to lunge at the player.
 			if (getAttackState() == EnumReaperAttackState.PRE)
 			{
-				motionX = motionX * 1.05F;
-				motionZ = motionZ * 1.05F;
+				motionX = motionX * 1.1F;
+				motionZ = motionZ * 1.1F;
 			}
 		}
 		
@@ -531,4 +532,27 @@ public class EntityGrimReaper extends EntityMob
     {
         return false;
     }
+	
+    /**
+     * Add the given player to the list of players tracking this entity. For instance, a player may track a boss in
+     * order to view its associated boss bar.
+     */
+	@Override
+    public void addTrackingPlayer(EntityPlayerMP player)
+    {
+        super.addTrackingPlayer(player);
+        this.bossInfo.addPlayer(player);
+    }
+
+    /**
+     * Removes the given player from the list of players tracking this entity. See {@link Entity#addTrackingPlayer} for
+     * more information on tracking.
+     */
+	@Override
+    public void removeTrackingPlayer(EntityPlayerMP player)
+    {
+        super.removeTrackingPlayer(player);
+        this.bossInfo.removePlayer(player);
+    }
+
 }

@@ -1,13 +1,20 @@
 package mca.core.forge;
 
+import mca.client.render.RenderChoreFishHookFactory;
+import mca.client.render.RenderFishHook;
+import mca.client.render.RenderGrimReaper;
+import mca.client.render.RenderGrimReaperFactory;
 import mca.client.render.RenderMemorial;
 import mca.client.render.RenderTombstone;
 import mca.client.render.RenderVillagerFactory;
 import mca.core.minecraft.BlocksMCA;
 import mca.core.minecraft.ItemsMCA;
+import mca.entity.EntityChoreFishHook;
+import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
 import mca.tile.TileMemorial;
 import mca.tile.TileTombstone;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -18,12 +25,10 @@ public class ClientProxy extends ServerProxy
 	public void registerEntityRenderers()
 	{
 		RenderingRegistry.registerEntityRenderingHandler(EntityVillagerMCA.class, RenderVillagerFactory.INSTANCE);
-		/*
-		RenderingRegistry.registerEntityRenderingHandler(EntityVillagerMCA.class, new RenderHuman());
-		//RenderingRegistry.registerEntityRenderingHandler(EntityHorse.class, new RenderHorse(Minecraft.getMinecraft().getRenderManager(), new ModelHorseExtension(), 0.5F));
-		RenderingRegistry.registerEntityRenderingHandler(EntityChoreFishHook.class, new RenderFishHook(Minecraft.getMinecraft().getRenderManager()));
-		RenderingRegistry.registerEntityRenderingHandler(EntityGrimReaper.class, new RenderGrimReaper());
-		*/
+		RenderingRegistry.registerEntityRenderingHandler(EntityGrimReaper.class, RenderGrimReaperFactory.INSTANCE);
+		RenderingRegistry.registerEntityRenderingHandler(EntityChoreFishHook.class, RenderChoreFishHookFactory.INSTANCE);		
+		/*RenderingRegistry.registerEntityRenderingHandler(EntityHorse.class, new RenderHorse(Minecraft.getMinecraft().getRenderManager(), new ModelHorseExtension(), 0.5F));*/
+		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileTombstone.class, new RenderTombstone());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileMemorial.class, new RenderMemorial());
 	}

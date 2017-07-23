@@ -18,9 +18,9 @@ public class RenderFishHook extends Render<EntityChoreFishHook>
 {
 	private static final ResourceLocation TEXTURE = new ResourceLocation("textures/particle/particles.png");
 
-    public RenderFishHook(RenderManager renderManagerIn)
+    public RenderFishHook(RenderManager manager)
     {
-        super(renderManagerIn);
+    	super(manager);
     }
     
 	public void doRenderFishHook(EntityChoreFishHook entity, double x, double y, double z, float entityYaw, float partialTicks)
