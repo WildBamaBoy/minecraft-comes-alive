@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mca.core.MCA;
-import radixcore.datastructures.CircularIntList;
+import radixcore.datastructures.CyclicIntList;
 import radixcore.modules.RadixMath;
 
 public enum EnumProfessionSkinGroup 
@@ -75,7 +75,7 @@ public enum EnumProfessionSkinGroup
 		return isMale ? maleSkinList : femaleSkinList;
 	}
 
-	public CircularIntList getListOfSkinIDs(boolean isMale)
+	public CyclicIntList getListOfSkinIDs(boolean isMale)
 	{
 		List<String> textureList = getSkinList(isMale);
 		List<Integer> ids = new ArrayList<Integer>();
@@ -86,7 +86,7 @@ public enum EnumProfessionSkinGroup
 			ids.add(id);
 		}
 
-		return CircularIntList.fromList(ids);
+		return CyclicIntList.fromList(ids);
 	}
 
 	public String getRandomMaleSkin()

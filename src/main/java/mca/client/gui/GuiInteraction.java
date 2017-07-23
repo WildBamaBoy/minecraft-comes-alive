@@ -53,7 +53,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.constant.Font.Color;
 import radixcore.constant.Font.Format;
-import radixcore.datastructures.CircularIntList;
+import radixcore.datastructures.CyclicIntList;
 import radixcore.modules.client.RadixRender;
 
 @SideOnly(Side.CLIENT)
@@ -77,14 +77,14 @@ public class GuiInteraction extends GuiScreen
 	 * Fields used for AI controls.
 	 */
 	private int currentPage;
-	private CircularIntList radiusMappings;
-	private CircularIntList farmingMappings;
-	private CircularIntList woodcuttingMappings;
-	private CircularIntList miningMappings;
-	private CircularIntList hireLengths;
-	private CircularIntList combatMethods;
-	private CircularIntList combatTriggers;
-	private CircularIntList combatTargets;
+	private CyclicIntList radiusMappings;
+	private CyclicIntList farmingMappings;
+	private CyclicIntList woodcuttingMappings;
+	private CyclicIntList miningMappings;
+	private CyclicIntList hireLengths;
+	private CyclicIntList combatMethods;
+	private CyclicIntList combatTriggers;
+	private CyclicIntList combatTargets;
 	private boolean farmingModeFlag;
 	private boolean miningModeFlag;
 	private boolean huntingModeFlag;
@@ -97,21 +97,21 @@ public class GuiInteraction extends GuiScreen
 		this.player = player;
 		this.playerData = MCA.getPlayerData(player);
 		this.memory = villager.attributes.getPlayerMemory(player);
-		this.radiusMappings = CircularIntList.fromIntegers(5, 10, 15, 20, 25);
-		this.farmingMappings = CircularIntList.fromList(RegistryMCA.getCropEntryIDs());
-		this.woodcuttingMappings = CircularIntList.fromList(RegistryMCA.getWoodcuttingBlockIDs());
-		this.miningMappings = CircularIntList.fromList(RegistryMCA.getMiningEntryIDs());
-		this.hireLengths = CircularIntList.fromIntegers(1, 2, 3);
-		this.combatMethods = CircularIntList.fromIntegers(
+		this.radiusMappings = CyclicIntList.fromIntegers(5, 10, 15, 20, 25);
+		this.farmingMappings = CyclicIntList.fromList(RegistryMCA.getCropEntryIDs());
+		this.woodcuttingMappings = CyclicIntList.fromList(RegistryMCA.getWoodcuttingBlockIDs());
+		this.miningMappings = CyclicIntList.fromList(RegistryMCA.getMiningEntryIDs());
+		this.hireLengths = CyclicIntList.fromIntegers(1, 2, 3);
+		this.combatMethods = CyclicIntList.fromIntegers(
 				EnumCombatBehaviors.METHOD_DO_NOT_FIGHT.getNumericId(),
 				EnumCombatBehaviors.METHOD_MELEE_ONLY.getNumericId(),
 				EnumCombatBehaviors.METHOD_RANGED_ONLY.getNumericId(),
 				EnumCombatBehaviors.METHOD_MELEE_AND_RANGED.getNumericId());
-		this.combatTriggers = CircularIntList.fromIntegers(
+		this.combatTriggers = CyclicIntList.fromIntegers(
 				EnumCombatBehaviors.TRIGGER_PLAYER_TAKE_DAMAGE.getNumericId(),
 				EnumCombatBehaviors.TRIGGER_PLAYER_DEAL_DAMAGE.getNumericId(),
 				EnumCombatBehaviors.TRIGGER_ALWAYS.getNumericId());
-		this.combatTargets = CircularIntList.fromIntegers(
+		this.combatTargets = CyclicIntList.fromIntegers(
 				EnumCombatBehaviors.TARGET_HOSTILE_MOBS.getNumericId(),
 				EnumCombatBehaviors.TARGET_PASSIVE_MOBS.getNumericId(),
 				EnumCombatBehaviors.TARGET_PASSIVE_OR_HOSTILE_MOBS.getNumericId());

@@ -22,7 +22,7 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import radixcore.datastructures.CircularIntList;
+import radixcore.datastructures.CyclicIntList;
 
 /**
  * Defines the GUI used to edit villager information.
@@ -68,9 +68,9 @@ public class GuiVillagerEditor extends GuiScreen
 	private int moodListIndex = 0;
 	private int currentPage = 1;
 
-	private CircularIntList textures;
-	private CircularIntList jobs;
-	private CircularIntList personalities;
+	private CyclicIntList textures;
+	private CyclicIntList jobs;
+	private CyclicIntList personalities;
 	
 	public GuiVillagerEditor(EntityVillagerMCA EntityHuman, EntityPlayer player)
 	{
@@ -81,8 +81,8 @@ public class GuiVillagerEditor extends GuiScreen
 		
 		villager.getBehavior(ActionSleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
 		
-		jobs = CircularIntList.fromList(EnumProfession.getListOfIds());
-		personalities = CircularIntList.fromList(EnumPersonality.getListOfIds());
+		jobs = CyclicIntList.fromList(EnumProfession.getListOfIds());
+		personalities = CyclicIntList.fromList(EnumPersonality.getListOfIds());
 		textures = villager.attributes.getProfessionSkinGroup().getListOfSkinIDs(villager.attributes.getGender() == EnumGender.MALE);
 	}
 
