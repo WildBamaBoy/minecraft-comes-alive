@@ -96,7 +96,8 @@ public final class SkinLoader
 	{
 		final ZipFile modArchive = new ZipFile(modDataFile);
 		final Enumeration enumerator = modArchive.entries();
-
+		int counter = 0;
+		
 		while (enumerator.hasMoreElements())
 		{
 			//Loop through each entry within the JAR until the MCA folder is hit.
@@ -107,15 +108,17 @@ public final class SkinLoader
 			{
 				for (EnumProfessionSkinGroup skinGroup : EnumProfessionSkinGroup.values())
 				{
-					if (file.getName().contains(skinGroup.toString()))
+					if (file.getName().contains(skinGroup.toString().toLowerCase()))
 					{
 						skinGroup.addSkin(archiveFilePath);
+						counter++;
 					}
 				}
 			}
 		}
 
 		modArchive.close();
+		MCA.getLog().info("MCA has successfully loaded " + counter + " skins.");
 	}
 
 	private static File getModFileFromNestedFolder(File nestedFolder) throws IOException
@@ -156,7 +159,7 @@ public final class SkinLoader
 					entry = (ZipEntry) enumerator.nextElement();
 
 					//Test for random files unique to MCA.
-					if (entry.getName().contains("mca/core/MCA.class") || entry.getName().contains("sleeping/EE1.png"))
+					if (entry.getName().contains("mca/core/MCA.class") || entry.getName().contains("sleeping/ee1.png"))
 					{
 						archive.close();
 						return true;

@@ -39,14 +39,14 @@ public enum EnumProfessionSkinGroup
 		String resourceLocation = locationInJAR.replace("/assets/mca/", "mca:");
 		completeSkinList.add(resourceLocation);
 
-		String genderChar = resourceLocation.replace("mca:textures/skins/" + this.toString(), "").substring(0, 1);
+		String genderChar = resourceLocation.replace("mca:textures/skins/" + this.toString().toLowerCase(), "").substring(0, 1);
 
-		if (genderChar.equals("M"))
+		if (genderChar.equals("m"))
 		{
 			maleSkinList.add(resourceLocation);
 		}
 
-		else if (genderChar.equals("F"))
+		else if (genderChar.equals("f"))
 		{
 			femaleSkinList.add(resourceLocation);
 		}
