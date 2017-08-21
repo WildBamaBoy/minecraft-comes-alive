@@ -26,10 +26,10 @@ import radixcore.modules.RadixLogic;
 public class ActionSleep extends AbstractAction
 {
 	private static final DataParameter<Integer> SLEEPING_STATE = EntityDataManager.<Integer>createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
-
-	private boolean isInBed;
+	private static final DataParameter<Boolean> IS_IN_BED = EntityDataManager.<Boolean>createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
+	private static final DataParameter<Integer> BED_META = EntityDataManager.<Integer>createKey(EntityVillagerMCA.class, DataSerializers.VARINT);
+	
 	private boolean hasBed;
-	private int bedMeta;
 	private double homePosX;
 	private double homePosY;
 	private double homePosZ;
@@ -122,8 +122,8 @@ public class ActionSleep extends AbstractAction
 	public void writeToNBT(NBTTagCompound nbt) 
 	{
 		nbt.setInteger("sleepingState", getSleepingState().getId());
-		nbt.setBoolean("isInBed", isInBed);
-		nbt.setInteger("bedMeta", bedMeta);
+		nbt.setBoolean("isInBed", getIsInBed());
+		nbt.setInteger("bedMeta", getBedMeta());
 		nbt.setBoolean("hasBed", hasBed);
 		nbt.setDouble("homePosX", homePosX);
 		nbt.setDouble("homePosY", homePosY);
@@ -137,8 +137,8 @@ public class ActionSleep extends AbstractAction
 	public void readFromNBT(NBTTagCompound nbt) 
 	{
 		setSleepingState(EnumSleepingState.fromId(nbt.getInteger("sleepingState")));
-		isInBed = nbt.getBoolean("isInBed");
-		bedMeta = nbt.getInteger("bedMeta");
+		setIsInBed(nbt.getBoolean("isInBed"));
+		setBedMeta(nbt.getInteger("bedMeta"));
 		hasBed = nbt.getBoolean("hasBed");
 		bedPosX = nbt.getInteger("bedPosX");
 		bedPosY = nbt.getInteger("bedPosY");
@@ -188,7 +188,7 @@ public class ActionSleep extends AbstractAction
 		else
 		{
 			transitionSkinState(false);
-			isInBed = false;
+			setIsInBed(false);
 
 			try
 			{
@@ -282,16 +282,6 @@ public class ActionSleep extends AbstractAction
 		}
 	}
 
-	public int getBedMeta()
-	{
-		return bedMeta;
-	}
-
-	public boolean getIsInBed()
-	{
-		return isInBed;
-	}
-
 	private void trySleepInBed()
 	{		
 		if (hasBed)
@@ -310,7 +300,7 @@ public class ActionSleep extends AbstractAction
 					{
 						villagerBedNBT.setUniqueId("sleepingVillagerUUID", actor.getPersistentID());
 						villagerBedNBT.setBoolean("villagerIsSleepingIn", true);
-						isInBed = true;
+						setIsInBed(true);
 
 						actor.halt();
 						actor.setPosition(bedPosX, bedPosY, bedPosZ);
@@ -362,18 +352,27 @@ public class ActionSleep extends AbstractAction
 				
 				if (villagerBed != null && !villagerBedNBT.getBoolean("villagerIsSleepingIn"))
 				{
-					IBlockState state = actor.world.getBlockState(getBedPos());
-					villagerBedNBT.setUniqueId("sleepingVillagerUUID", actor.getPersistentID());
-					villagerBedNBT.setBoolean("villagerIsSleepingIn", true);
-
-					bedPosX = nearestBed.iX();
-					bedPosY = nearestBed.iY();
-					bedPosZ = nearestBed.iZ();
-					bedMeta = state.getBlock().getMetaFromState(state);
-					hasBed = true;
-					isInBed = true;
-					actor.halt();
-					actor.setPosition(bedPosX, bedPosY, bedPosZ);
+					try 
+					{
+						IBlockState state = actor.world.getBlockState(nearestBed.toBlockPos());
+						BlockBed bed = (BlockBed)state.getBlock();
+						villagerBedNBT.setUniqueId("sleepingVillagerUUID", actor.getPersistentID());
+						villagerBedNBT.setBoolean("villagerIsSleepingIn", true);
+	
+						bedPosX = nearestBed.iX();
+						bedPosY = nearestBed.iY();
+						bedPosZ = nearestBed.iZ();
+						hasBed = true;
+						setBedMeta(bed.getMetaFromState(state));
+						setIsInBed(true);
+						actor.halt();
+						actor.setPosition(bedPosX, bedPosY, bedPosZ);
+					}
+					
+					catch (ClassCastException e)
+					{
+						hasBed = false;
+					}
 				}
 			}
 		}
@@ -387,6 +386,28 @@ public class ActionSleep extends AbstractAction
 	protected void registerDataParameters()
 	{
 		actor.getDataManager().register(SLEEPING_STATE, Integer.valueOf(EnumSleepingState.AWAKE.getId()));
+		actor.getDataManager().register(IS_IN_BED, false);
+		actor.getDataManager().register(BED_META, Integer.valueOf(0));
+	}
+	
+	public boolean getIsInBed()
+	{
+		return actor.getDataManager().get(IS_IN_BED);
+	}
+	
+	public void setIsInBed(boolean value)
+	{
+		actor.getDataManager().set(IS_IN_BED, value);
+	}
+	
+	public int getBedMeta()
+	{
+		return actor.getDataManager().get(BED_META);
+	}
+	
+	public void setBedMeta(int value)
+	{
+		actor.getDataManager().set(BED_META, value);
 	}
 	
 	public void onDamage()
