@@ -192,9 +192,11 @@ public class ActionSleep extends AbstractAction
 
 			try
 			{
-				final TileVillagerBed villagerBed = (TileVillagerBed) actor.world.getTileEntity(getBedPos());
-				villagerBed.setSleepingVillagerUUID(Constants.EMPTY_UUID);
-				villagerBed.setIsVillagerSleepingIn(false);
+				final TileEntityBed villagerBed = (TileEntityBed) actor.world.getTileEntity(getBedPos());
+				
+				final NBTTagCompound villagerBedNBT = villagerBed.getTileData();
+				villagerBedNBT.setUniqueId("sleepingVillagerUUID", Constants.EMPTY_UUID);
+				villagerBedNBT.setBoolean("villagerIsSleepingIn", false);
 			}
 
 			catch (Exception e)
@@ -302,11 +304,12 @@ public class ActionSleep extends AbstractAction
 				try
 				{
 					final TileEntityBed villagerBed = (TileEntityBed) actor.world.getTileEntity(getBedPos());
-
-					if (!villagerBed.getIsVillagerSleepingIn())
+					final NBTTagCompound villagerBedNBT = villagerBed.getTileData();
+					
+					if (!villagerBedNBT.getBoolean("villagerIsSleepingIn"))
 					{
-						villagerBed.setSleepingVillagerUUID(actor.getPersistentID());
-						villagerBed.setIsVillagerSleepingIn(true);
+						villagerBedNBT.setUniqueId("sleepingVillagerUUID", actor.getPersistentID());
+						villagerBedNBT.setBoolean("villagerIsSleepingIn", true);
 						isInBed = true;
 
 						actor.halt();
@@ -355,12 +358,13 @@ public class ActionSleep extends AbstractAction
 			{
 				final Point3D nearestBed = Point3D.getNearestPointInList(new Point3D(actor.posX, actor.posY, actor.posZ), bedFeetNearby);
 				final TileEntityBed villagerBed = (TileEntityBed) actor.world.getTileEntity(nearestBed.toBlockPos());
-
-				if (villagerBed != null && !villagerBed.getIsVillagerSleepingIn())
+				final NBTTagCompound villagerBedNBT = villagerBed.getTileData();
+				
+				if (villagerBed != null && !villagerBedNBT.getBoolean("villagerIsSleepingIn"))
 				{
 					IBlockState state = actor.world.getBlockState(getBedPos());
-					villagerBed.setSleepingVillagerUUID(actor.getPersistentID());
-					villagerBed.setIsVillagerSleepingIn(true);
+					villagerBedNBT.setUniqueId("sleepingVillagerUUID", actor.getPersistentID());
+					villagerBedNBT.setBoolean("villagerIsSleepingIn", true);
 
 					bedPosX = nearestBed.iX();
 					bedPosY = nearestBed.iY();
