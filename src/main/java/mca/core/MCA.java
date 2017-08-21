@@ -163,68 +163,6 @@ public class MCA
 		GameRegistry.registerTileEntity(TileVillagerBed.class, TileVillagerBed.class.getSimpleName());
 		GameRegistry.registerTileEntity(TileTombstone.class, TileTombstone.class.getSimpleName());
 		GameRegistry.registerTileEntity(TileMemorial.class, TileMemorial.class.getSimpleName());
-
-		//Recipes
-		/*
-		GameRegistry.addRecipe(new ItemStack(ItemsMCA.divorcePapers, 1), 
-				new Object[] { " IF", " P ", 'I', new ItemStack(Items.DYE, 1, 0), 'F', Items.FEATHER, 'P', Items.PAPER });
-
-		GameRegistry.addRecipe(new ItemStack(ItemsMCA.whistle), 
-				" W#", "###", '#', Items.IRON_INGOT, 'W', Blocks.PLANKS);
-		GameRegistry.addRecipe(new ItemStack(Items.GOLD_INGOT), 
-				"GGG", "GGG", "GGG", 'G', ItemsMCA.goldDust);
-		GameRegistry.addRecipe(new ItemStack(ItemsMCA.roseGoldIngot, 9), 
-				"GGG", "GGG", "GGG", 'G', ItemsMCA.roseGoldDust);
-		GameRegistry.addRecipe(new ItemStack(ItemsMCA.engagementRing), 
-				"GDG", "G G", "GGG", 'D', Items.DIAMOND, 'G', Items.GOLD_INGOT);
-		GameRegistry.addRecipe(new ItemStack(ItemsMCA.engagementRingRG), 
-				"GDG", "G G", "GGG", 'D', Items.DIAMOND, 'G', ItemsMCA.roseGoldIngot);
-		GameRegistry.addRecipe(new ItemStack(ItemsMCA.weddingRingRG),
-				"GGG", "G G", "GGG", 'G', ItemsMCA.roseGoldIngot);
-		GameRegistry.addRecipe(new ItemStack(BlocksMCA.roseGoldBlock),
-				"GGG", "GGG", "GGG", 'G', ItemsMCA.roseGoldIngot);
-		GameRegistry.addRecipe(new ItemStack(ItemsMCA.matchmakersRing),
-				"III", "I I", "III", 'I', Items.IRON_INGOT);
-		GameRegistry.addRecipe(new ItemStack(ItemsMCA.tombstone),
-				" S ", "SIS", "SSS", 'S', Blocks.STONE, 'I', Items.SIGN);
-		GameRegistry.addRecipe(new ItemStack(ItemsMCA.needle),
-				"I  ", " I ", "  I", 'I', new ItemStack(Items.IRON_INGOT));
-		GameRegistry.addRecipe(new ItemStack(ItemsMCA.newOutfit),
-				"C C", "CCC", "CCC", 'C', ItemsMCA.cloth);
-
-		//Variable recipes
-		if (!config.disableWeddingRingRecipe)
-		{
-			GameRegistry.addRecipe(new ItemStack(ItemsMCA.weddingRing),
-					"GGG", "G G", "GGG", 'G', Items.GOLD_INGOT);
-		}
-
-		else
-		{
-			logger.fatal("Config: MCA's default wedding ring recipe is currently disabled. You can change this in the config. You must use Rose Gold to craft wedding rings!");
-		}
-
-		GameRegistry.addShapelessRecipe(new ItemStack(ItemsMCA.roseGoldDust), ItemsMCA.roseGoldIngot);
-		GameRegistry.addShapelessRecipe(new ItemStack(ItemsMCA.goldDust, 6), Items.WATER_BUCKET, new ItemStack(ItemsMCA.roseGoldDust));
-
-		GameRegistry.addShapelessRecipe(new ItemStack(ItemsMCA.bedRed), new ItemStack(Items.BED), new ItemStack(Blocks.CARPET, 1, 14));
-		GameRegistry.addShapelessRecipe(new ItemStack(ItemsMCA.bedBlue), new ItemStack(Items.BED), new ItemStack(Blocks.CARPET, 1, 11));
-		GameRegistry.addShapelessRecipe(new ItemStack(ItemsMCA.bedGreen), new ItemStack(Items.BED), new ItemStack(Blocks.CARPET, 1, 13));
-		GameRegistry.addShapelessRecipe(new ItemStack(ItemsMCA.bedPurple), new ItemStack(Items.BED), new ItemStack(Blocks.CARPET, 1, 10));
-		GameRegistry.addShapelessRecipe(new ItemStack(ItemsMCA.bedPink), new ItemStack(Items.BED), new ItemStack(Blocks.CARPET, 1, 6));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.BED), new ItemStack(ItemsMCA.bedRed));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.BED), new ItemStack(ItemsMCA.bedBlue));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.BED), new ItemStack(ItemsMCA.bedGreen));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.BED), new ItemStack(ItemsMCA.bedPurple));
-		GameRegistry.addShapelessRecipe(new ItemStack(Items.BED), new ItemStack(ItemsMCA.bedPink));
-		GameRegistry.addShapelessRecipe(new ItemStack(ItemsMCA.needleAndString), new ItemStack(ItemsMCA.needle), new ItemStack(Items.STRING));
-		GameRegistry.addShapelessRecipe(new ItemStack(ItemsMCA.roseGoldIngot, 9), new ItemStack(BlocksMCA.roseGoldBlock));
-
-		for(int i = 0; i < 16; i++)
-		{
-			GameRegistry.addShapelessRecipe(new ItemStack(ItemsMCA.cloth), new ItemStack(Blocks.WOOL), new ItemStack(ItemsMCA.needleAndString, 1, i));
-		}		
-		*/
 		
 		//Smeltings
 		GameRegistry.addSmelting(BlocksMCA.roseGoldOre, new ItemStack(ItemsMCA.roseGoldIngot), 5.0F);
