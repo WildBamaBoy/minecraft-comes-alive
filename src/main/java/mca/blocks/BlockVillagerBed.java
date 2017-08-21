@@ -53,11 +53,11 @@ public class BlockVillagerBed extends BlockBed implements ITileEntityProvider
 	{
 		switch (bedColor)
 		{
-		case BLUE: return ItemsMCA.bedBlue;
-		case GREEN: return ItemsMCA.bedGreen;
-		case PINK: return ItemsMCA.bedPink;
-		case PURPLE: return ItemsMCA.bedPurple;
-		case RED: return ItemsMCA.bedRed;
+		case BLUE: return ItemsMCA.villagerBedBlue;
+		case GREEN: return ItemsMCA.villagerBedGreen;
+		case PINK: return ItemsMCA.villagerBedPink;
+		case PURPLE: return ItemsMCA.villagerBedPurple;
+		case RED: return ItemsMCA.villagerBedRed;
 		default:
 			return null;
 		}

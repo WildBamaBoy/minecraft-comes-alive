@@ -26,7 +26,7 @@ public class ItemVillagerBed extends Item
 	
 	public ItemVillagerBed(EnumBedColor color)
 	{
-		final String itemName = "ItemVillagerBed" + color.toString();
+		final String itemName = "villagerbed" + color.toString().toLowerCase();
 		
 		this.color = color;
 		this.setCreativeTab(MCA.getCreativeTab());

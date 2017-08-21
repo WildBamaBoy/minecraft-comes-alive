@@ -37,12 +37,12 @@ public final class ItemsMCA
 	public static final ItemBaby babyGirl = new ItemBaby(false);
 	public static final ItemSpawnEgg eggMale = new ItemSpawnEgg(true);
 	public static final ItemSpawnEgg eggFemale = new ItemSpawnEgg(false);
-	public static final ItemSpawnGrimReaper eggReaper = new ItemSpawnGrimReaper();
-	public static final ItemVillagerBed bedRed = new ItemVillagerBed(EnumBedColor.RED);
-	public static final ItemVillagerBed bedBlue = new ItemVillagerBed(EnumBedColor.BLUE);
-	public static final ItemVillagerBed bedGreen = new ItemVillagerBed(EnumBedColor.GREEN);
-	public static final ItemVillagerBed bedPurple = new ItemVillagerBed(EnumBedColor.PURPLE);
-	public static final ItemVillagerBed bedPink = new ItemVillagerBed(EnumBedColor.PINK);
+	public static final ItemSpawnGrimReaper eggGrimReaper = new ItemSpawnGrimReaper();
+	public static final ItemVillagerBed villagerBedRed = new ItemVillagerBed(EnumBedColor.RED);
+	public static final ItemVillagerBed villagerBedBlue = new ItemVillagerBed(EnumBedColor.BLUE);
+	public static final ItemVillagerBed villagerBedGreen = new ItemVillagerBed(EnumBedColor.GREEN);
+	public static final ItemVillagerBed villagerBedPurple = new ItemVillagerBed(EnumBedColor.PURPLE);
+	public static final ItemVillagerBed villagerBedPink = new ItemVillagerBed(EnumBedColor.PINK);
 	public static final ItemCrystalBall crystalBall = new ItemCrystalBall();
 	public static final Item roseGoldIngot = new Item().setUnlocalizedName("RoseGoldIngot");
 	public static final Item roseGoldDust = new Item().setUnlocalizedName("RoseGoldDust");
@@ -52,7 +52,7 @@ public final class ItemsMCA
 	public static final Item needleAndString = new Item().setUnlocalizedName("NeedleAndString").setMaxDamage(16).setMaxStackSize(1);
 	public static final Item cloth = new Item().setUnlocalizedName("Cloth");
 
-	public static final ItemTombstone tombstone = new ItemTombstone();
+	public static final ItemTombstone itemTombstone = new ItemTombstone();
 	public static final ItemWhistle whistle = new ItemWhistle();
 	public static final ItemVillagerEditor villagerEditor = new ItemVillagerEditor();
 	
