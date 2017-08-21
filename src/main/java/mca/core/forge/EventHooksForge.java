@@ -21,6 +21,7 @@ import mca.util.Utilities;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -31,6 +32,7 @@ import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.monster.EntityZombieVillager;
 import net.minecraft.entity.passive.EntityHorse;
+import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -102,8 +104,6 @@ public class EventHooksForge
 					{
 						boolean isMale = RadixLogic.getBooleanWithProbability(50);
 						final EntityVillagerMCA human = new EntityVillagerMCA(zombie.world);
-						//final EntityVillagerMCA human = new EntityVillagerMCA(zombie.world, isMale, EnumProfession.getAtRandom().getId(), false);
-						//TODO
 						human.setPosition(zombie.posX, zombie.posY, zombie.posZ);
 						zombie.world.spawnEntity(human);
 						event.getEntity().setDead();
@@ -139,19 +139,7 @@ public class EventHooksForge
 
 			else if (mob instanceof EntityCreeper)
 			{
-				/* TODO
-				mob.tasks.addTask(3, new EntityAIAvoidEntity(mob, EntityVillagerMCA.class, new Predicate()
-				{
-					public boolean func_179958_a(Entity p_179958_1_)
-					{
-						return p_179958_1_ instanceof EntityVillagerMCA;
-					}
-
-					public boolean apply(Object p_apply_1_)
-					{
-						return this.func_179958_a((Entity)p_apply_1_);
-					}
-				}, 6.0F, 1.0D, 1.2D)); */
+				mob.tasks.addTask(3, new EntityAIAvoidEntity(mob, EntityVillagerMCA.class, 6.0F, 1.0D, 1.2D));
 			}
 
 			else

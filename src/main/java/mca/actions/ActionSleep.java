@@ -78,11 +78,9 @@ public class ActionSleep extends AbstractAction
 			else if (!hasHomePoint() || !isHomePointValid())
 			{
 				final String phrase = !hasHomePoint() ? "sleep.nohome" : "sleep.invalid";
-				//TODO
-				//boolean isInfluencedByPlayer = owner.isMarriedToAPlayer() || owner.getMotherUUID() < Constants.EMPTY_UUID || owner.getFatherUUID() < 0; //< 0 means it's a player.
 				EntityPlayer influentialPlayer = getInfluentialPlayer();
 
-				if (influentialPlayer != null) //TODO
+				if (influentialPlayer != null)
 				{
 					actor.say(phrase, influentialPlayer);
 					setSleepingState(EnumSleepingState.NO_HOME);

@@ -157,10 +157,8 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 
 			else if (interaction == EnumInteraction.TRADE)
 			{
-				/* TODO
-				villager.attributes.setCustomer(player);
+				villager.setCustomer(player);
 				player.displayVillagerTradeGui(villager);
-				*/
 			}
 
 			else if (interaction == EnumInteraction.PICK_UP)
@@ -248,7 +246,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 
 					if (memory.getHearts() >= 100)
 					{
-						/* TODO player.addStat(AchievementsMCA.fullGoldHearts);*/
+						//player.addStat(AchievementsMCA.fullGoldHearts);
 					}
 
 					if (memory.getInteractionFatigue() == 4)
@@ -530,8 +528,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 			else if (interaction == EnumInteraction.CHECKHAPPINESS)
 			{
 				NBTPlayerData data = MCA.getPlayerData(player);
-				
-				//Horrible fix for an issue with RadixCore. TODO Investigate.
+
 				List<EntityVillagerMCA> villagerList = RadixLogic.getEntitiesWithinDistance(EntityVillagerMCA.class, villager, 50);
 				int percentAverage = getVillageHappinessPercentage(villager, player, villagerList);
 				

@@ -150,11 +150,9 @@ public class PacketInteractWithPlayerS extends AbstractPacket<PacketInteractWith
 			ItemStack stack = new ItemStack(isMale ? ItemsMCA.babyBoy : ItemsMCA.babyGirl);
 			target.inventory.addItemStackToInventory(stack);
 
-			/* TODO
-			Achievement achievement = isMale ? AchievementsMCA.babyBoy : AchievementsMCA.babyGirl;
-			sender.addStat(achievement);
-			target.addStat(achievement);
-			*/
+			//Achievement achievement = isMale ? AchievementsMCA.babyBoy : AchievementsMCA.babyGirl;
+			//sender.addStat(achievement);
+			//target.addStat(achievement);
 			
 			MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenBabyNameGUI(isMale), (EntityPlayerMP) target);
 

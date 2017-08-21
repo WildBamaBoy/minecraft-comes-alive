@@ -87,7 +87,7 @@ public class ActionWander extends AbstractAction
 	private void handleMoveIndoors()
 	{
 		handleLook();
-		handleWander(); //TODO
+		handleWander();
 	}
 
 	private void handleWander()

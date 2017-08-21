@@ -28,13 +28,13 @@ import mca.items.ItemVillagerEditor;
 import mca.packets.PacketOpenGUIOnEntity;
 import mca.util.Either;
 import mca.util.Utilities;
-import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIMoveIndoors;
 import net.minecraft.entity.ai.EntityAIOpenDoor;
 import net.minecraft.entity.ai.EntityAIRestrictOpenDoor;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITasks;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
@@ -75,7 +75,7 @@ import radixcore.modules.RadixLogic;
  * 
  * The VillagerAttributes object holds all villager data and their getters/setters.
  */
-public class EntityVillagerMCA extends EntityCreature implements IEntityAdditionalSpawnData
+public class EntityVillagerMCA extends EntityVillager implements IEntityAdditionalSpawnData
 {
 	@SideOnly(Side.CLIENT)
 	public boolean isInteractionGuiOpen;

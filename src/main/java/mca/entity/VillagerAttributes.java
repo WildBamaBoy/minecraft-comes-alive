@@ -122,9 +122,31 @@ public class VillagerAttributes
 		dataManager.register(MARRIAGE_STATE, Integer.valueOf(0));
 	}
 
+	/*
+	 * Copies all DataParameters from the provided attribute object to this one.
+	 */
 	public void copyFrom(VillagerAttributes attributes)
 	{
-		//TODO
+		for (Field f : this.getClass().getDeclaredFields())
+		{
+			if (f.getType().getName().contains("DataParameter")) //This is stupid, but it will work
+			{
+				f.setAccessible(true);
+				
+				try
+				{
+					f.set(this, f.get(attributes));
+				}
+				
+				catch (Exception e)
+				{
+					MCA.getLog().error("An unexpected error occurred while copying a villager attribute object.");
+					MCA.getLog().error(e.toString());
+				}
+				
+				f.setAccessible(false);
+			}
+		}
 	}
 	
 	public String getName()

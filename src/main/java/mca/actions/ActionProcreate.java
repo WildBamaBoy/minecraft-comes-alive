@@ -77,10 +77,9 @@ public class ActionProcreate extends AbstractAction
 						playerSpouse.inventory.addItemStackToInventory(stack);
 					}
 					
-					/* TODO
-					Achievement achievement = isMale ? AchievementsMCA.babyBoy : AchievementsMCA.babyGirl;
-					playerSpouse.addStat(achievement);
-					*/
+					//Achievement achievement = isMale ? AchievementsMCA.babyBoy : AchievementsMCA.babyGirl;
+					//playerSpouse.addStat(achievement);
+
 					MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenBabyNameGUI(isMale), (EntityPlayerMP) playerSpouse);
 				}
 			}

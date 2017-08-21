@@ -104,7 +104,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 
 		else
 		{
-			/* TODO player.addStat(AchievementsMCA.marriage);*/
+			//player.addStat(AchievementsMCA.marriage);
 			human.say("interaction.marry.success", player); 
 
 			human.startMarriage(Either.<EntityVillagerMCA, EntityPlayer>withR(player));
@@ -177,7 +177,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 
 					if (human.attributes.isPlayerAParent(onlinePlayer) || partner.attributes.isPlayerAParent(onlinePlayer))
 					{
-						/* TODO onlinePlayer.addStat(AchievementsMCA.childMarried); */	
+						//onlinePlayer.addStat(AchievementsMCA.childMarried);	
 					}
 				}
 
@@ -227,7 +227,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 
 		else
 		{
-			/* TODO player.addStat(AchievementsMCA.engagement); */
+			//player.addStat(AchievementsMCA.engagement);
 			human.say("interaction.engage.success", player); 
 			human.attributes.setFiancee(player);
 			
