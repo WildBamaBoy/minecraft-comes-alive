@@ -10,7 +10,6 @@ import mca.actions.ActionFish;
 import mca.actions.ActionHunt;
 import mca.actions.ActionMine;
 import mca.actions.ActionWoodcut;
-import mca.core.minecraft.AchievementsMCA;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumInteraction;
 import net.minecraft.entity.player.EntityPlayer;

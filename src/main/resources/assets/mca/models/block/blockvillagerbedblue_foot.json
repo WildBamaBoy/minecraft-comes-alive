@@ -1,10 +1,10 @@
 {
     "textures": {
-        "particle": "mca:blocks/VillagerBed-Feet-Top-Blue",
-        "top": "mca:blocks/VillagerBed-Feet-Top-Blue",
+        "particle": "mca:blocks/villagerbed-feet-top-blue",
+        "top": "mca:blocks/villagerbed-feet-top-blue",
         "bottom": "blocks/planks_oak",
-        "end": "mca:blocks/VillagerBed-Feet-End-Blue",
-        "side": "mca:blocks/VillagerBed-Feet-Side-Blue"
+        "end": "mca:blocks/villagerbed-feet-end-blue",
+        "side": "mca:blocks/villagerbed-feet-side-blue"
     },
     "elements": [
         {   "from": [ 0, 0, 0 ],

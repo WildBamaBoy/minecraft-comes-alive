@@ -3,13 +3,11 @@ package mca.actions;
 import java.util.ArrayList;
 import java.util.List;
 
-import mca.blocks.BlockVillagerBed;
 import mca.core.Constants;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumMovementState;
 import mca.enums.EnumProfessionSkinGroup;
 import mca.enums.EnumSleepingState;
-import mca.tile.TileVillagerBed;
 import mca.util.Utilities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
@@ -20,6 +18,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.tileentity.TileEntityBed;
 import net.minecraft.util.math.BlockPos;
 import radixcore.math.Point3D;
 import radixcore.modules.RadixLogic;
@@ -298,11 +297,11 @@ public class ActionSleep extends AbstractAction
 			//Check if the bed still exists.
 			final Block blockAtBed = actor.world.getBlockState(getBedPos()).getBlock();
 
-			if (blockAtBed instanceof BlockVillagerBed)
+			if (blockAtBed instanceof BlockBed)
 			{
 				try
 				{
-					final TileVillagerBed villagerBed = (TileVillagerBed) actor.world.getTileEntity(getBedPos());
+					final TileEntityBed villagerBed = (TileEntityBed) actor.world.getTileEntity(getBedPos());
 
 					if (!villagerBed.getIsVillagerSleepingIn())
 					{
@@ -334,14 +333,14 @@ public class ActionSleep extends AbstractAction
 
 		else //Search for a bed.
 		{
-			List<Point3D> bedsNearby = RadixLogic.getNearbyBlocks(actor, BlockVillagerBed.class, 8);
+			List<Point3D> bedsNearby = RadixLogic.getNearbyBlocks(actor, BlockBed.class, 8);
 			List<Point3D> bedFeetNearby = new ArrayList<Point3D>();
 
 			for (final Point3D point : bedsNearby)
 			{
 				IBlockState state = actor.world.getBlockState(new BlockPos(point.iX(), point.iY(), point.iZ()));
 
-				if (state.getBlock() instanceof BlockVillagerBed)
+				if (state.getBlock() instanceof BlockBed)
 				{
 					EnumPartType part = (EnumPartType) state.getValue(BlockBed.PART);
 
@@ -355,7 +354,7 @@ public class ActionSleep extends AbstractAction
 			if (bedFeetNearby.size() > 0)
 			{
 				final Point3D nearestBed = Point3D.getNearestPointInList(new Point3D(actor.posX, actor.posY, actor.posZ), bedFeetNearby);
-				final TileVillagerBed villagerBed = (TileVillagerBed) actor.world.getTileEntity(nearestBed.toBlockPos());
+				final TileEntityBed villagerBed = (TileEntityBed) actor.world.getTileEntity(nearestBed.toBlockPos());
 
 				if (villagerBed != null && !villagerBed.getIsVillagerSleepingIn())
 				{

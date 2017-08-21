@@ -3,7 +3,6 @@ package mca.core.minecraft;
 import java.lang.reflect.Field;
 
 import mca.core.MCA;
-import mca.enums.EnumBedColor;
 import mca.enums.EnumMemorialType;
 import mca.items.ItemBaby;
 import mca.items.ItemCrystalBall;
@@ -13,7 +12,6 @@ import mca.items.ItemSpawnEgg;
 import mca.items.ItemSpawnGrimReaper;
 import mca.items.ItemStaffOfLife;
 import mca.items.ItemTombstone;
-import mca.items.ItemVillagerBed;
 import mca.items.ItemVillagerEditor;
 import mca.items.ItemWhistle;
 import net.minecraft.client.Minecraft;
@@ -38,11 +36,6 @@ public final class ItemsMCA
 	public static final ItemSpawnEgg eggMale = new ItemSpawnEgg(true);
 	public static final ItemSpawnEgg eggFemale = new ItemSpawnEgg(false);
 	public static final ItemSpawnGrimReaper eggGrimReaper = new ItemSpawnGrimReaper();
-	public static final ItemVillagerBed villagerBedRed = new ItemVillagerBed(EnumBedColor.RED);
-	public static final ItemVillagerBed villagerBedBlue = new ItemVillagerBed(EnumBedColor.BLUE);
-	public static final ItemVillagerBed villagerBedGreen = new ItemVillagerBed(EnumBedColor.GREEN);
-	public static final ItemVillagerBed villagerBedPurple = new ItemVillagerBed(EnumBedColor.PURPLE);
-	public static final ItemVillagerBed villagerBedPink = new ItemVillagerBed(EnumBedColor.PINK);
 	public static final ItemCrystalBall crystalBall = new ItemCrystalBall();
 	public static final Item roseGoldIngot = new Item().setUnlocalizedName("RoseGoldIngot");
 	public static final Item roseGoldDust = new Item().setUnlocalizedName("RoseGoldDust");

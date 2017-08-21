@@ -31,7 +31,6 @@ import mca.enums.EnumProfession;
 import mca.network.PacketHandlerMCA;
 import mca.tile.TileMemorial;
 import mca.tile.TileTombstone;
-import mca.tile.TileVillagerBed;
 import mca.util.Either;
 import mca.util.SkinLoader;
 import net.minecraft.block.Block;
@@ -160,7 +159,6 @@ public class MCA
 		EntityRegistry.registerModEntity(new ResourceLocation(ID, "GrimReaperMCA"), EntityGrimReaper.class, EntityGrimReaper.class.getSimpleName(), config.baseEntityId + 2, this, 50, 2, true);
 		
 		//Tile registry
-		GameRegistry.registerTileEntity(TileVillagerBed.class, TileVillagerBed.class.getSimpleName());
 		GameRegistry.registerTileEntity(TileTombstone.class, TileTombstone.class.getSimpleName());
 		GameRegistry.registerTileEntity(TileMemorial.class, TileMemorial.class.getSimpleName());
 		

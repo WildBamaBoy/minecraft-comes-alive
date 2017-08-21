@@ -1,8 +1,6 @@
 package mca.core.forge;
 
 import mca.client.render.RenderChoreFishHookFactory;
-import mca.client.render.RenderFishHook;
-import mca.client.render.RenderGrimReaper;
 import mca.client.render.RenderGrimReaperFactory;
 import mca.client.render.RenderMemorial;
 import mca.client.render.RenderTombstone;
@@ -14,7 +12,6 @@ import mca.entity.EntityGrimReaper;
 import mca.entity.EntityVillagerMCA;
 import mca.tile.TileMemorial;
 import mca.tile.TileTombstone;
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;

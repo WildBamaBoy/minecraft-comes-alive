@@ -3,7 +3,6 @@ package mca.items;
 import java.util.List;
 
 import mca.core.MCA;
-import mca.core.minecraft.AchievementsMCA;
 import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
 import mca.entity.EntityVillagerMCA;

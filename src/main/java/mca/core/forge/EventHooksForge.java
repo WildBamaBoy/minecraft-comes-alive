@@ -4,8 +4,6 @@ import java.lang.reflect.Field;
 import java.util.Iterator;
 import java.util.List;
 
-import com.google.common.base.Predicate;
-
 import mca.actions.ActionCombat;
 import mca.core.Constants;
 import mca.core.MCA;
@@ -23,7 +21,6 @@ import mca.util.Utilities;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.monster.EntityCreeper;

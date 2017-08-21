@@ -8,7 +8,6 @@ import org.lwjgl.opengl.GL11;
 import mca.actions.ActionSleep;
 import mca.client.gui.GuiInteraction;
 import mca.client.gui.GuiVillagerEditor;
-import mca.client.model.ModelGrimReaper;
 import mca.client.model.ModelHuman;
 import mca.core.Constants;
 import mca.core.MCA;
