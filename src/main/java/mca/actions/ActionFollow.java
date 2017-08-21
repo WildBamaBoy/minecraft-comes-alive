@@ -2,9 +2,12 @@ package mca.actions;
 
 import java.util.UUID;
 
+import com.google.common.base.Optional;
+
 import mca.core.Constants;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumMovementState;
+import mca.enums.EnumSleepingState;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -12,30 +15,32 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import radixcore.modules.RadixMath;
 
 public class ActionFollow extends AbstractAction
 {
-	private UUID followingUUID;
+	private static final DataParameter<Optional<UUID>> FOLLOWING_UUID = EntityDataManager.<Optional<UUID>>createKey(EntityVillagerMCA.class, DataSerializers.OPTIONAL_UNIQUE_ID);
 	
 	public ActionFollow(EntityVillagerMCA entityHuman) 
 	{
 		super(entityHuman);
-		followingUUID = new UUID(0, 0);
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) 
 	{
-		nbt.setUniqueId("followingUUID", followingUUID);
+		nbt.setUniqueId("followingUUID", getFollowingUUID());
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) 
 	{
-		followingUUID = nbt.getUniqueId("followingUUID");
+		setFollowingUUID(nbt.getUniqueId("followingUUID"));
 	}
 
 	@Override
@@ -44,7 +49,7 @@ public class ActionFollow extends AbstractAction
 		if (actor.attributes.getMovementState() == EnumMovementState.FOLLOW)
 		{
 			final EntityLiving entityPathController = (EntityLiving) (actor.getRidingEntity() instanceof EntityHorse ? actor.getRidingEntity() : actor);
-			final Entity entityFollowing = actor.world.getPlayerEntityByUUID(followingUUID);
+			final Entity entityFollowing = actor.world.getPlayerEntityByUUID(getFollowingUUID());
 
 			if (entityPathController instanceof EntityHorse)
 			{
@@ -106,12 +111,12 @@ public class ActionFollow extends AbstractAction
 
 	public UUID getFollowingUUID()
 	{
-		return followingUUID;
+		return actor.getDataManager().get(FOLLOWING_UUID).get();
 	}
 
 	public void setFollowingUUID(UUID value)
 	{
-		followingUUID = value;
+		actor.getDataManager().set(FOLLOWING_UUID, Optional.of(value));
 	}
 
 	private boolean isBlockSpawnable(BlockPos pos)
@@ -119,5 +124,11 @@ public class ActionFollow extends AbstractAction
 		IBlockState iblockstate = actor.world.getBlockState(pos);
 		Block block = iblockstate.getBlock();
 		return block == Blocks.AIR ? true : !iblockstate.isFullCube();
+	}
+	
+	@Override
+	protected void registerDataParameters()
+	{
+		actor.getDataManager().register(FOLLOWING_UUID, Constants.EMPTY_UUID_OPT);
 	}
 }

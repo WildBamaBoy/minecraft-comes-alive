@@ -3,6 +3,7 @@ package mca.packets;
 import java.util.List;
 
 import io.netty.buffer.ByteBuf;
+import mca.actions.ActionFollow;
 import mca.actions.ActionProcreate;
 import mca.actions.ActionSleep;
 import mca.actions.ActionUpdateMood;
@@ -260,6 +261,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 			else if (interaction == EnumInteraction.FOLLOW)
 			{
 				villager.attributes.setMovementState(EnumMovementState.FOLLOW);
+				villager.getBehavior(ActionFollow.class).setFollowingUUID(player.getUniqueID());
 			}
 			
 			else if (interaction == EnumInteraction.STAY)
