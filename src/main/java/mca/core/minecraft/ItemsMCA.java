@@ -48,7 +48,6 @@ public final class ItemsMCA
 	public static final Item roseGoldDust = new Item().setUnlocalizedName("RoseGoldDust");
 	public static final Item goldDust = new Item().setUnlocalizedName("GoldDust");
 	public static final ItemNewOutfit newOutfit = new ItemNewOutfit();
-	public static final Item needle = new Item().setUnlocalizedName("Needle").setMaxStackSize(1);
 	public static final Item needleAndString = new Item().setUnlocalizedName("NeedleAndString").setMaxDamage(16).setMaxStackSize(1);
 	public static final Item cloth = new Item().setUnlocalizedName("Cloth");
 
