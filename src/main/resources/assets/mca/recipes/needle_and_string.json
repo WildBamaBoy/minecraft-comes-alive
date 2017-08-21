@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IS ",
+    " IS",
+    "  S"
+  ],
+  "key": {
+    "I": [
+      {
+        "item": "minecraft:iron_ingot"
+      }
+    ],
+    "S": [
+      {
+      	"item": "minecraft:string"
+      }
+    ]
+  },
+  "result": {
+    "item": "mca:needleandstring",
+    "count": 1
+  }
+}

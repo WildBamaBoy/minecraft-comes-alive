@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:bed"
+    },
+    {
+      "item": "minecraft:carpet",
+      "data": 10
+    }
+  ],
+  "result": {
+    "item": "mca:villagerbedpurple",
+    "count": 1
+  }
+}

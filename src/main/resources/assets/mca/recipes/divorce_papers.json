@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " IF",
+    " P "
+  ],
+  "key": {
+    "I": [
+      {
+        "item": "minecraft:dye",
+        "data": 0
+      }
+    ],
+    "F": [
+      {
+      	"item": "minecraft:feather"
+      }
+    ],
+    "P": [
+      {
+      	"item": "minecraft:paper"
+      }
+    ]
+  },
+  "result": {
+    "item": "mca:divorcepapers",
+    "count": 1
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GDG",
+    "G G",
+    "GGG"
+  ],
+  "key": {
+    "G": [
+      {
+        "item": "minecraft:gold_ingot"
+      }
+    ],
+    "D": [
+      {
+      	"item": "minecraft:diamond"
+      }
+    ]
+  },
+  "result": {
+    "item": "mca:engagementring",
+    "count": 1
+  }
+}

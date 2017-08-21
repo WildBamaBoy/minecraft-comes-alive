@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S",
+    "SIS",
+    "SSS"
+  ],
+  "key": {
+    "S": [
+      {
+        "item": "minecraft:stone"
+      }
+    ],
+    "I": [
+      {
+      	"item": "minecraft:sign"
+      }
+    ]
+  },
+  "result": {
+    "item": "mca:tombstone",
+    "count": 1
+  }
+}

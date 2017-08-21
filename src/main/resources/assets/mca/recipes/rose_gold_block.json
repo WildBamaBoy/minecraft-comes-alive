@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "III",
+    "III",
+    "III"
+  ],
+  "key": {
+    "I": [
+      {
+        "item": "mca:rosegoldingot"
+      }
+    ]
+  },
+  "result": {
+    "item": "mca:rosegoldblock",
+    "count": 1
+  }
+}
