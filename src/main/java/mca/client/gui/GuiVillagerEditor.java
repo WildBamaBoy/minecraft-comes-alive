@@ -11,10 +11,9 @@ import org.lwjgl.opengl.GL11;
 import mca.actions.ActionSleep;
 import mca.core.MCA;
 import mca.entity.EntityVillagerMCA;
-import mca.enums.EnumGender;
-import mca.enums.EnumPersonality;
-import mca.enums.EnumProfession;
+import mca.enums.EnumEditAction;
 import mca.enums.EnumSleepingState;
+import mca.packets.PacketEditVillager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -22,7 +21,6 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import radixcore.datastructures.CyclicIntList;
 
 /**
  * Defines the GUI used to edit villager information.
@@ -37,7 +35,7 @@ public class GuiVillagerEditor extends GuiScreen
 
 	private GuiTextField nameTextField;
 	private GuiTextField dummyTextField;
-	private GuiTextField playerSkinTextField;
+	//private GuiTextField playerSkinTextField;
 	
 	private GuiButton randomButton;
 	private GuiButton genderButton;
@@ -67,10 +65,6 @@ public class GuiVillagerEditor extends GuiScreen
 
 	private int moodListIndex = 0;
 	private int currentPage = 1;
-
-	private CyclicIntList textures;
-	private CyclicIntList jobs;
-	private CyclicIntList personalities;
 	
 	public GuiVillagerEditor(EntityVillagerMCA EntityHuman, EntityPlayer player)
 	{
@@ -80,10 +74,6 @@ public class GuiVillagerEditor extends GuiScreen
 		villager = EntityHuman;
 		
 		villager.getBehavior(ActionSleep.class).setSleepingState(EnumSleepingState.INTERRUPTED);
-		
-		jobs = CyclicIntList.fromList(EnumProfession.getListOfIds());
-		personalities = CyclicIntList.fromList(EnumPersonality.getListOfIds());
-		textures = villager.attributes.getProfessionSkinGroup().getListOfSkinIDs(villager.attributes.getGender() == EnumGender.MALE);
 	}
 
 	@Override
@@ -95,7 +85,7 @@ public class GuiVillagerEditor extends GuiScreen
 		try
 		{
 			nameTextField.updateCursorCounter();
-			playerSkinTextField.updateCursorCounter();
+			//playerSkinTextField.updateCursorCounter();
 			
 			if (nameTextField.getText().isEmpty())
 			{
@@ -106,6 +96,31 @@ public class GuiVillagerEditor extends GuiScreen
 			{
 				doneButton.enabled = true;
 			}
+			
+			// Update buttons to watch for server-side changes.
+			if (currentPage == 1)
+			{
+				if (!nameTextField.getText().equals(villager.attributes.getName()))
+				{
+					nameTextField.setText(villager.attributes.getName());
+				}
+				
+				genderButton.displayString = MCA.getLocalizer().getString(("gui.button.setup.gender." + villager.attributes.getIsMale()));
+				textureButton.displayString = "Texture: " + villager.attributes.getHeadTexture().replace("mca:textures/skins/", "").replace("sleeping/", "").replace(".png", "");
+				professionButton.displayString = "Job: " + villager.attributes.getProfessionEnum().getUserFriendlyForm(villager);
+				personalityButton.displayString = "Personality: " + villager.attributes.getPersonality().getFriendlyName();
+			}
+			
+			if (currentPage == 2)
+			{
+				int displayHeight = Math.round(villager.attributes.getScaleHeight() * 100);
+				int displayGirth = Math.round(villager.attributes.getScaleWidth() * 100);
+				
+				heightButton.displayString = "Height Factor: " + displayHeight;
+				girthButton.displayString = "Girth Factor: " + displayGirth;
+				isInfectedButton.displayString = "Is Infected: " + (villager.attributes.getIsInfected() ? "Yes" : "No");
+			}
+			
 		}
 
 		catch (final NullPointerException e)
@@ -151,63 +166,50 @@ public class GuiVillagerEditor extends GuiScreen
 
 		else if (guibutton == randomButton)
 		{
-			nameTextField.setText(villager.attributes.getGender() == EnumGender.MALE ? MCA.getLocalizer().getString("name.male") : MCA.getLocalizer().getString("name.female"));
-			villager.attributes.setName(nameTextField.getText());
+			MCA.getPacketHandler().sendPacketToServer(new PacketEditVillager(villager.getEntityId(), EnumEditAction.RANDOM_NAME));
 			nameTextField.mouseClicked(5, 5, 5);
 			drawEditorGuiPage1();
 		}
 
 		else if (guibutton == genderButton)
 		{
-			EnumGender opposite = villager.attributes.getGender() == EnumGender.MALE ? EnumGender.FEMALE : EnumGender.MALE;
-			villager.attributes.setGender(opposite);
+			MCA.getPacketHandler().sendPacketToServer(new PacketEditVillager(villager.getEntityId(), EnumEditAction.SWAP_GENDER));
 			drawEditorGuiPage1();
 		}
 
 		else if (guibutton == shiftTextureIndexUpButton)
 		{
-			textures.next();
-			
-			String skin = villager.attributes.getHeadTexture();
-			villager.attributes.setHeadTexture(skin.replaceAll("\\d+", String.valueOf(textures.get())));
-			villager.attributes.setClothesTexture(villager.attributes.getHeadTexture());
+			MCA.getPacketHandler().sendPacketToServer(new PacketEditVillager(villager.getEntityId(), EnumEditAction.TEXTURE_UP));
 			drawEditorGuiPage1();
 		}
 
 		else if (guibutton == shiftTextureIndexDownButton)
 		{
-			textures.previous();
-			
-			String skin = villager.attributes.getHeadTexture();
-			villager.attributes.setHeadTexture(skin.replaceAll("\\d+", String.valueOf(textures.get())));
-			villager.attributes.setClothesTexture(villager.attributes.getHeadTexture());
+			MCA.getPacketHandler().sendPacketToServer(new PacketEditVillager(villager.getEntityId(), EnumEditAction.TEXTURE_DOWN));
 			drawEditorGuiPage1();
 		}
 
 		else if (guibutton == shiftProfessionUpButton)
 		{
-			villager.attributes.setProfession(EnumProfession.getProfessionById(jobs.next()));
-			villager.attributes.setHeadTexture(villager.attributes.getIsMale() ? villager.attributes.getProfessionSkinGroup().getRandomMaleSkin() : villager.attributes.getProfessionSkinGroup().getRandomFemaleSkin());
-			villager.attributes.setClothesTexture(villager.attributes.getHeadTexture());
+			MCA.getPacketHandler().sendPacketToServer(new PacketEditVillager(villager.getEntityId(), EnumEditAction.PROFESSION_UP));
 			drawEditorGuiPage1();
 		}
 
 		else if (guibutton == shiftProfessionDownButton)
 		{
-			villager.attributes.setProfession(EnumProfession.getProfessionById(jobs.previous()));
-			villager.attributes.assignRandomSkin();
+			MCA.getPacketHandler().sendPacketToServer(new PacketEditVillager(villager.getEntityId(), EnumEditAction.PROFESSION_DOWN));
 			drawEditorGuiPage1();
 		}
 
 		else if (guibutton == shiftTraitUpButton)
 		{
-			villager.attributes.setPersonality(EnumPersonality.getById(personalities.next()));
+			MCA.getPacketHandler().sendPacketToServer(new PacketEditVillager(villager.getEntityId(), EnumEditAction.TRAIT_UP));
 			drawEditorGuiPage1();
 		}
 
 		else if (guibutton == shiftTraitDownButton)
 		{
-			villager.attributes.setPersonality(EnumPersonality.getById(personalities.previous()));
+			MCA.getPacketHandler().sendPacketToServer(new PacketEditVillager(villager.getEntityId(), EnumEditAction.TRAIT_DOWN));
 			drawEditorGuiPage1();
 		}
 
@@ -239,31 +241,31 @@ public class GuiVillagerEditor extends GuiScreen
 
 		else if (guibutton == shiftHeightUpButton)
 		{
-			villager.attributes.setScaleHeight(villager.attributes.getScaleHeight() + 0.01F);
+			MCA.getPacketHandler().sendPacketToServer(new PacketEditVillager(villager.getEntityId(), EnumEditAction.HEIGHT_UP));
 			drawEditorGuiPage2();
 		}
 
 		else if (guibutton == shiftHeightDownButton)
 		{
-			villager.attributes.setScaleHeight(villager.attributes.getScaleHeight() - 0.01F);
+			MCA.getPacketHandler().sendPacketToServer(new PacketEditVillager(villager.getEntityId(), EnumEditAction.HEIGHT_DOWN));
 			drawEditorGuiPage2();
 		}
 
 		else if (guibutton == shiftGirthUpButton)
 		{
-			villager.attributes.setScaleWidth(villager.attributes.getScaleWidth() + 0.01F);
+			MCA.getPacketHandler().sendPacketToServer(new PacketEditVillager(villager.getEntityId(), EnumEditAction.GIRTH_UP));
 			drawEditorGuiPage2();
 		}
 
 		else if (guibutton == shiftGirthDownButton)
 		{
-			villager.attributes.setScaleWidth(villager.attributes.getScaleWidth() - 0.01F);
+			MCA.getPacketHandler().sendPacketToServer(new PacketEditVillager(villager.getEntityId(), EnumEditAction.GIRTH_DOWN));
 			drawEditorGuiPage2();
 		}
 		
 		else if (guibutton == isInfectedButton)
 		{
-			villager.attributes.setIsInfected(!villager.attributes.getIsInfected());
+			MCA.getPacketHandler().sendPacketToServer(new PacketEditVillager(villager.getEntityId(), EnumEditAction.TOGGLE_INFECTED));
 			drawEditorGuiPage2();
 		}
 	}
@@ -280,9 +282,10 @@ public class GuiVillagerEditor extends GuiScreen
 		{
 			nameTextField.textboxKeyTyped(c, i);
 			final String text = nameTextField.getText().trim();
+			MCA.getPacketHandler().sendPacketToServer(new PacketEditVillager(villager.getEntityId(), EnumEditAction.SET_NAME, text));
 			villager.attributes.setName(text);
 			
-			playerSkinTextField.textboxKeyTyped(c, i);
+			//playerSkinTextField.textboxKeyTyped(c, i);
 			drawEditorGuiPage1();
 		}
 
@@ -300,7 +303,7 @@ public class GuiVillagerEditor extends GuiScreen
 		if (currentPage == 1)
 		{
 			nameTextField.mouseClicked(clickX, clickY, clicked);
-			playerSkinTextField.mouseClicked(clickX, clickY, clicked);
+			//playerSkinTextField.mouseClicked(clickX, clickY, clicked);
 		}
 	}
 

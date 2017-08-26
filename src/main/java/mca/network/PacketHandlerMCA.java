@@ -3,6 +3,7 @@ package mca.network;
 import mca.packets.PacketBabyName;
 import mca.packets.PacketCallVillager;
 import mca.packets.PacketDestinyChoice;
+import mca.packets.PacketEditVillager;
 import mca.packets.PacketGift;
 import mca.packets.PacketInteract;
 import mca.packets.PacketInteractWithPlayerC;
@@ -61,5 +62,6 @@ public class PacketHandlerMCA extends AbstractPacketHandler
 		this.registerPacket(PacketPlayerDataC.class, Side.CLIENT);
 		this.registerPacket(PacketPlayerDataLogin.class, Side.CLIENT);
 		this.registerPacket(PacketOpenVillagerPrompt.class, Side.CLIENT);
+		this.registerPacket(PacketEditVillager.class, Side.SERVER);
 	}
 }

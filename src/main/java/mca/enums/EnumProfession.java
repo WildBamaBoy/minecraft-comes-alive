@@ -136,7 +136,10 @@ public enum EnumProfession
 		
 		for (EnumProfession profession : EnumProfession.values())
 		{
-			returnList.add(profession.id);
+			if (profession != Unassigned)
+			{
+				returnList.add(profession.id);				
+			}
 		}
 		
 		return returnList;

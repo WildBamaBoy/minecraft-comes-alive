@@ -82,7 +82,10 @@ public enum EnumPersonality
 		
 		for (EnumPersonality personality : EnumPersonality.values())
 		{
-			returnList.add(personality.id);
+			if (personality != UNASSIGNED)
+			{
+				returnList.add(personality.id);
+			}
 		}
 		
 		return returnList;
