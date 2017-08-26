@@ -1,9 +1,11 @@
 package mca.tile;
 
+import java.util.UUID;
+
 import mca.core.MCA;
 import mca.data.PlayerMemory;
+import mca.data.TransitiveVillagerData;
 import mca.entity.EntityVillagerMCA;
-import mca.entity.VillagerAttributes;
 import mca.enums.EnumDialogueType;
 import mca.enums.EnumGender;
 import mca.enums.EnumMemorialType;
@@ -24,9 +26,10 @@ import radixcore.modules.RadixBlocks;
 public class TileMemorial extends TileEntity implements ITickable
 {
 	private EnumMemorialType type;
-	private VillagerAttributes data;
+	private TransitiveVillagerData data;
 	private String ownerName;
 	private EnumRelation ownerRelation;
+	private UUID ownerUUID;
 	private int revivalTicks;
 	private EntityPlayer player;
 	private boolean hasSynced;
@@ -112,7 +115,7 @@ public class TileMemorial extends TileEntity implements ITickable
 		data.writeToNBT(nbt);
 		nbt.setString("ownerName", ownerName);
 		nbt.setInteger("relation", ownerRelation.getId());
-		
+		nbt.setUniqueId("ownerUUID", ownerUUID);
 		return nbt;
 	}
 
@@ -121,10 +124,11 @@ public class TileMemorial extends TileEntity implements ITickable
 	{
 		super.readFromNBT(nbt);
 
-		data = new VillagerAttributes(nbt);
+		data = new TransitiveVillagerData(nbt);
 		type = EnumMemorialType.fromId(nbt.getInteger("type"));
 		ownerName = nbt.getString("ownerName");
 		ownerRelation = EnumRelation.getById(nbt.getInteger("relation"));
+		ownerUUID = nbt.getUniqueId("ownerUUID");
 	}
 
 	public void setType(EnumMemorialType type)
@@ -137,12 +141,12 @@ public class TileMemorial extends TileEntity implements ITickable
 		return type;
 	}
 
-	public VillagerAttributes getVillagerSaveData()
+	public TransitiveVillagerData getTransitiveVillagerData()
 	{
 		return data;
 	}
 
-	public void setVillagerSaveData(VillagerAttributes data)
+	public void setTransitiveVillagerData(TransitiveVillagerData data)
 	{
 		this.data = data;
 	}
@@ -179,6 +183,17 @@ public class TileMemorial extends TileEntity implements ITickable
 
 	public int getRevivalTicks()
 	{
-		return revivalTicks;
+		return this.revivalTicks;
+	}
+	
+	public UUID getOwnerUUID()
+	{
+		return this.ownerUUID;
+	}
+
+	public void setOwnerUUID(UUID uuid) 
+	{
+		this.ownerUUID = uuid;
 	}
 }
+

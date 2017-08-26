@@ -16,7 +16,9 @@ import mca.core.MCA;
 import mca.core.minecraft.ItemsMCA;
 import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
+import mca.data.TransitiveVillagerData;
 import mca.enums.EnumBabyState;
+import mca.enums.EnumDialogueType;
 import mca.enums.EnumGender;
 import mca.enums.EnumMarriageState;
 import mca.enums.EnumMovementState;
@@ -215,10 +217,14 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 			
 			if (player.capabilities.isCreativeMode && item instanceof ItemMemorial && !heldItem.hasTagCompound())
 			{
-				heldItem.setTagCompound(new NBTTagCompound());
-				heldItem.getTagCompound().setString("ownerName", player.getName());
-				heldItem.getTagCompound().setInteger("relation", attributes.getPlayerMemory(player).getRelation().getId());
-				attributes.writeToNBT(heldItem.getTagCompound());
+				TransitiveVillagerData transitiveData = new TransitiveVillagerData(attributes);
+				NBTTagCompound stackNBT = new NBTTagCompound();
+				stackNBT.setUniqueId("ownerUUID", player.getUniqueID());
+				stackNBT.setString("ownerName", player.getName());
+				stackNBT.setInteger("relation", attributes.getPlayerMemory(player).getRelation().getId());
+				transitiveData.writeToNBT(stackNBT);
+				
+				heldItem.setTagCompound(stackNBT);
 				
 				this.setDead();
 			}
@@ -512,7 +518,7 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 			spouse.attributes.setSpouseUUID(this.getUniqueID());
 			spouse.attributes.setSpouseGender(this.attributes.getGender());
 			spouse.attributes.setMarriageState(EnumMarriageState.MARRIED_TO_VILLAGER);
-
+			
 			getBehaviors().onMarriageToVillager();
 		}
 
@@ -520,11 +526,13 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 		{
 			EntityPlayer player = either.getRight();
 			NBTPlayerData playerData = MCA.getPlayerData(player);
-
+			PlayerMemory memory = attributes.getPlayerMemory(player);
+			
 			attributes.setSpouseName(player.getName());
 			attributes.setSpouseUUID(player.getUniqueID());
 			attributes.setSpouseGender(playerData.getGender());
 			attributes.setMarriageState(EnumMarriageState.MARRIED_TO_PLAYER);
+			memory.setDialogueType(EnumDialogueType.SPOUSE);
 			
 			playerData.setSpouseName(this.getName());
 			playerData.setSpouseGender(attributes.getGender());

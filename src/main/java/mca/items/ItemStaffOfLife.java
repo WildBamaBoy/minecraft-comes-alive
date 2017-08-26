@@ -6,7 +6,7 @@ import org.lwjgl.input.Keyboard;
 
 import mca.core.MCA;
 import mca.data.NBTPlayerData;
-import mca.entity.VillagerAttributes;
+import mca.data.TransitiveVillagerData;
 import mca.enums.EnumMarriageState;
 import mca.enums.EnumMemorialType;
 import mca.tile.TileMemorial;
@@ -50,11 +50,11 @@ public class ItemStaffOfLife extends Item
 			if (tile instanceof TileMemorial)
 			{
 				TileMemorial memorial = (TileMemorial)tile;
-				VillagerAttributes data = memorial.getVillagerSaveData();
+				TransitiveVillagerData data = memorial.getTransitiveVillagerData();
 				NBTPlayerData playerData = MCA.getPlayerData(playerIn);
 
 				//Make sure the owner is the one reviving them.
-				if (!data.allowsControllingInteractions(playerIn))
+				if (!playerData.getIsSuperUser() && !memorial.getOwnerUUID().equals(playerData.getUUID()))
 				{
 					playerIn.sendMessage(new TextComponentString(Color.RED + "You cannot revive " + data.getName() + " because they are not related to you."));
 					return EnumActionResult.FAIL;

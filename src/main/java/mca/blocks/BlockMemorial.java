@@ -90,11 +90,15 @@ public class BlockMemorial extends BlockContainer
 
 			if (memorial.getRevivalTicks() == 0) //Will be 1 when removed from a villager revival.
 			{
+				NBTTagCompound stackNBT = new NBTTagCompound();
+				
 				memorialStack = new ItemStack(memorialItem);
-				memorialStack.setTagCompound(new NBTTagCompound());
-				memorialStack.getTagCompound().setInteger("relation", memorial.getRelation().getId());
-				memorialStack.getTagCompound().setString("ownerName", memorial.getOwnerName());
-				memorial.getVillagerSaveData().writeToNBT(memorialStack.getTagCompound());
+				stackNBT.setInteger("relation", memorial.getRelation().getId());
+				stackNBT.setString("ownerName", memorial.getOwnerName());
+				stackNBT.setUniqueId("ownerUUID", memorial.getOwnerUUID());
+				memorial.getTransitiveVillagerData().writeToNBT(stackNBT);
+				
+				memorialStack.setTagCompound(stackNBT);
 				
 				EntityItem drop = new EntityItem(world, pos.getX(), pos.getY(), pos.getZ(), memorialStack);
 				world.spawnEntity(drop);

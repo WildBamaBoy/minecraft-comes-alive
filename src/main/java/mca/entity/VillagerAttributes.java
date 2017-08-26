@@ -17,6 +17,7 @@ import mca.core.Constants;
 import mca.core.MCA;
 import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
+import mca.data.TransitiveVillagerData;
 import mca.enums.EnumBabyState;
 import mca.enums.EnumDialogueType;
 import mca.enums.EnumGender;
@@ -123,30 +124,37 @@ public class VillagerAttributes
 	}
 
 	/*
-	 * Copies all DataParameters from the provided attribute object to this one.
+	 * Copies all data from a given transitive villager data object.
 	 */
-	public void copyFrom(VillagerAttributes attributes)
+	public void copyFrom(TransitiveVillagerData data)
 	{
-		for (Field f : this.getClass().getDeclaredFields())
-		{
-			if (f.getType().getName().contains("DataParameter")) //This is stupid, but it will work
-			{
-				f.setAccessible(true);
-				
-				try
-				{
-					f.set(this, f.get(attributes));
-				}
-				
-				catch (Exception e)
-				{
-					MCA.getLog().error("An unexpected error occurred while copying a villager attribute object.");
-					MCA.getLog().error(e.toString());
-				}
-				
-				f.setAccessible(false);
-			}
-		}
+		setName(data.getName());
+		setHeadTexture(data.getHeadTexture());
+		setClothesTexture(data.getClothesTexture());
+		setProfession(data.getProfession());
+		setPersonality(data.getPersonality());
+		setGender(data.getGender());
+		setSpouseUUID(data.getSpouseUUID());
+		setSpouseGender(data.getSpouseGender());
+		setSpouseName(data.getSpouseName());
+		setMotherUUID(data.getMotherUUID());
+		setMotherGender(data.getMotherGender());
+		setMotherName(data.getMotherName());
+		setFatherUUID(data.getFatherUUID());
+		setFatherGender(data.getFatherGender());
+		setFatherName(data.getFatherName());
+		setBabyState(data.getBabyState());
+		setMovementState(data.getMovementState());
+		setIsChild(data.getIsChild());
+		setAge(data.getAge());
+		setScaleHeight(data.getScaleHeight());
+		setScaleWidth(data.getScaleWidth());
+		setDoDisplay(data.getDoDisplay());
+		setIsSwinging(data.getIsSwinging());
+		setHeldItemSlot(data.getHeldItemSlot());
+		setIsInfected(data.getIsInfected());
+		setDoOpenInventory(data.getDoOpenInventory());
+		setMarriageState(data.getMarriageState());
 	}
 	
 	public String getName()
