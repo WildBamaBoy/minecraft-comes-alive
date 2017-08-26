@@ -566,7 +566,7 @@ public class GuiInteraction extends GuiScreen
 					MCA.getPacketHandler().sendPacketToServer(new PacketInteract(interaction.getId(), 
 							villager.getEntityId(), 
 							new Integer(hireLengths.get()), 
-							new Boolean(currentPage == EnumInteraction.EXTEND.getId())));
+							Boolean.valueOf(currentPage == EnumInteraction.EXTEND.getId())));
 				}
 
 				Minecraft.getMinecraft().displayGuiScreen(null);

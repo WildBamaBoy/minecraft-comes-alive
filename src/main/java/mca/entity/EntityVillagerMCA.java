@@ -262,6 +262,9 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 			}
 			
 			//Reset the marriage stats of the player/villager this one was married to
+			//If married to a player, this player takes priority in receiving the memorial item for revival.
+			boolean memorialDropped = false;
+			
 			if (attributes.isMarriedToAPlayer()) 	
 			{
 				NBTPlayerData playerData = MCA.getPlayerData(world, attributes.getSpouseUUID());
@@ -269,6 +272,13 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 				playerData.setMarriageState(EnumMarriageState.NOT_MARRIED);
 				playerData.setSpouseName("");
 				playerData.setSpouseUUID(EMPTY_UUID);
+				
+				//Just in case something is added here later, be sure we're not false
+				if (!memorialDropped)
+				{
+					createMemorialChest(attributes.getPlayerMemoryWithoutCreating(attributes.getSpouseUUID()), ItemsMCA.brokenRing);
+					memorialDropped = true;
+				}
 			}
 
 			else if (attributes.isMarriedToAVillager())
@@ -284,7 +294,6 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 			//Alert parents/spouse of the death if they are online and handle dropping memorials
 			//Test against new iteration of player memory list each time to ensure the proper order
 			//of handling notifications and memorial spawning
-			boolean memorialDropped = false;
 			
 			for (PlayerMemory memory : attributes.getPlayerMemories().values())
 			{
@@ -293,17 +302,27 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 				{
 					EntityPlayer player = world.getPlayerEntityByUUID(memory.getUUID());
 					
+					//If we hit a parent
+					if (attributes.isPlayerAParent(memory.getUUID()) && !memorialDropped)
+					{
+						createMemorialChest(memory, attributes.getGender() == EnumGender.MALE ? ItemsMCA.toyTrain : ItemsMCA.childsDoll);
+						memorialDropped = true;
+					}
+					
 					if (player != null) //The player may not be online
 					{
 						player.sendMessage(new TextComponentString(Color.RED + attributes.getTitle(player) + " has died."));
 					}
 				}
 			}
-			
-			//TODO dropping memorials
 		}
 	}
 
+	private void createMemorialChest(PlayerMemory memory, ItemMemorial memorialItem)
+	{
+		
+	}
+	
 	@Override
 	protected void updateAITasks()
 	{

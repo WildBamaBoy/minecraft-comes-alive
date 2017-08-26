@@ -17,7 +17,6 @@ import mca.core.Constants;
 import mca.core.MCA;
 import mca.data.NBTPlayerData;
 import mca.data.PlayerMemory;
-import mca.data.PlayerMemoryHandler;
 import mca.enums.EnumBabyState;
 import mca.enums.EnumDialogueType;
 import mca.enums.EnumGender;
@@ -72,14 +71,14 @@ public class VillagerAttributes
 
 	private int timesWarnedForLowHearts;
 	private int ticksAlive;
-	private Map<String, PlayerMemory> playerMemories;
+	private Map<UUID, PlayerMemory> playerMemories;
 	private final VillagerInventory inventory;
 	
 	public VillagerAttributes(EntityVillagerMCA villager)
 	{
 		this.villager = villager;
 		this.dataManager = villager.getDataManager();
-		playerMemories = new HashMap<String, PlayerMemory>();
+		playerMemories = new HashMap<UUID, PlayerMemory>();
 		inventory = new VillagerInventory();
 	}
 
@@ -88,6 +87,7 @@ public class VillagerAttributes
 		this.villager = null;
 		this.dataManager = null;
 		this.inventory = null;
+		playerMemories = new HashMap<UUID, PlayerMemory>();
 		readFromNBT(nbt);
 	}
 
@@ -830,18 +830,18 @@ public class VillagerAttributes
 
 	public void setPlayerMemory(EntityPlayer player, PlayerMemory memory)
 	{
-		playerMemories.put(player.getName(), memory);
+		playerMemories.put(player.getPersistentID(), memory);
 	}
 
 	public PlayerMemory getPlayerMemory(EntityPlayer player)
 	{
-		String playerName = player.getName();
-		PlayerMemory returnMemory = playerMemories.get(playerName);
+		UUID playerUUID = player.getPersistentID();
+		PlayerMemory returnMemory = playerMemories.get(playerUUID);
 
 		if (returnMemory == null)
 		{
 			returnMemory = new PlayerMemory(villager, player);
-			playerMemories.put(playerName, returnMemory);
+			playerMemories.put(playerUUID, returnMemory);
 		}
 
 		return returnMemory;
@@ -849,12 +849,15 @@ public class VillagerAttributes
 
 	public PlayerMemory getPlayerMemoryWithoutCreating(EntityPlayer player) 
 	{
-		String playerName = player.getName();
-		PlayerMemory returnMemory = playerMemories.get(playerName);
-		return returnMemory;
+		return getPlayerMemoryWithoutCreating(player.getUniqueID());
 	}
 
-	public Map<String, PlayerMemory> getPlayerMemories()
+	public PlayerMemory getPlayerMemoryWithoutCreating(UUID playerUUID)
+	{
+		return playerMemories.get(playerUUID);
+	}
+	
+	public Map<UUID, PlayerMemory> getPlayerMemories()
 	{
 		return playerMemories;
 	}
@@ -939,7 +942,13 @@ public class VillagerAttributes
 		nbt.setInteger("ticksAlive", ticksAlive);
 		nbt.setInteger("timesWarnedForLowHearts", timesWarnedForLowHearts);
 		
-		PlayerMemoryHandler.writePlayerMemoryToNBT(playerMemories, nbt);
+		int counter = 0;
+		for (Map.Entry<UUID, PlayerMemory> pair : playerMemories.entrySet())
+		{
+			nbt.setUniqueId("playerMemoryKey" + counter, pair.getKey());
+			pair.getValue().writePlayerMemoryToNBT(nbt);
+			counter++;
+		}
 	}
 
 	public void readFromNBT(NBTTagCompound nbt)
@@ -1001,7 +1010,26 @@ public class VillagerAttributes
 
 		ticksAlive = nbt.getInteger("ticksAlive");
 		timesWarnedForLowHearts = nbt.getInteger("timesWarnedForLowHearts");
-		PlayerMemoryHandler.readPlayerMemoryFromNBT(villager, playerMemories, nbt);
+		
+		int counter = 0;
+		
+		while (true)
+		{
+			final UUID playerUUID = nbt.getUniqueId("playerMemoryKey" + counter);
+
+			if (playerUUID == null || playerUUID.equals(Constants.EMPTY_UUID))
+			{
+				break;
+			}
+
+			else
+			{
+				final PlayerMemory playerMemory = new PlayerMemory(villager, playerUUID);
+				playerMemory.readPlayerMemoryFromNBT(nbt);
+				playerMemories.put(playerUUID, playerMemory);
+				counter++;
+			}
+		}
 	}
 
 	public VillagerInventory getInventory() 
@@ -1021,7 +1049,7 @@ public class VillagerAttributes
 
 	public void readSpawnData(ByteBuf buffer) 
 	{
-		Map<String, PlayerMemory> recvMemories = (Map<String, PlayerMemory>) RadixNettyIO.readObject(buffer);
+		Map<UUID, PlayerMemory> recvMemories = (Map<UUID, PlayerMemory>) RadixNettyIO.readObject(buffer);
 		playerMemories = recvMemories;
 		setDoDisplay(true);
 	}

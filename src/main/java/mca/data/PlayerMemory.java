@@ -65,15 +65,15 @@ public class PlayerMemory implements Serializable
 	/**
 	 * Only for loading from NBT.
 	 */
-	public PlayerMemory(EntityVillagerMCA owner, String username)
+	public PlayerMemory(EntityVillagerMCA owner, UUID uuid)
 	{
 		this.owner = owner;
-		this.playerName = username;
+		this.uuid = uuid;
 	}
 
 	public void writePlayerMemoryToNBT(NBTTagCompound nbt)
 	{
-		String nbtPrefix = "playerMemoryValue" + playerName;
+		String nbtPrefix = "playerMemoryValue-" + uuid.toString();
 
 		nbt.setString(nbtPrefix + "playerName", playerName);
 		nbt.setUniqueId(nbtPrefix + "uuid", uuid);
@@ -94,7 +94,7 @@ public class PlayerMemory implements Serializable
 
 	public void readPlayerMemoryFromNBT(NBTTagCompound nbt)
 	{
-		String nbtPrefix = "playerMemoryValue" + playerName;
+		String nbtPrefix = "playerMemoryValue-" + uuid;
 
 		playerName = nbt.getString(nbtPrefix + "playerName");
 		uuid = nbt.getUniqueId(nbtPrefix + "uuid");
