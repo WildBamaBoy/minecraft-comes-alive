@@ -40,7 +40,9 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.util.FakePlayer;
@@ -318,7 +320,7 @@ public class EventHooksForge
 						{
 							stack.getTagCompound().setBoolean("isInfected", true);
 							player.sendMessage(new TextComponentString(Color.RED + stack.getTagCompound().getString("name") + " has been " + Color.GREEN + Format.BOLD + "infected" + Color.RED + "!"));
-							player.playSound(SoundEvents.ENTITY_WITHER_AMBIENT, 0.5F, 1.0F);
+							player.world.playSound(null, new BlockPos(zombie.posX, zombie.posY, zombie.posZ), SoundEvents.ENTITY_WITHER_AMBIENT, SoundCategory.HOSTILE, 0.5F, 1.0F);
 							Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.SPELL_WITCH, player, 32);
 						}
 					}

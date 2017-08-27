@@ -149,7 +149,7 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
 		}
 
 		//Render health first, if they're damaged.
-		else if (currentHealth < maxHealth)
+		else if (currentHealth < maxHealth && distanceFromPlayer <= 8.0D)
 		{
 			renderLabel(entity, x, y + 0.1, z, MCA.getLocalizer().getString("label.health"));
 			renderHealth(entity, x, y, z, currentHealth, maxHealth);

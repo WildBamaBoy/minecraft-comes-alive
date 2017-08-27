@@ -20,6 +20,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.SoundCategory;
 import radixcore.constant.Time;
 import radixcore.modules.RadixBlocks;
 
@@ -48,7 +49,7 @@ public class TileMemorial extends TileEntity implements ITickable
 			int x = pos.getX();
 			int y = pos.getY();
 			int z = pos.getZ();
-			
+
 			if (player == null || player.isDead) //Skip if the player is gone somehow, either on reload or logout.
 			{
 				revivalTicks = 0;
@@ -65,7 +66,7 @@ public class TileMemorial extends TileEntity implements ITickable
 				RadixBlocks.setBlock(world, x, y, z, Blocks.AIR);
 				Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.VILLAGER_HAPPY, human, 32);
 				Utilities.spawnParticlesAroundPointS(EnumParticleTypes.FIREWORKS_SPARK, world, x + 0.5D, y, z + 0.5D, 16);
-				player.playSound(SoundEvents.ENTITY_FIREWORK_LARGE_BLAST, 3.0F, 1.0F);
+				world.playSound(null, pos, SoundEvents.ENTITY_FIREWORK_LARGE_BLAST, SoundCategory.AMBIENT, 3.0F, 1.0F);
 
 				if (this.ownerRelation == EnumRelation.NONE)
 				{
@@ -94,7 +95,7 @@ public class TileMemorial extends TileEntity implements ITickable
 
 				if (revivalTicks == Time.SECOND * 2 || revivalTicks == Time.SECOND * 1)
 				{
-					player.playSound(SoundEvents.ENTITY_FIREWORK_LARGE_BLAST, 3.0F, 1.0F);
+					world.playSound(null, pos, SoundEvents.ENTITY_FIREWORK_LARGE_BLAST, SoundCategory.AMBIENT, 3.0F, 1.0F);
 					Utilities.spawnParticlesAroundPointS(EnumParticleTypes.FIREWORKS_SPARK, world, x + 0.5D, y, z + 0.5D, 32);	
 				}
 

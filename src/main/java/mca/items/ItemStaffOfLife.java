@@ -19,6 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -69,7 +70,7 @@ public class ItemStaffOfLife extends Item
 				memorial.setPlayer(playerIn);
 				memorial.setRevivalTicks(Time.SECOND * 5);
 				stack.damageItem(1, playerIn);
-				playerIn.playSound(SoundEvents.BLOCK_PORTAL_TRAVEL, 1.0F, 1.0F);
+				worldIn.playSound(null, pos, SoundEvents.BLOCK_PORTAL_TRAVEL, SoundCategory.AMBIENT, 3.0F, 1.0F);
 				
 				return EnumActionResult.SUCCESS;
 			}
