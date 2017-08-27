@@ -151,7 +151,8 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
 		//Render health first, if they're damaged.
 		else if (currentHealth < maxHealth)
 		{
-			renderLabel(entity, x, y, z, MCA.getLocalizer().getString("label.health") + currentHealth + "/" + maxHealth);
+			renderLabel(entity, x, y + 0.1, z, MCA.getLocalizer().getString("label.health"));
+			renderHealth(entity, x, y, z, currentHealth, maxHealth);
 		}
 
 		//Render their name assuming that they're not damaged.
@@ -174,6 +175,58 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
 		}
 	}
 
+	private void renderHealth(EntityVillagerMCA human, double posX, double posY, double posZ, int currentHealth, int maxHealth)
+	{
+		final int redHeartU = 5;
+		final int darkHeartU = 21;
+		int heartsDrawn = 0;
+		maxHealth = Math.round((float)maxHealth / 2.0F);
+		currentHealth = Math.round((float)currentHealth / 2.0F);
+		int depletedHealth = maxHealth - currentHealth;
+		
+		for (int i = 0; i < currentHealth; i++)
+		{
+			heartsDrawn++;
+			
+			GL11.glPushMatrix();
+			{
+				GL11.glTranslatef((float) posX + 0.0F, (float) posY + human.height + 0.25F, (float) posZ);
+				GL11.glRotatef(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+				GL11.glRotatef(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+				GL11.glScalef(-LABEL_SCALE, -LABEL_SCALE, LABEL_SCALE);
+				GL11.glDisable(GL11.GL_LIGHTING);
+				GL11.glTranslatef(0.0F, 0.25F / LABEL_SCALE, 0.0F);
+
+				RadixRender.drawTexturedRectangle(gui, (int)posX + (heartsDrawn * 8) - 45, (int)posY - 4, redHeartU, 20, 9, 9);
+			}
+			GL11.glPopMatrix();
+
+			GL11.glDepthMask(true);
+			GL11.glEnable(GL11.GL_LIGHTING);
+		}
+		
+		for (int i = 0; i < depletedHealth; i++)
+		{
+			heartsDrawn++;
+			
+			GL11.glPushMatrix();
+			{
+				GL11.glTranslatef((float) posX + 0.0F, (float) posY + human.height + 0.25F, (float) posZ);
+				GL11.glRotatef(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
+				GL11.glRotatef(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
+				GL11.glScalef(-LABEL_SCALE, -LABEL_SCALE, LABEL_SCALE);
+				GL11.glDisable(GL11.GL_LIGHTING);
+				GL11.glTranslatef(0.0F, 0.25F / LABEL_SCALE, 0.0F);
+
+				RadixRender.drawTexturedRectangle(gui, (int)posX + (heartsDrawn * 8) - 45, (int)posY - 4, darkHeartU, 20, 9, 9);
+			}
+			GL11.glPopMatrix();
+
+			GL11.glDepthMask(true);
+			GL11.glEnable(GL11.GL_LIGHTING);
+		}
+	}
+	
 	private void renderHearts(EntityVillagerMCA human, double posX, double posY, double posZ, int heartsLevel)
 	{
 		try

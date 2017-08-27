@@ -156,6 +156,7 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 
 		profiler.startSection("MCA Villager Update");
 		behaviors.onUpdate();
+		updateSwinging();
 		
 		if (!world.isRemote)
 		{
@@ -191,11 +192,6 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 
 				attributes.setDoOpenInventory(false);
 			}
-		}
-
-		else
-		{
-			updateSwinging();
 		}
 		
 		profiler.endSection();

@@ -216,7 +216,7 @@ public class ActionWoodcut extends AbstractToggleAction
 		ItemStack bestAxe = actor.attributes.getInventory().getBestItemOfType(ItemAxe.class);
 		int returnAmount = -1;
 
-		if (bestAxe != null)
+		if (bestAxe != ItemStack.EMPTY)
 		{
 			Item item = bestAxe.getItem();
 			ToolMaterial material = ToolMaterial.valueOf(((ItemAxe) bestAxe.getItem()).getToolMaterialName());	

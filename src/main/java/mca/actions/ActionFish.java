@@ -237,7 +237,7 @@ public class ActionFish extends AbstractToggleAction
 	private void doItemVerification()
 	{
 		//Make sure a child has a fishing rod.
-		if (actor instanceof EntityVillagerMCA && !actor.attributes.getInventory().contains(Items.FISHING_ROD.getClass()))
+		if (actor instanceof EntityVillagerMCA && !actor.attributes.getInventory().contains(Items.FISHING_ROD))
 		{
 			actor.say("fishing.norod", getAssigningPlayer());
 			reset();
