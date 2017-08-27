@@ -170,7 +170,7 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
 		//When performing a chore, render the name of the chore above their head.
 		else if (entity.getBehaviors().isToggleActionActive())
 		{
-			renderLabel(entity, x, y + (distanceFromPlayer / 15.0D)  + (entity.getEyeHeight() * 1.15D), z, entity.getBehaviors().getActiveActionName());
+			renderLabel(entity, x, y + 0.1, z, entity.getBehaviors().getActiveActionName());
 		}
 	}
 

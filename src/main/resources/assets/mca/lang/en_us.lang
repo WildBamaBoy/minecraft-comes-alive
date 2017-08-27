@@ -6046,6 +6046,7 @@ interaction.mining.fail.toolow1=We're too low for me to create a mine.
 interaction.mining.fail.toolow2=We need to be on higher ground.
 interaction.mining.fail.toolow3=I don't think it's a good idea to create a mine here. We need to be higher.
 interaction.mining.fail.nopickaxe=I don't have a pickaxe. How am I supposed to mine without one?
+interaction.mining.fail.broken=My pickaxe has broken and I don't have another one!
 
 interaction.hire.fail.notenoughgold=You need a stack of %a1% gold ingots to hire this villager.
 interaction.hire.success1=Glad to be on board\! What's my first job?

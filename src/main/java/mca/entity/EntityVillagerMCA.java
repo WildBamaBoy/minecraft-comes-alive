@@ -153,6 +153,7 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 	public void onUpdate()
 	{
 		super.onUpdate();
+
 		profiler.startSection("MCA Villager Update");
 		behaviors.onUpdate();
 		
@@ -171,7 +172,7 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 			{
 				ItemStack stack = attributes.getInventory().getStackInSlot(i);
 
-				if (stack != null && stack.getItem() instanceof ItemBaby)
+				if (stack.getItem() instanceof ItemBaby)
 				{
 					ItemBaby item = (ItemBaby)stack.getItem();
 					item.onUpdate(stack, world, this, 1, false);

@@ -61,7 +61,7 @@ public class ContainerInventory extends Container
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotId)
 	{
 		final Slot slot = (Slot) inventorySlots.get(slotId);
-		ItemStack transferStack = null;
+		ItemStack transferStack = ItemStack.EMPTY;
 
 		if (slot != null && slot.getHasStack())
 		{
@@ -83,7 +83,7 @@ public class ContainerInventory extends Container
 
 			if (slotStack.getCount() == 0)
 			{
-				slot.putStack((ItemStack) null);
+				slot.putStack(ItemStack.EMPTY);
 			}
 
 			else

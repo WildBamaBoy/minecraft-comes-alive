@@ -18,6 +18,7 @@ import radixcore.modules.RadixLogic;
 public abstract class AbstractToggleAction extends AbstractAction
 {
 	protected static final DataParameter<Boolean> IS_AI_ACTIVE = EntityDataManager.<Boolean>createKey(EntityVillagerMCA.class, DataSerializers.BOOLEAN);
+	protected static final DataParameter<String> ACTIVE_AI_NAME = EntityDataManager.<String>createKey(EntityVillagerMCA.class, DataSerializers.STRING);
 	
 	/** The UUID of the player that triggered this AI. */
 	protected UUID assigningPlayer = new UUID(0,0);
@@ -31,12 +32,13 @@ public abstract class AbstractToggleAction extends AbstractAction
 	public final void setIsActive(boolean value)
 	{
 		actor.getDataManager().set(IS_AI_ACTIVE, value);
+		actor.getDataManager().set(ACTIVE_AI_NAME, value ? this.getName() : "");
 	}
 	
 	/** @returns True if this AI is currently running. */
 	public final boolean getIsActive()
 	{
-		return actor.getDataManager().get(IS_AI_ACTIVE);
+		return actor.getDataManager().get(IS_AI_ACTIVE) && actor.getDataManager().get(ACTIVE_AI_NAME).equals(this.getName());
 	}
 	
 	/** @returns The user-friendly name of this AI. Displays above the actor's head. */
@@ -88,11 +90,13 @@ public abstract class AbstractToggleAction extends AbstractAction
 		try
 		{
 			actor.getDataManager().get(IS_AI_ACTIVE);
+			actor.getDataManager().get(ACTIVE_AI_NAME);
 		}
 		
 		catch (NullPointerException e) //When not registered
 		{
 			actor.getDataManager().register(IS_AI_ACTIVE, false);
+			actor.getDataManager().register(ACTIVE_AI_NAME, "");
 		}
 	}
 }

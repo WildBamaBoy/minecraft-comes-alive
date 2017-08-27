@@ -50,135 +50,171 @@ public class ActionMine extends AbstractToggleAction
 		
 		if (isGathering)
 		{
+			runGather();
+		}
+
+		else //Searching
+		{
+			runSearch();
+		}
+	}
+
+	private void runGather()
+	{
+		if (activityInterval <= 0)
+		{
+			activityInterval = MINE_INTERVAL;
+
+			//If we're not already building and oak fence isn't found, begin building the mine.
+			if (!isBuildingMine && RadixLogic.getNearbyBlocks(actor, Blocks.OAK_FENCE, 8).size() == 0)
+			{
+				final int y = RadixLogic.getSpawnSafeTopLevel(actor.world, (int) actor.posX, (int) actor.posZ);
+				final Block groundBlock = RadixBlocks.getBlock(actor.world, (int)actor.posX, y - 1, (int)actor.posZ);
+				actor.getBehavior(ActionBuild.class).startBuilding("/assets/mca/schematic/mine1.schematic", true, groundBlock);
+
+				isBuildingMine = true;
+			}
+
+			//If build flag has been set, check to see if the build AI is still running.
+			else if (isBuildingMine)
+			{
+				if (!actor.getBehavior(ActionBuild.class).getIsActive())
+				{
+					//When the chore is not running, search for a group of fences nearby.
+					//This identifies this area as a mine.
+					List<Point3D> nearbyFence = RadixLogic.getNearbyBlocks(actor, Blocks.OAK_FENCE_GATE, 8);
+
+					if (nearbyFence.size() >= 1)
+					{
+						isBuildingMine = false;
+					}
+
+					else
+					{
+						reset();
+					}
+				}
+			}
+
+			else //Clear to continue mining.
+			{
+				actor.attributes.setMovementState(EnumMovementState.STAY);
+				actor.swingItem();
+
+				ItemStack addStack = getHarvestStack();
+
+				if (addStack != ItemStack.EMPTY)
+				{
+					actor.attributes.getInventory().addItem(addStack);
+					boolean pickBroken = actor.damageHeldItem(2);
+					
+					if (pickBroken && !getPickFromInventory())
+					{
+						actor.say("interaction.mining.fail.broken", this.getAssigningPlayer());
+						reset();
+					}
+				}
+			}
+		}
+
+		activityInterval--;
+	}
+	
+	private void runSearch()
+	{
+		try
+		{
 			if (activityInterval <= 0)
 			{
-				activityInterval = MINE_INTERVAL;
+				activityInterval = SEARCH_INTERVAL;
 
-				//If we're not already building and oak fence isn't found, begin building the mine.
-				if (!isBuildingMine && RadixLogic.getNearbyBlocks(actor, Blocks.OAK_FENCE, 8).size() == 0)
+				final Block notifyBlock = RegistryMCA.getMiningEntryById(idOfNotifyBlock).getBlock();
+				final Point3D ownerPos = new Point3D(actor.posX, actor.posY, actor.posZ);
+				int distanceToBlock = -1;
+
+				//Find the nearest block we can notify about.
+				for (final Point3D point : RadixLogic.getNearbyBlocks(actor, notifyBlock, 20))
 				{
-					final int y = RadixLogic.getSpawnSafeTopLevel(actor.world, (int) actor.posX, (int) actor.posZ);
-					final Block groundBlock = RadixBlocks.getBlock(actor.world, (int)actor.posX, y - 1, (int)actor.posZ);
-					actor.getBehavior(ActionBuild.class).startBuilding("/assets/mca/schematic/mine1.schematic", true, groundBlock);
-
-					isBuildingMine = true;
-				}
-
-				//If build flag has been set, check to see if the build AI is still running.
-				else if (isBuildingMine)
-				{
-					if (!actor.getBehavior(ActionBuild.class).getIsActive())
+					if (distanceToBlock == -1)
 					{
-						//When the chore is not running, search for a group of fences nearby.
-						//This identifies this area as a mine.
-						List<Point3D> nearbyFence = RadixLogic.getNearbyBlocks(actor, Blocks.OAK_FENCE_GATE, 8);
+						distanceToBlock = (int) RadixMath.getDistanceToXYZ(point.iX(), point.iY(), point.iZ(), ownerPos.iX(), ownerPos.iY(), ownerPos.iZ());
+					}
 
-						if (nearbyFence.size() >= 1)
-						{
-							isBuildingMine = false;
-						}
+					else
+					{
+						double distanceToPoint = RadixMath.getDistanceToXYZ(point.iX(), point.iY(), point.iZ(), ownerPos.iX(), ownerPos.iY(), ownerPos.iZ());
 
-						else
+						if (distanceToPoint < distanceToBlock)
 						{
-							reset();
+							distanceToBlock = (int) distanceToPoint;
 						}
 					}
 				}
 
-				else //Clear to continue mining.
+				//Determine which message we're going to use and the arguments.
+				final String phraseId;
+				Object[] arguments = new Object[2];
+
+				if (distanceToBlock == -1)
 				{
-					actor.attributes.setMovementState(EnumMovementState.STAY);
-					actor.swingItem();
+					phraseId = "mining.search.none";
+					arguments[0] = notifyBlock.getLocalizedName().toLowerCase();
+				}
 
-					ItemStack addStack = getHarvestStack();
+				else if (distanceToBlock <= 5)
+				{
+					phraseId = "mining.search.nearby";
+					arguments[0] = notifyBlock.getLocalizedName().toLowerCase();		
+				}
 
-					if (addStack != null)
-					{
-						actor.attributes.getInventory().addItem(addStack);
-						actor.damageHeldItem(2);
-					}
+				else
+				{
+					phraseId = "mining.search.value";
+					arguments[0] = notifyBlock.getLocalizedName().toLowerCase();
+					arguments[1] = distanceToBlock;
+				}
+
+				//Notify the player if they're on the server.
+				final EntityPlayer player = actor.world.getPlayerEntityByUUID(assigningPlayer);
+
+				if (player != null)
+				{
+					actor.say(phraseId, player, arguments);
+				}
+				
+				//Damage the pick.
+				boolean pickBroken = actor.damageHeldItem(5);
+				
+				//Notify for picks that have broken.
+				if (pickBroken && !getPickFromInventory())
+				{
+					actor.say("interaction.mining.fail.broken", player);
+					reset();
 				}
 			}
 
 			activityInterval--;
 		}
 
-		else //Searching
+		catch (MappingNotFoundException e)
 		{
-			try
-			{
-				if (activityInterval <= 0)
-				{
-					activityInterval = SEARCH_INTERVAL;
-
-					final Block notifyBlock = RegistryMCA.getMiningEntryById(idOfNotifyBlock).getBlock();
-					final Point3D ownerPos = new Point3D(actor.posX, actor.posY, actor.posZ);
-					int distanceToBlock = -1;
-
-					//Find the nearest block we can notify about.
-					for (final Point3D point : RadixLogic.getNearbyBlocks(actor, notifyBlock, 20))
-					{
-						if (distanceToBlock == -1)
-						{
-							distanceToBlock = (int) RadixMath.getDistanceToXYZ(point.iX(), point.iY(), point.iZ(), ownerPos.iX(), ownerPos.iY(), ownerPos.iZ());
-						}
-
-						else
-						{
-							double distanceToPoint = RadixMath.getDistanceToXYZ(point.iX(), point.iY(), point.iZ(), ownerPos.iX(), ownerPos.iY(), ownerPos.iZ());
-
-							if (distanceToPoint < distanceToBlock)
-							{
-								distanceToBlock = (int) distanceToPoint;
-							}
-						}
-					}
-
-					//Damage the pick.
-					actor.damageHeldItem(5);
-
-					//Determine which message we're going to use and the arguments.
-					final String phraseId;
-					Object[] arguments = new Object[2];
-
-					if (distanceToBlock == -1)
-					{
-						phraseId = "mining.search.none";
-						arguments[0] = notifyBlock.getLocalizedName().toLowerCase();
-					}
-
-					else if (distanceToBlock <= 5)
-					{
-						phraseId = "mining.search.nearby";
-						arguments[0] = notifyBlock.getLocalizedName().toLowerCase();		
-					}
-
-					else
-					{
-						phraseId = "mining.search.value";
-						arguments[0] = notifyBlock.getLocalizedName().toLowerCase();
-						arguments[1] = distanceToBlock;
-					}
-
-					//Notify the player if they're on the server.
-					final EntityPlayer player = actor.world.getPlayerEntityByUUID(assigningPlayer);
-
-					if (player != null)
-					{
-						actor.say(phraseId, player, arguments);
-					}
-				}
-
-				activityInterval--;
-			}
-
-			catch (MappingNotFoundException e)
-			{
-				reset();
-			}
+			reset();
 		}
 	}
-
+	
+	private boolean getPickFromInventory()
+	{
+		ItemStack pickaxe = actor.attributes.getInventory().getBestItemOfType(ItemPickaxe.class);
+		
+		if (pickaxe != ItemStack.EMPTY)
+		{
+			actor.setHeldItem(pickaxe.getItem());
+			return true;
+		}
+		
+		return false;
+	}
+	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) 
 	{
@@ -207,20 +243,24 @@ public class ActionMine extends AbstractToggleAction
 		this.setIsActive(true);
 		this.activityInterval = SEARCH_INTERVAL;
 		
-		ItemStack pickaxe = actor.attributes.getInventory().getBestItemOfType(ItemPickaxe.class);
+		boolean hasPick = getPickFromInventory();
 		
-		if (pickaxe != null)
-		{
-			actor.setHeldItem(pickaxe.getItem());
-		}
-		
-		else
+		if (!hasPick)
 		{
 			actor.say("interaction.mining.fail.nopickaxe", player);
 			reset();
 		}
 	}
 
+	public void reset()
+	{
+		this.setIsActive(false);
+		this.activityInterval = 0;
+		this.assigningPlayer = null;
+		this.isGathering = false;
+		this.isBuildingMine = false;
+	}
+	
 	public void startGathering(EntityPlayer player) 
 	{
 		if (actor.posY <= 12)
@@ -234,14 +274,9 @@ public class ActionMine extends AbstractToggleAction
 		this.setIsActive(true);
 		this.activityInterval = 0;
 		
-		ItemStack pickaxe = actor.attributes.getInventory().getBestItemOfType(ItemPickaxe.class);
+		boolean hasPick = getPickFromInventory();
 		
-		if (pickaxe != null)
-		{
-			actor.setHeldItem(pickaxe.getItem());
-		}
-		
-		else
+		if (!hasPick)
 		{
 			actor.say("interaction.mining.fail.nopickaxe", player);
 			reset();
@@ -302,6 +337,6 @@ public class ActionMine extends AbstractToggleAction
 			return addStack;
 		}
 		
-		return null;
+		return ItemStack.EMPTY;
 	}
 }
