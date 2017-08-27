@@ -63,7 +63,7 @@ public class ActionProcreate extends AbstractAction
 					data.setOwnsBaby(true);
 					
 					boolean isMale = new Random().nextBoolean();
-					ItemStack stack = new ItemStack(isMale ? ItemsMCA.babyBoy : ItemsMCA.babyGirl);
+					ItemStack stack = new ItemStack(isMale ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL);
 					
 					boolean isPlayerInventoryFull = playerSpouse.inventory.getFirstEmptyStack() == -1;
 					

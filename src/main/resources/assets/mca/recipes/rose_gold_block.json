@@ -8,12 +8,12 @@
   "key": {
     "I": [
       {
-        "item": "mca:rosegoldingot"
+        "item": "mca:rose_gold_ingot"
       }
     ]
   },
   "result": {
-    "item": "mca:rosegoldblock",
+    "item": "mca:rose_gold_block",
     "count": 1
   }
 }

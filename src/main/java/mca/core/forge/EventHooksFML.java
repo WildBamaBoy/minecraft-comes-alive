@@ -101,9 +101,9 @@ public class EventHooksFML
 			}
 
 			//Add the crystal ball to the inventory if needed.
-			if (!nbtData.getHasChosenDestiny() && !player.inventory.hasItemStack(new ItemStack(ItemsMCA.crystalBall)) && MCA.getConfig().giveCrystalBall)
+			if (!nbtData.getHasChosenDestiny() && !player.inventory.hasItemStack(new ItemStack(ItemsMCA.CRYSTAL_BALL)) && MCA.getConfig().giveCrystalBall)
 			{
-				player.inventory.addItemStackToInventory(new ItemStack(ItemsMCA.crystalBall));
+				player.inventory.addItemStackToInventory(new ItemStack(ItemsMCA.CRYSTAL_BALL));
 			}
 		}
 	}
@@ -383,7 +383,7 @@ public class EventHooksFML
 		{
 			ItemStack stack = event.craftMatrix.getStackInSlot(i);
 
-			if (stack != null && (stack.getItem() == ItemsMCA.needleAndString))
+			if (stack != null && (stack.getItem() == ItemsMCA.NEEDLE_AND_STRING))
 			{
 				stack.damageItem(1, event.player);
 

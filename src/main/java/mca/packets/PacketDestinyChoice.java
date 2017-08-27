@@ -81,7 +81,7 @@ public class PacketDestinyChoice extends AbstractPacket<PacketDestinyChoice>
 
 			if (packet.choice == EnumDestinyChoice.CANCEL)
 			{
-				player.inventory.addItemStackToInventory(new ItemStack(ItemsMCA.crystalBall));
+				player.inventory.addItemStackToInventory(new ItemStack(ItemsMCA.CRYSTAL_BALL));
 			}
 		}
 

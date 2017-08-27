@@ -89,12 +89,12 @@ public class BlockTombstone extends BlockContainer
 	 */
 	public Item getItemDropped(IBlockState state, Random rand, int fortune)
 	{
-		return ItemsMCA.itemTombstone;
+		return ItemsMCA.TOMBSTONE;
 	}
 
 	public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state)
 	{
-		return new ItemStack(ItemsMCA.itemTombstone);
+		return new ItemStack(ItemsMCA.TOMBSTONE);
 	}
 
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)

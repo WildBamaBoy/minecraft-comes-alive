@@ -12,8 +12,6 @@ public class ItemVillagerEditor extends Item
 	{
 		super();
 		maxStackSize = 1;
-		setCreativeTab(MCA.getCreativeTab());
-		setUnlocalizedName("VillagerEditor");
 	}
 
 	@SideOnly(Side.CLIENT)

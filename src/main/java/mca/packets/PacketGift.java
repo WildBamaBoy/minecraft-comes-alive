@@ -362,23 +362,23 @@ public class PacketGift extends AbstractPacket<PacketGift>
 			boolean removeItem = false;
 			int removeCount = 1;
 
-			if (item == ItemsMCA.weddingRing || item == ItemsMCA.weddingRingRG)
+			if (item == ItemsMCA.WEDDING_RING || item == ItemsMCA.WEDDING_RING_RG)
 			{
 				removeItem = handleWeddingRing(player, human);
 			}
 
-			else if (item == ItemsMCA.matchmakersRing)
+			else if (item == ItemsMCA.MATCHMAKERS_RING)
 			{
 				removeItem = handleMatchmakersRing(player, human, stack);
 				removeCount = 2;
 			}
 
-			else if (item == ItemsMCA.engagementRing || item == ItemsMCA.weddingRingRG || item == ItemsMCA.engagementRingRG)
+			else if (item == ItemsMCA.ENGAGEMENT_RING || item == ItemsMCA.WEDDING_RING_RG || item == ItemsMCA.ENGAGEMENT_RING_RG)
 			{
 				removeItem = handleEngagementRing(player, human);
 			}
 
-			else if (item == ItemsMCA.divorcePapers)
+			else if (item == ItemsMCA.DIVORCE_PAPERS)
 			{
 				removeItem = handleDivorcePapers(player, human);
 			}
@@ -399,7 +399,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 				human.getBehavior(ActionGrow.class).accelerate();
 			}
 
-			else if ((item == ItemsMCA.babyBoy || item == ItemsMCA.babyGirl) && human.attributes.getPlayerSpouseInstance() == player)
+			else if ((item == ItemsMCA.BABY_BOY || item == ItemsMCA.BABY_GIRL) && human.attributes.getPlayerSpouseInstance() == player)
 			{
 				removeItem = true;
 				removeCount = 1;
@@ -451,7 +451,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 				}
 			}
 
-			else if (item == ItemsMCA.newOutfit && human.attributes.allowsControllingInteractions(player))
+			else if (item == ItemsMCA.NEW_OUTFIT && human.attributes.allowsControllingInteractions(player))
 			{
 				Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.VILLAGER_HAPPY, human, 16);
 				human.attributes.setClothesTexture(human.attributes.getProfessionSkinGroup().getRandomMaleSkin());

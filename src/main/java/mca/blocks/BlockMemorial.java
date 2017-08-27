@@ -83,9 +83,9 @@ public class BlockMemorial extends BlockContainer
 
 			switch (memorial.getType())
 			{
-			case BROKEN_RING: memorialItem = ItemsMCA.brokenRing; break;
-			case DOLL: memorialItem = ItemsMCA.childsDoll; break;
-			case TRAIN: memorialItem = ItemsMCA.toyTrain; break;
+			case BROKEN_RING: memorialItem = ItemsMCA.BROKEN_RING; break;
+			case DOLL: memorialItem = ItemsMCA.CHILDS_DOLL; break;
+			case TRAIN: memorialItem = ItemsMCA.TOY_TRAIN; break;
 			}
 
 			if (memorial.getRevivalTicks() == 0) //Will be 1 when removed from a villager revival.

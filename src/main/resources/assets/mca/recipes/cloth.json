@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "mca:needleandstring"
+      "item": "mca:needle_and_string"
     },
     {
       "item": "minecraft:wool",

@@ -391,7 +391,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 					String babyName = isMale ? MCA.getLocalizer().getString("name.male") : MCA.getLocalizer().getString("name.female");
 					villager.say("interaction.adoptbaby.success", player, babyName);
 
-					ItemStack stack = new ItemStack(isMale ? ItemsMCA.babyBoy : ItemsMCA.babyGirl);
+					ItemStack stack = new ItemStack(isMale ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL);
 
 					NBTTagCompound nbt = new NBTTagCompound();
 					nbt.setString("name", babyName);

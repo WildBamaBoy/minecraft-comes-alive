@@ -8,12 +8,12 @@
   "key": {
     "G": [
       {
-        "item": "mca:rosegolddust"
+        "item": "mca:rose_gold_dust"
       }
     ]
   },
   "result": {
-    "item": "mca:rosegoldingot",
+    "item": "mca:rose_gold_ingot",
     "count": 1
   }
 }

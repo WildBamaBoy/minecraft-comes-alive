@@ -66,7 +66,7 @@ public class PacketInteractWithPlayerS extends AbstractPacket<PacketInteractWith
 			{
 				Item item = stack.getItem();
 
-				if (item == ItemsMCA.weddingRing || item == ItemsMCA.weddingRingRG)
+				if (item == ItemsMCA.WEDDING_RING || item == ItemsMCA.WEDDING_RING_RG)
 				{
 					senderHasWeddingRing = true;
 				}
@@ -132,7 +132,7 @@ public class PacketInteractWithPlayerS extends AbstractPacket<PacketInteractWith
 
 				if (stack != null)
 				{
-					if (stack.getItem() == ItemsMCA.weddingRing || stack.getItem() == ItemsMCA.weddingRingRG)
+					if (stack.getItem() == ItemsMCA.WEDDING_RING || stack.getItem() == ItemsMCA.WEDDING_RING_RG)
 					{
 						target.inventory.deleteStack(stack);
 						break;
@@ -147,7 +147,7 @@ public class PacketInteractWithPlayerS extends AbstractPacket<PacketInteractWith
 			targetData.setOwnsBaby(true);
 
 			boolean isMale = new Random().nextBoolean();
-			ItemStack stack = new ItemStack(isMale ? ItemsMCA.babyBoy : ItemsMCA.babyGirl);
+			ItemStack stack = new ItemStack(isMale ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL);
 			target.inventory.addItemStackToInventory(stack);
 
 			//Achievement achievement = isMale ? AchievementsMCA.babyBoy : AchievementsMCA.babyGirl;

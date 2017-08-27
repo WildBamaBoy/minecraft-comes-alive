@@ -2,14 +2,14 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "mca:rosegoldingot"
+      "item": "mca:rose_gold_ingot"
     },
     {
       "item": "minecraft:water_bucket"
     }
   ],
   "result": {
-    "item": "mca:golddust",
+    "item": "mca:gold_dust",
     "count": 6
   }
 }

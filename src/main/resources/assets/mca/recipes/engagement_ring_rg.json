@@ -8,7 +8,7 @@
   "key": {
     "G": [
       {
-        "item": "mca:rosegoldingot"
+        "item": "mca:rose_gold_ingot"
       }
     ],
     "D": [
@@ -18,7 +18,7 @@
     ]
   },
   "result": {
-    "item": "mca:engagementringrg",
+    "item": "mca:engagement_ring_rg",
     "count": 1
   }
 }

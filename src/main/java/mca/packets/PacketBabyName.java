@@ -65,8 +65,8 @@ public class PacketBabyName extends AbstractPacket<PacketBabyName>
 		{
 			if (playerSpouse != null)
 			{
-				int babySlot = playerSpouse.attributes.getInventory().getFirstSlotContainingItem(ItemsMCA.babyBoy);
-				babySlot = babySlot == -1 ? playerSpouse.attributes.getInventory().getFirstSlotContainingItem(ItemsMCA.babyGirl) : babySlot;
+				int babySlot = playerSpouse.attributes.getInventory().getFirstSlotContainingItem(ItemsMCA.BABY_BOY);
+				babySlot = babySlot == -1 ? playerSpouse.attributes.getInventory().getFirstSlotContainingItem(ItemsMCA.BABY_GIRL) : babySlot;
 				
 				if (babySlot != -1)
 				{

@@ -40,12 +40,8 @@ public class ItemBaby extends Item
 
 	public ItemBaby(boolean isBoy)
 	{
-		final String itemName = isBoy ? "BabyBoy" : "BabyGirl";
-
 		this.isBoy = isBoy;
-		this.setCreativeTab(MCA.getCreativeTab());
 		this.setMaxStackSize(1);
-		this.setUnlocalizedName(itemName);
 	}
 
 	@Override

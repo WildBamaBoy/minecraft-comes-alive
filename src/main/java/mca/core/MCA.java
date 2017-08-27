@@ -125,7 +125,7 @@ public class MCA
 			@Override
 			public ItemStack getTabIconItem() 
 			{
-				return new ItemStack(ItemsMCA.engagementRing);
+				return new ItemStack(ItemsMCA.ENGAGEMENT_RING);
 			}
 		};
 		
@@ -163,11 +163,11 @@ public class MCA
 		GameRegistry.registerTileEntity(TileMemorial.class, TileMemorial.class.getSimpleName());
 		
 		//Smeltings
-		GameRegistry.addSmelting(BlocksMCA.roseGoldOre, new ItemStack(ItemsMCA.roseGoldIngot), 5.0F);
+		GameRegistry.addSmelting(BlocksMCA.rose_gold_ore, new ItemStack(ItemsMCA.ROSE_GOLD_INGOT), 5.0F);
 
 		if (MCA.config.roseGoldSpawnWeight > 0)
 		{
-			SimpleOreGenerator.register(new SimpleOreGenerator(BlocksMCA.roseGoldOre, 6, 12, 40, true, false), MCA.config.roseGoldSpawnWeight);
+			SimpleOreGenerator.register(new SimpleOreGenerator(BlocksMCA.rose_gold_ore, 6, 12, 40, true, false), MCA.config.roseGoldSpawnWeight);
 		}
 	}
 
@@ -295,8 +295,8 @@ public class MCA
 		RegistryMCA.addObjectAsGift(Blocks.PISTON, 10);
 		RegistryMCA.addObjectAsGift(Blocks.GLOWSTONE, 10);
 		RegistryMCA.addObjectAsGift(Blocks.EMERALD_BLOCK, 100);
-		RegistryMCA.addObjectAsGift(BlocksMCA.roseGoldBlock, 35);
-		RegistryMCA.addObjectAsGift(BlocksMCA.roseGoldOre, 7);
+		RegistryMCA.addObjectAsGift(BlocksMCA.rose_gold_block, 35);
+		RegistryMCA.addObjectAsGift(BlocksMCA.rose_gold_ore, 7);
 		RegistryMCA.addObjectAsGift(Blocks.REDSTONE_BLOCK, 20);
 
 		RegistryMCA.addFishingEntryToFishingAI(0, new FishingEntry(Items.FISH));
@@ -348,7 +348,7 @@ public class MCA
 		RegistryMCA.addBlockToMiningAI(5, new MiningEntry(Blocks.DIAMOND_ORE, Items.DIAMOND, 0.04F));
 		RegistryMCA.addBlockToMiningAI(6, new MiningEntry(Blocks.EMERALD_ORE, Items.EMERALD, 0.03F));
 		RegistryMCA.addBlockToMiningAI(7, new MiningEntry(Blocks.QUARTZ_ORE, Items.QUARTZ, 0.02F));
-		RegistryMCA.addBlockToMiningAI(8, new MiningEntry(BlocksMCA.roseGoldOre, 0.07F));
+		RegistryMCA.addBlockToMiningAI(8, new MiningEntry(BlocksMCA.rose_gold_ore, 0.07F));
 
 		RegistryMCA.addBlockToWoodcuttingAI(1, new WoodcuttingEntry(Blocks.LOG, 0, Blocks.SAPLING, 0));
 		RegistryMCA.addBlockToWoodcuttingAI(2, new WoodcuttingEntry(Blocks.LOG, 1, Blocks.SAPLING, 1));

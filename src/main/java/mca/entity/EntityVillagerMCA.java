@@ -282,7 +282,7 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 				//Just in case something is added here later, be sure we're not false
 				if (!memorialDropped)
 				{
-					createMemorialChest(attributes.getPlayerMemoryWithoutCreating(attributes.getSpouseUUID()), ItemsMCA.brokenRing);
+					createMemorialChest(attributes.getPlayerMemoryWithoutCreating(attributes.getSpouseUUID()), ItemsMCA.BROKEN_RING);
 					memorialDropped = true;
 				}
 			}
@@ -311,7 +311,7 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 					//If we hit a parent
 					if (attributes.isPlayerAParent(memory.getUUID()) && !memorialDropped)
 					{
-						createMemorialChest(memory, attributes.getGender() == EnumGender.MALE ? ItemsMCA.toyTrain : ItemsMCA.childsDoll);
+						createMemorialChest(memory, attributes.getGender() == EnumGender.MALE ? ItemsMCA.TOY_TRAIN : ItemsMCA.CHILDS_DOLL);
 						memorialDropped = true;
 					}
 					
@@ -623,7 +623,7 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 
 		else if (babyState != EnumBabyState.NONE)
 		{
-			return new ItemStack(babyState == EnumBabyState.MALE ? ItemsMCA.babyBoy : ItemsMCA.babyGirl);
+			return new ItemStack(babyState == EnumBabyState.MALE ? ItemsMCA.BABY_BOY : ItemsMCA.BABY_GIRL);
 		}
 
 		else if (profession == EnumProfession.Guard)
@@ -641,10 +641,10 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 			return attributes.getInventory().getStackInSlot(attributes.getHeldItemSlot());
 		}
 
-		else if (attributes.getInventory().contains(ItemsMCA.babyBoy) || attributes.getInventory().contains(ItemsMCA.babyGirl))
+		else if (attributes.getInventory().contains(ItemsMCA.BABY_BOY) || attributes.getInventory().contains(ItemsMCA.BABY_GIRL))
 		{
-			int slot = attributes.getInventory().getFirstSlotContainingItem(ItemsMCA.babyBoy);
-			slot = slot == -1 ? attributes.getInventory().getFirstSlotContainingItem(ItemsMCA.babyGirl) : slot;
+			int slot = attributes.getInventory().getFirstSlotContainingItem(ItemsMCA.BABY_BOY);
+			slot = slot == -1 ? attributes.getInventory().getFirstSlotContainingItem(ItemsMCA.BABY_GIRL) : slot;
 
 			if (slot != -1)
 			{

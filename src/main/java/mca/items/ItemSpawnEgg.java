@@ -18,12 +18,8 @@ public class ItemSpawnEgg extends Item
 
 	public ItemSpawnEgg(boolean isMale)
 	{
-		final String itemName = isMale ? "EggMale" : "EggFemale";
-
 		this.isMale = isMale;
-		this.setCreativeTab(MCA.getCreativeTab());
 		this.setMaxStackSize(1);
-		this.setUnlocalizedName(itemName);
 	}
 
 	@Override

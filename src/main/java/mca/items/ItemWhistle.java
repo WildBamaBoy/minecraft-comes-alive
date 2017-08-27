@@ -18,8 +18,6 @@ public class ItemWhistle extends Item
 	{
 		super();
 		maxStackSize = 1;
-		setCreativeTab(MCA.getCreativeTab());
-		setUnlocalizedName("Whistle");
 	}
 
 	@Override
