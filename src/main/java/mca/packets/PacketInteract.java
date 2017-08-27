@@ -279,7 +279,7 @@ public class PacketInteract extends AbstractPacket<PacketInteract>
 
 			else if (interaction == EnumInteraction.INVENTORY)
 			{
-				villager.openInventory(player);
+				villager.attributes.setDoOpenInventory(true);
 			}
 
 			else if (interaction == EnumInteraction.RIDE_HORSE)

@@ -38,7 +38,6 @@ public class BlockTombstone extends BlockContainer
 		this.setDefaultState(this.blockState.getBaseState().withProperty(ROTATION, Integer.valueOf(0)));
 		this.setHarvestLevel("pickaxe", 1);
 		this.setHardness(3.0F);
-		this.setUnlocalizedName("Tombstone");
 	}
 
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)

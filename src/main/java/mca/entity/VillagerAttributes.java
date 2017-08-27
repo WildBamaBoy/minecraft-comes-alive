@@ -335,6 +335,10 @@ public class VillagerAttributes
 
 	public void setMotherName(String name)
 	{
+		if (name == null) {
+			name = "N/A";
+		}
+		
 		dataManager.set(MOTHER_NAME, name);
 	}
 	
@@ -393,6 +397,10 @@ public class VillagerAttributes
 
 	public void setFatherName(String name)
 	{
+		if (name == null) {
+			name = "N/A";
+		}
+		
 		dataManager.set(FATHER_NAME, name);
 	}
 	
@@ -706,7 +714,8 @@ public class VillagerAttributes
 
 		if (data != null)
 		{
-			return getMotherUUID() == data.getUUID() || getFatherUUID() == data.getUUID();
+			boolean result = getMotherUUID().equals(data.getUUID()) || getFatherUUID().equals(data.getUUID());
+			return result;
 		}
 
 		else
@@ -949,6 +958,7 @@ public class VillagerAttributes
 
 		nbt.setInteger("ticksAlive", ticksAlive);
 		nbt.setInteger("timesWarnedForLowHearts", timesWarnedForLowHearts);
+		nbt.setTag("inventory", inventory.writeInventoryToNBT());
 		
 		int counter = 0;
 		for (Map.Entry<UUID, PlayerMemory> pair : playerMemories.entrySet())
@@ -1018,6 +1028,7 @@ public class VillagerAttributes
 
 		ticksAlive = nbt.getInteger("ticksAlive");
 		timesWarnedForLowHearts = nbt.getInteger("timesWarnedForLowHearts");
+		inventory.readInventoryFromNBT(nbt.getTagList("inventory", 10));
 		
 		int counter = 0;
 		

@@ -5,7 +5,8 @@
       "item": "mca:needleandstring"
     },
     {
-      "item": "minecraft:wool"
+      "item": "minecraft:wool",
+      "data": 0
     }
   ],
   "result": {

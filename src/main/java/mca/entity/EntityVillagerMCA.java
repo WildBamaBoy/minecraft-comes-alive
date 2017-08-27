@@ -610,11 +610,6 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 		return this.behaviors.getAction(clazz);
 	}
 	
-	public void openInventory(EntityPlayer player)
-	{
-		MCA.getPacketHandler().sendPacketToPlayer(new PacketOpenGUIOnEntity(this.getEntityId(), Constants.GUI_ID_INVENTORY), (EntityPlayerMP) player);
-	}
-	
 	@Override
 	public ItemStack getHeldItem(EnumHand hand)
 	{
@@ -628,11 +623,7 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 
 		else if (babyState != EnumBabyState.NONE)
 		{
-			switch (babyState)
-			{
-			case MALE: return new ItemStack(ItemsMCA.babyBoy);
-			case FEMALE: return new ItemStack(ItemsMCA.babyGirl);
-			}
+			return new ItemStack(babyState == EnumBabyState.MALE ? ItemsMCA.babyBoy : ItemsMCA.babyGirl);
 		}
 
 		else if (profession == EnumProfession.Guard)
@@ -645,22 +636,21 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 			return new ItemStack(Items.BOW);
 		}
 
-		//FIXME
-//		else if (heldItem.getInt() != -1 && aiManager.isToggleAIActive())
-//		{
-//			return new ItemStack(Item.getItemById(heldItem.getInt()));
-//		}
-//
-//		else if (attributes.getInventory().contains(ModItems.babyBoy) || attributes.getInventory().contains(ModItems.babyGirl))
-//		{
-//			int slot = attributes.getInventory().getFirstSlotContainingItem(ModItems.babyBoy);
-//			slot = slot == -1 ? attributes.getInventory().getFirstSlotContainingItem(ModItems.babyGirl) : slot;
-//
-//			if (slot != -1)
-//			{
-//				return attributes.getInventory().getStackInSlot(slot);
-//			}
-//		}
+		else if (attributes.getHeldItemSlot() != -1 && behaviors.isToggleActionActive())
+		{
+			return attributes.getInventory().getStackInSlot(attributes.getHeldItemSlot());
+		}
+
+		else if (attributes.getInventory().contains(ItemsMCA.babyBoy) || attributes.getInventory().contains(ItemsMCA.babyGirl))
+		{
+			int slot = attributes.getInventory().getFirstSlotContainingItem(ItemsMCA.babyBoy);
+			slot = slot == -1 ? attributes.getInventory().getFirstSlotContainingItem(ItemsMCA.babyGirl) : slot;
+
+			if (slot != -1)
+			{
+				return attributes.getInventory().getStackInSlot(slot);
+			}
+		}
 
 		//Warriors, spouses, and player children all use weapons from the combat AI.
 		else if (profession == EnumProfession.Warrior || attributes.isMarriedToAPlayer() || profession == EnumProfession.Child)
@@ -696,7 +686,7 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 					if (itemInSlot.getCount() == 0)
 					{
 						behaviors.disableAllToggleActions();
-						attributes.getInventory().setInventorySlotContents(slot, null);
+						attributes.getInventory().setInventorySlotContents(slot, ItemStack.EMPTY);
 						return true;
 					}
 

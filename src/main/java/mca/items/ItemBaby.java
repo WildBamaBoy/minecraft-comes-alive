@@ -133,6 +133,18 @@ public class ItemBaby extends Item
 				motherGender = data.getGender();
 			}
 
+			if (motherId == null) {
+				motherId = Constants.EMPTY_UUID; 
+				motherName = "N/A"; 
+				motherGender = EnumGender.UNASSIGNED;
+			}
+			
+			if (fatherId == null) {
+				fatherId = Constants.EMPTY_UUID; 
+				fatherName = "N/A"; 
+				fatherGender = EnumGender.UNASSIGNED;
+			}
+			
 			final EntityVillagerMCA child = new EntityVillagerMCA(world);
 			child.attributes.setGender(baby.isBoy ? EnumGender.MALE : EnumGender.FEMALE);
 			child.attributes.setIsChild(true);

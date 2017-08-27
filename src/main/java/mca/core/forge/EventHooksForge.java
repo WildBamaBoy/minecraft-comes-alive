@@ -32,7 +32,6 @@ import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.monster.EntityZombieVillager;
 import net.minecraft.entity.passive.EntityHorse;
-import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -67,12 +66,13 @@ public class EventHooksForge
 	public void onRegisterItems(RegistryEvent.Register<Item> event) 
 	{
 		ItemsMCA.register(event);
+		BlocksMCA.registerItemBlocks(event);
 	}
 	
 	@SubscribeEvent
 	public void onRegisterBlocks(RegistryEvent.Register<Block> event)
 	{
-		BlocksMCA.register(event);		
+		BlocksMCA.register(event);
 	}
 
 	@SubscribeEvent
