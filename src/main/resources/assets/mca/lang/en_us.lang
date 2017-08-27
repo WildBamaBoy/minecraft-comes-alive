@@ -76,13 +76,11 @@ item.broken_ring.name=Broken Ring
 item.staff_of_life.name=Staff of Life
 item.childs_doll.name=Child's Doll
 item.toy_train.name=Toy Train
-
-#######
-# Item Information
-##############################
-information.villagerbed.line1=Place on the ground and
-information.villagerbed.line2=any nearby villager will
-information.villagerbed.line3=sleep in bed at night.
+item.book_death.name=Death, and How to Cure It!
+item.book_romance.name=Gentleman's Guide to Courting
+item.book_family.name=Managing Your Family Vol. XI
+item.book_rose_gold.name=On Rose Gold
+item.book_infection.name=Beware the Infection!
 
 #######
 # Names

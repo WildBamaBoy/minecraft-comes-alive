@@ -14,6 +14,7 @@ import mca.data.PlayerMemory;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumBabyState;
 import mca.enums.EnumMarriageState;
+import mca.enums.EnumProfession;
 import mca.enums.EnumProgressionStep;
 import mca.inventory.VillagerInventory;
 import mca.util.Either;
@@ -76,6 +77,21 @@ public class PacketGift extends AbstractPacket<PacketGift>
 			human.say("interaction.give.invalid", player); 
 		}
 
+		else if (data.getSpouseUUID() == human.getPersistentID() && human.attributes.getMarriageState() == EnumMarriageState.ENGAGED)
+		{
+			//Violates DRY, yes, but it will work for now
+
+			human.say("interaction.marry.success", player); 
+
+			human.startMarriage(Either.<EntityVillagerMCA, EntityPlayer>withR(player));
+			memory.setIsHiredBy(false, 0);
+			
+			human.getBehavior(ActionUpdateMood.class).modifyMoodLevel(3.0F);
+			Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, human, 16);
+			TutorialManager.sendMessageToPlayer(player, "You are now married. You can have", "children by using the 'Procreate' button.");
+			return true;
+		}
+		
 		else if (data.getSpouseUUID() == human.getPersistentID())
 		{
 			human.say("interaction.marry.fail.marriedtogiver", player); 
@@ -373,7 +389,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 				removeCount = 2;
 			}
 
-			else if (item == ItemsMCA.ENGAGEMENT_RING || item == ItemsMCA.WEDDING_RING_RG || item == ItemsMCA.ENGAGEMENT_RING_RG)
+			else if (item == ItemsMCA.ENGAGEMENT_RING || item == ItemsMCA.ENGAGEMENT_RING_RG)
 			{
 				removeItem = handleEngagementRing(player, human);
 			}
@@ -383,6 +399,12 @@ public class PacketGift extends AbstractPacket<PacketGift>
 				removeItem = handleDivorcePapers(player, human);
 			}
 
+			else if (item == ItemsMCA.BOOK_ROSE_GOLD && human.getName().equals("William") && human.attributes.getProfessionEnum() == EnumProfession.Miner)
+			{
+				removeItem = true;
+				human.sayRaw("Oh, thank you for returning this to me! My company secrets could have been lost forever!", player);
+			}
+			
 			else if (human.attributes.getIsInfected() && human.getActivePotionEffect(MobEffects.WEAKNESS) != null && stack.getItem() == Items.GOLDEN_APPLE)
 			{
 				removeItem = true;
