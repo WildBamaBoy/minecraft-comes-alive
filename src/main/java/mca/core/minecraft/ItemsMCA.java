@@ -332,7 +332,7 @@ public final class ItemsMCA
 			NBTTagList pages = new NBTTagList();
 			
 			pages.appendTag(new NBTTagString(Format.BOLD + "Warning!\nTOP SECRET\n\n" + Format.RESET
-					+ "This manual is the property of William Mining Co.\n\nIf you are not a William Mining Co. employee, please refrain from"
+					+ "This manual is the property of William Mining Co.\n\nIf you are not a William Mining Co. employee, please refrain from "
 					+ "reading this manual and return promptly to William the Miner."));
 			
 			pages.appendTag(new NBTTagString(""
