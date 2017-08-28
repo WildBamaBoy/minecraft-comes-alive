@@ -1,5 +1,7 @@
 package mca.packets;
 
+import java.util.List;
+
 import io.netty.buffer.ByteBuf;
 import mca.actions.ActionGrow;
 import mca.actions.ActionStoryProgression;
@@ -89,6 +91,15 @@ public class PacketGift extends AbstractPacket<PacketGift>
 			human.getBehavior(ActionUpdateMood.class).modifyMoodLevel(3.0F);
 			Utilities.spawnParticlesAroundEntityS(EnumParticleTypes.HEART, human, 16);
 			TutorialManager.sendMessageToPlayer(player, "You are now married. You can have", "children by using the 'Procreate' button.");
+			
+			List<EntityVillagerMCA> nearbyVillagers = RadixLogic.getEntitiesWithinDistance(EntityVillagerMCA.class, player, 30);
+			
+			for (EntityVillagerMCA villager : nearbyVillagers)
+			{
+				PlayerMemory otherVillagerMemory = villager.attributes.getPlayerMemory(player);
+				otherVillagerMemory.setHasGift(true);
+			}
+			
 			return true;
 		}
 		

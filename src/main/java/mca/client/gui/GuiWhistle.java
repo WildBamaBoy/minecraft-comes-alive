@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import mca.core.MCA;
+import mca.data.TransitiveVillagerData;
 import mca.entity.EntityVillagerMCA;
 import mca.entity.VillagerAttributes;
 import mca.packets.PacketCallVillager;
@@ -24,7 +25,7 @@ public class GuiWhistle extends GuiScreen
 {
 	private EntityVillagerMCA dummyHuman;
 
-	private List<VillagerAttributes> villagerDataList;
+	private List<TransitiveVillagerData> villagerDataList;
 
 	private GuiButton selectionLeftButton;
 	private GuiButton selectionRightButton;
@@ -115,7 +116,7 @@ public class GuiWhistle extends GuiScreen
 
 			else if (guibutton == callButton)
 			{
-				MCA.getPacketHandler().sendPacketToServer(new PacketCallVillager(villagerDataList.get(selectedIndex - 1).getVillagerUUID()));
+				MCA.getPacketHandler().sendPacketToServer(new PacketCallVillager(villagerDataList.get(selectedIndex - 1).getUUID()));
 				Minecraft.getMinecraft().displayGuiScreen(null);
 			}
 
@@ -125,8 +126,8 @@ public class GuiWhistle extends GuiScreen
 				Minecraft.getMinecraft().displayGuiScreen(null);
 			}
 
-			VillagerAttributes data = villagerDataList.get(selectedIndex - 1);
-			villagerNameButton.displayString = data.getTitle(Minecraft.getMinecraft().player);
+			TransitiveVillagerData data = villagerDataList.get(selectedIndex - 1);
+			villagerNameButton.displayString = data.getName();
 			updateDummyVillagerWithData(data);
 		}
 	}
@@ -171,7 +172,7 @@ public class GuiWhistle extends GuiScreen
 		net.minecraft.client.gui.inventory.GuiInventory.drawEntityOnScreen(posX, posY, 75, 0, 0, dummyHuman);
 	}
 
-	public void setVillagerDataList(List<VillagerAttributes> dataList)
+	public void setVillagerDataList(List<TransitiveVillagerData> dataList)
 	{
 		this.villagerDataList = dataList;
 		this.loadingAnimationTicks = -1;
@@ -179,8 +180,8 @@ public class GuiWhistle extends GuiScreen
 
 		try
 		{
-			VillagerAttributes firstData = dataList.get(0);
-			villagerNameButton.displayString = firstData.getTitle(Minecraft.getMinecraft().player);
+			TransitiveVillagerData firstData = dataList.get(0);
+			villagerNameButton.displayString = firstData.getName();
 			dummyHuman = new EntityVillagerMCA(Minecraft.getMinecraft().world);
 
 			updateDummyVillagerWithData(firstData);
@@ -193,10 +194,10 @@ public class GuiWhistle extends GuiScreen
 		}
 	}
 
-	private void updateDummyVillagerWithData(VillagerAttributes data)
+	private void updateDummyVillagerWithData(TransitiveVillagerData data)
 	{
 		dummyHuman.attributes.setGender(data.getGender());
-		dummyHuman.attributes.setProfession(data.getProfessionEnum());
+		dummyHuman.attributes.setProfession(data.getProfession());
 		dummyHuman.attributes.setHeadTexture(data.getHeadTexture());
 		dummyHuman.attributes.setClothesTexture(data.getClothesTexture());
 		dummyHuman.attributes.setIsChild(data.getIsChild());

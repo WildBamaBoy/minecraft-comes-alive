@@ -1,11 +1,11 @@
 package mca.data;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import mca.core.Constants;
-import mca.core.MCA;
 import mca.entity.VillagerAttributes;
 import mca.enums.EnumBabyState;
 import mca.enums.EnumGender;
@@ -13,14 +13,14 @@ import mca.enums.EnumMarriageState;
 import mca.enums.EnumMovementState;
 import mca.enums.EnumPersonality;
 import mca.enums.EnumProfession;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
 /*
  * Used to carry around villager attributes without using the data manager, ex. in memorial objects.
  */
-public class TransitiveVillagerData 
+public class TransitiveVillagerData implements Serializable
 {
+	private final UUID uuid;
 	private final String name;
 	private final String headTexture;
 	private final String clothesTexture;
@@ -52,6 +52,7 @@ public class TransitiveVillagerData
 	
 	public TransitiveVillagerData(VillagerAttributes attributes)
 	{
+		this.uuid = attributes.getVillagerUUID();
 		this.name = attributes.getName();
 		this.headTexture = attributes.getHeadTexture();
 		this.clothesTexture = attributes.getClothesTexture();
@@ -84,6 +85,7 @@ public class TransitiveVillagerData
 
 	public TransitiveVillagerData(NBTTagCompound nbt)
 	{
+		this.uuid = nbt.getUniqueId("uuid");
 		this.name = nbt.getString("name");
 		this.headTexture = nbt.getString("headTexture");
 		this.clothesTexture = nbt.getString("clothesTexture");
@@ -132,6 +134,11 @@ public class TransitiveVillagerData
 				counter++;
 			}
 		}
+	}
+	
+	public UUID getUUID()
+	{
+		return uuid;
 	}
 	
 	public String getName() 
@@ -276,6 +283,7 @@ public class TransitiveVillagerData
 	
 	public void writeToNBT(NBTTagCompound nbt)
 	{
+		nbt.setUniqueId("uuid", uuid);
 		nbt.setString("name", name);
 		nbt.setString("headTexture", headTexture);
 		nbt.setString("clothesTexture", clothesTexture);

@@ -4,6 +4,7 @@ import java.util.List;
 
 import io.netty.buffer.ByteBuf;
 import mca.client.gui.GuiWhistle;
+import mca.data.TransitiveVillagerData;
 import mca.entity.VillagerAttributes;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -12,14 +13,14 @@ import radixcore.modules.net.AbstractPacket;
 
 public class PacketRelatedVillagers extends AbstractPacket<PacketRelatedVillagers>
 {	
-	public List<VillagerAttributes> dataList;
+	public List<TransitiveVillagerData> dataList;
 	
 	public PacketRelatedVillagers()
 	{
 		//Required
 	}
 
-	public PacketRelatedVillagers(List<VillagerAttributes> dataList)
+	public PacketRelatedVillagers(List<TransitiveVillagerData> dataList)
 	{
 		this.dataList = dataList;
 	}
@@ -27,7 +28,7 @@ public class PacketRelatedVillagers extends AbstractPacket<PacketRelatedVillager
 	@Override
 	public void fromBytes(ByteBuf byteBuf)
 	{
-		this.dataList = (List<VillagerAttributes>) RadixNettyIO.readObject(byteBuf);
+		this.dataList = (List<TransitiveVillagerData>) RadixNettyIO.readObject(byteBuf);
 	}
 
 	@Override

@@ -5,8 +5,8 @@ import java.util.List;
 
 import io.netty.buffer.ByteBuf;
 import mca.core.MCA;
+import mca.data.TransitiveVillagerData;
 import mca.entity.EntityVillagerMCA;
-import mca.entity.VillagerAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -33,7 +33,7 @@ public class PacketRequestRelatedVillagers extends AbstractPacket<PacketRequestR
 	public void processOnGameThread(PacketRequestRelatedVillagers packet, MessageContext context) 
 	{
 		EntityPlayer sender = this.getPlayer(context);
-		List<VillagerAttributes> dataList = new ArrayList<VillagerAttributes>();
+		List<TransitiveVillagerData> dataList = new ArrayList<TransitiveVillagerData>();
 		
 		for (final Object obj : sender.world.loadedEntityList)
 		{
@@ -43,7 +43,7 @@ public class PacketRequestRelatedVillagers extends AbstractPacket<PacketRequestR
 				
 				if (human.attributes.isPlayerAParent(sender) || human.attributes.getPlayerSpouseInstance() == sender)
 				{
-					dataList.add(human.attributes);
+					dataList.add(new TransitiveVillagerData(human.attributes));
 				}
 			}
 		}

@@ -37,7 +37,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import radixcore.modules.RadixNettyIO;
 
-public class VillagerAttributes 
+public class VillagerAttributes
 {
 	private final EntityVillagerMCA villager;
 	private final EntityDataManager dataManager;
