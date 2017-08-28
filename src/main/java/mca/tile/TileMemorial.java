@@ -75,8 +75,11 @@ public class TileMemorial extends TileEntity implements ITickable
 				
 				else if (this.getType() == EnumMemorialType.BROKEN_RING)
 				{
+					PlayerMemory memory = human.attributes.getPlayerMemory(player);
 					human.startMarriage(Either.<EntityVillagerMCA, EntityPlayer>withR(player));
-					human.attributes.getPlayerMemory(player).setHearts(100);
+					memory.setHearts(100);
+					memory.setDialogueType(EnumDialogueType.SPOUSE);
+					memory.setRelation(human.attributes.getGender() == EnumGender.MALE ? EnumRelation.HUSBAND : EnumRelation.WIFE);
 				}
 
 				else

@@ -4,6 +4,7 @@ import static mca.core.Constants.EMPTY_UUID;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import io.netty.buffer.ByteBuf;
 import mca.actions.AbstractAction;
@@ -30,6 +31,7 @@ import mca.items.ItemVillagerEditor;
 import mca.packets.PacketOpenGUIOnEntity;
 import mca.util.Either;
 import mca.util.Utilities;
+import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIMoveIndoors;
 import net.minecraft.entity.ai.EntityAIOpenDoor;
@@ -39,6 +41,7 @@ import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
@@ -50,6 +53,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.profiler.Profiler;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
@@ -323,9 +327,51 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 
 	private void createMemorialChest(PlayerMemory memory, ItemMemorial memorialItem)
 	{
-		
+		Point3D nearestAir = RadixLogic.getNearestBlock(this, 3, Blocks.AIR);
+    	
+    	if (nearestAir == null)
+    	{
+    		MCA.getLog().warn("No available location to spawn villager death chest for " + this.getName());
+    	}
+    	
+    	else
+    	{
+    		int y = nearestAir.iY();
+    		Block block = Blocks.AIR;
+    		
+    		while (block == Blocks.AIR)
+    		{
+    			y--;
+    			block = world.getBlockState(new BlockPos(nearestAir.iX(), y, nearestAir.iZ())).getBlock();
+    		}
+    		
+    		y += 1;
+    		world.setBlockState(new BlockPos(nearestAir.iX(), y, nearestAir.iZ()), Blocks.CHEST.getDefaultState());
+    		
+    		try
+    		{
+    			TileEntityChest chest = (TileEntityChest) world.getTileEntity(nearestAir.toBlockPos());
+    			TransitiveVillagerData data = new TransitiveVillagerData(attributes);
+    			ItemStack memorialStack = new ItemStack(memorialItem);
+    			NBTTagCompound stackNBT = new NBTTagCompound();
+    			
+    			stackNBT.setString("ownerName", memory.getPlayerName());
+    			stackNBT.setUniqueId("ownerUUID", memory.getUUID());
+    			data.writeToNBT(stackNBT);
+    			memorialStack.setTagCompound(stackNBT);
+    			
+    			chest.setInventorySlotContents(0, memorialStack);
+    			MCA.getLog().info("Spawned villager death chest at: " + nearestAir.iX() + ", " + y + ", " + nearestAir.iZ());
+    		}
+    		
+    		catch (Exception e)
+    		{
+    			MCA.getLog().error("Error spawning villager death chest: " + e.getMessage());
+    			return;
+    		}
+    	}
 	}
-	
+    
 	@Override
 	protected void updateAITasks()
 	{
