@@ -44,8 +44,14 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.storage.loot.LootEntryItem;
+import net.minecraft.world.storage.loot.LootPool;
+import net.minecraft.world.storage.loot.LootTable;
+import net.minecraft.world.storage.loot.conditions.LootCondition;
+import net.minecraft.world.storage.loot.functions.LootFunction;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -81,6 +87,21 @@ public class EventHooksForge
 	public void onRegisterSounds(RegistryEvent.Register<SoundEvent> event)
 	{
 		SoundsMCA.register(event);
+	}
+	
+	@SubscribeEvent
+	public void onLootTableLoad(LootTableLoadEvent event)
+	{
+		if (event.getName().toString().equals("minecraft:chests/simple_dungeon") || event.getName().toString().equals("minecraft:chests/stronghold_library"))
+		{
+			LootPool main = event.getTable().getPool("main");
+			
+			main.addEntry(new LootEntryItem(ItemsMCA.BOOK_DEATH, 20, 0, new LootFunction[0], new LootCondition[0], "mca:book_death"));
+			main.addEntry(new LootEntryItem(ItemsMCA.BOOK_FAMILY, 20, 0, new LootFunction[0], new LootCondition[0], "mca:book_family"));
+			main.addEntry(new LootEntryItem(ItemsMCA.BOOK_INFECTION, 20, 0, new LootFunction[0], new LootCondition[0], "mca:book_infection"));
+			main.addEntry(new LootEntryItem(ItemsMCA.BOOK_ROMANCE, 20, 0, new LootFunction[0], new LootCondition[0], "mca:book_romance"));
+			main.addEntry(new LootEntryItem(ItemsMCA.BOOK_ROSE_GOLD, 20, 0, new LootFunction[0], new LootCondition[0], "mca:book_rose_gold"));
+		}
 	}
 	
 	@SubscribeEvent

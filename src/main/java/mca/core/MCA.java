@@ -373,10 +373,10 @@ public class MCA
 		RegistryMCA.addCropToFarmingAI(1, new CropEntry(EnumCropCategory.WHEAT, Blocks.WHEAT, Items.WHEAT_SEEDS, Blocks.WHEAT, 7, Items.WHEAT, 1, 4));
 		RegistryMCA.addCropToFarmingAI(2, new CropEntry(EnumCropCategory.WHEAT, Blocks.POTATOES, Items.POTATO, Blocks.POTATOES, 7, Items.POTATO, 1, 4));
 		RegistryMCA.addCropToFarmingAI(3, new CropEntry(EnumCropCategory.WHEAT, Blocks.CARROTS, Items.CARROT, Blocks.CARROTS, 7, Items.CARROT, 1, 4));
-		RegistryMCA.addCropToFarmingAI(3, new CropEntry(EnumCropCategory.WHEAT, Blocks.BEETROOTS, Items.BEETROOT_SEEDS, Blocks.BEETROOTS, 7, Items.BEETROOT, 1, 4));
-		RegistryMCA.addCropToFarmingAI(4, new CropEntry(EnumCropCategory.MELON, Blocks.MELON_STEM, Items.MELON_SEEDS, Blocks.MELON_BLOCK, 0, Items.MELON, 2, 6));
-		RegistryMCA.addCropToFarmingAI(5, new CropEntry(EnumCropCategory.MELON, Blocks.PUMPKIN_STEM, Items.PUMPKIN_SEEDS, Blocks.PUMPKIN, 0, null, 1, 1));
-		RegistryMCA.addCropToFarmingAI(6, new CropEntry(EnumCropCategory.SUGARCANE, Blocks.REEDS, Items.REEDS, Blocks.REEDS, 0, Items.REEDS, 1, 1));
+		RegistryMCA.addCropToFarmingAI(4, new CropEntry(EnumCropCategory.WHEAT, Blocks.BEETROOTS, Items.BEETROOT_SEEDS, Blocks.BEETROOTS, 7, Items.BEETROOT, 1, 4));
+		RegistryMCA.addCropToFarmingAI(5, new CropEntry(EnumCropCategory.MELON, Blocks.MELON_STEM, Items.MELON_SEEDS, Blocks.MELON_BLOCK, 0, Items.MELON, 2, 6));
+		RegistryMCA.addCropToFarmingAI(6, new CropEntry(EnumCropCategory.MELON, Blocks.PUMPKIN_STEM, Items.PUMPKIN_SEEDS, Blocks.PUMPKIN, 0, null, 1, 1));
+		RegistryMCA.addCropToFarmingAI(7, new CropEntry(EnumCropCategory.SUGARCANE, Blocks.REEDS, Items.REEDS, Blocks.REEDS, 0, Items.REEDS, 1, 1));
 
 		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.DIRT, 1, 6), EnumGiftCategory.BAD);
 		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.DEADBUSH, 1, 1), EnumGiftCategory.BAD);
@@ -401,7 +401,8 @@ public class MCA
 		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.LOG, 2, 16), EnumGiftCategory.GOOD);
 		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.COBBLESTONE, 2, 16), EnumGiftCategory.GOOD);
 		RegistryMCA.addWeddingGift(new WeddingGift(Items.COAL, 2, 8), EnumGiftCategory.GOOD);
-
+		RegistryMCA.addWeddingGift(new WeddingGift(ItemsMCA.BOOK_ROSE_GOLD, 1, 1), EnumGiftCategory.BEST);
+		
 		RegistryMCA.addWeddingGift(new WeddingGift(Items.CLAY_BALL, 16, 32), EnumGiftCategory.BETTER);
 		RegistryMCA.addWeddingGift(new WeddingGift(Items.IRON_AXE, 1, 1), EnumGiftCategory.BETTER);
 		RegistryMCA.addWeddingGift(new WeddingGift(Items.IRON_SWORD, 1, 1), EnumGiftCategory.BETTER);
@@ -423,7 +424,10 @@ public class MCA
 		RegistryMCA.addWeddingGift(new WeddingGift(Items.MELON, 4, 8), EnumGiftCategory.BETTER);
 		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.BOOKSHELF, 2, 4), EnumGiftCategory.BETTER);
 		RegistryMCA.addWeddingGift(new WeddingGift(Items.IRON_INGOT, 8, 16), EnumGiftCategory.BETTER);
-
+		RegistryMCA.addWeddingGift(new WeddingGift(ItemsMCA.BOOK_INFECTION, 1, 1), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(ItemsMCA.BOOK_ROMANCE, 1, 1), EnumGiftCategory.BETTER);
+		RegistryMCA.addWeddingGift(new WeddingGift(ItemsMCA.BOOK_FAMILY, 1, 1), EnumGiftCategory.BETTER);
+		
 		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.BRICK_BLOCK, 32, 32), EnumGiftCategory.BEST);
 		RegistryMCA.addWeddingGift(new WeddingGift(Items.DIAMOND_AXE, 1, 1), EnumGiftCategory.BEST);
 		RegistryMCA.addWeddingGift(new WeddingGift(Items.DIAMOND_SWORD, 1, 1), EnumGiftCategory.BEST);
@@ -448,6 +452,7 @@ public class MCA
 		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.IRON_BLOCK, 1, 8), EnumGiftCategory.BEST);
 		RegistryMCA.addWeddingGift(new WeddingGift(Blocks.OBSIDIAN, 4, 8), EnumGiftCategory.BEST);
 		RegistryMCA.addWeddingGift(new WeddingGift(Items.EMERALD, 4, 6), EnumGiftCategory.BEST);
+		RegistryMCA.addWeddingGift(new WeddingGift(ItemsMCA.BOOK_DEATH, 1, 1), EnumGiftCategory.BEST);
 	}
 
 	@EventHandler
