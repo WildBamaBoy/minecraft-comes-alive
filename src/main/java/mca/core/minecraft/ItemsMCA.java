@@ -206,7 +206,7 @@ public final class ItemsMCA
 		
 		else if (book == BOOK_ROMANCE)
 		{
-			nbt.setString("title", "Gentleman's Guide to Courting");
+			nbt.setString("title", "The Gentleman's Guide to Relationships");
 			nbt.setString("author", "Gerry the Librarian");
 			nbt.setBoolean("resolved", true);
 			
