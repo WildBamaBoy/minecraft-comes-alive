@@ -53,7 +53,7 @@ public class ItemMemorial extends Item
 			
 			if (stack.hasTagCompound())
 			{
-				tile.setRelation(EnumRelation.getById(stack.getTagCompound().getInteger("relation")));
+				tile.setRelation(EnumRelation.getById(stack.getTagCompound().getInteger("ownerRelation")));
 			}
 			
 			else
@@ -78,7 +78,7 @@ public class ItemMemorial extends Item
 			TransitiveVillagerData data = new TransitiveVillagerData(stack.getTagCompound());
 			String ownerName = stack.getTagCompound().getString("ownerName");
 			String name = data.getName();
-			String relationId = EnumRelation.getById(stack.getTagCompound().getInteger("relation")).getPhraseId(); 
+			String relationId = EnumRelation.getById(stack.getTagCompound().getInteger("ownerRelation")).getPhraseId(); 
 			
 			tooltip.add(Color.WHITE + "Belonged to: ");
 

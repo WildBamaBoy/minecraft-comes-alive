@@ -25,6 +25,7 @@ import mca.enums.EnumMarriageState;
 import mca.enums.EnumMovementState;
 import mca.enums.EnumProfession;
 import mca.enums.EnumProfessionSkinGroup;
+import mca.enums.EnumRelation;
 import mca.items.ItemBaby;
 import mca.items.ItemMemorial;
 import mca.items.ItemVillagerEditor;
@@ -357,6 +358,7 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
     			
     			stackNBT.setString("ownerName", memory.getPlayerName());
     			stackNBT.setUniqueId("ownerUUID", memory.getUUID());
+    			stackNBT.setInteger("ownerRelation", memory.getRelation().getId());
     			data.writeToNBT(stackNBT);
     			memorialStack.setTagCompound(stackNBT);
     			
@@ -576,6 +578,7 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 			attributes.setSpouseGender(playerData.getGender());
 			attributes.setMarriageState(EnumMarriageState.MARRIED_TO_PLAYER);
 			memory.setDialogueType(EnumDialogueType.SPOUSE);
+			memory.setRelation(attributes.getGender() == EnumGender.MALE ? EnumRelation.HUSBAND : EnumRelation.WIFE);
 			
 			playerData.setSpouseName(this.getName());
 			playerData.setSpouseGender(attributes.getGender());
