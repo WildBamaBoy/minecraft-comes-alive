@@ -183,6 +183,7 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
 		maxHealth = Math.round((float)maxHealth / 2.0F);
 		currentHealth = Math.round((float)currentHealth / 2.0F);
 		int depletedHealth = maxHealth - currentHealth;
+		int mid = maxHealth == 10 ? 45 : 90;
 		
 		for (int i = 0; i < currentHealth; i++)
 		{
@@ -197,7 +198,7 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
 				GL11.glDisable(GL11.GL_LIGHTING);
 				GL11.glTranslatef(0.0F, 0.25F / LABEL_SCALE, 0.0F);
 
-				RadixRender.drawTexturedRectangle(gui, (int)posX + (heartsDrawn * 8) - 45, (int)posY - 4, redHeartU, 20, 9, 9);
+				RadixRender.drawTexturedRectangle(gui, (int)posX + (heartsDrawn * 8) - mid, (int)posY - 4, redHeartU, 20, 9, 9);
 			}
 			GL11.glPopMatrix();
 
@@ -218,7 +219,7 @@ public class RenderVillagerMCA<T extends EntityVillagerMCA> extends RenderBiped<
 				GL11.glDisable(GL11.GL_LIGHTING);
 				GL11.glTranslatef(0.0F, 0.25F / LABEL_SCALE, 0.0F);
 
-				RadixRender.drawTexturedRectangle(gui, (int)posX + (heartsDrawn * 8) - 45, (int)posY - 4, darkHeartU, 20, 9, 9);
+				RadixRender.drawTexturedRectangle(gui, (int)posX + (heartsDrawn * 8) - mid, (int)posY - 4, darkHeartU, 20, 9, 9);
 			}
 			GL11.glPopMatrix();
 
