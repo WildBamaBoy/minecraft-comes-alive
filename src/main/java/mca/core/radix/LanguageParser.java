@@ -50,8 +50,16 @@ public class LanguageParser extends AbstractLanguageParser
 				
 				else if (unparsedPhrase.contains("%PlayerName%"))
 				{
-					NBTPlayerData data = MCA.getPlayerData(playerTarget);
-					unparsedPhrase = unparsedPhrase.replace("%PlayerName%", data.getMcaName());
+					try
+					{
+						NBTPlayerData data = MCA.getPlayerData(playerTarget);
+						unparsedPhrase = unparsedPhrase.replace("%PlayerName%", data.getMcaName());
+					}
+					
+					catch (Exception e)
+					{
+						unparsedPhrase = unparsedPhrase.replace("%PlayerName%", playerTarget.getName());
+					}
 				}
 				
 				else if (unparsedPhrase.contains("%ParentOpposite%"))
