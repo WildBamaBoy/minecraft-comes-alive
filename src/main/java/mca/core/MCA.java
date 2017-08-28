@@ -373,6 +373,7 @@ public class MCA
 		RegistryMCA.addCropToFarmingAI(1, new CropEntry(EnumCropCategory.WHEAT, Blocks.WHEAT, Items.WHEAT_SEEDS, Blocks.WHEAT, 7, Items.WHEAT, 1, 4));
 		RegistryMCA.addCropToFarmingAI(2, new CropEntry(EnumCropCategory.WHEAT, Blocks.POTATOES, Items.POTATO, Blocks.POTATOES, 7, Items.POTATO, 1, 4));
 		RegistryMCA.addCropToFarmingAI(3, new CropEntry(EnumCropCategory.WHEAT, Blocks.CARROTS, Items.CARROT, Blocks.CARROTS, 7, Items.CARROT, 1, 4));
+		RegistryMCA.addCropToFarmingAI(3, new CropEntry(EnumCropCategory.WHEAT, Blocks.BEETROOTS, Items.BEETROOT_SEEDS, Blocks.BEETROOTS, 7, Items.BEETROOT, 1, 4));
 		RegistryMCA.addCropToFarmingAI(4, new CropEntry(EnumCropCategory.MELON, Blocks.MELON_STEM, Items.MELON_SEEDS, Blocks.MELON_BLOCK, 0, Items.MELON, 2, 6));
 		RegistryMCA.addCropToFarmingAI(5, new CropEntry(EnumCropCategory.MELON, Blocks.PUMPKIN_STEM, Items.PUMPKIN_SEEDS, Blocks.PUMPKIN, 0, null, 1, 1));
 		RegistryMCA.addCropToFarmingAI(6, new CropEntry(EnumCropCategory.SUGARCANE, Blocks.REEDS, Items.REEDS, Blocks.REEDS, 0, Items.REEDS, 1, 1));
