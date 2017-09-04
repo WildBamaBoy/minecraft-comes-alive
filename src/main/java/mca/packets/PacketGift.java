@@ -118,7 +118,7 @@ public class PacketGift extends AbstractPacket<PacketGift>
 			human.say("interaction.engage.fail.engagedtoother", player); 
 		}
 
-		else if (data.getSpouseUUID() != Constants.EMPTY_UUID && data.getMarriageState() != EnumMarriageState.NOT_MARRIED)
+		else if (data.getMarriageState() != EnumMarriageState.NOT_MARRIED)
 		{
 			human.say("interaction.marry.fail.playermarried", player); 
 		}
