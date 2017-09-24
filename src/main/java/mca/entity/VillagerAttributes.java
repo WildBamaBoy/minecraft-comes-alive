@@ -223,6 +223,7 @@ public class VillagerAttributes
 	public void setProfession(EnumProfession profession)
 	{
 		dataManager.set(PROFESSION, profession.getId());
+		villager.setProfession(profession.getId());
 	}
 
 	public EnumPersonality getPersonality()

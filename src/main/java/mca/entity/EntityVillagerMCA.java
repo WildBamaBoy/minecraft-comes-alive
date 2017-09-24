@@ -1,10 +1,11 @@
 package mca.entity;
 
 import static mca.core.Constants.EMPTY_UUID;
+import static net.minecraftforge.fml.common.ObfuscationReflectionHelper.getPrivateValue;
+import static net.minecraftforge.fml.common.ObfuscationReflectionHelper.setPrivateValue;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import io.netty.buffer.ByteBuf;
 import mca.actions.AbstractAction;
@@ -32,6 +33,7 @@ import mca.items.ItemVillagerEditor;
 import mca.packets.PacketOpenGUIOnEntity;
 import mca.util.Either;
 import mca.util.Utilities;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIMoveIndoors;
@@ -39,6 +41,7 @@ import net.minecraft.entity.ai.EntityAIOpenDoor;
 import net.minecraft.entity.ai.EntityAIRestrictOpenDoor;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITasks;
+import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -63,9 +66,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.village.MerchantRecipe;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
+import net.minecraftforge.fml.common.registry.VillagerRegistry;
+import net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfession;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import radixcore.constant.Font.Color;
@@ -92,6 +98,15 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 	private final VillagerBehaviors behaviors;
 	private final Profiler profiler;
 
+	// Used for hooking into vanilla trades
+	private int vanillaProfessionId;
+	private static final int FIELD_INDEX_BUYING_PLAYER = 6;
+	private static final int FIELD_INDEX_TIME_UNTIL_RESET = 8;
+	private static final int FIELD_INDEX_NEEDS_INITIALIZATION = 9;
+	private static final int FIELD_INDEX_IS_WILLING_TO_MATE = 10;
+	private static final int FIELD_INDEX_WEALTH = 11;
+	private static final int FIELD_INDEX_LAST_BUYING_PLAYER = 12;
+	
 	public EntityVillagerMCA(World world) 
 	{
 		super(world);
@@ -863,5 +878,97 @@ public class EntityVillagerMCA extends EntityVillager implements IEntityAddition
 	public String getName()
 	{
 		return this.attributes.getName();
+	}
+	
+	//
+	// Overrides from EntityVillager that allow trades to work.
+	// Issues arose from the profession not being set properly.
+	//
+	@Override
+	public void setProfession(int professionId) 
+	{
+		this.vanillaProfessionId = professionId;
+	}
+	
+    @Deprecated
+    @Override
+    public int getProfession()
+    {
+    	return this.vanillaProfessionId;
+    }
+
+    @Override
+    public void setProfession(net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfession prof)
+    {
+    	this.vanillaProfessionId = VillagerRegistry.getId(prof);
+    }
+
+    @Override
+    public VillagerRegistry.VillagerProfession getProfessionForge()
+    {
+    	VillagerRegistry.VillagerProfession profession = VillagerRegistry.getById(this.vanillaProfessionId); 
+    	
+    	if (profession == null) {
+    		return VillagerRegistry.getById(0);
+    	}
+    	
+    	return profession;
+    }
+
+    @Override
+	public void useRecipe(MerchantRecipe recipe)
+	{
+        recipe.incrementToolUses();
+        int i = 3 + this.rand.nextInt(4);
+
+        EntityPlayer buyingPlayer = getPrivateValue(EntityVillager.class, this, FIELD_INDEX_BUYING_PLAYER);
+        
+        if (recipe.getToolUses() == 1 || this.rand.nextInt(5) == 0)
+        {
+        	//timeUntilReset = 40;
+        	setEntityVillagerField(FIELD_INDEX_TIME_UNTIL_RESET, Integer.valueOf(40));
+        	//needsInitialization = true;
+        	setEntityVillagerField(FIELD_INDEX_NEEDS_INITIALIZATION, true);
+        	//isWillingToMate = true; (replaced with false to prevent any possible vanilla villager mating)
+        	setEntityVillagerField(FIELD_INDEX_IS_WILLING_TO_MATE, false);
+
+            if (buyingPlayer != null) //this.buyingPlayer != null
+            {
+                //this.lastBuyingPlayer = this.buyingPlayer.getUniqueID();
+            	setEntityVillagerField(FIELD_INDEX_LAST_BUYING_PLAYER, buyingPlayer.getUniqueID());
+            }
+            else
+            {
+            	//this.lastBuyingPlayer = null;
+            	setEntityVillagerField(FIELD_INDEX_LAST_BUYING_PLAYER, null);
+            }
+
+            i += 5;
+        }
+
+        if (recipe.getItemToBuy().getItem() == Items.EMERALD)
+        {
+        	//wealth += recipe.getItemToBuy().getCount();
+        	int wealth = getEntityVillagerField(FIELD_INDEX_WEALTH);
+        	setEntityVillagerField(FIELD_INDEX_WEALTH, wealth + recipe.getItemToBuy().getCount());
+        }
+
+        if (recipe.getRewardsExp())
+        {
+            this.world.spawnEntity(new EntityXPOrb(this.world, this.posX, this.posY + 0.5D, this.posZ, i));
+        }
+
+        if (buyingPlayer instanceof EntityPlayerMP)
+        {
+            CriteriaTriggers.VILLAGER_TRADE.trigger((EntityPlayerMP)buyingPlayer, this, recipe.getItemToSell());
+        }
+	}
+	
+	private <T, E> void setEntityVillagerField(int fieldIndex, Object value) {
+		setPrivateValue(EntityVillager.class, this, value, fieldIndex);
+	}
+	
+	private <T, E> T getEntityVillagerField(int fieldIndex) {
+		return getPrivateValue(EntityVillager.class, this, fieldIndex);
 	}
 }
