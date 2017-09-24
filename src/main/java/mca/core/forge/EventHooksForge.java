@@ -231,28 +231,31 @@ public class EventHooksForge
 	@SubscribeEvent
 	public void entityInteractEventHandler(EntityInteract event)
 	{	
-		if (event.getTarget() instanceof EntityHorse)
+		if (!(event.getEntityPlayer() instanceof FakePlayer)) 
 		{
-			final EntityHorse entityHorse = (EntityHorse) event.getTarget();
-
-			if (entityHorse.isBeingRidden())
+			if (event.getTarget() instanceof EntityHorse)
 			{
-				try
+				final EntityHorse entityHorse = (EntityHorse) event.getTarget();
+	
+				if (entityHorse.isBeingRidden())
 				{
-					final EntityVillagerMCA entity = (EntityVillagerMCA) entityHorse.getPassengers().get(0);
-					entity.processInteract(event.getEntityPlayer(), event.getEntityPlayer().getActiveHand());
-				}
-
-				catch (Exception e)
-				{
-					// Yes, it's lazy. What of it?
+					try
+					{
+						final EntityVillagerMCA entity = (EntityVillagerMCA) entityHorse.getPassengers().get(0);
+						entity.processInteract(event.getEntityPlayer(), event.getEntityPlayer().getActiveHand());
+					}
+	
+					catch (Exception e)
+					{
+						// Yes, it's lazy. What of it?
+					}
 				}
 			}
-		}
-
-		else if (event.getTarget() instanceof EntityPlayerMP && !event.getEntityPlayer().world.isRemote && !event.getEntityPlayer().getName().contains("[CoFH]"))
-		{
-			MCA.getPacketHandler().sendPacketToPlayer(new PacketInteractWithPlayerC(event.getEntityPlayer(), (EntityPlayer)event.getTarget()), (EntityPlayerMP) event.getEntityPlayer());
+	
+			else if (event.getTarget() instanceof EntityPlayerMP && !event.getEntityPlayer().world.isRemote && !event.getEntityPlayer().getName().contains("[CoFH]"))
+			{
+				MCA.getPacketHandler().sendPacketToPlayer(new PacketInteractWithPlayerC(event.getEntityPlayer(), (EntityPlayer)event.getTarget()), (EntityPlayerMP) event.getEntityPlayer());
+			}
 		}
 	}
 
