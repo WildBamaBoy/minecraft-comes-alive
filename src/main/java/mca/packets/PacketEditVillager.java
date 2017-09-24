@@ -106,7 +106,13 @@ public class PacketEditVillager extends AbstractPacket<PacketEditVillager>
 			jobs.setIndex(villager.attributes.getProfessionEnum().getId());
 			
 			personalities = CyclicIntList.fromList(EnumPersonality.getListOfIds());
-			personalities.setIndex(villager.attributes.getPersonality().getId() - 1);
+			personalities.setIndex(0); //Catch all just in case
+			for (int i = 0; i < personalities.size(); i++) {
+				if (personalities.get(i) == villager.attributes.getPersonality().getId()) {
+					personalities.setIndex(i);
+					break;
+				}
+			}
 			
 			textures = villager.attributes.getProfessionSkinGroup().getListOfSkinIDs(villager.attributes.getGender() == EnumGender.MALE);
 			textures.setIndex(Integer.valueOf(villager.attributes.getHeadTexture().replaceAll("[^0-9]", "")) - 1);
