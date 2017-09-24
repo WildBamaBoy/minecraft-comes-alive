@@ -74,7 +74,7 @@ import radixcore.modules.gen.SimpleOreGenerator;
 import radixcore.modules.updates.NoUpdateProtocol;
 import radixcore.modules.updates.RDXUpdateProtocol;
 
-@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:radixcore@[1.12-2.3.0,)", acceptedMinecraftVersions = "[1.12, 1.12.1]",
+@Mod(modid = MCA.ID, name = MCA.NAME, version = MCA.VERSION, dependencies = "required-after:radixcore@[1.12.x-2.3.0,)", acceptedMinecraftVersions = "[1.12, 1.12.1, 1.12.2]",
 guiFactory = "mca.core.forge.client.MCAGuiFactory")
 public class MCA
 {
