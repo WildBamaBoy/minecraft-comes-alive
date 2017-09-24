@@ -1,8 +1,8 @@
 package mca.items;
 
+import mca.core.Constants;
+import mca.core.MCA;
 import mca.core.minecraft.ItemsMCA;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreenBook;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -49,7 +49,7 @@ public class ItemGuideBook extends ItemWrittenBook
         
         if (worldIn.isRemote)
         {
-        	Minecraft.getMinecraft().displayGuiScreen(new GuiScreenBook(playerIn, itemstack, false));
+        	playerIn.openGui(MCA.getInstance(), Constants.GUI_ID_GUIDEBOOK, worldIn, (int)playerIn.posX, (int)playerIn.posY, (int)playerIn.posZ);
         }
         
         return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);

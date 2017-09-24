@@ -13,8 +13,6 @@ public final class Config implements Serializable
 {
 	private transient final Configuration config;
 
-	public int baseItemId;
-	public int baseBlockId;
 	public int baseEntityId;
 	public boolean disableWeddingRingRecipe;
 
@@ -62,7 +60,8 @@ public final class Config implements Serializable
 	public boolean spawnInAllDimensions;
 	public boolean replenishEmptyVillages;
 	public String villagerChatPrefix;
-
+	public String serverLanguageId;
+	
 	public boolean showMoodParticles;
 	public boolean showNameTagOnHover;
 	public boolean showVillagerConversations = false;
@@ -84,11 +83,9 @@ public final class Config implements Serializable
 	private void addConfigValues()
 	{
 		config.setCategoryComment("Init", "Settings that affect how MCA starts up.");
-		baseItemId = config.get("Init", "Base Item ID", 35277, "The base ID to use for items in MCA. Only applicable in 1.6.4.").getInt();
-		baseBlockId = config.get("Init", "Base Block ID", 3344, "The base ID to use for blocks in MCA. Only applicable in 1.6.4.").getInt();
 		baseEntityId = config.get("Init", "Base Entity ID", 227, "The base ID to use for entities in MCA. Only change if you know what you are doing!").getInt();
 		disableWeddingRingRecipe = config.get("Init", "Disable wedding ring recipe", false, "True if you want to disable the recipe for the wedding ring. It can confict with a few mods. Rose gold can be used as an alternative.").getBoolean();
-
+		
 		config.setCategoryComment("Privacy", "Setting pertaining to your privacy while using MCA.");
 		allowCrashReporting = config.get("Privacy", "Allow crash reporting", true, "True if MCA can send crash reports to the mod authors. Crash reports may include your Minecraft username, OS version, Java version, and PC username.").getBoolean();
 		allowUpdateChecking = config.get("Privacy", "Allow update checking", true, "True if MCA can check for updates. This setting requires a restart in order to take effect.").getBoolean();
@@ -179,6 +176,7 @@ public final class Config implements Serializable
 		allowBlinking = config.get("Graphics", "Allow blinking", true, "True if you want to see villagers blink their eyes at random.").getBoolean();
 
 		config.setCategoryComment("Server", "All settings that server administrators may want to configure.");
+		serverLanguageId = config.get("Server", "Server language ID", "en_us", "The language your server should load. English by default. Ex.) To use Spanish, set to `es_es`").getString();
 		childLimit = config.get("Server", "Child limit", -1).getInt();
 		villagerSpawnerCap = config.get("Server", "Villager spawner cap", 16, "How many villagers maximum that can be within a 32 block radius of any villager spawner block.").getInt();
 		allowFarmingChore = config.get("Server", "Allow farming chore", true).getBoolean();
