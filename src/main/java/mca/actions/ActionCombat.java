@@ -52,7 +52,7 @@ public class ActionCombat extends AbstractAction
 		
 		//Do nothing when we're asleep or when we're not supposed to fight. (Guards wake up if they aquire a target)
 		if (getMethodBehavior() == EnumCombatBehaviors.METHOD_DO_NOT_FIGHT
-			|| (isSleeping && actor.attributes.getProfessionSkinGroup() != EnumProfessionSkinGroup.Guard)
+			|| (isSleeping && actor.attributes.getProfessionSkinGroup() != EnumProfessionSkinGroup.Guard))
 		{
 			if (attackTarget != null) attackTarget = null;
 			return;
