@@ -5,6 +5,8 @@ import java.util.List;
 import mca.core.Constants;
 import mca.entity.EntityVillagerMCA;
 import mca.enums.EnumCombatBehaviors;
+import mca.enums.EnumProfessionSkinGroup;
+import mca.enums.EnumSleepingState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
@@ -45,19 +47,17 @@ public class ActionCombat extends AbstractAction
 	@Override
 	public void onUpdateServer() 
 	{
-		//Do nothing when we're asleep
-		if (actor.getBehavior(ActionSleep.class).getIsSleeping())
+		ActionSleep AISleep = actor.getBehavior(ActionSleep.class);
+		boolean isSleeping = AISleep.getIsSleeping();
+		
+		//Do nothing when we're asleep or when we're not supposed to fight. (Guards wake up if they aquire a target)
+		if (getMethodBehavior() == EnumCombatBehaviors.METHOD_DO_NOT_FIGHT
+			|| (isSleeping && actor.attributes.getProfessionSkinGroup() != EnumProfessionSkinGroup.Guard)
 		{
+			if (attackTarget != null) attackTarget = null;
 			return;
 		}
 		
-		//Cancel attack targets and stop when we're not supposed to fight.
-		if (attackTarget != null && getMethodBehavior() == EnumCombatBehaviors.METHOD_DO_NOT_FIGHT)
-		{
-			attackTarget = null;
-			return;
-		}
-
 		//Also clear our attack target if it is dead.
 		if (attackTarget != null && (attackTarget.isDead || attackTarget.getHealth() <= 0.0F))
 		{
@@ -68,10 +68,13 @@ public class ActionCombat extends AbstractAction
 		if (attackTarget == null && getTriggerBehavior() == EnumCombatBehaviors.TRIGGER_ALWAYS)
 		{
 			findAttackTarget();
-		}
 
+			//If we're sleeping here and found a target, we're a guard that should wake up
+			if (attackTarget != null && isSleeping) AISleep.setSleepingState(EnumSleepingState.INTERRUPTED);
+		}
+		
 		//If we have a target, proceed to attack.
-		else if (attackTarget != null)
+		if (attackTarget != null)
 		{
 			double distanceToTarget = RadixMath.getDistanceToEntity(actor, attackTarget);
 			
